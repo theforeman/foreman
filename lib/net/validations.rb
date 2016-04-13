@@ -1,3 +1,6 @@
+require 'ipaddr'
+require 'socket'
+
 module Net
   module Validations
     IP_REGEXP  ||= /\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\z/
@@ -7,6 +10,10 @@ module Net
     MASK_REGEXP ||= /\A((255.){3}(0|128|192|224|240|248|252|254))|((255.){2}(0|128|192|224|240|248|252|254).0)|(255.(0|128|192|224|240|248|252|254)(.0){2})|((128|192|224|240|248|252|254)(.0){3})\z/
 
     class Error < RuntimeError
+    end
+
+    class << self
+      include Net::Validations
     end
 
     def valid_mac?(mac)
@@ -24,9 +31,29 @@ module Net
 
     module_function :valid_mac?
 
-    # validates the ip address
+    # validates an IPv4 address
     def validate_ip(ip)
-      raise Error, "Invalid IP Address #{ip}" unless (ip =~ IP_REGEXP)
+      return false unless ip.present?
+      IPAddr.new(ip, Socket::AF_INET) rescue return false
+      true
+    end
+
+    # validates an IPv4 address and raises an error
+    def validate_ip! ip
+      raise Error, "Invalid IP Address #{ip}" unless validate_ip(ip)
+      ip
+    end
+
+    # validates an IPv6 address
+    def validate_ip6 ip
+      return false unless ip.present?
+      IPAddr.new(ip, Socket::AF_INET6) rescue return false
+      true
+    end
+
+    # validates an IPv6 address and raises an error
+    def validate_ip6! ip
+      raise Error, "Invalid IPv6 Address #{ip}" unless validate_ip6(ip)
       ip
     end
 
@@ -48,21 +75,24 @@ module Net
     end
 
     def validate_network(network)
-      begin
-        validate_ip(network)
-      rescue Error
-        raise Error, "Invalid Network #{network}"
-      end
+      validate_ip(network) || raise(Error, "Invalid Network #{network}")
       network
     end
 
     # ensures that the ip address does not contain any leading spaces or invalid strings
-    def self.normalize_ip(ip)
+    def normalize_ip(ip)
       return unless ip.present?
+      return ip unless ip =~ IP_REGEXP
       ip.split(".").map(&:to_i).join(".")
     end
 
-    def self.normalize_mac(mac)
+    # return the most efficient form of a v6 address
+    def normalize_ip6 ip
+      return ip unless ip.present?
+      IPAddr.new(ip, Socket::AF_INET6).to_s rescue ip
+    end
+
+    def normalize_mac(mac)
       return unless mac.present?
       m = mac.downcase
       case m

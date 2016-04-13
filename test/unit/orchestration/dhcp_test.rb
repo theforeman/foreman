@@ -59,7 +59,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       i = FactoryGirl.build(:nic_managed, :ip => '10.0.0.10', :name => 'eth0:0')
       i.host   = h
       i.domain = domains(:mydomain)
-      i.subnet = FactoryGirl.build(:subnet, :dhcp, :boot_mode => 'Static', :ipam => 'Internal DB')
+      i.subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :boot_mode => 'Static', :ipam => 'Internal DB')
       refute i.dhcp?
     end
   end
@@ -77,7 +77,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "provision interface DHCP records should contain filename/next-server attributes" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
-    subnet = FactoryGirl.build(:subnet, :dhcp, :tftp)
+    subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
     h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet)
     assert_equal 'pxelinux.0', h.provision_interface.dhcp_record.filename
     assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer

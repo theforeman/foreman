@@ -30,7 +30,8 @@ module Api
         param :location_id, :number, :required => true, :desc => "required if locations are enabled" if SETTINGS[:locations_enabled]
         param :organization_id, :number, :required => true, :desc => "required if organizations are enabled" if SETTINGS[:organizations_enabled]
         param :environment_id, String, :desc => "required if host is managed and value is not inherited from host group"
-        param :ip, String, :desc => "not required if using a subnet with DHCP proxy"
+        param :ip, String, :desc => "IPv4 address, not required if using a subnet with DHCP proxy"
+        param :ip6, String, :desc => "IPv6 address"
         param :mac, String, :desc => "required for managed host that is bare metal, not required if it's a virtual machine"
         param :architecture_id, :number, :desc => "required if host is managed and value is not inherited from host group"
         param :domain_id, :number, :desc => "required if host is managed and value is not inherited from host group"
@@ -40,7 +41,8 @@ module Api
         param :operatingsystem_id, String, :desc => "required if host is managed and value is not inherited from host group"
         param :medium_id, String, :desc => "required if not imaged based provisioning and host is managed and value is not inherited from host group"
         param :ptable_id, :number, :desc => "required if host is managed and custom partition has not been defined"
-        param :subnet_id, :number, :desc => "required if host is managed and value is not inherited from host group"
+        param :subnet_id, :number, :desc => "IPv4 subnet, required if host is managed and value is not inherited from host group"
+        param :subnet6_id, :number, :desc => "IPv6 subnet"
         param :compute_resource_id, :number, :desc => "nil means host is bare metal"
         param :root_pass, String, :desc => "required if host is managed and value is not inherited from host group or default password in settings"
         param :model_id, :number
@@ -76,7 +78,8 @@ module Api
       param :host, Hash, :required => true do
         param :name, String
         param :environment_id, String
-        param :ip, String, :desc => "not required if using a subnet with dhcp proxy"
+        param :ip, String, :desc => "IPv4 address, not required if using a subnet with dhcp proxy"
+        param :ip6, String, :desc => "IPv6 address"
         param :mac, String, :desc => "not required if its a virtual machine"
         param :architecture_id, :number
         param :domain_id, :number
@@ -85,7 +88,8 @@ module Api
         param :puppetclass_ids, Array
         param :medium_id, :number
         param :ptable_id, :number
-        param :subnet_id, :number
+        param :subnet_id, :number, :desc => "IPv4 subnet"
+        param :subnet6_id, :number, :desc => "IPv6 subnet"
         param :compute_resource_id, :number
         param :sp_subnet_id, :number
         param :model_id, :number

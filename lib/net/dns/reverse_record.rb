@@ -1,6 +1,6 @@
 module Net
   module DNS
-    class PTRRecord < DNS::Record
+    class ReverseRecord < DNS::Record
       def initialize(opts = { })
         super opts
         @type = "PTR"
@@ -24,28 +24,25 @@ module Net
 
       # Returns an array of record objects which are conflicting with our own
       def conflicts
-        @conflicts ||= [dns_lookup(ip)].delete_if{|c| c == self}.compact
+        @conflicts ||= [dns_lookup(ip, :ipversion => self.ipversion)].delete_if{|c| c == self}.compact
       end
 
       # Verifies that a record already exists on the dns server
       def valid?
         logger.debug "Fetching DNS reservation for #{self}"
-        self == dns_lookup(ip)
+        self == dns_lookup(ip, :ipversion => self.ipversion)
       end
 
       def a
-        dns_lookup(hostname)
+        dns_lookup(hostname, :ipversion => 4)
+      end
+
+      def aaaa
+        dns_lookup(hostname, :ipversion => 6)
       end
 
       def attrs
         { :fqdn => hostname, :value => to_arpa, :type => type }
-      end
-
-      private
-
-      # Returns: String containing the ip in the in-addr.arpa zone
-      def to_arpa
-        ip.split(/\./).reverse.join(".") + ".in-addr.arpa"
       end
     end
   end

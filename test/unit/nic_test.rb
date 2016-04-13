@@ -88,7 +88,7 @@ class NicTest < ActiveSupport::TestCase
     disable_taxonomies do
       orgs = FactoryGirl.build_pair(:organization)
       locs = FactoryGirl.build_pair(:location)
-      subn = FactoryGirl.build(:subnet, :locations => [locs.first], :organizations => [orgs.first])
+      subn = FactoryGirl.build(:subnet_ipv4, :locations => [locs.first], :organizations => [orgs.first])
       host = FactoryGirl.build(:host, :location => locs.last, :organization => orgs.last)
       nic = Nic::Base.new :mac => "cabbccddeeff", :host => host
       nic.subnet = subn
@@ -160,7 +160,7 @@ class NicTest < ActiveSupport::TestCase
   test "Alias subnet can only use static boot mode if it's managed" do
     nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0:0')
     nic.host = FactoryGirl.build(:host)
-    nic.subnet = FactoryGirl.build(:subnet, :boot_mode => Subnet::BOOT_MODES[:dhcp])
+    nic.subnet = FactoryGirl.build(:subnet_ipv4, :boot_mode => Subnet::BOOT_MODES[:dhcp])
     refute nic.valid?
     assert_includes nic.errors.keys, :subnet_id
 
@@ -207,7 +207,7 @@ class NicTest < ActiveSupport::TestCase
   context 'BMC' do
     setup do
       disable_orchestration
-      @subnet    = FactoryGirl.create(:subnet, :dhcp, :ipam => Subnet::IPAM_MODES[:db])
+      @subnet    = FactoryGirl.create(:subnet_ipv4, :dhcp, :ipam => Subnet::IPAM_MODES[:db])
       @domain    = FactoryGirl.create(:domain)
       @interface = FactoryGirl.create(:nic_bmc, :ip => @subnet.unused_ip,
                                       :host => FactoryGirl.create(:host),

@@ -10,7 +10,7 @@ module Nic
 
     validates_lengths_from_database
     attr_accessible :attached_to, :attached_devices, :bond_options,
-      :compute_attributes, :host_id, :host, :identifier, :ip, :link, :mac,
+      :compute_attributes, :host_id, :host, :identifier, :ip, :ip6, :link, :mac,
       :managed, :mode, :name, :password, :primary, :provider, :provision, :type,
       :tag, :username, :virtual,
       :_destroy # used for nested_attributes
@@ -35,10 +35,15 @@ module Nic
     validate :exclusive_provision_interface
     validates :domain, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
     validate :valid_domain, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
-    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip_validation? }
+    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip4_validation? }
+    validates :ip6, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip6_validation? }
 
-    validate :validate_host_location, :if => Proc.new { |nic| SETTINGS[:locations_enabled] && nic.subnet.present? }
-    validate :validate_host_organization, :if => Proc.new { |nic| SETTINGS[:organizations_enabled] && nic.subnet.present? }
+    validate :validate_subnets_types
+
+    validate :validate_host_subnet_location, :if => Proc.new { |nic| SETTINGS[:locations_enabled] && nic.subnet.present? }
+    validate :validate_host_subnet_organization, :if => Proc.new { |nic| SETTINGS[:organizations_enabled] && nic.subnet.present? }
+    validate :validate_host_subnet6_location, :if => Proc.new { |nic| SETTINGS[:locations_enabled] && nic.subnet6.present? }
+    validate :validate_host_subnet6_organization, :if => Proc.new { |nic| SETTINGS[:organizations_enabled] && nic.subnet6.present? }
 
     scope :bmc, -> { where(:type => "Nic::BMC") }
     scope :bonds, -> { where(:type => "Nic::Bond") }
@@ -53,7 +58,8 @@ module Nic
     scope :primary, -> { where(:primary => true) }
     scope :provision, -> { where(:provision => true) }
 
-    belongs_to :subnet
+    belongs_to :subnet, -> { where :type => 'Subnet::Ipv4' }
+    belongs_to :subnet6, -> { where :type => 'Subnet::Ipv6' }, :class_name => "Subnet"
     belongs_to :domain
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
@@ -70,7 +76,7 @@ module Nic
     serialize :compute_attributes, Hash
 
     class Jail < ::Safemode::Jail
-      allow :managed?, :subnet, :virtual?, :physical?, :mac, :ip, :identifier, :attached_to,
+      allow :managed?, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
             :link, :tag, :domain, :vlanid, :bond_options, :attached_devices, :mode,
             :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac
     end
@@ -124,7 +130,7 @@ module Nic
 
     def clone
       # do not copy system specific attributes
-      self.deep_clone(:except  => [:name, :mac, :ip])
+      self.deep_clone(:except  => [:name, :mac, :ip, :ip6])
     end
 
     # if this interface does not have MAC and is attached to other interface,
@@ -146,14 +152,33 @@ module Nic
 
     def require_ip_validation?
       # if it's not managed there's nowhere to specify an IP anyway
-      return false if !self.host.managed? || !self.managed? || !self.provision?
+      self.host.managed? && self.managed? && self.provision?
+    end
+
+    def require_ip4_validation?
+      return false unless require_ip_validation?
       # if the CR will provide an IP, then don't validate yet
       return false if host.compute_provides?(:ip)
-      ip_for_dns     = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present?)
-      ip_for_dhcp    = subnet.present? && subnet.dhcp_id.present?
-      ip_for_token   = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?)))
+
+      ip_for_dns   = (subnet.present? && subnet.dns_id.present?) || (domain.present? && domain.dns_id.present? && !self.ip6.present?)
+      ip_for_dhcp  = subnet.present? && subnet.dhcp_id.present?
+      ip_for_token = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?))) && !self.ip6.present?
+
       # Any of these conditions will require an IP, so chain with OR
-      ip_for_dns or ip_for_dhcp or ip_for_token
+      ip_for_dns || ip_for_dhcp || ip_for_token
+    end
+
+    def require_ip6_validation?
+      return false unless require_ip_validation?
+      # if the CR will provide an IP, then don't validate yet
+      return false if host.compute_provides?(:ip6)
+
+      ip_for_dns   = (subnet6.present? && subnet6.dns_id.present?) || (domain.present? && domain.dns_id.present? && !self.ip.present?)
+      ip_for_dhcp  = subnet6.present? && subnet6.dhcp_id.present?
+      ip_for_token = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?))) && !self.ip.present?
+
+      # Any of these conditions will require an IP, so chain with OR
+      ip_for_dns || ip_for_dhcp || ip_for_token
     end
 
     protected
@@ -210,14 +235,29 @@ module Nic
       synchronizer.sync_name if synchronizer.sync_required?
     end
 
-    def validate_host_location
+    def validate_host_subnet_location
       return true if self.host.location.nil? && self.subnet.locations.empty?
       errors.add(:subnet, _("is not defined for host's location.")) unless include_or_empty?(self.subnet.locations, self.host.location)
     end
 
-    def validate_host_organization
+    def validate_host_subnet_organization
       return true if self.host.organization.nil? && self.subnet.organizations.empty?
       errors.add(:subnet, _("is not defined for host's organization.")) unless include_or_empty?(self.subnet.organizations, self.host.organization)
+    end
+
+    def validate_host_subnet6_location
+      return true if self.host.location.nil? && self.subnet6.locations.empty?
+      errors.add(:subnet6, _("is not defined for host's location.")) unless include_or_empty?(self.subnet6.locations, self.host.location)
+    end
+
+    def validate_host_subnet6_organization
+      return true if self.host.organization.nil? && self.subnet6.organizations.empty?
+      errors.add(:subnet6, _("is not defined for host's organization.")) unless include_or_empty?(self.subnet6.organizations, self.host.organization)
+    end
+
+    def validate_subnets_types
+      errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if self.subnet.present? && self.subnet.type != 'Subnet::Ipv4'
+      errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if self.subnet6.present? && self.subnet6.type != 'Subnet::Ipv6'
     end
 
     def mac_uniqueness

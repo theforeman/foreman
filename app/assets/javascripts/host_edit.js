@@ -1,4 +1,5 @@
 //= require parameter_override
+//= require ipaddr
 
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
@@ -40,7 +41,8 @@ function computeResourceSelected(item){
     $("#compute_profile").hide();
     update_capabilities($('#bare_metal_capabilities').val());
     update_nics(function() {
-      interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
+      interface_subnet_selected(primary_nic_form().find('select.interface_subnet'), 'ip');
+      interface_subnet_selected(primary_nic_form().find('select.interface_subnet6'), 'ip6');
     });
   } else {
     //Real compute resource or any compute profile
@@ -60,7 +62,8 @@ function computeResourceSelected(item){
       complete: function(){
         foreman.tools.hideSpinner();
         update_nics(function() {
-          interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
+          interface_subnet_selected(primary_nic_form().find('select.interface_subnet'), 'ip');
+          interface_subnet_selected(primary_nic_form().find('select.interface_subnet6'), 'ip6');
         });
       },
       error: function(jqXHR, status, error){
@@ -310,20 +313,15 @@ function serializeForm() {
   return $('form').serialize()
 }
 
-function subnet_contains(number, cidr, ip){
-  var int_ip     = _to_int(ip);
-  var int_number = _to_int(number);
-  var shift      = 32 - parseInt(cidr);
-  return (int_ip >> shift == int_number >> shift);
-}
-
-function _to_int(str){
-  var nibble = str.split(".");
-  var integer = 0;
-  for(var i=0;i<=3;i++){
-    integer = (integer * 256) + parseInt(nibble[i]);
+function subnet_contains(network, cidr, ip) {
+  if (!ip || 0 === ip.length || !ipaddr.isValid(ip)) {
+    return;
   }
-  return integer;
+
+  var addr = ipaddr.parse(ip);
+  var range = ipaddr.parse(network);
+
+  return addr.match(range, cidr);
 }
 
 function architecture_selected(element){
@@ -524,29 +522,55 @@ $(document).on('change', '#host_provision_method_image', image_provision_method_
 
 $(document).on('change', '.interface_domain', function () {
   clearError($(this).closest('fieldset').find('.interface_ip'));
+  clearError($(this).closest('fieldset').find('.interface_ip6'));
   interface_domain_selected(this);
 });
 
-function clearIpField(parent) {
-  var ip_field = $(parent).closest('fieldset').find('.interface_ip');
+function clearIpField(parent, childclass) {
+  var ip_field = $(parent).closest('fieldset').find(childclass);
   clearError(ip_field);
   ip_field.val('');
 }
 
 $(document).on('click', '.suggest_new_ip', function (e) {
-  clearIpField(this);
-  interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet'));
+  clearIpField(this, '.interface_ip');
+  interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet'), 'ip');
+  e.preventDefault();
+});
+
+$(document).on('click', '.suggest_new_ip6', function (e) {
+  clearIpField(this, '.interface_ip6');
+  interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet6'), 'ip6');
   e.preventDefault();
 });
 
 $(document).on('change', '.interface_subnet', function () {
-  clearIpField(this);
-  interface_subnet_selected(this);
+  interface_subnet_selected(this, 'ip');
+});
+
+$(document).on('change', '.interface_subnet6', function () {
+  interface_subnet_selected(this, 'ip6');
+});
+
+$(document).on('change', '.interface_mac', function () {
+  interface_subnet_selected($(this).closest('fieldset').find('select.interface_subnet6'), 'ip6');
 });
 
 $(document).on('change', '.interface_type', function () {
   interface_type_selected(this);
 });
+
+function interface_subnet_activate_if_not_empty(element) {
+  if (element.find('option').length > 0) {
+    element.prepend($("<option />").val(null).text(__('Please select')));
+    element.attr('disabled', false);
+    element.change();
+  }
+  else {
+    element.append($("<option />").text(__('No subnets')));
+    element.attr('disabled', true);
+  }
+}
 
 function interface_domain_selected(element) {
   // mark the selected value to preserve it for form hiding
@@ -554,8 +578,10 @@ function interface_domain_selected(element) {
 
   var domain_id = element.value;
   var subnet_options = $(element).closest('fieldset').find('[id$=_subnet_id]').empty();
+  var subnet6_options = $(element).closest('fieldset').find('[id$=_subnet6_id]').empty();
 
   subnet_options.attr('disabled', true);
+  subnet6_options.attr('disabled', true);
 
   foreman.tools.showSpinner();
 
@@ -570,33 +596,29 @@ function interface_domain_selected(element) {
     url:url,
     dataType:'json',
     success:function (result) {
-      if (result.length > 1)
-        subnet_options.append($("<option />").val(null).text(__('Please select')));
-
       $.each(result, function () {
-        subnet_options.append($("<option />").val(this.subnet.id).text(this.subnet.to_label));
+        if(this.subnet.type === 'Subnet::Ipv6')
+          select = subnet6_options
+        else
+          select = subnet_options
+        select.append($("<option />").val(this.subnet.id).text(this.subnet.to_label));
       });
-      if (subnet_options.find('option').length > 0) {
-        subnet_options.attr('disabled', false);
-        subnet_options.change();
-      }
-      else {
-        subnet_options.append($("<option />").text(__('No subnets')));
-        subnet_options.attr('disabled', true);
-      }
+      interface_subnet_activate_if_not_empty(subnet_options);
+      interface_subnet_activate_if_not_empty(subnet6_options);
       reloadOnAjaxComplete(element);
       activate_select2(subnet_options);
+      activate_select2(subnet6_options);
     }
   });
 }
 
-function interface_subnet_selected(element) {
+function interface_subnet_selected(element, ip_field) {
   // mark the selected value to preserve it for form hiding
   preserve_selected_options($(element));
 
   var subnet_id = $(element).val();
   if (subnet_id == '') return;
-  var interface_ip = $(element).closest('fieldset').find('input[id$=_ip]');
+  var interface_ip = $(element).closest('fieldset').find('input[id$=_' + ip_field + ']');
 
   interface_ip.attr('disabled', true);
   foreman.tools.showSpinner();
@@ -621,7 +643,7 @@ function interface_subnet_selected(element) {
   var org = $('#host_organization_id :selected').val();
   var loc = $('#host_location_id :selected').val();
 
-  var taken_ips = $(active_interface_forms()).find('.interface_ip').map(function() {
+  var taken_ips = $(active_interface_forms()).find('.interface_' + ip_field).map(function() {
     return $(this).val();
   }).get();
   taken_ips.push(interface_ip.val());

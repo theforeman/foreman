@@ -25,6 +25,7 @@ module Api
       api :POST, '/subnets', 'Create a subnet'
       param :subnet, Hash, :required => true do
         param :name, String, :desc => 'Subnet name', :required => true
+        param :type, String, :desc => 'Type or protocol, Subnet::Ipv4 or Subnet::Ipv6', :required => true
         param :network, String, :desc => 'Subnet network', :required => true
         param :mask, String, :desc => 'Netmask for this subnet', :required => true
         param :gateway, String, :desc => 'Primary DNS for this subnet'
@@ -49,6 +50,7 @@ module Api
       param :id, :number, :desc => 'Subnet numeric identifier', :required => true
       param :subnet, Hash, :required => true do
         param :name, String, :desc => 'Subnet name'
+        param :type, String, :desc => 'Type or protocol, Subnet::Ipv4 or Subnet::Ipv6'
         param :network, String, :desc => 'Subnet network'
         param :mask, String, :desc => 'Netmask for this subnet'
         param :gateway, String, :allow_nil => true, :desc => 'Primary DNS for this subnet'

@@ -23,6 +23,17 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  def test_host_should_have_dns6
+    if unattended?
+      h = FactoryGirl.create(:host, :with_ipv6_dns_orchestration)
+      assert h.valid?
+      assert h.dns6?
+      assert h.reverse_dns6?
+      assert_not_nil h.dns_aaaa_record
+      assert_not_nil h.dns_ptr6_record
+    end
+  end
+
   def test_host_should_have_dns_but_not_ptr
     if unattended?
       h = FactoryGirl.build(:host, :with_dns_orchestration)
@@ -83,21 +94,42 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_rebuild_dns
+  def test_should_rebuild_dns_with_ipv4
     h = FactoryGirl.create(:host, :with_dns_orchestration)
     Nic::Managed.any_instance.expects(:del_dns_a_record)
+    Nic::Managed.any_instance.expects(:del_dns_aaaa_record).never
     Nic::Managed.any_instance.expects(:del_dns_ptr_record)
+    Nic::Managed.any_instance.expects(:del_dns_ptr6_record).never
     Nic::Managed.any_instance.expects(:recreate_a_record).returns(true)
+    Nic::Managed.any_instance.expects(:recreate_aaaa_record).never
     Nic::Managed.any_instance.expects(:recreate_ptr_record).returns(true)
+    Nic::Managed.any_instance.expects(:recreate_ptr6_record).never
+    assert h.interfaces.first.rebuild_dns
+  end
+
+  def test_should_rebuild_dns_with_ipv6
+    h = FactoryGirl.create(:host, :with_ipv6_dns_orchestration)
+    Nic::Managed.any_instance.expects(:del_dns_a_record).never
+    Nic::Managed.any_instance.expects(:del_dns_aaaa_record)
+    Nic::Managed.any_instance.expects(:del_dns_ptr_record).never
+    Nic::Managed.any_instance.expects(:del_dns_ptr6_record)
+    Nic::Managed.any_instance.expects(:recreate_a_record).never
+    Nic::Managed.any_instance.expects(:recreate_aaaa_record).returns(true)
+    Nic::Managed.any_instance.expects(:recreate_ptr_record).never
+    Nic::Managed.any_instance.expects(:recreate_ptr6_record).returns(true)
     assert h.interfaces.first.rebuild_dns
   end
 
   def test_should_skip_dns_rebuild
     nic = FactoryGirl.build(:nic_managed)
     Nic::Managed.any_instance.expects(:del_dns_a_record).never
+    Nic::Managed.any_instance.expects(:del_dns_aaaa_record).never
     Nic::Managed.any_instance.expects(:del_dns_ptr_record).never
+    Nic::Managed.any_instance.expects(:del_dns_ptr6_record).never
     Nic::Managed.any_instance.expects(:recreate_a_record).never
+    Nic::Managed.any_instance.expects(:recreate_aaaa_record).never
     Nic::Managed.any_instance.expects(:recreate_ptr_record).never
+    Nic::Managed.any_instance.expects(:recreate_ptr6_record).never
     assert nic.rebuild_dns
   end
 

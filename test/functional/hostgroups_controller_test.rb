@@ -121,7 +121,7 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   test "domain_selected should return subnets" do
     domain = FactoryGirl.create(:domain)
-    subnet = FactoryGirl.create(:subnet)
+    subnet = FactoryGirl.create(:subnet_ipv4)
     domain.subnets << subnet
     domain.save
     xhr :post, :domain_selected, {:id => Hostgroup.first, :hostgroup => {}, :domain_id => domain.id, :format => :json}, set_session_user

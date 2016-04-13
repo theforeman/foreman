@@ -69,8 +69,8 @@ class Host::Managed < Host::Base
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
-      :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
-      :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method,
+      :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
+      :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface,
       :provision_interface, :interfaces, :bond_interfaces, :bridge_interfaces, :interfaces_with_identifier,
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
@@ -174,6 +174,7 @@ class Host::Managed < Host::Base
     delegate :dhcp?, :dhcp_record, :to => :primary_interface
     # DNS orchestration delegation
     delegate :dns?, :reverse_dns?, :dns_a_record, :dns_ptr_record, :to => :primary_interface
+    delegate :dns6?, :reverse_dns6?, :dns_aaaa_record, :dns_ptr6_record, :to => :primary_interface
     include Orchestration::Compute
     include Rails.application.routes.url_helpers
     # TFTP orchestration delegation
@@ -184,7 +185,8 @@ class Host::Managed < Host::Base
     include HostTemplateHelpers
     delegate :fqdn, :fqdn_changed?, :fqdn_was, :shortname, :to => :primary_interface,
              :allow_nil => true
-    delegate :require_ip_validation?, :to => :provision_interface
+    delegate :require_ip4_validation?, :to => :provision_interface
+    delegate :require_ip6_validation?, :to => :provision_interface
 
     validates :architecture_id, :operatingsystem_id, :presence => true, :if => Proc.new {|host| host.managed}
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
@@ -400,9 +402,10 @@ class Host::Managed < Host::Base
 
     if Setting[:ignore_puppet_facts_for_provisioning]
       param["ip"]  = ip
+      param["ip6"] = ip6
       param["mac"] = mac
     end
-    param['foreman_subnets'] = interfaces.map(&:subnet).compact.map(&:to_enc).uniq
+    param['foreman_subnets'] = (interfaces.map(&:subnet) + interfaces.map(&:subnet6)).compact.map(&:to_enc).uniq
     param['foreman_interfaces'] = interfaces.map(&:to_enc)
     param.update self.params
 
@@ -616,6 +619,7 @@ class Host::Managed < Host::Base
     if SETTINGS[:unattended] and (new_record? or managed?)
       inherited_attributes = %w{operatingsystem_id architecture_id}
       inherited_attributes << "subnet_id" unless compute_provides?(:ip)
+      inherited_attributes << "subnet6_id" unless compute_provides?(:ip6)
       inherited_attributes.concat(%w{medium_id ptable_id}) if pxe_build?
       assign_hostgroup_attributes(inherited_attributes)
     end
@@ -627,7 +631,10 @@ class Host::Managed < Host::Base
   end
 
   def set_ip_address
-    self.ip ||= subnet.unused_ip if subnet and SETTINGS[:unattended] and (new_record? or managed?)
+    if SETTINGS[:unattended] && (new_record? || managed?)
+      self.ip  ||= subnet.unused_ip if subnet.present?
+      self.ip6 ||= subnet6.unused_ip if subnet6.present?
+    end
   end
 
   def associate!(cr, vm)
@@ -742,7 +749,7 @@ class Host::Managed < Host::Base
 
   def smart_proxy_ids
     ids = []
-    [subnet, hostgroup.try(:subnet)].compact.each do |s|
+    [subnet, subnet6, hostgroup.try(:subnet), hostgroup.try(:subnet6)].compact.each do |s|
       ids << s.dhcp_id
       ids << s.tftp_id
       ids << s.dns_id
@@ -918,9 +925,15 @@ class Host::Managed < Host::Base
   # if we are managing DNS, we can query the correct DNS server
   # otherwise, use normal systems dns settings to resolv
   def to_ip_address(name_or_ip)
-    return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
-    if dns_ptr_record
+    ip4 = Net::Validations.validate_ip(name_or_ip)
+    ip6 = Net::Validations.validate_ip6(name_or_ip)
+    return name_or_ip if ip4 || ip6
+    if dns_ptr_record && ip4
       lookup = dns_ptr_record.dns_lookup(name_or_ip)
+      return lookup.ip unless lookup.nil?
+    end
+    if dns_ptr6_record && ip6
+      lookup = dns_ptr6_record.dns_lookup(name_or_ip)
       return lookup.ip unless lookup.nil?
     end
     # fall back to normal dns resolution

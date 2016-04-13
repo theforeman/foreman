@@ -28,6 +28,7 @@ module Api
       def_param_group :subnet do
         param :subnet, Hash, :required => true, :action_aware => true do
           param :name, String, :desc => N_("Subnet name"), :required => true
+          param :type, String, :desc => 'Type or protocol, Subnet::Ipv4 or Subnet::Ipv6'
           param :network, String, :desc => N_("Subnet network"), :required => true
           param :mask, String, :desc => N_("Netmask for this subnet"), :required => true
           param :gateway, String, :desc => N_("Primary DNS for this subnet")

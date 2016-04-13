@@ -1,7 +1,7 @@
 # Helpers
 
 def deferred_nic_attrs
-  [:ip, :mac, :subnet, :domain]
+  [:ip, :ip6, :mac, :subnet, :domain]
 end
 
 def set_nic_attributes(host, attributes, evaluator)
@@ -52,7 +52,7 @@ FactoryGirl.define do
 
     trait :with_subnet do
       subnet do
-        FactoryGirl.build(:subnet,
+        FactoryGirl.build(:subnet_ipv4,
           :organizations => host ? [host.organization] : [],
           :locations => host ? [host.location] : [])
       end
@@ -67,6 +67,10 @@ FactoryGirl.define do
     type 'Nic::Managed'
     sequence(:mac) { |n| "01:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
+
+    trait :without_ipv4 do
+      ip nil
+    end
   end
 
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
@@ -184,7 +188,16 @@ FactoryGirl.define do
         overrides = {}
         overrides[:locations] = [host.location] unless host.location.nil?
         overrides[:organizations] = [host.organization] unless host.organization.nil?
-        host.subnet = FactoryGirl.build(:subnet, overrides)
+        host.subnet = FactoryGirl.build(:subnet_ipv4, overrides)
+      end
+    end
+
+    trait :with_ipv6_subnet do
+      after(:build) do |host|
+        overrides = {}
+        overrides[:locations] = [host.location] unless host.location.nil?
+        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        host.subnet6 = FactoryGirl.build(:subnet_ipv6, overrides)
       end
     end
 
@@ -230,7 +243,7 @@ FactoryGirl.define do
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
         FactoryGirl.create(
-          :subnet,
+          :subnet_ipv4,
           overrides
         )
       end
@@ -248,7 +261,7 @@ FactoryGirl.define do
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 
-        FactoryGirl.create(:subnet, overrides)
+        FactoryGirl.create(:subnet_ipv4, overrides)
       end
       domain do
         FactoryGirl.create(:domain,
@@ -264,8 +277,34 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_ipv6_dns_orchestration do
+      managed
+      association :compute_resource, :factory => :libvirt_cr
+      subnet6 do
+        overrides = {:dns => FactoryGirl.create(:dns_smart_proxy)}
+        #add taxonomy overrides in case it's set in the host object
+        overrides[:locations] = [location] unless location.nil?
+        overrides[:organizations] = [organization] unless organization.nil?
+
+        FactoryGirl.create(:subnet_ipv6, :dns, overrides)
+      end
+      domain do
+        FactoryGirl.create(:domain,
+          :dns => FactoryGirl.create(:smart_proxy,
+                    :features => [FactoryGirl.create(:feature, :dns)])
+      )
+      end
+      interfaces do
+        [FactoryGirl.build(:nic_managed, :without_ipv4,
+                                         :primary => true,
+                                         :provision => true,
+                                         :domain => FactoryGirl.build(:domain),
+                                         :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+      end
+    end
+
     trait :with_tftp_subnet do
-      subnet { FactoryGirl.build(:subnet, :tftp, locations: [location], organizations: [organization]) }
+      subnet { FactoryGirl.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]) }
     end
 
     trait :with_tftp_orchestration do
@@ -324,7 +363,7 @@ FactoryGirl.define do
     end
 
     trait :with_subnet do
-      subnet
+      association :subnet, :factory => :subnet_ipv4
     end
 
     trait :with_rootpass do

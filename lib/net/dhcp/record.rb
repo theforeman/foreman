@@ -6,7 +6,7 @@ module Net::DHCP
       super(opts)
       self.mac     = validate_mac self.mac
       self.network = validate_network self.network
-      self.ip      = validate_ip self.ip
+      self.ip      = validate_ip! self.ip
     end
 
     def to_s

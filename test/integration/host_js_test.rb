@@ -414,8 +414,8 @@ class HostJSTest < IntegrationTestWithJavascript
                    :visible => false).value
         subnet_label = modal.find('#s2id_host_interfaces_attributes_0_subnet_id span.select2-chosen').text
 
-        assert_equal domain.subnets.first.id.to_s, subnet_id
-        assert_equal domain.subnets.first.to_label, subnet_label
+        assert_equal '', subnet_id
+        assert_equal 'Please select', subnet_label
       end
     end
 

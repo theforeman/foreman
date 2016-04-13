@@ -21,14 +21,32 @@ module HostsAndHostgroupsHelper
     Domain.with_taxonomy_scope_override(@location,@organization).order(:name)
   end
 
-  def accessible_subnets
-    Subnet.with_taxonomy_scope_override(@location,@organization).order(:name)
+  def accessible_subnets(type = nil)
+    query = nil
+    query = {'type' => type} unless type.nil?
+    Subnet.with_taxonomy_scope_override(@location,@organization).where(query).order(:name)
   end
 
-  def domain_subnets(domain = @domain)
+  def accessible_v4_subnets
+    accessible_subnets('Subnet::Ipv4')
+  end
+
+  def accessible_v6_subnets
+    accessible_subnets('Subnet::Ipv6')
+  end
+
+  def domain_subnets(domain = @domain, type = nil)
     return [] if domain.blank?
     ids = domain.subnets.pluck('subnets.id')
-    accessible_subnets.where('subnets.id' => ids)
+    accessible_subnets(type).where('subnets.id' => ids)
+  end
+
+  def domain_v4_subnets(domain = @domain)
+    domain_subnets(domain, 'Subnet::Ipv4')
+  end
+
+  def domain_v6_subnets(domain = @domain)
+    domain_subnets(domain, 'Subnet::Ipv6')
   end
 
   def arch_oss
