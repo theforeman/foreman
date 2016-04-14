@@ -2,6 +2,7 @@
 
 one:
    name: one
+   type: Subnet::Ipv4
    network: 2.3.4.0
    mask: 255.255.255.0
    dhcp: one
@@ -11,6 +12,7 @@ one:
 
 two:
    name: two
+   type: Subnet::Ipv4
    network: 3.3.4.0
    mask: 255.255.255.0
    dhcp: one
@@ -19,6 +21,7 @@ two:
 
 three:
    name: three
+   type: Subnet::Ipv4
    network: 3.3.4.3
    mask: 255.255.255.0
    dhcp: one
@@ -27,6 +30,7 @@ three:
 
 four:
    name: four
+   type: Subnet::Ipv4
    network: 3.3.5.0
    mask: 255.255.255.0
    tftp: two
@@ -34,6 +38,7 @@ four:
 
 five:
   name: five
+  type: Subnet::Ipv4
   network: 10.0.0.0
   mask: 255.255.255.0
   dhcp: one

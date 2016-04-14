@@ -1,17 +1,43 @@
 require 'ipaddr'
+
 class Subnet < ActiveRecord::Base
+  IP_FIELDS = [:network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to]
+  REQUIRED_IP_FIELDS = [:network, :mask]
+  SUBNET_TYPES = {:'Subnet::Ipv4' => N_('IPv4')}
   BOOT_MODES = {:static => N_('Static'), :dhcp => N_('DHCP')}
   IPAM_MODES = {:dhcp => N_('DHCP'), :db => N_('Internal DB'), :none => N_('None')}
 
   include Authorizable
+  include Foreman::STI
   extend FriendlyId
   friendly_id :name
   include Taxonomix
   include Parameterizable::ByIdName
   include EncOutput
-  attr_accessible :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :ipam, :from,
+  attr_accessible :name, :type, :network, :mask, :gateway, :dns_primary, :dns_secondary, :ipam, :from,
     :to, :vlanid, :boot_mode, :dhcp_id, :dhcp, :tftp_id, :tftp, :dns_id, :dns, :domain_ids, :domain_names,
-    :subnet_parameters_attributes
+    :subnet_parameters_attributes, :cidr
+
+  # This casts Subnet to Subnet::Ipv4 if no type is set
+  def self.new(*attributes, &block)
+    return Subnet::Ipv4.new_without_cast(*attributes, &block) if self == Subnet
+    super
+  end
+
+  # This sets the rails model name of all child classes to the
+  # model name of the parent class, i.e. Subnet.
+  # This is necessary for all STI classes to share the same
+  # route_key, param_key, ...
+  def self.inherited(child)
+    child.instance_eval do
+      # rubocop:disable Rails/Delegate
+      def model_name
+        superclass.model_name
+      end
+      # rubocop:enable Rails/Delegate
+    end
+    super
+  end
 
   audited :allow_mass_assignment => true
 
@@ -23,34 +49,26 @@ class Subnet < ActiveRecord::Base
   belongs_to :dns,  :class_name => "SmartProxy"
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :subnet
   has_many :domains, :through => :subnet_domains
-  has_many :interfaces, :class_name => 'Nic::Base'
-  has_many :primary_interfaces, -> { where(:primary => true) }, :class_name => 'Nic::Base'
-  has_many :hosts, :through => :interfaces
-  has_many :primary_hosts, :through => :primary_interfaces, :source => :host
   has_many :subnet_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :subnet
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "SubnetParameter"
   accepts_nested_attributes_for :subnet_parameters, :allow_destroy => true
-  validates :network, :mask, :name, :presence => true
+  validates :network, :mask, :name, :cidr, :presence => true
   validates_associated    :subnet_domains
-  validates :network, :format => {:with => Net::Validations::IP_REGEXP}
-  validates :gateway, :dns_primary, :dns_secondary,
-                      :allow_blank => true,
-                      :allow_nil => true,
-                      :format => {:with => Net::Validations::IP_REGEXP},
-                      :length => { :maximum => 15, :message => N_("is too long (maximum is 15 characters)") }
-  validates :mask,    :format => {:with => Net::Validations::MASK_REGEXP}
   validates :boot_mode, :inclusion => BOOT_MODES.values
-  validates :ipam, :inclusion => IPAM_MODES.values
+  validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.class.supported_ipam_modes.map {|m| Subnet::IPAM_MODES[m]} }, :message => N_('not supported by this protocol')}
+  validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name,    :length => {:maximum => 255}, :uniqueness => true
 
   validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
   validates :tftp, :proxy_features => { :feature => "TFTP", :message => N_('does not have the TFTP feature') }
   validates :dhcp, :proxy_features => { :feature => "DHCP", :message => N_('does not have the DHCP feature') }
+  validates :network, :uniqueness => true
 
-  validate :ensure_ip_addr_new
-  before_validation :cleanup_addresses
+  before_validation :normalize_addresses
+  validate :ensure_ip_addrs_valid
 
   validate :validate_ranges
+  validate :check_if_type_changed, :on => :update
 
   default_scope lambda {
     with_taxonomy_scope do
@@ -59,7 +77,7 @@ class Subnet < ActiveRecord::Base
   }
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary,
-                        :vlanid, :ipam, :boot_mode], :complete_value => true
+                        :vlanid, :ipam, :boot_mode, :type], :complete_value => true
 
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
   scoped_search :in => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
@@ -102,22 +120,40 @@ class Subnet < ActiveRecord::Base
   end
 
   # Given an IP returns the subnet that contains that IP
-  # [+ip+] : "doted quad" string
+  # [+ip+] : IPv4 address
   # Returns : Subnet object or nil if not found
   def self.subnet_for(ip)
-    Subnet.all.each {|s| return s if s.contains? IPAddr.new(ip)}
-    nil
+    ip = IPAddr.new(ip)
+    Subnet.all.detect {|s| s.family == ip.family && s.contains?(ip)}
   end
 
   # Indicates whether the IP is within this subnet
-  # [+ip+] String: Contains 4 dotted decimal values
+  # [+ip+] String: IPv4 address
   # Returns Boolean: True if if ip is in this subnet
   def contains?(ip)
-    IPAddr.new("#{network}/#{mask}", Socket::AF_INET).include? IPAddr.new(ip, Socket::AF_INET)
+    ipaddr.include? IPAddr.new(ip, family)
+  end
+
+  def ipaddr
+    IPAddr.new("#{network}/#{mask}", family)
   end
 
   def cidr
+    return if mask.nil?
     IPAddr.new(mask).to_i.to_s(2).count("1")
+  rescue invalid_address_error
+    nil
+  end
+
+  def cidr=(cidr)
+    return if cidr.nil?
+    self[:mask] = IPAddr.new(in_mask, family).mask(cidr).to_s
+  rescue invalid_address_error
+    nil
+  end
+
+  def supports_ipam_mode?(mode)
+    self.class.supported_ipam_modes.include?(mode)
   end
 
   def dhcp?
@@ -159,18 +195,18 @@ class Subnet < ActiveRecord::Base
       return
     end
 
-    if self.ipam == IPAM_MODES[:dhcp] && dhcp?
+    if self.ipam == IPAM_MODES[:dhcp] && dhcp? && supports_ipam_mode?(:dhcp)
       # we have DHCP proxy so asking it for free IP
       logger.debug "Asking #{dhcp.url} for free IP"
       ip = dhcp_proxy.unused_ip(self, mac)["ip"]
       logger.debug("Found #{ip}")
       return(ip)
-    elsif self.ipam == IPAM_MODES[:db]
+    elsif self.ipam == IPAM_MODES[:db] && supports_ipam_mode?(:db)
       # we have no DHCP proxy configured so Foreman becomes `DHCP` and manages reservations internally
       logger.debug "Trying to find free IP for subnet in internal DB"
-      subnet_range = IPAddr.new("#{network}/#{mask}", Socket::AF_INET).to_range.to_a
-      from = self.from.present? ? IPAddr.new(self.from) : subnet_range[1]
-      to = self.to.present? ? IPAddr.new(self.to) : subnet_range[-2]
+      subnet_range = IPAddr.new("#{network}/#{mask}", family).to_range
+      from = self.from.present? ? IPAddr.new(self.from) : subnet_range.first(2).last
+      to = self.to.present? ? IPAddr.new(self.to) : IPAddr.new(subnet_range.last.to_i - 2, family)
       (from..to).each do |address|
         ip = address.to_s
         if !self.known_ips.include?(ip) && !excluded_ips.include?(ip)
@@ -190,7 +226,7 @@ class Subnet < ActiveRecord::Base
     ips = self.interfaces.map(&:ip) + self.hosts.includes(:interfaces).map(&:ip)
     ips += [self.gateway, self.dns_primary, self.dns_secondary].select(&:present?)
     self.clear_association_cache
-    ips.uniq
+    ips.compact.uniq
   end
 
   # imports subnets from a dhcp smart proxy
@@ -221,7 +257,7 @@ class Subnet < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super({:methods => [:to_label]}.merge(options))
+    super({:methods => [:to_label, :type]}.merge(options))
   end
 
   private
@@ -238,43 +274,45 @@ class Subnet < ActiveRecord::Base
   end
 
   def validate_ranges
-    errors.add(:from, _("invalid IP address"))            if from.present? and !from =~ Net::Validations::IP_REGEXP
-    errors.add(:to, _("invalid IP address"))              if to.present?   and !to   =~ Net::Validations::IP_REGEXP
-    errors.add(:from, _("does not belong to subnet"))     if from.present? and not self.contains?(f=IPAddr.new(from))
-    errors.add(:to, _("does not belong to subnet"))       if to.present?   and not self.contains?(t=IPAddr.new(to))
-    errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
     if from.present? or to.present?
       errors.add(:from, _("must be specified if to is defined"))   if from.blank?
       errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
+    return if errors.keys.include?(:from) || errors.keys.include?(:to)
+    errors.add(:from, _("does not belong to subnet"))     if from.present? and not self.contains?(f=IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   and not self.contains?(t=IPAddr.new(to))
+    errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
   end
 
-  def cleanup_addresses
-    self.network = cleanup_ip(network) if network.present?
-    self.mask = cleanup_ip(mask) if mask.present?
-    self.gateway = cleanup_ip(gateway) if gateway.present?
-    self.dns_primary = cleanup_ip(dns_primary) if dns_primary.present?
-    self.dns_secondary = cleanup_ip(dns_secondary) if dns_secondary.present?
+  def check_if_type_changed
+    if self.type_changed?
+      errors.add(:type, _("can't be updated after subnet is saved"))
+    end
+  end
+
+  def normalize_addresses
+    IP_FIELDS.each do |f|
+      val = send(f)
+      send("#{f}=", normalize_ip(val)) if val.present?
+    end
     self
   end
 
-  def cleanup_ip(address)
-    address.gsub!(/\.\.+/, ".")
-    address.gsub!(/2555+/, "255")
-    address
-  end
-
-  def ensure_ip_addr_new
-    errors.add(:network, _("is invalid")) if network.present? && (IPAddr.new(network) rescue nil).nil? && !errors.keys.include?(:network)
-    errors.add(:mask, _("is invalid")) if mask.present? && (IPAddr.new(mask) rescue nil).nil? && !errors.keys.include?(:mask)
-    errors.add(:gateway, _("is invalid")) if gateway.present? && (IPAddr.new(gateway) rescue nil).nil? && !errors.keys.include?(:gateway)
-    errors.add(:dns_primary, _("is invalid")) if dns_primary.present? && (IPAddr.new(dns_primary) rescue nil).nil? && !errors.keys.include?(:dns_primary)
-    errors.add(:dns_secondary, _("is invalid")) if dns_secondary.present? && (IPAddr.new(dns_secondary) rescue nil).nil? && !errors.keys.include?(:dns_secondary)
+  def ensure_ip_addrs_valid
+    IP_FIELDS.each do |f|
+      errors.add(f, _("is invalid")) if (send(f).present? || REQUIRED_IP_FIELDS.include?(f)) && !validate_ip(send(f)) && !errors.keys.include?(f)
+    end
   end
 
   private
 
+  def invalid_address_error
+    # IPAddr::InvalidAddressError is undefined for ruby 1.9
+    return IPAddr::InvalidAddressError if IPAddr.const_defined?('InvalidAddressError')
+    ArgumentError
+  end
+
   def enc_attributes
-    @enc_attributes ||= %w(name network mask gateway dns_primary dns_secondary from to boot_mode ipam vlanid)
+    @enc_attributes ||= %w(name type network mask cidr gateway dns_primary dns_secondary from to boot_mode ipam vlanid)
   end
 end
