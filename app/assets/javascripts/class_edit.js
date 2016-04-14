@@ -1,15 +1,11 @@
 function filter_puppet_classes(item){
   var term = $(item).val().trim();
-  $('.puppetclass_group li.puppetclass.hide').addClass('hide-me');
+  var class_elems = $('.available_classes').find('.puppetclass_group, .puppetclass');
   if (term.length > 0) {
-    $('.puppetclass_group li.puppetclass').removeClass('filter-marker').hide();
-    $('.puppetclass_group li.puppetclass:not(.hide-me, .selected-marker) span:contains('+term+')').parent('li').addClass('filter-marker').show();
-  } else{
-    $('.puppetclass_group li.puppetclass:not(.hide-me, .selected-marker)').addClass('filter-marker').show();
+    class_elems.hide().has('[data-class-name*='+term+']').show();
+  } else {
+    class_elems.show();
   }
-  var groups = $('li.filter-marker').closest('.puppetclass_group');
-  $('.puppetclass_group').hide();
-  groups.show();
 }
 
 function add_puppet_class(item){
@@ -147,4 +143,3 @@ function removeIconIfEmpty(element, ul_id) {
     element.find('i').hide();
   }
 }
-
