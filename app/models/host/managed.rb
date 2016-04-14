@@ -331,6 +331,7 @@ class Host::Managed < Host::Base
     opts[:hostgroup_id]       ||= hostgroup_id
     opts[:environment_id]     ||= environment_id
 
+    return local_boot_template if opts[:kind] == 'local_boot'
     ProvisioningTemplate.find_template opts
   end
 
@@ -1077,5 +1078,14 @@ class Host::Managed < Host::Base
     MailNotification[:host_built].deliver(self, :users => recipients) if recipients.present?
   rescue SocketError, Net::SMTPError => e
     Foreman::Logging.exception("Host has been created. Failed to send email", e)
+  end
+
+  def local_boot_template
+    return unless operatingsystem.present?
+    if operatingsystem.template_kind == "PXEGrub"
+      ProvisioningTemplate.find_by_name("PXEGrub default local boot")
+    else
+      ProvisioningTemplate.find_by_name("PXELinux default local boot")
+    end
   end
 end
