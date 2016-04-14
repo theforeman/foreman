@@ -1,0 +1,1257 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.0.3">Jekyll</generator><link href="http://theforeman.org/feed.xml" rel="self" type="application/atom+xml" /><link href="http://theforeman.org/" rel="alternate" type="text/html" /><updated>2016-04-06T08:36:01+00:00</updated><id>http://theforeman.org/</id><subtitle>Foreman is an open source project that gives system administrators the power to easily automate repetitive tasks, quickly deploy applications, and proactively manage servers, on-premises or in the cloud.</subtitle><entry><title>Enjoy new the parameters UI and features in Foreman 1.11 - now available!</title><link href="http://theforeman.org/2016/04/foreman-1.11.html" rel="alternate" type="text/html" title="Enjoy new the parameters UI and features in Foreman 1.11 - now available!" /><published>2016-04-01T08:35:01+00:00</published><updated>2016-04-01T08:35:01+00:00</updated><id>http://theforeman.org/2016/04/foreman-1.11</id><content type="html" xml:base="http://theforeman.org/2016/04/foreman-1.11.html">&lt;p&gt;Foreman 1.11 is now out, with a slick new parameters UI on the host edit page, new pages showing detailed information about smart proxies and a range of smaller new features and plenty of bug fixes.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Support in the smart proxy for plugins adding more DHCP providers.&lt;/li&gt;
+  &lt;li&gt;New host bulk actions, for changing host power states, ownership and Puppet master and CA in a few clicks.&lt;/li&gt;
+  &lt;li&gt;Test buttons for LDAP connections and email configuration.&lt;/li&gt;
+  &lt;li&gt;vSphere host creation has new resource pool and storage pod/cluster selections, plus memory/CPU hot-add tickboxes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;More generally, the UI framework has been changed to &lt;a href=&quot;https://www.patternfly.org&quot;&gt;PatternFly&lt;/a&gt; to refresh the look throughout the application, and under the covers, Ruby on Rails has been upgraded to version 4.1.&lt;/p&gt;
+
+&lt;h4 id=&quot;improvements-to-host-and-host-group-parameter-editing&quot;&gt;Improvements to host and host group parameter editing&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/PXaVBB88b2Y&quot;&gt;YouTube video: Inline parameter editing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The parameters tabs of the host and host group edit pages have been significantly improved with a few changes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Overridden smart class parameters and variables are now edited inline, replacing the overridden value. This removes the need to scroll when overriding parameters to the overridden list.&lt;/li&gt;
+  &lt;li&gt;The layout of host group and host parameter lists is now the same, improving consistency.&lt;/li&gt;
+  &lt;li&gt;Global parameters are now shown in a similar style to smart class parameters on the form.&lt;/li&gt;
+  &lt;li&gt;Smart class parameter values can now be hidden from the edit view in the same way as global parameters. Enable this when editing the parameter settings.&lt;/li&gt;
+  &lt;li&gt;Improved validation warnings and errors when editing parameters that require values or are validated.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/screenshots/1.11/parameter_editing.png&quot; alt=&quot;Parameters tab in host edit showing inline editing of an overridden value and a hidden parameter&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;smart-proxy-status-pages&quot;&gt;Smart proxy status pages&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/BusFmWMsTbI&quot;&gt;YouTube video: Smart proxy enhancements&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Under &lt;em&gt;Infrastructure &amp;gt; Smart proxies&lt;/em&gt;, much more information is provided about the status and contents of each registered smart proxy server.&lt;/p&gt;
+
+&lt;p&gt;Click on a smart proxy to view more detailed status information, including the proxy version number, features running and failed and hosts using the smart proxy in any way. Additional tabs will show information about individual modules, such as Puppet CA certificates or Puppet class counts.&lt;/p&gt;
+
+&lt;p&gt;Logs can be shown in the UI when the &lt;a href=&quot;/manuals/1.11/index.html#4.3.13Logs&quot;&gt;Logs feature&lt;/a&gt; is enabled on the smart proxy and the features are refreshed.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/screenshots/1.11/smart_proxy_show_logs.png&quot; alt=&quot;Smart proxy information page with logs tab inset&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;contributors&quot;&gt;Contributors&lt;/h3&gt;
+
+&lt;p&gt;A total of &lt;a href=&quot;/manuals/1.11/index.html#Contributors&quot;&gt;88 contributors (full list)&lt;/a&gt; have made this release happen, submitting code to Foreman and other core projects, our Puppet modules, &lt;a href=&quot;https://www.transifex.com/projects/p/foreman/&quot;&gt;translations&lt;/a&gt; and more. Lots of bug reports from people testing the release candidates and nightly builds has helped get the release out on schedule and in a good state.&lt;/p&gt;
+
+&lt;p&gt;Thanks to all involved, and I look forward to seeing more contributions!&lt;/p&gt;
+
+&lt;h3 id=&quot;more-information&quot;&gt;More information&lt;/h3&gt;
+
+&lt;p&gt;We’ve got more information about the release in the manual, see these pages for all of the details:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/manuals/1.11/index.html#Headlinefeatures&quot;&gt;Foreman 1.11 headline features&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLLTIBSsvp9qTWfhs0NB-pHdNzr7mP6gZ2&quot;&gt;Foreman 1.11 highlights: YouTube playlist&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/manuals/1.11/index.html#Releasenotesfor1.11.0&quot;&gt;Foreman 1.11 full release notes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you’re upgrading from a previous release, please take note of our upgrade warnings and deprecations, then use the upgrade instructions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/manuals/1.11/index.html#Upgradewarnings&quot;&gt;Foreman 1.11 upgrade warnings and deprecations&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/manuals/1.11/index.html#3.6Upgrade&quot;&gt;Foreman 1.11 upgrade instructions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To get started with a new installation, please follow our quickstart guide:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/manuals/1.11/quickstart_guide.html&quot;&gt;Foreman 1.11 quickstart installation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lastly, if you find a new bug, please &lt;a href=&quot;/support.html&quot;&gt;report it to our issue tracker&lt;/a&gt; and include the version number so we can fix it.&lt;/p&gt;
+
+&lt;p&gt;Hope you enjoy the release, and we’ll see you again in three months for Foreman 1.12!&lt;/p&gt;</content><author><name>Dominic Cleal</name></author><category term="foreman" /><category term="release" /><summary>Foreman 1.11 is now out, with a slick new parameters UI on the host edit page, new pages showing detailed information about smart proxies and a range of smaller new features and plenty of bug fixes.</summary></entry><entry><title>Foreman Community Newsletter - March 2016</title><link href="http://theforeman.org/2016/03/foreman-community-newsletter-march-2016.html" rel="alternate" type="text/html" title="Foreman Community Newsletter - March 2016" /><published>2016-03-15T00:00:00+00:00</published><updated>2016-03-15T00:00:00+00:00</updated><id>http://theforeman.org/2016/03/foreman-community-newsletter-march-2016</id><content type="html" xml:base="http://theforeman.org/2016/03/foreman-community-newsletter-march-2016.html">&lt;h3 id=&quot;foreman-1102-bugfix-release-is-out&quot;&gt;Foreman 1.10.2 bugfix release is out&lt;/h3&gt;
+&lt;p&gt;Foreman 1.10.2 was &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/ibuDpgjqL8A&quot;&gt;announced&lt;/a&gt; on 24th of February containing over 30 bug fixes across the whole application. Check the full &lt;a href=&quot;http://theforeman.org/manuals/1.10/index.html#Releasenotesfor1.10.2&quot;&gt;release notes&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;foreman-111-is-close-to-the-release-second-release-candidate-rc2-is-ready&quot;&gt;Foreman 1.11 is close to the release, second release candidate (RC2) is ready&lt;/h3&gt;
+&lt;p&gt;On 11th of March the second release candidate for Foreman 1.11 was released, with
+plenty of bug fixes for issues in RC1. In particular fixes for
+non-admin users, smart proxy SSL authentication and configuration status
+errors are included in 1.11.0-RC2. See the &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/8R9LbzGikug&quot;&gt;announcement&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Some notable changes in 1.11 release are&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;User interface changed to PatternFly design&lt;/li&gt;
+  &lt;li&gt;Improved layout of host/host group parameter overrides&lt;/li&gt;
+  &lt;li&gt;Ruby on Rails upgraded from version 3.2 to 4.1, under the covers&lt;/li&gt;
+  &lt;li&gt;Smart proxy DHCP module refactored to support plugins with new DHCP providers (none yet)&lt;/li&gt;
+  &lt;li&gt;New pages showing smart proxy status information in the Foreman UI&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For more details see &lt;a href=&quot;http://theforeman.org/manuals/1.11/index.html#Releasenotesfor1.11&quot;&gt;release notes&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;new-and-updated-plugins-since-last-decembers-newsletter&quot;&gt;New and updated plugins since last December’s newsletter&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_ansible&quot;&gt;foreman-ansible&lt;/a&gt; updated to 0.3, see &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/P4pTrrpO7CI/discussion&quot;&gt;announcement&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_discovery&quot;&gt;foreman-discovery&lt;/a&gt; updated to 5.0 with subsequent updates to 5.0.1 and 5.0.2, see &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/h1ZCKsA9Q0o&quot;&gt;announcement&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_remote_execution&quot;&gt;foreman_remote_execution&lt;/a&gt; updated to 0.3.0&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_openscap&quot;&gt;foreman-openscap&lt;/a&gt; updated to 0.5.3&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_chef&quot;&gt;foreman_chef&lt;/a&gt; had four new releases recently (0.2.1, 0.2.2, 0.3.0, 0.3.1)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_salt&quot;&gt;foreman_salt&lt;/a&gt; updated to 5.0.0&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer-cli&quot;&gt;hammer-cli&lt;/a&gt; updated to 0.6.0, see &lt;a href=&quot;https://github.com/theforeman/hammer-cli/blob/master/doc/release_notes.md#060-2016-02-25&quot;&gt;release notes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer-cli-foreman&quot;&gt;hammer-cli-foreman&lt;/a&gt; updated to 0.6.0, see &lt;a href=&quot;https://github.com/theforeman/hammer-cli-foreman/blob/master/doc/release_notes.md&quot;&gt;release notes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Apipie/apipie-bindings&quot;&gt;apipie-bindings&lt;/a&gt; updated to 0.0.16, see &lt;a href=&quot;https://github.com/Apipie/apipie-bindings/releases/tag/0.0.16&quot;&gt;release notes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer-cli-foreman-tasks&quot;&gt;hammer-cli-foreman-tasks&lt;/a&gt; updated to 0.0.10&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer_cli_foreman_remote_execution&quot;&gt;hammer_cli_foreman_remote_execution&lt;/a&gt; updated to 0.0.5&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer_cli_foreman_salt&quot;&gt;hammer-cli-foreman-salt&lt;/a&gt; updated to 0.0.5&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;new-media-and-blogs&quot;&gt;New media and blogs&lt;/h3&gt;
+
+&lt;p&gt;There were three Community demos since the last newsletter.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=KuBW_-mUlpo&quot;&gt;Community demo&lt;/a&gt; on 10th March 2016 with following highlights:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/KuBW_-mUlpo&quot;&gt;Community updates (gwmngilfen)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/KuBW_-mUlpo?t=11m2s&quot;&gt;New features in Discovery 5.0 (lzap)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/KuBW_-mUlpo?t=22m35s&quot;&gt;New features in Discovery Image 3.1 (lzap)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/KuBW_-mUlpo?t=27m1s&quot;&gt;Capsule content CLI (tstrachota)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/KuBW_-mUlpo?t=30m50s&quot;&gt;Compute profile attributes in CLI (tstrachota)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/KuBW_-mUlpo?t=36m30s&quot;&gt;Host unification updates (jsherrill)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/KuBW_-mUlpo?t=42m25s&quot;&gt;Foreman 1.11 RC1 highlights&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=WfvKAFIPyJg&quot;&gt;Community demo&lt;/a&gt; - 18th February 2016 with following highlights:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/WfvKAFIPyJg?t=0&quot;&gt;Community updates (gwmngilfen)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/WfvKAFIPyJg?t=250&quot;&gt;Lazy sync (daviddavis)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/WfvKAFIPyJg?t=675&quot;&gt;Rex: Adv. Job Control (aruzicka)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/WfvKAFIPyJg?t=955&quot;&gt;Rex: Dev API (inecas)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/WfvKAFIPyJg?t=1680&quot;&gt;Client Side Pagination (shimstein)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/WfvKAFIPyJg?t=1860&quot;&gt;Atomic Provisioning (dlobatog)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/WfvKAFIPyJg?t=2160&quot;&gt;Ansible Inventory (dlobatog)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=AsY3U6qRInk&quot;&gt;Community demo&lt;/a&gt; - 21st January 2016 with following highlights:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=15&quot;&gt;Community updates (gwmngilfen)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=175&quot;&gt;Nested parameters (orabin)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=298&quot;&gt;Remote execution templates (inecas)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=630&quot;&gt;Remote execution usability (mhulan)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=1008&quot;&gt;Tests &amp;amp; Patternfly (dlobatog)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=1360&quot;&gt;Proxy Status page (tbrisker)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=1778&quot;&gt;Proxy Logs UI (lzap)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=2222&quot;&gt;Proxy Pulp Disk Usage (oprazak)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=2352&quot;&gt;Proxy Pulp Sync Status (tstrachota)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=2660&quot;&gt;Installer Scenario Migrations (mbacovsk)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://youtu.be/AsY3U6qRInk?t=2950&quot;&gt;Host Facets API (jsherrill)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In February we ran the Foreman Community Survey to get feedback on how we’re doing and what needs to be addressed. Dive into the &lt;a href=&quot;http://theforeman.org/2016/03/2016-forman-survey-analysis.html&quot;&gt;analysis&lt;/a&gt; Greg prepared.&lt;/p&gt;
+
+&lt;h3 id=&quot;reports-from-past-events&quot;&gt;Reports from past events&lt;/h3&gt;
+
+&lt;p&gt;February was rich in conferences and Greg brought us nice reports from some of them. Thanks, Greg!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/AbbzdHBixzk&quot;&gt;FOSDEM&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/P4pTrrpO7CI&quot;&gt;CfgMgmtCamp 2016&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/VC4Qd3oD9Zk&quot;&gt;DevConf 2016, Brno&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/imwzvCGz0vM&quot;&gt;1st Foreman Construction Day&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Martin Bacovsky</name></author><category term="foreman" /><category term="newsletter" /><summary>Foreman 1.10.2 and 1.11 RC2 released. Read on for details of new plugin releases and new recordings to watch!</summary></entry><entry><title>2016 Foreman Survey Analysis</title><link href="http://theforeman.org/2016/03/2016-forman-survey-analysis.html" rel="alternate" type="text/html" title="2016 Foreman Survey Analysis" /><published>2016-03-07T14:34:44+00:00</published><updated>2016-03-07T14:34:44+00:00</updated><id>http://theforeman.org/2016/03/2016-forman-survey-analysis</id><content type="html" xml:base="http://theforeman.org/2016/03/2016-forman-survey-analysis.html">&lt;p&gt;Over the course of February, we again ran the Foreman Community Survey to get
+feedback on how we’re doing and what needs to be addressed. I’ve now had some
+time to sit down and look through the data, and share some insights with you
+all.&lt;/p&gt;
+
+&lt;p&gt;Firstly - &lt;strong&gt;thank you&lt;/strong&gt; to all those who filled out the survey. It was a little
+bit longer this year, as we looked to get data on how we can grow the
+contributor community as well as the user community, so thanks for taking the
+time. It’s great to hear all your feedback.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h2 id=&quot;a-nameintroacontents&quot;&gt;&lt;a name=&quot;intro&quot;&gt;&lt;/a&gt;Contents&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#intro&quot;&gt;Intro&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#diversity&quot;&gt;Community Diversity&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#support&quot;&gt;Support and Docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#foreman-features&quot;&gt;Specific Features&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#upcoming-work&quot;&gt;Upcoming Work&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#events&quot;&gt;Events&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#contributor-survey&quot;&gt;Contributor Survey&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/03/2016-forman-survey-analysis.html#final-thoughts&quot;&gt;Final thoughts&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Sadly, response were slightly down from last year (&lt;strong&gt;76 responses&lt;/strong&gt;) and the
+smaller sample size makes it difficult to draw strong conclusions. According to
+other metrics, we have usually 250ish active people in IRC each month, and some
+2000 people on the mailing list. Suggestions on how to reach more people with
+the survey are, of course, &lt;a href=&quot;http://theforeman.org/support.html#Mailinglists&quot; title=&quot;Mailing Lists&quot;&gt;welcome&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;That said, we can still look at the results and look for trends, especially as
+compared to last year (which we couldn’t do then, it being the first such
+survey). Lets start with some stats on…&lt;/p&gt;
+
+&lt;h2 id=&quot;a-namediversityacommunity-diversity&quot;&gt;&lt;a name=&quot;diversity&quot;&gt;&lt;/a&gt;Community Diversity&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/how-long-using.png&quot; alt=&quot;How long using&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is broadly similar to last year, with some 40% of the community having
+used Foreman for under a year. We do see a shift in the 3+ years category, with
+a corresponding drop in 1 and 2 year categories, but it’s nice to see that the 3
+months category remains stable at 13% - we seem to be continuing to attract new
+people to the community, which is great. Having more “old hands” around to
+answer questions is starting to be noticable on IRC and the mailing lists, too.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/what-version-using.png&quot; alt=&quot;What version used&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I was quite surprised by this - Foreman 1.10 was released at Christmas, meaning
+it had only been out for 4 weeks by the time of the survey. It’s great to see
+people so quick to upgrade something which can be so deeply embedded in the
+infrastructure. When you add in 1.9 (we still support the last two versions, so
+this is the total supported userbase) we get 71% which is a bit of a drop on
+last year (86%). A quarter of responses are running an unsupported version of
+Foreman - as we said last year, if there’s anything holding you back from
+upgrading, do &lt;a href=&quot;http://theforeman.org/support.html#Mailinglists&quot; title=&quot;Mailing Lists&quot;&gt;get in touch&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/nodes-managed.png&quot; alt=&quot;Nodes managed&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Again similar to last year, we see under 10% of responses coming from large
+installations (&amp;gt;1k nodes). It is good to see a spread here though, as it shows
+we’re meeting the needs of a wide variety of infrastructure usecases and
+network topologies.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/number-users.png&quot; alt=&quot;Number of Users&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Interestingly, larger numbers of users (&amp;gt;10) shows growth this year, up to
+nearly 25%. Hopefully this is due to continuing effort in our Roles,
+Authorization, and Locations/Organisations features. That said, a solid 50%
+remain in the 1-5 section, so keeping the option to disable or streamline these
+features is also important. This is relevant due to the discussion around
+Locations/Organisations at the moment.&lt;/p&gt;
+
+&lt;p&gt;Finally for diversity, lets have a couple of bar charts:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/operatingsystems.png&quot; alt=&quot;Operatingsystems&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This year we allowed respondents to select more than one option, as “most” is
+subjective, especially when you put proxies and Foreman itself in the same
+question.&lt;/p&gt;
+
+&lt;p&gt;Keeping this in mind, we see that Red Hat family distros remain constant at
+75%, but there’s a marked increase in deb-based distros (up 5%) and in “Other”
+which is up 10%. It would be very interesting &lt;a href=&quot;http://theforeman.org/support.html#Mailinglists&quot; title=&quot;Mailing Lists&quot;&gt;to hear from those users&lt;/a&gt;
+about what OSs they are using!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/hammer-vs-api.png&quot; alt=&quot;Hammer vs API&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hammer remains stable this year at just under 50%, and it’s good to see APIv1
+declining. The real surprise here, however, is the “No” response jumping from
+just 6% to 32%. I have no data to suggest why this might be, but one conclusion
+is that the tooling we’re providing to the newer users joining the community is
+now sufficient for their needs. If you’ve got a story about this,
+&lt;a href=&quot;http://theforeman.org/support.html#Mailinglists&quot; title=&quot;Mailing Lists&quot;&gt;let us know&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;Overall, the community seems diverse in many respects, with different sizes,
+ages, OSs and usecases. This is good news as we move forward, since it shows we
+have broad appeal to people just discovering Foreman today.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-namesupportasupport-and-docs&quot;&gt;&lt;a name=&quot;support&quot;&gt;&lt;/a&gt;Support and Docs&lt;/h2&gt;
+
+&lt;p&gt;Moving on then, we have a number of question related to how well we meet
+support needs of the community:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/irc-and-lists.png&quot; alt=&quot;IRC and Lists&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s not very visible (thanks Google), but the vertical axis is, in order:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I know of the IRC channel, but don’t use it&lt;/li&gt;
+  &lt;li&gt;I use the IRC channel&lt;/li&gt;
+  &lt;li&gt;I know of the mailing list, but don’t use it&lt;/li&gt;
+  &lt;li&gt;I use the mailing list&lt;/li&gt;
+  &lt;li&gt;I wasn’t aware of either&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The really important number for me here is the last one - 7% not aware of our
+primary support systems. That’s both good (it’s &lt;em&gt;only&lt;/em&gt; 7%) and bad (how do we
+reach those people). For the others, so long as they know that the IRC channel
+and mailing lists exist, that’s good - they can get help when they need it.&lt;/p&gt;
+
+&lt;p&gt;To those who said they spend active time on the lists and on IRC - &lt;em&gt;thank you!&lt;/em&gt;
+User-to-user support is one of the things that makes community leads go all
+warm and fuzzy and liable to buy rounds ;)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/user-support.png&quot; alt=&quot;User Support&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We have a great reputation for our IRC channel, and that’s reflected here in
+the 5-star rating our IRC support gets in the survey results. Happily the other
+support routes also do well, getting 4s across the board. This is great to see,
+but there’s always more we can do, as seen below in the free-text comments.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/major-and-minor.png&quot; alt=&quot;Major and Minor releases&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I was worried about this one - if, say, frequency had come out as bad, we’d have
+no data on whether it was too fast or too slow, etc.&lt;/p&gt;
+
+&lt;p&gt;Thankfully, we seem to do pretty well across the board, with the majority being
+3+ in every category, which is all the more important since it’s largely the
+same as last year, showing that we have consistency in our releases as well as
+providing what our users want. Whilst a lot of people work on each release, I
+think it’s worth calling out &lt;a href=&quot;https://github.com/domcleal&quot; title=&quot;Dominic Cleal on GitHub&quot;&gt;Dominic Cleal&lt;/a&gt; for all he does around
+release engineering - thanks!&lt;/p&gt;
+
+&lt;p&gt;The final support question was a free text field, and I don’t plan to
+cut’n’paste the entire result set, but we did get some themes. Out of the 17
+responses to this question:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;11 were generally positive about the support/docs (65%)&lt;/li&gt;
+  &lt;li&gt;7 requested more diagrams or how-to guides (potentially including screencasts) (41%)&lt;/li&gt;
+  &lt;li&gt;3 specifically requested improvements to plugin docs (18%)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It’s good to see two-thirds of the responses are positive, as a lot of effort
+goes into the manual and support channels. I still plan to produce my
+“beginners guide” screencast series “soon(tm)”. Plugins, as ever, remain the
+responsibility of the authors, but the development community tries to help out
+where we can. Writing docs is also a great way to get &lt;a href=&quot;http://theforeman.org/contribute.html&quot; title=&quot;Contributing&quot;&gt;started with
+contributing&lt;/a&gt;, if you’re so inclined!&lt;/p&gt;
+
+&lt;h2 id=&quot;a-nameforeman-featuresaspecific-foreman-features&quot;&gt;&lt;a name=&quot;foreman-features&quot;&gt;&lt;/a&gt;Specific Foreman Features&lt;/h2&gt;
+
+&lt;p&gt;Now we move onto the detail in some of Foreman’s features:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/compute-resources.png&quot; alt=&quot;Compute Resources&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This graph is fascinating for quite a few reasons. Firstly, in a change from
+last year, we explicitly included “Physical hardware” as an option - although
+the question is about Compute Resources, in reality it should have been “What
+do you provision on with Foreman?”. By including this separately from “None”,
+we get that nearly two-thirds of the community still manage physical hardware
+with Foreman. PXE is not dead yet, it seems!&lt;/p&gt;
+
+&lt;p&gt;The other interesting figures are in the shifts from last year. EC2 and
+OpenStack both lose a few percentage points (most likely due to the lack of
+support for newer advanced networking &amp;amp; storage features), while VMware and
+Docker (no surprise there) gain a few. The really big increases, though, are in
+Libvirt and oVirt, which given the Docker hype this year is really surprising
+to me. Other is also up substantially, perhaps in a nod to our plugin
+structure for Compute Resources.&lt;/p&gt;
+
+&lt;p&gt;Overall, this graph nicely highlights the diversity of infrastructure that
+we’re able to support, and cautions us about getting to narrow-minded with
+respect to a particular platform. We do well because of our neutrality.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/taxonomies.png&quot; alt=&quot;Taxonomies&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;One of our more advanced features, Locations / Organisations are a scoping
+mechanism, useful if you have resources that should only matter to certains
+places or people (e.g. multi-tenant setups). Whats interesting here is that
+while the number of users not using Locs/Orgs is constant, many of those who
+used just one last year now use both (24% -&amp;gt; 33%).&lt;/p&gt;
+
+&lt;p&gt;We actually asked three questions on this feature, as the developer community
+wanted to gather usecases for a potential refactoring of the feature, and
+wanted to be sure we didn’t break it for anyone. We’ll be able to say more on
+this once the refactoring is decided on (or not)&lt;/p&gt;
+
+&lt;p&gt;This next graph is huge. Sorry ;)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/plugin-usage.png&quot; alt=&quot;Plugin Usage&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Most of the big usage numbers here are entirely expected.
+&lt;a href=&quot;http://theforeman.org/plugins/foreman_discovery&quot;&gt;Discovery&lt;/a&gt; tops the chart again, but it’s good to see
+&lt;a href=&quot;http://katello.org&quot;&gt;Katello&lt;/a&gt; move in to second place; closely following are
+&lt;a href=&quot;https://github.com/theforeman/foreman_hooks&quot;&gt;foreman_hooks&lt;/a&gt;, &lt;a href=&quot;https://github.com/theforeman/puppetdb_foreman&quot;&gt;puppetdb_foreman&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/theforeman/foreman_templates&quot;&gt;foreman_templates&lt;/a&gt; and &lt;a href=&quot;https://github.com/theforeman/foreman_bootdisk&quot;&gt;foreman_bootdisk&lt;/a&gt;. I’ll admit I
+was surprised to see &lt;a href=&quot;https://github.com/theforeman/foreman_dhcp_browser&quot;&gt;foreman_dhcp_browser&lt;/a&gt; up at 30% - perhaps this
+indicates a need for more Smart Proxy visibility from within the UI? Happily,
+such things are in progress and you’ll be able to see a lot of it in 1.11. The
+Release Candidates are &lt;a href=&quot;http://tinyurl.com/foreman-1-11-rc1&quot; title=&quot;1.11 RC1 announcement&quot;&gt;out now&lt;/a&gt; if you just can’t wait!&lt;/p&gt;
+
+&lt;p&gt;The fast movers are foreman_ansible, and foreman_openscap, both developed this
+year - in particular the Ansible plugin is only a few months old, so it’s 13%
+uptake is rapid indeed.&lt;/p&gt;
+
+&lt;p&gt;As with last year, this shows some of the activity in our plugin ecosystem,
+which is great to see. We really want to see plugins succeed, and provide a lot
+of materials to help get started writing them, so graph like these are a reward
+for that effort.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-nameupcoming-workaupcoming-work&quot;&gt;&lt;a name=&quot;upcoming-work&quot;&gt;&lt;/a&gt;Upcoming work&lt;/h2&gt;
+
+&lt;p&gt;For this, we changed the style this year. Rather than ask for interest ratings
+on individual features from 1-5 (which can be a problem since not every feature
+is of interest to all users), we decided to simply ask for your top 3 wishes,
+in no specific order. This list was drawn from the items still not done from
+last year, from some things that come up over and over in conversations, and so
+on.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/future-features.png&quot; alt=&quot;Future Features&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Overwhelmingly, Puppet 4 support tops the bill. We knew this would be high on
+the list, so we took time to meet with Puppetlabs at CfgMgmt Camp, and come up
+with a plan of action (you can read it &lt;a href=&quot;https://groups.google.com/d/topic/foreman-dev/Ijvodu1hJkE/discussion&quot; title=&quot;Puppet 4 Discussion&quot;&gt;here&lt;/a&gt;). This work is
+&lt;em&gt;tentatively&lt;/em&gt; scheduled for 1.12, but as ever with open source, there’s no
+promises.&lt;/p&gt;
+
+&lt;p&gt;Following that, we see better container support coming in strong. We’ve already
+got a Docker plugin, Docker registry support via Pulp/Katello, and CoreOS &amp;amp;
+Atomic provisioning support. Do file &lt;a href=&quot;http://projects.theforeman.org/projects/foreman/issues/new&quot; title=&quot;Foreman - New Issue&quot;&gt;feature requests&lt;/a&gt; on this area if
+you have specific features relating to containers you’d like to see.&lt;/p&gt;
+
+&lt;p&gt;All the others come in roughly equally, with a very slight edge to networking
+and IPv6. The developer community will be taking this on board in the coming
+year, and I really hope that next year (as with this year) we can say that
+we’ve delivered on a lot of these items.&lt;/p&gt;
+
+&lt;p&gt;We also had a free-text field for people to put their #1 wish in. Again, Puppet
+4 comes out strongly here, but also more Ansible integration, VMware, IPv6 and
+Katello development were common.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-nameeventsaevents&quot;&gt;&lt;a name=&quot;events&quot;&gt;&lt;/a&gt;Events&lt;/h2&gt;
+
+&lt;p&gt;We split this up this year. Last year we only asked if you would like to attend
+events - this time we also asked if you’d be willing to help organise them:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/meetups.png&quot; alt=&quot;Meetups&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We see that the US and EMEA are popular, but a sizeable chunk of people would
+like a local meetup. We’re investigating getting involved with other local
+events such as DevOpsDays and so forth - if there’s an event near you that you
+think we should be at, &lt;a href=&quot;http://theforeman.org/support.html#Mailinglists&quot; title=&quot;Mailing Lists&quot;&gt;let us know&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;I’m &lt;em&gt;really&lt;/em&gt; excited that 22 peaople said they’d be willing to speak about
+Foreman at conferences, and 16 people would be willing to help set up events -
+&lt;em&gt;thanks&lt;/em&gt;! However, this is an anonymous survey! Please, please &lt;em&gt;email me&lt;/em&gt; with
+me about this - I’m starting to build a collection of potential speakers (and
+their areas of travel), and potential event locations to see what we can match
+up.&lt;/p&gt;
+
+&lt;p&gt;Again, if you responded to this question - &lt;em&gt;please&lt;/em&gt; &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#103;&amp;#114;&amp;#101;&amp;#103;&amp;#046;&amp;#115;&amp;#117;&amp;#116;&amp;#099;&amp;#108;&amp;#105;&amp;#102;&amp;#102;&amp;#101;&amp;#064;&amp;#103;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;email me&lt;/a&gt;! Thanks!&lt;/p&gt;
+
+&lt;h2 id=&quot;a-namecontributor-surveyacontributor-survey&quot;&gt;&lt;a name=&quot;contributor-survey&quot;&gt;&lt;/a&gt;Contributor survey&lt;/h2&gt;
+
+&lt;p&gt;I’ll keep this section brief, but here’s two interesting graphs:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/do-you-contribute.png&quot; alt=&quot;Contribute&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Clearly, the responses to this question will be strongly skewed in the
+contributor survey. However, I think it’s notable that 20% of people felt
+strongly enough to fill this out even though they are &lt;em&gt;not&lt;/em&gt; currently a
+contributor - it implies there’s probably more people in this position. We owe
+it to ourselves to support new contributors and help them get started.&lt;/p&gt;
+
+&lt;p&gt;I do have some ideas here, such as more screencasts (how about a “Let’s Play”
+of writing a plugin?) and also perhaps a “where can I help” workflow on the
+website, similar to the &lt;a href=&quot;https://www.mozilla.org/en-US/contribute&quot;&gt;Mozilla site&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-07-2016-forman-survey-analysis/dev-support.png&quot; alt=&quot;Dev Support&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Leading on from that, it seems that while we are consistently good at helping
+out once we get to reporting and monitoring PRs, the picture for helping those
+who are stuck (either stuck &lt;em&gt;in&lt;/em&gt; some code, or stuck just getting started) is a
+bit more mixed. Work is underway to write a &lt;a href=&quot;http://theforeman.org/handbook.html&quot; title=&quot;Developer Handbook&quot;&gt;developer handbook&lt;/a&gt;
+which is helping to clarify this, and further work remains to be done on it.
+This should probably re-emphasize the IRC dev channel as the primary means of
+support when contributing.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-namefinal-thoughtsafinal-thoughts&quot;&gt;&lt;a name=&quot;final-thoughts&quot;&gt;&lt;/a&gt;Final thoughts&lt;/h2&gt;
+
+&lt;p&gt;It’s fascinating reading through all the comments and stats - there’s more data
+in here than I can show without this becoming a book, but I’ll be using it
+myself in my role to assist the community further.&lt;/p&gt;
+
+&lt;p&gt;Hopefully the above gives you a flavour of where we’re at. For myself, I feel
+that we get good marks for our support, and we do a good job of handling
+releases, new features, etc as well. Well done to everyone who participates in
+making this one of the best communities I’ve ever been in!&lt;/p&gt;
+
+&lt;p&gt;I’ll leave you with a few of my favourite quotes from the question “Do you have
+any additional comments or special requests?”:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Thank you for a great solution!!! Keep up the great work!&lt;/li&gt;
+  &lt;li&gt;When I adopted Foreman I mostly wanted a good DHCP/PXE provisioner with a solid, simple classifyer. You’ve come to meet and exceed my needs&lt;/li&gt;
+  &lt;li&gt;Thank you! You guys are making my team spend much less time configuring servers and instead they can do productive stuff&lt;/li&gt;
+  &lt;li&gt;Thanks for the t-shirt at FOSDEM!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I freely admit cherry-picking these - but the other comments are just as
+valuable! All the feedback will be noted down for future use.&lt;/p&gt;
+
+&lt;p&gt;Thanks once again to everyone who filled out the survey!&lt;/p&gt;
+
+&lt;!-- link ids --&gt;</content><author><name>Greg Sutcliffe</name></author><category term="usage" /><category term="foreman" /><category term="events" /><category term="plugins" /><category term="community" /><category term="survey" /><category term="API" /><category term="virtualization" /><category term="cfgmgmtcamp" /><category term="puppet" /><category term="devconf" /><category term="fosdem" /><category term="chef" /><category term="use cases" /><summary>Over the course of February, we again ran the Foreman Community Survey to get
+feedback on how we’re doing and what needs to be addressed. I’ve now had some
+time to sit down and look through the data, and share some insights with you
+all.
+
+Firstly - thank you to all those who filled out the survey. It was a little
+bit longer this year, as we looked to get data on how we can grow the
+contributor community as well as the user community, so thanks for taking the
+time. It’s great to hear all your feedback.</summary></entry><entry><title>Addressing CVEs with Foreman and Katello - DROWN, GHOST</title><link href="http://theforeman.org/2016/03/addressing-cves-with-katello.html" rel="alternate" type="text/html" title="Addressing CVEs with Foreman and Katello - DROWN, GHOST" /><published>2016-03-02T00:00:00+00:00</published><updated>2016-03-02T00:00:00+00:00</updated><id>http://theforeman.org/2016/03/addressing-cves-with-katello</id><content type="html" xml:base="http://theforeman.org/2016/03/addressing-cves-with-katello.html">&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+
+&lt;p&gt;Published CVEs represent an attack vector for your infrastructure. Recently,
+CVE-2015-0235 revealed a security bug in GLIBC, a key dependency for many packages
+in Linux (including Foreman!). Just so you can easily understand how key this package
+is, here’s a visualization made by &lt;a href=&quot;https://twitter.com/ruimvieira&quot;&gt;Rui Vieira&lt;/a&gt; from
+Newcastle University that displays a graph of package dependencies in Ubuntu. Glibc
+is the dot at the center of the graph.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/dependencies_graph.jpg&quot; alt=&quot;dependency graph&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Just a few weeks after GHOST was released, CVE-2016-0800, nicknamed DROWN, revealed a
+bug on all implementations on the SSLv2 protocol based on a vulnerability recently
+discovered by a group of security researchers.&lt;/p&gt;
+
+&lt;h3 id=&quot;cve-background&quot;&gt;CVE background&lt;/h3&gt;
+
+&lt;p&gt;If you want to learn more about these CVEs, Red Hat Product Security summarized it well
+in these articles:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/security/vulnerabilities/ghost&quot;&gt;GHOST - glibc&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/security/vulnerabilities/drown&quot;&gt;DROWN - openssl&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;what-to-do&quot;&gt;What to do&lt;/h3&gt;
+
+&lt;p&gt;With Foreman and &lt;a href=&quot;http://katello.org&quot;&gt;Katello&lt;/a&gt;, you don’t need to guess if your
+Red Hat hosts are vulnerable to a CVE. Foreman should sync the packages from the
+Red Hat CDN, alongside with errata, so you can automatically apply them to your hosts.&lt;/p&gt;
+
+&lt;p&gt;If you haven’t configured Foreman to do this, I would recommend creating a Sync Plan
+that syncs packages/errata every night. Errata contains not only security updates,
+but also bug fixes, and enhancement updates that can be safely applied to your hosts.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/sync_plan.png&quot; alt=&quot;sync plan&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This ensures that Foreman has the latest errata available and can provide an accurate
+picture regarding which hosts need which errata. Foreman uses the errata metadata
+in the repositories to generate the Katello Host Advisory, a scheduled report of
+which errata a host needs.&lt;/p&gt;
+
+&lt;p&gt;Alternatively, you can subscribe to receive notifications of security advisories via
+email. Click on your name on the top-right corner -&amp;gt; My account, and configure it
+in your email preferences.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/host_and_errata_notifications.png&quot; alt=&quot;notification&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Firstly, visit the Content -&amp;gt; Errata page on Foreman. This shows which errata have
+been downloaded. In the search box, we can search via the CVE identifier (CVE-2015-7547)
+ OR via the Red Hat Security Advisory (RHSA) identifier (RHSA-2016:0176).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/all_errata.png&quot; alt=&quot;all errata&quot; /&gt;
+&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/cve_search.png&quot; alt=&quot;cve search&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Foreman has the information to know whether the errata is possible to install to your
+hosts right now. Let’s see this.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/selected_cve_errata.png&quot; alt=&quot;glibc errata&quot; /&gt;
+&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/selected_ssl_errata.png&quot; alt=&quot;ssl errata&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We can select both CVE errata, and click on apply to our hosts.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/apply_errata.png&quot; alt=&quot;apply errata&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you prefer to check the errata on a host by host basis, you can check the content hosts page (Hosts &amp;gt; Content hosts)
+and check out all the installable errata for a host. The procedure to install it is as easy as it gets.
+Select all errata you want to install, and click on ‘Apply selected’.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/content_hosts_errata.png&quot; alt=&quot;content host errata&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After this, you should be able to see how Foreman is installing the packages live on your host.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-03-02-addressing-cves-with-katello/install_progress.png&quot; alt=&quot;install progress&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That’s all for today, keep your hosts safe and sound with Foreman and Katello errata!&lt;/p&gt;</content><author><name>Daniel Lobato Garcia - @dlobatog</name></author><category term="cve" /><category term="security" /><category term="katello" /><category term="foreman" /><category term="errata" /><category term="rhel" /><category term="content" /><category term="openssl" /><category term="glibc" /><summary>Published CVEs represent an attack vector for your infrastructure. Recently,
+CVE-2015-0235 revealed a security bug in GLIBC, a key dependency for many packages
+in Linux (including Foreman!), and CVE-2016-0800 revealed another serious vulnerability
+on openssl. Learn how to easily patch your hosts with Foreman and Katello.</summary></entry><entry><title>EC2 provisioning using Foreman - update</title><link href="http://theforeman.org/2016/02/ec2-provisioning-using-foreman-update.html" rel="alternate" type="text/html" title="EC2 provisioning using Foreman - update" /><published>2016-02-03T14:25:45+00:00</published><updated>2016-02-03T14:25:45+00:00</updated><id>http://theforeman.org/2016/02/ec2-provisioning-using-foreman-update</id><content type="html" xml:base="http://theforeman.org/2016/02/ec2-provisioning-using-foreman-update.html">&lt;p&gt;Back in 2012 Ohad Levy wrote an excellent &lt;a href=&quot;http://theforeman.org/2012/05/ec2-provisioning-using-foreman.html&quot;&gt;blog post&lt;/a&gt; on this subject. The concepts and steps to perform he explains are still mainly correct and relevant but the UI has changed enough to justify a new post.&lt;/p&gt;
+
+&lt;p&gt;A lot of time has passed since then and many Foreman versions, with many improvements and changes, have passed.
+It is time for an updated HOWTO on this subject. This post will mainly be a shameless copy-paste of his post with updated names, details and screenshots to accommodate the differences between version 0.5 and 1.10.&lt;/p&gt;
+
+&lt;h3 id=&quot;configuring-aws&quot;&gt;Configuring AWS&lt;/h3&gt;
+
+&lt;p&gt;Select &lt;strong&gt;Infrastructure &amp;gt; Compute Resources&lt;/strong&gt;. &lt;strong&gt;Compute Resources&lt;/strong&gt; are services that can generate a host, e.g.
+VMWare, libvirt, openstack etc.&lt;/p&gt;
+
+&lt;p&gt;Click on &lt;strong&gt;New Compute Resource&lt;/strong&gt; and fill in the information about your
+new compute resource, normally the name should represent something
+meaningful to you, such as a combination of the ec2 region and the
+account used.&lt;/p&gt;
+
+&lt;p&gt;if everything is entered correctly, you should be able to get back a
+list of regions and select the region that you would like to deploy
+to.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.06.41.png&quot; alt=&quot;New Compute Resource&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Foreman would then automatically create a new set of SSH keypairs, which
+would be used in order to configure the instance (you may remove them
+later on).&lt;/p&gt;
+
+&lt;p&gt;Then, the next step is to define which images are allowed to use and
+assign them to Foreman Operation systems / architectures.&lt;/p&gt;
+
+&lt;p&gt;Click on the &lt;strong&gt;image&lt;/strong&gt; tab and select &lt;strong&gt;New Image&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.08.23.png&quot; alt=&quot;New Image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Since i am using an image that supports cloud-init i check the appropriate
+box. If you don’t use cloud-init, it is very important that you define
+the correct user for foreman to SSH to the instance, that is configured
+on the ami (normally the ubuntu user, or ec2-user) and of course, the ami id.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.09.31.png&quot; alt=&quot;Image List&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;compute-profiles&quot;&gt;Compute profiles&lt;/h3&gt;
+
+&lt;p&gt;Compute profiles are a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what “Small”, Medium” or “Large” means on all of the individual compute resources present for a given installation.&lt;/p&gt;
+
+&lt;p&gt;Select &lt;strong&gt;Infrastructure &amp;gt; Compute Profiles&lt;/strong&gt; There you can either edit an existing one or select
+&lt;strong&gt;New Compute Profile&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.12.16.png&quot; alt=&quot;New Compute Profile&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Give it a meaningful name and after submitting select the &lt;strong&gt;Compute Resource&lt;/strong&gt; to edit the details for.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.12.29.png&quot; alt=&quot;Compute Profile List&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.12.50.png&quot; alt=&quot;Compute Profile Compute Resource&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Foreman is now ready to create your instance, however, in order to
+automate fully puppet to load upon instance launch, we need to associate
+the correct user-data, this is where the provisioning templates
+comes into play.&lt;/p&gt;
+
+&lt;h3 id=&quot;configuring-provisioning-templates&quot;&gt;Configuring Provisioning Templates&lt;/h3&gt;
+
+&lt;p&gt;Add or edit a provisioning template, &lt;strong&gt;Hosts &amp;gt; Provisioning Templates&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can use the search box that will also suggest search terms to find the type
+of template you’re looking for.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.13.41.png&quot; alt=&quot;Template search&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I will be using the ‘Preseed default user data’ template. Select the
+&lt;strong&gt;Association&lt;/strong&gt; tab&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.14.19.png&quot; alt=&quot;Template Association&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You need to select the Operating system this user-data can be used on.&lt;/p&gt;
+
+&lt;h3 id=&quot;operating-systems&quot;&gt;Operating systems&lt;/h3&gt;
+
+&lt;p&gt;The Operating system must now be edited to use the associated template.
+Go to &lt;strong&gt;Hosts &amp;gt; Operating Systems&lt;/strong&gt; and select the OS. There go to the
+&lt;strong&gt;Templates&lt;/strong&gt; tab. There select the wanted user_data template to use.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.15.19.png&quot; alt=&quot;Operating System&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;actual-instance-launch&quot;&gt;Actual instance launch&lt;/h3&gt;
+
+&lt;p&gt;Goto to the &lt;strong&gt;Hosts&lt;/strong&gt; tab, click on &lt;strong&gt;New Host&lt;/strong&gt;, among other settings,
+make sure you select your compute resource,  image and hardware profile&lt;/p&gt;
+
+&lt;h4 id=&quot;primary-tab&quot;&gt;Primary tab&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.17.36.png&quot; alt=&quot;Primary tab&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;interfaces-tab&quot;&gt;Interfaces tab&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.18.06.png&quot; alt=&quot;Interfaces tab&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;operating-system-tab&quot;&gt;Operating System tab&lt;/h4&gt;
+
+&lt;p&gt;Select the correct values and click the &lt;strong&gt;Resolve&lt;/strong&gt; button to link the template.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.18.25.png&quot; alt=&quot;Operating System tab&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;virtual-machine-tab&quot;&gt;Virtual Machine tab&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.20.54.png&quot; alt=&quot;Virtual Machine tab&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;progress-bar&quot;&gt;Progress bar&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.21.58.png&quot; alt=&quot;Progress bar&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;completed-host&quot;&gt;Completed Host&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.22.14.png&quot; alt=&quot;Completed Host&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;ec2-console&quot;&gt;EC2 Console&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2016-02-03-ec2-provisioning-using-foreman-update/Screenshot_2016-02-03_15.31.02.png&quot; alt=&quot;Progress bar&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now your host is ready for use. :-)&lt;/p&gt;</content><author><name>Stefan - Zipkid - Goethals, VRT.be</name></author><category term="ec2" /><category term="puppet" /><category term="foreman" /><category term="provisioning" /><category term="aws" /><category term="uuid" /><category term="virtualizaition" /><summary>Back in 2012 Ohad Levy wrote an excellent blog post on this subject. The concepts and steps to perform he explains are still mainly correct and relevant but the UI has changed enough to justify a new post. A lot of time has passed since then and many Foreman versions, with many improvements and changes, have passed. It is time for an updated HOWTO on this subject. This post will mainly be a shameless copy-paste of his post with updated names, details and screenshots to accommodate the differences between version 0.5 and 1.10.</summary></entry><entry><title>Locations, Organizations and RBAC</title><link href="http://theforeman.org/2016/01/locations-organizations-rbac.html" rel="alternate" type="text/html" title="Locations, Organizations and RBAC" /><published>2016-01-15T14:25:45+00:00</published><updated>2016-01-15T14:25:45+00:00</updated><id>http://theforeman.org/2016/01/locations-organizations-rbac</id><content type="html" xml:base="http://theforeman.org/2016/01/locations-organizations-rbac.html">&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+
+&lt;p&gt;We are a fairly large company consisting of eight offices and three data
+centers. Between these eight offices and three data centers we have about six
+organizations and about 20 products made available to our members. Each of these
+organizations have developers and system administrators that help manage and
+maintain their servers. For this reason we needed to build Foreman in a way
+where everyone can manage their servers and keep Enterprise Technologies from
+being a bottleneck.&lt;/p&gt;
+
+&lt;h3 id=&quot;locations-and-organizations&quot;&gt;Locations and Organizations&lt;/h3&gt;
+
+&lt;p&gt;Locations was a no brainer for us. With eight offices and three data centers we
+definitely needed a way to classify the location of our hosts and in turn use
+that classification to help configure our hosts with certain location specific
+data. Enabling Locations in Foreman solved this for us since the location
+parameter can be used as part of Hiera. The main caveat here is that each host
+has to have the location assigned correctly, but when you are provisioning via
+Foreman and have all of your filters configured you will learn pretty quickly
+if you have the wrong location selected. For existing hosts that we were
+migrating into our new deployment we wrote a custom Fact that sets the host
+location based on the subnet. We simply then changed the setting in Foreman to
+look at the custom Fact ($location) for setting the location value rather than the default
+$foreman_location.&lt;/p&gt;
+
+&lt;p&gt;Hiera Location Example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@devbrain hieradata]# ls
+application  common.eyaml  domain  environment  location  node  organization  osfamily  security_zone  vtl
+[root@devbrain hieradata]# cd location/
+[root@devbrain location]# ls
+ashburn.eyaml  austin.eyaml  aws.eyaml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Location Fact Source:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;require &#39;ipaddr&#39;
+ashburn = [
+  IPAddr.new(&quot;subnet/16&quot;),
+  IPAddr.new(&quot;subnet/23&quot;),
+  IPAddr.new(&quot;subnet/23&quot;),
+]
+
+austin = [
+  IPAddr.new(&quot;subnet/16&quot;),
+  IPAddr.new(&quot;subnet/23&quot;),
+  IPAddr.new(&quot;subnet/23&quot;),
+  IPAddr.new(&quot;subnet/24&quot;),
+]
+
+aws = [
+  IPAddr.new(&quot;subnet/16&quot;),
+]
+
+Facter.add(&quot;location&quot;) do
+  setcode do
+    network = Facter.value(:ipaddress)
+
+    case
+      when ashburn.any? { |i| i.include?(network)}
+        &#39;ashburn&#39;
+      when austin.any? { |i| i.include?(network)}
+        &#39;austin&#39;
+      when aws.any? { |i| i.include?(network)}
+        &#39;aws&#39;
+      else
+        &#39;unknown&#39;
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Example Locations:
+&lt;img src=&quot;/static/images/blog_images/2016-01-15-example_locations.png&quot; alt=&quot;Foreman
+Locations&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Organizations was something that we knew was necessary but were not really sure
+the best way to implement them. At first we thought that we would have enough
+control by having each product be an organization. This quickly broke down as we
+learned that each product team has shared human resources at some level. In turn
+we were going to be forced to grant users permissions to multiple organizations
+which is something we wanted to avoid. Ultimately we decided to take a different
+approach than we had originally planned and set each organization to the most
+over-arching group that we could. This solved our issue with granting users
+permissions to multiple organizations but now we were faced with the challenge
+of setting granular permissions per product. We also use the organization
+parameter in Hiera since their are some (very few) configurations that are
+organization specific. We did not write any custom Fact since the only object we
+could base it off of would be the hostname. As we all know hostnames are
+inherently not reliable so it would be bad practice.&lt;/p&gt;
+
+&lt;p&gt;Hiera Organization Example:
+&lt;em&gt;this is a brief example but other scenarios could be host access/user
+permissions or other monitoring configurations&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@devbrain hieradata]# ls
+application  common.eyaml  domain  environment  location  node  organization  osfamily  security_zone  vtl
+[root@devbrain hieradata]# cd organization/
+[root@devbrain organization]# ls
+crimson.eyaml  eab.eyaml  ent.eyaml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Example Organizations:
+&lt;img src=&quot;/static/images/blog_images/2016-01-15-example_organizations.png&quot; alt=&quot;Foreman
+Organizations&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;enter-host-groups&quot;&gt;Enter Host Groups&lt;/h4&gt;
+
+&lt;p&gt;Host groups can be a challenge, and if implemented incorrectly you are left with
+an inefficient nested structure that spirals out of control and leaves you with
+thousands of groups. We know. . . we did this. . . we have this. . . we are
+getting rid of this. Host groups are almost a necessary evil in the sense that
+they add complexity to your implementation however you need them for your
+implementation to be useful. We iterated over our host group structure for weeks
+before we settled on one that suited all of our needs. We ultimately ended up
+with what you see below.&lt;/p&gt;
+
+&lt;p&gt;Example Host Group for Products:
+&lt;img src=&quot;/static/images/blog_images/2016-01-15-example_hostgroups.png&quot; alt=&quot;Foreman Host
+Groups&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Example Host Group for Enterprise Wide Tools:
+&lt;img src=&quot;/static/images/blog_images/2016-01-15-example_hostgroups_2.png&quot; alt=&quot;Foreman Host
+Groups&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This structure allows us to grant users permissions to their organizaton and then
+the subsequent host group. For teams that oversee all products in an organization
+(it is rare but some do exist) their permissions stop at the organization with
+no additional filters for host groups.&lt;/p&gt;
+
+&lt;h3 id=&quot;role-based-access-control-rbac&quot;&gt;Role Based Access Control (RBAC)&lt;/h3&gt;
+
+&lt;p&gt;We have two main roles for each product; a user role and an admin role. There
+are a few groups that are full administrators and a couple groups that have
+specialty roles such as our architects and Strategic Planning teams.&lt;/p&gt;
+
+&lt;p&gt;The admin role for a product allows users to build, configure, destroy and power
+cycle their hosts; basically they are the equivalent of a full administrator but
+for a small subset of the environment. The only restriction we put in place is
+that they are unable to power cycle or destroy hosts in the production environment.&lt;/p&gt;
+
+&lt;p&gt;The user role for a product is mostly the equivelant of the default viewer role.
+These users are still restricted to their own product but they cannot build,
+create, destroy, power cycle or edit hosts. They can view and search hosts, facts
+and reports. These users can also view trend data as well as create trends.These
+roles are primarily for non technical members of teams that still need to search and
+find information on their hosts.&lt;/p&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;This is definitely still a work in progress as we do not currently have all of
+our teams integrated and using Foreman to manage their hosts. We do believe that
+the structure we have worked out and the standards we wrapped around it will
+scale accordingly though. Pending any product rebranding, which does happen but
+I feel you can not plan for that, we should be able to accurately grant
+permissions for any scenario. There is always the possibility of user error when
+creating a new location (rare), organization (rare) or host group (common) but
+configuring those properly falls under the responsibility of the administrator
+assigned the task. The bigger unknown is creating new roles with different sets
+of permissions we have not done before. I find it always is somewhat of a
+guessing game with trial and error to get the permissions 100% correct for a new
+role.&lt;/p&gt;
+
+&lt;p&gt;Stay tuned as this is only a small part of our infrastructure as a service
+objective.&lt;/p&gt;</content><author><name>Christopher Pisano - The Advisory Board Company</name></author><category term="foreman" /><category term="multi-tenancy" /><summary>This will discuss our need to build a multi-tenant Foreman implementation and
+the necessity of Organizations, Locations and RBAC to do so.</summary></entry><entry><title>Foreman Community Newsletter - January 2016</title><link href="http://theforeman.org/2016/01/foreman-community-newsletter-january-2016.html" rel="alternate" type="text/html" title="Foreman Community Newsletter - January 2016" /><published>2016-01-15T00:00:00+00:00</published><updated>2016-01-15T00:00:00+00:00</updated><id>http://theforeman.org/2016/01/foreman-community-newsletter-january-2016</id><content type="html" xml:base="http://theforeman.org/2016/01/foreman-community-newsletter-january-2016.html">&lt;h3 id=&quot;foreman-110-is-out&quot;&gt;Foreman 1.10 is out&lt;/h3&gt;
+&lt;p&gt;Foreman 1.10 was released on 23rd of December 2015 making it an early Christmas present. The headline features include &lt;a href=&quot;https://www.youtube.com/watch?v=MxPtzWhiE1o&quot;&gt;orchestration rebuilder&lt;/a&gt; for rebuilding hosts’ DHCP, DNS and TFTP records, &lt;a href=&quot;https://www.youtube.com/watch?v=2FNLwf5Z47A&quot;&gt;global statuses&lt;/a&gt; for hosts, host and host group cloning improvements, support for &lt;a href=&quot;https://www.youtube.com/watch?v=eXRiCYjmXBk&quot;&gt;unsetting attributes&lt;/a&gt;, enhanced DNS plugin support and &lt;a href=&quot;https://www.youtube.com/watch?v=hXl70osESlQ&quot;&gt;parameter improvements&lt;/a&gt;. Full release notes can be found &lt;a href=&quot;http://theforeman.org/manuals/1.10/index.html#Releasenotesfor1.10&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;katello-24-is-out&quot;&gt;Katello 2.4 is out&lt;/h3&gt;
+&lt;p&gt;Katello 2.4 which brings a number of improvements was released on 5th of January 2016, shortly after Foreman’s 1.10 release. This release provides compatibility with Foreman 1.10, migrates most objects from Elasticsearch to scoped_search and lots of improvements and bug fixes. Check out the &lt;a href=&quot;http://www.katello.org/docs/2.4/release_notes/release_notes.html&quot;&gt;release notes&lt;/a&gt; for a full list of updates.&lt;/p&gt;
+
+&lt;p&gt;Thanks to everyone who contributed to these releases - code, testing, bug reports, translations, your efforts are very much appreciated!&lt;/p&gt;
+
+&lt;h3 id=&quot;new-and-updated-plugins-since-last-decembers-newsletter&quot;&gt;New and updated plugins since last December’s newsletter&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman-tasks&quot;&gt;foreman-tasks&lt;/a&gt; updated to 0.7.10 on 7th of January 2016&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_setup&quot;&gt;foreman_setup&lt;/a&gt; updated to 3.1.0 on 6th of January 2016&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_templates&quot;&gt;foreman_templates&lt;/a&gt; updated to 2.0.3 on 6th of January 2016&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/smart_proxy_remote_execution_ssh&quot;&gt;smart_proxy_remote_execution_ssh&lt;/a&gt; updated to 0.0.10 on 22nd of December 2015&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman-docker&quot;&gt;foreman-docker&lt;/a&gt; updated to 2.0.0 on 18th of December 2015&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman-one&quot;&gt;foreman-one&lt;/a&gt; updated to 0.4 on 18th of December 2015&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/smart_proxy_chef&quot;&gt;smart_proxy_chef&lt;/a&gt; updated to 0.1.6 on 18th of December 2015&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/chef-handler-foreman&quot;&gt;chef-handler-foreman&lt;/a&gt; updated to 0.1.1 on 18th of December 2015&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_remote_execution&quot;&gt;foreman_remote_execution&lt;/a&gt; updated to 0.1.2 on 17th of December 2015&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer-cli&quot;&gt;hammer-cli&lt;/a&gt; updated to 0.5.1 on 15th of December
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer-cli-foreman&quot;&gt;hammer-cli-foreman&lt;/a&gt; updated to 0.5.1 on 14th of December&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/hammer_cli_foreman_remote_execution&quot;&gt;hammer_cli_foreman_remote_execution&lt;/a&gt; updated to 0.0.2 on 17th of December 2015&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;new-media-and-blogs&quot;&gt;New media and blogs&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The latest &lt;a href=&quot;https://www.youtube.com/watch?v=gvOFbmZO1yM&amp;amp;list=PLLTIBSsvp9qQwNxhQVtaqNNkMkvsHldGA&quot;&gt;community demo&lt;/a&gt; took place on December 10th. Highlights:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=0&quot;&gt;Bare metal image-based provisioning (lzap)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=575&quot;&gt;Remote execution: CLI (stbenjam)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=840&quot;&gt;Remote execution: Recurrence (aruzicka)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=1220&quot;&gt;Remote execution: Effective user (inecas)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=1675&quot;&gt;Parameter UI improvements (tbrisker)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=2062&quot;&gt;Hammer: Setting parameters for Taxonomies (tstrachota)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=2256&quot;&gt;Hammer: Setting CLI defaults (aglodboi)&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://youtu.be/gvOFbmZO1yM?t=2785&quot;&gt;Community updates (gwmngilfen)&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;We held a deep dive about &lt;a href=&quot;https://www.youtube.com/watch?v=D4cON77hmnI&quot;&gt;Taxonomies&lt;/a&gt; with Daniel Lobato Garcia, covering used Models, how they interact with Roles and Filters and how they interact with other plugins. Thanks Daniel!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;upcoming-events&quot;&gt;Upcoming events&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;There is another &lt;a href=&quot;https://www.youtube.com/watch?v=0BSnlUkCC7I&quot;&gt;Deep Dive&lt;/a&gt; planned for Tuesday January 19th, where Dmitri Dolguikh will be talking about the Smart Proxy, aiming to provide an overview of proxy plugins and plugin providers, validators, events and event reporting.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://fosdem.org/2016/&quot;&gt;FOSDEM&lt;/a&gt; takes place on 30th and 31st of January, where in the Virt/IAAS devroom, Oved Ourfali will be doing a talk on “Bringing Host Lifecycle and Content Management into oVirt”. In this talk Oved will give an overview of oVirt, Foreman, and Katello , and show how we use the latter two in oVirt to give a Powerful Virtualizaed Data-Center Management system. More details are available in &lt;a href=&quot;https://fosdem.org/2016/schedule/event/virt_iaas_host_lifecycle_content_management_in_ovirt/&quot;&gt;talk details&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://cfgmgmtcamp.eu/&quot;&gt;Config Management Camp&lt;/a&gt; takes place on 1st and 2nd of February and Foreman will have dedicated track there. List of Foreman related talks from all tracks includes:
+    &lt;ul&gt;
+      &lt;li&gt;Case study: Dynamic management of heterogeneous test environments using Foreman by Shimon Stein&lt;/li&gt;
+      &lt;li&gt;Hosts’ Lifecycle with Ansbile and Foreman by Daniel Lobato&lt;/li&gt;
+      &lt;li&gt;Community Update by Greg Sutcliffe&lt;/li&gt;
+      &lt;li&gt;Intro to parameters in Foreman by Tomer Brisker&lt;/li&gt;
+      &lt;li&gt;Demystifying the Foreman by Julien Pivotto&lt;/li&gt;
+      &lt;li&gt;Foreman and remote execution by Marek Hulan&lt;/li&gt;
+      &lt;li&gt;Security and Compliance reports in foreman by Shlomi Zadok&lt;/li&gt;
+      &lt;li&gt;PXEless discovery by Stephen Benjamin&lt;/li&gt;
+      &lt;li&gt;There’s a plugin for that by Greg Sutcliffe&lt;/li&gt;
+      &lt;li&gt;Extending operating systems support of Foreman by Michael Moll&lt;/li&gt;
+      &lt;li&gt;Foreman and PowerDNS by Ewoud Kohl van Wijngaarden&lt;/li&gt;
+      &lt;li&gt;Infrastructure as code, foreman_provision by Nils Domrose&lt;/li&gt;
+      &lt;li&gt;SaltStack integration with Foreman by Stephen Benjamin&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;We will be holding the &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/62yYbdDlojU&quot;&gt;annual Foreman dinner&lt;/a&gt; on January 30th in Brussels. Please sign up via &lt;a href=&quot;https://plus.google.com/events/co1nia0c7g6hk9b4msf98517s1o&quot;&gt;G+&lt;/a&gt; or by mail to &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#103;&amp;#114;&amp;#101;&amp;#103;&amp;#046;&amp;#115;&amp;#117;&amp;#116;&amp;#099;&amp;#108;&amp;#105;&amp;#102;&amp;#102;&amp;#101;&amp;#064;&amp;#103;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;Greg&lt;/a&gt; if you wish to join us, so that we know how many seats to reserve at the restaurant.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;We will also have a &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/Vx_2Z_QC9j8&quot;&gt;Foreman construction day&lt;/a&gt; in Ghent right after Config Management Camp, on February 3rd. Please sign up via &lt;a href=&quot;https://www.eventbrite.com/e/foreman-construction-day-registration-19911909056&quot;&gt;Eventbrite&lt;/a&gt; if you intend to attend.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;For more details see this &lt;a href=&quot;http://theforeman.org/2016/01/upcoming-conferences-and-events-in-the-foreman-community.html&quot;&gt;post&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Adam Ruzicka</name></author><category term="foreman" /><category term="katello" /><category term="newsletter" /><summary>Foreman 1.10 and Katello 2.4 released. Read on for details of new plugin releases, upcoming events, and new recordings to watch!</summary></entry><entry><title>Upcoming conferences and events in the Foreman Community</title><link href="http://theforeman.org/2016/01/upcoming-conferences-and-events-in-the-foreman-community.html" rel="alternate" type="text/html" title="Upcoming conferences and events in the Foreman Community" /><published>2016-01-11T16:49:09+00:00</published><updated>2016-01-11T16:49:09+00:00</updated><id>http://theforeman.org/2016/01/upcoming-conferences-and-events-in-the-foreman-community</id><content type="html" xml:base="http://theforeman.org/2016/01/upcoming-conferences-and-events-in-the-foreman-community.html">&lt;p&gt;With FOSDEM, ConfigManagement Camp, DevConf, and our first ever Foreman
+Construction Day fast approaching, I thought you might like a bit more detail
+on our plans. Read on if you do!&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h2 id=&quot;fosdem-2016httpsfosdemorg-30-31-january-brussels&quot;&gt;&lt;a href=&quot;https://fosdem.org&quot;&gt;FOSDEM 2016&lt;/a&gt;, 30-31 January, Brussels&lt;/h2&gt;
+
+&lt;p&gt;Once again a large part of the Foreman Community will be gathered in Brussels
+for FOSDEM 2016. We have been granted a booth (I assume it will be in K
+building, as per previous years) which we’ll again be sharing with the oVirt
+team. We’ll have a nice Foreman/oVirt demo in place, as well as a variety of
+swag for you to get. There should be Foreman people around the stand at any
+time, so drop by and say hi!&lt;/p&gt;
+
+&lt;p&gt;For talks, check out the Config Management, Virtualization, and Container
+devrooms for things that are relevant to Foreman. Oved Ourfali will be giving a
+talk on oVirt/Foreman integration - see
+&lt;a href=&quot;https://fosdem.org/2016/schedule/event/virt_iaas_host_lifecycle_content_management_in_ovirt&quot;&gt;the schedule&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;There’s also going to be a Foreman Community dinner on the Saturday night
+(30th). Venue is still to be confirmed, but if you want to join us, the latest
+are on the &lt;a href=&quot;https://plus.google.com/b/102496134326414788199/events/co1nia0c7g6hk9b4msf98517s1o&quot;&gt;Google+ event&lt;/a&gt;.
+Sign up there, or mail me directly if you’re not a fan of G+.&lt;/p&gt;
+
+&lt;h2 id=&quot;configmanagement-camp-2016httpscfgmgmtcampeu-1-2-february-ghent&quot;&gt;&lt;a href=&quot;https://cfgmgmtcamp.eu&quot;&gt;ConfigManagement Camp 2016&lt;/a&gt;, 1-2 February, Ghent&lt;/h2&gt;
+
+&lt;p&gt;Immediately after FOSDEM, we’ll shift location to the beautiful city of Ghent
+for our annual track at ConfigManagement camp. The Foreman track is now
+&lt;a href=&quot;https://cfgmgmtcamp.eu/schedule/index.html#foreman&quot;&gt;published&lt;/a&gt; and looks
+fantastic! If you don’t already have your ticket, get on the
+&lt;a href=&quot;https://cfgmgmtcamp.eu/#registration&quot;&gt;waiting list&lt;/a&gt; now, and hopefully we can
+squeeze you in.&lt;/p&gt;
+
+&lt;p&gt;Socially, there’s a general drinkup event on Monday for the whole conference,
+and no doubt something impromptu will happen on Tuesday night. Which leads us
+to…&lt;/p&gt;
+
+&lt;h2 id=&quot;foreman-construction-dayhttpswwweventbritecomeforeman-construction-day-registration-19911909056-3-february-ghent&quot;&gt;&lt;a href=&quot;https://www.eventbrite.com/e/foreman-construction-day-registration-19911909056&quot;&gt;Foreman Construction Day&lt;/a&gt;, 3 February, Ghent&lt;/h2&gt;
+
+&lt;p&gt;Immediately after CfgMgmtCamp, and in the same venue, we’ll be holding our first ever
+&lt;a href=&quot;https://www.eventbrite.com/e/foreman-construction-day-registration-19911909056&quot;&gt;Foreman Construction Day&lt;/a&gt;.
+This is a new event for us, and we’re essentially aiming to have a
+slightly-structured hack day. Roughly, the agenda for the day is:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;09.30 Welcome / Introductions / Decide focus groups&lt;/li&gt;
+  &lt;li&gt;10:00 Hack session 1 (with break around 11am)&lt;/li&gt;
+  &lt;li&gt;12:00 Re-group to discuss progress so far / discuss roadblocks&lt;/li&gt;
+  &lt;li&gt;12:40 Lunch&lt;/li&gt;
+  &lt;li&gt;14:00 Hack session 2 (with break around 3pm)&lt;/li&gt;
+  &lt;li&gt;15:20 Re-group to present results / further work&lt;/li&gt;
+  &lt;li&gt;16:00 End&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Since this is a hack event, times are only approximate. The aim is to dicuss
+(probably with the help of a whiteboard) some of the things we can use
+in-person time to solve. These don’t &lt;em&gt;have&lt;/em&gt; to be coding - I personally hope to
+recruit some people to help me brainstorm community things. All attendees are
+welcome to submit ideas for forming a group around (this is similar to the
+‘unconference’ style of talk planning).&lt;/p&gt;
+
+&lt;p&gt;Once we have enough topics for everyone to get involved in, we’ll spend most of
+the morning getting started. Just before lunch, we can all get back together to
+talk about how we’re doing. The afternoon is pretty similar in structure. A
+more detailed agenda is on the
+&lt;a href=&quot;https://www.eventbrite.com/e/foreman-construction-day-registration-19911909056&quot;&gt;Eventbrite page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since we’re in the same venue, the same catering applies as for
+ConfigManagement - we’ll be getting breakfast, lunch, and coffee/cake during
+breaks. We should have a couple of rooms, so there’s space to spread out and
+get things done.&lt;/p&gt;
+
+&lt;p&gt;If you’re interested in being part of this, and aren’t signed up yet, please
+grab a (free!) ticket at the event link above - tickets mean we can get the
+catering numbers right :)&lt;/p&gt;
+
+&lt;h2 id=&quot;devconf-2016httpdevconfcz-5-7-february-brno&quot;&gt;&lt;a href=&quot;http://devconf.cz&quot;&gt;DevConf 2016&lt;/a&gt;, 5-7 February, Brno&lt;/h2&gt;
+
+&lt;p&gt;Finally, if you’re not conferenced-out by then, we’ll also have a booth at
+DevConf 2016, Brno, Czech Republic. We’ve nothing official planned socially for
+this one, but I’ve no doubt that we could get up to some mischief if we get
+enough of us together. If you’re in the area, do drop by!&lt;/p&gt;
+
+&lt;h1 id=&quot;wrap-up&quot;&gt;Wrap up&lt;/h1&gt;
+
+&lt;p&gt;So, it’s a hectic schedule for the next month - I’m currently busy finalising
+all the things above. If you’re going to be at any of these events, come and
+introduce yourself; it’s always great to put names (or IRC nicks) to faces!&lt;/p&gt;
+
+&lt;p&gt;If you can’t make it, at least wave in the comments below - and let us know
+where else we should be planning to be in the future,&lt;/p&gt;</content><author><name>Greg Sutcliffe</name></author><category term="foreman" /><category term="community" /><category term="events" /><category term="fosdem" /><category term="cfgmgmtcamp" /><category term="devconf" /><category term="contributing" /><summary>With FOSDEM, ConfigManagement Camp, DevConf, and our first ever Foreman
+Construction Day fast approaching, I thought you might like a bit more detail
+on our plans. Read on if you do!</summary></entry><entry><title>Foreman Community Newsletter - December 2015</title><link href="http://theforeman.org/2015/12/foreman-community-newsletter-december-2015.html" rel="alternate" type="text/html" title="Foreman Community Newsletter - December 2015" /><published>2015-12-09T00:00:00+00:00</published><updated>2015-12-09T00:00:00+00:00</updated><id>http://theforeman.org/2015/12/foreman-community-newsletter-december-2015</id><content type="html" xml:base="http://theforeman.org/2015/12/foreman-community-newsletter-december-2015.html">&lt;h3 id=&quot;foreman-110-rc3-is-out-110-expected-soon&quot;&gt;Foreman 1.10 RC3 is out, 1.10 expected soon&lt;/h3&gt;
+
+&lt;p&gt;Several regressions that were discovered in the release candidates have delayed the final release of 1.10.
+In an attempt to deliver a stable version, we have decided to postpone the release until those issues are resolved.
+If all goes well, the final 1.10 version should be released within a few days.
+Thank you to all involved in testing and fixing the RCs, this helps us maintain a high standard for our releases!&lt;/p&gt;
+
+&lt;h3 id=&quot;katello-24-rc3-is-out-24-expected-soon&quot;&gt;Katello 2.4 RC3 is out, 2.4 expected soon&lt;/h3&gt;
+
+&lt;p&gt;Katello 2.4 is planned to be released in alignment with Foreman 1.10.
+This release will primarily provide compatibility with Foreman 1.10, convert most objects from Elasticsearch to scoped search and fix a number of bugs.
+Check out the &lt;a href=&quot;http://www.katello.org/docs/2.4/release_notes/release_notes.html&quot;&gt;release notes&lt;/a&gt; for a full list of updates.
+Please help us with testing this RC so the final release will be as solid as possible!&lt;/p&gt;
+
+&lt;h3 id=&quot;new-and-updated-plugins-this-month&quot;&gt;New and updated plugins this month&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_openscap&quot;&gt;foreman_openscap&lt;/a&gt; and
+&lt;a href=&quot;https://github.com/theforeman/smart_proxy_openscap&quot;&gt;smart_proxy_openscap&lt;/a&gt;
+0.5.0 was released Novemeber 1st. Please note, this version is only compatible with Foreman 1.11 (current develop branch).&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_remote_execution&quot;&gt;foreman_remote_execution&lt;/a&gt;
+0.1.1 was released November 12th.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman-xen&quot;&gt;foreman-xen&lt;/a&gt;
+0.2.3 (for Foreman &amp;gt;= 1.10) and 0.1.7 (for older versions) were released Novemeber 17th.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman-tasks&quot;&gt;foreman-tasks&lt;/a&gt;
+0.7.7 was released December 1st.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/theforeman/foreman_templates&quot;&gt;foreman_templates&lt;/a&gt; 2.0.1 was released December 2nd, which includes an important bug fix for template prefixes.&lt;/li&gt;
+  &lt;li&gt;The &lt;a href=&quot;https://github.com/dLobatog/foreman_ansible&quot;&gt;foreman_ansible&lt;/a&gt; plugin is nearing its 1.0 release. It now supports (amongst other things) importing nested facts, measures playbook runtime and allows callbacks to use SSL, amongst other features.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;other-updates&quot;&gt;Other Updates&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;An initial &lt;a href=&quot;http://theforeman.org/handbook.html&quot;&gt;Developer Handbook&lt;/a&gt; has been created to ease the entry of new contributers and help maintain high standards of existing ones.
+Feel free to fork and open a pull request if you feel some important information is missing!&lt;/li&gt;
+  &lt;li&gt;A &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-dev/jiOx3_WeGmg&quot;&gt;discussion&lt;/a&gt; has taken place over the developer mailing list on increasing code review, which has been summarized up into a &lt;a href=&quot;http://theforeman.org/2015/11/tackling_review_culture.html&quot;&gt;blog post&lt;/a&gt; by Greg Sutcliffe.&lt;/li&gt;
+  &lt;li&gt;A new &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/3RYfo0S5c8M&quot;&gt;feature&lt;/a&gt; is planned to provide more information about smart proxies in Foreman, we would be happy to hear your input on this matter.&lt;/li&gt;
+  &lt;li&gt;The Foreman installer has been updated to drop puppet 2.7 support starting with the next version of Foreman (1.11).
+For more information please read the &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/YQNfxUzG_As&quot;&gt;announcement&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;The development infrastructure has seen some updates - Redmine has been updated to version 2.6.9 and Jenkins has been updated to version 1.625.2.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;new-media-and-blogs&quot;&gt;New media and blogs&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The latest &lt;a href=&quot;https://www.youtube.com/watch?v=RCqwTtIXRSw&quot;&gt;community demo&lt;/a&gt; took place on November 19th. Highlights:
+    &lt;ul&gt;
+      &lt;li&gt;yum repo export/import (beav) - https://www.youtu.be/RCqwTtIXRSw&lt;/li&gt;
+      &lt;li&gt;remote execution iteration 4 (stbenjam) - https://www.youtu.be/RCqwTtIXRSw?t=502&lt;/li&gt;
+      &lt;li&gt;foreman_ansible updates (dlobatog) - https://www.youtu.be/RCqwTtIXRSw?t=743&lt;/li&gt;
+      &lt;li&gt;scoped search for content hosts/subscriptions (jomitsch) - https://www.youtu.be/RCqwTtIXRSw?t=1501&lt;/li&gt;
+      &lt;li&gt;Rails 4 migration (the_doctor) - https://www.youtu.be/RCqwTtIXRSw?t=1689&lt;/li&gt;
+      &lt;li&gt;compliance reports for foreman_openscap (oprazak) - https://www.youtu.be/RCqwTtIXRSw?t=2201&lt;/li&gt;
+      &lt;li&gt;community announcements (gwmngilfen) - https://www.youtu.be/RCqwTtIXRSw?t=2359&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;We held a deep dive about &lt;a href=&quot;https://www.youtube.com/watch?v=_R8-0KAkoPc&quot;&gt;Windows Imaging&lt;/a&gt; with Daniel Helgenberger. Thanks Daniel!&lt;/li&gt;
+  &lt;li&gt;We continuted our user case study series with Chris “discr33t” Pisano talking about his &lt;a href=&quot;https://www.youtube.com/watch?v=bJ5a67SSA-s&quot;&gt;High Availability&lt;/a&gt; setup with Foreman. He has also summarized his proccess in a &lt;a href=&quot;http://theforeman.org/2015/12/journey_to_high_availability.html&quot;&gt;blog post&lt;/a&gt;. Thanks Chris!&lt;/li&gt;
+  &lt;li&gt;Lukas Zapletal (lzap) gave a talk about Foreman at the Pilsen University. Read his report &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-dev/l3-4a6pQTZU&quot;&gt;here&lt;/a&gt;. Thanks Lukas!&lt;/li&gt;
+  &lt;li&gt;Daniel Lobato Garcia (dlobatog) gave a talk about &lt;a href=&quot;https://speakerdeck.com/elobato/20-actionable-tips-to-secure-your-rails-application-rails-israel-15&quot;&gt;Rails security&lt;/a&gt; at the Rails Israel conference. He also joined the Israeli Foreman team members to show off the project at the Red Hat booth.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;upcoming-events&quot;&gt;Upcoming events&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;This Thursday (December 10th) is community demo time again.
+Check out the &lt;a href=&quot;http://projects.theforeman.org/projects/foreman/wiki/Current_Sprint_Information&quot;&gt;Latest Demo Information&lt;/a&gt; page for agenda and viewing links.&lt;/li&gt;
+  &lt;li&gt;Another Deep Dive will take place on Monday December 14th, where Daniel Lobato will be talking about &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/Vk-4gukujgk/discussion&quot;&gt;Taxonomies&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;The CFP for &lt;a href=&quot;https://fosdem.org/&quot;&gt;FOSDEM&lt;/a&gt; and &lt;a href=&quot;http://cfgmgmtcamp.eu/&quot;&gt;Config Management Camp&lt;/a&gt; has closed.
+We are awaiting the agenda to be announced, hopefully with many Foreman related talks.
+Looking forward to seeing you all in Belgium on January 30 - February 2, 2016.&lt;/li&gt;
+  &lt;li&gt;We will be holding the &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/62yYbdDlojU&quot;&gt;annual Foreman dinner&lt;/a&gt; on January 30th in Brussles. Please sign up via &lt;a href=&quot;https://plus.google.com/events/co1nia0c7g6hk9b4msf98517s1o&quot;&gt;G+&lt;/a&gt; or by mail to Greg if you wish to join us, so that we know how many seats to reserve at the restaurant.&lt;/li&gt;
+  &lt;li&gt;We will also have a &lt;a href=&quot;https://groups.google.com/forum/#!topic/foreman-users/Vx_2Z_QC9j8&quot;&gt;Foreman construction day&lt;/a&gt; in Ghent right after Config Management Camp, on February 3rd. Please sign up via &lt;a href=&quot;https://www.eventbrite.com/e/foreman-construction-day-registration-19911909056&quot;&gt;Eventbrite&lt;/a&gt; if you intend to attend.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Tomer Brisker</name></author><category term="foreman" /><category term="katello" /><category term="newsletter" /><category term="openscap" /><category term="ansible" /><category term="xen" /><category term="remote execution" /><category term="high availability" /><category term="windows imaging" /><summary>Foreman 1.10 and Katello 2.4 coming soon, Developer Handbook published, High Availability and Windows Imaging deep dives</summary></entry><entry><title>Journey to High Availability</title><link href="http://theforeman.org/2015/12/journey_to_high_availability.html" rel="alternate" type="text/html" title="Journey to High Availability" /><published>2015-12-03T11:43:55+00:00</published><updated>2015-12-03T11:43:55+00:00</updated><id>http://theforeman.org/2015/12/journey_to_high_availability</id><content type="html" xml:base="http://theforeman.org/2015/12/journey_to_high_availability.html">&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+
+&lt;p&gt;We started with Foreman almost two years ago now because we simply needed a front end to Puppet and the Open Source Puppet Dashboard just didn’t fit the bill at the time. We deployed an all in one implementation as a POC using MySQL and eventually moved into production with a PostgreSQL database and two clustered external Puppet Masters. The Puppet CA lived on Foreman as well as the Smart-Proxy and we set up an unnecessary host group structure with an obscene amount of Smart-Class Parameters; we did not use Hiera at the time. As our environment grew our implementation became slower and slower. We added resources but at the end of the day it was still a single instance running the Puppet CA, Foreman webUI and the ENC/Reports functions. As we grew to over 1,000 hosts (today ~1,800) things got worse; our host groups increased, our Smart-Class Parameters increased and our performance decreased. We lived with this for some time being satisfied with the status quo until we set an initiative to deploy an implementation suitable for an enterprise. It is here where all the fun begins.&lt;/p&gt;
+
+&lt;p&gt;If you are interested in watching the live discussion on this topic here is an interview as part of the Foreman Case Study series.
+&lt;a href=&quot;https://www.youtube.com/watch?v=bJ5a67SSA-s&quot;&gt;Foreman HA Case Study&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;requirements&quot;&gt;Requirements&lt;/h3&gt;
+
+&lt;p&gt;Before the project began we needed to come up with a list of requirements the implementation needed to meet and prioritize what is necessary now and what we can implement in the future. Below is what we came up with.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;High availability at all tiers
+    &lt;ul&gt;
+      &lt;li&gt;Foreman&lt;/li&gt;
+      &lt;li&gt;Memcache&lt;/li&gt;
+      &lt;li&gt;Puppet&lt;/li&gt;
+      &lt;li&gt;PuppetDB&lt;/li&gt;
+      &lt;li&gt;CA&lt;/li&gt;
+      &lt;li&gt;Database&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This was the highest priority. We needed our implementation to be up at virtually all times. We also wanted a deployment that allowed us to test updates safely and not have to plan all maintenance for after business hours.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Built with the latest available versions that we could support
+    &lt;ul&gt;
+      &lt;li&gt;Foreman 1.9.x&lt;/li&gt;
+      &lt;li&gt;Puppet 3.8.x&lt;/li&gt;
+      &lt;li&gt;PostgreSQL 9.x&lt;/li&gt;
+      &lt;li&gt;CentOS 6.x&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We decided that our existing deployment was to be considered legacy and we were going to build everything new. Since we were starting from scratch we decided it would be best to build with the latest and greatest (within reason). Puppet 4 and CentOS 7 were just not doable at this point in time which is why we went with 3.8.x and 6.x respectively.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Provision new hosts
+    &lt;ul&gt;
+      &lt;li&gt;VMware
+        &lt;ul&gt;
+          &lt;li&gt;CentOS/RHEL&lt;/li&gt;
+          &lt;li&gt;Windows&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;AWS
+        &lt;ul&gt;
+          &lt;li&gt;CentOS&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We are close to a 100% virtual environment using mostly VMware and some AWS. Deploying hosts from two different tools just wasn’t an option moving forward. We also needed to increase the consistency of our server builds and where the new hosts lived in Foreman.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Support multiple locations
+    &lt;ul&gt;
+      &lt;li&gt;Two physical data centers&lt;/li&gt;
+      &lt;li&gt;AWS&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Because we have more than one data center and a private cloud we needed Foreman to support hosts that live in all places. Different product teams servers live in a different combination of locations and we need to be able to distinguish that for access permissions as well as reporting.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Allow product teams to manage their hosts
+    &lt;ul&gt;
+      &lt;li&gt;Equivalent of admin rights&lt;/li&gt;
+      &lt;li&gt;Only to the hosts they own&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;One of our main goals is to empower our product teams to manage their servers without having our Infrastructure Operations team be a bottleneck. In order to achieve this we need to have an organized structure of locations/organizations/host groups as well as role based access controls for users.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Integrate with DHCP and DNS
+    &lt;ul&gt;
+      &lt;li&gt;Clustered MS DHCP
+        &lt;ul&gt;
+          &lt;li&gt;One cluster in our main data center&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;MS DNS
+        &lt;ul&gt;
+          &lt;li&gt;DNS servers per location&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Part of the goal is to have Foreman manage our servers lifecycle and increase our efficiency and consistency in provisioning. We can provision without IP addresses and nobody is going to remember the IP addresses of all of their servers. An added benefit is that Foreman cleans these up when hosts are destroyed; something humans rarely do. . . or at least remember to do.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/blog_images/2015-12-03-journey_to_high_availability.png&quot; alt=&quot;Foreman Architecture&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;the-implementation&quot;&gt;The Implementation&lt;/h3&gt;
+
+&lt;h4 id=&quot;building-the-infrastructure&quot;&gt;Building the Infrastructure&lt;/h4&gt;
+
+&lt;p&gt;I will discuss building the entire deployment with the exception of the database. Our Enterprise Data Management team built and maintains our PostgreSQL backend; we just have a username, database name and password to connect with. They are using PostgreSQL 9.x and utilizing PG_Pool for high availability.&lt;/p&gt;
+
+&lt;h4 id=&quot;foreman-and-memcache-the-fun-stuff&quot;&gt;Foreman and Memcache (The fun stuff)&lt;/h4&gt;
+
+&lt;p&gt;The first thing we needed to do before building out our Foreman cluster was to actually figure out what was needed and how Foreman works on a deeper level. Naturally the first move was to go directly to the community in IRC and the Google groups to consult with others that know more than I do. There are two ways you can build your Foreman cluster; a single cluster for all functions or two separate clusters broken out for ENC/Reporting and a webUI. After doing some research into each we decided to go with the simpler single cluster knowing that in the future (sooner than we are expecting) we will need to build a second cluster dedicated to ENC/Reporting functions. Luckily this is an easy change in architecture to implement and can be done with little impact. That is for another post though, so I will focus on what we ended up doing. After some consideration we decided to go with a three node cluster (by the time this gets published it might very well be a four node cluster). We were going to originally go with a two node cluster but since our legacy stuff makes heavy use of smart-class parameters we wanted the extra node to help spread the load rendering all of the ENC data for hosts we aren’t going to migrate to our new code base. We also learned that Foreman stores it’s sessions in the database so loadbalancing wasn’t going to be as complex as we originally thought and we could actually look at implementing some cool things in the future since we don’t need to implement any type of persistence. Another important thing to know is that each Foreman server will have their hostname based Puppet certificate, but for clustering you will need to generate a generically named certificate to be distributed across your Foreman servers and used for the webUI and ENC/Reporting functions. We generated the certificate based on the URL name we were going to use.&lt;/p&gt;
+
+&lt;p&gt;It was realized pretty late in the implementation that memcache was going to be necessary to function properly. We found out that Foreman keeps a local cache of certain information that it will default to rather than continually making calls to the database. Having a multi-node cluster would mean that any of this information could be or could not be in sync at any given point in time. So to work around that we implemented two memcache servers and the &lt;a href=&quot;https://github.com/theforeman/foreman_memcache&quot;&gt;foreman_memcache&lt;/a&gt; plugin. Between the plugin and the &lt;a href=&quot;https://forge.puppetlabs.com/saz/memcached&quot;&gt;memcache Puppet module&lt;/a&gt; the setup couldn’t have been simpler and all of our data and information was kept in sync without issue across our nodes. The two memcache servers we built we kept outside the load balancer (Foreman talks directly to them) since it is not necessary given the way memcache works.&lt;/p&gt;
+
+&lt;p&gt;When it came time to configuring the loadbalancer for our Foreman cluster it was pretty straight forward. We decided to do SSL passthrough though that will most likely change in the near future. We have the loadbalancer configured to pass traffic on ports 80 and 443 however we initially set up a 443 redirect which caused some provisioning issues. Basically we had it so any http traffic to Foreman that came in on the load balancer we redirected to port 443 which broke some provisioning functionality (user_data for us) since it only works over http. Once we removed the redirect rule from the loadbalancer all provisioning issues resolved. We also temporarily ran into some authentication issues which originally seemed sporadic but we soon figured out that authentication was only working on one of our Foreman hosts. Once again by going to the community in IRC we quickly learned (and should have realized) that we needed to have the same encryption_key.rb file distributed across all Foreman hosts. We distributed the file from the working Foreman host to the others, restarted the service and all authentication issues were resolved.&lt;/p&gt;
+
+&lt;p&gt;At this point we successfully had Foreman clustered. We were able to drop nodes from the load balancer, restart services and power cycle hosts without impacting availability or performance. This was just one peice of our implementation though; we still needed our Smart-Proxies and our Puppet infrastructure.&lt;/p&gt;
+
+&lt;h4 id=&quot;smart-proxy&quot;&gt;Smart-Proxy&lt;/h4&gt;
+
+&lt;p&gt;We are currently using three forms of the Foreman Smart-Proxy; Puppet, PuppetCA, DHCP. We are looking to implement DNS soon but were unable to complete it during this timeframe. All of our Smart-Proxies are configured to talk to the URL of our Foreman cluster that passes traffic through the load balancer.&lt;/p&gt;
+
+&lt;p&gt;We were fairly new to using the DHCP Smart-Proxy and were a little unsure of how the setup and configuration was going to go. To our somewhat surprise it went rather smooth only running into two minor issues. We run MS DHCP so I quickly learned a good amount about Windows and what was needed to install and run the Smart-Proxy on a Windows host. The documentation in the manual is very good and made the install and configuration very simple. We hit two bugs which are known and hopefully we can help contribute patches to resolve them. The first was with the Smart-Proxy showing the DHCP reservations as leases and not having showing the hostnames which is tracked as &lt;a href=&quot;http://projects.theforeman.org/issues/10556#change-43516&quot;&gt;bug #10556&lt;/a&gt;. The other bug we hit was that the Smart-Proxy does not honor DHCP exclusions which is tracked as &lt;a href=&quot;http://projects.theforeman.org/issues/4171&quot;&gt;bug #4171&lt;/a&gt;. Besides those two issues everything went as expected; we were able to implement a work around for each. The first issue has a work around in the ticket and we worked around the second by being able to utilize previously unused ip space in our /23 subnets. Since we installed the Smart-Proxy on MS Server 2012R2 we did get some deprecation warning from Microsoft about netsh which we filed an issue for that is tracked as &lt;a href=&quot;http://projects.theforeman.org/issues/12394&quot;&gt;refactor #12394&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Setting up the Smart-Proxy on the Puppet CA servers was pretty straight forward and we were very familiar with it from our previous implementation. The main difference this time around was that we were going to have clustered Puppet CA servers so we needed to run a Smart-Proxy on each. We installed the Smart-Proxy via the foreman-installer and used a genericly named certificate that we can put on each host. Since the Puppet CA servers are behind a load balancer we needed to configure the load balancer to also pass traffic on 8443 for the Smart-Proxy. The Puppet CA cluster is configured to be active/passive with shared storage for the certificates so all requests will hit one host unless it becomes unavailable.&lt;/p&gt;
+
+&lt;p&gt;We are also very familiar setting up the Smart-Proxy on our Puppet servers so this was fairly trivial as well. We had previous experience setting up the Smart-Proxy on clustered Puppet masters so we followed the same process as before; genericly named certificate distributed across our Puppet servers and the Smart-Proxy installed and configured via the foreman-installer. We did implement the puppetrun feature of the Smart-Proxy utilizing puppet_ssh so we had to orchestrate the distribution of the ssh keys for the service account we planned on using. Again since our Puppet servers were to be load balanced we had to allow the load balancer to pass traffic on 8443 as well. The Puppet server cluster has all nodes active at all times so requests well be spread across any available node.&lt;/p&gt;
+
+&lt;p&gt;As I stated earlier future plans are to implement the DNS Smart-Proxy as well as implement the MS DHCP cluster ability in Server 2012R2 and then clustering the DHCP Smart-Proxy.&lt;/p&gt;
+
+&lt;h4 id=&quot;puppet&quot;&gt;Puppet&lt;/h4&gt;
+
+&lt;p&gt;I will not go into great detail about our Puppet implementation since this is a blog posting for Foreman but I will give enough of an overview to gain a decent understanding of how to build highly available Puppet. If you have any questions or just want to chat about this type of implementation and what we ran into/did in more detail feel free to ping me on IRC. Username: discr33t.&lt;/p&gt;
+
+&lt;p&gt;The foreman-installer makes this very easy since it can be used to configure your Puppet masters and Puppet CA. We started by building four Puppet masters using Puppet Server v1. This will ease our upgrade to Puppet 4 when the time comes and for the time being give us better performance and tuning capabilities of our masters. Since we wanted to have the CA separate from the masters we set CA =&amp;gt; false and specified the DNS name of what we wanted our CA server to be.&lt;/p&gt;
+
+&lt;p&gt;When going through the installer be sure to not use the hostname for any certificates for the Puppet masters, CA servers or PuppetDB servers. Since we are clustering everything we will be use generically named certificates that we will be generating on our CA. This will allow the certificate to be verified when requests hit any of the hosts in the cluster. Each of the Puppet masters, CA servers and PuppetDB servers will use their hostname based certificates when running the Puppet agent. The server setting should be set to the name of your generic certificate for your Puppet masters; similar to what you did for the CA.&lt;/p&gt;
+
+&lt;p&gt;On your load balancer of choice you will want to add all of your Puppet masters and allow the load balancer to pass traffic on ports 8443 (Smart-Proxy) and 8140 (Puppet). You should configure your load balancer so all nodes are active. If you are using version control for your code and a continuous integration server for deployments you might want to look into setting up shared storage for your Puppet environments (we did with NFS on our NetApp) and allow the load balancers to pass traffic on port 22 so your continuous integration server can log in and run your scripts to pull code. Another option would be to use a tool such as r10k.&lt;/p&gt;
+
+&lt;p&gt;While on the topic of shared storage for your Puppet masters it is not necessary but you should use shared storage for /var/lib/puppet/yaml. If you don’t you will receive a warning message until the Puppet agent for every host checks into each Puppet master at least once.&lt;/p&gt;
+
+&lt;p&gt;Again we used the foreman-installer for our CA servers and mostly followed the same process. We wanted to use Puppet Server V1, a generic name for the certificate to be used and the Foreman Smart-Proxy installed. The differences are that now we want CA =&amp;gt; true and for the Smart-Proxy you want to only enable the puppetca module. The load balancer configuration is almost identical with the exception of port 22 and you want an active/passive configuration rather than an active/active. This is because the inventory.txt file is not locked when the process runs and active/active risks corruption. You will still need to keep /var/lib/puppet/ssl in sync between the two CA servers. There are many ways to do this but we chose shared storage.&lt;/p&gt;
+
+&lt;p&gt;We wanted to institute PuppetDB for the insight it will give us into our environment and for some of the advanced features it offers. We used the &lt;a href=&quot;https://forge.puppetlabs.com/puppetlabs/puppetdb&quot;&gt;PuppetDB module&lt;/a&gt; to install and configure both PuppetDB servers, and the configuration for PuppetDB on our Puppet masters. Just like the CA servers and the Puppet masters we want to use a generically named certificates for the PuppetDB servers. There is no Smart-Proxy configuration necessary here, but PuppetDB does need to have a database backend. We chose to have our Enterprise Data Management team give us another database on the same cluster Foreman will use. The load balancer configuration is pretty straight forward; we did active/active passing traffic for ports 8080 (http for the dashboard) and 8081 (https for Puppet).&lt;/p&gt;
+
+&lt;p&gt;Once you have these three peices functional a big congratulations is in order because you have just built a highly available implementation of Puppet! Though PuppetDB is not necessary it is the icing on the cake for this part.&lt;/p&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;Through all of this we have managed to build a highly available implementation of Foreman and Puppet to help us provision and manage our infrastructure. So far things are going well but there is more we want to do and will need to do as our environment grows. We are no longer using Smart-Class parameters and are fully utilizing Hiera, though we make use of some custom made parameters in Foreman to build a better Hiera hierarchy for our environment. I hope this is helpful reading to others looking to achieve the same or similar implementations. I can’t thank the Foreman community enough for their continued help. Keep an eye out for future blog posts for how we are using Foreman to help us implement an infrastructure as a service model within our firm. An architecture diagram of our final product is linked below for those interested.&lt;/p&gt;</content><author><name>Christopher Pisano - The Advisory Board Company</name></author><category term="foreman" /><category term="puppet" /><category term="high_availability" /><summary>This is a recount of the road from an all in one Foreman implementation to a full HA deployment.
+We will also be looking forward beyond our current implementation to future plans.</summary></entry></feed>

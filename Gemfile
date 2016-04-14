@@ -27,6 +27,8 @@ gem 'turbolinks', '~> 2.5'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '1.36.0'
 gem 'net-scp'
+gem "simple-rss", "~>1.3.1"
+
 if RUBY_VERSION.start_with? '1.9.'
   gem 'net-ssh', '< 3'
   gem 'net-ldap', '>= 0.8.0', '< 0.13'
