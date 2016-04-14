@@ -210,7 +210,7 @@ class UsersControllerTest < ActionController::TestCase
     @controller.stubs(:available_sso).returns(@sso)
     @controller.stubs(:get_sso_method).returns(@sso)
     get :extlogin, {}, {}
-    get :logout, {}, {}
+    post :logout, {}, {}
     assert_redirected_to '/users/extlogout'
   end
 
@@ -385,6 +385,12 @@ class UsersControllerTest < ActionController::TestCase
       post :logout, {}, set_session_user
       assert_response :found
       assert_redirected_to "/users/login"
+    end
+
+    test "accessing logout page using GET should display confirmation" do
+      get :logout, {}, set_session_user
+      assert_response :success
+      assert @response.body.include?("Are you")
     end
   end
 end

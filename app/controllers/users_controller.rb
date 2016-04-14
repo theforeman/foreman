@@ -97,6 +97,11 @@ class UsersController < ApplicationController
   # Called from the logout link
   # Clears the rails session and redirects to the login action
   def logout
+    if request.get?
+      require_login
+      return
+    end
+
     TopbarSweeper.expire_cache(self)
     sso_logout_path = get_sso_method.try(:logout_url)
     session[:user] = @user = User.current = nil
