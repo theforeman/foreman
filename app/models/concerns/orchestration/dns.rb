@@ -43,7 +43,7 @@ module Orchestration::DNS
 
   def dns_ptr_record
     return unless reverse_dns? or @dns_ptr_record
-    @dns_ptr_record ||= Net::DNS::PTRRecord.new reverse_dns_record_attrs
+    @dns_ptr_record ||= Net::DNS::PTR4Record.new reverse_dns_record_attrs
   end
 
   def del_dns_a_record_safe

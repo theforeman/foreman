@@ -1,33 +1,59 @@
 require "resolv"
 require "timeout"
+require 'ipaddr'
 
 module Net
   module DNS
-    autoload :ARecord,   "net/dns/a_record.rb"
-    autoload :PTRRecord, "net/dns/ptr_record.rb"
+    autoload :ForwardRecord, "net/dns/forward_record.rb"
+    autoload :ARecord,       "net/dns/a_record.rb"
+    autoload :AAAARecord,    "net/dns/aaaa_record.rb"
+    autoload :ReverseRecord, "net/dns/reverse_record.rb"
+    autoload :PTR4Record,    "net/dns/ptr4_record.rb"
+    autoload :PTR6Record,    "net/dns/ptr6_record.rb"
 
     # Looks up the IP or MAC address. Handles the conversion of a DNS miss
     # exception into nil
     # [+query+]: IP or hostname
-    # Returns: a new DNS record object, A or PTR accordingly
+    # Returns: a new DNS record object, A, AAAA, PTR4 or PTR6 accordingly
     # We query DNS directly, as its faster then to query our own proxy.
-    def self.lookup(query, proxy, resolver = Resolv::DNS.new)
+    def self.lookup(query, options = {})
+      return nil unless query.present?
+
+      proxy = options.fetch(:proxy)
+      resolver = options.fetch(:resolver, Resolv::DNS.new)
+      ipfamily = options.fetch(:ipfamily, Socket::AF_INET)
+
       Timeout.timeout(Setting[:dns_conflict_timeout]) do
-        if (query =~ Validations::IP_REGEXP)
-          n = resolver.getname(query).to_s
-          i = query
-          t = "PTR"
+        ipquery = IPAddr.new(query) rescue false
+        if ipquery && ipquery.ipv4?
+          hostname = resolver.getname(query).to_s
+          ip = query
+          type = "PTR4"
+        elsif ipquery && ipquery.ipv6?
+          hostname = resolver.getname(query).to_s
+          ip = query
+          type = "PTR6"
+        elsif ipfamily == Socket::AF_INET6
+          ip = resolver.getresource(query, Resolv::DNS::Resource::IN::AAAA).address.to_s
+          hostname = query
+          type = "AAAA"
         else
-          i = resolver.getaddress(query).to_s
-          n = query
-          t = "A"
+          ip = resolver.getresource(query, Resolv::DNS::Resource::IN::A).address.to_s
+          hostname = query
+          type = "A"
         end
-        attrs = { :hostname => n, :ip => i, :resolver => resolver, :proxy => proxy }
-        case t
+
+        attrs = { :hostname => hostname, :ip => ip, :resolver => resolver, :proxy => proxy }
+
+        case type
           when "A"
             ARecord.new attrs
-          when "PTR"
-            PTRRecord.new attrs
+          when "AAAA"
+            AAAARecord.new attrs
+          when "PTR4"
+            PTR4Record.new attrs
+          when "PTR6"
+            PTR6Record.new attrs
         end
       end
     rescue Resolv::ResolvError, SocketError
@@ -37,11 +63,10 @@ module Net
     end
 
     class Record < Net::Record
-      attr_accessor :ip, :resolver, :type
+      attr_accessor :ip, :resolver, :type, :ipfamily
 
       def initialize(opts = { })
         super(opts)
-        self.ip = Validations.validate_ip! self.ip
         self.resolver ||= Resolv::DNS.new
       end
 
@@ -58,8 +83,8 @@ module Net
         raise "Abstract class"
       end
 
-      def dns_lookup(ip_or_name)
-        DNS.lookup(ip_or_name, proxy, resolver)
+      def dns_lookup(ip_or_name, ipfamily = nil)
+        DNS.lookup(ip_or_name, :proxy => proxy, :resolver => resolver, :ipfamily => ipfamily || self.ipfamily)
       end
 
       protected

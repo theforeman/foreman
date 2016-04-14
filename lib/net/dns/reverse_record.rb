@@ -1,6 +1,6 @@
 module Net
   module DNS
-    class PTRRecord < DNS::Record
+    class ReverseRecord < DNS::Record
       def initialize(opts = { })
         super opts
         @type = "PTR"
@@ -34,18 +34,15 @@ module Net
       end
 
       def a
-        dns_lookup(hostname)
+        dns_lookup(hostname, Socket::AF_INET)
+      end
+
+      def aaaa
+        dns_lookup(hostname, Socket::AF_INET6)
       end
 
       def attrs
         { :fqdn => hostname, :value => to_arpa, :type => type }
-      end
-
-      private
-
-      # Returns: String containing the ip in the in-addr.arpa zone
-      def to_arpa
-        ip.split(/\./).reverse.join(".") + ".in-addr.arpa"
       end
     end
   end
