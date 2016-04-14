@@ -1,3 +1,6 @@
+require 'ipaddr'
+require 'socket'
+
 module Net
   module Validations
     IP_REGEXP  ||= /\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\z/
@@ -9,7 +12,32 @@ module Net
     class Error < RuntimeError
     end
 
-    def valid_mac?(mac)
+    # validates an IPv4 address
+    def self.validate_ip(ip)
+      return false unless ip.present?
+      IPAddr.new(ip, Socket::AF_INET) rescue return false
+      true
+    end
+
+    # validates an IPv4 address and raises an error
+    def self.validate_ip!(ip)
+      raise Error, "Invalid IP Address #{ip}" unless validate_ip(ip)
+      ip
+    end
+
+    # validates a network mask
+    def self.validate_mask(mask)
+      mask =~ MASK_REGEXP
+    end
+
+    # validates a network mask and raises an error
+    def self.validate_mask!(mask)
+      raise Error, "Invalid Subnet Mask #{mask}" unless validate_mask(mask)
+      mask
+    end
+
+    # validates the mac
+    def self.validate_mac(mac)
       return false if mac.nil?
 
       case mac.size
@@ -22,43 +50,36 @@ module Net
       false
     end
 
-    module_function :valid_mac?
-
-    # validates the ip address
-    def validate_ip(ip)
-      raise Error, "Invalid IP Address #{ip}" unless (ip =~ IP_REGEXP)
-      ip
-    end
-
-    def validate_mask(mask)
-      raise Error, "Invalid Subnet Mask #{mask}" unless (mask =~ MASK_REGEXP)
-      mask
-    end
-
-    # validates the mac
-    def validate_mac(mac)
-      raise Error, "Invalid MAC #{mac}" unless valid_mac? mac
+    # validates the mac and raises an error
+    def self.validate_mac!(mac)
+      raise Error, "Invalid MAC #{mac}" unless validate_mac(mac)
       mac
     end
 
     # validates the hostname
-    def validate_hostname(hostname)
-      raise Error, "Invalid hostname #{hostname}" unless (hostname =~ HOST_REGEXP)
+    def self.validate_hostname(hostname)
+      hostname =~ HOST_REGEXP
+    end
+
+    # validates the hostname and raises an error
+    def self.validate_hostname!(hostname)
+      raise Error, "Invalid hostname #{hostname}" unless validate_hostname(hostname)
       hostname
     end
 
-    def validate_network(network)
-      begin
-        validate_ip(network)
-      rescue Error
-        raise Error, "Invalid Network #{network}"
-      end
+    def self.validate_network(network)
+      validate_ip(network)
+    end
+
+    def self.validate_network!(network)
+      raise(Error, "Invalid Network #{network}") unless validate_network(network)
       network
     end
 
     # ensures that the ip address does not contain any leading spaces or invalid strings
     def self.normalize_ip(ip)
       return unless ip.present?
+      return ip unless ip =~ IP_REGEXP
       ip.split(".").map(&:to_i).join(".")
     end
 

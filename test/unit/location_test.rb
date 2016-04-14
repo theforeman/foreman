@@ -49,7 +49,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'it should return array of used ids by hosts' do
     location = taxonomies(:location1)
-    subnet = FactoryGirl.create(:subnet, :locations => [location])
+    subnet = FactoryGirl.create(:subnet_ipv4, :locations => [location])
     domain = FactoryGirl.create(:domain)
     FactoryGirl.create(:host,
                        :compute_resource => compute_resources(:one),
@@ -213,7 +213,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test "used_and_selected_or_inherited_ids for inherited location" do
     parent = taxonomies(:location1)
-    subnet = FactoryGirl.create(:subnet, :organizations => [taxonomies(:organization1)])
+    subnet = FactoryGirl.create(:subnet_ipv4, :organizations => [taxonomies(:organization1)])
     domain1 = FactoryGirl.create(:domain)
     domain2 = FactoryGirl.create(:domain)
     parent.update_attribute(:domains,[domain1,domain2])

@@ -1264,7 +1264,7 @@ class HostTest < ActiveSupport::TestCase
     test "should have only one provision interface" do
       organization = FactoryGirl.create(:organization)
       location = FactoryGirl.create(:location)
-      subnet = FactoryGirl.create(:subnet, :organizations => [organization], :locations => [location])
+      subnet = FactoryGirl.create(:subnet_ipv4, :organizations => [organization], :locations => [location])
       host = FactoryGirl.create(:host, :managed, :organization => organization,
                                 :location => location, :subnet => subnet,
                                 :ip => subnet.network.succ)
@@ -1954,19 +1954,19 @@ class HostTest < ActiveSupport::TestCase
 
     test "hosts with a DNS-enabled Subnet do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dns))
+      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dns))
       assert h.require_ip_validation?
     end
 
     test "hosts with a DHCP-enabled Subnet do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dhcp))
+      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp))
       assert h.require_ip_validation?
     end
 
     test "hosts without a DNS/DHCP-enabled Subnet don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet, :dhcp => nil, :dns => nil))
+      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp => nil, :dns => nil))
       refute h.require_ip_validation?
     end
 

@@ -41,7 +41,7 @@ module Net
 
       def initialize(opts = { })
         super(opts)
-        self.ip = validate_ip self.ip
+        self.ip = Validations.validate_ip! self.ip
         self.resolver ||= Resolv::DNS.new
       end
 

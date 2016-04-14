@@ -17,4 +17,3 @@ class NetTest < ActiveSupport::TestCase
     assert_equal logger, record.logger
   end
 end
-

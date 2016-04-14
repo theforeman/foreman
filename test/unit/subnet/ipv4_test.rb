@@ -1,17 +1,17 @@
 require 'test_helper'
 
-class SubnetTest < ActiveSupport::TestCase
+class SubnetIpv4Test < ActiveSupport::TestCase
   def setup
     User.current = users :admin
-    @subnet = Subnet.new
-    @attrs = {  :network= => "123.123.123.1",
+    @subnet = Subnet::Ipv4.new
+    @attrs = {  :network= => "123.123.123.0",
       :mask= => "255.255.255.0",
       :domains= => [domains(:mydomain)],
       :name= => "valid" }
   end
 
   test 'can be created with domains' do
-    subnet = FactoryGirl.build(:subnet)
+    subnet = FactoryGirl.build(:subnet_ipv4)
     subnet.domain_ids = [ domains(:mydomain).id ]
     assert subnet.save
   end
@@ -52,18 +52,29 @@ class SubnetTest < ActiveSupport::TestCase
     refute @subnet.save
   end
 
+  test "cidr setter should set the mask" do
+    @subnet = FactoryGirl.build(:subnet_ipv4)
+    @subnet.cidr = 24
+    assert_equal '255.255.255.0', @subnet.mask
+  end
+
+  test "cidr setter should not raise exception for invalid value" do
+    @subnet = FactoryGirl.build(:subnet_ipv4)
+    @subnet.cidr = 'green'
+  end
+
   test "network should be unique" do
     set_attr(:network=, :mask=, :domains=, :name=)
     @subnet.save
 
-    other_subnet = Subnet.create(:network => "123.123.123.1", :mask => "255.255.255.0")
+    other_subnet = Subnet::Ipv4.create(:network => "123.123.123.0", :mask => "255.255.255.0")
     assert !other_subnet.save
   end
 
   test "the name should be unique in the domain scope" do
     create_a_domain_with_the_subnet
 
-    other_subnet = Subnet.new( :mask => "111.111.111.1",
+    other_subnet = Subnet::Ipv4.new( :mask => "111.111.111.1",
                                  :network => "255.255.252.0",
                                  :name => "valid",
                                  :domain_ids => [domains(:mydomain).id] )
@@ -74,14 +85,14 @@ class SubnetTest < ActiveSupport::TestCase
   test "when to_label is applied should show the domain, the mask and network" do
     create_a_domain_with_the_subnet
 
-    assert_equal "valid (123.123.123.1/24)", @subnet.to_label
+    assert_equal "valid (123.123.123.0/24)", @subnet.to_label
   end
 
   test "should find the subnet by ip" do
-    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
+    @subnet = Subnet::Ipv4.new(:network => "123.123.123.0", :mask => "255.255.255.0", :name => "valid")
     assert @subnet.save
     assert @subnet.domain_ids = [domains(:mydomain).id]
-    assert_equal @subnet, Subnet.subnet_for("123.123.123.1")
+    assert_equal @subnet, Subnet::Ipv4.subnet_for("123.123.123.1")
   end
 
   def set_attr(*attr)
@@ -92,7 +103,7 @@ class SubnetTest < ActiveSupport::TestCase
 
   def create_a_domain_with_the_subnet
     @domain = Domain.where(:name => "domain").first_or_create
-    @subnet = Subnet.new(:network => "123.123.123.1",:mask => "255.255.255.0",:name => "valid")
+    @subnet = Subnet::Ipv4.new(:network => "123.123.123.0", :mask => "255.255.255.0", :name => "valid")
     assert @subnet.save
     assert @subnet.domain_ids = [domains(:mydomain).id]
     @subnet.save!
@@ -125,6 +136,13 @@ class SubnetTest < ActiveSupport::TestCase
     assert !s.save
     s.to   = "2.3.4.17"
     assert s.save
+  end
+
+  test "should not be able to save ranges if one of them is invalid" do
+    s=subnets(:one)
+    s.from = "2.3.4.abc"
+    s.to   = "2.3.4.17"
+    refute s.valid?
   end
 
   test "should strip whitespace before save" do
@@ -160,14 +178,11 @@ class SubnetTest < ActiveSupport::TestCase
     s = subnets(:one)
     s.mask = "255.255.255.1111"
     refute s.save
-    assert_match /maximum is 15 characters/, s.errors.full_messages.join("\n")
+    assert_match /Mask is invalid/, s.errors.full_messages.join("\n")
   end
 
   test "should invalidate addresses are indeed invalid" do
     s = subnets(:one)
-    # trailing dot
-    s.network = "100.101.102.103."
-    refute s.valid?
     # more than 3 characters
     s.network = "1234.101.102.103"
     # missing dot
@@ -182,9 +197,16 @@ class SubnetTest < ActiveSupport::TestCase
     assert_equal "is invalid", s.errors[:network].first
   end
 
+  test "should clean invalid addresses" do
+    s = subnets(:one)
+    # trailing dot
+    s.network = "100.101.102.103."
+    assert s.valid?
+  end
+
   # test module StripWhitespace which strips leading and trailing whitespace on :name field
   test "should strip whitespace on name" do
-    s = Subnet.new(:name => '    ABC Network     ', :network => "10.10.20.1", :mask => "255.255.255.0")
+    s = Subnet::Ipv4.new(:name => '    ABC Network     ', :network => "10.10.20.1", :mask => "255.255.255.0")
     assert s.save!
     assert_equal "ABC Network", s.name
   end
@@ -204,7 +226,7 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "should find unused IP on proxy if proxy is set" do
-    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.1.0')
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.1.0')
     subnet.stubs(:dhcp? => true)
     subnet.stubs(:dhcp => mock('attribute', :url => 'proxy.example.com'))
     fake_proxy = mock("dhcp_proxy")
@@ -215,7 +237,7 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "should find unused IP in internal DB if proxy is not set" do
     host = FactoryGirl.create(:host)
-    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0',
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0',
                                 :ipam => Subnet::IPAM_MODES[:db])
     subnet.stubs(:dhcp? => false)
     assert_equal '192.168.2.1', subnet.unused_ip
@@ -228,7 +250,7 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "should find unused IP excluding named values in internal DB if proxy is not set" do
     host = FactoryGirl.create(:host)
-    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0',
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0',
                                 :ipam => Subnet::IPAM_MODES[:db])
     subnet.stubs(:dhcp? => false)
     assert_equal '192.168.2.3', subnet.unused_ip(nil, ['192.168.2.1', '192.168.2.2'])
@@ -241,7 +263,7 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "#unused should respect subnet from and to if it's set" do
     host = FactoryGirl.create(:host)
-    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
                                 :ipam => Subnet::IPAM_MODES[:db])
     subnet.stubs(:dhcp? => false)
     assert_equal '192.168.2.10', subnet.unused_ip
@@ -257,13 +279,13 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "#unused does not suggest IP if mode is set to none" do
-    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
     subnet.stubs(:dhcp? => false, :ipam => Subnet::IPAM_MODES[:none])
     assert_nil subnet.unused_ip
   end
 
   test "#known_ips includes all host and interfaces IPs assigned to this subnet" do
-    subnet = FactoryGirl.create(:subnet, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
                                 :dns_primary => '192.168.2.2', :gateway => '192.168.2.3', :ipam => Subnet::IPAM_MODES[:db])
     host = FactoryGirl.create(:host, :subnet => subnet, :ip => '192.168.2.1')
     Nic::Managed.create :mac => "00:00:01:10:00:00", :host => host, :subnet => subnet, :name => "", :ip => '192.168.2.4'
@@ -314,7 +336,7 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "should not assign proxies without adequate features" do
     proxy = smart_proxies(:puppetmaster)
-    subnet = Subnet.new(:name => "test subnet",
+    subnet = Subnet::Ipv4.new(:name => "test subnet",
                         :network => "192.168.100.0",
                         :mask => "255.255.255.0",
                         :dhcp_id => proxy.id,
@@ -324,5 +346,16 @@ class SubnetTest < ActiveSupport::TestCase
     assert_equal "does not have the DNS feature", subnet.errors["dns_id"].first
     assert_equal "does not have the DHCP feature", subnet.errors["dhcp_id"].first
     assert_equal "does not have the TFTP feature", subnet.errors["tftp_id"].first
+  end
+
+  test "#type cannot be updated for existing subnet" do
+    subnet = subnets(:one)
+    subnet.type = 'Subnet::Ipv6'
+    refute subnet.save
+    assert subnet.errors[:type].include?("can't be updated after subnet is saved")
+  end
+
+  test "should inherit model name from parent class" do
+    assert_equal Subnet.model_name, Subnet::Ipv4.model_name
   end
 end

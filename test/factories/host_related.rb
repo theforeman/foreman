@@ -184,7 +184,7 @@ FactoryGirl.define do
         overrides = {}
         overrides[:locations] = [host.location] unless host.location.nil?
         overrides[:organizations] = [host.organization] unless host.organization.nil?
-        host.subnet = FactoryGirl.build(:subnet, overrides)
+        host.subnet = FactoryGirl.build(:subnet_ipv4, overrides)
       end
     end
 
@@ -230,7 +230,7 @@ FactoryGirl.define do
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
         FactoryGirl.create(
-          :subnet,
+          :subnet_ipv4,
           overrides
         )
       end
@@ -248,7 +248,7 @@ FactoryGirl.define do
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 
-        FactoryGirl.create(:subnet, overrides)
+        FactoryGirl.create(:subnet_ipv4, overrides)
       end
       domain do
         FactoryGirl.create(:domain,
@@ -265,7 +265,7 @@ FactoryGirl.define do
     end
 
     trait :with_tftp_subnet do
-      subnet { FactoryGirl.build(:subnet, :tftp, locations: [location], organizations: [organization]) }
+      subnet { FactoryGirl.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]) }
     end
 
     trait :with_tftp_orchestration do
@@ -324,7 +324,7 @@ FactoryGirl.define do
     end
 
     trait :with_subnet do
-      subnet
+      association :subnet, :factory => :subnet_ipv4
     end
 
     trait :with_rootpass do
