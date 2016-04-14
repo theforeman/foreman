@@ -17,7 +17,7 @@ class UserTest < ActiveSupport::TestCase
   should validate_length_of(:login).is_at_most(100)
   should validate_length_of(:firstname).is_at_most(50)
   should validate_length_of(:lastname).is_at_most(50)
-  should validate_length_of(:mail).is_at_most(60)
+  should validate_length_of(:mail).is_at_most(254)
   # Format
   should allow_value('').for(:mail).on(:create)
   should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:firstname)
