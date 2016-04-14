@@ -334,10 +334,11 @@ class UnattendedControllerTest < ActionController::TestCase
   test "hosts with a template proxy with no templateServer should use the proxy name" do
     Setting[:token_duration] = 30
     Setting[:unattended_url]    = "http://test.host"
+    ProxyAPI::Template.any_instance.stubs(:template_url).returns(nil)
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
     @host_with_template_subnet.create_token(:value => "aaaaae", :expires => Time.now.utc + 5.minutes)
     get :host_template, {:kind => 'provision', 'token' => @host_with_template_subnet.token.value }
-    assert @response.body.include?("#{@host_with_template_subnet.subnet.tftp.url}/unattended/finish?token=aaaaae")
+    assert_includes @response.body, "#{@host_with_template_subnet.subnet.tftp.url}/unattended/finish?token=aaaaae"
   end
 
   # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
