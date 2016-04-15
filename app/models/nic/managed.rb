@@ -4,6 +4,7 @@ module Nic
     include Orchestration::DHCP
     include Orchestration::DNS
     include Orchestration::TFTP
+    include DnsInterface
 
     include Exportable
     include Foreman::Renderer

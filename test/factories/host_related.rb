@@ -319,6 +319,32 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_ipv6_dns_orchestration do
+      managed
+      association :compute_resource, :factory => :libvirt_cr
+      subnet6 do
+        overrides = {:dns => FactoryGirl.create(:dns_smart_proxy)}
+        #add taxonomy overrides in case it's set in the host object
+        overrides[:locations] = [location] unless location.nil?
+        overrides[:organizations] = [organization] unless organization.nil?
+
+        FactoryGirl.create(:subnet_ipv6, :dns, overrides)
+      end
+      domain do
+        FactoryGirl.create(:domain,
+                           :dns => FactoryGirl.create(:smart_proxy,
+                           :features => [FactoryGirl.create(:feature, :dns)])
+                          )
+      end
+      interfaces do
+        [FactoryGirl.build(:nic_managed, :without_ipv4,
+                           :primary => true,
+                           :provision => true,
+                           :domain => FactoryGirl.build(:domain),
+                           :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+      end
+    end
+
     trait :with_tftp_subnet do
       subnet { FactoryGirl.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]) }
     end
