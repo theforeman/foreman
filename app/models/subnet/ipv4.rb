@@ -28,6 +28,10 @@ class Subnet::Ipv4 < Subnet
     [:dhcp, :db, :none]
   end
 
+  def ip_sym
+    :ip
+  end
+
   def cleanup_addresses
     IP_FIELDS.each do |f|
       send("#{f}=", cleanup_ip(send(f))) if send(f).present?

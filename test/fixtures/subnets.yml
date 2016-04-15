@@ -44,3 +44,10 @@ five:
   dhcp: one
   tftp: two
   dns: three
+
+six:
+  name: six
+  type: Subnet::Ipv6
+  network: '2001:db10::'
+  mask: 'ffff:ffff:ffff:ffff::'
+  dns: three

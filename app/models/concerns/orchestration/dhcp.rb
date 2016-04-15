@@ -4,7 +4,6 @@ module Orchestration::DHCP
   included do
     after_validation :dhcp_conflict_detected?, :queue_dhcp, :unless => :importing_facts
     before_destroy :queue_dhcp_destroy, :unless => :importing_facts
-    validate :ip_belongs_to_subnet?
     register_rebuild(:rebuild_dhcp, N_('DHCP'))
   end
 
@@ -160,18 +159,6 @@ module Orchestration::DHCP
     logger.debug "Scheduling DHCP conflicts removal"
     queue.create(:name   => _("DHCP conflicts removal for %s") % self, :priority => 5,
                  :action => [self, :del_dhcp_conflicts])
-  end
-
-  def ip_belongs_to_subnet?
-    return if subnet.nil? or ip.nil?
-    return unless dhcp?
-    unless subnet.contains? ip
-      errors.add(:ip, _("does not match selected subnet"))
-      return false
-    end
-  rescue
-    # probably an invalid ip / subnet were entered
-    # we let other validations handle that
   end
 
   def dhcp_conflict_detected?

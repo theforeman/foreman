@@ -324,8 +324,10 @@ class HostTest < ActiveSupport::TestCase
                                     :operatingsystemrelease => '6.2',
                                     :macaddress_eth0 => '00:00:11:22:11:22',
                                     :ipaddress_eth0 => '192.168.0.1',
+                                    :ipaddress6_eth0 => '2001:db8::1',
                                     :interfaces => 'eth0')
     assert_equal 'example.com', host.domain.name
+    assert_equal '2001:db8::1', host.primary_interface.ip6
     refute host.primary_interface.managed?
   end
 
@@ -716,10 +718,13 @@ class HostTest < ActiveSupport::TestCase
 
     test "should not save if IP is not in the right subnet" do
       if unattended?
-        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.05.02.03", :ptable => FactoryGirl.create(:ptable),
+        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.5.2.3", :ptable => FactoryGirl.create(:ptable),
           :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
-          :architecture => Architecture.first, :environment => Environment.first, :puppet_proxy => smart_proxies(:puppetmaster)
-        assert !host.valid?
+          :architecture => Architecture.first, :environment => Environment.first, :puppet_proxy => smart_proxies(:puppetmaster),
+          :ip6 => "2001:db8::1", :subnet6 => subnets(:six)
+        refute host.valid?, "Host should be invalid: #{host.errors.messages}"
+        assert_includes host.errors.messages.keys, :"interfaces.ip"
+        assert_includes host.errors.messages.keys, :"interfaces.ip6"
       end
     end
 
@@ -1301,39 +1306,44 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "#set_interfaces updates primary physical interface" do
-      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :identifier => 'eth1'})
+      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :identifier => 'eth1'})
       host.update_attribute :mac, '00:00:00:11:22:33'
       host.update_attribute :ip, '10.0.0.100'
+      host.update_attribute :ip6, '2001:db8::1'
       host.primary_interface.update_attribute :identifier, 'eth0'
       refute_nil host.primary_interface
       assert_equal '10.0.0.100', host.ip
+      assert_equal '2001:db8::1', host.ip6
 
       # physical NICs with same MAC are skipped
       assert_no_difference 'Nic::Base.count' do
         host.set_interfaces(parser)
       end
       assert_equal '10.0.0.200', host.ip
+      assert_equal '2001:db8::2', host.ip6
       assert_equal 'eth1', host.primary_interface.identifier
     end
 
     test "#set_interfaces updates existing physical interface" do
-      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :link => false})
-      FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :link => true)
+      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :link => false})
+      FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :ip6 => '2001:db8::1', :link => true)
       assert_no_difference 'Nic::Base.count' do
         host.set_interfaces(parser)
       end
       assert_equal '10.0.0.200', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip
+      assert_equal '2001:db8::2', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip6
       refute host.interfaces.where(:mac => '00:00:00:11:22:33').first.link
     end
 
     test "#set_interfaces creates new physical interface" do
-      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.10.0.1'})
+      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.10.0.1', :ipaddress6 => '2001:db8::1'})
 
       # primary already existed so it's updated
       assert_no_difference 'host.interfaces(true).count' do
         host.set_interfaces(parser)
       end
       assert_equal '10.10.0.1', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip
+      assert_equal '2001:db8::1', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip6
     end
 
     test "#set_interfaces creates new interface with link up if no link fact specified" do
@@ -1933,88 +1943,135 @@ class HostTest < ActiveSupport::TestCase
     end
 
     # Ip validations
-    test "unmanaged hosts don't require an IP" do
-      h=FactoryGirl.build(:host)
-      refute h.require_ip_validation?
+    test "unmanaged hosts don't require an IPv4 or IPv6" do
+      host = FactoryGirl.build(:host)
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
     test "CRs without IP attribute don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the CR
-      h=FactoryGirl.build(:host, :managed,
+      host = FactoryGirl.build(:host, :managed,
                           :compute_resource => compute_resources(:one),
                           :compute_attributes => {:fake => "data"})
-      refute h.require_ip_validation?
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
     test "CRs with IP attribute and a DNS-enabled domain do not require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the CR
-      h=FactoryGirl.build(:host, :managed, :domain => domains(:mydomain),
+      host = FactoryGirl.build(:host, :managed, :domain => domains(:mydomain),
                           :compute_resource => compute_resources(:openstack),
                           :compute_attributes => {:fake => "data"})
-      refute h.require_ip_validation?
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
-    test "hosts with a DNS-enabled Domain do require an IP" do
+    test "hosts with a IPv4 DNS-enabled Domain do require an IPv4 address" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the domain
-      h=FactoryGirl.build(:host, :managed, :domain => domains(:mydomain))
-      assert h.require_ip_validation?
+      host = FactoryGirl.build(:host, :managed, :domain => domains(:mydomain))
+      assert host.require_ip4_validation?
+      refute host.require_ip6_validation?
+    end
+
+    test "hosts with a DNS-enabled Domain without IPv4 do require an IPv6 address" do
+      Setting[:token_duration] = 30 #enable tokens so that we only test the domain
+      host = FactoryGirl.build(:host, :managed, :with_ipv6, :domain => domains(:mydomain))
+      refute host.require_ip4_validation?
+      assert host.require_ip6_validation?
     end
 
     test "hosts without a DNS-enabled Domain don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the domain
-      h=FactoryGirl.build(:host, :managed, :domain => domains(:useless))
-      refute h.require_ip_validation?
+      host = FactoryGirl.build(:host, :managed, :domain => domains(:useless))
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
-    test "hosts with a DNS-enabled Subnet do require an IP" do
+    test "hosts with a DNS-enabled Subnet do require an IPv4 address" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dns))
-      assert h.require_ip_validation?
+      host = FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dns))
+      assert host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
     test "hosts with a DHCP-enabled Subnet do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp))
-      assert h.require_ip_validation?
+      host = FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp))
+      assert host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
     test "hosts without a DNS/DHCP-enabled Subnet don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      h=FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp => nil, :dns => nil))
-      refute h.require_ip_validation?
+      host = FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp => nil, :dns => nil))
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
-    test "with tokens enabled hosts don't require an IP" do
+    test "hosts with a DNS-enabled IPv6 Subnet require an IPv6 but don't require an IPv4 address" do
+      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      host = FactoryGirl.build(:host, :managed,
+                               :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp => nil, :dns => nil),
+                               :subnet6 => FactoryGirl.build(:subnet_ipv6, :dns))
+      refute host.require_ip4_validation?
+      assert host.require_ip6_validation?
+    end
+
+    test "with tokens enabled hosts don't require an IPv4 or IPv6 address" do
       Setting[:token_duration] = 30
-      h=FactoryGirl.build(:host, :managed)
-      refute h.require_ip_validation?
+      host = FactoryGirl.build(:host, :managed)
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
-    test "with tokens disabled PXE build hosts do require an IP" do
-      h=FactoryGirl.build(:host, :managed)
-      h.expects(:pxe_build?).returns(true)
-      h.stubs(:image_build?).returns(false)
-      assert h.require_ip_validation?
+    test "with tokens disabled PXE build hosts do require an IPv4 address" do
+      host = FactoryGirl.build(:host, :managed)
+      host.expects(:pxe_build?).twice.returns(true)
+      host.stubs(:image_build?).returns(false)
+      assert host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
-    test "tokens disabled doesn't require an IP for image hosts" do
-      h=FactoryGirl.build(:host, :managed)
-      h.expects(:pxe_build?).returns(false)
-      h.expects(:image_build?).returns(true)
+    test "with tokens disabled PXE build IPv6 hosts do not require an IPv4 but a IPv6 address" do
+      host = FactoryGirl.build(:host, :managed, :with_ipv6)
+      host.expects(:pxe_build?).twice.returns(true)
+      host.stubs(:image_build?).returns(false)
+      refute host.require_ip4_validation?
+      assert host.require_ip6_validation?
+    end
+
+    test "tokens disabled doesn't require an IPv4 or IPv6 address for image hosts" do
+      host = FactoryGirl.build(:host, :managed)
+      host.expects(:pxe_build?).twice.returns(false)
+      host.expects(:image_build?).twice.returns(true)
       image = stub()
-      image.expects(:user_data?).returns(false)
-      h.stubs(:image).returns(image)
-      refute h.require_ip_validation?
+      image.expects(:user_data?).twice.returns(false)
+      host.stubs(:image).returns(image)
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
     end
 
-    test "tokens disabled requires an IP for image hosts with user data" do
-      h=FactoryGirl.build(:host, :managed)
-      h.expects(:pxe_build?).returns(false)
-      h.expects(:image_build?).returns(true)
+    test "tokens disabled requires an IPv4 address for image hosts with user data" do
+      host = FactoryGirl.build(:host, :managed)
+      host.expects(:pxe_build?).twice.returns(false)
+      host.expects(:image_build?).twice.returns(true)
       image = stub()
-      image.expects(:user_data?).returns(true)
-      h.stubs(:image).returns(image)
-      assert h.require_ip_validation?
+      image.expects(:user_data?).twice.returns(true)
+      host.stubs(:image).returns(image)
+      assert host.require_ip4_validation?
+      refute host.require_ip6_validation?
+    end
+
+    test "tokens disabled requires only an IPv6 address for image hosts with user data and IPv6 address" do
+      host = FactoryGirl.build(:host, :managed, :with_ipv6)
+      host.expects(:pxe_build?).twice.returns(false)
+      host.expects(:image_build?).twice.returns(true)
+      image = stub()
+      image.expects(:user_data?).twice.returns(true)
+      host.stubs(:image).returns(image)
+      refute host.require_ip4_validation?
+      assert host.require_ip6_validation?
     end
 
     test "test tokens are not created until host is saved" do
@@ -2308,6 +2365,13 @@ class HostTest < ActiveSupport::TestCase
     assert_equal classes, enc['classes']
   end
 
+  test '#info ENC YAML contains ipv4 and ipv6 subnets' do
+    host = FactoryGirl.build(:host, :with_subnet, :with_ipv6_subnet)
+    enc = host.info
+    assert enc['parameters']['foreman_subnets'].any? {|s| s['type'] == 'Subnet::Ipv4'}
+    assert enc['parameters']['foreman_subnets'].any? {|s| s['type'] == 'Subnet::Ipv6'}
+  end
+
   describe 'cloning' do
     test 'relationships are copied' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
@@ -2343,18 +2407,19 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'clone host should not copy name, system fields (mac, ip, etc)' do
-      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :dualstack)
       copy = host.clone
       assert copy.name.blank?
       assert copy.mac.blank?
       assert copy.ip.blank?
+      assert copy.ip6.blank?
       assert copy.uuid.blank?
       assert copy.certname.blank?
       assert copy.last_report.blank?
     end
 
     test 'clone host should copy interfaces without name, mac and ip' do
-      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :dualstack)
       copy = host.clone
 
       assert_equal host.interfaces.length, copy.interfaces.length
@@ -2363,6 +2428,7 @@ class HostTest < ActiveSupport::TestCase
       assert interface.name.blank?
       assert interface.mac.blank?
       assert interface.ip.blank?
+      assert interface.ip6.blank?
     end
 
     test 'without save makes no changes' do
