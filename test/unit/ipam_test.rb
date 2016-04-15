@@ -23,13 +23,22 @@ class IPAMTest < ActiveSupport::TestCase
   end
 
   context 'internal db' do
-    test "should find unused IP in internal DB" do
+    test "should find unused IPv4 in internal DB" do
       subnet = FactoryGirl.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.2.0',
         :ipam => IPAM::MODES[:db])
       ipam = IPAM::Db.new(:subnet => subnet, :excluded_ips => ['192.168.2.1', '192.168.2.2'])
       assert_equal '192.168.2.3', ipam.suggest_ip
+    end
+
+    test "should find unused IPv6 in internal DB" do
+      subnet = FactoryGirl.create(
+        :subnet_ipv6, :name => 'my_subnet',
+        :network => '2001:db8::',
+        :ipam => IPAM::MODES[:db])
+      ipam = IPAM::Db.new(:subnet => subnet)
+      assert_equal '2001:db8::1', ipam.suggest_ip
     end
 
     test "should respect subnet from and to if it's set" do

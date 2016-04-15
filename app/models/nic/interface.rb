@@ -1,11 +1,13 @@
 module Nic
   class Interface < Base
-    validates :ip, :format => {:with => Net::Validations::IP_REGEXP}, :allow_blank => true
-    validate :normalize_ip
+    before_validation :normalize_ip
+    validate :ip_presence_and_formats
+
     validate :ip_uniqueness, :if => Proc.new { |i| i.ip.present? }
+    validate :ip6_uniqueness, :if => Proc.new { |i| i.ip6.present? }
     validates :attached_to, :presence => true, :if => Proc.new { |o| o.virtual && o.instance_of?(Nic::Managed) && !o.bridge? }
 
-    attr_accessible :name, :subnet_id, :subnet, :domain_id, :domain
+    attr_accessible :name, :subnet_id, :subnet, :subnet6_id, :subnet6, :domain_id, :domain
 
     # Don't have to set a hostname for each interface, but it must be unique if it is set.
     before_validation :copy_hostname_from_host, :if => Proc.new { |nic| nic.primary? && nic.hostname.blank? }
@@ -55,8 +57,17 @@ module Nic
       interface_attribute_uniqueness(:ip)
     end
 
+    def ip6_uniqueness
+      interface_attribute_uniqueness(:ip6)
+    end
+
     def name_uniqueness
       interface_attribute_uniqueness(:name, Nic::Base.where(:domain_id => self.domain_id))
+    end
+
+    def ip_presence_and_formats
+      errors.add(:ip, _("is invalid")) if ip.present? && !Net::Validations.validate_ip(ip)
+      errors.add(:ip6, _("is invalid")) if ip6.present? && !Net::Validations.validate_ip6(ip6)
     end
 
     # we don't allow changes to identifier which would change the interface type e.g. eth0 -> eth0,1 would make
@@ -79,7 +90,8 @@ module Nic
     end
 
     def normalize_ip
-      self.ip = Net::Validations.normalize_ip(ip)
+      self.ip = Net::Validations.normalize_ip(ip) if ip.present?
+      self.ip6 = Net::Validations.normalize_ip6(ip6) if ip6.present?
     end
 
     # ensure that host name is fqdn

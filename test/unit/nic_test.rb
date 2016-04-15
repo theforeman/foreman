@@ -71,16 +71,24 @@ class NicTest < ActiveSupport::TestCase
       tax_object1 = FactoryGirl.build(taxonomy)
       tax_object2 = FactoryGirl.build(taxonomy)
       subnet = subnets(:one)
+      subnet6 = subnets(:six)
       host = FactoryGirl.build(:host)
 
       subnet_list = subnet.send((taxonomy.to_s.pluralize).to_s)
       subnet_list << tax_object1
-      host.send("#{taxonomy}=",tax_object2)
 
-      i = Nic::Base.new :mac => "cabbccddeeff", :host => host
-      i.subnet = subnet
+      subnet6_list = subnet6.send((taxonomy.to_s.pluralize).to_s)
+      subnet6_list << tax_object1
 
-      refute i.valid?
+      host.send("#{taxonomy}=", tax_object2)
+
+      nic = Nic::Base.new :mac => "cabbccddeeff", :host => host
+      nic.subnet = subnet
+      nic.subnet6 = subnet6
+
+      refute nic.valid?, "Can't be valid with mismatching taxonomy: #{nic.errors.messages}"
+      assert_includes nic.errors.keys, :subnet
+      assert_includes nic.errors.keys, :subnet6
     end
   end
 

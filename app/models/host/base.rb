@@ -11,7 +11,7 @@ module Host
     friendly_id :name
     OWNER_TYPES = %w(User Usergroup)
 
-    attr_accessible :name, :managed, :type, :start, :mac, :ip, :root_pass,
+    attr_accessible :name, :managed, :type, :start, :mac, :ip, :ip6, :root_pass,
       :is_owned_by, :enabled, :comment,
       :overwrite, :capabilities, :provider, :last_compile,
       # Model relations sorted in alphabetical order
@@ -34,7 +34,8 @@ module Host
       :puppetclasses, :puppetclass_ids, :puppetclass_names,
       :progress_report, :progress_report_id, :progress_report_name,
       :realm, :realm_id, :realm_name,
-      :subnet, :subnet_id, :subnet_name
+      :subnet, :subnet_id, :subnet_name,
+      :subnet6, :subnet6_id, :subnet6_name
 
     validates_lengths_from_database
     belongs_to :model, :counter_cache => :hosts_count, :name_accessor => 'hardware_model_name'
@@ -46,6 +47,7 @@ module Host
     has_one :provision_interface, -> { where(:provision => true) }, :class_name => 'Nic::Base', :foreign_key => 'host_id'
     has_one :domain, :through => :primary_interface
     has_one :subnet, :through => :primary_interface
+    has_one :subnet6, :through => :primary_interface
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
     belongs_to :location
@@ -84,8 +86,9 @@ module Host
     # we can't create primary interface before calling super because args may contain nested
     # interface attributes
     def initialize(*args)
-      primary_interface_attrs = [:name, :ip, :mac,
+      primary_interface_attrs = [:name, :ip, :ip6, :mac,
                                  :subnet, :subnet_id, :subnet_name,
+                                 :subnet6, :subnet6_id, :subnet6_name,
                                  :domain, :domain_id, :domain_name,
                                  :lookup_values_attributes]
       values_for_primary_interface = {}
@@ -113,12 +116,15 @@ module Host
       end
     end
 
-    delegate :ip, :mac,
+    delegate :ip, :ip6, :mac,
              :subnet, :subnet_id, :subnet_name,
+             :subnet6, :subnet6_id, :subnet6_name,
              :domain, :domain_id, :domain_name,
              :hostname,
              :to => :primary_interface, :allow_nil => true
-    delegate :name=, :ip=, :mac=, :subnet=, :subnet_id=, :subnet_name=,
+    delegate :name=, :ip=, :ip6=, :mac=,
+             :subnet=, :subnet_id=, :subnet_name=,
+             :subnet6=, :subnet6_id=, :subnet6_name=,
              :domain=, :domain_id=, :domain_name=, :to => :primary_interface
 
     attr_writer :updated_virtuals
@@ -388,6 +394,7 @@ module Host
       attributes = attributes.clone
       iface.mac = attributes.delete(:macaddress)
       iface.ip = attributes.delete(:ipaddress)
+      iface.ip6 = attributes.delete(:ipaddress6)
       iface.virtual = attributes.delete(:virtual) || false
       iface.tag = attributes.delete(:tag) || ''
       iface.attached_to = attributes.delete(:attached_to) if attributes[:attached_to].present?

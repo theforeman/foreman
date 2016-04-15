@@ -17,6 +17,7 @@ class Hostgroup < ActiveRecord::Base
     :group_parameters_attributes,
     :medium_id, :medium_name,
     :subnet_id, :subnet_name,
+    :subnet6_id, :subnet6_name,
     :realm_id, :realm_name,
     :operatingsystem_id, :operatingsystem_name,
     :os, :os_id, :os_name,
@@ -27,6 +28,8 @@ class Hostgroup < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
   validates :title, :presence => true, :uniqueness => true
+
+  validate :validate_subnet_types
 
   include ScopedSearchExtensions
   include PuppetclassTotalHosts::Indirect
@@ -50,6 +53,7 @@ class Hostgroup < ActiveRecord::Base
   counter_cache = "#{model_name.to_s.split(':').first.pluralize.downcase}_count".to_sym # e.g. :hosts_count
   belongs_to :domain, :counter_cache => counter_cache
   belongs_to :subnet
+  belongs_to :subnet6, :class_name => "Subnet"
 
   before_save :remove_duplicated_nested_class
   after_save :update_ancestry_puppetclasses, :if => :ancestry_changed?
@@ -59,7 +63,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
-                       :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :realm_id
+                       :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -117,7 +121,7 @@ class Hostgroup < ActiveRecord::Base
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :url_for_boot, :params, :puppetproxy, :param_true?,
       :param_false?, :puppet_ca_server, :indent, :os, :arch, :domain, :subnet,
-      :realm, :root_pass
+      :subnet6, :realm, :root_pass
   end
 
   #TODO: add a method that returns the valid os for a hostgroup
@@ -253,5 +257,10 @@ class Hostgroup < ActiveRecord::Base
 
   def password_base64_encrypted?
     !root_pass_changed?
+  end
+
+  def validate_subnet_types
+    errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if self.subnet.present? && self.subnet.type != 'Subnet::Ipv4'
+    errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if self.subnet6.present? && self.subnet6.type != 'Subnet::Ipv6'
   end
 end

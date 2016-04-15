@@ -36,13 +36,33 @@ class NicBaseTest < ActiveSupport::TestCase
     SETTINGS[:unattended] = original
   end
 
+  test 'nic requires a host' do
+    nic = FactoryGirl.build(:nic_base)
+    refute nic.valid?, "Can't be valid without a host: #{nic.errors.messages}"
+    assert_includes nic.errors.keys, :host
+  end
+
+  test 'nic is invalid when subnet types are wrong' do
+    nic = FactoryGirl.build(:nic_base)
+    subnetv4 = Subnet::Ipv4.new
+    subnetv6 = Subnet::Ipv6.new
+
+    nic.subnet = subnetv6
+    nic.subnet6 = subnetv4
+
+    refute nic.valid?, "Can't be valid with invalid subnet types: #{nic.errors.messages}"
+    assert_includes nic.errors.keys, :subnet
+    assert_includes nic.errors.keys, :subnet6
+  end
+
   context 'there is already an interface with a MAC and IP' do
-    let(:host) { FactoryGirl.create(:host, :managed) }
+    let(:host) { FactoryGirl.create(:host, :managed, :with_ipv6) }
 
     describe 'creation of another nic with already used MAC and IP' do
       let(:nic) do
         nic = host.interfaces.build(:mac => host.mac, :managed => true, :type => 'Nic::Managed')
         nic.ip = host.ip
+        nic.ip6 = host.ip6
         nic
       end
 
@@ -50,23 +70,26 @@ class NicBaseTest < ActiveSupport::TestCase
         refute nic.valid?
         assert nic.errors.has_key?(:mac)
         assert nic.errors.has_key?(:ip)
+        assert nic.errors.has_key?(:ip6)
       end
 
       test 'it is valid if conflicting interface is on same host and is marked for destruction' do
         host.primary_interface.mark_for_destruction
-        assert nic.valid?
+        assert nic.valid?, "Nic is not valid: #{nic.errors.messages}"
       end
 
       test 'it is valid if conflicting interface is virtual' do
         host.primary_interface.update_attribute :virtual, true
         nic.ip = nil
-        assert nic.valid?
+        nic.ip6 = nil
+        assert nic.valid?, "Nic is not valid: #{nic.errors.messages}"
       end
 
       test 'it is valid if conflicting interface is unmanaged' do
         host.primary_interface.update_attribute :managed, false
         nic.ip = nil
-        assert nic.valid?
+        nic.ip6 = nil
+        assert nic.valid?, "Nic is not valid: #{nic.errors.messages}"
       end
     end
 

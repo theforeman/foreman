@@ -11,6 +11,9 @@ module Nic
     before_validation :set_provisioning_flag
     after_save :update_lookup_value_fqdn_matchers, :drop_host_cache
 
+    validates :ip, :belongs_to_subnet => {:subnet => :subnet }, :if => ->(nic) { nic.dhcp? }
+    validates :ip6, :belongs_to_subnet => {:subnet => :subnet6 }, :if => ->(nic) { nic.dhcp? }
+
     # Interface normally are not executed by them self, so we use the host queue and related methods.
     # this ensures our orchestration works on both a host and a managed interface
     delegate :progress_report_id, :capabilities, :compute_resource,
@@ -19,7 +22,7 @@ module Nic
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
              :overwrite?, :importing_facts, :to => :host, :allow_nil => true
 
-    attr_exportable :ip, :mac, :name, :attrs, :virtual, :link, :identifier, :managed, :primary, :provision, :subnet,
+    attr_exportable :ip, :mac, :name, :attrs, :virtual, :link, :identifier, :managed, :primary, :provision, :subnet, :subnet6,
       :tag => ->(nic) { nic.tag if nic.virtual? },
       :attached_to => ->(nic) { nic.attached_to if nic.virtual? },
       :type => ->(nic) { nic.type.constantize.humanized_name }
@@ -49,9 +52,13 @@ module Nic
       N_('Interface')
     end
 
-    # Copied from compute orchestraion
+    # Copied from compute orchestration
     def ip_available?
       ip.present? || (host.present? && host.compute_provides?(:ip)) # TODO revist this for VMs
+    end
+
+    def ip6_available?
+      ip6.present? || (host.present? && host.compute_provides?(:ip6)) # TODO revist this for VMs
     end
 
     def mac_available?

@@ -189,7 +189,7 @@ class Subnet < ActiveRecord::Base
   end
 
   def known_ips
-    ips = self.interfaces.map(&:ip) + self.hosts.includes(:interfaces).map(&:ip)
+    ips = self.interfaces.map(&ip_sym) + self.hosts.includes(:interfaces).map(&ip_sym)
     ips += [self.gateway, self.dns_primary, self.dns_secondary].select(&:present?)
     self.clear_association_cache
     ips.compact.uniq

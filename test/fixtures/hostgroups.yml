@@ -40,6 +40,7 @@ parent:
   puppet_ca_proxy: puppetmaster
   domain: mydomain
   subnet: three
+  subnet6: six
   compute_profile: one
   id: 1
   lookup_value_matcher: hostgroup=Parent

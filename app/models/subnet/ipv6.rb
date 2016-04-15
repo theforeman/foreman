@@ -23,7 +23,11 @@ class Subnet::Ipv6 < Subnet
   end
 
   def self.supported_ipam_modes
-    [:eui64, :none]
+    [:eui64, :db, :none]
+  end
+
+  def ip_sym
+    :ip6
   end
 
   private
