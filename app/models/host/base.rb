@@ -364,7 +364,7 @@ module Host
         else
           begin
             macaddress = Net::Validations.normalize_mac(attributes[:macaddress])
-          rescue ArgumentError
+          rescue Net::Validations::Error
             logger.debug "invalid mac during parsing: #{attributes[:macaddress]}"
           end
           base = base.where(:mac => macaddress)

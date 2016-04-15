@@ -207,7 +207,7 @@ class NicTest < ActiveSupport::TestCase
   context 'BMC' do
     setup do
       disable_orchestration
-      @subnet    = FactoryGirl.create(:subnet_ipv4, :dhcp, :ipam => Subnet::IPAM_MODES[:db])
+      @subnet    = FactoryGirl.create(:subnet_ipv4, :dhcp, :ipam => IPAM::MODES[:db])
       @domain    = FactoryGirl.create(:domain)
       @interface = FactoryGirl.create(:nic_bmc, :ip => @subnet.unused_ip,
                                       :host => FactoryGirl.create(:host),

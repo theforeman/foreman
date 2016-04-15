@@ -3,9 +3,8 @@ require 'ipaddr'
 class Subnet < ActiveRecord::Base
   IP_FIELDS = [:network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to]
   REQUIRED_IP_FIELDS = [:network, :mask]
-  SUBNET_TYPES = {:'Subnet::Ipv4' => N_('IPv4')}
+  SUBNET_TYPES = {:'Subnet::Ipv4' => N_('IPv4'), :'Subnet::Ipv6' => N_('IPv6')}
   BOOT_MODES = {:static => N_('Static'), :dhcp => N_('DHCP')}
-  IPAM_MODES = {:dhcp => N_('DHCP'), :db => N_('Internal DB'), :none => N_('None')}
 
   include Authorizable
   include Foreman::STI
@@ -55,7 +54,7 @@ class Subnet < ActiveRecord::Base
   validates :network, :mask, :name, :cidr, :presence => true
   validates_associated    :subnet_domains
   validates :boot_mode, :inclusion => BOOT_MODES.values
-  validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.class.supported_ipam_modes.map {|m| Subnet::IPAM_MODES[m]} }, :message => N_('not supported by this protocol')}
+  validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.supported_ipam_modes.map {|m| IPAM::MODES[m]} }, :message => N_('not supported by this protocol')}
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name,    :length => {:maximum => 255}, :uniqueness => true
 
@@ -82,21 +81,11 @@ class Subnet < ActiveRecord::Base
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
   scoped_search :in => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
+  delegate :supports_ipam_mode?, :supported_ipam_modes, to: 'self.class'
+
   class Jail < ::Safemode::Jail
     allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,
           :vlanid, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?
-  end
-
-  def self.modes_with_translations(modes)
-    modes.map { |_, mode_name| [_(mode_name), mode_name] }
-  end
-
-  def self.boot_modes_with_translations
-    modes_with_translations(BOOT_MODES)
-  end
-
-  def self.ipam_modes_with_translations
-    modes_with_translations(IPAM_MODES)
   end
 
   # Subnets are displayed in the form of their network network/network mask
@@ -119,16 +108,8 @@ class Subnet < ActiveRecord::Base
     end
   end
 
-  # Given an IP returns the subnet that contains that IP
-  # [+ip+] : IPv4 address
-  # Returns : Subnet object or nil if not found
-  def self.subnet_for(ip)
-    ip = IPAddr.new(ip)
-    Subnet.all.detect {|s| s.family == ip.family && s.contains?(ip)}
-  end
-
   # Indicates whether the IP is within this subnet
-  # [+ip+] String: IPv4 address
+  # [+ip+] String: IPv4 or IPv6 address
   # Returns Boolean: True if if ip is in this subnet
   def contains?(ip)
     ipaddr.include? IPAddr.new(ip, family)
@@ -152,12 +133,8 @@ class Subnet < ActiveRecord::Base
     nil
   end
 
-  def supports_ipam_mode?(mode)
-    self.class.supported_ipam_modes.include?(mode)
-  end
-
   def dhcp?
-    !!(dhcp and dhcp.url and !dhcp.url.blank?)
+    supports_ipam_mode?(:dhcp) && dhcp && dhcp.url.present?
   end
 
   def dhcp_proxy(attrs = {})
@@ -182,7 +159,7 @@ class Subnet < ActiveRecord::Base
   end
 
   def ipam?
-    self.ipam != IPAM_MODES[:none]
+    self.ipam != IPAM::MODES[:none]
   end
 
   def dhcp_boot_mode?
@@ -195,28 +172,13 @@ class Subnet < ActiveRecord::Base
       return
     end
 
-    if self.ipam == IPAM_MODES[:dhcp] && dhcp? && supports_ipam_mode?(:dhcp)
-      # we have DHCP proxy so asking it for free IP
-      logger.debug "Asking #{dhcp.url} for free IP"
-      ip = dhcp_proxy.unused_ip(self, mac)["ip"]
-      logger.debug("Found #{ip}")
-      return(ip)
-    elsif self.ipam == IPAM_MODES[:db] && supports_ipam_mode?(:db)
-      # we have no DHCP proxy configured so Foreman becomes `DHCP` and manages reservations internally
-      logger.debug "Trying to find free IP for subnet in internal DB"
-      subnet_range = IPAddr.new("#{network}/#{mask}", family).to_range
-      from = self.from.present? ? IPAddr.new(self.from) : subnet_range.first(2).last
-      to = self.to.present? ? IPAddr.new(self.to) : IPAddr.new(subnet_range.last.to_i - 2, family)
-      (from..to).each do |address|
-        ip = address.to_s
-        if !self.known_ips.include?(ip) && !excluded_ips.include?(ip)
-          logger.debug("Found #{ip}")
-          return(ip)
-        end
-      end
-      logger.debug("Not suggesting IP Address for #{self} as no free IP found in our DB")
-      return
+    unless supported_ipam_modes.map {|m| IPAM::MODES[m]}.include?(self.ipam)
+      raise ::Foreman::Exception.new(N_("Unsupported IPAM mode for %s") % self.class)
     end
+
+    opts = {:subnet => self, :mac => mac, :excluded_ips => excluded_ips}
+    ipam = IPAM.new(self.ipam, opts)
+    ipam.suggest_ip
   rescue => e
     logger.warn "Failed to fetch a free IP from our proxy: #{e}"
     nil
@@ -227,19 +189,6 @@ class Subnet < ActiveRecord::Base
     ips += [self.gateway, self.dns_primary, self.dns_secondary].select(&:present?)
     self.clear_association_cache
     ips.compact.uniq
-  end
-
-  # imports subnets from a dhcp smart proxy
-  def self.import(proxy)
-    return unless proxy.has_feature?('DHCP')
-    ProxyAPI::DHCP.new(:url => proxy.url).subnets.map do |s|
-      # do not import existing networks.
-      attrs = { :network => s["network"], :mask => s["netmask"] }
-
-      next if exists?(attrs)
-      attrs.merge!(parse_dhcp_options(s['options'])) if s['options'].present?
-      new(attrs.update(:dhcp => proxy))
-    end.compact
   end
 
   def proxies
@@ -261,17 +210,6 @@ class Subnet < ActiveRecord::Base
   end
 
   private
-
-  # Translate ISC dhcp subnet options names provided by dhcp proxy into foreman subnet attributes names
-  def self.parse_dhcp_options(options)
-    attrs = {}
-    attrs[:gateway]          = options["routers"][0]             if options["routers"] && options["routers"][0]
-    attrs[:dns_primary]      = options["domain_name_servers"][0] if options["domain_name_servers"] && options["domain_name_servers"][0]
-    attrs[:dns_secondary]    = options["domain_name_servers"][1] if options["domain_name_servers"] && options["domain_name_servers"][1]
-    attrs[:from], attrs[:to] = options["range"]                  if options["range"] && options["range"][0] && options["range"][1]
-
-    attrs
-  end
 
   def validate_ranges
     if from.present? or to.present?
@@ -301,6 +239,32 @@ class Subnet < ActiveRecord::Base
   def ensure_ip_addrs_valid
     IP_FIELDS.each do |f|
       errors.add(f, _("is invalid")) if (send(f).present? || REQUIRED_IP_FIELDS.include?(f)) && !validate_ip(send(f)) && !errors.keys.include?(f)
+    end
+  end
+
+  class << self
+    def modes_with_translations(modes)
+      modes.map { |_, mode_name| [_(mode_name), mode_name] }
+    end
+
+    def boot_modes_with_translations
+      modes_with_translations(BOOT_MODES)
+    end
+
+    def ipam_modes_with_translations
+      modes_with_translations(IPAM::MODES)
+    end
+
+    def supports_ipam_mode?(mode)
+      supported_ipam_modes.include?(mode)
+    end
+
+    # Given an IP returns the subnet that contains that IP
+    # [+ip+] : IPv4 or IPv6 address
+    # Returns : Subnet object or nil if not found
+    def subnet_for(ip)
+      ip = IPAddr.new(ip)
+      Subnet.all.detect {|s| s.family == ip.family && s.contains?(ip)}
     end
   end
 
