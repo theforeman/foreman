@@ -18,8 +18,19 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert h.valid?
       assert h.dns?
       assert h.reverse_dns?
-      assert_not_nil h.dns_a_record
-      assert_not_nil h.dns_ptr_record
+      assert_not_nil h.dns_record(:a)
+      assert_not_nil h.dns_record(:ptr4)
+    end
+  end
+
+  def test_host_should_have_dns6
+    if unattended?
+      h = FactoryGirl.create(:host, :with_ipv6_dns_orchestration)
+      assert h.valid?
+      assert h.dns6?
+      assert h.reverse_dns6?
+      assert_not_nil h.dns_record(:aaaa)
+      assert_not_nil h.dns_record(:ptr6)
     end
   end
 
@@ -30,8 +41,8 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert h.valid?
       assert h.dns?
       assert !h.reverse_dns?
-      assert_not_nil h.dns_a_record
-      assert_nil h.dns_ptr_record
+      assert_not_nil h.dns_record(:a)
+      assert_nil h.dns_record(:ptr4)
     end
   end
 
@@ -41,8 +52,8 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert h.valid?
       assert !h.dns?
       assert !h.reverse_dns?
-      assert_equal nil, h.dns_a_record
-      assert_equal nil, h.dns_ptr_record
+      assert_equal nil, h.dns_record(:a)
+      assert_equal nil, h.dns_record(:ptr4)
     end
   end
 
@@ -53,8 +64,8 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert h.valid?
       assert !h.dns?
       assert h.reverse_dns?
-      assert_equal nil, h.dns_a_record
-      assert_not_nil h.dns_ptr_record
+      assert_equal nil, h.dns_record(:a)
+      assert_not_nil h.dns_record(:ptr4)
     end
   end
 
@@ -68,8 +79,8 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
                              :ip => '10.0.0.3')
       assert b.dns?
       assert b.reverse_dns?
-      assert_equal "#{b.shortname}.#{b.domain.name}/#{b.ip}", b.dns_a_record.to_s
-      assert_equal "#{b.ip}/#{b.shortname}.#{b.domain.name}", b.dns_ptr_record.to_s
+      assert_equal "#{b.shortname}.#{b.domain.name}/#{b.ip}", b.dns_record(:a).to_s
+      assert_equal "#{b.ip}/#{b.shortname}.#{b.domain.name}", b.dns_record(:ptr4).to_s
     end
   end
 
@@ -80,42 +91,65 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert h.valid?
       assert_equal false, h.dns?
       assert_equal false, h.reverse_dns?
+      assert_equal false, h.dns6?
+      assert_equal false, h.reverse_dns6?
     end
   end
 
-  def test_should_rebuild_dns
+  def test_should_rebuild_dns_with_ipv4
     h = FactoryGirl.create(:host, :with_dns_orchestration)
-    Nic::Managed.any_instance.expects(:del_dns_a_record)
-    Nic::Managed.any_instance.expects(:del_dns_ptr_record)
-    Nic::Managed.any_instance.expects(:recreate_a_record).returns(true)
-    Nic::Managed.any_instance.expects(:recreate_ptr_record).returns(true)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:a)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:aaaa).never
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr4)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr6).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:a).returns(true)
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:aaaa).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:ptr4).returns(true)
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:ptr6).never
+    assert h.interfaces.first.rebuild_dns
+  end
+
+  def test_should_rebuild_dns_with_ipv6
+    h = FactoryGirl.create(:host, :with_ipv6_dns_orchestration)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:a).never
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:aaaa)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr4).never
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr6)
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:a).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:aaaa).returns(true)
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:ptr4).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:ptr6).returns(true)
     assert h.interfaces.first.rebuild_dns
   end
 
   def test_should_skip_dns_rebuild
     nic = FactoryGirl.build(:nic_managed)
-    Nic::Managed.any_instance.expects(:del_dns_a_record).never
-    Nic::Managed.any_instance.expects(:del_dns_ptr_record).never
-    Nic::Managed.any_instance.expects(:recreate_a_record).never
-    Nic::Managed.any_instance.expects(:recreate_ptr_record).never
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:a).never
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:aaaa).never
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr4).never
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr6).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:a).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:aaaa).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:ptr4).never
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:ptr6).never
     assert nic.rebuild_dns
   end
 
   def test_dns_rebuild_should_fail
     h = FactoryGirl.create(:host, :with_dns_orchestration)
-    Nic::Managed.any_instance.expects(:del_dns_a_record)
-    Nic::Managed.any_instance.expects(:del_dns_ptr_record)
-    Nic::Managed.any_instance.expects(:recreate_a_record).returns(true)
-    Nic::Managed.any_instance.expects(:recreate_ptr_record).returns(false)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:a)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr4)
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:a).returns(true)
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:ptr4).returns(false)
     refute h.interfaces.first.rebuild_dns
   end
 
   def test_dns_rebuild_should_fail_with_exception
     h = FactoryGirl.create(:host, :with_dns_orchestration)
-    Nic::Managed.any_instance.expects(:del_dns_a_record)
-    Nic::Managed.any_instance.expects(:del_dns_ptr_record)
-    Nic::Managed.any_instance.expects(:recreate_a_record).returns(true)
-    Nic::Managed.any_instance.stubs(:recreate_ptr_record).raises(StandardError, 'DNS test fail')
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:a)
+    Nic::Managed.any_instance.expects(:del_dns_record).with(:ptr4)
+    Nic::Managed.any_instance.expects(:recreate_dns_record).with(:a).returns(true)
+    Nic::Managed.any_instance.stubs(:recreate_dns_record).with(:ptr4).raises(StandardError, 'DNS test fail')
     refute h.interfaces.first.rebuild_dns
   end
 
@@ -143,7 +177,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   test 'dns record should be nil for invalid ip' do
     host = FactoryGirl.build(:host, :with_dns_orchestration, :interfaces => [FactoryGirl.build(:nic_primary_and_provision, :ip => "aaaaaaa")])
-    assert_nil host.dns_ptr_record
-    assert_nil host.dns_a_record
+    assert_nil host.dns_record(:ptr4)
+    assert_nil host.dns_record(:a)
   end
 end

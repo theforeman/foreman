@@ -23,7 +23,8 @@ class Subnet < ActiveRecord::Base
 
   # This casts Subnet to Subnet::Ipv4 if no type is set
   def self.new(*attributes, &block)
-    return Subnet::Ipv4.new_without_cast(*attributes, &block) if self == Subnet
+    (h = attributes.first).is_a?(Hash) && (type = h.with_indifferent_access.delete(:type))
+    return Subnet::Ipv4.new_without_cast(*attributes, &block) if self == Subnet && type.nil?
     super
   end
 

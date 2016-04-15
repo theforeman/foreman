@@ -143,7 +143,7 @@ module Orchestration
   end
 
   def execute(opts = {})
-    obj, met = opts[:action]
+    obj, met, param = opts[:action]
     rollback = opts[:rollback] || false
     # at the moment, rollback are expected to replace set with del in the method name
     if rollback
@@ -159,6 +159,7 @@ module Orchestration
       met = met.to_sym
     end
     if obj.respond_to?(met,true)
+      param.nil? || (return obj.send(met, param))
       return obj.send(met)
     else
       failure _("invalid method %s") % met

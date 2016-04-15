@@ -7,6 +7,10 @@ module Net
         self.ipfamily = Socket::AF_INET6
         @type = "AAAA"
       end
+
+      def self.human(count = 1)
+        n_('IPv6 DNS record', 'IPv6 DNS records', count)
+      end
     end
   end
 end

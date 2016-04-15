@@ -173,7 +173,7 @@ class Host::Managed < Host::Base
     # DHCP orchestration delegation
     delegate :dhcp?, :dhcp_record, :to => :primary_interface
     # DNS orchestration delegation
-    delegate :dns?, :reverse_dns?, :dns_a_record, :dns_ptr_record, :to => :primary_interface
+    delegate :dns?, :dns6?, :reverse_dns?, :reverse_dns6?, :dns_record, :to => :primary_interface
     include Orchestration::Compute
     include Rails.application.routes.url_helpers
     # TFTP orchestration delegation

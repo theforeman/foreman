@@ -51,6 +51,22 @@ class OrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  test "parameters can be passed to queue methods" do
+    class Host::Test < Host::Base
+      include Orchestration
+      def test_execute(method)
+        execute({:action => [self, method, 'abc']})
+      end
+
+      protected
+
+      def setTest(param); "got #{param}"; end
+    end
+    h = Host::Test.new
+    h.expects(:setTest).with('abc').returns(true)
+    assert h.test_execute(:setTest)
+  end
+
   test "orchestration can clone object with type attribute" do
     @nic.ip = '192.168.0.1'
     @nic.type = 'Nic::Managed'

@@ -7,6 +7,10 @@ module Net
         self.ipfamily = Socket::AF_INET6
       end
 
+      def self.human(count = 1)
+        n_('Reverse IPv6 DNS record', 'Reverse IPv6 DNS records', count)
+      end
+
       private
 
       # Returns: String containing the ip in the ip6.arpa zone
