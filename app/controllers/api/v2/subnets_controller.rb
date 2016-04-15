@@ -83,9 +83,7 @@ module Api
       private
 
       def find_ipam
-        return unless @subnet.ipam?
-        opts = {:subnet => @subnet, :mac => params[:mac], :excluded_ips => params[:excluded_ips] || []}
-        @ipam = IPAM.new(@subnet.ipam, opts)
+        @ipam = @subnet.unused_ip(params[:mac], params[:excluded_ips] || [])
       end
 
       def action_permission

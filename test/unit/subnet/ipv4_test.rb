@@ -93,13 +93,13 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
     ipam.expects(:suggest_ip).returns('1.1.1.1')
     IPAM.expects(:new).once.returns(ipam)
     subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12', :ipam => IPAM::MODES[:db])
-    assert_equal '1.1.1.1', subnet.unused_ip
+    assert_equal '1.1.1.1', subnet.unused_ip.suggest_ip
   end
 
   test "#unused_ip does not suggest IP if mode is set to none" do
     subnet = FactoryGirl.build(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
     subnet.stubs(:dhcp? => false, :ipam => IPAM::MODES[:none])
-    assert_nil subnet.unused_ip
+    assert_nil subnet.unused_ip.suggest_ip
   end
 
   test "#known_ips includes all host and interfaces IPs assigned to this subnet" do

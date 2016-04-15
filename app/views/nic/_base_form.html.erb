@@ -3,7 +3,9 @@
                     :disabled => !f.object.new_record?,
                     :size => "col-md-8", :label_size => "col-md-3" %>
 
-<%= text_f f, :mac, :class => :interface_mac, :size => "col-md-8", :label_size => "col-md-3" %>
+<%= text_f f, :mac,
+              :help_inline => popover('', _("Media access control address for this interface. Format must be six groups of two hexadecimal digits separated by colons (:), e.g. 00:11:22:33:44:55"), :rel => 'popover-modal'),
+              :class => :interface_mac, :size => "col-md-8", :label_size => "col-md-3" %>
 <%= text_f f, :identifier,
               :label => _("Device identifier"),
               :help_inline => popover('',
@@ -28,24 +30,38 @@
                  :help_inline => :indicator,
                  :class => 'interface_domain', :'data-url' => domain_selected_hosts_path,
                  :size => "col-md-8", :label_size => "col-md-3" } %>
-  <%= select_f f, :subnet_id, accessible_resource(f.object, :subnet), :id, :to_label,
-               { :include_blank => accessible_resource(f.object, :subnet).any? ? true : _("No subnets")},
-               { :disabled => accessible_resource(f.object, :subnet).empty? ? true : false,
-                 :help_inline => :indicator,
-                 :class => 'interface_subnet', :'data-url' => freeip_subnets_path,
-                 :size => "col-md-8", :label_size => "col-md-3" } %>
+  <%= nic_subnet_field f, :subnet_id, :"Subnet::Ipv4",
+                { :label => _("IPv4 Subnet"),
+                :class => 'interface_subnet' } %>
+  <%= nic_subnet_field f, :subnet6_id, :"Subnet::Ipv6",
+                { :label => _("IPv6 Subnet"),
+                :class => 'interface_subnet6' } %>
 <% end %>
 <%= text_f f, :ip,
               :class => :interface_ip,
+              :label => _("IPv4 address"),
               :autocomplete => 'off',
-              :help_block => link_to(_("Suggest new"), '#', :class => 'suggest_new_ip'),
+              :help_block => suggest_new_link(f, :subnet , 'suggest_new_ip'),
               :help_inline => popover('',
-                  _("An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"),
+                  _("An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"),
                   :title => _("IP address auto-suggest"),
                   :rel => 'popover-modal',
                   :'data-placement' => "top"
                 ).html_safe,
                 :size => "col-md-8", :label_size => "col-md-3" %>
+
+<%= text_f f, :ip6,
+              :label => _("IPv6 address"),
+              :class => :interface_ip6,
+              :autocomplete => 'off',
+              :help_block => suggest_new_link(f, :subnet6, 'suggest_new_ip6'),
+              :help_inline => popover('',
+                  _("An IP address will be auto-suggested if you have enabled IPAM on the IPv6 subnet selected above."),
+                  :title => _("IP address auto-suggest"),
+                  :rel => 'popover-modal',
+                  :'data-placement' => "top"
+                ).html_safe,
+              :size => "col-md-8", :label_size => "col-md-3" %>
 
 <% if SETTINGS[:unattended] %>
   <%= checkbox_f f, :managed,

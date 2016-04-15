@@ -2,6 +2,7 @@ module HostsHelper
   include OperatingsystemsHelper
   include HostsAndHostgroupsHelper
   include ComputeResourcesVmsHelper
+  include HostsNicHelper
   include BmcHelper
 
   def provider_partial_exist?(compute_resource, partial)
@@ -398,9 +399,9 @@ module HostsHelper
   end
 
 # helper method to provide data attribute if subnets has ipam enabled / disabled
-  def subnets_ipam_data
+  def subnets_ipam_data(field)
     data = {}
-    domain_subnets.each do |subnet|
+    domain_subnets(field).each do |subnet|
       data[subnet.id] = { :ipam => subnet.ipam? }
     end
     data

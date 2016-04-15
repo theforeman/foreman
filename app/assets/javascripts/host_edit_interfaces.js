@@ -158,6 +158,7 @@ function update_interface_row(row, interface_form) {
   row.find('.identifier').html(interface_form.find('.interface_identifier').val());
   row.find('.mac').html(interface_form.find('.interface_mac').val());
   row.find('.ip').html(interface_form.find('.interface_ip').val());
+  row.find('.ip6').html(interface_form.find('.interface_ip6').val());
 
   var flags = '', primary_class = '', provision_class = '';
   if (interface_form.find('.interface_primary').is(':checked'))

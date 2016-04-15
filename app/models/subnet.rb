@@ -85,7 +85,7 @@ class Subnet < ActiveRecord::Base
   scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
   scoped_search :in => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
-  delegate :supports_ipam_mode?, :supported_ipam_modes, to: 'self.class'
+  delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
 
   class Jail < ::Safemode::Jail
     allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,
@@ -178,26 +178,21 @@ class Subnet < ActiveRecord::Base
     self.ipam != IPAM::MODES[:none]
   end
 
+  def ipam_needs_range?
+    ipam? && self.ipam != IPAM::MODES[:eui64]
+  end
+
   def dhcp_boot_mode?
     self.boot_mode == Subnet::BOOT_MODES[:dhcp]
   end
 
   def unused_ip(mac = nil, excluded_ips = [])
-    unless ipam?
-      logger.debug "Not suggesting IP Address for #{self} as IPAM is disabled"
-      return
-    end
-
     unless supported_ipam_modes.map {|m| IPAM::MODES[m]}.include?(self.ipam)
       raise ::Foreman::Exception.new(N_("Unsupported IPAM mode for %s") % self.class)
     end
 
     opts = {:subnet => self, :mac => mac, :excluded_ips => excluded_ips}
-    ipam = IPAM.new(self.ipam, opts)
-    ipam.suggest_ip
-  rescue => e
-    logger.warn "Failed to fetch a free IP from our proxy: #{e}"
-    nil
+    IPAM.new(self.ipam, opts)
   end
 
   def known_ips
@@ -259,20 +254,16 @@ class Subnet < ActiveRecord::Base
   end
 
   class << self
-    def modes_with_translations(modes)
-      modes.map { |_, mode_name| [_(mode_name), mode_name] }
-    end
-
     def boot_modes_with_translations
-      modes_with_translations(BOOT_MODES)
-    end
-
-    def ipam_modes_with_translations
-      modes_with_translations(IPAM::MODES)
+      BOOT_MODES.map { |_, mode_name| [_(mode_name), mode_name] }
     end
 
     def supports_ipam_mode?(mode)
       supported_ipam_modes.include?(mode)
+    end
+
+    def supported_ipam_modes_with_translations
+      supported_ipam_modes.map {|mode| [_(IPAM::MODES[mode]), IPAM::MODES[mode]]}
     end
 
     # Given an IP returns the subnet that contains that IP

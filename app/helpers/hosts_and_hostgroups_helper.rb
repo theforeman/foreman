@@ -21,11 +21,13 @@ module HostsAndHostgroupsHelper
     list
   end
 
-  def accessible_related_resource(obj, relation, order = :name)
+  def accessible_related_resource(obj, relation, opts = {})
     return [] if obj.blank?
+    order = opts.fetch(:order, :name)
+    where = opts.fetch(:where, nil)
     related = obj.public_send(relation)
     related = related.with_taxonomy_scope_override(@location, @organization) if obj.class.reflect_on_association(relation).klass.include?(Taxonomix)
-    related.authorized.reorder(order)
+    related.authorized.where(where).reorder(order)
   end
 
   def parent_classes(obj)
@@ -48,8 +50,8 @@ module HostsAndHostgroupsHelper
     list
   end
 
-  def domain_subnets
-    accessible_related_resource(@domain, :subnets)
+  def domain_subnets(type)
+    accessible_related_resource(@domain, :subnets, :where => {:type => type})
   end
 
   def arch_oss

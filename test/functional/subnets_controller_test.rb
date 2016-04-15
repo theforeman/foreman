@@ -16,12 +16,12 @@ class SubnetsControllerTest < ActionController::TestCase
   end
 
   def test_create_valid_without_type
-    post :create, {:subnet => {:network => "192.168.0.1", :mask => "255.255.255.0", :name => 'testsubnet'}}, set_session_user
+    post :create, {:subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet'}}, set_session_user
     assert_redirected_to subnets_url
   end
 
   def test_create_valid_with_type
-    post :create, {:subnet => {:network => "192.168.0.1", :mask => "255.255.255.0", :name => 'testsubnet', :type => 'Subnet::Ipv4'}}, set_session_user
+    post :create, {:subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet', :type => 'Subnet::Ipv4'}}, set_session_user
     assert_redirected_to subnets_url
   end
 
@@ -92,13 +92,17 @@ class SubnetsControllerTest < ActionController::TestCase
   def test_freeip_returns_json_on_success
     ip = '1.2.3.4'
     subnet = mock('subnet')
-    subnet.stubs(:unused_ip).returns(ip)
+    ipam = mock()
+    ipam.expects(:suggest_ip).returns(ip)
+    ipam.stubs(:errors).returns({})
+    subnet.stubs(:unused_ip).returns(ipam)
     subnet_id = setup_subnet subnet
 
     get :freeip, {subnet_id: subnet_id}, set_session_user
 
     assert_response :success
     assert_equal ip, JSON.parse(response.body)['ip']
+    assert_empty JSON.parse(response.body)['errors']
   end
 
   test 'user with view_params rights should see parameters in a subnet' do

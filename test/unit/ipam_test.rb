@@ -1,14 +1,6 @@
 require 'test_helper'
 
 class IPAMTest < ActiveSupport::TestCase
-  test 'should raise an exception if given mac is invalid' do
-    s = FactoryGirl.build(:subnet_ipv6, :network => '2001:db8::')
-    exception = assert_raise Foreman::Exception do
-      IPAM::Eui64.new(:subnet => s, :mac => 'invalid')
-    end
-    assert_includes exception.message, 'not a valid MAC address'
-  end
-
   context 'dhcp' do
     test "should find unused IP on proxy if proxy is set" do
       subnet = FactoryGirl.build(:subnet_ipv4, :ipam_dhcp, :name => 'my_subnet', :network => '192.168.1.0')
@@ -63,13 +55,20 @@ class IPAMTest < ActiveSupport::TestCase
       assert_equal '2001:db8::211:22ff:fe33:4455', ipam.suggest_ip
     end
 
-    test 'should raise an exception if prefix length is not suitable' do
+    test 'should not suggest an ip if given mac is invalid' do
+      subnet = FactoryGirl.build(:subnet_ipv6, :network => '2001:db8::')
+      ipam = IPAM::Eui64.new(:subnet => subnet, :mac => 'invalid')
+      assert_nil ipam.suggest_ip
+      refute_empty ipam.errors
+      assert_includes ipam.errors.full_messages, 'Mac is not a valid MAC address'
+    end
+
+    test 'should not suggest an ip if prefix length is not suitable' do
       subnet = FactoryGirl.build(:subnet_ipv6, :network => '2001:db8::', :cidr => 70)
       ipam = IPAM::Eui64.new(:subnet => subnet, :mac => '00:11:22:33:44:55')
-      exception = assert_raise Foreman::Exception do
-        ipam.suggest_ip
-      end
-      assert_includes exception.message, 'Prefix length must be /64 or less'
+      assert_nil ipam.suggest_ip
+      refute_empty ipam.errors
+      assert_includes ipam.errors.full_messages, 'Subnet Prefix length must be /64 or less to use EUI-64'
     end
   end
 end

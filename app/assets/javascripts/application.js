@@ -608,3 +608,19 @@ function activate_select2(container, allowClear) {
     not('#interfaceForms select').
     select2({ 'allowClear': allowClear });
 }
+
+function setError(field, text) {
+  var form_group = field.parents(".form-group").first();
+  form_group.addClass("has-error");
+  var help_block = form_group.children(".help-inline").first();
+  var span = $( document.createElement('span') );
+  span.addClass("error-message").html(text);
+  help_block.prepend(span);
+};
+
+function clearError(field) {
+  var form_group = field.parents(".form-group").first();
+  form_group.removeClass("has-error");
+  var error_block = form_group.children(".help-inline").children(".error-message");
+  error_block.remove();
+};

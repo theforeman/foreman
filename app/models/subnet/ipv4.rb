@@ -28,6 +28,10 @@ class Subnet::Ipv4 < Subnet
     [:dhcp, :db, :none]
   end
 
+  def self.show_mask?
+    true
+  end
+
   def ip_sym
     :ip
   end

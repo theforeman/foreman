@@ -24,9 +24,9 @@ module Foreman::Controller::HostDetails
         taxonomy_scope
         Taxonomy.as_taxonomy @organization, @location do
           if (domain = Domain.find_by_id(params[:domain_id]))
-            render :json => domain.subnets
+            render :json => domain.subnets.as_json(:include => :unused_ip)
           elsif params[:interface]
-            render :json => Subnet.authorized(:view_subnets)
+            render :json => Subnet.authorized(:view_subnets).as_json(:include => :unused_ip)
           else
             render :json => {}
           end
