@@ -17,10 +17,37 @@ class SubnetTest < ActiveSupport::TestCase
     assert_equal Subnet::Ipv4, subnet.class
   end
 
+  test 'should be cast to Subnet::Ipv6 if type is set accordingly' do
+    subnet = Subnet.new(:type => 'Subnet::Ipv6')
+    assert_equal Subnet::Ipv6, subnet.class
+  end
+
   test 'child class should not be cast to default sti class even if no type is set' do
     class Subnet::Test < Subnet; end
     subnet = Subnet::Test.new
     assert_equal Subnet::Test, subnet.class
+  end
+
+  test '#network_type returns the subnets type in human friendly form' do
+    subnet = Subnet.new(:type => 'Subnet::Ipv4')
+    assert_equal 'IPv4', subnet.network_type
+    subnet6 = Subnet.new(:type => 'Subnet::Ipv6')
+    assert_equal 'IPv6', subnet6.network_type
+  end
+
+  test '#network_type= should set #type' do
+    subnet = Subnet.new(:type => 'Subnet::Ipv4')
+    subnet.network_type = 'IPv6'
+    assert_equal 'Subnet::Ipv6', subnet.type
+  end
+
+  test '.new_network_type instantiates network_type from arguments' do
+    assert_instance_of Subnet::Ipv6, Subnet.new_network_type(:network_type => 'IPv6')
+  end
+
+  test '.new_network_type raises error for unknown network type' do
+    e = assert_raise(Foreman::Exception) { Subnet.new_network_type({:network_type => 'Unknown'}) }
+    assert_match /unknown network_type/, e.message
   end
 
   test "the name should be unique in the domain scope" do

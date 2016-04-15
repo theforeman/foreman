@@ -33,10 +33,12 @@ module Api
       def_param_group :interface_attributes do
         #common parameters
         param :mac, String, :desc => N_("MAC address of interface. Required for managed interfaces on bare metal.")
-        param :ip, String, :desc => N_("IP address of interface")
+        param :ip, String, :desc => N_("IPv4 address of interface")
+        param :ip6, String, :desc => N_("IPv6 address of interface")
         param :type, InterfaceTypeMapper::ALLOWED_TYPE_NAMES, :desc => N_("Interface type, e.g. bmc. Default is %{default_nic_type}")
         param :name, String, :desc => N_("Interface's DNS name")
-        param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of interface")
+        param :subnet_id, Fixnum, :desc => N_("Foreman subnet ID of IPv4 interface")
+        param :subnet6_id, Fixnum, :desc => N_("Foreman subnet ID of IPv6 interface")
         param :domain_id, Fixnum, :desc => N_("Foreman domain ID of interface. Required for primary interfaces on managed hosts.")
         param :identifier, String, :desc => N_("Device identifier, e.g. eth0 or eth1.1")
         param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
