@@ -25,6 +25,19 @@ module Net
       ip
     end
 
+    # validates an IPv6 address
+    def self.validate_ip6(ip)
+      return false unless ip.present?
+      IPAddr.new(ip, Socket::AF_INET6) rescue return false
+      true
+    end
+
+    # validates an IPv6 address and raises an error
+    def self.validate_ip6!(ip)
+      raise Error, "Invalid IPv6 Address #{ip}" unless validate_ip6(ip)
+      ip
+    end
+
     # validates a network mask
     def self.validate_mask(mask)
       mask =~ MASK_REGEXP
@@ -83,6 +96,12 @@ module Net
       ip.split(".").map(&:to_i).join(".")
     end
 
+    # return the most efficient form of a v6 address
+    def self.normalize_ip6 ip
+      return ip unless ip.present?
+      IPAddr.new(ip, Socket::AF_INET6).to_s rescue ip
+    end
+
     def self.normalize_mac(mac)
       return unless mac.present?
       m = mac.downcase
@@ -100,7 +119,7 @@ module Net
         when /\A([a-f0-9]{1,2}-){5}[a-f0-9]{1,2}\z/
           m.split("-").map { |nibble| "%02x" % ("0x" + nibble) }.join(":")
         else
-          raise ArgumentError, "'#{mac}' is not a valid MAC address"
+          raise Error, "'#{mac}' is not a valid MAC address"
       end
     end
 

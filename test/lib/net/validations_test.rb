@@ -138,13 +138,13 @@ class ValidationsTest < ActiveSupport::TestCase
 
     context "when invalid MAC address" do
       test "should handle invalid MAC address length" do
-        assert_raise ArgumentError do
+        assert_raise Net::Validations::Error do
           Net::Validations.normalize_mac("aa:bb:cc:dd:ee:ff:gg:11")
         end
       end
 
       test "should handle invalid MAC address characters" do
-        assert_raise ArgumentError do
+        assert_raise Net::Validations::Error do
           assert_nil Net::Validations.normalize_mac("aa:bb:cc:dd:ee:zz")
         end
       end

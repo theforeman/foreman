@@ -1,6 +1,6 @@
-<% title _("Import subnets") %>
+<% title _("Import IPv4 subnets") %>
 
-<h2><%= _("The following subnets have been found") %></h2>
+<h2><%= _("The following IPv4 subnets have been found") %></h2>
 
 <%= form_for "subnets[]", :url => create_multiple_subnets_path do |f| %>
   <% display_all = !minimal?(@subnets) %>

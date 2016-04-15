@@ -25,7 +25,7 @@ module SmartProxiesHelper
     end
 
     if SETTINGS[:unattended] and proxy.has_feature?('DHCP')
-      actions << display_link_if_authorized(_("Import subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
+      actions << display_link_if_authorized(_("Import IPv4 subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
     end
 
     if proxy.has_feature?('Logs')

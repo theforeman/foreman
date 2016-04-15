@@ -160,7 +160,7 @@ module Nic
 
     def normalize_mac
       self.mac = Net::Validations.normalize_mac(mac)
-    rescue ArgumentError => e
+    rescue Net::Validations::Error => e
       self.errors.add(:mac, e.message)
     end
 
