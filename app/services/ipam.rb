@@ -3,6 +3,8 @@ module IPAM
 
   def self.new(type, *args)
     case type
+    when IPAM::MODES[:none]
+      IPAM::None.new(*args)
     when IPAM::MODES[:dhcp]
       IPAM::Dhcp.new(*args)
     when IPAM::MODES[:db]

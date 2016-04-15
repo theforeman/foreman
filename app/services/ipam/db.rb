@@ -10,10 +10,11 @@ module IPAM
         ip = address.to_s
         if !subnet.known_ips.include?(ip) && !excluded_ips.include?(ip)
           logger.debug("Found #{ip}")
-          return(ip)
+          return ip
         end
       end
-      logger.debug("Not suggesting IP Address for #{self} as no free IP found in our DB")
+      logger.debug("Not suggesting IP Address for #{subnet} as no free IP found in our DB")
+      errors.add(:subnet, _('no free IP could be found in our DB'))
       nil
     end
   end

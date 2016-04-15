@@ -6,7 +6,7 @@ class SubnetJSIntegrationTest < IntegrationTestWithJavascript
     assert page.has_link?('Parameters', :href => '#params')
     fill_in "subnet_name", :with => "home-office"
     fill_in "subnet_network", :with => "10.0.0.77"
-    fill_in "subnet_mask", :with => "255.255.255.0"
+    fill_in "subnet_cidr", :with => "24"
     click_link 'Parameters'
     find('#parameters>a.btn').click
 

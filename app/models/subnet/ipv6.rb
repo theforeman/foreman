@@ -26,6 +26,10 @@ class Subnet::Ipv6 < Subnet
     [:eui64, :db, :none]
   end
 
+  def self.show_mask?
+    false
+  end
+
   def ip_sym
     :ip6
   end

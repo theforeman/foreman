@@ -1,15 +1,26 @@
 module IPAM
   class Eui64 < Base
     def suggest_ip
-      logger.debug("Suggesting ip for #{self} based on mac '#{mac}' (EUI-64).")
-      return unless mac.present? && subnet.network.present? && subnet.cidr.present?
-      raise Foreman::Exception.new(N_("Prefix length must be /64 or less to use EUI-64")) if subnet.cidr > 64
+      logger.debug("Suggesting ip for #{subnet} based on mac '#{mac}' (EUI-64).")
+      validate
+      return if errors.present?
       ip = mac_to_ip(mac)
       logger.debug("Generated #{ip}")
       ip
     end
 
+    def suggest_new?
+      false
+    end
+
     private
+
+    def validate
+      errors.add(:mac, _("can't be blank")) unless mac.present?
+      errors.add(:subnet, _("Network can't be blank")) unless subnet.network.present?
+      errors.add(:subnet, _("Prefix length can't be blank")) unless subnet.cidr.present?
+      errors.add(:subnet, _("Prefix length must be /64 or less to use EUI-64")) if subnet.cidr > 64
+    end
 
     def mac_to_ip(mac)
       # cleanup MAC address
