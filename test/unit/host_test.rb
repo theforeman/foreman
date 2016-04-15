@@ -2368,8 +2368,8 @@ class HostTest < ActiveSupport::TestCase
   test '#info ENC YAML contains ipv4 and ipv6 subnets' do
     host = FactoryGirl.build(:host, :with_subnet, :with_ipv6_subnet)
     enc = host.info
-    assert enc['parameters']['foreman_subnets'].any? {|s| s['type'] == 'Subnet::Ipv4'}
-    assert enc['parameters']['foreman_subnets'].any? {|s| s['type'] == 'Subnet::Ipv6'}
+    assert enc['parameters']['foreman_subnets'].any? {|s| s['network_type'] == 'IPv4'}
+    assert enc['parameters']['foreman_subnets'].any? {|s| s['network_type'] == 'IPv6'}
   end
 
   describe 'cloning' do

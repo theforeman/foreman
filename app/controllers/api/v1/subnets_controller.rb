@@ -25,6 +25,7 @@ module Api
       api :POST, '/subnets', 'Create a subnet'
       param :subnet, Hash, :required => true do
         param :name, String, :desc => 'Subnet name', :required => true
+        param :network_type, Subnet::SUBNET_TYPES.values, :desc => 'Type or protocol, IPv4 or IPv6, defaults to IPv4'
         param :network, String, :desc => 'Subnet network', :required => true
         param :mask, String, :desc => 'Netmask for this subnet', :required => true
         param :gateway, String, :desc => 'Primary DNS for this subnet'
@@ -41,7 +42,7 @@ module Api
       end
 
       def create
-        @subnet = Subnet.new(params[:subnet])
+        @subnet = Subnet.new_network_type(params[:subnet])
         process_response @subnet.save
       end
 

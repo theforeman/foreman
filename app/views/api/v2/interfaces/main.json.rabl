@@ -2,7 +2,7 @@ object @interface
 
 extends "api/v2/interfaces/base"
 
-attributes :subnet_id, :subnet_name, :domain_id, :domain_name, :created_at, :updated_at,
+attributes :subnet_id, :subnet_name, :subnet6_id, :subnet6_name, :domain_id, :domain_name, :created_at, :updated_at,
            :managed, :identifier
 
 node do |interface|

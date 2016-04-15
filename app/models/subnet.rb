@@ -16,14 +16,14 @@ class Subnet < ActiveRecord::Base
 
   attr_accessible :name, :type, :network, :mask, :gateway, :dns_primary, :dns_secondary, :ipam, :from,
     :to, :vlanid, :boot_mode, :dhcp_id, :dhcp, :tftp_id, :tftp, :dns_id, :dns, :domain_ids, :domain_names,
-    :subnet_parameters_attributes, :cidr
+    :subnet_parameters_attributes, :cidr, :network_type
 
   attr_exportable :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to, :boot_mode,
-    :ipam, :vlanid, :type
+    :ipam, :vlanid, :network_type
 
   # This casts Subnet to Subnet::Ipv4 if no type is set
   def self.new(*attributes, &block)
-    (h = attributes.first).is_a?(Hash) && (type = h.with_indifferent_access.delete(:type))
+    type = attributes.first.with_indifferent_access.delete(:type) if attributes.first.is_a?(Hash)
     return Subnet::Ipv4.new_without_cast(*attributes, &block) if self == Subnet && type.nil?
     super
   end
@@ -104,6 +104,14 @@ class Subnet < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+  def network_type
+    SUBNET_TYPES[type.to_sym]
+  end
+
+  def network_type=(value)
+    self[:type] = SUBNET_TYPES.key(value)
   end
 
   # Subnets are sorted on their priority value
@@ -274,6 +282,16 @@ class Subnet < ActiveRecord::Base
     def subnet_for(ip)
       ip = IPAddr.new(ip)
       Subnet.all.detect {|s| s.family == ip.family && s.contains?(ip)}
+    end
+
+    # allows to create a specific subnet class based on the network_type.
+    # network_type is more user friendly than the class names
+    def new_network_type(args)
+      network_type = args.delete(:network_type) || 'IPv4'
+      SUBNET_TYPES.each do |network_type_class, network_type_name|
+        return network_type_class.to_s.constantize.new(args) if network_type_name.downcase == network_type.downcase
+      end
+      raise ::Foreman::Exception.new N_("unknown network_type")
     end
   end
 
