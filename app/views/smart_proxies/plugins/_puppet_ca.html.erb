@@ -1,10 +1,10 @@
 <ul id="proxy-puppetca-tab" class="nav nav-tabs nav-tabs-pf">
-  <li class="active"><a href="#ca_general"><%= _("General") %></a></li>
+  <li class="active"><a href="#ca_general" data-toggle="tab"><%= _("General") %></a></li>
   <% if authorized_for(:permission => :view_smart_proxies_puppetca, :auth_object => @smart_proxy, :authorizer => authorizer) %>
-  <li><a href="#certificates"><%= _("Certificates") %></a></li>
+  <li><a href="#certificates" data-toggle="tab"><%= _("Certificates") %></a></li>
   <% end %>
   <% if authorized_for(:permission => :view_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
-  <li><a href="#autosign"><%= _("Autosign entries") %></a></li>
+  <li><a href="#autosign" data-toggle="tab"><%= _("Autosign entries") %></a></li>
   <% end %>
 </ul>
 <div id="proxy-puppetca-tab-content" class="tab-content">
