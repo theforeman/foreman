@@ -5,14 +5,15 @@
 # Translators:
 # Dominic Cleal <dominic@cleal.org>, 2014
 # Jean-Baptiste Langlois <jeanbaptiste.langlois@gmail.com>, 2013
+# Kazuki Omo <kazuki.omo@gmail.com>, 2016
 # Shuji Yamada <uzy.exe@gmail.com>, 2015
 # Tomoyuki KATO <tomo@dream.daynight.jp>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-03-08 17:58+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2016-04-14 12:06+0000\n"
+"Last-Translator: Kazuki Omo <kazuki.omo@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
 "MIME-Version: 1.0\n"
@@ -550,7 +551,7 @@ msgid "Architecture Distribution"
 msgstr "アーキテクチャの統計"
 
 msgid "Architecture ID"
-msgstr ""
+msgstr "アーキテクチャ ID"
 
 msgid "Architectures"
 msgstr "アーキテクチャ"
@@ -1182,7 +1183,7 @@ msgid "Compute profile"
 msgstr "コンピュートプロファイル"
 
 msgid "Compute profile ID"
-msgstr ""
+msgstr "コンピュートプロファイル ID"
 
 msgid "Compute profiles"
 msgstr "コンピュートプロファイル"
@@ -2116,7 +2117,7 @@ msgid "Environment"
 msgstr "環境"
 
 msgid "Environment ID"
-msgstr ""
+msgstr "環境 ID"
 
 msgid "Environment IDs"
 msgstr "環境 IDs"
@@ -4819,7 +4820,7 @@ msgid "Operating system"
 msgstr "オペレーティングシステム"
 
 msgid "Operating system ID"
-msgstr ""
+msgstr "オペレーティングシステム ID"
 
 msgid "Operating system IDs"
 msgstr "オペレーティングシステム IDs"
@@ -6630,7 +6631,7 @@ msgid "Test connection to LDAP server was successful."
 msgstr ""
 
 msgid "Test connection was successful"
-msgstr ""
+msgstr "テスト接続に成功しました"
 
 msgid "Test email"
 msgstr ""

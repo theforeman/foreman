@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-03-30 17:20+0000\n"
+"PO-Revision-Date: 2016-04-15 18:25+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -65,8 +65,8 @@ msgstr[1] "%s VMs diesem Host zugeordnet"
 
 msgid "%s active feature"
 msgid_plural "%s active features"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s aktive Funktion"
+msgstr[1] "%s aktive Funktionen"
 
 msgid "%s ago"
 msgstr "vor %s"
@@ -86,8 +86,8 @@ msgstr[1] "vor %s Tagen"
 
 msgid "%s error message"
 msgid_plural "%s error messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s Fehlermeldung"
+msgstr[1] "%s Fehlermeldungen"
 
 msgid "%s has been disassociated from VM"
 msgstr "%s ist nun nicht mehr der VM zugewiesen"
@@ -105,8 +105,8 @@ msgstr "%s befindet sich nicht in der Umgebung"
 
 msgid "%s log message"
 msgid_plural "%s log messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s Protokollmeldung"
+msgstr[1] "%s Protokollmeldungen"
 
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
@@ -123,8 +123,8 @@ msgstr "%s ausgewählte Hosts"
 
 msgid "%s warning message"
 msgid_plural "%s warning messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s Warnmeldung"
+msgstr[1] "%s Warnmeldungen"
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
@@ -476,7 +476,7 @@ msgid "Alias or VLAN device"
 msgstr "Alias oder VLAN-Gerät"
 
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 msgid "All Puppet Classes for %s"
 msgstr "Alle Puppet-Klassen für %s"
@@ -551,10 +551,10 @@ msgid "Allocation (GB)"
 msgstr "Zuweisung (GB)"
 
 msgid "Allow external network as main network"
-msgstr ""
+msgstr "Externes Netzwerk als Hauptnetzwerk erlauben"
 
 msgid "Always show configuration status"
-msgstr ""
+msgstr "Konfigurationsstatus immer anzeigen"
 
 msgid "An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"
 msgstr "Eine IP-Adresse wird automatisch vorgeschlagen, wenn ein Smart Proxy mit DHCP-Unterstützung im oben ausgewählten Subnetz vorhanden ist.<br/><br/>Die IP-Adresse kann leer gelassen werden, wenn:<br/><ul><li>Bereitstellungs-Tokens aktiviert sind</li><li>Die Domain DNS nicht verwaltet,</li><li>das Subnetz Reverse-DNS nicht verwaltet</li><li>und dass Subnetz keine DHCP-Reservierungen verwaltet</li></ul>"
@@ -1087,7 +1087,7 @@ msgid "Change Group"
 msgstr "Gruppe ändern"
 
 msgid "Change Owner"
-msgstr ""
+msgstr "Eigentümer ändern"
 
 msgid "Change Power State"
 msgstr ""
@@ -1135,7 +1135,7 @@ msgid "Choose a family"
 msgstr "Familie auswählen"
 
 msgid "Choose a provider"
-msgstr "Provider auswählen"
+msgstr "Anbieter auswählen"
 
 msgid "Choose a server type"
 msgstr "Servertyp auswählen"
@@ -1207,7 +1207,7 @@ msgid "Cluster ID is required to list available networks"
 msgstr "Cluster-Kennung wird benötigt um verfügbare Netzwerke aufzulisten"
 
 msgid "Communication status"
-msgstr ""
+msgstr "Kommunikationsstatus"
 
 msgid "Compute Resource"
 msgstr "Rechenressource"
@@ -1293,7 +1293,7 @@ msgid "Config groups"
 msgstr "Konfigurationsgruppen"
 
 msgid "Config management"
-msgstr ""
+msgstr "Konfigurationsverwaltung"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ConfigGroup|Config group classes count"
@@ -1585,7 +1585,7 @@ msgid "Dashboard"
 msgstr "Übersichtsseite"
 
 msgid "Data not available for %s"
-msgstr ""
+msgstr "Daten für %s nicht verfügbar"
 
 msgid "Data store"
 msgstr "Datenspeicher"
@@ -1594,7 +1594,7 @@ msgid "Datacenter"
 msgstr "Rechenzentrum"
 
 msgid "Datastore Cluster"
-msgstr ""
+msgstr "Datenspeicher-Cluster"
 
 msgid "Default"
 msgstr "Standard"
@@ -1978,7 +1978,7 @@ msgid "ENC environment"
 msgstr "ENC-Umgebung"
 
 msgid "ERROR or FATAL"
-msgstr ""
+msgstr "FEHLER oder FATAL"
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
 msgstr "Jede Architektur kann mit einem oder mehreren Betriebssytemen verknüpft werden, mittels einer Auswahl können zulässigen Kombinationen ausgewählt werden."
@@ -2107,7 +2107,7 @@ msgid "Email subject prefix"
 msgstr "E-Mail-Betreff-Präfix"
 
 msgid "Email was sent successfully"
-msgstr ""
+msgstr "E-Mail wurde erfolgreich gesendet"
 
 msgid "Empty environment"
 msgstr "Umgebung leeren"
@@ -2518,13 +2518,13 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Filter by level:"
-msgstr ""
+msgstr "Nach Stufe filtern:"
 
 msgid "Filter by name"
 msgstr "Nach Name filtern"
 
 msgid "Filter by state:"
-msgstr ""
+msgstr "Nach Status filtern:"
 
 msgid "Filter classes"
 msgstr "Filterklassen"
@@ -2533,7 +2533,7 @@ msgid "Filters"
 msgstr "Filter"
 
 msgid "Filters for role %s"
-msgstr ""
+msgstr "Nach Rolle %s filtern"
 
 msgid "Filter|Permissions"
 msgstr "Berechtigungen"
@@ -2595,7 +2595,7 @@ msgid "For example, there might be a data center in London and one in Virginia; 
 msgstr ""
 
 msgid "For more information"
-msgstr ""
+msgstr "Für mehr Informationen"
 
 msgid "Force a Puppet agent run on the host"
 msgstr "Puppet-Agent-Lauf auf dem Host erzwingen"
@@ -2736,7 +2736,7 @@ msgid "Function not available for %s"
 msgstr "Funktion für %s nicht verfügbar"
 
 msgid "GMT time"
-msgstr ""
+msgstr "GMT-Zeit"
 
 msgid "Gateway"
 msgstr "Gateway"
@@ -2817,10 +2817,10 @@ msgid "Help"
 msgstr "Hilfe"
 
 msgid "Hidden value"
-msgstr ""
+msgstr "Versteckter Wert"
 
 msgid "Hide all values for this parameter."
-msgstr ""
+msgstr "Alle Werte für diesen Parameter verstecken."
 
 msgid "Hide this value"
 msgstr ""
@@ -3074,7 +3074,7 @@ msgid "Hosts managed"
 msgstr ""
 
 msgid "Hosts managed:"
-msgstr ""
+msgstr "Hosts verwaltet:"
 
 msgid "Hosts that had pending changes"
 msgstr "Hosts, welche ausstehende Änderungen hatten"
@@ -3212,7 +3212,7 @@ msgid "IDs of associated provisioning templates"
 msgstr "Kennungen von zugehörigen Bereitstellungsvorlagen"
 
 msgid "INFO or DEBUG"
-msgstr ""
+msgstr "INFO oder DEBUG"
 
 msgid "IP"
 msgstr "IP"
@@ -3408,7 +3408,7 @@ msgid "Interface is up"
 msgstr "Schnittstelle ist aktiv"
 
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
-msgstr "Schnittstellen-Provider, z.B. IPMI. Nur für BMC-Schnittstellen."
+msgstr "Schnittstellenanbieter, z.B. IPMI. Nur für BMC-Schnittstellen."
 
 msgid "Interface type, e.g. bmc. Default is %{default_nic_type}"
 msgstr "Schnittstellentyp, z.B. BMC. Standard ist %{default_nic_type}"
@@ -3450,7 +3450,7 @@ msgid "Invalid power state request: %{action}, supported actions are %{supported
 msgstr "Ungültige Stromzustandsanforderung: %{action}, unterstützte Aktionen sind %{supported}"
 
 msgid "Invalid proxy selected!"
-msgstr ""
+msgstr "Ungültiger Proxy ausgewählt!"
 
 msgid "Invalid query"
 msgstr "Ungültige Anfrage"
@@ -3514,7 +3514,7 @@ msgid "LDAP authentication"
 msgstr "LDAP-Authentifizierung"
 
 msgid "LDAP authentication sources"
-msgstr ""
+msgstr "LDAP-Authentifizierungsquellen"
 
 msgid "LDAP error - %{message}"
 msgstr "LDAP-Fehler - %{message}"
@@ -3544,7 +3544,7 @@ msgid "Latest Events"
 msgstr "Letzte Ereignisse"
 
 msgid "Learn more about this in the documentation."
-msgstr ""
+msgstr "Erfahren Sie mehr dazu in dieser Dokumentation."
 
 msgid "Legacy Puppet hostname"
 msgstr "Veralteter Puppet-Hostname"
@@ -3949,13 +3949,13 @@ msgid "Loading VM information ..."
 msgstr "VM-Informationen werden geladen..."
 
 msgid "Loading filters ..."
-msgstr ""
+msgstr "Filter werden geladen ..."
 
 msgid "Loading host information ..."
 msgstr "Hostinformation wird geladen ..."
 
 msgid "Loading images information ..."
-msgstr ""
+msgstr "Abbildinformationen werden geladen ..."
 
 msgid "Loading interfaces information ..."
 msgstr "Lade Schnittstelleninformationen ..."
@@ -3982,7 +3982,7 @@ msgid "Loading virtual machines information ..."
 msgstr "Lade Informationen über virtuelle Maschinen ...."
 
 msgid "Local time"
-msgstr ""
+msgstr "Lokale Zeit"
 
 msgid "Location"
 msgstr "Ort"
@@ -4401,7 +4401,7 @@ msgid "New Puppet Environment"
 msgstr "Neue Puppet-Umgebung"
 
 msgid "New Puppet environment"
-msgstr ""
+msgstr "Neue Puppet-Umgebung"
 
 msgid "New Realm"
 msgstr "Neuer Realm"
@@ -4455,10 +4455,10 @@ msgid "New installation medium"
 msgstr "Neues Installationsmedium"
 
 msgid "New location"
-msgstr ""
+msgstr "Neuer Ort"
 
 msgid "New organization"
-msgstr ""
+msgstr "Neue Organisation"
 
 msgid "New role"
 msgstr "Neue Rolle"
@@ -4516,7 +4516,7 @@ msgstr "Passwort"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Provider"
-msgstr "Provider"
+msgstr "Nic::Base|Anbieter"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Tag"
@@ -4534,7 +4534,7 @@ msgid "No %{template_kind} templates were found for this host, make sure you def
 msgstr "Es wurden keine %{template_kind}-Vorlagen für diesen Host gefunden, bitte stelle sicher, dass mindestens eine in deinen %{os}-Einstellungen eingetragen ist"
 
 msgid "No TFTP feature"
-msgstr ""
+msgstr "Keine TFTP-Funktion"
 
 msgid "No TFTP proxies defined, can't continue"
 msgstr "Keine TFTP-Proxys definiert, kann nicht fortfahren"
@@ -4576,7 +4576,7 @@ msgid "No environment selected!"
 msgstr "keine Umgebung ausgewählt!"
 
 msgid "No environments found"
-msgstr ""
+msgstr "Keine Umgebungen gefunden"
 
 msgid "No features found on this proxy, please make sure you enable at least one feature"
 msgstr "Keine Funktionen von diesem Proxy gefunden, bitte stelle sicher, dass mindestens eine Funktion aktiviert ist"
@@ -4627,7 +4627,7 @@ msgid "No or invalid power state selected!"
 msgstr ""
 
 msgid "No owner selected!"
-msgstr ""
+msgstr "Kein Eigentümer ausgewählt!"
 
 msgid "No parameters to override for Puppet class %s"
 msgstr "Keine Parameter für Puppet-Klasse %s zu überschreiben"
@@ -4645,7 +4645,7 @@ msgid "No proxy found to import classes from, ensure that the smart proxy has th
 msgstr "Kein Proxy für den Import von Klassen gefunden. Bitte stellen Sie sicher, dass die Puppet-Funktion für den Smart-Proxy aktiviert ist."
 
 msgid "No proxy selected!"
-msgstr ""
+msgstr "Kein Proxy ausgewählt!"
 
 msgid "No puppet activity for this host in the last %s days"
 msgstr "Keine Puppet-Aktivitäten dieses Hosts in den letzten %s Tagen"
@@ -4699,7 +4699,7 @@ msgid "None Found"
 msgstr "Nichts gefunden"
 
 msgid "None found"
-msgstr ""
+msgstr "Nichts gefunden"
 
 msgid "None!"
 msgstr "Kein!"
@@ -4759,7 +4759,7 @@ msgid "Number of Hosts"
 msgstr "Anzahl der Hosts"
 
 msgid "Number of classes"
-msgstr ""
+msgstr "Anzahl der Klassen"
 
 msgid "Number of overrides"
 msgstr ""
@@ -4798,7 +4798,7 @@ msgid "OS Image"
 msgstr "Betriebssystemabbild"
 
 msgid "OS friendly name; e.g. RHEL 6.5"
-msgstr ""
+msgstr "BS-freundlicher Name; z.B. RHEL 6.5"
 
 msgid "OS major version from facter; e.g. 6"
 msgstr "Betriebssystem-Hauptrelease von Facter; z. B. 6"
@@ -5235,7 +5235,7 @@ msgid "Please select"
 msgstr "Bitte auswählen"
 
 msgid "Please select a cluster"
-msgstr ""
+msgstr "Bitte wählen Sie einen Cluster aus"
 
 msgid "Please select an environment first"
 msgstr "Bitte zuerst eine Umgebung auswählen"
@@ -5313,7 +5313,7 @@ msgid "Provider"
 msgstr "Anbieter"
 
 msgid "Providers include %{providers}"
-msgstr "Provider umfassen %{providers}"
+msgstr "Anbeiter beinhalten %{providers}"
 
 msgid "Provision"
 msgstr "Bereitstellen"
@@ -5803,7 +5803,7 @@ msgid "Review build status for %s"
 msgstr "Build-Status für %s prüfen"
 
 msgid "Revoke"
-msgstr ""
+msgstr "Zurückziehen"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role"
@@ -5956,10 +5956,10 @@ msgid "Select compute resources"
 msgstr "Rechenressource auswählen"
 
 msgid "Select desired %s proxy"
-msgstr ""
+msgstr "Gewünschten %s Proxy auswählen"
 
 msgid "Select desired state"
-msgstr ""
+msgstr "Gewünschten Status auswählen"
 
 msgid "Select domains"
 msgstr "Domänen auswählen"
@@ -6046,7 +6046,7 @@ msgid "Server type"
 msgstr "Servertyp"
 
 msgid "Services"
-msgstr ""
+msgstr "Dienste"
 
 msgid "Set a randomly generated password on the display connection"
 msgstr "Zufälliges Passwort für die Verbindung generieren"
@@ -6589,7 +6589,7 @@ msgid "TFTP Settings for %s"
 msgstr "TFTP-Einstellungen für %s"
 
 msgid "TFTP server"
-msgstr ""
+msgstr "TFTP-Server"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Taxable taxonomy"
@@ -6670,7 +6670,7 @@ msgid "Test LDAP connection"
 msgstr "LDAP-Verbindung testen"
 
 msgid "Test LDAP connectivity"
-msgstr ""
+msgstr "LDAP-Konnektivität testen"
 
 msgid "Test connection to LDAP server was successful."
 msgstr ""
@@ -6940,7 +6940,7 @@ msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr "Hiermit werden alle Parameter der Klasse %s als \"überschrieben\" gesetzt. Fortfahren?"
 
 msgid "Time"
-msgstr ""
+msgstr "Zeit"
 
 msgid "Time in Seconds"
 msgstr "Zeit in Sekunden"
@@ -7192,7 +7192,7 @@ msgid "Unable to get installed BMC providers"
 msgstr "Installierte BMC-Anbieter konnten nicht geladen werden"
 
 msgid "Unable to initialize ProxyAPI class %s"
-msgstr ""
+msgstr "ProxyAPI-Klasse %s konnte nicht initialisiert werden"
 
 msgid "Unable to perform boot BMC operation"
 msgstr "BMC-Operation \"boot\" konnte nicht durchgeführt werden"
@@ -7745,7 +7745,7 @@ msgid "View last report details"
 msgstr "Ansicht der letzten Reportdetails"
 
 msgid "View list"
-msgstr ""
+msgstr "Liste ansehen"
 
 msgid "Virtual (NAT)"
 msgstr "Virtuell (NAT)"
@@ -7769,7 +7769,7 @@ msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr ""
 
 msgid "WARNING"
-msgstr ""
+msgstr "WARNUNG"
 
 msgid "Wait for %s to come online"
 msgstr "Warten, bis %s verfügbar wird"
@@ -7985,7 +7985,7 @@ msgid "add new storage volume"
 msgstr "neues Speichervolume hinzufügen"
 
 msgid "all"
-msgstr ""
+msgstr "alle"
 
 msgid "already exists"
 msgstr "existiert bereits"
@@ -8084,7 +8084,7 @@ msgid "does not belong to subnet"
 msgstr "gehört nicht zum Subnetz"
 
 msgid "does not have the DHCP feature"
-msgstr ""
+msgstr "verfügt nicht über die DHCP-Funktion"
 
 msgid "does not have the DNS feature"
 msgstr ""
@@ -8099,7 +8099,7 @@ msgid "does not have the Realm feature"
 msgstr ""
 
 msgid "does not have the TFTP feature"
-msgstr ""
+msgstr "verfügt nicht über die TFTP-Funktion"
 
 msgid "does not match selected subnet"
 msgstr "stimmt nicht mit ausgewähltem Subnetz überein"
@@ -8198,7 +8198,7 @@ msgid "further instructions"
 msgstr "weitere Anweisungen"
 
 msgid "global"
-msgstr ""
+msgstr "global"
 
 msgid "groups base DN"
 msgstr "gruppiert Base DN"
@@ -8216,7 +8216,7 @@ msgid "hash containing the facts for the host"
 msgstr "Hash, der die Fakten für den Host enthält"
 
 msgid "host"
-msgstr ""
+msgstr "Host"
 
 msgid "host already has primary interface"
 msgstr "Host verfügt bereits über eine Primärschnittstelle"
@@ -8225,7 +8225,7 @@ msgid "host already has provision interface"
 msgstr "Host verfügt bereits über eine Bereitstellungsschnittstelle"
 
 msgid "host group"
-msgstr ""
+msgstr "Hostgruppe"
 
 msgid "host group id"
 msgstr "Hostgruppenkennung"
@@ -8243,7 +8243,7 @@ msgid "in Progress"
 msgstr "in Bearbeitung"
 
 msgid "in progress"
-msgstr ""
+msgstr "in Bearbeitung"
 
 msgid "included already from parent"
 msgstr "bereits in der Hostgruppe einbegriffen"
@@ -8408,7 +8408,7 @@ msgid "must not include periods"
 msgstr "darf keine Punkte enthalten"
 
 msgid "must provide a provider"
-msgstr "muss einen Provider angeben"
+msgstr "muss einen Anbieter liefern"
 
 msgid "must set host and port"
 msgstr "muss Host und Port festlegen"
@@ -8432,7 +8432,7 @@ msgid "none"
 msgstr "keine"
 
 msgid "not found"
-msgstr ""
+msgstr "nicht gefunden"
 
 msgid "not relevant for snippet"
 msgstr "nicht relevant für Snippet"
@@ -8453,7 +8453,7 @@ msgid "on"
 msgstr "an"
 
 msgid "operating system"
-msgstr ""
+msgstr "Betriebssystem"
 
 msgid "optional"
 msgstr "optional"

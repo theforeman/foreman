@@ -21,11 +21,12 @@
 # Mickaël Canévet <mickael.canevet@camptocamp.com>, 2013
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014-2015
 # Romain Vrignaud <rvrignaud@gmail.com>, 2013
+# Rudy YAYON <ryayon@outlook.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-03-30 10:02+0000\n"
+"PO-Revision-Date: 2016-04-08 09:01+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -4785,7 +4786,7 @@ msgid "OAuth map users"
 msgstr "map OAuth utilisateurs"
 
 msgid "OK"
-msgstr "Valider"
+msgstr "Validé"
 
 msgid "OS Distribution"
 msgstr "Répartition du système d'exploitation"
@@ -4815,7 +4816,7 @@ msgid "Off"
 msgstr "Arrêt"
 
 msgid "Ok"
-msgstr "Valider"
+msgstr "Validé"
 
 msgid "Old"
 msgstr "Anciens"
@@ -7252,7 +7253,7 @@ msgid "Unallowed template for dashboard widget: %s"
 msgstr "Modèle pour widget du tableau de bord non alloué : %s"
 
 msgid "Unattended URL"
-msgstr "URL Unattended"
+msgstr "URL provisioning sans intervention"
 
 msgid "Undo remove"
 msgstr "Annuler la suppression"
@@ -8474,7 +8475,7 @@ msgid "override"
 msgstr "remplacer"
 
 msgid "paginate results"
-msgstr "paginer les resultats"
+msgstr "paginer les résultats"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "l'analyse du type de settings %s depuis une chaine n'est pas défini"
