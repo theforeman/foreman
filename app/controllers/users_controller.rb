@@ -133,7 +133,7 @@ class UsersController < ApplicationController
   private
 
   def find_resource(permission = :view_users)
-    editing_self? ? User.current : User.authorized(permission).except_hidden.find(params[:id])
+    editing_self? ? User.find(User.current.id) : User.authorized(permission).except_hidden.find(params[:id])
   end
 
   def login_user(user)

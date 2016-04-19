@@ -245,6 +245,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'user should not be editing User.current' do
+    user = users(:one)
+    User.expects(:current).at_least_once.returns(user)
+    get :edit, { :id => user.id }
+    assert_equal user, assigns(:user)
+    refute_equal user.object_id, assigns(:user).object_id
+    assert_response :success
+  end
+
   test 'non admin user should be able to update itself' do
     User.current = users(:one)
     put :update, { :id => users(:one).id, :user => { :firstname => 'test' } }

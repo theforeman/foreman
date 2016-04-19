@@ -182,4 +182,14 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test '#update should not be editing User.current' do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
+    as_user user do
+      put :update, { :id => user.id, :user => valid_attrs }
+    end
+    assert_equal user, assigns(:user)
+    refute_equal user.object_id, assigns(:user).object_id
+    assert_response :success
+  end
 end
