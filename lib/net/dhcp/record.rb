@@ -4,9 +4,9 @@ module Net::DHCP
 
     def initialize(opts = { })
       super(opts)
-      self.mac     = validate_mac self.mac
-      self.network = validate_network self.network
-      self.ip      = validate_ip self.ip
+      self.mac     = Net::Validations.validate_mac! self.mac
+      self.network = Net::Validations.validate_network! self.network
+      self.ip      = Net::Validations.validate_ip! self.ip
     end
 
     def to_s

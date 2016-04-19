@@ -2,7 +2,6 @@ require "net/validations"
 
 module Net
   class Record
-    include Net::Validations
     attr_accessor :hostname, :proxy, :logger
 
     def initialize(opts = {})

@@ -5,7 +5,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_generate_link_for
     proxy = FactoryGirl.create(:dhcp_smart_proxy)
-    subnet = FactoryGirl.create(:subnet, :name => 'My subnet')
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'My subnet')
     proxy.subnets = [subnet]
     links = generate_links_for(proxy.subnets)
     assert_equal(link_to(subnet.to_label, subnets_path(:search => "name = \"#{subnet.name}\"")), links)

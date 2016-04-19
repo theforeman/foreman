@@ -15,9 +15,13 @@ class SubnetsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  def test_create_valid
-    Subnet.any_instance.stubs(:valid?).returns(true)
-    post :create, {:subnet => {:network => "192.168.0.1", :mask => "255.255.255.0"}}, set_session_user
+  def test_create_valid_without_type
+    post :create, {:subnet => {:network => "192.168.0.1", :mask => "255.255.255.0", :name => 'testsubnet'}}, set_session_user
+    assert_redirected_to subnets_url
+  end
+
+  def test_create_valid_with_type
+    post :create, {:subnet => {:network => "192.168.0.1", :mask => "255.255.255.0", :name => 'testsubnet', :type => 'Subnet::Ipv4'}}, set_session_user
     assert_redirected_to subnets_url
   end
 
