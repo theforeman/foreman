@@ -32,6 +32,7 @@ module Api
           param :name, String, :required => true
           param :username, String, :required => true
           param :uuid, String, :required => true
+          param :password, String, :required => false
           param :compute_resource_id, String, :desc => N_("ID of compute resource")
           param :architecture_id, String, :desc => N_("ID of architecture")
           param :operatingsystem_id, String, :desc => N_("ID of operating system")
