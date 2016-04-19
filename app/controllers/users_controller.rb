@@ -138,7 +138,7 @@ class UsersController < ApplicationController
 
   def login_user(user)
     session[:user]         = user.id
-    uri                    = session[:original_uri]
+    uri                    = session.to_hash.with_indifferent_access[:original_uri]
     session[:original_uri] = nil
     set_current_taxonomies(user, {:session => session})
     TopbarSweeper.expire_cache(self)
