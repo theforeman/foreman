@@ -23,7 +23,7 @@ NETMASK="<%= subnet.mask -%>"
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
-DEVICE="$real"
+DEVICE=$real
 HWADDR="<%= @host.mac -%>"
 ONBOOT=yes
 EOF
@@ -46,7 +46,7 @@ NETMASK="<%= subnet.mask -%>"
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
-DEVICE="$real"
+DEVICE=$real
 ONBOOT=yes
 PEERDNS=no
 PEERROUTES=no
@@ -67,7 +67,7 @@ EOF
 <% dhcp = !subnet.nil? && subnet.dhcp_boot_mode? -%>
 
 # <%= interface.identifier %> interface
-real=`ip -o link | grep <%= interface.respond_to?(:inheriting_mac) ? interface.inheriting_mac : interface.mac -%> | awk '{print $2;}' | sed s/:$//`
+real=`ip -o link | grep <%= interface.inheriting_mac -%> | awk '{print $2;}' | sed s/:$//`
 <% if virtual -%>
 real=`echo <%= interface.identifier -%> | sed s/<%= interface.attached_to -%>/$real/`
 <% end -%>
@@ -81,7 +81,7 @@ sanitized_real=$real
 
 cat << EOF > /etc/sysconfig/network-scripts/ifcfg-$sanitized_real
 BOOTPROTO="none"
-DEVICE="$real"
+DEVICE=$real
 <% unless virtual -%>
 HWADDR="<%= interface.mac -%>"
 <% end -%>
@@ -113,7 +113,7 @@ EOF
 <% dhcp = subnet.dhcp_boot_mode? -%>
 
 # <%= interface.identifier %> interface
-real=`ip -o link | grep <%= interface.mac -%> | awk '{print $2;}' | sed s/:$//`
+real=`ip -o link | grep <%= interface.inheriting_mac -%> | awk '{print $2;}' | sed s/:$//`
 <% if virtual -%>
   real=`echo <%= interface.identifier -%> | sed s/<%= interface.attached_to -%>/$real/`
 <% end -%>
@@ -134,7 +134,7 @@ NETMASK="<%= subnet.mask -%>"
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
-DEVICE="$real"
+DEVICE=$real
 <% unless virtual -%>
 HWADDR="<%= interface.mac -%>"
 <% end -%>

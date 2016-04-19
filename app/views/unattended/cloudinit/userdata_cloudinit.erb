@@ -20,6 +20,13 @@ oses:
 hostname: <%= @host.shortname %>
 fqdn: <%= @host %>
 manage_etc_hosts: true
+ssh_pwauth: <%= @host.params['ssh_pwauth'] || true %>
+<% if @host.params['ssh_authorized_keys'] -%>
+ssh_authorized_keys:
+<% @host.params['ssh_authorized_keys'].split("\n").each do |ssh_key| -%>
+ - <%= ssh_key %>
+<% end -%>
+<% end -%>
 
 groups:
  - admin

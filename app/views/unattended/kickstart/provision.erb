@@ -2,15 +2,8 @@
 kind: provision
 name: Kickstart default
 oses:
-- CentOS 4
-- CentOS 5
-- CentOS 6
-- CentOS 7
-- Fedora 16
-- Fedora 17
-- Fedora 18
-- Fedora 19
-- Fedora 20
+- CentOS
+- Fedora
 %>
 <%#
 This template accepts the following parameters:
@@ -22,9 +15,11 @@ This template accepts the following parameters:
 - http-proxy-port: string (default="")
 - force-puppet: boolean (default=false)
 - enable-puppetlabs-repo: boolean (default=false)
+- enable-puppetlabs-pc1-repo: boolean (default=false)
 - salt_master: string (default=undef)
 - ntp-server: string (default="0.fedora.pool.ntp.org")
 - bootloader-append: string (default="nofb quiet splash=quiet")
+- disable-firewall: boolean (default=false)
 %>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -52,11 +47,14 @@ skipx
 <% else -%>
 <% dhcp = !@static -%>
 <% end -%>
-
 network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{[subnet.dns_primary, subnet.dns_secondary].select(&:present?).join(',')}" %> --hostname <%= @host %><%= os_major >= 6 ? " --device=#{@host.mac}" : '' -%>
 
 rootpw --iscrypted <%= root_pass %>
+<% if @host.param_true?('disable-firewall') -%>
+firewall --disable
+<% else -%>
 firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
+<% end -%>
 authconfig --useshadow --passalgo=sha256 --kickstart
 timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
 <% if rhel_compatible && os_major > 4 -%>
@@ -70,15 +68,25 @@ realm join --one-time-password='<%= @host.otp || "$HOST[OTP]" %>' <%= @host.real
 
 <% if @host.operatingsystem.name == 'Fedora' -%>
 repo --name=fedora-everything --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %><%= proxy_string %>
-<% if puppet_enabled && @host.param_true?('enable-puppetlabs-repo') -%>
+<% if puppet_enabled -%>
+<% if @host.param_true?('enable-puppetlabs-repo') -%>
 repo --name=puppetlabs-products --baseurl=http://yum.puppetlabs.com/fedora/f<%= @host.operatingsystem.major %>/products/<%= @host.architecture %><%= proxy_string %>
 repo --name=puppetlabs-deps --baseurl=http://yum.puppetlabs.com/fedora/f<%= @host.operatingsystem.major %>/dependencies/<%= @host.architecture %><%= proxy_string %>
 <% end -%>
+<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+repo --name=puppetlabs-pc1 --baseurl=http://yum.puppetlabs.com/fedora/f<%= @host.operatingsystem.major %>/PC1/<%= @host.architecture %><%= proxy_string %>
+<% end -%>
+<% end -%>
 <% elsif rhel_compatible && os_major > 4 -%>
 repo --name="EPEL" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %><%= proxy_string %>
-<% if puppet_enabled && @host.param_true?('enable-puppetlabs-repo') -%>
+<% if puppet_enabled -%>
+<% if @host.param_true?('enable-puppetlabs-repo') -%>
 repo --name=puppetlabs-products --baseurl=http://yum.puppetlabs.com/el/<%= @host.operatingsystem.major %>/products/<%= @host.architecture %><%= proxy_string %>
 repo --name=puppetlabs-deps --baseurl=http://yum.puppetlabs.com/el/<%= @host.operatingsystem.major %>/dependencies/<%= @host.architecture %><%= proxy_string %>
+<% end -%>
+<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+repo --name=puppetlabs-pc1 --baseurl=http://yum.puppetlabs.com/el/<%= @host.operatingsystem.major %>/PC1/<%= @host.architecture %><%= proxy_string %>
+<% end -%>
 <% end -%>
 <% end -%>
 
@@ -88,6 +96,9 @@ bootloader --append="<%= @host.params['bootloader-append'] || 'nofb quiet splash
 part biosboot --fstype=biosboot --size=1
 <% else -%>
 bootloader --location=mbr --append="<%= @host.params['bootloader-append'] || 'nofb quiet splash=quiet' %>" <%= grub_pass %>
+<% if os_major == 5 -%>
+key --skip
+<% end -%>
 <% end -%>
 
 <% if @dynamic -%>
@@ -97,7 +108,11 @@ bootloader --location=mbr --append="<%= @host.params['bootloader-append'] || 'no
 <% end -%>
 
 text
+<% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? %>
+reboot --eject
+<% else -%>
 reboot
+<% end -%>
 
 %packages
 yum
@@ -111,10 +126,13 @@ redhat-lsb-core
 <% if rhel_compatible && os_major > 4 -%>
 epel-release
 <% end -%>
-<% if puppet_enabled %>
-puppet
+<% if puppet_enabled -%>
+<%= @host.param_true?('enable-puppetlabs-pc1-repo') ? 'puppet-agent' : 'puppet' %>
 <% if @host.param_true?('enable-puppetlabs-repo') -%>
 puppetlabs-release
+<% end -%>
+<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+puppetlabs-release-pc1
 <% end -%>
 <% end -%>
 <% if salt_enabled %>
@@ -163,42 +181,27 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 <% end -%>
 
 # update all the base packages from the updates repository
-yum -t -y -e 0 update
-
-<% if chef_enabled %>
-echo "Bootstraping chef"
-<%= respond_to?(:chef_bootstrap) ? chef_bootstrap(@host) : snippet_if_exists("chef-client omnibus bootstrap") %>
-<% end%>
-
-<% if puppet_enabled %>
-echo "Configuring puppet"
-cat > /etc/puppet/puppet.conf << EOF
-<%= snippet 'puppet.conf' %>
-EOF
+yum -t -y update
 
 <%= snippet('remote_execution_ssh_keys') %>
 
-# Setup puppet to run on system reboot
-/sbin/chkconfig --level 345 puppet on
+<% if chef_enabled %>
+<%= snippet 'chef_client' %>
+<% end -%>
 
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<% if puppet_enabled %>
+<%= snippet 'puppet_setup' %>
 <% end -%>
 
 <% if salt_enabled %>
-cat > /etc/salt/minion << EOF
-<%= snippet 'saltstack_minion' %>
-EOF
-# Setup salt-minion to run on system reboot
-/sbin/chkconfig --level 345 salt-minion on
-# Running salt-call to trigger key signing
-salt-call --no-color --grains >/dev/null
+<%= snippet 'saltstack_setup' %>
 <% end -%>
 
 sync
 
 # Inform the build system that we are done.
 echo "Informing Foreman that we are built"
-wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+wget -q -O /dev/null --no-check-certificate <%= foreman_url('built') %>
 ) 2>&1 | tee /root/install.post.log
 exit 0
 

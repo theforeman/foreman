@@ -96,6 +96,9 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
   end
 
   test "build menu" do
+    snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/snippets/_pxelinux_discovery.erb"))
+    ProvisioningTemplate.create!(:name => 'pxelinux_discovery', :template => snippet, :snippet => true)
+
     template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb"))
     ProvisioningTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
 

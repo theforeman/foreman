@@ -81,7 +81,8 @@ d-i passwd passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
 <% repos = 0 %>
-<% if puppet_enabled && @host.param_true?('enable-puppetlabs-repo') -%>
+<% if puppet_enabled -%>
+<% if @host.param_true?('enable-puppetlabs-repo') -%>
 # Puppetlabs products
 d-i apt-setup/local<%= repos %>/repository string \
       http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> main
@@ -96,6 +97,15 @@ d-i apt-setup/local<%= repos %>/comment string Puppetlabs dependencies
 d-i apt-setup/local<%= repos %>/source boolean true
 d-i apt-setup/local<%= repos %>/key string http://apt.puppetlabs.com/pubkey.gpg
 <% repos += 1 -%>
+<% end -%>
+<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+# Puppetlabs PC1 <%= @host.operatingsystem.release_name %> Repository
+d-i apt-setup/local<%= repos %>/repository string http://apt.puppetlabs.com <%= @host.operatingsystem.release_name %> PC1
+d-i apt-setup/local<%= repos %>/comment string Puppetlabs PC1 <%= @host.operatingsystem.release_name %> Repository
+d-i apt-setup/local<%= repos %>/source boolean true
+d-i apt-setup/local<%= repos %>/key string http://apt.puppetlabs.com/pubkey.gpg
+<% repos += 1 -%>
+<% end -%>
 <% end -%>
 
 <% if salt_enabled -%>
@@ -122,14 +132,9 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
 
 <% if puppet_enabled %>
-  <% if @host.operatingsystem.name == 'Ubuntu' and @host.operatingsystem.major.to_i == 10 -%>
-    <% puppet_package = 'puppet/lucid-backports' -%>
-d-i apt-setup/backports boolean true
-  <% else -%>
-    <% puppet_package = 'puppet' -%>
-  <% end -%>
+<% puppet_package = @host.param_true?('enable-puppetlabs-pc1-repo') ? 'puppet-agent' : 'puppet' -%>
 <% else -%>
-  <% puppet_package = '' -%>
+<% puppet_package = '' -%>
 <% end -%>
 
 # Install some base packages

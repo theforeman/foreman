@@ -2,6 +2,8 @@
 <%#
 kind: provision
 name: AutoYaST default
+oses:
+- OpenSUSE
 %>
 <%
   os_major = @host.operatingsystem.major.to_i
@@ -113,31 +115,18 @@ cp /etc/resolv.conf /mnt/etc
         <notification>Setting up Puppet / Foreman ...</notification>
         <source><![CDATA[
 /bin/hostname <%= @host.name %>
-<% if puppet_enabled -%>
-cat > /etc/puppet/puppet.conf << EOF
-<%= snippet 'puppet.conf' -%>
-EOF
-if [ -f "/etc/sysconfig/puppet" ]
-then
-/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster.blank? ? '' : @host.puppetmaster %>/ /etc/sysconfig/puppet
-fi
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
-/sbin/chkconfig puppet on -f
-<% end -%>
-
-<% if salt_enabled %>
-cat > /etc/salt/minion << EOF
-<%= snippet 'saltstack_minion' %>
-EOF
-# Setup salt-minion to run on system reboot
-chkconfig salt-minion on
-# Running salt-call to trigger key signing
-salt-call --no-color --grains >/dev/null
-<% end -%>
 
 <%= snippet('remote_execution_ssh_keys') %>
 
-/usr/bin/curl -o /dev/null -k '<%= foreman_url %>'
+<% if puppet_enabled -%>
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
+<% end -%>
+
+/usr/bin/curl -o /dev/null -k '<%= foreman_url('built') %>'
 
 rm /etc/resolv.conf
 ]]>

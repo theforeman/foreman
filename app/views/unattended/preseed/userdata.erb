@@ -14,20 +14,26 @@ oses:
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || @host.param_true?('force-puppet')
+  salt_enabled = @host.params['salt_master'] ? true : false
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
+
+<% if @host.info['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<%= snippet 'freeipa_register' %>
+<% end -%>
+
+<%= snippet('remote_execution_ssh_keys') %>
+
+<% if chef_enabled %>
+<%= snippet 'chef_client' %>
+<% end -%>
+
 <% if puppet_enabled %>
-apt-get update
-apt-get install -y puppet
-cat > /etc/puppet/puppet.conf << EOF
-<%= snippet 'puppet.conf' %>
-EOF
-if [ -f "/etc/default/puppet" ]
-then
-/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
-fi
-/bin/touch /etc/puppet/namespaceauth.conf
-/usr/bin/puppet agent --enable
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
 <% end -%>
 
 # UserData still needs wget to mark as finished

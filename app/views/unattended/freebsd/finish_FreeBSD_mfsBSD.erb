@@ -2,7 +2,7 @@
 kind: finish
 name: FreeBSD (mfsBSD) finish
 oses:
-- FreeBSD 10.0
+- FreeBSD
 %>
 <%
   # safemode renderer does not support unary negation
@@ -11,7 +11,9 @@ oses:
   salt_enabled = @host.params['salt_master'] ? true : false
   proxy_string = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
 %>
+<% unless proxy_string == '' -%>
 export http_proxy='<%= proxy_string %>'
+<% end -%>
 /bin/echo '<%= root_pass %>' | pw usermod root -H 0
 cat >> /etc/rc.conf <<EOF
 hostname="<%= @host %>"
@@ -27,27 +29,21 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 cp /usr/share/zoneinfo/<%= @host.params['time-zone'] || 'UTC' %> /etc/localtime
 adjkerntz -a
 ntpdate <%= @host.params['ntp-server'] || '0.freebsd.pool.ntp.org' %>
+
+mkdir /root/install/
+freebsd-update fetch > /root/install/freebsd-update_fetch.txt
+freebsd-update install > /root/install/freebsd-update_install.txt
+
 env ASSUME_ALWAYS_YES=YES pkg bootstrap
+pkg update > /root/install/pkg_update.txt
+pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 <% if puppet_enabled %>
-pkg install -y puppet
-echo 'puppet_enable="YES"' >>/etc/rc.conf
-cat > /usr/local/etc/puppet/puppet.conf << EOF
-<%= snippet 'puppet.conf' %>
-EOF
-
-/usr/local/bin/puppet agent --config /usr/local/etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<%= snippet 'puppet_setup' %>
 <% end -%>
 
 <% if salt_enabled %>
-pkg install -y py27-salt
-cat > /usr/local/etc/salt/minion << EOF
-<%= snippet 'saltstack_minion' %>
-EOF
-echo 'salt_minion_enable="YES"' >>/etc/rc.conf
-echo 'salt_minion_paths="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"' >>/etc/rc.conf
-# Running salt-call to trigger key signing
-/usr/local/bin/salt-call --no-color --grains >/dev/null
+<%= snippet 'saltstack_setup' %>
 <% end -%>
 <%= snippet('remote_execution_ssh_keys') %>
 exit 0

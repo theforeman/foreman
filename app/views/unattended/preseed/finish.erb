@@ -15,9 +15,9 @@ oses:
 
 <% subnet = @host.subnet -%>
 <% if subnet.respond_to?(:dhcp_boot_mode?) -%>
-  <% dhcp = subnet.dhcp_boot_mode? && !@static -%>
+<% dhcp = subnet.dhcp_boot_mode? && !@static -%>
 <% else -%>
-  <% dhcp = !@static -%>
+<% dhcp = !@static -%>
 <% end -%>
 <% unless dhcp -%>
 # host and domain name need setting as these values may have come from dhcp if pxe booting
@@ -26,33 +26,24 @@ oses:
 /bin/sed -i "s/^<%= @host.ip %>.*/<%= @host.ip %>\t<%= @host.shortname %>.<%= @host.domain %>\t<%= @host.shortname %>/g" /etc/hosts
 /bin/echo <%= @host.shortname %> > /etc/hostname
 <% end -%>
-<% if puppet_enabled %>
-cat > /etc/puppet/puppet.conf << EOF
-<%= snippet 'puppet.conf' %>
-EOF
-if [ -f "/etc/default/puppet" ]
-then
-/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
-fi
-/bin/touch /etc/puppet/namespaceauth.conf
-/usr/bin/puppet agent --enable
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
-<% end -%>
 
 <% if @host.info['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
-<% if salt_enabled %>
-cat > /etc/salt/minion << EOF
-<%= snippet 'saltstack_minion' %>
-EOF
-# Running salt-call to trigger key signing
-salt-call --no-color --grains >/dev/null
-<% end -%>
+<%= snippet('remote_execution_ssh_keys') %>
 
 <% if chef_enabled %>
-<%= respond_to?(:chef_bootstrap) ? chef_bootstrap(@host) : snippet_if_exists("chef-client omnibus bootstrap") %>
-<% end%>
-<%= snippet('remote_execution_ssh_keys') %>
-/usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>
+<%= snippet 'chef_client' %>
+<% end -%>
+
+<% if puppet_enabled %>
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
+<% end -%>
+
+<%= snippet 'preseed_networking_setup' %>
+/usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url('built') %>
