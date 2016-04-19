@@ -56,4 +56,4 @@ salt-call --no-color --grains >/dev/null
 <% end -%>
 <%= snippet('remote_execution_ssh_keys') %>
 <%= snippet 'preseed_networking_setup' %>
-/usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url %>
+/usr/bin/wget --no-proxy --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url('built') %>

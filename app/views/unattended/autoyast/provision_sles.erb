@@ -142,7 +142,7 @@ salt-call --no-color --grains >/dev/null
 <%= snippet 'redhat_register' %>
 <% end -%>
 
-/usr/bin/curl -o /dev/null -k '<%= foreman_url %>'
+/usr/bin/curl -o /dev/null -k '<%= foreman_url('built') %>'
 
 rm /etc/resolv.conf
 ]]>

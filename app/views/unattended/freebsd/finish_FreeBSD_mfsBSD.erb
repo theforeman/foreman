@@ -11,7 +11,9 @@ oses:
   salt_enabled = @host.params['salt_master'] ? true : false
   proxy_string = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
 %>
+<% unless proxy_string == '' -%>
 export http_proxy='<%= proxy_string %>'
+<% end -%>
 /bin/echo '<%= root_pass %>' | pw usermod root -H 0
 cat >> /etc/rc.conf <<EOF
 hostname="<%= @host %>"
@@ -27,7 +29,14 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 cp /usr/share/zoneinfo/<%= @host.params['time-zone'] || 'UTC' %> /etc/localtime
 adjkerntz -a
 ntpdate <%= @host.params['ntp-server'] || '0.freebsd.pool.ntp.org' %>
+
+mkdir /root/install/
+freebsd-update fetch > /root/install/freebsd-update_fetch.txt
+freebsd-update install > /root/install/freebsd-update_install.txt
+
 env ASSUME_ALWAYS_YES=YES pkg bootstrap
+pkg update > /root/install/pkg_update.txt
+pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 <% if puppet_enabled %>
 pkg install -y puppet

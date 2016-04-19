@@ -97,7 +97,11 @@ bootloader --location=mbr --append="<%= @host.params['bootloader-append'] || 'no
 <% end -%>
 
 text
+<% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? %>
+reboot --eject
+<% else -%>
 reboot
+<% end -%>
 
 %packages
 yum
@@ -165,6 +169,8 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 # update all the base packages from the updates repository
 yum -t -y -e 0 update
 
+<%= snippet('remote_execution_ssh_keys') %>
+
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>
 <% end -%>
@@ -174,8 +180,6 @@ echo "Configuring puppet"
 cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' %>
 EOF
-
-<%= snippet('remote_execution_ssh_keys') %>
 
 # Setup puppet to run on system reboot
 /sbin/chkconfig --level 345 puppet on
@@ -197,7 +201,7 @@ sync
 
 # Inform the build system that we are done.
 echo "Informing Foreman that we are built"
-wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+wget -q -O /dev/null --no-check-certificate <%= foreman_url('built') %>
 ) 2>&1 | tee /root/install.post.log
 exit 0
 

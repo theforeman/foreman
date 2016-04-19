@@ -7,7 +7,10 @@ oses:
 <%
 proxy_string = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
 %>
+<% unless proxy_string == '' -%>
 export http_proxy='<%= proxy_string %>'
+<% end -%>
+
 # Get the disk layout, and the first disk connected to the system
 disk_layout=`/sbin/sysctl -n kern.disks | /usr/bin/sed 's/cd[0-9]//g'`
 first_disk="`echo ${disk_layout##*[1-9]} | /usr/bin/cut -d' ' -f1`"
@@ -22,6 +25,6 @@ fetch -q --no-verify-hostname --no-verify-peer -o /mnt/tmp/finish.sh -d <%= fore
 chroot /mnt /bin/sh /tmp/finish.sh
 rm /mnt/tmp/finish.sh
 
-fetch -q --no-verify-hostname --no-verify-peer -o /dev/null -d <%= foreman_url %>
+fetch -q --no-verify-hostname --no-verify-peer -o /dev/null -d <%= foreman_url('built') %>
 sleep 5
 reboot
