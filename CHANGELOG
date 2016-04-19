@@ -1,3 +1,108 @@
+2016-04-19	Dominic Cleal <dominic@cleal.org>
+	* Release 1.11.1
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+
+2016-04-18	Ivan Nečas <inecas@redhat.com>
+	* Fixes #14635 - bump safemode version to fix the unwanted inspect issue
+	* Fixes #14572 - fix updating storage in compute profiles based on template
+	* Fixes #13986 - don't use image unless in image provisioning method
+	* Fixes #10978 - fix possibility to assign networks in compute profile for ovirt
+	* Fixes #14038 - pass corespersocket in VMWare image-based provisioning
+	* Fixes #5859 - don't rely on a mac address being present when overriding the conflicts
+	* Fixes #13984 - inherit subnet from hostgroup even for image-based provisioning
+
+2016-04-18	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #9584 - User email address length can be longer than 60
+
+2016-04-18	Walden Raines <walden@redhat.com>
+	* Fixes #14645: fix production images for plugins.
+
+2016-04-18	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14636 - correctly search puppet class on host form
+	* Fixes #14476 - Correctly handle casting of invalid real param values
+	* Fixes #14505 - Correct authorization of broken smart proxy actions
+	* Fixes #14451 - Allow plugins to add menus to top menu without breaking the second menu
+	* Fixes #12560 - Correct popover behaviour for reports table
+	* Refs #7726 - Improve select all for filtered multi-select
+
+2016-04-18	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14586 - Associate default templates to Orgs and Locs during seed
+	* Fixes #12318 - support preview for deb-based distros
+	* Fixes #14458 - use a base class for STI taxable objects
+	* Fixes #14264 - improve primary interface selection
+	* Fixes #14182 - authorize role index
+	* Fixes #14184 - allow filter creation for users with taxonomies
+	* Fixes #9932 - fix preallocate attribute mapping
+	* Fixes #14113 - run dhcp orchestration only on DHCP subnets
+
+2016-04-18	Dominique Quatravaux <dominique@quatravaux.org>
+	* Fixes #14508 - foreman-rake console can take arguments
+
+2016-04-18	Evgeni Golov <egolov@redhat.com>
+	* fixes #14502 - fix documentation of the hosts controller for puppetclass_ids
+
+2016-04-18	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #14173 - Puppet Summary Report host listing should be alphabetically sorted.
+
+2016-04-18	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #14511 - bookmark editing ensures the query field is populated
+
+2016-04-18	Dominic Cleal <dominic@cleal.org>
+	* fixes #14482 - close two-pane when saving compute profile attributes
+	* fixes #14338 - move session store configuration earlier
+	* fixes #14253 - add attr_accessible to Widget
+	* fixes #13939 - call non-deprecated status method from API rabl
+
+2016-04-18	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #14504 - Moves Report scoped search into inherited method
+
+2016-04-18	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #14417 - Update Doc link
+
+2016-04-18	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14393 - Using patternfly icons instead of glyphicons
+	* Fixes #14237 - Missing tag for hosts/welcome.html.erb
+	* Fixes #7726 - Filtered out items no longer added when 'Select all' clicked
+	* Fixes #13662 - Host configuration chart links work when host configuration status table not present
+	* Fixes #12936 - Host inherits attributes when hostgroup is AR object
+
+2016-04-18	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #9782 - implement mediapath for suse/yast
+
+2016-04-18	Partha Aji <paji@redhat.com>
+	* Fixes #14166 - Host facet attributes handling updated
+
+2016-04-18	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14286 - added :groups_base field to auth_source_ldaps API
+	* Fixes #14240 - added :server_type attribute to API rabl
+	* Fixes #13849 - Now the facets will not require id attribute for update
+	* Fixes #7494 - added search parameter to index action of usergroups
+
+2016-04-18	Ori Rabin <orabin@redhat.com>
+	* Fixes #14183 - showing whitespace validation in smart variables
+	* Fixes #14129 - remove duplicate declaration of KEY_DELM
+	* Fixes #13937 - search by domain parameters searches on primary_interface
+	* Fixes #13976 - override checkbox in smart class parameter doesn't uncheck other checkboxes
+
+2016-04-18	Tom Caspy <tcaspy@gmail.com>
+	* fixes #14239 - when creating host from API, set first interface as primary if none set
+
+2016-04-18	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #14221: Use Sass Rails template when compiling plugin assets
+
+2016-04-18	Karli Sjoberg <karli.sjoberg@gmail.com>
+	* fixes #14131 Changed bash to sh
+
+2016-04-18	Robert Sanders <rob@sandersmail.eu>
+	* fixes #14096 - handle MiB style memory units on statistics page
+
+2016-04-18	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13725 - DHCP MAC conflicts are reported
+
+2016-04-18	amirfefer <amirfefer@gmail.com>
+	* Fixes #6858 - escape HTML tags when update a parameter value in settings
+
 2016-03-31	Dominic Cleal <dominic@cleal.org>
 	* Release 1.11.0
 	* i18n - extracting new, pulling from tx
