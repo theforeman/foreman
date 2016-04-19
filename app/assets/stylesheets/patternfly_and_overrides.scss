@@ -299,3 +299,11 @@ a.btn-info span{
   max-width: 90%;
   margin: 0 auto;
 }
+
+#search-form {
+  .dropdown-menu > li > a {
+    max-width: 658px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
