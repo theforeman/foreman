@@ -150,6 +150,7 @@ Foreman::Application.routes.draw do
       post 'count'
     end
   end
+  resources :statistics, :only => [:index, :new, :create, :destroy]
 
   resources :compute_profiles do
     collection do
@@ -420,7 +421,6 @@ Foreman::Application.routes.draw do
   root :to => 'dashboard#index'
   get 'dashboard', :to => 'dashboard#index', :as => "dashboard"
   get 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
-  get 'statistics', :to => 'statistics#index', :as => "statistics"
   get 'status', :to => 'home#status', :as => "status"
 
   # get only for alterator unattended scripts

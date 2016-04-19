@@ -192,7 +192,7 @@ Foreman::Application.routes.draw do
 
       resources :override_values, :only => [:update, :destroy]
 
-      resources :statistics, :only => [:index]
+      resources :statistics, :only => [:index, :create, :destroy]
 
       get '/', :to => 'home#index'
       get 'status', :to => 'home#status', :as => "v2_status"
@@ -360,6 +360,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
+          resources :statistics, :only => [:index, :show]
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :action => :reset
@@ -381,6 +382,7 @@ Foreman::Application.routes.draw do
             resources :media, :only => [:index, :show]
             resources :smart_proxies, :only => [:index, :show]
             resources :filters, :only => [:index, :show]
+            resources :statistics, :only => [:index, :show]
             resources :hosts, :except => [:new, :edit]
           end
         end
@@ -403,6 +405,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
+          resources :statistics, :only => [:index, :show]
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :action => :reset
@@ -425,6 +428,7 @@ Foreman::Application.routes.draw do
             resources :smart_proxies, :only => [:index, :show]
             resources :filters, :only => [:index, :show]
             resources :hosts, :except => [:new, :edit]
+            resources :statistics, :only => [:index, :show]
           end
         end
       end

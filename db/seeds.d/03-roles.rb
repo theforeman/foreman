@@ -35,7 +35,7 @@ default_permissions =
                                   :view_users, :create_users, :edit_users, :destroy_users, :access_settings, :access_dashboard,
                                   :view_config_reports, :destroy_config_reports, :upload_config_reports,
                                   :view_facts, :upload_facts, :view_audit_logs,
-                                  :view_statistics, :view_trends, :create_trends, :edit_trends, :destroy_trends, :update_trends,
+                                  :view_statistics, :create_statistics, :destroy_statistics, :view_trends, :create_trends, :edit_trends, :destroy_trends, :update_trends,
                                   :view_tasks, :view_plugins, :view_mail_notifications],
       'Edit partition tables' => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables],
       'View hosts'            => [:view_hosts],
@@ -51,7 +51,7 @@ default_permissions =
                                   :view_models, :view_operatingsystems, :view_ptables, :view_puppetclasses,
                                   :import_puppetclasses, :view_config_reports, :destroy_config_reports, :access_settings,
                                   :view_smart_proxies, :edit_smart_proxies, :view_subnets, :edit_subnets,
-                                  :view_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
+                                  :view_statistics, :create_statistics, :destroy_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
                                   :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications,
                                   :view_params]
     }

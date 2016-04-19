@@ -1,0 +1,13 @@
+<%= form_for @statistic do |f| %>
+  <%= base_errors_for @statistic %>
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="primary">
+      <%= text_f   f, :name %>
+      <%= select_f(f, :value, FactName.no_timestamp_fact, :name, :name, { :include_blank => true }, :disabled => false) %>
+    </div>
+
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

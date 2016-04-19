@@ -282,15 +282,15 @@ module ApplicationHelper
                 }.merge(options))
   end
 
-  def select_action_button(title, options = {}, *args)
+  def select_action_button(title, options = {}, always_multiple = nil, *args)
     # the no-buttons code is needed for users with less permissions
     args = args.flatten.select(&:present?)
     return if args.blank?
 
     content_tag(:div, options.merge(:class=>'btn-group')) do
       #single button
-      if args.length == 1
-        content_tag(:span, args[0], :class => 'btn btn-default').html_safe
+      if args.length == 1 && !always_multiple
+        args[0].html_safe
       #multiple options
       else
         link_to((title + " " + content_tag(:span, '', :class => 'caret')).html_safe, '#',
