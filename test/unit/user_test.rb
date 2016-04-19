@@ -807,4 +807,13 @@ class UserTest < ActiveSupport::TestCase
     user.timezone = ''
     assert user.valid?
   end
+
+  test '.to_label should return persisted name' do
+    user = users(:one)
+    user.firstname = 'First'
+    user.lastname = 'Last'
+    refute_equal('First Last', user.to_label, 'User to_label should not change until saved')
+    user.save
+    assert_equal('First Last', user.to_label, 'User to_label should change after saved')
+  end
 end
