@@ -95,7 +95,7 @@ module Api
       private
 
       def find_resource
-        editing_self? ? @user = User.current : super
+        editing_self? ? @user = User.find(User.current.id) : super
       end
 
       def allowed_nested_id
