@@ -393,4 +393,10 @@ class UsersControllerTest < ActionController::TestCase
       assert @response.body.include?("Are you")
     end
   end
+
+  test "#login respects session original_uri" do
+    session[:original_uri] = '/realms'
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
+    assert_redirected_to realms_path
+  end
 end
