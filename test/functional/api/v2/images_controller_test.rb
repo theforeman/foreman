@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::ImagesControllerTest < ActionController::TestCase
   def valid_attrs
-    { :name                => 'TestImage', :username => 'ec2-user', :uuid => 'abcdef',
+    { :name                => 'TestImage', :username => 'ec2-user', :uuid => 'abcdef', :password => "password",
       :operatingsystem_id  => Operatingsystem.first.id,
       :compute_resource_id => ComputeResource.first.id,
       :architecture_id     => Architecture.first.id,
