@@ -396,4 +396,10 @@ class UsersControllerTest < ActionController::TestCase
       assert_redirected_to "/users/login"
     end
   end
+
+  test "#login respects session original_uri" do
+    session[:original_uri] = '/realms'
+    post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
+    assert_redirected_to realms_path
+  end
 end
