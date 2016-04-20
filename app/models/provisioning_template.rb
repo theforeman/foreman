@@ -188,6 +188,6 @@ class ProvisioningTemplate < Template
         end
       end
     end
-    combos
+    combos.sort_by! { |profile| [profile[:hostgroup], profile[:template]] }
   end
 end
