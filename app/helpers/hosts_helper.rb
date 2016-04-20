@@ -245,44 +245,6 @@ module HostsHelper
     (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
   end
 
-  def show_templates
-    unless SETTINGS[:unattended] and @host.managed?
-      return alert(:class=> 'alert-warning',
-                   :text => _("Provisioning support is disabled or this host is not managed"))
-    end
-    begin
-      templates = Hash[TemplateKind.order(:name).map do |k|
-        template = @host.provisioning_template(:kind => k.name)
-        next if template.nil?
-        [k.name, template]
-      end.compact]
-    rescue => e
-      return case e.to_s
-      when "Must provide an operating systems"
-        _("Unable to find templates as this host has no operating system")
-      else
-        e.to_s
-      end
-    end
-
-    return _("No template found") if templates.empty?
-    content_tag :table, :class=>"table table-bordered table-striped" do
-      content_tag(:th, _("Template Type")) + content_tag(:th) +
-      templates.map do |kind, tmplt|
-        content_tag :tr do
-          content_tag(:td, _("%s Template") % kind) +
-            content_tag(:td,
-                        action_buttons(
-                          display_link_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => tmplt.to_param), :rel => "external"),
-                          link_to(_("Review"), url_for(:controller => '/unattended', :action => 'host_template',
-                                                       :kind => kind, :hostname => @host.name),
-                                  :rel => 'external', :"data-provisioning-template" => true))
-            )
-        end
-      end.join(" ").html_safe
-    end
-  end
-
   def overview_fields(host)
     global_status = host.build_global_status
     fields = [
