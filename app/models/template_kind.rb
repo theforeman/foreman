@@ -26,6 +26,6 @@ class TemplateKind < ActiveRecord::Base
   end
 
   def to_s
-    self.class.default_template_labels[name] || self.class.plugin_template_labels[name] || name
+    _(self.class.default_template_labels[name]) || _(self.class.plugin_template_labels[name]) || name
   end
 end
