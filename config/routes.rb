@@ -151,6 +151,9 @@ Foreman::Application.routes.draw do
   end
 
   resources :compute_profiles do
+    collection do
+      get 'auto_complete_search'
+    end
     resources :compute_attributes, :only => [:create, :edit, :update]
     resources :compute_resources, :only => [] do
       resources :compute_attributes, :only => :new
