@@ -24,6 +24,7 @@ rsync -r \
   --exclude '.*' \
   --exclude test \
   --exclude Rakefile \
+  --exclude 'jobs/' \
   $REPO/ct/ ./
 
 cd -
