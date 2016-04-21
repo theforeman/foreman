@@ -341,4 +341,13 @@ class PluginTest < ActiveSupport::TestCase
 
     Host::Managed.cloned_parameters[:include].delete(:fake_facet)
   end
+
+  def test_add_template_label
+    kind = FactoryGirl.build(:template_kind)
+    Foreman::Plugin.register :test_template_kind do
+      name 'Test template kind'
+      template_labels kind.name => 'Test plugin template kind'
+    end
+    assert_equal 'Test plugin template kind', kind.to_s
+  end
 end
