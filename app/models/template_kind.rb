@@ -8,15 +8,15 @@ class TemplateKind < ActiveRecord::Base
   scoped_search :on => :name
 
   def self.jar
-    @jar ||= { "PXELinux" => N_("PXE Linux Template"),
-               "PXEGrub" => N_("PXE Grub Template"),
-               "iPXE" => N_("iPXE Template"),
-               "provision" => N_("Provision Template"),
-               "finish" => N_("Finish Template"),
-               "script" => N_("Script Template"),
-               "user_data" => N_("User Data Template"),
-               "ZTP" => N_("ZTP Template"),
-               "POAP" => N_("POAP Template")
+    @jar ||= { "PXELinux" => N_("PXELinux template"),
+               "PXEGrub" => N_("PXEGrub template"),
+               "iPXE" => N_("iPXE template"),
+               "provision" => N_("Provisioning template"),
+               "finish" => N_("Finish template"),
+               "script" => N_("Script template"),
+               "user_data" => N_("User data template"),
+               "ZTP" => N_("ZTP template"),
+               "POAP" => N_("POAP template")
              }
   end
 
