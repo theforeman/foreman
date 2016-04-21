@@ -1,8 +1,7 @@
 <h4 class="header">
   <%= _("Latest Events") %>
 </h4>
-<% events = latest_events %>
-<% if events.empty? %>
+<% if @latest_events.empty? %>
   <p class="ca"><%= _("No interesting reports received in the last week") %></p>
 <% else %>
   <table class="<%= table_css_classes %> table-fixed reports-table">
@@ -12,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <% events.each do |report| %>
+      <% @latest_events.each do |report| %>
         <tr>
           <td class='ellipsis'><%= link_to report.host, host_config_reports_path(report.host) %></td>
           <td class="ca"><%= report_event_column(report.applied, "label-info") %></td>

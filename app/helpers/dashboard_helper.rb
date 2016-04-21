@@ -83,11 +83,6 @@ module DashboardHelper
     end
   end
 
-  def latest_events
-    # 6 reports + header fits the events box nicely...
-    ConfigReport.authorized(:view_config_reports).my_reports.interesting.search_for('reported > "7 days ago"').limit(6).includes(:host)
-  end
-
   def translated_header(shortname, longname)
     "<th class='ca'><span class='small' title='' data-original-title='#{longname}'>#{shortname}</span></th>"
   end
