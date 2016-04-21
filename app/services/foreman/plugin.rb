@@ -101,6 +101,7 @@ module Foreman #:nodoc:
       @provision_methods = {}
       @compute_resources = []
       @to_prepare_callbacks = []
+      @template_labels = {}
     end
 
     def after_initialize
@@ -331,7 +332,11 @@ module Foreman #:nodoc:
 
     # add human readable label for plugin's template kind with i18n support: template_labels "kind_name" => N_("Nice Name")
     def template_labels(hash)
-      TemplateKind.add_to_jar hash
+      @template_labels.merge!(hash)
+    end
+
+    def get_template_labels
+      @template_labels
     end
 
     private
