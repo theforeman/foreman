@@ -60,6 +60,7 @@ class DashboardController < ApplicationController
     dashboard = Dashboard::Data.new(params[:search])
     @hosts    = dashboard.hosts
     @report   = dashboard.report
+    @latest_events = dashboard.latest_events
   end
 
   def resource_name
