@@ -847,7 +847,7 @@ class Host::Managed < Host::Base
 
   def refresh_global_status!
     refresh_global_status
-    save!
+    save!(:validate => false)
   end
 
   def refresh_statuses
