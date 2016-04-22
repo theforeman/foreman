@@ -4,6 +4,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   attr_reader :build
 
   setup do
+    disable_orchestration
     User.current = users(:admin)
     @host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => FactoryGirl.create(:ptable), :medium => media(:one),
                     :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
