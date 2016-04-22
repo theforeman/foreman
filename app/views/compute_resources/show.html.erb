@@ -35,7 +35,6 @@
             <td><%= @compute_resource.description %></td>
           </tr>
         <% end %>
-        <% # optional extra display elements based on type %>
         <%= render "compute_resources/show/#{@compute_resource.provider.downcase}" %>
       </tbody>
     </table>
