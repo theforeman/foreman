@@ -15,31 +15,22 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert !operating_system.save
   end
 
-  test "name shouldn't be blank" do
-    operating_system = Operatingsystem.new :name => "   ", :major => "9"
-    assert operating_system.name.strip.empty?
-    assert !operating_system.save
-  end
+  should validate_presence_of(:name)
+  should validate_numericality_of(:major).is_greater_than_or_equal_to(0)
+  should validate_numericality_of(:minor).is_greater_than_or_equal_to(0)
 
-  test "major should be numeric" do
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9"
-    assert operating_system.major.to_i != 0 if operating_system.major != "0"
-    assert operating_system.save
+  should allow_value('a' * 255).for(:name)
+  should_not allow_value('a' * 256).for(:name)
 
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "nine"
-    assert !operating_system.major.to_i != 0 if operating_system.major != "0"
-    assert !operating_system.save
-  end
+  should allow_value('1' * 5).for(:major)
+  should_not allow_value('1' * 6).for(:major)
+  should_not allow_value(-33).for(:major)
 
-  test "minor should be numeric" do
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "1"
-    assert operating_system.minor.to_i != 0 if operating_system.minor != "0"
-    assert operating_system.save
+  should allow_value('1' * 16).for(:minor)
+  should_not allow_value('1' * 17).for(:minor)
+  should_not allow_value(-50).for(:minor)
 
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "one"
-    assert !operating_system.minor.to_i != 0 if operating_system.minor != "0"
-    assert !operating_system.save
-  end
+  should validate_length_of(:description).is_at_most(255)
 
   #TODO: this test should be uncommented after validation is implemented
   # test "name and major should be unique" do
@@ -228,52 +219,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
     operatingsystems = Operatingsystem.search_for('centos')
     assert_equal 1, operatingsystems.count
     assert_equal operatingsystems(:centos5_3), operatingsystems.first
-  end
-
-  test "should create os with a name of 255 characters" do
-    os = FactoryGirl.build(:operatingsystem, :name => 'a' * 255)
-    assert_valid os
-    assert os.save
-  end
-
-  test "should not create os with a name of 256 characters" do
-    os = FactoryGirl.build(:operatingsystem, :name => 'a' * 256)
-    refute_valid os
-    assert_equal "is too long (maximum is 255 characters)", os.errors[:name].first
-  end
-
-  test "should create os with a major version of 5 characters" do
-    os = FactoryGirl.build(:operatingsystem, :major => '1' * 5)
-    assert_valid os
-  end
-
-  test "should not create os with a major of 6 characters" do
-    os = FactoryGirl.build(:operatingsystem, :major => '1' * 6)
-    refute_valid os
-    assert_equal "is too long (maximum is 5 characters)", os.errors[:major].first
-  end
-
-  test "should not create os with a negative major" do
-    os = FactoryGirl.build(:operatingsystem, :major => -33)
-    refute_valid os
-    assert_equal "must be greater than or equal to 0", os.errors[:major].first
-  end
-
-  test "should create os with a minor version of 16 characters" do
-    os = FactoryGirl.build(:operatingsystem, :minor => '1' * 16)
-    assert_valid os
-  end
-
-  test "should not create os with a minor of 17 characters" do
-    os = FactoryGirl.build(:operatingsystem, :minor => '1' * 17)
-    refute_valid os
-    assert_equal "is too long (maximum is 16 characters)", os.errors[:minor].first
-  end
-
-  test "should not create os with a negative minor" do
-    os = FactoryGirl.build(:operatingsystem, :minor => -50)
-    refute_valid os
-    assert_equal "must be greater than or equal to 0", os.errors[:minor].first
   end
 
   test "should create os with two different parameters" do
