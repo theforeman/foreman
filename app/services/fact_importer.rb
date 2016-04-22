@@ -69,8 +69,11 @@ class FactImporter
       method          = host.new_record? ? :build : :create!
       fact_names      = fact_name_class.group(:name).maximum(:id)
       facts_to_create.each do |name|
-        host.fact_values.send(method, :value => facts[name],
+        if name != "_timestamp" 
+          logger.info("Fact Importer facts_to_create called for new fact '#{name}'")
+          host.fact_values.send(method, :value => facts[name],
                               :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
+        end
       end
     end
 
