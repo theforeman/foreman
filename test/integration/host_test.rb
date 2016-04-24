@@ -197,6 +197,33 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
           assert_equal subnet_options.map(&:value).sort, domain.subnets.map(&:id).map(&:to_s).sort
           assert_equal subnet_options.map(&:text).sort, domain.subnets.map(&:to_label).sort
         end
+
+        test "selecting domain updates puppetclass parameters" do
+          disable_orchestration
+          domain =  FactoryGirl.create(:domain)
+
+          host = FactoryGirl.create(:host, :with_puppetclass)
+
+          lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => 'domain',
+                                          :puppetclass => host.puppetclasses.first, :default_value => 'default')
+          LookupValue.create(:value => 'domain', :match => "domain=#{domain.name}", :lookup_key_id => lookup_key.id)
+
+          visit edit_host_path(host)
+          assert page.has_link?('Parameters', :href => '#params')
+          click_link 'Parameters'
+          assert_equal class_params.find("textarea").value, "default"
+
+          click_link 'Interfaces'
+          table.first(:button, 'Edit').click
+
+          select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
+          wait_for_ajax
+          modal.find(:button, "Ok").click
+
+          assert page.has_link?('Parameters', :href => '#params')
+          click_link 'Parameters'
+          assert_equal "domain", class_params.find("textarea").value
+        end
       end
 
       describe "switching flags from the overview table" do
