@@ -368,6 +368,7 @@ function os_selected(element){
     success: function(request) {
       $('#media_select').html(request);
       reload_host_params();
+      reload_puppetclass_params();
     }
   });
   update_provisioning_image();
@@ -536,6 +537,8 @@ $(document).on('change', '#host_provision_method_image', image_provision_method_
 $(document).on('change', '.interface_domain', function () {
   clearError($(this).closest('fieldset').find('.interface_ip'));
   interface_domain_selected(this);
+  reload_host_params();
+  reload_puppetclass_params();
 });
 
 function clearIpField(parent) {
