@@ -131,7 +131,7 @@ BANNER
     def typecast_value(type, value)
       if complex_type?(type)
         # we used JSON over custom format for input because it's easier to parse
-        JSON.parse(value).inspect
+        JSON.parse(value)
       else
         value
       end
