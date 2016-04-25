@@ -489,6 +489,31 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
     end
 
+    test 'user without edit_params permission can save host with params' do
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+                         :with_override, :key_type => 'string',
+                         :default_value => 'string1',
+                         :puppetclass => host.puppetclasses.first,
+                         :overrides => { host.lookup_value_matcher => 'string2' } )
+      user = FactoryGirl.create(:user, :with_mail)
+      user.update_attribute(:roles, roles(:viewer, :edit_hosts))
+      refute user.can? 'edit_params'
+      Capybara.reset_sessions!
+      visit "/"
+      fill_in "login_login", :with => user.login
+      fill_in "login_password", :with => 'password'
+      click_button "Login"
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert class_params.find('textarea').disabled?
+      assert_equal 2, class_params.all('input:disabled', :visible => :all).count
+      assert_equal 0, class_params.all('input:enabled', :visible => :all).count
+      click_button('Submit')
+      assert page.has_link?('Edit')
+    end
+
     test 'shows errors on invalid lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
