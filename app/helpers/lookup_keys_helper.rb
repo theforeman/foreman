@@ -73,7 +73,7 @@ module LookupKeysHelper
       effective_value,
       :popover => diagnostic_popover(lookup_key, matcher, popover_value, warnings),
       :name => "#{lookup_value_name_prefix(lookup_key.id)}[value]",
-      :disabled => !lookup_key.overridden?(obj) || lookup_value.use_puppet_default,
+      :disabled => !lookup_key.overridden?(obj) || lookup_value.use_puppet_default || !can_edit_params?,
       :inherited_value => inherited_value,
       :lookup_key => lookup_key,
       :lookup_key_hidden_value? => lookup_key.hidden_value?,
@@ -157,7 +157,7 @@ module LookupKeysHelper
     return unless lookup_key.type == "PuppetclassLookupKey"
     check_box(lookup_value_name_prefix(lookup_key.id), :use_puppet_default,
               :value    => lookup_value.id,
-              :disabled => disabled,
+              :disabled => disabled || !can_edit_params?,
               :onchange => "toggleUsePuppetDefaultValue(this, 'value')",
               :hidden   => disabled,
               :title    => _('Use Puppet default'),
