@@ -26,7 +26,10 @@ class UserRole < ActiveRecord::Base
                                        :message => N_("has this role already")},
                                        :unless => -> {owner.blank?}
 
-  delegate :expire_topbar_cache, :to => :owner
+  # if we trigger cache clean up by deleting the user, the owner relation target
+  # does not work since taxable_taxonomy record is already deleted, in this case
+  # we can ignore expiration since it was expired on User already
+  delegate :expire_topbar_cache, :to => :owner, :allow_nil => true
 
   def user_role?
     self.owner_type == 'User'
