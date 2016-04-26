@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class ComputeProfileIntegrationTest < IntegrationTestWithJavascript
+class ComputeProfileJSTest < IntegrationTestWithJavascript
   setup do
     Fog.mock!
   end
