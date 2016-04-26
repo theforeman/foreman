@@ -21,7 +21,7 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
       fill_in "login_login", :with => users(:admin).login
       fill_in "login_password", :with => "secret"
       click_button "Login"
-      assert_current_path hosts_path
+      assert_current_path root_path
     end
   end
 end
