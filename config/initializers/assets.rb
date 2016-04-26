@@ -49,6 +49,7 @@ Foreman::Application.configure do |app|
                   hidden_values
                   password_strength
                   proxy_status
+                  about
                   parameter_override)
 
   javascript += FastGettext.default_available_locales.map { |loc| "locale/#{loc}/app" }
