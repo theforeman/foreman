@@ -63,14 +63,15 @@ class FactImporter
   end
 
   def add_new_facts
-    facts_to_create = facts.keys - db_facts.keys
+    facts_to_create = facts.keys - db_facts.keys - [ '_timestamp' ]
     # if the host does not exists yet, we don't have an host_id to use the fact_values table.
     if facts_to_create.present?
       method          = host.new_record? ? :build : :create!
       fact_names      = fact_name_class.group(:name).maximum(:id)
       facts_to_create.each do |name|
-        host.fact_values.send(method, :value => facts[name],
-                              :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
+          logger.debug("#{self.class.to_s}#facts_to_create #{method} new fact with name '#{name}'")
+          host.fact_values.send(method, :value => facts[name],
+                                :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
       end
     end
 
