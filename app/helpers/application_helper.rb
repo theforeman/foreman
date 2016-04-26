@@ -143,8 +143,7 @@ module ApplicationHelper
   # +options+ : Hash containing options for authorized_for and link_to
   # +html_options+ : Hash containing html options for the link or span
   def display_link_if_authorized(name, options = {}, html_options = {})
-    enable_link = html_options.has_key?(:disabled) ? !html_options[:disabled] : true
-    if enable_link and authorized_for(options)
+    if authorized_for(options)
       link_to(name, options, html_options)
     else
       ""
