@@ -25,6 +25,7 @@ class FactImporter
   end
 
   def initialize(host, facts = {})
+    @error    = false
     @host     = host
     @facts    = normalize(facts)
     @counters = {}
@@ -36,6 +37,7 @@ class FactImporter
     add_new_facts
     update_facts
 
+    raise ::Foreman::Exception.new(N_("Import of facts failed for host %s"), @host.name) if @error
     logger.info("Import facts for '#{host}' completed. Added: #{counters[:added]}, Updated: #{counters[:updated]}, Deleted #{counters[:deleted]} facts")
   end
 
@@ -62,11 +64,17 @@ class FactImporter
     facts_to_create = facts.keys - db_facts.keys
     # if the host does not exists yet, we don't have an host_id to use the fact_values table.
     if facts_to_create.present?
-      method          = host.new_record? ? :build : :create!
-      fact_names      = fact_name_class.group(:name).maximum(:id)
+      method = host.new_record? ? :build : :create!
+      # :type is needed because custom facts usually inherits from FactName so they would be included in the list
+      fact_names = fact_name_class.where(:type => fact_name_class).group(:name).maximum(:id)
       facts_to_create.each do |name|
-        host.fact_values.send(method, :value => facts[name],
-                              :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
+        begin
+          host.fact_values.send(method, :value => facts[name],
+                                :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
+        rescue => e
+          logger.error("Fact #{name} could not be imported because of #{e.message}")
+          @error = true
+        end
       end
     end
 
