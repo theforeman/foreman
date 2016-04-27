@@ -2,8 +2,8 @@ module Orchestration::DHCP
   extend ActiveSupport::Concern
 
   included do
-    after_validation :dhcp_conflict_detected?, :queue_dhcp
-    before_destroy :queue_dhcp_destroy
+    after_validation :dhcp_conflict_detected?, :queue_dhcp, :unless => :importing_facts
+    before_destroy :queue_dhcp_destroy, :unless => :importing_facts
     validate :ip_belongs_to_subnet?
     register_rebuild(:rebuild_dhcp, N_('DHCP'))
   end

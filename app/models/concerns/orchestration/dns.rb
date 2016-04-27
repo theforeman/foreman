@@ -2,8 +2,8 @@ module Orchestration::DNS
   extend ActiveSupport::Concern
 
   included do
-    after_validation :dns_conflict_detected?, :queue_dns
-    before_destroy :queue_dns_destroy
+    after_validation :dns_conflict_detected?, :queue_dns, :unless => :importing_facts
+    before_destroy :queue_dns_destroy, :unless => :importing_facts
     register_rebuild(:rebuild_dns, N_('DNS'))
   end
 

@@ -74,6 +74,9 @@ module Host
     scope :no_location,     -> { rewhere(:location_id => nil) }
     scope :no_organization, -> { rewhere(:organization_id => nil) }
 
+    # If importing_facts is set to true, all orchestration calls will be skipped
+    attr_accessor :importing_facts
+
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
     # we can't set name attribute until we have primary interface so we don't pass it to super
@@ -101,6 +104,8 @@ module Host
       end
 
       super(*args)
+
+      self.importing_facts ||= false
 
       build_required_interfaces
       values_for_primary_interface.each do |name, value|
@@ -153,6 +158,7 @@ module Host
       importer = FactImporter.importer_for(type).new(self, facts)
       importer.import!
 
+      self.importing_facts = true
       save(:validate => false)
       populate_fields_from_facts(facts, type)
       set_taxonomies(facts)
@@ -163,6 +169,8 @@ module Host
       # TODO: if it was installed by Foreman and there is a mismatch,
       # we should probably send out an alert.
       save(:validate => false)
+    ensure
+      self.importing_facts = false
     end
 
     def attributes_to_import_from_facts
