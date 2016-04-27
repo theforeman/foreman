@@ -2,8 +2,8 @@ module Orchestration::TFTP
   extend ActiveSupport::Concern
 
   included do
-    after_validation :validate_tftp, :queue_tftp
-    before_destroy :queue_tftp_destroy
+    after_validation :validate_tftp, :queue_tftp, :unless => :importing_facts
+    before_destroy :queue_tftp_destroy, :unless => :importing_facts
 
     # required for pxe template url helpers
     include Rails.application.routes.url_helpers

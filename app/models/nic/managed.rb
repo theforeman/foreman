@@ -17,7 +17,7 @@ module Nic
              :operatingsystem, :provisioning_template, :jumpstart?, :build, :build?, :os, :arch,
              :image_build?, :pxe_build?, :pxe_build?, :token, :to_ip_address, :model, :to => :host
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
-             :overwrite?, :to => :host, :allow_nil => true
+             :overwrite?, :importing_facts, :to => :host, :allow_nil => true
 
     register_to_enc_transformation :type, ->(type) { type.constantize.humanized_name }
 

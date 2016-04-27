@@ -2,8 +2,8 @@ module Orchestration::Realm
   extend ActiveSupport::Concern
 
   included do
-    after_validation  :queue_realm
-    before_destroy    :queue_realm_destroy
+    after_validation  :queue_realm, :unless => :importing_facts
+    before_destroy    :queue_realm_destroy, :unless => :importing_facts
   end
 
   def realm?

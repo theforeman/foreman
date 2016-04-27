@@ -307,8 +307,13 @@ class HostTest < ActiveSupport::TestCase
 
   test "should import facts from json stream" do
     h=Host.new(:name => "sinn1636.lan")
-    h.disk = "!" # workaround for now
     assert h.import_facts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
+  end
+
+  test "should not trigger dhcp orchestration when importing facts" do
+    host = Host.new(:name => "sinn1636.lan")
+    host.primary_interface.expects(:dhcp_conflict_detected?).never
+    assert host.import_facts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
   end
 
   test "should populate primary interface attributes even without existing interface" do
