@@ -100,19 +100,15 @@ BANNER
       @keys.each do |key|
         value = @key_values[key]
         setting = Setting.find_by_name(key)
-        old_value = setting.value
         if value == :unset
           value = nil
         elsif complex_type?(setting.settings_type)
           setting.value = typecast_value(setting.settings_type, value)
         else
-          setting.parse_string_value(value)
-        end
-        if setting.valid? && old_value != setting.value
-          setting.save! unless @dry
-          changed_settings << setting
-        end
-        puts format_value(setting.settings_type, setting.value)
+          parse_and_set_string(setting, value)
+       end
+
+        validate_and_save(setting)
       end
     end
 
@@ -135,6 +131,9 @@ BANNER
       else
         value
       end
+    rescue JSON::ParserError
+      STDERR.puts("ERROR: Could not parse value #{value} as JSON. Please check the value is a valid JSON #{type}.")
+      exit 2
     end
 
     def format_value(type, value)
@@ -143,6 +142,24 @@ BANNER
       else
         value
       end
+    end
+
+    def validate_and_save(setting)
+      if setting.valid?
+        setting.save! unless @dry
+        @changed_settings << setting
+      else
+        STDERR.puts("ERROR: Invalid value #{setting.value} for #{setting} - #{setting.errors.full_messages}")
+        exit 2
+      end
+      print "#{setting.name}: "
+      puts format_value(setting.settings_type, setting.value)
+    end
+
+    def parse_and_set_string(setting, string)
+      return if setting.parse_string_value(value)
+      STDERR.puts("ERROR: Invalid value #{value} for #{setting} - #{setting.errors.full_messages}")
+      exit 2
     end
   end
 
