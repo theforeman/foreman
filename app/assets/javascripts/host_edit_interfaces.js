@@ -167,9 +167,9 @@ function update_interface_row(row, interface_form) {
     provision_class = 'active'
 
   if (primary_class == '' && provision_class == '')
-    row.find('.removeInterface').removeClass('disabled');
+    row.find('.removeInterface').removeAttr('disabled');
   else
-    row.find('.removeInterface').addClass('disabled');
+    row.find('.removeInterface').attr('disabled', 'disabled');
 
   flags += '<i class="glyphicon glyphicon glyphicon-tag primary-flag '+ primary_class +'" title="" data-original-title="'+ __('Primary') +'"></i>';
   flags += '<i class="glyphicon glyphicon glyphicon-hdd provision-flag '+ provision_class +'" title="" data-original-title="'+ __('Provisioning') +'"></i>';
