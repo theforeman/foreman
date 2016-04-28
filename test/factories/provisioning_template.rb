@@ -4,6 +4,11 @@ FactoryGirl.define do
     sequence(:template) { |n| "template content #{n}" }
 
     template_kind
+
+    trait :snippet do
+      snippet true
+      template_kind nil
+    end
   end
 
   factory :template_combination do

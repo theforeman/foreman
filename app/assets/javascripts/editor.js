@@ -103,7 +103,7 @@ function editor_file_source(evt){
 }
 
 function snippet_changed(item){
-  var checked = !!$(item).attr('checked');
+  var checked = $(item).is(':checked');
   $('#kind_selector').toggle(!checked);
   $('#snippet_message').toggle(checked);
   $('#association').toggle(!checked);
