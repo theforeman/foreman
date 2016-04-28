@@ -35,4 +35,9 @@ class ForemanLoggingTest < ActiveSupport::TestCase
       Foreman::Logging.send(:load_config, 'development')
     end
   end
+
+  def test_logger_level
+    Foreman::Logging.add_logger('test_logger', {:enabled => true, :level => :debug})
+    assert_equal 'debug', Foreman::Logging.logger_level('test_logger')
+  end
 end

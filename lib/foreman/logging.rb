@@ -54,6 +54,11 @@ module Foreman
       fail "Trying to use logger #{name} which has not been configured."
     end
 
+    def logger_level(name)
+      level_int = logger(name).level
+      ::Logging::LEVELS.find { |n,i| i == level_int }.first
+    end
+
     # Standard way for logging exceptions to get the most data in the log.
     # The behaviour can be influenced by this options:
     #   * :logger - the name of the logger to put the exception in ('app' by default)
