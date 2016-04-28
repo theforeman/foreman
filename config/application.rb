@@ -163,6 +163,8 @@ module Foreman
     ))
 
     config.logger = Foreman::Logging.logger('app')
+    # Explicitly set the log_level from our config, overriding the Rails env default
+    config.log_level = Foreman::Logging.logger_level('app').to_sym
     config.active_record.logger = Foreman::Logging.logger('sql')
 
     if config.serve_static_files
