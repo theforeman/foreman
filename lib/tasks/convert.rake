@@ -104,8 +104,10 @@ namespace :db do
         # Handle HABTM tables which don't have an id primary key
         # This *shouldn't* be needed but Rails seems to be picking
         # up the pkey from other tables in some kind of race condition
-        test_model = ProductionModelClass.first
-        DevelopmentModelClass.primary_key = nil unless test_model.try(:id)
+        unless ProductionModelClass.column_names.include?('id')
+          DevelopmentModelClass.primary_key = nil
+          ProductionModelClass.primary_key = nil
+        end
 
         # Page through the data in case the table is too large to fit in RAM
         offset = count = 0
@@ -113,7 +115,7 @@ namespace :db do
         STDOUT.flush
         # First, delete any old dev data
         DevelopmentModelClass.delete_all
-        while ((models = ProductionModelClass.all(:offset=>offset, :limit=>PAGE_SIZE)).size > 0)
+        while ((models = ProductionModelClass.offset(offset).limit(PAGE_SIZE)).size > 0)
 
           count += models.size
           offset += PAGE_SIZE
@@ -132,8 +134,8 @@ namespace :db do
 
               # Write timestamps for things which haven't had them set
               # as these columns are DEFAULT NOT NULL
-              new_model[:created_at] ||= time
-              new_model[:updated_at] ||= time
+              new_model[:created_at] ||= time if new_model.attributes.include?('created_at')
+              new_model[:updated_at] ||= time if new_model.attributes.include?('updated_at')
 
               new_model.save(:validate => false)
             end
