@@ -14,7 +14,6 @@ group :test do
   gem 'parser', '2.3.0.2'
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
   gem "poltergeist", :require => false
-  gem 'test-unit' if RUBY_VERSION >= '2.2'
   gem 'test_after_commit', '~> 0.4.0'
   gem 'shoulda-matchers', '2.8.0'
   gem 'shoulda-context', '~> 1.2'
