@@ -95,21 +95,35 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert @response.body.match('audit-content')
   end
 
-  test "build menu" do
-    snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/snippets/_pxelinux_discovery.erb"))
-    ProvisioningTemplate.create!(:name => 'pxelinux_discovery', :template => snippet, :snippet => true)
+  context 'PXE menu' do
+    setup do
+      snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/snippets/_pxelinux_discovery.erb"))
+      ProvisioningTemplate.create!(:name => 'pxelinux_discovery', :template => snippet, :snippet => true)
 
-    template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb"))
-    ProvisioningTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
+      template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb"))
+      ProvisioningTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
+      ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
+      Setting[:unattended_url] = "http://foreman.unattended.url"
+      @request.env['HTTP_REFERER'] = provisioning_templates_path
+    end
+    
+    test "build menu" do
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true)
+      get :build_pxe_default, {}, set_session_user
+      assert_redirected_to provisioning_templates_path
+    end
 
-    ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
-    Setting[:unattended_url] = "http://foreman.unattended.url"
-    @request.env['HTTP_REFERER'] = provisioning_templates_path
-
-    ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true)
-
-    get :build_pxe_default, {}, set_session_user
-    assert_redirected_to provisioning_templates_path
+    test "pxe menu's labels should be sorted" do
+      t1 = TemplateCombination.new :hostgroup => hostgroups(:db), :environment => environments(:production)
+      t1.provisioning_template = templates(:mystring2)
+      t2 = TemplateCombination.new :hostgroup => hostgroups(:common), :environment => environments(:production)
+      t2.provisioning_template = templates(:mystring2)
+      t1.save
+      t2.save
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/#{hostgroups(:common).name}.*#{hostgroups(:db).name}/m))).returns(true)
+      get :build_pxe_default, {}, set_session_user
+      assert_redirected_to provisioning_templates_path
+    end
   end
 
   test 'preview' do
