@@ -1,13 +1,20 @@
 module Foreman::Controller::TaxonomiesController
   extend ActiveSupport::Concern
 
-  included do
+  included do |klass|
+    klass.class_eval do
+      include Foreman::Controller::CallbacksScope
+      include ActiveSupport::Callbacks
+    end
+
     before_action :find_resource, :only => %w{edit update destroy clone_taxonomy assign_hosts
                                               assign_selected_hosts assign_all_hosts step2 select
                                               parent_taxonomy_selected}
     before_action :count_nil_hosts, :only => %w{index create step2}
     before_action :new_taxonomy, :only => %w{create}
     skip_before_action :authorize, :set_taxonomy, :only => %w{select clear}
+
+    define_callbacks :foreman_create, :foreman_destroy
   end
 
   def index
@@ -49,15 +56,21 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def create
-    if @taxonomy.save
+    callback_result = run_callbacks(:foreman_create) do
+      @taxonomy.save
+    end
+
+    if successful?(callback_result)
       switch_taxonomy
       if @count_nil_hosts > 0
         redirect_to send("step2_#{taxonomy_single}_path",@taxonomy)
       else
-        process_success(:object => @taxonomy, :success_redirect => send("edit_#{taxonomy_single}_path", @taxonomy))
+        success_options = {:object => @taxonomy, :success_redirect => send("edit_#{taxonomy_single}_path", @taxonomy)}
+        process_success(success_options, :left)
       end
     else
-      process_error(:render => "taxonomies/new", :object => @taxonomy)
+      error_options = {:render => "taxonomies/new", :object => @taxonomy}
+      process_error(error_options, :left)
     end
   end
 
@@ -86,7 +99,10 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def destroy
-    if @taxonomy.destroy
+    callback_result = run_callbacks(:foreman_destroy) do
+      @taxonomy.destroy
+    end
+    if successful?(callback_result)
       clear_current_taxonomy_from_session if session[taxonomy_id] == @taxonomy.id
       process_success
     else
