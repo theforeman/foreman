@@ -157,8 +157,8 @@ BANNER
     end
 
     def parse_and_set_string(setting, string)
-      return if setting.parse_string_value(value)
-      STDERR.puts("ERROR: Invalid value #{value} for #{setting} - #{setting.errors.full_messages}")
+      return if setting.parse_string_value(string)
+      STDERR.puts("ERROR: Invalid value #{string} for #{setting} - #{setting.errors.full_messages}")
       exit 2
     end
   end
