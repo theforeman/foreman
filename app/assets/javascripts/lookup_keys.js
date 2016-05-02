@@ -292,7 +292,7 @@ function toggle_value_hidden(target){
   var attrs = {
     id: target.attr('id'),
     name: target.attr('name'),
-    value: target.val(),
+    value: target.attr('value') || target.val(),
     disabled: target.prop('disabled'),
     class: target.attr('class'),
     'data-inherited-value': target.data('inherited-value')

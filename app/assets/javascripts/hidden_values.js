@@ -10,15 +10,15 @@ function turn_textarea_switch(checkbox) {
     $editorContainer.find('.ace_editor').remove();
     $(source).replaceWith(target);
   } else if ($('.editor-container').length > 0) {
-    target = $('<textarea/>').attr({class: 'form-control editor_source hide', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).val()});
+    target = $('<textarea/>').attr({class: 'form-control editor_source hide', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).attr('value')});
     $editorContainer.find('.navbar').show();
     $(source).replaceWith(target);
 
     onEditorLoad();
     session = Editor.getSession();
-    session.setValue($(source).val());
+    session.setValue($(source).attr('value'));
   } else {
-    var target = $('<textarea/>').attr({class: 'form-control no-stretch', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).val()});
+    var target = $('<textarea/>').attr({class: 'form-control no-stretch', id: id, name: source.name, placeholder: 'Value', rows: 1, value: $(source).attr('value')});
     $(source).replaceWith(target);
   }
 }
