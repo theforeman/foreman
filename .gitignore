@@ -40,3 +40,4 @@ custom_plan.rb
 pkg/
 config/hooks
 *.csv
+.envrc
