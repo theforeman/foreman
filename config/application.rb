@@ -14,13 +14,24 @@ if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
   # loads all gemfile groups.
   require 'bundler_ext'
   BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :all)
+
+  class Foreman::Consoletie < Rails::Railtie
+    console { Foreman.setup_console }
+  end
 else
   # If you have a Gemfile, require the gems listed there
   # Note that :default, :test, :development and :production groups
   # will be included by default (and dependending on the current environment)
   if defined?(Bundler)
-    Class.new Rails::Railtie do
-      console {Foreman.setup_console}
+    class Foreman::Consoletie < Rails::Railtie
+      console do
+        begin
+          Bundler.require(:console)
+        rescue LoadError
+          # no action, logs a warning in setup_console only
+        end
+        Foreman.setup_console
+      end
     end
     Bundler.require(*Rails.groups)
     if SETTINGS[:unattended]
@@ -195,7 +206,6 @@ module Foreman
   end
 
   def self.setup_console
-    Bundler.require(:console)
     Wirb.start
     Hirb.enable
   rescue
