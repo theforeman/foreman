@@ -200,6 +200,11 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :conflict
   end
 
+  test "template with nested hostgroup should be rendered" do
+    get :hostgroup_template, {:id => "MyString", :hostgroup => "Parent/inherited"}
+    assert_response :success
+  end
+
   test "template with hostgroup should be rendered" do
     get :hostgroup_template, {:id => "MyString", :hostgroup => "Common"}
     assert_response :success
