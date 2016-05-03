@@ -124,6 +124,15 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       get :build_pxe_default, {}, set_session_user
       assert_redirected_to provisioning_templates_path
     end
+
+    test "kickstart url should support in nested hostgroup " do
+      t1 = TemplateCombination.new :hostgroup => hostgroups(:inherited), :environment => environments(:production)
+      t1.provisioning_template = templates(:mystring2)
+      t1.save
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template\/MyString2\/Parent\/inherited/))).returns(true)
+      get :build_pxe_default, {}, set_session_user
+      assert_redirected_to provisioning_templates_path
+    end
   end
 
   test 'preview' do

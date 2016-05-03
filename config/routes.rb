@@ -122,9 +122,7 @@ Foreman::Application.routes.draw do
       end
     end
 
-    constraints(:hostgroup => /[^\/]+/) do
-      get 'unattended/template/:id/:hostgroup', :to => "unattended#hostgroup_template"
-    end
+    get 'unattended/template/:id/*hostgroup', :to => "unattended#hostgroup_template", hostgroup: /.+/
   end
 
   resources :settings, :only => [:index, :update] do
