@@ -23,6 +23,11 @@
 #   note when you log outside of standard rails path you won't see log output in WEBrick
 #   STDOUT (usually not wanted in development), to use Rails default path, don't set path
 #
+# :truncate:
+#   Truncate the log file to a zero byte length on each startup to reduce size, only
+#   supported with type: file
+#   values: true, false (default)
+#
 # :log_trace:
 #   Include caller tracing information in generated log events (this
 #   includes filename and line number of the log message)
@@ -62,3 +67,4 @@
 :test:
   :level: debug
   :filename: "test.log"
+  :truncate: true
