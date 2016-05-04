@@ -50,11 +50,15 @@ class ProvisioningTemplate < Template
     end
   }
 
-  # TODO: review if we can improve SQL
   def self.template_ids_for(hosts)
-    hosts.with_os.map do |host|
-      host.provisioning_template.try(:id)
-    end.uniq.compact
+    hosts = hosts.with_os.uniq
+    oses = hosts.pluck(:operatingsystem_id)
+    hostgroups = hosts.pluck(:hostgroup_id) | [nil]
+    environments = hosts.pluck(:environment_id) | [nil]
+    templates = ProvisioningTemplate.reorder(nil).joins(:operatingsystems, :template_kind).where('operatingsystems.id' => oses, 'template_kinds.name' => 'provision')
+    ids = templates.joins(:template_combinations).where("template_combinations.hostgroup_id" => hostgroups, "template_combinations.environment_id" => environments).uniq.pluck(:id)
+    ids += templates.joins(:os_default_templates).where("os_default_templates.operatingsystem_id" => oses).uniq.pluck(:id)
+    ids.uniq
   end
 
   # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
