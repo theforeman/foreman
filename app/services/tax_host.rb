@@ -12,7 +12,7 @@ class TaxHost
 
   def initialize(taxonomy, hosts = nil)
     @taxonomy = taxonomy
-    @hosts    = hosts.nil? ? @taxonomy.hosts : Host.where(:id => Array.wrap(hosts).map(&:id))
+    @hosts    = hosts.nil? ? @taxonomy.hosts.includes(:interfaces) : Host.where(:id => Array.wrap(hosts).map(&:id)).includes(:interfaces)
   end
 
   attr_reader :taxonomy, :hosts
@@ -153,18 +153,18 @@ class TaxHost
   end
 
   # populate used_ids for 3 non-standard_id's
-  def user_ids(hosts = self.hosts)
-    User.unscoped.except_admin.
+  def user_ids
+    @user_ids ||= User.unscoped.except_admin.
       eager_load(:direct_hosts).where(:hosts => { :id => hosts.map(&:id) }).
       pluck('DISTINCT users.id')
   end
 
-  def provisioning_template_ids(hosts = self.hosts)
-    ProvisioningTemplate.template_ids_for(hosts)
+  def provisioning_template_ids
+    @provisioning_template_ids ||= ProvisioningTemplate.template_ids_for(hosts)
   end
 
-  def smart_proxy_ids(hosts = self.hosts)
-    SmartProxy.smart_proxy_ids_for(hosts)
+  def smart_proxy_ids
+    @smart_proxy_ids ||= SmartProxy.smart_proxy_ids_for(hosts)
   end
 
   # helpers
