@@ -90,4 +90,22 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "should create override value without when use_puppet_default is true" do
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
+
+    assert_difference('LookupValue.count', 1) do
+      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => true}}
+    end
+    assert_response :success
+  end
+
+  test "should not create override value without when use_puppet_default is false" do
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
+
+    assert_difference('LookupValue.count', 0) do
+      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => false}}
+    end
+    assert_response :error
+  end
 end
