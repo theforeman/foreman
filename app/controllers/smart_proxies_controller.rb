@@ -72,7 +72,7 @@ class SmartProxiesController < ApplicationController
 
   def update
     if @smart_proxy.update_attributes(params[:smart_proxy])
-      process_success :object => @smart_proxy
+      process_success :object => @smart_proxy, :success_redirect => smart_proxies_path
     else
       process_error :object => @smart_proxy
     end
