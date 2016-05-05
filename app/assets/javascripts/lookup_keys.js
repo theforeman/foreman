@@ -288,25 +288,13 @@ function toggle_lookupkey_hidden(checkbox) {
 }
 
 function toggle_value_hidden(target){
-  shown = target.prop('type') == "textarea";
-  var attrs = {
-    id: target.attr('id'),
-    name: target.attr('name'),
-    value: target.val(),
-    disabled: target.prop('disabled'),
-    class: target.attr('class'),
-    'data-inherited-value': target.data('inherited-value')
-  };
+  var shown = !target.hasClass('masked-input');
   target.closest('tr').find('.set_hidden_value').prop('checked', shown);
-  if (shown) {
-    target.replaceWith($('<input/>').attr(_.extend({ type: 'password' }, attrs)));
-  } else {
-    target.replaceWith($('<textarea/>').attr(_.extend({ placeholder: _('Value'), rows: 1 }, attrs)).val(attrs['value']));
-  }
+  target.toggleClass('masked-input');
 }
 
 function input_group_hidden(btn) {
   target = $(btn).closest('.input-group').find('textarea, input');
-  toggle_value_hidden(target, target.is('textarea'));
+  toggle_value_hidden(target);
   $(btn).hide().siblings('.btn-hide').show();
 }

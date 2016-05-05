@@ -125,6 +125,9 @@ function create_editor() {
   if ($editorSource.is(':disabled')) {
     Editor.setReadOnly(true);
   }
+  if ($editorSource.hasClass('masked-input')) {
+    $editorContainer.find('.ace_content').addClass('masked-input');
+  }
 }
 
 function set_preview(){

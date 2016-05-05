@@ -20,3 +20,13 @@
   font-weight: bold;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'AllBullets';
+  src: local("AllBullets"),
+       font-url('AllBullets.woff') format("woff"),
+       font-url('AllBullets.ttf') format("truetype"),
+       font-url('AllBullets.svg') format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

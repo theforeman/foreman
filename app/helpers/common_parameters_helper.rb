@@ -24,15 +24,15 @@ module CommonParametersHelper
   end
 
   def hidden_value_field(f, field, value, disabled, options = {})
-    hidden = options.delete(:hidden_value)
-    if hidden || f.object.hidden_value?
-      input = f.password_field(field, :disabled => disabled, :value => value, :class => 'form-control no-stretch')
-    else
-      input = f.text_area(field, options.merge(:disabled => disabled,
-                                               :class => "form-control no-stretch",
+    hidden = options.delete(:hidden_value) || f.object.hidden_value?
+    html_class = "form-control no-stretch"
+    html_class += " masked-input" if hidden
+
+    input = f.text_area(field, options.merge(:disabled => disabled,
+                                               :class => html_class,
                                                :rows => 1,
                                                :placeholder => _("Value")))
-    end
+
     input_group(input, input_group_btn(hidden_toggle(f.object.hidden_value?), fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
   end
 
@@ -47,17 +47,15 @@ module CommonParametersHelper
                     :name => options[:name].to_s,
                     :disabled => options[:disabled] }
 
-    if lookup_key.present? && options[:lookup_key_hidden_value?]
-      password_field_tag(id, value, option_hash)
+    option_hash[:class] += " masked-input" if lookup_key.present? && options[:lookup_key_hidden_value?]
+
+    case options[:lookup_key_type]
+    when "boolean"
+      select_tag(id, options_for_select(['true', 'false'], value), option_hash)
+    when "integer", "real"
+      number_field_tag(id, value, option_hash)
     else
-      case options[:lookup_key_type]
-      when "boolean"
-        select_tag(id, options_for_select(['true', 'false'], value), option_hash)
-      when "integer", "real"
-        number_field_tag(id, value, option_hash)
-      else
-        text_area_tag(id, value, option_hash)
-      end
+      text_area_tag(id, value, option_hash)
     end
   end
 end
