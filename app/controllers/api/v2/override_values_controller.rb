@@ -31,7 +31,7 @@ module Api
       def_param_group :override_value do
         param :override_value, Hash, :required => true, :action_aware => true do
           param :match, String, :required => true, :desc => N_("Override match")
-          param :value, String, :required => true, :desc => N_("Override value")
+          param :value, String, :required => false, :desc => N_("Override value, required if use_puppet_default is false")
           param :use_puppet_default, :bool
         end
       end
