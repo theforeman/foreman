@@ -16,7 +16,7 @@ class Parameter < ActiveRecord::Base
   default_scope -> { order("parameters.name") }
 
   before_validation :strip_whitespaces
-  after_initialize :set_priority, :ensure_reference_nil
+  after_initialize :set_priority
 
   PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :subnet_parameter => 2, :os_parameter => 3, :group_parameter => 4, :host_parameter => 5}
 
@@ -37,12 +37,5 @@ class Parameter < ActiveRecord::Base
   def strip_whitespaces
     self.name = self.name.strip  unless name.blank? # when name string comes from a hash key, it's frozen and cannot be modified
     self.value.strip! unless value.blank?
-  end
-
-  # hack fix for Rails 3.2.8. Not needed for 3.2.18.
-  # related to **accepts_nested_attributes_for** on UI form (not API)
-  # which incorrectly assigns foreign key to 1 when attributes are from STI class (DomainParamter, HostParameter, etc)
-  def ensure_reference_nil
-    self.reference_id = nil if self.new_record? && self.reference_id == 1 && Rails.version == '3.2.8'
   end
 end
