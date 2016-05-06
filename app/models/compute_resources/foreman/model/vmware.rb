@@ -376,24 +376,13 @@ module Foreman::Model
     #
     # Foreman will try and start this vm after clone in a seperate request.
     #
-    # === Clusters
-    #
-    # Fog adaptor is incompatable with foreman because foreman does not have
-    # concept of a resource pool.
-    #
-    #   "resource_pool" => [args["cluster"], "Resources"]
-    #
-    # Fog calls +cluster.resourcePool.find("Resources")+ that actually calls
-    # +searchIndex.FindChild("Resources")+ in RbVmomi that then returns nil
-    # because it has no children.
     def clone_vm(raw_args)
       args = parse_args(raw_args)
-      path_replace = %r{/[^/]+/#{datacenter}/vm(/|)}
 
       opts = {
         "datacenter" => datacenter,
         "template_path" => args[:image_id],
-        "dest_folder" => args[:path].gsub(path_replace, ''),
+        "dest_folder" => args[:path],
         "power_on" => false,
         "start" => args[:start],
         "name" => args[:name],
