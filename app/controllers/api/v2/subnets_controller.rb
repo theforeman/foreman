@@ -5,7 +5,7 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update destroy used_ips}
 
       api :GET, '/subnets', N_("List of subnets")
       api :GET, "/domains/:domain_id/subnets", N_("List of subnets for a domain")
@@ -17,6 +17,11 @@ module Api
 
       def index
         @subnets = resource_scope_for_index.includes(:tftp, :dhcp, :dns)
+      end
+
+      api :GET, "/subnets/:id/used_ips/", N_("Show a subnet and list all used ips in this subnet")
+      param :id, :identifier, :required => true
+      def used_ips
       end
 
       api :GET, "/subnets/:id/", N_("Show a subnet")
@@ -71,6 +76,15 @@ module Api
       end
 
       private
+
+      def action_permission
+        case params[:action]
+          when 'used_ips'
+            :view
+          else
+            super
+        end
+      end
 
       def allowed_nested_id
         %w(domain_id location_id organization_id)

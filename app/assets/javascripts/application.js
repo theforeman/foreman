@@ -15,6 +15,7 @@
 //= require proxy_status
 //= require proxy_status/puppet
 //= require proxy_status/logs
+//= require subnet_usage
 //= require jquery.extentions
 //= require jquery.multi-select
 //= require settings

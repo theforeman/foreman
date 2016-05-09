@@ -1,6 +1,6 @@
 class SubnetsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:edit, :update, :destroy]
+  before_filter :find_resource, :only => [:edit, :update, :destroy, :usage]
 
   def index
     @subnets = resource_base.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
@@ -56,6 +56,13 @@ class SubnetsController < ApplicationController
     process_ajax_error(e, "get free ip")
   end
 
+  def usage
+    return {} unless @subnet.ipam?
+    requested_data do
+      {:available => @subnet.ipamservice.range.count, :used => @subnet.ipamservice.usage}
+    end
+  end
+
   def import
     proxy = SmartProxy.find(params[:smart_proxy_id])
     @subnets = Subnet::Ipv4.import(proxy)
@@ -79,6 +86,22 @@ class SubnetsController < ApplicationController
   end
 
   private
+
+  def action_permission
+    case params[:action]
+      when 'usage'
+        :view
+      else
+        super
+    end
+  end
+
+  def requested_data
+    data = yield
+    render :json => {:success => true, :message => data }
+  rescue Foreman::Exception => exception
+    render :json => {:success => false, :message => exception.message} and return
+  end
 
   def success_hash
     { :success_redirect => params[:redirect].present? ? params[:redirect] : nil }

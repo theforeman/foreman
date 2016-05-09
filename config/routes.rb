@@ -400,6 +400,9 @@ Foreman::Application.routes.draw do
     end
 
     resources :subnets, :except => [:show] do
+      member do
+        get 'usage'
+      end
       collection do
         get 'auto_complete_search'
         get 'import'

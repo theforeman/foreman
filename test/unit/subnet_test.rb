@@ -75,4 +75,16 @@ class SubnetTest < ActiveSupport::TestCase
     refute subnet.destroy
     assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
+
+  test 'should have a range' do
+    subnet = FactoryGirl.build(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :ipam => IPAM::MODES[:db])
+    assert_equal '192.168.2.0..192.168.2.255', subnet.to_range.to_s
+  end
+
+  test 'should invalidate the ipam service cache when ipam changes' do
+    subnet = FactoryGirl.build(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :ipam => IPAM::MODES[:db])
+    assert_equal 'IPAM::Db', subnet.ipamservice.class.name
+    subnet.ipam = IPAM::MODES[:none]
+    assert_nil subnet.ipamservice
+  end
 end
