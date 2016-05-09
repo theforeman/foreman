@@ -304,6 +304,8 @@ class PluginTest < ActiveSupport::TestCase
     @klass.register :foo do
       register_custom_status(status)
     end
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
     assert_include HostStatus.status_registry, status
     HostStatus.status_registry.delete status
   end
