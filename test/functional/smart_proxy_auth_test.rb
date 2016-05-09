@@ -61,6 +61,51 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     assert_equal proxy, @controller.detected_proxy
   end
 
+  def test_wild_card_certificates_are_supported
+    Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
+    Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = '/C=CZ/ST=Czech Republic/L=Brno/O=Ares/CN=*.example.com,DN=example,DN=com'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+    proxy = FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    assert @controller.send(:auth_smart_proxy)
+    assert_equal proxy, @controller.detected_proxy
+  end
+
+  def test_wild_card_certificates_matches_correctly
+    Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
+    Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = '/C=CZ/ST=Czech Republic/L=Brno/O=Ares/CN=*.example.org,DN=example,DN=com'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+    FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    refute @controller.send(:auth_smart_proxy)
+  end
+
+  def test_wild_card_certificates_supports_only_one_wild_card
+    Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
+    Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=*.*.com'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+    FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    refute @controller.send(:auth_smart_proxy)
+  end
+
+  def test_wild_card_certificates_supports_escapes_dots_correctly
+    Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
+    Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=*.example.com'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+    FactoryGirl.create(:smart_proxy, :url => 'https://proxyXexampleXcom:8443')
+    refute @controller.send(:auth_smart_proxy)
+  end
+
   def test_certificate_with_dn_and_empty_san_permits_access
     Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
     Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
