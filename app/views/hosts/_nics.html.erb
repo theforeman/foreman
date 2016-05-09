@@ -1,5 +1,5 @@
 <% @host.interfaces.each do |nic| %>
-  <table id="nics_table" class="table table-bordered table-striped">
+  <table id="nics_table" class="<%= table_css_classes %>">
     <tr>
       <th colspan="2">
         <%= nic.identifier %>

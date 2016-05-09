@@ -4,7 +4,7 @@
                  documentation_button('4.4.2InstallationMedia'),
                  help_path %>
 
-<table class="table table-bordered table-striped table-two-pane table-fixed">
+<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-2"><%= sort :name, :as => s_("Medium|Name") %></th>

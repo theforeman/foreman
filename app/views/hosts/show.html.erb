@@ -4,7 +4,7 @@
 <% content_for(:search_bar) {reports_show} %>
 <div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>
   <div class="col-md-4">
-    <table id="details_table" class="table table-bordered table-striped">
+    <table id="details_table" class="<%= table_css_classes %>">
       <thead>
         <tr>
           <th><%= _('Details') %></th>

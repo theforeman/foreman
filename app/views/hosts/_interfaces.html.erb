@@ -5,7 +5,7 @@
     <%= alert :class => 'alert-danger', :header => '', :text => _("Some of the interfaces are invalid. Please check the table below.") %>
   <% end %>
   <!-- interface list -->
-  <table class="table table-bordered table-striped" id="interfaceList">
+  <table class="<%= table_css_classes %>" id="interfaceList">
     <thead>
       <tr>
         <th class="hidden-xs" width="3%"></th>
