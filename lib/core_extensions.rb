@@ -120,6 +120,12 @@ class ActiveRecord::Base
     return 20 if Foreman.in_rake?
     Setting.entries_per_page rescue 20
   end
+
+  def self.audited(*args)
+    # do not audit data changes during db migrations
+    super
+    self.auditing_enabled = false if Foreman.in_rake?('db:migrate')
+  end
 end
 
 module ExemptedFromLogging
