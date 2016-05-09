@@ -1,15 +1,10 @@
 module SettingsHelper
-  extend ActiveSupport::Concern
-  included do
-    alias_method_chain :value, :collection
-  end
-
   def value(setting)
-    if setting.readonly?
-      return readonly_field(
-          setting, :value,
-          {:title => _("This setting is defined in the configuration file 'settings.yaml' and is read-only."), :helper => :show_value})
-    end
+    return readonly_field(setting, :value,
+      {:title => _("This setting is defined in the configuration file 'settings.yaml' and is read-only."), :helper => :show_value}) if setting.readonly?
+
+    return edit_select(setting, :value,
+      {:select_values => self.send("#{setting.name}_collection").to_json }) if self.respond_to? "#{setting.name}_collection"
 
     case setting.settings_type
       when "boolean"
@@ -17,11 +12,6 @@ module SettingsHelper
       else
         edit_textfield(setting, :value,{:helper => :show_value})
     end
-  end
-
-  def value_with_collection(setting)
-    return value_without_collection(setting) unless self.respond_to? "#{setting.name}_collection"
-    edit_select(setting, :value, {:select_values => self.send("#{setting.name}_collection").to_json } )
   end
 
   def show_value(setting)
