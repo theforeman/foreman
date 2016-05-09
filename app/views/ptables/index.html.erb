@@ -3,7 +3,7 @@
                  documentation_button('4.4.4PartitionTables'),
                  help_path %>
 
-<table class="table table-bordered table-striped table-two-pane table-fixed">
+<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-4"><%= sort :name, :as => s_("Ptable|Name") %></th>

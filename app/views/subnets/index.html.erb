@@ -3,7 +3,7 @@
 <%= javascript 'subnets' %>
 <% title_actions new_link(_("New Subnet")) %>
 
-<table class="table table-bordered table-striped table-two-pane table-fixed">
+<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-3"><%= sort :name, :as => s_("Subnet|Name") %></th>
