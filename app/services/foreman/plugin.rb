@@ -313,7 +313,9 @@ module Foreman #:nodoc:
 
     # register custom host status class, it should inherit from HostStatus::Status
     def register_custom_status(klass)
-      HostStatus.status_registry.add(klass)
+      in_to_prepare do
+        HostStatus.status_registry.add(klass)
+      end
     end
 
     # register a provision method
