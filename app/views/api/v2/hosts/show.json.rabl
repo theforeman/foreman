@@ -26,9 +26,9 @@ child :config_groups do
   extends "api/v2/config_groups/main"
 end
 
-@host.facets_with_definitions.each do |_facet, definition|
+root_object.facets_with_definitions.each do |_facet, definition|
   node do
-    partial(definition.api_single_view, :object => @host) if definition.api_single_view
+    partial(definition.api_single_view, :object => root_object) if definition.api_single_view
   end
 end
 
