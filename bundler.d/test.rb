@@ -13,7 +13,7 @@ group :test do
   gem 'factory_girl_rails', '~> 4.5', :require => false
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
   gem "poltergeist", :require => false
-  gem 'test_after_commit', '~> 0.4.0'
+  gem 'test_after_commit', '>= 0.4', '< 2.0'
   gem 'shoulda-matchers', '2.8.0'
   gem 'shoulda-context', '~> 1.2'
 end
