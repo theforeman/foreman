@@ -37,6 +37,19 @@ module Facets
         klass.class_eval do
           has_one facet_config.name, :class_name => facet_config.model.name, :foreign_key => :host_id, :inverse_of => :host
           accepts_nested_attributes_for facet_config.name, :update_only => true, :reject_if => :all_blank
+          if Foreman.in_rake?("db:migrate")
+            # To prevent running into issues in old migrations when new facet is defined but not migrated yet.
+            # We define it only when in migration to avoid this unnecessary checks outside for the migration
+            define_method("#{facet_config.name}_with_migration_check") do
+              if facet_config.model.table_exists?
+                send("#{facet_config.name}_without_migration_check")
+              else
+                logger.warn("Table for #{facet_config.name} not defined yet: skipping the facet data")
+                nil
+              end
+            end
+            alias_method_chain facet_config.name, :migration_check
+          end
           alias_method "#{facet_config.name}_attributes", facet_config.name
           attr_accessible "#{facet_config.name}_attributes"
 
