@@ -250,6 +250,14 @@ class Operatingsystem < ActiveRecord::Base
     end
   end
 
+  def boot_files_uri(medium, architecture, host = nil)
+    raise ::Foreman::Exception.new(N_("Invalid medium for %s"), self) unless media.include?(medium)
+    raise ::Foreman::Exception.new(N_("Invalid architecture for %s"), self) unless architectures.include?(architecture)
+    eval("#{self.family}::PXEFILES").values.collect do |img|
+      medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
+    end
+  end
+
   private
 
   def set_family
@@ -269,14 +277,6 @@ class Operatingsystem < ActiveRecord::Base
 
   def downcase_release_name
     self.release_name.downcase! unless Foreman.in_rake? or release_name.nil? or release_name.empty?
-  end
-
-  def boot_files_uri(medium, architecture, host = nil)
-    raise ::Foreman::Exception.new(N_("Invalid medium for %s"), self) unless media.include?(medium)
-    raise ::Foreman::Exception.new(N_("Invalid architecture for %s"), self) unless architectures.include?(architecture)
-    eval("#{self.family}::PXEFILES").values.collect do |img|
-      medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
-    end
   end
 
   def reject_empty_provisioning_template(attributes)
