@@ -24,4 +24,8 @@ class TopbarSweeper < ActionController::Caching::Sweeper
   def self.expire_cache(controller)
     controller.expire_fragment(TopbarSweeper.fragment_name) if User.current
   end
+
+  def self.expire_cache_all_users
+    Rails.cache.delete_matched(/#{fragment_name('\d+')}/)
+  end
 end
