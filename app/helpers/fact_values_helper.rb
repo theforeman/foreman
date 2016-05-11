@@ -15,24 +15,19 @@ module FactValuesHelper
       else
         if value_name != memo || value.compose
           parameters = { :parent_fact => memo }
-          if params[:host_id]
-            url = host_facts_path(parameters.merge({ :host_id => params[:host_id] }))
-          else
-            url = fact_values_path(parameters)
-          end
+          url = host_parent_fact_facts_path(parameters.merge({ :host_id => params[:host_id] || value.host.name }))
           link_to(current_name, url,
                   :title => _("Show all %s children fact values") % memo)
         else
-          link_to(current_name, fact_values_path("search" => "name = #{value_name}"),
-                  :title => _("Show all %s fact values") % value_name)
+          link_to(current_name, fact_values_path(:search => "name = #{value_name}"),
+                  :title => _("Show %s fact values for all hosts") % value_name)
         end
       end
     end.join(FactName::SEPARATOR).html_safe
 
     if value.compose
-      link_to(icon_text('plus-sign','', :title => _('Expand nested items')),
-              fact_values_path(:parent_fact => value_name)) + ' ' +
-          content_tag(:span, name)
+      url = host_parent_fact_facts_path(:parent_fact => value_name, :host_id => params[:host_id] || value.host.name)
+      link_to(icon_text('plus-sign','', :title => _('Expand nested items')), url) + ' ' + content_tag(:span, name)
     else
       name
     end

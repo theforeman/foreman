@@ -103,6 +103,8 @@ Foreman::Application.routes.draw do
         resources :audits, :only => :index
         resources :facts, :only => :index, :controller => :fact_values
         resources :puppetclasses, :only => :index
+
+        get 'parent_facts/:parent_fact/facts', :to => 'fact_values#index', :as => 'parent_fact_facts'
       end
     end
 
@@ -116,6 +118,7 @@ Foreman::Application.routes.draw do
       end
     end
 
+    get 'parent_facts/:parent_fact/facts', :to => 'fact_values#index', :as => 'parent_fact_facts'
     resources :facts, :only => [:index, :show] do
       constraints(:id => /[^\/]+/) do
         resources :values, :only => :index, :controller => :fact_values, :as => "host_fact_values"
