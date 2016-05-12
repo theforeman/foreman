@@ -34,7 +34,7 @@ class SubnetTest < ActiveSupport::TestCase
                                 :with_domains,
                                 :name => 'valid',
                                 :network => '123.123.123.0',
-                                :mask => '255.255.255.0',
+                                :mask => '255.255.255.0'
                                )
 
     assert_equal "valid (123.123.123.0/24)", subnet.to_label

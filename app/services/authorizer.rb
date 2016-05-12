@@ -28,7 +28,7 @@ class Authorizer
     if Taxonomy.enabled_taxonomies.any?
       organization_ids = allowed_organizations(resource_class)
       Foreman::Logging.logger('permissions').debug "organization_ids: #{organization_ids.inspect}"
-      location_ids     = allowed_locations(resource_class)
+      location_ids = allowed_locations(resource_class)
       Foreman::Logging.logger('permissions').debug "location_ids: #{location_ids.inspect}"
 
       organizations, locations, values = taxonomy_conditions(organization_ids, location_ids)

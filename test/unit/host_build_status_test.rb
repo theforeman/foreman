@@ -22,7 +22,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   test "should fail rendering a template" do
     host = @host
     kind = FactoryGirl.create(:template_kind)
-    FactoryGirl.create(:provisioning_template, :template => "provision script <%= @foreman.server.status %>",:name => "My Failed Template", :template_kind => kind, :operatingsystem_ids => [host.operatingsystem_id], :environment_ids => [host.environment_id], :hostgroup_ids => [host.hostgroup_id]  )
+    FactoryGirl.create(:provisioning_template, :template => "provision script <%= @foreman.server.status %>",:name => "My Failed Template", :template_kind => kind, :operatingsystem_ids => [host.operatingsystem_id], :environment_ids => [host.environment_id], :hostgroup_ids => [host.hostgroup_id])
     @build = host.build_status_checker
     refute_empty @build.errors[:templates]
   end

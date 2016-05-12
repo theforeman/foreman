@@ -13,7 +13,7 @@ class UserRoleTest < ActiveSupport::TestCase
   end
 
   test "cache user roles" do
-    user             = FactoryGirl.create :user
+    user = FactoryGirl.create :user
     FactoryGirl.create :user_user_role, :owner => user
     cached_user_roles = user.cached_user_roles.map(&:role)
 
@@ -40,7 +40,7 @@ class UserRoleTest < ActiveSupport::TestCase
     user_role.save
 
     users = @semiadmin_users + [@admin_user] + [@superadmin_user]
-    users.each  do |user|
+    users.each do |user|
       assert_includes user.cached_user_roles.map(&:role), new_role
     end
   end

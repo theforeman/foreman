@@ -48,7 +48,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it overwrites NIC compute attributes from the profile by default" do
     interfaces = [
-      FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9}),
+      FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -59,7 +59,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
   test "it does not overwrite NIC compute attributes already set with :merge_compute_attributes" do
     @merge = InterfaceMerge.new(:merge_compute_attributes => true)
     interfaces = [
-      FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9}),
+      FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 

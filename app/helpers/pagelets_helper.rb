@@ -17,7 +17,7 @@ module PageletsHelper
       next unless pagelet.onlyif.call opts[:subject]
       result += "<div id='#{pagelet.id}' class='tab-pane'>"
       result += render_pagelet(pagelet, opts)
-      result +=  "</div>"
+      result += "</div>"
     end
     result.html_safe
   end

@@ -6,7 +6,7 @@ class SolarisTest < ActiveSupport::TestCase
   test "jumpstart parameter generation" do
     h = FactoryGirl.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
           :interfaces => [ FactoryGirl.build(:nic_primary_and_provision,
-                                             :ip => '2.3.4.10')  ],
+                                             :ip => '2.3.4.10') ],
           :architecture => architectures(:sparc),
           :operatingsystem => operatingsystems(:solaris10),
           :compute_resource => compute_resources(:one),

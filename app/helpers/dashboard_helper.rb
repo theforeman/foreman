@@ -88,7 +88,7 @@ module DashboardHelper
   end
 
   def latest_headers
-    string =  "<th>#{_("Host")}</th>"
+    string =  "<th>#{_('Host')}</th>"
     # TRANSLATORS: initial character of Applied
     string += translated_header(s_('Applied|A'), _('Applied'))
     # TRANSLATORS: initial character of Restarted

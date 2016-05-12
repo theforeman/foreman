@@ -154,7 +154,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "user with create permissions should be able to create" do
     setup_user "create"
-    record =  User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id
+    record = User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id
     record.password_hash = "asd"
     assert record.save
     assert record.valid?
@@ -230,7 +230,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "user cannot escalate his own roles" do
     setup_user "edit"
-    extra_role      = Role.where(:name => "foobar").first_or_create
+    extra_role = Role.where(:name => "foobar").first_or_create
     record = User.current
     record.role_ids = record.role_ids + [extra_role.id]
     refute record.save

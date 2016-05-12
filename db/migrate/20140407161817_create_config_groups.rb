@@ -7,5 +7,3 @@ class CreateConfigGroups < ActiveRecord::Migration
     end
   end
 end
-
-

@@ -21,7 +21,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
 
     def test_create_invalid
       User.current=nil
-      post :create, {:config_report => ["not a hash", "throw an error"]  }, set_session_user
+      post :create, {:config_report => ["not a hash", "throw an error"] }, set_session_user
       assert_response :unprocessable_entity
     end
 
@@ -48,7 +48,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       Setting[:require_ssl_smart_proxies] = false
 
       proxy = smart_proxies(:puppetmaster)
-      host   = URI.parse(proxy.url).host
+      host = URI.parse(proxy.url).host
       Resolv.any_instance.stubs(:getnames).returns([host])
       post :create, {:config_report => create_a_puppet_transaction_report }
       assert_equal proxy, @controller.detected_proxy

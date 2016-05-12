@@ -5,4 +5,3 @@ class AddWindowsTemplates < ActiveRecord::Migration
   def down
   end
 end
-

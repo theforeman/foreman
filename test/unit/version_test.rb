@@ -16,7 +16,7 @@ class VersionTest < ActiveSupport::TestCase
     v = Foreman::Version.new "1.0-develop"
     assert_equal "1", v.major
     assert_equal "0", v.minor
-    assert  v.build.nil?
+    assert v.build.nil?
     assert_equal "1.0", v.short
     assert_equal "develop", v.tag
     assert_equal "1.0", v.notag

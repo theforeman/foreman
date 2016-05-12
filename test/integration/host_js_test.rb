@@ -420,7 +420,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
       test "selecting domain updates puppetclass parameters" do
         disable_orchestration
-        domain =  FactoryGirl.create(:domain)
+        domain = FactoryGirl.create(:domain)
 
         host = FactoryGirl.create(:host, :with_puppetclass)
 

@@ -235,7 +235,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
       @user1.usergroups = [@d.reload] # @d cached #users already as []
       @user2.usergroups = [@e]
       @role = FactoryGirl.create(:role, :name => 'um_role')
-      @role_ur  = FactoryGirl.create :user_group_user_role, :owner => @a, :role => @role
+      @role_ur = FactoryGirl.create :user_group_user_role, :owner => @a, :role => @role
     end
 
     assert_includes @user1.reload.cached_user_roles.map(&:role), @role

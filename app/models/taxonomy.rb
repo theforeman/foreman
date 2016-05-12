@@ -148,7 +148,7 @@ class Taxonomy < ActiveRecord::Base
     new.smart_proxies     = smart_proxies
     new.subnets           = subnets
     new.compute_resources = compute_resources
-    new.provisioning_templates  = provisioning_templates
+    new.provisioning_templates = provisioning_templates
     new.media             = media
     new.domains           = domains
     new.realms            = realms
@@ -222,7 +222,7 @@ class Taxonomy < ActiveRecord::Base
 
   def assign_default_templates
     Template.where(:default => true).each do |template|
-      self.send("#{template.class.to_s.underscore.pluralize}") << template
+      self.send((template.class.to_s.underscore.pluralize).to_s) << template
     end
   end
 

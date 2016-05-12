@@ -23,4 +23,3 @@ if SETTINGS[:organizations_enabled]
     attributes :id, :name
   end
 end
-

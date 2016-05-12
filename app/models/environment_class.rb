@@ -33,10 +33,10 @@ class EnvironmentClass < ActiveRecord::Base
 
   #TODO move these into scopes?
   def self.is_in_any_environment(puppetclass, puppetclass_lookup_key)
-    EnvironmentClass.where(:puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key ).count > 0
+    EnvironmentClass.where(:puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key).count > 0
   end
 
-  def self.key_in_environment(env, puppetclass,  puppetclass_lookup_key)
-    EnvironmentClass.where(:environment_id => env, :puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key ).first
+  def self.key_in_environment(env, puppetclass, puppetclass_lookup_key)
+    EnvironmentClass.where(:environment_id => env, :puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key).first
   end
 end

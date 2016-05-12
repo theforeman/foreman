@@ -45,7 +45,7 @@ module Authorizable
       if user.nil?
         self.where('1=0')
       else
-        Authorizer.new(user).find_collection(resource, {:permission => permission, :joined_on => self}.merge(opts) )
+        Authorizer.new(user).find_collection(resource, {:permission => permission, :joined_on => self}.merge(opts))
       end
     end
 

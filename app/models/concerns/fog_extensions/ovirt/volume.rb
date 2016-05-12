@@ -9,4 +9,3 @@ module FogExtensions
     end
   end
 end
-

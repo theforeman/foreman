@@ -6,7 +6,7 @@ module TrendsHelper
                _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     if new_record
       existing = ForemanTrend.includes(:trendable).types.map(&:to_s)
-      options.delete_if{ |k,v|  existing.include?(v) }
+      options.delete_if{ |k,v| existing.include?(v) }
     end
     options
   end

@@ -48,7 +48,7 @@ class ApacheTest < ActiveSupport::TestCase
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
     apache = get_apache_method
 
-    apache.controller.request.env[SSO::Apache::CAS_USERNAME]     = 'ares'
+    apache.controller.request.env[SSO::Apache::CAS_USERNAME] = 'ares'
     apache.controller.request.env['REMOTE_USER_EMAIL']     = 'foobar@example.com'
     apache.controller.request.env['REMOTE_USER_FIRSTNAME'] = 'Foo'
     apache.controller.request.env['REMOTE_USER_LASTNAME']  = 'Bar'

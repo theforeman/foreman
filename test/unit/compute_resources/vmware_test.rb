@@ -84,22 +84,22 @@ class VmwareTest < ActiveSupport::TestCase
         "new_interfaces" => {
           "type" => "VirtualE1000",
           "network" => "Test network",
-          "_delete" => "",
+          "_delete" => ""
         },
         "0"=>{
           "type" => "VirtualVmxnet3",
           "network" => "Test network",
-          "_delete" => "",
+          "_delete" => ""
         }
       },
       "volumes_attributes"=>{
         "new_volumes"=>{
           "size_gb" => "10",
-          "_delete" => "",
+          "_delete" => ""
         },
         "0" => {"size_gb"=>"1", "_delete"=>""}
       },
-      "provision_method" => "image",
+      "provision_method" => "image"
     )
 
     mock_vm = mock('vm')

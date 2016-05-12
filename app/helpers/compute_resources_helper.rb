@@ -14,7 +14,7 @@ module ComputeResourcesHelper
   end
 
   def vm_power_class(s)
-    "class='label #{s ? "label-success" : "label-default"}'".html_safe
+    "class='label #{s ? 'label-success' : 'label-default'}'".html_safe
   end
 
   def vm_power_action(vm, authorizer = nil)

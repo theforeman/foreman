@@ -132,7 +132,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
       {
         'EC2' => 'Foreman::Model::EC2',
         'Libvirt' => 'Best::Provider::Libvirt',  # prefer plugin classes
-        'MyBest' => 'Best::Provider::MyBest',
+        'MyBest' => 'Best::Provider::MyBest'
       },
       ComputeResource.providers
     )
@@ -145,7 +145,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
       {
         'EC2' => 'Foreman::Model::EC2',
         'Libvirt' => 'Best::Provider::Libvirt',  # prefer plugin classes
-        'MyBest' => 'Best::Provider::MyBest',
+        'MyBest' => 'Best::Provider::MyBest'
       },
       ComputeResource.all_providers
     )

@@ -48,7 +48,7 @@ module Api::ImportPuppetclassesCommonController
 
   def changed_environments
     begin
-      opts      =  { :url => @smart_proxy.url }
+      opts = { :url => @smart_proxy.url }
       if @environment.present?
         opts.merge!(:env => @environment.name)
       else

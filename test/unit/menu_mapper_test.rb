@@ -165,7 +165,7 @@ class MenuMapperTest < ActiveSupport::TestCase
 
   def test_delete_in_sub_menu
     menu_mapper = Menu::Manager::Mapper.new(:test_menu, {})
-    menu_mapper.sub_menu :test_sub_menu,      :caption => "Sub Menu" do
+    menu_mapper.sub_menu :test_sub_menu, :caption => "Sub Menu" do
       menu_mapper.item :test_sub_overview, :url_hash => { :controller => 'hosts', :action => 'show'}
     end
     assert_not_nil menu_mapper.find(:test_sub_overview)

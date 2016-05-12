@@ -95,4 +95,3 @@ following order:") + '</p>' + '<ul>' +
     SETTINGS[:locations_enabled] && SETTINGS[:organizations_enabled]
   end
 end
-

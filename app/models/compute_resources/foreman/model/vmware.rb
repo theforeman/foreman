@@ -301,7 +301,7 @@ module Foreman::Model
         'vmx-09' => '9 (ESXi 5.1)',
         'vmx-08' => '8 (ESXi 5.0)',
         'vmx-07' => '7 (ESX/ESXi 4.x)',
-        'vmx-04' => '4 (ESX/ESXi 3.5)',
+        'vmx-04' => '4 (ESX/ESXi 3.5)'
       }
     end
 
@@ -342,7 +342,7 @@ module Foreman::Model
       args["interfaces_attributes"].each do |key, interface|
         # Convert network id into name
         net = dc_networks.find { |n| [n.id, n.name].include?(interface["network"]) }
-        raise "Unknown Network ID: #{interface["network"]}" if net.nil?
+        raise "Unknown Network ID: #{interface['network']}" if net.nil?
         interface["network"] = net.name
       end if args["interfaces_attributes"]
       args
@@ -391,7 +391,7 @@ module Foreman::Model
         "memoryMB" => args[:memory_mb],
         "datastore" => args[:volumes].first[:datastore],
         "storage_pod" => args[:volumes].first[:storage_pod],
-        "resource_pool" => [args[:cluster], args[:resource_pool]],
+        "resource_pool" => [args[:cluster], args[:resource_pool]]
       }
 
       vm_model = new_vm(raw_args)
@@ -497,7 +497,7 @@ module Foreman::Model
         :volumes    => [new_volume],
         :scsi_controller => { :type => scsi_controller_default_type },
         :datacenter => datacenter,
-        :boot_order => ['network', 'disk'],
+        :boot_order => ['network', 'disk']
       )
     end
   end

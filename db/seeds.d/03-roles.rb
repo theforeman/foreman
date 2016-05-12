@@ -50,7 +50,7 @@ default_permissions =
                                   :import_puppetclasses, :view_config_reports, :destroy_config_reports, :access_settings,
                                   :view_smart_proxies, :edit_smart_proxies, :view_subnets, :edit_subnets,
                                   :view_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
-                                  :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications],
+                                  :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications]
     }
 
 default_role_permissions = [:view_bookmarks, :view_tasks]

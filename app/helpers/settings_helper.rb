@@ -8,7 +8,7 @@ module SettingsHelper
 
     case setting.settings_type
       when "boolean"
-        edit_select(setting, :value, {:select_values => {:true => "true", :false => "false"}.to_json } )
+        edit_select(setting, :value, {:select_values => {:true => "true", :false => "false"}.to_json })
       else
         edit_textfield(setting, :value,{:helper => :show_value})
     end

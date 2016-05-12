@@ -7,4 +7,3 @@ class ChangeBookmarkColumnToText < ActiveRecord::Migration
     change_column 'bookmarks', :query, :string
   end
 end
-

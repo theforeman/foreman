@@ -5,7 +5,7 @@ class Usergroup < ActiveRecord::Base
   friendly_id :name
   include Parameterizable::ByIdName
 
-  attr_accessible  :name, :admin, :user_ids, :user_names, :role_ids,
+  attr_accessible :name, :admin, :user_ids, :user_names, :role_ids,
     :role_names, :usergroup_ids, :usergroup_names, :external_usergroups_attributes
 
   validates_lengths_from_database

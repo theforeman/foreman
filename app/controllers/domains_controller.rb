@@ -3,7 +3,7 @@ class DomainsController < ApplicationController
   before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @domains      = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @domains = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new

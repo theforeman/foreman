@@ -73,7 +73,7 @@ class WsProxy
       :timeout      => 120,
       :idle_timeout => 120,
       :host_port    => 5900,
-      :host         => "0.0.0.0",
+      :host         => "0.0.0.0"
     }
   end
 

@@ -40,8 +40,8 @@ class Puppetclass < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :total_hosts
-  scoped_search :on => :global_class_params_count, :rename => :params_count   # Smart Parameters
-  scoped_search :on => :variable_lookup_keys_count, :rename => :variables_count        # Smart Variables
+  scoped_search :on => :global_class_params_count, :rename => :params_count # Smart Parameters
+  scoped_search :on => :variable_lookup_keys_count, :rename => :variables_count # Smart Variables
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
   scoped_search :in => :hostgroups, :on => :name, :complete_value => :true, :rename => "hostgroup", :ext_method => :search_by_name, :only_explicit => true
   scoped_search :in => :config_groups, :on => :name, :complete_value => :true, :rename => "config_group", :ext_method => :search_by_name, :only_explicit => true
@@ -120,7 +120,7 @@ class Puppetclass < ActiveRecord::Base
   # The results are written into document_root/puppet/rdoc/<env>/<class>"
   def self.rdoc(root)
     debug, verbose = false, false
-    relocated      = root != "/"             # This is true if the prepare phase copied the modules tree
+    relocated      = root != "/" # This is true if the prepare phase copied the modules tree
 
     # Retrieve an optional http server's DocumentRoot from the settings.yaml file, and prepare it for writing
     doc_root = Pathname.new(Setting[:document_root])
@@ -149,7 +149,7 @@ class Puppetclass < ActiveRecord::Base
       sh cmd do |ok, res|
         if ok
           # Add a link to the class browser
-          files =  `find #{out} -exec grep -l 'validator-badges' {} \\; 2>/dev/null`.gsub(/\n/, " ")
+          files = `find #{out} -exec grep -l 'validator-badges' {} \\; 2>/dev/null`.gsub(/\n/, " ")
           if files.empty?
             warn "No files to update with the browser link in #{out}. This is probably due to a previous error."
           else

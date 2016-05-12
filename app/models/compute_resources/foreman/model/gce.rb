@@ -147,7 +147,7 @@ module Foreman::Model
     def new_volume(attrs = { })
       args = {
         :size_gb   => (attrs[:size_gb] || 10).to_i,
-        :zone_name => zone,
+        :zone_name => zone
       }.merge(attrs)
       client.disks.new(args)
     end
@@ -172,7 +172,7 @@ module Foreman::Model
       super.merge(
         :zone => zone,
         :name => "foreman-#{Time.now.to_i}",
-        :disks => [new_volume],
+        :disks => [new_volume]
       )
     end
   end

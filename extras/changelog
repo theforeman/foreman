@@ -13,7 +13,7 @@ cmd.each_line do |l|
   date, _time, _zone = date.split(" ")
 
   id = "#{date}\t#{author}"
-  if not list[id]
+  if !(list[id])
     list[id] = []
     list_order << {:id => id, :value => list[id]}
   end
@@ -22,17 +22,17 @@ cmd.each_line do |l|
 end
 
 # list.each do |id, value|
-file = File.new(changelog_file,"w")
+file = File.new(changelog_file, "w")
 list_order.each do |i|
   id = i[:id]
   value = i[:value]
 
-  file.puts "#{id}"
+  file.puts id.to_s
   file.puts value.map { |e| "\t* #{e}" }.join("\n")
   file.puts "\n"
 end
 file.close
-file = File.new(contributors_file,"w")
+file = File.new(contributors_file, "w")
 file.puts "Contributors (sorted alphabetically)"
 file.puts "\n"
 file.puts contributors.uniq.sort.join("\n")

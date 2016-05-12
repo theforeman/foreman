@@ -170,7 +170,7 @@ module Orchestration::DNS
     status = true
     status = failure(_("DNS A Records %s already exists") % dns_a_record.conflicts.to_sentence, nil, :conflict) if dns? and dns_a_record and dns_a_record.conflicting?
     status = failure(_("DNS PTR Records %s already exists") % dns_ptr_record.conflicts.to_sentence, nil, :conflict) if reverse_dns? and dns_ptr_record and dns_ptr_record.conflicting?
-    not status #failure method returns 'false'
+    !status #failure method returns 'false'
   rescue Net::Error => e
     if domain.nameservers.empty?
       failure(_("Error connecting to system DNS server(s) - check /etc/resolv.conf"), e)

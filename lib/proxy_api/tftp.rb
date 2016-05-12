@@ -60,4 +60,3 @@ module ProxyAPI
     end
   end
 end
-

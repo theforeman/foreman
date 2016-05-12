@@ -38,7 +38,7 @@ class Dashboard::Data
          :out_of_sync_hosts_enabled => hosts.out_of_sync.alerts_enabled.count,
          :disabled_hosts            => hosts.alerts_disabled.count,
          :pending_hosts             => hosts.recent.with_pending_changes.count,
-         :pending_hosts_enabled     => hosts.recent.with_pending_changes.alerts_enabled.count,
+         :pending_hosts_enabled     => hosts.recent.with_pending_changes.alerts_enabled.count
       })
     report[:good_hosts]         = report[:ok_hosts]         + report[:active_hosts_ok]
     report[:good_hosts_enabled] = report[:ok_hosts_enabled] + report[:active_hosts_ok_enabled]

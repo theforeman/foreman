@@ -22,7 +22,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   test 'should mark override on creation' do
     k = FactoryGirl.create(:variable_lookup_key, :puppetclass => puppetclasses(:two))
     refute k.override
-    post :create,  {:smart_variable_id => k.id, :override_value => smart_variable_attrs }
+    post :create, {:smart_variable_id => k.id, :override_value => smart_variable_attrs }
     k.reload
     assert k.override
   end
@@ -42,14 +42,14 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test "should show specific override values for specific smart variable" do
-    get :show,  {:smart_variable_id => lookup_keys(:two).to_param, :id => lookup_values(:four).to_param }
+    get :show, {:smart_variable_id => lookup_keys(:two).to_param, :id => lookup_values(:four).to_param }
     assert_response :success
     results = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty results
     assert_equal "hostgroup=Common", results['match']
   end
   test "should show specific override values for specific smart class parameter" do
-    get :show,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param }
+    get :show, {:smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param }
     results = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty results
     assert_equal "hostgroup=Common", results['match']

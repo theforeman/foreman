@@ -169,7 +169,7 @@ class AuthSourceLdap < AuthSource
       :lastname  => attr_lastname,
       :mail      => attr_mail,
       :login     => attr_login,
-      :dn        => :dn,
+      :dn        => :dn
     }
   end
 

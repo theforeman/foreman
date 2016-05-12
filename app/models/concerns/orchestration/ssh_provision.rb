@@ -106,7 +106,7 @@ module Orchestration::SSHProvision
       status = false
     end
     status = false if template.nil?
-    failure(_("No finish templates were found for this host, make sure you define at least one in your %s settings") % os ) unless status
+    failure(_("No finish templates were found for this host, make sure you define at least one in your %s settings") % os) unless status
   end
 
   def provision_ip

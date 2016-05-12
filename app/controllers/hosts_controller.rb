@@ -408,7 +408,7 @@ class HostsController < ApplicationController
 
     #update the hosts
     @hosts.each do |host|
-      host.environment = (id == 'inherit' && host.hostgroup.present? ) ? host.hostgroup.environment : ev
+      host.environment = (id == 'inherit' && host.hostgroup.present?) ? host.hostgroup.environment : ev
       host.save(:validate => false)
     end
 
@@ -779,7 +779,7 @@ class HostsController < ApplicationController
   def find_multiple
   # Lets search by name or id and make sure one of them exists first
     if params[:host_names].present? or params[:host_ids].present?
-      @hosts = resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names] )
+      @hosts = resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names])
       if @hosts.empty?
         error _('No hosts were found with that id or name')
         redirect_to(hosts_path) and return false
@@ -802,7 +802,7 @@ class HostsController < ApplicationController
     @hosts.to_a.delete_if { |host| host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"
 
-    missed_hosts       = @hosts.map(&:name).to_sentence
+    missed_hosts = @hosts.map(&:name).to_sentence
     if @hosts.empty?
       notice _("%s selected hosts") % (action.capitalize)
     else

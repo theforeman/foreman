@@ -34,7 +34,7 @@ module Taxonomix
       self.which_ancestry_method = inner_method
       self.which_location        = Location.expand(loc) if SETTINGS[:locations_enabled]
       self.which_organization    = Organization.expand(org) if SETTINGS[:organizations_enabled]
-      scope =  block_given? ? yield : where('1=1')
+      scope = block_given? ? yield : where('1=1')
       scope = scope.where(:id => taxable_ids) if taxable_ids
       scope.readonly(false)
     end
@@ -114,7 +114,7 @@ module Taxonomix
 
   def set_current_taxonomy
     if self.new_record? && self.errors.empty?
-      self.id = nil      #fix for rails 3.2.8 bug that sets id = 1 on after_initialize. This can later be removed.
+      self.id = nil #fix for rails 3.2.8 bug that sets id = 1 on after_initialize. This can later be removed.
       self.locations     << Location.current     if add_current_location?
       self.organizations << Organization.current if add_current_organization?
     end
@@ -182,7 +182,7 @@ module Taxonomix
       assoc = assoc_base.pluralize
       key = assoc_base + '_ids'
 
-      next if (User.current.nil? || User.current.send("#{assoc}").empty?) || (!new_record? && !self.send("#{key}_changed?"))
+      next if (User.current.nil? || User.current.send(assoc.to_s).empty?) || (!new_record? && !self.send("#{key}_changed?"))
 
       allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(self.send("#{key}_was"))
       tried = self.send(key).to_set

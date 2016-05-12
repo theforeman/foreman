@@ -19,7 +19,7 @@ module ApplicationHelper
             id = 'not_defined'
           end
         rescue => e
-          Foreman::Logging.exception("Failed generating link using #{ args.inspect }", e)
+          Foreman::Logging.exception("Failed generating link using #{args.inspect}", e)
           id = 'not_parseable'
         end
         html_options.merge!(:'data-id' => "aid_#{id}")
@@ -200,7 +200,7 @@ module ApplicationHelper
   def auto_complete_search(name, val, options = {})
     path = options[:full_path]
     path ||= (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}"
-    options.merge!(:class => "autocomplete-input form-control", :'data-url' => path )
+    options.merge!(:class => "autocomplete-input form-control", :'data-url' => path)
     text_field_tag(name, val, options)
   end
 
@@ -225,7 +225,7 @@ module ApplicationHelper
   end
 
   def flot_pie_chart(name, title, data, options = {})
-    data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if  data.is_a?(Hash)
+    data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if data.is_a?(Hash)
     data.map{|element| element[:label] = truncate(element[:label],:length => 16)}
     header = content_tag(:h4,(options[:show_title]) ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
     link_to_function(header, "expand_chart(this)")+
@@ -241,7 +241,7 @@ module ApplicationHelper
   end
 
   def flot_chart(name, xaxis_label, yaxis_label, data, options = {})
-    data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if  data.is_a?(Hash)
+    data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if data.is_a?(Hash)
     content_tag(:div, nil,
                 { :id    => name,
                   :class => 'statistics-chart',
@@ -311,7 +311,7 @@ module ApplicationHelper
     return content_tag(:span, args[0].html_safe, :class=>'btn btn-sm btn-default') if args.length == 1
 
     #multiple buttons
-    primary =  args.delete_at(0).html_safe
+    primary = args.delete_at(0).html_safe
     primary = content_tag(:span, primary, :class=>'btn btn-sm btn-default') if primary !~ /btn/
 
     content_tag(:div,:class => "btn-group") do

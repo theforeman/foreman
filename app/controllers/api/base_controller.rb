@@ -119,7 +119,7 @@ module Api
     end
 
     def log_resource_errors(resource)
-      logger.error "Unprocessable entity #{resource.class.name} (id: #{resource.try(:id) || "new"}):\n  #{resource.errors.full_messages.join("\n  ")}\n"
+      logger.error "Unprocessable entity #{resource.class.name} (id: #{resource.try(:id) || 'new'}):\n  #{resource.errors.full_messages.join("\n  ")}\n"
     end
 
     def authorize
@@ -172,7 +172,7 @@ module Api
     def paginate_options
       {
         :page     => params[:page],
-        :per_page => params[:per_page],
+        :per_page => params[:per_page]
       }
     end
 

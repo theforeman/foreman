@@ -24,7 +24,7 @@ class ReportImporterTest < ActiveSupport::TestCase
 
   context 'puppet error state notification' do
     setup do
-      @user =  as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
+      @user = as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
       @user.mail_notifications << PuppetError.first
       @host = FactoryGirl.create(:host)
     end

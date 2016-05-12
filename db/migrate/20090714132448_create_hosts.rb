@@ -40,7 +40,7 @@ class CreateHosts < ActiveRecord::Migration
     add_column :hosts, :root_pass, :string, :limit => 64
     add_column :hosts, :serial, :string, :limit => 12
     add_column :hosts, :puppetmaster, :string, :limit => 255
-    add_column :hosts, :puppet_status, :integer,  :null => false, :default => 0
+    add_column :hosts, :puppet_status, :integer, :null => false, :default => 0
 
     add_column :hosts, :domain_id, :integer
     add_column :hosts, :architecture_id, :integer

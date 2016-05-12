@@ -111,7 +111,7 @@ module Foreman
     config.i18n.enforce_available_locales = false
 
     # Disable fieldWithErrors divs
-    config.action_view.field_error_proc = Proc.new {|html_tag, instance| "#{html_tag}".html_safe }
+    config.action_view.field_error_proc = Proc.new {|html_tag, instance| html_tag.to_s.html_safe }
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -170,7 +170,7 @@ module Foreman
       :app => {:enabled => true},
       :ldap => {:enabled => false},
       :permissions => {:enabled => false},
-      :sql => {:enabled => false},
+      :sql => {:enabled => false}
     ))
 
     config.logger = Foreman::Logging.logger('app')

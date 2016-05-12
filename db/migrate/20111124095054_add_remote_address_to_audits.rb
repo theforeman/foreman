@@ -7,4 +7,3 @@ class AddRemoteAddressToAudits < ActiveRecord::Migration
     remove_column :audits, :remote_address
   end
 end
-

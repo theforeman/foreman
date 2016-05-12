@@ -79,7 +79,7 @@ class FactValue < ActiveRecord::Base
                 else
                   k
               end
-      output << {:label => label, :data =>v }  unless v == 0
+      output << {:label => label, :data =>v } unless v == 0
     end
     output
   end
@@ -104,8 +104,8 @@ class FactValue < ActiveRecord::Base
 
   def self.search_cast_facts(key, operator, value)
     {
-      :conditions => "#{sanitize_sql_for_conditions(["fact_names.name = ?", key.split('.')[1]])} AND #{cast_facts('fact_values', key, operator, value)}",
-      :include    => :fact_name,
+      :conditions => "#{sanitize_sql_for_conditions(['fact_names.name = ?', key.split('.')[1]])} AND #{cast_facts('fact_values', key, operator, value)}",
+      :include    => :fact_name
     }
   end
 

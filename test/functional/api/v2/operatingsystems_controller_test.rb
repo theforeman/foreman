@@ -82,7 +82,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   test "should add association of architectures by name with WRAPPED node" do
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
-      put :update, { :id => os.to_param,  :operatingsystem => { :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name }] } }
+      put :update, { :id => os.to_param, :operatingsystem => { :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name }] } }
     end
     assert_response :success
   end

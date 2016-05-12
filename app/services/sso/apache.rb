@@ -6,13 +6,13 @@ module SSO
     ENV_TO_ATTR_MAPPING = {
       'REMOTE_USER_EMAIL'     => :mail,
       'REMOTE_USER_FIRSTNAME' => :firstname,
-      'REMOTE_USER_LASTNAME'  => :lastname,
+      'REMOTE_USER_LASTNAME'  => :lastname
     }
 
     def available?
       return false unless Setting['authorize_login_delegation']
-      return false if controller.api_request? and not Setting['authorize_login_delegation_api']
-      return false if controller.api_request? and not request.env[CAS_USERNAME].present?
+      return false if controller.api_request? and !(Setting['authorize_login_delegation_api'])
+      return false if controller.api_request? and !request.env[CAS_USERNAME].present?
       true
     end
 
@@ -76,7 +76,7 @@ module SSO
     def convert_encoding(value)
       if value.respond_to?(:force_encoding)
         value.force_encoding(Encoding::UTF_8)
-        if not value.valid_encoding?
+        if !value.valid_encoding?
           value.encode(Encoding::UTF_8, Encoding::ISO_8859_1, { :invalid => :replace, :replace => '-' }).force_encoding(Encoding::UTF_8)
         end
       else

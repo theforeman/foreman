@@ -202,7 +202,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
         { "timestamp" => 1000, "level" => "INFO", "message" => "Message" },
         { "timestamp" => 1001, "level" => "INFO", "message" => "Message" },
         { "timestamp" => 1002, "level" => "ERROR", "message" => "Message" },
-        { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" },
+        { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" }
       ]})
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     xhr :get, :errors_card, { :id => proxy.id }, set_session_user
@@ -237,7 +237,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
       "info" => {
         "failed_modules" => {
           "BMC" => "Message",
-          "Puppet" => "Another message",
+          "Puppet" => "Another message"
         }
       },
       "logs" => []})

@@ -112,4 +112,3 @@ class EncryptableTest < ActiveSupport::TestCase
     assert_nil encrypted_str
   end
 end
-

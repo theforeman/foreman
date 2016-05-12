@@ -304,7 +304,7 @@ class LocationTest < ActiveSupport::TestCase
     # new parameter on child location
     child_location.location_parameters.create(:name => "child_param", :value => "123")
 
-    assert_equal( { 'loc_param' => 'abc' }, child_location.parent_params)
+    assert_equal({ 'loc_param' => 'abc' }, child_location.parent_params)
   end
 
   test "#params_objects should return location parameters" do
@@ -354,7 +354,7 @@ class LocationTest < ActiveSupport::TestCase
     parent = FactoryGirl.create(:location, :name => 'a' * 245)
     location = Location.new :parent => parent, :name => 'b'
     refute_valid location
-    assert_equal _("is too long (maximum is 0 characters)"),  location.errors[:name].first
+    assert_equal _("is too long (maximum is 0 characters)"), location.errors[:name].first
   end
 
   test ".my_locations returns all locations for admin" do

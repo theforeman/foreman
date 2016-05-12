@@ -50,7 +50,7 @@ notifications = [
     :description        => N_('A notification when a host reports a puppet error'),
     :mailer             => 'HostMailer',
     :method             => 'error_state',
-    :subscription_type  => 'alert',
+    :subscription_type  => 'alert'
   }
 ]
 

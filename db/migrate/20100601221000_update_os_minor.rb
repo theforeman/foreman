@@ -1,4 +1,4 @@
-class UpdateOsMinor  < ActiveRecord::Migration
+class UpdateOsMinor < ActiveRecord::Migration
   class Operatingsystem < ActiveRecord::Base; end
 
   def up

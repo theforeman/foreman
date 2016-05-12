@@ -59,7 +59,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
 
   test "403 response contains missing permissions" do
     setup_user
-    get :edit, { :id => Architecture.first.id },  {:user => users(:one).id, :expires_at => 5.minutes.from_now}
+    get :edit, { :id => Architecture.first.id }, {:user => users(:one).id, :expires_at => 5.minutes.from_now}
     assert_response :forbidden
     assert_includes @response.body, 'edit_architectures'
   end

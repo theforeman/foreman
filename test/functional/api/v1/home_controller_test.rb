@@ -6,4 +6,3 @@ class Api::V1::HomeControllerTest < ActionController::TestCase
     assert_response :success
   end
 end
-

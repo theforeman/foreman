@@ -125,7 +125,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     domain.subnets << subnet
     domain.save
     xhr :post, :domain_selected, {:id => Hostgroup.first, :hostgroup => {}, :domain_id => domain.id, :format => :json}, set_session_user
-    assert_equal subnet.name,  JSON.parse(response.body)[0]["subnet"]["name"]
+    assert_equal subnet.name, JSON.parse(response.body)[0]["subnet"]["name"]
   end
 
   test "domain_selected should return empty on no domain_id" do

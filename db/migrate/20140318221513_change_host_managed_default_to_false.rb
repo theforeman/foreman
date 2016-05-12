@@ -8,4 +8,3 @@ class ChangeHostManagedDefaultToFalse < ActiveRecord::Migration
     change_column :hosts, :managed, :boolean, :null => true
   end
 end
-

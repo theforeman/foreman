@@ -5,7 +5,7 @@ class HostParameter < Parameter
   validates :host, :presence => true
 
   def to_s
-    "#{host.id ? host.name : "unassociated"}: #{name} = #{value}"
+    "#{host.id ? host.name : 'unassociated'}: #{name} = #{value}"
   end
 
   def associated_type

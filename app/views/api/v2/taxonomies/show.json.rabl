@@ -55,7 +55,7 @@ child :hostgroups do
 end
 
 if @taxonomy.is_a?(Location)
-  child :organizations => :organizations  do
+  child :organizations => :organizations do
     extends "api/v2/taxonomies/base"
   end
 end

@@ -3,7 +3,7 @@ class ModelsController < ApplicationController
   before_filter :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @models       = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @models = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new

@@ -103,7 +103,7 @@ class UnattendedController < ApplicationController
     token = params.delete('token')
     return nil if token.blank?
     # Quirk: ZTP requires the .slax suffix
-    if ( result = token.match(/^([a-z0-9-]+)(.slax)$/i) )
+    if (result = token.match(/^([a-z0-9-]+)(.slax)$/i))
       token, _suffix = result.captures
     end
     Host.for_token(token).first

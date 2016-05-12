@@ -49,4 +49,3 @@ Foreman::Application.configure do
     Bullet.add_footer = true
   end if defined?(Bullet)
 end
-

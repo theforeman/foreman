@@ -13,7 +13,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   # limited, unlimited, permission with resource, without resource...
   test "#can?(:view_hosts) with unlimited filter" do
     FactoryGirl.create(:filter, :role => @role, :permissions => [@permission])
-    auth       = Authorizer.new(@user)
+    auth = Authorizer.new(@user)
 
     assert auth.can?(@permission.name.to_sym)
     refute auth.can?(:view_domains)
@@ -21,7 +21,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#can?(:view_hosts) with unlimited filter" do
     FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
-    auth       = Authorizer.new(@user)
+    auth = Authorizer.new(@user)
 
     assert auth.can?(@permission.name.to_sym)
     refute auth.can?(:view_domains)
@@ -29,7 +29,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#can?(:view_hosts) on permission without resource" do
     FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
-    auth       = Authorizer.new(@user)
+    auth = Authorizer.new(@user)
 
     assert auth.can?(@permission.name.to_sym)
     refute auth.can?(:view_domains)
@@ -37,7 +37,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#can?(:view_hosts) is limited by particular user" do
     FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
-    auth       = Authorizer.new(FactoryGirl.create(:user))
+    auth = Authorizer.new(FactoryGirl.create(:user))
 
     refute auth.can?(@permission.name.to_sym)
   end
@@ -164,7 +164,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     architecture = FactoryGirl.create(:architecture)
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission2])
 
-    auth        = Authorizer.new(@user)
+    auth = Authorizer.new(@user)
 
     auth.stubs(:find_collection).returns([domain1]).times(3)
     assert auth.can?(:view_domain, domain1)
@@ -226,7 +226,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     domain     = FactoryGirl.create(:domain)
     permission = Permission.find_by_name('view_domains')
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
-    auth       = Authorizer.new(@user, :collection => [])
+    auth = Authorizer.new(@user, :collection => [])
 
     refute auth.can?(:view_domains, domain)
   end
@@ -249,7 +249,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     permission = Permission.find_by_name('view_hosts')
     FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
                                 :search => "facts.#{fact.name} = #{fact.value}")
-    auth       = Authorizer.new(@user)
+    auth = Authorizer.new(@user)
 
     results = auth.find_collection(Host::Managed, :permission => :view_hosts)
     assert_includes results, host
@@ -260,7 +260,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     host       = FactoryGirl.create(:host)
     report     = FactoryGirl.create(:config_report, :host => host)
     @user.update_attribute(:admin, true)
-    auth       = Authorizer.new(@user)
+    auth = Authorizer.new(@user)
 
     assert_includes auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report), report
   end

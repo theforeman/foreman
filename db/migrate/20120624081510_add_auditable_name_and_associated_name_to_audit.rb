@@ -2,7 +2,7 @@ class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
   def up
     add_column :audits, :auditable_name, :string, :limit => 255 unless column_exists? :audits, :auditable_name
     add_column :audits, :associated_name, :string, :limit => 255 unless column_exists? :audits, :associated_name
-    add_index :audits, :id unless index_exists?  :audits, :id
+    add_index :audits, :id unless index_exists? :audits, :id
     Audit.reset_column_information
     say "About to review all audits, this may take a while..."
     Audit.includes(:user, :auditable, :associated).find_in_batches do |audits|

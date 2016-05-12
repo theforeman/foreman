@@ -116,7 +116,7 @@ module Foreman
 
     def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})
       file = ""
-      Tempfile.open(prefix, Rails.root.join('tmp') ) do |f|
+      Tempfile.open(prefix, Rails.root.join('tmp')) do |f|
         f.print(unattended_render(content))
         f.flush
         f.chmod options[:mode] if options[:mode]

@@ -58,7 +58,7 @@ class Medium < ActiveRecord::Base
 
   # Write the image path, with a trailing "/" if required
   def image_path=(path)
-    write_attribute :image_path, "#{path}#{"/" unless path =~ /\/$|^$/}"
+    write_attribute :image_path, "#{path}#{'/' unless path =~ /\/$|^$/}"
   end
 
   def ensure_hosts_not_in_build

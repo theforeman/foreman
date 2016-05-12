@@ -14,7 +14,7 @@ class FakeBMCNic < ActiveRecord::Base
     end
 
     define_method "#{method}=" do |value|
-      self.attrs         ||= { }
+      self.attrs ||= { }
       old_value = attrs[method]
       self.attrs[method] = value
       # attrs_will_change! makes the record dirty. Otherwise, rails has a bug that it won't save if no other field is changed.

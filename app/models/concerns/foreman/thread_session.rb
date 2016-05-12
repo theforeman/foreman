@@ -94,7 +94,7 @@ module Foreman
             raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
           end
 
-          Rails.logger.debug "Setting current organization thread-local variable to #{organization || "none"}"
+          Rails.logger.debug "Setting current organization thread-local variable to #{organization || 'none'}"
           Thread.current[:organization] = organization
         end
 
@@ -129,7 +129,7 @@ module Foreman
             raise(ArgumentError, "Unable to set current location, expected class '#{self}'. got #{location.inspect}")
           end
 
-          Rails.logger.debug "Setting current location thread-local variable to #{location || "none"}"
+          Rails.logger.debug "Setting current location thread-local variable to #{location || 'none'}"
           Thread.current[:location] = location
         end
 

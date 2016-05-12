@@ -34,4 +34,3 @@ class CastTest < ActiveSupport::TestCase
     assert_equal false, Foreman::Cast.to_bool(false)
   end
 end
-

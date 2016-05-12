@@ -44,7 +44,7 @@ class DashboardControllerTest < ActionController::TestCase
   test "#save_positions updates each widget" do
     widget = FactoryGirl.create(:widget, :user => users(:admin))
     params = {
-      widget.id.to_s => {:hide => 'false', :col => '4', :row => '3', :sizex => '8', :sizey => '1'},
+      widget.id.to_s => {:hide => 'false', :col => '4', :row => '3', :sizex => '8', :sizey => '1'}
     }
     post :save_positions, {:widgets => params, :format => 'json'}, set_session_user
     assert_response :success

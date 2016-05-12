@@ -26,7 +26,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "does not create subnet with non-existent domain" do
-    post :create, { :subnet => valid_attrs.merge( :domain_ids => [1, 2] ) }
+    post :create, { :subnet => valid_attrs.merge(:domain_ids => [1, 2]) }
     assert_response :not_found
   end
 

@@ -62,7 +62,7 @@ class Host::Managed < Host::Base
 
   include HostCommon
   attr_accessible :build, :certname, :disk, :global_status,
-    :installed_at,  :last_report, :otp, :provision_method, :uuid,
+    :installed_at, :last_report, :otp, :provision_method, :uuid,
     :compute_attributes,
     :compute_resource, :compute_resource_id, :compute_resource_name,
     :owner, :owner_id, :owner_name, :owner_type
@@ -130,7 +130,7 @@ class Host::Managed < Host::Base
   }
 
   scope :without_pending_changes, lambda {
-    with_config_status.where("#{HostStatus::ConfigurationStatus.is_not('pending')}")
+    with_config_status.where((HostStatus::ConfigurationStatus.is_not('pending')).to_s)
   }
 
   scope :successful, -> { without_changes.without_error.without_pending_changes}
@@ -191,7 +191,7 @@ class Host::Managed < Host::Base
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
                           :if => Proc.new { |host| host.managed && host.pxe_build? && build? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed and host.disk.empty? and not Foreman.in_rake? and host.pxe_build? and host.build? }
+                          :if => Proc.new { |host| host.managed and host.disk.empty? and !Foreman.in_rake? and host.pxe_build? and host.build? }
     validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
@@ -276,7 +276,7 @@ class Host::Managed < Host::Base
 
   #retuns fqdn of host puppetmaster
   def pm_fqdn
-    puppetmaster == "puppet" ? "puppet.#{domain.name}" : "#{puppetmaster}"
+    puppetmaster == "puppet" ? "puppet.#{domain.name}" : (puppetmaster).to_s
   end
 
   # Cleans Certificate and enable Autosign
@@ -344,7 +344,7 @@ class Host::Managed < Host::Base
   end
 
   def disabled?
-    not enabled?
+    !enabled?
   end
 
   # Determine if host is setup for configuration
@@ -510,7 +510,7 @@ class Host::Managed < Host::Base
       next if myparams.has_key?(param) and myparams[param] == value
 
       unless (hp = self.host_parameters.create(:name => param, :value => value))
-        logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(", ")}"
+        logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(', ')}"
         $stdout.puts $ERROR_INFO
       end
     end
@@ -528,7 +528,7 @@ class Host::Managed < Host::Base
     associations = association.to_s.camelize.constantize.where(:id => data.keys).all
     data.each do |k,v|
       begin
-        output << {:label => associations.detect {|a| a.id == k }.to_label, :data => v }  unless v == 0
+        output << {:label => associations.detect {|a| a.id == k }.to_label, :data => v } unless v == 0
       rescue
         logger.info "skipped #{k} as it has has no label"
       end
@@ -549,7 +549,7 @@ class Host::Managed < Host::Base
   def self.provision_methods
     {
       'build' => N_('Network Based'),
-      'image' => N_('Image Based'),
+      'image' => N_('Image Based')
     }.merge(registered_provision_methods)
   end
 
@@ -1020,7 +1020,7 @@ class Host::Managed < Host::Base
   end
 
   def short_name_periods
-    errors.add(:name, _("must not include periods")) if ( managed? && shortname && shortname.include?(".") && SETTINGS[:unattended] )
+    errors.add(:name, _("must not include periods")) if (managed? && shortname && shortname.include?(".") && SETTINGS[:unattended])
   end
 
   def update_hostgroups_puppetclasses

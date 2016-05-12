@@ -1,5 +1,5 @@
 class AssociationAuthorizer
-  def self.authorized_associations(associations,  klass_name = nil, should_raise_exception = true, action = 'view')
+  def self.authorized_associations(associations, klass_name = nil, should_raise_exception = true, action = 'view')
     if associations.included_modules.include?(Authorizable)
       associations_klass = associations
       if associations.respond_to?(:klass)

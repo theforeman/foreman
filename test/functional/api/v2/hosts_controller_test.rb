@@ -4,7 +4,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   def setup
     @host = FactoryGirl.create(:host)
     @ptable = FactoryGirl.create(:ptable)
-    @ptable.operatingsystems =  [ Operatingsystem.find_by_name('Redhat') ]
+    @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
   end
 
   def basic_attrs
@@ -313,7 +313,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should show hosts vm attributes" do
     host = FactoryGirl.create(:host, :compute_resource => compute_resources(:one))
-    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns( :cpus => 4 )
+    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns(:cpus => 4)
     get :vm_compute_attributes, { :id => host.to_param }
     assert_response :success
     data = JSON.parse(@response.body)
@@ -416,7 +416,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = false
 
     proxy = smart_proxies(:puppetmaster)
-    host   = URI.parse(proxy.url).host
+    host = URI.parse(proxy.url).host
     Resolv.any_instance.stubs(:getnames).returns([host])
     hostname = fact_json['name']
     facts    = fact_json['facts']
@@ -568,7 +568,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     test "boot call to interface" do
       ProxyAPI::BMC.any_instance.stubs(:boot).with(:function => 'bootdevice', :device => 'bios').
-                                              returns( { "action" => "bios", "result" => true } .to_json)
+                                              returns({ "action" => "bios", "result" => true } .to_json)
       put :boot, { :id => @bmchost.to_param, :device => 'bios' }
       assert_response :success
       assert @response.body =~ /true/
@@ -586,7 +586,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)
       assert_equal 10, response['total'] # one from setup, one from bmc setup, 8 here
-      assert_equal  1, response['subtotal']
+      assert_equal 1, response['subtotal']
       assert_equal @bmchost.name, response['search']
     end
   end

@@ -29,20 +29,20 @@ module Hostext
 
       scoped_search :in => :model,       :on => :name,    :complete_value => true,  :rename => :model
       scoped_search :in => :hostgroup,   :on => :name,    :complete_value => true,  :rename => :hostgroup
-      scoped_search :in => :hostgroup,   :on => :name,    :complete_enabled => false,  :rename => :hostgroup_name, :only_explicit => true
+      scoped_search :in => :hostgroup,   :on => :name,    :complete_enabled => false, :rename => :hostgroup_name, :only_explicit => true
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title
       scoped_search :in => :hostgroup,   :on => :id,      :complete_enabled => false, :rename => :hostgroup_id, :only_explicit => true
       scoped_search :in => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
       scoped_search :in => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
-      scoped_search :in => :domain,      :on => :id,      :complete_enabled => false,  :rename => :domain_id, :only_explicit => true
-      scoped_search :in => :realm,       :on => :name,    :complete_value => true,  :rename => :realm
-      scoped_search :in => :realm,       :on => :id,      :complete_enabled => false,  :rename => :realm_id, :only_explicit => true
+      scoped_search :in => :domain,      :on => :id,      :complete_enabled => false, :rename => :domain_id, :only_explicit => true
+      scoped_search :in => :realm,       :on => :name,    :complete_value => true, :rename => :realm
+      scoped_search :in => :realm,       :on => :id,      :complete_enabled => false, :rename => :realm_id, :only_explicit => true
       scoped_search :in => :environment, :on => :name,    :complete_value => true,  :rename => :environment
       scoped_search :in => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :in => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster, :only_explicit => true
-      scoped_search :in => :puppet_ca_proxy, :on => :name,    :complete_value => true, :rename => :puppet_ca, :only_explicit => true
-      scoped_search :in => :puppet_proxy, :on => :name,   :complete_value => true, :rename => :smart_proxy, :ext_method => :search_by_proxy, :only_explicit => true
+      scoped_search :in => :puppet_ca_proxy, :on => :name, :complete_value => true, :rename => :puppet_ca, :only_explicit => true
+      scoped_search :in => :puppet_proxy, :on => :name, :complete_value => true, :rename => :smart_proxy, :ext_method => :search_by_proxy, :only_explicit => true
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :in => :compute_resource, :on => :id,      :complete_enabled => false, :rename => :compute_resource_id, :only_explicit => true
       scoped_search :in => :image, :on => :name, :complete_value => true
@@ -79,7 +79,7 @@ module Hostext
         scoped_search :on => :build,                                :complete_value => {:true => true, :false => false}
         scoped_search :on => :installed_at,                         :complete_value => true, :only_explicit => true
 
-        scoped_search :in => :provision_interface, :on => :mac,       :complete_value => true
+        scoped_search :in => :provision_interface, :on => :mac, :complete_value => true
         scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
         scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
         scoped_search :in => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
@@ -119,7 +119,7 @@ module Hostext
       end
 
       def search_by_puppetclass(key, operator, value)
-        conditions    = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
+        conditions = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
         config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck('config_groups.id')
         host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).uniq.pluck('hosts.id')
         host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
@@ -136,7 +136,7 @@ module Hostext
       end
 
       def search_by_hostgroup_and_descendants(key, operator, value)
-        conditions     = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
+        conditions = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
         # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
         hostgroup     = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).first
         hostgroup_ids = hostgroup.subtree_ids
@@ -151,7 +151,7 @@ module Hostext
       def search_by_params(key, operator, value)
         key_name = key.sub(/^.*\./,'')
         condition = sanitize_sql_for_conditions(["name = ? and value #{operator} ?", key_name, value_to_sql(operator, value)])
-        p        = Parameter.where(condition).order(:priority)
+        p = Parameter.where(condition).order(:priority)
         return {:conditions => '1 = 0'} if p.blank?
 
         max         = p.first.priority
@@ -170,15 +170,15 @@ module Hostext
       end
 
       def search_by_config_group(key, operator, value)
-        conditions  = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
+        conditions = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
         host_ids      = Host::Managed.authorized(:view_hosts, Host).where(conditions).joins(:config_groups).uniq.pluck('hosts.id')
         hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:config_groups).uniq.map(&:subtree_ids).flatten.uniq
 
         opts = ''
-        opts += "hosts.id IN(#{host_ids.join(',')})"             unless host_ids.blank?
-        opts += " OR "                                        unless host_ids.blank? || hostgroup_ids.blank?
-        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
-        opts = "hosts.id < 0"                                 if host_ids.blank? && hostgroup_ids.blank?
+        opts += "hosts.id IN(#{host_ids.join(',')})" unless host_ids.blank?
+        opts += " OR " unless host_ids.blank? || hostgroup_ids.blank?
+        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})" unless hostgroup_ids.blank?
+        opts = "hosts.id < 0" if host_ids.blank? && hostgroup_ids.blank?
         {:conditions => opts, :include => :hostgroup}
       end
 
@@ -200,7 +200,7 @@ module Hostext
         table_id = self.fact_values_table_counter = (self.fact_values_table_counter || 0) + 1
         {
           :joins => %{ INNER JOIN fact_values fact_values_#{table_id} ON (hosts.id = fact_values_#{table_id}.host_id) INNER JOIN fact_names fact_names_#{table_id} ON (fact_names_#{table_id}.id = fact_values_#{table_id}.fact_name_id)},
-          :conditions => "#{sanitize_sql_for_conditions(["fact_names_#{table_id}.name = ?", key.split('.')[1]])} AND #{cast_facts("fact_values_#{table_id}", key, operator, value)}",
+          :conditions => "#{sanitize_sql_for_conditions(["fact_names_#{table_id}.name = ?", key.split('.')[1]])} AND #{cast_facts("fact_values_#{table_id}", key, operator, value)}"
         }
       end
 

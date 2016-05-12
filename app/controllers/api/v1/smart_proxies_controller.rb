@@ -77,8 +77,8 @@ module Api
 
         allowed_types = Feature.name_map.keys
 
-        if not allowed_types.include? params[:type].downcase
-          raise ArgumentError, "Invalid feature type. Select one of: #{allowed_types.join(", ")}."
+        if !allowed_types.include? params[:type].downcase
+          raise ArgumentError, "Invalid feature type. Select one of: #{allowed_types.join(', ')}."
         end
       end
     end

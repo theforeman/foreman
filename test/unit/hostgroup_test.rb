@@ -321,7 +321,7 @@ class HostgroupTest < ActiveSupport::TestCase
     min_lookupvalue_length = "hostgroup=".length + parent.title.length + 1
     hostgroup = Hostgroup.new :parent => parent, :name => 'a' * 256
     refute_valid hostgroup
-    assert_equal "is too long (maximum is %s characters)" % (255 -  min_lookupvalue_length), hostgroup.errors[:name].first
+    assert_equal "is too long (maximum is %s characters)" % (255 - min_lookupvalue_length), hostgroup.errors[:name].first
   end
 
   test "hostgroup name can be up to 255 characters" do
@@ -335,7 +335,7 @@ class HostgroupTest < ActiveSupport::TestCase
     parent = FactoryGirl.create(:hostgroup, :name => 'a' * 244)
     hostgroup = Hostgroup.new :parent => parent, :name => 'b'
     refute_valid hostgroup
-    assert_equal _("is too long (maximum is 0 characters)"),  hostgroup.errors[:name].first
+    assert_equal _("is too long (maximum is 0 characters)"), hostgroup.errors[:name].first
   end
 
   test "to_param" do
@@ -496,10 +496,10 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test '#children_hosts_count' do
     group = FactoryGirl.create(:hostgroup, :with_parent)
-    FactoryGirl.create_list(:host, 3, :managed, :hostgroup => group )
+    FactoryGirl.create_list(:host, 3, :managed, :hostgroup => group)
     assert_equal(3, group.parent.children_hosts_count)
     nested_group = FactoryGirl.create(:hostgroup, :parent => group)
-    FactoryGirl.create_list(:host, 4, :managed, :hostgroup => nested_group )
+    FactoryGirl.create_list(:host, 4, :managed, :hostgroup => nested_group)
     assert_equal(7, group.parent.children_hosts_count)
   end
 

@@ -11,7 +11,7 @@ class HostConfigGroupTest < ActiveSupport::TestCase
         puppetclasses(:five),
         puppetclasses(:six),
         puppetclasses(:seven),
-        puppetclasses(:eight),
+        puppetclasses(:eight)
       ])
     ])
     assert_equal 4, host.group_puppetclasses.count
