@@ -52,11 +52,11 @@ class Subnet < ActiveRecord::Base
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "SubnetParameter"
   accepts_nested_attributes_for :subnet_parameters, :allow_destroy => true
   validates :network, :mask, :name, :cidr, :presence => true
-  validates_associated    :subnet_domains
+  validates_associated :subnet_domains
   validates :boot_mode, :inclusion => BOOT_MODES.values
   validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.supported_ipam_modes.map {|m| IPAM::MODES[m]} }, :message => N_('not supported by this protocol')}
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
-  validates :name,    :length => {:maximum => 255}, :uniqueness => true
+  validates :name, :length => {:maximum => 255}, :uniqueness => true
 
   validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
   validates :tftp, :proxy_features => { :feature => "TFTP", :message => N_('does not have the TFTP feature') }
@@ -217,8 +217,8 @@ class Subnet < ActiveRecord::Base
       errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
     return if errors.keys.include?(:from) || errors.keys.include?(:to)
-    errors.add(:from, _("does not belong to subnet"))     if from.present? and not self.contains?(f=IPAddr.new(from))
-    errors.add(:to, _("does not belong to subnet"))       if to.present?   and not self.contains?(t=IPAddr.new(to))
+    errors.add(:from, _("does not belong to subnet"))     if from.present? and !self.contains?(f=IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   and !self.contains?(t=IPAddr.new(to))
     errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
   end
 

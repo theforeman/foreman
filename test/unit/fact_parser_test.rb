@@ -228,7 +228,7 @@ class FactParserTest < ActiveSupport::TestCase
         'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
         'em1' => {'ipaddress' => '10.0.0.10', 'macaddress' => '00:00:00:00:00:10'},
         'em2' => {'ipaddress' => '12.0.0.12', 'macaddress' => '00:00:00:00:00:12'},
-        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'},
+        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'}
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -245,7 +245,7 @@ class FactParserTest < ActiveSupport::TestCase
         'em0' => {'ipaddress' => '', 'macaddress' => ''},
         'em1' => {'ipaddress' => '10.0.0.10', 'macaddress' => '00:00:00:00:00:10'},
         'em2' => {'ipaddress' => '12.0.0.12', 'macaddress' => '00:00:00:00:00:12'},
-        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'},
+        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'}
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -259,7 +259,7 @@ class FactParserTest < ActiveSupport::TestCase
       parser.stubs(:interfaces).returns({
         'bond1' => {'ipaddress' => '', 'macaddress' => ''},
         'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'},
-        'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
+        'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'}
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -272,7 +272,7 @@ class FactParserTest < ActiveSupport::TestCase
     test "#suggested_primary_interface primary interface detection falls back to first with ip and mac" do
       parser.stubs(:interfaces).returns({
         'br1'   => { 'ipaddress' => '',          'macaddress' => ''},
-        'br0'   => { 'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
+        'br0'   => { 'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'}
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -285,7 +285,7 @@ class FactParserTest < ActiveSupport::TestCase
     test "#suggested_primary_interface primary interface detection falls back to first if no other option" do
       parser.stubs(:interfaces).returns({
         'br1' => {'ipaddress' => '', 'macaddress' => ''},
-        'br0' => {'ipaddress' => '', 'macaddress' => ''},
+        'br0' => {'ipaddress' => '', 'macaddress' => ''}
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])

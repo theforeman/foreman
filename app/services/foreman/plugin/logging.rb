@@ -47,7 +47,7 @@ module Foreman
       end
 
       def add_logger(name, logger_config)
-        @config[:loggers] = {"#{name}" => logger_config}
+        @config[:loggers] = {name.to_s => logger_config}
         Foreman::Logging.add_logger(namespace(name), logger_config)
       end
 

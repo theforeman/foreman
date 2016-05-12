@@ -11,7 +11,7 @@ class ConfigReportStatusCalculator
   def calculate
     @raw_status = 0
     counters.each do |type, value|
-      value = value.to_i                         # JSON does everything as strings
+      value = value.to_i # JSON does everything as strings
       value = ConfigReport::MAX if value > ConfigReport::MAX # we store up to 2^BIT_NUM -1 values as we want to use only BIT_NUM bits.
       @raw_status |= value << (ConfigReport::BIT_NUM * ConfigReport::METRIC.index(type))
     end

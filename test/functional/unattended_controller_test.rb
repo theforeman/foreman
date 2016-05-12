@@ -338,7 +338,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "hosts with a template proxy with no templateServer should use the proxy name" do
     Setting[:token_duration] = 30
-    Setting[:unattended_url]    = "http://test.host"
+    Setting[:unattended_url] = "http://test.host"
     ProxyAPI::Template.any_instance.stubs(:template_url).returns(nil)
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
     @host_with_template_subnet.create_token(:value => "aaaaae", :expires => Time.now.utc + 5.minutes)

@@ -6,7 +6,7 @@ class Solaris < Operatingsystem
   end
 
   def file_prefix
-    "#{self}".gsub(/[\s\(\)]/,"-").gsub("--", "-").gsub(/-\Z/, "")
+    (self).to_s.gsub(/[\s\(\)]/,"-").gsub("--", "-").gsub(/-\Z/, "")
   end
 
   # sets the prefix for the tftp files based on the OS

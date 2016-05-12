@@ -124,7 +124,7 @@ module ComputeResourcesVmsHelper
     vpc_sg_hash = {}
     security_groups.each do |sg|
       vpc_id = sg.vpc_id || 'ec2'
-      ( vpc_sg_hash[vpc_id] ||= []) << {:group_name => sg.name, :group_id => sg.group_id}
+      (vpc_sg_hash[vpc_id] ||= []) << {:group_name => sg.name, :group_id => sg.group_id}
     end
     vpc_sg_hash
   end

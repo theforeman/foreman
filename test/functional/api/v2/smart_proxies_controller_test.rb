@@ -101,7 +101,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     # This is the database status
     # and should result in a db_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
     as_admin do
-      ["a", "b", "c"].each  {|name| Puppetclass.create :name => name}
+      ["a", "b", "c"].each {|name| Puppetclass.create :name => name}
       for name in ["env1", "env2"] do
         e = Environment.create!(:name => name)
         e.puppetclasses = Puppetclass.all
@@ -110,7 +110,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     # This is the on-disk status
     # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
-    pcs = [HashWithIndifferentAccess.new( "a" => { "name" => "a", "module" => nil, "params"=> {'key' => 'special'}  } )]
+    pcs = [HashWithIndifferentAccess.new("a" => { "name" => "a", "module" => nil, "params"=> {'key' => 'special'} })]
     classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
     Environment.expects(:puppetEnvs).returns(envs).at_least(0)
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
@@ -288,7 +288,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "smart proxy logs succeeded" do
-    ProxyStatus::Logs.any_instance.stubs(:logs).returns({"info" => {"size" => 1000, "tail_size" => 500, }, "logs" => [] })
+    ProxyStatus::Logs.any_instance.stubs(:logs).returns({"info" => {"size" => 1000, "tail_size" => 500 }, "logs" => [] })
     get :logs, { :id => smart_proxies(:logs).to_param }, set_session_user
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)

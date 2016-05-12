@@ -118,7 +118,7 @@ class DomainTest < ActiveSupport::TestCase
   test "should update total_hosts on domain_id change" do
     host = FactoryGirl.create(:host, :managed, :domain => @domain)
     assert_difference "@domain.total_hosts", -1 do
-      host.update_attribute(:domain_id,  FactoryGirl.create(:domain).id)
+      host.update_attribute(:domain_id, FactoryGirl.create(:domain).id)
       @domain.reload
     end
   end
@@ -185,4 +185,3 @@ class DomainTest < ActiveSupport::TestCase
     assert_equal "does not have the DNS feature", domain.errors["dns_id"].first
   end
 end
-

@@ -382,9 +382,9 @@ Foreman::Application.routes.draw do
           end
         end
         collection do
-          get  'auto_complete_search'
+          get 'auto_complete_search'
           get 'provider_selected'
-          put  'test_connection'
+          put 'test_connection'
         end
         resources :images, :except => [:show]
       end

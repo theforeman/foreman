@@ -37,4 +37,3 @@ class UtilTest < ActiveSupport::TestCase
     assert_equal false, which('utiltest')
   end
 end
-

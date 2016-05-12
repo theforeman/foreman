@@ -11,4 +11,3 @@ class ChangeMysqlReportsColumn < ActiveRecord::Migration
     end
   end
 end
-

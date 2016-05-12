@@ -88,7 +88,7 @@ module Foreman
 
       def cast_array
         return value if value.is_a? Array
-        return value.to_a if not value.is_a? String and value.is_a? Enumerable
+        return value.to_a if !value.is_a? String and value.is_a? Enumerable
         val = load_yaml_or_json
         raise TypeError unless val.is_a? Array
         val

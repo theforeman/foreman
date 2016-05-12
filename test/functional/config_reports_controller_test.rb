@@ -37,7 +37,7 @@ class ConfigReportsControllerTest < ActionController::TestCase
   end
 
   def test_show_last_report_for_host
-    report   = FactoryGirl.create(:config_report)
+    report = FactoryGirl.create(:config_report)
     get :show, {:id => "last", :host_id => report.host.to_param}, set_session_user
     assert_template 'show'
   end

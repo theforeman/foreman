@@ -83,7 +83,7 @@ module Foreman::Model
         :size => args[:size_gb],
         :imageRef => args[:image_ref])
       @boot_vol_id = boot_vol.id.tr('"', '')
-      boot_vol.wait_for { status == 'available'  }
+      boot_vol.wait_for { status == 'available' }
       args[:block_device_mapping_v2] = [ {
         :source_type => "volume",
         :destination_type => "volume",

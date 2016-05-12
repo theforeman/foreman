@@ -8,7 +8,7 @@ module HostCommon
   included do
     include CounterCacheFix
 
-    counter_cache = "#{model_name.to_s.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
+    counter_cache = "#{model_name.to_s.split(':').first.pluralize.downcase}_count".to_sym # e.g. :hosts_count
 
     belongs_to :architecture,    :counter_cache => counter_cache
     belongs_to :environment,     :counter_cache => counter_cache
@@ -101,7 +101,7 @@ module HostCommon
       # edit it if required or use symlinks if they prefer.
       hw_model = model.try :hardware_model if defined?(model_id)
       operatingsystem.interpolate_medium_vars(nfs_path, architecture.name, operatingsystem) +\
-        "#{operatingsystem.file_prefix}.#{architecture}#{hw_model.empty? ? "" : "." + hw_model.downcase}.#{operatingsystem.image_extension}"
+        "#{operatingsystem.file_prefix}.#{architecture}#{hw_model.empty? ? '' : '.' + hw_model.downcase}.#{operatingsystem.image_extension}"
     else
       ""
     end
@@ -110,7 +110,7 @@ module HostCommon
   def image_file=(file)
     # We only save a value into the image_file field if the value is not the default path, (which was placed in the entry when it was displayed,)
     # and it is not a directory, (ends in /)
-    value = ( (default_image_file == file) or (file =~ /\/\Z/) or file == "") ? nil : file
+    value = ((default_image_file == file) or (file =~ /\/\Z/) or file == "") ? nil : file
     write_attribute :image_file, value
   end
 
@@ -137,7 +137,7 @@ module HostCommon
                               end
 
       if is_actually_encrypted
-        self.root_pass =  self.grub_pass = unencrypted_pass
+        self.root_pass = self.grub_pass = unencrypted_pass
       else
         self.root_pass = operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash)
         self.grub_pass = PasswordCrypt.grub2_passw_crypt(unencrypted_pass)

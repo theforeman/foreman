@@ -58,7 +58,7 @@ class MenuItemTest < ActiveSupport::TestCase
 
   def test_new_menu_item_should_require_a_proc_to_use_for_the_if_condition
     assert_raises ArgumentError do
-      Menu::Item.new(:test_error, :if => ['not_a_proc'] )
+      Menu::Item.new(:test_error, :if => ['not_a_proc'])
     end
 
     assert Menu::Item.new(:test_good_if, :if => Proc.new{})
@@ -77,12 +77,12 @@ class MenuItemTest < ActiveSupport::TestCase
       Menu::Item.new(:test_error, :children => ['not_a_proc'])
     end
 
-    assert Menu::Item.new(:test_good_children, :children => Proc.new{} )
+    assert Menu::Item.new(:test_good_children, :children => Proc.new{})
   end
 
   def test_new_should_not_allow_setting_the_parent_item_to_the_current_item
     assert_raises ArgumentError do
-      Menu::Item.new(:test_error, :parent => :test_error )
+      Menu::Item.new(:test_error, :parent => :test_error)
     end
   end
 

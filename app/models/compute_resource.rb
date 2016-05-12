@@ -48,7 +48,7 @@ class ComputeResource < ActiveRecord::Base
       'Vmware'    => 'Foreman::Model::Vmware',
       'Openstack' => 'Foreman::Model::Openstack',
       'Rackspace' => 'Foreman::Model::Rackspace',
-      'GCE'       => 'Foreman::Model::GCE',
+      'GCE'       => 'Foreman::Model::GCE'
     }
   end
 
@@ -350,7 +350,7 @@ class ComputeResource < ActiveRecord::Base
     # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
     opts = opts.sort { |l, r| l[0].to_s.sub('new_','').to_i <=> r[0].to_s.sub('new_','').to_i }.map { |e| Hash[e[1]] }
     opts.map do |v|
-      if v[:"_delete"] == '1'  && v[:id].blank?
+      if v[:"_delete"] == '1' && v[:id].blank?
         nil
       else
         v.deep_symbolize_keys # convert to symbols deeper hashes

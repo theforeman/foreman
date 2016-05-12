@@ -118,7 +118,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, primary_interface_tasks.count { |t| t.action.last == :set_dhcp }
     assert_empty primary_interface_tasks.select { |t| t.action.last == :del_dhcp }
     assert_equal 1, interface_tasks.count { |t| t.action.last == :set_dhcp }
-    assert_empty interface_tasks.select  { |t| t.action.last == :del_dhcp }
+    assert_empty interface_tasks.select { |t| t.action.last == :del_dhcp }
   end
 
   test "when an existing host change its ip address, its dhcp record should be updated" do

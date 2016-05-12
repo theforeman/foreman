@@ -1,6 +1,6 @@
 class AddShouldUsePuppetDefaultToLookupValueAndKey < ActiveRecord::Migration
   def up
-    add_column :lookup_values, :use_puppet_default, :boolean,  :default => false
+    add_column :lookup_values, :use_puppet_default, :boolean, :default => false
     add_column :lookup_keys, :use_puppet_default, :boolean
   end
 

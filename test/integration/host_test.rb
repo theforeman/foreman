@@ -44,7 +44,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "destroy redirects to hosts index" do
-    disable_orchestration  # Avoid DNS errors
+    disable_orchestration # Avoid DNS errors
     visit hosts_path
     click_link @host.fqdn
     assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
@@ -59,7 +59,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
                          :with_override, :key_type => 'hash',
                          :default_value => 'a: b',
                          :puppetclass => host.puppetclasses.first,
-                         :overrides => { host.lookup_value_matcher => 'a: c' } )
+                         :overrides => { host.lookup_value_matcher => 'a: c' })
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -73,7 +73,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
                          :with_override, :key_type => 'string',
                          :default_value => 'string1',
                          :puppetclass => host.puppetclasses.first,
-                         :overrides => { host.lookup_value_matcher => 'string2' } )
+                         :overrides => { host.lookup_value_matcher => 'string2' })
       user = FactoryGirl.create(:user, :with_mail)
       user.update_attribute(:roles, roles(:viewer, :edit_hosts))
       refute user.can? 'edit_params'

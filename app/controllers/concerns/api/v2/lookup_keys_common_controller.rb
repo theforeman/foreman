@@ -4,8 +4,8 @@ module Api::V2::LookupKeysCommonController
   included do
     before_filter :find_environment, :if => :environment_id?
     before_filter :find_puppetclass, :if => :puppetclass_id?
-    before_filter :find_host,  :if => :host_id?
-    before_filter :find_hostgroup,  :if => :hostgroup_id?
+    before_filter :find_host, :if => :host_id?
+    before_filter :find_hostgroup, :if => :hostgroup_id?
 
     before_filter :find_smart_class_parameters, :if => :smart_class_parameter_id?
     before_filter :find_smart_class_parameter, :if => :smart_class_parameter_id?
@@ -128,7 +128,7 @@ module Api::V2::LookupKeysCommonController
   def model_not_found(model)
     error_message = (
       _("%{model} with id '%{id}' was not found") %
-      { :id => params["#{model}_id"], :model => model.capitalize } )
-    not_found(:error => { :message => error_message } )
+      { :id => params["#{model}_id"], :model => model.capitalize })
+    not_found(:error => { :message => error_message })
   end
 end

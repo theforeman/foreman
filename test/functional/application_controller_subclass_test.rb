@@ -101,7 +101,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
     setup do
       @controller.class.send(:include, Foreman::Controller::FilterParameters)
       @params = {'foo' => 'foo', 'name' => 'name', 'id' => 'id' }
-      @request =  OpenStruct.new({:filtered_parameters => @params.clone })
+      @request = OpenStruct.new({:filtered_parameters => @params.clone })
       @controller.stubs(:request).returns(@request)
       ApplicationController.any_instance.stubs(:process_action).returns(nil)
     end

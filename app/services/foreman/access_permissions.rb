@@ -29,15 +29,15 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :authentication_providers do |map|
     ajax_actions = [:test_connection]
-    map.permission :view_authenticators,    {:auth_source_ldaps => [:index, :show],
+    map.permission :view_authenticators, {:auth_source_ldaps => [:index, :show],
                                              :"api/v1/auth_source_ldaps" => [:index, :show],
                                              :"api/v2/auth_source_ldaps" => [:index, :show]
     }
-    map.permission :create_authenticators,  {:auth_source_ldaps => [:new, :create].push(*ajax_actions),
+    map.permission :create_authenticators, {:auth_source_ldaps => [:new, :create].push(*ajax_actions),
                                              :"api/v1/auth_source_ldaps" => [:create],
                                              :"api/v2/auth_source_ldaps" => [:create]
     }
-    map.permission :edit_authenticators,    {:auth_source_ldaps => [:edit, :update].push(*ajax_actions),
+    map.permission :edit_authenticators, {:auth_source_ldaps => [:edit, :update].push(*ajax_actions),
                                              :"api/v1/auth_source_ldaps" => [:update],
                                              :"api/v2/auth_source_ldaps" => [:update, :test]
     }
@@ -79,18 +79,18 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :compute_resources do |map|
     ajax_actions = [:test_connection]
-    map.permission :view_compute_resources,    {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images],
+    map.permission :view_compute_resources, {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images],
                                                 :"api/v1/compute_resources" => [:index, :show],
                                                 :"api/v2/compute_resources" => [:index, :show, :available_images, :available_clusters, :available_folders,
                                                                                 :available_flavors, :available_networks, :available_resource_pools,
                                                                                 :available_security_groups, :available_storage_domains, :available_zones,
                                                                                 :available_storage_pods]
     }
-    map.permission :create_compute_resources,  {:compute_resources => [:new, :create].push(*ajax_actions),
+    map.permission :create_compute_resources, {:compute_resources => [:new, :create].push(*ajax_actions),
                                                 :"api/v1/compute_resources" => [:create],
                                                 :"api/v2/compute_resources" => [:create]
     }
-    map.permission :edit_compute_resources,    {:compute_resources => [:edit, :update].push(*ajax_actions),
+    map.permission :edit_compute_resources, {:compute_resources => [:edit, :update].push(*ajax_actions),
                                                 :compute_attributes => [:new, :create, :edit, :update],
                                                 :"api/v1/compute_resources" => [:update],
                                                 :"api/v2/compute_resources" => [:update],
@@ -151,51 +151,51 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :realms do |map|
-    map.permission :view_realms,       {:realms => [:index, :show, :auto_complete_search],
+    map.permission :view_realms, {:realms => [:index, :show, :auto_complete_search],
                                       :"api/v2/realms" => [:index, :show]
     }
-    map.permission :create_realms,      {:realms => [:new, :create],
+    map.permission :create_realms, {:realms => [:new, :create],
                                       :"api/v2/realms" => [:create]
     }
-    map.permission :edit_realms,       {:realms => [:edit, :update],
+    map.permission :edit_realms, {:realms => [:edit, :update],
                                       :"api/v2/realms" => [:update]
     }
-    map.permission :destroy_realms,    {:realms => [:destroy],
+    map.permission :destroy_realms, {:realms => [:destroy],
                                       :"api/v2/realms" => [:destroy]
     }
   end
 
   permission_set.security_block :domains do |map|
-    map.permission :view_domains,       {:domains => [:index, :show, :auto_complete_search],
+    map.permission :view_domains, {:domains => [:index, :show, :auto_complete_search],
                                       :"api/v1/domains" => [:index, :show],
                                       :"api/v2/domains" => [:index, :show],
                                       :"api/v2/parameters" => [:index, :show]
     }
-    map.permission :create_domains,      {:domains => [:new, :create],
+    map.permission :create_domains, {:domains => [:new, :create],
                                       :"api/v1/domains" => [:create],
                                       :"api/v2/domains" => [:create]
     }
-    map.permission :edit_domains,       {:domains => [:edit, :update],
+    map.permission :edit_domains, {:domains => [:edit, :update],
                                       :"api/v1/domains" => [:update],
                                       :"api/v2/domains" => [:update],
                                       :"api/v2/parameters" => [:create, :update, :destroy, :reset]
     }
-    map.permission :destroy_domains,    {:domains => [:destroy],
+    map.permission :destroy_domains, {:domains => [:destroy],
                                       :"api/v1/domains" => [:destroy],
                                       :"api/v2/domains" => [:destroy]
     }
   end
 
   permission_set.security_block :environments do |map|
-    map.permission :view_environments,    {:environments => [:index, :show, :auto_complete_search],
+    map.permission :view_environments, {:environments => [:index, :show, :auto_complete_search],
                                            :"api/v1/environments" => [:index, :show],
                                            :"api/v2/environments" => [:index, :show]
     }
-    map.permission :create_environments,  {:environments => [:new, :create],
+    map.permission :create_environments, {:environments => [:new, :create],
                                            :"api/v1/environments" => [:create],
                                            :"api/v2/environments" => [:create]
     }
-    map.permission :edit_environments,    {:environments => [:edit, :update],
+    map.permission :edit_environments, {:environments => [:edit, :update],
                                            :"api/v1/environments" => [:update],
                                            :"api/v2/environments" => [:update]
     }
@@ -203,7 +203,7 @@ Foreman::AccessControl.map do |permission_set|
                                            :"api/v1/environments" => [:destroy],
                                            :"api/v2/environments" => [:destroy]
     }
-    map.permission :import_environments,  {:environments => [:import_environments, :obsolete_and_new],
+    map.permission :import_environments, {:environments => [:import_environments, :obsolete_and_new],
                                            :"api/v1/environments" => [:import_puppetclasses],
                                            :"api/v2/environments" => [:import_puppetclasses],
                                            :"api/v1/smart_proxies" => [:import_puppetclasses],
@@ -263,11 +263,11 @@ Foreman::AccessControl.map do |permission_set|
                                       :"api/v1/common_parameters" => [:index, :show],
                                       :"api/v2/common_parameters" => [:index, :show]
     }
-    map.permission :create_globals,  {:common_parameters => [:new, :create],
+    map.permission :create_globals, {:common_parameters => [:new, :create],
                                       :"api/v1/common_parameters" => [:create],
                                       :"api/v2/common_parameters" => [:create]
     }
-    map.permission :edit_globals,    {:common_parameters => [:edit, :update],
+    map.permission :edit_globals, {:common_parameters => [:edit, :update],
                                       :"api/v1/common_parameters" => [:update],
                                       :"api/v2/common_parameters" => [:update]
     }
@@ -382,7 +382,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :rebuild_config, :submit_rebuild_config],
                                     :tasks => tasks_ajax_actions,
                                     :"api/v2/tasks" => [:index],
-                                    :"api/v2/hosts" => [:rebuild_config],
+                                    :"api/v2/hosts" => [:rebuild_config]
                                      }
     map.permission :power_hosts,   {:hosts          => [:power],
                                     :"api/v2/hosts" => [:power] }
@@ -400,7 +400,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :create_params,  {:host_editing => [:create_params],
                                      :"api/v2/parameters" => [:create]
     }
-    map.permission :edit_params,    {:host_editing => [:edit_params],
+    map.permission :edit_params, {:host_editing => [:edit_params],
                                      :"api/v2/parameters" => [:update]
     }
     map.permission :destroy_params, {:host_editing => [:destroy_params],
@@ -409,15 +409,15 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :images do |map|
-    map.permission :view_images,    {:images => [:index, :show, :auto_complete_search],
+    map.permission :view_images, {:images => [:index, :show, :auto_complete_search],
                                      :"api/v1/images" => [:index, :show],
                                      :"api/v2/images" => [:index, :show]
     }
-    map.permission :create_images,  {:images => [:new, :create],
+    map.permission :create_images, {:images => [:new, :create],
                                      :"api/v1/images" => [:create],
                                      :"api/v2/images" => [:create]
     }
-    map.permission :edit_images,    {:images => [:edit, :update],
+    map.permission :edit_images, {:images => [:edit, :update],
                                      :"api/v1/images" => [:update],
                                      :"api/v2/images" => [:update]
     }
@@ -474,15 +474,15 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :models do |map|
-    map.permission :view_models,    {:models => [:index, :show, :auto_complete_search],
+    map.permission :view_models, {:models => [:index, :show, :auto_complete_search],
                                      :"api/v1/models" => [:index, :show],
                                      :"api/v2/models" => [:index, :show]
     }
-    map.permission :create_models,  {:models => [:new, :create],
+    map.permission :create_models, {:models => [:new, :create],
                                      :"api/v1/models" => [:create],
                                      :"api/v2/models" => [:create]
     }
-    map.permission :edit_models,    {:models => [:edit, :update],
+    map.permission :edit_models, {:models => [:edit, :update],
                                      :"api/v1/models" => [:update],
                                      :"api/v2/models" => [:update]
     }
@@ -517,15 +517,15 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :partition_tables do |map|
-    map.permission :view_ptables,    {:ptables => [:index, :show, :auto_complete_search, :revision, :preview],
+    map.permission :view_ptables, {:ptables => [:index, :show, :auto_complete_search, :revision, :preview],
                                       :"api/v1/ptables" => [:index, :show],
                                       :"api/v2/ptables" => [:index, :show, :revision]
     }
-    map.permission :create_ptables,  {:ptables => [:new, :create, :clone_template],
+    map.permission :create_ptables, {:ptables => [:new, :create, :clone_template],
                                       :"api/v1/ptables" => [:create],
                                       :"api/v2/ptables" => [:create, :clone]
     }
-    map.permission :edit_ptables,    {:ptables => [:edit, :update],
+    map.permission :edit_ptables, {:ptables => [:edit, :update],
                                       :"api/v1/ptables" => [:update],
                                       :"api/v2/ptables" => [:update]
     }
@@ -533,7 +533,7 @@ Foreman::AccessControl.map do |permission_set|
                                       :"api/v1/ptables" => [:destroy],
                                       :"api/v2/ptables" => [:destroy]
     }
-    map.permission :lock_ptables,    {:ptables => [:lock, :unlock],
+    map.permission :lock_ptables, {:ptables => [:lock, :unlock],
                                        :"api/v2/ptables" => [:lock, :unlock]
                                       }
   end
@@ -544,7 +544,7 @@ Foreman::AccessControl.map do |permission_set|
                                           :"api/v2/puppetclasses" => [:index, :show],
                                           :"api/v1/lookup_keys" => [:index, :show],
                                           :"api/v2/smart_variables" => [:index, :show],
-                                          :"api/v2/smart_class_parameters" => [:index, :show],
+                                          :"api/v2/smart_class_parameters" => [:index, :show]
                                         }
     map.permission :create_puppetclasses,  {:puppetclasses => [:new, :create],
                                           :"api/v1/puppetclasses" => [:create],
@@ -588,11 +588,11 @@ Foreman::AccessControl.map do |permission_set|
                                           :"api/v1/smart_proxies" => [:index, :show],
                                           :"api/v2/smart_proxies" => [:index, :show, :version, :logs]
     }
-    map.permission :create_smart_proxies,  {:smart_proxies => [:new, :create],
+    map.permission :create_smart_proxies, {:smart_proxies => [:new, :create],
                                           :"api/v1/smart_proxies" => [:create],
                                           :"api/v2/smart_proxies" => [:create]
     }
-    map.permission :edit_smart_proxies,    {:smart_proxies => [:edit, :update, :refresh, :expire_logs],
+    map.permission :edit_smart_proxies, {:smart_proxies => [:edit, :update, :refresh, :expire_logs],
                                           :"api/v1/smart_proxies" => [:update, :refresh],
                                           :"api/v2/smart_proxies" => [:update, :refresh]
     }
@@ -618,11 +618,11 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :subnets do |map|
-    map.permission :view_subnets,    {:subnets => [:index, :show, :auto_complete_search],
+    map.permission :view_subnets, {:subnets => [:index, :show, :auto_complete_search],
                                       :"api/v1/subnets" => [:index, :show],
                                       :"api/v2/subnets" => [:index, :show]
     }
-    map.permission :create_subnets,  {:subnets => [:new, :create],
+    map.permission :create_subnets, {:subnets => [:new, :create],
                                       :"api/v1/subnets" => [:create],
                                       :"api/v2/subnets" => [:create]
     }
@@ -634,7 +634,7 @@ Foreman::AccessControl.map do |permission_set|
                                       :"api/v1/subnets" => [:destroy],
                                       :"api/v2/subnets" => [:destroy]
     }
-    map.permission :import_subnets,  {:subnets => [:import, :create_multiple]}
+    map.permission :import_subnets, {:subnets => [:import, :create_multiple]}
   end
 
   if SETTINGS[:organizations_enabled]
@@ -660,15 +660,15 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :usergroups do |map|
-    map.permission :view_usergroups,    {:usergroups => [:index, :show, :auto_complete_search],
+    map.permission :view_usergroups, {:usergroups => [:index, :show, :auto_complete_search],
                                          :"api/v1/usergroups" => [:index, :show],
                                          :"api/v2/usergroups" => [:index, :show]
     }
-    map.permission :create_usergroups,  {:usergroups => [:new, :create],
+    map.permission :create_usergroups, {:usergroups => [:new, :create],
                                          :"api/v1/usergroups" => [:create],
                                          :"api/v2/usergroups" => [:create]
     }
-    map.permission :edit_usergroups,    {:usergroups => [:edit, :update],
+    map.permission :edit_usergroups, {:usergroups => [:edit, :update],
                                          :"api/v1/usergroups" => [:update],
                                          :"api/v2/usergroups" => [:update]
     }
@@ -746,14 +746,14 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :audit_logs do |map|
-    map.permission :view_audit_logs,  {:audits      => [:index, :show, :auto_complete_search],
+    map.permission :view_audit_logs, {:audits      => [:index, :show, :auto_complete_search],
                                        :"api/v1/audits" => [:index, :show],
                                        :"api/v2/audits" => [:index, :show]
     }
   end
 
   permission_set.security_block :statistics do |map|
-    map.permission :view_statistics,  {:statistics  => [:index],
+    map.permission :view_statistics, {:statistics  => [:index],
                                        :"api/v1/statistics" => [:index],
                                        :"api/v2/statistics" => [:index]
                                       }
@@ -772,7 +772,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :plugins do |map|
-    map.permission :view_plugins,    {:plugins => [:index],
+    map.permission :view_plugins, {:plugins => [:index],
                                       :"api/v2/plugins" => [:index]
     }
   end

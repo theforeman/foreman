@@ -23,7 +23,7 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
       remove_foreign_key "hostgroups", :name => "hostgroups_ptable_id_fk"
     end
     if foreign_key_exists?('hosts', :name => 'hosts_ptable_id_fk')
-      remove_foreign_key "hosts",  :name => "hosts_ptable_id_fk"
+      remove_foreign_key "hosts", :name => "hosts_ptable_id_fk"
     end
     add_column :templates, :os_family, :string, :limit => 255
 
@@ -59,7 +59,7 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
   def down
     remove_foreign_key "operatingsystems_ptables", :name => "operatingsystems_ptables_ptable_id_fk"
     remove_foreign_key "hostgroups", :name => "hostgroups_ptable_id_fk"
-    remove_foreign_key "hosts",  :name => "hosts_ptable_id_fk"
+    remove_foreign_key "hosts", :name => "hosts_ptable_id_fk"
     Ptable.all.each do |new_ptable|
       say "migrating partition table #{new_ptable.name} down"
       old_ptable = FakeOldPtable.new

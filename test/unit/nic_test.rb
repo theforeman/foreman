@@ -73,7 +73,7 @@ class NicTest < ActiveSupport::TestCase
       subnet = subnets(:one)
       host = FactoryGirl.build(:host)
 
-      subnet_list = subnet.send("#{taxonomy.to_s.pluralize}")
+      subnet_list = subnet.send((taxonomy.to_s.pluralize).to_s)
       subnet_list << tax_object1
       host.send("#{taxonomy}=",tax_object2)
 

@@ -84,7 +84,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   # custom_class_param is a smart_class_param for production environment only AND is marked as :override => TRUE
   test 'puppetclass lookup keys are added to partial _class_parameters on EXISTING host form through ajax POST to parameters' do
     host = FactoryGirl.create(:host, :environment => environments(:production))
-    existing_host_attributes =  host_attributes(host)
+    existing_host_attributes = host_attributes(host)
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => host.id,
                        :host => existing_host_attributes }, set_session_user
@@ -98,7 +98,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   test 'puppetclass smart class parameters are NOT added if environment does not match' do
     # below is the same test as above, except environment is changed from production to global_puppetmaster, so custom_class_param is NOT added
     host = FactoryGirl.create(:host, :environment => environments(:production))
-    existing_host_attributes =  host_attributes(host)
+    existing_host_attributes = host_attributes(host)
     existing_host_attributes.merge!('environment_id' => environments(:global_puppetmaster).id)
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => host.id,
@@ -113,7 +113,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   test 'puppetclass lookup keys are added to partial _class_parameters on EXISTING hostgroup form through ajax POST to parameters' do
     hostgroup = hostgroups(:common)
     puppetclass = puppetclasses(:two)
-    existing_hostgroup_attributes =  hostgroup_attributes(hostgroup)
+    existing_hostgroup_attributes = hostgroup_attributes(hostgroup)
     # host_id is posted instead of hostgroup_id per host_edit.js#load_puppet_class_parameters
     post :parameters, {:id => puppetclass.id, :host_id => hostgroup.id,
                        :hostgroup => existing_hostgroup_attributes }, set_session_user
@@ -126,7 +126,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'puppetclass lookup keys are added to partial _class_parameters on NEW host form through ajax POST to parameters' do
     host = Host::Managed.new(:name => "new_host", :environment_id => environments(:production).id)
-    new_host_attributes =  host_attributes(host)
+    new_host_attributes = host_attributes(host)
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => 'null',
                        :host => new_host_attributes }, set_session_user
@@ -139,7 +139,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'puppetclass lookup keys are added to partial _class_parameters on NEW hostgroup form through ajax POST to parameters' do
     hostgroup = Hostgroup.new(:name => "new_hostgroup", :environment_id => environments(:production).id)
-    new_hostgroup_attributes =  hostgroup_attributes(hostgroup)
+    new_hostgroup_attributes = hostgroup_attributes(hostgroup)
     puppetclass = puppetclasses(:two)
     # host_id is posted instead of hostgroup_id per host_edit.js#load_puppet_class_parameters
     post :parameters, {:id => puppetclass.id, :host_id => 'null',

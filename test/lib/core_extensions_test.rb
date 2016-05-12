@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CoreExtensionsTest <  ActiveSupport::TestCase
+class CoreExtensionsTest < ActiveSupport::TestCase
   context 'string' do
     test '#to_gb' do
       value = "1024 MB"

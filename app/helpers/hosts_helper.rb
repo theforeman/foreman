@@ -85,7 +85,7 @@ module HostsHelper
   def last_report_tooltip(record)
     opts = { :rel => "twipsy" }
     if @last_report_ids[record.id]
-      opts.merge!( "data-original-title" => _("View last report details"))
+      opts.merge!("data-original-title" => _("View last report details"))
     else
       opts.merge!(:disabled => true, :class => "disabled", :onclick => 'return false')
       opts.merge!("data-original-title" => _("Report Already Deleted")) unless record.last_report.nil?
@@ -98,7 +98,7 @@ module HostsHelper
     style = host_global_status_icon_class_for_host(host)
     tooltip = host.host_statuses.select(&:relevant?).sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
 
-    content = content_tag(:span, "", {:rel => "twipsy", :class => style, :"data-original-title" => tooltip} )
+    content = content_tag(:span, "", {:rel => "twipsy", :class => style, :"data-original-title" => tooltip})
     content += link_to("  #{host}", host_path(host))
     content
   end
@@ -155,7 +155,7 @@ module HostsHelper
         [_('Disable Notifications'), multiple_disable_hosts_path],
         [_('Enable Notifications'), multiple_enable_hosts_path],
         [_('Disassociate Hosts'), multiple_disassociate_hosts_path],
-        [_('Rebuild Config'), rebuild_config_hosts_path],
+        [_('Rebuild Config'), rebuild_config_hosts_path]
       ]
       actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
       actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
@@ -171,7 +171,7 @@ module HostsHelper
   end
 
   def multiple_actions_select
-    select_action_button( _("Select Action"), {:id => 'submit_multiple'},
+    select_action_button(_("Select Action"), {:id => 'submit_multiple'},
       multiple_actions.map do |action|
         # If the action array has 3 entries, the third one is whether to use a modal dialog or not
         modal = action.size == 3 ? action[3] : true
@@ -198,7 +198,7 @@ module HostsHelper
   end
 
   def selected?(host)
-    return false if host.nil? or not host.is_a?(Host::Base) or session[:selected].nil?
+    return false if host.nil? or !host.is_a?(Host::Base) or session[:selected].nil?
     session[:selected].include?(host.id.to_s)
   end
 
@@ -448,7 +448,7 @@ module HostsHelper
     case type
       when :templates
         link_to_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => id).merge(:auth_object => id),
-                              :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type) )
+                              :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type))
     end
   end
 

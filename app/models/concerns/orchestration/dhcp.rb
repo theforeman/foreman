@@ -92,7 +92,7 @@ module Orchestration::DHCP
       :ip => ip,
       :mac => mac,
       :proxy => subnet.dhcp_proxy,
-      :network => subnet.network,
+      :network => subnet.network
     }
 
     if provision?
@@ -176,7 +176,7 @@ module Orchestration::DHCP
     return false if mac.blank? or hostname.blank?
     return false unless dhcp?
 
-    if dhcp_record and dhcp_record.conflicting? and (not overwrite?)
+    if dhcp_record and dhcp_record.conflicting? and (!overwrite?)
       failure(_("DHCP records %s already exists") % dhcp_record.conflicts.to_sentence, nil, :conflict)
       return true
     end

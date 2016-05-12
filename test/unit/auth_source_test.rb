@@ -39,4 +39,3 @@ class AuthSourceTest < ActiveSupport::TestCase
     assert_equal 'my_ldap', results.first.name
   end
 end
-

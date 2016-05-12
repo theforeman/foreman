@@ -33,7 +33,7 @@ module ProxyAPI
     end
 
     def del_certificate(certname)
-      parse(delete("#{certname}"))
+      parse(delete(certname.to_s))
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
       true

@@ -804,7 +804,7 @@ class HostTest < ActiveSupport::TestCase
                     "classes"=>{"apache"=>{"custom_class_param"=>"abcdef"}, "base"=>{"cluster"=>"secret"}} }
 
       host.importNode nodeinfo
-      nodeinfo["parameters"]["special_info"] = "secret"  # smart variable on apache
+      nodeinfo["parameters"]["special_info"] = "secret" # smart variable on apache
 
       info = host.info
       assert_includes info.keys, 'environment'
@@ -1400,7 +1400,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup), :mac => '00:00:00:11:22:33')
       host.primary_interface.update_attribute :identifier, ''
       hash = { :bond0 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => true},
-               :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'},
+               :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
       }.with_indifferent_access
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       bond0 = FactoryGirl.create(:nic_bond, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'bond0', :attached_to => '')
@@ -1427,7 +1427,7 @@ class HostTest < ActiveSupport::TestCase
       # interface with empty identifier was renamed to eth5 (same MAC)
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup), :mac => '00:00:00:11:22:33')
       hash = { :bond0 => {:macaddress => 'aa:bb:cc:44:55:66', :ipaddress => '10.10.0.3', :virtual => true},
-               :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'},
+               :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
       }.with_indifferent_access
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       bond0 = FactoryGirl.create(:nic_bond, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'bond0')
@@ -1444,7 +1444,7 @@ class HostTest < ActiveSupport::TestCase
       # interface with empty identifier was renamed to eth5 (same MAC)
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup), :mac => '00:00:00:11:22:33')
       hash = { :br0 => {:macaddress => 'aa:bb:cc:44:55:66', :ipaddress => '10.10.0.3', :virtual => true},
-               :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'},
+               :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
       }.with_indifferent_access
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       br0 = FactoryGirl.create(:nic_bridge, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'br0')
@@ -1461,7 +1461,7 @@ class HostTest < ActiveSupport::TestCase
       # eth4 was renamed to eth5 and eth5 renamed to eth4
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
       hash = { :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
-               :eth4 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false},
+               :eth4 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false}
       }.with_indifferent_access
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       physical4 = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
@@ -1487,7 +1487,7 @@ class HostTest < ActiveSupport::TestCase
       FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'em1')
       virtual = FactoryGirl.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'bond0', :attached_to => 'em1')
       hash = { :em1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
-               :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.42', :virtual => true, :attached_to => nil},
+               :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.42', :virtual => true, :attached_to => nil}
       }.with_indifferent_access
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
 
@@ -1501,7 +1501,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
       hash = { :eth0 => {:macaddress => '00:00:00:55:66:77', :ipaddress => '10.10.0.1', :virtual => false },
                :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false },
-               :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false },
+               :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false }
       }.with_indifferent_access
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
@@ -1517,7 +1517,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
       hash = {
         :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '', :virtual => false},
-        :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true},
+        :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true}
       }.with_indifferent_access
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
@@ -2030,7 +2030,7 @@ class HostTest < ActiveSupport::TestCase
         :hostgroup => hostgroups(:common),
         :compute_resource => compute_resources(:ec2),
         :organization => nil,
-        :location => nil )
+        :location => nil)
       host.expects(:queue_compute_create)
       assert host.valid?, host.errors.full_messages.to_sentence
       assert_equal compute_attributes(:one).vm_attrs, host.compute_attributes
@@ -2041,7 +2041,7 @@ class HostTest < ActiveSupport::TestCase
         :compute_resource => compute_resources(:ec2),
         :compute_profile => compute_profiles(:two),
         :organization => nil,
-        :location => nil )
+        :location => nil)
       host.expects(:queue_compute_create)
       assert host.valid?, host.errors.full_messages.to_sentence
       assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
@@ -2276,7 +2276,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "#info ENC YAML returns no puppet classes if no environment" do
     puppetclass = FactoryGirl.create(:puppetclass)
-    host             = FactoryGirl.create(:host, :puppetclasses => [puppetclass])
+    host = FactoryGirl.create(:host, :puppetclasses => [puppetclass])
 
     assert_empty host.info['classes']
   end
@@ -2367,7 +2367,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'fqdn of host without period in name returns name concatenated with domain' do
-    host = Host::Managed.new(:name => 'otherfullhost', :domain => domains(:mydomain) )
+    host = Host::Managed.new(:name => 'otherfullhost', :domain => domains(:mydomain))
     assert_equal 'otherfullhost', host.name
     assert_equal 'mydomain.net', host.domain.name
     assert_equal 'otherfullhost.mydomain.net', host.fqdn

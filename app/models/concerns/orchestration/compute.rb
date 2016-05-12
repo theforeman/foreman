@@ -11,7 +11,7 @@ module Orchestration::Compute
   end
 
   def compute?
-    compute_resource_id.present? && ( compute_attributes.present? || uuid.present? )
+    compute_resource_id.present? && (compute_attributes.present? || uuid.present?)
   end
 
   def compute_object
@@ -228,7 +228,7 @@ module Orchestration::Compute
     # We need to return fast for user-data, so that we save the host before
     # cloud-init finishes, even if the IP is not reachable by Foreman. We do have
     # to return a real IP though, or Foreman will fail to save the host.
-    return vm.ip_addresses.first if ( vm.ip_addresses.present? && self.compute_attributes[:user_data].present? )
+    return vm.ip_addresses.first if (vm.ip_addresses.present? && self.compute_attributes[:user_data].present?)
 
     # Loop over the addresses waiting for one to come up
     ip = nil

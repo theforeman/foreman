@@ -25,7 +25,7 @@ module HostParams
         options = {:value => param.value,
                    :source => source,
                    :safe_value => param.safe_value }
-        if source !=  'global'
+        if source != 'global'
           options.merge!(:source_name => param.associated_label)
         end
         hp.update(Hash[param.name => include_source ? options : param.value])

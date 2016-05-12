@@ -246,7 +246,7 @@ module Host
           default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}"])
         end
 
-        if self.send("#{taxonomy}").present?
+        if self.send(taxonomy.to_s).present?
           # Change taxonomy to fact taxonomy if set, otherwise leave it as is
           self.send("#{taxonomy}=", taxonomy_from_fact) unless taxonomy_from_fact.nil?
         else

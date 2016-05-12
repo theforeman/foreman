@@ -44,7 +44,7 @@ module LookupKeysHelper
   end
 
   def validator_type_selector(f)
-    selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e]  }, f.object.validator_type),{:include_blank => _("None")},
+    selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e),e] }, f.object.validator_type),{:include_blank => _("None")},
                { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class=> "without_select2",
                  :onchange => 'validatorTypeSelected(this)',
                  :help_inline => popover("",_("<dl>" +
@@ -64,8 +64,8 @@ module LookupKeysHelper
   def lookup_key_with_diagnostic(obj, lookup_key, lookup_value)
     value, matcher = value_matcher(obj, lookup_key)
     inherited_value = lookup_key.value_before_type_cast(value)
-    effective_value = lookup_value.lookup_key_id.nil? ?  inherited_value.to_s : lookup_value.value_before_type_cast.to_s
-    warnings  = lookup_key_warnings(lookup_key.required, effective_value.present?)
+    effective_value = lookup_value.lookup_key_id.nil? ? inherited_value.to_s : lookup_value.value_before_type_cast.to_s
+    warnings = lookup_key_warnings(lookup_key.required, effective_value.present?)
     popover_value = lookup_key.hidden_value? ? lookup_key.hidden_value : inherited_value
 
     parameter_value_content(
@@ -143,7 +143,7 @@ module LookupKeysHelper
       link_to_function(icon_text(unhide_icon, '', :kind => 'fa'), "input_group_hidden(this)",
                        :title => _("Unhide this value"),
                        :class =>"btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
-          link_to_function(icon_text(hide_icon, "", :class => "#{'btn-strike' if strikethrough}", :kind => 'fa'), "input_group_hidden(this)",
+          link_to_function(icon_text(hide_icon, "", :class => ('btn-strike' if strikethrough).to_s, :kind => 'fa'), "input_group_hidden(this)",
                            :title => _("Hide this value"),
                            :class =>"btn btn-default btn-md btn-hide #{'hide' if hidden}")
     end

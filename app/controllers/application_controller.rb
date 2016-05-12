@@ -188,7 +188,7 @@ class ApplicationController < ActionController::Base
 
   def remote_user_provided?
     return false unless Setting["authorize_login_delegation"]
-    return false if api_request? and not Setting["authorize_login_delegation_api"]
+    return false if api_request? and !(Setting["authorize_login_delegation_api"])
     (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
@@ -243,7 +243,7 @@ class ApplicationController < ActionController::Base
                              raise Foreman::Exception.new(N_("Unknown action name for success message: %s"), action_name)
                            end
     end
-    hash[:success_redirect]       ||= saved_redirect_url_or(send("#{controller_name}_url"))
+    hash[:success_redirect] ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
     notice hash[:success_msg]
     redirect_to hash[:success_redirect] and return
@@ -260,7 +260,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(", ")}" if hash[:object].respond_to?(:errors)
+    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(', ')}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
     if hash[:render]

@@ -5,4 +5,3 @@ child :owner do
   attributes :login
   attributes :mail, :as => :email
 end
-

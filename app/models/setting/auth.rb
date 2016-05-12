@@ -20,7 +20,7 @@ class Setting::Auth < Setting
         self.set('require_ssl_smart_proxies', N_('Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)'), true, N_('Require SSL for smart proxies')),
         self.set('trusted_puppetmaster_hosts', N_('Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output'), [], N_('Trusted puppetmaster hosts')),
         self.set('ssl_certificate', N_("SSL Certificate path that Foreman would use to communicate with its proxies"), ssl_cert, N_('SSL certificate')),
-        self.set('ssl_ca_file', N_( "SSL CA file that Foreman will use to communicate with its proxies"), ssl_ca_file, N_('SSL CA file')),
+        self.set('ssl_ca_file', N_("SSL CA file that Foreman will use to communicate with its proxies"), ssl_ca_file, N_('SSL CA file')),
         self.set('ssl_priv_key', N_("SSL Private Key file that Foreman will use to communicate with its proxies"), ssl_priv_key, N_('SSL private key')),
         self.set('ssl_client_dn_env', N_('Environment variable containing the subject DN from a client SSL certificate'), 'SSL_CLIENT_S_DN', N_('SSL client DN env')),
         self.set('ssl_client_verify_env', N_('Environment variable containing the verification status of a client SSL certificate'), 'SSL_CLIENT_VERIFY', N_('SSL client verify env')),
@@ -33,7 +33,7 @@ class Setting::Auth < Setting
         self.set('authorize_login_delegation_auth_source_user_autocreate', N_('Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)'), nil, N_('Authorize login delegation auth source user autocreate')),
         self.set('authorize_login_delegation', N_("Authorize login delegation with REMOTE_USER environment variable"), false, N_('Authorize login delegation')),
         self.set('authorize_login_delegation_api', N_("Authorize login delegation with REMOTE_USER environment variable for API calls too"), false, N_('Authorize login delegation API')),
-        self.set('idle_timeout', N_("Log out idle users after a certain number of minutes"), 60, N_('Idle timeout')),
+        self.set('idle_timeout', N_("Log out idle users after a certain number of minutes"), 60, N_('Idle timeout'))
       ].compact.each { |s| self.create! s.update(:category => "Setting::Auth")}
     end
 
@@ -58,4 +58,3 @@ class Setting::Auth < Setting
     end
   end
 end
-

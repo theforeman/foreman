@@ -72,7 +72,7 @@ class LookupValue < ActiveRecord::Base
       end
       true
     rescue StandardError, SyntaxError => e
-      Foreman::Logging.exception("Error while parsing #{ lookup_key }", e)
+      Foreman::Logging.exception("Error while parsing #{lookup_key}", e)
       errors.add(:value, _("is invalid %s") % lookup_key.key_type)
       false
     end

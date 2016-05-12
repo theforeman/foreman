@@ -27,7 +27,7 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
 
   test "should update model" do
     name = Model.first.name
-    put :update, { :id => Model.first.to_param, :name => "#{name}".to_param }
+    put :update, { :id => Model.first.to_param, :name => name.to_s.to_param }
     assert_response :success
   end
 

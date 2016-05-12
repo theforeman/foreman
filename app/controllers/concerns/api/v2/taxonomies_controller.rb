@@ -68,7 +68,7 @@ module Api::V2::TaxonomiesController
     # NOTE - if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
     # removed process_response & added explicit render 'api/v2/taxonomies/update'.  Otherwise, *_ids are not returned
 
-    process_response  @taxonomy.update_attributes(params[taxonomy_single])
+    process_response @taxonomy.update_attributes(params[taxonomy_single])
   end
 
   api :DELETE, '/:resource_id/:id', N_('Delete :a_resource')

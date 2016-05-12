@@ -99,7 +99,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, {:id => user.id,
                   :user => {
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy"
-                  },
+                  }
                  }, set_session_user
     mod_user = User.find_by_id(user.id)
 
@@ -115,7 +115,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, {:id => user.id,
                   :user => {
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY"
-                  },
+                  }
                  }, set_session_user
     mod_user = User.find_by_id(user.id)
 
@@ -129,7 +129,7 @@ class UsersControllerTest < ActionController::TestCase
     assert user.save
 
     put :update, {:id => user.id,
-                  :user => { :login => "foobar" },
+                  :user => { :login => "foobar" }
                  }, set_session_user
 
     assert_redirected_to users_url

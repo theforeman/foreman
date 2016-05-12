@@ -19,7 +19,7 @@ module ProxyAPI
     # [+key+] : String containing either a FQDN or a dotted quad plus .in-addr.arpa.
     # Returns    : Boolean status
     def delete(key)
-      parse(super("#{key}"))
+      parse(super(key.to_s))
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
       return true

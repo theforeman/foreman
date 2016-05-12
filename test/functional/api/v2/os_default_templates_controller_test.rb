@@ -32,7 +32,7 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
 
   test 'should update os_default_template for os' do
     # current fixtures has pxekickstart for PXELinux template kind.  Update it to pxe_local_default
-    put :update, { :operatingsystem_id => operatingsystems(:redhat).to_param,  :id => os_default_templates(:one),
+    put :update, { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => os_default_templates(:one),
                    :os_default_template => {:provisioning_template_id => templates(:pxe_local_default).id, :template_kind_id => template_kinds(:pxelinux).id}
                     }
     assert_response :success

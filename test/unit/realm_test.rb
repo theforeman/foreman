@@ -59,4 +59,3 @@ class RealmTest < ActiveSupport::TestCase
     assert_equal "does not have the Realm feature", realm.errors["realm_proxy_id"].first
   end
 end
-

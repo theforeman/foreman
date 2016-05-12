@@ -101,11 +101,11 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
       }
     })
     @host.compute_attributes = {
-      'cpus' => 2,
+      'cpus' => 2
     }
     expected_attrs = {
       'cpus' => 2,
-      'memory' => 4294967296,
+      'memory' => 4294967296
     }
 
     @merge.run(@host, @profile_attributes)

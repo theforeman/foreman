@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
 
-  validates_lengths_from_database  :except => [:firstname, :lastname, :format, :mail, :login]
+  validates_lengths_from_database :except => [:firstname, :lastname, :format, :mail, :login]
   attr_accessor :password, :password_confirmation
   after_save :ensure_default_role
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   has_many :filters,           :through => :cached_roles
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
-  has_many :widgets,           :dependent => :destroy
+  has_many :widgets, :dependent => :destroy
 
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :mail_notifications, :through => :user_mail_notifications
@@ -390,7 +390,7 @@ class User < ActiveRecord::Base
   end
 
   def self.random_password(size = 16)
-    set = ('a' .. 'z').to_a + ('A' .. 'Z').to_a + ('0' .. '9').to_a - %w(0 1 O I l)
+    set = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a - %w(0 1 O I l)
     size.times.collect {|i| set[rand(set.size)] }.join
   end
 

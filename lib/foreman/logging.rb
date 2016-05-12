@@ -68,7 +68,7 @@ module Foreman
       logger_name = options[:logger] || 'app'
       level       = options[:level] || :warn
       unless ::Logging::LEVELS.keys.include?(level.to_s)
-        raise "Unexpected log level #{level}, expected one of #{ ::Logging::LEVELS.keys }"
+        raise "Unexpected log level #{level}, expected one of #{::Logging::LEVELS.keys}"
       end
       self.logger(logger_name).public_send(level) do
         ([context_message, "#{exception.class}: #{exception.message}"] + exception.backtrace).join("\n")

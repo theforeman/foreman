@@ -14,7 +14,7 @@ class CertificateExtractTest < ActiveSupport::TestCase
     expected_sans = [
       'www.example.com',
       'www.example.net',
-      'www.example.org',
+      'www.example.org'
     ]
     assert_equal expected_sans, @certificate.subject_alternative_names
   end

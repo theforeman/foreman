@@ -17,7 +17,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
   end
 
   test "should create filter" do
-    valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_architectures).id]  }
+    valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_architectures).id] }
     assert_difference('Filter.count') do
       post :create, { :filter => valid_attrs }
     end
@@ -25,7 +25,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
   end
 
   test "should update filter" do
-    valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_architectures).id]  }
+    valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_architectures).id] }
     put :update, { :id => filters(:manager_1).to_param, :filter => valid_attrs }
     assert_response :success
   end

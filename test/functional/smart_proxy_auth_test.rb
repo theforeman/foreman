@@ -44,7 +44,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     @controller.stubs(:authorize).returns(true)
 
     assert_raise ArgumentError, 'test' do
-      @controller.send(:require_smart_proxy_or_login, Proc.new { raise ArgumentError, 'test' } )
+      @controller.send(:require_smart_proxy_or_login, Proc.new { raise ArgumentError, 'test' })
     end
   end
 

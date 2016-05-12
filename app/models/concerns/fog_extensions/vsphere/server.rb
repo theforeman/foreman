@@ -15,7 +15,7 @@ module FogExtensions
 
       def interfaces_attributes=(attrs); end
 
-      def volumes_attributes=(attrs);  end
+      def volumes_attributes=(attrs); end
 
       def poweroff
         stop(:force => true)

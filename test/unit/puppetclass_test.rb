@@ -103,11 +103,11 @@ class PuppetclassTest < ActiveSupport::TestCase
         @class.reload
       end
       assert_difference('@class.total_hosts') do
-        @class.send("#{obj.class.table_name}") << obj
+        @class.send((obj.class.table_name).to_s) << obj
         @class.reload
       end
       assert_difference('@class.total_hosts', -1) do
-        @class.send("#{obj.class.table_name}").delete(obj)
+        @class.send((obj.class.table_name).to_s).delete(obj)
         @class.reload
       end
     end

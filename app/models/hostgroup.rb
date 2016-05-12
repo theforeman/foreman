@@ -47,7 +47,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :provisioning_templates, :through => :template_combinations
 
   include CounterCacheFix
-  counter_cache = "#{model_name.to_s.split(":").first.pluralize.downcase}_count".to_sym  # e.g. :hosts_count
+  counter_cache = "#{model_name.to_s.split(':').first.pluralize.downcase}_count".to_sym # e.g. :hosts_count
   belongs_to :domain, :counter_cache => counter_cache
   belongs_to :subnet
 
@@ -81,7 +81,7 @@ class Hostgroup < ActiveRecord::Base
   scoped_search :on => :hosts_count
 
   def self.search_by_config_group(key, operator, value)
-    conditions  = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
+    conditions = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
     hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.joins(:config_groups).where(conditions).map(&:subtree_ids).flatten.uniq
 
     opts = 'hostgroups.id < 0'
@@ -97,8 +97,8 @@ class Hostgroup < ActiveRecord::Base
     scoped_search :in => :operatingsystem,  :on => :major,       :complete_value => true,  :rename => :os_major
     scoped_search :in => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor
     scoped_search :in => :operatingsystem,  :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true
-    scoped_search :in => :medium,           :on => :name,        :complete_value => true,  :rename => "medium"
-    scoped_search :in => :provisioning_templates, :on => :name,        :complete_value => true,  :rename => "template"
+    scoped_search :in => :medium,           :on => :name,        :complete_value => true, :rename => "medium"
+    scoped_search :in => :provisioning_templates, :on => :name, :complete_value => true, :rename => "template"
   end
 
   # returns reports for hosts in the User's filter set

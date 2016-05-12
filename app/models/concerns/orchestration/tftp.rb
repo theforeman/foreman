@@ -144,7 +144,7 @@ module Orchestration::TFTP
                      :action => [old, :delTFTP])
       end
     end
-    queue_tftp_create  if set_tftp
+    queue_tftp_create if set_tftp
   end
 
   def queue_tftp_destroy

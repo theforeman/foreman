@@ -189,7 +189,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response :success
 
     response = ActiveSupport::JSON.decode(@response.body)
-    expected_metadata = { 'total'    => 28, 'subtotal' => 28,   'page' => 1,
+    expected_metadata = { 'total'    => 28, 'subtotal' => 28, 'page' => 1,
                           'per_page' => 20, 'search'   => nil,
                           'sort' => { 'by' => nil, 'order' => nil } }
 
@@ -205,7 +205,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response :success
 
     response = ActiveSupport::JSON.decode(@response.body)
-    expected_metadata = { 'total'    => 28, 'subtotal' => 28,   'page' => 2,
+    expected_metadata = { 'total'    => 28, 'subtotal' => 28, 'page' => 2,
                           'per_page' => 20, 'search'   => nil,
                           'sort' => { 'by' => nil, 'order' => nil } }
 
@@ -221,7 +221,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response :success
 
     response = ActiveSupport::JSON.decode(@response.body)
-    expected_metadata = { 'total'    => 28, 'subtotal' => 28,   'page' => 1,
+    expected_metadata = { 'total'    => 28, 'subtotal' => 28, 'page' => 1,
                           'per_page' => 10, 'search'   => nil,
                           'sort' => { 'by' => nil, 'order' => nil } }
 

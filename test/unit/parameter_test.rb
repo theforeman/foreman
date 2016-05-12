@@ -4,19 +4,19 @@ class ParameterTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
   end
-  test  "names may be reused in different parameter groups" do
+  test "names may be reused in different parameter groups" do
     host = FactoryGirl.create(:host)
-    p1 = HostParameter.new   :name => "param", :value => "value1", :reference_id => host.id
+    p1 = HostParameter.new :name => "param", :value => "value1", :reference_id => host.id
     assert p1.save
     p2 = DomainParameter.new :name => "param", :value => "value2", :reference_id => Domain.first.id
     assert p2.save
     p3 = CommonParameter.new :name => "param", :value => "value3"
     assert p3.save
-    p4 = GroupParameter.new  :name => "param", :value => "value4", :reference_id => Hostgroup.first.id
+    p4 = GroupParameter.new :name => "param", :value => "value4", :reference_id => Hostgroup.first.id
     assert p4.save
-    p5 = LocationParameter.new  :name => "param", :value => "value5", :reference_id => Location.first.id
+    p5 = LocationParameter.new :name => "param", :value => "value5", :reference_id => Location.first.id
     assert p5.save
-    p6 = OrganizationParameter.new  :name => "param", :value => "value6", :reference_id => Organization.first.id
+    p6 = OrganizationParameter.new :name => "param", :value => "value6", :reference_id => Organization.first.id
     assert p6.save
     p7 = SubnetParameter.new :name => "param", :value => "value7", :reference_id => Subnet.first.id
     assert p7.save

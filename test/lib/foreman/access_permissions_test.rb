@@ -46,7 +46,7 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
   # For each controller action, verify it has a permission that grants access
   app_routes = Rails.application.routes.routes.inject({}) do |routes, r|
-    routes["#{r.defaults[:controller].gsub(/::/, "_").underscore}/#{r.defaults[:action]}"] = r if r.defaults[:controller]
+    routes["#{r.defaults[:controller].gsub(/::/, '_').underscore}/#{r.defaults[:action]}"] = r if r.defaults[:controller]
     routes
   end
 

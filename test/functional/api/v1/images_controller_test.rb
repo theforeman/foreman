@@ -5,7 +5,7 @@ class Api::V1::ImagesControllerTest < ActionController::TestCase
     { :name                => 'TestImage', :username => 'ec2-user', :uuid => 'abcdef',
       :operatingsystem_id  => Operatingsystem.first.id,
       :compute_resource_id => ComputeResource.first.id,
-      :architecture_id     => Architecture.first.id,
+      :architecture_id     => Architecture.first.id
     }
   end
 

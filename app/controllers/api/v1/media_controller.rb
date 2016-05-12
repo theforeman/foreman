@@ -20,7 +20,7 @@ The family that the operating system belongs to.
 
 Available families:
 
-#{Operatingsystem.families.map { |f| "* " + f }.join("\n")}
+#{Operatingsystem.families.map { |f| '* ' + f }.join("\n")}
       eos
 
       api :GET, "/media/", "List all media."

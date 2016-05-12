@@ -1,7 +1,7 @@
 module LayoutHelper
   def title(page_title, page_header = nil)
     content_for(:title, page_title.to_s)
-    @page_header       ||= page_header || @content_for_title || page_title.to_s
+    @page_header ||= page_header || @content_for_title || page_title.to_s
   end
 
   def title_actions(*elements)
@@ -88,8 +88,8 @@ module LayoutHelper
   end
 
   def icon_text(i, text = "", opts = {})
-    opts[:kind] ||=  "glyphicon"
-    (content_tag(:span,"", :class=>"#{opts[:kind] + " " + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
+    opts[:kind] ||= "glyphicon"
+    (content_tag(:span,"", :class=>"#{opts[:kind] + ' ' + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
   end
 
   def alert(opts = {})
@@ -123,7 +123,7 @@ module LayoutHelper
         icon = icon_text("error-circle-o", "", :kind => "pficon")
         text ||= _("Error")
     end
-    header = "#{icon}"
+    header = icon.to_s
     header += "<strong>#{text}</strong> " if text.present?
     header.html_safe
   end
@@ -168,7 +168,7 @@ module LayoutHelper
   end
 
   def new_child_fields_template(form_builder, association, options = { })
-    unless  options[:object].present?
+    unless options[:object].present?
       association_object = form_builder.object.class.reflect_on_association(association)
       options[:object] = association_object.klass.new(association_object.foreign_key => form_builder.object.id)
     end

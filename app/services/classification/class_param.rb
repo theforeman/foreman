@@ -39,4 +39,3 @@ module Classification
     end
   end
 end
-

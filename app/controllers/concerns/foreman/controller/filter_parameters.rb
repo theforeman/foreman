@@ -32,4 +32,3 @@ module Foreman::Controller::FilterParameters
     end
   end
 end
-

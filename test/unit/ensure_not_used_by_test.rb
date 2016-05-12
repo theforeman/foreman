@@ -39,7 +39,7 @@ class EnsureNotUsedByTest < ActiveSupport::TestCase
     hostgroup = FactoryGirl.create(:hostgroup, :organizations => [@org1, @org2])
     FactoryGirl.create(:host, :hostgroup => hostgroup, :organization => @org2)
 
-    as_user  FactoryGirl.create(:user, :with_mail) do
+    as_user FactoryGirl.create(:user, :with_mail) do
       in_taxonomy @org1 do
         refute hostgroup.destroy
         assert_equal "#{hostgroup.name} is being used by a hidden Host::Managed resource", hostgroup.errors.full_messages.first

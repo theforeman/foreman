@@ -85,10 +85,10 @@ module FormHelper
       hidden_fields = ''
       html_options["data-useds"] ||= "[]"
       JSON.parse(html_options["data-useds"]).each do |disabled_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'' )
+        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'')
       end
       unauthorized.each do |unauthorized_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id=>'' )
+        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id=>'')
       end
       hidden_fields + f.collection_select(attr_ids, authorized.sort_by { |a| a.to_s },
                                           :id, :to_label, options.merge(:selected => selected_ids),
@@ -335,7 +335,7 @@ module FormHelper
       help_block = content_tag(:span, options.delete(:help_block), :class => "help-block")
 
       content_tag(:div, :class => "clearfix") do
-        content_tag(:div, :class => "#{wrapper_class} #{error.empty? ? "" : 'has-error'}",
+        content_tag(:div, :class => "#{wrapper_class} #{error.empty? ? '' : 'has-error'}",
                     :id => options.delete(:control_group_id)) do
           input = capture do
             if options[:fullscreen]
