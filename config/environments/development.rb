@@ -48,5 +48,7 @@ Foreman::Application.configure do
     Bullet.rails_logger = true
     Bullet.add_footer = true
   end if defined?(Bullet)
+
+  config.react.variant = :development
 end
 
