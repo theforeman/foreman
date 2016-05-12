@@ -27,7 +27,7 @@ class Domain < ActiveRecord::Base
 
   accepts_nested_attributes_for :domain_parameters, :allow_destroy => true
   include ParameterValidators
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true, :uniqueness => { :case_sensitive => false }
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
   validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
 

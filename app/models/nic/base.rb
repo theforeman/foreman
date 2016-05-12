@@ -109,7 +109,7 @@ module Nic
     end
 
     def shortname
-      domain.nil? ? name : name.to_s.chomp("." + domain.name)
+      domain.nil? ? name : name.to_s.sub(/\.#{Regexp.escape domain.name}\Z/i, '')
     end
 
     def validated?

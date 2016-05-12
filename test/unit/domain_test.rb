@@ -16,6 +16,14 @@ class DomainTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:fullname).allow_nil
   should validate_uniqueness_of(:fullname).allow_blank
 
+  test "should have a unique case-insensitive name" do
+    other_domain = Domain.new(:name => @domain.name.upcase)
+    refute other_domain.save
+    assert_raises ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid do
+      other_domain.save(:validate => false) #make sure the DB enforces this
+    end
+  end
+
   test "when cast to string should return the name" do
     s = @domain.to_s
     assert_equal @domain.name, s

@@ -43,6 +43,14 @@ class ManagedTest < ActiveSupport::TestCase
     assert_nil nic.domain
   end
 
+  test "#normalize_hostname accepts domain even if it contains capital letters" do
+    domain = FactoryGirl.create(:domain, :name => "CAPITAL.com")
+    nic = setup_primary_nic_with_name(" Host.#{domain.name}", :domain => nil)
+    nic.send(:normalize_name)
+    assert_equal "host.#{domain.name.downcase}", nic.name
+    assert_equal domain, nic.domain
+  end
+
   test "#normalize_hostname keeps domain nil if it can't find such domain based on name" do
     nic = setup_primary_nic_with_name(" Host", :domain => nil)
     nic.send(:normalize_name)
