@@ -26,6 +26,8 @@ class TopbarSweeper < ActionController::Caching::Sweeper
   end
 
   def self.expire_cache_all_users
-    Rails.cache.delete_matched(/#{fragment_name('\d+')}/)
+    User.unscoped.pluck(:id).each do |id|
+      Rails.cache.delete("views/tabs_and_title_records-#{id}")
+    end
   end
 end
