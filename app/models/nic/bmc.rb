@@ -27,6 +27,10 @@ module Nic
       N_('BMC')
     end
 
+    class Jail < Nic::Managed::Jail
+      allow :provider, :username, :password
+    end
+
     private
 
     def ensure_physical
