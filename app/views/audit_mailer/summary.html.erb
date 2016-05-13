@@ -16,7 +16,13 @@
           <%= audit_action_name audit%> <%= audited_type audit %>:
           <%=link_to(audit_title(audit), audit_url(:id => audit, :host => @url.host, :port => @url.port, :protocol => @url.scheme), {:style => 'color: #2a6496'}) %>
         </b>
-
+        <ul style="list-style-type: none;">
+          <% details(audit).each do |detail| -%>
+            <li>
+              <%= detail %>
+            </li>
+          <% end -%>
+        </ul>
       </li>
     <% end %>
   <% else %>

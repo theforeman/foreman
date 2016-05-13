@@ -35,7 +35,8 @@ module AuditsHelper
 
   def details(audit)
     if audit.action == 'update'
-      Array.wrap(audit.audited_changes).map do |name, change|
+      return [] unless audit.audited_changes.present?
+      audit.audited_changes.map do |name, change|
         next if change.nil? or change.to_s.empty?
         if name == 'template'
           (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
