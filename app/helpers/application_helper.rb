@@ -213,15 +213,15 @@ module ApplicationHelper
   end
 
   def edit_textfield(object, property, options = {})
-    edit_inline(object, property, options.merge({:type => "edit_textfield"}))
+    edit_inline(object, property, options)
   end
 
   def edit_textarea(object, property, options = {})
-    edit_inline(object, property, options.merge({:type => "edit_textarea"}))
+    edit_inline(object, property, options.merge({:type => "textarea"}))
   end
 
   def edit_select(object, property, options = {})
-    edit_inline(object, property, options.merge({:type => "edit_select"}))
+    edit_inline(object, property, options.merge({:type => "select"}))
   end
 
   def flot_pie_chart(name, title, data, options = {})
@@ -385,18 +385,14 @@ module ApplicationHelper
   private
 
   def edit_inline(object, property, options = {})
-    name       = "#{type}[#{property}]"
     helper     = options[:helper]
     value      = helper.nil? ? object.send(property) : self.send(helper, object)
-    klass      = options[:type]
+    klass      = options[:class]
     update_url = options[:update_url] || url_for(object)
+    type       = options[:type]
+    title      = options[:title]
 
-    opts = { :title => _("Click to edit"), "data-url" => update_url, :class => "editable #{klass}",
-      :name => name, "data-field" => property, :value => value, :select_values => options[:select_values]}
-
-    content_tag_for :span, object, opts do
-      h(value)
-    end
+    editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => options[:select_values],:url => update_url}.compact)
   end
 
   def documentation_url(section = "", options = {})

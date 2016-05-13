@@ -11,6 +11,7 @@
 @import "patternfly-sprockets";
 @import "patternfly";
 @import "mixin";
+@import "editable/bootstrap-editable";
 @import "/*";
 
 html {
@@ -116,6 +117,10 @@ a.config_group_name {
   &:hover {
     background: image-url("edit-hover.png") no-repeat scroll 98% 6px #F2F2F2;
   }
+}
+
+.editable-click {
+  border-bottom: none;
 }
 
 .tab-error {
