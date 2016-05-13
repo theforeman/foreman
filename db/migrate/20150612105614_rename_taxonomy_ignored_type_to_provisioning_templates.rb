@@ -16,6 +16,7 @@ class RenameTaxonomyIgnoredTypeToProvisioningTemplates < ActiveRecord::Migration
   private
 
   def swap_name(old, new)
+    User.reset_column_information
     FakeTaxonomy.where("ignore_types LIKE '%#{old}%'").all.each do |taxonomy|
       taxonomy.ignore_types.delete(old)
       taxonomy.ignore_types.push(new)
