@@ -1,6 +1,8 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+
   before_action :require_admin
+  helper_method :xeditable?
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
@@ -21,5 +23,10 @@ class SettingsController < ApplicationController
       logger.error "Unprocessable entity Setting (id: #{@setting.id}):\n #{error_msg.join("\n  ")}\n"
       render :json => {"errors" => error_msg}, :status => :unprocessable_entity
     end
+  end
+
+  def xeditable? object = nil, permission = nil
+    #The current user is required to be admin
+    current_user.admin?
   end
 end

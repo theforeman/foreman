@@ -21,6 +21,8 @@
 //= require underscore
 //= require editor
 //= require lookup_keys
+//= require editable/bootstrap-editable
+//= require editable/rails
 
 window.foreman = window.foreman || {};
 foreman.tools = foreman.tools || {};

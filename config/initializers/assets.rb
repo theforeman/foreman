@@ -56,12 +56,14 @@ Foreman::Application.configure do |app|
 
   stylesheets = %w( unimported/email.css )
 
+  images = %w(editable/clear.png)
+
   # Add the fonts path
   config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
   # Precompile additional assets
   config.assets.precompile << /\.(?:svg|eot|woff|gif|ttf)$/
-  config.assets.precompile += javascript.map { |js| js + '.js' } + stylesheets + %w(background-size.htc)
+  config.assets.precompile += javascript.map { |js| js + '.js' } + stylesheets + images + %w(background-size.htc)
 
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do
