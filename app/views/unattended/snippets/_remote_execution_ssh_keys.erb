@@ -32,4 +32,7 @@ EOF
 chmod 700 <%= ssh_path %>
 chmod 600 <%= ssh_path %>/authorized_keys
 chown -R <%= "#{ssh_user}:" %> <%= ssh_path %>
+
+# Restore SELinux context with restorecon, if it's available:
+command -v restorecon && restorecon -RvF <%= ssh_path %> || true
 <% end %>

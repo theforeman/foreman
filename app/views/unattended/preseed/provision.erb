@@ -145,7 +145,7 @@ d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
 <% if @host.params['install-disk'] -%>
 d-i grub-installer/bootdev string <%= @host.params['install-disk'] %>
-<% elsif @host.operatingsystem.name == 'Debian' and @host.operatingsystem.major.to_i >= 8 -%>
+<% elsif (@host.operatingsystem.name == 'Debian' and @host.operatingsystem.major.to_i >= 8) or (@host.operatingsystem.name == 'Ubuntu' and @host.operatingsystem.major.to_i >= 16) -%>
 d-i grub-installer/bootdev string default
 <% end -%>
 d-i finish-install/reboot_in_progress note
