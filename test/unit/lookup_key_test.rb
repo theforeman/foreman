@@ -339,6 +339,12 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal key.hidden_value, key.safe_value
   end
 
+  test 'external_variables permissions can be filtered' do
+    filter = FactoryGirl.build(:filter, :search => 'key ~ a*', :unlimited => '0', :permissions => Permission.where(:name => 'view_external_variables'))
+    assert filter.valid?
+    assert_equal 'key ~ a*', filter.search
+  end
+
   context "when key is a boolean and default_value is a string" do
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
