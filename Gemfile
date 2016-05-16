@@ -32,7 +32,7 @@ else
   gem 'net-ssh'
   gem 'net-ldap', '>= 0.8.0'
 end
-gem 'activerecord-session_store', '~> 0.1.1'
+gem 'activerecord-session_store', '>= 0.1.1', '< 2'
 gem 'protected_attributes', '~> 1.1.1'
 gem 'sprockets', '~> 3'
 gem 'sprockets-rails', '>= 2.3.3', '< 3'
