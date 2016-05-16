@@ -138,4 +138,10 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     # show_response = ActiveSupport::JSON.decode(@response.body)
     # assert !show_response.empty?
   end
+
+  test "should get smart parameters with non admin user" do
+    setup_user "view", "external_parameters"
+    get :show, {:id => lookup_keys(:five).id}, set_session_user.merge(:user => users(:one).id)
+    assert_response :success
+  end
 end

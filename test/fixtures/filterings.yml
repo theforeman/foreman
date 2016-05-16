@@ -334,6 +334,9 @@ viewer_21_0:
 viewer_22_0:
   filter: viewer_22
   permission: view_realms
+viewer_24_0:
+  filter: viewer_24
+  permission: view_external_parameters
 default_role_1_0:
   filter: default_role_1
   permission: view_tasks

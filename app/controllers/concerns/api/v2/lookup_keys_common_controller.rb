@@ -68,10 +68,10 @@ module Api::V2::LookupKeysCommonController
 
   def find_smart_class_parameter
     id = params.keys.include?('smart_class_parameter_id') ? params['smart_class_parameter_id'] : params['id']
-    @smart_class_parameter = PuppetclassLookupKey.authorized(:view_external_variables).smart_class_parameters.find_by_id(id.to_i) if id.to_i > 0
+    @smart_class_parameter = PuppetclassLookupKey.authorized(:view_external_parameters).smart_class_parameters.find_by_id(id.to_i) if id.to_i > 0
     @smart_class_parameter ||= (puppet_cond = { 'environment_classes.puppetclass_id'=> @puppetclass.id } if @puppetclass
                                 env_cond = { 'environment_classes.environment_id' => @environment.id } if @environment
-                                PuppetclassLookupKey.authorized(:view_external_variables).smart_class_parameters.where(puppet_cond).where(env_cond).where(:key => id).first
+                                PuppetclassLookupKey.authorized(:view_external_parameters).smart_class_parameters.where(puppet_cond).where(env_cond).where(:key => id).first
                                )
     @smart_class_parameter
   end
@@ -81,7 +81,7 @@ module Api::V2::LookupKeysCommonController
   end
 
   def smart_class_parameters_resource_scope
-    base = PuppetclassLookupKey.authorized(:view_external_variables)
+    base = PuppetclassLookupKey.authorized(:view_external_parameters)
     return base.smart_class_parameters unless (@puppetclass || @environment || @host || @hostgroup)
     if @puppetclass && @environment
       base.smart_class_parameters_for_class(@puppetclass.id, @environment.id)

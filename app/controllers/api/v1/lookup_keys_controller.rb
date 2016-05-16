@@ -11,7 +11,7 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @lookup_keys = PuppetclassLookupKey.authorized(:view_external_variables).
+        @lookup_keys = PuppetclassLookupKey.authorized(:view_external_parameters).
           search_for(*search_options).paginate(paginate_options).to_a +
             VariableLookupKey.authorized(:view_external_variables).
             search_for(*search_options).paginate(paginate_options).to_a

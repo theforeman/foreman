@@ -11,4 +11,8 @@ class PuppetclassLookupKeysController < LookupKeysController
   def resource
     @puppetclass_lookup_key
   end
+
+  def controller_permission
+    'external_parameters'
+  end
 end
