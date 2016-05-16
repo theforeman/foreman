@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-02-25 09:31+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-05-07 13:45+0000\n"
+"Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgid "%{host} is about to %{action}"
 msgstr "%{host} està a punt de %{action}"
 
 msgid "%{host} now boots from %{device}"
-msgstr ""
+msgstr "%{host} ara arrenca des de %{device}"
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr "El connector %{id} requereix %{matcher} de Foreman però l'actual és %{current}"
@@ -455,7 +455,7 @@ msgid "Alias or VLAN device"
 msgstr "Àlies o dispositiu VLAN"
 
 msgid "All"
-msgstr ""
+msgstr "Tot"
 
 msgid "All Puppet Classes for %s"
 msgstr "Totes les classes de Puppet per %s"
@@ -2071,7 +2071,7 @@ msgid "Email Preferences"
 msgstr "Preferències de correu electrònic"
 
 msgid "Email address is missing"
-msgstr ""
+msgstr "Falta l'adreça de correu electrònic"
 
 msgid "Email is Required"
 msgstr ""
@@ -2086,7 +2086,7 @@ msgid "Email subject prefix"
 msgstr "Prefix del tema del correu electrònic"
 
 msgid "Email was sent successfully"
-msgstr ""
+msgstr "El correu electrònic s'ha enviat correctament"
 
 msgid "Empty environment"
 msgstr "Entorn buit"
@@ -2434,7 +2434,7 @@ msgid "Failed to save widget positions."
 msgstr "No s'han pogut desar les posicions de l'estri."
 
 msgid "Failed to set %{proxy_type} proxy for %{host}."
-msgstr ""
+msgstr "No s'ha pogut establir el servidor intermediari %{proxy_type} per a %{host}."
 
 msgid "Failed to set console: %s"
 msgstr "No s'ha pogut establir la consola: %s"
@@ -2608,7 +2608,7 @@ msgid "Foreman host group matchers will be inherited by children when evaluating
 msgstr "Els classificadors de grup d'amfitrions de Foreman seran heretats pels descendents en l'avaluació dels paràmetres de les classes intel·ligents"
 
 msgid "Foreman now manages the build cycle for %s"
-msgstr ""
+msgstr "Foreman ara gestiona el cicle de construcció per a %s"
 
 msgid "Foreman now no longer manages the build cycle for %s"
 msgstr ""
@@ -3385,7 +3385,7 @@ msgid "Interface is up"
 msgstr "Interfície aixecada"
 
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
-msgstr ""
+msgstr "Proveïdor de la interfície, p. ex. IPMI. Únicament per a les interfícies BMC."
 
 msgid "Interface type, e.g. bmc. Default is %{default_nic_type}"
 msgstr ""
@@ -3427,7 +3427,7 @@ msgid "Invalid power state request: %{action}, supported actions are %{supported
 msgstr ""
 
 msgid "Invalid proxy selected!"
-msgstr ""
+msgstr "El servidor intermediari seleccionat no és vàlid!"
 
 msgid "Invalid query"
 msgstr "consulta no vàlida"
@@ -3436,7 +3436,7 @@ msgid "Invalid report"
 msgstr "Informe no vàlid"
 
 msgid "Invalid search query: %s"
-msgstr ""
+msgstr "La consulta de cerca no és vàlida: %s"
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
@@ -4513,7 +4513,7 @@ msgid "No %{template_kind} templates were found for this host, make sure you def
 msgstr ""
 
 msgid "No TFTP feature"
-msgstr ""
+msgstr "No hi ha la funcionalitat TFTP"
 
 msgid "No TFTP proxies defined, can't continue"
 msgstr ""
@@ -4552,7 +4552,7 @@ msgid "No entries found"
 msgstr "No s'ha trobat cap entrada"
 
 msgid "No environment selected!"
-msgstr ""
+msgstr "No hi ha cap entorn seleccionat!"
 
 msgid "No environments found"
 msgstr ""
@@ -4576,7 +4576,7 @@ msgid "No host found to associate this VM with"
 msgstr ""
 
 msgid "No host group selected!"
-msgstr ""
+msgstr "No hi ha cap grup d'amfitrions seleccionat!"
 
 msgid "No hosts are mismatched!"
 msgstr ""
@@ -4606,7 +4606,7 @@ msgid "No or invalid power state selected!"
 msgstr ""
 
 msgid "No owner selected!"
-msgstr ""
+msgstr "No hi ha cap propietari seleccionat!"
 
 msgid "No parameters to override for Puppet class %s"
 msgstr ""
@@ -4624,7 +4624,7 @@ msgid "No proxy found to import classes from, ensure that the smart proxy has th
 msgstr ""
 
 msgid "No proxy selected!"
-msgstr ""
+msgstr "No hi ha cap servidor intermediari seleccionat!"
 
 msgid "No puppet activity for this host in the last %s days"
 msgstr ""
@@ -4678,7 +4678,7 @@ msgid "None Found"
 msgstr "No se n'ha trobat cap"
 
 msgid "None found"
-msgstr ""
+msgstr "No se n'ha trobat cap"
 
 msgid "None!"
 msgstr "Sense!"
@@ -4717,7 +4717,7 @@ msgid "Notice"
 msgstr "Avís"
 
 msgid "Notices, warnings and errors"
-msgstr "Notificacions, advertències i errors"
+msgstr "Avisos, advertències i errors"
 
 msgid "Notification disabled"
 msgstr ""
@@ -5256,7 +5256,7 @@ msgid "Prefix to add to all outgoing email"
 msgstr "El prefix a afegir a tots els correus electrònics de sortida"
 
 msgid "Prepare post installation script for %s"
-msgstr ""
+msgstr "Prepara el script de post-instal·lació per %s"
 
 msgid "Preview"
 msgstr "Vista prèvia"
@@ -5688,7 +5688,7 @@ msgid "Report Metrics"
 msgstr "Mètriques de l'informe"
 
 msgid "Report Status"
-msgstr ""
+msgstr "Estat de l'informe"
 
 msgid "Report summary"
 msgstr "Resum de l'informe"
@@ -6646,7 +6646,7 @@ msgid "Test Connection"
 msgstr "Prova la connexió"
 
 msgid "Test LDAP connection"
-msgstr ""
+msgstr "Prova la connexió LDAP"
 
 msgid "Test LDAP connectivity"
 msgstr ""
@@ -7149,7 +7149,7 @@ msgid "Unable to generate output, Check log files"
 msgstr ""
 
 msgid "Unable to get BMC providers"
-msgstr ""
+msgstr "No es poden obtenir els proveïdors BMC"
 
 msgid "Unable to get PuppetCA autosign"
 msgstr ""
@@ -7167,7 +7167,7 @@ msgid "Unable to get environments from Puppet"
 msgstr "No s'han pogut obtenir els entorns des de Puppet"
 
 msgid "Unable to get installed BMC providers"
-msgstr ""
+msgstr "No es poden obtenir els proveïdors BMC instal·lats"
 
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr ""
@@ -7200,7 +7200,7 @@ msgid "Unable to save"
 msgstr "No s'ha pogut desar"
 
 msgid "Unable to send email, check server logs for more information"
-msgstr ""
+msgstr "No s'ha pogut enviar el correu electrònic, comproveu els registres del servidor per a més informació"
 
 msgid "Unable to set DHCP entry"
 msgstr ""
@@ -7723,7 +7723,7 @@ msgid "View last report details"
 msgstr ""
 
 msgid "View list"
-msgstr ""
+msgstr "Visualitza la llista"
 
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"

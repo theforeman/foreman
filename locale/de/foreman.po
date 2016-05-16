@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-04-15 18:25+0000\n"
+"PO-Revision-Date: 2016-05-06 22:56+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2092,7 +2092,7 @@ msgid "Email Preferences"
 msgstr "E-Mail-Einstellungen"
 
 msgid "Email address is missing"
-msgstr ""
+msgstr "E-Mail-Adresse fehlt"
 
 msgid "Email is Required"
 msgstr "E-Mail erforderlich"
@@ -2823,7 +2823,7 @@ msgid "Hide all values for this parameter."
 msgstr "Alle Werte für diesen Parameter verstecken."
 
 msgid "Hide this value"
-msgstr ""
+msgstr "Diesen Wert ausblenden"
 
 msgid "History"
 msgstr "Verlauf"
@@ -3071,7 +3071,7 @@ msgid "Hosts including sub-groups"
 msgstr ""
 
 msgid "Hosts managed"
-msgstr ""
+msgstr "Hosts verwaltet"
 
 msgid "Hosts managed:"
 msgstr "Hosts verwaltet:"
@@ -3991,7 +3991,7 @@ msgid "Location fact"
 msgstr ""
 
 msgid "Location parameters"
-msgstr ""
+msgstr "Standortparameter"
 
 msgid "Location you had selected as your context has been deleted."
 msgstr "Der Standort, den Sie als Kontext gewählt hatten, wurde gelöscht."
@@ -4012,7 +4012,7 @@ msgid "Lock"
 msgstr "Sperren"
 
 msgid "Log entry details"
-msgstr ""
+msgstr "Protokolleintragsdetails"
 
 msgid "Log out"
 msgstr "Abmelden"
@@ -4762,7 +4762,7 @@ msgid "Number of classes"
 msgstr "Anzahl der Klassen"
 
 msgid "Number of overrides"
-msgstr ""
+msgstr "Anzahl der Überschreibungen"
 
 msgid "Number of records shown per page in Foreman"
 msgstr "Anzahl der angezeigten Einträge pro Seite in Foreman"
@@ -4992,7 +4992,7 @@ msgid "Organizations are particularly useful for Foreman installations where sev
 msgstr "Organisationen sind besonders hilfreich für Foreman-Installationen, wo mehrere Kunden oder Geschäftseinheiten von einer einzigen Foreman-Installation verwaltet werden."
 
 msgid "Original value info"
-msgstr ""
+msgstr "Originalwertinformation"
 
 msgid "Other reports for this host"
 msgstr "Weitere Reports dieses Hosts"
@@ -5016,7 +5016,7 @@ msgid "Override the default value of the Puppet class parameter."
 msgstr "Standardwert des Puppet-Klassenparameters überschreiben."
 
 msgid "Override this value"
-msgstr "Diesen Wert außer Kraft setzen"
+msgstr "Diesen Wert überschreiben"
 
 msgid "Override value"
 msgstr "Wert überschreiben"
@@ -5507,11 +5507,11 @@ msgstr "Schlüsseltyp"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PuppetclassLookupKey|Merge overrides"
-msgstr "Überschreibungen zusammenführen"
+msgstr "PuppetclassLookupKey|Überschreibungen zusammenführen"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PuppetclassLookupKey|Override"
-msgstr "Überschreiben"
+msgstr "PuppetclassLookupKey|Überschreiben"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PuppetclassLookupKey|Path"
@@ -5681,7 +5681,7 @@ msgid "Remove old TFTP Settings for %s"
 msgstr "Alte TFTP-Einstellungen für %s entfernen"
 
 msgid "Remove this override"
-msgstr ""
+msgstr "Diese Überschreibung entfernen"
 
 msgid "Remove:"
 msgstr "Entferne:"
@@ -6031,7 +6031,7 @@ msgid "Selected role"
 msgstr "Ausgewählte Rolle"
 
 msgid "Selecting a file will override the editor and load the file instead"
-msgstr "Das Auswählen einer Datei wird den Editor übergehen und diese Datei stattdessen öffnen"
+msgstr "Das Auswählen einer Datei wird den Editor übergehen und stattdessen diese Datei öffnen"
 
 msgid "Send a test message to the user's email address to confirm the configuration is working."
 msgstr ""
@@ -6673,7 +6673,7 @@ msgid "Test LDAP connectivity"
 msgstr "LDAP-Konnektivität testen"
 
 msgid "Test connection to LDAP server was successful."
-msgstr ""
+msgstr "Testverbindung zu LDAP-Server war erfolgreich."
 
 msgid "Test connection was successful"
 msgstr "Testverbindung war erfolgreich"
@@ -7258,7 +7258,7 @@ msgid "Undo remove"
 msgstr "Löschen rückgängig machen"
 
 msgid "Unhide this value"
-msgstr ""
+msgstr "Diesen Wert einblenden"
 
 msgid "Unknown"
 msgstr "Unbekannt"
@@ -7688,11 +7688,11 @@ msgstr "Schlüsseltyp"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "VariableLookupKey|Merge overrides"
-msgstr "Überschreibungen zusammenführen"
+msgstr "VariableLookupKey|Überschreibungen zusammenführen"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "VariableLookupKey|Override"
-msgstr "Überschreiben"
+msgstr "VariableLookupKey|Überschreiben"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "VariableLookupKey|Path"
@@ -8087,13 +8087,13 @@ msgid "does not have the DHCP feature"
 msgstr "verfügt nicht über die DHCP-Funktion"
 
 msgid "does not have the DNS feature"
-msgstr ""
+msgstr "verfügt nicht über die DNS-Funktion"
 
 msgid "does not have the Puppet CA feature"
 msgstr ""
 
 msgid "does not have the Puppet feature"
-msgstr ""
+msgstr "verfügt nicht über die Puppet-Funktion"
 
 msgid "does not have the Realm feature"
 msgstr ""
@@ -8471,7 +8471,7 @@ msgid "organizations"
 msgstr "Organisationen"
 
 msgid "override"
-msgstr "hinwegsetzen"
+msgstr "überschreiben"
 
 msgid "paginate results"
 msgstr "Ergebnisse nummerieren"

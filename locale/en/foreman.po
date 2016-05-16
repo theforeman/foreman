@@ -3319,6 +3319,9 @@ msgstr ""
 msgid "Import from %s"
 msgstr ""
 
+msgid "Import of facts failed for host %s"
+msgstr ""
+
 msgid "Import puppet classes from puppet proxy for an environment"
 msgstr ""
 
