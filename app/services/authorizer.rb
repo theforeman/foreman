@@ -22,8 +22,8 @@ class Authorizer
     Foreman::Logging.logger('permissions').debug "checking permission #{permission}"
 
     # retrieve all filters relevant to this permission for the user
-    base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
-    all_filters = permission.nil? ? base : base.where(["#{Permission.table_name}.name = ?", permission])
+    base = user.filters.joins(:permissions).where(permissions: { resource_type: resource_name(resource_class)})
+    all_filters = permission.nil? ? base : base.where(permissions: { name: permission })
 
     if Taxonomy.enabled_taxonomies.any?
       organization_ids = allowed_organizations(resource_class)
@@ -32,10 +32,9 @@ class Authorizer
       Foreman::Logging.logger('permissions').debug "location_ids: #{location_ids.inspect}"
 
       organizations, locations, values = taxonomy_conditions(organization_ids, location_ids)
-      all_filters = all_filters.joins(taxonomy_join).where(["#{TaxableTaxonomy.table_name}.id IS NULL " +
-                                                                "OR (#{organizations}) " +
-                                                                "OR (#{locations})",
-                                                            *values]).uniq
+      all_filters = all_filters.joins(taxonomy_join)
+        .where(["#{TaxableTaxonomy.table_name}.id IS NULL OR (#{organizations}) OR (#{locations})", *values])
+        .uniq.select('filters.*', 'roles.name')
     end
 
     all_filters = all_filters.to_a # load all records, so #empty? does not call extra COUNT(*) query

@@ -23,5 +23,18 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
       click_button "Login"
       assert_current_path root_path
     end
+
+    test "login non-admin" do
+      User.current = User.new(roles: Role.all, login: 'non-admin', password: 'changeme',
+                      password_confirmation: 'changeme', auth_source: AuthSourceInternal.first,
+                      mail: 'non-admin@example.com')
+      User.current.save
+
+      visit "/"
+      fill_in "login_login", :with => "non-admin"
+      fill_in "login_password", :with => "changeme"
+      click_button "Login"
+      assert_current_path root_path
+    end
   end
 end
