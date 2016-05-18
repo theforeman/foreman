@@ -445,7 +445,7 @@ module LayoutHelper
         text ||= _("Error")
     end
     header = "#{icon}"
-    header += "<strong>#{text}</strong> " if text.present?
+    header += content_tag(:strong, text + ' ') if text.present?
     header.html_safe
   end
 
