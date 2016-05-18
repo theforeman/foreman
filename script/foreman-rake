@@ -13,5 +13,5 @@ CMD="$BUNDLER_CMD $RAKE_CMD"
 if [ $USERNAME = foreman ]; then
   RAILS_ENV=production $CMD "$@"
 else
-  su - foreman -s /bin/bash -c 'RAILS_ENV=production "$0" "$@"' -- $CMD "$@"
+  su - foreman -p -s /bin/bash -c 'RAILS_ENV=production "$0" "$@"' -- $CMD "$@"
 fi
