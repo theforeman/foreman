@@ -1,3 +1,68 @@
+2016-05-18	Dominic Cleal <dominic@cleal.org>
+	* Release 1.11.2
+
+2016-05-16	Dominic Cleal <dominic@cleal.org>
+	* i18n - extracting new, pulling from tx
+	* refs #14927 - revert string change
+	* templates - sync from community-templates
+	* refs #14482 - use correct 1.11 test helper
+	* fixes #14866 - prod2dev Rails 4 compatibility
+	* fixes #14855 - hide template type dropdown when snippet checked
+	* fixes #14820 - override Rails log level with Foreman
+	* fixes #14810 - change duplicate test class name
+	* refs #14691 - user editing self should not change User.current
+
+2016-05-16	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #14957 - Use a temporary status file to store exit status
+
+2016-05-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15020 - display only selected oVirt network
+	* Fixes #14735 - avoid double sweeping of User topbar cache
+	* Fixes #14769 - avoid template comments because of deface
+	* Fixes #13819 - avoid facts mismatches on import
+
+2016-05-16	Vincent Lequertier <sky@riseup.net>
+	* Fixes #15009 - Make the method boot_files_uris public
+
+2016-05-16	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14874 - do not run path replace during vmware clone
+
+2016-05-16	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #14981 - use root_object for host RABL
+
+2016-05-16	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #14965 - turn off auditing during DB migrations
+
+2016-05-16	Guido Günther <agx@sigxcpu.org>
+	* Fixes #14701: Mention image password in API docs and tests
+
+2016-05-16	Ori Rabin <orabin@redhat.com>
+	* Fixes #14927 - correct override value requirment
+	* Fixes #14726 - disabled delete button in interfaces doesn't delete
+	* Fixes #14790 - reloads puppetclass parameters when choosing os and domain
+
+2016-05-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14795 - User w/o edit_params permission can save host
+	* Fixes #11079 - Handle oVirt with missing template version name
+	* Fixes #14679 - Fix tabbing of puppet CA in proxy
+	* Fixes #14730 - Only search host proxies explicitly
+
+2016-05-16	Luis Fernandez Alvarez <luis.fernandezalvarez@epfl.ch>
+	* Fixes #14778 - Ensure parsing complex types keep target type
+
+2016-05-16	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14768 - Ellipsis for smart proxy name in table on index page
+
+2016-05-16	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #14748 - latest_events should use filters
+	* Fixes #14744 - Adds auto_complete_search route to compute_profiles
+	* Fixes #14072 - Use to_hash when requesting session original_uri
+	* Fixes #14376 - Cut long bookmark names
+	* Fixes #14691 - User #to_label should show persisted name
+
+2016-05-16	Andrew Kofink <akofink@redhat.com>
+	* Fixes #14686 - Allow scoped search on ID for organizations
+
 2016-04-19	Dominic Cleal <dominic@cleal.org>
 	* Release 1.11.1
 	* i18n - extracting new, pulling from tx
