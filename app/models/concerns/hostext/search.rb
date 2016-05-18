@@ -67,7 +67,7 @@ module Hostext
         scoped_search :on => :location_id, :complete_enabled => false, :only_explicit => true
       end
       if SETTINGS[:organizations_enabled]
-        scoped_search :in => :organization, :on => :title, :rename => :organization, :complete_value => true
+        scoped_search :in => :organization, :on => :title, :rename => :organization, :complete_value => true, :only_explicit => true
         scoped_search :on => :organization_id, :complete_enabled => false, :only_explicit => true
       end
       scoped_search :in => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
