@@ -28,16 +28,18 @@ class OvirtTest < ActiveSupport::TestCase
   describe "associating operating system" do
     setup do
       operating_systems_xml = Nokogiri::XML(File.read('test/fixtures/ovirt_operating_systems.xml'))
-      ovirt_oses = operating_systems_xml.xpath('/operating_systems/operating_system').map do |os|
+      @ovirt_oses = operating_systems_xml.xpath('/operating_systems/operating_system').map do |os|
         OVIRT::OperatingSystem.new(self, os)
       end
-      @compute_resource = FactoryGirl.build(:ovirt_cr).tap do |compute_resource|
-        compute_resource.stubs(:available_operating_systems).returns(ovirt_oses)
+      @os_hashes = @ovirt_oses.map do |ovirt_os|
+        { :id => ovirt_os.id, :name => ovirt_os.name, :href => ovirt_os.href }
       end
+      @compute_resource = FactoryGirl.build(:ovirt_cr)
       @host = FactoryGirl.build(:host, :mac => 'ca:d0:e6:32:16:97')
     end
 
     it 'maps operating system to ovirt operating systems' do
+      @compute_resource.stubs(:available_operating_systems).returns(@os_hashes)
       @compute_resource.determine_os_type(@host).must_equal "other_linux"
 
       @host.operatingsystem = operatingsystems(:redhat)
@@ -48,6 +50,19 @@ class OvirtTest < ActiveSupport::TestCase
 
       @host.operatingsystem = operatingsystems(:ubuntu1210)
       @compute_resource.determine_os_type(@host).must_equal "ubuntu_12_10"
+    end
+
+    it 'caches the operating systems in the compute resource' do
+      client_mock = mock.tap { |m| m.stubs(:operating_systems).returns(@ovirt_oses) }
+      @compute_resource.stubs(:client).returns(client_mock)
+      assert @compute_resource.supports_operating_systems?
+      assert_equal @os_hashes, @compute_resource.available_operating_systems
+    end
+
+    it 'handles a case when the operating systems endpoint is missing' do
+      client_mock = mock.tap { |m| m.stubs(:operating_systems).raises(OVIRT::OvirtException, '404') }
+      @compute_resource.stubs(:client).returns(client_mock)
+      refute @compute_resource.supports_operating_systems?
     end
   end
 end
