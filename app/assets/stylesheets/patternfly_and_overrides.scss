@@ -307,3 +307,8 @@ a.btn-info span{
     text-overflow: ellipsis;
   }
 }
+
+.dropdown-submenu > .dropdown-menu {
+  max-height: 80vh;
+  overflow-y: auto;
+}
