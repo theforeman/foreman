@@ -6,6 +6,7 @@ module Foreman::Model
     validates :url, :format => { :with => URI.regexp }
     validates :user, :password, :presence => true
     before_create :update_public_key
+    before_validation :update_available_operating_systems unless Rails.env.test?
 
     alias_attribute :datacenter, :uuid
     attr_accessible :datacenter, :ovirt_quota, :public_key, :uuid
@@ -41,7 +42,15 @@ module Foreman::Model
     end
 
     def supports_operating_systems?
-      client.respond_to?(:operating_systems) || rbovirt_client.respond_to?(:operating_systems)
+      if (client.respond_to?(:operating_systems) || rbovirt_client.respond_to?(:operating_systems))
+        unless self.attrs.key?(:available_operating_systems)
+          update_available_operating_systems
+          save
+        end
+        self.attrs[:available_operating_systems] != :unsupported
+      else
+        false
+      end
     end
 
     def determine_os_type(host)
@@ -51,26 +60,23 @@ module Foreman::Model
       os_name = os_name_mapping(host)
       arch_name = arch_name_mapping(host)
 
-      best_match = available_operating_systems.select { |os| os.name.present? }.max_by do |os|
+      best_match = available_operating_systems.select { |os| os[:name].present? }.max_by do |os|
         rating = 0.0
-        if os.name.include?(os_name)
+        if os[:name].include?(os_name)
           rating += 100
-          rating += (1.0/os.name.length) # prefer the shorter names a bit in case we have not found more important some specifics
-          rating += 10 if os.name.include?("#{os_name}_#{host.operatingsystem.major}")
-          rating += 10 if arch_name && os.name.include?(arch_name)
+          rating += (1.0/os[:name].length) # prefer the shorter names a bit in case we have not found more important some specifics
+          rating += 10 if os[:name].include?("#{os_name}_#{host.operatingsystem.major}")
+          rating += 10 if arch_name && os[:name].include?(arch_name)
         end
         rating
       end
 
-      best_match.name if best_match
+      best_match[:name] if best_match
     end
 
     def available_operating_systems
-      return @operating_systems if @operating_systems
-      if client.respond_to?(:operating_systems)
-        @operating_systems = client.operating_systems
-      elsif rbovirt_client.respond_to?(:operating_systems)
-        @operating_systmes = rbovirt_client.operating_systems
+      if attrs.key?(:available_operating_systems)
+        attrs[:available_operating_systems]
       else
         raise Foreman::Exception.new("Listing operating systems is not supported by the current version")
       end
@@ -358,6 +364,23 @@ module Foreman::Model
     end
 
     private
+
+    def update_available_operating_systems
+      ovirt_operating_systems = if client.respond_to?(:operating_systems)
+                                  client.operating_systems
+                                elsif rbovirt_client.respond_to?(:operating_systems)
+                                  rbovirt_client.operating_systems
+                                end
+      attrs[:available_operating_systems] = ovirt_operating_systems.map do |os|
+        { :id => os.id, :name => os.name, :href => os.href }
+      end
+    rescue OVIRT::OvirtException => e
+      if e.message =~ /404/
+        attrs[:available_operating_systems] ||= :unsupported
+      else
+        raise e
+      end
+    end
 
     def os_name_mapping(host)
       host.operatingsystem.name =~ /redhat|centos/i ? 'rhel': host.operatingsystem.name.downcase
