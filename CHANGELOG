@@ -1,3 +1,12 @@
+2016-05-20	Dominic Cleal <dominic@cleal.org>
+	* Release 1.10.4
+
+2016-05-19	Ivan Nečas <inecas@redhat.com>
+	* Fixes #14343 - inherit subnet from hostgroup even for image-based provisioning
+
+2016-05-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #13819 - avoid facts mismatches on import
+
 2016-03-30	Dominic Cleal <dominic@cleal.org>
 	* Release 1.10.3
 	* fixes #14041 - don't call select2 on CR form templates
