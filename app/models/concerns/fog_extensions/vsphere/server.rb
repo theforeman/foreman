@@ -4,6 +4,7 @@ module FogExtensions
       extend ActiveSupport::Concern
 
       attr_accessor :image_id
+      attr_accessor :add_cdrom
 
       def to_s
         name

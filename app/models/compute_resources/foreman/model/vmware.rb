@@ -328,6 +328,8 @@ module Foreman::Model
         args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
       end
 
+      args[:cdroms] = [new_cdrom] if args.delete(:add_cdrom)
+
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
       args.reject! { |k, v| v.nil? }
@@ -433,6 +435,10 @@ module Foreman::Model
 
     def new_volume(attr = { })
       client.volumes.new attr.merge(:size_gb => 10)
+    end
+
+    def new_cdrom(attr = {})
+      client.cdroms.new attr
     end
 
     def pubkey_hash
