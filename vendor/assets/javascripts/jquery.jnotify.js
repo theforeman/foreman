@@ -17,6 +17,9 @@
  *
  * Date: 2010-09-30
  * Rev:  1.1.00
+ *
+ * List of custom changes in accordance with Apache 2.0 licence, 4b:
+ * 2016-05-24: Ondrej Prazak added [1] as a support for turbolinks in Rails applications
  */
 ;(function($){
 	$.jnotify = function (m, o, d){
@@ -121,6 +124,9 @@
 
 		// store the options
 		this.options = options;
+
+		// [1] when using Rails turbolinks, container does not have to be on current page, so try to find him
+		$jnotify = $('.' + defaults.classContainer)[0];
 
 		// if the container doesn't exist, create it
 		if( !$jnotify ){
