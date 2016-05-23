@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   before_filter :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
   before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_filter :authorize
+  before_filter :check_session_cache, :unless => :api_request?
   before_filter :welcome, :only => :index, :unless => :api_request?
   around_filter :set_timezone
   layout :display_layout?

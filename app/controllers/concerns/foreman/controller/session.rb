@@ -1,6 +1,11 @@
 module Foreman::Controller::Session
   extend ActiveSupport::Concern
 
+  # expire the topbar cache when accessing under different session id
+  def check_session_cache
+    TopbarSweeper.check_user_session(User.current.id, session.id) if User.current
+  end
+
   def session_expiry
     return if ignore_api_request?
     if session[:expires_at].blank? || (Time.at(session[:expires_at]).utc - Time.now.utc).to_i < 0
