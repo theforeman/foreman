@@ -19,6 +19,10 @@ module FogExtensions
         @state == "poweredOn"
       end
 
+      def to_s
+        name
+      end
+
       private
 
       attr_reader :raw

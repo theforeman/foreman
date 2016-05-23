@@ -12,6 +12,10 @@ module FogExtensions
         alias_method_chain :locked?, :refresh
       end
 
+      def to_s
+        name
+      end
+
       def locked_with_refresh?
         @volumes = nil # force reload volumes
         locked_without_refresh?
