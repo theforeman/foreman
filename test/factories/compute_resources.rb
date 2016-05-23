@@ -77,6 +77,7 @@ FactoryGirl.define do
       :flavor_id => 'm1.small',
       :availability_zone => 'eu-west-1a'
     })
+    before(:create) { |attr| attr.stubs(:pretty_vm_attrs).returns('m1.small VM') }
   end
 
   factory :compute_profile do
