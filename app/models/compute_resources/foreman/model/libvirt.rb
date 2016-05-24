@@ -147,7 +147,11 @@ module Foreman::Model
       vm.save
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled Libvirt error", e)
-      destroy_vm vm.id if vm
+      begin
+        destroy_vm vm.id if vm && vm.id
+      rescue Fog::Errors::Error => destroy_e
+        Foreman::Logging.exception("Libvirt destroy failed for #{vm.id}", destroy_e)
+      end
       raise e
     end
 
