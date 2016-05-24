@@ -2,7 +2,7 @@ class PuppetclassLookupKey < LookupKey
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, -> { uniq }, :through => :environment_classes
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
-  before_validation :check_override_selected, :if => -> { persisted? }
+  before_validation :check_override_selected, :if => -> { persisted? && @validation_context != :importer }
 
   scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :alias => :puppetclass_name, :complete_value => true
 
