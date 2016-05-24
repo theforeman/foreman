@@ -347,14 +347,22 @@ module Foreman::Model
       raise _("Failed to create X509 certificate, error: %s" % e.message)
     end
 
-    def ca_cert
+    def fetch_unverified(path, query = '')
       ca_url = URI.parse(url)
-      ca_url.path = "/ca.crt"
+      ca_url.path = path
+      ca_url.query = query
       http = Net::HTTP.new(ca_url.host, ca_url.port)
       http.use_ssl = (ca_url.scheme == 'https')
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      request = Net::HTTP::Get.new(ca_url.path)
+      request = Net::HTTP::Get.new(ca_url)
       http.request(request).body
+    rescue => e
+      Foreman::Logging.exception("Unable to fetch CA certificate on path #{path}: #{e}", e)
+      nil
+    end
+
+    def ca_cert
+      fetch_unverified("/ovirt-engine/services/pki-resource", "resource=ca-certificate&format=X509-PEM-CA") || fetch_unverified("/ca.crt")
     end
 
     private
