@@ -220,7 +220,7 @@ class PuppetClassImporter
         key.default_value = value
         key.key_type = nil
         key.validator_type = nil
-        key.save!
+        key.save!(:context => :importer)
       end
     end
   end
