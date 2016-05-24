@@ -68,4 +68,24 @@ class LibvirtTest < ActiveSupport::TestCase
       refute cr.valid?
     end
   end
+
+  describe '#create_vm' do
+    let(:cr) { FactoryGirl.build(:libvirt_cr) }
+
+    test 'exceptions are not obscured' do
+      vm = mock('vm')
+      cr.expects(:new_vm).returns(vm)
+      cr.expects(:create_volumes).raises(Fog::Errors::Error.new 'create_error')
+      cr.expects(:destroy_vm).raises(Fog::Errors::Error.new 'destroy_error')
+      vm.stubs(:id).returns(1)
+      vm.stubs(:name).returns(nil)
+      vm.stubs(:volumes).returns(nil)
+
+      err = assert_raises Fog::Errors::Error do
+        cr.create_vm
+      end
+
+      assert_equal 'create_error', err.message
+    end
+  end
 end
