@@ -22,6 +22,8 @@ module OperatingsystemsHelper
       "Gentoo"
     when /SLC/i
       "SLC"
+    when /FreeBSD/i
+      "FreeBSD"
     else
       return "" if record.family.blank?
       record.family
