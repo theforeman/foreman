@@ -20,5 +20,5 @@
 </div>
 <%= number_f f, :vlanid, :min => 0, :max => 4095, :help_inline => _("Optional: VLAN ID for this subnet") %>
 <%= selectable_f f, :boot_mode, Subnet.boot_modes_with_translations, {},
-                 :help_inline => _("Default boot mode for interfaces assigned to this subnet") %>
+                 :help_inline => _("Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates") %>
 <%= hidden_field_tag :redirect, params[:redirect] %>
