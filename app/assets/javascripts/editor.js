@@ -1,3 +1,15 @@
+require('brace');
+require('brace/ext/textarea');
+require('brace/keybinding/emacs');
+require('brace/keybinding/vim');
+require('brace/theme/twilight');
+require('brace/mode/diff');
+require('brace/mode/json');
+require('brace/mode/ruby');
+require('brace/mode/sh');
+require('brace/mode/text');
+require('brace/mode/xml');
+require('brace/mode/yaml');
 var Editor;
 
 $(document).on('ContentLoad', function(){onEditorLoad()});
@@ -39,8 +51,8 @@ function onEditorLoad(){
 }
 
 function set_keybinding(){
-  var vim = require("ace/keyboard/vim").handler;
-  var emacs = require("ace/keyboard/emacs").handler;
+  var vim = "ace/keyboard/vim";
+  var emacs = "ace/keyboard/emacs";
   var keybindings = [
     null, // Null = use "default" keymapping
     vim,
