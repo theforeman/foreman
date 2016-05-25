@@ -7,6 +7,8 @@ module Api
     force_ssl :if => :require_ssl?
     skip_before_filter :verify_authenticity_token, :unless => :protect_api_from_forgery?
 
+    prepend_before_filter :api_protect_from_forgery
+
     before_filter :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
     before_filter :session_expiry, :update_activity_time
     around_filter :set_timezone
@@ -63,6 +65,12 @@ module Api
 
     def api_request?
       true
+    end
+
+    def api_protect_from_forgery
+      if session[:user]
+        self.class.protect_from_forgery
+      end
     end
 
     protected
