@@ -38,7 +38,9 @@ unless User.unscoped.only_admin.except_hidden.present?
                       :mail      => (ENV['SEED_ADMIN_EMAIL'] || Setting[:administrator]).dup)
       user.admin = true
       user.auth_source = src_internal
-      if ENV['SEED_ADMIN_PASSWORD'].present?
+      if Rails.env.development?
+        user.password = 'changeme'
+      elsif ENV['SEED_ADMIN_PASSWORD'].present?
         user.password = ENV['SEED_ADMIN_PASSWORD']
       else
         random = User.random_password
