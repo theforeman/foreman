@@ -1,4 +1,5 @@
 //= require parameter_override
+var fTools = require('./fTools.js.es6');
 
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
@@ -51,14 +52,14 @@ function computeResourceSelected(item){
     var data = serializeForm().replace('method=patch', 'method=post');
     $('#compute_resource').html(spinner_placeholder(__('Loading virtual machine information ...')));
     $('#compute_resource_tab a').removeClass('tab-error');
-    foreman.tools.showSpinner();
+    fTools.showSpinner();
     var url = $(item).attr('data-url');
     $.ajax({
       type:'post',
       url: url,
       data: data,
       complete: function(){
-        foreman.tools.hideSpinner();
+        fTools.hideSpinner();
         update_nics(function() {
           interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
         });
@@ -281,12 +282,12 @@ function update_form(element, options) {
   var url = $(element).data('url');
   var data = serializeForm().replace('method=patch', 'method=post');
   if (options.data) data = data+options.data;
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
   $.ajax({
     type: 'post',
     url: url,
     data: data,
-    complete: function(){ foreman.tools.hideSpinner(); },
+    complete: function(){ fTools.hideSpinner(); },
     success: function(response) {
       $('form').replaceWith(response);
       multiSelectOnLoad();
@@ -328,7 +329,7 @@ function _to_int(str){
 function architecture_selected(element){
   var attrs   = attribute_hash(['architecture_id', 'organization_id', 'location_id']);
   var url = $(element).attr('data-url');
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
   $.ajax({
     data: attrs,
     type:'post',
@@ -345,7 +346,7 @@ function architecture_selected(element){
 function os_selected(element){
   var attrs = attribute_hash(['operatingsystem_id', 'organization_id', 'location_id']);
   var url = $(element).attr('data-url');
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
   $.ajax({
     data: attrs,
     type:'post',
@@ -557,7 +558,7 @@ function interface_domain_selected(element) {
 
   subnet_options.attr('disabled', true);
 
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
 
   var url = $(element).attr('data-url');
 
@@ -599,7 +600,7 @@ function interface_subnet_selected(element) {
   var interface_ip = $(element).closest('fieldset').find('input[id$=_ip]');
 
   interface_ip.attr('disabled', true);
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
 
   // We do not query the proxy if the ip field is filled in and contains an
   // IP that is in the selected subnet
@@ -612,7 +613,7 @@ function interface_subnet_selected(element) {
 
     if (subnet_contains(network, cidr, interface_ip.val())) {
       interface_ip.attr('disabled', false);
-      foreman.tools.hideSpinner();
+      fTools.hideSpinner();
       return;
     }
   }
@@ -646,7 +647,7 @@ function interface_subnet_selected(element) {
       setError(interface_ip, Jed.sprintf(__("Error generating IP: %s"), error));
     },
     complete:function () {
-      foreman.tools.hideSpinner();
+      fTools.hideSpinner();
       interface_ip.attr('disabled', false);
     }
   });

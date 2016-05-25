@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var common_settings = {
     method      : 'PUT',
-    indicator   : spinner_placeholder(),
+    // indicator   : spinner_placeholder(),
     tooltip     : __('Click to edit..'),
     placeholder : __('Click to edit..'),
     submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},

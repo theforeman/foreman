@@ -1,3 +1,5 @@
+var fTools = require('./fTools.js.es6');
+
 var disabled_tabs = [];
 
 var original_tab_fn = $.fn.tab;
@@ -35,12 +37,12 @@ $(document).on('click', "a[href$='edit'].edit_two_pane", function(e) {
   }
 });
 
-$(document).on('submit','.two-pane-right', function() {
+$(document).on('submit','.two-pane-right',() => {
   two_pane_submit();
   return false;
 });
 
-$(document).on('click', ".two-pane-close", function(e) {
+$(document).on('click', ".two-pane-close", (e) => {
     e.preventDefault();
     two_pane_close();
 });
@@ -59,12 +61,12 @@ function two_pane_open(item){
     type:'GET',
     url: href,
     headers: {"X-Foreman-Layout": "two-pane"},
-    success: function(response){
-      foreman.tools.hideSpinner();
+    success: (response) => {
+      fTools.hideSpinner();
       right_pane_content(response);
     },
-    error: function(response){
-      foreman.tools.hideSpinner();
+    error: (response) => {
+      fTools.hideSpinner();
       $('#content').html(response.responseText);
     }
   });
@@ -76,8 +78,9 @@ function two_pane_submit(){
   $('input[type="submit"]').attr('disabled', true);
   $("body").css("cursor", "progress");
 
-  var url = $('.two-pane-right form').attr('action');
-  var data;
+  let url = $('.two-pane-right form').attr('action');
+  let data;
+  let content_type, process_data;
   if (!("FormData" in window)) {
     data = $('.two-pane-right form').serialize();
     content_type = 'application/x-www-form-urlencoded; charset=UTF-8';
@@ -111,7 +114,7 @@ function two_pane_submit(){
 // show all the table columns and remove the two-pane structure
 function two_pane_close(){
   $('ul.nav-tabs li').removeClass('disabled');
-  $disabled_tabs = [];
+  disabled_tabs = [];
   $('td.active').removeClass('active');
   $('.two-pane-right').remove();
   $('.table-two-pane tr td').show();
@@ -135,7 +138,7 @@ function hide_columns(){
   if ($('.two-pane-left').length == 0){
     $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
-  foreman.tools.showSpinner();
+  fTools.showSpinner();
   $('.two-pane-left').after("<div class='col-md-9 two-pane-right'></div>");
 }
 
