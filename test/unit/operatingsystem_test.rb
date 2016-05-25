@@ -383,4 +383,11 @@ class OperatingsystemTest < ActiveSupport::TestCase
       assert operatingsystem.save
     end
   end
+
+  test 'name can include utf-8 and non-alpha numeric chars' do
+    operatingsystem = FactoryGirl.build(:operatingsystem, :name => '<applet>מערכתההפעלהשלי', :major => 4)
+    assert operatingsystem.valid?
+    assert_equal("#{operatingsystem.id}-applet-מערכתההפעלהשלי 4", operatingsystem.to_param)
+  end
+
 end
