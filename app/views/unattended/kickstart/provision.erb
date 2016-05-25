@@ -14,6 +14,7 @@ This template accepts the following parameters:
 - http-proxy: string (default="")
 - http-proxy-port: string (default="")
 - force-puppet: boolean (default=false)
+- enable-epel: boolean (default=true)
 - enable-puppetlabs-repo: boolean (default=false)
 - enable-puppetlabs-pc1-repo: boolean (default=false)
 - salt_master: string (default=undef)
@@ -78,7 +79,9 @@ repo --name=puppetlabs-pc1 --baseurl=http://yum.puppetlabs.com/fedora/f<%= @host
 <% end -%>
 <% end -%>
 <% elsif rhel_compatible && os_major > 4 -%>
+<% unless @host.param_false?('enable-epel') -%>
 repo --name="EPEL" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-<%= @host.operatingsystem.major %>&arch=<%= @host.architecture %><%= proxy_string %>
+<% end -%>
 <% if puppet_enabled -%>
 <% if @host.param_true?('enable-puppetlabs-repo') -%>
 repo --name=puppetlabs-products --baseurl=http://yum.puppetlabs.com/el/<%= @host.operatingsystem.major %>/products/<%= @host.architecture %><%= proxy_string %>
@@ -123,7 +126,7 @@ wget
 <% if os_major >= 6 -%>
 redhat-lsb-core
 <% end -%>
-<% if rhel_compatible && os_major > 4 -%>
+<% if rhel_compatible && os_major > 4 && !@host.param_false?('enable-epel') -%>
 epel-release
 <% end -%>
 <% if puppet_enabled -%>

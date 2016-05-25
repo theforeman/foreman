@@ -20,7 +20,7 @@ LABEL local
 <%= snippet "pxelinux_discovery" %>
 
 <% for profile in @profiles -%>
-LABEL <%= "#{profile[:template]} - #{profile[:hostgroup]}" %>
+LABEL <%= "#{profile[:hostgroup]} - #{profile[:template]}" %>
      KERNEL <%= profile[:hostgroup].operatingsystem.kernel(profile[:hostgroup].architecture) %>
 <% case profile[:hostgroup].operatingsystem.pxe_type -%>
 <% when 'kickstart' -%>

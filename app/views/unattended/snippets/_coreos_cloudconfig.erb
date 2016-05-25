@@ -3,7 +3,26 @@
 kind: snippet
 name: coreos_cloudconfig
 %>
+<%
+  units = 0
+  unless @host.param_false?('enable_etcd')
+    units += 1
+  end
+  if @host.param_true?('expose_docker_socket')
+    units += 1
+  end
+  if @host.subnet.respond_to?(:dhcp_boot_mode?)
+    dhcp = @host.subnet.dhcp_boot_mode? && !@static
+  else
+    dhcp = !@static
+  end
+  unless dhcp
+    units += 1
+  end
+-%>
+<% if units > 0 -%>
       coreos:
+<% unless @host.param_false?('enable_etcd') -%>
         etcd2:
 <% if @host.params['etcd_discovery_url'] -%>
           discovery: <%= @host.params['etcd_discovery_url'] %>
@@ -12,11 +31,14 @@ name: coreos_cloudconfig
           initial-advertise-peer-urls: http://<%= @host.ip %>:2380
           listen-client-urls: http://0.0.0.0:2379
           listen-peer-urls: http://0.0.0.0:2380
+<% end -%>
         units:
+<% unless @host.param_false?('enable_etcd') -%>
           - name: etcd2.service
             command: start
           - name: fleet.service
             command: start
+<% end -%>
 <% if @host.param_true?('expose_docker_socket') -%>
           - name: docker-tcp.socket
             command: start
@@ -41,11 +63,6 @@ name: coreos_cloudconfig
               [Service]
               Type=oneshot
               ExecStart=/usr/bin/systemctl enable docker-tcp.socket
-<% end -%>
-<% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
-<% dhcp = @host.subnet.dhcp_boot_mode? && !@static -%>
-<% else -%>
-<% dhcp = !@static -%>
 <% end -%>
 <% unless dhcp -%>
           - name: systemd-networkd.service
@@ -74,6 +91,7 @@ name: coreos_cloudconfig
               ExecStart=/usr/bin/bash -c 'for i in $(/usr/bin/ls /sys/class/net/); do [ $i == "lo" ] || (/usr/bin/ip link set $i down; /usr/bin/ip addr flush dev $i); done'
           - name: systemd-networkd.service
             command: restart
+<% end -%>
 <% end -%>
 <% if @host.params['ssh_authorized_keys'] -%>
       ssh_authorized_keys:

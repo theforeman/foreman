@@ -2,7 +2,7 @@
   kind: snippet
   name: remote_execution_ssh_keys
 %>
-# SSH keys setup snippet
+# SSH keys setup snippet for Remote Execution plugin
 #
 # Parameters:
 #
@@ -12,7 +12,8 @@
 #                            authorized
 #
 # This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host.
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This only
+# works in combination with Remote Execution plugin.
 
 # A personal recomendation: create a global parameter remote_execution_ssh_keys
 # and put your keys there, so that you can access any newly provisioned host
@@ -32,4 +33,7 @@ EOF
 chmod 700 <%= ssh_path %>
 chmod 600 <%= ssh_path %>/authorized_keys
 chown -R <%= "#{ssh_user}:" %> <%= ssh_path %>
+
+# Restore SELinux context with restorecon, if it's available:
+command -v restorecon && restorecon -RvF <%= ssh_path %> || true
 <% end %>

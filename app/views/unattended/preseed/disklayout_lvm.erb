@@ -16,7 +16,8 @@ oses:
 <% if @host.params['install-disk'] -%>
 d-i partman-auto/disk string <%= @host.params['install-disk'] %>
 <% else -%>
-d-i partman-auto/disk string /dev/sda /dev/vda /dev/xvda
+# Use the first detected hard disk as default installation disk
+d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
 <% end -%>
 
 ### Partitioning
