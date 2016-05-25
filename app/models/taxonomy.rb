@@ -63,6 +63,14 @@ class Taxonomy < ActiveRecord::Base
     end
   }
 
+  scope :completer_scope, lambda{|opts|
+    if opts[:controller] == 'organizations'
+      Organization.completer_scope opts
+    elsif opts[:controller] == 'locations'
+      Location.completer_scope opts
+    end
+  }
+
   def self.locations_enabled
     enabled?(:location)
   end
