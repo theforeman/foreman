@@ -63,15 +63,22 @@ class BondTest < ActiveSupport::TestCase
     assert_equal [], bond.attached_devices_identifiers
   end
 
-  test 'identifier is required for managed bonds' do
-    bond = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => true, :identifier => '')
-    refute bond.valid?
-    assert_includes bond.errors.keys, :identifier
+  context 'identifier validations' do
+    setup do
+      @host = FactoryGirl.build(:host)
+    end
+
+    test 'identifier is required for managed bonds' do
+      bond = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => true,
+                               :identifier => '', :host => @host)
+      refute_valid bond
+      assert_includes bond.errors.keys, :identifier
+    end
+
+    test 'identifier is not required for unmanaged bonds' do
+      assert_valid FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => false,
+                                     :identifier => '', :host => @host)
+    end
   end
 
-  test 'identifier is not required for unmanaged bonds' do
-    bond = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => false, :identifier => '')
-    bond.valid?
-    refute_includes bond.errors.keys, :identifier
-  end
 end
