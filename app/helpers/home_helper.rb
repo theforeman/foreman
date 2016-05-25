@@ -53,7 +53,7 @@ module HomeHelper
             elsif loc_current
               loc_current
             else
-              _("Any Context")
+              _("Any_Organization@Any_Location")
             end
     title
   end
