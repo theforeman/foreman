@@ -15,6 +15,11 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should handle taxonomy with wrong id" do
+    get :index, { :location_id => taxonomies(:location1).id, :organization_id => 'missing' }
+    assert_response :not_found
+  end
+
   test "should show individual record by ID" do
     get :show, { :id => users(:one).id }
     assert_response :success
