@@ -105,6 +105,10 @@ module Foreman::Model
       templates
     end
 
+    def available_images
+      templates
+    end
+
     def template(id)
       compute = client.templates.get(id) || raise(ActiveRecord::RecordNotFound)
       compute.interfaces
