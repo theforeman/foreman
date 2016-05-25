@@ -430,6 +430,7 @@ class Host::Managed < Host::Base
 
     # downcase everything
     hostname.try(:downcase!)
+    domain.try(:downcase!)
     certname.try(:downcase!)
 
     host = Host.find_by_certname(certname) if certname.present?
