@@ -1,5 +1,6 @@
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
+$(document).on('click', '#params-tab', function() { resizeTextareaAll(); });
 
 function computeResourceSelected(item){
   var compute = $(item).val();
@@ -609,4 +610,17 @@ function disable_vm_form_fields() {
     $(this).attr("disabled", "disabled");
   });
   $("a.disable-unsupported").remove();
+}
+
+function resizeTextareaAll () {
+  $('textarea').each(function() {
+    if (this.scrollHeight !== undefined){
+      if (this.scrollHeight <= 100){
+        this.style.height = this.scrollHeight+ 'px';
+      }
+      else{
+        this.style.height = 100+'px';
+      }
+    }
+  });
 }
