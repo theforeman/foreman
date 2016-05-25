@@ -16,6 +16,10 @@ module FogExtensions
       def vm_description
         pretty_machine_type
       end
+      
+      def image_id
+        image_name
+      end
 
       def volumes_attributes=(attrs); end
 
