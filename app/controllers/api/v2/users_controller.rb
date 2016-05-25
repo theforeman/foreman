@@ -41,6 +41,7 @@ module Api
           param :admin, :bool, :required => false, :desc => N_("is an admin account")
           param :password, String, :required => true
           param :default_location_id, Integer if SETTINGS[:locations_enabled]
+          param :organization_ids, Array, :required => false, :desc => N_("List of organizations ids")
           param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
           param :auth_source_id, Integer, :required => true
           param :timezone, ActiveSupport::TimeZone.zones_map.keys, :required => false, :desc => N_("User's timezone")
@@ -54,7 +55,6 @@ module Api
         Adds role 'Default role' to the user by default
       DOC
       param_group :user, :as => :create
-
       def create
         if @user.save
           process_success
