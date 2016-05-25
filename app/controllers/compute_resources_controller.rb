@@ -2,7 +2,7 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::ComputeResource
 
-  AJAX_REQUESTS = [:template_selected, :cluster_selected, :resource_pools]
+  AJAX_REQUESTS = [:template_selected, :cluster_selected, :resource_pools, :datastores, :networks]
   before_action :ajax_request, :only => AJAX_REQUESTS
   before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
 
@@ -119,13 +119,29 @@ class ComputeResourcesController < ApplicationController
     end
   end
 
+  def datastores
+    return head(:method_not_allowed) unless @compute_resource.is_a? Foreman::Model::Vmware
+    @datastores = @compute_resource.datastores(:cluster_id => params[:cluster_id])
+    respond_to do |format|
+      format.json { render "compute_resources/datastores" }
+    end
+  end
+
+  def networks
+    return head(:method_not_allowed) unless @compute_resource.is_a? Foreman::Model::Vmware
+    networks = @compute_resource.networks(:cluster_id => params[:cluster_id])
+    respond_to do |format|
+      format.json { render :json => networks }
+    end
+  end
+
   private
 
   def action_permission
     case params[:action]
       when 'associate'
         'edit'
-      when 'ping', 'template_selected', 'cluster_selected', 'resource_pools'
+      when 'ping', 'template_selected', 'cluster_selected', 'resource_pools', 'datastores', 'networks'
         'view'
       else
         super

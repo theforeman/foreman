@@ -382,6 +382,8 @@ Foreman::Application.routes.draw do
           post 'template_selected'
           post 'cluster_selected'
           get 'resource_pools'
+          get 'datastores'
+          get 'networks'
           post 'ping'
           put 'associate'
         end

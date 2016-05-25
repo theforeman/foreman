@@ -47,7 +47,7 @@
   <!-- hidden interface forms -->
   <div id="interfaceForms">
     <%= f.fields_for :interfaces do |interface| %>
-      <%= render :partial => interface.object, :locals => {:f => interface, :id => interface.object.object_id}, :layout => 'nic/hidden_layout' %>
+      <%= render :partial => interface.object, :locals => {:f => interface, :id => interface.object.object_id, :compute => @host ? @host.compute_object : compute_resource.new_vm(vm_attrs)}, :layout => 'nic/hidden_layout' %>
     <% end %>
   </div>
   <!-- modal window -->
@@ -68,6 +68,6 @@
     </div>
   </div>
 
-  <%= new_child_fields_template(f, :interfaces, {:partial => Nic::Managed.new, :layout => 'nic/hidden_layout'}) %>
+  <%= new_child_fields_template(f, :interfaces, {:partial => Nic::Managed.new, :layout => 'nic/hidden_layout', :form_builder_attrs => {:compute => @host ? @host.compute_object : compute_resource.new_vm(vm_attrs) }}) %>
 
 </fieldset>

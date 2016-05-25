@@ -227,7 +227,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     storage_domain.stubs(:name).returns('test_vmware_cluster')
     storage_domain.stubs(:id).returns('my11-test35-uuid99')
 
-    Foreman::Model::Vmware.any_instance.expects(:available_storage_domains).with('test_vmware_cluster').returns([storage_domain])
+    Foreman::Model::Vmware.any_instance.expects(:available_storage_domains).with('test_vmware_cluster', nil).returns([storage_domain])
 
     get :available_storage_domains, { :id => compute_resources(:vmware).to_param, :storage_domain => 'test_vmware_cluster' }
     assert_response :success

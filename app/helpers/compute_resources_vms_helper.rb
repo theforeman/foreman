@@ -75,8 +75,9 @@ module ComputeResourcesVmsHelper
     select
   end
 
-  def vsphere_datastores(compute)
-    compute.datastores.map { |datastore| [datastore_stats(datastore), datastore.name] }
+  def vsphere_datastores(compute, cluster)
+    return [[_('Please select a cluster'), '']] unless cluster.present?
+    compute.datastores(:cluster_id => cluster).map { |datastore| [datastore_stats(datastore), datastore.name] }
   end
 
   def datastore_stats(datastore)
@@ -90,6 +91,10 @@ module ComputeResourcesVmsHelper
 
   def storage_pod_stats(pod)
     "#{pod.name} (#{_('free')}: #{number_to_human_size(pod.freespace)}, #{_('prov')}: #{number_to_human_size(pod.capacity - pod.freespace)}, #{_('total')}: #{number_to_human_size(pod.capacity)})"
+  end
+
+  def vsphere_networks(compute, cluster)
+    compute.networks(:cluster_id => cluster)
   end
 
   def available_actions(vm, authorizer = nil)
@@ -153,7 +158,7 @@ module ComputeResourcesVmsHelper
 
   def vsphere_resource_pools(form, compute_resource)
     resource_pools = compute_resource.available_resource_pools(:cluster_id => form.object.cluster) rescue []
-    selectable_f form, :resource_pool, resource_pools, { }, :class => "col-md-2", :label => _('Resource pool')
+    selectable_f form, :resource_pool, resource_pools, { }, :class => "col-md-2", :label => _('Resource pool'), :help_inline => :indicator
   end
 
   def vms_table

@@ -3,13 +3,13 @@
     <%= new_child_fields_template(f, :volumes, {
         :object  => compute_resource.new_volume,
         :partial => provider_partial(compute_resource, 'volume'),
-        :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove storage volume') },
+        :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_host, :compute => f.object, :remove_title => _('remove storage volume') },
         :layout => "compute_resources_vms/form/#{item_layout}_layout" }) %>
 
     <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
 
       <%= f.fields_for :volumes do |i| %>
-        <%= render :partial => provider_partial(compute_resource, 'volume'), :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove storage volume') }, :layout => "compute_resources_vms/form/#{item_layout}_layout" %>
+        <%= render :partial => provider_partial(compute_resource, 'volume'), :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :compute => f.object, :remove_title => _('remove storage volume') }, :layout => "compute_resources_vms/form/#{item_layout}_layout" %>
       <% end %>
 
       <% if new_host %>

@@ -5,8 +5,8 @@
   :class => "span5",
   :label => _("Datastore Cluster"),
   :label_size => "col-md-2",
-  :onchange => 'vsphereStoragePodSelected(this)' if new_host and vsphere_storage_pods(compute_resource).any? %>
-<%= selectable_f f, :datastore, vsphere_datastores(compute_resource), { }, :class => "span5", :label => _("Data store"), :label_size => "col-md-2" %>
+  :onchange => 'window.tfm.computeResources.vsphereStoragePodSelected(this)' if new_host && vsphere_storage_pods(compute_resource).any? %>
+<%= selectable_f f, :datastore, vsphere_datastores(compute_resource, compute.cluster), { }, :class => "span5", :label => _("Data store"), :label_size => "col-md-2", :help_inline => :indicator %>
 <%= text_f f, :name, :class => "col-md-2", :label => _("Name"), :label_size => "col-md-2" %>
 <%= text_f f, :size_gb,
            :class       => "col-md-2",

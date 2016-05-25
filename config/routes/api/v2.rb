@@ -262,6 +262,7 @@ Foreman::Application.routes.draw do
           get 'available_storage_pods/(:storage_pod)', :to => 'compute_resources#available_storage_pods', :on => :member
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
           get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member
+          get 'available_clusters/(:cluster_id)/available_storage_domains', :to => 'compute_resources#available_storage_domains', :on => :member
           get :available_zones, :on => :member
           put :associate, :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]

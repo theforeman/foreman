@@ -192,6 +192,45 @@ class ComputeResourcesControllerTest < ActionController::TestCase
       get :resource_pools, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
       assert_response :method_not_allowed
     end
+
+    test 'datastores' do
+      datastores = [OpenStruct.new(:freespace => 123, :capacity => 567, :uncommitted => 890, :name => 'ds1')]
+      expected = {"datastores"=>[{"datastore"=>{"name"=>"ds1", "free"=>"123 Bytes", "prov"=>"1.3 KB", "total"=>"567 Bytes"}}]}
+      Foreman::Model::Vmware.any_instance.stubs(:datastores).returns(datastores)
+      xhr :get, :datastores, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :success
+      assert_equal(expected, JSON.parse(response.body))
+    end
+
+    test 'datastores for non-vmware compute resource should return not allowed' do
+      compute_resource = compute_resources(:mycompute)
+      xhr :get, :datastores, {:id => compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :method_not_allowed
+    end
+
+    test 'datastores should respond only to ajax call' do
+      get :datastores, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :method_not_allowed
+    end
+
+    test 'networks' do
+      networks = ['network1', 'network2']
+      Foreman::Model::Vmware.any_instance.stubs(:networks).returns(networks)
+      xhr :get, :networks, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :success
+      assert_equal(networks, JSON.parse(response.body))
+    end
+
+    test 'networks for non-vmware compute resource should return not allowed' do
+      compute_resource = compute_resources(:mycompute)
+      xhr :get, :networks, {:id => compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :method_not_allowed
+    end
+
+    test 'networks should respond only to ajax call' do
+      get :networks, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      assert_response :method_not_allowed
+    end
   end
 
   def set_session_user
