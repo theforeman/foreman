@@ -7,11 +7,19 @@ module Api
     end
 
     def set_taxonomy_scope
-      if SETTINGS[:locations_enabled]
+      if SETTINGS[:locations_enabled] && params[:location_id].present?
         Location.current ||= @location = Location.find_by_id(params[:location_id])
+        unless @location
+          not_found _("Location with id %{id} not found") % { :id => params[:location_id] }
+          return false
+        end
       end
-      if SETTINGS[:organizations_enabled]
+      if SETTINGS[:organizations_enabled] && params[:organization_id].present?
         Organization.current ||= @organization = Organization.find_by_id(params[:organization_id])
+        unless @organization
+          not_found _("Organization with id %{id} not found") % { :id => params[:organization_id] }
+          return false
+        end
       end
     end
   end
