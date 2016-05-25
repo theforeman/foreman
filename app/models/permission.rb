@@ -11,7 +11,7 @@ class Permission < ActiveRecord::Base
   scoped_search :on => :resource_type
 
   def self.resources
-    @all_resources ||= Permission.uniq.order(:resource_type).pluck(:resource_type).compact
+    @all_resources ||= Permission.order(:resource_type).pluck(:resource_type).compact.map { |r| r.delete("'") }.uniq
   end
 
   def self.resources_with_translations
