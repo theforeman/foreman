@@ -1511,6 +1511,7 @@ class HostTest < ActiveSupport::TestCase
       parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
       host.set_interfaces(parser)
+      assert_equal "Ip has already been taken", host.interfaces.collect(&:errors).collect(&:full_messages).flatten.first
       host.reload
       assert_includes host.interfaces.map(&:identifier), 'eth2'
       assert_includes host.interfaces, host.primary_interface

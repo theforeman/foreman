@@ -213,6 +213,11 @@ module Host
         iface = get_interface_scope(name, attributes).first || interface_class(name).new(:managed => false)
         # create or update existing interface
         set_interface(attributes, name, iface)
+        if iface.primary?
+          self.interfaces[0] = iface
+        else
+          self.interfaces << iface
+        end
       end
 
       ipmi = parser.ipmi_interface
@@ -221,9 +226,8 @@ module Host
         iface = existing || Nic::BMC.new(:managed => false)
         iface.provider ||= 'IPMI'
         set_interface(ipmi, 'ipmi', iface)
+        self.interfaces << iface
       end
-
-      self.interfaces.reload
     end
 
     def facts_hash
