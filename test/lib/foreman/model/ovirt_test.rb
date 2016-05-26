@@ -23,7 +23,7 @@ class OvirtTest < ActiveSupport::TestCase
 
   test "test_connection should fail if datacenters not found (404)" do
     client = stub()
-    client.stubs(:datacenters).raises(StandardError.new('404 error'))
+    client.stubs(:datacenters).raises(OVIRT::OvirtException.new('404 error'))
     record = new_ovirt_cr
     record.stubs(:client).returns(client)
     record.test_connection
@@ -33,7 +33,7 @@ class OvirtTest < ActiveSupport::TestCase
 
   test "test_connection should fail if not authorized for datacenters (401)" do
     client = stub()
-    client.stubs(:datacenters).raises(StandardError.new('401 error'))
+    client.stubs(:datacenters).raises(OVIRT::OvirtException.new('401 error'))
     record = new_ovirt_cr
     record.stubs(:client).returns(client)
     record.test_connection
@@ -46,7 +46,7 @@ class OvirtTest < ActiveSupport::TestCase
     record.expects(:client).never()
     record.stubs(:datacenters).returns(['example', 1])
     # returned by oVirt when HTTP is valid and we POST to /api
-    RestClient.expects(:post).raises(StandardError.new('406 Not Acceptable'))
+    RestClient.expects(:post).raises(OVIRT::OvirtException.new('406 Not Acceptable'))
     assert record.test_connection
     assert_equal [], record.errors[:base]
   end
@@ -65,9 +65,19 @@ class OvirtTest < ActiveSupport::TestCase
     record.expects(:client).never()
     record.stubs(:datacenters).returns(['example', 1])
     # RestClient throws 302 as an error during POSTs
-    RestClient.expects(:post).raises(StandardError.new('302 Found'))
+    RestClient.expects(:post).raises(OVIRT::OvirtException.new('302 Found'))
     record.test_connection
     assert_match /HTTPS/, record.errors[:url].first
     assert_equal [], record.errors[:base]
+  end
+
+  test "test_connection should detect insufficient permissions message" do
+    client = stub()
+    client.stubs(:datacenters).raises(OVIRT::OvirtException.new('insufficient permissions'))
+    record = new_ovirt_cr
+    record.stubs(:client).returns(client)
+    record.test_connection
+    assert record.errors[:user].present?
+    assert_includes record.errors[:user].first, 'try using user level API.'
   end
 end
