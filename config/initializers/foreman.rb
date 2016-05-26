@@ -1,4 +1,5 @@
 require 'foreman/access_permissions'
+require 'foreman/permitted_attributes'
 require 'menu/loader'
 require 'dashboard/loader'
 require 'foreman/plugin'
