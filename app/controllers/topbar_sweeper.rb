@@ -18,7 +18,8 @@ class TopbarSweeper < ActionController::Caching::Sweeper
   end
 
   def self.fragment_name(id = User.current.id)
-    "tabs_and_title_records-#{id}"
+    @@top_menu_cache_hash ||= Menu::Manager.items(:top_menu).content_hash
+    "tabs_and_title_records-#{@@top_menu_cache_hash}-#{id}"
   end
 
   def self.expire_cache(controller)
