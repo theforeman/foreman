@@ -65,4 +65,8 @@ module ComputeResourcesHelper
   def unset_password?
     action_name == "edit" || action_name == "test_connection"
   end
+
+  def unset_password?
+    action_name == "edit" || action_name == "test_connection"
+  end
 end
