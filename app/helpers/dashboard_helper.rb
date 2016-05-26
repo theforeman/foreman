@@ -36,6 +36,9 @@ module DashboardHelper
   end
 
   def render_widget(widget)
+    if widget.data.include?('trend_id')
+      @trend = Trend.find(widget.data['trend_id'])
+    end
     render(:partial => widget.template, :locals => widget.data)
   rescue ActionView::MissingTemplate
     ::Foreman::Exception.new(N_("Missing template '%{template}' for widget '%{widget}'."), :widget => _(widget.name), :template => widget.template)

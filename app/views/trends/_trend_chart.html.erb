@@ -1,0 +1,3 @@
+<h4 class="ca"><%= "#{trend_title(@trend)}" %></h4>
+<%= last_days(range) %>
+<%= flot_chart 'trend_graph','' ,_('Number of Hosts') , chart_data(@trend, range.to_i.days.ago), :class=>'statistics-chart stack', :legend => 'external' %>

@@ -6,7 +6,7 @@ module Dashboard
                         {:template=>'reports_widget',      :sizex=>6,:sizey=>1,:name=> N_('Report summary')},
                         {:template=>'distribution_widget', :sizex=>6,:sizey=>1,:name=> N_('Distribution chart')}]
     # Widget templates that are allowed on dashboard. Default widgets automatically allow their templates.
-    ALLOWED_TEMPLATES = []
+    ALLOWED_TEMPLATES = ['trends/trend_chart']
 
     def self.load
       DEFAULT_WIDGETS.each{ |widget| Dashboard::Manager.register_default_widget(widget) }
