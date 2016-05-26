@@ -89,6 +89,7 @@ class Solaris < Operatingsystem
     server_ip   = host.domain.resolver.getaddress(server_name).to_s
     jpath       = jumpstart_path host.medium, host.domain
     ipath       = interpolate_medium_vars(host.medium.media_dir, host.architecture.name, self)
+    network      = host.subnet.network
 
     {
       :vendor => "<#{vendor}>",
@@ -98,7 +99,8 @@ class Solaris < Operatingsystem
       :install_server_ip     => server_ip,                              # 192.168.216.241
       :install_server_name   => server_name.split('.').first,           # mediahost
       :install_path          => ipath,                                  # /vol/solgi_5.10/sol10_hw0910
-      :sysid_server_path     => "#{jpath}/sysidcfg/sysidcfg_primary",   # 192.168.216.241:/vol/jumpstart/sysidcfg/sysidcfg_primary
+      :sysid_server_path     => "#{jpath}/sysidcfg/sysidcfg_primary/#{network}",
+                                                                        # 192.168.216.241:/vol/jumpstart/sysidcfg/sysidcfg_primary/192.168.216.0
       :jumpstart_server_path => jpath,                                  # 192.168.216.241:/vol/jumpstart
     }
   end
