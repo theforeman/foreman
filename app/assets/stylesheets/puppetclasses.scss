@@ -36,4 +36,9 @@
   .matcher_value {
     width: 60%;
   }
+
+  .nav a.btn-success:focus{
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
 }
