@@ -86,6 +86,7 @@ module LayoutHelper
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options.merge!(:size => "col-md-10")
+    html_options["class"] = "without_select2"
     authorized = authorized_associations(associations).all
 
     # select2.js breaks the multiselects disabled items location
