@@ -20,7 +20,7 @@ class Taxonomy < ActiveRecord::Base
     :realm_ids, :realm_names,
     :smart_proxy_ids, :smart_proxy_names,
     :subnet_ids, :subnet_names,
-    :user_ids, :users, :user_names
+    :user_ids, :user_names
 
   belongs_to :user
   before_destroy EnsureNotUsedBy.new(:hosts)
