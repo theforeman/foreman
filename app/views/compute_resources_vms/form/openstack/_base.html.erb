@@ -3,12 +3,20 @@
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
+   snapshots = compute_resource.available_snapshots
+
 %>
 <%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")}, :label => _('Availability zone'), :label_size => "col-md-2" %>
 <div id='image_selection'>
   <%= select_f f, :image_ref, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
                { :disabled => images.empty?, :label => _("Image"), :label_size => "col-md-2" } %>
+</div>
+<div id='snapshot_selection'>
+  <%= checkbox_f f, :clone_from_snapshot, {:label => "Clone from snapshot", :help_inline => _("Use snapshot instead of image"), :id => 'use_snapshot_for_vm'}, "true", "false" %>
+  <%= select_f f, :snapshot_id, snapshots, :id, :name,
+               { :include_blank => (snapshots.empty? || snapshots.size == 1) ? false : _('Please select a snapshot') },
+               { :disabled => snapshots.empty?, :label => _("Snapsot") } %>
 </div>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name, {}, :label => _('Tenant'), :label_size => "col-md-2" %>
 
