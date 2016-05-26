@@ -695,6 +695,7 @@ class Host::Managed < Host::Base
   exclude_from_clone :name, :uuid, :certname, :last_report, :lookup_value_matcher
 
   def clone
+    Thread.current[:inside_clone] = true
     # do not copy system specific attributes
     host = self.selective_clone
 
@@ -706,6 +707,8 @@ class Host::Managed < Host::Base
     end
     host.refresh_global_status
     host
+  ensure
+    Thread.current[:inside_clone] = false
   end
 
   def bmc_nic
