@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V2::InterfacesControllerTest < ActionController::TestCase
   valid_attrs = { 'name' => "test.foreman.com", 'ip' => "10.0.1.1", 'mac' => "AA:AA:AA:AA:AA:AA",
                   'username' => "foo", 'password' => "bar", 'provider' => "IPMI",
-                  'type' => "bmc" }
+                  'type' => "bmc", 'compute_attributes' => { 'test' => "yes" } }
 
   def setup
     @host = FactoryGirl.create(:host)
@@ -24,6 +24,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
     assert "bmc", show_response["type"]
+    assert "yes", show_response["compute_attributes"]["test"]
   end
 
   test "create interface" do
