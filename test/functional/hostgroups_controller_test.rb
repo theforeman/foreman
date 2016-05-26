@@ -152,6 +152,50 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_equal(1, (assigns(:hostgroup).puppetclasses.length))
   end
 
+  context 'warnings' do
+    test 'should show warning, if connected to hosts in multiple orgs' do
+      org1 = FactoryGirl.create(:organization)
+      org2 = FactoryGirl.create(:organization)
+
+      hg = FactoryGirl.create(:hostgroup)
+
+      FactoryGirl.create(:host, :managed, :hostgroup => hg, :organization => org1)
+      FactoryGirl.create(:host, :managed, :hostgroup => hg, :organization => org2)
+
+      get :edit, { :id => hg.id }, set_session_user
+
+      assert_select '.alert-warning', /organizations/
+    end
+
+    test 'should show warning, if connected to hosts in multiple locations' do
+      loc1 = FactoryGirl.create(:location)
+      loc2 = FactoryGirl.create(:location)
+
+      hg = FactoryGirl.create(:hostgroup)
+
+      FactoryGirl.create(:host, :managed, :hostgroup => hg, :location => loc1)
+      FactoryGirl.create(:host, :managed, :hostgroup => hg, :location => loc2)
+
+      get :edit, { :id => hg.id }, set_session_user
+
+      assert_select '.alert-warning', /locations/
+    end
+
+    test 'should not show warnings if all hosts belong to the same taxonomy' do
+      loc1 = FactoryGirl.create(:location)
+      org1 = FactoryGirl.create(:organization)
+
+      hg = FactoryGirl.create(:hostgroup)
+
+      FactoryGirl.create(:host, :managed, :hostgroup => hg, :location => loc1, :organization => org1)
+      FactoryGirl.create(:host, :managed, :hostgroup => hg, :location => loc1, :organization => org1)
+
+      get :edit, { :id => hg.id }, set_session_user
+
+      assert_select '.alert-warning', 0
+    end
+  end
+
   describe "parent attributes" do
     before do
       @base = FactoryGirl.create(:hostgroup)

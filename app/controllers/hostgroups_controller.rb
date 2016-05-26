@@ -6,6 +6,8 @@ class HostgroupsController < ApplicationController
   before_filter :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
   before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
+  include Foreman::Controller::TaxonomyWarnings
+
   def index
     @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
   end

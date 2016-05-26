@@ -11,6 +11,14 @@ module HostgroupsHelper
     msg.join("\n")
   end
 
+  def editor_warnings
+    return unless @warnings
+
+    @warnings.map do |warning|
+      alert(:class => 'alert-warning', :text => warning)
+    end.join().html_safe
+  end
+
   def parent_hostgroups
     if @hostgroup.new_record?
       accessible_hostgroups
