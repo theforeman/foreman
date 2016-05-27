@@ -10,9 +10,16 @@ class CreateHostStatus < ActiveRecord::Migration
     add_foreign_key "host_status", "hosts", :name => "host_status_hosts_host_id_fk", :column => 'host_id'
     add_column :hosts, :global_status, :integer, :default => 0, :null => false
 
+    success = true
     Host.includes(:host_statuses, :last_report_object).find_each do |host|
-      host.refresh_statuses
+      begin
+        host.importing_facts = true # disable orchestration
+        success &= update_statuses(host)
+      ensure
+        host.importing_facts = false
+      end
     end
+    say "some host status could not be saved, please see the log for more details" unless success
 
     remove_column :hosts, :puppet_status
   end
@@ -32,5 +39,42 @@ class CreateHostStatus < ActiveRecord::Migration
     end
 
     drop_table :host_status
+  end
+
+  private
+
+  def update_statuses(host)
+    results = HostStatus.status_registry.map do |status_class|
+      status = host.get_status(status_class)
+      update_sub_status(status)
+    end
+
+    if results.any?
+      host.host_statuses.reload
+      host.refresh_global_status
+
+      unless (saved = host.save(:validate => false))
+        logger.warn "Skipping global status refresh for host #{host.name}"
+      end
+      results.push saved
+    end
+
+    !results.include?(false)
+  end
+
+  # returns array of true/false/nil
+  # true means sub status is updated
+  # false means some error
+  # nil means status is not relevant
+  def update_sub_status(status)
+    if status.relevant?
+      status.refresh!
+      return true
+    end
+  rescue => e
+    # if the status is not ready to be saved because of missing migration
+    # we skip it and let it refresh by itself
+    logger.warn "skipping sub-status #{status.class} refresh, it's not ready - #{e.message}"
+    false
   end
 end
