@@ -255,7 +255,7 @@ function template_info(div, url) {
   // Use a post to avoid request URI too large issues with big forms
   $.ajax({
     type: "POST",
-    url: url + "?provisioning=" + build,
+    url: url + "&provisioning=" + build,
     data: form,
     success: function(response, status, xhr) {
       $(div).html(response);
