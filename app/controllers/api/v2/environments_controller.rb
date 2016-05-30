@@ -58,6 +58,24 @@ module Api
 
       private
 
+      def action_permission
+        case params[:action]
+        when 'import_puppetclasses'
+          :import_puppetclasses
+        else
+          super
+        end
+      end
+
+      def parent_permission(child_permission)
+        case child_permission.to_s
+        when 'import_puppetclasses'
+          :view
+        else
+          super
+        end
+      end
+
       def allowed_nested_id
         %w(puppetclass_id location_id organization_id)
       end
