@@ -780,44 +780,6 @@ class HostTest < ActiveSupport::TestCase
       end
     end
 
-    context 'owner_type validations' do
-      test "should save if owner_type is User or Usergroup" do
-        host = FactoryGirl.build(:host, :owner_type => "User", :owner => User.current)
-        assert_valid host
-      end
-
-      test "should not save if owner_type is not User or Usergroup" do
-        host = FactoryGirl.build(:host, :owner_type => "UserGr(up") # should be Usergroup
-        refute_valid host
-      end
-
-      test 'should succeed validation if owner not set' do
-        host = FactoryGirl.build(:host, :without_owner)
-        assert_valid host
-      end
-
-      test "should not save if owner_type is set without owner" do
-        host = FactoryGirl.build(:host, :owner_type => "Usergroup")
-        refute_valid host
-        assert_match(/owner must be specified/, host.errors[:owner].first)
-      end
-
-      test "should not save if owner_type is not in sync with owner" do
-        host = FactoryGirl.build(:host, :owner => User.current)
-        host.owner_type = 'Usergroup'
-        refute_valid host
-        assert_match(/Usergroup/, host.errors[:owner].first)
-      end
-    end
-
-    test "should not save if owner_type is not User or Usergroup" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
-        :owner_type => "UserGr(up" # should be Usergroup
-      refute host.valid?
-    end
-
     test "should not save if installation media is missing" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => FactoryGirl.create(:ptable),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
@@ -1928,13 +1890,6 @@ class HostTest < ActiveSupport::TestCase
       end
     end
 
-    test "can auto-complete owner searches by current_user" do
-      as_admin do
-        completions = Host::Managed.complete_for("owner = ")
-        assert completions.include?("owner = current_user"), "completion missing: current_user"
-      end
-    end
-
     test "should accept lookup_values_attributes" do
       h = FactoryGirl.create(:host)
       as_admin do
@@ -1957,23 +1912,6 @@ class HostTest < ActiveSupport::TestCase
       results = Host.search_for("owner = current_user")
       assert_equal 1, results.count
       assert_equal results[0].owner, User.current
-    end
-
-    test "can search hosts by owner" do
-      FactoryGirl.create(:host)
-      results = Host.search_for("owner = " + User.current.login)
-      assert_equal User.current.hosts.count, results.count
-      assert_equal results[0].owner, User.current
-    end
-
-    test "search by user returns only the relevant hosts" do
-      host = nil
-      as_user :one do
-        host = FactoryGirl.create(:host)
-      end
-      refute_equal User.current, host.owner
-      results = Host.search_for("owner = " + User.current.login)
-      refute results.include?(host)
     end
 
     test "search by params returns only the relevant hosts" do

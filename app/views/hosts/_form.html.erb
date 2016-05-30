@@ -114,7 +114,7 @@
         <% if SETTINGS[:login] %>
           <%= selectable_f f, :is_owned_by, option_groups_from_collection_for_select(
             [User.authorized(:view_users), Usergroup.authorized(:view_usergroups)], :visible, :table_name, :id_and_type, :select_title,
-            @host.is_owned_by || User.current.id_and_type), { :include_blank => _("select an owner") }, { :label => _("Owned By") }
+            @host.owner_suggestion.id_and_type), { :include_blank => _("Select an owner") }, { :label => _("Owned By") }
           %>
         <% end %>
         <%= checkbox_f f, :enabled,

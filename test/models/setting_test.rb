@@ -462,6 +462,12 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal /\Aa.*\Z|\Ab.*\Z/, Setting.convert_array_to_regexp(['a*', 'b*'])
   end
 
+  test "host's owner should be valid" do
+    assert_raises(ActiveRecord::RecordInvalid) do
+      Setting[:host_owner] = "xyz"
+    end
+  end
+
   private
 
   def check_parsed_value(settings_type, expected_value, string_value)

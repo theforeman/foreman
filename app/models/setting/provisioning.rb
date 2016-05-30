@@ -12,8 +12,11 @@ class Setting::Provisioning < Setting
   def self.default_settings
     fqdn = Facter.value(:fqdn) || SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"
+    select = [{:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'},
+              {:name => _("Usergroup"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
 
     [
+      self.set('host_owner', N_("Default owner on provisioned hosts, if empty Foreman will use current user"), nil, N_('Host owner'), nil, {:collection => Proc.new { select }, :include_blank => _("Select an owner")}),
       self.set('root_pass', N_("Default encrypted root password on provisioned hosts"), nil, N_('Root password')),
       self.set('unattended_url', N_("URL hosts will retrieve templates from during build (normally http as many installers don't support https)"), unattended_url, N_('Unattended URL')),
       self.set('safemode_render', N_("Enable safe mode config templates rendering (recommended)"), true, N_('Safemode rendering')),

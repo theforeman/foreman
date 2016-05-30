@@ -5,11 +5,11 @@ module Host
     include Parameterizable::ByName
     include DestroyFlag
     include InterfaceCloning
+    include Hostext::Ownership
 
     self.table_name = :hosts
     extend FriendlyId
     friendly_id :name
-    OWNER_TYPES = %w(User Usergroup)
 
     validates_lengths_from_database
     belongs_to :model, :name_accessor => 'hardware_model_name'
@@ -29,17 +29,11 @@ module Host
     belongs_to :organization
 
     alias_attribute :hostname, :name
-    before_validation :set_default_user
 
     validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}
-    validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
-                                           :allow_blank => true,
-                                           :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', ')) }
-    validate :validate_owner
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
     validate :build_managed_only
-    validate :owner_taxonomies_match, :if => Proc.new { |host| host.owner.is_a?(User) }
 
     include PxeLoaderSuggestion
 
@@ -318,22 +312,6 @@ module Host
 
     private
 
-    def owner_taxonomies_match
-      return true if self.owner.admin?
-
-      if Organization.organizations_enabled && self.organization_id && !self.owner.my_organizations.where(:id => self.organization_id).exists?
-        errors.add :is_owned_by, _("does not belong into host's organization")
-      end
-      if Location.locations_enabled && self.location_id && !self.owner.my_locations.where(:id => self.location_id).exists?
-        errors.add :is_owned_by, _("does not belong into host's location")
-      end
-    end
-
-    def set_default_user
-      self.owner ||= User.current if self.owner_type.nil? && self.owner_id.nil?
-      true
-    end
-
     def build_values_for_primary_interface!(values_for_primary_interface, args)
       new_attrs = args.shift
       unless new_attrs.nil?
@@ -531,20 +509,6 @@ module Host
         root_pass == hostgroup.try(:read_attribute, :root_pass)
       else
         true
-      end
-    end
-
-    def validate_owner
-      return true if self.owner_type.nil? && self.owner.nil?
-
-      add_owner_error if self.owner_type.present? && self.owner.nil?
-    end
-
-    def add_owner_error
-      if self.owner_id.present?
-        errors.add(:owner, (_('There is no owner with id %d and type %s') % [self.owner_id, self.owner_type]))
-      else
-        errors.add(:owner, _('If owner type is specified, owner must be specified too.'))
       end
     end
   end
