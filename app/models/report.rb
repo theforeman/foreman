@@ -61,11 +61,6 @@ class Report < ActiveRecord::Base
     "#{host.name} / #{reported_at}"
   end
 
-  def self.import(report, proxy_id = nil)
-    Foreman::Deprecation.deprecation_warning('1.13', "Report model has turned to be STI, please use child classes")
-    ConfigReportImporter.import(report, proxy_id)
-  end
-
   # add sort by report time
   def <=>(other)
     self.created_at <=> other.created_at

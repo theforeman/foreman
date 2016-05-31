@@ -23,8 +23,7 @@ class ReportImporter
 
   # to be overriden in children
   def report_name_class
-    Foreman::Deprecation.deprecation_warning('1.13', "Report model has turned to be STI, please use child classes")
-    Report
+    raise NotImplementedError, "#{__method__} not implemented for this report importer"
   end
 
   def initialize(raw, proxy_id = nil)

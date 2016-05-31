@@ -152,7 +152,7 @@ class Host::Managed < Host::Base
   scope :with_compute_resource, -> { where.not(:compute_resource_id => nil, :uuid => nil) }
 
   # audit the changes to this model
-  audited :except => [:last_report, :puppet_status, :last_compile, :lookup_value_matcher], :allow_mass_assignment => true
+  audited :except => [:last_report, :last_compile, :lookup_value_matcher], :allow_mass_assignment => true
   has_associated_audits
   #redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
   has_many :audits, -> { where(:auditable_type => 'Host') }, :foreign_key => :auditable_id,
@@ -447,14 +447,6 @@ class Host::Managed < Host::Base
     host.puppet_proxy_id ||= proxy_id if import_type == 'puppet'
 
     host
-  end
-
-  # JSON is auto-parsed by the API, so these should be in the right format
-  def self.import_host_and_facts(hostname, facts, certname = nil, proxy_id = nil)
-    Foreman::Deprecation.deprecation_warning('1.13', 'Host::Managed#import_host_and_facts has been deprecated, you should use import_host and import_facts method instead')
-    host = import_host(hostname, facts[:_type] || 'puppet', certname, proxy_id)
-    state = host.import_facts(facts)
-    [host, state]
   end
 
   def attributes_to_import_from_facts
@@ -887,11 +879,6 @@ class Host::Managed < Host::Base
 
   def configuration_status_label(options = {})
     @configuration_status_label ||= get_status(HostStatus::ConfigurationStatus).to_label(options)
-  end
-
-  def puppet_status
-    Foreman::Deprecation.deprecation_warning('1.13', 'Host#puppet_status has been deprecated, you should use configuration_status')
-    configuration_status
   end
 
   def build_status(options = {})

@@ -18,7 +18,7 @@ attributes :ip, :ip6, :environment_id, :environment_name, :last_report, :mac, :r
 attributes :organization_id, :organization_name if SETTINGS[:organizations_enabled]
 attributes :location_id, :location_name         if SETTINGS[:locations_enabled]
 
-# to avoid deprecation warning on puppet_status method
+# for compatibility, :puppet_status was moved to host statuses
 attributes :configuration_status => :puppet_status
 
 # to avoid renaming model_name to match accessors
