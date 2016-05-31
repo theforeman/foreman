@@ -8,7 +8,7 @@ attributes :name, :id, :ip, :environment_id, :last_report, :updated_at, :created
            :puppet_proxy_id, :certname, :image_id, :created_at, :updated_at,
            :last_compile, :root_pass
 
-# to avoid deprecation warning on puppet_status method
+# for compatibility, :puppet_status was moved to host statuses
 attributes :configuration_status => :puppet_status
 
 attribute :organization_id if SETTINGS[:organizations_enabled]
