@@ -1601,7 +1601,7 @@ msgstr ""
 msgid "Default behavior"
 msgstr "Default value"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
@@ -2413,7 +2413,7 @@ msgstr ""
 msgid "Failed to fetch: "
 msgstr ""
 
-msgid "Failed to generate %{template_kind} template: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
 msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
@@ -4052,6 +4052,9 @@ msgstr ""
 msgid "Location parameters"
 msgstr ""
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr ""
 
@@ -5040,6 +5043,9 @@ msgid "Organization fact"
 msgstr "Organizations and/or"
 
 msgid "Organization parameters"
+msgstr ""
+
+msgid "Organization with id %{id} not found"
 msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
@@ -6717,6 +6723,9 @@ msgid "Template"
 msgstr ""
 
 msgid "Template %s is empty."
+msgstr ""
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
 msgstr ""
 
 msgid "Template Diff"

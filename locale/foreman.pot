@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-25 08:46+0100\n"
-"PO-Revision-Date: 2016-05-25 08:46+0100\n"
+"POT-Creation-Date: 2016-05-31 16:00+0100\n"
+"PO-Revision-Date: 2016-05-31 16:00+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -212,7 +212,7 @@ msgid "Error generating IP: %s"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:27
-#: ../app/models/nic/managed.rb:46
+#: ../app/models/nic/managed.rb:49
 msgid "Interface"
 msgstr ""
 
@@ -3009,6 +3009,14 @@ msgstr ""
 msgid "No changes to your environments detected"
 msgstr ""
 
+#: ../app/controllers/concerns/api/taxonomy_scope.rb:13
+msgid "Location with id %{id} not found"
+msgstr ""
+
+#: ../app/controllers/concerns/api/taxonomy_scope.rb:20
+msgid "Organization with id %{id} not found"
+msgstr ""
+
 #: ../app/controllers/concerns/api/v2/lookup_keys_common_controller.rb:130
 msgid "%{model} with id '%{id}' was not found"
 msgstr ""
@@ -5157,39 +5165,39 @@ msgstr ""
 msgid "DHCP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:79
+#: ../app/models/concerns/orchestration/dhcp.rb:82
 msgid ""
 "Unable to determine the host's boot server. The DHCP smart proxy failed to pro"
 "vide this information and this subnet is not provided with TFTP services."
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:81
+#: ../app/models/concerns/orchestration/dhcp.rb:84
 msgid "failed to detect boot server: %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:88
+#: ../app/models/concerns/orchestration/dhcp.rb:91
 msgid "DHCP not supported for this NIC"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:117
-#: ../app/models/concerns/orchestration/dhcp.rb:126
+#: ../app/models/concerns/orchestration/dhcp.rb:120
+#: ../app/models/concerns/orchestration/dhcp.rb:129
 msgid "Create DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:124
-#: ../app/models/concerns/orchestration/dhcp.rb:149
+#: ../app/models/concerns/orchestration/dhcp.rb:127
+#: ../app/models/concerns/orchestration/dhcp.rb:152
 msgid "Remove DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:158
+#: ../app/models/concerns/orchestration/dhcp.rb:161
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:166
+#: ../app/models/concerns/orchestration/dhcp.rb:169
 msgid "does not match selected subnet"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:180
+#: ../app/models/concerns/orchestration/dhcp.rb:183
 msgid "DHCP records %s already exists"
 msgstr ""
 
@@ -5323,30 +5331,30 @@ msgstr ""
 msgid "TFTP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:62
-msgid "Failed to generate %{template_kind} template: %{e}"
+#: ../app/models/concerns/orchestration/tftp.rb:64
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:89
+#: ../app/models/concerns/orchestration/tftp.rb:91
 msgid "Failed to fetch boot files"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:104
+#: ../app/models/concerns/orchestration/tftp.rb:106
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define a"
 "t least one in your %{os} settings"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:123
-#: ../app/models/concerns/orchestration/tftp.rb:153
+#: ../app/models/concerns/orchestration/tftp.rb:125
+#: ../app/models/concerns/orchestration/tftp.rb:155
 msgid "TFTP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:126
+#: ../app/models/concerns/orchestration/tftp.rb:128
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:143
+#: ../app/models/concerns/orchestration/tftp.rb:145
 msgid "Remove old TFTP Settings for %s"
 msgstr ""
 
@@ -5366,7 +5374,7 @@ msgstr ""
 msgid "is not valid"
 msgstr ""
 
-#: ../app/models/concerns/validate_os_family.rb:9 ../app/models/subnet.rb:58
+#: ../app/models/concerns/validate_os_family.rb:9 ../app/models/subnet.rb:62
 msgid "must be one of [ %s ]"
 msgstr ""
 
@@ -5382,7 +5390,7 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: ../app/models/domain.rb:32 ../app/models/subnet.rb:61
+#: ../app/models/domain.rb:32 ../app/models/subnet.rb:65
 msgid "does not have the DNS feature"
 msgstr ""
 
@@ -5466,59 +5474,59 @@ msgstr ""
 msgid "is unknown"
 msgstr ""
 
-#: ../app/models/host/managed.rb:493
+#: ../app/models/host/managed.rb:494
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:551
+#: ../app/models/host/managed.rb:552
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:552
+#: ../app/models/host/managed.rb:553
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:647
+#: ../app/models/host/managed.rb:648
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:653
+#: ../app/models/host/managed.rb:654
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:911
+#: ../app/models/host/managed.rb:912
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:930
+#: ../app/models/host/managed.rb:931
 msgid "Unable to find IP address for '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:954
+#: ../app/models/host/managed.rb:955
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:987
+#: ../app/models/host/managed.rb:988
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:994
+#: ../app/models/host/managed.rb:995
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1013
+#: ../app/models/host/managed.rb:1014
 msgid "is an unsupported provisioning method"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1018
+#: ../app/models/host/managed.rb:1019
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1023 ../app/models/nic/interface.rb:107
+#: ../app/models/host/managed.rb:1024 ../app/models/nic/interface.rb:107
 msgid "must not include periods"
 msgstr ""
 
@@ -5612,7 +5620,7 @@ msgstr ""
 msgid "invalid path"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:218 ../app/models/subnet.rb:241
+#: ../app/models/lookup_keys/lookup_key.rb:218 ../app/models/subnet.rb:245
 #: ../app/services/foreman/parameters/validator.rb:29
 msgid "is invalid"
 msgstr ""
@@ -5713,13 +5721,13 @@ msgstr ""
 msgid "BMC"
 msgstr ""
 
-#: ../app/models/nic/bmc.rb:59
+#: ../app/models/nic/bmc.rb:55
 msgid ""
 "There is no proxy with BMC feature set up. Please register a smart proxy with "
 "this feature."
 msgstr ""
 
-#: ../app/models/nic/bond.rb:17
+#: ../app/models/nic/bond.rb:19
 msgid "Bond"
 msgstr ""
 
@@ -6544,39 +6552,39 @@ msgstr ""
 msgid "Static"
 msgstr ""
 
-#: ../app/models/subnet.rb:57
+#: ../app/models/subnet.rb:61
 msgid "not supported by this protocol"
 msgstr ""
 
-#: ../app/models/subnet.rb:62
+#: ../app/models/subnet.rb:66
 msgid "does not have the TFTP feature"
 msgstr ""
 
-#: ../app/models/subnet.rb:63
+#: ../app/models/subnet.rb:67
 msgid "does not have the DHCP feature"
 msgstr ""
 
-#: ../app/models/subnet.rb:176
+#: ../app/models/subnet.rb:180
 msgid "Unsupported IPAM mode for %s"
 msgstr ""
 
-#: ../app/models/subnet.rb:216
+#: ../app/models/subnet.rb:220
 msgid "must be specified if to is defined"
 msgstr ""
 
-#: ../app/models/subnet.rb:217
+#: ../app/models/subnet.rb:221
 msgid "must be specified if from is defined"
 msgstr ""
 
-#: ../app/models/subnet.rb:220 ../app/models/subnet.rb:221
+#: ../app/models/subnet.rb:224 ../app/models/subnet.rb:225
 msgid "does not belong to subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:222
+#: ../app/models/subnet.rb:226
 msgid "can't be bigger than to range"
 msgstr ""
 
-#: ../app/models/subnet.rb:227
+#: ../app/models/subnet.rb:231
 msgid "can't be updated after subnet is saved"
 msgstr ""
 
@@ -10875,7 +10883,9 @@ msgid "Optional: VLAN ID for this subnet"
 msgstr ""
 
 #: ../app/views/subnets/_fields.html.erb:23
-msgid "Default boot mode for interfaces assigned to this subnet"
+msgid ""
+"Default boot mode for interfaces assigned to this subnet, applied to hosts fro"
+"m provisioning templates"
 msgstr ""
 
 #: ../app/views/subnets/_form.html.erb:7
@@ -11388,6 +11398,10 @@ msgstr ""
 #. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
 #: ../lib/foreman/gettext/support.rb:52
 msgid "locale_name"
+msgstr ""
+
+#: ../lib/foreman/renderer.rb:111
+msgid "Template '%s' is either missing or has an invalid organization or location"
 msgstr ""
 
 #: ../lib/proxy_api/bmc.rb:15

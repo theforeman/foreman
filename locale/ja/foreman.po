@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-17 09:29+0000\n"
+"PO-Revision-Date: 2016-05-26 09:52+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -197,6 +197,9 @@ msgstr "&laquo;"
 msgid "&raquo;"
 msgstr "&raquo;"
 
+msgid "'%s' is not a valid MAC address."
+msgstr ""
+
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr "'%{host}' は削除されている可能性があるか、または '%{resource}' が応答していません."
 
@@ -371,6 +374,9 @@ msgstr "変数の追加"
 msgid "Add Volume"
 msgstr "ボリュームの追加"
 
+msgid "Add a CD-ROM drive to the virtual machine."
+msgstr ""
+
 msgid "Add a Puppet class to host"
 msgstr "ホストに Puppet クラスを追加"
 
@@ -521,6 +527,12 @@ msgstr "先に選択したサブネットに DHCP 対応のスマートプロキ
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "例 : ハードドライブのパーティションの明示的なレイアウト."
 
+msgid "Annotation Notes"
+msgstr ""
+
+msgid "Annotation notes"
+msgstr ""
+
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr "Anonymous Admin ユーザー %s が見つかりません。 foreman-rake db:seed を実行してください"
 
@@ -579,6 +591,9 @@ msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr "ダッシュボードからこのウィジェットを削除してもよろしいですか？"
+
+msgid "Are you sure you want to log out?"
+msgstr ""
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "%{vm} の %{act} を実行しますか?"
@@ -958,6 +973,9 @@ msgstr "これを選択しないと、検索フィールドで Foreman の検索
 msgid "CA certificate expiry date"
 msgstr ""
 
+msgid "CD-ROM drive"
+msgstr ""
+
 msgid "CDROM"
 msgstr "CDROM"
 
@@ -1020,6 +1038,9 @@ msgstr "グループ %{current} はホストグループをネストしている
 
 msgid "Cannot find user %s when switching context"
 msgstr "コンテキストの切り替え時にユーザー　%s を見つけることができません"
+
+msgid "Cannot register compute resource, wrong type supplied"
+msgstr ""
 
 msgid "Canvas not supported."
 msgstr "Canvas はサポートされていません."
@@ -1399,6 +1420,9 @@ msgstr "ホストグループのネストされたパラメータを作成"
 msgid "Create a nested parameter for a location"
 msgstr "ロケーションのネストされたパラメーターを作成"
 
+msgid "Create a nested parameter for a subnet"
+msgstr ""
+
 msgid "Create a nested parameter for an operating system"
 msgstr "オペレーティングシステムのネストされたパラメータを作成"
 
@@ -1675,6 +1699,9 @@ msgstr "ホストグループのネストされたパラメータを削除"
 msgid "Delete a nested parameter for a location"
 msgstr "ロケーションのネストされたパラメータを削除"
 
+msgid "Delete a nested parameter for a subnet"
+msgstr ""
+
 msgid "Delete a nested parameter for an operating system"
 msgstr "オペレーティングシステム用のネストされたパラメータを削除"
 
@@ -1728,6 +1755,9 @@ msgstr "ホストのすべてのネストされたパラメータを削除"
 
 msgid "Delete all nested parameters for a host group"
 msgstr "ホストグループのネストされたすべてのパラメータを削除"
+
+msgid "Delete all nested parameters for a subnet"
+msgstr ""
 
 msgid "Delete all nested parameters for an operating system"
 msgstr "オペレーティングシステムのすべてのネストされたパラメータを削除"
@@ -1938,6 +1968,9 @@ msgstr ""
 msgid "ERROR or FATAL"
 msgstr ""
 
+msgid "EUI-64"
+msgstr ""
+
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
 msgstr "各アーキテクチャは複数のオペレーティングシステムに関連付けることもでき、有効な組み合わせを選択できるようにセレクターブロックが提供されます."
 
@@ -2043,9 +2076,6 @@ msgstr "%s のコンピュートプロファイルの編集"
 msgid "Edit your host"
 msgstr "このホストの編集"
 
-msgid "Either you didnt generate the puppetdocs (see <a rel=\"external\" href=\"%{url}\">here</a>) or the class <strong>%{name}</strong> could not be found in environment <strong>%{environment}</strong><br/> Please ensure that the class <strong>%{name}</strong>s declaration is accessible via the modulepath associated with <strong>%{environment}</strong>."
-msgstr "puppetdoc (<a rel=\"external\" href=\"%{url}\">こちら</a> をご覧ください) を生成しなかったか、またはクラス <strong>%{name}</strong> が環境 <strong>%{environment}</strong><br/> に見つからなかったかのいずれかです。クラス <strong>%{name}</strong> の宣言が <strong>%{environment}</strong> と関連付けられたモジュールパスからアクセスできることを確認してください."
-
 msgid "Email Preferences"
 msgstr "メールサービスの設定"
 
@@ -2142,9 +2172,6 @@ msgstr "環境の統計"
 
 msgid "Environments and documentation"
 msgstr "環境およびドキュメント"
-
-msgid "Environments may be manually created and only require the name of the environment to be declared."
-msgstr "環境は手動で作成でき、宣言する環境の名前のみが必要になります."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Hostgroups count"
@@ -2264,6 +2291,9 @@ msgstr "ファクト名"
 
 msgid "Fact Values"
 msgstr "ファクト値"
+
+msgid "Fact Values | %{host_name}"
+msgstr ""
 
 msgid "Fact distribution chart"
 msgstr "ファクト分布チャート"
@@ -2511,6 +2541,9 @@ msgstr "無制限"
 msgid "Fingerprint"
 msgstr "フィンガープリント"
 
+msgid "Finish template"
+msgstr ""
+
 msgid "Fix %s on Mismatch"
 msgstr "不一致について修正 %s"
 
@@ -2546,9 +2579,6 @@ msgstr ""
 "複数の Red Hat リリースディスクを、ディスクイメージの名前が 5.8 または 6.2 で、それぞれに x86_64 と i386 バイナリーが含まれるディレクトリー構造にコピーした場合、\n"
 " それらすべてを記述する単一のメディアエントリーを作成することができます。\n"
 "  名前が単純に 'Red Hat' となるエントリーの場合には、以下のようなパスが含まれます。 <em>'http://server/redhat/$version/$arch'</em>"
-
-msgid "For example, there might be a data center in London and one in Virginia; these are locations."
-msgstr ""
 
 msgid "For more information"
 msgstr ""
@@ -3035,6 +3065,9 @@ msgstr ""
 msgid "Hosts that had pending changes"
 msgstr "保留中の変更を持つホスト"
 
+msgid "Hosts that had pending changes with alerts enabled"
+msgstr ""
+
 msgid "Hosts that had performed modifications without error"
 msgstr "変更をエラーなく実行したホスト"
 
@@ -3047,11 +3080,29 @@ msgstr "Foreman のレポートが無効になっているホスト"
 msgid "Hosts which are currently not running Puppet"
 msgstr "Puppet を実行していないホスト"
 
+msgid "Hosts which are not reporting"
+msgstr ""
+
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr "過去 %s に puppet を実行しなかったホスト"
 
+msgid "Hosts which recently applied changes"
+msgstr ""
+
+msgid "Hosts which recently applied changes successfully"
+msgstr ""
+
+msgid "Hosts which recently applied changes successfully with alerts enabled"
+msgstr ""
+
 msgid "Hosts with alerts disabled"
 msgstr "アラートを無効化したホスト"
+
+msgid "Hosts with error state"
+msgstr ""
+
+msgid "Hosts with error state and alerts enabled"
+msgstr ""
 
 msgid "Hosts with errors"
 msgstr "エラーのあるホスト"
@@ -3064,6 +3115,21 @@ msgstr "レポートのないホスト"
 
 msgid "Hosts with notifications disabled"
 msgstr "通知が無効にされているホスト"
+
+msgid "Hosts without changes or errors"
+msgstr ""
+
+msgid "Hosts without changes or errors, with alerts enabled"
+msgstr ""
+
+msgid "Hosts without errors"
+msgstr ""
+
+msgid "Hosts without errors percent"
+msgstr ""
+
+msgid "Hosts without errors, with alerts enabled"
+msgstr ""
 
 msgid "How values are validated"
 msgstr "値の検証方法"
@@ -3197,6 +3263,12 @@ msgstr "IP:"
 msgid "IPAM"
 msgstr "IPAM"
 
+msgid "IPv4"
+msgstr ""
+
+msgid "IPv6"
+msgstr ""
+
 msgid "IRC"
 msgstr "IRC"
 
@@ -3227,8 +3299,8 @@ msgstr "チェックが付けられていると、デフォルト値がなく Ma
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr ""
 
-msgid "If you are planning to use Foreman as an external node classifier you should provide information about one or more environments."
-msgstr "Foreman を外部ノードの分類に使用することを計画している場合は、1 つ以上の環境についての情報を提供する必要があります."
+msgid "If you are planning to use Foreman as an external node classifier you should provide information about one or more environments. This information is commonly imported from a pre-existing Puppet configuration by the use of the %{link_start}Puppet classes and environment importer%{link_end}."
+msgstr ""
 
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "これが Foreman 自体のエラーであると思われる場合は、新規の問題として提出してください"
@@ -3294,6 +3366,9 @@ msgstr "UUID"
 msgid "Import"
 msgstr "インポート"
 
+msgid "Import IPv4 subnets"
+msgstr ""
+
 msgid "Import from %s"
 msgstr "%s からインポート"
 
@@ -3306,11 +3381,8 @@ msgstr "環境について Puppet プロキシーから Puppet クラスをイ�
 msgid "Import puppet classes from puppet proxy."
 msgstr "puppet プロキシから puppet クラスをインポートします."
 
-msgid "Import subnets"
-msgstr "サブネットのインポート"
-
-msgid "Imported Subnets"
-msgstr "インポート済みのサブネット"
+msgid "Imported IPv4 Subnets"
+msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "このホストタイプのビルド時に組み込む puppet クラスを定義するほか、puppet ランタイムの動作を設定し直すため、変数とプロビジョニング情報をホストグループに割り当てることができます."
@@ -3440,6 +3512,9 @@ msgstr ""
 
 msgid "Item"
 msgstr "項目"
+
+msgid "JSON VM listing is not supported for this compute resource."
+msgstr ""
 
 msgid "Keep selected hosts for a future action"
 msgstr ""
@@ -3657,6 +3732,9 @@ msgstr "ホストグループのすべてのパラメータを一覧表示"
 
 msgid "List all parameters for a location"
 msgstr "ロケーションのすべてのパラメータを一覧表示"
+
+msgid "List all parameters for a subnet"
+msgstr ""
 
 msgid "List all parameters for an operating system"
 msgstr "オペレーティングシステムのすべてのパラメータを一覧表示"
@@ -3964,8 +4042,8 @@ msgstr "ロケーション"
 msgid "Locations also work nicely when used in tandem with %{organizations}."
 msgstr ""
 
-msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed."
-msgstr "ロケーションは、Foreman によって管理されているシステムが保管されている物理的な場所を管理し、これを区別するために使用されます."
+msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed. For example, there might be a data center in London and one in Virginia; these are locations."
+msgstr ""
 
 msgid "Lock"
 msgstr "ロック"
@@ -4492,6 +4570,9 @@ msgstr "仮想"
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
 msgstr "このホストの %{template_kind} テンプレートが見つかりませんでした。%{os} 設定に少なくとも 1 つ定義していることを確認してください"
 
+msgid "No IPv4 subnets selected"
+msgstr ""
+
 msgid "No TFTP feature"
 msgstr ""
 
@@ -4579,8 +4660,8 @@ msgstr "ネットワークがありません"
 msgid "No networks found."
 msgstr "ネットワークが見つかりません."
 
-msgid "No new subnets found"
-msgstr "新規サブネットが見つかりません"
+msgid "No new IPv4 subnets found"
+msgstr ""
 
 msgid "No or invalid power state selected!"
 msgstr ""
@@ -4630,13 +4711,10 @@ msgstr "環境のインポート元となるスマートプロキシーが見つ
 msgid "No subnets"
 msgstr "サブネットなし"
 
-msgid "No subnets selected"
-msgstr "サブネットが選択されていません"
-
-msgid "No template found"
-msgstr "テンプレートが見つかりません"
-
 msgid "No template with kind %{kind} for %{host}"
+msgstr ""
+
+msgid "No templates found"
 msgstr ""
 
 msgid "No templates found for this host."
@@ -4798,9 +4876,6 @@ msgstr "プロキシーの 1 つの宣言のみが許可されます"
 msgid "Only one volume can be bootable"
 msgstr "1 つのボリュームのみがブート可能です"
 
-msgid "Oops"
-msgstr "エラー"
-
 msgid "Oops!!"
 msgstr "エラー!!"
 
@@ -4947,9 +5022,6 @@ msgstr "組織"
 msgid "Organizations also work nicely in tandem with %{locations}."
 msgstr ""
 
-msgid "Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install."
-msgstr "組織は、複数の顧客またはビジネスユニットが単一の Foreman で管理されている場合に、 Foreman の構築に役立ちます."
-
 msgid "Original value info"
 msgstr ""
 
@@ -4961,6 +5033,9 @@ msgstr "同期外"
 
 msgid "Out of sync hosts"
 msgstr "同期外のホスト"
+
+msgid "Out of sync hosts with alerts enabled"
+msgstr ""
 
 msgid "Out of sync interval"
 msgstr ""
@@ -4977,7 +5052,7 @@ msgstr ""
 msgid "Override this value"
 msgstr "この値の上書き"
 
-msgid "Override value"
+msgid "Override value, required if use_puppet_default is false"
 msgstr ""
 
 msgid "Overview"
@@ -4998,11 +5073,20 @@ msgstr "所有者が %s に変更されました"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "所有者タイプは以下のいずれかである必要があります: %s"
 
+msgid "POAP template"
+msgstr ""
+
 msgid "PXE"
 msgstr "PXE"
 
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "PXE デフォルトファイルはすべてのスマートプロキシーに導入されています"
+
+msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXELinux template"
+msgstr ""
 
 msgid "Param name"
 msgstr "パラメーター名"
@@ -5232,6 +5316,9 @@ msgstr "パワー%s"
 msgid "Preallocate disk"
 msgstr "事前割り当てディスク"
 
+msgid "Prefix length must be /64 or less to use EUI-64"
+msgstr ""
+
 msgid "Prefix to add to all outgoing email"
 msgstr "すべての送信メールに追加する接頭辞"
 
@@ -5268,6 +5355,9 @@ msgstr "編集に進む"
 msgid "Properties"
 msgstr "プロパティ"
 
+msgid "Property"
+msgstr ""
+
 msgid "Provider"
 msgstr "プロバイダー"
 
@@ -5294,9 +5384,6 @@ msgstr "プロビジョニングテンプレートのコンテンツの変更 %s
 
 msgid "Provisioning Templates"
 msgstr "プロビジョニングテンプレート"
-
-msgid "Provisioning support is disabled or this host is not managed"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Provisioning template"
@@ -5407,9 +5494,6 @@ msgstr ""
 
 msgid "Puppet classes"
 msgstr "Puppet クラス"
-
-msgid "Puppet classes and environment importer"
-msgstr "Puppet クラスおよび環境のインポーター"
 
 msgid "Puppet environments"
 msgstr "Puppet 環境"
@@ -5874,6 +5958,9 @@ msgstr "ロケーションのスコープ"
 msgid "Scope by organizations"
 msgstr "組織のスコープ"
 
+msgid "Script template"
+msgstr ""
+
 msgid "Search"
 msgstr "検索"
 
@@ -6064,8 +6151,8 @@ msgstr ""
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr ""
 
-msgid "Show %{host} facts"
-msgstr "%{host} のファクトを表示"
+msgid "Show %s fact values for all hosts"
+msgstr ""
 
 msgid "Show :a_resource"
 msgstr ":a_resource の表示"
@@ -6139,6 +6226,9 @@ msgstr "ホストグループのネストされたパラメーターを表示"
 msgid "Show a nested parameter for a location"
 msgstr "ロケーションのネストされたパラメーターを表示"
 
+msgid "Show a nested parameter for a subnet"
+msgstr ""
+
 msgid "Show a nested parameter for an operating system"
 msgstr "オペレーティングシステムのネストされたパラメーターを表示"
 
@@ -6184,11 +6274,8 @@ msgstr "ユーザーグループの確認"
 msgid "Show all %s children fact values"
 msgstr "すべての %s の子のファクト値を表示"
 
-msgid "Show all %s fact values"
-msgstr "すべての %s のファクト値を表示"
-
-msgid "Show all %{name} facts where they are equal to %{value}"
-msgstr "%{value} に等しいすべての %{name} ファクトを表示"
+msgid "Show all %s facts with the same value"
+msgstr ""
 
 msgid "Show an LDAP authentication source"
 msgstr "LDAP 認証元の表示"
@@ -6474,6 +6561,12 @@ msgstr "VLAN ID"
 msgid "Subscribe"
 msgstr "通知する"
 
+msgid "Subscribe to all hosts"
+msgstr ""
+
+msgid "Subscribe to my hosts"
+msgstr ""
+
 msgid "Success"
 msgstr "成功"
 
@@ -6704,6 +6797,9 @@ msgstr "p12 ファイルのあるファイルパス"
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "最終エントリーのオペレーティングシステムのデフォルトは、%s ページを編集して設定できます."
 
+msgid "The following IPv4 subnets have been found"
+msgstr ""
+
 msgid "The following entries were found conflicting with what foreman wanted to apply."
 msgstr "以下のエントリーは、Foreman が適用しようとした内容と競合していることが確認されました."
 
@@ -6728,9 +6824,6 @@ msgstr "以下のホストは更新されました"
 msgid "The following parameters were skipped as they did not exists on this host:"
 msgstr "以下のパラメーターは、このホスト上に存在しなかったためにスキップされました:"
 
-msgid "The following subnets have been found"
-msgstr "以下のサブネットが見つかりました"
-
 msgid "The full DNS domain name"
 msgstr "完全な DNS ドメイン名"
 
@@ -6744,6 +6837,11 @@ msgstr ""
 
 msgid "The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be interpolated back into the path specification to calculate the true URL address."
 msgstr "キーワード <b>$version</b>、<b>$major</b> および <b>$minor</b> は、本当の URL アドレスを計算するためにパス仕様に再び挿入されます."
+
+msgid "The list is excluding %{count} %{link_start}physical host%{link_end}."
+msgid_plural "The list is excluding %{count} %{link_start}physical hosts%{link_end}."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "The marked fields will need reviewing"
 msgstr "マークが付いたフィールドは確認が必要です"
@@ -6827,6 +6925,9 @@ msgstr "%s テンプレートのレンダリングにエラーがありました
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
 
+msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
+msgstr ""
+
 msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
 msgstr "これらの 2 つのオプションは個々に定義されるものであるため、各自でそれぞれ定義してください (主な違いはパラメーター/変数の設定です)."
 
@@ -6844,9 +6945,6 @@ msgstr "このグループはネストグループを持ちます!"
 
 msgid "This host's stored facts and reports will be deleted too."
 msgstr "このホストに格納されているファクトとレポートが削除されます."
-
-msgid "This information is commonly imported from a pre-existing puppet configuration by the use of the"
-msgstr "この情報は、通常以下の使用により、既存の puppet 設定からインポートされます"
 
 msgid "This is a test message to confirm that Foreman's email configuration is working."
 msgstr ""
@@ -6882,6 +6980,9 @@ msgid "This template is locked. Please clone it to a new template to customize."
 msgstr "このテンプレートはロックされています。カスタマイズするために新しいテンプレートにクローンを作成してください."
 
 msgid "This template is locked. You may only change the                     associations. Please %s it to customize."
+msgstr ""
+
+msgid "This value is not hidden"
 msgstr ""
 
 msgid "This value is used also as the host's primary interface name."
@@ -6930,6 +7031,9 @@ msgstr "トークン"
 msgid "Token duration"
 msgstr ""
 
+msgid "Token expired"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Token|Expires"
 msgstr "期限切れ"
@@ -6946,6 +7050,9 @@ msgstr "合計"
 
 msgid "Total Hosts: %s"
 msgstr "合計ホスト: %s"
+
+msgid "Total hosts count"
+msgstr ""
 
 msgid "Total of one host"
 msgid_plural "Total of %{hosts} hosts"
@@ -7063,11 +7170,8 @@ msgstr "デフォルトの TFTP ブートメニューを作成できません"
 msgid "Unable to create realm entry"
 msgstr "レルムエントリーを作成できません"
 
-msgid "Unable to create the anonymous role."
-msgstr "匿名ロールを作成できません."
-
-msgid "Unable to create the default user role."
-msgstr "デフォルトのユーザーロールを作成できません."
+msgid "Unable to create the default role."
+msgstr ""
 
 msgid "Unable to delete DHCP entry for %s"
 msgstr "%s の DHCP エントリーを削除できません"
@@ -7116,9 +7220,6 @@ msgstr "適切な認証メソッドが見つかりません"
 
 msgid "Unable to find template %s"
 msgstr "テンプレート %s が見つかりません"
-
-msgid "Unable to find templates as this host has no operating system"
-msgstr "このホストにはオペレーティングシステムがないため、テンプレートが見つかりません"
 
 msgid "Unable to generate output, Check log files"
 msgstr "出力を生成することができません、ログファイルを確認してください"
@@ -7216,6 +7317,9 @@ msgstr ""
 msgid "Unknown"
 msgstr "不明"
 
+msgid "Unknown IPAM type - can't continue"
+msgstr ""
+
 msgid "Unknown Power State"
 msgstr "不明なパワー状態"
 
@@ -7242,6 +7346,9 @@ msgstr "アンロック"
 
 msgid "Unmanage host"
 msgstr "ホストの管理解除"
+
+msgid "Unsupported IPAM mode for %s"
+msgstr ""
 
 msgid "Unsupported password hash function '%s'"
 msgstr "'%s' はサポートされていないパスワードハッシュです"
@@ -7314,6 +7421,9 @@ msgstr "ホストグループのネストされたパラメータを更新"
 
 msgid "Update a nested parameter for a location"
 msgstr "ロケーションのネストされたパラメータを更新"
+
+msgid "Update a nested parameter for a subnet"
+msgstr ""
 
 msgid "Update a nested parameter for an operating system"
 msgstr "オペレーティングシステム用のネストされたパラメータを更新"
@@ -7451,6 +7561,9 @@ msgstr "ユーザーグループ"
 msgid "User IDs"
 msgstr "ユーザー IDs"
 
+msgid "User data template"
+msgstr ""
+
 msgid "User group"
 msgstr "ユーザーグループ"
 
@@ -7554,8 +7667,8 @@ msgstr "パスワード salt"
 msgid "Uses thin provisioning if unchecked"
 msgstr "チェックしない場合はシンプロビジョニングを使用します"
 
-msgid "Using the organization system provides a way to group resources together for easy management."
-msgstr "組織システムを使用することで、リソースをグループ化でき、管理が容易になります."
+msgid "Using the organization system provides a way to group resources together for easy management. Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install."
+msgstr ""
 
 msgid "VCPU(s)"
 msgstr "VCPU(s)"
@@ -7766,13 +7879,13 @@ msgstr "Foreman へようこそ"
 msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
 msgstr "ここで使用するテキスト(または ERB テンプレート) がどのようなものであれ、これらは OS ディスクレイアウトのオプションとして使用されます。パーティションテーブルのオプションを使用する場合、このフィールドからすべてのテキストを削除してください。"
 
-msgid "When a Host requests a template (e.g. during provisioning), Foremanwill select the best match from the available templates of that type, in thefollowing order:"
+msgid "When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:"
 msgstr ""
 
 msgid "When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
 msgstr ""
 
-msgid "When editing a template, you must assign a listof operating systems which this template can be used with. Optionally, you canrestrict a template to a list of host groups and/or environments."
+msgid "When editing a template, you must assign a list of operating systems which this template can be used with. Optionally, you can restrict a template to a list of host groups and/or environments."
 msgstr ""
 
 msgid "When enabled the parameter is hidden in the UI"
@@ -7810,6 +7923,9 @@ msgstr "X509 認証局 (CA)"
 
 msgid "YAML"
 msgstr "YAML"
+
+msgid "Yes"
+msgstr ""
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr ""
@@ -7880,10 +7996,10 @@ msgstr "さらに、1 つ以上のオペレーティングシステムをこの�
 msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
 msgstr "たとえば、他のモジュールの必要なすべての機能を組み込む <b>host-type-ldap-server</b> クラスなどの高レベルの設定を表す puppet クラスを作成するか、または <b>host-type-ldap-server</b> と呼ばれるホストグループを作成し、このホストグループ設定に必要なクラスを追加できます."
 
-msgid "You must create a location before continuing"
+msgid "You must create a location before continuing."
 msgstr ""
 
-msgid "You must create an organization before continuing"
+msgid "You must create an organization before continuing."
 msgstr ""
 
 msgid "You must create at least one location before continuing."
@@ -7907,9 +8023,6 @@ msgstr "あなたのフォアマンユーザーアカウントが作成されて
 msgid "Your host has finished building:"
 msgstr "ホストの構築が完了しました:"
 
-msgid "Your libvirt host does not support interface listing, please enter here the bridge name (e.g. br0)"
-msgstr ""
-
 msgid "Your password cannot contain your username"
 msgstr "パスワードにユーザ名を含めることはできません"
 
@@ -7921,6 +8034,9 @@ msgstr "パスワードが短すぎます"
 
 msgid "Your session has expired, please login again"
 msgstr "セッションの有効期限が切れました。再度ログインしてください"
+
+msgid "ZTP template"
+msgstr ""
 
 msgid "Zone"
 msgstr "ゾーン"
@@ -7979,6 +8095,9 @@ msgstr "カスタムパーティションが定義されていない限り、空
 msgid "can't be updated after host is provisioned"
 msgstr "ホストがプロビジョニングされた後に更新することができません"
 
+msgid "can't be updated after subnet is saved"
+msgstr ""
+
 msgid "can't contain spaces."
 msgstr "スペースを含めることはできません。"
 
@@ -7999,6 +8118,9 @@ msgstr "管理者以外のユーザーが変更することはできません"
 
 msgid "cannot be changed on an internal protected account"
 msgstr "内部保護されたアカウントを変更することはできません"
+
+msgid "cannot be enabled for an unmanaged host"
+msgstr ""
 
 msgid "cannot be removed from an internal protected account"
 msgstr "内部保護されたアカウントから削除することはできません"
@@ -8126,6 +8248,9 @@ msgstr "for EC2 only"
 msgid "for Libvirt and VMware only"
 msgstr "libvirt と VMware のみ"
 
+msgid "for Libvirt only"
+msgstr ""
+
 msgid "for OpenStack only"
 msgstr "for OpenStack only"
 
@@ -8189,6 +8314,9 @@ msgstr "ホストは 1 つのプライマリインターフェイスを持って
 msgid "hostname of the host"
 msgstr "ホストのホスト名"
 
+msgid "iPXE template"
+msgstr ""
+
 msgid "in %s"
 msgstr "(%s)"
 
@@ -8212,9 +8340,6 @@ msgstr "インターフェイス情報"
 
 msgid "invalid"
 msgstr "無効"
-
-msgid "invalid IP address"
-msgstr "無効な IP アドレス"
 
 msgid "invalid LDAP filter syntax"
 msgstr "無効な LDAP フィルターの構文"
@@ -8292,9 +8417,6 @@ msgid "is too long (maximum is 1 character)"
 msgid_plural "is too long (maximum is %s characters)"
 msgstr[0] "最大 %s 文字までです"
 
-msgid "is too long (maximum is 15 characters)"
-msgstr "最大15文字までです"
-
 msgid "is unknown"
 msgstr "不明です"
 
@@ -8334,14 +8456,17 @@ msgstr "管理対象ホストは 1 つのプロビジョニングインターフ
 msgid "message"
 msgstr "メッセージ"
 
-msgid "must be a valid URI"
-msgstr "有効な URI でなければなりません"
+msgid "must be a valid regexp"
+msgstr ""
 
 msgid "must be an array"
 msgstr "アレイでなければなりません"
 
 msgid "must be boolean"
 msgstr "ブール値でなければなりません"
+
+msgid "must be comma separated"
+msgstr ""
 
 msgid "must be integer"
 msgstr "整数でなければなりません"
@@ -8354,6 +8479,9 @@ msgstr "起点が定義されている場合に指定する必要があります
 
 msgid "must be specified if to is defined"
 msgstr "終点が定義されている場合に指定する必要があります"
+
+msgid "must be true to edit the parameter"
+msgstr ""
 
 msgid "must not include periods"
 msgstr "ピリオドを含めることはできません"
@@ -8390,6 +8518,9 @@ msgstr "スニペットと関連がありません"
 
 msgid "not required if using a subnet with DHCP proxy"
 msgstr "DHCP プロキシとサブネットを使用している場合は必要ではありません"
+
+msgid "not supported by this protocol"
+msgstr ""
 
 msgid "number of entries per request"
 msgstr "リクエストあたりのエントリ数"
@@ -8556,6 +8687,9 @@ msgstr "停止"
 
 msgid "string"
 msgstr "string"
+
+msgid "subnet"
+msgstr ""
 
 msgid "subnet boot mode is not %s"
 msgstr "サブネットのブートモードは、 %s ではありません"
