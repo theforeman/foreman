@@ -106,9 +106,24 @@ class NicBaseTest < ActiveSupport::TestCase
         nic
       end
 
+      let(:nic2) do
+        host.interfaces.build(:managed => true, :type => 'Nic::Managed')
+      end
+
       test 'it is invalid because of conflicting identifier' do
         refute nic.valid?
         assert nic.errors.has_key?(:identifier)
+      end
+
+      test 'it ignores empty identifiers' do
+        nic.mac = '00:11:11:22:22:33'
+        nic2.mac = '00:11:11:22:22:34'
+        nic.identifier = nic2.identifier = ''
+        nic.save
+        # nic2.save
+
+        assert nic.valid?
+        assert nic2.valid?
       end
     end
   end
