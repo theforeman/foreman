@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ProxyAPI::ProxyException, :with => :smart_proxy_exception
+  rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
   # standard layout to all controllers
   helper 'layout'
@@ -87,6 +88,15 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render "common/404", :status => :not_found }
       format.any { head :status => :not_found}
+    end
+    true
+  end
+
+  def service_unavailable(exception = nil)
+    logger.debug "service unavailable: #{exception}" if exception
+    respond_to do |format|
+      format.html { render "common/503", :status => :service_unavailable, :locals => { :exception => exception } }
+      format.any { head :status => :service_unavailable }
     end
     true
   end

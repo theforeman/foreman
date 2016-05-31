@@ -32,6 +32,8 @@ module Api
       not_found
     end
 
+    rescue_from Foreman::MaintenanceException, :with => :service_unavailable
+
     def get_resource
       instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
     end
@@ -84,6 +86,11 @@ module Api
       end
 
       render :json => not_found_message, :status => :not_found and return false
+    end
+
+    def service_unavailable(exception = nil)
+      logger.debug "service unavailable: #{exception}" if exception
+      render_message(exception.message, :status => :service_unavailable)
     end
 
     def process_resource_error(options = { })

@@ -1,6 +1,7 @@
 module ApplicationShared
   extend ActiveSupport::Concern
 
+  include Foreman::Controller::MigrationChecker
   include Foreman::Controller::Authentication
   include Foreman::Controller::Session
   include Foreman::ThreadSession::Cleaner
