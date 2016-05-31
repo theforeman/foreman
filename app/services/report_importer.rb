@@ -100,7 +100,7 @@ class ReportImporter
       end
 
       owners = host.owner.present? ? host.owner.recipients_for(:puppet_error_state) : []
-      users = MailNotification::PuppetError.all_hosts.flat_map(& :users)
+      users = PuppetError.all_hosts.flat_map(&:users)
       users.select { |user| Host.authorized_as(user, :view_hosts).find(host.id).present? }
       owners.concat users
       if owners.present?
