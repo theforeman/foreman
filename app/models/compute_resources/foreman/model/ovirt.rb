@@ -21,6 +21,10 @@ module Foreman::Model
       ComputeResource.model_name
     end
 
+    def user_data_supported?
+      true
+    end
+
     def host_compute_attrs(host)
       super.tap do |attrs|
         attrs[:os] = { :type => determine_os_type(host) } if supports_operating_systems?
@@ -187,10 +191,22 @@ module Foreman::Model
     end
 
     def start_vm(uuid)
-      find_vm_by_uuid(uuid).start(:blocking => true)
+      vm = find_vm_by_uuid(uuid)
+      if vm.comment.include? "cloud-config"
+        vm.start_with_cloudinit(:blocking => true, :user_data => vm.comment)
+        vm.comment = ''
+        vm.save
+      else
+        vm.start(:blocking => true)
+      end
+    end
+
+    def start_with_cloudinit(uuid, user_data = nil)
+      find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data)
     end
 
     def create_vm(args = {})
+      args[:comment] = args[:user_data] if args[:user_data]
       if (image_id = args[:image_id])
         args.merge!({:template => image_id})
       end
