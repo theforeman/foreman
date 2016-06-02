@@ -19,7 +19,7 @@ module ActionDispatch
                           {},
                           inner_options || {},
                           args,
-                          opts.dup,
+                          opts.merge(:use_route => route_key),
                           route.segment_keys.uniq)
             end
           end
