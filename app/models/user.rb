@@ -72,10 +72,7 @@ class User < ActiveRecord::Base
   scope :visible,         -> { except_hidden }
   scope :completer_scope, ->(opts) { visible }
 
-  validates :mail, :format => { :with => /\A(([\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+((\.\"[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\")*\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+)*)|(\"[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\"))
-                                          @[a-z0-9]+((\.[a-z0-9]+)*|(\-[a-z0-9]+)*)*\z/ix },
-                   :length => { :maximum => 254 },
-                   :allow_blank => true
+  validates :mail, :email => true, :allow_blank => true
   validates :mail, :presence => true, :on => :update,
                    :if => Proc.new { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? && u.mail_was.present? }
 

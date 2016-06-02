@@ -10,10 +10,12 @@ class Setting < ActiveRecord::Base
   FROZEN_ATTRS = %w{ name category full_name }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend outofsync_interval }
   BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret }
+  ARRAY_HOSTNAMES = %w{ trusted_puppetmaster_hosts }
   URI_ATTRS = %w{ foreman_url unattended_url }
   URI_BLANK_ATTRS = %w{ login_delegation_logout_url }
   IP_ATTRS = %w{ libvirt_default_console_address }
   REGEXP_ATTRS = %w{ remote_addr }
+  EMAIL_ATTRS = %w{ administrator email_reply_address }
 
   class ValueValidator < ActiveModel::Validator
     def validate(record)
@@ -44,6 +46,8 @@ class Setting < ActiveRecord::Base
   validates :value, :regexp => true, :if => Proc.new { |s| REGEXP_ATTRS.include? s.name }
   validates :value, :array_type => true, :if => Proc.new { |s| s.settings_type == "array" }
   validates_with ValueValidator, :if => Proc.new {|s| s.respond_to?("validate_#{s.name}") }
+  validates :value, :array_hostnames => true, :if => Proc.new { |s| ARRAY_HOSTNAMES.include? s.name }
+  validates :value, :email => true, :if => Proc.new { |s| EMAIL_ATTRS.include? s.name }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   before_save :clear_cache
