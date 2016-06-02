@@ -154,20 +154,16 @@
                 
                 /* figure out how wide and tall we are, saved width and height */
                 /* are workaround for http://dev.jquery.com/ticket/2190 */
-                if (0 == $(self).width()) {
-                    //$(self).css('visibility', 'hidden');
-                    settings.width  = savedwidth;
-                    settings.height = savedheight;
-                } else {
-                    if (settings.width != 'none') {
-                        settings.width = 
-                            settings.autowidth ? $(self).width()  : settings.width;
-                    }
-                    if (settings.height != 'none') {
-                        settings.height = 
-                            settings.autoheight ? $(self).height() : settings.height;
-                    }
+
+                if (settings.width != 'none') {
+                    settings.width =
+                        settings.autowidth ? savedheight  : settings.width;
                 }
+                if (settings.height != 'none') {
+                    settings.height =
+                        settings.autoheight ? savedwidth : settings.height;
+                }
+
                 //$(this).css('visibility', '');
                 
                 /* remove placeholder text, replace is here because of IE */

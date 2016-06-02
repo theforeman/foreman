@@ -7,7 +7,9 @@ $(document).ready(function() {
     submitdata  : {authenticity_token: AUTH_TOKEN, format : "json"},
     onblur      : 'nothing',
     oneditcomplete : function(){
-      onEnterEdit($(this).parents('.setting'))
+      if ($(this).parents().length > 0) {
+        onEnterEdit($(this).parents('.setting'))
+      }
     },
     callback: function(){
       onLeaveEdit($(this))
@@ -29,6 +31,7 @@ $(document).ready(function() {
       $(this).html(_.escape(editable_value));
     },
     onerror     : function(settings, original, xhr) {
+      onLeaveEdit($(original));
       original.reset();
       var error = $.parseJSON(xhr.responseText)["errors"];
       $.jnotify(error, { type: "error", sticky: true });
