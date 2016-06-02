@@ -37,7 +37,7 @@ module Foreman::Controller::TaxonomiesController
 
   def nest
     @taxonomy           = taxonomy_class.new
-    @taxonomy.parent_id = params[:id].to_i
+    @taxonomy.parent_id = params[:id].to_i if resource_scope.find_by_id(params[:id])
     render 'taxonomies/new'
   end
 
@@ -186,10 +186,14 @@ module Foreman::Controller::TaxonomiesController
     not_found and return if params[:id].blank?
     case controller_name
       when 'organizations'
-        @taxonomy = @organization = Organization.find(params[:id])
+        @taxonomy = @organization = resource_scope.find(params[:id])
       when 'locations'
-        @taxonomy = @location = Location.find(params[:id])
+        @taxonomy = @location = resource_scope.find(params[:id])
     end
+  end
+
+  def resource_scope
+    taxonomy_class.send("my_#{taxonomies_plural}")
   end
 
   def count_nil_hosts
