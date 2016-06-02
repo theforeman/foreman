@@ -18,6 +18,6 @@ function override_class_param(item){
   row.find('input, textarea').prop('disabled', remove);
   row.find('.send_to_remove').prop('disabled', false);
   row.find('.destroy').val(remove);
-  value.val(value.data('inherited-value'));
+  value.val(value.attr('data-inherited-value'));
   $(item).hide().siblings('.btn-override').show();
 }
