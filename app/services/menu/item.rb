@@ -23,7 +23,7 @@ module Menu
     end
 
     def url
-      add_relative_path(@url || @context.routes.url_for(url_hash.merge(:only_path=>true)))
+      add_relative_path(@url || @context.routes.url_for(url_hash.merge(:only_path=>true).except(:use_route)))
     end
 
     def url_hash
