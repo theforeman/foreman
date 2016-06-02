@@ -6,9 +6,6 @@ class DomainTest < ActiveSupport::TestCase
     User.current = users(:admin)
     @new_domain = Domain.new
     @domain = domains(:mydomain)
-    Domain.all.each do |d| #because we load from fixtures, counters aren't updated
-      Domain.reset_counters(d.id,:hostgroups)
-    end
   end
 
   should validate_presence_of(:name)
@@ -60,15 +57,15 @@ class DomainTest < ActiveSupport::TestCase
     assert domain.save!
   end
 
-  test "should update total_hosts" do
-    assert_difference "@domain.total_hosts" do
+  test "should update hosts_count" do
+    assert_difference "@domain.hosts_count" do
       FactoryGirl.create(:host).update_attribute(:domain, @domain)
       @domain.reload
     end
   end
 
-  test "should update total_hosts on setting primary interface domain" do
-    assert_difference "@domain.total_hosts" do
+  test "should update hosts_count on setting primary interface domain" do
+    assert_difference "@domain.hosts_count" do
       host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
       primary = host.primary_interface
       primary.domain = @domain
@@ -78,64 +75,56 @@ class DomainTest < ActiveSupport::TestCase
     end
   end
 
-  test "should update total_hosts on changing primary interface domain" do
+  test "should update hosts_count on changing primary interface domain" do
     host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
     primary = host.primary_interface
     primary.domain = @domain
     primary.host.overwrite = true
     assert primary.save
-    assert_difference "@domain.total_hosts", -1 do
+    assert_difference "@domain.hosts_count", -1 do
       primary.domain = FactoryGirl.create(:domain)
       assert primary.save
       @domain.reload
     end
   end
 
-  test "should update total_hosts on changing primarity of interface with domain" do
+  test "should update hosts_count on changing primarity of interface with domain" do
     host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
     primary = host.primary_interface
     primary.domain = @domain
     primary.host.overwrite = true
     assert primary.save
-    assert_difference "@domain.total_hosts", -1 do
+    assert_difference "@domain.hosts_count", -1 do
       primary.update_attribute(:primary, false)
       @domain.reload
     end
-    assert_difference "@domain.total_hosts" do
+    assert_difference "@domain.hosts_count" do
       primary.update_attribute(:primary, true)
       @domain.reload
     end
   end
 
-  test "should not update total_hosts on non-primary interface with domain" do
-    assert_difference "@domain.total_hosts", 0 do
+  test "should not update hosts_count on non-primary interface with domain" do
+    assert_difference "@domain.hosts_count", 0 do
       host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
       FactoryGirl.create(:nic_base, :primary => false, :domain => @domain, :host => host)
       @domain.reload
     end
   end
 
-  test "should update total_hosts on domain_id change" do
+  test "should update hosts_count on domain_id change" do
     host = FactoryGirl.create(:host, :managed, :domain => @domain)
-    assert_difference "@domain.total_hosts", -1 do
+    assert_difference "@domain.hosts_count", -1 do
       host.update_attribute(:domain_id, FactoryGirl.create(:domain).id)
       @domain.reload
     end
   end
 
-  test "should update total_hosts on host destroy" do
+  test "should update hosts_count on host destroy" do
     host = FactoryGirl.create(:host, :managed, :domain => @domain)
-    assert_difference "@domain.total_hosts", -1 do
+    assert_difference "@domain.hosts_count", -1 do
       host.destroy
       @domain.reload
-    end
-  end
-
-  test "should update hostgroups_count" do
-    domain = domains(:yourdomain)
-    assert_difference "domain.hostgroups_count" do
-      hostgroups(:common).update_attribute(:domain, domain)
-      domain.reload
     end
   end
 

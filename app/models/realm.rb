@@ -8,7 +8,7 @@ class Realm < ActiveRecord::Base
 
   validates_lengths_from_database
   attr_accessible :name, :realm_type, :realm_proxy_id, :realm_proxy
-  audited :allow_mass_assignment => true, :except => [:hosts_count, :hostgroups_count]
+  audited :allow_mass_assignment => true
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
   belongs_to :realm_proxy, :class_name => "SmartProxy"
@@ -16,7 +16,6 @@ class Realm < ActiveRecord::Base
   has_many :hostgroups
   validates :realm_proxy, :proxy_features => { :feature => "Realm", :message => N_('does not have the Realm feature') }
 
-  scoped_search :on => :hosts_count
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :realm_type, :complete_value => true, :rename => :type
 

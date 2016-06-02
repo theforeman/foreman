@@ -49,9 +49,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
 
-  include CounterCacheFix
-  counter_cache = "#{model_name.to_s.split(':').first.pluralize.downcase}_count".to_sym # e.g. :hosts_count
-  belongs_to :domain, :counter_cache => counter_cache
+  belongs_to :domain
   belongs_to :subnet
   belongs_to :subnet6, :class_name => "Subnet"
 
@@ -82,7 +80,6 @@ class Hostgroup < ActiveRecord::Base
   # for legacy purposes, keep search on :label
   scoped_search :on => :title, :complete_value => true, :rename => :label
   scoped_search :in => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
-  scoped_search :on => :hosts_count
 
   def self.search_by_config_group(key, operator, value)
     conditions = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
@@ -227,7 +224,7 @@ class Hostgroup < ActiveRecord::Base
   end
 
   def children_hosts_count
-    subtree.sum(:hosts_count)
+    Host::Managed.authorized.where(:hostgroup => subtree_ids).count
   end
 
   protected

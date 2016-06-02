@@ -179,9 +179,9 @@ module Hostext
         opts = ''
         opts += "hosts.id IN(#{host_ids.join(',')})" unless host_ids.blank?
         opts += " OR " unless host_ids.blank? || hostgroup_ids.blank?
-        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})" unless hostgroup_ids.blank?
+        opts += "hostgroup_id IN(#{hostgroup_ids.join(',')})" unless hostgroup_ids.blank?
         opts = "hosts.id < 0" if host_ids.blank? && hostgroup_ids.blank?
-        {:conditions => opts, :include => :hostgroup}
+        {:conditions => opts}
       end
 
       def search_by_proxy(key, operator, value)

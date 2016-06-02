@@ -47,7 +47,7 @@ class Operatingsystem < ActiveRecord::Base
 
   before_save :set_family
 
-  audited :allow_mass_assignment => true, :except => [:hosts_count, :hostgroups_count]
+  audited :allow_mass_assignment => true
   default_scope -> { order(:title) }
 
   scoped_search :on => :name,        :complete_value => :true
@@ -56,8 +56,6 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :on => :description, :complete_value => :true
   scoped_search :on => :type,        :complete_value => :true, :rename => "family"
   scoped_search :on => :title,       :complete_value => :true
-  scoped_search :on => :hosts_count
-  scoped_search :on => :hostgroups_count
 
   scoped_search :in => :architectures,    :on => :name,  :complete_value => :true, :rename => "architecture", :only_explicit => true
   scoped_search :in => :media,            :on => :name,  :complete_value => :true, :rename => "medium", :only_explicit => true

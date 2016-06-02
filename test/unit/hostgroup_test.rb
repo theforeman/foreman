@@ -485,15 +485,6 @@ class HostgroupTest < ActiveSupport::TestCase
     end
   end
 
-  test 'should update hosts_count' do
-    host = FactoryGirl.create(:host)
-    hostgroup = FactoryGirl.create(:hostgroup)
-    assert_difference "hostgroup.hosts_count" do
-      host.update_attributes(:hostgroup => hostgroup)
-      hostgroup.reload
-    end
-  end
-
   test '#children_hosts_count' do
     group = FactoryGirl.create(:hostgroup, :with_parent)
     FactoryGirl.create_list(:host, 3, :managed, :hostgroup => group)

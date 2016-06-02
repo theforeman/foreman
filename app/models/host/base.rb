@@ -2,7 +2,6 @@ module Host
   class Base < ActiveRecord::Base
     include Foreman::STI
     include Authorizable
-    include CounterCacheFix
     include Parameterizable::ByName
     include DestroyFlag
     include InterfaceCloning
@@ -39,7 +38,7 @@ module Host
       :subnet6, :subnet6_id, :subnet6_name
 
     validates_lengths_from_database
-    belongs_to :model, :counter_cache => :hosts_count, :name_accessor => 'hardware_model_name'
+    belongs_to :model, :name_accessor => 'hardware_model_name'
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values
     has_many :interfaces, -> { order(:identifier) }, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',

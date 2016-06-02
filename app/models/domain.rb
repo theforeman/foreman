@@ -8,7 +8,7 @@ class Domain < ActiveRecord::Base
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
 
-  audited :allow_mass_assignment => true, :except => [:total_hosts, :hostgroups_count]
+  audited :allow_mass_assignment => true
   attr_accessible :name, :fullname, :dns_id, :domain_parameters_attributes
 
   validates_lengths_from_database
@@ -32,8 +32,6 @@ class Domain < ActiveRecord::Base
   validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
 
   scoped_search :on => [:name, :fullname], :complete_value => true
-  scoped_search :on => :total_hosts, :alias => 'hosts_count'
-  scoped_search :on => :hostgroups_count
   scoped_search :in => :domain_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   # with proc support, default_scope can no longer be chained
@@ -79,5 +77,9 @@ class Domain < ActiveRecord::Base
   def used_taxonomy_ids(type)
     return [] if new_record?
     Host::Base.joins(:primary_interface).where(:nics => {:domain_id => id}).uniq.pluck(type).compact
+  end
+
+  def hosts_count
+    Host::Managed.authorized(:view_hosts).joins(:primary_interface).where(:nics => {:domain_id => id}).count
   end
 end

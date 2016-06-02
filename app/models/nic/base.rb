@@ -64,11 +64,6 @@ module Nic
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
 
-    # We only want to update the counters for primary interfaces, don't use cached_counter
-    after_commit :update_domain_counters_on_create,  :on => :create
-    after_commit :update_domain_counters_on_update,  :on => :update
-    after_commit :update_domain_counters_on_destroy, :on => :destroy
-
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
@@ -237,35 +232,6 @@ module Nic
 
     def mac_uniqueness
       interface_attribute_uniqueness(:mac, Nic::Base.physical.is_managed)
-    end
-
-    def update_domain_counters_on_create
-      return unless primary? && domain_id.present?
-      domain.increment!('total_hosts')
-    end
-
-    def update_domain_counters_on_update
-      primary_changed = previous_changes.include? 'primary'
-      domain_changed  = previous_changes.include? 'domain_id'
-      if primary_changed
-        if primary? #changed from non-primary to primary
-          domain.increment!('total_hosts') if domain_id.present?
-        else #changed from primary to non-primary
-          if domain_changed
-            Domain.unscoped.find(previous_changes['domain_id'][0]).decrement!('total_hosts') if previous_changes['domain_id'][0].present?
-          else
-            domain.decrement!('total_hosts') if domain_id.present?
-          end
-        end
-      elsif domain_changed && primary?
-        Domain.unscoped.find(previous_changes['domain_id'][0]).decrement!('total_hosts') if previous_changes['domain_id'][0].present?
-        domain.increment!('total_hosts') if domain_id.present?
-      end
-    end
-
-    def update_domain_counters_on_destroy
-      return unless primary? && domain_id.present?
-      domain.decrement!('total_hosts')
     end
 
     private
