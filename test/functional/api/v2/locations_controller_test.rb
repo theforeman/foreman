@@ -72,6 +72,19 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should delete taxonomies if it's one of user's" do
+    loc1 = FactoryGirl.create(:location)
+    loc2 = FactoryGirl.create(:location)
+    user = FactoryGirl.create(:user)
+    user.locations = [ loc1 ]
+    filter = FactoryGirl.create(:filter, :permissions => [ Permission.find_by_name(:destroy_locations) ])
+    user.roles << filter.role
+    as_user user do
+      delete :destroy, { :id => loc2 }
+      assert_response :not_found
+    end
+  end
+
   test "should NOT destroy location if hosts use it" do
     FactoryGirl.create(:host, :location => taxonomies(:location1))
     assert_difference('Location.count', 0) do

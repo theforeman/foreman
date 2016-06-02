@@ -15,6 +15,21 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "index respects taxonomies" do
+    org1 = FactoryGirl.create(:organization)
+    org2 = FactoryGirl.create(:organization)
+    user = FactoryGirl.create(:user, :mail => 'a@b.c')
+    user.organizations = [ org1 ]
+    filter = FactoryGirl.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    user.roles << filter.role
+    as_user user do
+      get :index, { }, set_session_user.merge(:user => User.current.id)
+      assert_response :success
+      assert_includes assigns(:taxonomies), org1
+      refute_includes assigns(:taxonomies), org2
+    end
+  end
+
   test "should update organization" do
     organization = taxonomies(:organization2)
 

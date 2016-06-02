@@ -36,11 +36,11 @@ module Api::V2::TaxonomiesController
   param_group :search_and_pagination, ::Api::V2::BaseController
   def index
     if @nested_obj
-      @taxonomies = @nested_obj.send(taxonomies_plural).search_for(*search_options).paginate(paginate_options)
-      @total = @nested_obj.send(taxonomies_plural).count
+      @taxonomies = @nested_obj.send(taxonomies_plural).send(:completer_scope, :controller => taxonomies_plural).search_for(*search_options).paginate(paginate_options)
+      @total = @nested_obj.send(taxonomies_plural).send(:completer_scope, :controller => taxonomies_plural).count
     else
-      @taxonomies = taxonomy_class.search_for(*search_options).paginate(paginate_options)
-      @total = taxonomy_class.count
+      @taxonomies = taxonomy_class.send("my_#{taxonomies_plural}").search_for(*search_options).paginate(paginate_options)
+      @total = taxonomy_class.send("my_#{taxonomies_plural}").count
     end
     instance_variable_set("@#{taxonomies_plural}", @taxonomies)
 
@@ -76,6 +76,11 @@ module Api::V2::TaxonomiesController
     process_response @taxonomy.destroy
   rescue Ancestry::AncestryException
     render :json => {:error => {:message => (_('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.title, :sti_name => @taxonomy.sti_name }) } }
+  end
+
+  # overriding public FindCommon#resource_scope to scope only to user's taxonomies
+  def resource_scope(*args)
+    super.send("my_#{taxonomies_plural}")
   end
 
   private

@@ -400,7 +400,9 @@ module ApplicationHelper
   end
 
   def show_parent?(obj)
-    (obj.new_record? && obj.class.count > 0) || (!obj.new_record? && obj.class.count > 1)
+    minimum_count = obj.new_record? ? 0 : 1
+    base = obj.class.respond_to?(:completer_scope) ? obj.class.completer_scope(nil) : obj.class
+    base.count > minimum_count
   end
 
   def documentation_button(section = "")
