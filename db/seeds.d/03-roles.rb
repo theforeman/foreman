@@ -1,6 +1,6 @@
 # Roles
 def view_permissions
-  Permission.all.map(&:name).select { |permission_name| permission_name.match /view/ }.map(&:to_sym)
+  Permission.all.map(&:name).select { |permission_name| permission_name.match /^view/ }.map(&:to_sym)
 end
 
 default_permissions =
