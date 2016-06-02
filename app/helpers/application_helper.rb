@@ -435,4 +435,8 @@ module ApplicationHelper
     end
     spinner(text, options)
   end
+
+  def hosts_count(resource_name = controller.resource_name)
+    @hosts_count ||= Host::Managed.reorder('').authorized.group("#{resource_name}_id").count
+  end
 end

@@ -4,10 +4,6 @@ require 'test_helper'
 class OperatingsystemTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
-    Operatingsystem.all.each do |o| #because we load from fixtures, counters aren't updated
-      Operatingsystem.reset_counters(o.id,:hosts)
-      Operatingsystem.reset_counters(o.id,:hostgroups)
-    end
   end
 
   test "shouldn't save with blank attributes" do
@@ -195,23 +191,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
     test "OSes without a shorten_description method fall back to description" do
       assert_equal 'Arch Linux', Archlinux.shorten_description("Arch Linux")
-    end
-  end
-
-  test "should update hosts_count" do
-    host = FactoryGirl.create(:host)
-    os = operatingsystems(:ubuntu1010)
-    assert_difference "os.hosts_count" do
-      host.update_attributes(:operatingsystem => os)
-      os.reload
-    end
-  end
-
-  test "should update hostgroups_count" do
-    os = operatingsystems(:ubuntu1010)
-    assert_difference "os.hostgroups_count" do
-      hostgroups(:common).update_attribute(:operatingsystem, os)
-      os.reload
     end
   end
 

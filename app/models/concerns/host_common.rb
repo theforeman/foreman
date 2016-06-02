@@ -6,26 +6,22 @@ module HostCommon
   extend ActiveSupport::Concern
 
   included do
-    include CounterCacheFix
-
-    counter_cache = "#{model_name.to_s.split(':').first.pluralize.downcase}_count".to_sym # e.g. :hosts_count
-
-    belongs_to :architecture,    :counter_cache => counter_cache
-    belongs_to :environment,     :counter_cache => counter_cache
-    belongs_to :operatingsystem, :counter_cache => counter_cache
+    belongs_to :architecture
+    belongs_to :environment
+    belongs_to :operatingsystem
     belongs_to :medium
     belongs_to :ptable
     belongs_to :puppet_proxy,    :class_name => "SmartProxy"
     belongs_to :puppet_ca_proxy, :class_name => "SmartProxy"
-    belongs_to :realm,           :counter_cache => counter_cache
+    belongs_to :realm
     belongs_to :compute_profile
     validates :puppet_ca_proxy, :proxy_features => { :feature => "Puppet CA", :message => N_("does not have the Puppet CA feature") }
     validates :puppet_proxy, :proxy_features => { :feature => "Puppet", :message => N_("does not have the Puppet feature") }
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
     has_many :host_config_groups, :as => :host
-    has_many :config_groups, :through => :host_config_groups, :after_add => :update_config_group_counters,
-                                                              :after_remove => :update_config_group_counters
+    has_many :config_groups, :through => :host_config_groups, :after_add => :update_puppetclass_counters,
+                                                              :after_remove => :update_puppetclass_counters
     has_many :config_group_classes, :through => :config_groups
     has_many :group_puppetclasses, :through => :config_groups, :source => :puppetclasses
 
@@ -239,18 +235,8 @@ module HostCommon
     true # we don't want to break anything, so just skipping.
   end
 
-  def cnt_hostgroups(config_group)
-    Hostgroup.search_for(%{config_group="#{config_group.name}"}).count
-  end
-
-  def cnt_hosts(config_group)
-    Host::Managed.search_for(%{config_group="#{config_group.name}"}).count
-  end
-
-  def update_config_group_counters(record)
+  def update_puppetclass_counters(record)
     return unless persisted?
-    record.update_attribute(:hostgroups_count, cnt_hostgroups(record))
-    record.update_attribute(:hosts_count, cnt_hosts(record))
 
     record.update_puppetclasses_total_hosts
   end

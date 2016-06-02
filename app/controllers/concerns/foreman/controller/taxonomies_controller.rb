@@ -20,7 +20,6 @@ module Foreman::Controller::TaxonomiesController
     respond_to do |format|
       format.html do
         @taxonomies = values.paginate(:page => params[:page])
-        @counter = hosts_scope.group(taxonomy_id).where(taxonomy_id => values).count
         render 'taxonomies/index'
       end
       format.json
