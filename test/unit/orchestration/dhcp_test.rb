@@ -237,4 +237,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     Nic::Managed.any_instance.expects(:set_dhcp).raises(StandardError, 'DHCP test failure')
     refute h.interfaces.first.rebuild_dhcp
   end
+
+  test "dhcp_record should return nil for invalid mac" do
+    host = FactoryGirl.build(:host, :with_dhcp_orchestration, :interfaces => [FactoryGirl.build(:nic_primary_and_provision, :mac => "aaaaaa")])
+    assert_nil host.dhcp_record
+  end
 end

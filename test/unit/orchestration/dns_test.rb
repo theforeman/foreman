@@ -140,4 +140,10 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert_match /^Error connecting to system DNS/, h.errors[:base].first
     end
   end
+
+  test 'dns record should be nil for invalid ip' do
+    host = FactoryGirl.build(:host, :with_dns_orchestration, :interfaces => [FactoryGirl.build(:nic_primary_and_provision, :ip => "aaaaaaa")])
+    assert_nil host.dns_ptr_record
+    assert_nil host.dns_a_record
+  end
 end

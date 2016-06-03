@@ -1,5 +1,6 @@
 module Orchestration::DHCP
   extend ActiveSupport::Concern
+  include Orchestration::Common
 
   included do
     after_validation :dhcp_conflict_detected?, :queue_dhcp, :unless => :importing_facts
@@ -20,7 +21,9 @@ module Orchestration::DHCP
 
   def dhcp_record
     return unless dhcp? or @dhcp_record
-    @dhcp_record ||= (provision? && jumpstart?) ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
+    handle_validation_errors do
+      @dhcp_record ||= (provision? && jumpstart?) ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
+    end
   end
 
   def rebuild_dhcp
