@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-30 10:30+0000\n"
+"PO-Revision-Date: 2016-06-01 12:09+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1631,8 +1631,8 @@ msgstr "Nom d'hôte du serveur Puppet par défaut"
 msgid "Default behavior"
 msgstr "Fonctionnement par défaut"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "Mode de démarrage par défaut des interfaces attribués à ce sous-réseau"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr "Mode de démarrage par défaut des interfaces attribués à ce sous-réseau, appliqué aux hôtes par les modèles de provisioning"
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "Mode de démarrage par défaut pour les interfaces de ce sous-réseau. Les valeurs possibles sont \"Static\" et \"DHCP\""
@@ -2435,8 +2435,8 @@ msgstr "Échec de récupération des fichiers de boot"
 msgid "Failed to fetch: "
 msgstr "Erreur de récupération :"
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "Échec de génération du modèle %{template_kind} : %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr "Échec de génération du modèle %{template_kind} nommé %{template_name} : %{e}"
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Échec de récupération de l'adresse IP pour %{name}: %{e}"
@@ -4071,6 +4071,9 @@ msgstr "Fact d'emplacement"
 msgid "Location parameters"
 msgstr "Paramètres d'emplacement"
 
+msgid "Location with id %{id} not found"
+msgstr "L'emplacement avec l'ID %{id} n'a pas été trouvé"
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "L'emplacement que vous avez sélectionné comme contexte a été effacé."
 
@@ -5053,6 +5056,9 @@ msgstr "Fact d'organisation"
 
 msgid "Organization parameters"
 msgstr "Paramètres d'organisation"
+
+msgid "Organization with id %{id} not found"
+msgstr "L'organisation avec l'ID %{id} n'a pas été trouvé"
 
 msgid "Organization you had selected as your context has been deleted."
 msgstr "L'organisation que vous avez sélectionné comme contexte a été effacée."
@@ -6717,6 +6723,9 @@ msgstr "Modèle"
 
 msgid "Template %s is empty."
 msgstr "Le modèle %s est vide."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr "Le modèle '%s' est absent ou possède une organisation ou emplacement invalide."
 
 msgid "Template Diff"
 msgstr "Diff du Modème"

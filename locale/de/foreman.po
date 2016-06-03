@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 13:02+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1632,8 +1632,8 @@ msgstr "Standard-Hostname des Puppet-Servers"
 msgid "Default behavior"
 msgstr "Standardmäßiges Verhalten"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "Standard-Boot-Modus für Schnittstellen, die diesem Subnetz zugewiesen sind"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "Standard-Boot-Modus für Schnittstellen die diesem Subnetz zugewiesen sind, gültige Werte sind \"Statisch\", \"DHCP\""
@@ -2438,8 +2438,8 @@ msgstr "Fehler beim Laden der Bootdateien"
 msgid "Failed to fetch: "
 msgstr "Fehler beim Abrufen:"
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "Fehler beim Erzeugen der %{template_kind}-Vorlage: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Konnte IP-Adresse für %{name}: %{e} nicht finden"
@@ -4074,6 +4074,9 @@ msgstr ""
 msgid "Location parameters"
 msgstr "Standortparameter"
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "Der Standort, den Sie als Kontext gewählt hatten, wurde gelöscht."
 
@@ -5056,6 +5059,9 @@ msgstr ""
 
 msgid "Organization parameters"
 msgstr "Organisationsparameter"
+
+msgid "Organization with id %{id} not found"
+msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
 msgstr "Die Organisation, die Sie als Kontext gewählt hatten, wurde gelöscht."
@@ -6720,6 +6726,9 @@ msgstr "Vorlage"
 
 msgid "Template %s is empty."
 msgstr "Vorlage %s ist leer."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "Vorlagenabgleich"

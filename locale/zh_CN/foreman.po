@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -1591,8 +1591,8 @@ msgstr "默认puppet服务器名"
 msgid "Default behavior"
 msgstr "默认行为"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "分配给这个子网接口的默认引导模式"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "分配给这个子网接口的默认引导模式，有效值为 \"Static\"，\"DHCP\"。"
@@ -2394,8 +2394,8 @@ msgstr "无法提取引导文件"
 msgid "Failed to fetch: "
 msgstr "无法获取："
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "创建 %{template_kind} template: %{e} 失败"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "获取 %{name} IP 失败：%{e}"
@@ -4027,6 +4027,9 @@ msgstr ""
 msgid "Location parameters"
 msgstr ""
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "已删除选为上下文的位置。"
 
@@ -5008,6 +5011,9 @@ msgid "Organization fact"
 msgstr ""
 
 msgid "Organization parameters"
+msgstr ""
+
+msgid "Organization with id %{id} not found"
 msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
@@ -6672,6 +6678,9 @@ msgstr "模板"
 
 msgid "Template %s is empty."
 msgstr "模板 %s 为空。"
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "模板比较"

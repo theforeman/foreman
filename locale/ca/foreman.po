@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -1611,8 +1611,8 @@ msgstr "El nom d'amfitrió del servidor de Puppet per defecte"
 msgid "Default behavior"
 msgstr "Comportament per defecte"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "Mode d'arrencada per defecte per a les interfícies assignades a aquesta subxarxa"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "Mode d'arrencada per defecte per a les interfícies assignades a aquesta subxarxa, els valors vàlids són «Static» i «DHCP»"
@@ -2415,8 +2415,8 @@ msgstr "No s'han pogut recuperar els fitxers d'arrencada"
 msgid "Failed to fetch: "
 msgstr "No s'ha pogut recuperar:"
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "No s'ha pogut generar la plantilla %{template_kind}: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "No s'ha pogut obtenir la IP per %{name}: %{e}"
@@ -4051,6 +4051,9 @@ msgstr "Objecte d'interès de la ubicació"
 msgid "Location parameters"
 msgstr ""
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr ""
 
@@ -5034,6 +5037,9 @@ msgid "Organization fact"
 msgstr "Objecte d'interès de l'organització"
 
 msgid "Organization parameters"
+msgstr ""
+
+msgid "Organization with id %{id} not found"
 msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
@@ -6699,6 +6705,9 @@ msgstr "Plantilla"
 
 msgid "Template %s is empty."
 msgstr "La plantilla %s està buida."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr ""

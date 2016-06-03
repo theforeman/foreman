@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-31 16:00+0100\n"
-"PO-Revision-Date: 2016-05-31 16:00+0100\n"
+"POT-Creation-Date: 2016-06-03 12:41+0100\n"
+"PO-Revision-Date: 2016-06-03 12:41+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -5000,11 +5000,11 @@ msgid ""
 "e size in gigabytes."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:171
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:177
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:325
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:331
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -5012,7 +5012,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:347
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:353
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -8201,6 +8201,10 @@ msgstr ""
 #: ../app/views/compute_resources/show/_vmware.html.erb:7
 #: ../app/views/images/_list.html.erb:19
 msgid "Disabled"
+msgstr ""
+
+#: ../app/views/compute_resources/show/_ovirt.html.erb:6
+msgid "Operating systems API supported?"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/_error.html.erb:5

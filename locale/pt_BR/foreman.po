@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
@@ -1612,8 +1612,8 @@ msgstr "Nome do servidor Puppet padrão"
 msgid "Default behavior"
 msgstr "Comportamento padrão"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "Metodo de inicialização padrão para interfaces registradas nessa subrede"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr " Modo de inicialização padrão para interfaces atribuídos a este sub-rede, os valores válidos são \"Static\", \"DHCP\""
@@ -2416,8 +2416,8 @@ msgstr "Falha ao buscar os arquivos de inicialização"
 msgid "Failed to fetch: "
 msgstr "Falha ao buscar:"
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "Falha ao gerar %{template_kind} template: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Falha ao obter IP para %{name}: %{e}"
@@ -4049,6 +4049,9 @@ msgstr ""
 msgid "Location parameters"
 msgstr ""
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "Local que você selecionou pois seu contexto foi removido."
 
@@ -5030,6 +5033,9 @@ msgid "Organization fact"
 msgstr ""
 
 msgid "Organization parameters"
+msgstr ""
+
+msgid "Organization with id %{id} not found"
 msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
@@ -6695,6 +6701,9 @@ msgstr "Template"
 
 msgid "Template %s is empty."
 msgstr "Template %s está vazio."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "Dif de Modelo"

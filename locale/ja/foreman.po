@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -1591,8 +1591,8 @@ msgstr "デフォルト Puppet サーバーのホスト名"
 msgid "Default behavior"
 msgstr "デフォルト動作"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "このサブネットに割り当てられたインターフェイスのデフォルトの起動モード"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "このサブネットに割り当てられたインターフェイスのデフォルトブートモード、有効な値は、「Static」、「DHCP」 です"
@@ -2394,8 +2394,8 @@ msgstr "ブートファイルの取得に失敗しました"
 msgid "Failed to fetch: "
 msgstr "取得に失敗しました: "
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "%{template_kind} テンプレートの生成に失敗しました: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "%{name} の IP の取得に失敗しました : %{e}"
@@ -4030,6 +4030,9 @@ msgstr ""
 msgid "Location parameters"
 msgstr ""
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "コンテキストとして選択したロケーションは削除されました."
 
@@ -5011,6 +5014,9 @@ msgid "Organization fact"
 msgstr ""
 
 msgid "Organization parameters"
+msgstr ""
+
+msgid "Organization with id %{id} not found"
 msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
@@ -6675,6 +6681,9 @@ msgstr "テンプレート"
 
 msgid "Template %s is empty."
 msgstr "%s のテンプレートの中身が空です."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "テンプレート差分"

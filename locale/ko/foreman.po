@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -1587,8 +1587,8 @@ msgstr "기본 Puppet 서버 호스트 이름 "
 msgid "Default behavior"
 msgstr "기본 동작 "
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "이 서브넷에 할당된 인터페이스의 기본값 부팅 모드 "
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "이 서브넷에 할당된 인터페이스의 기본 부팅 모드입니다. 유효한 값은 \"고정\", \"DHCP\"입니다 "
@@ -2390,8 +2390,8 @@ msgstr "부팅 파일을 가져오는데 실패했습니다 "
 msgid "Failed to fetch: "
 msgstr "가져오는데 실패했습니다: "
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "%{template_kind} 템플릿 생성에 실패했습니다: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "%{name}의 IP를 얻는데 실패했습니다: %{e}"
@@ -4023,6 +4023,9 @@ msgstr ""
 msgid "Location parameters"
 msgstr ""
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "문맥으로 선택한 위치가 삭제되었습니다."
 
@@ -5004,6 +5007,9 @@ msgid "Organization fact"
 msgstr ""
 
 msgid "Organization parameters"
+msgstr ""
+
+msgid "Organization with id %{id} not found"
 msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
@@ -6668,6 +6674,9 @@ msgstr "템플릿"
 
 msgid "Template %s is empty."
 msgstr "템플릿 %s이 비어있습니다. "
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "템플릿 차이 "

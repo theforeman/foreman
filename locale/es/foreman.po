@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
@@ -1625,8 +1625,8 @@ msgstr "Nombre de servidor Puppet predeterminado"
 msgid "Default behavior"
 msgstr ""
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "Modo de arranque por defecto de interfaces asigandos a esta subred"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "Modo de arranque por defecto para interfaces asigandos a esta subred, son válidos \"Static\", \"DHCP\""
@@ -2431,8 +2431,8 @@ msgstr "Fallo al recolectar los ficheros de arranque"
 msgid "Failed to fetch: "
 msgstr "Fallo al extraer: "
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "Fallo al generar el tipo de plantilla %{template_kind}: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Fallo al asignar la IP de ${name}: %{e}"
@@ -4067,6 +4067,9 @@ msgstr ""
 msgid "Location parameters"
 msgstr ""
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "La ubicación seleccionada como contexto ha sido eliminada."
 
@@ -5048,6 +5051,9 @@ msgid "Organization fact"
 msgstr ""
 
 msgid "Organization parameters"
+msgstr ""
+
+msgid "Organization with id %{id} not found"
 msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
@@ -6713,6 +6719,9 @@ msgstr "Plantilla"
 
 msgid "Template %s is empty."
 msgstr "La plantilla %s está vacía."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "Diferencias entre Plantilla"

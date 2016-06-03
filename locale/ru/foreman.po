@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
@@ -1670,8 +1670,8 @@ msgstr "Имя узла сервера Puppet по умолчанию"
 msgid "Default behavior"
 msgstr "Поведение по умолчанию"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "Режим загрузки по умолчанию для интерфейсов связанных с этой подсетью"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "Режим загрузки по умолчанию для интерфейса прикрепленного к этой подсети, доступные значения: \"Static\", \"DHCP\""
@@ -2480,8 +2480,8 @@ msgstr "Не удалось получить загрузочные файлы"
 msgid "Failed to fetch: "
 msgstr "Не удалось получить:"
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "Не удалось создать шаблон %{template_kind}: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Не удалось получить IP для %{name}: %{e}"
@@ -4115,6 +4115,9 @@ msgstr "Факт: местоположение"
 msgid "Location parameters"
 msgstr "Параметры местоположения"
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "Выбранное местоположение было удалено."
 
@@ -5097,6 +5100,9 @@ msgstr "Факт: организация"
 
 msgid "Organization parameters"
 msgstr "Параметры организации"
+
+msgid "Organization with id %{id} not found"
+msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
 msgstr "Ваша рабочая организация была удалена."
@@ -6763,6 +6769,9 @@ msgstr "Шаблон"
 
 msgid "Template %s is empty."
 msgstr "Шаблон %s пуст."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "Отличия шаблонов"

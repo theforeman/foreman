@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-05-26 09:52+0000\n"
+"PO-Revision-Date: 2016-06-01 09:14+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1655,8 +1655,8 @@ msgstr "domyślny hostname serwera Puppet"
 msgid "Default behavior"
 msgstr "Domyślne zachowanie"
 
-msgid "Default boot mode for interfaces assigned to this subnet"
-msgstr "Domyślny tryb bootowania dla interfejsów przypisanych do danej podsieci"
+msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
+msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
 msgstr "Domyślny tryb startowy dla interfejsów przypisanych do danej podsieci, poprawnymi wartościami są  \"Static \", \"DHCP\""
@@ -2462,8 +2462,8 @@ msgstr "Nie udało się pobrać plików bootowania:"
 msgid "Failed to fetch: "
 msgstr "Nie udało się pobrać:"
 
-msgid "Failed to generate %{template_kind} template: %{e}"
-msgstr "Nie udało się wygenerować szablonu typu %{template_kind}: %{e}"
+msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Nie udało się uzyskać adresu IP dla %{name}: %{e}"
@@ -4098,6 +4098,9 @@ msgstr "Lokalizacja informacji"
 msgid "Location parameters"
 msgstr "Parametry lokalizacji "
 
+msgid "Location with id %{id} not found"
+msgstr ""
+
 msgid "Location you had selected as your context has been deleted."
 msgstr "Lokalizacja wybrana jako kontekst została usunięta."
 
@@ -5080,6 +5083,9 @@ msgstr "fakt organizacji"
 
 msgid "Organization parameters"
 msgstr "Parametry organizacji"
+
+msgid "Organization with id %{id} not found"
+msgstr ""
 
 msgid "Organization you had selected as your context has been deleted."
 msgstr "Organizacja którą wybrałeś jako swój kontekst została usunięta."
@@ -6745,6 +6751,9 @@ msgstr "Szablon"
 
 msgid "Template %s is empty."
 msgstr "Szablon %s jest pusty."
+
+msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "Różnice szablonu"
