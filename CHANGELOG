@@ -1,3 +1,809 @@
+2016-06-03	Dominic Cleal <dominic@cleal.org>
+	* Release 1.12.0-RC1
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* fixes #15250 - ignore current controller from link_to/hash_for
+	* fixes #15247 - reference PuppetError class correctly
+
+2016-06-03	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15225 - correct permission mapping for api puppet import
+
+2016-06-03	Ori Rabin <orabin@redhat.com>
+	* Fixes #15246 - correctly override array params
+
+2016-06-03	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15238 - ignore empty NIC identifiers
+
+2016-06-03	Ivan Nečas <inecas@redhat.com>
+	* Fixes #15066 - operating systems and ovirt < 3.6
+
+2016-05-31	Dominic Cleal <dominic@cleal.org>
+	* i18n - extracting new, pulling from tx
+
+2016-05-31	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15166 - correct layout of dashboard when zoomed
+
+2016-05-31	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #6539 - missing templates error is now descriptive
+
+2016-05-30	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #15223 - query parameters are now correct.
+
+2016-05-29	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #15137 - Find correct jnotify container
+
+2016-05-29	Ori Rabin <orabin@redhat.com>
+	* Fixes #15155 - skip single validation when importing puppetclass
+
+2016-05-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15182 - limit user taxonomies in API (CVE-2016-4451)
+
+2016-05-27	Ori Rabin <orabin@redhat.com>
+	* Fixes #14546 - ability to restrict *_external_variables Fixes #14535 - corrects permissions for smart class parameters
+
+2016-05-27	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14879 - Fixed query syntax in FactTrend#find_hosts
+
+2016-05-26	Dominic Cleal <dominic@cleal.org>
+	* fixes #14905 - enable DHCP orchestration with any boot mode
+	* fixes #15176 - match fog's pin of fog-google
+
+2016-05-26	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15163 - use new oVirt CA cert endpoint
+
+2016-05-26	John Mitsch <jomitsch@redhat.com>
+	* Fixes #15050 - Scoped search hostname w/o field no longer ISEs
+
+2016-05-25	Ivan Nečas <inecas@redhat.com>
+	* Fixes #15174 - make sure to return 404 when taxonomy not found
+
+2016-05-25	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #13698 - update rest-client and rbovirt gems
+
+2016-05-25	Stephen Benjamin <stephen@redhat.com>
+	* fixes #14509 - refactor enc_output to be a generic exporter
+
+2016-05-25	Dominic Cleal <dominic@cleal.org>
+	* fixes #8884 - drop Gemfile support for Ruby 1.9.3
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* i18n - add pl (Polish)
+
+2016-05-24	Timo Goebel <timo.goebel@dm.de>
+	* fixes #10956 - add annotation support for vmware
+	* fixes #3910 - add cdrom drive support for vmware
+
+2016-05-24	Stijn Tintel <stijn@linux-ipv6.be>
+	* Fixes #14541 - foreman-rake must preserve environment variables
+
+2016-05-24	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #15154 - Added more safety measures to libvirt
+
+2016-05-24	Dominic Cleal <dominic@cleal.org>
+	* fixes #15054 - stub calls to CR in ComputeAttribute factory
+
+2016-05-24	Ivan Nečas <inecas@redhat.com>
+	* Fixes #15151 - properly convert Fog VMs to_s
+
+2016-05-23	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #13741 - Hidden values use masked input for default value
+
+2016-05-19	Dominic Cleal <dominic@cleal.org>
+	* fixes #14865 - use waiting selector to search for checked boxes
+
+2016-05-19	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15077 - Error HTML tags are shown
+
+2016-05-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15090 - Add scrolling to taxonomy selection
+
+2016-05-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14962 - support wildcard certs for proxy authentication
+
+2016-05-17	Baptiste Agasse <baptiste.agasse@lyra-network.com>
+	* Fixes #15046 - Add bmc_nic related attributes to jail
+
+2016-05-17	Timo Goebel <timo.goebel@dm.de>
+	* fixes #12425 - do not trigger orchestration during fact import
+	* fixes #14642 - support AAAA and PTR-Records in dns lib
+
+2016-05-17	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14969 - correctly reload custom statuses
+
+2016-05-17	Dominic Cleal <dominic@cleal.org>
+	* fixes #15060 - permit activerecord-session_store 1.x
+
+2016-05-16	Brad Buckingham <bbuckingham@redhat.com>
+	* Fixes #15038 - reset User cache during migration
+
+2016-05-16	Ivan Nečas <inecas@redhat.com>
+	* Fixes #15011 - don't expect the facet tables in migration
+
+2016-05-16	Gail Steiger <gsteiger@redhat.com>
+	* fixes #14892 - some plugins break javascript topbar behavior
+
+2016-05-15	Trey Dockendorf <tdockendorf@osc.edu>
+	* Fixes #15047 - Improve audit email details
+
+2016-05-13	Dominic Cleal <dominic@cleal.org>
+	* fixes #15040 - remove user fragment cache initializer
+
+2016-05-13	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #12339 - Reuse to-be-deleted matchers while creating new
+
+2016-05-13	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12225 - invalidate topbar cache after restart
+
+2016-05-12	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14313 - improve facts navigation and URL
+	* Fixes #15020 - display only selected oVirt network
+
+2016-05-12	David Davis <daviddavis@redhat.com>
+	* Refs #3809 - Turning on some rubocop cops
+
+2016-05-12	Greg Sutcliffe <gsutclif@redhat.com>
+	* Fixes #14957 - Use a temporary status file to store exit status
+
+2016-05-12	Vincent Lequertier <sky@riseup.net>
+	* Fixes #15009 - Make the method boot_files_uris public
+
+2016-05-12	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14874 - do not run path replace during vmware clone
+
+2016-05-11	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #14981 - use root_object for host RABL
+
+2016-05-10	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #14980 - fixed unused_ip API subnet param
+
+2016-05-10	amirfefer <amirfefer@gmail.com>
+	* Fixes #14963 - supports dynamic content in setting select box
+
+2016-05-10	Roman Plevka <rplevka@redhat.com>
+	* fixes #13437 - Bookmarks public attribute set to required
+
+2016-05-10	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14977 - Report show toolbar has buttons instead of links
+	* Fixes #12945 - use helper for table css classes
+
+2016-05-10	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #14869 - Adds import button to environments welcome page
+
+2016-05-09	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #14965 - turn off auditing during DB migrations
+
+2016-05-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14960 - Improve settings helper for collections
+
+2016-05-09	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #14877 - Adds glossary to dashboard API
+
+2016-05-06	amirfefer <amirfefer@gmail.com>
+	* Fixes #6958 - supports in nested hostgroup in default PXE menu
+	* Fixes #3200 - Add select boxes to settings
+
+2016-05-06	Dominic Cleal <dominic@cleal.org>
+	* fixes #14133 - update to rubocop 0.39.0
+
+2016-05-06	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13741 - Prevent hidden parameters from erasing newline
+	* Fixes #14924 - Improve performance of taxonomy edit page
+
+2016-05-06	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14661 - support IPv6 subnets
+
+2016-05-05	Guido Günther <agx@sigxcpu.org>
+	* Fixes #14701: Mention image password in API docs and tests
+
+2016-05-05	Ori Rabin <orabin@redhat.com>
+	* Fixes #14927 - correct override value requirment
+
+2016-05-05	Dominic Cleal <dominic@cleal.org>
+	* fixes #14912 - setup console gems under bundler_ext
+
+2016-05-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14934 - Remove rails 3.2 workaround from parameter model
+
+2016-05-05	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14746 - Template kinds translated  in provisioning template form dropdown
+
+2016-05-04	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14898 - Fix for config task Removing undefined variable took care of it.
+
+2016-05-03	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14795 - User w/o edit_params permission can save host
+
+2016-05-03	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14079 - display_link_if_authorized not hidden when disabled
+
+2016-05-02	amirfefer <amirfefer@gmail.com>
+	* Fixes #6977 - default PXE menu's labels are sorted
+
+2016-05-01	Dominic Cleal <dominic@cleal.org>
+	* fixes #14887 - remove unused test-unit dep
+
+2016-04-29	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #14843 - Improve rake config error handling
+
+2016-04-29	Dominic Cleal <dominic@cleal.org>
+	* fixes #14876 - permit wirb 2.x on Ruby 2.x
+	* fixes #14866 - prod2dev Rails 4 compatibility
+	* fixes #14855 - hide template type dropdown when snippet checked
+
+2016-04-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #11079 - Handle oVirt with missing template version name
+	* Fixes #14679 - Fix tabbing of puppet CA in proxy
+
+2016-04-28	Dominic Cleal <dominic@cleal.org>
+	* fixes #14820 - override Rails log level with Foreman
+
+2016-04-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #14726 - disabled delete button in interfaces doesn't delete
+
+2016-04-28	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14864 - show link to subnet in host nic info
+
+2016-04-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #13819 - avoid facts mismatches on import
+	* Fixes #14735 - avoid double sweeping of User topbar cache
+
+2016-04-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14730 - Only search host proxies explicitly
+
+2016-04-27	Ori Rabin <orabin@redhat.com>
+	* Fixes #14790 - reloads puppetclass parameters when choosing os and domain
+
+2016-04-27	Luis Fernandez Alvarez <luis.fernandezalvarez@epfl.ch>
+	* Fixes #14778 - Ensure parsing complex types keep target type
+
+2016-04-26	Dominic Cleal <dominic@cleal.org>
+	* fixes #14810 - change duplicate test class name
+	* refs #14072 - fix test to check correct login return path
+
+2016-04-25	Stephen Benjamin <stephen@redhat.com>
+	* fixes #14765 - exclude job templates from template sync
+
+2016-04-22	Dominic Cleal <dominic@cleal.org>
+	* fixes #14742 - retrieve template kind labels from plugin regs
+
+2016-04-22	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14781 - stub network calls for host_build_status_test
+
+2016-04-22	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14768 - Ellipsis for smart proxy name in table on index page
+
+2016-04-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14769 - avoid template comments because of deface
+
+2016-04-21	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #14748 - latest_events should use filters
+	* Fixes #14744 - Adds auto_complete_search route to compute_profiles
+	* Fixes #14072 - Use to_hash when requesting session original_uri
+
+2016-04-21	Dominic Cleal <dominic@cleal.org>
+	* fixes #14741 - translate template kind string, not object
+	* refs #14395 - change user-friendly template kind names
+
+2016-04-20	Dominic Cleal <dominic@cleal.org>
+	* fixes #13244 - update Rails to 4.2.6
+	* refs #14691 - user editing self should not change User.current
+
+2016-04-20	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14395 - Label for provision template capitalized in os details page
+
+2016-04-19	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14638 - Refactor Subnet into STI to allow different subnet types
+
+2016-04-19	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #14376 - Cut long bookmark names
+	* Fixes #14691 - User #to_label should show persisted name
+
+2016-04-19	Dominic Cleal <dominic@cleal.org>
+	* templates - sync from community-templates
+
+2016-04-18	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14456 - Cleanup navbar handling code and style
+
+2016-04-18	Andrew Kofink <akofink@redhat.com>
+	* Fixes #14686 - Allow scoped search on ID for organizations
+
+2016-04-18	Ivan Nečas <inecas@redhat.com>
+	* Fixes #14635 - bump safemode version to fix the unwanted inspect issue
+
+2016-04-18	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #9584 - User email address length can be longer than 60
+
+2016-04-15	Walden Raines <walden@redhat.com>
+	* Fixes #14645: fix production images for plugins.
+
+2016-04-14	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14636 - correctly search puppet class on host form
+
+2016-04-14	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #6167 - 'Deployed on' dropdown in hosts/new form disabled until ajax on hostgroup_changed is resolved
+
+2016-04-14	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14639 - add stubbing for template proxy with no templateServer test
+
+2016-04-14	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10605 - handle logout accessed by GET
+	* Fixes #11434 - vdsmdummy interfaces are ignored
+
+2016-04-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #14640 - add missing whitespace to template text
+
+2016-04-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14588 - introduce plugin API for extending template helpers
+	* Fixes #14586 - Associate default templates to Orgs and Locs during seed
+	* Fixes #12318 - support preview for deb-based distros
+
+2016-04-13	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14563 - Improve dashboard layout
+
+2016-04-12	Ori Rabin <orabin@redhat.com>
+	* Fixes #14190 - consistent api output and search options
+
+2016-04-12	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #14521 - better error on missing PXELinux template
+
+2016-04-12	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14566 - remove show_console_action function
+
+2016-04-12	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14559 - Added support for overriding base url for documentation
+	* Fixes #14369 - Removed default scope from host counter in taxonomies
+
+2016-04-12	Ivan Nečas <inecas@redhat.com>
+	* Fixes #10278 - don't replace . with - for oVirt VM anymore
+	* Fixes #6959 - set operating system for RHEV/ovirt VMs
+	* Fixes #14572 - fix updating storage in compute profiles based on template
+
+2016-04-11	Ivan Nečas <inecas@redhat.com>
+	* Fixes #13986 - don't use image unless in image provisioning method
+	* Fixes #10978 - fix possibility to assign networks in compute profile for ovirt
+
+2016-04-11	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14575 - fix domain ENC info
+
+2016-04-11	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14564 - correct button styling
+
+2016-04-11	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #14261 - User API should return correct admin status
+
+2016-04-11	Dominic Cleal <dominic@cleal.org>
+	* fixes #14567 - permit fast_gettext 1.x
+
+2016-04-11	Dominique Quatravaux <dominique@quatravaux.org>
+	* Fixes #14508 - foreman-rake console can take arguments
+
+2016-04-10	Stephen Benjamin <stephen@redhat.com>
+	* fixes #14555 - use new_link on hostgroups welcome page
+
+2016-04-08	Evgeni Golov <egolov@redhat.com>
+	* fixes #14502 - fix documentation of the hosts controller for puppetclass_ids
+
+2016-04-08	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #14173 - Puppet Summary Report host listing should be alphabetically sorted.
+
+2016-04-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #14479 - removed unwanted check for token param
+
+2016-04-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14476 - Correctly handle casting of invalid real param values
+
+2016-04-07	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10053 - search in logs must be explicit
+
+2016-04-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #14511 - bookmark editing ensures the query field is populated
+
+2016-04-07	amirfefer <amirfefer@gmail.com>
+	* Fixes #1329 - encrypt BMC password in DB
+
+2016-04-07	Ori Rabin <orabin@redhat.com>
+	* Fixes #14432 - Removing scoped search on value for smart class parameter
+
+2016-04-07	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #12979 - fix proxy button styling
+
+2016-04-07	Ivan Nečas <inecas@redhat.com>
+	* Fixes #14503 - don't join reports with the logs and resources explicitly in API
+
+2016-04-06	Dominic Cleal <dominic@cleal.org>
+	* fixes #14482 - close two-pane when saving compute profile attributes
+
+2016-04-06	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14505 - Correct authorization of broken smart proxy actions
+
+2016-04-06	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #14504 - Moves Report scoped search into inherited method
+
+2016-04-06	imriz <imrizvik@gmail.com>
+	* Fixes #10592 - Add tests to validate the allowed_helpers passed into the renderer in ProvisioningTemplate.build_pxe_default contains the generic list
+
+2016-04-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14451 - Allow plugins to add menus to top menu without breaking the second menu
+
+2016-04-05	Ori Rabin <orabin@redhat.com>
+	* Refs #12979 - adding btn-default class to leftover buttons
+
+2016-04-05	Dominic Cleal <dominic@cleal.org>
+	* fixes #14202 - enable select2 in interfaces modal
+	* fixes #14415 - check CR availability with Fog, not SETTINGS
+
+2016-04-05	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14458 - use a base class for STI taxable objects
+
+2016-04-05	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #14330 - Provide option in hammer to change display type for libvirt compute resource
+
+2016-04-04	John Mitsch <jomitsch@redhat.com>
+	* Fixes #14401 - Refreshing Host's global status not persisting to the database
+
+2016-04-04	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14341 - List all images for compute resource
+
+2016-04-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #5816 - allow editing and displaying self via API
+
+2016-04-04	Dominic Cleal <dominic@cleal.org>
+	* fixes #14434 - refactor tokens into concern from observer
+
+2016-04-03	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #14417 - Update Doc link
+
+2016-03-31	Dominic Cleal <dominic@cleal.org>
+	* fixes #14368 - update fog to 1.38.0
+	* fixes #12746 - list compute resources from plugin definitions
+
+2016-03-31	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14393 - Using patternfly icons instead of glyphicons
+
+2016-03-30	Ivan Nečas <inecas@redhat.com>
+	* Fixes #14038 - pass corespersocket in VMWare image-based provisioning
+
+2016-03-30	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #9782 - implement mediapath for suse/yast
+
+2016-03-30	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #14326 - Show long compute resource descriptions correctly
+
+2016-03-29	Kyle Flavin <Kyle.Flavin@gmail.com>
+	* fixes #12962 - Add Xenserver to list of supported OS families.
+
+2016-03-29	Dominic Cleal <dominic@cleal.org>
+	* fixes #14350 - replace selector to ensure Capybara wait is used
+
+2016-03-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #13727 - Error raised when setting default_value when override is set to false
+
+2016-03-28	Partha Aji <paji@redhat.com>
+	* Fixes #14166 - Host facet attributes handling updated
+
+2016-03-28	Dominic Cleal <dominic@cleal.org>
+	* fixes #14338 - move session store configuration earlier
+
+2016-03-28	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14252 - Redirecting to edit taxonomy page if no hosts to assign
+
+2016-03-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14298 - fix popover on facts page
+
+2016-03-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12979 - Create helper for "new" button
+
+2016-03-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14310 - Display muliple host action buttons only if action permitted
+
+2016-03-24	Ivan Nečas <inecas@redhat.com>
+	* Fixes #14340 - specify the default icon sizes to prevent intermittent layout changes
+
+2016-03-24	Dominic Cleal <dominic@cleal.org>
+	* fixes #14344 - add region to permitted Rackspace CR attributes
+	* fixes #14318 - load JS translations table for current locale only
+
+2016-03-23	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14198 - remote_addr validation accepts regex with digit matching
+
+2016-03-23	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #8587 - Don't allow build for unmanaged hosts
+
+2016-03-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14319 - removes unused media_path template helper
+
+2016-03-22	Tom Caspy <tcaspy@gmail.com>
+	* fixes #14050 - resolving N+1 query on hosts#index
+
+2016-03-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14232 - make generic helpers available for global PXE template
+	* Fixes #14264 - improve primary interface selection
+
+2016-03-22	Ivan Nečas <inecas@redhat.com>
+	* Fixes #5859 - don't rely on a mac address being present when overriding the conflicts
+
+2016-03-22	Dominic Cleal <dominic@cleal.org>
+	* fixes #14041 - don't call select2 on CR form templates
+
+2016-03-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12560 - Correct popover behaviour for reports table
+
+2016-03-21	Dominic Cleal <dominic@cleal.org>
+	* fixes #14291 - replace integration test logins with SSO
+
+2016-03-21	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14286 - added :groups_base field to auth_source_ldaps API
+
+2016-03-18	Dominic Cleal <dominic@cleal.org>
+	* fixes #13352 - order dashboard widgets by ID for consistency
+	* fixes #14253 - add attr_accessible to Widget
+
+2016-03-18	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #14067 - Host#edit integration tests should wait for tasks
+
+2016-03-18	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #7726 - Improve select all for filtered multi-select
+	* Fixes #13091 - Paginate VMs for supporting compute resources
+
+2016-03-18	Ori Rabin <orabin@redhat.com>
+	* Fixes #14183 - showing whitespace validation in smart variables
+
+2016-03-18	Chris Edester <edestecd@miamioh.edu>
+	* Fixes #14102 - Full location and organization passed as YAML to the ENC
+
+2016-03-18	Tom Caspy <tcaspy@gmail.com>
+	* fixes #14239 - when creating host from API, set first interface as primary if none set
+
+2016-03-17	Marek Hulan <mhulan@redhat.com>
+	* Refs #14204 - safer libvirt bridge detection
+
+2016-03-17	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14240 - added :server_type attribute to API rabl
+
+2016-03-17	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14237 - Missing tag for hosts/welcome.html.erb
+
+2016-03-17	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13066 - Improve readability of blank slate pages
+
+2016-03-17	Dominic Cleal <dominic@cleal.org>
+	* fixes #14225 - add missing require for Resolv
+
+2016-03-17	amirfefer <amirfefer@gmail.com>
+	* Fixes #13757 - spilt layout helper into two helpers
+
+2016-03-16	Ori Rabin <orabin@redhat.com>
+	* Fixes #14228 - requiring fileutils in test_helper
+
+2016-03-16	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #10183 - Added a default results transformation for status action
+
+2016-03-16	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #14097 - Only run DatabaseCleaner truncation on JS tests
+
+2016-03-16	Dominic Cleal <dominic@cleal.org>
+	* fixes #14200 - exclude form templates from select2 initialisation
+
+2016-03-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14182 - authorize role index
+	* Fixes #14204 - list only bridges for bridged networking
+
+2016-03-16	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #14221: Use Sass Rails template when compiling plugin assets
+
+2016-03-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14191 - remove simplecov test coverage reporting
+
+2016-03-15	Dominic Cleal <dominic@cleal.org>
+	* fixes #13980 - don't merge NIC compute attrs on New Host form
+
+2016-03-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14184 - allow filter creation for users with taxonomies
+
+2016-03-14	Dominic Cleal <dominic@cleal.org>
+	* fixes #14179 - don't merge NIC compute attrs in ComputeProfileMerge
+	* refs #9470 - set :limit on column, fix MailNotification initializer
+	* fixes #14155 - fix leaks between tests with random ordering
+	* fixes #14170 - permit 'zone' parameter for GCE CR creation
+
+2016-03-14	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #6924 - Additional validations for Setting
+
+2016-03-11	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14154 - fix adrift reports show page
+
+2016-03-11	amirfefer <amirfefer@gmail.com>
+	* Fixes #9470 - Adds an option to send puppet error emails for all host to a user
+
+2016-03-10	Karli Sjoberg <karli.sjoberg@gmail.com>
+	* fixes #14131 Changed bash to sh
+
+2016-03-10	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #14106 - Remove puppetclasses no_route page
+
+2016-03-10	Marek Hulan <mhulan@redhat.com>
+	* Fixes #9932 - fix preallocate attribute mapping
+
+2016-03-10	Ori Rabin <orabin@redhat.com>
+	* Fixes #14129 - remove duplicate declaration of KEY_DELM
+	* Fixes #14045 - resizing select2 to match inherit button
+
+2016-03-09	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #13545 - STI permission checking always using base class
+
+2016-03-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14113 - run dhcp orchestration only on DHCP subnets
+
+2016-03-09	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #7726 - Filtered out items no longer added when 'Select all' clicked
+
+2016-03-09	Robert Sanders <rob@sandersmail.eu>
+	* fixes #14096 - handle MiB style memory units on statistics page
+
+2016-03-09	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #13849 - Now the facets will not require id attribute for update
+
+2016-03-09	Dominic Cleal <dominic@cleal.org>
+	* refs #5707 - use plural form and one string for translation
+	* fixes #14114 - pin rake to avoid rubocop/rake 11.x incompatibility
+
+2016-03-09	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #3582 - Parameters on subnets
+
+2016-03-08	Dominic Cleal <dominic@cleal.org>
+	* fixes #13974 - remove nested arrays passed to AR finders
+	* fixes #14094 - replace foreign_keys calls with foreign_key_exists?
+	* fixes #14093 - remove unused permissions column from roles
+	* fixes #14076 - remove unused Puppetclass hostgroups counter
+
+2016-03-08	Ori Rabin <orabin@redhat.com>
+	* Fixes #5707 - disassociate does not appear for physical host
+	* Fixes #13937 - search by domain parameters searches on primary_interface
+
+2016-03-08	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14071 - Using Sprockets directive to require host_edit_interfaces.js
+
+2016-03-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14078 - Correct provision template permission names in seeds and fixtures
+
+2016-03-07	Dominic Cleal <dominic@cleal.org>
+	* fixes #13941 - expect deprecation warnings in tests
+	* fixes #14000 - respect custom controller permissions
+
+2016-03-07	Ivan Nečas <inecas@redhat.com>
+	* Fixes #13984 - inherit subnet from hostgroup even for image-based provisioning
+
+2016-03-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13725 - DHCP MAC conflicts are reported
+
+2016-03-07	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #7494 - added search parameter to index action of usergroups
+
+2016-03-06	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13068 - Adds options to documentation_button and remove css float
+
+2016-03-06	Dominic Cleal <dominic@cleal.org>
+	* fixes #14006 - use URL helpers in mailers
+	* fixes #13978 - replace AR value_to_boolean with our caster
+
+2016-03-06	cyrus-mc <cyrus-mc@users.noreply.github.com>
+	* fixes #13817 - test certificate.subject_alternative_names for presence
+
+2016-03-06	amirfefer <amirfefer@gmail.com>
+	* Fixes #6858 - escape HTML tags when update a parameter value in settings
+
+2016-03-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #13913 - split importing of host and facts
+
+2016-03-03	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #13964 - include installer scenarios in foreman-debug
+
+2016-03-03	Marek Hulan <ares@igloonet.cz>
+	* Fixes #13711 - fix subnet/domain validation during creation
+
+2016-03-03	Dominic Cleal <dominic@cleal.org>
+	* fixes #14028 - use image-url for data table asset URLs
+
+2016-03-02	Dominic Cleal <dominic@cleal.org>
+	* fixes #13971 - pass IDs to model.find and .exists?
+	* fixes #13897 - explicitly set limit on string columns
+
+2016-03-02	Julien Pivotto <roidelapluie@inuits.eu>
+	* Fixes #5883 - Reflect token expiry in build status
+
+2016-03-02	Ori Rabin <orabin@redhat.com>
+	* Fixes #13976 - override checkbox in smart class parameter doesn't uncheck other checkboxes
+
+2016-03-02	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13977 - Upgrade Rails to 4.1.14.2 to address 2 CVEs
+	* Fixes #6994 - Remove old apipie_examples.yml
+	* Fixes #13896 - Rename Anonymous role to Default role
+
+2016-03-02	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #13417: Provide facet registration through plugin API
+
+2016-03-02	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #13662 - Host configuration chart links work when host configuration status table not present
+	* Fixes #12936 - Host inherits attributes when hostgroup is AR object
+
+2016-03-01	Dominic Cleal <dominic@cleal.org>
+	* fixes #13803 - change activated SCL to 'tfm'
+	* fixes #13878 - handle anonymous railtie classes seen on Rails 4.2
+	* fixes #13883 - replace :order association option with block
+	* fixes #13939 - call non-deprecated status method from API rabl
+
+2016-03-01	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #6376 - AJAX call to update hostgroup info without hostgroup failed
+
+2016-03-01	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #9425 - Remove the Default User role
+
+2016-03-01	Dominic Cleal <dcleal@redhat.com>
+	* fixes #13938 - remove reports fixtures
+
+2016-02-29	Tom Caspy <tcaspy@gmail.com>
+	* fixes #13828 - CVE-2016-2100 - only showing relevant bookmarks
+
+2016-02-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #13899 - Can update smart class parameter type from API
+
+2016-02-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13929 - Pin test_after_commit to version supporting Ruby 1.9
+
+2016-02-27	Dominic Cleal <dominic@cleal.org>
+	* fixes #13895 - replace :to with :action in routes
+
+2016-02-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13894 - Add link to handbook in contribution guidelines
+
+2016-02-25	Dominic Cleal <dominic@cleal.org>
+	* fixes #13879 - load mocha/minitest integration explicitly
+	* refs #11029 - improve string for i18n, fix non-host case
+
+2016-02-24	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #11029 - Host name in title on facts index page
+
+2016-02-24	Dominic Cleal <dominic@cleal.org>
+	* refs #13304 - translate tooltip text
+	* fixes #13866 - pin jwt for Ruby 1.9.3 compatibility
+
+2016-02-24	Daniel Lobato <elobatocs@gmail.com>
+	* Refs #12720 - Typo in PuppetCA certificates page
+
+2016-02-24	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #13821 - Show different types of input depending on the paramter type
+
+2016-02-24	Ori Rabin <orabin@redhat.com>
+	* Fixes #13304 - Disabled hidden button for smart class parameters shows a tooltip
+
+2016-02-24	Marek Hulan <ares@igloonet.cz>
+	* Fixes #13834 - associate puppet proxies only for puppet imports
+
+2016-02-24	Stephen Benjamin <stbenjam@redhat.com>
+	* fixes #13852 - add user_data to images api docs
+
+2016-02-23	Tom Caspy <tcaspy@gmail.com>
+	* fixes #10989 - removing 1.12 deprecations
+	* fixes #12187 - checking if OpenStack is defined before calling that constant
+
+2016-02-23	Dominic Cleal <dominic@cleal.org>
+	* fixes #13827 - unpin patternfly-sass
+
+2016-02-23	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13232 - Reword 'ACK' buttons texts
+
+2016-02-22	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13519 - Alias lookupkey key to parameter
+
+2016-02-22	Dominic Cleal <dominic@cleal.org>
+	* fixes #13804 - set enforce_available_locales in app config
+	* fixes #10662 - set default_locale to 'en'
+
+2016-02-19	Dominic Cleal <dominic@cleal.org>
+	* refs #12718 - change capitalisation, extract more strings
+	* refs #13348 - use proxies with expected features for search tests
+	* Bump version to 1.12-develop
+
 2016-02-19	Tomer Brisker <tbrisker@gmail.com>
 	* Fixes #13348 - Allow searching of all hosts managed by a smart proxy
 
