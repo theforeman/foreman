@@ -138,7 +138,7 @@ module TaxonomyHelper
   end
 
   def all_checkbox(f, resource)
-    return unless User.current.admin? || User.current.filters.joins(:permissions).where({:'permissions.name' => "view_#{resource}",
+    return ''.html_safe unless User.current.admin? || User.current.filters.joins(:permissions).where({:'permissions.name' => "view_#{resource}",
                                                        :search => nil,
                                                        :taxonomy_search => nil}).present?
     checkbox_f(f, :ignore_types,
