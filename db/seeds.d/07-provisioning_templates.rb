@@ -64,6 +64,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'XenServer default PXELinux', :source => 'xenserver/PXELinux.erb', :template_kind => kinds[:PXELinux] },
     # snippets
     { :name => 'alterator_pkglist', :source => 'snippets/_alterator_pkglist.erb', :snippet => true },
+    { :name => 'bmc_nic_setup', :source => 'snippets/_bmc_nic_setup.erb', :snippet => true },
     { :name => 'chef_client', :source => 'snippets/_chef_client.erb', :snippet => true },
     { :name => 'coreos_cloudconfig', :source => 'snippets/_coreos_cloudconfig.erb', :snippet => true },
     { :name => 'epel', :source => 'snippets/_epel.erb', :snippet => true },
