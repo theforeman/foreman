@@ -1,5 +1,6 @@
 module Orchestration::DNS
   extend ActiveSupport::Concern
+  include Orchestration::Common
 
   included do
     after_validation :dns_conflict_detected?, :queue_dns, :unless => :importing_facts
@@ -38,12 +39,16 @@ module Orchestration::DNS
 
   def dns_a_record
     return unless dns? or @dns_a_record
-    @dns_a_record ||= Net::DNS::ARecord.new dns_record_attrs
+    handle_validation_errors do
+      @dns_a_record ||= Net::DNS::ARecord.new dns_record_attrs
+    end
   end
 
   def dns_ptr_record
     return unless reverse_dns? or @dns_ptr_record
-    @dns_ptr_record ||= Net::DNS::PTR4Record.new reverse_dns_record_attrs
+    handle_validation_errors do
+      @dns_ptr_record ||= Net::DNS::PTR4Record.new reverse_dns_record_attrs
+    end
   end
 
   def del_dns_a_record_safe
