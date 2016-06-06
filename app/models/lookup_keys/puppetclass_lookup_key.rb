@@ -43,10 +43,8 @@ class PuppetclassLookupKey < LookupKey
   end
 
   def check_override_selected
-    return if only_changed?(['description'])
-    return if only_changed?(['override'])
-    return if only_changed?(['override', 'description'])
-    return if override.present?
+    return if (changed - ['description', 'override']).empty?
+    return if override?
     errors.add(:override, _("must be true to edit the parameter"))
   end
 end
