@@ -1,6 +1,7 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_filter :require_admin
+  before_action :reload_settings, :only => :index, :unless => :dynamic_methods_exist?
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
@@ -21,5 +22,16 @@ class SettingsController < ApplicationController
       logger.error "Unprocessable entity Setting (id: #{@setting.id}):\n #{error_msg.join("\n  ")}\n"
       render :json => {"errors" => error_msg}, :status => :unprocessable_entity
     end
+  end
+
+  private
+
+  # reload settings when code reloads after change in development env
+  def reload_settings
+    Setting.descendants.each(&:load_defaults)
+  end
+
+  def dynamic_methods_exist?
+    Setting::Puppet.instance_methods.any? { |w| w.to_s.include? "_collection" }
   end
 end
