@@ -110,11 +110,11 @@ function disable_element(element){
 }
 function bootable_radio(item){
   var $disabled = $('[id$=_bootable_true]:disabled:checked:visible');
-  $('[id$=_bootable_true]').attr('checked', false);
+  $('[id$=_bootable_true]').prop('checked', false);
   if ($disabled.length > 0){
-    $disabled.attr('checked', true);
+    $disabled.prop('checked', true);
   } else {
-    $(item).attr('checked', true);
+    $(item).prop('checked', true);
   }
 }
 
