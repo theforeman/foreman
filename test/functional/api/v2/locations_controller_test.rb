@@ -84,12 +84,13 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should NOT destroy location if hosts use it" do
-    FactoryGirl.create(:host, :location => taxonomies(:location1))
-    assert_difference('Location.count', 0) do
+  test "should dissociate hosts from the destroyed location" do
+    host = FactoryGirl.create(:host, :location => taxonomies(:location1))
+    assert_difference('Location.count', -1) do
       delete :destroy, { :id => taxonomies(:location1).to_param }
     end
-    assert_response :unprocessable_entity
+    assert_response :success
+    assert_nil Host::Managed.find(host.id).location
   end
 
   test "should update *_ids. test for domain_ids" do

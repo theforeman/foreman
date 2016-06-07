@@ -23,7 +23,6 @@ class Taxonomy < ActiveRecord::Base
     :user_ids, :users, :user_names
 
   belongs_to :user
-  before_destroy EnsureNotUsedBy.new(:hosts)
   after_create :assign_taxonomy_to_user
 
   has_many :taxable_taxonomies, :dependent => :destroy
