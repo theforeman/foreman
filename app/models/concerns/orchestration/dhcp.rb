@@ -3,8 +3,9 @@ module Orchestration::DHCP
   include Orchestration::Common
 
   included do
-    after_validation :dhcp_conflict_detected?, :queue_dhcp, :unless => :importing_facts
-    before_destroy :queue_dhcp_destroy, :unless => :importing_facts
+    after_validation :dhcp_conflict_detected?, :unless => :skip_orchestration?
+    after_validation :queue_dhcp
+    before_destroy :queue_dhcp_destroy
     register_rebuild(:rebuild_dhcp, N_('DHCP'))
   end
 

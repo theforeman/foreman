@@ -3,8 +3,9 @@ module Orchestration::Puppetca
 
   included do
     attr_reader :puppetca
-    after_validation :initialize_puppetca, :queue_puppetca, :unless => :importing_facts
-    before_destroy :initialize_puppetca, :queue_puppetca_destroy unless Rails.env == "test"
+    after_validation :initialize_puppetca, :unless => :skip_orchestration?
+    after_validation :queue_puppetca
+    before_destroy :initialize_puppetca, :queue_puppetca_destroy
   end
 
   protected

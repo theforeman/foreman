@@ -8,7 +8,7 @@ module Orchestration
     attr_reader :old
 
     # save handles both creation and update of hosts
-    before_save :on_save
+    around_save :around_save_orchestration
     after_commit :post_commit
     after_destroy :on_destroy
   end
@@ -31,8 +31,16 @@ module Orchestration
 
   protected
 
-  def on_save
+  def around_save_orchestration
     process :queue
+
+    begin
+      yield
+    rescue ActiveRecord::ActiveRecordError => e
+      Foreman::Logging.exception "Rolling back due to exception during save", e
+      fail_queue queue
+      raise e
+    end
   end
 
   def post_commit
@@ -82,6 +90,22 @@ module Orchestration
     @record_conflicts ||= []
   end
 
+  def skip_orchestration!
+    @skip_orchestration = true
+  end
+
+  def enable_orchestration!
+    @skip_orchestration = false
+  end
+
+  def skip_orchestration?
+    # The orchestration should be disabled in tests in order to avoid side effects.
+    # If a test needs to enable orchestration, it should be done explicitly by stubbing
+    # this method.
+    return true if Rails.env.test?
+    !!@skip_orchestration
+  end
+
   private
 
   # Handles the actual queue
@@ -89,7 +113,7 @@ module Orchestration
   # if any of them fail, it rollbacks all completed tasks
   # in order not to keep any left overs in our proxies.
   def process(queue_name)
-    return true if Rails.env == "test"
+    return true if skip_orchestration?
 
     # queue is empty - nothing to do.
     q = send(queue_name)
@@ -120,6 +144,12 @@ module Orchestration
     return true if q.failed.empty? and q.pending.empty? and q.conflict.empty? and orchestration_errors?
 
     logger.warn "Rolling back due to a problem: #{q.failed + q.conflict}"
+    fail_queue(q)
+
+    rollback
+  end
+
+  def fail_queue(q)
     q.pending.each{ |task| task.status = "canceled" }
 
     # handle errors
@@ -134,8 +164,6 @@ module Orchestration
         failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }, e
       end
     end
-
-    rollback
   end
 
   def add_conflict(e)
