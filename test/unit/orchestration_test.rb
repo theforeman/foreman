@@ -34,7 +34,7 @@ class OrchestrationTest < ActiveSupport::TestCase
   end
 
   test "test host can call protected queue methods" do
-    class Host::Test < Host::Base
+    class Host::Test1 < Host::Base
       include Orchestration
       def test_execute(method)
         execute({:action => [self, method]})
@@ -44,10 +44,48 @@ class OrchestrationTest < ActiveSupport::TestCase
 
       def setTest; true; end
     end
-    h = Host::Test.new
+    h = Host::Test1.new
     assert h.test_execute(:setTest)
     assert_raise Foreman::Exception do
       h.test_execute(:noSuchTest)
+    end
+  end
+
+  test "test host compensates queue if active record not saved" do
+    class Host::Test2 < Host::Base
+      include Orchestration
+
+      attr_accessor :progress_report_id
+
+      after_validation :queue_test
+
+      def lookup_value_match
+        "fqdn=zzz"
+      end
+
+      def queue_test
+        queue.create(
+          :name => 'test action',
+          :priority => 1,
+          :action => [self, :setTestFlags]
+        )
+      end
+
+      def setTestFlags
+        true
+      end
+    end
+
+    h = Host::Test2.new(:name => 'test1')
+    h.stubs(:skip_orchestration?).returns(false)
+    h.stubs(:update_cache).returns(true)
+    h.stubs(:_create_record).raises(ActiveRecord::InvalidForeignKey, 'Fake foreign key exception')
+
+    # rollback should be called
+    h.expects(:delTestFlags).returns(true)
+
+    assert_raise ActiveRecord::InvalidForeignKey do
+      h.save!
     end
   end
 

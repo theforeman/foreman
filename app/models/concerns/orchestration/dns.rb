@@ -3,8 +3,9 @@ module Orchestration::DNS
   include Orchestration::Common
 
   included do
-    after_validation :dns_conflict_detected?, :queue_dns, :unless => :importing_facts
-    before_destroy :queue_dns_destroy, :unless => :importing_facts
+    after_validation :dns_conflict_detected?, :unless => :skip_orchestration?
+    after_validation :queue_dns
+    before_destroy :queue_dns_destroy
     register_rebuild(:rebuild_dns, N_('DNS'))
   end
 

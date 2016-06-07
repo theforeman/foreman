@@ -13,10 +13,10 @@ class CreateHostStatus < ActiveRecord::Migration
     success = true
     Host.includes(:host_statuses, :last_report_object).find_each do |host|
       begin
-        host.importing_facts = true # disable orchestration
+        host.skip_orchestration! # disable orchestration
         success &= update_statuses(host)
       ensure
-        host.importing_facts = false
+        host.enable_orchestration!
       end
     end
     say "some host status could not be saved, please see the log for more details" unless success
