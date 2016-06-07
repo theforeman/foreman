@@ -86,6 +86,9 @@
     "vlans": "181,182,183",
     "lsbmajdistrelease": "6",
     "swapfree": "16.72 GB",
-    "netmask": "255.255.255.192"
+    "netmask": "255.255.255.192",
+    "fqdn": "sinn1636.lan.cert",
+    "hostname": "sinn1636",
+    "domain": "lan.cert"
   }
 }

@@ -323,6 +323,38 @@ class HostTest < ActiveSupport::TestCase
       assert Host.find_by_name('sinn1636.lan')
     end
 
+    test 'domain updated from facts' do
+      host = FactoryGirl.create(:host, :with_operatingsystem)
+      FactoryGirl.create(:domain, :name => 'foo.bar')
+      assert host.import_facts(:domain => 'foo.bar', :lsbdistrelease => host.operatingsystem.release, :operatingsystem => host.operatingsystem.name)
+      assert_equal 'foo.bar', host.domain.to_s
+    end
+
+    test 'domain not updated from facts when ignore_facts_for_domain false' do
+      domain = FactoryGirl.create(:domain)
+      host = FactoryGirl.create(:host, :managed, :domain => domain)
+      FactoryGirl.create(:domain, :name => 'foo.bar')
+      assert host.import_facts(:domain => domain.name, :lsbdistrelease => host.operatingsystem.release, :operatingsystem => host.operatingsystem.name)
+      Setting[:ignore_facts_for_domain] = true
+      assert host.import_facts(:domain => 'foo.bar', :lsbdistrelease => host.operatingsystem.release, :operatingsystem => host.operatingsystem.name)
+      assert_equal domain.name, host.domain.name
+      Setting[:ignore_facts_for_domain] =
+        Setting.find_by_name('ignore_facts_for_domain').default
+    end
+
+    test 'host is created when updating domain from facts is disabled' do
+      assert_difference 'Host.count' do
+        Setting[:ignore_facts_for_domain] = true
+        raw = read_json_fixture('facts/facts_with_certname.json')
+        host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+        assert host.import_facts(raw['facts'])
+        assert Host.find_by_name('sinn1636.lan')
+        assert host.domain
+        Setting[:ignore_facts_for_domain] =
+          Setting.find_by_name('ignore_facts_for_domain').default
+      end
+    end
+
     test 'should downcase hostname parameter from json of a new host' do
       raw = read_json_fixture('facts/facts_with_caps.json')
       host = Host.import_host(raw['name'], 'puppet')
@@ -451,6 +483,35 @@ class HostTest < ActiveSupport::TestCase
       Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
 
       assert_equal taxonomies(:location2), Host.find_by_name('sinn1636.lan').location
+    end
+
+    test 'operatingsystem updated from facts' do
+      host = Host.import_host('host', 'puppet')
+      assert host.import_facts(:lsbdistrelease => '6.7', :operatingsystem => 'CentOS')
+      assert_equal 'CentOS 6.7', host.operatingsystem.to_s
+    end
+
+    test 'operatingsystem not updated from facts when ignore_facts_for_operatingsystem false' do
+      host = Host.import_host('host', 'puppet')
+      assert host.import_facts(:lsbdistrelease => '6.7', :operatingsystem => 'CentOS')
+      Setting[:ignore_facts_for_operatingsystem] = true
+      assert host.import_facts(:lsbdistrelease => '6.8', :operatingsystem => 'CentOS')
+      assert_equal 'CentOS 6.7', host.operatingsystem.to_s
+      Setting[:ignore_facts_for_operatingsystem] =
+        Setting.find_by_name('ignore_facts_for_operatingsystem').default
+    end
+
+    test 'host is created when updating operatingsystem from facts is disabled' do
+      assert_difference 'Host.count' do
+        Setting[:ignore_facts_for_operatingsystem] = true
+        raw = read_json_fixture('facts/facts_with_certname.json')
+        host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+        assert host.import_facts(raw['facts'])
+        assert Host.find_by_name('sinn1636.lan')
+        assert host.operatingsystem
+        Setting[:ignore_facts_for_operatingsystem] =
+          Setting.find_by_name('ignore_facts_for_operatingsystem').default
+      end
     end
   end
 
