@@ -463,7 +463,15 @@ class Host::Managed < Host::Base
   end
 
   def attributes_to_import_from_facts
-    super + [:domain, :architecture, :operatingsystem]
+    attrs = [:architecture]
+    if !Setting[:ignore_facts_for_operatingsystem] || (Setting[:ignore_facts_for_operatingsystem] && operatingsystem.blank?)
+      attrs << :operatingsystem
+    end
+    if !Setting[:ignore_facts_for_domain] || (Setting[:ignore_facts_for_domain] && domain.blank?)
+      attrs << :domain
+    end
+
+    super + attrs
   end
 
   def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')

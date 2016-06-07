@@ -333,3 +333,13 @@ attributes69:
   category: Setting::Email
   default: 'args'
   description: 'Specify additional options to sendmail'
+attribute70:
+  name: ignore_facts_for_operatingsystem
+  category: Setting::Provisioning
+  default: "false"
+  description: 'Stop updating Operating System from facts'
+attribute71:
+  name: ignore_facts_for_domain
+  category: Setting::Provisioning
+  default: "false"
+  description: 'Stop updating domain from facts'
