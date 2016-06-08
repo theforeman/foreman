@@ -100,6 +100,60 @@ module HostsAndHostgroupsHelper
             ).html_safe
   end
 
+  def host_puppet_environment_field(form, select_options = {}, html_options = {})
+    select_options = {
+      :include_blank => true,
+      :disable_button => _(INHERIT_TEXT),
+      :disable_button_enabled => inherited_by_default?(:environment_id, @host),
+      :user_set => user_set?(:environment_id)}.deep_merge(select_options)
+
+    html_options = {
+      :data => {
+        :url => hostgroup_or_environment_selected_hosts_path,
+        :host => {
+          :id => @host.id
+        }
+      }}.deep_merge(html_options)
+
+    puppet_environment_field(
+      form,
+      Environment.with_taxonomy_scope_override(@location,@organization).order(:name),
+      select_options,
+      html_options)
+  end
+
+  def hostgroup_puppet_environment_field(form, select_options = {}, html_options = {})
+    select_options = {
+      :include_blank => blank_or_inherit_f(form, :environment)
+    }.deep_merge(select_options)
+
+    html_options = {
+      :data => {
+        :url => environment_selected_hostgroups_path
+      }}.deep_merge(html_options)
+
+    puppet_environment_field(
+      form,
+      Environment.all,
+      select_options,
+      html_options)
+  end
+
+  def puppet_environment_field(form, environments_choice, select_options = {}, html_options = {})
+    html_options = {
+      :onchange => 'update_puppetclasses(this)',
+      :help_inline => :indicator}.deep_merge(html_options)
+
+    select_f(
+      form,
+      :environment_id,
+      environments_choice,
+      :id,
+      :to_label,
+      select_options,
+      html_options)
+  end
+
   def interesting_puppetclasses(obj)
     classes = obj.all_puppetclasses
     classes_ids = classes.reorder('').pluck('puppetclasses.id')
