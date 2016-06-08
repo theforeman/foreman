@@ -25,8 +25,7 @@
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
-      <%= select_f f, :environment_id, Environment.all, :id, :to_label, {:include_blank => blank_or_inherit_f(f, :environment)},
-        {:label => _("Environment"), :onchange => 'update_puppetclasses(this);', :"data-url" => environment_selected_hostgroups_path} %>
+      <%= hostgroup_puppet_environment_field f %>
       <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
                        { :label => _("Compute profile") }
