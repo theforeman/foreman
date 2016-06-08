@@ -51,6 +51,10 @@ module Foreman::Model
       else
         false
       end
+
+    rescue Foreman::FingerprintException
+      logger.info "Unable to verify OS capabilities, SSL certificate verification failed"
+      false
     end
 
     def determine_os_type(host)
@@ -382,6 +386,9 @@ module Foreman::Model
       attrs[:available_operating_systems] = ovirt_operating_systems.map do |os|
         { :id => os.id, :name => os.name, :href => os.href }
       end
+    rescue Foreman::FingerprintException
+      logger.info "Unable to verify OS capabilities, SSL certificate verification failed"
+      true
     rescue OVIRT::OvirtException => e
       if e.message =~ /404/
         attrs[:available_operating_systems] ||= :unsupported
