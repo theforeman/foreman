@@ -12,4 +12,3 @@
 <%= select_f f, :ovirt_quota, quotas, :id, :name, {}, :label => _("Quota ID") %>
 <%= textarea_f f, :public_key, :label => _("X509 Certification Authorities"), :size => "col-md-8",
   :placeholder => _("Optionally provide a CA, or a correctly ordered CA chain. If left blank, a self-signed CA will be populated automatically by the server during the first request.") %>
-<%= f.hidden_field(:public_key) if f.object.uuid.present? %>
