@@ -365,7 +365,10 @@ module Foreman::Model
       http.use_ssl = (ca_url.scheme == 'https')
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       request = Net::HTTP::Get.new(ca_url)
-      http.request(request).body
+      response = http.request(request)
+      # response might be 404 or some other normal code,
+      # that would not trigger any exception so we rather check what kind of response we got
+      response.is_a?(Net::HTTPSuccess) ? response.body : nil
     rescue => e
       Foreman::Logging.exception("Unable to fetch CA certificate on path #{path}: #{e}", e)
       nil
