@@ -21,6 +21,26 @@ class OvirtTest < ActiveSupport::TestCase
     assert record.valid?
   end
 
+  test "fingerprint error is ignored on update of operating systems" do
+    record = new_ovirt_cr
+    record.stubs(:client).raises(Foreman::FingerprintException.new('fingerprint error'))
+    original_oses = record.attrs[:available_operating_systems]
+
+    assert_nothing_raised do
+      assert record.send(:update_available_operating_systems), 'before validation filter does not return true which would cancel the callback chain'
+    end
+    assert_equal original_oses, record.attrs[:available_operating_systems]
+  end
+
+  test "#supports_operating_systems? defaults to false if there's SSL issue" do
+    record = new_ovirt_cr
+    record.stubs(:client).raises(Foreman::FingerprintException.new('fingerprint error'))
+
+    assert_nothing_raised do
+      refute record.supports_operating_systems?, 'Foreman::Model::Ovirt#supports_operating_systems? returns true even if there is SSL issue'
+    end
+  end
+
   test "test_connection should fail if datacenters not found (404)" do
     client = stub()
     client.stubs(:datacenters).raises(StandardError.new('404 error'))
