@@ -42,6 +42,11 @@ module AuditsHelper
           (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
         elsif name == "owner_id" || name == "owner_type"
           _("Owner changed to %s") % (audit.revision.owner rescue _('N/A'))
+        elsif name == 'global_status'
+          base = audit.audited_changes.values[0]
+          from = HostStatus::Global.new(base[0]).to_label
+          to = HostStatus::Global.new(base[1]).to_label
+          _("Global status changed from %{from} to %{to}") % { :from => from, :to => to }
         else
           _("%{name} changed from %{label1} to %{label2}") % { :name => name.humanize, :label1 => id_to_label(name, change[0]), :label2 => id_to_label(name, change[1]) }
         end
