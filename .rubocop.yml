@@ -12,6 +12,10 @@ AllCops:
 Rails:
   Enabled: true
 
+# Don't prefer is_a? over kind_of?
+Style/ClassCheck:
+  Enabled: false
+
 # Don't enforce documentation
 Style/Documentation:
   Enabled: false
