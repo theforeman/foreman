@@ -86,7 +86,7 @@ module Foreman::Model
     end
 
     def new_volume(attr = { })
-      client.volumes.new(attrs.merge(:allocation => '0G'))
+      client.volumes.new(attr.merge(:allocation => '0G'))
     end
 
     def storage_pools
