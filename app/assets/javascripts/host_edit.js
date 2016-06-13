@@ -59,9 +59,7 @@ function computeResourceSelected(item){
       data: data,
       complete: function(){
         foreman.tools.hideSpinner();
-        update_nics(function() {
-          interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
-        });
+        handle_nic_updates();
       },
       error: function(jqXHR, status, error){
         $('#compute_resource').html(Jed.sprintf(__("Error loading virtual machine information: %s"), error));
@@ -74,6 +72,22 @@ function computeResourceSelected(item){
         update_capabilities($('#capabilities').val());
       }
     })
+  }
+}
+
+function handle_nic_updates() {
+  var modal_window = $('#interfaceModal');
+
+  var handler = function() {
+    update_nics(function() {
+      interface_subnet_selected(primary_nic_form().find('select.interface_subnet'));
+    });
+  };
+
+  if (modal_window.is(":visible")) {
+    modal_window.modal('hide').on('hidden.bs.modal', handler);
+  } else {
+    handler();
   }
 }
 
