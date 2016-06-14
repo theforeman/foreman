@@ -107,7 +107,7 @@
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>
             <h2><%= _('Global parameters') %></h2>
-            <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters  } %>
+            <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true).authorized(:view_params), :parameters => @host.host_parameters.authorized(:view_params)  } %>
             <h2><%= _('Host parameters') %></h2>
             <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
           </fieldset>

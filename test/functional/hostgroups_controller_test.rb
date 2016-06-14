@@ -185,7 +185,9 @@ class HostgroupsControllerTest < ActionController::TestCase
 
     it "updates a hostgroup with a parent parameter" do
       child = FactoryGirl.create(:hostgroup, :parent => @base)
-      assert_equal "original", child.parameters["x"]
+      as_admin do
+        assert_equal "original", child.parameters["x"]
+      end
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
                                                        :group_parameters_attributes => {"new_0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
       assert_redirected_to hostgroups_url
@@ -195,7 +197,9 @@ class HostgroupsControllerTest < ActionController::TestCase
 
     it "updates a hostgroup with a parent parameter, allows empty values" do
       child = FactoryGirl.create(:hostgroup, :parent => @base)
-      assert_equal "original", child.parameters["x"]
+      as_admin do
+        assert_equal "original", child.parameters["x"]
+      end
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
                                                        :group_parameters_attributes => {"new_0" => {:name => "x", :value => nil, :_destroy => ""},
                                                                                         "new_1" => {:name => "y", :value => "overridden", :_destroy => ""}}}}, set_session_user
@@ -207,7 +211,9 @@ class HostgroupsControllerTest < ActionController::TestCase
 
     it "changes the hostgroup's parent and check the parameters are updated" do
       child = FactoryGirl.create(:hostgroup, :parent => @base)
-      assert_equal "original", child.parameters["x"]
+      as_admin do
+        assert_equal "original", child.parameters["x"]
+      end
 
       new_parent = FactoryGirl.create(:hostgroup)
       new_parent.group_parameters << GroupParameter.create(:name => "z", :value => "original")
@@ -216,8 +222,10 @@ class HostgroupsControllerTest < ActionController::TestCase
 
       assert_redirected_to hostgroups_url
       child.reload
-      assert_equal "original", child.parameters["z"]
-      assert_equal nil, child.parameters["x"]
+      as_admin do
+        assert_equal "original", child.parameters["z"]
+        assert_equal nil, child.parameters["x"]
+      end
     end
   end
 end
