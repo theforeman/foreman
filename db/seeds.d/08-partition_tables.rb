@@ -17,17 +17,24 @@ Ptable.without_auditing do
     { :name => 'Preseed custom LVM', :os_family => 'Debian', :source => 'preseed/disklayout_lvm.erb' },
     { :name => 'XenServer default', :os_family => 'Xenserver', :source => 'xenserver/disklayout.erb' }
   ].each do |input|
-    next if Ptable.find_by_name(input[:name])
-    next if audit_modified? Ptable, input[:name]
-    p = Ptable.create({
-      :layout => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
-    }.merge(input.merge(:default => true)))
+    contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 
-    if p.default?
-      p.organizations = organizations if SETTINGS[:organizations_enabled]
-      p.locations = locations if SETTINGS[:locations_enabled]
+    if (p = Ptable.find_by_name(input[:name])) and !audit_modified?(Ptable, input[:name])
+      if p.layout != contents
+        p.layout = contents
+        raise "Unable to update partition table: #{format_errors p}" unless p.save
+      end
+    else
+      next if audit_modified? Ptable, input[:name]
+      p = Ptable.create({
+        :layout => contents
+      }.merge(input.merge(:default => true)))
+
+      if p.default?
+        p.organizations = organizations if SETTINGS[:organizations_enabled]
+        p.locations = locations if SETTINGS[:locations_enabled]
+      end
+      raise "Unable to create partition table: #{format_errors p}" if p.nil? || p.errors.any?
     end
-
-    raise "Unable to create partition table: #{format_errors p}" if p.nil? || p.errors.any?
   end
 end

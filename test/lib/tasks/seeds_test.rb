@@ -114,6 +114,13 @@ class SeedsTest < ActiveSupport::TestCase
     seed
   end
 
+  test "does update template that was not modified by user" do
+    seed
+    ProvisioningTemplate.without_auditing { ProvisioningTemplate.find_by_name('Kickstart default').update_attributes(:template => 'test') }
+    seed
+    refute_equal ProvisioningTemplate.find_by_name('Kickstart default').template, 'test'
+  end
+
   test "doesn't add a template back that was deleted" do
     seed
     assert_equal 1, ProvisioningTemplate.destroy_all(:name => 'Kickstart default').size

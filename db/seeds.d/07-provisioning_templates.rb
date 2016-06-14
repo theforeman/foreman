@@ -80,21 +80,27 @@ ProvisioningTemplate.without_auditing do
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true },
     { :name => 'saltstack_setup', :source => 'snippets/_saltstack_setup.erb', :snippet => true }
   ].each do |input|
-    next if ProvisioningTemplate.find_by_name(input[:name]).present?
-    next if audit_modified? ProvisioningTemplate, input[:name]
+    contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 
-    input.merge!(:default => true)
+    if (t = ProvisioningTemplate.find_by_name(input[:name])) && !audit_modified?(ProvisioningTemplate, input[:name])
+      if t.template != contents
+        t.template = contents
+        raise "Unable to update template #{t.name}: #{format_errors t}" unless t.save
+      end
+    else
+      next if audit_modified? ProvisioningTemplate, input[:name]
+      input.merge!(:default => true)
 
-    t = ProvisioningTemplate.create({
-      :snippet  => false,
-      :template => File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
-    }.merge(input))
+      t = ProvisioningTemplate.create({
+        :snippet  => false,
+        :template => contents
+      }.merge(input))
 
-    if t.default?
-      t.organizations = organizations if SETTINGS[:organizations_enabled]
-      t.locations = locations if SETTINGS[:locations_enabled]
+      if t.default?
+        t.organizations = organizations if SETTINGS[:organizations_enabled]
+        t.locations = locations if SETTINGS[:locations_enabled]
+      end
+      raise "Unable to create template #{t.name}: #{format_errors t}" if t.nil? || t.errors.any?
     end
-
-    raise "Unable to create template #{t.name}: #{format_errors t}" if t.nil? || t.errors.any?
   end
 end
