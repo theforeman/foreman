@@ -37,6 +37,11 @@ end
 
 def create_filters(role, collection)
   collection.group_by(&:resource_type).each do |resource, permissions|
+    # check if the filter exists already
+    next if Filter.joins(:permissions).find_by("permissions.id" => permissions.map(&:id),
+                                               :role_id => role.id
+                                              )
+
     filter      = Filter.new
     filter.role = role
 
