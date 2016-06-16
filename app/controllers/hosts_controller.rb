@@ -1,33 +1,32 @@
 class HostsController < ApplicationController
+  define_callbacks :set_class_variables
+
+  include Foreman::Controller::ActionPermissionDsl
   include ScopesPerAction
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::TaxonomyMultiple
   include Foreman::Controller::SmartProxyAuth
   include Foreman::Controller::Parameters::Host
+  include Foreman::Controller::Puppet::HostsControllerExtensions
 
-  PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
+  AJAX_REQUESTS=%w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
   MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters select_multiple_hostgroup
-                        update_multiple_hostgroup select_multiple_environment update_multiple_environment
+                        update_multiple_hostgroup
                         multiple_destroy submit_multiple_destroy multiple_build
                         submit_multiple_build multiple_disable submit_multiple_disable
-                        multiple_enable submit_multiple_enable multiple_puppetrun
-                        update_multiple_puppetrun multiple_disassociate update_multiple_disassociate
+                        multiple_enable submit_multiple_enable
+                        multiple_disassociate update_multiple_disassociate
                         rebuild_config submit_rebuild_config select_multiple_owner update_multiple_owner
-                        select_multiple_power_state update_multiple_power_state
-                        select_multiple_puppet_proxy update_multiple_puppet_proxy
-                        select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
+                        select_multiple_power_state update_multiple_power_state)
 
   HOST_POWER = {
     :on =>  { :state => 'on', :title => N_('On') },
     :off => { :state => 'off', :title => N_('Off') },
     :na =>  { :state => 'na', :title => N_('N/A') }
   }.freeze
-
-  add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
   before_action :ajax_request, :only => AJAX_REQUESTS + [:get_power_state]
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
@@ -39,8 +38,6 @@ class HostsController < ApplicationController
   before_action :set_host_type, :only => [:update]
   before_action :find_multiple, :only => MULTIPLE_ACTIONS
   before_action :validate_power_action, :only => :update_multiple_power_state
-  before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
-  before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
   helper :hosts, :reports, :interfaces
 
   def index(title = nil)
@@ -448,29 +445,6 @@ class HostsController < ApplicationController
     redirect_back_or_to hosts_path
   end
 
-  def select_multiple_environment
-  end
-
-  def update_multiple_environment
-    # simple validations
-    if (params[:environment].nil?) || (id=params["environment"]["id"]).nil?
-      error _('No environment selected!')
-      redirect_to(select_multiple_environment_hosts_path)
-      return
-    end
-
-    ev = Environment.find_by_id(id)
-
-    #update the hosts
-    @hosts.each do |host|
-      host.environment = (id == 'inherit' && host.hostgroup.present?) ? host.hostgroup.environment : ev
-      host.save(:validate => false)
-    end
-
-    notice _('Updated hosts: changed environment')
-    redirect_back_or_to hosts_path
-  end
-
   def select_multiple_owner
   end
 
@@ -508,20 +482,6 @@ class HostsController < ApplicationController
 
     notice _('The power state of the selected hosts will be set to %s') % _(action)
     redirect_back_or_to hosts_path
-  end
-
-  def select_multiple_puppet_proxy
-  end
-
-  def update_multiple_puppet_proxy
-    update_multiple_proxy(_('Puppet'), :puppet_proxy=)
-  end
-
-  def select_multiple_puppet_ca_proxy
-  end
-
-  def update_multiple_puppet_ca_proxy
-    update_multiple_proxy(_('Puppet CA'), :puppet_ca_proxy=)
   end
 
   def multiple_destroy
@@ -614,20 +574,6 @@ class HostsController < ApplicationController
     toggle_hostmode
   end
 
-  def multiple_puppetrun
-    deny_access unless Setting[:puppetrun]
-  end
-
-  def update_multiple_puppetrun
-    return deny_access unless Setting[:puppetrun]
-    if @hosts.map(&:puppetrun!).uniq == [true]
-      notice _("Successfully executed, check reports and/or log files for more details")
-    else
-      error _("Some or all hosts execution failed, Please check log files for more information")
-    end
-    redirect_back_or_to hosts_path
-  end
-
   def multiple_disassociate
     @non_physical_hosts = @hosts.with_compute_resource
     @physical_hosts = @hosts.to_a - @non_physical_hosts.to_a
@@ -680,15 +626,7 @@ class HostsController < ApplicationController
             end
     @host.set_hostgroup_defaults true
     @host.set_compute_attributes unless params[:host][:compute_profile_id]
-
-    @architecture    = @host.architecture
-    @operatingsystem = @host.operatingsystem
-    @environment     = @host.environment
-    @domain          = @host.domain
-    @subnet          = @host.subnet
-    @compute_profile = @host.compute_profile
-    @realm           = @host.realm
-
+    set_class_variables(@host)
     render :partial => "form"
   end
 
@@ -722,42 +660,26 @@ class HostsController < ApplicationController
     @resource_base ||= Host.authorized(current_permission, Host)
   end
 
-  def action_permission
-    case params[:action]
-      when 'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
-          'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled',
-          'get_power_state'
-        :view
-      when 'puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'
-        :puppetrun
-      when 'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build',
-           'rebuild_config', 'submit_rebuild_config'
-        :build
-      when 'power'
-        :power
-      when 'ipmi_boot'
-        :ipmi_boot
-      when 'console'
-        :console
-      when 'toggle_manage', 'multiple_parameters', 'update_multiple_parameters',
-          'select_multiple_hostgroup', 'update_multiple_hostgroup', 'select_multiple_environment',
-          'update_multiple_environment', 'multiple_disable', 'submit_multiple_disable',
-          'multiple_enable', 'submit_multiple_enable',
-          'update_multiple_organization', 'select_multiple_organization',
-          'update_multiple_location', 'select_multiple_location',
-          'disassociate', 'update_multiple_disassociate', 'multiple_disassociate',
-          'select_multiple_owner', 'update_multiple_owner',
-          'select_multiple_power_state', 'update_multiple_power_state',
-          'select_multiple_puppet_proxy', 'update_multiple_puppet_proxy',
-          'select_multiple_puppet_ca_proxy', 'update_multiple_puppet_ca_proxy',
-          'random_name'
-        :edit
-      when 'multiple_destroy', 'submit_multiple_destroy'
-        :destroy
-      else
-        super
-    end
-  end
+  define_action_permission [
+    'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
+    'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state'], :view
+  define_action_permission [
+    'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build',
+    'rebuild_config', 'submit_rebuild_config'], :build
+  define_action_permission 'power', :power
+  define_action_permission 'ipmi_boot', :ipmi_boot
+  define_action_permission 'console', :console
+  define_action_permission [
+    'toggle_manage', 'multiple_parameters', 'update_multiple_parameters',
+    'select_multiple_hostgroup', 'update_multiple_hostgroup',
+    'multiple_disable', 'submit_multiple_disable',
+    'multiple_enable', 'submit_multiple_enable',
+    'update_multiple_organization', 'select_multiple_organization',
+    'update_multiple_location', 'select_multiple_location',
+    'disassociate', 'update_multiple_disassociate', 'multiple_disassociate',
+    'select_multiple_owner', 'update_multiple_owner',
+    'select_multiple_power_state', 'update_multiple_power_state', 'random_name'], :edit
+  define_action_permission ['multiple_destroy', 'submit_multiple_destroy'], :destroy
 
   def refresh_host
     @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params['host_id'])
@@ -828,14 +750,11 @@ class HostsController < ApplicationController
     return unless @host
 
     taxonomy_scope
-    @environment     = @host.environment
-    @architecture    = @host.architecture
-    @domain          = @host.domain
-    @operatingsystem = @host.operatingsystem
-    @medium          = @host.medium
     if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
       @host.compute_attributes = params[:host][:compute_attributes]
     end
+
+    set_class_variables(@host)
   end
 
   def find_multiple
@@ -966,6 +885,17 @@ class HostsController < ApplicationController
       @host.provisioning_template(:kind => kind.name)
     end.compact
     raise Foreman::Exception.new(N_("No templates found")) if @templates.empty?
+  end
+
+  def set_class_variables(host)
+    run_callbacks :set_class_variables do
+      @architecture    = host.architecture
+      @operatingsystem = host.operatingsystem
+      @domain          = host.domain
+      @subnet          = host.subnet
+      @compute_profile = host.compute_profile
+      @realm           = host.realm
+    end
   end
 
   def host_power_ping(result)
