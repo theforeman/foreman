@@ -42,6 +42,17 @@ exporter_template(:enabled, :managed_hosts_provisioning_summary) do |header, dat
   end
 end
 
+exporter_template(:enabled, :managed_hosts_bootfiles) do |header, data|
+  header << ["Host", "Boot files"]
+  Host::Managed.all.find_each do |host|
+    bootfiles = host.operatingsystem.send(:boot_files_uri, host.medium, host.architecture, host) rescue []
+    data << [
+      host.name,
+      bootfiles.join(' + ')
+    ]
+  end
+end
+
 exporter_template(:disabled, :discovered_hosts_summary) do |header, data|
   header << ["Host", "CPUs", "Memory", "Disks", "Subnet", "Booted IF", "MACs", "IPs", "Created", "Last report"]
   Host::Discovered.all.find_each do |record|
