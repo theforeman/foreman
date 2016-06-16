@@ -377,6 +377,7 @@ Foreman::Application.routes.draw do
           post 'template_selected'
           post 'cluster_selected'
           get 'resource_pools'
+          get 'available_images'
           post 'ping'
           put 'associate'
         end

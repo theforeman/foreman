@@ -18,6 +18,7 @@ Foreman::Application.configure do |app|
                   host_edit
                   host_edit_interfaces
                   hosts
+                  image
                   host_checkbox
                   nfs_visibility
                   noVNC/base64
