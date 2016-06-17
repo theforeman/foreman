@@ -429,6 +429,8 @@ class User < ActiveRecord::Base
     if (attrs = AuthSource.authenticate(login, password))
       attrs.delete(:dn)
       user = new(attrs)
+      # If an invalid data returned from an authentication source for any attribute(s) then set its value as nil
+      user.errors.each {|attr| user[attr] = nil} unless user.valid?
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as_anonymous_admin do
         if user.save

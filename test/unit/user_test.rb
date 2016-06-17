@@ -145,6 +145,20 @@ class UserTest < ActiveSupport::TestCase
         logged_in_user = User.try_to_login("foo", "password")
         assert_equal "foo@bar.com", logged_in_user.mail
       end
+
+      test "ldap user attribute should not be updated when invalid format (mail)" do
+        attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
+        user = User.try_to_auto_create_user('foo', 'password')
+        assert_equal nil, user.mail
+      end
+
+      test "ldap user attribute should not be updated when invalid format (firstname)" do
+        attrs = {:firstname=>"$%$%%%", :mail=>"foo@bar.com", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
+        user = User.try_to_auto_create_user('foo', 'password')
+        assert_equal nil, user.firstname
+      end
     end
   end
 
