@@ -76,6 +76,8 @@ class UsersController < ApplicationController
         redirect_to login_users_path
       else
         #valid user
+        #If any of the user attributes provided by external auth source are invalid then throw a flash message to user on successful login.
+        notice _(user.errors.full_messages.join(", ")) unless user.errors.empty?
         login_user(user)
       end
     else
