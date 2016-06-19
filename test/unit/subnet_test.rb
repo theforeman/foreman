@@ -75,4 +75,24 @@ class SubnetTest < ActiveSupport::TestCase
     refute subnet.destroy
     assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
+
+  test 'smart variable matches on subnet name' do
+    host = FactoryGirl.create(:host, :with_subnet, :puppetclasses => [puppetclasses(:one)])
+    subnet = host.subnet
+    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'string',
+                             :default_value => 'default', :path => "subnet",
+                             :puppetclass => puppetclasses(:one))
+
+    value = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "subnet=#{subnet.name}",
+                          :value => 'subnet'
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => value.value,
+                                         :element => 'subnet',
+                                         :element_name => subnet.name}}},
+                 Classification::GlobalParam.new(:host => host).send(:values_hash))
+  end
 end
