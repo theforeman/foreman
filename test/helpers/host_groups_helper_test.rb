@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class HostGroupsHelperTest < ActionView::TestCase
+  include PuppetRelatedHelper
   include HostsAndHostgroupsHelper
   include ApplicationHelper
   include HostsHelper
