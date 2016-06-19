@@ -441,10 +441,10 @@ module ApplicationHelper
     klass.authorized.reorder(order)
   end
 
-  def accessible_resource(obj, resource, order = :name)
+  def accessible_resource(obj, resource, order = :name, association: resource)
     list = accessible_resource_records(resource, order).to_a
     # we need to allow the current value even if it was filtered
-    current = obj.public_send(resource) if obj.respond_to?(resource)
+    current = obj.public_send(association) if obj.respond_to?(association)
     list |= [current] if current.present?
     list
   end

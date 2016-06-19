@@ -10,9 +10,9 @@
 
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
-      <% if accessible_puppet_proxies(@host).present? %>
-        <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
-      <% end %>
+
+      <%= render_tab_header_for(:main_tabs, :subject => @host) %>
+
       <li id="network_tab" data-refresh-url="<%= interfaces_hosts_path %>"><a href="#network" data-toggle="tab"><%= _('Interfaces') %></a></li>
       <% if SETTINGS[:unattended] and @host.managed %>
         <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
@@ -71,7 +71,7 @@
         </div>
         <% end %>
 
-        <%= host_puppet_environment_field f %>
+        <%= render_pagelets_for(:main_tab_fields, :host => @host, :form => f) %>
 
         <%= smart_proxy_fields f,
               :can_override => true,
@@ -82,7 +82,7 @@
 
       </div>
 
-      <%= puppetclasses_tab(@host) %>
+      <%= render_tab_content_for(:main_tabs, :subject => @host) %>
 
       <%= f.hidden_field :managed %>
       <%= f.hidden_field :progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)} %>
