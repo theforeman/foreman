@@ -101,6 +101,10 @@ class Subnet < ActiveRecord::Base
     "#{name} (#{network_address})"
   end
 
+  def to_s
+    name
+  end
+
   # Subnets are sorted on their priority value
   # [+other+] : Subnet object with which to compare ourself
   # +returns+ : Subnet object with higher precedence

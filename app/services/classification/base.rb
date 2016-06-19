@@ -173,7 +173,9 @@ module Classification
         next if (options[:skip_fqdn] && element=="fqdn")
         value_method = %w(yaml json).include?(lookup_value.lookup_key.key_type) ? :value_before_type_cast : :value
         computed_lookup_value = {:value => lookup_value.send(value_method), :element => element,
-                                 :element_name => element_name, :managed => lookup_value.use_puppet_default}
+                                 :element_name => element_name}
+
+        computed_lookup_value.merge!({ :managed => lookup_value.use_puppet_default }) if lookup_value.lookup_key.puppet?
         break
       end
       computed_lookup_value
