@@ -9,7 +9,9 @@
       <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <% end %>
-    <li><a href="#params" id='params-tab' data-url='' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+      <li><a href="#params" id='params-tab' data-url='' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <% end %>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
     <% end %>
@@ -63,15 +65,17 @@
         <%= render 'puppetclasses/classes_parameters', :obj => @hostgroup  %>
       </fieldset>
       <br/>
-      <fieldset>
-        <h2><%= _('Global parameters') %></h2>
-        <% if @hostgroup.parent.present? %>
-            <h4><%= _('Parent parameters') %></h4>
-            <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @hostgroup.parent_params(true), :parameters => @hostgroup.group_parameters } %>
-        <% end %>
-        <h4><%= _('Host group parameters') %></h4>
-        <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
-      </fieldset>
+      <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+        <fieldset>
+          <h2><%= _('Global parameters') %></h2>
+          <% if @hostgroup.parent.present? %>
+              <h4><%= _('Parent parameters') %></h4>
+              <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @hostgroup.parent_params(true), :parameters => @hostgroup.group_parameters.authorized(:view_params) } %>
+          <% end %>
+          <h4><%= _('Host group parameters') %></h4>
+          <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+        </fieldset>
+      <% end %>
     </div>
 
     <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>

@@ -1,6 +1,6 @@
 require 'test_helper'
 class OperatingsystemsControllerTest < ActionController::TestCase
-  def setup_user
+  def setup_os_user
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
   end
@@ -61,15 +61,30 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   context 'permission access' do
     test 'user with viewer rights should fail to edit an operating system' do
-      setup_user
+      setup_os_user
       get :edit, {:id => Operatingsystem.first.id}, set_session_user.merge(:user => users(:one).id)
       assert_equal @response.status, 403
     end
 
     test 'user with viewer rights should succeed in viewing operatingsystems' do
-      setup_user
+      setup_os_user
       get :index, {}, set_session_user.merge(:user => users(:one).id)
       assert_response :success
+    end
+
+    test 'user with view_params rights should see parameters in an os' do
+      setup_user "edit", "operatingsystems"
+      setup_user "view", "params"
+      os = FactoryGirl.create(:operatingsystem, :with_parameter)
+      get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
+      assert_not_nil response.body['Parameter']
+    end
+
+    test 'user without view_params rights should not see parameters in an os' do
+      setup_user "edit", "operatingsystems"
+      os = FactoryGirl.create(:operatingsystem, :with_parameter)
+      get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
+      assert_nil response.body['Parameter']
     end
   end
 

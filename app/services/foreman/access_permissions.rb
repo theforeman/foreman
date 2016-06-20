@@ -168,8 +168,7 @@ Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :domains do |map|
     map.permission :view_domains, {:domains => [:index, :show, :auto_complete_search],
                                       :"api/v1/domains" => [:index, :show],
-                                      :"api/v2/domains" => [:index, :show],
-                                      :"api/v2/parameters" => [:index, :show]
+                                      :"api/v2/domains" => [:index, :show]
     }
     map.permission :create_domains, {:domains => [:new, :create],
                                       :"api/v1/domains" => [:create],
@@ -177,8 +176,7 @@ Foreman::AccessControl.map do |permission_set|
     }
     map.permission :edit_domains, {:domains => [:edit, :update],
                                       :"api/v1/domains" => [:update],
-                                      :"api/v2/domains" => [:update],
-                                      :"api/v2/parameters" => [:create, :update, :destroy, :reset]
+                                      :"api/v2/domains" => [:update]
     }
     map.permission :destroy_domains, {:domains => [:destroy],
                                       :"api/v1/domains" => [:destroy],
@@ -314,7 +312,6 @@ Foreman::AccessControl.map do |permission_set|
                                             :puppetclasses => pc_ajax_actions,
                                             :"api/v1/hostgroups" => [:update],
                                             :"api/v2/hostgroups" => [:update],
-                                            :"api/v2/parameters" => [:create, :update, :destroy, :reset],
                                             :"api/v2/hostgroup_classes" => [:index, :create, :destroy]
                                            }
     map.permission :destroy_hostgroups,    {:hostgroups => [:destroy],
@@ -410,18 +407,21 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :host_editing do |map|
-    map.permission :edit_classes,   {:host_editing => [:edit_classes],
-                                     :"api/v2/host_classes" => [:index, :create, :destroy]
-                                    }
-    map.permission :create_params,  {:host_editing => [:create_params],
+    map.permission :edit_classes, { :host_editing  => [:edit_classes],
+                                    :"api/v2/host_classes" => [:index, :create, :destroy]
+                                }
+    map.permission :view_params, { :host_editing => [:view_params],
+                                   :"api/v2/parameters" => [:index, :show]
+                               }
+    map.permission :create_params, { :host_editing => [:create_params],
                                      :"api/v2/parameters" => [:create]
-    }
-    map.permission :edit_params, {:host_editing => [:edit_params],
-                                     :"api/v2/parameters" => [:update]
-    }
-    map.permission :destroy_params, {:host_editing => [:destroy_params],
-                                     :"api/v2/parameters" => [:destroy, :reset]
-    }
+                                 }
+    map.permission :edit_params, { :host_editing => [:edit_params],
+                                   :"api/v2/parameters" => [:update]
+                               }
+    map.permission :destroy_params, { :host_editing => [:destroy_params],
+                                      :"api/v2/parameters" => [:destroy, :reset]
+                                  }
   end
 
   permission_set.security_block :images do |map|
@@ -522,7 +522,6 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_operatingsystems, {:operatingsystems => [:edit, :update],
                                        :"api/v1/operatingsystems" => [:update],
                                        :"api/v2/operatingsystems" => [:update],
-                                       :"api/v2/parameters" => [:create, :update, :destroy, :reset],
                                        :"api/v2/os_default_templates" => [:create, :update, :destroy]
                                      }
     map.permission :destroy_operatingsystems, {:operatingsystems => [:destroy],
