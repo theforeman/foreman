@@ -72,9 +72,9 @@
 
         <%= host_puppet_environment_field f %>
 
-        <%= puppet_master_fields f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+        <%= puppet_master_fields f, true %>
 
-        <%= realm_field f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+        <%= realm_field f, true %>
 
       </div>
 
