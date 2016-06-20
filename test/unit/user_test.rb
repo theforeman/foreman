@@ -41,6 +41,13 @@ class UserTest < ActiveSupport::TestCase
     refute_valid u, :mail
   end
 
+  test "mail is required for own user" do
+    user = FactoryGirl.create(:user)
+    as_user user do
+      refute_valid user, :mail
+    end
+  end
+
   test "hidden users don't need mail when updating" do
     u = User.anonymous_admin
     u.firstname = 'Bob'
