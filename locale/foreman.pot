@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 12:41+0100\n"
-"PO-Revision-Date: 2016-06-03 12:41+0100\n"
+"POT-Creation-Date: 2016-06-20 08:54+0100\n"
+"PO-Revision-Date: 2016-06-20 08:54+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -5000,11 +5000,11 @@ msgid ""
 "e size in gigabytes."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:177
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:181
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:331
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:335
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -5012,7 +5012,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:353
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:357
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -5685,31 +5685,31 @@ msgstr ""
 msgid "%{record} is used by host in build mode %{what}"
 msgstr ""
 
-#: ../app/models/nic/base.rb:169
+#: ../app/models/nic/base.rb:168
 msgid "can't find domain with this id"
 msgstr ""
 
-#: ../app/models/nic/base.rb:185
+#: ../app/models/nic/base.rb:184
 msgid "can't delete primary interface of managed host"
 msgstr ""
 
-#: ../app/models/nic/base.rb:188
+#: ../app/models/nic/base.rb:187
 msgid "can't delete provision interface of managed host"
 msgstr ""
 
-#: ../app/models/nic/base.rb:197
+#: ../app/models/nic/base.rb:196
 msgid "host already has primary interface"
 msgstr ""
 
-#: ../app/models/nic/base.rb:204
+#: ../app/models/nic/base.rb:203
 msgid "host already has provision interface"
 msgstr ""
 
-#: ../app/models/nic/base.rb:215
+#: ../app/models/nic/base.rb:214
 msgid "is not defined for host's location."
 msgstr ""
 
-#: ../app/models/nic/base.rb:220
+#: ../app/models/nic/base.rb:219
 msgid "is not defined for host's organization."
 msgstr ""
 

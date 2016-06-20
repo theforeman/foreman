@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-06-03 10:41+0000\n"
-"Last-Translator: Robin Friberg <robin.friberg@gmail.com>\n"
+"PO-Revision-Date: 2016-06-04 09:18+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -1179,7 +1179,7 @@ msgid "Clone Host %s"
 msgstr "Klona Värd %s"
 
 msgid "Clone a host group"
-msgstr ""
+msgstr "Klona en värdgrupp"
 
 msgid "Clone a provision template"
 msgstr "Klona en provisioneringsmall"
@@ -1410,10 +1410,10 @@ msgid "Create a hardware model"
 msgstr ""
 
 msgid "Create a host"
-msgstr ""
+msgstr "Skapa en värd"
 
 msgid "Create a host group"
-msgstr ""
+msgstr "Skapa en värdgrupp"
 
 msgid "Create a medium"
 msgstr ""
@@ -1482,7 +1482,7 @@ msgid "Create an external user group linked to a user group"
 msgstr ""
 
 msgid "Create an image"
-msgstr ""
+msgstr "Skapa en avbildning"
 
 msgid "Create an interface on a host"
 msgstr ""
@@ -1686,10 +1686,10 @@ msgid "Delete a hardware model"
 msgstr ""
 
 msgid "Delete a host"
-msgstr ""
+msgstr "Radera en värd"
 
 msgid "Delete a host group"
-msgstr ""
+msgstr "Radera en värdgrupp"
 
 msgid "Delete a host's interface"
 msgstr ""
@@ -1788,7 +1788,7 @@ msgid "Delete an external user group"
 msgstr ""
 
 msgid "Delete an image"
-msgstr ""
+msgstr "Radera en avbildning"
 
 msgid "Delete an operating system"
 msgstr ""
@@ -2748,7 +2748,7 @@ msgid "Generated at %s"
 msgstr "Genererad vid %s"
 
 msgid "Get configuration status of host"
-msgstr ""
+msgstr "Hämta konfigurationsstatus för värd"
 
 msgid "Get dashboard details"
 msgstr ""
@@ -2760,7 +2760,7 @@ msgid "Get statistics"
 msgstr ""
 
 msgid "Get status of host"
-msgstr ""
+msgstr "Hämta status för värd"
 
 msgid "Get vm attributes of host"
 msgstr ""
@@ -3167,7 +3167,7 @@ msgid "ID of host"
 msgstr "ID för värd"
 
 msgid "ID of host group"
-msgstr ""
+msgstr "ID för värdgrupp"
 
 msgid "ID of interface"
 msgstr ""
@@ -3667,19 +3667,19 @@ msgid "List all hardware models"
 msgstr ""
 
 msgid "List all host groups"
-msgstr ""
+msgstr "Lista alla värdgrupper"
 
 msgid "List all host groups for a Puppet class"
-msgstr ""
+msgstr "Lista alla värdgrupper för en Puppet-klass"
 
 msgid "List all host groups per location"
-msgstr ""
+msgstr "Lista alla värdgrupper per plats"
 
 msgid "List all host groups per organization"
-msgstr ""
+msgstr "Lista alla värdgrupper per organisation"
 
 msgid "List all hosts"
-msgstr ""
+msgstr "Lista alla värdar"
 
 msgid "List all hosts for a host group"
 msgstr ""
@@ -3859,13 +3859,13 @@ msgid "List environments per organization"
 msgstr "Lista miljöer per organisation"
 
 msgid "List hosts per environment"
-msgstr ""
+msgstr "Lista värdar per miljö"
 
 msgid "List hosts per location"
-msgstr ""
+msgstr "Lista värdar per plats"
 
 msgid "List hosts per organization"
-msgstr ""
+msgstr "Lista värdar per organisation"
 
 msgid "List installed plugins"
 msgstr ""
@@ -4332,10 +4332,10 @@ msgid "Name of the external auth source where unknown externally authentication 
 msgstr "Namnet på den externa autentiseringskällan där okända autentiseringsanvändare (se authorize_login_delegation) skall skapas ( behåll tom för att förhindra autoskapande)"
 
 msgid "Name of the host group"
-msgstr ""
+msgstr "Värdgruppens namn"
 
 msgid "Name of the parameter"
-msgstr ""
+msgstr "Parameterns namn"
 
 msgid "Name of variable"
 msgstr ""
@@ -4929,6 +4929,9 @@ msgstr ""
 msgid "Operating systems"
 msgstr "Operativsystem"
 
+msgid "Operating systems API supported?"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
 msgstr "Operativsystem"
@@ -5113,7 +5116,7 @@ msgid "Parameter details"
 msgstr ""
 
 msgid "Parameter value"
-msgstr ""
+msgstr "Parametervärde"
 
 msgid "Parameterized classes in ENC"
 msgstr ""
@@ -6221,10 +6224,10 @@ msgid "Show a hardware model"
 msgstr ""
 
 msgid "Show a host"
-msgstr ""
+msgstr "Visa en värd"
 
 msgid "Show a host group"
-msgstr ""
+msgstr "Visa en värdgrupp"
 
 msgid "Show a medium"
 msgstr ""
@@ -6314,7 +6317,7 @@ msgid "Show an external user group for user group"
 msgstr ""
 
 msgid "Show an image"
-msgstr ""
+msgstr "Visa en avbildning"
 
 msgid "Show an interface for host"
 msgstr ""
@@ -7418,10 +7421,10 @@ msgid "Update a hardware model"
 msgstr ""
 
 msgid "Update a host"
-msgstr ""
+msgstr "Uppdatera en värd"
 
 msgid "Update a host group"
-msgstr ""
+msgstr "Uppdatera en värdgrupp"
 
 msgid "Update a host's interface"
 msgstr ""
@@ -7493,7 +7496,7 @@ msgid "Update an environment"
 msgstr "Uppdatera en miljö"
 
 msgid "Update an image"
-msgstr ""
+msgstr "Uppdatera en avbildning"
 
 msgid "Update an operating system"
 msgstr ""
@@ -8061,7 +8064,7 @@ msgid "Zone"
 msgstr "Zon"
 
 msgid "a location"
-msgstr ""
+msgstr "en plats"
 
 msgid "add a new matcher"
 msgstr ""

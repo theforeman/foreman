@@ -7,6 +7,7 @@
 # Alexander Savchenko, 2013
 # Alexander Savchenko, 2015
 # Andrei Burd <burdandrei@gmail.com>, 2013
+# cert <certainy@gmail.com>, 2016
 # Denis Denis <stereodenis@gmail.com>, 2014
 # Dominic Cleal <dominic@cleal.org>, 2014-2015
 # Denis Denis <stereodenis@gmail.com>, 2014
@@ -16,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-06-01 09:14+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-06-07 12:04+0000\n"
+"Last-Translator: cert <certainy@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -3166,7 +3167,7 @@ msgid "Hosts which are currently not running Puppet"
 msgstr "Узлы, на которых Puppet не был запущен"
 
 msgid "Hosts which are not reporting"
-msgstr ""
+msgstr "Узлы без отчетов"
 
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr "Узлы, где puppet не выполнялся %s"
@@ -5005,6 +5006,9 @@ msgstr "Версия операционной системы уже сущест
 
 msgid "Operating systems"
 msgstr "Операционные системы"
+
+msgid "Operating systems API supported?"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
