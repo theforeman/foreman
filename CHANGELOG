@@ -1,3 +1,17 @@
+2016-06-20	Dominic Cleal <dominic@cleal.org>
+	* Release 1.12.0-RC2
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* fixes #15431 - apply btn CSS to action selects with one item
+
+2016-06-17	Dominic Cleal <dominic@cleal.org>
+	* fixes #15363 - construct correct templates query for new hosts
+	* fixes #14913 - configure Hirb/Wirb via irbrc
+
+2016-06-17	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15344 - recover from fingerprint error on validation
+	* Fixes #14481 - make bootable radio button checkable
+
 2016-06-03	Dominic Cleal <dominic@cleal.org>
 	* Release 1.12.0-RC1
 	* templates - sync from community-templates
