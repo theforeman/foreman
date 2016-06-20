@@ -51,12 +51,11 @@ os_family = @host.operatingsystem.family
 <% if bmc_nic && bmc_nic.managed? && bmc_nic.provider == "IPMI" && !bmc_nic.username.empty?  && !bmc_nic.password.empty? -%>
 
 # Configure BMC interface
-<% case os_family %>
-<% when 'Redhat' then %>
+<% if os_family == 'Redhat' %>
 yum -t -y install ipmitool
-<% when 'Freebsd' then %>
+<% elsif os_family == 'Freebsd' %>
 pkg install -y ipmitool
-<% when 'Debian' then %>
+<% elsif os_family == 'Debian' %>
 apt-get update
 apt-get install -y ipmitool
 <% end %>

@@ -19,7 +19,7 @@ BOOTPROTO="<%= dhcp ? 'dhcp' : 'none' -%>"
 <% unless dhcp -%>
 IPADDR="<%= @host.ip -%>"
 NETMASK="<%= subnet.mask -%>"
-<% if !subnet.gateway.nil? && !subnet.gateway.empty? -%>
+<% if subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
@@ -42,7 +42,7 @@ BOOTPROTO="<%= dhcp ? 'dhcp' : 'none' -%>"
 <% unless dhcp || subnet.nil? -%>
 IPADDR="<%= bond.ip -%>"
 NETMASK="<%= subnet.mask -%>"
-<% if !subnet.gateway.nil? && !subnet.gateway.empty? -%>
+<% if subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
@@ -130,7 +130,7 @@ BOOTPROTO="<%= dhcp ? 'dhcp' : 'none' -%>"
 <% unless dhcp -%>
 IPADDR="<%= interface.ip -%>"
 NETMASK="<%= subnet.mask -%>"
-<% if !subnet.gateway.nil? && !subnet.gateway.empty? -%>
+<% if subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
@@ -142,9 +142,9 @@ ONBOOT=yes
 <% if interface.respond_to?(:primary) && interface.primary -%>
 PEERDNS=yes
 PEERROUTES=yes
-<% if !dhcp && !subnet.dns_primary.nil? && !subnet.dns_primary.empty? -%>
+<% if !dhcp && subnet.dns_primary.present? -%>
 DNS1=<%= subnet.dns_primary %>
-<% if !subnet.dns_secondary.nil? && !subnet.dns_secondary.empty? -%>
+<% if subnet.dns_secondary.present? -%>
 DNS2=<%= subnet.dns_secondary %>
 <% end -%>
 <% end -%>

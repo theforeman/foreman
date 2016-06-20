@@ -3,9 +3,9 @@ kind: ptable
 name: XenServer default
 oses:
 - XenServer
-%>
+-%>
 <%
   gueststorage = @host.params['gueststorage'] || 'yes'
   primary_disk = @host.params['install-disk'] || 'sda'
 -%>
-<primary-disk gueststorage="<%= gueststorage %>"><%= primary_disk %></primary-disk>
+  <primary-disk gueststorage="<%= gueststorage %>"><%= primary_disk %></primary-disk>
