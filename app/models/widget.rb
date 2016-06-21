@@ -6,7 +6,7 @@ class Widget < ActiveRecord::Base
 
   serialize :data
 
-  attr_accessible :col, :hide, :row, :sizex, :sizey
+  attr_accessible :col, :hide, :row, :sizex, :sizey, :name, :template
 
   before_validation :default_values
 
