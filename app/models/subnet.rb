@@ -195,6 +195,28 @@ class Subnet < ActiveRecord::Base
     ips.compact.uniq
   end
 
+  def ipam=(*args)
+    @ipamservice = nil
+    super
+  end
+
+  def ipamservice
+    return unless ipam?
+    @ipamservice ||= IPAM.new(self.ipam, :subnet => self)
+  end
+
+  def ipam_range
+    return unless ipam?
+    ipamservice.range
+  end
+
+  def to_range
+    return unless network.present? && mask.present?
+    IPAddr.new("#{network}/#{mask}", self.family).to_range
+  rescue invalid_address_error
+    nil
+  end
+
   def proxies
     [dhcp, tftp, dns].compact
   end

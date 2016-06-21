@@ -8,9 +8,10 @@
     <tr>
       <th class="col-md-3"><%= sort :name, :as => s_("Subnet|Name") %></th>
       <th class="col-md-2"><%= sort :network, :as => s_("Subnet|Network") %></th>
-      <th class="col-md-3"><%= _("Domains") %></th>
+      <th class="col-md-2"><%= _("Domains") %></th>
       <th class="col-md-1"><%= sort :vlanid, :as => s_('Subnet|Vlanid') %></th>
       <th class="col-md-2"><%= _("DHCP Proxy") %></th>
+      <th class="col-md-1"><%= _("IP Usage") %></th>
       <th><%= _('Actions') %></th>
     </tr>
   </thead>
@@ -20,8 +21,15 @@
         <td class="display-two-pane ellipsis"><%=link_to_if_authorized subnet.name, hash_for_edit_subnet_path(:id => subnet).merge(:auth_object => subnet, :authorizer => authorizer) %></td>
         <td><%=subnet.network_address %></td>
         <td class="ellipsis"><%=subnet.domains.to_sentence %></td>
-        <td><%=subnet.vlanid %></td>
+        <td><%= subnet.vlanid %></td>
         <td class="ellipsis"><%=subnet.dhcp %></td>
+        <td>
+          <% if subnet.ipam? %>
+            <span class="ipam-show-usage" data-url="<%= usage_subnet_path(subnet) %>">
+              <%= spinner %>
+            </span>
+          <% end %>
+        </td>
         <td class="col-md-1">
           <%= action_buttons(display_delete_if_authorized(
             hash_for_subnet_path(:id => subnet).

@@ -18,6 +18,18 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should get used ips" do
+    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+                                :dns_primary => '192.168.2.10', :gateway => '192.168.2.3', :ipam => IPAM::MODES[:db])
+
+    get :used_ips, { :id => subnet.to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
+    assert_equal subnet.ipamservice.used_ips, show_response['used_ips']
+    assert_equal subnet.ipamservice.usage, show_response['usage']
+  end
+
   test "should create subnet" do
     assert_difference('Subnet.count') do
       post :create, { :subnet => valid_attrs }

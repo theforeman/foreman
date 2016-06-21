@@ -16,3 +16,7 @@ end
 child :dns => :dns do
   extends "api/v2/smart_proxies/base"
 end
+
+node :usage do |subnet|
+  subnet.ipamservice.try(:usage)
+end

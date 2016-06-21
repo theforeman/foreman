@@ -35,6 +35,20 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to retrieve unused IP"))
     end
 
+    def subnet_usage(subnet)
+      params = {}
+
+      params.merge!({:from => subnet.from, :to => subnet.to}) if subnet.from.present? && subnet.to.present?
+      if params.any?
+        params = "?" + params.to_query
+      else
+        params = ""
+      end
+      parse get("#{subnet.network}/usage#{params}")
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to retrieve unused IP"))
+    end
+
     # Retrieves a DHCP entry
     # [+subnet+] : String in dotted decimal format
     # [+mac+]    : String in coloned sextuplet format

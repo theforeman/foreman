@@ -9,5 +9,20 @@ module IPAM
       logger.debug("Found #{ip}")
       ip
     end
+
+    def used_ips
+      (proxy_subnets['leases'] + proxy_subnets['reservations']).collect{|record| record[ip]}
+    end
+
+    def usage
+      return unless subnet.dhcp?
+      dhcp_proxy.subnet_usage(subnet)["used"]
+    end
+
+    private
+
+    def proxy_subnets
+      @proxy_subnets ||= dhcp_proxy.subnet(subnet.network)
+    end
   end
 end

@@ -636,7 +636,7 @@ Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :subnets do |map|
     map.permission :view_subnets, {:subnets => [:index, :show, :auto_complete_search],
                                       :"api/v1/subnets" => [:index, :show],
-                                      :"api/v2/subnets" => [:index, :show]
+                                      :"api/v2/subnets" => [:index, :show, :used_ips]
     }
     map.permission :create_subnets, {:subnets => [:new, :create],
                                       :"api/v1/subnets" => [:create],

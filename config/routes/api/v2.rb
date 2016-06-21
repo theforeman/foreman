@@ -211,6 +211,7 @@ Foreman::Application.routes.draw do
             delete '/', :action => :reset
           end
         end
+        get :used_ips, :on => :member
       end
 
       resources :usergroups, :except => [:new, :edit] do
