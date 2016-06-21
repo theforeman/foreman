@@ -1,3 +1,38 @@
+2016-06-21	Dominic Cleal <dominic@cleal.org>
+	* Release 1.11.3
+	* fixes #15363 - construct correct templates query for new hosts
+
+2016-06-21	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #15223 - query parameters are now correct.
+
+2016-06-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14481 - make bootable radio button checkable
+	* Fixes #15238 - ignore empty NIC identifiers
+	* Fixes #15182 - limit user taxonomies in API (CVE-2016-4451)
+
+2016-06-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15225 - correct permission mapping for api puppet import
+	* Fixes #15166 - correct layout of dashboard when zoomed
+	* Fixes #15090 - Add scrolling to taxonomy selection
+
+2016-06-16	Ori Rabin <orabin@redhat.com>
+	* Fixes #15246 - correctly override array params
+
+2016-06-16	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14879 - Fixed query syntax in FactTrend#find_hosts
+
+2016-06-16	Dominic Cleal <dominic@cleal.org>
+	* fixes #14905 - enable DHCP orchestration with any boot mode
+
+2016-06-16	John Mitsch <jomitsch@redhat.com>
+	* Fixes #15050 - Scoped search hostname w/o field no longer ISEs
+
+2016-06-16	Ivan Nečas <inecas@redhat.com>
+	* Fixes #15174 - make sure to return 404 when taxonomy not found
+
+2016-06-16	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15077 - Error HTML tags are shown
+
 2016-05-18	Dominic Cleal <dominic@cleal.org>
 	* Release 1.11.2
 
