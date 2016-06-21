@@ -17,7 +17,7 @@ module ProxyStatus
     end
 
     def expiry
-      ca_cert = find_by_state('valid').sort_by!(&:valid_from).first
+      ca_cert = find_by_state('valid').select{|c| c.valid_from.present?}.min_by(&:valid_from)
       if ca_cert.present?
         ca_cert.expires_at
       else
