@@ -5,7 +5,8 @@ module Api
       include Api::TaxonomyScope
 
       before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_filter :find_resource, :only => %w{show update destroy freeip}
+      before_filter :find_ipam, :only => %w{freeip}
 
       api :GET, '/subnets', N_("List of subnets")
       api :GET, "/domains/:domain_id/subnets", N_("List of subnets for a domain")
@@ -70,7 +71,30 @@ module Api
         process_response @subnet.destroy
       end
 
+      api :GET, "/subnets/:id/freeip", N_("Provides an unused IP address in this subnet")
+      param :id, :identifier, :required => true
+      param :mac, String, :desc => N_("MAC address to reuse the IP for this host")
+      param :excluded_ips, Array, :desc => N_("IP addresses that should be excluded from suggestion")
+
+      def freeip
+      end
+
       private
+
+      def find_ipam
+        return unless @subnet.ipam?
+        opts = {:subnet => @subnet, :mac => params[:mac], :excluded_ips => params[:excluded_ips] || []}
+        @ipam = IPAM.new(@subnet.ipam, opts)
+      end
+
+      def action_permission
+        case params[:action]
+        when 'freeip'
+          :view
+        else
+          super
+        end
+      end
 
       def allowed_nested_id
         %w(domain_id location_id organization_id)
