@@ -211,6 +211,7 @@ Foreman::Application.routes.draw do
             delete '/', :action => :reset
           end
         end
+        get :freeip, :on => :member
       end
 
       resources :usergroups, :except => [:new, :edit] do

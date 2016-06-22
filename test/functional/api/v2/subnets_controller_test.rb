@@ -59,4 +59,43 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert_response :ok
     assert !Subnet.exists?(:id => subnet.id)
   end
+
+  context 'free ip' do
+    context 'subnet with ipam' do
+      setup do
+        @subnet = FactoryGirl.create(:subnet_ipv4, :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+                                     :ipam => IPAM::MODES[:db])
+      end
+
+      test "should get free ip" do
+        get :freeip, { :id => @subnet.to_param }
+        assert_response :success
+        show_response = ActiveSupport::JSON.decode(@response.body)
+        assert !show_response.empty?
+        assert_equal '192.168.2.10', show_response['freeip']
+      end
+
+      test "should get free ip and honor excluded ips" do
+        get :freeip, { :id => @subnet.to_param, :excluded_ips => ['192.168.2.10'] }
+        assert_response :success
+        show_response = ActiveSupport::JSON.decode(@response.body)
+        assert !show_response.empty?
+        assert_equal '192.168.2.11', show_response['freeip']
+      end
+    end
+
+    context 'subnet without ipam' do
+      setup do
+        @subnet = FactoryGirl.create(:subnet_ipv4, :network => '192.168.2.0')
+      end
+
+      test "should not get free ip" do
+        get :freeip, { :id => @subnet.to_param }
+        assert_response :success
+        show_response = ActiveSupport::JSON.decode(@response.body)
+        assert !show_response.empty?
+        assert_nil show_response['freeip']
+      end
+    end
+  end
 end
