@@ -1,6 +1,13 @@
 module PageletsHelper
+  def virtual_path
+    @virtual_path
+  end
+
   def pagelets_for(mountpoint)
-    Pagelets::Manager.sorted_pagelets_at("#{controller_name}/#{action_name}", mountpoint)
+    result = ["#{controller_name}/#{action_name}", virtual_path].uniq.map do |key|
+      Pagelets::Manager.pagelets_at(key, mountpoint)
+    end
+    result.flatten.sort
   end
 
   def render_pagelets_for(mountpoint, opts = {})

@@ -325,8 +325,8 @@ class PluginTest < ActiveSupport::TestCase
       end
     end
 
-    assert_equal 1, ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).count
-    assert_equal "My Tab", ::Pagelets::Manager.sorted_pagelets_at("tests/show", :main_tabs).first.name
+    assert_equal 1, ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).count
+    assert_equal "My Tab", ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).first.name
   end
 
   def test_register_facet
