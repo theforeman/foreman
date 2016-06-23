@@ -3,7 +3,7 @@ require 'test_helper'
 class SubnetTest < ActiveSupport::TestCase
   should validate_presence_of(:network)
   should validate_presence_of(:mask)
-  should validate_uniqueness_of(:network)
+  should_not validate_uniqueness_of(:network)
   should_not allow_value("asf:fwe6::we6s:q1").for(:network)
   should_not allow_value("asf:fwe6::we6s:q1").for(:mask)
 

@@ -15,12 +15,6 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
     assert_equal 'ffff:ffff:ffff:ffff::', @subnet.mask
   end
 
-  test "network should be unique, after normalization" do
-    FactoryGirl.create(:subnet_ipv6, :network => '2001:db8::')
-    subnet = FactoryGirl.build(:subnet_ipv6, :network => '2001:db8:0000::')
-    refute subnet.valid?
-  end
-
   test "when to_label is applied should show the domain, the mask and network" do
     subnet = FactoryGirl.build(:subnet_ipv6, :network => '2001:db8::', :name => 'subnet')
     assert_equal "subnet (2001:db8::/64)", subnet.to_label

@@ -65,7 +65,6 @@ class Subnet < ActiveRecord::Base
   validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
   validates :tftp, :proxy_features => { :feature => "TFTP", :message => N_('does not have the TFTP feature') }
   validates :dhcp, :proxy_features => { :feature => "DHCP", :message => N_('does not have the DHCP feature') }
-  validates :network, :uniqueness => true
 
   before_validation :normalize_addresses
   validate :ensure_ip_addrs_valid
