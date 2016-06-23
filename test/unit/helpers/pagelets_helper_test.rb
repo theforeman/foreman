@@ -5,6 +5,7 @@ class PageletsHelperTest < ActionView::TestCase
 
   setup do
     controller.prepend_view_path File.expand_path('../../../static_fixtures/views', __FILE__)
+    self.stubs(:virtual_path).returns("nonexisting/path")
   end
 
   teardown do
@@ -43,18 +44,55 @@ class PageletsHelperTest < ActionView::TestCase
 
   test "show page renders basic pagelets" do
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                                        :name => "TestTab",
-                                                        :partial => "test")
+                                               :name => "TestTab",
+                                               :partial => "test")
     result = render_tab_content_for :main_tabs
     assert result.match /This is test partial/
   end
 
   test "show page renders correct id for pagelet" do
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                                        :name => "TestTab",
-                                                        :partial => "test",
-                                                        :id => "my-special-id")
+                                               :name => "TestTab",
+                                               :partial => "test",
+                                               :id => "my-special-id")
     result = render_tab_content_for :main_tabs
     assert result.match /id='my-special-id'/
+  end
+
+  test "should render pagelet using virtual path" do
+    self.stubs(:virtual_path).returns("tests/_form")
+
+    Pagelets::Manager.add_pagelet("test/test", :main_tabs,
+                                               :name => "TestTab",
+                                               :partial => "test")
+    Pagelets::Manager.add_pagelet("tests/_form", :main_tabs,
+                                                 :name => "VirtualPathTab",
+                                                 :partial => "test")
+    pagelets = pagelets_for(:main_tabs)
+    assert pagelets.any? { |p| p.name == "VirtualPathTab" }
+    assert_equal 2, pagelets.count
+  end
+
+  test "should return sorted pagelets" do
+    self.stubs(:virtual_path).returns("tests/_form")
+
+    Pagelets::Manager.add_pagelet("test/test", :main_tabs,
+                                               :name => "TestTab",
+                                               :partial => "test")
+    Pagelets::Manager.add_pagelet("tests/_form", :main_tabs,
+                                                 :name => "VirtualPathTab",
+                                                 :partial => "test",
+                                                 :priority => 50)
+    pagelets = pagelets_for(:main_tabs)
+    assert_equal "VirtualPathTab", pagelets.first.name
+  end
+
+  test "should not duplicate pagelets" do
+    self.stubs(:virtual_path).returns("test/test")
+
+    Pagelets::Manager.add_pagelet("test/test", :main_tabs,
+                                               :name => "TestTab",
+                                               :partial => "test")
+    assert_equal 1, pagelets_for(:main_tabs).length
   end
 end

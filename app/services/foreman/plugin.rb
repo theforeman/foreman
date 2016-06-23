@@ -181,7 +181,7 @@ module Foreman #:nodoc:
     # Extends page by adding custom pagelet to a mountpoint.
     # Usage:
     #
-    # extend_page("smart_proxies/show") do |context|
+    # extend_page("hosts/_form") do |context|
     #   context.add_pagelet :mountpoint,
     #                       :name => N_("Example Pagelet"),
     #                       :partial => "path/to/partial",
@@ -189,8 +189,8 @@ module Foreman #:nodoc:
     #                       :id => 'custom-html-id',
     #                       :onlyif => Proc.new { |subject| subject.should_show_pagelet? }
     # end
-    def extend_page(page_name, &block)
-      yield Pagelets::Manager.new(page_name) if block_given?
+    def extend_page(virtual_path, &block)
+      yield Pagelets::Manager.new(virtual_path) if block_given?
     end
 
     def tests_to_skip(hash)
