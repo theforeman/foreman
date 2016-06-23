@@ -216,4 +216,24 @@ class UsergroupTest < ActiveSupport::TestCase
       assert_includes @usergroup.users, users(:one)
     end
   end
+
+  test 'can search usergroup by role id' do
+    # Setup role and assign to user
+    role = Role.where(:name => "foobar").first_or_create
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.role_ids = [role.id]
+
+    groups = Usergroup.search_for("role_id = #{role.id}")
+    assert (groups.include? usergroup)
+  end
+
+  test 'can search usergroup by role' do
+    # Setup role and assign to user
+    role = Role.where(:name => "foobar").first_or_create
+    usergroup = FactoryGirl.create(:usergroup)
+    usergroup.role_ids = [role.id]
+
+    groups = Usergroup.search_for("role = #{role.name}")
+    assert (groups.include? usergroup)
+  end
 end
