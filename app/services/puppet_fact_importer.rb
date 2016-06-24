@@ -1,4 +1,4 @@
-class PuppetFactImporter < FactImporter
+class PuppetFactImporter < StructuredFactImporter
   def self.authorized_smart_proxy_features
     'Puppet'
   end
