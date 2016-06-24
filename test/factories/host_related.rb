@@ -134,7 +134,7 @@ FactoryGirl.define do
     end
 
     trait :with_hostgroup do
-      hostgroup { FactoryGirl.create(:hostgroup, :environment => environment) }
+      hostgroup { FactoryGirl.create(:hostgroup, :with_domain, :with_os, :environment => environment) }
     end
 
     trait :with_puppetclass do
@@ -431,6 +431,10 @@ FactoryGirl.define do
       medium { operatingsystem.try(:media).try(:first) }
       ptable { operatingsystem.try(:ptables).try(:first) }
       association :operatingsystem, :with_associations
+    end
+
+    trait :with_domain do
+      domain
     end
 
     trait :with_puppet_orchestration do
