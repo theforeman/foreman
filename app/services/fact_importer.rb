@@ -70,11 +70,11 @@ class FactImporter
     if facts_to_create.present?
       method = host.new_record? ? :build : :create!
       # :type is needed because custom facts usually inherits from FactName so they would be included in the list
-      fact_names = fact_name_class.where(:type => fact_name_class).group(:name).maximum(:id)
+      fact_names = fact_name_class.where(:type => fact_name_class).index_by(&:name)
       facts_to_create.each do |name|
         begin
-          host.fact_values.send(method, :value => facts[name],
-                                :fact_name_id  => fact_names[name] || fact_name_class.create!(:name => name).id)
+          fact_name = create_fact_name(fact_names, name, facts[name])
+          host.fact_values.send(method, :value => facts[name], :fact_name => fact_name)
         rescue => e
           logger.error("Fact #{name} could not be imported because of #{e.message}")
           @error = true
@@ -84,6 +84,10 @@ class FactImporter
 
     @counters[:added] = facts_to_create.size
     logger.debug("Merging facts for '#{host}': added #{@counters[:added]} facts")
+  end
+
+  def create_fact_name(fact_names, name, fact_value)
+    fact_names[name] ||= fact_name_class.create!(:name => name)
   end
 
   def update_facts
