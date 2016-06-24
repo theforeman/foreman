@@ -5,6 +5,7 @@ module Hostext
     included do
       include ScopedSearchExtensions
       include ConfigurationStatusScopedSearch
+      include SmartProxyHostExtensions
 
       has_many :search_parameters, :class_name => 'Parameter', :foreign_key => :reference_id
       belongs_to :search_users, :class_name => 'User', :foreign_key => :owner_id
@@ -185,8 +186,8 @@ module Hostext
         proxy_cond = sanitize_sql_for_conditions(["smart_proxies.name #{operator} ?", value_to_sql(operator, value)])
         host_ids = Host::Managed.reorder('')
                                 .authorized(:view_hosts, Host)
-                                .eager_load(proxy_connections_tables)
-                                .joins("LEFT JOIN smart_proxies ON smart_proxies.id IN (#{proxy_connections_columns.join(',')})")
+                                .eager_load(proxy_join_tables)
+                                .joins("LEFT JOIN smart_proxies ON smart_proxies.id IN (#{proxy_column_list})")
                                 .where(proxy_cond)
                                 .distinct
                                 .pluck('hosts.id')
@@ -224,15 +225,6 @@ module Hostext
           end
         end
         conditions.empty? ? "" : "( #{conditions.join(' OR ')} )"
-      end
-
-      #override these if needed to add connection in plugin
-      def proxy_connections_columns
-        ['subnets.dhcp_id', 'subnets.dns_id', 'subnets.tftp_id', 'domains.dns_id', 'realms.realm_proxy_id', 'hosts.puppet_proxy_id', 'hosts.puppet_ca_proxy_id']
-      end
-
-      def proxy_connections_tables
-        [:realm, :interfaces => [:subnet, :domain]]
       end
     end
   end
