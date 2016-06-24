@@ -164,7 +164,7 @@ class TaxHost
   end
 
   def smart_proxy_ids
-    @smart_proxy_ids ||= SmartProxy.smart_proxy_ids_for(hosts)
+    @smart_proxy_ids ||= Host.smart_proxy_ids(hosts)
   end
 
   # helpers

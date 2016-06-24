@@ -22,6 +22,9 @@ module HostCommon
     belongs_to :architecture
     belongs_to :environment
     belongs_to :operatingsystem
+
+    include SmartProxyHostExtensions
+
     belongs_to :medium
     belongs_to :ptable
     belongs_to :realm

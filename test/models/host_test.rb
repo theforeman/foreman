@@ -3591,6 +3591,28 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "should find smart proxy ids" do
+    host_1 = FactoryBot.create(:host, :with_tftp_orchestration)
+    host_2 = FactoryBot.create(:host, :with_dns_orchestration)
+    host_3 = FactoryBot.create(:host, :with_dhcp_orchestration)
+    host_4 = FactoryBot.create(:host, :with_realm)
+    host_5 = FactoryBot.create(:host, :with_puppet)
+    host_6 = FactoryBot.create(:host, :with_puppet_ca)
+
+    tftp_proxy_id = host_1.primary_interface.subnet.tftp_id
+    dns_proxy_id = host_2.primary_interface.subnet.dns_id
+    dhcp_proxy_id = host_3.primary_interface.subnet.dhcp_id
+    realm_proxy_id = host_4.realm.realm_proxy_id
+    puppet_id = host_5.puppet_proxy_id
+    puppet_ca_id = host_6.puppet_ca_proxy_id
+
+    res = Host.smart_proxy_ids(Host.where(:id => [host_1, host_2, host_3, host_4, host_5, host_6].map(&:id)))
+
+    [tftp_proxy_id, dns_proxy_id, dhcp_proxy_id, realm_proxy_id, puppet_id, puppet_ca_id].each do |id|
+      assert res.include?(id)
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)

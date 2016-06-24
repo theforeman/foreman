@@ -48,21 +48,6 @@ class SmartProxy < ApplicationRecord
     (hostname =~ /^puppet\./) ? 'puppet' : hostname
   end
 
-  def self.smart_proxy_ids_for(hosts)
-    ids = []
-    ids << hosts.joins(:primary_interface => :subnet).pluck('DISTINCT subnets.dhcp_id')
-    ids << hosts.joins(:primary_interface => :subnet).pluck('DISTINCT subnets.tftp_id')
-    ids << hosts.joins(:primary_interface => :subnet).pluck('DISTINCT subnets.dns_id')
-    ids << hosts.joins(:primary_interface => :domain).pluck('DISTINCT domains.dns_id')
-    ids << hosts.joins(:realm).pluck('DISTINCT realm_proxy_id')
-    ids << hosts.pluck('DISTINCT puppet_proxy_id')
-    ids << hosts.pluck('DISTINCT puppet_ca_proxy_id')
-    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_proxy_id')
-    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_ca_proxy_id')
-    # returned both 7, "7". need to convert to integer or there are duplicates
-    ids.flatten.compact.map { |i| i.to_i }.uniq
-  end
-
   def hosts_count
     Host::Managed.search_for("smart_proxy = #{name}").count
   end

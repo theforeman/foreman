@@ -76,6 +76,10 @@ module Foreman #:nodoc:
         registered_plugins[id] = plugin
       end
 
+      def unregister(plugin_id)
+        @registered_plugins.delete(plugin_id)
+      end
+
       # Clears the registered plugins hash
       # It doesn't unload installed plugins
       def clear
@@ -109,7 +113,7 @@ module Foreman #:nodoc:
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
-                :facets, :rbac_registry, :dashboard_widgets, :info_providers
+                :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
@@ -130,6 +134,7 @@ module Foreman #:nodoc:
       @controller_action_scopes = {}
       @dashboard_widgets = []
       @rabl_template_extensions = {}
+      @smart_proxy_references = []
     end
 
     def report_scanner_registry
@@ -482,6 +487,10 @@ module Foreman #:nodoc:
 
     def add_histogram_telemetry(name, description, instance_labels = [], buckets = DEFAULT_BUCKETS)
       Foreman::Telemetry.instance.add_histogram(name, description, instance_labels, buckets)
+    end
+
+    def smart_proxy_reference(hash)
+      @smart_proxy_references << ProxyReferenceRegistry.new_reference(hash)
     end
 
     private
