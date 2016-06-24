@@ -56,7 +56,6 @@ class ActiveSupport::TestCase
   alias_method :assert_include,     :assert_includes
   alias_method :assert_not_include, :assert_not_includes
   class <<self
-    alias_method :test, :it
     alias_method :context, :describe
   end
 

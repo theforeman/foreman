@@ -796,8 +796,7 @@ class HostTest < ActiveSupport::TestCase
       setup do
         @host = Host.create(:name => "host.mydomain.net", :mac => "aabbccddeaff",
                             :ip => "2.3.04.03",           :medium => media(:one),
-                            :operatingsystem => Operatingsystem.find_by_name("Redhat"),
-                            :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("common"),
+                            :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("Common"),
                             :architecture => Architecture.first, :disk => "aaa",
                             :environment => Environment.find_by_name("production"))
       end
@@ -855,7 +854,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "handle_ca must not perform actions when no Puppet CA proxy is associated even if associated with hostgroup" do
-      hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration)
+      hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration, :with_domain, :with_os)
       h = FactoryGirl.create(:host, :managed, :with_environment, :hostgroup => hostgroup)
       Setting[:manage_puppetca] = true
 
@@ -952,17 +951,21 @@ class HostTest < ActiveSupport::TestCase
       end
     end
 
-    test "hostgroup should set default values when none exists" do
-      # should set os, but not arch
+    test "hostgroup should set default values for new host" do
       hg = hostgroups(:common)
       h  = Host.new
-      h.name = nil
-      h.hostgroup = hg
+
       h.architecture = architectures(:sparc)
-      assert !h.valid?
+
+      h.hostgroup = hg
+      h.set_hostgroup_defaults
+
       assert_equal hg.operatingsystem, h.operatingsystem
-      assert_not_equal hg.architecture, h.architecture
-      assert_equal h.architecture, architectures(:sparc)
+      assert_equal architectures(:sparc), h.architecture
+      # overwrite host attrs with values from hostgroup
+      h.set_hostgroup_defaults true
+      assert_equal hg.operatingsystem, h.operatingsystem
+      assert_equal hg.architecture, h.architecture
     end
 
     test "host os attributes must be associated with the host os" do
@@ -1127,7 +1130,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "should use hostgroup base64 root password without reencoding" do
       Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
-      hg = FactoryGirl.create(:hostgroup, :with_os)
+      hg = FactoryGirl.create(:hostgroup, :with_os, :with_domain)
       hg.operatingsystem.update_attribute(:password_hash, 'Base64')
       hg.root_pass = "abcdefghi"
       hg.save!
@@ -1180,7 +1183,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "should use settings root password when hostgroup has empty root password" do
       Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
-      g = FactoryGirl.create(:hostgroup, :root_pass => "")
+      g = FactoryGirl.create(:hostgroup, :with_domain, :with_os, :root_pass => "")
       h = FactoryGirl.create(:host, :managed, :hostgroup => g)
       h.root_pass = ""
       h.save
@@ -3034,8 +3037,8 @@ class HostTest < ActiveSupport::TestCase
 
   context 'compute resources' do
     setup do
-      @group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
-      @group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      @group1 = FactoryGirl.create(:hostgroup, :with_domain, :with_os, :compute_profile => compute_profiles(:one))
+      @group2 = FactoryGirl.create(:hostgroup, :with_domain, :with_os, :compute_profile => compute_profiles(:two))
     end
 
     test 'set_hostgroup_defaults doesnt touch compute attributes' do

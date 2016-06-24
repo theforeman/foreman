@@ -611,7 +611,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   context 'search by hostgroup' do
     def setup
-      @hostgroup = FactoryGirl.create(:hostgroup, :with_parent)
+      @hostgroup = FactoryGirl.create(:hostgroup, :with_parent, :with_domain, :with_os)
       @managed_host = FactoryGirl.create(:host, :managed, :hostgroup => @hostgroup)
     end
 

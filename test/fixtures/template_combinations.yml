@@ -17,3 +17,8 @@ four:
    provisioning_template: mystring2
    hostgroup: common
    environment: production
+
+five:
+  provisioning_template: myscript
+  hostgroup: common
+  environment: production

@@ -12,7 +12,7 @@ class EnsureNotUsedByTest < ActiveSupport::TestCase
   end
 
   test "hostgroup should not be deleted if used by host in user org" do
-    hostgroup = FactoryGirl.create(:hostgroup, :organizations => [@org1, @org2])
+    hostgroup = FactoryGirl.create(:hostgroup, :with_domain, :with_os, :organizations => [@org1, @org2])
     host = FactoryGirl.create(:host, :managed, :hostgroup => hostgroup, :organization => @org1)
 
     as_user @user do
@@ -24,7 +24,7 @@ class EnsureNotUsedByTest < ActiveSupport::TestCase
   end
 
   test "hostgroup should not be deleted if used by host in different org" do
-    hostgroup = FactoryGirl.create(:hostgroup, :organizations => [@org1, @org2])
+    hostgroup = FactoryGirl.create(:hostgroup, :with_domain, :with_os, :organizations => [@org1, @org2])
     FactoryGirl.create(:host, :hostgroup => hostgroup, :organization => @org2)
 
     as_user @user do
@@ -36,7 +36,7 @@ class EnsureNotUsedByTest < ActiveSupport::TestCase
   end
 
   test "hostgroup should not be deleted if used by host" do
-    hostgroup = FactoryGirl.create(:hostgroup, :organizations => [@org1, @org2])
+    hostgroup = FactoryGirl.create(:hostgroup, :with_domain, :with_os, :organizations => [@org1, @org2])
     FactoryGirl.create(:host, :hostgroup => hostgroup, :organization => @org2)
 
     as_user FactoryGirl.create(:user, :with_mail) do
@@ -57,7 +57,7 @@ class EnsureNotUsedByTest < ActiveSupport::TestCase
   end
 
   test "host using hostgroup should not be shown to user without permissions" do
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryGirl.create(:hostgroup, :with_domain, :with_os)
     FactoryGirl.create(:host, :managed, :hostgroup => hostgroup)
 
     as_user  FactoryGirl.create(:user, :with_mail) do

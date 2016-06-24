@@ -486,7 +486,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test '#children_hosts_count' do
-    group = FactoryGirl.create(:hostgroup, :with_parent)
+    group = FactoryGirl.create(:hostgroup, :with_parent, :with_os, :with_domain)
     FactoryGirl.create_list(:host, 3, :managed, :hostgroup => group)
     assert_equal(3, group.parent.children_hosts_count)
     nested_group = FactoryGirl.create(:hostgroup, :parent => group)

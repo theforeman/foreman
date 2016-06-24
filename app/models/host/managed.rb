@@ -614,17 +614,20 @@ class Host::Managed < Host::Base
     value
   end
 
-  def set_hostgroup_defaults
+  def set_hostgroup_defaults(force = false)
     return unless hostgroup
-    assign_hostgroup_attributes(%w{domain_id})
+    assign_hostgroup_attributes(inherited_attributes, force)
+  end
 
-    if SETTINGS[:unattended] && (new_record? || managed?)
-      inherited_attributes = %w{operatingsystem_id architecture_id}
-      inherited_attributes << "subnet_id" unless compute_provides?(:ip)
-      inherited_attributes << "subnet6_id" unless compute_provides?(:ip6)
-      inherited_attributes.concat(%w{medium_id ptable_id pxe_loader}) if pxe_build?
-      assign_hostgroup_attributes(inherited_attributes)
+  def inherited_attributes
+    inherited_attrs = %w{domain_id}
+    if SETTINGS[:unattended]
+      inherited_attrs.concat(%w{operatingsystem_id architecture_id})
+      inherited_attrs << "subnet_id" unless compute_provides?(:ip)
+      inherited_attrs << "subnet6_id" unless compute_provides?(:ip6)
+      inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) if pxe_build?
     end
+    inherited_attrs
   end
 
   def set_compute_attributes
@@ -935,12 +938,16 @@ class Host::Managed < Host::Base
     Classification::ClassParam.new(:host => self).enc
   end
 
-  def assign_hostgroup_attributes(attrs = [])
+  def assign_hostgroup_attributes(attrs = [], force = false)
     attrs.each do |attr|
       next if send(attr).to_i == -1
       value = hostgroup.send("inherited_#{attr}")
-      self.send("#{attr}=", value) unless send(attr).present?
+      assign_hostgroup_attribute attr, value, force
     end
+  end
+
+  def assign_hostgroup_attribute(attr, value, force)
+    self.send("#{attr}=", value) if force || !send(attr).present?
   end
 
   # checks if the host association is a valid association for this host

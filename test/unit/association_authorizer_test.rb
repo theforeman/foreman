@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AssociationAuthorizerTest < ActiveSupport::TestCase
   def setup
-    @hostgroup = FactoryGirl.create(:hostgroup)
+    @hostgroup = FactoryGirl.create(:hostgroup, :with_domain, :with_os)
     @host = FactoryGirl.create(:host, :managed, :hostgroup => @hostgroup)
     @user = FactoryGirl.create(:user)
   end

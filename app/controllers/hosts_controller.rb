@@ -642,14 +642,6 @@ class HostsController < ApplicationController
     @hostgroup = Hostgroup.find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
 
-    @architecture    = @hostgroup.architecture
-    @operatingsystem = @hostgroup.operatingsystem
-    @environment     = @hostgroup.environment
-    @domain          = @hostgroup.domain
-    @subnet          = @hostgroup.subnet
-    @compute_profile = @hostgroup.compute_profile
-    @realm           = @hostgroup.realm
-
     @host = if params[:host][:id]
               host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
               host = host.becomes Host::Managed
@@ -658,8 +650,17 @@ class HostsController < ApplicationController
             else
               Host.new(host_params)
             end
-    @host.set_hostgroup_defaults
+    @host.set_hostgroup_defaults true
     @host.set_compute_attributes unless params[:host][:compute_profile_id]
+
+    @architecture    = @host.architecture
+    @operatingsystem = @host.operatingsystem
+    @environment     = @host.environment
+    @domain          = @host.domain
+    @subnet          = @host.subnet
+    @compute_profile = @host.compute_profile
+    @realm           = @host.realm
+
     render :partial => "form"
   end
 
