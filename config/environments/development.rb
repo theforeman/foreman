@@ -47,5 +47,6 @@ Foreman::Application.configure do
     Bullet.console = true
     Bullet.rails_logger = true
     Bullet.add_footer = true
+    Bullet.counter_cache_enable = false
   end if defined?(Bullet)
 end

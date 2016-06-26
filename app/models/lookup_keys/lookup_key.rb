@@ -1,6 +1,5 @@
 class LookupKey < ActiveRecord::Base
   include Authorizable
-  include CounterCacheFix
   include HiddenValue
 
   KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
@@ -10,7 +9,7 @@ class LookupKey < ActiveRecord::Base
   EQ_DELM  = "="
   VALUE_REGEX =/\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
 
-  audited :associated_with => :audit_class, :allow_mass_assignment => true, :except => :lookup_values_count
+  audited :associated_with => :audit_class, :allow_mass_assignment => true
   validates_lengths_from_database
 
   serialize :default_value
@@ -36,7 +35,6 @@ class LookupKey < ActiveRecord::Base
   def self.inherited(child)
     child.instance_eval do
       scoped_search :on => :key, :alias => :parameter, :complete_value => true, :default_order => true
-      scoped_search :on => :lookup_values_count, :rename => :values_count
       scoped_search :on => :override, :complete_value => {:true => true, :false => false}
       scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
       scoped_search :on => :merge_default, :complete_value => {:true => true, :false => false}
@@ -59,16 +57,14 @@ class LookupKey < ActiveRecord::Base
   alias_attribute :parameter_type, :key_type
   alias_attribute :variable_type, :key_type
   alias_attribute :override_value_order, :path
-  alias_attribute :override_values_count, :lookup_values_count
   alias_attribute :override_values, :lookup_values
   alias_attribute :override_value_ids, :lookup_value_ids
 
   attr_accessible :avoid_duplicates, :default_value, :description,
     :key, :key_type, :hidden_value,
     :lookup_values_attributes, :lookup_values, :lookup_value_ids,
-    :lookup_values_count,
     :merge_overrides, :merge_default,
-    :override, :override_value_order, :override_values_count, :override_values,
+    :override, :override_value_order, :override_values,
     :override_value_ids,
     :path,
     :parameter_type,

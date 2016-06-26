@@ -40,7 +40,6 @@ class Host::Managed < Host::Base
   after_commit :build_hooks
   before_save :clear_data_on_build
   before_save :clear_puppetinfo, :if => :environment_id_changed?
-  after_save :update_hostgroups_puppetclasses, :if => :hostgroup_id_changed?
 
   def initialize(attributes = nil, options = {})
     attributes = apply_inherited_attributes(attributes, false)
@@ -1010,11 +1009,6 @@ class Host::Managed < Host::Base
 
   def short_name_periods
     errors.add(:name, _("must not include periods")) if (managed? && shortname && shortname.include?(".") && SETTINGS[:unattended])
-  end
-
-  def update_hostgroups_puppetclasses
-    Hostgroup.find(hostgroup_id_was).update_puppetclasses_total_hosts if hostgroup_id_was.present?
-    Hostgroup.find(hostgroup_id).update_puppetclasses_total_hosts     if hostgroup_id.present?
   end
 
   # we need this so when attribute like build changes we trigger tftp orchestration so token is updated on tftp

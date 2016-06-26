@@ -32,7 +32,6 @@ class Hostgroup < ActiveRecord::Base
   validate :validate_subnet_types
 
   include ScopedSearchExtensions
-  include PuppetclassTotalHosts::Indirect
   include SelectiveClone
 
   validates_lengths_from_database :except => [:name]
@@ -44,8 +43,7 @@ class Hostgroup < ActiveRecord::Base
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   include ParameterValidators
   alias_attribute :hostgroup_parameters, :group_parameters
-  has_many_hosts :after_add => :update_puppetclasses_total_hosts,
-                 :after_remove => :update_puppetclasses_total_hosts
+  has_many_hosts
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
 
@@ -54,7 +52,6 @@ class Hostgroup < ActiveRecord::Base
   belongs_to :subnet6, :class_name => "Subnet"
 
   before_save :remove_duplicated_nested_class
-  after_save :update_ancestry_puppetclasses, :if => :ancestry_changed?
 
   alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
@@ -218,13 +215,8 @@ class Hostgroup < ActiveRecord::Base
     new
   end
 
-  def update_ancestry_puppetclasses
-    unscoped_find(ancestry_was.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry_was.present?
-    unscoped_find(ancestry.to_s.split('/').last.to_i).update_puppetclasses_total_hosts if ancestry.present?
-  end
-
   def children_hosts_count
-    Host::Managed.authorized.where(:hostgroup => subtree_ids).count
+    Host::Managed.authorized.where(:hostgroup => subtree_ids).size
   end
 
   protected

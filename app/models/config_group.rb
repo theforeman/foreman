@@ -2,7 +2,6 @@ class ConfigGroup < ActiveRecord::Base
   audited :allow_mass_assignment => true
   include Authorizable
   include Parameterizable::ByIdName
-  include PuppetclassTotalHosts::Indirect
 
   validates_lengths_from_database
 
@@ -17,7 +16,6 @@ class ConfigGroup < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   scoped_search :on => :name, :complete_value => true
-  scoped_search :on => :config_group_classes_count
 
   default_scope -> { order('config_groups.name') }
 
@@ -35,10 +33,10 @@ class ConfigGroup < ActiveRecord::Base
   end
 
   def hosts_count
-    Host::Managed.authorized.search_for(%{config_group="#{name}"}).count
+    Host::Managed.authorized.search_for(%{config_group="#{name}"}).size
   end
 
   def hostgroups_count
-    Hostgroup.authorized.search_for(%{config_group="#{name}"}).count
+    Hostgroup.authorized.search_for(%{config_group="#{name}"}).size
   end
 end

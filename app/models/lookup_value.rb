@@ -1,6 +1,5 @@
 class LookupValue < ActiveRecord::Base
   include Authorizable
-  include CounterCacheFix
 
   attr_accessible :match, :value, :lookup_key_id, :id, :_destroy, :host_or_hostgroup, :use_puppet_default, :lookup_key, :hidden_value
 
@@ -8,7 +7,7 @@ class LookupValue < ActiveRecord::Base
   audited :associated_with => :lookup_key, :allow_mass_assignment => true
   delegate :hidden_value?, :hidden_value, :to => :lookup_key, :allow_nil => true
 
-  belongs_to :lookup_key, :counter_cache => true
+  belongs_to :lookup_key
   validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
   validate :value_present?
   delegate :key, :to => :lookup_key

@@ -53,7 +53,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
 
     key.reload
-    assert key.lookup_values_count > 0
+    assert key.lookup_values.count > 0
     @host1.domain = domains(:mydomain)
 
     assert_equal value.value, Classification::ClassParam.new(:host => @host1).enc['base']['dns']

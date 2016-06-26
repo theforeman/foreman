@@ -30,7 +30,6 @@ module Api
         param :default_value, String
         param :path, String
         param :description, String
-        param :lookup_values_count, :number
       end
 
       def create
@@ -46,7 +45,6 @@ module Api
         param :default_value, String
         param :path, String
         param :description, String
-        param :lookup_values_count, :number
       end
 
       def update

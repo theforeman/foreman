@@ -24,7 +24,7 @@ class Puppetclass < ActiveRecord::Base
   accepts_nested_attributes_for :class_params, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
 
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
-  audited :allow_mass_assignment => true, :except => [:total_hosts, :variable_lookup_keys_count, :global_class_params_count]
+  audited :allow_mass_assignment => true
 
   alias_attribute :smart_variables, :lookup_keys
   alias_attribute :smart_variable_ids, :lookup_key_ids
@@ -39,9 +39,6 @@ class Puppetclass < ActiveRecord::Base
   default_scope -> { order('puppetclasses.name') }
 
   scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :total_hosts
-  scoped_search :on => :global_class_params_count, :rename => :params_count # Smart Parameters
-  scoped_search :on => :variable_lookup_keys_count, :rename => :variables_count # Smart Variables
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
   scoped_search :in => :hostgroups, :on => :name, :complete_value => :true, :rename => "hostgroup", :ext_method => :search_by_name, :only_explicit => true
   scoped_search :in => :config_groups, :on => :name, :complete_value => :true, :rename => "config_group", :ext_method => :search_by_name, :only_explicit => true
@@ -87,31 +84,22 @@ class Puppetclass < ActiveRecord::Base
     name.gsub(module_name+"::","")
   end
 
-  # return host ids from config groups by type
-  def host_ids_from_config_groups(host_type)
-    ids = config_groups.joins(:host_config_groups)
-                 .where("host_config_groups.host_type='#{host_type}'")
-                 .pluck('host_config_groups.host_id') unless config_group_classes.empty?
-    ids || []
-  end
-
-  def all_hostgroups(with_descendants = true)
-    ids = hostgroup_ids
-    ids += host_ids_from_config_groups('Hostgroup')
-    hgs = Hostgroup.unscoped.where(:id => ids.uniq)
+  def all_hostgroups(with_descendants = true, unsorted = false)
+    hgs = Hostgroup.authorized
+                   .eager_load(:hostgroup_classes, :config_groups => [:config_group_classes])
+                   .where("#{self.id} IN (hostgroup_classes.puppetclass_id, config_group_classes.puppetclass_id)")
+                   .uniq
+    hgs = hgs.reorder('') if unsorted
     hgs = hgs.flat_map(&:subtree).uniq if with_descendants
     hgs
   end
 
-  def all_host_ids
-    ids = host_ids
-    ids += Host::Managed.unscoped.where(:hostgroup_id => all_hostgroups.map(&:id)).pluck(:id)
-    ids += host_ids_from_config_groups('Host::Base')
-    ids.uniq
-  end
-
-  def update_total_hosts
-    update_attribute(:total_hosts, all_host_ids.size)
+  def hosts_count
+    Host::Managed.authorized
+                 .reorder('')
+                 .eager_load(:host_classes, :config_groups => [:config_group_classes])
+                 .where("(? IN (host_classes.puppetclass_id, config_group_classes.puppetclass_id)) OR (hosts.hostgroup_id IN (?))", self.id, all_hostgroups(true, true).map(&:id))
+                 .count
   end
 
   # Populates the rdoc tree with information about all the classes in your modules.
