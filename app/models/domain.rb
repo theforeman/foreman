@@ -80,6 +80,6 @@ class Domain < ActiveRecord::Base
   end
 
   def hosts_count
-    Host::Managed.authorized(:view_hosts).joins(:primary_interface).where(:nics => {:domain_id => id}).count
+    Host::Managed.authorized(:view_hosts).joins(:primary_interface).where(:nics => {:domain_id => id}).size
   end
 end

@@ -1,6 +1,5 @@
 class HostClass < ActiveRecord::Base
   include Authorizable
-  include PuppetclassTotalHosts::JoinTable
 
   validates_lengths_from_database
   audited :associated_with => :host, :allow_mass_assignment => true

@@ -1,7 +1,5 @@
 class HostgroupClass < ActiveRecord::Base
   include Authorizable
-  include CounterCacheFix
-  include PuppetclassTotalHosts::JoinTable
 
   audited :associated_with => :hostgroup, :allow_mass_assignment => true
   belongs_to :hostgroup

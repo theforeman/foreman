@@ -5,7 +5,7 @@
     <tr>
       <th class="col-md-5"><%= sort :key, :as => _("Variable") %></th>
       <th class="col-md-4"><%= sort :puppetclass, :as => _("Puppetclass") %></th>
-      <th class="col-md-2"><%= sort :values_count, :as => _('Number of overrides'), :default => "DESC" %></th>
+      <th class="col-md-2"><%= _('Number of overrides') %></th>
       <th><%= _('Actions') %></th>
     </tr>
   </thead>
@@ -14,7 +14,7 @@
       <tr>
         <td class="display-two-pane ellipsis"><%= link_to_if_authorized lookup_key.key, hash_for_edit_variable_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :permission => 'edit_external_variables', :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= link_to_if_authorized lookup_key.puppetclass, hash_for_edit_puppetclass_path(:id => lookup_key.puppetclass).merge(:auth_object => lookup_key.puppetclass, :authorizer => @puppetclass_authorizer) %></td>
-        <td><%=h lookup_key.lookup_values_count %></td>
+        <td><%= lookup_key.lookup_values.size %></td>
         <td><%= action_buttons(display_delete_if_authorized hash_for_variable_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :permission => 'destroy_external_variables', :authorizer => authorizer),
           :data => { :confirm => _("Delete %s?") % lookup_key.key }) %></td>
       </tr>

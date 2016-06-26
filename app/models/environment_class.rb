@@ -20,17 +20,6 @@ class EnvironmentClass < ActiveRecord::Base
       where("id != #{this_environment_class_id}")
   }
 
-  # These counters key track of unique puppet class keys (parameters) across environments
-  after_create do |record|
-    Puppetclass.increment_counter(:global_class_params_count, self.puppetclass.id) unless self.puppetclass_lookup_key.blank? ||
-      EnvironmentClass.used_by_other_environment_classes(self.puppetclass_lookup_key, self.id).count > 0
-  end
-
-  after_destroy do |record|
-    Puppetclass.decrement_counter(:global_class_params_count, self.puppetclass.id) unless self.puppetclass_lookup_key.blank? ||
-      EnvironmentClass.used_by_other_environment_classes(self.puppetclass_lookup_key, self.id).count > 0
-  end
-
   #TODO move these into scopes?
   def self.is_in_any_environment(puppetclass, puppetclass_lookup_key)
     EnvironmentClass.where(:puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key).count > 0

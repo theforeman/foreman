@@ -20,8 +20,7 @@ module HostCommon
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
     has_many :host_config_groups, :as => :host
-    has_many :config_groups, :through => :host_config_groups, :after_add => :update_puppetclass_counters,
-                                                              :after_remove => :update_puppetclass_counters
+    has_many :config_groups, :through => :host_config_groups
     has_many :config_group_classes, :through => :config_groups
     has_many :group_puppetclasses, :through => :config_groups, :source => :puppetclasses
 
@@ -233,11 +232,5 @@ module HostCommon
     end
   rescue
     true # we don't want to break anything, so just skipping.
-  end
-
-  def update_puppetclass_counters(record)
-    return unless persisted?
-
-    record.update_puppetclasses_total_hosts
   end
 end
