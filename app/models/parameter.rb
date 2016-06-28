@@ -15,7 +15,6 @@ class Parameter < ActiveRecord::Base
 
   default_scope -> { order("parameters.name") }
 
-  before_validation :strip_whitespaces
   after_initialize :set_priority
 
   PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :subnet_parameter => 2, :os_parameter => 3, :group_parameter => 4, :host_parameter => 5}
@@ -34,8 +33,7 @@ class Parameter < ActiveRecord::Base
     self.priority = PRIORITY[t.to_s.underscore.to_sym] unless t.blank?
   end
 
-  def strip_whitespaces
-    self.name = self.name.strip unless name.blank? # when name string comes from a hash key, it's frozen and cannot be modified
-    self.value.strip! unless value.blank?
+  def skip_strip_attrs
+    ['value']
   end
 end
