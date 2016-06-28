@@ -147,12 +147,7 @@ module Host
 
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
-
-      # we are not doing anything we already processed this fact (or a newer one)
-      if time
-        return true unless last_compile.nil? or (last_compile + 1.minute < time)
-        self.last_compile = time
-      end
+      self.last_compile = time if time
 
       type = facts.delete(:_type) || 'puppet'
       importer = FactImporter.importer_for(type).new(self, facts)
