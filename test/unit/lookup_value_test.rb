@@ -245,4 +245,20 @@ class LookupValueTest < ActiveSupport::TestCase
       refute_valid @value
     end
   end
+
+  test "should allow white space in value" do
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+                             :with_override,
+                             :key_type => 'string',
+                             :puppetclass => puppetclasses(:one))
+    text = <<EOF
+
+this is a multiline value
+with leading and trailing whitespace
+
+EOF
+    value = LookupValue.new(:value => text, :match => "hostgroup=Common", :lookup_key_id =>key.id)
+    assert value.save!
+    assert_equal value.value, text
+  end
 end

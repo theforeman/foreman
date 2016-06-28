@@ -100,4 +100,8 @@ class LookupValue < ActiveRecord::Base
     return true unless matcher
     matcher
   end
+
+  def skip_strip_attrs
+    ['value']
+  end
 end
