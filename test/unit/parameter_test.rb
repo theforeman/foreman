@@ -82,4 +82,16 @@ class ParameterTest < ActiveSupport::TestCase
     assert_equal "dog", params["animal"][:safe_value]
     assert_equal loc2.title, params["animal"][:source_name]
   end
+
+  test "should allow multi-line value with leading trailing whitespace" do
+    val = <<EOF
+
+this is a multiline value
+with leading and trailing whitespace
+
+EOF
+    param = CommonParameter.new(:name => 'multiline', :value => val)
+    assert param.save!
+    assert_equal param.value, val
+  end
 end

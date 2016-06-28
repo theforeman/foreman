@@ -253,4 +253,8 @@ class LookupKey < ActiveRecord::Base
       self.errors.add(:merge_default, _("can only be set when merge overrides is set"))
     end
   end
+
+  def skip_strip_attrs
+    ['default_value']
+  end
 end

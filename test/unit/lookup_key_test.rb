@@ -209,6 +209,20 @@ class LookupKeyTest < ActiveSupport::TestCase
       refute param.valid?
       assert_equal val, param.default_value_before_type_cast
     end
+
+    test "white space isn't stripped" do
+      val = <<EOF
+
+this is a multiline value
+with leading and trailing whitespace
+
+EOF
+      param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                                :override => true, :key_type => 'string',
+                                :default_value => val, :puppetclass => puppetclasses(:one))
+      assert param.valid?
+      assert_equal val, param.default_value_before_type_cast
+    end
   end
 
   test "this is a smart variable?" do
