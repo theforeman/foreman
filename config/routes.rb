@@ -479,6 +479,10 @@ Foreman::Application.routes.draw do
   end
 
   resources :about, :only => :index do
+    collection do
+      get 'plugin_updates'
+      get 'core_updates'
+    end
   end
 
   resources :interfaces, :only => :new
