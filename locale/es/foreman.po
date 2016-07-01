@@ -6,6 +6,7 @@
 # Carmela Rubiños <carmela.rubinos@gmail.com>, 2013
 # Carmela Rubiños <carmela.rubinos@gmail.com>, 2013
 # Carmela Rubiños <carmela.rubinos@gmail.com>, 2013
+# Cha'gara Casanova <jlozada2426@gmail.com>, 2016
 # Dominic Cleal <dominic@cleal.org>, 2015
 # elobato <elobatocs@gmail.com>, 2014
 # Félix Barbeira <fbarbeira@gmail.com>, 2013
@@ -23,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-06-04 09:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-06-26 12:57+0000\n"
+"Last-Translator: Cha'gara Casanova <jlozada2426@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -475,7 +476,7 @@ msgid "Alias or VLAN device"
 msgstr "Dispositivo VLAN o alias"
 
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 msgid "All Puppet Classes for %s"
 msgstr "Todas las Clases Puppet para %s"
@@ -972,7 +973,7 @@ msgid "Bootable"
 msgstr "Arrancable"
 
 msgid "Bridge"
-msgstr ""
+msgstr "Puente"
 
 msgid "Browse host config management reports"
 msgstr ""
@@ -1008,7 +1009,7 @@ msgid "CA certificate expiry date"
 msgstr ""
 
 msgid "CD-ROM drive"
-msgstr ""
+msgstr "CD-ROM drive"
 
 msgid "CDROM"
 msgstr "CDROM"
@@ -1101,19 +1102,19 @@ msgid "Change Group"
 msgstr "Cambiar Grupo"
 
 msgid "Change Owner"
-msgstr ""
+msgstr "Cambiar el dueño"
 
 msgid "Change Power State"
 msgstr ""
 
 msgid "Change Puppet CA"
-msgstr ""
+msgstr "Cambiar el puppet CA"
 
 msgid "Change Puppet Master"
-msgstr ""
+msgstr "Cambiar el Maestro Puppet"
 
 msgid "Change the password"
-msgstr ""
+msgstr "Cambia la Contraseña"
 
 msgid "Change your avatar at gravatar.com"
 msgstr "Cambie tu avatar en gravatar.com"
@@ -1326,13 +1327,13 @@ msgid "ConfigGroup|Name"
 msgstr "Nombre"
 
 msgid "Configuration"
-msgstr ""
+msgstr "Configuración"
 
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
 msgid "Configuration successfully rebuilt."
-msgstr ""
+msgstr "La configuración fue recreada satisfactoriamente"
 
 msgid "Configure"
 msgstr "Configurar"
@@ -1635,7 +1636,7 @@ msgid "Default encrypted root password on provisioned hosts"
 msgstr "Password encriptado de root por defecto en los hosts provisionados"
 
 msgid "Default location"
-msgstr ""
+msgstr "Ubicación por defecto"
 
 msgid "Default on login"
 msgstr "Por defecto al hacer login"
@@ -1948,7 +1949,7 @@ msgid "Do not use your email as your password"
 msgstr "No use el email como password"
 
 msgid "Document root"
-msgstr ""
+msgstr "El root de la Documentación"
 
 msgid "Document root where puppetdoc files should be created"
 msgstr "Directorio raíz donde se deben crear los ficheros puppetdoc"
@@ -2175,7 +2176,7 @@ msgid "Ending IP Address for IP auto suggestion"
 msgstr "Dirección IP final para sugerencias"
 
 msgid "Entries per page"
-msgstr ""
+msgstr "Cambios por pagina"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
@@ -2633,7 +2634,7 @@ msgid "Foreman Developers"
 msgstr "Desarrolladores de Foreman"
 
 msgid "Foreman URL"
-msgstr ""
+msgstr "Foreman URL"
 
 msgid "Foreman Users"
 msgstr "Usuarios de Foreman"
@@ -3160,7 +3161,7 @@ msgid "Hosts without changes or errors, with alerts enabled"
 msgstr ""
 
 msgid "Hosts without errors"
-msgstr ""
+msgstr "Hosts sin errores."
 
 msgid "Hosts without errors percent"
 msgstr ""
@@ -3301,10 +3302,10 @@ msgid "IPAM"
 msgstr "IPAM"
 
 msgid "IPv4"
-msgstr ""
+msgstr "IPv4"
 
 msgid "IPv6"
-msgstr ""
+msgstr "IPv6"
 
 msgid "IRC"
 msgstr "IRC"
@@ -3615,7 +3616,7 @@ msgid "Latest Events"
 msgstr "Últimos Eventos"
 
 msgid "Learn more about this in the documentation."
-msgstr ""
+msgstr "Aprende esto en nuestra documentación."
 
 msgid "Legacy Puppet hostname"
 msgstr ""
@@ -4062,7 +4063,7 @@ msgid "Location"
 msgstr "Lugares"
 
 msgid "Location fact"
-msgstr ""
+msgstr "Informacion  de la Ubicación"
 
 msgid "Location parameters"
 msgstr ""
@@ -4156,7 +4157,7 @@ msgid "Mailing lists are available via Google Groups. Much like IRC, we have a g
 msgstr "Existen listas de correo disponibles via Google Groups. Como en IRC, tenemos listas generales de usuarios (soporte, Q/A, etc) y listas para desarrollo:"
 
 msgid "Manage"
-msgstr ""
+msgstr "Administrado"
 
 msgid "Manage Locations"
 msgstr "Gestionar Localizaciones"
@@ -4707,7 +4708,7 @@ msgid "No or invalid power state selected!"
 msgstr ""
 
 msgid "No owner selected!"
-msgstr ""
+msgstr "Un dueño no fue seleccionado!"
 
 msgid "No parameters to override for Puppet class %s"
 msgstr "No hay parámetros para preponderar con la clase Puppet %s"
@@ -4776,7 +4777,7 @@ msgid "None Found"
 msgstr "Ninguno Encontrado"
 
 msgid "None found"
-msgstr ""
+msgstr "Nada fue encontrado"
 
 msgid "None!"
 msgstr "¡Ninguno!"
@@ -5560,7 +5561,7 @@ msgid "Puppet proxy ID"
 msgstr ""
 
 msgid "Puppet server"
-msgstr ""
+msgstr "Servidor Puppet"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass"
@@ -5639,7 +5640,7 @@ msgid "Puppetclass|Name"
 msgstr "Nombre"
 
 msgid "Puppetrun"
-msgstr ""
+msgstr "Puppetrun"
 
 msgid "Query instance details for %s"
 msgstr "Detalles de la consulta de la instancia para %s"
@@ -5734,7 +5735,7 @@ msgid "Region"
 msgstr "Región"
 
 msgid "Remote address"
-msgstr ""
+msgstr "Dirección Remota"
 
 msgid "Remove %s?"
 msgstr "Borrar %s?"
@@ -5970,7 +5971,7 @@ msgid "SSL Private Key file that Foreman will use to communicate with its proxie
 msgstr "Fichero de la Clave Privada SSL que usará Foreman para comunicarse con sus proxies"
 
 msgid "SSL certificate"
-msgstr ""
+msgstr "Certificado de SSL"
 
 msgid "SSL client DN env"
 msgstr ""
@@ -6132,7 +6133,7 @@ msgid "Send a welcome email including username and URL to new users"
 msgstr "Enviar un email de bienvenida que incluye el nombre de usuario y la URL a usuarios nuevos"
 
 msgid "Send welcome email"
-msgstr ""
+msgstr "Mandar bienvenidas por correo electronico"
 
 msgid "Server type"
 msgstr "Tipo de servidor"
@@ -7081,7 +7082,7 @@ msgid "Token"
 msgstr "Muestra"
 
 msgid "Token duration"
-msgstr ""
+msgstr "duración de el Token"
 
 msgid "Token expired"
 msgstr ""
@@ -7212,7 +7213,7 @@ msgid "Unable to communicate with the proxy: %s"
 msgstr "No ha sido posible establecer una comunicación con el proxy: %s"
 
 msgid "Unable to connect"
-msgstr ""
+msgstr "No se ha podido conectar"
 
 msgid "Unable to connect to LDAP server"
 msgstr ""
@@ -7864,7 +7865,7 @@ msgid "View last report details"
 msgstr "Visualizar detalles del último informe"
 
 msgid "View list"
-msgstr ""
+msgstr "Ver lista"
 
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
@@ -7888,7 +7889,7 @@ msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr ""
 
 msgid "WARNING"
-msgstr ""
+msgstr "AVISO"
 
 msgid "Wait for %s to come online"
 msgstr "Esperando a que %s esté en línea"
@@ -7978,7 +7979,7 @@ msgid "YAML"
 msgstr "YAML"
 
 msgid "Yes"
-msgstr ""
+msgstr "sí "
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "Va a cambiar el menú PXE por defecto en todos los servidores TFTP configurados - ¿continuar?"
@@ -8038,7 +8039,7 @@ msgid "You don't seem to have any facts yet. If you wish to configure fact pushi
 msgstr ""
 
 msgid "You don't seem to have any reports."
-msgstr ""
+msgstr "Parece que no tienes ningún reporte."
 
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Se puede asociar uno o más sistemas operativos con este medio o configurarlo más tarde como alternativa en la página %s"
@@ -8107,7 +8108,7 @@ msgid "add new storage volume"
 msgstr "añadir un nuevo volumen de almacenamiento"
 
 msgid "all"
-msgstr ""
+msgstr "todo"
 
 msgid "already exists"
 msgstr "ya existe"
@@ -8347,7 +8348,7 @@ msgid "hash containing the facts for the host"
 msgstr "hash con los detalles para el host"
 
 msgid "host"
-msgstr ""
+msgstr "Equipo"
 
 msgid "host already has primary interface"
 msgstr "el host ya tiene un interfaz primario"
@@ -8356,7 +8357,7 @@ msgid "host already has provision interface"
 msgstr "el host ya tiene un interfaz de provisión"
 
 msgid "host group"
-msgstr ""
+msgstr "Grupo del host"
 
 msgid "host group id"
 msgstr "id de grupo de hosts"
@@ -8521,7 +8522,7 @@ msgid "must be boolean"
 msgstr "debe ser booleano"
 
 msgid "must be comma separated"
-msgstr ""
+msgstr "Tiene que ser separado por una comma"
 
 msgid "must be integer"
 msgstr "tiene que ser un entero"
@@ -8566,7 +8567,7 @@ msgid "none"
 msgstr "nada"
 
 msgid "not found"
-msgstr ""
+msgstr "no se encuentra"
 
 msgid "not relevant for snippet"
 msgstr "no es relevante para 'snippet'"
@@ -8590,7 +8591,7 @@ msgid "on"
 msgstr "Encendido"
 
 msgid "operating system"
-msgstr ""
+msgstr "Sistema Operativo"
 
 msgid "optional"
 msgstr "opcional"
@@ -8744,7 +8745,7 @@ msgid "string"
 msgstr "cadena"
 
 msgid "subnet"
-msgstr ""
+msgstr "Subred"
 
 msgid "subnet boot mode is not %s"
 msgstr "el modo de arranque de la subred no es %s"

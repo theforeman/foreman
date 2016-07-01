@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-06-15 16:18+0000\n"
+"PO-Revision-Date: 2016-06-20 13:06+0000\n"
 "Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -4963,7 +4963,7 @@ msgid "Operating systems"
 msgstr "Systèmes d'exploitation"
 
 msgid "Operating systems API supported?"
-msgstr ""
+msgstr "Support API des systèmes d'exploitations ?"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
