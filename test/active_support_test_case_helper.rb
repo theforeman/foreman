@@ -202,4 +202,16 @@ class ActiveSupport::TestCase
   def next_mac(mac)
     mac.tr(':','').to_i(16).succ.to_s(16).rjust(12, '0').scan(/../).join(':')
   end
+
+  def fake_rest_client_response(data)
+    net_http_resp = Net::HTTPResponse.new(1.0, 200, 'OK')
+    req = RestClient::Request.new(:method => 'get', :url => 'http://localhost:8443')
+    if RestClient::Response.method(:create).arity == 3 # 2.0.0+
+      RestClient::Response.create(data.to_json, net_http_resp, req)
+    elsif RestClient::Response.method(:create).arity == 4 # 1.8.x
+      RestClient::Response.create(data.to_json, net_http_resp, nil, req)
+    else
+      raise "unknown RestClient::Response.create version (#{RestClient.version}, arity #{RestClient::Response.method(:create).arity})"
+    end
+  end
 end

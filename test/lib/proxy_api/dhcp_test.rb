@@ -6,12 +6,6 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     @dhcp = ProxyAPI::DHCP.new({:url => @url})
   end
 
-  def fake_response(data)
-    net_http_resp = Net::HTTPResponse.new(1.0, 200, "OK")
-    net_http_resp.add_field 'Set-Cookie', 'Monster'
-    RestClient::Response.create(JSON(data), net_http_resp, nil, RestClient::Request.new(:method=>'get', :url=>'http://localhost:8443'))
-  end
-
   test "constructor should complete" do
     assert_not_nil(@dhcp)
   end
@@ -26,7 +20,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     subnet_mock.expects(:network).returns('192.168.0.0')
     subnet_mock.expects(:from).returns(nil)
 
-    @dhcp.expects(:get).with('192.168.0.0/unused_ip').returns(fake_response({:ip=>'192.168.0.50'}))
+    @dhcp.expects(:get).with('192.168.0.0/unused_ip').returns(fake_rest_client_response({:ip=>'192.168.0.50'}))
     assert_equal({'ip'=>'192.168.0.50'}, @dhcp.unused_ip(subnet_mock))
   end
 
@@ -47,7 +41,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
       path.include?('192.168.0.0/unused_ip?') &&
         path.include?('from=192.168.0.50') &&
         path.include?('to=192.168.0.150')
-    end.returns(fake_response({:ip=>'192.168.0.50'}))
+    end.returns(fake_rest_client_response({:ip=>'192.168.0.50'}))
     assert_equal({'ip'=>'192.168.0.50'}, @dhcp.unused_ip(subnet_mock))
   end
 
@@ -56,7 +50,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     subnet_mock.expects(:network).returns('192.168.0.0')
     subnet_mock.expects(:from).returns(nil)
 
-    @dhcp.expects(:get).with('192.168.0.0/unused_ip?mac=00:11:22:33:44:55').returns(fake_response({:ip=>'192.168.0.50'}))
+    @dhcp.expects(:get).with('192.168.0.0/unused_ip?mac=00:11:22:33:44:55').returns(fake_rest_client_response({:ip=>'192.168.0.50'}))
     assert_equal({'ip'=>'192.168.0.50'}, @dhcp.unused_ip(subnet_mock, '00:11:22:33:44:55'))
   end
 end

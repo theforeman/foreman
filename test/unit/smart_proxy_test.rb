@@ -73,12 +73,4 @@ class SmartProxyTest < ActiveSupport::TestCase
       assert_equal 1, proxy.hosts_count
     end
   end
-
-  private
-
-  def fake_response(data)
-    net_http_resp = Net::HTTPResponse.new(1.0, 200, "OK")
-    net_http_resp.add_field 'Set-Cookie', 'Monster'
-    RestClient::Response.create(JSON(data), net_http_resp, nil)
-  end
 end
