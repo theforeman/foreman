@@ -1,19 +1,24 @@
 class Authorizer
-  attr_accessor :user, :base_collection, :organization_ids, :location_ids
+  include AuthorizerCache
+
+  attr_reader :user
+  attr_accessor :base_collection, :organization_ids, :location_ids
 
   def initialize(user, options = {})
-    @cache = HashWithIndifferentAccess.new { |h, k| h[k] = HashWithIndifferentAccess.new }
-    self.user = user
-    self.base_collection = options.delete(:collection)
+    initialize_cache
+    @user = user
+    @base_collection = options.delete(:collection)
   end
 
-  def can?(permission, subject = nil)
+  def can?(permission, subject = nil, cache = true)
     if subject.nil?
       user.permissions.where(:name => permission).present?
     else
       return true if user.admin?
-      collection = @cache[subject.class.to_s][permission] ||= find_collection(subject.class, :permission => permission)
-      collection.include?(subject)
+      return collection_cache_lookup(subject, permission) if cache
+
+      find_collection(subject.class, :permission => permission).
+        where(:id => subject.id).any?
     end
   end
 
@@ -63,7 +68,12 @@ class Authorizer
       end
     else
       # build regular filtered scope for "resource_class"
-      scope = resource_class.eager_load(scope_components[:includes]).joins(scope_components[:joins]).readonly(false)
+      scope = resource_class
+      if scope_components[:includes].present?
+        scope = scope.eager_load(scope_components[:includes])
+      end
+
+      scope = scope.joins(scope_components[:joins]).readonly(false)
       scope_components[:where].inject(scope) { |scope_build,where| scope_build.where(where) }
     end
   end
