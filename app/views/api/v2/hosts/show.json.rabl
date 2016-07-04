@@ -35,7 +35,7 @@ end
 node :permissions do |host|
   authorizer = Authorizer.new(User.current)
   Permission.where(:resource_type => "Host").all.inject({}) do |hash, permission|
-    hash[permission.name] = authorizer.can?(permission.name, host)
+    hash[permission.name] = authorizer.can?(permission.name, host, false)
     hash
   end
 end
