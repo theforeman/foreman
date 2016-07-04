@@ -10,169 +10,208 @@ class AuthorizerTest < ActiveSupport::TestCase
     @permission = FactoryGirl.create(:permission, :host)
   end
 
-  # limited, unlimited, permission with resource, without resource...
-  test "#can?(:view_hosts) with unlimited filter" do
-    FactoryGirl.create(:filter, :role => @role, :permissions => [@permission])
-    auth = Authorizer.new(@user)
+  describe '#can?' do
+    [true, false].each do |cache|
+      context "with cache = #{cache}" do
+        context 'without subject' do
+          # limited, unlimited, permission with resource, without resource...
+          test "with unlimited filter" do
+            FactoryGirl.create(:filter, :role => @role, :permissions => [@permission])
+            auth = Authorizer.new(@user)
 
-    assert auth.can?(@permission.name.to_sym)
-    refute auth.can?(:view_domains)
-  end
+            assert auth.can?(@permission.name.to_sym, nil, cache)
+            refute auth.can?(:view_domains, nil, cache)
+          end
 
-  test "#can?(:view_hosts) with unlimited filter" do
-    FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
-    auth = Authorizer.new(@user)
+          test "with limited filter (name ~ *)" do
+            FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
+            auth = Authorizer.new(@user)
 
-    assert auth.can?(@permission.name.to_sym)
-    refute auth.can?(:view_domains)
-  end
+            assert auth.can?(@permission.name.to_sym, nil, cache)
+            refute auth.can?(:view_domains, nil, cache)
+          end
 
-  test "#can?(:view_hosts) on permission without resource" do
-    FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
-    auth = Authorizer.new(@user)
+          test "permission without resource" do
+            FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
+            auth = Authorizer.new(@user)
 
-    assert auth.can?(@permission.name.to_sym)
-    refute auth.can?(:view_domains)
-  end
+            assert auth.can?(@permission.name.to_sym, nil, cache)
+            refute auth.can?(:view_domains, nil, cache)
+          end
 
-  test "#can?(:view_hosts) is limited by particular user" do
-    FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
-    auth = Authorizer.new(FactoryGirl.create(:user))
+          test "limited by particular user" do
+            FactoryGirl.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
+            auth = Authorizer.new(FactoryGirl.create(:user))
 
-    refute auth.can?(@permission.name.to_sym)
-  end
+            refute auth.can?(@permission.name.to_sym, nil, cache)
+          end
+        end
 
-  test "#can?(:view_domains, @host) for unlimited filter" do
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
-    domain     = FactoryGirl.create(:domain)
-    auth       = Authorizer.new(@user)
+        context 'with subject (e.g: Domain)' do
+          test "unlimited filter" do
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
+            domain     = FactoryGirl.create(:domain)
+            auth       = Authorizer.new(@user)
 
-    assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
-    assert auth.can?(:view_domains, domain)
-  end
+            assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
+            assert auth.can?(:view_domains, domain, cache)
+          end
 
-  test "#can?(:view_domains, @host) for matching limited filter" do
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
-                                :search => 'name ~ example*')
-    domain     = FactoryGirl.create(:domain)
-    auth       = Authorizer.new(@user)
+          test "matching limited filter" do
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
+                               :search => 'name ~ example*')
+            domain     = FactoryGirl.create(:domain)
+            auth       = Authorizer.new(@user)
 
-    assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
-    assert auth.can?(:view_domains, domain)
-  end
+            assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
+            assert auth.can?(:view_domains, domain, cache)
+          end
 
-  test "#can?(:view_domains, @host) for matching and not matching limited filter" do
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
-                                :search => 'name ~ noexample*')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
-                                :search        => 'name ~ example*')
-    domain              = FactoryGirl.create(:domain)
-    auth                = Authorizer.new(@user)
+          test "matching and not matching limited filter" do
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
+                               :search => 'name ~ noexample*')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
+                               :search        => 'name ~ example*')
+            domain              = FactoryGirl.create(:domain)
+            auth                = Authorizer.new(@user)
 
-    assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
-    assert auth.can?(:view_domains, domain)
-  end
+            assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
+            assert auth.can?(:view_domains, domain, cache)
+          end
 
-  test "#can?(:view_domains, @host) for not matching limited filter" do
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
-                                :search        => 'name ~ noexample*')
-    domain     = FactoryGirl.create(:domain)
-    auth       = Authorizer.new(@user)
+          test "not matching limited filter" do
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission],
+                               :search        => 'name ~ noexample*')
+            domain     = FactoryGirl.create(:domain)
+            auth       = Authorizer.new(@user)
 
-    assert_not_includes auth.find_collection(Domain, :permission => :view_domains), domain
-    refute auth.can?(:view_domains, domain)
-  end
+            assert_not_includes auth.find_collection(Domain, :permission => :view_domains), domain
+            refute auth.can?(:view_domains, domain, cache)
+          end
 
-  test "#can?(:view_domains, @host) filters records by matching limited filter" do
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :on_name_starting_with_a,
-                                :role => @role, :permissions => [permission])
-    domain1    = FactoryGirl.create(:domain)
-    domain2    = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
-    auth       = Authorizer.new(@user)
+          test "filters records by matching limited filter" do
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :on_name_starting_with_a,
+                               :role => @role, :permissions => [permission])
+            domain1    = FactoryGirl.create(:domain)
+            domain2    = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
+            auth       = Authorizer.new(@user)
 
-    collection = auth.find_collection(Domain, :permission => :view_domains)
-    assert_not_includes collection, domain1
-    assert_includes collection, domain2
-    refute auth.can?(:view_domains, domain1)
-    assert auth.can?(:view_domains, domain2)
-  end
+            collection = auth.find_collection(Domain, :permission => :view_domains)
+            assert_not_includes collection, domain1
+            assert_includes collection, domain2
+            refute auth.can?(:view_domains, domain1, cache)
+            assert auth.can?(:view_domains, domain2, cache)
+          end
 
-  test "#can?(:view_domains, @host) filters records by matching limited filter and permission" do
-    permission1 = Permission.find_by_name('view_domains')
-    permission2 = Permission.find_by_name('edit_domains')
-    FactoryGirl.create(:filter, :on_name_starting_with_a,
-                                :role => @role, :permissions => [permission1])
-    FactoryGirl.create(:filter, :on_name_starting_with_b,
-                                :role => @role, :permissions => [permission2])
-    domain1     = FactoryGirl.create(:domain)
-    domain2     = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
-    domain3     = FactoryGirl.create(:domain, :name => 'another-domain.to-be-found.com')
-    domain4     = FactoryGirl.create(:domain, :name => 'be_editable.to-be-found.com')
-    auth        = Authorizer.new(@user)
+          test "filters records by matching limited filter and permission" do
+            permission1 = Permission.find_by_name('view_domains')
+            permission2 = Permission.find_by_name('edit_domains')
+            FactoryGirl.create(:filter, :on_name_starting_with_a,
+                               :role => @role, :permissions => [permission1])
+            FactoryGirl.create(:filter, :on_name_starting_with_b,
+                               :role => @role, :permissions => [permission2])
+            domain1     = FactoryGirl.create(:domain)
+            domain2     = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
+            domain3     = FactoryGirl.create(:domain, :name => 'another-domain.to-be-found.com')
+            domain4     = FactoryGirl.create(:domain, :name => 'be_editable.to-be-found.com')
+            auth        = Authorizer.new(@user)
 
-    collection = auth.find_collection(Domain, :permission => :view_domains)
-    assert_equal [domain2, domain3], collection
-    collection = auth.find_collection(Domain, :permission => :edit_domains)
-    assert_equal [domain4], collection
-    collection = auth.find_collection(Domain, :permission => :delete_domains)
-    assert_equal [], collection
-    collection = auth.find_collection(Domain)
-    assert_equal [domain2, domain3, domain4], collection
+            collection = auth.find_collection(Domain, :permission => :view_domains)
+            assert_equal [domain2, domain3], collection
+            collection = auth.find_collection(Domain, :permission => :edit_domains)
+            assert_equal [domain4], collection
+            collection = auth.find_collection(Domain, :permission => :delete_domains)
+            assert_equal [], collection
+            collection = auth.find_collection(Domain)
+            assert_equal [domain2, domain3, domain4], collection
 
-    refute auth.can?(:view_domains, domain1)
-    assert auth.can?(:view_domains, domain2)
-    assert auth.can?(:view_domains, domain3)
-    refute auth.can?(:view_domains, domain4)
-    refute auth.can?(:edit_domains, domain1)
-    refute auth.can?(:edit_domains, domain2)
-    refute auth.can?(:edit_domains, domain3)
-    assert auth.can?(:edit_domains, domain4)
+            refute auth.can?(:view_domains, domain1, cache)
+            assert auth.can?(:view_domains, domain2, cache)
+            assert auth.can?(:view_domains, domain3, cache)
+            refute auth.can?(:view_domains, domain4, cache)
+            refute auth.can?(:edit_domains, domain1, cache)
+            refute auth.can?(:edit_domains, domain2, cache)
+            refute auth.can?(:edit_domains, domain3, cache)
+            assert auth.can?(:edit_domains, domain4, cache)
 
-    # unlimited filter on Domain permission does add the domain
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission1])
-    collection = auth.find_collection(Domain)
-    assert_includes collection, domain1
-    assert_includes collection, domain2
-    assert_includes collection, domain3
-    assert_includes collection, domain4
-  end
+            # unlimited filter on Domain permission does add the domain
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission1])
+            collection = auth.find_collection(Domain)
+            assert_includes collection, domain1
+            assert_includes collection, domain2
+            assert_includes collection, domain3
+            assert_includes collection, domain4
+          end
 
-  test "#can?(:view_domains, @host) for user without filter" do
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
-    domain     = FactoryGirl.create(:domain)
-    auth       = Authorizer.new(FactoryGirl.create(:user))
+          test "for user without filter" do
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
+            domain     = FactoryGirl.create(:domain)
+            auth       = Authorizer.new(FactoryGirl.create(:user))
 
-    result = auth.find_collection(Domain, :permission => :view_domains)
-    assert_not_includes result, domain
-    assert_kind_of ActiveRecord::Relation, result
-    refute auth.can?(:view_domains, domain)
-  end
+            result = auth.find_collection(Domain, :permission => :view_domains)
+            assert_not_includes result, domain
+            assert_kind_of ActiveRecord::Relation, result
+            refute auth.can?(:view_domains, domain, cache)
+          end
 
-  test "#can? caches results per permission and class" do
-    permission1 = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :on_name_starting_with_a,
-                                 :role => @role, :permissions => [permission1])
-    domain1     = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
-    domain2     = FactoryGirl.create(:domain, :name => 'x-domain.not-to-be-found.com')
-    permission2 = Permission.find_by_name('view_architectures')
-    architecture = FactoryGirl.create(:architecture)
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission2])
+          test "caches results per permission and class" do
+            permission1 = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :on_name_starting_with_a,
+                               :role => @role, :permissions => [permission1])
+            domain1     = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
+            domain2     = FactoryGirl.create(:domain, :name => 'x-domain.not-to-be-found.com')
+            permission2 = Permission.find_by_name('view_architectures')
+            architecture = FactoryGirl.create(:architecture)
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission2])
 
-    auth = Authorizer.new(@user)
+            auth = Authorizer.new(@user)
 
-    auth.stubs(:find_collection).returns([domain1]).times(3)
-    assert auth.can?(:view_domain, domain1)
-    refute auth.can?('view_domain', domain2)
-    assert auth.can?(:edit_domain, domain1)
-    refute auth.can?('edit_domain', domain2)
-    refute auth.can?(:view_architectures, architecture) # since it's stubbed and returns domain1 only
-    refute auth.can?('view_architectures', architecture)
+            domains_collection = [domain1]
+            domains_collection.stubs(:where).
+              with(:id => domain1.id).returns([domain1])
+            domains_collection.stubs(:where).
+              with(:id => domain2.id).returns([])
+            domains_collection.stubs(:where).
+              with(:id => architecture.id).returns([])
+            auth.stubs(:find_collection).returns(domains_collection).
+              times(cache ? 3 : 6)
+            assert auth.can?(:view_domain, domain1, cache)
+            refute auth.can?('view_domain', domain2, cache)
+            assert auth.can?(:edit_domain, domain1, cache)
+            refute auth.can?('edit_domain', domain2, cache)
+            refute auth.can?(:view_architectures, architecture, cache) # since it's stubbed and returns domain1 only
+            refute auth.can?('view_architectures', architecture, cache)
+          end
+
+          test "empty base collection set" do
+            domain     = FactoryGirl.create(:domain)
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
+            auth = Authorizer.new(@user, :collection => [])
+
+            refute auth.can?(:view_domains, domain, cache)
+          end
+
+          test "excluding base collection set" do
+            permission = Permission.find_by_name('view_domains')
+            FactoryGirl.create(:filter, :on_name_starting_with_a,
+                               :role => @role, :permissions => [permission])
+            domain1    = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
+            domain2    = FactoryGirl.create(:domain, :name => 'another-domain.to-be-found.com')
+            auth       = Authorizer.new(@user, :collection => [domain2])
+
+            refute auth.can?(:view_domains, domain1, cache)
+            assert auth.can?(:view_domains, domain2, cache)
+          end
+        end
+      end
+    end
   end
 
   test "#build_scoped_search_condition(filters) for empty set" do
@@ -220,27 +259,6 @@ class AuthorizerTest < ActiveSupport::TestCase
     result  = auth.build_scoped_search_condition(filters)
 
     assert_equal '(1=1)', result
-  end
-
-  test "#can? with empty base collection set" do
-    domain     = FactoryGirl.create(:domain)
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
-    auth = Authorizer.new(@user, :collection => [])
-
-    refute auth.can?(:view_domains, domain)
-  end
-
-  test "#can? with excluding base collection set" do
-    permission = Permission.find_by_name('view_domains')
-    FactoryGirl.create(:filter, :on_name_starting_with_a,
-                                :role => @role, :permissions => [permission])
-    domain1    = FactoryGirl.create(:domain, :name => 'a-domain.to-be-found.com')
-    domain2    = FactoryGirl.create(:domain, :name => 'another-domain.to-be-found.com')
-    auth       = Authorizer.new(@user, :collection => [domain2])
-
-    refute auth.can?(:view_domains, domain1)
-    assert auth.can?(:view_domains, domain2)
   end
 
   test "#find_collection(Host, :permission => :view_hosts) with scoped_search join returns r/w resources" do
