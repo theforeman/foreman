@@ -1,10 +1,13 @@
 class Setting::Puppet < Setting
+  after_save :reload_topbar, :if => ->(setting) { setting.name == 'puppet_enabled' }
+
   def self.load_defaults
     # Check the table exists
     return unless super
 
     self.transaction do
       [
+        self.set('puppet_enabled', N_("Whether Puppet-related settings are visible in Foreman"), true, N_('Enable Puppet')),
         self.set('puppet_interval', N_("Puppet interval in minutes"), 30, N_('Puppet interval')),
         self.set('outofsync_interval', N_("Duration in minutes after the Puppet interval for servers to be classed as out of sync."), 5, N_('Out of sync interval')),
         self.set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => Proc.new {Hash[Environment.all.map{|env| [env[:name], env[:name]]}]} }),
@@ -32,5 +35,39 @@ class Setting::Puppet < Setting
 
       true
     end
+  end
+
+  private
+
+  def reload_topbar
+    # Force configure menu reload
+    if Setting[:puppet_enabled]
+      top_menu.divider(:caption => N_('Puppet'), :parent => :configure_menu)
+      top_menu.item(:environments,
+                    :caption  => N_('Environments'),
+                    :parent   => :configure_menu)
+      top_menu.item(:puppetclasses,
+                    :caption  => N_('Classes'),
+                    :parent   => :configure_menu)
+      top_menu.item(:config_groups,
+                    :caption  => N_('Config groups'),
+                    :parent   => :configure_menu)
+      top_menu.item(:variable_lookup_keys,
+                    :caption  => N_('Smart variables'),
+                    :parent   => :configure_menu)
+      top_menu.item(:puppetclass_lookup_keys,
+                    :caption  => N_('Smart class parameters'),
+                    :parent   => :configure_menu)
+    else
+      top_menu.delete(:environments)
+      top_menu.delete(:puppetclasses)
+      top_menu.delete(:config_groups)
+      top_menu.delete(:variable_lookup_keys)
+      top_menu.delete(:puppetclass_lookup_keys)
+    end
+  end
+
+  def top_menu
+    Menu::Manager.map(:top_menu)
   end
 end

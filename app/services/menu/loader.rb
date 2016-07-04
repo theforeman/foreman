@@ -74,12 +74,14 @@ module Menu
         menu.sub_menu :configure_menu,  :caption => N_('Configure') do
           menu.item :hostgroups,        :caption => N_('Host groups')
           menu.item :common_parameters, :caption => N_('Global parameters')
-          menu.divider                  :caption => N_('Puppet')
-          menu.item :environments,      :caption => N_('Environments')
-          menu.item :puppetclasses,     :caption => N_('Classes')
-          menu.item :config_groups,     :caption => N_('Config groups')
-          menu.item :variable_lookup_keys, :caption => N_('Smart variables')
-          menu.item :puppetclass_lookup_keys, :caption => N_('Smart class parameters')
+          if Setting[:puppet_enabled]
+            menu.divider                  :caption => N_('Puppet')
+            menu.item :environments,      :caption => N_('Environments')
+            menu.item :puppetclasses,     :caption => N_('Classes')
+            menu.item :config_groups,     :caption => N_('Config groups')
+            menu.item :variable_lookup_keys, :caption => N_('Smart variables')
+            menu.item :puppetclass_lookup_keys, :caption => N_('Smart class parameters')
+          end
         end
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure') do
