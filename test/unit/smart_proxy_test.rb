@@ -19,6 +19,7 @@ class SmartProxyTest < ActiveSupport::TestCase
   test "should not include trailing slash" do
     @proxy = FactoryGirl.build(:smart_proxy)
     @proxy.url = 'http://some.proxy:4568/'
+    @proxy.expects(:associate_features).returns(true)
     as_admin { assert @proxy.save }
     assert_equal @proxy.url, "http://some.proxy:4568"
   end
@@ -74,11 +75,11 @@ class SmartProxyTest < ActiveSupport::TestCase
     end
   end
 
-  private
-
-  def fake_response(data)
-    net_http_resp = Net::HTTPResponse.new(1.0, 200, "OK")
-    net_http_resp.add_field 'Set-Cookie', 'Monster'
-    RestClient::Response.create(JSON(data), net_http_resp, nil)
+  test 'creating proxy with unknown features should throw an error' do
+    proxy = FactoryGirl.build(:smart_proxy)
+    ProxyAPI::Features.any_instance.expects(:features).returns(['missingno'])
+    proxy.send(:associate_features)
+    assert_match(/None of the features found.*can be recognized/,
+      proxy.errors.messages[:base].first)
   end
 end

@@ -7,7 +7,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
     disable_orchestration
     User.current = users(:admin)
     @host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => FactoryGirl.create(:ptable), :medium => media(:one),
-                    :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
+                     :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => FactoryGirl.create(:puppet_smart_proxy),
                     :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
                     :owner_type => "User", :root_pass => "xybxa6JUkz63w")
     @build = @host.build_status_checker
@@ -28,6 +28,9 @@ class HostBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "should be able to refresh a smart proxy" do
+    SmartProxy.any_instance.expects(:refresh).
+      returns(OpenStruct.new(:messages => [])).at_least_once
+    build = @host.build_status_checker
     assert_empty build.errors[:proxies]
   end
 end
