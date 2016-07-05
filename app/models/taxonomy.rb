@@ -191,7 +191,7 @@ class Taxonomy < ActiveRecord::Base
   # returns self and parent parameters as a hash
   def parameters(include_source = false)
     hash = parent_params(include_source)
-    self.send("#{type.downcase}_parameters".to_sym).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
+    self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     hash
   end
 
@@ -211,7 +211,7 @@ class Taxonomy < ActiveRecord::Base
   end
 
   def params_objects
-    (self.send("#{type.downcase}_parameters".to_sym) + taxonomy_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
+    (self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
   end
 
   private

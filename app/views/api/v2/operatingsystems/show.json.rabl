@@ -2,8 +2,8 @@ object @operatingsystem
 
 extends "api/v2/operatingsystems/main"
 
-child :parameters => :parameters do
-  extends "api/v2/parameters/base"
+node do |os|
+  { :parameters => partial("api/v2/parameters/base", :object => os.parameters.authorized) }
 end
 
 child :media do

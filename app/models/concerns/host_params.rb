@@ -61,7 +61,7 @@ module HostParams
 
     def host_params_objects
       # Host parameters should always be first for the uniq order
-      (host_parameters + host_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
+      (host_parameters.authorized(:view_params) + host_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
     end
   end
 end

@@ -65,4 +65,19 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.find_by_name("db").ancestry
   end
+
+  test "user without view_params permission can't see hostgroup parameters" do
+    setup_user "view", "hostgroups"
+    hostgroup_with_parameter = FactoryGirl.create(:hostgroup, :with_parameter)
+    get :show, {:id => hostgroup_with_parameter.to_param, :format => 'json'}
+    assert_empty JSON.parse(response.body)['parameters']
+  end
+
+  test "user with view_params permission can see hostgroup parameters" do
+    setup_user "view", "hostgroups"
+    setup_user "view", "params"
+    hostgroup_with_parameter = FactoryGirl.create(:hostgroup, :with_parameter)
+    get :show, {:id => hostgroup_with_parameter.to_param, :format => 'json'}
+    assert_not_empty JSON.parse(response.body)['parameters']
+  end
 end

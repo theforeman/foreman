@@ -21,4 +21,19 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
       refute_includes assigns(:organizations), org2
     end
   end
+
+  test "user without view_params permission can't see organization parameters" do
+    setup_user "view", "organizations"
+    org_with_parameter = FactoryGirl.create(:organization, :with_parameter)
+    get :show, {:id => org_with_parameter.to_param, :format => 'json'}
+    assert_empty JSON.parse(response.body)['parameters']
+  end
+
+  test "user with view_params permission can see organization parameters" do
+    setup_user "view", "organizations"
+    setup_user "view", "params"
+    org_with_parameter = FactoryGirl.create(:organization, :with_parameter)
+    get :show, {:id => org_with_parameter.to_param, :format => 'json'}
+    assert_not_empty JSON.parse(response.body)['parameters']
+  end
 end

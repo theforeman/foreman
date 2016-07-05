@@ -86,4 +86,19 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
     end
   end
+
+  test "user without view_params permission can't see domain parameters" do
+    setup_user "view", "domains"
+    domain_with_parameter = FactoryGirl.create(:domain, :with_parameter)
+    get :show, {:id => domain_with_parameter.to_param, :format => 'json'}
+    assert_empty JSON.parse(response.body)['parameters']
+  end
+
+  test "user with view_params permission can see domain parameters" do
+    setup_user "view", "domains"
+    setup_user "view", "params"
+    domain_with_parameter = FactoryGirl.create(:domain, :with_parameter)
+    get :show, {:id => domain_with_parameter.to_param, :format => 'json'}
+    assert_not_empty JSON.parse(response.body)['parameters']
+  end
 end
