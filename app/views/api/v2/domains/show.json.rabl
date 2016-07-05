@@ -6,8 +6,8 @@ child :subnets do
   extends "api/v2/subnets/base"
 end
 
-child :parameters => :parameters do
-  extends "api/v2/parameters/base"
+node do |domain|
+  { :parameters => partial("api/v2/parameters/base", :object => domain.parameters.authorized) }
 end
 
 node do |domain|

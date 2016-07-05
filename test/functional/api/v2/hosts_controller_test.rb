@@ -622,4 +622,19 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal [@managed_host], assigns(:hosts)
     end
   end
+
+  test "user without view_params permission can't see host parameters" do
+    setup_user "view", "hosts"
+    host_with_parameter = FactoryGirl.create(:host, :with_parameter)
+    get :show, {:id => host_with_parameter.to_param, :format => 'json'}
+    assert_empty JSON.parse(response.body)['parameters']
+  end
+
+  test "user with view_params permission can see host parameters" do
+    setup_user "view", "hosts"
+    setup_user "view", "params"
+    host_with_parameter = FactoryGirl.create(:host, :with_parameter)
+    get :show, {:id => host_with_parameter.to_param, :format => 'json'}
+    assert_not_empty JSON.parse(response.body)['parameters']
+  end
 end
