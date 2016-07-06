@@ -40,14 +40,14 @@ class Debian < Operatingsystem
     s.blank? ? description : s
   end
 
+  def self.model_name
+    superclass.model_name
+  end
+
   private
 
   # tries to guess if this an ubuntu or a debian os
   def guess_os
     name =~ /ubuntu/i ? "ubuntu" : "debian"
-  end
-
-  def self.model_name
-    superclass.model_name
   end
 end

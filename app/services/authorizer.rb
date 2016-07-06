@@ -156,14 +156,14 @@ class Authorizer
     return 'ComputeResource' if klass <= ComputeResource
     return 'Parameter' if klass <= Parameter && !(klass <= CommonParameter)
 
-    case name = klass.to_s
-      when 'Audited::Adapters::ActiveRecord::Audit'
-        'Audit'
-      when /\AHost::.*\Z/
-        'Host'
-      else
-        name
-      end
+    case (name = klass.to_s)
+    when 'Audited::Adapters::ActiveRecord::Audit'
+      'Audit'
+    when /\AHost::.*\Z/
+      'Host'
+    else
+      name
+    end
   end
 
   def base_ids

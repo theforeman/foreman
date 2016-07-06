@@ -201,8 +201,6 @@ module Foreman::Controller::TaxonomiesController
     @count_nil_hosts = hosts_scope_without_taxonomy.count
   end
 
-  private
-
   def hosts_scope
     Host.authorized(:view_hosts, Host)
   end

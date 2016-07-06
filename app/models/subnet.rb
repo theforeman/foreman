@@ -294,8 +294,6 @@ class Subnet < ActiveRecord::Base
     end
   end
 
-  private
-
   def invalid_address_error
     # IPAddr::InvalidAddressError is undefined for ruby 1.9
     return IPAddr::InvalidAddressError if IPAddr.const_defined?('InvalidAddressError')

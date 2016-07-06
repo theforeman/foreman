@@ -198,8 +198,6 @@ class Setting < ActiveRecord::Base
     Regexp.new(array.map {|string| regexp_expand_wildcard_string(string) }.join('|'))
   end
 
-  private
-
   def self.create_existing(s, opts)
     bypass_readonly(s) do
       attrs = column_check([:default, :description, :full_name])
@@ -222,6 +220,36 @@ class Setting < ActiveRecord::Base
   def self.cache
     Rails.cache
   end
+
+  # Methods for loading default settings
+
+  def self.load_defaults
+    # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
+    Setting.first rescue return false
+    # STI classes will load their own defaults
+    true
+  end
+
+  def self.set(name, description, default, full_name = nil, value = nil, options = {})
+    if options.has_key? :collection
+      SettingsHelper.module_eval do
+        define_method("#{name}_collection".to_sym){ options[:collection].call }
+      end
+    end
+    {:name => name, :value => value, :description => description, :default => default, :full_name => full_name}
+  end
+
+  def self.model_name
+    ActiveModel::Name.new(Setting)
+  end
+
+  def self.column_check(opts)
+    opts.keep_if { |k, v| Setting.column_names.include?(k.to_s) }
+  end
+
+  # End methods for loading default settings
+
+  private
 
   def invalid_value_error(error)
     errors.add(:value, _("is invalid: %s") % error)
@@ -265,31 +293,5 @@ class Setting < ActiveRecord::Base
 
   def readonly_when_overridden_in_SETTINGS
     readonly! if !new_record? && SETTINGS.key?(name.to_sym)
-  end
-
-  # Methods for loading default settings
-
-  def self.load_defaults
-    # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
-    Setting.first rescue return false
-    # STI classes will load their own defaults
-    true
-  end
-
-  def self.set(name, description, default, full_name = nil, value = nil, options = {})
-    if options.has_key? :collection
-      SettingsHelper.module_eval do
-        define_method("#{name}_collection".to_sym){ options[:collection].call }
-      end
-    end
-    {:name => name, :value => value, :description => description, :default => default, :full_name => full_name}
-  end
-
-  def self.model_name
-    ActiveModel::Name.new(Setting)
-  end
-
-  def self.column_check(opts)
-    opts.keep_if { |k, v| Setting.column_names.include?(k.to_s) }
   end
 end

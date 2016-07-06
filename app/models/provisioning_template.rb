@@ -164,6 +164,21 @@ class ProvisioningTemplate < Template
     super.where(:managed => true)
   end
 
+  # get a list of all hostgroup, template combinations that a pxemenu will be
+  # generated for
+  def self.pxe_default_combos
+    combos = []
+    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
+      template.template_combinations.each do |combination|
+        hostgroup = combination.hostgroup
+        if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium
+          combos << {:hostgroup => hostgroup, :template => template}
+        end
+      end
+    end
+    combos.sort_by! { |profile| [profile[:hostgroup], profile[:template]] }
+  end
+
   private
 
   def allowed_changes
@@ -178,20 +193,5 @@ class ProvisioningTemplate < Template
     self.template_combinations.clear
     self.operatingsystems.clear
     self.template_kind = nil
-  end
-
-  # get a list of all hostgroup, template combinations that a pxemenu will be
-  # generated for
-  def self.pxe_default_combos
-    combos = []
-    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
-      template.template_combinations.each do |combination|
-        hostgroup = combination.hostgroup
-        if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium
-          combos << {:hostgroup => hostgroup, :template => template}
-        end
-      end
-    end
-    combos.sort_by! { |profile| [profile[:hostgroup], profile[:template]] }
   end
 end
