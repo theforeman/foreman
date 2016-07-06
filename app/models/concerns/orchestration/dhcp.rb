@@ -71,10 +71,10 @@ module Orchestration::DHCP
 
   # where are we booting from
   def boot_server
-    # if we don't manage tftp at all, we dont create a next-server entry.
+    # if we don't manage tftp for IPv4 at all, we dont create a next-server entry.
     return unless tftp?
 
-    # first try to ask our TFTP server for its boot server
+    # first try to ask our IPv4 TFTP server for its boot server
     bs = tftp.bootServer
     # if that failed, trying to guess out tftp next server based on the smart proxy hostname
     bs ||= URI.parse(subnet.tftp.url).host
