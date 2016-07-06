@@ -38,8 +38,6 @@ module Nic
       true # don't stop validation chain
     end
 
-    private
-
     def bmc_proxy
       if subnet.present?
         proxy = subnet.proxies.find { |subnet_proxy| subnet_proxy.has_feature?('BMC') }

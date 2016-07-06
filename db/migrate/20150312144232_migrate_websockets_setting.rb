@@ -18,7 +18,7 @@ end
 
 class MigrateWebsocketsSetting < ActiveRecord::Migration
   def up
-    return unless encrypt = FakeSetting.find_by_name("websockets_encrypt")
+    return unless (encrypt = FakeSetting.find_by_name("websockets_encrypt"))
     encrypt.settings_type = "boolean"
     if encrypt.value == "auto"
       encrypt.value = if Setting[:websockets_ssl_key].present? && Setting[:websockets_ssl_cert].present?

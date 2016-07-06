@@ -298,7 +298,7 @@ module ApplicationHelper
              content_tag(:ul, :class=>"dropdown-menu pull-right") do
                args.map{ |option| content_tag(:li,option) }.join(" ").html_safe
              end
-       end
+      end
     end
   end
 

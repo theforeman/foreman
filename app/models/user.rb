@@ -191,7 +191,7 @@ class User < ActiveRecord::Base
     # user is already in local database
     if (user = unscoped.find_by_login(login))
       # user has an authentication method and the authentication was successful
-      if user.auth_source and attrs=user.auth_source.authenticate(login, password)
+      if user.auth_source and (attrs = user.auth_source.authenticate(login, password))
         logger.debug "Authenticated user #{user.login} against #{user.auth_source} authentication source"
 
         # update with returned attrs, maybe some info changed in LDAP
@@ -400,24 +400,6 @@ class User < ActiveRecord::Base
     usergroups.flat_map(&:external_usergroups).select { |group| group.auth_source == self.auth_source }
   end
 
-  private
-
-  def prepare_password
-    unless password.blank?
-      self.password_salt = Digest::SHA1.hexdigest([Time.now.utc, rand].join)
-      self.password_hash = encrypt_password(password)
-    end
-  end
-
-  def welcome_mail
-    return unless mail_enabled? && internal? && Setting[:send_welcome_email]
-    MailNotification[:welcome].deliver(:user => self)
-  end
-
-  def encrypt_password(pass)
-    Digest::SHA1.hexdigest([pass, password_salt].join)
-  end
-
   def self.try_to_auto_create_user(login, password)
     return nil if login.blank? or password.blank?
 
@@ -438,6 +420,24 @@ class User < ActiveRecord::Base
       end
       user
     end
+  end
+
+  private
+
+  def prepare_password
+    unless password.blank?
+      self.password_salt = Digest::SHA1.hexdigest([Time.now.utc, rand].join)
+      self.password_hash = encrypt_password(password)
+    end
+  end
+
+  def welcome_mail
+    return unless mail_enabled? && internal? && Setting[:send_welcome_email]
+    MailNotification[:welcome].deliver(:user => self)
+  end
+
+  def encrypt_password(pass)
+    Digest::SHA1.hexdigest([pass, password_salt].join)
   end
 
   def normalize_locale

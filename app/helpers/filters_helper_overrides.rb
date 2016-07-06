@@ -13,11 +13,11 @@ class FiltersHelperOverrides
     @@overrides[deconstantize_name(class_or_engine_name)].call(class_or_engine_name)
   end
 
-  private
-
   def self.deconstantize_name(name)
     name.include?('::') ? name.deconstantize : name
   end
+
+  private
 
   def initialize; end
 end
