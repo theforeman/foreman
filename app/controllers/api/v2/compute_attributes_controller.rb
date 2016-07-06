@@ -1,6 +1,8 @@
 module Api
   module V2
     class ComputeAttributesController < V2::BaseController
+      include Foreman::Controller::Parameters::ComputeAttribute
+
       before_action :find_resource, :only => :update
 
       def_param_group :compute_attribute do
@@ -19,10 +21,10 @@ module Api
       param_group :compute_attribute, :as => :create
 
       def create
-        params[:compute_attribute].merge!(:compute_profile_id => params[:compute_profile_id],
-                                          :compute_resource_id => params[:compute_resource_id])
-        @compute_attribute = ComputeAttribute.create!(params[:compute_attribute])
-        process_response @compute_attribute
+        @compute_attribute = ComputeAttribute.new(compute_attribute_params.merge(
+          :compute_profile_id => params[:compute_profile_id],
+          :compute_resource_id => params[:compute_resource_id]))
+        process_response @compute_attribute.save
       end
 
       api :PUT, "/compute_resources/:compute_resource_id/compute_profiles/:compute_profile_id/compute_attributes/:id", N_("Update a compute attributes set")
@@ -37,7 +39,7 @@ module Api
       param_group :compute_attribute
 
       def update
-        process_response @compute_attribute.update_attributes(params[:compute_attribute])
+        process_response @compute_attribute.update_attributes(compute_attribute_params)
       end
     end
   end

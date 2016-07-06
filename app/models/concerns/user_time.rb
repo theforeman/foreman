@@ -3,7 +3,6 @@ module UserTime
 
   included do
     validate :validate_timezone
-    attr_accessible :timezone
 
     def validate_timezone
       errors.add(:timezone, _("is not valid")) unless timezone.blank? || Time.find_zone(timezone)

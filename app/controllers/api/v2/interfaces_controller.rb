@@ -5,6 +5,7 @@ module Api
     class InterfacesController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::NicInterface
 
       before_action :find_required_nested_object, :only => [:index, :show, :create, :destroy]
       before_action :find_resource, :only => [:show, :update, :destroy]
@@ -71,7 +72,7 @@ module Api
       param_group :interface, :as => :create
 
       def create
-        @interface = @nested_obj.interfaces.new(params[:interface], :without_protection => true)
+        @interface = @nested_obj.interfaces.new(nic_interface_params)
         process_response @interface.save
       end
 
@@ -81,7 +82,7 @@ module Api
       param_group :interface
 
       def update
-        process_response @interface.update_attributes(params[:interface], :without_protection => true)
+        process_response @interface.update_attributes(nic_interface_params)
       end
 
       api :DELETE, "/hosts/:host_id/interfaces/:id", N_("Delete a host's interface")

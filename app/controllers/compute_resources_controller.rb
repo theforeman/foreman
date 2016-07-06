@@ -1,5 +1,7 @@
 class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::ComputeResource
+
   AJAX_REQUESTS = [:template_selected, :cluster_selected, :resource_pools]
   before_action :ajax_request, :only => AJAX_REQUESTS
   before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
@@ -22,15 +24,15 @@ class ComputeResourcesController < ApplicationController
   end
 
   def create
-    if params[:compute_resource].present? && params[:compute_resource][:provider].present?
-      @compute_resource = ComputeResource.new_provider params[:compute_resource]
+    if params[:compute_resource].present? && compute_resource_params[:provider].present?
+      @compute_resource = ComputeResource.new_provider compute_resource_params
       if @compute_resource.save
         process_success :success_redirect => @compute_resource
       else
         process_error
       end
     else
-      @compute_resource = ComputeResource.new params[:compute_resource]
+      @compute_resource = ComputeResource.new compute_resource_params
       @compute_resource.valid?
       process_error
     end
@@ -56,7 +58,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def update
-    if @compute_resource.update_attributes(params[:compute_resource])
+    if @compute_resource.update_attributes(compute_resource_params)
       process_success :success_redirect => compute_resources_path
     else
       process_error
@@ -85,13 +87,11 @@ class ComputeResourcesController < ApplicationController
 
   def test_connection
     # cr_id is posted from AJAX function. cr_id is nil if new
-    Rails.logger.info "CR_ID IS #{params[:cr_id]}"
     if params[:cr_id].present? && params[:cr_id] != 'null'
       @compute_resource = ComputeResource.authorized(:edit_compute_resources).find(params[:cr_id])
-      params[:compute_resource].delete(:password) if params[:compute_resource][:password].blank?
-      @compute_resource.attributes = params[:compute_resource]
+      @compute_resource.attributes = compute_resource_params.reject { |k,v| k == :password && v.blank? }
     else
-      @compute_resource = ComputeResource.new_provider(params[:compute_resource])
+      @compute_resource = ComputeResource.new_provider(compute_resource_params)
     end
     @compute_resource.test_connection :force => true
     render :partial => "compute_resources/form", :locals => { :compute_resource => @compute_resource }

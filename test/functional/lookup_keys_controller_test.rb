@@ -12,7 +12,7 @@ class LookupKeysControllerTest < ActionController::TestCase
     }
     @value = @key.override_values[1]
     @key.override_values = [@value]
-    @create = {"new_1462788609698"=>{"match"=>"hostgroup=db", "value"=>'4', "use_puppet_default"=>"0", "_destroy"=>"false"}}
+    @create = {"1462788609698"=>{"match"=>"hostgroup=db", "value"=>'4', "use_puppet_default"=>"0", "_destroy"=>"false"}}
     @delete = {"0"=>{"match"=>@value.match, "value"=>@value.value, "use_puppet_default"=>"0", "_destroy"=>"1", "id"=>@value.id } }
   end
 
@@ -49,7 +49,7 @@ class LookupKeysControllerTest < ActionController::TestCase
   end
 
   test 'patch conflicting' do
-    create = {'new_1462788609699' => @create.values.first }
+    create = {'1462788609699' => @create.values.first }
     params = @base.merge(:lookup_values_attributes => @create.merge(@delete.merge(create)))
     patch :update, {:id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params}, set_session_user
     assert_response :success

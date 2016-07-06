@@ -6,8 +6,6 @@ class VariableLookupKey < LookupKey
 
   scoped_search :in => :puppetclass, :on => :name, :complete_value => true, :rename => :puppetclass
 
-  attr_accessible :puppetclass
-
   def audit_class
     puppetclass
   end

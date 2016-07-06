@@ -1,5 +1,7 @@
 class ModelsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Model
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -11,7 +13,7 @@ class ModelsController < ApplicationController
   end
 
   def create
-    @model = Model.new(params[:model])
+    @model = Model.new(model_params)
     if @model.save
       process_success
     else
@@ -23,7 +25,7 @@ class ModelsController < ApplicationController
   end
 
   def update
-    if @model.update_attributes(params[:model])
+    if @model.update_attributes(model_params)
       process_success
     else
       process_error

@@ -1,5 +1,5 @@
 class CommonParameter < Parameter
-  audited :except => [:priority], :allow_mass_assignment => true
+  audited :except => [:priority]
   validates :name, :uniqueness => true
 
   scoped_search :on => :name, :complete_value => :true

@@ -5,6 +5,7 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
+      include Foreman::Controller::Parameters::ProvisioningTemplate
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone}
@@ -50,7 +51,7 @@ module Api
       param_group :provisioning_template, :as => :create
 
       def create
-        @provisioning_template = ProvisioningTemplate.new(params[:provisioning_template])
+        @provisioning_template = ProvisioningTemplate.new(provisioning_template_params)
         process_response @provisioning_template.save
       end
 
@@ -59,7 +60,7 @@ module Api
       param_group :provisioning_template
 
       def update
-        process_response @provisioning_template.update_attributes(params[:provisioning_template])
+        process_response @provisioning_template.update_attributes(provisioning_template_params)
       end
 
       api :GET, "/provisioning_templates/revision"

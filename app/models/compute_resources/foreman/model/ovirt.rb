@@ -9,7 +9,6 @@ module Foreman::Model
     before_validation :update_available_operating_systems unless Rails.env.test?
 
     alias_attribute :datacenter, :uuid
-    attr_accessible :datacenter, :ovirt_quota, :public_key, :uuid
 
     delegate :clusters, :quotas, :templates, :to => :client
 

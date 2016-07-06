@@ -178,7 +178,7 @@ class HostgroupsControllerTest < ActionController::TestCase
 
     it "creates a hostgroup with a parent parameter" do
       post :create, {"hostgroup" => {"name"=>"test_it", "parent_id" => @base.id, :realm_id => realms(:myrealm).id,
-                                     :group_parameters_attributes => {"new_0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
+                                     :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
       assert_redirected_to hostgroups_url
       hostgroup = Hostgroup.where(:name => "test_it").last
       assert_equal "overridden", hostgroup.parameters["x"]
@@ -190,7 +190,7 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["x"]
       end
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
-                                                       :group_parameters_attributes => {"new_0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
+                                                       :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
       assert_redirected_to hostgroups_url
       child.reload
       assert_equal "overridden", child.parameters["x"]
@@ -202,8 +202,8 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["x"]
       end
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
-                                                       :group_parameters_attributes => {"new_0" => {:name => "x", :value => nil, :_destroy => ""},
-                                                                                        "new_1" => {:name => "y", :value => "overridden", :_destroy => ""}}}}, set_session_user
+                                                       :group_parameters_attributes => {"0" => {:name => "x", :value => nil, :_destroy => ""},
+                                                                                        "1" => {:name => "y", :value => "overridden", :_destroy => ""}}}}, set_session_user
       assert_redirected_to hostgroups_url
       child.reload
       assert_equal "overridden", child.parameters["y"]

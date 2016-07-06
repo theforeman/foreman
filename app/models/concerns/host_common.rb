@@ -30,10 +30,6 @@ module HostCommon
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
 
-    attr_accessible :compute_profile, :compute_profile_id, :compute_profile_name,
-      :grub_pass, :image_id, :image_name, :image_file, :lookup_value_matcher,
-      :lookup_values_attributes, :use_image
-
     before_save :set_lookup_value_matcher
 
     # Replacement of accepts_nested_attributes_for :lookup_values,

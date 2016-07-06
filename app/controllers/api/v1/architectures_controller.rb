@@ -1,6 +1,8 @@
 module Api
   module V1
     class ArchitecturesController < V1::BaseController
+      include Foreman::Controller::Parameters::Architecture
+
       before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/architectures/", "List all architectures."
@@ -29,7 +31,7 @@ module Api
       end
 
       def create
-        @architecture = Architecture.new(params[:architecture])
+        @architecture = Architecture.new(architecture_params)
         process_response @architecture.save
       end
 
@@ -41,7 +43,7 @@ module Api
       end
 
       def update
-        process_response @architecture.update_attributes(params[:architecture])
+        process_response @architecture.update_attributes(architecture_params)
       end
 
       api :DELETE, "/architectures/:id/", "Delete an architecture."

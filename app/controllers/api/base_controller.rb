@@ -353,5 +353,15 @@ module Api
     def protect_api_from_forgery?
       session[:user].present?
     end
+
+    def parameter_filter_context
+      Foreman::ParameterFilter::Context.new(:api, controller_name, params[:action])
+    end
+
+    class << self
+      def parameter_filter_context
+        Foreman::ParameterFilter::Context.new(:api, controller_name, nil)
+      end
+    end
   end
 end

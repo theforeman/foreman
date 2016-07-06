@@ -1,7 +1,4 @@
 class OsDefaultTemplate < ActiveRecord::Base
-  attr_accessible :provisioning_template_id, :provisioning_template_name, :template_kind_id,
-    :template_kind_name, :operatingsystem, :operatingsystem_id, :operatingsystem_name
-
   belongs_to :provisioning_template
   belongs_to :template_kind
   belongs_to :operatingsystem

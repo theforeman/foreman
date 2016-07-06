@@ -1,6 +1,8 @@
 module Api
   module V1
     class PuppetclassesController < V1::BaseController
+      include Foreman::Controller::Parameters::Puppetclass
+
       before_action :find_resource, :only => %w{show update destroy}
       before_action :setup_search_options, :only => :index
 
@@ -32,7 +34,7 @@ module Api
       end
 
       def create
-        @puppetclass = Puppetclass.new(params[:puppetclass])
+        @puppetclass = Puppetclass.new(puppetclass_params)
         process_response @puppetclass.save
       end
 
@@ -43,7 +45,7 @@ module Api
       end
 
       def update
-        process_response @puppetclass.update_attributes(params[:puppetclass])
+        process_response @puppetclass.update_attributes(puppetclass_params)
       end
 
       api :DELETE, "/puppetclasses/:id/", "Delete a puppetclass."

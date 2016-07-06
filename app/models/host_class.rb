@@ -2,7 +2,7 @@ class HostClass < ActiveRecord::Base
   include Authorizable
 
   validates_lengths_from_database
-  audited :associated_with => :host, :allow_mass_assignment => true
+  audited :associated_with => :host
   belongs_to_host
   belongs_to :puppetclass
 

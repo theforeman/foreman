@@ -4,10 +4,7 @@ class ProvisioningTemplate < Template
   friendly_id :name
   include Parameterizable::ByIdName
 
-  audited :allow_mass_assignment => true
-
-  attr_accessible :template_combinations_attributes, :operatingsystems,
-    :operatingsystem_ids, :operatingsystem_names
+  audited
 
   validates :name, :uniqueness => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }

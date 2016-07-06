@@ -1,6 +1,8 @@
 module Api
   module V2
     class UsergroupsController < V2::BaseController
+      include Foreman::Controller::Parameters::Usergroup
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
 
@@ -30,7 +32,7 @@ module Api
       param_group :usergroup, :as => :create
 
       def create
-        @usergroup = Usergroup.new(params[:usergroup])
+        @usergroup = Usergroup.new(usergroup_params)
         process_response @usergroup.save
       end
 
@@ -39,7 +41,7 @@ module Api
       param_group :usergroup
 
       def update
-        process_response @usergroup.update_attributes(params[:usergroup])
+        process_response @usergroup.update_attributes(usergroup_params)
       end
 
       api :DELETE, "/usergroups/:id/", N_("Delete a user group")

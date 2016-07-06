@@ -3,8 +3,6 @@ module Foreman::Model
     validates :user, :password, :region, :presence => true
     validate :ensure_valid_region
 
-    attr_accessible :region
-
     delegate :flavors, :to => :client
 
     def provided_attributes

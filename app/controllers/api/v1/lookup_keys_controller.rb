@@ -1,6 +1,9 @@
 module Api
   module V1
     class LookupKeysController < V1::BaseController
+      include Foreman::Controller::Parameters::PuppetclassLookupKey
+      include Foreman::Controller::Parameters::VariableLookupKey
+
       before_action :find_resource, :only => %w{show update destroy}
       before_action :setup_search_options, :only => :index
 
@@ -33,7 +36,7 @@ module Api
       end
 
       def create
-        @lookup_key = LookupKey.new(params[:lookup_key])
+        @lookup_key = LookupKey.new(variable_lookup_key_params)
         process_response @lookup_key.save
       end
 
@@ -48,7 +51,8 @@ module Api
       end
 
       def update
-        process_response @lookup_key.update_attributes(params[:lookup_key])
+        lk_params = @lookup_key.is_a?(PuppetclassLookupKey) ? puppetclass_lookup_key_params : variable_lookup_key_params
+        process_response @lookup_key.update_attributes(lk_params)
       end
 
       api :DELETE, "/lookup_keys/:id/", "Delete a lookup key."

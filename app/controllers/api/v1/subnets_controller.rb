@@ -1,6 +1,8 @@
 module Api
   module V1
     class SubnetsController < V1::BaseController
+      include Foreman::Controller::Parameters::Subnet
+
       before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, '/subnets', 'List of subnets'
@@ -42,7 +44,7 @@ module Api
       end
 
       def create
-        @subnet = Subnet.new_network_type(params[:subnet])
+        @subnet = Subnet.new_network_type(subnet_params)
         process_response @subnet.save
       end
 
@@ -65,7 +67,7 @@ module Api
       end
 
       def update
-        process_response @subnet.update_attributes(params[:subnet])
+        process_response @subnet.update_attributes(subnet_params)
       end
 
       api :DELETE, '/subnets/:id', 'Delete a subnet'

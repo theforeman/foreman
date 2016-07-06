@@ -3,6 +3,8 @@ module Api
     class SmartClassParametersController < V2::BaseController
       include Api::Version2
       include Api::V2::LookupKeysCommonController
+      include Foreman::Controller::Parameters::PuppetclassLookupKey
+
       alias_method :resource_scope, :smart_class_parameters_resource_scope
 
       api :GET, "/smart_class_parameters", N_("List all smart class parameters")
@@ -51,7 +53,7 @@ module Api
 
       def update
         #Note:  User must manually set :override => true. It is not automatically updated if optional input validator fields are updated.
-        @smart_class_parameter.update_attributes!(params[:smart_class_parameter])
+        @smart_class_parameter.update_attributes!(puppetclass_lookup_key_params)
         render 'api/v2/smart_class_parameters/show'
       end
 

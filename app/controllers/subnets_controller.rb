@@ -1,5 +1,7 @@
 class SubnetsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Subnet
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -11,8 +13,7 @@ class SubnetsController < ApplicationController
   end
 
   def create
-    params[:subnet].except!(:mask)
-    @subnet = Subnet.new(params[:subnet])
+    @subnet = Subnet.new(subnet_params.except(:mask))
     if @subnet.save
       process_success success_hash
     else
@@ -24,8 +25,7 @@ class SubnetsController < ApplicationController
   end
 
   def update
-    params[:subnet].except!(:mask)
-    if @subnet.update_attributes(params[:subnet])
+    if @subnet.update_attributes(subnet_params.except(:mask))
       process_success success_hash
     else
       process_error
@@ -79,7 +79,9 @@ class SubnetsController < ApplicationController
       return redirect_to subnets_path, :notice => _("No IPv4 subnets selected")
     end
 
-    @subnets = Subnet.create(params[:subnets]).reject { |s| s.errors.empty? }
+    params_filter = self.class.subnet_params_filter
+    subnet_attrs = params[:subnets].map { |s| params_filter.filter_params(s, parameter_filter_context) }
+    @subnets = Subnet.create(subnet_attrs).reject { |s| s.errors.empty? }
     if @subnets.empty?
       process_success(:object => @subnets, :success_msg => _("Imported IPv4 Subnets"))
     else

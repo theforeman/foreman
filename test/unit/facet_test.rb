@@ -76,8 +76,6 @@ class FacetTest < ActiveSupport::TestCase
 
         def my_attribute=(val)
         end
-
-        attr_accessible :my_attribute
       end
 
       Facets.register TestFacet

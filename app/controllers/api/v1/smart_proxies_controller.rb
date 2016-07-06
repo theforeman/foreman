@@ -2,6 +2,8 @@ module Api
   module V1
     class SmartProxiesController < V1::BaseController
       include Api::ImportPuppetclassesCommonController
+      include Foreman::Controller::Parameters::SmartProxy
+
       before_action :find_resource, :only => %w{show update destroy refresh}
       before_action :check_feature_type, :only => :index
 
@@ -27,7 +29,7 @@ module Api
       end
 
       def create
-        @smart_proxy = SmartProxy.new(params[:smart_proxy])
+        @smart_proxy = SmartProxy.new(smart_proxy_params)
         process_response @smart_proxy.save
       end
 
@@ -39,7 +41,7 @@ module Api
       end
 
       def update
-        process_response @smart_proxy.update_attributes(params[:smart_proxy])
+        process_response @smart_proxy.update_attributes(smart_proxy_params)
       end
 
       api :DELETE, "/smart_proxies/:id/", "Delete a smart_proxy."

@@ -2,9 +2,6 @@ class ExternalUsergroup < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
 
-  attr_accessible :usergroup, :usergroup_id, :usergroup_name, :name, :auth_source_id,
-    :auth_source_name
-
   belongs_to :usergroup, :inverse_of => :external_usergroups
   belongs_to :auth_source
 

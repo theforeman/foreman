@@ -2,8 +2,9 @@ module Api
   module V1
     class HostsController < V1::BaseController
       include Api::CompatibilityChecker
-      before_action :check_create_host_nested, :only => [:create, :update]
+      include Foreman::Controller::Parameters::Host
 
+      before_action :check_create_host_nested, :only => [:create, :update]
       before_action :find_resource, :only => %w{show update destroy status}
 
       api :GET, "/hosts/", "List all hosts."
@@ -67,7 +68,7 @@ module Api
       end
 
       def create
-        @host = Host.new(params[:host])
+        @host = Host.new(host_params)
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
         forward_request_url
         process_response @host.save
@@ -109,7 +110,7 @@ module Api
       end
 
       def update
-        process_response @host.update_attributes(params[:host])
+        process_response @host.update_attributes(host_params)
       end
 
       api :DELETE, "/hosts/:id/", "Delete an host."

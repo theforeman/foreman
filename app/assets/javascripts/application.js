@@ -387,7 +387,7 @@ $(function() {
 function update_puppetclasses(element) {
   var host_id = $("form").data('id');
   var url = $(element).attr('data-url');
-  var data = $("form").serialize().replace('method=patch', 'method=post');
+  var data = serializeForm().replace('method=patch', 'method=post');
 
   if (element.value == '') return;
   if (url.match('hostgroups')) {

@@ -60,11 +60,6 @@ class Host::Managed < Host::Base
   end
 
   include HostCommon
-  attr_accessible :build, :certname, :disk, :global_status,
-    :installed_at, :last_report, :otp, :provision_method, :uuid,
-    :compute_attributes,
-    :compute_resource, :compute_resource_id, :compute_resource_name,
-    :owner, :owner_id, :owner_name, :owner_type
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
@@ -151,7 +146,7 @@ class Host::Managed < Host::Base
   scope :with_compute_resource, -> { where.not(:compute_resource_id => nil, :uuid => nil) }
 
   # audit the changes to this model
-  audited :except => [:last_report, :last_compile, :lookup_value_matcher], :allow_mass_assignment => true
+  audited :except => [:last_report, :last_compile, :lookup_value_matcher]
   has_associated_audits
   #redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
   has_many :audits, -> { where(:auditable_type => 'Host') }, :foreign_key => :auditable_id,
@@ -602,8 +597,11 @@ class Host::Managed < Host::Base
 
   def hash_clone(value)
     if value.is_a? Hash
-      hash_type = value.class
-      return hash_type[value.map{ |k, v| [k, hash_clone(v)] }]
+      # Prefer dup to constructing a new object to perserve permitted state
+      # when `value` is an ActionController::Parameters instance
+      new_hash = value.dup
+      new_hash.each { |k, v| new_hash[k] = hash_clone(v) }
+      return new_hash
     end
 
     value

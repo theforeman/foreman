@@ -1,6 +1,7 @@
 module Taxonomix
   extend ActiveSupport::Concern
   include DirtyAssociations
+  include OptionalAttrAccessible
 
   included do
     taxonomy_join_table = :taxable_taxonomies
@@ -22,7 +23,7 @@ module Taxonomix
 
     validate :ensure_taxonomies_not_escalated, :if => Proc.new { User.current.nil? || !User.current.admin? }
 
-    attr_accessible :locations, :location_ids, :location_names, :organizations,
+    optional_attr_accessible :locations, :location_ids, :location_names, :organizations,
       :organization_ids, :organization_names
   end
 

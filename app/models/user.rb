@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   include Taxonomix
   include DirtyAssociations
   include UserTime
-  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation], :allow_mass_assignment => true
+  audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
@@ -41,14 +41,6 @@ class User < ActiveRecord::Base
   has_many :mail_notifications, :through => :user_mail_notifications
 
   accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
-  attr_accessible :password, :password_confirmation, :login, :firstname,
-    :lastname, :mail, :locale, :mail_enabled,
-    :default_location_id, :default_organization_id,
-    :auth_source_name, :auth_source, :auth_source_id,
-    :mail_notification_ids, :mail_notification_names,
-    :mail_notification_attributes,
-    :roles, :role_ids, :role_names,
-    :user_mail_notifications_attributes
 
   attr_name :login
 

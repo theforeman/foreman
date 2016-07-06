@@ -1,5 +1,7 @@
 class RealmsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Realm
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -11,7 +13,7 @@ class RealmsController < ApplicationController
   end
 
   def create
-    @realm = Realm.new(params[:realm])
+    @realm = Realm.new(realm_params)
     if @realm.save
       process_success
     else
@@ -23,7 +25,7 @@ class RealmsController < ApplicationController
   end
 
   def update
-    if @realm.update_attributes(params[:realm])
+    if @realm.update_attributes(realm_params)
       process_success
     else
       process_error

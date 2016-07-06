@@ -38,8 +38,8 @@ Foreman::Application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  # Raise exception on mass assignment of unfiltered parameters
+  config.action_controller.action_on_unpermitted_parameters = :strict
 
   config.after_initialize do
     Bullet.enable = true

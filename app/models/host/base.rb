@@ -11,32 +11,6 @@ module Host
     friendly_id :name
     OWNER_TYPES = %w(User Usergroup)
 
-    attr_accessible :name, :managed, :type, :start, :mac, :ip, :ip6, :root_pass,
-      :is_owned_by, :enabled, :comment,
-      :overwrite, :capabilities, :provider, :last_compile,
-      # Model relations sorted in alphabetical order
-      :architecture, :architecture_id, :architecture_name,
-      :config_group, :config_group_ids, :config_group_names,
-      :domain, :domain_id, :domain_name,
-      :environment, :environment_id, :environment_name,
-      :hardware_model_id, :hardware_model_name,
-      :hostgroup, :hostgroup_id, :hostgroup_name,
-      :host_parameters_attributes,
-      :interfaces, :interfaces_attributes,
-      :location, :location_id, :location_name,
-      :medium, :medium_id, :medium_name,
-      :model, :model_id, :model_name,
-      :operatingsystem, :operatingsystem_id, :operatingsystem_name,
-      :organization, :organization_id, :organization_name,
-      :ptable, :ptable_id, :ptable_name,
-      :puppet_ca_proxy, :puppet_ca_proxy_id, :puppet_ca_proxy_name,
-      :puppet_proxy, :puppet_proxy_id, :puppet_proxy_name,
-      :puppetclasses, :puppetclass_ids, :puppetclass_names,
-      :progress_report, :progress_report_id, :progress_report_name,
-      :realm, :realm_id, :realm_name,
-      :subnet, :subnet_id, :subnet_name,
-      :subnet6, :subnet6_id, :subnet6_name
-
     validates_lengths_from_database
     belongs_to :model, :name_accessor => 'hardware_model_name'
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id

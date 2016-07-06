@@ -331,7 +331,7 @@ function update_form(element, options) {
 
 //Serializes only those input elements from form that are set explicitly
 function serializeForm() {
-  return $('form').serialize()
+  return $('form input,select,textarea').not('.form_template *').serialize()
 }
 
 function subnet_contains(network, cidr, ip) {
@@ -456,7 +456,7 @@ function use_image_selected(element){
 function reload_host_params(){
   var host_id = $("form").data('id');
   var url = $('#params-tab').data('url');
-  var data = $("[data-submit='progress_bar']").serialize().replace('method=patch', 'method=post');
+  var data = serializeForm().replace('method=patch', 'method=post');
   if (url.length > 0) {
     data = data + '&host_id=' + host_id;
     load_with_placeholder('inherited_parameters', url, data);
@@ -466,7 +466,7 @@ function reload_host_params(){
 function reload_puppetclass_params(){
   var host_id = $("form").data('id');
   var url2 = $('#params-tab').data('url2');
-  var data = $("[data-submit='progress_bar']").serialize().replace('method=patch', 'method=post');
+  var data = serializeForm().replace('method=patch', 'method=post');
   if (url2.match('hostgroups')) {
     data = data + '&hostgroup_id=' + host_id
   } else {

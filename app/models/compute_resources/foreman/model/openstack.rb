@@ -7,7 +7,6 @@ module Foreman::Model
     delegate :flavors, :to => :client
     delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
-    attr_accessible :key_pair, :tenant, :allow_external_network
 
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }

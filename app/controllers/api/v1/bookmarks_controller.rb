@@ -2,6 +2,7 @@ module Api
   module V1
     class BookmarksController < V1::BaseController
       include Foreman::Controller::BookmarkCommon
+      include Foreman::Controller::Parameters::Bookmark
 
       before_action :find_resource, :only => [:show, :update, :destroy]
 
@@ -28,7 +29,7 @@ module Api
       end
 
       def create
-        @bookmark = Bookmark.new(params[:bookmark])
+        @bookmark = Bookmark.new(bookmark_params)
         process_response @bookmark.save
       end
 
@@ -42,7 +43,7 @@ module Api
       end
 
       def update
-        process_response @bookmark.update_attributes(params[:bookmark])
+        process_response @bookmark.update_attributes(bookmark_params)
       end
 
       api :DELETE, "/bookmarks/:id/", "Delete a bookmark."

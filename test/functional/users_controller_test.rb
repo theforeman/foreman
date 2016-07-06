@@ -62,7 +62,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should assign a mail notification" do
     user = FactoryGirl.create(:user, :with_mail)
     notification = FactoryGirl.create(:mail_notification)
-    put :update, { :id => user.id, :user => { :mail_notification_ids => [notification.id] }}, set_session_user
+    put :update, { :id => user.id, :user => {:user_mail_notifications_attributes => {'0' => {:mail_notification_id => notification.id, :interval => 'Subscribe'}}}}, set_session_user
     user = User.find_by_id(user.id)
     assert user.mail_notifications.include? notification
   end

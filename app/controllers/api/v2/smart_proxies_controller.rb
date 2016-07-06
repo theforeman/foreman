@@ -4,6 +4,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
+      include Foreman::Controller::Parameters::SmartProxy
+
       before_action :find_resource, :only => %w{show update destroy refresh version logs}
 
       api :GET, "/smart_proxies/", N_("List all smart proxies")
@@ -32,7 +34,7 @@ module Api
       param_group :smart_proxy, :as => :create
 
       def create
-        @smart_proxy = SmartProxy.new(params[:smart_proxy])
+        @smart_proxy = SmartProxy.new(smart_proxy_params)
         process_response @smart_proxy.save
       end
 
@@ -41,7 +43,7 @@ module Api
       param_group :smart_proxy
 
       def update
-        process_response @smart_proxy.update_attributes(params[:smart_proxy])
+        process_response @smart_proxy.update_attributes(smart_proxy_params)
       end
 
       api :DELETE, "/smart_proxies/:id/", N_("Delete a smart proxy")

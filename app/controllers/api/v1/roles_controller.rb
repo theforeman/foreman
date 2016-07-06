@@ -1,6 +1,8 @@
 module Api
   module V1
     class RolesController < V1::BaseController
+      include Foreman::Controller::Parameters::Role
+
       before_action :require_admin
       before_action :find_resource, :only => %w{show update destroy}
 
@@ -25,7 +27,7 @@ module Api
       end
 
       def create
-        @role = Role.new(params[:role])
+        @role = Role.new(role_params)
         process_response @role.save
       end
 
@@ -36,7 +38,7 @@ module Api
       end
 
       def update
-        process_response @role.update_attributes(params[:role])
+        process_response @role.update_attributes(role_params)
       end
 
       api :DELETE, "/roles/:id/", "Delete an role."

@@ -3,6 +3,7 @@ module Api
     class ParametersController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Parameter
 
       before_action :find_required_nested_object
       before_action :find_parameter, :only => [:show, :update, :destroy]
@@ -78,7 +79,7 @@ module Api
       param_group :parameter, :as => :create
 
       def create
-        @parameter = nested_obj.send(parameters_method).new(params[:parameter])
+        @parameter = nested_obj.send(parameters_method).new(parameter_params(::Parameter))
         process_response @parameter.save
       end
 
@@ -100,7 +101,7 @@ module Api
       param_group :parameter
 
       def update
-        process_response @parameter.update_attributes(params[:parameter])
+        process_response @parameter.update_attributes(parameter_params(::Parameter))
       end
 
       api :DELETE, "/hosts/:host_id/parameters/:id", N_("Delete a nested parameter for a host")

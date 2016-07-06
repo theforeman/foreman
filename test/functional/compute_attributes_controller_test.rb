@@ -22,9 +22,10 @@ class ComputeAttributesControllerTest < ActionController::TestCase
     assert_difference('ComputeAttribute.count') do
       # create 3-Large that doesn't exist in fixtures
       post :create, {:compute_profile_id => @compute_profile.to_param,
-                    :compute_attribute => { :compute_resource_id => @compute_resource.to_param, :compute_profile_id => compute_profiles(:three) }}, set_session_user
+                    :compute_attribute => { :compute_resource_id => @compute_resource.to_param, :compute_profile_id => compute_profiles(:three), :vm_attrs => {"flavor_id"=>"t2.medium"} }}, set_session_user
     end
     assert_redirected_to compute_profile_path(assigns(:set).compute_profile)
+    assert_equal "t2.medium", assigns(:set).vm_attrs['flavor_id']
   end
 
   test "should get edit" do
@@ -35,7 +36,8 @@ class ComputeAttributesControllerTest < ActionController::TestCase
   test "should update compute_attribute" do
     put :update, {:id => @set,
                   :compute_profile_id => @compute_profile.to_param,
-                  :compute_attribute => { :compute_resource_id => @set.compute_resource_id, :compute_profile_id => @set.compute_profile_id }}, set_session_user
+                  :compute_attribute => { :compute_resource_id => @set.compute_resource_id, :compute_profile_id => @set.compute_profile_id, :vm_attrs => {"flavor_id"=>"t2.medium"} }}, set_session_user
     assert_redirected_to compute_profile_path(@set.compute_profile)
+    assert_equal "t2.medium", compute_attributes(:one).reload.vm_attrs['flavor_id']
   end
 end

@@ -1,4 +1,6 @@
 class TrendsController < ApplicationController
+  include Foreman::Controller::Parameters::Trend
+
   before_action :find_resource, :only => [:show, :edit, :update, :destroy]
 
   def index
@@ -15,7 +17,7 @@ class TrendsController < ApplicationController
 
   def create
     params[:trend] ||= { }
-    @trend         = params[:trend][:trendable_type] == 'FactName' ? FactTrend.new(params[:trend]) : ForemanTrend.new(params[:trend])
+    @trend         = params[:trend][:trendable_type] == 'FactName' ? FactTrend.new(trend_params) : ForemanTrend.new(trend_params)
     if @trend.save
       process_success
     else
@@ -24,7 +26,9 @@ class TrendsController < ApplicationController
   end
 
   def update
-    @trends = Trend.update(params[:trend].keys, params[:trend].values).reject { |p| p.errors.empty? }
+    filter = self.class.trend_params_filter
+    trend_attrs = params[:trend].values.map { |t| filter.filter_params(ActionController::Parameters.new(t), parameter_filter_context, :none) }
+    @trends = Trend.update(params[:trend].keys, trend_attrs).reject { |p| p.errors.empty? }
     if @trends.empty?
       process_success
     else

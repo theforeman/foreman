@@ -2,6 +2,7 @@ module Api
   module V2
     class ExternalUsergroupsController < V2::BaseController
       include Api::Version2
+      include Foreman::Controller::Parameters::ExternalUsergroup
 
       before_action :find_resource, :only => [:show, :update, :destroy, :refresh]
       before_action :find_required_nested_object, :only => [:index, :show, :create]
@@ -35,7 +36,7 @@ module Api
       param_group :external_usergroup, :as => :create
 
       def create
-        @external_usergroup = @nested_obj.external_usergroups.new(params[:external_usergroup])
+        @external_usergroup = @nested_obj.external_usergroups.new(external_usergroup_params)
         process_response @external_usergroup.save
       end
 
@@ -45,7 +46,7 @@ module Api
       param_group :external_usergroup
 
       def update
-        process_response @external_usergroup.update_attributes(params[:external_usergroup])
+        process_response @external_usergroup.update_attributes(external_usergroup_params)
       end
 
       api :PUT, '/usergroups/:usergroup_id/external_usergroups/:id/refresh', N_('Refresh external user group')

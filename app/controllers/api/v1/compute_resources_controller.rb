@@ -1,6 +1,8 @@
 module Api
   module V1
     class ComputeResourcesController < V1::BaseController
+      include Foreman::Controller::Parameters::ComputeResource
+
       before_action :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/compute_resources/", "List all compute resources."
@@ -37,7 +39,7 @@ module Api
       end
 
       def create
-        @compute_resource = ComputeResource.new_provider(params[:compute_resource])
+        @compute_resource = ComputeResource.new_provider(compute_resource_params)
         process_response @compute_resource.save
       end
 
@@ -57,7 +59,7 @@ module Api
       end
 
       def update
-        process_response @compute_resource.update_attributes(params[:compute_resource])
+        process_response @compute_resource.update_attributes(compute_resource_params)
       end
 
       api :DELETE, "/compute_resources/:id/", "Delete a compute resource."

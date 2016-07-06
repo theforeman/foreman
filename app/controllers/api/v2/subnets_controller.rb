@@ -3,6 +3,7 @@ module Api
     class SubnetsController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Subnet
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy freeip}
@@ -53,7 +54,7 @@ module Api
       param_group :subnet, :as => :create
 
       def create
-        @subnet = Subnet.new_network_type(params[:subnet])
+        @subnet = Subnet.new_network_type(subnet_params)
         process_response @subnet.save
       end
 
@@ -62,7 +63,7 @@ module Api
       param_group :subnet
 
       def update
-        process_response @subnet.update_attributes(params[:subnet])
+        process_response @subnet.update_attributes(subnet_params)
       end
 
       api :DELETE, '/subnets/:id', N_("Delete a subnet")

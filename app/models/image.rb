@@ -1,11 +1,7 @@
 class Image < ActiveRecord::Base
   include Authorizable
 
-  attr_accessible :name, :compute_resource_id, :compute_resource_name, :operatingsystem_id,
-    :operatingsystem_name, :architecture_id, :architecture_name, :username, :password, :uuid,
-    :user_data, :iam_role
-
-  audited :allow_mass_assignment => true
+  audited
 
   belongs_to :operatingsystem
   belongs_to :compute_resource

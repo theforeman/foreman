@@ -6,7 +6,6 @@ class EnvironmentTest < ActiveSupport::TestCase
   should have_many(:provisioning_templates).through(:template_combinations)
   should have_many(:puppetclasses).through(:environment_classes)
   should have_many(:trends).class_name('ForemanTrend')
-  should allow_mass_assignment_of(:name)
 
   test "to_label should print name" do
     env = Environment.new :name => "foo"

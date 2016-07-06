@@ -1,6 +1,8 @@
 module Api
   module V2
     class ComputeProfilesController < V2::BaseController
+      include Foreman::Controller::Parameters::ComputeProfile
+
       before_action :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/compute_profiles", N_("List of compute profiles")
@@ -26,7 +28,7 @@ module Api
       param_group :compute_profile, :as => :create
 
       def create
-        @compute_profile = ComputeProfile.new(params[:compute_profile])
+        @compute_profile = ComputeProfile.new(compute_profile_params)
         process_response @compute_profile.save
       end
 
@@ -35,7 +37,7 @@ module Api
       param_group :compute_profile
 
       def update
-        process_response @compute_profile.update_attributes(params[:compute_profile])
+        process_response @compute_profile.update_attributes(compute_profile_params)
       end
 
       api :DELETE, "/compute_profiles/:id/", N_("Delete a compute profile")

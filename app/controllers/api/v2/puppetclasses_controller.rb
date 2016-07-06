@@ -3,6 +3,7 @@ module Api
     class PuppetclassesController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Puppetclass
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
@@ -63,7 +64,7 @@ module Api
       param_group :puppetclass, :as => :create
 
       def create
-        @puppetclass = Puppetclass.new(params[:puppetclass])
+        @puppetclass = Puppetclass.new(puppetclass_params)
         process_response @puppetclass.save
       end
 
@@ -72,7 +73,7 @@ module Api
       param_group :puppetclass
 
       def update
-        class_params = params[:puppetclass].merge!(:smart_class_parameter_ids => @puppetclass.smart_class_parameters.map(&:id))
+        class_params = puppetclass_params.merge(:smart_class_parameter_ids => @puppetclass.smart_class_parameters.map(&:id))
         process_response @puppetclass.update_attributes(class_params)
       end
 

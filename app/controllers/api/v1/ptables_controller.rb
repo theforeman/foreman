@@ -1,6 +1,8 @@
 module Api
   module V1
     class PtablesController < V1::BaseController
+      include Foreman::Controller::Parameters::Ptable
+
       before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/ptables/", "List all ptables."
@@ -29,7 +31,7 @@ module Api
       end
 
       def create
-        @ptable = Ptable.new(params[:ptable])
+        @ptable = Ptable.new(ptable_params)
         process_response @ptable.save
       end
 
@@ -42,7 +44,7 @@ module Api
       end
 
       def update
-        process_response @ptable.update_attributes(params[:ptable])
+        process_response @ptable.update_attributes(ptable_params)
       end
 
       api :DELETE, "/ptables/:id/", "Delete a ptable."

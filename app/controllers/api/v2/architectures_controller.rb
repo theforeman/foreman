@@ -1,6 +1,8 @@
 module Api
   module V2
     class ArchitecturesController < V2::BaseController
+      include Foreman::Controller::Parameters::Architecture
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
 
@@ -30,7 +32,7 @@ module Api
       param_group :architecture, :as => :create
 
       def create
-        @architecture = Architecture.new(params[:architecture])
+        @architecture = Architecture.new(architecture_params)
         process_response @architecture.save
       end
 
@@ -39,7 +41,7 @@ module Api
       param_group :architecture
 
       def update
-        process_response @architecture.update_attributes(params[:architecture])
+        process_response @architecture.update_attributes(architecture_params)
       end
 
       api :DELETE, "/architectures/:id/", N_("Delete an architecture")

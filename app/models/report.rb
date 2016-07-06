@@ -5,8 +5,6 @@ class Report < ActiveRecord::Base
   include Authorizable
   include ConfigurationStatusScopedSearch
 
-  attr_accessible :host, :reported_at, :status, :metrics
-
   validates_lengths_from_database
   belongs_to_host
   has_many :messages, :through => :logs

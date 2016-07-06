@@ -40,7 +40,7 @@ class TemplatesController < ApplicationController
   end
 
   def create
-    @template = resource_class.new(params[type_name_singular])
+    @template = resource_class.new(resource_params)
     if @template.save
       process_success :object => @template
     else
@@ -53,7 +53,7 @@ class TemplatesController < ApplicationController
   end
 
   def update
-    if @template.update_attributes(params[type_name_singular])
+    if @template.update_attributes(resource_params)
       process_success :object => @template
     else
       load_history
@@ -143,5 +143,9 @@ class TemplatesController < ApplicationController
 
   def type_name_plural
     @type_name_plural ||= type_name_singular.pluralize
+  end
+
+  def resource_params
+    public_send "#{type_name_singular}_params".to_sym
   end
 end

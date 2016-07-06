@@ -17,6 +17,8 @@
 
 class RolesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Role
+
   before_action :find_resource, :only => [:clone, :edit, :update, :destroy]
 
   def index
@@ -50,7 +52,7 @@ class RolesController < ApplicationController
   end
 
   def update
-    if @role.update_attributes(params[:role])
+    if @role.update_attributes(role_params)
       process_success
     else
       process_error
@@ -83,7 +85,7 @@ class RolesController < ApplicationController
       new_role.name    = params[:role][:name]
       new_role.builtin = false
     else
-      new_role = Role.new(params[:role])
+      new_role = Role.new(role_params)
     end
 
     new_role

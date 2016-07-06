@@ -7,8 +7,6 @@ module Nic
     validate :ip6_uniqueness, :if => Proc.new { |i| i.ip6.present? }
     validates :attached_to, :presence => true, :if => Proc.new { |o| o.virtual && o.instance_of?(Nic::Managed) && !o.bridge? }
 
-    attr_accessible :name, :subnet_id, :subnet, :subnet6_id, :subnet6, :domain_id, :domain
-
     # Don't have to set a hostname for each interface, but it must be unique if it is set.
     before_validation :copy_hostname_from_host, :if => Proc.new { |nic| nic.primary? && nic.hostname.blank? }
     before_validation :normalize_name

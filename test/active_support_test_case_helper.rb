@@ -87,6 +87,7 @@ class ActiveSupport::TestCase
     saved_taxonomy = new_taxonomy.class.current
     new_taxonomy.class.current = new_taxonomy
     result = yield
+  ensure
     new_taxonomy.class.current = saved_taxonomy
     result
   end

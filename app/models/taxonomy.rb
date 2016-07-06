@@ -6,22 +6,6 @@ class Taxonomy < ActiveRecord::Base
 
   serialize :ignore_types, Array
 
-  attr_accessible :name, :title, :description, :ignore_types,
-    :config_template_ids, :config_template_names,
-    :compute_resource_ids, :compute_resource_names,
-    :domain_ids, :domain_names,
-    :environment_ids, :environment_names,
-    :hostgroup_ids, :hostgroup_names,
-    :location_ids, :location_names,
-    :medium_ids, :medium_names,
-    :organization_ids, :organization_names,
-    :provisioning_template_ids, :provisioning_template_names,
-    :ptable_ids, :ptable_names,
-    :realm_ids, :realm_names,
-    :smart_proxy_ids, :smart_proxy_names,
-    :subnet_ids, :subnet_names,
-    :user_ids, :users, :user_names
-
   belongs_to :user
   after_create :assign_taxonomy_to_user
 

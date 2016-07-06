@@ -1,6 +1,7 @@
 class HostgroupsController < ApplicationController
-  include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::HostDetails
+  include Foreman::Controller::Parameters::Hostgroup
 
   before_action :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
   before_action :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
@@ -38,7 +39,7 @@ class HostgroupsController < ApplicationController
   end
 
   def create
-    @hostgroup = Hostgroup.new(params[:hostgroup])
+    @hostgroup = Hostgroup.new(hostgroup_params)
     if @hostgroup.save
       process_success :success_redirect => hostgroups_path
     else
@@ -52,7 +53,7 @@ class HostgroupsController < ApplicationController
   end
 
   def update
-    if @hostgroup.update_attributes(params[:hostgroup])
+    if @hostgroup.update_attributes(hostgroup_params)
       process_success :success_redirect => hostgroups_path
     else
       taxonomy_scope
@@ -75,7 +76,7 @@ class HostgroupsController < ApplicationController
   end
 
   def puppetclass_parameters
-    @obj = params[:hostgroup][:id].empty? ? Hostgroup.new(params[:hostgroup]) : Hostgroup.find(params[:hostgroup_id])
+    @obj = params[:hostgroup][:id].empty? ? Hostgroup.new(hostgroup_params) : Hostgroup.find(params[:hostgroup_id])
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "puppetclasses/classes_parameters",
              :locals => { :obj => @obj }
@@ -139,9 +140,9 @@ class HostgroupsController < ApplicationController
   def define_hostgroup
     if params[:hostgroup][:id].present?
       @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params[:hostgroup][:id])
-      @hostgroup.attributes = params[:hostgroup]
+      @hostgroup.attributes = hostgroup_params
     else
-      @hostgroup = Hostgroup.new(params[:hostgroup])
+      @hostgroup = Hostgroup.new(hostgroup_params)
     end
   end
 

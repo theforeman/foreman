@@ -352,4 +352,22 @@ class PluginTest < ActiveSupport::TestCase
     end
     assert_equal 'Test plugin template kind', kind.to_s
   end
+
+  def test_add_parameter_filter
+    Foreman::Plugin.register :test_parameter_filter do
+      name 'Parameter filter test'
+      parameter_filter Domain, :foo, :bar => [], :ui => true
+    end
+    assert_equal([], Foreman::Plugin.find(:test_parameter_filter).parameter_filters(User))
+    assert_equal([[:foo, :bar => [], :ui => true]], Foreman::Plugin.find(:test_parameter_filter).parameter_filters(Domain))
+    assert_equal([[:foo, :bar => [], :ui => true]], Foreman::Plugin.find(:test_parameter_filter).parameter_filters('Domain'))
+  end
+
+  def test_add_parameter_filter_block
+    Foreman::Plugin.register :test_parameter_filter do
+      name 'Parameter filter test'
+      parameter_filter(Domain) { |ctx| ctx.permit(:foo) }
+    end
+    assert_kind_of Proc, Foreman::Plugin.find(:test_parameter_filter).parameter_filters(Domain).first.first
+  end
 end

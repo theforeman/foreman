@@ -1,4 +1,6 @@
 class AuthSourceLdapsController < ApplicationController
+  include Foreman::Controller::Parameters::AuthSourceLdap
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -10,7 +12,7 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def create
-    @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
+    @auth_source_ldap = AuthSourceLdap.new(auth_source_ldap_params)
     if @auth_source_ldap.save
       process_success
     else
@@ -22,7 +24,7 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def update
-    if @auth_source_ldap.update_attributes(params[:auth_source_ldap])
+    if @auth_source_ldap.update_attributes(auth_source_ldap_params)
       process_success
     else
       process_error
@@ -38,7 +40,7 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def test_connection
-    temp_auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
+    temp_auth_source_ldap = AuthSourceLdap.new(auth_source_ldap_params)
     msg = temp_auth_source_ldap.test_connection
     render :json => msg, :status => :ok
   rescue Foreman::Exception => exception

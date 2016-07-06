@@ -1,6 +1,10 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Host
+  include Foreman::Controller::Parameters::Hostgroup
+  include Foreman::Controller::Parameters::Puppetclass
+
   before_action :find_resource, :only => [:edit, :update, :destroy, :override]
   before_action :setup_search_options, :only => :index
 
@@ -13,7 +17,7 @@ class PuppetclassesController < ApplicationController
   end
 
   def update
-    if @puppetclass.update_attributes(params[:puppetclass])
+    if @puppetclass.update_attributes(puppetclass_params)
       process_success
     else
       process_error
@@ -57,8 +61,8 @@ class PuppetclassesController < ApplicationController
   def get_host_or_hostgroup
     # params['host_id'] = 'null' if NEW since hosts/form and hostgroups/form has data-id="null"
     if params['host_id'] == 'null'
-      @obj = Host::Managed.new(params['host']) if params['host']
-      @obj ||= Hostgroup.new(params['hostgroup']) if params['hostgroup']
+      @obj = Host::Managed.new(host_params('host')) if params['host']
+      @obj ||= Hostgroup.new(hostgroup_params) if params['hostgroup']
     else
       if params['host']
         @obj = Host::Base.find(params['host_id'])
@@ -66,12 +70,12 @@ class PuppetclassesController < ApplicationController
           @obj      = @obj.becomes(Host::Managed)
           @obj.type = "Host::Managed"
         end
-        # puppetclass_ids and config_group_ids need to be removed so they don't cause automatic inserts
-        @obj.attributes = params['host'].except!(:puppetclass_ids, :config_group_ids)
+        # puppetclass_ids and config_group_ids need to be removed so they don't cause automatic insertsgroup
+        @obj.attributes = host_params('host').except!(:puppetclass_ids, :config_group_ids)
       elsif params['hostgroup']
         # hostgroup.id is assigned to params['host_id'] by host_edit.js#load_puppet_class_parameters
         @obj = Hostgroup.find(params['host_id'])
-        @obj.attributes = params['hostgroup'].except!(:puppetclass_ids, :config_group_ids)
+        @obj.attributes = hostgroup_params.except!(:puppetclass_ids, :config_group_ids)
       end
     end
     @obj

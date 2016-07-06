@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::UsersMixin
+  include Foreman::Controller::Parameters::User
 
   skip_before_action :require_mail, :only => [:edit, :update, :logout]
   skip_before_action :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_action :authorize, :only => :extlogin
   after_action       :update_activity_time, :only => :login
-  skip_before_action :update_admin_flag, :only => :update
 
   def index
     @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page])
@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    @user = User.new(user_params)
     if @user.save
       process_success
     else
@@ -35,8 +36,7 @@ class UsersController < ApplicationController
   def update
     editing_self?
     @user = find_resource(:edit_users)
-    update_admin_flag
-    if @user.update_attributes(params[:user])
+    if @user.update_attributes(user_params)
       update_sub_hostgroups_owners
 
       process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
@@ -150,5 +150,9 @@ class UsersController < ApplicationController
     set_current_taxonomies(user, {:session => session})
     TopbarSweeper.expire_cache(self)
     redirect_to (uri || hosts_path)
+  end
+
+  def parameter_filter_context
+    Foreman::Controller::Parameters::User::Context.new(:ui, controller_name, params[:action], editing_self?)
   end
 end

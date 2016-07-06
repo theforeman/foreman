@@ -1,5 +1,6 @@
 class FiltersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Filter
 
   before_action :find_role
   before_action :setup_search_options, :only => :index
@@ -15,7 +16,7 @@ class FiltersController < ApplicationController
   end
 
   def create
-    @filter = Filter.new(params[:filter])
+    @filter = Filter.new(filter_params)
     if @filter.save
       process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
@@ -29,7 +30,7 @@ class FiltersController < ApplicationController
 
   def update
     @filter = resource_base.find(params[:id])
-    if @filter.update_attributes(params[:filter])
+    if @filter.update_attributes(filter_params)
       process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
       process_error

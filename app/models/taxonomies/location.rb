@@ -13,8 +13,6 @@ class Location < Taxonomy
   accepts_nested_attributes_for :location_parameters, :allow_destroy => true
   include ParameterValidators
 
-  attr_accessible :location_parameters_attributes
-
   scope :completer_scope, ->(opts) { my_locations }
 
   scope :my_locations, lambda {
