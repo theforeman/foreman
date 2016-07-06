@@ -176,7 +176,7 @@ class Host::Managed < Host::Base
     include Orchestration::Compute
     include Rails.application.routes.url_helpers
     # TFTP orchestration delegation
-    delegate :tftp?, :tftp, :generate_pxe_template, :to => :provision_interface
+    delegate :tftp?, :tftp6?, :tftp, :tftp6, :generate_pxe_template, :to => :provision_interface
     include Orchestration::Puppetca
     include Orchestration::SSHProvision
     include Orchestration::Realm

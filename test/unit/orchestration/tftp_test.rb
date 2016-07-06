@@ -3,28 +3,127 @@ require 'test_helper'
 class TFTPOrchestrationTest < ActiveSupport::TestCase
   setup :disable_orchestration
 
-  test "host_should_have_tftp" do
-    if unattended?
-      h = FactoryGirl.build(:host, :managed, :with_tftp_orchestration)
-      assert h.tftp?
-      assert_not_nil h.tftp
+  context 'host without tftp orchestration' do
+    setup do
+      @host = FactoryGirl.create(:host)
+    end
+
+    test 'should not have any tftp' do
+      skip_without_unattended
+      assert_equal false, @host.tftp?
+      assert_equal false, @host.tftp6?
+      assert_equal nil, @host.tftp
+      assert_equal nil, @host.tftp6
+    end
+
+    test '#setTFTP should not call any tftp proxy' do
+      ProxyAPI::TFTP.any_instance.expects(:set).never
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+    end
+
+    test 'should not queue tftp' do
+      @host.provision_interface.send(:queue_tftp)
+      tasks = @host.queue.all.map { |t| t.name }
+      assert_empty tasks
     end
   end
 
-  test "host_should_not_have_tftp" do
-    if unattended?
-      h = FactoryGirl.create(:host)
-      assert_equal false, h.tftp?
-      assert_equal nil, h.tftp
+  context 'host with ipv4 tftp' do
+    setup do
+      @host = FactoryGirl.build(:host, :managed, :with_tftp_orchestration, :build => true)
+    end
+
+    test 'should have tftp' do
+      skip_without_unattended
+      assert @host.tftp?
+      refute @host.tftp6?
+      assert_not_nil @host.tftp
+      assert_nil @host.tftp6
+    end
+
+    test '#setTFTP should call one tftp proxy' do
+      ProxyAPI::TFTP.any_instance.expects(:set).once
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+    end
+
+    test 'should queue tftp' do
+      @host.provision_interface.send(:queue_tftp)
+      tasks = @host.queue.all.map { |t| t.name }
+      assert_includes tasks, "Deploy TFTP PXEGrub config for #{@host.provision_interface}"
+      assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
+    end
+
+    test "without pxe loader should not have tftp" do
+      skip_without_unattended
+      @host.expects(:pxe_loader).returns('').at_least(1)
+      assert_equal false, @host.tftp?
+      assert_equal nil, @host.tftp
     end
   end
 
-  test "host_without_pxe_loader_should_not_have_tftp" do
-    skip_without_unattended
-    h = FactoryGirl.build(:host, :managed, :with_tftp_orchestration)
-    h.expects(:pxe_loader).returns('').at_least(1)
-    assert_equal false, h.tftp?
-    assert_equal nil, h.tftp
+  context 'host with ipv6 tftp' do
+    setup do
+      @host = FactoryGirl.build(:host, :managed, :with_tftp_v6_orchestration, :build => true)
+    end
+
+    test "should have ipv6 tftp" do
+      skip_without_unattended
+      refute @host.tftp?
+      assert @host.tftp6?
+      assert_nil @host.tftp
+      assert_not_nil @host.tftp6
+      assert_nil @host.subnet
+    end
+
+    test '#setTFTP should call one tftp proxy' do
+      ProxyAPI::TFTP.any_instance.expects(:set).once
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+    end
+
+    test 'should queue tftp' do
+      @host.provision_interface.send(:queue_tftp)
+      tasks = @host.queue.all.map { |t| t.name }
+      assert_includes tasks, "Deploy TFTP PXEGrub config for #{@host.provision_interface}"
+      assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
+    end
+  end
+
+  context 'host with ipv4 and ipv6 tftp' do
+    setup do
+      @host = FactoryGirl.build(:host, :managed, :with_tftp_dual_stack_orchestration, :build => true)
+    end
+
+    test "host should have ipv4 and ipv6 tftp" do
+      skip_without_unattended
+      assert @host.tftp?
+      assert @host.tftp6?
+      assert_not_nil @host.tftp
+      assert_not_nil @host.tftp6
+    end
+
+    test '#setTFTP should call both tftp proxies' do
+      ProxyAPI::TFTP.any_instance.expects(:set).twice
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+    end
+
+    test '#setTFTP should call just one proxy if the proxies are unique' do
+      ProxyAPI::TFTP.any_instance.expects(:set).once
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      @host.provision_interface.subnet6.tftp = @host.provision_interface.subnet.tftp
+      assert @host.provision_interface.subnet6.save!
+      @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+    end
+
+    test 'should queue tftp' do
+      @host.provision_interface.send(:queue_tftp)
+      tasks = @host.queue.all.map { |t| t.name }
+      assert_includes tasks, "Deploy TFTP PXEGrub config for #{@host.provision_interface}"
+      assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
+    end
   end
 
   test 'unmanaged should not call methods after managed?' do
@@ -79,10 +178,16 @@ EXPECTED
     end
   end
 
-  test "should_rebuild_tftp" do
-    h = FactoryGirl.create(:host, :with_tftp_orchestration)
+  test 'should rebuild tftp IPv4' do
+    host = FactoryGirl.create(:host, :with_tftp_orchestration)
     Nic::Managed.any_instance.expects(:setTFTP).returns(true)
-    assert h.interfaces.first.rebuild_tftp
+    assert host.interfaces.first.rebuild_tftp
+  end
+
+  test 'should rebuild tftp IPv6' do
+    host = FactoryGirl.create(:host, :with_tftp_v6_orchestration)
+    Nic::Managed.any_instance.expects(:setTFTP).returns(true)
+    assert host.interfaces.first.rebuild_tftp
   end
 
   describe "validation" do

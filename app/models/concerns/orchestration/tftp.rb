@@ -11,25 +11,38 @@ module Orchestration::TFTP
     register_rebuild(:rebuild_tftp, N_('TFTP'))
   end
 
+  def tftp_ready?
+    # host.managed? and managed? should always come first so that orchestration doesn't
+    # even get tested for such objects
+    (host.nil? || host.managed?) && managed && provision? && (host && host.operatingsystem && host.pxe_loader.present?) && pxe_build? && SETTINGS[:unattended]
+  end
+
   def tftp?
-    # host.managed? and managed? should always come first so that orchestration doesn't even get tested for such objects
-    (host.nil? || host.managed?) && managed && provision? && !!(subnet && subnet.tftp?) && (host && host.operatingsystem && host.pxe_loader.present?) && pxe_build? && SETTINGS[:unattended]
+    tftp_ready? && !!(subnet && subnet.tftp?)
+  end
+
+  def tftp6?
+    tftp_ready? && !!(subnet6 && subnet6.tftp?)
   end
 
   def tftp
     subnet.tftp_proxy if tftp?
   end
 
+  def tftp6
+    subnet6.tftp_proxy if tftp6?
+  end
+
   def rebuild_tftp
-    if tftp?
+    if tftp? || tftp6?
       begin
         setTFTP
       rescue => e
-        Foreman::Logging.exception "Failed to rebuild TFTP record for #{name}, #{ip}", e, :level => :error
+        Foreman::Logging.exception "Failed to rebuild TFTP record for #{name} (#{ip}/#{ip6})", e, :level => :error
         false
       end
     else
-      logger.info "TFTP not supported for #{name}, #{ip}, skipping orchestration rebuild"
+      logger.info "TFTP not supported for #{name} (#{ip}/#{ip6}), skipping orchestration rebuild"
       true
     end
   end
@@ -80,7 +93,9 @@ module Orchestration::TFTP
     content = generate_pxe_template(kind)
     if content
       logger.info "Deploying TFTP #{kind} configuration for #{host.name}"
-      tftp.set kind, mac, :pxeconfig => content
+      each_unique_feasible_tftp_proxy do |proxy|
+        proxy.set(kind, mac, :pxeconfig => content)
+      end
     else
       logger.info "Skipping TFTP #{kind} configuration for #{host.name}"
       true
@@ -91,19 +106,23 @@ module Orchestration::TFTP
   # +returns+ : Boolean true on success
   def delTFTP(kind)
     logger.info "Delete the TFTP configuration for #{host.name}"
-    tftp.delete kind, mac
+    each_unique_feasible_tftp_proxy do |proxy|
+      proxy.delete(kind, mac)
+    end
   end
 
   def setTFTPBootFiles
     logger.info "Fetching required TFTP boot files for #{host.name}"
-    valid = true
+    valid = []
     host.operatingsystem.pxe_files(host.medium, host.architecture, host).each do |bootfile_info|
       for prefix, path in bootfile_info do
-        valid = false unless tftp.fetch_boot_file(:prefix => prefix.to_s, :path => path)
+        valid << each_unique_feasible_tftp_proxy do |proxy|
+          proxy.fetch_boot_file(:prefix => prefix.to_s, :path => path)
+        end
       end
     end
-    failure _("Failed to fetch boot files") unless valid
-    valid
+    failure _("Failed to fetch boot files") unless valid.all?
+    valid.all?
   end
 
   #empty method for rollbacks
@@ -113,7 +132,7 @@ module Orchestration::TFTP
   private
 
   def validate_tftp
-    return unless tftp?
+    return unless tftp? || tftp6?
     return unless host.operatingsystem
     pxe_kind = host.operatingsystem.pxe_loader_kind(host)
     if pxe_kind && host.provisioning_template({:kind => pxe_kind}).nil?
@@ -123,7 +142,7 @@ module Orchestration::TFTP
   end
 
   def queue_tftp
-    return unless tftp? && no_errors
+    return unless (tftp? || tftp6?) && no_errors
     # Jumpstart builds require only minimal tftp services. They do require a tftp object to query for the boot_server.
     return true if host.jumpstart?
     new_record? ? queue_tftp_create : queue_tftp_update
@@ -156,7 +175,7 @@ module Orchestration::TFTP
 
   def queue_tftp_destroy(validate = true, priority = 20, host = self)
     if validate
-      return unless tftp? && no_errors
+      return unless (tftp? || tftp6?) && no_errors
       return true if host.jumpstart?
     end
     host.operatingsystem.template_kinds.each do |kind|
@@ -166,5 +185,19 @@ module Orchestration::TFTP
 
   def no_errors
     errors.empty? && host.errors.empty?
+  end
+
+  def unique_feasible_tftp_proxies
+    proxies = []
+    proxies << tftp if tftp?
+    proxies << tftp6 if tftp6?
+    proxies.uniq { |p| p.url }
+  end
+
+  def each_unique_feasible_tftp_proxy
+    results = unique_feasible_tftp_proxies.map do |proxy|
+      yield(proxy)
+    end
+    results.all?
   end
 end
