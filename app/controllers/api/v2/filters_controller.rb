@@ -3,6 +3,7 @@ module Api
     class FiltersController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Filter
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
@@ -34,7 +35,7 @@ module Api
       param_group :filter, :as => :create
 
       def create
-        @filter = nested_obj ? nested_obj.filters.build(params[:filter]) : Filter.new(params[:filter])
+        @filter = nested_obj ? nested_obj.filters.build(filter_params) : Filter.new(filter_params)
         process_response @filter.save
       end
 
@@ -43,7 +44,7 @@ module Api
       param_group :filter
 
       def update
-        process_response @filter.update_attributes(params[:filter])
+        process_response @filter.update_attributes(filter_params)
       end
 
       api :DELETE, "/filters/:id/", N_("Delete a filter")

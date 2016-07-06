@@ -1,6 +1,8 @@
 module Api
   module V2
     class AuthSourceLdapsController < V2::BaseController
+      include Foreman::Controller::Parameters::AuthSourceLdap
+
       before_action :find_resource, :only => %w{show update destroy test}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
@@ -42,7 +44,7 @@ module Api
       param_group :auth_source_ldap, :as => :create
 
       def create
-        @auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
+        @auth_source_ldap = AuthSourceLdap.new(auth_source_ldap_params)
         process_response @auth_source_ldap.save
       end
 
@@ -51,7 +53,7 @@ module Api
       param_group :auth_source_ldap
 
       def update
-        process_response @auth_source_ldap.update_attributes(params[:auth_source_ldap])
+        process_response @auth_source_ldap.update_attributes(auth_source_ldap_params)
       end
 
       api :PUT, "/auth_source_ldaps/:id/test/", N_("Test LDAP connection")

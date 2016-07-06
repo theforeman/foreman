@@ -1,5 +1,7 @@
 class CommonParametersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Parameter
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -11,7 +13,7 @@ class CommonParametersController < ApplicationController
   end
 
   def create
-    @common_parameter = CommonParameter.new(params[:common_parameter])
+    @common_parameter = CommonParameter.new(parameter_params(::CommonParameter))
     if @common_parameter.save
       process_success
     else
@@ -23,7 +25,7 @@ class CommonParametersController < ApplicationController
   end
 
   def update
-    if @common_parameter.update_attributes(params[:common_parameter])
+    if @common_parameter.update_attributes(parameter_params(::CommonParameter))
       process_success
     else
       process_error

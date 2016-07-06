@@ -1,6 +1,8 @@
 module Api
   module V2
     class OperatingsystemsController < V2::BaseController
+      include Foreman::Controller::Parameters::Operatingsystem
+
       resource_description do
         name 'Operating systems'
       end
@@ -58,7 +60,7 @@ module Api
       param_group :operatingsystem, :as => :create
 
       def create
-        @operatingsystem = Operatingsystem.new(params[:operatingsystem])
+        @operatingsystem = Operatingsystem.new(operatingsystem_params)
         process_response @operatingsystem.save
       end
 
@@ -67,7 +69,7 @@ module Api
       param_group :operatingsystem
 
       def update
-        process_response @operatingsystem.update_attributes(params[:operatingsystem])
+        process_response @operatingsystem.update_attributes(operatingsystem_params)
       end
 
       api :DELETE, "/operatingsystems/:id/", N_("Delete an operating system")

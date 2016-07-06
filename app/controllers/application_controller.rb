@@ -393,4 +393,14 @@ class ApplicationController < ActionController::Base
   def handle_unverified_request
     raise ::Foreman::Exception.new(N_("Invalid authenticity token"))
   end
+
+  def parameter_filter_context
+    Foreman::ParameterFilter::Context.new(:ui, controller_name, params[:action])
+  end
+
+  class << self
+    def parameter_filter_context
+      Foreman::ParameterFilter::Context.new(:ui, controller_name, nil)
+    end
+  end
 end

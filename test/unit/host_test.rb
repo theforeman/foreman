@@ -2017,8 +2017,6 @@ class HostTest < ActiveSupport::TestCase
 
     test "test tokens are not created until host is saved" do
       class Host::Test < Host::Base
-        attr_accessible :interfaces
-
         def lookup_value_match
           'no_match'
         end

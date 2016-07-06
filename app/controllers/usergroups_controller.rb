@@ -1,5 +1,7 @@
 class UsergroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Usergroup
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
   before_action :get_external_usergroups_to_refresh, :only => [:update]
   after_action  :refresh_external_usergroups, :only => [:create, :update]
@@ -13,7 +15,7 @@ class UsergroupsController < ApplicationController
   end
 
   def create
-    @usergroup = Usergroup.new(params[:usergroup])
+    @usergroup = Usergroup.new(usergroup_params)
     if @usergroup.save
       process_success
     else
@@ -25,7 +27,7 @@ class UsergroupsController < ApplicationController
   end
 
   def update
-    if @usergroup.update_attributes(params[:usergroup])
+    if @usergroup.update_attributes(usergroup_params)
       process_success
     else
       process_error

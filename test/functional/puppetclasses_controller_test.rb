@@ -4,12 +4,13 @@ class PuppetclassesControllerTest < ActionController::TestCase
   include LookupKeysHelper
 
   def host_attributes(host)
-    host.attributes.except('id', 'created_at', 'updated_at').slice(*Host::Managed.accessible_attributes.to_a)
+    known_attrs = HostsController.host_params_filter.accessible_attributes(HostsController.parameter_filter_context)
+    host.attributes.except('id', 'created_at', 'updated_at').slice(*known_attrs)
   end
 
   def hostgroup_attributes(hostgroup)
-    hostgroup.attributes.except('id', 'created_at', 'updated_at',
-                                'hosts_count', 'ancestry').slice(*Hostgroup.accessible_attributes.to_a)
+    known_attrs = HostgroupsController.hostgroup_params_filter.accessible_attributes(HostgroupsController.parameter_filter_context)
+    hostgroup.attributes.except('id', 'created_at', 'updated_at', 'hosts_count', 'ancestry').slice(*known_attrs)
   end
 
   def test_index

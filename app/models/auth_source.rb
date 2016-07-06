@@ -18,9 +18,7 @@
 class AuthSource < ActiveRecord::Base
   include Authorizable
 
-  attr_accessible :name, :onthefly_register
-
-  audited :allow_mass_assignment => true
+  audited
 
   validates_lengths_from_database :except => [:name, :account_password, :host, :attr_login, :attr_firstname, :attr_lastname, :attr_mail]
   before_destroy EnsureNotUsedBy.new(:users)

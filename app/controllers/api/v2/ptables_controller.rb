@@ -1,6 +1,8 @@
 module Api
   module V2
     class PtablesController < V2::BaseController
+      include Foreman::Controller::Parameters::Ptable
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone}
 
@@ -41,7 +43,7 @@ module Api
       param_group :ptable, :as => :create
 
       def create
-        @ptable = Ptable.new(params[:ptable])
+        @ptable = Ptable.new(ptable_params)
         process_response @ptable.save
       end
 
@@ -58,7 +60,7 @@ module Api
       param_group :ptable
 
       def update
-        process_response @ptable.update_attributes(params[:ptable])
+        process_response @ptable.update_attributes(ptable_params)
       end
 
       api :DELETE, "/ptables/:id/", N_("Delete a partition table")

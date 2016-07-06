@@ -8,9 +8,7 @@ class Domain < ActiveRecord::Base
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
 
-  audited :allow_mass_assignment => true
-  attr_accessible :name, :fullname, :dns_id, :domain_parameters_attributes
-
+  audited
   validates_lengths_from_database
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670

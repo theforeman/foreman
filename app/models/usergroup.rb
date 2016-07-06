@@ -1,12 +1,9 @@
 class Usergroup < ActiveRecord::Base
-  audited :allow_mass_assignment => true
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
-
-  attr_accessible :name, :admin, :user_ids, :user_names, :role_ids,
-    :role_names, :usergroup_ids, :usergroup_names, :external_usergroups_attributes
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted

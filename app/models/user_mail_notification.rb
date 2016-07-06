@@ -1,11 +1,6 @@
 class UserMailNotification < ActiveRecord::Base
-  attr_accessible :last_sent, :mail_notification_id, :user_id, :interval, :mail_query
-
   belongs_to :user
   belongs_to :mail_notification
-
-  validates :user, :presence => true
-  validates :mail_notification, :presence => true
 
   scope :daily, -> { where(:interval => 'Daily') }
   scope :weekly, -> { where(:interval => 'Weekly') }

@@ -1,5 +1,6 @@
 class BookmarksController < ApplicationController
   include Foreman::Controller::BookmarkCommon
+  include Foreman::Controller::Parameters::Bookmark
 
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
@@ -19,7 +20,7 @@ class BookmarksController < ApplicationController
   end
 
   def create
-    @bookmark = Bookmark.new(params[:bookmark])
+    @bookmark = Bookmark.new(bookmark_params)
     if @bookmark.save
       redirect_to send("#{@bookmark.controller}_path"), :notice => _('Bookmark was successfully created.')
     else
@@ -28,7 +29,7 @@ class BookmarksController < ApplicationController
   end
 
   def update
-    if @bookmark.update_attributes(params[:bookmark])
+    if @bookmark.update_attributes(bookmark_params)
       redirect_to(bookmarks_path, :notice => _('Bookmark was successfully updated.'))
     else
       render :action => "edit"

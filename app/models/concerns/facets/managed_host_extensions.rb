@@ -51,7 +51,6 @@ module Facets
             alias_method_chain facet_config.name, :migration_check
           end
           alias_method "#{facet_config.name}_attributes", facet_config.name
-          attr_accessible "#{facet_config.name}_attributes"
 
           include facet_config.extension if facet_config.extension
 

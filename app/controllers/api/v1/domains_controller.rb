@@ -1,6 +1,8 @@
 module Api
   module V1
     class DomainsController < V1::BaseController
+      include Foreman::Controller::Parameters::Domain
+
       resource_description do
         # TRANSLATORS: API documentation - do not translate
         desc <<-DOC
@@ -48,7 +50,7 @@ module Api
       end
 
       def create
-        @domain = Domain.new(params[:domain])
+        @domain = Domain.new(domain_params)
         process_response @domain.save
       end
 
@@ -62,7 +64,7 @@ module Api
       end
 
       def update
-        process_response @domain.update_attributes(params[:domain])
+        process_response @domain.update_attributes(domain_params)
       end
 
       api :DELETE, "/domains/:id/", "Delete a domain."

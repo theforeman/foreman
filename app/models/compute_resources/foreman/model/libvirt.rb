@@ -7,8 +7,6 @@ module Foreman::Model
     validates :url, :format => { :with => URI.regexp }
     validates :display_type, :inclusion => { :in => ALLOWED_DISPLAY_TYPES }
 
-    attr_accessible :display_type, :uuid
-
     def self.available?
       Fog::Compute.providers.include?(:libvirt)
     end

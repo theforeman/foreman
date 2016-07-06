@@ -5,6 +5,7 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
+      include Foreman::Controller::Parameters::ProvisioningTemplate
 
       before_action :deprecated
 
@@ -52,7 +53,7 @@ module Api
       param_group :config_template, :as => :create
 
       def create
-        @config_template = ProvisioningTemplate.new(params[:config_template])
+        @config_template = ProvisioningTemplate.new(provisioning_template_params)
         process_response @config_template.save
       end
 
@@ -61,7 +62,7 @@ module Api
       param_group :config_template
 
       def update
-        process_response @config_template.update_attributes(params[:config_template])
+        process_response @config_template.update_attributes(provisioning_template_params)
       end
 
       api :GET, "/config_templates/revision"

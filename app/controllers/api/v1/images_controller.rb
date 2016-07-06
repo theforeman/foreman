@@ -1,6 +1,8 @@
 module Api
   module V1
     class ImagesController < V1::BaseController
+      include Foreman::Controller::Parameters::Image
+
       before_action :find_resource, :only => %w{show update destroy}
       before_action :find_compute_resource
 
@@ -37,7 +39,7 @@ module Api
       end
 
       def create
-        @image = @compute_resource.images.new(params[:image])
+        @image = @compute_resource.images.new(image_params)
         process_response @image.save, @compute_resource
       end
 
@@ -54,7 +56,7 @@ module Api
       end
 
       def update
-        process_response @image.update_attributes(params[:image])
+        process_response @image.update_attributes(image_params)
       end
 
       api :DELETE, "/compute_resources/:compute_resource_id/images/:id/", "Delete an image."

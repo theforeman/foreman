@@ -1,7 +1,4 @@
 class TemplateCombination < ActiveRecord::Base
-  attr_accessible :environment_id, :environment_name, :hostgroup_id,
-    :hostgroup_name, :hostgroup, :environment
-
   belongs_to :provisioning_template
   belongs_to :environment
   belongs_to :hostgroup

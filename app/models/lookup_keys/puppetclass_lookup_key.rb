@@ -16,10 +16,6 @@ class PuppetclassLookupKey < LookupKey
 
   scope :smart_class_parameters, -> { joins(:environment_classes).readonly(false) }
 
-  attr_accessible :environments, :environment_ids, :environment_names,
-    :environment_classes, :environment_classes_ids, :environment_classes_names,
-    :param_classes, :param_classes_ids, :param_classes_names, :required
-
   def param_class
     param_classes.first
   end

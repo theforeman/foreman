@@ -1,5 +1,7 @@
 class ArchitecturesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Architecture
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -12,7 +14,7 @@ class ArchitecturesController < ApplicationController
   end
 
   def create
-    @architecture = Architecture.new(params[:architecture])
+    @architecture = Architecture.new(architecture_params)
     if @architecture.save
       process_success
     else
@@ -24,7 +26,7 @@ class ArchitecturesController < ApplicationController
   end
 
   def update
-    if @architecture.update_attributes(params[:architecture])
+    if @architecture.update_attributes(architecture_params)
       process_success
     else
       process_error

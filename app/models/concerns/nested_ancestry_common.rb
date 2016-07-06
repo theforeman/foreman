@@ -1,8 +1,9 @@
 module NestedAncestryCommon
   extend ActiveSupport::Concern
+  include OptionalAttrAccessible
 
   included do
-    audited :except => [:title], :allow_mass_assignment => true
+    audited :except => [:title]
     has_associated_audits
     has_ancestry :orphan_strategy => :restrict
 
@@ -17,7 +18,7 @@ module NestedAncestryCommon
 
     # attribute used by *_names and *_name methods.  default is :name
     attr_name :title
-    attr_accessible :parent, :parent_id
+    optional_attr_accessible :parent, :parent_id
   end
 
   # override title getter

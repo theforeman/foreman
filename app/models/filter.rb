@@ -4,8 +4,6 @@ class Filter < ActiveRecord::Base
 
   attr_writer :resource_type
   attr_accessor :unlimited
-  attr_accessible :search, :unlimited, :resource_type, :permissions,
-    :permission_ids, :permission_names, :role_id, :taxonomy_search
 
   class ScopedSearchValidator < ActiveModel::Validator
     def validate(record)

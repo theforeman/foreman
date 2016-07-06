@@ -1,8 +1,7 @@
 class HostConfigGroup < ActiveRecord::Base
   include Authorizable
-  audited :associated_with => :host, :allow_mass_assignment => true
-  audited :associated_with => :hostgroup, :allow_mass_assignment => true
-  attr_accessible :host_id, :config_group_id
+  audited :associated_with => :host
+  audited :associated_with => :hostgroup
   belongs_to :host, :polymorphic => true
   belongs_to :config_group
 

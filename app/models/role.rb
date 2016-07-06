@@ -24,9 +24,7 @@ class Role < ActiveRecord::Base
 
   # Built-in roles
   BUILTIN_DEFAULT_ROLE = 2
-  audited :allow_mass_assignment => true
-
-  attr_accessible :name, :permissions
+  audited
 
   scope :givable, -> { where(:builtin => 0).order(:name) }
   scope :for_current_user, -> { User.current.admin? ? where('0 = 0') : where(:id => User.current.role_ids) }
@@ -53,11 +51,6 @@ class Role < ActiveRecord::Base
   validates :builtin, :inclusion => { :in => 0..2 }
 
   scoped_search :on => :name, :complete_value => true
-
-  def initialize(*args)
-    super(*args)
-    self.builtin = 0
-  end
 
   def permissions=(new_permissions)
     add_permissions(new_permissions.map(&:name).uniq) if new_permissions.present?
@@ -104,9 +97,7 @@ class Role < ActiveRecord::Base
   def self.default
     default_role = find_by_builtin(BUILTIN_DEFAULT_ROLE)
     if default_role.nil?
-      default_role = create!(:name => 'Default role') do |role|
-        role.builtin = BUILTIN_DEFAULT_ROLE
-      end
+      default_role = create!(:name => 'Default role', :builtin => BUILTIN_DEFAULT_ROLE)
       raise ::Foreman::Exception.new(N_("Unable to create the default role.")) if default_role.new_record?
     end
     default_role

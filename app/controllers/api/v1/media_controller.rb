@@ -1,6 +1,8 @@
 module Api
   module V1
     class MediaController < V1::BaseController
+      include Foreman::Controller::Parameters::Medium
+
       before_action :find_resource, :only => %w{show update destroy}
 
       # TRANSLATORS: API documentation - do not translate
@@ -50,7 +52,7 @@ Available families:
       end
 
       def create
-        @medium = Medium.new(params[:medium])
+        @medium = Medium.new(medium_params)
         process_response @medium.save
       end
 
@@ -64,7 +66,7 @@ Available families:
       api :PUT, "/media/:id/", "Update a medium."
 
       def update
-        process_response @medium.update_attributes(params[:medium])
+        process_response @medium.update_attributes(medium_params)
       end
 
       param :id, :identifier, :required => true

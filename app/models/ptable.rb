@@ -9,7 +9,7 @@ class Ptable < Template
   include Parameterizable::ByIdName
   include ValidateOsFamily
 
-  audited :allow_mass_assignment => true
+  audited
   has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
@@ -32,9 +32,6 @@ class Ptable < Template
   scoped_search :on => :os_family, :rename => 'family', :complete_value => :true
 
   alias_attribute :layout, :template
-  attr_accessible :layout, :name, :default, :snippet, :os_family,
-    :audit_comment, :operatingsystem_ids, :operatingsystem_names, :host_ids,
-    :host_names, :hostgroup_names, :hostgroup_ids
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

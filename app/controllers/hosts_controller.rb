@@ -3,6 +3,7 @@ class HostsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::TaxonomyMultiple
   include Foreman::Controller::SmartProxyAuth
+  include Foreman::Controller::Parameters::Host
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
@@ -85,7 +86,7 @@ class HostsController < ApplicationController
   end
 
   def create
-    @host = Host.new(params[:host])
+    @host = Host.new(host_params)
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
     forward_url_options
     if @host.save
@@ -104,7 +105,7 @@ class HostsController < ApplicationController
   def update
     forward_url_options
     Taxonomy.no_taxonomy_scope do
-      attributes = @host.apply_inherited_attributes(params[:host])
+      attributes = @host.apply_inherited_attributes(host_params)
 
       if @host.update_attributes(attributes)
         process_success :success_redirect => host_path(@host)
@@ -137,7 +138,7 @@ class HostsController < ApplicationController
   end
 
   def interfaces
-    @host = Host.new params[:host]
+    @host = Host.new host_params
     @host.apply_compute_profile(InterfaceMerge.new)
 
     render :partial => "interfaces_tab"
@@ -636,10 +637,10 @@ class HostsController < ApplicationController
     @host = if params[:host][:id]
               host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
               host = host.becomes Host::Managed
-              host.attributes = host.apply_inherited_attributes(params[:host])
+              host.attributes = host.apply_inherited_attributes(host_params)
               host
             else
-              Host.new(params[:host])
+              Host.new(host_params)
             end
     @host.set_hostgroup_defaults
     @host.set_compute_attributes unless params[:host][:compute_profile_id]
@@ -648,7 +649,7 @@ class HostsController < ApplicationController
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-    @host = Host.new(params[:host])
+    @host = Host.new(host_params)
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
     Taxonomy.as_taxonomy @organization, @location do
@@ -664,8 +665,8 @@ class HostsController < ApplicationController
   # renders only resulting templates set so the rest of form is unaffected
   def template_used
     host = params[:id] ? Host.readonly.find(params[:id]) : Host.new
-    association_keys = params[:host].keys.select { |k| k =~ /.*_ids\Z/ }
-    host.attributes = params[:host].except(:host_parameters_attributes).except(*association_keys)
+    association_keys = host_params.keys.select { |k| k =~ /.*_ids\Z/ }
+    host.attributes = host_params.except(:host_parameters_attributes).except(*association_keys)
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
@@ -719,9 +720,9 @@ class HostsController < ApplicationController
         @host      = @host.becomes(Host::Managed)
         @host.type = "Host::Managed"
       end
-      @host.attributes = params['host']
+      @host.attributes = host_params
     else
-      @host ||= Host::Managed.new(params['host'])
+      @host ||= Host::Managed.new(host_params)
     end
 
     @host

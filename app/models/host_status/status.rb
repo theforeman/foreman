@@ -12,8 +12,6 @@ module HostStatus
 
     before_validation :update_timestamp, :if => ->(status) { status.reported_at.blank? }
 
-    attr_accessible :host, :type
-
     def to_global(options = {})
       HostStatus::Global::OK
     end

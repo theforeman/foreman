@@ -135,7 +135,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should create interfaces sent in a hash" do
     disable_orchestration
     hash_nics_attrs = nics_attrs.inject({}) do |hash, item|
-      hash.update(item.to_s => item)
+      hash.update((hash.count + 1).to_s => item)
     end
 
     post :create, { :host => basic_attrs.merge!(:interfaces_attributes => hash_nics_attrs) }

@@ -1,16 +1,11 @@
 module Api
   module V2
     class ComputeResourcesController < V2::BaseController
-      wrap_parameters ComputeResource, :include => (ComputeResource.accessible_attributes +
-                                                    ['tenant', 'image_id', 'managed_ip', 'provider',
-                                                     'template', 'templates', 'set_console_password',
-                                                     'project', 'key_path', 'email', 'zone',
-                                                     'display_type', 'ovirt_quota', 'public_key',
-                                                     'region', 'server', 'datacenter', 'pubkey_hash',
-                                                     'nics_attributes', 'volumes_attributes', 'memory'])
-
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::ComputeResource
+
+      wrap_parameters ComputeResource, :include => compute_resource_params_filter.accessible_attributes(parameter_filter_context)
 
       before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_clusters, :available_flavors, :available_folders,
@@ -53,7 +48,7 @@ module Api
       param_group :compute_resource, :as => :create
 
       def create
-        @compute_resource = ComputeResource.new_provider(params[:compute_resource])
+        @compute_resource = ComputeResource.new_provider(compute_resource_params)
         process_response @compute_resource.save
       end
 
@@ -62,7 +57,7 @@ module Api
       param_group :compute_resource
 
       def update
-        process_response @compute_resource.update_attributes(params[:compute_resource])
+        process_response @compute_resource.update_attributes(compute_resource_params)
       end
 
       api :DELETE, "/compute_resources/:id/", N_("Delete a compute resource")

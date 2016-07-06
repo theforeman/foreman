@@ -3,6 +3,7 @@ module Api
     class MediaController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Medium
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
@@ -52,7 +53,7 @@ Solaris and Debian media may also use $release.
       param_group :medium, :as => :create
 
       def create
-        @medium = Medium.new(params[:medium])
+        @medium = Medium.new(medium_params)
         process_response @medium.save
       end
 
@@ -61,7 +62,7 @@ Solaris and Debian media may also use $release.
       param_group :medium
 
       def update
-        process_response @medium.update_attributes(params[:medium])
+        process_response @medium.update_attributes(medium_params)
       end
 
       param :id, :identifier, :required => true

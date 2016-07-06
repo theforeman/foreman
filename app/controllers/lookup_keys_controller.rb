@@ -14,7 +14,7 @@ class LookupKeysController < ApplicationController
   end
 
   def update
-    if resource.update_attributes(params.fetch(resource_name, {}).merge(:lookup_values_attributes => sanitize_attrs))
+    if resource.update_attributes(resource_params.merge(:lookup_values_attributes => sanitize_attrs))
       process_success
     else
       process_error
@@ -32,7 +32,7 @@ class LookupKeysController < ApplicationController
   private
 
   def sanitize_attrs
-    attrs = params.fetch(resource_name, {}).fetch(:lookup_values_attributes, {})
+    attrs = resource_params.fetch(:lookup_values_attributes, {})
     to_delete, rest = attrs.partition { |_k, v| v["_destroy"] == "1" }.map { |arr| Hash[arr] }
     to_delete.each do |key, value|
       f_key, _value = rest.find { |_, f_value| f_value['match'] == value['match'] }

@@ -3,6 +3,7 @@ module Api
     class DomainsController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Domain
 
       resource_description do
         desc <<-DOC
@@ -55,7 +56,7 @@ module Api
       param_group :domain, :as => :create
 
       def create
-        @domain = Domain.new(params[:domain])
+        @domain = Domain.new(domain_params)
         process_response @domain.save
       end
 
@@ -64,7 +65,7 @@ module Api
       param_group :domain
 
       def update
-        process_response @domain.update_attributes(params[:domain])
+        process_response @domain.update_attributes(domain_params)
       end
 
       api :DELETE, "/domains/:id/", N_("Delete a domain")

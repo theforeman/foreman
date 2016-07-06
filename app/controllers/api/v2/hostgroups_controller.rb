@@ -3,6 +3,7 @@ module Api
     class HostgroupsController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Hostgroup
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone}
@@ -49,7 +50,7 @@ module Api
       param_group :hostgroup, :as => :create
 
       def create
-        @hostgroup = Hostgroup.new(params[:hostgroup])
+        @hostgroup = Hostgroup.new(hostgroup_params)
         process_response @hostgroup.save
       end
 
@@ -58,7 +59,7 @@ module Api
       param_group :hostgroup
 
       def update
-        process_response @hostgroup.update_attributes(params[:hostgroup])
+        process_response @hostgroup.update_attributes(hostgroup_params)
       end
 
       api :DELETE, "/hostgroups/:id/", N_("Delete a host group")

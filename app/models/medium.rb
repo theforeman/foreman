@@ -5,10 +5,7 @@ class Medium < ActiveRecord::Base
   include Taxonomix
   include ValidateOsFamily
   include Parameterizable::ByIdName
-  audited :allow_mass_assignment => true
-
-  attr_accessible :name, :path, :media_path, :config_path, :image_path,
-    :os_family, :operatingsystems,:operatingsystem_ids, :operatingsystem_names
+  audited
 
   validates_lengths_from_database
 

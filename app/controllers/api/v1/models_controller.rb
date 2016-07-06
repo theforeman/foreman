@@ -1,6 +1,8 @@
 module Api
   module V1
     class ModelsController < V1::BaseController
+      include Foreman::Controller::Parameters::Model
+
       before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/models/", "List all models."
@@ -31,7 +33,7 @@ module Api
       end
 
       def create
-        @model = Model.new(params[:model])
+        @model = Model.new(model_params)
         process_response @model.save
       end
 
@@ -45,7 +47,7 @@ module Api
       end
 
       def update
-        process_response @model.update_attributes(params[:model])
+        process_response @model.update_attributes(model_params)
       end
 
       api :DELETE, "/models/:id/", "Delete a model."

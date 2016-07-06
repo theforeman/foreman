@@ -1,5 +1,7 @@
 class DashboardController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Widget
+
   before_action :prefetch_data, :only => :index
   before_action :find_resource, :only => [:destroy]
   skip_before_action :welcome
@@ -42,8 +44,10 @@ class DashboardController < ApplicationController
 
   def save_positions
     errors = []
+    filter = self.class.widget_params_filter
     params[:widgets].each do |id, values|
       widget = User.current.widgets.where("id = #{id}").first
+      values = filter.filter_params(values, parameter_filter_context, :none)
       errors << widget.errors unless widget.update_attributes(values)
     end
     respond_to do |format|

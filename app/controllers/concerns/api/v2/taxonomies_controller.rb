@@ -57,7 +57,7 @@ module Api::V2::TaxonomiesController
   api :POST, '/:resource_id', N_('Create :a_resource')
   param_group :resource, :as => :create
   def create
-    @taxonomy = taxonomy_class.new(params[taxonomy_single])
+    @taxonomy = taxonomy_class.new(resource_params)
     instance_variable_set("@#{taxonomy_single}", @taxonomy)
     process_response @taxonomy.save
   end
@@ -68,7 +68,7 @@ module Api::V2::TaxonomiesController
     # NOTE - if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
     # removed process_response & added explicit render 'api/v2/taxonomies/update'.  Otherwise, *_ids are not returned
 
-    process_response @taxonomy.update_attributes(params[taxonomy_single])
+    process_response @taxonomy.update_attributes(resource_params)
   end
 
   api :DELETE, '/:resource_id/:id', N_('Delete :a_resource')
@@ -123,5 +123,9 @@ module Api::V2::TaxonomiesController
 
   def allowed_nested_id
     %w(domain_id compute_resource_id subnet_id environment_id hostgroup_id smart_proxy_id user_id medium_id organization_id location_id filter_id)
+  end
+
+  def resource_params
+    public_send("#{taxonomy_single}_params".to_sym)
   end
 end

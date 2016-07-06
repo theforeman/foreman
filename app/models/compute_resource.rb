@@ -5,12 +5,9 @@ class ComputeResource < ActiveRecord::Base
   include Parameterizable::ByIdName
   encrypts :password
 
-  attr_accessible :name, :provider, :description, :url, :set_console_password,
-    :user, :password, :display_type
-
   validates_lengths_from_database
 
-  audited :except => [:password, :attrs], :allow_mass_assignment => true
+  audited :except => [:password, :attrs]
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 

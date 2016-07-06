@@ -13,8 +13,6 @@ class Organization < Taxonomy
   accepts_nested_attributes_for :organization_parameters, :allow_destroy => true
   include ParameterValidators
 
-  attr_accessible :organization_parameters_attributes
-
   scope :completer_scope, ->(opts) { my_organizations }
 
   scope :my_organizations, lambda {

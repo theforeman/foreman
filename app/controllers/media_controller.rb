@@ -1,5 +1,7 @@
 class MediaController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Medium
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -11,7 +13,7 @@ class MediaController < ApplicationController
   end
 
   def create
-    @medium = Medium.new(params[:medium])
+    @medium = Medium.new(medium_params)
     if @medium.save
       process_success
     else
@@ -23,7 +25,7 @@ class MediaController < ApplicationController
   end
 
   def update
-    if @medium.update_attributes(params[:medium])
+    if @medium.update_attributes(medium_params)
       process_success
     else
       process_error

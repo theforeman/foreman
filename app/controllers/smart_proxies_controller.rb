@@ -1,5 +1,6 @@
 class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::SmartProxy
 
   before_action :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :puppet_environments, :puppet_dashboard, :log_pane, :failed_modules, :errors_card, :modules_card, :expire_logs]
   before_action :find_status, :only => [:ping, :tftp_server, :puppet_environments]
@@ -16,7 +17,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def create
-    @smart_proxy = SmartProxy.new(params[:smart_proxy])
+    @smart_proxy = SmartProxy.new(smart_proxy_params)
     if @smart_proxy.save
       process_success :object => @smart_proxy
     else
@@ -71,7 +72,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def update
-    if @smart_proxy.update_attributes(params[:smart_proxy])
+    if @smart_proxy.update_attributes(smart_proxy_params)
       process_success :object => @smart_proxy
     else
       process_error :object => @smart_proxy

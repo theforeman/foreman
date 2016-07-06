@@ -1,5 +1,7 @@
 class OperatingsystemsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::Parameters::Operatingsystem
+
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
@@ -11,7 +13,7 @@ class OperatingsystemsController < ApplicationController
   end
 
   def create
-    @operatingsystem = Operatingsystem.new(params[:operatingsystem])
+    @operatingsystem = Operatingsystem.new(operatingsystem_params)
     if @operatingsystem.save
       process_success
     else
@@ -29,7 +31,7 @@ class OperatingsystemsController < ApplicationController
   end
 
   def update
-    if @operatingsystem.update_attributes(params[:operatingsystem])
+    if @operatingsystem.update_attributes(operatingsystem_params)
       process_success
     else
       process_error

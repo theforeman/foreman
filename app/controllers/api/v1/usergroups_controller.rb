@@ -1,6 +1,8 @@
 module Api
   module V1
     class UsergroupsController < V1::BaseController
+      include Foreman::Controller::Parameters::Usergroup
+
       before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/usergroups/", "List all user groups."
@@ -27,7 +29,7 @@ module Api
       end
 
       def create
-        @usergroup = Usergroup.new(params[:usergroup])
+        @usergroup = Usergroup.new(usergroup_params)
         process_response @usergroup.save
       end
 
@@ -38,7 +40,7 @@ module Api
       end
 
       def update
-        process_response @usergroup.update_attributes(params[:usergroup])
+        process_response @usergroup.update_attributes(usergroup_params)
       end
 
       api :DELETE, "/usergroups/:id/", "Delete a user group."

@@ -59,6 +59,6 @@ module Foreman::Controller::HostDetails
   # @host = Host.new params[:host]
   def item_object
     name = item_name
-    instance_variable_set("@#{name}", name.classify.constantize.new(params[name.to_sym]))
+    instance_variable_set("@#{name}", name.classify.constantize.new(public_send("#{name}_params".to_sym)))
   end
 end

@@ -3,6 +3,7 @@ module Api
     class OverrideValuesController < V2::BaseController
       include Api::Version2
       include Api::V2::LookupKeysCommonController
+      include Foreman::Controller::Parameters::LookupValue
 
       before_action :find_override_values
       before_action :find_override_value, :only => [:show, :update, :destroy]
@@ -43,7 +44,7 @@ module Api
       param_group :override_value, :as => :create
 
       def create
-        @override_value = @smart.lookup_values.create!(params[:override_value])
+        @override_value = @smart.lookup_values.create!(lookup_value_params)
         @smart.update_attribute(:override, true)
         process_response @override_value
       end
@@ -55,7 +56,7 @@ module Api
       param_group :override_value
 
       def update
-        @override_value.update_attributes!(params[:override_value])
+        @override_value.update_attributes!(lookup_value_params)
         render 'api/v2/override_values/show'
       end
 

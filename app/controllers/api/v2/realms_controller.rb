@@ -3,6 +3,7 @@ module Api
     class RealmsController < V2::BaseController
       include Api::Version2
       include Api::TaxonomyScope
+      include Foreman::Controller::Parameters::Realm
 
       before_action :find_resource, :only => %w{show update destroy}
 
@@ -36,7 +37,7 @@ module Api
       param_group :realm, :as => :create
 
       def create
-        @realm = Realm.new(params[:realm])
+        @realm = Realm.new(realm_params)
         process_response @realm.save
       end
 
@@ -45,7 +46,7 @@ module Api
       param_group :realm
 
       def update
-        process_response @realm.update_attributes(params[:realm])
+        process_response @realm.update_attributes(realm_params)
       end
 
       api :DELETE, "/realms/:id/", N_("Delete a realm")

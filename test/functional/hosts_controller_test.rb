@@ -4,7 +4,8 @@ class HostsControllerTest < ActionController::TestCase
   setup :initialize_host
 
   def host_attributes(host)
-    host.attributes.except('id', 'created_at', 'updated_at').slice(*Host::Managed.accessible_attributes.to_a)
+    known_attrs = HostsController.host_params_filter.accessible_attributes(HostsController.parameter_filter_context)
+    host.attributes.except('id', 'created_at', 'updated_at').slice(*known_attrs)
   end
 
   test 'show' do

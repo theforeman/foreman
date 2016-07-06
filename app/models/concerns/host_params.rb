@@ -7,7 +7,6 @@ module HostParams
     accepts_nested_attributes_for :host_parameters, :allow_destroy => true
     include ParameterValidators
     attr_reader :cached_host_params
-    attr_accessible :host_parameters_attributes
 
     def params
       host_params.update(lookup_keys_params)

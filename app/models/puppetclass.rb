@@ -24,17 +24,12 @@ class Puppetclass < ActiveRecord::Base
   accepts_nested_attributes_for :class_params, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
 
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
-  audited :allow_mass_assignment => true
+  audited
 
   alias_attribute :smart_variables, :lookup_keys
   alias_attribute :smart_variable_ids, :lookup_key_ids
   alias_attribute :smart_class_parameters, :class_params
   alias_attribute :smart_class_parameter_ids, :class_param_ids
-
-  attr_accessible :class_params_attributes, :hostgroup_ids, :hostgroup_names,
-    :name, :smart_variables, :smart_variable_ids, :smart_variable_names,
-    :smart_class_parameters, :smart_class_parameter_ids, :smart_class_parameter_names,
-    :lookup_keys_attributes
 
   default_scope -> { order('puppetclasses.name') }
 

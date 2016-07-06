@@ -4,6 +4,7 @@ module Api
       before_action :find_resource, :only => %w{show update destroy}
       # find_resource needs to be defined prior to UsersMixin is included, it depends on @user
       include Foreman::Controller::UsersMixin
+      include Foreman::Controller::Parameters::User
 
       api :GET, "/users/", "List all users."
       param :search, String, :desc => "filter results"
@@ -39,6 +40,7 @@ module Api
       end
 
       def create
+        @user = User.new(user_params)
         if @user.save
           process_success
         else
@@ -63,7 +65,7 @@ module Api
       end
 
       def update
-        if @user.update_attributes(params[:user])
+        if @user.update_attributes(user_params)
           update_sub_hostgroups_owners
 
           process_success
@@ -87,6 +89,10 @@ module Api
 
       def find_resource
         editing_self? ? @user = User.find(User.current.id) : super
+      end
+
+      def parameter_filter_context
+        Foreman::Controller::Parameters::User::Context.new(:api, controller_name, params[:action], editing_self?)
       end
     end
   end
