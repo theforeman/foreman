@@ -912,8 +912,8 @@ class Host::Managed < Host::Base
   # otherwise, use normal systems dns settings to resolv
   def to_ip_address(name_or_ip)
     return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
-    if dns_ptr_record
-      lookup = dns_ptr_record.dns_lookup(name_or_ip)
+    if dns_record(:ptr4)
+      lookup = dns_record(:ptr4).dns_lookup(name_or_ip)
       return lookup.ip unless lookup.nil?
     end
     # fall back to normal dns resolution
