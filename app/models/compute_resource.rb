@@ -127,6 +127,7 @@ class ComputeResource < ActiveRecord::Base
   def host_compute_attrs(host)
     { :name => host.vm_name,
       :provision_method => host.provision_method,
+      :firmware_type => host.firmware_type,
       "#{interfaces_attrs_name}_attributes" => host_interfaces_attrs(host) }.with_indifferent_access
   end
 

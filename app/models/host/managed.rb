@@ -925,6 +925,11 @@ class Host::Managed < Host::Base
     modification.run(self, compute_resource.try(:compute_profile_for, compute_profile_id))
   end
 
+  def firmware_type
+    return unless pxe_loader.present?
+    Operatingsystem.firmware_type(pxe_loader)
+  end
+
   private
 
   def compute_profile_present?
