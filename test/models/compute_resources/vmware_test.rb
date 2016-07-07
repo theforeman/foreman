@@ -144,6 +144,32 @@ class VmwareTest < ActiveSupport::TestCase
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
+    context 'firmware' do
+      test 'chooses BIOS firmware when firmware type is None and firmware is automatic' do
+        attrs_in = HashWithIndifferentAccess.new(:firmware_type => :none, 'firmware' => 'automatic')
+        attrs_out = {:firmware => "bios"}
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+
+      test 'chooses BIOS firmware when firmware type is bios and firmware is automatic' do
+        attrs_in = HashWithIndifferentAccess.new(:firmware_type => :bios, 'firmware' => 'automatic')
+        attrs_out = {:firmware => "bios"}
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+
+      test 'chooses EFI firmware when pxe loader is set to UEFI and firmware is automatic' do
+        attrs_in = HashWithIndifferentAccess.new(:firmware_type => :uefi, 'firmware' => 'automatic')
+        attrs_out = {:firmware => "efi"}
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+
+      test 'chooses BIOS firmware when no pxe loader is set and firmware is automatic' do
+        attrs_in = HashWithIndifferentAccess.new('firmware' => 'automatic')
+        attrs_out = {:firmware => "bios"}
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+    end
+
     test "doesn't modify input hash" do
       # else compute profiles won't save properly
       attrs_in = HashWithIndifferentAccess.new("interfaces_attributes"=>{"0"=>{"network"=>"network-17"}})

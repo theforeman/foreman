@@ -3482,6 +3482,23 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#firmware_type' do
+    test 'should be :none for host with none loader' do
+      host = FactoryGirl.build(:host, :managed, :pxe_loader => "None")
+      assert_equal :none, host.firmware_type
+    end
+
+    test 'should be :bios for host with bios loader' do
+      host = FactoryGirl.build(:host, :managed, :pxe_loader => "PXELinux BIOS")
+      assert_equal :bios, host.firmware_type
+    end
+
+    test 'should be :uefi for host with uefi loader' do
+      host = FactoryGirl.build(:host, :managed, :pxe_loader => "Grub2 UEFI")
+      assert_equal :uefi, host.firmware_type
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)

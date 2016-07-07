@@ -33,6 +33,17 @@ module PxeLoaderSupport
     def valid_loader_name?(pxe_loader)
       self.all_loaders.include?(pxe_loader)
     end
+
+    def firmware_type(pxe_loader)
+      case pxe_loader
+      when 'None'
+        :none
+      when /UEFI/
+        :uefi
+      else
+        :bios
+      end
+    end
   end
 
   def default_boot_filename

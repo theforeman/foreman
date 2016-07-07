@@ -92,4 +92,22 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       assert_equal "Grub UEFI", @subject.preferred_loader
     end
   end
+
+  describe 'firmware_type' do
+    test 'detects none firmware' do
+      assert_equal :none, DummyPxeLoader.firmware_type('None')
+    end
+
+    test 'detects bios firmware' do
+      assert_equal :bios, DummyPxeLoader.firmware_type('PXELinux BIOS')
+    end
+
+    test 'detects uefi firmware' do
+      assert_equal :uefi, DummyPxeLoader.firmware_type('Grub2 UEFI')
+    end
+
+    test 'defaults to bios firmware' do
+      assert_equal :bios, DummyPxeLoader.firmware_type('Anything')
+    end
+  end
 end

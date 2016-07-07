@@ -141,6 +141,14 @@ module Foreman::Model
       }
     end
 
+    def firmware_types
+      {
+        "automatic" => N_("Automatic"),
+        "bios" => N_("BIOS"),
+        "efi" => N_("EFI")
+      }
+    end
+
     # vSphere guest OS type descriptions
     # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values and
     # http://pubs.vmware.com/vsphere-60/topic/com.vmware.wssdk.apiref.doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
@@ -332,6 +340,9 @@ module Foreman::Model
 
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
+      firmware_type = args.delete(:firmware_type)
+      args[:firmware] = firmware_mapping(firmware_type) if args[:firmware] == 'automatic'
+
       args.reject! { |k, v| v.nil? }
       args
     end
@@ -503,8 +514,14 @@ module Foreman::Model
         :volumes    => [new_volume],
         :scsi_controller => { :type => scsi_controller_default_type },
         :datacenter => datacenter,
+        :firmware => 'automatic',
         :boot_order => ['network', 'disk']
       )
+    end
+
+    def firmware_mapping(firmware_type)
+      return 'efi' if firmware_type == :uefi
+      'bios'
     end
   end
 end
