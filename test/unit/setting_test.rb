@@ -425,6 +425,20 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal /\Aa.*\Z|\Ab.*\Z/, Setting.convert_array_to_regexp(['a*', 'b*'])
   end
 
+  test "create a setting with values collection " do
+    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new {{:a => "a", :b => "b"}} })
+    setting = Setting.create(options)
+    assert_equal setting.send("#{setting.name}_collection"), { :a => "a", :b => "b" }
+  end
+
+  test "create a setting with a dynamic collection" do
+    expected_hostgroup_count = Hostgroup.all.count + 1
+    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new {Hash[:size => Hostgroup.all.count]} })
+    FactoryGirl.create(:hostgroup, :root_pass => '12345678')
+    setting = Setting.create(options)
+    assert_equal setting.send("#{setting.name}_collection"), { :size => expected_hostgroup_count }
+  end
+
   private
 
   def check_parsed_value(settings_type, expected_value, string_value)

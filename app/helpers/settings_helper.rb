@@ -4,7 +4,7 @@ module SettingsHelper
       {:title => _("This setting is defined in the configuration file 'settings.yaml' and is read-only."), :helper => :show_value}) if setting.readonly?
 
     return edit_select(setting, :value,
-      {:select_values => self.send("#{setting.name}_collection").to_json }) if self.respond_to? "#{setting.name}_collection"
+      {:select_values => setting.send("#{setting.name}_collection").to_json }) if setting.respond_to? "#{setting.name}_collection"
 
     case setting.settings_type
       when "boolean"
