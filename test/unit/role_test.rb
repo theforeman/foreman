@@ -63,6 +63,16 @@ class RoleTest < ActiveSupport::TestCase
         assert_equal Role::BUILTIN_DEFAULT_ROLE, role.builtin
       end
     end
+
+    should "have zero or one builtin" do
+      role = Role.new(:name => 'role name')
+      [0, 1, 2].each do |i|
+        role.builtin = i
+        role.save
+        # role should be valid in case of builtin is 0 or 1 else not
+        (i != 2) ? (role.must_be :valid?) : (assert_not role.valid?)
+      end
+    end
   end
 
   describe ".for_current_user" do
