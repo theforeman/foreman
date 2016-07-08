@@ -328,7 +328,8 @@ module Foreman::Model
         args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
       end
 
-      args[:cdroms] = [new_cdrom] if args.delete(:add_cdrom)
+      add_cdrom = args.delete(:add_cdrom)
+      args[:cdroms] = [new_cdrom] if add_cdrom == '1'
 
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
