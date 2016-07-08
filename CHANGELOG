@@ -1,3 +1,9 @@
+2016-07-08	Dominic Cleal <dominic@cleal.org>
+	* Release 1.12.0
+
+2016-07-08	Klaas Demter <Klaas-@users.noreply.github.com>
+	* Fixes #15570 - Fixed query syntax in ForemanTrend#find_hosts
+
 2016-07-01	Dominic Cleal <dominic@cleal.org>
 	* Release 1.12.0-RC3
 	* i18n - extracting new, pulling from tx
