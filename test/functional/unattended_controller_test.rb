@@ -263,6 +263,14 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "template with host parameters should return parameters values" do
+    host_param = FactoryGirl.create(:host_parameter, :host => @ub_host, :name => 'my_param')
+    @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@ub_host.mac}"
+    ProvisioningTemplate.any_instance.stubs(:template).returns("param: <%= @host.params['my_param'] %>")
+    get :host_template, {:kind => 'provision'}
+    assert_match "param: #{host_param.value}", @response.body
+  end
+
   context "location or organizations are not enabled" do
     before do
       SETTINGS[:locations_enabled] = false
