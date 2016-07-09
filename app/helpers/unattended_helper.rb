@@ -2,7 +2,7 @@ module UnattendedHelper
   include Foreman::Renderer
 
   def ks_console
-    (@port and @baud) ? "console=ttyS#{@port},#{@baud}": ""
+    (@port && @baud) ? "console=ttyS#{@port},#{@baud}": ""
   end
 
   def grub_pass

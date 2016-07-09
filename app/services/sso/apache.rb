@@ -11,8 +11,8 @@ module SSO
 
     def available?
       return false unless Setting['authorize_login_delegation']
-      return false if controller.api_request? and !(Setting['authorize_login_delegation_api'])
-      return false if controller.api_request? and !request.env[CAS_USERNAME].present?
+      return false if controller.api_request? && !(Setting['authorize_login_delegation_api'])
+      return false if controller.api_request? && !request.env[CAS_USERNAME].present?
       true
     end
 

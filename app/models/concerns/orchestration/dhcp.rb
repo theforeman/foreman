@@ -20,7 +20,7 @@ module Orchestration::DHCP
   end
 
   def dhcp_record
-    return unless dhcp? or @dhcp_record
+    return unless dhcp? || @dhcp_record
     handle_validation_errors do
       @dhcp_record ||= (provision? && jumpstart?) ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
     end
@@ -113,7 +113,7 @@ module Orchestration::DHCP
   end
 
   def queue_dhcp
-    return unless (dhcp? or (old and old.dhcp?)) and orchestration_errors?
+    return unless (dhcp? || (old && old.dhcp?)) && orchestration_errors?
     queue_remove_dhcp_conflicts
     new_record? ? queue_dhcp_create : queue_dhcp_update
   end
@@ -137,13 +137,13 @@ module Orchestration::DHCP
   # do we need to update our dhcp reservations
   def dhcp_update_required?
     # IP Address / name changed, or 'rebuild' action is triggered and DHCP record on the smart proxy is not present/identical.
-    return true if ((old.ip != ip) or (old.hostname != hostname) or (old.mac != mac) or (old.subnet != subnet) or
-                    (!old.build? and build? and !dhcp_record.valid?))
+    return true if ((old.ip != ip) || (old.hostname != hostname) || (old.mac != mac) || (old.subnet != subnet) ||
+                    (!old.build? && build? && !dhcp_record.valid?))
     # Handle jumpstart
     #TODO, abstract this way once interfaces are fully used
-    if self.is_a?(Host::Base) and jumpstart?
-      if !old.build? or (old.medium != medium or old.arch != arch) or
-          (os and old.os and (old.os.name != os.name or old.os != os))
+    if self.is_a?(Host::Base) && jumpstart?
+      if !old.build? || (old.medium != medium || old.arch != arch) ||
+          (os && old.os && (old.os.name != os.name || old.os != os))
         return true
       end
     end
@@ -151,7 +151,7 @@ module Orchestration::DHCP
   end
 
   def queue_dhcp_destroy
-    return unless dhcp? and errors.empty?
+    return unless dhcp? && errors.empty?
     queue.create(:name   => _("Remove DHCP Settings for %s") % self, :priority => 5,
                  :action => [self, :del_dhcp])
     true
@@ -167,10 +167,10 @@ module Orchestration::DHCP
 
   def dhcp_conflict_detected?
     # we can't do any dhcp based validations when our MAC address is defined afterwards (e.g. in vm creation)
-    return false if mac.blank? or hostname.blank?
+    return false if mac.blank? || hostname.blank?
     return false unless dhcp?
 
-    if dhcp_record and dhcp_record.conflicting? and (!overwrite?)
+    if dhcp_record && dhcp_record.conflicting? && (!overwrite?)
       failure(_("DHCP records %s already exists") % dhcp_record.conflicts.to_sentence, nil, :conflict)
       return true
     end

@@ -2,7 +2,7 @@ module OperatingsystemsHelper
   include CommonParametersHelper
 
   def icon(record, opts = {})
-    return "" if record.blank? or record.name.blank?
+    return "" if record.blank? || record.name.blank?
     family = case record.name
              when /fedora/i
                "Fedora"

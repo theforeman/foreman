@@ -140,7 +140,7 @@ class Host::Managed < Host::Base
   scope :alerts_enabled, -> { where(:enabled => true) }
 
   scope :run_distribution, lambda { |fromtime,totime|
-    if fromtime.nil? or totime.nil?
+    if fromtime.nil? || totime.nil?
       raise ::Foreman.Exception.new(N_("invalid time range"))
     else
       joins("INNER JOIN reports ON reports.host_id = hosts.id").where("reports.reported_at BETWEEN ? AND ?", fromtime, totime)
@@ -378,8 +378,8 @@ class Host::Managed < Host::Base
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
     param["puppetmaster"] = puppetmaster
-    param["domainname"]   = domain.name unless domain.nil? or domain.name.nil?
-    param["foreman_domain_description"] = domain.fullname unless domain.nil? or domain.fullname.nil?
+    param["domainname"]   = domain.name unless domain.nil? || domain.name.nil?
+    param["foreman_domain_description"] = domain.fullname unless domain.nil? || domain.fullname.nil?
     param["realm"]        = realm.name unless realm.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
     if SETTINGS[:locations_enabled]
@@ -393,8 +393,8 @@ class Host::Managed < Host::Base
       param["puppet_ca"]    = puppet_ca_server if puppetca_exists?
     end
     param["comment"]      = comment unless comment.blank?
-    param["foreman_env"]  = environment.to_s unless environment.nil? or environment.name.nil?
-    if SETTINGS[:login] and owner
+    param["foreman_env"]  = environment.to_s unless environment.nil? || environment.name.nil?
+    if SETTINGS[:login] && owner
       param["owner_name"]  = owner.name
       param["owner_email"] = owner.is_a?(User) ? owner.mail : owner.users.map(&:mail)
     end
@@ -501,7 +501,7 @@ class Host::Managed < Host::Base
       next unless value.is_a?(String)
 
       # we already have this parameter
-      next if myparams.has_key?(param) and myparams[param] == value
+      next if myparams.has_key?(param) && myparams[param] == value
 
       unless (hp = self.host_parameters.create(:name => param, :value => value))
         logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(', ')}"
@@ -607,7 +607,7 @@ class Host::Managed < Host::Base
     return unless hostgroup
     assign_hostgroup_attributes(%w{domain_id})
 
-    if SETTINGS[:unattended] and (new_record? or managed?)
+    if SETTINGS[:unattended] && (new_record? || managed?)
       inherited_attributes = %w{operatingsystem_id architecture_id}
       inherited_attributes << "subnet_id" unless compute_provides?(:ip)
       inherited_attributes << "subnet6_id" unless compute_provides?(:ip6)
@@ -980,7 +980,7 @@ class Host::Managed < Host::Base
         errors.add("#{e}_id".to_sym, _("%{value} does not belong to %{os} operating system") % { :value => value, :os => os })
         status = false
       end
-    end if SETTINGS[:unattended] and managed? and os and pxe_build?
+    end if SETTINGS[:unattended] && managed? && os && pxe_build?
 
     puppetclasses.select("puppetclasses.id,puppetclasses.name").uniq.each do |e|
       unless environment.puppetclasses.map(&:id).include?(e.id)
@@ -998,7 +998,7 @@ class Host::Managed < Host::Base
   end
 
   def set_certname
-    self.certname = Foreman.uuid if read_attribute(:certname).blank? or new_record?
+    self.certname = Foreman.uuid if read_attribute(:certname).blank? || new_record?
   end
 
   def provision_method_in_capabilities

@@ -26,7 +26,7 @@ Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-fuzzy-matching]
 
 # When mark_translated setting is set, we will wrap all translated strings
 # which is useful when translating code base.
-if SETTINGS[:mark_translated] and !Rails.env.test?
+if SETTINGS[:mark_translated] && !Rails.env.test?
   include Foreman::Gettext::Debug
 else
   include Foreman::Gettext::AllDomains

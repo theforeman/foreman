@@ -47,7 +47,7 @@ class Dashboard::Data
   end
 
   def percentage
-    return 0 if report[:ok_hosts_enabled] == 0 or report[:total_hosts] == 0
+    return 0 if report[:ok_hosts_enabled] == 0 || report[:total_hosts] == 0
     report[:ok_hosts_enabled] * 100 / report[:total_hosts]
   end
 

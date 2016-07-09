@@ -29,7 +29,7 @@ module HostsAndHostgroupsHelper
   end
 
   def parent_classes(obj)
-    return obj.hostgroup.classes if obj.is_a?(Host::Base) and obj.hostgroup
+    return obj.hostgroup.classes if obj.is_a?(Host::Base) && obj.hostgroup
     return obj.is_root? ? [] : obj.parent.classes if obj.is_a?(Hostgroup)
     []
   end

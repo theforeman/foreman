@@ -9,7 +9,7 @@ module ApplicationHelper
     else
       options = args[1] || {}
       html_options = args[2] || {}
-      unless html_options.has_key?(:'data-id') || (options.is_a?(String) and options.starts_with?("mailto:"))
+      unless html_options.has_key?(:'data-id') || (options.is_a?(String) && options.starts_with?("mailto:"))
         begin
           path = URI.split(url_for(options) || html_options['href'])[5].split(/\//).select {|x| !x.empty?}
           if path.size > 0
@@ -188,7 +188,7 @@ module ApplicationHelper
 
   def searchable?
     return false if (SETTINGS[:login] && !User.current) || @welcome
-    if (controller.action_name == "index") or (defined?(SEARCHABLE_ACTIONS) and (SEARCHABLE_ACTIONS.include?(controller.action_name)))
+    if (controller.action_name == "index") || (defined?(SEARCHABLE_ACTIONS) && (SEARCHABLE_ACTIONS.include?(controller.action_name)))
       controller.respond_to?(:auto_complete_search)
     end
   end

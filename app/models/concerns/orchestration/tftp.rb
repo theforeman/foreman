@@ -135,9 +135,9 @@ module Orchestration::TFTP
     # we switched build mode
     set_tftp = true if old.host.build? != host.build?
     # medium or arch changed
-    set_tftp = true if old.host.medium.try(:id) != host.medium.try(:id) or old.host.arch.try(:id) != host.arch.try(:id)
+    set_tftp = true if old.host.medium.try(:id) != host.medium.try(:id) || old.host.arch.try(:id) != host.arch.try(:id)
     # operating system changed
-    set_tftp = true if host.operatingsystem and old.host.operatingsystem and (old.host.operatingsystem.name != host.operatingsystem.name or old.host.operatingsystem.try(:id) != host.operatingsystem.try(:id))
+    set_tftp = true if host.operatingsystem && old.host.operatingsystem && (old.host.operatingsystem.name != host.operatingsystem.name || old.host.operatingsystem.try(:id) != host.operatingsystem.try(:id))
     # MAC address changed
     if mac != old.mac
       set_tftp = true

@@ -72,7 +72,7 @@ module Classification
     end
 
     def value_of_key(key, values)
-      value = if values[key.id] and values[key.id][key.to_s]
+      value = if values[key.id] && values[key.id][key.to_s]
                 {:value => values[key.id][key.to_s][:value], :managed => values[key.id][key.to_s][:managed] }
               else
                 default_value_method = %w(yaml json).include?(key.key_type) ? :default_value_before_type_cast : :default_value

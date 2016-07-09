@@ -262,7 +262,7 @@ class Setting < ActiveRecord::Base
       self.settings_type = t
     else
       self.settings_type = "integer" if default.is_a?(Integer)
-      self.settings_type = "boolean" if default.is_a?(TrueClass) or default.is_a?(FalseClass)
+      self.settings_type = "boolean" if default.is_a?(TrueClass) || default.is_a?(FalseClass)
     end
   end
 

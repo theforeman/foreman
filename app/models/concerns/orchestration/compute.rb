@@ -15,7 +15,7 @@ module Orchestration::Compute
   end
 
   def compute_object
-    if uuid.present? and compute_resource_id.present?
+    if uuid.present? && compute_resource_id.present?
       compute_resource.find_vm_by_uuid(uuid) rescue nil
       # we don't want the fact that we failed to fetch the information to break foreman
       # this is mostly relevant when the orchestration had a failure, and later on in the ui we try to retrieve the server again.
@@ -44,7 +44,7 @@ module Orchestration::Compute
   protected
 
   def queue_compute
-    return unless compute? and errors.empty?
+    return unless compute? && errors.empty?
     new_record? ? queue_compute_create : queue_compute_update
   end
 
@@ -69,7 +69,7 @@ module Orchestration::Compute
   end
 
   def queue_compute_destroy
-    return unless errors.empty? and compute_resource_id.present? and uuid
+    return unless errors.empty? && compute_resource_id.present? && uuid
     queue.create(:name   => _("Removing compute instance %s") % self, :priority => 100,
                  :action => [self, :delCompute])
   end
@@ -196,7 +196,7 @@ module Orchestration::Compute
   private
 
   def compute_update_required?
-    return false unless compute_resource.supports_update? and !compute_attributes.nil?
+    return false unless compute_resource.supports_update? && !compute_attributes.nil?
     old.compute_attributes = compute_resource.find_vm_by_uuid(uuid).attributes
     compute_resource.update_required?(old.compute_attributes, compute_attributes.symbolize_keys)
   end

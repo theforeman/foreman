@@ -198,7 +198,7 @@ module HostsHelper
   end
 
   def selected?(host)
-    return false if host.nil? or !host.is_a?(Host::Base) or session[:selected].nil?
+    return false if host.nil? || !host.is_a?(Host::Base) || session[:selected].nil?
     session[:selected].include?(host.id.to_s)
   end
 
@@ -242,7 +242,7 @@ module HostsHelper
 
   def name_field(host)
     return if host.name.blank?
-    (SETTINGS[:unattended] and host.managed?) ? host.shortname : host.name
+    (SETTINGS[:unattended] && host.managed?) ? host.shortname : host.name
   end
 
   def overview_fields(host)

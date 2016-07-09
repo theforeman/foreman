@@ -32,14 +32,14 @@ module Foreman::Controller::SmartProxyAuth
     features = features.call if features.respond_to?(:call)
     allowed_smart_proxies = features.blank? ? SmartProxy.all : SmartProxy.with_features(*features)
 
-    if !Setting[:restrict_registered_smart_proxies] or auth_smart_proxy(allowed_smart_proxies, Setting[:require_ssl_smart_proxies])
+    if !Setting[:restrict_registered_smart_proxies] || auth_smart_proxy(allowed_smart_proxies, Setting[:require_ssl_smart_proxies])
       set_admin_user
       return true
     end
 
     require_login
     unless User.current
-      render_error 'access_denied', :status => :forbidden unless performed? and api_request?
+      render_error 'access_denied', :status => :forbidden unless performed? && api_request?
       return false
     end
     authorize

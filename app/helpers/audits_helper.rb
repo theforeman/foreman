@@ -26,7 +26,7 @@ module AuditsHelper
         (id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]).to_s
       else
         name = audit.auditable_name.blank? ? audit.revision.to_label : audit.auditable_name
-        name += " / #{audit.associated_name}" if audit.associated_id and !audit.associated_name.blank?
+        name += " / #{audit.associated_name}" if audit.associated_id && !audit.associated_name.blank?
         name
     end
   rescue
@@ -37,7 +37,7 @@ module AuditsHelper
     if audit.action == 'update'
       return [] unless audit.audited_changes.present?
       audit.audited_changes.map do |name, change|
-        next if change.nil? or change.to_s.empty?
+        next if change.nil? || change.to_s.empty?
         if name == 'template'
           (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
         elsif name == "owner_id" || name == "owner_type"

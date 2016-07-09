@@ -142,7 +142,7 @@ module Foreman::Model
 
     def test_connection(options = {})
       super
-      if errors[:url].empty? and errors[:username].empty? and errors[:password].empty?
+      if errors[:url].empty? && errors[:username].empty? && errors[:password].empty?
         update_public_key options
         datacenters && test_https_required
       end

@@ -105,7 +105,7 @@ class UsersController < ApplicationController
     TopbarSweeper.expire_cache(self)
     sso_logout_path = get_sso_method.try(:logout_url)
     session[:user] = @user = User.current = nil
-    if flash[:notice] or flash[:error]
+    if flash[:notice] || flash[:error]
       flash.keep
     else
       session.clear

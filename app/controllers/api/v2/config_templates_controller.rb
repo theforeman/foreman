@@ -127,7 +127,7 @@ module Api
       end
 
       def process_operatingsystems
-        return unless (ct = params[:config_template]) and (operatingsystems = ct.delete(:operatingsystems))
+        return unless (ct = params[:config_template]) && (operatingsystems = ct.delete(:operatingsystems))
         ct[:operatingsystem_ids] = operatingsystems.collect {|os| os[:id]}
       end
 

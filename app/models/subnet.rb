@@ -228,14 +228,14 @@ class Subnet < ActiveRecord::Base
   private
 
   def validate_ranges
-    if from.present? or to.present?
+    if from.present? || to.present?
       errors.add(:from, _("must be specified if to is defined"))   if from.blank?
       errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
     return if errors.keys.include?(:from) || errors.keys.include?(:to)
-    errors.add(:from, _("does not belong to subnet"))     if from.present? and !self.contains?(f=IPAddr.new(from))
-    errors.add(:to, _("does not belong to subnet"))       if to.present?   and !self.contains?(t=IPAddr.new(to))
-    errors.add(:from, _("can't be bigger than to range")) if from.present? and t.present? and f > t
+    errors.add(:from, _("does not belong to subnet"))     if from.present? && !self.contains?(f=IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   && !self.contains?(t=IPAddr.new(to))
+    errors.add(:from, _("can't be bigger than to range")) if from.present? && t.present? && f > t
   end
 
   def check_if_type_changed

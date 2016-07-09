@@ -43,7 +43,7 @@ module Orchestration::Puppetca
   private
 
   def queue_puppetca
-    return unless puppetca? and errors.empty?
+    return unless puppetca? && errors.empty?
     return unless Setting[:manage_puppetca]
     new_record? ? queue_puppetca_create : queue_puppetca_update
   end
@@ -54,14 +54,14 @@ module Orchestration::Puppetca
 
   def queue_puppetca_update
     # Host has been built --> remove auto sign
-    if old.build? and !build?
+    if old.build? && !build?
       queue.create(:name => _("Delete autosign entry for %s") % self, :priority => 50,
                    :action => [self, :delAutosign])
     end
   end
 
   def queue_puppetca_destroy
-    return unless puppetca? and errors.empty?
+    return unless puppetca? && errors.empty?
     return unless Setting[:manage_puppetca]
     queue.create(:name => _("Delete PuppetCA certificates for %s") % self, :priority => 50,
                  :action => [self, :delCertificate])

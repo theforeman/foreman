@@ -12,7 +12,7 @@ class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
         associated_name ||= audit.associated.try(:to_label) rescue nil
         attr[:auditable_name] = auditable_name  if auditable_name
         attr[:associated_name]= associated_name if associated_name
-        if audit.username.empty? and audit.user
+        if audit.username.empty? && audit.user
           username = audit.user.to_label rescue nil
           attr[:username] = username if !username.empty?
         end
