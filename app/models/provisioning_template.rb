@@ -87,7 +87,7 @@ class ProvisioningTemplate < Template
 
     # once a template has been matched, we no longer look for others.
 
-    if opts[:hostgroup_id] and opts[:environment_id]
+    if opts[:hostgroup_id] && opts[:environment_id]
       # try to find a full match to our host group and environment
       template ||= templates.joins(:template_combinations).where(
         "template_combinations.hostgroup_id" => opts[:hostgroup_id],
@@ -171,7 +171,7 @@ class ProvisioningTemplate < Template
     ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
-        if hostgroup and hostgroup.operatingsystem and hostgroup.architecture and hostgroup.medium
+        if hostgroup && hostgroup.operatingsystem && hostgroup.architecture && hostgroup.medium
           combos << {:hostgroup => hostgroup, :template => template}
         end
       end

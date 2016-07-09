@@ -116,7 +116,7 @@ class SmartProxy < ActiveRecord::Base
 
     begin
       reply = ProxyAPI::Features.new(:url => url).features
-      if reply.is_a?(Array) and reply.any?
+      if reply.is_a?(Array) && reply.any?
         self.features = Feature.where(:name => reply.map{|f| Feature.name_map[f]})
       else
         self.features.clear

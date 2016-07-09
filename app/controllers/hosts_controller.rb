@@ -50,7 +50,7 @@ class HostsController < ApplicationController
         @last_reports = ConfigReport.where(:id => @last_report_ids.values)
         # rendering index page for non index page requests (out of sync hosts etc)
         @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
-        render :index if title and (@title = title)
+        render :index if title && (@title = title)
       end
       format.yaml { render :text => search.all(:select => "hosts.name").map(&:name).to_yaml }
       format.json
@@ -399,7 +399,7 @@ class HostsController < ApplicationController
 
   def update_multiple_environment
     # simple validations
-    if (params[:environment].nil?) or (id=params["environment"]["id"]).nil?
+    if (params[:environment].nil?) || (id=params["environment"]["id"]).nil?
       error _('No environment selected!')
       redirect_to(select_multiple_environment_hosts_path) and return
     end
@@ -421,7 +421,7 @@ class HostsController < ApplicationController
 
   def update_multiple_owner
     # simple validations
-    if (params[:owner].nil?) or (id=params["owner"]["id"]).nil?
+    if (params[:owner].nil?) || (id=params["owner"]["id"]).nil?
       error _('No owner selected!')
       redirect_to(select_multiple_owner_hosts_path) and return
     end
@@ -720,7 +720,7 @@ class HostsController < ApplicationController
   end
 
   def set_host_type
-    return unless params[:host] and params[:host][:type]
+    return unless params[:host] && params[:host][:type]
     type = params[:host].delete(:type) #important, otherwise mass assignment will save the type.
     if type.constantize.new.is_a?(Host::Base)
       @host      = @host.becomes(type.constantize)
@@ -778,7 +778,7 @@ class HostsController < ApplicationController
 
   def find_multiple
   # Lets search by name or id and make sure one of them exists first
-    if params[:host_names].present? or params[:host_ids].present?
+    if params[:host_names].present? || params[:host_ids].present?
       @hosts = resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names])
       if @hosts.empty?
         error _('No hosts were found with that id or name')
@@ -827,7 +827,7 @@ class HostsController < ApplicationController
   # if a save failed and the only reason was network conflicts then flag this so that the view
   # is rendered differently and the next save operation will be forced
   def offer_to_overwrite_conflicts
-    @host.overwrite = "true" if @host.errors.any? and @host.errors.are_all_conflicts?
+    @host.overwrite = "true" if @host.errors.any? && @host.errors.are_all_conflicts?
   end
 
   def validate_power_action

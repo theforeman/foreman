@@ -7,7 +7,7 @@ module ProxyAPI
 
     # returns the Template URL for this proxy
     def template_url
-      if (response = parse(get("templateServer"))) and response["templateServer"].present?
+      if (response = parse(get("templateServer"))) && response["templateServer"].present?
         return response["templateServer"]
       end
     rescue SocketError, Timeout::Error, Errno::EINVAL, Errno::ECONNRESET,

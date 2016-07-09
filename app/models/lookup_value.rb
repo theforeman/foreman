@@ -65,7 +65,7 @@ class LookupValue < ActiveRecord::Base
   end
 
   def validate_and_cast_value
-    return true if self.marked_for_destruction? or !self.value.is_a? String
+    return true if self.marked_for_destruction? || !self.value.is_a?(String)
     begin
       unless self.lookup_key.contains_erb?(value)
         Foreman::Parameters::Caster.new(self, :attribute_name => :value, :to => lookup_key.key_type).cast!

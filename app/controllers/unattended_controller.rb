@@ -30,11 +30,11 @@ class UnattendedController < ApplicationController
   end
 
   def hostgroup_template
-    return head(:not_found) unless (params.has_key?("id") and params.has_key?(:hostgroup))
+    return head(:not_found) unless (params.has_key?("id") && params.has_key?(:hostgroup))
 
     template = ProvisioningTemplate.find_by_name(params['id'])
     @host = Hostgroup.find_by_title(params['hostgroup'])
-    return head(:not_found) unless template and @host
+    return head(:not_found) unless template && @host
 
     load_template_vars if template.template_kind.name == 'provision'
     safe_render template.template
@@ -146,7 +146,7 @@ class UnattendedController < ApplicationController
   end
 
   def allowed_to_install?
-    (@host.build or @spoof) ? true : head(:method_not_allowed)
+    (@host.build || @spoof) ? true : head(:method_not_allowed)
   end
 
   # Cleans Certificate and enable autosign. This is run as a before_filter for provisioning templates.
@@ -196,7 +196,7 @@ class UnattendedController < ApplicationController
     ip = request.env['REMOTE_ADDR']
 
     # check if someone is asking on behalf of another system (load balance etc)
-    if request.env['HTTP_X_FORWARDED_FOR'].present? and (ip =~ Regexp.new(Setting[:remote_addr]))
+    if request.env['HTTP_X_FORWARDED_FOR'].present? && (ip =~ Regexp.new(Setting[:remote_addr]))
       ip = request.env['HTTP_X_FORWARDED_FOR']
     end
 

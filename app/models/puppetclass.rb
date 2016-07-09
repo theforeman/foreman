@@ -125,7 +125,7 @@ class Puppetclass < ActiveRecord::Base
     # Retrieve an optional http server's DocumentRoot from the settings.yaml file, and prepare it for writing
     doc_root = Pathname.new(Setting[:document_root])
     doc_root.mkpath
-    unless doc_root.directory? and doc_root.writable?
+    unless doc_root.directory? && doc_root.writable?
       puts "Unable to write html to #{doc_root}"
       return false
     end
@@ -158,7 +158,7 @@ class Puppetclass < ActiveRecord::Base
             sh cmd
           end
           # Relocate the paths for files and references if the manifests were relocated and sanitized
-          if relocated and (files = `find #{out} -exec grep -l '#{root}' {} \\;`.gsub(/\n/, " ")) != ""
+          if relocated && (files = `find #{out} -exec grep -l '#{root}' {} \\;`.gsub(/\n/, " ")) != ""
             puts "Rewriting..." if verbose
             cmd = "ruby -p -i -e 'rex=%r{#{root}};$_.gsub!(rex,\"\")' #{files}"
             puts cmd if debug

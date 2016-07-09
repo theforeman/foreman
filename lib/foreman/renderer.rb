@@ -167,7 +167,7 @@ module Foreman
     end
 
     def jumpstart_attributes
-      if @host.operatingsystem.supports_image and @host.use_image
+      if @host.operatingsystem.supports_image && @host.use_image
         @install_type     = "flash_install"
         # We have an individual override for the host's image file
         @archive_location = @host.image_file ? @host.image_file : @host.default_image_file

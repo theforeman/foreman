@@ -10,7 +10,7 @@ child(:links => "links") do
 
   # add additional actions
   %w(home#status).each do |additional_action|
-    if (description = Apipie.app[additional_action]) and
+    if (description = Apipie.app[additional_action]) &&
         (api = description.method_apis_to_json.first)
       index_method_description_apis << api
     end

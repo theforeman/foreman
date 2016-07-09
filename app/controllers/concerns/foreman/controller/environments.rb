@@ -18,7 +18,7 @@ module Foreman::Controller::Environments
       end
     end
 
-    if @changed["new"].size > 0 or @changed["obsolete"].size > 0 or @changed["updated"].size > 0
+    if @changed["new"].size > 0 || @changed["obsolete"].size > 0 || @changed["updated"].size > 0
       render "common/_puppetclasses_or_envs_changed"
     else
       notice _("No changes to your environments detected")

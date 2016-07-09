@@ -38,7 +38,7 @@ rescue OptionParser::InvalidOption => e
   # don't fail on unknown attributes, rather pass it to the rake task
   e.recover argv
   rake_args << argv.shift
-  rake_args << argv.shift if !argv.empty? and argv.first !~ /^-/
+  rake_args << argv.shift if !argv.empty? && argv.first !~ /^-/
   retry
 end
 

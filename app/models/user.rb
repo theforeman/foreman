@@ -191,7 +191,7 @@ class User < ActiveRecord::Base
     # user is already in local database
     if (user = unscoped.find_by_login(login))
       # user has an authentication method and the authentication was successful
-      if user.auth_source and (attrs = user.auth_source.authenticate(login, password))
+      if user.auth_source && (attrs = user.auth_source.authenticate(login, password))
         logger.debug "Authenticated user #{user.login} against #{user.auth_source} authentication source"
 
         # update with returned attrs, maybe some info changed in LDAP
@@ -401,7 +401,7 @@ class User < ActiveRecord::Base
   end
 
   def self.try_to_auto_create_user(login, password)
-    return nil if login.blank? or password.blank?
+    return nil if login.blank? || password.blank?
 
     # user is not yet registered, try to authenticate with available sources
     logger.debug "Attempting to log into an auth source as #{login} for account auto-creation"

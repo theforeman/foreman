@@ -13,7 +13,7 @@ class ConfigReportImporter < ReportImporter
     super
     return report unless report.persisted?
     # we update our host record, so we won't need to lookup the report information just to display the host list / info
-    host.update_attribute(:last_report, time) if host.last_report.nil? or host.last_report.utc < time
+    host.update_attribute(:last_report, time) if host.last_report.nil? || host.last_report.utc < time
     # Store all Puppet message logs
     import_log_messages
     # Check for errors

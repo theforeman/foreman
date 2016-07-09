@@ -24,7 +24,7 @@ module ProxyAPI
       params = {}
       params.merge!({:mac => mac}) if mac.present?
 
-      params.merge!({:from => subnet.from, :to => subnet.to}) if subnet.from.present? and subnet.to.present?
+      params.merge!({:from => subnet.from, :to => subnet.to}) if subnet.from.present? && subnet.to.present?
       if params.any?
         params = "?" + params.map{|e| e.join("=")}.join("&")
       else

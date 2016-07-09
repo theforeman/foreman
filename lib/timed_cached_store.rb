@@ -15,7 +15,7 @@ class TimedCachedStore < ActiveSupport::Cache::MemoryStore
   end
 
   def write(name, value, options = nil)
-    if options and options[:expires_in]
+    if options && options[:expires_in]
       time                  = Time.now.utc
       ttl                   = time + options[:expires_in].to_i
       @data[ts_field(name)] = { :created_at => time, :expires_at => ttl }

@@ -200,13 +200,6 @@ Style/AlignHash:
 Style/AlignParameters:
   Enabled: false
 
-# Offense count: 263
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: always, conditionals
-Style/AndOr:
-  Enabled: false
-
 # Offense count: 1075
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.

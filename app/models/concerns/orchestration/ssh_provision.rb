@@ -13,7 +13,7 @@ module Orchestration::SSHProvision
   protected
 
   def queue_ssh_provision
-    return unless ssh_provision? and errors.empty?
+    return unless ssh_provision? && errors.empty?
     new_record? ? queue_ssh_provision_create : queue_ssh_provision_update
   end
 
@@ -43,11 +43,11 @@ module Orchestration::SSHProvision
 
   def setSSHWaitForResponse
     logger.info "Starting SSH provisioning script - waiting for #{provision_ip} to respond"
-    if compute_resource.respond_to?(:key_pair) and compute_resource.key_pair.try(:secret)
+    if compute_resource.respond_to?(:key_pair) && compute_resource.key_pair.try(:secret)
       credentials = { :key_data => [compute_resource.key_pair.secret] }
-    elsif vm.respond_to?(:password) and vm.password.present?
+    elsif vm.respond_to?(:password) && vm.password.present?
       credentials = { :password => vm.password, :auth_methods => ["password", "keyboard-interactive"] }
-    elsif image.respond_to?(:password) and image.password.present?
+    elsif image.respond_to?(:password) && image.password.present?
       credentials = { :password => image.password, :auth_methods => ["password", "keyboard-interactive"] }
     else
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))

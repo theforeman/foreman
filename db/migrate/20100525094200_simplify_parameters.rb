@@ -13,12 +13,12 @@ class SimplifyParameters < ActiveRecord::Migration
     for parameter in Parameter.all
       # There should be no Parameter objects. That is an abstract class.
       # The type is probably nil because this table was imported by prod2dev
-      parameter.update_attribute :type, "HostParameter"   if column_exists? :parameters, :reference_id and parameter.type.nil? and parameter.reference_id
-      parameter.update_attribute :type, "GroupParameter"  if column_exists? :parameters, :hostgroup_id and parameter.type.nil? and parameter.hostgroup_id
-      parameter.update_attribute :type, "DomainParameter" if column_exists? :parameters, :domain_id and parameter.type.nil? and parameter.domain_id
+      parameter.update_attribute :type, "HostParameter"   if column_exists?(:parameters, :reference_id) && parameter.type.nil? && parameter.reference_id
+      parameter.update_attribute :type, "GroupParameter"  if column_exists?(:parameters, :hostgroup_id) && parameter.type.nil? && parameter.hostgroup_id
+      parameter.update_attribute :type, "DomainParameter" if column_exists?(:parameters, :domain_id) && parameter.type.nil? && parameter.domain_id
       parameter.update_attribute :type, "CommonParameter" if parameter.type.nil?
 
-      if parameter.reference_id.nil? and parameter.type != "CommonParameter"
+      if parameter.reference_id.nil? && parameter.type != "CommonParameter"
         parameter.reference_id = parameter.hostgroup_id || parameter.domain_id
         unless parameter.save
           say "Failed to migrate the parameter #{parameter.name}: " + parameter.errors.full_messages.join("\n")

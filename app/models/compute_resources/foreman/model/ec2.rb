@@ -65,7 +65,7 @@ module Foreman::Model
     end
 
     def regions
-      return [] if user.blank? or password.blank?
+      return [] if user.blank? || password.blank?
       @regions ||= client.describe_regions.body["regionInfo"].map { |r| r["regionName"] }
     end
 

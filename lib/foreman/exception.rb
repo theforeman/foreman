@@ -6,7 +6,7 @@ module Foreman
     end
 
     def self.calculate_error_code(classname, message)
-      return 'ERF00-0000' if classname.nil? or message.nil?
+      return 'ERF00-0000' if classname.nil? || message.nil?
       basename = classname.split(':').last
       class_hash = Zlib.crc32(basename) % 100
       msg_hash = Zlib.crc32(message) % 10000

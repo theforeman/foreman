@@ -9,7 +9,7 @@ class PuppetFactParser < FactParser
       args = {:name => os_name, :major => "1", :minor => "0"}
       os = Operatingsystem.where(args).first || Operatingsystem.new(args)
     elsif orel.present?
-      if os_name == "Debian" and orel[/testing|unstable/i]
+      if os_name == "Debian" && orel[/testing|unstable/i]
         case facts[:lsbdistcodename]
           when /wheezy/i
             orel = "7"

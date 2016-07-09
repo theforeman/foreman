@@ -68,7 +68,7 @@ module HostCommon
   end
 
   def puppetca?
-    return false if self.respond_to?(:managed?) and !managed?
+    return false if self.respond_to?(:managed?) && !managed?
     puppetca_exists?
   end
 
@@ -91,10 +91,10 @@ module HostCommon
   # Else if the host/hostgroup's operatingsystem has only one media then use the image_path from that as this is automatically displayed when there is only one item
   # Else we cannot provide a default and it is cut and paste time
   def default_image_file
-    return "" unless operatingsystem and operatingsystem.supports_image
+    return "" unless operatingsystem && operatingsystem.supports_image
     if medium
       nfs_path = medium.try :image_path
-      if operatingsystem.try(:media) and operatingsystem.media.size == 1
+      if operatingsystem.try(:media) && operatingsystem.media.size == 1
         nfs_path ||= operatingsystem.media.first.image_path
       end
       # We encode the hw_model into the image file name as not all Sparc flashes can contain all possible hw_models. The user can always
@@ -110,7 +110,7 @@ module HostCommon
   def image_file=(file)
     # We only save a value into the image_file field if the value is not the default path, (which was placed in the entry when it was displayed,)
     # and it is not a directory, (ends in /)
-    value = ((default_image_file == file) or (file =~ /\/\Z/) or file == "") ? nil : file
+    value = ((default_image_file == file) || (file =~ /\/\Z/) || file == "") ? nil : file
     write_attribute :image_file, value
   end
 
@@ -231,7 +231,7 @@ module HostCommon
 
   # fall back to our puppet proxy in case our puppet ca is not defined/used.
   def check_puppet_ca_proxy_is_required?
-    return true if puppet_ca_proxy_id.present? or puppet_proxy_id.blank?
+    return true if puppet_ca_proxy_id.present? || puppet_proxy_id.blank?
     if puppet_proxy.has_feature?('Puppet CA')
       self.puppet_ca_proxy ||= puppet_proxy
     end

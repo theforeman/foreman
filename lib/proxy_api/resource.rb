@@ -50,7 +50,7 @@ module ProxyAPI
     #      OR: false if a HTTP error is detected
     # TODO: add error message handling
     def parse(response)
-      if response and response.code >= 200 and response.code < 300
+      if response && response.code >= 200 && response.code < 300
         return response.body.present? ? JSON.parse(response.body) : true
       else
         false

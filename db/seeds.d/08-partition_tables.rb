@@ -19,7 +19,7 @@ Ptable.without_auditing do
   ].each do |input|
     contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 
-    if (p = Ptable.find_by_name(input[:name])) and !audit_modified?(Ptable, input[:name])
+    if (p = Ptable.find_by_name(input[:name])) && !audit_modified?(Ptable, input[:name])
       if p.layout != contents
         p.layout = contents
         raise "Unable to update partition table: #{format_errors p}" unless p.save
