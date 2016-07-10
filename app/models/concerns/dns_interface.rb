@@ -24,13 +24,13 @@ module DnsInterface
 
     case type
     when :a
-      return dns?
+      dns?
     when :aaaa
-      return dns6?
+      dns6?
     when :ptr6
-      return reverse_dns6?
+      reverse_dns6?
     when :ptr4
-      return reverse_dns?
+      reverse_dns?
     end
   end
 
@@ -77,7 +77,7 @@ module DnsInterface
   end
 
   def validate_record_type(type)
-    ::Foreman::Exception.new(N_("%s is not a valid DNS record type"), type) unless RECORD_TYPES.include?(type)
+    raise ::Foreman::Exception.new(N_("%s is not a valid DNS record type"), type) unless RECORD_TYPES.include?(type)
   end
 
   def dns_a_record_attrs

@@ -131,7 +131,11 @@ class ActiveSupport::TestCase
   end
 
   def unattended?
-    SETTINGS[:unattended].nil? or SETTINGS[:unattended]
+    SETTINGS[:unattended].nil? || SETTINGS[:unattended]
+  end
+
+  def skip_without_unattended
+    skip("unattended mode is disabled") unless unattended?
   end
 
   def self.disable_orchestration
@@ -139,6 +143,7 @@ class ActiveSupport::TestCase
     Host.any_instance.stubs(:boot_server).returns("boot_server")
     Resolv::DNS.any_instance.stubs(:getname).returns("foo.fqdn")
     Resolv::DNS.any_instance.stubs(:getaddress).returns("127.0.0.1")
+    Resolv::DNS.any_instance.stubs(:getresources).returns([OpenStruct.new(:mname => 'foo', :name => 'bar')])
     Net::DNS::ARecord.any_instance.stubs(:conflicts).returns([])
     Net::DNS::ARecord.any_instance.stubs(:conflicting?).returns(false)
     Net::DNS::AAAARecord.any_instance.stubs(:conflicts).returns([])
