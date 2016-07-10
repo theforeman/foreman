@@ -70,13 +70,12 @@ module Orchestration::DNS
   end
 
   def queue_dns_update
-    if old.ip != ip || old.hostname != hostname
-      DnsInterface::RECORD_TYPES.each do |record_type|
-        queue.create(:name   => _("Remove %{type} for %{host}") % {:host => old, :type => dns_class(record_type).human }, :priority => 9,
-                     :action => [old, :del_dns_record, record_type]) if old.dns_feasible?(record_type)
-      end
-      queue_dns_create
+    return unless pending_dns_record_changes?
+    DnsInterface::RECORD_TYPES.each do |record_type|
+      queue.create(:name   => _("Remove %{type} for %{host}") % {:host => old, :type => dns_class(record_type).human }, :priority => 9,
+                   :action => [old, :del_dns_record, record_type]) if old.dns_feasible?(record_type)
     end
+    queue_dns_create
   end
 
   def queue_dns_destroy
@@ -95,6 +94,10 @@ module Orchestration::DNS
       queue.create(:name   => _("Remove conflicting %{type} for %{host}") % {:host => self, :type => dns_class(record_type).human}, :priority => 0,
                    :action => [self, :del_conflicting_dns_record, record_type]) if dns_feasible?(record_type) && dns_record(record_type) && dns_record(record_type).conflicting?
     end
+  end
+
+  def pending_dns_record_changes?
+    old.ip != ip || old.ip6 != ip6 || old.hostname != hostname
   end
 
   def dns_conflict_detected?

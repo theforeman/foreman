@@ -345,6 +345,19 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_dual_stack_dns_orchestration do
+      with_dns_orchestration
+      with_ipv6_dns_orchestration
+      interfaces do
+        [FactoryGirl.build(:nic_managed,
+                           :primary => true,
+                           :provision => true,
+                           :domain => FactoryGirl.build(:domain),
+                           :ip => subnet.network.sub(/0\Z/, '1'),
+                           :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+      end
+    end
+
     trait :with_tftp_subnet do
       subnet { FactoryGirl.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]) }
     end

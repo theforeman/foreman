@@ -30,7 +30,8 @@ module Orchestration
     end
 
     def clear
-      @items = [] && true
+      @items = []
+      true
     end
 
     STATUS.each do |s|
