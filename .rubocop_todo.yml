@@ -193,13 +193,6 @@ Style/Alias:
 Style/AlignHash:
   Enabled: false
 
-# Offense count: 220
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: with_first_parameter, with_fixed_indentation
-Style/AlignParameters:
-  Enabled: false
-
 # Offense count: 263
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -299,17 +292,6 @@ Style/FirstParameterIndentation:
 Style/For:
   Enabled: false
 
-# Offense count: 19
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: format, sprintf, percent
-Style/FormatString:
-  Enabled: false
-
-# Offense count: 10
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Enabled: false
-
 # Offense count: 16
 Style/IfInsideElse:
   Enabled: false
@@ -396,13 +378,6 @@ Style/NestedModifier:
 Style/NestedParenthesizedCalls:
   Enabled: false
 
-# Offense count: 22
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, MinBodyLength, SupportedStyles.
-# SupportedStyles: skip_modifier_ifs, always
-Style/Next:
-  Enabled: false
-
 # Offense count: 24
 # Cop supports --auto-correct.
 Style/NumericLiterals:
@@ -415,12 +390,6 @@ Style/OpMethod:
 # Offense count: 18
 # Cop supports --auto-correct.
 Style/ParallelAssignment:
-  Enabled: false
-
-# Offense count: 37
-# Cop supports --auto-correct.
-# Configuration parameters: AllowSafeAssignment.
-Style/ParenthesesAroundCondition:
   Enabled: false
 
 # Offense count: 105
@@ -463,11 +432,6 @@ Style/RedundantBegin:
 Style/RedundantParentheses:
   Enabled: false
 
-# Offense count: 505
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Enabled: false
-
 # Offense count: 48
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
@@ -478,11 +442,6 @@ Style/RegexpLiteral:
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/RescueEnsureAlignment:
-  Enabled: false
-
-# Offense count: 46
-# Cop supports --auto-correct.
-Style/RescueModifier:
   Enabled: false
 
 # Offense count: 5
@@ -548,13 +507,6 @@ Style/SpaceInsideBrackets:
 Style/SpaceInsideHashLiteralBraces:
   Enabled: false
 
-# Offense count: 11877
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Enabled: false
-
 # Offense count: 1
 Style/StructInheritance:
   Enabled: false
@@ -576,13 +528,6 @@ Style/SymbolProc:
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, IgnoreClassMethods, Whitelist.
 # Whitelist: to_ary, to_a, to_c, to_enum, to_h, to_hash, to_i, to_int, to_io, to_open, to_path, to_proc, to_r, to_regexp, to_str, to_s, to_sym
 Style/TrivialAccessors:
-  Enabled: false
-
-# Offense count: 271
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, MinSize, WordRegex.
-# SupportedStyles: percent, brackets
-Style/WordArray:
   Enabled: false
 
 # Offense count: 12
