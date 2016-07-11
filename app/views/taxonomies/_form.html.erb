@@ -103,7 +103,7 @@
           <% if taxonomy.parent.present? %>
               <h4><%= _('Parent parameters') %></h4>
               <%= render "common_parameters/inherited_parameters", { :inherited_parameters => taxonomy.parent_params(true),
-                                                                     :parameters => taxonomy.send("#{taxonomy_type}_parameters".to_sym).authorized(:view_params)} %>
+                                                                     :parameters => taxonomy.send("#{taxonomy_type}_parameters".to_sym) } %>
           <% end %>
           <% if taxonomy.is_a?(Location) %>
               <h4><%= _("Location parameters") %></h4>
