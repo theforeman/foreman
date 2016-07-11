@@ -5,6 +5,7 @@ module Nic
     include Orchestration::DNS
     include Orchestration::TFTP
     include DnsInterface
+    include InterfaceCloning
 
     include Exportable
     include Foreman::Renderer
@@ -82,7 +83,8 @@ module Nic
       return unless primary?
       return unless fqdn_changed?
       return unless host.present?
-      LookupValue.where(:match => "fqdn=#{fqdn_was}").update_all(:match => host.send(:lookup_value_match))
+      LookupValue.where(:match => "fqdn=#{fqdn_was}").
+        update_all(:match => host.lookup_value_match)
     end
 
     def drop_host_cache
