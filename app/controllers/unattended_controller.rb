@@ -7,7 +7,7 @@ class UnattendedController < ApplicationController
   FILTERS = [:require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize]
   FILTERS.each do |f|
     define_method("#{f}_with_unattended") do
-      send("#{f}_without_unattended") if params.key?(:spoof) or params.key?(:hostname)
+      send("#{f}_without_unattended") if preview?
     end
     alias_method_chain f, :unattended
   end
@@ -56,13 +56,23 @@ class UnattendedController < ApplicationController
 
   private
 
+  def preview?
+    params.key?(:spoof) or params.key?(:hostname)
+  end
+
   def render_template(type)
     # Compatibility with older URLs
     type = 'iPXE' if type == 'gPXE'
 
     if (config = @host.provisioning_template({ :kind => type }))
       logger.debug "rendering DB template #{config.name} - #{type}"
-      safe_render config
+      if !preview?
+        User.as_anonymous_admin do
+          safe_render config
+        end
+      else
+        safe_render config
+      end
     else
       msg = "unable to find #{type} template for [#{@host.name}] running [#{@host.operatingsystem}]"
       logger.error msg
