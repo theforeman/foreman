@@ -8,65 +8,10 @@ class HostTest < ActiveSupport::TestCase
     Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
   end
 
-  test "should not save without a hostname" do
-    host = Host.new
-    host.valid?
-    assert host.errors[:name].include?("can't be blank")
-  end
-
-  test "should not save with invalid hostname" do
-    host = Host.new :name => "invalid_hostname"
-    host.valid?
-    assert_equal "is invalid", host.errors[:name].first
-  end
-
   test "should not save hostname with periods in shortname" do
     host = Host.new :name => "my.host", :domain => Domain.where(:name => "mydomain.net").first_or_create, :managed => true
     host.valid?
     assert_equal "must not include periods", host.errors[:name].first
-  end
-
-  test "should make hostname lowercase" do
-    host = FactoryGirl.build(:host, :hostname => "MYHOST", :domain => FactoryGirl.create(:domain, :name => "mydomainlowercase.net"))
-    host.valid?
-    assert_equal "myhost.mydomainlowercase.net", host.name
-  end
-
-  test "should update name when domain is changed" do
-    host = FactoryGirl.create(:host)
-    refute_equal "#{host.shortname}.yourdomain.net", host.name
-    host.domain_name = "yourdomain.net"
-    host.save!
-    assert_equal "#{host.shortname}.yourdomain.net", host.name
-  end
-
-  test '.new should build host with primary interface' do
-    host = Host.new
-    assert host.primary_interface
-    assert_equal 1, host.interfaces.size
-  end
-
-  test '.new should mark one interfaces as primary if none was chosen explicitly' do
-    host = Host.new(:interfaces_attributes => [ {:ip => '192.168.0.1' }, { :ip => '192.168.1.2' } ])
-    assert host.primary_interface
-    assert_equal 2, host.interfaces.size
-  end
-
-  test '.new does not reset primary flag if it was set explicitly' do
-    host = Host.new(:interfaces_attributes => [ {:ip => '192.168.0.1' }, { :ip => '192.168.1.2', :primary => true } ])
-    assert_equal 2, host.interfaces.size
-    assert_equal '192.168.1.2', host.primary_interface.ip
-  end
-
-  test "host should not save without primary interface" do
-    host = FactoryGirl.build(:host, :managed)
-    host.interfaces = []
-    refute host.save
-    assert_includes host.errors.keys, :interfaces
-
-    host.interfaces = [ FactoryGirl.build(:nic_managed, :primary => true, :host => host,
-                                           :domain => FactoryGirl.create(:domain)) ]
-    assert host.save
   end
 
   test "existing interface can be assigned as host primary interface" do
@@ -305,13 +250,9 @@ class HostTest < ActiveSupport::TestCase
     refute_valid host, :'lookup_values.value', /invalid hash/
   end
 
-  test "should import facts from json stream" do
-    h=Host.new(:name => "sinn1636.lan")
-    assert h.import_facts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
-  end
-
   test "should not trigger dhcp orchestration when importing facts" do
     host = Host.new(:name => "sinn1636.lan")
+    host.stubs(:skip_orchestration?).returns(false)
     host.primary_interface.expects(:dhcp_conflict_detected?).never
     assert host.import_facts(JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts'])
   end

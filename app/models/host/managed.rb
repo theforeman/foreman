@@ -182,8 +182,6 @@ class Host::Managed < Host::Base
     include Orchestration::SSHProvision
     include Orchestration::Realm
     include HostTemplateHelpers
-    delegate :fqdn, :fqdn_changed?, :fqdn_was, :shortname, :to => :primary_interface,
-             :allow_nil => true
     delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
 
     validates :architecture_id, :operatingsystem_id, :presence => true, :if => Proc.new {|host| host.managed}
@@ -300,6 +298,15 @@ class Host::Managed < Host::Base
     end
 
     setAutosign
+  end
+
+  def import_facts(facts)
+    # Facts come from 'existing' attributes/infrastructure. We skip triggering
+    # the orchestration of this infrastructure when we create a host this way.
+    skip_orchestration!
+    super(facts)
+  ensure
+    enable_orchestration!
   end
 
   # Request a new OTP for a host
@@ -831,13 +838,6 @@ class Host::Managed < Host::Base
     build_status
   end
 
-  # we must also clone interfaces objects so we can detect their attribute changes
-  # method is public because it's used when we run orchestration from interface side
-  def setup_clone
-    return if new_record?
-    @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
-  end
-
   def refresh_global_status
     self.global_status = build_global_status.status
   end
@@ -947,10 +947,6 @@ class Host::Managed < Host::Base
       self.errors.add :interfaces, _('Some interfaces are invalid')
       return false
     end
-  end
-
-  def lookup_value_match
-    "fqdn=#{fqdn || name}"
   end
 
   def lookup_keys_params

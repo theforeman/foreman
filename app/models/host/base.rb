@@ -5,6 +5,7 @@ module Host
     include CounterCacheFix
     include Parameterizable::ByName
     include DestroyFlag
+    include InterfaceCloning
 
     self.table_name = :hosts
     extend FriendlyId
@@ -115,7 +116,8 @@ module Host
              :subnet, :subnet_id, :subnet_name,
              :subnet6, :subnet6_id, :subnet6_name,
              :domain, :domain_id, :domain_name,
-             :hostname,
+             :hostname, :fqdn, :fqdn_changed?,
+             :fqdn_was, :shortname,
              :to => :primary_interface, :allow_nil => true
     delegate :name=, :ip=, :ip6=, :mac=,
              :subnet=, :subnet_id=, :subnet_name=,
@@ -149,7 +151,6 @@ module Host
       importer = FactImporter.importer_for(type).new(self, facts)
       importer.import!
 
-      skip_orchestration!
       save(:validate => false)
       populate_fields_from_facts(facts, type)
       set_taxonomies(facts)
@@ -160,8 +161,6 @@ module Host
       # TODO: if it was installed by Foreman and there is a mismatch,
       # we should probably send out an alert.
       save(:validate => false)
-    ensure
-      enable_orchestration!
     end
 
     def attributes_to_import_from_facts
@@ -325,6 +324,17 @@ module Host
 
     # Provide _id aliases for consistency with the _name methods
     alias_attribute :hardware_model_id, :model_id
+
+    def lookup_value_match
+      "fqdn=#{fqdn || name}"
+    end
+
+    # we must also clone interfaces objects so we can detect their attribute changes
+    # method is public because it's used when we run orchestration from interface side
+    def setup_clone
+      return if new_record?
+      @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
+    end
 
     private
 
