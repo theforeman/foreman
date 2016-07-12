@@ -188,7 +188,7 @@ class Host::Managed < Host::Base
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
                           :if => Proc.new { |host| host.managed && host.pxe_build? && build? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed and host.disk.empty? and !Foreman.in_rake? and host.pxe_build? and host.build? }
+                          :if => Proc.new { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && host.pxe_build? && host.build? }
     validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
     validate :provision_method_in_capabilities
@@ -211,7 +211,7 @@ class Host::Managed < Host::Base
 
   before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations, :set_default_user
-  before_validation :set_certname, :if => Proc.new {|h| h.managed? and Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
+  before_validation :set_certname, :if => Proc.new {|h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
   after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
   before_validation :validate_dns_name_uniqueness
 
@@ -564,11 +564,11 @@ class Host::Managed < Host::Base
   end
 
   def can_be_built?
-    managed? and SETTINGS[:unattended] and pxe_build? and !build?
+    managed? && SETTINGS[:unattended] && pxe_build? && !build?
   end
 
   def jumpstart?
-    operatingsystem.family == "Solaris" and architecture.name =~/Sparc/i rescue false
+    operatingsystem.family == "Solaris" && architecture.name =~/Sparc/i rescue false
   end
 
   def hostgroup_inherited_attributes

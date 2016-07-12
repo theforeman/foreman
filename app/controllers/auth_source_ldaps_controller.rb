@@ -39,12 +39,10 @@ class AuthSourceLdapsController < ApplicationController
 
   def test_connection
     temp_auth_source_ldap = AuthSourceLdap.new(params[:auth_source_ldap])
-    begin
-      msg = temp_auth_source_ldap.test_connection
-    rescue Foreman::Exception => exception
-      Foreman::Logging.exception("Failed to connect to LDAP server", exception)
-      render :json => {:message => exception.message}, :status => :unprocessable_entity and return
-    end
+    msg = temp_auth_source_ldap.test_connection
     render :json => msg, :status => :ok
+  rescue Foreman::Exception => exception
+    Foreman::Logging.exception("Failed to connect to LDAP server", exception)
+    render :json => {:message => exception.message}, :status => :unprocessable_entity
   end
 end

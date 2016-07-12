@@ -8,7 +8,7 @@ class Foreman::ImporterPuppetclass
   end
 
   def to_s
-    name and self.module ? "#{self.module}::#{name}" : name
+    name && self.module ? "#{self.module}::#{name}" : name
   end
 
   # for now, equality is based on class name, and not on parameters

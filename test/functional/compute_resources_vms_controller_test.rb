@@ -177,7 +177,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   end
 
   def get_test_vm
-    @compute_resource.vms.index {|vm| vm.name == "test" and @test_vm = vm}
+    @test_vm = @compute_resource.vms.find { |vm| vm.name == 'test' }
   end
 
   def set_session_user

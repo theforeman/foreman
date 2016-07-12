@@ -53,7 +53,7 @@ module Foreman::Model
     end
 
     def test_connection(options = {})
-      super and flavors
+      super && flavors
     rescue Excon::Errors::Unauthorized => e
       errors[:base] << e.response.body
     rescue Fog::Compute::Rackspace::Error, Excon::Errors::SocketError=> e

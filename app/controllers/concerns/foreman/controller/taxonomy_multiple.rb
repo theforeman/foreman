@@ -31,7 +31,8 @@ module Foreman::Controller::TaxonomyMultiple
     # simple validations
     if (params[type].nil?) || (id=params[type][:id]).blank?
       error "No #{type.to_s.classify} selected!"
-      redirect_to(hosts_path) and return
+      redirect_to(hosts_path)
+      return
     end
 
     taxonomy = Taxonomy.find_by_id(id)

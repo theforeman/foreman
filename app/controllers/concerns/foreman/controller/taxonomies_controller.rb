@@ -182,7 +182,11 @@ module Foreman::Controller::TaxonomiesController
 
   # overwrite application_controller
   def find_resource
-    not_found and return if params[:id].blank?
+    if params[:id].blank?
+      not_found
+      return
+    end
+
     case controller_name
       when 'organizations'
         @taxonomy = @organization = resource_scope.find(params[:id])

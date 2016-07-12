@@ -50,7 +50,7 @@ module Foreman::Model
 
     def test_connection(options = {})
       super
-      errors[:user].empty? and errors[:password] and tenants
+      errors[:user].empty? && errors[:password] && tenants
     rescue => e
       errors[:base] << e.message
     end

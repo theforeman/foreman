@@ -49,7 +49,8 @@ class UsersController < ApplicationController
     @user = find_resource(:destroy_users)
     if @user == User.current
       notice _("You cannot delete this user while logged in as this user.")
-      redirect_to :back and return
+      redirect_to :back
+      return
     end
     if @user.destroy
       process_success
@@ -122,12 +123,16 @@ class UsersController < ApplicationController
 
   def test_mail
     begin
-      render :json => {:message => _("Email address is missing")}, :status => :unprocessable_entity and return if params[:user_email].blank?
+      if params[:user_email].blank?
+        render :json => {:message => _("Email address is missing")}, :status => :unprocessable_entity
+        return
+      end
       user = find_resource(:edit_users)
       MailNotification[:tester].deliver(:user => user, :email => params[:user_email])
     rescue => e
       Foreman::Logging.exception("Unable to send email", e)
-      render :json => {:message => _("Unable to send email, check server logs for more information")}, :status => :unprocessable_entity and return
+      render :json => {:message => _("Unable to send email, check server logs for more information")}, :status => :unprocessable_entity
+      return
     end
     render :json => {:message => _("Email was sent successfully")}, :status => :ok
   end

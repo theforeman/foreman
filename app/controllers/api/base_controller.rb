@@ -35,7 +35,7 @@ module Api
     rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
     def get_resource
-      instance_variable_get :"@#{resource_name}" or raise 'no resource loaded'
+      instance_variable_get(:"@#{resource_name}") || raise('no resource loaded')
     end
 
     def controller_permission
@@ -82,10 +82,13 @@ module Api
       when Hash
         not_found_message.merge! options
       else
-        render_error 'not_found', :status => :not_found and return false
+        render_error 'not_found', :status => :not_found
+        return false
       end
 
-      render :json => not_found_message, :status => :not_found and return false
+      render :json => not_found_message, :status => :not_found
+
+      false
     end
 
     def service_unavailable(exception = nil)

@@ -14,7 +14,10 @@ class DashboardController < ApplicationController
 
   def create
     widget = Dashboard::Manager.find_default_widget_by_name(params[:name])
-    (not_found and return) unless widget.present?
+    unless widget.present?
+      not_found
+      return
+    end
     Dashboard::Manager.add_widget_to_user(User.current, widget.first)
     render :json => { :name => params[:name] }, :status => :ok
   end

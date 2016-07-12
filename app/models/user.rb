@@ -173,11 +173,11 @@ class User < ActiveRecord::Base
   end
 
   def self.anonymous_admin
-    unscoped.find_by_login ANONYMOUS_ADMIN or raise Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_ADMIN)
+    unscoped.find_by_login(ANONYMOUS_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_ADMIN))
   end
 
   def self.anonymous_api_admin
-    unscoped.find_by_login ANONYMOUS_API_ADMIN or raise Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_API_ADMIN)
+    unscoped.find_by_login(ANONYMOUS_API_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_API_ADMIN))
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source

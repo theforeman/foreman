@@ -5,7 +5,7 @@ class AddManagedToHosts < ActiveRecord::Migration
     Host.reset_column_information
 
     for host in Host.unscoped.all
-      host.update_attribute :managed, !!host.operatingsystem_id and !!host.architecture_id and (!!host.ptable_id or !host.disk.empty?)
+      host.update_attribute(:managed, (!!host.operatingsystem_id && !!host.architecture_id && (!!host.ptable_id || !host.disk.empty?)))
     end
   end
 

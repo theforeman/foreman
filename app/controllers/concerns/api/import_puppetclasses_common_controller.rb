@@ -72,7 +72,8 @@ module Api::ImportPuppetclassesCommonController
         Foreman::Logging.exception("Error while importing Puppet classes", e)
         msg = e.message
       end
-      render_message(msg, :status => :internal_server_error) and return false
+      render_message(msg, :status => :internal_server_error)
+      return false
     end
 
     # PuppetClassImporter expects [kind][env] to be in json format
@@ -90,7 +91,11 @@ module Api::ImportPuppetclassesCommonController
       OpenStruct.new(:name => name)
     end
 
-    render_message(_("No changes to your environments detected")) and return false unless @environments.any?
+    unless @environments.any?
+      render_message(_("No changes to your environments detected"))
+      return false
+    end
+
     @environments.any?
   end
 
