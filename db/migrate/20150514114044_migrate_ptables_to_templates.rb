@@ -35,16 +35,9 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
       new_ptable.os_family = old_ptable.os_family
       new_ptable.type = 'Ptable'
       new_ptable.operatingsystems = old_ptable.operatingsystems
-      new_ptable.hostgroups = old_ptable.hostgroups
       new_ptable.save!
 
-      Audit.where(:auditable_type => 'Ptable', :auditable_id => old_ptable.id).each do |audit|
-        audit.update_attribute :auditable_id, new_ptable.id
-      end
-
-      old_ptable.hosts.each do |host|
-        host.update_attribute :ptable_id, new_ptable.id
-      end
+      update_audits_hosts_and_hostgroups(old_ptable.id, new_ptable.id)
     end
 
     say 'deleting migrated partition tables'
@@ -67,16 +60,9 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
       old_ptable.layout = new_ptable.template
       old_ptable.os_family = new_ptable.os_family
       old_ptable.operatingsystems = new_ptable.operatingsystems
-      old_ptable.hostgroups = new_ptable.hostgroups
       old_ptable.save!
 
-      Audit.where(:auditable_type => 'Ptable', :auditable_id => new_ptable.id).each do |audit|
-        audit.update_attribute :auditable_id, old_ptable.id
-      end
-
-      new_ptable.hosts.each do |host|
-        host.update_attribute :ptable_id, old_ptable.id
-      end
+      update_audits_hosts_and_hostgroups(new_ptable.id, old_ptable.id)
     end
 
     say 'deleting migrated partition tables'
@@ -86,5 +72,14 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
     add_foreign_key "operatingsystems_ptables", "ptables", :name => "operatingsystems_ptables_ptable_id_fk", :column => 'ptable_id'
     add_foreign_key "hostgroups", "ptables", :name => "hostgroups_ptable_id_fk", :column => 'ptable_id'
     add_foreign_key "hosts", "ptables", :name => "hosts_ptable_id_fk", :column => 'ptable_id'
+  end
+
+  private
+
+  def update_audits_hosts_and_hostgroups(old_id, new_id)
+    Audit.where(:auditable_type => 'Ptable', :auditable_id => old_id).update_all(:auditable_id => new_id)
+
+    Host::Managed.where(:ptable_id => old_id).update_all(:ptable_id => new_id)
+    Hostgroup.where(:ptable_id => old_id).update_all(:ptable_id => new_id)
   end
 end
