@@ -12,7 +12,7 @@ module PuppetclassesAndEnvironmentsHelper
   end
 
   def import_proxy_select(hash)
-    select_action_button(_('Import'), {}, import_proxy_links(hash, 'btn btn-default'))
+    select_action_button(_('Import'), {}, import_proxy_links(hash))
   end
 
   def import_proxy_links(hash, classes = nil)
