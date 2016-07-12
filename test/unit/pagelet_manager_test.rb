@@ -34,4 +34,14 @@ class PageletManagerTest < ActiveSupport::TestCase
       Pagelets::Manager.add_pagelet('test', nil, {:partial => 'test'})
     end
   end
+
+  test 'should accept hash as page name' do
+    hash = {
+      'controller' => "c",
+      'action' => "a"
+    }
+    ::Pagelets::Manager.add_pagelet(hash, :point, :name => "test", :partial => "tests")
+
+    assert_equal "test", ::Pagelets::Manager.sorted_pagelets_at("c/a", :point).first.name
+  end
 end
