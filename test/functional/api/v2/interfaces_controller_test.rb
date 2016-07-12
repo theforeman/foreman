@@ -64,4 +64,18 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  context 'permissions' do
+    test 'user with permissions to view host can also view its interfaces' do
+      setup_user 'view', 'hosts', "name = #{@host.name}"
+      get :index, { :host_id => @host.name }, set_session_user
+      assert_response :success
+    end
+
+    test 'user without permissions to view host cannot view interfaces' do
+      setup_user 'view', 'hosts', "name = some.other.host"
+      get :index, { :host_id => @host.name }, set_session_user
+      assert_response :not_found
+    end
+  end
 end
