@@ -221,32 +221,51 @@ class Api::TestableControllerTest < ActionController::TestCase
         @testable_scope2.stubs(:merge).returns(@testable_scope1)
         @child_associacion.stubs(:merge).returns(@testable_scope1)
         @testable_scope1.stubs(:readonly).returns(@testable_scope1)
-        @testable_scope1.expects(:find).with('1').returns(@testable_obj)
-        @testable_scope1.expects(:empty?).returns(false)
         Testable.stubs(:joins).returns(@child_associacion)
       end
 
-      it 'should return nested resource for unauthorized resource' do
-        Testable.stubs(:where).returns(@testable_scope2)
-        Testable.stubs(:scoped).returns(@testable_scope2)
+      context 'resouce scope mocks' do
+        setup do
+          @testable_scope1.expects(:find).with('1').returns(@testable_obj)
+          @testable_scope1.expects(:empty?).returns(false)
+        end
 
-        get :nested_values, :domain_id => 1, :id => 1
+        it 'should return nested resource for unauthorized resource' do
+          Testable.stubs(:where).returns(@testable_scope2)
+          Testable.stubs(:scoped).returns(@testable_scope2)
 
-        assert_equal @testable_obj, @controller.instance_variable_get('@testable')
-        assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
+          get :nested_values, :domain_id => 1, :id => 1
+
+          assert_equal @testable_obj, @controller.instance_variable_get('@testable')
+          assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
+        end
+
+        it 'should return nested resource scope for authorized resource' do
+          child_auth_scope = mock('child_auth_scope')
+
+          Testable.stubs(:authorized).returns(child_auth_scope)
+          child_auth_scope.stubs(:where).returns(@testable_scope2)
+          child_auth_scope.stubs(:scoped).returns(@testable_scope2)
+
+          get :nested_values, :domain_id => 1, :id => 1
+
+          assert_equal @testable_obj, @controller.instance_variable_get('@testable')
+          assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
+        end
       end
 
-      it 'should return nested resource scope for authorized resource' do
-        child_auth_scope = mock('child_auth_scope')
+      context 'check authorized for nested resources' do
+        it 'checks Host::Managed scope when :host_id is passed' do
+          Host::Managed.expects(:authorized)
+          get :nested_values, :host_id => 1, :id => 1
+        end
 
-        Testable.stubs(:authorized).returns(child_auth_scope)
-        child_auth_scope.stubs(:where).returns(@testable_scope2)
-        child_auth_scope.stubs(:scoped).returns(@testable_scope2)
-
-        get :nested_values, :domain_id => 1, :id => 1
-
-        assert_equal @testable_obj, @controller.instance_variable_get('@testable')
-        assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
+        it 'determines class properly from resource_id parameter' do
+          Domain.expects(:authorized)
+          get :nested_values, :domain_id => 1, :id => 1
+          Subnet.expects(:authorized)
+          get :nested_values, :subnet_id => 1, :id => 1
+        end
       end
     end
   end
