@@ -48,10 +48,10 @@ module FindCommon
   end
 
   def resource_class_for(resource)
-    begin
-      return resource.classify.constantize
-    rescue NameError
-      return nil
-    end
+    klass = resource.classify.constantize
+    return Host::Managed if klass == Host
+    klass
+  rescue NameError
+    nil
   end
 end
