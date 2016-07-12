@@ -131,7 +131,7 @@ module Foreman::Model
 
     def test_connection(options = {})
       super
-      errors[:user].empty? and errors[:password].empty? and zones
+      errors[:user].empty? && errors[:password].empty? && zones
     rescue => e
       errors[:base] << e.message
     end

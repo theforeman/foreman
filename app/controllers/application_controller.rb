@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
     klass = controller_name.camelize.singularize
     if (klass.constantize.first.nil? rescue false)
       @welcome = true
-      render :welcome rescue nil and return
+      render :welcome rescue nil
     end
   rescue
     not_found
@@ -50,7 +50,10 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize
-    (render :json => { :error => "Authentication error" }, :status => :unauthorized and return) unless User.current.present?
+    unless User.current.present?
+      render :json => { :error => "Authentication error" }, :status => :unauthorized
+      return
+    end
     authorized ? true : deny_access
   end
 
@@ -265,7 +268,7 @@ class ApplicationController < ActionController::Base
     hash[:success_redirect] ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
     notice hash[:success_msg]
-    redirect_to hash[:success_redirect] and return
+    redirect_to hash[:success_redirect]
   end
 
   def process_error(hash = {})

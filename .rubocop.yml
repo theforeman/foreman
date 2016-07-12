@@ -30,6 +30,3 @@ Metrics/ClassLength:
 Performance/FixedSize:
   Exclude:
     - 'test/**/*'
-
-Style/AndOr:
-  EnforcedStyle: conditionals

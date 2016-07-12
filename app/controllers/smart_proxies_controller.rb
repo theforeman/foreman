@@ -141,7 +141,7 @@ class SmartProxiesController < ApplicationController
     data = yield
     render :json => {:success => true, :message => data }
   rescue Foreman::Exception => exception
-    render :json => {:success => false, :message => exception.message} and return
+    render :json => {:success => false, :message => exception.message}
   end
 
   def action_permission

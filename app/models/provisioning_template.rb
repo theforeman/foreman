@@ -18,7 +18,7 @@ class ProvisioningTemplate < Template
   has_many :template_combinations, :dependent => :destroy
   belongs_to :template_kind
   accepts_nested_attributes_for :template_combinations, :allow_destroy => true,
-    :reject_if => ->(tc) { tc[:environment_id].blank? and tc[:hostgroup_id].blank? }
+    :reject_if => ->(tc) { tc[:environment_id].blank? && tc[:hostgroup_id].blank? }
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_provisioning_templates, :association_foreign_key => :operatingsystem_id, :foreign_key => :provisioning_template_id
   has_many :os_default_templates
   before_save :check_for_snippet_assoications

@@ -61,7 +61,8 @@ module Api
         begin
           test = @auth_source_ldap.test_connection
         rescue Foreman::Exception => exception
-          render :test, :locals => {:success => false, :message => exception.message} and return
+          render :test, :locals => {:success => false, :message => exception.message}
+          return
         end
         render :test, :locals => {:success => true, :message => test[:message]}
       end

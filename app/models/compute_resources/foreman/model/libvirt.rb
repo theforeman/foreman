@@ -35,7 +35,7 @@ module Foreman::Model
     end
 
     def editable_network_interfaces?
-      interfaces.any? or networks.any?
+      interfaces.any? || networks.any?
     end
 
     def find_vm_by_uuid(uuid)
@@ -70,7 +70,7 @@ module Foreman::Model
 
     def test_connection(options = {})
       super
-      errors[:url].empty? and hypervisor
+      errors[:url].empty? && hypervisor
     rescue => e
       disconnect rescue nil
       errors[:base] << e.message

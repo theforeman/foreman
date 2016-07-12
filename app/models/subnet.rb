@@ -158,7 +158,7 @@ class Subnet < ActiveRecord::Base
   end
 
   def tftp?
-    !!(tftp and tftp.url and !tftp.url.blank?)
+    !!(tftp && tftp.url && !tftp.url.blank?)
   end
 
   def tftp_proxy(attrs = {})
@@ -167,7 +167,7 @@ class Subnet < ActiveRecord::Base
 
   # do we support DNS PTR records for this subnet
   def dns?
-    !!(dns and dns.url and !dns.url.blank?)
+    !!(dns && dns.url && !dns.url.blank?)
   end
 
   def dns_proxy(attrs = {})

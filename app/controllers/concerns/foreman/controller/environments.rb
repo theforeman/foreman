@@ -12,7 +12,7 @@ module Foreman::Controller::Environments
     rescue => e
       if e.message =~ /puppet feature/i
         error _("No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature.")
-        redirect_to :controller => controller_path and return
+        redirect_to :controller => controller_path
       else
         raise e
       end

@@ -11,7 +11,7 @@ module TaxonomyHelper
   end
 
   def show_taxonomy_tabs?
-    SETTINGS[:locations_enabled] or SETTINGS[:organizations_enabled]
+    SETTINGS[:locations_enabled] || SETTINGS[:organizations_enabled]
   end
 
   def organization_dropdown(count)

@@ -174,7 +174,10 @@ class HostsController < ApplicationController
     certname = params[:name]
     @host ||= resource_base.find_by_certname certname
     @host ||= resource_base.friendly.find certname
-    not_found and return unless @host
+    unless @host
+      not_found
+      return
+    end
 
     begin
       respond_to do |format|
@@ -348,7 +351,8 @@ class HostsController < ApplicationController
   def update_multiple_parameters
     if params[:name].empty?
       notice _("No parameters were allocated to the selected hosts, can't mass assign.")
-      redirect_to hosts_path and return
+      redirect_to hosts_path
+      return
     end
 
     @skipped_parameters = {}
@@ -367,7 +371,8 @@ class HostsController < ApplicationController
     end
     if @skipped_parameters.empty?
       notice _('Updated all hosts!')
-      redirect_to(hosts_path) and return
+      redirect_to(hosts_path)
+      return
     else
       notice _("%s Parameters updated, see below for more information") % (counter)
     end
@@ -380,7 +385,8 @@ class HostsController < ApplicationController
     # simple validations
     unless (id=params["hostgroup"]["id"])
       error _('No host group selected!')
-      redirect_to(select_multiple_hostgroup_hosts_path) and return
+      redirect_to(select_multiple_hostgroup_hosts_path)
+      return
     end
     hg = Hostgroup.find_by_id(id)
     #update the hosts
@@ -401,7 +407,8 @@ class HostsController < ApplicationController
     # simple validations
     if (params[:environment].nil?) || (id=params["environment"]["id"]).nil?
       error _('No environment selected!')
-      redirect_to(select_multiple_environment_hosts_path) and return
+      redirect_to(select_multiple_environment_hosts_path)
+      return
     end
 
     ev = Environment.find_by_id(id)
@@ -423,7 +430,8 @@ class HostsController < ApplicationController
     # simple validations
     if (params[:owner].nil?) || (id=params["owner"]["id"]).nil?
       error _('No owner selected!')
-      redirect_to(select_multiple_owner_hosts_path) and return
+      redirect_to(select_multiple_owner_hosts_path)
+      return
     end
 
     #update the hosts
@@ -754,11 +762,18 @@ class HostsController < ApplicationController
 
   # overwrite application_controller
   def find_resource
-    not_found and return false if (id = params[:id]).blank?
+    if (id = params[:id]).blank?
+      not_found
+      return false
+    end
     @host   = resource_base.friendly.find(id)
     @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
 
-    not_found and return(false) unless @host
+    unless @host
+      not_found
+      return(false)
+    end
+
     @host
   end
 
@@ -782,11 +797,13 @@ class HostsController < ApplicationController
       @hosts = resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names])
       if @hosts.empty?
         error _('No hosts were found with that id or name')
-        redirect_to(hosts_path) and return false
+        redirect_to(hosts_path)
+        return false
       end
     else
       error _('No hosts selected')
-      redirect_to(hosts_path) and return false
+      redirect_to(hosts_path)
+      return false
     end
 
     return @hosts
@@ -794,7 +811,8 @@ class HostsController < ApplicationController
     message = _("Something went wrong while selecting hosts - %s") % error
     error(message)
     Foreman::Logging.exception(message, error)
-    redirect_to hosts_path and return false
+    redirect_to hosts_path
+    return false
   end
 
   def toggle_hostmode(mode = true)
@@ -834,7 +852,8 @@ class HostsController < ApplicationController
     if params[:power].blank? || (action=params[:power][:action]).blank? ||
         !PowerManager::REAL_ACTIONS.include?(action)
       error _('No or invalid power state selected!')
-      redirect_to(select_multiple_power_state_hosts_path) and return false
+      redirect_to(select_multiple_power_state_hosts_path)
+      return false
     end
   end
 
@@ -849,12 +868,14 @@ class HostsController < ApplicationController
   def validate_multiple_proxy(redirect_path)
     if params[:proxy].nil? || (proxy_id = params[:proxy][:proxy_id]).nil?
       error _('No proxy selected!')
-      redirect_to(redirect_path) and return false
+      redirect_to(redirect_path)
+      return false
     end
 
     if !proxy_id.blank? && !SmartProxy.find_by_id(proxy_id)
       error _('Invalid proxy selected!')
-      redirect_to(redirect_path) and return false
+      redirect_to(redirect_path)
+      return false
     end
   end
 

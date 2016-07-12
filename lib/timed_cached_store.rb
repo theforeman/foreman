@@ -42,7 +42,7 @@ class TimedCachedStore < ActiveSupport::Cache::MemoryStore
 
   def expired?(name)
     ts = @data[ts_field(name)]
-    ts and (Time.now.utc >= ts[:expires_at])
+    ts && (Time.now.utc >= ts[:expires_at])
   rescue
     false
   end

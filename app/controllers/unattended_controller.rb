@@ -57,7 +57,7 @@ class UnattendedController < ApplicationController
   private
 
   def preview?
-    params.key?(:spoof) or params.key?(:hostname)
+    params.key?(:spoof) || params.key?(:hostname)
   end
 
   def render_custom_error(status, error_message, params)
@@ -222,11 +222,11 @@ class UnattendedController < ApplicationController
     end
 
     begin
-      render :inline => "<%= unattended_render(@unsafe_template, @template_name).html_safe %>" and return
+      render :inline => "<%= unattended_render(@unsafe_template, @template_name).html_safe %>"
     rescue => error
       msg = _("There was an error rendering the %s template: ") % (@template_name)
       Foreman::Logging.exception(msg, error)
-      render :text => msg + error.message, :status => :internal_server_error and return
+      render :text => msg + error.message, :status => :internal_server_error
     end
   end
 end

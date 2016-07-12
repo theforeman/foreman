@@ -401,11 +401,13 @@ module Host
 
       logger.debug "Saving #{name} NIC for host #{self.name}"
       result = iface.save
-      result or begin
+
+      unless result
         logger.warn "Saving #{name} NIC for host #{self.name} failed, skipping because:"
-        iface.errors.full_messages.each { |e| logger.warn " #{e}"}
-        false
+        iface.errors.full_messages.each { |e| logger.warn " #{e}" }
       end
+
+      result
     end
 
     def update_virtuals(old, new)

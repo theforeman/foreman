@@ -24,7 +24,7 @@ module Foreman::Controller::Authentication
           session[:original_uri] = request.fullpath
           @available_sso ||= SSO::Base.new(self)
 
-          (redirect_to @available_sso.login_url and return) unless @available_sso.has_rendered
+          redirect_to @available_sso.login_url unless @available_sso.has_rendered
         end
       end
     else

@@ -73,7 +73,7 @@ module HostCommon
   end
 
   def puppetca_exists?
-    !!(puppet_ca_proxy and puppet_ca_proxy.url.present?)
+    !!(puppet_ca_proxy && puppet_ca_proxy.url.present?)
   end
 
   # no need to store anything in the db if the entry is plain "puppet"
