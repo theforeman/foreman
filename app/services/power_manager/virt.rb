@@ -1,9 +1,11 @@
+require 'timeout'
+
 module PowerManager
   class Virt < Base
     def initialize(opts = {})
       super(opts)
       begin
-        timeout(15) do
+        Timeout.timeout(15) do
           @vm = host.compute_resource.find_vm_by_uuid(host.uuid)
         end
       rescue Timeout::Error
