@@ -391,6 +391,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
         subnet_and_domain_are_selected(modal, domain)
 
+        wait_for_ajax
         modal.find(:button, "Ok").click
 
         assert table.find('td.fqdn').has_content?('name.'+domain.name)
