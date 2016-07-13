@@ -8,7 +8,7 @@ function ignore_checked(item){
   var current_select = $(item).closest('.tab-pane').find('select');
 
   if ($(item).is(':checked')) {
-     current_select.attr('disabled', 'disabled');
+     current_select.prop('disabled', true);
   } else {
      current_select.removeAttr('disabled');
   }

@@ -73,7 +73,7 @@ function two_pane_open(item){
 // submit the form in the right pane, using ajax.
 function two_pane_submit(){
   clear_errors();
-  $('input[type="submit"]').attr('disabled', true);
+  $('input[type="submit"]').prop('disabled', true);
   $("body").css("cursor", "progress");
 
   var url = $('.two-pane-right form').attr('action');
@@ -103,7 +103,7 @@ function two_pane_submit(){
     },
     complete: function(){
       $("body").css("cursor", "auto");
-      $('input[type="submit"]').attr('disabled', false);
+      $('input[type="submit"]').prop('disabled', false);
     }
   });
 }

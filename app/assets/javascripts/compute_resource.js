@@ -19,10 +19,10 @@ function providerSelected(item)
   var provider = $(item).val();
   if(provider == "") {
     compute_connection.hide();
-    $("[type=submit]").attr("disabled",true);
+    $("[type=submit]").prop("disabled",true);
     return false;
   }
-  $("[type=submit]").attr("disabled",false);
+  $("[type=submit]").prop("disabled",false);
   var url = $(item).attr('data-url');
   var data = 'provider=' + provider;
   compute_connection.show();
@@ -99,14 +99,14 @@ function add_volume(item){
   var new_id = add_child_node($("#storage_volumes .add_nested_fields"));
   disable_element($('[id$='+new_id+'_size_gb]').val(item.size_gb));
   disable_element($('[id$='+new_id+'_storage_domain]').val(item.storage_domain));
-  disable_element( $('[id$='+new_id+'_bootable_true]').attr('checked', item.bootable));
+  disable_element( $('[id$='+new_id+'_bootable_true]').prop('checked', item.bootable));
   $('[id$='+new_id+'_id]').val(7);
   $('[id$='+new_id+'_storage_domain]').next().hide();
 }
 
 function disable_element(element){
   element.clone().attr('type','hidden').appendTo(element);
-  element.attr('disabled', 'disabled');
+  element.prop('disabled', true);
 }
 function bootable_radio(item){
   var $disabled = $('[id$=_bootable_true]:disabled:checked:visible');
@@ -166,12 +166,12 @@ function libvirt_network_selected(item){
 
 function disable_libvirt_dropdown(item){
   item.hide();
-  item.attr("disabled",true);
+  item.prop("disabled",true);
 }
 
 function enable_libvirt_dropdown(item){
-  item.attr("disabled",false);
-  item.find(':input').attr('disabled',false)
+  item.prop("disabled",false);
+  item.find(':input').prop('disabled',false)
   item.show();
 }
 
@@ -294,9 +294,9 @@ function vsphereStoragePodLoad() {
 $(document).on('ContentLoad', function(){vsphereStoragePodLoad()});
 
 function disable_vsphere_dropdown(item){
-  item.attr("disabled", true);
+  item.prop("disabled", true);
 }
 
 function enable_vsphere_dropdown(item){
-  item.attr("disabled", false);
+  item.prop("disabled", false);
 }

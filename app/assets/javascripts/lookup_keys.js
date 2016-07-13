@@ -154,11 +154,11 @@ function toggleOverrideValue(item) {
 
 function changeCheckboxEnabledStatus(checkbox, shouldEnable) {
   if (shouldEnable) {
-    $(checkbox).attr('disabled', null);
+    $(checkbox).prop('disabled', false);
   }
   else {
-    $(checkbox).attr('checked', false);
-    $(checkbox).attr('disabled', 'disabled');
+    $(checkbox).prop('checked', false);
+    $(checkbox).prop('disabled', true);
   }
 }
 
@@ -172,7 +172,7 @@ function keyTypeChange(item) {
   var validators = fields.find("[id^='optional_input_validators']");
 
   changeCheckboxEnabledStatus(mergeOverrides, keyType == 'array' || keyType == 'hash');
-  var mergeOverrideChecked = $(mergeOverrides).attr('checked') == 'checked';
+  var mergeOverrideChecked = $(mergeOverrides).is(':checked');
   changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && mergeOverrideChecked);
   changeCheckboxEnabledStatus(mergeDefault, mergeOverrideChecked);
   validators.collapse('show');
@@ -263,7 +263,7 @@ function fill_in_matchers(){
     });
     if (match) {
       var key_value = match_to_key_value(match);
-      matcher_key.find("option[value='" + key_value[0] + "']").attr('selected', 'selected');
+      matcher_key.find("option[value='" + key_value[0] + "']").prop('selected', true);
       matcher_value.val(key_value[1]);
     }
   });
