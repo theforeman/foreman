@@ -7,6 +7,23 @@ class ForemanLoggingTest < ActiveSupport::TestCase
     end
   end
 
+  def test_environment_not_found_yields_defaults
+    assert_nothing_raised do
+      Foreman::Logging.instance_variable_set("@configured", false)
+      # Stub the log file creation (foo.log)
+      Foreman::Logging.stubs(:build_file_appender).
+        with('foreman', { :environment => 'foo'} ).returns(nil).once
+      quietly { Foreman::Logging.configure(:environment => 'foo') }
+    end
+    log_filename = Foreman::Logging.instance_variable_get("@config")[:filename]
+    assert_equal 'foo.log', log_filename
+  ensure
+    # Return the foreman logger to the original one for the current environment
+    Foreman::Logging.unstub(:build_file_appender)
+    Foreman::Logging.instance_variable_set("@configured", false)
+    Foreman::Logging.configure(:environment => Rails.env)
+  end
+
   def test_default_loggers_exist
     assert Foreman::Logging.logger('app')
     assert Foreman::Logging.logger('sql')
