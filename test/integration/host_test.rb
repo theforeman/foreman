@@ -130,4 +130,14 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       assert page.has_no_selector?('#params .has-error')
     end
   end
+
+  describe 'edit and view host page' do
+    test 'titles aret set properly when switching from Edit to View host' do
+      host = FactoryGirl.create(:host)
+      visit edit_host_path(host)
+      assert page.has_title? "Edit #{host.fqdn}"
+      click_button('Submit')
+      assert page.has_title? host.fqdn
+    end
+  end
 end
