@@ -16,7 +16,12 @@ class ComputeProfile < ActiveRecord::Base
   has_many_hosts :dependent => :nullify
   has_many :hostgroups
 
+  def self.name_format
+    /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
+  end
+
   validates :name, :presence => true, :uniqueness => true
+  validates :name, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
 
   scoped_search :on => :name, :complete_value => true
   default_scope -> { order('compute_profiles.name') }

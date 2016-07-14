@@ -8,6 +8,9 @@ class ComputeProfileTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
   should_not allow_value('   ').for(:name)
+  should validate_length_of(:name).is_at_most(50)
+  should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:name)
+  should_not allow_value("$$$ is not allowed").for(:name)
 
   test "should not destroy if in use by hostgroup" do
     #hostgroups(:common) uses compute_profiles(:one)
