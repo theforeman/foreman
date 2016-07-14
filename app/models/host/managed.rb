@@ -291,11 +291,11 @@ class Host::Managed < Host::Base
     setAutosign
   end
 
-  def import_facts(facts)
+  def import_facts(facts, source_proxy = nil)
     # Facts come from 'existing' attributes/infrastructure. We skip triggering
     # the orchestration of this infrastructure when we create a host this way.
     skip_orchestration! if SETTINGS[:unattended]
-    super(facts)
+    super
   ensure
     enable_orchestration! if SETTINGS[:unattended]
   end
@@ -356,28 +356,6 @@ class Host::Managed < Host::Base
     all_puppetclasses.collect {|c| c.name}
   end
 
-  def self.import_host(hostname, import_type, certname = nil, proxy_id = nil)
-    raise(::Foreman::Exception.new("Invalid Hostname, must be a String")) unless hostname.is_a?(String)
-
-    # downcase everything
-    hostname.try(:downcase!)
-    certname.try(:downcase!)
-
-    host = Host.find_by_certname(certname) if certname.present?
-    host ||= Host.find_by_name(hostname)
-    host ||= Host.new(:name => hostname) # if no host was found, build a new one
-
-    # if we were given a certname but found the Host by hostname we should update the certname
-    # this also sets certname for newly created hosts
-    host.certname = certname if certname.present?
-
-    # if proxy authentication is enabled and we have no puppet proxy set and the upload came from puppet,
-    # use it as puppet proxy.
-    host.puppet_proxy_id ||= proxy_id if import_type == 'puppet'
-
-    host
-  end
-
   def attributes_to_import_from_facts
     attrs = [:architecture, :hostgroup]
     if !Setting[:ignore_facts_for_operatingsystem] || (Setting[:ignore_facts_for_operatingsystem] && operatingsystem.blank?)
@@ -390,15 +368,11 @@ class Host::Managed < Host::Base
     super + attrs
   end
 
-  def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
-    importer = super
-    if Setting[:update_environment_from_facts]
-      set_non_empty_values importer, [:environment]
-    else
-      self.environment ||= importer.environment unless importer.environment.blank?
-    end
+  def populate_fields_from_facts(parser, type, source_proxy)
+    super
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
-    self.save(:validate => false)
+
+    populate_facet_fields(parser, type, source_proxy)
   end
 
   # Called by build link in the list

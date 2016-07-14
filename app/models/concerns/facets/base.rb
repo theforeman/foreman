@@ -44,7 +44,7 @@ module Facets
 
       # Use this method to populate host's fields based on fact values exposed by the importer.
       # You can populate fields in the associated host's facets too.
-      def populate_fields_from_facts(host, importer, type, proxy_id)
+      def populate_fields_from_facts(host, parser, type, proxy)
       end
     end
   end

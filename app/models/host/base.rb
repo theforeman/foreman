@@ -104,12 +104,31 @@ module Host
       super - [ inheritance_column ]
     end
 
+    def self.import_host(hostname, certname = nil, deprecated_proxy = nil)
+      raise(::Foreman::Exception.new("Invalid Hostname, must be a String")) unless hostname.is_a?(String)
+      Foreman::Deprecation.deprecation_warning("1.19", "proxy parameter is deprecated, please use import_facts to set it") if deprecated_proxy
+
+      # downcase everything
+      hostname.try(:downcase!)
+      certname.try(:downcase!)
+
+      host = Host.find_by_certname(certname) if certname.present?
+      host ||= Host.find_by_name(hostname)
+      host ||= self.new(:name => hostname) # if no host was found, build a new one
+
+      # if we were given a certname but found the Host by hostname we should update the certname
+      # this also sets certname for newly created hosts
+      host.certname = certname if certname.present?
+
+      host
+    end
+
     def create_new_host_when_facts_are_uploaded?
       Setting[:create_new_host_when_facts_are_uploaded]
     end
 
     # expect a facts hash
-    def import_facts(facts)
+    def import_facts(facts, source_proxy = nil)
       return false if !create_new_host_when_facts_are_uploaded? && new_record?
 
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
@@ -118,17 +137,27 @@ module Host
 
       facts[:domain] = facts[:domain].downcase if facts[:domain].present?
 
-      time = facts[:_timestamp]
-      time = time.to_time if time.is_a?(String)
-      self.last_compile = time if time
-
-      type = facts.delete(:_type) || 'puppet'
+      type = facts.delete(:_type)
       importer = FactImporter.importer_for(type).new(self, facts)
       importer.import!
 
       save(:validate => false)
+
+      parse_facts facts, type, source_proxy
+    end
+
+    def parse_facts(facts, type, source_proxy)
+      time = facts[:_timestamp]
+      time = time.to_time if time.is_a?(String)
+      self.last_compile = time if time
+
+      unless build?
+        parser = FactParser.parser_for(type).new(facts)
+
+        populate_fields_from_facts(parser, type, source_proxy)
+      end
+
       set_taxonomies(facts)
-      populate_fields_from_facts(facts, type)
 
       # we are saving here with no validations, as we want this process to be as fast
       # as possible, assuming we already have all the right settings in Foreman.
@@ -142,17 +171,11 @@ module Host
       [ :model ]
     end
 
-    def populate_fields_from_facts(facts = self.facts_hash, type = 'puppet')
-      # we don't import facts for host in build mode
-      return if build?
-
-      parser = FactParser.parser_for(type).new(facts)
-
+    def populate_fields_from_facts(parser, type, source_proxy)
       # we must create interface if it's missing so we can store domain
       build_required_interfaces(:managed => false)
       set_non_empty_values(parser, attributes_to_import_from_facts)
       set_interfaces(parser) if parser.parse_interfaces?
-      parser
     end
 
     def set_non_empty_values(parser, methods)
