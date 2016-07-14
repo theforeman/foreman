@@ -6,14 +6,15 @@ class FactParser
   VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
   def self.parser_for(type)
-    parsers[type.to_s] || parsers[:puppet]
+    parsers[type.to_s]
   end
 
   def self.parsers
-    @parsers ||= { :puppet => PuppetFactParser }.with_indifferent_access
+    @parsers ||= {}.with_indifferent_access
   end
 
-  def self.register_fact_parser(key, klass)
+  def self.register_fact_parser(key, klass, default = false)
+    parsers.default = klass if default
     parsers[key.to_sym] = klass
   end
 

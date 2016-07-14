@@ -25,8 +25,11 @@ class FactParserTest < ActiveSupport::TestCase
   test ".register_custom_parser" do
     chef_parser = Struct.new(:my_method)
     FactParser.register_fact_parser :chef, chef_parser
-
-    assert_equal chef_parser, FactParser.parser_for(:chef)
+    begin
+      assert_equal chef_parser, FactParser.parser_for(:chef)
+    ensure
+      FactParser.parsers.delete :chef
+    end
   end
 
   test "#parse_interfaces? should answer based on current setttings" do

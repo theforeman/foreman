@@ -273,13 +273,16 @@ class HostTest < ActiveSupport::TestCase
   test "should populate primary interface attributes even without existing interface" do
     host = FactoryGirl.create(:host, :managed => false)
     host.interfaces = []
-    host.populate_fields_from_facts(:domain => 'example.com',
-                                    :operatingsystem => 'RedHat',
-                                    :operatingsystemrelease => '6.2',
-                                    :macaddress_eth0 => '00:00:11:22:11:22',
-                                    :ipaddress_eth0 => '192.168.0.1',
-                                    :ipaddress6_eth0 => '2001:db8::1',
-                                    :interfaces => 'eth0')
+    host.populate_fields_from_facts(
+      mock_parser(:domain => 'example.com',
+                  :operatingsystem => 'RedHat',
+                  :operatingsystemrelease => '6.2',
+                  :macaddress_eth0 => '00:00:11:22:11:22',
+                  :ipaddress_eth0 => '192.168.0.1',
+                  :ipaddress6_eth0 => '2001:db8::1',
+                  :interfaces => 'eth0'),
+      'puppet',
+      nil)
     assert_equal 'example.com', host.domain.name
     assert_equal '2001:db8::1', host.primary_interface.ip6
     refute host.primary_interface.managed?
@@ -375,7 +378,7 @@ class HostTest < ActiveSupport::TestCase
       assert_difference 'Host.count' do
         Setting[:ignore_facts_for_domain] = true
         raw = read_json_fixture('facts/facts_with_certname.json')
-        host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+        host = Host.import_host(raw['name'], raw['certname'])
         assert host.import_facts(raw['facts'])
         assert Host.find_by_name('sinn1636.lan')
         assert host.domain
@@ -386,21 +389,21 @@ class HostTest < ActiveSupport::TestCase
 
     test 'should downcase hostname parameter from json of a new host' do
       raw = read_json_fixture('facts/facts_with_caps.json')
-      host = Host.import_host(raw['name'], 'puppet')
+      host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
       assert Host.find_by_name('sinn1636.lan')
     end
 
     test 'should downcase domain parameter from json of a new host' do
       raw = read_json_fixture('facts/facts_with_caps.json')
-      host = Host.import_host(raw['name'], 'puppet')
+      host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
       assert_equal raw['facts']['domain'].downcase, Host.find_by_name('sinn1636.lan').facts_hash['domain']
     end
 
     test 'should import facts idempotently' do
       raw = read_json_fixture('facts/facts_with_caps.json')
-      host = Host.import_host(raw['name'], 'puppet')
+      host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
       value_ids = Host.find_by_name('sinn1636.lan').fact_values.map(&:id)
       assert host.import_facts(raw['facts'])
@@ -413,7 +416,7 @@ class HostTest < ActiveSupport::TestCase
       # hostname in the json is sinn1636.lan, so if the facts have been updated for
       # this host, it's a successful identification by certname
       raw = read_json_fixture('facts/facts_with_certname.json')
-      host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+      host = Host.import_host(raw['name'], raw['certname'])
       assert host.import_facts(raw['facts'])
       host = Host.find_by_name('sinn1636.fail')
       assert_equal '10.35.27.2', host.interfaces.find_by_identifier('br180').ip
@@ -424,7 +427,7 @@ class HostTest < ActiveSupport::TestCase
       Host.new(:name => 'sinn1636.lan', :certname => 'sinn1636.cert.fail').save(:validate => false)
       assert_equal 'sinn1636.cert.fail', Host.find_by_name('sinn1636.lan').certname
       raw = read_json_fixture('facts/facts_with_certname.json')
-      host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+      host = Host.import_host(raw['name'], raw['certname'])
       assert host.import_facts(raw['facts'])
       assert_equal 'sinn1636.lan.cert', Host.find_by_name('sinn1636.lan').certname
     end
@@ -433,7 +436,7 @@ class HostTest < ActiveSupport::TestCase
       assert_difference 'Host.count' do
         Setting[:create_new_host_when_facts_are_uploaded] = true
         raw = read_json_fixture('facts/facts_with_certname.json')
-        host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+        host = Host.import_host(raw['name'], raw['certname'])
         assert host.import_facts(raw['facts'])
         assert Host.find_by_name('sinn1636.lan')
         Setting[:create_new_host_when_facts_are_uploaded] =
@@ -445,7 +448,7 @@ class HostTest < ActiveSupport::TestCase
       Setting[:create_new_host_when_facts_are_uploaded] = false
       refute Setting[:create_new_host_when_facts_are_uploaded]
       raw = read_json_fixture('facts/facts_with_certname.json')
-      host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+      host = Host.import_host(raw['name'], raw['certname'])
       refute host.import_facts(raw['facts'])
       host = Host.find_by_name('sinn1636.lan')
       Setting[:create_new_host_when_facts_are_uploaded] =
@@ -458,14 +461,14 @@ class HostTest < ActiveSupport::TestCase
       Setting[:create_new_host_when_facts_are_uploaded] = false
       refute Setting[:create_new_host_when_facts_are_uploaded]
       raw = read_json_fixture('facts/facts_with_certname.json')
-      host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+      host = Host.import_host(raw['name'], raw['certname'])
       assert host.import_facts(raw['facts'])
     end
 
     test 'host taxonomies are set to a default when uploading facts' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
       raw = read_json_fixture('facts/facts.json')
-      host = Host.import_host(raw['name'], 'puppet')
+      host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
 
       assert_equal Setting[:default_location],     Host.find_by_name('sinn1636.lan').location.title
@@ -480,7 +483,7 @@ class HostTest < ActiveSupport::TestCase
       raw = read_json_fixture('facts/facts.json')
       raw['facts']['foreman_location']     = 'Location 2'
       raw['facts']['foreman_organization'] = 'Organization 2'
-      host = Host.import_host(raw['name'], 'puppet')
+      host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
 
       assert_equal 'Location 2',     Host.find_by_name('sinn1636.lan').location.title
@@ -490,7 +493,7 @@ class HostTest < ActiveSupport::TestCase
     test 'default taxonomies are not assigned to hosts with taxonomies' do
       Setting[:default_location] = taxonomies(:location1).title
       raw = read_json_fixture('facts/facts.json')
-      host = Host.import_host(raw['name'], 'puppet')
+      host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
       Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location2))
       Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
@@ -505,7 +508,7 @@ class HostTest < ActiveSupport::TestCase
 
       raw = read_json_fixture('facts/facts.json')
       raw['facts']['foreman_location'] = 'Location 2'
-      host = Host.import_host(raw['name'], 'puppet')
+      host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
 
       Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location1))
@@ -515,13 +518,13 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'operatingsystem updated from facts' do
-      host = Host.import_host('host', 'puppet')
+      host = Host.import_host('host')
       assert host.import_facts(:lsbdistrelease => '6.7', :operatingsystem => 'CentOS')
       assert_equal 'CentOS 6.7', host.operatingsystem.to_s
     end
 
     test 'operatingsystem not updated from facts when ignore_facts_for_operatingsystem false' do
-      host = Host.import_host('host', 'puppet')
+      host = Host.import_host('host')
       assert host.import_facts(:lsbdistrelease => '6.7', :operatingsystem => 'CentOS')
       Setting[:ignore_facts_for_operatingsystem] = true
       assert host.import_facts(:lsbdistrelease => '6.8', :operatingsystem => 'CentOS')
@@ -534,7 +537,7 @@ class HostTest < ActiveSupport::TestCase
       assert_difference 'Host.count' do
         Setting[:ignore_facts_for_operatingsystem] = true
         raw = read_json_fixture('facts/facts_with_certname.json')
-        host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+        host = Host.import_host(raw['name'], raw['certname'])
         assert host.import_facts(raw['facts'])
         assert Host.find_by_name('sinn1636.lan')
         assert host.operatingsystem
@@ -1024,7 +1027,10 @@ class HostTest < ActiveSupport::TestCase
                          :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
       assert_difference('Model.count') do
         facts = read_json_fixture('facts/facts.json')
-        h.populate_fields_from_facts facts['facts']
+        h.populate_fields_from_facts(
+          mock_parser(facts['facts']),
+          'puppet',
+          nil)
       end
     end
 
@@ -2056,15 +2062,16 @@ class HostTest < ActiveSupport::TestCase
     test "should update puppet_proxy_id to the id of the validated proxy" do
       sp = smart_proxies(:puppetmaster)
       raw = read_json_fixture('facts/facts_with_caps.json')
-      host = Host.import_host(raw['name'], 'puppet', nil, sp.id)
-      assert host.import_facts(raw['facts'])
+      host = Host.import_host(raw['name'], nil)
+      assert host.import_facts(raw['facts'], sp)
       assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
     end
 
     test "should not update puppet_proxy_id if it was not puppet upload" do
       sp = smart_proxies(:puppetmaster)
       raw = read_json_fixture('facts/facts_with_caps.json')
-      host = Host.import_host(raw['name'], 'chef', nil, sp.id)
+      host = Host.import_host(raw['name'])
+      assert host.import_facts(raw['facts'].merge(:_type => 'chef'), sp)
       assert_nil host.puppet_proxy_id
     end
 
@@ -2072,8 +2079,8 @@ class HostTest < ActiveSupport::TestCase
       Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
       sp = smart_proxies(:puppetmaster)
       raw = read_json_fixture('facts/facts_with_certname.json')
-      host = Host.import_host(raw['name'], 'puppet', nil, sp.id)
-      assert host.import_facts(raw['facts'])
+      host = Host.import_host(raw['name'])
+      assert host.import_facts(raw['facts'], sp)
       assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
     end
 
@@ -2942,7 +2949,10 @@ class HostTest < ActiveSupport::TestCase
   test 'check operatingsystem and architecture association' do
     host = FactoryGirl.build(:host, :interfaces => [FactoryGirl.build(:nic_primary_and_provision)])
     assert_nil Operatingsystem.find_by_name('RedHat-test'), "operatingsystem already exist"
-    host.populate_fields_from_facts(:architecture => "x86_64", :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2')
+    host.populate_fields_from_facts(
+      mock_parser(:architecture => "x86_64", :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2'),
+      'puppet',
+      nil)
     assert host.operatingsystem.architectures.include?(host.architecture), "no association between operatingsystem and architecture"
   end
 
@@ -3621,5 +3631,9 @@ class HostTest < ActiveSupport::TestCase
     primary = host.primary_interface
     parser = stub(:ipmi_interface => hash, :interfaces => {}, :suggested_primary_interface => [ primary.identifier, {:macaddress => primary.mac, :ipaddress => primary.ip} ])
     [host, parser]
+  end
+
+  def mock_parser(properties)
+    PuppetFactParser.new(properties)
   end
 end

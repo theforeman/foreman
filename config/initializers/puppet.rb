@@ -11,3 +11,11 @@ Pagelets::Manager.with_key "hosts/_form" do |mgr|
     :partial => "hosts/puppet/main_tab_fields",
     :priority => 100
 end
+
+FactImporter.register_fact_importer :puppet, PuppetFactImporter, true
+FactParser.register_fact_parser :puppet, PuppetFactParser, true
+
+# The module should be included after the class is constructed,
+# since it tries to alias_method_chain a method that is defined
+# in the class itself.
+Host::Managed.send :prepend, PuppetHostExtensions

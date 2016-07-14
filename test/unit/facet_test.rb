@@ -94,6 +94,14 @@ class FacetTest < ActiveSupport::TestCase
 
       @host.apply_inherited_attributes(attributes)
     end
+
+    test 'facts are parsed by facets too' do
+      TestFacet.expects(:populate_fields_from_facts)
+      @host.stubs(:save)
+      facts_json = read_json_fixture('facts/brslc022.facts.json')
+
+      @host.parse_facts(facts_json['facts'], nil, nil)
+    end
   end
 
   context "managed host facet behavior" do

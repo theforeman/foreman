@@ -3,14 +3,16 @@ class FactImporter
   attr_reader :counters
 
   def self.importer_for(type)
-    importers[type.to_s] || importers[:puppet]
+    importers[type.to_s]
   end
 
   def self.importers
-    @importers ||= { :puppet => PuppetFactImporter }.with_indifferent_access
+    @importers ||= {}.with_indifferent_access
   end
 
-  def self.register_fact_importer(key, klass)
+  def self.register_fact_importer(key, klass, default = false)
+    importers.default = klass if default
+
     importers[key.to_sym] = klass
   end
 
