@@ -114,6 +114,16 @@ class UserTest < ActiveSupport::TestCase
       assert_not_equal last_login, User.find(user.id).last_login_on
     end
 
+    test "updating the last login time must not persist invalid attributes" do
+      user = FactoryGirl.create(:user, :with_mail, :auth_source => FactoryGirl.create(:auth_source_ldap))
+      AuthSourceLdap.any_instance.expects(:authenticate).returns(:mail => 'foo#bar')
+      AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
+      assert_not_nil User.try_to_login(user.login, "changeme")
+      reloaded_user = User.find(user.id)
+      assert_not_equal user.last_login_on, reloaded_user.last_login_on
+      assert_equal user.mail, reloaded_user.mail
+    end
+
     test ".try_to_login on unknown user should return nil" do
       User.expects(:try_to_auto_create_user).with('unknown user account', 'secret')
       refute User.try_to_login('unknown user account', 'secret')
@@ -153,18 +163,40 @@ class UserTest < ActiveSupport::TestCase
         assert_equal "foo@bar.com", logged_in_user.mail
       end
 
-      test "ldap user attribute should not be updated when invalid format (mail)" do
+      test "ldap user attribute should not be saved in DB on create when invalid format (mail)" do
         attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
         AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
         user = User.try_to_auto_create_user('foo', 'password')
-        assert_equal nil, user.mail
+        assert_equal 'foo#bar', user.mail
+        assert user.errors[:mail].present?
+        assert_equal nil, user.reload.mail
       end
 
-      test "ldap user attribute should not be updated when invalid format (firstname)" do
+      test "ldap user attribute should not be saved in DB on create when invalid format (firstname)" do
         attrs = {:firstname=>"$%$%%%", :mail=>"foo@bar.com", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
         AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
         user = User.try_to_auto_create_user('foo', 'password')
-        assert_equal nil, user.firstname
+        assert_equal '$%$%%%', user.firstname
+        assert user.errors[:firstname].present?
+        assert_equal nil, user.reload.firstname
+      end
+
+      test "ldap user attribute should not be saved in DB on login when invalid format (mail)" do
+        attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
+        user = User.try_to_login('foo', 'password')
+        assert_equal 'foo#bar', user.mail
+        assert user.errors[:mail].present?
+        assert_equal 'foo@bar.com', user.reload.mail
+      end
+
+      test "ldap user attribute should not be saved in DB on login when invalid format (firstname)" do
+        attrs = {:firstname=>"$%$%%%", :mail=>"foo@bar.com", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
+        user = User.try_to_login('foo', 'password')
+        assert_equal '$%$%%%', user.firstname
+        assert user.errors[:firstname].present?
+        assert_equal nil, user.reload.firstname
       end
     end
   end

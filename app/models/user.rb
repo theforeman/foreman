@@ -200,7 +200,9 @@ class User < ActiveRecord::Base
           if attrs.is_a? Hash
             valid_attrs = attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? }
             logger.debug("Updating user #{user.login} attributes from auth source: #{attrs.keys}")
-            user.update_attributes(valid_attrs)
+            unless user.update_attributes(valid_attrs)
+              logger.warn "Failed to update #{user.login} attributes: #{user.errors.full_messages.join(', ')}"
+            end
           end
           user.auth_source.update_usergroups(user.login)
         end
@@ -228,7 +230,7 @@ class User < ActiveRecord::Base
   def post_successful_login
     logger.debug "Post-login processing for #{login}"
     User.as_anonymous_admin do
-      self.update_attribute(:last_login_on, Time.now.utc)
+      update_columns(:last_login_on => Time.now.utc)
       ensure_default_role
     end
     User.current = self
@@ -408,8 +410,16 @@ class User < ActiveRecord::Base
     if (attrs = AuthSource.authenticate(login, password))
       attrs.delete(:dn)
       user = new(attrs)
+
       # If an invalid data returned from an authentication source for any attribute(s) then set its value as nil
-      user.errors.each {|attr| user[attr] = nil} unless user.valid?
+      saved_attrs = {}
+      unless user.valid?
+        user.errors.each do |attr|
+          saved_attrs[attr] = user[attr]
+          user[attr] = nil
+        end
+      end
+
       # The default user can't auto create users, we need to change to Admin for this to work
       User.as_anonymous_admin do
         if user.save
@@ -420,6 +430,12 @@ class User < ActiveRecord::Base
           user = nil
         end
       end
+
+      # Restore any invalid attributes after creation, so the method returns a saved user object but
+      # any errors from invalid data are still visible to the caller
+      user.attributes = saved_attrs
+      user.valid?
+
       user
     end
   end

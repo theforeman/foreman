@@ -331,6 +331,25 @@ class UsersControllerTest < ActionController::TestCase
     assert_response 401
   end
 
+  test "#login shows a warning for any user model errors" do
+    attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+    AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
+    AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
+    post :login, {:login => {'login' => 'ldap-user', 'password' => 'password'}}
+    assert_redirected_to hosts_path
+    assert_match /mail.*invalid/i, flash[:warning]
+
+    # Subsequent redirects to the user edit page should preserve the warning
+    user = User.find_by_login('ldap-user')
+    get :index, {}, set_session_user.merge(:user => user.id)
+    assert_redirected_to edit_user_path(user)
+
+    get :edit, {:id => user.id}, set_session_user.merge(:user => user.id)
+    assert_response :success
+    assert_match /mail.*invalid/i, flash[:warning]
+    assert_match /An email address is required/, flash[:error]
+  end
+
   test "test email was deliver an email successfuly" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     put :test_mail, { :id => user.id, :user => {:login => user.login}, :user_email => user.mail }, set_session_user

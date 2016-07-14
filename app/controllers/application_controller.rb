@@ -74,10 +74,11 @@ class ApplicationController < ActionController::Base
 
   def require_mail
     if User.current && !User.current.hidden? && User.current.mail.blank?
-      msg = _("Email is Required")
+      msg = _("An email address is required, please update your account details")
       respond_to do |format|
         format.html do
           error msg
+          flash.keep # keep any warnings added by the user login process, they may explain why this occurred
           redirect_to edit_user_path(:id => User.current)
         end
         format.text do
