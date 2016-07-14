@@ -77,7 +77,7 @@ class UsersController < ApplicationController
       else
         #valid user
         #If any of the user attributes provided by external auth source are invalid then throw a flash message to user on successful login.
-        notice _(user.errors.full_messages.join(", ")) unless user.errors.empty?
+        warning _("Some imported user account details cannot be saved: %s") % user.errors.full_messages.to_sentence unless user.errors.empty?
         login_user(user)
       end
     else
