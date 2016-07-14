@@ -26,6 +26,7 @@ FactoryGirl.define do
       provider 'Openstack'
       user 'osuser'
       password 'ospassword'
+      url 'http://openstack.example.com/v2.0'
       after(:build) { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
     end
 

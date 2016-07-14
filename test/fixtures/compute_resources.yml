@@ -30,7 +30,7 @@ yourcompute:
 openstack:
   name: openstackcr
   description: computeresource
-  url: test:///default
+  url: test:///default/v2.0
   user: MyString
   password: 1234567
   uuid: yourcompute
