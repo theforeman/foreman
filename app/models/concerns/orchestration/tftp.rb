@@ -39,6 +39,9 @@ module Orchestration::TFTP
     # therefore some workaround is required to "render" the template.
     @kernel = host.operatingsystem.kernel(host.arch)
     @initrd = host.operatingsystem.initrd(host.arch)
+    if host.operatingsystem.respond_to?(:mediumpath)
+      @mediapath = host.operatingsystem.mediumpath(host)
+    end
 
     # Xen requires additional boot files.
     if host.operatingsystem.respond_to?(:xen)

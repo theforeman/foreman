@@ -44,3 +44,8 @@ nine:
   provisioning_template: myfinish
   template_kind: finish
   operatingsystem: ubuntu1010
+
+ten:
+  provisioning_template: pxeautoyast
+  template_kind: PXELinux
+  operatingsystem: opensuse
