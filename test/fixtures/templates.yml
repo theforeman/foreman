@@ -38,6 +38,14 @@ pxekickstart:
     locked: false
     type: ProvisioningTemplate
 
+pxeautoyast:
+    name: suse_pxelinux
+    template: DEFAULT linux~LABEL linux~KERNEL <%%= @kernel %>~APPEND initrd=<%%= @initrd %> ramdisk_size=65536 install=<%%= @mediapath %> autoyast=<%%= foreman_url('provision') %> textmode=1
+    template_kind: pxelinux
+    operatingsystems: opensuse
+    locked: false
+    type: ProvisioningTemplate
+
 pxe_menu:
    name: PXE Default Menu
    template: "FOO"

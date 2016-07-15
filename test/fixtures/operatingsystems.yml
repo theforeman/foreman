@@ -47,6 +47,15 @@ solaris10:
   release_name: hw0910
   title: 'Solaris 5.10'
 
+opensuse:
+  name: OpenSuse
+  major: 12
+  minor: 3
+  type: Suse
+  architectures: x86_64
+  media: opensuse
+  title: 'OpenSuSE 12.3'
+
 no_hosts_os:
   name: NoHosts
   major: 1
