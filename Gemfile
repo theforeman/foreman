@@ -12,7 +12,7 @@ gem 'ancestry', '~> 2.0'
 gem 'scoped_search', '>= 3.2.2', '< 4'
 gem 'ldap_fluff', '>= 0.3.5', '< 1.0'
 gem 'apipie-rails', '~> 0.3.4'
-gem 'rabl', '~> 0.11'
+gem 'rabl', '>= 0.11', "< 0.13"
 gem 'oauth', '~> 0.4'
 gem 'deep_cloneable', '~> 2.0'
 gem 'foreigner', '~> 1.4'
