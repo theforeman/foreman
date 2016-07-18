@@ -2,7 +2,7 @@
 module Api
   module V2
     class CommonParametersController < V2::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/common_parameters/", N_("List all global parameters.")
       param_group :search_and_pagination, ::Api::V2::BaseController

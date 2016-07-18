@@ -3,8 +3,8 @@ module Api
     class PermissionsController < V2::BaseController
       include Api::Version2
 
-      before_filter :find_resource, :only => %w{show}
-      before_filter :parameter_deprecation, :only => %w(index)
+      before_action :find_resource, :only => %w{show}
+      before_action :parameter_deprecation, :only => %w(index)
 
       api :GET, "/permissions/", N_("List all permissions")
       param_group :search_and_pagination, ::Api::V2::BaseController

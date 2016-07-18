@@ -2,9 +2,9 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
-  before_filter :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
-  before_filter :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
+  before_action :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
+  before_action :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
+  before_action :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
     @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]

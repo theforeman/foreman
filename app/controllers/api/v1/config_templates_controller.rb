@@ -4,11 +4,11 @@ module Api
       include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
 
-      before_filter :deprecated
+      before_action :deprecated
 
-      before_filter :find_resource, :only => %w{show update destroy}
-      before_filter :handle_template_upload, :only => [:create, :update]
-      before_filter :process_template_kind, :only => [:create, :update]
+      before_action :find_resource, :only => %w{show update destroy}
+      before_action :handle_template_upload, :only => [:create, :update]
+      before_action :process_template_kind, :only => [:create, :update]
 
       api :GET, "/config_templates/", "List templates"
       param :search, String, :desc => "filter results"

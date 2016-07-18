@@ -1,7 +1,7 @@
 class LookupValuesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:update, :destroy]
-  before_filter :setup_search_options, :only => :index
+  before_action :find_resource, :only => [:update, :destroy]
+  before_action :setup_search_options, :only => :index
 
   def index
     begin

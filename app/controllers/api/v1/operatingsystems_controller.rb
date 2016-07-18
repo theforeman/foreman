@@ -5,8 +5,8 @@ module Api
         name 'Operating systems'
       end
 
-      before_filter :rename_config_templates, :only => %w{update create}
-      before_filter :find_resource, :only => %w{show edit update destroy bootfiles}
+      before_action :rename_config_templates, :only => %w{update create}
+      before_action :find_resource, :only => %w{show edit update destroy bootfiles}
 
       api :GET, "/operatingsystems/", "List all operating systems."
       param :search, String, :desc => "filter results", :required => false

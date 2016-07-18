@@ -1,8 +1,8 @@
 class UsergroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:edit, :update, :destroy]
-  before_filter :get_external_usergroups_to_refresh, :only => [:update]
-  after_filter  :refresh_external_usergroups, :only => [:create, :update]
+  before_action :find_resource, :only => [:edit, :update, :destroy]
+  before_action :get_external_usergroups_to_refresh, :only => [:update]
+  after_action  :refresh_external_usergroups, :only => [:create, :update]
 
   def index
     @usergroups = resource_base.includes(:usergroups).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])

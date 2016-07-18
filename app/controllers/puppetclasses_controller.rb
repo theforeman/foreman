@@ -1,8 +1,8 @@
 class PuppetclassesController < ApplicationController
   include Foreman::Controller::Environments
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:edit, :update, :destroy, :override]
-  before_filter :setup_search_options, :only => :index
+  before_action :find_resource, :only => [:edit, :update, :destroy, :override]
+  before_action :setup_search_options, :only => :index
 
   def index
     @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:config_group_classes, :class_params, :environments, :hostgroups).paginate(:page => params[:page])

@@ -15,8 +15,8 @@ module Api
         DOC
       end
 
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/domains/", N_("List of domains")
       api :GET, "/subnets/:subnet_id/domains", N_("List of domains per subnet")

@@ -21,7 +21,7 @@ module Foreman
       extend ActiveSupport::Concern
 
       included do
-        around_filter :clear_thread
+        around_action :clear_thread
       end
 
       def clear_thread

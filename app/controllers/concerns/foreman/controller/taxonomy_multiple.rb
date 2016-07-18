@@ -3,7 +3,7 @@ module Foreman::Controller::TaxonomyMultiple
 
   included do
     #TODO: make this before filter work, its not working as the same filter is defined in the hosts controller
-    #before_filter :find_multiple, :only => [:select_multiple_organization, :update_multiple_organization,
+    #before_action :find_multiple, :only => [:select_multiple_organization, :update_multiple_organization,
     #                                        :select_multiple_location,     :update_multiple_location]
   end
 

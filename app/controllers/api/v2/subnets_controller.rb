@@ -4,9 +4,9 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy freeip}
-      before_filter :find_ipam, :only => %w{freeip}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy freeip}
+      before_action :find_ipam, :only => %w{freeip}
 
       api :GET, '/subnets', N_("List of subnets")
       api :GET, "/domains/:domain_id/subnets", N_("List of subnets for a domain")

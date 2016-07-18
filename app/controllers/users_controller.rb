@@ -2,11 +2,11 @@ class UsersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::UsersMixin
 
-  skip_before_filter :require_mail, :only => [:edit, :update, :logout]
-  skip_before_filter :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
-  skip_before_filter :authorize, :only => :extlogin
-  after_filter       :update_activity_time, :only => :login
-  skip_before_filter :update_admin_flag, :only => :update
+  skip_before_action :require_mail, :only => [:edit, :update, :logout]
+  skip_before_action :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
+  skip_before_action :authorize, :only => :extlogin
+  after_action       :update_activity_time, :only => :login
+  skip_before_action :update_admin_flag, :only => :update
 
   def index
     @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page])

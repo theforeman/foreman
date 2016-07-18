@@ -1,8 +1,8 @@
 module Api
   module V1
     class PuppetclassesController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
-      before_filter :setup_search_options, :only => :index
+      before_action :find_resource, :only => %w{show update destroy}
+      before_action :setup_search_options, :only => :index
 
       api :GET, "/puppetclasses/", "List all puppetclasses."
       api :GET, "/hosts/:host_id/puppetclasses/", "List all puppetclasses of a given host."

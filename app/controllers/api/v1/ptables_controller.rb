@@ -1,7 +1,7 @@
 module Api
   module V1
     class PtablesController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/ptables/", "List all ptables."
       param :search, String, :desc => "filter results"

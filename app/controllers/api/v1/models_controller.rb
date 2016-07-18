@@ -1,7 +1,7 @@
 module Api
   module V1
     class ModelsController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/models/", "List all models."
       param :search, String, :desc => "filter results"

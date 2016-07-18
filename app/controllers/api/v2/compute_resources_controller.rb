@@ -12,7 +12,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
+      before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_clusters, :available_flavors, :available_folders,
                                               :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
                                               :available_zones, :available_storage_pods]

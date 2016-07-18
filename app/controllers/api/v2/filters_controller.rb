@@ -4,8 +4,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/filters/", N_("List all filters")
       param_group :search_and_pagination, ::Api::V2::BaseController

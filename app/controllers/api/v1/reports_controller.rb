@@ -1,9 +1,9 @@
 module Api
   module V1
     class ReportsController < V1::BaseController
-      before_filter :deprecated
-      before_filter :find_resource, :only => %w{show destroy}
-      before_filter :setup_search_options, :only => [:index, :last]
+      before_action :deprecated
+      before_action :find_resource, :only => %w{show destroy}
+      before_action :setup_search_options, :only => [:index, :last]
 
       api :GET, "/reports/", "List all reports."
       param :search, String, :desc => "filter results"

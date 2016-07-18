@@ -1,5 +1,5 @@
 class TrendsController < ApplicationController
-  before_filter :find_resource, :only => [:show, :edit, :update, :destroy]
+  before_action :find_resource, :only => [:show, :edit, :update, :destroy]
 
   def index
     @trends = Trend.types.includes(:trendable).sort_by {|e| e.type_name.downcase }.paginate(:page => params[:page])

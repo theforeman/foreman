@@ -2,9 +2,9 @@ module Api
   module V1
     class HostsController < V1::BaseController
       include Api::CompatibilityChecker
-      before_filter :check_create_host_nested, :only => [:create, :update]
+      before_action :check_create_host_nested, :only => [:create, :update]
 
-      before_filter :find_resource, :only => %w{show update destroy status}
+      before_action :find_resource, :only => %w{show update destroy status}
 
       api :GET, "/hosts/", "List all hosts."
       param :search, String, :desc => "Filter results"

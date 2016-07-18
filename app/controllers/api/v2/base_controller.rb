@@ -29,10 +29,10 @@ module Api
         param :organization_id, Integer, :required => false, :desc => N_("Scope by organizations") if SETTINGS[:organizations_enabled]
       end
 
-      before_filter :setup_has_many_params, :only => [:create, :update]
-      before_filter :check_content_type
+      before_action :setup_has_many_params, :only => [:create, :update]
+      before_action :check_content_type
       # ensure include_root_in_json = false for V2 only
-      around_filter :disable_json_root
+      around_action :disable_json_root
 
       layout 'api/v2/layouts/index_layout', :only => :index
 

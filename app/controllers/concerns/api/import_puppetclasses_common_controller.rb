@@ -2,9 +2,9 @@ module Api::ImportPuppetclassesCommonController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_required_puppet_proxy, :only => [:import_puppetclasses]
-    before_filter :get_environment_id, :only => [:import_puppetclasses]
-    before_filter :find_optional_environment, :only => [:import_puppetclasses]
+    before_action :find_required_puppet_proxy, :only => [:import_puppetclasses]
+    before_action :get_environment_id, :only => [:import_puppetclasses]
+    before_action :find_optional_environment, :only => [:import_puppetclasses]
   end
 
   extend Apipie::DSL::Concern

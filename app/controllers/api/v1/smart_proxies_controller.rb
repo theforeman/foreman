@@ -2,8 +2,8 @@ module Api
   module V1
     class SmartProxiesController < V1::BaseController
       include Api::ImportPuppetclassesCommonController
-      before_filter :find_resource, :only => %w{show update destroy refresh}
-      before_filter :check_feature_type, :only => :index
+      before_action :find_resource, :only => %w{show update destroy refresh}
+      before_action :check_feature_type, :only => :index
 
       api :GET, "/smart_proxies/", "List all smart_proxies."
       param :type, String, :desc => "filter by type"

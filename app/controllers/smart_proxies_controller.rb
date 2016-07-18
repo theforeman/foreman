@@ -1,8 +1,8 @@
 class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :puppet_environments, :puppet_dashboard, :log_pane, :failed_modules, :errors_card, :modules_card, :expire_logs]
-  before_filter :find_status, :only => [:ping, :tftp_server, :puppet_environments]
+  before_action :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :puppet_environments, :puppet_dashboard, :log_pane, :failed_modules, :errors_card, :modules_card, :expire_logs]
+  before_action :find_status, :only => [:ping, :tftp_server, :puppet_environments]
 
   def index
     @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])

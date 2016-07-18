@@ -1,5 +1,5 @@
 class AboutController < ApplicationController
-  skip_before_filter :authorize, :only => :index
+  skip_before_action :authorize, :only => :index
 
   def index
     @smart_proxies = SmartProxy.authorized(:view_smart_proxies).includes(:features)

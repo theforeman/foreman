@@ -1,8 +1,8 @@
 module Api
   module V2
     class RolesController < V2::BaseController
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/roles/", N_("List all roles")
       param_group :search_and_pagination, ::Api::V2::BaseController

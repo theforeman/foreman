@@ -5,8 +5,8 @@ module Api
       include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
 
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/environments/", N_("List all environments")
       api :GET, "/puppetclasses/:puppetclass_id/environments", N_("List environments of Puppet class")

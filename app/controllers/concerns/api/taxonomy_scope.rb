@@ -3,7 +3,7 @@ module Api
     extend ActiveSupport::Concern
 
     included do
-      before_filter :set_taxonomy_scope
+      before_action :set_taxonomy_scope
     end
 
     def set_taxonomy_scope

@@ -3,12 +3,12 @@ module Api
     class UsersController < V2::BaseController
       wrap_parameters User, :include => User.accessible_attributes
 
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
       # find_resource needs to be defined prior to UsersMixin is included, it depends on @user
       include Foreman::Controller::UsersMixin
       include Api::Version2
       include Api::TaxonomyScope
-      before_filter :find_optional_nested_object
+      before_action :find_optional_nested_object
 
       api :GET, "/users/", N_("List all users")
       api :GET, "/auth_source_ldaps/:auth_source_ldap_id/users", N_("List all users for LDAP authentication source")

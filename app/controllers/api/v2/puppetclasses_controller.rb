@@ -4,8 +4,8 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/puppetclasses/", N_("List all Puppet classes")
       api :GET, "/hosts/:host_id/puppetclasses", N_("List all Puppet classes for a host")

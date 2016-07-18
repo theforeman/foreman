@@ -1,9 +1,9 @@
 module Api
   module V2
     class TemplateCombinationsController < V2::BaseController
-      before_filter :rename_config_template
-      before_filter :find_required_nested_object
-      before_filter :find_resource, :only => [:show, :update, :destroy]
+      before_action :rename_config_template
+      before_action :find_required_nested_object
+      before_action :find_resource, :only => [:show, :update, :destroy]
 
       def_param_group :template_combination_identifiers do
         param :config_template_id, String, :desc => N_("ID of config template")

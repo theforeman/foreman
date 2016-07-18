@@ -4,8 +4,8 @@ module Api
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 
-      before_filter :find_resource, :only => %w{show destroy}
-      before_filter :setup_search_options, :only => [:index, :last]
+      before_action :find_resource, :only => %w{show destroy}
+      before_action :setup_search_options, :only => [:index, :last]
 
       add_smart_proxy_filters :create, :features => Proc.new { ConfigReportImporter.authorized_smart_proxy_features }
 

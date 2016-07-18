@@ -1,8 +1,8 @@
 class DashboardController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :prefetch_data, :only => :index
-  before_filter :find_resource, :only => [:destroy]
-  skip_before_filter :welcome
+  before_action :prefetch_data, :only => :index
+  before_action :find_resource, :only => [:destroy]
+  skip_before_action :welcome
 
   def index
     respond_to do |format|

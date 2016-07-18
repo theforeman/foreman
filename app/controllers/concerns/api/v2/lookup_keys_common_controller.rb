@@ -2,21 +2,21 @@ module Api::V2::LookupKeysCommonController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_environment, :if => :environment_id?
-    before_filter :find_puppetclass, :if => :puppetclass_id?
-    before_filter :find_host, :if => :host_id?
-    before_filter :find_hostgroup, :if => :hostgroup_id?
+    before_action :find_environment, :if => :environment_id?
+    before_action :find_puppetclass, :if => :puppetclass_id?
+    before_action :find_host, :if => :host_id?
+    before_action :find_hostgroup, :if => :hostgroup_id?
 
-    before_filter :find_smart_class_parameters, :if => :smart_class_parameter_id?
-    before_filter :find_smart_class_parameter, :if => :smart_class_parameter_id?
+    before_action :find_smart_class_parameters, :if => :smart_class_parameter_id?
+    before_action :find_smart_class_parameter, :if => :smart_class_parameter_id?
 
-    before_filter :find_smart_variables, :if => :smart_variable_id?
-    before_filter :find_smart_variable, :if => :smart_variable_id?
+    before_action :find_smart_variables, :if => :smart_variable_id?
+    before_action :find_smart_variable, :if => :smart_variable_id?
 
-    before_filter :find_smarts
-    before_filter :find_smart
+    before_action :find_smarts
+    before_action :find_smart
 
-    before_filter :return_if_smart_mismatch, :only => [:show, :update, :destroy]
+    before_action :return_if_smart_mismatch, :only => [:show, :update, :destroy]
   end
 
   def smart_variable_id?

@@ -1,8 +1,8 @@
 module Api
   module V1
     class ImagesController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
-      before_filter :find_compute_resource
+      before_action :find_resource, :only => %w{show update destroy}
+      before_action :find_compute_resource
 
       api :GET, "/compute_resources/:compute_resource_id/images/", "List all images for compute resource"
       param :search, String, :desc => "filter results"

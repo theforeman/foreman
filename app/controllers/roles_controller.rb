@@ -17,7 +17,7 @@
 
 class RolesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :find_resource, :only => [:clone, :edit, :update, :destroy]
+  before_action :find_resource, :only => [:clone, :edit, :update, :destroy]
 
   def index
     params[:order] ||= 'name'

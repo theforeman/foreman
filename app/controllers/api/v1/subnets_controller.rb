@@ -1,7 +1,7 @@
 module Api
   module V1
     class SubnetsController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, '/subnets', 'List of subnets'
       param :search, String, :desc => 'Filter results'

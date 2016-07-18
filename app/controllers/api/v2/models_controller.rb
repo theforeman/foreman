@@ -1,7 +1,7 @@
 module Api
   module V2
     class ModelsController < V2::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/models/", N_("List all hardware models")
       param_group :search_and_pagination, ::Api::V2::BaseController
