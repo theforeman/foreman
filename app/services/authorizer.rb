@@ -42,7 +42,7 @@ class Authorizer
       all_filters = all_filters.joins(taxonomy_join).where(["#{TaxableTaxonomy.table_name}.id IS NULL " +
                                                                 "OR (#{organizations}) " +
                                                                 "OR (#{locations})",
-                                                            *values]).uniq
+                                                            *values]).distinct
     end
 
     all_filters = all_filters.reorder(nil).to_a # load all records, so #empty? does not call extra COUNT(*) query

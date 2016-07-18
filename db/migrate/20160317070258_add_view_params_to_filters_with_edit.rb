@@ -8,7 +8,7 @@ class AddViewParamsToFiltersWithEdit < ActiveRecord::Migration
   end
 
   def up
-    filters_to_update = Filter.joins(:permissions).where("permissions.name IN ('edit_params', 'create_params', 'destroy_params')").uniq
+    filters_to_update = Filter.joins(:permissions).where("permissions.name IN ('edit_params', 'create_params', 'destroy_params')").distinct
     view_params = Permission.where(:name => 'view_params', :resource_type => 'Parameter').first_or_create
     filters_to_update.each do |filter|
       FakeFiltering.create(:filter_id => filter.id, :permission_id => view_params.id)

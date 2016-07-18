@@ -5,7 +5,7 @@ class AddLookupValueMatchToHostAndHostgroup < ActiveRecord::Migration
     Host::Managed.reset_column_information
     Hostgroup.reset_column_information
 
-    matchers = LookupValue.where("lookup_values.match like ?", "fqdn=%").uniq.pluck('lookup_values.match')
+    matchers = LookupValue.where("lookup_values.match like ?", "fqdn=%").distinct.pluck('lookup_values.match')
     fqdns = matchers.map{|m| m.gsub(/^fqdn=/, "")}
     hostnames = fqdns.map{|fqdn| fqdn.split(".").first}
 
@@ -17,7 +17,7 @@ class AddLookupValueMatchToHostAndHostgroup < ActiveRecord::Migration
     end
 
     if hosts.present?
-      hosts = hosts.readonly(false).uniq
+      hosts = hosts.readonly(false).distinct
 
       hosts.each do |host|
         host.update_attribute(:lookup_value_matcher, host.send(:lookup_value_match))

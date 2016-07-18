@@ -74,14 +74,14 @@ module TaxonomiesBaseTest
       # run used_ids method
       used_ids = taxonomy.used_ids
       # get results from Host object
-      environment_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).uniq.pluck(:environment_id).compact
-      hostgroup_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).uniq.pluck(:hostgroup_id).compact
-      subnet_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).joins(:primary_interface => :subnet).uniq.pluck(:subnet_id).map(&:to_i).compact
-      domain_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).joins(:primary_interface => :domain).uniq.pluck(:domain_id).map(&:to_i).compact
-      realm_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).uniq.pluck(:realm_id).compact
-      medium_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).uniq.pluck(:medium_id).compact
-      compute_resource_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).uniq.pluck(:compute_resource_id).compact
-      user_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).where(:owner_type => 'User').uniq.pluck(:owner_id).compact
+      environment_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:environment_id).compact
+      hostgroup_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:hostgroup_id).compact
+      subnet_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).joins(:primary_interface => :subnet).distinct.pluck(:subnet_id).map(&:to_i).compact
+      domain_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).joins(:primary_interface => :domain).distinct.pluck(:domain_id).map(&:to_i).compact
+      realm_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:realm_id).compact
+      medium_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:medium_id).compact
+      compute_resource_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:compute_resource_id).compact
+      user_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).where(:owner_type => 'User').distinct.pluck(:owner_id).compact
       smart_proxy_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).map {|host| host.smart_proxies.map(&:id)}.flatten.compact.uniq
       provisioning_template_ids = Host.where("#{taxonomy_name}_id = #{taxonomy.id} and operatingsystem_id > 0").map {|host| host.provisioning_template.try(:id)}.compact.uniq
       # match to above retrieved data

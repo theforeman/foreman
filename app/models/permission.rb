@@ -11,7 +11,7 @@ class Permission < ApplicationRecord
   scoped_search :on => :resource_type
 
   def self.resources
-    @all_resources ||= Permission.uniq.order(:resource_type).pluck(:resource_type).compact
+    @all_resources ||= Permission.distinct.order(:resource_type).pluck(:resource_type).compact
   end
 
   def self.resources_with_translations

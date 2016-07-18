@@ -42,7 +42,7 @@ class Notification < ApplicationRecord
     when AUDIENCE_GLOBAL
       User.reorder('').pluck(:id)
     when AUDIENCE_ADMIN
-      User.unscoped.only_admin.except_hidden.reorder('').uniq.pluck(:id)
+      User.unscoped.only_admin.except_hidden.reorder('').distinct.pluck(:id)
     else
       subject.try(:notification_recipients_ids) || []
     end
