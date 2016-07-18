@@ -3,7 +3,7 @@
     <%= f.text_field(:name,  :class => "form-control", :disabled => !can_edit_params?, :placeholder => _("Name")) %>
   </td>
   <td>
-    <%= hidden_value_field(f, :value, f.object.value, !can_edit_params?) %>
+    <%= hidden_value_field(f, :value, !can_edit_params?) %>
   </td>
   <td>
     <%= f.check_box(:hidden_value, :class => 'set_hidden_value hide', :checked => f.object.hidden_value?) if can_edit_params? %>
