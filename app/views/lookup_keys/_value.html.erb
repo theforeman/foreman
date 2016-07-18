@@ -11,7 +11,7 @@
     </div>
   </td>
   <td>
-    <%= hidden_value_field(f, :value, f.object.value_before_type_cast, f.object.use_puppet_default, :'data-property' => 'value', :hidden_value => hidden_value) %>
+    <%= hidden_value_field(f, :value, f.object.use_puppet_default, :value => f.object.value_before_type_cast, :'data-property' => 'value', :hidden_value => hidden_value) %>
   </td>
   <% if is_param %>
     <td class="ca">
