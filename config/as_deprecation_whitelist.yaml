@@ -1,15 +1,5 @@
 ---
 # Pending fixes, compatible with Rails 4.2 and 5.0
-- message: ActiveModel::Errors#[]= is deprecated and will be removed in Rails 5.1.
-    Use model.errors.add(:name, "has already been taken") instead.
-  callstack: app/models/concerns/parameter_validators.rb:15:in `block in validate_parameters_names'
-- message: ActiveModel::Errors#[]= is deprecated and will be removed in Rails 5.1.
-    Use model.errors.add(:os_parameters, "Please ensure the following parameters name
-    are unique") instead.
-  callstack: app/models/concerns/parameter_validators.rb:21:in `validate_parameters_names'
-- message: ActiveModel::Errors#get is deprecated and will be removed in Rails 5.1.
-    To achieve the same use model.errors[:name].
-  callstack: app/models/concerns/nested_ancestry_common.rb
 - message: 'Method each_value is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
     no longer inherits from hash. Using this deprecated behavior exposes potential
     security problems. If you continue to use this method you may be creating a security

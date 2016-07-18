@@ -125,7 +125,7 @@ module NestedAncestryCommon
       max_length_for_name = 255 - length_of_matcher
       current_title_length = max_length_for_name - name.length
 
-      errors.add(:name, n_("is too long (maximum is 1 character)", "is too long (maximum is %s characters)", max_length_for_name) % max_length_for_name) if (errors.get(:name).blank? && current_title_length < 0)
+      errors.add(:name, n_("is too long (maximum is 1 character)", "is too long (maximum is %s characters)", max_length_for_name) % max_length_for_name) if (errors[:name].empty? && current_title_length < 0)
     end
   end
 end
