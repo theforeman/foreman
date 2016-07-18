@@ -42,9 +42,9 @@ class Host::Managed < Host::Base
   before_save :clear_data_on_build
   before_save :clear_puppetinfo, :if => :environment_id_changed?
 
-  def initialize(attributes = nil, options = {})
-    attributes = apply_inherited_attributes(attributes, false)
-    super(attributes, options)
+  def initialize(*args)
+    args.unshift(apply_inherited_attributes(args.shift, false))
+    super(*args)
   end
 
   def build_hooks
