@@ -17,8 +17,20 @@ class TopbarSweeper < ActionController::Caching::Sweeper
     record.expire_topbar_cache(self)
   end
 
-  def self.fragment_name(id = User.current.id)
-    "tabs_and_title_records-#{id}"
+  def self.fragment_name(user_id = User.current.id)
+    "tabs_and_title_records-#{user_id}"
+  end
+
+  def self.full_fragment_name(user_id)
+    "views/#{fragment_name(user_id)}"
+  end
+
+  def self.check_user_session(user_id, session_id)
+    session_key = "#{fragment_name(user_id)}-session_id"
+    unless Rails.cache.fetch(session_key) == session_id
+      Rails.cache.delete(full_fragment_name(User.current.id))
+      Rails.cache.write(session_key, session_id)
+    end
   end
 
   def self.expire_cache(controller)
@@ -26,8 +38,8 @@ class TopbarSweeper < ActionController::Caching::Sweeper
   end
 
   def self.expire_cache_all_users
-    User.unscoped.pluck(:id).each do |id|
-      Rails.cache.delete("views/tabs_and_title_records-#{id}")
+    User.unscoped.pluck(:id).each do |user_id|
+      Rails.cache.delete(full_fragment_name(user_id))
     end
   end
 end
