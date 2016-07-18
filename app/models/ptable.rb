@@ -10,7 +10,7 @@ class Ptable < Template
   include ValidateOsFamily
 
   audited
-  has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
+  has_many :audits, :as => :auditable, :class_name => 'Audited::Audit'
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts

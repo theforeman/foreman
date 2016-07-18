@@ -3,5 +3,5 @@
 require 'audited'
 require 'audit_extensions'
 
-Audit = Audited.audit_class
+Audit = Audited::Audit
 Audit.send(:include, AuditExtensions)

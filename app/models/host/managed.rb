@@ -154,7 +154,7 @@ class Host::Managed < Host::Base
   has_associated_audits
   #redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
   has_many :audits, -> { where(:auditable_type => 'Host') }, :foreign_key => :auditable_id,
-    :class_name => Audited.audit_class.name
+    :class_name => 'Audited::Audit'
 
   # some shortcuts
   alias_attribute :os, :operatingsystem
