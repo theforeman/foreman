@@ -1,3 +1,5 @@
+require 'rake/testtask'
+
 namespace :test do
   desc "Test API"
   Rake::TestTask.new(:api) do |t|
