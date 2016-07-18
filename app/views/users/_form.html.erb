@@ -80,7 +80,7 @@
       <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
       <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
                               { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
-      <% usergroups = @user.cached_usergroups.includes(:roles).uniq %>
+      <% usergroups = @user.cached_usergroups.includes(:roles).distinct %>
       <% if usergroups.any? %>
         <div class="form-group" id="inherited-roles">
           <label class="col-md-2 control-label" for="roles"><%= _("Roles from user groups") %></label>

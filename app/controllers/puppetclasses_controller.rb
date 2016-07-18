@@ -10,7 +10,7 @@ class PuppetclassesController < ApplicationController
 
   def index
     @puppetclasses = resource_base_search_and_page
-    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).uniq.pluck(:hostgroup_id))
+    @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).distinct.pluck(:hostgroup_id))
   end
 
   def edit

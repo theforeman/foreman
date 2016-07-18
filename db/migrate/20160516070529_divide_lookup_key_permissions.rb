@@ -20,7 +20,7 @@ class DivideLookupKeyPermissions < ActiveRecord::Migration
 
     permissions_to_update.each do |original_permission|
       permission = FakePermission.where(:name => original_permission.name.sub('variables', 'parameters'), :resource_type => 'PuppetclassLookupKey').first_or_create
-      Filtering.where('permission_id' => original_permission.id).uniq.each do |filtering|
+      Filtering.where('permission_id' => original_permission.id).distinct.each do |filtering|
         filter = FakeFilter.create(:search => filtering.filter.search, :role_id => filtering.filter.role_id,
                                :taxonomy_search => filtering.filter.taxonomy_search)
         FakeFiltering.create(:filter_id => filter.id, :permission_id => permission.id)

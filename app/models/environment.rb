@@ -9,7 +9,7 @@ class Environment < ApplicationRecord
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
   has_many :environment_classes, :dependent => :destroy
-  has_many :puppetclasses, -> { uniq }, :through => :environment_classes
+  has_many :puppetclasses, -> { distinct }, :through => :environment_classes
   has_many_hosts
   has_many :hostgroups
 

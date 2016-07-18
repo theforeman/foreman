@@ -66,11 +66,11 @@ module SmartProxiesHelper
   end
 
   def services_tab_features(proxy)
-    proxy.features.where('features.name NOT IN (?)', TABBED_FEATURES).uniq.pluck("name").sort
+    proxy.features.where('features.name NOT IN (?)', TABBED_FEATURES).distinct.pluck("name").sort
   end
 
   def tabbed_features(proxy)
-    proxy.features.where('features.name IN (?)', TABBED_FEATURES).uniq.pluck("name").sort
+    proxy.features.where('features.name IN (?)', TABBED_FEATURES).distinct.pluck("name").sort
   end
 
   def show_feature_version(feature)

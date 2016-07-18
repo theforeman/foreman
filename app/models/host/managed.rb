@@ -866,7 +866,7 @@ class Host::Managed < Host::Base
       end
     end if SETTINGS[:unattended] && managed? && os && pxe_build?
 
-    puppetclasses.select("puppetclasses.id,puppetclasses.name").uniq.each do |e|
+    puppetclasses.select("puppetclasses.id,puppetclasses.name").distinct.each do |e|
       unless environment.puppetclasses.map(&:id).include?(e.id)
         errors.add(:puppetclasses, _("%{e} does not belong to the %{environment} environment") % { :e => e, :environment => environment })
         status = false

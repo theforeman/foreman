@@ -161,7 +161,7 @@ class MigratePermissions < ActiveRecord::Migration
       filters                     = Hash.new { |h, k| h[k] = '' }
 
       # compute resources
-      filters[:compute_resources] = search = user.compute_resources.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
+      filters[:compute_resources] = search = user.compute_resources.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected                    = clones.map(&:filters).flatten.select { |f| f.resource_type == 'ComputeResource' }
       affected.each do |filter|
         filter.update_attributes :search => search unless search.blank?
@@ -170,10 +170,10 @@ class MigratePermissions < ActiveRecord::Migration
 
       # domains were not limited in old system, to keep it compatible, we don't convert it and use just search string
       # later for hosts
-      filters[:domains]    = user.domains.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
+      filters[:domains]    = user.domains.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
 
       # host groups
-      filters[:hostgroups] = search = user.hostgroups.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
+      filters[:hostgroups] = search = user.hostgroups.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected             = clones.map(&:filters).flatten.select { |f| f.resource_type == 'Hostgroup' }
       affected.each do |filter|
         filter.update_attributes :search => search unless search.blank?
@@ -181,7 +181,7 @@ class MigratePermissions < ActiveRecord::Migration
       say "... hostgroups filters applied"
 
       # fact_values for hosts scope
-      filters[:facts] = user.user_facts.uniq.map { |uf| "facts.#{uf.fact_name.name} #{uf.operator} #{uf.criteria}" }.join(' or ')
+      filters[:facts] = user.user_facts.distinct.map { |uf| "facts.#{uf.fact_name.name} #{uf.operator} #{uf.criteria}" }.join(' or ')
 
       search, orgs, locs = convert_filters_to_search(filters, user)
 
@@ -212,7 +212,7 @@ class MigratePermissions < ActiveRecord::Migration
     # owner_type
     if user.filter_on_owner
       user_cond = "owner_id = #{user.id} and owner_type = User"
-      group_cond = user.cached_usergroups.uniq.map { |g| "owner_id = #{g.id}" }.join(' or ')
+      group_cond = user.cached_usergroups.distinct.map { |g| "owner_id = #{g.id}" }.join(' or ')
       search = "(#{user_cond})"
       search += " or ((#{group_cond}) and owner_type = Usergroup)" unless group_cond.blank?
     end
