@@ -1,7 +1,7 @@
 class FactValuesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :setup_search_options, :only => :index
+  before_action :setup_search_options, :only => :index
 
   def index
     base = resource_base.no_timestamp_facts

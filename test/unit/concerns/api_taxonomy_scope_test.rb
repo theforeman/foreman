@@ -5,7 +5,7 @@ class DummyController
   cattr_accessor :callbacks
   attr_accessor :organization, :location, :params
 
-  def self.before_filter(*args)
+  def self.before_action(*args)
     self.callbacks = args
   end
 

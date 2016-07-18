@@ -3,7 +3,7 @@ module Api
     class BookmarksController < V2::BaseController
       include Foreman::Controller::BookmarkCommon
 
-      before_filter :find_resource, :only => [:show, :update, :destroy]
+      before_action :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/bookmarks/", N_("List all bookmarks")
       param_group :search_and_pagination, ::Api::V2::BaseController

@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
-  before_filter :require_admin
+  before_action :require_admin
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|

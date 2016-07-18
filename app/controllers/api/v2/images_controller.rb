@@ -1,8 +1,8 @@
 module Api
   module V2
     class ImagesController < V2::BaseController
-      before_filter :find_required_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_required_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/compute_resources/:compute_resource_id/images/", N_("List all images for a compute resource")
       api :GET, "/operatingsystems/:operatingsystem_id/images/", N_("List all images for operating system")

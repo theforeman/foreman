@@ -1,7 +1,7 @@
 module Api
   module V1
     class AuthSourceLdapsController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/auth_source_ldaps/", "List all authsource ldaps"
       param :page, String, :desc => "paginate results"

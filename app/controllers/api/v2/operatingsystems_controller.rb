@@ -5,10 +5,10 @@ module Api
         name 'Operating systems'
       end
 
-      before_filter :rename_config_templates, :only => %w{update create}
-      before_filter :rename_config_template, :only => %w{index}
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show edit update destroy bootfiles}
+      before_action :rename_config_templates, :only => %w{update create}
+      before_action :rename_config_template, :only => %w{index}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show edit update destroy bootfiles}
 
       api :GET, "/operatingsystems/", N_("List all operating systems")
       api :GET, "/architectures/:architecture_id/operatingsystems", N_("List all operating systems for nested architecture")

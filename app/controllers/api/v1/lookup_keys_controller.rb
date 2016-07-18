@@ -1,8 +1,8 @@
 module Api
   module V1
     class LookupKeysController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
-      before_filter :setup_search_options, :only => :index
+      before_action :find_resource, :only => %w{show update destroy}
+      before_action :setup_search_options, :only => :index
 
       api :GET, "/lookup_keys/", "List all lookup_keys."
       param :search, String, :desc => "filter results"

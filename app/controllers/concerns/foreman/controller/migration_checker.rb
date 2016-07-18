@@ -2,7 +2,7 @@ module Foreman::Controller::MigrationChecker
   extend ActiveSupport::Concern
 
   included do
-    before_filter :check_pending_migrations
+    before_action :check_pending_migrations
   end
 
   def self.needs_migration?

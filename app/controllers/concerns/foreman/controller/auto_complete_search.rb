@@ -2,8 +2,8 @@ module Foreman::Controller::AutoCompleteSearch
   extend ActiveSupport::Concern
 
   included do
-    before_filter :reset_redirect_to_url, :only => [:index, :show]
-    before_filter :store_redirect_to_url, :except => [:index, :show, :create, :update]
+    before_action :reset_redirect_to_url, :only => [:index, :show]
+    before_action :store_redirect_to_url, :except => [:index, :show, :create, :update]
   end
 
   def auto_complete_search

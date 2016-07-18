@@ -1,7 +1,7 @@
 module Api
   module V2
     class ComputeAttributesController < V2::BaseController
-      before_filter :find_resource, :only => :update
+      before_action :find_resource, :only => :update
 
       def_param_group :compute_attribute do
         param :compute_attribute, Hash, :required => true, :action_aware => true do

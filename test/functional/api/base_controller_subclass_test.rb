@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class Api::TestableController < Api::V1::BaseController
-  before_filter :find_required_nested_object, :only => [:required_nested_values, :nested_values]
-  before_filter :find_optional_nested_object, :only => [:optional_nested_values]
-  before_filter :find_resource, :only => [:nested_values]
+  before_action :find_required_nested_object, :only => [:required_nested_values, :nested_values]
+  before_action :find_optional_nested_object, :only => [:optional_nested_values]
+  before_action :find_resource, :only => [:nested_values]
 
   def index
     render :text => Time.zone.name, :status => 200

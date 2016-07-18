@@ -1,7 +1,7 @@
 class ConfigReportsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :setup_search_options, :only => :index
+  before_action :setup_search_options, :only => :index
 
   def index
     @config_reports = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page]).includes(:host)

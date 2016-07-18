@@ -6,9 +6,9 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :rename_config_template
-      before_filter :find_required_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :rename_config_template
+      before_action :find_required_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, '/operatingsystems/:operatingsystem_id/os_default_templates', N_('List default templates combinations for an operating system')
       api :GET, '/config_templates/:config_template_id/os_default_templates', N_('List operating systems where this template is set as a default')

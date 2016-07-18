@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
-  skip_before_filter :require_login, :only => [:status]
-  skip_before_filter :authorize, :set_taxonomy, :only => [:status]
-  skip_before_filter :session_expiry, :update_activity_time, :only => :status
+  skip_before_action :require_login, :only => [:status]
+  skip_before_action :authorize, :set_taxonomy, :only => [:status]
+  skip_before_action :session_expiry, :update_activity_time, :only => :status
 
   def settings
   end

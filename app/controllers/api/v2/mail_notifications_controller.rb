@@ -3,7 +3,7 @@ module Api
     class MailNotificationsController < V2::BaseController
       include Api::Version2
 
-      before_filter :find_resource, :only => %w{show}
+      before_action :find_resource, :only => %w{show}
 
       api :GET, "/mail_notifications/", N_("List of email notifications")
       param_group :search_and_pagination, ::Api::V2::BaseController

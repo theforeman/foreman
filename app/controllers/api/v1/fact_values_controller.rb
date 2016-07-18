@@ -1,7 +1,7 @@
 module Api
   module V1
     class FactValuesController < V1::BaseController
-      before_filter :setup_search_options, :only => :index
+      before_action :setup_search_options, :only => :index
 
       api :GET, "/fact_values/", "List all fact values."
       api :GET, "/hosts/:host_id/facts/", "List all fact values of a given host."

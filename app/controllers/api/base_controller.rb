@@ -5,17 +5,17 @@ module Api
 
     protect_from_forgery
     force_ssl :if => :require_ssl?
-    skip_before_filter :verify_authenticity_token, :unless => :protect_api_from_forgery?
+    skip_before_action :verify_authenticity_token, :unless => :protect_api_from_forgery?
 
-    before_filter :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
-    before_filter :session_expiry, :update_activity_time
-    around_filter :set_timezone
+    before_action :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
+    before_action :session_expiry, :update_activity_time
+    around_action :set_timezone
 
     cache_sweeper :topbar_sweeper
 
     respond_to :json
 
-    after_filter :log_response_body
+    after_action :log_response_body
 
     rescue_from StandardError do |error|
       Foreman::Logging.exception("Action failed", error)

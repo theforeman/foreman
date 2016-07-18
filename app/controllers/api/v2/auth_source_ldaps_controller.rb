@@ -1,7 +1,7 @@
 module Api
   module V2
     class AuthSourceLdapsController < V2::BaseController
-      before_filter :find_resource, :only => %w{show update destroy test}
+      before_action :find_resource, :only => %w{show update destroy test}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
       param_group :search_and_pagination, ::Api::V2::BaseController

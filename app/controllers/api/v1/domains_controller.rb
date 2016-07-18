@@ -13,7 +13,7 @@ module Api
         DOC
       end
 
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/domains/", "List of domains"
       param :search, String, :desc => "Filter results"

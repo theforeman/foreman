@@ -1,5 +1,5 @@
 class PuppetclassLookupKeysController < LookupKeysController
-  before_filter :setup_search_options, :only => :index
+  before_action :setup_search_options, :only => :index
 
   def index
     @lookup_keys = resource_base.search_for(params[:search], :order => params[:order])

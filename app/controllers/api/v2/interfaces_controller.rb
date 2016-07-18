@@ -6,9 +6,9 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_required_nested_object, :only => [:index, :show, :create, :destroy]
-      before_filter :find_resource, :only => [:show, :update, :destroy]
-      before_filter :convert_type, :only => [:create, :update]
+      before_action :find_required_nested_object, :only => [:index, :show, :create, :destroy]
+      before_action :find_resource, :only => [:show, :update, :destroy]
+      before_action :convert_type, :only => [:create, :update]
 
       api :GET, '/hosts/:host_id/interfaces', N_("List all interfaces for host")
       api :GET, '/domains/:domain_id/interfaces', N_('List all interfaces for domain')

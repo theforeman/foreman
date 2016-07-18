@@ -1,7 +1,7 @@
 module Api
   module V2
     class ConfigGroupsController < V2::BaseController
-      before_filter :find_resource, :only => [:show, :update, :destroy]
+      before_action :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/config_groups", N_("List of config groups")
       param_group :search_and_pagination, ::Api::V2::BaseController

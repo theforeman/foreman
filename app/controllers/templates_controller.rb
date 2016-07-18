@@ -3,10 +3,10 @@ class TemplatesController < ApplicationController
   include Foreman::Controller::ProvisioningTemplates
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :handle_template_upload, :only => [:create, :update]
-  before_filter :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock]
-  before_filter :load_history, :only => :edit
-  before_filter :type_name_plural, :type_name_singular, :resource_class
+  before_action :handle_template_upload, :only => [:create, :update]
+  before_action :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock]
+  before_action :load_history, :only => :edit
+  before_action :type_name_plural, :type_name_singular, :resource_class
 
   include TemplatePathsHelper
 
@@ -79,7 +79,7 @@ class TemplatesController < ApplicationController
   end
 
   def preview
-    # Not using before_filter :find_resource method because we have enabled preview to work for unsaved templates hence no resource could be found in those cases
+    # Not using before_action :find_resource method because we have enabled preview to work for unsaved templates hence no resource could be found in those cases
     if params[:id]
       find_resource
     else

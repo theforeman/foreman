@@ -21,18 +21,18 @@ class HostsController < ApplicationController
 
   add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
-  before_filter :ajax_request, :only => AJAX_REQUESTS
-  before_filter :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
+  before_action :ajax_request, :only => AJAX_REQUESTS
+  before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
                                           :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
 
-  before_filter :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
-  before_filter :set_host_type, :only => [:update]
-  before_filter :find_multiple, :only => MULTIPLE_ACTIONS
-  before_filter :validate_power_action, :only => :update_multiple_power_state
-  before_filter :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
-  before_filter :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
+  before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
+  before_action :set_host_type, :only => [:update]
+  before_action :find_multiple, :only => MULTIPLE_ACTIONS
+  before_action :validate_power_action, :only => :update_multiple_power_state
+  before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
+  before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
   helper :hosts, :reports, :interfaces
 
   def index(title = nil)

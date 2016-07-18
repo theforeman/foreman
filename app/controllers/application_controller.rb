@@ -14,13 +14,13 @@ class ApplicationController < ActionController::Base
   helper 'layout'
   helper_method :authorizer
 
-  before_filter :require_login
-  before_filter :set_gettext_locale_db, :set_gettext_locale
-  before_filter :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
-  before_filter :set_taxonomy, :require_mail, :check_empty_taxonomy
-  before_filter :authorize
-  before_filter :welcome, :only => :index, :unless => :api_request?
-  around_filter :set_timezone
+  before_action :require_login
+  before_action :set_gettext_locale_db, :set_gettext_locale
+  before_action :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
+  before_action :set_taxonomy, :require_mail, :check_empty_taxonomy
+  before_action :authorize
+  before_action :welcome, :only => :index, :unless => :api_request?
+  around_action :set_timezone
   layout :display_layout?
 
   attr_reader :original_search_parameter

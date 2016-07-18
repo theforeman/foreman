@@ -4,11 +4,11 @@ module Api
       include Api::Version2
       include Api::V2::LookupKeysCommonController
 
-      before_filter :find_override_values
-      before_filter :find_override_value, :only => [:show, :update, :destroy]
+      before_action :find_override_values
+      before_action :find_override_value, :only => [:show, :update, :destroy]
       # override return_if_smart_mismatch in LookupKeysCommonController to add :index, :create
-      before_filter :return_if_smart_mismatch, :only => [:index, :create, :show, :update, :destroy]
-      before_filter :return_if_override_mismatch, :only => [:show, :update, :destroy]
+      before_action :return_if_smart_mismatch, :only => [:index, :create, :show, :update, :destroy]
+      before_action :return_if_override_mismatch, :only => [:show, :update, :destroy]
 
       api :GET, "/smart_variables/:smart_variable_id/override_values", N_("List of override values for a specific smart variable")
       api :GET, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("List of override values for a specific smart class parameter")

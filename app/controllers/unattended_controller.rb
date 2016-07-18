@@ -13,14 +13,14 @@ class UnattendedController < ApplicationController
   end
 
   # We want to find out our requesting host
-  before_filter :get_host_details, :allowed_to_install?, :except => :hostgroup_template
-  before_filter :handle_ca, :if => Proc.new { params[:kind] == 'provision' }
-  before_filter :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
+  before_action :get_host_details, :allowed_to_install?, :except => :hostgroup_template
+  before_action :handle_ca, :if => Proc.new { params[:kind] == 'provision' }
+  before_action :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
   # load "helper" variables to be available in the templates
-  before_filter :load_template_vars, :only => :host_template
+  before_action :load_template_vars, :only => :host_template
   # all of our requests should be returned in text/plain
-  after_filter :set_content_type
-  before_filter :set_admin_user, :only => :built
+  after_action :set_content_type
+  before_action :set_admin_user, :only => :built
 
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
@@ -156,7 +156,7 @@ class UnattendedController < ApplicationController
     (@host.build || @spoof) ? true : head(:method_not_allowed)
   end
 
-  # Cleans Certificate and enable autosign. This is run as a before_filter for provisioning templates.
+  # Cleans Certificate and enable autosign. This is run as a before_action for provisioning templates.
   # The host is requesting its build configuration so I guess we just send them some text so a post mortum can see what happened
   def handle_ca
     # The reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
@@ -164,19 +164,19 @@ class UnattendedController < ApplicationController
     # We don't do anything if we are in spoof mode.
     return true if @spoof
 
-    # This should terminate the before_filter and the action. We return a HTTP
+    # This should terminate the before_action and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
     render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => :internal_server_error) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
 
-  # Reset realm OTP. This is run as a before_filter for provisioning templates.
+  # Reset realm OTP. This is run as a before_action for provisioning templates.
   def handle_realm
     # We don't do anything if we are in spoof mode.
     return true if @spoof
 
-    # This should terminate the before_filter and the action. We return a HTTP
+    # This should terminate the before_action and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
     render(:text => _("Failed to get a new realm OTP. Terminating the build!"), :status => :internal_server_error) unless @host.handle_realm

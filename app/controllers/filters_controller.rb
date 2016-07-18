@@ -1,8 +1,8 @@
 class FiltersController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_filter :find_role
-  before_filter :setup_search_options, :only => :index
+  before_action :find_role
+  before_action :setup_search_options, :only => :index
 
   def index
     @filters = resource_base.includes(:role, :permissions).search_for(params[:search], :order => params[:order])

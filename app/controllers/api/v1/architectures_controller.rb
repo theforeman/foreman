@@ -1,7 +1,7 @@
 module Api
   module V1
     class ArchitecturesController < V1::BaseController
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/architectures/", "List all architectures."
       param :search, String, :desc => "filter results"

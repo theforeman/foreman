@@ -1,8 +1,8 @@
 module Api
   module V2
     class ArchitecturesController < V2::BaseController
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/architectures/", N_("List all architectures")
       api :GET, "/operatingsystems/:operatingsystem_id/architectures", N_("List all architectures for operating system")

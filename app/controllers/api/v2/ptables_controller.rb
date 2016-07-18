@@ -1,8 +1,8 @@
 module Api
   module V2
     class PtablesController < V2::BaseController
-      before_filter :find_optional_nested_object
-      before_filter :find_resource, :only => %w{show update destroy clone}
+      before_action :find_optional_nested_object
+      before_action :find_resource, :only => %w{show update destroy clone}
 
       api :GET, "/ptables/", N_("List all partition tables")
       api :GET, "/operatingsystems/:operatingsystem_id/ptables", N_("List all partition tables for an operating system")

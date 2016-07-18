@@ -2,11 +2,11 @@ module Foreman::Controller::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_resource, :only => %w{edit update destroy clone_taxonomy assign_hosts
+    before_action :find_resource, :only => %w{edit update destroy clone_taxonomy assign_hosts
                                               assign_selected_hosts assign_all_hosts step2 select
                                               parent_taxonomy_selected}
-    before_filter :count_nil_hosts, :only => %w{index create step2}
-    skip_before_filter :authorize, :set_taxonomy, :only => %w{select clear}
+    before_action :count_nil_hosts, :only => %w{index create step2}
+    skip_before_action :authorize, :set_taxonomy, :only => %w{select clear}
   end
 
   def index

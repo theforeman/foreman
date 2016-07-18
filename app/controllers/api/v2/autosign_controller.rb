@@ -1,7 +1,7 @@
 module Api
   module V2
     class AutosignController < V2::BaseController
-      before_filter :find_required_nested_object, :setup_proxy
+      before_action :find_required_nested_object, :setup_proxy
 
       api :GET, "/smart_proxies/smart_proxy_id/autosign", N_("List all autosign entries")
 

@@ -8,11 +8,11 @@ module Api
       include Foreman::Controller::SmartProxyAuth
 
       include Api::CompatibilityChecker
-      before_filter :check_create_host_nested, :only => [:create, :update]
+      before_action :check_create_host_nested, :only => [:create, :update]
 
-      before_filter :find_optional_nested_object, :except => [:facts]
-      before_filter :find_resource, :except => [:index, :create, :facts]
-      before_filter :permissions_check, :only => %w{power boot puppetrun}
+      before_action :find_optional_nested_object, :except => [:facts]
+      before_action :find_resource, :except => [:index, :create, :facts]
+      before_action :permissions_check, :only => %w{power boot puppetrun}
 
       add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
 

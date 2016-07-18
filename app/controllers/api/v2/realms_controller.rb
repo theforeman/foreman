@@ -4,7 +4,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
 
-      before_filter :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/realms/", N_("List of realms")
       param_group :taxonomy_scope, ::Api::V2::BaseController

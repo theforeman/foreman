@@ -2,8 +2,8 @@ module Foreman::Controller::UsersMixin
   extend ActiveSupport::Concern
 
   included do
-    before_filter :set_admin_on_creation, :only => :create
-    before_filter :clear_params_on_update, :update_admin_flag, :only => :update
+    before_action :set_admin_on_creation, :only => :create
+    before_action :clear_params_on_update, :update_admin_flag, :only => :update
   end
 
   def resource_scope(options = {})
