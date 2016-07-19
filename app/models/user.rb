@@ -324,7 +324,7 @@ class User < ActiveRecord::Base
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
     return true if admin?
-    if action.is_a? Hash
+    if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
       action = Foreman::AccessControl.normalize_path_hash(action)
       return true if editing_self?(action)
     end

@@ -27,7 +27,7 @@ class ReportImporter
   end
 
   def initialize(raw, proxy_id = nil)
-    raise ::Foreman::Exception.new(_('Invalid report')) unless raw.is_a?(Hash)
+    raise ::Foreman::Exception.new(_('Invalid report')) unless raw.is_a?(Hash) || raw.is_a?(ActionController::Parameters)
     @raw      = raw
     @proxy_id = proxy_id
   end

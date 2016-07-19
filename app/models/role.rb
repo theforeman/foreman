@@ -92,7 +92,7 @@ class Role < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
-    if action.is_a? Hash
+    if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
       allowed_actions.include? Foreman::AccessControl.path_hash_to_string(action)
     else
       allowed_permissions.include? action
