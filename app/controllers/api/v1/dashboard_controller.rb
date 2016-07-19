@@ -7,7 +7,7 @@ module Api
       def index
         status = Dashboard::Data.status(params[:search])
         respond_to do |format|
-          format.yaml { render :text => status.to_yaml }
+          format.yaml { render :plain => status.to_yaml }
           format.json { render :json => status }
         end
       end

@@ -6,7 +6,7 @@ class Api::TestableController < Api::V1::BaseController
   before_action :find_resource, :only => [:nested_values]
 
   def index
-    render :text => Time.zone.name, :status => 200
+    render :plain => Time.zone.name, :status => 200
   end
 
   def raise_error
@@ -15,15 +15,15 @@ class Api::TestableController < Api::V1::BaseController
   end
 
   def required_nested_values
-    render :text => Time.zone.name, :status => 200
+    render :plain => Time.zone.name, :status => 200
   end
 
   def optional_nested_values
-    render :text => Time.zone.name, :status => 200
+    render :plain => Time.zone.name, :status => 200
   end
 
   def nested_values
-    render :text => @testable.to_s, :status => 200
+    render :plain => @testable.to_s, :status => 200
   end
 
   def authorized
