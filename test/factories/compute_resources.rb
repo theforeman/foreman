@@ -8,7 +8,7 @@ FactoryGirl.define do
       user 'ec2user'
       password 'ec2password'
       url 'eu-west-1'
-      after(:build) { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
+      after(:build) { |cr| cr.stubs(:setup_key_pair) }
     end
 
     trait :gce do
@@ -16,6 +16,7 @@ FactoryGirl.define do
       key_path Rails.root
       project 'gce_project'
       sequence(:email) { |n| "user#{n}@example.com" }
+      after(:build) { |cr| cr.stubs(:setup_key_pair) }
     end
 
     trait :libvirt do
@@ -27,14 +28,14 @@ FactoryGirl.define do
       user 'osuser'
       password 'ospassword'
       url 'http://openstack.example.com/v2.0'
-      after(:build) { |host| host.class.skip_callback(:create, :after, :setup_key_pair) }
+      after(:build) { |cr| cr.stubs(:setup_key_pair) }
     end
 
     trait :ovirt do
       provider 'Ovirt'
       user 'ovirtuser'
       password 'ovirtpassword'
-      after(:build) { |host| host.class.skip_callback(:create, :before, :update_public_key) }
+      after(:build) { |cr| cr.stubs(:update_public_key) }
     end
 
     trait :rackspace do
@@ -50,7 +51,7 @@ FactoryGirl.define do
       password 'vpassword'
       sequence(:server) { |n| "#{n}.example.com" }
       datacenter 'vdatacenter'
-      after(:build) { |host| host.class.skip_callback(:create, :before, :update_public_key) }
+      after(:build) { |cr| cr.stubs(:update_public_key) }
     end
 
     factory :ec2_cr, :class => Foreman::Model::EC2, :traits => [:ec2]
