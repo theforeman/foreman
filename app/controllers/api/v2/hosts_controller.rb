@@ -304,7 +304,7 @@ Return the host's compute attributes that can be used to create a clone of this 
         params = params.deep_clone
         if params[:interfaces_attributes]
           # handle both hash and array styles of nested attributes
-          if params[:interfaces_attributes].is_a? Hash
+          if params[:interfaces_attributes].is_a?(Hash) || params[:interfaces_attributes].is_a?(ActionController::Parameters)
             params[:interfaces_attributes] = params[:interfaces_attributes].values
           end
           # map interface types

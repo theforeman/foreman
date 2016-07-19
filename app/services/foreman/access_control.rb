@@ -30,7 +30,7 @@ module Foreman
       end
 
       def permissions_for_controller_action(controller_action)
-        controller_action = path_hash_to_string(controller_action) if controller_action.is_a?(Hash)
+        controller_action = path_hash_to_string(controller_action) if controller_action.is_a?(Hash) || controller_action.is_a?(ActionController::Parameters)
         @permissions.select { |p| p.actions.include?(controller_action) }
       end
 
