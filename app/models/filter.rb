@@ -69,7 +69,7 @@ class Filter < ActiveRecord::Base
   def self.search_by_limited(key, operator, value)
     value      = value == 'true'
     value      = !value if operator == '<>'
-    conditions = value ? limited.where_values.join(' AND ') : unlimited.where_values.map(&:to_sql).join(' AND ')
+    conditions = value ? 'search IS NOT NULL OR taxonomy_search IS NOT NULL' : 'search IS NULL AND taxonomy_search IS NULL'
     { :conditions => conditions }
   end
 

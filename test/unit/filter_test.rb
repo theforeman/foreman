@@ -30,6 +30,18 @@ class FilterTest < ActiveSupport::TestCase
     assert_include Filter.unlimited, f
   end
 
+  test '.search_for("limited = ..")' do
+    f = FactoryGirl.create(:filter, :on_name_all)
+    assert_includes Filter.search_for('limited = true'), f
+    refute_includes Filter.search_for('limited = false'), f
+  end
+
+  test '.search_for("unlimited = ..")' do
+    f = FactoryGirl.create(:filter)
+    assert_includes Filter.search_for('unlimited = true'), f
+    refute_includes Filter.search_for('unlimited = false'), f
+  end
+
   test "#resource_type for empty permissions collection" do
     f = FactoryGirl.build(:filter)
     f.permissions = []

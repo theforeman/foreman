@@ -197,7 +197,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
     it 'creates valid scope with options' do
       actual_scope = @controller.resource_scope(field1: 'value1')
 
-      refute_nil actual_scope.where_values.index{|condition| condition.left.name == 'field1'}
+      assert_equal 'value1', actual_scope.where_values_hash['field1']
     end
   end
 
