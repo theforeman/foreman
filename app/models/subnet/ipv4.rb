@@ -72,9 +72,8 @@ class Subnet::Ipv4 < Subnet
   private
 
   def cleanup_ip(address)
-    address.gsub!(/\.\.+/, ".")
-    address.gsub!(/2555+/, "255")
-    address
+    address.gsub(/\.\.+/, ".").
+            gsub(/2555+/, "255")
   end
 
   def normalize_ip(address)

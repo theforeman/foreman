@@ -268,7 +268,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def downcase_release_name
-    self.release_name.downcase! unless Foreman.in_rake? || release_name.nil? || release_name.empty?
+    self.release_name = release_name.downcase if release_name.present?
   end
 
   def reject_empty_provisioning_template(attributes)

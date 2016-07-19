@@ -97,7 +97,7 @@ module Nic
     # this is done to ensure compatibility with puppet storeconfigs
     def normalize_name
       # Remove whitespace
-      self.name.gsub!(/\s/,'') if self.name
+      self.name = self.name.gsub(/\s/, '') if self.name
       # no hostname was given or a domain was selected, since this is before validation we need to ignore
       # it and let the validations to produce an error
       return if name.empty?
@@ -108,7 +108,7 @@ module Nic
         # if we've just updated the domain name, strip off the old one
         old_domain = Domain.find(changed_attributes["domain_id"])
         # Remove the old domain, until fqdn will be set as the full name
-        self.name.chomp!("." + old_domain.to_s)
+        self.name = self.name.chomp('.' + old_domain.to_s)
       end
       # name should be fqdn
       self.name = fqdn

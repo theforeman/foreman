@@ -333,7 +333,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def sanitize_url
-    self.url.chomp!("/") unless url.empty?
+    self.url = url.chomp("/") unless url.empty?
   end
 
   def random_password

@@ -32,7 +32,7 @@ class Debian < Operatingsystem
 
   def self.shorten_description(description)
     return "" if description.blank?
-    s=description
+    s = description.dup
     s.gsub!('GNU/Linux','')
     s.gsub!(/\(.+?\)/,'')
     s.squeeze! " "

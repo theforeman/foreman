@@ -133,6 +133,12 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     provisioning_template.preview_host_collection
   end
 
+  test 'saving removes carriage returns' do
+    template = FactoryGirl.build(:provisioning_template, template: "a\r\nb\r\nc\n")
+    template.save!
+    assert_equal "a\nb\nc\n", template.template
+  end
+
   describe "Association cascading" do
     setup do
       @os1 = FactoryGirl.create(:operatingsystem)

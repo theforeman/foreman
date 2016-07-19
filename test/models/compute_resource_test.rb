@@ -230,6 +230,12 @@ class ComputeResourceTest < ActiveSupport::TestCase
     refute as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }.readonly?
   end
 
+  test "url has trailing slash removed on save" do
+    cr = FactoryGirl.build(:ec2_cr, url: 'http://example.com/')
+    cr.save!
+    assert_equal 'http://example.com', cr.url
+  end
+
   describe "find_vm_by_uuid" do
     before do
       servers = mock()

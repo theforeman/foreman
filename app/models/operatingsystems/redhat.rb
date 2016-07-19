@@ -44,7 +44,7 @@ class Redhat < Operatingsystem
 
   def self.shorten_description(description)
     return "" if description.blank?
-    s=description
+    s = description.dup
     s.gsub!('Red Hat Enterprise Linux','RHEL')
     s.gsub!('release','')
     s.gsub!(/\(.+?\)/,'')
