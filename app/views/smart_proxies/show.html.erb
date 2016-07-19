@@ -53,7 +53,7 @@
             <%= _('Active features') %>
           </div>
           <div class="col-md-8">
-            <%= @smart_proxy.features.to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
+            <%= @smart_proxy.features.map(&:name).to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
           </div>
         </div>
         <div class="row">
