@@ -76,7 +76,7 @@ class HostsController < ApplicationController
         # summary report text
         @report_summary = ConfigReport.summarise(@range.days.ago, @host)
       end
-      format.yaml { render :text => @host.info.to_yaml }
+      format.yaml { render :plain => @host.info.to_yaml }
       format.json
     end
   end
@@ -203,12 +203,12 @@ class HostsController < ApplicationController
       respond_to do |format|
         # don't break lines in yaml to support Ruby < 1.9.3
         host_info_yaml = @host.info.to_yaml(:line_width => -1)
-        format.html { render :text => "<pre>#{ERB::Util.html_escape(host_info_yaml)}</pre>" }
-        format.yml { render :text => host_info_yaml }
+        format.html { render :plain => "<pre>#{ERB::Util.html_escape(host_info_yaml)}</pre>" }
+        format.yml { render :plain => host_info_yaml }
       end
     rescue => e
       Foreman::Logging.exception("Failed to generate external nodes for #{@host}", e)
-      render :text => _('Unable to generate output, Check log files'),
+      render :plain => _('Unable to generate output, Check log files'),
              :status => :precondition_failed
     end
   end

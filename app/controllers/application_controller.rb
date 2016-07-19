@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
           redirect_to main_app.edit_user_path(:id => User.current)
         end
         format.text do
-          render :text => msg, :status => :unprocessable_entity, :content_type => Mime::TEXT
+          render :plain => msg, :status => :unprocessable_entity, :content_type => Mime::TEXT
         end
       end
       true
@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-    render :text => _('Invalid query'), :status => :bad_request
+    render :plain => _('Invalid query'), :status => :bad_request
   end
 
   def not_found(exception = nil)
@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
     if request.headers.include? 'HTTP_REFERER'
       process_error(:redirect => :back, :error_msg => exception.message)
     else
-      process_error(:render => { :text => exception.message },
+      process_error(:render => { :plain => exception.message },
                     :error_msg => exception.message)
     end
   end

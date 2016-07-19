@@ -11,7 +11,7 @@ class ApplicationMailerTest < ActiveSupport::TestCase
   class TestMailer < ::ApplicationMailer
     def test(to, subject)
       mail(:to => to, :subject => subject) do |format|
-        format.html { render :text =>  html_mail }
+        format.html { render :plain =>  html_mail }
       end
     end
 

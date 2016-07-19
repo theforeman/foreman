@@ -7,7 +7,7 @@ class SettingsController < ApplicationController
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
     type = (e.to_s =~ /\'(Setting::.*)\'\./) ? $1 : 'STI-Type'
-    render :text => (e.to_s+"<br><b>run Setting.delete_all(:category=>'#{type}') to recover.</b>").html_safe, :status=> :internal_server_error
+    render :plain => (e.to_s+"<br><b>run Setting.delete_all(:category=>'#{type}') to recover.</b>").html_safe, :status=> :internal_server_error
   end
 
   def index

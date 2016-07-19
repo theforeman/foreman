@@ -89,7 +89,7 @@ class TemplatesController < ApplicationController
     base = @template.class.preview_host_collection
     @host = params[:preview_host_id].present? ? base.find(params[:preview_host_id]) : base.first
     if @host.nil?
-      render :text => _('No host could be found for rendering the template'), :status => :not_found
+      render :plain => _('No host could be found for rendering the template'), :status => :not_found
       return
     end
     @template.template = params[:template]
@@ -112,7 +112,7 @@ class TemplatesController < ApplicationController
 
   def safe_render(template)
     load_template_vars
-    render :text => unattended_render(template)
+    render :plain => unattended_render(template)
   rescue => error
     Foreman::Logging.exception("Error rendering the #{template.name} template", error)
     if error.is_a?(Foreman::Renderer::RenderingError)
@@ -121,7 +121,7 @@ class TemplatesController < ApplicationController
       text = _("There was an error rendering the %{name} template: %{error}") % {:name => template.name, :error => error.message}
     end
 
-    render :text => text, :status => :internal_server_error
+    render :plain => text, :status => :internal_server_error
   end
 
   def set_locked(locked)

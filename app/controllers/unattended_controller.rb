@@ -65,7 +65,7 @@ class UnattendedController < ApplicationController
   def render_custom_error(status, error_message, params)
     logger.error error_message % params
     # add a comment character (works with Red Hat and Debian systems) to avoid parsing errors
-    render(:text => '# ' + _(error_message) % params, :status => status, :content_type => 'text/plain')
+    render(:plain => '# ' + _(error_message) % params, :status => status, :content_type => 'text/plain')
   end
 
   def render_template(type)
@@ -188,7 +188,7 @@ class UnattendedController < ApplicationController
     # This should terminate the before_action and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
-    render(:text => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => :internal_server_error) unless @host.handle_ca
+    render(:plain => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => :internal_server_error) unless @host.handle_ca
     #TODO: Email the user who initiated this build operation.
   end
 
@@ -200,7 +200,7 @@ class UnattendedController < ApplicationController
     # This should terminate the before_action and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
-    render(:text => _("Failed to get a new realm OTP. Terminating the build!"), :status => :internal_server_error) unless @host.handle_realm
+    render(:plain => _("Failed to get a new realm OTP. Terminating the build!"), :status => :internal_server_error) unless @host.handle_realm
   end
 
   def set_content_type
@@ -247,7 +247,7 @@ class UnattendedController < ApplicationController
     rescue => error
       msg = _("There was an error rendering the %s template: ") % (@template_name)
       Foreman::Logging.exception(msg, error)
-      render :text => msg + error.message, :status => :internal_server_error
+      render :plain => msg + error.message, :status => :internal_server_error
     end
   end
 end

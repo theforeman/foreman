@@ -9,7 +9,7 @@ class DashboardController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.yaml { render :text => @report.to_yaml }
+      format.yaml { render :plain => @report.to_yaml }
       format.json
     end
   end
