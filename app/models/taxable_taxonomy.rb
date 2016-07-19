@@ -11,4 +11,10 @@ class TaxableTaxonomy < ActiveRecord::Base
       where(["taxable_taxonomies.taxable_type NOT IN (?)",types])
     end
   }
+
+  # Always store the base type when associated to an STI class as the has_many scope on the target
+  # class will always default to searching for its base_class.
+  def taxable_type=(class_name)
+    super(class_name.constantize.base_class.to_s)
+  end
 end

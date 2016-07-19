@@ -58,14 +58,6 @@ class ProvisioningTemplate < Template
     ids.uniq
   end
 
-  # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
-  # http://apidock.com/rails/ActiveRecord/Associations/ClassMethods/has_many#1010-Polymorphic-has-many-within-inherited-class-gotcha
-  def self.base_class
-    self
-  end
-  # not sure why but this changes table_name so we set it explicitly
-  self.table_name = 'templates'
-
   def self.template_includes
     super + [:template_kind, :template_combinations => [:hostgroup, :environment]]
   end

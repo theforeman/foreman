@@ -14,8 +14,8 @@ class Taxonomy < ActiveRecord::Base
   has_many :smart_proxies, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'SmartProxy'
   has_many :compute_resources, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ComputeResource'
   has_many :media, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Medium'
-  has_many :provisioning_templates, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ProvisioningTemplate'
-  has_many :ptables, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Ptable'
+  has_many :provisioning_templates, -> { where(:type => 'ProvisioningTemplate') }, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Template'
+  has_many :ptables, -> { where(:type => 'Ptable') }, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Template'
   has_many :domains, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Domain'
   has_many :realms, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Realm'
   has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
@@ -145,7 +145,7 @@ class Taxonomy < ActiveRecord::Base
     #  if ignore?("Domain")
     #   Domain.pluck(:id)
     # else
-    #   self.taxable_taxonomies.where(:taxable_type => "Domain").pluck(:taxable_id)
+    #   super()  # self.domain_ids
     # end
     define_method(key) do
       klass = hash_key_to_class(key)
@@ -153,7 +153,7 @@ class Taxonomy < ActiveRecord::Base
         return User.unscoped.except_admin.except_hidden.map(&:id) if klass == "User"
         return klass.constantize.pluck(:id)
       else
-        taxable_taxonomies.where(:taxable_type => klass).pluck(:taxable_id)
+        super()
       end
     end
   end

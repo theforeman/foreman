@@ -67,12 +67,12 @@ twelve:
 thirteen:
   taxonomy: location1
   taxable: mystring2
-  taxable_type: "ProvisioningTemplate"
+  taxable_type: "Template"
 
 fourteen:
   taxonomy: organization1
   taxable: mystring2
-  taxable_type: "ProvisioningTemplate"
+  taxable_type: "Template"
 
 fifteen:
   taxonomy: location1

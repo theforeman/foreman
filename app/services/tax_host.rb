@@ -26,8 +26,8 @@ class TaxHost
     return @selected_ids if @selected_ids
     ids = default_ids_hash
     #types NOT ignored - get ids that are selected
-    (taxonomy.taxable_taxonomies - taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
-      ids["#{k.tableize.singularize}_ids"] = v.map { |i| i[:taxable_id] }
+    hash_keys.each do |col|
+      ids[col] = Array(taxonomy.send(col))
     end
     #types that ARE ignored - get ALL ids for object
     Array(taxonomy.ignore_types).each do |taxonomy_type|
