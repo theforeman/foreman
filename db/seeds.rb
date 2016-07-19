@@ -16,7 +16,7 @@ end
 # additional attributes may be specified for narrowing the scope but note
 # that it can be slow if there's high number of audits for the specified type
 def audit_modified?(type, name, attributes = {})
-  au = Audit.where(:auditable_type => type, :auditable_name => name)
+  au = Audit.where(:auditable_type => type.base_class, :auditable_name => name)
 
   if attributes.present?
     interesting_au = au.select do |audit|

@@ -41,19 +41,15 @@ class Ptable < Template
     end
   }
 
-  # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
-  # http://apidock.com/rails/ActiveRecord/Associations/ClassMethods/has_many#1010-Polymorphic-has-many-within-inherited-class-gotcha
-  def self.base_class
-    self
-  end
-  # this changes table_name so we set it explicitly
-  self.table_name = 'templates'
-
   def self.template_includes
     super + [:operatingsystems]
   end
 
   def preview_host_collection
     super.where(:managed => true)
+  end
+
+  def taxonomy_foreign_conditions
+    { :ptable_id => id }
   end
 end
