@@ -36,6 +36,7 @@ class ComputeResourcesVmsController < ApplicationController
   end
 
   def create
+    params[:vm].permit!
     if (vm = @compute_resource.create_vm params[:vm])
       @compute_resource.start_vm(vm.identity) if params[:vm][:start]=='1'
       process_success :success_redirect => compute_resource_vms_path(@compute_resource)

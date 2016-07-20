@@ -327,10 +327,10 @@ module Api
 
     def parent_resource_details
       parent_name, parent_class, parent_id = nil
-      params.find do |param, value|
+      params.each do |param, value|
         parent_id = value
         parent_name, parent_class = extract_resource_from_param(param)
-        parent_class
+        break if parent_class
       end
 
       return nil if parent_name.nil? || parent_class.nil?

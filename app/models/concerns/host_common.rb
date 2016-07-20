@@ -44,7 +44,7 @@ module HostCommon
     # Replacement of accepts_nested_attributes_for :lookup_values,
     # to work around the lack of `host_id` column in lookup_values.
     def lookup_values_attributes=(lookup_values_attributes)
-      lookup_values_attributes.each_value do |attribute|
+      lookup_values_attributes.each do |_, attribute|
         attr = attribute.dup
 
         id = attr.delete(:id)
