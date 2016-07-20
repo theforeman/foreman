@@ -9,12 +9,13 @@ module Api
       include ParameterAttributes
 
       wrap_parameters :host, :include => host_params_filter.accessible_attributes(parameter_filter_context) + ['compute_attributes']
+      include HostsControllerExtension
 
       before_action :check_create_host_nested, :only => [:create, :update]
 
       before_action :find_optional_nested_object, :except => [:facts]
       before_action :find_resource, :except => [:index, :create, :facts]
-      before_action :permissions_check, :only => %w{power boot puppetrun}
+      check_permissions_for %w{power boot}
       before_action :process_parameter_attributes, :only => %w{update}
 
       add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
@@ -230,14 +231,6 @@ Return the host's compute attributes that can be used to create a clone of this 
         render :json => safe_attrs
       end
 
-      api :PUT, "/hosts/:id/puppetrun", N_("Force a Puppet agent run on the host")
-      param :id, :identifier_dottable, :required => true
-
-      def puppetrun
-        return deny_access unless Setting[:puppetrun]
-        process_response @host.puppetrun!
-      end
-
       api :PUT, "/hosts/:id/disassociate", N_("Disassociate the host from a VM")
       param :id, :identifier_dottable, :required => true
       def disassociate
@@ -348,8 +341,6 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       def action_permission
         case params[:action]
-          when 'puppetrun'
-            :puppetrun
           when 'power'
             :power
           when 'boot'

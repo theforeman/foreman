@@ -45,5 +45,7 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]
 
-  check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED)
+  SPECIAL_PATH = ['api/v2/puppet_hosts/puppetrun']
+
+  check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED + SPECIAL_PATH)
 end
