@@ -1,4 +1,4 @@
-class RenameTaxonomyIgnoredTypeToProvisioningTemplates < ActiveRecord::Migration
+class RenameTaxonomyIgnoredTypeToProvisioningTemplates < ActiveRecord::Migration[4.2]
   class FakeTaxonomy < ApplicationRecord
     self.table_name = 'taxonomies'
 

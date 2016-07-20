@@ -30,5 +30,3 @@
 - message: Returning `false` in Active Record and Active Model callbacks will not
     implicitly halt a callback chain in Rails 5.1. To explicitly halt the callback
     chain, please use `throw :abort` instead.
-- message: |-
-    DEPRECATION WARNING: Directly inheriting from ActiveRecord::Migration is deprecated. Please specify the Rails release the migration was written for:

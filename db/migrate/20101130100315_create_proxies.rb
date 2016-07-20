@@ -1,4 +1,4 @@
-class CreateProxies < ActiveRecord::Migration
+class CreateProxies < ActiveRecord::Migration[4.2]
   def up
     create_table :smart_proxies do |t|
       t.string :name, :limit => 255

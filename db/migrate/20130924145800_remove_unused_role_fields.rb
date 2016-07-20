@@ -1,4 +1,4 @@
-class RemoveUnusedRoleFields < ActiveRecord::Migration
+class RemoveUnusedRoleFields < ActiveRecord::Migration[4.2]
   def up
     remove_column :users, :role_id
     remove_column :user_roles, :inherited_from

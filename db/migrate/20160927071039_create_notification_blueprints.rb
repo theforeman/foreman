@@ -1,4 +1,4 @@
-class CreateNotificationBlueprints < ActiveRecord::Migration
+class CreateNotificationBlueprints < ActiveRecord::Migration[4.2]
   def change
     create_table :notification_blueprints do |t|
       t.string :group, index: true

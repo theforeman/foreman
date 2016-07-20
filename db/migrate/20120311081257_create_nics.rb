@@ -1,4 +1,4 @@
-class CreateNics < ActiveRecord::Migration
+class CreateNics < ActiveRecord::Migration[4.2]
   def up
     create_table :nics do |t|
       t.string :mac, :limit => 255

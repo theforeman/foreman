@@ -1,4 +1,4 @@
-class AssignPtablesToTaxonomies < ActiveRecord::Migration
+class AssignPtablesToTaxonomies < ActiveRecord::Migration[4.2]
   def up
     if SETTINGS[:organizations_enabled] || SETTINGS[:locations_enabled]
       Ptable.all.each do |ptable|

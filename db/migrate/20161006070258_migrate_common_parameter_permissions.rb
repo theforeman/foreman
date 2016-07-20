@@ -1,4 +1,4 @@
-class MigrateCommonParameterPermissions < ActiveRecord::Migration
+class MigrateCommonParameterPermissions < ActiveRecord::Migration[4.2]
   class FakeFilter < ApplicationRecord
     self.table_name = 'filters'
   end

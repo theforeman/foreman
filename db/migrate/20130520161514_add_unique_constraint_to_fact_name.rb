@@ -1,4 +1,4 @@
-class AddUniqueConstraintToFactName < ActiveRecord::Migration
+class AddUniqueConstraintToFactName < ActiveRecord::Migration[4.2]
   def up
     remove_index(:fact_names, :column => :name) rescue nil
     options = if ActiveRecord::Base.connection.instance_values["config"][:adapter].grep(/mysql/).any?

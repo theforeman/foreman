@@ -1,4 +1,4 @@
-class AddViewParamsToFiltersWithEdit < ActiveRecord::Migration
+class AddViewParamsToFiltersWithEdit < ActiveRecord::Migration[4.2]
   class FakeFiltering < ApplicationRecord
     self.table_name = 'filterings'
   end

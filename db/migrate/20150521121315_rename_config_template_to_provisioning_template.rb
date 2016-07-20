@@ -1,4 +1,4 @@
-class RenameConfigTemplateToProvisioningTemplate < ActiveRecord::Migration
+class RenameConfigTemplateToProvisioningTemplate < ActiveRecord::Migration[4.2]
   PERMISSIONS = %w(view_templates create_templates edit_templates destroy_templates deploy_templates lock_templates)
 
   def up

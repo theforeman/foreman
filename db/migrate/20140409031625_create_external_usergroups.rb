@@ -1,4 +1,4 @@
-class CreateExternalUsergroups < ActiveRecord::Migration
+class CreateExternalUsergroups < ActiveRecord::Migration[4.2]
   def change
     create_table :external_usergroups do |t|
       t.string  :name,           :null => false, :limit => 255

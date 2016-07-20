@@ -1,4 +1,4 @@
-class MigrateInstallationMediumUri < ActiveRecord::Migration
+class MigrateInstallationMediumUri < ActiveRecord::Migration[4.2]
   def up
     Medium.unscoped.all.each do |medium|
       matches = /^([^:]+):(\/.+)/.match(medium.path)

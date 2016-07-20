@@ -1,4 +1,4 @@
-class CreateMailNotifications < ActiveRecord::Migration
+class CreateMailNotifications < ActiveRecord::Migration[4.2]
   def change
     create_table :mail_notifications do |t|
       t.string :name, :limit => 255

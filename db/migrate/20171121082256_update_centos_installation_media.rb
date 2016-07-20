@@ -1,4 +1,4 @@
-class UpdateCentosInstallationMedia < ActiveRecord::Migration
+class UpdateCentosInstallationMedia < ActiveRecord::Migration[4.2]
   def change
     Medium.unscoped.where(
       :name => 'CentOS mirror',

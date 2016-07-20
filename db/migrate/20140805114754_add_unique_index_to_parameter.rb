@@ -1,4 +1,4 @@
-class AddUniqueIndexToParameter < ActiveRecord::Migration
+class AddUniqueIndexToParameter < ActiveRecord::Migration[4.2]
   def up
     found = []
     Parameter.find_each do |param|

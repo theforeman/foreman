@@ -1,4 +1,4 @@
-class ChangeFactNameToPuppetFactName < ActiveRecord::Migration
+class ChangeFactNameToPuppetFactName < ActiveRecord::Migration[4.2]
   def up
     FactName.where(:type => 'FactName').update_all(:type => 'PuppetFactName')
   end

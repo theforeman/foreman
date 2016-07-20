@@ -1,4 +1,4 @@
-class RenameIpmiBootPermission < ActiveRecord::Migration
+class RenameIpmiBootPermission < ActiveRecord::Migration[4.2]
   def up
     Permission.where(:name => 'ipmi_boot').
       update_all(:name => 'ipmi_boot_hosts')

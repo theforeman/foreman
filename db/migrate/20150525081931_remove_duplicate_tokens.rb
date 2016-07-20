@@ -1,4 +1,4 @@
-class RemoveDuplicateTokens < ActiveRecord::Migration
+class RemoveDuplicateTokens < ActiveRecord::Migration[4.2]
   def up
     # only managed hosts should have tokens
     Token.where(:id => Token.joins("left outer join hosts on hosts.id = tokens.host_id").

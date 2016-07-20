@@ -1,4 +1,4 @@
-class AddProxyToDomain < ActiveRecord::Migration
+class AddProxyToDomain < ActiveRecord::Migration[4.2]
   def up
     add_column :domains, :dns_id, :integer
     remove_column :domains, :dnsserver

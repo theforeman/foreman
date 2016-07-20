@@ -1,4 +1,4 @@
-class CreateTaxableTaxonomies < ActiveRecord::Migration
+class CreateTaxableTaxonomies < ActiveRecord::Migration[4.2]
   def up
     create_table :taxable_taxonomies do |t|
       t.integer :taxonomy_id

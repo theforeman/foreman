@@ -1,4 +1,4 @@
-class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
+class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration[4.2]
   def up
     add_column :audits, :auditable_name, :string, :limit => 255 unless column_exists? :audits, :auditable_name
     add_column :audits, :associated_name, :string, :limit => 255 unless column_exists? :audits, :associated_name

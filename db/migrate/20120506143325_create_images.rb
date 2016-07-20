@@ -1,4 +1,4 @@
-class CreateImages < ActiveRecord::Migration
+class CreateImages < ActiveRecord::Migration[4.2]
   def up
     create_table :images do |t|
       t.integer :operatingsystem_id

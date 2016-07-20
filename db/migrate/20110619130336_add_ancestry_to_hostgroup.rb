@@ -1,4 +1,4 @@
-class AddAncestryToHostgroup < ActiveRecord::Migration
+class AddAncestryToHostgroup < ActiveRecord::Migration[4.2]
   def up
     add_column :hostgroups, :ancestry, :string, :limit => 255
     add_index :hostgroups, :ancestry

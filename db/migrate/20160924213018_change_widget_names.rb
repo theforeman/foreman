@@ -1,4 +1,4 @@
-class ChangeWidgetNames < ActiveRecord::Migration
+class ChangeWidgetNames < ActiveRecord::Migration[4.2]
   def up
     Widget.where(:name => "Status table").update_all(:name => "Host Configuration Status")
     Widget.where(:name => "Status chart").update_all(:name => "Host Configuration Chart")

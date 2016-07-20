@@ -1,4 +1,4 @@
-class ConvertReports < ActiveRecord::Migration
+class ConvertReports < ActiveRecord::Migration[4.2]
   def up
     say "About to convert all of the #{Report.count} reports log field into a more DB optimized way... this might take a while....."
 
