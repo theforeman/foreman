@@ -1,4 +1,4 @@
-class RemoveDuplicateTaxableTaxonomies < ActiveRecord::Migration
+class RemoveDuplicateTaxableTaxonomies < ActiveRecord::Migration[4.2]
   def up
     deduped = TaxableTaxonomy.group(:taxonomy_id, :taxable_id, :taxable_type).pluck('min(id)')
     TaxableTaxonomy.where.not(id: deduped).delete_all

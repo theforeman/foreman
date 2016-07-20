@@ -1,4 +1,4 @@
-class ChangeTemplateAuditsType < ActiveRecord::Migration
+class ChangeTemplateAuditsType < ActiveRecord::Migration[4.2]
   def up
     known_types = Template.descendants.map(&:to_s)
     Audit.where(:auditable_type => known_types).update_all(:auditable_type => 'Template')

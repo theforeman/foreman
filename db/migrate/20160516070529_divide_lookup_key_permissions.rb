@@ -1,4 +1,4 @@
-class DivideLookupKeyPermissions < ActiveRecord::Migration
+class DivideLookupKeyPermissions < ActiveRecord::Migration[4.2]
   class FakeFilter < ApplicationRecord
     self.table_name = 'filters'
     belongs_to :role

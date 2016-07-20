@@ -1,5 +1,5 @@
 require 'facter'
-class AddOwnerToHosts < ActiveRecord::Migration
+class AddOwnerToHosts < ActiveRecord::Migration[4.2]
   class User < ApplicationRecord; end
   class Host < ApplicationRecord; end
 

@@ -1,4 +1,4 @@
-class ChangeTemplateTaxableTaxonomiesType < ActiveRecord::Migration
+class ChangeTemplateTaxableTaxonomiesType < ActiveRecord::Migration[4.2]
   def up
     known_types = Template.descendants.map(&:to_s)
     TaxableTaxonomy.where(:taxable_type => known_types).update_all(:taxable_type => 'Template')

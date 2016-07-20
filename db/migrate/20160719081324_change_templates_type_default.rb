@@ -1,4 +1,4 @@
-class ChangeTemplatesTypeDefault < ActiveRecord::Migration
+class ChangeTemplatesTypeDefault < ActiveRecord::Migration[4.2]
   def up
     change_column_default :templates, :type, 'Template'
   end

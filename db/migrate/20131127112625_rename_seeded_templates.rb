@@ -1,4 +1,4 @@
-class RenameSeededTemplates < ActiveRecord::Migration
+class RenameSeededTemplates < ActiveRecord::Migration[4.2]
   CONFIG_RENAMES = {
     "Grubby Default" => "Grubby default",
     "Jumpstart Default" => "Jumpstart default",

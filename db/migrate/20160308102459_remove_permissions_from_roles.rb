@@ -1,4 +1,4 @@
-class RemovePermissionsFromRoles < ActiveRecord::Migration
+class RemovePermissionsFromRoles < ActiveRecord::Migration[4.2]
   def up
     remove_column :roles, :permissions
   end

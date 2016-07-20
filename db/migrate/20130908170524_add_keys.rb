@@ -1,10 +1,10 @@
-class AddKeys < ActiveRecord::Migration
+class AddKeys < ActiveRecord::Migration[4.2]
   def change
     # turn off Foreign Key checks
     if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
-      ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
+      execute "SET CONSTRAINTS ALL DEFERRED;"
     elsif ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      ActiveRecord::Migration.execute "SET FOREIGN_KEY_CHECKS=0;"
+      execute "SET FOREIGN_KEY_CHECKS=0;"
     end
     add_foreign_key "architectures_operatingsystems", "architectures", :name => "architectures_operatingsystems_architecture_id_fk"
     add_foreign_key "architectures_operatingsystems", "operatingsystems", :name => "architectures_operatingsystems_operatingsystem_id_fk"
@@ -94,7 +94,7 @@ class AddKeys < ActiveRecord::Migration
     add_foreign_key "users", "auth_sources", :name => "users_auth_source_id_fk"
     # turn on Foreign Key checks in MySQL only
     if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      ActiveRecord::Migration.execute "SET FOREIGN_KEY_CHECKS=1;"
+      execute "SET FOREIGN_KEY_CHECKS=1;"
     end
   end
 end

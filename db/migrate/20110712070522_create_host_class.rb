@@ -1,4 +1,4 @@
-class CreateHostClass < ActiveRecord::Migration
+class CreateHostClass < ActiveRecord::Migration[4.2]
   def up
     rename_table :hosts_puppetclasses, :host_classes
     add_column :host_classes, :id, :primary_key

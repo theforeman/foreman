@@ -1,4 +1,4 @@
-class CalcExistingReports < ActiveRecord::Migration
+class CalcExistingReports < ActiveRecord::Migration[4.2]
   def up
     if (rc = Report.count) > 0
       Report.reset_column_information

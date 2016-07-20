@@ -1,4 +1,4 @@
-class AddOsFamilyToPtable < ActiveRecord::Migration
+class AddOsFamilyToPtable < ActiveRecord::Migration[4.2]
   class FakePtableWithoutFamily < ApplicationRecord
     self.table_name = 'ptables'
 

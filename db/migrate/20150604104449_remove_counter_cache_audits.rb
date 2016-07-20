@@ -1,4 +1,4 @@
-class RemoveCounterCacheAudits < ActiveRecord::Migration
+class RemoveCounterCacheAudits < ActiveRecord::Migration[4.2]
   def up
     audits = Audit.reorder('').where(Audit.arel_table[:audited_changes].matches("%_count%"))
     audits.each do |audit|

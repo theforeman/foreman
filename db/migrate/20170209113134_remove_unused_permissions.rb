@@ -1,4 +1,4 @@
-class RemoveUnusedPermissions < ActiveRecord::Migration
+class RemoveUnusedPermissions < ActiveRecord::Migration[4.2]
   def up
     permission = Permission.where(:name => 'access_settings').first
     if permission.present?

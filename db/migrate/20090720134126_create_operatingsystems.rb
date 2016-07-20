@@ -1,4 +1,4 @@
-class CreateOperatingsystems < ActiveRecord::Migration
+class CreateOperatingsystems < ActiveRecord::Migration[4.2]
   def up
     create_table :operatingsystems do |t|
       t.string   :major, :limit => 5, :default => "", :null => false

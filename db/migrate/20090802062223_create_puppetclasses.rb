@@ -1,4 +1,4 @@
-class CreatePuppetclasses < ActiveRecord::Migration
+class CreatePuppetclasses < ActiveRecord::Migration[4.2]
   def up
     create_table :puppetclasses do |t|
       t.string :name, :limit => 255

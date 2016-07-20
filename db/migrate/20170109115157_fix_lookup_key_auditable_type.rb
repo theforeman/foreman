@@ -1,4 +1,4 @@
-class FixLookupKeyAuditableType < ActiveRecord::Migration
+class FixLookupKeyAuditableType < ActiveRecord::Migration[4.2]
   def up
     Audit.reorder(nil).joins('JOIN lookup_keys ON lookup_keys.id = audits.auditable_id').
          where(:auditable_type => 'LookupKey', :lookup_keys => {:type => 'VariableLookupKey'}).

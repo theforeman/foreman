@@ -1,4 +1,4 @@
-class AddSolarisDisks < ActiveRecord::Migration
+class AddSolarisDisks < ActiveRecord::Migration[4.2]
   def up
   end
 

@@ -1,4 +1,4 @@
-class MigratePtablesToTemplates < ActiveRecord::Migration
+class MigratePtablesToTemplates < ActiveRecord::Migration[4.2]
   class FakeOldPtable < ApplicationRecord
     self.table_name = 'ptables'
 

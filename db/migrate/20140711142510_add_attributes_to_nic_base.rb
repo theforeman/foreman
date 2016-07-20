@@ -1,4 +1,4 @@
-class AddAttributesToNicBase < ActiveRecord::Migration
+class AddAttributesToNicBase < ActiveRecord::Migration[4.2]
   def change
     add_column :nics, :virtual, :boolean, :default => false, :null => false
     add_column :nics, :link, :boolean, :default => true, :null => false

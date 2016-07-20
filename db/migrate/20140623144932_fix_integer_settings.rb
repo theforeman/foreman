@@ -1,4 +1,4 @@
-class FixIntegerSettings < ActiveRecord::Migration
+class FixIntegerSettings < ActiveRecord::Migration[4.2]
   def up
     Setting.where(:settings_type => 'integer').each do |s|
       if !s.value.is_a? Integer

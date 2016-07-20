@@ -1,6 +1,6 @@
 require Rails.root + 'db/seeds.d/020-roles_list.rb'
 
-class TidyCurrentRoles < ActiveRecord::Migration
+class TidyCurrentRoles < ActiveRecord::Migration[4.2]
   def up
     # if there are no roles, then this is a new installation and we will create them in seeds
     return if Role.count == 0

@@ -1,4 +1,4 @@
-class CreateConfigTemplates < ActiveRecord::Migration
+class CreateConfigTemplates < ActiveRecord::Migration[4.2]
   def up
     create_table :config_templates do |t|
       t.string :name, :limit => 255
