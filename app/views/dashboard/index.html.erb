@@ -16,7 +16,7 @@
               <a class='remove' data-url='<%= widget_path(widget) %>'>&times;</a>
             </div>
             <div class="widget <%= widget.name.parameterize %>">
-              <div data-ajax-url="<%= widget_path(widget, params.slice(:search)) %>" data-on-complete="widgetLoaded">
+              <div data-ajax-url="<%= widget_path(widget, search: params[:search]) %>" data-on-complete="widgetLoaded">
                 <%= spinner(_("%s widget loading...") % widget.name) %>
               </div>
             </div>

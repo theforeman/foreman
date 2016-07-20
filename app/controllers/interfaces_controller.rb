@@ -11,16 +11,16 @@ class InterfacesController < ApplicationController
     @host = Host.new(safe_params)
 
     attributes = safe_params.fetch(:interfaces_attributes, {})
-    @key, attributes = attributes.first
+    @key, attributes = attributes.to_h.first
     raise Foreman::Exception, 'Missing attributes for interface' if @key.blank?
 
     if attributes.present?
-      raise Foreman::Exception, 'Type was not selected' if attributes[:type].blank?
+      raise Foreman::Exception, 'Type was not selected' if attributes['type'].blank?
 
-      klass = attributes.delete(:type).constantize
+      klass = attributes.delete('type').constantize
       raise Foreman::Exception, 'Type is not Interface class' unless klass <= Nic::Base
 
-      attributes.delete(:_destroy)
+      attributes.delete('_destroy')
       @interface = klass.new(attributes)
     end
 
