@@ -79,10 +79,10 @@ class Report < ActiveRecord::Base
     cond = "reports.created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
     cond += " and reports.status = #{status}" unless status.nil?
 
-    Log.joins(:report).where(:report_id => where(cond)).delete_all
+    Log.where(:report_id => where(cond)).reorder('').delete_all
     Message.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
     Source.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
-    count = where(cond).delete_all
+    count = where(cond).reorder('').delete_all
     logger.info Time.now.utc.to_s + ": Expired #{count} #{to_s.underscore.humanize.pluralize}"
     count
   end
