@@ -45,11 +45,6 @@ class FactValue < ActiveRecord::Base
     { :conditions => "fact_values.id IN(#{search.join(',')})" }
   end
 
-  # Todo: find a way to filter which values are logged,
-  # this generates too much useless data
-  #
-  # audited
-
   # returns the average of all facts
   # required only on facts that return a unit (e.g. MB, GB etc)
   # normal  facts could be used via the sum and AR average

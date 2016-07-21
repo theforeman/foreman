@@ -24,19 +24,21 @@ class StructuredFactImporter < FactImporter
     Hash[fact_name_class.where(:type => fact_name_class).reorder('').pluck(:name, :id, :compose).map { |fact| [fact.shift, fact] }]
   end
 
-  def create_fact_name(fact_names, name, fact_value)
+  def find_or_create_fact_name(name, value = nil)
     if name.include?(FactName::SEPARATOR)
       parent_name = /(.*)#{FactName::SEPARATOR}/.match(name)[1]
-      parent_fact = create_fact_name(fact_names, parent_name, nil)
+      parent_fact = find_or_create_fact_name(parent_name, nil)
+      fact_name = parent_fact.children.where(:name => name, :type => fact_name_class.to_s).first
     else
       parent_fact = nil
+      fact_name = fact_name_class.where(:name => name, :type => fact_name_class.to_s).first
     end
 
-    if fact_names[name]
-      fact_name_class.update(fact_names[name][0], :compose => fact_value.nil?) if fact_value.nil? && !fact_names[name][1]
+    if fact_name
+      fact_name.update_attribute(:compose, value.nil?) if value.nil? && !fact_name.compose?
     else
-      fact_names[name] = [fact_name_class.create!(:name => name, :compose => fact_value.nil?, :parent_id => parent_fact).id, fact_value.nil?]
+      fact_name = fact_name_class.create!(:name => name, :type => fact_name_class.to_s, :compose => value.nil?, :parent => parent_fact)
     end
-    fact_names[name][0]
+    fact_name
   end
 end
