@@ -1,5 +1,3 @@
-require 'rake/testtask'
-
 namespace :test do
   desc "Test API"
   Rake::TestTask.new(:api) do |t|
@@ -7,6 +5,19 @@ namespace :test do
     t.pattern = 'test/functional/api/**/*_test.rb'
     t.verbose = true
     t.warning = false
+  end
+
+  desc "Test lib source"
+  Rake::TestTask.new(:lib) do |t|
+    t.libs << "test"
+    t.pattern = 'test/lib/**/*_test.rb'
+    t.verbose = true
+    t.warning = false
+  end
+
+  desc "Test all enabled plugins"
+  task :plugins do
+    # intentionally empty - enhancement point for plugins
   end
 end
 
