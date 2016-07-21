@@ -37,11 +37,16 @@ class FactImporter
 
   # expect a facts hash
   def import!
-    delete_removed_facts
-    add_new_facts
-    update_facts
+    ActiveRecord::Base.transaction do
+      delete_removed_facts
+      update_facts
+      add_new_facts
+    end
 
-    raise ::Foreman::Exception.new(N_("Import of facts failed for host %s"), @host.name) if @error
+    if @error
+      Foreman::Logging.exception("Error during fact import for #{@host.name}", @error)
+      raise ::Foreman::WrappedException.new(@error, N_("Import of facts failed for host %s"), @host.name)
+    end
     logger.info("Import facts for '#{host}' completed. Added: #{counters[:added]}, Updated: #{counters[:updated]}, Deleted #{counters[:deleted]} facts")
   end
 
@@ -55,56 +60,52 @@ class FactImporter
   attr_reader :host, :facts
 
   def delete_removed_facts
-    to_delete = host.fact_values.eager_load(:fact_name).where("fact_names.type = '#{fact_name_class}' AND fact_names.name NOT IN (?)", facts.keys)
-    # N+1 DELETE SQL, but this would allow us to use callbacks (e.g. auditing) when deleting.
-    deleted = to_delete.destroy_all
-    @counters[:deleted] = deleted.size
+    ActiveSupport::Notifications.instrument "fact_importer_deleted.foreman", :host_id => host.id, :host_name => host.name, :facts => facts, :deleted => [] do |payload|
+      # deletes all facts using a single SQL query (with inner query)
+      payload[:count] = @counters[:deleted] = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class).where.not('fact_names.name' => facts.keys).delete_all
+    end
+  end
 
-    @db_facts = nil
-    logger.debug("Merging facts for '#{host}': deleted #{counters[:deleted]} facts")
+  def add_new_fact(name)
+    method = host.new_record? ? :build : :create!
+    fact_name = find_or_create_fact_name(name, facts[name])
+    host.fact_values.send(method, :value => facts[name], :fact_name => fact_name)
+  rescue => e
+    logger.error("Fact #{name} could not be imported because of #{e.message}")
+    @error = e
+  end
+
+  # value is used in structured importer to identify leaf nodes
+  def find_or_create_fact_name(name, value = nil)
+    fact_name_class.where(:name => name, :type => fact_name_class).first_or_create!
   end
 
   def add_new_facts
-    facts_to_create = facts.keys - db_facts.keys
-    # if the host does not exists yet, we don't have an host_id to use the fact_values table.
-    if facts_to_create.present?
-      method = host.new_record? ? :build : :create!
-      fact_names = preload_fact_names
-      facts_to_create.each do |name|
-        begin
-          fact_name = create_fact_name(fact_names, name, facts[name])
-          host.fact_values.send(method, :value => facts[name], :fact_name_id => fact_name)
-        rescue => e
-          logger.error("Fact #{name} could not be imported because of #{e.message}")
-          @error = true
-        end
+    ActiveSupport::Notifications.instrument "fact_importer_added.foreman", :host_id => host.id, :host_name => host.name, :facts => facts do |payload|
+      facts_to_create = facts.keys - db_facts.pluck('fact_names.name')
+      # if the host does not exists yet, we don't have an host_id to use the fact_values table.
+      if facts_to_create.present?
+        facts_to_create.each { |f| add_new_fact(f) }
       end
+      payload[:added] = facts_to_create
+      payload[:count] = @counters[:added] = facts_to_create.size
     end
-
-    @counters[:added] = facts_to_create.size
-    logger.debug("Merging facts for '#{host}': added #{@counters[:added]} facts")
-  end
-
-  def preload_fact_names
-    # :type is needed because custom facts usually inherits from FactName so they would be included in the list
-    Hash[fact_name_class.where(:type => fact_name_class).reorder('').pluck(:name, :id)]
-  end
-
-  def create_fact_name(fact_names, name, fact_value)
-    fact_names[name] ||= fact_name_class.create!(:name => name).id
   end
 
   def update_facts
-    facts_to_update = []
-    db_facts.each { |name, fv| facts_to_update << [facts[name], fv] if fv.value != facts[name] }
-
-    @counters[:updated] = facts_to_update.size
-    return logger.debug("No facts update required for #{host}") if facts_to_update.empty?
-
-    logger.debug("Merging facts for '#{host}': updated #{@counters[:updated]} facts")
-
-    facts_to_update.each do |new_value, fv|
-      fv.update_attribute(:value, new_value)
+    ActiveSupport::Notifications.instrument "fact_importer_updated.foreman", :host_id => host.id, :host_name => host.name, :facts => facts do |payload|
+      time = Time.now.utc
+      updated = []
+      db_facts.find_each do |record|
+        new_value = facts[record.name]
+        if record.value != new_value
+          # skip callbacks/validations
+          record.update_columns(:value => new_value, :updated_at => time)
+          updated << record.name
+        end
+      end
+      payload[:updated] = updated
+      payload[:count] = @counters[:updated] = updated.size
     end
   end
 
@@ -116,6 +117,6 @@ class FactImporter
   end
 
   def db_facts
-    @db_facts ||= host.fact_values.eager_load(:fact_name).where("fact_names.type = '#{fact_name_class}'").index_by(&:name)
+    host.fact_values.joins(:fact_name).where("fact_names.type = '#{fact_name_class}'")
   end
 end
