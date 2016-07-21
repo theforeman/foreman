@@ -245,8 +245,8 @@ class HostJSTest < IntegrationTestWithJavascript
 
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').click
+      assert_current_path hosts_path
       assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
-      assert has_selector?("div", :text => "Updated hosts: changed environment")
     end
   end
 

@@ -385,8 +385,9 @@ class HostsControllerTest < ActionController::TestCase
     post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => environments(:global_puppetmaster).id}},
       set_session_user.merge(:user => users(:admin).id)
-    assert Host.find(@host1.id).environment == environments(:global_puppetmaster)
-    assert Host.find(@host2.id).environment == environments(:global_puppetmaster)
+    assert_equal environments(:global_puppetmaster), Host.find(@host1.id).environment
+    assert_equal environments(:global_puppetmaster), Host.find(@host2.id).environment
+    assert_equal "Updated hosts: changed environment", flash[:notice]
   end
 
   test "should inherit the hostgroup environment if *inherit from hostgroup* selected" do
