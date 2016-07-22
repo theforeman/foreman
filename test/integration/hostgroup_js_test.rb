@@ -39,6 +39,8 @@ class HostgroupJSTest < IntegrationTestWithJavascript
   private
 
   def select_from_list(list_id, item)
-    page.find(:xpath, "//div[@id='ms-#{list_id}']//li/span[text() = '#{item.name}']").click
+    selector = "//div[@id='ms-#{list_id}']//li/span[text() = '#{item.name}']"
+    assert page.has_xpath?(selector, :visible => true)
+    page.find(:xpath, selector).click
   end
 end
