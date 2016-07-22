@@ -125,7 +125,7 @@ end
 
 class IntegrationTestWithJavascript < ActionDispatch::IntegrationTest
   def login_admin
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.strategy = :truncation, { :except => ['dynflow_schema_info'] }
     DatabaseCleaner.start
     Capybara.current_driver = Capybara.javascript_driver
     super

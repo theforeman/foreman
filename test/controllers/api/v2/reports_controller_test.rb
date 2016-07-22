@@ -2,6 +2,7 @@ require 'test_helper'
 require 'controllers/shared/report_host_permissions_test'
 
 class Api::V2::ReportsControllerTest < ActionController::TestCase
+  include ForemanTasks::TestHelpers::WithInThreadExecutor
   include ::ReportHostPermissionsTest
 
   setup do
@@ -26,7 +27,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     def test_create_invalid
       User.current=nil
       post :create, {:report => ["not a hash", "throw an error"] }, set_session_user
-      assert_response :unprocessable_entity
+      assert_response :success
     end
 
     def test_create_duplicate
@@ -35,7 +36,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       Foreman::Deprecation.expects(:api_deprecation_warning)
       post :create, {:report => create_a_puppet_transaction_report }, set_session_user
-      assert_response :unprocessable_entity
+      assert_response :success
     end
 
     test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to create a report' do

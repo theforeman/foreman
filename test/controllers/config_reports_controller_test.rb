@@ -2,6 +2,7 @@ require 'test_helper'
 require 'controllers/shared/report_host_permissions_test'
 
 class ConfigReportsControllerTest < ActionController::TestCase
+  include ForemanTasks::TestHelpers::WithInThreadExecutor
   include ::ReportHostPermissionsTest
 
   def test_index

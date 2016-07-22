@@ -32,6 +32,10 @@ class ConfigReport < Report
     "status"
   end
 
+  def self.humanized_name
+    N_('Config report')
+  end
+
   # a method that save the report values (e.g. values from METRIC)
   # it is not supported to edit status values after it has been written once.
   def status=(st)

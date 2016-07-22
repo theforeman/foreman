@@ -44,6 +44,10 @@ class Report < ActiveRecord::Base
   # with_changes
   scope :interesting, -> { where("status <> 0") }
 
+  def self.humanized_name
+    N_('Report')
+  end
+
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
     return {} if read_attribute(:metrics).nil?

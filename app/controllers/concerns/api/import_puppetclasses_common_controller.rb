@@ -16,6 +16,7 @@ module Api::ImportPuppetclassesCommonController
   param :smart_proxy_id, String, :required => false
   param :environment_id, String, :required => false
   param :dryrun, :bool, :required => false
+  param :background, :bool, :required => false
   param :except, String, :required => false, :desc => N_("Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes")
 
   def import_puppetclasses
@@ -39,10 +40,16 @@ module Api::ImportPuppetclassesCommonController
     end
 
     # RUN PuppetClassImporter
-    if (errors = ::PuppetClassImporter.new.obsolete_and_new(@changed)).empty?
-      render("api/v1/import_puppetclasses/#{rabl_template}", :layout => "api/layouts/import_puppetclasses_layout")
-    else
-      render :json => {:message => _("Failed to update the environments and Puppet classes from the on-disk puppet installation: %s") % errors.join(", ")}, :status => :internal_server_error
+    background = params.key?(:background) && !['false', false].include?(params[:background])
+    begin
+      task = ForemanTasks.trigger_task(background, ::Actions::Foreman::PuppetClass::Import, :changed => @changed)
+      if background
+        process_success task
+      else
+        render("api/v1/import_puppetclasses/#{rabl_template}", :layout => "api/layouts/import_puppetclasses_layout")
+      end
+    rescue ForemanTasks::TaskError => e
+      render :json => { :message => _("Failed to update the environments and Puppet classes from the on-disk puppet installation: %s") % e.to_s }, :status => :internal_server_error
     end
   end
 
