@@ -56,6 +56,20 @@ class NicTest < ActiveSupport::TestCase
     assert_equal "123.1.2.3", interface.ip
   end
 
+  test "managed nic should generate progress report uuid" do
+    uuid = '710d4a8f-b1b6-47f5-9ef5-5892a19dabcd'
+    Foreman.stubs(:uuid).returns(uuid)
+    nic = FactoryGirl.build(:nic_managed)
+    assert_equal uuid, nic.progress_report_id
+  end
+
+  test "host with managed nic should delegate progress report creation" do
+    uuid = '710d4a8f-b1b6-47f5-9ef5-5892a19dabcd'
+    host = FactoryGirl.create(:host, :managed)
+    host.expects(:progress_report_id).returns(uuid)
+    assert_equal uuid, host.primary_interface.progress_report_id
+  end
+
   test "should delegate subnet attributes" do
     subnet = subnets(:two)
     domain = (subnet.domains.any? ? subnet.domains : subnet.domains << Domain.first).first
