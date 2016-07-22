@@ -1,3 +1,69 @@
+2016-07-22	Dominic Cleal <dominic@cleal.org>
+	* Release 1.12.1
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+
+2016-07-22	Brandon Weeks <weeks@squareup.com>
+	* Fixes #15773 - disambiguate table name
+
+2016-07-22	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #15684 - foreman-rake without options raise an error
+
+2016-07-22	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #15709 - fix SuSE mediapath in PXELinux templates
+
+2016-07-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15675 - Improve report expiry performance
+	* Fixes #15718 - Correctly display hash parameters
+	* Fixes #15657 - Correct import button styling
+	* Fixes #15471 - Find CA expiry even if some dates are missing
+	* Fixes #15534 - Stop stripping whitespace in parameter values
+	* Fixes #14953 - update LICENSE file
+
+2016-07-22	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15653 - CVE-2016-5390 fix permissions for host API
+	* Fixes #15527 - api/v2/hosts is slow loading permissions
+	* Fixes #15576 - Pin GCE-client to < 0.9
+
+2016-07-22	David Davis <daviddavis@redhat.com>
+	* Fixes #15712 - Pinning rabl to less than 0.13
+
+2016-07-22	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #11749 - puppet env jquery selector more restrictive
+
+2016-07-22	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15490 - adding view_host filter and better msg
+
+2016-07-22	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15625 - vmware: add cdrom only when selected
+	* fixes #15466 - require e-mail for current user
+	* fixes #15355 - close interface modal at cr change
+
+2016-07-22	aagrawal <aagrawal@redhat.com>
+	* fixes #15622 - add about link for non-admin user
+
+2016-07-22	Stephen Benjamin <stephen@redhat.com>
+	* fixes #15525 - always update facts
+
+2016-07-22	amirfefer <amirfefer@gmail.com>
+	* Fixes #15140 - Correctly handle failed setting change
+
+2016-07-22	Mac Reid <mareid@mtu.edu>
+	* fixes #15391 - quote host group search links
+
+2016-07-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15345 - allow changing oVirt CA certificate
+	* Fixes #15278 - taxonomies support granular filters
+
+2016-07-22	Guido Günther <agx@sigxcpu.org>
+	* Fixes #15372 - Merge the correct hash when adding new volumes
+
+2016-07-22	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14955 - Show nice message for invalid mac, ip
+
+2016-07-22	Zach Huntington-Meath <zhunting@redhat.com>
+	* Fixes #15276 - view permissions start with view
+
 2016-07-08	Dominic Cleal <dominic@cleal.org>
 	* Release 1.12.0
 
