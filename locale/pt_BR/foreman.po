@@ -20,12 +20,13 @@
 # Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
 # Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
 # Valeria S Silva <valeriassilva@live.com>, 2015
+# Victor Lantier <victor@vermillion.net.br>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-06-04 09:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-07-13 22:43+0000\n"
+"Last-Translator: Victor Lantier <victor@vermillion.net.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -6750,7 +6751,7 @@ msgid "Test Connection"
 msgstr "Testar Conexão"
 
 msgid "Test LDAP connection"
-msgstr ""
+msgstr "Testar conexão LDAP"
 
 msgid "Test LDAP connectivity"
 msgstr ""

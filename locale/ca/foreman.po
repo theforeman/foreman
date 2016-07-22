@@ -4,7 +4,7 @@
 #
 # Translators:
 # Marc Fite <marc@fite.cat>, 2013
-# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2015-2016
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"

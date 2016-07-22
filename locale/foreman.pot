@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-01 10:12+0100\n"
-"PO-Revision-Date: 2016-07-01 10:12+0100\n"
+"POT-Creation-Date: 2016-07-22 11:08+0100\n"
+"PO-Revision-Date: 2016-07-22 11:08+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -42,7 +42,7 @@ msgid "Warning"
 msgstr ""
 
 #: ../app/assets/javascripts/application.js:447
-#: ../app/controllers/application_controller.rb:342
+#: ../app/controllers/application_controller.rb:351
 #: ../app/helpers/dashboard_helper.rb:62 ../app/helpers/layout_helper.rb:124
 #: ../app/models/host_status/configuration_status.rb:58
 #: ../app/models/host_status/global.rb:43
@@ -188,26 +188,26 @@ msgstr ""
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:67
+#: ../app/assets/javascripts/host_edit.js:65
 msgid "Error loading virtual machine information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:206
-#: ../app/assets/javascripts/host_edit.js:473
+#: ../app/assets/javascripts/host_edit.js:220
+#: ../app/assets/javascripts/host_edit.js:487
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:588
+#: ../app/assets/javascripts/host_edit.js:602
 msgid "Please select"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:598
+#: ../app/assets/javascripts/host_edit.js:612
 #: ../app/views/hostgroups/_form.html.erb:45
 #: ../app/views/nic/_base_form.html.erb:32
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:660
+#: ../app/assets/javascripts/host_edit.js:674
 msgid "Error generating IP: %s"
 msgstr ""
 
@@ -385,13 +385,13 @@ msgstr ""
 msgid "Click to edit.."
 msgstr ""
 
-#: ../app/assets/javascripts/settings.js:42
-#: ../app/assets/javascripts/settings.js:65
+#: ../app/assets/javascripts/settings.js:45
+#: ../app/assets/javascripts/settings.js:68
 #: ../app/views/autosign/_form.html.erb:5
 msgid "Save"
 msgstr ""
 
-#: ../app/assets/javascripts/settings.js:43 ../app/helpers/form_helper.rb:231
+#: ../app/assets/javascripts/settings.js:46 ../app/helpers/form_helper.rb:231
 #: ../app/views/autosign/_form.html.erb:4
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:54
 #: ../app/views/common/_searchbar.html.erb:36
@@ -422,7 +422,7 @@ msgid "Missing one of the required permissions: %s"
 msgstr ""
 
 #: ../app/controllers/api/base_controller.rb:271
-#: ../app/controllers/application_controller.rb:129
+#: ../app/controllers/application_controller.rb:138
 msgid "unknown permission for %s"
 msgstr ""
 
@@ -2871,57 +2871,57 @@ msgstr ""
 msgid "Email is Required"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:82
+#: ../app/controllers/application_controller.rb:91
 msgid "Invalid query"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:204
+#: ../app/controllers/application_controller.rb:213
 msgid "Administrator user account required"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:237
+#: ../app/controllers/application_controller.rb:246
 msgid "Successfully created %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:239
+#: ../app/controllers/application_controller.rb:248
 msgid "Successfully updated %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:241
+#: ../app/controllers/application_controller.rb:250
 msgid "Successfully deleted %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:243
+#: ../app/controllers/application_controller.rb:252
 msgid "Unknown action name for success message: %s"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:264
+#: ../app/controllers/application_controller.rb:273
 msgid "Conflict - %s"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:308
+#: ../app/controllers/application_controller.rb:317
 msgid "Organization you had selected as your context has been deleted."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:318
+#: ../app/controllers/application_controller.rb:327
 msgid "Location you had selected as your context has been deleted."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:327
+#: ../app/controllers/application_controller.rb:336
 msgid "You must create at least one location before continuing."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:329
+#: ../app/controllers/application_controller.rb:338
 msgid "You must create at least one organization before continuing."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:342
+#: ../app/controllers/application_controller.rb:351
 #: ../app/helpers/dashboard_helper.rb:63 ../app/models/host_status/global.rb:39
 #: ../app/views/hosts/_dhcp_lease_errors.html.erb:18
 msgid "OK"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:371
+#: ../app/controllers/application_controller.rb:380
 msgid "Invalid authenticity token"
 msgstr ""
 
@@ -3490,17 +3490,33 @@ msgstr ""
 msgid "Template unlocked"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:153
+#: ../app/controllers/unattended_controller.rb:73
+msgid "unable to find %{type} template for %{host} running %{os}"
+msgstr ""
+
+#: ../app/controllers/unattended_controller.rb:85
+msgid "%{controller}: unable to find a host that matches the request from %{addr}"
+msgstr ""
+
+#: ../app/controllers/unattended_controller.rb:90
+msgid "%{controller}: %{host}'s operating system is missing"
+msgstr ""
+
+#: ../app/controllers/unattended_controller.rb:95
+msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
+msgstr ""
+
+#: ../app/controllers/unattended_controller.rb:160
 msgid ""
 "Failed to clean any old certificates or add the autosign entry. Terminating th"
 "e build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:165
+#: ../app/controllers/unattended_controller.rb:172
 msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:210
+#: ../app/controllers/unattended_controller.rb:217
 msgid "There was an error rendering the %s template: "
 msgstr ""
 
@@ -5022,7 +5038,7 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:484
+#: ../app/models/compute_resources/foreman/model/vmware.rb:485
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a di"
 "fferent hash. If you are sure the remote system is authentic, go to the comput"
@@ -5159,93 +5175,93 @@ msgstr ""
 msgid "Could not find virtual machine network interface matching %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:8 ../app/models/subnet.rb:7
+#: ../app/models/concerns/orchestration/dhcp.rb:9 ../app/models/subnet.rb:7
 #: ../app/services/ipam.rb:2
 #: ../app/views/smart_proxies/plugins/_dhcp.html.erb:2
 msgid "DHCP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:82
+#: ../app/models/concerns/orchestration/dhcp.rb:85
 msgid ""
 "Unable to determine the host's boot server. The DHCP smart proxy failed to pro"
 "vide this information and this subnet is not provided with TFTP services."
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:84
+#: ../app/models/concerns/orchestration/dhcp.rb:87
 msgid "failed to detect boot server: %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:91
+#: ../app/models/concerns/orchestration/dhcp.rb:94
 msgid "DHCP not supported for this NIC"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:120
-#: ../app/models/concerns/orchestration/dhcp.rb:129
+#: ../app/models/concerns/orchestration/dhcp.rb:123
+#: ../app/models/concerns/orchestration/dhcp.rb:132
 msgid "Create DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:127
-#: ../app/models/concerns/orchestration/dhcp.rb:152
+#: ../app/models/concerns/orchestration/dhcp.rb:130
+#: ../app/models/concerns/orchestration/dhcp.rb:155
 msgid "Remove DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:161
+#: ../app/models/concerns/orchestration/dhcp.rb:164
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:169
+#: ../app/models/concerns/orchestration/dhcp.rb:172
 msgid "does not match selected subnet"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:183
+#: ../app/models/concerns/orchestration/dhcp.rb:186
 msgid "DHCP records %s already exists"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:7
+#: ../app/models/concerns/orchestration/dns.rb:8
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:4
 #: ../app/views/smart_proxies/plugins/_dns.html.erb:2
 msgid "DNS"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:129
+#: ../app/models/concerns/orchestration/dns.rb:134
 msgid "Create DNS record for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:131
+#: ../app/models/concerns/orchestration/dns.rb:136
 msgid "Create Reverse DNS record for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:137
-#: ../app/models/concerns/orchestration/dns.rb:147
+#: ../app/models/concerns/orchestration/dns.rb:142
+#: ../app/models/concerns/orchestration/dns.rb:152
 msgid "Remove DNS record for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:139
-#: ../app/models/concerns/orchestration/dns.rb:149
+#: ../app/models/concerns/orchestration/dns.rb:144
+#: ../app/models/concerns/orchestration/dns.rb:154
 msgid "Remove Reverse DNS record for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:157
+#: ../app/models/concerns/orchestration/dns.rb:162
 msgid "Remove conflicting DNS record for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:159
+#: ../app/models/concerns/orchestration/dns.rb:164
 msgid "Remove conflicting Reverse DNS record for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:171
+#: ../app/models/concerns/orchestration/dns.rb:176
 msgid "DNS A Records %s already exists"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:172
+#: ../app/models/concerns/orchestration/dns.rb:177
 msgid "DNS PTR Records %s already exists"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:176
+#: ../app/models/concerns/orchestration/dns.rb:181
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:178
+#: ../app/models/concerns/orchestration/dns.rb:183
 msgid ""
 "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_l"
 "ocal_nameservers and dns_conflict_timeout settings"
@@ -5331,30 +5347,30 @@ msgstr ""
 msgid "TFTP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:64
+#: ../app/models/concerns/orchestration/tftp.rb:67
 msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:91
+#: ../app/models/concerns/orchestration/tftp.rb:94
 msgid "Failed to fetch boot files"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:106
+#: ../app/models/concerns/orchestration/tftp.rb:109
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define a"
 "t least one in your %{os} settings"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:125
-#: ../app/models/concerns/orchestration/tftp.rb:155
+#: ../app/models/concerns/orchestration/tftp.rb:128
+#: ../app/models/concerns/orchestration/tftp.rb:158
 msgid "TFTP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:128
+#: ../app/models/concerns/orchestration/tftp.rb:131
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:145
+#: ../app/models/concerns/orchestration/tftp.rb:148
 msgid "Remove old TFTP Settings for %s"
 msgstr ""
 
@@ -5438,19 +5454,19 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-#: ../app/models/host/base.rb:460
+#: ../app/models/host/base.rb:455
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:466
+#: ../app/models/host/base.rb:461
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:485
+#: ../app/models/host/base.rb:480
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:491
+#: ../app/models/host/base.rb:486
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 

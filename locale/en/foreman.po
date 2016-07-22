@@ -118,6 +118,15 @@ msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
+msgstr ""
+
+msgid "%{controller}: %{host}'s operating system is missing"
+msgstr ""
+
+msgid "%{controller}: unable to find a host that matches the request from %{addr}"
+msgstr ""
+
 msgid "%{cores} Cores and %{memory} memory"
 msgstr ""
 
@@ -8767,6 +8776,9 @@ msgid "these hosts for a build operation on next boot"
 msgstr ""
 
 msgid "type of the LDAP server"
+msgstr ""
+
+msgid "unable to find %{type} template for %{host} running %{os}"
 msgstr ""
 
 msgid "unable to sign a non pending certificate"
