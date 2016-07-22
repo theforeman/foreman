@@ -8,7 +8,6 @@ class Hostgroup < ActiveRecord::Base
   include NestedAncestryCommon
 
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
-  validates :title, :presence => true, :uniqueness => true
 
   validate :validate_subnet_types
 

@@ -9,6 +9,13 @@ require 'functional/shared/basic_rest_response_test'
 require 'facet_test_helper'
 require 'active_support_test_case_helper'
 
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :minitest_4
+    with.library :rails
+  end
+end
+
 # Use our custom test runner, and register a fake plugin to skip a specific test
 Foreman::Plugin.register :skip_test do
   tests_to_skip "CustomRunnerTest" => [ "custom runner is working" ]

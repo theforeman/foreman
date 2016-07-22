@@ -3,7 +3,10 @@ require 'test_helper'
 module Host
   class BaseTest < ActiveSupport::TestCase
     should validate_presence_of(:name)
-    should validate_uniqueness_of(:name)
+    context "with new host" do
+      subject { Host::Base.new(:name => 'test') }
+      should validate_uniqueness_of(:name).case_insensitive
+    end
     should_not allow_value('hostname_with_dashes').for(:name)
     should allow_value('hostname.with.periods').for(:name)
 
@@ -61,6 +64,12 @@ module Host
       host.interfaces = [ FactoryGirl.build(:nic_managed, :primary => true, :host => host,
                                             :domain => FactoryGirl.create(:domain)) ]
       assert host.valid?
+    end
+
+    test '.dup should return host with primary interface' do
+      host = Host::Base.new.dup
+      assert host.primary_interface
+      assert_equal 1, host.interfaces.size
     end
 
     private
