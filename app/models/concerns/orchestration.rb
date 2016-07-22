@@ -3,6 +3,7 @@ require 'orchestration/queue'
 
 module Orchestration
   extend ActiveSupport::Concern
+  include Orchestration::ProgressReport
 
   included do
     attr_reader :old
