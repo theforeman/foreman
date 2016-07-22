@@ -7,7 +7,7 @@ class SeedsTest < ActiveSupport::TestCase
   self.use_transactional_fixtures = false
 
   setup do
-    DatabaseCleaner.clean_with :truncation
+    DatabaseCleaner.clean_with :truncation, :except => ['dynflow_schema_info']
     Setting.stubs(:[]).with(:administrator).returns("root@localhost")
     Setting.stubs(:[]).with(:send_welcome_email).returns(false)
     Foreman.stubs(:in_rake?).returns(true)

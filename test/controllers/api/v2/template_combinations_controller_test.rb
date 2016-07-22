@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
+  include ForemanTasks::TestHelpers::WithInThreadExecutor
   context 'with provisioning_template_id' do
     setup do
       Foreman::Deprecation.expects(:api_deprecation_warning).never
