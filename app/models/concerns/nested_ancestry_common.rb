@@ -119,7 +119,13 @@ module NestedAncestryCommon
       length_of_matcher = obj_type.length + 1
 
       # the parent title + "/" is added to the name to create the title
-      length_of_matcher += parent.title.length + 1 if parent.present?
+      # If the parent_id doesn't exist, don't let errors be raised by this validation
+      parent_model = begin
+                       parent
+                     rescue ActiveRecord::RecordNotFound
+                       nil
+                     end
+      length_of_matcher += parent_model.title.length + 1 if parent_model.present?
 
       max_length_for_name = 255 - length_of_matcher
       current_title_length = max_length_for_name - name.length

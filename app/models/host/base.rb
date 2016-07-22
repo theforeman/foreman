@@ -72,6 +72,12 @@ module Host
       update_primary_interface_attributes(values_for_primary_interface)
     end
 
+    def dup
+      super.tap do |host|
+        host.interfaces << self.primary_interface.dup if self.primary_interface.present?
+      end
+    end
+
     delegate :ip, :ip6, :mac,
              :subnet, :subnet_id, :subnet_name,
              :subnet6, :subnet6_id, :subnet6_name,

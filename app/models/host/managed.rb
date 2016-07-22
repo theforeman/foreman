@@ -702,9 +702,7 @@ class Host::Managed < Host::Base
     # do not copy system specific attributes
     host = self.selective_clone
 
-    self.interfaces.each do |nic|
-      host.interfaces << nic.clone
-    end
+    host.interfaces = self.interfaces.map(&:clone)
     if self.compute_resource
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end

@@ -6,7 +6,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   should validate_presence_of(:name)
-  should validate_uniqueness_of(:name)
+  should validate_uniqueness_of(:name).scoped_to(:ancestry).case_insensitive
   should allow_value(nil).for(:root_pass)
   should validate_length_of(:root_pass).is_at_least(8).
     with_message('should be 8 characters or more')

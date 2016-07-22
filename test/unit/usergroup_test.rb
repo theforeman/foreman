@@ -15,7 +15,10 @@ class UsergroupTest < ActiveSupport::TestCase
     refute usergroup.valid?
   end
 
-  should validate_uniqueness_of(:name)
+  context "with new usergroup" do
+    subject { Usergroup.new(:name => 'test') }
+    should validate_uniqueness_of(:name)
+  end
   should validate_presence_of(:name)
   should have_many(:usergroup_members).dependent(:destroy)
   should have_many(:users).dependent(:destroy)

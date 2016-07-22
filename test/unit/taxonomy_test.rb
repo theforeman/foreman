@@ -7,9 +7,7 @@ class TaxonomyTest < ActiveSupport::TestCase
   end
 
   should validate_presence_of(:name)
-  should validate_uniqueness_of(:name).scoped_to(:type).case_insensitive
-  should validate_presence_of(:title)
-  should validate_uniqueness_of(:title).scoped_to(:type)
+  should validate_uniqueness_of(:name).scoped_to(:ancestry, :type).case_insensitive
 
   test '.enabled?' do
     assert Taxonomy.enabled?(:organization)
