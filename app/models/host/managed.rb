@@ -681,14 +681,6 @@ class Host::Managed < Host::Base
     read_attribute(:certname) || name
   end
 
-  def progress_report_id
-    @progress_report_id ||= Foreman.uuid
-  end
-
-  def progress_report_id=(value)
-    @progress_report_id = value
-  end
-
   def capabilities
     compute_resource ? compute_resource.capabilities : bare_metal_capabilities
   end

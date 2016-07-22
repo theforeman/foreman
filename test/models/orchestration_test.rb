@@ -51,38 +51,40 @@ class OrchestrationTest < ActiveSupport::TestCase
     end
   end
 
-  test "test host compensates queue if active record not saved" do
-    class Host::Test2 < Host::Base
-      include Orchestration
+  class Host::WithDummyAction < Host::Base
+    include Orchestration
+    after_validation :queue_test
 
-      attr_accessor :progress_report_id
-
-      after_validation :queue_test
-
-      def lookup_value_match
-        "fqdn=zzz"
-      end
-
-      def queue_test
-        queue.create(
-          :name => 'test action',
-          :priority => 1,
-          :action => [self, :setTestFlags]
-        )
-      end
-
-      def setTestFlags
-        true
-      end
+    def queue_test
+      queue.create(
+        :name => 'dummy action',
+        :priority => 1,
+        :action => [self, :setAction]
+      )
     end
 
-    h = Host::Test2.new(:name => 'test1')
+    def setAction
+      true
+    end
+  end
+
+  test "test dummy action host can be created and calls update_cache" do
+    uuid = '710d4a8f-b1b6-47f5-9ef5-5892a19dabcd'
+    Foreman.stubs(:uuid).returns(uuid)
+    h = Host::WithDummyAction.new(:name => "test1")
+    h.stubs(:skip_orchestration?).returns(false)
+    Rails.cache.expects(:write).with(uuid, any_parameters).at_least_once.returns(true)
+    h.save!
+  end
+
+  test "test dummy action host compensates queue if active record not saved" do
+    h = Host::WithDummyAction.new(:name => 'test1')
     h.stubs(:skip_orchestration?).returns(false)
     h.stubs(:update_cache).returns(true)
     h.stubs(:_create_record).raises(ActiveRecord::InvalidForeignKey, 'Fake foreign key exception')
 
     # rollback should be called
-    h.expects(:delTestFlags).returns(true)
+    h.expects(:delAction).returns(true)
 
     assert_raise ActiveRecord::InvalidForeignKey do
       h.save!
