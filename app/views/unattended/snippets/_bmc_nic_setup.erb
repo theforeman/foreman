@@ -52,7 +52,11 @@ os_family = @host.operatingsystem.family
 
 # Configure BMC interface
 <% if os_family == 'Redhat' %>
-yum -t -y install ipmitool
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install ipmitool
+else
+  yum -t -y install ipmitool
+fi
 <% elsif os_family == 'Freebsd' %>
 pkg install -y ipmitool
 <% elsif os_family == 'Debian' %>

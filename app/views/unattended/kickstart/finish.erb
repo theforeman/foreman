@@ -55,7 +55,11 @@ echo "updating system time"
 <% end -%>
 
 # update all the base packages from the updates repository
-yum -t -y update
+if [ -f /usr/bin/dnf ]; then
+  dnf -y update
+else
+  yum -t -y update
+fi
 
 <%= snippet('remote_execution_ssh_keys') %>
 

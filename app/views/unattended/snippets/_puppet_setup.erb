@@ -29,7 +29,11 @@ apt-get install -y <%= linux_package %>
 <% elsif os_family == 'Freebsd' -%>
 pkg install -y <%= freebsd_package %>
 <% elsif os_family == 'Redhat' -%>
-yum -t -y install <%= linux_package %>
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install <%= linux_package %>
+else
+  yum -t -y install <%= linux_package %>
+fi
 <% end -%>
 
 cat > <%= etc_path %>/puppet.conf << EOF
