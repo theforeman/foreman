@@ -7,4 +7,4 @@ require('./bundle_flot');
 require('./bundle_select2');
 window.tfm = {
   tools: require('./foreman_tools')
-}
+};
