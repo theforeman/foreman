@@ -1,3 +1,8 @@
+//= require ace-rails-ap
+//= require ace/keybinding-emacs
+//= require ace/keybinding-vim
+//= require ace/theme-twilight
+
 var Editor;
 
 $(document).on('ContentLoad', function(){onEditorLoad()});
