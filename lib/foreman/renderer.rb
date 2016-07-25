@@ -3,7 +3,7 @@ require 'tempfile'
 module Foreman
   module Renderer
     ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
-                                  :foreman_server_url ]
+                                  :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name ]
     ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
                                :media_path, :param_true?, :param_false?, :match ]
 
@@ -11,7 +11,7 @@ module Foreman
 
     ALLOWED_VARIABLES ||= [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                             :repos, :dynamic, :kernel, :initrd, :xen,
-                            :preseed_server, :preseed_path, :provisioning_type ]
+                            :preseed_server, :preseed_path, :provisioning_type, :template_name ]
 
     def render_safe(template, allowed_methods = [], allowed_vars = {})
       if Setting[:safemode_render]
@@ -69,6 +69,18 @@ module Foreman
       Setting[:foreman_url]
     end
 
+    class_eval do
+      [:debug, :info, :warn, :error, :fatal].each do |level|
+        define_method("log_#{level}".to_sym) do |msg|
+          Foreman::Logging.logger('templates').send(level, msg) if msg.present?
+        end
+      end
+    end
+
+    def template_name
+      @template_name || 'Unnamed'
+    end
+
     # provide embedded snippets support as simple erb templates
     def snippets(file)
       if Template.where(:name => file, :snippet => true).empty?
@@ -80,7 +92,7 @@ module Foreman
 
     def snippet(name, options = {})
       if (template = Template.where(:name => name, :snippet => true).first)
-        logger.debug "rendering snippet #{template.name}"
+        logger.debug "Rendering snippet template '#{template.name}'"
         begin
           return unattended_render(template)
         rescue => exc
@@ -107,11 +119,10 @@ module Foreman
 
     # accepts either template object or plain string
     def unattended_render(template, template_name = nil)
-      template_name ||= template.respond_to?(:name) ? template.name : 'Unnamed'
-      raise ::Foreman::Exception.new(N_("Template '%s' is either missing or has an invalid organization or location"), template_name) if template.nil?
+      @template_name ||= template.respond_to?(:name) ? template.name : (template_name || 'Unnamed')
+      raise ::Foreman::Exception.new(N_("Template '%s' is either missing or has an invalid organization or location"), @template_name) if template.nil?
       content = template.respond_to?(:template) ? template.template : template
       allowed_variables = allowed_variables_mapping(ALLOWED_VARIABLES)
-      allowed_variables[:template_name] = template_name
       render_safe content, ALLOWED_HELPERS, allowed_variables
     end
 

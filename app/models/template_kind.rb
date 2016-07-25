@@ -7,17 +7,20 @@ class TemplateKind < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   scoped_search :on => :name
 
+  PXE = ["PXEGrub2", "PXELinux", "PXEGrub"]
+
   def self.default_template_labels
     {
       "PXELinux" => N_("PXELinux template"),
       "PXEGrub" => N_("PXEGrub template"),
+      "PXEGrub2" => N_("PXEGrub2 template"),
       "iPXE" => N_("iPXE template"),
       "provision" => N_("Provisioning template"),
       "finish" => N_("Finish template"),
       "script" => N_("Script template"),
       "user_data" => N_("User data template"),
-      "ZTP" => N_("ZTP template"),
-      "POAP" => N_("POAP template")
+      "ZTP" => N_("ZTP PXE template"),
+      "POAP" => N_("POAP PXE template")
     }
   end
 

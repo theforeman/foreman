@@ -927,7 +927,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "custom_disk_partition_with_erb" do
       h = FactoryGirl.create(:host)
-      h.disk = "<%= @template_name %>"
+      h.disk = "<%= template_name %>"
       assert h.save
       assert h.disk.present?
       assert_equal "Custom disk layout", h.diskLayout
@@ -937,7 +937,7 @@ class HostTest < ActiveSupport::TestCase
       h = FactoryGirl.create(:host, :managed)
       h.disk = ''
       h.ptable.stubs(:name).returns("some_name")
-      h.ptable.stubs(:layout).returns("<%= @template_name %>")
+      h.ptable.stubs(:layout).returns("<%= template_name %>")
       assert h.save
       assert_equal "some_name", h.diskLayout
     end
@@ -1188,6 +1188,14 @@ class HostTest < ActiveSupport::TestCase
       assert h.root_pass.present?
       assert_equal Setting[:root_pass], h.root_pass
       assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
+    end
+
+    test "should validate pxe loader when provided" do
+      host = Host.create :name => "myhostpxe", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => true, :pxe_loader => "PXELinux BIOS"
+      assert_equal "x86_64", host.architecture.name
+      assert_equal "PXELinux BIOS", host.pxe_loader
+      assert_empty host.errors.messages
+      assert host.valid?
     end
 
     test "should save uuid on managed hosts" do

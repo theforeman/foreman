@@ -67,17 +67,17 @@ class RendererTest < ActiveSupport::TestCase
 
     test "#{renderer_name} should render unnamed template" do
       send "setup_#{renderer_name}"
-      tmpl = unattended_render('x<%= @template_name %>')
-      assert_equal 'xUnnamed', tmpl
+      tmpl = unattended_render('x <%= @template_name %> <%= template_name %>')
+      assert_equal 'x Unnamed Unnamed', tmpl
     end
 
     test "#{renderer_name} should render template name" do
       send "setup_#{renderer_name}"
       template = mock('template')
-      template.stubs(:template).returns('x<%= @template_name %>')
+      template.stubs(:template).returns('x <%= @template_name %> <%= template_name %>')
       template.stubs(:name).returns('abc')
       tmpl = unattended_render(template)
-      assert_equal 'xabc', tmpl
+      assert_equal 'x abc abc', tmpl
     end
 
     test "#{renderer_name} should render with AR relation method calls" do

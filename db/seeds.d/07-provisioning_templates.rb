@@ -18,10 +18,13 @@ locations = Location.all
 ProvisioningTemplate.without_auditing do
   [
     # Generic PXE files
-    { :name => 'PXELinux global default', :source => 'pxe/PXELinux_default.erb', :template_kind => kinds[:PXELinux] },
-    { :name => 'PXELinux default local boot', :source => 'pxe/PXELinux_local.erb', :template_kind => kinds[:PXELinux] },
+    { :name => 'PXELinux global default', :source => 'pxe/PXELinux_default.erb', :template_kind => kinds[:PXELinux], :locked => true },
+    { :name => 'PXEGrub global default', :source => 'pxe/PXEGrub_default.erb', :template_kind => kinds[:PXEGrub], :locked => true },
+    { :name => 'PXEGrub2 global default', :source => 'pxe/PXEGrub2_default.erb', :template_kind => kinds[:PXEGrub2], :locked => true },
+    { :name => 'PXELinux default local boot', :source => 'pxe/PXELinux_local.erb', :template_kind => kinds[:PXELinux], :locked => true },
+    { :name => 'PXEGrub default local boot', :source => 'pxe/PXEGrub_local.erb', :template_kind => kinds[:PXEGrub], :locked => true },
+    { :name => 'PXEGrub2 default local boot', :source => 'pxe/PXEGrub2_local.erb', :template_kind => kinds[:PXEGrub2], :locked => true },
     { :name => 'PXELinux default memdisk', :source => 'pxe/PXELinux_memdisk.erb', :template_kind => kinds[:PXELinux] },
-    { :name => 'PXEGrub default local boot', :source => 'pxe/PXEGrub_local.erb', :template_kind => kinds[:PXEGrub] },
     { :name => 'PXELinux chain iPXE', :source => 'pxe/PXELinux_chain_iPXE.erb', :template_kind => kinds[:PXELinux] },
     { :name => 'PXELinux chain iPXE UNDI', :source => 'pxe/PXELinux_chain_iPXE_UNDI.erb', :template_kind => kinds[:PXELinux] },
     # OS specific files
@@ -49,6 +52,8 @@ ProvisioningTemplate.without_auditing do
     { :name => 'Kickstart RHEL default', :source => 'kickstart/provision_rhel.erb', :template_kind => kinds[:provision] },
     { :name => 'Kickstart default finish', :source => 'kickstart/finish.erb', :template_kind => kinds[:finish] },
     { :name => 'Kickstart default PXELinux', :source => 'kickstart/PXELinux.erb', :template_kind => kinds[:PXELinux] },
+    { :name => 'Kickstart default PXEGrub', :source => 'kickstart/PXEGrub.erb', :template_kind => kinds[:PXEGrub] },
+    { :name => 'Kickstart default PXEGrub2', :source => 'kickstart/PXEGrub2.erb', :template_kind => kinds[:PXEGrub2] },
     { :name => 'Kickstart default iPXE', :source => 'kickstart/iPXE.erb', :template_kind => kinds[:iPXE] },
     { :name => 'Kickstart default user data', :source => 'kickstart/userdata.erb', :template_kind => kinds[:user_data] },
     { :name => 'NX-OS default POAP setup', :source => 'poap/provision.erb', :template_kind => kinds[:POAP] },
@@ -80,7 +85,14 @@ ProvisioningTemplate.without_auditing do
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
     { :name => 'remote_execution_ssh_keys', :source => 'snippets/_remote_execution_ssh_keys.erb', :snippet => true },
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true },
-    { :name => 'saltstack_setup', :source => 'snippets/_saltstack_setup.erb', :snippet => true }
+    { :name => 'saltstack_setup', :source => 'snippets/_saltstack_setup.erb', :snippet => true },
+    { :name => 'kickstart_cmdline', :source => 'snippets/_kickstart_cmdline.erb', :snippet => true },
+    { :name => 'pxelinux_chainload', :source => 'snippets/_pxelinux_chainload.erb', :snippet => true },
+    { :name => 'pxegrub_chainload', :source => 'snippets/_pxegrub_chainload.erb', :snippet => true },
+    { :name => 'pxegrub2_chainload', :source => 'snippets/_pxegrub2_chainload.erb', :snippet => true },
+    { :name => 'pxelinux_discovery', :source => 'snippets/_pxelinux_discovery.erb', :snippet => true },
+    { :name => 'pxegrub_discovery', :source => 'snippets/_pxegrub_discovery.erb', :snippet => true },
+    { :name => 'pxegrub2_discovery', :source => 'snippets/_pxegrub2_discovery.erb', :snippet => true }
   ].each do |input|
     contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 

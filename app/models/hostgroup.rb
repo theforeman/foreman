@@ -22,6 +22,8 @@ class Hostgroup < ActiveRecord::Base
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   include ParameterValidators
+  include PxeLoaderValidator
+  include PxeLoaderSuggestion
   alias_attribute :hostgroup_parameters, :group_parameters
   has_many_hosts
   has_many :template_combinations, :dependent => :destroy
@@ -38,7 +40,7 @@ class Hostgroup < ActiveRecord::Base
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
-                       :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id
+                       :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

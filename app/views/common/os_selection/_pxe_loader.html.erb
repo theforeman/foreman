@@ -1,0 +1,10 @@
+<%= fields_for item do |f| -%>
+  <% loaders = @operatingsystem.available_loaders; if loaders.any? -%>
+    <%= selectable_f f, :pxe_loader,
+      loaders.to_a, {
+        :include_blank => blank_or_inherit_f(f, :pxe_loader),
+      },
+      :label => _('PXE Loader'),
+      :help_inline => popover(_(""), _("DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"), :data => { :placement => 'top' }) %>
+  <% end -%>
+<% end -%>

@@ -35,6 +35,7 @@ module Host
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
     validate :build_managed_only
+    include PxeLoaderSuggestion
 
     default_scope -> { where(taxonomy_conditions) }
 
@@ -55,6 +56,8 @@ module Host
                                     :subnet6, :subnet6_id, :subnet6_name,
                                     :domain, :domain_id, :domain_name,
                                     :lookup_values_attributes].freeze
+
+    after_initialize :suggest_default_pxe_loader
 
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface

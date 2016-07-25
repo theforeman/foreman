@@ -47,3 +47,5 @@
 #    :enabled: false
 #  :sql:
 #    :enabled: false
+#  :templates:
+#    :enabled: true

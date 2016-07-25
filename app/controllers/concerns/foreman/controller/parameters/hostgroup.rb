@@ -12,6 +12,7 @@ module Foreman::Controller::Parameters::Hostgroup
           :root_pass,
           :title,
           :vm_defaults,
+          :pxe_loader,
           # Relations in alphabetical order
           :arch, :arch_id, :arch_name,
           :architecture_id, :architecture_name,

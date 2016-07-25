@@ -55,6 +55,7 @@ class HostsControllerTest < ActionController::TestCase
           :environment_id => environments(:production).id,
           :subnet_id => subnets(:one).id,
           :medium_id => media(:one).id,
+          :pxe_loader => "Grub2 UEFI",
           :realm_id => realms(:myrealm).id,
           :disk => "empty partition",
           :puppet_proxy_id => smart_proxies(:puppetmaster).id,
@@ -84,7 +85,7 @@ class HostsControllerTest < ActionController::TestCase
           :medium_id => media(:one).id,
           :realm_id => realms(:myrealm).id,
           :disk => "empty partition",
-          :root_pass           => "xybxa6JUkz63w",
+          :root_pass => "xybxa6JUkz63w",
           :location_id => taxonomies(:location1).id,
           :organization_id => taxonomies(:organization1).id
         }

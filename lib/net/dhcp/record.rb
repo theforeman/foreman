@@ -52,15 +52,18 @@ module Net::DHCP
 
     def ==(other)
       return false unless other.present?
-      if other.attrs[:hostname].blank? || attrs[:hostname].blank?
-        # If we're converting an 'ad-hoc' lease created by a host booting outside of Foreman's knowledge,
-        # then :hostname will be blank on the incoming lease - if the ip/mac still match, then this
-        # isn't a conflict
-        attrs.values_at(:mac, :ip, :network) == other.attrs.values_at(:mac, :ip, :network)
-      else
-        # Otherwise, if a hostname is present, we want to check all 4 match before declaring a conflict
-        attrs.values_at(:hostname, :mac, :ip, :network) == other.attrs.values_at(:hostname, :mac, :ip, :network)
-      end
+      to_compare = [:mac, :ip, :network]
+
+      # If we're converting an 'ad-hoc' lease created by a host booting outside of Foreman's knowledge,
+      # then :hostname will be blank on the incoming lease - if the ip/mac still match, then this
+      # isn't a conflict.
+      to_compare << :hostname if other.attrs[:hostname].present? && attrs[:hostname].present?
+
+      # Not all DHCP smart-proxy providers support TFTP filename option (e.g. libvirt).
+      to_compare << :filename if other.attrs[:filename].present? && attrs[:filename].present?
+
+      logger.debug "Comparing #{attrs.values_at(*to_compare)} == #{other.attrs.values_at(*to_compare)}"
+      attrs.values_at(*to_compare) == other.attrs.values_at(*to_compare)
     end
 
     def attrs

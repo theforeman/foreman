@@ -56,6 +56,7 @@ module Api
           param :puppetclass_ids, Array
           param :operatingsystem_id, String, :desc => N_("required if host is managed and value is not inherited from host group")
           param :medium_id, String, :desc => N_("required if not imaged based provisioning and host is managed and value is not inherited from host group")
+          param :pxe_loader, Operatingsystem.all_loaders, :desc => N_("DHCP filename option (Grub2/PXELinux by default)")
           param :ptable_id, :number, :desc => N_("required if host is managed and custom partition has not been defined")
           param :subnet_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :compute_resource_id, :number, :desc => N_("nil means host is bare metal")

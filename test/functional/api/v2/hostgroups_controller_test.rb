@@ -1,7 +1,23 @@
 require 'test_helper'
+require 'functional/shared/pxe_loader_test'
 
 class Api::V2::HostgroupsControllerTest < ActionController::TestCase
-  valid_attrs = { :name => 'TestHostgroup' }
+  include ::PxeLoaderTest
+
+  def basic_attrs
+    {
+      :architecture_id     => Architecture.find_by_name('x86_64').id,
+      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id
+    }
+  end
+
+  def valid_attrs
+    { :name => 'TestHostgroup' }
+  end
+
+  def valid_attrs_with_root(extra_attrs = {})
+    { :hostgroup => valid_attrs.merge(extra_attrs) }
+  end
 
   test "should get index" do
     get :index, { }
@@ -57,7 +73,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
       post :create, { :hostgroup => valid_attrs.merge(:parent_id => hostgroups(:common).id) }
     end
     assert_response :success
-    assert_equal hostgroups(:common).id.to_s, Hostgroup.unscoped.order(:id).last.ancestry
+    assert_equal hostgroups(:common).id.to_s, last_record.ancestry
   end
 
   test "should update a hostgroup to nested by passing parent_id" do
@@ -79,5 +95,11 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     hostgroup_with_parameter = FactoryGirl.create(:hostgroup, :with_parameter)
     get :show, {:id => hostgroup_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
+  end
+
+  private
+
+  def last_record
+    Hostgroup.unscoped.order(:id).last
   end
 end

@@ -30,6 +30,6 @@ class HostTokenTest < ActiveSupport::TestCase
     end
 
     assert host.token.try(:value).present?
-    assert_includes host.send(:generate_pxe_template), "token=#{host.token.value}"
+    assert_includes host.send(:generate_pxe_template, :PXELinux), "token=#{host.token.value}"
   end
 end

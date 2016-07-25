@@ -71,7 +71,7 @@ class UnattendedController < ApplicationController
     type = 'iPXE' if type == 'gPXE'
 
     if (config = @host.provisioning_template({ :kind => type }))
-      logger.debug "rendering DB template #{config.name} - #{type}"
+      logger.debug "Rendering #{type} template '#{config.name}'"
       if !preview?
         User.as_anonymous_admin do
           safe_render config
@@ -211,18 +211,18 @@ class UnattendedController < ApplicationController
   end
 
   def safe_render(template)
-    @template_name = 'Unnamed'
     if template.is_a?(String)
-      @unsafe_template  = template
+      @unsafe_template_content = template
+      @template_name = 'Unnamed'
     elsif template.is_a?(ProvisioningTemplate)
-      @unsafe_template  = template.template
+      @unsafe_template_content = template.template
       @template_name = template.name
     else
       raise "unknown template"
     end
 
     begin
-      render :inline => "<%= unattended_render(@unsafe_template, @template_name).html_safe %>"
+      render :inline => "<%= unattended_render(@unsafe_template_content, @template_name).html_safe %>"
     rescue => error
       msg = _("There was an error rendering the %s template: ") % (@template_name)
       Foreman::Logging.exception(msg, error)

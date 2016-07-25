@@ -42,6 +42,8 @@ class Host::Managed < Host::Base
   before_save :clear_data_on_build
   before_save :clear_puppetinfo, :if => :environment_id_changed?
 
+  include PxeLoaderValidator
+
   def initialize(*args)
     args.unshift(apply_inherited_attributes(args.shift, false))
     super(*args)
@@ -620,7 +622,7 @@ class Host::Managed < Host::Base
       inherited_attributes = %w{operatingsystem_id architecture_id}
       inherited_attributes << "subnet_id" unless compute_provides?(:ip)
       inherited_attributes << "subnet6_id" unless compute_provides?(:ip6)
-      inherited_attributes.concat(%w{medium_id ptable_id}) if pxe_build?
+      inherited_attributes.concat(%w{medium_id ptable_id pxe_loader}) if pxe_build?
       assign_hostgroup_attributes(inherited_attributes)
     end
   end

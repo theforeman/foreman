@@ -15,3 +15,6 @@ finish:
 
 pxegrub:
   name: PXEGrub
+
+pxegrub2:
+  name: PXEGrub2

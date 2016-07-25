@@ -75,11 +75,27 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal '<Sun-Fire-V210>', d.vendor
   end
 
-  test "provision interface DHCP records should contain filename/next-server attributes" do
+  test "provision interface DHCP records should contain default filename/next-server attributes" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
     subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
     h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet)
+    assert_equal 'grub2/grubx64.efi', h.provision_interface.dhcp_record.filename
+    assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
+  end
+
+  test "provision interface DHCP records should contain explicit filename/next-server attributes" do
+    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet, :pxe_loader => 'PXELinux BIOS')
     assert_equal 'pxelinux.0', h.provision_interface.dhcp_record.filename
+    assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
+  end
+
+  test "provision interface DHCP records should not contain explicit filename attribute when PXE loader is set to None" do
+    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet, :pxe_loader => 'None')
+    assert_nil h.provision_interface.dhcp_record.filename
     assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
   end
 

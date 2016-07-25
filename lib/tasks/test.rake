@@ -6,9 +6,7 @@ namespace :test do
     t.verbose = true
     t.warning = false
   end
-end
 
-namespace :test do
   desc "Test lib source"
   Rake::TestTask.new(:lib) do |t|
     t.libs << "test"
