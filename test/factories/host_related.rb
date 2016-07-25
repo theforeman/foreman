@@ -225,6 +225,7 @@ FactoryGirl.define do
 
     trait :managed do
       managed true
+      pxe_loader "Grub2 UEFI"
       architecture { operatingsystem.try(:architectures).try(:first) }
       medium { operatingsystem.try(:media).try(:first) }
       ptable { operatingsystem.try(:ptables).try(:first) }

@@ -40,27 +40,29 @@ class DhcpTest < ActiveSupport::TestCase
   end
 
   test "record should be equal if their attrs are the same" do
-    record1 = Net::DHCP::Record.new(:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",
-                                 :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
-    record2 = Net::DHCP::Record.new(:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",
-                                 :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
+    record1 = make_record
+    record2 = make_record
     assert_equal record1, record2
+    assert_equal record2, record1
   end
 
   test "record should be equal if one record has no hostname" do
-    record1 = Net::DHCP::Record.new(:mac => "aa:bb:cc:dd:ee:ff",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
-    record2 = Net::DHCP::Record.new(:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
+    record1 = make_record
+    record2 = make_record :hostname => "test"
+    assert_equal record1, record2
+    assert_equal record2, record1
+  end
+
+  test "record should be equal if one record has no filename" do
+    record1 = make_record
+    record2 = make_record :filename => "pxelinux.0"
     assert_equal record1, record2
     assert_equal record2, record1
   end
 
   test "record should not be equal if their attrs are not the same" do
-    record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
-    record2 = Net::DHCP::Record.new(:hostname => "test2", :mac => "aa:bb:cc:dd:ee:ff",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
+    record1 = make_record :hostname => "test1"
+    record2 = make_record :hostname => "test2"
     refute_equal record1, record2
   end
 
@@ -133,5 +135,11 @@ class DhcpTest < ActiveSupport::TestCase
                                     "proxy" => subnets(:one).dhcp_proxy)
     assert record1.conflicts.empty?
     assert record1.valid?
+  end
+
+  private
+
+  def make_record(attrs = {})
+    Net::DHCP::Record.new({:mac => "aa:bb:cc:dd:ee:ff", :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one)}.merge(attrs))
   end
 end

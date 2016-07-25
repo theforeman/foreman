@@ -20,6 +20,7 @@ module Foreman::Controller::Parameters::HostBase
         :root_pass,
         :start,
         :type,
+        :pxe_loader,
         # Model relations sorted in alphabetical order
         :architecture, :architecture_id, :architecture_name,
         :domain, :domain_id, :domain_name,

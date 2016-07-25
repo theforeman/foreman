@@ -20,6 +20,11 @@ class Redhat < Operatingsystem
     end
   end
 
+  # Redhat supports all PXE loaders
+  def available_loaders
+    self.class.all_loaders
+  end
+
   # The PXE type to use when generating actions and evaluating attributes. jumpstart, kickstart and preseed are currently supported.
   def pxe_type
     "kickstart"

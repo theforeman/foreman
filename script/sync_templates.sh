@@ -20,6 +20,7 @@ git clone -q -b $(git symbolic-ref -q HEAD --short) \
 (cd $REPO/ct/snippets && prename -f 's/^([^_])/_$1/' *)
 
 rsync -r \
+  --exclude .gitignore \
   --exclude README.md \
   --exclude '.*' \
   --exclude test \

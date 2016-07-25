@@ -9,6 +9,7 @@ class SolarisTest < ActiveSupport::TestCase
                                              :ip => '2.3.4.10') ],
           :architecture => architectures(:sparc),
           :operatingsystem => operatingsystems(:solaris10),
+          :pxe_loader => '',
           :compute_resource => compute_resources(:one),
           :model => models(:V210),
           :medium => media(:solaris10),

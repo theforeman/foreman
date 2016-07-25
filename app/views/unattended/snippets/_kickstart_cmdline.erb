@@ -1,0 +1,21 @@
+<%#
+kind: snippet
+name: kickstart_cmdline
+-%>
+#
+# Supported host/hostgroup parameters:
+#
+# blacklist = module1, module2
+#   Blacklisted kernel modules
+#
+<%
+  @options = []
+  if @host.params['blacklist']
+    @options << "modprobe.blacklist=" + @host.params['blacklist'].gsub(' ', '')
+  end
+  @options = @options.join(' ')
+  log_debug "Extra kernel options: #{@options}"
+  @ks_option = 'ks=' + foreman_url('provision')
+  @loader_timeout = (@host.params['loader_timeout'] || 10).to_i
+-%>
+<%# vim:sw=2:ts=2:et -%>

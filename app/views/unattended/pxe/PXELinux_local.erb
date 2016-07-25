@@ -2,8 +2,7 @@
 kind: PXELinux
 name: PXELinux default local boot
 %>
-
-<%# This template has special name (do not change it) and it is used for booting already provisioned hosts. %>
+<%# Used to boot provisioned hosts, do not associate or change the name. %>
 
 DEFAULT menu
 PROMPT 0
@@ -12,7 +11,6 @@ TIMEOUT 200
 TOTALTIMEOUT 6000
 ONTIMEOUT local
 
-LABEL local
-     MENU LABEL (local)
-     MENU DEFAULT
-     LOCALBOOT 0
+<%= snippet "pxelinux_chainload" %>
+
+<%# vim:sw=2:ts=2:et -%>

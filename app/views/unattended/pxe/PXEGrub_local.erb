@@ -2,11 +2,11 @@
 kind: PXEGrub
 name: PXEGrub default local boot
 %>
-
-<%# This template has special name (do not change it) and it is used for booting already provisioned hosts. %>
+<%# Used to boot provisioned hosts, do not associate or change the name. %>
 
 default=0
-timeout=1
-title Chainload into bootloader on first disk
-root (hd0,0)
-chainloader +1
+timeout=20
+
+<%= snippet "pxegrub_chainload" %>
+
+<%# vim:sw=2:ts=2:et -%>

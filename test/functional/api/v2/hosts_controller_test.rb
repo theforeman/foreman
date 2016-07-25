@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'functional/shared/pxe_loader_test'
 
 class Api::V2::HostsControllerTest < ActionController::TestCase
+  include ::PxeLoaderTest
+
   def setup
     @host = FactoryGirl.create(:host)
     @ptable = FactoryGirl.create(:ptable)
@@ -31,6 +34,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     basic_attrs.merge(net_attrs)
   end
 
+  def valid_attrs_with_root(extra_attrs = {})
+    { :host => valid_attrs.merge(extra_attrs) }
+  end
+
   def basic_attrs_with_profile(compute_attrs)
     basic_attrs.merge(
       :compute_resource_id => compute_attrs.compute_resource_id,
@@ -55,10 +62,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   def expected_compute_attributes(compute_attrs, index)
     compute_attrs.vm_interfaces[index].update("from_profile" => compute_attrs.compute_profile.name)
-  end
-
-  def last_host
-    Host.order('id asc').last
   end
 
   def expect_attribute_modifier(modifier_class, args)
@@ -125,11 +128,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     post :create, { :host => basic_attrs.merge!(:interfaces_attributes => nics_attrs) }
     assert_response :created
-    assert_equal 2, last_host.interfaces.count
+    assert_equal 2, last_record.interfaces.count
 
-    assert last_host.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_host.interfaces.find_by_mac('00:11:22:33:44:00').class
-    assert_equal Nic::BMC,     last_host.interfaces.find_by_mac('00:11:22:33:44:01').class
+    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
   end
 
   test "should create interfaces sent in a hash" do
@@ -140,11 +143,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     post :create, { :host => basic_attrs.merge!(:interfaces_attributes => hash_nics_attrs) }
     assert_response :created
-    assert_equal 2, last_host.interfaces.count
+    assert_equal 2, last_record.interfaces.count
 
-    assert last_host.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_host.interfaces.find_by_mac('00:11:22:33:44:00').class
-    assert_equal Nic::BMC,     last_host.interfaces.find_by_mac('00:11:22:33:44:01').class
+    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
   end
 
   test "should fail with unknown interface type" do
@@ -165,16 +168,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     post :create, { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes =>  nics_attrs) }
     assert_response :created
 
-    assert_equal compute_attrs.vm_interfaces.count, last_host.interfaces.count
-    assert_equal expected_compute_attributes(compute_attrs, 0), last_host.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
-    assert_equal expected_compute_attributes(compute_attrs, 1), last_host.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
+    assert_equal compute_attrs.vm_interfaces.count, last_record.interfaces.count
+    assert_equal expected_compute_attributes(compute_attrs, 0), last_record.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
+    assert_equal expected_compute_attributes(compute_attrs, 1), last_record.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
   end
 
   test "should create host with managed is false if parameter is passed" do
     disable_orchestration
     post :create, { :host => valid_attrs.merge!(:managed => false) }
     assert_response :created
-    assert_equal false, last_host.managed?
+    assert_equal false, last_record.managed?
   end
 
   test "create applies attribute modifiers on the new host" do
@@ -638,6 +641,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_not_empty JSON.parse(response.body)['parameters']
   end
 
+  private
+
+  def last_record
+    Host.unscoped.order(:id).last
+  end
+
   test "host with two interfaces should get ips assigned on both interfaces" do
     disable_orchestration
     subnet1 = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet1', :network => '192.168.2.0', :from => '192.168.2.10',
@@ -653,8 +662,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
                       :subnet_id => subnet1.id}, { :primary => false, :mac => '00:11:22:33:44:01', :subnet_id => subnet2.id}]) }
     end
     assert_response :created
-    assert_equal 2, last_host.interfaces.count
-    assert_equal '192.168.2.10', last_host.interfaces.find_by_mac('00:11:22:33:44:00').ip
-    assert_equal '192.168.3.10', last_host.interfaces.find_by_mac('00:11:22:33:44:01').ip
+    assert_equal 2, last_record.interfaces.count
+    assert_equal '192.168.2.10', last_record.interfaces.find_by_mac('00:11:22:33:44:00').ip
+    assert_equal '192.168.3.10', last_record.interfaces.find_by_mac('00:11:22:33:44:01').ip
   end
 end

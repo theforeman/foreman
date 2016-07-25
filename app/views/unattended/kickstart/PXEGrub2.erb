@@ -1,0 +1,28 @@
+<%#
+kind: PXEGrub2
+name: Kickstart default PXEGrub2
+oses:
+- CentOS
+- Fedora
+- RedHat
+-%>
+# This file was deployed via '<%= template_name %>' template
+<%= snippet 'kickstart_cmdline' -%>
+
+set default=0
+set timeout=<%= @loader_timeout %>
+
+menuentry '<%= template_name %>' {
+  <% if @host.operatingsystem.name.match(/.*atomic.*/i) -%>
+  linuxefi <%= @kernel %> <%= @ks_option %> repo=<%= @host.operatingsystem.medium_uri(@host) %> ks.device=bootif network ks.sendmac <%= @options %>
+  <% elsif @host.operatingsystem.name == 'Fedora' and @host.operatingsystem.major.to_i > 16 -%>
+  linuxefi <%= @kernel %> <%= @ks_option %> ks.device=bootif network ks.sendmac <%= @options %>
+  <% elsif @host.operatingsystem.name != 'Fedora' and @host.operatingsystem.major.to_i >= 7 -%>
+  linuxefi <%= @kernel %> <%= @ks_option %> network ks.sendmac <%= @options %>
+  <% else -%>
+  linuxefi <%= @kernel %> <%= @ks_option %> ksdevice=bootif network kssendmac <%= @options %>
+  <% end -%>
+  initrdefi <%= @initrd %>
+}
+
+<%# vim:sw=2:ts=2:et -%>

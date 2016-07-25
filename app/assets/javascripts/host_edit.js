@@ -350,7 +350,7 @@ function architecture_selected(element){
   var url = $(element).attr('data-url');
   tfm.tools.showSpinner();
   $.ajax({
-    data: attrs,
+    data: {host: attrs},
     type:'post',
     url: url,
     complete: function(){
@@ -367,7 +367,7 @@ function os_selected(element){
   var url = $(element).attr('data-url');
   tfm.tools.showSpinner();
   $.ajax({
-    data: attrs,
+    data: {host: attrs},
     type:'post',
     url: url,
     complete: function(){

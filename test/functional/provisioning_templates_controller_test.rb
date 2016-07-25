@@ -97,18 +97,21 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   context 'PXE menu' do
     setup do
-      snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/snippets/_pxelinux_discovery.erb"))
-      ProvisioningTemplate.create!(:name => 'pxelinux_discovery', :template => snippet, :snippet => true)
-
-      template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/PXELinux_default.erb"))
-      ProvisioningTemplate.find_by_name('PXELinux global default').update_attribute(:template, template)
+      TemplateKind::PXE.each do |kind|
+        ["chainload", "discovery"].each do |snippet_type|
+          snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/snippets/_#{kind.downcase}_#{snippet_type}.erb"))
+          ProvisioningTemplate.create!(:name => "#{kind.downcase}_#{snippet_type}", :template => snippet, :snippet => true)
+        end
+        template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/pxe/#{kind}_default.erb"))
+        ProvisioningTemplate.find_or_create_by(:name => "#{kind} global default").update_attribute(:template, template)
+      end
       ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
       Setting[:unattended_url] = "http://foreman.unattended.url"
       @request.env['HTTP_REFERER'] = provisioning_templates_path
     end
 
     test "build menu" do
-      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true).times(3)
       get :build_pxe_default, {}, set_session_user
       assert_redirected_to provisioning_templates_path
     end
@@ -120,7 +123,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       t2.provisioning_template = templates(:mystring2)
       t1.save
       t2.save
-      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/#{hostgroups(:common).name}.*#{hostgroups(:db).name}/m))).returns(true)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{hostgroups(:common).name}.*#{hostgroups(:db).name}/m))).returns(true).times(3)
       get :build_pxe_default, {}, set_session_user
       assert_redirected_to provisioning_templates_path
     end
@@ -129,7 +132,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       t1 = TemplateCombination.new :hostgroup => hostgroups(:inherited), :environment => environments(:production)
       t1.provisioning_template = templates(:mystring2)
       t1.save
-      ProxyAPI::TFTP.any_instance.expects(:create_default).with(has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template\/MyString2\/Parent\/inherited/))).returns(true)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template\/MyString2\/Parent\/inherited/))).returns(true).times(3)
       get :build_pxe_default, {}, set_session_user
       assert_redirected_to provisioning_templates_path
     end

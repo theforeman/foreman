@@ -24,4 +24,29 @@ class ArchitectureTest < ActiveSupport::TestCase
 
     assert_not architecture.destroy
   end
+
+  test "should return intel precision for i386" do
+    architecture = Architecture.new :name => "i386"
+    assert_equal "ia32", architecture.intel_precision
+  end
+
+  test "should return intel precision for i686" do
+    architecture = Architecture.new :name => "i686"
+    assert_equal "ia32", architecture.intel_precision
+  end
+
+  test "should return intel precision for x86-64" do
+    architecture = Architecture.new :name => "x86-64"
+    assert_equal "x64", architecture.intel_precision
+  end
+
+  test "should return intel precision for x86_64" do
+    architecture = Architecture.new :name => "x86_64"
+    assert_equal "x64", architecture.intel_precision
+  end
+
+  test "should not return intel precision for unknown arch" do
+    architecture = Architecture.new :name => "unknown"
+    assert_equal "", architecture.intel_precision
+  end
 end

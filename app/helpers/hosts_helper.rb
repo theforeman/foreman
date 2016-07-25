@@ -261,6 +261,7 @@ module HostsHelper
     fields += [[_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")))]] if host.environment.present?
     fields += [[_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")))]] if host.arch.present?
     fields += [[_("Operating System"), (link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}")))]] if host.operatingsystem.present?
+    fields += [[_("PXE Loader"), host.pxe_loader]] if host.operatingsystem.present? && host.pxe_build?
     fields += [[_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"})))]] if host.hostgroup.present?
     fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
     fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]

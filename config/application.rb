@@ -174,7 +174,8 @@ module Foreman
       :app => {:enabled => true},
       :ldap => {:enabled => false},
       :permissions => {:enabled => false},
-      :sql => {:enabled => false}
+      :sql => {:enabled => false},
+      :templates => {:enabled => true}
     ))
 
     config.logger = Foreman::Logging.logger('app')

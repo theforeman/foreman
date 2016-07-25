@@ -25,6 +25,20 @@ FactoryGirl.define do
       with_os_defaults
     end
 
+    trait :with_pxelinux do
+      provisioning_templates do
+        [FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXELinux'))]
+      end
+      with_os_defaults
+    end
+
+    trait :with_grub do
+      provisioning_templates do
+        [FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXEGrub'))]
+      end
+      with_os_defaults
+    end
+
     trait :with_archs do
       architectures { [FactoryGirl.create(:architecture)] }
     end

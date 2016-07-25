@@ -10,7 +10,11 @@
     {:label => _("Partition table"), :disabled => os_ptable.empty?, :required => true}
   %>
 
-  <% if @operatingsystem and @operatingsystem.supports_image %>
+  <% if @operatingsystem && @operatingsystem.supports_image %>
     <%= render "common/os_selection/image_details", {:item => item} %>
+  <% end %>
+
+  <% if @operatingsystem && @operatingsystem.available_loaders.count > 0 %>
+    <%= render "common/os_selection/pxe_loader", {:item => item} %>
   <% end %>
 <% end %>

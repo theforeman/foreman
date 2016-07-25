@@ -4,6 +4,7 @@ require 'uri'
 class Operatingsystem < ActiveRecord::Base
   include Authorizable
   include ValidateOsFamily
+  include PxeLoaderSupport
   extend FriendlyId
   friendly_id :title
 
@@ -165,6 +166,11 @@ class Operatingsystem < ActiveRecord::Base
     self.where(cond).first
   end
 
+  # Implemented only in the OSs subclasses where it makes sense
+  def available_loaders
+    ["None", "PXELinux BIOS"]
+  end
+
   # sets the prefix for the tfp files based on the os / arch combination
   def pxe_prefix(arch)
     "boot/#{self}-#{arch}".tr(" ","-")
@@ -193,19 +199,14 @@ class Operatingsystem < ActiveRecord::Base
     false
   end
 
-  # override in sub operatingsystem classes as required.
-  def pxe_variant
-    "syslinux"
+  # Compatible kinds for this OS sorted by preferrence
+  def template_kinds
+    ["PXEGrub2", "PXELinux", "PXEGrub"]
   end
 
-  # The kind of PXE configuration template used. PXELinux and PXEGrub are currently supported
-  def template_kind
-    "PXELinux"
-  end
-
-  #handle things like gpxelinux/ gpxe / pxelinux here
   def boot_filename(host = nil)
-    "pxelinux.0"
+    return default_boot_filename if host.nil? || host.pxe_loader.nil?
+    self.class.all_loaders_map(host.arch.nil? ? '' : host.arch.intel_precision)[host.pxe_loader]
   end
 
   # Does this OS family use release_name in its naming scheme

@@ -53,6 +53,7 @@ module Api
         param :operatingsystem_id, :number
         param :architecture_id, :number
         param :medium_id, :number
+        param :pxe_loader, Operatingsystem.all_loaders, :desc => N_("DHCP filename option")
         param :ptable_id, :number
         param :puppet_ca_proxy_id, :number
         param :subnet_id, :number

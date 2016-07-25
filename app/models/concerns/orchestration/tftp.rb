@@ -12,13 +12,12 @@ module Orchestration::TFTP
   end
 
   def tftp?
-    # host.managed? and managed? should always come first so that orchestration doesn't
-    # even get tested for such objects
-    (host.nil? || host.managed?) && managed && provision? && !!(subnet && subnet.tftp?) && (host && host.operatingsystem && host.operatingsystem.pxe_variant) && pxe_build? && SETTINGS[:unattended]
+    # host.managed? and managed? should always come first so that orchestration doesn't even get tested for such objects
+    (host.nil? || host.managed?) && managed && provision? && !!(subnet && subnet.tftp?) && (host && host.operatingsystem && host.pxe_loader.present?) && pxe_build? && SETTINGS[:unattended]
   end
 
   def tftp
-    subnet.tftp_proxy(:variant => host.operatingsystem.pxe_variant) if tftp?
+    subnet.tftp_proxy if tftp?
   end
 
   def rebuild_tftp
@@ -35,7 +34,7 @@ module Orchestration::TFTP
     end
   end
 
-  def generate_pxe_template
+  def generate_pxe_template(kind)
     # this is the only place we generate a template not via a web request
     # therefore some workaround is required to "render" the template.
     @kernel = host.operatingsystem.kernel(host.arch)
@@ -51,37 +50,48 @@ module Orchestration::TFTP
 
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
     @host = self.host
-    if build?
-      template = host.provisioning_template({:kind => host.operatingsystem.template_kind})
-      failure_missing_template unless template
-      template_name = template.name
-    else
-      if host.operatingsystem.template_kind == "PXEGrub"
-        template_name = "PXEGrub default local boot"
-      else
-        template_name = "PXELinux default local boot"
-      end
-      template = ProvisioningTemplate.find_by_name(template_name)
-    end
-    unattended_render template, template_name
-  rescue => e
-    failure _("Failed to generate %{template_kind} template %{template_name}: %{e}") % { :template_kind => host.operatingsystem.template_kind, :template_name => template_name.nil? ? '' : template_name, :e => e }, e
+
+    return build_pxe_render(kind) if build?
+    default_pxe_render(kind)
   end
 
   protected
 
+  def build_pxe_render(kind)
+    template = host.provisioning_template({:kind => kind})
+    return unless template.present?
+    unattended_render template
+  rescue => e
+    failure _("Unable to render %{kind} template '%{name}': %{e}") % { :kind => kind, :name => template.try(:name), :e => e }, e
+  end
+
+  def default_pxe_render(kind)
+    template_name = "#{kind} default local boot"
+    template = ProvisioningTemplate.find_by_name(template_name)
+    raise Foreman::Exception.new(N_("template '%s' was not found"), template_name) unless template
+    unattended_render template, template_name
+  rescue => e
+    failure _("Unable to render '%{name}' template: %{e}") % { :name => template_name, :e => e }, e
+  end
+
   # Adds the host to the forward and reverse TFTP zones
   # +returns+ : Boolean true on success
-  def setTFTP
-    logger.info "Add the TFTP configuration for #{host.name}"
-    tftp.set mac, :pxeconfig => generate_pxe_template
+  def setTFTP(kind)
+    content = generate_pxe_template(kind)
+    if content
+      logger.info "Deploying TFTP #{kind} configuration for #{host.name}"
+      tftp.set kind, mac, :pxeconfig => content
+    else
+      logger.info "Skipping TFTP #{kind} configuration for #{host.name}"
+      true
+    end
   end
 
   # Removes the host from the forward and reverse TFTP zones
   # +returns+ : Boolean true on success
-  def delTFTP
+  def delTFTP(kind)
     logger.info "Delete the TFTP configuration for #{host.name}"
-    tftp.delete mac
+    tftp.delete kind, mac
   end
 
   def setTFTPBootFiles
@@ -102,20 +112,14 @@ module Orchestration::TFTP
 
   private
 
-  def template_kind_missing?(kind = host.operatingsystem.template_kind)
-    host.provisioning_template({:kind => kind}).nil?
-  end
-
-  def failure_missing_template
-    failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings") %
-      { :template_kind => host.operatingsystem.template_kind, :os => host.operatingsystem }
-  end
-
   def validate_tftp
     return unless tftp?
     return unless host.operatingsystem
-    return if Rails.env == "test"
-    failure_missing_template if (template_kind_missing? && template_kind_missing?("iPXE"))
+    pxe_kind = host.operatingsystem.pxe_loader_kind(host)
+    if pxe_kind && host.provisioning_template({:kind => pxe_kind}).nil?
+      failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader") %
+        { :template_kind => pxe_kind, :os => host.operatingsystem }
+    end
   end
 
   def queue_tftp
@@ -126,11 +130,11 @@ module Orchestration::TFTP
   end
 
   def queue_tftp_create
-    queue.create(:name => _("TFTP Settings for %s") % self, :priority => 20,
-                 :action => [self, :setTFTP])
+    host.operatingsystem.template_kinds.each do |kind|
+      queue.create(:name => _("Deploy TFTP %{kind} config for %{host}") % {:kind => kind, :host => self}, :priority => 20, :action => [self, :setTFTP, kind])
+    end
     return unless build
-    queue.create(:name => _("Fetch TFTP boot files for %s") % self, :priority => 25,
-                 :action => [self, :setTFTPBootFiles])
+    queue.create(:name => _("Fetch TFTP boot files for %s") % self, :priority => 25, :action => [self, :setTFTPBootFiles])
   end
 
   def queue_tftp_update
@@ -145,19 +149,19 @@ module Orchestration::TFTP
     if mac != old.mac
       set_tftp = true
       # clean up old TFTP reservation file
-      if old.tftp?
-        queue.create(:name => _("Remove old TFTP Settings for %s") % old, :priority => 19,
-                     :action => [old, :delTFTP])
-      end
+      queue_tftp_destroy(false, 19, old) if old.tftp?
     end
     queue_tftp_create if set_tftp
   end
 
-  def queue_tftp_destroy
-    return unless tftp? && no_errors
-    return true if host.jumpstart?
-    queue.create(:name => _("TFTP Settings for %s") % self, :priority => 20,
-                 :action => [self, :delTFTP])
+  def queue_tftp_destroy(validate = true, priority = 20, host = self)
+    if validate
+      return unless tftp? && no_errors
+      return true if host.jumpstart?
+    end
+    host.operatingsystem.template_kinds.each do |kind|
+      queue.create(:name => _("Delete TFTP %{kind} config for %{host}") % {:kind => kind, :host => host}, :priority => priority, :action => [host, :delTFTP, kind])
+    end
   end
 
   def no_errors

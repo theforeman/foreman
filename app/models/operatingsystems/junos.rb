@@ -16,14 +16,12 @@ class Junos < Operatingsystem
     "ZTP"
   end
 
-  # The variant to use when communicating with the proxy. Syslinux are pxegrub currently supported
-  def pxe_variant
-    "ZTP"
+  def available_loaders
+    ["None"]
   end
 
-  # The kind of PXE configuration template used. PXELinux and PXEGrub are currently supported
-  def template_kind
-    "ZTP"
+  def template_kinds
+    ["ZTP"]
   end
 
   def pxedir
@@ -34,7 +32,6 @@ class Junos < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
-  #handle things like gpxelinux/ gpxe / pxelinux here
   def boot_filename(host = nil)
     "ztp.cfg/"+host.mac.gsub(/:/,"").upcase
   end
