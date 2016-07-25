@@ -1,3 +1,22 @@
+2016-07-25	Dominic Cleal <dominic@cleal.org>
+	* Release 1.11.4
+
+2016-07-22	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15653 - CVE-2016-5390 fix permissions for host API
+	* Fixes #15527 - api/v2/hosts is slow loading permissions
+
+2016-07-22	David Davis <daviddavis@redhat.com>
+	* Fixes #15712 - Pinning rabl to less than 0.13
+
+2016-07-22	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15490 - adding view_host filter and better msg
+
+2016-07-22	Klaas Demter <Klaas-@users.noreply.github.com>
+	* Fixes #15570 - Fixed query syntax in ForemanTrend#find_hosts
+
+2016-07-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15268 - limit user taxonomies using my scopes
+
 2016-06-21	Dominic Cleal <dominic@cleal.org>
 	* Release 1.11.3
 	* fixes #15363 - construct correct templates query for new hosts
