@@ -82,21 +82,23 @@ module Api::V2::LookupKeysCommonController
 
   def smart_class_parameters_resource_scope
     base = PuppetclassLookupKey.authorized(:view_external_parameters)
-    return base.smart_class_parameters unless (@puppetclass || @environment || @host || @hostgroup)
-    if @puppetclass && @environment
-      base.smart_class_parameters_for_class(@puppetclass.id, @environment.id)
-    elsif @puppetclass && !@environment
-      environment_ids = @puppetclass.environment_classes.pluck(:environment_id).uniq
-      base.smart_class_parameters_for_class(@puppetclass.id, environment_ids)
-    elsif !@puppetclass && @environment
-      puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
-      base.smart_class_parameters_for_class(puppetclass_ids, @environment.id)
-    elsif @host || @hostgroup
-      puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
-      environment_id  = (@host || @hostgroup).environment_id
-      # scope :parameters_for_class uses .override
-      base.parameters_for_class(puppetclass_ids, environment_id)
-    end
+    params = if !@puppetclass && !@environment && !@host && !@hostgroup
+               base.smart_class_parameters
+             elsif @puppetclass && @environment
+               base.smart_class_parameters_for_class(@puppetclass.id, @environment.id)
+             elsif @puppetclass && !@environment
+               environment_ids = @puppetclass.environment_classes.pluck(:environment_id).uniq
+               base.smart_class_parameters_for_class(@puppetclass.id, environment_ids)
+             elsif !@puppetclass && @environment
+               puppetclass_ids = @environment.environment_classes.pluck(:puppetclass_id).uniq
+               base.smart_class_parameters_for_class(puppetclass_ids, @environment.id)
+             elsif @host || @hostgroup
+               puppetclass_ids = (@host || @hostgroup).all_puppetclasses.map(&:id)
+               environment_id  = (@host || @hostgroup).environment_id
+               # scope :parameters_for_class uses .override
+               base.parameters_for_class(puppetclass_ids, environment_id)
+             end
+    params.distinct
   end
 
   def find_smarts
