@@ -31,7 +31,7 @@
         <td class="hosts-rows">
       <% end %>
       <% if v > 0 %>
-        <%= link_to v, config_reports_path(:search=>"host = #{host} and #{m} > 0") %>
+        <%= link_to v, config_reports_url(:search=>"host = #{host} and #{m} > 0") %>
       <% else %>
         <%= v %>
       <% end %>

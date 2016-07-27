@@ -18,6 +18,7 @@ class ApplicationMailerTest < ActiveSupport::TestCase
           </head>
           <body>
             <h2 class="headline"><b>Foreman</b> test email</h2>
+            <a href="#{hosts_url}">Hosts list</a>
           </body>
         </html>|.html_safe
     end
@@ -47,5 +48,10 @@ class ApplicationMailerTest < ActiveSupport::TestCase
     new_from = 'foreman@widgets.example.com'
     Setting[:email_reply_address] = new_from
     assert_equal mail.from.first, new_from
+  end
+
+  test 'URL helpers use options from foreman_url setting' do
+    Setting[:foreman_url] = 'https://another.example.com:444'
+    assert mail.body.include? 'href="https://another.example.com:444/hosts"'
   end
 end

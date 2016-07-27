@@ -12,6 +12,11 @@ class ApplicationMailer < ActionMailer::Base
     super
   end
 
+  def default_url_options
+    set_url
+    {:host => @url.host, :port => @url.port, :protocol => @url.scheme}
+  end
+
   protected
 
   def roadie_options
@@ -32,7 +37,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def set_url
-    unless (@url = URI.parse(Setting[:foreman_url])).present?
+    unless (@url ||= URI.parse(Setting[:foreman_url])).present?
       raise Foreman::Exception.new(N_(":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"))
     end
   end

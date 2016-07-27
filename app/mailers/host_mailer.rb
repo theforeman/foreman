@@ -18,7 +18,6 @@ class HostMailer < ApplicationMailer
     @timerange = time
     @out_of_sync = hosts.out_of_sync.sort
     @disabled = hosts.alerts_disabled.sort
-    set_url
 
     set_locale_for(user) do
       subject = _("Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
@@ -39,7 +38,6 @@ class HostMailer < ApplicationMailer
   def error_state(report, options = {})
     @report = report
     @host = @report.host
-    set_url
     set_locale_for(options[:user]) do
       mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host)) do |format|
         format.html { render :layout => 'application_mailer' }
