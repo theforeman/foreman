@@ -2,5 +2,5 @@
 <div class="dashboard">
   <%= render :partial => 'error_states', :locals => {:logs => @report.logs} %>
   <br>
-  <%= link_to _("For more information"), config_report_path(@report) %>
+  <%= link_to _("For more information"), config_report_url(@report) %>
 </div>
