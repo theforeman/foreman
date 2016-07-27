@@ -10,6 +10,19 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_equal 2, results['results'].length
   end
 
+  test "should get same smart class parameters in multiple environments once" do
+    @env_class = FactoryGirl.create(:environment_class,
+                               :puppetclass => puppetclasses(:one),
+                               :environment => environments(:testing),
+                               :puppetclass_lookup_key => lookup_keys(:complex))
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:smart_class_parameters)
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert !results['results'].empty?
+    assert_equal 2, results['results'].length
+  end
+
   test "should get smart class parameters for a specific host" do
     @host = FactoryGirl.create(:host,
                                :puppetclasses => [puppetclasses(:one)],
@@ -57,6 +70,20 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert !results['results'].empty?
     assert_equal 1, results['results'].count
     assert_equal "custom_class_param", results['results'][0]['parameter']
+  end
+
+  test "should get same smart class parameters in multiple environments once for a specific puppetclass" do
+    @env_class = FactoryGirl.create(:environment_class,
+                               :puppetclass => puppetclasses(:one),
+                               :environment => environments(:testing),
+                               :puppetclass_lookup_key => lookup_keys(:complex))
+    get :index, {:puppetclass_id => puppetclasses(:one).id}
+    assert_response :success
+    assert_not_nil assigns(:smart_class_parameters)
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert !results['results'].empty?
+    assert_equal 1, results['results'].count
+    assert_equal "cluster", results['results'][0]['parameter']
   end
 
   test "should get :not_found for a non-existing puppetclass" do
