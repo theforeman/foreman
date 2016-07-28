@@ -54,6 +54,8 @@
 #    :enabled: false
 #  :permissions:
 #    :enabled: false
+#  :proxy:
+#    :enabled: false
 #  :sql:
 #    :enabled: false
 #  :templates:

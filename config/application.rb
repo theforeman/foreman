@@ -59,6 +59,7 @@ require_dependency File.expand_path('../../lib/core_extensions', __FILE__)
 require_dependency File.expand_path('../../lib/foreman/logging', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/tagged_logging', __FILE__)
+require_dependency File.expand_path('../../lib/middleware/session_safe_logging', __FILE__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
@@ -177,6 +178,7 @@ module Foreman
 
     # Record request ID in logging MDC storage
     config.middleware.insert_before Rails::Rack::Logger, Middleware::TaggedLogging
+    config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Middleware::SessionSafeLogging
 
     # Add apidoc hash in headers for smarter caching
     config.middleware.use Apipie::Middleware::ChecksumInHeaders
@@ -199,6 +201,7 @@ module Foreman
       :audit => {:enabled => true},
       :ldap => {:enabled => false},
       :permissions => {:enabled => false},
+      :proxy => {:enabled => false},
       :sql => {:enabled => false},
       :templates => {:enabled => true},
       :notifications => {:enabled => true},
