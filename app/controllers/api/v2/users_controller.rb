@@ -42,6 +42,7 @@ module Api
           param :firstname, String, :required => false
           param :lastname, String, :required => false
           param :mail, String, :required => true
+          param :description, String, :required => false
           param :admin, :bool, :required => false, :desc => N_("is an admin account")
           param :password, String, :required => true
           param :default_location_id, Integer if SETTINGS[:locations_enabled]
