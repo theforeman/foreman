@@ -11,6 +11,8 @@ module Api
       before_action :return_if_smart_mismatch, :only => [:index, :create, :show, :update, :destroy]
       before_action :return_if_override_mismatch, :only => [:show, :update, :destroy]
 
+      before_action :rename_use_puppet_default, :only => [:create, :update]
+
       api :GET, "/smart_variables/:smart_variable_id/override_values", N_("List of override values for a specific smart variable")
       api :GET, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("List of override values for a specific smart class parameter")
       param :smart_variable_id, :identifier, :required => false
@@ -32,8 +34,9 @@ module Api
       def_param_group :override_value do
         param :override_value, Hash, :required => true, :action_aware => true do
           param :match, String, :required => true, :desc => N_("Override match")
-          param :value, String, :required => false, :desc => N_("Override value, required if use_puppet_default is false")
-          param :use_puppet_default, :bool
+          param :value, String, :required => false, :desc => N_("Override value, required if omit is false")
+          param :use_puppet_default, :bool, :required => false, :desc => N_("Deprecated, please use omit")
+          param :omit, :bool, :required => false, :desc => N_("Foreman will not send this parameter in classification output, replaces use_puppet_default")
         end
       end
 
@@ -93,6 +96,13 @@ module Api
       # overwrite Api::BaseController
       def resource_class
         LookupValue
+      end
+
+      def rename_use_puppet_default
+        return unless params[:override_value] && params[:override_value].key?(:use_puppet_default)
+
+        params[:override_value][:omit] = params[:override_value].delete(:use_puppet_default)
+        Foreman::Deprecation.api_deprecation_warning('"use_puppet_default" was renamed to "omit"')
       end
     end
   end

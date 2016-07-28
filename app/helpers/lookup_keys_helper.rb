@@ -73,7 +73,7 @@ module LookupKeysHelper
       effective_value,
       :popover => diagnostic_popover(lookup_key, matcher, popover_value, warnings),
       :name => "#{lookup_value_name_prefix(lookup_key.id)}[value]",
-      :disabled => !lookup_key.overridden?(obj) || lookup_value.use_puppet_default || !can_edit_params?,
+      :disabled => !lookup_key.overridden?(obj) || lookup_value.omit || !can_edit_params?,
       :inherited_value => inherited_value,
       :lookup_key => lookup_key,
       :lookup_key_hidden_value? => lookup_key.hidden_value?,
@@ -118,7 +118,7 @@ module LookupKeysHelper
       { :text => _("Required parameter without value.<br/><b>Please override!</b><br/>"),
         :icon => "error-circle-o" }
     else
-      { :text => _("Optional parameter without value.<br/><i>Will not be sent to Puppet.</i><br/>"),
+      { :text => _("Optional parameter without value.<br/><i>Still managed by Foreman, the value will be empty.</i><br/>"),
         :icon => "warning-triangle-o" }
     end
   end
@@ -153,15 +153,15 @@ module LookupKeysHelper
     lookup_key.overridden_value(host_or_hostgroup) || LookupValue.new
   end
 
-  def use_puppet_default_check_box(lookup_key, lookup_value, disabled)
+  def omit_check_box(lookup_key, lookup_value, disabled)
     return unless lookup_key.type == "PuppetclassLookupKey"
-    check_box(lookup_value_name_prefix(lookup_key.id), :use_puppet_default,
+    check_box(lookup_value_name_prefix(lookup_key.id), :omit,
               :value    => lookup_value.id,
               :disabled => disabled || !can_edit_params?,
-              :onchange => "toggleUsePuppetDefaultValue(this, 'value')",
+              :onchange => "toggleOmitValue(this, 'value')",
               :hidden   => disabled,
-              :title    => _('Use Puppet default'),
-              :checked  => lookup_value.use_puppet_default)
+              :title    => _('Omit from classification output'),
+              :checked  => lookup_value.omit)
   end
 
   def hidden_lookup_value_fields(lookup_key, lookup_value, disabled)

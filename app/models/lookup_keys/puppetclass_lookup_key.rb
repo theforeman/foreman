@@ -26,12 +26,12 @@ class PuppetclassLookupKey < LookupKey
   end
 
   def cast_default_value
-    super unless use_puppet_default
+    super unless omit
     true
   end
 
   def validate_default_value
-    super unless use_puppet_default
+    super unless omit
     true
   end
 

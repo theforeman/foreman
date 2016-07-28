@@ -36,7 +36,7 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)},location=#{taxonomies(:location1)}",
                           :value => 'test',
-                          :use_puppet_default => false
+                          :omit => false
     end
     enc = classification.enc
 
@@ -145,13 +145,13 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => ['test'],
-                          :use_puppet_default => false
+                          :omit => false
     end
     value2 = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => ['test'],
-                          :use_puppet_default => false
+                          :omit => false
     end
     key.reload
 
@@ -170,13 +170,13 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => ['test'],
-                          :use_puppet_default => false
+                          :omit => false
     end
     value2 = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => ['test'],
-                          :use_puppet_default => false
+                          :omit => false
     end
     key.reload
 
@@ -196,13 +196,13 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
     key.reload
 
@@ -222,13 +222,13 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => 'test2'},
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => 'test'},
-                          :use_puppet_default => false
+                          :omit => false
     end
     key.reload
 
@@ -247,20 +247,20 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:a => 'test'},
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:b => 'test3'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
     key.reload
 
@@ -280,19 +280,19 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:a => 'test3'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
     key.reload
 
@@ -302,7 +302,7 @@ class ClassificationTest < ActiveSupport::TestCase
                  classification.send(:values_hash))
   end
 
-  test 'smart class parameter with use_puppet_default on specific matcher does not send a value to puppet' do
+  test 'smart class parameter with omit on specific matcher does not send a value to puppet' do
     key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'string',
                              :default_value => "123", :path => "organization\nos\nlocation",
@@ -312,7 +312,7 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => "345",
-                          :use_puppet_default => true
+                          :omit => true
     end
     enc = classification.enc
     refute enc['base'].has_key?(key.key)
@@ -467,11 +467,11 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
-                          :use_puppet_default => false
+                          :omit => false
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
-                          :use_puppet_default => false
+                          :omit => false
     end
     key.reload
 
@@ -482,20 +482,20 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should not return class parameters when default value should use puppet default" do
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_use_puppet_default,
+    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
                               :puppetclass => puppetclasses(:one))
     enc = classification.enc
     assert enc['base'][lkey.key].nil?
   end
 
   test "#enc should not return class parameters when lookup_value should use puppet default" do
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_use_puppet_default,
+    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
                               :puppetclass => puppetclasses(:one), :path => "location")
     as_admin do
       LookupValue.create! :lookup_key_id => lkey.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => 'test',
-                          :use_puppet_default => true
+                          :omit => true
     end
 
     enc = classification.enc
@@ -503,20 +503,20 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return class parameters when default value and lookup_values should not use puppet default" do
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :use_puppet_default => false,
+    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :omit => false,
                               :puppetclass => puppetclasses(:one), :path => "location")
     lvalue = as_admin do
       LookupValue.create! :lookup_key_id => lkey.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => 'test',
-                          :use_puppet_default => false
+                          :omit => false
     end
     enc = classification.enc
     assert_equal lvalue.value, enc['base'][lkey.key]
   end
 
   test "#enc should not return class parameters when merged lookup_values and default are all using puppet default" do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :use_puppet_default => true,
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -525,20 +525,20 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => {:example => {:a => 'test'}},
-                          :use_puppet_default => true
+                          :omit => true
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => {:example => {:b => 'test2'}},
-                          :use_puppet_default => true
+                          :omit => true
     end
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => {:example => {:a => 'test3'}},
-                          :use_puppet_default => true
+                          :omit => true
     end
     enc = classification.enc
 
@@ -549,7 +549,7 @@ class ClassificationTest < ActiveSupport::TestCase
     FactoryGirl.create(:setting,
                        :name => 'host_group_matchers_inheritance',
                        :value => true)
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :use_puppet_default => true,
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
                              :puppetclass => puppetclasses(:two))
@@ -567,20 +567,20 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{parent_hostgroup}",
                           :value => "parent",
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{child_hostgroup}",
                           :value => "child",
-                          :use_puppet_default => false
+                          :omit => false
     end
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match =>"organization=#{taxonomies(:organization1)}",
                           :value => "org",
-                          :use_puppet_default => false
+                          :omit => false
     end
 
     enc = classification.enc
@@ -592,7 +592,7 @@ class ClassificationTest < ActiveSupport::TestCase
     FactoryGirl.create(:setting,
                        :name => 'host_group_matchers_inheritance',
                        :value => true)
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :use_puppet_default => true,
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
                              :puppetclass => puppetclasses(:two))
@@ -610,20 +610,20 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{parent_hostgroup}",
                           :value => "parent",
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{child_hostgroup}",
                           :value => "child",
-                          :use_puppet_default => false
+                          :omit => false
     end
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match =>"location=#{taxonomies(:location1)}",
                           :value => "loc",
-                          :use_puppet_default => true
+                          :omit => true
     end
 
     enc = classification.enc
@@ -641,13 +641,13 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => 'test_incorrect',
-                          :use_puppet_default => false
+                          :omit => false
     end
     value2 = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)},location=#{taxonomies(:location1)}",
                           :value => 'test_correct',
-                          :use_puppet_default => false
+                          :omit => false
     end
     enc = classification.enc
     key.reload
@@ -656,7 +656,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'enc should return correct values for multi-key matchers' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :use_puppet_default => true,
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "hostgroup,organization\nlocation",
                              :puppetclass => puppetclasses(:two))
@@ -674,20 +674,20 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}",
                           :value => "parent",
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{child_hostgroup},organization=#{taxonomies(:organization1)}",
                           :value => "child",
-                          :use_puppet_default => false
+                          :omit => false
     end
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match =>"location=#{taxonomies(:location1)}",
                           :value => "loc",
-                          :use_puppet_default => false
+                          :omit => false
     end
     enc = classification.enc
     key.reload
@@ -705,19 +705,19 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => '<%= [2,3] %>',
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => '<%= [3,4] %>',
-                          :use_puppet_default => false
+                          :omit => false
     end
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "os=#{operatingsystems(:redhat)}",
                           :value => '<%= [4,5] %>',
-                          :use_puppet_default => false
+                          :omit => false
     end
 
     key.reload
@@ -736,7 +736,7 @@ class ClassificationTest < ActiveSupport::TestCase
     host = classification.send(:host)
     host.update_attributes(:hostgroup => hostgroup)
 
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_use_puppet_default,
+    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_omit,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "hostgroup,organization\nlocation",
                              :puppetclass => puppetclasses(:two))
@@ -774,7 +774,7 @@ class ClassificationTest < ActiveSupport::TestCase
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => '<%= "c" %>',
-                          :use_puppet_default => false
+                          :omit => false
     end
 
     key.reload
