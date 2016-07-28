@@ -62,6 +62,7 @@ class Role < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :builtin, :complete_value => { :true => true, :false => false }
+  scoped_search :on => :description, :complete_value => false
 
   def permissions=(new_permissions)
     add_permissions(new_permissions.map(&:name).uniq) if new_permissions.present?
