@@ -34,4 +34,4 @@ Dashboard::Loader.load
 
 # clear our users topbar cache
 # The users table may not be exist during initial migration of the database
-TopbarSweeper.expire_cache_all_users if User.table_exists?
+TopbarSweeper.expire_cache_all_users if (User.table_exists? rescue false)
