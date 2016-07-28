@@ -23,7 +23,7 @@ class Role < ActiveRecord::Base
   include Parameterizable::ByIdName
 
   # Built-in roles
-  BUILTIN_DEFAULT_ROLE = 2
+  BUILTIN_DEFAULT_ROLE = 1
   audited :allow_mass_assignment => true
 
   attr_accessible :name, :permissions
@@ -50,7 +50,7 @@ class Role < ActiveRecord::Base
   has_many :permissions, :through => :filters
 
   validates :name, :presence => true, :uniqueness => true
-  validates :builtin, :inclusion => { :in => 0..2 }
+  validates :builtin, :inclusion => { :in => 0..1 }
 
   scoped_search :on => :name, :complete_value => true
 

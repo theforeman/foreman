@@ -81,7 +81,7 @@ class RolesController < ApplicationController
       new_role = Role.find(params[:original_role_id]).
                    deep_clone(:include => [:filters => :filterings])
       new_role.name    = params[:role][:name]
-      new_role.builtin = false
+      new_role.builtin = 0
     else
       new_role = Role.new(params[:role])
     end

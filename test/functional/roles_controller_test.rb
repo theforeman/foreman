@@ -80,6 +80,7 @@ class RolesControllerTest < ActionController::TestCase
       cloned_role = Role.find_by_name('clonedrole')
       assert_not_nil cloned_role
       assert_equal @role.permissions, cloned_role.permissions
+      assert_equal 0, cloned_role.builtin
     end
   end
 end

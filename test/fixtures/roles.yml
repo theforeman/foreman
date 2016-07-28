@@ -27,7 +27,7 @@ viewer:
 default_role:
   name: Default role
   id: "7"
-  builtin: "2"
+  builtin: true
 
 destroy_hosts:
   name: Destroy hosts
