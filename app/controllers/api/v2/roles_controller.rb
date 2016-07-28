@@ -16,6 +16,7 @@ module Api
 
       api :GET, "/roles/:id/", N_("Show a role")
       param :id, :identifier, :required => true
+      param :description, String, :required => false
 
       def show
       end
