@@ -363,15 +363,15 @@ EOF
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                                :override => true, :key_type => 'boolean',
-                               :default_value => 'whatever', :puppetclass => puppetclasses(:one), :use_puppet_default => true)
+                               :default_value => 'whatever', :puppetclass => puppetclasses(:one), :omit => true)
     end
 
-    test "default_value is not validated if use_puppet_default is true" do
+    test "default_value is not validated if omit is true" do
       assert @key.valid?
     end
 
-    test "default_value is validated if use_puppet_default is false" do
-      @key.use_puppet_default = false
+    test "default_value is validated if omit is false" do
+      @key.omit = false
       refute @key.valid?
     end
   end
@@ -379,7 +379,8 @@ EOF
   test "override params are reset after override changes back to false" do
     @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                               :override => true, :key_type => 'array',
-                              :default_value => '[]', :puppetclass => puppetclasses(:one))
+                              :default_value => '[]', :puppetclass => puppetclasses(:one),
+                              :omit => true)
     override_params = [:merge_overrides, :merge_default, :avoid_duplicates]
 
     override_params.each { |param| @key.send("#{param}=", true) }

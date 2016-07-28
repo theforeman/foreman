@@ -12,8 +12,8 @@ class LookupKeysControllerTest < ActionController::TestCase
     }
     @value = @key.override_values[1]
     @key.override_values = [@value]
-    @create = {"1462788609698"=>{"match"=>"hostgroup=db", "value"=>'4', "use_puppet_default"=>"0", "_destroy"=>"false"}}
-    @delete = {"0"=>{"match"=>@value.match, "value"=>@value.value, "use_puppet_default"=>"0", "_destroy"=>"1", "id"=>@value.id } }
+    @create = {"1462788609698"=>{"match"=>"hostgroup=db", "value"=>'4', "omit"=>"0", "_destroy"=>"false"}}
+    @delete = {"0"=>{"match"=>@value.match, "value"=>@value.value, "omit"=>"0", "_destroy"=>"1", "id"=>@value.id } }
   end
 
   test 'patch add valid override' do

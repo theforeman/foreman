@@ -8,7 +8,7 @@ module Foreman::Controller::Parameters::LookupValue
           :host_or_hostgroup,
           :lookup_key, :lookup_key_id,
           :match,
-          :use_puppet_default,
+          :omit,
           :value,
           :nested => true
 

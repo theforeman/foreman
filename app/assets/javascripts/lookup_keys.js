@@ -140,14 +140,14 @@ function undo_remove_child_node(item){
 function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
   var fields = $(item).closest('.fields');
-  var fields_to_disable = fields.find("[name$='[required]'],[id$='_key_type'],[id$='_validator_type'],[name$='[use_puppet_default]'],[name$='[hidden_value]']");
-  var use_puppet_default = $(item).closest('fieldset').find("[id$='use_puppet_default']").is(':checked');
+  var fields_to_disable = fields.find("[name$='[required]'],[id$='_key_type'],[id$='_validator_type'],[name$='[omit]'],[name$='[hidden_value]']");
+  var omit = $(item).closest('fieldset').find("[id$='omit']").is(':checked');
   var default_value_field = fields.find("[id$='_default_value']");
   var pill_icon = $('#pill_' + fields[0].id +' i');
   var override_value_div = fields.find("[id$='lookup_key_override_value']");
 
   fields_to_disable.prop('disabled', !override);
-  default_value_field.prop('disabled', !override || use_puppet_default);
+  default_value_field.prop('disabled', !override || omit);
   override ? pill_icon.addClass('fa-flag') : pill_icon.removeClass('fa-flag');
   override_value_div.toggle(override);
 }
@@ -188,9 +188,9 @@ function mergeOverridesChanged(item) {
   changeCheckboxEnabledStatus(mergeDefault, item.checked);
 }
 
-function toggleUsePuppetDefaultValue(item, value_field) {
-  var use_puppet_default = $(item).is(':checked');
-  $(item).closest('.fields').find('[id$=' + value_field + ']').prop('disabled', use_puppet_default);
+function toggleOmitValue(item, value_field) {
+  var omit = $(item).is(':checked');
+  $(item).closest('.fields').find('[id$=' + value_field + ']').prop('disabled', omit);
 }
 
 function filterByEnvironment(item){

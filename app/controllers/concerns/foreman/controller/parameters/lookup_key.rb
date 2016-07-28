@@ -17,7 +17,7 @@ module Foreman::Controller::Parameters::LookupKey
         :parameter_type,
         :path,
         :puppetclass_id,
-        :use_puppet_default,
+        :omit,
         :validator_rule,
         :validator_type,
         :variable,

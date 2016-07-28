@@ -11,7 +11,10 @@ node :override_values_count do |lk|
 end
 
 attributes :description, :override, :parameter_type, :default_value, :hidden_value?, :hidden_value,
-           :use_puppet_default, :required, :validator_type, :validator_rule, :merge_overrides,
+           :omit, :required, :validator_type, :validator_rule, :merge_overrides,
            :merge_default, :avoid_duplicates, :override_value_order, :created_at, :updated_at
+
+# compatibility
+attribute :omit => :use_puppet_default
 
 attribute :param_class, :as => :puppetclass_name

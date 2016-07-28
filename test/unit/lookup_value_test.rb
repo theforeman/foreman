@@ -167,10 +167,10 @@ class LookupValueTest < ActiveSupport::TestCase
     refute value.valid?
   end
 
-  test "boolean lookup value should allow nil value if use_puppet_default is true" do
+  test "boolean lookup value should allow nil value if omit is true" do
     #boolean key
     key = lookup_keys(:three)
-    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id, :use_puppet_default => true)
+    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id, :omit => true)
     assert_valid value
   end
 
@@ -210,16 +210,16 @@ class LookupValueTest < ActiveSupport::TestCase
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'boolean',
-                                :default_value => 'whatever', :puppetclass => puppetclasses(:one), :use_puppet_default => true)
-      @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :use_puppet_default => true)
+                                :default_value => 'whatever', :puppetclass => puppetclasses(:one), :omit => true)
+      @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :omit => true)
     end
 
-    test "value is not validated if use_puppet_default is true" do
+    test "value is not validated if omit is true" do
       assert_valid @value
     end
 
-    test "value is validated if use_puppet_default is false" do
-      @value.use_puppet_default = false
+    test "value is validated if omit is false" do
+      @value.omit = false
       refute_valid @value
     end
   end
@@ -227,21 +227,21 @@ class LookupValueTest < ActiveSupport::TestCase
   context "when key type is puppetclass lookup and value is empty" do
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
-                                :with_override, :with_use_puppet_default,
+                                :with_override, :with_omit,
                                 :key_type => 'string',
                                 :puppetclass => puppetclasses(:one))
       @value = FactoryGirl.build_stubbed(:lookup_value, :value => "",
                                          :match => "hostgroup=Common",
                                          :lookup_key_id => @key.id,
-                                         :use_puppet_default => true)
+                                         :omit => true)
     end
 
-    test "value is validated if use_puppet_default is true" do
+    test "value is validated if omit is true" do
       assert_valid @value
     end
 
-    test "value is not validated if use_puppet_default is false" do
-      @value.use_puppet_default = false
+    test "value is not validated if omit is false" do
+      @value.omit = false
       refute_valid @value
     end
   end

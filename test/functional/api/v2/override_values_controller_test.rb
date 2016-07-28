@@ -91,7 +91,16 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create override value without when use_puppet_default is true" do
+  test "should create override value without when omit is true" do
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
+
+    assert_difference('LookupValue.count', 1) do
+      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => true}}
+    end
+    assert_response :success
+  end
+
+  test "should create override value without when use_puppet_default is true (compatibility test)" do
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 
     assert_difference('LookupValue.count', 1) do
@@ -100,11 +109,20 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not create override value without when use_puppet_default is false" do
+  test "should create override value when use_puppet_default is false (compatibility test)" do
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two), :omit => true)
+
+    assert_difference('LookupValue.count', 1) do
+      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => false, :value => 'test_val'}}
+    end
+    assert_response :success
+  end
+
+  test "should not create override value without when omit is false" do
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 
     assert_difference('LookupValue.count', 0) do
-      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => false}}
+      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => false}}
     end
     assert_response :error
   end

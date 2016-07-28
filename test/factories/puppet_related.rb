@@ -16,7 +16,7 @@ FactoryGirl.define do
       end
       after(:create) do |lkey, evaluator|
         evaluator.overrides.each do |match, value|
-          FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :use_puppet_default => false
+          FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :omit => false
         end
         lkey.reload
       end
@@ -39,8 +39,8 @@ FactoryGirl.define do
         end
       end
 
-      trait :with_use_puppet_default do
-        use_puppet_default true
+      trait :with_omit do
+        omit true
       end
     end
 
@@ -66,8 +66,8 @@ FactoryGirl.define do
   factory :lookup_value do
     sequence(:value) {|n| "value#{n}" }
 
-    trait :with_use_puppet_default do
-      use_puppet_default true
+    trait :with_omit do
+      omit true
     end
   end
 

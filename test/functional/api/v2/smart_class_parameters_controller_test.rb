@@ -159,6 +159,25 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     refute_equal orig_value, new_value
   end
 
+  test "should update smart class parameter with use_puppet_default (compatibility test)" do
+    orig_value = lookup_keys(:five).omit
+    refute lookup_keys(:five).omit # check that the initial value is false
+    put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :use_puppet_default => "true" } }
+    assert_response :success
+    new_value = lookup_keys(:five).reload.omit
+    refute_equal orig_value, new_value
+  end
+
+  test "should update smart class parameter with use_puppet_default (compatibility test)" do
+    key = lookup_keys(:five)
+    key.omit = true
+    key.save!
+    put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :use_puppet_default => "false" } }
+    assert_response :success
+    new_value = lookup_keys(:five).reload.omit
+    refute new_value
+  end
+
   test "should return error if smart class parameter if it does not belong to specified puppetclass" do
     get :show, {:id => lookup_keys(:five).id, :puppetclass_id => puppetclasses(:one).id}
     assert_response 404
