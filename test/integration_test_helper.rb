@@ -8,6 +8,7 @@ require 'capybara/poltergeist'
 require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
+require 'minitest-optional_retry'
 
 DatabaseCleaner.strategy = :transaction
 

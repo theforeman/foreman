@@ -1,6 +1,10 @@
 require 'integration_test_helper'
 
 class HostgroupJSTest < IntegrationTestWithJavascript
+  # intermittent failures:
+  #   HostgroupJSTest.test_0001_submit updates taxonomy
+  extend Minitest::OptionalRetry
+
   test 'submit updates taxonomy' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
     new_location = FactoryGirl.create(:location)
