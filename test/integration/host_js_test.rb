@@ -3,6 +3,10 @@ require 'integration/shared/host_finders'
 require 'integration/shared/host_orchestration_stubs'
 
 class HostJSTest < IntegrationTestWithJavascript
+  # intermittent failures:
+  #   HostJSTest::edit page.test_0003_correctly override global params
+  extend Minitest::OptionalRetry
+
   include HostFinders
   include HostOrchestrationStubs
 
