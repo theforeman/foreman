@@ -37,7 +37,7 @@ Apipie.configure do |config|
   config.force_dsl = true
   config.reload_controllers = Rails.env.development?
   config.markup = Apipie::Markup::Markdown.new if Rails.env.development? && defined? Maruku
-  config.default_version = "v1"
+  config.default_version = "v2"
   config.update_checksum = true
   config.checksum_path = ['/api/', '/apidoc/']
 end
