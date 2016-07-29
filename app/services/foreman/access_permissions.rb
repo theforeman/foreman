@@ -11,7 +11,7 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :architectures do |map|
     map.permission :view_architectures,
-                   :architectures => [:index, :show, :auto_complete_search],
+                   :architectures => [:index, :show, :auto_complete_search, :welcome],
                    :"api/v1/architectures" => [:index, :show],
                    :"api/v2/architectures" => [:index, :show]
     map.permission :create_architectures,
@@ -167,7 +167,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :domains do |map|
-    map.permission :view_domains, {:domains => [:index, :show, :auto_complete_search],
+    map.permission :view_domains, {:domains => [:index, :show, :auto_complete_search, :welcome],
                                       :"api/v1/domains" => [:index, :show],
                                       :"api/v2/domains" => [:index, :show],
                                       :"api/v2/parameters" => [:index, :show]
@@ -188,7 +188,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :environments do |map|
-    map.permission :view_environments, {:environments => [:index, :show, :auto_complete_search],
+    map.permission :view_environments, {:environments => [:index, :show, :auto_complete_search, :welcome],
                                            :"api/v1/environments" => [:index, :show],
                                            :"api/v2/environments" => [:index, :show]
     }
@@ -296,7 +296,7 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :hostgroups do |map|
     ajax_actions = [:architecture_selected, :domain_selected, :environment_selected, :medium_selected, :os_selected,
-                    :use_image_selected, :process_hostgroup, :puppetclass_parameters]
+                    :use_image_selected, :process_hostgroup, :puppetclass_parameters, :welcome]
     host_ajax_actions = [:process_hostgroup]
     pc_ajax_actions = [:parameters]
 
@@ -325,7 +325,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :config_groups do |map|
-    map.permission :view_config_groups,    {:config_groups => [:index, :auto_complete_search],
+    map.permission :view_config_groups,    {:config_groups => [:index, :auto_complete_search, :welcome],
                                             :"api/v2/config_groups" => [:index, :show]
                                           }
     map.permission :create_config_groups,  {:config_groups => [:new, :create],
@@ -472,7 +472,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :media do |map|
-    map.permission :view_media,    {:media => [:index, :show, :auto_complete_search],
+    map.permission :view_media,    {:media => [:index, :show, :auto_complete_search, :welcome],
                                    :"api/v1/media" => [:index, :show],
                                    :"api/v2/media" => [:index, :show]
     }
@@ -534,7 +534,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :partition_tables do |map|
-    map.permission :view_ptables, {:ptables => [:index, :show, :auto_complete_search, :revision, :preview],
+    map.permission :view_ptables, {:ptables => [:index, :show, :auto_complete_search, :revision, :preview, :welcome],
                                       :"api/v1/ptables" => [:index, :show],
                                       :"api/v2/ptables" => [:index, :show, :revision]
     }
