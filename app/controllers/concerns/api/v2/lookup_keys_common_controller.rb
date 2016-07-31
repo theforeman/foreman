@@ -125,6 +125,20 @@ module Api::V2::LookupKeysCommonController
     end
   end
 
+  def transform_default_value(params)
+    default_value = params.delete(:default_value)
+    omit = params.delete(:omit)
+
+    default_value_attributes = {}
+    default_value_attributes = {:value => default_value} if default_value.present?
+    default_value_attributes.merge!({:omit => omit}) if omit.present?
+
+    if default_value_attributes.present?
+      default_value_attributes.merge!({:id => @smart.default.id}) if @smart.present? && @smart.default.present?
+      params[:default_attributes] = default_value_attributes
+    end
+  end
+
   private
 
   def model_not_found(model)

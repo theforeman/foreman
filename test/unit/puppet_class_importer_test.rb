@@ -181,24 +181,24 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
   test "should save parameter when importing with a different default_value" do
     env = FactoryGirl.create(:environment)
     pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    lk = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :default_value => 'first', :puppetclass => pc)
+    lk = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppet_default_value => 'first', :puppetclass => pc)
 
     updated = get_an_instance.send(:update_classes_in_foreman, env.name,
                                   {pc.name => {'updated' => [lk.key]}})
     assert_not_nil updated
   end
 
-  test "should change default_value when importing from 2 environments" do
+  test "should change puppet_default_value when importing from 2 environments" do
     envs = FactoryGirl.create_list(:environment, 2)
     pc = FactoryGirl.create(:puppetclass, :environments => envs)
 
     get_an_instance.send(:update_classes_in_foreman, envs.first.name,
                          {pc.name => {'new' => {'2_env_param' => 'first'}}})
-    assert_equal 'first', PuppetclassLookupKey.where(:key => '2_env_param').first.default_value
+    assert_equal 'first', PuppetclassLookupKey.where(:key => '2_env_param').first.puppet_default_value
 
     get_an_instance.send(:update_classes_in_foreman, envs.last.name,
                         {pc.name => {'updated' => {'2_env_param' => 'last'}}})
-    assert_equal 'last', PuppetclassLookupKey.where(:key => '2_env_param').first.default_value
+    assert_equal 'last', PuppetclassLookupKey.where(:key => '2_env_param').first.puppet_default_value
   end
 
   context '#update_classes_in_foreman removes parameters' do

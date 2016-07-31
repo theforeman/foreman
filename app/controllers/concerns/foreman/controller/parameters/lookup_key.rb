@@ -5,6 +5,7 @@ module Foreman::Controller::Parameters::LookupKey
   class_methods do
     def add_lookup_key_params_filter(filter)
       filter.permit_by_context :avoid_duplicates,
+        {:default_attributes => [lookup_value_params_filter]},
         :default_value,
         :description,
         :hidden_value,

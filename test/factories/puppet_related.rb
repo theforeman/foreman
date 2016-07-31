@@ -11,6 +11,7 @@ FactoryGirl.define do
     end
 
     factory :puppetclass_lookup_key, parent: :lookup_key, class: 'PuppetclassLookupKey' do
+      puppet_default_value ''
       transient do
         overrides({})
       end
@@ -23,9 +24,13 @@ FactoryGirl.define do
 
       trait :with_override do
         override true
-        default_value "default value"
+        key_type "string"
         path "comment"
         overrides({ "comment=override" => "overridden value" })
+        after(:build) do |lkey|
+          lkey.build_default_value
+          lkey.default.value = "default value" if lkey.default.value.nil?
+        end
       end
 
       trait :as_smart_class_param do
@@ -40,7 +45,10 @@ FactoryGirl.define do
       end
 
       trait :with_omit do
-        omit true
+        after(:build) do |lkey|
+          lkey.build_default_value
+          lkey.default.omit = true
+        end
       end
     end
 
@@ -56,7 +64,7 @@ FactoryGirl.define do
       end
 
       trait :with_override do
-        default_value "default value"
+        default "default value"
         path "comment"
         overrides({ "comment=override" => "overridden value" })
       end

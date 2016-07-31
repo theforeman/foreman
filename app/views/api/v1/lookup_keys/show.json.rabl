@@ -1,5 +1,9 @@
 object @lookup_key => :lookup_key
 
-attributes :key, :required, :override, :description, :default_value, :id
+node :default_value do |lkey|
+  lkey.default.value
+end
+
+attributes :key, :required, :override, :description, :id
 
 node(:is_param) { |key| key.puppet? }

@@ -159,7 +159,7 @@ class PuppetClassImporter
     updated = { }
     db_params.map do |p|
       param_name = p.to_s
-      if !p.override && actual_params.has_key?(param_name) && actual_params[param_name] != p.default_value
+      if !p.override && actual_params.key?(param_name) && actual_params[param_name] != p.puppet_default_value
         updated[param_name] = actual_params[param_name]
       end
     end
@@ -273,7 +273,7 @@ class PuppetClassImporter
     changed_params["updated"].each do |param_name, value|
       key = db_class.class_params.find_by_key param_name
       if key.override == false
-        key.default_value = value
+        key.puppet_default_value = value
         key.key_type = nil
         key.validator_type = nil
         key.save!(:context => :importer)
@@ -328,7 +328,7 @@ class PuppetClassImporter
   def find_or_create_puppet_class_param(klass, param_name, value)
     klass.class_params.where(:key => param_name).first ||
       PuppetclassLookupKey.create!(:key => param_name, :required => value.nil?,
-                                   :override => value.nil?, :default_value => value,
+                                   :override => value.nil?, :puppet_default_value => value,
                                    :key_type => Foreman::ImporterPuppetclass.suggest_key_type(value))
   end
 end

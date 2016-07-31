@@ -140,10 +140,10 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
   end
 
-  test "shuld not cast string with erb" do
+  test "should not cast string with erb" do
     key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
-                            :default_value => [1,2,3], :puppetclass => puppetclasses(:one))
+                            :default_attributes => { :value => [1,2,3] }, :puppetclass => puppetclasses(:one))
 
     lv = LookupValue.new(:value => "<%= [4,5,6] %>", :match => "hostgroup=Common", :lookup_key => key)
     # does not cast on save (validate_and_cast_value)
@@ -215,7 +215,7 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "shouldn't save with empty boolean matcher for smart class parameter" do
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :key_type => 'boolean', :override => true,
-                                    :default_value => "true", :description => 'description')
+                                    :default_attributes => {:value => "true"}, :description => 'description')
     lookup_value = FactoryGirl.build(:lookup_value, :lookup_key => lookup_key, :match => "os=fake", :value => '')
     refute lookup_value.valid?
   end
@@ -224,7 +224,7 @@ class LookupValueTest < ActiveSupport::TestCase
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'boolean',
-                                :default_value => 'whatever', :puppetclass => puppetclasses(:one), :omit => true)
+                                :default_attributes => {:value => 'whatever', :omit => true}, :puppetclass => puppetclasses(:one))
       @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :omit => true)
     end
 

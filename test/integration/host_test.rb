@@ -57,7 +57,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                          :with_override, :key_type => 'hash',
-                         :default_value => 'a: b', :path => "fqdn\ncomment",
+                         :default_attributes => { :value => 'a: b' }, :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
                          :overrides => { host.lookup_value_matcher => 'a: c' })
 
@@ -71,7 +71,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                          :with_override, :key_type => 'string',
-                         :default_value => 'string1', :path => "fqdn\ncomment",
+                         :default_attributes => { :value => 'string1' }, :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
                          :overrides => { host.lookup_value_matcher => 'string2' })
       user = FactoryGirl.create(:user, :with_mail)
@@ -91,7 +91,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'shows errors on invalid lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'real', :default_value => true, :path => "fqdn\ncomment",
+                                      :key_type => 'real', :default_attributes => { :value => true }, :path => "fqdn\ncomment",
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
       visit edit_host_path(host)

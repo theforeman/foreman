@@ -1,10 +1,9 @@
 class VariableLookupKey < LookupKey
   belongs_to :puppetclass, :inverse_of => :lookup_keys
 
-  before_validation :cast_default_value
   validates :puppetclass, :presence => true
   validates :key, :uniqueness => true, :no_whitespace => true
-  validate :validate_default_value, :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default
+  validate :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default
 
   scoped_search :relation => :puppetclass, :on => :name, :complete_value => true, :rename => :puppetclass
 
@@ -18,6 +17,10 @@ class VariableLookupKey < LookupKey
 
   def param_class
     puppetclass
+  end
+
+  def override
+    true
   end
 
   def self.humanize_class_name

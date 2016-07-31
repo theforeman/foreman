@@ -604,7 +604,7 @@ class HostsControllerTest < ActionController::TestCase
     host = FactoryGirl.create(:host, :with_puppetclass, :hostgroup => hg)
     FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'string',
-                                :default_value => "<script>alert('hacked!');</script>",
+                                :default_attributes => {:value => "<script>alert('hacked!');</script>"},
                                 :description => "<script>alert('hacked!');</script>",
                                 :puppetclass => host.puppetclasses.first)
     FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)

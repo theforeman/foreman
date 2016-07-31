@@ -152,31 +152,31 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
   end
 
   test "should update smart class parameter" do
-    orig_value = lookup_keys(:five).default_value
+    orig_value = lookup_keys(:five).default.value
     put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :default_value => "33333" } }
     assert_response :success
-    new_value = lookup_keys(:five).reload.default_value
+    new_value = lookup_keys(:five).reload.default.value
     refute_equal orig_value, new_value
   end
 
   test "should update smart class parameter with use_puppet_default (compatibility test)" do
     Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
-    orig_value = lookup_keys(:five).omit
-    refute lookup_keys(:five).omit # check that the initial value is false
+    orig_value = lookup_keys(:five).default.omit
+    refute lookup_keys(:five).default.omit # check that the initial value is false
     put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :use_puppet_default => "true" } }
     assert_response :success
-    new_value = lookup_keys(:five).reload.omit
+    new_value = lookup_keys(:five).reload.default.omit
     refute_equal orig_value, new_value
   end
 
   test "should update smart class parameter with use_puppet_default (compatibility test)" do
     Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
     key = lookup_keys(:five)
-    key.omit = true
+    key.default.omit = true
     key.save!
     put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :use_puppet_default => "false" } }
     assert_response :success
-    new_value = lookup_keys(:five).reload.omit
+    new_value = lookup_keys(:five).reload.default.omit
     refute new_value
   end
 
@@ -195,7 +195,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
   context 'hidden' do
     test "should show a smart class parameter as hidden unless show_hidden is true" do
-      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
+      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_attributes => { :value =>'hidden' })
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -206,17 +206,17 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       setup_user "edit", "external_parameters"
-      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
+      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_attributes => { :value =>'hidden' })
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
-      assert_equal parameter.default_value, show_response['default_value']
+      assert_equal parameter.default.value, show_response['default_value']
     end
 
     test "should show a smart class parameter parameter as hidden when show_hidden is true if user is not authorized" do
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
-      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
+      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_attributes => { :value =>'hidden' })
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -227,7 +227,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       setup_user "edit", "external_parameters"
-      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
+      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_attributes => { :value =>'hidden' })
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => parameter, :value => 'abc', :match => 'os=fake')
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
@@ -239,7 +239,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       setup_user "edit", "external_parameters"
-      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
+      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_attributes => { :value =>'hidden' })
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => parameter, :value => 'abc', :match => 'os=fake')
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'false' }, set_session_user.merge(:user => users(:one).id)
