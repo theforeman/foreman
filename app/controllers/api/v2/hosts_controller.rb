@@ -126,6 +126,13 @@ module Api
         process_response @host.destroy
       end
 
+      api :GET, "/hosts/:id/enc", N_("Get ENC values of host")
+      param :id, :identifier_dottable, :required => true
+
+      def enc
+        render :json => { :data => @host.info }.to_json if @host
+      end
+
       api :GET, "/hosts/:id/status", N_("Get configuration status of host")
       param :id, :identifier_dottable, :required => true
       description <<-eos
@@ -307,7 +314,7 @@ Return the host's compute attributes that can be used to create a clone of this 
             :console
           when 'disassociate'
             :edit
-          when 'vm_compute_attributes', 'get_status', 'template'
+          when 'vm_compute_attributes', 'get_status', 'template', 'enc'
             :view
           when 'rebuild_config'
             :build

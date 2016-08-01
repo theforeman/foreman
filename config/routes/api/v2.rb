@@ -307,6 +307,7 @@ Foreman::Application.routes.draw do
           resources :autosign, :only => [:index]
         end
         resources :hosts, :except => [:new, :edit] do
+          get :enc, :on => :member
           get :status, :on => :member
           get 'status/:type', :on => :member, :action => :get_status
           get :vm_compute_attributes, :on => :member
