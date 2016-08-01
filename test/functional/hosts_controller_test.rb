@@ -1161,6 +1161,20 @@ class HostsControllerTest < ActionController::TestCase
     assert_not_nil flash[:error]
   end
 
+  context 'openstack-fog.mock!' do
+    setup do
+      Fog.mock!
+    end
+
+    teardown { Fog.unmock! }
+
+    test "#schedulerHintFilterSelected applies #scheduler_hint form for raw" do
+      xhr :post, :scheduler_hint_selected, { :host => {:compute_attributes => { :scheduler_hint_filter => "Raw"}, :compute_resource_id => compute_resources(:openstack).id }}, set_session_user
+      assert_response :success
+      assert_template :partial => 'compute_resources_vms/form/openstack/scheduler_filters/_raw'
+    end
+  end
+
   context 'Fog.mock!' do
     setup do
       Fog.mock!

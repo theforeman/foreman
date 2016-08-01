@@ -137,6 +137,15 @@ class HostsController < ApplicationController
     end
   end
 
+  def scheduler_hint_selected
+    return not_found unless (params[:host])
+    @host = Host.new params[:host]
+    Taxonomy.as_taxonomy @organization, @location do
+      # compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(id)
+      render :partial => "compute_resources_vms/form/scheduler_hint_filters"
+    end
+  end
+
   def interfaces
     @host = Host.new host_params
     @host.apply_compute_profile(InterfaceMerge.new)
