@@ -54,7 +54,7 @@ Foreman::Application.configure do |app|
 
   stylesheets = %w( unimported/email.css )
 
-  images = %w(editable/clear.png)
+  images = %w(editable/clear.png patternfly/bg-modal-about-pf.png )
 
   # Add the fonts path
   config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')

@@ -2,11 +2,15 @@ class StatisticsController < ApplicationController
   before_action :find_stat, :only => [:show]
 
   def index
-    @stats = charts
+    @metadata = charts.map(&:metadata)
   end
 
   def show
-    render :show, :layout => false
+    respond_to do |format|
+      format.json do
+        render :json => {:id => @stat.id, :data => @stat.calculate.map(&:values)}
+      end
+    end
   end
 
   private

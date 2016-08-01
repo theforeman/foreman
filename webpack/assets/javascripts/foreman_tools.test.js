@@ -1,5 +1,5 @@
-jest.unmock('../foreman_tools');
-const tools = require('../foreman_tools');
+jest.unmock('./foreman_tools');
+const tools = require('./foreman_tools');
 
 describe('iconText', () => {
   it('creates a label with the right icon class', () => {
