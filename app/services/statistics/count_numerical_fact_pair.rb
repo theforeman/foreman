@@ -21,7 +21,7 @@ module Statistics
         },
         {
           :label => _('used memory'),
-          :data => mem_size - mem_free
+          :data => (mem_size - mem_free).round(2)
         }
       ]
     end

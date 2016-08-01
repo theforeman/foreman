@@ -1,3 +1,4 @@
+<%= javascript 'charts' %>
 <% title @fact.name %>
 
 <%= pie_chart @fact.name,  _("%s Distribution") % @fact.name.camelize, FactValue.count_each(@fact.name) %>

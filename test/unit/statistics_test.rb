@@ -12,7 +12,7 @@ class StatisticsTest < ActiveSupport::TestCase
   test 'it should include an Operating System stat' do
     os = Statistics.charts.detect {|s| s.id == 'operatingsystem'}
     assert_equal "operatingsystem", os.id
-    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"statistics/operatingsystem", :search=>"os_title=~VAL~" }
+    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"statistics/operatingsystem", :search=>"/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
   end
 

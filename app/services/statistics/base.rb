@@ -1,6 +1,6 @@
 module Statistics
   class Base
-    attr_reader :search, :title, :count_by
+    attr_reader :title, :count_by
 
     def initialize(options = {})
       @id       = options[:id]
@@ -20,6 +20,10 @@ module Statistics
 
     def url
       @url || "statistics/#{id}"
+    end
+
+    def search
+      "/hosts?search=#{@search}"
     end
 
     def metadata

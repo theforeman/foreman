@@ -1,8 +1,5 @@
 {
-  "ecmaFeatures": {
-    "globalReturn": true,
-    "modules": true
-  },
+  "plugins": ["react"],
 
   "env": {
     "browser": true,
@@ -19,10 +16,20 @@
     "unescape": false,
     "window": false,
     "$": true,
-    "_": true
+    "_": true,
+    "__": true
   },
 
   "parser": "babel-eslint",
+
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "globalReturn": true,
+      "jsx": true
+    }
+  },
 
   "rules": {
     "block-scoped-var": "error",
@@ -66,6 +73,7 @@
     "no-array-constructor": "error",
     "no-bitwise": "off",
     "no-caller": "error",
+    "no-case-declarations": "error",
     "no-catch-shadow": "off",
     "no-cond-assign": "error",
     "no-console": "warn",
@@ -159,6 +167,8 @@
     "quote-props": "off",
     "quotes": ["error", "single", {"avoidEscape": true}],
     "radix": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
     "semi": ["error", "always"],
     "semi-spacing": "off",
     "sort-vars": "off",
