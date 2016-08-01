@@ -1,6 +1,6 @@
 module Foreman::Model
   class Openstack < ComputeResource
-    attr_accessor :tenant
+    attr_accessor :tenant, :scheduler_hint_value
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
     after_create :setup_key_pair
     after_destroy :destroy_key_pair
@@ -10,6 +10,8 @@ module Foreman::Model
 
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }
+
+    SEARCHABLE_ACTIONS = [:server_group_anti_affinity, :server_group_affinity, :raw]
 
     def provided_attributes
       super.merge({ :ip => :floating_ip_address })
@@ -92,12 +94,37 @@ module Foreman::Model
       } ]
     end
 
+    def possible_scheduler_hints
+      SEARCHABLE_ACTIONS.collect{|x| x.to_s.camelize }
+    end
+
+    def get_server_groups(policy)
+      server_groups = client.server_groups.select{ |sg| sg.policies.include?(policy) }
+      errors.add(:scheduler_hint_value, _("No matching server groups found")) if server_groups.empty?
+      server_groups
+    end
+
+    def format_scheduler_hint_filter(args = {})
+      raise ::Foreman::Exception.new(N_('Hint data is missing')) if args[:scheduler_hint_data].nil?
+      name = args.delete(:scheduler_hint_filter).underscore.to_sym
+      data = args.delete(:scheduler_hint_data)
+      filter = {}
+      case name
+        when :server_group_anti_affinity, :server_group_affinity
+          filter[:group] = data[:scheduler_hint_value]
+        when :raw
+          filter = JSON.parse(data[:scheduler_hint_value])
+      end
+      args[:os_scheduler_hints] = filter
+    end
+
     def create_vm(args = {})
       boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
       args[:nics].map! {|nic| { 'net_id' => nic } }
+      format_scheduler_hint_filter(args) if args[:scheduler_hint_filter].present?
       vm = super(args)
       if network.present?
         address = allocate_address(network)

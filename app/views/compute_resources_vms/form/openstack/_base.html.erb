@@ -18,3 +18,12 @@
 <%= selectable_f f, :network, compute_resource.address_pools, { include_blank: 'None' }, { :label => _("Floating IP network"), :label_size => "col-md-2" } %>
 <%= checkbox_f f, :boot_from_volume, {:label => _("Boot from volume"), :label_size => "col-md-2", :help_inline => _("Create new boot volume from image")}, "true", "false" %>
 <%= text_f f, :size_gb, { :label => _("New boot volume size (GB)"), :label_size => "col-md-2", :help_inline => _("Defaults to image size if left blank") } %>
+<%= selectable_f f, :scheduler_hint_filter, compute_resource.possible_scheduler_hints, { include_blank: 'None' }, { :label => _("Scheduler hint filter"), :label_size => "col-md-2", :'data-url' => scheduler_hint_selected_hosts_path,
+                                                                                                              :onchange => 'schedulerHintFilterSelected(this);', :disabled => !new_host } %>
+<div id="scheduler_hint_wrapper">
+  <%= if @host && @host.compute_attributes[:scheduler_hint_filter]
+        render :partial => "compute_resources_vms/form/scheduler_hint_filters", :locals => { :compute_resource => compute_resource, :host => @host, :new_host => new_host }
+      end  %>
+</div>
+
+<%= compute_specific_js(compute_resource, "host_edit") %>

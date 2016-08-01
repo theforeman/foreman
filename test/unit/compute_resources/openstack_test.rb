@@ -26,6 +26,78 @@ class OpenstackTest < ActiveSupport::TestCase
                                 :flavor_ref => 'foo_flavor', :image_ref => 'foo_image')
   end
 
+  describe "formatting hints" do
+    it "formats well when set to ServerGroupAntiAffinity" do
+      args = {
+        :scheduler_hint_filter => "ServerGroupAntiAffinity",
+          :scheduler_hint_data => {
+            :scheduler_hint_value => "some-uuid"
+          }
+      }
+      desired = {
+        :os_scheduler_hints => {
+          :group => "some-uuid"
+        }
+      }
+      @compute_resource.format_scheduler_hint_filter(args)
+      assert_equal(desired, args)
+    end
+
+    it "formats well when set to ServerGroupAffinity" do
+      args = {
+        :scheduler_hint_filter => "ServerGroupAffinity",
+          :scheduler_hint_data => {
+            :scheduler_hint_value => "some-uuid"
+          }
+      }
+      desired = {
+        :os_scheduler_hints => {
+          :group => "some-uuid"
+        }
+      }
+      @compute_resource.format_scheduler_hint_filter(args)
+      assert_equal(desired, args)
+    end
+
+    it "formats well when set to Raw" do
+      args = {
+        :scheduler_hint_filter => "Raw",
+          :scheduler_hint_data => {
+            :scheduler_hint_value => '{"key": "value"}'
+          }
+      }
+      desired = {
+        :os_scheduler_hints => {
+          'key' => "value"
+        }
+      }
+      @compute_resource.format_scheduler_hint_filter(args)
+      assert_equal(desired, args)
+    end
+
+    it "Should raise exception if set to Raw and malformed json" do
+      args = {
+        :scheduler_hint_filter => "Raw",
+          :scheduler_hint_data => {
+            :scheduler_hint_value => '{"key": }'
+          }
+      }
+      assert_raise ::JSON::ParserError do
+        @compute_resource.format_scheduler_hint_filter(args)
+      end
+    end
+
+    it "Should raise exception if no hint data provided" do
+      args = {
+        :scheduler_hint_filter => "Raw"
+      }
+      e = assert_raise(::Foreman::Exception) do
+        @compute_resource.format_scheduler_hint_filter(args)
+      end
+      assert_equal("ERF42-4598 [Foreman::Exception]: Hint data is missing", e.message)
+    end
+  end
+
   describe "find_vm_by_uuid" do
     it "raises RecordNotFound when the vm does not exist" do
       cr = mock_cr_servers(Foreman::Model::Openstack.new, empty_servers)

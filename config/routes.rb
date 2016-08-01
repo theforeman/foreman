@@ -88,6 +88,7 @@ Foreman::Application.routes.draw do
         post 'domain_selected'
         post 'use_image_selected'
         post 'compute_resource_selected'
+        post 'scheduler_hint_selected'
         post 'interfaces'
         post 'medium_selected'
         get  'select_multiple_organization'

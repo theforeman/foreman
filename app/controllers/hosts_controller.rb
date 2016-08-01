@@ -7,7 +7,7 @@ class HostsController < ApplicationController
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build}
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
   MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters  select_multiple_hostgroup
                         update_multiple_hostgroup select_multiple_environment update_multiple_environment
@@ -140,6 +140,14 @@ class HostsController < ApplicationController
       compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(id)
       render :partial => "compute", :locals => { :compute_resource => compute_resource,
                                                  :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
+    end
+  end
+
+  def scheduler_hint_selected
+    return not_found unless (params[:host])
+    @host = Host.new(host_params)
+    Taxonomy.as_taxonomy @organization, @location do
+      render :partial => "compute_resources_vms/form/scheduler_hint_filters"
     end
   end
 
