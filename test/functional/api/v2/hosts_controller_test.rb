@@ -637,4 +637,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     get :show, {:id => host_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end
+
+  test "should get ENC values of host" do
+    host = FactoryGirl.create(:host, :with_puppetclass)
+    get :enc, { :id => host.to_param }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    puppet_class = response['data']['classes'].first rescue nil
+    assert_equal host.puppetclasses.first.name, puppet_class
+  end
 end
