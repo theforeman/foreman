@@ -1,0 +1,8 @@
+<%=
+  hint_name = params[:host][:compute_attributes][:scheduler_hint_filter].underscore
+  fields_for "#{type}[compute_attributes][scheduler_hint_data]", @host.compute_resource  do |f|
+    render :partial => provider_partial(@host.compute_resource, "scheduler_filters/#{hint_name}"),
+           :locals => { :f => f, :hint_name => hint_name }
+
+  end
+%>
