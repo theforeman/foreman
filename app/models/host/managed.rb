@@ -5,6 +5,7 @@ class Host::Managed < Host::Base
   include Hostext::Token
   include Hostext::OperatingSystem
   include SelectiveClone
+  include HostInfoExtensions
   include HostParams
   include Facets::ManagedHostExtensions
 
@@ -348,65 +349,6 @@ class Host::Managed < Host::Base
   # returns the list of puppetclasses a host is in.
   def puppetclasses_names
     all_puppetclasses.collect {|c| c.name}
-  end
-
-  # provide information about each node, mainly used for puppet external nodes
-  # TODO: remove hard coded default parameters into some selectable values in the database.
-  # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/CyclomaticComplexity
-  def info
-    renderer_regex = /renderer\.rb.*host_enc/
-    unless caller.first.match(renderer_regex) || caller[1].match(renderer_regex)
-      Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_enc')
-    end
-    # Static parameters
-    param = {}
-    # maybe these should be moved to the common parameters, leaving them in for now
-    param["puppetmaster"] = puppetmaster
-    param["domainname"]   = domain.name unless domain.nil? || domain.name.nil?
-    param["foreman_domain_description"] = domain.fullname unless domain.nil? || domain.fullname.nil?
-    param["realm"]        = realm.name unless realm.nil?
-    param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
-    if SETTINGS[:locations_enabled]
-      param["location"] = location.name unless location.blank?
-      param["location_title"] = location.title unless location.blank?
-    end
-    if SETTINGS[:organizations_enabled]
-      param["organization"] = organization.name unless organization.blank?
-      param["organization_title"] = organization.title unless organization.blank?
-    end
-    if SETTINGS[:unattended]
-      param["root_pw"]      = root_pass unless (!operatingsystem.nil? && operatingsystem.password_hash == 'Base64')
-      param["puppet_ca"]    = puppet_ca_server if puppetca_exists?
-    end
-    param["comment"]      = comment unless comment.blank?
-    param["foreman_env"]  = environment.to_s unless environment.nil? || environment.name.nil?
-    if SETTINGS[:login] && owner
-      param["owner_name"]  = owner.name
-      param["owner_email"] = owner.is_a?(User) ? owner.mail : owner.users.map(&:mail)
-      param["ssh_authorized_keys"] = ssh_authorized_keys
-      param["foreman_users"] = owner.to_export
-    end
-
-    if Setting[:ignore_puppet_facts_for_provisioning]
-      param["ip"]  = ip
-      param["ip6"] = ip6
-      param["mac"] = mac
-    end
-    param['foreman_subnets'] = (interfaces.map(&:subnet) + interfaces.map(&:subnet6)).compact.map(&:to_export).uniq
-    param['foreman_interfaces'] = interfaces.map(&:to_export)
-    param['foreman_config_groups'] = (config_groups + parent_config_groups).uniq.map(&:name)
-    param.update self.params
-
-    # Parse ERB values contained in the parameters
-    param = SafeRender.new(:variables => { :host => self }).parse(param)
-
-    info_hash = {}
-    info_hash['classes'] = self.enc_puppetclasses
-    info_hash['parameters'] = param
-    info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
-
-    info_hash
   end
 
   def self.import_host(hostname, import_type, certname = nil, proxy_id = nil)
@@ -868,16 +810,6 @@ class Host::Managed < Host::Base
     Operatingsystem.firmware_type(pxe_loader)
   end
 
-  def enc_puppetclasses
-    if self.environment.nil?
-      []
-    elsif Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
-      lookup_keys_class_params
-    else
-      self.puppetclasses_names
-    end
-  end
-
   private
 
   def compute_profile_present?
@@ -898,15 +830,6 @@ class Host::Managed < Host::Base
       self.errors.add :interfaces, _('Some interfaces are invalid')
       return false
     end
-  end
-
-  def lookup_keys_params
-    return {} unless Setting["Enable_Smart_Variables_in_ENC"]
-    Classification::GlobalParam.new(:host => self).enc
-  end
-
-  def lookup_keys_class_params
-    Classification::ClassParam.new(:host => self).enc
   end
 
   def assign_hostgroup_attributes(attrs = [], force = false)

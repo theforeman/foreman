@@ -10,7 +10,7 @@ module HostParams
 
     def params
       Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param') unless caller.first =~ /renderer\.rb.*host_param/
-      host_params.update(lookup_keys_params)
+      host_params.update(HostInfoProviders::PuppetInfo.new(self).smart_variables)
     end
 
     def clear_host_parameters_cache!
