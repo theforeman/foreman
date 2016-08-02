@@ -1,6 +1,7 @@
 class LookupKey < ApplicationRecord
   include Authorizable
   include HiddenValue
+  include Classification
 
   KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
   VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
@@ -152,33 +153,6 @@ class LookupKey < ApplicationRecord
   end
 
   private
-
-  # Generate possible lookup values type matches to a given host
-  def path2matches(host)
-    raise ::Foreman::Exception.new(N_("Invalid Host")) unless host.class.model_name == "Host"
-    matches = []
-    path_elements.each do |rule|
-      match = []
-      rule.each do |element|
-        match << "#{element}#{EQ_DELM}#{attr_to_value(host,element)}"
-      end
-      matches << match.join(KEY_DELM)
-    end
-    matches
-  end
-
-  # translates an element such as domain to its real value per host
-  # tries to find the host attribute first, parameters and then fallback to a puppet fact.
-  def attr_to_value(host, element)
-    # direct host attribute
-    return host.send(element) if host.respond_to?(element)
-    # host parameter
-    return host.host_params[element] if host.host_params.include?(element)
-    # fact attribute
-    if (fn = host.fact_names.first(:conditions => { :name => element }))
-      return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
-    end
-  end
 
   def sanitize_path
     self.path = path.tr("\s","").downcase unless path.blank?

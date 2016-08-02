@@ -19,7 +19,7 @@ module Foreman
       called_from_params = false
       caller.each_with_index do |item, index|
         called_from_params = true if item =~ /host_params\.rb.*params/
-        return if called_from_params && item.match(/managed\.rb.*info/)
+        return if called_from_params && item.match(/host_info_extensions\.rb.*info/)
         next unless item =~ /renderer\.rb.*render_safe/
         Rails.logger.warn "DEPRECATION WARNING: you are using deprecated @host.#{method} in a template, it will be removed in #{foreman_version_deadline}. Use #{new_method} instead."
         return

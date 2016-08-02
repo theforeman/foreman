@@ -97,7 +97,7 @@ module Foreman #:nodoc:
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
-                :facets, :rbac_registry, :dashboard_widgets
+                :facets, :rbac_registry, :dashboard_widgets, :info_providers
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
@@ -361,6 +361,11 @@ module Foreman #:nodoc:
       # Save the entry in case of reloading
       @facets ||= []
       @facets << Facets.register(klass, name, &block)
+    end
+
+    def register_info_provider(klass)
+      @info_providers ||= []
+      @info_providers << klass
     end
 
     def in_to_prepare(&block)

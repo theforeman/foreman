@@ -120,9 +120,12 @@ class SubnetTest < ActiveSupport::TestCase
     end
     key.reload
 
+    keys = VariableLookupKey.global_parameters_for_class([puppetclasses(:one).id])
+    smart_variables = keys.values_hash(host).raw
+
     assert_equal({key.id => {key.key => {:value => value.value,
                                          :element => 'subnet',
                                          :element_name => subnet.name}}},
-                 Classification::GlobalParam.new(:host => host).send(:values_hash))
+                 smart_variables)
   end
 end
