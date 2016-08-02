@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.6'
 gem 'rest-client', '>= 1.8.0', '< 3', :require => 'rest_client'
-gem 'audited-activerecord', '4.2.0'
+gem 'audited-activerecord', '>= 4.2.2', '< 5'
 gem 'will_paginate', '~> 3.0'
 gem 'ancestry', '~> 2.0'
 gem 'scoped_search', '>= 3.2.2', '< 4'
