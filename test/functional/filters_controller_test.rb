@@ -68,4 +68,23 @@ class FiltersControllerTest < ActionController::TestCase
 
     assert_select "table[data-table='inline']"
   end
+
+  test 'should disable overriding and start inheriting taxonomies from roles' do
+    permission1 = FactoryGirl.create(:permission, :domain, :name => 'permission1')
+    role = FactoryGirl.build(:role, :permissions => [])
+    role.add_permissions! [permission1.name]
+    org1 = FactoryGirl.create(:organization)
+    org2 = FactoryGirl.create(:organization)
+    role.organizations = [ org1 ]
+    role.filters.reload
+    filter_with_org = role.filters.detect(&:allows_organization_filtering?)
+    filter_with_org.update_attributes :organizations => [ org1, org2 ], :override => true
+
+    patch :disable_overriding, { :role_id => role.id, :id => filter_with_org.id }, set_session_user
+
+    assert_response :redirect
+    filter_with_org.reload
+    assert_equal [ org1 ], filter_with_org.organizations
+    refute filter_with_org.override
+  end
 end

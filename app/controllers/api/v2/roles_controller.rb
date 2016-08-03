@@ -23,6 +23,7 @@ module Api
       def_param_group :role do
         param :role, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

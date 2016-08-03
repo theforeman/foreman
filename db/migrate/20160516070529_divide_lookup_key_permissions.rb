@@ -1,14 +1,29 @@
 class DivideLookupKeyPermissions < ActiveRecord::Migration
+  class FakeFilter < ActiveRecord::Base
+    self.table_name = 'filters'
+    belongs_to :role
+    has_many :filterings
+    has_many :permissions
+  end
+
+  class FakeFiltering < ActiveRecord::Base
+    self.table_name = 'filterings'
+  end
+
+  class FakePermission < ActiveRecord::Base
+    self.table_name = 'permissions'
+  end
+
   def up
     permissions_to_update = Permission.where(:name => ['view_external_variables', 'edit_external_variables', 'create_external_variables', 'destroy_external_variables'])
     permissions_to_update.update_all(:resource_type => 'VariableLookupKey')
 
     permissions_to_update.each do |original_permission|
-      permission = Permission.where(:name => original_permission.name.sub('variables', 'parameters'), :resource_type => 'PuppetclassLookupKey').first_or_create
+      permission = FakePermission.where(:name => original_permission.name.sub('variables', 'parameters'), :resource_type => 'PuppetclassLookupKey').first_or_create
       Filtering.where('permission_id' => original_permission.id).uniq.each do |filtering|
-        filter = Filter.create(:search => filtering.filter.search, :role_id => filtering.filter.role_id,
-                               :taxonomy_search => filtering.filter.taxonomy_search, :permissions => [permission])
-        Filtering.create(:filter_id => filter.id, :permission_id => permission.id)
+        filter = FakeFilter.create(:search => filtering.filter.search, :role_id => filtering.filter.role_id,
+                               :taxonomy_search => filtering.filter.taxonomy_search)
+        FakeFiltering.create(:filter_id => filter.id, :permission_id => permission.id)
       end
     end
   end

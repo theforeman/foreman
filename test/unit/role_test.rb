@@ -163,4 +163,65 @@ class RoleTest < ActiveSupport::TestCase
       assert_includes permissions, Permission.find_by_name(@permission2.name)
     end
   end
+
+  context 'having role with filters' do
+    setup do
+      @permission1 = FactoryGirl.create(:permission, :domain, :name => 'permission1')
+      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryGirl.build(:role, :permissions => [])
+      @role.add_permissions! [@permission1.name, @permission2.name]
+      @org1 = FactoryGirl.create(:organization)
+      @org2 = FactoryGirl.create(:organization)
+      @role.filters.reload
+      @filter_with_org = @role.filters.detect { |f| f.allows_organization_filtering? }
+      @filter_without_org = @role.filters.detect { |f| !f.allows_organization_filtering? }
+    end
+
+    describe '#sync_inheriting_filters' do
+      it 'automatically propagates taxonomies to filters after save' do
+        @role.organizations = [ @org1 ]
+        @role.save
+        @filter_with_org.reload
+        assert_equal [ @org1 ], @filter_with_org.organizations
+      end
+
+      it 'automatically propagates taxonomies only to inheriting filters' do
+        @filter_with_org.update_attribute :override, true
+        @role.organizations = [ @org2 ]
+        @role.save
+        @filter_with_org.reload
+        assert_empty @filter_with_org.organizations
+      end
+
+      it 'does not touch filters that do not support taxonomies' do
+        @role.organizations = [ @org1 ]
+        @role.save
+        @filter_without_org.reload
+        assert_empty @filter_without_org.organizations
+        assert_nil @filter_without_org.taxonomy_search
+      end
+
+      it 'does not touch filters that do not support taxonomies even if they override' do
+        @filter_without_org.update_attribute :override, true
+        @role.organizations = [ @org1 ]
+        @role.save
+        @filter_without_org.reload
+        assert_empty @filter_without_org.organizations
+        assert_nil @filter_without_org.taxonomy_search
+      end
+    end
+
+    describe '#disable_filters_overriding' do
+      it 'disables overriding and inherits taxonomies' do
+        @filter_with_org.update_attribute :override, true
+        @role.organizations = [ @org1 ]
+        as_admin do
+          @role.disable_filters_overriding
+          @filter_with_org.reload
+          assert_equal [ @org1 ], @filter_with_org.organizations
+          refute @filter_with_org.override
+        end
+      end
+    end
+  end
 end

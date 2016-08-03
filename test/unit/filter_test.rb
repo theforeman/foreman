@@ -38,7 +38,7 @@ class FilterTest < ActiveSupport::TestCase
 
   test "#resource_type" do
     f = FactoryGirl.build(:filter)
-    f.stub :permissions, [ OpenStruct.new(:resource_type => 'test') ] do
+    f.stub :filterings, [ OpenStruct.new(:permission => OpenStruct.new(:resource_type => 'test')) ] do
       assert_equal 'test', f.resource_type
     end
   end
@@ -218,5 +218,33 @@ class FilterTest < ActiveSupport::TestCase
   test 'filter without resource always skips escalation check' do
     f = FactoryGirl.build(:filter, :resource_type => nil)
     assert f.skip_taxonomy_escalation_check?
+  end
+
+  test 'disable overriding recalculates taxonomies' do
+    f = FactoryGirl.build(:filter, :resource_type => 'Domain')
+    f.role = FactoryGirl.build(:role, :organizations => [ FactoryGirl.build(:organization) ])
+    assert_empty f.organizations
+    f.disable_overriding!
+    refute f.override
+    assert_equal f.organizations, f.role.organizations
+  end
+
+  test 'enforce_inherited_taxonomies respects override configuration' do
+    f = FactoryGirl.build(:filter, :resource_type => 'Domain', :override => true)
+    f.role = FactoryGirl.build(:role, :organizations => [ FactoryGirl.build(:organization) ])
+    f.save # we need ids
+    f.enforce_inherited_taxonomies
+    assert_empty f.organizations
+    f.override = false
+    f.enforce_inherited_taxonomies
+    assert_equal f.role.organizations, f.organizations
+  end
+
+  test 'enforce_inherited_taxonomies builds the taxonomy search string' do
+    f = FactoryGirl.build(:filter, :resource_type => 'Domain')
+    f.role = FactoryGirl.build(:role, :organizations => [ FactoryGirl.build(:organization) ])
+    f.save # we need ids
+    f.enforce_inherited_taxonomies
+    assert_equal "(organization_id = #{f.organizations.first.id})", f.taxonomy_search
   end
 end

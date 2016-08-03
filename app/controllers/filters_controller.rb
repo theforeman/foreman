@@ -46,7 +46,22 @@ class FiltersController < ApplicationController
     end
   end
 
-  protected
+  def disable_overriding
+    @filter = resource_base.find(params[:id])
+    @filter.disable_overriding!
+    process_success :success_msg => _('Filter overriding has been disabled')
+  end
+
+  private
+
+  def action_permission
+    case params[:action]
+      when 'disable_overriding'
+        'edit'
+      else
+        super
+    end
+  end
 
   def find_role
     @role = Role.find_by_id(role_id)

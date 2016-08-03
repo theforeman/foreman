@@ -20,15 +20,23 @@ search.catcomplete({source: function( request, response ) {
 <% end %>
 
 <% if @show_organizations %>
-  $('li a[href="#organizations"]').show();
+  $('li a[href="#organizations"]').toggle($('#override_taxonomy_checkbox').prop('checked'));
 <% else %>
   $('li a[href="#organizations"]').hide();
 <% end %>
 $('#filter_resource_type').attr('data-allow-organizations', <%= !!@show_organizations %>);
 
 <% if @show_locations %>
-  $('li a[href="#locations"]').show();
+  $('li a[href="#locations"]').toggle($('#override_taxonomy_checkbox').prop('checked'));
 <% else %>
   $('li a[href="#locations"]').hide();
 <% end %>
 $('#filter_resource_type').attr('data-allow-locations', <%= !!@show_locations %>);
+
+<% if @show_organizations || @show_locations %>
+  $('#override_taxonomy_form').show();
+$('#override_taxonomy_checkbox').prop('disabled', false);
+<% else %>
+  $('#override_taxonomy_form').hide();
+  $('#override_taxonomy_checkbox').prop('disabled', true);
+<% end %>
