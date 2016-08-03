@@ -92,8 +92,44 @@ module Foreman::Model
       } ]
     end
 
+    def create_additional_volume_api(args)
+      vm_name = args[:name]
+
+      # Need to specify image ref on boot_index 0
+      args[:block_device_mapping_v2] = [ {
+        :source_type => "image",
+        :delete_on_termination =>  true,
+        :boot_index => 0,
+        :uuid => args[:image_ref],
+        :destination_type => "local"
+      } ]
+
+      # Iterate into volumes attributes
+      args[:volumes_attributes].each do |key, value|
+        boot_index = key.to_i + 1
+        add_vol = client.volumes.create(
+        { :name => "#{vm_name}-disk#{boot_index}",
+          :description => "#{vm_name}-disk#{boot_index}",
+          :display_name => "#{vm_name}-disk#{boot_index}",
+          :volumeType => "Volume",
+          :size => "#{value["capacity"]}"
+        })
+
+        @add_vol_id = add_vol.id.tr('"', '')
+        add_vol.wait_for { status == 'available' }
+        args[:block_device_mapping_v2] <<
+          { :boot_index => "#{boot_index}",
+            :uuid => @add_vol_id,
+            :source_type => "volume",
+            :destination_type => "volume",
+            :delete_on_termination => true
+          }
+      end
+    end
+
     def create_vm(args = {})
       boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
+      create_additional_volume_api(args) if args[:volumes_attributes]
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
