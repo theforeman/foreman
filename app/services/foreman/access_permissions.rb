@@ -266,7 +266,7 @@ Foreman::AccessControl.map do |permission_set|
                                       :'api/v2/filters' => [:index, :show]}
     map.permission :create_filters,  {:filters => [:new, :create],
                                       :'api/v2/filters' => [:create]}
-    map.permission :edit_filters,    {:filters => [:edit, :update], :permissions => [:index],
+    map.permission :edit_filters,    {:filters => [:edit, :update, :disable_overriding], :permissions => [:index],
                                       :'api/v2/filters' => [:update],
                                       :'api/v2/permissions' => [:index, :show, :resource_types]}
     map.permission :destroy_filters, {:filters => [:destroy],
@@ -591,7 +591,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :'api/v2/roles' => [:index, :show]}
     map.permission :create_roles,  {:roles => [:new, :create, :clone],
                                     :'api/v2/roles' => [:create]}
-    map.permission :edit_roles,    {:roles => [:edit, :update],
+    map.permission :edit_roles,    {:roles => [:edit, :update, :disable_filters_overriding],
                                     :'api/v2/roles' => [:update]}
     map.permission :destroy_roles, {:roles => [:destroy],
                                     :'api/v2/roles' => [:destroy]}

@@ -16,6 +16,7 @@
       <th><%= sort :resource, :as => s_("Filter|Resource") %></th>
       <th><%= s_("Filter|Permissions") %></th>
       <th><%= sort :search, :as => s_("Filter|Unlimited") %></th>
+      <th><%= sort :search, :as => s_("Filter|Override") %></th>
       <th><%= sort :search, :as => s_("Filter|Search") %></th>
       <th><%= _('Actions') %></th>
     </tr>
@@ -29,23 +30,28 @@
                   merge(:auth_object => filter.role, :authorizer => @roles_authorizer))) %>
           </td>
         <% end %>
-        <td><%= _(filter.resource_class.try(:humanize_class_name) || filter.resource_type || '(Miscellaneous)') %></td>
+        <td>
+          <%= _(filter.resource_class.try(:humanize_class_name) || filter.resource_type || '(Miscellaneous)') %>
+        </td>
         <td><%= filter.permissions.map(&:name).join(', ') %></td>
         <td><%= checked_icon filter.unlimited? %></td>
+        <td><%= checked_icon filter.override? %></td>
         <td>
-          <%= content_tag('span', link_to_if_authorized(filter.search || _('none'),
+          <%= content_tag('span', link_to_if_authorized(filter.search || _('N/A'),
                                                       hash_for_edit_filter_path(:id => filter, :role_id => @role).
                                                               merge(:auth_object => filter, :authorizer => authorizer))) %>
         </td>
         <td>
-          <%= action_buttons(
-                    display_link_if_authorized(_("Edit"), hash_for_edit_filter_path(:id => filter, :role_id => @role).
-                            merge(:auth_object => filter, :authorizer => authorizer)),
-                    display_delete_if_authorized(hash_for_filter_path(:id => filter, :role_id => @role).
+          <% buttons = [] %>
+          <% buttons.push display_link_if_authorized(_("Edit"), hash_for_edit_filter_path(:id => filter, :role_id => @role).
+                            merge(:auth_object => filter, :authorizer => authorizer)) %>
+          <% buttons.push display_link_if_authorized(_("Disable overriding"), hash_for_disable_overriding_filter_path(:id => filter, :role_id => @role).
+                            merge(:auth_object => filter, :authorizer => authorizer), :method => :patch) if filter.override? && Taxonomy.enabled_taxonomies.any? %>
+          <% buttons.push display_delete_if_authorized(hash_for_filter_path(:id => filter, :role_id => @role).
                                                          merge(:auth_object => filter, :authorizer => authorizer),
-                                                         :data => { :confirm => (_("Delete filter?")) } )
-            )
-        %>
+                                                         :data => { :confirm => (_("Delete filter?")) } ) %>
+
+          <%= action_buttons(buttons) %>
         </td>
       </tr>
     <% end %>

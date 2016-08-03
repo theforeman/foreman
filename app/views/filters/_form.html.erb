@@ -42,9 +42,16 @@
           </span>
       </div>
 
-      <div id="granular_form" style="<%= !f.object.granular? ? 'display:none' : '' %>">
+      <div id="override_taxonomy_form" class="<%= f.object.allows_taxonomies_filtering? && Taxonomy.enabled_taxonomies.any? ? '' : 'hidden' %>">
+        <%= checkbox_f f, :override?,
+                       :help_inline => popover('', _("Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again.") % { :orgs_and_locs => org_loc_string('and') }),
+                       :id => 'override_taxonomy_checkbox' %>
+      </div>
+
+      <div id="granular_form" style="<%= f.object.granular? ? '' : 'display:none' %>">
         <%= checkbox_f f, :unlimited?,
-                       :help_inline => _("By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type") %>
+                       :help_inline => popover('', _("By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly.") % org_loc_string('or') ) %>
+
 
         <%= autocomplete_f f, :search,
                            :disabled => f.object.unlimited?,
@@ -56,7 +63,7 @@
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
         <% collection = User.current.locations.empty? ? Location : User.current.locations %>
-        <%= multiple_checkboxes f, :locations, f.object, collection, :label => _("Locations") %>
+        <%= multiple_checkboxes f, :locations, f.object, collection, {}, :label => _("Locations") %>
       </div>
     <% end %>
 

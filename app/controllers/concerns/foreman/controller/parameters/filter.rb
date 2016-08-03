@@ -10,6 +10,7 @@ module Foreman::Controller::Parameters::Filter
           :search,
           :taxonomy_search,
           :unlimited,
+          :override,
           :permissions => [], :permission_ids => [], :permission_names => []
         add_taxonomix_params_filter(filter)
       end

@@ -59,6 +59,48 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil Role.find_by_id(roles(:manager).id)
   end
 
+  context "with taxonomies" do
+    before do
+      @permission1 = FactoryGirl.create(:permission, :domain, :name => 'permission1')
+      @role = FactoryGirl.build(:role, :permissions => [])
+      @role.add_permissions! [ @permission1.name ]
+      @org1 = FactoryGirl.create(:organization)
+      @org2 = FactoryGirl.create(:organization)
+      @role.organizations = [ @org1 ]
+    end
+
+    test 'should disable filter overriding' do
+      @role.filters.reload
+      @filter_with_org = @role.filters.detect { |f| f.allows_organization_filtering? }
+      @filter_with_org.update_attributes :organizations => [ @org1, @org2 ], :override => true
+
+      patch :disable_filters_overriding, { :id => @role.id }, set_session_user
+      @filter_with_org.reload
+
+      assert_response :redirect
+      assert_equal [ @org1 ], @filter_with_org.organizations
+      refute @filter_with_org.override?
+    end
+
+    test 'update syncs filters taxonomies if configuration changed' do
+      put :update, { :id => @role.id, :role => { :organization_ids => ['', @org2.id.to_s, ''] } }, set_session_user
+      assert_response :redirect
+      filter = @role.filters.first
+      assert_equal [ @org2 ], filter.organizations.all
+    end
+
+    test 'sets new taxonomies to filters after cloning properly' do
+      params = { :role => { :name => 'clonedrole', :organization_ids => ['', @org2.id.to_s, ''] },
+                 :original_role_id => @role.id,
+                 :cloned_role => true }
+      post :create, params, set_session_user
+
+      assert_response :redirect
+      filter = Role.find_by_name('clonedrole').filters.first
+      assert_equal [ @org2 ], filter.organizations.all
+    end
+  end
+
   context 'clone' do
     setup do
       @role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')

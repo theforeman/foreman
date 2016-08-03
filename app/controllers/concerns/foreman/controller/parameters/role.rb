@@ -1,10 +1,12 @@
 module Foreman::Controller::Parameters::Role
   extend ActiveSupport::Concern
+  include Foreman::Controller::Parameters::Taxonomix
 
   class_methods do
     def role_params_filter
       Foreman::ParameterFilter.new(::Role).tap do |filter|
         filter.permit :name
+        add_taxonomix_params_filter(filter)
       end
     end
   end
