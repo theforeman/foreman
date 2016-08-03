@@ -57,10 +57,6 @@ module FogExtensions
         attr[:size_gb]
       end
 
-      def scheduler_hint_filter
-        attr[:scheduler_hint_filter]
-      end
-
       def network
         return @network if @network # in case we didnt submitting the form again after an error.
         return networks.try(:first).try(:name) if persisted?

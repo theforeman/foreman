@@ -26,7 +26,7 @@ class HostsController < ApplicationController
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
-                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
+                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate, :scheduler_hint_selected]
 
   before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_action :set_host_type, :only => [:update]
@@ -138,12 +138,7 @@ class HostsController < ApplicationController
   end
 
   def scheduler_hint_selected
-    return not_found unless (params[:host])
-    @host = Host.new params[:host]
-    Taxonomy.as_taxonomy @organization, @location do
-      # compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(id)
-      render :partial => "compute_resources_vms/form/scheduler_hint_filters"
-    end
+    render :partial => "compute_resources_vms/form/scheduler_hint_filters"
   end
 
   def interfaces

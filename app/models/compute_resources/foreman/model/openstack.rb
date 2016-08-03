@@ -100,12 +100,12 @@ module Foreman::Model
 
     def get_server_groups(policy)
       server_groups = client.server_groups.select{ |sg| sg.policies.include?(policy) }
-      errors.add(:scheduler_hint_value, _("No matching servergroups found")) if server_groups.empty?
+      errors.add(:scheduler_hint_value, _("No matching server groups found")) if server_groups.empty?
       server_groups
     end
 
     def format_scheduler_hint_filter(args = {})
-      raise "Hint data is missing" if args[:scheduler_hint_data].nil?
+      raise ::Foreman::Exception.new(N_('Hint data is missing')) if args[:scheduler_hint_data].nil?
       name = args.delete(:scheduler_hint_filter).underscore.to_sym
       data = args.delete(:scheduler_hint_data)
       filter = {}
@@ -124,7 +124,7 @@ module Foreman::Model
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
       args[:nics].map! {|nic| { 'net_id' => nic } }
-      format_scheduler_hint_filter(args) if args[:scheduler_hint_filter] != '' && !args[:scheduler_hint_filter].nil?
+      format_scheduler_hint_filter(args) if args[:scheduler_hint_filter].present?
       vm = super(args)
       if network.present?
         address = allocate_address(network)

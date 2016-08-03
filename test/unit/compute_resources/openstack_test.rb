@@ -91,7 +91,7 @@ class OpenstackTest < ActiveSupport::TestCase
       args = {
         :scheduler_hint_filter => "Raw"
       }
-      e = assert_raise(::RuntimeError) do
+      e = assert_raise(::Foreman::Exception) do
         @compute_resource.format_scheduler_hint_filter(args)
       end
       assert_equal("Hint data is missing", e.message)
