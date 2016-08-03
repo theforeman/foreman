@@ -29,15 +29,15 @@ class OpenstackTest < ActiveSupport::TestCase
   describe "formatting hints" do
     it "formats well when set to ServerGroupAntiAffinity" do
       args = {
-          :scheduler_hint_filter => "ServerGroupAntiAffinity",
+        :scheduler_hint_filter => "ServerGroupAntiAffinity",
           :scheduler_hint_data => {
-              :scheduler_hint_value => "some-uuid"
+            :scheduler_hint_value => "some-uuid"
           }
       }
       desired = {
-          :os_scheduler_hints => {
-              :group => "some-uuid"
-          }
+        :os_scheduler_hints => {
+          :group => "some-uuid"
+        }
       }
       @compute_resource.format_scheduler_hint_filter(args)
       assert_equal(desired, args)
@@ -45,15 +45,15 @@ class OpenstackTest < ActiveSupport::TestCase
 
     it "formats well when set to ServerGroupAffinity" do
       args = {
-          :scheduler_hint_filter => "ServerGroupAffinity",
+        :scheduler_hint_filter => "ServerGroupAffinity",
           :scheduler_hint_data => {
-              :scheduler_hint_value => "some-uuid"
+            :scheduler_hint_value => "some-uuid"
           }
       }
       desired = {
-          :os_scheduler_hints => {
-              :group => "some-uuid"
-          }
+        :os_scheduler_hints => {
+          :group => "some-uuid"
+        }
       }
       @compute_resource.format_scheduler_hint_filter(args)
       assert_equal(desired, args)
@@ -61,15 +61,15 @@ class OpenstackTest < ActiveSupport::TestCase
 
     it "formats well when set to Raw" do
       args = {
-          :scheduler_hint_filter => "Raw",
+        :scheduler_hint_filter => "Raw",
           :scheduler_hint_data => {
-              :scheduler_hint_value => '{"key": "value"}'
+            :scheduler_hint_value => '{"key": "value"}'
           }
       }
       desired = {
-          :os_scheduler_hints => {
-              'key' => "value"
-          }
+        :os_scheduler_hints => {
+          'key' => "value"
+        }
       }
       @compute_resource.format_scheduler_hint_filter(args)
       assert_equal(desired, args)
@@ -77,9 +77,9 @@ class OpenstackTest < ActiveSupport::TestCase
 
     it "Should raise exception if set to Raw and malformed json" do
       args = {
-          :scheduler_hint_filter => "Raw",
+        :scheduler_hint_filter => "Raw",
           :scheduler_hint_data => {
-              :scheduler_hint_value => '{"key": }'
+            :scheduler_hint_value => '{"key": }'
           }
       }
       assert_raise ::JSON::ParserError do
@@ -89,9 +89,9 @@ class OpenstackTest < ActiveSupport::TestCase
 
     it "Should raise exception if no hint data provided" do
       args = {
-          :scheduler_hint_filter => "Raw",
+        :scheduler_hint_filter => "Raw"
       }
-      e = assert_raise(::RuntimeError)  do
+      e = assert_raise(::RuntimeError) do
         @compute_resource.format_scheduler_hint_filter(args)
       end
       assert_equal("Hint data is missing", e.message)
