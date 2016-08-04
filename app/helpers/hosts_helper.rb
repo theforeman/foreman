@@ -300,7 +300,9 @@ module HostsHelper
     title_actions(
         button_group(
             link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
-                                    :title    => _("Edit your host"), :id => "edit-button", :class => 'btn btn-default'),
+                                    :title    => _("Edit this host"), :id => "edit-button", :class => 'btn btn-default'),
+            display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host).merge(:auth_object => host),
+                                    :title    => _("Clone this host"), :id => "clone-button", :class => 'btn btn-default'),
             if host.build
               link_to_if_authorized(_("Cancel build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
                                     :disabled => host.can_be_built?,
