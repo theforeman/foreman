@@ -769,10 +769,18 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :statistics do |map|
-    map.permission :view_statistics, {:statistics  => [:index],
-                                       :"api/v1/statistics" => [:index],
-                                       :"api/v2/statistics" => [:index]
+    map.permission :view_statistics, {:statistics  => [:index, :show],
+                                       :"api/v1/statistics" => [:index, :show],
+                                       :"api/v2/statistics" => [:index, :show]
                                       }
+    map.permission :create_statistics, {:statistics  => [:new, :create],
+                                         :"api/v1/statistics" => [:new, :create],
+                                         :"api/v2/statistics" => [:new, :create]
+                                        }
+    map.permission :destroy_statistics, {:statistics  => [:destroy],
+                                         :"api/v1/statistics" => [:destroy],
+                                         :"api/v2/statistics" => [:destroy]
+                                        }
   end
 
   permission_set.security_block :trends do |map|

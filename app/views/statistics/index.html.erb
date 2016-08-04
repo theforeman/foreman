@@ -1,6 +1,12 @@
 <% title _("Statistics"), _('Statistics') %>
+<% title_actions new_link(_("New Statistic")),
+                 stats_remove_select
+                 %>
 <div id="statistics">
 <% charts.each do |ch| %>
   <%= content_tag(:div, ch, :class=>"stats-well") %>
+<% end %>
+<% @statistic.each do |st| %>
+  <%= content_tag(:div, stat_chart(st), :class=>"stats-well") %>
 <% end %>
 </div>

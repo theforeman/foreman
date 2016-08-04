@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+rubyversion:
+  name: rubyversion
+  value: rubyversion
+
+Architecture Distribution:
+  name: Architecture Distribution
+  value: architecture
+
+Number of CPUs:
+  name: Number of CPUs
+  value: processorcount 
+
+Hardware:
+  name: Hardware
+  value: manufacturer

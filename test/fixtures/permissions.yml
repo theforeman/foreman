@@ -556,7 +556,17 @@
     updated_at: "2013-12-04 08:41:06.216154"
   view_statistics:
     name: view_statistics
-    resource_type:
+    resource_type: Statistic 
+    created_at: "2013-12-04 08:41:06.223528"
+    updated_at: "2013-12-04 08:41:06.223528"
+  create_statistics:
+    name: create_statistics
+    resource_type: Statistic 
+    created_at: "2013-12-04 08:41:06.223528"
+    updated_at: "2013-12-04 08:41:06.223528"
+  destroy_statistics:
+    name: destroy_statistics
+    resource_type: Statistic 
     created_at: "2013-12-04 08:41:06.223528"
     updated_at: "2013-12-04 08:41:06.223528"
   view_subnets:
