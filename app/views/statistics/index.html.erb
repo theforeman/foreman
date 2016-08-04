@@ -1,6 +1,9 @@
 <% title _("Statistics"), _('Statistics') %>
 <div id="statistics">
-<% charts.each do |ch| %>
-  <%= content_tag(:div, ch, :class=>"stats-well") %>
-<% end %>
+  <% @stats.each do |stat| %>
+    <div data-ajax-url=<%= stat.url %> class='stats-well' data-on-complete='refreshCharts'>
+      <h4 class='ca pie-title'> <span class='spinner spinner-lg spinner-inline'> </span> <%= stat.title %> </h4>
+      <div class='statistics-pie-placeholder small'> </div>
+    </div>
+  <% end %>
 </div>
