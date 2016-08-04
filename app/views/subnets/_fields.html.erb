@@ -7,7 +7,7 @@
 <%= text_f f, :gateway, :help_inline => _("Optional: Gateway for this subnet") %>
 <%= text_f f, :dns_primary, :help_inline => _("Optional: Primary DNS for this subnet") %>
 <%= text_f f, :dns_secondary, :help_inline => _("Optional: Secondary DNS for this subnet") %>
-<%= selectable_f f, :ipam, subnet_ipam_modes(@subnet.type), {}, :data => {'disable-auto-suggest-on' => [IPAM::MODES[:none], IPAM::MODES[:eui64]]},
+<%= selectable_f f, :ipam, subnet_ipam_modes(f.object.type), {}, :data => {'disable-auto-suggest-on' => [IPAM::MODES[:none], IPAM::MODES[:eui64]]},
                  :label => _('IPAM'),
                  :help_inline => popover(
                          _("IP Address Management"),
