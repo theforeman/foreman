@@ -383,10 +383,12 @@ class Host::Managed < Host::Base
     param["realm"]        = realm.name unless realm.nil?
     param["hostgroup"]    = hostgroup.to_label unless hostgroup.nil?
     if SETTINGS[:locations_enabled]
-      param["location"] = location.title unless location.blank?
+      param["location"] = location.name unless location.blank?
+      param["location_title"] = location.title unless location.blank?
     end
     if SETTINGS[:organizations_enabled]
-      param["organization"] = organization.title unless organization.blank?
+      param["organization"] = organization.name unless organization.blank?
+      param["organization_title"] = organization.title unless organization.blank?
     end
     if SETTINGS[:unattended]
       param["root_pw"]      = root_pass unless (!operatingsystem.nil? && operatingsystem.password_hash == 'Base64')
