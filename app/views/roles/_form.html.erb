@@ -10,7 +10,7 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
-      <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
+      <%= text_f f, :name, :class => @role.builtin? && @role.builtin.present? ? "disabled" : ""  %>
       <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
     </div>
     <div class="tab-pane" id="filters">
