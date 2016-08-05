@@ -459,9 +459,9 @@ function filter_permissions(item){
 }
 
 function setPowerState(item, status){
+  var power_actions = $('#power_actions');
   if(status=='success') {
     var place_holder = $('#loading_power_state').parent('.btn-group');
-    var power_actions = $('#power_actions');
     power_actions.find('.btn-sm').removeClass('btn-sm');
     if (power_actions.find('.btn-group').exists()){
       power_actions.contents().replaceAll(place_holder);
