@@ -35,3 +35,11 @@ export function activateDatatables() {
     });
   });
 }
+
+export function userInheritedRolesUpdater(id) {
+  $('#roles_tab li').hide();
+  $("#roles_tab li[data-id = '" + id + "']").show();
+  $('.dropdown-menu li a').click(function () {
+    $(this).parents('.dropdown').find('.btn').html($(this).text() + ' <span class="caret"></span>');
+  });
+}

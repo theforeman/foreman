@@ -2,6 +2,13 @@ object @user
 
 extends "api/v2/users/main"
 
+child @user.cached_usergroups.uniq => :cached_usergroups do
+  extends "api/v2/usergroups/base"
+  child :roles do
+    extends "api/v2/roles/base"
+  end
+end
+
 child :auth_source do
   extends "api/v2/auth_source_ldaps/base"
 end
@@ -16,6 +23,9 @@ end
 
 child :usergroups do
   extends "api/v2/usergroups/base"
+  child :roles do
+      extends "api/v2/roles/base"
+  end
 end
 
 node do |user|
