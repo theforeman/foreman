@@ -73,12 +73,49 @@
     <div class='tab-pane' id='roles'>
       <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
       <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
-                               { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
+                              { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
+      <% usergroups = @user.cached_usergroups.includes(:roles).uniq %>
+      <% if usergroups.any? %>
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="roles"><%= _("Roles from user groups") %></label>
+          <div class="col-md-5">
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="usergroupsDropdownMenuBtn" data-toggle="dropdown">
+                <%= usergroups.first %>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="usergroupsDropdownMenuBtn">
+                <% usergroups.each do |usergroup| %>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" onclick=tfm.tools.userInheritedRolesUpdater(<%=usergroup.id %>)><%= usergroup %></a></li>
+                <% end %>
+              </ul>
+            </div>
+            <ul class="list-group" id='roles_tab'>
+              <% usergroups.each do |usergroup|  %>
+                  <% unless usergroup.roles.map(&:name).any? %>
+                      <li data-id="<%= usergroup.id %>" class="list-group-item"><%= _('This group has no roles') %></li>
+                  <%end %>
+                <% usergroup.roles.map(&:name).each do |role_name| %>
+                  <li data-id="<%= usergroup.id %>" class="list-group-item hidden"><%= role_name %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end  %>
     </div>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
                :html_options => user_taxonomies_html_options(@user)
-      %>
+    %>
   </div>
 
   <%= submit_or_cancel f %>
 <% end %>
+
+<% if @user.cached_usergroups.any? %>
+  <script>
+      $(function() {
+        tfm.tools.userInheritedRolesUpdater(<%= @user.cached_usergroups.uniq.first.id %>)
+      });
+  </script>
+<% end  %>
