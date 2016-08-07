@@ -94,7 +94,7 @@ class OpenstackTest < ActiveSupport::TestCase
       e = assert_raise(::Foreman::Exception) do
         @compute_resource.format_scheduler_hint_filter(args)
       end
-      assert_equal("Hint data is missing", e.message)
+      assert_equal("ERF42-4598 [Foreman::Exception]: Hint data is missing", e.message)
     end
   end
 

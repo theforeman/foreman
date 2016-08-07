@@ -9,6 +9,7 @@ Foreman::Application.configure do |app|
 
   #  config.assets.precompile += %w()
   javascript = %w(compute_resource
+                  compute_resources/openstack/host_edit
                   compute_resources/libvirt/nic_info
                   compute_resources/ovirt/nic_info
                   compute_resources/vmware/nic_info

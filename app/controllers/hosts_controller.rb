@@ -7,7 +7,7 @@ class HostsController < ApplicationController
 
   PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
-  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build}
+  AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
   MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters  select_multiple_hostgroup
                         update_multiple_hostgroup select_multiple_environment update_multiple_environment
@@ -26,7 +26,7 @@ class HostsController < ApplicationController
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
-                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate, :scheduler_hint_selected]
+                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
 
   before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_action :set_host_type, :only => [:update]
@@ -138,7 +138,11 @@ class HostsController < ApplicationController
   end
 
   def scheduler_hint_selected
-    render :partial => "compute_resources_vms/form/scheduler_hint_filters"
+    return not_found unless (params[:host])
+    @host = Host.new(host_params)
+    Taxonomy.as_taxonomy @organization, @location do
+      render :partial => "compute_resources_vms/form/scheduler_hint_filters"
+    end
   end
 
   def interfaces
