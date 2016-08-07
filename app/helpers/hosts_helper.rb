@@ -35,12 +35,8 @@ module HostsHelper
     "hosts/provision_method/#{provision_method}/#{partial}"
   end
 
-  def nic_info_js(compute_resource)
-    javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/nic_info.js")
-  end
-
-  def host_edit_js(compute_resource)
-    javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/host_edit.js")
+  def compute_specific_js(compute_resource, js_name)
+    javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/#{js_name}.js")
   end
 
   def value_hash_cache(host)
