@@ -254,6 +254,7 @@ if [ $NOGENERIC -eq 0 ]; then
   add_cmd "ping -c1 -W1 localhost" "ping_localhost"
   add_cmd "ping -c1 -W1 $(hostname)" "ping_hostname"
   add_cmd "ping -c1 -W1 $(hostname -f)" "ping_hostname_full"
+  add_cmd "host $(hostname -f)" "hostname_dns_check"
   type scl &>/dev/null && \
     add_cmd "scl -l" "software_collections"
 
