@@ -178,8 +178,10 @@ class HostsController < ApplicationController
 
     begin
       respond_to do |format|
-        format.html { render :text => "<pre>#{ERB::Util.html_escape(@host.info.to_yaml)}</pre>" }
-        format.yml { render :text => @host.info.to_yaml }
+        # don't break lines in yaml to support Ruby < 1.9.3
+        host_info_yaml = @host.info.to_yaml(:line_width => -1)
+        format.html { render :text => "<pre>#{ERB::Util.html_escape(host_info_yaml)}</pre>" }
+        format.yml { render :text => host_info_yaml }
       end
     rescue => e
       Foreman::Logging.exception("Failed to generate external nodes for #{@host}", e)
