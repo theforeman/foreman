@@ -265,7 +265,7 @@ module FormHelper
   end
 
   def help_inline(inline, error)
-    help_inline = error.empty? ? inline : content_tag(:span, error.to_sentence.html_safe, :class => 'error-message')
+    help_inline = error.empty? ? inline : content_tag(:span, error.to_sentence, :class => 'error-message')
     case help_inline
       when blank?
         ""
