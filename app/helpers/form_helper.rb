@@ -266,7 +266,7 @@ module FormHelper
   end
 
   def help_inline(inline, error)
-    help_inline = error.empty? ? inline : error.to_sentence.html_safe
+    help_inline = error.empty? ? inline : error.to_sentence
     case help_inline
       when blank?
         ""
