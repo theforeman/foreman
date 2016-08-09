@@ -55,77 +55,117 @@ class SubnetsControllerTest < ActionController::TestCase
     assert !Subnet.exists?(subnet.id)
   end
 
-  def test_freeip_fails_no_subnet
-    get :freeip, {}, set_session_user
+  context 'freeip' do
+    test 'fails when subnet is not provided' do
+      get :freeip, {}, set_session_user
+      assert_response :bad_request
+    end
 
-    assert_response :bad_request
+    test '404s when user is not authorized to see subnet' do
+      subnet_id = setup_subnet
+      get :freeip, {subnet_id: subnet_id}, set_session_user
+      assert_response :not_found
+    end
+
+    test '404s when subnet does not have a free IP' do
+      subnet = mock('subnet')
+      subnet.stubs(:unused_ip).returns(nil)
+      subnet_id = setup_subnet subnet
+
+      get :freeip, {subnet_id: subnet_id}, set_session_user
+
+      assert_response :not_found
+    end
+
+    test 'catches StandardError when fetching IP' do
+      subnet = mock('subnet')
+      subnet.stubs(:unused_ip).raises(StandardError, 'Exception message')
+      subnet_id = setup_subnet subnet
+
+      get :freeip, {subnet_id: subnet_id}, set_session_user
+
+      assert_response :internal_server_error
+    end
+
+    test 'returns JSON on success' do
+      ip = '1.2.3.4'
+      subnet = mock('subnet')
+      ipam = mock()
+      ipam.expects(:suggest_ip).returns(ip)
+      ipam.stubs(:errors).returns({})
+      subnet.stubs(:unused_ip).returns(ipam)
+      subnet_id = setup_subnet subnet
+
+      get :freeip, {subnet_id: subnet_id}, set_session_user
+
+      assert_response :success
+      assert_equal ip, JSON.parse(response.body)['ip']
+      assert_empty JSON.parse(response.body)['errors']
+    end
   end
 
-  def test_freeip_fails_subnet_not_authorized
-    subnet_id = setup_subnet nil
+  context 'parameters permissions' do
+    test 'with view_params user should see parameters in a subnet' do
+      setup_user "edit", "subnets"
+      setup_user "view", "params"
+      subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+      get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+      assert_not_nil response.body['Parameter']
+    end
 
-    get :freeip, {subnet_id: subnet_id}, set_session_user
-
-    assert_response :not_found
+    test 'without view_params user should not see parameters in a subnet' do
+      setup_user "edit", "subnets"
+      subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+      get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+      assert_nil response.body['Parameter']
+    end
   end
 
-  def test_freeip_not_found
-    subnet = mock('subnet')
-    subnet.stubs(:unused_ip).returns(nil)
-    subnet_id = setup_subnet subnet
+  context 'import IPv4 subnets' do
+    setup do
+      SmartProxy.expects(:find).with('foo').returns(mock('proxy'))
+    end
 
-    get :freeip, {subnet_id: subnet_id}, set_session_user
+    test 'redirects to index if none were found' do
+      Subnet::Ipv4.expects(:import).returns([])
+      get :import, { :subnet_id => setup_subnet,
+                     :smart_proxy_id => 'foo' }, set_session_user
+      assert_redirected_to :subnets
+      assert_match 'No new IPv4 subnets found', flash[:warning]
+    end
 
-    assert_response :not_found
+    test 'renders import page with results' do
+      Subnet::Ipv4.expects(:import).returns([FactoryGirl.build(:subnet_ipv4)])
+      get :import, { :subnet_id => setup_subnet,
+                     :smart_proxy_id => 'foo' }, set_session_user
+      assert_response :success
+      assert_template :import
+      assert assigns(:subnets)
+    end
   end
 
-  def test_freeip_fails_on_error
-    subnet = mock('subnet')
-    subnet.stubs(:unused_ip).raises(StandardError, 'Exception message')
-    subnet_id = setup_subnet subnet
-
-    get :freeip, {subnet_id: subnet_id}, set_session_user
-
-    assert_response :internal_server_error
-  end
-
-  def test_freeip_returns_json_on_success
-    ip = '1.2.3.4'
-    subnet = mock('subnet')
-    ipam = mock()
-    ipam.expects(:suggest_ip).returns(ip)
-    ipam.stubs(:errors).returns({})
-    subnet.stubs(:unused_ip).returns(ipam)
-    subnet_id = setup_subnet subnet
-
-    get :freeip, {subnet_id: subnet_id}, set_session_user
-
-    assert_response :success
-    assert_equal ip, JSON.parse(response.body)['ip']
-    assert_empty JSON.parse(response.body)['errors']
-  end
-
-  test 'user with view_params rights should see parameters in a subnet' do
-    setup_user "edit", "subnets"
-    setup_user "view", "params"
-    subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
-    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
-    assert_not_nil response.body['Parameter']
-  end
-
-  test 'user without view_params rights should not see parameters in a subnet' do
-    setup_user "edit", "subnets"
-    subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
-    get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
-    assert_nil response.body['Parameter']
+  test 'create_multiple filters parameters when given a list of subnets' do
+    sample_subnet = FactoryGirl.build(:subnet_ipv4)
+    subnet_hash = { :name => sample_subnet.name,
+                    :type => sample_subnet.type,
+                    :network => sample_subnet.network,
+                    :mask => sample_subnet.mask,
+                    :cidr => sample_subnet.cidr,
+                    :ipam => sample_subnet.ipam,
+                    :boot_mode => sample_subnet.boot_mode }
+    assert_difference 'Subnet.count', 1 do
+      post :create_multiple, { :subnets => [subnet_hash] }, set_session_user
+    end
+    assert_response :redirect
+    assert_redirected_to subnets_url
   end
 
   private
 
-  def setup_subnet(subnet)
+  def setup_subnet(subnet = nil)
     subnet_id = 10
     scope = mock('scope')
-    scope.expects(:find).with(subnet_id).returns(subnet)
+    scope.stubs(:find).with(subnet_id).returns(subnet)
     Subnet.stubs(:authorized).with(:view_subnets).returns(scope)
     subnet_id
   end

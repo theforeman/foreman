@@ -80,7 +80,9 @@ class SubnetsController < ApplicationController
     end
 
     params_filter = self.class.subnet_params_filter
-    subnet_attrs = params[:subnets].map { |s| params_filter.filter_params(s, parameter_filter_context) }
+    subnet_attrs = params[:subnets].map do |subnet_param|
+      params_filter.filter_params(subnet_param, parameter_filter_context, :none)
+    end
     @subnets = Subnet.create(subnet_attrs).reject { |s| s.errors.empty? }
     if @subnets.empty?
       process_success(:object => @subnets, :success_msg => _("Imported IPv4 Subnets"))
