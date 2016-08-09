@@ -1,19 +1,20 @@
 <% title _("Import IPv4 subnets") %>
 
-<h2><%= _("The following IPv4 subnets have been found") %></h2>
-
+<h4><%= _("The following IPv4 subnets have been found. Please review the details before creating them.") %></h4>
 <%= form_for "subnets[]", :url => create_multiple_subnets_path do |f| %>
   <% display_all = !minimal?(@subnets) %>
-  <div class="accordion" id='accordion1'>
+  <div class="panel-group" id='accordion1'>
   <% @subnets.each do |subnet| %>
-    <% id = 'subnet_fields_'+subnet.to_s.gsub('/','_').gsub('.','_') %>
-    <div class="accordion-group">
-      <div class="accordion-heading" >
-        <a class="accordion-toggle" data-toggle="collapse" data-parent='#accordion1' href="<%= '#'+id %>" data-original-title='review' rel='twipsy' > <%= subnet %> </a>
-        <%= link_to_function "x", "ignore_subnet(this)", :'data-original-title'=> 'ignore subnet', :rel=>'twipsy', :class => "label ignore-subnet" %>
+    <% id = 'subnet_fields_' + subnet.network_address.gsub('/','_').gsub('.','_') %>
+    <div class="panel panel-default">
+      <div class="panel-heading" >
+        <a class="panel-title" data-toggle="collapse" data-parent='#accordion1' href="<%= '#'+id %>" rel='twipsy' >
+          <%= subnet.network_address %>
+        </a>
+        <%= link_to_function "x", "ignore_subnet(this)", :'data-original-title'=> 'Ignore subnet', :rel=>'twipsy', :class => "label ignore-subnet" %>
       </div>
-      <div id="<%= id %>" class="accordion-body collapse <%= 'in' if display_all %>" >
-        <div class="accordion-inner">
+      <div id="<%= id %>" class="panel-collapse collapse <%= 'in' if display_all %>" >
+        <div class="panel-body">
           <%= fields_for "subnets[]", subnet do |s| %>
               <%= render 'fields', :f => s %>
           <% end %>
