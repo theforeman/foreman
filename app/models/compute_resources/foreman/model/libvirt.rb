@@ -58,12 +58,13 @@ module Foreman::Model
       hypervisor.cpus
     end
 
-    # libvirt reports in KB
+    # returns available memory for VM in bytes
     def max_memory
-      hypervisor.memory * Foreman::SIZE[:kilo]
+      # libvirt reports in KB
+      hypervisor.memory.kilobyte
     rescue => e
       logger.debug "unable to figure out free memory, guessing instead due to:#{e}"
-      16*Foreman::SIZE[:giga]
+      16.gigabytes
     end
 
     def test_connection(options = {})
@@ -207,7 +208,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :memory     => 768*Foreman::SIZE[:mega],
+        :memory     => 768.megabytes,
         :nics       => [new_nic],
         :volumes    => [new_volume],
         :display    => { :type     => display_type,

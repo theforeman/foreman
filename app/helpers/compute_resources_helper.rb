@@ -34,11 +34,6 @@ module ComputeResourcesHelper
     display_link_if_authorized pause_action, opts, html.merge(:method => :put)
   end
 
-  def memory_options(max_memory)
-    opts = [0.25, 0.5, 0.75, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32]
-    opts.map{|n| [number_to_human_size(n*Foreman::SIZE[:giga]), (n*Foreman::SIZE[:giga]).to_i] unless n > (max_memory / Foreman::SIZE[:giga])}.compact
-  end
-
   def password_placeholder(obj, attr = nil)
     pass = obj.read_attribute(attr).present? || obj.read_attribute(:password_hash).present?
     pass ? "********" : ''

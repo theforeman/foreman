@@ -17,11 +17,11 @@ module FogExtensions
 
       # Libvirt expect units in KB, while we use bytes
       def memory
-        attributes[:memory_size].to_i * Foreman::SIZE[:kilo]
+        attributes[:memory_size].to_i.kilobytes
       end
 
       def memory=(mem)
-        attributes[:memory_size] = mem.to_i / Foreman::SIZE[:kilo] if mem
+        attributes[:memory_size] = mem.to_i / 1.kilobyte if mem
       end
 
       def reset
