@@ -3,7 +3,7 @@ begin
 
   namespace :jenkins do
     task :unit => ['jenkins:setup:minitest', 'rake:test:units', 'rake:test:lib', 'rake:test:functionals']
-    task :integration => ["jenkins:setup:minitest", 'rake:test:integration']
+    task :integration => ['webpack:compile', 'jenkins:setup:minitest', 'rake:test:integration']
     task :lib => ["jenkins:setup:minitest", 'rake:test:lib']
     task :functionals => ["jenkins:setup:minitest", 'rake:test:functionals']
     task :units => ["jenkins:setup:minitest", 'rake:test:units']
@@ -13,7 +13,7 @@ begin
         ENV["CI_REPORTS"] = 'jenkins/reports/unit/'
         gem 'ci_reporter'
       end
-      task :minitest  => [:pre_ci, "ci:setup:minitest"]
+      task :minitest  => [:pre_ci, 'webpack:try_compile', 'ci:setup:minitest']
     end
 
     task :rubocop do

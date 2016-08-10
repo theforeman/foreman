@@ -27,8 +27,6 @@ end
 Capybara.default_max_wait_time = 30
 Capybara.javascript_driver = :poltergeist
 
-Rake::Task["webpack:compile"].invoke
-
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
