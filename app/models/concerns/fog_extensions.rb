@@ -43,11 +43,11 @@ end
 
 if Foreman::Model::Openstack.available?
   require 'fog/openstack'
-  require 'fog/openstack/compute'
+  require 'fog/compute/openstack'
   Fog::Compute::OpenStack::Real.send(:include, FogExtensions::Openstack::Core)
-  require 'fog/openstack/models/compute/server'
+  require 'fog/compute/openstack/models/server'
   Fog::Compute::OpenStack::Server.send(:include, FogExtensions::Openstack::Server)
-  require 'fog/openstack/models/compute/flavor'
+  require 'fog/compute/openstack/models/flavor'
   Fog::Compute::OpenStack::Flavor.send(:include, FogExtensions::Openstack::Flavor)
 end
 
