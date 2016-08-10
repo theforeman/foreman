@@ -283,7 +283,7 @@ module FormHelper
     label = options[:label] == :none ? '' : options.delete(:label)
     label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
         s_(clazz.gettext_translation_for_attribute_name attr)) if f
-    label = label.present? ? label_tag(attr, "#{label}#{required_mark}".html_safe, :class => label_size + " control-label") : ''
+    label = label.present? ? label_tag(attr, "#{label}#{required_mark}", :class => label_size + " control-label") : ''
     label
   end
 
