@@ -63,7 +63,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
   test "should not create compute resource when not permitted" do
     setup_user "view"
     assert_difference('@compute_resource.vms.count', 0) do
-      attrs = {:name => 'name123', :memory => 128*Foreman::SIZE[:mega], :arch => "i686"}
+      attrs = {:name => 'name123', :memory => 128.megabytes, :arch => "i686"}
       post :create, {:vm => attrs, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
     assert_response :forbidden
@@ -76,7 +76,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       user.roles.last.add_permissions! :view_compute_resources
     end
     assert_difference('@compute_resource.vms.count', +1) do
-      attrs = {:name => name, :memory => 128*Foreman::SIZE[:mega], :domain_type => "test", :arch => "i686"}
+      attrs = {:name => name, :memory => 128.megabytes, :domain_type => "test", :arch => "i686"}
       post :create, {:vm => attrs, :compute_resource_id => @compute_resource.to_param}, set_session_user
     end
     assert_redirected_to compute_resource_vms_path

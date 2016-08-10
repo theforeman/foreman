@@ -2,6 +2,7 @@
 //= require turbolinks
 //= require i18n
 //= require jquery.ui.autocomplete
+//= require jquery.ui.spinner
 //= require scoped_search
 //= require bootstrap
 //= require multi-select

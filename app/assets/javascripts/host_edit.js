@@ -76,6 +76,7 @@ function computeResourceSelected(item){
         activate_select2('#compute_resource');
         if ($('#compute_resource').find('.alert-danger').length > 0) $('#compute_resource_tab a').addClass('tab-error');
         update_capabilities($('#capabilities').val());
+        tfm.initByteSpinner();
       }
     })
   }
