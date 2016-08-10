@@ -99,7 +99,7 @@ module Foreman::Model
     end
 
     def max_memory
-      16*Foreman::SIZE[:giga]
+      16.gigabytes
     end
 
     def ovirt_quota=(ovirt_quota_id)

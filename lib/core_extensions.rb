@@ -144,10 +144,10 @@ class String
       value, _, unit=self.match(/(\d+(\.\d+)?) ?(([KMGT]i?B?|B))$/i)[1..3]
       case unit.to_sym
       when nil, :B, :byte then (value.to_f / Foreman::SIZE[:giga])
-      when :TB, :TiB, :T, :terabyte      then (value.to_f * Foreman::SIZE[:kilo])
+      when :TB, :TiB, :T, :terabyte      then (value.to_f * 1.kilobyte)
       when :GB, :GiB, :G, :gigabyte      then value.to_f
-      when :MB, :MiB, :M, :megabyte      then (value.to_f / Foreman::SIZE[:kilo])
-      when :KB, :KiB, :K, :kilobyte, :kB then (value.to_f / Foreman::SIZE[:mega])
+      when :MB, :MiB, :M, :megabyte      then (value.to_f / 1.kilobyte)
+      when :KB, :KiB, :K, :kilobyte, :kB then (value.to_f / 1.megabyte)
       else raise "Unknown unit: #{unit.inspect}!"
       end
     rescue

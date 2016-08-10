@@ -10,7 +10,7 @@ module FogExtensions
         @identity = uuid
         @cpus     = hardware.numCPU
         @corespersocket = hardware.numCoresPerSocket
-        @memory   = hardware.memoryMB * Foreman::SIZE[:mega]
+        @memory   = hardware.memoryMB.megabytes
         @state    = raw.runtime.powerState
         @path     = path
       end
