@@ -49,4 +49,7 @@ Foreman::Application.configure do
     Bullet.add_footer = true
     Bullet.counter_cache_enable = false
   end if defined?(Bullet)
+
+  #Allow disabling the webpack dev server from the settings
+  config.webpack.dev_server.enabled = SETTINGS.fetch(:webpack_dev_server, true)
 end
