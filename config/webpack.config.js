@@ -77,6 +77,7 @@ if (production) {
   );
 } else {
   config.devServer = {
+    host: '0.0.0.0',
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }
   };
