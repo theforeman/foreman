@@ -1276,6 +1276,20 @@ class HostTest < ActiveSupport::TestCase
       refute host.interfaces.where(:mac => '00:00:00:11:22:33').first.link
     end
 
+    test "#set_interfaces updates existing physical interface by identifier" do
+      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:22:33:44', :identifier => 'eth0', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :link => false})
+      host.managed = false
+      host.primary_interface.update_attributes(:identifier => 'eth0', :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :ip6 => '2001:db8::1', :link => true)
+      assert_no_difference 'Nic::Base.count' do
+        host.set_interfaces(parser)
+      end
+
+      assert_equal '10.0.0.200', host.interfaces.where(:mac => '00:00:00:22:33:44').first.ip
+      assert_equal '2001:db8::2', host.interfaces.where(:mac => '00:00:00:22:33:44').first.ip6
+      assert_empty host.interfaces.where(:mac => '00:00:00:11:22:33')
+      refute host.interfaces.where(:mac => '00:00:00:22:33:44').first.link
+    end
+
     test "#set_interfaces creates new physical interface" do
       host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.10.0.1', :ipaddress6 => '2001:db8::1'})
 
