@@ -364,11 +364,15 @@ module Host
           rescue Net::Validations::Error
             logger.debug "invalid mac during parsing: #{attributes[:macaddress]}"
           end
-          base = base.where(:mac => macaddress)
+
+          mac_based = base.where(:mac => macaddress)
           if attributes[:virtual]
-            base.virtual.where(:identifier => name)
-          else
-            base.physical
+            mac_based.virtual.where(:identifier => name)
+          elsif mac_based.physical.any?
+            mac_based.physical
+          elsif !self.managed
+            #Unmanaged host's interfaces are just used for reporting, so overwrite based on identifier first
+            base.where(:identifier => name)
           end
       end
     end
