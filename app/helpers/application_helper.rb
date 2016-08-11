@@ -437,8 +437,8 @@ module ApplicationHelper
   end
 
   def webpack_dev_server
-    return unless Rails.env.development?
-    port = ::Rails.configuration.webpack.dev_server.port
+    return unless Rails.configuration.webpack.dev_server.enabled
+    port = Rails.configuration.webpack.dev_server.port
     dev_server = "#{request.protocol}#{request.host}:#{port}"
     response.headers['Content-Security-Policy']['script-src'] = "script-src #{dev_server}"
     response.headers['Content-Security-Policy']['wss:'] = "wss: #{dev_server}"

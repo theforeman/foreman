@@ -17,6 +17,10 @@
 # Mark translated strings with X characters (for developers)
 :mark_translated: false
 
+# Use the webpack development server? set to false to disable (for developers)
+# Make sure to run `rake webpack:compile` if disabled.
+:webpack_dev_server: true
+
 # Local administrative settings for application domain, fqdn, foreman URL,
 # administrator email address etc. If you don't have a Puppet provisioning
 # system you may want to change to setup your project on your local machine.
