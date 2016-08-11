@@ -18,10 +18,4 @@
     :script_src  => %w(eval inline self),
     :img_src     => %w(self *.gravatar.com)
   }
-  if Rails.env.development? #allow webpack dev server provided assets
-    dev_server = ["http://0.0.0.0:#{::Rails.configuration.webpack.dev_server.port}",
-                  "http://localhost:#{::Rails.configuration.webpack.dev_server.port}"]
-    config.csp[:script_src] += dev_server
-    config.csp[:connect_src] += dev_server
-  end
 end
