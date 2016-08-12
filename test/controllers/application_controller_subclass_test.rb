@@ -14,7 +14,7 @@ class ::TestableResourcesController < ::ApplicationController
   end
 end
 
-class ::TestableResource < ActiveRecord::Base
+class ::TestableResource < ApplicationRecord
   # ugly hack - causing ActiveRecord to check the resource against "realms" table in the DB.
   # If removed, the ActiveRecord will fail to find a table with name "testable_resources" which will fail tests,
   # even if there are no actual calls to the find/select... methods.
@@ -34,7 +34,7 @@ module Testscope
     end
   end
 
-  class TestableResource < ActiveRecord::Base
+  class TestableResource < ApplicationRecord
     # ugly hack - causing ActiveRecord to check the resource against "realms" table in the DB.
     # If removed, the ActiveRecord will fail to find a table with name "testable_resources" which will fail tests,
     # even if there are no actual calls to the find/select... methods.

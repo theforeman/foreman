@@ -1,5 +1,5 @@
 class RemoveFailedReportSetting < ActiveRecord::Migration
-  class FakeSetting < ActiveRecord::Base
+  class FakeSetting < ApplicationRecord
     self.table_name = 'settings'
   end
 

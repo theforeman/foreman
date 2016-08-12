@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

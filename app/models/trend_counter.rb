@@ -1,4 +1,4 @@
-class TrendCounter < ActiveRecord::Base
+class TrendCounter < ApplicationRecord
   belongs_to :trend
   validates :count, :numericality => {:greater_than_or_equal_to => 0}
   validates :created_at, :uniqueness => {:scope => :trend_id}

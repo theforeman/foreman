@@ -4,11 +4,11 @@ require Rails.root + 'db/seeds.d/03-permissions'
 # Fake models to make sure that this migration can be executed even when
 # original models changes later (e.g. add validation on columns that are not
 # present at this moment)
-class FakePermission < ActiveRecord::Base
+class FakePermission < ApplicationRecord
   self.table_name = 'permissions'
 end
 
-class FakeFilter < ActiveRecord::Base
+class FakeFilter < ApplicationRecord
   self.table_name = 'filters'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name
@@ -30,25 +30,25 @@ class FakeFilter < ActiveRecord::Base
            :validate => false
 end
 
-class FakeUserRole < ActiveRecord::Base
+class FakeUserRole < ApplicationRecord
   self.table_name = 'user_roles'
   belongs_to :owner, :polymorphic => true
   belongs_to :role, :class_name => 'FakeRole'
 end
 
-class FakeRole < ActiveRecord::Base
+class FakeRole < ApplicationRecord
   self.table_name = 'roles'
   has_many :filters, :dependent => :destroy, :class_name => 'FakeFilter', :foreign_key => 'role_id'
   has_many :permissions, :through => :filters, :class_name => 'FakePermission', :foreign_key => 'permission_id'
 end
 
-class FakeFiltering < ActiveRecord::Base
+class FakeFiltering < ApplicationRecord
   self.table_name = 'filterings'
   belongs_to :filter, :class_name => 'FakeFilter'
   belongs_to :permission, :class_name => 'FakePermission'
 end
 
-class FakeUser < ActiveRecord::Base
+class FakeUser < ApplicationRecord
   self.table_name = 'users'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name

@@ -1,4 +1,4 @@
-class Token < ActiveRecord::Base
+class Token < ApplicationRecord
   validates_lengths_from_database
   belongs_to_host :foreign_key => :host_id
 

@@ -1,4 +1,4 @@
-class Filter < ActiveRecord::Base
+class Filter < ApplicationRecord
   include Taxonomix
   include Authorizable
   include TopbarCacheExpiry

@@ -1,4 +1,4 @@
-class FakeComputeAttribute < ActiveRecord::Base
+class FakeComputeAttribute < ApplicationRecord
   self.table_name = 'compute_attributes'
   serialize :vm_attrs, Hash
 end

@@ -1,4 +1,4 @@
-class Usergroup < ActiveRecord::Base
+class Usergroup < ApplicationRecord
   audited
   include Authorizable
   extend FriendlyId

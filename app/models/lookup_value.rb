@@ -1,4 +1,4 @@
-class LookupValue < ActiveRecord::Base
+class LookupValue < ApplicationRecord
   include Authorizable
   include PuppetLookupValueExtensions
   include HiddenValue

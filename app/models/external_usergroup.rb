@@ -1,4 +1,4 @@
-class ExternalUsergroup < ActiveRecord::Base
+class ExternalUsergroup < ApplicationRecord
   extend FriendlyId
   friendly_id :name
 

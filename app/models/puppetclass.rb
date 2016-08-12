@@ -1,4 +1,4 @@
-class Puppetclass < ActiveRecord::Base
+class Puppetclass < ApplicationRecord
   include Authorizable
   include ScopedSearchExtensions
   extend FriendlyId

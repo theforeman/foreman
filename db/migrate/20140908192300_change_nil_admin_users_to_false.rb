@@ -1,4 +1,4 @@
-class FakeUser < ActiveRecord::Base
+class FakeUser < ApplicationRecord
   self.table_name = 'users'
 end
 

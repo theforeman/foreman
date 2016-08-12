@@ -1,4 +1,4 @@
-class TemplateKind < ActiveRecord::Base
+class TemplateKind < ApplicationRecord
   extend FriendlyId
   friendly_id :name
   validates_lengths_from_database

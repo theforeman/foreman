@@ -6,7 +6,7 @@
 # actions that are notification-worthy. This keeps the responsibilities
 # separate, Notifications taking care of serving the content, and
 # NotificationBlueprint of storing it.
-class NotificationBlueprint < ActiveRecord::Base
+class NotificationBlueprint < ApplicationRecord
   has_many :notifications, :dependent => :destroy
   store :actions, :accessors => [:links], :coder => JSON
 

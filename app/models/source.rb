@@ -1,4 +1,4 @@
-class Source < ActiveRecord::Base
+class Source < ApplicationRecord
   validates_lengths_from_database
   has_many :reports, :through => :logs
   has_many :logs

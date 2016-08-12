@@ -1,5 +1,5 @@
 class CreateMediaOperatingsystemsAndMigrateData < ActiveRecord::Migration
-  class Medium < ActiveRecord::Base; end
+  class Medium < ApplicationRecord; end
 
   def up
     medium_hash = {}

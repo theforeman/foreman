@@ -1,4 +1,4 @@
-class SmartProxy < ActiveRecord::Base
+class SmartProxy < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

@@ -1,4 +1,4 @@
-class FactValue < ActiveRecord::Base
+class FactValue < ApplicationRecord
   include Authorizable
   include ScopedSearchExtensions
 

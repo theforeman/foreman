@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require 'digest/sha1'
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :login

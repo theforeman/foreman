@@ -1,4 +1,4 @@
-class Medium < ActiveRecord::Base
+class Medium < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

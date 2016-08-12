@@ -1,16 +1,16 @@
 class DivideLookupKeyPermissions < ActiveRecord::Migration
-  class FakeFilter < ActiveRecord::Base
+  class FakeFilter < ApplicationRecord
     self.table_name = 'filters'
     belongs_to :role
     has_many :filterings
     has_many :permissions
   end
 
-  class FakeFiltering < ActiveRecord::Base
+  class FakeFiltering < ApplicationRecord
     self.table_name = 'filterings'
   end
 
-  class FakePermission < ActiveRecord::Base
+  class FakePermission < ApplicationRecord
     self.table_name = 'permissions'
   end
 

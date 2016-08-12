@@ -1,4 +1,4 @@
-class Parameter < ActiveRecord::Base
+class Parameter < ApplicationRecord
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName

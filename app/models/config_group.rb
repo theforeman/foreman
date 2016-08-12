@@ -1,4 +1,4 @@
-class ConfigGroup < ActiveRecord::Base
+class ConfigGroup < ApplicationRecord
   audited
   include Authorizable
   include Parameterizable::ByIdName

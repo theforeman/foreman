@@ -1,5 +1,5 @@
 module Host
-  class Base < ActiveRecord::Base
+  class Base < ApplicationRecord
     include Foreman::STI
     include Authorizable
     include Parameterizable::ByName

@@ -1,4 +1,4 @@
-class Log < ActiveRecord::Base
+class Log < ApplicationRecord
   belongs_to :message
   belongs_to :source
   belongs_to :report

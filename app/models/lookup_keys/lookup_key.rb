@@ -1,4 +1,4 @@
-class LookupKey < ActiveRecord::Base
+class LookupKey < ApplicationRecord
   include Authorizable
   include HiddenValue
 

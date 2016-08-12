@@ -1,4 +1,4 @@
-class Template < ActiveRecord::Base
+class Template < ApplicationRecord
   include Exportable
   attr_accessor :modify_locked, :modify_default
 

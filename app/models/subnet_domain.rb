@@ -1,4 +1,4 @@
-class SubnetDomain < ActiveRecord::Base
+class SubnetDomain < ApplicationRecord
   belongs_to :domain
   belongs_to :subnet
 

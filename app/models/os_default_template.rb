@@ -1,4 +1,4 @@
-class OsDefaultTemplate < ActiveRecord::Base
+class OsDefaultTemplate < ApplicationRecord
   belongs_to :provisioning_template
   belongs_to :template_kind
   belongs_to :operatingsystem

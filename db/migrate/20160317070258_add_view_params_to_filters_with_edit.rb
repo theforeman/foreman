@@ -1,9 +1,9 @@
 class AddViewParamsToFiltersWithEdit < ActiveRecord::Migration
-  class FakeFiltering < ActiveRecord::Base
+  class FakeFiltering < ApplicationRecord
     self.table_name = 'filterings'
   end
 
-  class FakeFilter < ActiveRecord::Base
+  class FakeFilter < ApplicationRecord
     self.table_name = 'filters'
   end
 

@@ -1,4 +1,4 @@
-class NotificationRecipient < ActiveRecord::Base
+class NotificationRecipient < ApplicationRecord
   belongs_to :notification
   belongs_to :user
   has_one :notification_blueprint, :through => :notification

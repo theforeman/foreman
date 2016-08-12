@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TaxonomixDummy < ActiveRecord::Base
+class TaxonomixDummy < ApplicationRecord
   self.table_name = 'environments'
   include Taxonomix
 
@@ -13,7 +13,7 @@ class TaxonomixDummy < ActiveRecord::Base
   end
 end
 
-class UntaxedDummy < ActiveRecord::Base
+class UntaxedDummy < ApplicationRecord
   self.table_name = 'environments'
 end
 

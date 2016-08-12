@@ -1,7 +1,7 @@
 # Represents a Host's network interface
 # This class is the both parent
 module Nic
-  class Base < ActiveRecord::Base
+  class Base < ApplicationRecord
     include Foreman::STI
     include Encryptable
     encrypts :password

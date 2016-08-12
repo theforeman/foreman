@@ -1,4 +1,4 @@
-class FakeBMCNic < ActiveRecord::Base
+class FakeBMCNic < ApplicationRecord
   self.table_name = 'nics'
   serialize :attrs, Hash
 

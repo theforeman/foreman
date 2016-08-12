@@ -1,5 +1,5 @@
 module HostFacets
-  class Base < ActiveRecord::Base
+  class Base < ApplicationRecord
     self.abstract_class = true
 
     include Facets::Base
