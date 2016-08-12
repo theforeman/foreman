@@ -1,5 +1,5 @@
 class ChangeFamilyInOs < ActiveRecord::Migration
-  class Operatingsystem < ActiveRecord::Base; end
+  class Operatingsystem < ApplicationRecord; end
 
   def up
     add_column :operatingsystems, :type, :string, :limit => 16

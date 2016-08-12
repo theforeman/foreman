@@ -1,5 +1,5 @@
 class UpdateOsMinor < ActiveRecord::Migration
-  class Operatingsystem < ActiveRecord::Base; end
+  class Operatingsystem < ApplicationRecord; end
 
   def up
     Operatingsystem.where(:minor => nil).update_all("minor = ''")

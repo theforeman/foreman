@@ -1,4 +1,4 @@
-class Hostgroup < ActiveRecord::Base
+class Hostgroup < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :title

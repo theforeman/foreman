@@ -1,4 +1,4 @@
-class Permission < ActiveRecord::Base
+class Permission < ApplicationRecord
   validates_lengths_from_database
   validates :name, :presence => true, :uniqueness => true
 

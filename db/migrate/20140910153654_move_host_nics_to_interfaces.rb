@@ -1,4 +1,4 @@
-class FakeNic < ActiveRecord::Base
+class FakeNic < ApplicationRecord
   self.table_name = 'nics'
 
   def type
@@ -6,7 +6,7 @@ class FakeNic < ActiveRecord::Base
   end
 end
 
-class FakeHost < ActiveRecord::Base
+class FakeHost < ApplicationRecord
   self.table_name = 'hosts'
 end
 

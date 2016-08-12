@@ -1,4 +1,4 @@
-class ComputeProfile < ActiveRecord::Base
+class ComputeProfile < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

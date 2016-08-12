@@ -35,11 +35,11 @@ class RenameSeededTemplates < ActiveRecord::Migration
     "Ubuntu Mirror" => "Ubuntu mirror"
   }
 
-  class FakeConfigTemplate < ActiveRecord::Base
+  class FakeConfigTemplate < ApplicationRecord
     self.table_name = 'config_templates'
   end
 
-  class FakePtable < ActiveRecord::Base
+  class FakePtable < ApplicationRecord
     self.table_name = 'ptables'
   end
 

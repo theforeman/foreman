@@ -1,4 +1,4 @@
-class Realm < ActiveRecord::Base
+class Realm < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

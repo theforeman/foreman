@@ -1,5 +1,5 @@
 module HostStatus
-  class Status < ActiveRecord::Base
+  class Status < ApplicationRecord
     include Foreman::STI
 
     self.table_name = 'host_status'

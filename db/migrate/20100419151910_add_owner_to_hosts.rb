@@ -1,7 +1,7 @@
 require 'facter'
 class AddOwnerToHosts < ActiveRecord::Migration
-  class User < ActiveRecord::Base; end
-  class Host < ActiveRecord::Base; end
+  class User < ApplicationRecord; end
+  class Host < ApplicationRecord; end
 
   def up
     add_column :hosts, :owner_id,   :integer

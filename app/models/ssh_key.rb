@@ -1,4 +1,4 @@
-class SshKey < ActiveRecord::Base
+class SshKey < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

@@ -1,7 +1,7 @@
 require 'ostruct'
 require 'uri'
 
-class Operatingsystem < ActiveRecord::Base
+class Operatingsystem < ApplicationRecord
   include Authorizable
   include ValidateOsFamily
   include PxeLoaderSupport

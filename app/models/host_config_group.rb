@@ -1,4 +1,4 @@
-class HostConfigGroup < ActiveRecord::Base
+class HostConfigGroup < ApplicationRecord
   include Authorizable
   audited :associated_with => :host
   audited :associated_with => :hostgroup

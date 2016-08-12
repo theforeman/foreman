@@ -1,4 +1,4 @@
-class Environment < ActiveRecord::Base
+class Environment < ApplicationRecord
   extend FriendlyId
   friendly_id :name, :reserved_words => []
   include Taxonomix

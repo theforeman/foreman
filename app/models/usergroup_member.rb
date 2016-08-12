@@ -1,4 +1,4 @@
-class UsergroupMember < ActiveRecord::Base
+class UsergroupMember < ApplicationRecord
   belongs_to :member, :polymorphic => true
   belongs_to :usergroup
 

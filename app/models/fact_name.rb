@@ -1,4 +1,4 @@
-class FactName < ActiveRecord::Base
+class FactName < ApplicationRecord
   include Parameterizable::ByIdName
 
   SEPARATOR = '::'

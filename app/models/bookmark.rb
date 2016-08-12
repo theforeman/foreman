@@ -1,4 +1,4 @@
-class Bookmark < ActiveRecord::Base
+class Bookmark < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

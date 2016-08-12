@@ -1,4 +1,4 @@
-class ComputeResource < ActiveRecord::Base
+class ComputeResource < ApplicationRecord
   include Taxonomix
   include Encryptable
   include Authorizable

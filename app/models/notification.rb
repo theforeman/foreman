@@ -3,7 +3,7 @@
 # Stores the information related to serving the notification to multiple users
 # This class' responsibility is, given a notification blueprint, to determine
 # who are the notification recipients
-class Notification < ActiveRecord::Base
+class Notification < ApplicationRecord
   AUDIENCE_USER     = 'user'
   AUDIENCE_GROUP    = 'usergroup'
   AUDIENCE_TAXONOMY = 'taxonomy'

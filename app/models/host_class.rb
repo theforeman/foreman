@@ -1,4 +1,4 @@
-class HostClass < ActiveRecord::Base
+class HostClass < ApplicationRecord
   include Authorizable
 
   validates_lengths_from_database

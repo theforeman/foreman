@@ -1,4 +1,4 @@
-class MailNotification < ActiveRecord::Base
+class MailNotification < ApplicationRecord
   include Authorizable
 
   INTERVALS = [N_("Daily"), N_("Weekly"), N_("Monthly")]

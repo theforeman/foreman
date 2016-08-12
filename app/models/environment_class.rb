@@ -1,4 +1,4 @@
-class EnvironmentClass < ActiveRecord::Base
+class EnvironmentClass < ApplicationRecord
   belongs_to :environment
   belongs_to :puppetclass
   belongs_to :puppetclass_lookup_key

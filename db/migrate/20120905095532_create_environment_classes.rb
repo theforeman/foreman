@@ -1,5 +1,5 @@
 class CreateEnvironmentClasses < ActiveRecord::Migration
-  class EnvironmentClass < ActiveRecord::Base; end
+  class EnvironmentClass < ApplicationRecord; end
 
   def up
     rename_table :environments_puppetclasses, :environment_classes

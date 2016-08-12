@@ -1,5 +1,5 @@
 class MigratePtablesToTemplates < ActiveRecord::Migration
-  class FakeOldPtable < ActiveRecord::Base
+  class FakeOldPtable < ApplicationRecord
     self.table_name = 'ptables'
 
     has_and_belongs_to_many :operatingsystems, :join_table => 'operatingsystems_ptables', :foreign_key => 'ptable_id'
@@ -7,7 +7,7 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
     has_many_hosts :foreign_key => 'ptable_id'
   end
 
-  class FakeNewPtable < ActiveRecord::Base
+  class FakeNewPtable < ApplicationRecord
     self.table_name = 'templates'
 
     has_and_belongs_to_many :operatingsystems, :join_table => 'operatingsystems_ptables', :foreign_key => 'ptable_id'

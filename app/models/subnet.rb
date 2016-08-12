@@ -1,6 +1,6 @@
 require 'ipaddr'
 
-class Subnet < ActiveRecord::Base
+class Subnet < ApplicationRecord
   IP_FIELDS = [:network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to]
   REQUIRED_IP_FIELDS = [:network, :mask]
   SUBNET_TYPES = {:'Subnet::Ipv4' => N_('IPv4'), :'Subnet::Ipv6' => N_('IPv6')}

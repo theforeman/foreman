@@ -1,5 +1,5 @@
 class LimitOsDescription < ActiveRecord::Migration
-  class FakeOperatingSystem < ActiveRecord::Base
+  class FakeOperatingSystem < ApplicationRecord
     self.table_name = 'operatingsystems'
   end
 

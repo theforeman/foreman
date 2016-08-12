@@ -1,4 +1,4 @@
-class Model < ActiveRecord::Base
+class Model < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

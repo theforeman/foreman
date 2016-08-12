@@ -1,6 +1,6 @@
 require "resolv"
 # This models a DNS domain and so represents a site.
-class Domain < ActiveRecord::Base
+class Domain < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

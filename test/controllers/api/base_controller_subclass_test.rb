@@ -31,7 +31,7 @@ class Api::TestableController < Api::V1::BaseController
   end
 end
 
-class Testable < ActiveRecord::Base
+class Testable < ApplicationRecord
   belongs_to :domain
 end
 

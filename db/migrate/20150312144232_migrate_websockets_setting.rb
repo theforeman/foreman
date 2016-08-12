@@ -1,4 +1,4 @@
-class FakeSetting < ActiveRecord::Base
+class FakeSetting < ApplicationRecord
   self.table_name = 'settings'
 
   def default=(v)

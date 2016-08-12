@@ -1,4 +1,4 @@
-class UserMailNotification < ActiveRecord::Base
+class UserMailNotification < ApplicationRecord
   belongs_to :user
   belongs_to :mail_notification
 

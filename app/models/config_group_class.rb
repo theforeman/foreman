@@ -1,4 +1,4 @@
-class ConfigGroupClass < ActiveRecord::Base
+class ConfigGroupClass < ApplicationRecord
   include Authorizable
 
   audited :associated_with => :config_group

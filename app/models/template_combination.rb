@@ -1,4 +1,4 @@
-class TemplateCombination < ActiveRecord::Base
+class TemplateCombination < ApplicationRecord
   belongs_to :provisioning_template
   belongs_to :environment
   belongs_to :hostgroup

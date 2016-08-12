@@ -1,4 +1,4 @@
-class Feature < ActiveRecord::Base
+class Feature < ApplicationRecord
   extend FriendlyId
   friendly_id :name
   has_and_belongs_to_many :smart_proxies

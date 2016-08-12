@@ -1,4 +1,4 @@
-class ComputeAttribute < ActiveRecord::Base
+class ComputeAttribute < ApplicationRecord
   audited :associated_with => :compute_profile
 
   belongs_to :compute_resource

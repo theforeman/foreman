@@ -1,4 +1,4 @@
-class TaxableTaxonomy < ActiveRecord::Base
+class TaxableTaxonomy < ApplicationRecord
   belongs_to :taxonomy
   belongs_to :taxable, :polymorphic => true
 

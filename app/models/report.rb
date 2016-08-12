@@ -1,4 +1,4 @@
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
 
   include Foreman::STI

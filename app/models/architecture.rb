@@ -1,4 +1,4 @@
-class Architecture < ActiveRecord::Base
+class Architecture < ApplicationRecord
   include Authorizable
   extend FriendlyId
   friendly_id :name

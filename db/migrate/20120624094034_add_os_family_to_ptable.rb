@@ -1,5 +1,5 @@
 class AddOsFamilyToPtable < ActiveRecord::Migration
-  class FakePtableWithoutFamily < ActiveRecord::Base
+  class FakePtableWithoutFamily < ApplicationRecord
     self.table_name = 'ptables'
 
     has_and_belongs_to_many :operatingsystems

@@ -1,4 +1,4 @@
-class Taxonomy < ActiveRecord::Base
+class Taxonomy < ApplicationRecord
   validates_lengths_from_database
 
   include Authorizable

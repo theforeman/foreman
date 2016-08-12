@@ -1,6 +1,6 @@
 require 'resolv'
 
-class Setting < ActiveRecord::Base
+class Setting < ApplicationRecord
   extend FriendlyId
   friendly_id :name
   include ActiveModel::Validations

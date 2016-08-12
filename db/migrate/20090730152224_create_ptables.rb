@@ -1,5 +1,5 @@
 class CreatePtables < ActiveRecord::Migration
-  class Ptable < ActiveRecord::Base; end
+  class Ptable < ApplicationRecord; end
   def up
     create_table :ptables do |t|
       t.string :name,   :limit => 64, :null => false
