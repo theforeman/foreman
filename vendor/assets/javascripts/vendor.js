@@ -1,4 +1,4 @@
 //= require diff
-//= require flot
+//= require jquery.flot.axislabels
 //= require jquery.dataTables.bootstrap-paging
 //= require jquery.jnotify
