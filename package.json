@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "jquery": "~1.11.0",
+    "jquery-flot": "~0.8.3",
     "jquery-ujs": "~1.2.0",
     "jquery.cookie": "~1.4.1",
     "jstz": "~1.0.7",
