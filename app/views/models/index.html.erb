@@ -16,7 +16,7 @@
     <% @models.each do |model| %>
       <tr>
         <td class="display-two-pane ellipsis">
-          <%= link_to_if_authorized trunc_with_tooltip(model.name),
+          <%= link_to_if_authorized model.name,
             hash_for_edit_model_path(:id => model).merge(:auth_object => model, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= model.vendor_class %></td>
         <td class="ellipsis"><%= model.hardware_model %></td>

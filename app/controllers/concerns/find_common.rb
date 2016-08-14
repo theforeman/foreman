@@ -11,7 +11,10 @@ module FindCommon
   def resource_finder(scope, id)
     raise ActiveRecord::RecordNotFound if scope.empty?
     result = scope.from_param(id) if scope.respond_to?(:from_param)
-    result ||= scope.friendly.find(id) if scope.respond_to?(:friendly)
+    begin
+      result ||= scope.friendly.find(id) if scope.respond_to?(:friendly)
+    rescue ActiveRecord::RecordNotFound
+    end
     result || scope.find(id)
   end
 
