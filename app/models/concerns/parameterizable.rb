@@ -27,7 +27,7 @@ module Parameterizable
       end
 
       def self.from_param(id_name)
-        self.find_by_id(id_name.to_i)
+        self.find_by_id(id_name.to_i) if id_name =~ /\A\d+-/
       end
     end
   end
