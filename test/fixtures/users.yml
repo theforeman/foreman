@@ -46,6 +46,16 @@ restricted:
   last_login_on: 2009-10-12 21:50:04
   auth_source: one
 
+scoped:
+  login: scoped
+  lower_login: scoped
+  firstname: Scoped
+  lastname: User
+  mail: userscoped@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:05
+  auth_source: one
+
 admin:
   # Proof that 'admin' isn't special
   login: secret_admin

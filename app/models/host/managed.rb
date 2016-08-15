@@ -161,8 +161,8 @@ class Host::Managed < Host::Base
   alias_attribute :arch, :architecture
 
   validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
-  validates :organization_id, :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:organizations_enabled] }
-  validates :location_id,     :presence => true, :if => Proc.new {|host| host.managed? && SETTINGS[:locations_enabled] }
+  validates :organization_id, :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:organizations_enabled] }
+  validates :location_id,     :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:locations_enabled] }
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
@@ -209,7 +209,7 @@ class Host::Managed < Host::Base
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address
-  after_validation :ensure_associations, :set_default_user
+  after_validation :ensure_associations
   before_validation :set_certname, :if => Proc.new {|h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
   after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
   before_validation :validate_dns_name_uniqueness
@@ -972,12 +972,6 @@ class Host::Managed < Host::Base
       end
     end if environment
     status
-  end
-
-  def set_default_user
-    return if self.owner_type.present? && !OWNER_TYPES.include?(self.owner_type)
-    self.owner_type ||= 'User'
-    self.owner ||= User.current
   end
 
   def set_certname

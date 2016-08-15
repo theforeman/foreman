@@ -365,6 +365,14 @@ class User < ActiveRecord::Base
     TopbarSweeper.expire_cache(self)
   end
 
+  def my_organizations
+    Organization.my_organizations(self)
+  end
+
+  def my_locations
+    Location.my_locations(self)
+  end
+
   def taxonomy_and_child_ids(taxonomies)
     ids = []
     send(taxonomies).each do |taxonomy|

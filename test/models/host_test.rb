@@ -598,13 +598,13 @@ class HostTest < ActiveSupport::TestCase
 
   context "location or organizations are not enabled" do
     before do
-      SETTINGS[:locations_enabled] = false
-      SETTINGS[:organizations_enabled] = false
+      @original_loc, SETTINGS[:locations_enabled] = SETTINGS[:locations_enabled], false
+      @original_org, SETTINGS[:organizations_enabled] = SETTINGS[:organizations_enabled], false
     end
 
     after do
-      SETTINGS[:locations_enabled] = true
-      SETTINGS[:organizations_enabled] = true
+      SETTINGS[:locations_enabled] = @original_loc
+      SETTINGS[:organizations_enabled] = @original_org
     end
 
     test "should save if root password is undefined when the host is managed and in build mode" do
@@ -697,6 +697,14 @@ class HostTest < ActiveSupport::TestCase
         refute_valid host
         assert_match(/Usergroup/, host.errors[:owner].first)
       end
+    end
+
+    test "should not save if owner_type is not User or Usergroup" do
+      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+        :owner_type => "UserGr(up" # should be Usergroup
+      refute host.valid?
     end
 
     test "should not save if installation media is missing" do
@@ -2131,6 +2139,20 @@ class HostTest < ActiveSupport::TestCase
       assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
     end
   end # end of context "location or organizations are not enabled"
+
+  test "should not save if owner taxonomies do not match host configuration" do
+    org1 = FactoryGirl.create(:organization)
+    loc1 = FactoryGirl.create(:location)
+    user = FactoryGirl.create(:user, :organizations => [], :locations => [])
+    host = FactoryGirl.build(:host, :organization => org1, :location => loc1, :owner => user)
+
+    original_loc, SETTINGS[:locations_enabled] = SETTINGS[:locations_enabled], true
+    original_org, SETTINGS[:organizations_enabled] = SETTINGS[:organizations_enabled], true
+    refute host.valid?
+    assert_operator 2, :<=, host.errors[:is_owned_by].size
+    SETTINGS[:locations_enabled] = original_loc
+    SETTINGS[:organizations_enabled] = original_org
+  end
 
   test "#capabilities returns capabilities from compute resource" do
     host = FactoryGirl.create(:host, :compute_resource => compute_resources(:one))

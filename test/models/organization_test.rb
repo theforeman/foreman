@@ -58,7 +58,7 @@ class OrganizationTest < ActiveSupport::TestCase
                        :medium           => media(:one),
                        :operatingsystem  => operatingsystems(:centos5_3),
                        :organization     => organization,
-                       :owner            => users(:restricted),
+                       :owner            => users(:scoped),
                        :puppet_proxy     => smart_proxies(:puppetmaster),
                        :realm            => realms(:myrealm),
                        :subnet           => subnet,
@@ -98,7 +98,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal used_ids[:domain_ids], [domain.id]
     assert_equal used_ids[:medium_ids], [media(:one).id]
     assert_equal used_ids[:compute_resource_ids].sort, [compute_resources(:one).id]
-    assert_equal used_ids[:user_ids], [users(:restricted).id]
+    assert_equal used_ids[:user_ids], [users(:scoped).id]
     assert_includes used_ids[:smart_proxy_ids].sort, smart_proxies(:puppetmaster).id
     assert_includes used_ids[:smart_proxy_ids].sort, smart_proxies(:realm).id
     assert_equal used_ids[:provisioning_template_ids].sort, [templates(:mystring2).id]
@@ -137,7 +137,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal selected_ids[:subnet_ids], [subnets(:one).id]
     assert_equal selected_ids[:domain_ids], [domains(:mydomain).id]
     assert_equal selected_ids[:medium_ids], []
-    assert_equal selected_ids[:user_ids], []
+    assert_equal selected_ids[:user_ids], [users(:scoped).id]
     assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
     assert_equal selected_ids[:provisioning_template_ids], [templates(:mystring2).id]
     assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id]
@@ -191,6 +191,13 @@ class OrganizationTest < ActiveSupport::TestCase
   test ".my_organizations returns all orgs for admin" do
     as_admin do
       assert_equal Organization.unscoped.pluck(:id).sort, Organization.my_organizations.pluck(:id).sort
+    end
+  end
+
+  test ".my_organizations optionally accepts user as argument" do
+    expected = Organization.where(:id => users(:one).organization_and_child_ids)
+    as_admin do
+      assert_equal expected.sort, Organization.my_organizations(users(:one)).pluck(:id).sort
     end
   end
 

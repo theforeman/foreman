@@ -288,24 +288,24 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should allow access to restricted user who owns the host" do
-    host = FactoryGirl.create(:host, :owner => users(:restricted))
-    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     get :show, { :id => host.to_param }
     assert_response :success
   end
 
   test "should allow to update for restricted user who owns the host" do
     disable_orchestration
-    host = FactoryGirl.create(:host, :owner => users(:restricted))
-    setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     put :update, { :id => host.to_param, :host => valid_attrs }
     assert_response :success
   end
 
   test "should allow destroy for restricted user who owns the hosts" do
-    host = FactoryGirl.create(:host, :owner => users(:restricted))
+    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
     assert_difference('Host.count', -1) do
-      setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+      setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
       delete :destroy, { :id => host.to_param }
     end
     assert_response :success
@@ -313,8 +313,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should allow show status for restricted user who owns the hosts" do
     Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/status route is deprecated}))
-    host = FactoryGirl.create(:host, :owner => users(:restricted))
-    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     get :status, { :id => host.to_param }
     assert_response :success
   end
@@ -326,8 +326,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should not list a host out of users hosts scope" do
-    host = FactoryGirl.create(:host, :owner => users(:restricted))
-    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     get :index, {}
     assert_response :success
     hosts = ActiveSupport::JSON.decode(@response.body)

@@ -29,6 +29,8 @@ module Host
     belongs_to :organization
 
     alias_attribute :hostname, :name
+    before_validation :set_default_user
+
     validates :name, :presence   => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP}
     validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
                                            :allow_blank => true,
@@ -37,6 +39,8 @@ module Host
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
     validate :build_managed_only
+    validate :owner_taxonomies_match, :if => Proc.new { |host| host.owner.is_a?(User) }
+
     include PxeLoaderSuggestion
 
     default_scope -> { where(taxonomy_conditions) }
@@ -310,6 +314,22 @@ module Host
     end
 
     private
+
+    def owner_taxonomies_match
+      return true if self.owner.admin?
+
+      if Organization.organizations_enabled && self.organization_id && !self.owner.my_organizations.where(:id => self.organization_id).exists?
+        errors.add :is_owned_by, _("does not belong into host's organization")
+      end
+      if Location.locations_enabled && self.location_id && !self.owner.my_locations.where(:id => self.location_id).exists?
+        errors.add :is_owned_by, _("does not belong into host's location")
+      end
+    end
+
+    def set_default_user
+      self.owner ||= User.current if self.owner_type.nil? && self.owner_id.nil?
+      true
+    end
 
     def build_values_for_primary_interface!(values_for_primary_interface, args)
       new_attrs = args.shift
