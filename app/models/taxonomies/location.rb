@@ -15,8 +15,8 @@ class Location < Taxonomy
 
   scope :completer_scope, ->(opts) { my_locations }
 
-  scope :my_locations, lambda {
-    conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.location_and_child_ids])
+  scope :my_locations, lambda { |user = User.current|
+    conditions = user.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.location_and_child_ids])
     where(conditions)
   }
 
