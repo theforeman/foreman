@@ -26,6 +26,7 @@ module Api
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
       param :environment_id, String, :desc => N_("ID of environment")
+      param :include, Array, :in => ['parameters', 'all_parameters'], :desc => N_("Array of extra information types to include")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -34,12 +35,18 @@ module Api
         # SQL optimizations queries
         @last_report_ids = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         @last_reports = Report.where(:id => @last_report_ids.values)
+        if params[:include].present?
+          @parameters = params[:include].include?('parameters')
+          @all_parameters = params[:include].include?('all_parameters')
+        end
       end
 
       api :GET, "/hosts/:id/", N_("Show a host")
       param :id, :identifier_dottable, :required => true
 
       def show
+        @parameters = true
+        @all_parameters = true
       end
 
       def_param_group :host do

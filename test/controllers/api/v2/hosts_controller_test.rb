@@ -89,6 +89,35 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_includes(ip_addresses, "127.13.0.1")
   end
 
+  test "should get parameters from index" do
+    last_record.parameters = [HostParameter.new(name: 'foo', value: 'bar')]
+    get :index, include: ['parameters']
+    assert_response :success
+    assert_not_nil assigns(:hosts)
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    parameters = hosts['results'].map { |host| host['parameters'] }.flatten
+    parameter = parameters.select { |param| param['name'] == 'foo' }.first
+    refute parameters.empty?
+    assert_equal parameter['value'], 'bar'
+  end
+
+  test "should get all_parameters from index" do
+    hostgroup = FactoryGirl.create(:hostgroup, :with_parent, :with_domain, :with_os)
+    hostgroup.group_parameters = [GroupParameter.new(name: 'foobar', value: 'baz')]
+    last_record.parameters = [HostParameter.new(name: 'foo', value: 'bar')]
+    last_record.update_attribute(:hostgroup_id, hostgroup.id)
+    get :index, include: ['all_parameters']
+    assert_response :success
+    assert_not_nil assigns(:hosts)
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    parameters = hosts['results'].map { |host| host['all_parameters'] }.flatten
+    parameter = parameters.select { |param| param['name'] == 'foo' }.first
+    inherited_parameter = parameters.select { |param| param['name'] == 'foobar' }.first
+    refute parameters.empty?
+    assert_equal parameter['value'], 'bar'
+    assert_equal inherited_parameter['value'], 'baz'
+  end
+
   test "should show individual record" do
     get :show, { :id => @host.to_param }
     assert_response :success
