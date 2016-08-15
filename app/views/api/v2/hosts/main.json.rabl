@@ -40,6 +40,18 @@ node :hostgroup_title do |host|
   host.hostgroup.title if host.hostgroup.present?
 end
 
+if @parameters
+  node do |host|
+    { :parameters => partial("api/v2/parameters/base", :object => host.host_parameters.authorized) }
+  end
+end
+
+if @all_parameters
+  node do |host|
+    { :all_parameters => partial("api/v2/parameters/base", :object => host.host_params_objects) }
+  end
+end
+
 @object.facets_with_definitions.each do |_facet, definition|
   node do
     partial(definition.api_list_view, :object => @object) if definition.api_list_view

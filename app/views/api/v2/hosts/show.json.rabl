@@ -2,14 +2,6 @@ object @host
 
 extends "api/v2/hosts/main"
 
-node do |host|
-  { :parameters => partial("api/v2/parameters/base", :object => host.host_parameters.authorized) }
-end
-
-node do |host|
-  { :all_parameters => partial("api/v2/parameters/base", :object => host.host_params_objects) }
-end
-
 child :interfaces => :interfaces do
   extends "api/v2/interfaces/base"
 end
