@@ -1,8 +1,11 @@
 'use strict';
 
+require( 'es6-promise' ).polyfill(); //needed for compatibility with older node versions
+
 var path = require('path');
 var webpack = require('webpack');
 var StatsPlugin = require('stats-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
@@ -41,6 +44,14 @@ var config = {
         query: {
           presets: ['es2015']
         }
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+      },
+      {
+        test: /(\.png|\.gif)$/,
+        loader: "url-loader?limit=32767"
       }
     ],
   },
@@ -58,6 +69,9 @@ var config = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
+    }),
+    new ExtractTextPlugin(production ? '[name]-[chunkhash].css' : '[name].css', {
+            allChunks: true
     })
   ]
 };
@@ -81,7 +95,6 @@ if (production) {
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }
   };
-  config.output.publicPath = '//0.0.0.0:' + devServerPort + '/webpack/';
   // Source maps
   config.devtool = 'cheap-module-eval-source-map';
 }

@@ -440,8 +440,9 @@ module ApplicationHelper
     return unless Rails.configuration.webpack.dev_server.enabled
     port = Rails.configuration.webpack.dev_server.port
     dev_server = "#{request.protocol}#{request.host}:#{port}"
-    response.headers['Content-Security-Policy']['script-src'] = "script-src #{dev_server}"
-    response.headers['Content-Security-Policy']['wss:'] = "wss: #{dev_server}"
+    ['script-src', 'style-src', 'img-src', 'wss:'].each do |header|
+      response.headers['Content-Security-Policy'][header] = "#{header} #{dev_server}"
+    end
     javascript_include_tag "#{dev_server}/webpack-dev-server.js"
   end
 end
