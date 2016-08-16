@@ -637,4 +637,24 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     get :show, {:id => host_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end
+
+  test "host with two interfaces should get ips assigned on both interfaces" do
+    disable_orchestration
+    subnet1 = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet1', :network => '192.168.2.0', :from => '192.168.2.10',
+                                  :to => '192.168.2.12', :dns_primary => '192.168.2.2', :gateway => '192.168.2.3',
+                                  :ipam => IPAM::MODES[:db], :location_ids => [ basic_attrs[:location_id] ],
+                                  :organization_ids => [ basic_attrs[:organization_id] ])
+    subnet2 = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet2', :network => '192.168.3.0', :from => '192.168.3.10',
+                                 :to => '192.168.3.12', :dns_primary => '192.168.3.2', :gateway => '192.168.3.3',
+                                 :ipam => IPAM::MODES[:db], :location_ids => [ basic_attrs[:location_id] ],
+                                 :organization_ids => [ basic_attrs[:organization_id] ])
+    assert_difference('Host.count') do
+      post :create, { :host => basic_attrs.merge!(:interfaces_attributes => [{ :primary => true, :mac => '00:11:22:33:44:00',
+                      :subnet_id => subnet1.id}, { :primary => false, :mac => '00:11:22:33:44:01', :subnet_id => subnet2.id}]) }
+    end
+    assert_response :created
+    assert_equal 2, last_host.interfaces.count
+    assert_equal '192.168.2.10', last_host.interfaces.find_by_mac('00:11:22:33:44:00').ip
+    assert_equal '192.168.3.10', last_host.interfaces.find_by_mac('00:11:22:33:44:01').ip
+  end
 end
