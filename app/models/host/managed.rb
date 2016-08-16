@@ -630,7 +630,10 @@ class Host::Managed < Host::Base
   end
 
   def set_ip_address
-    self.ip ||= subnet.unused_ip if subnet and SETTINGS[:unattended] and (new_record? or managed?)
+    return unless SETTINGS[:unattended] && (new_record? || managed?)
+    self.interfaces.select { |nic| nic.managed }.each do |nic|
+      nic.ip ||= nic.subnet.unused_ip if nic.subnet.present?
+    end
   end
 
   def associate!(cr, vm)
