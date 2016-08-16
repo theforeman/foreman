@@ -21,6 +21,11 @@
 # Make sure to run `rake webpack:compile` if disabled.
 :webpack_dev_server: true
 
+# If you run Foreman in development behind some proxy or use HTTPS you need
+# to enable HTTPS for webpack dev server too, otherwise you'd get mixed content
+# errors in your browser
+:webpack_dev_server_https: false
+
 # Local administrative settings for application domain, fqdn, foreman URL,
 # administrator email address etc. If you don't have a Puppet provisioning
 # system you may want to change to setup your project on your local machine.
