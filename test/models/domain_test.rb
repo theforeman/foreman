@@ -60,7 +60,9 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should update hosts_count" do
     assert_difference "@domain.hosts_count" do
-      FactoryGirl.create(:host).update_attribute(:domain, @domain)
+      h = FactoryGirl.create(:host)
+      h.domain = @domain
+      h.save!
       @domain.reload
     end
   end
@@ -116,7 +118,7 @@ class DomainTest < ActiveSupport::TestCase
   test "should update hosts_count on domain_id change" do
     host = FactoryGirl.create(:host, :managed, :domain => @domain)
     assert_difference "@domain.hosts_count", -1 do
-      host.update_attribute(:domain_id, FactoryGirl.create(:domain).id)
+      host.primary_interface.update_attribute(:domain_id, FactoryGirl.create(:domain).id)
       @domain.reload
     end
   end
