@@ -632,7 +632,7 @@ class HostTest < ActiveSupport::TestCase
         host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
           :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :medium => media(:one),
           :architecture => Architecture.first, :environment => Environment.first, :managed => true
-        assert !host.valid?
+        refute_valid host
       end
     end
 
@@ -669,21 +669,34 @@ class HostTest < ActiveSupport::TestCase
       end
     end
 
-    test "should save if owner_type is User or Usergroup" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03",
-        :ptable => FactoryGirl.create(:ptable, :operatingsystem_ids => [operatingsystems(:redhat).id]), :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
-        :owner_type => "User", :root_pass => "xybxa6JUkz63w"
-      assert host.valid?
-    end
+    context 'owner_type validations' do
+      test "should save if owner_type is User or Usergroup" do
+        host = FactoryGirl.build(:host, :owner_type => "User", :owner => User.current)
+        assert_valid host
+      end
 
-    test "should not save if owner_type is not User or Usergroup" do
-      host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-        :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
-        :owner_type => "UserGr(up" # should be Usergroup
-      assert !host.valid?
+      test "should not save if owner_type is not User or Usergroup" do
+        host = FactoryGirl.build(:host, :owner_type => "UserGr(up") # should be Usergroup
+        refute_valid host
+      end
+
+      test 'should succeed validation if owner not set' do
+        host = FactoryGirl.build(:host, :without_owner)
+        assert_valid host
+      end
+
+      test "should not save if owner_type is set without owner" do
+        host = FactoryGirl.build(:host, :owner_type => "Usergroup")
+        refute_valid host
+        assert_match(/owner must be specified/, host.errors[:owner].first)
+      end
+
+      test "should not save if owner_type is not in sync with owner" do
+        host = FactoryGirl.build(:host, :owner => User.current)
+        host.owner_type = 'Usergroup'
+        refute_valid host
+        assert_match(/Usergroup/, host.errors[:owner].first)
+      end
     end
 
     test "should not save if installation media is missing" do

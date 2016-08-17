@@ -420,6 +420,10 @@ FactoryGirl.define do
     trait :with_realm do
       realm
     end
+
+    trait :without_owner do
+      owner nil
+    end
   end
 
   factory :hostgroup do
