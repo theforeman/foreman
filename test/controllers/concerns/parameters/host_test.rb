@@ -14,7 +14,7 @@ class HostParametersTest < ActiveSupport::TestCase
     filtered = host_params
 
     assert_equal 'test.example.com', filtered['name']
-    assert_equal({'foo' => 'bar', 'memory' => 2}, filtered['compute_attributes'])
+    assert_equal({'foo' => 'bar', 'memory' => 2}, filtered['compute_attributes'].to_h)
     assert filtered.permitted?
   end
 
@@ -26,7 +26,7 @@ class HostParametersTest < ActiveSupport::TestCase
 
     assert_equal 'test.example.com', filtered['name']
     assert_equal 'abc', filtered['interfaces_attributes'][0][:name]
-    assert_equal({'type' => 'awesome', 'network' => 'superawesome'}, filtered['interfaces_attributes'][0]['compute_attributes'])
+    assert_equal({'type' => 'awesome', 'network' => 'superawesome'}, filtered['interfaces_attributes'][0]['compute_attributes'].to_h)
     assert filtered.permitted?
   end
 end
