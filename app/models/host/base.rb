@@ -13,6 +13,7 @@ module Host
 
     validates_lengths_from_database
     belongs_to :model, :name_accessor => 'hardware_model_name'
+    belongs_to :owner, :polymorphic => true
     has_many :fact_values, :dependent => :destroy, :foreign_key => :host_id
     has_many :fact_names, :through => :fact_values
     has_many :interfaces, -> { order(:identifier) }, :dependent => :destroy, :inverse_of => :host, :class_name => 'Nic::Base',
@@ -32,6 +33,7 @@ module Host
     validates :owner_type, :inclusion => { :in          => OWNER_TYPES,
                                            :allow_blank => true,
                                            :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', ')) }
+    validate :validate_owner
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
     validate :build_managed_only
@@ -500,6 +502,20 @@ module Host
         root_pass == hostgroup.try(:read_attribute, :root_pass)
       else
         true
+      end
+    end
+
+    def validate_owner
+      return true if self.owner_type.nil? && self.owner.nil?
+
+      add_owner_error if self.owner_type.present? && self.owner.nil?
+    end
+
+    def add_owner_error
+      if self.owner_id.present?
+        errors.add(:owner, (_('There is no owner with id %d and type %s') % [self.owner_id, self.owner_type]))
+      else
+        errors.add(:owner, _('If owner type is specified, owner must be specified too.'))
       end
     end
   end
