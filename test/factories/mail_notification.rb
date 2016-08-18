@@ -8,11 +8,11 @@ FactoryGirl.define do
     subscription_type "report"
     queryable false
 
-    trait :puppet_error do
-      sequence(:name) {"puppet_error_state"}
+    trait :config_error do
+      sequence(:name) {"config_error_state"}
       mailer "HostMailer"
-      mailer_method "puppet"
-      type "PuppetError"
+      mailer_method "config"
+      type "ConfigManagementError"
     end
   end
 end

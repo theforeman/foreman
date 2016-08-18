@@ -23,7 +23,9 @@ class MailNotification < ApplicationRecord
 
   def initialize(*args)
     params = args.shift
-    params[:type] = "PuppetError" if params.is_a?(Hash) && params[:name] == 'puppet_error_state'
+    if params.is_a?(Hash) && params[:name] == 'config_error_state'
+      params[:type] = "ConfigManagementError"
+    end
     args.unshift(params)
     super(*args)
   end

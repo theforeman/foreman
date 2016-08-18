@@ -14,8 +14,8 @@ N_('Puppet error state')
 
 notifications = [
   {
-    :name              => 'puppet_summary',
-    :description       => N_('A summary of eventful puppet reports'),
+    :name              => 'config_summary',
+    :description       => N_('A summary of eventful configuration management reports'),
     :mailer            => 'HostMailer',
     :method            => 'summary',
     :subscription_type => 'report'
@@ -56,8 +56,8 @@ notifications = [
   },
 
   {
-    :name               => 'puppet_error_state',
-    :description        => N_('A notification when a host reports a puppet error'),
+    :name               => 'config_error_state',
+    :description        => N_('A notification when a host reports a configuration error'),
     :mailer             => 'HostMailer',
     :method             => 'error_state',
     :subscription_type  => 'alert'
