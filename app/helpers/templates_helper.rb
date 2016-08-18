@@ -20,12 +20,22 @@ module TemplatesHelper
     rights.all? && !rights.blank?
   end
 
-  def infobox_functions_and_macros(docs_section)
-    alert(:class => 'alert-info', :header => '',
-          :text => (_('Check out some %s') %
-                    link_to(_('useful template functions and macros'),
-                            documentation_url(docs_section))),
-          :rel => 'external')
+  def safemode_methods
+    @@safemode_methods ||= begin
+      objects = ObjectSpace.each_object(Class).select{|x| x < Safemode::Jail }
+      objects_with_methods = objects.map do |obj|
+        [obj.name.gsub(/::Jail$/, ''), obj.allowed_methods.sort.join(' ')]
+      end
+      objects_with_methods.uniq.sort_by(&:first)
+    end
+  end
+
+  def safemode_helpers
+    @@safemode_helpers ||= Foreman::Renderer::ALLOWED_HELPERS.sort.join(' ')
+  end
+
+  def safemode_variables
+    @@safemode_variables ||= Foreman::Renderer::ALLOWED_VARIABLES.sort.map{|x| "@#{x}"}.join(' ')
   end
 
   def locked_warning(template)
