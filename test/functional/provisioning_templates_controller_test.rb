@@ -28,6 +28,14 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
+  test "edit page contains help information" do
+    Setting[:safemode_render] = true
+    get :edit, {:id => templates(:pxekickstart).to_param}, set_session_user
+    assert_includes @response.body, Foreman::Renderer::ALLOWED_HELPERS.first.to_s
+    assert_includes @response.body, Foreman::Renderer::ALLOWED_VARIABLES.first.to_s
+    assert_includes @response.body, 'foreman_server_fqdn'
+  end
+
   test "lock" do
     @request.env['HTTP_REFERER'] = provisioning_templates_path
     get :lock, {:id => templates(:pxekickstart).to_param }, set_session_user
