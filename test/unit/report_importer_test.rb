@@ -20,10 +20,10 @@ class ReportImporterTest < ActiveSupport::TestCase
     assert_empty r.logs
   end
 
-  context 'puppet error state notification' do
+  context 'config error state notification' do
     setup do
       @user = as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
-      @user.mail_notifications << PuppetError.first
+      @user.mail_notifications << ConfigManagementError.first
       @host = FactoryGirl.create(:host)
     end
 
@@ -51,9 +51,9 @@ class ReportImporterTest < ActiveSupport::TestCase
       @host = FactoryGirl.create(:host, :owner => @owner)
     end
 
-    # Only ConfigReportImporter is set to send puppet error states
+    # Only ConfigReportImporter is set to send config error states
     test 'when owner is subscribed to notification, a mail should be sent on error' do
-      @owner.mail_notifications << PuppetError.first
+      @owner.mail_notifications << ConfigManagementError.first
       @owner.user_mail_notifications.all.each { |notification| notification.update_attribute(:interval, 'Subscribe to my hosts') }
       assert_difference 'ActionMailer::Base.deliveries.size' do
         report = read_json_fixture('reports/errors.json')
@@ -81,10 +81,10 @@ class ReportImporterTest < ActiveSupport::TestCase
     end
   end
 
-  # Only ConfigReportImporter is set to send puppet error states
+  # Only ConfigReportImporter is set to send config error states
   test 'when usergroup owner is subscribed to notification, a mail should be sent to all users on error' do
     ug = FactoryGirl.create(:usergroup, :users => FactoryGirl.create_pair(:user, :with_mail))
-    Usergroup.any_instance.expects(:recipients_for).with(:puppet_error_state).returns(ug.users)
+    Usergroup.any_instance.expects(:recipients_for).with(:config_error_state).returns(ug.users)
     host = FactoryGirl.create(:host, :owner => ug)
     report = read_json_fixture('reports/errors.json')
     report["host"] = host.name

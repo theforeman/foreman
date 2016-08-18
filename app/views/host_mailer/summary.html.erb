@@ -1,4 +1,4 @@
-<h2 class="headline"><%= _("<b>Foreman</b> Puppet summary").html_safe %></h2>
+<h2 class="headline"><%= _("<b>Foreman</b> Configuration Management Summary").html_safe %></h2>
 <h2 style="margin: 5px 0px;"><%= _("Summary from %{time} ago to now") % {:time => distance_of_time_in_words(Time.now - @timerange)} %></h2>
 <h3><%= _("Summary report from Foreman server at %{foreman_url}") % {:foreman_url => Setting[:foreman_url]} %></h3>
 <div class="dashboard">
@@ -6,6 +6,6 @@
 </div>
 <div class="hosts">
   <%= render :partial => 'list', :locals => {:state => 'active', :title => _("Hosts with interesting values (changed, failures etc)"), :list => @hosts} %>
-  <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => _("Hosts which are currently not running Puppet"), :list => @out_of_sync} %>
+  <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => _("Hosts which do not have recent reports from configuration management"), :list => @out_of_sync} %>
   <%= render :partial => 'list', :locals => {:state => 'nonactive', :title => _("Hosts which Foreman reporting is disabled"), :list => @disabled} %>
 </div>

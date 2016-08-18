@@ -17,7 +17,7 @@ class ConfigReportImporter < ReportImporter
     # Store all Puppet message logs
     import_log_messages
     # Check for errors
-    notify_on_report_error(:puppet_error_state)
+    notify_on_report_error(:config_error_state)
   end
 
   def report_status

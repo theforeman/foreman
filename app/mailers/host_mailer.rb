@@ -20,7 +20,7 @@ class HostMailer < ApplicationMailer
     @disabled = hosts.alerts_disabled.sort
 
     set_locale_for(user) do
-      subject = _("Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
+      subject = _("Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
         :failed => total_metrics["failed"],
         :restarted => total_metrics["restarted"],
         :skipped => total_metrics["skipped"],
@@ -39,7 +39,7 @@ class HostMailer < ApplicationMailer
     @report = report
     @host = @report.host
     set_locale_for(options[:user]) do
-      mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host)) do |format|
+      mail(:to => options[:user].mail, :subject => (_("Configuration Management Error on %s") % @host)) do |format|
         format.html { render :layout => 'application_mailer' }
       end
     end
