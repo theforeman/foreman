@@ -51,11 +51,13 @@ class Host::Managed < Host::Base
     return unless respond_to?(:old) && old && (build? != old.build?)
     if build?
       run_callbacks :build do
-        logger.debug { "custom hook after_build on #{name} will be executed if defined." }
+        logger.debug "custom hook after_build on #{name} will be executed if defined."
+        true
       end
     else
       run_callbacks :provision do
-        logger.debug { "custom hook before_provision on #{name} will be executed if defined." }
+        logger.debug "custom hook before_provision on #{name} will be executed if defined."
+        true
       end
     end
   end
