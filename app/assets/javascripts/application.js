@@ -90,7 +90,8 @@ function onContentLoad(){
   $('a[rel="external"]').attr("target","_blank");
 
   $('*[data-ajax-url]').each(function() {
-    var url = $(this).data('ajax-url');
+    var url = $(this).data('ajax-url'),
+        onComplete = $(this).data('on-complete');
     $(this).removeAttr('data-ajax-url');
     $(this).load(url, function(response, status, xhr) {
       if (status == "error") {
@@ -99,8 +100,12 @@ function onContentLoad(){
         }
         $(this).html(response);
       }
-      if ($(this).data('on-complete')){
-        window[$(this).data('on-complete')].call(null, this, status);
+      if (onComplete){
+        if (window[onComplete]) {
+          window[onComplete].call(null, this, status);
+        } else {
+          funcInModule(onComplete).call(null, this, status);
+        }
       }
     });
   });
@@ -124,6 +129,15 @@ function onContentLoad(){
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
   })
+}
+
+function funcInModule(modulePath) {
+  var modPath = modulePath.split('.'),
+      obj = window;
+  modPath.forEach(function(item) {
+    obj = obj[item];
+  });
+  return obj;
 }
 
 function activateDatatables() {
