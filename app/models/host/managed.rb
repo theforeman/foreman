@@ -1,6 +1,7 @@
 class Host::Managed < Host::Base
   include Hostext::PowerInterface
   include Hostext::Search
+  include Hostext::SmartProxy
   include Hostext::Token
   include SelectiveClone
   include HostParams
@@ -742,32 +743,6 @@ class Host::Managed < Host::Base
 
   def vm_compute_attributes
     compute_resource ? compute_resource.vm_compute_attributes_for(uuid) : nil
-  end
-
-  def smart_proxies
-    SmartProxy.where(:id => smart_proxy_ids)
-  end
-
-  def smart_proxy_ids
-    ids = []
-    [subnet, hostgroup.try(:subnet)].compact.each do |s|
-      ids << s.dhcp_id
-      ids << s.tftp_id
-      ids << s.dns_id
-    end
-
-    [domain, hostgroup.try(:domain)].compact.each do |d|
-      ids << d.dns_id
-    end
-
-    [realm, hostgroup.try(:realm)].compact.each do |r|
-      ids << r.realm_proxy_id
-    end
-
-    [puppet_proxy_id, puppet_ca_proxy_id, hostgroup.try(:puppet_proxy_id), hostgroup.try(:puppet_ca_proxy_id)].compact.each do |p|
-      ids << p
-    end
-    ids.uniq.compact
   end
 
   def bmc_proxy
