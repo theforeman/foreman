@@ -18,7 +18,7 @@ class Image < ActiveRecord::Base
   validate :uuid_exists?
 
   scoped_search :on => [:name, :username], :complete_value => true
-  scoped_search :in => :compute_resources, :on => :name, :complete_value => :true, :rename => "compute_resource"
+  scoped_search :in => :compute_resource, :on => :name, :complete_value => :true, :rename => "compute_resource"
   scoped_search :in => :architecture, :on => :id, :rename => "architecture", :complete_enabled => false, :only_explicit => true
   scoped_search :in => :operatingsystem, :on => :id, :rename => "operatingsystem", :complete_enabled => false, :only_explicit => true
   scoped_search :on => :user_data, :complete_value => {:true => true, :false => false}
