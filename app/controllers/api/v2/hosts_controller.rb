@@ -76,7 +76,6 @@ module Api
           param :managed, :bool, :desc => N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
           param :progress_report_id, String, :desc => N_("UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks")
           param :comment, String, :desc => N_("Additional information about this host")
-          param :capabilities, String
           param :compute_profile_id, :number
           param :interfaces_attributes, Array, :desc => N_("Host's network interfaces.") do
             param_group :interface_attributes, ::Api::V2::InterfacesController
