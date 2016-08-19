@@ -3225,6 +3225,46 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#smart_proxy_ids' do
+    test 'returns IDs for proxies associated with host services' do
+      # IDs are fake, just to prove host.smart_proxy_ids gathers them
+      host = FactoryGirl.build(:host, :with_subnet, :with_realm,
+                               :puppet_proxy_id => 1,
+                               :puppet_ca_proxy_id => 1)
+      host.realm = FactoryGirl.build(:realm, :realm_proxy_id => 1)
+      host.subnet.tftp_id = 2
+      host.subnet.dhcp_id = 3
+      host.subnet.dns_id = 4
+      assert host.smart_proxy_ids, [1,2,3,4]
+    end
+
+    context 'from hostgroup' do
+      setup do
+        @hostgroup = FactoryGirl.create(:hostgroup, :with_puppet_orchestration)
+        @host = FactoryGirl.build(:host)
+        @host.hostgroup = @hostgroup
+        @host.send(:assign_hostgroup_attributes,
+                   [:puppet_ca_proxy_id, :puppet_proxy_id])
+      end
+
+      test 'returns IDs for proxies used by services inherited from hostgroup' do
+        @host.realm = FactoryGirl.build(:realm, :realm_proxy_id => 1)
+        assert_equal [@hostgroup.puppet_ca_proxy_id,
+                      @hostgroup.puppet_proxy_id,
+                      @host.realm.realm_proxy_id].sort,
+                      @host.smart_proxy_ids.sort
+      end
+
+      test 'does not return IDs for services not inherited from the hostgroup' do
+        @host.realm = FactoryGirl.build(:realm, :realm_proxy_id => 1)
+        @host.puppet_proxy_id = nil
+        assert_equal [@hostgroup.puppet_ca_proxy_id,
+                      @host.realm.realm_proxy_id].sort,
+                      @host.smart_proxy_ids.sort
+      end
+    end
+  end
+
   private
 
   def parse_json_fixture(relative_path)
