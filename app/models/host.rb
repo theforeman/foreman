@@ -11,7 +11,6 @@ module Host
         type = args[0][:type]   # stores the type for later usage.
       end
     end
-
     type.constantize.send(method,*args, &block)
   end
 
@@ -19,7 +18,7 @@ module Host
   # this module doesn't have. So we stub it out to make that logic work for
   # the "find_by_*" classes that Rails will provide
   def self.respond_to?(method, include_private = false)
-    if method.to_s =~ /\Afind_by_(.*)\Z/
+    if method.to_s =~ /\Afind_by_(.*)\Z/ || method == :reorder
       true
     else
       super
