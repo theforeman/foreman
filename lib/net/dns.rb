@@ -19,7 +19,7 @@ module Net
     def self.lookup(query, options = {})
       return nil unless query.present?
 
-      proxy = options.fetch(:proxy)
+      proxy = options.fetch(:proxy, nil)
       resolver = options.fetch(:resolver, Resolv::DNS.new)
       ipfamily = options.fetch(:ipfamily, Socket::AF_INET)
 
