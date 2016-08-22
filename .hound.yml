@@ -1,0 +1,15 @@
+scss:
+  enabled: false
+
+ruby:
+  enabled: false
+
+jshint:
+  enabled: false
+
+eslint:
+  enabled: true
+  config_file: .eslintrc
+  ignore_file: .eslintignore
+
+fail_on_violations: true
