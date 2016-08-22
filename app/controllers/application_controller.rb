@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   include ApplicationShared
 
   force_ssl :if => :require_ssl?
-  ensure_security_headers
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
@@ -20,6 +19,7 @@ class ApplicationController < ActionController::Base
   before_action :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_action :authorize
   before_action :welcome, :only => :index, :unless => :api_request?
+  before_action :allow_webpack, :if => -> {Rails.configuration.webpack.dev_server.enabled}
   around_action :set_timezone
   layout :display_layout?
 
@@ -396,6 +396,13 @@ class ApplicationController < ActionController::Base
 
   def parameter_filter_context
     Foreman::ParameterFilter::Context.new(:ui, controller_name, params[:action])
+  end
+
+  def allow_webpack
+    port = Rails.configuration.webpack.dev_server.port
+    @dev_server = "#{request.protocol}#{request.host}:#{port}"
+    append_content_security_policy_directives(script_src: [@dev_server], connect_src: [@dev_server],
+                                              style_src: [@dev_server], image_src: [@dev_server])
   end
 
   class << self
