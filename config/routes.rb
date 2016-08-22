@@ -412,7 +412,7 @@ Foreman::Application.routes.draw do
 
   end
 
-  resources :widgets, :controller => 'dashboard', :only => [:create, :destroy] do
+  resources :widgets, :controller => 'dashboard', :only => [:show, :create, :destroy] do
     collection do
       post 'save_positions', :to => 'dashboard#save_positions'
       put 'reset_default', :to => 'dashboard#reset_default'

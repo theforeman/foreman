@@ -2,8 +2,8 @@ class DashboardController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::Widget
 
-  before_action :prefetch_data, :only => :index
-  before_action :find_resource, :only => [:destroy]
+  before_action :prefetch_data, :only => :show
+  before_action :find_resource, :only => [:show, :destroy]
   skip_before_action :welcome
 
   def index
@@ -12,6 +12,16 @@ class DashboardController < ApplicationController
       format.yaml { render :text => @report.to_yaml }
       format.json
     end
+  end
+
+  def show
+    if @widget.present? && @widget.user == User.current
+      render(:partial => @widget.template, :locals => @widget.data)
+    else
+      render_403 "User #{User.current} attempted to access another user's widget"
+    end
+  rescue ActionView::MissingTemplate, ActionView::Template::Error => exception
+    process_ajax_error exception, "load widget"
   end
 
   def create

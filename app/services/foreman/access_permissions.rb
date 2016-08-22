@@ -732,7 +732,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :dashboard do |map|
-    map.permission :access_dashboard, {:dashboard => [:index, :save_positions, :reset_default, :create, :destroy],
+    map.permission :access_dashboard, {:dashboard => [:index, :show, :save_positions, :reset_default, :create, :destroy],
                                       :"api/v1/dashboard" => [:index],
                                       :"api/v2/dashboard" => [:index]
     }

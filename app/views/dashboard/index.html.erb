@@ -17,7 +17,9 @@
               <a class='minimize'>&minus;</a>
             </div>
             <div class="widget <%= widget.name.parameterize %>">
-              <%= render_widget(widget) %>
+              <div data-ajax-url="<%= widget_path(widget) %>" data-on-complete="refreshCharts">
+                <%= spinner(_("%s widget loading...") % widget.name) %>
+              </div>
             </div>
           <% end %>
         <% end %>
