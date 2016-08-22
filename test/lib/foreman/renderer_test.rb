@@ -18,14 +18,6 @@ class RendererTest < ActiveSupport::TestCase
     assert_nothing_raised(NoMethodError) { foreman_url }
   end
 
-  test "foreman_server_fqdn returns FQDN from foreman_url Setting" do
-    assert_equal 'foreman.some.host.fqdn', self.foreman_server_fqdn
-  end
-
-  test "foreman_server_url returns the value from foreman_url Setting" do
-    assert_equal 'http://foreman.some.host.fqdn', self.foreman_server_url
-  end
-
   [:normal_renderer, :safemode_renderer].each do |renderer_name|
     test "#{renderer_name} is properly configured" do
       send "setup_#{renderer_name}"
@@ -47,6 +39,45 @@ class RendererTest < ActiveSupport::TestCase
       self.expects(:foreman_url).returns('bar')
       tmpl = render_safe('<%= foreman_url %>', [:foreman_url])
       assert_equal 'bar', tmpl
+    end
+
+    test "foreman_server_fqdn helper method" do
+      send "setup_#{renderer_name}"
+      tmpl = render_safe('<%= foreman_server_fqdn %>', [:foreman_server_fqdn])
+      assert_equal 'foreman.some.host.fqdn', tmpl
+    end
+
+    test "foreman_server_url helper method" do
+      send "setup_#{renderer_name}"
+      tmpl = render_safe('<%= foreman_server_url %>', [:foreman_server_url])
+      assert_equal 'http://foreman.some.host.fqdn', tmpl
+    end
+
+    test "indent helper method" do
+      send "setup_#{renderer_name}"
+      tmpl = render_safe('<%= indent(3) { "test" } %>', [:indent])
+      assert_equal '   test', tmpl
+    end
+
+    test "dns_lookup helper method - address" do
+      send "setup_#{renderer_name}"
+      Resolv::DNS.any_instance.expects(:getaddress).with("test.domain.com").returns("1.2.3.4")
+      tmpl = render_safe('<%= dns_lookup("test.domain.com") %>', [:dns_lookup])
+      assert_equal "1.2.3.4", tmpl
+    end
+
+    test "dns_lookup helper method - hostname" do
+      send "setup_#{renderer_name}"
+      Resolv::DNS.any_instance.expects(:getname).with("1.2.3.4").returns("test.domain.com")
+      tmpl = render_safe('<%= dns_lookup("1.2.3.4") %>', [:dns_lookup])
+      assert_equal "test.domain.com", tmpl
+    end
+
+    test "dns_lookup helper method - invalid IPv4" do
+      send "setup_#{renderer_name}"
+      Resolv::DNS.any_instance.expects(:getaddress).with("1.2.3.999").returns("xxx")
+      tmpl = render_safe('<%= dns_lookup("1.2.3.999") %>', [:dns_lookup])
+      assert_equal "xxx", tmpl
     end
 
     test "#{renderer_name} should render a snippet" do

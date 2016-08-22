@@ -3,7 +3,7 @@ require 'tempfile'
 module Foreman
   module Renderer
     ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
-                                  :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name ]
+                                  :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup ]
     ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
                                :media_path, :param_true?, :param_false?, :match ]
 
@@ -115,6 +115,20 @@ module Foreman
       return unless block_given? && (text = yield.to_s)
       prefix = " " * count
       prefix + text.gsub(/\n/, "\n#{prefix}")
+    end
+
+    def dns_lookup(name_or_ip)
+      resolver = Resolv::DNS.new
+      Timeout.timeout(Setting[:dns_conflict_timeout]) do
+        begin
+          resolver.getname(IPAddr.new(name_or_ip))
+        rescue IPAddr::Error
+          resolver.getaddress(name_or_ip)
+        end
+      end
+    rescue => e
+      log_warn "Template helper dns_lookup failed: #{e}"
+      raise e
     end
 
     # accepts either template object or plain string
