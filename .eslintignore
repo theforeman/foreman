@@ -1,0 +1,3 @@
+# node_modules is ignored by default
+app/assets/javascripts/**/*.js
+vendor/assets/javascripts/**/*.js
