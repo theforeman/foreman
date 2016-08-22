@@ -248,7 +248,7 @@ function vsphereGetResourcePools(item) {
   var data = {cluster_id: $(item).val()};
   var url = $(item).data('url');
   tfm.tools.showSpinner();
-  selectbox = $('*[id*=resource_pool]');
+  selectbox = $('select[id$="resource_pool"]');
   selectbox.select2('destroy').empty();
   $.ajax({
     type: 'get',
