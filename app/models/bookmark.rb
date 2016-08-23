@@ -9,7 +9,7 @@ class Bookmark < ActiveRecord::Base
   belongs_to :owner, :polymorphic => true
   audited
 
-  validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
+  validates :name, :uniqueness => {:scope: :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
   validates :name, :query, :presence => true
   validates :controller, :presence => true, :no_whitespace => true, :bookmark_controller => true
   validates :public, inclusion: { in: [true, false] }
@@ -35,3 +35,33 @@ class Bookmark < ActiveRecord::Base
     self.owner ||= User.current
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

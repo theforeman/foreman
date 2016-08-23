@@ -211,7 +211,7 @@ class ApplicationController < ActionController::Base
 
   def remote_user_provided?
     return false unless Setting["authorize_login_delegation"]
-    return false if api_request? && !(Setting["authorize_login_delegation_api"])
+    return false if api_request? && not Setting["authorize_login_delegation_api"]
     (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
