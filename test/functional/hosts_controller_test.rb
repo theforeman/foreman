@@ -1278,6 +1278,19 @@ class HostsControllerTest < ActionController::TestCase
     assert_template :partial => '_interfaces'
   end
 
+  test 'failed cancelBuild shows errors' do
+    @request.env['HTTP_REFERER'] = hosts_path
+    HostsController.any_instance.stubs(:resource_finder).returns(@host)
+    @host.errors[:test] << 'my error'
+    @host.interfaces = [] # force save failure
+    get :cancelBuild, { id: @host.name }, set_session_user
+
+    assert_response :redirect
+    assert_match(/Failed to cancel/, flash[:error])
+    assert_match(/following errors/, flash[:error])
+    assert_match(/host must have/, flash[:error])
+  end
+
   private
 
   def initialize_host
