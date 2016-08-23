@@ -64,6 +64,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'XenServer default PXELinux', :source => 'xenserver/PXELinux.erb', :template_kind => kinds[:PXELinux] },
     # snippets
     { :name => 'alterator_pkglist', :source => 'snippets/_alterator_pkglist.erb', :snippet => true },
+    { :name => 'bmc_nic_setup', :source => 'snippets/_bmc_nic_setup.erb', :snippet => true },
     { :name => 'chef_client', :source => 'snippets/_chef_client.erb', :snippet => true },
     { :name => 'coreos_cloudconfig', :source => 'snippets/_coreos_cloudconfig.erb', :snippet => true },
     { :name => 'epel', :source => 'snippets/_epel.erb', :snippet => true },
@@ -74,6 +75,7 @@ ProvisioningTemplate.without_auditing do
     { :name => 'preseed_networking_setup', :source => 'snippets/_preseed_networking_setup.erb', :snippet => true },
     { :name => 'puppet.conf', :source => 'snippets/_puppet.conf.erb', :snippet => true },
     { :name => 'puppet_setup', :source => 'snippets/_puppet_setup.erb', :snippet => true },
+    { :name => 'puppetlabs_repo', :source => 'snippets/_puppetlabs_repo.erb', :snippet => true },
     { :name => 'pxelinux_discovery', :source => 'snippets/_pxelinux_discovery.erb', :snippet => true },
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
     { :name => 'remote_execution_ssh_keys', :source => 'snippets/_remote_execution_ssh_keys.erb', :snippet => true },

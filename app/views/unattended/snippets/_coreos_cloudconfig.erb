@@ -22,6 +22,10 @@ name: coreos_cloudconfig
 -%>
 <% if units > 0 -%>
       coreos:
+<% if @host.params['reboot-strategy'] -%>
+        update:
+          reboot-strategy: <%= @host.params['reboot-strategy'] %>
+<% else -%>
 <% unless @host.param_false?('enable_etcd') -%>
         etcd2:
 <% if @host.params['etcd_discovery_url'] -%>
@@ -73,14 +77,14 @@ name: coreos_cloudconfig
               [Match]
               MACAddress=<%= @host.mac %>
               [Network]
-<% if !@host.subnet.gateway.nil? && !@host.subnet.gateway.empty? -%>
+<% if @host.subnet.present? -%>
               Gateway=<%= @host.subnet.gateway %>
 <% end -%>
               Address=<%= @host.ip %>/<%= @host.subnet.cidr %>
-<% if !@host.subnet.dns_primary.nil? && !@host.subnet.dns_primary.empty? -%>
+<% if @host.subnet.dns_primary.present? -%>
               DNS=<%= @host.subnet.dns_primary %>
 <% end -%>
-<% if !@host.subnet.dns_secondary.nil? && !@host.subnet.dns_secondary.empty? -%>
+<% if @host.subnet.dns_secondary.present? -%>
               DNS=<%= @host.subnet.dns_secondary %>
 <% end -%>
           - name: down-interfaces.service

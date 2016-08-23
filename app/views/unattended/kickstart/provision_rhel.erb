@@ -7,7 +7,7 @@ oses:
 <%#
 This template accepts the following parameters:
 - lang: string (default="en_US.UTF-8")
-- selinux: string (default="enforcing")
+- selinux-mode: string (default="enforcing")
 - keyboard: string (default="us")
 - time-zone: string (default="UTC")
 - http-proxy: string (default="")
@@ -36,7 +36,7 @@ This template accepts the following parameters:
 install
 <%= @mediapath %><%= proxy_string %>
 lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
-selinux --<%= @host.params['selinux'] || 'enforcing' %>
+selinux --<%= @host.params['selinux-mode'] || @host.params['selinux'] || 'enforcing' %>
 keyboard <%= @host.params['keyboard'] || 'us' %>
 skipx
 
@@ -162,7 +162,11 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 <% end -%>
 
 # update all the base packages from the updates repository
-yum -t -y update
+if [ -f /usr/bin/dnf ]; then
+  dnf -y update
+else
+  yum -t -y update
+fi
 
 <%= snippet('remote_execution_ssh_keys') %>
 

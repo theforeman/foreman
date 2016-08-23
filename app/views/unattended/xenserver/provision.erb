@@ -3,10 +3,12 @@ kind: provision
 name: XenServer default answerfile
 oses:
 - XenServer
-%>
-<% subnet = @host.subnet -%>
-<% dhcp = subnet.dhcp_boot_mode? -%>
-<% interface_name = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier -%>
+-%>
+<%
+  subnet = @host.subnet
+  dhcp = subnet.dhcp_boot_mode?
+  interface_name = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
+-%>
 <?xml version="1.0"?>
 <installation mode="fresh" srtype="lvm">
 <%= @host.diskLayout -%>
@@ -17,12 +19,18 @@ oses:
   <admin-interface name="<%= interface_name %>" proto="<%= dhcp ? 'dhcp' : 'static' %>">
 <% unless dhcp -%>
     <ip><%= @host.ip %></ip>
-    <subnet-mask><%= @host.subnet.mask %></subnet-mask>
-    <gateway><%= @host.subnet.gateway %></gateway>
+    <subnet-mask><%= subnet.mask %></subnet-mask>
+<% if subnet.gateway.present? -%>
+    <gateway><%= subnet.gateway %></gateway>
+<% end -%>
 <% end -%>
   </admin-interface>
+<% if subnet.dns_primary.present? -%>
   <name-server><%= subnet.dns_primary %></name-server>
+<% end -%>
+<% if subnet.dns_secondary.present? -%>
   <name-server><%= subnet.dns_secondary %></name-server>
+<% end -%>
   <ntp-server><%= @host.params['ntp-server'] || 'pool.ntp.org' %></ntp-server>
   <timezone><%= @host.params['time-zone'] || 'UTC' %></timezone>
   <time-config-method>ntp</time-config-method>

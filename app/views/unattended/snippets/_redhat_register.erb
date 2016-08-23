@@ -126,7 +126,11 @@ name: redhat_register
   <% end %>
 <% else %>
   echo "Starting the subscription-manager registration process"
-  yum -t -y install subscription-manager <%= @host.operatingsystem.major.to_i >= 6 ? 'yum-config-manager' : '' %>
+  if [ -f /usr/bin/dnf ]; then
+    dnf -y install subscription-manager <%= @host.operatingsystem.major.to_i >= 6 ? 'yum-config-manager' : '' %>
+  else
+    yum -t -y install subscription-manager <%= @host.operatingsystem.major.to_i >= 6 ? 'yum-config-manager' : '' %>
+  fi
   <% if @host.operatingsystem.major.to_i >= 6  %>
     <% ( enabled_repos = "yum-config-manager --enable #{@host.params['subscription_manager_repos'].gsub(',', ' ')}") if @host.params['subscription_manager_repos'] %>
   <% else %>

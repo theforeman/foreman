@@ -28,23 +28,6 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <%= snippet 'epel' -%>
 <% end -%>
 
-<% if puppet_enabled -%>
-<% if @host.param_true?('enable-puppetlabs-repo') -%>
-<% if @host.operatingsystem.name == 'Fedora' -%>
-rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-fedora-<%= os_major -%>.noarch.rpm
-<% else -%>
-rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-<%= os_major -%>.noarch.rpm
-<% end -%>
-<% end -%>
-<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
-<% if @host.operatingsystem.name == 'Fedora' -%>
-rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-pc1-fedora-<%= os_major -%>.noarch.rpm
-<% else -%>
-rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-pc1-el-<%= os_major -%>.noarch.rpm
-<% end -%>
-<% end -%>
-<% end -%>
-
 #update local time
 echo "updating system time"
 /usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
@@ -55,7 +38,11 @@ echo "updating system time"
 <% end -%>
 
 # update all the base packages from the updates repository
-yum -t -y update
+if [ -f /usr/bin/dnf ]; then
+  dnf -y update
+else
+  yum -t -y update
+fi
 
 <%= snippet('remote_execution_ssh_keys') %>
 
@@ -64,6 +51,7 @@ yum -t -y update
 <% end -%>
 
 <% if puppet_enabled %>
+<%= snippet 'puppetlabs_repo' %>
 <%= snippet 'puppet_setup' %>
 <% end -%>
 

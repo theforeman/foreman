@@ -24,11 +24,15 @@ name: freeipa_register
 #
 #   freeipa_opts                Additional options to pass directly to installer
 #
+
 <% if @host.operatingsystem.family == 'Redhat' -%>
   <% if @host.operatingsystem.name == 'Fedora' -%>
     freeipa_client=freeipa-client
   <% else -%>
     freeipa_client=ipa-client
+  <% end -%>
+  <% if @host.operatingsystem.major.to_i > 6 -%>
+    /usr/sbin/sshd-keygen
   <% end -%>
 <% else -%>
   freeipa_client=freeipa-client
