@@ -17,7 +17,10 @@ class Dashboard::Data
 
   def latest_events
     # 9 reports + header fits the events box nicely...
-    @latest_events ||= ConfigReport.authorized(:view_config_reports).my_reports.interesting.where(:host_id => hosts.pluck(:id)).search_for('reported > "7 days ago"').limit(9).includes(:host)
+    @latest_events ||= ConfigReport.authorized(:view_config_reports).my_reports.interesting
+                                   .joins(:host).where(:host => hosts.reorder(''))
+                                   .search_for('reported > "7 days ago"')
+                                   .limit(9).includes(:host)
   end
 
   private
