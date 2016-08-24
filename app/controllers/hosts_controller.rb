@@ -247,7 +247,7 @@ class HostsController < ApplicationController
     if @host.built(false)
       process_success :success_msg =>  _("Canceled pending build for %s") % (@host.name), :success_redirect => :back
     else
-      process_error :redirect => :back, :error_msg => _("Failed to cancel pending build for %s with the following errors: %s") % [@host.name, @host.errors.full_messages.join(', ')]
+      process_error :redirect => :back, :error_msg => _("Failed to cancel pending build for %{hostname} with the following errors: %{errors}") % {:hostname => @host.name, :errors => @host.errors.full_messages.join(', ')}
     end
   end
 
