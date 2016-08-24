@@ -55,6 +55,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
     Capybara.reset_sessions!
     login_admin
     visit dashboard_path
+    wait_for_ajax
     assert_equal deleted_widget.name, page.find('li.widget-add a', :visible => :hidden).text(:all)
   end
 end
