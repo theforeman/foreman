@@ -1,3 +1,52 @@
+2016-08-24	Dominic Cleal <dominic@cleal.org>
+	* Release 1.12.2
+
+2016-08-23	Timo Goebel <timo.goebel@dm.de>
+	* fixes #16199 - always run build related callbacks
+	* fixes #15977 - change enc output in a compatible way
+
+2016-08-23	Klaas Demter <Klaas-@users.noreply.github.com>
+	* Fixes #16061 - auto ip assignment for non-primary interfaces
+
+2016-08-23	Martin Ducar <martin.ducar@gooddata.com>
+	* fixes #16196 - fix typo in image scoped search
+
+2016-08-23	Dominic Cleal <dominic@cleal.org>
+	* fixes #16085 - update Rails to 4.2.7.1
+
+2016-08-23	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16020 - Prevent reflective XSS on form validation
+	* Fixes #16022 - Prevent stored XSS in host interface form
+
+2016-08-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16024 - escape labels of form fields
+	* Fixes #14518, #14516 - status change ignores validations
+
+2016-08-23	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #12488 - Add admin flag to usergroup param description
+	* Fixes #15833 - remove duplicities in smart params listings
+
+2016-08-23	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #13813 - Removed "\ " so ruby 1.8 could read the ENC
+
+2016-08-23	Chris Roberts <chrobert@redhat.com>
+	* Fixes #15921 - add host command to foreman-debug
+
+2016-08-23	aagrawal <aagrawal@redhat.com>
+	* Fixes #15996 - Multiple nav bars
+
+2016-08-23	dhlavac <dhlavacd@redhat.com>
+	* Fixes #14301 - Grant access to help pages for view permissions
+
+2016-08-12	Dominic Cleal <dominic@cleal.org>
+	* fixes #16083 - pin gettext_i18n_rails for Ruby 2.0.0
+
+2016-08-11	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15108 - allow editing cloned roles
+
+2016-08-03	Ori Rabin <orabin@redhat.com>
+	* Fixes #15953 - pin fast_gettext gem
+
 2016-07-22	Dominic Cleal <dominic@cleal.org>
 	* Release 1.12.1
 	* i18n - extracting new, pulling from tx
