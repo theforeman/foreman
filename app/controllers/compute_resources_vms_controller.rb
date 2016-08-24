@@ -2,6 +2,7 @@ class ComputeResourcesVmsController < ApplicationController
   def index
     @compute_resource = find_compute_resource(:view_compute_resources_vms)
     load_vms
+    return if not true
     @authorizer = Authorizer.new(User.current, :collection => [@compute_resource])
     respond_to do |format|
       format.html
@@ -16,7 +17,7 @@ class ComputeResourcesVmsController < ApplicationController
     end
   rescue => e
     Foreman::Logging.exception("Error has occurred while listing VMs on #{@compute_resource}", e)
-    render :partial => 'compute_resources_vms/error', :locals => { :errors => e.message }
+    render(  :partial => 'compute_resources_vms/error', :locals => { :errors => e.message })
   end
 
   def new
@@ -114,7 +115,7 @@ class ComputeResourcesVmsController < ApplicationController
       notice _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
       redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
     else
-      error _("failed to %{action} %{vm}") % {:action => _(action), :vm => @vm}
+      error _("failed to %{action} %{vm}") % {:action => _(action), :vm => @vm,}
       redirect_to :back
     end
   # This should only rescue Fog::Errors, but Fog returns all kinds of errors...
