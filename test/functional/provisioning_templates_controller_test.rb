@@ -156,4 +156,68 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     post :preview, { :template => '<%= 1+ -%>', :id => template }, set_session_user
     assert_includes @response.body, 'There was an error'
   end
+
+  context 'templates combinations' do
+    test 'can be added on template creation' do
+      template_combination = { :environment_id => environments(:production).id,
+                               :hostgroup_id => hostgroups(:db).id }
+      provisioning_template = {
+        :name => 'foo',
+        :template => '#nocontent',
+        :template_kind_id => TemplateKind.find_by_name('iPXE').id,
+        :template_combinations_attributes => { '3923' => template_combination }
+      }
+      assert_difference('TemplateCombination.count', 1) do
+        assert_difference('ProvisioningTemplate.count', 1) do
+          post :create, {
+            :provisioning_template => provisioning_template
+          }, set_session_user
+        end
+      end
+    end
+
+    context 'for already existing templates' do
+      setup do
+        @template_combination = FactoryGirl.create(:template_combination)
+      end
+
+      test 'can be edited' do
+        template = @template_combination.provisioning_template
+        new_environment = FactoryGirl.create(:environment)
+        assert_not_equal new_environment, @template_combination.environment
+        put :update, {
+          :id => template.to_param,
+          :provisioning_template => {
+            :template_combinations_attributes => {
+              '0' => {
+                :id => @template_combination.id,
+                :environment_id => new_environment.id,
+                :hostgroup_id => @template_combination.hostgroup.id
+              }
+            }
+          }
+        }, set_session_user
+        assert_response :found
+        @template_combination.reload
+        assert_equal new_environment, @template_combination.environment
+      end
+
+      test 'can be destroyed' do
+        assert_difference('TemplateCombination.count', -1) do
+          put :update, {
+            :id => @template_combination.provisioning_template.to_param,
+            :provisioning_template => {
+              :template_combinations_attributes => {
+                '0' => {
+                  :id => @template_combination.id,
+                  :_destroy => 1
+                }
+              }
+            }
+          }, set_session_user
+        end
+        assert_response :found
+      end
+    end
+  end
 end

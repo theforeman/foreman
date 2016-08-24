@@ -11,7 +11,7 @@
   <%= snippet_message(@template) %>
   <div id="association" <%= display? @template.snippet %> >
     <%= how_templates_are_determined %>
-    <%= multiple_selects f, :operatingsystems, Operatingsystem, @operatingsystems.try(:map, &:id), :label => _("Applicable<br>Operating Systems").html_safe %>
+    <%= multiple_selects f, :operatingsystems, Operatingsystem, @operatingsystems.try(:map, &:id), :label => _("Applicable Operating Systems") %>
     <%= render "provisioning_templates/combinations", :f => f %>
   </div>
 </div>
