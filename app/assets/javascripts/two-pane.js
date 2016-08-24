@@ -141,6 +141,7 @@ function hide_columns(){
 
 // place the content into the right pane
 function right_pane_content(response){
+  var contentId;
   if (handle_redirect(response)) return; //session expired redirect to login
 
   if (!$("#content", response).length){
@@ -150,7 +151,14 @@ function right_pane_content(response){
     fix_multi_checkbox();
   } else {
     // response is not a form use the entire page
-    $('#content').replaceWith($("#content", response));
+    if ($('#two_pane_content', response).length) {
+      // replace only #two_pane_content if it's present in the response
+      contentId = '#two_pane_content';
+      two_pane_close();
+    } else {
+      contentId = '#content';
+    }
+    $(contentId).replaceWith($(contentId, response));
   }
   $(document.body).trigger('ContentLoad');
 }
