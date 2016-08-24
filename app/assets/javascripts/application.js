@@ -69,6 +69,9 @@ function onContentLoad(){
   $(".tab-error").first().click();
   $('.nav-pills .tab-error').first().click();
   errorFields.first().find('.form-control').focus();
+var aaaa;
+
+
 
 
   //set the tooltips
