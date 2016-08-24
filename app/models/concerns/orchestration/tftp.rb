@@ -56,12 +56,9 @@ module Orchestration::TFTP
       failure_missing_template unless template
       template_name = template.name
     else
-      if host.operatingsystem.template_kind == "PXEGrub"
-        template_name = "PXEGrub default local boot"
-      else
-        template_name = "PXELinux default local boot"
-      end
-      template = ProvisioningTemplate.find_by_name(template_name)
+      template = host.provisioning_template(:kind => 'local_boot')
+      failure_missing_template unless template
+      template_name = template.name
     end
     unattended_render template, template_name
   rescue => e

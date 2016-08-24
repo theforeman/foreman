@@ -3191,6 +3191,18 @@ class HostTest < ActiveSupport::TestCase
       assert_not_nil Host.no_organization.where(:id => host.id).first
       Organization.unstub(:current)
     end
+
+    test "should return PXELinux default local boot" do
+      host = FactoryGirl.build_stubbed(:host, :with_operatingsystem)
+      host.operatingsystem = FactoryGirl.create(:suse)
+      assert_equal ProvisioningTemplate.find_by_name("PXELinux default local boot"), host.send(:local_boot_template)
+    end
+
+    test "should return PXEGrub default local boot" do
+      host = FactoryGirl.build_stubbed(:host, :with_operatingsystem)
+      host.operatingsystem = FactoryGirl.create(:solaris)
+      assert_equal ProvisioningTemplate.find_by_name("PXEGrub default local boot"), host.send(:local_boot_template)
+    end
   end
 
   describe '#to_ip_address' do

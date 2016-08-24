@@ -165,6 +165,13 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should render spoof local boot for a host" do
+    get :host_template, {:kind => 'local_boot', :spoof => @rh_host.ip}, set_session_user
+    assert assigns(:initrd)
+    assert assigns(:kernel)
+    assert_response :success
+  end
+
   test 'should route built notifications' do
     assert_routing '/unattended/built', {:controller => 'unattended', :action => 'built', :format => 'text'}
   end

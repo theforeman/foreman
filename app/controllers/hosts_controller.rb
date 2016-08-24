@@ -937,6 +937,9 @@ class HostsController < ApplicationController
     @templates = TemplateKind.order(:name).map do |kind|
       @host.provisioning_template(:kind => kind.name)
     end.compact
+    if (local_boot = @host.provisioning_template(:kind => 'local_boot'))
+      @templates << local_boot
+    end
     raise Foreman::Exception.new(N_("No templates found")) if @templates.empty?
   end
 end

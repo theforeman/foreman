@@ -7,15 +7,24 @@
   </thead>
   <tbody>
     <% @templates.each do |tmpl| %>
+      <%
+        if tmpl == @host.provisioning_template(:kind => 'local_boot')
+          name = _(tmpl.name)
+          kind = 'local_boot'
+        else
+          name = _(tmpl.template_kind.to_s)
+          kind = tmpl.template_kind
+        end
+      %>
       <tr>
-        <td><%= _(tmpl.template_kind.to_s) %></td>
+        <td><%= name %></td>
         <td><%= action_buttons(display_link_if_authorized(_("Edit"),
                                  hash_for_edit_provisioning_template_path(:id => tmpl.to_param),
                                  :rel => "external"),
                                link_to(_("Review"),
                                  url_for(:controller => '/unattended',
                                           :action => 'host_template',
-                                          :kind => tmpl.template_kind.name,
+                                          :kind => kind,
                                           :hostname => @host.name),
                                  :rel => 'external', :"data-provisioning-template" => true)) %>
         </td>

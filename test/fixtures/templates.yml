@@ -70,6 +70,14 @@ pxe_local_default:
    locked: false
    type: ProvisioningTemplate
 
+pxegrub_local_default:
+   name: PXEGrub default local boot
+   template: default=0~timeout=1~title Chainload into bootloader on first disk~root(hd0,0)~chainloader +1
+   template_kind: pxegrub
+   operatingsystems: solaris10
+   locked: false
+   type: ProvisioningTemplate
+
 ipxe:
    name: iPXE Dummy Menu
    template: "FOO"
