@@ -68,7 +68,7 @@ module Orchestration::TFTP
   def default_pxe_render(kind)
     template_name = "#{kind} default local boot"
     template = ProvisioningTemplate.find_by_name(template_name)
-    raise Foreman::Exception.new(N_("template '%s' was not found"), template_name) unless template
+    raise Foreman::Exception.new(N_("Template '%s' was not found"), template_name) unless template
     unattended_render template, template_name
   rescue => e
     failure _("Unable to render '%{name}' template: %{e}") % { :name => template_name, :e => e }, e
