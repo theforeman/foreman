@@ -18,7 +18,7 @@ module Statistics
     end
 
     if SETTINGS[:organizations_enabled]
-      charts << CountHosts.new(:count_by => :organization, :title => _("organization Distribution"), :search => "organization=~VAL~")
+      charts << CountHosts.new(:count_by => :organization, :title => _("Organization Distribution"), :search => "organization=~VAL~")
     end
 
     charts
