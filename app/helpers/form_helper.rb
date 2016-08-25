@@ -60,7 +60,15 @@ module FormHelper
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options.merge!(:size => "col-md-10")
-    authorized = AssociationAuthorizer.authorized_associations(associations).all
+    case attr
+      when :organizations
+        klass = Organization
+      when :locations
+        klass = Location
+      else
+        klass = nil
+    end
+    authorized = AssociationAuthorizer.authorized_associations(associations, klass).all
 
     # select2.js breaks the multiselects disabled items location
     # http://projects.theforeman.org/issues/12028
