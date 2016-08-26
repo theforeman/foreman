@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-22 15:09+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -77,6 +77,9 @@ msgstr[0] "%s 主机"
 
 msgid "%s is an unknown attribute"
 msgstr "%s 为未知属性"
+
+msgid "%s is not a valid DNS record type"
+msgstr ""
 
 msgid "%s is not in environment"
 msgstr "%s 未在环境中"
@@ -174,6 +177,9 @@ msgid_plural "%{name} has %{num_tag} classes"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%{os} medium was not set for host '%{host}'"
+msgstr ""
+
 msgid "%{record} is being used by a hidden %{what} resource"
 msgstr "%{record} 正在由 %{what} 资源使用"
 
@@ -188,6 +194,14 @@ msgstr "未根据 id '%{id}' 找到 %{resource_name}"
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} 任务错误信息如: %{e}"
+
+msgid "%{taxonomy_type} %{taxonomy_name} has %{count} host that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
+msgid_plural "%{taxonomy_type} %{taxonomy_name} has %{count} hosts that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%{type} %{conflicts} already exists"
+msgstr ""
 
 msgid "%{value} does not belong to %{os} operating system"
 msgstr "%{value} 不属于 %{os} 操作系统"
@@ -206,9 +220,6 @@ msgstr "&laquo;"
 
 msgid "&raquo;"
 msgstr "&raquo;"
-
-msgid "'%s' is not a valid MAC address."
-msgstr ""
 
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr "'%{host}' 不能删除或者 '%{resource}' 无响应。"
@@ -248,28 +259,28 @@ msgstr "<b class='select_count'>0</b> 选中"
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{disabled_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Disabled</p>"
+"               <p>Disabled</p>"
 msgid_plural ""
 "<b style=\"color: #6bb5df;\">%{disabled_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Disabled</p>"
+"               <p>Disabled</p>"
 msgstr[0] ""
 msgstr[1] ""
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{hosts_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Changed</p>"
+"               <p>Changed</p>"
 msgid_plural ""
 "<b style=\"color: #6bb5df;\">%{hosts_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Changed</p>"
+"               <p>Changed</p>"
 msgstr[0] ""
 msgstr[1] ""
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{out_of_sync_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Out of sync</p>"
+"               <p>Out of sync</p>"
 msgid_plural ""
 "<b style=\"color: #6bb5df;\">%{out_of_sync_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Out of sync</p>"
+"               <p>Out of sync</p>"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -537,8 +548,14 @@ msgstr "允许外部网络作为主网络"
 msgid "Always show configuration status"
 msgstr "总是显示配置状态"
 
-msgid "An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"
-msgstr "如果在以上所选子网中有启用了 DHCP 的智能代理服务器，就会自动建议 IP 地址。<br/><br/>在以下情况中可让 IP 地址为空白：<br/><ul><li>启用供应标记</li><li>该域不管理 DNS</li><li>子网不管理逆向 DNS</li><li>子网不管理 DHCP 保留</li></ul>"
+msgid "An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"
+msgstr ""
+
+msgid "An IP address will be auto-suggested if you have enabled IPAM on the IPv6 subnet selected above."
+msgstr ""
+
+msgid "An email address is required, please update your account details"
+msgstr ""
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "明确硬盘分区。 E.G."
@@ -1033,11 +1050,11 @@ msgstr "取消创建主机的操作"
 msgid "Canceled pending build for %s"
 msgstr "取消 %s 的待处理构建"
 
-msgid "Cannot add pagelet to page %s without mountpoint"
-msgstr "无法在没有挂载点的页面 %s 中添加 pagelet 组件"
+msgid "Cannot add pagelet with key %s and without mountpoint"
+msgstr ""
 
-msgid "Cannot add pagelet to page %s without partial"
-msgstr "无法在没有扇区的页面 %s 中添加 pagelet 组件"
+msgid "Cannot add pagelet with key %s and without partial"
+msgstr ""
 
 msgid "Cannot create LDAP configuration for %s without dedicated service account"
 msgstr "无法在没有专用服务帐户的情况下为 %s 生成 LDAP 配置"
@@ -1153,12 +1170,6 @@ msgstr "点击计算资源链接编辑器默认 VM 属性。"
 msgid "Click to add %s"
 msgstr "点击添加%s"
 
-msgid "Click to edit"
-msgstr "点击编辑"
-
-msgid "Click to edit.."
-msgstr "点击编辑"
-
 msgid "Click to log in again."
 msgstr "点击再次登录。"
 
@@ -1191,6 +1202,9 @@ msgstr "克隆预配模板"
 
 msgid "Clone a template"
 msgstr "克隆模板"
+
+msgid "Clone this host"
+msgstr ""
 
 msgid "Close"
 msgstr "关闭"
@@ -1369,17 +1383,14 @@ msgstr "创建"
 msgid "Create %s"
 msgstr "新建 %s"
 
+msgid "Create %{type} for %{host}"
+msgstr ""
+
 msgid "Create :a_resource"
 msgstr "创建：a_resource"
 
 msgid "Create DHCP Settings for %s"
 msgstr "为 %s 新建DHCP设置"
-
-msgid "Create DNS record for %s"
-msgstr "为 %s 新建DNS记录"
-
-msgid "Create Reverse DNS record for %s"
-msgstr "为 %s 新建反向解析DNS记录"
 
 msgid "Create a Puppet class"
 msgstr "创建 Puppet 类别"
@@ -1549,20 +1560,14 @@ msgstr "DHCP记录已经存在"
 msgid "DNS"
 msgstr "域名"
 
-msgid "DNS A Records %s already exists"
-msgstr "%s 的域名A记录已经存在"
-
-msgid "DNS PTR Records %s already exists"
-msgstr "%s 的域名PTR记录已经存在"
-
 msgid "DNS Proxy"
 msgstr "域名代理"
 
 msgid "DNS Proxy to use within this subnet"
 msgstr "本子网使用的 DNS 代理服务器"
 
-msgid "DNS Proxy to use within this subnet for managing PTR records, note that A records are managed via Domain DNS proxy"
-msgstr "子网中用来管理 PTR 记录的 DNS 代理服务器，注：使用域 DNS 代理服务器管理 A 级记录。"
+msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
+msgstr ""
 
 msgid "DNS conflict timeout"
 msgstr "DNS 冲突超时"
@@ -2088,17 +2093,14 @@ msgstr "编辑用户组"
 msgid "Edit compute profile on %s"
 msgstr "编辑 %s 中的计算配置文件"
 
-msgid "Edit your host"
-msgstr "编辑主机"
+msgid "Edit this host"
+msgstr ""
 
 msgid "Email Preferences"
 msgstr "电子邮件首选项"
 
 msgid "Email address is missing"
 msgstr "缺少电子邮件地址"
-
-msgid "Email is Required"
-msgstr "需要电子邮件"
 
 msgid "Email reply address"
 msgstr "电子邮件回复地址"
@@ -2161,6 +2163,9 @@ msgstr "每页的条目数"
 msgid "Environment"
 msgstr "环境"
 
+msgid "Environment Distribution"
+msgstr ""
+
 msgid "Environment ID"
 msgstr "环境 ID"
 
@@ -2181,9 +2186,6 @@ msgstr "包含来自客户端 SSL 证书确认状态的环境变量"
 
 msgid "Environments"
 msgstr "环境"
-
-msgid "Environments Distribution"
-msgstr "分布式环境"
 
 msgid "Environments and documentation"
 msgstr "环境和文档"
@@ -2226,6 +2228,9 @@ msgstr "在与 %{cr}: %{e} 通讯时发生错误"
 
 msgid "Error loading interfaces information: %s"
 msgstr "载入接口信息出错：%s"
+
+msgid "Error loading scheduler hint filters information: %s"
+msgstr ""
 
 msgid "Error loading virtual machine information: %s"
 msgstr "加载虚拟机 %s 的信息时错误"
@@ -2404,6 +2409,9 @@ msgstr "销毁计算 %{compute_resource} 实例 %{name}: %{e} 失败"
 
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "为安装启用 %{host} 失败：%{errors}"
+
+msgid "Failed to fetch a free IP from proxy %{proxy}: %{message}"
+msgstr ""
 
 msgid "Failed to fetch boot files"
 msgstr "无法提取引导文件"
@@ -2645,8 +2653,11 @@ msgstr "Foreman 报告创建时间为 <em>%s</em>"
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr "将通过 ENC yaml 输出显示 Foreman 智能变量"
 
-msgid "Foreman subnet ID of interface"
-msgstr "接口的 Foreman 子网 ID"
+msgid "Foreman subnet ID of IPv4 interface"
+msgstr ""
+
+msgid "Foreman subnet ID of IPv6 interface"
+msgstr ""
 
 msgid "Foreman supports automatically creating realm entries for new hosts."
 msgstr "Foreman 支持为新主机自动生成范围条目。"
@@ -2750,6 +2761,9 @@ msgstr "常规"
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "一般的有用信息，例如这种硬件需要特殊的BIOS设置。"
 
+msgid "Generate new random name. Visit Settings to disable this feature."
+msgstr ""
+
 msgid "Generated %s ago"
 msgstr "%s 前产生"
 
@@ -2782,6 +2796,9 @@ msgstr "全局参数"
 
 msgid "Global parameters"
 msgstr "全局参数"
+
+msgid "Global status changed from %{from} to %{to}"
+msgstr ""
 
 msgid "Good host reports in the last %s"
 msgstr "在过去 %s 内的报告良好的主机"
@@ -2827,6 +2844,9 @@ msgstr "隐藏这个参数的所有值。"
 
 msgid "Hide this value"
 msgstr "隐藏此值"
+
+msgid "Hint data is missing"
+msgstr ""
 
 msgid "History"
 msgstr "历史"
@@ -3265,14 +3285,11 @@ msgstr "IP地址管理"
 msgid "IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", \"Internal DB\", \"None\""
 msgstr "这个子网的 IP 地址自动提示模式，有效值为  \"DHCP\"、\"Internal DB\"、\"None\"。"
 
-msgid "IP address"
-msgstr "IP 地址"
-
 msgid "IP address auto-suggest"
 msgstr "IP 地址自动提示"
 
-msgid "IP address of interface"
-msgstr "接口 IP 地址"
+msgid "IP addresses that should be excluded from suggestion"
+msgstr ""
 
 msgid "IP:"
 msgstr "IP:"
@@ -3283,7 +3300,41 @@ msgstr "IPAM"
 msgid "IPv4"
 msgstr ""
 
+msgid "IPv4 Address"
+msgstr ""
+
+msgid "IPv4 DNS record"
+msgid_plural "IPv4 DNS records"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "IPv4 Subnet"
+msgstr ""
+
+msgid "IPv4 address"
+msgstr ""
+
+msgid "IPv4 address of interface"
+msgstr ""
+
 msgid "IPv6"
+msgstr ""
+
+msgid "IPv6 Address"
+msgstr ""
+
+msgid "IPv6 DNS record"
+msgid_plural "IPv6 DNS records"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "IPv6 Subnet"
+msgstr ""
+
+msgid "IPv6 address"
+msgstr ""
+
+msgid "IPv6 address of interface"
 msgstr ""
 
 msgid "IRC"
@@ -3482,6 +3533,9 @@ msgstr "无效 %s 选择，必须至少选择一个。"
 msgid "Invalid Host"
 msgstr "无效主机"
 
+msgid "Invalid architecture '%{arch}' for '%{os}'"
+msgstr ""
+
 msgid "Invalid architecture for %s"
 msgstr "%s 的无效架构"
 
@@ -3490,6 +3544,9 @@ msgstr "无效认证令牌"
 
 msgid "Invalid log level: %s"
 msgstr "无效日志等级：%s"
+
+msgid "Invalid medium '%{medium}' for '%{os}'"
+msgstr ""
 
 msgid "Invalid medium for %s"
 msgstr "%s 的无效中间值"
@@ -3532,6 +3589,9 @@ msgstr "项"
 
 msgid "JSON VM listing is not supported for this compute resource."
 msgstr "这个计算资源不支持 JSON VM 列表"
+
+msgid "JSON object of the scheduler hint"
+msgstr ""
 
 msgid "Keep selected hosts for a future action"
 msgstr "保留所选主机用于今后的操作"
@@ -4123,6 +4183,12 @@ msgstr "MAC 地址"
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr "接口的 MAC 地址。在裸机中管理的接口需要这个地址。"
 
+msgid "MAC address to reuse the IP for this host"
+msgstr ""
+
+msgid "MAC-based"
+msgstr ""
+
 msgid "Machine Type"
 msgstr "机器型号"
 
@@ -4182,6 +4248,9 @@ msgstr "介质 ID"
 
 msgid "Media IDs"
 msgstr "介质 ID"
+
+msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits separated by colons (:), e.g. 00:11:22:33:44:55"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -4364,11 +4433,17 @@ msgstr "网络"
 msgid "Network Based"
 msgstr "基本网络"
 
+msgid "Network can't be blank"
+msgstr ""
+
 msgid "Network interfaces"
 msgstr "网络接口"
 
 msgid "Network interfaces management has been moved to the Interfaces tab. Please set your interfaces there."
 msgstr "将网络接口管理移至接口标签。请在那里设置接口。"
+
+msgid "Network prefix"
+msgstr ""
 
 msgid "Network type"
 msgstr "网络类型"
@@ -4674,6 +4749,9 @@ msgstr "上周没有收到任何需要查看的报告"
 msgid "No logs to show"
 msgstr "无日志显示"
 
+msgid "No matching server groups found"
+msgstr ""
+
 msgid "No networks"
 msgstr "没有网络"
 
@@ -4847,9 +4925,6 @@ msgstr "OAuth 映射用户"
 
 msgid "OK"
 msgstr "确认"
-
-msgid "OS Distribution"
-msgstr "系统分发"
 
 msgid "OS Image"
 msgstr "操作系统镜像"
@@ -5342,6 +5417,9 @@ msgstr "启动%s"
 msgid "Preallocate disk"
 msgstr "预先分配磁盘"
 
+msgid "Prefix length can't be blank"
+msgstr ""
+
 msgid "Prefix length must be /64 or less to use EUI-64"
 msgstr ""
 
@@ -5384,11 +5462,17 @@ msgstr "属性"
 msgid "Property"
 msgstr "属性"
 
+msgid "Protocol"
+msgstr ""
+
 msgid "Provider"
 msgstr "提供者"
 
 msgid "Providers include %{providers}"
 msgstr "提供者包括 %{providers}"
+
+msgid "Provides an unused IP address in this subnet"
+msgstr ""
 
 msgid "Provision"
 msgstr "置备"
@@ -5636,6 +5720,15 @@ msgstr "使用给定 id 替换位置"
 msgid "REPLACE organizations with given ids."
 msgstr "使用给定 id 替换机构"
 
+msgid "Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"
+msgstr ""
+
+msgid "Random-based"
+msgstr ""
+
+msgid "Randomize"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "范围"
@@ -5719,17 +5812,14 @@ msgstr "远程地址"
 msgid "Remove %s?"
 msgstr "是否删除 %s ？"
 
+msgid "Remove %{type} for %{host}"
+msgstr ""
+
 msgid "Remove DHCP Settings for %s"
 msgstr "删除 %s 的DHCP设置"
 
-msgid "Remove DNS record for %s"
-msgstr "删除 %s 的DNS记录"
-
 msgid "Remove Parameter"
 msgstr "删除参数"
-
-msgid "Remove Reverse DNS record for %s"
-msgstr "删除 %s 的逆向 DNS 记录"
 
 msgid "Remove a Puppet class from host"
 msgstr "删除主机的 Puppet 类别"
@@ -5737,11 +5827,8 @@ msgstr "删除主机的 Puppet 类别"
 msgid "Remove a Puppet class from host group"
 msgstr "删除主机组的 Puppet 类别"
 
-msgid "Remove conflicting DNS record for %s"
-msgstr "删除 %s 的冲突 DNS 记录"
-
-msgid "Remove conflicting Reverse DNS record for %s"
-msgstr "删除 %s 的冲突逆向 DNS 记录"
+msgid "Remove conflicting %{type} for %{host}"
+msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "删除重复值（仅用于阵列类型）"
@@ -5858,6 +5945,16 @@ msgstr "返回代表给定类型主机状态的字符串"
 
 msgid "Reverse DNS Proxy"
 msgstr "逆向 DNS 代理服务器"
+
+msgid "Reverse IPv4 DNS record"
+msgid_plural "Reverse IPv4 DNS records"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reverse IPv6 DNS record"
+msgid_plural "Reverse IPv6 DNS records"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Revert"
 msgstr "还原"
@@ -5977,6 +6074,9 @@ msgstr "保存仪表板"
 
 msgid "Save something and try again"
 msgstr "保存一些内容然后再试一次"
+
+msgid "Scheduler hint filter"
+msgstr ""
 
 msgid "Scope by locations"
 msgstr "根据位置界定的范围"
@@ -6113,8 +6213,17 @@ msgstr "向新用户发送附带用户名及URL 的欢迎使用电子邮件"
 msgid "Send welcome email"
 msgstr "发送欢迎使用电子邮件"
 
+msgid "Server group"
+msgstr ""
+
+msgid "Server hint data"
+msgstr ""
+
 msgid "Server type"
 msgstr "服务器类型"
+
+msgid "Service unavailable"
+msgstr ""
 
 msgid "Services"
 msgstr "服务"
@@ -6427,6 +6536,9 @@ msgstr "地址"
 msgid "Snippet"
 msgstr "片段"
 
+msgid "Some imported user account details cannot be saved: %s"
+msgstr ""
+
 msgid "Some interfaces are invalid"
 msgstr "有些接口无效"
 
@@ -6625,6 +6737,9 @@ msgstr "成功更新 %s."
 
 msgid "Successfully updated environments and Puppet classes from the on-disk Puppet installation"
 msgstr "成功使用磁盘 Puppet 安装更新环境及 Puppet 类别"
+
+msgid "Suffix or prefix length for this subnet, e.g. 32"
+msgstr ""
 
 msgid "Suggest new"
 msgstr "建议新建"
@@ -6832,7 +6947,7 @@ msgstr "p12 文件的文件路径"
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "最后一个条目，默认为操作系统，可编辑 %s 页面设置它们。"
 
-msgid "The following IPv4 subnets have been found"
+msgid "The following IPv4 subnets have been found. Please review the details before creating them."
 msgstr ""
 
 msgid "The following entries were found conflicting with what foreman wanted to apply."
@@ -6928,6 +7043,9 @@ msgstr "使用 ssh 进入该实例的用户，通常为 cloud-user, ec2-user, ub
 
 msgid "The virtual machine is being deleted."
 msgstr "已删除该虚拟机。"
+
+msgid "There are migrations pending in the system."
+msgstr ""
 
 msgid "There are no puppet environments set up on this puppet master. Please check the puppet master configuration."
 msgstr "这台 puppet 主服务器中未设置任何 puppet 环境。请检查 puppet 主服务器配置。"
@@ -7152,8 +7270,14 @@ msgstr "尝试进入 %{href}"
 msgid "Type"
 msgstr "类型"
 
+msgid "Type of name generator"
+msgstr ""
+
 msgid "Type of realm, e.g. FreeIPA"
 msgstr "范围类型，例如：FreeIPA"
+
+msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
+msgstr ""
 
 msgid "Types of validation values"
 msgstr "验证值类型"
@@ -7834,8 +7958,8 @@ msgstr "版本"
 msgid "Version %{version}"
 msgstr "版本 %{version}"
 
-msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
-msgstr "版本 %{version}  © 2009-%{year} Paul Kelly 和 %{author}"
+msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
+msgstr ""
 
 msgid "Very Strong"
 msgstr "很强"
@@ -7996,8 +8120,8 @@ msgstr "您正在使用不支持的浏览器。"
 msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr "您可以在 %{freenode} (irc.freenode.net) 网络中找到 Foreman。常规支持请进入 #theforema，具体与开发相关的探讨，请进入 visit #theforeman-dev。"
 
-msgid "You can select one of three possible IPAM modes:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP</li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion</li></ul>"
-msgstr "可以在三种可能的 IPAM 模式中选择一个：<br/><ul><li><strong>DHCP</strong> - 如果分配的 DHCP 代理服务器管理 DHCP 中的 IP，来自 DHCP</li><li><strong>内部数据库</strong>的自动建议 IP - 使用内部数据库根据同一子网中各自范围（若指定）的其他接口自动提供可用 IP，主要用于静态引导模式</li><li><strong>None</strong> - 仅由用户管理 IP，无自动建议</li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
+msgstr ""
 
 msgid "You can't assign locations to this resource"
 msgstr "您无法将位置分配给这个资源"
@@ -8127,6 +8251,9 @@ msgstr "只有在设定合并替代后方可设定此功能"
 
 msgid "can't be bigger than to range"
 msgstr "功能超过反问"
+
+msgid "can't be blank"
+msgstr ""
 
 msgid "can't be blank unless a custom partition has been defined"
 msgstr "不能为空白除非定义了定制分区"
@@ -8305,9 +8432,6 @@ msgstr "代理服务器"
 msgid "free memory"
 msgstr "剩余内存"
 
-msgid "free swap"
-msgstr "剩余 swap"
-
 msgid "from profile %s"
 msgstr "使用配置文件 %s"
 
@@ -8419,6 +8543,9 @@ msgstr "已经被用户使用"
 msgid "is an admin account"
 msgstr "是管理员帐户"
 
+msgid "is an admin user group"
+msgstr ""
+
 msgid "is an unsupported provisioning method"
 msgstr "是不支持的置备方法"
 
@@ -8437,11 +8564,8 @@ msgstr "不是有效 MAC 地址"
 msgid "is not allowed to change"
 msgstr "不允许更改"
 
-msgid "is not defined for host's location."
-msgstr "没有为主机的位置定义。"
-
-msgid "is not defined for host's organization."
-msgstr "没有为主机的机构定义。"
+msgid "is not defined for host's %s."
+msgstr ""
 
 msgid "is not found in the authentication source"
 msgstr "在认证源中没有找到"
@@ -8456,6 +8580,9 @@ msgid "is too long (maximum is 1 character)"
 msgid_plural "is too long (maximum is %s characters)"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "is too long (maximum is 254 characters)"
+msgstr ""
 
 msgid "is unknown"
 msgstr "未知"
@@ -8511,6 +8638,12 @@ msgstr "必须用逗号隔开"
 msgid "must be integer"
 msgstr "必须是整型"
 
+msgid "must be of type Subnet::Ipv4."
+msgstr ""
+
+msgid "must be of type Subnet::Ipv6."
+msgstr ""
+
 msgid "must be one of [ %s ]"
 msgstr "必须是 [ %s ] 之一"
 
@@ -8522,6 +8655,9 @@ msgstr "需增加到预定义列表中"
 
 msgid "must be true to edit the parameter"
 msgstr "必须为 true 以编辑参数"
+
+msgid "must contain valid hostnames"
+msgstr ""
 
 msgid "must not include periods"
 msgstr "不得有句号"
@@ -8540,6 +8676,9 @@ msgstr "允许 nil"
 
 msgid "nil means host is bare metal"
 msgstr "nil 说明主机是裸机"
+
+msgid "no free IP could be found in our DB"
+msgstr ""
 
 msgid "no puppet proxy defined - cant continue"
 msgstr "未定义 puppet proxy - 停止"
@@ -8759,6 +8898,9 @@ msgstr ""
 msgid "unable to sign a non pending certificate"
 msgstr "无法签署未处于处理阶段的证书"
 
+msgid "unknown network_type"
+msgstr ""
+
 msgid "unknown parent permission for %s"
 msgstr "%s 的未知父权限"
 
@@ -8776,9 +8918,6 @@ msgstr "未指定的"
 
 msgid "used memory"
 msgstr "已使用内存"
-
-msgid "used swap"
-msgstr "已使用 swap"
 
 msgid "useful template functions and macros"
 msgstr "有用的模板功能和宏"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-23 13:22+0100\n"
-"PO-Revision-Date: 2016-08-23 13:22+0100\n"
+"POT-Creation-Date: 2016-08-26 08:00+0100\n"
+"PO-Revision-Date: 2016-08-26 08:00+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -43,7 +43,7 @@ msgstr ""
 
 #: ../app/assets/javascripts/application.js:431
 #: ../app/controllers/application_controller.rb:365
-#: ../app/helpers/dashboard_helper.rb:62 ../app/helpers/layout_helper.rb:124
+#: ../app/helpers/dashboard_helper.rb:56 ../app/helpers/layout_helper.rb:124
 #: ../app/models/host_status/configuration_status.rb:58
 #: ../app/models/host_status/global.rb:43
 msgid "Error"
@@ -255,8 +255,8 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-#: ../app/assets/javascripts/hosts.js:20 ../app/helpers/hosts_helper.rb:311
-#: ../app/helpers/hosts_helper.rb:444 ../app/helpers/hosts_helper.rb:446
+#: ../app/assets/javascripts/hosts.js:20 ../app/helpers/hosts_helper.rb:312
+#: ../app/helpers/hosts_helper.rb:445 ../app/helpers/hosts_helper.rb:447
 #: ../app/models/host_status/build_status.rb:8
 msgid "Build"
 msgstr ""
@@ -366,7 +366,7 @@ msgid "passwords do not match"
 msgstr ""
 
 #: ../app/assets/javascripts/proxy_status.js:18
-#: ../app/helpers/dashboard_helper.rb:61
+#: ../app/helpers/dashboard_helper.rb:55
 #: ../app/models/host_status/configuration_status.rb:62
 msgid "Active"
 msgstr ""
@@ -401,7 +401,7 @@ msgstr ""
 #: ../app/assets/javascripts/subnets.js:64
 #: ../app/assets/javascripts/subnets.js:84
 #: ../app/assets/javascripts/subnets.js:91
-#: ../app/models/lookup_keys/lookup_key.rb:201
+#: ../app/models/lookup_keys/lookup_key.rb:202
 #: ../app/models/nic/interface.rb:67 ../app/models/nic/interface.rb:68
 #: ../app/models/subnet.rb:241
 #: ../app/services/foreman/parameters/validator.rb:29
@@ -448,7 +448,12 @@ msgstr ""
 msgid "for Libvirt and VMware only"
 msgstr ""
 
-#: ../app/controllers/api/v1/hostgroups_controller.rb:72
+#: ../app/controllers/api/v1/hostgroups_controller.rb:56
+#: ../app/controllers/api/v1/hosts_controller.rb:44
+msgid "DHCP filename option"
+msgstr ""
+
+#: ../app/controllers/api/v1/hostgroups_controller.rb:73
 #: ../app/controllers/hostgroups_controller.rb:74
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
@@ -1327,54 +1332,59 @@ msgid "Architecture ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:37
-msgid "Media ID"
+#: ../app/controllers/api/v2/hosts_controller.rb:59
+msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:38
-msgid "Partition table ID"
+msgid "Media ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:39
-msgid "Puppet CA proxy ID"
+msgid "Partition table ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:40
-msgid "Subnet ID"
+msgid "Puppet CA proxy ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:41
-msgid "Domain ID"
+msgid "Subnet ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:42
-msgid "Realm ID"
+msgid "Domain ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:43
-msgid "Puppet proxy ID"
+msgid "Realm ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:44
+msgid "Puppet proxy ID"
+msgstr ""
+
+#: ../app/controllers/api/v2/hostgroups_controller.rb:45
 msgid "Root password on provisioned hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:49
+#: ../app/controllers/api/v2/hostgroups_controller.rb:50
 msgid "Create a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:57
+#: ../app/controllers/api/v2/hostgroups_controller.rb:58
 msgid "Update a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:65
+#: ../app/controllers/api/v2/hostgroups_controller.rb:66
 msgid "Delete a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:70
+#: ../app/controllers/api/v2/hostgroups_controller.rb:71
 msgid "Cannot delete group %{current} because it has nested host groups."
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:76
+#: ../app/controllers/api/v2/hostgroups_controller.rb:77
 msgid "Clone a host group"
 msgstr ""
 
@@ -1441,7 +1451,7 @@ msgstr ""
 #: ../app/controllers/api/v2/hosts_controller.rb:52
 #: ../app/controllers/api/v2/hosts_controller.rb:53
 #: ../app/controllers/api/v2/hosts_controller.rb:57
-#: ../app/controllers/api/v2/hosts_controller.rb:60
+#: ../app/controllers/api/v2/hosts_controller.rb:61
 msgid "required if host is managed and value is not inherited from host group"
 msgstr ""
 
@@ -1461,92 +1471,92 @@ msgid ""
 " inherited from host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:59
+#: ../app/controllers/api/v2/hosts_controller.rb:60
 msgid "required if host is managed and custom partition has not been defined"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:61
+#: ../app/controllers/api/v2/hosts_controller.rb:62
 msgid "nil means host is bare metal"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:62
+#: ../app/controllers/api/v2/hosts_controller.rb:63
 msgid ""
 "required if host is managed and value is not inherited from host group or defa"
 "ult password in settings"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:66
+#: ../app/controllers/api/v2/hosts_controller.rb:67
 msgid "Host's owner type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:69
+#: ../app/controllers/api/v2/hosts_controller.rb:70
 msgid "Host's parameters (array or indexed hash)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:70
+#: ../app/controllers/api/v2/hosts_controller.rb:71
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:47
 msgid "Name of the parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:71
+#: ../app/controllers/api/v2/hosts_controller.rb:72
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:48
 msgid "Parameter value"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:75
+#: ../app/controllers/api/v2/hosts_controller.rb:76
 msgid ""
 "The method used to provision the host. Possible provision_methods may be %{pro"
 "vision_methods}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:76
+#: ../app/controllers/api/v2/hosts_controller.rb:77
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:77
+#: ../app/controllers/api/v2/hosts_controller.rb:78
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:78
+#: ../app/controllers/api/v2/hosts_controller.rb:79
 #: ../app/views/hosts/_form.html.erb:122
 msgid "Additional information about this host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:81
+#: ../app/controllers/api/v2/hosts_controller.rb:82
 msgid "Host's network interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:84
+#: ../app/controllers/api/v2/hosts_controller.rb:85
 msgid "Additional compute resource specific attributes."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:88
+#: ../app/controllers/api/v2/hosts_controller.rb:89
 msgid "Parameters for host's %s facet"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:95
+#: ../app/controllers/api/v2/hosts_controller.rb:96
 msgid "Create a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:109
+#: ../app/controllers/api/v2/hosts_controller.rb:110
 msgid "Update a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:122
+#: ../app/controllers/api/v2/hosts_controller.rb:123
 msgid "Delete a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:129
+#: ../app/controllers/api/v2/hosts_controller.rb:130
 msgid "Get configuration status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:147
+#: ../app/controllers/api/v2/hosts_controller.rb:148
 msgid "Get status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:149
+#: ../app/controllers/api/v2/hosts_controller.rb:150
 msgid ""
 "status type, can be one of\n"
 "* global\n"
@@ -1554,98 +1564,98 @@ msgid ""
 "* build\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:156
+#: ../app/controllers/api/v2/hosts_controller.rb:157
 msgid "Returns string representing a host status of a given type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:166
+#: ../app/controllers/api/v2/hosts_controller.rb:167
 msgid "Get vm attributes of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:189
+#: ../app/controllers/api/v2/hosts_controller.rb:190
 msgid "Force a Puppet agent run on the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:197
+#: ../app/controllers/api/v2/hosts_controller.rb:198
 msgid "Disassociate the host from a VM"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:204
+#: ../app/controllers/api/v2/hosts_controller.rb:205
 msgid "Run a power operation on host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:206
+#: ../app/controllers/api/v2/hosts_controller.rb:207
 msgid ""
 "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/"
 "reset), (state/status)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:213
+#: ../app/controllers/api/v2/hosts_controller.rb:214
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:217
+#: ../app/controllers/api/v2/hosts_controller.rb:218
 msgid "Boot host from specified device"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:219
+#: ../app/controllers/api/v2/hosts_controller.rb:220
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:226
+#: ../app/controllers/api/v2/hosts_controller.rb:227
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:230
+#: ../app/controllers/api/v2/hosts_controller.rb:231
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:231
+#: ../app/controllers/api/v2/hosts_controller.rb:232
 msgid "hostname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:232
+#: ../app/controllers/api/v2/hosts_controller.rb:233
 msgid "hash containing the facts for the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:233
+#: ../app/controllers/api/v2/hosts_controller.rb:234
 msgid "optional: certname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:234
+#: ../app/controllers/api/v2/hosts_controller.rb:235
 msgid "optional: the STI type of host to create"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:244
+#: ../app/controllers/api/v2/hosts_controller.rb:245
 msgid "Rebuild orchestration config"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:250
+#: ../app/controllers/api/v2/hosts_controller.rb:251
 #: ../app/controllers/hosts_controller.rb:525
 msgid "Configuration successfully rebuilt."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:252
+#: ../app/controllers/api/v2/hosts_controller.rb:253
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:256
+#: ../app/controllers/api/v2/hosts_controller.rb:257
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:258
+#: ../app/controllers/api/v2/hosts_controller.rb:259
 msgid "Template kinds, available values: %{template_kinds}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:262
+#: ../app/controllers/api/v2/hosts_controller.rb:263
 msgid "No template with kind %{kind} for %{host}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:330
+#: ../app/controllers/api/v2/hosts_controller.rb:331
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:333
+#: ../app/controllers/api/v2/hosts_controller.rb:334
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
@@ -2944,7 +2954,7 @@ msgid "You must create at least one organization before continuing."
 msgstr ""
 
 #: ../app/controllers/application_controller.rb:365
-#: ../app/helpers/dashboard_helper.rb:63 ../app/models/host_status/global.rb:39
+#: ../app/helpers/dashboard_helper.rb:57 ../app/models/host_status/global.rb:39
 #: ../app/views/hosts/_dhcp_lease_errors.html.erb:18
 msgid "OK"
 msgstr ""
@@ -3242,7 +3252,9 @@ msgid "Canceled pending build for %s"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:250
-msgid "Failed to cancel pending build for %s"
+msgid ""
+"Failed to cancel pending build for %{hostname} with the following errors: %{er"
+"rors}"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:257
@@ -3578,7 +3590,7 @@ msgstr ""
 msgid "Click to add %s"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:135 ../app/helpers/hosts_helper.rb:337
+#: ../app/helpers/application_helper.rb:135 ../app/helpers/hosts_helper.rb:338
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
 msgid "Delete"
@@ -3647,7 +3659,7 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/audits_helper.rb:87 ../app/helpers/hosts_helper.rb:268
+#: ../app/helpers/audits_helper.rb:87 ../app/helpers/hosts_helper.rb:269
 #: ../app/views/users/_form.html.erb:7 model_attributes.rb:566
 msgid "User"
 msgstr ""
@@ -3706,13 +3718,13 @@ msgstr ""
 
 #: ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
-#: ../app/helpers/hosts_helper.rb:296 ../app/services/name_generator.rb:3
+#: ../app/helpers/hosts_helper.rb:297 ../app/services/name_generator.rb:3
 msgid "Off"
 msgstr ""
 
 #: ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
-#: ../app/helpers/hosts_helper.rb:296
+#: ../app/helpers/hosts_helper.rb:297
 msgid "On"
 msgstr ""
 
@@ -3794,101 +3806,97 @@ msgstr ""
 msgid "Nothing to add"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:41
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr ""
-
-#: ../app/helpers/dashboard_helper.rb:64
+#: ../app/helpers/dashboard_helper.rb:58
 msgid "Pending changes"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:65
+#: ../app/helpers/dashboard_helper.rb:59
 #: ../app/models/host_status/configuration_status.rb:60
 msgid "Out of sync"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:66
+#: ../app/helpers/dashboard_helper.rb:60
 msgid "No report"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:67
+#: ../app/helpers/dashboard_helper.rb:61
 msgid "Notification disabled"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:73
+#: ../app/helpers/dashboard_helper.rb:67
 msgid "Minutes Ago"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:73
+#: ../app/helpers/dashboard_helper.rb:67
 msgid "Number Of Clients"
 msgstr ""
 
 #. TRANSLATORS: initial character of Applied
-#: ../app/helpers/dashboard_helper.rb:93
+#: ../app/helpers/dashboard_helper.rb:87
 msgid "Applied|A"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:93 ../app/helpers/hosts_helper.rb:215
+#: ../app/helpers/dashboard_helper.rb:87 ../app/helpers/hosts_helper.rb:215
 #: ../app/views/config_reports/_list.html.erb:8
 msgid "Applied"
 msgstr ""
 
 #. TRANSLATORS: initial character of Restarted
-#: ../app/helpers/dashboard_helper.rb:95
+#: ../app/helpers/dashboard_helper.rb:89
 msgid "Restarted|R"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:95 ../app/helpers/hosts_helper.rb:219
+#: ../app/helpers/dashboard_helper.rb:89 ../app/helpers/hosts_helper.rb:219
 #: ../app/views/config_reports/_list.html.erb:9
 msgid "Restarted"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:97 ../app/helpers/hosts_helper.rb:216
+#: ../app/helpers/dashboard_helper.rb:91 ../app/helpers/hosts_helper.rb:216
 #: ../app/models/config_report.rb:79
 #: ../app/views/config_reports/_list.html.erb:10
 msgid "Failed"
 msgstr ""
 
 #. TRANSLATORS: initial character of Failed
-#: ../app/helpers/dashboard_helper.rb:97
+#: ../app/helpers/dashboard_helper.rb:91
 msgid "Failed|F"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
-#: ../app/helpers/dashboard_helper.rb:99
+#: ../app/helpers/dashboard_helper.rb:93
 msgid "Failed Restarts|FR"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:99
+#: ../app/helpers/dashboard_helper.rb:93
 msgid "Failed Restarts"
 msgstr ""
 
 #. TRANSLATORS: initial character of Skipped
-#: ../app/helpers/dashboard_helper.rb:101
+#: ../app/helpers/dashboard_helper.rb:95
 msgid "Skipped|S"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:101 ../app/helpers/hosts_helper.rb:218
+#: ../app/helpers/dashboard_helper.rb:95 ../app/helpers/hosts_helper.rb:218
 #: ../app/views/config_reports/_list.html.erb:12
 msgid "Skipped"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:103
+#: ../app/helpers/dashboard_helper.rb:97
 #: ../app/models/host_status/configuration_status.rb:64
 #: ../app/views/config_reports/_list.html.erb:13
 msgid "Pending"
 msgstr ""
 
 #. TRANSLATORS: initial character of Pending
-#: ../app/helpers/dashboard_helper.rb:103
+#: ../app/helpers/dashboard_helper.rb:97
 msgid "Pending|P"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:126
+#: ../app/helpers/dashboard_helper.rb:120
 msgid "Auto refresh on"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:128
+#: ../app/helpers/dashboard_helper.rb:122
 msgid "Auto refresh off"
 msgstr ""
 
@@ -4159,7 +4167,11 @@ msgstr ""
 msgid "Operating System"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:264 ../app/helpers/trends_helper.rb:6
+#: ../app/helpers/hosts_helper.rb:264
+msgid "PXE Loader"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:265 ../app/helpers/trends_helper.rb:6
 #: ../app/views/host_mailer/_active_hosts.html.erb:6
 #: ../app/views/host_mailer/_nonactive_hosts.html.erb:6
 #: ../app/views/hosts/_assign_hosts.html.erb:16
@@ -4168,28 +4180,28 @@ msgstr ""
 msgid "Host group"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:265
+#: ../app/helpers/hosts_helper.rb:266
 #: ../app/views/home/_location_dropdown.html.erb:1
 #: ../app/views/hosts/_selected_hosts.html.erb:14 taxonomies.rb:10
 msgid "Location"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:266
+#: ../app/helpers/hosts_helper.rb:267
 #: ../app/views/home/_organization_dropdown.html.erb:1
 #: ../app/views/hosts/_selected_hosts.html.erb:15
 #: ../app/views/organizations/welcome.html.erb:5 taxonomies.rb:11
 msgid "Organization"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:269 ../app/helpers/hosts_helper.rb:271
+#: ../app/helpers/hosts_helper.rb:270 ../app/helpers/hosts_helper.rb:272
 msgid "Owner"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:274 ../app/views/puppetca/_list.html.erb:7
+#: ../app/helpers/hosts_helper.rb:275 ../app/views/puppetca/_list.html.erb:7
 msgid "Certificate Name"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:302 ../app/helpers/hosts_helper.rb:453
+#: ../app/helpers/hosts_helper.rb:303 ../app/helpers/hosts_helper.rb:454
 #: ../app/helpers/smart_proxies_helper.rb:6
 #: ../app/helpers/smart_proxies_helper.rb:54
 #: ../app/views/compute_resources/index.html.erb:19
@@ -4205,11 +4217,11 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:303
+#: ../app/helpers/hosts_helper.rb:304
 msgid "Edit this host"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:304
+#: ../app/helpers/hosts_helper.rb:305
 #: ../app/helpers/provisioning_templates_helper.rb:16
 #: ../app/views/hostgroups/index.html.erb:29
 #: ../app/views/hosts/_list.html.erb:32 ../app/views/roles/index.html.erb:21
@@ -4217,85 +4229,85 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:305
+#: ../app/helpers/hosts_helper.rb:306
 msgid "Clone this host"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:307
+#: ../app/helpers/hosts_helper.rb:308
 msgid "Cancel build"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:309
+#: ../app/helpers/hosts_helper.rb:310
 msgid "Cancel build request for this host"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:313
+#: ../app/helpers/hosts_helper.rb:314
 msgid "Enable rebuild on next host boot"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:325
+#: ../app/helpers/hosts_helper.rb:326
 msgid "Loading power state ..."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:330
+#: ../app/helpers/hosts_helper.rb:331
 msgid "Run puppet"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:333
+#: ../app/helpers/hosts_helper.rb:334
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:348
+#: ../app/helpers/hosts_helper.rb:349
 msgid ""
 "Are you sure you want to delete host %s? This will delete the virtual machine "
 "and its disks, and is irreversible."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:350
+#: ../app/helpers/hosts_helper.rb:351
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:379 ../app/services/menu/loader.rb:49
+#: ../app/helpers/hosts_helper.rb:380 ../app/services/menu/loader.rb:49
 #: ../app/views/audits/index.html.erb:1
 msgid "Audits"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:379
+#: ../app/helpers/hosts_helper.rb:380
 msgid "Host audit entries"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:380 ../app/helpers/trends_helper.rb:6
+#: ../app/helpers/hosts_helper.rb:381 ../app/helpers/trends_helper.rb:6
 #: ../app/services/menu/loader.rb:46
 msgid "Facts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:380
+#: ../app/helpers/hosts_helper.rb:381
 msgid "Browse host facts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:381 ../app/services/menu/loader.rb:50
+#: ../app/helpers/hosts_helper.rb:382 ../app/services/menu/loader.rb:50
 #: ../app/views/config_reports/index.html.erb:1
 #: ../app/views/config_reports/welcome.html.erb:5
 msgid "Reports"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:381
+#: ../app/helpers/hosts_helper.rb:382
 msgid "Browse host config management reports"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:382
+#: ../app/helpers/hosts_helper.rb:383
 msgid "YAML"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:382
+#: ../app/helpers/hosts_helper.rb:383
 msgid "Puppet external nodes YAML dump"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:390
+#: ../app/helpers/hosts_helper.rb:391
 msgid "Allocation (GB)"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:393 ../app/helpers/lookup_keys_helper.rb:27
+#: ../app/helpers/hosts_helper.rb:394 ../app/helpers/lookup_keys_helper.rb:27
 #: ../app/helpers/lookup_keys_helper.rb:47
 #: ../app/helpers/provisioning_templates_helper.rb:5
 #: ../app/helpers/provisioning_templates_helper.rb:6 ../app/services/ipam.rb:2
@@ -4306,52 +4318,52 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:393
+#: ../app/helpers/hosts_helper.rb:394
 msgid "Size"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:393
+#: ../app/helpers/hosts_helper.rb:394
 msgid "Full"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:414
+#: ../app/helpers/hosts_helper.rb:415
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:6
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:15
 msgid "remove network interface"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:423
+#: ../app/helpers/hosts_helper.rb:424
 msgid "Interface is up"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:425
+#: ../app/helpers/hosts_helper.rb:426
 msgid "Interface is down"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:446
+#: ../app/helpers/hosts_helper.rb:447
 msgid "Errors occurred, build may fail"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:454
+#: ../app/helpers/hosts_helper.rb:455
 #: ../app/views/compute_resources/edit.html.erb:1
 #: ../app/views/hostgroups/edit.html.erb:1 ../app/views/hosts/edit.html.erb:1
 #: ../app/views/images/edit.html.erb:1 ../app/views/taxonomies/edit.html.erb:1
 msgid "Edit %s"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:468
+#: ../app/helpers/hosts_helper.rb:469
 msgid "Select desired %s proxy"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:469
+#: ../app/helpers/hosts_helper.rb:470
 msgid "*Clear %s proxy*"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:477
+#: ../app/helpers/hosts_helper.rb:478
 msgid "Randomize"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:478
+#: ../app/helpers/hosts_helper.rb:479
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr ""
 
@@ -4468,7 +4480,7 @@ msgstr ""
 msgid "Validation types"
 msgstr ""
 
-#: ../app/helpers/lookup_keys_helper.rb:90 ../app/models/hostgroup.rb:136
+#: ../app/helpers/lookup_keys_helper.rb:90 ../app/models/hostgroup.rb:138
 msgid "Default value"
 msgstr ""
 
@@ -5219,21 +5231,21 @@ msgstr ""
 msgid "DHCP not supported for this NIC"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:123
-#: ../app/models/concerns/orchestration/dhcp.rb:132
+#: ../app/models/concerns/orchestration/dhcp.rb:125
+#: ../app/models/concerns/orchestration/dhcp.rb:134
 msgid "Create DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:130
-#: ../app/models/concerns/orchestration/dhcp.rb:155
+#: ../app/models/concerns/orchestration/dhcp.rb:132
+#: ../app/models/concerns/orchestration/dhcp.rb:157
 msgid "Remove DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:164
+#: ../app/models/concerns/orchestration/dhcp.rb:166
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:174
+#: ../app/models/concerns/orchestration/dhcp.rb:176
 msgid "DHCP records %s already exists"
 msgstr ""
 
@@ -5350,31 +5362,38 @@ msgstr ""
 msgid "TFTP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:68
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
+#: ../app/models/concerns/orchestration/tftp.rb:65
+msgid "Unable to render %{kind} template '%{name}': %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:95
+#: ../app/models/concerns/orchestration/tftp.rb:71
+msgid "Template '%s' was not found"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/tftp.rb:74
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/tftp.rb:105
 msgid "Failed to fetch boot files"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:110
+#: ../app/models/concerns/orchestration/tftp.rb:120
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define a"
-"t least one in your %{os} settings"
+"t least one in your %{os} settings or change PXE loader"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:129
-#: ../app/models/concerns/orchestration/tftp.rb:159
-msgid "TFTP Settings for %s"
+#: ../app/models/concerns/orchestration/tftp.rb:134
+msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:132
+#: ../app/models/concerns/orchestration/tftp.rb:137
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:149
-msgid "Remove old TFTP Settings for %s"
+#: ../app/models/concerns/orchestration/tftp.rb:163
+msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
 #: ../app/models/concerns/parameter_validators.rb:15
@@ -5383,6 +5402,10 @@ msgstr ""
 
 #: ../app/models/concerns/parameter_validators.rb:21
 msgid "Please ensure the following parameters name are unique"
+msgstr ""
+
+#: ../app/models/concerns/pxe_loader_validator.rb:11
+msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
 #: ../app/models/concerns/taxonomix.rb:192
@@ -5457,95 +5480,95 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-#: ../app/models/host/base.rb:456
+#: ../app/models/host/base.rb:459
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:462
+#: ../app/models/host/base.rb:465
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:481
+#: ../app/models/host/base.rb:484
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:487
+#: ../app/models/host/base.rb:490
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
-#: ../app/models/host/managed.rb:141
+#: ../app/models/host/managed.rb:143
 msgid "invalid time range"
 msgstr ""
 
-#: ../app/models/host/managed.rb:185 ../app/models/hostgroup.rb:21
+#: ../app/models/host/managed.rb:187 ../app/models/hostgroup.rb:21
 msgid "should be 8 characters or more"
 msgstr ""
 
-#: ../app/models/host/managed.rb:186
+#: ../app/models/host/managed.rb:188
 msgid "should not be blank - consider setting a global or host group default"
 msgstr ""
 
-#: ../app/models/host/managed.rb:188
+#: ../app/models/host/managed.rb:190
 msgid "can't be blank unless a custom partition has been defined"
 msgstr ""
 
-#: ../app/models/host/managed.rb:190
+#: ../app/models/host/managed.rb:192
 msgid "is unknown"
 msgstr ""
 
-#: ../app/models/host/managed.rb:493
+#: ../app/models/host/managed.rb:495
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:551
+#: ../app/models/host/managed.rb:553
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:552
+#: ../app/models/host/managed.rb:554
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:655
+#: ../app/models/host/managed.rb:657
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:661
+#: ../app/models/host/managed.rb:663
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:879
+#: ../app/models/host/managed.rb:881
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:898
+#: ../app/models/host/managed.rb:900
 msgid "Unable to find IP address for '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:922
+#: ../app/models/host/managed.rb:924
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:951
+#: ../app/models/host/managed.rb:953
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:958
+#: ../app/models/host/managed.rb:960
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:977
+#: ../app/models/host/managed.rb:979
 msgid "is an unsupported provisioning method"
 msgstr ""
 
-#: ../app/models/host/managed.rb:982
+#: ../app/models/host/managed.rb:984
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:987 ../app/models/nic/interface.rb:117
+#: ../app/models/host/managed.rb:989 ../app/models/nic/interface.rb:117
 msgid "must not include periods"
 msgstr ""
 
@@ -5582,11 +5605,11 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: ../app/models/hostgroup.rb:232 ../app/models/nic/base.rb:224
+#: ../app/models/hostgroup.rb:234 ../app/models/nic/base.rb:224
 msgid "must be of type Subnet::Ipv4."
 msgstr ""
 
-#: ../app/models/hostgroup.rb:233 ../app/models/nic/base.rb:225
+#: ../app/models/hostgroup.rb:235 ../app/models/nic/base.rb:225
 msgid "must be of type Subnet::Ipv6."
 msgstr ""
 
@@ -5634,28 +5657,28 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:26
 #: ../app/models/lookup_keys/lookup_key.rb:27
+#: ../app/models/lookup_keys/lookup_key.rb:28
 msgid "invalid"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:160
+#: ../app/models/lookup_keys/lookup_key.rb:161
 msgid "Invalid Host"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:190
+#: ../app/models/lookup_keys/lookup_key.rb:191
 msgid "invalid path"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:224
+#: ../app/models/lookup_keys/lookup_key.rb:233
 msgid "can only be set for array or hash"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:230
+#: ../app/models/lookup_keys/lookup_key.rb:239
 msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:236
+#: ../app/models/lookup_keys/lookup_key.rb:245
 msgid "can only be set when merge overrides is set"
 msgstr ""
 
@@ -5757,29 +5780,29 @@ msgstr ""
 msgid "subnet boot mode is not %s"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:24
+#: ../app/models/operatingsystem.rb:25
 msgid "Operating System version is required"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:34
+#: ../app/models/operatingsystem.rb:35
 msgid "Operating system version already exists"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:217
+#: ../app/models/operatingsystem.rb:218
 msgid ""
 "Attempting to construct an operating system image filename but %s cannot be bu"
 "ilt from an image"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:244
+#: ../app/models/operatingsystem.rb:245
 msgid "%{os} medium was not set for host '%{host}'"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:245
+#: ../app/models/operatingsystem.rb:246
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:246
+#: ../app/models/operatingsystem.rb:247
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr ""
 
@@ -5792,7 +5815,7 @@ msgstr ""
 msgid "invalid architecture for %s"
 msgstr ""
 
-#: ../app/models/operatingsystems/nxos.rb:29
+#: ../app/models/operatingsystems/nxos.rb:27
 msgid "Function not available for %s"
 msgstr ""
 
@@ -5854,26 +5877,22 @@ msgstr ""
 msgid "Must provide an operating systems"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:107
+#: ../app/models/provisioning_template.rb:106
 msgid "No TFTP proxies defined, can't continue"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:111
+#: ../app/models/provisioning_template.rb:112
 msgid ""
-"Could not find a Configuration Template with the name \"PXELinux global default"
-"\", please create one."
+"Could not find a Configuration Template with the name \"%s global default\", ple"
+"ase create one."
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:120
-msgid "failed to process template: %s"
-msgstr ""
-
-#: ../app/models/provisioning_template.rb:145
-msgid "There was an error creating the PXE Default file: %s"
-msgstr ""
-
-#: ../app/models/provisioning_template.rb:149
+#: ../app/models/provisioning_template.rb:138
 msgid "PXE Default file has been deployed to all Smart Proxies"
+msgstr ""
+
+#: ../app/models/provisioning_template.rb:140
+msgid "There was an error creating the PXE Default file: %s"
 msgstr ""
 
 #: ../app/models/realm.rb:16
@@ -6646,41 +6665,45 @@ msgstr ""
 msgid "This template is locked. Please clone it to a new template to customize."
 msgstr ""
 
-#: ../app/models/template_kind.rb:12
+#: ../app/models/template_kind.rb:14
 msgid "PXELinux template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:13
+#: ../app/models/template_kind.rb:15
 msgid "PXEGrub template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:14
+#: ../app/models/template_kind.rb:16
+msgid "PXEGrub2 template"
+msgstr ""
+
+#: ../app/models/template_kind.rb:17
 msgid "iPXE template"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/models/template_kind.rb:15 model_attributes.rb:114
+#: ../app/models/template_kind.rb:18 model_attributes.rb:114
 msgid "Provisioning template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:16
+#: ../app/models/template_kind.rb:19
 msgid "Finish template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:17
+#: ../app/models/template_kind.rb:20
 msgid "Script template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:18
+#: ../app/models/template_kind.rb:21
 msgid "User data template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:19
-msgid "ZTP template"
+#: ../app/models/template_kind.rb:22
+msgid "ZTP PXE template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:20
-msgid "POAP template"
+#: ../app/models/template_kind.rb:23
+msgid "POAP PXE template"
 msgstr ""
 
 #: ../app/models/user.rb:78
@@ -6824,19 +6847,19 @@ msgstr ""
 msgid "Template %s is empty."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:38
+#: ../app/services/host_build_status.rb:39
 msgid "Failure parsing %{template}: %{error}."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:44
+#: ../app/services/host_build_status.rb:45
 msgid "No smart proxies found."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:50
+#: ../app/services/host_build_status.rb:51
 msgid "Failure deploying via smart proxy %{proxy}: %{error}."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:52
+#: ../app/services/host_build_status.rb:53
 msgid "Error connecting to %{proxy}: %{error}."
 msgstr ""
 
@@ -7251,29 +7274,45 @@ msgid "Environment Distribution"
 msgstr ""
 
 #: ../app/services/statistics.rb:7
+msgid "Host Group Distribution"
+msgstr ""
+
+#: ../app/services/statistics.rb:8
+msgid "Compute Resource Distribution"
+msgstr ""
+
+#: ../app/services/statistics.rb:9
 msgid "%s core"
 msgid_plural "%s cores"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/services/statistics.rb:7
+#: ../app/services/statistics.rb:9
 msgid "Number of CPUs"
 msgstr ""
 
-#: ../app/services/statistics.rb:8
+#: ../app/services/statistics.rb:10
 msgid "Hardware"
 msgstr ""
 
-#: ../app/services/statistics.rb:9
+#: ../app/services/statistics.rb:11
 msgid "Average memory usage"
 msgstr ""
 
-#: ../app/services/statistics.rb:10
+#: ../app/services/statistics.rb:12
 msgid "Average swap usage"
 msgstr ""
 
-#: ../app/services/statistics.rb:11
+#: ../app/services/statistics.rb:13
 msgid "Class Distribution"
+msgstr ""
+
+#: ../app/services/statistics.rb:17
+msgid "Location Distribution"
+msgstr ""
+
+#: ../app/services/statistics.rb:21
+msgid "Organization Distribution"
 msgstr ""
 
 #: ../app/services/statistics/count_numerical_fact_pair.rb:19
@@ -8028,6 +8067,14 @@ msgstr ""
 #: ../app/views/common/os_selection/_operatingsystem.html.erb:10
 #: ../app/views/operatingsystems/_form.html.erb:6
 msgid "Partition table"
+msgstr ""
+
+#: ../app/views/common/os_selection/_pxe_loader.html.erb:7
+msgid "PXE loader"
+msgstr ""
+
+#: ../app/views/common/os_selection/_pxe_loader.html.erb:8
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
 msgstr ""
 
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:19
@@ -8972,6 +9019,10 @@ msgstr ""
 
 #: ../app/views/dashboard/index.html.erb:8
 msgid "Get default dashboard widgets"
+msgstr ""
+
+#: ../app/views/dashboard/index.html.erb:21
+msgid "%s widget loading..."
 msgstr ""
 
 #: ../app/views/domains/_form.html.erb:6
@@ -10521,7 +10572,7 @@ msgid "Snippet"
 msgstr ""
 
 #: ../app/views/provisioning_templates/_custom_tabs.html.erb:14
-msgid "Applicable<br>Operating Systems"
+msgid "Applicable Operating Systems"
 msgstr ""
 
 #: ../app/views/provisioning_templates/_diff.html.erb:2
@@ -11598,7 +11649,7 @@ msgstr ""
 msgid "locale_name"
 msgstr ""
 
-#: ../lib/foreman/renderer.rb:111
+#: ../lib/foreman/renderer.rb:123
 msgid "Template '%s' is either missing or has an invalid organization or location"
 msgstr ""
 
@@ -11742,19 +11793,19 @@ msgstr ""
 msgid "Unable to set TFTP boot entry for %s"
 msgstr ""
 
-#: ../lib/proxy_api/tftp.rb:26
+#: ../lib/proxy_api/tftp.rb:27
 msgid "Unable to delete TFTP boot entry for %s"
 msgstr ""
 
-#: ../lib/proxy_api/tftp.rb:37
+#: ../lib/proxy_api/tftp.rb:38
 msgid "Unable to fetch TFTP boot file"
 msgstr ""
 
-#: ../lib/proxy_api/tftp.rb:49
+#: ../lib/proxy_api/tftp.rb:50
 msgid "Unable to detect TFTP boot server"
 msgstr ""
 
-#: ../lib/proxy_api/tftp.rb:59
+#: ../lib/proxy_api/tftp.rb:60
 msgid "Unable to create default TFTP boot menu"
 msgstr ""
 

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-07-23 09:24+0000\n"
+"PO-Revision-Date: 2016-08-24 10:09+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -82,6 +82,9 @@ msgstr[1] ""
 
 msgid "%s is an unknown attribute"
 msgstr "%s är ett okänt attribut"
+
+msgid "%s is not a valid DNS record type"
+msgstr ""
 
 msgid "%s is not in environment"
 msgstr ""
@@ -183,6 +186,9 @@ msgid_plural "%{name} has %{num_tag} classes"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%{os} medium was not set for host '%{host}'"
+msgstr ""
+
 msgid "%{record} is being used by a hidden %{what} resource"
 msgstr ""
 
@@ -197,6 +203,14 @@ msgstr ""
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} uppgiften misslyckades med följande fel: %{e}"
+
+msgid "%{taxonomy_type} %{taxonomy_name} has %{count} host that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
+msgid_plural "%{taxonomy_type} %{taxonomy_name} has %{count} hosts that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%{type} %{conflicts} already exists"
+msgstr ""
 
 msgid "%{value} does not belong to %{os} operating system"
 msgstr "%{value} tillhör inte %{os} operativsystem"
@@ -215,9 +229,6 @@ msgstr "&laquo;"
 
 msgid "&raquo;"
 msgstr "&raquo;"
-
-msgid "'%s' is not a valid MAC address."
-msgstr ""
 
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr "'%{host}' kan vara raderad eller så svarar inte '%{resource}'."
@@ -257,28 +268,28 @@ msgstr "<b class='select_count'>0</b> markerad/e"
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{disabled_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Disabled</p>"
+"               <p>Disabled</p>"
 msgid_plural ""
 "<b style=\"color: #6bb5df;\">%{disabled_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Disabled</p>"
+"               <p>Disabled</p>"
 msgstr[0] ""
 msgstr[1] ""
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{hosts_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Changed</p>"
+"               <p>Changed</p>"
 msgid_plural ""
 "<b style=\"color: #6bb5df;\">%{hosts_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Changed</p>"
+"               <p>Changed</p>"
 msgstr[0] ""
 msgstr[1] ""
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{out_of_sync_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Out of sync</p>"
+"               <p>Out of sync</p>"
 msgid_plural ""
 "<b style=\"color: #6bb5df;\">%{out_of_sync_sum}</b>\n"
-"               <p style=\"font-weight: bold; margin: 5px; padding: 0px;\">Out of sync</p>"
+"               <p>Out of sync</p>"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -540,8 +551,14 @@ msgstr ""
 msgid "Always show configuration status"
 msgstr ""
 
-msgid "An IP address will be auto-suggested if you have a DHCP-enabled Smart Proxy on the subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"
-msgstr "En IP-adress kommer att föreslås om du har en DHCP-aktiverad Smart Proxy på subnätet som är valt.<br/><br/>IP-adressen kan lämnas blank när:<br/><ul><li>provisioneringsbevis är aktiverat</li><li>domänen hanterar inte DNS</li><li>subnätet hanterar inte reversibel DNS</li><li>och subnätet hanterar inte DHCP-reservationer</li></ul>"
+msgid "An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"
+msgstr ""
+
+msgid "An IP address will be auto-suggested if you have enabled IPAM on the IPv6 subnet selected above."
+msgstr ""
+
+msgid "An email address is required, please update your account details"
+msgstr ""
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "En uttrycklig layout för partitionerna på din hårddisk(ar). T.ex."
@@ -1037,10 +1054,10 @@ msgstr "Avbryt byggbegäran för denna värd"
 msgid "Canceled pending build for %s"
 msgstr "Avbröt avvaktande bygge för %s"
 
-msgid "Cannot add pagelet to page %s without mountpoint"
+msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr ""
 
-msgid "Cannot add pagelet to page %s without partial"
+msgid "Cannot add pagelet with key %s and without partial"
 msgstr ""
 
 msgid "Cannot create LDAP configuration for %s without dedicated service account"
@@ -1157,12 +1174,6 @@ msgstr "Klicka på länken för en beräkningsresurs för att redigera dess stan
 msgid "Click to add %s"
 msgstr "Klicka för att lägga till %s"
 
-msgid "Click to edit"
-msgstr "Klicka för att redigera"
-
-msgid "Click to edit.."
-msgstr "Klicka för att redigera.."
-
 msgid "Click to log in again."
 msgstr "Klicka för att logga in igen."
 
@@ -1194,6 +1205,9 @@ msgid "Clone a provision template"
 msgstr "Klona en provisioneringsmall"
 
 msgid "Clone a template"
+msgstr ""
+
+msgid "Clone this host"
 msgstr ""
 
 msgid "Close"
@@ -1373,17 +1387,14 @@ msgstr ""
 msgid "Create %s"
 msgstr "Skapa %s"
 
+msgid "Create %{type} for %{host}"
+msgstr ""
+
 msgid "Create :a_resource"
 msgstr ""
 
 msgid "Create DHCP Settings for %s"
 msgstr "Skapa DHCP-inställningar för %s"
-
-msgid "Create DNS record for %s"
-msgstr "Skapa DNS-post för %s"
-
-msgid "Create Reverse DNS record for %s"
-msgstr "Skapa baklänges DNS-post för %s"
 
 msgid "Create a Puppet class"
 msgstr ""
@@ -1553,19 +1564,13 @@ msgstr "DHCP-poster %s finns redan"
 msgid "DNS"
 msgstr "DNS"
 
-msgid "DNS A Records %s already exists"
-msgstr "DNS A-poster %s finns redan"
-
-msgid "DNS PTR Records %s already exists"
-msgstr "DNS PTR-poster %s finns redan"
-
 msgid "DNS Proxy"
 msgstr "DNS Proxy"
 
 msgid "DNS Proxy to use within this subnet"
 msgstr "DNS Proxy att använda inom detta subnät"
 
-msgid "DNS Proxy to use within this subnet for managing PTR records, note that A records are managed via Domain DNS proxy"
+msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr ""
 
 msgid "DNS conflict timeout"
@@ -2093,16 +2098,13 @@ msgstr "Redigera Användargrupp"
 msgid "Edit compute profile on %s"
 msgstr "Redigera beräkningsprofil på %s"
 
-msgid "Edit your host"
-msgstr "Redigera Värd"
+msgid "Edit this host"
+msgstr ""
 
 msgid "Email Preferences"
 msgstr ""
 
 msgid "Email address is missing"
-msgstr ""
-
-msgid "Email is Required"
 msgstr ""
 
 msgid "Email reply address"
@@ -2166,6 +2168,9 @@ msgstr ""
 msgid "Environment"
 msgstr "Miljö"
 
+msgid "Environment Distribution"
+msgstr ""
+
 msgid "Environment ID"
 msgstr ""
 
@@ -2186,9 +2191,6 @@ msgstr "Miljövariabel innehållande verifieringsstatus av en klients SSL certif
 
 msgid "Environments"
 msgstr "Miljöer"
-
-msgid "Environments Distribution"
-msgstr "Miljödistribution"
 
 msgid "Environments and documentation"
 msgstr "Miljöer och dokumentation"
@@ -2230,6 +2232,9 @@ msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "Fel har inträffat under kommunikation med %{cr}: %{e}"
 
 msgid "Error loading interfaces information: %s"
+msgstr ""
+
+msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
 msgid "Error loading virtual machine information: %s"
@@ -2407,6 +2412,9 @@ msgstr "Misslyckades med att förstöra en beräkningsresurs %{compute_resource}
 
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "Misslyckades med att aktivera %{host} för installation: %{errors}"
+
+msgid "Failed to fetch a free IP from proxy %{proxy}: %{message}"
+msgstr ""
 
 msgid "Failed to fetch boot files"
 msgstr "Misslyckades med att hämta startfiler"
@@ -2645,7 +2653,10 @@ msgstr "Foremans rapporskapningstid är <em>%s</em>"
 msgid "Foreman smart variables will be exposed via the ENC yaml output"
 msgstr ""
 
-msgid "Foreman subnet ID of interface"
+msgid "Foreman subnet ID of IPv4 interface"
+msgstr ""
+
+msgid "Foreman subnet ID of IPv6 interface"
 msgstr ""
 
 msgid "Foreman supports automatically creating realm entries for new hosts."
@@ -2750,6 +2761,9 @@ msgstr ""
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "Generellt användbar beskrivning, till exempel, denna typ av hårdvara behöver en speciellt BIOS-inställning"
 
+msgid "Generate new random name. Visit Settings to disable this feature."
+msgstr ""
+
 msgid "Generated %s ago"
 msgstr "Genererad %s dagar sedan"
 
@@ -2782,6 +2796,9 @@ msgstr "Globala Parametrar"
 
 msgid "Global parameters"
 msgstr "Globala parametrar"
+
+msgid "Global status changed from %{from} to %{to}"
+msgstr ""
 
 msgid "Good host reports in the last %s"
 msgstr "Bra värdrapporter senaste %s"
@@ -2826,6 +2843,9 @@ msgid "Hide all values for this parameter."
 msgstr ""
 
 msgid "Hide this value"
+msgstr ""
+
+msgid "Hint data is missing"
 msgstr ""
 
 msgid "History"
@@ -3265,13 +3285,10 @@ msgstr ""
 msgid "IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", \"Internal DB\", \"None\""
 msgstr ""
 
-msgid "IP address"
-msgstr ""
-
 msgid "IP address auto-suggest"
 msgstr "Automatiskt föreslå IP-adress"
 
-msgid "IP address of interface"
+msgid "IP addresses that should be excluded from suggestion"
 msgstr ""
 
 msgid "IP:"
@@ -3283,7 +3300,41 @@ msgstr ""
 msgid "IPv4"
 msgstr ""
 
+msgid "IPv4 Address"
+msgstr ""
+
+msgid "IPv4 DNS record"
+msgid_plural "IPv4 DNS records"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "IPv4 Subnet"
+msgstr ""
+
+msgid "IPv4 address"
+msgstr ""
+
+msgid "IPv4 address of interface"
+msgstr ""
+
 msgid "IPv6"
+msgstr ""
+
+msgid "IPv6 Address"
+msgstr ""
+
+msgid "IPv6 DNS record"
+msgid_plural "IPv6 DNS records"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "IPv6 Subnet"
+msgstr ""
+
+msgid "IPv6 address"
+msgstr ""
+
+msgid "IPv6 address of interface"
 msgstr ""
 
 msgid "IRC"
@@ -3482,6 +3533,9 @@ msgstr ""
 msgid "Invalid Host"
 msgstr "Felaktig Värd"
 
+msgid "Invalid architecture '%{arch}' for '%{os}'"
+msgstr ""
+
 msgid "Invalid architecture for %s"
 msgstr ""
 
@@ -3490,6 +3544,9 @@ msgstr ""
 
 msgid "Invalid log level: %s"
 msgstr "Felaktig loggnivå: %s"
+
+msgid "Invalid medium '%{medium}' for '%{os}'"
+msgstr ""
 
 msgid "Invalid medium for %s"
 msgstr ""
@@ -3531,6 +3588,9 @@ msgid "Item"
 msgstr "Post"
 
 msgid "JSON VM listing is not supported for this compute resource."
+msgstr ""
+
+msgid "JSON object of the scheduler hint"
 msgstr ""
 
 msgid "Keep selected hosts for a future action"
@@ -4123,6 +4183,12 @@ msgstr ""
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr ""
 
+msgid "MAC address to reuse the IP for this host"
+msgstr ""
+
+msgid "MAC-based"
+msgstr ""
+
 msgid "Machine Type"
 msgstr "Maskintyp"
 
@@ -4181,6 +4247,9 @@ msgid "Media ID"
 msgstr ""
 
 msgid "Media IDs"
+msgstr ""
+
+msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits separated by colons (:), e.g. 00:11:22:33:44:55"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4364,10 +4433,16 @@ msgstr "Nätverk"
 msgid "Network Based"
 msgstr "Nätverksbaserad"
 
+msgid "Network can't be blank"
+msgstr ""
+
 msgid "Network interfaces"
 msgstr "Nätverkskort"
 
 msgid "Network interfaces management has been moved to the Interfaces tab. Please set your interfaces there."
+msgstr ""
+
+msgid "Network prefix"
 msgstr ""
 
 msgid "Network type"
@@ -4674,6 +4749,9 @@ msgstr "Inga intressanta rapporter togs emot den senaste veckan"
 msgid "No logs to show"
 msgstr ""
 
+msgid "No matching server groups found"
+msgstr ""
+
 msgid "No networks"
 msgstr "Inga nät"
 
@@ -4847,9 +4925,6 @@ msgstr ""
 
 msgid "OK"
 msgstr "OK"
-
-msgid "OS Distribution"
-msgstr "OS Distribution"
 
 msgid "OS Image"
 msgstr "OSAvbildning"
@@ -5342,6 +5417,9 @@ msgstr "Kraft%s"
 msgid "Preallocate disk"
 msgstr ""
 
+msgid "Prefix length can't be blank"
+msgstr ""
+
 msgid "Prefix length must be /64 or less to use EUI-64"
 msgstr ""
 
@@ -5384,10 +5462,16 @@ msgstr "Egenskaper"
 msgid "Property"
 msgstr ""
 
+msgid "Protocol"
+msgstr ""
+
 msgid "Provider"
 msgstr "Leverantör"
 
 msgid "Providers include %{providers}"
+msgstr ""
+
+msgid "Provides an unused IP address in this subnet"
 msgstr ""
 
 msgid "Provision"
@@ -5636,6 +5720,15 @@ msgstr ""
 msgid "REPLACE organizations with given ids."
 msgstr ""
 
+msgid "Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"
+msgstr ""
+
+msgid "Random-based"
+msgstr ""
+
+msgid "Randomize"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr ""
@@ -5719,17 +5812,14 @@ msgstr ""
 msgid "Remove %s?"
 msgstr "Radera %s?"
 
+msgid "Remove %{type} for %{host}"
+msgstr ""
+
 msgid "Remove DHCP Settings for %s"
 msgstr "Ta bort DHCP-inställningar för %s"
 
-msgid "Remove DNS record for %s"
-msgstr "Ta bort DNS-post för %s"
-
 msgid "Remove Parameter"
 msgstr "Ta bort Parameter"
-
-msgid "Remove Reverse DNS record for %s"
-msgstr "Ta bort baklänges DNS-post för %s"
 
 msgid "Remove a Puppet class from host"
 msgstr ""
@@ -5737,11 +5827,8 @@ msgstr ""
 msgid "Remove a Puppet class from host group"
 msgstr ""
 
-msgid "Remove conflicting DNS record for %s"
-msgstr "Ta bort konfliktande DNS-post för %s"
-
-msgid "Remove conflicting Reverse DNS record for %s"
-msgstr "Ta bort konfliktande baklänges DNS-post för %s"
+msgid "Remove conflicting %{type} for %{host}"
+msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr ""
@@ -5858,6 +5945,16 @@ msgstr ""
 
 msgid "Reverse DNS Proxy"
 msgstr ""
+
+msgid "Reverse IPv4 DNS record"
+msgid_plural "Reverse IPv4 DNS records"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reverse IPv6 DNS record"
+msgid_plural "Reverse IPv6 DNS records"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Revert"
 msgstr "Återgå"
@@ -5978,6 +6075,9 @@ msgstr ""
 
 msgid "Save something and try again"
 msgstr "Spara något och försök igen"
+
+msgid "Scheduler hint filter"
+msgstr ""
 
 msgid "Scope by locations"
 msgstr ""
@@ -6114,7 +6214,16 @@ msgstr ""
 msgid "Send welcome email"
 msgstr ""
 
+msgid "Server group"
+msgstr ""
+
+msgid "Server hint data"
+msgstr ""
+
 msgid "Server type"
+msgstr ""
+
+msgid "Service unavailable"
 msgstr ""
 
 msgid "Services"
@@ -6428,6 +6537,9 @@ msgstr "Url"
 msgid "Snippet"
 msgstr "Remsa"
 
+msgid "Some imported user account details cannot be saved: %s"
+msgstr ""
+
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -6625,6 +6737,9 @@ msgid "Successfully updated %s."
 msgstr "Lyckades uppdatera %s."
 
 msgid "Successfully updated environments and Puppet classes from the on-disk Puppet installation"
+msgstr ""
+
+msgid "Suffix or prefix length for this subnet, e.g. 32"
 msgstr ""
 
 msgid "Suggest new"
@@ -6827,7 +6942,7 @@ msgstr "Sökvägen till p12-filen"
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "Sista inlägget, förinställt Operativsystem, kan ställas in genom att editera %s sidan."
 
-msgid "The following IPv4 subnets have been found"
+msgid "The following IPv4 subnets have been found. Please review the details before creating them."
 msgstr ""
 
 msgid "The following entries were found conflicting with what foreman wanted to apply."
@@ -6918,6 +7033,9 @@ msgid "The user that is used to ssh into the instance, normally cloud-user, ec2-
 msgstr "Användaren som används för att ssha till instansen, normalt cloud-user, ec2-user, ubuntu, root etc"
 
 msgid "The virtual machine is being deleted."
+msgstr ""
+
+msgid "There are migrations pending in the system."
 msgstr ""
 
 msgid "There are no puppet environments set up on this puppet master. Please check the puppet master configuration."
@@ -7144,7 +7262,13 @@ msgstr ""
 msgid "Type"
 msgstr "Typ"
 
+msgid "Type of name generator"
+msgstr ""
+
 msgid "Type of realm, e.g. FreeIPA"
+msgstr ""
+
+msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr ""
 
 msgid "Types of validation values"
@@ -7826,8 +7950,8 @@ msgstr "Version"
 msgid "Version %{version}"
 msgstr "Version %{version}"
 
-msgid "Version %{version}  © 2009-%{year} Paul Kelly and %{author}"
-msgstr "Version %{version} © 2009-%{year} Paul Kelly och %{author}"
+msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
+msgstr ""
 
 msgid "Very Strong"
 msgstr "Väldigt stark"
@@ -7988,7 +8112,7 @@ msgstr "Du använder en webbläsare som inte stöds"
 msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr ""
 
-msgid "You can select one of three possible IPAM modes:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP</li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion</li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
 msgstr ""
 
 msgid "You can't assign locations to this resource"
@@ -8119,6 +8243,9 @@ msgstr ""
 
 msgid "can't be bigger than to range"
 msgstr "kan inte vara större än till-spannet"
+
+msgid "can't be blank"
+msgstr ""
 
 msgid "can't be blank unless a custom partition has been defined"
 msgstr ""
@@ -8297,9 +8424,6 @@ msgstr ""
 msgid "free memory"
 msgstr ""
 
-msgid "free swap"
-msgstr ""
-
 msgid "from profile %s"
 msgstr ""
 
@@ -8411,6 +8535,9 @@ msgstr "används redan av ett användarkonto"
 msgid "is an admin account"
 msgstr ""
 
+msgid "is an admin user group"
+msgstr ""
+
 msgid "is an unsupported provisioning method"
 msgstr ""
 
@@ -8429,10 +8556,7 @@ msgstr ""
 msgid "is not allowed to change"
 msgstr "tillåts inte att ändras"
 
-msgid "is not defined for host's location."
-msgstr ""
-
-msgid "is not defined for host's organization."
+msgid "is not defined for host's %s."
 msgstr ""
 
 msgid "is not found in the authentication source"
@@ -8448,6 +8572,9 @@ msgid "is too long (maximum is 1 character)"
 msgid_plural "is too long (maximum is %s characters)"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "is too long (maximum is 254 characters)"
+msgstr ""
 
 msgid "is unknown"
 msgstr ""
@@ -8504,6 +8631,12 @@ msgstr ""
 msgid "must be integer"
 msgstr "måste vara heltal"
 
+msgid "must be of type Subnet::Ipv4."
+msgstr ""
+
+msgid "must be of type Subnet::Ipv6."
+msgstr ""
+
 msgid "must be one of [ %s ]"
 msgstr "måste vara en av [ %s ]"
 
@@ -8514,6 +8647,9 @@ msgid "must be specified if to is defined"
 msgstr "måste anges om till är definierad"
 
 msgid "must be true to edit the parameter"
+msgstr ""
+
+msgid "must contain valid hostnames"
 msgstr ""
 
 msgid "must not include periods"
@@ -8532,6 +8668,9 @@ msgid "nil allowed"
 msgstr ""
 
 msgid "nil means host is bare metal"
+msgstr ""
+
+msgid "no free IP could be found in our DB"
 msgstr ""
 
 msgid "no puppet proxy defined - cant continue"
@@ -8748,6 +8887,9 @@ msgstr ""
 msgid "unable to sign a non pending certificate"
 msgstr "kan inte signera ett icke pågående certifikat"
 
+msgid "unknown network_type"
+msgstr ""
+
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -8764,9 +8906,6 @@ msgid "unspecified"
 msgstr "ospecificerad"
 
 msgid "used memory"
-msgstr ""
-
-msgid "used swap"
 msgstr ""
 
 msgid "useful template functions and macros"

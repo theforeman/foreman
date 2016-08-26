@@ -113,6 +113,9 @@ msgid_plural "%s weeks ago"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%s widget loading..."
+msgstr ""
+
 msgid "%{app_name} API documentation homepage"
 msgstr ""
 
@@ -230,6 +233,9 @@ msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr ""
 
 msgid "'%{host}' not found on '%{resource}'"
+msgstr ""
+
+msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
@@ -577,7 +583,7 @@ msgstr ""
 msgid "Any Organization"
 msgstr ""
 
-msgid "Applicable<br>Operating Systems"
+msgid "Applicable Operating Systems"
 msgstr ""
 
 msgid "Applied"
@@ -1224,6 +1230,9 @@ msgstr ""
 msgid "Compute Resource"
 msgstr ""
 
+msgid "Compute Resource Distribution"
+msgstr ""
+
 msgid "Compute Resources"
 msgstr ""
 
@@ -1371,7 +1380,7 @@ msgstr ""
 msgid "Cores per socket"
 msgstr ""
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
 msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
@@ -1551,6 +1560,15 @@ msgstr ""
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
@@ -1670,6 +1688,9 @@ msgid "Delete Hosts"
 msgstr ""
 
 msgid "Delete PuppetCA certificates for %s"
+msgstr ""
+
+msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
 msgid "Delete a Puppet class"
@@ -1832,6 +1853,9 @@ msgid "Deleted environment"
 msgstr ""
 
 msgid "Deleted environment %{env} and %{pcs}"
+msgstr ""
+
+msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
 msgid "Deploy VM on selected datastore"
@@ -2395,7 +2419,7 @@ msgstr ""
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
 
-msgid "Failed to cancel pending build for %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
 msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
@@ -2428,9 +2452,6 @@ msgid "Failed to fetch boot files"
 msgstr ""
 
 msgid "Failed to fetch: "
-msgstr ""
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
 msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
@@ -2876,6 +2897,9 @@ msgid "Host Configuration Chart"
 msgstr ""
 
 msgid "Host Configuration Status"
+msgstr ""
+
+msgid "Host Group Distribution"
 msgstr ""
 
 #, fuzzy
@@ -4115,6 +4139,9 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr ""
 
@@ -4343,9 +4370,6 @@ msgid "Mismatches Report"
 msgstr ""
 
 msgid "Missing one of the required permissions: %s"
-msgstr ""
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4679,7 +4703,7 @@ msgstr ""
 msgid "Nic::Base|Virtual"
 msgstr ""
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
 
 msgid "No IPv4 subnets selected"
@@ -5125,6 +5149,9 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
+msgid "Organization Distribution"
+msgstr ""
+
 #, fuzzy
 msgid "Organization fact"
 msgstr "Organizations and/or"
@@ -5195,7 +5222,7 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-msgid "POAP template"
+msgid "POAP PXE template"
 msgstr ""
 
 msgid "PXE"
@@ -5204,7 +5231,16 @@ msgstr ""
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr ""
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
@@ -5859,9 +5895,6 @@ msgid "Remove conflicting %{type} for %{host}"
 msgstr ""
 
 msgid "Remove duplicate values (only array type)"
-msgstr ""
-
-msgid "Remove old TFTP Settings for %s"
 msgstr ""
 
 msgid "Remove this override"
@@ -6812,9 +6845,6 @@ msgstr ""
 msgid "TFTP Proxy to use within this subnet"
 msgstr ""
 
-msgid "TFTP Settings for %s"
-msgstr ""
-
 msgid "TFTP server"
 msgstr ""
 
@@ -6853,6 +6883,9 @@ msgid "Template %s is empty."
 msgstr ""
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -7447,6 +7480,12 @@ msgid "Unable to perform lan BMC operation"
 msgstr ""
 
 msgid "Unable to perform power BMC operation"
+msgstr ""
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
 msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
@@ -8226,7 +8265,7 @@ msgstr ""
 msgid "Your session has expired, please login again"
 msgstr ""
 
-msgid "ZTP template"
+msgid "ZTP PXE template"
 msgstr ""
 
 msgid "Zone"
@@ -8422,9 +8461,6 @@ msgid "failed to detect boot server: %s"
 msgstr ""
 
 msgid "failed to execute puppetrun: %s"
-msgstr ""
-
-msgid "failed to process template: %s"
 msgstr ""
 
 msgid "failed to save %s"
