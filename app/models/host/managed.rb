@@ -939,7 +939,7 @@ class Host::Managed < Host::Base
     attrs.each do |attr|
       next if send(attr).to_i == -1
       value = hostgroup.send("inherited_#{attr}")
-      self.send("#{attr}=", value) unless send(attr).present?
+      self.send("#{attr}=", value) if new_record? || send(attr).blank?
     end
   end
 
