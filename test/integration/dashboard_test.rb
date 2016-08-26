@@ -18,6 +18,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
 
   test "dashboard page" do
     assert_index_page(dashboard_path,"Overview",false,true,false)
+    wait_for_ajax
     assert page.has_content? 'Generated at'
   end
 
