@@ -32,7 +32,8 @@ class HostBuildStatus
 
     available_template_kinds.each do |template|
       begin
-        valid_template = host.render_template(template.template)
+        Rails.logger.info "Rendering #{template}"
+        valid_template = host.render_template(template)
         fail!(:templates, _('Template %s is empty.') % template.name, template.name) if valid_template.blank?
       rescue => exception
         Foreman::Logging.exception("Review template error", exception)

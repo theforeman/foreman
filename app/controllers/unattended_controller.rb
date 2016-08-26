@@ -71,7 +71,6 @@ class UnattendedController < ApplicationController
     type = 'iPXE' if type == 'gPXE'
 
     if (config = @host.provisioning_template({ :kind => type }))
-      logger.debug "Rendering #{type} template '#{config.name}'"
       if !preview?
         User.as_anonymous_admin do
           safe_render config
