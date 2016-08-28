@@ -91,7 +91,6 @@
     "no-fallthrough": "error",
     "no-floating-decimal": "error",
     "no-func-assign": "error",
-    "no-global-assign": "error",
     "no-implied-eval": "error",
     "no-inline-comments": "off",
     "no-inner-declarations": ["error", "functions"],
