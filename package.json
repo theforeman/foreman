@@ -24,6 +24,7 @@
   "dependencies": {
     "datatables.net": "~1.10.12",
     "datatables.net-bs": "~1.10.12",
+    "ipaddr.js": "~1.2.0",
     "jquery": "~1.11.0",
     "jquery-flot": "~0.8.3",
     "jquery-ujs": "~1.2.0",

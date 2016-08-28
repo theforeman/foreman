@@ -1,5 +1,3 @@
-//= require ipaddr
-
 function showSubnetIPAM(element) {
   if ($.inArray(element.val(), element.data('disable-auto-suggest-on')) !== -1)
     $('#ipam_options').hide();
