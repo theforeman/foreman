@@ -6,6 +6,7 @@ require('expose?ipaddr!ipaddr.js');
 require('jquery.cookie');
 require('expose?JsDiff!diff');
 require('./bundle_flot');
+require('./bundle_multiselect');
 require('./bundle_select2');
 require('./bundle_datatables');
 window.tfm = {
