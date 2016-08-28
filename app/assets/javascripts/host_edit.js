@@ -1,5 +1,4 @@
 //= require parameter_override
-//= require ipaddr
 
 $(document).on('ContentLoad', function(){onHostEditLoad()});
 $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(link)});
