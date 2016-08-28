@@ -35,6 +35,7 @@
     "jquery.cookie": "~1.4.1",
     "jstz": "~1.0.7",
     "lodash": "~4.15.0",
+    "multiselect": "~0.9.12",
     "select2": "~3.5.2-browserify"
   },
   "scripts": {

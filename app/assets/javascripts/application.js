@@ -5,7 +5,6 @@
 //= require jquery.ui.spinner
 //= require scoped_search
 //= require bootstrap
-//= require multi-select
 //= require charts
 //= require topbar
 //= require two-pane
