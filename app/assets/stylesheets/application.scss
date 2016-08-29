@@ -457,32 +457,8 @@ table {
   width: 100vw !important;
 }
 
-.select2-arrow > b{
-  margin: -2px 0 0 0;
-}
-
 .icon-white {
   color: white;
-}
-
-.select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices .select2-chosen{
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  line-height: 2.0;
-}
-
-.navbar-editor > span > .select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices .select2-chosen {
-  height: 24px;
-  .select2-search-choice-close {
-    top: 6px;
-  }
-}
-
-.select2-chosen, .select2-choice > span:first-child, .select2-container .select2-choices .select2-search-field input{
-  padding: 0 0;
-}
-
-.select2-chosen, .select2-choice > span:first-child, .select2-container .select2-choices .select2-search-field input{
-  padding-left: 6px;
 }
 
 .expander {

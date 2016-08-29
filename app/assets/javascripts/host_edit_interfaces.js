@@ -31,7 +31,7 @@ function show_interface_modal(modal_content) {
   modal_window.modal({'show': true});
 
   modal_window.find('a[rel="popover-modal"]').popover();
-  activate_select2(modal_window);
+  tfm.tools.activateSelect2(modal_window);
 }
 
 function save_interface_modal() {

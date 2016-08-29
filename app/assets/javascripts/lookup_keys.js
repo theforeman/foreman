@@ -11,7 +11,6 @@ $(document).on("ContentLoad", function() {
   $('.matchers').parents('form').on('submit', function(){
     build_match();
   })
-  $('.matcher_key').select2('destroy');
 })
 
 function select_first_tab(){
@@ -84,7 +83,7 @@ function add_child_node(item) {
     $(item).closest("form").trigger({type: 'nested:fieldAdded', field: field});
     $('a[rel="popover"]').popover();
     $('a[rel="twipsy"]').tooltip();
-    activate_select2($(field).not('.matcher_key'));
+    tfm.tools.activateSelect2($(field).not('.matcher_key'));
     return new_id;
 }
 

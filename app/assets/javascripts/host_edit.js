@@ -72,7 +72,7 @@ function computeResourceSelected(item){
       },
       success: function(result){
         $('#compute_resource').html(result);
-        activate_select2('#compute_resource');
+        tfm.tools.activateSelect2('#compute_resource');
         if ($('#compute_resource').find('.alert-danger').length > 0) $('#compute_resource_tab a').addClass('tab-error');
         update_capabilities($('#capabilities').val());
         tfm.numFields.initAll();
@@ -593,7 +593,7 @@ $(document).on('change', '.interface_type', function () {
 
 function interface_subnet_activate_if_not_empty(element) {
   if (element.find('option').length > 0) {
-    element.prepend($("<option />").val(null).text(__('Please select')));
+    element.prepend($("<option />").val(null).text(''));
     element.attr('disabled', false);
     element.change();
   }
@@ -616,7 +616,7 @@ function toggle_suggest_new_link(element, ip_field) {
 function interface_domain_selected_subnet_handler(field, suffix) {
   interface_subnet_activate_if_not_empty(field);
   toggle_suggest_new_link(field, suffix);
-  activate_select2(field);
+  tfm.tools.activateSelect2(field);
 }
 
 function interface_domain_selected(element) {
@@ -753,7 +753,7 @@ function interface_type_selected(element) {
   request.done(function() {
     password_caps_lock_hint();
     $("#interfaceModal").find('a[rel="popover-modal"]').popover();
-    activate_select2('#interfaceModal');
+    tfm.tools.activateSelect2('#interfaceModal');
   });
 }
 

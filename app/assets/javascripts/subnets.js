@@ -30,7 +30,6 @@ function updateSupportedIPAM(element) {
     var option = supported_ipam_modes[i];
     $('<option>').text(option[0]).val(option[1]).appendTo(ipam_select);
   }
-  ipam_select.select2();
   showSubnetIPAM(ipam_select);
 }
 
