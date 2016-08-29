@@ -47,13 +47,18 @@ function testConnection(item) {
       if (!$("#compute_resource_provider").prop('disabled')) {
         $("#compute_resource_password").prop('disabled', false);
       }
-      if (!/alert-danger/i.test(result)) {
+      if ( ($('.alert-danger', result).length == 0) &&
+           ($('#compute_connection .has-error', result).length == 0) ) {
         notify("<p>" + __("Test connection was successful") + "</p>", 'success')
       }
+    },
+    error:function (xhr) {
+      notify("<p>" + __("An error occurred while testing the connection: ") + xhr.statusText + "</p>", 'danger')
     },
     complete:function (result) {
       //we need to restore the password field as it is not sent back from the server.
       $("input#compute_resource_password").val(password);
+      $('#test_connection_indicator').hide();
       reloadOnAjaxComplete('#test_connection_indicator');
     }
   });
