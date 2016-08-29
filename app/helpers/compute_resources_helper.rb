@@ -60,4 +60,25 @@ module ComputeResourcesHelper
   def unset_password?
     action_name == "edit" || action_name == "test_connection"
   end
+
+  def test_connection_button_f(f, success, caption = nil)
+    caption ||= _("Test Connection")
+    btn_class = success ? 'btn-success' : 'btn-default'
+    spinner_class = success ? 'spinner-inverse' : nil
+    spinner_button_f(f, caption, "testConnection(this)",
+                     :id => 'test_connection_button',
+                     :spinner_id => 'test_connection_indicator',
+                     :class => btn_class,
+                     :spinner_class => spinner_class,
+                     :'data-url' => test_connection_compute_resources_path)
+  end
+
+  def load_button_f(f, success, failure_caption)
+    caption = success ? _("Test Connection") : failure_caption
+    test_connection_button_f(f, success, caption)
+  end
+
+  def load_datacenters_button_f(f, success)
+    load_button_f(f, success, _("Load Datacenters"))
+  end
 end

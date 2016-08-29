@@ -4,6 +4,4 @@
 
 <% zones = f.object.zones rescue [] %>
 <%= selectable_f(f, :zone, zones, {}, {:label => _('Zone'), :disabled => zones.empty?,
-                 :help_inline => link_to_function(zones.empty? ? _("Load zones") : _("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{zones.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>
+                 :help_inline_permanent => load_button_f(f, !zones.empty?, _("Load Zones")) }) %>
