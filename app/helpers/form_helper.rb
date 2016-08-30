@@ -15,17 +15,6 @@ module FormHelper
     end
   end
 
-  def button_input_group(content, options = {}, glyph = nil)
-    options[:type] ||= 'button'
-    options[:herf] ||= '#'
-    options[:class] ||= 'btn btn-default'
-    content_tag :span, class: 'input-group-btn' do
-      content_tag :button, content, options  do
-        content_tag :span,content, :class => glyph
-      end
-    end
-  end
-
   def password_f(f, attr, options = {})
     unset_button = options.delete(:unset)
     password_field_tag(:fakepassword, nil, :style => 'display: none') +
@@ -39,8 +28,8 @@ module FormHelper
              title="'.html_safe + _('Caps lock ON') +
               '" style="display:none"></span>'.html_safe
           if unset_button
-            button = button_input_group '', {:id => 'disable-pass-btn', :onclick => "toggle_input_group(this)", :title => _("Change the password")}, 'glyphicon glyphicon-pencil'
-            input_group pass, button
+            button = link_to_function(icon_text('pencil'), 'toggle_input_group(this)', {:id => 'disable-pass-btn', :class => 'btn btn-default', :title => _("Change the password")})
+            input_group(pass, input_group_btn(button))
           else
             pass
           end
@@ -337,8 +326,8 @@ module FormHelper
         content_tag(:div, :class => "#{wrapper_class} #{error.empty? ? '' : 'has-error'}",
                     :id => options.delete(:control_group_id)) do
           input = capture do
-            if options[:fullscreen]
-              content_tag(:div, yield.html_safe + fullscreen_input, :class => "input-group")
+            if options[:input_group_btn]
+              input_group(yield.html_safe, input_group_btn(options[:input_group_btn]))
             else
               yield.html_safe
             end

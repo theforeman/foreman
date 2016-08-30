@@ -474,8 +474,7 @@ module HostsHelper
   end
 
   def randomize_mac_link
-    link_class = "hide" unless NameGenerator.random_based?
-    link_to_function(icon_text("random", _("Randomize")), "randomizeName()",
-      :title => _('Generate new random name. Visit Settings to disable this feature.'), :'data-placement' => "right", :class => link_class)
+    link_to_function(icon_text('random'), 'randomizeName()', :class => 'btn btn-default',
+      :title => _('Generate new random name. Visit Settings to disable this feature.')) if NameGenerator.random_based?
   end
 end

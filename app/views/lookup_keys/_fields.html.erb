@@ -19,7 +19,7 @@
     <%= param_type_selector(f, :onchange => 'keyTypeChange(this)') %>
     <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast, :size => "col-md-8",
                    :disabled => (is_param && (!f.object.override || f.object.use_puppet_default)),
-                   :fullscreen => :true,
+                   :input_group_btn => fullscreen_input,
                    :rows => 1,
                    :help_inline => popover('', _("Value to use when there is no match.")),
                    :class => "no-stretch #{'masked-input' if f.object.hidden_value?}" %>
