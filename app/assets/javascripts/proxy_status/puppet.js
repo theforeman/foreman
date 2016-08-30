@@ -3,7 +3,7 @@ function filterCerts(state) {
 }
 
 function certTable() {
-  activateDatatables();
+  tfm.tools.activateDatatables();
   var filter = $('#puppetca-filter');
   activate_select2(filter);
   filter.on('change', function() {filterCerts(filter.val())});

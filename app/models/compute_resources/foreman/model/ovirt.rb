@@ -267,11 +267,11 @@ module Foreman::Model
     end
 
     def parse_vms_list_params(params)
-      max = (params['iDisplayLength'] || 10).to_i
+      max = (params['length'] || 10).to_i
       {
-        :search => params['sSearch'] || '',
+        :search => params['search']['value'] || '',
         :max => max,
-        :page => (params['iDisplayStart'].to_i / max)+1,
+        :page => (params['start'].to_i / max)+1,
         :without_details => true
       }
     end

@@ -163,7 +163,7 @@ module ComputeResourcesVmsHelper
              { :table => 'inline' }
            end
 
-    content_tag :table, :class => table_css_classes, :data => data do
+    content_tag :table, :class => table_css_classes, :width => '100%', :data => data do
       yield
     end
   end
@@ -171,7 +171,7 @@ module ComputeResourcesVmsHelper
   # Really counting vms is as expansive as loading them all, especially when
   # a filter is in place. So we create a fake count to get table pagination to work.
   def ovirt_fake_vms_count
-    params['iDisplayStart'].to_i + 1 + [@vms.length, params['iDisplayLength'].to_i].min
+    params['start'].to_i + 1 + [@vms.length, params['length'].to_i].min
   end
 
   def ovirt_vms_data

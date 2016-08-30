@@ -5,6 +5,7 @@ require('expose?jstz!jstz');
 require('jquery.cookie');
 require('./bundle_flot');
 require('./bundle_select2');
+require('./bundle_datatables');
 window.tfm = {
   tools: require('./foreman_tools')
 };

@@ -22,12 +22,14 @@
     "webpack-dev-server": "^1.9.0"
   },
   "dependencies": {
+    "datatables.net": "~1.10.12",
+    "datatables.net-bs": "~1.10.12",
     "jquery": "~1.11.0",
     "jquery-flot": "~0.8.3",
     "jquery-ujs": "~1.2.0",
     "jquery.cookie": "~1.4.1",
     "jstz": "~1.0.7",
-    "lodash": "~2.4.1",
+    "lodash": "~4.15.0",
     "select2": "~3.5.2-browserify"
   },
   "scripts": {
