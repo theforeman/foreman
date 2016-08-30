@@ -2,6 +2,16 @@
 # and method, and need to define the corresponding ActionMailer and method.
 # For system notifications, set subscriptable to false.  For recurring reports,
 # set subscription_type to 'report', and for ad hoc mails, use 'alert'
+
+# The names below are shown as humanized labels in the UI, so these should be
+# localized
+N_('Puppet summary')
+N_('Welcome')
+N_('Audit summary')
+N_('Host built')
+N_('Tester')
+N_('Puppet error state')
+
 notifications = [
   {
     :name              => 'puppet_summary',
