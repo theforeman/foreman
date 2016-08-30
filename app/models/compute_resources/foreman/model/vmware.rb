@@ -308,7 +308,7 @@ module Foreman::Model
       super
       if errors[:server].empty? && errors[:user].empty? && errors[:password].empty?
         update_public_key options
-        datacenters
+        errors.delete(:datacenter)
       end
     rescue => e
       errors[:base] << e.message
