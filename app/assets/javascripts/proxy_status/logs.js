@@ -1,22 +1,20 @@
 function filterLogsReset() {
-  var table = $('#table-proxy-status-logs').dataTable();
-  for (var i = 0; i <= 2; i++) {
-    table.fnFilter('', i);
-  }
+  var table = $('#table-proxy-status-logs').DataTable();
+  table.search('').draw();
 }
 
 function filterLogsByLevel(filter) {
   filterLogsReset();
-  var table = $('#table-proxy-status-logs').dataTable();
-  table.fnFilter(filter, 1, true, false);
+  var table = $('#table-proxy-status-logs').DataTable();
+  table.column(1).search(filter, true, false).draw();
 }
 
 function filterLogsByMessage(expression) {
   filterLogsReset();
   changeFilterSelection(1);
-  var table = $('#table-proxy-status-logs').dataTable();
-  table.fnFilter('ERROR|FATAL', 1, true, false);
-  table.fnFilter(expression, 2, true, false);
+  var table = $('#table-proxy-status-logs').DataTable();
+  table.column(1).search('ERROR|FATAL', true, false).draw();
+  table.column(2).search(expression, true, false).draw();
 }
 
 function changeFilterSelection(index) {
@@ -28,17 +26,17 @@ function changeFilterSelection(index) {
 
 function activateLogsDataTable() {
   $('#table-proxy-status-logs').dataTable({
-    "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-    "sPaginationType": "bootstrap",
-    "aoColumnDefs": [{
-      "mRender": function ( data, type, row ) {
+    dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+    autoWidth: false,
+    columnDefs: [{
+      render: function ( data, type, row ) {
         return new Date(data * 1000).toLocaleString();
       },
-      "sWidth": "15%",
-      "aTargets": [0]
+      width: "15%",
+      targets: 0
     },{
-      "sWidth": "10%",
-      "aTargets": [1]
+      width: "10%",
+      targets: 1
     }]});
   var filter = $('#logs-filter');
   activate_select2(filter);

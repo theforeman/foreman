@@ -78,7 +78,7 @@ function onContentLoad(){
                            title: function(){return (this.scrollWidth > this.clientWidth) ? this.textContent : null;}
                         });
   $('*[title]').not('*[rel]').tooltip({ container: 'body' });
-  activateDatatables();
+  tfm.tools.activateDatatables();
 
   // Prevents all links with the disabled attribute set to "disabled"
   // from being clicked.
@@ -100,7 +100,7 @@ function onContentLoad(){
         $(this).html(response);
       }
       if ($(this).data('on-complete')){
-        window[$(this).data('on-complete')].call(null, this, status);
+        _.get(window, $(this).data('on-complete')).call(null, this, status);
       }
     });
   });
@@ -124,28 +124,6 @@ function onContentLoad(){
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
   })
-}
-
-function activateDatatables() {
-  $('[data-table=inline]').not('.dataTable').dataTable(
-      {
-        "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-        "sPaginationType": "bootstrap"
-      }
-  );
-  $('[data-table=server]').not('.dataTable').each(function () {
-    var url = $(this).data('source');
-    $(this).dataTable(
-      {
-        "bProcessing": true,
-        "bServerSide": true,
-        "bSort": false,
-        "sAjaxSource": url,
-        "sDom": "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>",
-        "sPaginationType": "bootstrap"
-      }
-    );
-  });
 }
 
 function preserve_selected_options(elem) {
