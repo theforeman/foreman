@@ -205,18 +205,41 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test "#update should allow updating mysel without any special permissions" do
+  test "#update should allow updating myself without any special permissions with changing password" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :password => '123'
+    as_user user do
+      put :update, { :id => user.id, :user => valid_attrs.merge(:current_password => '123') }
+    end
+    assert_response :success
+    user.reload
+    assert user.matching_password?("123456")
+  end
+
+  test "#update should allow updating myself without any special permissions without changing password" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs }
+      put :update, { :id => user.id, :user => valid_attrs.except(:password) }
     end
     assert_response :success
   end
 
-  test '#update should not be editing User.current' do
+  test '#update should not be editing User.current with changing password' do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :password => '123'
+
+    as_user user do
+      put :update, { :id => user.id, :user => valid_attrs.merge(:current_password => '123') }
+    end
+    assert_equal user, assigns(:user)
+    refute_equal user.object_id, assigns(:user).object_id
+    assert_response :success
+    user.reload
+    assert user.matching_password?('123456')
+  end
+
+  test '#update should not be editing User.current without changing password' do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs }
+      put :update, { :id => user.id, :user => valid_attrs.except(:password) }
     end
     assert_equal user, assigns(:user)
     refute_equal user.object_id, assigns(:user).object_id

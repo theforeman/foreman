@@ -6,13 +6,14 @@ module Foreman::Controller::Parameters::User
   class_methods do
     def user_params_filter
       Foreman::ParameterFilter.new(::User).tap do |filter|
-        filter.permit :default_location_id,
+        filter.permit :current_password,
+          :default_location_id,
           :default_organization_id,
+          :description,
           :firstname,
           :lastname,
           :locale,
           :mail,
-          :description,
           :mail_enabled,
           :password,
           :password_confirmation,

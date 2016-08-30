@@ -117,9 +117,9 @@ class UsersControllerTest < ActionController::TestCase
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY"
                   }
                  }, set_session_user
-    mod_user = User.find_by_id(user.id)
 
-    assert mod_user.matching_password?("changeme")
+    user.reload
+    assert user.matching_password?("changeme")
     assert_template :edit
   end
 
@@ -133,6 +133,21 @@ class UsersControllerTest < ActionController::TestCase
                  }, set_session_user
 
     assert_redirected_to users_url
+  end
+
+  test "current user have to enter current password to change password" do
+    user = FactoryGirl.create(:user, :password => 'password')
+    User.current = user
+
+    put :update, {:id => user.id,
+                  :user => {
+                    :current_password => "password", :password => "newpassword", :password_confirmation => "newpassword"
+                  }
+    }, set_session_user
+
+    user.reload
+    assert user.matching_password?("newpassword")
+    assert_redirected_to users_path
   end
 
   test "should delete different user" do

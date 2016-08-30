@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
 
   validates_lengths_from_database :except => [:firstname, :lastname, :format, :mail, :login]
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :current_password
   after_save :ensure_default_role
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
@@ -85,6 +85,8 @@ class User < ActiveRecord::Base
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
            :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin
+  before_validation :verify_current_password, :if => Proc.new {|user| user == User.current},
+                    :unless => Proc.new {|user| user.password.empty?}
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
 
@@ -480,6 +482,12 @@ class User < ActiveRecord::Base
 
   def set_default_widgets
     Dashboard::Manager.reset_user_to_default(self)
+  end
+
+  def verify_current_password
+    unless self.matching_password?(current_password)
+      errors.add :current_password, _("Incorrect password")
+    end
   end
 
   protected

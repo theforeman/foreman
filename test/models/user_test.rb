@@ -43,6 +43,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "mail is required for own user" do
     user = FactoryGirl.create(:user)
+    user.password = nil
+    # refute_valid user can check only one field and due to we need to set password to nil after adding current_password field to verify password change
     as_user user do
       refute_valid user, :mail
     end
@@ -868,5 +870,32 @@ class UserTest < ActiveSupport::TestCase
     user = users(:one)
     user.timezone = ''
     assert user.valid?
+  end
+
+  test "changing user password as admin without setting current password" do
+    user = FactoryGirl.create(:user, :mail => "foo@bar.com")
+    as_admin do
+      user.password = "newpassword"
+      assert user.save
+    end
+  end
+
+  test "changing user's own password with incorrect current password" do
+    user = FactoryGirl.create(:user, :mail => "foo@bar.com")
+    as_user user do
+      user.current_password = "hatatitla"
+      user.password = "newpassword"
+      refute user.valid?
+      assert user.errors.messages.has_key? :current_password
+    end
+  end
+
+  test "changing user's own password with correct current password" do
+    user = FactoryGirl.create(:user, :password => "password", :mail => "foo@bar.com")
+    as_user user do
+      user.current_password = "password"
+      user.password = "newpassword"
+      assert user.save
+    end
   end
 end
