@@ -35,6 +35,9 @@
                         :label => _('Authorized by') } ) unless @editing_self %>
 
       <div id='password' <%= display? !@user.manage_password? %>>
+        <% if User.current == @user  %>
+          <%= password_f f, :current_password, :label => _('Current password'), :placeholder => '' %>
+        <% end %>
         <%= password_f f, :password, :label => _('Password'), :error => @user.errors[:password_hash] %>
         <%= password_f f, :password_confirmation, :label => _('Verify') %>
       </div>
