@@ -2,7 +2,10 @@ class PuppetclassLookupKey < LookupKey
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, -> { uniq }, :through => :environment_classes
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
+
+  before_validation :cast_default_value, :if => :override?
   before_validation :check_override_selected, :if => -> { persisted? && @validation_context != :importer }
+  validate :validate_default_value, :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default, :if => :override?
   after_validation :reset_override_params, :if => ->(key) { key.override_changed? && !key.override? }
 
   scoped_search :in => :param_classes, :on => :name, :rename => :puppetclass, :alias => :puppetclass_name, :complete_value => true
