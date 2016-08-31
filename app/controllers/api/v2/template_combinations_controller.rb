@@ -4,7 +4,7 @@ module Api
       include Foreman::Controller::Parameters::TemplateCombination
 
       before_action :rename_config_template
-      before_action :find_required_nested_object
+      before_action :find_optional_nested_object
       before_action :find_resource, :only => [:show, :update, :destroy]
 
       def_param_group :template_combination_identifiers do
