@@ -379,8 +379,7 @@ EOF
   test "override params are reset after override changes back to false" do
     @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                               :override => true, :key_type => 'array',
-                              :default_value => '[]', :puppetclass => puppetclasses(:one),
-                              :use_puppet_default => true)
+                              :default_value => '[]', :puppetclass => puppetclasses(:one))
     override_params = [:merge_overrides, :merge_default, :avoid_duplicates]
 
     override_params.each { |param| @key.send("#{param}=", true) }
@@ -392,6 +391,22 @@ EOF
     assert @key.save
     refute @key.errors.any?
     override_params.each { |param| assert_equal false, @key.read_attribute(param) }
+  end
+
+  test "override params are not reset for variable lookup key" do
+    @key = FactoryGirl.create(:variable_lookup_key, :key_type => 'array', :override => true,
+                              :default_value => '[]', :puppetclass => puppetclasses(:one))
+    override_params = [:merge_overrides, :merge_default, :avoid_duplicates]
+
+    override_params.each { |param| @key.send("#{param}=", true) }
+    @key.save
+
+    @key.override = false
+    @key.description = "Gregor Samsa"
+
+    assert @key.save
+    refute @key.errors.any?
+    override_params.each { |param| assert_equal true, @key.read_attribute(param) }
   end
 
   test "#overridden? works for unsaved hosts" do

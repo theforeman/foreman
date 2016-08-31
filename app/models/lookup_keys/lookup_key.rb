@@ -21,14 +21,13 @@ class LookupKey < ActiveRecord::Base
 
   alias_attribute :value, :default_value
   before_validation :cast_default_value
-  after_validation :reset_override_params, :if => ->(key) { key.override_changed? && !key.override? }
 
   validates :key, :presence => true
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validate :validate_default_value
   validates_associated :lookup_values
-  validate :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default, :if => :override?
+  validate :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default, :if =>  Proc.new { |lk| lk.override || !lk.puppet? }
 
   before_save :sanitize_path
   attr_name :key
@@ -201,14 +200,6 @@ class LookupKey < ActiveRecord::Base
     rescue
       errors.add(:default_value, _("is invalid"))
     end
-    true
-  end
-
-  def reset_override_params
-    self.merge_overrides = false
-    self.avoid_duplicates = false
-    self.merge_default = false
-
     true
   end
 
