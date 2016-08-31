@@ -122,9 +122,9 @@ class ClassificationTest < ActiveSupport::TestCase
   test "#value_of_key should correctly typecast JSON and YAML default values" do
     env = FactoryGirl.create(:environment)
     pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    yaml_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    yaml_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'yaml', :default_value => 'a: b')
-    json_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    json_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'json', :default_value => '{"a": "b"}')
     classparam = Classification::ClassParam.new
 

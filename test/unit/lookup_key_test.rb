@@ -134,6 +134,17 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal default, Classification::GlobalParam.new(:host=>@host3).enc['dns']
   end
 
+  test 'default_value value should not be casted if override is false' do
+    param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
+                              :override => false, :key_type => 'boolean',
+                              :default_value => 't', :puppetclass => puppetclasses(:one))
+    param.save
+    assert_equal 't', param.default_value
+    param.override = true
+    param.save
+    assert_equal true, param.default_value
+  end
+
   describe '#default_value_before_type_cast' do
     test 'nil value should remain nil' do
       param = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
