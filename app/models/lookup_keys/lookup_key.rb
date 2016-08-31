@@ -20,14 +20,11 @@ class LookupKey < ActiveRecord::Base
                                 :allow_destroy => true
 
   alias_attribute :value, :default_value
-  before_validation :cast_default_value
 
   validates :key, :presence => true
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
-  validate :validate_default_value
   validates_associated :lookup_values
-  validate :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default, :if =>  Proc.new { |lk| lk.override || !lk.puppet? }
 
   before_save :sanitize_path
   attr_name :key
