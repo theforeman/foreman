@@ -200,4 +200,14 @@ class TaxonomixTest < ActiveSupport::TestCase
     assert_includes resource.organizations, org2
     assert_includes resource.organizations, org3
   end
+
+  test "default scope does not set create scope attributes" do
+    org = FactoryGirl.create :organization
+    FactoryGirl.create(:domain, :organizations => [ org ])
+    original_org, Organization.current = Organization.current, org
+    new_dom = Domain.new(:organization_ids => [ org.id ])
+    Organization.current = original_org
+    new_dom.taxable_taxonomies.must_be :present?
+    assert new_dom.taxable_taxonomies.all?(&:valid?)
+  end
 end
