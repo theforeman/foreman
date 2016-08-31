@@ -2,7 +2,7 @@ module Api
   module V2
     class TemplateCombinationsController < V2::BaseController
       before_filter :rename_config_template
-      before_filter :find_required_nested_object
+      before_filter :find_optional_nested_object
       before_filter :find_resource, :only => [:show, :update, :destroy]
 
       def_param_group :template_combination_identifiers do

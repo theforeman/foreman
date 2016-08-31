@@ -100,4 +100,20 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
       refute TemplateCombination.exists?(template_combinations(:two).id)
     end
   end
+
+  context 'unnested combinations' do
+    test "should get template combination directly" do
+      get :show, { :id => template_combinations(:two).id }
+      assert_response :success
+      template_combination = ActiveSupport::JSON.decode(@response.body)
+      assert !template_combination.empty?
+      assert_equal template_combination["provisioning_template_id"], template_combinations(:two).provisioning_template_id
+    end
+
+    test "should destroy directly" do
+      delete :destroy, { :id => template_combinations(:two).id }
+      assert_response :ok
+      refute TemplateCombination.exists?(template_combinations(:two).id)
+    end
+  end
 end
