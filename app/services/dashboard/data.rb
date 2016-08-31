@@ -8,17 +8,21 @@ class Dashboard::Data
   def initialize(filter = "")
     @filter = filter
     @report = {}
-    fetch_data
   end
 
   def hosts
-    @hosts ||= Host.authorized(:view_hosts, Host).search_for(filter)
+    @hosts ||= Host.authorized(:view_hosts, Host).search_for(filter).reorder('')
+  end
+
+  def report
+    fetch_data if @report.blank?
+    @report
   end
 
   def latest_events
     # 9 reports + header fits the events box nicely...
     @latest_events ||= ConfigReport.authorized(:view_config_reports).my_reports.interesting
-                                   .joins(:host).where(:host => hosts.reorder(''))
+                                   .joins(:host).where(:host => hosts)
                                    .search_for('reported > "7 days ago"')
                                    .limit(9).includes(:host)
   end
@@ -28,8 +32,8 @@ class Dashboard::Data
   attr_writer :report
   attr_accessor :filter
   def fetch_data
-    report.update(
-      {  :total_hosts               => hosts.count,
+    @report.update(
+      {  :total_hosts               => hosts.size,
          :bad_hosts                 => hosts.recent.with_error.count,
          :bad_hosts_enabled         => hosts.recent.with_error.alerts_enabled.count,
          :active_hosts              => hosts.recent.with_changes.count,
@@ -43,15 +47,15 @@ class Dashboard::Data
          :pending_hosts             => hosts.recent.with_pending_changes.count,
          :pending_hosts_enabled     => hosts.recent.with_pending_changes.alerts_enabled.count
       })
-    report[:good_hosts]         = report[:ok_hosts]         + report[:active_hosts_ok]
-    report[:good_hosts_enabled] = report[:ok_hosts_enabled] + report[:active_hosts_ok_enabled]
-    report[:percentage]         = percentage
-    report[:reports_missing]    = reports_missing
+    @report[:good_hosts]         = @report[:ok_hosts]         + @report[:active_hosts_ok]
+    @report[:good_hosts_enabled] = @report[:ok_hosts_enabled] + @report[:active_hosts_ok_enabled]
+    @report[:percentage]         = percentage
+    @report[:reports_missing]    = reports_missing
   end
 
   def percentage
-    return 0 if report[:ok_hosts_enabled] == 0 || report[:total_hosts] == 0
-    report[:ok_hosts_enabled] * 100 / report[:total_hosts]
+    return 0 if @report[:ok_hosts_enabled] == 0 || @report[:total_hosts] == 0
+    @report[:ok_hosts_enabled] * 100 / @report[:total_hosts]
   end
 
   def reports_missing
