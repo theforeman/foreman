@@ -35,7 +35,12 @@ module Taxonomix
       self.which_location        = Location.expand(loc) if SETTINGS[:locations_enabled]
       self.which_organization    = Organization.expand(org) if SETTINGS[:organizations_enabled]
       scope = block_given? ? yield : where('1=1')
-      scope = scope.where(:id => taxable_ids) if taxable_ids
+      tax_ids = taxable_ids
+      # we need to generate part of SQL query as a string, otherwise the default scope would set id on each
+      # new instance and the same taxable_id on taxable_taxonomy objects
+      if tax_ids.present?
+        scope = scope.where("#{self.table_name}.id IN (#{tax_ids.join(',')})")
+      end
       scope.readonly(false)
     end
 
@@ -114,7 +119,6 @@ module Taxonomix
 
   def set_current_taxonomy
     if self.new_record? && self.errors.empty?
-      self.id = nil #fix for rails 3.2.8 bug that sets id = 1 on after_initialize. This can later be removed.
       self.locations     << Location.current     if add_current_location?
       self.organizations << Organization.current if add_current_organization?
     end
