@@ -1,9 +1,33 @@
 module FormHelper
-  def text_f(f, attr, options = {})
+  def text_f(f, attr, options = {}, btn_options = {})
+    btn_group = btn_options.delete(:button_group)
+    btn_class = btn_options.delete(:class) || 'col-md-4 select-margin'
+    label = btn_options.delete(:label)
+    documentation = btn_options.delete(:documentation)
     field(f, attr, options) do
       addClass options, "form-control"
       options[:focus_on_load] ||= attr.to_s == 'name'
-      f.text_field attr, options
+      text_field =
+        content_tag :div, :class => btn_group ? "col-md-8" : "" do
+          f.text_field attr, options
+        end
+      if btn_group
+        button =
+          if documentation
+            content_tag :div, :class => btn_class do
+              content_tag :span, class: 'input-group-btn' do
+                documentation_button(label)
+              end
+            end
+          else
+            button_input_group label, btn_options
+          end
+        content_tag :div, :class => "row" do
+          input_group text_field, button
+        end
+      else
+        text_field
+      end
     end
   end
 
@@ -164,11 +188,27 @@ module FormHelper
     end
   end
 
-  def selectable_f(f, attr, array, select_options = {}, html_options = {})
+  def selectable_f(f, attr, array, select_options = {}, html_options = {}, btn_options = {})
+    btn_group = btn_options.delete(:button_group)
+    label = btn_options.delete(:label)
     html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
     field(f, attr, html_options) do
       addClass html_options, "form-control"
-      f.select attr, array, select_options, html_options
+      select_field =
+          content_tag :div, :class => btn_group ? "col-md-8" : "" do
+            f.select attr, array, select_options, html_options
+          end
+      if btn_group
+        button =
+            content_tag :div, :class => "col-md-4 select-margin" do
+              button_input_group label, btn_options
+            end
+        content_tag :div, :class => "row" do
+          input_group select_field, button
+        end
+      else
+        select_field
+      end
     end
   end
 

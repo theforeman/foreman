@@ -19,7 +19,7 @@ class ComputeResourceIntegrationTest < ActionDispatch::IntegrationTest
     click_link "Vmware"
     click_link "Edit"
     fill_in "compute_resource_password", :disabled => true, :with => "123456"
-    click_link "Load Datacenters"
+    click_button "Load Datacenters"
     assert_equal "123456", find_field("compute_resource_password",:disabled => true).value
   end
 end

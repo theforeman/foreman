@@ -1,8 +1,9 @@
-<%= text_f f, :user, :label => _("Access Key"), :help_inline => documentation_button('5.2.3EC2Notes') %>
+<%= text_f f, :user, {:label => _("Access Key"), :size => "col-md-6"}, {:button_group => true, :label => '5.2.3EC2Notes', :documentation => true} %>
 <%= password_f f, :password, :label => _("Secret Key"), :unset => unset_password? %>
 
 <% regions = f.object.regions rescue [] %>
-<%= selectable_f(f, :region, regions, {}, {:label => _('Region'), :disabled => regions.empty?,
-                 :help_inline => link_to_function(regions.empty? ? _("Load Regions") : _("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{regions.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>
+<%= selectable_f(f, :region, regions, {}, {:label => _('Region'), :disabled => regions.empty?, :size => "col-md-6",
+                 :help_inline => hidden_spinner('', :id => 'test_connection_indicator').html_safe},
+                 {:button_group => true, :label =>regions.empty? ? _("Load Regions") : _("Test Connection"),
+                  :class =>"btn + #{regions.empty? ? "btn-default" : "btn-success"}", :id => 'btn_datacenter', :onclick => "testConnection(this)", :'data-url' => test_connection_compute_resources_path }) %>
+
