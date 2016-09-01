@@ -54,7 +54,22 @@ module Api
       association = resource_class.reflect_on_all_associations.find {|assoc| assoc.plural_name == parent_name.pluralize}
       #if couldn't find an association by name, try to find one by class
       association ||= resource_class.reflect_on_all_associations.find {|assoc| assoc.class_name == parent_name.camelize}
-      resource_class.joins(association.name).merge(scope)
+      result_scope = resource_class.joins(association.name).merge(scope)
+      # Check that the scope resolves before return
+      result_scope if result_scope.to_a
+    rescue ActiveRecord::ConfigurationError
+      # Chaining SQL with a parent scope does not always work, as the
+      # parent scope might have attributes the resource_class does not have.
+      #
+      # For example, chaining 'interfaces' with a parent scope (hosts) that
+      # contains an authorization filter (hostgroup = foo), will not work
+      # as the resulting SQL has attributes (hostgroup) the
+      # resource_class does not have.
+      #
+      # In such cases, we resolve the scope first, and then call 'where'
+      # on the results
+      resource_class.joins(association.name).
+        where(association.name => scope.map(&:id))
     end
 
     def resource_scope_for_index(options = {})

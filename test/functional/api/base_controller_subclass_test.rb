@@ -228,6 +228,7 @@ class Api::TestableControllerTest < ActionController::TestCase
         setup do
           @testable_scope1.expects(:find).with('1').returns(@testable_obj)
           @testable_scope1.expects(:empty?).returns(false)
+          @testable_scope1.expects(:to_a).returns([@testable_obj])
         end
 
         it 'should return nested resource for unauthorized resource' do

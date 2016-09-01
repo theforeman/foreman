@@ -77,5 +77,12 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
       get :index, { :host_id => @host.name }, set_session_user
       assert_response :not_found
     end
+
+    test 'user with hostgroup-scoped view_hosts can view its interfaces' do
+      @host.update_attributes(:hostgroup => FactoryGirl.create(:hostgroup))
+      setup_user 'view', 'hosts', "hostgroup_title = #{@host.hostgroup.title}"
+      get :index, { :host_id => @host.name }, set_session_user
+      assert_response :success
+    end
   end
 end
