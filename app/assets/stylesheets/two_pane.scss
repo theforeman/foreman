@@ -1,4 +1,3 @@
-@import "mixin";
 @import "colors";
 
 .table-two-pane{
@@ -23,7 +22,7 @@
     background-color: #ffffff;
     border: 1px solid $primary_gradient_start;
     border-radius: 0;
-    @include box-shadow(-2px 0 5px 0px rgba(0, 0, 0, 0.2));
+    box-shadow: -2px 0 5px 0px rgba(0, 0, 0, 0.2);
   }
   .tab-pane{
     min-height: 300px;

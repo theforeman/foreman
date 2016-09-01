@@ -1,4 +1,3 @@
-@import "mixin";
 @import "colors";
 
 .navbar {
@@ -22,7 +21,7 @@
   }
 
   .active > a, .open > a {
-    @include linear-gradient($hover_gradient_start, $hover_gradient_end);
+    background: linear-gradient(to bottom, $hover_gradient_start, $hover_gradient_end);
   }
 
   .navbar-header {
@@ -119,7 +118,7 @@
   top: 0;
   padding: 0 40px;
 
-  @include linear-gradient($primary_gradient_start, $primary_gradient_end);
+  background: linear-gradient(to bottom, $primary_gradient_start, $primary_gradient_end);
 
   .menu_tab_dropdown > a {
     padding-top: 10px;
@@ -156,7 +155,7 @@
 }
 
 .navbar-collapse.in{
-  @include linear-gradient($primary_gradient_start, $primary_gradient_end);
+  background: linear-gradient(to bottom, $primary_gradient_start, $primary_gradient_end);
 
   margin-bottom: 0;
   margin-top: 0;

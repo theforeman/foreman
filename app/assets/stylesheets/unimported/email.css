@@ -23,7 +23,7 @@ th {
   text-align: left;
   border-collapse: collapse;
   background: #f5f5f5;
-  background-image: linear-gradient(#f5f5f5, #e8e8e8);
+  background-image: linear-gradient(to bottom, #f5f5f5, #e8e8e8);
   padding: 4px;
   border: 1px solid #cccccc;
 }

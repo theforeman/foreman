@@ -61,7 +61,7 @@ Foreman::Application.configure do |app|
 
   # Precompile additional assets
   config.assets.precompile << /\.(?:svg|eot|woff|gif|ttf)$/
-  config.assets.precompile += javascript.map { |js| js + '.js' } + stylesheets + images + %w(background-size.htc)
+  config.assets.precompile += javascript.map { |js| js + '.js' } + stylesheets + images
 
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do

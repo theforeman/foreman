@@ -1,5 +1,3 @@
-@import "mixin";
-
 .ms-container{
   background: transparent url('switch.png') no-repeat 270px 80px;
   &:after{
@@ -20,7 +18,7 @@
   }
 
 & .ms-list{
-  @include box-shadow(0 1px 1px rgba(0, 0, 0, 0.075));
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
   transition: border linear 0.2s, box-shadow linear 0.2s;
   border: 1px solid #ccc;
   }
@@ -35,8 +33,6 @@
 
 .ms-container .ms-list.ms-focus{
   border-color: rgba(82, 168, 236, 0.8);
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
   outline: 0;
   outline: thin dotted \9;
@@ -92,7 +88,7 @@
   padding: 4px 10px;
   border: 1px solid #d1d1d1;
   background-clip: padding-box;
-  @include linear-gradient(#f9f9f9,#ededed);
+  background: linear-gradient(to bottom, #f9f9f9, #ededed);
 }
 .ms-select-all,.ms-select-all:hover,.ms-deselect-all,.ms-deselect-all:hover{
     text-decoration: none;

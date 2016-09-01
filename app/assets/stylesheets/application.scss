@@ -10,7 +10,6 @@
 @import "multi-select";
 @import "patternfly-sprockets";
 @import "patternfly";
-@import "mixin";
 @import "editable/bootstrap-editable";
 @import "/*";
 
@@ -287,7 +286,7 @@ table {
   min-width: 720px;
   min-height: 400px;
   border: solid #222222 1px;
-  @include box-shadow(5px 5px 5px rgba(0, 0, 0, 0.2));
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
@@ -505,13 +504,7 @@ table {
 }
 
 .break-me {
-  white-space: -moz-pre-wrap; /* Mozilla */
-  white-space: -hp-pre-wrap; /* HP printers */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: pre-wrap; /* CSS 2.1 */
-  white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-  word-wrap: break-word; /* IE */
+  white-space: pre-line;
   word-break: break-all;
 }
 
@@ -564,7 +557,6 @@ table {
 
 .pre-scrollable-xy-modal {
   overflow: auto;
-  -ms-word-wrap: normal;
   word-wrap: normal;
   overflow-wrap: normal;
   white-space: pre;
