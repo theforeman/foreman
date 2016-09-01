@@ -4,7 +4,6 @@
 	right: 0;
 	width: 400px;
 	z-index: 100000;
-
 }
 
 .jnotify-container-center {
@@ -24,14 +23,8 @@
 	width: 100%;
 	height: 100%;
 	background-color: #4c4c4c;
-	filter: alpha(opacity=90);
-	-moz-opacity: 0.90;
 	opacity: 0.90;
 	z-index: 1;
-
-	/* round the corners */
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
 
