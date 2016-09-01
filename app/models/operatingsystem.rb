@@ -277,4 +277,9 @@ class Operatingsystem < ActiveRecord::Base
     attributes.merge!({:_destroy => 1}) if template_exists && provisioning_template_id_empty
     (!template_exists && provisioning_template_id_empty)
   end
+
+  # overriden by operating systems
+  def pxe_kernel_options(params)
+    []
+  end
 end
