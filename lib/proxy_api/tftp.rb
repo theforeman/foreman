@@ -38,12 +38,12 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to fetch TFTP boot file"))
     end
 
-    # returns the TFTP boot server for this proxy
+    # returns the TFTP boot server and suppression flag for this proxy
     def bootServer
       if (response = parse(get("serverName"))) && response["serverName"].present?
-        return response["serverName"]
+        return response["serverName"], Foreman::Cast.to_bool(response["dont_pass_nextserver"])
       end
-      false
+      [false, Foreman::Cast.to_bool(response["dont_pass_nextserver"])]
     rescue RestClient::ResourceNotFound
       nil
     rescue => e

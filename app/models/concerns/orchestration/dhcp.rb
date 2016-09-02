@@ -74,8 +74,10 @@ module Orchestration::DHCP
     # if we don't manage tftp at all, we dont create a next-server entry.
     return unless tftp?
 
-    # first try to ask our TFTP server for its boot server
-    bs = tftp.bootServer
+    # first try to ask our TFTP server and dont_pass_nextserver flag for its boot server
+    bs, flag = tftp.bootServer
+    # if the flag is set to true, we dont create a next-server entry.
+    return nil if flag
     # if that failed, trying to guess out tftp next server based on the smart proxy hostname
     bs ||= URI.parse(subnet.tftp.url).host
     # now convert it into an ip address (see http://theforeman.org/issues/show/1381)
