@@ -102,9 +102,13 @@ module Host
       super - [ inheritance_column ]
     end
 
+    def create_new_host_when_facts_are_uploaded?
+      Setting[:create_new_host_when_facts_are_uploaded]
+    end
+
     # expect a facts hash
     def import_facts(facts)
-      return false unless Setting[:create_new_host_when_facts_are_uploaded]
+      return false unless create_new_host_when_facts_are_uploaded?
 
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
       raise ::Foreman::Exception.new('Host is pending for Build') if build?
