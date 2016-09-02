@@ -10,6 +10,4 @@
   <%= f.hidden_field :uuid, :value => hypervisor %>
 <% end %>
 
-<div class="col-md-offset-2">
-  <%= test_connection_button_f(f, !hypervisor.nil?) %>
-</div>
+<%= test_connection_button_f(f, !hypervisor.nil?) %>

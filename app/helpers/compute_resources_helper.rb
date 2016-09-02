@@ -70,12 +70,17 @@ module ComputeResourcesHelper
     caption ||= _("Test Connection")
     btn_class = success ? 'btn-success' : 'btn-default'
     spinner_class = success ? 'spinner-inverse' : nil
-    spinner_button_f(f, caption, "testConnection(this)",
-                     :id => 'test_connection_button',
-                     :spinner_id => 'test_connection_indicator',
-                     :class => btn_class,
-                     :spinner_class => spinner_class,
-                     :'data-url' => test_connection_compute_resources_path)
+
+    content_tag(:div, :class => "form-group") do
+      content_tag(:div, :class => "col-md-4 col-md-offset-2") do
+        spinner_button_f(f, caption, "testConnection(this)",
+                         :id => 'test_connection_button',
+                         :spinner_id => 'test_connection_indicator',
+                         :class => btn_class,
+                         :spinner_class => spinner_class,
+                         :'data-url' => test_connection_compute_resources_path)
+      end
+    end
   end
 
   def load_button_f(f, success, failure_caption)

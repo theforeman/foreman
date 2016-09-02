@@ -2,5 +2,5 @@
 <%= text_f f, :user %>
 <%= password_f f, :password, :label => _("API Key"), :unset => unset_password? %>
 <% flavors = f.object.flavors rescue [] %>
-<%= selectable_f(f, :region, f.object.regions, {}, {:label => _('Region'),
-                 :help_inline_permanent => test_connection_button_f(f, !flavors.empty?) }) %>
+<%= selectable_f(f, :region, f.object.regions, {}, {:label => _('Region') }) %>
+<%= test_connection_button_f(f, !flavors.empty?) %>
