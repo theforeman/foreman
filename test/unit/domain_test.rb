@@ -22,7 +22,7 @@ class DomainTest < ActiveSupport::TestCase
     other_domain = Domain.new(:name => ".otherDomain.", :fullname => "full_name")
     assert other_domain.valid?
     other_domain.save
-    assert_equal "otherDomain", other_domain.name
+    assert_equal "failDomain", other_domain.name
   end
 
   test "should not destroy if it contains hosts" do
