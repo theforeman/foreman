@@ -1,5 +1,4 @@
 gem 'jquery-turbolinks', '~> 2.1'
-gem 'jquery-ui-rails', '< 5.0.0'
 gem 'autoprefixer-rails', '~> 5.2'
 gem 'patternfly-sass', '~> 2.7'
 gem 'multi-select-rails', '~> 0.9'
