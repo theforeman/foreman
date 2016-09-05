@@ -86,7 +86,6 @@ ProvisioningTemplate.without_auditing do
     { :name => 'remote_execution_ssh_keys', :source => 'snippets/_remote_execution_ssh_keys.erb', :snippet => true },
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true },
     { :name => 'saltstack_setup', :source => 'snippets/_saltstack_setup.erb', :snippet => true },
-    { :name => 'kickstart_cmdline', :source => 'snippets/_kickstart_cmdline.erb', :snippet => true },
     { :name => 'pxelinux_chainload', :source => 'snippets/_pxelinux_chainload.erb', :snippet => true },
     { :name => 'pxegrub_chainload', :source => 'snippets/_pxegrub_chainload.erb', :snippet => true },
     { :name => 'pxegrub2_chainload', :source => 'snippets/_pxegrub2_chainload.erb', :snippet => true },
