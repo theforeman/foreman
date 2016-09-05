@@ -1,7 +1,9 @@
 <%= javascript 'compute_resource' %>
+<%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initCounter)"); %>
 <%= text_f f, :name, :label => _('Name'), :disabled => !new_host if show_vm_name? %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('CPUs') %>
-<%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cores per socket') %>
+<%= counter_f f, :cpus, :disabled => !new_host, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
+
+<%= counter_f f, :corespersocket, :disabled => !new_host, :label => _('Cores per socket'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count, :value => f.object.corespersocket || 1 %>
 <%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new_host, :label => _("Memory (MB)") %>
 <%= selectable_f f, :cluster, compute_resource.clusters, { :include_blank => _('Please select a cluster') },
                     :class => "col-md-2", :disabled => !new_host,
