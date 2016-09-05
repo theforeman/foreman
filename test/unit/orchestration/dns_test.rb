@@ -175,6 +175,15 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
         assert_equal 4, tasks.size
       end
     end
+
+    context 'dns not feasible' do
+      test 'should not fail dns rebuild' do
+        Nic::Managed.any_instance.stubs(:dns_feasible?).returns(false)
+        Nic::Managed.any_instance.expects(:recreate_dns_record).never
+        @host.save!
+        assert @host.interfaces.first.rebuild_dns
+      end
+    end
   end
 
   context 'host with ipv6 dns' do
