@@ -94,7 +94,29 @@ $(function () {
   });
 });
 
-export function initByteSpinner() {
+export function initAll() {
+  initByte();
+  initCounter();
+}
+
+export function initCounter() {
+  $('input.counter_spinner').each(function () {
+    let field = $(this);
+    let errorMessage = field.closest('.form-group').find('.maximum-limit');
+
+    field.limitedSpinner({
+      softMaximum: field.data('softMax'),
+      errorTarget: errorMessage,
+      min: 1
+    });
+
+    field.change(function () {
+      field.limitedSpinner('validate');
+    });
+  });
+}
+
+export function initByte() {
   $('input.byte_spinner').each(function () {
     let field = $(this);
     let errorMessage = field.closest('.form-group').find('.maximum-limit');
