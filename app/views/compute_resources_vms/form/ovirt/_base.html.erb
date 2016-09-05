@@ -1,4 +1,5 @@
-<%= javascript_tag("$(document).on('ContentLoad', tfm.initByteSpinner)"); %>
+<%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
+
 <% javascript 'compute_resource' %>
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3" if show_vm_name? %>
 <% clusters = compute_resource.clusters %>
@@ -18,7 +19,7 @@
 
 <% selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster] %>
 
-<%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :label => _('Cores'), :label_size => "col-md-2" %>
+<%= counter_f f, :cores, :disabled => !new_host, :label => _('Cores'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
 <%= byte_size_f f, :memory, :disabled => !new_host, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>

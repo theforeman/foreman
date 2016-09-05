@@ -203,13 +203,25 @@ module FormHelper
   def byte_size_f(f, attr, options = {})
     options[:class] = options[:class].to_s + ' byte_spinner'
     options[:help_inline] ||= popover('', _("When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."))
-    options[:help_block] ||= content_tag(:span, :class => 'maximum-limit hidden') do
-      content_tag(:i, '', :class => 'pficon-warning-triangle-o') +
-      content_tag(:span, ' ' + _('Specified value is higher than recommended maximum'), :class => 'error-message')
-    end
+    options[:help_block] ||= soft_limit_warning_block
     options[:help_block] += f.hidden_field(attr, :class => "real-hidden-value", :id => nil)
 
     text_f(f, attr, options)
+  end
+
+  def counter_f(f, attr, options = {})
+    options[:class] = options[:class].to_s + ' counter_spinner'
+    options[:help_block] ||= soft_limit_warning_block
+
+    text_f(f, attr, options)
+  end
+
+  def soft_limit_warning_block
+    content_tag(:span, :class => 'maximum-limit hidden') do
+      icon_text('warning-triangle-o',
+                content_tag(:span, ' ' + _('Specified value is higher than recommended maximum'), :class => 'error-message'),
+                :kind => 'pficon')
+    end
   end
 
   def form_to_submit_id(f)
