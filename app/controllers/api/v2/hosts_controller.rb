@@ -28,7 +28,8 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @hosts = resource_scope_for_index.includes([ :host_statuses, :compute_resource, :hostgroup, :operatingsystem, :interfaces, :token ])
+        @hosts = resource_scope_for_index
+                   .eager_load([:host_statuses, :compute_resource, :hostgroup, :operatingsystem, :interfaces, :token])
         # SQL optimizations queries
         @last_report_ids = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         @last_reports = Report.where(:id => @last_report_ids.values)

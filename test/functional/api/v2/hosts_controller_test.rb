@@ -75,6 +75,17 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert !hosts.empty?
   end
 
+  test "should get attributes in ordered index" do
+    last_host.update(ip: "127.13.0.1")
+    get :index, order: "mac"
+    assert_response :success
+    assert_not_nil assigns(:hosts)
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    ip_addresses = hosts["results"].map { |host| host["ip"] }
+    refute ip_addresses.empty?
+    assert_includes(ip_addresses, "127.13.0.1")
+  end
+
   test "should show individual record" do
     get :show, { :id => @host.to_param }
     assert_response :success
