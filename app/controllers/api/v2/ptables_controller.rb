@@ -3,6 +3,8 @@ module Api
     class PtablesController < V2::BaseController
       include Foreman::Controller::Parameters::Ptable
 
+      wrap_parameters :ptable, :include => ptable_params_filter.accessible_attributes(parameter_filter_context)
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone}
 

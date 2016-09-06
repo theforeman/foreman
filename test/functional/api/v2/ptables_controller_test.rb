@@ -29,6 +29,13 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should created ptable with unwrapped 'layout'" do
+    assert_difference('Ptable.count') do
+      post :create, valid_attrs
+    end
+    assert_response :created
+  end
+
   test "should update ptable" do
     put :update, { :id => @ptable.to_param, :ptable => valid_attrs }
     assert_response :success
