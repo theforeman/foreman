@@ -1,4 +1,5 @@
 require('expose?$!expose?jQuery!jquery');
+require('./bundle_jquery_ui');
 require('jquery-ujs');
 require('expose?_!lodash');
 require('expose?jstz!jstz');
