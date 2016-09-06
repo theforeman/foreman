@@ -121,8 +121,8 @@ module Host
       importer.import!
 
       save(:validate => false)
-      populate_fields_from_facts(facts, type)
       set_taxonomies(facts)
+      populate_fields_from_facts(facts, type)
 
       # we are saving here with no validations, as we want this process to be as fast
       # as possible, assuming we already have all the right settings in Foreman.
