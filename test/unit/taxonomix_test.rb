@@ -61,21 +61,51 @@ class TaxonomixTest < ActiveSupport::TestCase
     assert_empty @dummy.locations
   end
 
-  test ".with_taxonomy_scope expands organizations and locations to actual values" do
-    org1 = FactoryGirl.create(:organization)
-    org2 = FactoryGirl.create(:organization)
-    org3 = FactoryGirl.create(:organization)
-    user = FactoryGirl.create(:user, :organizations => [org1, org2])
-    dummy_class = @dummy.class
-
-    as_user(user) do
-      dummy_class.with_taxonomy_scope(nil, nil)
+  describe '.with_taxonomy_scope' do
+    setup do
+      @org = FactoryGirl.create(:organization)
+      @loc = FactoryGirl.create(:location)
     end
 
-    assert_empty dummy_class.which_location
-    assert_includes dummy_class.which_organization, org1
-    assert_includes dummy_class.which_organization, org2
-    refute_includes dummy_class.which_organization, org3
+    test 'expands organizations and locations to actual values' do
+      org2 = FactoryGirl.create(:organization)
+      org3 = FactoryGirl.create(:organization)
+      user = FactoryGirl.create(:user, :organizations => [@org, org2])
+
+      as_user(user) do
+        @dummy.class.with_taxonomy_scope(nil, nil)
+      end
+
+      assert_empty @dummy.class.which_location
+      assert_includes @dummy.class.which_organization, @org
+      assert_includes @dummy.class.which_organization, org2
+      refute_includes @dummy.class.which_organization, org3
+    end
+
+    test 'does not return anything if no taxable IDs were found' do
+      TaxonomixDummy.expects(:taxable_ids).returns([]).at_least_once
+      taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
+      assert_empty taxonomy_scoped_dummies
+    end
+
+    test 'returns only objects in the given taxonomies' do
+      @dummy.name = 'foo'
+      @dummy.save
+      TaxonomixDummy.expects(:taxable_ids).returns([@dummy.id]).at_least_once
+      taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
+      assert_equal 1, taxonomy_scoped_dummies.count
+      assert_equal [@dummy], taxonomy_scoped_dummies.to_a
+    end
+
+    test 'does not return objects outside the specified taxonomies' do
+      @dummy.name = 'foo'
+      @dummy.save
+      other_ids = TaxonomixDummy.pluck(:id) - [@dummy.id]
+      TaxonomixDummy.expects(:taxable_ids).returns(other_ids).at_least_once
+      taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
+      assert_equal other_ids.count, taxonomy_scoped_dummies.count
+      refute_includes taxonomy_scoped_dummies.to_a, @dummy
+    end
   end
 
   test ".used_location_ids can work with array of locations" do
