@@ -25,6 +25,7 @@ module Api
         param :filter, Hash, :action_aware => true, :required => true do
           param :role_id, String, :required => true
           param :search, String
+          param :override, :bool
           param :permission_ids, Array
           param :organization_ids, Array
           param :location_ids, Array
