@@ -36,4 +36,28 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  context "with organizations" do
+    before do
+      @org = FactoryGirl.create(:organization)
+    end
+
+    test "filter can override taxonomies" do
+      valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_domains).id], :organization_ids => [@org.id], :override => true }
+      assert_difference('Filter.count') do
+        post :create, { :filter => valid_attrs }
+      end
+      assert_response :created
+      assert assigns(:filter).organizations.include? @org
+    end
+
+    test "taxonomies are ignored if override is not explicitly enabled" do
+      valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_domains).id], :organization_ids => [@org.id] }
+      assert_difference('Filter.count') do
+        post :create, { :filter => valid_attrs }
+      end
+      assert_response :created
+      refute assigns(:filter).organizations.include? @org
+    end
+  end
 end
