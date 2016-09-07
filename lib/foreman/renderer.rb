@@ -153,11 +153,6 @@ module Foreman
       render_safe content, ALLOWED_HELPERS, allowed_variables
     end
 
-    def pxe_render(template, overridden_name = nil)
-      ::Foreman::Deprecation.deprecation_warning("1.14", "method pxe_render will be removed, use unattended_render instead")
-      unattended_render(template, overridden_name)
-    end
-
     def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})
       file = ""
       Tempfile.open(prefix, Rails.root.join('tmp')) do |f|
