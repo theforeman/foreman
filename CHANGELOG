@@ -1,3 +1,554 @@
+2016-09-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #2314 - fine grain for RAM selectors
+
+2016-09-06	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16290 - Move ipaddr.js from bundle to npm
+
+2016-09-06	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15590 - ipv6 tftp orchestration
+
+2016-09-05	Dominic Cleal <dominic@cleal.org>
+	* templates - sync from community-templates
+
+2016-09-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16358 - Load dashboard on puppet proxy view
+
+2016-09-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16389 - enable taxable object creation in specific context
+	* Fixes #16405 - Allow roles search by builtin flag
+
+2016-09-02	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13047, #16291 - Upgrade datatables and move it to npm
+
+2016-09-02	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #16416 - Enable reterive password_hash from templates
+
+2016-09-01	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #16318 - PXE templates now work in safemode (#3783)
+
+2016-09-01	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #16164 - False positives on testing CR connection
+	* Fixes #16144 - vmWare datacenter error in connection test
+
+2016-09-01	Jon de la Vega <jonvega@sarenet.es>
+	* Fixes #16357 - Losslessly optimized assets
+
+2016-09-01	Ori Rabin <orabin@redhat.com>
+	* Refs #15814 - Reset override params only for PuppetclassLookupKey
+
+2016-09-01	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16379 - Improve layout of hostname randomize button
+
+2016-09-01	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #16371 - Add support for login page dynamic text
+	* Fixes #16384 - Localize the names for email prefs
+
+2016-08-31	Dominic Cleal <dominic@cleal.org>
+	* fixes #16376 - use correct params filter for nested Puppet LKs
+
+2016-08-31	Ohad Levy <ohadlevy@gmail.com>
+	* Refs #16222 - remove no-global-assign rule from eslint (#3787)
+
+2016-08-30	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #16163 - Hide spinner for vmware cluster
+
+2016-08-28	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #16222 - remove no-global-assign rule from eslint
+
+2016-08-26	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14771 - Show corresponding os list for arch
+
+2016-08-26	amirfefer <amirfefer@gmail.com>
+	* Fixes #16211 - show host autocomplete in audit search
+
+2016-08-26	Ori Rabin <orabin@redhat.com>
+	* Fixes #14468 - fix db:migrate when unattended false on empty db
+
+2016-08-26	Dominic Cleal <dominic@cleal.org>
+	* refs #16260 - wait for AJAX on main dashboard page test
+	* i18n - extracting new, pulling from tx
+
+2016-08-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #7806 - allow taxonomy association on role level
+
+2016-08-26	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #16057 - added dns_lookup template helper
+
+2016-08-26	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16264 - Template combinations cannot be created
+
+2016-08-25	Dominic Cleal <dominic@cleal.org>
+	* refs #1170 - capitalize statistics heading (#3780)
+	* refs #12634 - remove blank i18n string, match capitalisation
+
+2016-08-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #1170 - adds additional charts to statistics page
+
+2016-08-24	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #16222 - Increase scope of eslint ignore
+	* Fixes #16260 - Wait for dashboard to fully load in test
+
+2016-08-24	Dominic Cleal <dominic@cleal.org>
+	* refs #12544 - replace ordered interpolation with named variables
+
+2016-08-24	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #12634 - New HW Model flag pxe_loader
+
+2016-08-24	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #12544 - added errors from host to cancelBuild Now the flash will contain detailed error messages.
+
+2016-08-24	David Davis <daviddavis@redhat.com>
+	* Fixes #15814 - Reset override params when override is off
+
+2016-08-23	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16044 - Load dashboard widgets via ajax
+
+2016-08-23	Dominic Cleal <dominic@cleal.org>
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* fixes #16243 - make Host
+	* fixes #16220 - replace skip_callback class changes with stubs
+	* fixes #16221 - replace private AS timezone listing method
+
+2016-08-23	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #16238 - Speed up dashboard loading time.
+
+2016-08-23	Daniel Lobato García <me@daniellobato.me>
+	* Fixes #16239 - Enable rubocop checks on HoundCI (#3767)
+
+2016-08-23	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16197 - Host#smart_proxies returns only the host proxies
+
+2016-08-22	Gail Steiger <gsteiger@netvision.net.il>
+	* Fixes #15806 - add babel-eslint dependency to package.json
+	* fixes #15806 - Add linting to webpack
+
+2016-08-22	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16222 - Make HoundCI round ESLint on new JS
+
+2016-08-22	Timo Goebel <timo.goebel@dm.de>
+	* fixes #16199 - always run build related callbacks
+
+2016-08-22	Klaas Demter <Klaas-@users.noreply.github.com>
+	* Fixes #16061 - auto ip assignment for non-primary interfaces
+
+2016-08-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16120 - Allow including css in webpack assets
+
+2016-08-22	Dominic Cleal <dominic@cleal.org>
+	* fixes #16172 - remove base_class override in template subclasses
+	* fixes #16193 - change templates.type default to known STI class
+	* fixes #16198 - remove therubyracer Bundler group
+
+2016-08-22	David Davis <daviddavis@redhat.com>
+	* Fixes #16212 - Fix test filenames
+
+2016-08-21	Martin Ducar <martin.ducar@gooddata.com>
+	* fixes #16196 - fix typo in image scoped search
+
+2016-08-19	Dominic Cleal <dominic@cleal.org>
+	* fixes #16194 - correct table name in remove_foreign_key call
+
+2016-08-18	Dominic Cleal <dominic@cleal.org>
+	* fixes #16166 - exclude node_modules/ directory from rubocop
+
+2016-08-17	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16104 - Use parameterizable for HW models
+
+2016-08-17	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #16073 - match up nic identifiers for unmanaged hosts
+
+2016-08-17	Klaas Demter <Klaas-@users.noreply.github.com>
+	* Fixes #16139 - Add link to code contribution in CONTRIBUTING.md
+
+2016-08-17	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16025 - Fix ERB & params to import subnets from proxy
+
+2016-08-17	Dominic Cleal <dominic@cleal.org>
+	* fixes #16142 - replace Unicode copyright with HTML encoded symbol
+
+2016-08-17	Marek Hulan <mhulan@redhat.com>
+	* Refs #12364 - webpack server can serve assets on https
+
+2016-08-16	amirfefer <amirfefer@gmail.com>
+	* Fixes #16075 - add authenticity token in setting params
+
+2016-08-16	Dominic Cleal <dominic@cleal.org>
+	* fixes #16085 - update Rails to 4.2.7.1
+
+2016-08-15	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #12364 - Only load the dev server js if it's enabled
+
+2016-08-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15364 - disable Style/ClassCheck cop
+
+2016-08-15	Dominic Cleal <dominic@cleal.org>
+	* fixes #16089 - replace flot-rails with npm jquery-flot
+
+2016-08-12	Dominic Cleal <dominic@cleal.org>
+	* fixes #16083 - pin gettext_i18n_rails for Ruby 2.0.0
+
+2016-08-11	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #12364 - Allow running webpack dev server on any hostname
+	* Fixes #16020 - Prevent reflective XSS on form validation
+
+2016-08-10	Dominic Cleal <dominic@cleal.org>
+	* fixes #15787 - update shoulda-matchers to 3.x
+	* fixes #16046 - run webpack:compile as pre-req to test rake tasks
+	* fixes #16039 - update fog-openstack paths to load extensions
+
+2016-08-10	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16024 - escape labels of form fields
+
+2016-08-10	Tomer Brisker <tbrisker@redhat.com>
+	* Fixes #12364 - Use NPM+Webpack to handle external assets
+
+2016-08-10	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #12488 - Add admin flag to usergroup param description
+
+2016-08-10	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16022 - Prevent stored XSS in host interface form
+
+2016-08-09	Dominic Cleal <dominic@cleal.org>
+	* refs #13768 - add random_name call to create_hosts permission
+
+2016-08-09	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #13813 - Removed "\ " so ruby 1.8 could read the ENC
+
+2016-08-09	Chris Roberts <chrobert@redhat.com>
+	* Fixes #15921 - add host command to foreman-debug
+
+2016-08-08	elad <elad@myheritage.com>
+	* Fixes #15924 - Implement server groups and scheduler hints
+
+2016-08-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #13768 - random and MAC-based name generator
+
+2016-08-08	aagrawal <aagrawal@redhat.com>
+	* Fixes #15996 - Multiple nav bars
+
+2016-08-05	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15977 - change enc output in a compatible way
+	* fixes #15989 - add clone host button to host view
+
+2016-08-04	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #15919 - statistics page is loaded via AJAX
+
+2016-08-04	Dominic Cleal <dominic@cleal.org>
+	* fixes #15975 - replace instance variable ref in subnet partial
+
+2016-08-04	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15951 - pass interface compute_attributes
+
+2016-08-03	Ori Rabin <orabin@redhat.com>
+	* Fixes #15953 - pin fast_gettext gem
+
+2016-08-03	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #15833 - remove duplicities in smart params listings
+
+2016-08-02	dhlavac <dhlavacd@redhat.com>
+	* Fixes #14301 - Grant access to help pages for view permissions
+
+2016-08-02	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #7955 - /apidoc should point to v2 documentation by default
+
+2016-08-02	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #15925 - unpin audited gem
+
+2016-08-01	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15925 - pin audited gem to allow tests to pass
+
+2016-07-29	Dominic Cleal <dominic@cleal.org>
+	* fixes #15894 - retry intermittently failing integration tests
+	* fixes #3917 - replace protected_attrs with strong parameters
+
+2016-07-28	Dominic Cleal <dominic@cleal.org>
+	* fixes #15863 - add short session or request ID to logs
+
+2016-07-27	Dominic Cleal <dominic@cleal.org>
+	* fixes #15847 - change mailer helpers from paths to URLs
+
+2016-07-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14518, #14516 - status change ignores validations
+
+2016-07-27	Vincent Lequertier <sky@riseup.net>
+	* Fixes #15771 - add :token to the values returned by the API
+
+2016-07-25	Dominic Cleal <dominic@cleal.org>
+	* fixes #15829 - remove ace-rails-ap file modes from app.js
+
+2016-07-25	David Davis <daviddavis@redhat.com>
+	* Refs #3809 - Using defaults for AndOr cop
+
+2016-07-22	Brandon Weeks <weeks@squareup.com>
+	* Fixes #15773 - disambiguate table name
+
+2016-07-21	amirfefer <amirfefer@gmail.com>
+	* Fixes #15037 - Improves editable elements in settings
+
+2016-07-21	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #15684 - foreman-rake without options raise an error
+
+2016-07-21	Dominic Cleal <dominic@cleal.org>
+	* fixes #15762 - move flash testing out of integration test
+	* fixes #15761 - wait for domain and unused_ip AJAX calls
+	* fixes #15753 - unpin pg gem, match Rails requirement
+	* fixes #15751 - replace spork with spring in development
+
+2016-07-21	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #15709 - fix SuSE mediapath in PXELinux templates
+
+2016-07-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15675 - Improve report expiry performance
+
+2016-07-20	Dominic Cleal <dominic@cleal.org>
+	* fixes #15682 - don't save invalid attributes at login from LDAP
+
+2016-07-20	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15718 - Correctly display hash parameters
+
+2016-07-19	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #12193 - Remove remaining cached counters
+	* Fixes #12193 - Stop using counter_cache for host[group] counts
+
+2016-07-19	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15653 - CVE-2016-5390 fix permissions for host API
+
+2016-07-19	Dominic Cleal <dominic@cleal.org>
+	* fixes #15720 - rename *_filter to *_action
+
+2016-07-18	Imri Zvik <imrizvik@gmail.com>
+	* Fixes #15681 - Upgrade Fog Openstack to at least version 0.1.7
+
+2016-07-18	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13529 - Remove duplicate permissions A migration which adds unique constraint and removes duplicate permissions
+
+2016-07-18	Stephen Benjamin <stephen@redhat.com>
+	* fixes #15704 - use sendmail for email.yaml
+
+2016-07-18	Dominic Cleal <dominic@cleal.org>
+	* fixes #15699 - set a default FQDN/domain in test environment
+
+2016-07-18	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15527 - api/v2/hosts is slow loading permissions
+
+2016-07-18	David Davis <daviddavis@redhat.com>
+	* Fixes #15712 - Pinning rabl to less than 0.13
+
+2016-07-14	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #11749 - puppet env jquery selector more restrictive
+
+2016-07-13	Ashish Humbe <ahumbe@redhat.com>
+	* Fixes #14720 - Handling invalid email from auth source
+
+2016-07-13	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14666 - support IPv6 in UI
+
+2016-07-13	Ivan Nečas <inecas@redhat.com>
+	* Fixes #15134 - wait for ajax in interface test
+
+2016-07-13	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #15655 - Improve ptable migration
+
+2016-07-13	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15490 - adding view_host filter and better msg
+
+2016-07-12	Ori Rabin <orabin@redhat.com>
+	* Fixes #15629 - parameters form shows new parameters after error
+
+2016-07-12	Dominic Cleal <dominic@cleal.org>
+	* fixes #15659 - replace deprecated Object#timeout call
+
+2016-07-12	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15657 - Correct import button styling
+
+2016-07-12	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #15464 - support partials in pagelet keys
+
+2016-07-12	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15644 - Move enable/skip_orchestration to Host
+
+2016-07-12	David Davis <daviddavis@redhat.com>
+	* Refs #3809 - Turning on the AndOr cop
+
+2016-07-11	Timo Goebel <mail@timogoebel.name>
+	* fixes #15635 - tests for dns orchestration
+
+2016-07-11	orrabin <orabin@redhat.com>
+	* Fixes #15599 - Unattended controller can access host params (#3629)
+
+2016-07-11	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15625 - vmware: add cdrom only when selected
+
+2016-07-11	aagrawal <aagrawal@redhat.com>
+	* fixes #15622 - add about link for non-admin user
+
+2016-07-08	David Davis <daviddavis@redhat.com>
+	* Refs #3809 - Turning on some Lint cops
+
+2016-07-08	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15601 - to_ip_address cannot retrieve PTR4 record
+
+2016-07-07	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14817 - load JS only in relevant pages
+
+2016-07-06	Dominic Cleal <dominic@cleal.org>
+	* fixes #4528 - import structured Puppet facts
+	* fixes #13845 - remove 1.13 deprecations
+
+2016-07-06	Ori Rabin <orabin@redhat.com>
+	* Refs #13164 - Consistent parameters authorization in api
+
+2016-07-05	Dominic Cleal <dominic@cleal.org>
+	* fixes #15575 - add factories and functional trend tests
+
+2016-07-05	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #15576 - Pin GCE-client to < 0.9
+
+2016-07-04	Dominic Cleal <dominic@cleal.org>
+	* fixes #15573 - support rest-client 2.x
+
+2016-07-04	Klaas Demter <Klaas-@users.noreply.github.com>
+	* Fixes #15570 - Fixed query syntax in ForemanTrend#find_hosts
+
+2016-07-01	Ivan Nečas <inecas@redhat.com>
+	* Fixes #14410 - respond 503 when pending migration
+
+2016-07-01	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #15370 - Validate settings values
+
+2016-07-01	Dominic Cleal <dominic@cleal.org>
+	* refs #15336 - use i18n variable names and plural form
+
+2016-06-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15471 - Find CA expiry even if some dates are missing
+
+2016-06-30	Stephen Benjamin <stephen@redhat.com>
+	* fixes #15525 - always update facts
+
+2016-06-30	Partha Aji <paji@redhat.com>
+	* Fixes #15336 - Enables proper deletion of Orgs
+
+2016-06-30	amirfefer <amirfefer@gmail.com>
+	* Fixes #15140 - Correctly handle failed setting change
+
+2016-06-30	Ori Rabin <orabin@redhat.com>
+	* Fixes #15308 - Override validation doesn't run without changes
+
+2016-06-29	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #15306 - Catches exceptions in the orchestration
+
+2016-06-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15534 - Stop stripping whitespace in parameter values
+
+2016-06-27	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15508 - allow duplicate networks
+	* fixes #14665 - support IPv6 via API
+
+2016-06-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #4477 - Host[group] form only show authorized resources
+
+2016-06-24	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14663 - support IPv6 DNS orchestration
+
+2016-06-24	Ori Rabin <orabin@redhat.com>
+	* Fixes #15234 - search usergroup by role
+
+2016-06-23	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15439 - improved error reporting for media
+
+2016-06-23	Ori Rabin <orabin@redhat.com>
+	* Fixes #13164 - Add view_params permission
+
+2016-06-23	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15466 - require e-mail for current user
+	* fixes #9110 - add freeip route to API
+
+2016-06-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15268 - limit user taxonomies using my scopes
+
+2016-06-22	Ori Rabin <orabin@redhat.com>
+	* Fixes #5785 - override class parameter by subnet name
+
+2016-06-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14953 - update LICENSE file
+
+2016-06-20	Dominic Cleal <dominic@cleal.org>
+	* fixes #15431 - apply btn CSS to action selects with one item
+
+2016-06-15	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15355 - close interface modal at cr change
+
+2016-06-15	karimb <root@foreman.localdomain>
+	* Fixes #8289 - handle user data in ovirt
+
+2016-06-15	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #15333 - Moved puppet environment field to helper
+
+2016-06-15	Stephen Benjamin <stephen@redhat.com>
+	* fixes #15416 - update untouched templates during seed
+
+2016-06-14	Mac Reid <mareid@mtu.edu>
+	* fixes #15391 - quote host group search links
+
+2016-06-14	Dominic Cleal <dominic@cleal.org>
+	* fixes #15363 - construct correct templates query for new hosts
+
+2016-06-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15362 - improve global status audit logs
+	* Fixes #15345 - allow changing oVirt CA certificate
+
+2016-06-13	Dominic Cleal <dominic@cleal.org>
+	* fixes #14913 - configure Hirb/Wirb via irbrc
+
+2016-06-13	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #14783 - Limit OS description to 255
+
+2016-06-10	Guido Günther <agx@sigxcpu.org>
+	* Fixes #15372 - Merge the correct hash when adding new volumes
+
+2016-06-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15344 - recover from fingerprint error on validation
+
+2016-06-07	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14955 - Show nice message for invalid mac, ip
+
+2016-06-07	Marek Hulan <mhulan@redhat.com>
+	* Fixes #14481 - make bootable radio button checkable
+
+2016-06-03	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15278 - taxonomies support granular filters
+
+2016-06-03	Zach Huntington-Meath <zhunting@redhat.com>
+	* Fixes #15276 - view permissions start with view
+
+2016-06-02	Dominic Cleal <dominic@cleal.org>
+	* fixes #15250 - ignore current controller from link_to/hash_for
+
+2016-06-02	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15092 - CSV exporter rake task
+
+2016-06-02	Timo Goebel <timo.goebel@dm.de>
+	* fixes #14664 - support IPv6 in Nic, Hosts and Hostgroups models
+
+2016-06-02	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #15225 - correct permission mapping for api puppet import
+
+2016-06-02	Ori Rabin <orabin@redhat.com>
+	* Fixes #15246 - correctly override array params
+
+2016-06-02	amirfefer <amirfefer@gmail.com>
+	* Fixes #8797 - Separate style from the HTML in emails
+
+2016-06-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #15238 - ignore empty NIC identifiers
+
+2016-06-01	Dominic Cleal <dominic@cleal.org>
+	* fixes #15247 - reference PuppetError class correctly
+
+2016-05-31	Dominic Cleal <dominic@cleal.org>
+	* Bump version to 1.13-develop
+
 2016-05-31	Ivan Nečas <inecas@redhat.com>
 	* Fixes #15066 - operating systems and ovirt < 3.6
 
