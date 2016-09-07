@@ -54,15 +54,3 @@ class ActiveRecord::Migration
     foreign_keys(from_table).any? {|fk| options.keys.all? {|key| fk.options[key].to_s == options[key].to_s } }
   end
 end
-
-# Migrations calling foreign_keys directly to check for presence will
-# fail with exceptions on SQLite3 on 4.2, while Foreigner returned [].
-module ActiveRecord::ConnectionAdapters
-  class SQLite3Adapter < AbstractAdapter
-    def foreign_keys(*args)
-      Foreman::Deprecation.deprecation_warning('1.14', 'foreign_keys calls should be replaced by foreign_key_exists?')
-      return [] unless supports_foreign_keys?
-      super
-    end
-  end
-end
