@@ -35,12 +35,7 @@ module Taxonomix
       self.which_location        = Location.expand(loc) if SETTINGS[:locations_enabled]
       self.which_organization    = Organization.expand(org) if SETTINGS[:organizations_enabled]
       scope = block_given? ? yield : where('1=1')
-      tax_ids = taxable_ids
-      # we need to generate part of SQL query as a string, otherwise the default scope would set id on each
-      # new instance and the same taxable_id on taxable_taxonomy objects
-      if tax_ids.present?
-        scope = scope.where("#{self.table_name}.id IN (#{tax_ids.join(',')})")
-      end
+      scope = scope_by_taxable_ids(scope)
       scope.readonly(false)
     end
 
@@ -114,6 +109,21 @@ module Taxonomix
 
     def admin_ids
       User.unscoped.where(:admin => true).pluck(:id) if self == User
+    end
+
+    def scope_by_taxable_ids(scope)
+      case (cached_ids = taxable_ids)
+      when nil
+        scope
+      when []
+        # If *no* taxable ids were found, then don't show any resources
+        scope.where(:id => [])
+      else
+        # We need to generate the WHERE part of the SQL query as a string,
+        # otherwise the default scope would set id on each new instance
+        # and the same taxable_id on taxable_taxonomy objects
+        scope.where("#{self.table_name}.id IN (#{cached_ids.join(',')})")
+      end
     end
   end
 
