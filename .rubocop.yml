@@ -24,9 +24,6 @@ Style/Documentation:
 # Support both ruby19 and hash_rockets
 Style/HashSyntax:
   Enabled: false
-  SupportedStyles:
-    - ruby19
-    - hash_rockets
 
 Metrics/ClassLength:
   Exclude:
