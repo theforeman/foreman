@@ -14,7 +14,6 @@ Foreman::Application.configure do |app|
                   compute_resources/ovirt/nic_info
                   compute_resources/vmware/nic_info
                   lookup_keys
-                  diff
                   host_edit
                   host_edit_interfaces
                   hosts

@@ -28,12 +28,8 @@ The following files and directories are exceptions:
 * extras/noVNC/websockify is (c) 2011, Joel Martin under LGPL v3 license.
 * vendor/assets/fonts/ is (c) 2011-2016, Red Hat Inc. under SIL Open Font License v1.1 or LGPL v2.1 licenses.
 * vendor/assets/javascripts/noVNC/ is (c) 1999 AT&T Laboratories Cambridge, (c) 1996 Widget Workshop, Inc., (c) 1996 Jef Poskanzer <jef@acme.com>, (c) 2011 Joel Martin, (c) Hiroshi Ichikawa <http://gimite.net/en/>, (c) Martijn Pieters <mj@digicool.com>, Samuel Sieb <samuel@sieb.net> under (MPL 1.1 or GPL v2+ or LGPL v2.1+) and LGPL v3 and LGPL v2+ and MIT and Revised BSD licenses.
-* vendor/assets/javascripts/diff.js is (c) 2009-2011, Kevin Decker <kpdecker@gmail.com> under Revised BSD license.
-* vendor/assets/javascripts/jquery.cookie.js is (c) 2006, 2014 Klaus Hartl (stilbuero.de) under MIT license.
 * vendor/assets/javascripts/jquery.flot.axislabels.js is (c) 2010 Xuan Luo under MIT license.
-* vendor/assets/javascripts/jquery.jeditable.js is (c) 2006-2009 Mika Tuupola, Dylan Verheul under MIT license.
 * vendor/assets/javascripts/jquery.jnotify.js is (c) 2010 Giva, Inc. under ASL 2.0 license.
-* vendor/assets/javascripts/jstz.js is (c) 2012-2014 Jon Nylander under MIT license.
 
 All rights reserved.
 
