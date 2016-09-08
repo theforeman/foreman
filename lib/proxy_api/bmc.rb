@@ -110,32 +110,34 @@ module ProxyAPI
     end
 
     def method_missing(method, *args, &block)
-      begin
-        super(method, *args, &block)
-      rescue NoMethodError
+      if method.to_s.starts_with?('power_', 'boot_', 'identify_', 'lan_')
         margs = args.first
         farg  = method.to_s.split('_')
         # method must contain 2 parts, ie: power_on, boot_disk
         raise NoMethodError unless farg.length == 2
 
         case farg.first
-        when "power"
+        when 'power'
           margs[:action] = farg.last
           power(margs)
-        when "boot"
-          margs[:function] = "bootdevice"
+        when 'boot'
+          margs[:function] = 'bootdevice'
           margs[:device]   = farg.last
           boot(margs)
-        when "identify"
+        when 'identify'
           margs[:action] = farg.last
           identify(margs)
-        when "lan"
+        when 'lan'
           margs[:action] = farg.last
           lan(margs)
-        else
-          raise NoMethodError
         end
+      else
+        super
       end
+    end
+
+    def respond_to_missing?(method, include_private = false)
+      method.to_s.starts_with?('power_', 'boot_', 'identify_', 'lan_') || super
     end
   end
 end

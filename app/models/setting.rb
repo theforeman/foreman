@@ -89,7 +89,7 @@ class Setting < ActiveRecord::Base
   end
 
   def self.method_missing(method, *args)
-    super(method, *args)
+    super
   rescue NoMethodError
     method_name = method.to_s
 
@@ -100,6 +100,10 @@ class Setting < ActiveRecord::Base
     else
       self[method_name]
     end
+  end
+
+  def self.respond_to_missing?(method_name, include_private = false)
+    true
   end
 
   def value=(v)

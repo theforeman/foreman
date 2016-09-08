@@ -119,7 +119,7 @@ class HostgroupTest < ActiveSupport::TestCase
     #attempt to destroy parent hostgroup
     begin
       assert_not parent_hostgroup.destroy
-      rescue Ancestry::AncestryException
+    rescue Ancestry::AncestryException
     end
     # check if hostgroup(:db) label remains the same
     hostgroup.reload

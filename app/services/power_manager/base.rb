@@ -5,8 +5,14 @@ module PowerManager
     end
 
     def self.method_missing(method, *args)
+      super
+    rescue NoMethodError
       logger.warn "invalid power state request #{action} for host: #{host}"
       raise ::Foreman::Exception.new(N_("Invalid power state request: %{action}, supported actions are %{supported}"), { :action => action, :supported => SUPPORTED_ACTIONS })
+    end
+
+    def self.respond_to_missing?(method_name, include_private = false)
+      super
     end
 
     SUPPORTED_ACTIONS.each do |method|

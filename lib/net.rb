@@ -37,7 +37,7 @@ module Net
 
   class Error < RuntimeError; end
 
-  class Conflict < Exception
+  class Conflict < RuntimeError
     attr_accessor :type, :expected, :actual, :message
   end
 end

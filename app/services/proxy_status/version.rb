@@ -10,8 +10,6 @@ module ProxyStatus
       'Version'
     end
 
-    private
-
     alias_method :version, :versions
   end
 end

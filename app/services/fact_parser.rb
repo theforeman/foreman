@@ -181,10 +181,8 @@ class FactParser
   end
 
   def is_numeric?(string)
-    begin
-      !!Integer(string)
-    rescue ArgumentError, TypeError
-      false
-    end
+    !!Integer(string)
+  rescue ArgumentError, TypeError
+    false
   end
 end

@@ -679,8 +679,6 @@ class HostsControllerTest < ActionController::TestCase
       assert Host.find(@host2.id).enabled
     end
 
-    private
-
     def multiple_hosts_submit_request(method, ids, notice, params = {})
       post :"submit_multiple_#{method}", params.merge({:host_ids => ids}), set_session_user
       assert_response :found
