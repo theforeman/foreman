@@ -301,6 +301,7 @@ add_files /var/log/{httpd,apache2}/*error_log*
 add_files /var/log/{httpd,apache2}/foreman-ssl_access_ssl.log*
 add_cmd "echo \"select id,name,value from settings where name not similar to '%(pass|key|secret)'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
 add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
+add_cmd "echo 'select login, locale, timezone from users order by login' | su postgres -c 'psql foreman'" "foreman_users_locale"
 add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
 
 add_files /etc/{sysconfig,default}/foreman
