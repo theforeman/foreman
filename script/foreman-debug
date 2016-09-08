@@ -22,7 +22,7 @@ OPTIONS:
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
   -a      Do not generate a tarball from the resulting directory
-  -l      Include usernames to the locale report
+  -l      Include login names (usernames) on the locale settings
   -m NUM  Maximum lines to keep for each file (default 5000), zero means no limit
   -j PRG  Filter with provided program when creating a tarball
   -p      Additionally print password patterns being filtered out
