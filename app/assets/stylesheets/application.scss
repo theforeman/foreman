@@ -575,3 +575,12 @@ table {
 .masked-input {
   font-family: 'AllBullets';
 }
+
+.btn-spinner {
+  .spinner {
+    margin: 0.3em;
+  }
+  .caption {
+    float: right;
+  }
+}

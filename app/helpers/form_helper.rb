@@ -172,6 +172,14 @@ module FormHelper
     end
   end
 
+  def spinner_button_f(f, caption, action, html_options = {})
+    html_options[:class] ||= 'btn-default'
+    html_options[:class] = "btn btn-spinner #{html_options[:class]}"
+    caption = '<div class="caption">' + caption + '</div>'
+    caption += hidden_spinner('', :id => html_options[:spinner_id], :class => html_options[:spinner_class])
+    link_to_function(caption.html_safe, action, html_options)
+  end
+
   def file_field_f(f, attr, options = {})
     field(f, attr, options) do
       f.file_field attr, options
