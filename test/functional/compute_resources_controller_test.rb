@@ -192,6 +192,25 @@ class ComputeResourcesControllerTest < ActionController::TestCase
       get :resource_pools, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
       assert_response :method_not_allowed
     end
+
+    test 'available_images' do
+      available_images = {'abc' => 'ABC', 'def' => 'DEF'}
+      Foreman::Model::Vmware.any_instance.stubs(:available_images).returns(available_images)
+      xhr :get, :available_images, {:id => @compute_resource}, set_session_user
+      assert_response :success
+      assert_equal(available_images, JSON.parse(response.body))
+    end
+
+    test 'available_images for non-vmware compute resource should return not allowed' do
+      compute_resource = compute_resources(:mycompute)
+      xhr :get, :available_images, {:id => compute_resource}, set_session_user
+      assert_response :method_not_allowed
+    end
+
+    test 'available_images should respond only to ajax call' do
+      get :available_images, {:id => @compute_resource}, set_session_user
+      assert_response :method_not_allowed
+    end
   end
 
   def set_session_user

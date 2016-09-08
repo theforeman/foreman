@@ -382,6 +382,14 @@ function foreman_url(path) {
   return URL_PREFIX + path;
 }
 
+$.fn.indicator_show = function(){
+  $(this).parents('.form-group').find('.spinner').show();
+}
+
+$.fn.indicator_hide = function(){
+  $(this).parents('.form-group').find('.spinner').hide();
+}
+
 function spinner_placeholder(text){
   if (text == undefined) text = "";
   return "<div class='spinner-placeholder'><p class='spinner-label'>" + text + "</p><div id='Loading' class='spinner spinner-md spinner-inline'> </div></div>";

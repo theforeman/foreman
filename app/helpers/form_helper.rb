@@ -265,17 +265,26 @@ module FormHelper
     end
   end
 
-  def help_inline(inline, error)
+  def help_inline(inline, error, options = {})
+    show_indicator = options[:indicator] || false
     help_inline = error.empty? ? inline : content_tag(:span, error.to_sentence, :class => 'error-message')
     case help_inline
       when blank?
         ""
       when :indicator
-        content_tag(:span, content_tag(:div, '', :class => 'hide spinner spinner-xs'),
-                    :class => 'help-block').html_safe
+        indicator
       else
-        content_tag(:span, help_inline, :class => "help-block help-inline")
+        if show_indicator
+          indicator(help_inline)
+        else
+          content_tag(:span, help_inline, :class => "help-block help-inline")
+        end
     end
+  end
+
+  def indicator(text = '')
+    content_tag(:span, content_tag(:div, '', :class => 'hide spinner spinner-xs') + text,
+                :class => 'help-block').html_safe
   end
 
   def add_label options, f, attr
@@ -321,7 +330,7 @@ module FormHelper
   def field(f, attr, options = {})
     table_field = options.delete(:table_field)
     error       = options.delete(:error) || f.object.errors[attr] if f && f.object.respond_to?(:errors)
-    help_inline = help_inline(options.delete(:help_inline), error)
+    help_inline = help_inline(options.delete(:help_inline), error, {:indicator => options.delete(:indicator)})
     size_class  = options.delete(:size) || "col-md-4"
     wrapper_class = options.delete(:wrapper_class) || "form-group"
 

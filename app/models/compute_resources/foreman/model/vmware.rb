@@ -92,6 +92,10 @@ module Foreman::Model
       storage_pods({:storage_pod => storage_pod})
     end
 
+    def available_images
+      client.templates.map {|template| {:uuid => template.uuid, :name => template.name}}
+    end
+
     def folders
       dc.vm_folders.sort_by{|f| [f.path, f.name]}
     end
