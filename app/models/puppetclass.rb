@@ -43,8 +43,8 @@ class Puppetclass < ActiveRecord::Base
   scoped_search :on => :global_class_params_count, :rename => :params_count # Smart Parameters
   scoped_search :on => :variable_lookup_keys_count, :rename => :variables_count # Smart Variables
   scoped_search :in => :environments, :on => :name, :complete_value => :true, :rename => "environment"
-  scoped_search :in => :hostgroups, :on => :name, :complete_value => :true, :rename => "hostgroup", :ext_method => :search_by_name, :only_explicit => true
-  scoped_search :in => :config_groups, :on => :name, :complete_value => :true, :rename => "config_group", :ext_method => :search_by_name, :only_explicit => true
+  scoped_search :in => :hostgroups, :on => :name, :complete_value => :true, :rename => "hostgroup", :only_explicit => true
+  scoped_search :in => :config_groups, :on => :name, :complete_value => :true, :rename => "config_group", :only_explicit => true
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host", :ext_method => :search_by_host, :only_explicit => true
   scoped_search :in => :class_params, :on => :key, :complete_value => :true, :only_explicit => true
 

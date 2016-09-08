@@ -262,4 +262,21 @@ class PuppetclassTest < ActiveSupport::TestCase
     refute klass.update_attributes(attributes)
     assert klass.errors.messages.keys.include?(:"lookup_keys.lookup_values.value")
   end
+
+  context "search in puppetclasses" do
+    setup do
+      @class = FactoryGirl.create(:puppetclass)
+      @hostgroup = FactoryGirl.create(:hostgroup)
+      @hostgroup.puppetclasses << @class
+      @config_group = FactoryGirl.create(:config_group, :puppetclasses => [@class])
+    end
+
+    test "search for puppetclass by hostgroup" do
+      assert_includes(Puppetclass.search_for("hostgroup = #{@hostgroup.to_label}"), @class)
+    end
+
+    test "search for puppetclass by config_group" do
+      assert_includes(Puppetclass.search_for("config_group = #{@config_group.to_label}"), @class)
+    end
+  end
 end
