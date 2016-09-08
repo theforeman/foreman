@@ -141,7 +141,7 @@ class AuthSourceLdap < AuthSource
       end
       result[:success] = true
       result[:message] = _("Test connection to LDAP server was successful.")
-    rescue Timeout::Error, Net::LDAP::Error, StandardError => exception
+    rescue StandardError => exception
       raise ::Foreman::WrappedException.new exception, N_("Unable to connect to LDAP server")
     end
     result

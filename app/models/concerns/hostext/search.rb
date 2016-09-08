@@ -98,8 +98,6 @@ module Hostext
         scoped_search :in => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
       end
 
-      private
-
       cattr_accessor :fact_values_table_counter
     end
 

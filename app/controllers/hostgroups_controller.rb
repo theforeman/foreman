@@ -63,16 +63,14 @@ class HostgroupsController < ApplicationController
   end
 
   def destroy
-    begin
-      if @hostgroup.destroy
-        process_success :success_redirect => hostgroups_path
-      else
-        load_vars_for_ajax
-        process_error
-      end
-    rescue Ancestry::AncestryException
-      process_error(:error_msg => _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title })
+    if @hostgroup.destroy
+      process_success :success_redirect => hostgroups_path
+    else
+      load_vars_for_ajax
+      process_error
     end
+  rescue Ancestry::AncestryException
+    process_error(:error_msg => _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title })
   end
 
   def puppetclass_parameters

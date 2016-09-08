@@ -9,7 +9,7 @@ class HostsController < ApplicationController
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected hostgroup_or_environment_selected current_parameters puppetclass_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
   BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
-  MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters  select_multiple_hostgroup
+  MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters select_multiple_hostgroup
                         update_multiple_hostgroup select_multiple_environment update_multiple_environment
                         multiple_destroy submit_multiple_destroy multiple_build
                         submit_multiple_build multiple_disable submit_multiple_disable

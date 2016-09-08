@@ -38,13 +38,13 @@ module Foreman
     end
   end
 
-  class FingerprintException < Exception
+  class FingerprintException < Foreman::Exception
     def fingerprint
       @params[0]
     end
   end
 
-  class MaintenanceException < Exception
+  class MaintenanceException < Foreman::Exception
   end
 
   class CyclicGraphException < ::ActiveRecord::RecordInvalid

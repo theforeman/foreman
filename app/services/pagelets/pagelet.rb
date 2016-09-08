@@ -19,7 +19,13 @@ module Pagelets
     end
 
     def method_missing(method_name, *arguments, &block)
+      super
+    rescue NoMethodError
       @opts[method_name]
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      true
     end
   end
 end
