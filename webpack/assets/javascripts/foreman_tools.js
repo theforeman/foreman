@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export function showSpinner() {
   $('#turbolinks-progress').show();
 }
