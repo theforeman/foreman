@@ -7,7 +7,9 @@
   "env": {
     "browser": true,
     "es6": true,
-    "node": true
+    "node": true,
+    "jasmine": true,
+    "jest": true
   },
 
   "globals": {
