@@ -43,3 +43,4 @@ config/hooks
 .envrc
 node_modules
 public/webpack
+.env*

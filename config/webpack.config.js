@@ -12,6 +12,7 @@ var devServerPort = 3808;
 
 // set TARGETNODE_ENV=production on the environment to add asset fingerprints
 var production = process.env.RAILS_ENV === 'production' || process.env.NODE_ENV === 'production';
+var bindOn = process.env.BIND || '127.0.0.1';
 
 var config = {
   entry: {
@@ -91,7 +92,7 @@ if (production) {
   );
 } else {
   config.devServer = {
-    host: '0.0.0.0',
+    host: bindOn,
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }
   };
