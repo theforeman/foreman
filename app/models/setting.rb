@@ -95,15 +95,14 @@ class Setting < ActiveRecord::Base
 
     #setter method
     if method_name =~ /=\Z/
-      self[method_name.chomp("=")] = args.first
+      setting_name = method_name.chomp("=")
+      Foreman::Deprecation.deprecation_warning('1.16', "Setting.#{method_name} must be replaced with Setting[:#{setting_name}]= to write settings")
+      self[setting_name] = args.first
       #getter
     else
+      Foreman::Deprecation.deprecation_warning('1.16', "Setting.#{method_name} must be replaced with Setting[:#{method_name}] to read settings")
       self[method_name]
     end
-  end
-
-  def self.respond_to_missing?(method_name, include_private = false)
-    true
   end
 
   def value=(v)

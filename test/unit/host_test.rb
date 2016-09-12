@@ -1067,7 +1067,7 @@ class HostTest < ActiveSupport::TestCase
       assert h.save
       h.root_pass = nil
       assert h.save!
-      assert_equal h.root_pass, Setting.root_pass
+      assert_equal h.root_pass, Setting[:root_pass]
     end
 
     test "should crypt the password and update it in the database" do
