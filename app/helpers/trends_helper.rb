@@ -14,7 +14,7 @@ module TrendsHelper
   def trend_days_filter
     form_tag @trend, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
       content_tag(:span, (_("Trend of the last %s days.") %
-                          select(nil, 'range', 1..Setting.max_trend, {:selected => range},
+                          select(nil, 'range', 1..Setting[:max_trend], {:selected => range},
                                  {:onchange =>"$('#days_filter').submit();$(this).attr('disabled','disabled');;"})).html_safe)
     end
   end
@@ -27,7 +27,7 @@ module TrendsHelper
     end
   end
 
-  def chart_data(trend, from = Setting.max_trend, to = Time.now.utc)
+  def chart_data(trend, from = Setting[:max_trend], to = Time.now.utc)
     chart_colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92']
     values = trend.values
     labels = {}
@@ -49,6 +49,6 @@ module TrendsHelper
   end
 
   def range
-    params["range"].empty? ? Setting.max_trend : params["range"].to_i
+    params["range"].empty? ? Setting[:max_trend] : params["range"].to_i
   end
 end

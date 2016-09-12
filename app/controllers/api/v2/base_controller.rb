@@ -78,7 +78,7 @@ module Api
       end
 
       def metadata_per_page
-        @per_page ||= params[:per_page].present? ? params[:per_page].to_i : Setting::General.entries_per_page
+        @per_page ||= params[:per_page].present? ? params[:per_page].to_i : Setting[:entries_per_page]
       end
 
       # For the purpose of ADDING/REMOVING associations in CHILD node on POST/PUT payload
