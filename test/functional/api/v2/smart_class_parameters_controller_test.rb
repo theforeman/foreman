@@ -160,6 +160,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
   end
 
   test "should update smart class parameter with use_puppet_default (compatibility test)" do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
     orig_value = lookup_keys(:five).omit
     refute lookup_keys(:five).omit # check that the initial value is false
     put :update, { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :use_puppet_default => "true" } }
@@ -169,6 +170,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
   end
 
   test "should update smart class parameter with use_puppet_default (compatibility test)" do
+    Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
     key = lookup_keys(:five)
     key.omit = true
     key.save!
