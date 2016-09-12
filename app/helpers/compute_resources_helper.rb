@@ -19,19 +19,43 @@ module ComputeResourcesHelper
 
   def vm_power_action(vm, authorizer = nil)
     opts = hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :permission => 'power_compute_resources_vms', :authorizer => authorizer)
-    html = vm.ready? ? { :data => { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm }}, :class => "btn btn-danger" } :
-                       { :class => "btn btn-info" }
+    html = power_action_html(vm)
 
     display_link_if_authorized "Power #{action_string(vm)}", opts, html.merge(:method => :put)
   end
 
+  def power_action_html(vm)
+    if vm.ready?
+      {
+        :data => { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm }},
+        :class => "btn btn-danger"
+      }
+    else
+      { :class => "btn btn-info" }
+    end
+  end
+
   def vm_pause_action(vm, authorizer = nil)
     opts = hash_for_pause_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :permission => 'power_compute_resources_vms', :authorizer => authorizer)
-    pause_action = vm.ready? ? _('Pause') : _('Resume')
-    html = vm.state.downcase == 'paused' ? { :class => "btn btn-info" } :
-                                           { :data => { :confirm =>_("Are you sure you want to %{act} %{vm}?") % { :act => pause_action.downcase, :vm => vm } }, :class => "btn btn-danger" }
+    html = pause_action_html(vm)
 
-    display_link_if_authorized pause_action, opts, html.merge(:method => :put)
+    display_link_if_authorized pause_action_string(vm), opts, html.merge(:method => :put)
+  end
+
+  def pause_action_html(vm)
+    pause_action = pause_action_string(vm).downcase
+    if vm.state.downcase == 'paused'
+      { :class => "btn btn-info" }
+    else
+      {
+        :data => { :confirm =>_("Are you sure you want to %{act} %{vm}?") % { :act => pause_action, :vm => vm } },
+        :class => "btn btn-danger"
+      }
+    end
+  end
+
+  def pause_action_string(vm)
+    vm.ready? ? _('Pause') : _('Resume')
   end
 
   def password_placeholder(obj, attr = nil)
