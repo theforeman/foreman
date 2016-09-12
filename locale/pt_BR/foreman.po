@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-08-26 09:15+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
@@ -130,6 +130,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s semana atrás"
 msgstr[1] "%s semanas atrás"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} Página de documentação da API"
@@ -249,6 +252,9 @@ msgstr "'%{host}' pode ser apagado ou '%{resource}' não está respondendo"
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' não encontrado em '%{resource}'"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "'Content-Type: %s' não é suportado pela API v2 para requisições POST e PUT. Por favor use 'Content-Type: application/json'."
@@ -601,8 +607,8 @@ msgstr "Qualquer localização"
 msgid "Any Organization"
 msgstr "Qualquer organização"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "Aplicável<br>Sistema Operacional"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "Aplicado"
@@ -1245,6 +1251,9 @@ msgstr "Status da comunicação"
 msgid "Compute Resource"
 msgstr "Recurso de computação"
 
+msgid "Compute Resource Distribution"
+msgstr ""
+
 msgid "Compute Resources"
 msgstr "Recursos de computação"
 
@@ -1392,8 +1401,8 @@ msgstr "Cores"
 msgid "Cores per socket"
 msgstr "Centros por soquete"
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "Não foi possível encontrar um Modelo de Configuração com o nome  \"PXELinux global default\",  por favor crie um."
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr "Não foi possível localizar a interface de rede da máquina virtual correspondente a %s"
@@ -1572,6 +1581,15 @@ msgstr "Proxy DHCP para usar dentro dessa subrede"
 msgid "DHCP conflicts removal for %s"
 msgstr "Remoção de conflito DHCP para %s"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr "Conflito de DHCP lease detectado."
 
@@ -1688,6 +1706,9 @@ msgstr "Apagar hosts"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Apagar certificados PuppetCA para %s"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr "Apagar uma classe Puppet"
@@ -1850,6 +1871,9 @@ msgstr "Apagar ambiente"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Excluir ambiente %{env} and %{pcs}"
+
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Deploy VM on selected datastore"
 msgstr "Implantar MV no armazenamento de dados selecionado"
@@ -2407,8 +2431,8 @@ msgstr "Reinício falhou"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Falha em %{action} %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "Falha ao cancelar construção pendente para %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "Falha ao limpar os certificados antigos ou adicionar o registro de autosign. Terminando a construção!"
@@ -2441,9 +2465,6 @@ msgstr "Falha ao buscar os arquivos de inicialização"
 
 msgid "Failed to fetch: "
 msgstr "Falha ao buscar:"
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr "Falha ao gerar %{template_kind} template %{template_name}: %{e}"
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Falha ao obter IP para %{name}: %{e}"
@@ -2891,6 +2912,9 @@ msgstr "Tabela de Configuração do Host"
 
 msgid "Host Configuration Status"
 msgstr "Status da configuração do host"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "Grupos de host"
@@ -4124,6 +4148,9 @@ msgstr "Horário local"
 msgid "Location"
 msgstr "Localização"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "Fatos da localização"
 
@@ -4353,9 +4380,6 @@ msgstr "Relatório de incompatibilidades"
 
 msgid "Missing one of the required permissions: %s"
 msgstr "Uma das permissões necessárias está ausente: %s"
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr "Modelo '%{template}' para widget '%{widget}' ausente. "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -4685,8 +4709,8 @@ msgstr "Nic::Base|Nome de usuário"
 msgid "Nic::Base|Virtual"
 msgstr "Nic::Base|Virtual"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "Não foram encontrados modelos  %{template_kind} para este host, assegure-se de que você definiu ao menos um em sua configuração %{os} "
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr "Nenhuma rede IPV4 selecionada"
@@ -5128,6 +5152,9 @@ msgstr "Ordem"
 msgid "Organization"
 msgstr "Organização"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "Fatos da organização"
 
@@ -5197,8 +5224,8 @@ msgstr "Proprietário alterado para %s"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "Tipo de proprietário precisa ser um dos seguintes: %s"
 
-msgid "POAP template"
-msgstr "Modelo POAP"
+msgid "POAP PXE template"
+msgstr ""
 
 msgid "PXE"
 msgstr "PXE"
@@ -5206,8 +5233,17 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "Arquivo Padrão PXE foi implantado em todos os Proxies Inteligentes"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
 msgstr "Modelo PXEGrub "
+
+msgid "PXEGrub2 template"
+msgstr ""
 
 msgid "PXELinux template"
 msgstr "Modelo PXELinux "
@@ -5855,9 +5891,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "Remover valores duplicados (somente tipo de matriz)"
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Remover Configurações TFTP antigas para %s"
 
 msgid "Remove this override"
 msgstr "Remover esta substituição "
@@ -6801,9 +6834,6 @@ msgstr "TFTP Proxy"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "TFTP Proxy para utilizar com esta subrede"
 
-msgid "TFTP Settings for %s"
-msgstr "Configurações TFTP para %s"
-
 msgid "TFTP server"
 msgstr "Servidor TFTP"
 
@@ -6843,6 +6873,9 @@ msgstr "Template %s está vazio."
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
 msgstr "Templante '%s' está faltando ou tem uma organização ou localização inválida"
+
+msgid "Template '%s' was not found"
+msgstr ""
 
 msgid "Template Diff"
 msgstr "Dif de Modelo"
@@ -7447,6 +7480,12 @@ msgstr "Incapaz de  realizar operação BMC de lan"
 
 msgid "Unable to perform power BMC operation"
 msgstr "Incapaz de realizar operação BMC de energia"
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr "Incapaz de recuperar a entrada do DHCP para %s"
@@ -8223,8 +8262,8 @@ msgstr "Sua senha é muito curta"
 msgid "Your session has expired, please login again"
 msgstr "Sua sessão expirou. Por favor, autentique-se novamente"
 
-msgid "ZTP template"
-msgstr "Modelo ZTP"
+msgid "ZTP PXE template"
+msgstr ""
 
 msgid "Zone"
 msgstr "Zona"
@@ -8420,9 +8459,6 @@ msgstr "falha ao detectar o servidor de inicialização: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "falha ao executar o puppetrun: %s"
-
-msgid "failed to process template: %s"
-msgstr "falha ao processar o modelo: %s"
 
 msgid "failed to save %s"
 msgstr "falha ao salvar %s"

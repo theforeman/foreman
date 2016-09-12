@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-08-26 09:15+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -108,6 +108,9 @@ msgstr[1] ""
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 周前"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API 文档主页"
@@ -226,6 +229,9 @@ msgstr "'%{host}' 不能删除或者 '%{resource}' 无响应。"
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' 在'%{resource}'中未发现"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "API v2 不支持 'Content-Type: %s' 的 POST 和 PUT 请求。请使用 'Content-Type: application/json'。"
@@ -578,8 +584,8 @@ msgstr "任意位置"
 msgid "Any Organization"
 msgstr "任意组织"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "适用的<br>操作系统"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "已批准"
@@ -1221,6 +1227,9 @@ msgstr "通讯状态"
 msgid "Compute Resource"
 msgstr "计算机资源"
 
+msgid "Compute Resource Distribution"
+msgstr ""
+
 msgid "Compute Resources"
 msgstr "计算机资源"
 
@@ -1368,8 +1377,8 @@ msgstr "Cores"
 msgid "Cores per socket"
 msgstr "每个插槽的 core"
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "无法找到名为 \"PXELinux global default\" 的配置模板，请创建模板。"
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr "无法找到匹配 %s 的虚拟机网络接口"
@@ -1548,6 +1557,15 @@ msgstr "本子网使用的DHCP代理服务器"
 msgid "DHCP conflicts removal for %s"
 msgstr "去除 %s DHCP冲突"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr "探测到 DCHP 租赁冲突"
 
@@ -1664,6 +1682,9 @@ msgstr "删除主机"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "删除 %s的证书"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr "删除 Puppet 类别"
@@ -1826,6 +1847,9 @@ msgstr "删除环境"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "删除 %{env} 和 %{pcs} 的环境"
+
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Deploy VM on selected datastore"
 msgstr "在所选数据存储中部署 VM"
@@ -2382,8 +2406,8 @@ msgstr "重启失败"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "%{action} %{host} 失败: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "取消 %s 的待处理构建失败"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "无法清除任何旧的证书或添加自动签名条目。终止构建！"
@@ -2418,9 +2442,6 @@ msgstr "无法提取引导文件"
 
 msgid "Failed to fetch: "
 msgstr "无法获取："
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "获取 %{name} IP 失败：%{e}"
@@ -2868,6 +2889,9 @@ msgstr "主机配置图表"
 
 msgid "Host Configuration Status"
 msgstr "主机配置状态"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "主机组"
@@ -4101,6 +4125,9 @@ msgstr "本地时间"
 msgid "Location"
 msgstr "位置"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "位置详情"
 
@@ -4330,9 +4357,6 @@ msgstr "报告不匹配"
 
 msgid "Missing one of the required permissions: %s"
 msgstr "缺少所需权限之一：%s"
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr "缺少用于小组件 '%{widget}' 的模板 '%{template}'。"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -4662,8 +4686,8 @@ msgstr "用户名"
 msgid "Nic::Base|Virtual"
 msgstr "虚拟"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "没有找到这个主机的 %{template_kind} 模板，请确定在 %{os} 设置中至少设定一个模板。"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5105,6 +5129,9 @@ msgstr "顺序"
 msgid "Organization"
 msgstr "组织"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "机构 fact"
 
@@ -5174,8 +5201,8 @@ msgstr "%s 所有者修改"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "拥有者类型应为以下类型之一：%s"
 
-msgid "POAP template"
-msgstr "POAP 模版"
+msgid "POAP PXE template"
+msgstr ""
 
 msgid "PXE"
 msgstr "PXE"
@@ -5183,8 +5210,17 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "默认的PXE配置已经发布到所有智能代理"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
 msgstr "PXEGrub 模版"
+
+msgid "PXEGrub2 template"
+msgstr ""
 
 msgid "PXELinux template"
 msgstr "PXELinux 模版"
@@ -5832,9 +5868,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "删除重复值（仅用于阵列类型）"
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "删除 %s 的 TFTP 设置"
 
 msgid "Remove this override"
 msgstr "删除此覆盖"
@@ -6777,9 +6810,6 @@ msgstr "TFTP代理"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "本子网使用的 TFTP 代理服务器"
 
-msgid "TFTP Settings for %s"
-msgstr "%s 的 TFTP 设置"
-
 msgid "TFTP server"
 msgstr "TFTP 服务器"
 
@@ -6818,6 +6848,9 @@ msgid "Template %s is empty."
 msgstr "模板 %s 为空。"
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -7422,6 +7455,12 @@ msgstr "无法执行 lan BMC操作"
 
 msgid "Unable to perform power BMC operation"
 msgstr "无法执行电源 BMC 操作"
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr "无法检索 %s 的 DHCP 条目"
@@ -8198,8 +8237,8 @@ msgstr "密码太短"
 msgid "Your session has expired, please login again"
 msgstr "会话已过期，请重新登录。"
 
-msgid "ZTP template"
-msgstr "ZTP 模版"
+msgid "ZTP PXE template"
+msgstr ""
 
 msgid "Zone"
 msgstr "区"
@@ -8395,9 +8434,6 @@ msgstr "探测引导服务器失败：%s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "执行 puppetrun 失败：%s"
-
-msgid "failed to process template: %s"
-msgstr "处理模板失败：%s"
 
 msgid "failed to save %s"
 msgstr "保存 %s失败"

@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-09-02 14:50+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,7 +101,7 @@ msgid "%s is an unknown attribute"
 msgstr "%s ist ein unbekanntes Attribut"
 
 msgid "%s is not a valid DNS record type"
-msgstr ""
+msgstr "%s ist kein gültiger DNS-Eintragstyp"
 
 msgid "%s is not in environment"
 msgstr "%s befindet sich nicht in der Umgebung"
@@ -133,6 +133,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "vor %s Woche"
 msgstr[1] "vor %s Wochen"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API-Dokumentations-Startseite"
@@ -227,7 +230,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%{type} %{conflicts} already exists"
-msgstr ""
+msgstr "%{type} %{conflicts} bereits vorhanden"
 
 msgid "%{value} does not belong to %{os} operating system"
 msgstr "%{value} gehört nicht zum Betriebssystem %{os}"
@@ -252,6 +255,9 @@ msgstr "'%{host}' konnte nicht gelöscht werden oder '%{resource}' reagiert nich
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' wurde nicht unter '%{resource}' gefunden"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr "'%{loader}' ist nicht Teil von %{loaders}"
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "'Content-Type: %s' ist in der API v2 für POST- und PUT-Anfragen nicht unterstützt. Bitte verwenden Sie als 'Content-Type: application/json'."
@@ -604,8 +610,8 @@ msgstr "Jeder Standort"
 msgid "Any Organization"
 msgstr "Jede Organisation"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "Passende<br>Betriebssysteme"
+msgid "Applicable Operating Systems"
+msgstr "Passende Betriebssysteme"
 
 msgid "Applied"
 msgstr "Angewendet"
@@ -1231,7 +1237,7 @@ msgid "Clone a template"
 msgstr "Vorlage klonen"
 
 msgid "Clone this host"
-msgstr ""
+msgstr "Diesen Host klonen"
 
 msgid "Close"
 msgstr "Schließen"
@@ -1247,6 +1253,9 @@ msgstr "Kommunikationsstatus"
 
 msgid "Compute Resource"
 msgstr "Rechenressource"
+
+msgid "Compute Resource Distribution"
+msgstr ""
 
 msgid "Compute Resources"
 msgstr "Rechenressource"
@@ -1395,8 +1404,8 @@ msgstr "Kerne"
 msgid "Cores per socket"
 msgstr "Kerne pro Socket"
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "Konfigurationsvorlage namens \"PXELinux global default\" konnte nicht gefunden werden, bitte erstellen Sie eine."
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr "Keine Netzwerkschnittstelle der virtuellen Maschine  gefunden, die übereinstimmen mit %s"
@@ -1411,7 +1420,7 @@ msgid "Create %s"
 msgstr "%s erstellen"
 
 msgid "Create %{type} for %{host}"
-msgstr ""
+msgstr "%{type} für %{host} erstellen"
 
 msgid "Create :a_resource"
 msgstr ":a_resource erstellen"
@@ -1575,6 +1584,15 @@ msgstr "DHCP-Proxy für dieses Subnetz"
 msgid "DHCP conflicts removal for %s"
 msgstr "DHCP-Konflikt entfernt für %s"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr "DHCP-Lease-Konflikte wurden entdeckt"
 
@@ -1691,6 +1709,9 @@ msgstr "Hosts löschen"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Puppet-CA-Zertifikate für %s löschen"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr "Puppet-Klasse löschen"
@@ -1853,6 +1874,9 @@ msgstr "Gelöschte Umgebung"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Gelöschte Umgebung %{env} und %{pcs}"
+
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Deploy VM on selected datastore"
 msgstr "VM auf ausgewähltem Datenspeicher bereitstellen"
@@ -2122,7 +2146,7 @@ msgid "Edit compute profile on %s"
 msgstr "Rechenprofil auf %s bearbeiten"
 
 msgid "Edit this host"
-msgstr ""
+msgstr "Diesen Host bearbeiten"
 
 msgid "Email Preferences"
 msgstr "E-Mail-Einstellungen"
@@ -2410,8 +2434,8 @@ msgstr "Fehlgeschlagene Neustarts"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Fehler beim %{action} von %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "Fehler beim Abbruch der ausstehenden Erstellung von %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "Fehler beim Löschen der alten Zertifikate oder Hinzufügen des Autosign-Eintrages, Erstellung wird abgebrochen!"
@@ -2446,9 +2470,6 @@ msgstr "Fehler beim Laden der Bootdateien"
 
 msgid "Failed to fetch: "
 msgstr "Fehler beim Abrufen:"
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Konnte IP-Adresse für %{name}: %{e} nicht finden"
@@ -2897,6 +2918,9 @@ msgstr "Hostkonfigurationsdiagramm"
 msgid "Host Configuration Status"
 msgstr "Status der Hostkonfiguration"
 
+msgid "Host Group Distribution"
+msgstr ""
+
 msgid "Host Groups"
 msgstr "Hostgruppen"
 
@@ -3329,41 +3353,41 @@ msgid "IPv4"
 msgstr "IPv4"
 
 msgid "IPv4 Address"
-msgstr ""
+msgstr "IPv4-Adresse"
 
 msgid "IPv4 DNS record"
 msgid_plural "IPv4 DNS records"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "IPv4-DNS-Eintrag"
+msgstr[1] "IPv4-DNS-Einträge"
 
 msgid "IPv4 Subnet"
-msgstr ""
+msgstr "IPv4-Subnetz"
 
 msgid "IPv4 address"
-msgstr ""
+msgstr "IPv4-Adresse"
 
 msgid "IPv4 address of interface"
-msgstr ""
+msgstr "IPv4-Adresse der Schnittstelle"
 
 msgid "IPv6"
 msgstr "IPv6"
 
 msgid "IPv6 Address"
-msgstr ""
+msgstr "IPv6-Adresse"
 
 msgid "IPv6 DNS record"
 msgid_plural "IPv6 DNS records"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "IPv6-DNS-Eintrag"
+msgstr[1] "IPv6-DNS-Einträge"
 
 msgid "IPv6 Subnet"
-msgstr ""
+msgstr "IPv6-Subnetz"
 
 msgid "IPv6 address"
-msgstr ""
+msgstr "IPv6-Adresse"
 
 msgid "IPv6 address of interface"
-msgstr ""
+msgstr "IPv6-Adresse der Schnittstelle"
 
 msgid "IRC"
 msgstr "IRC"
@@ -3562,7 +3586,7 @@ msgid "Invalid Host"
 msgstr "Ungültiger Host"
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
-msgstr ""
+msgstr "Ungültige Architektur '%{arch}' für '%{os}'"
 
 msgid "Invalid architecture for %s"
 msgstr "Ungültige Architektur für %s"
@@ -3574,7 +3598,7 @@ msgid "Invalid log level: %s"
 msgstr "Ungültige Protokollstufe: %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
-msgstr ""
+msgstr "Ungültiges Medium '%{medium}' für '%{os}'"
 
 msgid "Invalid medium for %s"
 msgstr "Ungültiges Medium für %s"
@@ -4129,6 +4153,9 @@ msgstr "Ortszeit"
 msgid "Location"
 msgstr "Standort"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "Standort-Fakt"
 
@@ -4215,7 +4242,7 @@ msgid "MAC address to reuse the IP for this host"
 msgstr ""
 
 msgid "MAC-based"
-msgstr ""
+msgstr "MAC-basiert"
 
 msgid "Machine Type"
 msgstr "Systemtyp"
@@ -4359,9 +4386,6 @@ msgstr "Fehlzuweisungsbericht"
 msgid "Missing one of the required permissions: %s"
 msgstr "Eine der erforderlichen Berechtigungen fehlt: %s"
 
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr "Fehlende Vorlage '%{template}' für Widget '%{widget}'."
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "Modell"
@@ -4462,7 +4486,7 @@ msgid "Network Based"
 msgstr "Netzwerkbasierend"
 
 msgid "Network can't be blank"
-msgstr ""
+msgstr "Netzwerk darf nicht leer sein"
 
 msgid "Network interfaces"
 msgstr "Netzwerkschnittstellen"
@@ -4471,7 +4495,7 @@ msgid "Network interfaces management has been moved to the Interfaces tab. Pleas
 msgstr "Die Netzwerkschnittstellen-Verwaltung ist in die Registerkarte \"Schnittstellen\" umgezogen. Bitte setzen Sie dort Ihre Schnittstellen."
 
 msgid "Network prefix"
-msgstr ""
+msgstr "Netzwerkpräfix"
 
 msgid "Network type"
 msgstr "Netzwerktyp"
@@ -4690,8 +4714,8 @@ msgstr "Benutzername"
 msgid "Nic::Base|Virtual"
 msgstr "Virtuell"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "Es wurden keine %{template_kind}-Vorlagen für diesen Host gefunden, bitte stelle sicher, dass mindestens eine in Ihren %{os}-Einstellungen eingetragen ist"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr "Keine IPv4-Subnetze ausgewählt"
@@ -5133,6 +5157,9 @@ msgstr "Reihenfolge"
 msgid "Organization"
 msgstr "Organisation"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "Organistations-Fakt"
 
@@ -5202,8 +5229,8 @@ msgstr "Besitzer zu %s geändert"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "Besitzertyp kann einer der folgenden sein: %s"
 
-msgid "POAP template"
-msgstr "POAP Vorlage"
+msgid "POAP PXE template"
+msgstr ""
 
 msgid "PXE"
 msgstr "PXE"
@@ -5211,8 +5238,17 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "PXE-Standarddatei wurde auf alle Smart Proxys angewendet"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
 msgstr "PXEGrub Vorlage"
+
+msgid "PXEGrub2 template"
+msgstr "PXEGrub2-Vorlage"
 
 msgid "PXELinux template"
 msgstr "PXELinux Vorlage"
@@ -5446,7 +5482,7 @@ msgid "Preallocate disk"
 msgstr "Festplatte vorbelegen"
 
 msgid "Prefix length can't be blank"
-msgstr ""
+msgstr "Präfixlänge darf nicht leer sein"
 
 msgid "Prefix length must be /64 or less to use EUI-64"
 msgstr ""
@@ -5491,7 +5527,7 @@ msgid "Property"
 msgstr "Property"
 
 msgid "Protocol"
-msgstr ""
+msgstr "Protokoll"
 
 msgid "Provider"
 msgstr "Anbieter"
@@ -5752,10 +5788,10 @@ msgid "Random gives unique names, MAC-based are longer but stable (and only work
 msgstr ""
 
 msgid "Random-based"
-msgstr ""
+msgstr "Zufallsbasiert"
 
 msgid "Randomize"
-msgstr ""
+msgstr "Randomisieren"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
@@ -5841,7 +5877,7 @@ msgid "Remove %s?"
 msgstr "%s entfernen?"
 
 msgid "Remove %{type} for %{host}"
-msgstr ""
+msgstr "%{type} für %{host} entfernen"
 
 msgid "Remove DHCP Settings for %s"
 msgstr "DHCP-Einstellungen für %s entfernen"
@@ -5860,9 +5896,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "Duplikate (nur vom Typ Array) entfernen"
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Alte TFTP-Einstellungen für %s entfernen"
 
 msgid "Remove this override"
 msgstr "Diese Außerkraftsetzung entfernen"
@@ -6243,7 +6276,7 @@ msgid "Send welcome email"
 msgstr "Willkommens-E-Mail senden"
 
 msgid "Server group"
-msgstr ""
+msgstr "Servergruppe"
 
 msgid "Server hint data"
 msgstr ""
@@ -6252,7 +6285,7 @@ msgid "Server type"
 msgstr "Servertyp"
 
 msgid "Service unavailable"
-msgstr ""
+msgstr "Dienst nicht verfügbar"
 
 msgid "Services"
 msgstr "Dienste"
@@ -6806,9 +6839,6 @@ msgstr "TFTP-Proxy"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "TFTP-Proxy für dieses Subnetz"
 
-msgid "TFTP Settings for %s"
-msgstr "TFTP-Einstellungen für %s"
-
 msgid "TFTP server"
 msgstr "TFTP-Server"
 
@@ -6848,6 +6878,9 @@ msgstr "Vorlage %s ist leer."
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
 msgstr ""
+
+msgid "Template '%s' was not found"
+msgstr "Vorlage '%s' nicht gefunden"
 
 msgid "Template Diff"
 msgstr "Vorlagenabgleich"
@@ -7452,6 +7485,12 @@ msgstr "BMC-Operation \"lan\" konnte nicht durchgeführt werden"
 
 msgid "Unable to perform power BMC operation"
 msgstr "BMC-Operation \"power\" konnte nicht durchgeführt werden"
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr "DHCP-Eintrag für %s konnte nicht abgerufen werden"
@@ -8228,8 +8267,8 @@ msgstr "Ihr Passwort ist zu kurz"
 msgid "Your session has expired, please login again"
 msgstr "Ihre Sitzung ist abgelaufen, bitte melde dich erneut an"
 
-msgid "ZTP template"
-msgstr "ZTP Vorlage"
+msgid "ZTP PXE template"
+msgstr ""
 
 msgid "Zone"
 msgstr "Zone"
@@ -8283,7 +8322,7 @@ msgid "can't be bigger than to range"
 msgstr "darf nicht grösser sein als Bereich"
 
 msgid "can't be blank"
-msgstr ""
+msgstr "darf nicht leer sein"
 
 msgid "can't be blank unless a custom partition has been defined"
 msgstr "kann ohne definierte, spezifische Partition nicht leer sein"
@@ -8425,9 +8464,6 @@ msgstr "konnte Bootserver nicht erkennen: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "konnte Puppet-Run nicht ausführen: %s"
-
-msgid "failed to process template: %s"
-msgstr "konnte Vorlage nicht verarbeiten: %s"
 
 msgid "failed to save %s"
 msgstr "konnte %s nicht speichern"
@@ -8612,7 +8648,7 @@ msgstr[0] "ist zu lang (höchstens 1 Zeichen)"
 msgstr[1] "ist zu lang (höchstens %s Zeichen)"
 
 msgid "is too long (maximum is 254 characters)"
-msgstr ""
+msgstr "ist zu lang (maximal 254 Zeichen)"
 
 msgid "is unknown"
 msgstr "ist unbekannt"
@@ -8655,7 +8691,7 @@ msgid "message"
 msgstr "Nachricht"
 
 msgid "must be a valid regexp"
-msgstr ""
+msgstr "muss ein gültiger regulärer Ausdruck sein"
 
 msgid "must be an array"
 msgstr "muss ein Array sein"
@@ -8670,10 +8706,10 @@ msgid "must be integer"
 msgstr "muss ganzzahlig sein"
 
 msgid "must be of type Subnet::Ipv4."
-msgstr ""
+msgstr "muss vom Typ Subnet::Ipv4 sein."
 
 msgid "must be of type Subnet::Ipv6."
-msgstr ""
+msgstr "muss vom Typ Subnet::Ipv6 sein."
 
 msgid "must be one of [ %s ]"
 msgstr "muss eines der Folgenden sein: [ %s ]"
@@ -8688,7 +8724,7 @@ msgid "must be true to edit the parameter"
 msgstr "muss wahr sein um Parameter zu bearbeiten"
 
 msgid "must contain valid hostnames"
-msgstr ""
+msgstr "muss gültige Hostnamen enthalten"
 
 msgid "must not include periods"
 msgstr "darf keine Punkte enthalten"

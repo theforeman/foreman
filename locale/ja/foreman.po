@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-08-26 09:15+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -108,6 +108,9 @@ msgstr[1] ""
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 週間前"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API ドキュメントホームページ"
@@ -225,6 +228,9 @@ msgstr "'%{host}' は削除されている可能性があるか、または '%{r
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' が '%{resource}' に見つかりません"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "'コンテンツタイプ: %s' は POST および PUT 要求の API v2 でサポートされていません。'コンテンツタイプ: アプリケーション/json' を使用してください。"
@@ -577,8 +583,8 @@ msgstr "任意のロケーション"
 msgid "Any Organization"
 msgstr "任意の組織"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "適用可能な<br>オペレーティングシステム"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "適用"
@@ -1221,6 +1227,9 @@ msgstr "通信ステータス"
 msgid "Compute Resource"
 msgstr "コンピュートリソース"
 
+msgid "Compute Resource Distribution"
+msgstr ""
+
 msgid "Compute Resources"
 msgstr "コンピュートリソース"
 
@@ -1368,8 +1377,8 @@ msgstr "コア数"
 msgid "Cores per socket"
 msgstr "1 ソケットあたりのコア数"
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "「PXELinux global default」という名前の設定テンプレートが見つかりませんでしたので作成してください。"
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr "%s に一致する仮想マシンネットワークインターフェースを見つけることができませんでした"
@@ -1548,6 +1557,15 @@ msgstr "このサブネット内で使用する DHCP プロキシー"
 msgid "DHCP conflicts removal for %s"
 msgstr "%s の DHCP 競合の除去"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr "DHCP リースの競合が検出されました"
 
@@ -1664,6 +1682,9 @@ msgstr "ホストの削除"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "%s の Puppet CA 証明書を削除"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr "Puppet クラスの削除"
@@ -1826,6 +1847,9 @@ msgstr "削除済みの環境"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "削除済みの環境 %{env} および %{pcs}"
+
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Deploy VM on selected datastore"
 msgstr "選択されたデータストアの VM のデプロイ"
@@ -2382,8 +2406,8 @@ msgstr "再起動失敗"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "%{host} の %{action} の実行に失敗: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "%s の保留中ビルドの取り消しに失敗"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "古い証明書の削除または自動署名エントリーの追加に失敗しました。ビルドを終了しています!"
@@ -2418,9 +2442,6 @@ msgstr "ブートファイルの取得に失敗しました"
 
 msgid "Failed to fetch: "
 msgstr "取得に失敗しました: "
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "%{name} の IP の取得に失敗しました: %{e}"
@@ -2868,6 +2889,9 @@ msgstr "ホスト設定チャート"
 
 msgid "Host Configuration Status"
 msgstr "ホスト設定の状態"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "ホストグループ"
@@ -4101,6 +4125,9 @@ msgstr "ローカル時間"
 msgid "Location"
 msgstr "ロケーション"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "ロケーションファクト"
 
@@ -4330,9 +4357,6 @@ msgstr "不一致レポート"
 
 msgid "Missing one of the required permissions: %s"
 msgstr "必要ないずれかのパーミッションがありません: %s"
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr "ウィジェット '%{widget}' のテンプレート '%{template}' が不明です。"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -4662,8 +4686,8 @@ msgstr "ユーザー名"
 msgid "Nic::Base|Virtual"
 msgstr "仮想"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "このホストの %{template_kind} テンプレートが見つかりませんでした。%{os} 設定に少なくとも 1 つ定義していることを確認してください"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5105,6 +5129,9 @@ msgstr "順序"
 msgid "Organization"
 msgstr "組織"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "組織ファクト"
 
@@ -5174,8 +5201,8 @@ msgstr "所有者が %s に変更されました"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "所有者タイプは以下のいずれかである必要があります: %s"
 
-msgid "POAP template"
-msgstr "POAP テンプレート"
+msgid "POAP PXE template"
+msgstr ""
 
 msgid "PXE"
 msgstr "PXE"
@@ -5183,8 +5210,17 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "PXE デフォルトファイルはすべてのスマートプロキシーに導入されています"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
 msgstr "PXEGrub テンプレート"
+
+msgid "PXEGrub2 template"
+msgstr ""
 
 msgid "PXELinux template"
 msgstr "PXELinux テンプレート"
@@ -5832,9 +5868,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "重複する値の削除 (配列タイプのみ)"
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "%s の古い TFTP 設定を削除"
 
 msgid "Remove this override"
 msgstr "この上書きの削除"
@@ -6777,9 +6810,6 @@ msgstr "TFTP プロキシー"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "このサブネット内で使用する TFTP プロキシー"
 
-msgid "TFTP Settings for %s"
-msgstr "%s の TFTP 設定"
-
 msgid "TFTP server"
 msgstr "TFTP サーバー"
 
@@ -6818,6 +6848,9 @@ msgid "Template %s is empty."
 msgstr "テンプレート %s は空です。"
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -7420,6 +7453,12 @@ msgstr "lan BMC の操作を実行できません"
 
 msgid "Unable to perform power BMC operation"
 msgstr "power BMC の操作を実行できません"
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr "%s の DHCP エントリーを取得できません"
@@ -8196,8 +8235,8 @@ msgstr "パスワードが短すぎます。"
 msgid "Your session has expired, please login again"
 msgstr "セッションの有効期限が切れました。再度ログインしてください。"
 
-msgid "ZTP template"
-msgstr "ZTP テンプレート"
+msgid "ZTP PXE template"
+msgstr ""
 
 msgid "Zone"
 msgstr "ゾーン"
@@ -8393,9 +8432,6 @@ msgstr "ブートサーバーの検出に失敗しました: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "puppetrun の実行に失敗しました: %s"
-
-msgid "failed to process template: %s"
-msgstr "テンプレートの処理に失敗しました: %s"
 
 msgid "failed to save %s"
 msgstr "%s の保存に失敗しました"

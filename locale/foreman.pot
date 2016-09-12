@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 08:00+0100\n"
-"PO-Revision-Date: 2016-08-26 08:00+0100\n"
+"POT-Creation-Date: 2016-09-12 12:39+0100\n"
+"PO-Revision-Date: 2016-09-12 12:39+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -18,30 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../app/assets/javascripts/application.js:98
+#: ../app/assets/javascripts/application.js:99
 msgid "Failed to fetch: "
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:252
+#: ../app/assets/javascripts/application.js:231
 msgid "Sorry but no templates were configured."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:266
+#: ../app/assets/javascripts/application.js:245
 msgid "Loading ..."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:427
+#: ../app/assets/javascripts/application.js:406
 #: ../app/models/config_report.rb:81
 msgid "Success"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:429
+#: ../app/assets/javascripts/application.js:408
 #: ../app/helpers/layout_helper.rb:118 ../app/models/host_status/global.rb:41
 #: ../app/views/hosts/multiple_destroy.html.erb:4
 msgid "Warning"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:431
+#: ../app/assets/javascripts/application.js:410
 #: ../app/controllers/application_controller.rb:365
 #: ../app/helpers/dashboard_helper.rb:56 ../app/helpers/layout_helper.rb:124
 #: ../app/models/host_status/configuration_status.rb:58
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:483
+#: ../app/assets/javascripts/application.js:462
 msgid "Exit Full Screen"
 msgstr ""
 
@@ -103,8 +103,12 @@ msgstr ""
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr ""
 
-#: ../app/assets/javascripts/compute_resource.js:51
+#: ../app/assets/javascripts/compute_resource.js:52
 msgid "Test connection was successful"
+msgstr ""
+
+#: ../app/assets/javascripts/compute_resource.js:56
+msgid "An error occurred while testing the connection: "
 msgstr ""
 
 #: ../app/assets/javascripts/compute_resources/libvirt/nic_info.js:3
@@ -196,23 +200,23 @@ msgstr ""
 msgid "Error loading virtual machine information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:219
-#: ../app/assets/javascripts/host_edit.js:481
+#: ../app/assets/javascripts/host_edit.js:220
+#: ../app/assets/javascripts/host_edit.js:482
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:594
+#: ../app/assets/javascripts/host_edit.js:595
 msgid "Please select"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:599
+#: ../app/assets/javascripts/host_edit.js:600
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:44
 #: ../app/views/hostgroups/_form.html.erb:51
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:727
+#: ../app/assets/javascripts/host_edit.js:728
 msgid "Error generating IP: %s"
 msgstr ""
 
@@ -267,7 +271,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/assets/javascripts/jquery.multi-select.js:8
-#: ../app/helpers/form_helper.rb:198 ../app/views/common/_searchbar.html.erb:3
+#: ../app/helpers/form_helper.rb:187 ../app/views/common/_searchbar.html.erb:3
 #: ../app/views/filters/_form.html.erb:6 model_attributes.rb:168
 msgid "Filter"
 msgstr ""
@@ -401,7 +405,7 @@ msgstr ""
 #: ../app/assets/javascripts/subnets.js:64
 #: ../app/assets/javascripts/subnets.js:84
 #: ../app/assets/javascripts/subnets.js:91
-#: ../app/models/lookup_keys/lookup_key.rb:202
+#: ../app/models/lookup_keys/lookup_key.rb:201
 #: ../app/models/nic/interface.rb:67 ../app/models/nic/interface.rb:68
 #: ../app/models/subnet.rb:241
 #: ../app/services/foreman/parameters/validator.rb:29
@@ -484,7 +488,7 @@ msgstr ""
 #: ../app/controllers/api/v2/parameters_controller.rb:117
 #: ../app/controllers/api/v2/parameters_controller.rb:137
 #: ../app/controllers/api/v2/provisioning_templates_controller.rb:21
-#: ../app/controllers/api/v2/ptables_controller.rb:13
+#: ../app/controllers/api/v2/ptables_controller.rb:15
 msgid "ID of operating system"
 msgstr ""
 
@@ -899,7 +903,7 @@ msgstr ""
 #: ../app/controllers/api/v2/config_templates_controller.rb:93
 #: ../app/controllers/api/v2/provisioning_templates_controller.rb:37
 #: ../app/controllers/api/v2/provisioning_templates_controller.rb:90
-#: ../app/controllers/api/v2/ptables_controller.rb:75
+#: ../app/controllers/api/v2/ptables_controller.rb:77
 msgid "template name"
 msgstr ""
 
@@ -920,7 +924,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/config_templates_controller.rb:47
 #: ../app/controllers/api/v2/provisioning_templates_controller.rb:45
-#: ../app/controllers/api/v2/ptables_controller.rb:33
+#: ../app/controllers/api/v2/ptables_controller.rb:35
 msgid "Whether or not the template is locked for editing"
 msgstr ""
 
@@ -936,7 +940,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/config_templates_controller.rb:69
 #: ../app/controllers/api/v2/provisioning_templates_controller.rb:67
-#: ../app/controllers/api/v2/ptables_controller.rb:51
+#: ../app/controllers/api/v2/ptables_controller.rb:53
 msgid "template version"
 msgstr ""
 
@@ -1215,15 +1219,15 @@ msgstr ""
 msgid "Show a filter"
 msgstr ""
 
-#: ../app/controllers/api/v2/filters_controller.rb:34
+#: ../app/controllers/api/v2/filters_controller.rb:35
 msgid "Create a filter"
 msgstr ""
 
-#: ../app/controllers/api/v2/filters_controller.rb:42
+#: ../app/controllers/api/v2/filters_controller.rb:43
 msgid "Update a filter"
 msgstr ""
 
-#: ../app/controllers/api/v2/filters_controller.rb:50
+#: ../app/controllers/api/v2/filters_controller.rb:51
 msgid "Delete a filter"
 msgstr ""
 
@@ -1332,7 +1336,7 @@ msgid "Architecture ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:37
-#: ../app/controllers/api/v2/hosts_controller.rb:59
+#: ../app/controllers/api/v2/hosts_controller.rb:60
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
 
@@ -1435,128 +1439,128 @@ msgstr ""
 msgid "ID of environment"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:38
+#: ../app/controllers/api/v2/hosts_controller.rb:39
 msgid "Show a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:47
+#: ../app/controllers/api/v2/hosts_controller.rb:48
 msgid "required if locations are enabled"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:48
+#: ../app/controllers/api/v2/hosts_controller.rb:49
 msgid "required if organizations are enabled"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:49
-#: ../app/controllers/api/v2/hosts_controller.rb:52
+#: ../app/controllers/api/v2/hosts_controller.rb:50
 #: ../app/controllers/api/v2/hosts_controller.rb:53
-#: ../app/controllers/api/v2/hosts_controller.rb:57
-#: ../app/controllers/api/v2/hosts_controller.rb:61
+#: ../app/controllers/api/v2/hosts_controller.rb:54
+#: ../app/controllers/api/v2/hosts_controller.rb:58
+#: ../app/controllers/api/v2/hosts_controller.rb:62
 msgid "required if host is managed and value is not inherited from host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:50
+#: ../app/controllers/api/v2/hosts_controller.rb:51
 msgid "not required if using a subnet with DHCP proxy"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:51
+#: ../app/controllers/api/v2/hosts_controller.rb:52
 msgid ""
 "required for managed host that is bare metal, not required if it's a virtual m"
 "achine"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:58
+#: ../app/controllers/api/v2/hosts_controller.rb:59
 msgid ""
 "required if not imaged based provisioning and host is managed and value is not"
 " inherited from host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:60
+#: ../app/controllers/api/v2/hosts_controller.rb:61
 msgid "required if host is managed and custom partition has not been defined"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:62
+#: ../app/controllers/api/v2/hosts_controller.rb:63
 msgid "nil means host is bare metal"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:63
+#: ../app/controllers/api/v2/hosts_controller.rb:64
 msgid ""
 "required if host is managed and value is not inherited from host group or defa"
 "ult password in settings"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:67
+#: ../app/controllers/api/v2/hosts_controller.rb:68
 msgid "Host's owner type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:70
+#: ../app/controllers/api/v2/hosts_controller.rb:71
 msgid "Host's parameters (array or indexed hash)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:71
+#: ../app/controllers/api/v2/hosts_controller.rb:72
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:47
 msgid "Name of the parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:72
+#: ../app/controllers/api/v2/hosts_controller.rb:73
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:48
 msgid "Parameter value"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:76
+#: ../app/controllers/api/v2/hosts_controller.rb:77
 msgid ""
 "The method used to provision the host. Possible provision_methods may be %{pro"
 "vision_methods}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:77
+#: ../app/controllers/api/v2/hosts_controller.rb:78
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:78
+#: ../app/controllers/api/v2/hosts_controller.rb:79
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:79
+#: ../app/controllers/api/v2/hosts_controller.rb:80
 #: ../app/views/hosts/_form.html.erb:122
 msgid "Additional information about this host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:82
+#: ../app/controllers/api/v2/hosts_controller.rb:83
 msgid "Host's network interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:85
+#: ../app/controllers/api/v2/hosts_controller.rb:86
 msgid "Additional compute resource specific attributes."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:89
+#: ../app/controllers/api/v2/hosts_controller.rb:90
 msgid "Parameters for host's %s facet"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:96
+#: ../app/controllers/api/v2/hosts_controller.rb:97
 msgid "Create a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:110
+#: ../app/controllers/api/v2/hosts_controller.rb:111
 msgid "Update a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:123
+#: ../app/controllers/api/v2/hosts_controller.rb:124
 msgid "Delete a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:130
+#: ../app/controllers/api/v2/hosts_controller.rb:131
 msgid "Get configuration status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:148
+#: ../app/controllers/api/v2/hosts_controller.rb:149
 msgid "Get status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:150
+#: ../app/controllers/api/v2/hosts_controller.rb:151
 msgid ""
 "status type, can be one of\n"
 "* global\n"
@@ -1564,98 +1568,98 @@ msgid ""
 "* build\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:157
+#: ../app/controllers/api/v2/hosts_controller.rb:158
 msgid "Returns string representing a host status of a given type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:167
+#: ../app/controllers/api/v2/hosts_controller.rb:168
 msgid "Get vm attributes of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:190
+#: ../app/controllers/api/v2/hosts_controller.rb:191
 msgid "Force a Puppet agent run on the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:198
+#: ../app/controllers/api/v2/hosts_controller.rb:199
 msgid "Disassociate the host from a VM"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:205
+#: ../app/controllers/api/v2/hosts_controller.rb:206
 msgid "Run a power operation on host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:207
+#: ../app/controllers/api/v2/hosts_controller.rb:208
 msgid ""
 "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/"
 "reset), (state/status)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:214
+#: ../app/controllers/api/v2/hosts_controller.rb:215
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:218
+#: ../app/controllers/api/v2/hosts_controller.rb:219
 msgid "Boot host from specified device"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:220
+#: ../app/controllers/api/v2/hosts_controller.rb:221
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:227
+#: ../app/controllers/api/v2/hosts_controller.rb:228
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:231
+#: ../app/controllers/api/v2/hosts_controller.rb:232
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:232
+#: ../app/controllers/api/v2/hosts_controller.rb:233
 msgid "hostname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:233
+#: ../app/controllers/api/v2/hosts_controller.rb:234
 msgid "hash containing the facts for the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:234
+#: ../app/controllers/api/v2/hosts_controller.rb:235
 msgid "optional: certname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:235
+#: ../app/controllers/api/v2/hosts_controller.rb:236
 msgid "optional: the STI type of host to create"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:245
+#: ../app/controllers/api/v2/hosts_controller.rb:246
 msgid "Rebuild orchestration config"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:251
+#: ../app/controllers/api/v2/hosts_controller.rb:252
 #: ../app/controllers/hosts_controller.rb:525
 msgid "Configuration successfully rebuilt."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:253
+#: ../app/controllers/api/v2/hosts_controller.rb:254
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:257
+#: ../app/controllers/api/v2/hosts_controller.rb:258
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:259
+#: ../app/controllers/api/v2/hosts_controller.rb:260
 msgid "Template kinds, available values: %{template_kinds}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:263
+#: ../app/controllers/api/v2/hosts_controller.rb:264
 msgid "No template with kind %{kind} for %{host}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:331
+#: ../app/controllers/api/v2/hosts_controller.rb:332
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:334
+#: ../app/controllers/api/v2/hosts_controller.rb:335
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
@@ -2302,51 +2306,51 @@ msgstr ""
 msgid "List installed plugins"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:9
+#: ../app/controllers/api/v2/ptables_controller.rb:11
 msgid "List all partition tables"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:10
+#: ../app/controllers/api/v2/ptables_controller.rb:12
 msgid "List all partition tables for an operating system"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:11
+#: ../app/controllers/api/v2/ptables_controller.rb:13
 msgid "List all partition tables per location"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:12
+#: ../app/controllers/api/v2/ptables_controller.rb:14
 msgid "List all partition tables per organization"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:21
+#: ../app/controllers/api/v2/ptables_controller.rb:23
 msgid "Show a partition table"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:35
+#: ../app/controllers/api/v2/ptables_controller.rb:37
 msgid "Array of operating system IDs to associate with the partition table"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:36
+#: ../app/controllers/api/v2/ptables_controller.rb:38
 msgid "Array of host IDs to associate with the partition table"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:37
+#: ../app/controllers/api/v2/ptables_controller.rb:39
 msgid "Array of host group IDs to associate with the partition table"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:42
+#: ../app/controllers/api/v2/ptables_controller.rb:44
 msgid "Create a partition table"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:58
+#: ../app/controllers/api/v2/ptables_controller.rb:60
 msgid "Update a partition table"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:66
+#: ../app/controllers/api/v2/ptables_controller.rb:68
 msgid "Delete a partition table"
 msgstr ""
 
-#: ../app/controllers/api/v2/ptables_controller.rb:79
+#: ../app/controllers/api/v2/ptables_controller.rb:81
 msgid "Clone a template"
 msgstr ""
 
@@ -2438,15 +2442,15 @@ msgstr ""
 msgid "Show a role"
 msgstr ""
 
-#: ../app/controllers/api/v2/roles_controller.rb:29
+#: ../app/controllers/api/v2/roles_controller.rb:30
 msgid "Create a role"
 msgstr ""
 
-#: ../app/controllers/api/v2/roles_controller.rb:37
+#: ../app/controllers/api/v2/roles_controller.rb:38
 msgid "Update a role"
 msgstr ""
 
-#: ../app/controllers/api/v2/roles_controller.rb:45
+#: ../app/controllers/api/v2/roles_controller.rb:46
 msgid "Delete a role"
 msgstr ""
 
@@ -3195,6 +3199,10 @@ msgstr ""
 msgid "External user group %{name} could not be refreshed"
 msgstr ""
 
+#: ../app/controllers/filters_controller.rb:52
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 #: ../app/controllers/hostgroups_controller.rb:37
 msgid "The following fields would need reviewing"
 msgstr ""
@@ -3410,65 +3418,65 @@ msgstr ""
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:755
+#: ../app/controllers/hosts_controller.rb:756
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:760
+#: ../app/controllers/hosts_controller.rb:761
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:817
+#: ../app/controllers/hosts_controller.rb:818
 msgid "No hosts were found with that id or name"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:822
+#: ../app/controllers/hosts_controller.rb:823
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:829
+#: ../app/controllers/hosts_controller.rb:830
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:843
+#: ../app/controllers/hosts_controller.rb:844
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:845
+#: ../app/controllers/hosts_controller.rb:846
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:872
+#: ../app/controllers/hosts_controller.rb:873
 msgid "No or invalid power state selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:888
+#: ../app/controllers/hosts_controller.rb:889
 msgid "No proxy selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:894
+#: ../app/controllers/hosts_controller.rb:895
 msgid "Invalid proxy selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:916
+#: ../app/controllers/hosts_controller.rb:917
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:923
+#: ../app/controllers/hosts_controller.rb:924
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:925
+#: ../app/controllers/hosts_controller.rb:926
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:928
+#: ../app/controllers/hosts_controller.rb:929
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/hosts_controller.rb:940
+#: ../app/controllers/hosts_controller.rb:941
 msgid "No templates found"
 msgstr ""
 
@@ -3484,8 +3492,8 @@ msgstr ""
 msgid "No parameters to override for Puppet class %s"
 msgstr ""
 
-#: ../app/controllers/roles_controller.rb:46
-msgid "Role cloned from role %{old_name}"
+#: ../app/controllers/roles_controller.rb:74
+msgid "Filters overriding has been disabled"
 msgstr ""
 
 #: ../app/controllers/smart_proxies_controller.rb:35
@@ -3528,33 +3536,33 @@ msgstr ""
 msgid "Template unlocked"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:83
+#: ../app/controllers/unattended_controller.rb:82
 msgid "unable to find %{type} template for %{host} running %{os}"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:95
+#: ../app/controllers/unattended_controller.rb:94
 msgid "%{controller}: unable to find a host that matches the request from %{addr}"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:100
+#: ../app/controllers/unattended_controller.rb:99
 msgid "%{controller}: %{host}'s operating system is missing"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:105
+#: ../app/controllers/unattended_controller.rb:104
 msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:170
+#: ../app/controllers/unattended_controller.rb:169
 msgid ""
 "Failed to clean any old certificates or add the autosign entry. Terminating th"
 "e build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:182
+#: ../app/controllers/unattended_controller.rb:181
 msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:227
+#: ../app/controllers/unattended_controller.rb:226
 msgid "There was an error rendering the %s template: "
 msgstr ""
 
@@ -3635,6 +3643,7 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:197 ../app/helpers/puppetca_helper.rb:15
 #: ../app/helpers/reports_helper.rb:22
 #: ../app/views/fact_values/_fact.html.erb:7
+#: ../app/views/filters/index.html.erb:40
 msgid "N/A"
 msgstr ""
 
@@ -3920,24 +3929,34 @@ msgstr ""
 msgid "Show full value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:39 ../app/views/users/login.html.erb:22
+#: ../app/helpers/form_helper.rb:28 ../app/views/users/login.html.erb:22
 msgid "Caps lock ON"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:42
+#: ../app/helpers/form_helper.rb:31
 msgid "Change the password"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:227 ../app/views/hosts/_conflicts.html.erb:23
+#: ../app/helpers/form_helper.rb:197
+msgid ""
+"When specifying custom value, add 'MB' or 'GB' at the end. Field is not case s"
+"ensitive and MB is default if unspecified."
+msgstr ""
+
+#: ../app/helpers/form_helper.rb:200
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
+#: ../app/helpers/form_helper.rb:228 ../app/views/hosts/_conflicts.html.erb:23
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:227 ../app/views/common/_searchbar.html.erb:37
+#: ../app/helpers/form_helper.rb:228 ../app/views/common/_searchbar.html.erb:37
 #: ../app/views/hosts/_list.html.erb:50 ../app/views/trends/edit.html.erb:45
 msgid "Submit"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:231 ../app/views/autosign/_form.html.erb:4
+#: ../app/helpers/form_helper.rb:232 ../app/views/autosign/_form.html.erb:4
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:54
 #: ../app/views/common/_searchbar.html.erb:36
 #: ../app/views/hosts/_assign_hosts.html.erb:39
@@ -3946,15 +3965,15 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:298
+#: ../app/helpers/form_helper.rb:299
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:299
+#: ../app/helpers/form_helper.rb:300
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:303
+#: ../app/helpers/form_helper.rb:304
 msgid "Remove Parameter"
 msgstr ""
 
@@ -3977,7 +3996,7 @@ msgstr ""
 #: ../app/views/models/index.html.erb:27
 #: ../app/views/operatingsystems/index.html.erb:20
 #: ../app/views/puppetclasses/index.html.erb:33
-#: ../app/views/realms/index.html.erb:18 ../app/views/roles/index.html.erb:22
+#: ../app/views/realms/index.html.erb:18 ../app/views/roles/index.html.erb:23
 #: ../app/views/subnets/index.html.erb:29
 #: ../app/views/taxonomies/index.html.erb:31
 #: ../app/views/usergroups/index.html.erb:24
@@ -4206,7 +4225,7 @@ msgstr ""
 #: ../app/helpers/smart_proxies_helper.rb:54
 #: ../app/views/compute_resources/index.html.erb:19
 #: ../app/views/compute_resources/show.html.erb:7
-#: ../app/views/filters/index.html.erb:42
+#: ../app/views/filters/index.html.erb:46
 #: ../app/views/hosts/_interfaces.html.erb:33
 #: ../app/views/hosts/_list.html.erb:31
 #: ../app/views/hosts/_templates.html.erb:12
@@ -4360,10 +4379,6 @@ msgid "*Clear %s proxy*"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:478
-msgid "Randomize"
-msgstr ""
-
-#: ../app/helpers/hosts_helper.rb:479
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr ""
 
@@ -4375,9 +4390,9 @@ msgstr ""
 #: ../app/helpers/images_helper.rb:8
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:7
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:9
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:22
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:24
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:11
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:38
 #: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:34
 #: model_attributes.rb:244
@@ -5016,25 +5031,25 @@ msgstr ""
 msgid "Unable to access key"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:117
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:118
 msgid "Unable to find template %s"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:158
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:159
 msgid "VM is not running!"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:167
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:168
 msgid ""
 "Unable to change VM display listen address, make sure the display is not attac"
 "hed to localhost only"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:225
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:226
 msgid "At least one volume must be specified for image-based provisioning."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:248
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:249
 msgid ""
 "Please specify volume size. You may optionally use suffix 'G' to specify volum"
 "e size in gigabytes."
@@ -5078,7 +5093,7 @@ msgid ""
 " and submit"
 msgstr ""
 
-#: ../app/models/concerns/dns_interface.rb:80
+#: ../app/models/concerns/dns_interface.rb:81
 msgid "%s is not a valid DNS record type"
 msgstr ""
 
@@ -5255,28 +5270,28 @@ msgstr ""
 msgid "DNS"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:67
+#: ../app/models/concerns/orchestration/dns.rb:66
 msgid "Create %{type} for %{host}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:75
-#: ../app/models/concerns/orchestration/dns.rb:84
+#: ../app/models/concerns/orchestration/dns.rb:74
+#: ../app/models/concerns/orchestration/dns.rb:83
 msgid "Remove %{type} for %{host}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:94
+#: ../app/models/concerns/orchestration/dns.rb:93
 msgid "Remove conflicting %{type} for %{host}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:114
+#: ../app/models/concerns/orchestration/dns.rb:113
 msgid "%{type} %{conflicts} already exists"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:120
+#: ../app/models/concerns/orchestration/dns.rb:119
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:122
+#: ../app/models/concerns/orchestration/dns.rb:121
 msgid ""
 "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_l"
 "ocal_nameservers and dns_conflict_timeout settings"
@@ -5362,37 +5377,37 @@ msgstr ""
 msgid "TFTP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:65
+#: ../app/models/concerns/orchestration/tftp.rb:78
 msgid "Unable to render %{kind} template '%{name}': %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:71
+#: ../app/models/concerns/orchestration/tftp.rb:84
 msgid "Template '%s' was not found"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:74
+#: ../app/models/concerns/orchestration/tftp.rb:87
 msgid "Unable to render '%{name}' template: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:105
+#: ../app/models/concerns/orchestration/tftp.rb:124
 msgid "Failed to fetch boot files"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:120
+#: ../app/models/concerns/orchestration/tftp.rb:139
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define a"
 "t least one in your %{os} settings or change PXE loader"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:134
+#: ../app/models/concerns/orchestration/tftp.rb:153
 msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:137
+#: ../app/models/concerns/orchestration/tftp.rb:156
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:163
+#: ../app/models/concerns/orchestration/tftp.rb:182
 msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
@@ -5408,7 +5423,7 @@ msgstr ""
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
-#: ../app/models/concerns/taxonomix.rb:192
+#: ../app/models/concerns/taxonomix.rb:206
 msgid "Invalid %s selection, you must select at least one of yours"
 msgstr ""
 
@@ -5456,23 +5471,23 @@ msgstr ""
 msgid "invalid search query: %s"
 msgstr ""
 
-#: ../app/models/filter.rb:95
+#: ../app/models/filter.rb:97
 msgid "filter for %s role"
 msgstr ""
 
-#: ../app/models/filter.rb:177
+#: ../app/models/filter.rb:198
 msgid "Permissions must be of same resource type"
 msgstr ""
 
-#: ../app/models/filter.rb:181
+#: ../app/models/filter.rb:202
 msgid "You must select at least one permission"
 msgstr ""
 
-#: ../app/models/filter.rb:186
+#: ../app/models/filter.rb:207
 msgid "You can't assign organizations to this resource"
 msgstr ""
 
-#: ../app/models/filter.rb:190
+#: ../app/models/filter.rb:211
 msgid "You can't assign locations to this resource"
 msgstr ""
 
@@ -5480,19 +5495,19 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-#: ../app/models/host/base.rb:459
+#: ../app/models/host/base.rb:463
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:465
+#: ../app/models/host/base.rb:469
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:484
+#: ../app/models/host/base.rb:488
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:490
+#: ../app/models/host/base.rb:494
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
@@ -5530,45 +5545,45 @@ msgstr ""
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:657
+#: ../app/models/host/managed.rb:660
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:663
+#: ../app/models/host/managed.rb:666
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:881
+#: ../app/models/host/managed.rb:884
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:900
+#: ../app/models/host/managed.rb:903
 msgid "Unable to find IP address for '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:924
+#: ../app/models/host/managed.rb:927
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:953
+#: ../app/models/host/managed.rb:960
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:960
+#: ../app/models/host/managed.rb:967
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:979
+#: ../app/models/host/managed.rb:986
 msgid "is an unsupported provisioning method"
 msgstr ""
 
-#: ../app/models/host/managed.rb:984
+#: ../app/models/host/managed.rb:991
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:989 ../app/models/nic/interface.rb:117
+#: ../app/models/host/managed.rb:996 ../app/models/nic/interface.rb:117
 msgid "must not include periods"
 msgstr ""
 
@@ -5657,32 +5672,32 @@ msgstr ""
 msgid "list"
 msgstr ""
 
+#: ../app/models/lookup_keys/lookup_key.rb:26
 #: ../app/models/lookup_keys/lookup_key.rb:27
-#: ../app/models/lookup_keys/lookup_key.rb:28
 msgid "invalid"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:161
+#: ../app/models/lookup_keys/lookup_key.rb:160
 msgid "Invalid Host"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:191
+#: ../app/models/lookup_keys/lookup_key.rb:190
 msgid "invalid path"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:233
+#: ../app/models/lookup_keys/lookup_key.rb:224
 msgid "can only be set for array or hash"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:239
+#: ../app/models/lookup_keys/lookup_key.rb:230
 msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:245
+#: ../app/models/lookup_keys/lookup_key.rb:236
 msgid "can only be set when merge overrides is set"
 msgstr ""
 
-#: ../app/models/lookup_keys/puppetclass_lookup_key.rb:44
+#: ../app/models/lookup_keys/puppetclass_lookup_key.rb:53
 msgid "must be true to edit the parameter"
 msgstr ""
 
@@ -5899,15 +5914,15 @@ msgstr ""
 msgid "does not have the Realm feature"
 msgstr ""
 
-#: ../app/models/role.rb:101
+#: ../app/models/role.rb:112
 msgid "Unable to create the default role."
 msgstr ""
 
-#: ../app/models/role.rb:143
+#: ../app/models/role.rb:162
 msgid "Role is in use"
 msgstr ""
 
-#: ../app/models/role.rb:144
+#: ../app/models/role.rb:163
 msgid "Can't delete built-in role"
 msgstr ""
 
@@ -6228,6 +6243,14 @@ msgstr ""
 
 #: ../app/models/setting/general.rb:25
 msgid "Proxy request timeout"
+msgstr ""
+
+#: ../app/models/setting/general.rb:26
+msgid "Text to be shown in the login-page footer"
+msgstr ""
+
+#: ../app/models/setting/general.rb:26
+msgid "Login page footer text"
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:12
@@ -6843,23 +6866,23 @@ msgstr ""
 msgid "No templates found for this host."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:36
+#: ../app/services/host_build_status.rb:37
 msgid "Template %s is empty."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:39
+#: ../app/services/host_build_status.rb:40
 msgid "Failure parsing %{template}: %{error}."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:45
+#: ../app/services/host_build_status.rb:46
 msgid "No smart proxies found."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:51
+#: ../app/services/host_build_status.rb:52
 msgid "Failure deploying via smart proxy %{proxy}: %{error}."
 msgstr ""
 
-#: ../app/services/host_build_status.rb:53
+#: ../app/services/host_build_status.rb:54
 msgid "Error connecting to %{proxy}: %{error}."
 msgstr ""
 
@@ -6915,10 +6938,11 @@ msgstr ""
 #: ../app/views/compute_resources/_form.html.erb:9
 #: ../app/views/domains/_form.html.erb:9
 #: ../app/views/environments/_form.html.erb:7
-#: ../app/views/filters/_form.html.erb:8 ../app/views/filters/_form.html.erb:59
+#: ../app/views/filters/_form.html.erb:8 ../app/views/filters/_form.html.erb:66
 #: ../app/views/hostgroups/_form.html.erb:14
 #: ../app/views/locations/welcome.html.erb:5
 #: ../app/views/media/_form.html.erb:9 ../app/views/realms/_form.html.erb:6
+#: ../app/views/roles/_form.html.erb:26
 #: ../app/views/smart_proxies/_form.html.erb:6
 #: ../app/views/smart_proxies/index.html.erb:14
 #: ../app/views/subnets/_form.html.erb:12
@@ -6933,9 +6957,10 @@ msgstr ""
 #: ../app/views/domains/_form.html.erb:12
 #: ../app/views/environments/_form.html.erb:10
 #: ../app/views/filters/_form.html.erb:11
-#: ../app/views/filters/_form.html.erb:67
+#: ../app/views/filters/_form.html.erb:74
 #: ../app/views/hostgroups/_form.html.erb:17
 #: ../app/views/media/_form.html.erb:12 ../app/views/realms/_form.html.erb:9
+#: ../app/views/roles/_form.html.erb:31
 #: ../app/views/smart_proxies/_form.html.erb:10
 #: ../app/views/smart_proxies/index.html.erb:17
 #: ../app/views/subnets/_form.html.erb:15
@@ -7401,9 +7426,9 @@ msgstr ""
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:4
 #: ../app/views/common_parameters/_parameter.html.erb:3
 #: ../app/views/common_parameters/_parameters.html.erb:5
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:2
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:3
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:1
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:2
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:3
 #: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:1
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:2
 #: ../app/views/compute_resources_vms/form/vmware/_volume.html.erb:10
@@ -7604,7 +7629,7 @@ msgstr ""
 #: ../app/views/domains/index.html.erb:10
 #: ../app/views/environments/index.html.erb:10
 #: ../app/views/fact_values/index.html.erb:19
-#: ../app/views/filters/index.html.erb:20
+#: ../app/views/filters/index.html.erb:21
 #: ../app/views/hostgroups/index.html.erb:11
 #: ../app/views/hosts/_interfaces.html.erb:19
 #: ../app/views/hosts/_list.html.erb:13 ../app/views/hosts/_metrics.html.erb:5
@@ -8425,9 +8450,9 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:7
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:8
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:16
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:18
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:10
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:32
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:33
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:33
 msgid "Please select an image"
 msgstr ""
@@ -8494,7 +8519,7 @@ msgstr ""
 msgid "Size (GB)"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:3
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:5
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:3
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:4
@@ -8502,8 +8527,8 @@ msgstr ""
 msgid "CPUs"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:4
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:21
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:7
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:22
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:5
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:5
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:6
@@ -8512,20 +8537,20 @@ msgstr ""
 msgid "Memory"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:9
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:24
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:11
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:25
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:22
 msgid "Power ON this machine"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:9
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:24
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:11
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:25
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:22
 msgid "Start"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:21
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:36
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:23
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
 msgid "Image to use"
 msgstr ""
 
@@ -8604,25 +8629,25 @@ msgstr ""
 msgid "Server group"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:8
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:8
 msgid "Cluster"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:10
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:11
 msgid "Select template"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:14
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:15
 msgid "oVirt/RHEV template to use"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:15
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:16
 #: ../app/views/templates/_form.html.erb:10
 msgid "Template"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:20
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:21
 msgid "Cores"
 msgstr ""
 
@@ -8980,7 +9005,7 @@ msgstr[1] ""
 msgid "Latest Events"
 msgstr ""
 
-#: ../app/views/dashboard/_reports_widget.html.erb:5
+#: ../app/views/dashboard/_reports_widget.html.erb:26
 msgid "No interesting reports received in the last week"
 msgstr ""
 
@@ -9204,9 +9229,18 @@ msgstr ""
 
 #: ../app/views/filters/_form.html.erb:47
 msgid ""
+"Filters inherit %{orgs_and_locs} from their role by default. If override field"
+" is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later r"
+"ole changes will not affect <br> such filter. After disabling override field, "
+"role %{orgs_and_locs} apply again."
+msgstr ""
+
+#: ../app/views/filters/_form.html.erb:53
+msgid ""
 "By unchecking this you can specify filter using Foreman search syntax in searc"
-"h field. If filter remains unlimited (this field is checked) it applies on all"
-" resources of the selected type"
+"h field. If filter remains <br> unlimited (this field is checked) it applies o"
+"n all resources of the selected type. When a role is associated <br> with some"
+" %s filter is not considered unlimited as it's scoped accordingly."
 msgstr ""
 
 #: ../app/views/filters/edit.html.erb:1
@@ -9222,7 +9256,7 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
-#: ../app/views/filters/index.html.erb:7 ../app/views/roles/_form.html.erb:25
+#: ../app/views/filters/index.html.erb:7 ../app/views/roles/_form.html.erb:44
 msgid "New filter"
 msgstr ""
 
@@ -9244,16 +9278,20 @@ msgstr ""
 msgid "Filter|Unlimited"
 msgstr ""
 
+#: ../app/views/filters/index.html.erb:19
+msgid "Filter|Override"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/filters/index.html.erb:19 model_attributes.rb:170
+#: ../app/views/filters/index.html.erb:20 model_attributes.rb:170
 msgid "Filter|Search"
 msgstr ""
 
-#: ../app/views/filters/index.html.erb:36
-msgid "none"
+#: ../app/views/filters/index.html.erb:48
+msgid "Disable overriding"
 msgstr ""
 
-#: ../app/views/filters/index.html.erb:46
+#: ../app/views/filters/index.html.erb:52
 msgid "Delete filter?"
 msgstr ""
 
@@ -10879,16 +10917,39 @@ msgid ""
 " password."
 msgstr ""
 
-#: ../app/views/roles/_form.html.erb:19
+#: ../app/views/roles/_form.html.erb:17
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
+
+#: ../app/views/roles/_form.html.erb:18
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will pr"
+"opagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will rema"
+"in untouched. Overriding of role filters can be easily disabled by <br> pressi"
+"ng the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_a"
+"nd_locs}, so these always remain global."
+msgstr ""
+
+#: ../app/views/roles/_form.html.erb:21
+msgid "Role %s."
+msgstr ""
+
+#: ../app/views/roles/_form.html.erb:38
 msgid "Please save the role first. You can edit it later to add filters"
 msgstr ""
 
-#: ../app/views/roles/_form.html.erb:22
+#: ../app/views/roles/_form.html.erb:41
 msgid "Loading filters ..."
 msgstr ""
 
+#: ../app/views/roles/_form.html.erb:47
+msgid "Disable all filters overriding"
+msgstr ""
+
 #: ../app/views/roles/edit.html.erb:1
-msgid "Edit Roles"
+msgid "Edit Role"
 msgstr ""
 
 #: ../app/views/roles/index.html.erb:2
@@ -11649,7 +11710,7 @@ msgstr ""
 msgid "locale_name"
 msgstr ""
 
-#: ../lib/foreman/renderer.rb:123
+#: ../lib/foreman/renderer.rb:150
 msgid "Template '%s' is either missing or has an invalid organization or location"
 msgstr ""
 

@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-08-26 09:15+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
@@ -127,6 +127,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "Hace %s semana"
 msgstr[1] "Hace %s semanas"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "Página de documentación de la API de %{app_name}"
@@ -246,6 +249,9 @@ msgstr "'%{host}' no se pudo eliminar o '%{resource}' no está respondiendo."
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' no se encontró en '%{resource}'"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "'Tipo de contenido: %s' no recibe soporte en la API v2 para solicitudes POST y PUT. Use 'Content-Type: application/json'."
@@ -598,8 +604,8 @@ msgstr "Cualquier Lugar"
 msgid "Any Organization"
 msgstr "Cualquier organización"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "Sistemas operativos<br>aplicables"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "Aplicado"
@@ -1242,6 +1248,9 @@ msgstr "Estado de la comunicación"
 msgid "Compute Resource"
 msgstr "Recurso de cómputo"
 
+msgid "Compute Resource Distribution"
+msgstr ""
+
 msgid "Compute Resources"
 msgstr "Recursos de cómputo"
 
@@ -1389,8 +1398,8 @@ msgstr "Núcleos"
 msgid "Cores per socket"
 msgstr "Núcleos por socket"
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "No se encontró ninguna plantilla de configuración con el nombre \"PXE Linux global default\", por favor cree una."
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr "No se pudo encontrar la coincidencia de la interfaz de red de la máquina virtual %s."
@@ -1569,6 +1578,15 @@ msgstr "Proxy DHCP para usar con esta subred"
 msgid "DHCP conflicts removal for %s"
 msgstr "Eliminar conflictos DHCP para %s"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr "Se ha detectado un conflicto de DHCP lease"
 
@@ -1685,6 +1703,9 @@ msgstr "Borrar hosts"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Borrar certificados PuppetCA para %s"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr "Borrar una clase Puppet"
@@ -1847,6 +1868,9 @@ msgstr "Entorno eliminado"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Eliminado entorno %{env} y %{pcs}"
+
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Deploy VM on selected datastore"
 msgstr "Implementar la VM en el almacén de datos seleccionado"
@@ -2404,8 +2428,8 @@ msgstr "Reinicios fallidos"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Ha fallado al %{action} %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "Falló al cancelar instalación pendiente para  %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "Falló al limpiar certificados antiguos o al añadir la llave de autofirmado. ¡Finalizando la instalación!"
@@ -2440,9 +2464,6 @@ msgstr "Falló al extraer los archivos de arranque"
 
 msgid "Failed to fetch: "
 msgstr "Falló al extraer: "
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Falló al asignar la IP de %{name}: %{e}"
@@ -2889,6 +2910,9 @@ msgstr "Cuadro de configuración de host"
 
 msgid "Host Configuration Status"
 msgstr "Estado de configuración del host"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "Grupo del host"
@@ -4122,6 +4146,9 @@ msgstr "Hora local"
 msgid "Location"
 msgstr "Ubicación"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "Evento de la ubicación"
 
@@ -4351,9 +4378,6 @@ msgstr "Informe de discordancias"
 
 msgid "Missing one of the required permissions: %s"
 msgstr "Falta uno de los permisos requeridos: %s."
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr "Falta la plantilla '%{template}' para el asistente '%{widget}'."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -4683,8 +4707,8 @@ msgstr "Nombre de usuario"
 msgid "Nic::Base|Virtual"
 msgstr "Virtual"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "No se han encontrado plantillas %{template_kind} para este host, asegúrese de definir por lo menos una plantilla en la configuración de %{os}"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5126,6 +5150,9 @@ msgstr "Orden"
 msgid "Organization"
 msgstr "Organización"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "Evento de la organización"
 
@@ -5195,8 +5222,8 @@ msgstr "Propietario cambiado a %s"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "El tipo de dueño debe ser uno de los siguientes: %s"
 
-msgid "POAP template"
-msgstr "Plantilla POAP"
+msgid "POAP PXE template"
+msgstr ""
 
 msgid "PXE"
 msgstr "PXE"
@@ -5204,8 +5231,17 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "El archivo 'PXE Predeterminado'  ha sido desplegado en todos los Proxis inteligentes"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
 msgstr "Plantilla PXEGrub"
+
+msgid "PXEGrub2 template"
+msgstr ""
 
 msgid "PXELinux template"
 msgstr "Plantilla PXELinux "
@@ -5853,9 +5889,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "Eliminar valores duplicados (solo tipo array)"
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Eliminar  ajustes TFTP anteriores de %s"
 
 msgid "Remove this override"
 msgstr "Eliminar esta sustitución"
@@ -6799,9 +6832,6 @@ msgstr "Proxy TFTP"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "Proxy TFTP para usar en esta subred"
 
-msgid "TFTP Settings for %s"
-msgstr "Configuraciones TFTP para %s"
-
 msgid "TFTP server"
 msgstr "Servidor TFTP"
 
@@ -6840,6 +6870,9 @@ msgid "Template %s is empty."
 msgstr "La plantilla %s está vacía."
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -7443,6 +7476,12 @@ msgstr "No se puede realizar la operación BMC lan"
 
 msgid "Unable to perform power BMC operation"
 msgstr "No puedo realizar la operación BMC de alimentación"
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr "No puedo conseguir la entrada DHCP para %s"
@@ -8219,8 +8258,8 @@ msgstr "Su contraseña es muy corta"
 msgid "Your session has expired, please login again"
 msgstr "La sesión ha expirado, por favor, reconéctese"
 
-msgid "ZTP template"
-msgstr "Plantilla ZTP"
+msgid "ZTP PXE template"
+msgstr ""
 
 msgid "Zone"
 msgstr "Zona"
@@ -8416,9 +8455,6 @@ msgstr "Falló al detectar servidor de arranque: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "Falló al ejecutar puppetrun: %s"
-
-msgid "failed to process template: %s"
-msgstr "Falló al procesar plantilla: %s"
 
 msgid "failed to save %s"
 msgstr "No se ha podido guardar %s"

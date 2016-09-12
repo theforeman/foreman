@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-08-26 09:15+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -112,6 +112,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "fa %s setmana"
 msgstr[1] "fa %s setmanes"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "Pàgina inicial de la documentació de l'API %{app_name}"
@@ -230,6 +233,9 @@ msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr ""
 
 msgid "'%{host}' not found on '%{resource}'"
+msgstr ""
+
+msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
@@ -579,7 +585,7 @@ msgstr "Qualsevol ubicació"
 msgid "Any Organization"
 msgstr "Qualsevol organització"
 
-msgid "Applicable<br>Operating Systems"
+msgid "Applicable Operating Systems"
 msgstr ""
 
 msgid "Applied"
@@ -1223,6 +1229,9 @@ msgstr ""
 msgid "Compute Resource"
 msgstr "Recurs computacional"
 
+msgid "Compute Resource Distribution"
+msgstr ""
+
 msgid "Compute Resources"
 msgstr "Recursos computacionals"
 
@@ -1370,7 +1379,7 @@ msgstr "Nuclis"
 msgid "Cores per socket"
 msgstr ""
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
 msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
@@ -1550,6 +1559,15 @@ msgstr "Servidor intermediari de DHCP per utilitzar dins d'aquesta subxarxa"
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
@@ -1665,6 +1683,9 @@ msgid "Delete Hosts"
 msgstr "Suprimeix els amfitrions"
 
 msgid "Delete PuppetCA certificates for %s"
+msgstr ""
+
+msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
 msgid "Delete a Puppet class"
@@ -1827,6 +1848,9 @@ msgid "Deleted environment"
 msgstr "Suprimeix l'entorn"
 
 msgid "Deleted environment %{env} and %{pcs}"
+msgstr ""
+
+msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
 msgid "Deploy VM on selected datastore"
@@ -2385,8 +2409,8 @@ msgstr ""
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "No s'ha pogut %{action} %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "No s'ha pogut cancel·lar la construcció pendent per %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr ""
@@ -2419,9 +2443,6 @@ msgstr "No s'han pogut recuperar els fitxers d'arrencada"
 
 msgid "Failed to fetch: "
 msgstr "No s'ha pogut recuperar:"
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "No s'ha pogut obtenir la IP per %{name}: %{e}"
@@ -2869,6 +2890,9 @@ msgstr "Gràfica de configuració de l'amfitrió"
 
 msgid "Host Configuration Status"
 msgstr "Estat de configuració dels amfitrions"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "Grups d'amfitrions"
@@ -4102,6 +4126,9 @@ msgstr ""
 msgid "Location"
 msgstr "Ubicació"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "Objecte d'interès de la ubicació"
 
@@ -4332,9 +4359,6 @@ msgid "Mismatches Report"
 msgstr ""
 
 msgid "Missing one of the required permissions: %s"
-msgstr ""
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4665,7 +4689,7 @@ msgstr "Nom d'usuari"
 msgid "Nic::Base|Virtual"
 msgstr "Virtual"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
 
 msgid "No IPv4 subnets selected"
@@ -5108,6 +5132,9 @@ msgstr "Ordre"
 msgid "Organization"
 msgstr "Organització"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "Objecte d'interès de l'organització"
 
@@ -5177,7 +5204,7 @@ msgstr "S'ha canviat el propietari a %s"
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-msgid "POAP template"
+msgid "POAP PXE template"
 msgstr ""
 
 msgid "PXE"
@@ -5186,7 +5213,16 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr ""
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
@@ -5835,9 +5871,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr ""
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Suprimeix els ajusts antics de DHCP per %s"
 
 msgid "Remove this override"
 msgstr ""
@@ -6781,9 +6814,6 @@ msgstr "Servidor intermediari de TFTP"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "Servidor intermediari de TFTP per utilitzar dins d'aquesta subxarxa"
 
-msgid "TFTP Settings for %s"
-msgstr "Ajusts de TFTP per %s"
-
 msgid "TFTP server"
 msgstr ""
 
@@ -6822,6 +6852,9 @@ msgid "Template %s is empty."
 msgstr "La plantilla %s està buida."
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -7419,6 +7452,12 @@ msgid "Unable to perform lan BMC operation"
 msgstr ""
 
 msgid "Unable to perform power BMC operation"
+msgstr ""
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
 msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
@@ -8196,7 +8235,7 @@ msgstr "La vostra contrasenya és massa curta"
 msgid "Your session has expired, please login again"
 msgstr "La vostra sessió ha vençut, si us plau, inicieu la sessió de nou"
 
-msgid "ZTP template"
+msgid "ZTP PXE template"
 msgstr ""
 
 msgid "Zone"
@@ -8393,9 +8432,6 @@ msgstr "no s'ha pogut detectar el servidor d'arrencada: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "no s'ha pogut executar puppetrun: %s"
-
-msgid "failed to process template: %s"
-msgstr "no s'ha pogut processar la plantilla: %s"
 
 msgid "failed to save %s"
 msgstr "no s'ha pogut desar %s"

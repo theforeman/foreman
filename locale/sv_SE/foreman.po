@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-08-26 09:15+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -116,6 +116,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s vecka sedan"
 msgstr[1] "%s veckor sedan"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr ""
@@ -235,6 +238,9 @@ msgstr "'%{host}' kan vara raderad eller så svarar inte '%{resource}'."
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' finns inte på '%{resource}'"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr ""
@@ -581,8 +587,8 @@ msgstr "Alla Platser"
 msgid "Any Organization"
 msgstr "Alla Organisationer"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "Tillämpliga<br>Operativsystem"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "Tillämpad"
@@ -1225,6 +1231,9 @@ msgstr ""
 msgid "Compute Resource"
 msgstr "Beräkningsresurs"
 
+msgid "Compute Resource Distribution"
+msgstr ""
+
 msgid "Compute Resources"
 msgstr "Beräkningsresurser"
 
@@ -1372,8 +1381,8 @@ msgstr "Kärnor"
 msgid "Cores per socket"
 msgstr ""
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "Kunde inte hitta en Konfigurationsmall med namnet \"PXE Default File\", vänligen skapa en."
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr ""
@@ -1552,6 +1561,15 @@ msgstr "DHCP Proxy att använda inom detta subnät "
 msgid "DHCP conflicts removal for %s"
 msgstr "DHCP konflikt-borttagning för %s"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
@@ -1668,6 +1686,9 @@ msgstr "Radera värd"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Radera PuppetCA certifikat för %s"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr ""
@@ -1830,6 +1851,9 @@ msgstr "Raderad miljö"
 
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Raderade miljön %{env} och %{pcs}"
+
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Deploy VM on selected datastore"
 msgstr ""
@@ -2387,8 +2411,8 @@ msgstr "Misslyckade omstarter"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Misslyckades med att %{action} %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "Misslyckades att avbryta pågående ombyggning för %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "Misslyckades med att rensa gamla certifikat eller att lägga till autosigneringsvärdet. Avbryter bygget!"
@@ -2421,9 +2445,6 @@ msgstr "Misslyckades med att hämta startfiler"
 
 msgid "Failed to fetch: "
 msgstr "Misslyckades att hämta:"
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Misslyckades med att hämta IP för %{name}: %{e}"
@@ -2868,6 +2889,9 @@ msgstr ""
 
 msgid "Host Configuration Status"
 msgstr "Värdkonfigurationsstatus"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "Värdgrupper"
@@ -4101,6 +4125,9 @@ msgstr ""
 msgid "Location"
 msgstr "Lokation"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr ""
 
@@ -4329,9 +4356,6 @@ msgid "Mismatches Report"
 msgstr "Rapport för matchningsfel"
 
 msgid "Missing one of the required permissions: %s"
-msgstr ""
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4662,8 +4686,8 @@ msgstr ""
 msgid "Nic::Base|Virtual"
 msgstr ""
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "Inga %{template_kind}mallar hittades för denna värd, säkerställ att du definierar åtminstone en under dina %{os}-inställningar"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5105,6 +5129,9 @@ msgstr "Order"
 msgid "Organization"
 msgstr "Organisation"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr ""
 
@@ -5174,7 +5201,7 @@ msgstr "Ägare ändrad till %s"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "Ägartyp måste vara en av följande: %s"
 
-msgid "POAP template"
+msgid "POAP PXE template"
 msgstr ""
 
 msgid "PXE"
@@ -5183,7 +5210,16 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "PXE Standardfil har laddats upp till alla Smart Proxies"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
@@ -5832,9 +5868,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr ""
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Ta bort tidigare TFTP-inställningar för %s"
 
 msgid "Remove this override"
 msgstr ""
@@ -6778,9 +6811,6 @@ msgstr "TFTP Proxy"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "TFTP Proxy för detta subnät"
 
-msgid "TFTP Settings for %s"
-msgstr "TFTP-inställningar för %s"
-
 msgid "TFTP server"
 msgstr ""
 
@@ -6819,6 +6849,9 @@ msgid "Template %s is empty."
 msgstr ""
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -7413,6 +7446,12 @@ msgid "Unable to perform lan BMC operation"
 msgstr ""
 
 msgid "Unable to perform power BMC operation"
+msgstr ""
+
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
 msgstr ""
 
 msgid "Unable to retrieve DHCP entry for %s"
@@ -8190,7 +8229,7 @@ msgstr "Ditt lösenord är för kort"
 msgid "Your session has expired, please login again"
 msgstr "Din session har utgått, var vänlig logga in igen"
 
-msgid "ZTP template"
+msgid "ZTP PXE template"
 msgstr ""
 
 msgid "Zone"
@@ -8387,9 +8426,6 @@ msgstr "misslyckades med att detektera bootserver: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "misslyckades med att köra puppetrun: %s"
-
-msgid "failed to process template: %s"
-msgstr "misslyckades med att bearbeta mallen: %s"
 
 msgid "failed to save %s"
 msgstr "misslyckades med att spara %s"

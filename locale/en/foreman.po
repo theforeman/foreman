@@ -562,6 +562,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr ""
 
@@ -1007,7 +1010,7 @@ msgstr ""
 msgid "Build from OS image"
 msgstr ""
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
 msgstr ""
 
 msgid "CA certificate expiry date"
@@ -1127,6 +1130,9 @@ msgstr ""
 #, fuzzy
 msgid "Changed environments"
 msgstr "Environment"
+
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
 
 msgid "Chassis"
 msgstr ""
@@ -1909,6 +1915,12 @@ msgstr ""
 msgid "Disable alerts for selected hosts"
 msgstr ""
 
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
+
 msgid "Disabled"
 msgstr ""
 
@@ -2100,7 +2112,7 @@ msgstr ""
 msgid "Edit Realm"
 msgstr ""
 
-msgid "Edit Roles"
+msgid "Edit Role"
 msgstr ""
 
 msgid "Edit Smart Variable"
@@ -2572,10 +2584,22 @@ msgstr ""
 msgid "Filter classes"
 msgstr ""
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr ""
 
 msgid "Filters for role %s"
+msgstr ""
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
 msgstr ""
 
 msgid "Filter|Permissions"
@@ -4190,6 +4214,9 @@ msgstr ""
 msgid "Login delegation logout URL"
 msgstr ""
 
+msgid "Login page footer text"
+msgstr ""
+
 msgid "Logout"
 msgstr ""
 
@@ -5790,9 +5817,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr ""
@@ -6036,7 +6060,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-msgid "Role cloned from role %{old_name}"
+msgid "Role %s."
 msgstr ""
 
 msgid "Role is in use"
@@ -6646,6 +6670,9 @@ msgstr "Value"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr ""
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr ""
 
@@ -6942,6 +6969,9 @@ msgid "Test connection was successful"
 msgstr ""
 
 msgid "Test email"
+msgstr ""
+
+msgid "Text to be shown in the login-page footer"
 msgstr ""
 
 msgid ""
@@ -8121,6 +8151,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr ""
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr ""
 
@@ -8748,9 +8787,6 @@ msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
 msgid "no value"
-msgstr ""
-
-msgid "none"
 msgstr ""
 
 msgid "not found"
