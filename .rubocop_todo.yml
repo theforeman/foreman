@@ -388,10 +388,6 @@ Style/MultilineMethodCallIndentation:
 Style/MultilineOperationIndentation:
   Enabled: false
 
-# Offense count: 2
-Style/MultilineTernaryOperator:
-  Enabled: false
-
 # Offense count: 99
 # Cop supports --auto-correct.
 Style/MutableConstant:
