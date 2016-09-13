@@ -105,6 +105,10 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  def self.respond_to_missing?(method_name, include_private = false)
+    true
+  end
+
   def value=(v)
     v = v.to_yaml unless v.nil?
     write_attribute :value, v
