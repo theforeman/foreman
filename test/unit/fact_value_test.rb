@@ -63,6 +63,15 @@ class FactValueTest < ActiveSupport::TestCase
     refute_empty results
   end
 
+  test 'should return search results for host.hostgroup = name' do
+    host = FactoryGirl.create(:host, :with_hostgroup)
+    hostgroup = host.hostgroup.to_label
+    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    results = FactValue.search_for("host.hostgroup = #{hostgroup}")
+    refute_empty results
+  end
+
   test 'should return empty search results for host with no facts' do
     host = FactoryGirl.create(:host)
     results = FactValue.search_for("host = #{host.fqdn}")
