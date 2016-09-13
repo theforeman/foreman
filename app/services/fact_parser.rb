@@ -179,12 +179,4 @@ class FactParser
   def not_implemented_error(method)
     "#{method} fact parsing not implemented in #{self.class}"
   end
-
-  def is_numeric?(string)
-    begin
-      !!Integer(string)
-    rescue ArgumentError, TypeError
-      false
-    end
-  end
 end

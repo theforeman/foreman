@@ -99,6 +99,17 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     refute @importer.operatingsystem.description
   end
 
+  test 'should accept y.z minor version' do
+    FactoryGirl.create(:operatingsystem, name: "CentOS",
+                                         major: "7",
+                                         minor: "2.1511",
+                                         description: "CentOS Linux 7.2.1511")
+    assert_valid PuppetFactParser.new({ "operatingsystem" => "CentOS",
+                                        "lsbdistdescription" => "CentOS Linux release 7.2.1511 (Core) ",
+                                        "operatingsystemrelease" => "7.2.1511"
+    }).operatingsystem
+  end
+
   test "should set os.major and minor correctly from AIX facts" do
     @importer = PuppetFactParser.new(aix_facts)
     assert_equal 'AIX', @importer.operatingsystem.family
