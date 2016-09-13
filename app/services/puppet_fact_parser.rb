@@ -7,7 +7,7 @@ class PuppetFactParser < FactParser
     if os_name == "Archlinux"
       # Archlinux is rolling release, so it has no release. We use 1.0 always
       args = {:name => os_name, :major => "1", :minor => "0"}
-      os = Operatingsystem.where(args).first || Operatingsystem.new(args)
+      os = Operatingsystem.find_or_initialize_by(args)
     elsif orel.present?
       if os_name == "Debian" && orel[/testing|unstable/i]
         case facts[:lsbdistcodename]
@@ -27,14 +27,14 @@ class PuppetFactParser < FactParser
       elsif os_name[/FreeBSD/i]
         orel.gsub!(/\-RELEASE\-p[0-9]+/, '')
       end
-      major, minor = orel.split(".")
-      major.to_s.gsub!(/\D/, '') unless is_numeric? major
-      minor.to_s.gsub!(/\D/, '') unless is_numeric? minor
-      args = {:name => os_name, :major => major.to_s, :minor => minor.to_s}
-      os = Operatingsystem.where(args).first || Operatingsystem.create!(args)
+      major, minor = orel.split('.', 2)
+      major.to_s.gsub!(/\D/, '')
+      minor.to_s.gsub!(/[^\d\.]/, '')
+      args = {:name => os_name, :major => major, :minor => minor}
+      os = Operatingsystem.find_or_initialize_by(args)
       os.release_name = facts[:lsbdistcodename] if facts[:lsbdistcodename] && (os_name[/debian|ubuntu/i] || os.family == 'Debian')
     else
-      os = Operatingsystem.find_by_name(os_name) || Operatingsystem.create!(:name => os_name)
+      os = Operatingsystem.find_or_initialize_by(:name => os_name)
     end
     if os.description.blank?
       if os_name == 'SLES'
