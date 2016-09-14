@@ -252,26 +252,26 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def facts
     #  return the equivalent of Facter.to_hash
-    @json ||= JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + "/facts.json")))['facts']
+    @json ||= read_json_fixture('facts/facts.json')['facts']
   end
 
   def debian_facts
-    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_debian.json')))['facts']
+    read_json_fixture('facts/facts_debian.json')['facts']
   end
 
   def sles_facts
-    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_sles.json')))['facts']
+    read_json_fixture('facts/facts_sles.json')['facts']
   end
 
   def aix_facts
-    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_aix.json')))['facts']
+    read_json_fixture('facts/facts_aix.json')['facts']
   end
 
   def freebsd_stable_facts
-    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_freebsd_stable.json')))['facts']
+    read_json_fixture('facts/facts_freebsd_stable.json')['facts']
   end
 
   def freebsd_patch_facts
-    JSON.parse(File.read(File.expand_path(File.dirname(__FILE__) + '/facts_freebsd_patch.json')))['facts']
+    read_json_fixture('facts/facts_freebsd_patch.json')['facts']
   end
 end
