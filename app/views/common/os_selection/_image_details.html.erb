@@ -1,7 +1,7 @@
 <%= fields_for item do |f| %>
   <span id="image_details">
     <%= checkbox_f f, :use_image, :label => _("OS Image"), :help_inline => _("Build from OS image"),
-                   :onchange => 'use_image_selected(this)', :'data-url'=> method_path('use_image_selected'), :'data-type' => controller_name %>
+                   :onchange => 'use_image_selected(this)', :'data-url'=> method_path('use_image_selected'), :'data-type' => controller_name.singularize %>
     <%= text_f f, :image_file, :disabled => !item.use_image, :class => "col-md-6" %>
   </span>
 <% end %>
