@@ -784,6 +784,15 @@ class HostTest < ActiveSupport::TestCase
       assert_equal '3.3.4.12', parameters['foreman_interfaces'].first['ip']
     end
 
+    test "should import from non-parameterized external nodes output" do
+      host = FactoryGirl.create(:host, :environment => environments(:production))
+      host.importNode("environment" => "production", "classes" => ["apache", "base"], "parameters" => {})
+
+      Setting[:Parametrized_Classes_in_ENC] = true
+      Setting[:Enable_Smart_Variables_in_ENC] = true
+      assert_equal ['apache', 'base'], host.info['classes'].keys
+    end
+
     test "show be enabled by default" do
       host = Host.create :name => "myhost", :mac => "aabbccddeeff"
       assert host.enabled?
