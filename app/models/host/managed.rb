@@ -487,7 +487,9 @@ class Host::Managed < Host::Base
   def importNode(nodeinfo)
     myklasses= []
     # puppet classes
-    nodeinfo["classes"].each do |klass|
+    classes = nodeinfo["classes"]
+    classes = classes.keys if classes.is_a?(Hash)
+    classes.each do |klass|
       if (pc = Puppetclass.find_by_name(klass))
         myklasses << pc
       else
