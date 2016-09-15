@@ -25,6 +25,10 @@ Style/Documentation:
 Style/HashSyntax:
   Enabled: false
 
+# Don't enforce frozen string literals
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
