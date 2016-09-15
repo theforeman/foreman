@@ -82,7 +82,9 @@ module HasManyCommon
 
       # SETTER _name= method
       define_method "#{assoc_name}=" do |name_value|
-        assoc_id = assoc_klass(association).send("find_by_#{assoc_klass(association).attribute_name}", name_value).id
+        assoc_id = assoc_klass(association).send("find_by_#{assoc_klass(association).attribute_name}", name_value).try(:id)
+        raise ActiveRecord::RecordNotFound
+                .new(_("Could not find %{association} with name: %{name}") % { name: name_value, association: association }) unless assoc_id
         self.send("#{assoc}_id=", assoc_id)
       end
 

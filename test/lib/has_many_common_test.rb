@@ -79,6 +79,13 @@ class HasManyCommonTest < ActiveSupport::TestCase
     refute_equal orig_id, new_id
   end
 
+  test "should raise not found error if hostgroup name does not exist" do
+    host = FactoryGirl.build(:host)
+    assert_raise ActiveRecord::RecordNotFound do
+      host.hostgroup_name = "No such HG"
+    end
+  end
+
   ## Test name methods resolve for Plugin AR objects
   class ::FakePlugin; end
   class ::FakePlugin::FakeModel; end
