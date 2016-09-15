@@ -154,12 +154,12 @@ module Hostext
       def search_by_params(key, operator, value)
         key_name = key.sub(/^.*\./,'')
         condition = sanitize_sql_for_conditions(["name = ? and value #{operator} ?", key_name, value_to_sql(operator, value)])
-        p = Parameter.where(condition).order(:priority)
+        p = Parameter.where(condition).reorder(:priority)
         return {:conditions => '1 = 0'} if p.blank?
 
         max         = p.first.priority
         condition   = sanitize_sql_for_conditions(["name = ? and NOT(value #{operator} ?) and priority > ?",key_name,value_to_sql(operator, value), max])
-        n           = Parameter.where(condition).order(:priority)
+        n           = Parameter.where(condition).reorder(:priority)
 
         conditions = param_conditions(p)
         negate = param_conditions(n)
@@ -227,7 +227,7 @@ module Hostext
               conditions << "nics.subnet_id = #{param.reference_id} OR nics.subnet6_id = #{param.reference_id}"
           end
         end
-        conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"
+        conditions.empty? ? "" : "( #{conditions.join(' OR ')} )"
       end
 
       #override these if needed to add connection in plugin

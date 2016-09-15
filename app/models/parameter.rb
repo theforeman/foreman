@@ -13,22 +13,26 @@ class Parameter < ActiveRecord::Base
 
   default_scope -> { order("parameters.name") }
 
-  after_initialize :set_priority
+  before_create :set_priority
 
-  PRIORITY = {:common_parameter => 0, :domain_parameter => 1, :subnet_parameter => 2, :os_parameter => 3, :group_parameter => 4, :host_parameter => 5}
+  PRIORITY = { :common_parameter => 0,
+               :organization_parameter => 10,
+               :location_parameter => 20,
+               :domain_parameter => 30,
+               :subnet_parameter => 40,
+               :os_parameter => 50,
+               :group_parameter => 60,
+               :host_parameter => 70
+             }
 
-  def self.reassign_priorities
-    # priorities will be reassigned because of after_initialize
-    find_in_batches do |params|
-      params.each { |param| param.update_attribute(:priority, param.priority) }
-    end
+  def self.type_priority(type)
+    PRIORITY.fetch(type.to_s.underscore.to_sym, nil) unless type.nil?
   end
 
   private
 
   def set_priority
-    t = read_attribute(:type)
-    self.priority = PRIORITY[t.to_s.underscore.to_sym] unless t.blank?
+    self.priority = Parameter.type_priority(type)
   end
 
   def skip_strip_attrs

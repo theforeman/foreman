@@ -2,7 +2,7 @@ class AddPriorityToParameter < ActiveRecord::Migration
   def up
     add_column :parameters, :priority, :integer
     Parameter.reset_column_information
-    Parameter.reassign_priorities
+    Rake::Task['parameters:reset_priorities'].invoke
   end
 
   def down
