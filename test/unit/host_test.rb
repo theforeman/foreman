@@ -1856,6 +1856,21 @@ class HostTest < ActiveSupport::TestCase
       assert_equal parameter.value, results.find(host.id).params[parameter.name]
     end
 
+    test "Correctly find hosts with overridden parameter values" do
+      host1 = FactoryGirl.create(:host)
+      host2 = FactoryGirl.create(:host)
+      parameter = FactoryGirl.create(:parameter)
+      override = FactoryGirl.create(:host_parameter, name: parameter.name, value: "different", host: host1)
+
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      assert results.include?(host2)
+      refute results.include?(host1)
+
+      results = Host.search_for(%{params.#{parameter.name} = "#{override.value}"})
+      assert results.include?(host1)
+      refute results.include?(host2)
+    end
+
     test "can search hosts by smart proxy" do
       host = FactoryGirl.create(:host)
       proxy = FactoryGirl.create(:puppet_and_ca_smart_proxy)
