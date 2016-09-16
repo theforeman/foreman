@@ -427,4 +427,27 @@ class UsersControllerTest < ActionController::TestCase
     post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
     assert_redirected_to realms_path
   end
+
+  test "admin user login change should not be allowed for login 'admin'" do
+    user = User.current
+    user.login = 'other_user'
+    refute_valid user
+    assert_equal "This login cannot be changed", user.errors[:login].first
+  end
+
+  test "user cannot change own login" do
+    old_current = User.current
+    user = FactoryGirl.create(:user, :with_mail, :admin => false)
+    User.current = user
+    user.login = 'other_user'
+    refute_valid user
+    assert_equal "This login cannot be changed", user.errors[:login].first
+    User.current = old_current
+  end
+
+  test "user login can be changed by admin" do
+    user = FactoryGirl.create(:user, :with_mail, :admin => false)
+    user.login = 'other_user'
+    assert_valid user
+  end
 end

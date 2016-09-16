@@ -84,7 +84,8 @@ class User < ActiveRecord::Base
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
-           :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin
+           :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin,
+           :ensure_admin_login_cannot_be_changed, :ensure_user_cannot_change_own_login
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
 
@@ -542,6 +543,18 @@ class User < ActiveRecord::Base
   def ensure_admin_password_changed_by_admin
     if (self.admin && !User.current.try(:admin?)) && password_hash_changed?
       errors.add :password, _('cannot be changed by a non-admin user')
+    end
+  end
+
+  def ensure_user_cannot_change_own_login
+    if login_changed? && self == User.current && !self.new_record?
+      errors.add :login, _('This login cannot be changed')
+    end
+  end
+
+  def ensure_admin_login_cannot_be_changed
+    if login == 'admin' && login_changed? && !self.new_record?
+      errors.add :login, _('This login cannot be changed')
     end
   end
 

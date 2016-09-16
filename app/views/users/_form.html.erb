@@ -18,7 +18,7 @@
   <div class='tab-content'>
     <div class='tab-pane active' id='primary'>
 
-      <%= text_f f, :login, :disabled => f.object.login == 'admin' %>
+      <%= text_f f, :login, :disabled => f.object.login == 'admin' || f.object == User.current %>
       <%= text_f f, :firstname %>
       <%= text_f f, :lastname %>
       <%= text_f f, :mail %>
