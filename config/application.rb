@@ -55,6 +55,7 @@ require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require File.expand_path('../../lib/foreman/exception', __FILE__)
 require File.expand_path('../../lib/core_extensions', __FILE__)
 require File.expand_path('../../lib/foreman/logging', __FILE__)
+require File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
 require File.expand_path('../../lib/middleware/tagged_logging', __FILE__)
 
 if SETTINGS[:support_jsonp]
@@ -155,13 +156,13 @@ module Foreman
     config.assets.version = '1.0'
 
     # Catching Invalid JSON Parse Errors with Rack Middleware
-    config.middleware.insert_before ActionDispatch::ParamsParser, "Middleware::CatchJsonParseErrors"
+    config.middleware.insert_before ActionDispatch::ParamsParser, Middleware::CatchJsonParseErrors
 
     # Record request ID in logging MDC storage
     config.middleware.insert_before Rails::Rack::Logger, Middleware::TaggedLogging
 
     # Add apidoc hash in headers for smarter caching
-    config.middleware.use "Apipie::Middleware::ChecksumInHeaders"
+    config.middleware.use Apipie::Middleware::ChecksumInHeaders
 
     Foreman::Logging.configure(
       :log_directory => "#{Rails.root}/log",
