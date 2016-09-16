@@ -526,4 +526,18 @@ class SettingTest < ActiveSupport::TestCase
     Setting[name] = options[:value]
     assert_nil Rails.cache.read(name)
   end
+
+  test 'bmc_credentials_accessible may not be disabled with safemode_render disabled' do
+    Setting[:safemode_render] = false
+    bmc = Setting.find_by_name('bmc_credentials_accessible')
+    bmc.value = false
+    refute_valid bmc, :base, 'Unable to disable bmc_credentials_accessible when safemode_render is disabled'
+  end
+
+  test 'safemode_render may not be disabled with bmc_credentials_accessible disabled' do
+    Setting[:bmc_credentials_accessible] = false
+    bmc = Setting.find_by_name('safemode_render')
+    bmc.value = false
+    refute_valid bmc, :base, 'Unable to disable safemode_render when bmc_credentials_accessible is disabled'
+  end
 end

@@ -31,5 +31,9 @@ FactoryGirl.define do
     trait :puppet do
       name 'Puppet'
     end
+
+    trait :bmc do
+      name 'BMC'
+    end
   end
 end

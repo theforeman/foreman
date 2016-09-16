@@ -32,6 +32,33 @@ class BMCTest < ActiveSupport::TestCase
     end
   end
 
+  test 'BMC password is provided in #password' do
+    bmc_nic = FactoryGirl.build(:nic_bmc, :provider => 'ipmi', :password => 'secret')
+    assert_equal 'secret', bmc_nic.password
+  end
+
+  context 'with bmc_credentials_accessible => false' do
+    setup do
+      Setting[:bmc_credentials_accessible] = false
+      @bmc_nic = FactoryGirl.build(:nic_bmc, :provider => 'ipmi', :password => 'secret')
+    end
+
+    test 'BMC password is redacted in ENC output' do
+      assert_nil @bmc_nic.to_export['password']
+    end
+
+    test 'BMC password is hidden in #password' do
+      assert_nil @bmc_nic.password
+      assert_equal 'secret', @bmc_nic.password_unredacted
+    end
+
+    test '#proxy instantiates ProxyAPI with password' do
+      @bmc_nic.expects(:bmc_proxy).returns(FactoryGirl.create(:bmc_smart_proxy))
+      ProxyAPI::BMC.expects(:new).with(has_entry(:password => 'secret'))
+      @bmc_nic.proxy
+    end
+  end
+
   context "no BMC smart proxy exists" do
     def setup
       SmartProxy.with_features('BMC').destroy_all
