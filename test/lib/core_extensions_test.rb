@@ -9,11 +9,23 @@ class CoreExtensionsTest < ActiveSupport::TestCase
       assert(to_gb_value.is_a?(Float), "Converted value shoud be a float")
     end
 
+    test '#to_gb for bytes' do
+      value = '0 Bytes'
+      to_gb_value = value.to_gb
+      assert_equal 0.0, to_gb_value, 'Converted values should be 0'
+    end
+
     test '#to_gb with iB values' do
       value = "1024 MiB"
       to_gb_value = value.to_gb
       assert_equal(1.0, to_gb_value, "Converted value should be 1.0")
       assert(to_gb_value.is_a?(Float), "Converted value shoud be a float")
+    end
+
+    test '#to_gb non matching string raises exception with correct message' do
+      value = 'something that is not matched'
+      exception = assert_raises(RuntimeError) { value.to_gb }
+      assert exception.message =~ /^Unknown string/, "wrong exception reason #{exception}"
     end
 
     test '#to_utf8' do
