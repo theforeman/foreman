@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   skip_before_action :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_action :authorize, :only => :extlogin
   after_action       :update_activity_time, :only => :login
+  before_action      :verify_active_session, :only => :login
 
   def index
     @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page])
@@ -154,5 +155,13 @@ class UsersController < ApplicationController
 
   def parameter_filter_context
     Foreman::Controller::Parameters::User::Context.new(:ui, controller_name, params[:action], editing_self?)
+  end
+
+  def verify_active_session
+    if !request.post? && params[:status].blank? && User.exists?(session[:user].presence)
+      warning _("You have already logged in")
+      redirect_back_or_to hosts_path
+      return
+    end
   end
 end
