@@ -80,3 +80,61 @@ export function initTypeAheadSelect(input) {
     width: '400px'
   });
 }
+
+export function catchAjaxModal() {
+  $('.inline_ajax_modal').click(e => {
+    e.preventDefault();
+    showSpinner();
+    const url = e.target.href;
+
+    $.ajax({
+      type: 'GET',
+      url: url,
+      headers: {'X-Foreman-Layout': 'modal'},
+      success: (response) => {
+        hideSpinner();
+        $('body').append(response);
+        $('#edit-user-modal').modal({'show': true});
+      },
+      error: (response) => {
+        hideSpinner();
+        $('#content').html(response.responseText);
+      }
+    });
+  });
+}
+
+export function handleEditUserSubmit() {
+  $('#edit-user-modal input[type="submit"]').click(e => {
+    e.preventDefault();
+    showSpinner();
+    const url = $('#edit-user-modal form').attr('action');
+    const formData = $('#edit-user-modal form').serialize();
+
+    $.ajax({
+      type: 'PUT',
+      url: url,
+      data: formData,
+      success: (response) => {
+        hideSpinner();
+        if (response) {
+          $('#edit-user-modal .modal-body').html(response);
+          $('#edit-user-modal').modal('show');
+        } else {
+          $('#edit-user-modal').modal('hide');
+        }
+      },
+      error: (response) => {
+        hideSpinner();
+        $('#edit-user-modal .modal-body').html(response).modal('show');
+      }
+    });
+  });
+}
+
+export function handleEditUserCancel() {
+  $('#edit-user-modal .form-actions .btn-default').click(e => {
+    e.preventDefault();
+    $('#edit-user-modal').modal('hide');
+  });
+}

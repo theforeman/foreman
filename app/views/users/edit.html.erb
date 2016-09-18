@@ -1,3 +1,12 @@
 <% title _("Edit User") %>
 
 <%= render :partial => 'form' %>
+
+<script>
+  tfm.tools.handleEditUserSubmit();
+  tfm.tools.handleEditUserCancel();
+  password_strength_feedback($('#user_password'));
+  $('#user_password_confirmation').bind("change keyup input focusout", function () {
+    update_confirmation();
+  });
+</script>

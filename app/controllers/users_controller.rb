@@ -32,6 +32,13 @@ class UsersController < ApplicationController
     (MailNotification.authorized_as(@user, :view_mail_notifications).subscriptable - @user.mail_notifications).sort_by(&:name).each do |mail_notification|
       @user.user_mail_notifications.build(:mail_notification_id => mail_notification.id)
     end
+    if !params[:no_modal] && editing_self? && request.xhr?
+      render :layout => 'modal', :locals => {
+        :id => 'edit-user-modal',
+        :title => _("My Account"),
+        :big => true,
+        :buttons => [] }
+    end
   end
 
   def update
@@ -39,10 +46,13 @@ class UsersController < ApplicationController
     @user = find_resource(:edit_users)
     if @user.update_attributes(user_params)
       update_sub_hostgroups_owners
-
-      process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
+      if request.xhr?
+        render :nothing => true, :status => :ok
+      else
+        process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
+      end
     else
-      process_error
+      render :edit, :layout => false
     end
   end
 

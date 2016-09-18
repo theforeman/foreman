@@ -19,7 +19,9 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td class="display-two-pane ellipsis"><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized user.login, hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
+        <td class="display-two-pane ellipsis"><%= avatar_image_tag user, :class => "avatar" %>
+          <%=link_to_if_authorized user.login, hash_for_edit_user_path(:id => user, :no_modal => true).merge(:auth_object => user, :authorizer => authorizer) %>
+        </td>
         <td class="ellipsis"><%= user.firstname %></td>
         <td class="ellipsis"><%= user.lastname %></td>
         <td class="ellipsis"><%= user.mail %></td>

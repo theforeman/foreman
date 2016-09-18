@@ -14,7 +14,8 @@ module Menu
       Manager.map :user_menu do |menu|
         menu.item :my_account,
                   :caption => N_('My account'),
-                  :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
+                  :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }},
+                  :html => {:class => 'inline_ajax_modal'}
         menu.divider
         menu.item :logout,
                   :caption => N_('Log out'),

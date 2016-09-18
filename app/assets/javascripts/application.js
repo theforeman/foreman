@@ -18,10 +18,11 @@
 //= require lookup_keys
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require password_strength
 
-$(document).on("page:fetch", tfm.tools.showSpinner)
+$(document).on("page:fetch", tfm.tools.showSpinner);
 
-$(document).on("page:change", tfm.tools.hideSpinner)
+$(document).on("page:change", tfm.tools.hideSpinner);
 
 $(window).bind('beforeunload', function() {
   $(".jnotify-container").remove();
@@ -114,7 +115,9 @@ function onContentLoad(){
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
-  })
+  });
+
+  tfm.tools.catchAjaxModal();
 }
 
 function preserve_selected_options(elem) {
