@@ -322,6 +322,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "#login renders login page" do
+    session.clear
     get :login
     assert_response :success
   end
@@ -362,6 +363,24 @@ class UsersControllerTest < ActionController::TestCase
     MailNotification.any_instance.stubs(:deliver).raises(Net::SMTPFatalError, 'Exception message')
     put :test_mail, { :id => user.id, :user => {:login => "johnsmith"}, :user_email => "foo@bar.com" }, set_session_user
     assert_response :unprocessable_entity
+  end
+
+  context "when user is logged in" do
+    test "#login redirects to previous url" do
+      @previous_url = "/bookmarks"
+      get :login, set_session_user
+      request.env['HTTP_REFERER'] = @previous_url
+
+      get :login
+      assert_redirected_to @previous_url
+    end
+
+    test "#login if referer absent redirect to hosts_path" do
+      request.env['HTTP_REFERER'] = nil
+
+      get :login
+      assert_redirected_to hosts_path
+    end
   end
 
   context 'default taxonomies' do
