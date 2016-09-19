@@ -19,6 +19,11 @@ class StructuredFactImporter < FactImporter
     memo
   end
 
+  def preload_fact_names
+    # Also fetch compose values, generating {NAME => [ID, COMPOSE]}, avoiding loading the entire model
+    Hash[fact_name_class.where(:type => fact_name_class).reorder('').pluck(:name, :id, :compose).map { |fact| [fact.shift, fact] }]
+  end
+
   def create_fact_name(fact_names, name, fact_value)
     if name.include?(FactName::SEPARATOR)
       parent_name = /(.*)#{FactName::SEPARATOR}/.match(name)[1]
@@ -28,10 +33,10 @@ class StructuredFactImporter < FactImporter
     end
 
     if fact_names[name]
-      fact_names[name].update_attribute(:compose, fact_value.nil?) if fact_value.nil? && !fact_names[name].compose?
+      fact_name_class.update(fact_names[name][0], :compose => fact_value.nil?) if fact_value.nil? && !fact_names[name][1]
     else
-      fact_names[name] = fact_name_class.create!(:name => name, :compose => fact_value.nil?, :parent => parent_fact)
+      fact_names[name] = [fact_name_class.create!(:name => name, :compose => fact_value.nil?, :parent_id => parent_fact).id, fact_value.nil?]
     end
-    fact_names[name]
+    fact_names[name][0]
   end
 end
