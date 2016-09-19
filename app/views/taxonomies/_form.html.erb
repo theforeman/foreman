@@ -59,8 +59,8 @@
                        :'data-url' => (controller_name == 'organizations' ? parent_taxonomy_selected_organization_path(taxonomy.id) :
                                parent_taxonomy_selected_location_path(taxonomy.id))
                      }) if show_parent?(taxonomy) %>
-        <%= text_f f, :name %>
-        <%= textarea_f f, :description, :rows => 5 %>
+        <%= text_f f, :name, :label => _('Name') %>
+        <%= textarea_f f, :description, :rows => 5, :label => _('Description') %>
       </div>
 
       <%= show_resource_if_allowed(f, taxonomy, {:resource => :users, :association => User.except_admin}) %>
