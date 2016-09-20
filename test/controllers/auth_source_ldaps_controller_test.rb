@@ -94,4 +94,17 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     put :test_connection, {:id => AuthSourceLdap.first, :auth_source_ldap => {:name => AuthSourceLdap.first.name} }, set_session_user
     assert_response :unprocessable_entity
   end
+
+  test 'organizations/locations can be assigned to it' do
+    auth_source_ldap_params = { :name => AuthSourceLdap.first.name,
+                                :organization_ids => [taxonomies(:organization1).id],
+                                :location_names => [taxonomies(:location1).name] }
+    put :update, { :id => AuthSourceLdap.first,
+                   :auth_source_ldap => auth_source_ldap_params },
+                   set_session_user
+    assert_equal [taxonomies(:organization1)],
+      AuthSourceLdap.first.organizations.to_a
+    assert_equal [taxonomies(:location1)],
+      AuthSourceLdap.first.locations.to_a
+  end
 end

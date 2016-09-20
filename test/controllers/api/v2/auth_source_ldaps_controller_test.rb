@@ -69,4 +69,16 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
+
+  test 'taxonomies can be set' do
+    put :update, { :id => auth_sources(:one).to_param,
+                   :organization_names => [taxonomies(:organization1).name],
+                   :location_ids => [taxonomies(:location1).id] }
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_response :success
+    assert_equal taxonomies(:location1).id,
+      show_response['locations'].first['id']
+    assert_equal taxonomies(:organization1).id,
+      show_response['organizations'].first['id']
+  end
 end

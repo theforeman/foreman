@@ -27,6 +27,8 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   should validate_length_of(:attr_firstname).is_at_most(30)
   should validate_length_of(:attr_lastname).is_at_most(30)
   should validate_length_of(:attr_mail).is_at_most(30)
+  should have_many(:organizations)
+  should have_many(:locations)
 
   test "after initialize if port == 0 should automatically change to 389" do
     other_auth_source_ldap = AuthSourceLdap.new
@@ -215,6 +217,23 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       ensure
         FileUtils.remove_entry temp_dir
       end
+    end
+  end
+
+  context 'scoped search' do
+    test "should return search results if search free text is auth source name" do
+      @auth_source_ldap.name = 'remote'
+      @auth_source_ldap.save
+      results = AuthSourceLdap.search_for('remote')
+      assert_equal(1, results.count)
+    end
+
+    test "should return search results for name = auth source name" do
+      @auth_source_ldap.name = 'my_ldap'
+      @auth_source_ldap.save
+      results = AuthSourceLdap.search_for('name = my_ldap')
+      assert_equal(1, results.count)
+      assert_equal 'my_ldap', results.first.name
     end
   end
 

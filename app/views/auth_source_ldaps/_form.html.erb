@@ -6,6 +6,12 @@
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("LDAP server") %></a></li>
     <li><a href="#account" data-toggle="tab"><%= _("Account") %></a></li>
     <li><a href="#attributes" data-toggle="tab"><%= _("Attribute mappings") %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -38,7 +44,8 @@
       <%= text_f f, :attr_mail, :help_inline => _("e.g. mail") %>
       <%= text_f f, :attr_photo, :label => _("Photo attribute"), :help_inline => _("e.g. jpegPhoto") %>
     </div>
-  </div>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @auth_source_ldap %>
+</div>
 
   <%= submit_or_cancel f %>
 <% end %>
