@@ -12,7 +12,7 @@ module Nic
     end
     alias_method :virtual?, :virtual
 
-    attr_exportable :provider, :username, :password => ->(nic) { nic.decrypt_field(nic.password) }
+    attr_exportable :provider, :username, :password
 
     def proxy
       proxy = bmc_proxy
@@ -20,7 +20,7 @@ module Nic
       ProxyAPI::BMC.new({ :host_ip  => ip,
                           :url      => proxy.url,
                           :user     => username,
-                          :password => password })
+                          :password => password_unredacted })
     end
 
     def self.humanized_name
@@ -29,6 +29,11 @@ module Nic
 
     class Jail < Nic::Managed::Jail
       allow :provider, :username, :password
+    end
+
+    alias_method :password_unredacted, :password
+    def password
+      Setting[:bmc_credentials_accessible] ? password_unredacted : nil
     end
 
     private

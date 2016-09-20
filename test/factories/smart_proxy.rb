@@ -6,6 +6,10 @@ FactoryGirl.define do
       features { |sp| [sp.association(:template_feature), sp.association(:tftp_feature) ] }
     end
 
+    factory :bmc_smart_proxy do
+      features { |sp| [sp.association(:feature, :bmc)] }
+    end
+
     factory :dhcp_smart_proxy do
       features { |sp| [sp.association(:feature, :dhcp)] }
     end

@@ -33,11 +33,18 @@ class Setting::Auth < Setting
         self.set('authorize_login_delegation_auth_source_user_autocreate', N_('Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)'), nil, N_('Authorize login delegation auth source user autocreate')),
         self.set('authorize_login_delegation', N_("Authorize login delegation with REMOTE_USER environment variable"), false, N_('Authorize login delegation')),
         self.set('authorize_login_delegation_api', N_("Authorize login delegation with REMOTE_USER environment variable for API calls too"), false, N_('Authorize login delegation API')),
-        self.set('idle_timeout', N_("Log out idle users after a certain number of minutes"), 60, N_('Idle timeout'))
+        self.set('idle_timeout', N_("Log out idle users after a certain number of minutes"), 60, N_('Idle timeout')),
+        self.set('bmc_credentials_accessible', N_("Permits access to BMC interface passwords through ENC YAML output and in templates"), true, N_('BMC credentials access'))
       ].compact.each { |s| self.create! s.update(:category => "Setting::Auth")}
     end
 
     true
+  end
+
+  def validate_bmc_credentials_accessible(record)
+    if !record.value && !Setting[:safemode_render]
+      record.errors[:base] << _("Unable to disable bmc_credentials_accessible when safemode_render is disabled")
+    end
   end
 
   def validate_websockets_encrypt(record)

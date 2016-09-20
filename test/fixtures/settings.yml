@@ -297,3 +297,8 @@ attributes61:
   category: Setting::Provisioning
   default: "Random-based"
   description: 'Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)'
+attributes62:
+  name: bmc_credentials_accessible
+  category: Setting::Auth
+  default: "true"
+  description: 'Permits access to BMC interface passwords through ENC YAML output and in templates'
