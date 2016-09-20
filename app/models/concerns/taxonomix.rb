@@ -219,7 +219,7 @@ module Taxonomix
   end
 
   def used_taxonomy_ids(type)
-    return [] if new_record?
+    return [] if new_record? || !self.respond_to?(:hosts)
     Host::Base.where(taxonomy_foreign_key_conditions).uniq.pluck(type).compact
   end
 

@@ -1,11 +1,21 @@
 module Api
   module V2
     class AuthSourceLdapsController < V2::BaseController
+      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::AuthSourceLdap
+
+      wrap_parameters AuthSourceLdap,
+        :include => auth_source_ldap_params_filter.
+                      accessible_attributes(parameter_filter_context)
 
       before_action :find_resource, :only => %w{show update destroy test}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
+      api :GET, '/locations/:location_id/auth_source_ldaps/',
+        N_('List LDAP authentication sources per location')
+      api :GET, '/organizations/:organization_id/auth_source_ldaps/',
+        N_('List LDAP authentication sources per organization')
+      param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -37,6 +47,7 @@ module Api
           param :groups_base, String, :desc => N_("groups base DN")
           param :server_type, AuthSourceLdap::SERVER_TYPES.keys, :desc => N_("type of the LDAP server")
           param :ldap_filter, String, :desc => N_("LDAP filter")
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

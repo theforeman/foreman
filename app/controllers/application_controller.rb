@@ -153,7 +153,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # not all models includes Authorizable so we detect whether we should apply authorized scope or not
+  # Not all models include Authorizable so we detect whether we should apply authorized scope or not
   def resource_base
     @resource_base ||= if model_of_controller.respond_to?(:authorized)
                          model_of_controller.authorized(current_permission)

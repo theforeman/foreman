@@ -1,5 +1,6 @@
 module Foreman::Controller::Parameters::AuthSourceLdap
   extend ActiveSupport::Concern
+  include Foreman::Controller::Parameters::Taxonomix
 
   class_methods do
     def auth_source_ldap_params_filter
@@ -21,6 +22,8 @@ module Foreman::Controller::Parameters::AuthSourceLdap
           :server_type,
           :tls,
           :usergroup_sync
+
+        add_taxonomix_params_filter(filter)
       end
     end
   end

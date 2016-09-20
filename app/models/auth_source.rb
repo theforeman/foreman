@@ -30,8 +30,6 @@ class AuthSource < ActiveRecord::Base
   scope :non_internal, -> { where("type NOT IN (?)", ['AuthSourceInternal', 'AuthSourceHidden']) }
   scope :except_hidden, -> { where('type <> ?', 'AuthSourceHidden') }
 
-  scoped_search :on => :name, :complete_value => :true
-
   def authenticate(login, password)
   end
 
