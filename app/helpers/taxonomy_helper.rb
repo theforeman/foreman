@@ -11,6 +11,9 @@ module TaxonomyHelper
   end
 
   def show_taxonomy_tabs?
+    Foreman::Deprecation.deprecation_warning(
+      '1.16', 'The partial "taxonomy/loc_org_tabs" checks already if '\
+      'taxonomies are enabled or not.')
     SETTINGS[:locations_enabled] || SETTINGS[:organizations_enabled]
   end
 
