@@ -12,7 +12,7 @@ if os_family == 'Freebsd'
   freebsd_package = @host.param_true?('enable-puppet4') ? 'puppet4' : 'puppet38'
   etc_path = '/usr/local/etc/puppet'
   bin_path = '/usr/local/bin'
-elsif @host.param_true?('enable-puppetlabs-pc1-repo')
+elsif @host.param_true?('enable-puppetlabs-pc1-repo') || @host.param_true?('enable-puppet4')
   linux_package = 'puppet-agent'
   etc_path = '/etc/puppetlabs/puppet'
   bin_path = '/opt/puppetlabs/bin'

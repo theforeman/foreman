@@ -13,11 +13,17 @@ trap "rm -rf $REPO" EXIT
 git clone -q -b $(git symbolic-ref -q HEAD --short) \
   https://github.com/theforeman/community-templates $REPO/ct
 
+# add underscore prefix to snippets
+if [ -d $REPO/ct/snippets ];
+then
+  for i in $REPO/ct/snippets/*;
+  do
+    mv $i $REPO/ct/snippets/_$(basename $i)
+  done
+fi
+
 # move into destination dir if run from Foreman root
 [ -d app/views/unattended ] && cd app/views/unattended
-
-# add underscore prefix to snippets
-(cd $REPO/ct/snippets && prename -f 's/^([^_])/_$1/' *)
 
 rsync -r \
   --exclude .gitignore \

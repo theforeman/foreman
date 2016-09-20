@@ -20,6 +20,9 @@ name: puppet.conf
   end
 %>
 [main]
+<%- unless @host.params['dns_alt_names'].to_s.empty? -%>
+dns_alt_names = <%= @host.params['dns_alt_names'] %>
+<%- end -%>
 vardir = <%= var_dir %>
 logdir = <%= log_dir %>
 rundir = <%= run_dir %>
