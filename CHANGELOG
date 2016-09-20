@@ -1,3 +1,36 @@
+2016-09-20	Dominic Cleal <dominic@cleal.org>
+	* Release 1.12.3
+
+2016-09-19	dhlavac <dhlavacd@redhat.com>
+	* Fixes #14101 - Exception triggered when editing/adding a role
+
+2016-09-19	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16219 - Interfaces API works with scoped view_hosts
+	* Fixes #16463 - Fix with_taxonomy_scope when taxable_ids = []
+	* Fixes #16197 - Host#smart_proxies returns only the host proxies
+
+2016-09-19	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #16397 - set nested template_combo. objects to optional
+
+2016-09-19	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #16483 - Remove deprecated 'search_by_name' from Puppetclass
+	* Fixes #16380 - Eager load hosts attributes
+
+2016-09-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16389 - enable taxable object creation in specific context
+
+2016-09-19	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #16416 - Enable reterive password_hash from templates
+
+2016-09-19	amirfefer <amirfefer@gmail.com>
+	* Fixes #16211 - show host autocomplete in audit search
+
+2016-09-19	Ori Rabin <orabin@redhat.com>
+	* Fixes #14468 - fix db:migrate when unattended false on empty db
+
+2016-09-19	Ohad Levy <ohadlevy@gmail.com>
+	* Fixes #16238 - Speed up dashboard loading time.
+
 2016-08-24	Dominic Cleal <dominic@cleal.org>
 	* Release 1.12.2
 
