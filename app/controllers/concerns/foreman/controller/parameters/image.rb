@@ -1,5 +1,6 @@
 module Foreman::Controller::Parameters::Image
   extend ActiveSupport::Concern
+  include Foreman::Controller::Parameters::Taxonomix
 
   class_methods do
     def image_params_filter
@@ -13,6 +14,7 @@ module Foreman::Controller::Parameters::Image
           :user_data,
           :username,
           :uuid
+        add_taxonomix_params_filter(filter)
       end
     end
   end

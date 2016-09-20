@@ -54,4 +54,22 @@ class ImagesControllerTest < ActionController::TestCase
     body = JSON.parse(response.body)
     assert_equal 2, body.size
   end
+
+  test "should create image with taxonomies" do
+    org = taxonomies(:organization1)
+    loc = taxonomies(:location1)
+    image_attrs = { :name => 'silver',
+                    :username => 'ec2-user',
+                    :uuid => Foreman.uuid.to_s,
+                    :operatingsystem_id => Operatingsystem.first.id,
+                    :architecture_id => Architecture.first.id,
+                    :compute_resource_id => @image.compute_resource_id,
+                    :location_ids => [loc],
+                    :organization_ids => [org]
+                  }
+    post :create, { :image => image_attrs, :compute_resource_id => @image.compute_resource_id }, set_session_user
+    img = Image.find_by_name('silver')
+    assert_equal org, img.organizations.first
+    assert_equal loc, img.locations.first
+  end
 end

@@ -1,11 +1,30 @@
-<%= form_for [@compute_resource, @image] do |f| %>
-  <%= base_errors_for @image %>
-  <%= text_f   f, :name %>
-  <%= f.hidden_field :compute_resource_id, :value => @compute_resource.id %>
-  <%= select_f f, :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
-  <%= select_f f, :architecture_id, Architecture.all, :id, :to_label %>
-  <%= render "images/form/#{@compute_resource.provider.downcase}", :f => f %>
+<% Taxonomy.as_taxonomy @organization , @location do %>
+  <%= form_for [@compute_resource, @image] do |f| %>
+    <%= base_errors_for @image %>
 
-  <%= submit_or_cancel f, false, :cancel_path => @compute_resource %>
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _('Image Details') %></a></li>
+      <% if show_location_tab? %>
+        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="primary">
+        <%= text_f   f, :name %>
+        <%= f.hidden_field :compute_resource_id, :value => @compute_resource.id %>
+        <%= select_f f, :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
+        <%= select_f f, :architecture_id, Architecture.all, :id, :to_label %>
+        <%= render "images/form/#{@compute_resource.provider.downcase}", :f => f %>
+      </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @image %>
+
+    <%= submit_or_cancel f, false, :cancel_path => @compute_resource %>
+
+    </div>
+  <% end %>
 <% end %>
-

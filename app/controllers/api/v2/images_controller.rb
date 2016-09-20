@@ -12,6 +12,7 @@ module Api
       param :compute_resource_id, String, :desc => N_("ID of compute resource")
       param :architecture_id, String, :desc => N_("ID of architecture")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -39,6 +40,7 @@ module Api
           param :architecture_id, String, :desc => N_("ID of architecture")
           param :operatingsystem_id, String, :desc => N_("ID of operating system")
           param :user_data, :bool, :desc => N_("Whether or not the image supports user data"), :allow_nil => true
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 
