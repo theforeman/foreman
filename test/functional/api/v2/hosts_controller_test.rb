@@ -210,6 +210,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should remove capabilites attribute from params while update" do
+    put :update, { :id => @host.to_param, :host =>  {"capabilities" =>  ["build"]}}
+    assert_response :success
+  end
+
   test "should update interfaces from compute profile" do
     disable_orchestration
 

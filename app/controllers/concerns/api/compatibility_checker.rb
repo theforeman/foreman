@@ -9,5 +9,11 @@ module Api
         Foreman::Deprecation.api_deprecation_warning("Field host_parameters_attributes.nested ignored") unless attribute.delete(:nested).nil?
       end
     end
+
+    def prevent_attributes
+      %w(capabilities).each do |attr|
+        params[:host].tap { |param| param.delete(attr) }
+      end
+    end
   end
 end

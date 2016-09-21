@@ -9,7 +9,7 @@ module Api
 
       wrap_parameters :host, :include => host_params_filter.accessible_attributes(parameter_filter_context) + ['compute_attributes']
 
-      before_action :check_create_host_nested, :only => [:create, :update]
+      before_action :check_create_host_nested, :prevent_attributes, :only => [:create, :update]
 
       before_action :find_optional_nested_object, :except => [:facts]
       before_action :find_resource, :except => [:index, :create, :facts]
@@ -78,7 +78,6 @@ module Api
           param :managed, :bool, :desc => N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
           param :progress_report_id, String, :desc => N_("UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks")
           param :comment, String, :desc => N_("Additional information about this host")
-          param :capabilities, String
           param :compute_profile_id, :number
           param :interfaces_attributes, Array, :desc => N_("Host's network interfaces.") do
             param_group :interface_attributes, ::Api::V2::InterfacesController
