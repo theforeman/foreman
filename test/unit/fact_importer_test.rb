@@ -43,6 +43,12 @@ class FactImporterTest < ActiveSupport::TestCase
           puppet_import '_timestamp' => '345'
         end
       end
+
+      test 'facts created have the origin attribute set' do
+        custom_import('foo' => 'bar')
+        imported_fact = FactName.find_by_name('foo').fact_values.first
+        assert_equal 'N/A', imported_fact.origin
+      end
     end
   end
 

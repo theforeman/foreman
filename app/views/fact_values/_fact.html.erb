@@ -21,6 +21,7 @@
       <%= show_full_fact_value(fact.value) if fact.value.length > allowed_length %>
     <% end %>
   </td>
+  <td class='fact-origin'><%= fact_origin_icon(fact.origin) %></td>
   <td><%= fact_from fact %></td>
   <td><% unless fact.compose %>
           <%= link_to_function(content_tag(:button, icon_text("adjust", "")),
