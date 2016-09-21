@@ -395,41 +395,45 @@ class User < ActiveRecord::Base
   end
 
   def self.try_to_auto_create_user(login, password)
-    return nil if login.blank? || password.blank?
-
-    # user is not yet registered, try to authenticate with available sources
+    return if login.blank? || password.blank?
+    # User is not yet registered, try to authenticate with available sources
     logger.debug "Attempting to log into an auth source as #{login} for account auto-creation"
-    if (attrs = AuthSource.authenticate(login, password))
-      attrs.delete(:dn)
-      user = new(attrs)
+    return unless (attrs = AuthSource.authenticate(login, password))
 
-      # If an invalid data returned from an authentication source for any attribute(s) then set its value as nil
-      saved_attrs = {}
-      unless user.valid?
-        user.errors.each do |attr|
-          saved_attrs[attr] = user[attr]
-          user[attr] = nil
-        end
-      end
-
-      # The default user can't auto create users, we need to change to Admin for this to work
-      User.as_anonymous_admin do
-        if user.save
-          AuthSource.find(attrs[:auth_source_id]).update_usergroups(user.login)
-          logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
-        else
-          logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
-          user = nil
-        end
-      end
-
-      # Restore any invalid attributes after creation, so the method returns a saved user object but
-      # any errors from invalid data are still visible to the caller
-      user.attributes = saved_attrs
-      user.valid?
-
-      user
+    attrs.delete(:dn)
+    user = new(attrs)
+    # Inherit taxonomies from authentication source on creation
+    auth_source = AuthSource.find(attrs[:auth_source_id])
+    Taxonomy.enabled_taxonomies.each do |taxonomy|
+      user.public_send("#{taxonomy}=", auth_source.public_send(taxonomy))
     end
+
+    # If an invalid data returned from an authentication source for any attribute(s) then set its value as nil
+    saved_attrs = {}
+    unless user.valid?
+      user.errors.each do |attr|
+        saved_attrs[attr] = user[attr]
+        user[attr] = nil
+      end
+    end
+
+    # The default user can't auto create users, we need to change to Admin for this to work
+    User.as_anonymous_admin do
+      if user.save
+        auth_source.update_usergroups(user.login)
+        logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
+      else
+        logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"
+        user = nil
+      end
+    end
+
+    # Restore any invalid attributes after creation, so the method returns a saved user object but
+    # any errors from invalid data are still visible to the caller
+    user.attributes = saved_attrs
+    user.valid?
+
+    user
   end
 
   private
