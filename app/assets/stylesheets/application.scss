@@ -301,6 +301,15 @@ table {
   max-width: 500px;
 }
 
+.fact-origin{
+  width: 60px;
+  text-align: center;
+
+  img{
+    width: 14px;
+  }
+}
+
 .exit-fullscreen {
   position: absolute;
   top: 30px;

@@ -4,7 +4,7 @@ class FactValue < ActiveRecord::Base
 
   belongs_to_host
   belongs_to :fact_name
-  delegate :name, :short_name, :compose, :to => :fact_name
+  delegate :name, :short_name, :compose, :origin, :to => :fact_name
   has_many :hostgroup, :through => :host
 
   has_one :parent_fact_name, :through => :fact_name, :source => :parent

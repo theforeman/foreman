@@ -43,4 +43,9 @@ module FactValuesHelper
       end
     end.html_safe
   end
+
+  def fact_origin_icon(origin)
+    return origin if origin == 'N/A'
+    image_tag(origin + ".png", :title => origin)
+  end
 end

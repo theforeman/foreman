@@ -29,4 +29,10 @@ class FactName < ActiveRecord::Base
   def set_name
     self.short_name = self.name.split(SEPARATOR).last
   end
+
+  # To be overridden in subclasses to specify what is the origin of this
+  # fact, normally a configuration management system, e.g: 'Puppet'
+  def origin
+    'N/A'
+  end
 end

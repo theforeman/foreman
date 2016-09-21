@@ -21,6 +21,10 @@ class FactValueTest < ActiveSupport::TestCase
     assert_equal h, FactValue.count_each("my_facting_name")
   end
 
+  test 'origin comes from fact_name' do
+    assert_equal @fact_value.origin, @fact_name.origin
+  end
+
   test "should fail validation when the host already has a fact with the same name" do
     assert !FactValue.new(:value => "some value", :host => @host, :fact_name => @fact_name).valid?
   end
