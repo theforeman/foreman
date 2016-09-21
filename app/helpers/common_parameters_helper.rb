@@ -20,7 +20,7 @@ module CommonParametersHelper
   end
 
   def omit_help
-    title = _("Omit prameter from classification")
+    title = _("Omit parameter from classification")
     body = _("Foreman will not send this parameter in classification output.")
     popover(nil, body, :title => title)
   end
