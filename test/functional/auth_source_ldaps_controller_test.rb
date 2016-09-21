@@ -55,21 +55,22 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     assert !AuthSourceLdap.exists?(auth_source_ldap.id)
   end
 
-  def setup_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
-  end
+  context 'user with viewer rights' do
+    # The 'Viewer' role has '*_authenticators' filters, so these tests test
+    # the override of 'controller_name' to 'authorizers' instead of
+    # '*_auth_source_ldaps' permissions
 
-  def user_with_viewer_rights_should_fail_to_an_edit_authentication_source
-    setup_user
-    get :edit, {:id => AuthSourceLdap.first.id}
-    assert @response.status == '403 Forbidden'
-  end
+    setup do
+      @request.session[:user] = users(:one).id
+      users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+    end
 
-  def user_with_viewer_rights_should_succeed_in_viewing_authentication_sources
-    setup_user
-    get :index
-    assert_response :success
+    test 'should fail to edit authentication source' do
+      get :edit, { :id => AuthSourceLdap.first.id },
+        set_session_user(users(:one))
+      assert_response :forbidden
+      assert_includes @response.body, 'edit_authenticators'
+    end
   end
 
   test "blank account_password submitted does not erase existing account_password" do
