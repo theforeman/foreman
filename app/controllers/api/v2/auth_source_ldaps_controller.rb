@@ -86,6 +86,10 @@ module Api
             super
         end
       end
+
+      def controller_permission
+        'authenticators'
+      end
     end
   end
 end
