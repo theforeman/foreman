@@ -629,12 +629,32 @@ class UserTest < ActiveSupport::TestCase
       @ldap_server = AuthSource.find_by_name("ldap-server")
     end
 
-    test "enabled on-the-fly registration" do
-      AuthSourceLdap.any_instance.expects(:update_usergroups).
-                                  with('FoOBaR').returns(true)
-      @ldap_server.update_attribute(:onthefly_register, true)
-      assert_difference("User.count", 1) do
-        assert User.try_to_auto_create_user('foobar','fakepass')
+    context 'success' do
+      setup do
+        AuthSourceLdap.any_instance.expects(:update_usergroups).
+          with('FoOBaR').returns(true)
+      end
+
+      test "enabled on-the-fly registration" do
+        @ldap_server.update_attribute(:onthefly_register, true)
+        assert_difference("User.count", 1) do
+          assert User.try_to_auto_create_user('foobar','fakepass')
+        end
+      end
+
+      test "use LDAP login attribute as login" do
+        created_user = User.try_to_auto_create_user('foobar','fakepass')
+        assert_equal created_user.login, "FoOBaR"
+      end
+
+      test 'taxonomies from the auth source are inherited' do
+        @ldap_server.organizations = [taxonomies(:organization1)]
+        @ldap_server.locations = [taxonomies(:location1)]
+        created_user = User.try_to_auto_create_user('foobar','fakepass')
+        assert_equal @ldap_server.organizations.to_a,
+          created_user.organizations.to_a
+        assert_equal @ldap_server.locations.to_a,
+          created_user.locations.to_a
       end
     end
 
@@ -643,13 +663,6 @@ class UserTest < ActiveSupport::TestCase
       assert_difference("User.count", 0) do
         refute User.try_to_auto_create_user('foobar','fakepass')
       end
-    end
-
-    test "use LDAP login attribute as login" do
-      AuthSourceLdap.any_instance.expects(:update_usergroups).
-                                  with('FoOBaR').returns(true)
-      created_user = User.try_to_auto_create_user('foobar','fakepass')
-      assert_equal created_user.login, "FoOBaR"
     end
   end
 
