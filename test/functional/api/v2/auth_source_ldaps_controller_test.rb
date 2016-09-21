@@ -53,4 +53,20 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response[:success]
   end
+
+  # This controller overrides 'controller_permission' in order to use
+  # view_authenticators (& friends) instead of view_auth_source_ldaps
+  context '*_authenticators filters' do
+    test 'restrict access to authenticators properly' do
+      setup_user('view', 'auth_source_ldaps')
+      get :index, { }
+      assert_response :forbidden
+    end
+
+    test 'allow access to auth source LDAP objects' do
+      setup_user('view', 'authenticators')
+      get :show, { :id => auth_sources(:one).to_param }
+      assert_response :success
+    end
+  end
 end

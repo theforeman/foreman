@@ -47,4 +47,10 @@ class AuthSourceLdapsController < ApplicationController
     Foreman::Logging.exception("Failed to connect to LDAP server", exception)
     render :json => {:message => exception.message}, :status => :unprocessable_entity
   end
+
+  private
+
+  def controller_permission
+    'authenticators'
+  end
 end
