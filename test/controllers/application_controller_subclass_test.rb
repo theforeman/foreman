@@ -1,17 +1,42 @@
 require 'test_helper'
 
 class ::TestableResourcesController < ::ApplicationController
+  def self.controller_path
+    "realms"
+  end
+
   def index
     render :text => Time.zone.name, :status => 200
   end
 end
 
 class ::TestableResource < ActiveRecord::Base
-  # ugly hack - causing ActiveRecord to check the resource against "users" table in the DB.
+  # ugly hack - causing ActiveRecord to check the resource against "realms" table in the DB.
   # If removed, the ActiveRecord will fail to find a table with name "testable_resources" which will fail tests,
   # even if there are no actual calls to the find/select... methods.
   def self.table_name
-    'users'
+    'realms'
+  end
+end
+
+module Testscope
+  class TestableResourcesController < ::ApplicationController
+    def self.controller_path
+      "realms"
+    end
+
+    def index
+      render :text => Time.zone.name, :status => 200
+    end
+  end
+
+  class TestableResource < ActiveRecord::Base
+    # ugly hack - causing ActiveRecord to check the resource against "realms" table in the DB.
+    # If removed, the ActiveRecord will fail to find a table with name "testable_resources" which will fail tests,
+    # even if there are no actual calls to the find/select... methods.
+    def self.table_name
+      'realms'
+    end
   end
 end
 
@@ -47,7 +72,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
 
     it "retains original request URI in session" do
       get :index
-      assert_equal '/testable_resources', session[:original_uri]
+      assert_equal '/realms', session[:original_uri]
     end
 
     it "requires an account with mail" do
@@ -212,6 +237,35 @@ class TestableResourcesControllerTest < ActionController::TestCase
       ActiveRecord::Migrator.stubs(:needs_migration?).returns(true)
       get :index
       assert_response :service_unavailable
+    end
+  end
+
+  context 'welcome page' do
+    it 'shows a welcome page' do
+      Realm.destroy_all # Realm is our TestableResource
+      get :index, {}, set_session_user
+      assert_response :success
+      assert_template 'welcome'
+    end
+
+    it 'does not shows a welcome page when there is content' do
+      FactoryGirl.create(:realm) # Realm is our TestableResource
+      get :index, {}, set_session_user
+      assert_response :success
+      assert_template :partial => false
+    end
+  end
+end
+
+class Testscope::TestableResourcesControllerTest < ActionController::TestCase
+  tests Testscope::TestableResourcesController
+
+  context 'welcome page' do
+    it 'shows a welcome page' do
+      Realm.destroy_all # Realm is our Testscope::TestableResource
+      get :index, {}, set_session_user
+      assert_response :success
+      assert_template 'welcome'
     end
   end
 end
