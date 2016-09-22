@@ -16,14 +16,16 @@ class Architecture < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => :true
 
-  def intel_precision
+  def bootfilename_efi
     case name
     when /i.86/
       'ia32'
     when /x86[_-]64/
       'x64'
-    else
-      ''
+    when /aarch64|aa64/
+      'aa64'
+    else # ppc64, ppc64le and others
+      name.parameterize.gsub(/[^\w\.-]/, '_')
     end
   end
 end
