@@ -51,7 +51,7 @@ class UsersController < ApplicationController
     @user = find_resource(:destroy_users)
     if @user == User.current
       warning _("You cannot delete this user while logged in as this user")
-      redirect_to :back
+      redirect_back(fallback_location: users_path)
       return
     end
     if @user.destroy
