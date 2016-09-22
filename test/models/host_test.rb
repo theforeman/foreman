@@ -1738,7 +1738,7 @@ class HostTest < ActiveSupport::TestCase
       test "deleting an host with an expired token does not cause a Foreign Key error" do
         h = FactoryGirl.create(:host, :managed)
         h.create_token(:value => "aaaaaa", :expires => 5.minutes.ago)
-        assert_nothing_raised(ActiveRecord::InvalidForeignKey) {h.reload.destroy}
+        assert_nothing_raised {h.reload.destroy}
       end
 
       test "token_expired? should be true if expiration date is in the past" do

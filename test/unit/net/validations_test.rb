@@ -23,13 +23,13 @@ class ValidationsTest < ActiveSupport::TestCase
   end
 
   test "48-bit mac address should be valid" do
-    assert_nothing_raised Net::Validations::Error do
+    assert_nothing_raised do
       Net::Validations.validate_mac! "aa:bb:cc:dd:ee:ff"
     end
   end
 
   test "64-bit mac address should be valid" do
-    assert_nothing_raised Net::Validations::Error do
+    assert_nothing_raised do
       Net::Validations.validate_mac! "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd"
     end
   end
@@ -61,13 +61,13 @@ class ValidationsTest < ActiveSupport::TestCase
   end
 
   test "hostname should be valid" do
-    assert_nothing_raised Net::Validations::Error do
+    assert_nothing_raised do
       Net::Validations.validate_hostname! "this.is.an.example.com"
     end
-    assert_nothing_raised Net::Validations::Error do
+    assert_nothing_raised do
       Net::Validations.validate_hostname! "this-is.an.example.com"
     end
-    assert_nothing_raised Net::Validations::Error do
+    assert_nothing_raised do
       Net::Validations.validate_hostname! "localhost"
     end
   end
@@ -83,7 +83,7 @@ class ValidationsTest < ActiveSupport::TestCase
 
   describe "network validation" do
     test "network should be valid" do
-      assert_nothing_raised Net::Validations::Error do
+      assert_nothing_raised do
         Net::Validations.validate_network! "123.1.123.1"
       end
     end
@@ -100,7 +100,7 @@ class ValidationsTest < ActiveSupport::TestCase
 
   describe "mask validation" do
     test "mask should be valid" do
-      assert_nothing_raised Net::Validations::Error do
+      assert_nothing_raised do
         Net::Validations.validate_mask! "255.255.255.0"
       end
     end
@@ -188,7 +188,7 @@ class ValidationsTest < ActiveSupport::TestCase
   end
 
   test "return IP when IPv4 address is valid" do
-    assert_nothing_raised Net::Validations::Error do
+    assert_nothing_raised do
       assert "127.0.0.1", Net::Validations.validate_ip!("127.0.0.1")
     end
   end
