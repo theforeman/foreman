@@ -682,8 +682,7 @@ class HostsController < ApplicationController
   # renders only resulting templates set so the rest of form is unaffected
   def template_used
     host = params[:id] ? Host.readonly.find(params[:id]) : Host.new
-    association_keys = host_params.keys.select { |k| k =~ /.*_ids\Z/ }
-    host.attributes = host_params.except(:host_parameters_attributes).except(*association_keys)
+    host.attributes = host_params.select { |k,v| !k.end_with?('_ids') }.except(:host_parameters_attributes)
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
