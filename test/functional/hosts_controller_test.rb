@@ -1126,6 +1126,17 @@ class HostsControllerTest < ActionController::TestCase
     assert_template :partial => '_provisioning'
   end
 
+  test 'template_used does not save has_many relations on existing hosts' do
+    @host.setBuild
+    attrs = host_attributes(@host)
+    attrs[:config_group_ids] = [config_groups(:one).id]
+    ActiveRecord::Base.any_instance.expects(:destroy).never
+    ActiveRecord::Base.any_instance.expects(:save).never
+    xhr :put, :template_used, {:provisioning => 'build', :host => attrs, :id => @host.id }, set_session_user
+    assert_response :success
+    assert_template :partial => '_provisioning'
+  end
+
   test 'process_taxonomy renders a host from the params correctly' do
     nic = FactoryGirl.build(:nic_managed, :host => @host)
     attrs = host_attributes(@host)
