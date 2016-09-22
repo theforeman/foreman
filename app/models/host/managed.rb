@@ -431,6 +431,8 @@ class Host::Managed < Host::Base
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
 
+    info_hash['foreman_config_groups'] = (config_groups + parent_config_groups).uniq.map(&:name)
+
     info_hash
   end
 
