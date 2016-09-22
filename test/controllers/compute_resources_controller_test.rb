@@ -163,7 +163,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
       @request.env['HTTP_REFERER'] = "http://test.host#{compute_resources_path}"
       get :index, params: { :search => 'wrongwrong = centos' }, session: set_session_user
       assert_response :redirect
-      assert_redirected_to :back
+      assert_redirected_to compute_resources_path
       assert_match /not recognized for searching/, flash[:error]
     end
   end

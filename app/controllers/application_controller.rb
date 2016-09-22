@@ -294,7 +294,11 @@ class ApplicationController < ActionController::Base
     hash[:success_redirect] ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
     notice hash[:success_msg]
-    redirect_to hash[:success_redirect]
+    if hash[:success_redirect] == :back
+      redirect_back(fallback_location: saved_redirect_url_or(send("#{controller_name}_url")))
+    else
+      redirect_to hash[:success_redirect]
+    end
   end
 
   def process_error(hash = {})
@@ -316,7 +320,11 @@ class ApplicationController < ActionController::Base
       render hash[:render]
     elsif hash[:redirect]
       error(hash[:error_msg]) unless hash[:error_msg].empty?
-      redirect_to hash[:redirect]
+      if hash[:redirect] == :back
+        redirect_back(fallback_location: send("#{controller_name}_url"))
+      else
+        redirect_to hash[:redirect]
+      end
     end
   end
 
@@ -331,7 +339,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_to(url)
-    redirect_to request.referer.empty? ? url : :back
+    redirect_back(fallback_location: url)
   end
 
   def saved_redirect_url_or(default)

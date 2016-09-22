@@ -24,7 +24,7 @@ module Foreman::Controller::AutoCompleteSearch
 
   def invalid_search_query(e)
     error (_("Invalid search query: %s") % e)
-    redirect_to :back
+    redirect_back(fallback_location: public_send("#{controller_name}_path"))
   end
 
   def reset_redirect_to_url

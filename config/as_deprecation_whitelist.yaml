@@ -30,8 +30,5 @@
 - message: Returning `false` in Active Record and Active Model callbacks will not
     implicitly halt a callback chain in Rails 5.1. To explicitly halt the callback
     chain, please use `throw :abort` instead.
-- message: "`redirect_to :back` is deprecated and will be removed from Rails 5.1.
-    Please use `redirect_back(fallback_location: fallback_location)` where `fallback_location`
-    represents the location to use if the request has no HTTP referer information."
 - message: |-
     DEPRECATION WARNING: Directly inheriting from ActiveRecord::Migration is deprecated. Please specify the Rails release the migration was written for:

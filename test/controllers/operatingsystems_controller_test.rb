@@ -106,7 +106,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       @request.env['HTTP_REFERER'] = "http://test.host#{operatingsystems_path}"
       get :index, params: { :search => 'wrongwrong = centos' }, session: set_session_user
       assert_response :redirect
-      assert_redirected_to :back
+      assert_redirected_to operatingsystems_path
       assert_match /not recognized for searching/, flash[:error]
     end
   end
