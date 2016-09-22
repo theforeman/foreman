@@ -25,28 +25,53 @@ class ArchitectureTest < ActiveSupport::TestCase
     assert_not architecture.destroy
   end
 
-  test "should return intel precision for i386" do
+  test "should return EFI filename for i386" do
     architecture = Architecture.new :name => "i386"
-    assert_equal "ia32", architecture.intel_precision
+    assert_equal "ia32", architecture.bootfilename_efi
   end
 
-  test "should return intel precision for i686" do
+  test "should return EFI filename for i686" do
     architecture = Architecture.new :name => "i686"
-    assert_equal "ia32", architecture.intel_precision
+    assert_equal "ia32", architecture.bootfilename_efi
   end
 
-  test "should return intel precision for x86-64" do
+  test "should return EFI filename for x86-64" do
     architecture = Architecture.new :name => "x86-64"
-    assert_equal "x64", architecture.intel_precision
+    assert_equal "x64", architecture.bootfilename_efi
   end
 
-  test "should return intel precision for x86_64" do
+  test "should return EFI filename for x86_64" do
     architecture = Architecture.new :name => "x86_64"
-    assert_equal "x64", architecture.intel_precision
+    assert_equal "x64", architecture.bootfilename_efi
   end
 
-  test "should not return intel precision for unknown arch" do
-    architecture = Architecture.new :name => "unknown"
-    assert_equal "", architecture.intel_precision
+  test "should return EFI filename for aarch64" do
+    architecture = Architecture.new :name => "aarch64"
+    assert_equal "aa64", architecture.bootfilename_efi
+  end
+
+  test "should return EFI filename for aa64" do
+    architecture = Architecture.new :name => "aa64"
+    assert_equal "aa64", architecture.bootfilename_efi
+  end
+
+  test "should return EFI filename for ppc64" do
+    architecture = Architecture.new :name => "ppc64"
+    assert_equal "ppc64", architecture.bootfilename_efi
+  end
+
+  test "should return EFI filename for ppc64le" do
+    architecture = Architecture.new :name => "ppc64le"
+    assert_equal "ppc64le", architecture.bootfilename_efi
+  end
+
+  test "should return EFI filename for an unknown arch" do
+    architecture = Architecture.new :name => "Weird Árchitecturé 88"
+    assert_equal "weird-architecture-88", architecture.bootfilename_efi
+  end
+
+  test "should return EFI filename for a cracker" do
+    architecture = Architecture.new :name => "../../etc/shadow"
+    assert_equal "etc-shadow", architecture.bootfilename_efi
   end
 end

@@ -206,7 +206,7 @@ class Operatingsystem < ActiveRecord::Base
 
   def boot_filename(host = nil)
     return default_boot_filename if host.nil? || host.pxe_loader.nil?
-    self.class.all_loaders_map(host.arch.nil? ? '' : host.arch.intel_precision)[host.pxe_loader]
+    self.class.all_loaders_map(host.arch.nil? ? '' : host.arch.bootfilename_efi)[host.pxe_loader]
   end
 
   # Does this OS family use release_name in its naming scheme
