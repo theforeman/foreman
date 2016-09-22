@@ -15,4 +15,6 @@ group :development do
   gem 'spring', '~> 1.0'
   gem 'benchmark-ips'
   gem 'foreman'
+
+  gem 'coffee-rails'
 end
