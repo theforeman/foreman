@@ -90,18 +90,6 @@
     and will be removed in Rails 5.1. Please call `reload` on the result collection
     proxy instead.
   callstack: test/models/host_test.rb
-- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
-    in Rails 5.1.
-  callstack: test/models/host_test.rb:1739:in `block (3 levels) in <class:HostTest>'
-- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
-    in Rails 5.1.
-  callstack: test/models/report_test.rb:126:in `block (2 levels) in <class:ReportTest>'
-- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
-    in Rails 5.1.
-  callstack: test/unit/foreman/renderer_test.rb:89:in `block in <class:RendererTest>'
-- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
-    in Rails 5.1.
-  callstack: test/unit/net/validations_test.rb
 - message: Passing conditions to delete_all is deprecated and will be removed in
     Rails 5.1. To achieve the same use where(conditions).delete_all.
 - message: Passing conditions to destroy_all is deprecated and will be removed in

@@ -88,7 +88,7 @@ class RendererTest < ActiveSupport::TestCase
   end
 
   test "foreman_url should run with @host as nil" do
-    assert_nothing_raised(NoMethodError) { @renderer.foreman_url }
+    assert_nothing_raised { @renderer.foreman_url }
   end
 
   test "pxe_kernel_options are not set when no OS is set" do

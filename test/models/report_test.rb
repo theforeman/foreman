@@ -121,7 +121,7 @@ class ReportTest < ActiveSupport::TestCase
     end
 
     test 'Inherited children can search' do
-      assert_nothing_raised NoMethodError do
+      assert_nothing_raised do
         TestReport.search_for('blah')
       end
     end
