@@ -61,7 +61,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def puppet_dashboard
-    dashboard = Dashboard::Data.new("puppetmaster = \"#{@smart_proxy.name}\"")
+    dashboard = Dashboard::Data.new("puppet_proxy_id = \"#{@smart_proxy.id}\"")
     @hosts = dashboard.hosts
     @report = dashboard.report
     @latest_events = dashboard.latest_events
