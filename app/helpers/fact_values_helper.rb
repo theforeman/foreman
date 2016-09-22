@@ -13,9 +13,10 @@ module FactValuesHelper
       if parent.present? && h(parent.name) == memo
         current_name
       else
-        if value_name != memo || value.compose
+        if host_id(value) && (value_name != memo || value.compose )
           parameters = { :parent_fact => memo }
-          url = host_parent_fact_facts_path(parameters.merge({ :host_id => params[:host_id] || value.host.name }))
+          url = host_parent_fact_facts_path(
+            parameters.merge(:host_id => host_id(value)))
           link_to(current_name, url,
                   :title => _("Show all %s children fact values") % memo)
         else
@@ -25,8 +26,8 @@ module FactValuesHelper
       end
     end.join(FactName::SEPARATOR).html_safe
 
-    if value.compose
-      url = host_parent_fact_facts_path(:parent_fact => value_name, :host_id => params[:host_id] || value.host.name)
+    if host_id(value) && value.compose
+      url = host_parent_fact_facts_path(:parent_fact => value_name, :host_id => host_id(value))
       link_to(icon_text('plus-sign','', :title => _('Expand nested items')), url) + ' ' + content_tag(:span, name)
     else
       name
@@ -42,5 +43,11 @@ module FactValuesHelper
         fact_value
       end
     end.html_safe
+  end
+
+  private
+
+  def host_id(value)
+    params[:host_id] || ((value.host.name if value.host.present?))
   end
 end
