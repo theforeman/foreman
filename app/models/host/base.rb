@@ -173,7 +173,7 @@ module Host
       end
 
       parser.interfaces.each do |name, attributes|
-        iface = get_interface_scope(name, attributes).first || interface_class(name).new(:managed => false)
+        iface = get_interface_scope(name, attributes).try(:first) || interface_class(name).new(:managed => false)
         # create or update existing interface
         set_interface(attributes, name, iface)
       end
