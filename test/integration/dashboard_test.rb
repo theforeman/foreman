@@ -9,7 +9,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
     visit dashboard_path
     wait_for_ajax
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"
-    within "li[data-name='Status table']" do
+    within "li[data-name='Host Configuration Status']" do
       click_link(text)
     end
     assert_current_path hosts_path, :only_path => true

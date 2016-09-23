@@ -13,7 +13,7 @@ class DashboardControllerTest < ActionController::TestCase
 
   test 'create adds widget to user if widget is valid' do
     assert_difference('users(:admin).widgets.count', 1) do
-      post :create, { :name => 'Status table' }, set_session_user
+      post :create, { :name => 'Host Configuration Status' }, set_session_user
     end
     assert_response :success
   end
