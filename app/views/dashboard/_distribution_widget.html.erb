@@ -1,4 +1,4 @@
 <h4 class="header">
-  <%= n_("Run distribution in the last %s minute", "Run distribution in the last %s minutes", Setting[:puppet_interval]) % Setting[:puppet_interval] %>
+  <%= n_("Run Distribution (last %s minute)", "Run Distribution (last %s minutes)", Setting[:puppet_interval]) % Setting[:puppet_interval] %>
 </h4>
 <%= render_run_distribution(@data.hosts, :class => 'statistics-bar') %>
