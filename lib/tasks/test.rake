@@ -8,14 +8,6 @@ namespace :test do
     t.verbose = true
     t.warning = false
   end
-
-  desc "Test lib source"
-  Rake::TestTask.new(:lib) do |t|
-    t.libs << "test"
-    t.pattern = 'test/lib/**/*_test.rb'
-    t.verbose = true
-    t.warning = false
-  end
 end
 
 # Ensure webpack files are compiled in case integration tests are executed

@@ -45,6 +45,9 @@ class ActiveSupport::TestCase
 
   def reset_setting_cache
     Setting.cache.clear
+  rescue Errno::ENOENT
+    # Clear on a file cache fails on a clean checkout when the cache hasn't been written to.
+    # This rescue may be removed on Rails 5 (16d7cfb fixes it).
   end
 
   # for backwards compatibility to between Minitest syntax
@@ -166,7 +169,7 @@ class ActiveSupport::TestCase
   end
 
   def read_json_fixture(file)
-    json = File.expand_path(File.join('..', 'fixtures', file), __FILE__)
+    json = File.expand_path(File.join('..', 'static_fixtures', file), __FILE__)
     JSON.parse(File.read(json))
   end
 
