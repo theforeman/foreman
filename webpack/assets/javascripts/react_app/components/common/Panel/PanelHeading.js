@@ -2,10 +2,10 @@ import React from 'react';
 
 const PanelHeading = (props) =>
   (
-    <div className="panel-heading"
+    <div className={'panel-heading ' + (props.className ? props.className : '')}
          onClick={props.onClick}
          data-toggle="tooltip"
-         title={props.title} style={props.style}>
+         title={props.title}>
       {props.children}
     </div>
   );

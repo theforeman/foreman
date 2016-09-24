@@ -7,7 +7,6 @@ const _statistics = {};
 class StatisticsEventEmitter extends AppEventEmitter {
   constructor() {
     super();
-    super.setMaxListeners(50);
   }
 
   getStatisticsData(id) {

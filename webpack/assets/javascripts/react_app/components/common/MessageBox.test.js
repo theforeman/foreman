@@ -16,7 +16,6 @@ describe('MessageBox', () => {
       const message = wrapper.childAt(1);
 
       expect(message.text()).toBe('this is some text');
-      expect(message.prop('style').textTransform).toBe('capitalize');
     });
 
     it('displays This is another message', () => {

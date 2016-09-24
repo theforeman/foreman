@@ -4,7 +4,7 @@ const Panel = (props) => {
   const type = props.type || 'default';
 
   return (
-    <div className={'panel panel-' + type} style={props.style}>
+    <div className={'panel panel-' + type + ' ' + (props.className ? props.className : '')}>
       {props.children}
     </div>
   );

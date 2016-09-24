@@ -1,8 +1,8 @@
 import React from 'react';
 
-const PanelTitle = ({text}) =>
+const PanelTitle = ({text, className}) =>
   (
-    <h3 className="panel-title">
+    <h3 className={'panel-title ' + (className ? className : '')}>
       {text}
     </h3>
   );

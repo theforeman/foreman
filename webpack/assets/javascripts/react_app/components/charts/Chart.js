@@ -1,14 +1,56 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import c3 from 'c3';
 import MessageBox from '../common/MessageBox';
 
-const Chart = ({ cssClass, id, hasData, noDataMsg, style }) => {
-  const msg = noDataMsg || 'No data available';
+class Chart extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return hasData ?
-    <div className={cssClass} id={id + 'Chart'}></div> :
-    (
-      <MessageBox msg={msg} icontype="info"></MessageBox>
-    );
+  hasData() {
+    return !!this.props.config.data.columns.length;
+  }
+
+  drawChart() {
+    if (this.hasData()) {
+      this.chart = c3.generate(this.props.config);
+
+      if (this.props.setTitle) {
+        this.props.setTitle(this.props.config);
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.drawChart();
+  }
+
+  componentDidUpdate() {
+    this.drawChart();
+  }
+
+  componentWillUnmount() {
+    this.chart = this.chart.destroy();
+  }
+
+  render() {
+    const hasData = this.props.config.data.columns.length;
+    const msg = this.props.noDataMsg || 'No data available';
+
+    return hasData ?
+      <div className={this.props.cssClass} id={this.props.id + 'Chart'}></div> :
+      (
+        <MessageBox msg={msg} icontype="info"></MessageBox>
+      );
+  }
+}
+
+Chart.PropTypes = {
+  config: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
+  noDataMsg: PropTypes.string,
+  cssClass: PropTypes.string,
+  setTitle: PropTypes.func
 };
 
 export default Chart;

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const PanelFooter = ({ children }) =>
+const PanelFooter = ({ children, className }) =>
   (
-    <div className="panel-footer">
+    <div className={'panel-footer ' + (className ? className : '')}>
       {children}
     </div>
   );

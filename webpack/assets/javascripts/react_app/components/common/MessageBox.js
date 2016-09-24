@@ -1,16 +1,14 @@
 // temporary component
 // will be replaced by patternfly markup when available
 import React from 'react';
-import styles from './MessageBoxStyles';
+import './MessageBoxStyles.css';
 
-const MessageBox = ({ msg, icontype, style }) =>
+const MessageBox = ({ msg, icontype }) =>
 (
-    <div style={{ ...styles.root, ...style }}>
-      <div className={'pficon pficon-' + icontype}
-           style={{ ...styles.content, ...styles.icon }}></div>
-      <div style={{ ...styles.content, ...styles.message }}>{msg}</div>
+    <div className="message-box-root">
+      <div className={'pficon pficon-' + icontype + ' message-box-content message-box-icon'}></div>
+      <div className="message-box-content message-box-message">{msg}</div>
     </div>
   );
 
 export default MessageBox;
-

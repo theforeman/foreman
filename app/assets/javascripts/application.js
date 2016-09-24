@@ -6,7 +6,6 @@
 //= require scoped_search
 //= require bootstrap
 //= require patternfly
-//= require multi-select
 //= require charts
 //= require topbar
 //= require two-pane

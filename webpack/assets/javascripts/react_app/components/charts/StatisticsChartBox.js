@@ -1,81 +1,31 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import helpers from '../../common/helpers';
-import { STATUS } from '../../constants';
 import Chart from './Chart';
+import chartService from '../../../services/statisticsChartService';
 import ChartModal from './ChartModal';
 import Loader from '../common/Loader';
 import Panel from '../common/Panel/Panel';
 import PanelHeading from '../common/Panel/PanelHeading';
 import PanelTitle from '../common/Panel/PanelTitle';
 import PanelBody from '../common/Panel/PanelBody';
-import StatisticsStore from '../../stores/StatisticsStore';
-import StatisticsChartActions from '../../actions/StatisticsChartActions';
-import statisticsPage from '../../../pages/statistics_page';
-import styles from './StatisticsChartsListStyles';
+import './StatisticsChartsListStyles.css';
 import MessageBox from '../common/MessageBox';
 
-export default class StatisticsChartBox extends React.Component {
+class StatisticsChartBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showModal: false, status: STATUS.PENDING };
+    this.state = { showModal: false};
     helpers.bindMethods(this, [
-      'drawChart',
-      'onChange',
-      'onError',
       'onClick',
       'closeModal',
-      'openModal',
-      'drawModal']
+      'openModal']
     );
   }
 
-  componentDidMount() {
-    StatisticsChartActions.getStatisticsData(this.props.url);
-    StatisticsStore.addChangeListener(this.onChange);
-    StatisticsStore.addErrorListener(this.onError);
-  }
-
-  componentWillUnmount() {
-    StatisticsStore.removeChangeListener(this.onChange);
-    StatisticsStore.removeErrorListener(this.onError);
-  }
-
-  onChange(event) {
-    if (event.id === this.props.id) {
-      const statistics = StatisticsStore.getStatisticsData(this.props.id);
-
-      this.setState({
-        status: STATUS.RESOLVED,
-        hasData: !!statistics.data.length,
-        data: statistics.data
-      });
-    }
-  }
-
-  onError(info) {
-    const xhr = info.jqXHR;
-    const id = xhr.originalRequestOptions.url.split('/')[1];
-
-    if (id === this.props.id) {
-      this.setState({
-        status: STATUS.ERROR,
-        errorText: info.errorThrown
-      });
-    }
-  }
-
   onClick() {
-    if (this.state.data && this.state.hasData) {
+    if (this.props.modalConfig.data.columns.length) {
       this.openModal();
     }
-  }
-
-  componentDidUpdate() {
-    this.drawChart();
-  }
-
-  drawChart() {
-    statisticsPage.generateChart(this.props, this.state.data);
   }
 
   openModal() {
@@ -86,45 +36,57 @@ export default class StatisticsChartBox extends React.Component {
     this.setState({ showModal: false });
   }
 
-  drawModal() {
-    statisticsPage.generateModalChart(this.props, this.state.data);
-  }
-
   render() {
+    // refactor
     const tooltip = {
       onClick: this.onClick,
-      title: __('Expand the chart').toString(),
+      title: this.props.tip,
       'data-toggle': 'tooltip',
       'data-placement': 'top'
     };
 
     const chart = (<Chart {...this.props} key="0"
-                          drawChart={this.drawChart}
-                          hasData={this.state.hasData}
-                          noDataMsg={__('No data available').toString()}
-                          cssClass="statistics-pie small"/>);
+                          config={this.props.config}
+                          noDataMsg={this.props.noDataMsg}
+                          cssClass="statistics-pie small"
+                          setTitle={chartService.setTitle}/>);
 
-    const error = (<MessageBox msg={this.state.errorText}
+    const error = (<MessageBox msg={this.props.errorText}
                                icontype="error-circle-o" key="1"></MessageBox>);
 
     return (
-      <Panel style={styles.panel}>
-        <PanelHeading {...tooltip} style={styles.heading}>
+      <Panel className="statistics-charts-list-panel">
+        <PanelHeading {...tooltip} className="statistics-charts-list-heading">
           <PanelTitle text={this.props.title}/>
         </PanelHeading>
 
-        <PanelBody style={styles.body}>
-          <Loader status={this.state.status}>
+        <PanelBody className="statistics-charts-list-body">
+          <Loader status={this.props.status}>
             {[chart, error]}
           </Loader>
 
           <ChartModal {...this.props}
                       show={this.state.showModal}
                       onHide={this.closeModal}
-                      drawChart={this.drawModal}
+                      onEnter={this.onEnter}
+                      config={this.props.modalConfig}
+                      title={this.props.title}
+                      id={this.props.id + 'Modal'}
+                      setTitle={chartService.setTitle}
           />
         </PanelBody>
       </Panel >
     );
   }
 }
+
+StatisticsChartBox.PropTypes = {
+  status: PropTypes.string.isRequired,
+  config: PropTypes.object,
+  modalConfig: PropTypes.object,
+  id: PropTypes.string.isRequired,
+  noDataMsg: PropTypes.string,
+  errorText: PropTypes.string
+};
+
+export default StatisticsChartBox;

@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './LoaderStyles';
 import {STATUS} from '../../constants';
 import MessageBox from './MessageBox';
+import './LoaderStyles.css';
 
 const Loader = ({ status, children }) => {
 let content;
@@ -25,7 +25,7 @@ let content;
   }
 
   return (
-    <div style={styles.root}>
+    <div className="loader-root">
       {content}
     </div>
   );

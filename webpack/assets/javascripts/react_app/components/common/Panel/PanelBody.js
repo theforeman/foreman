@@ -1,8 +1,8 @@
 import React from 'react';
 
-const PanelBody = ({children, style}) =>
+const PanelBody = ({children, className}) =>
   (
-    <div className="panel-body" style={style}>
+    <div className={'panel-body ' + (className ? className : '')}>
       {children}
     </div>
   );
