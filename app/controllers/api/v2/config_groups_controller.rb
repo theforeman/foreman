@@ -1,6 +1,10 @@
 module Api
   module V2
     class ConfigGroupsController < V2::BaseController
+      include Foreman::Controller::Parameters::ConfigGroup
+
+      wrap_parameters ConfigGroup, :include => config_group_params_filter.accessible_attributes(parameter_filter_context)
+
       before_action :find_resource, :only => [:show, :update, :destroy]
 
       api :GET, "/config_groups", N_("List of config groups")
@@ -26,7 +30,7 @@ module Api
       param_group :config_group, :as => :create
 
       def create
-        @config_group = ConfigGroup.new(params[:config_group])
+        @config_group = ConfigGroup.new(config_group_params)
         process_response @config_group.save
       end
 
@@ -35,7 +39,7 @@ module Api
       param_group :config_group
 
       def update
-        process_response @config_group.update_attributes(params[:config_group])
+        process_response @config_group.update_attributes(config_group_params)
       end
 
       api :DELETE, "/config_groups/:id/", N_("Delete a config group")
