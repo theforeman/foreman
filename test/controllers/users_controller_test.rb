@@ -446,4 +446,24 @@ class UsersControllerTest < ActionController::TestCase
     post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
     assert_redirected_to realms_path
   end
+
+  test "Browser timezone should be saved" do
+    user = FactoryGirl.create(:user, :with_mail)
+    cookies[:timezone] = "Europe/Athens"
+    put :update, { :id   => user.id,
+                   :user => { :timezone => "" } }, set_session_user
+
+    updated_user = User.find(user.id)
+    assert_equal(cookies[:timezone], updated_user.timezone)
+  end
+
+  test "Browser timezone should not override timezone param" do
+    user = FactoryGirl.create(:user, :with_mail)
+    cookies[:timezone] = "Europe/Athens"
+    put :update, { :id   => user.id,
+                   :user => { :timezone => "Europe/Amsterdam" } }, set_session_user
+
+    updated_user = User.find(user.id)
+    refute_equal(cookies[:timezone], updated_user.timezone)
+  end
 end
