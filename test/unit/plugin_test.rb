@@ -383,6 +383,27 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal({:foo => {:feature => 'Foo'}}, Foreman::Plugin.find(:test_smart_proxy).smart_proxies(Awesome))
   end
 
+  def test_hosts_controller_action_scope
+    mock_scope = ->(scope) { scope }
+    Foreman::Plugin.register :test_hosts_controller_action_scope do
+      add_controller_action_scope HostsController, :test_action, &mock_scope
+    end
+    scopes = HostsController.scopes_for(:test_action)
+    assert_equal mock_scope, scopes.last
+  end
+
+  def test_hosts_controller_action_scope_added_to_local
+    mock_scope = ->(scope) { scope }
+    HostsController.add_scope_for(:test_action) do |scope|
+      scope
+    end
+    Foreman::Plugin.register :test_hosts_controller_action_scope_added_to_local do
+      add_controller_action_scope HostsController, :test_action, &mock_scope
+    end
+    scopes = HostsController.scopes_for(:test_action)
+    assert_equal 2, scopes.count
+  end
+
   context "adding permissions" do
     teardown do
       permission = Foreman::AccessControl.permission(:test_permission)

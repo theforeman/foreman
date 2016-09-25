@@ -78,6 +78,26 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert !hosts.empty?
   end
 
+  test "should include registered scope on index" do
+    # remember the previous state
+    old_scopes = Api::V2::HostsController.scopes_for(:index).dup
+
+    scope_accessed = false
+    Api::V2::HostsController.add_scope_for(:index) do |base_scope|
+      scope_accessed = true
+      base_scope
+    end
+    get :index, { }
+    assert_response :success
+    assert_not_nil assigns(:hosts)
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    assert !hosts.empty?
+
+    #restore the previous state
+    new_scopes = Api::V2::HostsController.scopes_for(:index)
+    new_scopes.keep_if { |s| old_scopes.include?(s) }
+  end
+
   test "should get attributes in ordered index" do
     last_record.update(ip: "127.13.0.1")
     get :index, order: "mac"

@@ -31,6 +31,25 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should include registered scope on index" do
+    # remember the previous state
+    old_scopes = HostsController.scopes_for(:index).dup
+
+    scope_accessed = false
+    HostsController.add_scope_for(:index) do |base_scope|
+      scope_accessed = true
+      base_scope
+    end
+    get :index, {}, set_session_user
+    assert_response :success
+    assert_template 'index'
+    assert scope_accessed
+
+    #restore the previous state
+    new_scopes = HostsController.scopes_for(:index)
+    new_scopes.keep_if { |s| old_scopes.include?(s) }
+  end
+
   test "should render 404 when host is not found" do
     get :show, {:id => "no.such.host"}, set_session_user
     assert_response :missing

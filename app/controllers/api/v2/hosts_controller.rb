@@ -4,6 +4,7 @@ module Api
       include Api::Version2
       include Api::CompatibilityChecker
       include Api::TaxonomyScope
+      include ScopesPerAction
       include Foreman::Controller::SmartProxyAuth
       include Foreman::Controller::Parameters::Host
 
@@ -16,6 +17,8 @@ module Api
       before_action :permissions_check, :only => %w{power boot puppetrun}
 
       add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
+
+      add_scope_for(:index) { |base_scope| base_scope.eager_load([:host_statuses, :compute_resource, :hostgroup, :operatingsystem, :interfaces, :token]) }
 
       api :GET, "/hosts/", N_("List all hosts")
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
@@ -30,8 +33,8 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @hosts = resource_scope_for_index
-                   .eager_load([:host_statuses, :compute_resource, :hostgroup, :operatingsystem, :interfaces, :token])
+        @hosts = action_scope_for(:index, resource_scope_for_index)
+
         # SQL optimizations queries
         @last_report_ids = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         @last_reports = Report.where(:id => @last_report_ids.values)
