@@ -105,6 +105,7 @@ module Foreman #:nodoc:
       @parameter_filters = {}
       @smart_proxies = {}
       @permissions = {}
+      @controller_action_scopes = {}
     end
 
     def after_initialize
@@ -368,6 +369,18 @@ module Foreman #:nodoc:
 
     def smart_proxies(klass)
       @smart_proxies.fetch(klass.name, {})
+    end
+
+    def add_controller_action_scope(controller_class, action, &block)
+      controller_actions = @controller_action_scopes[controller_class.name] || {}
+      actions_list = controller_actions[action] || []
+      actions_list << block
+      controller_actions[action] = actions_list
+      @controller_action_scopes[controller_class.name] = controller_actions
+    end
+
+    def action_scopes_hash_for(controller_class)
+      @controller_action_scopes[controller_class.name] || {}
     end
 
     private

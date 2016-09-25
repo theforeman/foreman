@@ -1,4 +1,5 @@
 class HostsController < ApplicationController
+  include ScopesPerAction
   include Foreman::Controller::HostDetails
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::TaxonomyMultiple
@@ -38,7 +39,7 @@ class HostsController < ApplicationController
 
   def index(title = nil)
     begin
-      search = resource_base_with_search
+      search = action_scope_for(:index, resource_base_with_search)
     rescue => e
       error e.to_s
       search = resource_base.search_for ''
