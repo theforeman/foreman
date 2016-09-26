@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-09-02 14:50+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2016-09-13 08:27+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -589,6 +589,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "Ein spezifisches Layout für die Partitionen Ihrer Festplatte(n), z.B."
 
@@ -1032,8 +1035,8 @@ msgstr "Abfrage für %{mailer} erstellen"
 msgid "Build from OS image"
 msgstr "Von Betriebssytemabbild erstellen"
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
-msgstr "Durch Deselektieren dieses Elements ist es möglich, Filter im Suche-Feld nach der Foreman Such-Syntax. Falls Filter auf unendlich gesetzt wird (durch Auswählen dieses Elements) wird dies auf allen Ressourcen des ausgewählten Typs angewandt"
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
+msgstr ""
 
 msgid "CA certificate expiry date"
 msgstr "Ablaufdatum des ZS-Zertifikats"
@@ -1151,6 +1154,9 @@ msgstr "Avatar kann auf gravatar.com geändert werden"
 
 msgid "Changed environments"
 msgstr "Geänderte Umgebungen"
+
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
 
 msgid "Chassis"
 msgstr "Chassis"
@@ -1929,6 +1935,12 @@ msgstr "Benachrichtigungen deaktivieren"
 msgid "Disable alerts for selected hosts"
 msgstr "Benachrichtigungen für ausgewählte Systeme deaktivieren"
 
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
+
 msgid "Disabled"
 msgstr "Deaktiviert"
 
@@ -2118,8 +2130,8 @@ msgstr "Puppet-Klasse %s bearbeiten"
 msgid "Edit Realm"
 msgstr "Realm bearbeiten"
 
-msgid "Edit Roles"
-msgstr "Rollen bearbeiten"
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "Smart Variable bearbeiten"
@@ -2589,11 +2601,23 @@ msgstr "Nach Status filtern:"
 msgid "Filter classes"
 msgstr "Filterklassen"
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "Filter"
 
 msgid "Filters for role %s"
 msgstr "Filter für Rolle %s"
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
+msgstr ""
 
 msgid "Filter|Permissions"
 msgstr "Berechtigungen"
@@ -4204,6 +4228,9 @@ msgstr "Anmelden"
 msgid "Login delegation logout URL"
 msgstr "Abmelde-URL für Anmeldedelegation"
 
+msgid "Login page footer text"
+msgstr ""
+
 msgid "Logout"
 msgstr "Abmelden"
 
@@ -5790,9 +5817,6 @@ msgstr ""
 msgid "Random-based"
 msgstr "Zufallsbasiert"
 
-msgid "Randomize"
-msgstr "Randomisieren"
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "Realm"
@@ -6036,8 +6060,8 @@ msgstr "Widerrufen"
 msgid "Role"
 msgstr "Rolle"
 
-msgid "Role cloned from role %{old_name}"
-msgstr "Rolle geklont von Rolle %{old_name}"
+msgid "Role %s."
+msgstr ""
 
 msgid "Role is in use"
 msgstr "Rolle ist in Verwendung"
@@ -6643,6 +6667,9 @@ msgstr "Wert"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "Durch Leerzeichen getrennte Optionen, z.B. miimon=100. Ausschließlich für Bond-Schnittstellen."
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr "Prüfwerte angeben"
 
@@ -6937,6 +6964,9 @@ msgstr "Testverbindung war erfolgreich"
 
 msgid "Test email"
 msgstr "Test-E-Mail"
+
+msgid "Text to be shown in the login-page footer"
+msgstr ""
 
 msgid ""
 "That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>\n"
@@ -8123,6 +8153,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "Wenn aktiviert, so ist der Parameter im UI verborgen "
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr "Ob das Abbild Benutzerdaten unterstützt"
 
@@ -8752,9 +8791,6 @@ msgstr "kein Puppet-Proxy definiert - kann nicht fortfahren"
 
 msgid "no value"
 msgstr "kein Wert"
-
-msgid "none"
-msgstr "keine"
 
 msgid "not found"
 msgstr "Nicht gefunden"

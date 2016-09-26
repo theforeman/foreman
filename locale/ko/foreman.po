@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-26 09:15+0000\n"
+"PO-Revision-Date: 2016-09-13 08:27+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -559,6 +559,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "예를 들어 하드 드라이브 파티션에 대한 명시적 레이아웃입니다."
 
@@ -1001,8 +1004,8 @@ msgstr "%{mailer}에 대한 쿼리 작성"
 msgid "Build from OS image"
 msgstr "OS 이미지에서 빌드 "
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
-msgstr "이 옵션을 선택하지 않으면 검색 필드에 Foreman 검색 구문을 사용하여 필터를 지정할 수 있습니다. 필터에 제한이 설정되어 있지 않을 경우 (이 필드가 체크되어 있는 경우) 선택한 유형의 모든 리소스에 적용됩니다. "
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
+msgstr ""
 
 msgid "CA certificate expiry date"
 msgstr "CA 인증서 만료 날짜"
@@ -1120,6 +1123,9 @@ msgstr "gravatar.com에서 아바타를 변경 "
 
 msgid "Changed environments"
 msgstr "변경된 환경 "
+
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
 
 msgid "Chassis"
 msgstr "섀시 "
@@ -1898,6 +1904,12 @@ msgstr "통지 비활성화 "
 msgid "Disable alerts for selected hosts"
 msgstr "선택한 호스트의 통지 비활성화 "
 
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
+
 msgid "Disabled"
 msgstr "비활성화됨 "
 
@@ -2086,8 +2098,8 @@ msgstr "Puppet 클래스 %s 편집 "
 msgid "Edit Realm"
 msgstr "영역 편집 "
 
-msgid "Edit Roles"
-msgstr "역할 편집 "
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "스마트 변수 편집 "
@@ -2557,11 +2569,23 @@ msgstr "상태를 기준으로 필터링:"
 msgid "Filter classes"
 msgstr "필터 클래스 "
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "필터"
 
 msgid "Filters for role %s"
 msgstr "%s 역할에 대한 필터"
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
+msgstr ""
 
 msgid "Filter|Permissions"
 msgstr "권한 "
@@ -4172,6 +4196,9 @@ msgstr "로그인 "
 msgid "Login delegation logout URL"
 msgstr "로그인 권한 로그아웃 URL"
 
+msgid "Login page footer text"
+msgstr ""
+
 msgid "Logout"
 msgstr "로그아웃 "
 
@@ -5758,9 +5785,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "영역 "
@@ -6004,8 +6028,8 @@ msgstr "취소"
 msgid "Role"
 msgstr "역할 "
 
-msgid "Role cloned from role %{old_name}"
-msgstr "역할 %{old_name}에서 역할이 복제되었습니다 "
+msgid "Role %s."
+msgstr ""
 
 msgid "Role is in use"
 msgstr "사용 중인 역할 "
@@ -6610,6 +6634,9 @@ msgstr "값 "
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "공백으로 구분된 옵션 (예: miimon=100). 본드 인터페이스의 경우에만 사용합니다. "
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr "일치 조건 지정"
 
@@ -6904,6 +6931,9 @@ msgstr "연결 테스트 성공"
 
 msgid "Test email"
 msgstr "테스트 이메일"
+
+msgid "Text to be shown in the login-page footer"
+msgstr ""
 
 msgid ""
 "That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>\n"
@@ -8089,6 +8119,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "활성화된 경우 매개 변수가 UI에서 숨겨집니다."
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr "이미지가 사용자 데이터를 지원하는지 여부"
 
@@ -8717,9 +8756,6 @@ msgstr "puppet 프록시가 정의되어 있지 않습니다 - 계속 진행할 
 
 msgid "no value"
 msgstr "값이 없음 "
-
-msgid "none"
-msgstr "없음 "
 
 msgid "not found"
 msgstr "찾을 수 없음"

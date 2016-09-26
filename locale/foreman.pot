@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-12 12:39+0100\n"
-"PO-Revision-Date: 2016-09-12 12:39+0100\n"
+"POT-Creation-Date: 2016-09-26 10:32+0100\n"
+"PO-Revision-Date: 2016-09-26 10:32+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -201,22 +201,22 @@ msgid "Error loading virtual machine information: %s"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit.js:220
-#: ../app/assets/javascripts/host_edit.js:482
+#: ../app/assets/javascripts/host_edit.js:484
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:595
+#: ../app/assets/javascripts/host_edit.js:597
 msgid "Please select"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:600
+#: ../app/assets/javascripts/host_edit.js:602
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:44
 #: ../app/views/hostgroups/_form.html.erb:51
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:728
+#: ../app/assets/javascripts/host_edit.js:730
 msgid "Error generating IP: %s"
 msgstr ""
 
@@ -271,7 +271,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/assets/javascripts/jquery.multi-select.js:8
-#: ../app/helpers/form_helper.rb:187 ../app/views/common/_searchbar.html.erb:3
+#: ../app/helpers/form_helper.rb:195 ../app/views/common/_searchbar.html.erb:3
 #: ../app/views/filters/_form.html.erb:6 model_attributes.rb:168
 msgid "Filter"
 msgstr ""
@@ -413,24 +413,24 @@ msgstr ""
 msgid "is invalid"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:151
+#: ../app/controllers/api/base_controller.rb:166
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:240
+#: ../app/controllers/api/base_controller.rb:255
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:253
+#: ../app/controllers/api/base_controller.rb:268
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:281
+#: ../app/controllers/api/base_controller.rb:296
 #: ../app/controllers/application_controller.rb:152
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:292
+#: ../app/controllers/api/base_controller.rb:307
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -3418,65 +3418,65 @@ msgstr ""
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:756
+#: ../app/controllers/hosts_controller.rb:755
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:761
+#: ../app/controllers/hosts_controller.rb:760
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:818
+#: ../app/controllers/hosts_controller.rb:817
 msgid "No hosts were found with that id or name"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:823
+#: ../app/controllers/hosts_controller.rb:822
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:830
+#: ../app/controllers/hosts_controller.rb:829
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:844
+#: ../app/controllers/hosts_controller.rb:843
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:846
+#: ../app/controllers/hosts_controller.rb:845
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:873
+#: ../app/controllers/hosts_controller.rb:872
 msgid "No or invalid power state selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:889
+#: ../app/controllers/hosts_controller.rb:888
 msgid "No proxy selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:895
+#: ../app/controllers/hosts_controller.rb:894
 msgid "Invalid proxy selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:917
+#: ../app/controllers/hosts_controller.rb:916
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:924
+#: ../app/controllers/hosts_controller.rb:923
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:926
+#: ../app/controllers/hosts_controller.rb:925
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:929
+#: ../app/controllers/hosts_controller.rb:928
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/hosts_controller.rb:941
+#: ../app/controllers/hosts_controller.rb:940
 msgid "No templates found"
 msgstr ""
 
@@ -3937,26 +3937,26 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:197
+#: ../app/helpers/form_helper.rb:205
 msgid ""
 "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case s"
 "ensitive and MB is default if unspecified."
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:200
+#: ../app/helpers/form_helper.rb:208
 msgid "Specified value is higher than recommended maximum"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:228 ../app/views/hosts/_conflicts.html.erb:23
+#: ../app/helpers/form_helper.rb:236 ../app/views/hosts/_conflicts.html.erb:23
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:228 ../app/views/common/_searchbar.html.erb:37
+#: ../app/helpers/form_helper.rb:236 ../app/views/common/_searchbar.html.erb:37
 #: ../app/views/hosts/_list.html.erb:50 ../app/views/trends/edit.html.erb:45
 msgid "Submit"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:232 ../app/views/autosign/_form.html.erb:4
+#: ../app/helpers/form_helper.rb:240 ../app/views/autosign/_form.html.erb:4
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:54
 #: ../app/views/common/_searchbar.html.erb:36
 #: ../app/views/hosts/_assign_hosts.html.erb:39
@@ -3965,15 +3965,15 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:299
+#: ../app/helpers/form_helper.rb:307
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:300
+#: ../app/helpers/form_helper.rb:308
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:304
+#: ../app/helpers/form_helper.rb:312
 msgid "Remove Parameter"
 msgstr ""
 
@@ -5495,19 +5495,19 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-#: ../app/models/host/base.rb:463
+#: ../app/models/host/base.rb:461
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:469
+#: ../app/models/host/base.rb:467
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:488
+#: ../app/models/host/base.rb:486
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:494
+#: ../app/models/host/base.rb:492
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-26 09:15+0000\n"
+"PO-Revision-Date: 2016-09-13 08:27+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -562,6 +562,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "ハードドライブのパーティションの明示的なレイアウト (例)"
 
@@ -1005,8 +1008,8 @@ msgstr "%{mailer} のクエリーの構築"
 msgid "Build from OS image"
 msgstr "OS イメージからのビルド"
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
-msgstr "これを選択しないと、検索フィールドで Foreman の検索構文を使ってフィルターを指定できます。フィルターに制限が設定されていないままの場合 (このフィールドにチェックが付けられている場合) は、選択したタイプのすべてのリソースが適用対象になります。"
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
+msgstr ""
 
 msgid "CA certificate expiry date"
 msgstr "CA 証明書の有効期限"
@@ -1124,6 +1127,9 @@ msgstr "gravatar.com でアバターを変更"
 
 msgid "Changed environments"
 msgstr "変更済みの環境"
+
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
 
 msgid "Chassis"
 msgstr "シャーシ"
@@ -1902,6 +1908,12 @@ msgstr "通知の無効化"
 msgid "Disable alerts for selected hosts"
 msgstr "選択ホストの警告の無効化"
 
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
+
 msgid "Disabled"
 msgstr "無効"
 
@@ -2090,8 +2102,8 @@ msgstr "Puppet クラス %s の編集"
 msgid "Edit Realm"
 msgstr "レルムの編集"
 
-msgid "Edit Roles"
-msgstr "ロールの編集"
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "スマート変数の編集"
@@ -2561,11 +2573,23 @@ msgstr "状態別フィルター:"
 msgid "Filter classes"
 msgstr "クラスのフィルター"
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "フィルター"
 
 msgid "Filters for role %s"
 msgstr "ロール %s のフィルター"
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
+msgstr ""
 
 msgid "Filter|Permissions"
 msgstr "パーミッション"
@@ -4176,6 +4200,9 @@ msgstr "ログイン"
 msgid "Login delegation logout URL"
 msgstr "ログイン委任ログアウト URL"
 
+msgid "Login page footer text"
+msgstr ""
+
 msgid "Logout"
 msgstr "ログアウト"
 
@@ -5762,9 +5789,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "レルム"
@@ -6008,8 +6032,8 @@ msgstr "取り消し"
 msgid "Role"
 msgstr "ロール"
 
-msgid "Role cloned from role %{old_name}"
-msgstr "ロール %{old_name} からクローン作成したロール"
+msgid "Role %s."
+msgstr ""
 
 msgid "Role is in use"
 msgstr "使用中のロール"
@@ -6614,6 +6638,9 @@ msgstr "値"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "スペースで区切られたオプション (例: e.g. miimon=100)。ボンドインターフェースの場合のみ使用します。"
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr "Matcher の指定"
 
@@ -6908,6 +6935,9 @@ msgstr "テスト接続が正常に行われました"
 
 msgid "Test email"
 msgstr "テストメール"
+
+msgid "Text to be shown in the login-page footer"
+msgstr ""
 
 msgid ""
 "That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>\n"
@@ -8091,6 +8121,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "有効な場合はパラメーターが UI で非表示になります"
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr "イメージがユーザーデータをサポートするかどうか"
 
@@ -8718,9 +8757,6 @@ msgstr "puppet プロキシーが定義されています - 続行できます"
 
 msgid "no value"
 msgstr "値がありません"
-
-msgid "none"
-msgstr "なし"
 
 msgid "not found"
 msgstr "見つかりませんでした"
