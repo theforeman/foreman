@@ -61,4 +61,18 @@ class BookmarksControllerTest < ActionController::TestCase
     get :edit, {:id => bookmarks(:two).to_param}, set_session_user
     assert_response 404
   end
+
+  test "should search by name" do
+    get :index, { :search => "name=\"foo\"" }, set_session_user
+    assert_response :success
+    refute_empty assigns(:bookmarks)
+    assert assigns(:bookmarks).include?(bookmarks(:one))
+  end
+
+  test "should search by controller" do
+    get :index, { :search => "controller=hosts" }, set_session_user
+    assert_response :success
+    refute_empty assigns(:bookmarks)
+    assert assigns(:bookmarks).include?(bookmarks(:one))
+  end
 end
