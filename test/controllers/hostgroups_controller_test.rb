@@ -224,12 +224,12 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["x"]
       end
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
-                                                       :group_parameters_attributes => {"0" => {:name => "x", :value => nil, :_destroy => ""},
+                                                       :group_parameters_attributes => {"0" => {:name => "x", :value => "", :_destroy => ""},
                                                                                         "1" => {:name => "y", :value => "overridden", :_destroy => ""}}}}, set_session_user
       assert_redirected_to hostgroups_url
       child.reload
       assert_equal "overridden", child.parameters["y"]
-      assert_equal nil, child.parameters["x"]
+      assert_equal "", child.parameters["x"]
     end
 
     it "changes the hostgroup's parent and check the parameters are updated" do
