@@ -50,7 +50,7 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :bookmarks do |map|
     map.permission :view_bookmarks,
-                   :bookmarks => [:index, :show],
+                   :bookmarks => [:index, :show, :auto_complete_search],
                    :"api/v1/bookmarks" => [:index, :show],
                    :"api/v2/bookmarks" => [:index, :show]
     map.permission :create_bookmarks,

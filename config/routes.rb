@@ -110,7 +110,12 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :bookmarks, :except => [:show]
+    resources :bookmarks, :except => [:show] do
+      collection do
+        get 'auto_complete_search'
+      end
+    end
+
     [:lookup_keys, :variable_lookup_keys, :puppetclass_lookup_keys].each do |key|
       resources key, :except => [:show, :new, :create] do
         resources :lookup_values, :only => [:index, :create, :update, :destroy]

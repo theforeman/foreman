@@ -1,11 +1,12 @@
 class BookmarksController < ApplicationController
+  include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::BookmarkCommon
   include Foreman::Controller::Parameters::Bookmark
 
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @bookmarks = resource_base.paginate(:page => params[:page])
+    @bookmarks = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
   end
 
   def new
