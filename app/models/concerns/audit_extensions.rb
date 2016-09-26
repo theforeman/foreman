@@ -37,7 +37,7 @@ module AuditExtensions
     include Authorizable
 
     def self.humanize_class_name
-      "Audit"
+      _("Audit")
     end
   end
 
