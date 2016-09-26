@@ -1,3 +1,33 @@
+2016-09-26	Dominic Cleal <dominic@cleal.org>
+	* Release 1.13.0-RC2
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+	* fixes #16547 - handle nil value from get_interface_scope
+	* fixes #16578 - make keep_param idempotent, remove duplicate call
+	* fixes #16576 - only load FactName IDs, not models during import
+
+2016-09-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16577 - enhance unit detection
+
+2016-09-26	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #16532 - fixed hostgroup architecture params
+
+2016-09-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16599 - Shrinkwrap npm modules
+	* Fixes #16565 - Correct host search by parameters
+
+2016-09-26	dhlavac <dhlavacd@redhat.com>
+	* Fixes #14101 - Exception triggered when editing/adding a role
+
+2016-09-26	Ondrej Prazak <oprazak@redhat.com>
+	* Refs #16074 - Load .env when not running a Procfile
+
+2016-09-26	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #16074 - Adds BIND variable to startup process
+
+2016-09-26	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16219 - Interfaces API works with scoped view_hosts
+
 2016-09-12	Dominic Cleal <dominic@cleal.org>
 	* Release 1.13.0-RC1
 	* templates - sync from community-templates
