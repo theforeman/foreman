@@ -13,9 +13,6 @@ module NestedAncestryCommon
 
     validate :title_and_lookup_key_length
 
-    scoped_search :on => :title, :complete_value => true, :default_order => true
-    scoped_search :on => :name, :complete_value => :true
-
     # attribute used by *_names and *_name methods.  default is :name
     attr_name :title
     optional_attr_accessible :parent, :parent_id
