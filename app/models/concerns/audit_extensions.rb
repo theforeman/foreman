@@ -35,6 +35,10 @@ module AuditExtensions
     after_validation :fix_auditable_type
 
     include Authorizable
+
+    def self.humanize_class_name
+      "Audit"
+    end
   end
 
   private
