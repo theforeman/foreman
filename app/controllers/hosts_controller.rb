@@ -532,7 +532,7 @@ class HostsController < ApplicationController
   def submit_multiple_build
     reboot = params[:host][:build] == '1' || false
 
-    @hosts.to_a.delete_if do |host|
+    missed_hosts = @hosts.select do |host|
       success = true
       forward_url_options(host)
       begin
@@ -543,31 +543,28 @@ class HostsController < ApplicationController
         Foreman::Logging.exception(message, error)
         success = false
       end
-      success
+      !success
     end
 
-    missed_hosts = @hosts.map(&:name).to_sentence
-    if @hosts.empty?
+    if missed_hosts.empty?
       if reboot
         notice _("The selected hosts were enabled for reboot and rebuild")
       else
         notice _("The selected hosts will execute a build operation on next reboot")
       end
     else
-      error _("The following hosts failed the build operation: %s") % (missed_hosts)
+      error _("The following hosts failed the build operation: %s") % missed_hosts.map(&:name).to_sentence
     end
     redirect_to(hosts_path)
   end
 
   def submit_multiple_destroy
     # keep all the ones that were not deleted for notification.
-    @hosts.to_a.delete_if {|host| host.destroy}
-
-    missed_hosts = @hosts.map(&:name).to_sentence
-    if @hosts.empty?
+    missed_hosts = @hosts.select {|host| !host.destroy}
+    if missed_hosts.empty?
       notice _("Destroyed selected hosts")
     else
-      error _("The following hosts were not deleted: %s") % (missed_hosts)
+      error _("The following hosts were not deleted: %s") % missed_hosts.map(&:name).to_sentence
     end
     redirect_to(hosts_path)
   end
@@ -835,14 +832,13 @@ class HostsController < ApplicationController
 
   def toggle_hostmode(mode = true)
     # keep all the ones that were not disabled for notification.
-    @hosts.to_a.delete_if { |host| host.update_attribute(:enabled, mode) }
+    missed_hosts = @hosts.select { |host| !host.update_attribute(:enabled, mode) }
     action = mode ? "enabled" : "disabled"
 
-    missed_hosts = @hosts.map(&:name).to_sentence
-    if @hosts.empty?
+    if missed_hosts.empty?
       notice _("%s selected hosts") % (action.capitalize)
     else
-      error _("The following hosts were not %{action}: %{missed_hosts}") % { :action => action, :missed_hosts => missed_hosts }
+      error _("The following hosts were not %{action}: %{missed_hosts}") % { :action => action, :missed_hosts => missed_hosts.map(&:name).to_sentence }
     end
     redirect_to(hosts_path)
   end
