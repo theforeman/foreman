@@ -53,9 +53,16 @@ class PuppetclassesController < ApplicationController
   # form AJAX methods
   def parameters
     puppetclass = Puppetclass.find(params[:id])
+    obj = get_host_or_hostgroup
+    lookup_keys = []
+    if obj.environment_id.present?
+      EnvironmentClass.where(:id => obj.environment_id).each { |ec| lookup_keys += ec.puppetclass_lookup_key if ec.puppetclass_lookup_key.present? }
+    end
+    lookup_keys += VariableLookupKey.where(:puppetclass => puppetclass)
     render :partial => "puppetclasses/class_parameters",
            :locals => { :puppetclass => puppetclass,
-                        :obj         => get_host_or_hostgroup }
+                        :obj         => obj,
+                        :lookup_keys => lookup_keys}
   end
 
   private

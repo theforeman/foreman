@@ -102,7 +102,9 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal value1.value, Classification::ClassParam.new(:host=>@host1).enc['apache']['dns']
     assert_equal value2.value, Classification::ClassParam.new(:host=>@host2).enc['apache']['dns']
     assert_equal default, Classification::ClassParam.new(:host=>@host3).enc['apache']['dns']
+    @host2.lookup_values.reload
     assert key.overridden?(@host2)
+    @host1.lookup_values.reload
     refute key.overridden?(@host1)
   end
 

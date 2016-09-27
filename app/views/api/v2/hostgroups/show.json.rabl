@@ -3,7 +3,7 @@ object @hostgroup
 extends "api/v2/hostgroups/main"
 
 node do |hostgroup|
-  { :parameters => partial("api/v2/parameters/base", :object => hostgroup.group_parameters.authorized) }
+  { :parameters => partial("api/v2/parameters/base", :object => hostgroup.lookup_values.globals.authorized) }
 end
 
 child :template_combinations do

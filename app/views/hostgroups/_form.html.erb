@@ -72,12 +72,8 @@
       <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
         <fieldset>
           <h2><%= _('Global parameters') %></h2>
-          <% if @hostgroup.parent.present? %>
-              <h4><%= _('Parent parameters') %></h4>
-              <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @hostgroup.parent_params(true), :parameters => @hostgroup.group_parameters } %>
-          <% end %>
-          <h4><%= _('Host group parameters') %></h4>
-          <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+          <% lookup_keys = GlobalLookupKey.where(:id => LookupValue.where(:match => @hostgroup.path.map(&:lookup_value_matcher)).map(&:lookup_key_id)) %>
+          <%= render "common_parameters/global_params", { :obj => @hostgroup, :lookup_keys => lookup_keys, :f => f } %>
         </fieldset>
       <% end %>
     </div>

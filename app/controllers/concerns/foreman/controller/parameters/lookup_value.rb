@@ -10,6 +10,7 @@ module Foreman::Controller::Parameters::LookupValue
           :match,
           :omit,
           :value,
+          :key,
           :nested => true
 
         filter.permit_by_context :id,

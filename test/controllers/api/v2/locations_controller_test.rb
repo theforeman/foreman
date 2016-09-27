@@ -281,7 +281,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_empty JSON.parse(response.body)['parameters']
   end
 
-  test "user with view_params permission can see location parameters" do
+  def test_foo#test "user with view_params permission can see location parameters" do
     setup_user "view", "locations"
     setup_user "view", "params"
     location_with_parameter = FactoryGirl.create(:location, :with_parameter)

@@ -1,16 +1,17 @@
 <table class="table table-fixed" id="inherited_puppetclasses_parameters">
   <thead class="white-header">
     <tr>
-      <th class='col-md-3'><%= _('Puppet class') %></th>
+      <th class='col-md-2'><%= _('Puppet class') %></th>
       <th class='col-md-2'><%= _('Name') %></th>
       <th class='col-md-6'><%= _('Value') %></th>
-      <th class='col-md-1 ca'><%= _("Omit") %>&nbsp;<%= omit_help %></th>
+      <th class='col-md-2 ca'><%= _("Use Puppet default") %>&nbsp;<%= omit_help %></th>
     </tr>
   </thead>
   <tbody>
-  <%= render :partial => "puppetclasses/class_parameters",
-    :collection => interesting_puppetclasses(obj),
-    :as => :puppetclass,
-    :locals => { :obj => obj } %>
+  <% puppetclasses = interesting_puppetclasses(obj) %>
+  <% puppetclasses.each do |puppetclass| %>
+    <%= render :partial => "puppetclasses/class_parameters",
+               :locals => { :obj => obj, :lookup_keys => overridable_lookup_keys(puppetclass, obj), :puppetclass => puppetclass } %>
+  <% end %>
   </tbody>
 </table>

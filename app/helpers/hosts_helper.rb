@@ -47,6 +47,11 @@ module HostsHelper
     end
   end
 
+  def global_hash_value_cache(host)
+    @global_hash_cache ||= {}
+    @global_hash_cache[host.id] ||= host.host_params_objects
+  end
+
   def host_taxonomy_select(f, taxonomy)
     taxonomy_id = "#{taxonomy.to_s.downcase}_id"
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)

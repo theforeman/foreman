@@ -110,7 +110,7 @@
           <% else %>
               <h4><%= _("Organization parameters") %></h4>
           <% end %>
-          <%= render "common_parameters/parameters", { :f => f, :type => "#{taxonomy_type}_parameters".to_sym } %>
+          <%= render "common_parameters/parameters", { :f => f, :obj => taxonomy } %>
         </div>
       <% end %>
     </div>

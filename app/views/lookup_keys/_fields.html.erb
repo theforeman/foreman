@@ -35,6 +35,10 @@
                      :help_inline => popover("", _("Hide all values for this parameter.")),
                      :size => "col-md-1", :label_size => "col-md-2", :table_field => true,
                      :disabled => (is_param && !f.object.override)) %>
+      <%= checkbox_f(f, :should_be_global, :label => _('Should be global'),
+                     :checked => f.object.should_be_global,
+                     :help_inline => popover("", _("Should this value be displayed for all hosts.")),
+                     :size => "col-md-1", :label_size => "col-md-3", :table_field => true) if f.object.type == 'GlobalLookupKey' %>
     </div>
   </fieldset>
   <fieldset>

@@ -25,6 +25,7 @@ class Taxonomy < ActiveRecord::Base
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
 
   validates :name, :presence => true, :uniqueness => {:scope => [:ancestry, :type], :case_sensitive => false}
+  validates :title, :presence => true, :uniqueness => {:scope => :type}
 
   before_validation :sanitize_ignored_types
   after_create :assign_default_templates
@@ -164,9 +165,12 @@ class Taxonomy < ActiveRecord::Base
 
   def parent_params(include_source = false)
     hash = {}
-    elements = parents_with_params
+    ids = ancestor_ids
+    # need to pull out the locations to ensure they are sorted first,
+    # otherwise we might be overwriting the hash in the wrong order.
+    elements = self.class.sort_by_ancestry(self.class.includes(:lookup_values).find(ids))
     elements.each do |el|
-      el.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
+      el.send(:lookup_values).each {|p| hash[p.key] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     end
     hash
   end
@@ -174,12 +178,12 @@ class Taxonomy < ActiveRecord::Base
   # returns self and parent parameters as a hash
   def parameters(include_source = false)
     hash = parent_params(include_source)
-    self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
+    self.send(:lookup_values).authorized(:view_params).each {|p| hash[p.key] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
     hash
   end
 
   def parents_with_params
-    self.class.sort_by_ancestry(self.class.includes("#{type.downcase}_parameters".to_sym).find(ancestor_ids))
+    self.class.sort_by_ancestry(self.class.includes(:lookup_values).find(ancestor_ids))
   end
 
   def taxonomy_inherited_params_objects
@@ -188,13 +192,13 @@ class Taxonomy < ActiveRecord::Base
     parents = parents_with_params
     parents_parameters = []
     parents.each do |parent|
-      parents_parameters << parent.send("#{parent.type.downcase}_parameters".to_sym)
+      parents_parameters << parent.send(:lookup_values)
     end
     parents_parameters
   end
 
   def params_objects
-    (self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
+    (self.send(:lookup_values).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq {|param| param.key}
   end
 
   private

@@ -1,20 +1,12 @@
 FactoryGirl.define do
-  factory :organization_parameter, :parent => :parameter, :class => OrganizationParameter do
-    type 'OrganizationParameter'
-  end
-
   factory :organization do
     sequence(:name) { |n| "org#{n}" }
 
     trait :with_parameter do
       after(:create) do |organization,evaluator|
-        FactoryGirl.create(:organization_parameter, :organization => organization)
+        FactoryGirl.create(:lookup_value, :with_key, :match => organization.lookup_value_matcher)
       end
     end
-  end
-
-  factory :location_parameter, :parent => :parameter, :class => LocationParameter do
-    type 'LocationParameter'
   end
 
   factory :location do
@@ -22,7 +14,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |location,evaluator|
-        FactoryGirl.create(:location_parameter, :location => location)
+        FactoryGirl.create(:lookup_value, :with_key, :match => location.lookup_value_matcher)
       end
     end
   end

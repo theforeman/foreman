@@ -135,21 +135,21 @@ module LookupKeysHelper
                       :class =>"btn btn-default btn-md btn-override #{'hide' unless overridden}")
   end
 
-  def hidden_toggle(hidden, hide_icon = 'eye-slash', unhide_icon = 'eye', strikethrough = false)
+  def hidden_toggle(hidden)
     return unless can_edit_params?
-    if strikethrough && !hidden
-      link_to_function(icon_text(hide_icon, '', :kind => 'fa'), "", :class =>"btn btn-default btn-md btn-hide", :disabled => "disabled", :rel => "twipsy", :title => _("This value is not hidden"))
+    if !hidden
+      link_to_function(icon_text('eye-close'), "", :class =>"btn btn-default btn-md btn-hide", :disabled => "disabled", :rel => "twipsy", :title => _("This value is not hidden"))
     else
-      link_to_function(icon_text(unhide_icon, '', :kind => 'fa'), "input_group_hidden(this)",
+      link_to_function(icon_text('eye-open'), "input_group_hidden(this)",
                        :title => _("Unhide this value"),
                        :class =>"btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
-          link_to_function(icon_text(hide_icon, "", :class => ('btn-strike' if strikethrough).to_s, :kind => 'fa'), "input_group_hidden(this)",
+          link_to_function(icon_text(hide_icon, "", :class => 'btn-strike'), "input_group_hidden(this)",
                            :title => _("Hide this value"),
                            :class =>"btn btn-default btn-md btn-hide #{'hide' if hidden}")
     end
   end
 
-  def lookup_value(host_or_hostgroup, lookup_key)
+  def lookup_value_for_key(host_or_hostgroup, lookup_key)
     lookup_key.overridden_value(host_or_hostgroup) || LookupValue.new
   end
 
@@ -187,5 +187,17 @@ module LookupKeysHelper
   def parameters_receiver
     return 'host' if params.has_key?(:host) || params[:controller] == 'hosts'
     'hostgroup'
+  end
+
+  def hidden_value_field(f, field, value, disabled, options = {})
+    if f.object.hidden_value?
+      input = f.password_field(field, :disabled => disabled, :value => value, :class => 'form-control')
+    else
+      input = f.text_area(field, options.merge(:disabled    => disabled,
+                                               :class       => "form-control no-stretch",
+                                               :rows        => 1,
+                                               :placeholder => _("Value")))
+    end
+    input_group(input, input_group_btn(fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
   end
 end

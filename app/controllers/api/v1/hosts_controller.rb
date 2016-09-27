@@ -3,6 +3,7 @@ module Api
     class HostsController < V1::BaseController
       include Api::CompatibilityChecker
       include Foreman::Controller::Parameters::Host
+      include Api::LookupValueConnectorController
 
       before_action :check_create_host_nested, :only => [:create, :update]
       before_action :find_resource, :only => %w{show update destroy status}
@@ -69,7 +70,10 @@ module Api
       end
 
       def create
-        @host = Host.new(host_params)
+        lookup_values = turn_params_to_values(host_params[:host_parameters_attributes], "fqdn=#{host_params[:name]}")
+        # Using except because keep param prevents deleting
+        my_params = host_params.except(:host_parameters_attributes).merge(lookup_values)
+        @host = Host.new(my_params)
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
         forward_request_url
         process_response @host.save
@@ -111,7 +115,9 @@ module Api
       end
 
       def update
-        process_response @host.update_attributes(host_params)
+        lookup_values = turn_params_to_values(host_params[:host_parameters_attributes], "fqdn=#{host_params[:name]}")
+        # Using except because keep param prevents deleting
+        process_response @host.update_attributes(host_params.except(:host_parameters_attributes).merge(lookup_values))
       end
 
       api :DELETE, "/hosts/:id/", "Delete an host."

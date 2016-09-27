@@ -14,7 +14,7 @@ module Api
       def index
         @hostgroups = Hostgroup.
           authorized(:view_hostgroups).
-          includes(:hostgroup_classes, :group_parameters).
+          includes(:hostgroup_classes).
           search_for(*search_options).paginate(paginate_options)
       end
 

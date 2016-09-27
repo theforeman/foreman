@@ -6,7 +6,7 @@ module Foreman::Controller::Parameters::Location
   class_methods do
     def location_params_filter
       Foreman::ParameterFilter.new(::Location).tap do |filter|
-        filter.permit :location_parameters_attributes => [parameter_params_filter(LocationParameter)]
+        filter.permit :location_parameters_attributes => [parameter_params_filter]
         add_taxonomy_params_filter(filter)
       end
     end

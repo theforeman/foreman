@@ -2,11 +2,8 @@ module HostParams
   extend ActiveSupport::Concern
 
   included do
-    has_many :host_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :host
-    has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "HostParameter"
-    accepts_nested_attributes_for :host_parameters, :allow_destroy => true
     include ParameterValidators
-    attr_reader :cached_host_params
+    attr_reader :cached_host_params, :host_parameters_hash
 
     def params
       host_params.update(lookup_keys_params)
@@ -14,53 +11,42 @@ module HostParams
 
     def clear_host_parameters_cache!
       @cached_host_params = nil
+      @host_parameters_hash = nil
     end
 
-    def host_inherited_params(include_source = false)
-      hp = {}
-      params = host_inherited_params_objects
-      params.each do |param|
-        source = param.associated_type
-        options = {:value => param.value,
-                   :source => source,
-                   :safe_value => param.safe_value }
-        if source != 'global'
-          options.merge!(:source_name => param.associated_label)
-        end
-        hp.update(Hash[param.name => include_source ? options : param.value])
-      end
-      hp
+    def host_params_hash
+      return @host_parameters_hash unless @host_parameters_hash.blank?
+      @host_parameters_hash = Classification::NonPuppetParam.new(:host=>self).values_hash
     end
 
     def host_params
-      return cached_host_params unless cached_host_params.blank?
-      hp = host_inherited_params
-      # and now read host parameters, override if required
-      host_parameters.authorized(:view_params).each { |p| hp[p.name] = p.value }
+      return @cached_host_params unless @cached_host_params.blank?
+
+      hp = {}
+      host_params_hash.each  do |param|
+        param_hash = param.last
+        key = param_hash.keys[0]
+        value = param_hash[key][:value]
+        hp.update Hash[key => value]
+      end
       @cached_host_params = hp
     end
 
-    def host_inherited_params_objects
-      params = CommonParameter.all
-      if SETTINGS[:organizations_enabled] && organization
-        params += extract_params_from_object_ancestors(organization)
+    def host_params_objects(params_hash = nil)
+      params_hash ||= host_params_hash
+      lookup_keys = LookupKey.where(:id => params_hash.keys).authorized
+      values = []
+      params_hash.each do |key, param|
+        value = param.values[0]
+        value_element = value[:element]
+        key = lookup_keys.detect{|x| x.id == key}
+        if value_element == 'Default value'
+          values << key
+        else
+          values << key.lookup_values.detect{ |x| x.match = "#{value_element}=#{value[:element_name]}"} if key.present?
+        end
       end
-
-      if SETTINGS[:locations_enabled] && location
-        params += extract_params_from_object_ancestors(location)
-      end
-
-      params += domain.domain_parameters.authorized(:view_params) if domain
-      params += subnet.subnet_parameters.authorized(:view_params) if subnet
-      params += subnet6.subnet_parameters.authorized(:view_params) if subnet6
-      params += operatingsystem.os_parameters.authorized(:view_params) if operatingsystem
-      params += extract_params_from_object_ancestors(hostgroup) if hostgroup
-      params
-    end
-
-    def host_params_objects
-      # Host parameters should always be first for the uniq order
-      (host_parameters.authorized(:view_params) + host_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
+      values
     end
   end
 end

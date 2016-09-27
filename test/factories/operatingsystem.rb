@@ -1,8 +1,4 @@
 FactoryGirl.define do
-  factory :os_parameter, :parent => :parameter, :class => OsParameter do
-    type 'OsParameter'
-  end
-
   factory :operatingsystem, class: Operatingsystem do
     sequence(:name) { |n| "operatingsystem#{n}" }
     sequence(:major) { |n| n }
@@ -59,7 +55,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |os,evaluator|
-        FactoryGirl.create(:os_parameter, :operatingsystem => os)
+        FactoryGirl.create(:lookup_value, :with_key, :match => os.lookup_value_matcher)
       end
     end
 

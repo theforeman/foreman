@@ -30,7 +30,7 @@
 
     <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
       <div class="tab-pane" id="params">
-        <%= render "common_parameters/parameters", { :f => f, :type => :subnet_parameters } %>
+        <%= render "common_parameters/parameters", { :f => f, :obj => @subnet } %>
       </div>
     <% end %>
 

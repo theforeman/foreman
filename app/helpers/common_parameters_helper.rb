@@ -25,19 +25,6 @@ module CommonParametersHelper
     popover(nil, body, :title => title)
   end
 
-  def hidden_value_field(f, field, disabled, options = {})
-    hidden = options.delete(:hidden_value) || f.object.hidden_value?
-    html_class = "form-control no-stretch"
-    html_class += " masked-input" if hidden
-
-    input = f.text_area(field, options.merge(:disabled => disabled,
-                                             :class => html_class,
-                                             :rows => 1,
-                                             :placeholder => _("Value")))
-
-    input_group(input, input_group_btn(hidden_toggle(f.object.hidden_value?), fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
-  end
-
   def lookup_key_field(id, value, options)
     lookup_key = options[:lookup_key]
 

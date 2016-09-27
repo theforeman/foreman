@@ -6,6 +6,7 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Controller::SmartProxyAuth
       include Foreman::Controller::Parameters::Host
+      include Api::LookupValueConnectorController
 
       wrap_parameters :host, :include => host_params_filter.accessible_attributes(parameter_filter_context) + ['compute_attributes']
 
@@ -106,7 +107,9 @@ module Api
       param_group :host, :as => :create
 
       def create
-        @host = Host.new(host_attributes(host_params))
+        lookup_values = turn_params_to_values(host_params[:host_parameters_attributes], "fqdn=#{host_params[:name]}")
+        # Using except because keep param prevents deleting
+        @host = Host.new(host_attributes(host_params.except(:host_parameters_attributes).merge(lookup_values)))
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
         apply_compute_profile(@host)
 
@@ -121,7 +124,9 @@ module Api
       param_group :host
 
       def update
-        @host.attributes = host_attributes(host_params, @host)
+        lookup_values = turn_params_to_values(host_params[:host_parameters_attributes], "fqdn=#{host_params[:name]}")
+        # Using except because keep param prevents deleting
+        @host.attributes = host_attributes(host_params.except(:host_parameters_attributes).merge(lookup_values), @host)
         apply_compute_profile(@host)
 
         process_response @host.save

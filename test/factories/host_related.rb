@@ -31,20 +31,6 @@ FactoryGirl.define do
     end
   end
 
-  factory :parameter do
-    sequence(:name) { |n| "parameter#{n}" }
-    sequence(:value) { |n| "parameter value #{n}" }
-    type 'CommonParameter'
-  end
-
-  factory :host_parameter, :parent => :parameter, :class => HostParameter do
-    type 'HostParameter'
-  end
-
-  factory :hostgroup_parameter, :parent => :parameter, :class => GroupParameter do
-    type 'GroupParameter'
-  end
-
   factory :nic_base, :class => Nic::Base do
     type 'Nic::Base'
     sequence(:identifier) { |n| "eth#{n}" }
@@ -148,7 +134,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |host,evaluator|
-        FactoryGirl.create(:host_parameter, :host => host)
+        FactoryGirl.create(:lookup_value, :with_key, :match => host.lookup_value_matcher)
       end
     end
 
@@ -449,8 +435,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |hg,evaluator|
-        FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)
-        hg.group_parameters.reload
+        FactoryGirl.create(:lookup_value, :with_key, :match => hg.lookup_value_matcher)
       end
     end
 

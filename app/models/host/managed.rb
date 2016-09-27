@@ -505,7 +505,6 @@ class Host::Managed < Host::Base
     # parameters are a bit more tricky, as some classifiers provide the facts as parameters as well
     # not sure what is puppet priority about it, but we ignore it if has a fact with the same name.
     # additionally, we don't import any non strings values, as puppet don't know what to do with those as well.
-
     myparams = self.info["parameters"]
     nodeinfo["parameters"].each_pair do |param,value|
       next if fact_names.exists? :name => param
@@ -514,8 +513,8 @@ class Host::Managed < Host::Base
       # we already have this parameter
       next if myparams.has_key?(param) && myparams[param] == value
 
-      unless (hp = self.host_parameters.create(:name => param, :value => value))
-        logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(', ')}"
+      unless (hp = LookupValue.create(:key => param, :value => value, :match => self.lookup_value_match))
+        logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(", ")}"
         $stdout.puts $ERROR_INFO
       end
     end
@@ -707,8 +706,50 @@ class Host::Managed < Host::Base
     Setting[:root_pass]
   end
 
-  include_in_clone :config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values
+  include_in_clone :config_groups, :host_config_groups, :host_classes, :lookup_values
   exclude_from_clone :name, :uuid, :certname, :last_report, :lookup_value_matcher
+
+  def self.search_by_params(key, operator, value)
+    key_name = key.sub(/^.*\./,'')
+    key = GlobalLookupKey.where(:key => key_name).first
+
+    if key.present?
+      condition = sanitize_sql_for_conditions(["lookup_values.lookup_key_id = ? and lookup_values.value #{operator} ?", key.id, value_to_sql(operator, value.to_yaml)])
+      lookup_values = LookupValue.where(condition)
+      return {:conditions => '1 = 0'} if lookup_values.blank?
+      conditions = param_conditions(lookup_values)
+      {
+          :joins =>  :primary_interface,
+          :conditions => conditions
+      }
+    else
+      return {:conditions => '1 = 0'}
+    end
+  end
+
+  def self.param_conditions(lookup_values)
+    conditions = []
+    lookup_values.each do |lv|
+      reference = lv.match.split("=").last
+      case lv.match.split("=").first
+        when "hostgroup"
+          hg = Hostgroup.where(:name => reference)
+          conditions << "hosts.hostgroup_id IN (#{hg.first.subtree_ids.join(', ')})"
+        when "os"
+          os = Operatingsystem.where(:name => reference)
+          conditions << "hosts.operatingsystem_id = #{os.id}"
+        when "subnet"
+          subnet = Subnet.where(:name => reference)
+          conditions << "nics.subnet_id = #{subnet.id}"
+        when "domain"
+          domain = Domain.where(:name => reference)
+          conditions << "nics.domain_id = #{domain.id}"
+        when "fqdn"
+          conditions << "hosts.name = '#{reference}'"
+      end
+    end
+    conditions.empty? ? [] : "( #{conditions.join(' OR ')} )"
+  end
 
   def clone
     # do not copy system specific attributes
@@ -718,6 +759,7 @@ class Host::Managed < Host::Base
     if self.compute_resource
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
     end
+    host.lookup_values = self.lookup_values.dup if self.lookup_values
     host.refresh_global_status
     host
   end
@@ -912,6 +954,10 @@ class Host::Managed < Host::Base
     modification.run(self, compute_resource.try(:compute_profile_for, compute_profile_id))
   end
 
+  def lookup_value_match
+    "fqdn=#{fqdn || name}"
+  end
+
   private
 
   def compute_profile_present?
@@ -1023,14 +1069,6 @@ class Host::Managed < Host::Base
 
   def refresh_build_status
     self.get_status(HostStatus::BuildStatus).refresh
-  end
-
-  def extract_params_from_object_ancestors(object)
-    params = []
-    object_parameters_symbol = "#{object.class.to_s.downcase}_parameters".to_sym
-    object.class.sort_by_ancestry(object.ancestors).each {|o| params += o.send(object_parameters_symbol).authorized(:view_params)}
-    params += object.send(object_parameters_symbol).authorized(:view_params)
-    params
   end
 
   def send_built_notification

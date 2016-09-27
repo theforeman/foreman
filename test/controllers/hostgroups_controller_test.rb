@@ -25,7 +25,8 @@ class HostgroupsControllerTest < ActionController::TestCase
   def test_create_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
     pc = Puppetclass.first
-    post :create, {:hostgroup => {:name=>"test_it", :group_parameters_attributes=>{"1272344174448"=>{:name => "x", :value =>"y", :_destroy => ""}},
+    post :create, {:hostgroup => {:name=>"test_it",
+                                  :lookup_values_attributes=>{"0" => {"lookup_key_id" => lookup_keys(:common).id, "value" => "y",  "match" => "hostgroup=test_it"}},
                    :puppetclass_ids=>["", pc.id.to_s], :realm_id => realms(:myrealm).id}}, set_session_user
     assert_redirected_to hostgroups_url
   end
@@ -171,14 +172,16 @@ class HostgroupsControllerTest < ActionController::TestCase
   describe "parent attributes" do
     before do
       @base = FactoryGirl.create(:hostgroup)
-      @base.group_parameters << GroupParameter.create(:name => "x", :value => "original")
-      @base.group_parameters << GroupParameter.create(:name => "y", :value => "originally")
+      @key1 = FactoryGirl.create(:global_lookup_key,:with_override, :key => "x")
+      FactoryGirl.create(:lookup_value, :lookup_key_id => @key1.id, :value => "original", :match => @base.lookup_value_match)
+      @key2 = FactoryGirl.create(:global_lookup_key,:with_override, :key => "y")
+      FactoryGirl.create(:lookup_value, :lookup_key_id => @key2.id, :value => "originally", :match => @base.lookup_value_match)
       Hostgroup.any_instance.stubs(:valid?).returns(true)
     end
 
     it "creates a hostgroup with a parent parameter" do
       post :create, {"hostgroup" => {"name"=>"test_it", "parent_id" => @base.id, :realm_id => realms(:myrealm).id,
-                                     :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
+                                     :lookup_values_attributes => {"0" => {:lookup_key_id => @key1.id, :value =>"overridden", :match => "hostgroup=#{@base.name}/test_it"}}}}, set_session_user
       assert_redirected_to hostgroups_url
       hostgroup = Hostgroup.where(:name => "test_it").last
       assert_equal "overridden", hostgroup.parameters["x"]
@@ -190,7 +193,7 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["x"]
       end
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
-                                                       :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
+                                                       :lookup_values_attributes => {"0" => {:lookup_key_id => @key1.id, :value =>"overridden", :match => child.lookup_value_match}}}}, set_session_user
       assert_redirected_to hostgroups_url
       child.reload
       assert_equal "overridden", child.parameters["x"]
@@ -202,8 +205,8 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["x"]
       end
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
-                                                       :group_parameters_attributes => {"0" => {:name => "x", :value => nil, :_destroy => ""},
-                                                                                        "1" => {:name => "y", :value => "overridden", :_destroy => ""}}}}, set_session_user
+                                                       :lookup_values_attributes => {"0" => {:lookup_key_id => @key1.id, :value =>nil, :match => child.lookup_value_match},
+                                                                                        "1" => {:lookup_key_id => @key2.id, :value =>"overridden", :match => child.lookup_value_match}}}}, set_session_user
       assert_redirected_to hostgroups_url
       child.reload
       assert_equal "overridden", child.parameters["y"]
@@ -216,15 +219,14 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["x"]
       end
 
-      new_parent = FactoryGirl.create(:hostgroup)
-      new_parent.group_parameters << GroupParameter.create(:name => "z", :value => "original")
+      new_parent = FactoryGirl.create(:hostgroup, :with_parameter)
 
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name, "parent_id" => new_parent.id}}, set_session_user
 
       assert_redirected_to hostgroups_url
       child.reload
       as_admin do
-        assert_equal "original", child.parameters["z"]
+        assert_equal new_parent.lookup_values.first[:value], child.parameters[new_parent.lookup_values.first.key]
         assert_equal nil, child.parameters["x"]
       end
     end

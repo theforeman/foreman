@@ -273,51 +273,48 @@ class LocationTest < ActiveSupport::TestCase
   end
 
   test "parameter inheritence with no new parameters on child location" do
-    assert_equal [parameters(:location)], taxonomies(:location1).location_parameters
-
+    assert_equal [lookup_values(:location)], taxonomies(:location1).lookup_values
     # inherit parameter from parent
     location = Location.create :name => "floor1", :parent_id => taxonomies(:location1).id
-    assert_equal [], location.location_parameters
+    assert_equal [], location.lookup_values
     assert_equal Hash['loc_param', 'abc'], location.parameters
   end
 
   test "parameter inheritence with new parameters on child location" do
-    assert_equal [parameters(:location)], taxonomies(:location1).location_parameters
+    assert_equal [lookup_values(:location)], taxonomies(:location1).lookup_values
 
     # inherit parameter from parent
     child_location = Location.create :name => "floor1", :parent_id => taxonomies(:location1).id
-    assert_equal [], child_location.location_parameters
+    assert_equal [], child_location.lookup_values
 
     # new parameter on child location
-    child_location.location_parameters.create(:name => "child_param", :value => "123")
+    child_location.lookup_values.create(:key => "child_param", :value => "123")
 
     assert_equal Hash['loc_param', 'abc', 'child_param', '123'], child_location.parameters
   end
 
   test "parent_params returns only ancestors parameters" do
-    assert_equal [parameters(:location)], taxonomies(:location1).location_parameters
+    assert_equal [lookup_values(:location)], taxonomies(:location1).lookup_values
 
     # inherit parameter from parent
     child_location = Location.create :name => "floor1", :parent_id => taxonomies(:location1).id
-    assert_equal [], child_location.location_parameters
+    assert_equal [], child_location.lookup_values
 
     # new parameter on child location
-    child_location.location_parameters.create(:name => "child_param", :value => "123")
-
+    child_location.lookup_values.create(:key => "child_param", :value => "123")
     assert_equal({ 'loc_param' => 'abc' }, child_location.parent_params)
   end
 
   test "#params_objects should return location parameters" do
     location = Location.create :name => "floor1"
-    param = LocationParameter.create(:name => 'name', :value => 'valueable')
-    location.location_parameters = [param]
+    param = location.lookup_values.create(:key => 'name', :value => 'valueable')
     assert(location.params_objects.include?(param))
   end
 
   test "#params_objects should return ancestors parameters" do
-    location = Location.create :name => "floor1", :parent_id => taxonomies(:location1).id
-    assert_equal [], location.location_parameters
-    assert_equal [taxonomies(:location1).location_parameters], location.params_objects
+    location = Location.create :name => "floor2", :parent_id => taxonomies(:location1).id
+    assert_equal [], location.lookup_values
+    assert_equal [taxonomies(:location1).lookup_values], location.params_objects
   end
 
   test "cannot delete location that is a parent for nested location" do
@@ -343,14 +340,13 @@ class LocationTest < ActiveSupport::TestCase
     assert_equal "is too long (maximum is %s characters)" % (255 - min_lookupvalue_length), location.errors[:name].first
   end
 
-  test "location name can be up to 255 characters" do
+  test "location name can be up to 247 characters" do
     parent = FactoryGirl.create(:location)
-    min_lookupvalue_length = "location=".length + parent.title.length + 1
-    location = Location.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
+    location = Location.new :parent => parent, :name => 'a' * (242 - parent.title.length - 1)
     assert_valid location
   end
 
-  test "location should not save when matcher is exactly 256 characters" do
+  test "location should not save when matcher is exactly 247 characters" do
     parent = FactoryGirl.create(:location, :name => 'a' * 245)
     location = Location.new :parent => parent, :name => 'b'
     refute_valid location

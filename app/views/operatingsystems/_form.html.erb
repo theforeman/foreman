@@ -40,7 +40,7 @@
     <% end %>
     <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
       <div class="tab-pane" id="params">
-        <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>
+        <%= render "common_parameters/parameters", { :f => f, :obj => @operatingsystem } %>
       </div>
     <% end %>
   </div>

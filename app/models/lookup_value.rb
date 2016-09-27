@@ -4,12 +4,13 @@ class LookupValue < ActiveRecord::Base
 
   validates_lengths_from_database
   audited :associated_with => :lookup_key
-  delegate :hidden_value?, :hidden_value, :to => :lookup_key, :allow_nil => true
+  delegate :hidden_value?, :hidden_value, :key, :to => :lookup_key, :allow_nil => true
 
   belongs_to :lookup_key
   validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
-  delegate :key, :to => :lookup_key
+
   before_validation :sanitize_match
+  after_destroy :cleanup_global_key
 
   before_validation :validate_and_cast_value, :unless => Proc.new{|p| p.omit }
   validate :validate_value, :ensure_fqdn_exists, :ensure_hostgroup_exists
@@ -20,10 +21,16 @@ class LookupValue < ActiveRecord::Base
   attr_name :match
 
   scope :default, -> { where(:match => "default").limit(1) }
+  scope :no_globals, -> { (joins(:lookup_key).where("lookup_keys.type != 'GlobalLookupKey'")).readonly(false) }
+  scope :globals, -> { (joins(:lookup_key).where("lookup_keys.type = 'GlobalLookupKey'")).readonly(false) }
 
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
-  scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
+  scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :alias => :name, :complete_value => true
+
+  def safe_value
+    self.hidden_value? ? "*****" : self.value
+  end
 
   def value=(val)
     if val.is_a?(HashWithIndifferentAccess)
@@ -31,6 +38,13 @@ class LookupValue < ActiveRecord::Base
     else
       super
     end
+  end
+
+  def key=(key)
+    # Only global lookup keys will try to create a key
+    lk = GlobalLookupKey.where(:key=>key).first_or_create(:key => key)
+    self.lookup_key_id = lk.id
+    lk
   end
 
   def name
@@ -47,10 +61,16 @@ class LookupValue < ActiveRecord::Base
     Foreman::Parameters::Validator.new(self,
       :type => lookup_key.validator_type,
       :validate_with => lookup_key.validator_rule,
-      :getter => :value).validate!
+      :getter => :value).validate! if lookup_key.present?
   end
 
   private
+
+  def cleanup_global_key
+    if lookup_key.type == 'GlobalLookupKey' && !lookup_key.should_be_global && lookup_key.lookup_values.count == 0
+      lookup_key.delete
+    end
+  end
 
   #TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
   def sanitize_match
@@ -58,6 +78,7 @@ class LookupValue < ActiveRecord::Base
   end
 
   def validate_and_cast_value
+    return false if lookup_key.nil?
     return true if self.marked_for_destruction? || !self.value.is_a?(String)
     begin
       unless self.lookup_key.contains_erb?(value)

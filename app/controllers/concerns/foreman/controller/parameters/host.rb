@@ -3,6 +3,7 @@ module Foreman::Controller::Parameters::Host
   include Foreman::Controller::Parameters::HostBase
   include Foreman::Controller::Parameters::HostCommon
   include Foreman::Controller::Parameters::KeepParam
+  include Foreman::Controller::Parameters::LookupValue
 
   class_methods do
     def host_params_filter
@@ -16,11 +17,13 @@ module Foreman::Controller::Parameters::Host
           :otp,
           :provision_method,
           :uuid,
+          :host_parameters_attributes,
           :compute_profile_id, :compute_profile_name,
           :compute_resource, :compute_resource_id, :compute_resource_name,
           :owner, :owner_id, :owner_name,
-          :owner_type
+          :owner_type, :lookup_values_attributes => []
 
+        #add_lookup_value_connector_params_filter(filter)
         add_host_base_params_filter(filter)
         add_host_common_params_filter(filter)
 

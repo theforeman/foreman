@@ -19,6 +19,7 @@ module HostCommon
       :description => N_('Use this puppet server as a CA server'),
       :api_description => N_('Puppet CA proxy ID')
 
+    include LookupValueConnector
     belongs_to :architecture
     belongs_to :environment
     belongs_to :operatingsystem
@@ -35,31 +36,6 @@ module HostCommon
 
     alias_method :all_puppetclasses, :classes
 
-    has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :dependent => :destroy
-    # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
-    accepts_nested_attributes_for :lookup_values
-
-    before_save :set_lookup_value_matcher
-
-    # Replacement of accepts_nested_attributes_for :lookup_values,
-    # to work around the lack of `host_id` column in lookup_values.
-    def lookup_values_attributes=(lookup_values_attributes)
-      lookup_values_attributes.each_value do |attribute|
-        attr = attribute.dup
-
-        id = attr.delete(:id)
-        if id.present?
-          lookup_value = self.lookup_values.to_a.find {|i| i.id.to_i == id.to_i }
-          if lookup_value
-            mark_for_destruction = Foreman::Cast.to_bool(attr.delete(:_destroy))
-            lookup_value.attributes = attr
-            lookup_value.mark_for_destruction if mark_for_destruction
-          end
-        elsif !Foreman::Cast.to_bool(attr.delete(:_destroy))
-          self.lookup_values.build(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
-        end
-      end
-    end
   end
 
   # Returns a url pointing to boot file
@@ -216,15 +192,6 @@ module HostCommon
   def available_puppetclasses
     return Puppetclass.where(nil).authorized(:view_puppetclasses) if environment.blank?
     environment.puppetclasses - parent_classes
-  end
-
-  protected
-
-  def set_lookup_value_matcher
-    #in migrations, this method can get called before the attribute exists
-    #the #attribute_names method is cached, so it's not going to be a performance issue
-    return true unless self.class.attribute_names.include?("lookup_value_matcher")
-    self.lookup_value_matcher = lookup_value_match
   end
 
   private

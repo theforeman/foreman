@@ -4,6 +4,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Domain
+      include Api::LookupValueConnectorController
 
       resource_description do
         desc <<-DOC
@@ -58,7 +59,8 @@ module Api
       param_group :domain, :as => :create
 
       def create
-        @domain = Domain.new(domain_params)
+        lookup_values = turn_params_to_values(domain_params.delete(:domain_parameters_attributes), "domain=#{domain_params[:name]}")
+        @domain = Domain.new(domain_params.except(:domain_parameters_attributes).merge(lookup_values))
         process_response @domain.save
       end
 
@@ -67,7 +69,8 @@ module Api
       param_group :domain
 
       def update
-        process_response @domain.update_attributes(domain_params)
+        lookup_values = turn_params_to_values(domain_params.delete(:domain_parameters_attributes), "domain=#{domain_params[:name]}")
+        process_response @domain.update_attributes(domain_params.except(:domain_parameters_attributes).merge(lookup_values))
       end
 
       api :DELETE, "/domains/:id/", N_("Delete a domain")

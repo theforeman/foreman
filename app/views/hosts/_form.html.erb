@@ -103,9 +103,8 @@
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>
             <h2><%= _('Global parameters') %></h2>
-            <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters } %>
-            <h2><%= _('Host parameters') %></h2>
-            <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
+            <% global_value_hash = global_hash_value_cache(@host) %>
+            <%= render "common_parameters/global_params", { :obj => @host, :global_value_hash => global_value_hash, :f => f } %>
           </fieldset>
         <% end %>
       </div>

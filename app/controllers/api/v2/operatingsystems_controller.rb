@@ -2,6 +2,7 @@ module Api
   module V2
     class OperatingsystemsController < V2::BaseController
       include Foreman::Controller::Parameters::Operatingsystem
+      include Api::LookupValueConnectorController
 
       resource_description do
         name 'Operating systems'
@@ -60,7 +61,8 @@ module Api
       param_group :operatingsystem, :as => :create
 
       def create
-        @operatingsystem = Operatingsystem.new(operatingsystem_params)
+        lookup_values = turn_params_to_values(operatingsystem_params.delete(:os_parameters_attributes), "operatingsystem=#{operatingsystem_params[:name]}")
+        @operatingsystem = Operatingsystem.new(operatingsystem_params.except(:os_parameters_attributes).merge(lookup_values))
         process_response @operatingsystem.save
       end
 
@@ -69,7 +71,8 @@ module Api
       param_group :operatingsystem
 
       def update
-        process_response @operatingsystem.update_attributes(operatingsystem_params)
+        lookup_values = turn_params_to_values(operatingsystem_params.delete(:os_parameters_attributes), "operatingsystem=#{operatingsystem_params[:name]}")
+        process_response @operatingsystem.update_attributes(operatingsystem_params.except(:os_parameters_attributes).merge(lookup_values))
       end
 
       api :DELETE, "/operatingsystems/:id/", N_("Delete an operating system")
