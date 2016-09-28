@@ -11,7 +11,7 @@ class TemplatesController < ApplicationController
   include TemplatePathsHelper
 
   def index
-    @templates = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @templates = resource_base_search_and_page
     @templates = @templates.includes(resource_base.template_includes)
   end
 

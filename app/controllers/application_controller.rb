@@ -223,8 +223,9 @@ class ApplicationController < ActionController::Base
     resource_base.search_for(params[:search], :order => params[:order])
   end
 
-  def resource_base_search_and_page
-    resource_base_with_search.paginate(:page => params[:page])
+  def resource_base_search_and_page(tables = [])
+    resource_base_with_search.eager_load(tables).
+      paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   private

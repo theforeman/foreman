@@ -9,7 +9,9 @@ class PuppetclassesController < ApplicationController
   before_action :setup_search_options, :only => :index
 
   def index
-    @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:config_group_classes, :class_params, :environments, :hostgroups).paginate(:page => params[:page])
+    eager_load_tables = [:config_group_classes, :class_params, :environments,
+                         :hostgroups]
+    @puppetclasses = resource_base_search_and_page(eager_load_tables)
     @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).uniq.pluck(:hostgroup_id))
   end
 
