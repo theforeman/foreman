@@ -111,15 +111,24 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def associate_features
-    return true if Rails.env == 'test'
-
     begin
       reply = ProxyAPI::Features.new(:url => url).features
-      if reply.is_a?(Array) && reply.any?
-        self.features = Feature.where(:name => reply.map{|f| Feature.name_map[f]})
+      unless reply.is_a?(Array)
+        logger.debug("Invalid response from proxy #{name}: Expected Array of features, got #{reply}.")
+        errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
+        return false
+      end
+      valid_features = reply.map{|f| Feature.name_map[f]}.compact
+      if valid_features.any?
+        self.features = Feature.where(:name => valid_features)
       else
         self.features.clear
-        errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
+        if reply.any?
+          errors.add :base, _('Features "%s" in this proxy are not recognized by Foreman. '\
+                              'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.to_sentence
+        else
+          errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
+        end
       end
     rescue => e
       errors.add(:base, _('Unable to communicate with the proxy: %s') % e)

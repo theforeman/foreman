@@ -17,6 +17,7 @@ class SmartProxyTest < ActiveSupport::TestCase
   end
 
   test "should not include trailing slash" do
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
     @proxy = FactoryGirl.build(:smart_proxy)
     @proxy.url = 'http://some.proxy:4568/'
     as_admin { assert @proxy.save }
@@ -72,5 +73,29 @@ class SmartProxyTest < ActiveSupport::TestCase
     as_admin do
       assert_equal 1, proxy.hosts_count
     end
+  end
+
+  test "should be saved if features exist" do
+    feature = FactoryGirl.create(:feature, :tftp)
+    proxy = FactoryGirl.build(:smart_proxy)
+    ProxyAPI::Features.any_instance.stubs(:features =>["tftp"])
+    assert proxy.save
+    assert_include(proxy.features, feature)
+  end
+
+  test "should not be saved if features do not exist" do
+    proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
+    error_message = 'Features "feature" in this proxy are not recognized by Foreman. '\
+    'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.'
+    ProxyAPI::Features.any_instance.stubs(:features =>["feature"])
+    refute proxy.save
+    assert_equal(error_message, proxy.errors[:base].first)
+  end
+
+  test "should not be saved if features are not array" do
+    proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
+    ProxyAPI::Features.any_instance.stubs(:features => {:fe => :at, :ur => :e})
+    refute proxy.save
+    assert_equal('An invalid response was received while requesting available features from this proxy', proxy.errors[:base].first)
   end
 end

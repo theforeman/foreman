@@ -12,6 +12,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "create new page" do
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
     assert_new_button(smart_proxies_path,"New Smart Proxy",new_smart_proxy_path)
     fill_in "smart_proxy_name", :with => "DNS Worldwide"
     fill_in "smart_proxy_url", :with => "http://dns.example.com"

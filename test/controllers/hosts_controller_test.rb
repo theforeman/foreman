@@ -462,7 +462,7 @@ class HostsControllerTest < ActionController::TestCase
     test "should change the puppet proxy" do
       @request.env['HTTP_REFERER'] = hosts_path
 
-      proxy = FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppet)])
+      proxy = FactoryGirl.create(:puppet_smart_proxy)
 
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }

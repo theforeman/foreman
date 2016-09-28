@@ -233,7 +233,7 @@ class NicTest < ActiveSupport::TestCase
 
     test '.proxy uses any BMC SmartProxy if none is found in subnet' do
       assert @subnet.proxies.select { |proxy| proxy.features.map(&:name).include?('BMC') }
-      assert_equal @interface.proxy.url, SmartProxy.with_features('BMC').first.url + '/bmc'
+      assert_includes SmartProxy.with_features('BMC').map { |sp| sp.url + '/bmc' }, @interface.proxy.url
     end
 
     test '.proxy chooses BMC SmartProxy in Nic::BMC subnet if available' do
@@ -242,7 +242,7 @@ class NicTest < ActiveSupport::TestCase
     end
 
     test '.proxy raises exception if BMC SmartProxy cannot be found' do
-      SmartProxy.with_features('BMC').map(&:destroy)
+      SmartProxy.with_features('BMC').map {|sp| sp.features = []}
 
       assert_raise Foreman::Exception do
         @interface.proxy
