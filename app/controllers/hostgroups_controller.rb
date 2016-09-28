@@ -8,7 +8,7 @@ class HostgroupsController < ApplicationController
   before_action :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
-    @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @hostgroups = resource_base_search_and_page
   end
 
   def new

@@ -5,7 +5,7 @@ class ComputeProfilesController < ApplicationController
   before_action :find_resource, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @compute_profiles = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @compute_profiles = resource_base_search_and_page
   end
 
   def show
