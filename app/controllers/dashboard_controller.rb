@@ -2,7 +2,7 @@ class DashboardController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::Widget
 
-  before_action :prefetch_data, :only => :show
+  before_action :init_widget_data, :only => :show
   before_action :find_resource, :only => [:show, :destroy]
   skip_before_action :welcome
 
@@ -73,11 +73,8 @@ class DashboardController < ApplicationController
 
   private
 
-  def prefetch_data
-    dashboard = Dashboard::Data.new(params[:search])
-    @hosts    = dashboard.hosts
-    @report   = dashboard.report
-    @latest_events = dashboard.latest_events
+  def init_widget_data
+    @data = Dashboard::Data.new(params[:search])
   end
 
   def resource_name
