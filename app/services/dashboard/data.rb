@@ -20,9 +20,11 @@ class Dashboard::Data
   end
 
   def latest_events
+    #workaround to get the inner query working
+    ids = hosts.to_sql.sub(/SELECT.*FROM/, "SELECT #{Host.connection.quote_table_name('hosts')}.#{Host.connection.quote_column_name('id')} FROM")
     # 9 reports + header fits the events box nicely...
     @latest_events ||= ConfigReport.authorized(:view_config_reports).my_reports.interesting
-                                   .joins(:host).where(:host => hosts)
+                                   .where("host_id in (#{ids})")
                                    .search_for('reported > "7 days ago"')
                                    .limit(9).includes(:host)
   end
