@@ -5,7 +5,7 @@ class CommonParametersController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @common_parameters = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @common_parameters = resource_base_search_and_page
   end
 
   def new

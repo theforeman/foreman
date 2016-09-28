@@ -219,6 +219,14 @@ class ApplicationController < ActionController::Base
     "application"
   end
 
+  def resource_base_with_search
+    resource_base.search_for(params[:search], :order => params[:order])
+  end
+
+  def resource_base_search_and_page
+    resource_base_with_search.paginate(:page => params[:page])
+  end
+
   private
 
   def require_admin
