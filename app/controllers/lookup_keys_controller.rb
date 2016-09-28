@@ -4,9 +4,7 @@ class LookupKeysController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy], :if => Proc.new { params[:id] }
 
   def index
-    @lookup_keys = resource_base.search_for(params[:search], :order => params[:order])
-                                .includes(:puppetclass)
-                                .paginate(:page => params[:page])
+    @lookup_keys = resource_base_search_and_page(:puppetclass)
     @puppetclass_authorizer = Authorizer.new(User.current, :collection => @lookup_keys.map(&:puppetclass_id).compact.uniq)
   end
 

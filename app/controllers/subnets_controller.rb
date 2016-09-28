@@ -5,7 +5,7 @@ class SubnetsController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @subnets = resource_base.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
+    @subnets = resource_base_search_and_page([:domains, :dhcp])
   end
 
   def new

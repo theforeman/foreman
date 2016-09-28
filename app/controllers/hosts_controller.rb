@@ -38,7 +38,7 @@ class HostsController < ApplicationController
 
   def index(title = nil)
     begin
-      search = resource_base.search_for(params[:search], :order => params[:order])
+      search = resource_base_with_search
     rescue => e
       error e.to_s
       search = resource_base.search_for ''
