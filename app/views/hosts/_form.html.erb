@@ -73,7 +73,10 @@
 
         <%= host_puppet_environment_field f %>
 
-        <%= puppet_master_fields f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+        <%= smart_proxy_fields f,
+              :can_override => true,
+              :override => @host.hostgroup && @host.hostgroup_id_was.nil?
+        %>
 
         <%= realm_field f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
 

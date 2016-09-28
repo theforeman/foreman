@@ -60,7 +60,9 @@ module Api
           param :architecture_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :domain_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :realm_id, :number
-          param :puppet_proxy_id, :number
+          Host.registered_smart_proxies.each do |name, options|
+            param :"#{name}_id", :number, :desc => options[:api_description]
+          end
           param :puppetclass_ids, Array
           param :operatingsystem_id, String, :desc => N_("required if host is managed and value is not inherited from host group")
           param :medium_id, String, :desc => N_("required if not imaged based provisioning and host is managed and value is not inherited from host group")
@@ -73,7 +75,6 @@ module Api
           param :hostgroup_id, :number
           param :owner_id, :number
           param :owner_type, Host::Base::OWNER_TYPES, :desc => N_("Host's owner type")
-          param :puppet_ca_proxy_id, :number
           param :image_id, :number
           param :host_parameters_attributes, Array, :desc => N_("Host's parameters (array or indexed hash)") do
             param :name, String, :desc => N_("Name of the parameter"), :required => true

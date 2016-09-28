@@ -8,6 +8,10 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
   should_not allow_value(9.times.map { 'abcd' }.join(':')).for(:mask) # 45 characters
   should_not allow_value('2001:db8::1:').for(:network)
   should_not allow_value('2001:db8:abcde::1').for(:network)
+  # Test smart proxies from Subnet are inherited
+  should belong_to(:tftp)
+  should belong_to(:dns)
+  should belong_to(:dhcp)
 
   test "cidr setter should set the mask" do
     @subnet = FactoryGirl.build(:subnet_ipv6)

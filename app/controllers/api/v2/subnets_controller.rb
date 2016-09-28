@@ -41,9 +41,9 @@ module Api
           param :to, String, :desc => N_("Ending IP Address for IP auto suggestion")
           param :vlanid, String, :desc => N_("VLAN ID for this subnet")
           param :domain_ids, Array, :desc => N_("Domains in which this subnet is part")
-          param :dhcp_id, :number, :desc => N_("DHCP Proxy to use within this subnet")
-          param :tftp_id, :number, :desc => N_("TFTP Proxy to use within this subnet")
-          param :dns_id, :number, :desc => N_("DNS Proxy to use within this subnet")
+          Subnet.registered_smart_proxies.each do |name, options|
+            param :"#{name}_id", :number, :desc => options[:api_description]
+          end
           param :boot_mode, String, :desc => N_('Default boot mode for interfaces assigned to this subnet, valid values are "Static", "DHCP"')
           param :subnet_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters (name, value)")
           param_group :taxonomies, ::Api::V2::BaseController

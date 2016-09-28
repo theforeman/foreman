@@ -12,6 +12,7 @@ class DomainTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:name)
   should validate_uniqueness_of(:fullname).allow_nil
   should validate_uniqueness_of(:fullname).allow_blank
+  should belong_to(:dns)
 
   test "when cast to string should return the name" do
     s = @domain.to_s

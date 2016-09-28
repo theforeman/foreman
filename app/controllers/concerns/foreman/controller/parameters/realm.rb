@@ -1,6 +1,7 @@
 module Foreman::Controller::Parameters::Realm
   extend ActiveSupport::Concern
   include Foreman::Controller::Parameters::Taxonomix
+  include Foreman::Controller::Parameters::SmartProxiesCommon
 
   class_methods do
     def realm_params_filter
@@ -9,6 +10,7 @@ module Foreman::Controller::Parameters::Realm
           :realm_type,
           :realm_proxy, :realm_proxy_id, :realm_proxy_name
         add_taxonomix_params_filter(filter)
+        add_smart_proxies_common_params_filter(filter)
       end
     end
   end

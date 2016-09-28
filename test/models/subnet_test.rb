@@ -6,6 +6,9 @@ class SubnetTest < ActiveSupport::TestCase
   should_not validate_uniqueness_of(:network)
   should_not allow_value("asf:fwe6::we6s:q1").for(:network)
   should_not allow_value("asf:fwe6::we6s:q1").for(:mask)
+  should belong_to(:tftp)
+  should belong_to(:dns)
+  should belong_to(:dhcp)
 
   test 'should be cast to Subnet::Ipv4 if no type is set' do
     subnet = Subnet.new

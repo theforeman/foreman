@@ -17,7 +17,10 @@
 
 require 'test_helper'
 
-module Awesome; module Provider; class MyAwesome < ::ComputeResource; end; end; end
+module Awesome
+  module Provider; class MyAwesome < ::ComputeResource; end; end
+  def self.register_smart_proxy(name, options = {}); end
+end
 module Awesome; class FakeFacet; end; end
 
 class PluginTest < ActiveSupport::TestCase
@@ -369,5 +372,14 @@ class PluginTest < ActiveSupport::TestCase
       parameter_filter(Domain) { |ctx| ctx.permit(:foo) }
     end
     assert_kind_of Proc, Foreman::Plugin.find(:test_parameter_filter).parameter_filters(Domain).first.first
+  end
+
+  def test_add_smart_proxy_for
+    Foreman::Plugin.register :test_smart_proxy do
+      name 'Smart Proxy test'
+      smart_proxy_for Awesome, :foo, :feature => 'Foo'
+    end
+    assert_equal({}, Foreman::Plugin.find(:test_smart_proxy).smart_proxies(User))
+    assert_equal({:foo => {:feature => 'Foo'}}, Foreman::Plugin.find(:test_smart_proxy).smart_proxies(Awesome))
   end
 end

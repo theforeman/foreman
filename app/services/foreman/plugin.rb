@@ -103,6 +103,7 @@ module Foreman #:nodoc:
       @to_prepare_callbacks = []
       @template_labels = {}
       @parameter_filters = {}
+      @smart_proxies = {}
     end
 
     def after_initialize
@@ -354,6 +355,16 @@ module Foreman #:nodoc:
 
     def parameter_filters(klass)
       @parameter_filters.fetch(klass.is_a?(Class) ? klass.name : klass, [])
+    end
+
+    def smart_proxy_for(klass, name, options)
+      @smart_proxies[klass.name] ||= {}
+      @smart_proxies[klass.name][name] = options
+      klass.register_smart_proxy(name, options)
+    end
+
+    def smart_proxies(klass)
+      @smart_proxies.fetch(klass.name, {})
     end
 
     private

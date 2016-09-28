@@ -25,8 +25,6 @@ module Foreman::Controller::Parameters::Hostgroup
           :operatingsystem_id, :operatingsystem_name,
           :os, :os_id, :os_name,
           :ptable_id, :ptable_name,
-          :puppet_ca_proxy_id, :puppet_ca_proxy_name,
-          :puppet_proxy_id, :puppet_proxy_name,
           :config_group_names => [], :config_group_ids => [],
           :puppetclass_ids => [], :puppetclass_names => [],
           :group_parameters_attributes => [parameter_params_filter(::GroupParameter)]

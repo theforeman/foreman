@@ -14,7 +14,7 @@ class RablTest < ActiveSupport::TestCase
   end
 
   test 'render of collection template' do
-    rendered = Rabl.render([OpenStruct.new(:name => 'foo')],
+    rendered = Rabl.render([OpenStruct.new(:name => 'foo', :registered_smart_proxies => {})],
                            'api/v2/domains/index',
                            :format => :json,
                            :view_path => 'app/views')
