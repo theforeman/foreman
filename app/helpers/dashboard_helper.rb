@@ -73,7 +73,7 @@ module DashboardHelper
       content_tag(:span, raw('&nbsp;'), :class=>'label', :style => "background-color:" + report_color[counter]) +
       raw('&nbsp;')+
       link_to(name, hosts_path(:search => search),:class=>"dashboard-links") +
-      content_tag(:h4,@report[counter])
+      content_tag(:h4, @data.report[counter])
     end
   end
 
