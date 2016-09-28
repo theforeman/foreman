@@ -13,6 +13,10 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
   should_not allow_value('300.300.300.0').for(:network)
   should_not allow_value('100.101.102').for(:network)
   should allow_value('100.101.102.103.').for(:network) # clean invalid addresses
+  # Test smart proxies from Subnet are inherited
+  should belong_to(:tftp)
+  should belong_to(:dns)
+  should belong_to(:dhcp)
 
   test 'can be created with domains' do
     subnet = FactoryGirl.build(:subnet_ipv4)

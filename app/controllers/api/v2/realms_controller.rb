@@ -24,7 +24,9 @@ module Api
       def_param_group :realm do
         param :realm, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_("The realm name, e.g. EXAMPLE.COM")
-          param :realm_proxy_id, :number, :required => true, :allow_nil => true, :desc => N_("Proxy to use for this realm")
+          Realm.registered_smart_proxies.each do |name, options|
+            param :"#{name}_id", :number, :required => true, :allow_nil => true, :desc => options[:api_description]
+          end
           param :realm_type, String, :required => true, :desc => N_("Realm type, e.g. FreeIPA or Active Directory")
           param_group :taxonomies, ::Api::V2::BaseController
         end

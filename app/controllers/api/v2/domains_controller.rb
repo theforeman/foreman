@@ -41,7 +41,9 @@ module Api
         param :domain, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_("The full DNS domain name")
           param :fullname, String, :required => false, :allow_nil => true, :desc => N_("Description of the domain")
-          param :dns_id, :number, :required => false, :allow_nil => true, :desc => N_("DNS proxy to use within this domain")
+          Domain.registered_smart_proxies.each do |name, options|
+            param :"#{name}_id", :number, :required => false, :allow_nil => true, :desc => options[:api_description]
+          end
           param :domain_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters (name, value)")
           param_group :taxonomies, ::Api::V2::BaseController
         end

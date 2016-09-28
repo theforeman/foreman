@@ -7,6 +7,7 @@ class Domain < ActiveRecord::Base
   include Taxonomix
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
+  include BelongsToProxies
 
   audited
   validates_lengths_from_database
@@ -15,7 +16,13 @@ class Domain < ActiveRecord::Base
   before_destroy EnsureNotUsedBy.new(:interfaces, :hostgroups, :subnets)
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :domain
   has_many :subnets, :through => :subnet_domains
-  belongs_to :dns, :class_name => "SmartProxy"
+
+  belongs_to_proxy :dns,
+    :feature => 'DNS',
+    :label => N_('DNS Proxy'),
+    :description => N_('DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy'),
+    :api_description => N_('DNS proxy ID to use within this domain')
+
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :domain
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "DomainParameter"
   has_many :interfaces, :class_name => 'Nic::Base'
@@ -27,7 +34,6 @@ class Domain < ActiveRecord::Base
   include ParameterValidators
   validates :name, :presence => true, :uniqueness => true
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
-  validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
 
   scoped_search :on => [:name, :fullname], :complete_value => true
   scoped_search :in => :domain_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params

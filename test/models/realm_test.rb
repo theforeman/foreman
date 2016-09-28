@@ -13,6 +13,7 @@ class RealmTest < ActiveSupport::TestCase
     source(:taxonomy).
     conditions(:type => 'Location').
     through(:taxable_taxonomies)
+  should belong_to(:realm_proxy)
 
   test "when cast to string should return the name" do
     assert_equal @realm.name, @realm.to_s

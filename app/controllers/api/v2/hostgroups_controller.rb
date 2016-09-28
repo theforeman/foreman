@@ -37,11 +37,12 @@ module Api
           param :pxe_loader, Operatingsystem.all_loaders, :desc => N_("DHCP filename option (Grub2/PXELinux by default)")
           param :medium_id, :number, :desc => N_('Media ID')
           param :ptable_id, :number, :desc => N_('Partition table ID')
-          param :puppet_ca_proxy_id, :number, :desc => N_('Puppet CA proxy ID')
           param :subnet_id, :number, :desc => N_('Subnet ID')
           param :domain_id, :number, :desc => N_('Domain ID')
           param :realm_id, :number, :desc => N_('Realm ID')
-          param :puppet_proxy_id, :number, :desc => N_('Puppet proxy ID')
+          Hostgroup.registered_smart_proxies.each do |name, options|
+            param :"#{name}_id", :number, :desc => options[:api_description]
+          end
           param :root_pass, String, :desc => N_('Root password on provisioned hosts')
           param_group :taxonomies, ::Api::V2::BaseController
         end

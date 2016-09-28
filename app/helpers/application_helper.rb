@@ -440,4 +440,43 @@ module ApplicationHelper
     return unless Rails.configuration.webpack.dev_server.enabled
     javascript_include_tag "#{@dev_server}/webpack-dev-server.js"
   end
+
+  def accessible_resource_records(resource, order = :name)
+    klass = resource.to_s.classify.constantize
+    klass = klass.with_taxonomy_scope_override(@location, @organization) if klass.include? Taxonomix
+    klass.authorized.reorder(order)
+  end
+
+  def accessible_resource(obj, resource, order = :name)
+    list = accessible_resource_records(resource, order).to_a
+    # we need to allow the current value even if it was filtered
+    current = obj.public_send(resource) if obj.respond_to?(resource)
+    list |= [current] if current.present?
+    list
+  end
+
+  def accessible_related_resource(obj, relation, opts = {})
+    return [] if obj.blank?
+    order = opts.fetch(:order, :name)
+    where = opts.fetch(:where, nil)
+    related = obj.public_send(relation)
+    related = related.with_taxonomy_scope_override(@location, @organization) if obj.class.reflect_on_association(relation).klass.include?(Taxonomix)
+    related.authorized.where(where).reorder(order)
+  end
+
+  def explicit_value?(field)
+    return true if params[:action] == 'clone'
+    return false unless params[:host]
+    !!params[:host][field]
+  end
+
+  def user_set?(field)
+    # if the host has no hostgroup
+    return true unless @host && @host.hostgroup
+    # when editing a host, the values are specified explicitly
+    return true if params[:action] == 'edit'
+    return true if params[:action] == 'clone'
+    # check if the user set the field explicitly despite setting a hostgroup.
+    params[:host] && params[:host][:hostgroup_id] && params[:host][field]
+  end
 end

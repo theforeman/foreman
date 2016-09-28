@@ -13,6 +13,7 @@ class Subnet < ActiveRecord::Base
   include Taxonomix
   include Parameterizable::ByIdName
   include Exportable
+  include BelongsToProxies
 
   attr_exportable :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to, :boot_mode,
     :ipam, :vlanid, :network_type
@@ -36,10 +37,27 @@ class Subnet < ActiveRecord::Base
 
   validates_lengths_from_database :except => [:gateway]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
+
+  belongs_to_proxy :dhcp,
+    :feature => 'DHCP',
+    :label => N_('DHCP Proxy'),
+    :description => N_('DHCP Proxy to use within this subnet'),
+    :api_description => N_('DHCP Proxy ID to use within this subnet'),
+    :if => ->(subnet) { subnet.supports_ipam_mode?(:dhcp) }
+
+  belongs_to_proxy :tftp,
+    :feature => N_('TFTP'),
+    :label => N_('TFTP Proxy'),
+    :api_description => N_('TFTP Proxy ID to use within this subnet'),
+    :description => N_('TFTP Proxy to use within this subnet')
+
+  belongs_to_proxy :dns,
+    :feature => N_('DNS'),
+    :label => N_('Reverse DNS Proxy'),
+    :api_description => N_('DNS Proxy ID to use within this subnet'),
+    :description => N_('DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy')
+
   has_many :hostgroups
-  belongs_to :dhcp, :class_name => "SmartProxy"
-  belongs_to :tftp, :class_name => "SmartProxy"
-  belongs_to :dns,  :class_name => "SmartProxy"
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :subnet
   has_many :domains, :through => :subnet_domains
   has_many :subnet_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :subnet
@@ -51,10 +69,6 @@ class Subnet < ActiveRecord::Base
   validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.supported_ipam_modes.map {|m| IPAM::MODES[m]} }, :message => N_('not supported by this protocol')}
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name, :length => {:maximum => 255}, :uniqueness => true
-
-  validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
-  validates :tftp, :proxy_features => { :feature => "TFTP", :message => N_('does not have the TFTP feature') }
-  validates :dhcp, :proxy_features => { :feature => "DHCP", :message => N_('does not have the DHCP feature') }
 
   before_validation :normalize_addresses
   validate :ensure_ip_addrs_valid
