@@ -67,6 +67,7 @@ class FactImporter
   end
 
   def add_new_fact(name)
+    # if the host does not exist yet, we don't have an host_id to use the fact_values table.
     method = host.new_record? ? :build : :create!
     fact_name = find_or_create_fact_name(name, facts[name])
     host.fact_values.send(method, :value => facts[name], :fact_name => fact_name)
@@ -83,10 +84,7 @@ class FactImporter
   def add_new_facts
     ActiveSupport::Notifications.instrument "fact_importer_added.foreman", :host_id => host.id, :host_name => host.name, :facts => facts do |payload|
       facts_to_create = facts.keys - db_facts.pluck('fact_names.name')
-      # if the host does not exists yet, we don't have an host_id to use the fact_values table.
-      if facts_to_create.present?
-        facts_to_create.each { |f| add_new_fact(f) }
-      end
+      facts_to_create.each { |f| add_new_fact(f) }
       payload[:added] = facts_to_create
       payload[:count] = @counters[:added] = facts_to_create.size
     end
