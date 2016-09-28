@@ -3,6 +3,10 @@ require 'test_helper'
 class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'master02', :url => 'http://server:8443' }
 
+  setup do
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
+  end
+
   test "should get index" do
     get :index, { }
     assert_response :success

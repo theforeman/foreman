@@ -483,6 +483,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'host #refresh_statuses saves all relevant statuses and refreshes global status' do
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
     host = FactoryGirl.create(:host, :with_puppet, :with_reports)
     host.reload
     host.global_status = 1

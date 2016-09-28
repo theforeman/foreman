@@ -18,6 +18,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   def test_create_valid
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
     SmartProxy.any_instance.stubs(:valid?).returns(true)
     SmartProxy.any_instance.stubs(:to_s).returns("puppet")
     post :create, {:smart_proxy => {:name => "MySmartProxy", :url => "http://nowhere.net:8000"}}, set_session_user
