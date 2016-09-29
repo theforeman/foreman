@@ -1,4 +1,203 @@
 ---
+# Pending fixes, compatible with Rails 4.2 and 5.0
+- message: Accessing mime types via constants is deprecated. Please change `Mime::JSON`
+    to `Mime[:json]`.
+  callstack: test/controllers/notification_recipients_controller_test.rb
+- message: Accessing mime types via constants is deprecated. Please change `Mime::TEXT`
+    to `Mime[:text]`.
+  callstack: app/controllers/application_controller.rb:87:in `block (2 levels) in
+    require_mail'
+- message: ActiveModel::Errors#[]= is deprecated and will be removed in Rails 5.1.
+    Use model.errors.add(:name, "has already been taken") instead.
+  callstack: app/models/concerns/parameter_validators.rb:15:in `block in validate_parameters_names'
+- message: ActiveModel::Errors#[]= is deprecated and will be removed in Rails 5.1.
+    Use model.errors.add(:os_parameters, "Please ensure the following parameters name
+    are unique") instead.
+  callstack: app/models/concerns/parameter_validators.rb:21:in `validate_parameters_names'
+- message: ActiveModel::Errors#get is deprecated and will be removed in Rails 5.1.
+    To achieve the same use model.errors[:name].
+  callstack: app/models/concerns/nested_ancestry_common.rb
+- message: 'Method each_value is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
+    no longer inherits from hash. Using this deprecated behavior exposes potential
+    security problems. If you continue to use this method you may be creating a security
+    vulnerability in your app that can be exploited. Instead, consider using one of'
+  callstack: app/models/concerns/host_common.rb:47:in `lookup_values_attributes='
+- message: 'Method except! is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
+    no longer inherits from hash. Using this deprecated behavior exposes potential
+    security problems. If you continue to use this method you may be creating a security
+    vulnerability in your app that can be exploited. Instead, consider using one of'
+  callstack: app/controllers/api/v2/base_controller.rb:123:in `block in append_array_of_ids'
+- message: 'Method except! is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
+    no longer inherits from hash. Using this deprecated behavior exposes potential
+    security problems. If you continue to use this method you may be creating a security
+    vulnerability in your app that can be exploited. Instead, consider using one of'
+  callstack: app/controllers/puppetclasses_controller.rb:78:in `get_host_or_hostgroup'
+- message: 'Method find is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
+    no longer inherits from hash. Using this deprecated behavior exposes potential
+    security problems. If you continue to use this method you may be creating a security
+    vulnerability in your app that can be exploited. Instead, consider using one of'
+  callstack: app/controllers/api/base_controller.rb:324:in `parent_resource_details'
+- message: 'Method first is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
+    no longer inherits from hash. Using this deprecated behavior exposes potential
+    security problems. If you continue to use this method you may be creating a security
+    vulnerability in your app that can be exploited. Instead, consider using one of'
+  callstack: app/controllers/interfaces_controller.rb:14:in `new'
+- message: 'Method partition is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
+    no longer inherits from hash. Using this deprecated behavior exposes potential
+    security problems. If you continue to use this method you may be creating a security
+    vulnerability in your app that can be exploited. Instead, consider using one of'
+  callstack: app/controllers/lookup_keys_controller.rb:34:in `sanitize_attrs'
+- message: '#to_hash unexpectedly ignores parameter filtering, and will change to enforce it in Rails 5.1.
+    Enable `raise_on_unfiltered_parameters` to respect parameter filtering, which is the default in new
+    applications. For the existing deprecated behaviour, call #to_unsafe_h instead.'
+  callstack: app/models/compute_resources/foreman/model/libvirt.rb:125:in `new_vm'
+- message: 'Method to_param is deprecated and will be removed in Rails 5.1, as `ActionController::Parameters`
+    no longer inherits from hash. Using this deprecated behavior exposes potential
+    security problems. If you continue to use this method you may be creating a security
+    vulnerability in your app that can be exploited. Instead, consider using one of'
+  callstack: config/initializers/routing_hash_for.rb:11:in `block (2 levels) in define_url_helper'
+- message: 'Method with_indifferent_access is deprecated and will be removed in Rails
+    5.1, as `ActionController::Parameters` no longer inherits from hash. Using this
+    deprecated behavior exposes potential security problems. If you continue to use
+    this method you may be creating a security vulnerability in your app that can
+    be exploited. Instead, consider using one of these documented methods which are'
+  callstack: app/models/host/base.rb:119:in `import_facts'
+- message: 'Method with_indifferent_access is deprecated and will be removed in Rails
+    5.1, as `ActionController::Parameters` no longer inherits from hash. Using this
+    deprecated behavior exposes potential security problems. If you continue to use
+    this method you may be creating a security vulnerability in your app that can
+    be exploited. Instead, consider using one of these documented methods which are'
+  callstack: app/models/report.rb:50:in `metrics'
+- message: Passing a class as a value in an Active Record query is deprecated and
+    will be removed. Pass a string instead.
+  callstack: app/controllers/templates_controller.rb:124:in `load_history'
+- message: Passing a class as a value in an Active Record query is deprecated and
+    will be removed. Pass a string instead.
+  callstack: app/models/host/base.rb:186:in `set_interfaces'
+- message: Passing a class as a value in an Active Record query is deprecated and
+    will be removed. Pass a string instead.
+  callstack: app/services/fact_importer.rb:65:in `block in delete_removed_facts'
+- message: Passing a class as a value in an Active Record query is deprecated and
+    will be removed. Pass a string instead.
+  callstack: app/services/fact_importer.rb:81:in `find_or_create_fact_name'
+- message: Passing a class as a value in an Active Record query is deprecated and
+    will be removed. Pass a string instead.
+  callstack: test/unit/tasks/seeds_test.rb:19:in `seed'
+- message: Passing a class as a value in an Active Record query is deprecated and
+    will be removed. Pass a string instead.
+  callstack: test/unit/seed_helper_test.rb
+- message: Passing an argument to force an association to reload is now deprecated
+    and will be removed in Rails 5.1. Please call `reload` on the result collection
+    proxy instead.
+  callstack: test/models/host_test.rb
+- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
+    in Rails 5.1.
+  callstack: test/models/host_test.rb:1739:in `block (3 levels) in <class:HostTest>'
+- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
+    in Rails 5.1.
+  callstack: test/models/report_test.rb:126:in `block (2 levels) in <class:ReportTest>'
+- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
+    in Rails 5.1.
+  callstack: test/unit/foreman/renderer_test.rb:89:in `block in <class:RendererTest>'
+- message: Passing arguments to assert_nothing_raised is deprecated and will be removed
+    in Rails 5.1.
+  callstack: test/unit/net/validations_test.rb
+- message: Passing conditions to delete_all is deprecated and will be removed in
+    Rails 5.1. To achieve the same use where(conditions).delete_all.
+- message: Passing conditions to destroy_all is deprecated and will be removed in
+    Rails 5.1. To achieve the same use where(conditions).destroy_all.
+- message: The :status option on `head` has been deprecated and will be removed in
+    Rails 5.1. Please pass the status as a separate parameter before the options,
+    instead.
+  callstack: app/controllers/application_controller.rb:102:in `block (2 levels) in
+    not_found'
+- message: The :status option on `head` has been deprecated and will be removed in
+    Rails 5.1. Please pass the status as a separate parameter before the options,
+    instead.
+  callstack: app/controllers/notification_recipients_controller.rb:30:in `update_group_as_read'
 # http://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.
+- message: Using a dynamic :controller segment in a route is deprecated and will be
+    removed in Rails 5.2.
+  callstack: config/routes.rb:19:in `block in <top (required)>'
+- message: "`render :text` is deprecated because it does not actually render a `text/plain`
+    response. Switch to `render plain: 'plain text'` to render as `text/plain`, `render
+    html: '<strong>HTML</strong>'` to render as `text/html`, or `render body: 'raw'`
+    to match the deprecated behavior and render with the default Content-Type, which
+    is `text/html`."
+# Caused by turbolinks (classic) dependency
+- message: after_filter is deprecated and will be removed in Rails 5.1. Use after_action
+    instead.
+  callstack: config/environment.rb:5:in `<top (required)>'
+- message: before_filter is deprecated and will be removed in Rails 5.1. Use before_action
+    instead.
+  callstack: config/environment.rb:5:in `<top (required)>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/controllers/concerns/foreman/controller/smart_proxy_auth.rb:24:in
+    `add_smart_proxy_filters'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/controllers/unattended_controller.rb:12:in `block in <class:UnattendedController>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/concerns/dirty_associations.rb:38:in `block in dirty_has_many_associations'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/concerns/fog_extensions/openstack/server.rb:7:in `block in
+    <module:Server>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/concerns/fog_extensions/ovirt/server.rb:12:in `block in <module:Server>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/concerns/foreman/sti.rb:7:in `block (2 levels) in <module:STI>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/concerns/foreman/sti.rb:9:in `block in <module:STI>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/nic/managed.rb:44:in `<class:Managed>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/subnet.rb:287:in `singleton class'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: app/models/concerns/facets/managed_host_extensions.rb:51:in `block in register_facet_relation'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: config/environment.rb:5:in `<top (required)>'
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: config/initializers/rabl_init.rb:23:in `<class:Engine>'
+- message: uniq is deprecated and will be removed from Rails 5.1 (use distinct instead)
+
+# Not a "true" deprecation, no action required, it's being used correctly.
+- message: "#table_exists? currently checks both tables and views. This behavior is
+    deprecated and will be changed with Rails 5.1 to only check tables. Use #data_source_exists?
+    instead."
+# Used by BookmarkControllerValidator and inside shoulda-matchers
+- message: "#tables currently returns both tables and views. This behavior is deprecated
+    and will be changed with Rails 5.1 to only return tables. Use #data_sources instead."
+
+# Incompatible with Rails 4.2
+- message: |-
+    DEPRECATION WARNING: Using positional arguments in functional tests has been deprecated,
+    in favor of keyword arguments, and will be removed in Rails 5.1.
+- message: |-
+    DEPRECATION WARNING: `xhr` and `xml_http_request` are deprecated and will be removed in Rails 5.1.
+    Switch to e.g. `post :create, params: { comment: { body: 'Honey bunny' } }, xhr: true`.
+- message: use_transactional_fixtures= is deprecated and will be removed from Rails
+    5.1 (use use_transactional_tests= instead)
+- message: 'Passing the separator argument as a positional parameter is deprecated
+    and will soon be removed. Use `separator: ''_''` instead.'
+  callstack: app/views/smart_proxies/show.html.erb:94
+- message: Returning `false` in Active Record and Active Model callbacks will not
+    implicitly halt a callback chain in Rails 5.1. To explicitly halt the callback
+    chain, please use `throw :abort` instead.
+- message: "`redirect_to :back` is deprecated and will be removed from Rails 5.1.
+    Please use `redirect_back(fallback_location: fallback_location)` where `fallback_location`
+    represents the location to use if the request has no HTTP referer information."
+- message: |-
+    DEPRECATION WARNING: Directly inheriting from ActiveRecord::Migration is deprecated. Please specify the Rails release the migration was written for:
