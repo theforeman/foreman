@@ -1,0 +1,5 @@
+<div id="tasks_progress">
+  <% @tasks.each  do |task| %>
+    <p><%= task_status(task['status']) %><%= " - #{task['name']}" %></p>
+  <% end%>
+</div>

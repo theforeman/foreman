@@ -1,0 +1,21 @@
+<table id='report_log' class="<%= table_css_classes %>">
+  <thead>
+    <tr>
+      <th><%= _("Level") %></th>
+      <th><%= _("Resource") %></th>
+      <th><%= _("message") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% logs.each do |log| %>
+      <tr>
+        <td><span <%= report_tag log.level %>><%= h log.level %></span></td>
+        <td class="break-me"><%= h log.source %></td>
+        <td class="break-me"><%= h log.message %></td>
+      </tr>
+    <% end %>
+    <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3">
+        <%= _("Nothing to show") %>
+      </td></tr>
+  </tbody>
+</table>

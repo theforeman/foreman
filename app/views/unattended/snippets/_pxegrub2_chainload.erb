@@ -1,0 +1,36 @@
+<%#
+kind: snippet
+name: pxegrub2_chainload
+%>
+<%
+  paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "Microsoft", "EFI"]
+-%>
+menuentry "Chainload Grub2 EFI from ESP" {
+  unset root
+  echo Chainloading Grub2 EFI from ESP, available devices:
+  ls
+  echo -n "Probing ESP partition ... "
+  search --file --no-floppy --set=root /EFI/BOOT/BOOTX64.EFI
+  echo found $root
+  sleep 2
+  if [ -f ($root)/EFI/BOOT/grubx64.efi ]; then
+    chainloader ($root)/EFI/BOOT/grubx64.efi
+  <% paths.each do |path| %>
+  elif [ -f ($root)/EFI/<%= path %>/grubx64.efi ]; then
+    chainloader ($root)/EFI/<%= path %>/grubx64.efi
+  <% end -%>
+  else
+    echo File grubx64.efi not found on ESP.
+    echo Update 'pxegrub2_chainload' paths array with:
+    ls ($root)/EFI
+    echo The system will halt in 2 minutes or
+    echo press ESC to halt immediately.
+    sleep -i 120
+    halt --no-apm
+  fi
+}
+
+menuentry "Chainload into BIOS bootloader on first disk" {
+  set root=(hd0,0)
+  chainloader +1
+}

@@ -1,0 +1,38 @@
+# TODO: remove this file by either moving cops here or fixing code
+inherit_from:
+  - .rubocop_todo.yml
+
+AllCops:
+  Include:
+    - 'app/views/api/**/*.rabl'
+  Exclude:
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+
+Rails:
+  Enabled: true
+
+# Don't prefer is_a? over kind_of?
+Style/ClassCheck:
+  Enabled: false
+
+# Don't enforce documentation
+Style/Documentation:
+  Enabled: false
+
+# Support both ruby19 and hash_rockets
+Style/HashSyntax:
+  Enabled: false
+
+# Don't enforce frozen string literals
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+
+Performance/FixedSize:
+  Exclude:
+    - 'test/**/*'

@@ -1,0 +1,86 @@
+foreman\-debug(8)
+=================
+:man source:  foreman-debug
+:man manual:  Foreman Manual
+
+NAME
+----
+foreman-debug - Foreman configuration and log collector
+
+SYNOPSIS
+--------
+foreman-debug [OPTIONS]
+
+foreman-debug -d /output/dir -a -m 9000 -v
+
+foreman-debug -h
+
+DESCRIPTION
+-----------
+
+Collects configuration and log data for Foreman, Smart Proxies, backend
+services and system information while removing security information like
+passwords, tokens and keys.
+
+This program can be used on Foreman instances, Smart Proxy instances or
+backend services separately.
+
+SENDING INFORMATION
+-------------------
+
+Use the *foreman-debug* tool to generate a tarball with your configuration and
+recent logs and send it to developers for further investigation. Note that
+passwords and tokens are filtered out, but the tarball still can contain
+*sensitive information*. For this reason it is recommended to send directly to
+the developers, and not publicly on the mailing list for production instances.
+
+OPTIONS
+-------
+
+The following options are available:
+
+  -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
+  -g      Skip generic info (CPU, memory, firewall etc.)
+  -a      Do not generate a tarball from the resulting directory
+  -m NUM  Maximum lines to keep for each file (default 5000)
+  -j PRG  Filter with provided program when creating a tarball
+  -p      Additionally print all passwords which are being filtered
+  -q      Quiet mode
+  -v      Verbose mode
+  -u      Upload tarball
+  -h      Shows this message
+
+CONFIGURATION
+-------------
+
+Additional configuration can be provided via configuration file that must be
+stored as /etc/foreman/foreman-debug.conf. The file has shell syntax and the
+following environment variables can be defined:
+
+ - DIR: Directory to place the tarball in (string)
+ - NOGENERIC:  Skip generic info (0 or 1)
+ - NOTAR:  Do not create tarballs (0 or 1)
+ - MAXLINES: Maximum lines to keep for files (integer)
+ - COMPRESS: Compress program to pipe the tarball through (string)
+ - PRINTPASS: Print passwords which are filtered out to stdout (0 or 1)
+ - QUIET: Quiet mode (0 or 1)
+ - VERBOSE: Verbose mode (0 or 1)
+ - DEBUG: Debug mode (0 or 1)
+ - UPLOAD: Upload tarball after each run (0 or 1)
+ - UPLOAD_DISABLED: Permanently disable upload feature (0 or 1)
+ - FILTER_WORDS: Tokens that are filtered out (shell array)
+
+Most of the configured options are default values and can be overridden by
+command line options, others are unique and can only be set via the
+configuration file.
+
+SEE ALSO
+--------
+
+*foreman-rake*(8)
+
+GETTING HELP
+------------
+
+For support, please see http://theforeman.org/support.html, the
+foreman-users@googlegroups.com mailing list or #theforeman on Freenode.

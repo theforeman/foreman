@@ -1,0 +1,17 @@
+#!/bin/sh
+cd $SI_CONFIG_DIR
+# Lets setup the DNS with values retrieved from DHCP
+hostname=`hostname`
+dnsdomain=`/sbin/dhcpinfo 15`
+dnsservers=`/sbin/dhcpinfo 6`
+arch=`uname -p`
+echo "domain $dnsdomain" >> /etc/resolv.conf
+for i in $dnsservers
+do
+	echo "nameserver $i" >> /etc/resolv.conf
+done
+perl -p -i -e "s/hosts:.*/hosts: files dns/" /tmp/root/etc/nsswitch.conf
+# and then download our configuration from foreman
+foreman="foreman"
+./curl.$arch -s http://$foreman/unattended/provision > ${SI_PROFILE}
+exit 0

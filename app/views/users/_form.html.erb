@@ -1,0 +1,80 @@
+<%= javascript 'users', 'password_strength' %>
+
+<%= form_for @user do |f| %>
+  <%= base_errors_for @user %>
+
+  <ul class='nav nav-tabs' data-tabs='tabs'>
+    <li class='active'><a href='#primary' data-toggle='tab'><%= _('User') %></a></li>
+    <li><a href='#mail_preferences' data-toggle='tab'><%= _('Email Preferences') %></a></li>
+    <% if show_location_tab? %>
+      <li><a href='#locations' data-toggle='tab'><%= _('Locations') %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href='#organizations' data-toggle='tab'><%= _('Organizations') %></a></li>
+    <% end %>
+    <li><a href='#roles' data-toggle='tab'><%= _('Roles') %></a></li>
+  </ul>
+
+  <div class='tab-content'>
+    <div class='tab-pane active' id='primary'>
+
+      <%= text_f f, :login, :disabled => f.object.login == 'admin' %>
+      <%= text_f f, :firstname %>
+      <%= text_f f, :lastname %>
+      <%= text_f f, :mail %>
+
+      <%= selectable_f(f, :locale, FastGettext.human_available_locales,
+                        { :include_blank => _('Browser locale') } , { :label => _('Language') } ) %>
+
+      <%= time_zone_select_f(f, :timezone, Time.find_zone(@user.timezone) || Time.find_zone!('UTC'), { :include_blank => _('Browser timezone') }) %>
+
+      <%= select_f(f, :auth_source_id, AuthSource.except_hidden.to_a.delete_if { |a| a.to_label.nil? } , :id,
+                      :to_label, { :include_blank => true } ,
+                      { :onchange => 'auth_source_selected()',
+                        :label => _('Authorized by') } ) unless @editing_self %>
+
+      <div id='password' <%= display? !@user.manage_password? %>>
+        <%= password_f f, :password, :label => _('Password'), :error => @user.errors[:password_hash] %>
+        <%= password_f f, :password_confirmation, :label => _('Verify') %>
+      </div>
+    </div>
+
+    <div class='tab-pane' id='mail_preferences'>
+      <div class='row'>
+        <div class='col-md-4'>
+          <%= documentation_button('4.6.1EmailPreferences') %>
+        </div>
+      </div>
+      </br>
+      <%= field_set_tag _("General") do %>
+        <%= checkbox_f f, :mail_enabled %>
+        <div class='col-md-4'>
+            <%= link_to_function(_("Test email"), "test_mail(this, '#{f.object.id}', '#{test_mail_user_url(f.object)}')",
+                                                :title => _("Send a test message to the user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_indicator').html_safe if action_name == "edit" %>
+        </div>
+      <% end %>
+      </br>
+      <% if @user.new_record? %>
+        <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications.") %>
+      <% else %>
+        <%= field_set_tag _("Notifications") do %>
+          <%= f.fields_for :user_mail_notifications do |mail_form| %>
+            <%= render :partial => "users/mail_notifications", :locals => { :f => mail_form }  %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+
+    <div class='tab-pane' id='roles'>
+      <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
+      <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
+                               { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
+    </div>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
+               :html_options => user_taxonomies_html_options(@user)
+      %>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

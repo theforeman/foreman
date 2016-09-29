@@ -1,0 +1,39 @@
+<%#
+kind: snippet
+name: puppetlabs_repo
+-%>
+<%
+http_proxy   = @host.params['http-proxy'] ? " --httpproxy #{@host.params['http-proxy']}" : nil
+http_port    = @host.params['http-proxy-port'] ? " --httpport #{@host.params['http-proxy-port']}" : nil
+proxy_uri    = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : nil
+proxy_string = proxy_uri ? " -e https_proxy=#{proxy_uri}/" : ''
+os_family = @host.operatingsystem.family
+os_major  = @host.operatingsystem.major.to_i
+os_name   = @host.operatingsystem.name
+
+if os_family == 'Redhat'
+  repo_host = 'yum.puppetlabs.com'
+  if os_name == 'Fedora'
+    repo_os = 'fedora'
+  else
+    repo_os = 'el'
+  end
+elsif os_family == 'Debian'
+  repo_host = 'apt.puppetlabs.com'
+  repo_os = @host.operatingsystem.release_name
+end
+
+if @host.param_true?('enable-puppetlabs-repo')
+  repo_name = 'puppetlabs-release'
+elsif @host.param_true?('enable-puppetlabs-pc1-repo')
+  repo_name = 'puppetlabs-release-pc1'
+end
+-%>
+<% if repo_name -%>
+<% if os_family == 'Redhat' -%>
+rpm -Uvh<%= http_proxy %><%= http_port %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>-<%= os_major %>.noarch.rpm
+<% elsif os_family == 'Debian' -%>
+wget -O /tmp/<%= repo_name %>-<%= repo_os %>.deb<%= proxy_string %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>.deb
+dpkg -i /tmp/<%= repo_name %>-<%= repo_os %>.deb
+<% end -%>
+<% end -%>

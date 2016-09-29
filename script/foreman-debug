@@ -1,0 +1,353 @@
+#!/bin/bash
+# vim:sw=2:ts=2:et
+
+export LC_ALL=C
+export SCLNAME=tfm
+
+usage() {
+[[ $UPLOAD_DISABLED -ne 0 ]] && UPLOAD_INFO=" (feature disabled by configuration)"
+cat <<USAGE
+$0 - configuration and log data collector
+
+USAGE: $0 [options]
+
+Collects configuration and log data for Foreman, Smart Proxies, backend
+services and system information while removing security information like
+passwords, tokens and keys.
+
+This program can be used on Foreman instances, Smart Proxy instances or
+backend services separately.
+
+OPTIONS:
+  -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
+  -g      Skip generic info (CPU, memory, firewall etc.)
+  -a      Do not generate a tarball from the resulting directory
+  -m NUM  Maximum lines to keep for each file (default 5000), zero means no limit
+  -j PRG  Filter with provided program when creating a tarball
+  -p      Additionally print password patterns being filtered out
+  -q      Quiet mode
+  -v      Verbose mode
+  -u      Upload tarball$UPLOAD_INFO
+  -h      Shows this message
+
+USAGE
+[[ $UPLOAD_DISABLED -eq 0 ]] && cat <<UPLOADUSAGE
+You may want to upload the tarball (with -u) to our public server via rsync.
+This is a write-only directory (readable only by Foreman core developers)
+Please note that the rsync transmission is UNENCRYPTED.
+
+UPLOADUSAGE
+}
+
+# filter for patterns like password=XYZ or secret: abc!@#$123
+FILTER_WORDS=(
+password
+PASSWORD
+default_password
+secret
+token
+api_token
+oauth_secret
+keystorePass
+truststorePass
+)
+FILTER_WORDS_STR=$(IFS=$'|'; echo "${FILTER_WORDS[*]}")
+FILTER="s/($FILTER_WORDS_STR)(\s*[:=]\s*)\S+/\1\2\*\*\*\*\*/g"
+
+error() {
+  echo $* >&2
+}
+
+qprintf() {
+  [ $QUIET -ne 1 ] && printf "$@"
+}
+
+printv() {
+  [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo $*
+}
+
+clean_stdin() {
+  while read -e -t 0.1; do : ; done
+}
+
+# add outout of the command and redirect possible errors there
+add_cmd() {
+  CMD=$1
+  OUT=$2
+  printv " - $OUT"
+  echo -e "COMMAND> $CMD\n" > "$DIR/$OUT"
+  eval $CMD >> "$DIR/$OUT" 2>&1
+}
+
+# add and filter if it is a non zero, readable, regular file or symlink (skip otherwise)
+add_files() {
+  if [ $MAXLINES -eq 0 ]; then
+    TAIL_OR_CAT="cat"
+  else
+    TAIL_OR_CAT="tail -n ${MAXLINES}"
+  fi
+  for FILE in $*; do
+    if [ \( -f "$FILE" -o -h "$FILE" \) -a \( -r "$FILE" -a -s "$FILE" \) ]; then
+      printv " - $FILE"
+      SUBDIR=$(dirname $FILE)
+      [ ! -d "$DIR$SUBDIR" ] && mkdir -p "$DIR$SUBDIR"
+      MIME=$(file -bi "$FILE" | cut -d\; -f1)
+      case $MIME in
+        application/x-gzip)
+          zcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
+          ;;
+        application/x-bzip2)
+          bzcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
+          ;;
+        application/x-xz)
+          xzcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
+          ;;
+        text/plain | application/xml)
+          $TAIL_OR_CAT "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
+          [ $PRINTPASS -eq 1 ] && grep -H "\*\*\*\*\*" "$DIR$FILE"
+          ;;
+        inode/symlink)
+          cp -a "$FILE" "$DIR$FILE"
+          add_files $(readlink -f $FILE)
+          ;;
+        *)
+          echo "Skipping file $FILE: unknown MIME type $MIME" >> "$DIR/skipped_files"
+          ;;
+      esac
+    fi
+  done
+}
+
+# default values
+DIR=""
+NOGENERIC=0
+NOTAR=0
+MAXLINES=5000
+COMPRESS=""
+PRINTPASS=0
+QUIET=0
+VERBOSE=0
+DEBUG=0
+UPLOAD=0
+UPLOAD_DISABLED=0
+
+if type -p xz >/dev/null; then
+  COMPRESS="xz -9"
+  EXTENSION=".xz"
+elif type -p bzip2 >/dev/null; then
+  COMPRESS="bzip2 -9"
+  EXTENSION=".bz2"
+elif type -p gzip >/dev/null; then
+  COMPRESS="gzip -9"
+  EXTENSION=".gz"
+else
+  COMPRESS="cat"
+  EXTENSION=""
+fi
+
+# read optional configuration file with user-defined defaults
+CONF_FILE=/usr/share/foreman/config/foreman-debug.conf
+test -f $CONF_FILE && source $CONF_FILE
+
+while getopts "d:gam:j:uqpvhx" opt; do
+  case $opt in
+    d)
+      DIR="$OPTARG"
+      ;;
+    g)
+      NOGENERIC=1
+      ;;
+    a)
+      NOTAR=1
+      ;;
+    p)
+      PRINTPASS=1
+      ;;
+    q)
+      QUIET=1
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+    m)
+      MAXLINES="$OPTARG"
+      ;;
+    j)
+      COMPRESS="$OPTARG"
+      EXTENSION=".$(echo "$OPTARG" | awk '{ print $1 }')"
+      ;;
+    u)
+      UPLOAD=1
+      ;;
+    x)
+      # this option is not docummented - use for extra output,
+      # skip slow items and to disable root check
+      DEBUG=1
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    ?)
+      error "Invalid option: $OPTARG"
+      usage
+      exit
+      ;;
+  esac
+done
+
+[ $DEBUG -eq 0 -a $EUID -ne 0 ] && error "This script must be run as root" && exit 1
+
+[ $UPLOAD -eq 1 -a $NOTAR -eq 1 ] && error "Options -u and -a cannot be used together" && exit 2
+
+# some tasks take long time, print a banner (unless quiet mode was selected)
+qprintf "Processing... (takes a while)"
+
+# determine distribution family
+if [ -f /etc/debian_version ]; then
+    OS=debian
+    OS_RELEASE=$(head -n1 /etc/debian_version)
+elif [ -f /etc/redhat-release ]; then
+    OS=redhat
+    OS_RELEASE=$(head -n1 /etc/redhat-release)
+elif type -p lsb_release >/dev/null; then
+    OS=$(lsb_release -si 2>/dev/null)
+    OS_RELEASE=$(lsb_release -sr 2>/dev/null)
+elif type -p rpm >/dev/null; then
+    OS=$(rpm -q --whatprovides redhat-release --queryformat '%{NAME}')
+    OS_RELEASE=$(rpm -q --whatprovides redhat-release --queryformat '%{VERSION}')
+else
+    OS=$(uname -s)
+    OS_RELEASE="Unknown"
+fi
+printv "Determined $OS distribution"
+
+if [ -z "$DIR" ]; then
+  DIR=$(mktemp -d foreman-debug-XXXXX -p /tmp)
+  [ "$NOTAR" -eq 0 ] && trap "rm -rf $DIR" EXIT
+else
+  [ ! -d "$DIR" ] && mkdir -p "$DIR"
+fi
+printv "Directory $DIR created"
+
+TARBALL="$DIR.tar$EXTENSION"
+
+# GENERIC ARTIFACTS
+
+if [ $NOGENERIC -eq 0 ]; then
+  printv "Collecting generic system information"
+  add_cmd "date" "date"
+  add_cmd "lsb_release -a" "lsb_release"
+  add_cmd "uname -a" "uname"
+  add_cmd "cat /proc/cpuinfo" "cpuinfo"
+  add_cmd "cat /proc/meminfo" "meminfo"
+  add_cmd "ulimit -a" "ulimit"
+  add_cmd "lsmod" "lsmod"
+  add_cmd "iptables -L -v -n" "iptables"
+  add_cmd "ifconfig -a" "ifconfig"
+  add_cmd "route -n" "route"
+  add_cmd "netstat -putna" "netstat"
+  add_cmd "ip a" "ip_a"
+  add_cmd "ip r" "ip_r"
+  add_cmd "ss -putna" "ss"
+  add_cmd "cat /etc/hosts" "hosts"
+  add_cmd "ping -c1 -W1 localhost" "ping_localhost"
+  add_cmd "ping -c1 -W1 $(hostname)" "ping_hostname"
+  add_cmd "ping -c1 -W1 $(hostname -f)" "ping_hostname_full"
+  add_cmd "host $(hostname -f)" "hostname_dns_check"
+  type scl &>/dev/null && \
+    add_cmd "scl -l" "software_collections"
+
+  add_cmd "ps auxwwwZ" "process_list"
+  add_files /var/log/messages /var/log/audit/audit.log /var/log/syslog
+  add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR | head -n 100" "selinux_first_denials.log"
+  add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR || grep AVC /var/log/audit/audit.log" "selinux_denials.log"
+  if [ -f /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
+    add_cmd "sepolgen-ifgen &>/dev/null && audit2allow -Ra || audit2allow -a" "selinux_audit2allow"
+    add_cmd "semodule -l" "selinux_modules"
+    add_cmd "semanage boolean -l" "selinux_booleans"
+    add_cmd "semanage fcontext -l" "selinux_fcontext"
+  fi
+
+  if [ "$OS" = "redhat" ]; then
+    [ $DEBUG -eq 0 ] && add_cmd "rpm -qa" "installed_packages"
+  elif [ "$OS" = "debian" ]; then
+    [ $DEBUG -eq 0 ] && add_cmd "dpkg --list" "installed_packages"
+  fi
+
+fi
+
+# FOREMAN RELATED ARTIFACTS
+
+printv "Collecting Foreman-related information"
+add_cmd "rpm -qa '*foreman*' || dpkg -l '*foreman*' | sort" "foreman_packages"
+add_cmd "ruby --version" "version_ruby"
+add_cmd "puppet --version" "version_puppet"
+add_cmd "gem list" "gem_list"
+add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
+add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
+add_cmd "facter" "facts"
+add_files /etc/foreman/* /var/log/foreman/*.log*
+add_files /etc/foreman-installer/scenarios.d/{*,*/*,*/.*} /var/log/foreman-installer/*.log*
+add_files /usr/share/foreman/Gemfile*
+add_cmd "virsh list" "virsh_list"
+add_files /etc/libvirt/* /etc/libvirt/storage/* /etc/libvirt/qemu/* /etc/libvirt/qemu/networks
+add_files /var/lib/pgsql/data/*.conf
+add_files /var/lib/puppet/ssl/certs/$(hostname -f).pem /var/lib/puppet/ssl/certs/ca.pem
+add_files /etc/{httpd,apache2}/conf/*
+add_files /etc/{httpd,apache2}/conf.d/*
+add_files /etc/{httpd,apache2}/conf.d/*/*
+add_files /var/log/{httpd,apache2}/*error_log*
+add_files /var/log/{httpd,apache2}/foreman-ssl_access_ssl.log*
+add_cmd "echo \"select id,name,value from settings where name not similar to '%(pass|key|secret)'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
+add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
+add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
+
+add_files /etc/{sysconfig,default}/foreman
+add_files /etc/{sysconfig,default}/libvirt*
+add_files /etc/sysconfig/pgsql
+add_files "/var/lib/pgsql/data/pg_log/*"
+add_cmd "foreman-rake plugin:list" "plugin_list"
+
+# Look for any debug extensions provided by plugins
+if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
+  for extension in /usr/share/foreman/script/foreman-debug.d/* ; do
+    if [ -x "$extension" ]; then
+      printv "Processing extension $extension"
+      source "$extension" 2>/dev/null
+    fi
+  done
+fi
+
+qprintf "\n\n"
+qprintf "%10s %s\n" "HOSTNAME:" "$(hostname -f 2>/dev/null)"
+qprintf "%10s %s\n" "OS:" "$OS"
+qprintf "%10s %s\n" "RELEASE:" "$OS_RELEASE"
+qprintf "%10s %s\n" "FOREMAN:" "$(cat /usr/share/foreman/VERSION 2>/dev/null)"
+qprintf "%10s %s\n" "RUBY:" "$(ruby --version 2>/dev/null)"
+qprintf "%10s %s\n" "PUPPET:" "$(puppet --version 2>/dev/null)"
+test -f /var/log/audit/audit.log && \
+  qprintf "%10s %s\n" "DENIALS:" "$(ausearch -m AVC -r | wc -l)"
+qprintf "\n\n"
+
+if [ "$NOTAR" -eq 0 ]; then
+  pushd "$DIR" >/dev/null
+  tar -c ../$(basename $DIR) 2>/dev/null | $COMPRESS > "$TARBALL"
+  popd >/dev/null
+  qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
+else
+  qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
+fi
+
+# upload if -u was passed in
+if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
+  qprintf "Uploading...\n"
+  rsync $TARBALL rsync://theforeman.org/debug-incoming
+  qprintf "The tarball has been uploaded, please contact us on our mailing list or IRC\n"
+  qprintf "referencing the following URL:\n\n"
+  qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n\n"
+else
+  [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
+fi
+
+exit 0

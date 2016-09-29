@@ -1,0 +1,7 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_for :host, :url => submit_multiple_build_hosts_path({:host_ids => params[:host_ids]}) do |f| %>
+  <span class="label label-info"><%= _('Provision') %></span>
+  <%= _('these hosts for a build operation on next boot') %>
+  <%= checkbox_f(f, :build, :help_text => _('Reboot now')) %>
+<% end %>

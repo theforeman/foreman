@@ -1,0 +1,15 @@
+<tr class="fields <%= 'has-error' if f.object.errors.any? %>">
+  <td>
+    <%= f.text_field(:name,  :class => "form-control", :disabled => !can_edit_params?, :placeholder => _("Name")) %>
+  </td>
+  <td>
+    <%= hidden_value_field(f, :value, !can_edit_params?) %>
+  </td>
+  <td>
+    <%= f.check_box(:hidden_value, :class => 'set_hidden_value hide', :checked => f.object.hidden_value?) if can_edit_params? %>
+    <%= link_to_remove_fields(_('remove'), f) if authorized_via_my_scope("host_editing", "destroy_params") %>
+  </td>
+  <span class="help-block">
+    <%= f.object.errors.full_messages.to_sentence %>
+  </span>
+</tr>

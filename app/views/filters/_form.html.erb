@@ -1,0 +1,80 @@
+<% javascript 'filters' %>
+
+<%= form_for @filter do |f| %>
+  <%= base_errors_for f.object %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Filter") %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="primary">
+      <% if @role.present? %>
+        <%= field(f, :role_id, :label => _('Selected role')) do %>
+          <%= @role.name %>
+          <%= f.hidden_field :role_id, :value => f.object.role_id || @role.id %>
+        <% end %>
+      <% else %>
+        <%= select_f(f, :role_id, Role.where(nil), :id, :name) %>
+      <% end %>
+
+      <%= selectable_f(f, :resource_type, Permission.resources_with_translations,
+                       {:include_blank => _('(Miscellaneous)')}, {:'data-url' => permissions_path,
+                                                                  :'data-allow-organizations' => @filter.allows_organization_filtering?,
+                                                                  :'data-allow-locations' => @filter.allows_location_filtering?,
+                                                                  :autofocus => true}) %>
+
+      <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
+                           f.object.permissions.map(&:id), :label => _("Permission"), :required => true %>
+
+      <%= hidden_field_tag :role_id, @role.try(:id) %>
+
+
+      <div class="controls" id="granular_warning" style="<%= f.object.granular? ? 'display:none' : '' %>">
+          <span class="help-block">
+            <strong><%= _("Selected resource type does not support granular filtering, therefore you can't configure granularity") %></strong>
+          </span>
+      </div>
+
+      <div id="override_taxonomy_form" class="<%= f.object.allows_taxonomies_filtering? && Taxonomy.enabled_taxonomies.any? ? '' : 'hidden' %>">
+        <%= checkbox_f f, :override?,
+                       :help_inline => popover('', _("Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again.") % { :orgs_and_locs => org_loc_string('and') }),
+                       :id => 'override_taxonomy_checkbox' %>
+      </div>
+
+      <div id="granular_form" style="<%= f.object.granular? ? '' : 'display:none' %>">
+        <%= checkbox_f f, :unlimited?,
+                       :help_inline => popover('', _("By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly.") % org_loc_string('or') ) %>
+
+
+        <%= autocomplete_f f, :search,
+                           :disabled => f.object.unlimited?,
+                           :full_path => search_path(f.object.resource_type),
+                           :control_group_id => 'search_group' %>
+      </div>
+    </div>
+
+    <% if show_location_tab? %>
+      <div class="tab-pane" id="locations">
+        <% collection = User.current.locations.empty? ? Location : User.current.locations %>
+        <%= multiple_checkboxes f, :locations, f.object, collection, {}, :label => _("Locations") %>
+      </div>
+    <% end %>
+
+    <% if show_organization_tab? %>
+      <div class="tab-pane" id="organizations">
+        <% collection = User.current.organizations.empty? ? Organization : User.current.organizations %>
+        <%= multiple_checkboxes f, :organizations, f.object, collection, {},
+                                {:label => _("Organizations")} %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= submit_or_cancel f, false, :cancel_path => :back %>
+<% end %>

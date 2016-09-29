@@ -1,0 +1,14 @@
+
+<%= text_f f,:size_gb, :label => _('Size (GB)'), :label_size => "col-md-2", :disabled => !new_host, :class => "col-md-2" %>
+<%= f.hidden_field :size_gb if !new_host %>
+<%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
+             { }, :label => _('Storage domain'), :label_size => "col-md-2", :disabled => !new_host, :class => "col-md-2" %>
+<%= f.hidden_field :storage_domain if !new_host %>
+<%= f.hidden_field :id %>
+
+<%= checkbox_f f, :preallocate, { :checked => f.object.sparse == 'false', :help_inline => _('Uses thin provisioning if unchecked'), :label => _('Preallocate disk'), :label_size => "col-md-2" } %>
+
+<%= field(f, :bootable, :label => _('Bootable'), :label_size => "col-md-2") do
+    radio_button_f f, :bootable, {:disabled => !new_host, :value=>'true', :checked => (f.object.bootable == 'true'), :onclick => 'bootable_radio(this)',
+    :text => _('Only one volume can be bootable')}
+end %>

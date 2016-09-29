@@ -1,0 +1,18 @@
+<h3><%= _('The following hosts were updated') %></h3>
+<ul>
+  <% for host in @hosts %>
+    <li>
+    <%= link_to h(host.name), host_path(host) %>
+    <% unless @skipped_parameters[host.name].empty? %>
+      <br/>
+      <%= _('The following parameters were skipped as they did not exists on this host:') %>
+      <ul>
+        <% for parm in @skipped_parameters[host.name] %>
+          <li><%= h parm %></li>
+        <% end %>
+      </ul>
+    <% end %>
+    </li>
+  <% end %>
+</ul>
+<%= link_to _("Back to host list"), hosts_path %>

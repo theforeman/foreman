@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<operating_systems>
+    <operating_system href="/api/operatingsystems/0" id="0">
+        <name>other</name>
+        <description>Other OS</description>
+        <large_icon href="/api/icons/ae11230a-3831-4281-86f3-ce095f795f12" id="ae11230a-3831-4281-86f3-ce095f795f12"/>
+        <small_icon href="/api/icons/f559f0f3-3539-4955-89b9-f431e9a61fce" id="f559f0f3-3539-4955-89b9-f431e9a61fce"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1" id="1">
+        <name>windows_xp</name>
+        <description>Windows XP</description>
+        <large_icon href="/api/icons/fb3fe792-3b5d-4024-9365-33926f23c387" id="fb3fe792-3b5d-4024-9365-33926f23c387"/>
+        <small_icon href="/api/icons/3c8eb95c-f18f-4139-9c24-0940c4415821" id="3c8eb95c-f18f-4139-9c24-0940c4415821"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/3" id="3">
+        <name>windows_2003</name>
+        <description>Windows 2003</description>
+        <large_icon href="/api/icons/1d7cf62a-49c8-49e1-962a-9ca437ea04f3" id="1d7cf62a-49c8-49e1-962a-9ca437ea04f3"/>
+        <small_icon href="/api/icons/b42b805c-9439-45c4-b6db-43edb4d4abc9" id="b42b805c-9439-45c4-b6db-43edb4d4abc9"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/4" id="4">
+        <name>windows_2008</name>
+        <description>Windows 2008</description>
+        <large_icon href="/api/icons/c2e76670-3273-48ad-b139-7fffb1a6c9f1" id="c2e76670-3273-48ad-b139-7fffb1a6c9f1"/>
+        <small_icon href="/api/icons/b42b805c-9439-45c4-b6db-43edb4d4abc9" id="b42b805c-9439-45c4-b6db-43edb4d4abc9"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/5" id="5">
+        <name>other_linux</name>
+        <description>Linux</description>
+        <large_icon href="/api/icons/6ae13be7-5004-4475-8044-2a355deb74af" id="6ae13be7-5004-4475-8044-2a355deb74af"/>
+        <small_icon href="/api/icons/62945139-38d6-4278-859d-903c36bf6f2b" id="62945139-38d6-4278-859d-903c36bf6f2b"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/7" id="7">
+        <name>rhel_5</name>
+        <description>Red Hat Enterprise Linux 5.x</description>
+        <large_icon href="/api/icons/5971ff19-016b-4447-b5d2-c76f291dfdf3" id="5971ff19-016b-4447-b5d2-c76f291dfdf3"/>
+        <small_icon href="/api/icons/559a7e75-8da8-43a5-bf14-246fcf8cb538" id="559a7e75-8da8-43a5-bf14-246fcf8cb538"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/8" id="8">
+        <name>rhel_4</name>
+        <description>Red Hat Enterprise Linux 4.x</description>
+        <large_icon href="/api/icons/821274b8-0a09-4cf5-b616-3cb4b266197c" id="821274b8-0a09-4cf5-b616-3cb4b266197c"/>
+        <small_icon href="/api/icons/1aabcf64-e5b1-4191-aaec-2be8d5607dd9" id="1aabcf64-e5b1-4191-aaec-2be8d5607dd9"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/9" id="9">
+        <name>rhel_3</name>
+        <description>Red Hat Enterprise Linux 3.x</description>
+        <large_icon href="/api/icons/2ce0e5c9-301f-4275-b511-9745ad563685" id="2ce0e5c9-301f-4275-b511-9745ad563685"/>
+        <small_icon href="/api/icons/22d34678-29c5-42fe-90a8-875a8235ab34" id="22d34678-29c5-42fe-90a8-875a8235ab34"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/10" id="10">
+        <name>windows_2003x64</name>
+        <description>Windows 2003 x64</description>
+        <large_icon href="/api/icons/069a7d65-e8e2-41e5-8c9c-7a7c68ffd6c9" id="069a7d65-e8e2-41e5-8c9c-7a7c68ffd6c9"/>
+        <small_icon href="/api/icons/b42b805c-9439-45c4-b6db-43edb4d4abc9" id="b42b805c-9439-45c4-b6db-43edb4d4abc9"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1500" id="1500">
+        <name>freebsd</name>
+        <description>FreeBSD 9.2</description>
+        <large_icon href="/api/icons/7a977302-c141-4603-9b6f-4bd172294236" id="7a977302-c141-4603-9b6f-4bd172294236"/>
+        <small_icon href="/api/icons/24630eb6-ba6c-4b7e-a9d7-651233a8920c" id="24630eb6-ba6c-4b7e-a9d7-651233a8920c"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/11" id="11">
+        <name>windows_7</name>
+        <description>Windows 7</description>
+        <large_icon href="/api/icons/7d8af0a5-3378-41f5-b9f0-3beb76ce4e94" id="7d8af0a5-3378-41f5-b9f0-3beb76ce4e94"/>
+        <small_icon href="/api/icons/88e63e32-d407-4333-9a7d-9ef799b702cc" id="88e63e32-d407-4333-9a7d-9ef799b702cc"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1501" id="1501">
+        <name>freebsdx64</name>
+        <description>FreeBSD 9.2 x64</description>
+        <large_icon href="/api/icons/a9202c2f-8298-461b-9f59-4da9fadf5ff0" id="a9202c2f-8298-461b-9f59-4da9fadf5ff0"/>
+        <small_icon href="/api/icons/13d6c8f6-7aff-461e-880f-74be0c5b9ca1" id="13d6c8f6-7aff-461e-880f-74be0c5b9ca1"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/12" id="12">
+        <name>windows_7x64</name>
+        <description>Windows 7 x64</description>
+        <large_icon href="/api/icons/1bd004a0-2f43-4c7e-9c11-97767c1ba978" id="1bd004a0-2f43-4c7e-9c11-97767c1ba978"/>
+        <small_icon href="/api/icons/88e63e32-d407-4333-9a7d-9ef799b702cc" id="88e63e32-d407-4333-9a7d-9ef799b702cc"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/13" id="13">
+        <name>rhel_5x64</name>
+        <description>Red Hat Enterprise Linux 5.x x64</description>
+        <large_icon href="/api/icons/ba1c5a85-5cd8-4ae5-9375-944c09bdbedf" id="ba1c5a85-5cd8-4ae5-9375-944c09bdbedf"/>
+        <small_icon href="/api/icons/559a7e75-8da8-43a5-bf14-246fcf8cb538" id="559a7e75-8da8-43a5-bf14-246fcf8cb538"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/14" id="14">
+        <name>rhel_4x64</name>
+        <description>Red Hat Enterprise Linux 4.x x64</description>
+        <large_icon href="/api/icons/cc385716-b98e-49be-91af-70bb2c0564b4" id="cc385716-b98e-49be-91af-70bb2c0564b4"/>
+        <small_icon href="/api/icons/1aabcf64-e5b1-4191-aaec-2be8d5607dd9" id="1aabcf64-e5b1-4191-aaec-2be8d5607dd9"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/15" id="15">
+        <name>rhel_3x64</name>
+        <description>Red Hat Enterprise Linux 3.x x64</description>
+        <large_icon href="/api/icons/9aeb785e-8202-4b2a-922b-bb2a14c958f2" id="9aeb785e-8202-4b2a-922b-bb2a14c958f2"/>
+        <small_icon href="/api/icons/22d34678-29c5-42fe-90a8-875a8235ab34" id="22d34678-29c5-42fe-90a8-875a8235ab34"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1300" id="1300">
+        <name>debian_7</name>
+        <description>Debian 7</description>
+        <large_icon href="/api/icons/187e6ea6-1dfb-4ba3-b9b3-889d113c5d02" id="187e6ea6-1dfb-4ba3-b9b3-889d113c5d02"/>
+        <small_icon href="/api/icons/2fb99200-62ef-46cc-90d9-8a1cb46f546a" id="2fb99200-62ef-46cc-90d9-8a1cb46f546a"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/17" id="17">
+        <name>windows_2008R2x64</name>
+        <description>Windows 2008 R2 x64</description>
+        <large_icon href="/api/icons/5ce1d3ab-0686-4483-9789-9ad04e2aca88" id="5ce1d3ab-0686-4483-9789-9ad04e2aca88"/>
+        <small_icon href="/api/icons/b42b805c-9439-45c4-b6db-43edb4d4abc9" id="b42b805c-9439-45c4-b6db-43edb4d4abc9"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1001" id="1001">
+        <name>other_ppc64</name>
+        <description>Other OS</description>
+        <large_icon href="/api/icons/e0f2d023-636b-4139-9205-e57b56e93975" id="e0f2d023-636b-4139-9205-e57b56e93975"/>
+        <small_icon href="/api/icons/f559f0f3-3539-4955-89b9-f431e9a61fce" id="f559f0f3-3539-4955-89b9-f431e9a61fce"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/16" id="16">
+        <name>windows_2008x64</name>
+        <description>Windows 2008 x64</description>
+        <large_icon href="/api/icons/fda64af2-25a8-4881-b8e6-aae475ec1211" id="fda64af2-25a8-4881-b8e6-aae475ec1211"/>
+        <small_icon href="/api/icons/b42b805c-9439-45c4-b6db-43edb4d4abc9" id="b42b805c-9439-45c4-b6db-43edb4d4abc9"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/19" id="19">
+        <name>rhel_6x64</name>
+        <description>Red Hat Enterprise Linux 6.x x64</description>
+        <large_icon href="/api/icons/fc6f23e8-34a9-4a27-abb1-a82995fa976e" id="fc6f23e8-34a9-4a27-abb1-a82995fa976e"/>
+        <small_icon href="/api/icons/470c6313-247b-47fd-bda5-8688566792d1" id="470c6313-247b-47fd-bda5-8688566792d1"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1003" id="1003">
+        <name>rhel_6_ppc64</name>
+        <description>Red Hat Enterprise Linux 6.x</description>
+        <large_icon href="/api/icons/661ae396-a4db-471e-a381-774ecd010c4f" id="661ae396-a4db-471e-a381-774ecd010c4f"/>
+        <small_icon href="/api/icons/470c6313-247b-47fd-bda5-8688566792d1" id="470c6313-247b-47fd-bda5-8688566792d1"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/18" id="18">
+        <name>rhel_6</name>
+        <description>Red Hat Enterprise Linux 6.x</description>
+        <large_icon href="/api/icons/b39dd98b-9a6e-44a0-afa4-641267da0db3" id="b39dd98b-9a6e-44a0-afa4-641267da0db3"/>
+        <small_icon href="/api/icons/470c6313-247b-47fd-bda5-8688566792d1" id="470c6313-247b-47fd-bda5-8688566792d1"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1002" id="1002">
+        <name>other_linux_ppc64</name>
+        <description>Linux</description>
+        <large_icon href="/api/icons/61daf86e-a6bb-4497-aedf-d64f185cd35b" id="61daf86e-a6bb-4497-aedf-d64f185cd35b"/>
+        <small_icon href="/api/icons/62945139-38d6-4278-859d-903c36bf6f2b" id="62945139-38d6-4278-859d-903c36bf6f2b"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/21" id="21">
+        <name>windows_8x64</name>
+        <description>Windows 8 x64</description>
+        <large_icon href="/api/icons/f5c7045b-196d-4ab3-bb01-f3c2fe7b0a99" id="f5c7045b-196d-4ab3-bb01-f3c2fe7b0a99"/>
+        <small_icon href="/api/icons/9ac39e4d-d801-4627-b272-ff2b351adda7" id="9ac39e4d-d801-4627-b272-ff2b351adda7"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1005" id="1005">
+        <name>ubuntu_14_04_ppc64</name>
+        <description>Ubuntu Trusty Tahr LTS</description>
+        <large_icon href="/api/icons/658238e9-9c49-4c69-ade9-79c9660eedb7" id="658238e9-9c49-4c69-ade9-79c9660eedb7"/>
+        <small_icon href="/api/icons/39216915-ed55-430f-a494-2c456c428aac" id="39216915-ed55-430f-a494-2c456c428aac"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/20" id="20">
+        <name>windows_8</name>
+        <description>Windows 8</description>
+        <large_icon href="/api/icons/4790fb01-d3e7-4d97-baf9-9c6119f1ffed" id="4790fb01-d3e7-4d97-baf9-9c6119f1ffed"/>
+        <small_icon href="/api/icons/9ac39e4d-d801-4627-b272-ff2b351adda7" id="9ac39e4d-d801-4627-b272-ff2b351adda7"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1004" id="1004">
+        <name>sles_11_ppc64</name>
+        <description>SUSE Linux Enterprise Server 11</description>
+        <large_icon href="/api/icons/4ed962ed-bc3b-4d54-9d7e-11d62ba4dd68" id="4ed962ed-bc3b-4d54-9d7e-11d62ba4dd68"/>
+        <small_icon href="/api/icons/ef709529-51e6-440e-95bf-9465a74112b8" id="ef709529-51e6-440e-95bf-9465a74112b8"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/23" id="23">
+        <name>windows_2012x64</name>
+        <description>Windows 2012 x64</description>
+        <large_icon href="/api/icons/6542d2c0-12e1-4207-9e91-bac0f1ec9269" id="6542d2c0-12e1-4207-9e91-bac0f1ec9269"/>
+        <small_icon href="/api/icons/0a193c31-438b-4793-873f-b5b025ee27e1" id="0a193c31-438b-4793-873f-b5b025ee27e1"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1006" id="1006">
+        <name>rhel_7_ppc64</name>
+        <description>Red Hat Enterprise Linux 7.x</description>
+        <large_icon href="/api/icons/a9cf9feb-77fb-40d8-8dad-22cd60fce493" id="a9cf9feb-77fb-40d8-8dad-22cd60fce493"/>
+        <small_icon href="/api/icons/673d6c7d-a593-4e8c-b67d-c443844b3c4b" id="673d6c7d-a593-4e8c-b67d-c443844b3c4b"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/25" id="25">
+        <name>windows_2012R2x64</name>
+        <description>Windows 2012R2 x64</description>
+        <large_icon href="/api/icons/058dd930-2f39-4130-9efe-5015594f14a2" id="058dd930-2f39-4130-9efe-5015594f14a2"/>
+        <small_icon href="/api/icons/0a193c31-438b-4793-873f-b5b025ee27e1" id="0a193c31-438b-4793-873f-b5b025ee27e1"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/24" id="24">
+        <name>rhel_7x64</name>
+        <description>Red Hat Enterprise Linux 7.x x64</description>
+        <large_icon href="/api/icons/b4c5e01a-b61e-4dfc-b5d4-bed305aa6802" id="b4c5e01a-b61e-4dfc-b5d4-bed305aa6802"/>
+        <small_icon href="/api/icons/673d6c7d-a593-4e8c-b67d-c443844b3c4b" id="673d6c7d-a593-4e8c-b67d-c443844b3c4b"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/27" id="27">
+        <name>windows_10x64</name>
+        <description>Windows 10 x64</description>
+        <large_icon href="/api/icons/210eccd0-e40a-488c-b0e7-975129bcd268" id="210eccd0-e40a-488c-b0e7-975129bcd268"/>
+        <small_icon href="/api/icons/dc93fda8-c6ed-4bd7-8e6e-d9423952f3b5" id="dc93fda8-c6ed-4bd7-8e6e-d9423952f3b5"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/26" id="26">
+        <name>windows_10</name>
+        <description>Windows 10</description>
+        <large_icon href="/api/icons/148d175f-bc51-4136-a85b-b6d5df975b12" id="148d175f-bc51-4136-a85b-b6d5df975b12"/>
+        <small_icon href="/api/icons/5f8bceee-71ce-4665-8104-bc868d92480c" id="5f8bceee-71ce-4665-8104-bc868d92480c"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1255" id="1255">
+        <name>ubuntu_13_10</name>
+        <description>Ubuntu Saucy Salamander</description>
+        <large_icon href="/api/icons/b415d06d-9ebd-4db1-91a8-0be4b91ebe7d" id="b415d06d-9ebd-4db1-91a8-0be4b91ebe7d"/>
+        <small_icon href="/api/icons/08e0268d-1d29-4609-87d7-2101e39dcbb5" id="08e0268d-1d29-4609-87d7-2101e39dcbb5"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1254" id="1254">
+        <name>ubuntu_13_04</name>
+        <description>Ubuntu Raring Ringtails</description>
+        <large_icon href="/api/icons/5cf3e2cf-1f60-43cf-ab0c-e20c5b9140f3" id="5cf3e2cf-1f60-43cf-ab0c-e20c5b9140f3"/>
+        <small_icon href="/api/icons/295ce8a2-3f75-4ab8-911f-ef6f89f3234d" id="295ce8a2-3f75-4ab8-911f-ef6f89f3234d"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1253" id="1253">
+        <name>ubuntu_12_10</name>
+        <description>Ubuntu Quantal Quetzal</description>
+        <large_icon href="/api/icons/fa867707-0914-4405-a87a-d3549c2329ed" id="fa867707-0914-4405-a87a-d3549c2329ed"/>
+        <small_icon href="/api/icons/3a8eaa56-2a80-4053-b736-cd247131a23b" id="3a8eaa56-2a80-4053-b736-cd247131a23b"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1252" id="1252">
+        <name>ubuntu_12_04</name>
+        <description>Ubuntu Precise Pangolin LTS</description>
+        <large_icon href="/api/icons/30db59e4-62cc-4142-857d-7a0bc92d68d3" id="30db59e4-62cc-4142-857d-7a0bc92d68d3"/>
+        <small_icon href="/api/icons/7bf1c98a-e2e4-4290-a3b5-8ac1a2e8bd64" id="7bf1c98a-e2e4-4290-a3b5-8ac1a2e8bd64"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1193" id="1193">
+        <name>sles_11</name>
+        <description>SUSE Linux Enterprise Server 11</description>
+        <large_icon href="/api/icons/56ecd832-7a11-4bf0-9afb-7a3a2b54efb3" id="56ecd832-7a11-4bf0-9afb-7a3a2b54efb3"/>
+        <small_icon href="/api/icons/ef709529-51e6-440e-95bf-9465a74112b8" id="ef709529-51e6-440e-95bf-9465a74112b8"/>
+    </operating_system>
+    <operating_system href="/api/operatingsystems/1256" id="1256">
+        <name>ubuntu_14_04</name>
+        <description>Ubuntu Trusty Tahr LTS</description>
+        <large_icon href="/api/icons/387aa324-ba3a-40b6-bd99-653bfb3e9e43" id="387aa324-ba3a-40b6-bd99-653bfb3e9e43"/>
+        <small_icon href="/api/icons/39216915-ed55-430f-a494-2c456c428aac" id="39216915-ed55-430f-a494-2c456c428aac"/>
+    </operating_system>
+</operating_systems>

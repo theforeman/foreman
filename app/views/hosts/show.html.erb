@@ -1,0 +1,116 @@
+<% javascript 'charts', 'hosts' %>
+<% title @host.to_label, icon(@host.operatingsystem) + @host.to_label %>
+<%= host_title_actions(@host) %>
+<% content_for(:search_bar) {reports_show} %>
+<div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>
+  <div class="col-md-4">
+    <table id="details_table" class="<%= table_css_classes %>">
+      <thead>
+        <tr>
+          <th><%= _('Details') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <% show_appropriate_host_buttons(@host).each do |btn| %>
+              <%= btn %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
+      <li><a href="#metrics" data-toggle="tab"><%= _('Metrics') %></a></li>
+      <% if SETTINGS[:unattended] && @host.managed? %>
+        <li><a href="#template" data-toggle="tab"><%= _('Templates') %></a></li>
+      <% end %>
+      <%  if @host.compute_resource_id %>
+        <li><a href="#vm" data-toggle="tab"><%= _('VM') %></a></li>
+      <% end %>
+      <% if @host.bmc_available? %>
+        <li><a href="#bmc" data-toggle="tab"><%= _('BMC') %></a></li>
+      <% end %>
+      <li><a href="#nics" data-toggle="tab"><%= _('NICs') %></a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host)%>'>
+        <%= spinner(_('Loading host information ...')) %>
+      </div>
+      <div class="tab-pane" id="metrics">
+        <% if @report_summary.size == 0 %>
+          <%= alert :class => 'alert-warning', :header => '',
+            :text => _('No puppet activity for this host in the last %s days') % @range %>
+        <% else %>
+          <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
+        <% end %>
+      </div>
+      <% if SETTINGS[:unattended] && @host.managed? %>
+        <div class="tab-pane" id="template" data-ajax-url='<%= templates_host_path(@host)%>'>
+          <%= spinner(_('Loading template information ...')) %>
+        </div>
+      <% end %>
+      <%  if @host.compute_resource_id %>
+        <div class="tab-pane" id="vm" data-ajax-url='<%= vm_host_path(@host)%>' data-on-complete='setPowerState'>
+        <%= spinner(_('Loading VM information ...')) %>
+        </div>
+      <% end %>
+      <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>' data-on-complete='onContentLoad'>
+        <%= spinner(_('Loading NICs information ...')) %>
+      </div>
+      <% if @host.bmc_available? %>
+        <div id="bmc" class="tab-pane" data-ajax-url='<%= bmc_host_path(@host) %>' data-on-complete='setPowerState'>
+          <%= spinner(_('Loading BMC information ...')) %>
+        </div>
+      <% end %>
+       </div>
+    </div>
+
+  <div class="col-md-8">
+    <div class="stats-well">
+      <h4 class="ca"><%= _("Runtime") %></h4>
+      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
+      <div class="chart" data-ajax-url='<%= runtime_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
+        <%= spinner(_('Loading runtime information ...')) %>
+      </div>
+    </div>
+    <div class="stats-well">
+      <h4 class="ca"><%= _("Resources") %></h4>
+      <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
+      <div class="chart" data-ajax-url='<%= resources_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
+        <%= spinner(_('Loading resources information ...')) %>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="review_before_build" class="modal fade hide">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <%= alert_close('modal') %>
+        <h4 class="modal-title"><%= _('Review build status for %s') % @host %></h4>
+      </div>
+      <div class="modal-body">
+        <%= alert(:header => _('Warning: This will delete this host and all of its data!'),
+                  :text   => _("This host's stored facts and reports will be deleted too."),
+                  :close  => false,
+                  :class => 'alert-warning'
+                 ) %>
+        <div class="loading"><%= spinner %></div>
+        <div id="build_status"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="processing_message" class="modal fade hide">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <%= alert_close('modal') %>
+        <%= spinner %>
+      </div>
+      <div class="modal-body"><%= _('Please wait while your request is being processed') %></div>
+    </div>
+  </div>
+</div>

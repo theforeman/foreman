@@ -1,0 +1,29 @@
+<%= form_for @realm, :url => (@realm.new_record? ? realms_path : realm_path(:id => @realm)) do |f| %>
+  <%= base_errors_for @realm %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Realm") %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="primary">
+      <%= text_f   f, :name, :help_inline => _("Realm name, e.g. EXAMPLE.COM") %>
+      <%= select_f f, :realm_type, Realm::TYPES, :to_s, :to_s, { },
+          {:label => _("Realm type"), :help_inline => _("Type of realm, e.g. FreeIPA")}
+      %>
+       <%= select_f f, :realm_proxy_id, SmartProxy.with_features("Realm"), :id, :name,
+           { }, {:label => _("Realm proxy"), :help_inline => _("Realm proxy to use within this realm")}
+      %>
+    </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @realm %>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

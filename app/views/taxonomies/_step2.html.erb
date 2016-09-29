@@ -1,0 +1,19 @@
+<% taxonomy_type = taxonomy_single %>
+
+<%= form_for taxonomy do |f| %>
+  <%= base_errors_for taxonomy %>
+    <%= wizard_header 2, _("Create %s") % taxonomy_title, _("Select Hosts"), _("Edit Properties") %>
+
+  <% if @count_nil_hosts > 0 %>
+    <%= alert :class => 'alert-info',
+              :text => _("Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using.") % {:taxonomy_name => taxonomy.name }%>
+    <%=  option_button _("Assign All"), assign_all_hosts_taxonomy_path(taxonomy), :class => 'btn btn-success',:method => :post,
+                       :help_inline => n_("Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}", "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}", @count_nil_hosts) %
+                           { :count => @count_nil_hosts, :taxonomy_single => taxonomy_type, :taxonomy_name => taxonomy.name } %>
+    <%=  option_button _("Manually Assign"), assign_hosts_taxonomy_path(taxonomy), :class => 'btn btn-default',
+                       :help_inline => _("Manually select and assign hosts with no %s") % taxonomy_type %>
+    <%=  option_button(_("Proceed to Edit"), edit_taxonomy_path(taxonomy), :class => 'btn btn-default',
+                       :help_inline => _("Skip assign hosts and proceed to edit %s settings") % taxonomy_type)%>
+  <% end %>
+
+<% end %>

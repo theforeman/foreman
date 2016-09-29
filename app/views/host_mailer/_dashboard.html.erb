@@ -1,0 +1,24 @@
+<table class="center" >
+  <tbody>
+    <tr>
+      <td class="dashboard">
+        <%= (n_('<b style="color: #6bb5df;">%{hosts_sum}</b>
+               <p>Changed</p>',
+              '<b style="color: #6bb5df;">%{hosts_sum}</b>
+               <p>Changed</p>', hosts_sum) % { :hosts_sum => hosts_sum }).html_safe %>
+      </td>
+      <td class="dashboard">
+        <%= (n_('<b style="color: #6bb5df;">%{out_of_sync_sum}</b>
+               <p>Out of sync</p>',
+              '<b style="color: #6bb5df;">%{out_of_sync_sum}</b>
+               <p>Out of sync</p>', out_of_sync_sum) % { :out_of_sync_sum => out_of_sync_sum }).html_safe %>
+      </td>
+      <td class="dashboard">
+        <%= (n_('<b style="color: #6bb5df;">%{disabled_sum}</b>
+               <p>Disabled</p>',
+              '<b style="color: #6bb5df;">%{disabled_sum}</b>
+               <p>Disabled</p>', disabled_sum) % { :disabled_sum => disabled_sum }).html_safe %>
+      </td>
+    </tr>
+  </tbody>
+</table>

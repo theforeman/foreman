@@ -1,0 +1,32 @@
+<tr>
+  <% unless params[:host_id] -%>
+      <td class="ellipsis">
+        <% if fact.host -%>
+            <%= link_to(fact.host, host_facts_path(:host_id => fact.host)) %>
+        <% else -%>
+            <%= _('N/A') %>
+        <% end %>
+      </td>
+  <% end %>
+  <td>
+    <%= fact_name(fact, parent) %>
+  </td>
+  <td class="fact-col">
+    <% unless fact.compose %>
+      <% allowed_length = 45 %>
+      <%= link_to truncate(fact.value, :length => allowed_length),
+                  fact_values_path("search" => "facts.#{fact.name} = \"#{fact.value}\""),
+                  :title => _("Show all %s facts with the same value") % fact.name,
+                  :class => 'pull-left' %>
+      <%= show_full_fact_value(fact.value) if fact.value.length > allowed_length %>
+    <% end %>
+  </td>
+  <td class='fact-origin'><%= fact_origin_icon(fact.origin) %></td>
+  <td><%= fact_from fact %></td>
+  <td><% unless fact.compose %>
+          <%= link_to_function(content_tag(:button, icon_text("adjust", "")),
+                               "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')",
+                               :title => _("Show distribution chart")) %>
+      <% end %>
+  </td>
+</tr>

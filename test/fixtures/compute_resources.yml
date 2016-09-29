@@ -1,0 +1,82 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: bigcompute
+  description: MyString
+  url: qemu://stam/system
+  user: MyString
+  password: encrypted-NEN1YVJtdWdaaTdlOHdiUXRHd29nWUZsOHc1UjdMb3p1MFZLenlLekFEbz0tLVA0MGVzUEorUDlJZHVUV2F6azUzUEE9PQ==--9f45d5c88ec582eeb48ebb906ae0a66345ded0fa
+  uuid: MyString
+  type: Foreman::Model::Libvirt
+
+mycompute:
+  name: mycompute
+  description: mycompute
+  url: test:///default  # test hypervisor URI needed to try listing vms
+  user: MyString
+  password: encrypted-QU5oNkZVSkRRTW81U2hSemhqcU1mdFpYM0FXUEpVZndseWl2NERvS0laWT0tLWpsU295K0kxcWNLT2g1WTRrcC9TVXc9PQ==--5936541f0bda1b2262bb610340facf3c3880bdd0
+  uuid: mycompute
+  type: Foreman::Model::Libvirt
+
+yourcompute:
+  name: yourcompute
+  description: yourcompute
+  url: test:///default
+  user: MyString
+  password: 1234567
+  uuid: yourcompute
+  type: Foreman::Model::Libvirt
+
+openstack:
+  name: openstackcr
+  description: computeresource
+  url: test:///default/v2.0
+  user: MyString
+  password: 1234567
+  uuid: yourcompute
+  type: Foreman::Model::Openstack
+
+ec2:
+  name: amazon123
+  description: yourcompute
+  url: eu-west-1
+  user: MyString
+  password: MyString
+  uuid: 234234234324
+  type: Foreman::Model::EC2
+
+ec2-another:
+  name: another-ec2
+  description: yourcompute
+  url: eu-west-1
+  user: MyString
+  password: MyString
+  uuid: 234234234324
+  type: Foreman::Model::EC2
+
+gce:
+  name: gce123
+  description: yourcompute
+  url: us-central1-a
+  user: MyString
+  password: MyString
+  uuid: 78787878787
+  type: Foreman::Model::GCE
+
+ovirt:
+  name: Ovirt
+  description: ovirt resource
+  url: https://myovirt/api
+  user: MyString
+  password: 12345
+  uuid: 1234567891011
+  type: Foreman::Model::Ovirt
+
+vmware:
+  name: Vmware
+  description: vmware resource
+  url: https://myvmware/api
+  user: MyString
+  password: 123456
+  uuid: 1234567891011
+  type: Foreman::Model::Vmware

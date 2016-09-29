@@ -1,0 +1,90 @@
+<%= javascript 'host_edit', 'host_edit_interfaces', 'class_edit' %>
+<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id), :submit => 'progress_bar' }} do |f| %>
+  <%= base_errors_for @hostgroup %>
+
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
+    <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
+    <% if SETTINGS[:unattended] %>
+      <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
+      <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
+    <% end %>
+    <li><a href="#params" id='params-tab' data-url='' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _('Organizations') %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="primary">
+      <%= select_f(f, :parent_id, parent_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
+                      :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
+                      :help_inline => :indicator }) if show_parent?(@hostgroup) %>
+      <%= text_f f, :name %>
+      <%= hostgroup_puppet_environment_field f %>
+      <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
+                       { :include_blank => blank_or_inherit_f(f, :compute_profile) },
+                       { :label => _("Compute profile") }
+                  ) if ComputeProfile.visibles.exists? %>
+      <%= puppet_master_fields f %>
+    </div>
+
+    <%= puppetclasses_tab(@hostgroup) %>
+
+    <div class="tab-pane" id="network">
+      <fieldset>
+        <%= select_f f, :domain_id, accessible_resource(@hostgroup, :domain), :id, :to_label, {:include_blank => blank_or_inherit_f(f, :domain)},
+          {:help_inline => :indicator, :label => _("Domain"),
+           :onchange => 'interface_domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
+        <%= select_f f, :subnet_id, domain_subnets(:"Subnet::Ipv4"), :id, :to_label,
+                     { :include_blank => domain_subnets(:"Subnet::Ipv4").any? ? blank_or_inherit_f(f, :subnet) : _("No subnets") },
+                     { :disabled => domain_subnets(:"Subnet::Ipv4").empty?,
+                       :data     => { :url     => SETTINGS[:unattended] ? freeip_subnets_path : '',
+                                      :subnets => subnets_ipam_data(:"Subnet::Ipv4").to_json },
+                       :label    => _("IPv4 Subnet"),
+                       :help_inline => :indicator } %>
+        <%= select_f f, :subnet6_id, domain_subnets(:"Subnet::Ipv6"), :id, :to_label,
+                     { :include_blank => domain_subnets(:"Subnet::Ipv6").any? ? blank_or_inherit_f(f, :subnet6) : _("No subnets") },
+                     { :disabled => domain_subnets(:"Subnet::Ipv6").empty?,
+                       :label    => _("IPv6 Subnet"),
+                       :help_inline => :indicator } %>
+        <%= select_f f, :realm_id, accessible_resource(@hostgroup, :realms), :id, :to_label,
+                        {:include_blank => blank_or_inherit_f(f, :realm)}, {:label => _("Realm")} %>
+      </fieldset>
+    </div>
+
+    <div class="tab-pane" id="os">
+      <%= render "common/os_selection/initial", :item=> @hostgroup %>
+      <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more").html_safe, :unset => action_name == "edit" %>
+    </div>
+
+    <div class="tab-pane" id="params">
+
+      <fieldset>
+        <h2><%= _('Puppet class parameters') %></h2>
+        <%= render 'puppetclasses/classes_parameters', :obj => @hostgroup  %>
+      </fieldset>
+      <br/>
+      <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+        <fieldset>
+          <h2><%= _('Global parameters') %></h2>
+          <% if @hostgroup.parent.present? %>
+              <h4><%= _('Parent parameters') %></h4>
+              <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @hostgroup.parent_params(true), :parameters => @hostgroup.group_parameters } %>
+          <% end %>
+          <h4><%= _('Host group parameters') %></h4>
+          <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
+        </fieldset>
+      <% end %>
+    </div>
+
+    <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>
+  </div>
+
+  <%= f.hidden_field :id %>
+  <%= submit_or_cancel f %>
+<% end %>

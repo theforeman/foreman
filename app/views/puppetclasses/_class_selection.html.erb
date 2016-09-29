@@ -1,0 +1,53 @@
+  <% if obj.errors[:puppetclasses].any? %>
+    <%= alert :class => "alert-block alert-danger base in fade has-error",
+              :text => obj.errors[:puppetclasses].map { |e| "<li>#{e}</li>" }.join.html_safe %>
+  <% end %>
+
+  <%= render("config_groups/config_groups_selection", :obj => obj, :type => obj_type(obj)) if (controller_name != 'config_groups' && accessible_resource_records(:config_group).exists?) %>
+
+<div class="row">
+  <div class="col-md-4 classes">
+    <h3><%= _('Included Classes') %></h3>
+
+    <%= hidden_field_tag "#{type}[puppetclass_ids][]" %>
+
+    <ul id="selected_classes">
+      <% if authorized_for(:controller => :host_editing, :action => :edit_classes) %>
+        <%= render :partial => "puppetclasses/selectedClasses",
+          :collection => obj.individual_puppetclasses ,:as => :klass, :locals => { :type => obj_type(obj), :host => obj } %>
+        <% unless controller_name == 'config_groups' %>
+            <%= render :partial => "puppetclasses/classes_in_groups",
+          :collection => obj.classes_in_groups ,:as => :klass, :locals => { :type => obj_type(obj), :obj => obj } %>
+        <% end %>
+      <% else %>
+        <% obj.puppetclasses.each do |klass| %>
+          <li data-original-title="<%= _('Not authorized to edit classes') %>" rel="twipsy" ><%= h klass.name %></li>
+        <% end %>
+      <% end %>
+    </ul>
+
+    <% if (obj.kind_of?(Host::Base) && obj.hostgroup) || (obj.kind_of?(Hostgroup) && obj.parent) %>
+      <%= content_tag(:ul, :id => 'inherited_ids', :'data-inherited-puppetclass-ids' => obj.parent_classes.map(&:id).to_json) do %>
+        <% obj.parent_classes.each do |klass| %>
+          <li data-original-title="<%= _('included already from parent') %>" rel="twipsy" style='color:black;'><%= h klass.name %></li>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="col-md-8 available_classes">
+    <h3><%= _('Available Classes') %></h3>
+    <div class='clearfix'>
+      <div class='form-group col-md-6'>
+        <input placeholder="<%= _('Filter classes') %>" class="form-control" onkeyup="filter_puppet_classes(this);" type='text'>
+      </div>
+    </div>
+    <div class="row">
+      <%= render "puppetclasses/classes",
+        :puppetclasses => obj.available_puppetclasses,
+        :selected_puppet_classes => (obj.classes + obj.puppetclasses).uniq,
+        :type => obj_type(obj)
+      %>
+    </div>
+  </div>
+</div>

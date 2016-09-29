@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: "foo"
+  query: "foo=boo"
+  public: true
+  controller: "hosts"
+
+two:
+  name: "bar"
+  query: "bar=car"
+  public: false
+  controller: "hosts"

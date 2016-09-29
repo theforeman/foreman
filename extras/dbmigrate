@@ -1,0 +1,17 @@
+#!/bin/sh
+USERNAME=$(/usr/bin/id -un)
+WANTED_USER=${1:-'foreman'}
+RAKE_CMD=/usr/bin/rake
+BUNDLER_CMD=""
+
+die() {
+  echo $*; exit 1
+}
+
+if [ $USERNAME = $WANTED_USER ]; then
+  cd || die "Cannot change to home directory"
+  [ -f Gemfile ] && BUNDLER_CMD="bundle exec"
+  $BUNDLER_CMD $RAKE_CMD db:migrate RAILS_ENV=production
+else
+  die "$0 has to be run as user ${WANTED_USER}!"
+fi

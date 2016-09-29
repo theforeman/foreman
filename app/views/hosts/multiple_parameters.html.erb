@@ -1,0 +1,11 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<% if @parameters.empty? %>
+  <%= _('Sorry, these hosts do not have parameters assigned to them, you must add them first.') %>
+<% else %>
+  <%= form_tag update_multiple_parameters_hosts_path({:host_ids => params[:host_ids]}) do %>
+    <% for param in @parameters %>
+      <%= text_field :name, param.name, :size => "col-md-8", :placeholder => param.name %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,20 @@
+<%= fields_for item do |f| %>
+  <%= select_f f, :medium_id, os_media, :id, :to_label,
+    {:include_blank => blank_or_inherit_f(f, :medium), :selected => item.medium_id},
+    {:label => _("Media"), :disabled => os_media.empty?,
+     :help_inline => :indicator, :onchange => 'medium_selected(this);', :'data-url' =>  method_path('medium_selected'),
+     :'data-type' => controller_name.singularize, :required => true }
+  %>
+  <%= select_f f, :ptable_id, os_ptable, :id, :to_label,
+    {:include_blank => blank_or_inherit_f(f, :ptable), :selected => item.ptable_id},
+    {:label => _("Partition table"), :disabled => os_ptable.empty?, :required => true}
+  %>
+
+  <% if @operatingsystem && @operatingsystem.supports_image %>
+    <%= render "common/os_selection/image_details", {:item => item} %>
+  <% end %>
+
+  <% if @operatingsystem && @operatingsystem.available_loaders.count > 0 %>
+    <%= render "common/os_selection/pxe_loader", {:item => item} %>
+  <% end %>
+<% end %>

@@ -1,0 +1,132 @@
+<%= javascript 'hosts', 'host_edit', 'host_edit_interfaces', 'class_edit', 'compute_resource' %>
+<%= render "hosts/dhcp_lease_errors" if has_dhcp_lease_errors?(@host.errors) %>
+<%= render "hosts/conflicts" if (!has_dhcp_lease_errors?(@host.errors) && has_conflicts?(@host.errors)) %>
+<%= render "hosts/progress" %>
+
+<% Taxonomy.as_taxonomy @organization , @location do %>
+
+  <%= form_for @host,  :html => {:data => {:id => @host.try(:id), :type_changed => @host.type_changed?, :submit => 'progress_bar'}} do |f| %>
+    <%= base_errors_for @host %>
+
+    <ul class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
+      <% if accessible_puppet_proxies(@host).present? %>
+        <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
+      <% end %>
+      <li id="network_tab" data-refresh-url="<%= interfaces_hosts_path %>"><a href="#network" data-toggle="tab"><%= _('Interfaces') %></a></li>
+      <% if SETTINGS[:unattended] and @host.managed %>
+        <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
+        <% if authorized_for(:controller => "Compute::Resources::Vms", :action => :create) %>
+          <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
+        <% end %>
+      <% end %>
+      <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+      <li><a href="#info" data-toggle="tab"><%= _('Additional Information') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="primary">
+        <%= text_f f, :name, :size => "col-md-4", :value => name_field(@host),
+            :input_group_btn => randomize_mac_link,
+            :help_inline => _("This value is used also as the host's primary interface name.") %>
+
+        <% if show_organization_tab?  %>
+          <%= host_taxonomy_select(f, Organization) %>
+        <% end %>
+
+        <% if show_location_tab? %>
+          <%= host_taxonomy_select(f, Location) %>
+        <% end %>
+
+        <%= select_f f, :hostgroup_id, accessible_resource(@host, :hostgroup, :title), :id, :to_label,
+          { :include_blank => true},
+          { :onchange => 'hostgroup_changed(this);',
+            :data => {
+              :'host-id' => @host.id,
+              :'url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path,
+              :'had-hostgroup' => !!@host.hostgroup_id_was
+            },
+            :help_inline => :indicator } %>
+
+        <%= select_f f, :compute_resource_id, accessible_resource(@host, :compute_resource), :id, :to_label,
+          { :include_blank => _('Bare Metal') },
+          {:label => _('Deploy on'), :disabled => !@host.new_record?, :'data-url' => compute_resource_selected_hosts_path,
+            :onchange => 'computeResourceSelected(this);',
+            :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
+
+        <% if @host.new_record? && ComputeProfile.visibles.exists? %>
+        <%# only show compute_profile select box for new hosts. It is not relevant for existing hosts as the VM attributes defined could
+         be different from the defaults, or the defaults could have changed after the vm was created. %>
+        <div id="compute_profile" <%= display?(!@host.compute_resource_id) %> >
+          <%= select_f f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
+            { :include_blank => true,
+              :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
+              :disable_button_enabled => inherited_by_default?(:compute_profile_id, @host),
+              :user_set => user_set?(:compute_profile_id)
+            },
+            { :label => _("Compute profile"), :'data-url' => compute_resource_selected_hosts_path,
+              :onchange => 'computeResourceSelected(this);',
+              :help_inline => :indicator } if SETTINGS[:unattended] %>
+        </div>
+        <% end %>
+
+        <%= host_puppet_environment_field f %>
+
+        <%= puppet_master_fields f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+
+        <%= realm_field f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+
+      </div>
+
+      <%= puppetclasses_tab(@host) %>
+
+      <%= f.hidden_field :managed %>
+      <%= f.hidden_field :progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)} %>
+      <%= f.hidden_field :type, :value => @host.type if @host.type_changed? %>
+
+      <div class="tab-pane"  id="network">
+        <%= render 'hosts/interfaces', :host => @host, :f => f %>
+      </div>
+
+      <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed %>
+
+      <div class="tab-pane"  id="params">
+        <fieldset>
+          <h2><%= _('Puppet class parameters') %></h2>
+          <%= render "puppetclasses/classes_parameters", :obj => @host %>
+        </fieldset>
+        <br/>
+        <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+          <fieldset>
+            <h2><%= _('Global parameters') %></h2>
+            <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters } %>
+            <h2><%= _('Host parameters') %></h2>
+            <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
+          </fieldset>
+        <% end %>
+      </div>
+
+      <div class="tab-pane"  id="info">
+        <% if SETTINGS[:login] %>
+          <%= selectable_f f, :is_owned_by, option_groups_from_collection_for_select(
+            [User.authorized(:view_users), Usergroup.authorized(:view_usergroups)], :visible, :table_name, :id_and_type, :select_title,
+            @host.is_owned_by || User.current.id_and_type), { :include_blank => _("select an owner") }, { :label => _("Owned By") }
+          %>
+        <% end %>
+        <%= checkbox_f f, :enabled,
+          :help_inline => _("Include this host within Foreman reporting")
+        %>
+        <div id='model_name'>
+          <%= select_f f, :model_id, accessible_resource(@host, :model), :id, :to_label, { :include_blank => true }, {:label => _("Hardware Model")} unless @host.compute_resource_id%>
+        </div>
+        <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3", :class => "no-stretch" %>
+      </div>
+
+    </div>
+
+    <%= hidden_field_tag 'bare_metal_capabilities', @host.bare_metal_capabilities %>
+    <%= f.hidden_field :overwrite? %>
+    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => @host.new_record? || !@host.name_changed? ? @host : edit_host_path(@host.name_was) %>
+  <% end %>
+<% end %>

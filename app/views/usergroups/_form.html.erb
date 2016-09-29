@@ -1,0 +1,62 @@
+<%= form_for @usergroup do |f| %>
+  <%= base_errors_for @usergroup %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("User group") %></a></li>
+    <li><a href="#roles" data-toggle="tab"><%= _("Roles") %></a></li>
+    <% if AuthSource.non_internal.present? %>
+      <li><a href="#external" data-toggle="tab"><%= _("External groups") %></a></li>
+    <% end %>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name %>
+      <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
+      <%= multiple_checkboxes f, :users, @usergroup, User.except_hidden, :label => _("Users") %>
+    </div>
+    <div class="tab-pane" id="roles">
+      <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
+      <%= multiple_checkboxes f, :roles, @usergroup, Role.givable.for_current_user, {:label => _('Roles')} %>
+    </div>
+    <% if AuthSource.non_internal.present? %>
+      <div class="tab-pane" id="external">
+        <table class="<%= table_css_classes('table-two-pane table-hover')%>">
+          <thead>
+            <tr>
+              <th><%= s_("Usergroup|Name") %></th>
+              <th><%= s_("Usergroup|Auth source") %></th>
+              <th><%= _('Actions') %></th>
+            </tr>
+          </thead>
+          <tbody><% @usergroup.external_usergroups.each do |usergroup| %>
+              <tr>
+                <% next if usergroup.id.nil? %>
+                <td><%= h usergroup.name %></td>
+                <td><%= h usergroup.auth_source %></td>
+                <td><%= display_link_if_authorized(_('Refresh'),
+                                                         hash_for_refresh_external_usergroup_path(:id => usergroup),
+                                                         :method => :put, :id => usergroup.id,
+                                                         :class => "btn btn-default", :title => _('Synchronize group from authentication source')) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <button class='btn btn-info' type='button'
+          onclick="$('#current_external_usergroups').toggle();"><%= _("Show linked external user groups") %></button>
+        <hr>
+        <% invalid_external_groups = @usergroup.external_usergroups.any? { |e| e.errors.present? } %>
+        <div style='<%= invalid_external_groups ? '' : 'display:none' %>' id='current_external_usergroups'>
+          <%= f.fields_for :external_usergroups do |ug| %>
+            <%= render 'external', :f => ug %>
+          <% end %>
+          <hr>
+        </div>
+        <div class="children_fields">
+          <%= new_child_fields_template(f, :external_usergroups, { :partial => 'external' } ) %>
+          <%= add_child_link '+ ' + _('Add external user group'), :external_usergroups, { :class => "info", :title => _('link external user group with this user group') } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= submit_or_cancel f %>
+<% end %>

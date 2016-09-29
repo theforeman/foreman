@@ -1,0 +1,29 @@
+<%
+if params[:host_id].present?
+  title(_("Fact Values | %{host_name}") % {:host_name => params[:host_id]})
+else
+  title(_("Fact Values"))
+end
+%>
+<% title_actions documentation_button('3.5.5FactsandtheENC') %>
+
+<table class="<%= table_css_classes('table-fixed') %>">
+  <thead>
+    <tr>
+      <% unless params[:host_id] %>
+        <th class="col-md-2"><%= sort :host, :as => _("Host") %></th>
+      <% end %>
+      <th><%= sort :name, :as => _("Name")  %></th>
+      <th><%= sort :value, :as => s_("FactValue|Value") %></th>
+      <th class="fact-origin"><%= sort :origin, :as => s_("FactValue|Origin") %></th>
+      <th class="col-md-2"><%= _('Reported at') %></th>
+      <th class="col-md-1"><%= _('Actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => 'fact', :collection => @fact_values,
+               :locals  => { :parent => @parent } %>
+  </tbody>
+</table>
+
+<%= will_paginate_with_info @fact_values %>

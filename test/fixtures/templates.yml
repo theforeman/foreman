@@ -1,0 +1,95 @@
+mystring:
+  name: MyString
+  template: MyText
+  template_kind: ipxe
+  operatingsystems: centos5_3, redhat
+  locked: false
+  type: ProvisioningTemplate
+
+myscript:
+  name: MyScript
+  template: MyText
+  template_kind: script
+  operatingsystems: centos5_3, redhat
+  locked: false
+  type: ProvisioningTemplate
+
+mystring2:
+  name: MyString2
+  template: provision script <%%= foreman_url("finish") %> static:<%%= @static.inspect %>
+  template_kind: provision
+  operatingsystems: centos5_3, redhat, ubuntu1010
+  locked: false
+  type: ProvisioningTemplate
+
+myfinish:
+   name: MyFinish
+   template: MyFinish
+   template_kind: finish
+   operatingsystems: centos5_3, redhat, ubuntu1010
+   locked: false
+   type: ProvisioningTemplate
+
+pxekickstart:
+    name: centos5_3_pxelinux
+    template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+    template_kind: pxelinux
+    operatingsystems: centos5_3, redhat, ubuntu1010
+    locked: false
+    type: ProvisioningTemplate
+
+pxeautoyast:
+    name: suse_pxelinux
+    template: DEFAULT linux~LABEL linux~KERNEL <%%= @kernel %>~APPEND initrd=<%%= @initrd %> ramdisk_size=65536 install=<%%= @mediapath %> autoyast=<%%= foreman_url('provision') %> textmode=1
+    template_kind: pxelinux
+    operatingsystems: opensuse
+    locked: false
+    type: ProvisioningTemplate
+
+pxe_menu:
+   name: PXE Default Menu
+   template: "FOO"
+   template_kind: PXELinux
+   operatingsystems: centos5_3
+   locked: false
+   type: ProvisioningTemplate
+
+pxe_default:
+   name: PXELinux global default
+   template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ksdevice=bootif network kssendmac
+   template_kind: pxelinux
+   operatingsystems: centos5_3, redhat
+   locked: false
+   type: ProvisioningTemplate
+
+pxe_local_default:
+   name: PXELinux default local boot
+   template: DEFAULT menu~PROMPT 0~MENU TITLE PXE Menu~TIMEOUT 200~TOTALTIMEOUT 6000~ONTIMEOUT local~~LABEL local~MENU LABEL (local)~MENU DEFAULT~LOCALBOOT 0
+   template_kind: pxelinux
+   operatingsystems: centos5_3, redhat
+   locked: false
+   type: ProvisioningTemplate
+
+ipxe:
+   name: iPXE Dummy Menu
+   template: "FOO"
+   template_kind: ipxe
+   operatingsystems: centos5_3
+   locked: false
+   type: ProvisioningTemplate
+
+pxegrub:
+   name: PXEGrub Dummy Menu
+   template: "FOO"
+   template_kind: pxegrub
+   operatingsystems: centos5_3, redhat
+   locked: false
+   type: ProvisioningTemplate
+
+locked:
+  name: Locked Template
+  template: provision script
+  template_kind: provision
+  operatingsystems: centos5_3
+  locked: true
+  type: ProvisioningTemplate

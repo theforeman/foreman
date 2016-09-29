@@ -1,0 +1,40 @@
+<% if is_template %>
+  <table>
+<% end %>
+<tr class="fields matchers form-group <%= 'has-error' if f.object.errors.any? %>">
+  <td>
+    <%= f.hidden_field :match, :class => 'match' %>
+    <div class="matcher-group">
+    <%= select_tag '', nil, :class => 'matcher_key without_select2' %>
+    <span> = </span>
+    <%= text_field_tag '', nil, :class => 'matcher_value' %>
+    </div>
+  </td>
+  <td>
+    <%= hidden_value_field(f, :value, f.object.omit, :value => f.object.value_before_type_cast, :'data-property' => 'value', :hidden_value => hidden_value) %>
+  </td>
+  <% if is_param %>
+    <td class="ca">
+      <%= f.check_box :omit, :'data-property' => 'omit',
+                      :disabled => !is_param,
+                      :onchange => 'toggleOmitValue(this, "value")' %>
+    </td>
+  <%end%>
+  <td>
+    <span class="help-block">
+      <%= link_to_remove_fields('', f) %>
+    </span>
+  </td>
+</tr>
+<% if f.object.errors.any? %>
+  <tr class="has-error">
+    <td colspan="5">
+      <span class="help-block">
+        <%= f.object.errors.full_messages.to_sentence %>
+      </span>
+    </td>
+  </tr>
+<% end %>
+<% if is_template %>
+  </table>
+<% end %>

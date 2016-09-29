@@ -1,0 +1,48 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+common:
+  name: test
+  value: myvalue
+  type: CommonParameter
+
+domain:
+  name: parameter
+  value: value1
+  type: DomainParameter
+  domain: mydomain
+
+host:
+  name: host1
+  value: host1
+  type: HostParameter
+  host: one
+
+group:
+  name: group1
+  value: group1
+  type: GroupParameter
+  hostgroup: common
+
+os:
+  name: os1
+  value: os1
+  type: OsParameter
+  operatingsystem: redhat
+
+location:
+  name: loc_param
+  value: abc
+  type: LocationParameter
+  location: location1
+
+org:
+  name: org_param
+  value: xyz
+  type: OrganizationParameter
+  organization: organization1
+
+subnet:
+  name: parameter
+  value: subnet1
+  type: SubnetParameter
+  subnet: five

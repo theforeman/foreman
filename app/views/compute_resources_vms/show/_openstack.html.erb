@@ -1,0 +1,27 @@
+<% title @vm.name %>
+<div class='col-md-12'>
+  <table class="<%= table_css_classes %>">
+    <thead>
+      <tr><th colspan="2"><%=_("Properties") %></th></tr>
+    </thead>
+    <tbody>
+      <%= prop :availability_zone %>
+      <% @vm.all_addresses.each do |address| %>
+        <tr>
+          <td><%= address["pool"] %>
+            network</td>
+          <td><%= address["ip"] %>
+            (floating),
+            <%= address["fixed_ip"] %>
+            (fixed ip)
+          </td>
+        </tr>
+      <% end %>
+      <%= prop :state %>
+      <%= prop :created_at %>
+      <%= prop :tenant %>
+      <%= prop :flavor_with_object, "Flavor" %>
+      <%= prop :security_groups, "Security Groups" %>
+    </tbody>
+  </table>
+</div>

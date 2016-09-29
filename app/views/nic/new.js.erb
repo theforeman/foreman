@@ -1,0 +1,9 @@
+<% if @interface.present? %>
+  <%= fields_for :host, Host::Base.new do |host| %>
+    <%= host.fields_for :interfaces, @interface, :child_index => @key do |interfaces| %>
+      $("#interfaceModal #host_interfaces_attributes_<%= @key %>_type").closest('fieldset').html(
+        '<%=j render :partial => @interface, :locals => {:f => interfaces} %>'
+      );
+    <% end %>
+  <% end %>
+<% end %>

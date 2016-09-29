@@ -1,0 +1,97 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #3f3f3f;
+  background-color: #f1f1f1;
+  padding: 10px 24px;
+}
+
+table {
+  min-width: 400px;
+  border: 1px solid #cccccc;
+  padding: 5px;
+  background-color: #ffffff;
+  border-collapse: collapse;
+  text-align: justify;
+  width: 100%;
+}
+
+table.center {
+  text-align: center;
+}
+
+th {
+  text-align: left;
+  border-collapse: collapse;
+  background: #f5f5f5;
+  background-image: linear-gradient(to bottom, #f5f5f5, #e8e8e8);
+  padding: 4px;
+  border: 1px solid #cccccc;
+}
+
+td.hosts-rows {
+  text-align: left;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  padding: 4px;
+  border: 1px solid #cccccc;
+}
+
+td.dashboard {
+  font-size: 125%;
+  width: 33%;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+div.dashboard {
+  background: #e1e2e3;
+  padding: 20px 40px;
+  margin: 5px 0px 10px;
+}
+
+td.dashboard  p{
+  font-weight: bold;
+  margin: 5px;
+  padding: 0px;
+}
+
+.hosts {
+  background: #fff;
+  padding: 10px 20px;
+  border: 1px solid #e1e2e3;
+}
+
+.host-list {
+    background: #fff;
+    margin: 5px 0px;
+    padding: 5px 20px;
+}
+
+.total {
+  background-color: #e1e2e3;
+  margin: 5px 0px;
+  padding: 0px;
+  line-height: 24px;
+}
+
+h2.headline {
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 120%;
+}
+
+.red-mark {
+  color: red;
+}
+
+ul.none {
+  list-style-type: none;
+}
+
+li.item {
+  margin: 5px 15px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  width: 70%;
+  font-size: 120%;
+}

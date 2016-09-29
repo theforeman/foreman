@@ -1,0 +1,118 @@
+<% title(_('Smart Proxy: %s') % @smart_proxy.to_label) %>
+<%= javascript 'proxy_status' %>
+<%= smart_proxy_title_actions(@smart_proxy, authorizer) %>
+<% service_features = services_tab_features(@smart_proxy) %>
+<% tab_features = tabbed_features(@smart_proxy) %>
+<div class="row proxy-show" data-url="<%= ping_smart_proxy_path(@smart_proxy) %>">
+  <ul id="proxy-tab" class="nav nav-tabs">
+    <li class="active"><a href="#properties" data-toggle="tab"><%= _('Overview') %></a></li>
+    <% if service_features.any? %>
+      <li><a href="#services" data-toggle="tab"><%= _('Services') %></a></li>
+    <% end %>
+    <% tab_features.each do |feature| %>
+      <li><a href="#<%= feature.parameterize %>" data-toggle="tab"><%= _(feature) %></a></li>
+    <% end %>
+    <%= render_tab_header_for(:main_tabs, :subject => @smart_proxy) %>
+  </ul>
+  <div id="proxy-tab-content" class="proxy-content tab-content">
+    <div class="tab-pane active in" id="properties">
+      <div class="col-md-6">
+        <div class="row">
+          <h3><%= _('Details') %></h3>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <%= _('Communication status') %>
+          </div>
+          <div class="col-md-8">
+            <span class="proxy-show-status">
+              <%= spinner %>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <%= _('URL') %>
+          </div>
+          <div class="col-md-8">
+            <%= @smart_proxy.url %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <%= _('Version') %>
+          </div>
+          <div class="col-md-8">
+            <span class="proxy-version" data-url="<%= ping_smart_proxy_path(@smart_proxy) %>">
+              <%= spinner %>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <%= _('Active features') %>
+          </div>
+          <div class="col-md-8">
+            <%= @smart_proxy.features.to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <%= _('Hosts managed') %>
+          </div>
+          <div class="col-md-8">
+            <%= link_to @smart_proxy.hosts_count, hosts_path(:search => "smart_proxy = \"#{@smart_proxy.name}\"") %>
+          </div>
+        </div>
+        <% if @smart_proxy.has_feature?('Logs') %>
+          <div class="row">
+            <div class="col-md-4">
+              <%= _('Failed features') %>
+            </div>
+            <div class="col-md-8">
+              <div class="tab-pane" id="failed-modules"
+                data-ajax-url="<%= failed_modules_smart_proxy_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></div>
+            </div>
+          </div>
+          <div class="container-fluid container-cards-pf">
+            <div class="row row-cards-pf">
+              <div id="ajax-errors-card" class="col-md-6" data-ajax-url="<%= errors_card_smart_proxy_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></div>
+              <div id="ajax-modules-card" class="col-md-6" data-ajax-url="<%= modules_card_smart_proxy_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></div>
+            </div>
+          </div>
+        <% end %>
+        <%= render_pagelets_for(:overview_content, :subject => @smart_proxy) %>
+      </div>
+      <div class="col-md-6">
+        <%= render_pagelets_for(:details_content, :subject => @smart_proxy) %>
+      </div>
+    </div>
+    <% if service_features.any? %>
+      <div class="tab-pane" id="services">
+        <div class="col-md-6">
+          <% service_features.each do |feature| %>
+            <% feature_erb = "smart_proxies/plugins/#{feature.parameterize('_')}" %>
+            <% if lookup_context.template_exists?(feature_erb, [], true) %>
+              <%= render :partial => feature_erb, :locals => {:feature => feature} %>
+            <% else %>
+              <%= render :partial => "smart_proxies/plugins/no_template", :locals => {:feature => feature} %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <% tab_features.each do |feature| %>
+      <div class="tab-pane" id="<%= feature.parameterize %>">
+        <% feature_erb = "smart_proxies/plugins/#{feature.parameterize('_')}" %>
+        <% if lookup_context.template_exists?(feature_erb, [], true) %>
+          <%= render :partial => feature_erb %>
+        <% else %>
+          <div class="col-md-12">
+            <%= render :partial => "smart_proxies/plugins/no_template", :locals => {:feature => feature} %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <%= render_tab_content_for(:main_tabs, :subject => @smart_proxy)%>
+  </div>
+</div>

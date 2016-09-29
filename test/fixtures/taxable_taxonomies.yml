@@ -1,0 +1,135 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "Subnet"
+
+two:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "SmartProxy"
+
+three:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "Subnet"
+
+four:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "SmartProxy"
+
+five:
+  taxonomy: location1
+  taxable: production
+  taxable_type: "Environment"
+
+six:
+  taxonomy: organization1
+  taxable: production
+  taxable_type: "Environment"
+
+seven:
+  taxonomy: location1
+  taxable: mydomain
+  taxable_type: "Domain"
+
+eight:
+  taxonomy: location1
+  taxable: yourdomain
+  taxable_type: "Domain"
+
+nine:
+  taxonomy: organization1
+  taxable: mydomain
+  taxable_type: "Domain"
+
+ten:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "Medium"
+
+eleven:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "ComputeResource"
+
+twelve:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "ComputeResource"
+
+thirteen:
+  taxonomy: location1
+  taxable: mystring2
+  taxable_type: "Template"
+
+fourteen:
+  taxonomy: organization1
+  taxable: mystring2
+  taxable_type: "Template"
+
+fifteen:
+  taxonomy: location1
+  taxable: two
+  taxable_type: "SmartProxy"
+
+sixteen:
+  taxonomy: organization1
+  taxable: two
+  taxable_type: "SmartProxy"
+
+seventeen:
+  taxonomy: location1
+  taxable: three
+  taxable_type: "SmartProxy"
+
+eighteen:
+  taxonomy: organization1
+  taxable: three
+  taxable_type: "SmartProxy"
+
+nineteen:
+  taxonomy: location1
+  taxable: puppetmaster
+  taxable_type: "SmartProxy"
+
+twenty:
+  taxonomy: organization1
+  taxable: puppetmaster
+  taxable_type: "SmartProxy"
+
+twentyone:
+  taxonomy: location1
+  taxable: realm
+  taxable_type: "SmartProxy"
+
+twentytwo:
+  taxonomy: organization1
+  taxable: realm
+  taxable_type: "SmartProxy"
+
+twentythree:
+  taxonomy: location1
+  taxable: myrealm
+  taxable_type: Realm
+
+twentyfour:
+  taxonomy: organization1
+  taxable: myrealm
+  taxable_type: Realm
+
+twentyfive:
+  taxonomy: organization1
+  taxable: Location 1
+  taxable_type: Taxonomy
+
+twentysix:
+  taxonomy: organization2
+  taxable: Location 2
+  taxable_type: Taxonomy

@@ -1,0 +1,84 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+anonymous:
+  login: <%= User::ANONYMOUS_ADMIN %>
+  lower_login: <%= User::ANONYMOUS_ADMIN.downcase %>
+  firstname: Anonymous
+  lastname: Admin
+  admin: true
+  auth_source: hidden
+
+anonymousapi:
+  login: <%= User::ANONYMOUS_API_ADMIN %>
+  lower_login: <%= User::ANONYMOUS_API_ADMIN.downcase %>
+  firstname: API
+  lastname: Admin
+  admin: true
+  auth_source: hidden
+
+one:
+  login: one
+  lower_login: one
+  firstname: One
+  lastname: User
+  mail: userone@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: one
+
+two:
+  login: two
+  lower_login: two
+  firstname: Two
+  lastname: User
+  mail: usertwo@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: one
+
+restricted:
+  login: restricted
+  lower_login: restricted
+  firstname: Restricted
+  lastname: User
+  mail: userrestricted@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: one
+
+admin:
+  # Proof that 'admin' isn't special
+  login: secret_admin
+  lower_login: secret_admin
+  firstname: Admin
+  lastname: User
+  mail: admin@someware.com
+  admin: true
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: internal
+  password_hash: 3e4991bbc1df7cc5d43c8cf94838993a3045ba2a
+  password_salt: 852cefe7366f5c4e59276d2a753cba4302e44df3
+
+internal:
+  login: test
+  lower_login: test
+  firstname: test
+  lastname: User
+  mail: testuser@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: internal
+  password_hash: 287ee23b24efc2cb01db8e3da347a2747fc5b58b
+  password_salt: 2a493af5472a889b530036a1fb25123f4e56efc9
+
+apiadmin:
+  login: apiadmin
+  lower_login: apiadmin
+  firstname: apiadmin
+  lastname: User
+  mail: apiadmin@someware.com
+  admin: true
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: internal
+  password_hash: 02d7ff9921071af778ff4f8608579dcd6d80dfba
+  password_salt: 80a167f1effbd82c2485ed81c3cfd68b11bc40dc

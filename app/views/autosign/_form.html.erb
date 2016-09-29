@@ -1,0 +1,13 @@
+<%= form_tag smart_proxy_autosign_index_path(@proxy) do %>
+  <%= render :layout => 'common/modal', :locals => { :id => 'autosignModal',
+                                                     :title => _("New Autosign Entry"),
+                                                     :buttons => [ modal_close(_('Cancel')),
+                                                                   submit_tag(_('Save'), :class => "btn btn-success") ]} do %>
+    <div class="form-group form-horizontal">
+      <%= label_tag(:id, _("Name"), :class => 'col-md-2 control-label') %>
+      <div class="col-md-8">
+        <%= text_field_tag(:id, '', :class => 'form-control') %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

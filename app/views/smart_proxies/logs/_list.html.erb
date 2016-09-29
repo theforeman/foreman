@@ -1,0 +1,38 @@
+<%= render :partial => "smart_proxies/logs/modal" %>
+<div class="fr filter">
+  <%= _('Filter by level:') %> <%= logs_filter_tag %>
+  <%= link_to_function_if_authorized(_('Refresh'), "expireLogs(this, -1)", hash_for_expire_logs_smart_proxy_path(:id => @smart_proxy), {
+    :data => {
+      :"url" => expire_logs_smart_proxy_path(:id => @smart_proxy),
+      :"url-errors" => errors_card_smart_proxy_path(:id => @smart_proxy),
+      :"url-modules" => modules_card_smart_proxy_path(:id => @smart_proxy)
+    },
+    :class => "btn btn-default"}) %>
+</div>
+<table id="table-proxy-status-logs" class='<%= table_css_classes %> table-fixed' width="100%">
+  <thead>
+      <tr>
+          <th class="ca col-md-2 hidden-xs nbsp"><%= _('Time') %></th>
+          <th class="ca col-md-1 hidden-sm hidden-xs nbsp"><%= _('Level') %></th>
+          <th class="col-md-9 col-sm-10 col-xs-12 nbsp"><%= _('Message') %></th>
+      </tr>
+  </thead>
+  <tbody>
+    <% log_entries.each do |log| %>
+      <tr class="<%= logs_color_map[log['level']] || '' %>">
+        <td class="ca col-md-2 hidden-xs nbsp"><%= log['timestamp'] %></td>
+        <td class="ca col-md-1 hidden-sm hidden-xs nbsp">
+          <a href="#"
+            data-toggle="modal"
+            data-target="#logEntryModal"
+            data-time="<%= log['timestamp'] %>"
+            data-level="<%= log['level'] %>"
+            data-message="<%= log['message'] %>"
+            data-backtrace="<%= log['backtrace'] %>">
+            <%= log['level'] %></a>
+        </td>
+        <td class="ellipsis col-md-9 col-sm-10 col-xs-12"><%= log['message'] %><% if log['backtrace'] %>&nbsp;<span class="fa fa-puzzle-piece"/><% end %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

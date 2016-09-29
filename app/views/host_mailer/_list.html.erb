@@ -1,0 +1,13 @@
+<div class="host-list">
+  <h2><%= title %></h2>
+  <% if list.size > 0 %>
+    <table>
+      <tbody>
+        <%= render :partial => "#{state}_hosts", :locals => {:list => list } %>
+      </tbody>
+    </table>
+    <p class="total"><%= n_('Total of one host', 'Total of %{hosts} hosts', list.size) % {:hosts => list.size} %></p>
+  <% else %>
+    <b><%= _('None!') %></b>
+  <% end %>
+</div>

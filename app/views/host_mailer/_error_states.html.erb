@@ -1,0 +1,28 @@
+<% if logs.size > 0 %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= _("Level") %></th>
+        <th><%= _("Resource") %></th>
+        <th><%= _("message") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logs.each do |log| %>
+        <tr>
+          <td class="hosts-rows">
+            <span <%= report_tag log.level %>><%= h log.level %></span>
+          </td>
+          <td class="hosts-rows">
+            <%= h log.source %>
+          </td>
+          <td class="hosts-rows">
+            <%= h log.message %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <b><%= _("No logs to show") %></b>
+<% end %>

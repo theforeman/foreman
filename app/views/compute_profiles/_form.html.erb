@@ -1,0 +1,7 @@
+<%= form_for(@compute_profile) do |f| %>
+  <%= base_errors_for @compute_profile %>
+
+  <%= text_f f, :name %>
+  <%= submit_or_cancel f %>
+
+<% end %>

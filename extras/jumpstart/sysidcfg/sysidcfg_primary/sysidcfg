@@ -1,0 +1,12 @@
+system_locale=C
+network_interface=primary{ dhcp protocol_ipv6=no }
+security_policy=none
+timezone=GMT
+terminal=vt100
+timeserver=localhost
+name_service=none
+nfs4_domain=default
+#root_password=test1234
+root_password=eAMxlivHbTMtQ
+auto_reg=disable
+keyboard=US-English

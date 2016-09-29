@@ -1,0 +1,54 @@
+foreman\-rake(8)
+================
+:man source:  foreman-rake
+:man manual:  Foreman Manual
+
+NAME
+----
+foreman-rake - Foreman command for the Ruby rake tool
+
+SYNOPSIS
+--------
+foreman-rake [OPTIONS]
+
+foreman-rake -T
+
+foreman-rake db:migrate
+
+foreman-rake db:migrate --trace
+
+foreman-rake --help
+
+DESCRIPTION
+-----------
+
+The foreman-rake command is a simple wrapper utility around the Ruby rake
+command. Normally, it calls the rake command, but on environments with Software
+Collections, it also enables the appropriate collection.
+
+Additionally, it does the following:
+
+- changes to the foreman system account
+- changes working directory to the foreman user's home directory
+- sets RAILS_ENV to production
+- executes the rake command with or without SCL
+
+OPTIONS
+-------
+
+Please refer to the rake documentation for information about supported options:
+
+    foreman-rake -T
+
+    foreman-rake --help
+
+SEE ALSO
+--------
+
+*scl*(8), *foreman-debug*(8)
+
+GETTING HELP
+------------
+
+For support, please see http://theforeman.org/support.html, the
+foreman-users@googlegroups.com mailing list or #theforeman on Freenode.

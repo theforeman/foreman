@@ -1,0 +1,5 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_for :proxy, :url => update_multiple_puppet_proxy_hosts_path(:host_ids => params[:host_ids]) do |f| %>
+  <%= multiple_proxy_select(f, 'Puppet') %>
+<% end %>

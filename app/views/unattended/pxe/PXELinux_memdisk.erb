@@ -1,0 +1,11 @@
+<%#
+kind: PXELinux
+name: PXELinux default memdisk
+oses:
+- FreeBSD (memdisk image)
+%>
+DEFAULT memdisk
+
+LABEL memdisk
+    KERNEL memdisk
+    APPEND initrd=<%= @initrd %> harddisk raw

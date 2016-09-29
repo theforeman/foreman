@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config xmlns="http://zanata.org/namespace/config/">
+    <url>https://translate.zanata.org/zanata/</url> 
+    <project>satellite6-foreman</project> 
+    <project-version>6.0</project-version>
+    <project-type>podir</project-type>
+    <locales>
+        <locale>fr</locale>
+        <locale>it</locale>
+        <locale>ja</locale>
+        <locale>ko</locale>
+        <locale>gu</locale>
+        <locale>hi</locale>
+        <locale>mr</locale>
+        <locale>or</locale>
+        <locale>ru</locale>
+        <locale>te</locale>
+        <locale>pa</locale>
+        <locale>kn</locale>
+        <locale>gl</locale>
+        <locale map-from="de">de-DE</locale>
+        <locale map-from="es">es-ES</locale>
+        <locale map-from="pt_BR">pt-BR</locale>
+        <locale map-from="bn">bn-IN</locale>
+        <locale map-from="ta">ta-IN</locale>
+        <locale map-from="zh_CN">zh-Hans-CN</locale>
+        <locale map-from="zh_TW">zh-Hant-TW</locale>      
+    </locales>
+</config>

@@ -1,0 +1,18 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+mydomain:
+  name: mydomain.net
+  dns: three
+
+yourdomain:
+  name: yourdomain.net
+  fullname: somewhere in yourdomain
+  dns: three
+
+unuseddomain:
+  name: unused.net
+  fullname: somewhare that is never used
+  dns: three
+
+useless:
+  name: useless.net

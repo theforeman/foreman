@@ -1,0 +1,15 @@
+<%= fields_for item do |f| %>
+  <%= select_f f, :architecture_id, accessible_resource(f.object, :architecture), :id, :to_label, {:include_blank => blank_or_inherit_f(f, :architecture)},
+    {:label => _("Architecture"), :onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'), :'data-type' => controller_name.singularize} %>
+
+  <span id="host_os">
+    <span id="os_select">
+      <%= render 'common/os_selection/architecture', :item => item %>
+    </span>
+
+    <span id="media_select">
+      <%= render 'common/os_selection/operatingsystem', :item => item %>
+    </span>
+
+  </span>
+<% end %>

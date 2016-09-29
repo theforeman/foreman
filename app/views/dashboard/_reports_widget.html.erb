@@ -1,0 +1,27 @@
+<h4 class="header">
+  <%= _("Latest Events") %>
+</h4>
+<% if @data.latest_events.exists? %>
+  <table class="<%= table_css_classes 'table-fixed reports-table' %>">
+    <thead>
+      <tr>
+        <%= latest_headers %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @data.latest_events.each do |report| %>
+        <tr>
+          <td class='ellipsis'><%= link_to report.host, host_config_reports_path(report.host) %></td>
+          <td class="ca"><%= report_event_column(report.applied, "label-info") %></td>
+          <td class="ca"><%= report_event_column(report.restarted, "label-info") %></td>
+          <td class="ca"><%= report_event_column(report.failed, "label-danger") %></td>
+          <td class="ca"><%= report_event_column(report.failed_restarts, "label-warning") %></td>
+          <td class="ca"><%= report_event_column(report.skipped, "label-info") %></td>
+          <td class="ca"><%= report_event_column(report.pending, "label-info") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="ca"><%= _("No interesting reports received in the last week") %></p>
+<% end %>

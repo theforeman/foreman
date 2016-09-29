@@ -1,0 +1,25 @@
+<table class="<%= table_css_classes %>" data-table='inline'>
+  <thead>
+    <tr>
+      <th><%= s_("Image|Name") %></th>
+      <th><%= s_("Operating System") %></th>
+      <th><%= s_("Image|Username") %></th>
+      <th><%= s_("Image|Uuid") %></th>
+      <th><%= s_("Image|User data") %></th>
+      <th><%= _('Actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @images.each do |image| %>
+      <tr>
+        <td><%= image.name %></td>
+        <td><%= image.operatingsystem.to_label %></td>
+        <td><%= image.username %></td>
+        <td><%= image.uuid %></td>
+        <td><%= image.user_data? ? _("Enabled") : _("Disabled") %></td>
+        <td><%= action_buttons(link_to(_('Edit'), edit_compute_resource_image_path(@compute_resource, image)),
+                               link_to(_('Destroy'), [@compute_resource, image], :data => { :confirm => _('Are you sure?') }, :method => :delete)) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

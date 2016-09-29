@@ -1,0 +1,317 @@
+@import "colors";
+
+$navbar-default-bg: $primary_color;
+
+.control-label{
+  text-align: left;
+  padding-left: 0px;
+  padding-right: 5px;
+}
+
+.spinner{
+  float: left;
+}
+
+#main {
+  padding: 0 40px;
+}
+
+fieldset > div.col-md-1 {
+  padding-left: 0px;
+}
+
+.children_fields{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.form-control{
+  display: inline-block;
+}
+
+textarea.form-control{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.modal-body > fieldset > div.clearfix div.has-error > span.help-inline{
+  padding-left: 80px;
+}
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px; // Max width as per suggested by Patternfly
+}
+
+.autocomplete-clear{
+  z-index: 3;
+  position: relative;
+}
+
+.jnotify-close{
+  color: black !important;
+}
+
+#login {
+  max-width: 100%;
+}
+
+.label{
+  font-size: 75%;
+}
+
+.badge.badge-inverse {
+  background-color: black;
+}
+
+span.input-group-btn .hidden-xs {display:inline !important;}
+@media (max-width: 768px) {
+  span.input-group-btn .hidden-xs {display:none !important;}
+}
+
+.children_fields.lookup_values > th {
+  background-color: white;
+}
+
+span.btn a {
+  text-decoration: none;
+  color: #333333;
+}
+
+a {
+  cursor: pointer;
+}
+
+// help-inline is not defined in Bootstrap3
+.help-inline{
+  margin: 0;
+  display: inline;
+  color: #737373;
+}
+
+.well {
+  padding: 19px 19px 19px 36px;
+  background-color: white;
+}
+
+.label-default {
+  background-color: #cccccc;
+}
+
+.form-actions {
+  padding: 19px 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.navbar.navbar-form{
+  background-color: #f8f8f8;
+  padding: 10px;
+  border: 1px solid #e7e7e7;
+  margin-right: 18px;
+}
+
+.nav.nav-tabs{
+  margin-bottom: 20px;
+  #host-show &{
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+}
+
+.header-logo{
+  width: 44px;
+  height: 34px;
+}
+
+.tab-content{
+  min-height: 420px;
+}
+
+.badge.close{
+  font-size: 14px;
+  opacity: 1;
+}
+
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td{
+  vertical-align: middle;
+}
+
+.table > thead {
+  background-image: none;
+}
+
+.btn-toolbar {
+  .btn-group, .btn-docs {
+    float: none
+  }
+ }
+
+.popover{
+  max-width: none;
+  z-index: 2000;
+}
+
+@-moz-document url-prefix() {
+  /* Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
+  *, *:before, *:after {
+    background-clip: padding-box;
+  }
+}
+.smart-var-left{
+  max-height:500px;
+  direction: rtl;
+  float:left;
+  text-align: left;
+  overflow-y: auto;
+  padding-right:0;
+}
+.stacked-content.tab-content {
+  padding: 19px;
+  min-height: 460px;
+  border: 1px solid $primary_gradient_start;
+  box-shadow: -2px 0 5px 0px rgba(0, 0, 0, 0.2);
+}
+.nav.nav-pills.nav-stacked .btn.btn-success:hover{
+  background-color: #47a447;
+}
+
+.nav.nav-pills.nav-stacked {
+  padding-right: 0;
+  & > li > a {
+    .clip {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      direction: ltr;
+      display: inline-block;
+      width: 90%;
+    }
+  }
+}
+.tooltip {
+  word-wrap: break-word;
+}
+
+.has-error {
+  color: #a94442
+}
+
+body.modal-open {
+  overflow: visible;
+}
+
+.form-control {
+  padding-right: 30px;
+}
+
+.form-control + .glyphicon {
+  position: absolute;
+  right: 0;
+  padding: 9px 37px;
+}
+
+.input-addon {
+  color: black;
+}
+
+legend {
+  margin-bottom: 10px;
+}
+
+textarea {
+  overflow-x: hidden; /* fix for FF adding an extra row to textareas */
+  &.no-stretch {
+    resize: vertical;
+    min-height: 26px; // prevent firefox from resizing smaller then one line height
+  }
+}
+
+div.form-group .glyphicon-info-sign{
+  color: black;
+}
+
+div.form-group .pficon-info{
+  color: black;
+}
+
+.fa-times {
+  width: 12px;
+}
+
+.btn-strike {
+  text-decoration: line-through;
+}
+
+.alert {
+  h4 {
+    margin-top: 4px;
+  }
+}
+
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus
+.pagination > li > a,
+.pagination > li > span {
+  background-image: none;
+}
+
+.select2-container .select2-choices .select2-search-field input,
+.select2-container .select2-choice,
+.select2-search input,
+.select2-drop.select2-drop-above,
+.select2-container .select2-choice .select2-arrow,
+.select2-dropdown-open.select2-drop-above [class^="select2-choice"],
+.select2-drop,
+.select2-container .select2-choices {
+  border-radius: 0px;
+}
+
+.btn-group > .btn + .dropdown-toggle {
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.blank-slate-pf {
+  background-color: inherit;
+  border: inherit;
+  padding: inherit;
+}
+
+.col-md-3 b{
+  font-size: 100%;
+}
+
+a.btn-info span{
+  padding-bottom: 4px;
+}
+
+.blank-slate-pf {
+  font-size: 1.4em;
+  width: 750px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+#search-form {
+  .dropdown-menu > li > a {
+    max-width: 658px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.dropdown-submenu > .dropdown-menu {
+  max-height: 80vh;
+  overflow-y: auto;
+}

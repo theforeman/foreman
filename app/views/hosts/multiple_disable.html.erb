@@ -1,0 +1,6 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_tag submit_multiple_disable_hosts_path({:host_ids => params[:host_ids]}) do %>
+  <%# submit_tag _("Disable alerts for selected hosts") %>
+  <small><%= _('Disable alerts for selected hosts') %></small>
+<% end %>

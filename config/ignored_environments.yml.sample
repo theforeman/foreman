@@ -1,0 +1,9 @@
+#:ignored:
+#  - test
+
+:filters:
+  - !ruby/regexp '/params$/'
+  - !ruby/regexp '/base$/'
+  - !ruby/regexp '/install$/'
+  - !ruby/regexp '/service$/'
+  - !ruby/regexp '/config$/'

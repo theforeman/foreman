@@ -1,0 +1,53 @@
+foreman\-tail(8)
+================
+:man source:  foreman-tail
+:man manual:  Foreman Manual
+
+NAME
+----
+foreman-tail - Tool for calling tail on Foreman logs
+
+SYNOPSIS
+--------
+
+foreman-tail
+
+foreman-tail rails
+
+foreman-tail [component]
+
+foreman-tail -l
+
+foreman-tail -h
+
+DESCRIPTION
+-----------
+
+The foreman-tail is an utility which calls tail with appropriate log files.
+
+OPTIONS
+-------
+
+When used without any parameters, it tails all relevant Foreman log files.
+
+When used with one or more parameters, it tails those provided.
+
+Foreman plugins can extend foreman-tail, use this command to find all
+possible components that are valid:
+
+    foreman-tail -l
+
+Example components are "rails" for Rails production log or "proxy" for Foreman
+Proxy production logs. There are components for Apache http daemon, Puppet
+Master or cron available.
+
+SEE ALSO
+--------
+
+*foreman-debug*(8)
+
+GETTING HELP
+------------
+
+For support, please see http://theforeman.org/support.html, the
+foreman-users@googlegroups.com mailing list or #theforeman on Freenode.

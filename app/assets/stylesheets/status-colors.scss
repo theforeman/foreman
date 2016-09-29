@@ -1,0 +1,11 @@
+.status-ok {
+  color: $brand-success;
+}
+
+.status-error {
+  color: $brand-danger;
+}
+
+.status-warn, .status-question {
+  color: $brand-warning;
+}

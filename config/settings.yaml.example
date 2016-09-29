@@ -1,0 +1,53 @@
+---
+# You must restart the Rack server after changing either of these values
+# because they are cached at startup.
+#
+:unattended: true
+:login: true
+:require_ssl: false
+:locations_enabled: false
+:organizations_enabled: false
+#JSONP or "JSON with padding" is a complement to the base JSON data format.
+#It provides a method to request JSON data from a server in a different domain.
+:support_jsonp: false
+#:puppetconfdir: /etc/puppet
+#:puppetvardir: /var/lib/puppet
+#:puppetssldir: /var/lib/puppet/ssl
+
+# Mark translated strings with X characters (for developers)
+:mark_translated: false
+
+# Use the webpack development server? set to false to disable (for developers)
+# Make sure to run `rake webpack:compile` if disabled.
+:webpack_dev_server: true
+
+# If you run Foreman in development behind some proxy or use HTTPS you need
+# to enable HTTPS for webpack dev server too, otherwise you'd get mixed content
+# errors in your browser
+:webpack_dev_server_https: false
+
+# Local administrative settings for application domain, fqdn, foreman URL,
+# administrator email address etc. If you don't have a Puppet provisioning
+# system you may want to change to setup your project on your local machine.
+:domain: 'localdomain.net'
+:fqdn: 'localhost.localdomain.net'
+
+# Log settings for the current environment can be adjusted by adding them
+# here. For example, if you want to increase the log level.
+#:logging:
+#  :level: debug
+
+# Individual logging types can be toggled on/off here
+#:loggers:
+#  :app:
+#    :enabled: true
+#  :audit:
+#    :enabled: true
+#  :ldap:
+#    :enabled: false
+#  :permissions:
+#    :enabled: false
+#  :sql:
+#    :enabled: false
+#  :templates:
+#    :enabled: true

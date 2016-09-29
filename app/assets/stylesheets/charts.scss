@@ -1,0 +1,164 @@
+.stats-well {
+ border: 1px solid #d7d7d7;
+ background-size: 100%;
+ padding: 15px;
+ min-width: 280px;
+ min-height: 100px;
+ margin-bottom: 15px;
+  h2, h4{
+    font-weight: normal;
+  }
+}
+
+.fact_chart {
+  float: left;
+  min-height: 450px !important;
+  width: 485px !important;
+  padding: 0 !important;
+  text-align: center;
+  overflow: hidden;
+}
+
+.legend {
+  margin-left: 485px;
+  margin-top: 10px;
+  height: 450px;
+  width: 110px;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .legendLabel{
+    text-align: left;
+  }
+}
+#statistics{
+  margin: 0px auto;
+  text-align: left;
+  width: 90%;
+  .stats-well{
+    float: left;
+    padding: 10px 20px;
+    margin: 0 0 20px 20px;
+    &:hover{
+      border-color:#0069d6;
+      box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    }
+  }
+}
+
+#reports .stats-well{
+  min-height: 380px;
+}
+
+#hosts .stats-well{
+  min-height: 270px;
+}
+
+.statistics-bar{
+  width: 260px;
+  height: 305px;
+  margin: 0px auto 27px auto;
+}
+
+.statistics-pie, .statistics-pie-placeholder{
+  width: 450px;
+  height: 450px;
+  margin: 12px auto;
+  &.small{
+    width: 240px;
+    height: 240px;
+  }
+}
+
+.modal-dialog .statistics-pie{
+  margin-bottom: 46px;
+  .pieLabel{
+    margin-left: -30px;
+    margin-top: -10px;
+    font-weight: bold;
+  }
+}
+
+.axisLabels{
+  color: #626262;
+  font-weight: bold;
+}
+
+#flot-tooltip {
+  font-size: 12px;
+  font-family: 'Overpass', Interstate, sans-serif;
+  position: absolute;
+  display: none;
+  border: 2px solid;
+  padding: 2px;
+  background-color: #FFF;
+  opacity: 0.8;
+  z-index: 100;
+  border-radius: 5px;
+  b{
+    color: black;
+    font-weight: bold;
+  }
+}
+
+.xAxis > .tickLabel
+{
+ margin-top:15px;
+ -webkit-transform:rotate(-45deg);
+ transform:rotate(-45deg);
+}
+
+.pie-title{
+ color: #626262;
+}
+
+.pieLabel{
+ text-align:center;
+ font-size: 16px;
+ .percent{
+   font-size: 28px;
+ }
+}
+
+.statistics-pie.small .overlay {
+  background: image-url('pie_overlay.png') no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+
+.statistics-chart{
+  height: 270px;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+#host-show{
+ .statistics-chart{
+    height: 230px;
+  }
+  .chart{
+    height: 250px;
+  }
+}
+
+.reset-zoom{
+  position: absolute;
+}
+
+#legendContainer table{
+  width:  100%;
+}
+
+.legend td.legendColorBox,
+#legendContainer td.legendColorBox{
+  &:hover,
+  &.disabled:hover{
+    background-color: #0069d6;
+    color: white;
+    cursor: pointer;
+  }
+  &.disabled{
+    opacity: (0.3);
+  }
+}

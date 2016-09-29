@@ -1,0 +1,19 @@
+<%= javascript 'compute_resource' %>
+<%= form_for([@set.compute_profile, @set]) do |f| %>
+  <%= base_errors_for @set %>
+
+  <%= select_f f, :compute_profile_id, ComputeProfile.all, :id, :name, {}, :disabled => true, :label => _('Compute profile'), :label_size => "col-md-2" %>
+  <%= select_f f, :compute_resource_id, ComputeResource.all, :id, :to_label, {}, :disabled => true, :label => _('Compute resource'), :label_size => "col-md-2" %>
+
+  <%= fields_for 'compute_attribute[vm_attrs]', @set.compute_resource.new_vm(@set.vm_attrs) do |f2| %>
+    <%= render :partial => "compute_form",
+               :locals => { :f => f2, :compute_resource => @set.compute_resource, :selected_cluster => @set.vm_attrs['cluster'] } %>
+  <% end %>
+
+  <% if f.object.new_record? %>
+    <%= f.hidden_field :compute_profile_id %>
+    <%= f.hidden_field :compute_resource_id %>
+  <% end %>
+
+  <%= submit_or_cancel f, false, :cancel_path => compute_profile_path(@set.compute_profile) %>
+<% end %>

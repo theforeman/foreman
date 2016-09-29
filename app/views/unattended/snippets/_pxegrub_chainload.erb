@@ -1,0 +1,17 @@
+<%#
+kind: snippet
+name: pxegrub_chainload
+%>
+<%
+  paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "Microsoft", "EFI"]
+-%>
+fallback=<%= (1..paths.size).to_a.join(' ') %>
+<% paths.each do |path| %>
+title Chainload Grub from /EFI/<%= path %>
+  rootnoverify (hd0,0)
+  chainloader /EFI/<%= path %>/grubx64.efi
+<% end -%>
+
+title Chainload into bootloader on first disk
+  root (hd0,0)
+  chainloader +1

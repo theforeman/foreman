@@ -1,0 +1,10 @@
+<%= form_for taxonomy do |f| %>
+  <%= base_errors_for taxonomy %>
+  <%= wizard_header 1, _("Create %s") % taxonomy.class.name, _("Select Hosts"), _("Edit Properties") %>
+  <%= select_f(f, :parent_id, taxonomy.class.completer_scope(nil).order(:title), :id, :title, { :include_blank => true }, { :label => _('Parent') }) if show_parent?(taxonomy) %>
+  <%= text_f f, :name %>
+  <%= textarea_f f, :description, :rows => 5 %>
+
+  <%= submit_or_cancel f %>
+
+<% end %>

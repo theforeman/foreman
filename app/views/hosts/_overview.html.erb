@@ -1,0 +1,15 @@
+<table id="properties_table" class="<%= table_css_classes %>">
+  <thead>
+    <tr>
+      <th colspan="2"><%= _('Properties') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% overview_fields(host).each do |name, value| %>
+      <tr>
+        <td><%= name %></td>
+        <td><%= value %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

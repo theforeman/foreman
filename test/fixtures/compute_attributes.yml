@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  compute_profile: one
+  compute_resource: ec2
+  vm_attrs:
+    flavor_id: m1.small
+    availability_zone: eu-west-1a
+
+two:
+  compute_profile: one
+  compute_resource: one
+  vm_attrs:
+    cpus: 2
+    memory: 536870912
+
+three:
+  compute_profile: two
+  compute_resource: ec2
+  vm_attrs:
+    flavor_id: m1.medium
+    availability_zone: eu-west-1a
+
+four:
+  compute_profile: two
+  compute_resource: one
+  vm_attrs:
+    cpus: 4
+    memory: 4294967296
+
+with_interfaces:
+  compute_profile: four
+  compute_resource: one
+  vm_attrs:
+    nics_attributes:
+      1:
+        attr: 1
+      2:
+        attr: 2

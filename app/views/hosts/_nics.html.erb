@@ -1,0 +1,37 @@
+<% @host.interfaces.each do |nic| %>
+  <table id="nics_table" class="<%= table_css_classes %>">
+    <tr>
+      <th colspan="2">
+        <%= nic.identifier %>
+        <%= flags_for_nic(nic) %>
+      </th>
+    </tr>
+    <tr>
+      <td><%= _('Type') %></td>
+      <td><%= _(nic.class.humanized_name) %></td>
+    </tr>
+    <tr>
+      <td><%= _('MAC Address') %></td>
+      <td><%= nic.mac %></td>
+    </tr>
+    <tr>
+      <td><%= _('IPv4 Address') %></td>
+      <td><%= nic.ip %></td>
+    </tr>
+    <tr>
+      <td><%= _('IPv6 Address') %></td>
+      <td><%= nic.ip6 %></td>
+    </tr>
+    <tr>
+      <td><%= _('FQDN') %></td>
+      <td><%= nic.fqdn %></td>
+    </tr>
+    <% if nic.subnet %>
+      <tr>
+        <td><%= _('Subnet') %></td>
+        <td><%= link_to_if_authorized nic.subnet.to_label, hash_for_edit_subnet_path(:id => nic.subnet).merge(:auth_object => nic.subnet, :authorizer => authorizer) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+<% end %>

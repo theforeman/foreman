@@ -1,0 +1,20 @@
+<% if provider_partial_exist?(compute_resource, 'volume') %>
+  <div class="children_fields">
+    <%= new_child_fields_template(f, :volumes, {
+        :object  => compute_resource.new_volume,
+        :partial => provider_partial(compute_resource, 'volume'),
+        :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove storage volume') },
+        :layout => "compute_resources_vms/form/#{item_layout}_layout" }) %>
+
+    <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
+
+      <%= f.fields_for :volumes do |i| %>
+        <%= render :partial => provider_partial(compute_resource, 'volume'), :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove storage volume') }, :layout => "compute_resources_vms/form/#{item_layout}_layout" %>
+      <% end %>
+
+      <% if new_host %>
+        <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new storage volume') } %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

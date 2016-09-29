@@ -1,0 +1,14 @@
+<div class="row">
+  <h3><%= _('TFTP') %></h3>
+</div>
+<%= show_feature_version('tftp') %>
+<div class="row">
+  <div class="col-md-4">
+    <%= _('TFTP server') %>
+  </div>
+  <div class="col-md-8">
+    <span class="proxy-tftp" data-url="<%= tftp_server_smart_proxy_path(@smart_proxy) %>">
+      <%= spinner %>
+    </span>
+  </div>
+</div>

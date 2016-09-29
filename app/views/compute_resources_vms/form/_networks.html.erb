@@ -1,0 +1,32 @@
+<% if provider_partial_exist?(compute_resource, 'network') %>
+  <div class="children_fields">
+    <%= new_child_fields_template(f, compute_resource.interfaces_attrs_name, {
+        :object => compute_resource.new_interface,
+        :partial => provider_partial(compute_resource, 'network'),
+        :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove network interface') },
+        :layout => 'compute_resources_vms/form/deletable_layout' }) %>
+
+    <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
+
+      <% if compute_resource.editable_network_interfaces? %>
+        <%= f.fields_for compute_resource.interfaces_attrs_name do |i| %>
+
+          <%= render :partial => provider_partial(compute_resource, 'network'),
+              :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove network interface') },
+              :layout => 'compute_resources_vms/form/deletable_layout' %>
+
+        <% end %>
+        <% if new_host %>
+          <%= add_child_link '+ ' + _("Add Interface"), compute_resource.interfaces_attrs_name, { :class => "info", :title => _('add new network interface') } %>
+        <% end %>
+
+      <% else %>
+        <div class="col-md-12">
+          <%= _('No networks found.') %>
+        </div>
+      <% end %>
+
+    <% end %>
+
+  </div>
+<% end %>

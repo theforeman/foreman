@@ -1,0 +1,28 @@
+<div id="host-conflicts-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _('Conflicts have been detected') %></h4>
+      </div>
+      <div class="modal-body">
+        <p><%= _('The following entries were found conflicting with what foreman wanted to apply.') %></p>
+
+        <p><%= _('Please review them carefully, if you are certain that they should be removed, please click on overwrite.') %></p>
+
+        <div class="alert alert-warning alert-block base">
+          <%= icon_text("warning-triangle-o", "",:kind => "pficon") %>
+          <% conflict_objects(@host.errors).each do |obj| %>
+            <% @host.errors[obj].each do |e| %>
+              <li><%= e %></li>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('Overwrite') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

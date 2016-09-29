@@ -1,0 +1,32 @@
+<% title @vm.name %>
+<div class='col-md-12'>
+  <table class="<%= table_css_classes %>">
+    <thead>
+      <tr><th colspan="2"><%=_("Properties") %></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>State</td>
+        <td><%= @vm.state.downcase %></td>
+      </tr>
+      <tr>
+        <td>Machine Type</td>
+        <td><%= @vm.pretty_machine_type %></td>
+      </tr>
+      <tr>
+        <td>Zone</td>
+        <td><%= @vm.zone_name %></td>
+      </tr>
+      <tr>
+        <td>Private IP</td>
+        <td><%= @vm.private_ip_address %></td>
+      </tr>
+      <% if @vm.public_ip_address.present? %>
+        <tr>
+          <td>Public IP</td>
+          <td><%= @vm.public_ip_address %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

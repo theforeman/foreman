@@ -1,0 +1,4 @@
+<%= alert :header => _("Service unavailable"), :class => 'alert-danger',
+  :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
+  :text => h(exception.message),
+  :close => false %>

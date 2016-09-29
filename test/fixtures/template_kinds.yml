@@ -1,0 +1,20 @@
+ipxe:
+  name: iPXE
+
+provision:
+  name: provision
+
+pxelinux:
+  name: PXELinux
+
+script:
+  name: script
+
+finish:
+  name: finish
+
+pxegrub:
+  name: PXEGrub
+
+pxegrub2:
+  name: PXEGrub2

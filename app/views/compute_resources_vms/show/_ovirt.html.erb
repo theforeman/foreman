@@ -1,0 +1,49 @@
+<% title @vm.name %>
+
+<div class='col-md-12'>
+  <table class="<%= table_css_classes %>">
+    <thead>
+      <tr><th colspan="2"><%=_('Properties') %></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= _('Name') %></td>
+        <td><%= @vm.name %></td>
+      </tr>
+      <tr>
+        <td><%= _('VCPU(s)') %></td>
+        <td><%= @vm.cores %></td>
+      </tr>
+      <tr>
+        <td><%= _('UUID') %></td>
+        <td><%= @vm.identity %></td>
+      </tr>
+      <tr>
+        <td><%= _('Memory') %></td>
+        <td><%= number_to_human_size @vm.memory %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= _('Display') %></td>
+        <td><%= @vm.display[:type] %>
+          (<%= @vm.display[:port] %>)</td>
+      </tr>
+      <% @vm.interfaces.each do |nic| %>
+        <tr>
+          <td><%= _('NIC') %></td>
+          <td><%= "#{nic.name} - #{nic.mac}" %></td>
+        </tr>
+      <% end %>
+      <% @vm.volumes.each do |vol| %>
+        <tr>
+          <td><%= _('Disk') %></td>
+          <td><%= _("using %s") % number_to_human_size(vol.size) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td><%= _('Running on') %></td>
+        <td><%= link_to @compute_resource, compute_resource_path(@compute_resource) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

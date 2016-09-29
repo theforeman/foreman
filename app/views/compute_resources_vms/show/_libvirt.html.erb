@@ -1,0 +1,59 @@
+<% title @vm.name %>
+
+<div class='col-md-12'>
+  <table class="<%= table_css_classes %>">
+    <thead>
+      <tr><th colspan="2"><%=_('Properties') %></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= _('Name') %></td>
+        <td><%= @vm.name %></td>
+      </tr>
+      <tr>
+        <td><%= _('Machine Type') %></td>
+        <td><%= @vm.domain_type %>
+          /
+          <%= @vm.arch %></td>
+      </tr>
+      <tr>
+        <td><%= _('VCPU(s)') %></td>
+        <td><%= @vm.cpus %></td>
+      </tr>
+      <tr>
+        <td><%= _('UUID') %></td>
+        <td><%= @vm.uuid %></td>
+      </tr>
+      <tr>
+        <td><%= _('Memory') %></td>
+        <td><%= number_to_human_size @vm.max_memory_size.kilobytes %>
+          <%= "(" + _("Allocated") + ": #{number_to_human_size @vm.memory_size.kilobytes})" %></td>
+      </tr>
+      <tr>
+        <td><%= _('Display') %></td>
+        <td><%= @vm.display[:type] %>
+          (<%= @vm.display[:port] %>)</td>
+      </tr>
+      <% @vm.nics.each do |nic| %>
+        <tr>
+          <td><%= _('NIC') %></td>
+          <td><%= "#{nic.bridge} - #{nic.mac} (#{nic.model})" %></td>
+        </tr>
+      <% end %>
+      <% @vm.volumes.each do |vol| %>
+        <tr>
+          <td><%= _('Disk') %></td>
+          <td><%= _("using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool") % { :allocation => vol.allocation, :capacity => vol.capacity, :pool_name => vol.pool_name } %></td>
+        </tr>
+        <tr>
+          <td><%= _('Path') %></td>
+          <td><%= trunc_with_tooltip(vol.path) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td><%= _('Running on') %></td>
+        <td><%= link_to @compute_resource, compute_resource_path(@compute_resource) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

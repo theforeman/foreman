@@ -1,0 +1,24 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  provisioning_template: mystring
+  hostgroup: common
+  environment: production
+
+two:
+  provisioning_template: mystring2
+  hostgroup_id: unusual
+
+three:
+  provisioning_template: myfinish
+  environment: production
+
+four:
+   provisioning_template: mystring2
+   hostgroup: common
+   environment: production
+
+five:
+  provisioning_template: myscript
+  hostgroup: common
+  environment: production

@@ -1,0 +1,12 @@
+<div id='network_provisioning' <%= display? !@host.pxe_build? %> >
+  <% if @host.new_record? or @host.type_changed? -%>
+      <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this host for provisioning") %>
+  <% end %>
+  <span id="media_select">
+    <%= render 'common/os_selection/operatingsystem', :item => @host %>
+  </span>
+
+
+  <%= textarea_f f, :disk, :size => "col-md-8", :rows => "4",
+           :help_block => _("What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field") %>
+</div>

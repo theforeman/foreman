@@ -1,0 +1,8 @@
+<div class='fields'>
+  <div class="form-group">
+    <%= field_set_tag _("External user group").html_safe + " #{remove_child_link('x', f, { :rel => 'twipsy', "data-title" => _('remove external user group'), :'data-placement' => 'left', :class => 'fr badge badge-danger'})}".html_safe, :id => 'external_usergroup' do %>
+      <%= text_f f, :name %>
+      <%= select_f f, :auth_source_id, AuthSource.non_internal, :id, :to_label %>
+    <% end %>
+  </div>
+</div>

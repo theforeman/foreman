@@ -1,0 +1,7 @@
+
+<div class="hidden" id="interfaceHidden<%= local_assigns[:id] %>" data-interface-id="<%= local_assigns[:id] %>">
+  <%= field_set_tag "", :id => "interface", :'data-url' => new_interface_path do %>
+    <%= f.hidden_field(:_destroy, :class => :destroyFlag, :value => (local_assigns[:id].nil? ? 1 : 0)) %>
+    <%= yield %>
+  <% end %>
+</div>

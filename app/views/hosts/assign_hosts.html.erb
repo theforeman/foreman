@@ -1,0 +1,5 @@
+<% title(_("Assign Hosts to %s") % @taxonomy.name) %>
+
+<%= render 'hosts/assign_hosts', :hosts => @hosts,
+                                 :taxonomy => @taxonomy,
+                                 :header => @title %>

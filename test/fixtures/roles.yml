@@ -1,0 +1,55 @@
+---
+manager:
+  name: Manager
+  id: "1"
+  builtin: "0"
+
+edit_partition_tables:
+  name: Edit partition tables
+  id: "2"
+  builtin: "0"
+
+view_hosts:
+  name: View hosts
+  id: "3"
+  builtin: "0"
+
+edit_hosts:
+  name: Edit hosts
+  id: "4"
+  builtin: "0"
+
+viewer:
+  name: Viewer
+  id: "5"
+  builtin: "0"
+
+default_role:
+  name: Default role
+  id: "7"
+  builtin: "2"
+
+destroy_hosts:
+  name: Destroy hosts
+  id: "8"
+  builtin: "0"
+
+create_hosts:
+  name: Create hosts
+  id: "9"
+  builtin: "0"
+
+none_compute_resources:
+  name: No rights
+  id: "10"
+  builtin: "0"
+
+manage_compute_resources:
+  name: View compute resources
+  id: "11"
+  builtin: "0"
+
+manage_hosts:
+  name: CRUD hosts
+  id: "12"
+  builtin: "0"

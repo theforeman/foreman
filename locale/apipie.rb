@@ -1,0 +1,28 @@
+# Apipie-rails is library we use for documenting our API
+# it is localized but misses the translations
+# this document contains the extracted strings
+
+N_('Resources')
+N_('Resource')
+N_('Description')
+N_('No documentation found')
+N_('We have not found any documentation for your API.')
+N_('Follow %{href} on how to describe your controllers.')
+N_('further instructions')
+N_('Oops!!')
+N_('Resource %{res} not found.')
+N_('Method %{method} not found for resource %{resource}.')
+N_('Try going to %{href}')
+N_('%{app_name} API documentation homepage')
+N_('required')
+N_('optional')
+N_('nil allowed')
+N_('Param name')
+N_('Params')
+N_('Examples')
+N_('Metadata')
+N_('Errors')
+N_('Supported Formats')
+N_('Please enable JavaScript to view the %{comments_href}.')
+N_('comments powered by %{disqus}')
+N_('API documentation')

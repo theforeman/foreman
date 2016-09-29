@@ -1,0 +1,12 @@
+{
+  "total": <%= metadata_total.to_json %>,
+  "subtotal": <%= metadata_subtotal.to_json %>,
+  "page": <%= metadata_page.to_json %>,
+  "per_page": <%= metadata_per_page.to_json %>,
+  "search": <%= metadata_search.to_json.html_safe %>,
+  "sort": {
+    "by": <%= metadata_by.to_json.html_safe %>,
+    "order": <%= metadata_order.to_json.html_safe %>
+  },
+  "<%= "#{root_node_name}" %>": <%= yield %>
+}

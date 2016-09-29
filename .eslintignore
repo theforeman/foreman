@@ -1,0 +1,4 @@
+# node_modules is ignored by default
+app/**
+vendor/**
+config/webpack.config.js

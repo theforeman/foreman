@@ -1,0 +1,43 @@
+<table class="<%= table_css_classes %>">
+  <thead>
+    <tr>
+      <th colspan="2"><%= _('Chassis') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= _('Status') %></td>
+      <td><%= power_status(@host.power.state) %></td>
+    </tr>
+    <tr>
+      <td><%= _('Boot device') %></td>
+      <td><%= boot_actions %></td>
+    </tr>
+  </tbody>
+</table>
+<div id='power_actions' class='hide'><%= power_actions %></div>
+<table class="<%= table_css_classes %>">
+  <thead>
+    <tr>
+      <th colspan="2"><%= _('Network') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= _('IP') %></td>
+      <td><%= @host.bmc_proxy.lan(:action => 'ip') %></td>
+    </tr>
+    <tr>
+      <td><%= _('Netmask') %></td>
+      <td><%= @host.bmc_proxy.lan(:action => 'netmask') %></td>
+    </tr>
+    <tr>
+      <td><%= _('MAC') %></td>
+      <td><%= @host.bmc_proxy.lan(:action => 'mac') %></td>
+    </tr>
+    <tr>
+      <td><%= _('Gateway') %></td>
+      <td><%= @host.bmc_proxy.lan(:action => 'gateway') %></td>
+    </tr>
+  </tbody>
+</table>

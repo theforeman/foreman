@@ -1,0 +1,34 @@
+<% unless @build.state %>
+  <div class="alert alert-<%= build_state(@build) %> build_state">
+    <%= alert_header(_('The following errors may prevent a successful build:'), 'alert-danger') %>
+    <%= button_tag(icon_text('refresh'), :title => _('Check again'), :class => 'btn btn-default btn-sm pull-right',
+                   :id                          => 'recheck_review', :data => { :url => review_before_build_host_path(:id => @host) }) %>
+    <%= link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => @host.id).merge(:auth_object => @host.id),
+                              :class => "btn btn-default btn-xs pull-right", :title => _('Edit Host')) unless @build.errors[:host].blank? %>
+
+    <% HostBuildStatus::VALIDATION_TYPES.each do |type| %>
+      <% if @build.errors[type].any? %>
+        <hr/>
+        <p><b><%= _(type.to_s.capitalize) %></b></p>
+        <ul class="list-group">
+          <% @build.errors[type].each do |error| %>
+            <%= render :partial => 'hosts/build_review_status', :locals => { :error => error, :type => type } %>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+<%= form_for :host,
+             :method => :put,
+             :url    => hash_for_setBuild_host_path(:id => @host).merge(:auth_object => @host, :permission => 'build_hosts'),
+             :html   => { :id => 'build_form' } do |form|
+%>
+  <%= checkbox_f(form, :build, :help_text => _('Reboot now') % @host) if @host.supports_power_and_running? %>
+  <div class="modal-footer">
+    <%= modal_close %>
+    <%= review_build_button(form, build_state(@build)) %>
+  </div>
+<% end %>
+
+

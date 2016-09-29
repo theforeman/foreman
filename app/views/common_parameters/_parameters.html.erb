@@ -1,0 +1,17 @@
+<div id="parameters">
+  <table class="table" id="global_parameters_table">
+    <thead class="white-header">
+    <tr>
+      <th class='col-md-3'><%= _("Name") %></th>
+      <th class='col-md-8'><%= _("Value") %></th>
+      <th class='col-md-1 ca'><%= _('Actions') %></th>
+    </tr>
+    </thead>
+    <tbody>
+      <%= f.fields_for type do |builder| %>
+        <%= render "common_parameters/parameter", :f => builder if builder.object.new_record? || User.current.can?(:view_params, builder.object) %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, type, "common_parameters/parameter", :target => '#global_parameters_table tbody') : "" %>
+</div>

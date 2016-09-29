@@ -1,0 +1,74 @@
+require 'rake/clean'
+
+BUILDDIR = File.expand_path(ENV['BUILDDIR'] || '_build')
+PREFIX = ENV['PREFIX'] || '/usr/local'
+BINDIR = ENV['BINDIR'] || "#{PREFIX}/bin"
+LIBDIR = ENV['LIBDIR'] || "#{PREFIX}/lib"
+SBINDIR = ENV['SBINDIR'] || "#{PREFIX}/sbin"
+INCLUDEDIR = ENV['INCLUDEDIR'] || "#{PREFIX}/include"
+SYSCONFDIR = ENV['SYSCONFDIR'] || "#{PREFIX}/etc"
+LOCALSTATEDIR = ENV['LOCALSTATEDIR'] || "#{PREFIX}/var"
+SHAREDSTAREDIR = ENV['SHAREDSTAREDIR'] || "#{LOCALSTATEDIR}/lib"
+DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
+MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
+
+def is_redhat; File.exist?("/etc/redhat-release"); end
+def is_debian; File.exist?("/etc/debian-release"); end
+
+file BUILDDIR do
+  mkdir BUILDDIR
+end
+
+file "#{BUILDDIR}/foreman-rake.8.gz" => "man/foreman-rake.8.asciidoc" do |t|
+  sh "a2x -d manpage -f manpage -D #{BUILDDIR}/ #{t.prerequisites[0]}"
+  sh "gzip -f9 #{BUILDDIR}/foreman-rake.8"
+end
+
+file "#{BUILDDIR}/foreman-debug.8.gz" => "man/foreman-debug.8.asciidoc" do |t|
+  sh "a2x -d manpage -f manpage -D #{BUILDDIR}/ #{t.prerequisites[0]}"
+  sh "gzip -f9 #{BUILDDIR}/foreman-debug.8"
+end
+
+file "#{BUILDDIR}/foreman-tail.8.gz" => "man/foreman-tail.8.asciidoc" do |t|
+  sh "a2x -d manpage -f manpage -D #{BUILDDIR}/ #{t.prerequisites[0]}"
+  sh "gzip -f9 #{BUILDDIR}/foreman-tail.8"
+end
+
+task :build => [
+  BUILDDIR,
+  "#{BUILDDIR}/foreman-rake.8.gz",
+  "#{BUILDDIR}/foreman-debug.8.gz",
+  "#{BUILDDIR}/foreman-tail.8.gz",
+]
+
+task :install => :build do |t|
+  mkdir_p "#{MANDIR}/man8"
+  cp "#{BUILDDIR}/foreman-rake.8.gz", "#{MANDIR}/man8/"
+  cp "#{BUILDDIR}/foreman-debug.8.gz", "#{MANDIR}/man8/"
+  cp "#{BUILDDIR}/foreman-tail.8.gz", "#{MANDIR}/man8/"
+
+  # foreman-tail
+  TAILDIR = ENV['TAILDIR'] || "script/foreman-tail.d"
+  mkdir_p "#{DATAROOTDIR}/foreman/#{TAILDIR}"
+  cp Dir.glob("#{TAILDIR}/common/*"), "#{DATAROOTDIR}/foreman/#{TAILDIR}/", :verbose => true
+  if is_redhat
+    cp Dir.glob("#{TAILDIR}/redhat/*"), "#{DATAROOTDIR}/foreman/#{TAILDIR}/", :verbose => true
+  elsif is_debian
+    cp Dir.glob("#{TAILDIR}/debian/*"), "#{DATAROOTDIR}/foreman/#{TAILDIR}/", :verbose => true
+  else
+    raise "Unsupported system"
+  end
+
+  # foreman-debug
+  DEBUGDIR = ENV['DEBUGDIR'] || "script/foreman-debug.d"
+  mkdir_p "#{DATAROOTDIR}/foreman/#{DEBUGDIR}"
+
+  # ssh
+  mkdir_p "#{DATAROOTDIR}/foreman/.ssh"
+end
+
+task :default => :build
+
+CLEAN.include [
+  '_build',
+]

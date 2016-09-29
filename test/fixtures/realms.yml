@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+myrealm:
+  name: myrealm.net
+  realm_proxy: realm
+  realm_type: FreeIPA
+
+yourrealm:
+  name: yourrealm.net
+  realm_proxy: realm
+  realm_type: FreeIPA
+
+unusedrealm:
+  name: unused.net
+  realm_proxy: realm
+  realm_type: FreeIPA
+
+useless:
+  name: useless.net
+  realm_proxy: realm
+  realm_type: FreeIPA

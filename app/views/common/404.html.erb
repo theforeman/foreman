@@ -1,0 +1,7 @@
+<div class='col-md-offset-4 col-md-4'>
+  <%= alert :header => (_(controller_name.camelize.singularize) rescue nil) + ' ' + _('not found'),
+    :text => _('Please try to update your request'),
+    :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
+    :class => 'alert-warning',
+    :close => false %>
+</div>

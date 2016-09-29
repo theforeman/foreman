@@ -1,0 +1,72 @@
+# Configuration values can be set per environment and apply to the root logger that
+# all other loggers inherit from. Additional loggers can be configured in settings.yaml
+# The valid options are:
+#
+# :colorize:
+#   Colorize log including level token based on severity
+#   values: true, false
+#
+# :console_inline:
+#   Enable logging output inline in rails console
+#   values: true, false
+#
+# :level: 
+#   Only messages with severity >= this level from all loggers will be logged
+#   values: debug, info, warn, error, fatal, unknown
+#
+# :type:
+#   Type of logging, for file variant you can specify other options below like filename
+#   values: file, syslog
+#
+# :filename:
+#   Log filename for this environment, it will be placed into #{Rails.root}/log directory
+#   note when you log outside of standard rails path you won't see log output in WEBrick
+#   STDOUT (usually not wanted in development), to use Rails default path, don't set path
+#
+# :truncate:
+#   Truncate the log file to a zero byte length on each startup to reduce size, only
+#   supported with type: file
+#   values: true, false (default)
+#
+# :log_trace:
+#   Include caller tracing information in generated log events (this
+#   includes filename and line number of the log message)
+#   values: true, false
+#
+# :pattern:
+#   Logger line pattern, you can use the following macros
+#     [%c] name of the logger that generate the log event
+#     [%d] datestamp
+#     [%m] the user supplied log message
+#     [%p] PID of the current process
+#     [%r] the time in milliseconds since the program started
+#     [%T] the name of the thread Thread.current[:name]
+#     [%t] object_id of the thread
+#     [%F] filename where the logging request was issued
+#     [%L] line number where the logging request was issued
+#     [%M] method name where the logging request was issued
+#     [%X{request}] request-ID set in HTTP headers, or random UUID
+#     [%X{session}] session ID from cookies, else the request-ID
+#     [%X{string}] variable set using ::Logging.mdc['string'] =
+
+:default:
+  :colorize: false
+  :console_inline: false
+  :log_trace: false
+  :level: info
+  :type: file
+  :pattern: "%d %.8X{session} [%c] [%.1l] %m\n"
+
+:production:
+  :filename: "production.log"
+
+:development:
+  :colorize: true
+  :console_inline: true
+  :level: debug
+  :filename: "development.log"
+
+:test:
+  :level: debug
+  :filename: "test.log"
+  :truncate: true

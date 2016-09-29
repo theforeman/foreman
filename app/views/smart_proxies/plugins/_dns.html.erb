@@ -1,0 +1,12 @@
+<div class="row">
+  <h3><%= _('DNS') %></h3>
+</div>
+<%= show_feature_version('dns') %>
+<div class="row">
+  <div class="col-md-4">
+    <%= _('Domains') %>
+  </div>
+  <div class="col-md-8">
+    <%= generate_links_for(@smart_proxy.domains).html_safe %>
+  </div>
+</div>

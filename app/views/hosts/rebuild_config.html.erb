@@ -1,0 +1,5 @@
+<%= render 'selected_hosts', :hosts => @hosts %>
+
+<%= form_tag submit_rebuild_config_hosts_path(:host_ids => params[:host_ids]), :onsubmit => "resetSelection()" do %>
+  <small><%= _('Rebuild orchestration configuration') %></small>
+<% end %>

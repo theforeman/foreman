@@ -1,0 +1,12 @@
+<div class="row">
+  <h3><%= _('Realm') %></h3>
+</div>
+<%= show_feature_version('realm') %>
+<div class="row">
+  <div class="col-md-4">
+    <%= _('Realms') %>
+  </div>
+  <div class="col-md-8">
+    <%= generate_links_for(@smart_proxy.realms).html_safe %>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+To learn how to translate or use translations please go visit
+http://projects.theforeman.org/projects/foreman/wiki/Translating
+
+Quick help:
+
+Users and developers
+--------------------
+
+If you do not see translations in the production mode, run either
+
+  # rake gettext:pack
+
+or
+
+  # make -C locale all-mo
+
+to generate translation binary MO files and restart.
+
+Developers
+----------
+
+To re-extract strings from codebase and model into POT/PO files, make sure you
+have up-to-date model (best is to start with clean database) and extract via
+rake task:
+
+  # rake db:migrate
+  # rake db:seed
+  # rake locale:find
+
+Please do not use gettext:pack directly as we do additional postprocessing.

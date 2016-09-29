@@ -1,0 +1,64 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+centos5_3:
+  name: centos
+  major: 5
+  minor: 3
+  type: Redhat
+  media: one
+  architectures: x86_64
+  title: 'centos 5.3'
+
+redhat:
+  name: Redhat
+  major: 6
+  minor: 1
+  type: Redhat
+  description: RHEL 6.1
+  architectures: x86_64
+  media: one
+  title: 'RHEL 6.1'
+
+ubuntu1010:
+  name: Ubuntu
+  major: 10
+  minor: 10
+  type: Debian
+  media: ubuntu
+  architectures: x86_64
+  title: 'Ubuntu 10.10'
+
+ubuntu1210:
+  name: Ubuntu
+  major: 12
+  minor: 10
+  type: Debian
+  media: ubuntu
+  architectures: x86_64
+  title: 'Ubuntu 12.10'
+
+solaris10:
+  name: Solaris
+  major: 5
+  minor: 10
+  type: Solaris
+  media: solaris10
+  architectures: sparc
+  release_name: hw0910
+  title: 'Solaris 5.10'
+
+opensuse:
+  name: OpenSuse
+  major: 12
+  minor: 3
+  type: Suse
+  architectures: x86_64
+  media: opensuse
+  title: 'OpenSuSE 12.3'
+
+no_hosts_os:
+  name: NoHosts
+  major: 1
+  minor: 1
+  type: Redhat
+  title: 'NoHosts 1.1'

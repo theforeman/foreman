@@ -1,0 +1,39 @@
+.lookup_values {
+  .fields {
+    border-top: 1px dotted lightgrey;
+    padding-top: 10px;
+    &:nth-child(3) {
+      border-top: none;
+    }
+    .btn-hide{
+      display: none;
+    }
+  }
+}
+
+.lookup-keys-container {
+  h6 {
+    margin-top: 0px;
+  }
+
+  .help-block {
+    margin: 0px;
+  }
+
+  input[type=checkbox]{
+    margin-top: 8px;
+  }
+
+  .nav a.btn-success:focus{
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
+
+  .matcher .matcher-group {
+    display: block;
+  }
+  
+  .matcher_value {
+    width: 60%;
+  }
+}

@@ -1,0 +1,22 @@
+<div id="host-conflicts-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _('DHCP lease conflicts have been detected') %></h4>
+      </div>
+      <div class="modal-body">
+        <p><%= _('Please correct the error(s) below and submit your changes again.') %></p>
+
+        <div class="alert alert-warning alert-block base">
+          <% @host.errors.get(:dhcp_lease_error).each do |e| %>
+            <li><%= e %></li>
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('OK') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

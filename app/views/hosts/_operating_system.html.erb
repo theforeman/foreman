@@ -1,0 +1,37 @@
+
+<%= select_f f, :architecture_id, accessible_resource(f.object, :architecture), :id, :to_label, {:include_blank => true},
+    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'), :'data-type' => controller_name.singularize,
+    :help_inline => :indicator, :required => true} %>
+
+<span id="os_select">
+  <%= render 'common/os_selection/architecture', :item => @host %>
+</span>
+
+<div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
+  <%= field(f, :provision_method, :label => _('Provisioning Method'), :required => true, :size => 'col-md-10') do
+    Host::Managed.provision_methods.sort_by { |name, friendly_name| name }.collect do |provision_method, friendly_name|
+      radio_button_f(f, :provision_method, :value=>provision_method, :text=> _(friendly_name), :disabled => !@host.new_record?)
+    end.join(' ').html_safe
+  end %>
+</div>
+
+<% Host::Managed.provision_methods.sort_by { |name, friendly_name| name }.each do |provision_method, friendly_name| %>
+  <% if provision_method_partial_exist?(provision_method, 'form') %>
+    <%= render provision_method_partial(provision_method, 'form'), :f => f, :host => @host %>
+  <% end %>
+<% end %>
+
+<div id='root_password'>
+  <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more"), :required => true, :unset => action_name == "edit" %>
+</div>
+<!-- this section is used for displaying the provisioning scripts-->
+<div class="form-group">
+  <label class="col-xs-2 control-label"><%= _('Provisioning templates') %></label>
+  <div class="col-xs-10">
+    <%= link_to_function icon_text("refresh", _("Resolve")), "template_info('#templates_info','#{template_used_hosts_url(:id => @host.id)}')", :class => "btn btn-default" %>
+    <div class="help-block">
+      <%= _("Display the templates that will be used to provision this host") %>
+    </div>
+  </div>
+  <div id="templates_info" class="col-xs-offset-2 col-xs-8"> </div>
+</div>

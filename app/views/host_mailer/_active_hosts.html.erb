@@ -1,0 +1,41 @@
+<tr>
+  <th>
+    <%= _('Hostname') %>
+  </th>
+  <th>
+    <%= _('Host group') %>
+  </th>
+  <th>
+    <%= _('Environment') %>
+  </th>
+  <% list.first.last[:metrics].keys.each do |header| %>
+    <th>
+      <%= header %>
+    </th>
+  <% end %>
+</tr>
+<% list.each do |host,params| %>
+  <tr>
+    <% host_object = Host.find_by_name(host) %>
+    <%= render 'link_to_host', :host => host %>
+    <td class="hosts-rows">
+      <%= host_object.hostgroup %>
+    </td>
+    <td class="hosts-rows">
+      <%= host_object.environment %>
+    </td>
+    <% params[:metrics].each do |m,v| %>
+      <% if m =~ /failed|failed_restart/ and v > 0 %>
+        <td class="hosts-rows red-mark">
+      <% else %>
+        <td class="hosts-rows">
+      <% end %>
+      <% if v > 0 %>
+        <%= link_to v, config_reports_url(:search=>"host = #{host} and #{m} > 0") %>
+      <% else %>
+        <%= v %>
+      <% end %>
+    </td>
+    <% end %>
+  </tr>
+<% end %>

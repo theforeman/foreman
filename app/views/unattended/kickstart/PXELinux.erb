@@ -1,0 +1,25 @@
+<%#
+kind: PXELinux
+name: Kickstart default PXELinux
+oses:
+- CentOS
+- Fedora
+- RedHat
+-%>
+# This file was deployed via '<%= template_name %>' template
+
+TIMEOUT <%= @host.params['loader_timeout'] || 10 %>
+DEFAULT <%= template_name %>
+
+LABEL <%= template_name %>
+  KERNEL <%= @kernel %>
+  <% if @host.operatingsystem.name.match(/.*atomic.*/i) -%>
+  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> repo=<%= @host.operatingsystem.medium_uri(@host) %> ks.device=bootif network ks.sendmac <%= pxe_kernel_options %>
+  <% elsif @host.operatingsystem.name == 'Fedora' and @host.operatingsystem.major.to_i > 16 -%>
+  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> ks.device=bootif network ks.sendmac <%= pxe_kernel_options %>
+  <% elsif @host.operatingsystem.name != 'Fedora' and @host.operatingsystem.major.to_i >= 7 -%>
+  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> network ks.sendmac <%= pxe_kernel_options %>
+  <% else -%>
+  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> ksdevice=bootif network kssendmac <%= pxe_kernel_options %>
+  <% end -%>
+  IPAPPEND 2

@@ -1,0 +1,10 @@
+<%#
+kind: PXEGrub2
+name: PXEGrub2 default local boot
+%>
+<%# Used to boot provisioned hosts, do not associate or change the name. %>
+
+set default=0
+set timeout=20
+
+<%= snippet "pxegrub2_chainload" %>

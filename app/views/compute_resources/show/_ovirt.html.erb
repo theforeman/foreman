@@ -1,0 +1,8 @@
+<tr>
+  <td><%= _("URL") %></td>
+  <td><%= @compute_resource.url %></td>
+</tr>
+<tr>
+  <td><%= _("Operating systems API supported?") %></td>
+  <td><%= @compute_resource.supports_operating_systems? ? icon_text("ok", "", :kind => "pficon") : icon_text("error-circle-o", "", :kind => "pficon") %></td>
+</tr>

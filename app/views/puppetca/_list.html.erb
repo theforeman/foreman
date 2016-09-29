@@ -1,0 +1,38 @@
+<div class="fr filter">
+  <%= _('Filter by state:') %> <%= state_filter %>
+</div>
+<table class="<%= table_css_classes 'table-fixed' %>" data-table="inline">
+  <thead>
+    <tr>
+      <th class="col-md-5"><%= _("Certificate Name") %></th>
+      <th class="col-md-1"><%= _("State") %></th>
+      <th class="col-md-2"><%= _("Valid from") %></th>
+      <th class="col-md-2"><%= _("Expires") %></th>
+      <th class="col-md-1"><%= _("Fingerprint") %></th>
+      <th class="col-md-1"><%= _("Actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @certificates.each do |cert| %>
+      <tr>
+        <td class="ellipsis"><%= cert.name %></td>
+        <td><%= _(cert.state) %></td>
+        <td><%= time_column cert.valid_from %></td>
+        <td><%= time_column cert.expires_at, :tense => :future %></td>
+        <td class="ellipsis"><%= cert.fingerprint %></td>
+        <td>
+          <%= action_buttons(
+                    if cert.state == "pending"
+                      display_link_if_authorized(_("Sign"), hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert), :method => :put)
+                    end,
+                    if cert.state != "revoked"
+                      display_delete_if_authorized(hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param,
+                                                                                      :id => cert,
+                                                                                      :text =>  cert.state == "pending" ? _("Delete") : _("Revoke")))
+                    end)
+            %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

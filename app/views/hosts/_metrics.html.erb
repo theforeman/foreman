@@ -1,0 +1,21 @@
+<table class="<%= table_css_classes %>">
+  <thead>
+    <tr>
+      <th><%= _('Report Status') %></th>
+      <th><%= _('Actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% report_summary.each do |name, value| %>
+      <tr>
+        <td>
+          <%= name %>
+        </td>
+        <% style = (name =~ /failed|failed_restart/ and value > 0) ? "label label-danger" : ""%>
+        <td><p class="<%= style %>">
+            <%= value %>
+          </p></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
