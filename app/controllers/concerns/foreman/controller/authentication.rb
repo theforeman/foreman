@@ -7,7 +7,7 @@ module Foreman::Controller::Authentication
 
   def authenticate
     return true if (User.current && Rails.env.test? && api_request?) ||
-                   session[:user] && (User.current = User.unscoped.find(session[:user]))
+                   session[:user] && (User.current = User.unscoped.find_by(id: session[:user]))
 
     if SETTINGS[:login]
       # authentication is enabled
@@ -17,15 +17,16 @@ module Foreman::Controller::Authentication
         logger.info("Authorized user #{user.login}(#{user.to_label})")
         set_current_user user
       else
-        if api_request?
-          false
-        else
-          # Keep the old request uri that we can redirect later on
-          session[:original_uri] = request.fullpath
-          @available_sso ||= SSO::Base.new(self)
-
-          redirect_to @available_sso.login_url unless @available_sso.has_rendered
+        return false if api_request?
+        # Keep the old request uri that we can redirect later on
+        session[:original_uri] = request.fullpath
+        @available_sso ||= SSO::Base.new(self)
+        if session[:user] && !User.current
+          backup_session_content { reset_session }
+          flash[:warning] = _('Your session has expired, please login again')
         end
+        return if @available_sso.has_rendered
+        redirect_to @available_sso.login_url
       end
     else
       # We assume we always have a user logged in

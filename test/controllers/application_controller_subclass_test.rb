@@ -90,7 +90,8 @@ class TestableResourcesControllerTest < ActionController::TestCase
         @sso.stubs(:current_user).returns(users(:admin))
         @sso.stubs(:support_expiration?).returns(true)
         @sso.stubs(:expiration_url).returns("/users/extlogin")
-        @controller.stubs(:available_sso).returns(@sso)
+        @sso.stubs(:controller).returns(@controller)
+        @controller.instance_variable_set(:@available_sso, @sso)
         @controller.stubs(:get_sso_method).returns(@sso)
       end
 
@@ -126,6 +127,28 @@ class TestableResourcesControllerTest < ActionController::TestCase
         assert_equal taxonomies(:location1).id, session[:location_id]
         assert_equal taxonomies(:organization1).id, session[:organization_id]
         refute session[:foo], "session contains 'foo', but should have been reset"
+      end
+
+      context 'with redirecting authentication' do
+        setup do
+          @sso.stubs(:support_login?).returns(true)
+        end
+
+        it 'redirects to login page on page refresh or navigation by deleted user' do
+          sample_user = users(:admin)
+          get :index, {}, set_session_user.merge(:user => sample_user.id)
+          sample_user.destroy
+
+          def @sso.authenticated?
+            controller.redirect_to '/users/extlogin'
+          end
+          @sso.stubs(:has_rendered).returns(true)
+          @sso.stubs(:current_user).returns(nil)
+          get :index, {}, set_session_user.merge(:user => sample_user.id)
+          assert_response :redirect
+          assert_redirected_to '/users/extlogin'
+          assert_equal('Your session has expired, please login again', flash[:warning])
+        end
       end
     end
   end
@@ -253,6 +276,18 @@ class TestableResourcesControllerTest < ActionController::TestCase
       get :index, {}, set_session_user
       assert_response :success
       assert_template :partial => false
+    end
+  end
+
+  context 'logged in user is deleted' do
+    it 'redirects to login page on page refresh or navigation by deleted user' do
+      sample_user = users(:admin)
+      get :index, {}, set_session_user.merge(:user => sample_user.id)
+      sample_user.destroy
+      get :index, {}, set_session_user.merge(:user => sample_user.id)
+      assert_response :redirect
+      assert_redirected_to login_users_url
+      assert_equal('Your session has expired, please login again', flash[:warning])
     end
   end
 end
