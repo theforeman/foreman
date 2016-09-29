@@ -1,3 +1,4 @@
 group :postgresql do
-  gem 'pg', '~> 0.15'
+  # Matches gem requirement specified in ActiveRecord connection adapter
+  gem 'pg', (SETTINGS[:rails] == '4.2' ? '~> 0.15' : '~> 0.18')
 end

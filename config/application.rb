@@ -165,7 +165,11 @@ module Foreman
     config.assets.version = '1.0'
 
     # Catching Invalid JSON Parse Errors with Rack Middleware
-    config.middleware.insert_before ActionDispatch::ParamsParser, Middleware::CatchJsonParseErrors
+    if Rails::VERSION::MAJOR == 4
+      config.middleware.insert_before ActionDispatch::ParamsParser, Middleware::CatchJsonParseErrors
+    else
+      config.middleware.use Middleware::CatchJsonParseErrors
+    end
 
     # Record request ID in logging MDC storage
     config.middleware.insert_before Rails::Rack::Logger, Middleware::TaggedLogging

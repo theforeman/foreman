@@ -1,16 +1,17 @@
-root = File.expand_path(File.dirname(__FILE__) + "/..")
-require 'yaml'
-require "#{root}/app/services/foreman/version"
+require_relative 'boot_settings'
+require_relative '../app/services/foreman/version'
 
+root = File.expand_path(File.dirname(__FILE__) + "/..")
 settings_file = Rails.env.test? ? 'config/settings.yaml.test' : 'config/settings.yaml'
 
-SETTINGS = YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result)
+SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result)
 SETTINGS[:version] = Foreman::Version.new
 SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
 SETTINGS[:login]    ||= SETTINGS[:ldap]
 SETTINGS[:puppetconfdir] ||= '/etc/puppet'
 SETTINGS[:puppetvardir]  ||= '/var/lib/puppet'
 SETTINGS[:puppetssldir]  ||= "#{SETTINGS[:puppetvardir]}/ssl"
+SETTINGS[:rails] = '%.1f' % SETTINGS[:rails] if SETTINGS[:rails].is_a?(Float) # unquoted YAML value
 
 # Load plugin config, if any
 Dir["#{root}/config/settings.plugins.d/*.yaml"].each do |f|

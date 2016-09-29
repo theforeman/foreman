@@ -1,0 +1,5 @@
+---
+# Distribution settings file
+#
+# Allows distributors to set default boot settings. User settings should be
+# added to settings.yaml, which takes precedence.
