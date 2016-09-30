@@ -3,6 +3,7 @@ class Host::Managed < Host::Base
   include Hostext::Search
   include Hostext::SmartProxy
   include Hostext::Token
+  include Hostext::OperatingSystem
   include SelectiveClone
   include HostParams
   include Facets::ManagedHostExtensions
@@ -77,8 +78,6 @@ class Host::Managed < Host::Base
 
   scope :recent,      ->(*args) { where(["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
   scope :out_of_sync, ->(*args) { where(["last_report < ? and hosts.enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]) }
-
-  scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
 
   scope :with_status, lambda { |status_type|
     eager_load(:host_statuses).where("host_status.type = '#{status_type}'")
@@ -157,7 +156,6 @@ class Host::Managed < Host::Base
     :class_name => Audited.audit_class.name
 
   # some shortcuts
-  alias_attribute :os, :operatingsystem
   alias_attribute :arch, :architecture
 
   validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
@@ -184,7 +182,7 @@ class Host::Managed < Host::Base
     include HostTemplateHelpers
     delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
 
-    validates :architecture_id, :operatingsystem_id, :presence => true, :if => Proc.new {|host| host.managed}
+    validates :architecture_id, :presence => true, :if => Proc.new {|host| host.managed}
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
                           :if => Proc.new { |host| host.managed && host.pxe_build? && build? }
@@ -331,20 +329,7 @@ class Host::Managed < Host::Base
     unattended_render(template.tr("\r", ''), template_name)
   end
 
-  # returns a configuration template (such as kickstart) to a given host
-  def provisioning_template(opts = {})
-    opts[:kind]               ||= "provision"
-    opts[:operatingsystem_id] ||= operatingsystem_id
-    opts[:hostgroup_id]       ||= hostgroup_id
-    opts[:environment_id]     ||= environment_id
-
-    Taxonomy.as_taxonomy(self.organization, self.location) do
-      ProvisioningTemplate.find_template opts
-    end
-  end
-
   # reports methods
-
   def error_count
     %w[failed failed_restarts].sum {|f| status f}
   end
@@ -583,10 +568,6 @@ class Host::Managed < Host::Base
     managed? && SETTINGS[:unattended] && pxe_build? && !build?
   end
 
-  def jumpstart?
-    operatingsystem.family == "Solaris" && architecture.name =~/Sparc/i rescue false
-  end
-
   def hostgroup_inherited_attributes
     %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id}
   end
@@ -797,38 +778,6 @@ class Host::Managed < Host::Base
 
   def validate_media?
     managed && pxe_build? && build?
-  end
-
-  def available_template_kinds(provisioning = nil)
-    kinds = if provisioning == 'image'
-              cr     = ComputeResource.find_by_id(self.compute_resource_id)
-              images = cr.try(:images)
-              if images.blank?
-                [TemplateKind.friendly.find('finish')]
-              else
-                uuid       = self.compute_attributes[cr.image_param_name]
-                image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
-                [TemplateKind.friendly.find(image_kind)]
-              end
-            else
-              TemplateKind.all
-            end
-
-    kinds.map do |kind|
-      ProvisioningTemplate.find_template({ :kind               => kind.name,
-                                           :operatingsystem_id => operatingsystem_id,
-                                           :hostgroup_id       => hostgroup_id,
-                                           :environment_id     => environment_id
-                                         })
-    end.compact
-  end
-
-  def templates_used
-    result = {}
-    available_template_kinds.map do |template|
-      result[template.template_kind_name] = template.name
-    end
-    result
   end
 
   def render_template(template)

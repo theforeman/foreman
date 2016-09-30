@@ -638,8 +638,8 @@ class HostsController < ApplicationController
   # we don't need any has_many relation to determine what proxies are used and the view
   # renders only resulting templates set so the rest of form is unaffected
   def template_used
-    host = params[:id] ? Host.readonly.find(params[:id]) : Host.new
-    host.attributes = host_params.select { |k,v| !k.end_with?('_ids') }.except(:host_parameters_attributes)
+    host = params[:id] ? Host::Base.readonly.find(params[:id]) : Host.new
+    host.attributes = host_attributes_for_templates(host)
     templates = host.available_template_kinds(params[:provisioning])
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
@@ -906,5 +906,16 @@ class HostsController < ApplicationController
 
   def host_power_state(key)
     HOST_POWER[key].merge(:title => _(HOST_POWER[key][:title]))
+  end
+
+  def host_attributes_for_templates(host)
+    # This method wants to only get the attributes applicable to the current
+    # kind of host. For example 'is_owned_by', even if it's in host_params,
+    # should be ignored by Host::Discovered or any other Host class that does
+    # not have that attribute
+    host_attributes = host.class.attribute_names
+    host_params.select do |k,v|
+       host_attributes.include?(k) && !k.end_with?('_ids')
+    end.except(:host_parameters_attributes)
   end
 end
