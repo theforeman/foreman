@@ -100,7 +100,7 @@ function onContentLoad(){
         $(this).html(response);
       }
       if ($(this).data('on-complete')){
-        _.get(window, $(this).data('on-complete')).call(null, this, status);
+        lodash.get(window, $(this).data('on-complete')).call(null, this, status);
       }
     });
   });
@@ -432,7 +432,7 @@ function setPowerState(item, status){
       $('#loading_power_state').remove();
     }
   }else{
-    $('#loading_power_state').text(_('Unknown power state'))
+    $('#loading_power_state').text(__('Unknown power state'))
   }
   power_actions.hide();
   $('[rel="twipsy"]').tooltip();
