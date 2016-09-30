@@ -18,6 +18,17 @@ class RendererTest < ActiveSupport::TestCase
     assert_nothing_raised(NoMethodError) { foreman_url }
   end
 
+  test "pxe_kernel_options are not set when no OS is set" do
+    @host = FactoryGirl.build(:host)
+    assert_equal '', pxe_kernel_options
+  end
+
+  test "pxe_kernel_options returns blacklist option for Red Hat" do
+    @host = FactoryGirl.build(:host, :operatingsystem => Operatingsystem.find_by_name('Redhat'))
+    @host.params['blacklist'] = 'dirty_driver, badbad_driver'
+    assert_equal 'modprobe.blacklist=dirty_driver,badbad_driver', pxe_kernel_options
+  end
+
   [:normal_renderer, :safemode_renderer].each do |renderer_name|
     test "#{renderer_name} is properly configured" do
       send "setup_#{renderer_name}"
