@@ -87,11 +87,11 @@ module Foreman
     end
 
     def pxe_kernel_options
-      return [] unless @host || @host.operatingsystem
-      @host.operatingsystem.pxe_kernel_options(@host.params)
+      return '' unless @host || @host.operatingsystem
+      @host.operatingsystem.pxe_kernel_options(@host.params).join(' ')
     rescue => e
       template_logger.warn "Unable to build PXE kernel options: #{e}"
-      []
+      ''
     end
 
     # provide embedded snippets support as simple erb templates
