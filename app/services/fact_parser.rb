@@ -59,7 +59,7 @@ class FactParser
       result = {}
 
       interfaces = remove_ignored(normalize_interfaces(get_interfaces))
-      logger.debug "We have following interfaces '#{interfaces.join(', ')}' based on facts"
+      logger.debug { "We have following interfaces '#{interfaces.join(', ')}' based on facts" }
 
       interfaces.each do |interface|
         iface_facts = get_facts_for_interface(interface)
@@ -97,11 +97,11 @@ class FactParser
       if (ip = values[:ipaddress]).present?
         begin
           if Resolv::DNS.new.getnames(ip).any? { |name| name.to_s == host_name }
-            logger.debug "resolved #{host_name} for #{ip}, #{int} is selected as primary"
+            logger.debug { "resolved #{host_name} for #{ip}, #{int} is selected as primary" }
             return [int, values]
           end
         rescue Resolv::ResolvError => e
-          logger.debug "could not resolv name for #{ip} because of #{e} #{e.message}"
+          logger.debug { "could not resolv name for #{ip} because of #{e} #{e.message}" }
           nil
         end
       end
@@ -164,7 +164,7 @@ class FactParser
   def remove_ignored(interfaces)
     interfaces.clone.delete_if do |identifier|
       if (remove = identifier.match(ignored_interfaces))
-        logger.debug "skipping interface with identifier '#{identifier}' since it was matched by 'ignored_interface_identifiers' setting "
+        logger.debug { "skipping interface with identifier '#{identifier}' since it was matched by 'ignored_interface_identifiers' setting " }
       end
       remove
     end

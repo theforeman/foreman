@@ -1310,6 +1310,18 @@ class HostTest < ActiveSupport::TestCase
       refute host.interfaces.where(:mac => '00:00:00:11:22:33').first.link
     end
 
+    test "#set_interfaces does not save when no changes made" do
+      host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.1', :ipaddress6 => '2001:db8::1', :link => true})
+      host.primary_interface.update_attribute :mac, '00:00:00:11:22:33'
+      host.primary_interface.update_attribute :ip, '10.0.0.1'
+      host.primary_interface.update_attribute :ip6, '2001:db8::1'
+      host.primary_interface.update_attribute :identifier, 'eth0'
+      Nic::Base.any_instance.expects(:save).never
+      assert_no_difference 'Nic::Base.count' do
+        host.set_interfaces(parser)
+      end
+    end
+
     test "#set_interfaces updates existing physical interface by identifier" do
       host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:22:33:44', :identifier => 'eth0', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :link => false})
       host.managed = false
