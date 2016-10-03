@@ -119,10 +119,12 @@ class PuppetFactParser < FactParser
   end
 
   def get_facts_for_interface(interface)
-    iface_facts = @facts.select { |name, value| name =~ /.*_#{interface}\Z/ }
-    iface_facts = iface_facts.map { |name, value| [name.gsub("_#{interface}", ''), value] }
+    iface_facts = @facts.inject([]) do |facts, (name, value)|
+      facts << [name.chomp("_#{interface}"), value] if name.end_with?("_#{interface}")
+      facts
+    end
     iface_facts = HashWithIndifferentAccess[iface_facts]
-    logger.debug "Interface #{interface} facts: #{iface_facts.inspect}"
+    logger.debug { "Interface #{interface} facts: #{iface_facts.inspect}" }
     iface_facts
   end
 
