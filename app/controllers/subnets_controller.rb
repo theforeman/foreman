@@ -53,7 +53,7 @@ class SubnetsController < ApplicationController
         not_found
         return
       end
-      unless (ipam = subnet.unused_ip(params[:host_mac], params[:taken_ipds])).present?
+      unless (ipam = subnet.unused_ip(params[:host_mac], params[:taken_ips])).present?
         not_found
         return
       end
