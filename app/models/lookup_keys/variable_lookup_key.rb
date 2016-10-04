@@ -16,6 +16,10 @@ class VariableLookupKey < LookupKey
     puppetclass
   end
 
+  def self.humanize_class_name
+    "Smart variable"
+  end
+
   scope :global_parameters_for_class, lambda { |puppetclass_ids|
                                         where(:puppetclass_id => puppetclass_ids)
                                       }
