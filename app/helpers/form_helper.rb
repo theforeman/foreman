@@ -367,8 +367,8 @@ module FormHelper
         content_tag(:div, :class => "#{wrapper_class} #{error.empty? ? '' : 'has-error'}",
                     :id => options.delete(:control_group_id)) do
           input = capture do
-            if options[:input_group_btn]
-              input_group(yield.html_safe, input_group_btn(options[:input_group_btn]))
+            if (group_btn = options.delete(:input_group_btn))
+              input_group(yield.html_safe, input_group_btn(group_btn))
             else
               yield.html_safe
             end
