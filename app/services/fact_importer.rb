@@ -84,9 +84,7 @@ class FactImporter
     ActiveSupport::Notifications.instrument "fact_importer_added.foreman", :host_id => host.id, :host_name => host.name, :facts => facts do |payload|
       facts_to_create = facts.keys - db_facts.pluck('fact_names.name')
       # if the host does not exists yet, we don't have an host_id to use the fact_values table.
-      if facts_to_create.present?
-        facts_to_create.each { |f| add_new_fact(f) }
-      end
+      facts_to_create.each { |f| add_new_fact(f) } if facts_to_create.present?
       payload[:added] = facts_to_create
       payload[:count] = @counters[:added] = facts_to_create.size
     end
