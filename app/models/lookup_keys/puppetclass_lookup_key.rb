@@ -55,4 +55,8 @@ class PuppetclassLookupKey < LookupKey
     return if override?
     errors.add(:override, _("must be true to edit the parameter"))
   end
+
+  def self.humanize_class_name
+    "Smart class parameter"
+  end
 end
