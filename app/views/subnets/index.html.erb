@@ -19,7 +19,7 @@
       <tr>
         <td class="display-two-pane ellipsis"><%=link_to_if_authorized subnet.name, hash_for_edit_subnet_path(:id => subnet).merge(:auth_object => subnet, :authorizer => authorizer) %></td>
         <td><%=subnet.network_address %></td>
-        <td class="ellipsis"><%=subnet.domains.to_sentence %></td>
+        <td class="ellipsis"><%=subnet.domains.map(&:name).to_sentence %></td>
         <td><%=subnet.vlanid %></td>
         <td class="ellipsis"><%=subnet.dhcp %></td>
         <td class="col-md-1">
