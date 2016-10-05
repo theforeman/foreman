@@ -243,7 +243,12 @@ module Foreman #:nodoc:
       pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).
         pending_migrations
 
-      pending_migrations.size > 0
+      return false if pending_migrations.size.zero?
+      migration_names = pending_migrations.take(5).map(&:name).join(', ')
+      Rails.logger.debug(
+        "There are #{pending_migrations.size}) pending migrations: "\
+        "#{migration_names}#{pending_migrations.size > 5 ? '...' : ''}")
+      true
     end
 
     # List of helper methods allowed for templates in safe mode
