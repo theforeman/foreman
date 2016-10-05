@@ -33,6 +33,7 @@ module CommonParametersHelper
     input = f.text_area(field, options.merge(:disabled => disabled,
                                              :class => html_class,
                                              :rows => 1,
+                                             :id => dom_id(f.object) + '_value',
                                              :placeholder => _("Value")))
 
     input_group(input, input_group_btn(hidden_toggle(f.object.hidden_value?), fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
@@ -59,5 +60,9 @@ module CommonParametersHelper
     else
       text_area_tag(id, value, option_hash)
     end
+  end
+
+  def authorized_resource_parameters(resource, type)
+    resource.send(type).authorized(:view_params) + resource.send(type).select(&:new_record?)
   end
 end

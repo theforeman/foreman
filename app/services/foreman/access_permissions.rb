@@ -273,25 +273,6 @@ Foreman::AccessControl.map do |permission_set|
                                       :'api/v2/filters' => [:destroy]}
   end
 
-  permission_set.security_block :global_variables do |map|
-    map.permission :view_globals,    {:common_parameters => [:index, :show, :auto_complete_search],
-                                      :"api/v1/common_parameters" => [:index, :show],
-                                      :"api/v2/common_parameters" => [:index, :show]
-    }
-    map.permission :create_globals, {:common_parameters => [:new, :create],
-                                      :"api/v1/common_parameters" => [:create],
-                                      :"api/v2/common_parameters" => [:create]
-    }
-    map.permission :edit_globals, {:common_parameters => [:edit, :update],
-                                      :"api/v1/common_parameters" => [:update],
-                                      :"api/v2/common_parameters" => [:update]
-    }
-    map.permission :destroy_globals, {:common_parameters => [:destroy],
-                                      :"api/v1/common_parameters" => [:destroy],
-                                      :"api/v2/common_parameters" => [:destroy]
-    }
-  end
-
   permission_set.security_block :hostgroups do |map|
     ajax_actions = [:architecture_selected, :domain_selected, :environment_selected, :medium_selected, :os_selected,
                     :use_image_selected, :process_hostgroup, :puppetclass_parameters, :welcome]
@@ -413,15 +394,28 @@ Foreman::AccessControl.map do |permission_set|
                                     :"api/v2/host_classes" => [:index, :create, :destroy]
                                 }
     map.permission :view_params, { :host_editing => [:view_params],
+                                   :parameters => [:index, :auto_complete_search],
+                                   :common_parameters => [:index, :show, :auto_complete_search],
+                                   :"api/v1/common_parameters" => [:index, :show],
+                                   :"api/v2/common_parameters" => [:index, :show],
                                    :"api/v2/parameters" => [:index, :show]
                                }
     map.permission :create_params, { :host_editing => [:create_params],
+                                     :common_parameters => [:new, :create],
+                                     :"api/v1/common_parameters" => [:create],
+                                     :"api/v2/common_parameters" => [:create],
                                      :"api/v2/parameters" => [:create]
                                  }
     map.permission :edit_params, { :host_editing => [:edit_params],
+                                   :common_parameters => [:edit, :update],
+                                   :"api/v1/common_parameters" => [:update],
+                                   :"api/v2/common_parameters" => [:update],
                                    :"api/v2/parameters" => [:update]
                                }
     map.permission :destroy_params, { :host_editing => [:destroy_params],
+                                      :common_parameters => [:destroy],
+                                      :"api/v1/common_parameters" => [:destroy],
+                                      :"api/v2/common_parameters" => [:destroy],
                                       :"api/v2/parameters" => [:destroy, :reset]
                                   }
   end

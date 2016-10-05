@@ -9,7 +9,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @common_parameters = resource_scope_for_index(:permission => :view_globals)
+        @common_parameters = resource_scope_for_index(:permission => :view_params)
       end
 
       api :GET, "/common_parameters/:id/", N_("Show a global parameter")
@@ -47,6 +47,20 @@ module Api
 
       def destroy
         process_response @common_parameter.destroy
+      end
+
+      private
+
+      def controller_permission
+        'params'
+      end
+
+      def resource_scope(*args, &block)
+        super.where(:type => 'CommonParameter')
+      end
+
+      def resource_class
+        Parameter
       end
     end
   end

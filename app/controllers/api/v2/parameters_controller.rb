@@ -32,8 +32,9 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @parameters = nested_obj.send(parameters_method).search_for(*search_options).paginate(paginate_options)
-        @total = nested_obj.send(parameters_method).count
+        base = nested_obj.send(parameters_method).authorized(current_permission)
+        @parameters = base.search_for(*search_options).paginate(paginate_options)
+        @total = base.count
       end
 
       api :GET, "/hosts/:host_id/parameters/:id", N_("Show a nested parameter for a host")
@@ -155,6 +156,10 @@ module Api
         end
       end
 
+      def controller_permission
+        'params'
+      end
+
       def parameters_method
         # hostgroup.rb has a method def parameters, so I didn't create has_many :parameters like Host, Domain, Os
         # locations and organizations inherit def parameters from taxonomies
@@ -176,7 +181,7 @@ module Api
 
       def find_parameter
         # nested_obj is required, so no need to check here
-        @parameters  = nested_obj.send(parameters_method)
+        @parameters  = nested_obj.send(parameters_method).authorized(current_permission)
         @parameter = @parameters.from_param(params[:id])
         @parameter ||= @parameters.friendly.find(params[:id])
         return @parameter if @parameter.present?

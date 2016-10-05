@@ -2,7 +2,7 @@
   <%= base_errors_for @domain %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Domain") %></a></li>
-    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+    <% if authorizer.can?(:view_params) %>
       <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
     <% end %>
     <% if show_location_tab? %>
@@ -20,7 +20,7 @@
       <%= text_f   f, :fullname, :help_inline => _("Full name describing the domain") %>
       <%= smart_proxy_fields f %>
     </div>
-    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+    <% if authorizer.can?("view_params") %>
       <div class="tab-pane" id="params">
         <%= render "common_parameters/parameters", { :f => f, :type => :domain_parameters } %>
       </div>

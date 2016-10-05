@@ -146,6 +146,11 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
   end
+  resources :parameters, :only => [:index] do
+    collection do
+      get 'auto_complete_search'
+    end
+  end
   resources :environments, :except => [:show] do
     collection do
       get 'import_environments'

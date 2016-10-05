@@ -1,5 +1,4 @@
 class HostParameter < Parameter
-  belongs_to_host :foreign_key => :reference_id, :inverse_of => :host_parameters
   audited :except => [:priority], :associated_with => :host
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :host, :presence => true

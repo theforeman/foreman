@@ -8,8 +8,6 @@ module FiltersHelper
           '' # images are nested resource for CR, we can't autocomplete
         when 'HostClass'
           '' # host classes is only used in API
-        when 'Parameter'
-          '' # parameter is only used in API
         else
           return FiltersHelperOverrides.search_path(type) if FiltersHelperOverrides.can_override?(type)
           resource_path = resource_path(type)

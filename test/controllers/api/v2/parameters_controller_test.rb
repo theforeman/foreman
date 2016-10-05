@@ -290,14 +290,14 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     test 'user with permissions to view host can also view its parameters' do
       setup_user 'view', 'params'
       setup_user 'view', 'hosts', "name = #{@host.name}"
-      get :index, { :host_id => @host.name }, set_session_user
+      get :index, { :host_id => @host.name }, set_session_user(:one)
       assert_response :success
     end
 
     test 'user without permissions to view host cannot view parameters' do
       setup_user 'view', 'params'
       setup_user 'view', 'hosts', "name = some.other.host"
-      get :index, { :host_id => @host.name }, set_session_user
+      get :index, { :host_id => @host.name }, set_session_user(:one)
       assert_response :not_found
     end
   end
