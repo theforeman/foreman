@@ -2,6 +2,14 @@ require 'tempfile'
 
 module Foreman
   module Renderer
+    # foreman_url macro uses url_for, therefore we need url helpers and fake default_url_options
+    # if it's not defined in class the we mix into
+    include Rails.application.routes.url_helpers
+
+    def default_url_options
+      {}
+    end
+
     ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
                                   :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup,
                                   :pxe_kernel_options ]
