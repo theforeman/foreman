@@ -1,3 +1,21 @@
+2016-10-05	Dominic Cleal <dominic@cleal.org>
+	* Release 1.13.0
+
+2016-10-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16765 - DB IPAM works with excluded IPs
+
+2016-10-04	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #16649 - PXE helper pxe_kernel_options rendering
+
+2016-10-04	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #16681 - strong params in config groups API
+
+2016-10-04	Dominic Cleal <dominic@cleal.org>
+	* refs #16702 - fix deprecation passing 'controller' etc.
+
+2016-10-04	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16702 - pass params to dashboard widgets
+
 2016-09-26	Dominic Cleal <dominic@cleal.org>
 	* Release 1.13.0-RC2
 	* i18n - extracting new, pulling from tx
