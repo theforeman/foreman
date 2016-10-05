@@ -51,12 +51,12 @@ class RolesControllerTest < ActionController::TestCase
     assert_nil Role.find_by_id(role.id)
   end
 
-  test 'roles in use cannot be destroyed' do
-    users(:one).roles = [roles(:manager)] # make user one a manager
-    delete :destroy, {:id => roles(:manager)}, set_session_user
+  test 'builtin roles cannot be destroyed' do
+    users(:one).roles = [roles(:default_role)] # make user one a manager
+    delete :destroy, {:id => roles(:default_role)}, set_session_user
     assert_redirected_to roles_path
-    assert_equal 'Role is in use', flash[:error]
-    assert_not_nil Role.find_by_id(roles(:manager).id)
+    assert_equal "Cannot delete built-in role", flash[:error]
+    assert_not_nil Role.find_by_id(roles(:default_role).id)
   end
 
   context "with taxonomies" do
