@@ -16,4 +16,8 @@ module ApplicationShared
     # Reset timezone for the next thread
     Time.zone = default_timezone
   end
+
+  def current_permission
+    [action_permission, controller_permission].join('_')
+  end
 end

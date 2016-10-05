@@ -43,10 +43,10 @@ class CommonParametersController < ApplicationController
   private
 
   def controller_permission
-    'globals'
+    'params'
   end
 
   def resource_base
-    model_of_controller.authorized(current_permission, CommonParameter)
+    model_of_controller.authorized(current_permission, Parameter).where(:type => 'CommonParameter')
   end
 end

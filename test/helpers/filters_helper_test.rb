@@ -11,7 +11,7 @@ class FiltersHelperTest < ActionView::TestCase
   end
 
   def test_search_path_is_empty_for_excepted_classes
-    %w(Image HostClass Parameter).each do |clazz_name|
+    %w(Image HostClass).each do |clazz_name|
       assert_equal '', search_path(clazz_name), "class #{clazz_name} doesn't support autocomplete, shouldn't return autocomplete path"
     end
   end

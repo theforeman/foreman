@@ -165,8 +165,8 @@ class Authorizer
   def resource_name(klass)
     return 'Operatingsystem' if klass <= Operatingsystem
     return 'ComputeResource' if klass <= ComputeResource
-    return 'Parameter' if klass <= Parameter && !(klass <= CommonParameter)
     return 'Subnet' if klass <= Subnet
+    return 'Parameter' if klass <= Parameter
 
     case (name = klass.to_s)
     when 'Audited::Adapters::ActiveRecord::Audit'

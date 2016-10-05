@@ -8,8 +8,10 @@
     </tr>
     </thead>
     <tbody>
-      <%= f.fields_for type do |builder| %>
-        <%= render "common_parameters/parameter", :f => builder if builder.object.new_record? || User.current.can?(:view_params, builder.object) %>
+      <% authorized_resource_parameters(f.object, type).each do |parameter| %>
+        <%= f.fields_for type, parameter do |builder| %>
+          <%= render "common_parameters/parameter", :f => builder %>
+        <% end %>
       <% end %>
     </tbody>
   </table>

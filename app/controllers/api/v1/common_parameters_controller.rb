@@ -13,7 +13,7 @@ module Api
 
       def index
         @common_parameters = CommonParameter.
-          authorized(:view_globals, CommonParameter).
+          authorized(:view_params, Parameter).where(:type => 'CommonParameter').
           search_for(*search_options).
           paginate(paginate_options)
       end
@@ -53,6 +53,20 @@ module Api
 
       def destroy
         process_response @common_parameter.destroy
+      end
+
+      private
+
+      def controller_permission
+        'params'
+      end
+
+      def resource_scope(*args, &block)
+        super.where(:type => 'CommonParameter')
+      end
+
+      def resource_class
+        Parameter
       end
     end
   end
