@@ -8,4 +8,14 @@ module RolesHelper
       end
     end
   end
+
+  def delete_role_confirmation(role)
+    if role.users.any?
+      role_users_count = role.users.size
+      n_("Warning! This will remove %{name} from %{number} user. are you sure?",
+         "Warning! This will remove %{name} from %{number} users. are you sure?", role_users_count) % {name: role.name, number: role_users_count}
+    else
+      _("Delete %s?") % role.name
+    end
+  end
 end
