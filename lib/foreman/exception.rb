@@ -49,4 +49,7 @@ module Foreman
 
   class CyclicGraphException < ::ActiveRecord::RecordInvalid
   end
+
+  class AssociationNotFound < ActiveRecord::RecordNotFound
+  end
 end

@@ -81,7 +81,7 @@ class HasManyCommonTest < ActiveSupport::TestCase
 
   test "should raise not found error if hostgroup name does not exist" do
     host = FactoryGirl.build(:host)
-    assert_raise ActiveRecord::RecordNotFound do
+    assert_raise Foreman::AssociationNotFound do
       host.hostgroup_name = "No such HG"
     end
   end
