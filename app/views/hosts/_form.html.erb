@@ -10,7 +10,7 @@
 
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
-      <% if accessible_puppet_proxies(@host).present? %>
+      <% Setting[:puppet_enabled] && if accessible_puppet_proxies(@host).present? %>
         <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
       <% end %>
       <li id="network_tab" data-refresh-url="<%= interfaces_hosts_path %>"><a href="#network" data-toggle="tab"><%= _('Interfaces') %></a></li>
@@ -20,7 +20,11 @@
           <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
         <% end %>
       <% end %>
-      <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+      <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>'
+      <% if Setting[:puppet_enabled] -%>
+        data-url2='<%= puppetclass_parameters_hosts_path %>'
+      <% end -%>
+      data-toggle="tab"><%= _('Parameters') %></a></li>
       <li><a href="#info" data-toggle="tab"><%= _('Additional Information') %></a></li>
     </ul>
 
@@ -71,15 +75,21 @@
         </div>
         <% end %>
 
-        <%= host_puppet_environment_field f %>
+        <% if Setting[:puppet_enabled] -%>
+          <%= host_puppet_environment_field f %>
+        <% end -%>
 
-        <%= puppet_master_fields f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+        <% if Setting[:puppet_enabled] -%>
+          <%= puppet_master_fields f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
+        <% end -%>
 
         <%= realm_field f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
 
       </div>
 
-      <%= puppetclasses_tab(@host) %>
+      <% if Setting[:puppet_enabled] && accessible_puppet_proxies(@host).present? -%>
+        <%= puppetclasses_tab(@host) %>
+      <% end -%>
 
       <%= f.hidden_field :managed %>
       <%= f.hidden_field :progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)} %>
@@ -92,11 +102,13 @@
       <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed %>
 
       <div class="tab-pane"  id="params">
+        <% if Setting[:puppet_enabled] -%>
         <fieldset>
           <h2><%= _('Puppet class parameters') %></h2>
           <%= render "puppetclasses/classes_parameters", :obj => @host %>
         </fieldset>
         <br/>
+        <% end -%>
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>
             <h2><%= _('Global parameters') %></h2>

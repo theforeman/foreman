@@ -4,6 +4,7 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include HostsNicHelper
   include BmcHelper
+  include HostsGlobalStatusHelper
 
   def provider_partial_exist?(compute_resource, partial)
     return false unless compute_resource
@@ -104,40 +105,6 @@ module HostsHelper
     content
   end
 
-  def host_global_status_icon_class_for_host(host)
-    options = {}
-    options[:last_reports] = @last_reports unless @last_reports.nil?
-    host_global_status_icon_class(host.build_global_status(options).status)
-  end
-
-  def host_global_status_icon_class(status)
-    icon_class = case status
-                 when HostStatus::Global::OK
-                   'pficon-ok'
-                 when HostStatus::Global::WARN
-                   'pficon-info'
-                 when HostStatus::Global::ERROR
-                   'pficon-error-circle-o'
-                 else
-                   'pficon-help'
-                 end
-
-    "host-status #{icon_class} #{host_global_status_class(status)}"
-  end
-
-  def host_global_status_class(status)
-    case status
-      when HostStatus::Global::OK
-        'status-ok'
-      when HostStatus::Global::WARN
-        'status-warn'
-      when HostStatus::Global::ERROR
-        'status-error'
-      else
-        'status-question'
-    end
-  end
-
   def days_ago(time)
     ((Time.zone.now - time) / 1.day).ceil.to_i
   end
@@ -162,10 +129,12 @@ module HostsHelper
       actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
       actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
       actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
-      actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
-      actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
+      if Setting[:puppet_enabled]
+        actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
+        actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
+      end
     end
-    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun] && authorized_for(:controller => :hosts, :action => :puppetrun)
+    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppet_enabled] && Setting[:puppetrun] && authorized_for(:controller => :hosts, :action => :puppetrun)
     actions <<  [_('Change Power State'), select_multiple_power_state_hosts_path] if authorized_for(:controller => :hosts, :action => :power)
     actions << [_('Delete Hosts'), multiple_destroy_hosts_path] if authorized_for(:controller => :hosts, :action => :destroy)
     actions
@@ -276,17 +245,6 @@ module HostsHelper
     fields
   end
 
-  def host_detailed_status_list(host)
-    host.host_statuses.sort_by(&:type).map do |status|
-      next unless status.relevant?
-      [
-        _(status.name),
-        content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
-          content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global))
-      ]
-    end.compact
-  end
-
   def possible_images(cr, arch = nil, os = nil)
     return cr.images unless controller_name == "hosts"
     return [] unless arch && os
@@ -329,7 +287,7 @@ module HostsHelper
         button_group(
           if host.try(:puppet_proxy)
             link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
-                                  :disabled => !Setting[:puppetrun],
+                                  :disabled => !Setting[:puppet_enabled] || !Setting[:puppetrun],
                                   :class => 'btn btn-default',
                                   :title    => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
           end
