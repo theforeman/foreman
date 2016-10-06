@@ -32,6 +32,11 @@ module Api
       not_found
     end
 
+    rescue_from Foreman::AssociationNotFound do |error|
+      logger.info "#{error.message} (#{error.class})"
+      not_found error.message
+    end
+
     rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
     def get_resource

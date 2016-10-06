@@ -30,6 +30,12 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_response 422
   end
 
+  test "should report correct error message for invalid association name" do
+    post :create, {:provisioning_template => {:name => "no", :template_kind_name => 'kind_that_does_not_exist'}}
+    assert_response 404
+    assert_includes JSON.parse(response.body)['message'], 'Could not find template_kind with name: kind_that_does_not_exist'
+  end
+
   test "should update valid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
     put :update, { :id              => templates(:pxekickstart).to_param,
