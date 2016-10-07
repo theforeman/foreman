@@ -1301,6 +1301,28 @@ class HostsControllerTest < ActionController::TestCase
     assert_match(/host must have/, flash[:error])
   end
 
+  describe '#ipmi_boot' do
+    setup do
+      @request.env['HTTP_REFERER'] = host_path(@host.id)
+      setup_user 'ipmi_boot', 'hosts'
+    end
+
+    test 'returns error for non-admin user if BMC is not available' do
+      put :ipmi_boot, { :id => @host.id, :ipmi_device => 'bios'},
+        set_session_user.merge(:user => @one.id)
+      assert_match(/No BMC NIC available for host/, flash[:error])
+      assert_redirected_to host_path(@host.id)
+    end
+
+    test 'responds correctly for non-admin user if BMC is available' do
+      Host::Managed.any_instance.expects(:ipmi_boot).with('bios').returns(true)
+      put :ipmi_boot, { :id => @host.id, :ipmi_device => 'bios'},
+        set_session_user.merge(:user => @one.id)
+      assert_match(/#{@host.name} now boots from BIOS/, flash[:notice])
+      assert_redirected_to host_path(@host.id)
+    end
+  end
+
   private
 
   def initialize_host

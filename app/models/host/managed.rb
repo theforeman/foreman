@@ -761,6 +761,8 @@ class Host::Managed < Host::Base
   end
 
   def ipmi_boot(booting_device)
+    raise Foreman::Exception.new(
+      _("No BMC NIC available for host %s") % self) unless bmc_available?
     bmc_proxy.boot({:function => 'bootdevice', :device => booting_device})
   end
 
