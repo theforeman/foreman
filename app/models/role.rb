@@ -160,8 +160,7 @@ class Role < ActiveRecord::Base
   end
 
   def check_deletable
-    errors.add(:base, _("Role is in use")) if users.any?
-    errors.add(:base, _("Can't delete built-in role")) if builtin?
+    errors.add(:base, _("Cannot delete built-in role")) if builtin?
     errors.empty?
   end
 end

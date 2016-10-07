@@ -36,6 +36,15 @@ class RoleTest < ActiveSupport::TestCase
     role.must_be :valid?
   end
 
+  it "Should delete role who has users" do
+    role = Role.create(:name => 'First')
+    user = FactoryGirl.create(:user)
+    role.users = [user]
+    assert_difference('Role.count', -1) do
+      role.destroy
+    end
+  end
+
   context "System roles" do
     should "return the default role" do
       role = Role.default
