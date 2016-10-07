@@ -223,6 +223,17 @@ class HostJSTest < IntegrationTestWithJavascript
       host = Host::Managed.search_for('name ~ "myhost1"').first
       assert_equal env2.name, host.environment.name
     end
+
+    test 'setting host group updates parameters tab' do
+      hostgroup = FactoryGirl.create(:hostgroup, :with_parameter)
+      visit new_host_path
+      select2(hostgroup.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
+
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}")
+    end
   end
 
   describe "hosts index multiple actions" do
@@ -274,7 +285,8 @@ class HostJSTest < IntegrationTestWithJavascript
 
     test 'choosing a hostgroup does not override other host attributes' do
       original_hostgroup = FactoryGirl.
-        create(:hostgroup, :environment => FactoryGirl.create(:environment))
+        create(:hostgroup, :environment => FactoryGirl.create(:environment),
+                           :puppet_proxy => FactoryGirl.create(:puppet_smart_proxy))
 
       # Make host inherit hostgroup environment
       @host.attributes = @host.apply_inherited_attributes(
@@ -288,12 +300,17 @@ class HostJSTest < IntegrationTestWithJavascript
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
 
-      click_on_inherit('environment')
+      assert_equal original_hostgroup.puppet_proxy.name, find("#s2id_host_puppet_proxy_id .select2-chosen").text
+
+      click_on_inherit('puppet_proxy')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
 
       environment = find("#s2id_host_environment_id .select2-chosen").text
       assert_equal original_hostgroup.environment.name, environment
+
+      # On host group change, the disabled select will be reset to an empty value
+      assert_equal '', find("#s2id_host_puppet_proxy_id .select2-chosen").text
     end
 
     test 'class parameters and overrides are displayed correctly for booleans' do
@@ -314,6 +331,24 @@ class HostJSTest < IntegrationTestWithJavascript
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
       assert_equal find("#s2id_host_lookup_values_attributes_#{lookup_key.id}_value .select2-chosen").text, "true"
+    end
+
+    test 'changing host group updates parameters tab' do
+      hostgroup1, hostgroup2 = FactoryGirl.create_pair(:hostgroup, :with_parameter)
+      host = FactoryGirl.create(:host, :hostgroup => hostgroup1)
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
+
+      click_link 'Host'
+      select2(hostgroup2.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
+
+      click_link 'Parameters'
+      assert page.has_no_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup2.group_parameters.first.name}")
     end
   end
 

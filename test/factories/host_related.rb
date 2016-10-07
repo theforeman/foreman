@@ -450,6 +450,7 @@ FactoryGirl.define do
     trait :with_parameter do
       after(:create) do |hg,evaluator|
         FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)
+        hg.group_parameters.reload
       end
     end
 
