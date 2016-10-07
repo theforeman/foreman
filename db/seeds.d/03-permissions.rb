@@ -69,7 +69,7 @@ permissions = [
   ['Host', 'build_hosts'],
   ['Host', 'power_hosts'],
   ['Host', 'console_hosts'],
-  ['Host', 'ipmi_boot'],
+  ['Host', 'ipmi_boot_hosts'],
   ['Host', 'puppetrun_hosts'],
   ['Image', 'view_images'],
   ['Image', 'create_images'],

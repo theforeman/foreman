@@ -242,6 +242,8 @@ Return the host's compute attributes that can be used to create a clone of this 
         else
           render :json => { :error => _("Unknown device: available devices are %s") % valid_devices.join(', ') }, :status => :unprocessable_entity
         end
+      rescue ::Foreman::Exception => e
+        render_message(e.to_s, :status => :unprocessable_entity)
       end
 
       api :POST, "/hosts/facts", N_("Upload facts for a host, creating the host if required")
@@ -351,7 +353,7 @@ Return the host's compute attributes that can be used to create a clone of this 
       end
 
       def permissions_check
-        permission = "#{params[:action]}_hosts".to_sym
+        permission = "#{action_permission}_hosts".to_sym
         deny_access unless Host.authorized(permission, Host).find(@host.id)
       end
 

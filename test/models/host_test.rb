@@ -3375,6 +3375,26 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#ipmi_boot' do
+    setup do
+      @host = FactoryGirl.build_stubbed(:host)
+    end
+
+    test 'throws exception when host does not have BMC proxy' do
+      assert_raises(Foreman::Exception) do
+        @host.ipmi_boot('bios')
+      end
+    end
+
+    test 'calls the proxy with the right function and device' do
+      bmc_proxy_stub = stub('bmc_proxy')
+      @host.expects(:bmc_available?).returns(true)
+      @host.expects(:bmc_proxy).returns(bmc_proxy_stub)
+      bmc_proxy_stub.expects(:boot).with(:function => 'bootdevice', :device => 'bios').returns(true)
+      assert @host.ipmi_boot('bios')
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)

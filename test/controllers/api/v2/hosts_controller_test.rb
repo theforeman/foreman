@@ -623,6 +623,29 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert @response.body =~ /available devices are/
     end
 
+    context 'permissions' do
+      setup do
+        setup_user 'view', 'hosts'
+        setup_user 'ipmi_boot', 'hosts'
+      end
+
+      test 'returns error for non-admin user if BMC is not available' do
+        put :boot, { :id => @host.to_param, :device => 'bios'},
+          set_session_user.merge(:user => @one.id)
+        assert_match(/No BMC NIC available/, response.body)
+        assert_response :unprocessable_entity
+      end
+
+      test 'responds correctly for non-admin user if BMC is available' do
+        ProxyAPI::BMC.any_instance.stubs(:boot).
+          with(:function => 'bootdevice', :device => 'bios').
+          returns({ "action" => "bios", "result" => true } .to_json)
+        put :boot, { :id => @bmchost.to_param, :device => 'bios'},
+          set_session_user.merge(:user => @one.id)
+        assert_response :success
+      end
+    end
+
     test "should return correct total and subtotal metadata if search param is passed" do
       FactoryGirl.create_list(:host, 8)
       get :index, {:search => @bmchost.name }

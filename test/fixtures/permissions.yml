@@ -294,8 +294,8 @@
     resource_type: Host
     created_at: "2013-12-04 08:41:04.931564"
     updated_at: "2013-12-04 08:41:04.931564"
-  ipmi_boot:
-    name: ipmi_boot
+  ipmi_boot_hosts:
+    name: ipmi_boot_hosts
     resource_type: Host
     created_at: "2013-12-04 08:41:04.940695"
     updated_at: "2013-12-04 08:41:04.940695"
