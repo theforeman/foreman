@@ -94,7 +94,7 @@ class RolesController < ApplicationController
       new_role.name = params[:role][:name]
       new_role.organization_ids = params[:role][:organization_ids]
       new_role.location_ids = params[:role][:location_ids]
-      new_role.builtin = false
+      new_role.builtin = 0
     else
       new_role = Role.new(role_params)
     end
