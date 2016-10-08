@@ -1,0 +1,32 @@
+.select2-container {
+  .select2-selection, .select2-dropdown {
+    border-radius: 0px;
+  }
+
+  .select2-selection--single {
+    height: 26px;
+    .select2-selection__arrow {
+      height: 24px;
+      border-radius: 0px;
+    }
+    .select2-selection__rendered {
+      line-height: 24px;
+    }
+  }
+}
+
+.select2-container--disabled{
+  .select2-selection--single {
+    background: none;
+    background-color: #f4f4f4;
+    cursor: default;
+    .select2-selection__clear {
+      display: none;
+    }
+    .select2-selection__arrow {
+      background: none;
+      background-color: #f4f4f4;
+      border-left: none;
+    }
+  }
+}

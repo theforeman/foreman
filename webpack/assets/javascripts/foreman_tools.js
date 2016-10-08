@@ -35,3 +35,20 @@ export function activateDatatables() {
     });
   });
 }
+
+export function activateSelect2(container = ':root') {
+  $(container).find('select:not(.without_select2)')
+    .not('.form_template select')
+    .not('#interfaceForms select')
+    .each((i, el) => {
+      let opts = {};
+
+      // Only allow clearing if there is a blank option with empty value
+      if ($(el).find('option[value=""]:empty').length) {
+        opts.allowClear = true;
+        opts.placeholder = '';
+      }
+
+      $(el).select2(opts);
+    });
+}

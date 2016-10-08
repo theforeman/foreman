@@ -39,7 +39,7 @@ function activateLogsDataTable() {
       targets: 1
     }]});
   var filter = $('#logs-filter');
-  activate_select2(filter);
+  tfm.tools.activateSelect2(filter);
   filter.on('change', function() { filterLogsByLevel(filter.val()) });
 
   $('#logEntryModal').on('show.bs.modal', function (event) {

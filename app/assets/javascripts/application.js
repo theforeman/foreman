@@ -119,7 +119,7 @@ function onContentLoad(){
   $.cookie('timezone', tz.name(), { path: '/', secure: location.protocol === 'https:' });
 
   $('.full-value').SelectOnClick();
-  activate_select2(':root');
+  tfm.tools.activateSelect2();
 
   $('input.remove_form_templates').closest('form').submit(function(event) {
     $(this).find('.form_template').remove()
@@ -221,7 +221,7 @@ function template_info(div, url) {
     data: form,
     success: function(response, status, xhr) {
       $(div).html(response);
-      activate_select2(div);
+      tfm.tools.activateSelect2(div);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
@@ -453,7 +453,7 @@ function toggle_input_group(item) {
 function reloadOnAjaxComplete(element) {
   tfm.tools.hideSpinner()
   $('[rel="twipsy"]').tooltip();
-  activate_select2(':root');
+  tfm.tools.activateSelect2();
 }
 
 function set_fullscreen(element){
@@ -558,14 +558,6 @@ function disableButtonToggle(item, explicit) {
   }
 
   $(item).blur();
-}
-
-function activate_select2(container, allowClear) {
-  allowClear = typeof allowClear !== 'undefined' ? allowClear : true;
-  $(container).find('select:not(.without_select2)').
-    not('.form_template select').
-    not('#interfaceForms select').
-    select2({ 'allowClear': allowClear });
 }
 
 function setError(field, text) {
