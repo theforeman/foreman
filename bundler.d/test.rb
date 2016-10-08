@@ -15,4 +15,5 @@ group :test do
   gem 'test_after_commit', '>= 0.4', '< 2.0'
   gem 'shoulda-matchers', '~> 3.0'
   gem 'shoulda-context', '~> 1.2'
+  gem 'coffee-rails'
 end

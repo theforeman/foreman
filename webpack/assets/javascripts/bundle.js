@@ -9,7 +9,11 @@ require('./bundle_flot');
 require('./bundle_multiselect');
 require('./bundle_select2');
 require('./bundle_datatables');
+
 window.tfm = {
+  turboLinks: require('turbolinks'),
   tools: require('./foreman_tools'),
   numFields: require('./jquery.ui.custom_spinners')
 };
+
+tfm.turboLinks.start();
