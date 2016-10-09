@@ -59,7 +59,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
     within("div.navbar-inner") do
       click_link("Statistics")
     end
-    assert page.has_selector?('h4', :text => "OS Distribution")
+    assert page.has_selector?('h1', :text => "Statistics")
   end
 
   test "Trends link" do
