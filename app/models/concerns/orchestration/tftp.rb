@@ -34,17 +34,22 @@ module Orchestration::TFTP
   end
 
   def rebuild_tftp
-    if tftp? || tftp6?
-      begin
-        setTFTP
-      rescue => e
-        Foreman::Logging.exception "Failed to rebuild TFTP record for #{name} (#{ip}/#{ip6})", e, :level => :error
-        false
-      end
-    else
+    unless tftp? || tftp6?
       logger.info "TFTP not supported for #{name} (#{ip}/#{ip6}), skipping orchestration rebuild"
-      true
+      return true
     end
+
+    results = host.operatingsystem.template_kinds.map do |kind|
+      rebuild_tftp_kind_safe(kind)
+    end
+    results.all?
+  end
+
+  def rebuild_tftp_kind_safe(kind)
+    setTFTP(kind)
+  rescue => e
+    Foreman::Logging.exception "Failed to rebuild TFTP record for #{name} (#{ip}/#{ip6})", e, :level => :error
+    false
   end
 
   def generate_pxe_template(kind)

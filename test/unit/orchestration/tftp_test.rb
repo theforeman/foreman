@@ -180,13 +180,17 @@ EXPECTED
 
   test 'should rebuild tftp IPv4' do
     host = FactoryGirl.create(:host, :with_tftp_orchestration)
-    Nic::Managed.any_instance.expects(:setTFTP).returns(true)
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').once.returns(true)
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub').once.returns(true)
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub2').once.returns(true)
     assert host.interfaces.first.rebuild_tftp
   end
 
   test 'should rebuild tftp IPv6' do
     host = FactoryGirl.create(:host, :with_tftp_v6_orchestration)
-    Nic::Managed.any_instance.expects(:setTFTP).returns(true)
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').once.returns(true)
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub').once.returns(true)
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub2').once.returns(true)
     assert host.interfaces.first.rebuild_tftp
   end
 
@@ -234,7 +238,9 @@ EXPECTED
 
   test "should_fail_rebuild_tftp_with_exception" do
     h = FactoryGirl.create(:host, :with_tftp_orchestration)
-    Nic::Managed.any_instance.expects(:setTFTP).raises(StandardError, 'TFTP rebuild failed')
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').raises(StandardError, 'TFTP rebuild failed')
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub').once.returns(true)
+    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub2').once.returns(true)
     refute h.interfaces.first.rebuild_tftp
   end
 
