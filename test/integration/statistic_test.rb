@@ -3,6 +3,7 @@ require 'integration_test_helper'
 class StatisticIntegrationTest < IntegrationTestWithJavascript
   test "statistics page" do
     visit statistics_path
+    wait_for_ajax
     assert page.has_selector?('h3', :text => "OS Distribution")
     assert page.has_selector?('h3', :text => "Architecture Distribution")
     assert page.has_selector?('h3', :text => "Environment Distribution")
