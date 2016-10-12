@@ -3,6 +3,7 @@ module BelongsToProxies
 
   included do
     class_attribute :registered_smart_proxies
+    self.registered_smart_proxies ||= {}
     register_smart_proxies_from_plugins
   end
 
@@ -14,7 +15,7 @@ module BelongsToProxies
     end
 
     def register_smart_proxy(name, options)
-      self.registered_smart_proxies = (registered_smart_proxies || {}).merge(name => options)
+      self.registered_smart_proxies = registered_smart_proxies.merge(name => options)
       belongs_to name, :class_name => 'SmartProxy'
       validates name, :proxy_features => { :feature => options[:feature] }
     end
