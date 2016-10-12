@@ -12,12 +12,20 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
     belongs_to_proxy :foo, :feature => 'Foo'
   end
 
+  class EmptySampleModel
+    include BelongsToProxies
+  end
+
   setup do
     Foreman::Plugin.clear
   end
 
   teardown do
     Foreman::Plugin.clear
+  end
+
+  test '#registered_smart_proxies has default value' do
+    assert_equal({}, EmptySampleModel.registered_smart_proxies)
   end
 
   test '#registered_smart_proxies contains foo proxy' do
