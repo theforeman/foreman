@@ -8,7 +8,15 @@ module ProxyAPI
     end
 
     def message
-      super + ' ' + _('for proxy') + ' ' + url
+      super + proxy_exception_response(exception) +
+        ' ' + _('for proxy') + ' ' + url
+    end
+
+    private
+
+    def proxy_exception_response(exception)
+      return '' unless exception.respond_to?(:response)
+      ": #{exception.response}"
     end
   end
 end
