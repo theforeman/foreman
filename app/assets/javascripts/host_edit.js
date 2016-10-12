@@ -67,7 +67,7 @@ function computeResourceSelected(item){
         handle_nic_updates();
       },
       error: function(jqXHR, status, error){
-        $('#compute_resource').html(Jed.sprintf(__("Error loading virtual machine information: %s"), error));
+        $('#compute_resource').html(jqXHR.responseText);
         $('#compute_resource_tab a').addClass('tab-error');
       },
       success: function(result){
