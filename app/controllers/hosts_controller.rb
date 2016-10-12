@@ -141,6 +141,8 @@ class HostsController < ApplicationController
       render :partial => "compute", :locals => { :compute_resource => compute_resource,
                                                  :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
     end
+  rescue ActionView::Template::Error => exception
+    process_ajax_error exception, 'render compute resource template'
   end
 
   def scheduler_hint_selected
