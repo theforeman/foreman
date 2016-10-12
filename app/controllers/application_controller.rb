@@ -410,7 +410,7 @@ class ApplicationController < ActionController::Base
     port = Rails.configuration.webpack.dev_server.port
     @dev_server = "#{request.protocol}#{request.host}:#{port}"
     append_content_security_policy_directives(script_src: [@dev_server], connect_src: [@dev_server],
-                                              style_src: [@dev_server], image_src: [@dev_server])
+                                              style_src: [@dev_server], img_src: [@dev_server])
   end
 
   class << self
