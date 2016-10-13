@@ -204,7 +204,7 @@ module ApplicationHelper
     text_field_tag(name, val, options)
   end
 
-  def help_path
+  def help_button
     link_to(_("Help"), { :action => "welcome" }, { :class => 'btn btn-default' }) if File.exist?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
 
