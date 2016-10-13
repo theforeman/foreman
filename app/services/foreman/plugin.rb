@@ -92,7 +92,7 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources, :to_prepare_callbacks
+    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources, :to_prepare_callbacks, :permissions
 
     def initialize(id)
       @id = id.to_sym
@@ -104,6 +104,7 @@ module Foreman #:nodoc:
       @template_labels = {}
       @parameter_filters = {}
       @smart_proxies = {}
+      @permissions = {}
     end
 
     def after_initialize
@@ -217,14 +218,16 @@ module Foreman #:nodoc:
     #   class to which this permissions is related, rest of options is passed
     #   to AccessControl
     def permission(name, hash, options = {})
-      return false if pending_migrations
+      @permissions[name] = options.slice(:resource_type)
 
       options[:engine] ||= self.id.to_s
-      Permission.where(:name => name).first_or_create(:resource_type => options[:resource_type])
       options.merge!(:security_block => @security_block)
       Foreman::AccessControl.map do |map|
         map.permission name, hash, options
       end
+
+      return false if pending_migrations || Rails.env.test?
+      Permission.where(:name => name).first_or_create(:resource_type => options[:resource_type])
     end
 
     # Add a new role if it doesn't exist

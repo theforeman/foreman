@@ -50,6 +50,11 @@ module Foreman
         permissions.detect {|p| p.name == name}
       end
 
+      # Removes the permission object given from the control list
+      def remove_permission(permission)
+        !!@permissions.delete(permission)
+      end
+
       # Returns the actions that are allowed by the permission of given name
       def allowed_actions(permission_name)
         perm = permission(permission_name)
