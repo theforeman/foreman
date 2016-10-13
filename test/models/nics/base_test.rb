@@ -1,9 +1,15 @@
 require 'test_helper'
 
-class NicBaseTest < ActiveSupport::TestCase
+class Nic::BaseTest < ActiveSupport::TestCase
   setup do
     disable_orchestration
   end
+
+  should allow_values('00:50:56:84:4e:e3', '00:01:44:55:66:77', '72:00:03:bd:3b:70').
+    for(:mac)
+
+  should_not allow_values('13-61-f1-de-71-73', '01-00-CC-CC-DD-DD', 'ff-ff-ff-ff-ff-ff').
+    for(:mac)
 
   test '#host_managed? returns false if interface does not have a host' do
     nic = FactoryGirl.build(:nic_base)

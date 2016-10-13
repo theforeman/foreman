@@ -1752,7 +1752,7 @@ class HostTest < ActiveSupport::TestCase
         :provider => "IPMI", :username => "root", :password => "secret", :ip => "10.35.19.35",
         :identifier => 'eth2'
       as_user :one do
-        assert h.update_attributes!("interfaces_attributes" => {"0" => {"mac"=>"59:52:10:1e:45:16"}})
+        assert h.update_attributes!("interfaces_attributes" => {"0" => {"mac"=>"00:52:10:1e:45:16"}})
       end
     end
 

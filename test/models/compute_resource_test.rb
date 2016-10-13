@@ -219,15 +219,15 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "#associate_by returns host by MAC attribute" do
-    host = FactoryGirl.create(:host, :mac => '11:22:33:44:55:1a')
+    host = FactoryGirl.create(:host, :mac => '00:22:33:44:55:1a')
     cr = FactoryGirl.build(:compute_resource)
-    assert_equal host, as_admin { cr.send(:associate_by, 'mac', '11:22:33:44:55:1a') }
+    assert_equal host, as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }
   end
 
   test "#associated_by returns read/write host" do
-    FactoryGirl.create(:host, :mac => '11:22:33:44:55:1a')
+    FactoryGirl.create(:host, :mac => '00:22:33:44:55:1a')
     cr = FactoryGirl.build(:compute_resource)
-    refute as_admin { cr.send(:associate_by, 'mac', '11:22:33:44:55:1a') }.readonly?
+    refute as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }.readonly?
   end
 
   describe "find_vm_by_uuid" do
