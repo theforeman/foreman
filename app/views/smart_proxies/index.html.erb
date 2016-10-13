@@ -34,7 +34,7 @@
         <% if SETTINGS[:organizations_enabled] %>
           <td class="hidden-sm hidden-xs nbsp ellipsis"><%= generate_links_for(proxy.organizations).html_safe %></td>
         <% end %>
-        <td class="ellipsis"><%= proxy.features.map(&:name).to_sentence %></td>
+        <td class="ellipsis"><%= proxy.features.map(&:name).sort.to_sentence %></td>
         <td>
           <span class="proxy-show-status"><%= spinner %></span>
         </td>
