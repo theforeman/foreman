@@ -48,7 +48,7 @@ FactoryGirl.define do
   factory :nic_base, :class => Nic::Base do
     type 'Nic::Base'
     sequence(:identifier) { |n| "eth#{n}" }
-    sequence(:mac) { |n| "00:00:00:00:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:mac) { |n| "00:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
 
     trait :with_subnet do
       subnet do
@@ -65,7 +65,7 @@ FactoryGirl.define do
 
   factory :nic_managed, :class => Nic::Managed, :parent => :nic_interface do
     type 'Nic::Managed'
-    sequence(:mac) { |n| "01:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:mac) { |n| "00:33:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
 
     trait :without_ipv4 do
@@ -79,7 +79,7 @@ FactoryGirl.define do
 
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
     type 'Nic::BMC'
-    sequence(:mac) { |n| "01:23:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:mac) { |n| "00:43:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new(255 + n, Socket::AF_INET).to_s }
     provider 'IPMI'
     username 'admin'
@@ -98,7 +98,7 @@ FactoryGirl.define do
   factory :nic_primary_and_provision, :parent => :nic_managed, :class => Nic::Managed do
     primary true
     provision true
-    sequence(:mac) { |n| "01:23:67:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
+    sequence(:mac) { |n| "00:53:67:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
   end
 

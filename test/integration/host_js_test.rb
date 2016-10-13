@@ -163,7 +163,7 @@ class HostJSTest < IntegrationTestWithJavascript
       click_button 'Edit'
       select2 domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       wait_for_ajax
-      fill_in 'host_interfaces_attributes_0_mac', :with => '11:11:11:11:11:11'
+      fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
       click_button 'Ok' #close interfaces
@@ -206,7 +206,7 @@ class HostJSTest < IntegrationTestWithJavascript
       click_button 'Edit'
       select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       wait_for_ajax
-      fill_in 'host_interfaces_attributes_0_mac', :with => '11:11:11:11:11:11'
+      fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '2.3.4.44'
       wait_for_ajax

@@ -63,6 +63,21 @@ module Net
       false
     end
 
+    def self.multicast_mac?(mac)
+      return false unless validate_mac(mac)
+
+      # Get the first byte
+      msb = mac.tr('.:-', '').slice(0..1).to_i(16)
+
+      # Is least significant bit set?
+      msb & 0b1 == 1
+    end
+
+    def self.broadcast_mac?(mac)
+      return false unless validate_mac(mac)
+      mac.downcase == 'ff:ff:ff:ff:ff:ff'
+    end
+
     # validates the mac and raises an error
     def self.validate_mac!(mac)
       raise Error, "Invalid MAC #{mac}" unless validate_mac(mac)

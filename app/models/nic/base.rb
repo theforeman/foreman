@@ -18,6 +18,8 @@ module Nic
              :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
     validates :mac, :presence => true,
               :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? }
+    validate :validate_mac_is_unicast,
+              :if => Proc.new { |nic| nic.managed? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
     validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
@@ -227,6 +229,10 @@ module Nic
 
     def mac_uniqueness
       interface_attribute_uniqueness(:mac, Nic::Base.physical.is_managed)
+    end
+
+    def validate_mac_is_unicast
+      errors.add(:mac, _('must be a unicast MAC address')) if Net::Validations.multicast_mac?(mac) || Net::Validations.broadcast_mac?(mac)
     end
 
     private

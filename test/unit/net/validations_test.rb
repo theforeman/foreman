@@ -40,6 +40,26 @@ class ValidationsTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'multicast_mac?' do
+    test 'MAC address is multicast' do
+      assert_equal true, Net::Validations.multicast_mac?('13:61:f1:de:71:73')
+    end
+
+    test 'MAC address is not multicast' do
+      assert_equal false, Net::Validations.multicast_mac?('3c:15:c2:d2:f4:60')
+    end
+  end
+
+  describe 'broadcast_mac?' do
+    test 'MAC address is broadcast' do
+      assert_equal true, Net::Validations.broadcast_mac?('ff:ff:ff:ff:ff:ff')
+    end
+
+    test 'MAC address is not broadcast' do
+      assert_equal false, Net::Validations.broadcast_mac?('3c:15:c2:d2:f4:60')
+    end
+  end
+
   test "hostname should be valid" do
     assert_nothing_raised Net::Validations::Error do
       Net::Validations.validate_hostname! "this.is.an.example.com"
