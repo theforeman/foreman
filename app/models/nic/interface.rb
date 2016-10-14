@@ -17,7 +17,6 @@ module Nic
 
     # aliases and vlans require identifiers so we can differentiate and properly configure them
     validates :identifier, :presence => true, :if => Proc.new { |o| o.virtual? && o.managed? && o.instance_of?(Nic::Managed) }
-    validate :identifier_change, :on => :update
 
     validate :alias_subnet
 
@@ -66,19 +65,6 @@ module Nic
     def ip_presence_and_formats
       errors.add(:ip, _("is invalid")) if ip.present? && !Net::Validations.validate_ip(ip)
       errors.add(:ip6, _("is invalid")) if ip6.present? && !Net::Validations.validate_ip6(ip6)
-    end
-
-    # we don't allow changes to identifier which would change the interface type e.g. eth0 -> eth0,1 would make
-    # a vlan virtual interface from physical one
-    def identifier_change
-      old_value = self.identifier_was || ''
-      new_value = self.identifier || ''
-
-      %w(. :).each do |forbidden|
-        if old_value.include?(forbidden) != new_value.include?(forbidden)
-          errors.add(:identifier, _("Can't add or remove `%s` from identifier") % forbidden)
-        end
-      end
     end
 
     def alias_subnet
