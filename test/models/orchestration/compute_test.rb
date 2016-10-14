@@ -18,9 +18,41 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       an_ip = '1.2.3.4'
       @cr.stubs(:provided_attributes).returns({:ip => :ip})
       @host.vm.expects(:ip).returns(an_ip)
-      @host.expects(:ip=).returns(an_ip)
-      @host.expects(:validate_foreman_attr).returns(true)
-      assert(@host.send :setComputeDetails)
+      assert @host.send(:setComputeDetails), "Failed to setComputeDetails, errors: #{@host.errors.full_messages}"
+      assert_equal an_ip, @host.ip
+    end
+
+    test "are set for CR providing IP via find_addresses" do
+      an_ip = '1.2.3.4'
+      @cr.stubs(:provided_attributes).returns({:ip => :ip})
+      @host.vm.stubs(:ip_addresses).returns([an_ip])
+      @host.vm.expects(:ip).returns(nil)
+      @host.expects(:ssh_open?).at_least_once.with(an_ip).returns(true)
+      @host.stubs(:compute_attributes).returns({})
+      assert @host.send(:setComputeDetails), "Failed to setComputeDetails, errors: #{@host.errors.full_messages}"
+      assert_equal an_ip, @host.ip
+    end
+
+    test "are set for CR providing IPv6" do
+      an_ip6 = '2001:db8::1'
+      @cr.stubs(:provided_attributes).returns({:ip6 => :ip6})
+      @host.vm.expects(:ip6).returns(an_ip6)
+      assert @host.send(:setComputeDetails), "Failed to setComputeDetails, errors: #{@host.errors.full_messages}"
+      assert_equal an_ip6, @host.ip6
+    end
+
+    test "are set for CR returning a blank value for ip6 while claiming to provide ip4 + ip6" do
+      # Create a host with ip6 = nil to test that validate_foreman_attr does not detect a duplicate ip
+      FactoryGirl.create(:host)
+
+      an_ip = '1.2.3.4'
+      @cr.stubs(:provided_attributes).returns({:ip => :ip, :ip6 => :ip6})
+      @host.vm.stubs(:ip_addresses).returns([an_ip])
+      @host.vm.expects(:ip).returns(an_ip)
+      @host.vm.expects(:ip6).returns(nil)
+      assert @host.send(:setComputeDetails), "Failed to setComputeDetails, errors: #{@host.errors.full_messages}"
+      assert_equal an_ip, @host.ip
+      assert_nil @host.ip6
     end
 
     test "are set for CR providing an unknown attribute" do
