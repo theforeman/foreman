@@ -168,10 +168,23 @@ module Nic
       require_ip_validation?(:ip6, :ip, subnet6)
     end
 
+    # Overwrite setter for ip to force normalization
+    # even when address is set during a callback
+    def ip=(addr)
+      super(Net::Validations.normalize_ip(addr))
+    end
+
+    # Overwrite setter for ip6 to force normalization
+    # even when address is set during a callback
+    def ip6=(addr)
+      super(Net::Validations.normalize_ip6(addr))
+    end
+
     protected
 
     def normalize_mac
       self.mac = Net::Validations.normalize_mac(mac)
+      true
     rescue Net::Validations::Error => e
       self.errors.add(:mac, e.message)
     end

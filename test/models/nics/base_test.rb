@@ -156,4 +156,25 @@ class Nic::BaseTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe 'normalization' do
+    let(:host) { FactoryGirl.build(:host) }
+    let(:nic) { FactoryGirl.build(:nic_base, :host => host) }
+
+    test 'it normalizes ipv4 address' do
+      nic.ip = '001.001.001.001'
+      assert_equal '1.1.1.1', nic.ip
+    end
+
+    test 'it normalizes ipv6 address' do
+      nic.ip6 = '2001:0db8:0000:0000:0000::0001'
+      assert_equal '2001:db8::1', nic.ip6
+    end
+
+    test 'it normalizes mac' do
+      nic.mac = 'aa-bb-cc-dd-ee-ff'
+      assert_valid nic # normalization is done before validation
+      assert_equal 'aa:bb:cc:dd:ee:ff', nic.mac
+    end
+  end
 end

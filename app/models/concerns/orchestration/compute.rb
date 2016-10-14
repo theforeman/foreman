@@ -33,6 +33,10 @@ module Orchestration::Compute
     ip.present? || compute_provides?(:ip)
   end
 
+  def ip6_available?
+    ip6.present? || compute_provides?(:ip6)
+  end
+
   def mac_available?
     mac.present? || compute_provides?(:mac)
   end
@@ -53,8 +57,8 @@ module Orchestration::Compute
                  :action => [self, :setUserData]) if find_image.try(:user_data)
     queue.create(:name   => _("Set up compute instance %s") % self, :priority => 2,
                  :action => [self, :setCompute])
-    queue.create(:name   => _("Acquire IP address for %s") % self, :priority => 3,
-                 :action => [self, :setComputeIP]) if compute_provides?(:ip)
+    queue.create(:name   => _("Acquire IP addresses for %s") % self, :priority => 3,
+                 :action => [self, :setComputeIP]) if compute_provides?(:ip) || compute_provides?(:ip6)
     queue.create(:name   => _("Query instance details for %s") % self, :priority => 4,
                  :action => [self, :setComputeDetails])
     queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
@@ -124,16 +128,21 @@ module Orchestration::Compute
       attrs.each do |foreman_attr, fog_attr|
         if foreman_attr == :mac
           return false unless match_macs_to_nics(fog_attr)
-        elsif foreman_attr == :ip
-          value = vm.send(fog_attr) || find_address
+        elsif [:ip, :ip6].include?(foreman_attr)
+          value = vm.send(fog_attr) || find_address(foreman_attr)
           self.send("#{foreman_attr}=", value)
-          return false unless validate_foreman_attr(value, ::Nic::Base, foreman_attr)
+          return false if self.send(foreman_attr).present? && !validate_foreman_attr(value, ::Nic::Base, foreman_attr)
         else
           value = vm.send(fog_attr)
           self.send("#{foreman_attr}=", value)
-          return false unless validate_foreman_attr(value, Host, foreman_attr)
+          return false unless validate_required_foreman_attr(value, Host, foreman_attr)
         end
       end
+
+      if ip.blank? && ip6.blank? && (compute_provides?(:ip) || compute_provides?(:ip6))
+        return failure(_("Failed to acquire IP addresses from compute resource for %s") % name)
+      end
+
       true
     else
       failure _("failed to save %s") % name
@@ -144,12 +153,14 @@ module Orchestration::Compute
 
   def setComputeIP
     attrs = compute_resource.provided_attributes
-    if attrs.keys.include?(:ip)
+    if attrs.keys.include?(:ip) || attrs.keys.include?(:ip6)
       logger.info "Waiting for #{name} to become ready"
       vm.wait_for { self.ready? }
       logger.info "waiting for instance to acquire ip address"
       vm.wait_for do
-        self.send(attrs[:ip]).present? || self.ip_addresses.present?
+        (attrs.keys.include?(:ip) && self.send(attrs[:ip]).present?) ||
+          (attrs.keys.include?(:ip6) && self.send(attrs[:ip6]).present?) ||
+          self.ip_addresses.present?
       end
     end
   rescue => e
@@ -225,19 +236,25 @@ module Orchestration::Compute
     end
   end
 
-  def find_address
+  def find_address(type)
+    vm_addresses = filter_ip_addresses(vm.ip_addresses, type)
+
+    # We can exit early if the host already has any kind of ip and the vm does not
+    # provide one for this kind to speed up things
+    return if (ip.present? || ip6.present?) && vm_addresses.empty?
+
     # We need to return fast for user-data, so that we save the host before
     # cloud-init finishes, even if the IP is not reachable by Foreman. We do have
     # to return a real IP though, or Foreman will fail to save the host.
-    return vm.ip_addresses.first if (vm.ip_addresses.present? && self.compute_attributes[:user_data].present?)
+    return vm_addresses.first if (vm_addresses.present? && self.compute_attributes[:user_data].present?)
 
     # Loop over the addresses waiting for one to come up
     ip = nil
     begin
       Timeout.timeout(120) do
         until ip
-          ip = vm.ip_addresses.find { |addr| ssh_open?(addr) }
-          sleep 2
+          ip = filter_ip_addresses(vm.ip_addresses, type).detect { |addr| ssh_open?(addr) }
+          sleep 2 unless ip
         end
       end
     rescue Timeout::Error
@@ -246,10 +263,15 @@ module Orchestration::Compute
       # images do require an IP, but it's more accurate to return something here
       # if we have it, and let the SSH orchestration fail (and notify) for an
       # unreachable IP
-      ip = vm.ip_addresses.first if ip.blank?
-      logger.info "acquisition of ip address timed out, using #{ip}"
+      ip = filter_ip_addresses(vm.ip_addresses, type).first if ip.blank?
+      logger.info "acquisition of #{type} address timed out, using #{ip}"
     end
     ip
+  end
+
+  def filter_ip_addresses(addresses, type)
+    check_method = type == :ip6 ? :ipv6? : :ipv4?
+    addresses.map {|ip| IPAddr.new(ip) rescue nil}.compact.select(&check_method).map(&:to_s)
   end
 
   def ssh_open?(ip)
@@ -269,18 +291,21 @@ module Orchestration::Compute
     false
   end
 
-  def validate_foreman_attr(value,object,attr)
+  def validate_foreman_attr(value, object, attr)
     # we can't ensure uniqueness of #foreman_attr using normal rails
     # validations as that gets in a later step in the process
     # therefore we must validate its not used already in our db.
-    if value.blank?
-      delCompute
-      return failure("#{attr} value is blank!")
-    elsif (other_object = object.send("find_by_#{attr}", value))
-      delCompute
+    if (other_object = object.send("find_by_#{attr}", value))
       return failure("#{attr} #{value} is already used by #{other_object}")
     end
     true
+  end
+
+  def validate_required_foreman_attr(value, object, attr)
+    if value.blank?
+      return failure("#{attr} value is blank!")
+    end
+    validate_foreman_attr(value, object, attr)
   end
 
   def match_macs_to_nics(fog_attr)
@@ -309,7 +334,7 @@ module Orchestration::Compute
 
       # validate_foreman_attr handles the failure msg, so we just bubble
       # the false state up the stack
-      return false unless validate_foreman_attr(mac,Nic::Base.physical,:mac)
+      return false unless validate_required_foreman_attr(mac,Nic::Base.physical,:mac)
     end
     true
   end

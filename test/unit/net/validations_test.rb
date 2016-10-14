@@ -206,4 +206,12 @@ class ValidationsTest < ActiveSupport::TestCase
   test "should ignore invalid data when normalizing IPv4 address" do
     assert_equal "xyz.1.2.3", Net::Validations.normalize_ip("xyz.1.2.3")
   end
+
+  test "should normalize IPv6 address" do
+    assert_equal '2001:db8::1', Net::Validations.normalize_ip6('2001:0db8:0000:0000::0001')
+  end
+
+  test "should ignore invalid data when normalizing IPv6 address" do
+    assert_equal 'invalid', Net::Validations.normalize_ip6('invalid')
+  end
 end
