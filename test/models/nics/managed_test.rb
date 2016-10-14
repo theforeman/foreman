@@ -100,36 +100,6 @@ class ManagedTest < ActiveSupport::TestCase
     n = h.interfaces.build :mac => '', :attached_to => 'eth0'
     assert_equal '11:22:33:44:55:66', n.inheriting_mac
   end
-
-  test "#identifier_change ignores any identifier changes for new record" do
-    host = FactoryGirl.build(:host)
-    nic = FactoryGirl.build(:nic_managed, :host => host)
-    assert nic.valid?
-    %w(eth0 eth0.1 eth0:0).each do |valid|
-      nic.identifier = valid
-      assert nic.valid?
-    end
-  end
-
-  test "#identifier_change prevents manipulating dots and commas in identifier for existing record" do
-    host = FactoryGirl.create(:host)
-    [ ['eth0', ['eth0.1', 'eth0:0'], ['eth1']],
-      ['eth0.1', ['eth0:0', 'eth0'], ['eth1.1']],
-      ['eth0:0', ['eth0.1', 'eth0'], ['eth0:1']] ].each do |existing, invalids, valids|
-      nic = FactoryGirl.create(:nic_managed, :identifier => existing, :host => host)
-
-      invalids.each do |invalid|
-        nic.identifier = invalid
-        refute nic.valid?, "expected NIC identifier #{invalid} to be invalid after change from #{existing}"
-        assert nic.errors.messages.has_key?(:identifier), "expected NIC identifier #{invalid} to be invalid after change from #{existing}"
-      end
-
-      valids.each do |valid|
-        nic.identifier = valid
-        nic.valid? # just trigger the validation to populate errors
-        refute nic.errors.messages.has_key?(:identifier), "expected NIC identifier #{valid} to be valid after change from #{existing}"
-      end
-    end
   end
 
   context "there is a domain" do
