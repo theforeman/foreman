@@ -19,7 +19,8 @@ Capybara.register_driver :poltergeist do |app|
     # :inspector => true
     :js_errors => true,
     :timeout => 60,
-    :extensions => ["#{Rails.root}/test/integration/support/poltergeist_onload_extensions.js"]
+    :extensions => ["#{Rails.root}/test/integration/support/poltergeist_onload_extensions.js"],
+    :phantomjs => File.join(Rails.root, 'node_modules', '.bin', 'phantomjs')
   }
   Capybara::Poltergeist::Driver.new(app, opts)
 end
