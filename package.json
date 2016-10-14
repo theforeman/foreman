@@ -28,6 +28,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest-cli": "^16.0.1",
     "jsdom": "^9.5.0",
+    "phantomjs-prebuilt": "^2.1.0",
     "react-addons-test-utils": "^15.3.1",
     "stats-webpack-plugin": "^0.2.1",
     "style-loader": "^0.13.1",
