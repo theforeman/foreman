@@ -8,7 +8,7 @@ die() {
 }
 
 cd ~foreman || die "Cannot change to foreman home directory"
-[ -f Gemfile ] && BUNDLER_CMD="bundle exec"
+[ -f Gemfile ] && [[ -z ${BUNDLER_CMD// } ]] && BUNDLER_CMD="bundle exec"
 CMD="$BUNDLER_CMD $RAKE_CMD"
 if [ $# -eq 0 ]; then
   $RAKE_CMD -h; exit 0;
