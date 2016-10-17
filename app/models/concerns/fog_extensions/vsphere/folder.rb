@@ -3,11 +3,7 @@ module FogExtensions
     module Folder
       extend ActiveSupport::Concern
       def to_label
-        if parent && parent != datacenter
-          "#{parent} / #{name}"
-        else
-          name == "vm" ? "VM Folder" : name
-        end
+        path.slice((path.index(datacenter) + datacenter.length + 1)..-1).gsub('/', ' / ')
       end
     end
   end
