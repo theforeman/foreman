@@ -22,7 +22,7 @@ Collects configuration and log data for Foreman, Smart Proxies, backend
 services and system information while removing security information like
 passwords, tokens and keys.
 
-This program can be used on Foreman instances, Smart Proxy instances or
+This program can be used on Foreman instances, Foreman Smart Proxy instances or
 backend services separately.
 
 SENDING INFORMATION

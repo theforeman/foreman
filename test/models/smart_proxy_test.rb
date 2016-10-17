@@ -86,7 +86,7 @@ class SmartProxyTest < ActiveSupport::TestCase
   test "should not be saved if features do not exist" do
     proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
     error_message = 'Features "feature" in this proxy are not recognized by Foreman. '\
-    'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.'
+    'If these features come from a Foreman Smart Proxy plugin, make sure Foreman has the plugin installed too.'
     ProxyAPI::Features.any_instance.stubs(:features =>["feature"])
     refute proxy.save
     assert_equal(error_message, proxy.errors[:base].first)

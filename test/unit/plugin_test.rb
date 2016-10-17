@@ -376,7 +376,7 @@ class PluginTest < ActiveSupport::TestCase
 
   def test_add_smart_proxy_for
     Foreman::Plugin.register :test_smart_proxy do
-      name 'Smart Proxy test'
+      name 'Foreman Smart Proxy test'
       smart_proxy_for Awesome, :foo, :feature => 'Foo'
     end
     assert_equal({}, Foreman::Plugin.find(:test_smart_proxy).smart_proxies(User))

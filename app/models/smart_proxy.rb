@@ -125,7 +125,7 @@ class SmartProxy < ActiveRecord::Base
         self.features.clear
         if reply.any?
           errors.add :base, _('Features "%s" in this proxy are not recognized by Foreman. '\
-                              'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.to_sentence
+                              'If these features come from a Foreman Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.to_sentence
         else
           errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
         end
