@@ -67,6 +67,11 @@ class DnsTest < ActiveSupport::TestCase
         assert_kind_of Net::DNS::PTR4Record, reverse_record
         assert_equal reverse_record.ip, '1.2.3.4'
       end
+
+      test '#destroy calls delete on proxy with type parameter' do
+        @proxy.expects(:delete).with('www.example.com/A')
+        @record.destroy
+      end
     end
 
     context "a IPv4 reverse record" do
@@ -85,6 +90,11 @@ class DnsTest < ActiveSupport::TestCase
         assert_kind_of Net::DNS::AAAARecord, forward_record
         assert_equal forward_record.hostname, 'www.example.com'
       end
+
+      test '#destroy calls delete on proxy without type parameter' do
+        @proxy.expects(:delete).with('4.3.2.1.in-addr.arpa')
+        @record.destroy
+      end
     end
 
     context "a IPv6 forward record" do
@@ -96,6 +106,11 @@ class DnsTest < ActiveSupport::TestCase
         reverse_record = @record.ptr
         assert_kind_of Net::DNS::PTR6Record, reverse_record
         assert_equal reverse_record.ip, '2001:db8::1'
+      end
+
+      test '#destroy calls delete on proxy with type parameter' do
+        @proxy.expects(:delete).with('www.example.com/AAAA')
+        @record.destroy
       end
     end
 
@@ -114,6 +129,11 @@ class DnsTest < ActiveSupport::TestCase
         forward_record = @record.aaaa
         assert_kind_of Net::DNS::AAAARecord, forward_record
         assert_equal forward_record.hostname, 'www.example.com'
+      end
+
+      test '#destroy calls delete on proxy without type parameter' do
+        @proxy.expects(:delete).with('1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa')
+        @record.destroy
       end
     end
   end
