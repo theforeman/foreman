@@ -76,11 +76,10 @@ class SmartProxyTest < ActiveSupport::TestCase
   end
 
   test "should be saved if features exist" do
-    feature = FactoryGirl.create(:feature, :tftp)
     proxy = FactoryGirl.build(:smart_proxy)
     ProxyAPI::Features.any_instance.stubs(:features =>["tftp"])
     assert proxy.save
-    assert_include(proxy.features, feature)
+    assert_include(proxy.features, features(:tftp))
   end
 
   test "should not be saved if features do not exist" do
