@@ -8,7 +8,7 @@ module Api
       resource_description do
         desc <<-DOC
           Foreman considers a domain and a DNS zone as the same thing. That is, if you
-          are planning to manage a site where all the machines are or the form
+          are planning to manage a site where all the machines are of the form
           <i>hostname</i>.<b>somewhere.com</b> then the domain is <b>somewhere.com</b>.
           This allows Foreman to associate a puppet variable with a domain/site
           and automatically append this variable to all external node requests made
