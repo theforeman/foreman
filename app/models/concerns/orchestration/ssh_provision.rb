@@ -79,12 +79,12 @@ module Orchestration::SSHProvision
     logger.info "SSH connection established to #{provision_ip} - executing template"
     if client.deploy!
       # since we are in a after_commit callback, we need to fetch our host again, and clean up puppet ca on our own
-      Host.find(id).built
+      Host.unscoped.find(id).built
       respond_to?(:initialize_puppetca,true) && initialize_puppetca && delAutosign if puppetca?
     else
       if Setting[:clean_up_failed_deployment]
         logger.info "Deleting host #{name} because of non zero exit code of deployment script."
-        Host.find(id).destroy
+        Host.unscoped.find(id).destroy
       end
       raise ::Foreman::Exception.new(N_("Provision script had a non zero exit"))
     end

@@ -14,15 +14,21 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     assert_equal audit.username, @user.name
   end
 
-  test "host scoped search for audit works" do
-    resource = FactoryGirl.create(:host, :managed)
-    assert Audit.search_for("host = #{resource.name}").count > 0
-  end
+  context 'audit search for hosts' do
+    setup do
+      @resource = FactoryGirl.create(:host, :managed)
+      Organization.current = @resource.organization
+      Location.current = @resource.location
+    end
 
-  test "host autocomplete works in audit search" do
-    FactoryGirl.create(:host, :managed)
-    hosts = Audit.complete_for("host = ", {:controller => 'audits'})
-    assert hosts.count > 0
+    test "host scoped search for audit works" do
+      assert Audit.search_for("host = #{@resource.name}").count > 0
+    end
+
+    test "host autocomplete works in audit search" do
+      hosts = Audit.complete_for("host = ", {:controller => 'audits'})
+      assert hosts.count > 0
+    end
   end
 
   test "audit's change is filtered when data is encrypted" do
