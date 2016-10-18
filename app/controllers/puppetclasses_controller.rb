@@ -9,7 +9,7 @@ class PuppetclassesController < ApplicationController
   before_action :setup_search_options, :only => :index
 
   def index
-    @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).includes(:config_group_classes, :class_params, :environments, :hostgroups).paginate(:page => params[:page])
+    @puppetclasses = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     @hostgroups_authorizer = Authorizer.new(User.current, :collection => HostgroupClass.where(:puppetclass_id => @puppetclasses.map(&:id)).uniq.pluck(:hostgroup_id))
   end
 
