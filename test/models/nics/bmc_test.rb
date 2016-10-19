@@ -3,7 +3,21 @@ require 'test_helper'
 class BMCTest < ActiveSupport::TestCase
   test 'lowercase IPMI provider string gets set to uppercase' do
     host = FactoryGirl.build(:host, :managed)
-    assert FactoryGirl.build(:nic_bmc, :host => host, :provider => 'ipmi').valid?
+    assert FactoryGirl.build(:nic_bmc, :host => host, :provider => 'IPMI').valid?
+  end
+
+  test 'BMC IPMI availability' do
+    host = FactoryGirl.build(:host, :managed)
+    nic = FactoryGirl.build(:nic_bmc, :host => host, :provider => 'IPMI', :username => "user", :password => "pass")
+    host.expects(:bmc_nic).returns(nic)
+    assert host.bmc_available?
+  end
+
+  test 'BMC SSH availability' do
+    host = FactoryGirl.build(:host, :managed)
+    nic = FactoryGirl.build(:nic_bmc, :host => host, :provider => 'SSH')
+    host.expects(:bmc_nic).returns(nic)
+    assert host.bmc_available?
   end
 
   test 'upcasing provider does not fail if provider is not present' do
@@ -33,14 +47,14 @@ class BMCTest < ActiveSupport::TestCase
   end
 
   test 'BMC password is provided in #password' do
-    bmc_nic = FactoryGirl.build(:nic_bmc, :provider => 'ipmi', :password => 'secret')
+    bmc_nic = FactoryGirl.build(:nic_bmc, :provider => 'IPMI', :password => 'secret')
     assert_equal 'secret', bmc_nic.password
   end
 
   context 'with bmc_credentials_accessible => false' do
     setup do
       Setting[:bmc_credentials_accessible] = false
-      @bmc_nic = FactoryGirl.build(:nic_bmc, :provider => 'ipmi', :password => 'secret')
+      @bmc_nic = FactoryGirl.build(:nic_bmc, :provider => 'IPMI', :password => 'secret')
     end
 
     test 'BMC password is redacted in ENC output' do
