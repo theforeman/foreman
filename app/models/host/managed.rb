@@ -761,7 +761,7 @@ class Host::Managed < Host::Base
   def bmc_available?
     ipmi = bmc_nic
     return false if ipmi.nil?
-    ipmi.password.present? && ipmi.username.present? && ipmi.provider == 'IPMI'
+    (ipmi.password.present? && ipmi.username.present? && ipmi.provider == 'IPMI') || ipmi.provider == 'SSH'
   end
 
   def ipmi_boot(booting_device)
