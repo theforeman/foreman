@@ -39,20 +39,20 @@ Please note that the rsync transmission is UNENCRYPTED.
 UPLOADUSAGE
 }
 
-# filter for patterns like password=XYZ or secret: abc!@#$123
+# Filter for patterns like password=XYZ, -storepass XYZ or secret: XYZ
 FILTER_WORDS=(
 password
 PASSWORD
 default_password
+oauth_consumer_key
 secret
 token
-api_token
-oauth_secret
 keystorePass
 truststorePass
+storepass
 )
 FILTER_WORDS_STR=$(IFS=$'|'; echo "${FILTER_WORDS[*]}")
-FILTER="s/($FILTER_WORDS_STR)(\s*[:=]\s*)\S+/\1\2\*\*\*\*\*/g"
+FILTER="s/($FILTER_WORDS_STR)(\"?\s*[:=]\s*)\S+/\1\2+FILTERED+/g"
 
 error() {
   echo $* >&2
@@ -96,7 +96,7 @@ add_file() {
           ;;
         text/plain | application/xml)
           sed -r "$FILTER" "$FILE" > "$DIR$FILE"
-          [ $PRINTPASS -eq 1 ] && grep -H "\*\*\*\*\*" "$DIR$FILE"
+          [ $PRINTPASS -eq 1 ] && grep -H "+FILTERED+" "$DIR$FILE"
           ;;
         *)
           echo "Skipping file $FILE: unknown MIME type $MIME" >> "$DIR/skipped_files"
@@ -312,7 +312,9 @@ add_files /var/log/foreman/db_seed*.log*
 add_files /var/log/foreman/production-*.log*
 add_files /var/log/foreman/production.log
 
-add_files /etc/foreman/*
+# exclude *key.pem files and encryption_key.rb
+add_files /etc/foreman/*.{yml,yaml,conf} /etc/foreman/plugins/*.yaml
+
 add_files /etc/foreman-installer/scenarios.d/{*,*/*,*/.*}
 add_files /var/log/foreman-installer/
 
