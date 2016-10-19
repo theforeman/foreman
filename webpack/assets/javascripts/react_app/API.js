@@ -1,4 +1,5 @@
 import ServerActions from './actions/ServerActions';
+import $ from 'jquery';
 
 export default {
   get(url) {

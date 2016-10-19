@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 const megabyte = 1024 * 1024;
 const gigabyte = 1024 * megabyte;
 
