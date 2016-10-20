@@ -251,9 +251,9 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not trigger dhcp orchestration when importing facts" do
-    host = Host.new(:name => "sinn1636.lan")
-    host.stubs(:skip_orchestration?).returns(false)
-    host.primary_interface.expects(:dhcp_conflict_detected?).never
+    host = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :name => "sinn1636.lan")
+    host.stubs(:skip_orchestration_for_testing?).returns(false) # Explicitly enable orchestration
+    Nic::Managed.any_instance.expects(:dhcp_conflict_detected?).never
     assert host.import_facts(read_json_fixture('facts/facts.json')['facts'])
   end
 

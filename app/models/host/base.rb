@@ -313,6 +313,10 @@ module Host
       @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
     end
 
+    def skip_orchestration?
+      false
+    end
+
     private
 
     def owner_taxonomies_match
