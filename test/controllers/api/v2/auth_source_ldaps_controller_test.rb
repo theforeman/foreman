@@ -19,7 +19,7 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
   end
 
   test "should create auth_source_ldap" do
-    assert_difference('AuthSourceLdap.count', 1) do
+    assert_difference('AuthSourceLdap.unscoped.count', 1) do
       post :create, { :auth_source_ldap => valid_attrs }
     end
     assert_response :created
@@ -31,7 +31,7 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
   end
 
   test "should destroy auth_source_ldap" do
-    assert_difference('AuthSourceLdap.count', -1) do
+    assert_difference('AuthSourceLdap.unscoped.count', -1) do
       auth = auth_sources(:one)
       User.where(:auth_source_id => auth.id).update_all(:auth_source_id => nil)
       delete :destroy, { :id => auth.id }

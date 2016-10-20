@@ -36,9 +36,11 @@ class RealmsControllerTest < ActionController::TestCase
 
   def test_update_valid
     Realm.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Realm.first.name,
-                  :realm => { :realm_proxy_id => SmartProxy.first.id } }, set_session_user
-    assert_equal SmartProxy.first.id, Realm.first.realm_proxy_id
+    realm_id = Realm.unscoped.first.id
+    proxy_id = SmartProxy.unscoped.first.id
+    put :update, {:id => realm_id,
+                  :realm => { :realm_proxy_id => proxy_id } }, set_session_user
+    assert_equal proxy_id, Realm.unscoped.find(realm_id).realm_proxy_id
     assert_redirected_to realms_url
   end
 

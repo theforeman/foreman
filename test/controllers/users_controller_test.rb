@@ -32,7 +32,7 @@ class UsersControllerTest < ActionController::TestCase
       }
     }, set_session_user
     assert_redirected_to users_path
-    refute User.find_by_login('foo').admin
+    refute User.unscoped.find_by_login('foo').admin
   end
 
   test 'should create admin user' do
@@ -46,14 +46,14 @@ class UsersControllerTest < ActionController::TestCase
       }
     }, set_session_user
     assert_redirected_to users_path
-    assert User.find_by_login('foo').admin
+    assert User.unscoped.find_by_login('foo').admin
   end
 
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
     put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
-    mod_user = User.find_by_id(user.id)
+    mod_user = User.unscoped.find_by_id(user.id)
 
     assert mod_user.login == "johnsmith"
     assert_redirected_to users_path
@@ -63,7 +63,7 @@ class UsersControllerTest < ActionController::TestCase
     user = FactoryGirl.create(:user, :with_mail)
     notification = FactoryGirl.create(:mail_notification)
     put :update, { :id => user.id, :user => {:user_mail_notifications_attributes => {'0' => {:mail_notification_id => notification.id, :interval => 'Subscribe'}}}}, set_session_user
-    user = User.find_by_id(user.id)
+    user = User.unscoped.find_by_id(user.id)
     assert user.mail_notifications.include? notification
   end
 
@@ -86,7 +86,7 @@ class UsersControllerTest < ActionController::TestCase
     assert user.roles =([roles(:default_role)])
 
     put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
-    mod_user = User.find_by_id(user.id)
+    mod_user = User.unscoped.find_by_id(user.id)
 
     assert mod_user.roles =([roles(:default_role)])
   end
@@ -101,7 +101,8 @@ class UsersControllerTest < ActionController::TestCase
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy"
                   }
                  }, set_session_user
-    mod_user = User.find_by_id(user.id)
+
+    mod_user = User.unscoped.find_by_id(user.id)
 
     assert mod_user.matching_password?("dummy")
     assert_redirected_to users_path
@@ -117,7 +118,6 @@ class UsersControllerTest < ActionController::TestCase
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY"
                   }
                  }, set_session_user
-
     user.reload
     assert user.matching_password?("changeme")
     assert_template :edit
@@ -176,7 +176,7 @@ class UsersControllerTest < ActionController::TestCase
     user.update_attribute :admin, true
     delete :destroy, {:id => user.id}, set_session_user.merge(:user => user.id)
     assert_redirected_to users_url
-    assert User.exists?(user.id)
+    assert User.unscoped.exists?(user.id)
     assert @request.flash[:notice] == "You cannot delete this user while logged in as this user."
   end
 
@@ -206,7 +206,7 @@ class UsersControllerTest < ActionController::TestCase
       "id"     => user.id}
     put :update, update_hash, set_session_user.merge(:user => user.id)
 
-    assert !User.find_by_login(user.login).mail.blank?
+    assert !User.unscoped.find_by_login(user.login).mail.blank?
   end
 
   test "should login external user" do
@@ -243,7 +243,7 @@ class UsersControllerTest < ActionController::TestCase
     @request.session.clear
     @request.env['REMOTE_USER'] = 'ares'
     get :extlogin, {}, {}
-    assert_redirected_to edit_user_path(User.find_by_login('ares'))
+    assert_redirected_to edit_user_path(User.unscoped.find_by_login('ares'))
   end
 
   test "should use intercept if available" do
@@ -283,7 +283,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'user with edit permission should be able to edit another user' do
     setup_user 'edit', 'users'
-    get :edit, { :id => users(:two) }
+    get :edit, { :id => users(:two) }, set_session_user
     assert_response :success
   end
 
@@ -295,7 +295,8 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'user with update permission should be able to update another user' do
     setup_user 'edit', 'users'
-    put :update, { :id => users(:two).id, :user => { :firstname => 'test' } }
+    put :update, { :id => users(:two).id, :user => { :firstname => 'test' } },
+      set_session_user
 
     assert_response :redirect
   end
@@ -351,12 +352,14 @@ class UsersControllerTest < ActionController::TestCase
     attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
     AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
     AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
+    AuthSourceLdap.any_instance.stubs(:organizations).returns([taxonomies(:organization1)])
+    AuthSourceLdap.any_instance.stubs(:locations).returns([taxonomies(:location1)])
     post :login, {:login => {'login' => 'ldap-user', 'password' => 'password'}}
     assert_redirected_to hosts_path
     assert_match /mail.*invalid/i, flash[:warning]
 
     # Subsequent redirects to the user edit page should preserve the warning
-    user = User.find_by_login('ldap-user')
+    user = User.unscoped.find_by_login('ldap-user')
     get :index, {}, set_session_user.merge(:user => user.id)
     assert_redirected_to edit_user_path(user)
 
@@ -429,7 +432,7 @@ class UsersControllerTest < ActionController::TestCase
                                 :default_organization_id => taxonomies(:organization1).id } }
       assert_redirected_to users_path
 
-      updated_user = User.find(users(:one).id)
+      updated_user = User.unscoped.find(users(:one).id)
       assert_equal taxonomies(:location1),     updated_user.default_location
       assert_equal taxonomies(:organization1), updated_user.default_organization
     end

@@ -52,6 +52,7 @@ module TaxonomiesBaseTest
     test 'it should return array of used ids by hosts' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       subnet = FactoryGirl.create(:subnet_ipv4,
+                                  :"#{opposite_taxonomy}_ids" => [],
                                   :"#{taxonomy_name.pluralize}" => [taxonomy])
       domain = FactoryGirl.create(:domain)
       FactoryGirl.create(:host,
@@ -126,24 +127,24 @@ module TaxonomiesBaseTest
       # check if they match
       assert_equal selected_ids[:environment_ids].sort, environment_ids.sort
       assert_equal selected_ids[:hostgroup_ids].sort, hostgroup_ids.sort
-      assert_equal selected_ids[:subnet_ids].sort, subnet_ids.sort
+      assert_equal selected_ids[:subnet_ids].sort, subnet_ids.uniq.sort
       assert_equal selected_ids[:domain_ids].sort, domain_ids.sort
       assert_equal selected_ids[:realm_ids].sort, realm_ids.sort
-      assert_equal selected_ids[:medium_ids].sort, medium_ids.sort
+      assert_equal selected_ids[:medium_ids].sort, medium_ids.uniq.sort
       assert_equal selected_ids[:user_ids].sort, user_ids.sort
       assert_equal selected_ids[:smart_proxy_ids].sort, smart_proxy_ids.sort
       assert_equal selected_ids[:provisioning_template_ids].sort, provisioning_template_ids.sort
       assert_equal selected_ids[:compute_resource_ids].sort, compute_resource_ids.sort
       # match to manually generated taxable_taxonomies
       assert_equal selected_ids[:environment_ids], [environments(:production).id]
-      assert_equal selected_ids[:hostgroup_ids], []
+      assert_equal selected_ids[:hostgroup_ids], [hostgroups(:common).id]
       assert_equal selected_ids[:subnet_ids], [subnets(:one).id]
       assert_equal selected_ids[:domain_ids], [domains(:mydomain).id, domains(:yourdomain).id]
       assert_equal selected_ids[:medium_ids], [media(:one).id]
-      assert_equal selected_ids[:user_ids], [users(:scoped).id]
+      assert_equal selected_ids[:user_ids], [users(:one).id, users(:scoped).id]
       assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
       assert_equal selected_ids[:provisioning_template_ids], [templates(:mystring2).id]
-      assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id]
+      assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id, compute_resources(:mycompute).id]
     end
 
     test 'it should return selected_ids array of ALL values (when types are ignored)' do
@@ -168,8 +169,8 @@ module TaxonomiesBaseTest
     test "it should clone organization with all associations" do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       taxonomy_dup = taxonomy.dup
-      taxonomy_dup.name = "taxonomy_dup_name"
-      assert taxonomy_dup.save!
+      taxonomy_dup.name = "taxonomy_dup_name_#{rand}"
+      assert taxonomy_dup.save
       assert_equal taxonomy_dup.environment_ids, taxonomy.environment_ids
       assert_equal taxonomy_dup.hostgroup_ids, taxonomy.hostgroup_ids
       assert_equal taxonomy_dup.subnet_ids, taxonomy.subnet_ids
@@ -213,7 +214,7 @@ module TaxonomiesBaseTest
       as_admin do
         assert_equal expected.sort,
           taxonomy_class.public_send(:"my_#{taxonomy_name.pluralize}",
-                                     users(:one)).pluck(:id).sort
+                                     users(:one)).sort
       end
     end
 
@@ -238,7 +239,9 @@ module TaxonomiesBaseTest
       parent = taxonomies(:"#{taxonomy_name}1")
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent.id
       # check that inherited_ids of taxonomy matches selected_ids of parent
-      assert_equal parent.selected_ids, taxonomy.inherited_ids
+      as_admin do
+        assert_equal parent.selected_ids, taxonomy.inherited_ids
+      end
     end
 
     test "selected_or_inherited_ids for inherited taxonomy" do
@@ -258,8 +261,8 @@ module TaxonomiesBaseTest
       subnet = FactoryGirl.create(:subnet_ipv4, :organizations => [taxonomies(:organization1)])
       domain1 = FactoryGirl.create(:domain)
       domain2 = FactoryGirl.create(:domain)
-      parent.update_attribute(:domains,[domain1,domain2])
-      parent.update_attribute(:subnets,[subnet])
+      parent.update_attribute(:domains, [domain1, domain2])
+      parent.update_attribute(:subnets, [subnet])
       # we're no longer using the fixture dhcp/dns/tftp proxy to create the host, so remove them
       parent.update_attribute(:smart_proxies,[smart_proxies(:puppetmaster),smart_proxies(:realm)])
 
@@ -268,7 +271,7 @@ module TaxonomiesBaseTest
                          :compute_resource => compute_resources(:one),
                          :domain           => domain1,
                          :environment      => environments(:production),
-                         :"#{taxonomy_name}"         => parent,
+                         :"#{taxonomy_name}" => parent,
                          :organization     => taxonomies(:organization1),
                          :medium           => media(:one),
                          :operatingsystem  => operatingsystems(:centos5_3),
@@ -277,7 +280,7 @@ module TaxonomiesBaseTest
                          :realm            => realms(:myrealm),
                          :subnet           => subnet)
       FactoryGirl.create(:host,
-                         :"#{taxonomy_name}"         => parent,
+                         :"#{taxonomy_name}" => parent,
                          :domain           => domain2)
       FactoryGirl.create(:os_default_template,
                          :provisioning_template  => templates(:mystring2),
@@ -285,8 +288,8 @@ module TaxonomiesBaseTest
                          :template_kind    => TemplateKind.find_by_name('provision'))
 
       # check that inherited_ids of taxonomy matches selected_ids of parent
-      taxonomy.selected_or_inherited_ids.each do |k,v|
-        assert_equal v.sort, parent.used_and_selected_ids[k].sort
+      taxonomy.inherited_ids.each do |k,v|
+        assert_equal v.sort, parent.selected_ids[k].sort
       end
     end
 
@@ -299,7 +302,7 @@ module TaxonomiesBaseTest
       end
     end
 
-    test "multiple inheritence" do
+    test "multiple inheritance" do
       parent1 = taxonomies(:"#{taxonomy_name}1")
       assert_equal [subnets(:one).id], parent1.selected_ids["subnet_ids"]
 

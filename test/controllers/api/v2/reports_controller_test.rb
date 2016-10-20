@@ -53,6 +53,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Setting[:require_ssl_smart_proxies] = false
 
       proxy = smart_proxies(:puppetmaster)
+      proxy.update_attribute(:url, 'http://foremanimporter.report')
       host = URI.parse(proxy.url).host
       Resolv.any_instance.stubs(:getnames).returns([host])
       post :create, {:report => create_a_puppet_transaction_report }

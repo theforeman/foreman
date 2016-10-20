@@ -27,11 +27,11 @@ class TaxHost
     ids = default_ids_hash
     #types NOT ignored - get ids that are selected
     hash_keys.each do |col|
-      ids[col] = Array(taxonomy.send(col))
+      ids[col] = Array(taxonomy.send(col)).uniq
     end
     #types that ARE ignored - get ALL ids for object
     Array(taxonomy.ignore_types).each do |taxonomy_type|
-      ids["#{taxonomy_type.tableize.singularize}_ids"] = taxonomy_type.constantize.pluck(:id)
+      ids["#{taxonomy_type.tableize.singularize}_ids"] = taxonomy_type.constantize.pluck(:id).uniq
     end
 
     ids["#{opposite_taxonomy_type}_ids"] = Array(taxonomy.send("#{opposite_taxonomy_type}_ids"))
@@ -213,7 +213,7 @@ class TaxHost
   def default_ids_hash(populate_values = false)
     ids = HashWithIndifferentAccess.new
     hash_keys.each do |col|
-      ids[col] = populate_values ? Array(self.send(col)) : []
+      ids[col] = populate_values ? Array(self.send(col)).uniq : []
     end
     ids
   end

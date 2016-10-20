@@ -10,7 +10,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   basic_edit_test
 
   test "should create new environment" do
-    assert_difference 'Environment.count' do
+    assert_difference 'Environment.unscoped.count' do
       post :create, { :commit => "Create", :environment => {:name => "some_environment"} }, set_session_user
     end
     assert_redirected_to environments_path
@@ -22,7 +22,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert environment.save!
 
     put :update, { :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
-    env = Environment.find(environment.id)
+    env = Environment.unscoped.find(environment.id)
     assert env.name == "other_environment"
 
     assert_redirected_to environments_path
@@ -33,7 +33,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
-    assert_difference('Environment.count', -1) do
+    assert_difference('Environment.unscoped.count', -1) do
       delete :destroy, {:id => environment.name}, set_session_user
     end
 
@@ -83,7 +83,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
       }, set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
-    assert Environment.find_by_name("env1").puppetclasses.map(&:name).sort == ["a", "b", "c"]
+    assert_equal ["a", "b", "c"],
+      Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
   end
 
   test "should handle disk environment containing less classes" do
@@ -103,8 +104,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
       }, set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
-    envs = Environment.find_by_name("env1").puppetclasses.map(&:name).sort
-    assert envs == ["a", "b", "c"]
+    envs = Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
+    assert_equal ["a", "b", "c"], envs
   end
   test "should handle disk environment containing less environments" do
     setup_import_classes
@@ -122,7 +123,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
       }, set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
-    assert Environment.find_by_name("env3").puppetclasses.map(&:name).sort == []
+    assert_equal [], Environment.unscoped.find_by_name("env3").puppetclasses.map(&:name).sort
   end
 
   test "should fail to remove active environments" do
@@ -140,13 +141,13 @@ class EnvironmentsControllerTest < ActionController::TestCase
     # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
     post :obsolete_and_new,
       {"changed"=>
-        {"obsolete" =>
-          {"env1"  => '["a","b","c","_destroy_"]'}
-        }
-      }, set_session_user
-    assert Environment.find_by_name("env1").hosts.count > 0
+       {"obsolete" =>
+        {"env1"  => '["a","b","c","_destroy_"]'}
+       }
+    }, set_session_user
+    assert Environment.unscoped.find_by_name("env1").hosts.count > 0
     #assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
-    assert Environment.find_by_name("env1")
+    assert Environment.unscoped.find_by_name("env1")
   end
 
   test "should obey config/ignored_environments.yml" do
@@ -207,11 +208,11 @@ class EnvironmentsControllerTest < ActionController::TestCase
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["new"])
     get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
     post :obsolete_and_new,
-         {"changed" =>
-              {"new" =>
-                   {"new" => '{"a":{"new":{}}}'}
-              }
-         }, set_session_user
-    assert(Environment.all.map(&:name).include?('new'), 'Should include environment with name "new"')
+      {"changed" =>
+       {"new" =>
+        {"new" => '{"a":{"new":{}}}'}
+       }
+    }, set_session_user
+    assert(Environment.unscoped.all.map(&:name).include?('new'), 'Should include environment with name "new"')
   end
 end

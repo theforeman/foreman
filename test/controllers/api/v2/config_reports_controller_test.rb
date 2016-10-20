@@ -48,9 +48,10 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       Setting[:require_ssl_smart_proxies] = false
 
       proxy = smart_proxies(:puppetmaster)
+      proxy.update_attribute(:url, 'http://configreports.foreman')
       host = URI.parse(proxy.url).host
       Resolv.any_instance.stubs(:getnames).returns([host])
-      post :create, {:config_report => create_a_puppet_transaction_report }
+      post :create, { :config_report => create_a_puppet_transaction_report }
       assert_equal proxy, @controller.detected_proxy
       assert_response :created
     end
@@ -61,7 +62,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
 
       Resolv.any_instance.stubs(:getnames).returns(['another.host'])
       post :create, {:config_report => create_a_puppet_transaction_report }
-      assert_equal 403, @response.status
+      assert_response :forbidden
     end
 
     test 'hosts with a registered smart proxy and SSL cert should create a report successfully' do
@@ -83,7 +84,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
       @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
       post :create, {:config_report => create_a_puppet_transaction_report }
-      assert_equal 403, @response.status
+      assert_response :forbidden
     end
 
     test 'hosts with an unverified SSL cert should not be able to create a report' do
@@ -94,7 +95,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
       @request.env['SSL_CLIENT_VERIFY'] = 'FAILED'
       post :create, {:config_report => create_a_puppet_transaction_report }
-      assert_equal 403, @response.status
+      assert_response :forbidden
     end
 
     test 'when "require_ssl_smart_proxies" and "require_ssl" are true, HTTP requests should not be able to create a report' do
@@ -104,7 +105,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :create, {:config_report => create_a_puppet_transaction_report }
-      assert_equal 403, @response.status
+      assert_response :forbidden
     end
 
     test 'when "require_ssl_smart_proxies" is true and "require_ssl" is false, HTTP requests should be able to create reports' do
@@ -142,7 +143,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       delete :destroy, { :id => report.to_param }
     end
     assert_response :success
-    refute Report.find_by_id(report.id)
+    refute Report.unscoped.find_by_id(report.id)
   end
 
   test "should get reports for given host only" do

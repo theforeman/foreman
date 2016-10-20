@@ -23,7 +23,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     refute_empty smart_proxies
 
     returned_proxy_ids = smart_proxies['results'].map { |p| p["id"] }
-    expected_proxy_ids = SmartProxy.with_features("TFTP").map { |p| p.id }
+    expected_proxy_ids = SmartProxy.unscoped.with_features("TFTP").map { |p| p.id }
     assert_equal expected_proxy_ids, returned_proxy_ids
   end
 
@@ -35,7 +35,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     refute_empty smart_proxies
 
     returned_proxy_ids = smart_proxies['results'].map { |p| p["id"] }
-    expected_proxy_ids = SmartProxy.with_features("TFTP").map { |p| p.id }
+    expected_proxy_ids = SmartProxy.unscoped.with_features("TFTP").map { |p| p.id }
     assert_equal expected_proxy_ids, returned_proxy_ids
   end
 
@@ -47,7 +47,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should create smart_proxy" do
-    assert_difference('SmartProxy.count') do
+    assert_difference('SmartProxy.unscoped.count') do
       post :create, { :smart_proxy => valid_attrs }
     end
     assert_response :created
@@ -59,7 +59,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should destroy smart_proxy" do
-    assert_difference('SmartProxy.count', -1) do
+    assert_difference('SmartProxy.unscoped.count', -1) do
       delete :destroy, { :id => smart_proxies(:four).to_param }
     end
     assert_response :success
@@ -131,7 +131,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
       Puppetclass.destroy_all
       Environment.destroy_all
     end
-    assert_difference('Environment.count', 2) do
+    assert_difference('Environment.unscoped.count', 2) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
     end
     assert_response :success
@@ -147,7 +147,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
         Hostgroup.update_all(:environment_id => nil)
         Puppetclass.destroy_all
         Environment.destroy_all
-        assert_difference('Puppetclass.count', 1) do
+        assert_difference('Puppetclass.unscoped.count', 1) do
           post :import_puppetclasses,
                { :id => smart_proxies(:puppetmaster).id }.merge(dryrun_param),
                set_session_user
@@ -164,7 +164,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
       Hostgroup.update_all(:environment_id => nil)
       Puppetclass.destroy_all
       Environment.destroy_all
-      assert_difference('Puppetclass.count', 0) do
+      assert_difference('Puppetclass.unscoped.count', 0) do
         post :import_puppetclasses, { :id => smart_proxies(:puppetmaster).id, :dryrun => true }, set_session_user
       end
     end
@@ -176,7 +176,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     as_admin do
       Environment.create!(:name => 'xyz')
     end
-    assert_difference('Environment.count', -1) do
+    assert_difference('Environment.unscoped.count', -1) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
     end
     assert_response :success
@@ -185,7 +185,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should obsolete puppetclasses" do
     setup_import_classes
     as_admin do
-      assert_difference('Environment.find_by_name("env1").puppetclasses.count', -2) do
+      assert_difference('Environment.unscoped.find_by_name("env1").puppetclasses.count', -2) do
         post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
       end
     end
@@ -195,7 +195,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should update puppetclass smart class parameters" do
     setup_import_classes
     LookupKey.destroy_all
-    assert_difference('LookupKey.count', 1) do
+    assert_difference('LookupKey.unscoped.count', 1) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
     end
     assert_response :success
@@ -205,7 +205,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     setup_import_classes
     Puppetclass.find_by_name('b').destroy
     Puppetclass.find_by_name('c').destroy
-    assert_difference('Environment.count', 0) do
+    assert_difference('Environment.unscoped.count', 0) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
     end
     assert_response :success
@@ -218,7 +218,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     as_admin do
       env_name = 'env1'
       assert Environment.find_by_name(env_name).destroy
-      assert_difference('Environment.count', 1) do
+      assert_difference('Environment.unscoped.count', 1) do
         post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :environment_id => env_name}, set_session_user
       end
       assert_response :success
@@ -232,7 +232,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     as_admin do
       Environment.create!(:name => 'xyz')
     end
-    assert_difference('Environment.count', 0) do
+    assert_difference('Environment.unscoped.count', 0) do
       post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :except => 'obsolete'}, set_session_user
     end
     assert_response :success
@@ -241,8 +241,8 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should NOT add or update puppetclass smart class parameters if pass ?except=new,updated" do
     setup_import_classes
     LookupKey.destroy_all
-    assert_difference('LookupKey.count', 0) do
-     post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :except => 'new,updated'}, set_session_user
+    assert_difference('LookupKey.unscoped.count', 0) do
+      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :except => 'new,updated'}, set_session_user
     end
     assert_response :success
   end
@@ -265,7 +265,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     end
 
     test "should import puppetclasses for specified environment only" do
-      assert_difference('Puppetclass.count', 1) do
+      assert_difference('Puppetclass.unscoped.count', 1) do
         post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :environment_id => 'env1'}, set_session_user
         assert_includes Puppetclass.pluck(:name), 'a'
         refute_includes Puppetclass.pluck(:name), 'b'
@@ -274,7 +274,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     end
 
     test "should import puppetclasses for all environments if none specified" do
-      assert_difference('Puppetclass.count', 2) do
+      assert_difference('Puppetclass.unscoped.count', 2) do
         post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
         assert_includes Puppetclass.pluck(:name), 'a'
         assert_includes Puppetclass.pluck(:name), 'b'

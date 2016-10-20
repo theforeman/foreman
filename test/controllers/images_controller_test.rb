@@ -18,12 +18,14 @@ class ImagesControllerTest < ActionController::TestCase
   end
 
   test "should create image" do
-    assert_difference('Image.count') do
+    assert_difference('Image.unscoped.count') do
       image_attributes = {:name => 'gold', :username => 'ec2-user', :uuid => Foreman.uuid.to_s, :operatingsystem_id => Operatingsystem.first.id, :architecture_id => Architecture.first.id, :compute_resource_id => @image.compute_resource_id}
       post :create, { :image => image_attributes, :compute_resource_id => @image.compute_resource_id }, set_session_user
     end
 
-    assert_redirected_to compute_resource_path(@image.compute_resource)
+    as_admin do
+      assert_redirected_to compute_resource_path(@image.compute_resource)
+    end
   end
 
   test "should get edit" do
@@ -33,7 +35,9 @@ class ImagesControllerTest < ActionController::TestCase
 
   test "should update image" do
     put :update, { :id => @image.to_param, :image => {:name => 'lala', :username => 'ec2-user'}, :compute_resource_id => @image.compute_resource_id }, set_session_user
-    assert_redirected_to compute_resource_path(@image.compute_resource)
+    as_admin do
+      assert_redirected_to compute_resource_path(@image.compute_resource)
+    end
   end
 
   test "should destroy image" do
@@ -41,7 +45,9 @@ class ImagesControllerTest < ActionController::TestCase
       delete :destroy, { :id => @image.to_param, :compute_resource_id => @image.compute_resource_id }, set_session_user
     end
 
-    assert_redirected_to compute_resource_path(@image.compute_resource)
+    as_admin do
+      assert_redirected_to compute_resource_path(@image.compute_resource)
+    end
   end
 
   # listing images in /hosts/new requries a JSON response from this controller
