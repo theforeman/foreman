@@ -33,7 +33,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should not create compute resource when not permitted" do
     setup_user "view"
-    assert_difference('ComputeResource.count', 0) do
+    assert_difference('ComputeResource.unscoped.count', 0) do
       attrs = {:name => "test", :provider => "Libvirt", :url => "qemu://host/system"}
       post :create, {:compute_resource => attrs}, set_session_user
     end
@@ -42,7 +42,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should create compute resource" do
     setup_user "create"
-    assert_difference('ComputeResource.count', +1) do
+    assert_difference('ComputeResource.unscoped.count', +1) do
       attrs = {:name => "test", :provider => "Libvirt", :url => "qemu://host/system"}
       post :create, {:compute_resource => attrs}, set_session_user
     end
@@ -78,14 +78,14 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     old_password = @compute_resource.password
     setup_user "edit"
     put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self"}}, set_session_user
-    @compute_resource = ComputeResource.find(@compute_resource.id)
+    @compute_resource = ComputeResource.unscoped.find(@compute_resource.id)
     assert_equal old_password, @compute_resource.password
   end
 
   test 'blank password submitted in compute resource edit form unsets password' do
     setup_user "edit"
     put :update, {:id => @compute_resource.to_param, :compute_resource => {:name => "editing_self", :password => ''}}, set_session_user
-    @compute_resource = ComputeResource.find(@compute_resource.id)
+    @compute_resource = ComputeResource.unscoped.find(@compute_resource.id)
     assert @compute_resource.password.empty?
   end
 
@@ -121,7 +121,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should not destroy compute resource when not permitted" do
     setup_user "view"
-    assert_difference('ComputeResource.count', 0) do
+    assert_difference('ComputeResource.unscoped.count', 0) do
       delete :destroy, {:id => @compute_resource.to_param}, set_session_user
     end
 
@@ -130,7 +130,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should not destroy compute resource when restricted" do
     setup_user "destroy"
-    assert_difference('ComputeResource.count', 0) do
+    assert_difference('ComputeResource.unscoped.count', 0) do
       delete :destroy, {:id => @your_compute_resource.to_param}, set_session_user
     end
 
@@ -139,7 +139,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should destroy compute resource" do
     setup_user "destroy"
-    assert_difference('ComputeResource.count', -1) do
+    assert_difference('ComputeResource.unscoped.count', -1) do
       delete :destroy, {:id => @compute_resource.to_param}, set_session_user
     end
 

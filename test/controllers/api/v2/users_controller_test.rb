@@ -61,7 +61,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, { :id => user.id, :user => valid_attrs }
     assert_response :success
 
-    mod_user = User.find_by_id(user.id)
+    mod_user = User.unscoped.find_by_id(user.id)
     assert mod_user.login == "johnsmith"
   end
 
@@ -70,7 +70,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, { :id => user.id, :user => { :admin => true } }
 
     assert_response :success
-    assert User.find_by_id(user.id).admin?
+    assert User.unscoped.find_by_id(user.id).admin?
   end
 
   test "should not remove the default role" do
@@ -81,7 +81,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, { :id => user.id, :user => { :login => "johnsmith" } }
     assert_response :success
 
-    mod_user = User.find_by_id(user.id)
+    mod_user = User.unscoped.find_by_id(user.id)
 
     assert mod_user.roles =([roles(:default_role)])
   end
@@ -94,7 +94,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
     assert_response :success
 
-    mod_user = User.find_by_id(user.id)
+    mod_user = User.unscoped.find_by_id(user.id)
     assert mod_user.matching_password?("dummy")
   end
 
@@ -106,7 +106,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
     assert_response :unprocessable_entity
 
-    mod_user = User.find_by_id(user.id)
+    mod_user = User.unscoped.find_by_id(user.id)
     assert mod_user.matching_password?("changeme")
   end
 
@@ -116,7 +116,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     delete :destroy, { :id => user.id }
     assert_response :success
 
-    assert !User.exists?(user.id)
+    refute User.unscoped.exists?(user.id)
   end
 
   test "should not delete same user" do
@@ -130,7 +130,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
       response = ActiveSupport::JSON.decode(@response.body)
       assert_equal "You are trying to delete your own account", response['error']['details']
       assert_equal "Access denied", response['error']['message']
-      assert User.exists?(user.id)
+      assert User.unscoped.exists?(user.id)
     end
   end
 

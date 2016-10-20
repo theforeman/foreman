@@ -23,7 +23,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should create ptable" do
-    assert_difference('Ptable.count') do
+    assert_difference('Ptable.unscoped.count') do
       post :create, { :ptable => valid_attrs }
     end
     assert_response :success
@@ -37,14 +37,14 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   test "should NOT destroy ptable in use" do
     FactoryGirl.create(:host, :ptable_id => @ptable.id)
 
-    assert_difference('Ptable.count', -0) do
+    assert_difference('Ptable.unscoped.count', -0) do
       delete :destroy, { :id => @ptable.to_param }
     end
     assert_response :unprocessable_entity
   end
 
   test "should destroy ptable that is NOT in use" do
-    assert_difference('Ptable.count', -1) do
+    assert_difference('Ptable.unscoped.count', -1) do
       delete :destroy, { :id => @ptable.to_param }
     end
     assert_response :success

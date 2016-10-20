@@ -65,7 +65,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should destroy location if hosts do not use it" do
-    assert_difference('Location.count', -1) do
+    assert_difference('Location.unscoped.count', -1) do
       delete :destroy, { :id => taxonomies(:location2).to_param }
     end
     assert_response :success
@@ -86,7 +86,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should dissociate hosts from the destroyed location" do
     host = FactoryGirl.create(:host, :location => taxonomies(:location1))
-    assert_difference('Location.count', -1) do
+    assert_difference('Location.unscoped.count', -1) do
       delete :destroy, { :id => taxonomies(:location1).to_param }
     end
     assert_response :success
@@ -95,11 +95,20 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should update *_ids. test for domain_ids" do
     # ignore all but Domain
-    @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
+    @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium",
+                              "Subnet", "SmartProxy", "ProvisioningTemplate",
+                              "ComputeResource", "Realm"]
     as_admin do
       @location.save(:validate => false)
       assert_difference('@location.domains.count', 2) do
-        put :update, { :id => @location.to_param, :location => { :domain_ids => Domain.pluck(:id) } }
+        put :update, {
+          :id => @location.to_param,
+          :location => { :domain_ids => Domain.unscoped.pluck(:id) }
+        }
+        User.current = users(:admin)
+        # as_admin gets invalidated after the call, so we need to restore it
+        # in order to make the call to @location.domains.count  in the right
+        # context
       end
     end
     assert_response :success

@@ -139,6 +139,8 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     @test_vm = @compute_resource.vms.create({:flavor_ref => 2, :name => 'test', :image_ref => 2})
     as_admin { @compute_resource.save }
     setup_user "power"
+    @compute_resource.organizations = User.current.organizations
+    @compute_resource.locations = User.current.locations
 
     Fog::Compute::OpenStack::Server.any_instance.expects(:state).returns('ACTIVE').at_least_once
     Fog::Compute::OpenStack::Server.any_instance.expects(:pause).returns(true)

@@ -96,7 +96,7 @@ class SubnetTest < ActiveSupport::TestCase
     hostgroup = FactoryGirl.create(:hostgroup, :with_subnet)
     subnet = hostgroup.subnet
     refute subnet.destroy
-    assert_match /is being used by/, subnet.errors.full_messages.join("\n")
+    assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
 
   test "should not destroy if host uses it" do

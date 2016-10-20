@@ -23,7 +23,7 @@ class Api::V1::MediaControllerTest < ActionController::TestCase
   end
 
   test "should create medium" do
-    assert_difference('Medium.count', +1) do
+    assert_difference('Medium.unscoped.count', +1) do
       post :create, { :medium => new_medium }
     end
     assert_response :created
@@ -37,7 +37,7 @@ class Api::V1::MediaControllerTest < ActionController::TestCase
   end
 
   test "should destroy medium" do
-    assert_difference('Medium.count', -1) do
+    assert_difference('Medium.unscoped.count', -1) do
       delete :destroy, { :id => media(:unused).id.to_param }
     end
     assert_response :success

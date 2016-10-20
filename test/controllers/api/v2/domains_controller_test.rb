@@ -40,7 +40,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
 
   test "should update valid domain" do
     put :update, { :id => Domain.first.to_param, :domain => { :name => "domain.new" } }
-    assert_equal "domain.new", Domain.first.name
+    assert_equal "domain.new", Domain.unscoped.first.name
     assert_response :success
   end
 
@@ -69,15 +69,15 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   test "should get domains for location only" do
     get :index, {:location_id => taxonomies(:location1).id }
     assert_response :success
-    assert_equal 2, assigns(:domains).length
-    assert_equal assigns(:domains), [domains(:mydomain), domains(:yourdomain)]
+    assert_equal taxonomies(:location1).domains.length, assigns(:domains).length
+    assert_equal assigns(:domains), taxonomies(:location1).domains
   end
 
   test "should get domains for organization only" do
     get :index, {:organization_id => taxonomies(:organization1).id }
     assert_response :success
-    assert_equal 1, assigns(:domains).length
-    assert_equal assigns(:domains), [domains(:mydomain)]
+    assert_equal taxonomies(:organization1).domains.length, assigns(:domains).length
+    assert_equal taxonomies(:organization1).domains, assigns(:domains)
   end
 
   test "should get domains for both location and organization" do

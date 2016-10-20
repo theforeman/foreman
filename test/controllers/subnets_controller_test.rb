@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SubnetsControllerTest < ActionController::TestCase
   setup do
-    @model = Subnet.first
+    @model = subnets(:one)
   end
 
   basic_index_test
@@ -26,15 +26,17 @@ class SubnetsControllerTest < ActionController::TestCase
   end
 
   def test_update_invalid
+    # Find a way to raise the point where User.current changes
     Subnet.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Subnet.first, :subnet => {:network => nil}}, set_session_user
+    subnet_id = @model
+    put :update, {:id => subnet_id, :subnet => {:network => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Subnet.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Subnet.first, :subnet => {:network => '192.168.100.10'}}, set_session_user
-    assert_equal '192.168.100.10', Subnet.first.network
+    put :update, {:id => @model, :subnet => {:network => '192.168.100.10'}}, set_session_user
+    assert_equal '192.168.100.10', Subnet.unscoped.find(@model).network
     assert_redirected_to subnets_url
   end
 
@@ -42,17 +44,16 @@ class SubnetsControllerTest < ActionController::TestCase
     subnet = subnets(:one)
     delete :destroy, {:id => subnet}, set_session_user
     assert_redirected_to subnets_url
-    assert Subnet.exists?(subnet.id)
+    assert Subnet.unscoped.exists?(subnet.id)
   end
 
   def test_destroy
-    subnet = Subnet.first
-    subnet.hosts.clear
-    subnet.interfaces.clear
-    subnet.domains.clear
-    delete :destroy, {:id => subnet}, set_session_user
+    @model.hosts.clear
+    @model.interfaces.clear
+    @model.domains.clear
+    delete :destroy, {:id => @model}, set_session_user
     assert_redirected_to subnets_url
-    assert !Subnet.exists?(subnet.id)
+    refute Subnet.exists?(@model.id)
   end
 
   context 'freeip' do
@@ -153,7 +154,7 @@ class SubnetsControllerTest < ActionController::TestCase
                     :cidr => sample_subnet.cidr,
                     :ipam => sample_subnet.ipam,
                     :boot_mode => sample_subnet.boot_mode }
-    assert_difference 'Subnet.count', 1 do
+    assert_difference 'Subnet.unscoped.count', 1 do
       post :create_multiple, { :subnets => [subnet_hash] }, set_session_user
     end
     assert_response :redirect

@@ -1,4 +1,4 @@
-os_suse = Operatingsystem.where(:type => "Suse") || Operatingsystem.where("name LIKE ?", "suse")
+os_suse = Operatingsystem.unscoped.where(:type => "Suse") || Operatingsystem.unscoped.where("name LIKE ?", "suse")
 
 # Installation media: default mirrors
 Medium.without_auditing do
@@ -12,7 +12,7 @@ Medium.without_auditing do
     { :name => "Ubuntu mirror", :os_family => "Debian", :path => "http://archive.ubuntu.com/ubuntu" },
     { :name => "CoreOS mirror", :os_family => "Coreos", :path => "http://$release.release.core-os.net" }
   ].each do |input|
-    next if Medium.where(['name = ? OR path = ?', input[:name], input[:path]]).any?
+    next if Medium.unscoped.where(['name = ? OR path = ?', input[:name], input[:path]]).any?
     next if audit_modified? Medium, input[:name]
     m = Medium.create input
     raise "Unable to create medium: #{format_errors m}" if m.nil? || m.errors.any?

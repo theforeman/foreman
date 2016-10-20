@@ -110,10 +110,12 @@ class PuppetclassesControllerTest < ActionController::TestCase
     post :parameters, {:id => puppetclass.id, :host_id => host.id,
                        :host => existing_host_attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, assigns(:obj))
-    assert_equal 1, lookup_keys_added.count
-    assert lookup_keys_added.map(&:key).include?("special_info")
-    refute lookup_keys_added.map(&:key).include?("custom_class_param")
+    as_admin do
+      lookup_keys_added = overridable_lookup_keys(puppetclass, assigns(:obj))
+      assert_equal 1, lookup_keys_added.count
+      assert lookup_keys_added.map(&:key).include?("special_info")
+      refute lookup_keys_added.map(&:key).include?("custom_class_param")
+    end
   end
 
   test 'puppetclass lookup keys are added to partial _class_parameters on EXISTING hostgroup form through ajax POST to parameters' do
@@ -124,10 +126,12 @@ class PuppetclassesControllerTest < ActionController::TestCase
     post :parameters, {:id => puppetclass.id, :host_id => hostgroup.id,
                        :hostgroup => existing_hostgroup_attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
-    assert_equal 2, lookup_keys_added.count
-    assert lookup_keys_added.map(&:key).include?("special_info")
-    assert lookup_keys_added.map(&:key).include?("custom_class_param")
+    as_admin do
+      lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
+      assert_equal 2, lookup_keys_added.count
+      assert lookup_keys_added.map(&:key).include?("special_info")
+      assert lookup_keys_added.map(&:key).include?("custom_class_param")
+    end
   end
 
   test 'puppetclass lookup keys are added to partial _class_parameters on NEW host form through ajax POST to parameters' do
@@ -137,10 +141,12 @@ class PuppetclassesControllerTest < ActionController::TestCase
     post :parameters, {:id => puppetclass.id, :host_id => 'null',
                        :host => new_host_attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, host)
-    assert_equal 2, lookup_keys_added.count
-    assert lookup_keys_added.map(&:key).include?("special_info")
-    assert lookup_keys_added.map(&:key).include?("custom_class_param")
+    as_admin do
+      lookup_keys_added = overridable_lookup_keys(puppetclass, host)
+      assert_equal 2, lookup_keys_added.count
+      assert lookup_keys_added.map(&:key).include?("special_info")
+      assert lookup_keys_added.map(&:key).include?("custom_class_param")
+    end
   end
 
   test 'puppetclass lookup keys are added to partial _class_parameters on NEW hostgroup form through ajax POST to parameters' do
@@ -151,10 +157,12 @@ class PuppetclassesControllerTest < ActionController::TestCase
     post :parameters, {:id => puppetclass.id, :host_id => 'null',
                        :hostgroup => new_hostgroup_attributes }, set_session_user
     assert_response :success
-    lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
-    assert_equal 2, lookup_keys_added.count
-    assert lookup_keys_added.map(&:key).include?("special_info")
-    assert lookup_keys_added.map(&:key).include?("custom_class_param")
+    as_admin do
+      lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
+      assert_equal 2, lookup_keys_added.count
+      assert lookup_keys_added.map(&:key).include?("special_info")
+      assert lookup_keys_added.map(&:key).include?("custom_class_param")
+    end
   end
 
   test "sorting by environment name on the index screen should work" do
@@ -206,7 +214,9 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'user with edit_puppetclasses permission should succeed in overriding all parameters' do
     setup_user "edit", "puppetclasses"
-    env = FactoryGirl.create(:environment)
+    env = FactoryGirl.create(:environment,
+                             :organizations => [users(:one).organizations.first],
+                             :locations => [users(:one).locations.first])
     pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
     refute pc.class_params.first.override
     post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
@@ -216,7 +226,9 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'user without edit_puppetclasses permission should fail in overriding all parameters' do
     setup_user "view", "puppetclasses"
-    env = FactoryGirl.create(:environment)
+    env = FactoryGirl.create(:environment,
+                             :organizations => [users(:one).organizations.first],
+                             :locations => [users(:one).locations.first])
     pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
     refute pc.class_params.first.override
     post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)

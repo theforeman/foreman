@@ -59,7 +59,13 @@ class NicTest < ActiveSupport::TestCase
   test "should delegate subnet attributes" do
     subnet = subnets(:two)
     domain = (subnet.domains.any? ? subnet.domains : subnet.domains << Domain.first).first
-    interface = Nic::Managed.create! :ip => "3.3.4.127", :mac => "cabbccddeeff", :host => FactoryGirl.create(:host), :subnet => subnet, :name => "a" + FactoryGirl.create(:host).name, :domain => domain
+    interface = FactoryGirl.build(:nic_managed,
+                                  :ip => "3.3.4.127",
+                                  :mac => "cabbccddeeff",
+                                  :host => FactoryGirl.create(:host),
+                                  :subnet => subnet,
+                                  :name => "a" + FactoryGirl.create(:host).name,
+                                  :domain => domain)
     assert_equal subnet.network, interface.network
     assert_equal subnet.vlanid, interface.vlanid
   end

@@ -13,6 +13,12 @@ AllCops:
 Rails:
   Enabled: true
 
+Style/StringLiterals:
+  Enabled: false
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
+
 # Don't prefer is_a? over kind_of?
 Style/ClassCheck:
   Enabled: false

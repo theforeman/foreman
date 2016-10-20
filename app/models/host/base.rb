@@ -49,8 +49,8 @@ module Host
       org = Organization.expand(Organization.current) if SETTINGS[:organizations_enabled]
       loc = Location.expand(Location.current) if SETTINGS[:locations_enabled]
       conditions = {}
-      conditions[:organization_id] = Array(org).map { |o| o.subtree_ids }.flatten.uniq if org.present?
-      conditions[:location_id] = Array(loc).map { |l| l.subtree_ids }.flatten.uniq if loc.present?
+      conditions[:organization_id] = Array(org).map { |o| o.subtree_ids }.flatten.uniq unless org.nil?
+      conditions[:location_id] = Array(loc).map { |l| l.subtree_ids }.flatten.uniq unless loc.nil?
       conditions
     end
 
