@@ -22,7 +22,7 @@ module Nic
              :operatingsystem, :provisioning_template, :jumpstart?, :build, :build?, :os, :arch,
              :image_build?, :pxe_build?, :pxe_build?, :token, :to_ip_address, :model, :to => :host
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
-             :overwrite?, :skip_orchestration!, :to => :host, :allow_nil => true
+             :overwrite?, :skip_orchestration?, :skip_orchestration!, :to => :host, :allow_nil => true
 
     attr_exportable :ip, :mac, :name, :attrs, :virtual, :link, :identifier, :managed, :primary, :provision, :subnet, :subnet6,
       :tag => ->(nic) { nic.tag if nic.virtual? },

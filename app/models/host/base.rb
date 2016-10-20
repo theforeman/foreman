@@ -307,6 +307,10 @@ module Host
       @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
     end
 
+    def skip_orchestration?
+      false
+    end
+
     private
 
     def build_values_for_primary_interface!(values_for_primary_interface, args)
