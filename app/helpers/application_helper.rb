@@ -50,11 +50,6 @@ module ApplicationHelper
     render :partial => 'common/show_habtm', :collection => associations, :as => :association
   end
 
-  def edit_habtm(klass, association, prefix = nil, options = {})
-    render :partial => 'common/edit_habtm', :locals =>{:prefix => prefix, :klass => klass, :options => options,
-                                                       :associations => association.all.sort.delete_if{|e| e == klass}}
-  end
-
   def link_to_remove_puppetclass(klass, type)
     options = options_for_puppetclass_selection(klass, type)
     text = remove_link_to_function(truncate(klass.name, :length => 28), options)
@@ -154,13 +149,6 @@ module ApplicationHelper
     options[:action] = :new
     html_options[:class] = "btn btn-primary #{html_options[:class]}"
     display_link_if_authorized(name, options, html_options)
-  end
-
-  def authorized_edit_habtm(klass, association, prefix = nil, options = {})
-    if authorized_for :controller => params[:controller], :action => params[:action]
-      return edit_habtm(klass, association, prefix, options)
-    end
-    show_habtm klass.send(association.name.pluralize.downcase)
   end
 
   # renders a style=display based on an attribute properties

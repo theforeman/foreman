@@ -46,15 +46,9 @@ module FormHelper
   end
 
   def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options = {})
-    if associations.count > 5
-      associated_obj = klass.send(ActiveModel::Naming.plural(associations.first))
-      selected_ids = associated_obj.select("#{associations.first.class.table_name}.id").map(&:id)
-      multiple_selects(f, attr, associations, selected_ids, options, html_options)
-    else
-      field(f, attr, options) do
-        authorized_edit_habtm klass, associations, options[:prefix], html_options
-      end
-    end
+    associated_obj = klass.send(ActiveModel::Naming.plural(associations.new))
+    selected_ids = associated_obj.select("#{associations.new.class.table_name}.id").map(&:id)
+    multiple_selects(f, attr, associations, selected_ids, options, html_options)
   end
 
   # add hidden field for options[:disabled]
@@ -68,7 +62,7 @@ module FormHelper
       else
         klass = nil
     end
-    authorized = AssociationAuthorizer.authorized_associations(associations, klass).all
+    authorized = AssociationAuthorizer.authorized_associations(associations.reorder(nil), klass).all
 
     # select2.js breaks the multiselects disabled items location
     # http://projects.theforeman.org/issues/12028

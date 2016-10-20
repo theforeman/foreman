@@ -1,11 +1,11 @@
 require 'integration_test_helper'
 
-class PuppetclassIntegrationTest < ActionDispatch::IntegrationTest
+class PuppetclassIntegrationTest < IntegrationTestWithJavascript
   test "edit page" do
     visit puppetclasses_path
     click_link "vim"
-    refute page.has_link? 'Common'
-    click_link "Select All"
+    assert page.has_no_link? 'Common'
+    find(:xpath, "//a[@data-original-title='Select All']").click
     assert_submit_button(puppetclasses_path)
     assert page.has_link? 'vim'
     assert page.has_link? 'Common'
