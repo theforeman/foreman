@@ -28,7 +28,7 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should create environment" do
-    assert_difference('Environment.count') do
+    assert_difference('Environment.unscoped.count') do
       post :create, { :environment => development_environment }
     end
     assert_response :created
@@ -40,7 +40,7 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
   end
 
   test "should destroy environments" do
-    assert_difference('Environment.count', -1) do
+    assert_difference('Environment.unscoped.count', -1) do
       delete :destroy, { :id => environments(:testing).to_param }
     end
     assert_response :success

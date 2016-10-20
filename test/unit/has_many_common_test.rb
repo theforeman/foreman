@@ -74,6 +74,10 @@ class HasManyCommonTest < ActiveSupport::TestCase
     host = FactoryGirl.build(:host)
     orig_id = host.hostgroup_id
     host.hostgroup_name = "Parent/inherited"
+    host.hostgroup.subnet.locations = [host.location]
+    host.hostgroup.subnet.organizations = [host.organization]
+    host.hostgroup.subnet6.locations = [host.location]
+    host.hostgroup.subnet6.organizations = [host.organization]
     host.save!
     new_id = host.hostgroup_id
     refute_equal orig_id, new_id

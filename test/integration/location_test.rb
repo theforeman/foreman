@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class LocationIntegrationTest < ActionDispatch::IntegrationTest
   def setup
-    FactoryGirl.create(:host)
+    FactoryGirl.create(:host, :location => nil)
   end
 
   test "index page" do
@@ -35,7 +35,7 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
 
   # content - click Assign All
   test "create new page when some hosts are not assigned a location and click Assign All" do
-    assert_new_button(locations_path,"New Location",new_location_path)
+    assert_new_button(locations_path, "New Location", new_location_path)
     fill_in "location_name", :with => "Raleigh"
     click_button "Submit"
     assert_current_path step2_location_path(Location.unscoped.order(:id).last)

@@ -15,7 +15,8 @@ class SeedsTest < ActiveSupport::TestCase
 
   def seed
     # Authorisation is disabled usually when run from a rake db:* task
-    User.current = FactoryGirl.build(:user, :admin => true)
+    User.current = FactoryGirl.build(:user, :admin => true,
+                                     :organizations => [], :locations => [])
     load File.expand_path('../../../../db/seeds.rb', __FILE__)
   end
 
@@ -46,10 +47,10 @@ class SeedsTest < ActiveSupport::TestCase
 
   context 'populating an initial admin user' do
     test 'with defaults' do
-      assert_difference 'User.where(:login => "admin").count', 1 do
+      assert_difference 'User.unscoped.where(:login => "admin").count', 1 do
         seed
       end
-      user = User.find_by_login('admin')
+      user = User.unscoped.find_by_login('admin')
       assert user.password_hash.present?
       assert user.password_salt.present?
       assert user.admin?
@@ -57,7 +58,7 @@ class SeedsTest < ActiveSupport::TestCase
     end
 
     test 'with environment overrides' do
-      assert_difference 'User.where(:login => "seed_test").count', 1 do
+      assert_difference 'User.unscoped.where(:login => "seed_test").count', 1 do
         with_env('SEED_ADMIN_USER'       => 'seed_test',
                  'SEED_ADMIN_PASSWORD'   => 'seed_secret',
                  'SEED_ADMIN_FIRST_NAME' => 'Seed',
@@ -66,7 +67,7 @@ class SeedsTest < ActiveSupport::TestCase
           seed
         end
       end
-      user = User.find_by_login('seed_test')
+      user = User.unscoped.find_by_login('seed_test')
       assert user.matching_password? 'seed_secret'
       assert user.admin?
       refute user.hidden?
@@ -75,37 +76,37 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test 'populates partition tables' do
-    count = Ptable.count
+    count = Ptable.unscoped.count
     seed
-    assert_not_equal count, Ptable.count
-    refute Ptable.where(:os_family => nil).any?
+    assert_not_equal count, Ptable.unscoped.count
+    refute Ptable.unscoped.where(:os_family => nil).any?
   end
 
   test 'populates installation media' do
-    count = Medium.count
+    count = Medium.unscoped.count
     seed
-    assert_not_equal count, Medium.count
-    refute Medium.where(:os_family => nil).any?
+    assert_not_equal count, Medium.unscoped.count
+    refute Medium.unscoped.where(:os_family => nil).any?
   end
 
   test 'populates config templates' do
-    count = ProvisioningTemplate.count
+    count = ProvisioningTemplate.unscoped.count
     seed
-    assert_not_equal count, ProvisioningTemplate.count
+    assert_not_equal count, ProvisioningTemplate.unscoped.count
 
     Dir["#{Rails.root}/app/views/unattended/**/*.erb"].each do |tmpl|
       if tmpl =~ /disklayout/
-        assert Ptable.where(:template => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
+        assert Ptable.unscoped.where(:template => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
       else
-        assert ProvisioningTemplate.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"
+        assert ProvisioningTemplate.unscoped.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"
       end
     end
   end
 
   test 'populates bookmarks' do
-    count = Bookmark.where(:public => true).count
+    count = Bookmark.unscoped.where(:public => true).count
     seed
-    assert_not_equal count, Bookmark.where(:public => true).count
+    assert_not_equal count, Bookmark.unscoped.where(:public => true).count
   end
 
   test 'is idempotent' do
@@ -116,25 +117,26 @@ class SeedsTest < ActiveSupport::TestCase
 
   test "does update template that was not modified by user" do
     seed
-    ProvisioningTemplate.without_auditing { ProvisioningTemplate.find_by_name('Kickstart default').update_attributes(:template => 'test') }
+    ProvisioningTemplate.without_auditing { ProvisioningTemplate.unscoped.find_by_name('Kickstart default').update_attributes(:template => 'test') }
     seed
-    refute_equal ProvisioningTemplate.find_by_name('Kickstart default').template, 'test'
+    refute_equal ProvisioningTemplate.unscoped.find_by_name('Kickstart default').template, 'test'
   end
 
   test "doesn't add a template back that was deleted" do
     seed
-    assert_equal 1, ProvisioningTemplate.destroy_all(:name => 'Kickstart default').size
+    assert_equal 1, ProvisioningTemplate.unscoped.
+      destroy_all(:name => 'Kickstart default').size
     seed
-    refute ProvisioningTemplate.find_by_name('Kickstart default')
+    refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
   end
 
   test "doesn't add a template back that was renamed" do
     seed
-    tmpl = ProvisioningTemplate.find_by_name('Kickstart default')
+    tmpl = ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
     tmpl.name = 'test'
     tmpl.save!
     seed
-    refute ProvisioningTemplate.find_by_name('Kickstart default')
+    refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
   end
 
   test "no audits are recorded" do
@@ -147,7 +149,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed
     end
-    assert Organization.find_by_name('seed_test')
+    assert Organization.unscoped.find_by_name('seed_test')
   end
 
   test "don't seed organization when an org already exists" do
@@ -155,7 +157,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed
     end
-    refute Organization.find_by_name('seed_test')
+    refute Organization.unscoped.find_by_name('seed_test')
   end
 
   test "seed location when environment SEED_LOCATION specified" do
@@ -163,7 +165,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_LOCATION' => 'seed_test') do
       seed
     end
-    assert Location.find_by_name('seed_test')
+    assert Location.unscoped.find_by_name('seed_test')
   end
 
   test "don't seed location when a location already exists" do
@@ -171,7 +173,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_LOCATION' => 'seed_test') do
       seed
     end
-    refute Location.find_by_name('seed_test')
+    refute Location.unscoped.find_by_name('seed_test')
   end
 
   test "all access permissions are created by permissions seed" do
@@ -187,6 +189,6 @@ class SeedsTest < ActiveSupport::TestCase
   test "viewer role contains all view permissions" do
     seed
     view_permissions = Permission.all.select { |permission| permission.name.match(/view/) }
-    assert_equal [], view_permissions - Role.find_by_name('Viewer').permissions
+    assert_equal [], view_permissions - Role.unscoped.find_by_name('Viewer').permissions
   end
 end

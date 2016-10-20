@@ -41,11 +41,9 @@ class ReportTest < ActiveSupport::TestCase
     end
 
     test 'returns visible reports for filtered user' do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{@target_host.hostgroup_id}")
-      as_user user_role.owner do
-        assert_equal @target_reports.map(&:id).sort, Report.my_reports.map(&:id).sort
-      end
+      setup_user('view', 'hosts',
+                 "hostgroup_id = #{@target_host.hostgroup_id}")
+      assert_equal @target_reports.map(&:id).sort, Report.my_reports.map(&:id).sort
     end
 
     test "only return reports from host in user's taxonomies" do

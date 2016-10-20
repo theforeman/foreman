@@ -27,8 +27,8 @@ class Api::V1::DomainsControllerTest < ActionController::TestCase
   end
 
   test "should update valid domain" do
-    put :update, { :id => Domain.first.to_param, :domain => { :name => "domain.new" } }
-    assert_equal "domain.new", Domain.first.name
+    put :update, { :id => Domain.unscoped.first.to_param, :domain => { :name => "domain.new" } }
+    assert_equal "domain.new", Domain.unscoped.first.name
     assert_response :success
   end
 

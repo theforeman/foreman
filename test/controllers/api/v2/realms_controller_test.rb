@@ -27,8 +27,9 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
   end
 
   test "should update valid realm" do
-    put :update, { :id => Realm.first.to_param, :realm => { :name => "realm.new" } }
-    assert_equal "realm.new", Realm.first.name
+    realm_id = Realm.unscoped.first.id
+    put :update, { :id => realm_id, :realm => { :name => "realm.new" } }
+    assert_equal "realm.new", Realm.unscoped.find(realm_id).name
     assert_response :success
   end
 
@@ -44,7 +45,7 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     delete :destroy, { :id => realm.to_param }
     realm = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    refute Realm.find_by_id(realm['id'])
+    refute Realm.unscoped.find_by_id(realm['id'])
   end
 
   #test that taxonomy scope works for api for realms
@@ -56,15 +57,15 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
   test "should get realms for location only" do
     get :index, {:location_id => taxonomies(:location1).id }
     assert_response :success
-    assert_equal 2, assigns(:realms).length
-    assert_equal assigns(:realms), [realms(:myrealm), realms(:yourrealm)]
+    assert_equal taxonomies(:location1).realms.length, assigns(:realms).length
+    assert_equal assigns(:realms), taxonomies(:location1).realms
   end
 
   test "should get realms for organization only" do
     get :index, {:organization_id => taxonomies(:organization1).id }
     assert_response :success
-    assert_equal 1, assigns(:realms).length
-    assert_equal assigns(:realms), [realms(:myrealm)]
+    assert_equal taxonomies(:organization1).realms.length, assigns(:realms).length
+    assert_equal assigns(:realms), taxonomies(:organization1).realms
   end
 
   test "should get realms for both location and organization" do

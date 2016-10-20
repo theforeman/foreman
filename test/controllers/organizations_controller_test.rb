@@ -163,40 +163,31 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_match "Clone", @response.body
   end
-  test "should clone organization with assocations" do
+  test "should clone organization with associations" do
     organization = taxonomies(:organization1)
     FactoryGirl.create(:host, :organization => nil)
     organization_dup = organization.clone
 
-    assert_difference "Organization.count", 1 do
-      post :create, {:organization => {:name => "organization_dup_name",
-                                       :environment_ids => organization_dup.environment_ids,
-                                       :hostgroup_ids => organization_dup.hostgroup_ids,
-                                       :subnet_ids => organization_dup.hostgroup_ids,
-                                       :domain_ids => organization_dup.domain_ids,
-                                       :medium_ids => organization_dup.medium_ids,
-                                       :user_ids => organization_dup.user_ids,
-                                       :smart_proxy_ids => organization_dup.smart_proxy_ids,
-                                       :provisioning_template_ids => organization_dup.provisioning_template_ids,
-                                       :compute_resource_ids => organization_dup.compute_resource_ids,
-                                       :location_ids => organization_dup.location_ids
-      }
+    assert_difference "Organization.unscoped.count", 1 do
+      post :create, {
+        :organization => organization_dup.selected_ids.each { |_,v| v.uniq! }
+          .merge(:name => 'organization_dup_name')
       }, set_session_user
     end
 
     new_organization = Organization.unscoped.order(:id).last
     assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.to_param
 
-    assert_equal new_organization.environment_ids.sort, organization.environment_ids.sort
-    assert_equal new_organization.hostgroup_ids.sort, organization.hostgroup_ids.sort
-    assert_equal new_organization.environment_ids.sort, organization.environment_ids.sort
-    assert_equal new_organization.domain_ids.sort, organization.domain_ids.sort
-    assert_equal new_organization.medium_ids.sort, organization.medium_ids.sort
-    assert_equal new_organization.user_ids.sort, organization.user_ids.sort
-    assert_equal new_organization.smart_proxy_ids.sort, organization.smart_proxy_ids.sort
-    assert_equal new_organization.provisioning_template_ids.sort, organization.provisioning_template_ids.sort
-    assert_equal new_organization.compute_resource_ids.sort, organization.compute_resource_ids.sort
-    assert_equal new_organization.location_ids.sort, organization.location_ids.sort
+    assert_equal new_organization.environment_ids.uniq.sort, organization.environment_ids.uniq.sort
+    assert_equal new_organization.hostgroup_ids.uniq.sort, organization.hostgroup_ids.uniq.sort
+    assert_equal new_organization.environment_ids.uniq.sort, organization.environment_ids.uniq.sort
+    assert_equal new_organization.domain_ids.uniq.sort, organization.domain_ids.uniq.sort
+    assert_equal new_organization.medium_ids.uniq.sort, organization.medium_ids.uniq.sort
+    assert_equal new_organization.user_ids.uniq.sort, organization.user_ids.uniq.sort
+    assert_equal new_organization.smart_proxy_ids.uniq.sort, organization.smart_proxy_ids.uniq.sort
+    assert_equal new_organization.provisioning_template_ids.uniq.sort, organization.provisioning_template_ids.uniq.sort
+    assert_equal new_organization.compute_resource_ids.uniq.sort, organization.compute_resource_ids.uniq.sort
+    assert_equal new_organization.location_ids.uniq.sort, organization.location_ids.uniq.sort
   end
 
   test "should clear out Organization.current" do
