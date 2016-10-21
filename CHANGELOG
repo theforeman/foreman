@@ -1,3 +1,15 @@
+2016-10-21	Dominic Cleal <dominic@cleal.org>
+	* Release 1.12.4
+
+2016-10-19	Dominic Cleal <dominic@cleal.org>
+	* Revert "Fixes #16238 - Speed up dashboard loading time."
+
+2016-10-19	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #15543 - External method to search fact's hostgroup
+
+2016-09-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16627 - Load puppet proxy dashboard
+
 2016-09-20	Dominic Cleal <dominic@cleal.org>
 	* Release 1.12.3
 
