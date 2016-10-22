@@ -39,16 +39,64 @@ OPTIONS
 
 The following options are available:
 
+  --db-tables
+          Include selected tables from Foreman database
+  --db-dump
+          Include full database dump (generates big tarball)
+  --access-logs
+          Include HTTP access logs
+
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
   -a      Do not generate a tarball from the resulting directory
-  -m NUM  Maximum lines to keep for each file (default 5000)
+  -m NUM  Maximum lines to keep for each file (default 5000, 0 - no limit)
   -j PRG  Filter with provided program when creating a tarball
-  -p      Additionally print all passwords which are being filtered
+  -p      Additionally print password patterns being filtered out
   -q      Quiet mode
   -v      Verbose mode
   -u      Upload tarball
   -h      Shows this message
+
+SECURITY
+--------
+
+Foreman-debug includes three basic type of data that can be sensitive:
+
+* Configuration files
+* Logging files
+* Data from the Foreman database
+
+By default, foreman-debug attempts to filter out all configuration tokens that
+are sensitive, such as passwords, tokens, host names or IP addresses. All log
+files are included untouched and they usually contain IP addresses and
+hostnames.
+
+Foreman-debug does not include any data from Foreman database. This must be
+specified as an explicit option:
+
+Database tables (--db-tables)
+
+Adds selection of tables from the main database, most importantly:
+
+* Hosts and Host groups
+* Subnets and Domains
+* Operating systems and Media
+* Provisioning templates
+* Organizations and Locations
+* Auth sources
+* Roles
+* Usernames
+* Settings
+
+Database dump (--db-dump)
+
+Includes full database dump including all the possible passwords stored in it.
+They are encrypted via token that is saved in /etc and the token is NOT included
+in the tarball.
+
+Access logs (--access-logs)
+
+Logs from httpd (access_logs) including IP addresses of the remote clients.
 
 CONFIGURATION
 -------------
