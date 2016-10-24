@@ -1,9 +1,12 @@
-<% networks = compute_resource.networks %>
 <%= select_f f, :type, compute_resource.nictypes, :first, :last, { },
-                 :class => "col-md-3 vmware_type",
-                 :label => _('NIC type'), :label_size => "col-md-3"
+  :class => "col-md-3 vmware_type",
+  :label => _('NIC type'), :label_size => "col-md-3"
 %>
-<%= select_f f, :network, networks, :name, :name, { },
-                 :class => "col-md-3 vmware_network",
-                 :label => _('Network'), :label_size => "col-md-3"
-%>
+<% if new_host %>
+  <%= select_f f, :network, compute_resource.networks, :name, :name, { },
+    :class => "col-md-3 vmware_network",
+    :label => _('Network'), :label_size => "col-md-3"
+  %>
+<% else %>
+  <%= text_f f, :network, :class => 'col-md-3 vmware_network', :label => _("Network"), :label_size => "col-md-3" %>
+<% end %>
