@@ -29,9 +29,6 @@ FactoryGirl.define do
       end
 
       trait :as_smart_class_param do
-        transient do
-          puppetclass nil
-        end
         after(:create) do |lkey, evaluator|
           evaluator.puppetclass.environments.each do |env|
             FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
@@ -90,7 +87,7 @@ FactoryGirl.define do
       after(:create) do |pc,evaluator|
         evaluator.parameter_count.times do
           evaluator.environments.each do |env|
-            lkey = FactoryGirl.create :puppetclass_lookup_key
+            lkey = FactoryGirl.create :puppetclass_lookup_key, :puppetclass_id => pc.id
             FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
           end
         end

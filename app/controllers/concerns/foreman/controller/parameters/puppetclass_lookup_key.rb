@@ -5,7 +5,7 @@ module Foreman::Controller::Parameters::PuppetclassLookupKey
   class_methods do
     def puppetclass_lookup_key_params_filter
       Foreman::ParameterFilter.new(::PuppetclassLookupKey).tap do |filter|
-        filter.permit :environments => [], :environment_ids => [], :environment_names => [],
+        filter.permit :puppetclass, :environments => [], :environment_ids => [], :environment_names => [],
           :environment_classes => [], :environment_classes_ids => [], :environment_classes_names => [],
           :param_classes => [], :param_classes_ids => [], :param_classes_names => []
         filter.permit_by_context :required, :nested => true

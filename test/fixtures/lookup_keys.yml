@@ -5,6 +5,7 @@ one:
   key_type: integer
   validator_type:
   default_value: 80
+  puppetclass: one
   type: PuppetclassLookupKey
 
 three:
@@ -31,6 +32,7 @@ five:
   default_value: 'abcdef'
   path: 'organization,location'
   override: true
+  puppetclass: one
   type: PuppetclassLookupKey
 
 five_same_name:
@@ -40,6 +42,7 @@ five_same_name:
   default_value: 'abcdef'
   path: 'organization,location'
   override: true
+  puppetclass: one
   type: PuppetclassLookupKey
 
 six:
