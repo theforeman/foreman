@@ -17,6 +17,8 @@ class Puppetclass < ActiveRecord::Base
   has_many :config_group_classes
   has_many :config_groups, :through => :config_group_classes, :dependent => :destroy
   has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy, :class_name => 'VariableLookupKey'
+  has_many :puppetclass_lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy
+
   accepts_nested_attributes_for :lookup_keys, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
   # param classes
   has_many :class_params, -> { where('environment_classes.puppetclass_lookup_key_id is NOT NULL').uniq },
