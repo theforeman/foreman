@@ -59,13 +59,22 @@ class DnsTest < ActiveSupport::TestCase
 
     context "a IPv4 forward record" do
       setup do
-        @record = Net::DNS::ARecord.new(:hostname => 'www.example.com', :ip => '1.2.3.4', :proxy => @proxy)
+        @record = Net::DNS::ARecord.new(:hostname => 'www.example.com', :ip => '001.02.03.04', :proxy => @proxy)
       end
 
       test 'should have a IPv4 reverse record' do
         reverse_record = @record.ptr
         assert_kind_of Net::DNS::PTR4Record, reverse_record
         assert_equal reverse_record.ip, '1.2.3.4'
+      end
+
+      test 'should normalize the given IP' do
+        assert_equal '1.2.3.4', @record.ip
+      end
+
+      test 'should compare after normalization' do
+        record2 = Net::DNS::ARecord.new(:hostname => 'www.example.com', :ip => '1.2.3.4', :proxy => @proxy)
+        assert_equal @record, record2
       end
 
       test '#destroy calls delete on proxy with type parameter' do
@@ -76,7 +85,7 @@ class DnsTest < ActiveSupport::TestCase
 
     context "a IPv4 reverse record" do
       setup do
-        @record = Net::DNS::PTR4Record.new(:hostname => 'www.example.com', :ip => '1.2.3.4', :proxy => @proxy)
+        @record = Net::DNS::PTR4Record.new(:hostname => 'www.example.com', :ip => '01.02.03.004', :proxy => @proxy)
       end
 
       test 'should have a IPv4 forward record' do
@@ -89,6 +98,15 @@ class DnsTest < ActiveSupport::TestCase
         forward_record = @record.aaaa
         assert_kind_of Net::DNS::AAAARecord, forward_record
         assert_equal forward_record.hostname, 'www.example.com'
+      end
+
+      test 'should normalize the given IP' do
+        assert_equal '1.2.3.4', @record.ip
+      end
+
+      test 'should compare after normalization' do
+        record2 = Net::DNS::PTR4Record.new(:hostname => 'www.example.com', :ip => '1.2.3.4', :proxy => @proxy)
+        assert_equal @record, record2
       end
 
       test '#destroy calls delete on proxy without type parameter' do
@@ -99,13 +117,22 @@ class DnsTest < ActiveSupport::TestCase
 
     context "a IPv6 forward record" do
       setup do
-        @record = Net::DNS::AAAARecord.new(:hostname => 'www.example.com', :ip => '2001:db8::1', :proxy => @proxy)
+        @record = Net::DNS::AAAARecord.new(:hostname => 'www.example.com', :ip => '2001:DB8::0000:1', :proxy => @proxy)
       end
 
       test 'should have a IPv6 reverse record' do
         reverse_record = @record.ptr
         assert_kind_of Net::DNS::PTR6Record, reverse_record
         assert_equal reverse_record.ip, '2001:db8::1'
+      end
+
+      test 'should normalize the given IP' do
+        assert_equal '2001:db8::1', @record.ip
+      end
+
+      test 'should compare after normalization' do
+        record2 = Net::DNS::AAAARecord.new(:hostname => 'www.example.com', :ip => '2001:db8::1', :proxy => @proxy)
+        assert_equal @record, record2
       end
 
       test '#destroy calls delete on proxy with type parameter' do
@@ -116,7 +143,7 @@ class DnsTest < ActiveSupport::TestCase
 
     context "a IPv6 reverse record" do
       setup do
-        @record = Net::DNS::PTR6Record.new(:hostname => 'www.example.com', :ip => '2001:db8::1', :proxy => @proxy)
+        @record = Net::DNS::PTR6Record.new(:hostname => 'www.example.com', :ip => '2001:DB8::0000:1', :proxy => @proxy)
       end
 
       test 'should have a IPv4 forward record' do
@@ -129,6 +156,15 @@ class DnsTest < ActiveSupport::TestCase
         forward_record = @record.aaaa
         assert_kind_of Net::DNS::AAAARecord, forward_record
         assert_equal forward_record.hostname, 'www.example.com'
+      end
+
+      test 'should normalize the given IP' do
+        assert_equal '2001:db8::1', @record.ip
+      end
+
+      test 'should compare after normalization' do
+        record2 = Net::DNS::PTR6Record.new(:hostname => 'www.example.com', :ip => '2001:db8::1', :proxy => @proxy)
+        assert_equal @record, record2
       end
 
       test '#destroy calls delete on proxy without type parameter' do
