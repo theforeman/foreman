@@ -2420,6 +2420,13 @@ class HostTest < ActiveSupport::TestCase
     assert enc['parameters']['foreman_subnets'].any? {|s| s['network_type'] == 'IPv6'}
   end
 
+  test '#info ENC YAML contains ipv4 and ipv6 address of host' do
+    host = FactoryGirl.build(:host, :dualstack)
+    enc = host.info
+    assert enc['parameters']['foreman_interfaces'].any? { |s| s['ip'] == host.ip }
+    assert enc['parameters']['foreman_interfaces'].any? { |s| s['ip6'] == host.ip6 }
+  end
+
   test "#info ENC YAML contains config_groups" do
     host = FactoryGirl.build(:host)
     host.config_groups = [config_groups(:one)]
