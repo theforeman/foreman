@@ -46,6 +46,8 @@ module AuditsHelper
         next if change.nil? || change.to_s.empty?
         if name == 'template'
           (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
+        elsif name == "password_changed"
+          name = _("Password has been changed")
         elsif name == "owner_id" || name == "owner_type"
           _("Owner changed to %s") % (audit.revision.owner rescue _('N/A'))
         elsif name == 'global_status'

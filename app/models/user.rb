@@ -16,7 +16,9 @@ class User < ActiveRecord::Base
 
   validates_lengths_from_database :except => [:firstname, :lastname, :format, :mail, :login]
   attr_accessor :password, :password_confirmation, :current_password
+  attr_reader :password_changed
   after_save :ensure_default_role
+  after_save :unset_password_changed
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
   belongs_to :auth_source
@@ -88,6 +90,7 @@ class User < ActiveRecord::Base
   before_validation :verify_current_password, :if => Proc.new {|user| user == User.current},
                     :unless => Proc.new {|user| user.password.empty?}
   before_validation :prepare_password, :normalize_mail
+  before_validation :set_password_changed, :if => Proc.new { |user| user.manage_password? && user.password.present? }
   before_save       :set_lower_login
 
   after_create :welcome_mail
@@ -445,6 +448,19 @@ class User < ActiveRecord::Base
     user.valid?
 
     user
+  end
+
+  def password_changed_changed?
+    changed.include?('password_changed')
+  end
+
+  def set_password_changed
+    @password_changed = true
+    attribute_will_change!('password_changed')
+  end
+
+  def unset_password_changed
+    @password_changed = false
   end
 
   private
