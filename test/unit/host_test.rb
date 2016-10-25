@@ -2375,6 +2375,13 @@ class HostTest < ActiveSupport::TestCase
     assert enc['parameters']['foreman_subnets'].any? {|s| s['network_type'] == 'IPv6'}
   end
 
+  test '#info ENC YAML contains ipv4 and ipv6 address of host' do
+    host = FactoryGirl.build(:host, :dualstack)
+    enc = host.info
+    assert enc['parameters']['foreman_interfaces'].any? { |s| s['ip'] == host.ip }
+    assert enc['parameters']['foreman_interfaces'].any? { |s| s['ip6'] == host.ip6 }
+  end
+
   describe 'cloning' do
     test 'relationships are copied' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)

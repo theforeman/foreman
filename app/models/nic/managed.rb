@@ -24,7 +24,8 @@ module Nic
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
              :overwrite?, :skip_orchestration?, :skip_orchestration!, :to => :host, :allow_nil => true
 
-    attr_exportable :ip, :mac, :name, :attrs, :virtual, :link, :identifier, :managed, :primary, :provision, :subnet, :subnet6,
+    attr_exportable :ip, :ip6, :mac, :name, :attrs, :virtual, :link, :identifier, :managed,
+      :primary, :provision, :subnet, :subnet6,
       :tag => ->(nic) { nic.tag if nic.virtual? },
       :attached_to => ->(nic) { nic.attached_to if nic.virtual? },
       :type => ->(nic) { nic.type.constantize.humanized_name }
