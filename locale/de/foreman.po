@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-09-13 08:27+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-10-12 17:09+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1591,7 +1591,7 @@ msgid "DHCP conflicts removal for %s"
 msgstr "DHCP-Konflikt entfernt für %s"
 
 msgid "DHCP filename option"
-msgstr ""
+msgstr "DHCP-Dateinamensoption"
 
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
@@ -1939,7 +1939,7 @@ msgid "Disable all filters overriding"
 msgstr ""
 
 msgid "Disable overriding"
-msgstr ""
+msgstr "Überschreiben deaktivieren"
 
 msgid "Disabled"
 msgstr "Deaktiviert"
@@ -2131,7 +2131,7 @@ msgid "Edit Realm"
 msgstr "Realm bearbeiten"
 
 msgid "Edit Role"
-msgstr ""
+msgstr "Rolle bearbeiten"
 
 msgid "Edit Smart Variable"
 msgstr "Smart Variable bearbeiten"
@@ -2228,7 +2228,7 @@ msgid "Environment"
 msgstr "Umgebung"
 
 msgid "Environment Distribution"
-msgstr ""
+msgstr "Verteilung der Umgebung"
 
 msgid "Environment ID"
 msgstr "Umgebungskennung"
@@ -5093,7 +5093,7 @@ msgid "Operating systems"
 msgstr "Betriebssysteme"
 
 msgid "Operating systems API supported?"
-msgstr ""
+msgstr "Betriebssystem-API unterstützt?"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
@@ -5257,7 +5257,7 @@ msgid "Owner type needs to be one of the following: %s"
 msgstr "Besitzertyp kann einer der folgenden sein: %s"
 
 msgid "POAP PXE template"
-msgstr ""
+msgstr "POAP-PXE-Vorlage"
 
 msgid "PXE"
 msgstr "PXE"
@@ -5269,7 +5269,7 @@ msgid "PXE Loader"
 msgstr ""
 
 msgid "PXE loader"
-msgstr ""
+msgstr "PXE-Ladeprogramm"
 
 msgid "PXEGrub template"
 msgstr "PXEGrub Vorlage"
@@ -6061,7 +6061,7 @@ msgid "Role"
 msgstr "Rolle"
 
 msgid "Role %s."
-msgstr ""
+msgstr "Rolle %s."
 
 msgid "Role is in use"
 msgstr "Rolle ist in Verwendung"
@@ -8307,7 +8307,7 @@ msgid "Your session has expired, please login again"
 msgstr "Ihre Sitzung ist abgelaufen, bitte melde dich erneut an"
 
 msgid "ZTP PXE template"
-msgstr ""
+msgstr "ZTP-PXE-Vorlage"
 
 msgid "Zone"
 msgstr "Zone"
