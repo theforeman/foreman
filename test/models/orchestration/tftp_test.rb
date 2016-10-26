@@ -140,6 +140,8 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       h = FactoryGirl.build(:host, :managed, :build => true,
                             :operatingsystem => operatingsystems(:redhat),
                             :architecture => architectures(:x86_64))
+      h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
+      h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
       Setting[:unattended_url] = "http://ahost.com:3000"
 
       template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
@@ -256,6 +258,8 @@ EXPECTED
                             :operatingsystem => operatingsystems(:opensuse),
                             :architecture => architectures(:x86_64))
       Setting[:unattended_url] = "http://ahost.com:3000"
+      h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
+      h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
 
       template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
       expected = <<-EXPECTED

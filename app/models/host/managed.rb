@@ -336,7 +336,9 @@ class Host::Managed < Host::Base
     opts[:hostgroup_id]       ||= hostgroup_id
     opts[:environment_id]     ||= environment_id
 
-    ProvisioningTemplate.find_template opts
+    Taxonomy.as_taxonomy(self.organization, self.location) do
+      ProvisioningTemplate.find_template opts
+    end
   end
 
   # reports methods

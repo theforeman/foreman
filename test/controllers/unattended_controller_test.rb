@@ -10,23 +10,31 @@ class UnattendedControllerTest < ActionController::TestCase
       ptable_ubuntu = FactoryGirl.create(:ptable, :ubuntu, :name => 'ubuntu default',
         :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
+      @org = FactoryGirl.create(:organization, :ignore_types => ['ProvisioningTemplate'])
+      @loc = FactoryGirl.create(:location, :ignore_types => ['ProvisioningTemplate'])
       @rh_host = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:redhat),
                                     :ptable => ptable,
                                     :medium => media(:one),
-                                    :architecture => architectures(:x86_64)
+                                    :architecture => architectures(:x86_64),
+                                    :organization => @org,
+                                    :location => @loc
                                    )
       @ub_host = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
                                     :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
-                                    :architecture => architectures(:x86_64)
+                                    :architecture => architectures(:x86_64),
+                                    :organization => @org,
+                                    :location => @loc
                                    )
       @host_with_template_subnet = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :with_tftp_subnet, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
                                     :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
-                                    :architecture => architectures(:x86_64)
+                                    :architecture => architectures(:x86_64),
+                                    :organization => @org,
+                                    :location => @loc
                                    )
     end
   end
@@ -54,6 +62,8 @@ class UnattendedControllerTest < ActionController::TestCase
   test "should get a template from the provision interface" do
     os = FactoryGirl.create(:debian7_0, :with_provision, :with_associations)
     host = FactoryGirl.create(:host, :managed, :build => true, :operatingsystem => os,
+                              :organization => @org,
+                              :location => @loc,
                               :interfaces => [
                                 FactoryGirl.build(:nic_managed, :primary => true),
                                 FactoryGirl.build(:nic_managed, :provision => true)
