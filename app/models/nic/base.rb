@@ -178,6 +178,12 @@ module Nic
       super(Net::Validations.normalize_ip6(addr))
     end
 
+    def matches_subnet?(ip_field, subnet_field)
+      return unless send(subnet_field).present?
+      ip_value = send(ip_field)
+      ip_value.present? && public_send(subnet_field).contains?(ip_value)
+    end
+
     protected
 
     def normalize_mac

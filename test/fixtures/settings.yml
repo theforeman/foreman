@@ -308,3 +308,8 @@ attributes64:
   category: Setting::Provisioning
   default: "false"
   description: 'Allow access to unattended URLs without build mode being used'
+attributes65:
+  name: update_subnets_from_facts
+  category: Setting::Puppet
+  default: "false"
+  description: 'Foreman will update a hosts subnets from its facts'

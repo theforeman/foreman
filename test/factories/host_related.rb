@@ -66,7 +66,7 @@ FactoryGirl.define do
   factory :nic_managed, :class => Nic::Managed, :parent => :nic_interface do
     type 'Nic::Managed'
     sequence(:mac) { |n| "00:33:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
+    sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 0) + n, Socket::AF_INET).to_s }
 
     trait :without_ipv4 do
       ip nil
@@ -80,7 +80,7 @@ FactoryGirl.define do
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
     type 'Nic::BMC'
     sequence(:mac) { |n| "00:43:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new(255 + n, Socket::AF_INET).to_s }
+    sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 255) + n, Socket::AF_INET).to_s }
     provider 'IPMI'
     username 'admin'
     password 'admin'
@@ -193,6 +193,7 @@ FactoryGirl.define do
         overrides[:locations] = [host.location] unless host.location.nil?
         overrides[:organizations] = [host.organization] unless host.organization.nil?
         host.subnet = FactoryGirl.build(:subnet_ipv4, overrides)
+        host.ip = IPAddr.new(IPAddr.new(host.subnet.network).to_i + 1, Socket::AF_INET).to_s
       end
     end
 

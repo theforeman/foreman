@@ -273,6 +273,7 @@ class Subnet < ActiveRecord::Base
     # [+ip+] : IPv4 or IPv6 address
     # Returns : Subnet object or nil if not found
     def subnet_for(ip)
+      return unless ip.present?
       ip = IPAddr.new(ip)
       Subnet.all.detect {|s| s.family == ip.family && s.contains?(ip)}
     end
