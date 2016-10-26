@@ -1,3 +1,56 @@
+2016-10-26	Dominic Cleal <dominic@cleal.org>
+	* Release 1.13.1
+
+2016-10-25	Timo Goebel <mail@timogoebel.name>
+	* fixes #17007 - normalize dns records before comparison
+	* fixes #17041 - skips orchestration when importing facts
+	* fixes #16952 - pass type to proxy when destroying dns records
+	* fixes #16819 - rebuild tftp with template kinds
+
+2016-10-25	Dominic Cleal <dominic@cleal.org>
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* fixes #16805 - reload host parameters on host group change
+	* fixes #16749 - improve NIC update performance during fact imports
+
+2016-10-25	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #16737 - Show correct folder level
+	* Fixes #15703 - Singularize media in api doc for orgs
+
+2016-10-25	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16887 - Display errors from compute resource in VM tab
+	* Fixes #16633 - AuthSourceLDAP uses *_authenticators filters
+
+2016-10-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16813 - improve error messages for associations
+	* Fixes #5901 - fine grain for vmware CPU selectors
+	* Fixes #10395 - fine grain for CPU selectors
+
+2016-10-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16723 - Lazy load data for dashboard widgets
+	* Fixes #14545, #13104 - Correctly parse y.z minor OS versions
+
+2016-10-25	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #12111 - Set width for host list action column
+
+2016-10-25	Timo Goebel <timo.goebel@dm.de>
+	* fixes #16635 - welcome page works with scoped models
+
+2016-10-25	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #16652 - UEFI Grub2 support for non-intel archs
+	* Fixes #16449 - reordered taxonomy detection during import
+
+2016-10-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #15543 - External method to search fact's hostgroup
+	* Fixes #13704 - Defensive association name setter When setting an association by name (e.g., hostgroup_name, organization_name) and the name does not exist, we raise a not found error
+	* Fixes #15992 - Truncate compute resources name in about page
+
+2016-10-25	Brad Buckingham <bbuckingham@redhat.com>
+	* Fixes #16525 - host/hostgroup - include _name fields for proxy
+
+2016-10-25	Ori Rabin <orabin@redhat.com>
+	* Fixes #16378 - Move default_value casting to lookup_key children
+
 2016-10-05	Dominic Cleal <dominic@cleal.org>
 	* Release 1.13.0
 
