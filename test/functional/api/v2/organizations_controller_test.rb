@@ -36,4 +36,11 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     get :show, {:id => org_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end
+
+  test "organization ignore types can be modified" do
+    org = FactoryGirl.create(:organization)
+    put :update, { :id => org.to_param, :organization => { :ignore_types => [ 'ProvisioningTemplate' ] } }
+    org.reload
+    assert_includes org.ignore_types, 'ProvisioningTemplate'
+  end
 end
