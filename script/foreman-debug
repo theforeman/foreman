@@ -22,6 +22,7 @@ OPTIONS:
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
   -a      Do not generate a tarball from the resulting directory
+  -l      Include login names (usernames) on the locale settings
   -m NUM  Maximum lines to keep for each file (default 5000), zero means no limit
   -j PRG  Filter with provided program when creating a tarball
   -p      Additionally print password patterns being filtered out
@@ -130,6 +131,7 @@ VERBOSE=0
 DEBUG=0
 UPLOAD=0
 UPLOAD_DISABLED=0
+EXPORT_USERNAMES=0
 
 if type -p xz >/dev/null; then
   COMPRESS="xz -9"
@@ -149,7 +151,7 @@ fi
 CONF_FILE=/usr/share/foreman/config/foreman-debug.conf
 test -f $CONF_FILE && source $CONF_FILE
 
-while getopts "d:gam:j:uqpvhx" opt; do
+while getopts "d:gam:j:luqpvhx" opt; do
   case $opt in
     d)
       DIR="$OPTARG"
@@ -168,6 +170,9 @@ while getopts "d:gam:j:uqpvhx" opt; do
       ;;
     v)
       VERBOSE=1
+      ;;
+    l)
+      EXPORT_USERNAMES=1
       ;;
     m)
       MAXLINES="$OPTARG"
@@ -301,6 +306,13 @@ add_files /var/log/{httpd,apache2}/*error_log*
 add_files /var/log/{httpd,apache2}/foreman-ssl_access_ssl.log*
 add_cmd "echo \"select id,name,value from settings where name not similar to '%(pass|key|secret)'\" | su postgres -c 'psql foreman'" "foreman_settings_table"
 add_cmd "echo 'select type,name,host,port,account,base_dn,attr_login,onthefly_register,tls from auth_sources' | su postgres -c 'psql foreman'" "foreman_auth_table"
+
+if [ "$EXPORT_USERNAMES" -eq 0 ]; then
+  add_cmd "echo 'select locale, timezone from users order by login' | su postgres -c 'psql foreman'" "foreman_users_locale"
+else
+  add_cmd "echo 'select login, locale, timezone from users order by login' | su postgres -c 'psql foreman'" "foreman_users_locale"
+fi
+
 add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
 
 add_files /etc/{sysconfig,default}/foreman
