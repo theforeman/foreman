@@ -113,6 +113,10 @@ class ActionDispatch::IntegrationTest
     set_request_user(:admin)
   end
 
+  def logout_admin
+    delete_cookie('test_user')
+  end
+
   def set_request_user(user)
     user = users(user) unless user.is_a?(User)
     create_cookie('test_user', user.login)
