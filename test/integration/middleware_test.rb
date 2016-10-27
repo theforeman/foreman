@@ -12,14 +12,36 @@ class MiddlewareIntegrationTest < ActionDispatch::IntegrationTest
       "'self'; style-src 'unsafe-inline' 'self'"
   end
 
-  test "webpack dev server adds the dev server to Content-Security-Policy" do
-    begin
+  context 'webpack dev server is enabled' do
+    setup do
       Rails.configuration.webpack.dev_server.enabled = true
+      @webpack_url = "#{host}:#{Rails.configuration.webpack.dev_server.port}"
       Webpack::Rails::Manifest.stubs(:asset_paths).returns([])
-      visit '/'
-      assert page.response_headers['Content-Security-Policy'].include?(Rails.configuration.webpack.dev_server.port.to_s)
-    ensure
+    end
+
+    teardown do
       Rails.configuration.webpack.dev_server.enabled = false
+    end
+
+    test 'it is added the to Content-Security-Policy' do
+      visit '/'
+      assert page.response_headers['Content-Security-Policy'].include?(@webpack_url)
+    end
+
+    test 'it is added Content-Security-Policy on welcome pages' do
+      Environment.stubs(:first).returns(nil)
+      visit '/environments'
+      assert page.has_content? 'Learn more about this in the documentation.'
+      assert page.response_headers['Content-Security-Policy'].include?(@webpack_url)
+    end
+
+    context 'on unauthorized page requests' do
+      test 'it is added to the Content-Security-Policy as well' do
+        logout_admin
+        visit '/environments'
+        assert page.has_selector? 'input[name="login[password]"]'
+        assert page.response_headers['Content-Security-Policy'].include?(@webpack_url)
+      end
     end
   end
 end

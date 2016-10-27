@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   before_action :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_action :authorize
   before_action :welcome, :only => :index, :unless => :api_request?
-  before_action :allow_webpack, :if => -> {Rails.configuration.webpack.dev_server.enabled}
+  prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
   around_action :set_timezone
   layout :display_layout?
 
@@ -407,10 +407,15 @@ class ApplicationController < ActionController::Base
   end
 
   def allow_webpack
+    webpack_csp = { script_src: [webpack_server], connect_src: [webpack_server],
+                    style_src: [webpack_server], img_src: [webpack_server] }
+
+    append_content_security_policy_directives(webpack_csp)
+  end
+
+  def webpack_server
     port = Rails.configuration.webpack.dev_server.port
-    @dev_server = "#{request.protocol}#{request.host}:#{port}"
-    append_content_security_policy_directives(script_src: [@dev_server], connect_src: [@dev_server],
-                                              style_src: [@dev_server], img_src: [@dev_server])
+    @dev_server ||= "#{request.protocol}#{request.host}:#{port}"
   end
 
   class << self
