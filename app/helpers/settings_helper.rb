@@ -25,6 +25,10 @@ module SettingsHelper
     category.gsub(/Setting::/,'')
   end
 
+  def cat_label(category)
+    category.constantize.humanized_category || short_cat(category)
+  end
+
   def translate_full_name(setting)
     fullname = setting.full_name.nil? ? setting.name : _(setting.full_name)
     trunc_with_tooltip(fullname, 32, setting.name, false)

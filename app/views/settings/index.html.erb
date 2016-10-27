@@ -3,7 +3,7 @@
 <ul class="nav nav-tabs" data-tabs="tabs">
   <% @settings.group_by(&:category).each do |category, setting| %>
     <li class='<%= category == @settings.first.category ? "active" : ""%>'>
-      <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(short_cat(category)) %></a>
+      <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(cat_label(category)) %></a>
     </li>
   <% end %>
 </ul>

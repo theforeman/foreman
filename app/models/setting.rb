@@ -70,6 +70,10 @@ class Setting < ActiveRecord::Base
 
   def self.per_page; 20 end # can't use our own settings
 
+  def self.humanized_category
+    nil
+  end
+
   def self.[](name)
     name = name.to_s
     cache_value = Setting.cache.read(name)
