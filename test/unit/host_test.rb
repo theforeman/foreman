@@ -152,6 +152,15 @@ class HostTest < ActiveSupport::TestCase
       host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03"
       assert_equal "myhost", host.fqdn
     end
+
+    test 'should import facts' do
+      refute Host.find_by_name('sinn1636.lan')
+      raw = parse_json_fixture('/facts_with_certname.json')
+      host = Host.import_host(raw['name'], 'puppet')
+      host.expects(:skip_orchestration!).never
+      host.expects(:enable_orchestration!).never
+      assert host.import_facts(raw['facts'])
+    end
   end
 
   test "should be able to save host" do

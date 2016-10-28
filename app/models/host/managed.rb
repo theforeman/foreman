@@ -302,10 +302,10 @@ class Host::Managed < Host::Base
   def import_facts(facts)
     # Facts come from 'existing' attributes/infrastructure. We skip triggering
     # the orchestration of this infrastructure when we create a host this way.
-    skip_orchestration!
+    skip_orchestration! if SETTINGS[:unattended]
     super(facts)
   ensure
-    enable_orchestration!
+    enable_orchestration! if SETTINGS[:unattended]
   end
 
   # Request a new OTP for a host
