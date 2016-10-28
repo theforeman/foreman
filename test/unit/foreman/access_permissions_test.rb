@@ -1,6 +1,5 @@
 require 'test_helper'
-require 'foreman/access_control'
-require 'foreman/access_permissions'
+require 'unit/shared/access_permissions_test_base'
 
 # Permissions are added in AccessPermissions with lists of controllers and
 # actions that they enable access to.  For non-admin users, we need to test
@@ -11,6 +10,8 @@ require 'foreman/access_permissions'
 # In particular, it's important that actions for AJAX requests are added to
 # an appropriate permission so views using those requests function.
 class AccessPermissionsTest < ActiveSupport::TestCase
+  include AccessPermissionsTestBase
+
   MAY_SKIP_REQUIRE_LOGIN = [
     "users/login", "users/logout", "users/extlogin", "users/extlogout", "home/status", "notices/destroy",
 
@@ -44,25 +45,5 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]
 
-  # For each controller action, verify it has a permission that grants access
-  app_routes = Rails.application.routes.routes.inject({}) do |routes, r|
-    routes["#{r.defaults[:controller].gsub(/::/, '_').underscore}/#{r.defaults[:action]}"] = r if r.defaults[:controller]
-    routes
-  end
-
-  app_routes.each do |path, r|
-    # Skip if excluded from this test (e.g. user login)
-    next if (MAY_SKIP_AUTHORIZED + MAY_SKIP_REQUIRE_LOGIN).include? path
-
-    # Basic check for a filter presence, can't do advanced features (:only, skip_*)
-    controller = "#{r.defaults[:controller]}_controller".classify.constantize
-    filters    = controller.send(:_process_action_callbacks)
-
-    # Or that deliberately only permit admins (e.g. SettingsController)
-    next unless filters.select { |f| f.filter == :require_admin }.empty?
-
-    test "route #{path} should have a permission that grants access" do
-      assert_not_equal [], Foreman::AccessControl.permissions.select { |p| p.actions.include? path }
-    end
-  end
+  check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED)
 end
