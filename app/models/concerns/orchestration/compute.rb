@@ -29,18 +29,6 @@ module Orchestration::Compute
     compute? && compute_resource.provided_attributes.keys.include?(attr)
   end
 
-  def ip_available?
-    ip.present? || compute_provides?(:ip)
-  end
-
-  def ip6_available?
-    ip6.present? || compute_provides?(:ip6)
-  end
-
-  def mac_available?
-    mac.present? || compute_provides?(:mac)
-  end
-
   def vm_name
     Setting[:use_shortname_for_vms] ? shortname : name
   end
@@ -61,6 +49,8 @@ module Orchestration::Compute
                  :action => [self, :setComputeIP]) if compute_provides?(:ip) || compute_provides?(:ip6)
     queue.create(:name   => _("Query instance details for %s") % self, :priority => 4,
                  :action => [self, :setComputeDetails])
+    queue.create(:name   => _("Set IP addresses for %s") % self, :priority => 5,
+                 :action => [self, :setComputeIPAM]) if compute_provides?(:mac) && (mac_based_ipam?(:subnet) || mac_based_ipam?(:subnet6))
     queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
                  :action => [self, :setComputePowerUp]) if compute_attributes[:start] == '1'
   end
@@ -168,6 +158,20 @@ module Orchestration::Compute
   end
 
   def delComputeIP; end
+
+  def setComputeIPAM
+    set_ip_address
+
+    unless required_ip_addresses_set?(false)
+      failure _('Failed to set IPs via IPAM for %{name}: %{e}') % {:name => name, :e => primary_interface.errors.full_messages.to_sentence }
+      return false
+    end
+    true
+  rescue => e
+    failure _("Failed to set IP for %{name}: %{e}") % { :name => name, :e => e }, e
+  end
+
+  def delComputeIPAM; end
 
   def delCompute
     logger.info "Removing Compute instance for #{name}"
@@ -302,9 +306,7 @@ module Orchestration::Compute
   end
 
   def validate_required_foreman_attr(value, object, attr)
-    if value.blank?
-      return failure("#{attr} value is blank!")
-    end
+    return failure("#{attr} value is blank!") if value.blank?
     validate_foreman_attr(value, object, attr)
   end
 

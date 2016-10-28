@@ -172,6 +172,8 @@ class Host::Managed < Host::Base
     delegate :dhcp?, :dhcp_record, :to => :primary_interface
     # DNS orchestration delegation
     delegate :dns?, :dns6?, :reverse_dns?, :reverse_dns6?, :dns_record, :to => :primary_interface
+    # IP delegation
+    delegate :mac_based_ipam?, :required_ip_addresses_set?, :compute_provides_ip?, :ip_available?, :ip6_available?, :to => :primary_interface
     include Orchestration::Compute
     include Rails.application.routes.url_helpers
     # TFTP orchestration delegation
@@ -643,8 +645,8 @@ class Host::Managed < Host::Base
   def set_ip_address
     return unless SETTINGS[:unattended] && (new_record? || managed?)
     self.interfaces.select { |nic| nic.managed }.each do |nic|
-      nic.ip  ||= nic.subnet.unused_ip.suggest_ip if nic.subnet.present?
-      nic.ip6 ||= nic.subnet6.unused_ip.suggest_ip if nic.subnet6.present?
+      nic.ip  = nic.subnet.unused_ip(mac).suggest_ip if nic.subnet.present? && nic.ip.blank?
+      nic.ip6 = nic.subnet6.unused_ip(mac).suggest_ip if nic.subnet6.present? && nic.ip6.blank?
     end
   end
 

@@ -55,17 +55,16 @@ module Nic
       N_('Interface')
     end
 
-    # Copied from compute orchestration
     def ip_available?
-      ip.present? || (host.present? && host.compute_provides?(:ip)) # TODO revist this for VMs
+      ip.present? || compute_provides_ip?(:ip)
     end
 
     def ip6_available?
-      ip6.present? || (host.present? && host.compute_provides?(:ip6)) # TODO revist this for VMs
+      ip6.present? || compute_provides_ip?(:ip6)
     end
 
     def mac_available?
-      mac.present? || (host.present? && host.compute_provides?(:mac)) # TODO revist this for VMs
+      mac.present? || (host.present? && host.compute_provides?(:mac))
     end
 
     protected

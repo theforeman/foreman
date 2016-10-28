@@ -2108,6 +2108,22 @@ class HostTest < ActiveSupport::TestCase
       assert host.require_ip6_validation?
     end
 
+    test "hosts with a DNS-enabled IPv6 Subnet, the mac provided by a CR and a mac based IPAM require neither a IPv6 nor a IPv4 address" do
+      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      subnet6 = FactoryGirl.build(:subnet_ipv6, :dns, :ipam => IPAM::MODES[:eui64])
+      host = FactoryGirl.build(:host,
+                               :on_compute_resource,
+                               :with_compute_profile,
+                               :with_ipv6_dns_orchestration,
+                               :ip6 => nil,
+                               :subnet6 => subnet6)
+      host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
+      assert_nil host.ip
+      assert_nil host.ip6
+      refute host.require_ip4_validation?, 'should not require ipv4 validation'
+      refute host.require_ip6_validation?, 'should not require ipv6 validation'
+    end
+
     test "with tokens enabled hosts don't require an IPv4 or IPv6 address" do
       Setting[:token_duration] = 30
       host = FactoryGirl.build(:host, :managed)

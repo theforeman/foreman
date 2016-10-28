@@ -178,4 +178,81 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe 'host on compute resource' do
+    let(:host) do
+      FactoryGirl.build(:host,
+                        :managed,
+                        :on_compute_resource,
+                        :with_compute_profile)
+    end
+
+    test 'should queue compute orchestration' do
+      host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
+      assert_valid host
+      tasks = host.queue.all.map(&:name)
+      assert_includes tasks, "Set up compute instance #{host.provision_interface}"
+      assert_includes tasks, "Query instance details for #{host.provision_interface}"
+      assert_equal 2, tasks.size
+    end
+  end
+
+  describe 'setting eui-64 ip address based on mac provided by compute resource' do
+    let(:organization) { FactoryGirl.create(:organization) }
+    let(:location) { FactoryGirl.create(:location) }
+    let(:subnet6) do
+      FactoryGirl.build(:subnet_ipv6,
+                        :network => '2001:db8::',
+                        :mask => 'ffff:ffff:ffff:ffff::',
+                        :dns => FactoryGirl.create(:dns_smart_proxy),
+                        :organizations => [organization],
+                        :locations => [location],
+                        :ipam => IPAM::MODES[:eui64])
+    end
+
+    let(:host) do
+      FactoryGirl.build(:host,
+                        :managed,
+                        :on_compute_resource,
+                        :with_compute_profile,
+                        :subnet6 => subnet6,
+                        :organization => organization,
+                        :location => location,
+                        :mac => nil)
+    end
+
+    test 'host gets an ip address from ipam' do
+      host.vm = mock("vm")
+      host.vm.stubs(:interfaces).returns([])
+      host.vm.expects(:select_nic).once.returns(OpenStruct.new(:mac => 'aa:bb:cc:dd:ee:ff'))
+      host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
+      assert_valid host
+      assert host.send(:setComputeDetails)
+      assert host.send(:setComputeIPAM)
+      assert_equal 'aa:bb:cc:dd:ee:ff', host.mac
+      assert_equal '2001:db8::a8bb:ccff:fedd:eeff', host.ip6
+    end
+
+    test 'should queue ipam and dns orchestration' do
+      host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
+      assert_valid host
+      tasks = host.queue.all.map(&:name)
+      assert_includes tasks, "Set up compute instance #{host.provision_interface}"
+      assert_includes tasks, "Query instance details for #{host.provision_interface}"
+      assert_includes tasks, "Set IP addresses for #{host.provision_interface}"
+      assert_includes tasks, "Create Reverse IPv6 DNS record for #{host.provision_interface}"
+      assert_equal 4, tasks.size
+    end
+
+    test 'should fail the queue if ipam does not set required ip' do
+      host.expects(:log_failure).with("Failed to set IPs via IPAM for #{host.name}: Ip6 can't be blank", nil).once
+      ipam = mock('ipam')
+      ipam.expects(:suggest_ip).returns(nil)
+      subnet6.stubs(:unused_ip).returns(ipam)
+      host.mac = 'aa:bb:cc:dd:ee:ff'
+      refute host.send(:setComputeIPAM)
+      assert_not_empty host.primary_interface.errors
+      assert host.primary_interface.errors.added?(:ip6, :blank)
+    end
+  end
 end
