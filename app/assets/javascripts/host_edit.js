@@ -763,6 +763,11 @@ function disable_vm_form_fields() {
   $("[id^=host_compute_attributes]").each(function () {
     $(this).attr("disabled", "disabled");
   });
+  $("[id^=host_interfaces_attributes]").filter(function() {
+    return this.id.match(/^host_interfaces_attributes_[0-9]+_compute_attributes_.*/);
+  }).each(function () {
+    $(this).attr("disabled", "disabled");
+  });
 }
 
 function selectedSubnetHasIPAM() {
