@@ -143,6 +143,14 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert @response.body.include?('5') #the total is correct
   end
 
+  test '#puppet_dashboard' do
+    proxy = smart_proxies(:puppetmaster)
+    xhr :get, :puppet_dashboard, { :id => proxy.id }, set_session_user
+    assert_response :success
+    assert_template 'smart_proxies/plugins/_puppet_dashboard'
+    assert @response.body.include? 'Latest Events'
+  end
+
   test '#log_pane' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
