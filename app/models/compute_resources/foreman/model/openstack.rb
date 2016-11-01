@@ -158,7 +158,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      associate_by("ip", [vm.floating_ip_address, vm.private_ip_address])
+      associate_by("ip", [vm.floating_ip_address, vm.private_ip_address].compact)
     end
 
     def flavor_name(flavor_ref)
