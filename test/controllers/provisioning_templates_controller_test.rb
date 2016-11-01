@@ -144,6 +144,16 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       get :build_pxe_default, {}, set_session_user
       assert_redirected_to provisioning_templates_path
     end
+
+    test "pxe menu's labels should be sorted by full hostgroup title" do
+      first = FactoryGirl.build(:hostgroup, :with_parent, :name => "def", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
+      second = FactoryGirl.build(:hostgroup, :with_parent, :name => "abc", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
+      FactoryGirl.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => second)
+      FactoryGirl.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => first)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{first.name}.*#{second.name}/m))).returns(true).times(3)
+      get :build_pxe_default, {}, set_session_user
+      assert_redirected_to provisioning_templates_path
+    end
   end
 
   test 'preview' do

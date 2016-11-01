@@ -173,7 +173,7 @@ class ProvisioningTemplate < Template
         end
       end
     end
-    combos.sort_by! { |profile| [profile[:hostgroup], profile[:template]] }
+    combos.sort_by! { |profile| [profile[:hostgroup].title, profile[:template]] }
   end
 
   private
