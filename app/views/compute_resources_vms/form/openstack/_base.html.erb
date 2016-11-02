@@ -21,7 +21,7 @@
 <%= selectable_f f, :scheduler_hint_filter, compute_resource.possible_scheduler_hints, { include_blank: 'None' }, { :label => _("Scheduler hint filter"), :label_size => "col-md-2", :'data-url' => scheduler_hint_selected_hosts_path,
                                                                                                               :onchange => 'schedulerHintFilterSelected(this);', :disabled => !new_host } %>
 <div id="scheduler_hint_wrapper">
-  <%= if @host && @host.compute_attributes[:scheduler_hint_filter]
+  <%= if @host && @host.compute_attributes && @host.compute_attributes[:scheduler_hint_filter].present?
         render :partial => "compute_resources_vms/form/scheduler_hint_filters", :locals => { :compute_resource => compute_resource, :host => @host, :new_host => new_host }
       end  %>
 </div>
