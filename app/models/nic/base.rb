@@ -150,9 +150,9 @@ module Nic
       # if the CR will provide an IP, then don't validate yet
       return false if host.compute_provides?(ip_field)
 
-      ip_for_dns   = (subnet_object.present? && subnet_object.dns_id.present?) || (domain.present? && domain.dns_id.present? && !self.send(other_ip_field).present?)
+      ip_for_dns   = (subnet_object.present? && subnet_object.dns_id.present?) || (domain.present? && domain.dns_id.present? && !ip_protocol_provides_ip?(other_ip_field))
       ip_for_dhcp  = subnet_object.present? && subnet_object.dhcp_id.present?
-      ip_for_token = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?))) && !self.send(other_ip_field).present?
+      ip_for_token = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?))) && !ip_protocol_provides_ip?(other_ip_field)
 
       # Any of these conditions will require an IP, so chain with OR
       ip_for_dns || ip_for_dhcp || ip_for_token
@@ -230,6 +230,10 @@ module Nic
     end
 
     private
+
+    def ip_protocol_provides_ip?(field)
+      send(field).present? || (host_managed? && host.compute_provides?(field))
+    end
 
     def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))
       in_memory_candidates = self.host.present? ? self.host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
