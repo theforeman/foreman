@@ -2068,6 +2068,23 @@ class HostTest < ActiveSupport::TestCase
       refute host.require_ip6_validation?
     end
 
+    test "hosts with a DNS-enabled Domain on CR providing a IPv4 address do not require any kind of address" do
+      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      proxy = FactoryGirl.create(:smart_proxy,
+                                 :features => [FactoryGirl.create(:feature, :dns)])
+      domain = FactoryGirl.create(:domain,
+                                  :dns => proxy)
+      host = FactoryGirl.build(:host,
+                               :managed,
+                               :on_compute_resource,
+                               :with_compute_profile,
+                               :ip => nil,
+                               :domain => domain)
+      host.compute_resource.stubs(:provided_attributes).returns({:ip => :ip})
+      refute host.require_ip4_validation?
+      refute host.require_ip6_validation?
+    end
+
     test "hosts with a DHCP-enabled Subnet do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
       host = FactoryGirl.build(:host, :managed, :subnet => FactoryGirl.build(:subnet_ipv4, :dhcp))
