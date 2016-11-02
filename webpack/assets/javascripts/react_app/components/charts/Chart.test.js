@@ -19,7 +19,6 @@ describe('Chart', () => {
       };
       const chart = shallow(<Chart config={config} noDataMsg={'No data here'}></Chart>);
 
-      expect(chart.node.type.name).toBe('MessageBox');
       expect(chart.node.props.msg).toBe('No data here');
       expect(chart.node.props.icontype).toBe('info');
     });
@@ -33,7 +32,6 @@ describe('Chart', () => {
 
       const chart = shallow(<Chart config={config}></Chart>);
 
-      expect(chart.node.type.name).toBe('MessageBox');
       expect(chart.node.props.msg).toBe('No data available');
       expect(chart.node.props.icontype).toBe('info');
     });
@@ -53,7 +51,13 @@ describe('Chart', () => {
   describe('draws chart', () => {
     let config;
 
-    c3.generate = jest.fn();
+    /*
+      unmount calls chart.destroy
+      set c3.generate return value property destroy to value
+      so that unmount will throw 'is not a function, error when calling chart.destroy()
+      this facilitates checking that 'destroy' is called
+    */
+    c3.generate = jest.fn().mockReturnValue({destroy: ''});
 
     beforeEach(() => {
       config = {
@@ -145,6 +149,12 @@ describe('Chart', () => {
         chart.update();
 
         expect(c3.generate).toHaveBeenCalled();
+      });
+      it('unmount', () => {
+        let chart = mount(<Chart id="operatingsystem" config={config}></Chart>);
+
+        // a very peculiar way to prove that chart is destroyed when unmounting
+        expect(()=> {chart.unmount();}).toThrowError('this.chart.destroy is not a function');
       });
     });
   });

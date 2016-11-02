@@ -26,7 +26,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest-cli": "^15.1.1",
+    "jest-cli": "^16.0.1",
     "jsdom": "^9.5.0",
     "react-addons-test-utils": "^15.3.1",
     "stats-webpack-plugin": "^0.2.1",
@@ -61,13 +61,16 @@
   },
   "jest": {
     "automock": true,
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": ["webpack/**/*.js", "!webpack/**/bundle*"],
+    "coverageReporters": ["lcov"],
     "unmockedModulePathPatterns": [
       "react",
       "node_modules/"
     ],
     "moduleNameMapper": {
-      "^.+\\.(png|gif)$": "identity-obj-proxy",
-      "^.+\\.(css)$": "identity-obj-proxy"
+      "^.+\\.(png|gif|css)$": "identity-obj-proxy"
     }
   }
 }
