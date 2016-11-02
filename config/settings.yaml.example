@@ -33,9 +33,12 @@
 :fqdn: 'localhost.localdomain.net'
 
 # Log settings for the current environment can be adjusted by adding them
-# here. For example, if you want to increase the log level.
+# here. It is also possible to override settings per environment. See
+# logging.yaml for more details and examples.
 #:logging:
 #  :level: debug
+#  :production:
+#    :type: syslog
 
 # Individual logging types can be toggled on/off here
 #:loggers:
