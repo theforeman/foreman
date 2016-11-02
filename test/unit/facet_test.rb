@@ -66,6 +66,34 @@ class FacetTest < ActiveSupport::TestCase
 
       assert_not_nil attributes["test_facet_attributes"]
     end
+
+    test 'apply_inherited_attributes is augmented by facets' do
+      attributes = { 'hostgroup_id' => 1 }
+      @host.hostgroup = Hostgroup.new(:id => 1)
+
+      TestFacet.expects(:inherited_attributes).returns({ :test_attribute => :test_value })
+      actual_attributes = @host.apply_inherited_attributes(attributes)
+
+      assert_equal :test_value, actual_attributes['test_facet_attributes'][:test_attribute]
+    end
+
+    test 'apply_inherited_attributes works facet defaults' do
+      attributes = { 'hostgroup_id' => 1 }
+      @host.hostgroup = Hostgroup.new(:id => 1)
+
+      @host.apply_inherited_attributes(attributes)
+    end
+
+    test 'facet attributes are passed to Facet.inherited_attributes' do
+      attributes = {  'hostgroup_id' => 1, 'test_facet_attributes' => { :test_attribute => :test_value }}
+      @host.hostgroup = Hostgroup.new
+
+      TestFacet.expects(:inherited_attributes).with do |hostgroup, facet_attributes|
+        facet_attributes[:test_attribute] == :test_value
+      end
+
+      @host.apply_inherited_attributes(attributes)
+    end
   end
 
   context "managed host facet behavior" do
