@@ -606,6 +606,34 @@ class HostTest < ActiveSupport::TestCase
     assert_includes hosts, host3
   end
 
+  context 'associated provisioning template for taxed host' do
+    setup do
+      @org = FactoryGirl.create(:organization)
+      @loc = FactoryGirl.create(:location)
+      @host = FactoryGirl.create(:host, :managed, :organization => @org, :location => @loc)
+      @template = FactoryGirl.create(:provisioning_template)
+      @host.operatingsystem.provisioning_templates << @template
+      FactoryGirl.create(:os_default_template, :provisioning_template => @template, :operatingsystem => @host.operatingsystem, :template_kind => @template.template_kind)
+      @user = FactoryGirl.create(:user, :organizations => [ @org ], :locations => [ @loc ])
+    end
+
+    test "retrieves the template that is associated with host's organization and location" do
+      @template.organizations << @org
+      @template.locations << @loc
+      as_user @user do
+        assert_equal @template, @host.provisioning_template({:kind => @template.template_kind.name})
+      end
+    end
+
+    test "retrieves the template if location ignores template associations" do
+      @template.organizations << @org
+      @loc.update_attribute :ignore_types, ['ProvisioningTemplate']
+      as_user @user do
+        assert_equal @template, @host.provisioning_template({:kind => @template.template_kind.name})
+      end
+    end
+  end
+
   context "location or organizations are not enabled" do
     before do
       @original_loc, SETTINGS[:locations_enabled] = SETTINGS[:locations_enabled], false

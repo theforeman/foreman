@@ -21,12 +21,16 @@ class HostTokenTest < ActiveSupport::TestCase
     disable_orchestration
     host = as_admin do
       Setting[:token_duration] = 30
-      template = FactoryGirl.create(:provisioning_template,
+      org = FactoryGirl.create :organization
+      loc = FactoryGirl.create :location
+      template = FactoryGirl.create :provisioning_template,
                                     :template_kind_name => 'PXELinux',
-                                    :template => "<%= foreman_url('provision') %>")
+                                    :template => "<%= foreman_url('provision') %>",
+                                    :organizations => [org], :locations => [loc]
       os = FactoryGirl.create(:debian7_0, :with_associations, :with_os_defaults,
                               :provisioning_templates => [template])
-      FactoryGirl.create :host, :managed, :build => true, :operatingsystem => os
+      FactoryGirl.create :host, :managed, :build => true, :operatingsystem => os,
+                                :organization => org, :location => loc
     end
 
     assert host.token.try(:value).present?
