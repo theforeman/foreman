@@ -22,11 +22,10 @@ OPTIONS:
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
   -a      Do not generate a tarball from the resulting directory
-  -m NUM  Maximum lines to keep for each file, deprecated, use -s
+  -s SIZE Maximum log set size in MB (current+rotated files, defaults to 10 MB)
   -j PRG  Filter with provided program when creating a tarball
   -p      Additionally print password patterns being filtered out
   -q      Quiet mode
-  -s SIZE Maximum log set size in MB (current+rotated files, defaults to 10 MB)
   -v      Verbose mode
   -u      Upload tarball$UPLOAD_INFO
   -h      Shows this message
@@ -181,7 +180,7 @@ while getopts "d:gam:s:j:uqpvhx" opt; do
       VERBOSE=1
       ;;
     m)
-      error "Warning: -m option is deprecated, use -s option"
+      error "Warning: -m option has no effect, use -s option"
       ;;
     j)
       COMPRESS="$OPTARG"

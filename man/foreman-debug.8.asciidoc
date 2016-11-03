@@ -11,7 +11,7 @@ SYNOPSIS
 --------
 foreman-debug [OPTIONS]
 
-foreman-debug -d /output/dir -a -m 9000 -v
+foreman-debug -d /output/dir -a -v
 
 foreman-debug -h
 
@@ -42,7 +42,7 @@ The following options are available:
   -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
   -a      Do not generate a tarball from the resulting directory
-  -m NUM  Maximum lines to keep for each file (default 5000)
+  -s SIZE Maximum log set size in MB (current and rotated files, default 10 MB)
   -j PRG  Filter with provided program when creating a tarball
   -p      Additionally print all passwords which are being filtered
   -q      Quiet mode
@@ -60,7 +60,7 @@ following environment variables can be defined:
  - DIR: Directory to place the tarball in (string)
  - NOGENERIC:  Skip generic info (0 or 1)
  - NOTAR:  Do not create tarballs (0 or 1)
- - MAXLINES: Maximum lines to keep for files (integer)
+ - MAXSIZE: Maximum log set size in bytes (integer)
  - COMPRESS: Compress program to pipe the tarball through (string)
  - PRINTPASS: Print passwords which are filtered out to stdout (0 or 1)
  - QUIET: Quiet mode (0 or 1)
