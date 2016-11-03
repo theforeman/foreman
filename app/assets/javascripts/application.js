@@ -422,18 +422,20 @@ function filter_permissions(item){
 }
 
 function setPowerState(item, status){
-  var power_actions = $('#power_actions');
+  var power_actions = $('#power_actions'),
+      loading_power_state = $('#loading_power_state');
+
   if(status=='success') {
-    var place_holder = $('#loading_power_state').parent('.btn-group');
+    var place_holder = loading_power_state.parent('.btn-group');
     power_actions.find('.btn-sm').removeClass('btn-sm');
     if (power_actions.find('.btn-group').exists()){
       power_actions.contents().replaceAll(place_holder);
     }else{
       power_actions.contents().appendTo(place_holder);
-      $('#loading_power_state').remove();
+      loading_power_state.remove();
     }
   }else{
-    $('#loading_power_state').text(_('Unknown power state'))
+    loading_power_state.text(__('Unknown power state'));
   }
   power_actions.hide();
   $('[rel="twipsy"]').tooltip();
