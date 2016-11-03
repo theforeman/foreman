@@ -486,6 +486,15 @@ class HostJSTest < IntegrationTestWithJavascript
         click_link 'Parameters'
         assert_equal "domain", class_params.find("textarea").value
       end
+
+      test "selecting type updates interface fields" do
+        disable_orchestration
+        go_to_interfaces_tab
+
+        table.first(:button, 'Edit').click
+        select2 'Bond', :from => 'host_interfaces_attributes_0_type'
+        assert page.has_selector? 'input[name="host[interfaces_attributes][0][bond_options]"]'
+      end
     end
 
     describe "switching flags from the overview table" do
