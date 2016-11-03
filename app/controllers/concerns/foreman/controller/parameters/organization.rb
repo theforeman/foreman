@@ -6,7 +6,7 @@ module Foreman::Controller::Parameters::Organization
   class_methods do
     def organization_params_filter
       Foreman::ParameterFilter.new(::Organization).tap do |filter|
-        filter.permit :organization_parameters_attributes => [parameter_params_filter(OrganizationParameter)]
+        filter.permit :organization_parameters_attributes => [parameter_params_filter]
         add_taxonomy_params_filter(filter)
       end
     end

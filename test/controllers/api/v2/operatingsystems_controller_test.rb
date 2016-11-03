@@ -25,7 +25,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
 
   test "should create os with os parameters" do
     os_with_params = os_params.merge(:os_parameters_attributes => {'0'=>{:name => "foo", :value => "bar"}})
-    assert_difference('OsParameter.count') do
+    assert_difference('LookupValue.count') do
       assert_difference('Operatingsystem.count') do
         post :create, { :operatingsystem => os_with_params }
       end

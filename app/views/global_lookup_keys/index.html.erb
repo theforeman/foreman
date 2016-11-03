@@ -1,0 +1,29 @@
+<% title _("Global Parameters") %>
+
+<% title_actions new_link(_("New Parameter"), hash_for_new_global_lookup_key_path),
+                 documentation_button('4.2.3Parameters') %>
+
+<table class="table table-bordered table-striped table-two-pane table-fixed">
+  <thead>
+    <tr>
+      <th class="col-md-3"><%= sort :key, :as => s_("Parameter|Name") %></th>
+      <th class="col-md-6"><%= sort :default_value, :as =>  s_("Parameter|Value")%></th>
+      <th class="col-md-2"><%= sort :should_be_global, :as =>  s_("Parameter|Should be global")%></th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @global_lookup_key.each do |lookup_key| %>
+      <tr>
+        <td class="display-two-pane ellipsis"><%= link_to_if_authorized lookup_key.key, hash_for_edit_global_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :permission => 'edit_globals', :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= lookup_key.safe_value %></td>
+        <td><%= lookup_key.should_be_global %></td>
+        <td class="ca">
+          <%= action_buttons(display_delete_if_authorized hash_for_global_lookup_key_path(:id => lookup_key).merge(:auth_object => lookup_key, :authorizer => authorizer, :permission => 'destroy_globals'),
+                                           :data => { :confirm => _("Delete %s?") % lookup_key.key }) %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= will_paginate_with_info @global_lookup_key %>

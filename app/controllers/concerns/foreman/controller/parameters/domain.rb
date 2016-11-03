@@ -3,13 +3,16 @@ module Foreman::Controller::Parameters::Domain
   include Foreman::Controller::Parameters::Parameter
   include Foreman::Controller::Parameters::Taxonomix
   include Foreman::Controller::Parameters::SmartProxiesCommon
+  include Foreman::Controller::Parameters::LookupValueConnector
 
   class_methods do
     def domain_params_filter
       Foreman::ParameterFilter.new(::Domain).tap do |filter|
         filter.permit :fullname,
           :name,
-          :domain_parameters_attributes => [parameter_params_filter(DomainParameter)]
+          :domain_parameters_attributes => [parameter_params_filter]
+
+        add_lookup_value_connector_params_filter(filter)
         add_taxonomix_params_filter(filter)
         add_smart_proxies_common_params_filter(filter)
       end

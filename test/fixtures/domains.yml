@@ -3,16 +3,20 @@
 mydomain:
   name: mydomain.net
   dns: three
+  lookup_value_matcher: domain=mydomain.net
 
 yourdomain:
   name: yourdomain.net
   fullname: somewhere in yourdomain
   dns: three
+  lookup_value_matcher: domain=yourdomain.net
 
 unuseddomain:
   name: unused.net
   fullname: somewhare that is never used
   dns: three
+  lookup_value_matcher: domain=unused.net
 
 useless:
   name: useless.net
+  lookup_value_matcher: domain= useless.net

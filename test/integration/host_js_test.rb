@@ -86,17 +86,16 @@ class HostJSTest < IntegrationTestWithJavascript
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
-      page.find('#inherited_parameters .btn[data-tag=override]').click
-      assert page.has_no_selector?('#inherited_parameters .btn[data-tag=override]')
-      click_on_submit
+      assert page.has_selector?('#global_parameters_table .btn[data-tag=override]')
+      page.first('#global_parameters_table .btn[data-tag=override]').click
+      click_button('Submit')
+      assert page.has_link?("Edit")
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_no_selector?('#inherited_parameters .btn[data-tag=override]')
-      page.find('#global_parameters_table a[data-original-title="Remove Parameter"]').click
-      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+      page.find('#global_parameters_table a[data-original-title="Remove this override"]').click
+      assert page.has_selector?('#global_parameters_table .btn[data-tag=override]')
     end
   end
 

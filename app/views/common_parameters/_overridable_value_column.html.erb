@@ -1,0 +1,14 @@
+<% lookup_value ||= lookup_value_for_key(obj, lookup_key) %>
+<% overridden ||= lookup_key.overridden?(obj) %>
+<% error = lookup_value.errors %>
+<td <%= "class=has-error" if error.present? %>>
+  <div class="input-group">
+    <%= lookup_key_with_diagnostic(obj, lookup_key, lookup_value) %>
+    <span class="input-group-btn">
+      <%= hidden_toggle(lookup_key.hidden_value?) %>
+      <%= fullscreen_button("$(this).parent().prev()") %>
+      <%= override_toggle(overridden) %>
+    </span>
+  </div>
+  <%= content_tag(:span, error.full_messages.to_sentence, :class => "help-block") if error.present? %>
+</td>

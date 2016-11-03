@@ -9,6 +9,7 @@ one:
    tftp: two
    dns: three
    vlanid: 41
+   lookup_value_matcher: "subnet=one"
 
 two:
    name: two
@@ -18,6 +19,7 @@ two:
    dhcp: one
    tftp: two
    vlanid: 42
+   lookup_value_matcher: "subnet=two"
 
 three:
    name: three
@@ -27,6 +29,7 @@ three:
    dhcp: one
    tftp: two
    vlanid: 43
+   lookup_value_matcher: "subnet=three"
 
 four:
    name: four
@@ -35,6 +38,7 @@ four:
    mask: 255.255.255.0
    tftp: two
    vlanid: 44
+   lookup_value_matcher: "subnet=four"
 
 five:
   name: five
@@ -44,6 +48,7 @@ five:
   dhcp: one
   tftp: two
   dns: three
+  lookup_value_matcher: "subnet=five"
 
 six:
   name: six
@@ -51,3 +56,4 @@ six:
   network: '2001:db10::'
   mask: 'ffff:ffff:ffff:ffff::'
   dns: three
+  lookup_value_matcher: "subnet=six"

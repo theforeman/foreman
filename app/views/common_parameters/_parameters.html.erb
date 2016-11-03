@@ -8,10 +8,10 @@
     </tr>
     </thead>
     <tbody>
-      <%= f.fields_for type do |builder| %>
+    <%= f.fields_for :lookup_values, obj.lookup_values do |builder| %>
         <%= render "common_parameters/parameter", :f => builder if builder.object.new_record? || User.current.can?(:view_params, builder.object) %>
-      <% end %>
+    <% end %>
     </tbody>
   </table>
-  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, type, "common_parameters/parameter", :target => '#global_parameters_table tbody') : "" %>
+  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, :lookup_values, "common_parameters/parameter", :target => '#global_parameters_table tbody') : "" %>
 </div>

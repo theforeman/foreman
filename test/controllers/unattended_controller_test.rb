@@ -274,7 +274,7 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "template with host parameters should return parameters values" do
-    host_param = FactoryGirl.create(:host_parameter, :host => @ub_host, :name => 'my_param')
+    host_param = FactoryGirl.create(:lookup_value, :match => @ub_host.lookup_value_matcher, :key => 'my_param')
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@ub_host.mac}"
     ProvisioningTemplate.any_instance.stubs(:template).returns("param: <%= @host.params['my_param'] %>")
     get :host_template, {:kind => 'provision'}

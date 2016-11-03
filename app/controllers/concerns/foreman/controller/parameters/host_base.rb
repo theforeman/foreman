@@ -38,7 +38,7 @@ module Foreman::Controller::Parameters::HostBase
         :subnet, :subnet_id, :subnet_name,
         :subnet6, :subnet6_id, :subnet6_name,
         :config_groups => [], :config_group_ids => [], :config_group_names => [],
-        :host_parameters_attributes => [parameter_params_filter(HostParameter)],
+        :host_parameters_attributes => [parameter_params_filter],
         :interfaces => [nic_interface_params_filter], :interfaces_attributes => [nic_interface_params_filter],
         :puppetclasses => [], :puppetclass_ids => [], :puppetclass_names => []
     end

@@ -69,6 +69,10 @@ FactoryGirl.define do
     trait :with_omit do
       omit true
     end
+
+    trait :with_key do
+      sequence(:key) { |n| "key#{n}" }
+    end
   end
 
   factory :puppetclass do

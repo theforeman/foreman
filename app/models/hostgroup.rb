@@ -19,13 +19,11 @@ class Hostgroup < ActiveRecord::Base
   has_many :hostgroup_classes
   has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
-  has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
-  accepts_nested_attributes_for :group_parameters, :allow_destroy => true
-  include ParameterValidators
   include PxeLoaderValidator
   include PxeLoaderSuggestion
-  alias_attribute :hostgroup_parameters, :group_parameters
-  has_many_hosts
+  has_many_hosts :after_add => :update_puppetclasses_total_hosts,
+                 :after_remove => :update_puppetclasses_total_hosts
+
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
 
@@ -51,7 +49,6 @@ class Hostgroup < ActiveRecord::Base
   }
 
   scoped_search :on => :name, :complete_value => :true
-  scoped_search :in => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
   scoped_search :in => :hosts, :on => :name, :complete_value => :true, :rename => "host"
   scoped_search :in => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :operators => ['= ', '~ ']
   scoped_search :in => :environment, :on => :name, :complete_value => :true, :rename => :environment
@@ -143,9 +140,9 @@ class Hostgroup < ActiveRecord::Base
     ids = ancestor_ids
     # need to pull out the hostgroups to ensure they are sorted first,
     # otherwise we might be overwriting the hash in the wrong order.
-    groups = Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ids))
+    groups = Hostgroup.sort_by_ancestry(Hostgroup.includes(:lookup_values).find(ids))
     groups.each do |hg|
-      hg.group_parameters.authorized(:view_params).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => p.associated_type, :safe_value => p.safe_value, :source_name => hg.title} : p.value }
+      lookup_values_hash(hg, hash, include_source)
     end
     hash
   end
@@ -153,23 +150,30 @@ class Hostgroup < ActiveRecord::Base
   # returns self and parent parameters as a hash
   def parameters(include_source = false)
     hash = parent_params(include_source)
-    group_parameters.each {|p| hash[p.name] = include_source ? {:value => p.value, :source => p.associated_type, :safe_value => p.safe_value, :source_name => title} : p.value }
+    lookup_values_hash(self, hash, include_source)
     hash
-  end
-
-  def global_parameters
-    Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ancestor_ids + id)).map(&:group_parameters).uniq
   end
 
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.where(nil).each {|p| parameters.update Hash[p.name => p.value] }
+    LookupValue.where(:lookup_key_id => GlobalLookupKey.all.pluck(:id), :match => lookup_value_matcher).each {|p| parameters.update Hash[p.key => p.value] }
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
+    operatingsystem.lookup_values.globals.each {|p| parameters.update Hash[p.key => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group
     parameters.update self.parameters if hostgroup
     parameters
+  end
+
+  def lookup_values_hash(hg, hash, include_source)
+    hg.lookup_values.to_a.each do |lookup_value|
+      if lookup_value.lookup_key.type == 'GlobalLookupKey'
+        hash[lookup_value.key] = include_source ?
+                                 {:value => lookup_value.value, :source => _('host group'), :safe_value => lookup_value.safe_value, :source_name => hg.title} :
+                                 lookup_value.value
+      end
+    end
+    hash
   end
 
   # no need to store anything in the db if the password is our default
@@ -180,11 +184,12 @@ class Hostgroup < ActiveRecord::Base
     Setting[:root_pass]
   end
 
-  include_in_clone :lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters
+  include_in_clone :lookup_values, :hostgroup_classes, :locations, :organizations
   exclude_from_clone :name, :title, :lookup_value_matcher
 
   # Clone the hostgroup
   def clone(name = "")
+    self.lookup_values.reload
     new = self.selective_clone
     new.name = name
     new.title = name
@@ -199,12 +204,6 @@ class Hostgroup < ActiveRecord::Base
 
   def children_hosts_count
     Host::Managed.authorized.where(:hostgroup => subtree_ids).size
-  end
-
-  protected
-
-  def lookup_value_match
-    "hostgroup=#{to_label}"
   end
 
   private

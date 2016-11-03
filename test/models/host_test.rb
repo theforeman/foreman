@@ -256,7 +256,8 @@ class HostTest < ActiveSupport::TestCase
                                                       :match => host.lookup_value_matcher,
                                                       :_destroy => 'false'}}}
     assert host.lookup_values.first.present?
-    refute_valid host, :'lookup_values.value', /invalid hash/
+    refute_valid host
+    assert_equal "is invalid hash", host.errors.messages[:'lookup_values.value'].first
   end
 
   test "should not trigger dhcp orchestration when importing facts" do
@@ -765,7 +766,6 @@ class HostTest < ActiveSupport::TestCase
       Setting[:Parametrized_Classes_in_ENC] = true
       Setting[:Enable_Smart_Variables_in_ENC] = true
       # create a dummy node
-      Parameter.destroy_all
       host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
         :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
@@ -1857,10 +1857,11 @@ class HostTest < ActiveSupport::TestCase
 
     test "can search hosts by params" do
       host = FactoryGirl.create(:host, :with_parameter)
-      parameter = host.parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      host.lookup_values.reload
+      parameter = host.lookup_values.first
+      results = Host.search_for(%{params.#{parameter.key} = "#{parameter.value}"})
       assert_equal 1, results.count
-      assert_equal parameter.value, results.first.params[parameter.name]
+      assert_equal parameter.value, results.first.params[parameter.key]
     end
 
     test "can search hosts by current_user" do
@@ -1891,8 +1892,8 @@ class HostTest < ActiveSupport::TestCase
       hg = hostgroups(:common)
       host = FactoryGirl.create(:host, :hostgroup => hg)
       host2 = FactoryGirl.create(:host, :hostgroup => nil)
-      parameter = hg.group_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      parameter = hg.lookup_values.detect{ |lv| lv.value == 'hg' }
+      results = Host.search_for(%{params.#{parameter.key} = "#{parameter.value}"})
       assert results.include?(host)
       refute results.include?(host2)
     end
@@ -1900,42 +1901,42 @@ class HostTest < ActiveSupport::TestCase
     test "can search hosts by domain connected to their primary interface" do
       host = FactoryGirl.create(:host, :managed)
       domain = host.domain
-      domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog")
-      parameter = domain.domain_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      parameter = LookupValue.create(:key => "animal", :value => "dog", :match => domain.lookup_value_matcher)
+      results = Host.search_for(%{params.#{parameter.key} = "#{parameter.value}"})
       assert results.include?(host)
     end
 
     test "can search hosts by inherited params from a hostgroup" do
       hg = hostgroups(:common)
       host = FactoryGirl.create(:host, :hostgroup => hg)
-      parameter = hg.group_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      parameter = hg.lookup_values.detect{ |lv| lv.value == 'hg' }
+      results = Host.search_for(%{params.#{parameter.key} = "#{parameter.value}"})
       assert results.include?(host)
-      assert_equal parameter.value, results.find(host.id).params[parameter.name]
+      assert_equal parameter.value, results.find(host.id).params[parameter.key]
     end
 
     test "can search hosts by inherited params from a parent hostgroup" do
       parent_hg = hostgroups(:common)
       hg = FactoryGirl.create(:hostgroup, :parent => parent_hg)
       host = FactoryGirl.create(:host, :hostgroup => hg)
-      parameter = parent_hg.group_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      parameter = parent_hg.lookup_values.detect{ |lv| lv.value == 'hg' }
+      results = Host.search_for(%{params.#{parameter.key} = "#{parameter.value}"})
       assert results.include?(host)
-      assert_equal parameter.value, results.find(host.id).params[parameter.name]
+      assert_equal parameter.value, results.find(host).params[parameter.key]
     end
 
     test "Correctly find hosts with overridden parameter values" do
       host1 = FactoryGirl.create(:host)
       host2 = FactoryGirl.create(:host)
-      parameter = FactoryGirl.create(:parameter)
-      override = FactoryGirl.create(:host_parameter, name: parameter.name, value: "different", host: host1)
+      parameter = FactoryGirl.create(:global_lookup_key, :key_type => 'string', :default_value => 'default')
+      override = LookupValue.create(lookup_key_id: parameter.id, value: "different", match: host1.lookup_value_matcher)
+      host1.lookup_values.reload
 
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+      results = Host.search_for(%{params.#{parameter.key} = "#{parameter.value}"})
       assert results.include?(host2)
       refute results.include?(host1)
 
-      results = Host.search_for(%{params.#{parameter.name} = "#{override.value}"})
+      results = Host.search_for(%{params.#{parameter.key} = "#{override.value}"})
       assert results.include?(host1)
       refute results.include?(host2)
     end
@@ -2489,8 +2490,6 @@ class HostTest < ActiveSupport::TestCase
       LookupValue.create(:value => 'abc', :match => host.lookup_value_matcher, :lookup_key_id => key.id)
       copy = host.clone
       assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
-      assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
-      assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
       assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
       assert_equal host.lookup_values.map(&:key), copy.lookup_values.map(&:key)
       assert_equal host.lookup_values.map(&:value), copy.lookup_values.map(&:value)
@@ -2509,8 +2508,8 @@ class HostTest < ActiveSupport::TestCase
     test 'lookup values are copied' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
-      copy = host.clone
       assert_equal 1, host.lookup_values.reload.size
+      copy = host.clone
       assert_equal 1, copy.lookup_values.size
       assert_equal host.lookup_values.map(&:value), copy.lookup_values.map(&:value)
     end
@@ -2865,8 +2864,8 @@ class HostTest < ActiveSupport::TestCase
     test "lookup_values_attributes= updates existing lookup values" do
       host = FactoryGirl.create(:host, :with_puppetclass)
       lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => host.classes.first, :overrides => {"fqdn=#{host.name}" => 'old value'})
+      host.lookup_values.reload
       lval = host.lookup_values.first
-
       host.lookup_values_attributes = {'0' => {'lookup_key_id' => lkey.id.to_s, 'value' => 'new value', '_destroy' => '0', 'id' => lval.id.to_s}}.with_indifferent_access
       assert_equal 'old value', LookupValue.find(lval.id).value
 
@@ -3090,37 +3089,27 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'should display inherited parameters' do
+    location = taxonomies(:location1)
     host = FactoryGirl.create(:host,
-                              :location => taxonomies(:location1),
+                              :location =>location,
                               :organization => taxonomies(:organization1),
                               :domain => domains(:mydomain))
-    location_parameter = LocationParameter.new(:name => 'location', :value => 'parameter')
-    host.location.location_parameters = [location_parameter]
-    assert(host.host_inherited_params_objects.include?(location_parameter), 'Taxonomy parameters should be included')
+    location_parameter = GlobalLookupKey.create(:key => 'location')
+    location_value = LookupValue.create(:lookup_key_id => location_parameter.id, :value => 'parameter', :match => "location=#{location.title}")
+    assert(host.host_params.include?(location_parameter.key), 'Taxonomy parameters should be included')
+    assert_equal host.host_params[location_parameter.key], location_value.value
   end
 
-  test '#host_params_objects should display all parameters with overrides' do
+  test 'host_params should display all parameters with overrides' do
+    location = taxonomies(:location1)
     host = FactoryGirl.create(:host,
                               :location => taxonomies(:location1),
                               :organization => taxonomies(:organization1),
                               :domain => domains(:mydomain))
-    location_parameter = LocationParameter.new(:name => 'location', :value => 'parameter')
-    host.location.location_parameters = [location_parameter]
-    host_location_override = HostParameter.new(:name => 'location', :value => 'the moon')
-    host.host_parameters += [host_location_override]
-    assert(host.host_params_objects.include?(host_location_override), 'Location parameter should be overriden')
-    refute(host.host_params_objects.include?(location_parameter), 'Location parameter should not be included')
-  end
-
-  test 'host_params_objects should display parameters in the right order' do
-    host = FactoryGirl.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :domain => domains(:mydomain))
-    domain_parameter = DomainParameter.new(:name => 'domain', :value => 'here.there')
-    host.domain.domain_parameters = [domain_parameter]
-    assert_equal(domain_parameter, host.host_params_objects.first, 'with no hostgroup, DomainParameter should be first parameter')
-    assert(host.host_params_objects.last.is_a?(CommonParameter), 'CommonParameter should be last parameter')
+    location_parameter = GlobalLookupKey.create(:key => 'location')
+    LookupValue.create(:lookup_key_id => location_parameter.id, :value => 'parameter', :match => "location=#{location.title}")
+    LookupValue.create(:lookup_key_id => location_parameter.id, :value => 'the moon', :match => host.lookup_value_matcher)
+    assert_equal host.host_params[location_parameter.key], 'the moon'
   end
 
   describe '#param_true?' do
@@ -3132,21 +3121,24 @@ class HostTest < ActiveSupport::TestCase
     test 'returns false for parameter with false-like value' do
       Foreman::Cast.expects(:to_bool).with('0').returns(false)
       host = FactoryGirl.create(:host)
-      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '0')
+      host_parameter = GlobalLookupKey.create(:key => 'host_param')
+      LookupValue.create(:lookup_key_id => host_parameter.id, :value => '0', :match => host.lookup_value_matcher)
       refute host.reload.param_true?('host_param')
     end
 
     test 'returns true for parameter with true-like value' do
       Foreman::Cast.expects(:to_bool).with('1').returns(true)
       host = FactoryGirl.create(:host)
-      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '1')
+      host_parameter = GlobalLookupKey.create(:key => 'host_param')
+      LookupValue.create(:lookup_key_id => host_parameter.id, :value => '1', :match => host.lookup_value_matcher)
       assert host.reload.param_true?('host_param')
     end
 
     test 'uses inherited parameters' do
       Foreman::Cast.expects(:to_bool).with('1').returns(true)
       host = FactoryGirl.create(:host, :with_hostgroup)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => host.hostgroup, :name => 'group_param', :value => '1')
+      hostgroup_parameter = GlobalLookupKey.create(:key => 'group_param')
+      LookupValue.create(:lookup_key_id => hostgroup_parameter.id, :value => '1', :match => "hostgroup=#{host.hostgroup.name}")
       assert host.reload.param_true?('group_param')
     end
   end
@@ -3160,21 +3152,24 @@ class HostTest < ActiveSupport::TestCase
     test 'returns true for parameter with false-like value' do
       Foreman::Cast.expects(:to_bool).with('0').returns(false)
       host = FactoryGirl.create(:host)
-      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '0')
+      host_parameter = GlobalLookupKey.create(:key => 'host_param')
+      LookupValue.create(:lookup_key_id => host_parameter.id, :value => '0', :match => host.lookup_value_matcher)
       assert host.reload.param_false?('host_param')
     end
 
     test 'returns false for parameter with true-like value' do
       Foreman::Cast.expects(:to_bool).with('1').returns(true)
       host = FactoryGirl.create(:host)
-      FactoryGirl.create(:host_parameter, :host => host, :name => 'host_param', :value => '1')
+      host_parameter = GlobalLookupKey.create(:key => 'host_param')
+      LookupValue.create(:lookup_key_id => host_parameter.id, :value => '1', :match => host.lookup_value_matcher)
       refute host.reload.param_false?('host_param')
     end
 
     test 'uses inherited parameters' do
       Foreman::Cast.expects(:to_bool).with('0').returns(false)
       host = FactoryGirl.create(:host, :with_hostgroup)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => host.hostgroup, :name => 'group_param', :value => '0')
+      hostgroup_parameter = GlobalLookupKey.create(:key => 'group_param')
+      LookupValue.create(:lookup_key_id => hostgroup_parameter.id, :value => '0', :match => "hostgroup=#{host.hostgroup.name}")
       assert host.reload.param_false?('group_param')
     end
   end

@@ -22,7 +22,7 @@
     </div>
     <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
       <div class="tab-pane" id="params">
-        <%= render "common_parameters/parameters", { :f => f, :type => :domain_parameters } %>
+        <%= render "common_parameters/parameters", { :f => f, :obj => @domain } %>
       </div>
     <% end %>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @domain %>

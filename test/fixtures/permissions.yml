@@ -221,22 +221,22 @@
     updated_at: "2013-12-04 08:41:04.806569"
   create_params:
     name: create_params
-    resource_type: Parameter
+    resource_type: LookupValue
     created_at: "2013-12-04 08:41:04.823716"
     updated_at: "2013-12-04 08:41:04.823716"
   edit_params:
     name: edit_params
-    resource_type: Parameter
+    resource_type: LookupValue
     created_at: "2013-12-04 08:41:04.831888"
     updated_at: "2013-12-04 08:41:04.831888"
   view_params:
     name: view_params
-    resource_type: Parameter
+    resource_type: LookupValue
     created_at: "2013-12-04 08:41:04.831888"
     updated_at: "2013-12-04 08:41:04.831888"
   destroy_params:
     name: destroy_params
-    resource_type: Parameter
+    resource_type: LookupValue
     created_at: "2013-12-04 08:41:04.84007"
     updated_at: "2013-12-04 08:41:04.84007"
   view_hostgroups:

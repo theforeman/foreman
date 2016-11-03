@@ -315,6 +315,7 @@ function update_form(element, options) {
     success: function(response) {
       $('form').replaceWith(response);
       multiSelectOnLoad();
+
       var host_compute_resource_id = $('#host_compute_resource_id');
       if (host_compute_resource_id.exists()) {
         // to handle case if def process_taxonomy changed compute_resource_id to nil

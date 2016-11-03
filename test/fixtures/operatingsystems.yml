@@ -8,6 +8,7 @@ centos5_3:
   media: one
   architectures: x86_64
   title: 'centos 5.3'
+  lookup_value_matcher: "os=centos 5.3"
 
 redhat:
   name: Redhat
@@ -18,6 +19,7 @@ redhat:
   architectures: x86_64
   media: one
   title: 'RHEL 6.1'
+  lookup_value_matcher: "os=RHEL 6.1"
 
 ubuntu1010:
   name: Ubuntu
@@ -27,6 +29,7 @@ ubuntu1010:
   media: ubuntu
   architectures: x86_64
   title: 'Ubuntu 10.10'
+  lookup_value_matcher: "os=Ubuntu 10.10"
 
 ubuntu1210:
   name: Ubuntu
@@ -46,6 +49,7 @@ solaris10:
   architectures: sparc
   release_name: hw0910
   title: 'Solaris 5.10'
+  lookup_value_matcher: "os=Solaris 5.10"
 
 opensuse:
   name: OpenSuse
@@ -62,3 +66,4 @@ no_hosts_os:
   minor: 1
   type: Redhat
   title: 'NoHosts 1.1'
+  lookup_value_matcher: "os=NoHosts 1.1"

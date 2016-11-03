@@ -1,0 +1,15 @@
+<table class="table table-condensed" id="global_parameters_table">
+  <thead>
+  <tr>
+    <th class='col-md-3'><%= _("Name") %></th>
+    <th class='col-md-8'><%= _("Value") %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% global_value_hash.each do |param| %>
+    <% lookup_value = param.is_a?(LookupValue) ? param : LookupValue.new %>
+    <% lookup_key = param.is_a?(LookupValue) ? param.lookup_key : param %>
+    <%= render :partial => "puppetclasses/single_param", :locals => { :obj => obj, :lookup_key => lookup_key, :lookup_value => lookup_value } %>
+  <% end %>
+  </tbody>
+</table>

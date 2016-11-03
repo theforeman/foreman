@@ -43,7 +43,7 @@ end
 
 if @parameters
   node do |host|
-    { :parameters => partial("api/v2/parameters/base", :object => host.host_parameters.authorized) }
+    { :parameters => partial("api/v2/parameters/base", :object => host.lookup_values.globals.authorized) }
   end
 end
 

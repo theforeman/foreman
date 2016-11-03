@@ -1,3 +1,4 @@
 object @parameter
 
-attributes :id, :name, :value
+attributes :id, :value
+attribute :key => :name

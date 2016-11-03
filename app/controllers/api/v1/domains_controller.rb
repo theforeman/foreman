@@ -2,6 +2,7 @@ module Api
   module V1
     class DomainsController < V1::BaseController
       include Foreman::Controller::Parameters::Domain
+      include Api::LookupValueConnectorController
 
       resource_description do
         # TRANSLATORS: API documentation - do not translate
@@ -50,7 +51,8 @@ module Api
       end
 
       def create
-        @domain = Domain.new(domain_params)
+        lookup_values = turn_params_to_values(domain_params.delete(:domain_parameters_attributes), "domain=#{domain_params[:name]}")
+        @domain = Domain.new(domain_params.except(:domain_parameters_attributes).merge(lookup_values))
         process_response @domain.save
       end
 
@@ -64,7 +66,8 @@ module Api
       end
 
       def update
-        process_response @domain.update_attributes(domain_params)
+        lookup_values = turn_params_to_values(domain_params.delete(:domain_parameters_attributes), "domain=#{domain_params[:name]}")
+        process_response @domain.update_attributes(domain_params.except(:domain_parameters_attributes).merge(lookup_values))
       end
 
       api :DELETE, "/domains/:id/", "Delete a domain."

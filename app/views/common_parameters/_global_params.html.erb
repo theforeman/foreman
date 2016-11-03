@@ -1,0 +1,2 @@
+<%= render :partial => "common_parameters/global_params_table", :locals => { :obj => obj, :global_value_hash => global_value_hash } %>
+<%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, :lookup_values, "common_parameters/parameter", :target => '#global_parameters_table tbody') : "" %>

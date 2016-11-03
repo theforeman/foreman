@@ -33,38 +33,68 @@ module Classification
 
     def values_hash(options = {})
       values = Hash.new { |h,k| h[k] = {} }
+      if options[:include_defaults]
+        values = get_defaults_from_keys(LookupKey.where(:id => class_parameters))
+      end
+
       all_lookup_values = LookupValue.where(:match => path2matches).where(:lookup_key_id => class_parameters).includes(:lookup_key).to_a
       class_parameters.each do |key|
-        lookup_values_for_key = all_lookup_values.select{|i| i.lookup_key_id == key.id}
-        sorted_lookup_values = lookup_values_for_key.sort_by do |lv|
-          matcher_key = ''
-          matcher_value = ''
-          lv.match.split(LookupKey::KEY_DELM).each do |match_key|
-            element = match_key.split(LookupKey::EQ_DELM).first
-            matcher_key += element + ','
-            if element == 'hostgroup'
-              matcher_value = match_key.split(LookupKey::EQ_DELM).last
-            end
-          end
-          # prefer matchers in order of the path, then more specific matches (i.e. hostgroup children)
-          [key.path.index(matcher_key.chomp(',')), -1 * matcher_value.length]
-        end
-        value = nil
+        sorted_lookup_values = sort_related_lookup_values(key, all_lookup_values)
         if key.merge_overrides
-          default = key.merge_default ? key.default_value : nil
-          case key.key_type
-            when "array"
-              value = update_array_matcher(default, key.avoid_duplicates, sorted_lookup_values, options)
-            when "hash"
-              value = update_hash_matcher(default, sorted_lookup_values, options)
-            else
-              raise "merging enabled for non mergeable key #{key.key}"
-          end
+          value = update_matcher_with_merge(key, sorted_lookup_values, options)
         else
           value = update_generic_matcher(sorted_lookup_values, options)
         end
 
         values[key.id][key.key] = value if value.present?
+      end
+      values
+    end
+
+    def update_matcher_with_merge(key, sorted_lookup_values, options)
+      default = key.merge_default ? key.default_value : nil
+      case key.key_type
+        when "array"
+          update_array_matcher(default, key.avoid_duplicates, sorted_lookup_values, options)
+        when "hash"
+          update_hash_matcher(default, sorted_lookup_values, options)
+        else
+          raise "merging enabled for non mergeable key #{key.key}"
+      end
+    end
+
+    def sort_related_lookup_values(key, all_lookup_values)
+      lookup_values_for_key = all_lookup_values.select{|i| i.lookup_key_id == key.id}
+      sorted_lookup_values = lookup_values_for_key.sort_by do |lv|
+        matcher_key = ''
+        matcher_value = ''
+        lv.match.split(LookupKey::KEY_DELM).each do |match_key|
+          element = match_key.split(LookupKey::EQ_DELM).first
+          matcher_key += element + ','
+          ancestry_length = handle_ancestry(element, match_key)
+          matcher_value = ancestry_length if ancestry_length.length > matcher_value.length
+        end
+        # prefer matchers in order of the path, then more specific matches (i.e. hostgroup children)
+        [key.path.index(matcher_key.chomp(',')), -1 * matcher_value.length]
+      end
+      sorted_lookup_values
+    end
+
+    def handle_ancestry(element, match_key)
+      if element == 'hostgroup'
+        match_key.split(LookupKey::EQ_DELM).last
+      else
+        ''
+      end
+    end
+
+    def get_defaults_from_keys(keys)
+      values = Hash.new { |h,k| h[k] = {} }
+      keys.each do |key|
+        if key.should_be_global
+          default_value_method = %w(yaml json).include?(key.key_type) ? :default_value_before_type_cast : :default_value
+          values[key.id][key.key] = {:value => key.send(default_value_method), :element => _("Default value"), :managed => key.omit}
+        end
       end
       values
     end
@@ -109,7 +139,6 @@ module Classification
           "#{element}#{LookupKey::EQ_DELM}#{attr_to_value(element)}"
         end
         matches << match.join(LookupKey::KEY_DELM)
-
         hostgroup_matches.each do |hostgroup_match|
           match[match.index { |m| m =~ /hostgroup\s*=/ }]=hostgroup_match
           matches << match.join(LookupKey::KEY_DELM)
@@ -124,7 +153,7 @@ module Classification
       # direct host attribute
       return host.send(element) if host.respond_to?(element)
       # host parameter
-      return host.host_params[element] if host.host_params.include?(element)
+      return host.lookup_values.globals.detect{|x| x.key == element} if host.lookup_values.globals.pluck(:key).include?(element)
       # fact attribute
       if (fn = host.fact_names.where(:name => element).first)
         return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value

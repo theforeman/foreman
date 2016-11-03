@@ -10,6 +10,9 @@ class ClassificationTest < ActiveSupport::TestCase
                               :environment => environments(:production))
     @classification = Classification::ClassParam.new(:host => host)
     @global_param_classification = Classification::GlobalParam.new(:host => host)
+    FactoryGirl.create(:setting,
+                       :name => 'host_group_matchers_inheritance',
+                       :value => true)
   end
 
   test 'it should return puppetclasses' do
@@ -546,9 +549,6 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryGirl.create(:setting,
-                       :name => 'host_group_matchers_inheritance',
-                       :value => true)
     key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
@@ -589,9 +589,6 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryGirl.create(:setting,
-                       :name => 'host_group_matchers_inheritance',
-                       :value => true)
     key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",

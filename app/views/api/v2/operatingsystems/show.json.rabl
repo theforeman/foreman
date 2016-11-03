@@ -3,7 +3,7 @@ object @operatingsystem
 extends "api/v2/operatingsystems/main"
 
 node do |os|
-  { :parameters => partial("api/v2/parameters/base", :object => os.parameters.authorized) }
+  { :parameters => partial("api/v2/parameters/base", :object => os.lookup_values.globals.authorized) }
 end
 
 child :media do

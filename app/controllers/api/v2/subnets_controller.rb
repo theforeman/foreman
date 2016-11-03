@@ -4,6 +4,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Subnet
+      include Api::LookupValueConnectorController
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy freeip}
@@ -54,7 +55,8 @@ module Api
       param_group :subnet, :as => :create
 
       def create
-        @subnet = Subnet.new_network_type(subnet_params)
+        lookup_values = turn_params_to_values(subnet_params.delete(:subnet_parameters_attributes), "subnet=#{subnet_params[:name]} (#{subnet_params[:network]})}")
+        @subnet = Subnet.new_network_type(subnet_params.except(:subnet_parameters_attributes).merge(lookup_values))
         process_response @subnet.save
       end
 
@@ -63,7 +65,8 @@ module Api
       param_group :subnet
 
       def update
-        process_response @subnet.update_attributes(subnet_params)
+        lookup_values = turn_params_to_values(subnet_params.delete(:subnet_parameters_attributes), "subnet=#{subnet_params[:name]} (#{subnet_params[:network]})}")
+        process_response @subnet.update_attributes(subnet_params.except(:subnet_parameters_attributes).merge(lookup_values))
       end
 
       api :DELETE, '/subnets/:id', N_("Delete a subnet")

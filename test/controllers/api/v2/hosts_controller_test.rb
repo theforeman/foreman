@@ -90,7 +90,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should get parameters from index" do
-    last_record.parameters = [HostParameter.new(name: 'foo', value: 'bar')]
+    LookupValue.create(key: 'foo', value: 'bar', match: last_record.lookup_value_match)
     get :index, include: ['parameters']
     assert_response :success
     assert_not_nil assigns(:hosts)
@@ -103,8 +103,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should get all_parameters from index" do
     hostgroup = FactoryGirl.create(:hostgroup, :with_parent, :with_domain, :with_os)
-    hostgroup.group_parameters = [GroupParameter.new(name: 'foobar', value: 'baz')]
-    last_record.parameters = [HostParameter.new(name: 'foo', value: 'bar')]
+    LookupValue.create(key: 'foobar', value: 'baz', match: hostgroup.lookup_value_match)
+    LookupValue.create(key: 'foo', value: 'bar', match: last_record.lookup_value_match)
     last_record.update_attribute(:hostgroup_id, hostgroup.id)
     get :index, include: ['all_parameters']
     assert_response :success
@@ -143,22 +143,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
-  test "should create host with host_parameters_attributes" do
+  test "should create host with lookup_values_attributes" do
     disable_orchestration
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
     assert_difference('Host.count') do
-      attrs = [{"name" => "compute_resource_id", "value" => "1", "nested" => "true"}]
-      post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
-    end
-    assert_response :created
-  end
-
-  test "should create host with host_parameters_attributes sent in a hash" do
-    disable_orchestration
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
-    assert_difference('Host.count') do
-      attrs = {"0" => {"name" => "compute_resource_id", "value" => "1", "nested" => "true"}}
-      post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
+      attrs = {"new_0" => {"lookup_key_id" => lookup_keys(:common).id, "value" => "y",  "match" => "hostgroup=test_it"}}
+      post :create, { :host => valid_attrs.merge(:lookup_values_attributes => attrs) }
     end
     assert_response :created
   end

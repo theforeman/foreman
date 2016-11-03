@@ -23,38 +23,32 @@ class HostgroupTest < ActiveSupport::TestCase
     # and overrides.
     pid = Time.now.to_i
     top = Hostgroup.new(:name => "topA",
-                        :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
-                                                          pid += 1 => {"name" => "topB", "value" => "1"},
-                                                          pid += 1 => {"name" => "topC", "value" => "1"}})
+                        :lookup_values_attributes => { pid += 1 => {"lookup_key_id" => lookup_keys(:common).id, "value" => "1",  "match" => "hostgroup=topA"},
+                                                       pid += 1 => {"lookup_key_id" => lookup_keys(:location).id, "value" => "1",  "match" => "hostgroup=topA"}})
     assert top.save
 
     second = Hostgroup.new(:name => "SecondA", :parent_id => top.id,
-                           :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "2"},
-                                                             pid += 1 => {"name" => "secondA", "value" => "2"}})
+                           :lookup_values_attributes => { pid += 1 => {"lookup_key_id" => lookup_keys(:global).id, "value" => "2",  "match" => "hostgroup=SecondA"},
+                                                          pid += 1 => {"lookup_key_id" =>lookup_keys(:common).id, "value" => "2",  "match" => "hostgroup=secondA"}})
     assert second.save
 
-    assert second.parameters.include? "topA"
-    assert_equal "2", second.parameters["topA"]
-    assert second.parameters.include? "topB"
-    assert_equal "1", second.parameters["topB"]
-    assert second.parameters.include? "topC"
-    assert_equal "1", second.parameters["topC"]
-    assert second.parameters.include? "secondA"
-    assert_equal "2", second.parameters["secondA"]
+    assert second.parameters.include? lookup_keys(:global).key
+    assert_equal "2", second.parameters[lookup_keys(:global).key]
+    assert second.parameters.include? lookup_keys(:common).key
+    assert_equal "2", second.parameters[lookup_keys(:common).key]
+    assert second.parameters.include? lookup_keys(:location).key
+    assert_equal "1", second.parameters[lookup_keys(:location).key]
 
     third = Hostgroup.new(:name => "ThirdA", :parent_id => second.id,
-                          :group_parameters_attributes => { pid += 1 => {"name"=>"topB", "value"=>"3"},
-                                                            pid +  1 => {"name"=>"topA", "value"=>"3"}})
+                          :lookup_values_attributes => { pid + 1 => {"lookup_key_id" => lookup_keys(:common).id, "value" => "3",  "match" => "hostgroup=ThirdA"}})
     assert third.save
 
-    assert third.parameters.include? "topA"
-    assert_equal "3", third.parameters["topA"]
-    assert third.parameters.include? "topB"
-    assert_equal "3", third.parameters["topB"]
-    assert third.parameters.include? "topC"
-    assert_equal "1", third.parameters["topC"]
-    assert third.parameters.include? "secondA"
-    assert_equal "2", third.parameters["secondA"]
+    assert third.parameters.include? lookup_keys(:common).key
+    assert_equal "3", third.parameters[lookup_keys(:common).key]
+    assert third.parameters.include? lookup_keys(:global).key
+    assert_equal "2", third.parameters[lookup_keys(:global).key]
+    assert third.parameters.include? lookup_keys(:location).key
+    assert_equal "1", third.parameters[lookup_keys(:location).key]
   end
 
   test "should inherit parent classes" do
@@ -75,12 +69,12 @@ class HostgroupTest < ActiveSupport::TestCase
 
     as_admin do
       top = FactoryGirl.create(:hostgroup, :name => "topA",
-                               :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
-                                                                 pid += 1 => {"name" => "topB", "value" => "1"}})
+                               :lookup_values_attributes => { pid += 1 => {"lookup_key_id" => lookup_keys(:common).id, "value" => "1",  "match" => "hostgroup=topA"},
+                                                              pid += 1 => {"lookup_key_id" => lookup_keys(:location).id, "value" => "1",  "match" => "hostgroup=topA"}})
       child = Hostgroup.create!(:name => "secondB", :parent_id => top.id)
     end
 
-    assert_equal({ "topA" => "1", "topB" => "1" }, child.parent_params)
+    assert_equal({ lookup_keys(:common).key => "1", lookup_keys(:location).key => "1" }, child.parent_params)
   end
 
   test "blocks deletion of hosts with children" do
@@ -127,7 +121,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "should find associated lookup_values" do
-    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroups(:common).lookup_values.map(&:id).sort
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroups(:common).lookup_values.no_globals.map(&:id).sort
   end
 
   test "should find associated lookup_values with unsafe SQL name" do
@@ -137,7 +131,7 @@ class HostgroupTest < ActiveSupport::TestCase
     lv = lookup_values(:four)
     lv.match = "hostgroup=#{hostgroup.name}"
     lv.save!
-    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroup.lookup_values.map(&:id).sort
+    assert_equal [lookup_values(:hostgroupcommon), lookup_values(:four)].map(&:id).sort, hostgroup.lookup_values.no_globals.map(&:id).sort
   end
 
   # test NestedAncestryCommon methods generate by class method nested_attribute_for
@@ -376,12 +370,13 @@ class HostgroupTest < ActiveSupport::TestCase
     end
 
     test "clone should clone parameters values but update ids" do
-      group.group_parameters.create!(:name => "foo", :value => "bar")
+      lv = lookup_values(:hg_global)
+      lv.match = group.send(:lookup_value_match)
+      lv.save!
       cloned = group.clone("new_name")
       cloned.save
-      assert_equal cloned.group_parameters.map{|p| [p.name, p.value]}, group.group_parameters.map{|p| [p.name, p.value]}
-      refute_equal cloned.group_parameters.map{|p| p.id}, group.group_parameters.map{|p| p.id}
-      refute_equal cloned.group_parameters.map{|p| p.reference_id}, group.group_parameters.map{|p| p.reference_id}
+      assert_equal cloned.parameters.map{|p| [p.first, p.last]}, group.parameters.map{|p| [p.first, p.last]}
+      refute_equal cloned.lookup_values.map{|p| [p.id]}, group.lookup_values.map{|p| [p.id]}
     end
 
     test "clone should clone lookup values" do
@@ -438,21 +433,21 @@ class HostgroupTest < ActiveSupport::TestCase
     test 'returns false for parameter with false-like value' do
       Foreman::Cast.expects(:to_bool).with('0').returns(false)
       group = FactoryGirl.create(:hostgroup)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '0')
+      FactoryGirl.create(:lookup_value, :match => group.lookup_value_matcher, :key => 'group_param', :value => '0')
       refute group.reload.param_true?('group_param')
     end
 
     test 'returns true for parameter with true-like value' do
       Foreman::Cast.expects(:to_bool).with('1').returns(true)
       group = FactoryGirl.create(:hostgroup)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '1')
+      FactoryGirl.create(:lookup_value, :match => group.lookup_value_matcher, :key => 'group_param', :value => '1')
       assert group.reload.param_true?('group_param')
     end
 
     test 'uses inherited parameters' do
       Foreman::Cast.expects(:to_bool).with('1').returns(true)
       group = FactoryGirl.create(:hostgroup, :with_parent)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => group.parent, :name => 'group_param', :value => '1')
+      FactoryGirl.create(:lookup_value, :match => group.lookup_value_matcher, :key => 'group_param', :value => '1')
       assert group.reload.param_true?('group_param')
     end
   end
@@ -466,21 +461,21 @@ class HostgroupTest < ActiveSupport::TestCase
     test 'returns true for parameter with false-like value' do
       Foreman::Cast.expects(:to_bool).with('0').returns(false)
       group = FactoryGirl.create(:hostgroup)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '0')
+      FactoryGirl.create(:lookup_value, :match => group.lookup_value_matcher, :key => 'group_param', :value => '0')
       assert group.reload.param_false?('group_param')
     end
 
     test 'returns false for parameter with true-like value' do
       Foreman::Cast.expects(:to_bool).with('1').returns(true)
       group = FactoryGirl.create(:hostgroup)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '1')
+      FactoryGirl.create(:lookup_value, :match => group.lookup_value_matcher, :key => 'group_param', :value => '1')
       refute group.reload.param_false?('group_param')
     end
 
     test 'uses inherited parameters' do
       Foreman::Cast.expects(:to_bool).with('0').returns(false)
       group = FactoryGirl.create(:hostgroup, :with_parent)
-      FactoryGirl.create(:hostgroup_parameter, :hostgroup => group.parent, :name => 'group_param', :value => '0')
+      FactoryGirl.create(:lookup_value,:match => group.lookup_value_matcher, :key => 'group_param', :value => '0')
       assert group.reload.param_false?('group_param')
     end
   end

@@ -6,6 +6,7 @@ class Operatingsystem < ActiveRecord::Base
   include ValidateOsFamily
   include PxeLoaderSupport
   extend FriendlyId
+  include LookupValueConnector
   friendly_id :title
 
   validates_lengths_from_database
@@ -23,10 +24,6 @@ class Operatingsystem < ActiveRecord::Base
     :reject_if => :reject_empty_provisioning_template
 
   validates :major, :numericality => {:greater_than_or_equal_to => 0}, :presence => { :message => N_("Operating System version is required") }
-  has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :operatingsystem
-  has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
-  accepts_nested_attributes_for :os_parameters, :allow_destroy => true
-  include ParameterValidators
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   attr_name :to_label
@@ -37,6 +34,7 @@ class Operatingsystem < ActiveRecord::Base
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
   before_validation :downcase_release_name, :set_title, :stringify_major_and_minor
   validates :title, :uniqueness => true, :presence => true
+  validate :name_is_short_enough
 
   before_save :set_family
 
@@ -53,7 +51,6 @@ class Operatingsystem < ActiveRecord::Base
   scoped_search :in => :architectures,    :on => :name,  :complete_value => :true, :rename => "architecture", :only_explicit => true
   scoped_search :in => :media,            :on => :name,  :complete_value => :true, :rename => "medium", :only_explicit => true
   scoped_search :in => :provisioning_templates, :on => :name, :complete_value => :true, :rename => "template", :only_explicit => true
-  scoped_search :in => :os_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :only_explicit => true
 
   FAMILIES = { 'Debian'    => %r{Debian|Ubuntu}i,
                'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux}i,
@@ -72,6 +69,18 @@ class Operatingsystem < ActiveRecord::Base
 
   class Jail < Safemode::Jail
     allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash
+  end
+
+  def name_is_short_enough
+    max_length = (252 - release.length - 1) #252 = 255-"os=".length for lookup_value_matcher to be less then 255
+    if name.present? && name.length > max_length
+      errors[:name] << _("is too long (maximum is %s characters)") % max_length
+      false
+    end
+  end
+
+  def lookup_value_match
+    "os=#{title}"
   end
 
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and

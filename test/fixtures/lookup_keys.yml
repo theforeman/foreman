@@ -78,3 +78,48 @@ four:
   puppetclass: two
   path: 'organization,location'
   type: VariableLookupKey
+
+common:
+   key: test
+   key_type: string
+   default_value: 'myvalue'
+   override: true
+   path: 'fqdn\nhostgroup\nos\ndomain\nlocation\norganization'
+   should_be_global: true
+   type: GlobalLookupKey
+
+global:
+   key: global_key
+   key_type: string
+   default_value: 'test'
+   override: true
+   path: 'fqdn\nhostgroup\nos\ndomain\nlocation\norganization'
+   should_be_global: true
+   type: GlobalLookupKey
+
+location:
+   key: loc_param
+   key_type: string
+   default_value: 'test'
+   override: true
+   path: 'fqdn\nhostgroup\nos\ndomain\nlocation\norganization'
+   should_be_global: false
+   type: GlobalLookupKey
+
+global_with_overrides:
+  key: global_overrides_key
+  key_type: string
+  default_value: 'my_key'
+  override: true
+  path: 'fqdn\nhostgroup\nos\ndomain\nlocation\norganization'
+  should_be_global: true
+  type: GlobalLookupKey
+
+subnet:
+   key: parameter
+   key_type: string
+   default_value: 'subnet_test'
+   override: true
+   path: 'fqdn\nhostgroup\nos\ndomain\nlocation\norganization'
+   should_be_global: false
+   type: GlobalLookupKey

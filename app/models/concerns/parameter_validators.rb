@@ -3,33 +3,20 @@ module ParameterValidators
   extend ActiveSupport::Concern
 
   included do
-    validate :validate_parameters_names
+    validate :validate_lookup_value_matchers
   end
 
-  def validate_parameters_names
-    names = []
+  def validate_lookup_value_matchers
     errors = false
-    self.send(parameters_symbol).each do |param|
-      next unless param.new_record? # normal validation would catch this
-      if names.include?(param.name)
-        param.errors[:name] = _('has already been taken')
-        errors = true
-      else
-        names << param.name
+    if lookup_values.present?
+      lookup_values.select(&:new_record?).group_by(&:lookup_key_id).values.each do |value_list|
+        if value_list.count > 1
+          self.lookup_values.detect { |nlv| nlv.id == value_list.last.id }.errors[:match] = _('has already been taken')
+          errors = true
+        end
       end
+      self.errors[:lookup_values_attributes] = _('Please ensure the following matchers are unique') if errors
     end
-    self.errors[parameters_symbol] = _('Please ensure the following parameters name are unique') if errors
-  end
-
-  def parameters_symbol
-    case self
-      when Operatingsystem then :os_parameters
-      when Hostgroup       then :group_parameters
-      when Host::Managed   then :host_parameters
-      when Domain          then :domain_parameters
-      when Organization    then :organization_parameters
-      when Location        then :location_parameters
-      when Subnet          then :subnet_parameters
-    end
+    errors
   end
 end

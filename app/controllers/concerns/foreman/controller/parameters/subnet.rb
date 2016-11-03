@@ -3,6 +3,7 @@ module Foreman::Controller::Parameters::Subnet
   include Foreman::Controller::Parameters::Parameter
   include Foreman::Controller::Parameters::Taxonomix
   include Foreman::Controller::Parameters::SmartProxiesCommon
+  include Foreman::Controller::Parameters::LookupValueConnector
 
   class_methods do
     def subnet_params_filter
@@ -22,7 +23,9 @@ module Foreman::Controller::Parameters::Subnet
           :type,
           :vlanid,
           :domain_ids => [], :domain_names => [],
-          :subnet_parameters_attributes => [parameter_params_filter(::SubnetParameter)]
+          :subnet_parameters_attributes => [parameter_params_filter]
+
+        add_lookup_value_connector_params_filter(filter)
         add_taxonomix_params_filter(filter)
         add_smart_proxies_common_params_filter(filter)
       end

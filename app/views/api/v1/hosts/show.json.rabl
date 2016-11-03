@@ -18,9 +18,11 @@ node :environment do |host|
   {:environment => {:id => host.environment_id, :name => host.environment_name}}
 end
 
-child :host_parameters do
-  attributes :id, :name, :value, :priority, :is_property, :reference_id, :created_at, :updated_at
+
+node do |host|
+  { :host_parameters => partial("api/v1/common_parameters/parameters", :object => @host.lookup_values.globals, :locals => {:reference_id => host.id, :priority => 4}) }
 end
+
 
 node do |host|
   { :interfaces => partial("api/v1/interfaces/show", :object => host.interfaces) }

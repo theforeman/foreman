@@ -539,13 +539,17 @@ class HostsControllerTest < ActionController::TestCase
 
   test "user with edit host rights with update parameters should change parameters" do
     setup_multiple_environments
-    @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
-    @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
+    key1 = FactoryGirl.create(:global_lookup_key,:with_override, :key => "p1")
+    FactoryGirl.create(:lookup_value, :lookup_key_id => key1.id, :value => "yo", :match => @host1.lookup_value_matcher)
+    FactoryGirl.create(:lookup_value, :lookup_key_id => key1.id, :value => "hi", :match => @host2.lookup_value_matcher)
+
     post :update_multiple_parameters,
       {:name => { "p1" => "hello"},:host_ids => [@host1.id, @host2.id]},
       set_session_user.merge(:user => users(:admin).id)
-    assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
-    assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
+    @host1.lookup_values.reload
+    @host2.lookup_values.reload
+    assert @host1.lookup_values.detect{|lv| lv.key == "p1" && lv.lookup_key.type == 'GlobalLookupKey'}[:value] == "hello"
+    assert @host2.lookup_values.detect{|lv| lv.key == "p1" && lv.lookup_key.type == 'GlobalLookupKey'}[:value] == "hello"
   end
 
   test "parameter details should be html escaped" do
@@ -556,7 +560,9 @@ class HostsControllerTest < ActionController::TestCase
                                 :default_value => "<script>alert('hacked!');</script>",
                                 :description => "<script>alert('hacked!');</script>",
                                 :puppetclass => host.puppetclasses.first)
-    FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)
+
+    key = FactoryGirl.create(:global_lookup_key, :with_override)
+    FactoryGirl.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{hg}")
     get :edit, {:id => host.name}, set_session_user
     refute response.body.include?("<script>alert(")
     assert response.body.include?("&lt;script&gt;alert(")
@@ -1118,7 +1124,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'template_used returns templates with host parameters' do
     @host.setBuild
     attrs = host_attributes(@host)
-    attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar', :id => '34'}}
+    attrs[:lookup_value_attributes] =  FactoryGirl.create(:lookup_value, :with_key, :match => @host.lookup_value_matcher)
     ActiveRecord::Base.any_instance.expects(:destroy).never
     ActiveRecord::Base.any_instance.expects(:save).never
     xhr :put, :template_used, {:provisioning => 'build', :host => attrs }, set_session_user

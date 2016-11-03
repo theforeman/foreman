@@ -39,3 +39,43 @@ six:
   match: hostgroup=Parent/inherited
   lookup_key: four
   value: 8443
+
+location:
+  match: location=Location 1
+  lookup_key: location
+  value: abc
+
+domain:
+  match: domain=mydomain.net
+  lookup_key: global_with_overrides
+  value: value1
+
+host:
+  match: fqdn=one
+  lookup_key: global_with_overrides
+  value: host1
+
+group:
+  match: hostgroup=Common
+  lookup_key: global_with_overrides
+  value: group1
+
+os:
+  match: "os=RHEL 6.1"
+  lookup_key: global_with_overrides
+  value: os1
+
+org:
+  match: "organization=Organization 1"
+  lookup_key: global_with_overrides
+  value: xyz
+
+hg_global:
+  match: hostgroup=Common
+  lookup_key: common
+  value: "--- hg\n...\n"
+
+subnet:
+  match: subnet=five
+  lookup_key: subnet
+  value: subnet1

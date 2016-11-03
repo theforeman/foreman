@@ -1,6 +1,5 @@
 module Foreman::Controller::Parameters::HostCommon
   extend ActiveSupport::Concern
-  include Foreman::Controller::Parameters::LookupValue
   include Foreman::Controller::Parameters::Parameter
   include Foreman::Controller::Parameters::SmartProxiesCommon
 
@@ -11,8 +10,7 @@ module Foreman::Controller::Parameters::HostCommon
         :image_id, :image_name,
         :image_file,
         :lookup_value_matcher,
-        :use_image,
-        :lookup_values_attributes => [lookup_value_params_filter]
+        :use_image
       add_smart_proxies_common_params_filter(filter)
     end
   end

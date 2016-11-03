@@ -4,6 +4,7 @@ module Foreman::Controller::Parameters::Hostgroup
   include Foreman::Controller::Parameters::NestedAncestryCommon
   include Foreman::Controller::Parameters::Parameter
   include Foreman::Controller::Parameters::Taxonomix
+  include Foreman::Controller::Parameters::LookupValueConnector
 
   class_methods do
     def hostgroup_params_filter
@@ -27,8 +28,9 @@ module Foreman::Controller::Parameters::Hostgroup
           :ptable_id, :ptable_name,
           :config_group_names => [], :config_group_ids => [],
           :puppetclass_ids => [], :puppetclass_names => [],
-          :group_parameters_attributes => [parameter_params_filter(::GroupParameter)]
+          :group_parameters_attributes => [parameter_params_filter]
 
+        add_lookup_value_connector_params_filter(filter)
         add_host_common_params_filter(filter)
         add_nested_ancestry_common_params_filter(filter)
         add_taxonomix_params_filter(filter)

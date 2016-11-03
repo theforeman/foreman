@@ -15,8 +15,8 @@ class OperatingsystemTest < ActiveSupport::TestCase
   should validate_numericality_of(:major).is_greater_than_or_equal_to(0)
   should validate_numericality_of(:minor).is_greater_than_or_equal_to(0)
 
-  should allow_value('a' * 255).for(:name)
-  should_not allow_value('a' * 256).for(:name)
+  should allow_value('a' * 251).for(:name)
+  should_not allow_value('a' * 252).for(:name)
 
   should allow_value('1' * 5).for(:major)
   should_not allow_value('1' * 6).for(:major)
@@ -202,38 +202,39 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should create os with two different parameters" do
     pid = Time.now.to_i
-    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
-        {pid += 1=>{"name"=>"a", "value"=>"1"},
-         pid +  1=>{"name"=>"b", "value"=>"1"}})
+    name = 'oswithparams'
+    operatingsystem = FactoryGirl.build(:operatingsystem, :name => name, :title => name, :lookup_values_attributes =>
+        {pid += 1=>{"key"=>"a", "value"=>"1"},
+         pid +  1=>{"key"=>"b", "value"=>"1"}})
     assert_valid operatingsystem
   end
 
   test "should not create os with two new parameters with the same name" do
     pid = Time.now.to_i
-    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
-        {pid += 1=>{"name"=>"a", "value"=>"1"},
-         pid += 1=>{"name"=>"a", "value"=>"2"},
-         pid +  1=>{"name"=>"b", "value"=>"1"}})
+    name = "os_name"
+    operatingsystem = FactoryGirl.build(:operatingsystem,:name => name, :title => name,
+                                        :lookup_values_attributes =>
+                                          {pid += 1=>{"key"=>"a", "value"=>"1"},
+                                           pid += 1=>{"key"=>"a", "value"=>"2"},
+                                           pid +  1=>{"key"=>"b", "value"=>"1"}})
     refute_valid operatingsystem
-    assert_equal "has already been taken", operatingsystem.os_parameters.select {|param| param.name=='a'}.sort[1].errors[:name].first
-    assert_equal "Please ensure the following parameters name are unique", operatingsystem.errors[:os_parameters].first
+
+    assert_equal "has already been taken", operatingsystem.lookup_values.first.errors[:match].first
+    assert_equal "Please ensure the following matchers are unique", operatingsystem.errors[:lookup_values_attributes].first
   end
 
   test "should not create os with a new parameter with the same name as a existing parameter" do
     operatingsystem = FactoryGirl.create(:operatingsystem)
-    operatingsystem.os_parameters = [OsParameter.new({:name => "a", :value => "3"})]
+    operatingsystem.lookup_values = [LookupValue.new({:key => "a", :value => "3", :match => operatingsystem.lookup_value_matcher})]
     assert operatingsystem.valid?
-    operatingsystem.os_parameters.push(OsParameter.new({:name => "a", :value => "43"}))
+    operatingsystem.lookup_values.push(LookupValue.new({:key => "a", :value => "43", :match => operatingsystem.lookup_value_matcher}))
     refute_valid operatingsystem
   end
 
   test "should not create os with an invalid parameter - no name" do
-    pid = Time.now.to_i
-    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
-        {pid += 1=>{"value"=>"1"},
-         pid += 1=>{"name"=>"a", "value"=>"2"},
-         pid +  1=>{"name"=>"b", "value"=>"1"}})
-    refute_valid operatingsystem
+    operatingsystem = FactoryGirl.create(:operatingsystem)
+    lv = LookupValue.new(:value => "1", :match => "os=#{operatingsystem.title}")
+    refute_valid lv
   end
 
   test "provides available loaders" do

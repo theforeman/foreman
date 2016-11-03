@@ -1,3 +1,5 @@
 object @common_parameter
 
-attributes :id, :name, :value
+attribute :id
+attribute :key => :name
+attribute :default_value

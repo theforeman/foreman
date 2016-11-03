@@ -5,7 +5,9 @@ module Api
       include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Parameter
 
+      before_filter :rename_parameters, :only => [:create, :update]
       before_action :find_required_nested_object
+      before_filter :find_parameters, :only => [:reset]
       before_action :find_parameter, :only => [:show, :update, :destroy]
 
       resource_description do
@@ -32,8 +34,9 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
-        @parameters = nested_obj.send(parameters_method).search_for(*search_options).paginate(paginate_options)
-        @total = nested_obj.send(parameters_method).count
+        @parameters = LookupValue.globals.where(:match => nested_obj.lookup_value_match)
+                          .search_for(*search_options).paginate(paginate_options)
+        @total = LookupValue.globals.where(:match => nested_obj.lookup_value_match).count
       end
 
       api :GET, "/hosts/:host_id/parameters/:id", N_("Show a nested parameter for a host")
@@ -79,7 +82,7 @@ module Api
       param_group :parameter, :as => :create
 
       def create
-        @parameter = nested_obj.send(parameters_method).new(parameter_params(::Parameter))
+        @parameter = LookupValue.new(parameter_params.merge(:match => nested_obj.lookup_value_match))
         process_response @parameter.save
       end
 
@@ -101,7 +104,7 @@ module Api
       param_group :parameter
 
       def update
-        process_response @parameter.update_attributes(parameter_params(::Parameter))
+        process_response @parameter.update_attributes(parameter_params)
       end
 
       api :DELETE, "/hosts/:host_id/parameters/:id", N_("Delete a nested parameter for a host")
@@ -140,8 +143,7 @@ module Api
       param :subnet_id, String, :desc => N_("ID of subnet")
 
       def reset
-        @parameter = nested_obj.send(parameters_method)
-        process_response @parameter.destroy_all
+        process_success @parameters.destroy_all
       end
 
       private
@@ -155,18 +157,9 @@ module Api
         end
       end
 
-      def parameters_method
-        # hostgroup.rb has a method def parameters, so I didn't create has_many :parameters like Host, Domain, Os
-        # locations and organizations inherit def parameters from taxonomies
-        case nested_obj
-        when Hostgroup
-          :group_parameters
-        when Location
-          :location_parameters
-        when Organization
-          :organization_parameters
-        else
-          :parameters
+      def rename_parameters
+        if params[:parameter]
+          params[:parameter][:key] = params[:parameter].delete(:name) if params[:parameter][:name].present?
         end
       end
 
@@ -174,12 +167,17 @@ module Api
         %w(host_id hostgroup_id domain_id subnet_id operatingsystem_id location_id organization_id)
       end
 
+      def find_parameters
+        @parameters = LookupValue.globals.where(:match => nested_obj.lookup_value_match)
+        return @parameters if @parameters
+        not_found
+      end
+
       def find_parameter
-        # nested_obj is required, so no need to check here
-        @parameters  = nested_obj.send(parameters_method)
-        @parameter = @parameters.from_param(params[:id])
-        @parameter ||= @parameters.friendly.find(params[:id])
-        return @parameter if @parameter.present?
+        find_parameters
+        @parameter = @parameters.detect {|lv| lv.key == params[:id]}
+        @parameter ||= @parameters.find(params[:id])
+        return @parameter if @parameter
         not_found
       end
     end

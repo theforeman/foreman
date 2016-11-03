@@ -4,6 +4,7 @@ module Api
       include Foreman::Controller::Parameters::Parameter
 
       before_action :find_resource, :only => %w{show update destroy}
+      before_filter :rename_common_parameters, :only => %w{update create}
 
       api :GET, "/common_parameters/", "List all common parameters."
       param :search, String, :desc => "filter results"
@@ -12,8 +13,8 @@ module Api
       param :per_page, String, :desc => "number of entries per request"
 
       def index
-        @common_parameters = CommonParameter.
-          authorized(:view_globals, CommonParameter).
+        @common_parameters = resource_class.
+          authorized(:view_globals, GlobalLookupKey).
           search_for(*search_options).
           paginate(paginate_options)
       end
@@ -32,7 +33,7 @@ module Api
       end
 
       def create
-        @common_parameter = CommonParameter.new(parameter_params(::CommonParameter))
+        @common_parameter = GlobalLookupKey.new(parameter_params.merge(:should_be_global => true))
         process_response @common_parameter.save
       end
 
@@ -45,7 +46,7 @@ module Api
       end
 
       def update
-        process_response @common_parameter.update_attributes(parameter_params(::CommonParameter))
+        process_response @common_parameter.update_attributes(parameter_params)
       end
 
       api :DELETE, "/common_parameters/:id/", "Delete a common_parameter"
@@ -53,6 +54,17 @@ module Api
 
       def destroy
         process_response @common_parameter.destroy
+      end
+
+      def resource_class
+        GlobalLookupKey.where(:should_be_global => true)
+      end
+
+      def rename_common_parameters
+        if parameter_params
+          parameter_params[:key] = parameter_params.delete(:name) if parameter_params[:name].present?
+          parameter_params[:default_value] =parameter_params.delete(:value) if parameter_params[:value].present?
+        end
       end
     end
   end

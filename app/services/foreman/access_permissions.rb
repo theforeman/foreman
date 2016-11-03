@@ -274,19 +274,19 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :global_variables do |map|
-    map.permission :view_globals,    {:common_parameters => [:index, :show, :auto_complete_search],
+    map.permission :view_globals,    {:global_lookup_keys => [:index, :show, :auto_complete_search],
                                       :"api/v1/common_parameters" => [:index, :show],
                                       :"api/v2/common_parameters" => [:index, :show]
     }
-    map.permission :create_globals, {:common_parameters => [:new, :create],
+    map.permission :create_globals,  {:global_lookup_keys => [:new, :create],
                                       :"api/v1/common_parameters" => [:create],
                                       :"api/v2/common_parameters" => [:create]
     }
-    map.permission :edit_globals, {:common_parameters => [:edit, :update],
+    map.permission :edit_globals,    {:global_lookup_keys => [:edit, :update],
                                       :"api/v1/common_parameters" => [:update],
                                       :"api/v2/common_parameters" => [:update]
     }
-    map.permission :destroy_globals, {:common_parameters => [:destroy],
+    map.permission :destroy_globals, {:global_lookup_keys => [:destroy],
                                       :"api/v1/common_parameters" => [:destroy],
                                       :"api/v2/common_parameters" => [:destroy]
     }
