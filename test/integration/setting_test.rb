@@ -6,7 +6,7 @@ class SettingIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link?("General", :href => "#General")
     assert page.has_link?("Puppet", :href => "#Puppet")
     assert page.has_link?("Provisioning", :href => "#Provisioning")
-    assert page.has_link?("Auth", :href => "#Auth")
+    assert page.has_link?("Authentication", :href => "#Auth")
   end
 
   test "humanized tab label for setting category" do

@@ -41,6 +41,10 @@ class Setting::Auth < Setting
     true
   end
 
+  def self.humanized_category
+    N_('Authentication')
+  end
+
   def validate_bmc_credentials_accessible(record)
     if !record.value && !Setting[:safemode_render]
       record.errors[:base] << _("Unable to disable bmc_credentials_accessible when safemode_render is disabled")

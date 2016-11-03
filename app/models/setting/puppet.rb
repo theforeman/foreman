@@ -33,4 +33,8 @@ class Setting::Puppet < Setting
       true
     end
   end
+
+  def self.humanized_category
+    N_('Puppet')
+  end
 end
