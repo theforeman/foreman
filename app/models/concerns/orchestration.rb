@@ -206,4 +206,8 @@ module Orchestration
   def update_cache
     Rails.cache.write(progress_report_id, (queue.all + post_queue.all).to_json, :expires_in => 5.minutes)
   end
+
+  def attr_equivalent?(old, new)
+    (old.blank? && new.blank?) || (old == new)
+  end
 end

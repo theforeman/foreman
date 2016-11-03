@@ -183,4 +183,22 @@ class OrchestrationTest < ActiveSupport::TestCase
       assert_raises(RuntimeError) { @host.class.send :include, Orchestration::HostTest2 }
     end
   end
+
+  describe '#attr_equivalent?' do
+    test 'two identical strings are equal' do
+      assert_equal true, @host.send(:attr_equivalent?, 'test', 'test')
+    end
+
+    test 'nil and an empty string are equal' do
+      assert_equal true, @host.send(:attr_equivalent?, '', nil)
+    end
+
+    test 'two different strings are not equal' do
+      assert_equal false, @host.send(:attr_equivalent?, 'test', 'different')
+    end
+
+    test 'nil and a string are not equal' do
+      assert_equal false, @host.send(:attr_equivalent?, 'test', nil)
+    end
+  end
 end
