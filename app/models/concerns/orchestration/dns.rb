@@ -96,7 +96,7 @@ module Orchestration::DNS
   end
 
   def pending_dns_record_changes?
-    old.ip != ip || old.ip6 != ip6 || old.hostname != hostname
+    !attr_equivalent?(old.ip, ip) || !attr_equivalent?(old.ip6, ip6) || !attr_equivalent?(old.hostname, hostname)
   end
 
   def dns_conflict_detected?

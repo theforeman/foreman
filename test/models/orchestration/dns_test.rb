@@ -148,6 +148,15 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert_equal 4, tasks.size
     end
 
+    test 'should not queue dns update on blank IPv6 change' do
+      @host.ip6 = nil
+      @host.save!
+      @host.queue.clear
+      @host.ip6 = ''
+      assert_valid @host
+      assert_empty @host.queue.all
+    end
+
     test 'should queue dns destroy' do
       assert_valid @host
       @host.queue.clear
