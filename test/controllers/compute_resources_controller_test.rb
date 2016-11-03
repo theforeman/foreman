@@ -41,7 +41,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should create compute resource" do
-    setup_user "create"
+    setup_user "create", 'compute_resources', ''
     assert_difference('ComputeResource.unscoped.count', +1) do
       attrs = {:name => "test", :provider => "Libvirt", :url => "qemu://host/system"}
       post :create, {:compute_resource => attrs}, set_session_user
@@ -214,7 +214,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
   end
 
-  def setup_user(operation, type = 'compute_resources')
-    super(operation, type, "id = #{@compute_resource.id}")
+  def setup_user(operation, type = 'compute_resources', condition = nil)
+    super(operation, type, condition || "id = #{@compute_resource.id}")
   end
 end

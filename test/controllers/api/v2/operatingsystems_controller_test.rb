@@ -108,16 +108,16 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see os parameters" do
-    setup_user "view", "operatingsystems"
     os_with_parameter = FactoryGirl.create(:operatingsystem, :with_parameter)
+    setup_user "view", "operatingsystems"
     get :show, {:id => os_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see os parameters" do
+    os_with_parameter = FactoryGirl.create(:operatingsystem, :with_parameter)
     setup_user "view", "operatingsystems"
     setup_user "view", "params"
-    os_with_parameter = FactoryGirl.create(:operatingsystem, :with_parameter)
     get :show, {:id => os_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end

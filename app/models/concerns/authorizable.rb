@@ -1,11 +1,50 @@
 module Authorizable
   extend ActiveSupport::Concern
 
-  included do
-    def authorized?(permission)
-      return false if User.current.nil?
-      User.current.can?(permission, self)
+  def check_permissions_after_save
+    authorizer = Authorizer.new(User.current)
+    creation = self.id_changed?
+    name = permission_name(creation ? :create : :edit)
+
+    Foreman::Logging.logger('permissions').debug { "verifying the transaction by permission #{name} for class #{self.class}" }
+    unless authorizer.can?(name, self)
+      org_loc_string = Taxonomy.enabled_taxonomies.map { |tax| _(tax) }.join(' ' + _('or') + ' ')
+      errors.add :base, _("You don't have permission %{name} with attributes that you have specified or you don't have access to specified %{tax_string}") % { :name => name, :tax_string => org_loc_string }
+
+      # This is required in case the rollback happend, the instance must look like new record so that all url helpers work correctly. Rails don't rollback these attributes.
+      if creation
+        self.id = nil
+        @new_record = true
+      end
+
+      # we need to rollback orchestration tasks if this object orchestrates something
+      if self.class.included_modules.include?(Orchestration)
+        self.send :fail_queue, self.queue
+      end
+
+      raise ActiveRecord::Rollback
     end
+  end
+
+  def authorized?(permission)
+    return false if User.current.nil?
+    User.current.can?(permission, self)
+  end
+
+  def permission_name(action)
+    type = Permission.resource_name(self.class)
+    permissions = Permission.where(:resource_type => type).where(["#{Permission.table_name}.name LIKE ?", "#{action}_%"])
+
+    # some permissions are grouped for same resource, e.g. edit_comupute_resources and edit_compute_resources_vms, in such case we need to detect the right permission
+    if permissions.size > 1
+      permissions.detect { |p| p.name.end_with?(type.underscore.pluralize) }.try(:name)
+    else
+      permissions.first.try(:name)
+    end
+  end
+
+  included do
+    after_save :check_permissions_after_save
   end
 
   module ClassMethods

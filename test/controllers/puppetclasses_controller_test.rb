@@ -212,11 +212,11 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test 'user with edit_puppetclasses permission should succeed in overriding all parameters' do
-    setup_user "edit", "puppetclasses"
     env = FactoryGirl.create(:environment,
                              :organizations => [users(:one).organizations.first],
                              :locations => [users(:one).locations.first])
     pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    setup_user "edit", "puppetclasses"
     refute pc.class_params.first.override
     post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
     assert_match /overridden all parameters/, flash[:notice]
@@ -224,11 +224,11 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test 'user without edit_puppetclasses permission should fail in overriding all parameters' do
-    setup_user "view", "puppetclasses"
     env = FactoryGirl.create(:environment,
                              :organizations => [users(:one).organizations.first],
                              :locations => [users(:one).locations.first])
     pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    setup_user "view", "puppetclasses"
     refute pc.class_params.first.override
     post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
     assert_match /You are not authorized to perform this action/, response.body

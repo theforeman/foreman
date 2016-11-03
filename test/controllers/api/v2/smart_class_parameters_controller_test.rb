@@ -203,45 +203,45 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     end
 
     test "should show a smart class parameter unhidden when show_hidden is true" do
+      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
+      FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       setup_user "edit", "external_parameters"
-      parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.default_value, show_response['default_value']
     end
 
     test "should show a smart class parameter parameter as hidden when show_hidden is true if user is not authorized" do
-      setup_user "view", "puppetclasses"
-      setup_user "view", "external_parameters"
       parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
+      setup_user "view", "puppetclasses"
+      setup_user "view", "external_parameters"
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['default_value']
     end
 
     test "should show a smart class parameter's overrides unhidden when show_hidden is true" do
-      setup_user "view", "puppetclasses"
-      setup_user "view", "external_parameters"
-      setup_user "edit", "external_parameters"
       parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => parameter, :value => 'abc', :match => 'os=fake')
+      setup_user "view", "puppetclasses"
+      setup_user "view", "external_parameters"
+      setup_user "edit", "external_parameters"
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.value, show_response['override_values'][0]['value']
     end
 
     test "should show a smart class parameter's overrides hidden when show_hidden is false" do
-      setup_user "view", "puppetclasses"
-      setup_user "view", "external_parameters"
-      setup_user "edit", "external_parameters"
       parameter = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => parameter, :value => 'abc', :match => 'os=fake')
+      setup_user "view", "puppetclasses"
+      setup_user "view", "external_parameters"
+      setup_user "edit", "external_parameters"
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'false' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.hidden_value, show_response['override_values'][0]['value']

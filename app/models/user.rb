@@ -126,6 +126,15 @@ class User < ApplicationRecord
     allow :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail
   end
 
+  # we need to allow self-editing and self-updating
+  def check_permissions_after_save
+    if User.current.try(:id) == self.id
+      true
+    else
+      super
+    end
+  end
+
   def can?(permission, subject = nil)
     if self.admin?
       true

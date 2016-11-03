@@ -93,11 +93,20 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
 
     test "notification when host has no owner" do
       host = FactoryGirl.create(:host, :managed)
-      User.current = nil
-      assert host.update_attributes(owner_id: nil, owner_type: nil, build: true)
+      assert host.update_attribute(:owner_id, nil)
+      Host::Managed.where(:owner_id => nil).update_all(:owner_type => nil) # owner type must be set by hack because of sti.rb
+      host.reload
+      assert host.update_attribute(:build, false)
       assert_nil host.owner
-      assert host.built
-      get :index, { :format => 'json' }, set_session_user
+
+      setup_user 'edit', 'hosts'
+      host.stub :owner_suggestion, nil do
+        assert host.built
+      end
+
+      as_admin do
+        get :index, { :format => 'json' }, set_session_user
+      end
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)
       assert_equal 1, response['notifications'].size

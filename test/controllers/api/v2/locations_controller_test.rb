@@ -284,16 +284,17 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see location parameters" do
-    setup_user "view", "locations"
     location_with_parameter = FactoryGirl.create(:location, :with_parameter)
+    setup_user "view", "locations"
     get :show, {:id => location_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see location parameters" do
+    location_with_parameter = FactoryGirl.create(:location, :with_parameter)
+    location_with_parameter.users << users(:one)
     setup_user "view", "locations"
     setup_user "view", "params"
-    location_with_parameter = FactoryGirl.create(:location, :with_parameter)
     get :show, {:id => location_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end

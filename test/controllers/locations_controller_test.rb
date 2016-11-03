@@ -200,17 +200,18 @@ class LocationsControllerTest < ActionController::TestCase
     put :update, { :id => location.id, :location => {:name => "Topbar Loc" }}, set_session_user
   end
 
-  test 'user with view_params rights should see parameters in an os' do
+  test 'user with view_params rights should see parameters in a location' do
+    location = FactoryGirl.create(:location, :with_parameter, :organizations => [taxonomies(:organization1)])
+    as_admin { location.users << users(:one) }
     setup_user "edit", "locations"
     setup_user "view", "params"
-    location = FactoryGirl.create(:location, :with_parameter)
     get :edit, {:id => location.id}, set_session_user.merge(:user => users(:one).id)
     assert_not_nil response.body['Parameter']
   end
 
   test 'user without view_params rights should not see parameters in an os' do
-    setup_user "edit", "locations"
     location = FactoryGirl.create(:location, :with_parameter)
+    setup_user "edit", "locations"
     get :edit, {:id => location.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Parameter']
   end

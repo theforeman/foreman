@@ -244,6 +244,18 @@ manager_23_2:
 manager_23_3:
   filter: manager_23
   permission: destroy_realms
+manager_24_0:
+  filter: manager_24
+  permission: view_subnets
+manager_24_1:
+  filter: manager_24
+  permission: create_subnets
+manager_24_2:
+  filter: manager_24
+  permission: edit_subnets
+manager_24_3:
+  filter: manager_24
+  permission: destroy_subnets
 edit_partition_tables_1_0:
   filter: edit_partition_tables_1
   permission: view_ptables

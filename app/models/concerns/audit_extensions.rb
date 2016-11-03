@@ -67,6 +67,11 @@ module AuditExtensions
 
     include Authorizable
 
+    # audits can be created regardless of permissions
+    def check_permissions_after_save
+      true
+    end
+
     def self.humanize_class_name
       _("Audit")
     end

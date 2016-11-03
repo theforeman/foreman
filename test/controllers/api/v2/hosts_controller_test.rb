@@ -5,9 +5,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   include ::PxeLoaderTest
 
   def setup
-    @host = FactoryGirl.create(:host)
-    @ptable = FactoryGirl.create(:ptable)
-    @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
+    as_admin do
+      @host = FactoryGirl.create(:host)
+      @ptable = FactoryGirl.create(:ptable)
+      @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
+    end
   end
 
   def basic_attrs
@@ -532,12 +534,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts with a registered smart proxy on should import facts successfully' do
+    proxy = smart_proxies(:puppetmaster)
+    proxy.update_attribute(:url, 'https://factsimporter.foreman')
+
     User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_smart_proxies] = true
     Setting[:require_ssl_smart_proxies] = false
 
-    proxy = smart_proxies(:puppetmaster)
-    proxy.update_attribute(:url, 'https://factsimporter.foreman')
     host = URI.parse(proxy.url).host
     Resolv.any_instance.stubs(:getnames).returns([host])
     hostname = fact_json['name']
@@ -769,16 +772,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see host parameters" do
-    setup_user "view", "hosts"
     host_with_parameter = FactoryGirl.create(:host, :with_parameter)
+    setup_user "view", "hosts"
     get :show, {:id => host_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see host parameters" do
+    host_with_parameter = FactoryGirl.create(:host, :with_parameter)
     setup_user "view", "hosts"
     setup_user "view", "params"
-    host_with_parameter = FactoryGirl.create(:host, :with_parameter)
     get :show, {:id => host_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end

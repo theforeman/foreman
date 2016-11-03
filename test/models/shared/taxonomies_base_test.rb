@@ -193,6 +193,7 @@ module TaxonomiesBaseTest
 
     test "non-admin user is added to taxonomy after creating it" do
       user = users(:one)
+      setup_user 'create', taxonomy_class.to_s.underscore.pluralize
       as_user(:one) do
         refute user.admin?
         assert taxonomy = taxonomy_class.create(:name => 'new taxonomy')

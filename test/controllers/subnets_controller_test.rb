@@ -106,16 +106,16 @@ class SubnetsControllerTest < ActionController::TestCase
 
   context 'parameters permissions' do
     test 'with view_params user should see parameters in a subnet' do
+      subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
       setup_user "edit", "subnets"
       setup_user "view", "params"
-      subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
       get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
       assert_not_nil response.body['Parameter']
     end
 
     test 'without view_params user should not see parameters in a subnet' do
-      setup_user "edit", "subnets"
       subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+      setup_user "edit", "subnets"
       get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
       assert_nil response.body['Parameter']
     end

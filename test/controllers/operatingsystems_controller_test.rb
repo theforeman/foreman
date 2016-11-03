@@ -73,16 +73,16 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     end
 
     test 'user with view_params rights should see parameters in an os' do
+      os = FactoryGirl.create(:operatingsystem, :with_parameter)
       setup_user "edit", "operatingsystems"
       setup_user "view", "params"
-      os = FactoryGirl.create(:operatingsystem, :with_parameter)
       get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
       assert_not_nil response.body['Parameter']
     end
 
     test 'user without view_params rights should not see parameters in an os' do
-      setup_user "edit", "operatingsystems"
       os = FactoryGirl.create(:operatingsystem, :with_parameter)
+      setup_user "edit", "operatingsystems"
       get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
       assert_nil response.body['Parameter']
     end

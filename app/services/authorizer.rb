@@ -11,6 +11,7 @@ class Authorizer
   end
 
   def can?(permission, subject = nil, cache = true)
+    return false if user.nil?
     return true if user.admin?
 
     if subject.nil?
@@ -161,21 +162,8 @@ class Authorizer
     [organizations, locations, values]
   end
 
-  # sometimes we need exceptions however we don't want to just split namespaces
   def resource_name(klass)
-    return 'Operatingsystem' if klass <= Operatingsystem
-    return 'ComputeResource' if klass <= ComputeResource
-    return 'Subnet' if klass <= Subnet
-    return 'Parameter' if klass <= Parameter
-
-    case (name = klass.to_s)
-    when 'Audited::Audit'
-      'Audit'
-    when /\AHost::.*\Z/
-      'Host'
-    else
-      name
-    end
+    Permission.resource_name(klass)
   end
 
   def base_ids

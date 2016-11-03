@@ -184,8 +184,12 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     teardown { Fog.unmock! }
 
     let(:compute_resource) do
-      FactoryGirl.create(:compute_resource, :vmware, :uuid => 'Solutions',
-                         :organizations => User.current.organizations, :locations => User.current.locations)
+      orgs = User.current.organizations
+      locs = User.current.locations
+      as_admin do
+        FactoryGirl.create(:compute_resource, :vmware, :uuid => 'Solutions',
+                           :organizations => orgs, :locations => locs)
+      end
     end
 
     test 'imports a host' do
