@@ -1,6 +1,6 @@
 require('expose?$!expose?jQuery!jquery');
 require('jquery-ujs');
-require('expose?_!lodash');
+require('expose?lodash!lodash');
 require('expose?jstz!jstz');
 require('expose?ipaddr!ipaddr.js');
 require('jquery.cookie');

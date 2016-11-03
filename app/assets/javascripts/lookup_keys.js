@@ -259,7 +259,7 @@ function fill_in_matchers(){
     matcher_key.empty();
     matcher_key.append("<option></option>");
     $.each(order, function (index, value) {
-      matcher_key.append($("<option>", {value: _.escape(value), html: _.escape(value)}));
+      matcher_key.append($("<option>", {value: lodash.escape(value), html: lodash.escape(value)}));
     });
     if (match) {
       var key_value = match_to_key_value(match);
