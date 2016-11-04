@@ -30,6 +30,10 @@ class Setting::Provisioning < Setting
     true
   end
 
+  def self.humanized_category
+    N_('Provisioning')
+  end
+
   def validate_safemode_render(record)
     if !record.value && !Setting[:bmc_credentials_accessible]
       record.errors[:base] << _("Unable to disable safemode_render when bmc_credentials_accessible is disabled")

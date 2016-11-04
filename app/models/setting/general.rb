@@ -29,4 +29,8 @@ class Setting::General < Setting
 
     true
   end
+
+  def self.humanized_category
+    N_('General')
+  end
 end
