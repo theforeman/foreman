@@ -433,7 +433,7 @@ module ApplicationHelper
   end
 
   def hosts_count(resource_name = controller.resource_name)
-    @hosts_count ||= Host::Managed.reorder('').authorized.group("#{resource_name}_id").count
+    @hosts_count ||= Host::Managed.reorder('').authorized.group("hosts.#{resource_name}_id").count
   end
 
   def webpack_dev_server
