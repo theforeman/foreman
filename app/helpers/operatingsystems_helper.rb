@@ -38,6 +38,8 @@ module OperatingsystemsHelper
                "NXOS"
              when /XenServer/i
                "XenServer"
+             when /vSphere/i
+               "vSphere"
              else
                return "" if record.family.blank?
                record.family
