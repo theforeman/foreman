@@ -95,7 +95,7 @@ if (production) {
     headers: { 'Access-Control-Allow-Origin': '*' }
   };
   // Source maps
-  config.devtool = 'cheap-module-eval-source-map';
+  config.devtool = 'inline-source-map';
 }
 
 module.exports = config;
