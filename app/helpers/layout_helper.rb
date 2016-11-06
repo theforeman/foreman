@@ -102,7 +102,7 @@ module LayoutHelper
       result = "".html_safe
       result += alert_close if opts[:close]
       result += alert_header(opts[:header], opts[:class])
-      result += content_tag(:span, opts[:text].html_safe, :class => 'text')
+      result += content_tag(:span, opts[:text], :class => 'text')
       result += alert_actions(opts[:actions]) if opts[:actions].present?
       result
     end

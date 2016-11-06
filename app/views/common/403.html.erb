@@ -2,9 +2,9 @@
 
 <div class='col-md-offset-4 col-md-4'>
   <%= alert :header => _("Permission denied"),
-    :text => _("You are not authorized to perform this action.") + '</br>'.html_safe +
-             _("Please request one of the required permissions listed below from a Foreman administrator:") +
-             content_tag(:ul, permissions.join.html_safe),
+    :text => (_("You are not authorized to perform this action.") + '</br>'.html_safe +
+                 _("Please request one of the required permissions listed below from a Foreman administrator:") +
+                 content_tag(:ul, permissions.join.html_safe)).html_safe,
     :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
     :class => 'alert-danger',
     :close => false %>
