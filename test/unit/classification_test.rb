@@ -27,7 +27,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
   test 'enc_should_return_updated_cluster_param' do
     key = lookup_keys(:complex)
-    assert_equal 'organization,location', key.path
+    assert_equal "fqdn\norganization,location\nhostgroup\nos", key.path
     host = FactoryGirl.create(:host, :location => taxonomies(:location1), :organization => taxonomies(:organization1))
     assert_equal taxonomies(:location1), host.location
     assert_equal taxonomies(:organization1), host.organization
@@ -490,7 +490,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
   test "#enc should not return class parameters when lookup_value should use puppet default" do
     lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
-                              :puppetclass => puppetclasses(:one), :path => "location")
+                              :puppetclass => puppetclasses(:one), :path => "location\ncomment")
     as_admin do
       LookupValue.create! :lookup_key_id => lkey.id,
                           :match => "location=#{taxonomies(:location1)}",
@@ -504,7 +504,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
   test "#enc should return class parameters when default value and lookup_values should not use puppet default" do
     lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :omit => false,
-                              :puppetclass => puppetclasses(:one), :path => "location")
+                              :puppetclass => puppetclasses(:one), :path => "location\ncomment")
     lvalue = as_admin do
       LookupValue.create! :lookup_key_id => lkey.id,
                           :match => "location=#{taxonomies(:location1)}",

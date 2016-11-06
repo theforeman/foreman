@@ -57,7 +57,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                          :with_override, :key_type => 'hash',
-                         :default_value => 'a: b',
+                         :default_value => 'a: b', :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
                          :overrides => { host.lookup_value_matcher => 'a: c' })
 
@@ -71,7 +71,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       host = FactoryGirl.create(:host, :with_puppetclass)
       FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
                          :with_override, :key_type => 'string',
-                         :default_value => 'string1',
+                         :default_value => 'string1', :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
                          :overrides => { host.lookup_value_matcher => 'string2' })
       user = FactoryGirl.create(:user, :with_mail)
@@ -91,7 +91,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'shows errors on invalid lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'real', :default_value => true,
+                                      :key_type => 'real', :default_value => true, :path => "fqdn\ncomment",
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
       visit edit_host_path(host)
@@ -109,7 +109,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'clones lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :puppetclass => host.puppetclasses.first)
+                                      :puppetclass => host.puppetclasses.first, :path => "fqdn\ncomment")
       lookup_value = LookupValue.create(:value => 'abc', :match => host.lookup_value_matcher, :lookup_key_id => lookup_key.id)
 
       visit clone_host_path(host)
@@ -121,7 +121,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
     test 'shows no errors on lookup values' do
       host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
 
       visit clone_host_path(host)

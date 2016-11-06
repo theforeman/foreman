@@ -408,7 +408,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
     test 'without save makes no changes' do
       group = FactoryGirl.create(:hostgroup, :with_config_group, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => 'test'})
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment", :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => 'test'})
       ActiveRecord::Base.any_instance.expects(:destroy).never
       ActiveRecord::Base.any_instance.expects(:save).never
       group.clone

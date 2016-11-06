@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   smart_variable_attrs = { :match => 'xyz=10', :value => 'string' }
-  smart_class_attrs = { :match => 'host=abc.com', :value => 'liftoff' }
+  smart_class_attrs = { :match => 'os=abc', :value => 'liftoff' }
 
   test "should get override values for specific smart variable" do
     get :index, {:smart_variable_id => lookup_keys(:two).to_param }
@@ -20,7 +20,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test 'should mark override on creation' do
-    k = FactoryGirl.create(:variable_lookup_key, :puppetclass => puppetclasses(:two))
+    k = FactoryGirl.create(:variable_lookup_key, :puppetclass => puppetclasses(:two), :path => "xyz")
     refute k.override
     post :create, {:smart_variable_id => k.id, :override_value => smart_variable_attrs }
     k.reload
@@ -57,7 +57,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test "should update specific override value" do
-    put :update, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'host=abc.com' } }
+    put :update, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'os=abc' } }
     assert_response :success
   end
 
@@ -70,7 +70,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
 
   [{ :value => 'xyz=10'}, { :match => 'os=string'}].each do |override_value|
     test "should not create override value without #{override_value.keys.first}" do
-      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:two))
+      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :path => "os", :puppetclass => puppetclasses(:two))
       refute lookup_key.override
       assert_difference('LookupValue.count', 0) do
         post :create, {:smart_class_parameter_id => lookup_key.id, :override_value => override_value}

@@ -85,7 +85,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     value2 = ""
     puppetclass = Puppetclass.first
     as_admin do
-      key    = PuppetclassLookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :default_value => default, :override=>true)
+      key    = PuppetclassLookupKey.create!(:key => "dns", :path => "environment,hostgroup\nhostgroup\nfqdn", :default_value => default, :override=>true)
       value1 = LookupValue.create!(:value => "v1", :match => "environment=testing,hostgroup=Common", :lookup_key => key)
       value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
 

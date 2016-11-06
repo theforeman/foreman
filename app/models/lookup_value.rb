@@ -12,7 +12,7 @@ class LookupValue < ActiveRecord::Base
   before_validation :sanitize_match
 
   before_validation :validate_and_cast_value, :unless => Proc.new{|p| p.omit }
-  validate :validate_value, :ensure_fqdn_exists, :ensure_hostgroup_exists
+  validate :validate_value, :ensure_fqdn_exists, :ensure_hostgroup_exists, :ensure_matcher_exists
 
   attr_accessor :host_or_hostgroup
 
@@ -96,6 +96,18 @@ class LookupValue < ActiveRecord::Base
     matcher = match.match(match_type)
     return true unless matcher
     matcher
+  end
+
+  def ensure_matcher_exists
+    return false if match.blank?
+    key_elements = []
+    match.split(LookupKey::KEY_DELM).each do |m|
+      key_elements << m.split(LookupKey::EQ_DELM).first
+    end
+
+    unless lookup_key.path_elements.include?(key_elements)
+      errors.add(:match, _("%{key} does not exist in order field") % { :key => key_elements.join(',') })
+    end
   end
 
   def skip_strip_attrs
