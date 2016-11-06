@@ -123,7 +123,7 @@ class LookupValueTest < ActiveSupport::TestCase
     key = pc.class_params.first
     lvalue = nil
     assert_difference('Audit.count') do
-      lvalue = FactoryGirl.create :lookup_value, :lookup_key_id => key.id, :value => 'test', :match => 'foo=bar'
+      lvalue = FactoryGirl.create :lookup_value, :lookup_key_id => key.id, :value => 'test', :match => 'os=bar'
     end
     assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
   end
@@ -206,6 +206,13 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal "is invalid", value.errors[:match].first
   end
 
+  test "lookup value will be rejected for invalid matcher" do
+    key = lookup_keys(:three)
+    value = LookupValue.new(:value => true, :match => "something=Common", :lookup_key_id => key.id)
+    refute_valid value
+    assert_equal "something does not exist in order field", value.errors[:match].first
+  end
+
   context "when key is a boolean and default_value is a string" do
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
@@ -227,7 +234,7 @@ class LookupValueTest < ActiveSupport::TestCase
   context "when key type is puppetclass lookup and value is empty" do
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
-                                :with_override, :with_omit,
+                                :with_override, :with_omit, :path => "hostgroup\ncomment",
                                 :key_type => 'string',
                                 :puppetclass => puppetclasses(:one))
       @value = FactoryGirl.build_stubbed(:lookup_value, :value => "",
@@ -248,7 +255,7 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "should allow white space in value" do
     key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
-                             :with_override,
+                             :with_override, :path => "hostgroup\ncomment",
                              :key_type => 'string',
                              :puppetclass => puppetclasses(:one))
     text = <<EOF

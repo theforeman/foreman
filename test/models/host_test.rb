@@ -2550,7 +2550,7 @@ class HostTest < ActiveSupport::TestCase
 
     test 'lookup values are copied' do
       host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment", :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
       copy = host.clone
       assert_equal 1, host.lookup_values.reload.size
       assert_equal 1, copy.lookup_values.size
@@ -2584,7 +2584,7 @@ class HostTest < ActiveSupport::TestCase
 
     test 'without save makes no changes' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment", :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
       ActiveRecord::Base.any_instance.expects(:destroy).never
       ActiveRecord::Base.any_instance.expects(:save).never
       host.clone

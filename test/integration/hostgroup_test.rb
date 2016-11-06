@@ -24,7 +24,7 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   test 'edit shows errors on invalid lookup values' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                    :key_type => 'integer', :default_value => true,
+                                    :key_type => 'integer', :default_value => true, :path => "hostgroup\ncomment",
                                     :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => false})
 
     visit edit_hostgroup_path(group)
@@ -38,7 +38,7 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'clones lookup values' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
                                     :puppetclass => group.puppetclasses.first)
     lookup_value = LookupValue.create(:value => 'abc', :match => group.lookup_value_matcher, :lookup_key_id => lookup_key.id)
 
@@ -51,7 +51,7 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
 
   test 'clone shows no errors on lookup values' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+    FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
                        :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => 'test'})
 
     visit clone_hostgroup_path(group)
