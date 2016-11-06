@@ -5,12 +5,12 @@
 
 <% if @trends.empty? %>
   <%= alert :class => 'alert-info', :header => _("No trend counter defined"),
-            :text => (_("To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting[:puppet_interval]) %>
+            :text => (_("To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes).") % Setting[:puppet_interval]).html_safe %>
 <% end %>
 
 <% if @trends.any? and TrendCounter.unconfigured? %>
   <%= alert :class => 'alert-info', :header => _("No trend counter found"),
-            :text => (_("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting[:puppet_interval]) %>
+            :text => (_("To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)") % Setting[:puppet_interval]).html_safe %>
 <% end %>
 
 <table class="<%= table_css_classes 'table-fixed' %>">

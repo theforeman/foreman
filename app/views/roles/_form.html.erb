@@ -15,11 +15,11 @@
       <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
 
       <% if show_location_tab? || show_organization_tab? %>
-        <%= alert(:close => false, :class => 'alert-info', :header => '', :text => _("Changes to following associations will propagate to all inheriting filters") + ' ' +
+        <%= alert(:close => false, :class => 'alert-info', :header => '', :text => (_("Changes to following associations will propagate to all inheriting filters") + ' ' +
             popover("", _("When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.
                                Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.
                                Note that not all filters support <br> %{orgs_and_locs}, so these always remain global.") % { :orgs_or_locs => org_loc_string('or'), :orgs_and_locs => org_loc_string('and') },
-                    :title => _("Role %s.") % org_loc_string('and')).html_safe) %>
+                    :title => _("Role %s.") % org_loc_string('and'))).html_safe) %>
       <% end %>
 
       <% if show_location_tab? %>
