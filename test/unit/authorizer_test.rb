@@ -11,6 +11,11 @@ class AuthorizerTest < ActiveSupport::TestCase
   end
 
   describe '#can?' do
+    test "it always returns true for admin" do
+      @user = FactoryGirl.create(:user, :admin)
+      assert Authorizer.new(@user).can?(:whatever)
+    end
+
     [true, false].each do |cache|
       context "with cache = #{cache}" do
         context 'without subject' do

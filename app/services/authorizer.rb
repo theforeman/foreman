@@ -11,6 +11,8 @@ class Authorizer
   end
 
   def can?(permission, subject = nil, cache = true)
+    return true if user.admin?
+
     if subject.nil?
       user.permissions.where(:name => permission).present?
     else
