@@ -17,6 +17,7 @@ class OrchestrationTest < ActiveSupport::TestCase
 
     included do
       register_rebuild(:rebuild_host, N_('HOST'))
+      register_rebuild(:rebuild_tftp, N_('TFTP'))
     end
 
     def rebuild_host
@@ -181,6 +182,20 @@ class OrchestrationTest < ActiveSupport::TestCase
         end
       end
       assert_raises(RuntimeError) { @host.class.send :include, Orchestration::HostTest2 }
+    end
+  end
+
+  context "when getting orchestration methods" do
+    test "get all from rebuild_methods_for all" do
+      assert_equal @host.class.rebuild_methods.values, @host.class.rebuild_methods_for.values
+    end
+
+    test "get all from rebuild_methods_for empty" do
+      assert_equal @host.class.rebuild_methods.values, @host.class.rebuild_methods_for([]).values
+    end
+
+    test "get one from rebuild_methods_for" do
+      assert_equal ['TFTP'], @host.class.rebuild_methods_for(['TFTP']).values
     end
   end
 

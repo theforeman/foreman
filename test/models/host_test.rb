@@ -3203,11 +3203,33 @@ class HostTest < ActiveSupport::TestCase
       @nic.expects(:rebuild_tftp).returns(true)
       @nic.expects(:rebuild_dns).returns(true)
       @nic.expects(:rebuild_dhcp).returns(true)
-      Nic::Managed.expects(:rebuild_methods).returns(:rebuild_dhcp => "DHCP", :rebuild_dns => "DNS", :rebuild_tftp => "TFTP")
+      Nic::Managed.expects(:rebuild_methods_for).returns(:rebuild_dhcp => "DHCP", :rebuild_dns => "DNS", :rebuild_tftp => "TFTP")
+    end
+
+    test "recreate config with success - only empty" do
+      Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_test => "TEST")
+      host = FactoryGirl.build(:host, :interfaces => [@nic])
+      host.expects(:rebuild_test).returns(true)
+      result = host.recreate_config([])
+      assert result["DHCP"]
+      assert result["DNS"]
+      assert result["TFTP"]
+      assert result["TEST"]
+    end
+
+    test "recreate config with success - only all values" do
+      Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_test => "TEST")
+      host = FactoryGirl.build(:host, :interfaces => [@nic])
+      host.expects(:rebuild_test).returns(true)
+      result = host.recreate_config(Nic::Managed.rebuild_methods.keys + Host::Managed.rebuild_methods.keys)
+      assert result["DHCP"]
+      assert result["DNS"]
+      assert result["TFTP"]
+      assert result["TEST"]
     end
 
     test "recreate config with success" do
-      Host::Managed.expects(:rebuild_methods).returns(:rebuild_test => "TEST")
+      Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_test => "TEST")
       host = FactoryGirl.build(:host, :interfaces => [@nic])
       host.expects(:rebuild_test).returns(true)
       result = host.recreate_config
@@ -3218,7 +3240,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "recreate config with clashing methods" do
-      Host::Managed.expects(:rebuild_methods).returns(:rebuild_dns => "DNS")
+      Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_dns => "DNS")
       host = FactoryGirl.build(:host, :interfaces => [@nic])
       assert_raises(Foreman::Exception) { host.recreate_config }
     end
@@ -3258,6 +3280,27 @@ class HostTest < ActiveSupport::TestCase
       assert result["DHCP"]
       assert result["DNS"]
       assert result["TFTP"]
+    end
+  end
+
+  context "recreating host TFTP config" do
+    setup do
+      @nic = FactoryGirl.build(:nic_primary_and_provision)
+      @nic.expects(:rebuild_tftp).returns(true)
+      @nic.expects(:rebuild_dns).never
+      @nic.expects(:rebuild_dhcp).never
+      Nic::Managed.expects(:rebuild_methods_for).returns(:rebuild_tftp => "TFTP")
+    end
+
+    test "recreate TFTP config with success" do
+      Host::Managed.expects(:rebuild_methods_for).returns({})
+      host = FactoryGirl.build(:host, :interfaces => [@nic])
+      host.expects(:rebuild_test).never
+      result = host.recreate_config(['TFTP'])
+      refute result["DHCP"]
+      refute result["DNS"]
+      assert result["TFTP"]
+      refute result["TEST"]
     end
   end
 
