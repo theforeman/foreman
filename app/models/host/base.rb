@@ -106,7 +106,7 @@ module Host
 
     # expect a facts hash
     def import_facts(facts)
-      return false unless create_new_host_when_facts_are_uploaded?
+      return false if !create_new_host_when_facts_are_uploaded? && new_record?
 
       # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
       raise ::Foreman::Exception.new('Host is pending for Build') if build?

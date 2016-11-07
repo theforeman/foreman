@@ -392,6 +392,15 @@ class HostTest < ActiveSupport::TestCase
       assert_nil host
     end
 
+    test 'host is updated when uploading facts if setting is false' do
+      Host.new(:name => 'sinn1636.lan', :certname => 'sinn1636.cert.fail').save(:validate => false)
+      Setting[:create_new_host_when_facts_are_uploaded] = false
+      refute Setting[:create_new_host_when_facts_are_uploaded]
+      raw = parse_json_fixture('/facts_with_certname.json')
+      host = Host.import_host(raw['name'], 'puppet', raw['certname'])
+      assert host.import_facts(raw['facts'])
+    end
+
     test 'host taxonomies are set to a default when uploading facts' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
       raw = parse_json_fixture('/facts.json')
