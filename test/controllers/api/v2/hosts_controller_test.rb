@@ -435,6 +435,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response 422
   end
 
+  def test_rebuild_tftp_config
+    Host.any_instance.expects(:recreate_config).returns({ "TFTP" => true })
+    host = FactoryGirl.create(:host)
+    post :rebuild_config, { :id => host.to_param, :only => ['TFTP'] }, set_session_user
+    assert_response :success
+  end
+
   def test_create_valid_node_from_json_facts_object_without_certname
     User.current=nil
     hostname = fact_json['name']

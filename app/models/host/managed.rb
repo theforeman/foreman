@@ -574,6 +574,10 @@ class Host::Managed < Host::Base
     Foreman::Plugin.all.map(&:provision_methods).inject(:merge) || {}
   end
 
+  def self.valid_rebuild_only_values
+    Nic::Managed.rebuild_methods.values + Host::Managed.rebuild_methods.values
+  end
+
   def classes_from_storeconfigs
     klasses = resources.select(:title).where(:restype => "Class").where("title <> ? AND title <> ?", "main", "Settings").order(:title)
     klasses.map!(&:title).delete(:main)
@@ -888,17 +892,20 @@ class Host::Managed < Host::Base
   end
   # rebuilds orchestration configuration for a host
   # takes all the methods from Orchestration modules that are registered for configuration rebuild
+  # arguments:
+  # => only : Array of rebuild methods to execute (Example: ['TFTP'])
   # returns  : Hash with 'true' if rebuild was a success for a given key (Example: {"TFTP" => true, "DNS" => false})
-  def recreate_config
+  def recreate_config(only = nil)
     result = {}
-    Nic::Managed.rebuild_methods.map do |method, pretty_name|
+
+    Nic::Managed.rebuild_methods_for(only).map do |method, pretty_name|
       interfaces.map do |interface|
         value = interface.send method
         result[pretty_name] = value if !result.has_key?(pretty_name) || (result[pretty_name] && !value)
       end
     end
 
-    self.class.rebuild_methods.map do |method, pretty_name|
+    self.class.rebuild_methods_for(only).map do |method, pretty_name|
       raise ::Foreman::Exception.new(N_("There are orchestration modules with methods for configuration rebuild that have identical name: '%s'") % pretty_name) if result[pretty_name]
       result[pretty_name] = self.send method
     end

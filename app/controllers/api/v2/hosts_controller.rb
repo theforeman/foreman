@@ -266,8 +266,9 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       api :PUT, "/hosts/:id/rebuild_config", N_("Rebuild orchestration config")
       param :id, :identifier_dottable, :required => true
+      param :only, Array, :desc => N_("Limit rebuild steps, valid steps are %s" % Host::Managed.valid_rebuild_only_values.join(', '))
       def rebuild_config
-        result = @host.recreate_config
+        result = @host.recreate_config(params[:only])
         failures = result.reject { |key, value| value }.keys.map{ |k| _(k) }
         if failures.empty?
           render_message _("Configuration successfully rebuilt."), :status => :ok

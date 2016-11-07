@@ -22,6 +22,14 @@ module Orchestration
       @rebuild_methods = methods || {}
     end
 
+    def rebuild_methods_for(only = nil)
+      if only.present?
+        (@rebuild_methods || {}).select { |k,v| only.include?(v) }
+      else
+        @rebuild_methods || {}
+      end
+    end
+
     def register_rebuild(method, pretty_name)
       @rebuild_methods ||= {}
       fail "Method :#{method} is already registered, choose different name for your method" if @rebuild_methods[method]
