@@ -75,14 +75,14 @@ module Taxonomix
     def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
       if SETTINGS[:locations_enabled] && loc.present?
         inner_ids_loc = if Location.ignore?(self.to_s)
-                          self.pluck("#{table_name}.id")
+                          self.unscoped.pluck("#{table_name}.id")
                         else
                           inner_select(loc, inner_method)
                         end
       end
       if SETTINGS[:organizations_enabled] && org.present?
         inner_ids_org = if Organization.ignore?(self.to_s)
-                          self.pluck("#{table_name}.id")
+                          self.unscoped.pluck("#{table_name}.id")
                         else
                           inner_select(org, inner_method)
                         end
