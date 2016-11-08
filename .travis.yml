@@ -1,7 +1,9 @@
 language: node_js
 node_js:
-  - "node"
-  - "4" # Fedora
+  #- "0.10" # EL6, Trusty, Jessie - sadly, jest does not work with 0.10
+  - "4.2" # Xenial
+  - "4.6" # Fedora 24
+  - "6.9" # EL 7
 before_install:
   npm install -g npm@'>=3.0.0'
 script: ./script/travis_run_js_tests.sh
