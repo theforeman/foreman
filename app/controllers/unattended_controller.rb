@@ -152,7 +152,7 @@ class UnattendedController < ApplicationController
   end
 
   def allowed_to_install?
-    (@host.build || @spoof) ? true : head(:method_not_allowed)
+    (@host.build || @spoof || Setting[:access_unattended_without_build]) ? true : head(:method_not_allowed)
   end
 
   # Cleans Certificate and enable autosign. This is run as a before_action for provisioning templates.
