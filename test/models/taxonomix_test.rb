@@ -240,4 +240,24 @@ class TaxonomixTest < ActiveSupport::TestCase
     new_dom.taxable_taxonomies.must_be :present?
     assert new_dom.taxable_taxonomies.all?(&:valid?)
   end
+
+  test "#taxable_ids works even if the resources uses eager loading on through associations" do
+    user = FactoryGirl.create(:user)
+    filter = FactoryGirl.create(:filter)
+    filter.permissions = Permission.where(:name => [ 'view_provisioning_templates' ])
+    role = FactoryGirl.create(:role, :filters => [ filter ])
+
+    user = FactoryGirl.create(:user)
+    user.roles = [ role ]
+    org = FactoryGirl.create :organization, :ignore_types => [ 'Hostgroup' ]
+    user.organizations = [ org ]
+
+    in_taxonomy org do
+      as_user user do
+        assert_nothing_raised do
+          ProvisioningTemplate.includes([:template_combinations => [:hostgroup, :environment]]).search_for('something').first
+        end
+      end
+    end
+  end
 end
