@@ -8,7 +8,7 @@
     <% envs.each do |name, count| %>
       <tr>
         <td class="ellipsis"><%= name %></td>
-        <td><%= link_to count, puppetclasses_path(:search => "environment = #{name}") %></td>
+        <td><%= link_to count, puppetclasses_path(:search => "environment = #{name}"), :target => '_self' %></td>
       </tr>
     <% end %>
     <tfoot>
