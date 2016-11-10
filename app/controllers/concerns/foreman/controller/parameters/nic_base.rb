@@ -3,7 +3,8 @@ module Foreman::Controller::Parameters::NicBase
 
   class_methods do
     def add_nic_base_params_filter(filter)
-      filter.permit_by_context :attached_to,
+      filter.permit_by_context :attached_devices, # accepts string or array
+        :attached_to,
         :bond_options,
         :host, :host_id,
         :identifier,
