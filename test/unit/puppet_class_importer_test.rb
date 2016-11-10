@@ -43,6 +43,24 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     end
   end
 
+  describe "#changes_for_environment" do
+    setup do
+      @proxy = smart_proxies(:puppetmaster)
+    end
+
+    test 'it calls for new, updated and obsolete classes' do
+      importer = PuppetClassImporter.new(url: @proxy.url)
+      environment_name = 'foreman-testing'
+      changes = { 'new' => { }, 'obsolete' => { }, 'updated' => { }, 'ignored' => { } }
+
+      importer.expects(:updated_classes_for).with(environment_name).once.returns({})
+      importer.expects(:new_classes_for).with(environment_name).once.returns({})
+      importer.expects(:removed_classes_for).with(environment_name).once.returns({})
+
+      importer.changes_for_environment(environment_name, changes)
+    end
+  end
+
   test "should return list of envs" do
     assert_kind_of Array, get_an_instance.db_environments
   end

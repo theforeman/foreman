@@ -21,12 +21,7 @@ class PuppetClassImporter
 
     if @environment.nil?
       actual_environments.each do |env|
-        new     = new_classes_for(env)
-        old     = removed_classes_for(env)
-        updated = updated_classes_for(env)
-        changes['new'][env] = new if new.any?
-        changes['obsolete'][env] = old if old.any?
-        changes['updated'][env] = updated if updated.any?
+        changes_for_environment(env, changes)
       end
 
       old_environments.each do |env|
@@ -39,15 +34,26 @@ class PuppetClassImporter
         changes['ignored'][env] << '_ignored_'
       end
     else
-      env = @environment
-      new     = new_classes_for(env)
-      old     = removed_classes_for(env)
-      updated = updated_classes_for(env)
-      changes['new'][env] = new if new.any?
-      changes['obsolete'][env] = old if old.any?
-      changes['updated'][env] = updated if updated.any?
+      changes_for_environment(@environment, changes)
     end
+
     changes
+  end
+
+  # Adds class changes of an environment to a changes hash in new, obsolete and updated
+  #
+  # Params:
+  #  * ++environment++:: {String} of environments name
+  #  * ++changes++:: {Hash} to add changes to
+  #
+  def changes_for_environment(environment, changes)
+    new_classes     = new_classes_for(environment)
+    old_classes     = removed_classes_for(environment)
+    updated_classes = updated_classes_for(environment)
+
+    changes['new'][environment] = new_classes if new_classes.any?
+    changes['obsolete'][environment] = old_classes if old_classes.any?
+    changes['updated'][environment] = updated_classes if updated_classes.any?
   end
 
   # Update the environments and puppetclasses based upon the user's selection
