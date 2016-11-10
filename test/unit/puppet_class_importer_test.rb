@@ -35,6 +35,8 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     context 'has ignored environments' do
       test 'it returns them' do
         importer = PuppetClassImporter.new(url: @proxy.url)
+        importer.stubs(:ignored_environments).returns(['ignored-env'])
+
         assert_not_nil importer.changes['ignored']
       end
     end

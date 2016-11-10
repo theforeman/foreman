@@ -17,7 +17,7 @@ class PuppetClassImporter
 
   # return changes hash, currently exists to keep compatibility with importer html
   def changes
-    changes = { 'new' => { }, 'obsolete' => { }, 'updated' => { } }
+    changes = { 'new' => { }, 'obsolete' => { }, 'updated' => { }, 'ignored' => { } }
 
     if @environment.nil?
       actual_environments.each do |env|
@@ -32,6 +32,11 @@ class PuppetClassImporter
       old_environments.each do |env|
         changes['obsolete'][env] ||= []
         changes['obsolete'][env] << "_destroy_" unless actual_environments.include?(env)
+      end
+
+      ignored_environments.each do |env|
+        changes['ignored'][env] ||= []
+        changes['ignored'][env] << '_ignored_'
       end
     else
       env = @environment
