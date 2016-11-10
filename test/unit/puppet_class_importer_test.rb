@@ -38,6 +38,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
         importer.stubs(:ignored_environments).returns(['ignored-env'])
 
         assert_not_nil importer.changes['ignored']
+        assert_not_nil importer.changes['ignored']['ignored-env']
       end
     end
   end
