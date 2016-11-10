@@ -18,11 +18,19 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     assert_kind_of ProxyAPI::Puppet, klass.send(:proxy)
   end
 
-  test "should contain only the specified environment in changes" do
-    proxy = smart_proxies(:puppetmaster)
-    importer = PuppetClassImporter.new(:url => proxy.url, :env => 'foreman-testing')
-    assert importer.changes['new'].include?('foreman-testing')
-    assert !importer.changes['new'].include?('foreman-testing-1')
+  describe '#changes' do
+    setup do
+      @proxy = smart_proxies(:puppetmaster)
+    end
+
+    context 'a spcefific environment is set' do
+      test "should contain only the specified environment in changes" do
+        importer = PuppetClassImporter.new(url: @proxy.url, env: 'foreman-testing')
+
+        assert importer.changes['new'].include?('foreman-testing')
+        assert !importer.changes['new'].include?('foreman-testing-1')
+      end
+    end
   end
 
   test "should return list of envs" do
