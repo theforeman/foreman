@@ -31,6 +31,13 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
         assert !importer.changes['new'].include?('foreman-testing-1')
       end
     end
+
+    context 'has ignored environments' do
+      test 'it returns them' do
+        importer = PuppetClassImporter.new(url: @proxy.url)
+        assert_not_nil importer.changes['ignored']
+      end
+    end
   end
 
   test "should return list of envs" do
