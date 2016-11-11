@@ -214,6 +214,14 @@ class AuthorizerTest < ActiveSupport::TestCase
             refute auth.can?(:view_domains, domain1, cache)
             assert auth.can?(:view_domains, domain2, cache)
           end
+
+          test "with Subnet subclasses" do
+            permission = Permission.find_by_name('edit_subnets')
+            FactoryGirl.create(:filter, :role => @role, :permissions => [permission])
+            subnet     = FactoryGirl.create(:subnet_ipv4)
+            auth       = Authorizer.new(@user)
+            assert auth.can?(:edit_subnets, subnet, cache)
+          end
         end
       end
     end
