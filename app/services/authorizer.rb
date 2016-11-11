@@ -165,6 +165,7 @@ class Authorizer
     return 'Operatingsystem' if klass <= Operatingsystem
     return 'ComputeResource' if klass <= ComputeResource
     return 'Parameter' if klass <= Parameter && !(klass <= CommonParameter)
+    return 'Subnet' if klass <= Subnet
 
     case (name = klass.to_s)
     when 'Audited::Adapters::ActiveRecord::Audit'
