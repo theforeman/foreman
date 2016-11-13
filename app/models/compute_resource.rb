@@ -132,7 +132,7 @@ class ComputeResource < ActiveRecord::Base
 
   def host_interfaces_attrs(host)
     host.interfaces.select(&:physical?).each.with_index.reduce({}) do |hash, (nic, index)|
-      hash.merge(index.to_s => nic.compute_attributes)
+      hash.merge(index.to_s => nic)
     end
   end
 
