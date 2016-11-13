@@ -1,9 +1,15 @@
 <%= javascript "host_checkbox" %>
 <% title header ||= "" %>
-<table class="<%= table_css_classes 'table-fixed' %>" >
+<% content_for :meta do %>
+<meta name="itemsPerPage" content=<%= Host.per_page %>/>
+<% end %>
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
       <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
+      <% if power_status_visible? %>
+        <th class="ca" width="5%"><%= _('Power') %></th>
+      <% end %>
       <th width="25%"><%= sort :name, :as => _('Name') %></th>
       <th class="hidden-xs" width="17%"><%= sort :os_title, :as => _("Operating system") %></th>
       <th class="hidden-xs" width="10%"><%= sort :environment, :as => _('Environment') %></th>
@@ -19,6 +25,13 @@
         <td class="ca">
           <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
         </td>
+        <% if power_status_visible? %>
+          <td class="ca">
+            <% selector = dom_id(host, 'power') %>
+            <span id=<%= selector %>></span>
+            <%= mount_react_component('PowerStatusContainer', '#' + selector, {:id => host.id, :url => power_host_path(host.id)}.to_json) %>
+          </td>
+        <% end %>
         <td class="ellipsis"><%= name_column(host) %>
         </td>
         <td class="hidden-xs ellipsis"><%= (icon(host.operatingsystem, :size => "16x16") + " #{host.operatingsystem.to_label}").html_safe if host.operatingsystem %></td>

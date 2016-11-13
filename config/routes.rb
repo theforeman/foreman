@@ -31,6 +31,7 @@ Foreman::Application.routes.draw do
         put 'toggle_manage'
         post 'environment_selected'
         put 'power'
+        get 'power', :to => 'hosts#get_power_state'
         get 'console'
         get 'overview'
         get 'bmc'
