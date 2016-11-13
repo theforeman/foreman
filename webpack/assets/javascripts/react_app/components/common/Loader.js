@@ -3,12 +3,12 @@ import {STATUS} from '../../constants';
 import MessageBox from './MessageBox';
 import './LoaderStyles.css';
 
-const Loader = ({ status, children }) => {
+const Loader = ({ status, children, spinnerSize = 'lg' }) => {
 let content;
 
   switch (status) {
     case STATUS.PENDING: {
-      content = <div className="spinner spinner-lg"></div>;
+      content = <div className={'spinner spinner-' + spinnerSize}></div>;
       break;
     }
     case STATUS.RESOLVED: {

@@ -5,9 +5,10 @@ import {shallow, mount} from 'enzyme';
 import Loader from './Loader';
 import {STATUS} from '../../constants';
 
-function setup(status) {
+function setup(status, spinnerSize) {
   const props = {
-    status: status
+    status: status,
+    spinnerSize: spinnerSize
   };
 
   return shallow(<Loader {...props}>
@@ -39,6 +40,13 @@ describe('Loader', () => {
 
       expect(wrapper.children().length).toBe(1);
       expect(wrapper.children().equals(<div className="spinner spinner-lg"></div>)).toBe(true);
+    });
+
+    it('pending-different-spinner', () => {
+      const wrapper = setup(STATUS.PENDING, 'xs');
+
+      expect(wrapper.children().length).toBe(1);
+      expect(wrapper.children().equals(<div className="spinner spinner-xs"></div>)).toBe(true);
     });
 
     it('default case', () => {

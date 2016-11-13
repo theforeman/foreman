@@ -14,7 +14,7 @@ module Hostext
     end
 
     def supports_power?
-      compute_resource_id || bmc_available?
+      (uuid && compute_resource_id) || bmc_available?
     end
 
     def supports_power_and_running?

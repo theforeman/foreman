@@ -17,5 +17,21 @@ export default {
         errorThrown: errorThrown
       }
     });
+  },
+    receivedHostsPowerState(response, textStatus, jqXHR) {
+    AppDispatcher.dispatch({
+      actionType: ACTIONS.RECEIVED_HOSTS_POWER_STATE,
+      response
+    });
+  },
+  hostsRequestError(jqXHR, textStatus, errorThrown) {
+    AppDispatcher.dispatch({
+      actionType: ACTIONS.HOSTS_REQUEST_ERROR, info: {
+        jqXHR: jqXHR,
+        textStatus: textStatus,
+        id: parseInt(jqXHR.originalRequestOptions.url.split('/')[2], 10),
+        errorThrown: errorThrown
+      }
+    });
   }
 };

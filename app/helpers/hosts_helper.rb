@@ -478,4 +478,8 @@ module HostsHelper
     link_to_function(icon_text('random'), 'randomizeName()', :class => 'btn btn-default',
       :title => _('Generate new random name. Visit Settings to disable this feature.')) if NameGenerator.random_based?
   end
+
+  def power_status_visible?
+    SETTINGS[:unattended] && Setting[:host_power_status]
+  end
 end

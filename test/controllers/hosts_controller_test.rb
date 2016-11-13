@@ -1342,6 +1342,53 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
+  test 'show power status for a host' do
+    Host.any_instance.stubs(:supports_power?).returns(true)
+    Host.any_instance.stubs(:supports_power_and_running?).returns(true)
+    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    assert_response :success
+    response = JSON.parse @response.body
+    assert_equal({"id" => @host.id, "state" => "on", "title" => "On"}, response)
+  end
+
+  test 'show power status for a powered off host' do
+    Host.any_instance.stubs(:supports_power?).returns(true)
+    Host.any_instance.stubs(:supports_power_and_running?).returns(false)
+    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    assert_response :success
+    response = JSON.parse @response.body
+    assert_equal({"id" => @host.id, "state" => "off", "title" => "Off"}, response)
+  end
+
+  test 'show power status for a host that has no power' do
+    Host.any_instance.stubs(:supports_power?).returns(false)
+    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    assert_response :success
+    response = JSON.parse @response.body
+    assert_equal({"id" => @host.id, "state" => "na", "title" => 'N/A',
+      "statusText" => "Power operation are not enabled on this host."}, response)
+  end
+
+  test 'show power status for a host that has an exception' do
+    Host.any_instance.stubs(:supports_power?).returns(true)
+    Host.any_instance.stubs(:power).raises(::Foreman::Exception.new(N_("Unknown power management support - can't continue")))
+    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    assert_response :success
+    response = JSON.parse @response.body
+    assert_equal({"id" => @host.id, "state" => "na", "title" => "N/A",
+      "statusText" => "Failed to fetch power status ERF42-9958 [Foreman::Exception]: Unknown power management support - can't continue"}, response)
+  end
+
+  test 'do not provide power state on an unknown host' do
+    xhr :get, :get_power_state, { :id => 'no-such-host' }, set_session_user
+    assert_response :not_found
+  end
+
+  test 'do not provide power state for non ajax requests' do
+    get :get_power_state, { :id => @host.id }, set_session_user
+    assert_response :method_not_allowed
+  end
+
   private
 
   def initialize_host
