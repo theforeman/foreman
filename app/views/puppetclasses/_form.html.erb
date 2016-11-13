@@ -74,7 +74,7 @@
       </div>
       <div class="smart-var-left col-md-3">
         <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
-          <% @puppetclass.lookup_keys.each do |key| %>
+          <% @puppetclass.lookup_keys.includes(:lookup_values).each do |key| %>
             <li>
               <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key %>">
                 <div class="clip"><%= key.to_s.tr('_',' ') %></div><span class="close pull-right">&times;</span>
