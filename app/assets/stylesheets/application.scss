@@ -575,3 +575,21 @@ table {
 .masked-input {
   font-family: 'AllBullets';
 }
+
+#parameters {
+  .table {
+    tr {
+      td {
+        border-top: none;
+      }
+      &.error-msg-block td {
+        .help-block {
+          margin-top: 0px;
+        }
+      }
+      &.fields td {
+        padding-top: 10px;
+      }
+    }
+  }
+}
