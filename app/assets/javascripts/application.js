@@ -154,7 +154,9 @@ function check_caps_lock(key, e) {
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
-  $(link).closest(".fields").hide();
+  var $field_row = $(link).closest(".fields");
+  $field_row.next("tr.error-msg-block").hide();
+  $field_row.hide();
   mark_params_override();
 }
 

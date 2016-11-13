@@ -590,3 +590,21 @@ code.transparent {
   color: black;
   background-color: transparent;
 }
+
+#parameters {
+  .table {
+    tr {
+      td {
+        border-top: none;
+      }
+      &.error-msg-block td {
+        .help-block {
+          margin-top: 0px;
+        }
+      }
+      &.fields td {
+        padding-top: 10px;
+      }
+    }
+  }
+}
