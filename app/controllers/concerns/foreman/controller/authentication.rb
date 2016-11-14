@@ -80,9 +80,15 @@ module Foreman::Controller::Authentication
   def set_current_user(user)
     User.current = user
 
-    # API access shouldn't modify the session, its authentication should be
-    # stateless.  Other successful logins should create new session IDs.
-    unless api_request?
+    # API access resets the whole session and marks the session as initialized from API
+    # such sessions aren't checked for CSRF
+    # UI access resets only session ID
+    if api_request?
+      reset_session
+      session[:user] = user.id if SETTINGS[:login]
+      session[:api_authenticated_session] = true
+      set_activity_time
+    else
       backup_session_content { reset_session }
       session[:user] = user.id
       update_activity_time

@@ -51,29 +51,43 @@ class Api::TestableControllerTest < ActionController::TestCase
   end
 
   context "API session expiration" do
-    test "request succeeds if no session[:expires_at] is included" do
-      # this would be typical of API initiated directly or from cli
-      get :index
-      assert_response :success
+    context "with credentials being sent" do
+      test "request succeeds if there's no existing session" do
+        # this would be typical API call initiated directly or from cli
+        get :index
+        assert_response :success
+      end
+
+      test "request fails even if the session expired" do
+        # this would be typical API call  initiated directly or from cli
+        get :index, {}, { :expires_at => 5.days.ago.utc, :user => users(:apiadmin).id }
+        assert_response :unauthorized
+      end
     end
 
-    test "request fails if session expired" do
-      # this would be typical of API initiated from a web ui session
-      get :index, {}, { :expires_at => 5.days.ago.utc }
-      assert_response :unauthorized
-    end
+    context "without credentials being sent" do
+      setup do
+        reset_api_credentials
+      end
 
-    test "request succeeds if session has not expired" do
-      # this would be typical of API initiated from a web ui session
-      get :index, {}, { :expires_at => 5.days.from_now.utc }
-      assert_response :success
+      test "request fails if the session expired" do
+        # this would be typical API call  initiated from a web ui session
+        get :index, {}, { :expires_at => 5.days.ago.utc, :user => users(:apiadmin).id }
+        assert_response :unauthorized
+      end
+
+      test "request succeeds if the session has not expired" do
+        # this would be typical API call  initiated from a web ui session
+        get :index, {}, { :expires_at => 5.days.from_now.utc, :user => users(:apiadmin).id }
+        assert_response :success
+      end
     end
   end
 
   context "API usage when authentication is disabled" do
     setup do
       User.current = nil
-      request.env['HTTP_AUTHORIZATION'] = nil
+      reset_api_credentials
       SETTINGS[:login] = false
     end
 
@@ -86,9 +100,14 @@ class Api::TestableControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    it "does not set session data for API requests" do
+    it "does not set user session data for API requests" do
       get :index
       assert_not session[:user]
+    end
+
+    it "sets api_sesion flag for API requests" do
+      get :index
+      assert session[:api_authenticated_session]
     end
 
     it "uses an accessible admin user" do
@@ -101,7 +120,7 @@ class Api::TestableControllerTest < ActionController::TestCase
   context "API usage when authentication is enabled" do
     setup do
       User.current = nil
-      request.env['HTTP_AUTHORIZATION'] = nil
+      reset_api_credentials
       SETTINGS[:login] = true
     end
 
@@ -129,9 +148,9 @@ class Api::TestableControllerTest < ActionController::TestCase
         get :index
       end
 
-      it "doesn't escalate privileges in the session" do
+      it "saves user id into the session" do
         get :index
-        refute session[:user], "session contains user #{session[:user]}"
+        assert_equal users(:admin).id, session[:user]
       end
     end
   end
@@ -148,7 +167,7 @@ class Api::TestableControllerTest < ActionController::TestCase
       ActionController::Base.allow_forgery_protection = true
       SETTINGS[:login] = true
       User.current = nil
-      request.env['HTTP_AUTHORIZATION'] = nil
+      reset_api_credentials
     end
 
     teardown do
@@ -159,6 +178,12 @@ class Api::TestableControllerTest < ActionController::TestCase
       request.headers['X-CSRF-Token'] = nil
       post :index, {}, set_session_user
       assert_response :unauthorized
+    end
+
+    it "permits access without CSRF token when the session was authenticated via api" do
+      request.headers['X-CSRF-Token'] = nil
+      post :index, {}, set_session_user.merge(:api_authenticated_session => true)
+      assert_response :success
     end
 
     it "works with a CSRF token when there is a session user" do

@@ -55,6 +55,10 @@ class ActionController::TestCase
     set_basic_auth(users(:apiadmin), "secret")
   end
 
+  def reset_api_credentials
+    @request.env.delete('HTTP_AUTHORIZATION')
+  end
+
   def set_basic_auth(user, password)
     login = user.is_a?(User) ? user.login : user
     @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(login, password)
