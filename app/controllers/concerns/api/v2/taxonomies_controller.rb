@@ -36,13 +36,13 @@ module Api::V2::TaxonomiesController
   api :GET, '/:resource_id', N_('List all :resource_id')
   param_group :search_and_pagination, ::Api::V2::BaseController
   def index
-    if @nested_obj
-      @taxonomies = @nested_obj.send(taxonomies_plural).send(:completer_scope, :controller => taxonomies_plural).search_for(*search_options).paginate(paginate_options)
-      @total = @nested_obj.send(taxonomies_plural).send(:completer_scope, :controller => taxonomies_plural).count
-    else
-      @taxonomies = taxonomy_class.send("my_#{taxonomies_plural}").search_for(*search_options).paginate(paginate_options)
-      @total = taxonomy_class.send("my_#{taxonomies_plural}").count
-    end
+    taxonomy_scope = if @nested_obj
+                       taxonomy_class.where(:id => @nested_obj.send("#{taxonomy_single}_ids"))
+                     else
+                       taxonomy_class
+                     end
+    @taxonomies = taxonomy_scope.send("my_#{taxonomies_plural}").search_for(*search_options).paginate(paginate_options)
+    @total = taxonomy_scope.send("my_#{taxonomies_plural}").count
     instance_variable_set("@#{taxonomies_plural}", @taxonomies)
 
     @render_template ||= 'api/v2/taxonomies/index'

@@ -9,7 +9,13 @@ class Parameter < ActiveRecord::Base
   include Authorizable
   validates :name, :presence => true, :no_whitespace => true
 
-  scoped_search :on => :name, :complete_value => true
+  def self.inherited(child)
+    child.instance_eval do
+      scoped_search :on => :name, :complete_value => true
+      scoped_search :on => :value, :complete_value => :true
+    end
+    super
+  end
 
   default_scope -> { order("parameters.name") }
 

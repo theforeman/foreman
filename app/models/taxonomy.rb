@@ -29,8 +29,14 @@ class Taxonomy < ActiveRecord::Base
   before_validation :sanitize_ignored_types
   after_create :assign_default_templates
 
-  scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
-  scoped_search :on => :id
+  def self.inherited(child)
+    child.instance_eval do
+      scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
+      scoped_search :on => :id
+    end
+    child.send(:include, NestedAncestryCommon::Search)
+    super
+  end
 
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids,
            :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host

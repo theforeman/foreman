@@ -6,6 +6,7 @@ class Hostgroup < ActiveRecord::Base
   include HostCommon
 
   include NestedAncestryCommon
+  include NestedAncestryCommon::Search
 
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
 
