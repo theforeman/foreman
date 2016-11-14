@@ -20,7 +20,6 @@ class Redhat < Operatingsystem
     end
   end
 
-  # Redhat supports all PXE loaders
   def available_loaders
     self.class.all_loaders
   end
