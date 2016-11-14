@@ -28,4 +28,26 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
       assert_response 200
     end
   end
+
+  context "when authentication is enabled" do
+    setup do
+      User.current = nil
+      SETTINGS[:login] = true
+
+      @sso = mock('dummy_sso')
+      @sso.stubs(:authenticated?).returns(true)
+      @sso.stubs(:current_user).returns(users(:admin))
+      @sso.stubs(:support_expiration?).returns(true)
+      @sso.stubs(:expiration_url).returns("/users/extlogin")
+      @sso.stubs(:controller).returns(@controller)
+      @controller.instance_variable_set(:@available_sso, @sso)
+      @controller.stubs(:get_sso_method).returns(@sso)
+    end
+
+    it "sets the session user" do
+      get :index
+      assert_response :success
+      assert_equal users(:admin).id, session[:user]
+    end
+  end
 end

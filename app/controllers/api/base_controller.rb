@@ -371,7 +371,7 @@ module Api
     end
 
     def protect_api_from_forgery?
-      session[:user].present?
+      session[:user].present? && !session[:api_authenticated_session]
     end
 
     def parameter_filter_context
