@@ -46,11 +46,11 @@ function password_strength_feedback(password) {
       verdicts: [__("Weak"), __("Normal"), __("Medium"), __("Strong"), __("Very Strong")],
       errorMessages: {
         wordLength: __("Your password is too short"),
-        wordNotEmail: __("Do not use your email as your password"),
-        wordSimilarToUsername: __("Your password cannot contain your username"),
-        wordTwoCharacterClasses: __("Use different character classes"),
-        wordRepetitions: __("Too many repetitions"),
-        wordSequences: __("Your password contains sequences")
+        wordNotEmail: __("Your password should not contain your email"),
+        wordSimilarToUsername: __("Your password should not contain your username"),
+        wordTwoCharacterClasses: __("Your password should use characters from different character classes too"),
+        wordRepetitions: __("Your password should not contain that many repetitions"),
+        wordSequences: __("Your password should not contain sequences")
       }
     }
   };
