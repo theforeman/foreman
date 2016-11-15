@@ -439,6 +439,11 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
+  permission_set.security_block :key_pairs do |map|
+    map.permission :view_keypairs, {:key_pairs => [:index, :show]}
+    map.permission :destroy_keypairs, {:key_pairs => [:destroy, :create]}
+  end
+
   if SETTINGS[:locations_enabled]
     permission_set.security_block :locations do |map|
       map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search],

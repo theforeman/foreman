@@ -1,6 +1,6 @@
 // AJAX load vm listing
 $(function() {
-  $('#vms, #images_list').each(function() {
+  $('#vms, #images_list, #key_pairs_list').each(function() {
     var url = $(this).attr('data-url');
     $(this).load(url + ' table', function(response, status, xhr) {
       if (status == "error") {

@@ -71,6 +71,8 @@ permissions = [
   ['Image', 'create_images'],
   ['Image', 'edit_images'],
   ['Image', 'destroy_images'],
+  ['KeyPair', 'view_keypairs'],
+  ['KeyPair', 'destroy_keypairs'],
   ['Location', 'view_locations'],
   ['Location', 'create_locations'],
   ['Location', 'edit_locations'],

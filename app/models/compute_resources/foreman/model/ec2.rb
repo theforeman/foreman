@@ -1,13 +1,9 @@
 module Foreman::Model
   class EC2 < ComputeResource
-    has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
-
+    include KeyPairComputeResource
     delegate :flavors, :subnets, :to => :client
     delegate :security_groups, :flavors, :zones, :to => :self, :prefix => 'available'
     validates :user, :password, :presence => true
-
-    after_create :setup_key_pair
-    after_destroy :destroy_key_pair
 
     alias_attribute :access_key, :user
     alias_attribute :region, :url
@@ -116,28 +112,6 @@ module Foreman::Model
 
     def client
       @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region)
-    end
-
-    # this method creates a new key pair for each new ec2 compute resource
-    # it should create the key and upload it to AWS
-    def setup_key_pair
-      key = client.key_pairs.create :name => "foreman-#{id}#{Foreman.uuid}"
-      KeyPair.create! :name => key.name, :compute_resource_id => self.id, :secret => key.private_key
-    rescue => e
-      Foreman::Logging.exception("Failed to generate key pair", e)
-      destroy_key_pair
-      raise
-    end
-
-    def destroy_key_pair
-      return unless key_pair
-      logger.info "removing AWS key #{key_pair.name}"
-      key = client.key_pairs.get(key_pair.name)
-      key.destroy if key
-      key_pair.destroy
-      true
-    rescue => e
-      logger.warn "failed to delete key pair from AWS, you might need to cleanup manually : #{e}"
     end
 
     def vm_instance_defaults

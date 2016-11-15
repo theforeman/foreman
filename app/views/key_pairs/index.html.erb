@@ -1,0 +1,57 @@
+<% title _("SSH keys for: %s") % @compute_resource.name %>
+
+<table class="<%= table_css_classes 'table-fixed' %>">
+  <% if @key_pairs.any? %>
+    <thead>
+    <tr>
+      <th width="2%"></th>
+      <th width="40%"><%= _('Name') %></th>
+      <th width="40%"><%= _('Fingerprint') %></th>
+      <th width="100px"><%= _('Actions') %></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @key_pairs.each do |key_pair| %>
+      <tr>
+        <td>
+          <%= key_pair_status_icon(key_pair) %>
+        </td>
+        <td class="ellipsis">
+          <%= key_pair.name %>
+        </td>
+        <td class="hidden-xs ellipsis"><%= key_pair.fingerprint %></td>
+        <td>
+          <% if key_pair.active %>
+            <%= action_buttons(
+                    display_link_if_authorized(_("Download"), hash_for_compute_resource_key_pair_path(@compute_resource, key_pair.key_pair_id), {:data => { :no_turbolink => true }}),
+                    display_delete_if_authorized(hash_for_compute_resource_key_pairs_path(@compute_resource)
+                                                 .merge(:auth_object => @compute_resource, :authorizer => authorizer, :method => 'post', :text => _("Recreate")))) %>
+          <% elsif !key_pair.used_elsewhere %>
+            <%= action_buttons(display_delete_if_authorized(hash_for_compute_resource_key_pair_path(@compute_resource, key_pair.name)
+                                                            .merge(:auth_object => @compute_resource, :authorizer => authorizer, :method => 'delete'))) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  <% else %>
+    <tbody>
+      <tr>
+        <td class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+              <%= icon_text("key", "", :kind => "fa") %>
+            </div>
+            <h1><%= _('SSH keys') %></h1>
+            <p>
+              <%= _("When using SSH based provisioning, a special SSH key is created in order to automate the provisioning process.") %><br />
+              <%= _("Normally when setting up a Compute Resource, a key pair (private and public) is created for you automatically.") %><br />
+              <%= _("However, if it was deleted externally this page helps you to recreate it") %>
+             </p>
+            <div class="blank-slate-pf-main-action">
+              <%= link_to(_('New SSH key'), compute_resource_key_pairs_path(@compute_resource), :method=> :post, :class => "btn-lg" ) %>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  <% end %>
+</table>

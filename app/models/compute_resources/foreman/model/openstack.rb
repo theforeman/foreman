@@ -1,9 +1,7 @@
 module Foreman::Model
   class Openstack < ComputeResource
+    include KeyPairComputeResource
     attr_accessor :tenant, :scheduler_hint_value
-    has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
-    after_create :setup_key_pair
-    after_destroy :destroy_key_pair
     delegate :flavors, :to => :client
     delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
@@ -202,25 +200,6 @@ module Foreman::Model
       @volume_client ||= ::Fog::Volume.new(fog_credentials)
     end
 
-    def setup_key_pair
-      key = client.key_pairs.create :name => "foreman-#{id}#{Foreman.uuid}"
-      KeyPair.create! :name => key.name, :compute_resource_id => self.id, :secret => key.private_key
-    rescue => e
-      Foreman::Logging.exception("Failed to generate key pair", e)
-      destroy_key_pair
-      raise
-    end
-
-    def destroy_key_pair
-      return unless key_pair
-      logger.info "removing OpenStack key #{key_pair.name}"
-      key = client.key_pairs.get(key_pair.name)
-      key.destroy if key
-      key_pair.destroy
-      true
-    rescue => e
-      logger.warn "failed to delete key pair from OpenStack, you might need to cleanup manually : #{e}"
-    end
 
     def vm_instance_defaults
       super.merge(:key_name => key_pair.name)

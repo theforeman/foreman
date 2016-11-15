@@ -12,6 +12,9 @@
   <% if @compute_resource.capabilities.include?(:image) %>
     <li><a href="#images" data-toggle="tab"><%= _("Images") %></a></li>
   <% end %>
+  <% if @compute_resource.capabilities.include?(:key_pair) %>
+    <li><a href="#key_pairs" data-toggle="tab"><%= _("SSH keys") %></a></li>
+  <% end %>
     <li><a href="#compute_profiles" data-toggle="tab"><%= _("Compute profiles") %></a></li>
 </ul>
 
@@ -47,6 +50,13 @@
       <%= title_actions(new_link(_("New Image"), { :compute_resource_id => @compute_resource.id, :controller => :images }, { :data=>{:target=>"full-page"} })) %>
       <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource) %>>
         <%= spinner(_('Loading images information ...')) %>
+      </div>
+    </div>
+  <% end %>
+  <% if @compute_resource.capabilities.include?(:key_pair) %>
+    <div id="key_pairs" class="tab-pane">
+      <div id="key_pairs_list" data-url=<%= compute_resource_key_pairs_path(@compute_resource) %>>
+        <%= spinner(_('Loading SSH keys information ...')) %>
       </div>
     </div>
   <% end %>
