@@ -35,7 +35,7 @@ unless User.unscoped.only_admin.except_hidden.present?
       user = User.new(:login     => admin_user,
                       :firstname => ENV['SEED_ADMIN_FIRST_NAME'] || "Admin",
                       :lastname  => ENV['SEED_ADMIN_LAST_NAME'] || "User",
-                      :mail      => (ENV['SEED_ADMIN_EMAIL'] || Setting[:administrator]).dup)
+                      :mail      => (ENV['SEED_ADMIN_EMAIL'] || Setting[:administrator]).try(:dup))
       user.admin = true
       user.auth_source = src_internal
       if ENV['SEED_ADMIN_PASSWORD'].present?

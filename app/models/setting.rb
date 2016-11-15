@@ -187,6 +187,9 @@ class Setting < ActiveRecord::Base
   end
 
   def self.create(opts)
+    # self.name can be set by default scope, e.g. from first_or_create use
+    opts = { :name => new.name } if opts.nil?
+
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       column_check(opts)
       super opts.merge(:value => readonly_value(opts[:name].to_sym) || opts[:value])
@@ -196,6 +199,9 @@ class Setting < ActiveRecord::Base
   end
 
   def self.create!(opts)
+    # self.name can be set by default scope, e.g. from first_or_create use
+    opts = { :name => new.name } if opts.nil?
+
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       column_check(opts)
       super opts.merge(:value => readonly_value(opts[:name].to_sym) || opts[:value])
