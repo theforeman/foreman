@@ -6,7 +6,7 @@ module Foreman::Model
     delegate :flavors, :to => :client
 
     def provided_attributes
-      super.merge({ :ip => :public_ip_address })
+      super.merge(:ip => :ipv4_address, :ip6 => :ipv6_address)
     end
 
     def self.available?
