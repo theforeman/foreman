@@ -44,7 +44,7 @@ function test_mail(item, id, url) {
     },
     error: function (xhr) {
       var error = $.parseJSON(xhr.responseText).message;
-      notify("<p>" + error + "</p>", 'error');
+      notify("<p>" + error + "</p>", 'danger');
     },
     complete: function (result) {
       $('#test_indicator').hide();
