@@ -188,6 +188,14 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "no-bar", persisted.value
   end
 
+  def test_first_or_create_works
+    assert_nothing_raised do
+      name = "rand_#{rand(1_000_000)}"
+      setting = Setting.where(:name => name).first_or_create
+      assert_equal name, setting.name
+    end
+  end
+
   # tests for saving settings attributes
   def test_settings_should_save_arrays
     check_properties_saved_and_loaded_ok :name => "foo", :value => [1,2,3,'b'], :default => ['b',"b"], :description => "test foo"
