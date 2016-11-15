@@ -51,6 +51,10 @@
         <% end %>
         </tbody>
       </table>
+      <% unless @audit.comment.blank? %>
+        <%= alert(:class => 'alert-info', :close => false, :header => '',
+                  :text => @audit.comment) %>
+      <% end %>
     </div>
     <div class="tab-pane" id="tab2">
       <%= render :partial => 'list', :locals =>{:audits => @history} %>

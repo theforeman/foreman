@@ -315,3 +315,7 @@ a.btn-info span{
   max-height: 80vh;
   overflow-y: auto;
 }
+// Color origin: pf-orange-400
+.pficon-ok.warn:before {
+  color: #ec7a08;
+}

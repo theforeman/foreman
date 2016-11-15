@@ -1,4 +1,5 @@
 class ComputeResourcesVmsController < ApplicationController
+  include Foreman::Controller::ComputeResourcesCommon
   def index
     @compute_resource = find_compute_resource(:view_compute_resources_vms)
     load_vms
@@ -15,8 +16,7 @@ class ComputeResourcesVmsController < ApplicationController
       end
     end
   rescue => e
-    Foreman::Logging.exception("Error has occurred while listing VMs on #{@compute_resource}", e)
-    render :partial => 'compute_resources_vms/error', :locals => { :errors => e.message }
+    compute_resource_error("VMs", e)
   end
 
   def new

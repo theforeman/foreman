@@ -416,6 +416,7 @@ Foreman::Application.routes.draw do
           put 'test_connection'
         end
         resources :images, :except => [:show]
+        resources :key_pairs, :except => [:new, :edit, :update]
       end
 
       resources :realms, :except => [:show] do
