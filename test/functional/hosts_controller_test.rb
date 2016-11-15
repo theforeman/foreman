@@ -1303,6 +1303,17 @@ class HostsControllerTest < ActionController::TestCase
     assert_match(/host must have/, flash[:error])
   end
 
+  test "should create matcher for host turning into managed" do
+    original_host = Host::Base.create(:name => 'test', :domain => FactoryGirl.create(:domain))
+    lookup_key = FactoryGirl.create(:lookup_key)
+    host = original_host.becomes(::Host::Managed)
+    host.type = 'Host::Managed'
+    host.managed = true
+    host.primary_interface.managed = true
+    host.lookup_values.build({"match"=>"fqdn=#{host.fqdn}", "value"=>'4', "lookup_key_id" => lookup_key.id, "host_or_hostgroup" => host})
+    assert_valid host.lookup_values.first
+  end
+
   private
 
   def initialize_host
