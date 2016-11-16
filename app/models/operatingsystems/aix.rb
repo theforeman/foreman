@@ -1,11 +1,6 @@
 class AIX < Operatingsystem
   PXEFILES = {:kernel => "powerpc", :initrd => "initrd"}
 
-  # Override the class representation, as this breaks many rails helpers
-  def class
-    Operatingsystem
-  end
-
   def pxe_type
     "nim"
   end

@@ -1,10 +1,6 @@
 class Coreos < Operatingsystem
   PXEFILES = {:kernel => 'coreos_production_pxe.vmlinuz', :initrd => 'coreos_production_pxe_image.cpio.gz'}
 
-  class << self
-    delegate :model_name, :to => :superclass
-  end
-
   def pxe_type
     'coreos'
   end

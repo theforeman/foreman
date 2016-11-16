@@ -74,6 +74,20 @@ class Operatingsystem < ActiveRecord::Base
     allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash
   end
 
+  def self.inherited(child)
+    child.instance_eval do
+      # Ensure all subclasses behave in the same way as the parent, and remain
+      # identified as Operatingsystems instead of subclasses in UI paths etc.
+      #
+      # rubocop:disable Rails/Delegate
+      def model_name
+        superclass.model_name
+      end
+      # rubocop:enable Rails/Delegate
+    end
+    super
+  end
+
   # As Rails loads an object it casts it to the class in the 'type' field. If we ensure that the type and
   # family are the same thing then rails converts the record to a Debian or a solaris object as required.
   # Manually managing the 'type' field allows us to control the inheritance chain and the available methods

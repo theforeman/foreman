@@ -20,16 +20,6 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal '192.168.0.1', parser.interfaces['eth0.0']['ipaddress']
   end
 
-  test "should return an os" do
-    assert_kind_of Operatingsystem, importer.operatingsystem
-  end
-
-  test "should raise on an invalid os" do
-    @importer = PuppetFactParser.new({})
-    assert_raise ::Foreman::Exception do
-      importer.operatingsystem
-    end
-  end
   test "should return an env" do
     assert_kind_of Environment, importer.environment
   end
@@ -46,96 +36,123 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_kind_of Domain, importer.domain
   end
 
-  test "should make non-numeric os version strings into numeric" do
-    @importer = PuppetFactParser.new({'operatingsystem' => 'AnyOS', 'operatingsystemrelease' => '1&2.3y4'})
-    data = importer.operatingsystem
-    assert_equal '12', data.major
-    assert_equal '34', data.minor
-  end
+  describe '#operatingsystem' do
+    let(:os) { importer.operatingsystem }
 
-  test "should allow OS version minor component to be nil" do
-    @importer = PuppetFactParser.new({'operatingsystem' => 'AnyOS', 'operatingsystemrelease' => '6'})
-    data = importer.operatingsystem
-    assert_equal "AnyOS 6", data.to_s
-    assert_equal '6', data.major
-    assert_empty data.minor
-    assert_equal data, importer.operatingsystem
-  end
+    test "should return an os" do
+      assert_kind_of Operatingsystem, os
+      assert_os_idempotent
+    end
 
-  test "release_name should be nil when lsbdistcodename isn't set on Debian" do
-    @importer = PuppetFactParser.new(debian_facts.delete_if { |k, v| k == "lsbdistcodename" })
-    assert_equal nil, @importer.operatingsystem.release_name
-  end
+    test "should raise on an invalid os" do
+      @importer = PuppetFactParser.new({})
+      assert_raise ::Foreman::Exception do
+        importer.operatingsystem
+      end
+    end
 
-  test "should set os.release_name to the lsbdistcodename fact on Debian" do
-    @importer = PuppetFactParser.new(debian_facts)
-    assert_equal 'wheezy', @importer.operatingsystem.release_name
-  end
+    test "should make non-numeric os version strings into numeric" do
+      @importer = PuppetFactParser.new({'operatingsystem' => 'AnyOS', 'operatingsystemrelease' => '1&2.3y4'})
+      assert_equal '12', os.major
+      assert_equal '34', os.minor
+      assert_os_idempotent
+    end
 
-  test "should not set os.release_name to the lsbdistcodename on non-Debian OS" do
-    assert_not_equal 'Santiago', @importer.operatingsystem.release_name
-  end
+    test "should allow OS version minor component to be nil" do
+      @importer = PuppetFactParser.new({'operatingsystem' => 'AnyOS', 'operatingsystemrelease' => '6'})
+      assert_equal "AnyOS 6", os.to_s
+      assert_equal '6', os.major
+      assert_empty os.minor
+      assert_os_idempotent
+    end
 
-  test "should set description field from lsbdistdescription" do
-    assert_equal "RHEL Server 6.2", @importer.operatingsystem.description
-  end
+    test "release_name should be nil when lsbdistcodename isn't set on Debian" do
+      @importer = PuppetFactParser.new(debian_facts.delete_if { |k, v| k == "lsbdistcodename" })
+      assert_equal nil, os.release_name
+      assert_os_idempotent
+    end
 
-  test "should not alter description field if already set" do
-    # Need to instantiate @importer once with normal facts
-    assert @importer.operatingsystem.present?
-    # Now re-import with a different description
-    facts_with_desc = facts.merge({:lsbdistdescription => "A different string"})
-    @importer = PuppetFactParser.new facts_with_desc
-    assert_equal "RHEL Server 6.2", @importer.operatingsystem.description
-  end
+    test "should set os.release_name to the lsbdistcodename fact on Debian" do
+      @importer = PuppetFactParser.new(debian_facts)
+      assert_equal 'wheezy', os.release_name
+      assert_os_idempotent
+    end
 
-  test "should set description correctly for SLES" do
-    @importer = PuppetFactParser.new(sles_facts)
-    assert_equal 'SLES 11 SP3', @importer.operatingsystem.description
-  end
+    test "should not set os.release_name to the lsbdistcodename on non-Debian OS" do
+      assert_not_equal 'Santiago', os.release_name
+    end
 
-  test "should not set description if lsbdistdescription is missing" do
-    facts.delete('lsbdistdescription')
-    @importer = PuppetFactParser.new(facts)
-    refute @importer.operatingsystem.description
-  end
+    test "should set description field from lsbdistdescription" do
+      assert_equal "RHEL Server 6.2", os.description
+    end
 
-  test 'should accept y.z minor version' do
-    FactoryGirl.create(:operatingsystem, name: "CentOS",
-                                         major: "7",
-                                         minor: "2.1511",
-                                         description: "CentOS Linux 7.2.1511")
-    assert_valid PuppetFactParser.new({ "operatingsystem" => "CentOS",
-                                        "lsbdistdescription" => "CentOS Linux release 7.2.1511 (Core) ",
-                                        "operatingsystemrelease" => "7.2.1511"
-    }).operatingsystem
-  end
+    test "should not alter description field if already set" do
+      # Need to instantiate @importer once with normal facts
+      first_os = @importer.operatingsystem
+      assert first_os.present?
+      # Now re-import with a different description
+      facts_with_desc = facts.merge({:lsbdistdescription => "A different string"})
+      @importer = PuppetFactParser.new facts_with_desc
+      second_os = @importer.operatingsystem
+      assert_equal "RHEL Server 6.2", second_os.description
+      assert_equal first_os, second_os
+    end
 
-  test "should set os.major and minor correctly from AIX facts" do
-    @importer = PuppetFactParser.new(aix_facts)
-    assert_equal 'AIX', @importer.operatingsystem.family
-    assert_equal '6100', @importer.operatingsystem.major
-    assert_equal '0604', @importer.operatingsystem.minor
-  end
+    test "should set description correctly for SLES" do
+      @importer = PuppetFactParser.new(sles_facts)
+      assert_equal 'SLES 11 SP3', os.description
+      assert_os_idempotent
+    end
 
-  test 'should handle FreeBSD rolling releases correctly' do
-    @importer = PuppetFactParser.new(freebsd_stable_facts)
-    assert_equal '10', @importer.operatingsystem.major
-    assert_equal '1', @importer.operatingsystem.minor
-  end
+    test "should not set description if lsbdistdescription is missing" do
+      facts.delete('lsbdistdescription')
+      @importer = PuppetFactParser.new(facts)
+      refute os.description
+      assert_os_idempotent
+    end
 
-  test 'should handle FreeBSD patch releases correctly' do
-    @importer = PuppetFactParser.new(freebsd_patch_facts)
-    assert_equal '10', @importer.operatingsystem.major
-    assert_equal '1', @importer.operatingsystem.minor
-  end
+    test 'should accept y.z minor version' do
+      FactoryGirl.create(:operatingsystem, name: "CentOS",
+                                           major: "7",
+                                           minor: "2.1511",
+                                           description: "CentOS Linux 7.2.1511")
+      @importer = PuppetFactParser.new("operatingsystem" => "CentOS",
+                                       "lsbdistdescription" => "CentOS Linux release 7.2.1511 (Core) ",
+                                       "operatingsystemrelease" => "7.2.1511")
+      assert_valid os
+      assert_os_idempotent
+    end
 
-  test "should set os.major and minor correctly from Solaris 10 facts" do
-    @importer = PuppetFactParser.new(read_json_fixture('facts/solaris10.json'))
-    os = @importer.operatingsystem
-    assert_equal 'Solaris', os.family
-    assert_equal '10', os.major
-    assert_equal '9', os.minor
+    test "should set os.major and minor correctly from AIX facts" do
+      @importer = PuppetFactParser.new(aix_facts)
+      assert_equal 'AIX', os.family
+      assert_equal '6100', os.major
+      assert_equal '0604', os.minor
+      assert_os_idempotent
+    end
+
+    test 'should handle FreeBSD rolling releases correctly' do
+      @importer = PuppetFactParser.new(freebsd_stable_facts)
+      assert_equal '10', os.major
+      assert_equal '1', os.minor
+      assert_os_idempotent
+    end
+
+    test 'should handle FreeBSD patch releases correctly' do
+      @importer = PuppetFactParser.new(freebsd_patch_facts)
+      assert_equal '10', os.major
+      assert_equal '1', os.minor
+      assert_os_idempotent
+    end
+
+    test "should set os.major and minor correctly from Solaris 10 facts" do
+      @importer = PuppetFactParser.new(read_json_fixture('facts/solaris10.json'))
+      os = @importer.operatingsystem
+      assert_equal 'Solaris', os.family
+      assert_equal '10', os.major
+      assert_equal '9', os.minor
+      assert_os_idempotent
+    end
   end
 
   test "#get_interfaces" do
@@ -282,5 +299,10 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def freebsd_patch_facts
     read_json_fixture('facts/facts_freebsd_patch.json')['facts']
+  end
+
+  def assert_os_idempotent(previous_os = self.os)
+    assert_equal previous_os, importer.operatingsystem, 'Different operating system returned on second call'
+    assert_equal previous_os.attributes, importer.operatingsystem.attributes, 'Different operating system attributes set on second call'
   end
 end

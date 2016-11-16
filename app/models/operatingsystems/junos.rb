@@ -7,10 +7,6 @@ class Junos < Operatingsystem
     medium_uri(host).to_s
   end
 
-  def class
-    Operatingsystem
-  end
-
   # The PXE type to use when generating actions and evaluating attributes. jumpstart, kickstart and preseed are currently supported.
   def pxe_type
     "ZTP"

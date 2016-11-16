@@ -1,10 +1,6 @@
 class Windows < Operatingsystem
   PXEFILES = {:kernel => "wimboot", :initrd => "bootmgr", :bcd => "bcd", :bootsdi => "boot.sdi", :bootwim => "boot.wim"}
 
-  class << self
-    delegate :model_name, :to => :superclass
-  end
-
   def pxe_type
     "waik"
   end
