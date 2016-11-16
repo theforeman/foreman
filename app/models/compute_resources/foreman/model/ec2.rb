@@ -51,6 +51,7 @@ module Foreman::Model
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
       args[:security_group_ids].reject!(&:empty?) if args.has_key?(:security_group_ids)
       args[:associate_public_ip] = subnet_implies_is_vpc?(args) && args[:managed_ip] == 'public'
+      args[:private_ip_address] = args[:interfaces_attributes][:"0"][:ip]
       super(args)
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled EC2 error", e)
