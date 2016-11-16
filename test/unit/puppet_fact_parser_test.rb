@@ -59,6 +59,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal "AnyOS 6", data.to_s
     assert_equal '6', data.major
     assert_empty data.minor
+    assert_equal data, importer.operatingsystem
   end
 
   test "release_name should be nil when lsbdistcodename isn't set on Debian" do
@@ -127,6 +128,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     @importer = PuppetFactParser.new(freebsd_patch_facts)
     assert_equal '10', @importer.operatingsystem.major
     assert_equal '1', @importer.operatingsystem.minor
+  end
+
+  test "should set os.major and minor correctly from Solaris 10 facts" do
+    @importer = PuppetFactParser.new(read_json_fixture('facts/solaris10.json'))
+    os = @importer.operatingsystem
+    assert_equal 'Solaris', os.family
+    assert_equal '10', os.major
+    assert_equal '9', os.minor
   end
 
   test "#get_interfaces" do
