@@ -26,10 +26,6 @@ class Xenserver < Operatingsystem
     "XenServer"
   end
 
-  def self.model_name
-    superclass.model_name
-  end
-
   def bootfile(arch, type)
     pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]").split("/")[-1]
   end

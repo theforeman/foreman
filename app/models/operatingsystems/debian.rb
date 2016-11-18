@@ -44,10 +44,6 @@ class Debian < Operatingsystem
     s.blank? ? description : s
   end
 
-  def self.model_name
-    superclass.model_name
-  end
-
   private
 
   # tries to guess if this an ubuntu or a debian os

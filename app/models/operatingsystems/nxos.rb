@@ -7,10 +7,6 @@ class NXOS < Operatingsystem
     medium_uri(host).to_s
   end
 
-  def class
-    Operatingsystem
-  end
-
   def template_kinds
     ["POAP"]
   end

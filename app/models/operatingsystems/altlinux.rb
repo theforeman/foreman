@@ -1,10 +1,6 @@
 class Altlinux < Operatingsystem
   PXEFILES = {:kernel => "vmlinuz", :initrd => "full.cz" }
 
-  def class
-    Operatingsystem
-  end
-
   def boot_files_uri(medium, architecture)
     raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)
     raise ::Foreman::Exception.new(N_("invalid architecture for %s"), to_s) unless architectures.include?(architecture)
