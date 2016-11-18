@@ -92,7 +92,8 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources, :to_prepare_callbacks, :permissions
+    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources, :to_prepare_callbacks,
+                :permissions, :facets
 
     def initialize(id)
       @id = id.to_sym
@@ -336,7 +337,9 @@ module Foreman #:nodoc:
     end
 
     def register_facet(klass, name, &block)
-      Facets.register(klass, name, &block)
+      # Save the entry in case of reloading
+      @facets ||= []
+      @facets << Facets.register(klass, name, &block)
     end
 
     def in_to_prepare(&block)

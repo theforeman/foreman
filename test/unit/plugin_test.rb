@@ -347,6 +347,26 @@ class PluginTest < ActiveSupport::TestCase
     Host::Managed.cloned_parameters[:include].delete(:fake_facet)
   end
 
+  def test_register_facet_resilience
+    old_config = Facets.instance_variable_get('@configuration')
+    Facets.instance_variable_set('@configuration', nil)
+
+    Foreman::Plugin.register :awesome_facet do
+      name 'Awesome facet'
+      register_facet(Awesome::FakeFacet, :fake_facet) do
+        api_view :list => 'api/v2/awesome/index', :single => 'api/v2/awesome/show'
+      end
+    end
+
+    # reset the configuration
+    Facets.instance_variable_set('@configuration', nil)
+
+    assert Facets.registered_facets[:fake_facet]
+
+    Host::Managed.cloned_parameters[:include].delete(:fake_facet)
+    Facets.instance_variable_set('@configuration', old_config)
+  end
+
   def test_add_template_label
     kind = FactoryGirl.build(:template_kind)
     Foreman::Plugin.register :test_template_kind do
