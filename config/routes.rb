@@ -318,6 +318,7 @@ Foreman::Application.routes.draw do
           get 'clone_template'
           get 'lock'
           get 'unlock'
+          get 'export'
           post 'preview'
         end
         collection do
@@ -332,6 +333,7 @@ Foreman::Application.routes.draw do
           get 'clone_template'
           get 'lock'
           get 'unlock'
+          get 'export'
           post 'preview'
         end
         collection do

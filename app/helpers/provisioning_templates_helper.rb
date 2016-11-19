@@ -13,7 +13,10 @@ module ProvisioningTemplatesHelper
   end
 
   def permitted_actions(template)
-    actions = [display_link_if_authorized(_('Clone'), template_hash_for_member(template, 'clone_template'))]
+    actions = [
+      display_link_if_authorized(_('Clone'), template_hash_for_member(template, 'clone_template')),
+      display_link_if_authorized(_('Export'), template_hash_for_member(template, 'export'), { :data => { :no_turbolink => true } })
+    ]
 
     if template.locked?
       confirm = [

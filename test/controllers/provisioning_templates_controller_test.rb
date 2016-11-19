@@ -55,6 +55,14 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "export" do
+    get :export, { :id => templates(:pxekickstart).to_param }, set_session_user
+    assert_response :success
+    assert_equal 'text/plain', response.content_type
+    assert_equal templates(:pxekickstart).to_erb, response.body
+    assert_equal 'attachment; filename="centos5_3_pxelinux.erb"', response.headers['Content-Disposition']
+  end
+
   test "update invalid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(false)
     put :update, {:id => templates(:pxekickstart).to_param, :provisioning_template => {:name => "123"} }, set_session_user

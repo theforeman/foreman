@@ -33,6 +33,9 @@ class ProvisioningTemplate < Template
   scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
   scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
+  attr_exportable :kind => Proc.new { |template| template.template_kind.try(:name) },
+                  :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq }
+
   # Override method in Taxonomix as Template is not used attached to a Host,
   # and matching a Host does not prevent removing a template from its taxonomy.
   def used_taxonomy_ids(type)

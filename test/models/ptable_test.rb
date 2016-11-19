@@ -78,4 +78,12 @@ class PtableTest < ActiveSupport::TestCase
     Host.expects(:authorized).with(:view_hosts).returns(Host.where(nil))
     ptable.preview_host_collection
   end
+
+  test "#metadata should include OS family" do
+    ptable = FactoryGirl.build(:ptable)
+
+    lines = ptable.metadata.split("\n")
+    assert_includes lines, "os_family: #{ptable.os_family}"
+    assert_includes lines, "name: #{ptable.name}"
+  end
 end

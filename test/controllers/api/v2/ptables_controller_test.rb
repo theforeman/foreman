@@ -85,6 +85,14 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal(template['template'], original_ptable.template)
   end
 
+  test 'export should export the erb of the template' do
+    ptable = FactoryGirl.create(:ptable)
+    get :export, { :id => ptable.to_param }
+    assert_response :success
+    assert_equal 'text/plain', response.content_type
+    assert_equal ptable.to_erb, response.body
+  end
+
   test 'clone name should not be blank' do
     post :clone, { :id => FactoryGirl.create(:ptable).to_param,
                    :ptable => {:name => ''} }

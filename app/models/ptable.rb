@@ -33,6 +33,8 @@ class Ptable < Template
 
   alias_attribute :layout, :template
 
+  attr_exportable :os_family
+
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
