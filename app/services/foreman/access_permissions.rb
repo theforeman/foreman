@@ -113,10 +113,10 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :provisioning_templates do |map|
-    map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search, :preview],
+    map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search, :preview, :export],
                                         :"api/v1/config_templates" => [:index, :show, :revision],
                                         :"api/v2/config_templates" => [:index, :show, :revision],
-                                        :"api/v2/provisioning_templates" => [:index, :show, :revision],
+                                        :"api/v2/provisioning_templates" => [:index, :show, :revision, :export],
                                         :"api/v2/template_combinations" => [:index, :show],
                                         :"api/v1/template_kinds" => [:index],
                                         :"api/v2/template_kinds" => [:index]
@@ -534,9 +534,9 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :partition_tables do |map|
-    map.permission :view_ptables, {:ptables => [:index, :show, :auto_complete_search, :revision, :preview, :welcome],
+    map.permission :view_ptables, {:ptables => [:index, :show, :auto_complete_search, :revision, :preview, :welcome, :export],
                                       :"api/v1/ptables" => [:index, :show],
-                                      :"api/v2/ptables" => [:index, :show, :revision]
+                                      :"api/v2/ptables" => [:index, :show, :revision, :export]
     }
     map.permission :create_ptables, {:ptables => [:new, :create, :clone_template],
                                       :"api/v1/ptables" => [:create],

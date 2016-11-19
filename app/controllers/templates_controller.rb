@@ -4,7 +4,7 @@ class TemplatesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
   before_action :handle_template_upload, :only => [:create, :update]
-  before_action :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock]
+  before_action :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock, :export]
   before_action :load_history, :only => :edit
   before_action :type_name_plural, :type_name_singular, :resource_class
 
@@ -95,6 +95,10 @@ class TemplatesController < ApplicationController
     safe_render(@template)
   end
 
+  def export
+    send_data @template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @template.filename
+  end
+
   private
 
   def safe_render(template)
@@ -124,7 +128,7 @@ class TemplatesController < ApplicationController
     case params[:action]
       when 'lock', 'unlock'
         :lock
-      when 'clone_template', 'preview'
+      when 'clone_template', 'preview', 'export'
         :view
       else
         super

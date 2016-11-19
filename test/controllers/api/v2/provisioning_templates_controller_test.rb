@@ -96,6 +96,14 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test 'export should export the erb of the template' do
+    get :export, { :id => templates(:pxekickstart).to_param }
+    assert_response :success
+    assert_equal 'text/plain', response.content_type
+    assert_equal templates(:pxekickstart).to_erb, response.body
+    assert_equal 'attachment; filename="centos5_3_pxelinux.erb"', response.headers['Content-Disposition']
+  end
+
   test "should show templates from os" do
     get :index, { :operatingsystem_id => operatingsystems(:centos5_3).fullname }
     assert_response :success

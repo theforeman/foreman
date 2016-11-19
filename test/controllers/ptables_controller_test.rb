@@ -53,6 +53,13 @@ class PtablesControllerTest < ActionController::TestCase
     assert !Ptable.exists?(ptable.id)
   end
 
+  test "export" do
+    get :export, { :id => @ptable.to_param }, set_session_user
+    assert_response :success
+    assert_equal 'text/plain', response.content_type
+    assert_equal @ptable.to_erb, response.body
+  end
+
   def setup_view_user
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
