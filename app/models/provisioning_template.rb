@@ -69,7 +69,7 @@ class ProvisioningTemplate < Template
 
   def self.find_template(opts = {})
     raise ::Foreman::Exception.new(N_("Must provide template kind")) unless opts[:kind]
-    raise ::Foreman::Exception.new(N_("Must provide an operating systems")) unless opts[:operatingsystem_id]
+    raise ::Foreman::Exception.new(N_("Must provide an operating system")) unless opts[:operatingsystem_id]
 
     # first filter valid templates to our OS and requested template kind.
     templates = ProvisioningTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])
