@@ -1,3 +1,4 @@
 {
-  "userBlacklist": ["daviddavis"]
+  "requiredOrgs": ["theforeman"],
+  "userBlackList": ["daviddavis", "abenari", "unorthodoxgeek", "alongoldboim", "bgupta", "logicminds"]
 }
