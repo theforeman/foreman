@@ -1377,7 +1377,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
     response = JSON.parse @response.body
     assert_equal({"id" => @host.id, "state" => "na", "title" => 'N/A',
-      "statusText" => "Power operation are not enabled on this host."}, response)
+      "statusText" => "Power operations are not enabled on this host."}, response)
   end
 
   test 'show power status for a host that has an exception' do
@@ -1387,7 +1387,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
     response = JSON.parse @response.body
     assert_equal({"id" => @host.id, "state" => "na", "title" => "N/A",
-      "statusText" => "Failed to fetch power status ERF42-9958 [Foreman::Exception]: Unknown power management support - can't continue"}, response)
+      "statusText" => "Failed to fetch power status: ERF42-9958 [Foreman::Exception]: Unknown power management support - can't continue"}, response)
   end
 
   test 'do not provide power state on an unknown host' do
