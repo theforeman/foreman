@@ -17,7 +17,7 @@ class HostsEventEmitter extends AppEventEmitter {
   }
 
   // workaround for max listeners
-  maxListers(selector = 'meta[name=pagination-per-page]') {
+  maxListers(selector = 'meta[name=itemsPerPage]') {
     const element = document.querySelector(selector);
 
     if (element && element.content) {
