@@ -5874,7 +5874,7 @@ msgid "Must provide template kind"
 msgstr ""
 
 #: ../app/models/provisioning_template.rb:72
-msgid "Must provide an operating systems"
+msgid "Must provide an operating system"
 msgstr ""
 
 #: ../app/models/provisioning_template.rb:106
