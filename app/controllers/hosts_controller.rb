@@ -22,9 +22,9 @@ class HostsController < ApplicationController
                         select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
 
   HOST_POWER = {
-    :on =>  { :state => 'on', :title => _('On') },
-    :off => { :state => 'off', :title => _('Off') },
-    :na =>  { :state => 'na', :title => _('N/A') }
+    :on =>  { :state => 'on', :title => N_('On') },
+    :off => { :state => 'off', :title => N_('Off') },
+    :na =>  { :state => 'na', :title => N_('N/A') }
   }.freeze
 
   add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
@@ -269,18 +269,18 @@ class HostsController < ApplicationController
   end
 
   def get_power_state
-    result = ({:id => @host.id}).merge(HOST_POWER[:na])
+    result = {:id => @host.id}.merge(host_power_state(:na))
     if @host.supports_power?
       result = host_power_ping result
     else
-      result[:statusText] = _('Power operation are not enabled on this host.')
+      result[:statusText] = _('Power operations are not enabled on this host.')
     end
 
     render :json => result
   rescue => e
     Foreman::Logging.exception("Failed to fetch power status", e)
-    result.merge!(HOST_POWER[:na])
-    result[:statusText] = _("Failed to fetch power status #{e}")
+    result.merge!(host_power_state(:na))
+    result[:statusText] = _("Failed to fetch power status: %s") % e
     render :json => result
   end
 
@@ -965,13 +965,18 @@ class HostsController < ApplicationController
   def host_power_ping(result)
     timeout = 3
     Timeout.timeout(timeout) do
-      result.merge!(HOST_POWER[@host.supports_power_and_running? ? :on : :off])
+      result.merge!(host_power_state(@host.supports_power_and_running? ? :on : :off))
     end
     result
   rescue Timeout::Error
-    message = "Failed to retrieve power status for #{@host} within #{timeout} seconds."
-    logger.debug(message)
-    result[:statusText] = _(message)
+    logger.debug("Failed to retrieve power status for #{@host} within #{timeout} seconds.")
+    result[:statusText] = n_("Failed to retrieve power status for %{host} within %{timeout} second.",
+                             "Failed to retrieve power status for %{host} within %{timeout} seconds.", timeout) %
+                            {:host => @host, :timeout => timeout}
     result
+  end
+
+  def host_power_state(key)
+    HOST_POWER[key].merge(:title => _(HOST_POWER[key][:title]))
   end
 end
