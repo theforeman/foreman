@@ -4,10 +4,10 @@ module SettingsHelper
       {:title => _("This setting is defined in the configuration file 'settings.yaml' and is read-only."), :helper => :show_value}) if setting.readonly?
 
     return edit_select(setting, :value,
-      {:title => setting.full_name, :select_values => self.send("#{setting.name}_collection") }) if self.respond_to? "#{setting.name}_collection"
+      {:title => _(setting.full_name), :select_values => self.send("#{setting.name}_collection") }) if self.respond_to? "#{setting.name}_collection"
 
-    return edit_textarea(setting, :value, {:title => setting.full_name, :helper => :show_value}) if setting.settings_type == 'array'
-    edit_textfield(setting, :value,{:title => setting.full_name, :helper => :show_value})
+    return edit_textarea(setting, :value, {:title => _(setting.full_name), :helper => :show_value}) if setting.settings_type == 'array'
+    edit_textfield(setting, :value,{:title => _(setting.full_name), :helper => :show_value})
   end
 
   def show_value(setting)
