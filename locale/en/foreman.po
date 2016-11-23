@@ -4409,7 +4409,7 @@ msgstr ""
 msgid "Monthly"
 msgstr ""
 
-msgid "Must provide an operating systems"
+msgid "Must provide an operating system"
 msgstr ""
 
 msgid "Must provide template kind"
