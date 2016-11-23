@@ -84,7 +84,7 @@ class PuppetclassesController < ApplicationController
   def action_permission
     case params[:action]
       when 'override'
-        :override
+        :edit
       else
         super
     end
