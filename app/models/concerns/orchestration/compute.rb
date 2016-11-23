@@ -296,6 +296,7 @@ module Orchestration::Compute
   end
 
   def validate_foreman_attr(value, object, attr)
+    value = value.to_s if object.type_for_attribute(attr.to_s).type == :string
     # we can't ensure uniqueness of #foreman_attr using normal rails
     # validations as that gets in a later step in the process
     # therefore we must validate its not used already in our db.

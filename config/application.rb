@@ -165,6 +165,9 @@ module Foreman
     # Add apidoc hash in headers for smarter caching
     config.middleware.use Apipie::Middleware::ChecksumInHeaders
 
+    # New config option to opt out of params "deep munging" that was used to address security vulnerability CVE-2013-0155.
+    config.action_dispatch.perform_deep_munge = false
+
     Foreman::Logging.configure(
       :log_directory => "#{Rails.root}/log",
       :environment => Rails.env,

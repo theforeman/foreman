@@ -227,6 +227,16 @@ class LocationsControllerTest < ActionController::TestCase
     assert_nil response.body['Parameter']
   end
 
+  test 'should allow empty array as param value of array field while updating location' do
+    location = taxonomies(:location2)
+    location.update_attributes(:organization_ids => [taxonomies(:organization2).id])
+    saved_location = Location.find_by_id(location.id)
+    assert_equal saved_location.organization_ids.count, 1
+    put :update, { :id => location.id, :location => {:organization_ids => []}}, set_session_user
+    updated_location = Location.find_by_id(location.id)
+    assert_equal updated_location.organization_ids.count, 0
+  end
+
   context 'wizard' do
     test 'redirects to step 2 if unassigned hosts exist' do
       host = FactoryGirl.create(:host)

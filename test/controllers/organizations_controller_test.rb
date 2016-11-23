@@ -231,6 +231,16 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_nil response.body['Parameter']
   end
 
+  test 'should allow empty array as param value of array field while updating organization' do
+    organization = taxonomies(:organization2)
+    organization.update_attributes(:smart_proxy_ids => [ smart_proxies(:one).id ])
+    saved_organization = Organization.find_by_id(organization.id)
+    assert_equal saved_organization.smart_proxy_ids.count, 1
+    put :update, { :id => organization.id, :organization => {:smart_proxy_ids => []}}, set_session_user
+    updated_organization = Organization.find_by_id(organization.id)
+    assert_equal updated_organization.smart_proxy_ids.count, 0
+  end
+
   context 'wizard' do
     test 'redirects to step 2 if unassigned hosts exist' do
       host = FactoryGirl.create(:host)
