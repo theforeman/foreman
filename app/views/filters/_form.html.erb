@@ -62,16 +62,13 @@
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <% collection = User.current.locations.empty? ? Location : User.current.locations %>
-        <%= multiple_checkboxes f, :locations, f.object, collection, {}, :label => _("Locations") %>
+        <%= multiple_checkboxes f, :locations, f.object, User.current.my_locations, :label => _("Locations") %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <% collection = User.current.organizations.empty? ? Organization : User.current.organizations %>
-        <%= multiple_checkboxes f, :organizations, f.object, collection, {},
-                                {:label => _("Organizations")} %>
+        <%= multiple_checkboxes f, :organizations, f.object, User.current.my_organizations, :label => _("Organizations") %>
       </div>
     <% end %>
   </div>
