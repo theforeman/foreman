@@ -22,7 +22,7 @@
       <%= render 'fields', :f => f %>
     </div>
     <div class="tab-pane" id="domains">
-      <%= multiple_checkboxes f, :domain, f.object, Domain, {:help_inline => _("Domains in which this subnet is part"), :size => 'col-md-6', :prefix => f.object_name}, { :label => _("Domain")} %>
+      <%= multiple_checkboxes f, :domains, f.object, Domain, {:help_inline => _("Domains in which this subnet is part"), :size => 'col-md-6', :prefix => f.object_name}, { :label => _("Domain")} %>
     </div>
     <div class="tab-pane" id="proxies">
       <%= smart_proxy_fields f %>
