@@ -260,4 +260,17 @@ class TaxonomixTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "#admin_ids finds admins both assigned the permission directly and through user group" do
+    direct_admin = group_admin = nil
+    as_admin do
+      direct_admin = FactoryGirl.create(:user, :admin)
+      group = FactoryGirl.create(:usergroup, :admin => true)
+      group_admin = FactoryGirl.create(:user, :usergroups => [ group ])
+    end
+
+    found_admins = User.admin_ids
+    assert_includes found_admins, direct_admin.id
+    assert_includes found_admins, group_admin.id
+  end
 end

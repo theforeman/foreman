@@ -109,7 +109,7 @@ module Taxonomix
     end
 
     def admin_ids
-      User.unscoped.where(:admin => true).pluck(:id) if self == User
+      User.unscoped.only_admin.pluck(:id) if self == User
     end
 
     def scope_by_taxable_ids(scope)
