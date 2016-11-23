@@ -44,9 +44,13 @@ class PuppetclassesControllerTest < ActionController::TestCase
     assert !Puppetclass.exists?(puppetclass.id)
   end
 
-  def setup_user
-    @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+  def setup_user(operation = nil, type = "", search = nil, user = :one)
+    if operation.nil?
+      @request.session[:user] = users(:one).id
+      users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+    else
+      super
+    end
   end
 
   test 'user with viewer rights should fail to edit a puppetclass' do
@@ -197,5 +201,24 @@ class PuppetclassesControllerTest < ActionController::TestCase
     post :override, {:id => pc.to_param}, set_session_user
     assert_match /No parameters to override/, flash[:error]
     assert_redirected_to puppetclasses_url
+  end
+
+  test 'user with edit_puppetclasses permission should succeed in overriding all parameters' do
+    setup_user "edit", "puppetclasses"
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    refute pc.class_params.first.override
+    post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
+    assert_match /overridden all parameters/, flash[:notice]
+    assert_redirected_to puppetclasses_url
+  end
+
+  test 'user without edit_puppetclasses permission should fail in overriding all parameters' do
+    setup_user "view", "puppetclasses"
+    env = FactoryGirl.create(:environment)
+    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    refute pc.class_params.first.override
+    post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
+    assert_match /You are not authorized to perform this action/, response.body
   end
 end
