@@ -23,13 +23,11 @@
       <% end %>
 
       <% if show_location_tab? %>
-        <% collection = User.current.locations.empty? ? Location : Location.my_locations %>
-        <%= multiple_checkboxes f, :locations, f.object, collection, {}, { :label => _("Locations") } %>
+        <%= multiple_checkboxes f, :locations, f.object, User.current.my_locations, { :label => _("Locations") } %>
       <% end %>
 
       <% if show_organization_tab? %>
-        <% collection = User.current.organizations.empty? ? Organization : Organization.my_organizations %>
-        <%= multiple_checkboxes f, :organizations, f.object, collection, {}, { :label => _("Organizations") } %>
+        <%= multiple_checkboxes f, :organizations, f.object, User.current.my_organizations, { :label => _("Organizations") } %>
       <% end %>
     </div>
 
