@@ -105,7 +105,7 @@ END_DESC
   end
 
   def postgres_import(file, config)
-    cmd = "pg_restore -d #{config['database']} -U #{config['username']} "
+    cmd = "pg_restore -d #{config['database']} -U #{config['username']} --clean"
     cmd += " -h #{config['host']} " if config['host'].present?
     cmd += " -p #{config['port']} " if config['port'].present?
     cmd += " #{file}"
