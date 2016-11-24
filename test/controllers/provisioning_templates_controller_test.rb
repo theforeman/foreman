@@ -132,6 +132,12 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       assert_redirected_to provisioning_templates_path
     end
 
+    test "build menu should return with error code if no TFTP defined" do
+      SmartProxy.stubs(:with_features).with('TFTP').returns([])
+      get :build_pxe_default, {}, set_session_user
+      assert flash[:error].present?
+    end
+
     test "pxe menu's labels should be sorted" do
       t1 = TemplateCombination.new :hostgroup => hostgroups(:db), :environment => environments(:production)
       t1.provisioning_template = templates(:mystring2)
