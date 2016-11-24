@@ -237,7 +237,12 @@ class HostsController < ApplicationController
     if @host.setBuild
       if (params[:host] && params[:host][:build] == '1')
         begin
-          process_success :success_msg => _("Enabled %s for reboot and rebuild") % (@host), :success_redirect => :back if @host.power.reset
+          if @host.power.reset
+            message = _("Enabled %s for reboot and rebuild")
+          else
+            message = _("Enabled %s for rebuild on next boot, but failed to power cycle the host")
+          end
+          process_success :success_msg => message % (@host), :success_redirect => :back
         rescue => error
           message = _('Failed to reboot %s.') % @host
           warning(message)
