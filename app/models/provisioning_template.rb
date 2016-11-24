@@ -106,7 +106,7 @@ class ProvisioningTemplate < Template
   end
 
   def self.build_pxe_default(renderer)
-    return [200, _("No TFTP proxies defined, can't continue")] if (proxies = SmartProxy.with_features("TFTP")).empty?
+    return [422, _("No TFTP proxies defined, can't continue")] if (proxies = SmartProxy.with_features("TFTP")).empty?
 
     error_msgs = []
     TemplateKind::PXE.each do |kind|
