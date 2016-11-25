@@ -39,7 +39,7 @@ module Api
       def create
         import_params = { :report => params[:config_report] }
         task = ForemanTasks.async_task Actions::Foreman::Report::Import, import_params, ConfigReport, detected_proxy.try(:id)
-        process_success _('Report import has been enqueued, please see the task %s for more details') % task.id
+        process_success _('Report import has been enqueued, please see the task %s for more details') % task.id, :accepted
       rescue ::Foreman::Exception => e
         render_message(e.to_s, :status => :unprocessable_entity)
       end
