@@ -15,9 +15,9 @@ module Actions
           return nil if input[:changed].nil?
 
           humanized_output = []
-          humanized_output << _('Add') + ' ' + format_env_and_classes_input(input[:changed][:new]) if input[:changed][:new].present?
-          humanized_output << _('Remove') + ' ' + format_env_and_classes_input(input[:changed][:obsolete]) if input[:changed][:obsolete].present?
-          humanized_output << _('Update') + ' ' + format_env_and_classes_input(input[:changed][:updated]) if input[:changed][:updated].present?
+          humanized_output << _('Add %s') % format_env_and_classes_input(input[:changed][:new]) if input[:changed][:new].present?
+          humanized_output << _('Remove %s') % format_env_and_classes_input(input[:changed][:obsolete]) if input[:changed][:obsolete].present?
+          humanized_output << _('Update %s') % format_env_and_classes_input(input[:changed][:updated]) if input[:changed][:updated].present?
           humanized_output.join("\n")
         end
 
@@ -38,11 +38,12 @@ module Actions
 
         def format_env_and_classes_input(selection)
           selection.map do |environment, classes|
-            result = _('environment') + " #{environment}"
             classes = JSON.parse(classes)
-            no_classes_info = classes.include?('_destroy_')
-            result += " (#{classes.size} " + _('classes') + ")" unless no_classes_info
-            result
+            if classes.include?('_destroy_')
+              _('environment %s') % environment
+            else
+              n_('environment %{environment} (%{count} class)', 'environment %{environment} (%{count} classes)', classes.size) % { :environment => environment, :count => classes.size }
+            end
           end.join(', ')
         end
       end
