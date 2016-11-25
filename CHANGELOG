@@ -1,3 +1,72 @@
+2016-11-25	Dominic Cleal <dominic@cleal.org>
+	* Release 1.13.2
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+	* fixes #17335 - parse Solaris update as minor version
+	* fixes #17314 - use *_subnets permissions for Subnet subclasses
+	* fixes #17300 - accept Nic
+	* fixes #17170 - use strong params in InterfacesController
+	* fixes #17197 - don't update DNS on ip6 change to empty string
+	* fixes #16866 - don't call orchestration skip if unattended is off
+
+2016-11-25	Ori Rabin <orabin@redhat.com>
+	* Fixes #14951 - Allow matcher for host turning into managed host
+	* Fixes #17279 - Changing os search in host to search on os_title
+	* Fixes #17153 - Consistent name for variable_type in the api
+
+2016-11-25	Timo Goebel <mail@timogoebel.name>
+	* fixes #17409 - show only real bmc power actions
+	* fixes #17187 - v6 ip not required when cr provides v4
+	* fixes #17012 - openstack render scheduler_filter correctly
+	* fixes #11656 - disable cr interface fields on host edit
+	* fixes #17086 - export nic ipv6 address for ENC
+
+2016-11-25	amirfefer <amirfefer@gmail.com>
+	* Fixes #17436 - extract setting value placeholder in settings
+	* Fixes #17151 - sort PXE labels by hostgroup title
+
+2016-11-25	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17394 - remove npm shrinkwrap file
+
+2016-11-25	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #17303 - correct position of validation msg for parameters
+
+2016-11-25	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #17332 - Test email error renders properly in users
+
+2016-11-25	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #17200 - Add option datacenter to compute resource
+
+2016-11-25	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #17297 - added PXE loader flags for Debian family
+
+2016-11-25	Mac Reid <mareid@mtu.edu>
+	* Fixes #17277 - quote host properties
+
+2016-11-25	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #15498 - removes scopes from includes in taxonomix
+	* Fixes #17256 - ignore order in Authorizer
+
+2016-11-25	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #16546 - update facts on existing hosts
+
+2016-11-25	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #17206 - Use __() for js translations
+
+2016-11-25	Kęstutis Mizara <vilkas@riftus.lt>
+	* fixes #16091 - Fixed association Foreman host with Compute VM
+
+2016-11-25	Martin Schurz <Martin.Schurz@t-systems.com>
+	* fixes #16996 - reduce eager_load of tables
+
+2016-11-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17152 - Puppet proxy dashboard displays correctly
+	* Fixes #16704 - Allow filtering on dashboard
+
+2016-11-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17107 - list override in filter API
+	* Fixes #17104 - ignore resource via API
+
 2016-10-26	Dominic Cleal <dominic@cleal.org>
 	* Release 1.13.1
 
