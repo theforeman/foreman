@@ -53,8 +53,7 @@ module ProxyAPI
         response.is_a?(Hash) ? response['result'] : response
       when "on", "off", "cycle", "soft"
         res = parse put(args, bmc_url_for('power',args[:action]))
-        # This is a simple action, just return the result of the action
-        res && res['result'] == true
+        res && (res['result'] == true || res['result'] == "#{@target}: ok\n")
       else
         raise NoMethodError
       end
