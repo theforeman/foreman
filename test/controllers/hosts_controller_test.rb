@@ -212,6 +212,23 @@ class HostsControllerTest < ActionController::TestCase
 
     test 'and reboot requested and reboot failed, the flash should inform it' do
       Host::Managed.any_instance.stubs(:setBuild).returns(true)
+      # Setup a power mockup
+      class PowerShmocker
+        def reset
+          false
+        end
+      end
+      Host::Managed.any_instance.stubs(:power).returns(PowerShmocker.new)
+      put :setBuild, {:id => @host.name, :host => {:build => '1'}}, set_session_user
+      @host.power.reset
+      assert_response :found
+      assert_redirected_to hosts_path
+      assert_not_nil flash[:notice]
+      assert_equal(flash[:notice], "Enabled #{@host} for rebuild on next boot, but failed to power cycle the host")
+    end
+
+    test 'and reboot requested and reboot raised exception, the flash should inform it' do
+      Host::Managed.any_instance.stubs(:setBuild).returns(true)
       put :setBuild, {:id => @host.name, :host => {:build => '1'}}, set_session_user
       assert_raise Foreman::Exception do
         @host.power.reset
