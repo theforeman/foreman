@@ -217,4 +217,36 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
     @testbmc.expects(:get).with(expected_path, data).at_least_once
     @testbmc.lan_mac(@options)
   end
+
+  context '#power' do
+    test "should return true when result was true" do
+      data = stub_bmc_power_response('cycle', true)
+      assert_equal true, @testbmc.power(data)
+    end
+
+    test "should return true when result was ok" do
+      data = stub_bmc_power_response('cycle', "127.0.0.1: ok\n")
+      assert_equal true, @testbmc.power(data)
+    end
+
+    test "should return false when result was not ok" do
+      data = stub_bmc_power_response('cycle', 'error')
+      assert_equal false, @testbmc.power(data)
+    end
+  end
+
+  private
+
+  def stub_bmc_power_response(action, result)
+    data = @options.merge({:action => action})
+    @testbmc.stubs(:put).returns(
+      fake_rest_client_response(
+        {
+          'action' => action,
+          'result' => result
+        }
+      )
+    )
+    data
+  end
 end
