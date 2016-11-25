@@ -496,7 +496,7 @@ class Host::Managed < Host::Base
     classes = nodeinfo["classes"]
     classes = classes.keys if classes.is_a?(Hash)
     classes.each do |klass|
-      if (pc = Puppetclass.find_by_name(klass))
+      if (pc = Puppetclass.find_by_name(klass.to_s))
         myklasses << pc
       else
         error = _("Failed to import %{klass} for %{name}: doesn't exists in our database - ignoring") % { :klass => klass, :name => name }

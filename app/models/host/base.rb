@@ -216,7 +216,7 @@ module Host
         taxonomy_fact = Setting["#{taxonomy}_fact"]
 
         if taxonomy_fact.present? && facts.keys.include?(taxonomy_fact)
-          taxonomy_from_fact = taxonomy_class.find_by_title(facts[taxonomy_fact])
+          taxonomy_from_fact = taxonomy_class.find_by_title(facts[taxonomy_fact].to_s)
         else
           default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}"])
         end

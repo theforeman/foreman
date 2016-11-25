@@ -233,7 +233,7 @@ class User < ActiveRecord::Base
 
   def self.find_or_create_external_user(attrs, auth_source_name)
     external_groups = attrs.delete(:groups)
-    auth_source = AuthSource.find_by_name(auth_source_name)
+    auth_source = AuthSource.find_by_name(auth_source_name.to_s)
 
     # existing user, we'll update them
     if (user = unscoped.find_by_login(attrs[:login]))

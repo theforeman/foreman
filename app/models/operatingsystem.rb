@@ -170,7 +170,7 @@ class Operatingsystem < ActiveRecord::Base
   end
 
   def self.find_by_to_label(str)
-    os = self.find_by_description(str)
+    os = self.find_by_description(str.to_s)
     return os if os
     a = str.split(" ")
     b = a[1].split('.') if a[1]

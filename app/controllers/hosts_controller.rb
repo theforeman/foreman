@@ -195,7 +195,7 @@ class HostsController < ApplicationController
   #will return HTML error codes upon failure
 
   def externalNodes
-    certname = params[:name]
+    certname = params[:name].to_s
     @host ||= resource_base.find_by_certname certname
     @host ||= resource_base.friendly.find certname
     unless @host
@@ -808,7 +808,7 @@ class HostsController < ApplicationController
       return false
     end
     @host   = resource_base.friendly.find(id)
-    @host ||= resource_base.find_by_mac params[:host][:mac] if params[:host] && params[:host][:mac]
+    @host ||= resource_base.find_by_mac params[:host][:mac].to_s if params[:host] && params[:host][:mac]
 
     unless @host
       not_found

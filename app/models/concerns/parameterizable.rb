@@ -45,7 +45,7 @@ module Parameterizable
       end
 
       def self.from_param(name)
-        self.find_by_name(name)
+        self.find_by_name(name.to_s)
       end
     end
   end
