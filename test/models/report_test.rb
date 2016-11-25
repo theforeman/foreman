@@ -21,10 +21,10 @@ class ReportTest < ActiveSupport::TestCase
 
   describe '.my_reports' do
     setup do
-      @target_host = FactoryGirl.create(:host, :with_hostgroup)
-      @target_reports = FactoryGirl.create_pair(:config_report, host: @target_host)
-      @other_host = FactoryGirl.create(:host, :with_hostgroup)
-      @other_reports = FactoryGirl.create_pair(:report, host: @other_host)
+      @target_host = FactoryGirl.create(:host, :with_hostgroup, :with_reports, :report_count => 2)
+      @target_reports = @target_host.reports
+      @other_host = FactoryGirl.create(:host, :with_hostgroup, :with_reports, :report_count => 2)
+      @other_reports = @other_host.reports
     end
 
     test 'returns all reports for admin' do
