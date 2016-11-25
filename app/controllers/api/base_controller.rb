@@ -129,8 +129,8 @@ module Api
       end
     end
 
-    def process_success(response = nil)
-      render_status = request.post? ? :created : :ok
+    def process_success(response = nil, render_status = nil)
+      render_status ||= request.post? ? :created : :ok
       response ||= get_resource
       respond_with response, :responder => ApiResponder, :status => render_status
     end
