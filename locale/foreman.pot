@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-26 10:32+0100\n"
-"PO-Revision-Date: 2016-09-26 10:32+0100\n"
+"POT-Creation-Date: 2016-11-25 11:58+0000\n"
+"PO-Revision-Date: 2016-11-25 11:58+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -22,34 +22,38 @@ msgstr ""
 msgid "Failed to fetch: "
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:231
+#: ../app/assets/javascripts/application.js:233
 msgid "Sorry but no templates were configured."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:245
+#: ../app/assets/javascripts/application.js:247
 msgid "Loading ..."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:406
+#: ../app/assets/javascripts/application.js:408
 #: ../app/models/config_report.rb:81
 msgid "Success"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:408
+#: ../app/assets/javascripts/application.js:410
 #: ../app/helpers/layout_helper.rb:118 ../app/models/host_status/global.rb:41
 #: ../app/views/hosts/multiple_destroy.html.erb:4
 msgid "Warning"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:410
-#: ../app/controllers/application_controller.rb:365
+#: ../app/assets/javascripts/application.js:412
+#: ../app/controllers/application_controller.rb:364
 #: ../app/helpers/dashboard_helper.rb:56 ../app/helpers/layout_helper.rb:124
 #: ../app/models/host_status/configuration_status.rb:58
 #: ../app/models/host_status/global.rb:43
 msgid "Error"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:462
+#: ../app/assets/javascripts/application.js:440
+msgid "Unknown power state"
+msgstr ""
+
+#: ../app/assets/javascripts/application.js:466
 msgid "Exit Full Screen"
 msgstr ""
 
@@ -196,10 +200,6 @@ msgstr ""
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:71
-msgid "Error loading virtual machine information: %s"
-msgstr ""
-
 #: ../app/assets/javascripts/host_edit.js:220
 #: ../app/assets/javascripts/host_edit.js:484
 msgid "Loading parameters..."
@@ -221,7 +221,7 @@ msgid "Error generating IP: %s"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:30
-#: ../app/models/nic/managed.rb:54
+#: ../app/models/nic/managed.rb:55
 msgid "Interface"
 msgstr ""
 
@@ -405,7 +405,7 @@ msgstr ""
 #: ../app/assets/javascripts/subnets.js:64
 #: ../app/assets/javascripts/subnets.js:84
 #: ../app/assets/javascripts/subnets.js:91
-#: ../app/models/lookup_keys/lookup_key.rb:201
+#: ../app/models/lookup_keys/lookup_key.rb:198
 #: ../app/models/nic/interface.rb:67 ../app/models/nic/interface.rb:68
 #: ../app/models/subnet.rb:241
 #: ../app/services/foreman/parameters/validator.rb:29
@@ -413,24 +413,24 @@ msgstr ""
 msgid "is invalid"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:166
+#: ../app/controllers/api/base_controller.rb:171
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:255
+#: ../app/controllers/api/base_controller.rb:260
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:268
+#: ../app/controllers/api/base_controller.rb:273
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:296
-#: ../app/controllers/application_controller.rb:152
+#: ../app/controllers/api/base_controller.rb:301
+#: ../app/controllers/application_controller.rb:151
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:307
+#: ../app/controllers/api/base_controller.rb:312
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -448,7 +448,7 @@ msgid ""
 msgstr ""
 
 #: ../app/controllers/api/v1/compute_resources_controller.rb:38
-#: ../app/controllers/api/v2/compute_resources_controller.rb:41
+#: ../app/controllers/api/v2/compute_resources_controller.rb:42
 msgid "for Libvirt and VMware only"
 msgstr ""
 
@@ -717,110 +717,114 @@ msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:37
-msgid "for oVirt, VMware Datacenter"
+msgid "Deprecated, please use datacenter"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:38
-msgid "for EC2 only"
+msgid "for oVirt, VMware Datacenter"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:39
-msgid "for OpenStack only"
+msgid "for EC2 only"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:40
+msgid "for OpenStack only"
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:41
 msgid "for VMware"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:42
+#: ../app/controllers/api/v2/compute_resources_controller.rb:43
 msgid "for Libvirt only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:47
+#: ../app/controllers/api/v2/compute_resources_controller.rb:48
 msgid "Create a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:55
+#: ../app/controllers/api/v2/compute_resources_controller.rb:56
 msgid "Update a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:63
+#: ../app/controllers/api/v2/compute_resources_controller.rb:64
 msgid "Delete a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:70
+#: ../app/controllers/api/v2/compute_resources_controller.rb:71
 msgid "List available images for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:76
+#: ../app/controllers/api/v2/compute_resources_controller.rb:77
 msgid "List available clusters for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:83
+#: ../app/controllers/api/v2/compute_resources_controller.rb:84
 msgid "List available flavors for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:90
+#: ../app/controllers/api/v2/compute_resources_controller.rb:91
 msgid "List available folders for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:97
+#: ../app/controllers/api/v2/compute_resources_controller.rb:98
 msgid "List available zone for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:104
+#: ../app/controllers/api/v2/compute_resources_controller.rb:105
 msgid "List available networks for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:105
+#: ../app/controllers/api/v2/compute_resources_controller.rb:106
 msgid "List available networks for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:113
+#: ../app/controllers/api/v2/compute_resources_controller.rb:114
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:121
+#: ../app/controllers/api/v2/compute_resources_controller.rb:122
 msgid "List storage domains for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:122
+#: ../app/controllers/api/v2/compute_resources_controller.rb:123
 msgid "List attributes for a given storage domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:130
+#: ../app/controllers/api/v2/compute_resources_controller.rb:131
 msgid "List storage pods for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:131
+#: ../app/controllers/api/v2/compute_resources_controller.rb:132
 msgid "List attributes for a given storage pod"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:139
+#: ../app/controllers/api/v2/compute_resources_controller.rb:140
 msgid "List available security groups for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:146
+#: ../app/controllers/api/v2/compute_resources_controller.rb:147
 msgid "Associate VMs to Hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:6
+#: ../app/controllers/api/v2/config_groups_controller.rb:10
 msgid "List of config groups"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:13
+#: ../app/controllers/api/v2/config_groups_controller.rb:17
 msgid "Show a config group"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:25
+#: ../app/controllers/api/v2/config_groups_controller.rb:29
 msgid "Create a config group"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:33
+#: ../app/controllers/api/v2/config_groups_controller.rb:37
 msgid "Update a config group"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:41
+#: ../app/controllers/api/v2/config_groups_controller.rb:45
 msgid "Delete a config group"
 msgstr ""
 
@@ -1635,7 +1639,7 @@ msgid "Rebuild orchestration config"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:252
-#: ../app/controllers/hosts_controller.rb:525
+#: ../app/controllers/hosts_controller.rb:527
 msgid "Configuration successfully rebuilt."
 msgstr ""
 
@@ -2909,61 +2913,61 @@ msgstr ""
 msgid "You are trying to delete your own account"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:80
+#: ../app/controllers/application_controller.rb:79
 msgid "An email address is required, please update your account details"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:96
+#: ../app/controllers/application_controller.rb:95
 msgid "Invalid query"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:227
+#: ../app/controllers/application_controller.rb:226
 msgid "Administrator user account required"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:260
+#: ../app/controllers/application_controller.rb:259
 msgid "Successfully created %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:262
+#: ../app/controllers/application_controller.rb:261
 msgid "Successfully updated %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:264
+#: ../app/controllers/application_controller.rb:263
 msgid "Successfully deleted %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:266
+#: ../app/controllers/application_controller.rb:265
 msgid "Unknown action name for success message: %s"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:287
+#: ../app/controllers/application_controller.rb:286
 msgid "Conflict - %s"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:331
+#: ../app/controllers/application_controller.rb:330
 msgid "Organization you had selected as your context has been deleted."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:341
+#: ../app/controllers/application_controller.rb:340
 msgid "Location you had selected as your context has been deleted."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:350
+#: ../app/controllers/application_controller.rb:349
 msgid "You must create at least one location before continuing."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:352
+#: ../app/controllers/application_controller.rb:351
 msgid "You must create at least one organization before continuing."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:365
+#: ../app/controllers/application_controller.rb:364
 #: ../app/helpers/dashboard_helper.rb:57 ../app/models/host_status/global.rb:39
 #: ../app/views/hosts/_dhcp_lease_errors.html.erb:18
 msgid "OK"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:394
+#: ../app/controllers/application_controller.rb:393
 msgid "Invalid authenticity token"
 msgstr ""
 
@@ -3002,7 +3006,7 @@ msgid "The virtual machine is being deleted."
 msgstr ""
 
 #: ../app/controllers/compute_resources_vms_controller.rb:98
-#: ../app/controllers/hosts_controller.rb:330
+#: ../app/controllers/hosts_controller.rb:332
 msgid "Failed to set console: %s"
 msgstr ""
 
@@ -3112,27 +3116,31 @@ msgstr ""
 msgid "Parent ID"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:35
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:32
+msgid "List of resources types that will be automatically associated"
+msgstr ""
+
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:36
 msgid "List all :resource_id"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:51
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:52
 msgid "Show :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:57
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:58
 msgid "Create :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:65
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:66
 msgid "Update :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:74
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:75
 msgid "Delete :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:78
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:79
 #: ../app/controllers/concerns/foreman/controller/taxonomies_controller.rb:95
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr ""
@@ -3230,253 +3238,253 @@ msgstr ""
 msgid "The marked fields will need reviewing"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:206
+#: ../app/controllers/hosts_controller.rb:208
 msgid "Unable to generate output, Check log files"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:214
+#: ../app/controllers/hosts_controller.rb:216
 msgid "Successfully executed, check log files for more details"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:231
+#: ../app/controllers/hosts_controller.rb:233
 msgid "Enabled %s for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:233
+#: ../app/controllers/hosts_controller.rb:235
 msgid "Failed to reboot %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:236
-#: ../app/controllers/hosts_controller.rb:239
+#: ../app/controllers/hosts_controller.rb:238
+#: ../app/controllers/hosts_controller.rb:241
 msgid "Enabled %s for rebuild on next boot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:242
+#: ../app/controllers/hosts_controller.rb:244
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:248
+#: ../app/controllers/hosts_controller.rb:250
 msgid "Canceled pending build for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:250
+#: ../app/controllers/hosts_controller.rb:252
 msgid ""
 "Failed to cancel pending build for %{hostname} with the following errors: %{er"
 "rors}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:257
+#: ../app/controllers/hosts_controller.rb:259
 msgid "%{host} is about to %{action}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:259
+#: ../app/controllers/hosts_controller.rb:261
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:311
+#: ../app/controllers/hosts_controller.rb:313
 msgid "%{host} now boots from %{device}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:313
+#: ../app/controllers/hosts_controller.rb:315
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:336
+#: ../app/controllers/hosts_controller.rb:338
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:338
+#: ../app/controllers/hosts_controller.rb:340
 msgid "Foreman now no longer manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:342
+#: ../app/controllers/hosts_controller.rb:344
 msgid "Failed to modify the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:349
+#: ../app/controllers/hosts_controller.rb:351
 msgid "%s has been disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:351
+#: ../app/controllers/hosts_controller.rb:353
 msgid "Host %s is not associated with a VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:370
+#: ../app/controllers/hosts_controller.rb:372
 msgid "No parameters were allocated to the selected hosts, can't mass assign."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:390
+#: ../app/controllers/hosts_controller.rb:392
 msgid "Updated all hosts!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:394
+#: ../app/controllers/hosts_controller.rb:396
 msgid "%s Parameters updated, see below for more information"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:404
+#: ../app/controllers/hosts_controller.rb:406
 msgid "No host group selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:415
+#: ../app/controllers/hosts_controller.rb:417
 msgid "Updated hosts: changed host group"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:426
+#: ../app/controllers/hosts_controller.rb:428
 msgid "No environment selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:439
+#: ../app/controllers/hosts_controller.rb:441
 msgid "Updated hosts: changed environment"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:449
+#: ../app/controllers/hosts_controller.rb:451
 msgid "No owner selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:460
+#: ../app/controllers/hosts_controller.rb:462
 msgid "Updated hosts: changed owner"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:473
+#: ../app/controllers/hosts_controller.rb:475
 msgid "Failed to set power state for %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:478
+#: ../app/controllers/hosts_controller.rb:480
 msgid "The power state of the selected hosts will be set to %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:486 ../app/services/menu/loader.rb:77
+#: ../app/controllers/hosts_controller.rb:488 ../app/services/menu/loader.rb:77
 msgid "Puppet"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:493
+#: ../app/controllers/hosts_controller.rb:495
 #: ../app/helpers/hosts_and_hostgroups_helper.rb:86
 msgid "Puppet CA"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:518
+#: ../app/controllers/hosts_controller.rb:520
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/hosts_controller.rb:542
+#: ../app/controllers/hosts_controller.rb:544
 msgid "Failed to redeploy %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:552
+#: ../app/controllers/hosts_controller.rb:554
 msgid "The selected hosts were enabled for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:554
+#: ../app/controllers/hosts_controller.rb:556
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:557
+#: ../app/controllers/hosts_controller.rb:559
 msgid "The following hosts failed the build operation: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:568
+#: ../app/controllers/hosts_controller.rb:570
 msgid "Destroyed selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:570
+#: ../app/controllers/hosts_controller.rb:572
 msgid "The following hosts were not deleted: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:596
+#: ../app/controllers/hosts_controller.rb:598
 msgid "Successfully executed, check reports and/or log files for more details"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:598
+#: ../app/controllers/hosts_controller.rb:600
 msgid ""
 "Some or all hosts execution failed, Please check log files for more informatio"
 "n"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:612
+#: ../app/controllers/hosts_controller.rb:614
 msgid "Updated hosts: Disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:618
+#: ../app/controllers/hosts_controller.rb:620
 msgid "Hosts with errors"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:623
+#: ../app/controllers/hosts_controller.rb:625
 msgid "Active Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:628
+#: ../app/controllers/hosts_controller.rb:630
 msgid "Pending Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:633
+#: ../app/controllers/hosts_controller.rb:635
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:638
+#: ../app/controllers/hosts_controller.rb:640
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:755
+#: ../app/controllers/hosts_controller.rb:757
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:760
+#: ../app/controllers/hosts_controller.rb:762
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:817
+#: ../app/controllers/hosts_controller.rb:819
 msgid "No hosts were found with that id or name"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:822
+#: ../app/controllers/hosts_controller.rb:824
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:829
+#: ../app/controllers/hosts_controller.rb:831
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:843
+#: ../app/controllers/hosts_controller.rb:845
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:845
+#: ../app/controllers/hosts_controller.rb:847
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:872
+#: ../app/controllers/hosts_controller.rb:874
 msgid "No or invalid power state selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:888
+#: ../app/controllers/hosts_controller.rb:890
 msgid "No proxy selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:894
+#: ../app/controllers/hosts_controller.rb:896
 msgid "Invalid proxy selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:916
+#: ../app/controllers/hosts_controller.rb:918
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:923
+#: ../app/controllers/hosts_controller.rb:925
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:925
+#: ../app/controllers/hosts_controller.rb:927
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:928
+#: ../app/controllers/hosts_controller.rb:930
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/hosts_controller.rb:940
+#: ../app/controllers/hosts_controller.rb:942
 msgid "No templates found"
 msgstr ""
 
@@ -3943,20 +3951,20 @@ msgid ""
 "ensitive and MB is default if unspecified."
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:208
+#: ../app/helpers/form_helper.rb:222
 msgid "Specified value is higher than recommended maximum"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:236 ../app/views/hosts/_conflicts.html.erb:23
+#: ../app/helpers/form_helper.rb:248 ../app/views/hosts/_conflicts.html.erb:23
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:236 ../app/views/common/_searchbar.html.erb:37
+#: ../app/helpers/form_helper.rb:248 ../app/views/common/_searchbar.html.erb:37
 #: ../app/views/hosts/_list.html.erb:50 ../app/views/trends/edit.html.erb:45
 msgid "Submit"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:240 ../app/views/autosign/_form.html.erb:4
+#: ../app/helpers/form_helper.rb:252 ../app/views/autosign/_form.html.erb:4
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:54
 #: ../app/views/common/_searchbar.html.erb:36
 #: ../app/views/hosts/_assign_hosts.html.erb:39
@@ -3965,15 +3973,15 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:307
+#: ../app/helpers/form_helper.rb:319
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:308
+#: ../app/helpers/form_helper.rb:320
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:312
+#: ../app/helpers/form_helper.rb:324
 msgid "Remove Parameter"
 msgstr ""
 
@@ -4392,9 +4400,9 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:24
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:11
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:38
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:39
 #: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:9
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:34
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:36
 #: model_attributes.rb:244
 msgid "Image"
 msgstr ""
@@ -5113,6 +5121,10 @@ msgstr ""
 msgid "Cannot find user %s when switching context"
 msgstr ""
 
+#: ../app/models/concerns/has_many_common.rb:87
+msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
 #: ../app/models/concerns/host_common.rb:18
 msgid "does not have the Puppet CA feature"
 msgstr ""
@@ -5131,16 +5143,16 @@ msgid_plural "is too long (maximum is %s characters)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/models/concerns/orchestration.rb:138
+#: ../app/models/concerns/orchestration.rb:142
 msgid "%{task} task failed with the following error: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration.rb:164
+#: ../app/models/concerns/orchestration.rb:168
 msgid "Failed to perform rollback on %{task} - %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration.rb:193
-#: ../app/models/concerns/orchestration.rb:194
+#: ../app/models/concerns/orchestration.rb:197
+#: ../app/models/concerns/orchestration.rb:198
 msgid "invalid method %s"
 msgstr ""
 
@@ -5377,37 +5389,37 @@ msgstr ""
 msgid "TFTP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:78
+#: ../app/models/concerns/orchestration/tftp.rb:83
 msgid "Unable to render %{kind} template '%{name}': %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:84
+#: ../app/models/concerns/orchestration/tftp.rb:89
 msgid "Template '%s' was not found"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:87
+#: ../app/models/concerns/orchestration/tftp.rb:92
 msgid "Unable to render '%{name}' template: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:124
+#: ../app/models/concerns/orchestration/tftp.rb:129
 msgid "Failed to fetch boot files"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:139
+#: ../app/models/concerns/orchestration/tftp.rb:144
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define a"
 "t least one in your %{os} settings or change PXE loader"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:153
+#: ../app/models/concerns/orchestration/tftp.rb:158
 msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:156
+#: ../app/models/concerns/orchestration/tftp.rb:161
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:182
+#: ../app/models/concerns/orchestration/tftp.rb:187
 msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
@@ -5495,19 +5507,19 @@ msgstr ""
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-#: ../app/models/host/base.rb:461
+#: ../app/models/host/base.rb:467
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:467
+#: ../app/models/host/base.rb:473
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:486
+#: ../app/models/host/base.rb:492
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:492
+#: ../app/models/host/base.rb:498
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
@@ -5672,32 +5684,32 @@ msgstr ""
 msgid "list"
 msgstr ""
 
+#: ../app/models/lookup_keys/lookup_key.rb:25
 #: ../app/models/lookup_keys/lookup_key.rb:26
-#: ../app/models/lookup_keys/lookup_key.rb:27
 msgid "invalid"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:160
+#: ../app/models/lookup_keys/lookup_key.rb:157
 msgid "Invalid Host"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:190
+#: ../app/models/lookup_keys/lookup_key.rb:187
 msgid "invalid path"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:224
+#: ../app/models/lookup_keys/lookup_key.rb:221
 msgid "can only be set for array or hash"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:230
+#: ../app/models/lookup_keys/lookup_key.rb:227
 msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
-#: ../app/models/lookup_keys/lookup_key.rb:236
+#: ../app/models/lookup_keys/lookup_key.rb:233
 msgid "can only be set when merge overrides is set"
 msgstr ""
 
-#: ../app/models/lookup_keys/puppetclass_lookup_key.rb:53
+#: ../app/models/lookup_keys/puppetclass_lookup_key.rb:56
 msgid "must be true to edit the parameter"
 msgstr ""
 
@@ -5705,11 +5717,11 @@ msgstr ""
 msgid "is invalid %s"
 msgstr ""
 
-#: ../app/models/lookup_value.rb:83
+#: ../app/models/lookup_value.rb:84
 msgid "%{match} does not match an existing host"
 msgstr ""
 
-#: ../app/models/lookup_value.rb:93
+#: ../app/models/lookup_value.rb:94
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
@@ -7197,27 +7209,35 @@ msgstr ""
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
-#: ../app/services/power_manager.rb:2 ../app/services/power_manager.rb:5
+#: ../app/services/power_manager.rb:2
 msgid "start"
 msgstr ""
 
-#: ../app/services/power_manager.rb:2 ../app/services/power_manager.rb:5
+#: ../app/services/power_manager.rb:2
 msgid "stop"
 msgstr ""
 
-#: ../app/services/power_manager.rb:2 ../app/services/power_manager.rb:5
+#: ../app/services/power_manager.rb:2
 msgid "poweroff"
 msgstr ""
 
-#: ../app/services/power_manager.rb:2 ../app/services/power_manager.rb:5
+#: ../app/services/power_manager.rb:2
 msgid "reboot"
 msgstr ""
 
-#: ../app/services/power_manager.rb:2 ../app/services/power_manager.rb:5
+#: ../app/services/power_manager.rb:2
 msgid "reset"
 msgstr ""
 
 #: ../app/services/power_manager.rb:2
+msgid "soft"
+msgstr ""
+
+#: ../app/services/power_manager.rb:2
+msgid "cycle"
+msgstr ""
+
+#: ../app/services/power_manager.rb:3
 msgid "state"
 msgstr ""
 
@@ -7227,14 +7247,6 @@ msgstr ""
 
 #: ../app/services/power_manager.rb:3
 msgid "off"
-msgstr ""
-
-#: ../app/services/power_manager.rb:3 ../app/services/power_manager.rb:5
-msgid "soft"
-msgstr ""
-
-#: ../app/services/power_manager.rb:3 ../app/services/power_manager.rb:5
-msgid "cycle"
 msgstr ""
 
 #: ../app/services/power_manager.rb:3
@@ -7428,9 +7440,9 @@ msgstr ""
 #: ../app/views/common_parameters/_parameters.html.erb:5
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:3
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:1
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:3
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:4
 #: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:1
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:2
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:3
 #: ../app/views/compute_resources_vms/form/vmware/_volume.html.erb:10
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:3
 #: ../app/views/compute_resources_vms/index/_gce.html.erb:3
@@ -8452,8 +8464,8 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:8
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:18
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:10
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:33
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:33
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:34
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:35
 msgid "Please select an image"
 msgstr ""
 
@@ -8520,7 +8532,7 @@ msgid "Size (GB)"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:5
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:3
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:4
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:5
@@ -8528,7 +8540,7 @@ msgid "CPUs"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:7
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:22
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:23
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:5
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:5
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:6
@@ -8538,19 +8550,19 @@ msgid "Memory"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:11
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:25
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:22
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:26
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
 msgid "Power ON this machine"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:11
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:25
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:22
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:26
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
 msgid "Start"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:23
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:38
 msgid "Image to use"
 msgstr ""
 
@@ -8629,25 +8641,25 @@ msgstr ""
 msgid "Server group"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:9
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:8
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:10
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:10
 msgid "Cluster"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:11
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:12
 msgid "Select template"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:15
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:16
 msgid "oVirt/RHEV template to use"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:16
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:17
 #: ../app/views/templates/_form.html.erb:10
 msgid "Template"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:21
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:22
 msgid "Cores"
 msgstr ""
 
@@ -8675,65 +8687,65 @@ msgstr ""
 msgid "Please Select an Image"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:4
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:6
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:15
 msgid "Cores per socket"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:5
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:7
 msgid "Memory (MB)"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:6
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:8
 msgid "Please select a cluster"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:12
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:4
 msgid "Folder"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:13
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:15
 msgid "Guest OS"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:16
 msgid "SCSI controller"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:15
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:17
 msgid "Virtual H/W version"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:16
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:18
 msgid ""
 "Memory hot add lets you add memory resources for a virtual machine while the m"
 "achine is powered on."
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:16
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:18
 msgid "Memory hot add"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:17
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:19
 msgid ""
 "CPU hot add lets you add CPU resources for a virtual machine while the machine"
 " is powered on."
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:17
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:19
 msgid "CPU hot add"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:18
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:20
 msgid "Add a CD-ROM drive to the virtual machine."
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:18
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:20
 msgid "CD-ROM drive"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:26
 msgid "Annotation Notes"
 msgstr ""
 
@@ -11714,25 +11726,25 @@ msgstr ""
 msgid "Template '%s' is either missing or has an invalid organization or location"
 msgstr ""
 
-#: ../lib/net/dns/a_record.rb:12
+#: ../lib/net/dns/a_record.rb:13
 msgid "IPv4 DNS record"
 msgid_plural "IPv4 DNS records"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../lib/net/dns/aaaa_record.rb:12
+#: ../lib/net/dns/aaaa_record.rb:13
 msgid "IPv6 DNS record"
 msgid_plural "IPv6 DNS records"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../lib/net/dns/ptr4_record.rb:11
+#: ../lib/net/dns/ptr4_record.rb:12
 msgid "Reverse IPv4 DNS record"
 msgid_plural "Reverse IPv4 DNS records"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../lib/net/dns/ptr6_record.rb:11
+#: ../lib/net/dns/ptr6_record.rb:12
 msgid "Reverse IPv6 DNS record"
 msgid_plural "Reverse IPv6 DNS records"
 msgstr[0] ""

@@ -1386,6 +1386,9 @@ msgstr ""
 msgid "Cores per socket"
 msgstr ""
 
+msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
 msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
 msgstr ""
 
@@ -1870,6 +1873,9 @@ msgstr ""
 msgid "Deploy on"
 msgstr ""
 
+msgid "Deprecated, please use datacenter"
+msgstr ""
+
 msgid "Description"
 msgstr ""
 
@@ -2279,9 +2285,6 @@ msgid "Error loading interfaces information: %s"
 msgstr ""
 
 msgid "Error loading scheduler hint filters information: %s"
-msgstr ""
-
-msgid "Error loading virtual machine information: %s"
 msgstr ""
 
 msgid "Error removing widget from dashboard."
@@ -4032,6 +4035,9 @@ msgid "List of override values for a specific smart variable"
 msgstr ""
 
 msgid "List of realms"
+msgstr ""
+
+msgid "List of resources types that will be automatically associated"
 msgstr ""
 
 msgid "List of smart class parameters for a specific Puppet class"
@@ -7597,6 +7603,9 @@ msgid "Unknown power action: available methods are %s"
 msgstr ""
 
 msgid "Unknown power management support - can't continue"
+msgstr ""
+
+msgid "Unknown power state"
 msgstr ""
 
 msgid "Unlock"

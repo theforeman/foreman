@@ -16,8 +16,9 @@
 # Gael Chamoulaud <gael@redhat.com>, 2013
 # Junior Alvim <alvin@intechne.com.br>, 2014
 # Junior Alvim <alvin@intechne.com.br>, 2014-2015
-# luizvasconcelos <luizvasconceloss@yahoo.com.br>, 2014
-# luizvasconcelos <luizvasconceloss@yahoo.com.br>, 2014-2015
+# Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2016
+# Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2014
+# Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2014-2015
 # Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
 # Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
 # Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
@@ -27,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-09-13 08:27+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2016-11-06 14:18+0000\n"
+"Last-Translator: Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +99,7 @@ msgid "%s is an unknown attribute"
 msgstr "%s é um atributo desconhecido"
 
 msgid "%s is not a valid DNS record type"
-msgstr ""
+msgstr "%s não é um registro DNS válido"
 
 msgid "%s is not in environment"
 msgstr "%s não é um environment"
@@ -227,7 +228,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%{type} %{conflicts} already exists"
-msgstr ""
+msgstr "%{type} %{conflicts} já existe"
 
 msgid "%{value} does not belong to %{os} operating system"
 msgstr "%{value} não pertence ao sistema operacional %{os}"
@@ -584,7 +585,7 @@ msgid "An IP address will be auto-suggested if you have enabled IPAM on the IPv6
 msgstr ""
 
 msgid "An email address is required, please update your account details"
-msgstr ""
+msgstr "Um endereço de email é necessário, por favor atualize os dados de sua conta."
 
 msgid "An error occurred while testing the connection: "
 msgstr ""
@@ -1240,7 +1241,7 @@ msgid "Clone a template"
 msgstr "Clonar um template"
 
 msgid "Clone this host"
-msgstr ""
+msgstr "Clonar esse host"
 
 msgid "Close"
 msgstr "Fechar"
@@ -1258,7 +1259,7 @@ msgid "Compute Resource"
 msgstr "Recurso de computação"
 
 msgid "Compute Resource Distribution"
-msgstr ""
+msgstr "Distribuição de recurso de computação"
 
 msgid "Compute Resources"
 msgstr "Recursos de computação"
@@ -1423,7 +1424,7 @@ msgid "Create %s"
 msgstr "Criar %s"
 
 msgid "Create %{type} for %{host}"
-msgstr ""
+msgstr "Cria %{type} para %{host}"
 
 msgid "Create :a_resource"
 msgstr "Criar: a_resource"
@@ -1588,10 +1589,10 @@ msgid "DHCP conflicts removal for %s"
 msgstr "Remoção de conflito DHCP para %s"
 
 msgid "DHCP filename option"
-msgstr ""
+msgstr "opção de nome de arquivo DHCP"
 
 msgid "DHCP filename option (Grub2/PXELinux by default)"
-msgstr ""
+msgstr "opção de nome de arquivo DHCP (Grub2/PXELinux por padrão)"
 
 msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
 msgstr ""
@@ -2155,7 +2156,7 @@ msgid "Edit compute profile on %s"
 msgstr "Editar perfil computacional no %s"
 
 msgid "Edit this host"
-msgstr ""
+msgstr "Editar esse host"
 
 msgid "Email Preferences"
 msgstr "Preferências de email"
@@ -2225,7 +2226,7 @@ msgid "Environment"
 msgstr "Ambiente"
 
 msgid "Environment Distribution"
-msgstr ""
+msgstr "Distribuição de Ambiente"
 
 msgid "Environment ID"
 msgstr "ID do ambiente"
@@ -2830,7 +2831,7 @@ msgid "General useful description, for example this kind of hardware needs a spe
 msgstr "Descrição geral útil. Por exemplo, este tipo de hardware precisa de uma configuração de BIOS especial"
 
 msgid "Generate new random name. Visit Settings to disable this feature."
-msgstr ""
+msgstr "Gera um novo nome randômico. Acesse as configurações para desabilitar essa funcionalidade."
 
 msgid "Generated %s ago"
 msgstr "Gerado %s atrás"
@@ -2938,7 +2939,7 @@ msgid "Host Configuration Status"
 msgstr "Status da configuração do host"
 
 msgid "Host Group Distribution"
-msgstr ""
+msgstr "Distribuição de Grupos de Host"
 
 msgid "Host Groups"
 msgstr "Grupos de host"
@@ -3372,7 +3373,7 @@ msgid "IPv4"
 msgstr "IPv4"
 
 msgid "IPv4 Address"
-msgstr ""
+msgstr "Endereço IPv4"
 
 msgid "IPv4 DNS record"
 msgid_plural "IPv4 DNS records"
@@ -3380,19 +3381,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv4 Subnet"
-msgstr ""
+msgstr "Subrede IPv4"
 
 msgid "IPv4 address"
-msgstr ""
+msgstr "endereço IPv4"
 
 msgid "IPv4 address of interface"
-msgstr ""
+msgstr "endereço IPv4 da interface"
 
 msgid "IPv6"
 msgstr "IPv6"
 
 msgid "IPv6 Address"
-msgstr ""
+msgstr "Endereço IPv6"
 
 msgid "IPv6 DNS record"
 msgid_plural "IPv6 DNS records"
@@ -3400,13 +3401,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv6 Subnet"
-msgstr ""
+msgstr "Subrede IPv6"
 
 msgid "IPv6 address"
-msgstr ""
+msgstr "endereço IPv6"
 
 msgid "IPv6 address of interface"
-msgstr ""
+msgstr "endereço IPv6 da interface"
 
 msgid "IRC"
 msgstr "IRC"
@@ -4224,7 +4225,7 @@ msgid "Login delegation logout URL"
 msgstr "URL de logout para delegação de login"
 
 msgid "Login page footer text"
-msgstr ""
+msgstr "Texto de rodapé da página de Login"
 
 msgid "Logout"
 msgstr "Logout"
@@ -4508,7 +4509,7 @@ msgid "Network Based"
 msgstr "Baseada em rede"
 
 msgid "Network can't be blank"
-msgstr ""
+msgstr "Rede não pode estar em branco"
 
 msgid "Network interfaces"
 msgstr "Interfaces de rede"
@@ -4517,7 +4518,7 @@ msgid "Network interfaces management has been moved to the Interfaces tab. Pleas
 msgstr "O gerenciamento de interfaces de rede foi movido para a aba Interfaces. Por favor, defina suas interfaces lá. "
 
 msgid "Network prefix"
-msgstr ""
+msgstr "Prefixo de rede"
 
 msgid "Network type"
 msgstr "Tipo de rede"
@@ -5549,7 +5550,7 @@ msgid "Property"
 msgstr "Propriedade"
 
 msgid "Protocol"
-msgstr ""
+msgstr "Protocolo"
 
 msgid "Provider"
 msgstr "Provedor"
@@ -5558,7 +5559,7 @@ msgid "Providers include %{providers}"
 msgstr "Provedores incluem %{providers}"
 
 msgid "Provides an unused IP address in this subnet"
-msgstr ""
+msgstr "Prove um endereço IP não utilizado nessa subrede"
 
 msgid "Provision"
 msgstr "Provisionar"
@@ -5896,7 +5897,7 @@ msgid "Remove %s?"
 msgstr "Remover %s?"
 
 msgid "Remove %{type} for %{host}"
-msgstr ""
+msgstr "Remove %{type} for %{host}"
 
 msgid "Remove DHCP Settings for %s"
 msgstr "Remover configurações DHCP para %s"
@@ -5911,7 +5912,7 @@ msgid "Remove a Puppet class from host group"
 msgstr "Remover uma classe Puppet de um grupo de host"
 
 msgid "Remove conflicting %{type} for %{host}"
-msgstr ""
+msgstr "Remove %{type} conflitande de %{host}"
 
 msgid "Remove duplicate values (only array type)"
 msgstr "Remover valores duplicados (somente tipo de matriz)"
@@ -6304,7 +6305,7 @@ msgid "Server type"
 msgstr "Tipo de Servidor"
 
 msgid "Service unavailable"
-msgstr ""
+msgstr "Serviço indisponível"
 
 msgid "Services"
 msgstr "Serviços"
@@ -6823,7 +6824,7 @@ msgid "Successfully updated environments and Puppet classes from the on-disk Pup
 msgstr "ambientes e classes de Puppet da instalação do Puppet em disco atualizados com sucesso"
 
 msgid "Suffix or prefix length for this subnet, e.g. 32"
-msgstr ""
+msgstr "Sufixo ou prefixo para esse subrede, p. ex. 32"
 
 msgid "Suggest new"
 msgstr "Sugerir novo"
@@ -6902,7 +6903,7 @@ msgid "Template '%s' is either missing or has an invalid organization or locatio
 msgstr "Templante '%s' está faltando ou tem uma organização ou localização inválida"
 
 msgid "Template '%s' was not found"
-msgstr ""
+msgstr "Template '%s' não foi encontrado"
 
 msgid "Template Diff"
 msgstr "Dif de Modelo"
@@ -7132,7 +7133,7 @@ msgid "The virtual machine is being deleted."
 msgstr "A máquina virtual está sendo excluída."
 
 msgid "There are migrations pending in the system."
-msgstr ""
+msgstr "Existem migrações pendentes no sistema."
 
 msgid "There are no puppet environments set up on this puppet master. Please check the puppet master configuration."
 msgstr "Não há nenhum ambiente puppet configurado neste puppet master. Por favor, verifique a configuração do puppet master. "
@@ -7365,7 +7366,7 @@ msgid "Type of realm, e.g. FreeIPA"
 msgstr "Tipo de realm, ex.: FreeIPA"
 
 msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
-msgstr ""
+msgstr "Tipo ou protocolo, IPv4 ou IPv6, padrão é IPv4"
 
 msgid "Types of validation values"
 msgstr "Tipos de valores de validação"
@@ -7512,7 +7513,7 @@ msgid "Unable to perform power BMC operation"
 msgstr "Incapaz de realizar operação BMC de energia"
 
 msgid "Unable to render %{kind} template '%{name}': %{e}"
-msgstr ""
+msgstr "Falha ao gerar %{template_kind} template %{template_name}: %{e}"
 
 msgid "Unable to render '%{name}' template: %{e}"
 msgstr ""
@@ -8356,7 +8357,7 @@ msgid "can't be bigger than to range"
 msgstr "pode ser maior do que a classe"
 
 msgid "can't be blank"
-msgstr ""
+msgstr "Não pode ficar em branco"
 
 msgid "can't be blank unless a custom partition has been defined"
 msgstr "não pode ser vazio ao menos uma partição deve ser definida"
@@ -8644,7 +8645,7 @@ msgid "is an admin account"
 msgstr "é uma conta administradora"
 
 msgid "is an admin user group"
-msgstr ""
+msgstr "é um grupo de usuários admini"
 
 msgid "is an unsupported provisioning method"
 msgstr "esse é um metodo de provisionamento não suportado."
@@ -8682,7 +8683,7 @@ msgstr[0] "é muito longo (máximo é 1 caracter)"
 msgstr[1] "é muito longo (máximo são %s caracteres)"
 
 msgid "is too long (maximum is 254 characters)"
-msgstr ""
+msgstr "é muito longo (máximo é 254 caracteres)"
 
 msgid "is unknown"
 msgstr "é desconhecido"
@@ -8758,7 +8759,7 @@ msgid "must be true to edit the parameter"
 msgstr "deve ser verdadeiro para editar o parâmetro "
 
 msgid "must contain valid hostnames"
-msgstr ""
+msgstr "deve conter hostnames válidos"
 
 msgid "must not include periods"
 msgstr "não deve incluir períodos"
@@ -8779,7 +8780,7 @@ msgid "nil means host is bare metal"
 msgstr "nulo significa que o host é bare metal"
 
 msgid "no free IP could be found in our DB"
-msgstr ""
+msgstr "não foi possível encontrar um IP disponível no seu DB"
 
 msgid "no puppet proxy defined - cant continue"
 msgstr "nenhum puppet proxy definido - não é possível continuar"
@@ -8997,7 +8998,7 @@ msgid "unable to sign a non pending certificate"
 msgstr "Incapaz de assinar certificado não pendente"
 
 msgid "unknown network_type"
-msgstr ""
+msgstr "network_type desconhecido"
 
 msgid "unknown parent permission for %s"
 msgstr "permissão desconhecida para %s"
