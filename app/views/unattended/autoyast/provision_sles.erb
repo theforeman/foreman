@@ -73,7 +73,11 @@ oses:
       <package>lsb-release</package>
       <package>openssh</package>
 <% if puppet_enabled -%>
+<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+      <package>puppet-agent</package>
+<% else -%>
       <package>rubygem-puppet</package>
+<% end -%>
 <% end -%>
 <% if salt_enabled -%>
       <package>salt-minion</package>
@@ -147,6 +151,19 @@ rm /etc/resolv.conf
   <add-on>
     <add_on_products config:type="list">
 <% if puppet_enabled -%>
+<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+    <listentry>
+        <media_url><![CDATA[http://yum.puppetlabs.com/sles/<%= os_major %>/PC1/<%= @host.architecture %>/]]></media_url>
+        <name>puppet</name>
+        <product>puppet</product>
+        <product_dir>/</product_dir>
+        <signature-handling>
+          <accept_file_without_checksum config:type="boolean">true</accept_file_without_checksum>
+          <accept_unsigned_file config:type="boolean">true</accept_unsigned_file>
+          <accept_unknown_gpg_key config:type="boolean">true</accept_unknown_gpg_key>
+        </signature-handling>
+      </listentry>
+<% else -%>
       <listentry>
         <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_<%= os_major %><%= sles_minor_string %>/]]></media_url>
         <name>systemsmanagement_puppet</name>
@@ -195,6 +212,7 @@ rm /etc/resolv.conf
         <product_dir>/</product_dir>
         <name>SuSE-Linux-SDK</name>
       </listentry>
+<% end -%>
 <% end -%>
 <% end -%>
 <% if salt_enabled -%>

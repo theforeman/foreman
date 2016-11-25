@@ -3,7 +3,10 @@ kind: snippet
 name: puppet.conf
 %>
 <%
-  if @host.param_true?('enable-puppetlabs-pc1-repo') && (@host.operatingsystem.family == 'Debian' || @host.operatingsystem.family == 'Redhat')
+  os_family = @host.operatingsystem.family
+  os_name   = @host.operatingsystem.name
+
+  if @host.param_true?('enable-puppetlabs-pc1-repo') && (os_family == 'Debian' || os_family == 'Redhat' || os_name == 'SLES')
     var_dir = '/opt/puppetlabs/puppet/cache'
     log_dir = '/var/log/puppetlabs/puppet'
     run_dir = '/var/run/puppetlabs'
