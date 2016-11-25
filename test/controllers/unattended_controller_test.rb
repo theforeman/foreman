@@ -196,6 +196,16 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :method_not_allowed
   end
 
+  test "should provide unattened files to hosts which are not in built state when access_unattended_without_build=true" do
+    @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
+    @request.env['REMOTE_ADDR'] = '10.0.1.2'
+    Setting[:access_unattended_without_build] = true
+    get :built
+    assert_response :created
+    get :host_template, {:kind => 'provision'}
+    assert_response :success
+  end
+
   test "should not provide unattended files to hosts which we don't know about" do
     get :host_template, {:kind => 'provision'}
     assert_response :not_found

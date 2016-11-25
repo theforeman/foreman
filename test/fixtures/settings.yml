@@ -308,3 +308,8 @@ attributes63:
   default: nil
   description: 'Encrypted password'
   encrypted: true
+attributes64:
+  name: access_unattended_without_build
+  category: Setting::Provisioning
+  default: "false"
+  description: 'Allow access to unattended URLs without build mode being used'
