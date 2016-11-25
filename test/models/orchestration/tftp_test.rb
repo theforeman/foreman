@@ -126,6 +126,53 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  context 'host with bond interface' do
+    let(:subnet) do
+      FactoryGirl.build(:subnet_ipv4, :tftp)
+    end
+    let(:interfaces) do
+      [
+        FactoryGirl.build(:nic_bond, :primary => true,
+                          :identifier => 'bond0',
+                          :attached_devices => ['eth0', 'eth1'],
+                          :provision => true,
+                          :domain => FactoryGirl.build(:domain),
+                          :subnet => subnet,
+                          :mac => nil,
+                          :ip => subnet.network.sub(/0\Z/, '2')),
+        FactoryGirl.build(:nic_interface,
+                          :identifier => 'eth0',
+                          :mac => '00:53:67:ab:dd:00'
+                         ),
+        FactoryGirl.build(:nic_interface,
+                          :identifier => 'eth1',
+                          :mac => '00:53:67:ab:dd:01'
+                         )
+      ]
+    end
+    let(:host) do
+      FactoryGirl.create(:host,
+                         :with_tftp_orchestration,
+                         :interfaces => interfaces,
+                         :build => true)
+    end
+
+    test '#setTFTP should provision tftp for all bond child macs' do
+      ProxyAPI::TFTP.any_instance.expects(:set).with(
+        'PXEGrub2',
+        '00:53:67:ab:dd:00',
+        {:pxeconfig => 'Template'}
+      ).once
+      ProxyAPI::TFTP.any_instance.expects(:set).with(
+        'PXEGrub2',
+        '00:53:67:ab:dd:01',
+        {:pxeconfig => 'Template'}
+      ).once
+      host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      host.provision_interface.send(:setTFTP, 'PXEGrub2')
+    end
+  end
+
   test 'unmanaged should not call methods after managed?' do
     if unattended?
       h = FactoryGirl.create(:host)

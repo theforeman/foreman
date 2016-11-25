@@ -74,4 +74,22 @@ class BondTest < ActiveSupport::TestCase
     bond.valid?
     refute_includes bond.errors.keys, :identifier
   end
+
+  context '#children_mac_addresses' do
+    test 'lists mac addresses' do
+      attached_devices = ['eth0', 'eth1', 'eth2']
+      host = FactoryGirl.create(:host)
+      bond = FactoryGirl.build(:nic_bond,
+                                :identifier => 'bond',
+                                :attached_devices => attached_devices.join(','))
+      host.interfaces << bond
+      attached_devices.each_with_index do |device, i|
+        host.interfaces << FactoryGirl.build(:nic_managed,
+                                              :identifier => device,
+                                              :mac => "00:53:67:ab:dd:0#{i}"
+                                             )
+      end
+      assert_equal ['00:53:67:ab:dd:00', '00:53:67:ab:dd:01', '00:53:67:ab:dd:02'], bond.children_mac_addresses
+    end
+  end
 end
