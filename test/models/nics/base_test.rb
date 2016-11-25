@@ -191,4 +191,9 @@ class Nic::BaseTest < ActiveSupport::TestCase
       assert_equal 'aa:bb:cc:dd:ee:ff', nic.mac
     end
   end
+
+  test '#children_mac_addresses defaults to empty array' do
+    nic = FactoryGirl.build(:nic_base)
+    assert_equal [], nic.children_mac_addresses
+  end
 end
