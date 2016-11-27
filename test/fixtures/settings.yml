@@ -50,11 +50,6 @@ attributes10:
   category: Setting::Puppet
   default: /etc/puppet/modules
   description: "The Setting::Puppet default module path in case that Foreman can't auto detect it"
-attributes11:
-  name: document_root
-  category: Setting::Puppet
-  default: /home/olevy/git/foreman/public/puppet/rdoc
-  description: Document root where puppetdoc files should be created
 attributes12:
   name: puppet_server
   category: Setting::Puppet
