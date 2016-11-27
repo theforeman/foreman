@@ -100,7 +100,6 @@ class ManagedTest < ActiveSupport::TestCase
     n = h.interfaces.build :mac => '', :attached_to => 'eth0'
     assert_equal '11:22:33:44:55:66', n.inheriting_mac
   end
-  end
 
   context "there is a domain" do
     setup do
