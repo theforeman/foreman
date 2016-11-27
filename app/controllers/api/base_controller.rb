@@ -321,7 +321,7 @@ module Api
         parent_class
       end
 
-      return nil if parent_name.nil? or parent_class.nil?
+      return nil if parent_name.nil? || parent_class.nil?
       parent_scope = scope_for(parent_class, :permission => "#{parent_permission(action_permission)}_#{parent_name.pluralize}")
       parent_scope = select_by_resource_id_scope(parent_scope, parent_class, parent_id)
       [parent_name, parent_scope]
