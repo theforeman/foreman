@@ -9,7 +9,9 @@ module Foreman::Controller::HostDetails
   end
 
   def os_selected
-    assign_parameter "operatingsystem", "common/os_selection/"
+    assign_parameter "operatingsystem", "common/os_selection/" do |item|
+      item.suggest_default_pxe_loader
+    end
   end
 
   def medium_selected
@@ -47,6 +49,7 @@ module Foreman::Controller::HostDetails
     Taxonomy.as_taxonomy @organization, @location do
       item = instance_variable_get("@#{controller_name.singularize}") || controller_name.classify.constantize.new(item_params)
       instance_variable_set("@#{name}", item.send(name.to_sym))
+      yield item if block_given?
       render :partial => root + name, :locals => { :item => item }
     end
   end

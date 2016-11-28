@@ -363,6 +363,7 @@ class HostsController < ApplicationController
   def toggle_manage
     if @host.toggle! :managed
       if @host.managed
+        @host.suggest_default_pxe_loader
         msg = _("Foreman now manages the build cycle for %s") % (@host.name)
       else
         msg = _("Foreman now no longer manages the build cycle for %s") % (@host.name)

@@ -1,18 +1,19 @@
 require 'test_helper'
+require 'controllers/shared/pxe_loader_test'
 
 class Api::V1::HostsControllerTest < ActionController::TestCase
+  include ::PxeLoaderTest
+
   def setup
     @host = FactoryGirl.create(:host)
     @ptable = FactoryGirl.create(:ptable)
     @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
   end
 
-  def valid_attrs
+  def basic_attrs
     { :name                => 'testhost11',
       :environment_id      => environments(:production).id,
       :domain_id           => domains(:mydomain).id,
-      :ip                  => '10.0.0.20',
-      :mac                 => '52:53:00:1e:85:93',
       :ptable_id           => @ptable.id,
       :medium_id           => media(:one).id,
       :architecture_id     => Architecture.find_by_name('x86_64').id,
@@ -23,6 +24,18 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
       :location_id         => taxonomies(:location1).id,
       :organization_id     => taxonomies(:organization1).id
     }
+  end
+
+  def valid_attrs
+    net_attrs = {
+      :ip  => '10.0.0.20',
+      :mac => '52:53:00:1e:85:93'
+    }
+    basic_attrs.merge(net_attrs)
+  end
+
+  def valid_attrs_with_root(extra_attrs = {})
+    { :host => valid_attrs.merge(extra_attrs) }
   end
 
   test "should get index" do
@@ -184,5 +197,11 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     assert_response :success
     get :show, {:id => host.to_param}
     assert_response :success
+  end
+
+  private
+
+  def last_record
+    Host.unscoped.order(:id).last
   end
 end

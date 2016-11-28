@@ -71,6 +71,7 @@ module Api
       def create
         @host = Host.new(host_params)
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+        @host.suggest_default_pxe_loader if params[:host] && params[:host][:pxe_loader].nil?
         forward_request_url
         process_response @host.save
       end

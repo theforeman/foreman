@@ -1,7 +1,23 @@
 require 'test_helper'
+require 'controllers/shared/pxe_loader_test'
 
 class Api::V1::HostgroupsControllerTest < ActionController::TestCase
-  valid_attrs = { :name => 'TestHostgroup' }
+  include ::PxeLoaderTest
+
+  def basic_attrs
+    {
+      :architecture_id     => Architecture.find_by_name('x86_64').id,
+      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id
+    }
+  end
+
+  def valid_attrs
+    { :name => 'TestHostgroup' }
+  end
+
+  def valid_attrs_with_root(extra_attrs = {})
+    { :hostgroup => valid_attrs.merge(extra_attrs) }
+  end
 
   test "should get index" do
     get :index, { }
@@ -58,5 +74,11 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
     put :update, { :id => hostgroups(:db).to_param, :hostgroup => {:parent_id => hostgroups(:common).id} }
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.find_by_name("db").ancestry
+  end
+
+  private
+
+  def last_record
+    Hostgroup.unscoped.order(:id).last
   end
 end
