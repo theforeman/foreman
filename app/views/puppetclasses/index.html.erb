@@ -7,9 +7,9 @@
   <thead>
     <tr>
       <th class="col-md-3"><%= sort :name, :as => s_("Puppetclass|Name") %></th>
-      <th class="col-md-3"><%= sort :environment, :as => _("Environments and documentation") %></th>
+      <th class="col-md-3"><%= sort :environment, :as => _("Environments") %></th>
       <th class="col-md-2"><%= _('Host groups') %></th>
-      <th><%= _('Hosts') %></th>
+      <th class="col-md-1"><%= _('Hosts') %></th>
       <th class="col-md-1"><%= _('Parameters') %></th>
       <th class="col-md-1"><%= _('Variables') %></th>
       <th class="col-md-1"><%= _("Actions") %></th>
@@ -19,10 +19,8 @@
     <% for puppetclass in @puppetclasses %>
       <tr>
         <td class="ellipsis"><%=link_to_if_authorized puppetclass.name, hash_for_edit_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer) %></td>
-        <td class="">
-          <% puppetclass.environments.uniq.each do |environment| %>
-            <%= link_to_function environment, 'show_rdoc(this)', :'data-url' => rdoc_classes_path(environment, puppetclass.name) %>
-          <% end %>
+        <td class="ellipsis">
+          <%= puppetclass.environments.uniq.to_sentence %>
         </td>
         <td class=""><%= puppetclass.all_hostgroups(false).map {|hg| link_to_if_authorized trunc_with_tooltip(hg, 24), hash_for_edit_hostgroup_path(:id=>hg).merge(:auth_object => hg, :authorizer => @hostgroups_authorizer)}.to_sentence.html_safe %></td>
         <td><%= link_to puppetclass.hosts_count, hosts_path(:search => "class = #{puppetclass.name}")%></td>

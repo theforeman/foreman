@@ -338,11 +338,6 @@ function ignore_subnet(item){
  $(item).closest('.accordion-group').remove();
 }
 
-function show_rdoc(item){
-  var url = $(item).attr('data-url');
-  window.open(url);
-}
-
 // shows provisioning templates in a new window
 $(function() {
   $('[data-provisioning-template=true]').click(function(){
