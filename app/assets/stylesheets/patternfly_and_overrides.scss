@@ -288,6 +288,14 @@ div.form-group .pficon-info{
   padding: inherit;
 }
 
+.btn-toolbar.pull-right .btn.btn-info{
+  float: right;
+}
+
+.auto-refresh a{
+  margin-left: 0 !important;
+}
+
 .col-md-3 b{
   font-size: 100%;
 }
