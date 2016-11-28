@@ -53,6 +53,8 @@ module Api
 
       def create
         @hostgroup = Hostgroup.new(hostgroup_params)
+        @hostgroup.suggest_default_pxe_loader if params[:hostgroup] && params[:hostgroup][:pxe_loader].nil?
+
         process_response @hostgroup.save
       end
 
