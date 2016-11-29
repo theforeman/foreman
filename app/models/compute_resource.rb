@@ -25,6 +25,8 @@ class ComputeResource < ActiveRecord::Base
   before_validation :set_attributes_hash
   has_many :compute_attributes, :dependent => :destroy
   has_many :compute_profiles, :through => :compute_attributes
+  has_many :subnet_compute_resources, :dependent => :destroy
+  has_many :subnets, :through => :subnet_compute_resources
 
   # The DB may contain compute resource from disabled plugins - filter them out here
   scope :live_descendants, -> { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
@@ -277,6 +279,11 @@ class ComputeResource < ActiveRecord::Base
 
   def available_storage_pods(storage_pod = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  # this method is overwritten for OVirt
+  def networks_from_subnet(subnet, opts = {})
+    networks
   end
 
   # this method is overwritten for Libvirt and OVirt

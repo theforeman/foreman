@@ -37,12 +37,37 @@ module Foreman::Controller::HostDetails
     end
   end
 
+  def subnet_selected
+    respond_to do |format|
+      format.html {assign_parameter "subnet", "common/"}
+      format.json do
+        taxonomy_scope
+        Taxonomy.as_taxonomy @organization, @location do
+          if (compute_resource = ComputeResource.find_by_id(params[:compute_resource_id]))
+            render :json => network_list(compute_resource).to_json
+          else
+            render :json => []
+          end
+        end
+      end
+    end
+  end
+
   def use_image_selected
     item = item_object
     render :json => {:use_image => item.use_image, :image_file => item.image_file}
   end
 
   private
+
+  def network_list(compute_resource)
+    networks = compute_resource.networks_from_subnet(Subnet.find_by_id(params[:subnet_id]), params)
+    if networks.first && networks.first.respond_to?('vlan_id')
+      networks.map{ |net| {id: net.id, vlanid: net.vlan_id, name: net.name} }
+    else
+      networks.map{ |net| {id: net.id, name: net.name} }
+    end
+  end
 
   def assign_parameter(name, root = "")
     taxonomy_scope
