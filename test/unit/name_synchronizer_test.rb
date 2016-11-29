@@ -3,7 +3,10 @@ require 'test_helper'
 class NameSynchronizerName < ActiveSupport::TestCase
   def setup
     @host = FactoryBot.build_stubbed(:host, :managed)
-    @nic  = FactoryBot.build_stubbed(:nic_managed, :host => @host, :name => 'myname', :primary => true)
+    @domain = FactoryBot.build_stubbed(:domain, :name => "a-domain.to-be-found.com")
+    @nic = FactoryBot.build_stubbed(:nic_managed, :host => @host,
+                              :domain => @domain,
+                              :name => "myname.#{@domain.name}", :primary => true)
     @hsync = NameSynchronizer.new(@host)
     @nsync = NameSynchronizer.new(@nic)
   end
@@ -22,6 +25,23 @@ class NameSynchronizerName < ActiveSupport::TestCase
     end
   end
 
+  context "synchronizer build from host on shortnames" do
+    before do
+      Setting[:append_domain_name_for_hosts] = false
+    end
+    test "#sync_required? detects difference between names" do
+      refute_equal @host.name, @host.primary_interface.shortname
+      assert @hsync.sync_required?
+    end
+
+    test "#sync_name synchronizes name based on interface" do
+      refute_equal @host.name, @host.primary_interface.shortname
+      @hsync.sync_name
+      assert_equal @host.name, @host.primary_interface.shortname
+      assert @host.name.blank?
+    end
+  end
+
   context 'synchronizer build from nic' do
     test '#sync_required? detects difference between names' do
       refute_equal @nic.name, @nic.host.name
@@ -32,7 +52,7 @@ class NameSynchronizerName < ActiveSupport::TestCase
       refute_equal @nic.name, @nic.host.name
       @nsync.sync_name
       assert_equal @nic.name, @nic.host.name
-      assert_equal 'myname', @nic.host.name
+      assert_equal "myname.a-domain.to-be-found.com", @nic.host.name
     end
   end
 
