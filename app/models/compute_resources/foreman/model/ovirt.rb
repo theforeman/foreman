@@ -168,9 +168,22 @@ module Foreman::Model
       true
     end
 
+    # Return only networks usable for VMs
     def networks(opts = {})
-      if opts[:cluster_id]
-        client.clusters.get(opts[:cluster_id]).networks
+        opts[:cluster_id] ? filter_networks(opts) : []
+    end
+
+    def filter_networks(opts)
+      networks = client.clusters.get(opts[:cluster_id]).networks.select{|net| net.usages.include?('vm')}
+
+      # Add filter on VLAN ID. Return also untagged oVirt VLAN
+      # because untagged network is relative to the hosts ifaces.
+      networks.select!{|network| network.vlan_id == opts[:vlan_id] || network.vlan_id.blank?} if opts[:vlan_id]
+    end
+
+    def networks_from_subnet(subnet, opts = {})
+      if subnet && subnets.include?(subnet)
+        networks(opts.select{|k,v| ['cluster_id'].include?(k.to_s)}.merge(:vlan_id => subnet.vlanid))
       else
         []
       end

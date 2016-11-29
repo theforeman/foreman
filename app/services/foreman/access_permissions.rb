@@ -318,7 +318,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :hosts do |map|
-    ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected, :environment_selected,
+    ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected, :subnet_selected, :environment_selected,
                     :hostgroup_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
                     :process_taxonomy, :current_parameters, :puppetclass_parameters, :template_used, :interfaces, :scheduler_hint_selected,
                     :random_name]

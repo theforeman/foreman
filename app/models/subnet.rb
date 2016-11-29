@@ -60,11 +60,14 @@ class Subnet < ActiveRecord::Base
   has_many :hostgroups
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :subnet
   has_many :domains, :through => :subnet_domains
+  has_many :subnet_compute_resources, :dependent => :destroy, :inverse_of => :subnet
+  has_many :compute_resources, :through => :subnet_compute_resources
   has_many :subnet_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :subnet
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "SubnetParameter"
   accepts_nested_attributes_for :subnet_parameters, :allow_destroy => true
   validates :network, :mask, :name, :cidr, :presence => true
   validates_associated :subnet_domains
+  validates_associated :subnet_compute_resources
   validates :boot_mode, :inclusion => BOOT_MODES.values
   validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.supported_ipam_modes.map {|m| IPAM::MODES[m]} }, :message => N_('not supported by this protocol')}
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }

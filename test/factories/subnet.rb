@@ -19,6 +19,16 @@ FactoryGirl.define do
       association :dns, :factory => :dns_smart_proxy
     end
 
+    trait :with_compute_resources do
+      transient do
+        cr_count 2
+      end
+
+      after(:create) do |subnet, evaluator|
+        FactoryGirl.create_list(:compute_resource, evaluator.cr_count, :subnets => [subnet])
+      end
+    end
+
     trait :with_domains do
       transient do
         domains_count 2
