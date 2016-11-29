@@ -17,7 +17,7 @@ class Api::V1::SettingsControllerTest < ActionController::TestCase
   end
 
   test "should update setting" do
-    put :update, { :id => settings(:attributes11).to_param, :setting => { } }
+    put :update, { :id => settings(:attributes10).to_param, :setting => { } }
     assert_response :success
   end
 
