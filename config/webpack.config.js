@@ -1,9 +1,6 @@
 'use strict';
 
 require( 'es6-promise' ).polyfill(); //needed for compatibility with older node versions
-if (process.arch === 'arm64'){
-  require('es6-map/implement'); // ARMv8 nodejs 4.2.6 implementation is broken somehow
-}
 
 var path = require('path');
 var webpack = require('webpack');
