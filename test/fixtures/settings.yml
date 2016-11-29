@@ -364,3 +364,8 @@ attributes76:
   category: Setting::Provisioning
   default: "['lo', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"
   description: 'Ignore fact names that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
+attribute77:
+  name: append_domain_name_for_hosts
+  category: Setting::General
+  default: "true"
+  description: "Should append domain names when new hosts are provisioned"
