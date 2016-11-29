@@ -39,6 +39,6 @@ describe('initInheritedRoles', () => {
     $('.dropdown-menu li a').last().click();
     expect($('.btn').text()).toContain('First');
     expect($('.list-group li[data-id="1"]').is(':visible')).toBeTruthy();
-    expect($('.list-group li[data-id="2"]').is(':visible')).toBeFalsy();
+    expect($('.list-group li[data-id="2"]').css('display')).toEqual('none');
   });
 });

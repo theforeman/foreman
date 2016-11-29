@@ -63,7 +63,7 @@ function onContentLoad(){
   // highlight tabs with errors
   var errorFields = $(".tab-content .has-error");
   errorFields.parents(".tab-pane").each(function() {
-      $("a[href=#"+this.id+"]").addClass("tab-error");
+    $('a[href="#'+this.id+'"]').addClass("tab-error");
   })
   $(".tab-error").first().click();
   $('.nav-pills .tab-error').first().click();
