@@ -43,3 +43,13 @@ export function userInheritedRolesUpdater(id) {
     $(this).parents('.dropdown').find('.btn').html($(this).text() + ' <span class="caret"></span>');
   });
 }
+
+export function activateTooltips(el = $('body')) {
+  el.find('[rel="twipsy"]').tooltip({ container: 'body' });
+  el.find('.ellipsis').tooltip({ container: 'body', title: () => {
+                                   return (this.scrollWidth > this.clientWidth ?
+                                           this.textContent : null);
+                                   }
+                              });
+  el.find('*[title]').not('*[rel]').tooltip({ container: 'body' });
+}

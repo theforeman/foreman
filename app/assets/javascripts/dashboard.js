@@ -139,3 +139,8 @@ function show_widget(id){
     gridster.register_widget(widget);
     fill_restore_list();
 }
+
+function widgetLoaded(widget){
+    refreshCharts();
+    tfm.tools.activateTooltips($(widget));
+}

@@ -33,3 +33,19 @@ describe('activateDatatables', () => {
     });
   });
 });
+
+describe('activateTooltips', () => {
+  it('calls $.fn.tooltip on all matching elements', () => {
+    const $ = require('jquery');
+    const elements = `
+    <div rel='twipsy'></div>
+    <div class='ellipsis'></div>
+    <div title='test'></div>
+    <div title='test' rel='popover'></div>
+    `;
+
+    $.fn.tooltip = jest.fn();
+    tools.activateTooltips($(elements));
+    expect($.fn.tooltip).toHaveBeenCalledTimes(3);
+  });
+});
