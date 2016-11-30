@@ -184,10 +184,22 @@ class VmwareTest < ActiveSupport::TestCase
     end
   end
 
-  test "#associated_host matches any NIC" do
+  test "#associated_host matches primary NIC" do
     host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:97')
     cr = FactoryGirl.build(:vmware_cr)
     iface = mock('iface1', :mac => 'ca:d0:e6:32:16:97')
-    assert_equal host, as_admin { cr.associated_host(iface) }
+    vm = mock('vm', :interfaces => [iface])
+    assert_equal host, as_admin { cr.associated_host(vm) }
+  end
+
+  test "#associated_host matches any NIC" do
+    host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:98')
+    Nic::Base.create! :mac => "ca:d0:e6:32:16:99", :host => host
+    host.reload
+    cr = FactoryGirl.build(:vmware_cr)
+    iface1 = mock('iface1', :mac => 'ca:d0:e6:32:16:98')
+    iface2 = mock('iface1', :mac => 'ca:d0:e6:32:16:99')
+    vm = mock('vm', :interfaces => [iface1, iface2])
+    assert_equal host, as_admin { cr.associated_host(vm) }
   end
 end
