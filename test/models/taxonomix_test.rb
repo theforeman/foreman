@@ -273,4 +273,14 @@ class TaxonomixTest < ActiveSupport::TestCase
     assert_includes found_admins, direct_admin.id
     assert_includes found_admins, group_admin.id
   end
+
+  test "#used_organization_ids should not return organization for user with same id as of user_group which is assigned to host as owner." do
+    org = FactoryGirl.create(:organization)
+    user = FactoryGirl.create(:user, :id => 25, :organizations => [org])
+    ugroup = FactoryGirl.create(:usergroup, :id=> 25)
+    FactoryGirl.create(:host, :owner => ugroup, :organization => org)
+    used_organizations = user.used_organization_ids
+    assert_empty used_organizations
+    assert_equal used_organizations.count, 0
+  end
 end
