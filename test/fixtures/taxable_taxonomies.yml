@@ -44,6 +44,11 @@ eight:
   taxable: yourdomain
   taxable_type: "Domain"
 
+eight2:
+  taxonomy: organization1
+  taxable: yourdomain
+  taxable_type: "Domain"
+
 nine:
   taxonomy: organization1
   taxable: mydomain
@@ -51,6 +56,11 @@ nine:
 
 ten:
   taxonomy: location1
+  taxable: one
+  taxable_type: "Medium"
+
+ten2:
+  taxonomy: organization1
   taxable: one
   taxable_type: "Medium"
 
