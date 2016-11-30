@@ -63,10 +63,6 @@ var config = {
       modules: false,
       assets: true
     }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-    }),
     new ExtractTextPlugin(production ? '[name]-[chunkhash].css' : '[name].css', {
             allChunks: true
     })
