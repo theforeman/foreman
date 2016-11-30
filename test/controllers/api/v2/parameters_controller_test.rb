@@ -91,7 +91,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should show an organization parameter" do
-    get :show, { :organization_id => taxonomies(:organization1).to_param, :id => parameters(:org).to_param }
+    get :show, { :organization_id => taxonomies(:organization1).to_param, :id => parameters(:organization).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
