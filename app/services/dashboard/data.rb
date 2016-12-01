@@ -1,5 +1,5 @@
 class Dashboard::Data
-  attr_reader :report
+  attr_reader :filter
   # returns a status hash
   def self.status(filter = "")
     new(filter).report
@@ -30,9 +30,6 @@ class Dashboard::Data
   end
 
   private
-
-  attr_writer :report
-  attr_accessor :filter
   def fetch_data
     @report.update(
       {  :total_hosts               => hosts.size,
