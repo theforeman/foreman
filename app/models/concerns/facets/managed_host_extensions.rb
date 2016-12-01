@@ -77,6 +77,18 @@ module Facets
       end).compact]
     end
 
+    # This method will return attributes list augmented with attributes that are
+    # set by the facet. Each registered facet will get opportunity to add its
+    # own attributes to the list.
+    def apply_facet_attributes(hostgroup, attributes)
+      Facets.registered_facets.values.map do |facet_config|
+        facet_attributes = attributes["#{facet_config.name}_attributes"] || {}
+        facet_attributes = facet_config.model.inherited_attributes(hostgroup, facet_attributes)
+        attributes["#{facet_config.name}_attributes"] = facet_attributes unless facet_attributes.empty?
+      end
+      attributes
+    end
+
     private
 
     def forward_property_call(property, args, facet)
