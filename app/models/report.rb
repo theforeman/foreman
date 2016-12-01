@@ -1,5 +1,6 @@
 class Report < ActiveRecord::Base
   LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
+  DEFAULT_EXPIRATION = 1.week
 
   include Foreman::STI
   include Authorizable
@@ -71,7 +72,7 @@ class Report < ActiveRecord::Base
   # Expire reports based on time and status
   # Defaults to expire reports older than a week regardless of the status
   def self.expire(conditions = {})
-    timerange = conditions[:timerange] || 1.week
+    timerange = conditions[:timerange] || DEFAULT_EXPIRATION
     status = conditions[:status]
     cond = "reports.created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
     cond += " and reports.status = #{status}" unless status.nil?

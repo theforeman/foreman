@@ -33,6 +33,12 @@ module Actions
           end
         end
       end
+
+      describe 'cleanup' do
+        it 'derive the number of dates based on Report::DEFAULT_EXPIRATION' do
+          assert_equal '7d', Actions::Foreman::Report::Import.cleanup_after
+        end
+      end
     end
   end
 end

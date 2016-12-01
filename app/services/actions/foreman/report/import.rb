@@ -31,6 +31,10 @@ module Actions
         def humanized_input
           input[:report_class].constantize.humanized_name
         end
+
+        def self.cleanup_after
+          "#{Hash[::Report::DEFAULT_EXPIRATION.parts][:days]}d"
+        end
       end
     end
   end
