@@ -606,6 +606,7 @@ class Host::Managed < Host::Base
       attributes[attribute] = value
     end
 
+    attributes = apply_facet_attributes(new_hostgroup, attributes)
     attributes
   end
 
