@@ -259,6 +259,10 @@ module Nic
       errors.add(:mac, _('must be a unicast MAC address')) if Net::Validations.multicast_mac?(mac) || Net::Validations.broadcast_mac?(mac)
     end
 
+    def mac_addresses_for_provisioning
+      [mac, children_mac_addresses].flatten.compact.uniq
+    end
+
     private
 
     def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))

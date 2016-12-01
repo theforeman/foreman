@@ -78,10 +78,10 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     host.primary_interface.subnet = FactoryGirl.build(:subnet, :dhcp, :network => '255.255.255.0')
     host.operatingsystem = FactoryGirl.build(:operatingsystem)
 
-    refute_nil host.primary_interface.dhcp_record
-    original = host.primary_interface.dhcp_record.object_id
+    refute_nil host.primary_interface.dhcp_records
+    original = host.primary_interface.dhcp_records.map(&:object_id)
     host.send :match_macs_to_nics, :mac
-    new = host.primary_interface.dhcp_record.object_id
+    new = host.primary_interface.dhcp_records.map(&:object_id)
     refute_equal original, new
     assert_equal '00:00:00:00:01', host.primary_interface.mac
   end

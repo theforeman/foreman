@@ -64,7 +64,7 @@ module Nic
     end
 
     def mac_available?
-      mac.present? || (host.present? && host.compute_provides?(:mac))
+      mac_addresses_for_provisioning.any? || (host.present? && host.compute_provides?(:mac))
     end
 
     protected
