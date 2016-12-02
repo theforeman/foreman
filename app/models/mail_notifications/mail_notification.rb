@@ -9,7 +9,7 @@ class MailNotification < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :description, :complete_value => true
-  scoped_search :in => :users, :on => :login, :complete_value => true, :rename => :user
+  scoped_search :relation => :users, :on => :login, :complete_value => true, :rename => :user
 
   scope :subscriptable, -> { where(:subscriptable => true) }
 

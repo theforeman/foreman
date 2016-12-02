@@ -6,7 +6,7 @@ class VariableLookupKey < LookupKey
   validates :key, :uniqueness => true, :no_whitespace => true
   validate :validate_default_value, :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default
 
-  scoped_search :in => :puppetclass, :on => :name, :complete_value => true, :rename => :puppetclass
+  scoped_search :relation => :puppetclass, :on => :name, :complete_value => true, :rename => :puppetclass
 
   def audit_class
     puppetclass

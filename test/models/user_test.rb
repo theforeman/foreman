@@ -852,6 +852,11 @@ class UserTest < ActiveSupport::TestCase
     assert (users.include? user)
   end
 
+  test 'can search users by usergroup' do
+    user = FactoryGirl.create(:user, :with_usergroup)
+    assert_equal [user], User.search_for("usergroup = #{user.usergroups.first.name}")
+  end
+
   test 'can set valid timezone' do
     timezone = "Fiji"
     user = users(:one)

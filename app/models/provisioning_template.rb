@@ -28,10 +28,10 @@ class ProvisioningTemplate < Template
   scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
   scoped_search :on => :template
 
-  scoped_search :in => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
-  scoped_search :in => :environments,     :on => :name, :rename => :environment,     :complete_value => true
-  scoped_search :in => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
-  scoped_search :in => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
+  scoped_search :relation => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
+  scoped_search :relation => :environments,     :on => :name, :rename => :environment,     :complete_value => true
+  scoped_search :relation => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
+  scoped_search :relation => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
   attr_exportable :kind => Proc.new { |template| template.template_kind.try(:name) },
                   :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq }

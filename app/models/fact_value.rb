@@ -11,10 +11,10 @@ class FactValue < ActiveRecord::Base
 
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
   scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts
-  scoped_search :in => :fact_name, :on => :name, :complete_value => true, :alias => "fact"
-  scoped_search :in => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
-  scoped_search :in => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup", :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
-  scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
+  scoped_search :relation => :fact_name, :on => :name, :complete_value => true, :aliases => ["fact"]
+  scoped_search :relation => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
+  scoped_search :relation => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup", :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
+  scoped_search :relation => :fact_name, :on => :short_name, :complete_value => true, :aliases => ["fact_short_name"]
 
   scope :no_timestamp_facts, lambda {
     eager_load(:fact_name).where("fact_names.name <> ?",:_timestamp)

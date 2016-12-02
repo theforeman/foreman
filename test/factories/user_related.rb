@@ -35,6 +35,10 @@ FactoryGirl.define do
     trait :with_widget do
       after(:create) { |user,evaluator| FactoryGirl.create(:widget, :user => user) }
     end
+
+    trait :with_usergroup do
+      usergroups { [FactoryGirl.create(:usergroup)] }
+    end
   end
 
   factory :permission do

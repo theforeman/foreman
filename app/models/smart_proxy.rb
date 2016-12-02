@@ -27,7 +27,7 @@ class SmartProxy < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :url, :complete_value => :true
-  scoped_search :in => :features, :on => :name, :rename => :feature, :complete_value => :true
+  scoped_search :relation => :features, :on => :name, :rename => :feature, :complete_value => :true
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

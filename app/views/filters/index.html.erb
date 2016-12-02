@@ -11,13 +11,13 @@
   <thead>
     <tr>
       <% unless params[:role_id] %>
-        <th><%= sort :role, :as => _("Role") %></th>
+        <th><%= sort :role, :as => _("Role"), :permitted => [:role_id] %></th>
       <% end %>
-      <th><%= sort :resource, :as => s_("Filter|Resource") %></th>
+      <th><%= sort :resource, :as => s_("Filter|Resource"), :permitted => [:role_id] %></th>
       <th><%= s_("Filter|Permissions") %></th>
-      <th><%= sort :search, :as => s_("Filter|Unlimited") %></th>
-      <th><%= sort :search, :as => s_("Filter|Override") %></th>
-      <th><%= sort :search, :as => s_("Filter|Search") %></th>
+      <th><%= sort :search, :as => s_("Filter|Unlimited"), :permitted => [:role_id] %></th>
+      <th><%= sort :search, :as => s_("Filter|Override"), :permitted => [:role_id] %></th>
+      <th><%= sort :search, :as => s_("Filter|Search"), :permitted => [:role_id] %></th>
       <th><%= _('Actions') %></th>
     </tr>
   </thead>

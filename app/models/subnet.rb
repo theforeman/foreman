@@ -85,8 +85,8 @@ class Subnet < ActiveRecord::Base
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary,
                         :vlanid, :ipam, :boot_mode, :type], :complete_value => true
 
-  scoped_search :in => :domains, :on => :name, :rename => :domain, :complete_value => true
-  scoped_search :in => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
+  scoped_search :relation => :domains, :on => :name, :rename => :domain, :complete_value => true
+  scoped_search :relation => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
 
