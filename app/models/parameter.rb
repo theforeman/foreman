@@ -22,16 +22,16 @@ class Parameter < ActiveRecord::Base
   belongs_to :location, :foreign_key => :reference_id, :inverse_of => :location_parameters
   belongs_to :organization, :foreign_key => :reference_id, :inverse_of => :organization_parameters
   # specific children search definitions, required for permission filters autocompletion
-  scoped_search :in => :domain, :on => :name, :complete_value => true, :rename => 'domain_name'
-  scoped_search :in => :operatingsystem, :on => :name, :complete_value => true, :rename => 'os_name'
-  scoped_search :in => :subnet, :on => :name, :complete_value => true, :rename => 'subnet_name'
-  scoped_search :in => :host, :on => :name, :complete_value => true, :rename => 'host_name'
-  scoped_search :in => :hostgroup, :on => :name, :complete_value => true, :rename => 'host_group_name'
+  scoped_search :relation => :domain, :on => :name, :complete_value => true, :rename => 'domain_name'
+  scoped_search :relation => :operatingsystem, :on => :name, :complete_value => true, :rename => 'os_name'
+  scoped_search :relation => :subnet, :on => :name, :complete_value => true, :rename => 'subnet_name'
+  scoped_search :relation => :host, :on => :name, :complete_value => true, :rename => 'host_name'
+  scoped_search :relation => :hostgroup, :on => :name, :complete_value => true, :rename => 'host_group_name'
   if Taxonomy.locations_enabled
-    scoped_search :in => :location, :on => :name, :complete_value => true, :rename => 'location_name'
+    scoped_search :relation => :location, :on => :name, :complete_value => true, :rename => 'location_name'
   end
   if Taxonomy.organizations_enabled
-    scoped_search :in => :organization, :on => :name, :complete_value => true, :rename => 'organization_name'
+    scoped_search :relation => :organization, :on => :name, :complete_value => true, :rename => 'organization_name'
   end
 
   default_scope -> { order("parameters.name") }

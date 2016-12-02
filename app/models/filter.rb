@@ -49,10 +49,10 @@ class Filter < ActiveRecord::Base
   scoped_search :on => :override, :complete_value => { :true => true, :false => false }
   scoped_search :on => :limited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_limited, :only_explicit => true
   scoped_search :on => :unlimited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_unlimited, :only_explicit => true
-  scoped_search :in => :role, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true
-  scoped_search :in => :role, :on => :name, :rename => :role
-  scoped_search :in => :permissions, :on => :resource_type, :rename => :resource
-  scoped_search :in => :permissions, :on => :name,          :rename => :permission
+  scoped_search :relation => :role, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true
+  scoped_search :relation => :role, :on => :name, :rename => :role
+  scoped_search :relation => :permissions, :on => :resource_type, :rename => :resource
+  scoped_search :relation => :permissions, :on => :name,          :rename => :permission
 
   before_validation :build_taxonomy_search, :nilify_empty_searches, :enforce_override_flag
   before_save :enforce_inherited_taxonomies

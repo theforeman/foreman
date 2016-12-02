@@ -23,7 +23,7 @@ class LookupValue < ActiveRecord::Base
 
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
-  scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
+  scoped_search :relation => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
   def value=(val)
     if val.is_a?(HashWithIndifferentAccess)

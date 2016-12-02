@@ -192,6 +192,11 @@ module ApplicationHelper
     text_field_tag(name, val, options)
   end
 
+  def sort(field, permitted: [], **kwargs)
+    kwargs[:url_options] ||= params.permit(permitted + [:locale, :search])
+    super(field, kwargs)
+  end
+
   def help_button
     link_to(_("Help"), { :action => "welcome" }, { :class => 'btn btn-default' }) if File.exist?("#{Rails.root}/app/views/#{controller_name}/welcome.html.erb")
   end
