@@ -238,6 +238,7 @@ module Foreman
     end
 
     def yast_attributes
+      @dynamic   = @host.diskLayout =~ /^#Dynamic/ if (@host.respond_to?(:disk) && @host.disk.present?) || @host.ptable.present?
       @mediapath = @host.operatingsystem.mediumpath @host
     end
 
