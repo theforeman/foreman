@@ -413,6 +413,12 @@ module Host
       iface.mac = attributes.delete(:macaddress)
       iface.ip = attributes.delete(:ipaddress)
       iface.ip6 = attributes.delete(:ipaddress6)
+
+      if Setting[:update_subnets_from_facts]
+        iface.subnet = Subnet.subnet_for(iface.ip) if iface.ip_changed? && !iface.matches_subnet?(:ip, :subnet)
+        iface.subnet6 = Subnet.subnet_for(iface.ip6) if iface.ip6_changed? && !iface.matches_subnet?(:ip6, :subnet6)
+      end
+
       iface.virtual = attributes.delete(:virtual) || false
       iface.tag = attributes.delete(:tag) || ''
       iface.attached_to = attributes.delete(:attached_to) if attributes[:attached_to].present?
