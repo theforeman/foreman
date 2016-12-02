@@ -138,7 +138,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     test 'should queue dns update' do
       @host.save!
       @host.queue.clear
-      @host.ip = '1.2.3.4'
+      @host.ip = IPAddr.new(IPAddr.new(@host.ip).to_i + 1, Socket::AF_INET).to_s
       assert_valid @host
       tasks = @host.queue.all.map(&:name)
       assert_includes tasks, "Remove IPv4 DNS record for #{@host.provision_interface}"
@@ -238,7 +238,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     test 'should queue dns update' do
       @host.save!
       @host.queue.clear
-      @host.ip6 = '2001:db8::123'
+      @host.ip6 = IPAddr.new(IPAddr.new(@host.ip6).to_i + 1, Socket::AF_INET6).to_s
       assert_valid @host
       tasks = @host.queue.all.map(&:name)
       assert_includes tasks, "Remove IPv6 DNS record for #{@host.provision_interface}"
@@ -322,7 +322,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     test 'should queue dns update' do
       @host.save!
       @host.queue.clear
-      @host.ip = '1.2.3.4'
+      @host.ip = IPAddr.new(IPAddr.new(@host.ip).to_i + 1, Socket::AF_INET).to_s
       assert_valid @host
       tasks = @host.queue.all.map(&:name)
       assert_includes tasks, "Remove IPv4 DNS record for #{@host.provision_interface}"

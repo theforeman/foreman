@@ -98,7 +98,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "sets compute attributes on create" do
     Host.any_instance.expects(:set_compute_attributes).once.returns(true)
-    Host.create! :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+    Host.create! :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
       :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
@@ -164,7 +164,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should be able to save host" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
       :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
@@ -176,7 +176,7 @@ class HostTest < ActiveSupport::TestCase
     User.current = users(:one)
     User.current.roles << [roles(:manager)]
     assert_difference('LookupValue.count') do
-      assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
       :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
       :environment => environments(:production), :disk => "empty partition",
@@ -186,7 +186,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "lookup value has right matcher for a host" do
     assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
-      Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "2.3.4.3",
+      Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "3.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
         :environment => environments(:production), :disk => "empty partition",
@@ -676,7 +676,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "should not save if neither ptable or disk are defined when the host is managed" do
       if unattended?
-        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.4.4.03",
+        host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
           :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :medium => media(:one),
           :architecture => Architecture.first, :environment => Environment.first, :managed => true
         refute_valid host
@@ -684,21 +684,21 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "should save if neither ptable or disk are defined when the host is not managed" do
-      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :medium => media(:one),
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3", :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
         :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
 
     test "should save if ptable is defined" do
-      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
       assert !host.new_record?
     end
 
     test "should save if disk is defined" do
-      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03",
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :medium => media(:one),
         :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
       assert !host.new_record?
@@ -1602,6 +1602,75 @@ class HostTest < ActiveSupport::TestCase
       assert_includes host.interfaces, host.primary_interface
       refute_includes host.interfaces.map(&:identifier), 'eth1'
       assert_equal 2, host.interfaces.size
+    end
+
+    context 'update_subnets_from_facts is enabled' do
+      setup do
+        Setting[:update_subnets_from_facts] = true
+      end
+      let(:subnet) { FactoryGirl.create(:subnet_ipv4, :dhcp, :network => '10.10.0.0') }
+
+      test "#set_interfaces updates existing physical interface when subnet does not match ip and new subnet is unknown" do
+        host = FactoryGirl.create(:host,
+                                  :managed,
+                                  :mac => '00:00:00:11:22:33',
+                                  :ip => '10.10.0.1',
+                                  :subnet => subnet
+                                 )
+        hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
+        }.with_indifferent_access
+        parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+        assert_no_difference 'Nic::Base.count' do
+          host.set_interfaces(parser)
+        end
+
+        assert_equal '10.10.20.2', host.primary_interface.ip
+        assert_nil host.primary_interface.subnet
+      end
+
+      test "#set_interfaces updates existing physical interface when subnet does not match ip and new subnet is known" do
+        subnet2 = FactoryGirl.create(:subnet_ipv4, :dhcp, :network => '10.10.20.0')
+        host = FactoryGirl.create(:host,
+                                  :managed,
+                                  :mac => '00:00:00:11:22:33',
+                                  :ip => '10.10.0.1',
+                                  :subnet => subnet
+                                 )
+        hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
+        }.with_indifferent_access
+        parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+        assert_no_difference 'Nic::Base.count' do
+          host.set_interfaces(parser)
+        end
+
+        assert_equal '10.10.20.2', host.primary_interface.ip
+        assert_equal subnet2, host.primary_interface.subnet
+      end
+
+      test "#set_interfaces updates existing physical interface when subnet6 is set but facts report no ipv6 addr" do
+        subnet6 = FactoryGirl.create(:subnet_ipv6, :network => '2001:db8::')
+        host = FactoryGirl.create(:host,
+                                  :managed,
+                                  :mac => '00:00:00:11:22:33',
+                                  :ip => '10.10.0.1',
+                                  :ip6 => '2001:db8::10',
+                                  :subnet => subnet,
+                                  :subnet6 => subnet6
+                                 )
+        hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false}
+        }.with_indifferent_access
+        parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+        assert_no_difference 'Nic::Base.count' do
+          host.set_interfaces(parser)
+        end
+        assert_equal '10.10.0.1', host.primary_interface.ip
+        assert_equal subnet, host.primary_interface.subnet
+        assert_nil host.primary_interface.ip6
+        assert_nil host.primary_interface.subnet6
+      end
     end
 
     test "#set_interfaces creates bond interfaces according to identifier" do
