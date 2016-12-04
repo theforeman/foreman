@@ -14,6 +14,7 @@ window.tfm = Object.assign(
   window.tfm || {},
   {
     tools: require('./foreman_tools'),
+    users: require('./foreman_users'),
     numFields: require('./jquery.ui.custom_spinners'),
     reactMounter: require('./react_app/common/MountingService')
   }

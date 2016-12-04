@@ -9,10 +9,10 @@ export function hideSpinner() {
 }
 
 export function iconText(name, innerText, iconClass) {
-  let icon = '<span class="' + iconClass + ' ' + iconClass + '-' + name + '"/>';
+  let icon = `<span class="${iconClass} ${iconClass}-${name}"/>`;
 
   if (innerText !== '') {
-    icon += '<strong>' + innerText + '</strong>';
+    icon += `<strong>${innerText}</strong>`;
   }
   return icon;
 }
@@ -22,11 +22,10 @@ export function activateDatatables() {
       dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>"
   });
 
-  $('[data-table=server]').not('.dataTable').each(function () {
-    const $this = $(this);
-    const url = $this.data('source');
+  $('[data-table=server]').not('.dataTable').each((i, el) => {
+    const url = el.getAttribute('data-source');
 
-    $this.DataTable({
+    $(el).DataTable({
       processing: true,
       serverSide: true,
       ordering: false,
@@ -36,17 +35,10 @@ export function activateDatatables() {
   });
 }
 
-export function userInheritedRolesUpdater(id) {
-  $('#roles_tab li').hide();
-  $("#roles_tab li[data-id = '" + id + "']").show();
-  $('.dropdown-menu li a').click(function () {
-    $(this).parents('.dropdown').find('.btn').html($(this).text() + ' <span class="caret"></span>');
-  });
-}
-
-export function activateTooltips(el = $('body')) {
+export function activateTooltips(el = 'body') {
+  el = $(el);
   el.find('[rel="twipsy"]').tooltip({ container: 'body' });
-  el.find('.ellipsis').tooltip({ container: 'body', title: () => {
+  el.find('.ellipsis').tooltip({ container: 'body', title: function () {
                                    return (this.scrollWidth > this.clientWidth ?
                                            this.textContent : null);
                                    }

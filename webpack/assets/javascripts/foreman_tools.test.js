@@ -19,9 +19,9 @@ describe('activateDatatables', () => {
 
     // Used for rendering lists of VMs under compute resources
     document.body.innerHTML =
-      '<div data-table=server data-source=http://example.foo>' +
-      'To be filled by a table' +
-        '</div>';
+      `<div data-table=server data-source=http://example.foo>
+      To be filled by a table
+      </div>`;
     $.fn.DataTable = jest.fn();
     tools.activateDatatables();
     expect($.fn.DataTable).toBeCalledWith({
@@ -37,12 +37,11 @@ describe('activateDatatables', () => {
 describe('activateTooltips', () => {
   it('calls $.fn.tooltip on all matching elements', () => {
     const $ = require('jquery');
-    const elements = `
-    <div rel='twipsy'></div>
-    <div class='ellipsis'></div>
-    <div title='test'></div>
-    <div title='test' rel='popover'></div>
-    `;
+    const elements =
+      `<div rel='twipsy'></div>
+      <div class='ellipsis'></div>
+      <div title='test'></div>
+      <div title='test' rel='popover'></div>`;
 
     $.fn.tooltip = jest.fn();
     tools.activateTooltips($(elements));
