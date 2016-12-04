@@ -7,7 +7,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['results'].empty?
-    assert_equal 2, results['results'].length
+    assert_equal 4, results['results'].length
   end
 
   test "should get same smart class parameters in multiple environments once" do
@@ -20,7 +20,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:smart_class_parameters)
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['results'].empty?
-    assert_equal 2, results['results'].length
+    assert_equal 4, results['results'].length
   end
 
   test "should get smart class parameters for a specific host" do

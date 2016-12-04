@@ -53,4 +53,13 @@ nine:
   puppetclass: three
   environment: global_puppetmaster
   puppetclass_lookup_key: nil
-  
+
+ssl_testing:
+  puppetclass: three
+  environment: testing
+  puppetclass_lookup_key: three
+
+port_testing:
+  puppetclass: three
+  environment: testing
+  puppetclass_lookup_key: one
