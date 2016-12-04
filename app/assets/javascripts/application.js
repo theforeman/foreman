@@ -21,8 +21,6 @@
 //= require editable/bootstrap-editable
 //= require editable/rails
 
-$(document).on('ContentLoad', onContentLoad);
-
 $(document).on("page:fetch", tfm.tools.showSpinner)
 
 $(document).on("page:change", tfm.tools.hideSpinner)

@@ -142,5 +142,5 @@ function show_widget(id){
 
 function widgetLoaded(widget){
     refreshCharts();
-    tfm.tools.activateTooltips($(widget));
+    tfm.tools.activateTooltips(widget);
 }

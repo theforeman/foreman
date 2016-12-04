@@ -56,7 +56,7 @@
         <%= spinner(_('Loading VM information ...')) %>
         </div>
       <% end %>
-      <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>' data-on-complete='onContentLoad'>
+      <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>' data-on-complete='tfm.tools.activateTooltips'>
         <%= spinner(_('Loading NICs information ...')) %>
       </div>
       <% if @host.bmc_available? %>
