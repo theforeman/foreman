@@ -18,6 +18,8 @@ class Chart extends React.Component {
       if (this.props.setTitle) {
         this.props.setTitle(this.props.config);
       }
+    } else {
+      this.chart = undefined;
     }
   }
 
@@ -30,7 +32,9 @@ class Chart extends React.Component {
   }
 
   componentWillUnmount() {
-    this.chart = this.chart.destroy();
+    if (this.chart) {
+      this.chart = this.chart.destroy();
+    }
   }
 
   render() {
