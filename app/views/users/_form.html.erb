@@ -76,7 +76,7 @@
                               { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
       <% usergroups = @user.cached_usergroups.includes(:roles).uniq %>
       <% if usergroups.any? %>
-        <div class="form-group">
+        <div class="form-group" id="inherited-roles">
           <label class="col-md-2 control-label" for="roles"><%= _("Roles from user groups") %></label>
           <div class="col-md-5">
             <div class="dropdown">
@@ -86,7 +86,7 @@
               </button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="usergroupsDropdownMenuBtn">
                 <% usergroups.each do |usergroup| %>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" onclick=tfm.tools.userInheritedRolesUpdater(<%=usergroup.id %>)><%= usergroup %></a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-id="<%=usergroup.id %>"><%= usergroup %></a></li>
                 <% end %>
               </ul>
             </div>
@@ -115,7 +115,7 @@
 <% if @user.cached_usergroups.any? %>
   <script>
       $(function() {
-        tfm.tools.userInheritedRolesUpdater(<%= @user.cached_usergroups.uniq.first.id %>)
+        tfm.users.initInheritedRoles();
       });
   </script>
 <% end  %>
