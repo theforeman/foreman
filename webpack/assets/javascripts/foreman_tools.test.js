@@ -44,7 +44,7 @@ describe('activateTooltips', () => {
       <div title='test' rel='popover'></div>`;
 
     $.fn.tooltip = jest.fn();
-    tools.activateTooltips($(elements));
+    tools.activateTooltips(elements);
     expect($.fn.tooltip).toHaveBeenCalledTimes(3);
   });
 });
