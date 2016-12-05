@@ -283,12 +283,43 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "template with host parameters should return parameters values" do
-    host_param = FactoryGirl.create(:host_parameter, :host => @ub_host, :name => 'my_param')
-    @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@ub_host.mac}"
-    ProvisioningTemplate.any_instance.stubs(:template).returns("param: <%= @host.params['my_param'] %>")
-    get :host_template, {:kind => 'provision'}
-    assert_match "param: #{host_param.value}", @response.body
+  context "template with host parameters" do
+    setup do
+      @host_param = FactoryGirl.create(:host_parameter, :host => @rh_host, :name => 'my_param')
+      @secret_param = FactoryGirl.create(:host_parameter, :host => @rh_host, :name => 'secret_param')
+      setup_user 'view', 'hosts'
+      setup_user 'view', 'params', 'name = my_param'
+      @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "params: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
+    end
+
+    test "in preview should only show permitted parameters" do
+      get :host_template, {:kind => 'provision', :hostname => @rh_host.name}, set_session_user(:one)
+      assert_equal "params: #{@host_param.value}, ", @response.body
+    end
+
+    test "in unattended mode should show all parameters" do
+      @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
+      get :host_template, {:kind => 'provision'}
+      assert_equal "params: #{@host_param.value}, #{@secret_param.value}", @response.body
+    end
+
+    context "and ptable with host parameters" do
+      setup do
+        @rh_host.ptable.update_attribute(:template, "params: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
+        @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "ptable: <%= @host.diskLayout %>\nparams: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
+      end
+
+      test "in preview should only show permitted parameters" do
+        get :host_template, {:kind => 'provision', :hostname => @rh_host.name}, set_session_user(:one)
+        assert_equal "ptable: params: #{@host_param.value}, \nparams: #{@host_param.value}, ", @response.body
+      end
+
+      test "in unattended mode should show all parameters" do
+        @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
+        get :host_template, {:kind => 'provision'}
+        assert_equal "ptable: params: #{@host_param.value}, #{@secret_param.value}\nparams: #{@host_param.value}, #{@secret_param.value}", @response.body
+      end
+    end
   end
 
   context "location or organizations are not enabled" do
