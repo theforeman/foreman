@@ -8,7 +8,10 @@ class Chart extends React.Component {
   }
 
   hasData() {
-    return !!this.props.config.data.columns.length;
+    const config = this.props.config;
+
+    return config && config.data && config.data.columns &&
+      config.data.columns.length;
   }
 
   drawChart() {
@@ -38,10 +41,9 @@ class Chart extends React.Component {
   }
 
   render() {
-    const hasData = this.props.config.data.columns.length;
     const msg = this.props.noDataMsg || 'No data available';
 
-    return hasData ?
+    return this.hasData() ?
       <div className={this.props.cssClass} id={this.props.id + 'Chart'}></div> :
       (
         <MessageBox msg={msg} icontype="info"></MessageBox>
