@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-11-26 09:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -116,6 +116,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s vecka sedan"
 msgstr[1] "%s veckor sedan"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr ""
@@ -235,6 +238,9 @@ msgstr "'%{host}' kan vara raderad eller så svarar inte '%{resource}'."
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' finns inte på '%{resource}'"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr ""
@@ -560,6 +566,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "En uttrycklig layout för partitionerna på din hårddisk(ar). T.ex."
 
@@ -581,8 +590,8 @@ msgstr "Alla Platser"
 msgid "Any Organization"
 msgstr "Alla Organisationer"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "Tillämpliga<br>Operativsystem"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "Tillämpad"
@@ -1003,7 +1012,7 @@ msgstr ""
 msgid "Build from OS image"
 msgstr "Bygg från OS-avbild"
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
 msgstr ""
 
 msgid "CA certificate expiry date"
@@ -1123,6 +1132,9 @@ msgstr "Ändra din avatar hos gravatar.com"
 msgid "Changed environments"
 msgstr "Ändrade miljöer"
 
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
+
 msgid "Chassis"
 msgstr "Chassi"
 
@@ -1224,6 +1236,9 @@ msgstr ""
 
 msgid "Compute Resource"
 msgstr "Beräkningsresurs"
+
+msgid "Compute Resource Distribution"
+msgstr ""
 
 msgid "Compute Resources"
 msgstr "Beräkningsresurser"
@@ -1372,8 +1387,11 @@ msgstr "Kärnor"
 msgid "Cores per socket"
 msgstr ""
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "Kunde inte hitta en Konfigurationsmall med namnet \"PXE Default File\", vänligen skapa en."
+msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr ""
@@ -1552,6 +1570,15 @@ msgstr "DHCP Proxy att använda inom detta subnät "
 msgid "DHCP conflicts removal for %s"
 msgstr "DHCP konflikt-borttagning för %s"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
@@ -1668,6 +1695,9 @@ msgstr "Radera värd"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Radera PuppetCA certifikat för %s"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr ""
@@ -1831,11 +1861,17 @@ msgstr "Raderad miljö"
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Raderade miljön %{env} och %{pcs}"
 
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
+
 msgid "Deploy VM on selected datastore"
 msgstr ""
 
 msgid "Deploy on"
 msgstr "Installera på"
+
+msgid "Deprecated, please use datacenter"
+msgstr ""
 
 msgid "Description"
 msgstr "Beskrivning"
@@ -1881,6 +1917,12 @@ msgstr "Inaktivera notifieringar"
 
 msgid "Disable alerts for selected hosts"
 msgstr "Inaktivera Notifieringar"
+
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
 
 msgid "Disabled"
 msgstr "Inaktiverad"
@@ -2071,8 +2113,8 @@ msgstr "Redigera Puppetklass %s"
 msgid "Edit Realm"
 msgstr ""
 
-msgid "Edit Roles"
-msgstr "Redigera Roller"
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "Redigera Smart Variabel"
@@ -2237,9 +2279,6 @@ msgstr ""
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-msgid "Error loading virtual machine information: %s"
-msgstr "Fel vid laddning av information för virtuell maskin: %s"
-
 msgid "Error removing widget from dashboard."
 msgstr "Fel vid borttagning av widget från instrumentbrädan."
 
@@ -2387,8 +2426,8 @@ msgstr "Misslyckade omstarter"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Misslyckades med att %{action} %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "Misslyckades att avbryta pågående ombyggning för %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "Misslyckades med att rensa gamla certifikat eller att lägga till autosigneringsvärdet. Avbryter bygget!"
@@ -2421,9 +2460,6 @@ msgstr "Misslyckades med att hämta startfiler"
 
 msgid "Failed to fetch: "
 msgstr "Misslyckades att hämta:"
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Misslyckades med att hämta IP för %{name}: %{e}"
@@ -2543,10 +2579,22 @@ msgstr ""
 msgid "Filter classes"
 msgstr "Filterklasser"
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "Filter"
 
 msgid "Filters for role %s"
+msgstr ""
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
 msgstr ""
 
 msgid "Filter|Permissions"
@@ -2868,6 +2916,9 @@ msgstr ""
 
 msgid "Host Configuration Status"
 msgstr "Värdkonfigurationsstatus"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "Värdgrupper"
@@ -3972,6 +4023,9 @@ msgstr ""
 msgid "List of realms"
 msgstr ""
 
+msgid "List of resources types that will be automatically associated"
+msgstr ""
+
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr ""
 
@@ -4101,6 +4155,9 @@ msgstr ""
 msgid "Location"
 msgstr "Lokation"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr ""
 
@@ -4147,6 +4204,9 @@ msgid "Login"
 msgstr "Login"
 
 msgid "Login delegation logout URL"
+msgstr ""
+
+msgid "Login page footer text"
 msgstr ""
 
 msgid "Logout"
@@ -4329,9 +4389,6 @@ msgid "Mismatches Report"
 msgstr "Rapport för matchningsfel"
 
 msgid "Missing one of the required permissions: %s"
-msgstr ""
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4662,8 +4719,8 @@ msgstr ""
 msgid "Nic::Base|Virtual"
 msgstr ""
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "Inga %{template_kind}mallar hittades för denna värd, säkerställ att du definierar åtminstone en under dina %{os}-inställningar"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5105,6 +5162,9 @@ msgstr "Order"
 msgid "Organization"
 msgstr "Organisation"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr ""
 
@@ -5174,7 +5234,7 @@ msgstr "Ägare ändrad till %s"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "Ägartyp måste vara en av följande: %s"
 
-msgid "POAP template"
+msgid "POAP PXE template"
 msgstr ""
 
 msgid "PXE"
@@ -5183,7 +5243,16 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "PXE Standardfil har laddats upp till alla Smart Proxies"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
@@ -5726,9 +5795,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr ""
@@ -5832,9 +5898,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr ""
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Ta bort tidigare TFTP-inställningar för %s"
 
 msgid "Remove this override"
 msgstr ""
@@ -5975,7 +6038,7 @@ msgstr ""
 msgid "Role"
 msgstr "Roll"
 
-msgid "Role cloned from role %{old_name}"
+msgid "Role %s."
 msgstr ""
 
 msgid "Role is in use"
@@ -6582,6 +6645,9 @@ msgstr "Värde"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr ""
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr ""
 
@@ -6778,9 +6844,6 @@ msgstr "TFTP Proxy"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "TFTP Proxy för detta subnät"
 
-msgid "TFTP Settings for %s"
-msgstr "TFTP-inställningar för %s"
-
 msgid "TFTP server"
 msgstr ""
 
@@ -6819,6 +6882,9 @@ msgid "Template %s is empty."
 msgstr ""
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -6875,6 +6941,9 @@ msgid "Test connection was successful"
 msgstr "Testanslutning lyckades"
 
 msgid "Test email"
+msgstr ""
+
+msgid "Text to be shown in the login-page footer"
 msgstr ""
 
 msgid ""
@@ -7415,6 +7484,12 @@ msgstr ""
 msgid "Unable to perform power BMC operation"
 msgstr ""
 
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
+
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr ""
 
@@ -7495,6 +7570,9 @@ msgstr ""
 
 msgid "Unknown power management support - can't continue"
 msgstr "Okänt strömhanteringsstöd - kan inte fortsätta"
+
+msgid "Unknown power state"
+msgstr ""
 
 msgid "Unlock"
 msgstr ""
@@ -8046,6 +8124,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr ""
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr ""
 
@@ -8190,7 +8277,7 @@ msgstr "Ditt lösenord är för kort"
 msgid "Your session has expired, please login again"
 msgstr "Din session har utgått, var vänlig logga in igen"
 
-msgid "ZTP template"
+msgid "ZTP PXE template"
 msgstr ""
 
 msgid "Zone"
@@ -8387,9 +8474,6 @@ msgstr "misslyckades med att detektera bootserver: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "misslyckades med att köra puppetrun: %s"
-
-msgid "failed to process template: %s"
-msgstr "misslyckades med att bearbeta mallen: %s"
 
 msgid "failed to save %s"
 msgstr "misslyckades med att spara %s"
@@ -8677,9 +8761,6 @@ msgid "no puppet proxy defined - cant continue"
 msgstr "ingen puppetproxy är definierad - kan inte fortsätta"
 
 msgid "no value"
-msgstr ""
-
-msgid "none"
 msgstr ""
 
 msgid "not found"

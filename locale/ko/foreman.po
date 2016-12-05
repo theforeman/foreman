@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-11-26 09:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -104,6 +104,9 @@ msgstr[1] ""
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 주 전 "
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API 문서 홈페이지 "
@@ -222,6 +225,9 @@ msgstr "'%{host}'이(가) 삭제되었거나 '%{resource}'이(가) 응답하지 
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}'을(를) '%{resource}'에서 찾을 수 없습니다 "
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "'Content-Type: %s'는 POST 및 PUT 요청의 API v2에서 지원되지 않습니다. 'Content-Type: application/json'을 사용하십시오. "
@@ -553,6 +559,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "예를 들어 하드 드라이브 파티션에 대한 명시적 레이아웃입니다."
 
@@ -574,8 +583,8 @@ msgstr "모든 위치 "
 msgid "Any Organization"
 msgstr "모든 조직 "
 
-msgid "Applicable<br>Operating Systems"
-msgstr "적용 가능한<br>운영 체제 "
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "적용됨 "
@@ -995,8 +1004,8 @@ msgstr "%{mailer}에 대한 쿼리 작성"
 msgid "Build from OS image"
 msgstr "OS 이미지에서 빌드 "
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
-msgstr "이 옵션을 선택하지 않으면 검색 필드에 Foreman 검색 구문을 사용하여 필터를 지정할 수 있습니다. 필터에 제한이 설정되어 있지 않을 경우 (이 필드가 체크되어 있는 경우) 선택한 유형의 모든 리소스에 적용됩니다. "
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
+msgstr ""
 
 msgid "CA certificate expiry date"
 msgstr "CA 인증서 만료 날짜"
@@ -1115,6 +1124,9 @@ msgstr "gravatar.com에서 아바타를 변경 "
 msgid "Changed environments"
 msgstr "변경된 환경 "
 
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
+
 msgid "Chassis"
 msgstr "섀시 "
 
@@ -1216,6 +1228,9 @@ msgstr "통신 상태"
 
 msgid "Compute Resource"
 msgstr "컴퓨터 리소스 "
+
+msgid "Compute Resource Distribution"
+msgstr ""
 
 msgid "Compute Resources"
 msgstr "컴퓨터 리소스 "
@@ -1364,8 +1379,11 @@ msgstr "코어 "
 msgid "Cores per socket"
 msgstr "소켓당 코어 수 "
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "\"PXELinux global default\"라는 이름의 설정 템플릿을 찾을 수 없습니다. 이를 생성하십시오."
+msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr "%s과(와) 일치하는 가상 머신 네트워크 인터페이스를 찾을 수 없습니다."
@@ -1544,6 +1562,15 @@ msgstr "이 서브넷에서 사용할 DHCP 프록시 "
 msgid "DHCP conflicts removal for %s"
 msgstr "%s의 DHCP 충돌 삭제 "
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr "DHCP 임대 충돌이 감지되었습니다 "
 
@@ -1660,6 +1687,9 @@ msgstr "호스트 삭제 "
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "%s의 PuppetCA 인증서 삭제 "
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr "Puppet 클래스 삭제 "
@@ -1823,11 +1853,17 @@ msgstr "삭제된 환경 "
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "삭제된 환경 %{env} 및 %{pcs}"
 
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
+
 msgid "Deploy VM on selected datastore"
 msgstr "선택한 데이터 저장소에 VM 배포"
 
 msgid "Deploy on"
 msgstr "배포 "
+
+msgid "Deprecated, please use datacenter"
+msgstr ""
 
 msgid "Description"
 msgstr "설명 "
@@ -1873,6 +1909,12 @@ msgstr "통지 비활성화 "
 
 msgid "Disable alerts for selected hosts"
 msgstr "선택한 호스트의 통지 비활성화 "
+
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
 
 msgid "Disabled"
 msgstr "비활성화됨 "
@@ -2062,8 +2104,8 @@ msgstr "Puppet 클래스 %s 편집 "
 msgid "Edit Realm"
 msgstr "영역 편집 "
 
-msgid "Edit Roles"
-msgstr "역할 편집 "
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "스마트 변수 편집 "
@@ -2228,9 +2270,6 @@ msgstr "인터페이스 정보 로드 오류: %s"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-msgid "Error loading virtual machine information: %s"
-msgstr "가상 머신 정보를 불러오는 도중 오류가 발생했습니다: %s"
-
 msgid "Error removing widget from dashboard."
 msgstr "대시보드에서 위젯을 삭제하는 도중 오류가 발생했습니다."
 
@@ -2378,8 +2417,8 @@ msgstr "다시 시작 실패 "
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "%{host}의 %{action} 실행 실패: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "%s의 보류 중인 빌드 취소 실패 "
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "이전 인증서 삭제 실패 또는 자동 서명 항목 추가에 실패했습니다. 빌드를 종료합니다!"
@@ -2414,9 +2453,6 @@ msgstr "부팅 파일을 가져오는데 실패했습니다 "
 
 msgid "Failed to fetch: "
 msgstr "가져오는데 실패했습니다: "
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "%{name}의 IP를 얻는데 실패했습니다: %{e}"
@@ -2536,11 +2572,23 @@ msgstr "상태를 기준으로 필터링:"
 msgid "Filter classes"
 msgstr "필터 클래스 "
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "필터"
 
 msgid "Filters for role %s"
 msgstr "%s 역할에 대한 필터"
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
+msgstr ""
 
 msgid "Filter|Permissions"
 msgstr "권한 "
@@ -2864,6 +2912,9 @@ msgstr "호스트 설정 차트 "
 
 msgid "Host Configuration Status"
 msgstr "호스트 설정 상태 "
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "호스트 그룹 "
@@ -3968,6 +4019,9 @@ msgstr "특정 스마트 변수의 덮어쓰기 값 목록 "
 msgid "List of realms"
 msgstr "영역 목록 "
 
+msgid "List of resources types that will be automatically associated"
+msgstr ""
+
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr "특정 Puppet 클래스의 스마트 클래스 매개 변수 목록 "
 
@@ -4097,6 +4151,9 @@ msgstr "현지 시간"
 msgid "Location"
 msgstr "위치 "
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "위치 팩트"
 
@@ -4144,6 +4201,9 @@ msgstr "로그인 "
 
 msgid "Login delegation logout URL"
 msgstr "로그인 권한 로그아웃 URL"
+
+msgid "Login page footer text"
+msgstr ""
 
 msgid "Logout"
 msgstr "로그아웃 "
@@ -4326,9 +4386,6 @@ msgstr "불일치 보고서 "
 
 msgid "Missing one of the required permissions: %s"
 msgstr "필요한 권한 중 하나가 없습니다: %s"
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr "'%{widget}' 위젯에 대한 '%{template}' 템플릿이 없습니다."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -4658,8 +4715,8 @@ msgstr "사용자 이름"
 msgid "Nic::Base|Virtual"
 msgstr "가상 "
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "이 호스트의 %{template_kind} 템플릿을 찾을 수 없습니다. %{os} 설정에 최소 하나의 템플릿이 지정되어 있는지 확인합니다 "
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5101,6 +5158,9 @@ msgstr "순서"
 msgid "Organization"
 msgstr "조직 "
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "조직 팩트"
 
@@ -5170,7 +5230,7 @@ msgstr "소유자가 %s로 변경되었습니다 "
 msgid "Owner type needs to be one of the following: %s"
 msgstr "소유자 유형은 다음 중 하나이어야 합니다: %s"
 
-msgid "POAP template"
+msgid "POAP PXE template"
 msgstr ""
 
 msgid "PXE"
@@ -5179,7 +5239,16 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "PXE 기본값 파일은 모든 스마트 프록시에 배포되었습니다 "
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
@@ -5722,9 +5791,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "영역 "
@@ -5828,9 +5894,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "중복 값 삭제(배열 유형만)"
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "%s의 이전 TFTP 설정 삭제 "
 
 msgid "Remove this override"
 msgstr "이 덮어쓰기 삭제"
@@ -5971,8 +6034,8 @@ msgstr "취소"
 msgid "Role"
 msgstr "역할 "
 
-msgid "Role cloned from role %{old_name}"
-msgstr "역할 %{old_name}에서 역할이 복제되었습니다 "
+msgid "Role %s."
+msgstr ""
 
 msgid "Role is in use"
 msgstr "사용 중인 역할 "
@@ -6577,6 +6640,9 @@ msgstr "값 "
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "공백으로 구분된 옵션 (예: miimon=100). 본드 인터페이스의 경우에만 사용합니다. "
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr "일치 조건 지정"
 
@@ -6773,9 +6839,6 @@ msgstr "TFTP 프록시 "
 msgid "TFTP Proxy to use within this subnet"
 msgstr "이 서브넷에서 사용할 TFTP 프록시 "
 
-msgid "TFTP Settings for %s"
-msgstr "%s의 TFTP 설정 "
-
 msgid "TFTP server"
 msgstr "TFTP 서버"
 
@@ -6814,6 +6877,9 @@ msgid "Template %s is empty."
 msgstr "템플릿 %s이 비어있습니다. "
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -6871,6 +6937,9 @@ msgstr "연결 테스트 성공"
 
 msgid "Test email"
 msgstr "테스트 이메일"
+
+msgid "Text to be shown in the login-page footer"
+msgstr ""
 
 msgid ""
 "That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>\n"
@@ -7419,6 +7488,12 @@ msgstr "lan BMC 작업을 실행할 수 없습니다 "
 msgid "Unable to perform power BMC operation"
 msgstr "power BMC 작업을 실행할 수 없습니다 "
 
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
+
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr "%s의 DHCP 항목을 검색할 수 없습니다 "
 
@@ -7499,6 +7574,9 @@ msgstr "알 수 없는 전원 동작:  사용 가능한 방법은 %s입니다 "
 
 msgid "Unknown power management support - can't continue"
 msgstr "알 수 없는 전력 관리 지원 - 계속 진행할 수 없음 "
+
+msgid "Unknown power state"
+msgstr ""
 
 msgid "Unlock"
 msgstr "잠금 해제"
@@ -8050,6 +8128,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "활성화된 경우 매개 변수가 UI에서 숨겨집니다."
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr "이미지가 사용자 데이터를 지원하는지 여부"
 
@@ -8194,7 +8281,7 @@ msgstr "귀하의 암호가 너무 짧습니다."
 msgid "Your session has expired, please login again"
 msgstr "세션이 만료되었습니다. 다시 로그인하십시오 "
 
-msgid "ZTP template"
+msgid "ZTP PXE template"
 msgstr ""
 
 msgid "Zone"
@@ -8391,9 +8478,6 @@ msgstr "부트 서버 감지 실패: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "puppetrun 실행 실패: %s"
-
-msgid "failed to process template: %s"
-msgstr "템플릿 처리 실패: %s"
 
 msgid "failed to save %s"
 msgstr "%s 저장 실패 "
@@ -8681,9 +8765,6 @@ msgstr "puppet 프록시가 정의되어 있지 않습니다 - 계속 진행할 
 
 msgid "no value"
 msgstr "값이 없음 "
-
-msgid "none"
-msgstr "없음 "
 
 msgid "not found"
 msgstr "찾을 수 없음"
