@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-11-26 09:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/foreman/foreman/language/gl/"
 ")\n"
@@ -112,6 +112,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "Fai %s semana"
 msgstr[1] "Fai %s semanas"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr ""
@@ -231,6 +234,9 @@ msgstr "'%{host}' puido ser eliminado ou '%{resource}' non está respondendo."
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' non atopado en '%{resource}'"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr ""
@@ -556,6 +562,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "Un esquema explícito de particións do disco(s), como por exemplo"
 
@@ -577,8 +586,8 @@ msgstr "Calquer Lugar"
 msgid "Any Organization"
 msgstr "Calquer Organización"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "Sistemas Operativos<br>Aplicables"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "Aplicado"
@@ -999,7 +1008,7 @@ msgstr ""
 msgid "Build from OS image"
 msgstr "Crear dende imaxe de SO"
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
 msgstr ""
 
 msgid "CA certificate expiry date"
@@ -1119,6 +1128,9 @@ msgstr "Cambia ou teu avatar en gravatar.com"
 msgid "Changed environments"
 msgstr ""
 
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
+
 msgid "Chassis"
 msgstr "Chasis"
 
@@ -1220,6 +1232,9 @@ msgstr ""
 
 msgid "Compute Resource"
 msgstr "Recurso de Computación"
+
+msgid "Compute Resource Distribution"
+msgstr ""
 
 msgid "Compute Resources"
 msgstr "Recursos de Computación"
@@ -1368,7 +1383,10 @@ msgstr ""
 msgid "Cores per socket"
 msgstr ""
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
+msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
 msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
@@ -1548,6 +1566,15 @@ msgstr "Proxy DHCP para usar con esta subrede"
 msgid "DHCP conflicts removal for %s"
 msgstr "Eliminar conflictos DHCP para %s"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
@@ -1664,6 +1691,9 @@ msgstr "Borrar Equipos"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Borrar certificados PuppetCA para %s"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr ""
@@ -1827,11 +1857,17 @@ msgstr "Entorno eliminado"
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Eliminado entorno %{env} e %{pcs}"
 
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
+
 msgid "Deploy VM on selected datastore"
 msgstr ""
 
 msgid "Deploy on"
 msgstr "Desplegar en"
+
+msgid "Deprecated, please use datacenter"
+msgstr ""
 
 msgid "Description"
 msgstr "Descripción"
@@ -1877,6 +1913,12 @@ msgstr "Deshabilitar Notificacións"
 
 msgid "Disable alerts for selected hosts"
 msgstr "Deshabilitar alertas para os equipos seleccionados"
+
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
 
 msgid "Disabled"
 msgstr ""
@@ -2067,8 +2109,8 @@ msgstr "Editar Clase Puppet %s"
 msgid "Edit Realm"
 msgstr ""
 
-msgid "Edit Roles"
-msgstr "Editar Roles"
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "Editar Variable Intelixente"
@@ -2233,9 +2275,6 @@ msgstr ""
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-msgid "Error loading virtual machine information: %s"
-msgstr "Error cargando a información da máquina virtual: %s"
-
 msgid "Error removing widget from dashboard."
 msgstr ""
 
@@ -2383,8 +2422,8 @@ msgstr "Fallos de reinicio"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Fallou ao %{action} %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "Fallo ao cancelar instalación pendente de %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "Fallo ao limpar certificados antiguos ou ó engadir la chave de autofirmado. ¡Finalizando a instalación!"
@@ -2417,9 +2456,6 @@ msgstr "Fallo ao recolectar os arquivos de arranque"
 
 msgid "Failed to fetch: "
 msgstr "Fallo ao extraer: "
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Fallo ao asigna-la IP de ${name}: %{e}"
@@ -2539,10 +2575,22 @@ msgstr ""
 msgid "Filter classes"
 msgstr "Clases de filtro"
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "Filtros"
 
 msgid "Filters for role %s"
+msgstr ""
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
 msgstr ""
 
 msgid "Filter|Permissions"
@@ -2864,6 +2912,9 @@ msgstr ""
 
 msgid "Host Configuration Status"
 msgstr "Estado de Configuración do Equipo"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "Grupos de Equipos"
@@ -3968,6 +4019,9 @@ msgstr ""
 msgid "List of realms"
 msgstr ""
 
+msgid "List of resources types that will be automatically associated"
+msgstr ""
+
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr ""
 
@@ -4097,6 +4151,9 @@ msgstr ""
 msgid "Location"
 msgstr "Lugares"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr ""
 
@@ -4143,6 +4200,9 @@ msgid "Login"
 msgstr "Conectar"
 
 msgid "Login delegation logout URL"
+msgstr ""
+
+msgid "Login page footer text"
 msgstr ""
 
 msgid "Logout"
@@ -4325,9 +4385,6 @@ msgid "Mismatches Report"
 msgstr "Informe de Discordancias"
 
 msgid "Missing one of the required permissions: %s"
-msgstr ""
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4658,8 +4715,8 @@ msgstr ""
 msgid "Nic::Base|Virtual"
 msgstr ""
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "Non se atopou ningunha plantilla %{template_kind}. Asegúrate de que definiche polo menos unha nas opcións %{os}"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5101,6 +5158,9 @@ msgstr "Orde"
 msgid "Organization"
 msgstr "Organización"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr ""
 
@@ -5170,7 +5230,7 @@ msgstr "Propietario cambiado a %s"
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-msgid "POAP template"
+msgid "POAP PXE template"
 msgstr ""
 
 msgid "PXE"
@@ -5179,7 +5239,16 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "O arquivo 'PXE Predeterminado'  foi despregado en tódolos Proxies Intelixentes"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
@@ -5722,9 +5791,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr ""
@@ -5828,9 +5894,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr ""
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Eliminar antiguos axustes TFTP de %s"
 
 msgid "Remove this override"
 msgstr ""
@@ -5971,7 +6034,7 @@ msgstr ""
 msgid "Role"
 msgstr "Rol"
 
-msgid "Role cloned from role %{old_name}"
+msgid "Role %s."
 msgstr ""
 
 msgid "Role is in use"
@@ -6578,6 +6641,9 @@ msgstr "Valor"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr ""
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr ""
 
@@ -6774,9 +6840,6 @@ msgstr "Proxy TFTP"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "Proxy TFTP para usar nesta subrede"
 
-msgid "TFTP Settings for %s"
-msgstr "Configuracións TFTP para %s"
-
 msgid "TFTP server"
 msgstr ""
 
@@ -6815,6 +6878,9 @@ msgid "Template %s is empty."
 msgstr ""
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -6871,6 +6937,9 @@ msgid "Test connection was successful"
 msgstr ""
 
 msgid "Test email"
+msgstr ""
+
+msgid "Text to be shown in the login-page footer"
 msgstr ""
 
 msgid ""
@@ -7411,6 +7480,12 @@ msgstr ""
 msgid "Unable to perform power BMC operation"
 msgstr ""
 
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
+
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr ""
 
@@ -7491,6 +7566,9 @@ msgstr ""
 
 msgid "Unknown power management support - can't continue"
 msgstr "Soporte de xestión de enerxía desconocido - Non se pode continuar"
+
+msgid "Unknown power state"
+msgstr ""
 
 msgid "Unlock"
 msgstr ""
@@ -8042,6 +8120,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr ""
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr ""
 
@@ -8186,7 +8273,7 @@ msgstr "O seu contrasinal é demasiado curto"
 msgid "Your session has expired, please login again"
 msgstr "A sesión expirou, por favor, volve a conectarte"
 
-msgid "ZTP template"
+msgid "ZTP PXE template"
 msgstr ""
 
 msgid "Zone"
@@ -8383,9 +8470,6 @@ msgstr "fallou ao detectar servidor de arranque: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "fallou a execución de puppetrun: %s"
-
-msgid "failed to process template: %s"
-msgstr "Fallou o procesamento da plantilla: %s"
 
 msgid "failed to save %s"
 msgstr "Non se puido gardar %s"
@@ -8673,9 +8757,6 @@ msgid "no puppet proxy defined - cant continue"
 msgstr "Non se definiu ningún proxy de Puppet - Non se pode continuar"
 
 msgid "no value"
-msgstr ""
-
-msgid "none"
 msgstr ""
 
 msgid "not found"

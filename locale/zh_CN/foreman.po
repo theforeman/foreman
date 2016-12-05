@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-11-26 09:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -108,6 +108,9 @@ msgstr[1] ""
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 周前"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API 文档主页"
@@ -226,6 +229,9 @@ msgstr "'%{host}' 不能删除或者 '%{resource}' 无响应。"
 
 msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' 在'%{resource}'中未发现"
+
+msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "API v2 不支持 'Content-Type: %s' 的 POST 和 PUT 请求。请使用 'Content-Type: application/json'。"
@@ -557,6 +563,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "明确硬盘分区。 E.G."
 
@@ -578,8 +587,8 @@ msgstr "任意位置"
 msgid "Any Organization"
 msgstr "任意组织"
 
-msgid "Applicable<br>Operating Systems"
-msgstr "适用的<br>操作系统"
+msgid "Applicable Operating Systems"
+msgstr ""
 
 msgid "Applied"
 msgstr "已批准"
@@ -999,8 +1008,8 @@ msgstr "构建 %{mailer} 查询"
 msgid "Build from OS image"
 msgstr "从系统介质创建"
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
-msgstr "取消选择这一项就可以指定在搜索栏执行 Foreman 搜索的过滤器。如果过滤器仍为无限（即选择这个字段），它会将其应用到所有所选类型资源。"
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
+msgstr ""
 
 msgid "CA certificate expiry date"
 msgstr "CA 认证书期日期"
@@ -1119,6 +1128,9 @@ msgstr "头像更改"
 msgid "Changed environments"
 msgstr "改变环境"
 
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
+
 msgid "Chassis"
 msgstr "机架"
 
@@ -1220,6 +1232,9 @@ msgstr "通讯状态"
 
 msgid "Compute Resource"
 msgstr "计算机资源"
+
+msgid "Compute Resource Distribution"
+msgstr ""
 
 msgid "Compute Resources"
 msgstr "计算机资源"
@@ -1368,8 +1383,11 @@ msgstr "Cores"
 msgid "Cores per socket"
 msgstr "每个插槽的 core"
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
-msgstr "无法找到名为 \"PXELinux global default\" 的配置模板，请创建模板。"
+msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
+msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
 msgstr "无法找到匹配 %s 的虚拟机网络接口"
@@ -1548,6 +1566,15 @@ msgstr "本子网使用的DHCP代理服务器"
 msgid "DHCP conflicts removal for %s"
 msgstr "去除 %s DHCP冲突"
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr "探测到 DCHP 租赁冲突"
 
@@ -1664,6 +1691,9 @@ msgstr "删除主机"
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "删除 %s的证书"
+
+msgid "Delete TFTP %{kind} config for %{host}"
+msgstr ""
 
 msgid "Delete a Puppet class"
 msgstr "删除 Puppet 类别"
@@ -1827,11 +1857,17 @@ msgstr "删除环境"
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "删除 %{env} 和 %{pcs} 的环境"
 
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
+
 msgid "Deploy VM on selected datastore"
 msgstr "在所选数据存储中部署 VM"
 
 msgid "Deploy on"
 msgstr "部署到"
+
+msgid "Deprecated, please use datacenter"
+msgstr ""
 
 msgid "Description"
 msgstr "描述"
@@ -1877,6 +1913,12 @@ msgstr "停用通知"
 
 msgid "Disable alerts for selected hosts"
 msgstr "停止选择主机的警告"
+
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
 
 msgid "Disabled"
 msgstr "已禁用"
@@ -2066,8 +2108,8 @@ msgstr "编辑 %s"
 msgid "Edit Realm"
 msgstr "编辑范围"
 
-msgid "Edit Roles"
-msgstr "编辑规则"
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "编辑智能参数"
@@ -2232,9 +2274,6 @@ msgstr "载入接口信息出错：%s"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-msgid "Error loading virtual machine information: %s"
-msgstr "加载虚拟机 %s 的信息时错误"
-
 msgid "Error removing widget from dashboard."
 msgstr "从仪表板中删除挂件出错。"
 
@@ -2382,8 +2421,8 @@ msgstr "重启失败"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "%{action} %{host} 失败: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "取消 %s 的待处理构建失败"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr "无法清除任何旧的证书或添加自动签名条目。终止构建！"
@@ -2418,9 +2457,6 @@ msgstr "无法提取引导文件"
 
 msgid "Failed to fetch: "
 msgstr "无法获取："
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "获取 %{name} IP 失败：%{e}"
@@ -2540,11 +2576,23 @@ msgstr "根据状态过滤："
 msgid "Filter classes"
 msgstr "筛选类"
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "筛选"
 
 msgid "Filters for role %s"
 msgstr "用于角色 %s 的过滤器"
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
+msgstr ""
 
 msgid "Filter|Permissions"
 msgstr "权限"
@@ -2868,6 +2916,9 @@ msgstr "主机配置图表"
 
 msgid "Host Configuration Status"
 msgstr "主机配置状态"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "主机组"
@@ -3972,6 +4023,9 @@ msgstr "具体智能变量替代值列表"
 msgid "List of realms"
 msgstr "范围列表"
 
+msgid "List of resources types that will be automatically associated"
+msgstr ""
+
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr "具体 Puppet 类别的智能类别参数列表"
 
@@ -4101,6 +4155,9 @@ msgstr "本地时间"
 msgid "Location"
 msgstr "位置"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "位置详情"
 
@@ -4148,6 +4205,9 @@ msgstr "登录"
 
 msgid "Login delegation logout URL"
 msgstr "登录委派退出 URL"
+
+msgid "Login page footer text"
+msgstr ""
 
 msgid "Logout"
 msgstr "退出"
@@ -4330,9 +4390,6 @@ msgstr "报告不匹配"
 
 msgid "Missing one of the required permissions: %s"
 msgstr "缺少所需权限之一：%s"
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
-msgstr "缺少用于小组件 '%{widget}' 的模板 '%{template}'。"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -4662,8 +4719,8 @@ msgstr "用户名"
 msgid "Nic::Base|Virtual"
 msgstr "虚拟"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
-msgstr "没有找到这个主机的 %{template_kind} 模板，请确定在 %{os} 设置中至少设定一个模板。"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
+msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr ""
@@ -5105,6 +5162,9 @@ msgstr "顺序"
 msgid "Organization"
 msgstr "组织"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "机构 fact"
 
@@ -5174,8 +5234,8 @@ msgstr "%s 所有者修改"
 msgid "Owner type needs to be one of the following: %s"
 msgstr "拥有者类型应为以下类型之一：%s"
 
-msgid "POAP template"
-msgstr "POAP 模版"
+msgid "POAP PXE template"
+msgstr ""
 
 msgid "PXE"
 msgstr "PXE"
@@ -5183,8 +5243,17 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr "默认的PXE配置已经发布到所有智能代理"
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
 msgstr "PXEGrub 模版"
+
+msgid "PXEGrub2 template"
+msgstr ""
 
 msgid "PXELinux template"
 msgstr "PXELinux 模版"
@@ -5726,9 +5795,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "范围"
@@ -5832,9 +5898,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "删除重复值（仅用于阵列类型）"
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "删除 %s 的 TFTP 设置"
 
 msgid "Remove this override"
 msgstr "删除此覆盖"
@@ -5975,8 +6038,8 @@ msgstr "撤消"
 msgid "Role"
 msgstr "角色"
 
-msgid "Role cloned from role %{old_name}"
-msgstr "使用角色 %{old_name} 克隆的角色"
+msgid "Role %s."
+msgstr ""
 
 msgid "Role is in use"
 msgstr "使用的角色"
@@ -6581,6 +6644,9 @@ msgstr "值"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "使用空格分隔的选项，例如：miimon=100。仅用于捆绑接口。"
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr "指定映射器"
 
@@ -6777,9 +6843,6 @@ msgstr "TFTP代理"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "本子网使用的 TFTP 代理服务器"
 
-msgid "TFTP Settings for %s"
-msgstr "%s 的 TFTP 设置"
-
 msgid "TFTP server"
 msgstr "TFTP 服务器"
 
@@ -6818,6 +6881,9 @@ msgid "Template %s is empty."
 msgstr "模板 %s 为空。"
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -6875,6 +6941,9 @@ msgstr "测试连接成功"
 
 msgid "Test email"
 msgstr "测试电子邮件"
+
+msgid "Text to be shown in the login-page footer"
+msgstr ""
 
 msgid ""
 "That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>\n"
@@ -7423,6 +7492,12 @@ msgstr "无法执行 lan BMC操作"
 msgid "Unable to perform power BMC operation"
 msgstr "无法执行电源 BMC 操作"
 
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
+
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr "无法检索 %s 的 DHCP 条目"
 
@@ -7503,6 +7578,9 @@ msgstr "未知电源操作：可用方法为 %s"
 
 msgid "Unknown power management support - can't continue"
 msgstr "未知电源管理支持 - 无法继续"
+
+msgid "Unknown power state"
+msgstr ""
 
 msgid "Unlock"
 msgstr "解锁"
@@ -8054,6 +8132,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "何时将启用的参数隐藏到 UI 中"
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr "映象是否支持用户数据"
 
@@ -8198,8 +8285,8 @@ msgstr "密码太短"
 msgid "Your session has expired, please login again"
 msgstr "会话已过期，请重新登录。"
 
-msgid "ZTP template"
-msgstr "ZTP 模版"
+msgid "ZTP PXE template"
+msgstr ""
 
 msgid "Zone"
 msgstr "区"
@@ -8395,9 +8482,6 @@ msgstr "探测引导服务器失败：%s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "执行 puppetrun 失败：%s"
-
-msgid "failed to process template: %s"
-msgstr "处理模板失败：%s"
 
 msgid "failed to save %s"
 msgstr "保存 %s失败"
@@ -8685,9 +8769,6 @@ msgstr "未定义 puppet proxy - 停止"
 
 msgid "no value"
 msgstr "未提供值"
-
-msgid "none"
-msgstr "无"
 
 msgid "not found"
 msgstr "未找到"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-08-24 10:09+0000\n"
+"PO-Revision-Date: 2016-11-26 09:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -112,6 +112,9 @@ msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "fa %s setmana"
 msgstr[1] "fa %s setmanes"
+
+msgid "%s widget loading..."
+msgstr ""
 
 msgid "%{app_name} API documentation homepage"
 msgstr "Pàgina inicial de la documentació de l'API %{app_name}"
@@ -230,6 +233,9 @@ msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr ""
 
 msgid "'%{host}' not found on '%{resource}'"
+msgstr ""
+
+msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
@@ -558,6 +564,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr ""
 
@@ -579,7 +588,7 @@ msgstr "Qualsevol ubicació"
 msgid "Any Organization"
 msgstr "Qualsevol organització"
 
-msgid "Applicable<br>Operating Systems"
+msgid "Applicable Operating Systems"
 msgstr ""
 
 msgid "Applied"
@@ -1001,8 +1010,8 @@ msgstr "Construeix una consulta per %{mailer}"
 msgid "Build from OS image"
 msgstr "Construeix des de la imatge del SO"
 
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type"
-msgstr "Si ho desmarqueu, podeu especificar el filtre amb la sintaxi de cerques de Foreman al camp de cerca. Si el filtre continua com il·limitat (quan aquest camp està marcat) s'aplica en tots els recursos del tipus seleccionat"
+msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
+msgstr ""
 
 msgid "CA certificate expiry date"
 msgstr ""
@@ -1121,6 +1130,9 @@ msgstr ""
 msgid "Changed environments"
 msgstr ""
 
+msgid "Changes to following associations will propagate to all inheriting filters"
+msgstr ""
+
 msgid "Chassis"
 msgstr "Xassís"
 
@@ -1222,6 +1234,9 @@ msgstr ""
 
 msgid "Compute Resource"
 msgstr "Recurs computacional"
+
+msgid "Compute Resource Distribution"
+msgstr ""
 
 msgid "Compute Resources"
 msgstr "Recursos computacionals"
@@ -1370,7 +1385,10 @@ msgstr "Nuclis"
 msgid "Cores per socket"
 msgstr ""
 
-msgid "Could not find a Configuration Template with the name \"PXELinux global default\", please create one."
+msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
+msgid "Could not find a Configuration Template with the name \"%s global default\", please create one."
 msgstr ""
 
 msgid "Could not find virtual machine network interface matching %s"
@@ -1550,6 +1568,15 @@ msgstr "Servidor intermediari de DHCP per utilitzar dins d'aquesta subxarxa"
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
+msgid "DHCP filename option"
+msgstr ""
+
+msgid "DHCP filename option (Grub2/PXELinux by default)"
+msgstr ""
+
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgstr ""
+
 msgid "DHCP lease conflicts have been detected"
 msgstr ""
 
@@ -1665,6 +1692,9 @@ msgid "Delete Hosts"
 msgstr "Suprimeix els amfitrions"
 
 msgid "Delete PuppetCA certificates for %s"
+msgstr ""
+
+msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
 msgid "Delete a Puppet class"
@@ -1829,11 +1859,17 @@ msgstr "Suprimeix l'entorn"
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr ""
 
+msgid "Deploy TFTP %{kind} config for %{host}"
+msgstr ""
+
 msgid "Deploy VM on selected datastore"
 msgstr ""
 
 msgid "Deploy on"
 msgstr "Desplega sobre"
+
+msgid "Deprecated, please use datacenter"
+msgstr ""
 
 msgid "Description"
 msgstr "Descripció"
@@ -1879,6 +1915,12 @@ msgstr "inhabilita les notificacions"
 
 msgid "Disable alerts for selected hosts"
 msgstr "Inhabilita les alertes per als amfitrions seleccionats"
+
+msgid "Disable all filters overriding"
+msgstr ""
+
+msgid "Disable overriding"
+msgstr ""
 
 msgid "Disabled"
 msgstr "Inhabilitada"
@@ -2069,8 +2111,8 @@ msgstr "Edita la classe de Puppet %s"
 msgid "Edit Realm"
 msgstr "Edita el reialme"
 
-msgid "Edit Roles"
-msgstr "Edita els rols"
+msgid "Edit Role"
+msgstr ""
 
 msgid "Edit Smart Variable"
 msgstr "Edita la variable intel·ligent"
@@ -2235,9 +2277,6 @@ msgstr "S'ha produït un error en carregar la informació de les interfícies: %
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-msgid "Error loading virtual machine information: %s"
-msgstr "S'ha produït un error en carregar la informació de la màquina virtual: %s"
-
 msgid "Error removing widget from dashboard."
 msgstr "S'ha produït un error en suprimir l'estri del tauler."
 
@@ -2385,8 +2424,8 @@ msgstr ""
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "No s'ha pogut %{action} %{host}: %{e}"
 
-msgid "Failed to cancel pending build for %s"
-msgstr "No s'ha pogut cancel·lar la construcció pendent per %s"
+msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
+msgstr ""
 
 msgid "Failed to clean any old certificates or add the autosign entry. Terminating the build!"
 msgstr ""
@@ -2419,9 +2458,6 @@ msgstr "No s'han pogut recuperar els fitxers d'arrencada"
 
 msgid "Failed to fetch: "
 msgstr "No s'ha pogut recuperar:"
-
-msgid "Failed to generate %{template_kind} template %{template_name}: %{e}"
-msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "No s'ha pogut obtenir la IP per %{name}: %{e}"
@@ -2541,10 +2577,22 @@ msgstr ""
 msgid "Filter classes"
 msgstr "Filtra les classes"
 
+msgid "Filter overriding has been disabled"
+msgstr ""
+
 msgid "Filters"
 msgstr "Filtres"
 
 msgid "Filters for role %s"
+msgstr ""
+
+msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgstr ""
+
+msgid "Filters overriding has been disabled"
+msgstr ""
+
+msgid "Filter|Override"
 msgstr ""
 
 msgid "Filter|Permissions"
@@ -2869,6 +2917,9 @@ msgstr "Gràfica de configuració de l'amfitrió"
 
 msgid "Host Configuration Status"
 msgstr "Estat de configuració dels amfitrions"
+
+msgid "Host Group Distribution"
+msgstr ""
 
 msgid "Host Groups"
 msgstr "Grups d'amfitrions"
@@ -3973,6 +4024,9 @@ msgstr ""
 msgid "List of realms"
 msgstr "Llista dels reialmes"
 
+msgid "List of resources types that will be automatically associated"
+msgstr ""
+
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr "Llista tots els paràmetres de la classe intel·ligent per a una classe de Puppet específica"
 
@@ -4102,6 +4156,9 @@ msgstr ""
 msgid "Location"
 msgstr "Ubicació"
 
+msgid "Location Distribution"
+msgstr ""
+
 msgid "Location fact"
 msgstr "Objecte d'interès de la ubicació"
 
@@ -4148,6 +4205,9 @@ msgid "Login"
 msgstr "Inicia la sessió"
 
 msgid "Login delegation logout URL"
+msgstr ""
+
+msgid "Login page footer text"
 msgstr ""
 
 msgid "Logout"
@@ -4332,9 +4392,6 @@ msgid "Mismatches Report"
 msgstr ""
 
 msgid "Missing one of the required permissions: %s"
-msgstr ""
-
-msgid "Missing template '%{template}' for widget '%{widget}'."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4665,7 +4722,7 @@ msgstr "Nom d'usuari"
 msgid "Nic::Base|Virtual"
 msgstr "Virtual"
 
-msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings"
+msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
 
 msgid "No IPv4 subnets selected"
@@ -5108,6 +5165,9 @@ msgstr "Ordre"
 msgid "Organization"
 msgstr "Organització"
 
+msgid "Organization Distribution"
+msgstr ""
+
 msgid "Organization fact"
 msgstr "Objecte d'interès de l'organització"
 
@@ -5177,7 +5237,7 @@ msgstr "S'ha canviat el propietari a %s"
 msgid "Owner type needs to be one of the following: %s"
 msgstr ""
 
-msgid "POAP template"
+msgid "POAP PXE template"
 msgstr ""
 
 msgid "PXE"
@@ -5186,7 +5246,16 @@ msgstr "PXE"
 msgid "PXE Default file has been deployed to all Smart Proxies"
 msgstr ""
 
+msgid "PXE Loader"
+msgstr ""
+
+msgid "PXE loader"
+msgstr ""
+
 msgid "PXEGrub template"
+msgstr ""
+
+msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
@@ -5729,9 +5798,6 @@ msgstr ""
 msgid "Random-based"
 msgstr ""
 
-msgid "Randomize"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm"
 msgstr "Reialme"
@@ -5835,9 +5901,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr ""
-
-msgid "Remove old TFTP Settings for %s"
-msgstr "Suprimeix els ajusts antics de DHCP per %s"
 
 msgid "Remove this override"
 msgstr ""
@@ -5978,8 +6041,8 @@ msgstr ""
 msgid "Role"
 msgstr "Rol"
 
-msgid "Role cloned from role %{old_name}"
-msgstr "S'ha clonat el rol a partir del rol %{old_name}"
+msgid "Role %s."
+msgstr ""
 
 msgid "Role is in use"
 msgstr "Rol en ús"
@@ -6585,6 +6648,9 @@ msgstr "Valor"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr ""
 
+msgid "Specified value is higher than recommended maximum"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr "Especifica els classificadors"
 
@@ -6781,9 +6847,6 @@ msgstr "Servidor intermediari de TFTP"
 msgid "TFTP Proxy to use within this subnet"
 msgstr "Servidor intermediari de TFTP per utilitzar dins d'aquesta subxarxa"
 
-msgid "TFTP Settings for %s"
-msgstr "Ajusts de TFTP per %s"
-
 msgid "TFTP server"
 msgstr ""
 
@@ -6822,6 +6885,9 @@ msgid "Template %s is empty."
 msgstr "La plantilla %s està buida."
 
 msgid "Template '%s' is either missing or has an invalid organization or location"
+msgstr ""
+
+msgid "Template '%s' was not found"
 msgstr ""
 
 msgid "Template Diff"
@@ -6878,6 +6944,9 @@ msgid "Test connection was successful"
 msgstr ""
 
 msgid "Test email"
+msgstr ""
+
+msgid "Text to be shown in the login-page footer"
 msgstr ""
 
 msgid ""
@@ -7421,6 +7490,12 @@ msgstr ""
 msgid "Unable to perform power BMC operation"
 msgstr ""
 
+msgid "Unable to render %{kind} template '%{name}': %{e}"
+msgstr ""
+
+msgid "Unable to render '%{name}' template: %{e}"
+msgstr ""
+
 msgid "Unable to retrieve DHCP entry for %s"
 msgstr ""
 
@@ -7500,6 +7575,9 @@ msgid "Unknown power action: available methods are %s"
 msgstr ""
 
 msgid "Unknown power management support - can't continue"
+msgstr ""
+
+msgid "Unknown power state"
 msgstr ""
 
 msgid "Unlock"
@@ -8052,6 +8130,15 @@ msgstr ""
 msgid "When enabled the parameter is hidden in the UI"
 msgstr ""
 
+msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
+msgstr ""
+
+msgid ""
+"When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
+"                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
+"                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
 msgid "Whether or not the image supports user data"
 msgstr ""
 
@@ -8196,7 +8283,7 @@ msgstr "La vostra contrasenya és massa curta"
 msgid "Your session has expired, please login again"
 msgstr "La vostra sessió ha vençut, si us plau, inicieu la sessió de nou"
 
-msgid "ZTP template"
+msgid "ZTP PXE template"
 msgstr ""
 
 msgid "Zone"
@@ -8393,9 +8480,6 @@ msgstr "no s'ha pogut detectar el servidor d'arrencada: %s"
 
 msgid "failed to execute puppetrun: %s"
 msgstr "no s'ha pogut executar puppetrun: %s"
-
-msgid "failed to process template: %s"
-msgstr "no s'ha pogut processar la plantilla: %s"
 
 msgid "failed to save %s"
 msgstr "no s'ha pogut desar %s"
@@ -8684,9 +8768,6 @@ msgstr ""
 
 msgid "no value"
 msgstr "sense valor"
-
-msgid "none"
-msgstr "sense"
 
 msgid "not found"
 msgstr ""
