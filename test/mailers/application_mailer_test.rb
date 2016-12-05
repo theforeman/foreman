@@ -2,7 +2,11 @@
 require 'test_helper'
 
 class ApplicationMailerTest < ActiveSupport::TestCase
-  setup { ActionMailer::Base.deliveries = [] }
+  setup do
+    ActionMailer::Base.deliveries = []
+    Setting::Email.load_defaults
+    Setting[:delivery_method] = :test
+  end
 
   class TestMailer < ::ApplicationMailer
     def test(to, subject)
@@ -62,5 +66,13 @@ class ApplicationMailerTest < ActiveSupport::TestCase
     mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /UTF8/ }
     assert mail
     assert_equal "Pelé@example.com", Mail::Encodings.decode_encode(mail.to[0],:decode)
+  end
+
+  test 'email settings are configured dynamically' do
+    Setting[:delivery_method] = :smtp
+    Setting[:smtp_address] = 'smtp.example.com'
+    mail_obj = TestMailer.test('nobody@example.com', 'subject')
+    assert_instance_of Mail::SMTP, mail_obj.delivery_method
+    assert_equal mail_obj.delivery_method.settings[:address], 'smtp.example.com'
   end
 end

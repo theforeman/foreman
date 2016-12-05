@@ -380,6 +380,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "test email should be delivered to user's email when no email param exists" do
+    user = users(:one)
+    put :test_mail, { :id => user.id, :user => {:login => user.login} }, set_session_user
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.subject.include? "Foreman test email"
+    assert_equal user.mail, mail.to[0]
+  end
+
   context "when user is logged in" do
     test "#login redirects to previous url" do
       @previous_url = "/bookmarks"

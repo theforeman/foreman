@@ -184,6 +184,10 @@ module LayoutHelper
     end
   end
 
+  def render_if_partial_exists(path, f)
+    render path, :f => f if lookup_context.exists?(path, [], true)
+  end
+
   private
 
   def table_css_classes(classes = '')

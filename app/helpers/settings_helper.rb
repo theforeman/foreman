@@ -1,7 +1,7 @@
 module SettingsHelper
   def value(setting)
     return readonly_field(setting, :value,
-      {:title => _("This setting is defined in the configuration file 'settings.yaml' and is read-only."), :helper => :show_value}) if setting.readonly?
+      {:title => _("This setting is defined in the configuration file '%{filename}' and is read-only.") % {:filename => setting.class.config_file}, :helper => :show_value}) if setting.readonly?
 
     return edit_select(setting, :value,
       {:title => _(setting.full_name), :select_values => self.send("#{setting.name}_collection") }) if self.respond_to? "#{setting.name}_collection"

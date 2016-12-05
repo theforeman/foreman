@@ -124,12 +124,12 @@ class UsersController < ApplicationController
 
   def test_mail
     begin
-      if params[:user_email].blank?
+      user = find_resource(:edit_users)
+      if params[:user_email].blank? && user.mail.blank?
         render :json => {:message => _("Email address is missing")}, :status => :unprocessable_entity
         return
       end
-      user = find_resource(:edit_users)
-      MailNotification[:tester].deliver(:user => user, :email => params[:user_email])
+      MailNotification[:tester].deliver(:user => user, :email => params[:user_email] || user.mail)
     rescue => e
       Foreman::Logging.exception("Unable to send email", e)
       render :json => {:message => _("Unable to send email, check server logs for more information")}, :status => :unprocessable_entity
