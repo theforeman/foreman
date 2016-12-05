@@ -25,7 +25,7 @@ name: coreos_cloudconfig
 <% if @host.params['reboot-strategy'] -%>
         update:
           reboot-strategy: <%= @host.params['reboot-strategy'] %>
-<% else -%>
+<% end -%>
 <% unless @host.param_false?('enable_etcd') -%>
         etcd2:
 <% if @host.params['etcd_discovery_url'] -%>
