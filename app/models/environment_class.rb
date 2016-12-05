@@ -4,6 +4,7 @@ class EnvironmentClass < ActiveRecord::Base
   belongs_to :puppetclass_lookup_key
   validates :puppetclass_lookup_key_id, :uniqueness => {:scope => [:environment_id, :puppetclass_id]}
   validates :puppetclass_id, :environment_id, :presence => true
+  after_destroy :delete_orphaned_lookup_keys
 
   scope :parameters_for_class, lambda {|puppetclasses_ids, environment_id|
     all_parameters_for_class(puppetclasses_ids, environment_id).where(:puppetclass_lookup_keys => {:override => true})
@@ -27,5 +28,11 @@ class EnvironmentClass < ActiveRecord::Base
 
   def self.key_in_environment(env, puppetclass, puppetclass_lookup_key)
     EnvironmentClass.where(:environment_id => env, :puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key).first
+  end
+
+  def delete_orphaned_lookup_keys
+    if puppetclass_lookup_key.present? && puppetclass_lookup_key.environment_classes.empty?
+      puppetclass_lookup_key.destroy
+    end
   end
 end
