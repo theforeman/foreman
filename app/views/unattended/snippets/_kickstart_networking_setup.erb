@@ -7,6 +7,7 @@ description: this will configure your host networking, it configures your primar
     and later
 %>
 <% subnet = @host.subnet -%>
+<% subnet6 = @host.subnet6 -%>
 <% dhcp = subnet.dhcp_boot_mode? -%>
 
 <% if @host.respond_to?(:has_primary_interface?) %>
@@ -22,6 +23,15 @@ NETMASK="<%= subnet.mask -%>"
 <% if subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
+<% if @host.ip6.present? -%>
+IPV6INIT=yes
+IPV6_AUTOCONF=no
+IPV6ADDR=<%= @host.ip6 %>
+<% if subnet6.gateway.present? -%>
+IPV6_DEFAULTGW=<%= subnet6.gateway %>
+<% end -%>
+IPV6_PEERDNS=no
+<% end -%>
 <% end -%>
 DEVICE=$real
 HWADDR="<%= @host.mac -%>"
@@ -34,6 +44,7 @@ EOF
 <% bonds = @host.bond_interfaces %>
 <% bonds.each do |bond| %>
 <% subnet = bond.subnet -%>
+<% subnet6 = bond.subnet6 -%>
 <% dhcp = subnet.nil? ? false : subnet.dhcp_boot_mode? -%>
 # <%= bond.identifier %> interface
 real="<%= bond.identifier -%>"
@@ -44,6 +55,15 @@ IPADDR="<%= bond.ip -%>"
 NETMASK="<%= subnet.mask -%>"
 <% if subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
+<% end -%>
+<% if bond.ip6.present? -%>
+IPV6INIT=yes
+IPV6_AUTOCONF=no
+IPV6ADDR=<%= bond.ip6 %>
+<% if subnet6.gateway.present? -%>
+IPV6_DEFAULTGW=<%= subnet6.gateway %>
+<% end -%>
+IPV6_PEERDNS=no
 <% end -%>
 <% end -%>
 DEVICE=$real
@@ -107,6 +127,7 @@ EOF
 <% next if bonded_interfaces.include?(interface.identifier) -%>
 
 <% subnet = interface.subnet -%>
+<% subnet6 = interface.subnet6 -%>
 <% virtual = interface.virtual? -%>
 <% vlan = virtual && (subnet.has_vlanid? || interface.vlanid.present?) -%>
 <% alias_type = virtual && !subnet.has_vlanid? && interface.identifier.include?(':') -%>
@@ -151,6 +172,15 @@ DNS2=<%= subnet.dns_secondary %>
 <% else -%>
 PEERDNS=no
 PEERROUTES=no
+<% end -%>
+<% if @host.ip6.present? -%>
+IPV6INIT=yes
+IPV6_AUTOCONF=no
+IPV6ADDR=<%= @host.ip6 %>
+<% if subnet6.gateway.present? -%>
+IPV6_DEFAULTGW=<%= subnet6.gateway %>
+<% end -%>
+IPV6_PEERDNS=no
 <% end -%>
 <% if vlan -%>
 VLAN=yes

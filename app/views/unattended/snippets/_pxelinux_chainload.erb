@@ -3,6 +3,12 @@ kind: snippet
 name: pxelinux_chainload
 %>
 LABEL local
-  MENU LABEL Chainload into bootloader on first disk
+  MENU LABEL Chainload into bootloader on the first disk
   MENU DEFAULT
   LOCALBOOT 0
+
+LABEL local_legacy
+  MENU LABEL Chainload into bootloader on the first disk - alternative
+  COM32 chain.c32
+  APPEND hd0
+

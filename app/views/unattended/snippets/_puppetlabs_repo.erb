@@ -33,6 +33,8 @@ end
 <% if os_family == 'Redhat' -%>
 rpm -Uvh<%= http_proxy %><%= http_port %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>-<%= os_major %>.noarch.rpm
 <% elsif os_family == 'Debian' -%>
+apt-get update
+apt-get -y install ca-certificates
 wget -O /tmp/<%= repo_name %>-<%= repo_os %>.deb<%= proxy_string %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>.deb
 dpkg -i /tmp/<%= repo_name %>-<%= repo_os %>.deb
 <% end -%>
