@@ -12,6 +12,7 @@ class UnattendedController < ApplicationController
     alias_method_chain f, :unattended
   end
 
+  before_action :set_admin_user, :unless => Proc.new { preview? }
   # We want to find out our requesting host
   before_action :get_host_details, :allowed_to_install?, :except => :hostgroup_template
   before_action :handle_ca, :if => Proc.new { params[:kind] == 'provision' }
@@ -20,7 +21,6 @@ class UnattendedController < ApplicationController
   before_action :load_template_vars, :only => :host_template
   # all of our requests should be returned in text/plain
   after_action :set_content_type
-  before_action :set_admin_user, :only => :built
 
   # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
   def built
@@ -71,13 +71,7 @@ class UnattendedController < ApplicationController
     type = 'iPXE' if type == 'gPXE'
 
     if (config = @host.provisioning_template({ :kind => type }))
-      if !preview?
-        User.as_anonymous_admin do
-          safe_render config
-        end
-      else
-        safe_render config
-      end
+      safe_render config
     else
       error_message = N_("unable to find %{type} template for %{host} running %{os}")
       render_custom_error(:not_found, error_message, {:type => type, :host => @host.name, :os => @host.operatingsystem})
