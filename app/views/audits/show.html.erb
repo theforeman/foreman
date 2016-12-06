@@ -42,10 +42,10 @@
             <td><%= name.humanize %></td>
             <% if change.is_a?(Array) %>
                 <% change.each do |v| %>
-                    <td><%= id_to_label(name,v) %></td>
+                    <td><%= id_to_label(name,v,false) %></td>
                 <% end %>
             <% else %>
-                <td><%= id_to_label(name,change) %></td>
+                <td><%= id_to_label(name,change,false) %></td>
             <% end %>
           </tr>
         <% end %>
