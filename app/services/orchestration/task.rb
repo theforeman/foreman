@@ -19,6 +19,10 @@ module Orchestration
       end
     end
 
+    def status?(symbol)
+      @status == symbol.to_s
+    end
+
     def to_s
       "#{name}\t #{priority}\t #{status}\t #{action}"
     end
