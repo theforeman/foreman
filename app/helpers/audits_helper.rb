@@ -3,18 +3,24 @@ module AuditsHelper
                     Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
 
   # lookup the Model representing the numerical id and return its label
-  def id_to_label(name, change)
+  def id_to_label(name, change, truncate = true)
     return _("N/A") if change.nil?
     case name
       when "ancestry"
-        change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("NA") }.join('/')
+        label = change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("NA") }.join('/')
       when 'last_login_on'
-        change.to_s(:short)
+        label = change.to_s(:short)
       when /.*_id$/
-        name.classify.gsub('Id','').constantize.find(change).to_label
+        label = name.classify.gsub('Id','').constantize.find(change).to_label
       else
-        change.to_s == "[encrypted]" ? _(change.to_s) : change.to_s
-    end.truncate(50)
+        label = change.to_s == "[encrypted]" ? _(change.to_s) : change.to_s
+    end
+    if truncate
+      label = label.truncate(50)
+    else
+      label = label.strip.split("\n")[0]
+    end
+    label
   rescue
     _("N/A")
   end
