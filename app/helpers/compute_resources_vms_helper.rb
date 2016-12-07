@@ -143,12 +143,28 @@ module ComputeResourcesVmsHelper
     subnet_vpc_hash
   end
 
-  def compute_object_vpc_id(form)
-    form.object.network_interfaces.try(:first).try(:[], "vpcId")
+  def security_groups_selectable(compute_resource, form)
+    all_security_groups = compute_resource.security_groups.all
+    subnet_vpc_hash = subnet_vpc_hash(compute_resource.subnets)
+    vpc_sg_hash = vpc_security_group_hash(all_security_groups)
+    selected_subnet = form.object.subnet_id
+
+    vpc_id = selected_subnet.present? && subnet_vpc_hash[selected_subnet][:vpc_id]
+    groups = security_groups_for_vpc(all_security_groups, vpc_id).presence ||
+             security_group_not_selected(subnet_vpc_hash, vpc_sg_hash, vpc_id)
+
+    [groups, vpc_sg_hash, subnet_vpc_hash]
   end
 
   def security_groups_for_vpc(security_groups, vpc_id)
-    security_groups.map{ |sg| [sg.name, sg.group_id] if sg.vpc_id == vpc_id}.compact
+    security_groups.map{ |sg| [sg.name, sg.group_id] if sg.vpc_id == vpc_id }.compact
+  end
+
+  def security_group_not_selected(subnet_vpc_hash, vpc_sg_hash, vpc_id)
+    return [] if vpc_id.blank?
+    vpc_sg_hash[vpc_id].map do |vpc_sg|
+      ["#{vpc_sg[:group_name]} - #{selected_subnet}", vpc_sg[:group_id]]
+    end
   end
 
   def show_vm_name?
