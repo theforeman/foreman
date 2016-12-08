@@ -423,6 +423,13 @@ module Foreman::Model
       host.architecture.name == 'x86_64' ? 'x64' : host.architecture.name.downcase if host.architecture
     end
 
+    def default_iface_name(interfaces)
+      nic_name_num = 1
+      name_blacklist = interfaces.map{ |i| i[:name]}.reject{|n| n.blank?}
+      nic_name_num += 1 while name_blacklist.include?("nic#{nic_name_num}")
+      "nic#{nic_name_num}"
+    end
+
     def create_interfaces(vm, attrs)
       #first remove all existing interfaces
       vm.interfaces.each do |interface|
@@ -431,7 +438,10 @@ module Foreman::Model
       end if vm.interfaces
       #add interfaces
       interfaces = nested_attributes_for :interfaces, attrs
-      interfaces.map{ |i| vm.add_interface(i)}
+      interfaces.map do |interface|
+        interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
+        vm.add_interface(interface)
+      end
       vm.interfaces.reload
     end
 
@@ -459,7 +469,10 @@ module Foreman::Model
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.each do |interface|
         vm.destroy_interface(:id => interface[:id]) if interface[:_delete] == '1' && interface[:id]
-        vm.add_interface(interface) if interface[:id].blank?
+        if interface[:id].blank?
+          interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
+          vm.add_interface(interface)
+        end
       end
     end
 
