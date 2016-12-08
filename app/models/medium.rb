@@ -19,7 +19,7 @@ class Medium < ActiveRecord::Base
   VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
   validates :name, :uniqueness => true, :presence => true
   validates :path, :uniqueness => true, :presence => true,
-    :url_schema => ['http', 'https', 'ftp', 'nfs']
+    :url => { :schemes => ['http', 'https', 'ftp', 'nfs'] }
   validates :media_path, :config_path, :image_path, :allow_blank => true,
                 :format => { :with => VALID_NFS_PATH, :message => N_("does not appear to be a valid nfs mount path")},
                 :if => Proc.new { |m| m.respond_to? :media_path }
