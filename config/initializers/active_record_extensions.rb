@@ -3,28 +3,6 @@ class ActiveRecord::Base
   include HasManyCommon
   include StripWhitespace
   include Parameterizable::ById
-
-  def self.attr_accessible(*args)
-    uses_strong_parameters = begin
-                               Foreman::Controller::Parameters.const_get(name, false)
-                             rescue NameError
-                               false
-                             end
-
-    if uses_strong_parameters
-      Foreman::Deprecation.deprecation_warning('1.15', "#{name} model has been converted to strong parameters, use the `parameter_filter` plugin API instead of attr_accessible")
-      @legacy_accessible_attributes ||= []
-      @legacy_accessible_attributes.push(*args)
-    elsif defined?(super)
-      super # protected_attributes exists
-    else
-      raise "#{name} is using attr_accessible so must either be converted to strong parameters, or add the protected_attributes gem"
-    end
-  end
-
-  def self.legacy_accessible_attributes
-    @legacy_accessible_attributes || []
-  end
 end
 
 # Permit safemode template rendering to have basic read-only access over
