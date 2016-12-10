@@ -14,6 +14,10 @@ class TemplateTest < ActiveSupport::TestCase
       assert_match /^name: Name of template$/, @template.metadata
     end
 
+    test "metadata contains model information" do
+      assert_match /^model: Template$/, @template.metadata
+    end
+
     test "metadata skips blank attributes" do
       @template.name = ''
       refute_match /^name:&/, @template.metadata
