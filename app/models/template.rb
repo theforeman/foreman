@@ -12,7 +12,7 @@ class Template < ActiveRecord::Base
 
   before_save :remove_trailing_chars
 
-  attr_exportable :name, :snippet
+  attr_exportable :name, :snippet, :model => ->(template) { template.class.to_s }
 
   class Jail < Safemode::Jail
     allow :name
