@@ -25,6 +25,14 @@ class VariableLookupKeysControllerTest < ActionController::TestCase
     assert_redirected_to variable_lookup_keys_path
   end
 
+  test "should create variable_lookup_keys" do
+    puppetclass = FactoryGirl.create(:puppetclass)
+    assert_difference('VariableLookupKey.count', 1) do
+      post :create, { :variable_lookup_key => { :key => "dummy", :type => "string", :default_value => 'test', :puppetclass_id => puppetclass.id } }, set_session_user
+    end
+    assert_redirected_to variable_lookup_keys_path
+  end
+
   def setup_user
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]

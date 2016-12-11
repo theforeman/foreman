@@ -16,4 +16,13 @@ class VariableLookupKeyIntegrationTest < ActionDispatch::IntegrationTest
     assert_submit_button(variable_lookup_keys_path)
     assert page.has_link? 'webport'
   end
+
+  test "create new page" do
+    assert_new_button(variable_lookup_keys_path,"New Smart variable", new_variable_lookup_key_path)
+    fill_in "variable_lookup_key_key", :with => "test"
+    select "base", :from => "variable_lookup_key_puppetclass_id"
+    fill_in "variable_lookup_key_default_value", :with => "test"
+    assert_submit_button(variable_lookup_keys_path)
+    assert page.has_link? 'test'
+  end
 end
