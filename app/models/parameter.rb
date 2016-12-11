@@ -48,6 +48,10 @@ class Parameter < ActiveRecord::Base
                :host_parameter => 70
              }
 
+  def editable_by_user?
+    Parameter.authorized(:edit_params).where(:id => id).exists?
+  end
+
   def self.type_priority(type)
     PRIORITY.fetch(type.to_s.underscore.to_sym, nil) unless type.nil?
   end

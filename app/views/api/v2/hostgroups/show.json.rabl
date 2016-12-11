@@ -3,7 +3,7 @@ object @hostgroup
 extends "api/v2/hostgroups/main"
 
 node do |hostgroup|
-  { :parameters => partial("api/v2/parameters/base", :object => hostgroup.group_parameters.authorized) }
+  { :parameters => partial("api/v2/parameters/index", :object => hostgroup.group_parameters.authorized) }
 end
 
 child :template_combinations do
@@ -15,7 +15,7 @@ child :puppetclasses do
 end
 
 node do |hostgroup|
-  { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => hostgroup.all_puppetclasses) }
+  { :all_puppetclasses => partial("api/v2/puppetclasses/index", :object => hostgroup.all_puppetclasses) }
 end
 
 child :config_groups do

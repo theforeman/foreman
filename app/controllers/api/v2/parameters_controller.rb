@@ -29,6 +29,7 @@ module Api
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
       param :subnet_id, String, :desc => N_("ID of subnet")
+      param :show_hidden, :bool, :desc => N_("Should unhide hidden values for display")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -52,6 +53,7 @@ module Api
       param :organization_id, String, :desc => N_("ID of organization")
       param :subnet_id, String, :desc => N_("ID of subnet")
       param :id, String, :required => true, :desc => N_("ID of parameter")
+      param :show_hidden, :bool, :desc => N_("Should unhide hidden values for display")
 
       def show
       end

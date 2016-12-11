@@ -36,4 +36,30 @@ class Api::V2::CommonParametersControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  context 'hidden' do
+    test "should show a common parameter as hidden unless show_hidden is true" do
+      parameter = FactoryGirl.create(:common_parameter, :hidden_value => true)
+      get :show, { :id => parameter.to_param }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.hidden_value, show_response['value']
+    end
+
+    test "should show a common parameter unhidden when show_hidden is true" do
+      setup_user 'view', 'params'
+      setup_user 'edit', 'params'
+      parameter = FactoryGirl.create(:common_parameter, :hidden_value => true, :value => 'test')
+      get :show, { :id => parameter.to_param, :show_hidden => 'true' }, set_session_user(:one)
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.value, show_response['value']
+    end
+
+    test "should show a common parameter as hidden even when show_hidden is true if user is not authorized" do
+      setup_user 'view', 'params'
+      parameter = FactoryGirl.create(:common_parameter, :hidden_value => true)
+      get :show, { :id => parameter.to_param, :show_hidden => 'true' }, set_session_user(:one)
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.hidden_value, show_response['value']
+    end
+  end
 end

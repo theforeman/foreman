@@ -15,5 +15,5 @@ unless params[:environment_id].present?
 end
 
 node do |smart_class_parameter|
-  { :override_values => partial("api/v2/override_values/base", :object => smart_class_parameter.lookup_values) }
+  { :override_values => partial("api/v2/override_values/index", :object => smart_class_parameter.lookup_values) }
 end

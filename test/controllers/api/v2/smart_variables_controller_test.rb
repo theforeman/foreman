@@ -74,4 +74,32 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  context 'hidden' do
+    test "should show a smart variable as hidden unless show_hidden is true" do
+      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.hidden_value, show_response['default_value']
+    end
+
+    test "should show a smart variable unhidden when show_hidden is true" do
+      setup_user "view", "puppetclasses"
+      setup_user "view", "external_variables"
+      setup_user "edit", "external_variables"
+      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.default_value, show_response['default_value']
+    end
+
+    test "should show a smart variable parameter as hidden even when show_hidden is true if user is not authorized" do
+      setup_user "view", "puppetclasses"
+      setup_user "view", "external_variables"
+      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.hidden_value, show_response['default_value']
+    end
+  end
 end
