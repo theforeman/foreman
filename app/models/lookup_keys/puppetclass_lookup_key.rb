@@ -20,6 +20,10 @@ class PuppetclassLookupKey < LookupKey
 
   scope :smart_class_parameters, -> { joins(:environment_classes).readonly(false) }
 
+  def editable_by_user?
+   PuppetclassLookupKey.authorized(:edit_external_parameters).where(:id => id).exists?
+  end
+
   def param_class
     param_classes.first
   end

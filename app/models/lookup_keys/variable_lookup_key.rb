@@ -8,6 +8,10 @@ class VariableLookupKey < LookupKey
 
   scoped_search :relation => :puppetclass, :on => :name, :complete_value => true, :rename => :puppetclass
 
+  def editable_by_user?
+    VariableLookupKey.authorized(:edit_external_variables).where(:id => id).exists?
+  end
+
   def audit_class
     puppetclass
   end

@@ -6,6 +6,7 @@ module Api
       before_action :find_resource, :only => %w{show update destroy}
 
       api :GET, "/common_parameters/", N_("List all global parameters.")
+      param :show_hidden, :bool, :desc => N_("Should unhide hidden values for display")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -13,6 +14,7 @@ module Api
       end
 
       api :GET, "/common_parameters/:id/", N_("Show a global parameter")
+      param :show_hidden, :bool, :desc => N_("Should unhide hidden values for display")
       param :id, :identifier, :required => true
 
       def show

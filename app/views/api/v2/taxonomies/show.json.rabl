@@ -67,5 +67,5 @@ if @taxonomy.is_a?(Organization)
 end
 
 node do |taxonomy|
-  { :parameters => partial("api/v2/parameters/base", :object => taxonomy.params_objects) }
+  { :parameters => partial("api/v2/parameters/index", :object => taxonomy.params_objects) }
 end

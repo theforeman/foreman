@@ -301,4 +301,32 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
       assert_response :not_found
     end
   end
+
+  context 'hidden' do
+    test "should show a host parameter as hidden unless show_hidden is true" do
+      parameter = FactoryGirl.create(:host_parameter, :host => @host, :hidden_value => true)
+      get :show, { :host_id => @host.to_param, :id => parameter.to_param }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.hidden_value, show_response['value']
+    end
+
+    test "should show a host parameter unhidden when show_hidden is true" do
+      setup_user 'view', 'params'
+      setup_user 'edit', 'params'
+      setup_user 'view', 'hosts', "name = #{@host.name}"
+      parameter = FactoryGirl.create(:host_parameter, :host => @host, :hidden_value => true)
+      get :show, { :host_id => @host.to_param, :id => parameter.to_param, :show_hidden => 'true' }, set_session_user(:one)
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.value, show_response['value']
+    end
+
+    test "should show a host parameter as hidden even when show_hidden is true if user is not authorized" do
+      setup_user 'view', 'params'
+      setup_user 'view', 'hosts', "name = #{@host.name}"
+      parameter = FactoryGirl.create(:host_parameter, :host => @host, :hidden_value => true)
+      get :show, { :host_id => @host.to_param, :id => parameter.to_param, :show_hidden => 'true' }, set_session_user(:one)
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameter.hidden_value, show_response['value']
+    end
+  end
 end
