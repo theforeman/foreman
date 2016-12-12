@@ -82,5 +82,14 @@ class DashboardTest < ActiveSupport::TestCase
         assert_equal 0, data.latest_events.length
       end
     end
+
+    test 'latest_events does not fail on ambiguous column name host_id' do
+      data = Dashboard::Data.new
+      #instead of going through the authorizer, force a join that will cause ambiguity.
+      ConfigReport.expects(:authorized).with(:view_config_reports).returns(ConfigReport.joins(:host => :interfaces))
+      as_admin do
+        assert_equal 1, data.latest_events.length
+      end
+    end
   end
 end
