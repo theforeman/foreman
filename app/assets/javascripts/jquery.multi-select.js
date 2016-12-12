@@ -11,6 +11,7 @@ function multiSelectOnLoad(){
         var current_select = $(item).closest('.tab-pane').find('select[multiple]');
         current_select.data('descendants', null);
         $(current_select).multiSelect('refresh');
+        multiSelectToolTips();
       }
     })
   });
