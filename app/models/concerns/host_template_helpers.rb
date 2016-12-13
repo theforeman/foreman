@@ -35,9 +35,9 @@ module HostTemplateHelpers
 
     # use template_url from the request if set, but otherwise look for a Template
     # feature proxy, as PXE templates are written without an incoming request.
-    url = if @template_url && @host.try(:token).present?
+    url = if @template_url
             @template_url
-          elsif proxy.present? && proxy.has_feature?('Templates') && @host.try(:token).present?
+          elsif proxy.present? && proxy.has_feature?('Templates')
             temp_url = ProxyAPI::Template.new(:url => proxy.url).template_url
             if temp_url.nil?
               logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
