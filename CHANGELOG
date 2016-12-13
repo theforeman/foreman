@@ -1,3 +1,614 @@
+2016-12-13	Dominic Cleal <dominic@cleal.org>
+	* Release 1.14.0-RC1
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+
+2016-12-13	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17611 - Localize smart variables strings
+
+2016-12-05	Dominic Cleal <dominic@cleal.org>
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+	* fixes #17484 - remove reported_at sequence from report factory
+
+2016-12-05	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #12156 - Adds email configuration into Foreman settings
+
+2016-12-05	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17571 - Refactor tfm.tools to use ES6 syntax
+	* Fixes #15287 - Correct link from puppet proxy dashboard chart
+	* Fixes #17501 - Display tooltips on dashboard widgets (#4067)
+	* Refs #1556 - Remove puppet docroot setting from db and tests
+	* Fixes #1556, #11615 - Remove puppet rdoc support
+	* Fixes #17491 - polyfill Map for ARMv8 node (#4059)
+
+2016-12-05	Gail Steiger <gsteiger@netvision.net.il>
+	* Fixes #17569 - prevent error on chart component unmount
+	* Fixes #17035 - removes webpack provider plugin
+
+2016-12-05	Daniel Kimsey <dekimsey@gmail.com>
+	* Fixes #16907 - Sort proxy features on smart proxy display
+
+2016-12-05	Klaas Demter <Klaas-@users.noreply.github.com>
+	* Fixes #17561 - Allow Dynamic keyword in autoyast files
+
+2016-12-05	Timo Goebel <mail@timogoebel.name>
+	* fixes #17095 - ensure subnet belongs to ip from facts
+	* fixes #17407 - add a new hosts dashboard widget
+	* fixes #11127 - show error when rebuild reboot fails
+	* fixes #17476 - bmc power actions have correct status
+
+2016-12-05	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #16987 - Added ability to apply facet attributes
+	* Fixes #17439 - Moved facet base to a concern
+
+2016-12-05	kgaikwad <kavitagaikwad103@gmail.com>
+	* fixes #17157 - inconsistent mapping of host owner
+
+2016-12-05	treydock <treydock@gmail.com>
+	* Fixes #17535 - Associate host with multiple NICs to VMWare VM
+	* Fixes #17296 - Add setting access_unattended_without_build
+
+2016-12-05	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #17487 - support sessions for api calls
+
+2016-12-05	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #17491 - Revert "polyfill Map for ARMv8 node"
+
+2016-12-05	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17488 - Add confirmation to import db task
+
+2016-12-05	Jan-Otto Kröpke <jkroepke@users.noreply.github.com>
+	* Fixes #16422 - Foreman API throws ruby exception with ovirt network API
+
+2016-12-05	Abhay Kadam <abhaykadam88@gmail.com>
+	* Fixes #17494 - Remove stray end statement
+
+2016-12-05	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #17474 - DROP db prior to restore on postgres
+
+2016-12-05	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #16935 - Allow : & . device ID if there isnt one set
+
+2016-11-25	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #17343 - set deep munge config off
+
+2016-11-24	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #17468 - build PXE returns error with no TFTP proxies
+
+2016-11-24	Ori Rabin <orabin@redhat.com>
+	* Fixes #17441 - override all parameters permission changed to edit
+
+2016-11-24	Conor O'Callaghan <ivernus@users.noreply.github.com>
+	* Fixes #17461 - use singular form for missing os
+
+2016-11-24	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17458 - include user group admins
+	* Fixes #16739 - unify parameters permissions
+
+2016-11-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17403 - enable exporting of templates
+
+2016-11-23	Dominic Cleal <dominic@cleal.org>
+	* refs #14688 - correct i18n extraction for all new power methods
+
+2016-11-22	dhlavac <dhlavacd@redhat.com>
+	* Fixes #15232 - Showing inherited roles from User groups to user
+
+2016-11-22	Ohad Levy <ohadlevy@gmail.com>
+	* refs #14688 - updated corret meta tag name and missing whitespace.
+
+2016-11-22	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #14688 - Power status visible on hosts index page
+
+2016-11-22	Ori Rabin <orabin@redhat.com>
+	* Fixes #14951 - Allow matcher for host turning into managed host
+
+2016-11-22	Timo Goebel <mail@timogoebel.name>
+	* fixes #17409 - show only real bmc power actions
+
+2016-11-22	amirfefer <amirfefer@gmail.com>
+	* Fixes #17436 - extract setting value placeholder in settings
+
+2016-11-21	Ori Rabin <orabin@redhat.com>
+	* Fixes #17279 - Changing os search in host to search on os_title
+
+2016-11-21	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17394 - remove npm shrinkwrap file
+
+2016-11-20	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #17303 - correct position of validation msg for parameters
+
+2016-11-18	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #17309 - Made facets resilient to class reloading
+
+2016-11-18	Dominic Cleal <dominic@cleal.org>
+	* fixes #17354 - test and improve idempotency of OS fact parser
+
+2016-11-18	Ivan Nečas <inecas@redhat.com>
+	* Fixes #17361 - ensure plugins migration paths are set
+
+2016-11-17	Dominic Cleal <dominic@cleal.org>
+	* refs #16899 - update help button on environments index
+
+2016-11-16	Dominic Cleal <dominic@cleal.org>
+	* fixes #17335 - parse Solaris update as minor version
+
+2016-11-16	alejandrocfg <alejandrocfg@users.noreply.github.com>
+	* Fixes #16619 - Set EC2 VPC instance private IP from primary NIC
+
+2016-11-15	Dominic Cleal <dominic@cleal.org>
+	* fixes #17340 - assign IPv6 address to Rackspace CR hosts
+
+2016-11-15	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #17334 - change password strength messages to imply warning
+
+2016-11-15	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #17332 - Test email error renders properly in users
+
+2016-11-14	Ori Rabin <orabin@redhat.com>
+	* Fixes #17238 - Validates lookup value match exists in key path
+
+2016-11-14	Dominic Cleal <dominic@cleal.org>
+	* fixes #16798 - move scoped_search definitions to STI subclasses
+
+2016-11-14	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #17200 - Add option datacenter to compute resource
+
+2016-11-14	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #17297 - added PXE loader flags for Debian family
+
+2016-11-11	Dominic Cleal <dominic@cleal.org>
+	* fixes #17314 - use *_subnets permissions for Subnet subclasses
+
+2016-11-11	Mac Reid <mareid@mtu.edu>
+	* Fixes #17277 - quote host properties
+
+2016-11-10	Dominic Cleal <dominic@cleal.org>
+	* fixes #17300 - accept Nic
+
+2016-11-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17248 - Run js tests with node versions we use
+
+2016-11-09	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #16971 - CVE-2016-7077 remove unauthorized checkboxes
+	* Fixes #15498 - removes scopes from includes in taxonomix
+
+2016-11-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17195 - CVE-2016-8634 escape html in alert text
+
+2016-11-08	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #17256 - ignore order in Authorizer
+
+2016-11-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #17006 - added SSH BMC provider
+
+2016-11-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17264 - remove duplicit admin check
+
+2016-11-07	Dominic Cleal <dominic@cleal.org>
+	* refs #17044 - update foreman-debug man page for -s option change
+
+2016-11-07	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #16546 - update facts on existing hosts
+
+2016-11-07	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17255 - authorizer supports admin users
+
+2016-11-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #17236 - ensure source maps are available in dev env.
+
+2016-11-04	Dominic Cleal <dominic@cleal.org>
+	* fixes #7152 - translate setting category names
+	* fixes #17170 - use strong params in InterfacesController
+
+2016-11-04	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #17206 - Use __() for js translations
+
+2016-11-03	Timo Goebel <mail@timogoebel.name>
+	* fixes #17071 - set ip after acquiring compute details
+	* fixes #17187 - v6 ip not required when cr provides v4
+
+2016-11-03	Pavel Moravec <pmoravec@dhcp-27-35.brq.redhat.com>
+	* Fixes #17044 - foreman-debug counts size instead lines
+
+2016-11-03	Dominic Cleal <dominic@cleal.org>
+	* fixes #17197 - don't update DNS on ip6 change to empty string
+
+2016-11-03	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #16646 - Add ability to plugins to modify index scope
+
+2016-11-03	amirfefer <amirfefer@gmail.com>
+	* Fixes #17151 - sort PXE labels by hostgroup title
+
+2016-11-02	Timo Goebel <mail@timogoebel.name>
+	* fixes #16951 - ipv6 compute orchestration
+	* fixes #15519 - speed up host edit page rendering on vmware
+	* fixes #17012 - openstack render scheduler_filter correctly
+
+2016-11-02	Gail Steiger <gsteiger@netvision.net.il>
+	* Fixes #17038 - Improve js testing coverage reporting
+
+2016-11-02	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #16218 - override settings per environment
+
+2016-11-02	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #17103 - search ignored taxonomies
+
+2016-11-01	Kęstutis Mizara <vilkas@riftus.lt>
+	* fixes #16091 - Fixed association Foreman host with Compute VM
+
+2016-11-01	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #16990 - make access_perm test reusable
+
+2016-11-01	Martin Schurz <Martin.Schurz@t-systems.com>
+	* fixes #16996 - reduce eager_load of tables
+
+2016-11-01	Ori Rabin <orabin@redhat.com>
+	* Fixes #17153 - Consistent name for variable_type in the api
+
+2016-11-01	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17152 - Puppet proxy dashboard displays correctly
+	* Fixes #16704 - Allow filtering on dashboard
+
+2016-10-31	Timo Goebel <mail@timogoebel.name>
+	* fixes #11656 - disable cr interface fields on host edit
+
+2016-10-31	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #17120 - Allow custom name for setting category
+
+2016-10-31	dhlavac <dhlavacd@redhat.com>
+	* Fixes #16548 - Changing user own passwd require current passwd
+
+2016-10-31	Sebastian Gräßl <sebastian@validcode.me>
+	* Fixes #17084 - Add webpack on welcome and unauthorized pages
+
+2016-10-31	Dominic Cleal <dominic@cleal.org>
+	* fixes #16866 - don't call orchestration skip if unattended is off
+
+2016-10-31	amirfefer <amirfefer@gmail.com>
+	* Fixes #12543 - enable utf-8 encoding in email address
+
+2016-10-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17107 - list override in filter API
+	* Fixes #17104 - ignore resource via API
+
+2016-10-26	Timo Goebel <mail@timogoebel.name>
+	* fixes #17086 - export nic ipv6 address for ENC
+
+2016-10-25	Timo Goebel <mail@timogoebel.name>
+	* fixes #17007 - normalize dns records before comparison
+
+2016-10-24	Dominic Cleal <dominic@cleal.org>
+	* fixes #17070 - unpin rabl to permit 0.13.1
+
+2016-10-24	Timo Goebel <mail@timogoebel.name>
+	* fixes #17041 - skips orchestration when importing facts
+
+2016-10-19	Timo Goebel <mail@timogoebel.name>
+	* fixes #16952 - pass type to proxy when destroying dns records
+
+2016-10-19	Michael Moll <kvedulv@kvedulv.de>
+	* fixes #17011 - refactor BUNDLER_CMD in foreman-rake
+
+2016-10-17	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #16737 - Show correct folder level
+
+2016-10-17	Dominic Cleal <dominic@cleal.org>
+	* refs #13968 - use existing feature to ensure reliable comparison
+
+2016-10-17	Swapnil Abnave <sabnave@redhat.com>
+	* Fixes #16962 - Typo on domains welcome page
+
+2016-10-17	Timo Goebel <mail@timogoebel.name>
+	* fixes #16900 - ensure interface mac address is unicast
+
+2016-10-14	Dominic Cleal <dominic@cleal.org>
+	* fixes #16821 - store plugin permissions in AccessControl in tests
+
+2016-10-14	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16887 - Display errors from compute resource in VM tab
+
+2016-10-13	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #16899 - rename helper with conflicting path name
+
+2016-10-13	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #6492 - ipmi_boot permission renamed to ipmi_boot_hosts
+
+2016-10-13	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13968 - Add error when no known proxy features found
+
+2016-10-13	Timo Goebel <mail@timogoebel.name>
+	* fixes #16819 - rebuild tftp with template kinds
+	* fixes #16892 - secureheaders expects img_src parameter
+
+2016-10-12	Timo Goebel <mail@timogoebel.name>
+	* refs #16725 - initialize smart_proxies for models (#3932)
+
+2016-10-11	Ivan Nečas <inecas@redhat.com>
+	* Fixes #16834 - ignore docker interfaces
+
+2016-10-10	Dominic Cleal <dominic@cleal.org>
+	* refs #13424 - add wait_for_ajax to statistics page load test
+
+2016-10-10	Swapnil Abnave <sabnave@redhat.com>
+	* Fixes #16828 - cloned-roles - role.builtin must be 0
+
+2016-10-09	Gail Steiger <gsteiger@netvision.net.il>
+	* Fixes #13424 - c3 patternfly react implementation
+
+2016-10-07	Dominic Cleal <dominic@cleal.org>
+	* fixes #16805 - reload host parameters on host group change
+
+2016-10-07	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16813 - improve error messages for associations
+	* Fixes #12864 - verify host owner taxonomies
+
+2016-10-07	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #5673 - Allow deletion of role with users
+
+2016-10-07	amirfefer <amirfefer@gmail.com>
+	* Fixes #13870 - encrypt specific settings values in db
+
+2016-10-07	Timo Goebel <timo.goebel@dm.de>
+	* fixes #16725 - add plugin extension point for smart proxies
+
+2016-10-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16806 - include renderer url dependencies
+
+2016-10-06	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16797 - Log pending migrations
+
+2016-10-05	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16803 - tolerate templates without documentation
+
+2016-10-04	Dominic Cleal <dominic@cleal.org>
+	* fixes #16749 - improve NIC update performance during fact imports
+	* refs #16689 - expand array of eager load tables
+	* fixes #16786 - don't call to_sentence on associations
+	* refs #9016 - remove unnecessary condition, fix comment location
+	* fixes #16717 - input_group_btn option no longer added to field
+	* fixes #16718 - remove relation.to_a.delete_if in multiple actions
+	* refs #16702 - fix deprecation passing 'controller' etc.
+
+2016-10-04	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #16785 - improve resource names for lookup keys
+
+2016-10-03	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16765 - DB IPAM works with excluded IPs
+
+2016-10-03	dhlavac <dhlavacd@redhat.com>
+	* Fixes #14277 - Added description field to users
+
+2016-10-03	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #15926 - [API] Add method to get ENC values of a host
+
+2016-10-03	kgaikwad <kavitagaikwad103@gmail.com>
+	* fixes #16514 - redirect to login page if user is deleted
+
+2016-09-30	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #16649 - PXE helper pxe_kernel_options rendering
+
+2016-09-30	Bryan Kearney <bkearney@redhat.com>
+	* Fixes #10930 - Make widget names and titles consistent
+
+2016-09-29	Trey Dockendorf <tdockendorf@osc.edu>
+	* Fixes #16114 - Expose host parameters to GET /api/hosts
+
+2016-09-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16723 - Lazy load data for dashboard widgets
+
+2016-09-29	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #12111 - Set width for host list action column
+
+2016-09-28	Dominic Cleal <dominic@cleal.org>
+	* fixes #16700 - change CatchJsonParseErrors test to cleanup driver
+
+2016-09-28	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #16681 - strong params in config groups API
+
+2016-09-28	Daniel Lobato Garcia <me@daniellobato.me>
+	* Refs #16689 - Missing DRY index action controllers
+
+2016-09-28	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #16689 - DRY index action with search
+
+2016-09-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16702 - pass params to dashboard widgets
+
+2016-09-27	Timo Goebel <timo.goebel@dm.de>
+	* fixes #16635 - welcome page works with scoped models
+
+2016-09-27	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #6372 - User inherits taxonomies from LDAP on creation
+
+2016-09-26	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #16614 - Humanize Audit class name
+	* Fixes #14375 - Add search to bookmarks controller
+
+2016-09-26	dhlavac <dhlavacd@redhat.com>
+	* Fixes #4608 - Added description field to role
+
+2016-09-26	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16624 - Make AuthSourceLDAP taxable
+	* Fixes #16643 - Display origin for facts
+
+2016-09-26	Dominic Cleal <dominic@cleal.org>
+	* refs #16557 - move templates helper test to correct dir
+
+2016-09-24	Dominic Cleal <dominic@cleal.org>
+	* fixes #16557 - move tests into modern Rails layout
+
+2016-09-23	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16633 - AuthSourceLDAP uses *_authenticators filters
+	* Fixes #16625 - Deprecate show_taxonomy_tabs? helper
+
+2016-09-23	Dominic Cleal <dominic@cleal.org>
+	* fixes #16547 - handle nil value from get_interface_scope
+
+2016-09-23	Ondrej Prazak <oprazak@redhat.com>
+	* Refs #16074 - Load .env when not running a Procfile
+	* Fixes #15703 - Singularize media in api doc for orgs
+
+2016-09-23	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #9016 - improved fact loading performance
+	* Fixes #16652 - UEFI Grub2 support for non-intel archs
+
+2016-09-23	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16286 - Move multiselect from gem to npm
+
+2016-09-22	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #12535 - expose config_groups in ENC
+	* Fixes #15543 - External method to search fact's hostgroup
+	* Fixes #14837 - Reword Puppet import buttons
+
+2016-09-22	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #16167 - added list of safemode methods
+	* Fixes #16532 - fixed hostgroup architecture params
+
+2016-09-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #5901 - fine grain for vmware CPU selectors
+	* Fixes #16577 - enhance unit detection
+
+2016-09-22	Dominic Cleal <dominic@cleal.org>
+	* fixes #16578 - make keep_param idempotent, remove duplicate call
+
+2016-09-22	Swapnil Abnave <swap.it@hotmail.com>
+	* Fixes #16530 - Redirect login page back if active session
+
+2016-09-21	Dominic Cleal <dominic@cleal.org>
+	* refs #15846 - correct spelling of parameter
+
+2016-09-21	Stephen Benjamin <stephen@redhat.com>
+	* templates - sync from community-templates
+
+2016-09-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16599 - Shrinkwrap npm modules
+
+2016-09-20	Bryan Kearney <bryan.kearney@gmail.com>
+	* Fixes #16372 - Convert the header logo to svg instead of png
+
+2016-09-20	Dominic Cleal <dominic@cleal.org>
+	* fixes #16580 - redact BMC password in ENC/templates with setting
+
+2016-09-19	Dominic Cleal <dominic@cleal.org>
+	* fixes #16576 - only load FactName IDs, not models during import
+
+2016-09-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16566 - Allow css inline images
+	* Fixes #16565 - Correct host search by parameters
+
+2016-09-18	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #13704 - Defensive association name setter When setting an association by name (e.g., hostgroup_name, organization_name) and the name does not exist, we raise a not found error
+
+2016-09-16	Dominic Cleal <dominic@cleal.org>
+	* fixes #16567 - use constants to register Rack middleware
+
+2016-09-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #13936 - Drop support for legacy browsers
+
+2016-09-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #10395 - fine grain for CPU selectors
+
+2016-09-15	dhlavac <dhlavacd@redhat.com>
+	* Fixes #14101 - Exception triggered when editing/adding a role
+
+2016-09-15	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16562 - Enable JS testing on CI
+
+2016-09-15	Dominic Cleal <dominic@cleal.org>
+	* fixes #16527 - replace where_values calls on relations
+
+2016-09-15	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #16564 - Disable FrozenStringLiteralComment cop
+
+2016-09-14	Dominic Cleal <dominic@cleal.org>
+	* fixes #16545 - correctly search for classes from YAML import
+	* fixes #16529 - require rake/testtask explicitly
+
+2016-09-14	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #13748 - Add testing tools for code under webpack
+
+2016-09-14	David Davis <daviddavis@redhat.com>
+	* Refs #3809 - Turn on MultilineTernaryOperator rubocop
+
+2016-09-14	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14545, #13104 - Correctly parse y.z minor OS versions
+
+2016-09-14	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #16074 - Adds BIND variable to startup process
+
+2016-09-13	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #16125 - add owner type validation
+
+2016-09-13	Dominic Cleal <dominic@cleal.org>
+	* refs #15846 - hide API deprecation warnings in tests
+
+2016-09-13	Brad Buckingham <bbuckingham@redhat.com>
+	* Fixes #16525 - host/hostgroup - include _name fields for proxy
+
+2016-09-12	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16219 - Interfaces API works with scoped view_hosts
+
+2016-09-12	Dominic Cleal <dominic@cleal.org>
+	* fixes #16512 - remove Setting#respond_to_missing?
+
+2016-09-12	Ori Rabin <orabin@redhat.com>
+	* Fixes #16378 - Move default_value casting to lookup_key children
+
+2016-09-12	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #16397 - set nested template_combo. objects to optional
+
+2016-09-12	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #16491 - Upgrade rubocop to version 0.42
+	* Fixes #9117 - Upgrade secure_headers to version 3.4
+
+2016-09-11	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #16483 - Remove deprecated 'search_by_name' from Puppetclass
+
+2016-09-09	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #16414 - reword alphanumeric validation error message
+
+2016-09-09	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #16092 - Test connection buttons don't disapper on error
+
+2016-09-08	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #16293 - Move vendored diff.js to webpack (#3784)
+
+2016-09-08	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #16072 - Fixes compute profile two pane
+
+2016-09-08	Daniel Lobato <elobatocs@gmail.com>
+	* Fixes #16463 - Fix with_taxonomy_scope when taxable_ids = []
+
+2016-09-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #16424 - extracted create_new_host_when_facts_are_uploaded
+
+2016-09-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16461 - expose override in filter API
+
+2016-09-08	David Davis <daviddavis@redhat.com>
+	* Refs #7233 - Fixing erroneous rubocop config
+
+2016-09-08	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #15846 - Renamed use_puppet_default to omit in LookupValue
+
+2016-09-07	Dominic Cleal <dominic@cleal.org>
+	* fixes #15248 - remove 1.14 deprecations
+	* Bump version to 1.14-develop
+
+2016-09-07	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #15992 - Truncate compute resources name in about page
+	* Fixes #16407 - reword import environments title
+	* Fixes #16380 - Eager load hosts attributes Since Rails 4, in order to load delegated attributes, we need to use 'eager_load' instead of 'includes'
+	* Fixes #16415 - Accept unwrapped hash with 'layout' attribute
+
+2016-09-07	Guido Günther <agx@sigxcpu.org>
+	* Fixes #16439 - Don't fail recreate if DNS is ok
+
+2016-09-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #16449 - reordered taxonomy detection during import
+
 2016-09-06	Marek Hulan <mhulan@redhat.com>
 	* Fixes #2314 - fine grain for RAM selectors
 
