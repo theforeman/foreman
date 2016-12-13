@@ -55,7 +55,9 @@ oses:
     <start_at_boot config:type="boolean">true</start_at_boot>
     <start_in_chroot config:type="boolean">true</start_in_chroot>
   </ntp-client>
+<% if ! @dynamic -%>
   <%= @host.diskLayout %>
+<% end -%>
   <runlevel>
     <default>3</default>
     <services config:type="list">
@@ -100,6 +102,19 @@ oses:
     </user>
   </users>
   <scripts>
+<% if @dynamic -%>
+    <pre-scripts config:type="list">
+      <script>
+        <debug config:type="boolean">true</debug>
+        <filename>pre_disklayout</filename>
+        <interpreter>shell</interpreter>
+        <source><![CDATA[
+<%= @host.diskLayout %>
+]]>
+        </source>
+      </script>
+    </pre-scripts>
+<% end -%>
     <chroot-scripts config:type="list">
       <script>
         <filename>cp-resolv.sh</filename>

@@ -24,6 +24,8 @@ name: freeipa_register
 #
 #   freeipa_opts                Additional options to pass directly to installer
 #
+#   freeipa_automount_server    Override automount server if freeipa_automount is true and the server differs from freeipa_server
+#
 
 <% if @host.operatingsystem.family == 'Redhat' -%>
   <% if @host.operatingsystem.name == 'Fedora' -%>
@@ -46,7 +48,8 @@ name: freeipa_register
 <% if @host.params['freeipa_server'] -%>
 <% domain = @host.params['freeipa_domain'] || @host.realm.name.downcase -%>
 
-freeipa_server="--server <%= @host.params['freeipa_server'] %> --domain <%=domain %>"
+freeipa_server="--server <%= @host.params['freeipa_server'] %>"
+freeipa_domain="--domain <%= domain %>"
 <% end -%>
 
 <% unless @host.param_false? 'freeipa_mkhomedir' %>
@@ -62,7 +65,7 @@ freeipa_opts="<%= @host.params['freeipa_opts'] %>"
 <% end -%>
 
 # One-time password will be requested at install time. Otherwise, $HOST[OTP] is used as a placeholder value.
-/usr/sbin/ipa-client-install -w '<%= @host.otp || "$HOST[OTP]" %>' --realm=<%= @host.realm %> -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_ssh
+/usr/sbin/ipa-client-install -w '<%= @host.otp || "$HOST[OTP]" %>' --realm=<%= @host.realm %> -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_domain $freeipa_ssh
 
 ##
 ## Automounter
@@ -75,7 +78,11 @@ automount_location="--location <%= @host.params['freeipa_automount_location'] %>
 <% if @host.param_true? 'freeipa_automount' -%>
 if [ -f /usr/sbin/ipa-client-automount ]
 then
-  /usr/sbin/ipa-client-automount $freeipa_server $automount_location --unattended
+  automount_server=$freeipa_server
+  <%- if automount_server = @host.params['freeipa_automount_server'] || @host.params['freeipa_server'] -%>
+  automount_server="--server <%= automount_server %>"
+  <%- end -%>
+  /usr/sbin/ipa-client-automount $automount_server $automount_location --unattended
 fi
 <% end -%>
 
