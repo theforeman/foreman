@@ -128,7 +128,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with bond interface' do
     let(:subnet) do
-      FactoryGirl.build(:subnet_ipv4, :tftp)
+      FactoryGirl.build(:subnet_ipv4, :tftp, :with_taxonomies)
     end
     let(:interfaces) do
       [
@@ -153,8 +153,11 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     let(:host) do
       FactoryGirl.create(:host,
                          :with_tftp_orchestration,
+                         :subnet => subnet,
                          :interfaces => interfaces,
-                         :build => true)
+                         :build => true,
+                         :location => subnet.locations.first,
+                         :organization => subnet.organizations.first)
     end
 
     test '#setTFTP should provision tftp for all bond child macs' do
