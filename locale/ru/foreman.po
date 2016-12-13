@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-11-26 09:18+0000\n"
+"PO-Revision-Date: 2016-12-07 09:17+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
@@ -203,6 +203,9 @@ msgstr "Дополнение %{id} требует наличия %{plugin_name} 
 
 msgid "%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}."
 msgstr "%{image} запрашивает функцию ввода пользовательских данных, однако %{os_link} не связана ни с одним подготовительным шаблоном с включенными данными пользователя. Свяжите ее с подходящим шаблоном или снимите флаг «Данные пользователя» для %{compute_resource_image_link}."
+
+msgid "%{key} does not exist in order field"
+msgstr ""
 
 msgid "%{match} does not match an existing host"
 msgstr "%{match} не совпадает ни с одним доступным узлом"
@@ -405,11 +408,14 @@ msgstr "Ключ доступа"
 msgid "Access denied"
 msgstr "Доступ запрещен"
 
+msgid "Access unattended without build"
+msgstr ""
+
 msgid "Account"
 msgstr "Учетная запись"
 
-msgid "Acquire IP address for %s"
-msgstr "Получить IP-адрес для %s"
+msgid "Acquire IP addresses for %s"
+msgstr ""
 
 msgid "Action"
 msgstr "Действие"
@@ -494,6 +500,9 @@ msgstr "Дополнительные атрибуты вычислительно
 
 msgid "Additional information about this host"
 msgstr "Дополнительная информация об этом узле"
+
+msgid "Address to connect to"
+msgstr ""
 
 msgid "Admin permissions required"
 msgstr "Необходимы права администратора"
@@ -591,8 +600,14 @@ msgstr "Выделено"
 msgid "Allocation (GB)"
 msgstr "Выделено (ГБ)"
 
+msgid "Allow access to unattended URLs without build mode being used"
+msgstr ""
+
 msgid "Allow external network as main network"
 msgstr "Разрешить использование внешней сети в качестве главной сети"
+
+msgid "Allowed methods or members"
+msgstr ""
 
 msgid "Always show configuration status"
 msgstr "Всегда показывать состояние конфигурации"
@@ -611,6 +626,9 @@ msgstr ""
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "Явно, то есть схема разделов определяется вручную, например:"
+
+msgid "An invalid response was received while requesting available features from this proxy"
+msgstr ""
 
 msgid "Annotation Notes"
 msgstr ""
@@ -685,6 +703,9 @@ msgstr "Вы действительно хотите %{act} %{vm}?"
 
 msgid "Are you sure?"
 msgstr "Продолжить?"
+
+msgid "Array of extra information types to include"
+msgstr ""
 
 msgid "Array of host IDs to associate with the partition table"
 msgstr "Массив кодов узлов связанных с таблицей разделов"
@@ -886,6 +907,9 @@ msgstr "Тип сервера"
 msgid "AuthSource|Tls"
 msgstr "TLS"
 
+msgid "Authentication"
+msgstr ""
+
 msgid "Author"
 msgstr "Автор"
 
@@ -945,6 +969,12 @@ msgstr "BIOS"
 
 msgid "BMC"
 msgstr "BMC"
+
+msgid "BMC credentials access"
+msgstr ""
+
+msgid "BMC password usage"
+msgstr ""
 
 msgid "Back"
 msgstr "Назад"
@@ -1075,11 +1105,8 @@ msgstr "Горячее подключение процессоров позво�
 msgid "CPUs"
 msgstr "Процессоры"
 
-msgid "Can't add or remove `%s` from identifier"
-msgstr "Невозможно добавить или удалить '%s' из идентификатора"
-
-msgid "Can't delete built-in role"
-msgstr "Встроенная роль не может быть удалена"
+msgid "Calling methods on objects"
+msgstr ""
 
 msgid "Can't delete internal admin account"
 msgstr "Вы не можете удалить внутреннюю учетную запись администратора"
@@ -1116,6 +1143,9 @@ msgstr "Чтобы настроить LDAP для %s, потребуется с�
 
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "Невозможно удалить %{current}, так как он содержит вложения (%{sti_name})."
+
+msgid "Cannot delete built-in role"
+msgstr ""
 
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Группа %{current} не может быть удалена, так как она содержит другие группы."
@@ -1182,9 +1212,6 @@ msgstr "Шасси"
 
 msgid "Check again"
 msgstr "Проверьте еще раз"
-
-msgid "Check out some %s"
-msgstr "Посмотрите %s"
 
 msgid "Check/Uncheck all"
 msgstr "Выбрать все/Отменить выбор"
@@ -1272,6 +1299,9 @@ msgstr "Кластер"
 
 msgid "Cluster ID is required to list available networks"
 msgstr "Для получения списка доступных сетей требуется идентификатор кластера"
+
+msgid "Comments"
+msgstr ""
 
 msgid "Communication status"
 msgstr "Состояние связи"
@@ -1417,8 +1447,8 @@ msgstr "Возможно, вывод консоли устарел"
 msgid "Console passwords"
 msgstr "Пароль консоли"
 
-msgid "Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that use Puppet default."
-msgstr "Продолжать поиск соответствий после первого совпадения (применимо только к массивам и хэшу). Условия подстановки для значения, используемого по умолчанию, будут игнорироваться."
+msgid "Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that are omitted."
+msgstr ""
 
 msgid "Continue?"
 msgstr "Продолжить?"
@@ -1588,8 +1618,14 @@ msgstr "Создавать узел при получении нового от�
 msgid "Create realm entry for %s"
 msgstr "Создать запись области определения для %s"
 
+msgid "Created"
+msgstr ""
+
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
+
+msgid "Current password"
+msgstr ""
 
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "Фильтр поиска LDAP (<i>дополнительно</i>)"
@@ -1605,6 +1641,9 @@ msgstr "DHCP"
 
 msgid "DHCP Proxy"
 msgstr "DHCP прокси"
+
+msgid "DHCP Proxy ID to use within this subnet"
+msgstr ""
 
 msgid "DHCP Proxy to use within this subnet"
 msgstr "DHCP-прокси для использования с этой подсетью"
@@ -1636,8 +1675,8 @@ msgstr "DNS"
 msgid "DNS Proxy"
 msgstr "DNS прокси"
 
-msgid "DNS Proxy to use within this subnet"
-msgstr "DNS-прокси для использования с этой подсетью"
+msgid "DNS Proxy ID to use within this subnet"
+msgstr ""
 
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr ""
@@ -1648,8 +1687,8 @@ msgstr "Время ожидания DNS"
 msgid "DNS name"
 msgstr "Имя DNS"
 
-msgid "DNS proxy to use within this domain"
-msgstr "DNS-прокси домена"
+msgid "DNS proxy ID to use within this domain"
+msgstr ""
 
 msgid "DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy"
 msgstr "DNS-прокси домена для управления записями A (записями PTR управляет DNS-прокси подсети) "
@@ -1719,6 +1758,9 @@ msgstr "Значение по умолчанию для переменной"
 
 msgid "Default variables lookup path"
 msgstr "Стандартный путь поиска переменных"
+
+msgid "Default verification mode"
+msgstr ""
 
 msgid "Defaults to image size if left blank"
 msgstr "По умолчанию размер образа, если останется пустым"
@@ -1903,6 +1945,9 @@ msgstr "Окружение удалено"
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "Удалено окружение %{env} и %{pcs}"
 
+msgid "Delivery method"
+msgstr ""
+
 msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
@@ -1913,6 +1958,9 @@ msgid "Deploy on"
 msgstr "Развертывание"
 
 msgid "Deprecated, please use datacenter"
+msgstr ""
+
+msgid "Deprecated, please use omit"
 msgstr ""
 
 msgid "Description"
@@ -2012,24 +2060,6 @@ msgstr[3] "Показаны <b>все %{count}</b> записи"
 
 msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
 msgstr "Показаны записи с  <b>%{from} по %{to}</b> из <b>%{count}</b>"
-
-msgid "Distribution chart"
-msgstr "График распределения"
-
-msgid "Do not send this parameter via the ENC. Puppet will use the value defined in the Puppet manifest for this parameter"
-msgstr "Не передавать этот параметр через ENC. Puppet будет использовать значение параметра из манифеста."
-
-msgid "Do not send this parameter via the ENC.<br>Puppet will use the value defined in the manifest."
-msgstr "Не отправлять параметр через ENC. <br>Puppet будет использовать значение, которое было определено в манифесте."
-
-msgid "Do not use your email as your password"
-msgstr "Не используйте своей email как пароль"
-
-msgid "Document root"
-msgstr "Корневой каталог документов"
-
-msgid "Document root where puppetdoc files should be created"
-msgstr "Корневой каталог файлов puppetdoc"
 
 msgid "Documentation"
 msgstr "Справка"
@@ -2246,6 +2276,9 @@ msgstr "Включено %s для перезагрузки и пересбор�
 msgid "Enabled %s for rebuild on next boot"
 msgstr "Включено %s, после следующей перезагрузки начнется пересборка"
 
+msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
+msgstr ""
+
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "Заключительный IP-адрес для автоматического предложения адресов"
 
@@ -2279,9 +2312,6 @@ msgstr "Переменная окружения, содержащая стату
 
 msgid "Environments"
 msgstr "Окружения"
-
-msgid "Environments and documentation"
-msgstr "Окружения и документация"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Hostgroups count"
@@ -2361,6 +2391,15 @@ msgstr "Истекает"
 msgid "Explain matchers"
 msgstr "Описание подстановки"
 
+msgid "Export"
+msgstr ""
+
+msgid "Export a partition template to ERB"
+msgstr ""
+
+msgid "Export a provisioning template to ERB"
+msgstr ""
+
 msgid "External IP"
 msgstr "Внешний IP"
 
@@ -2435,6 +2474,9 @@ msgstr "Имя"
 msgid "FactName|Short name"
 msgstr "Краткое название"
 
+msgid "FactValue|Origin"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "FactValue|Value"
 msgstr "Значение"
@@ -2474,6 +2516,9 @@ msgstr "Неудачный перезапуск"
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr "Не удалось выполнить действие «%{action}» на %{host}: %{e}"
 
+msgid "Failed to acquire IP addresses from compute resource for %s"
+msgstr ""
+
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
 msgstr ""
 
@@ -2505,6 +2550,9 @@ msgstr ""
 
 msgid "Failed to fetch boot files"
 msgstr "Не удалось получить загрузочные файлы"
+
+msgid "Failed to fetch power status: %s"
+msgstr ""
 
 msgid "Failed to fetch: "
 msgstr "Ошибка получения:"
@@ -2551,11 +2599,22 @@ msgstr "Не удалось заново развернуть %s."
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Не удалось удалить сертификаты %{name}: %{e}"
 
+msgid "Failed to retrieve power status for %{host} within %{timeout} second."
+msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to save widget positions."
 msgstr "Сбой сохранения положения виджета."
 
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr "Не удалось настроить %{proxy_type} в качестве прокси для %{host}."
+
+msgid "Failed to set IP for %{name}: %{e}"
+msgstr ""
+
+msgid "Failed to set IPs via IPAM for %{name}: %{e}"
+msgstr ""
 
 msgid "Failed to set console: %s"
 msgstr "Не удалось выбрать консоль: %s"
@@ -2603,6 +2662,9 @@ msgstr "Функция"
 
 msgid "Features"
 msgstr "Функции"
+
+msgid "Features \"%s\" in this proxy are not recognized by Foreman. If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Feature|Name"
@@ -2704,6 +2766,9 @@ msgstr ""
 "можно создать единый носитель.\n"
 " Записи носителя можно присвоить имя «Red Hat» и настроить путь в виде <em>'http://server/redhat/$version/$arch'</em>)."
 
+msgid "For more info visit our documentation."
+msgstr ""
+
 msgid "For more information"
 msgstr "Дальнейшая информация"
 
@@ -2791,6 +2856,15 @@ msgstr "Foreman передаст информацию об окружении Pu
 msgid "Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."
 msgstr "Включить авторизацию OAuth и разрешить передавать имена пользователей в заголовках запросов. Запросы OAuth будут иметь административные разрешения."
 
+msgid "Foreman will not send this parameter in classification output, replaces use_puppet_default"
+msgstr ""
+
+msgid "Foreman will not send this parameter in classification output."
+msgstr ""
+
+msgid "Foreman will not send this parameter in classification output. Puppet will use the value defined in the Puppet manifest for this parameter"
+msgstr ""
+
 msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr "Интерпретировать ERB в значениях параметров в выводе ENC"
 
@@ -2805,6 +2879,9 @@ msgstr "Имена узлов, начинающиеся с «puppet», буду�
 
 msgid "Foreman will update a host's environment from its facts"
 msgstr "Обновлять окружение узла на основании фактов статистики"
+
+msgid "Foreman will update a host's subnet from its facts"
+msgstr ""
 
 msgid "Foreman will update the host IP with the IP that made the built request"
 msgstr "В качестве IP-адреса узла использовать адрес, с которого был отправлен запрос сборки"
@@ -2857,8 +2934,14 @@ msgstr "Шлюз"
 msgid "General"
 msgstr "Общие"
 
+msgid "General role description"
+msgstr ""
+
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "Общие сведения, например о необходимости специальной конфигурации BIOS."
+
+msgid "General user description"
+msgstr ""
 
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr ""
@@ -2868,6 +2951,9 @@ msgstr "Создано %s назад"
 
 msgid "Generated at %s"
 msgstr "Создано: %s"
+
+msgid "Get ENC values of host"
+msgstr ""
 
 msgid "Get configuration status of host"
 msgstr "Получить состояние конфигурации узла"
@@ -2893,10 +2979,19 @@ msgstr "Глобальные"
 msgid "Global Parameters"
 msgstr "Глобальные параметры"
 
+msgid "Global functions"
+msgstr ""
+
+msgid "Global methods (functions)"
+msgstr ""
+
 msgid "Global parameters"
 msgstr "Глобальные параметры"
 
 msgid "Global status changed from %{from} to %{to}"
+msgstr ""
+
+msgid "Global variables"
 msgstr ""
 
 msgid "Good host reports in the last %s"
@@ -2910,6 +3005,9 @@ msgstr "Базовое DN группы"
 
 msgid "Guest OS"
 msgstr "Гостевая ОС"
+
+msgid "HELO/EHLO domain"
+msgstr ""
 
 msgid "Hardware"
 msgstr "Оборудование"
@@ -3466,6 +3564,9 @@ msgstr "IP-адрес удаленного распределителя нагр
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
 msgstr "Если установлен, генерирует ошибку в случае, если правило подстановки не присвоило значение и если значение по умолчанию тоже не задано."
 
+msgid "If owner type is specified, owner must be specified too."
+msgstr ""
+
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr "Если установлено, вызовет ошибку, если не установлено значение по умолчанию и не найдет поставщик значения"
 
@@ -3539,8 +3640,11 @@ msgstr "Импорт"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import from %s"
-msgstr "Импорт с %s"
+msgid "Import classes from %s"
+msgstr ""
+
+msgid "Import environments from %s"
+msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr "Не удалось импортировать факты с узла %s"
@@ -3557,6 +3661,9 @@ msgstr ""
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "Вы сможете определить не только классы Puppet для новых узлов, но также переменные и другие характеристики, контролирующие поведение группы."
 
+msgid "In-line code syntax"
+msgstr ""
+
 msgid "Include default value when merging all matching values"
 msgstr "При объединении совпадающих значений также включить значение, используемое по умолчанию"
 
@@ -3571,6 +3678,9 @@ msgstr "Включенные классы"
 
 msgid "Included Config Groups"
 msgstr "Включенные группы конфигурации"
+
+msgid "Incorrect password"
+msgstr ""
 
 msgid "Incorrect username or password"
 msgstr "Неверное имя или пароль"
@@ -3689,6 +3799,9 @@ msgstr "Так как шаблон был предоставлен %{vendor}, к
 msgid "Item"
 msgstr "Элемент"
 
+msgid "Iterating"
+msgstr ""
+
 msgid "JSON VM listing is not supported for this compute resource."
 msgstr "Вывод списка виртуальных машин в формате jSON для этого вычислительного ресурса не поддерживается."
 
@@ -3767,6 +3880,12 @@ msgstr "Уровень"
 
 msgid "Libvirt default console address"
 msgstr "Адрес консоли Libvirt по умолчанию"
+
+msgid "List LDAP authentication sources per location"
+msgstr ""
+
+msgid "List LDAP authentication sources per organization"
+msgstr ""
 
 msgid "List all :resource_id"
 msgstr "Список всех :resource_id"
@@ -4149,8 +4268,8 @@ msgstr "Загрузить регионы"
 msgid "Load Tenants"
 msgstr "Загрузить арендаторов"
 
-msgid "Load zones"
-msgstr "Загрузить зоны"
+msgid "Load Zones"
+msgstr ""
 
 msgid "Loading"
 msgstr "Загружается"
@@ -4357,15 +4476,15 @@ msgstr "Носитель"
 msgid "Media ID"
 msgstr "Код носителя"
 
-msgid "Media IDs"
-msgstr "Код носителя"
-
 msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits separated by colons (:), e.g. 00:11:22:33:44:55"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
 msgstr "Носитель"
+
+msgid "Medium IDs"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Config path"
@@ -4424,6 +4543,9 @@ msgstr "Метаданные"
 msgid "Method %{method} not found for resource %{resource}."
 msgstr "Метод %{method} не найден для ресурса %{resource}."
 
+msgid "Method used to deliver email"
+msgstr ""
+
 msgid "Metrics"
 msgstr "Метрика"
 
@@ -4478,8 +4600,8 @@ msgstr "Наблюдение"
 msgid "Monthly"
 msgstr "Ежемесячный"
 
-msgid "Must provide an operating systems"
-msgstr "Необходимо указать операционную систему"
+msgid "Must provide an operating system"
+msgstr ""
 
 msgid "Must provide template kind"
 msgstr "Необходимо определить тип шаблона"
@@ -4600,6 +4722,9 @@ msgstr "Новый узел"
 
 msgid "New Host Group"
 msgstr "Новая группа"
+
+msgid "New Hosts"
+msgstr ""
 
 msgid "New Image"
 msgstr "Создать образ"
@@ -4773,6 +4898,9 @@ msgstr "Виртуальный"
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
 
+msgid "No BMC NIC available for host %s"
+msgstr ""
+
 msgid "No IPv4 subnets selected"
 msgstr ""
 
@@ -4844,6 +4972,9 @@ msgstr "Группа узлов не выбрана"
 
 msgid "No hosts are mismatched!"
 msgstr "Нет несоответствий."
+
+msgid "No hosts available."
+msgstr ""
 
 msgid "No hosts selected"
 msgstr "Узлы не выбраны"
@@ -4936,9 +5067,6 @@ msgid "No trend counter found"
 msgstr "Показателей не найдено."
 
 msgid "None"
-msgstr "Нет"
-
-msgid "None Found"
 msgstr "Нет"
 
 msgid "None found"
@@ -5064,6 +5192,15 @@ msgstr "ОК"
 msgid "Old"
 msgstr "Старое"
 
+msgid "Omit"
+msgstr ""
+
+msgid "Omit from classification output"
+msgstr ""
+
+msgid "Omit parameter from classification"
+msgstr ""
+
 msgid "On"
 msgstr "Вкл."
 
@@ -5183,8 +5320,8 @@ msgstr "Дополнительная строка для ограничения 
 msgid "Optional input validator"
 msgstr "Дополнительная проверка входных данных"
 
-msgid "Optional parameter without value.<br/><i>Will not be sent to Puppet.</i><br/>"
-msgstr "Дополнительный параметр без значения.<br/><i>Не передается Puppet.</i><br/>"
+msgid "Optional parameter without value.<br/><i>Still managed by Foreman, the value will be empty.</i><br/>"
+msgstr ""
 
 msgid "Optional: Ending IP Address for IP auto suggestion"
 msgstr "Дополнительно: конечный IP-адрес для автоматического подбора"
@@ -5264,7 +5401,7 @@ msgstr "Здесь можно переопределить исходное зн
 msgid "Override this value"
 msgstr "Переопределить значение"
 
-msgid "Override value, required if use_puppet_default is false"
+msgid "Override value, required if omit is false"
 msgstr ""
 
 msgid "Overview"
@@ -5398,6 +5535,9 @@ msgstr "Пароль должен содержать не менее 8 симв�
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Пароль доступа SSH"
 
+msgid "Password to use to authenticate, if required"
+msgstr ""
+
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -5446,6 +5586,9 @@ msgstr "Имя"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Resource type"
 msgstr "Тип ресурса"
+
+msgid "Permits access to BMC interface passwords through ENC YAML output and in templates"
+msgstr ""
 
 msgid "Photo attribute"
 msgstr "Фотография"
@@ -5522,11 +5665,17 @@ msgstr "Подождите..."
 msgid "Plugins"
 msgstr "Дополнения"
 
+msgid "Port to connect to"
+msgstr ""
+
 msgid "Power"
 msgstr "Питание"
 
 msgid "Power ON this machine"
 msgstr "Включить машину"
+
+msgid "Power operations are not enabled on this host."
+msgstr ""
 
 msgid "Power up compute instance %s"
 msgstr "Включить экземпляр %s"
@@ -5564,14 +5713,17 @@ msgstr "Первичный DNS для этой подсети"
 msgid "Primary interface's DNS name and domain define host's FQDN"
 msgstr "DNS имя первичного интерфейса и объявление FQDN домена для узла"
 
+msgid "Printing data"
+msgstr ""
+
 msgid "Prioritize attribute order"
 msgstr "Порядок приоритетности атрибутов"
 
 msgid "Private"
 msgstr "Приватный"
 
-msgid "Private key that Foreman will use to encrypt websockets "
-msgstr "Закрытый ключ для шифрования соединений Websocket"
+msgid "Private key file that Foreman will use to encrypt websockets "
+msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "Перейти к редактированию"
@@ -5625,6 +5777,9 @@ msgstr "Код подготовительного шаблона"
 msgid "Provisioning templates"
 msgstr "Подготовительные шаблоны"
 
+msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ProvisioningTemplate|Default"
 msgstr "По умолчанию"
@@ -5652,11 +5807,11 @@ msgstr "Производитель"
 msgid "Proxies"
 msgstr "Прокси"
 
+msgid "Proxy ID to use within this realm"
+msgstr ""
+
 msgid "Proxy request timeout"
 msgstr "Время ожидания запросов к прокси"
-
-msgid "Proxy to use for this realm"
-msgstr "Прокси для использования с этой областью"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ptable"
@@ -5981,9 +6136,6 @@ msgstr "Метрика"
 msgid "Report Status"
 msgstr "Отчет о состоянии"
 
-msgid "Report summary"
-msgstr "Сводный отчет"
-
 msgid "Reported at"
 msgstr "Получено"
 
@@ -6092,11 +6244,11 @@ msgstr "Роль"
 msgid "Role %s."
 msgstr ""
 
-msgid "Role is in use"
-msgstr "Роль используется"
-
 msgid "Roles"
 msgstr "Роли"
+
+msgid "Roles from user groups"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role|Builtin"
@@ -6122,6 +6274,14 @@ msgstr "Хэш-функция для пароля суперпользовате
 msgid "Root password on provisioned hosts"
 msgstr "Пароль root на подготавливаемых узлах"
 
+msgid "Run Distribution (last %s minute)"
+msgid_plural "Run Distribution (last %s minutes)"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Run Distribution Chart"
+msgstr ""
+
 msgid "Run Puppet"
 msgstr "Выполнить Puppet"
 
@@ -6130,13 +6290,6 @@ msgstr "Выполнить Puppet на узлах"
 
 msgid "Run a power operation on host"
 msgstr "Запустить операцию по управлению питанием на узле"
-
-msgid "Run distribution in the last %s minute"
-msgid_plural "Run distribution in the last %s minutes"
-msgstr[0] "Распределение за %s минуту"
-msgstr[1] "Распределение за %s минуты"
-msgstr[2] "Распределение за %s минут"
-msgstr[3] "Распределение за %s минут"
 
 msgid "Run puppet"
 msgstr "Выполнить Puppet"
@@ -6149,6 +6302,36 @@ msgstr "Активность"
 
 msgid "SCSI controller"
 msgstr "Контроллер SCSI"
+
+msgid "SMTP"
+msgstr ""
+
+msgid "SMTP HELO/EHLO domain"
+msgstr ""
+
+msgid "SMTP OpenSSL verify mode"
+msgstr ""
+
+msgid "SMTP address"
+msgstr ""
+
+msgid "SMTP authentication"
+msgstr ""
+
+msgid "SMTP automatic STARTTLS"
+msgstr ""
+
+msgid "SMTP enable StartTLS auto"
+msgstr ""
+
+msgid "SMTP password"
+msgstr ""
+
+msgid "SMTP port"
+msgstr ""
+
+msgid "SMTP username"
+msgstr ""
 
 msgid "SSL CA file"
 msgstr "Файл центра сертификации SSL"
@@ -6176,6 +6359,12 @@ msgstr "SSL-проверка клиента"
 
 msgid "SSL private key"
 msgstr "Закрытый ключ SSL"
+
+msgid "Safe mode methods"
+msgstr ""
+
+msgid "Safe mode methods and variables"
+msgstr ""
 
 msgid "SafeRender#parse_string was passed a %s instead of a string"
 msgstr "SafeRender#parse_string было передано %s вместо строки"
@@ -6294,8 +6483,8 @@ msgstr "Выберите подсети"
 msgid "Select template"
 msgstr "Выберите шаблон"
 
-msgid "Select the changes you want to realize in Foreman"
-msgstr "Выберите изменения, которые должны быть отражены в Foreman"
+msgid "Select the changes you want to apply to Foreman"
+msgstr ""
 
 msgid "Select this since it belongs to a host"
 msgstr "Выберите, так как это принадлежит узлу"
@@ -6321,6 +6510,9 @@ msgstr "Роль"
 msgid "Selecting a file will override the editor and load the file instead"
 msgstr "Выбранный файл переопределит параметры в окне редактора"
 
+msgid "Send a test message to the current user's email address to confirm the configuration is working."
+msgstr ""
+
 msgid "Send a test message to the user's email address to confirm the configuration is working."
 msgstr "Отправить сообщение на электронный адрес пользователя для проверки конфигурации."
 
@@ -6329,6 +6521,15 @@ msgstr "Отправлять новым пользователям привет�
 
 msgid "Send welcome email"
 msgstr "Отправлять приветственное письмо"
+
+msgid "Sendmail"
+msgstr ""
+
+msgid "Sendmail arguments"
+msgstr ""
+
+msgid "Sendmail location"
+msgstr ""
 
 msgid "Server group"
 msgstr ""
@@ -6344,6 +6545,9 @@ msgstr ""
 
 msgid "Services"
 msgstr "Службы"
+
+msgid "Set IP addresses for %s"
+msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
 msgstr "Создать случайный пароль при подключении к дисплею"
@@ -6574,11 +6778,17 @@ msgstr "Показать график распределения"
 msgid "Show full value"
 msgstr "Показать полностью"
 
+msgid "Show host power status"
+msgstr ""
+
 msgid "Show linked external user groups"
 msgstr "Показать связанные внешние группы пользователей"
 
 msgid "Show log messages:"
 msgstr "Показать сообщения из журнала"
+
+msgid "Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."
+msgstr ""
 
 msgid "Show provisioning template details"
 msgstr "Показать подробную информацию о подготовительном шаблоне"
@@ -6701,6 +6911,12 @@ msgstr "Список параметров через запятую, напри�
 msgid "Specified value is higher than recommended maximum"
 msgstr ""
 
+msgid "Specify additional options to sendmail"
+msgstr ""
+
+msgid "Specify authentication type, if required"
+msgstr ""
+
 msgid "Specify matchers"
 msgstr "Правила подстановки"
 
@@ -6721,12 +6937,6 @@ msgstr "Статистика"
 
 msgid "Status"
 msgstr "Состояние"
-
-msgid "Status chart"
-msgstr "Диаграмма состояния"
-
-msgid "Status table"
-msgstr "Таблица состояния"
 
 msgid "Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"
 msgstr "Не обновлять IP и MAC-адреса на основе фактов Puppet (затрагивает все интерфейсы)"
@@ -6894,6 +7104,9 @@ msgstr "TFTP"
 msgid "TFTP Proxy"
 msgstr "TFTP прокси"
 
+msgid "TFTP Proxy ID to use within this subnet"
+msgstr ""
+
 msgid "TFTP Proxy to use within this subnet"
 msgstr "TFTP-прокси для использования с этой подсетью"
 
@@ -6962,6 +7175,9 @@ msgstr "Тип шаблона. Возможные значения: %{template_k
 msgid "Template locked"
 msgstr "Шаблон заблокирован"
 
+msgid "Template syntax"
+msgstr ""
+
 msgid "Template unlocked"
 msgstr "Шаблон разблокирован"
 
@@ -7000,9 +7216,9 @@ msgid "Text to be shown in the login-page footer"
 msgstr ""
 
 msgid ""
-"That is, if you are planning to manage a site where all the machines are or the form <i>hostname</i>.<b>somewhere.com</b>\n"
+"That is, if you are planning to manage a site where all the machines are of the form <i>hostname</i>.<b>somewhere.com</b>\n"
 "    then the domain is <b>somewhere.com</b>."
-msgstr "Например, для узла <i>hostname</i>.<b>somewhere.com</b> часть <b>somewhere.com</b> определяет его домен."
+msgstr ""
 
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}."
@@ -7024,6 +7240,9 @@ msgstr "<b>Полное имя</b> облегчает чтение отчето�
 
 msgid "The Audit Comment field is saved with the template auditing to document the template changes"
 msgstr "Комментарий описывает сделанные изменения и будет сохранен в журнале шаблона."
+
+msgid "The BMC password will be used by Foreman to access the host's BMC controller via a BMC-enabled smart proxy, if available."
+msgstr ""
 
 msgid "The IP address that should be used for the console listen address when provisioning new virtual machines via Libvirt"
 msgstr "IP-адрес, используемый для прослушивания консоли Libvirt при подготовке новых виртуальных машин"
@@ -7095,6 +7314,9 @@ msgstr "Следующие узлы были обновлены"
 msgid "The following parameters were skipped as they did not exists on this host:"
 msgstr "Некоторые параметры не заданы на узле и были пропущены:"
 
+msgid "The following table and example snippet shows global methods, variables and class methods and how to use them."
+msgstr ""
+
 msgid "The full DNS domain name"
 msgstr "Полное DNS-имя домена"
 
@@ -7116,6 +7338,9 @@ msgid_plural "The list is excluding %{count} %{link_start}physical hosts%{link_e
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "The location of the sendmail executable"
+msgstr ""
+
 msgid "The marked fields will need reviewing"
 msgstr "Проверьте выделенные поля"
 
@@ -7130,6 +7355,12 @@ msgstr "Порядок обработки значений"
 
 msgid "The order in which values are resolved."
 msgstr "Порядок обработки значений"
+
+msgid "The password will also be accessible to other users via templates and in the ENC YAML output; disable the bmc_credentials_accessible setting to prevent access."
+msgstr ""
+
+msgid "The password will not be accessible to other users; enable the bmc_credentials_accessible setting to permit access via templates and in the ENC YAML output."
+msgstr ""
 
 msgid ""
 "The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).\n"
@@ -7184,6 +7415,9 @@ msgstr[1] "Обнаружено"
 msgstr[2] "Обнаружено"
 msgstr[3] "Обнаружено"
 
+msgid "There is no owner with id %d and type %s"
+msgstr ""
+
 msgid "There is no proxy with BMC feature set up. Please register a smart proxy with this feature."
 msgstr "Нет прокси с возможностью установки BMC. Зарегистрируйте капсулу с поддержкой этой функции."
 
@@ -7208,6 +7442,9 @@ msgstr "Произошла ошибка при формировании шабл
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "Активных мостовых интерфейсов в Libvirt не обнаружено. Если Libvirt не поддерживает возможность получения списка интерфейсов, введите имя моста в явном виде."
 
+msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
+msgstr ""
+
 msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
 msgstr "Оба подхода равноправны и отличаются лишь настройками параметров и переменных."
 
@@ -7222,6 +7459,9 @@ msgstr "Foreman позволяет создать переменную puppet с
 
 msgid "This group has nested groups!"
 msgstr "Эта группа содержит другие группы"
+
+msgid "This group has no roles"
+msgstr ""
 
 msgid "This host's stored facts and reports will be deleted too."
 msgstr "Все факты и отчеты этого узла тоже будут удалены."
@@ -7247,8 +7487,8 @@ msgstr "Используется узлом"
 msgid "This might take a while, as all hosts, facts and reports will be destroyed as well"
 msgstr "Это может занять некоторое время, так как в ходе выполнения будут удалены узлы, статистика и отчеты"
 
-msgid "This setting is defined in the configuration file 'settings.yaml' and is read-only."
-msgstr "Это значение определяется в settings.yaml и доступно только для чтения."
+msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
+msgstr ""
 
 msgid "This template is locked and may not be removed."
 msgstr "Шаблон заблокирован и не может быть удален."
@@ -7295,6 +7535,9 @@ msgstr "Для того чтобы определить новый показа�
 msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt)."
 msgstr "Чтобы добавить новый компонент, установите соответствующий пакет (например, foreman-libvirt) или включите необходимую пакетную группу (например, ovirt)"
 
+msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
+msgstr ""
+
 msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)"
 msgstr "Чтобы начать сбор статистики, создайте задание cron для запуска <span class='black'>foreman-rake trends:counter</span> с интервалом %s минут (определяется Puppet)"
 
@@ -7321,9 +7564,6 @@ msgstr "Истекает"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Token|Value"
 msgstr "Значение"
-
-msgid "Too many repetitions"
-msgstr "Слишком много повторений"
 
 msgid "Total"
 msgstr "Всего"
@@ -7488,6 +7728,12 @@ msgstr "Не удалось определить версию"
 
 msgid "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
 msgstr "Не удалось определить загрузочный сервер для этого узла. TFTP-сервер не определяет эту подсеть, и капсула DHCP тоже не смогла предоставить эту информацию."
+
+msgid "Unable to disable bmc_credentials_accessible when safemode_render is disabled"
+msgstr ""
+
+msgid "Unable to disable safemode_render when bmc_credentials_accessible is disabled"
+msgstr ""
 
 msgid "Unable to execute Puppet run"
 msgstr "Не удалось выполнить puppetrun"
@@ -7792,6 +8038,9 @@ msgstr "Изменить внешнюю группу пользователей"
 msgid "Update realm entry for %s"
 msgstr "Обновить запись области определения для %s"
 
+msgid "Update subnets from facts"
+msgstr ""
+
 msgid "Update template combination"
 msgstr "Обновить комбинацию шаблонов"
 
@@ -7825,14 +8074,8 @@ msgstr "Загрузить факты узла, требуемые для соз
 msgid "Use Gravatar"
 msgstr "Использовать Gravatar"
 
-msgid "Use Puppet default"
-msgstr "Использовать значение Puppet"
-
 msgid "Use UUID for certificates"
 msgstr "Использовать UUID для сертификата"
-
-msgid "Use different character classes"
-msgstr "Используйте разные классы символов"
 
 msgid "Use short name for VMs"
 msgstr "Краткие имена ВМ"
@@ -7910,6 +8153,9 @@ msgstr "Имя"
 
 msgid "Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2."
 msgstr "Имя пользователя для oVirt, EC2, VMware, OpenStack. Ключ доступа для EC2."
+
+msgid "Username to use to authenticate, if required"
+msgstr ""
 
 msgid "Users"
 msgstr "Пользователи"
@@ -8144,6 +8390,11 @@ msgstr "Предупреждение"
 msgid "Warning!"
 msgstr "Внимание!"
 
+msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
+msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "Предупреждение: Это может удалить этот узел и всю его информацию!"
 
@@ -8196,6 +8447,9 @@ msgid ""
 "When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.\n"
 "                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.\n"
 "                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global."
+msgstr ""
+
+msgid "When using TLS, you can set how OpenSSL checks the certificate"
 msgstr ""
 
 msgid "Whether or not the image supports user data"
@@ -8294,6 +8548,9 @@ msgstr "Нет фактов. Чтобы настроить их передачу
 msgid "You don't seem to have any reports."
 msgstr "Нет отчетов."
 
+msgid "You have already logged in"
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Этому носителю можно сопоставить операционные системы сразу или сделать это позднее на странице %s."
 
@@ -8330,14 +8587,23 @@ msgstr "Ваша учетная запись Foreman создана:"
 msgid "Your host has finished building:"
 msgstr "Ваш узел завершил сборку:"
 
-msgid "Your password cannot contain your username"
-msgstr "Ваш пароль не может содержать Ваше имя пользователя"
-
-msgid "Your password contains sequences"
-msgstr "Ваш пароль содержит последовательность"
-
 msgid "Your password is too short"
 msgstr "Ваш пароль слишком короткий"
+
+msgid "Your password should not contain sequences"
+msgstr ""
+
+msgid "Your password should not contain that many repetitions"
+msgstr ""
+
+msgid "Your password should not contain your email"
+msgstr ""
+
+msgid "Your password should not contain your username"
+msgstr ""
+
+msgid "Your password should use characters from different character classes too"
+msgstr ""
 
 msgid "Your session has expired, please login again"
 msgstr "Время сеанса истекло. Войдите снова."
@@ -8347,6 +8613,9 @@ msgstr ""
 
 msgid "Zone"
 msgstr "Зона"
+
+msgid "[encrypted]"
+msgstr ""
 
 msgid "a location"
 msgstr "местоположение"
@@ -8465,26 +8734,17 @@ msgstr "по умолчанию 389"
 msgid "does not appear to be a valid nfs mount path"
 msgstr "недействительный путь NFS"
 
+msgid "does not belong into host's location"
+msgstr ""
+
+msgid "does not belong into host's organization"
+msgstr ""
+
 msgid "does not belong to subnet"
 msgstr "не принадлежит подсети"
 
-msgid "does not have the DHCP feature"
-msgstr "не поддерживает DHCP"
-
-msgid "does not have the DNS feature"
-msgstr "не поддерживает DNS"
-
-msgid "does not have the Puppet CA feature"
-msgstr "не поддерживает функции центра сертификации Puppet"
-
-msgid "does not have the Puppet feature"
-msgstr "не поддерживает Puppet"
-
-msgid "does not have the Realm feature"
-msgstr "не поддерживает возможность работы с областями защиты"
-
-msgid "does not have the TFTP feature"
-msgstr "не поддерживает TFTP"
+msgid "does not have the %s feature"
+msgstr ""
 
 msgid "does not match selected subnet"
 msgstr "выбранные подсети не совпадают"
@@ -8675,9 +8935,6 @@ msgstr "недопустимый тип %s"
 msgid "invalid type: %s requested"
 msgstr "недопустимый тип: требуется %s"
 
-msgid "is alphanumeric and cannot contain spaces"
-msgstr "может содержать буквы и цифры без пробелов"
-
 msgid "is already used by a user account"
 msgstr "уже используется учетной записью пользователя"
 
@@ -8769,6 +9026,9 @@ msgstr "управляемый узел должен иметь один под�
 msgid "message"
 msgstr "сообщение"
 
+msgid "must be a unicast MAC address"
+msgstr ""
+
 msgid "must be a valid regexp"
 msgstr ""
 
@@ -8808,6 +9068,9 @@ msgstr ""
 msgid "must not include periods"
 msgstr "не может содержать точки"
 
+msgid "must only contain alphanumeric or underscore characters"
+msgstr ""
+
 msgid "must provide a provider"
 msgstr "провайдер должен быть определен"
 
@@ -8831,6 +9094,9 @@ msgstr "Для продолжения необходимо определить 
 
 msgid "no value"
 msgstr "нет"
+
+msgid "none"
+msgstr ""
 
 msgid "not found"
 msgstr "не найден(о)"
@@ -9061,9 +9327,6 @@ msgstr "нет"
 
 msgid "used memory"
 msgstr "занято"
-
-msgid "useful template functions and macros"
-msgstr "примеры основных функций и макросов"
 
 msgid "using %s"
 msgstr "использует %s"

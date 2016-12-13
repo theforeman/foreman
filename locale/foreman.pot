@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-05 09:33+0000\n"
-"PO-Revision-Date: 2016-12-05 09:33+0000\n"
+"POT-Creation-Date: 2016-12-13 09:16+0000\n"
+"PO-Revision-Date: 2016-12-13 09:16+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -316,7 +316,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/assets/javascripts/password_strength.js:46
-#: ../app/views/media/_form.html.erb:6 model_attributes.rb:328
+#: ../app/views/media/_form.html.erb:6 model_attributes.rb:304
 msgid "Medium"
 msgstr ""
 
@@ -3721,7 +3721,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/helpers/audits_helper.rb:87 ../app/helpers/hosts_helper.rb:270
-#: ../app/views/users/_form.html.erb:7 model_attributes.rb:566
+#: ../app/views/users/_form.html.erb:7 model_attributes.rb:542
 msgid "User"
 msgstr ""
 
@@ -4192,7 +4192,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/helpers/hosts_helper.rb:258 ../app/views/hostgroups/_form.html.erb:56
 #: ../app/views/realms/_form.html.erb:4
-#: ../app/views/smart_proxies/plugins/_realm.html.erb:2 model_attributes.rb:450
+#: ../app/views/smart_proxies/plugins/_realm.html.erb:2 model_attributes.rb:426
 msgid "Realm"
 msgstr ""
 
@@ -4973,7 +4973,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/helpers/trends_helper.rb:6 ../app/views/hosts/_list.html.erb:16
-#: model_attributes.rb:348
+#: model_attributes.rb:324
 msgid "Model"
 msgstr ""
 
@@ -7119,10 +7119,11 @@ msgstr ""
 msgid "unknown permission %s"
 msgstr ""
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/services/classification/base.rb:189
 #: ../app/services/classification/base.rb:190
 #: ../app/services/classification/base.rb:216
-#: ../app/services/classification/base.rb:217
+#: ../app/services/classification/base.rb:217 model_attributes.rb:272
 msgid "LookupKey|Default value"
 msgstr ""
 
@@ -8449,12 +8450,12 @@ msgid "New Parameter"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/common_parameters/index.html.erb:10 model_attributes.rb:418
+#: ../app/views/common_parameters/index.html.erb:10 model_attributes.rb:394
 msgid "Parameter|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/common_parameters/index.html.erb:11 model_attributes.rb:422
+#: ../app/views/common_parameters/index.html.erb:11 model_attributes.rb:398
 msgid "Parameter|Value"
 msgstr ""
 
@@ -8791,7 +8792,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:15
 #: ../app/views/hosts/_nics.html.erb:31 ../app/views/subnets/_form.html.erb:5
-#: model_attributes.rb:502
+#: model_attributes.rb:478
 msgid "Subnet"
 msgstr ""
 
@@ -9528,7 +9529,7 @@ msgid "(Miscellaneous)"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/filters/_form.html.erb:34 model_attributes.rb:424
+#: ../app/views/filters/_form.html.erb:34 model_attributes.rb:400
 msgid "Permission"
 msgstr ""
 
@@ -9573,7 +9574,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/filters/index.html.erb:14 ../app/views/roles/_form.html.erb:5
-#: model_attributes.rb:468
+#: model_attributes.rb:444
 msgid "Role"
 msgstr ""
 
@@ -10624,17 +10625,17 @@ msgid "New Medium"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/media/index.html.erb:10 model_attributes.rb:336
+#: ../app/views/media/index.html.erb:10 model_attributes.rb:312
 msgid "Medium|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/media/index.html.erb:11 model_attributes.rb:340
+#: ../app/views/media/index.html.erb:11 model_attributes.rb:316
 msgid "Medium|Path"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/media/index.html.erb:12 model_attributes.rb:338
+#: ../app/views/media/index.html.erb:12 model_attributes.rb:314
 msgid "Medium|Os family"
 msgstr ""
 
@@ -10709,7 +10710,7 @@ msgid "New Model"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/models/index.html.erb:8 model_attributes.rb:356
+#: ../app/views/models/index.html.erb:8 model_attributes.rb:332
 msgid "Model|Name"
 msgstr ""
 
@@ -10718,7 +10719,7 @@ msgid "Vendor class"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/models/index.html.erb:10 model_attributes.rb:350
+#: ../app/views/models/index.html.erb:10 model_attributes.rb:326
 msgid "Model|Hardware model"
 msgstr ""
 
@@ -10897,7 +10898,7 @@ msgid "New Operating system"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/operatingsystems/index.html.erb:8 model_attributes.rb:412
+#: ../app/views/operatingsystems/index.html.erb:8 model_attributes.rb:388
 msgid "Operatingsystem|Title"
 msgstr ""
 
@@ -11024,12 +11025,12 @@ msgid "New Partition Table"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/ptables/index.html.erb:9 model_attributes.rb:434
+#: ../app/views/ptables/index.html.erb:9 model_attributes.rb:410
 msgid "Ptable|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/ptables/index.html.erb:10 model_attributes.rb:436
+#: ../app/views/ptables/index.html.erb:10 model_attributes.rb:412
 msgid "Ptable|Os family"
 msgstr ""
 
@@ -11109,13 +11110,13 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/puppetclass_lookup_keys/index.html.erb:6
-#: model_attributes.rb:414
+#: model_attributes.rb:390
 msgid "Parameter"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/puppetclass_lookup_keys/index.html.erb:7
-#: ../app/views/variable_lookup_keys/index.html.erb:7 model_attributes.rb:438
+#: ../app/views/variable_lookup_keys/index.html.erb:7 model_attributes.rb:414
 msgid "Puppetclass"
 msgstr ""
 
@@ -11181,7 +11182,7 @@ msgid "Edit Puppet Class %s"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/puppetclasses/index.html.erb:9 model_attributes.rb:448
+#: ../app/views/puppetclasses/index.html.erb:9 model_attributes.rb:424
 msgid "Puppetclass|Name"
 msgstr ""
 
@@ -11228,7 +11229,7 @@ msgid "New Realm"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/realms/index.html.erb:8 model_attributes.rb:456
+#: ../app/views/realms/index.html.erb:8 model_attributes.rb:432
 msgid "Realm|Name"
 msgstr ""
 
@@ -11287,7 +11288,7 @@ msgid "New role"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/roles/index.html.erb:8 model_attributes.rb:472
+#: ../app/views/roles/index.html.erb:8 model_attributes.rb:448
 msgid "Role|Name"
 msgstr ""
 
@@ -11311,17 +11312,17 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/settings/index.html.erb:17 model_attributes.rb:484
+#: ../app/views/settings/index.html.erb:17 model_attributes.rb:460
 msgid "Setting|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/settings/index.html.erb:18 model_attributes.rb:488
+#: ../app/views/settings/index.html.erb:18 model_attributes.rb:464
 msgid "Setting|Value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/settings/index.html.erb:19 model_attributes.rb:482
+#: ../app/views/settings/index.html.erb:19 model_attributes.rb:458
 msgid "Setting|Description"
 msgstr ""
 
@@ -11338,12 +11339,12 @@ msgid "New Smart Proxy"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/smart_proxies/index.html.erb:9 model_attributes.rb:492
+#: ../app/views/smart_proxies/index.html.erb:9 model_attributes.rb:468
 msgid "SmartProxy|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/smart_proxies/index.html.erb:11 model_attributes.rb:494
+#: ../app/views/smart_proxies/index.html.erb:11 model_attributes.rb:470
 msgid "SmartProxy|Url"
 msgstr ""
 
@@ -11375,7 +11376,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/smart_proxies/logs/_list.html.erb:17
-#: ../app/views/smart_proxies/logs/_modal.html.erb:30 model_attributes.rb:342
+#: ../app/views/smart_proxies/logs/_modal.html.erb:30 model_attributes.rb:318
 msgid "Message"
 msgstr ""
 
@@ -11540,17 +11541,17 @@ msgid "New Subnet"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/subnets/index.html.erb:9 model_attributes.rb:518
+#: ../app/views/subnets/index.html.erb:9 model_attributes.rb:494
 msgid "Subnet|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/subnets/index.html.erb:10 model_attributes.rb:520
+#: ../app/views/subnets/index.html.erb:10 model_attributes.rb:496
 msgid "Subnet|Network"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/subnets/index.html.erb:12 model_attributes.rb:526
+#: ../app/views/subnets/index.html.erb:12 model_attributes.rb:502
 msgid "Subnet|Vlanid"
 msgstr ""
 
@@ -11638,7 +11639,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/taxonomies/index.html.erb:17 model_attributes.rb:538
+#: ../app/views/taxonomies/index.html.erb:17 model_attributes.rb:514
 msgid "Taxonomy|Name"
 msgstr ""
 
@@ -11929,7 +11930,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/usergroups/_form.html.erb:25
-#: ../app/views/usergroups/index.html.erb:8 model_attributes.rb:600
+#: ../app/views/usergroups/index.html.erb:8 model_attributes.rb:576
 msgid "Usergroup|Name"
 msgstr ""
 
@@ -12050,32 +12051,32 @@ msgid "New User"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/users/index.html.erb:9 model_attributes.rb:580
+#: ../app/views/users/index.html.erb:9 model_attributes.rb:556
 msgid "User|Login"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/users/index.html.erb:10 model_attributes.rb:572
+#: ../app/views/users/index.html.erb:10 model_attributes.rb:548
 msgid "User|Firstname"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/users/index.html.erb:11 model_attributes.rb:576
+#: ../app/views/users/index.html.erb:11 model_attributes.rb:552
 msgid "User|Lastname"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/users/index.html.erb:12 model_attributes.rb:584
+#: ../app/views/users/index.html.erb:12 model_attributes.rb:560
 msgid "User|Mail"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/users/index.html.erb:13 model_attributes.rb:568
+#: ../app/views/users/index.html.erb:13 model_attributes.rb:544
 msgid "User|Admin"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/users/index.html.erb:14 model_attributes.rb:574
+#: ../app/views/users/index.html.erb:14 model_attributes.rb:550
 msgid "User|Last login on"
 msgstr ""
 
@@ -12886,645 +12887,580 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:270
-msgid "VariableLookupKey|Avoid duplicates"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:272
-msgid "VariableLookupKey|Default value"
+msgid "LookupKey|Avoid duplicates"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:274
-msgid "VariableLookupKey|Description"
+msgid "LookupKey|Description"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:276
-msgid "VariableLookupKey|Is param"
+msgid "LookupKey|Is param"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:278
-msgid "VariableLookupKey|Key"
+msgid "LookupKey|Key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:280
-msgid "VariableLookupKey|Key type"
+msgid "LookupKey|Key type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:282
-msgid "VariableLookupKey|Variable lookup values count"
+msgid "LookupKey|Variable lookup values count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:284
-msgid "VariableLookupKey|Merge overrides"
+msgid "LookupKey|Merge overrides"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:286
-msgid "VariableLookupKey|Override"
+msgid "LookupKey|Override"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:288
-msgid "VariableLookupKey|Path"
+msgid "LookupKey|Path"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:290
-msgid "VariableLookupKey|Required"
+msgid "LookupKey|Required"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:292
-msgid "VariableLookupKey|Validator rule"
+msgid "LookupKey|Validator rule"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:294
-msgid "VariableLookupKey|Validator type"
+msgid "LookupKey|Validator type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:296
-msgid "Puppetclass lookup key"
+msgid "LookupKey|Puppetclass lookup key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:298
-msgid "PuppetclassLookupKey|Avoid duplicates"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:300
-msgid "PuppetclassLookupKey|Default value"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:302
-msgid "PuppetclassLookupKey|Description"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:304
-msgid "PuppetclassLookupKey|Is param"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:306
-msgid "PuppetclassLookupKey|Key"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:308
-msgid "PuppetclassLookupKey|Key type"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:310
-msgid "PuppetclassLookupKey|Merge overrides"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:312
-msgid "PuppetclassLookupKey|Override"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:314
-msgid "PuppetclassLookupKey|Path"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:316
-msgid "PuppetclassLookupKey|Required"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:318
-msgid "PuppetclassLookupKey|Validator rule"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:320
-msgid "PuppetclassLookupKey|Validator type"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:322
 msgid "Lookup value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:324
+#: model_attributes.rb:300
 msgid "LookupValue|Match"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:326
+#: model_attributes.rb:302
 msgid "LookupValue|Value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:330
+#: model_attributes.rb:306
 msgid "Medium|Config path"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:332
+#: model_attributes.rb:308
 msgid "Medium|Image path"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:334
+#: model_attributes.rb:310
 msgid "Medium|Media path"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:344
+#: model_attributes.rb:320
 msgid "Message|Digest"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:346
+#: model_attributes.rb:322
 msgid "Message|Value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:352
+#: model_attributes.rb:328
 msgid "Model|Hosts count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:354
+#: model_attributes.rb:330
 msgid "Model|Info"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:358
+#: model_attributes.rb:334
 msgid "Model|Vendor class"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:360
+#: model_attributes.rb:336
 msgid "Nic::Base|Attached devices"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:362
+#: model_attributes.rb:338
 msgid "Nic::Base|Attached to"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:364
+#: model_attributes.rb:340
 msgid "Nic::Base|Attrs"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:366
+#: model_attributes.rb:342
 msgid "Nic::Base|Bond options"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:368
+#: model_attributes.rb:344
 msgid "Nic::Base|Identifier"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:370
+#: model_attributes.rb:346
 msgid "Nic::Base|Ip"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:372
+#: model_attributes.rb:348
 msgid "Nic::Base|Link"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:374
+#: model_attributes.rb:350
 msgid "Nic::Base|Mac"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:376
+#: model_attributes.rb:352
 msgid "Nic::Base|Managed"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:378
+#: model_attributes.rb:354
 msgid "Nic::Base|Mode"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:380
+#: model_attributes.rb:356
 msgid "Nic::Base|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:382
+#: model_attributes.rb:358
 msgid "Nic::Base|Password"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:384
+#: model_attributes.rb:360
 msgid "Nic::Base|Provider"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:386
+#: model_attributes.rb:362
 msgid "Nic::Base|Tag"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:388
+#: model_attributes.rb:364
 msgid "Nic::Base|Username"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:390
+#: model_attributes.rb:366
 msgid "Nic::Base|Virtual"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:392
+#: model_attributes.rb:368
 msgid "Operatingsystem"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:394
+#: model_attributes.rb:370
 msgid "Operatingsystem|Description"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:396
+#: model_attributes.rb:372
 msgid "Operatingsystem|Hostgroups count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:398
+#: model_attributes.rb:374
 msgid "Operatingsystem|Hosts count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:400
+#: model_attributes.rb:376
 msgid "Operatingsystem|Major"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:402
+#: model_attributes.rb:378
 msgid "Operatingsystem|Minor"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:404
+#: model_attributes.rb:380
 msgid "Operatingsystem|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:406
+#: model_attributes.rb:382
 msgid "Operatingsystem|Nameindicator"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:408
+#: model_attributes.rb:384
 msgid "Operatingsystem|Password hash"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:410
+#: model_attributes.rb:386
 msgid "Operatingsystem|Release name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:416
+#: model_attributes.rb:392
 msgid "Parameter|Hidden value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:420
+#: model_attributes.rb:396
 msgid "Parameter|Priority"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:426
+#: model_attributes.rb:402
 msgid "Permission|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:428
+#: model_attributes.rb:404
 msgid "Permission|Resource type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:430
+#: model_attributes.rb:406
 msgid "Ptable"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:432
+#: model_attributes.rb:408
 msgid "Ptable|Layout"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:440
+#: model_attributes.rb:416
 msgid "Puppetclass|Global class params count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:442
+#: model_attributes.rb:418
 msgid "Puppetclass|Hostgroups count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:444
+#: model_attributes.rb:420
 msgid "Puppetclass|Hosts count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:446
+#: model_attributes.rb:422
 msgid "Puppetclass|Lookup keys count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:452
+#: model_attributes.rb:428
 msgid "Realm|Hostgroups count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:454
+#: model_attributes.rb:430
 msgid "Realm|Hosts count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:458
+#: model_attributes.rb:434
 msgid "Realm|Realm type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:460
+#: model_attributes.rb:436
 msgid "Report"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:462
+#: model_attributes.rb:438
 msgid "Report|Metrics"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:464
+#: model_attributes.rb:440
 msgid "Report|Reported at"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:466
+#: model_attributes.rb:442
 msgid "Report|Status"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:470
+#: model_attributes.rb:446
 msgid "Role|Builtin"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:474
+#: model_attributes.rb:450
 msgid "Role|Permissions"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:476
+#: model_attributes.rb:452
 msgid "Setting"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:478
+#: model_attributes.rb:454
 msgid "Setting|Category"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:480
+#: model_attributes.rb:456
 msgid "Setting|Default"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:486
+#: model_attributes.rb:462
 msgid "Setting|Settings type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:490
+#: model_attributes.rb:466
 msgid "Smart proxy"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:496
+#: model_attributes.rb:472
 msgid "Source"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:498
+#: model_attributes.rb:474
 msgid "Source|Digest"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:500
+#: model_attributes.rb:476
 msgid "Source|Value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:504
+#: model_attributes.rb:480
 msgid "Subnet|Boot mode"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:506
+#: model_attributes.rb:482
 msgid "Subnet|Dns primary"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:508
+#: model_attributes.rb:484
 msgid "Subnet|Dns secondary"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:510
+#: model_attributes.rb:486
 msgid "Subnet|From"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:512
+#: model_attributes.rb:488
 msgid "Subnet|Gateway"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:514
+#: model_attributes.rb:490
 msgid "Subnet|Ipam"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:516
+#: model_attributes.rb:492
 msgid "Subnet|Mask"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:522
+#: model_attributes.rb:498
 msgid "Subnet|Priority"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:524
+#: model_attributes.rb:500
 msgid "Subnet|To"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:528
+#: model_attributes.rb:504
 msgid "Taxable taxonomy"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:530
+#: model_attributes.rb:506
 msgid "TaxableTaxonomy|Taxable type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:532
+#: model_attributes.rb:508
 msgid "Taxonomy"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:534
+#: model_attributes.rb:510
 msgid "Taxonomy|Ancestry"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:536
+#: model_attributes.rb:512
 msgid "Taxonomy|Ignore types"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:540
+#: model_attributes.rb:516
 msgid "Taxonomy|Title"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:542
+#: model_attributes.rb:518
 msgid "Template kind"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:544
+#: model_attributes.rb:520
 msgid "TemplateKind|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:546
+#: model_attributes.rb:522
 msgid "Token"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:548
+#: model_attributes.rb:524
 msgid "Token|Expires"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:550
+#: model_attributes.rb:526
 msgid "Token|Value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:552
+#: model_attributes.rb:528
 msgid "Trend"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:554
+#: model_attributes.rb:530
 msgid "Trend|Fact name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:556
+#: model_attributes.rb:532
 msgid "Trend|Fact value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:558
+#: model_attributes.rb:534
 msgid "Trend|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:560
+#: model_attributes.rb:536
 msgid "Trend|Trendable type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:562
+#: model_attributes.rb:538
 msgid "Trend counter"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:564
+#: model_attributes.rb:540
 msgid "TrendCounter|Count"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:570
+#: model_attributes.rb:546
 msgid "User|Avatar hash"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:578
+#: model_attributes.rb:554
 msgid "User|Locale"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:582
+#: model_attributes.rb:558
 msgid "User|Lower login"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:586
+#: model_attributes.rb:562
 msgid "User|Password hash"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:588
+#: model_attributes.rb:564
 msgid "User|Password salt"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:590
+#: model_attributes.rb:566
 msgid "User|Mail enabled"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:592
+#: model_attributes.rb:568
 msgid "User role"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:594
+#: model_attributes.rb:570
 msgid "UserRole|Owner type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:596
+#: model_attributes.rb:572
 msgid "Usergroup"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:598
+#: model_attributes.rb:574
 msgid "Usergroup|Admin"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:602
+#: model_attributes.rb:578
 msgid "Usergroup member"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:604
+#: model_attributes.rb:580
 msgid "UsergroupMember|Member type"
 msgstr ""
