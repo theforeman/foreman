@@ -44,4 +44,5 @@ export function activateTooltips(el = 'body') {
                                    }
                               });
   el.find('*[title]').not('*[rel]').tooltip({ container: 'body' });
+  $(document).on('page:restore', () => {$('.tooltip.in').remove();});
 }
