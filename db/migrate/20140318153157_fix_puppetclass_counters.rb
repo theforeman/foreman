@@ -6,9 +6,6 @@ class FixPuppetclassCounters < ActiveRecord::Migration
 
     # Smart Variables Counts
     add_column    :puppetclasses, :lookup_keys_count, :integer, :default => 0
-    LookupKey.where("puppetclass_id IS NOT NULL").each do |k|
-      Puppetclass.reset_counters(k.puppetclass_id, :lookup_keys)
-    end
   end
 
   def down
