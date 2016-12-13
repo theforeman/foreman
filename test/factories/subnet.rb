@@ -33,6 +33,11 @@ FactoryGirl.define do
       ipam "Internal DB"
     end
 
+    trait :with_taxonomies do
+      locations { [FactoryGirl.create(:location)] }
+      organizations { [FactoryGirl.create(:organization)] }
+    end
+
     factory :subnet_ipv4, :class => Subnet::Ipv4 do
       network { 3.times.map { rand(256) }.join('.') + '.0' }
       mask { '255.255.255.0' }
