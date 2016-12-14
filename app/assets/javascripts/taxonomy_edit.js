@@ -2,6 +2,11 @@ $(function() {
   $(':checkbox').each(function(i, item) {
     ignore_checked(item);
   });
+
+  $('form').on('submit', function() {
+    $('select.without_select2').prop('disabled', false);
+    $('.ms-selection li.ms-elem-selection').removeClass('disabled');
+  });
 });
 
 function ignore_checked(item) {
@@ -11,6 +16,7 @@ function ignore_checked(item) {
 
   if ($(item).is(':checked')) {
     current_select.attr('disabled', 'disabled');
+    current_select.find("option").prop('selected', true);
   } else {
     current_select.removeAttr('disabled');
   }

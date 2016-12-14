@@ -35,6 +35,8 @@ class Taxonomy < ApplicationRecord
   validate :parent_id_does_not_escalate, :if => proc { |t| t.ancestry_changed? && t.parent_id != 0 && t.parent.present? }
   validates :name, :presence => true, :uniqueness => {:scope => [:ancestry, :type], :case_sensitive => false}
 
+  before_save :add_references_for_selected_ignore_types
+
   def self.inherited(child)
     child.instance_eval do
       scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
@@ -56,6 +58,8 @@ class Taxonomy < ApplicationRecord
       Location.completer_scope opts
     end
   }
+
+  scope :taxonomies_by_ignore_type, ->(taxable_type) { where("ignore_types LIKE ?", "%#{taxable_type}%") }
 
   def self.no_taxonomy_scope
     as_taxonomy nil, nil do
@@ -85,6 +89,10 @@ class Taxonomy < ApplicationRecord
     current_taxonomies.compact.any? do |current|
       current.ignore?(taxable_type)
     end
+  end
+
+  def self.taxonomy_ids_by_ignore_type(ignore_type_str)
+    taxonomies_by_ignore_type(ignore_type_str).pluck(:id)
   end
 
   # if taxonomy e.g. organization was not set by current context (e.g. Any organization)
@@ -133,25 +141,6 @@ class Taxonomy < ApplicationRecord
     new.hostgroups        = hostgroups
     new.auth_sources      = auth_sources
     new
-  end
-
-  # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organization_ids since these aren't ignored
-  (TaxHost::HASH_KEYS - [:location_ids, :organization_ids]).each do |key|
-    # def domain_ids
-    #  if ignore?("Domain")
-    #   Domain.pluck(:id)
-    # else
-    #   super()  # self.domain_ids
-    # end
-    define_method(key) do
-      klass = hash_key_to_class(key)
-      if ignore?(klass)
-        return User.unscoped.except_admin.except_hidden.map(&:id) if klass == "User"
-        return klass.constantize.pluck(:id)
-      else
-        super()
-      end
-    end
   end
 
   def expire_topbar_cache
@@ -215,8 +204,13 @@ class Taxonomy < ApplicationRecord
     :to => :tax_host
 
   def assign_default_templates
-    Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
-      send("#{association}=", send(association) + templates.select(&:valid?))
+    # Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
+    #  self.send("#{association}=", self.send(association) + templates.select(&:valid?))
+    Template.where(:default => true).select(&:valid?).find_each do |template|
+      classify_template_str = template.class.to_s
+      unless self.ignore_types.include?(classify_template_str)
+        self.send(classify_template_str.underscore.pluralize.to_s) << template
+      end
     end
   end
 
@@ -242,6 +236,17 @@ class Taxonomy < ApplicationRecord
     unless User.current.can?("edit_#{self.class.to_s.underscore.pluralize}", parent)
       errors.add :parent_id, _("Missing a permission to edit parent %s") % self.class.to_s
       false
+    end
+  end
+
+  def add_references_for_selected_ignore_types
+    ignore_types = self.ignore_types
+    ignore_types.each do |klass|
+      klass_obj_ids = klass.constantize.unscoped.pluck(:id)
+      klass_ids_meth = klass.underscore + '_ids'
+      existing_ids = self.send(klass_ids_meth)
+      next if (klass_obj_ids - existing_ids).blank?
+      self.send("#{klass_ids_meth}=", klass_obj_ids)
     end
   end
 end

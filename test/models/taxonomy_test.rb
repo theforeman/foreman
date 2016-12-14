@@ -73,4 +73,24 @@ class TaxonomyTest < ActiveSupport::TestCase
     location.save
     assert_match /expecting organizations/, location.errors.messages[:organizations].first
   end
+
+  test "#taxonomy_ids_by_ignore_type should return ids of taxonomy_type for which 'Select All' option is checked for a resource." do
+    FactoryBot.create(:organization, :ignore_types => [ 'User' ])
+    user = FactoryBot.create(:user, :id => 20)
+    organization_ids_with_select_all = Organization.taxonomy_ids_by_ignore_type(user.class.to_s)
+    assert_not organization_ids_with_select_all.empty?
+    assert_equal organization_ids_with_select_all.count, 1
+  end
+
+  test "#add_references_for_selected_ignore_types assigns all objects of selected ignore_types to taxonomy" do
+    user = FactoryBot.create(:user, :login => 'foo_test_u1')
+    org1 = FactoryBot.create(:organization, :ignore_types => ['User'])
+    assert_includes org1.user_ids, user.id
+  end
+
+  test "taxonomy created with ignore_type Domain, this taxonomy will get assign to all new domains created after it" do
+    org1 = FactoryBot.create(:organization, :ignore_types => ['Domain'], :name => "Test_OrgA")
+    domain1 = FactoryBot.create(:domain, :name => 'test-domain.com')
+    assert_includes domain1.organization_ids, org1.id
+  end
 end

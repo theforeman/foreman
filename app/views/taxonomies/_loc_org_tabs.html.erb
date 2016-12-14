@@ -5,12 +5,14 @@
 
 <% if show_location_tab? %>
   <div class="tab-pane" id="locations">
+    <% location_ids_with_select_all_for_ignore_type = Location.taxonomy_ids_by_ignore_type(obj.class.to_s) %>
     <%= location_selects f, obj.used_or_selected_location_ids,
-            {:disabled => obj.used_location_ids }.merge!(select_options),
+            {:disabled => obj.used_location_ids.concat(location_ids_with_select_all_for_ignore_type)}.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_location_ids.to_json,
-             'data-useds' => obj.used_location_ids.to_json }.merge!(html_options[:location]) %>
+             'data-useds' => obj.used_location_ids.to_json,
+             'data-used-all' => location_ids_with_select_all_for_ignore_type.to_json }.merge!(html_options[:location]) %>
     <% if obj.kind_of? User %>
-      <%= select_f f, :default_location_id, (obj.admin? ? Location.all : obj.my_locations), :id, :title,
+       <%= select_f f, :default_location_id, (obj.admin? ? Location.all : obj.my_locations), :id, :title,
                     { :include_blank => true }, { :label => _('Default on login') } %>
     <% end %>
   </div>
@@ -18,14 +20,15 @@
 
 <% if show_organization_tab? %>
   <div class="tab-pane" id="organizations">
+    <% organization_ids_with_select_all_for_ignore_type = Organization.taxonomy_ids_by_ignore_type(obj.class.to_s) %>
     <%= organization_selects f, obj.used_or_selected_organization_ids,
-            {:disabled => obj.used_organization_ids }.merge!(select_options),
+            {:disabled => obj.used_organization_ids.concat(organization_ids_with_select_all_for_ignore_type)}.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_organization_ids.to_json,
-             'data-useds' => obj.used_organization_ids.to_json }.merge!(html_options[:organization]) %>
+             'data-useds' => obj.used_organization_ids.to_json,
+             'data-used-all' => organization_ids_with_select_all_for_ignore_type.to_json }.merge!(html_options[:organization]) %>
     <% if obj.kind_of? User %>
       <%= select_f f, :default_organization_id,(obj.admin? ? Organization.all : obj.my_organizations), :id, :title,
-                    { :include_blank => true }, { :label => _('Default on login') } %>
+                   { :include_blank => true }, { :label => _('Default on login') } %>
     <% end %>
   </div>
 <% end %>
-

@@ -20,42 +20,46 @@ function multiSelectOnLoad(){
 
 function multiSelectToolTips(){
   $('select[multiple]').each(function(i,item){
-    var mismatches = $(item).attr('data-mismatches');
-    var inheriteds = $(item).attr('data-inheriteds');
-    var descendants = $(item).attr('data-descendants');
-    var useds = $(item).attr('data-useds');
-    var msid = '#ms-'+item.id;
+    var mismatches = $(item).attr('data-mismatches'),
+    inheriteds = $(item).attr('data-inheriteds'),
+    descendants = $(item).attr('data-descendants'),
+    useds = $(item).attr('data-useds'),
+    used_all = $(item).attr('data-used-all'),
+    msid = '#ms-'+item.id;
     // it an <li> items match multiple tooltips, then only the first tooltip will show
+    if (!(used_all == null || used_all == 'undefined')) {
+      addTooltipForElements(msid, used_all,
+                            [{class_to_find_li: 'selection', clname: 'selected_taxonomy', label: "Select all option enabled for this taxonomy", position: 'right'}]);
+    }
     if (!(mismatches == null || mismatches == 'undefined')) {
-      var missing_ids = $.parseJSON(mismatches);
-      $.each(missing_ids, function(index,missing_id){
-        opt_id = sanitize(missing_id+'');
-        $(msid).find('li#'+opt_id+'-selectable').addClass('delete').tooltip({container: 'body', title: __("Select this since it belongs to a host"), placement: "left"});
-      })
+      addTooltipForElements(msid, mismatches,
+                            [{class_to_find_li: 'selectable', clname: 'delete', label: "Select this since it belongs to a host", position: 'left'}]);
     }
     if (!(useds == null || descendants == 'useds')) {
-      var used_ids = $.parseJSON(useds);
-      $.each(used_ids, function(index,used_id){
-        opt_id = sanitize(used_id+'');
-        $(msid).find('li#'+opt_id+'-selection').addClass('used_by_hosts').tooltip({container: 'body', title: __("This is used by a host"), placement: "right"});
-      })
+      addTooltipForElements(msid, useds,
+                            [{class_to_find_li: 'selection', clname: 'used_by_hosts', label: "This is used by a host", position: 'right'}]);
     }
     if (!(inheriteds == null || inheriteds == 'undefined')) {
-      var inherited_ids = $.parseJSON(inheriteds);
-      $.each(inherited_ids, function(index,inherited_id){
-        opt_id = sanitize(inherited_id+'');
-        $(msid).find('li#'+opt_id+'-selection').addClass('inherited').tooltip({container: 'body', title: __("This is inherited from parent"), placement: "right"});
-      })
+      addTooltipForElements(msid, inheriteds,
+                            [{class_to_find_li: 'selection', clname: 'inherited', label: "This is inherited from parent", position: 'right'}]);
     }
     if (!(descendants == null || descendants == 'undefined')) {
-      var descendant_ids = $.parseJSON(descendants);
-      $.each(descendant_ids, function(index,descendant_id){
-        opt_id = sanitize(descendant_id+'');
-        $(msid).find('li#'+opt_id+'-selection').addClass('descendants').tooltip({container: 'body', title: __("Parent is already selected"), placement: "right"});
-        $(msid).find('li#'+opt_id+'-selectable').addClass('descendants').tooltip({container: 'body', title: __("Parent is already selected"), placement: "left"});
-      })
+      addTooltipForElements(msid, descendants,
+                            [{class_to_find_li: 'selection', clname: 'descendants', label: 'Parent is already selected', position: 'right'},
+			     {class_to_find_li: 'selectable', clname: 'descendants', label: 'Parent is already selected', position: 'left'}]);
     }
   })
+}
+
+function addTooltipForElements(msid, json_ids, tooltips_with_options) {
+  var ids = $.parseJSON(json_ids);
+  $.each(ids, function(index, id){
+    opt_id = sanitize(id+'');
+    $.each(tooltips_with_options, function(tooltip_index, tooltip_opts) {
+      $(msid).find('li#'+opt_id+'-' + tooltip_opts.class_to_find_li).addClass(tooltip_opts.clname).tooltip(
+      {container: 'body', title: __(tooltip_opts.label), placement: tooltip_opts.position});
+    });
+  });
 }
 
 // function below is copy/paste from source of multi-select-rails gem

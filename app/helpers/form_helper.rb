@@ -57,13 +57,9 @@ module FormHelper
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
     options[:size] = "col-md-10"
-    case attr
-      when :organizations
-        klass = Organization
-      when :locations
-        klass = Location
-      else
-        klass = nil
+    klass = nil
+    if [:organizations, :locations].include?(attr)
+      klass = attr.to_s.classify.constantize
     end
     authorized = AssociationAuthorizer.authorized_associations(associations.reorder(nil), klass).all
 
@@ -78,12 +74,12 @@ module FormHelper
       attr_ids = attr.to_s
       attr_ids = (attr_ids.singularize + '_ids').to_sym unless attr_ids.end_with?('_ids')
       hidden_fields = ''
-      html_options["data-useds"] ||= "[]"
-      JSON.parse(html_options["data-useds"]).each do |disabled_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id => '')
-      end
-      unauthorized.each do |unauthorized_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id => '')
+      html_options["data-useds"] ||= '[]'
+      html_options["data-used-all"] ||= '[]'
+      [JSON.parse(html_options["data-useds"]), JSON.parse(html_options["data-used-all"]), unauthorized].each do |optns|
+        optns.each do |value|
+          hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => value, :id => '')
+        end
       end
       hidden_fields + f.collection_select(attr_ids, authorized.sort_by { |a| a.to_s },
         :id, options.delete(:object_label_method) || :to_label, options.merge(:selected => selected_ids),

@@ -12,6 +12,7 @@ module Taxonomix
       :through => TAXONOMY_JOIN_TABLE, :source => :taxonomy,
       :validate => false
     after_initialize :set_current_taxonomy
+    before_save :add_taxonomies_with_ignore_type_enabled
 
     scoped_search :relation => :locations, :on => :name, :rename => :location, :complete_value => true, :only_explicit => true
     scoped_search :relation => :locations, :on => :id, :rename => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
@@ -83,7 +84,6 @@ module Taxonomix
     # Passing a nil or [] value as taxonomy equates to "Any context".
     # Any other value will be understood as 'IDs available in this taxonomy'.
     def inner_ids(taxonomy, taxonomy_class, inner_method)
-      return unscoped.pluck("#{table_name}.id") if taxonomy_class.ignore?(to_s)
       return inner_select(taxonomy, inner_method) if taxonomy.present?
       return [] unless User.current.present?
       # Any available taxonomy to the current user
@@ -209,6 +209,22 @@ module Taxonomix
         errors.add key, _("Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission.") % { :assoc => _(assoc), :perm => "assign_#{assoc}" }
       end
     end
+  end
+
+  def add_taxonomies_with_ignore_type_enabled
+    Taxonomy.enabled_taxonomies.each do |taxonomy_pluralize_str|
+      taxonomy_class_name = taxonomy_pluralize_str.classify
+      obj_ids = taxonomy_class_name.constantize.taxonomy_ids_by_ignore_type(self.class.to_s)
+      assign_taxonomy_ids(taxonomy_class_name, obj_ids) if obj_ids.present?
+    end
+  end
+
+  def assign_taxonomy_ids(taxonomy_class_name, taxonomy_ids_by_ignore_type)
+    taxonomy_ids_meth = taxonomy_class_name.underscore + '_ids'
+    existing_obj_ids = self.send(taxonomy_ids_meth)
+    return if (taxonomy_ids_by_ignore_type - existing_obj_ids).blank?
+    taxonomy_ids_by_ignore_type.concat(existing_obj_ids).uniq!
+    self.send("#{taxonomy_ids_meth}=", taxonomy_ids_by_ignore_type)
   end
 
   protected
