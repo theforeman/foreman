@@ -77,6 +77,16 @@ module ComputeResourcesVmsHelper
     compute.datastores.map { |datastore| [datastore_stats(datastore), datastore.name] }
   end
 
+  def vsphere_networks(compute_resource)
+    networks = compute_resource.networks
+    networks.map do |net|
+      net_id = net.id
+      net_name = net.name
+      net_name += " (#{net.virtualswitch})" if net.virtualswitch
+      [net_id, net_name]
+    end
+  end
+
   def datastore_stats(datastore)
     return datastore.name unless datastore.freespace && datastore.capacity
     "#{datastore.name} (#{_('free')}: #{number_to_human_size(datastore.freespace)}, #{_('prov')}: #{number_to_human_size(datastore.capacity + (datastore.uncommitted || 0) - datastore.freespace)}, #{_('total')}: #{number_to_human_size(datastore.capacity)})"

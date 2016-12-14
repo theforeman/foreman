@@ -3,7 +3,7 @@
   :label => _('NIC type'), :label_size => "col-md-3"
 %>
 <% if new_host %>
-  <%= select_f f, :network, compute_resource.networks, :name, :name, { },
+  <%= select_f f, :network, vsphere_networks(compute_resource), :first, :last, { },
     :class => "col-md-3 vmware_network",
     :label => _('Network'), :label_size => "col-md-3"
   %>
