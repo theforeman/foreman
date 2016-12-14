@@ -157,6 +157,7 @@ class VmwareTest < ActiveSupport::TestCase
       @mock_network = mock('network')
       @mock_network.stubs('id').returns('network-17')
       @mock_network.stubs('name').returns('Test network')
+      @mock_network.stubs('virtualswitch').returns(nil)
       @cr = FactoryGirl.build(:vmware_cr)
       @cr.stubs(:networks).returns([@mock_network])
     end
@@ -167,12 +168,12 @@ class VmwareTest < ActiveSupport::TestCase
 
     test "converts form network ID to network name" do
       attrs_in = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}})
-      attrs_out = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"Test network", "_delete"=>""}})
+      attrs_out = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}})
       assert_equal attrs_out, @cr.parse_networks(attrs_in)
     end
 
     test "ignores existing network names" do
-      attrs = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"Test network", "_delete"=>""}})
+      attrs = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}})
       assert_equal attrs, @cr.parse_networks(attrs)
     end
 
