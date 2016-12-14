@@ -480,6 +480,28 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test 'set hostgroup when foreman_hostgroup present in facts' do
+    Setting[:create_new_host_when_facts_are_uploaded] = true
+    hostgroup = FactoryGirl.create(:hostgroup)
+    hostname = fact_json['name']
+    facts    = fact_json['facts']
+    facts['foreman_hostgroup'] = hostgroup.title
+    post :facts, {:name => hostname, :facts => facts}
+    assert_response :success
+    assert_equal hostgroup, Host.find_by(:name => hostname).hostgroup
+  end
+
+  test 'assign hostgroup attributes when foreman_hostgroup present in facts' do
+    Setting[:create_new_host_when_facts_are_uploaded] = true
+    hostgroup = FactoryGirl.create(:hostgroup, :with_rootpass)
+    hostname = fact_json['name']
+    facts    = fact_json['facts']
+    facts['foreman_hostgroup'] = hostgroup.title
+    post :facts, {:name => hostname, :facts => facts}
+    assert_response :success
+    assert_equal hostgroup.root_pass, Host.find_by(:name => hostname).root_pass
+  end
+
   test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_smart_proxies] = false
