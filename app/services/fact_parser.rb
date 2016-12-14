@@ -49,6 +49,11 @@ class FactParser
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
+  def hostgroup
+    hostgroup_title = facts[:foreman_hostgroup]
+    Hostgroup.unscoped.where(:title => hostgroup_title).first_or_create unless hostgroup_title.blank?
+  end
+
   # should return hash with indifferent access in following format:
   #   {
   #      'eth0': {'link': 'true', 'macaddress': '00:00:00:00:00:FF', 'ipaddress': nil, 'any_other_fact': 'value'},

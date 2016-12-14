@@ -154,7 +154,6 @@ module Host
       build_required_interfaces(:managed => false)
       set_non_empty_values(parser, attributes_to_import_from_facts)
       set_interfaces(parser) if parser.parse_interfaces?
-
       parser
     end
 
