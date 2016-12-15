@@ -670,7 +670,7 @@ class HostsController < ApplicationController
     return head(:not_found) unless @hostgroup
 
     @host = if params[:host][:id]
-              host = Host::Base.authorized(:view_hosts, Host).find(params[:host][:id])
+              host = Host::Base.authorized(:view_hosts).find(params[:host][:id])
               host = host.becomes Host::Managed
               host.attributes = host.apply_inherited_attributes(host_params)
               host
