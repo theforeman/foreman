@@ -40,4 +40,64 @@
   .container-cards-pf{
     clear: both
   }
+
+  .top-margin {
+    margin-top: 2rem;
+  }
+
+  ul.nav-tabs.nav-stacked.nav-tabs-pf {
+    border-bottom: 0px;
+  }
+
+  .nav-stacked.nav-tabs-pf > li:first-child > a {
+    padding-left: 15px;
+  }
+
+  .nav-stacked.nav-tabs-pf > li > a:after {
+      height: 1px;
+      background: #e0e0e0;
+      content: "";
+      display: block;
+      bottom: -10px;
+      left: 0;
+      position: relative;
+  }
+
+  ul.nav-tabs.nav-stacked.nav-tabs-pf > li.active:first-child > a:before {
+    left: 15px !important;
+  }
+
+  ul.nav-tabs.nav-stacked.nav-tabs-pf > li:first-child > a:hover:before {
+    left: 15px !important;
+  }
+
+  ul.nav-tabs.nav-stacked.nav-tabs-pf {
+    li.stacked-header {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  }
+
+  .divided:before {
+    background: #e0e0e0;
+    width: 1px;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 20px;
+    bottom: 0;
+    left: 0;
+  }
+
+  .padding-left-20 {
+    padding-left: 20px;
+  }
+
+  .bolder {
+    font-weight: bolder;
+  }
+
+  .delete-record {
+    text-align: center;
+  }
 }

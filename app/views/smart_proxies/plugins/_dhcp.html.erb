@@ -1,12 +1,5 @@
-<div class="row">
-  <h3><%= _('DHCP') %></h3>
-</div>
-<%= show_feature_version('dhcp') %>
-<div class="row">
-  <div class="col-md-4">
-    <%= _('Subnets') %>
+  <div class="col-md-12" id="dhcp_subnets" data-ajax-url="<%= smart_proxy_proxy_subnets_path(@smart_proxy) %>" data-on-complete="tfm.proxyStatus.dhcp.activateDhcpTables">
+    <div class="top-margin">
+      <%= spinner %>
+    </div>
   </div>
-  <div class="col-md-8">
-    <%= generate_links_for(@smart_proxy.subnets).html_safe %>
-  </div>
-</div>

@@ -16,6 +16,10 @@ window.tfm = Object.assign(
     tools: require('./foreman_tools'),
     users: require('./foreman_users'),
     numFields: require('./jquery.ui.custom_spinners'),
-    reactMounter: require('./react_app/common/MountingService')
+    reactMounter: require('./react_app/common/MountingService'),
+    proxyStatus: {
+      dhcp: require('./proxy_status/dhcp'),
+      common: require('./proxy_status/common')
+    }
   }
 );

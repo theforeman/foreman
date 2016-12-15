@@ -2,8 +2,9 @@ class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::SmartProxy
 
-  before_action :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :puppet_environments, :puppet_dashboard, :log_pane, :failed_modules, :errors_card, :modules_card, :expire_logs]
-  before_action :find_status, :only => [:ping, :tftp_server, :puppet_environments]
+  STATUS_ROUTES = [:ping, :tftp_server, :puppet_environments, :puppet_dashboard, :log_pane, :failed_modules, :errors_card, :modules_card]
+  before_action :find_resource, :only => [:show, :edit, :update, :refresh, :destroy, :expire_logs] + STATUS_ROUTES
+  before_action :find_status, :only => STATUS_ROUTES
 
   def index
     @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -56,9 +57,9 @@ class SmartProxiesController < ApplicationController
   end
 
   def puppet_environments
-    render :partial => 'smart_proxies/plugins/puppet_envs', :locals => {:envs => @proxy_status[:puppet].environment_stats}
-  rescue Foreman::Exception => exception
-    process_ajax_error exception
+    requested_data_ajax do
+      render :partial => 'smart_proxies/plugins/puppet_envs', :locals => {:envs => @proxy_status[:puppet].environment_stats}
+    end
   end
 
   def puppet_dashboard
@@ -137,16 +138,22 @@ class SmartProxiesController < ApplicationController
 
   def requested_data
     data = yield
-    render :json => {:success => true, :message => data }
+    render :json => {:success => true, :message => data}
   rescue Foreman::Exception => exception
     render :json => {:success => false, :message => exception.message}
+  end
+
+  def requested_data_ajax
+    yield
+  rescue Foreman::Exception => exception
+    process_ajax_error exception
   end
 
   def action_permission
     case params[:action]
       when 'refresh', 'expire_logs'
         :edit
-      when 'ping', 'tftp_server', 'puppet_environments', 'puppet_dashboard', 'log_pane', 'failed_modules', 'errors_card', 'modules_card'
+      when *(STATUS_ROUTES.map(&:to_s))
         :view
       else
         super

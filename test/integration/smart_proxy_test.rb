@@ -32,7 +32,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "show page" do
-    proxy = smart_proxies(:one)
+    proxy = smart_proxies(:realm)
     visit smart_proxy_path(proxy)
     assert page.has_selector?('h1', :text => proxy.to_label), "#{proxy.to_label} <h1> tag, but was not found"
     assert page.has_content? proxy.url
@@ -41,8 +41,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link? "Refresh"
     assert page.has_link? "Services"
     click_link "Services"
-    # smart_proxies(:one) has DHCP feature
-    assert page.has_selector?('h3', :text => "DHCP")
+    assert page.has_selector?('h3', :text => "Realm")
     assert page.has_content? "Version"
   end
 
