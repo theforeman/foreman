@@ -240,6 +240,9 @@ function revert_template(item){
       if ($('#new').length) {
         $('#new').val(res.responseText);
         set_edit_mode($('.editor_source'));
+      } else {
+        // IE < 10
+        $('.editor_source').val(res.responseText);
       }
       var time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
       $('#provisioning_template_audit_comment').text(Jed.sprintf(__("Revert to revision from: %s"), time))
