@@ -61,7 +61,7 @@ module Foreman::Model
         Rails.logger.info "Datacenter #{dc.try(:name)} returned zero clusters"
         return []
       end
-      dc.clusters.map(&:full_path).sort
+      dc.clusters.map(&:name).sort
     end
 
     def datastores(opts = {})
