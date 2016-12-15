@@ -72,7 +72,7 @@ class Host::Managed < Host::Base
       :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface,
       :provision_interface, :interfaces, :bond_interfaces, :bridge_interfaces, :interfaces_with_identifier,
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
-      :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic
+      :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used
   end
 
   scope :recent,      ->(*args) { where(["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
@@ -821,6 +821,14 @@ class Host::Managed < Host::Base
                                            :environment_id     => environment_id
                                          })
     end.compact
+  end
+
+  def templates_used
+    result = {}
+    available_template_kinds.map do |template|
+      result[template.template_kind_name] = template.name
+    end
+    result
   end
 
   def render_template(template)
