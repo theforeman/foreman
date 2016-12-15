@@ -3640,6 +3640,17 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#templates_used' do
+    test 'returns all templates used on a given host' do
+      os = operatingsystems(:redhat)
+      host = FactoryGirl.build(:host, :managed, :operatingsystem => os)
+      host.templates_used.each do |template_kind, template_name|
+        template = os.provisioning_templates.find_by_name(template_name).name
+        assert_equal template, host.templates_used[template_kind]
+      end
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)

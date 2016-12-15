@@ -159,6 +159,21 @@ class RendererTest < ActiveSupport::TestCase
       assert_equal 'content', tmpl
     end
 
+    test "#{renderer_name} should render a templates_used" do
+      send "setup_#{renderer_name}"
+      @renderer.host = FactoryGirl.build(
+        :host,
+        :operatingsystem => operatingsystems(:redhat)
+      )
+      template = mock('template')
+      template.stubs(:template).returns('<%= @host.templates_used %>')
+      assert_nothing_raised do
+        content = @renderer.unattended_render(template)
+        assert_match(/#{@renderer.host.provisioning_template(:kind => 'provision')}/, content)
+        assert_match(/#{@renderer.host.provisioning_template(:kind => 'script')}/, content)
+      end
+    end
+
     test "#{renderer_name} should not raise error when snippet is not found" do
       send "setup_#{renderer_name}"
       Template.expects(:where).with(:name => "test", :snippet => true).returns([])
@@ -253,5 +268,9 @@ class RendererTest < ActiveSupport::TestCase
     host = FactoryGirl.create(:host, :with_puppet)
     @renderer.host = host
     assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster')
+  end
+
+  test 'templates_used is allowed to render for host' do
+    assert Safemode.find_jail_class(Host::Managed).allowed? :templates_used
   end
 end
