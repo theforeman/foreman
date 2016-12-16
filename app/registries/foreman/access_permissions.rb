@@ -338,7 +338,7 @@ Foreman::AccessControl.map do |permission_set|
                     :hostgroup_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
                     :process_taxonomy, :current_parameters, :puppetclass_parameters, :template_used, :interfaces, :scheduler_hint_selected,
                     :random_name]
-    cr_ajax_actions = [:cluster_selected, :template_selected, :provider_selected, :resource_pools]
+    cr_ajax_actions = [:cluster_selected, :template_selected, :instance_type_selected, :provider_selected, :resource_pools]
     pc_ajax_actions = [:parameters]
     subnets_ajax_actions = [:freeip]
     tasks_ajax_actions = [:show]

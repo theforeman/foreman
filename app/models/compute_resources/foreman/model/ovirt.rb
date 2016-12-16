@@ -11,7 +11,7 @@ module Foreman::Model
 
     alias_attribute :datacenter, :uuid
 
-    delegate :clusters, :quotas, :templates, :to => :client
+    delegate :clusters, :quotas, :templates, :instance_types, :to => :client
 
     def self.available?
       Fog::Compute.providers.include?(:ovirt)
@@ -126,6 +126,10 @@ module Foreman::Model
       compute
     end
 
+    def instance_type(id)
+      client.instance_types.get(id) || raise(ActiveRecord::RecordNotFound)
+    end
+
     # Check if HTTPS is mandatory, since rest_client will fail with a POST
     def test_https_required
       RestClient.post url, {} if URI(url).scheme == 'http'
@@ -209,11 +213,30 @@ module Foreman::Model
       find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data)
     end
 
+    def sanitize_inherited_vm_attributes(args)
+      # Cleanup memory an cores values if template and/or instance type provided when VM values are
+      # * Blank values for these attributes, because oVirt will fail if empty values are present in VM definition
+      # * Provided but identical to values present in the template or instance type
+      # Instance type values take precedence on templates values
+      unless args[:template].blank?
+        template = template(args[:template])
+        cores = template.cores.to_i unless template.cores.blank?
+        memory = template.memory.to_i unless template.memory.blank?
+      end
+      unless args[:instance_type].blank?
+        instance_type = instance_type(args[:instance_type])
+        cores = instance_type.cores.to_i unless instance_type.cores.blank?
+        memory = instance_type.memory.to_i unless instance_type.memory.blank?
+      end
+      args.delete(:cores) if (args[:cores].blank? && cores) || (args[:cores].to_i == cores)
+      args.delete(:memory) if (args[:memory].blank? && memory) || (args[:memory].to_i == memory)
+    end
+
     def create_vm(args = {})
       args[:comment] = args[:user_data] if args[:user_data]
-      if (image_id = args[:image_id])
-        args[:template] = image_id
-      end
+      args[:template] = args[:image_id] if args[:image_id]
+
+      sanitize_inherited_vm_attributes(args)
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
       begin
         create_interfaces(vm, args[:interfaces_attributes])
