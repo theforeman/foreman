@@ -42,7 +42,7 @@ module Foreman::Controller::TaxonomyMultiple
       #hosts location needs to be updated before import missing ids
       taxonomy.import_missing_ids
     else
-      if taxonomy.need_to_be_selected_ids.count == 0
+      if taxonomy.mismatches.count == 0
         @hosts.update_all("#{type}_id".to_sym => taxonomy.id)
       else
         error "Cannot update #{taxonomy.type} to #{taxonomy.name} because of mismatch in settings"
