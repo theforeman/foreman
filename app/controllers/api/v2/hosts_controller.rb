@@ -368,6 +368,11 @@ Return the host's compute attributes that can be used to create a clone of this 
       def allowed_nested_id
         %w(hostgroup_id location_id organization_id environment_id)
       end
+
+      def resource_class_join(association, scope)
+        resource_class_join = resource_class.joins(association.name)
+        resource_class_join.merge(scope).present? ? resource_class_join.merge(scope) : resource_class_join
+      end
     end
   end
 end

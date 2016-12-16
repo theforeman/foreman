@@ -45,6 +45,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     )
   end
 
+  def basic_attrs_with_hg
+    hostgroup_attr = {
+      :hostgroup_id => Hostgroup.first.id
+    }
+    basic_attrs.merge(hostgroup_attr)
+  end
+
   def nics_attrs
     [{
       :primary => true,
@@ -256,6 +263,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should update host" do
     put :update, { :id => @host.to_param, :host => valid_attrs }
+    assert_response :success
+  end
+
+  test "should update hostgroup_id of host" do
+    @host = FactoryGirl.create(:host, basic_attrs_with_hg)
+    put :update, { :id => @host.to_param, :hostgroup_id => Hostgroup.last.id }
     assert_response :success
   end
 
