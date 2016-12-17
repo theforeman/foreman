@@ -15,6 +15,16 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert !ptables.empty?
   end
 
+  test "should search on requested criteria" do
+    org = Organization.first
+    @ptable.organizations = [org]
+    @ptable.save
+    get :index, {:search => @ptable.os_family, :organization_id =>  org.id }
+    assert_response :success
+    ptables = ActiveSupport::JSON.decode(@response.body)
+    assert ptables["error"].blank?
+  end
+
   test "should show individual record" do
     get :show, { :id => @ptable.to_param }
     assert_response :success
