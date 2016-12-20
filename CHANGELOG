@@ -1,3 +1,27 @@
+2016-12-20	Dominic Cleal <dominic@cleal.org>
+	* Release 1.13.3
+	* templates - sync from community-templates
+	* fixes #17395 - use admin user for load_template_vars
+	* fixes #17484 - remove reported_at sequence from report factory
+
+2016-12-20	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17666 - prevent migration failures on counter cache
+
+2016-12-20	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #15287 - Correct link from puppet proxy dashboard chart
+
+2016-12-20	Jan-Otto Kröpke <jkroepke@users.noreply.github.com>
+	* Fixes #16422 - Foreman API throws ruby exception with ovirt network API
+
+2016-12-20	Timo Goebel <mail@timogoebel.name>
+	* fixes #17476 - bmc power actions have correct status
+
+2016-12-20	Ori Rabin <orabin@redhat.com>
+	* Fixes #17441 - override all parameters permission changed to edit
+
+2016-12-20	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17458 - include user group admins
+
 2016-11-25	Dominic Cleal <dominic@cleal.org>
 	* Release 1.13.2
 	* i18n - extracting new, pulling from tx
