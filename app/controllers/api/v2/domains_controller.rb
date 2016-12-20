@@ -60,6 +60,9 @@ module Api
       def create
         @domain = Domain.new(domain_params)
         process_response @domain.save
+      rescue ActiveRecord::InvalidForeignKey
+        @domain.errors.add(:dns_id, _('Invalid smart-proxy id'))
+        process_resource_error
       end
 
       api :PUT, "/domains/:id/", N_("Update a domain")

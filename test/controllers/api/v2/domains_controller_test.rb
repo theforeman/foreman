@@ -26,6 +26,18 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "should not create invalid dns_id" do
+    # Currently Rails 4.2 does not support foreign key constraint with sqlite3
+    # (See https://github.com/rails/rails/pull/22236)
+    # Skipping this test until resolved
+    skip if ActiveRecord::Base.connection_config[:adapter].eql?"sqlite3"
+    invalid_proxy_id = SmartProxy.last.id + 100
+    post :create, { :domain => { :name => "doma.in", :dns_id => invalid_proxy_id } }
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_includes(show_response["error"]["full_messages"], "Dns Invalid smart-proxy id")
+    assert_response :unprocessable_entity
+  end
+
   test "should update valid domain" do
     put :update, { :id => Domain.first.to_param, :domain => { :name => "domain.new" } }
     assert_equal "domain.new", Domain.first.name
