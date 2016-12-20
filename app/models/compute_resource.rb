@@ -73,6 +73,10 @@ class ComputeResource < ActiveRecord::Base
     end
   end
 
+  def self.providers_requiring_url
+    _("Libvirt, oVirt, OpenStack and Rackspace")
+  end
+
   def self.provider_class(name)
     all_providers[name]
   end
