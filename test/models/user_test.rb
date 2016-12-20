@@ -7,6 +7,10 @@ class UserTest < ActiveSupport::TestCase
     @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
   end
 
+  def expect_ldap_connection(user = @user.login)
+    AuthSourceLdap.any_instance.expects(:update_usergroups).with(user)
+  end
+
   # Presence
   should validate_presence_of(:login)
   should validate_presence_of(:auth_source_id)
@@ -627,6 +631,7 @@ class UserTest < ActiveSupport::TestCase
       test 'not existing user with non existing auth source' do
         assert_difference('User.count', 1) do
           assert_difference('AuthSource.count', 1) do
+            expect_ldap_connection('not_existing_user')
             assert User.find_or_create_external_user({:login => 'not_existing_user'},
                                                      'new_external_source')
           end
@@ -640,6 +645,7 @@ class UserTest < ActiveSupport::TestCase
     context "existing AuthSource" do
       setup do
         @apache_source = AuthSourceExternal.where(:name => 'apache_module').first_or_create
+        expect_ldap_connection('not_existing_user')
       end
 
       test "not existing" do
@@ -701,19 +707,19 @@ class UserTest < ActiveSupport::TestCase
       test "enabled on-the-fly registration" do
         @ldap_server.update_attribute(:onthefly_register, true)
         assert_difference("User.count", 1) do
-          assert User.try_to_auto_create_user('foobar','fakepass')
+          assert User.try_to_login('foobar','fakepass')
         end
       end
 
       test "use LDAP login attribute as login" do
-        created_user = User.try_to_auto_create_user('foobar','fakepass')
+        created_user = User.try_to_login('foobar','fakepass')
         assert_equal created_user.login, "FoOBaR"
       end
 
       test 'taxonomies from the auth source are inherited' do
         @ldap_server.organizations = [taxonomies(:organization1)]
         @ldap_server.locations = [taxonomies(:location1)]
-        created_user = User.try_to_auto_create_user('foobar','fakepass')
+        created_user = User.try_to_login('foobar','fakepass')
         assert_equal @ldap_server.organizations.to_a,
           created_user.organizations.to_a
         assert_equal @ldap_server.locations.to_a,
@@ -887,6 +893,34 @@ class UserTest < ActiveSupport::TestCase
 
     it "should not return ambiguous characters" do
       refute_match /[O0Il1]/, User.random_password(100)
+    end
+  end
+
+  context '#.post_successful_login' do
+    setup do
+      @different_source = FactoryGirl.create(:auth_source_ldap)
+    end
+
+    test 'internal users do not get user groups updated' do
+      AuthSourceLdap.all.each do |ldap_source|
+        ldap_source.expects(:update_usergroups).never
+      end
+      users(:internal).post_successful_login
+    end
+
+    test 'external users from LDAP update groups only from their source' do
+      users(:one).auth_source.
+        expects(:update_usergroups).with(users(:one).login)
+      @different_source.expects(:update_usergroups).never
+      users(:one).post_successful_login
+    end
+
+    test 'external users from delegation API update groups from all sources' do
+      external_source = AuthSourceExternal.create(:name => 'external')
+      external_user = FactoryGirl.create(:user, :auth_source => external_source)
+      AuthSourceLdap.any_instance.expects(:update_usergroups).
+        with(external_user.login).times(AuthSourceLdap.count)
+      external_user.post_successful_login
     end
   end
 

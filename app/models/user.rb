@@ -237,7 +237,6 @@ class User < ApplicationRecord
               logger.warn "Failed to update #{user.login} attributes: #{user.errors.full_messages.join(', ')}"
             end
           end
-          user.auth_source.update_usergroups(user.login)
         end
 
         # clean up old avatar if it exists and the image isn't in use by anyone else
@@ -259,12 +258,30 @@ class User < ApplicationRecord
   end
 
   def post_successful_login
+    update_external_usergroups
     logger.debug "Post-login processing for #{login}"
     User.as_anonymous_admin do
       update_columns(:last_login_on => Time.now.utc)
       ensure_default_role
     end
     User.current = self
+  end
+
+  def update_external_usergroups
+    case auth_source.auth_method_name
+    # when 'INTERNAL'
+    # Internal users cannot have external user groups
+    when 'EXTERNAL'
+      # In the case of external authentication, we check on all LDAP auth
+      # sources to update user groups on login.
+      AuthSourceLdap.unscoped.all.map do |ldap_source|
+        ldap_source.update_usergroups(login)
+      end
+    when 'LDAP'
+      # For LDAP users, we just call update_usergroups on the auth_source
+      # we know the user comes from.
+      auth_source.update_usergroups(login)
+    end
   end
 
   def self.find_or_create_external_user(attrs, auth_source_name)
@@ -501,7 +518,6 @@ class User < ApplicationRecord
     # The default user can't auto create users, we need to change to Admin for this to work
     User.as_anonymous_admin do
       if user.save
-        auth_source.update_usergroups(user.login)
         logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
       else
         logger.info "Failed to save User '#{user.login}' #{user.errors.full_messages}"

@@ -9,6 +9,8 @@ class ApacheTest < ActiveSupport::TestCase
   def test_user_is_set_when_authenticated
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
     apache = get_apache_method
+    AuthSourceLdap.any_instance.expects(:update_usergroups).
+      with('ares').times(AuthSourceLdap.count)
     assert apache.authenticated?
     assert_equal apache.user, 'ares'
     assert_equal apache.session[:sso_method], 'SSO::Apache'
@@ -41,6 +43,8 @@ class ApacheTest < ActiveSupport::TestCase
     assert !apache.authenticated?
 
     apache.controller.request.env[SSO::Apache::CAS_USERNAME] = 'ares'
+    AuthSourceLdap.any_instance.expects(:update_usergroups).
+      with('ares').times(AuthSourceLdap.count)
     assert apache.authenticated?
   end
 
