@@ -11,14 +11,18 @@ oses:
   proxy_string = @host.params['http-proxy'] ? " http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
   puppet_enabled = pm_set || @host.param_true?('force-puppet')
   salt_enabled = @host.params['salt_master'] ? true : false
+  os_major = @host.operatingsystem.major.to_i
+  squeeze_or_older = (@host.operatingsystem.name == 'Debian' && os_major <= 6)
 %>
 # Locale
 d-i debian-installer/locale string <%= @host.params['lang'] || 'en_US' %>
 # country and keyboard settings are automatic. Keep them ...
 # ... for wheezy and newer:
 d-i keyboard-configuration/xkb-keymap seen true
+<% if squeeze_or_older -%>
 # ... for squeeze and older:
 d-i console-keymaps-at/keymap seen true
+<% end -%>
 
 <% subnet = @host.subnet -%>
 <% if subnet.respond_to?(:dhcp_boot_mode?) -%>
@@ -77,7 +81,7 @@ d-i clock-setup/ntp-server string <%= @host.params['ntp-server'] || '0.debian.po
 # User settings
 d-i passwd/root-password-crypted password <%= root_pass %>
 user-setup-udeb passwd/root-login boolean true
-d-i passwd passwd/make-user boolean false
+d-i passwd/make-user boolean false
 user-setup-udeb passwd/make-user boolean false
 
 <% repos = 0 %>
