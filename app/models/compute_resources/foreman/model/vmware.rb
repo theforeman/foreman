@@ -386,6 +386,13 @@ module Foreman::Model
       client.servers.new opts
     end
 
+    def destroy_vm(uuid)
+      find_vm_by_uuid(uuid).destroy :force => true
+    rescue ActiveRecord::RecordNotFound
+      # if the VM does not exists, we don't really care.
+      true
+    end
+
     # === Power on
     #
     # Foreman will try and start this vm after clone in a seperate request.
