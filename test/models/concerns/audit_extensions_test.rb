@@ -35,4 +35,10 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     a = Audit.where(auditable_type: 'Setting')
     assert_equal "[encrypted]", a.last.audited_changes["value"][1]
   end
+
+  test "search for type=lookupvalue in audit" do
+    key = lookup_keys(:three)
+    FactoryGirl.create :lookup_value, :lookup_key_id => key.id, :value => false, :match => "hostgroup=Common"
+    refute_empty Audit.search_for("type = lookupvalue")
+  end
 end
