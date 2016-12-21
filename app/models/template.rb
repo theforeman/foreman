@@ -89,7 +89,7 @@ class Template < ActiveRecord::Base
   end
 
   def remove_trailing_chars
-    self.template.tr!("\r", '') unless template.blank?
+    self.template = template.tr("\r", '') unless template.blank?
   end
 end
 

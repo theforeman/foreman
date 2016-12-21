@@ -194,6 +194,12 @@ class OperatingsystemTest < ActiveSupport::TestCase
     end
   end
 
+  test "release name is changed to lower case on save" do
+    os = FactoryGirl.build(:operatingsystem, release_name: 'TEST')
+    os.save!
+    assert_equal 'test', os.release_name
+  end
+
   test "should find os name using free text search only" do
     operatingsystems = Operatingsystem.search_for('centos')
     assert_equal 1, operatingsystems.count

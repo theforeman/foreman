@@ -118,7 +118,7 @@ module Host
       raise ::Foreman::Exception.new('Host is pending for Build') if build?
       facts = facts.with_indifferent_access
 
-      facts[:domain].try(:downcase!)
+      facts[:domain] = facts[:domain].downcase if facts[:domain].present?
 
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)

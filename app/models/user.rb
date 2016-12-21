@@ -470,7 +470,7 @@ class User < ActiveRecord::Base
   end
 
   def normalize_mail
-    self.mail.strip! unless mail.blank?
+    self.mail = mail.strip unless mail.blank?
   end
 
   def reject_empty_intervals(attributes)

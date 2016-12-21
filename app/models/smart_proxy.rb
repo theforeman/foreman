@@ -107,7 +107,7 @@ class SmartProxy < ActiveRecord::Base
   private
 
   def sanitize_url
-    self.url.chomp!('/') unless url.empty?
+    self.url = url.chomp('/') unless url.empty?
   end
 
   def associate_features
