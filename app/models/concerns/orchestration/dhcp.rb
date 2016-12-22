@@ -26,6 +26,10 @@ module Orchestration::DHCP
     end
   end
 
+  def reset_dhcp_record_cache
+    @dhcp_record = nil
+  end
+
   def rebuild_dhcp
     if dhcp?
       del_dhcp_safe
