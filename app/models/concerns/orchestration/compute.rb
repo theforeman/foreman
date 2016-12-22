@@ -328,6 +328,7 @@ module Orchestration::Compute
       mac = selected_nic.send(fog_attr)
       logger.debug "Orchestration::Compute: nic #{nic.inspect} assigned to #{selected_nic.inspect}"
       nic.mac = mac
+      nic.reset_dhcp_record_cache if nic.respond_to?(:reset_dhcp_record_cache) # delete the cached dhcp_record with old MAC on managed nics
       fog_nics.delete(selected_nic) # don't use the same fog nic twice
 
       # In future, we probably want to skip validation of macs/ips on the Nic

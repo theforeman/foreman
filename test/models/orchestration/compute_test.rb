@@ -65,6 +65,27 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  test "if MAC is changed, dhcp_record cache is dropped" do
+    cr = FactoryGirl.build(:libvirt_cr)
+    cr.stubs(:provided_attributes).returns({:mac => :mac})
+    host = FactoryGirl.build(:host, :managed, :compute_resource => cr)
+    host.vm = mock("vm")
+    fog_nic = OpenStruct.new(:mac => '00:00:00:00:01')
+    host.vm.expects(:interfaces).returns([fog_nic])
+    host.vm.expects(:select_nic).returns(fog_nic)
+    host.primary_interface.name = 'something'
+    host.primary_interface.mac = '00:00:00:00:00:02'
+    host.primary_interface.subnet = FactoryGirl.build(:subnet, :dhcp, :network => '255.255.255.0')
+    host.operatingsystem = FactoryGirl.build(:operatingsystem)
+
+    refute_nil host.primary_interface.dhcp_record
+    original = host.primary_interface.dhcp_record.object_id
+    host.send :match_macs_to_nics, :mac
+    new = host.primary_interface.dhcp_record.object_id
+    refute_equal original, new
+    assert_equal '00:00:00:00:01', host.primary_interface.mac
+  end
+
   test "a helpful error message shows up if no user_data is provided and it's necessary" do
     image = images(:one)
     host = FactoryGirl.build(:host, :operatingsystem => image.operatingsystem, :image => image,
