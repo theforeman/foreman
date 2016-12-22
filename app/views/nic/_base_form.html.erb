@@ -4,7 +4,8 @@
                     :size => "col-md-8", :label_size => "col-md-3" %>
 
 <%= text_f f, :mac,
-              :help_inline => popover('', _("Media access control address for this interface. Format must be six groups of two hexadecimal digits separated by colons (:), e.g. 00:11:22:33:44:55"), :rel => 'popover-modal'),
+              :help_inline => popover('', _("Media access control address for this interface. Format must be six groups of two hexadecimal digits separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) will overwrite the provided value with new random MAC address."),
+                      :rel => 'popover-modal'),
               :class => :interface_mac, :'data-url' => random_name_interfaces_path, :size => "col-md-8", :label_size => "col-md-3" %>
 <%= text_f f, :identifier,
               :label => _("Device identifier"),
