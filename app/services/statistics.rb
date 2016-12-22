@@ -8,8 +8,8 @@ module Statistics
       CountHosts.new(:count_by => :compute_resource, :title => _("Compute Resource Distribution"), :search => "compute_resource=~VAL~"),
       CountFacts.new(:count_by => :processorcount, :unit => Nn_('%s core', '%s cores'), :title => _("Number of CPUs"), :search => "facts.processorcount=~VAL1~"),
       CountFacts.new(:count_by => :manufacturer, :title => _("Hardware"), :search => "facts.manufacturer~~VAL~"),
-      CountNumericalFactPair.new(:count_by => :memory, :title => _("Average memory usage")),
-      CountNumericalFactPair.new(:count_by => :swap, :title => _("Average swap usage")),
+      CountNumericalFactPair.new(:count_by => :memory, :title => _("Average Memory Usage")),
+      CountNumericalFactPair.new(:count_by => :swap, :title => _("Average Swap Usage")),
       CountPuppetClasses.new(:id => :puppetclass, :title => _("Class Distribution"), :search => "class=~VAL1~")
     ]
 

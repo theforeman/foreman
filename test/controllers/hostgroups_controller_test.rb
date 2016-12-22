@@ -180,14 +180,14 @@ class HostgroupsControllerTest < ActionController::TestCase
     setup_user "view", "params"
     hg = FactoryGirl.create(:hostgroup, :with_parameter)
     get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
-    assert_not_nil response.body['Global parameters']
+    assert_not_nil response.body['Global Parameters']
   end
 
   test 'user without view_params rights should not see parameters in a hostgroup' do
     setup_user "edit"
     hg = FactoryGirl.create(:hostgroup, :with_parameter)
     get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
-    assert_nil response.body['Global parameters']
+    assert_nil response.body['Global Parameters']
   end
 
   describe "parent attributes" do

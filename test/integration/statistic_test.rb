@@ -10,7 +10,7 @@ class StatisticIntegrationTest < IntegrationTestWithJavascript
     assert page.has_selector?('h3', :text => "Number of CPUs")
     assert page.has_selector?('h3', :text => "Hardware")
     assert page.has_selector?('h3', :text => "Class Distribution")
-    assert page.has_selector?('h3', :text => "Average memory usage")
-    assert page.has_selector?('h3', :text => "Average swap usage")
+    assert page.has_selector?('h3', :text => "Average Memory Usage")
+    assert page.has_selector?('h3', :text => "Average Swap Usage")
   end
 end

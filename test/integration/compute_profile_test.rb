@@ -10,7 +10,7 @@ class ComputeProfileIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(compute_profiles_path,"Compute profiles","Create Compute Profile")
+    assert_index_page(compute_profiles_path,"Compute Profiles","Create Compute Profile")
   end
 
   test "create new page" do

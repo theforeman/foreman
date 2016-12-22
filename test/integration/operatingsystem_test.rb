@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class OperatingsystemIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
-    assert_index_page(operatingsystems_path,"Operating systems","Create Operating System")
+    assert_index_page(operatingsystems_path,"Operating Systems","Create Operating System")
   end
 
   test "create new page" do

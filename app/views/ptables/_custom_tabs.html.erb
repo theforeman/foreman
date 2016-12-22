@@ -2,6 +2,6 @@
   <%= checkbox_f f, :snippet, :onchange => "tfm.editor.snippetChanged(this)", :label=>_('Snippet'), :disabled => @template.locked? %>
   <%= snippet_message(@template) %>
   <div id="association" <%= display? @template.snippet %> >
-    <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family")  }, { :label => _("Operating system family") } %>
+    <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family")  }, { :label => _("Operating System Family") } %>
   </div>
 </div>

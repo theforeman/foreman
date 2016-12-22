@@ -5,8 +5,8 @@
 <%= selectable_f(f, :datacenter, datacenters, {}, {:label => _('Datacenter'), :help_inline_permanent => load_datacenters_button_f(f, !datacenters.empty?) })%>
 <%= text_f f, :pubkey_hash, :disabled => true, :label => _("Fingerprint"), :size => "col-md-8" %>
 <%= checkbox_f f, :set_console_password, :checked => f.object.set_console_password?,
-                  :label => _("Console passwords"),
+                  :label => _("Console Passwords"),
                   :help_inline => _("Set a randomly generated password on the display connection") %>
-<%= checkbox_f f, :caching_enabled, :label => _("Enable caching"),
+<%= checkbox_f f, :caching_enabled, :label => _("Enable Caching"),
                   :help_inline => _("Cache slow calls to VMWare to speed up page rendering") %>
 <%= f.hidden_field(:pubkey_hash) if f.object.uuid.present? %>

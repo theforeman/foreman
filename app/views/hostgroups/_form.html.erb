@@ -66,18 +66,18 @@
     <div class="tab-pane" id="params">
 
       <fieldset>
-        <h2><%= _('Puppet class parameters') %></h2>
+        <h2><%= _('Puppet Class Parameters') %></h2>
         <%= render 'puppetclasses/classes_parameters', :obj => @hostgroup  %>
       </fieldset>
       <br/>
       <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
         <fieldset>
-          <h2><%= _('Global parameters') %></h2>
+          <h2><%= _('Global Parameters') %></h2>
           <% if @hostgroup.parent.present? %>
-              <h4><%= _('Parent parameters') %></h4>
+              <h4><%= _('Parent Parameters') %></h4>
               <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @hostgroup.parent_params(true), :parameters => @hostgroup.group_parameters } %>
           <% end %>
-          <h4><%= _('Host group parameters') %></h4>
+          <h4><%= _('Host Group Parameters') %></h4>
           <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
         </fieldset>
       <% end %>
