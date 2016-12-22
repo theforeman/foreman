@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-13 09:16+0000\n"
-"PO-Revision-Date: 2016-12-13 09:16+0000\n"
+"POT-Creation-Date: 2016-12-22 09:57+0000\n"
+"PO-Revision-Date: 2016-12-22 09:57+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -3594,33 +3594,33 @@ msgstr ""
 msgid "Template unlocked"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:82
+#: ../app/controllers/unattended_controller.rb:76
 msgid "unable to find %{type} template for %{host} running %{os}"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:94
+#: ../app/controllers/unattended_controller.rb:88
 msgid "%{controller}: unable to find a host that matches the request from %{addr}"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:99
+#: ../app/controllers/unattended_controller.rb:93
 msgid "%{controller}: %{host}'s operating system is missing"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:104
+#: ../app/controllers/unattended_controller.rb:98
 msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:169
+#: ../app/controllers/unattended_controller.rb:163
 msgid ""
 "Failed to clean any old certificates or add the autosign entry. Terminating th"
 "e build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:181
+#: ../app/controllers/unattended_controller.rb:175
 msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:226
+#: ../app/controllers/unattended_controller.rb:220
 msgid "There was an error rendering the %s template: "
 msgstr ""
 
