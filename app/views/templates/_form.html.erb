@@ -94,4 +94,7 @@
       not have a 'name' attribute so browsers will not send them in the form POST. %>
   <input type="hidden" id="old" value="<%= @template.template %>" />
   <input type="hidden" id="new" value="<%= @template.template %>" />
+
+  <%# This hidden input is a workaround to fix IE Multipart form data bug (https://connect.microsoft.com/IE/Feedback/Details/868498) %>
+  <input type="hidden" name="_ie_support" %>
 <% end %>
