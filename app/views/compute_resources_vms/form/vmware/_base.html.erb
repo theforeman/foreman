@@ -1,10 +1,10 @@
 <%= javascript 'compute_resource' %>
 <%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initCounter)"); %>
 <%= text_f f, :name, :label => _('Name'), :disabled => !new_host if show_vm_name? %>
-<%= counter_f f, :cpus, :disabled => !new_host, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
+<%= counter_f f, :cpus, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
 
-<%= counter_f f, :corespersocket, :disabled => !new_host, :label => _('Cores per socket'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count, :value => f.object.corespersocket || 1 %>
-<%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new_host, :label => _("Memory (MB)") %>
+<%= counter_f f, :corespersocket, :label => _('Cores per socket'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count, :value => f.object.corespersocket || 1 %>
+<%= text_f f, :memory_mb, :class => "col-md-2", :label => _("Memory (MB)") %>
 <%= field(f, :firmware, :label => _('Firmware'), :label_size => "col-md-2") do
   compute_resource.firmware_types.collect do |type, name|
     radio_button_f f, :firmware, {:disabled => !new_host, :value => type, :text => _(name)}
@@ -15,7 +15,7 @@ end %>
                     :label => _('Cluster'), :onchange => 'vsphereGetResourcePools(this)',
                     :help_inline => :indicator,
                     :data => {:url => resource_pools_compute_resource_path(compute_resource)} %>
-<%= vsphere_resource_pools(f, compute_resource)%>
+<%= vsphere_resource_pools(f, compute_resource, new_host) %>
 <%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
 <%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_host } %>

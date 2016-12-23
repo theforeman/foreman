@@ -9,17 +9,17 @@
 <% if new_host %>
   <%= selectable_f f, :datastore, vsphere_datastores(compute_resource), { }, :class => "span5", :label => _("Data store"), :label_size => "col-md-2" %>
 <% else %>
-  <%= text_f f, :datastore, :class => "span5", :label => _("Data store"), :label_size => "col-md-2" %>
+  <%= text_f f, :datastore, :class => "span5", :label => _("Data store"), :label_size => "col-md-2", :disabled => true %>
 <% end %>
-<%= text_f f, :name, :class => "col-md-2", :label => _("Name"), :label_size => "col-md-2" %>
+<%= text_f f, :name, :class => "col-md-2", :label => _("Name"), :label_size => "col-md-2", :disabled => !new_host %>
 <%= text_f f, :size_gb,
            :class       => "col-md-2",
-           :label => _("Size (GB)"), :label_size => "col-md-2" %>
+           :label => _("Size (GB)"), :label_size => "col-md-2", :disabled => !new_host %>
 <%= checkbox_f f, :thin, {
-           :label => _("Thin provision"), :label_size => "col-md-2"},
+           :label => _("Thin provision"), :label_size => "col-md-2", :disabled => !new_host},
            "true",
            "false" %>
 <%= checkbox_f f, :eager_zero, {
-           :label => _("Eager zero"), :label_size => "col-md-2"},
+           :label => _("Eager zero"), :label_size => "col-md-2", :disabled => !new_host},
            "true",
            "false" %>
