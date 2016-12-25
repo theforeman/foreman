@@ -39,6 +39,11 @@ class AuditExtensionsTest < ActiveSupport::TestCase
   test "search for type=lookupvalue in audit" do
     key = lookup_keys(:three)
     FactoryGirl.create :lookup_value, :lookup_key_id => key.id, :value => false, :match => "hostgroup=Common"
-    refute_empty Audit.search_for("type = lookupvalue")
+    refute_empty Audit.search_for("type = override_value")
+  end
+
+  test "search for type=compute_resource in audit" do
+    FactoryGirl.create(:ec2_cr)
+    refute_empty Audit.search_for("type = compute_resource")
   end
 end
