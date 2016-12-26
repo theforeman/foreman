@@ -335,6 +335,15 @@ class UsersControllerTest < ActionController::TestCase
     assert flash[:inline][:error].present?
   end
 
+  test "#login prevents brute-force login attempts" do
+    User.expects(:try_to_login).times(30).returns(nil)
+    @controller.expects(:log_bruteforce)
+    31.times do
+      post :login, {:login => {'login' => 'admin', 'password' => 'password'}}
+    end
+    assert_equal "Too many tries, please try again in a few minutes.", flash[:inline][:error]
+  end
+
   test "#login retains taxonomy session attributes in new session" do
     post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}},
                  {:location_id => taxonomies(:location1).id,

@@ -2,6 +2,7 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
     include ApplicationShared
+    include Foreman::Controller::BruteforceProtection
 
     protect_from_forgery
     force_ssl :if => :require_ssl?
@@ -167,7 +168,14 @@ module Api
     end
 
     def authorize
+      if bruteforce_attempt?
+        log_bruteforce
+        render_error('unauthorized', :status => :unauthorized)
+        return false
+      end
+
       unless authenticate
+        count_login_failure
         render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => @available_sso.try(:user) })
         return false
       end
