@@ -130,6 +130,14 @@ class Api::TestableControllerTest < ActionController::TestCase
       assert_response :unauthorized
     end
 
+    it "prevents brute-force attempts" do
+      @controller.expects(:authenticate).times(30).returns(false)
+      @controller.expects(:log_bruteforce).once
+      31.times do
+        get :index, {:user => 'admin', :password => 'brute-force'}
+      end
+    end
+
     context "and SSO (plain) authenticates" do
       setup do
         @sso = mock('dummy_sso')
