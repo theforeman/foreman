@@ -3563,38 +3563,6 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  describe '#to_ip_address' do
-    setup do
-      @host = FactoryGirl.build(:host)
-    end
-
-    test 'uses host PTR4 record to lookup the IP when present' do
-      stub_dns_record = stub()
-      @host.expects(:dns_record).with(:ptr4).returns(stub_dns_record).twice
-      stub_dns_record.expects(:dns_lookup).with('foo').
-        returns(OpenStruct.new(:ip => '127.0.0.1'))
-      assert '127.0.0.1', @host.to_ip_address('foo')
-    end
-
-    test 'when IP is passed as argument, return it' do
-      assert '127.0.0.1', @host.to_ip_address('127.0.0.1')
-    end
-
-    test 'call host domain resolver if there is no PTR4 record' do
-      @host.domain = FactoryGirl.build(:domain)
-      @host.domain.expects(:nameservers).returns('8.8.8.8')
-      Resolv::DNS.any_instance.expects(:getaddress).with('foo')
-        .returns('127.0.0.1')
-      assert '127.0.0.1', @host.to_ip_address('foo')
-    end
-
-    test 'raises exception when any error happens (no domain)' do
-      assert_raises(::Foreman::WrappedException) do
-        @host.to_ip_address('foo')
-      end
-    end
-  end
-
   describe '#smart_proxy_ids' do
     test 'returns IDs for proxies associated with host services' do
       # IDs are fake, just to prove host.smart_proxy_ids gathers them

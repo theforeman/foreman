@@ -912,20 +912,9 @@ class Host::Managed < Host::Base
     result
   end
 
-  # converts a name into ip address using DNS.
-  # if we are managing DNS, we can query the correct DNS server
-  # otherwise, use normal systems dns settings to resolv
   def to_ip_address(name_or_ip)
-    return name_or_ip if name_or_ip =~ Net::Validations::IP_REGEXP
-    if dns_record(:ptr4)
-      lookup = dns_record(:ptr4).dns_lookup(name_or_ip)
-      return lookup.ip unless lookup.nil?
-    end
-    # fall back to normal dns resolution
-    domain.resolver.getaddress(name_or_ip).to_s
-  rescue => e
-    logger.warn "Unable to find IP address for '#{name_or_ip}': #{e}"
-    raise ::Foreman::WrappedException.new(e, N_("Unable to find IP address for '%s'"), name_or_ip)
+    Foreman::Deprecation.deprecation_warning('1.17', 'Host::Managed#to_ip_address has been deprecated, you should use NicIpResolver class instead')
+    NicIpResolver.new(:nic => provision_interface).to_ip_address(name_or_ip)
   end
 
   def apply_compute_profile(modification)

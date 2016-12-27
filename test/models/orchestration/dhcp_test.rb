@@ -258,4 +258,20 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     host = FactoryGirl.build(:host, :with_dhcp_orchestration, :interfaces => [FactoryGirl.build(:nic_primary_and_provision, :mac => "aaaaaa")])
     assert_nil host.dhcp_record
   end
+
+  context '#boot_server' do
+    let(:host) { FactoryGirl.build(:host, :managed, :with_tftp_orchestration) }
+    let(:nic) { host.provision_interface }
+
+    test 'should use boot server provided by proxy' do
+      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('127.13.0.1')
+      assert_equal '127.13.0.1', nic.send(:boot_server)
+    end
+
+    test 'should use boot server based on proxy url' do
+      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns(nil)
+      Resolv::DNS.any_instance.expects(:getaddress).once.returns("127.12.0.1")
+      assert_equal '127.12.0.1', nic.send(:boot_server)
+    end
+  end
 end

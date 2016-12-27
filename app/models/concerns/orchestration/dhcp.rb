@@ -79,7 +79,7 @@ module Orchestration::DHCP
     # if that failed, trying to guess out tftp next server based on the smart proxy hostname
     bs ||= URI.parse(subnet.tftp.url).host
     # now convert it into an ip address (see http://theforeman.org/issues/show/1381)
-    ip = to_ip_address(bs) if bs.present?
+    ip = NicIpResolver.new(:nic => self).to_ip_address(bs) if bs.present?
     return ip unless ip.nil?
 
     failure _("Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services.")
