@@ -435,7 +435,8 @@ class HostJSTest < IntegrationTestWithJavascript
         wait_for_ajax
         modal.find(:button, "Ok").click
 
-        assert table.find('td.fqdn').has_content?('name.'+domain.name)
+        assert a = table.find('td.fqdn'), 'fqdn table could not be found'
+        assert a.has_content?('name.'+domain.name), "name.#{domain.name} not found. found #{a.text} instead"
         assert page.find('#hostFQDN').has_content?('| name.'+domain.name)
 
         page.find(:link, "Host").click
