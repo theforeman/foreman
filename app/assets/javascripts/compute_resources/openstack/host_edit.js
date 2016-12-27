@@ -5,13 +5,13 @@ function schedulerHintFilterSelected(item){
   } else {
     var url = $(item).attr('data-url');
     var data = serializeForm().replace('method=patch', 'method=post');
-    foreman.tools.showSpinner();
+    tfm.tools.showSpinner();
     $.ajax({
       type:'post',
       url: url,
       data: data,
       complete: function(){
-        foreman.tools.hideSpinner();
+        tfm.tools.hideSpinner();
       },
       error: function(jqXHR, status, error){
         $('#scheduler_hint_wrapper').html(Jed.sprintf(__("Error loading scheduler hint filters information: %s"), error));
