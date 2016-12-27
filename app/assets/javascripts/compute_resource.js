@@ -66,7 +66,7 @@ function testConnection(item) {
 
 function ovirt_templateSelected(item){
   var template = $(item).val();
-  if (template) {
+  if (template && !item.disabled) {
     var url = $(item).attr('data-url');
     tfm.tools.showSpinner();
     $.ajax({
@@ -80,6 +80,10 @@ function ovirt_templateSelected(item){
         $.each(result.interfaces, function() {add_network_interface(this);});
         $('#storage_volumes').children('.fields').remove();
         $.each(result.volumes, function() {add_volume(this);});
+        templateSelector = $("select#host_compute_attributes_template")
+        if (templateSelector[0].disabled) {
+          templateSelector.val(result.id).trigger("change");
+        }
       },
       complete: function(){
         reloadOnAjaxComplete(item);
