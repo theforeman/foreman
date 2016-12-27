@@ -1,11 +1,11 @@
-jest.unmock('./StatisticsChartBox');
+jest.unmock('./ChartBox');
 jest.unmock('../../../services/statisticsChartService');
 
 import React from 'react';
 import { mount } from 'enzyme';
-import StatisticsChartBox from './StatisticsChartBox';
+import ChartBox from './ChartBox';
 
-describe('StatistictsChartBox', () => {
+describe('ChartBox', () => {
   let chart, config, modalConfig, noDataMsg, errorText;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('StatistictsChartBox', () => {
 
   it('pending', () => {
     const box = mount(
-      <StatisticsChartBox
+      <ChartBox
         key={chart.id}
         config={config}
         modalConfig={modalConfig}
@@ -36,7 +36,7 @@ describe('StatistictsChartBox', () => {
 
   it('error', () => {
     const box = mount(
-      <StatisticsChartBox
+      <ChartBox
         key={chart.id}
         config={config}
         modalConfig={modalConfig}
@@ -51,7 +51,7 @@ describe('StatistictsChartBox', () => {
 
   it('resolved', () => {
     const box = mount(
-      <StatisticsChartBox
+      <ChartBox
         key={chart.id}
         config={{data: {columns: [1, 2]}}}
         modalConfig={modalConfig}

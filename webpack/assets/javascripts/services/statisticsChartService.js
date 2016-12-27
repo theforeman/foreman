@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import _ from 'lodash';
 import donut from './c3DonutService';
 
@@ -43,7 +42,7 @@ function setTitle(config) {
   if (total) {
     let title = _.round(100 * max[1] / total, 1).toString() + '%';
 
-    $().pfSetDonutChartTitle(config.bindto, title, data.names[max[0]]);
+    window.patternfly.pfSetDonutChartTitle(config.bindto, title, data.names[max[0]]);
   }
 }
 

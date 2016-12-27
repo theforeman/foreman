@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import helpers from '../../common/helpers';
 import chartService from '../../../services/statisticsChartService';
-import StatisticsChartBox from './StatisticsChartBox';
+import ChartBox from './ChartBox';
 import { STATUS } from '../../constants';
 import StatisticsStore from '../../stores/StatisticsStore';
 import StatisticsChartActions from '../../actions/StatisticsChartActions';
@@ -97,7 +97,7 @@ class StatisticsChartsList extends React.Component {
       chartService.syncConfigData(modalConfig, this.state.charts[chart.id].data);
 
       charts.push(
-        <StatisticsChartBox
+        <ChartBox
           key={chart.id}
           config={config}
           modalConfig={modalConfig}
