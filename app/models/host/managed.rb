@@ -3,6 +3,7 @@ class Host::Managed < Host::Base
   include Hostext::Search
   include Hostext::SmartProxy
   include Hostext::Token
+  include Hostext::Taxonomies
   include SelectiveClone
   include HostParams
   include Facets::ManagedHostExtensions
@@ -161,8 +162,6 @@ class Host::Managed < Host::Base
   alias_attribute :arch, :architecture
 
   validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
-  validates :organization_id, :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:organizations_enabled] }
-  validates :location_id,     :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:locations_enabled] }
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
@@ -211,10 +210,10 @@ class Host::Managed < Host::Base
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address
-  after_validation :ensure_associations
   before_validation :set_certname, :if => Proc.new {|h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
-  after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
   before_validation :validate_dns_name_uniqueness
+  after_validation :ensure_associations
+  after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
 
   def <=>(other)
     self.name <=> other.name
@@ -983,7 +982,7 @@ class Host::Managed < Host::Base
   # checks if the host association is a valid association for this host
   def ensure_associations
     status = true
-    %w{ ptable medium architecture}.each do |e|
+    %w{ptable medium architecture}.each do |e|
       value = self.send(e.to_sym)
       next if value.blank?
       unless os.send(e.pluralize.to_sym).include?(value)
