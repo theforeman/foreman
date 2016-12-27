@@ -11,7 +11,7 @@ import PanelBody from '../common/Panel/PanelBody';
 import './StatisticsChartsListStyles.css';
 import MessageBox from '../common/MessageBox';
 
-class StatisticsChartBox extends React.Component {
+class ChartBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showModal: false};
@@ -79,7 +79,7 @@ class StatisticsChartBox extends React.Component {
   }
 }
 
-StatisticsChartBox.PropTypes = {
+ChartBox.PropTypes = {
   status: PropTypes.string.isRequired,
   config: PropTypes.object,
   modalConfig: PropTypes.object,
@@ -88,4 +88,4 @@ StatisticsChartBox.PropTypes = {
   errorText: PropTypes.string
 };
 
-export default StatisticsChartBox;
+export default ChartBox;

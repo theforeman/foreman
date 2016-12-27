@@ -4,53 +4,77 @@ import React from 'react';
 import { storiesOf, action, linkTo, addDecorator } from '@kadira/storybook';
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
-import StatisticsChartsList from
-'../assets/javascripts/react_app/components/charts/StatisticsChartsList';
-import StatisticsChartBox from
-'../assets/javascripts/react_app/components/charts/StatisticsChartBox';
+import ChartBox from
+  '../assets/javascripts/react_app/components/charts/ChartBox';
+import ChartModal from '../assets/javascripts/react_app/components/charts/ChartModal';
+import chartService from '../assets/javascripts/services/statisticsChartService';
+import mockData from './data/charts/donutChartMockData';
 import PowerStatus from
-'../assets/javascripts/react_app/components/hosts/PowerStatus';
+  '../assets/javascripts/react_app/components/hosts/PowerStatus';
 
 addDecorator((story) => (
-  <div className="ca" style={{textAlign: 'center'}}>
+  <div className="ca" style={{ textAlign: 'center' }}>
     {story()}
     <div id="targetChart"></div>
   </div>
 ));
 
-storiesOf('Statistics', module)
+storiesOf('Charts', module)
   .add('Loading', () => (
-    <StatisticsChartBox
-      config={{data: {columns: [] }}}
+    <ChartBox
+      config={{ data: { columns: [] } }}
       noDataMsg={'No data here'}
       title="Title"
-      status="PENDING" />
+      status="PENDING"/>
   ))
-    .add('Without Data', () => (
-    <StatisticsChartBox
-      config={{data: {columns: [] }}}
+  .add('Without Data', () => (
+    <ChartBox
+      config={{ data: { columns: [] } }}
       noDataMsg={'No data here'}
       title="Title"
-      status="RESOLVED" />
+      status="RESOLVED"/>
   ))
-    .add('With Error', () => (
-    <StatisticsChartBox
-      config={{data: {columns: [] }}}
+  .add('With Error', () => (
+    <ChartBox
+      config={{ data: { columns: [] } }}
       title="Title"
       noDataMsg={'No data here'}
       errorText="Ooops"
-      status="ERROR" />
+      status="ERROR"/>
   ))
-  .add('With data', () => (
-    <StatisticsChartBox
-      config={{data: {columns: [1, 2]}}}
-      modalConfig={{}}
-      noDataMsg={'No data here'}
-      id="target"
+  .add('Donut Chart', () => (
+    <ChartBox
+      config={mockData.config}
+      modalConfig={mockData.modalConfig}
+      noDataMsg={mockData.noDataMsg}
+      tip={mockData.tip}
+      id={mockData.id}
+      title={mockData.title}
       status="RESOLVED"
     />
-  )
-);
+  ))
+  .add('Modal', () => {
+    /*
+     onHide={this.closeModal}
+     onEnter={this.onEnter}
+     */
+    let show = true;
+
+    function hide() {
+      show = false;
+    }
+
+    return (
+      <ChartModal
+        show={show}
+        onHide={hide}
+        config={mockData.modalConfig}
+        title={mockData.title}
+        id={mockData + 'Modal'}
+        setTitle={chartService.setTitle}
+      />
+    );
+  });
 
 storiesOf('Power Status', module)
   .add('Loading', () => (
@@ -82,12 +106,12 @@ storiesOf('Power Status', module)
       title="N/A"
     />
   ))
-    .add('Error', () => (
-    <PowerStatus
-      state="na"
-      statusText="Exception error some where"
-      loadingStatus="ERROR"
-      title="N/A"
-    />
-  )
-);
+  .add('Error', () => (
+      <PowerStatus
+        state="na"
+        statusText="Exception error some where"
+        loadingStatus="ERROR"
+        title="N/A"
+      />
+    )
+  );
