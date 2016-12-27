@@ -1,4 +1,4 @@
 {
   "requiredOrgs": ["theforeman"],
-  "userBlackList": ["daviddavis", "abenari", "unorthodoxgeek", "alongoldboim", "bgupta", "logicminds"]
+  "userBlacklist": ["daviddavis", "abenari", "unorthodoxgeek", "alongoldboim", "bgupta", "logicminds"]
 }
