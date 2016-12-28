@@ -114,8 +114,13 @@ class ApplicationController < ActionController::Base
   end
 
   def smart_proxy_exception(exception = nil)
-    process_error(:redirect => :back, :error_msg => exception.message)
     Foreman::Logging.exception("ProxyAPI operation FAILED", exception)
+    if request.headers.include? 'HTTP_REFERER'
+      process_error(:redirect => :back, :error_msg => exception.message)
+    else
+      process_error(:render => { :text => exception.message },
+                    :error_msg => exception.message)
+    end
   end
 
   # this method sets the Current user to be the Admin
