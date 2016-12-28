@@ -140,14 +140,16 @@ class String
   end
 
   def to_gb
-    match_data = self.match(/^(\d+(\.\d+)?) ?(([KMGT]i?B?|B|Bytes))$/i)
+    match_data = self.match(/^(\d+(\.\d+)?) ?(([KMGT]i?B?|B|Bytes))?$/i)
     if match_data.present?
       value, _, unit = match_data[1..3]
     else
       raise "Unknown string: #{self.inspect}!"
     end
+    unit ||= :byte #default to bytes if no unit given
+
     case unit.downcase.to_sym
-    when nil, :b, :byte, :bytes then (value.to_f / 1.gigabyte)
+    when :b, :byte, :bytes then (value.to_f / 1.gigabyte)
     when :tb, :tib, :t, :terabyte then (value.to_f * 1.kilobyte)
     when :gb, :gib, :g, :gigabyte then value.to_f
     when :mb, :mib, :m, :megabyte then (value.to_f / 1.kilobyte)
