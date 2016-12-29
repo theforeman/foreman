@@ -1,6 +1,6 @@
 <% title _("Provisioning Templates") %>
 
-<% title_actions new_link(_("New Template")),
+<% title_actions new_link(_("Create Template")),
                  display_link_if_authorized(_("Build PXE Default"), { :controller => 'provisioning_templates', :action => :build_pxe_default },{
                    :confirm => _("You are about to change the default PXE menu on all configured TFTP servers - continue?"),
                    :class => "btn btn-info"}),

@@ -65,7 +65,7 @@ module HostsHelper
   end
 
   def new_host_title
-    t = _("New Host")
+    t = _("Create Host")
     title(t, (t + ' <span id="hostFQDN"></span>').html_safe)
   end
 
