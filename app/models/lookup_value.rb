@@ -39,7 +39,7 @@ class LookupValue < ActiveRecord::Base
 
   def value_before_type_cast
     return read_attribute(:value) if errors[:value].present?
-    return self.value if lookup_key.nil? || lookup_key.contains_erb?(self.value)
+    return self.value if lookup_key.nil? || value.contains_erb?
     lookup_key.value_before_type_cast self.value
   end
 
@@ -59,7 +59,7 @@ class LookupValue < ActiveRecord::Base
   end
 
   def validate_and_cast_value
-    return if !self.value.is_a?(String) || self.lookup_key.contains_erb?(value)
+    return if !self.value.is_a?(String) || value.contains_erb?
     Foreman::Parameters::Caster.new(self, :attribute_name => :value, :to => lookup_key.key_type).cast!
     rescue StandardError, SyntaxError => e
       Foreman::Logging.exception("Error while parsing #{lookup_key}", e)

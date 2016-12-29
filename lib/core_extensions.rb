@@ -161,6 +161,16 @@ class String
   def to_utf8
     self.encode('utf-8', :invalid => :replace, :undef => :replace, :replace => '_')
   end
+
+  def contains_erb?
+    self =~ /<%.*%>/
+  end
+end
+
+class Object
+  def contains_erb?
+    false
+  end
 end
 
 class ActiveModel::Errors

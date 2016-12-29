@@ -330,16 +330,6 @@ EOF
     assert_equal key.errors[:avoid_duplicates].first, _("can only be set for arrays that have merge_overrides set to true")
   end
 
-  test "should detect erb" do
-    key = FactoryGirl.build(:puppetclass_lookup_key)
-    assert key.contains_erb?('<% object_id %>')
-    assert key.contains_erb?('<%= object_id %>')
-    assert key.contains_erb?('[<% object_id %>, <% self %>]')
-    refute key.contains_erb?('[1,2,3]')
-    refute key.contains_erb?('{a: "b"}')
-    refute key.contains_erb?('plain value')
-  end
-
   test "array key is valid even with string value containing erb" do
     key = FactoryGirl.build(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,

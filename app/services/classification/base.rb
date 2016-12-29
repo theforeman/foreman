@@ -78,7 +78,7 @@ module Classification
               end
 
       return nil if value[:managed]
-      needs_late_validation = key.contains_erb?(value[:value])
+      needs_late_validation = value[:value].contains_erb?
       value = @safe_render.parse(value[:value])
       value = type_cast(key, value)
       validate_lookup_value(key, value) if needs_late_validation
