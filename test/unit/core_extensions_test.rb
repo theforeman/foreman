@@ -42,5 +42,14 @@ class CoreExtensionsTest < ActiveSupport::TestCase
       string.expects(:encode).with('utf-8', :invalid => :replace, :undef => :replace, :replace => '_')
       string.to_utf8
     end
+
+    test "should detect erb" do
+      assert '<% object_id %>'.contains_erb?
+      assert '<%= object_id %>'.contains_erb?
+      assert '[<% object_id %>, <% self %>]'.contains_erb?
+      refute '[1,2,3]'.contains_erb?
+      refute '{a: "b"}'.contains_erb?
+      refute 'plain value'.contains_erb?
+    end
   end
 end
