@@ -213,6 +213,13 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal "something does not exist in order field", value.errors[:match].first
   end
 
+  test "shouldn't save with empty boolean matcher for smart class parameter" do
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :key_type => 'boolean', :override => true,
+                                    :default_value => "true", :description => 'description')
+    lookup_value = FactoryGirl.build(:lookup_value, :lookup_key => lookup_key, :match => "os=fake", :value => '')
+    refute lookup_value.valid?
+  end
+
   context "when key is a boolean and default_value is a string" do
     def setup
       @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
