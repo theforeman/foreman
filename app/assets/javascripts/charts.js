@@ -113,6 +113,15 @@ function expanded_pie(target, data){
   target.bind("plotclick", function (event, pos, item) {
     search_on_click(event, item);
   });
+  target.bind("plothover", function (event, pos, item) {
+      if (item){
+      event.currentTarget.style.cursor = 'pointer';
+      }
+      else{
+      event.currentTarget.style.cursor = 'default';
+      };
+  });
+
 }
 
 $.fn.flot_bar = function(){
