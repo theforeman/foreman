@@ -3,7 +3,7 @@ module HostFinders
 
   def go_to_interfaces_tab
     # go to New Host page
-    assert_new_button(hosts_path, "New Host", new_host_path)
+    assert_new_button(hosts_path, "Create Host", new_host_path)
     # switch to interfaces tab
     page.find(:link, "Interfaces").click
   end

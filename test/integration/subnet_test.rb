@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class SubnetIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
-    assert_index_page(subnets_path,"Subnets","New Subnet")
+    assert_index_page(subnets_path,"Subnets","Create Subnet")
   end
 
   test "edit page" do
