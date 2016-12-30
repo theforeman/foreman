@@ -10,11 +10,11 @@ class ComputeProfileIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(compute_profiles_path,"Compute profiles","New Compute Profile")
+    assert_index_page(compute_profiles_path,"Compute profiles","Create Compute Profile")
   end
 
   test "create new page" do
-    assert_new_button(compute_profiles_path,"New Compute Profile",new_compute_profile_path)
+    assert_new_button(compute_profiles_path,"Create Compute Profile",new_compute_profile_path)
     fill_in "compute_profile_name", :with => "5-XXLarge"
     click_button 'Submit'
     assert page.has_selector?('h1', :text => 'Compute profile: 5-XXLarge'), "Compute profile: 5-XXLarge was expected in the <h1> tag, but was not found"

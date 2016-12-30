@@ -6,11 +6,11 @@ class UsergroupIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(usergroups_path,"User Groups","New User group",false)
+    assert_index_page(usergroups_path,"User Groups","Create User group",false)
   end
 
   test "create new page" do
-    assert_new_button(usergroups_path,"New User group",new_usergroup_path)
+    assert_new_button(usergroups_path,"Create User group",new_usergroup_path)
     fill_in "usergroup_name", :with => "bosses"
     assert_submit_button(usergroups_path)
     assert page.has_link? "bosses"
