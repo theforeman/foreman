@@ -53,7 +53,7 @@ class RendererTest < ActiveSupport::TestCase
 
   test '#foreman_url can be rendered even outside of controller context' do
     assert_nothing_raised do
-      assert_match /\/unattended\/built/, @renderer.foreman_url
+      assert_match /\/unattended\/built/, @renderer.foreman_url('built')
     end
   end
 
