@@ -48,7 +48,7 @@ namespace :puppet do
 
       proxies = SmartProxy.with_features("Puppet")
       if proxies.empty?
-        puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
+        puts "ERROR: We did not find at least one configured Foreman Smart Proxy with the Puppet feature"
         exit 1
       end
       if ENV["proxy"]
@@ -136,7 +136,7 @@ namespace :puppet do
 
       proxies = SmartProxy.with_features("Puppet")
       if proxies.empty?
-        puts "ERROR: We did not find at least one configured Smart Proxy with the Puppet feature"
+        puts "ERROR: We did not find at least one configured Foreman Smart Proxy with the Puppet feature"
         exit 1
       end
       if ENV["proxy"]

@@ -35,7 +35,7 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
   test '#registered_smart_proxies contains foo proxy and bar proxy from plugin' do
     class SampleModelOne < SampleModel; end
     Foreman::Plugin.register :test_smart_proxy do
-      name 'Smart Proxy test'
+      name 'Foreman Smart Proxy test'
       smart_proxy_for SampleModelOne, :bar, :feature => 'Bar'
     end
     expected = {
@@ -53,7 +53,7 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
   test '#registered_smart_proxies can be extended for subclass only' do
     class SampleModelThree < SampleModel; end
     Foreman::Plugin.register :test_smart_proxy do
-      name 'Smart Proxy test'
+      name 'Foreman Smart Proxy test'
       smart_proxy_for SampleModelThree, :baz, :feature => 'Baz'
     end
 
