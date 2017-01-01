@@ -417,6 +417,7 @@ class Host::Managed < Host::Base
     end
     param['foreman_subnets'] = (interfaces.map(&:subnet) + interfaces.map(&:subnet6)).compact.map(&:to_export).uniq
     param['foreman_interfaces'] = interfaces.map(&:to_export)
+    param['foreman_config_groups'] = (config_groups + parent_config_groups).uniq.map(&:name)
     param.update self.params
 
     # Parse ERB values contained in the parameters
@@ -434,8 +435,6 @@ class Host::Managed < Host::Base
     info_hash['classes'] = classes
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
-
-    info_hash['foreman_config_groups'] = (config_groups + parent_config_groups).uniq.map(&:name)
 
     info_hash
   end
