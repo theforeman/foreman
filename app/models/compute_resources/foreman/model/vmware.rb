@@ -20,6 +20,10 @@ module Foreman::Model
       true
     end
 
+    def supports_update?
+      true
+    end
+
     def capabilities
       [:build, :image]
     end
@@ -391,6 +395,10 @@ module Foreman::Model
     rescue ActiveRecord::RecordNotFound
       # if the VM does not exists, we don't really care.
       true
+    end
+
+    def update_required?(old_attrs, new_attrs)
+      super(old_attrs.deep_merge(old_attrs) {|_,_,v| v.to_s}, new_attrs)
     end
 
     # === Power on
