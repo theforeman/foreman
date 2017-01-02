@@ -3,6 +3,7 @@ require 'menu/loader'
 require 'dashboard/loader'
 require 'foreman/plugin'
 require 'foreman/renderer'
+require 'foreman/foreman_url_renderer'
 require 'foreman/controller'
 require 'net'
 require 'foreman/provision' if SETTINGS[:unattended]

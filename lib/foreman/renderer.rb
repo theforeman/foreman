@@ -2,13 +2,7 @@ require 'tempfile'
 
 module Foreman
   module Renderer
-    # foreman_url macro uses url_for, therefore we need url helpers and fake default_url_options
-    # if it's not defined in class the we mix into
-    include Rails.application.routes.url_helpers
-
-    def default_url_options
-      {}
-    end
+    include ::Foreman::ForemanUrlRenderer
 
     ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
                                   :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup,
@@ -34,43 +28,6 @@ module Foreman
         allowed_vars.each { |k,v| instance_variable_set "@#{k}", v }
         ERB.new(template, nil, '-').result(binding)
       end
-    end
-
-    #returns the URL for Foreman Built status (when a host has finished the OS installation)
-    def foreman_url(action = "built")
-      # Get basic stuff
-      config   = URI.parse(Setting[:unattended_url])
-      protocol = config.scheme || 'http'
-      host     = config.host || request.host
-      port     = config.port || request.port
-      path     = config.path
-
-      proxy = @host.try(:subnet).try(:tftp)
-
-      # use template_url from the request if set, but otherwise look for a Template
-      # feature proxy, as PXE templates are written without an incoming request.
-      url = if @template_url
-              @template_url
-            elsif proxy.present? && proxy.has_feature?('Templates')
-              temp_url = ProxyAPI::Template.new(:url => proxy.url).template_url
-              if temp_url.nil?
-                template_logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
-                temp_url = proxy.url
-              end
-              temp_url
-            end
-
-      if url.present?
-        uri      = URI.parse(url)
-        host     = uri.host
-        port     = uri.port
-        protocol = uri.scheme
-        path     = config.path
-      end
-
-      url_for :only_path => false, :controller => "/unattended", :action => 'host_template',
-              :protocol  => protocol, :host => host, :port => port, :script_name => path,
-              :token     => (@host.token.value unless @host.try(:token).nil?), :kind => action
     end
 
     def foreman_server_fqdn

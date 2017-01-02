@@ -1,0 +1,72 @@
+module Foreman
+  module ForemanUrlRenderer
+    # foreman_url macro uses url_for, therefore we need url helpers and fake default_url_options
+    # if it's not defined in class the we mix into
+    include Rails.application.routes.url_helpers
+
+    def default_url_options
+      {}
+    end
+
+    #returns the URL for Foreman based on the required action
+    def foreman_url(action = 'provision')
+      # Get basic stuff
+      config   = URI.parse(Setting[:unattended_url])
+      url_options = foreman_url_options_from_settings_or_request(config)
+
+      host = @host
+      host = self if @host.nil? && self.class < Host::Base
+      proxy = host.try(:subnet).try(:tftp)
+
+      # use template_url from the request if set, but otherwise look for a Template
+      # feature proxy, as PXE templates are written without an incoming request.
+      url = @template_url
+      url ||= foreman_url_from_templates_proxy(proxy) if proxy.present? && proxy.has_feature?('Templates')
+
+      url_options = foreman_url_options_from_url(url) if url.present?
+
+      url_options.merge!(:action => action, :path => config.path)
+      render_foreman_url(host, url_options)
+    end
+
+    private
+
+    def foreman_url_options_from_settings_or_request(config)
+      {
+        :protocol => config.scheme || 'http',
+        :host     => config.host || request.host,
+        :port     => config.port || request.port
+      }
+    end
+
+    def foreman_url_options_from_url(url)
+      uri = URI.parse(url)
+      {
+        :host     => uri.host,
+        :port     => uri.port,
+        :protocol => uri.scheme
+      }
+    end
+
+    def render_foreman_url(host, options)
+      url_for :only_path => false, :controller => "/unattended", :action => 'host_template',
+        :protocol => options[:protocol], :host => options[:host],
+        :port => options[:port], :script_name => options[:path],
+        :token => (host.token.value unless host.try(:token).nil?),
+        :kind => options[:action]
+    end
+
+    def foreman_url_from_templates_proxy(proxy)
+      url = ProxyAPI::Template.new(:url => proxy.url).template_url
+      if url.nil?
+        template_logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
+        url = proxy.url
+      end
+      url
+    end
+
+    def template_logger
+      @template_logger ||= Foreman::Logging.logger('templates')
+    end
+  end
+end
