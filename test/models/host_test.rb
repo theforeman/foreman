@@ -2640,8 +2640,8 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryGirl.build(:host)
     host.config_groups = [config_groups(:one)]
     enc = host.info
-    assert_includes(enc.keys, 'foreman_config_groups')
-    assert_includes(enc['foreman_config_groups'], 'Monitoring')
+    assert_includes(enc['parameters'].keys, 'foreman_config_groups')
+    assert_includes(enc['parameters']['foreman_config_groups'], 'Monitoring')
   end
 
   test "#info ENC YAML contains parent hostgroup config_groups" do
@@ -2650,7 +2650,7 @@ class HostTest < ActiveSupport::TestCase
     host.config_groups = [config_groups(:one)]
     hostgroup.config_groups = [config_groups(:two)]
     enc = host.info
-    assert_equal(enc['foreman_config_groups'], ['Monitoring', 'Security'])
+    assert_equal(enc['parameters']['foreman_config_groups'], ['Monitoring', 'Security'])
   end
 
   describe 'cloning' do
