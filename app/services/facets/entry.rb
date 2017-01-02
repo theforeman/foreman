@@ -80,6 +80,10 @@ module Facets
       @compatibility_properties = property_symbols
     end
 
+    def load_api_controller
+      @api_controller.to_s.constantize
+    end
+
     private
 
     def to_name(facet_model)
