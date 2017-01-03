@@ -17,6 +17,8 @@ module Api::V2::LookupKeysCommonController
     before_action :find_smart
 
     before_action :return_if_smart_mismatch, :only => [:show, :update, :destroy]
+
+    before_action :cast_default_value, :only => [:create, :update]
   end
 
   def smart_variable_id?
@@ -123,6 +125,19 @@ module Api::V2::LookupKeysCommonController
            end
       not_found "#{obj} not found by id '#{id}'"
     end
+  end
+
+  def cast_default_value
+    obj = smart_variable_id? ? "smart_variable" : "smart_class_parameter"
+
+    cast_value(obj, :default_value)
+  end
+
+  def cast_value(obj = :override_value, value = :value)
+    return unless params[obj] && params[obj].key?(value)
+    param_value = params[obj][value]
+    return if param_value.is_a?(Hash)
+    params[obj][value] = param_value.to_s
   end
 
   private
