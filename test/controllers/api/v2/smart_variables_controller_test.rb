@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
+  should use_before_action(:cast_default_value)
+
   test "should get all smart variables" do
     get :index
     assert_response :success

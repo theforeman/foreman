@@ -100,7 +100,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create override value without when use_puppet_default is true (compatibility test)" do
+  test "should create override value when use_puppet_default is true (compatibility test)" do
     Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
     lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 
