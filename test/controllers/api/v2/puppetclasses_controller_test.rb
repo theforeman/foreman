@@ -124,6 +124,13 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "create puppetclass with smart variable as nested attribute" do
+    assert_difference('Puppetclass.count') do
+      post :create, { :puppetclass => valid_attrs.merge(:lookup_keys_attributes => {"new_1372154591368" => {:key => 'smart_variable1'}}) }
+    end
+    assert_response :success
+  end
+
   test "should update puppetclass" do
     put :update, { :id => puppetclasses(:one).to_param, :puppetclass => valid_attrs }
     assert_response :success
