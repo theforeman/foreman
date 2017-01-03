@@ -117,6 +117,7 @@ function create_editor() {
   $editorSource.hide();
 
   Editor = ace.edit(editorId);
+  Editor.$blockScrolling = Infinity;
   Editor.setShowPrintMargin(false);
   Editor.renderer.setShowGutter(false);
   set_mode('ace/mode/ruby');
