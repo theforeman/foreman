@@ -3640,6 +3640,16 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "validating host with loc/org propagates these to hostgroup" do
+    host = FactoryGirl.build(:host, :managed)
+    refute_includes hostgroups(:common).locations, host.location
+    refute_includes hostgroups(:common).organizations, host.organization
+    host.update_attribute(:hostgroup, hostgroups(:common))
+    host.valid?
+    assert_includes host.hostgroup.locations, host.location
+    assert_includes host.hostgroup.organizations, host.organization
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)
