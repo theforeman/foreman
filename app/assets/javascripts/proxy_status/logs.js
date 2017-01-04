@@ -52,6 +52,8 @@ function activateLogsDataTable() {
     if (link.data('message')) modal.find('#modal-bt-message').text(link.data('message'));
     if (link.data('backtrace')) modal.find('#modal-bt-backtrace').text(link.data('backtrace'));
   })
+  // Activate tooltips for fields with ellipsis
+  tfm.tools.activateTooltips('#table-proxy-status-logs');
 }
 
 function expireLogs(item, from) {
