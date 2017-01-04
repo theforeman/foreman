@@ -117,8 +117,8 @@ function setTab(){
   if (anchor.length) {
     var parent_tab = $(anchor).parents('.tab-pane');
     if (parent_tab.exists()){
-      $('.nav-tabs a[href=#'+parent_tab[0].id+']').tab('show');
+      $('.nav-tabs a[href="#'+parent_tab[0].id+'"]').tab('show');
     }
-    $('.nav-tabs a[href='+anchor+']').tab('show');
+    $('.nav-tabs a[href="'+anchor+'"]').tab('show');
   }
 }
