@@ -9,6 +9,8 @@ module Foreman::Controller::Parameters::User
         filter.permit :current_password,
           :default_location_id,
           :default_organization_id,
+          :default_location_name,
+          :default_organization_name,
           :description,
           :firstname,
           :lastname,
