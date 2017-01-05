@@ -1,3 +1,21 @@
+2017-01-05	Dominic Cleal <dominic@cleal.org>
+	* Release 1.14.0-RC3
+
+2017-01-05	Justin Sherrill <jlsherrill@gmail.com>
+	* Fixes #17894 - load needed dependent api param group
+
+2017-01-04	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17457 - multiple_checkboxes doesn't work with orgs/locs
+
+2017-01-04	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #17886 - move config groups under parameters
+
+2017-01-04	Nagoor Shaik <nagoor.s@gmail.com>
+	* Fixes #17846 - auth_source_ldaps API now displays taxonomies
+
+2017-01-04	Dominic Cleal <dominic@cleal.org>
+	* fixes #17838 - translate New Hosts title string
+
 2016-12-22	Dominic Cleal <dominic@cleal.org>
 	* Release 1.14.0-RC2
 	* i18n - extracting new, pulling from tx
