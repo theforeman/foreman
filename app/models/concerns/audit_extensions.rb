@@ -62,9 +62,8 @@ module AuditExtensions
     scoped_search :relation => :search_hostgroups, :on => :title, :complete_value => true, :rename => :hostgroup_title, :only_explicit => true
     scoped_search :relation => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true
 
-    before_save :ensure_username, :ensure_auditable_and_associated_name
+    before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name
     before_save :filter_encrypted, :if => Proc.new {|audit| audit.audited_changes.present?}
-    after_validation :fix_auditable_type
 
     include Authorizable
 
@@ -97,8 +96,8 @@ module AuditExtensions
     # STI Host class should use the stub module instead of Host::Base
     self.auditable_type = "Host"          if auditable_type =~  /Host::/
     self.associated_type = "Host"         if associated_type =~ /Host::/
-    self.auditable_type = auditable.type  if auditable_type == "Taxonomy" && auditable
-    self.associated_type = auditable.type if auditable_type == "Taxonomy" && auditable
+    self.auditable_type = auditable.type if ["Taxonomy", "LookupKey"].include?(auditable_type) && auditable
+    self.associated_type = associated.type if ["Taxonomy", "LookupKey"].include?(associated_type) && associated
   end
 
   def ensure_auditable_and_associated_name
