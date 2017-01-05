@@ -62,4 +62,9 @@ class PuppetclassLookupKeyTest < ActiveSupport::TestCase
       assert PuppetclassLookupKey.where(:key => @lookup_key.key).present?
     end
   end
+
+  test "should have auditable_type as PuppetclassLookupKey and not LookupKey" do
+    PuppetclassLookupKey.create(:key => 'test_audit_parameter', :default_value => "test123")
+    assert_equal 'PuppetclassLookupKey', Audit.unscoped.last.auditable_type
+  end
 end

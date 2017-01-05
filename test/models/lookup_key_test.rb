@@ -237,7 +237,7 @@ EOF
       key.default_value = "new default value"
       key.save!
     end
-    assert_equal pc.name, key.audits.last.associated_name
+    assert_equal pc.name, Audit.where(:auditable_type => 'PuppetclassLookupKey', :auditable_id => key.id).last.associated_name
   end
 
   test "should create smart variable with the same name as class parameters" do
