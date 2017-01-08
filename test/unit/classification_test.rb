@@ -83,7 +83,9 @@ class ClassificationTest < ActiveSupport::TestCase
     pc = FactoryGirl.create(:puppetclass, :environments => [env])
     lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
     classparam = get_classparam(env, pc)
-    classparam.expects(:attr_to_value).with('comment').returns('override')
+
+    host = classparam.send(:host)
+    host.expects(:comment).returns('override')
     assert_equal({pc.name => {lkey.key => 'overridden value'}}, classparam.enc)
   end
 
@@ -91,10 +93,11 @@ class ClassificationTest < ActiveSupport::TestCase
     env = FactoryGirl.create(:environment)
     pc = FactoryGirl.create(:puppetclass, :environments => [env])
     lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
-    classparam = Classification::ClassParam.new
+    host = mock('host')
+    classparam = Classification::ClassParam.new(:host => host)
     classparam.expects(:environment_id).returns(env.id)
     classparam.expects(:puppetclass_ids).returns(Array.wrap(pc).map(&:id))
-    classparam.expects(:attr_to_value).with('comment').returns('override')
+    host.expects(:comment).returns('override')
 
     assert_equal({lkey.id => {lkey.key => {:value => 'overridden value', :element => 'comment', :element_name => 'override', :managed => false}}}, classparam.send(:values_hash))
   end
@@ -108,11 +111,12 @@ class ClassificationTest < ActiveSupport::TestCase
     json_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                    :puppetclass => pc, :key_type => 'json', :default_value => '',
                                    :overrides => {"comment=override" => '{"a": "b"}'})
-    classparam = Classification::ClassParam.new
+    host = mock('host')
+    classparam = Classification::ClassParam.new(:host => host)
 
     classparam.expects(:environment_id).returns(env.id)
     classparam.expects(:puppetclass_ids).returns(Array.wrap(pc).map(&:id))
-    classparam.expects(:attr_to_value).with('comment').returns('override')
+    host.stubs(:comment).returns('override')
     values_hash = classparam.send(:values_hash)
 
     assert_includes values_hash[yaml_lkey.id][yaml_lkey.key][:value], 'a: b'
@@ -126,10 +130,11 @@ class ClassificationTest < ActiveSupport::TestCase
                                    :puppetclass => pc, :key_type => 'yaml', :default_value => 'a: b')
     json_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'json', :default_value => '{"a": "b"}')
-    classparam = Classification::ClassParam.new
+    host = FactoryGirl.build(:host, :environment => env, :puppetclasses => [pc])
+    classparam = Classification::ClassificationResult.new(host, {})
 
-    yaml_value = classparam.send(:value_of_key, yaml_lkey, {})
-    json_value = classparam.send(:value_of_key, json_lkey, {})
+    yaml_value = classparam[yaml_lkey]
+    json_value = classparam[json_lkey]
 
     assert_equal yaml_value, {'a' => 'b'}
     assert_equal json_value, {'a' => 'b'}
@@ -788,7 +793,7 @@ class ClassificationTest < ActiveSupport::TestCase
   test 'type cast allows nil values' do
     key = FactoryGirl.create(:lookup_key)
     assert_nothing_raised do
-      @classification.send(:type_cast, key, nil)
+      Classification::ClassificationResult.new(nil, nil).send(:type_cast, key, nil)
     end
   end
 
@@ -801,7 +806,8 @@ class ClassificationTest < ActiveSupport::TestCase
 
     test 'TypeError exceptions are logged' do
       Rails.logger.expects(:warn).with('Unable to type cast bar to footype')
-      @classification.send(:type_cast, @lookup_key, 'bar')
+      classification_result = Classification::ClassificationResult.new(nil, nil)
+      classification_result.send(:type_cast, @lookup_key, 'bar')
     end
   end
 
@@ -811,7 +817,7 @@ class ClassificationTest < ActiveSupport::TestCase
   attr_reader :global_param_classification
 
   def get_classparam(env, classes)
-    classification = Classification::ClassParam.new
+    classification = Classification::ClassParam.new(:host => mock('host'))
     classification.expects(:classes).returns(Array.wrap(classes))
     classification.expects(:environment_id).returns(env.id)
     classification.expects(:puppetclass_ids).returns(Array.wrap(classes).map(&:id))

@@ -37,7 +37,8 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
 
     @host1.domain = domains(:mydomain)
-    assert_equal [value.match], key.send(:path2matches,@host1)
+    actual = Classification::MatchesGenerator.matches(@host1, VariableLookupKey.where(:key => 'ntp'))
+    assert_equal [value.match], actual
   end
 
   def test_fetching_the_correct_value_to_a_given_key
@@ -67,7 +68,9 @@ class LookupKeyTest < ActiveSupport::TestCase
       value = LookupValue.create!(:value => "ntp.pool.org", :match => "hostgroup =  Common", :lookup_key => key)
     end
     @host1.hostgroup = hostgroups(:common)
-    assert_equal [value.match], key.send(:path2matches,@host1)
+
+    actual = Classification::MatchesGenerator.matches(@host1, VariableLookupKey.where(:key => 'ntp'))
+    assert_equal [value.match], actual
   end
 
   def test_multiple_paths

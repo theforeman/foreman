@@ -1,18 +1,17 @@
 module Classification
   class GlobalParam < Base
     def enc
-      values = values_hash
-
+      values = keys.values_hash(host)
       parameters = {}
-      class_parameters.each do |key|
-        parameters[key.to_s] = value_of_key(key, values)
+      keys.each do |key|
+        parameters[key.to_s] = values[key]
       end
       parameters
     end
 
     protected
 
-    def class_parameters
+    def keys
       @keys ||= VariableLookupKey.global_parameters_for_class(puppetclass_ids)
     end
   end
