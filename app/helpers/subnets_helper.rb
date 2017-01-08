@@ -8,7 +8,7 @@ module SubnetsHelper
   def subnet_type_f(f)
     field(f, :type, :label => _('Protocol'), :required => true) do
       subnet_types.collect do |text, value|
-        radio_button_f(f, :type, subnet_type_data(value.constantize).merge({:value => value, :text => text, :disabled => !f.object.new_record?}))
+        radio_button_f(f, :type, subnet_type_data(value.constantize).merge({:value => value, :text => text, :disabled => (!f.object.new_record? || action_name == 'import')}))
       end.join(' ').html_safe
     end
   end
