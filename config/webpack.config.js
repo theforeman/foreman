@@ -1,7 +1,5 @@
 'use strict';
 
-require( 'es6-promise' ).polyfill(); //needed for compatibility with older node versions
-
 var path = require('path');
 var webpack = require('webpack');
 var StatsPlugin = require('stats-webpack-plugin');
