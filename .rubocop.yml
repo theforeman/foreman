@@ -25,6 +25,10 @@ Style/Documentation:
 Style/HashSyntax:
   Enabled: false
 
+# Both double and single quotes are OK
+Style/StringLiterals:
+  Enabled: false
+
 # Don't enforce frozen string literals
 Style/FrozenStringLiteralComment:
   Enabled: false
