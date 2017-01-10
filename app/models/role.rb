@@ -34,8 +34,12 @@ class Role < ActiveRecord::Base
   scope :cloned, -> { where.not(:cloned_from_id => nil) }
 
   validates_lengths_from_database
-
   before_destroy :check_deletable
+
+  attr_accessor :modify_locked
+  validate :not_locked
+  before_destroy :not_locked
+
   after_save :sync_inheriting_filters
 
   has_many :user_roles, :dependent => :destroy
@@ -44,7 +48,7 @@ class Role < ActiveRecord::Base
   has_many :cached_user_roles, :dependent => :destroy
   has_many :cached_users, :through => :cached_user_roles, :source => :user
 
-  has_many :filters, :dependent => :destroy
+  has_many :filters, :autosave => true, :dependent => :destroy
 
   has_many :permissions, :through => :filters
 
@@ -112,7 +116,8 @@ class Role < ActiveRecord::Base
   def self.default
     default_role = find_by_builtin(BUILTIN_DEFAULT_ROLE)
     if default_role.nil?
-      default_role = create!(:name => 'Default role', :builtin => BUILTIN_DEFAULT_ROLE)
+      opts = { :name => 'Default role', :builtin => BUILTIN_DEFAULT_ROLE }
+      default_role = create! opts
       raise ::Foreman::Exception.new(N_("Unable to create the default role.")) if default_role.new_record?
     end
     default_role
@@ -127,9 +132,9 @@ class Role < ActiveRecord::Base
     collection = Permission.where(:name => permissions).all
     raise ::Foreman::PermissionMissingException.new(N_('some permissions were not found')) if collection.size != permissions.size
 
+    current_filters = self.filters
     collection.group_by(&:resource_type).each do |resource_type, grouped_permissions|
-      filter = self.filters.build(:search => search)
-      filter.role ||= self
+      filter = find_filter resource_type, current_filters, search
 
       grouped_permissions.each do |permission|
         filtering = filter.filterings.build
@@ -137,6 +142,11 @@ class Role < ActiveRecord::Base
         filtering.permission = permission
       end
     end
+  end
+
+  def permission_diff(permission_names)
+    current_names = permissions.map(&:name).map(&:to_sym)
+    (current_names - permission_names) | (permission_names - current_names)
   end
 
   def add_permissions!(*args)
@@ -149,11 +159,23 @@ class Role < ActiveRecord::Base
   end
 
   def clone(role_params = {})
-    new_role = self.deep_clone(:except => [:name, :builtin],
+    new_role = self.deep_clone(:except => [:name, :builtin, :origin],
                                :include => [:locations, :organizations, { :filters => :permissions }])
     new_role.attributes = role_params
     new_role.cloned_from_id = self.id
     new_role
+  end
+
+  def locked?
+    return false unless respond_to? :origin
+    origin.present? && builtin != BUILTIN_DEFAULT_ROLE
+  end
+
+  def ignore_locking
+    self.modify_locked = true
+    yield self
+    self.modify_locked = false
+    self
   end
 
   private
@@ -173,5 +195,21 @@ class Role < ActiveRecord::Base
   def check_deletable
     errors.add(:base, _("Cannot delete built-in role")) if builtin?
     errors.empty?
+  end
+
+  def not_locked
+    errors.add(:base, _("This role is locked from being modified by users.")) if locked? && !modify_locked && changed?
+    errors.empty?
+  end
+
+  def find_filter(resource_type, current_filters, search)
+    filter_record = Filter.where(:search => search, :role_id => id).joins(:permissions)
+                          .where("permissions.resource_type" => resource_type).first
+    if filter_record
+      # add filterings to what we have in memory, not to a newly fetched record
+      current_filters.detect { |fil| fil.id == filter_record.id }
+    else
+      self.filters.build(:search => search)
+    end
   end
 end

@@ -36,7 +36,7 @@ class Filter < ActiveRecord::Base
   end
 
   belongs_to :role
-  has_many :filterings, :dependent => :destroy
+  has_many :filterings, :autosave => true, :dependent => :destroy
   has_many :permissions, :through => :filterings
 
   validates_lengths_from_database
@@ -60,6 +60,10 @@ class Filter < ActiveRecord::Base
   validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
   validates_with ScopedSearchValidator
   validates :role, :presence => true
+
+  validate :role_not_locked
+  before_destroy :role_not_locked
+
   validate :same_resource_type_permissions, :not_empty_permissions, :allowed_taxonomies
 
   def self.search_by_unlimited(key, operator, value)
@@ -215,5 +219,10 @@ class Filter < ActiveRecord::Base
   def enforce_override_flag
     self.override = false unless self.allows_taxonomies_filtering?
     true
+  end
+
+  def role_not_locked
+    errors.add(:role_id, _('is locked for user modifications.')) if role.locked? && !role.modify_locked
+    errors.empty?
   end
 end

@@ -1,3 +1,3 @@
 object @role
 
-attributes :name, :id, :description
+attributes :name, :id, :description, :origin

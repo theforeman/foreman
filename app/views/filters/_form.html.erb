@@ -73,5 +73,6 @@
     <% end %>
   </div>
 
-  <%= submit_or_cancel f, false, :cancel_path => :back %>
+  <%= submit_or_cancel f, false, :cancel_path => :back, :disabled => @role && @role.locked? %>
+
 <% end %>
