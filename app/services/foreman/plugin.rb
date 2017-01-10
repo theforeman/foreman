@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require_relative 'plugin/logging'
+require_relative 'plugin/rbac_registry'
+require_relative 'plugin/rbac_support'
 
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
@@ -92,20 +94,23 @@ module Foreman #:nodoc:
     end
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
-    attr_reader :id, :logging, :default_roles, :provision_methods, :compute_resources, :to_prepare_callbacks,
-                :permissions, :facets
+    attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
+                :facets, :rbac_registry
+
+    # Lists plugin's roles:
+    # Foreman::Plugin.find('my_plugin').registered_roles
+    delegate :registered_roles, :registered_permissions, :default_roles, :permissions, :permission_names, :to => :rbac_registry
 
     def initialize(id)
       @id = id.to_sym
       @logging = Plugin::Logging.new(@id)
-      @default_roles = {}
+      @rbac_registry = Plugin::RbacRegistry.new
       @provision_methods = {}
       @compute_resources = []
       @to_prepare_callbacks = []
       @template_labels = {}
       @parameter_filters = {}
       @smart_proxies = {}
-      @permissions = {}
       @controller_action_scopes = {}
     end
 
@@ -220,8 +225,7 @@ module Foreman #:nodoc:
     #   class to which this permissions is related, rest of options is passed
     #   to AccessControl
     def permission(name, hash, options = {})
-      @permissions[name] = options.slice(:resource_type)
-
+      rbac_registry.permission_names << name
       options[:engine] ||= self.id.to_s
       options.merge!(:security_block => @security_block)
       Foreman::AccessControl.map do |map|
@@ -234,13 +238,34 @@ module Foreman #:nodoc:
 
     # Add a new role if it doesn't exist
     def role(name, permissions)
-      @default_roles[name] = permissions
+      default_roles[name] = permissions
       return false if pending_migrations || Rails.env.test?
 
       Role.transaction do
         role = Role.where(:name => name).first_or_create
         role.add_permissions!(permissions) if role.permissions.empty?
+        rbac_registry.role_ids << role.id
       end
+    end
+
+    # Add plugin permissions to core's Manager and Viewer roles
+    # Usage:
+    # add_resource_permissions_to_default_roles ['MyPlugin::FirstResource', 'MyPlugin::SecondResource'], :except => [:skip_this_permission]
+    def add_resource_permissions_to_default_roles(resources, opts = {})
+      Plugin::RbacSupport.new.add_resource_permissions_to_default_roles resources, opts
+    end
+
+    # Add plugin permissions to Manager and Viewer roles. Use this for permissions without resource_type or to handle special cases
+    # Usage:
+    # add_permissions_to_default_roles 'Role Name' => [:first_permission, :second_permission]
+    def add_permissions_to_default_roles(args)
+      Plugin::RbacSupport.new.add_permissions_to_default_roles args
+    end
+
+    # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
+    # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
+    def add_all_permissions_to_default_roles
+      Plugin::RbacSupport.new.add_all_permissions_to_default_roles(registered_permissions)
     end
 
     def pending_migrations

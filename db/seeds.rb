@@ -12,52 +12,9 @@ def format_errors(model = nil)
   model.errors.full_messages.join(';')
 end
 
-# Check if audits show an object was renamed or deleted
-# additional attributes may be specified for narrowing the scope but note
-# that it can be slow if there's high number of audits for the specified type
 def audit_modified?(type, name, attributes = {})
-  au = Audit.where(:auditable_type => type.base_class, :auditable_name => name)
-
-  if attributes.present?
-    interesting_au = au.select do |audit|
-      attributes.all? do |attribute, value|
-        changed_attribute = audit.audited_changes[attribute]
-        audit.action == 'update' ? changed_attribute.first == value : changed_attribute == value
-      end
-    end
-    au = au.where(:id => interesting_au.map(&:id))
-  end
-
-  return true if au.where(:action => :destroy).present?
-  au.where(:action => :update).each do |audit|
-    return true if audit.audited_changes['name'].is_a?(Array) && audit.audited_changes['name'].first == name
-  end
-  false
-end
-
-def create_filters(role, collection)
-  collection.group_by(&:resource_type).each do |resource, permissions|
-    filter      = Filter.new
-    filter.role = role
-
-    permissions.each do |permission|
-      filtering            = filter.filterings.build
-      filtering.permission = permission
-    end
-
-    filter.save!
-  end
-end
-
-def create_role(role_name, permission_names, builtin)
-  return if Role.find_by_name(role_name)
-  return if audit_modified?(Role, role_name) && (builtin == 0)
-
-  role         = Role.new(:name => role_name)
-  role.builtin = builtin
-  role.save!
-  permissions = Permission.where(:name => permission_names)
-  create_filters(role, permissions)
+  Foreman::Deprecation.deprecation_warning('1.17', "This method will be removed, use SeedHelper.audit_modified? instead.")
+  SeedHelper.audit_modified? type, name, attributes
 end
 
 # now we load all seed files

@@ -250,12 +250,18 @@ module FormHelper
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
         text    = overwrite ? _("Overwrite") : _("Submit")
-        options = {}
-        options[:class] = "btn btn-#{overwrite ? 'danger' : 'primary'} remove_form_templates"
-        options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
+        options = options_for_submit_or_cancel(f, overwrite, args)
         link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " + f.submit(text, options)
       end
     end + ie_multipart_fix
+  end
+
+  def options_for_submit_or_cancel(f, overwrite, args)
+    options = {}
+    options[:disabled] = true if args[:disabled]
+    options[:class] = "btn btn-#{overwrite ? 'danger' : 'primary'} remove_form_templates"
+    options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
+    options
   end
 
   def add_help_to_label(size_class, label, help_inline)

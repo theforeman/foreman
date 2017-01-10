@@ -1,11 +1,29 @@
 module RolesHelper
   def role_link(role)
-    if role.builtin?
+    if role.builtin? || role.locked?
       content_tag(:em, h(role.name))
     else
       content_tag(:span) do
         link_to_if_authorized(h(role.name), hash_for_edit_role_path(:id => role))
       end
+    end
+  end
+
+  def display_link_unless_locked(name, path_hash, role)
+    display_link_if_authorized name, path_hash unless role.locked?
+  end
+
+  def link_to_unless_locked(name, role, options = {}, html_options = {})
+    if role && role.locked?
+      link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
+    else
+      link_to_if_authorized name, options, html_options
+    end
+  end
+
+  def new_link_unless_locked(name, path_hash, role)
+    if role && !role.locked?
+      new_link name, path_hash
     end
   end
 

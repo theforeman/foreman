@@ -94,7 +94,7 @@ ProvisioningTemplate.without_auditing do
   ].each do |input|
     contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 
-    if (t = ProvisioningTemplate.unscoped.find_by_name(input[:name])) && !audit_modified?(ProvisioningTemplate, input[:name])
+    if (t = ProvisioningTemplate.unscoped.find_by_name(input[:name])) && !SeedHelper.audit_modified?(ProvisioningTemplate, input[:name])
       next if t.global_default?
 
       if t.template != contents
@@ -102,7 +102,7 @@ ProvisioningTemplate.without_auditing do
         raise "Unable to update template #{t.name}: #{format_errors t}" unless t.save
       end
     else
-      next if audit_modified? ProvisioningTemplate, input[:name]
+      next if SeedHelper.audit_modified? ProvisioningTemplate, input[:name]
       input.merge!(:default => true)
 
       t = ProvisioningTemplate.create({

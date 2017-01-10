@@ -27,13 +27,13 @@ class Api::V1::RolesControllerTest < ActionController::TestCase
   end
 
   test "should update role" do
-    put :update, { :id => roles(:manager).to_param, :role => valid_attrs }
+    put :update, { :id => roles(:destroy_hosts).to_param, :role => valid_attrs }
     assert_response :success
   end
 
   test "should destroy roles" do
     assert_difference('Role.count', -1) do
-      delete :destroy, { :id => roles(:manager).to_param }
+      delete :destroy, { :id => roles(:destroy_hosts).to_param }
     end
     assert_response :success
   end

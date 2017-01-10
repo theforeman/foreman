@@ -19,13 +19,13 @@ Ptable.without_auditing do
   ].each do |input|
     contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 
-    if (p = Ptable.unscoped.find_by_name(input[:name])) && !audit_modified?(Ptable, input[:name])
+    if (p = Ptable.unscoped.find_by_name(input[:name])) && !SeedHelper.audit_modified?(Ptable, input[:name])
       if p.layout != contents
         p.layout = contents
         raise "Unable to update partition table: #{format_errors p}" unless p.save
       end
     else
-      next if audit_modified? Ptable, input[:name]
+      next if SeedHelper.audit_modified? Ptable, input[:name]
       p = Ptable.create({
         :layout => contents
       }.merge(input.merge(:default => true)))

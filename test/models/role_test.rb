@@ -45,6 +45,52 @@ class RoleTest < ActiveSupport::TestCase
     end
   end
 
+  it "should not rename locked role" do
+    manager = Role.find_by :name => "Manager"
+    manager.name = "Renamed Manager"
+    refute manager.save
+    assert_equal "This role is locked from being modified by users.", manager.errors.messages[:base].first
+  end
+
+  it "should rename locked role when required" do
+    manager = Role.find_by :name => "Manager"
+    manager.name = "Renamed Manager"
+    manager.modify_locked = true
+    assert manager.save
+  end
+
+  it "should not modify locked role permissions" do
+    viewer = Role.find_by :name => "Viewer"
+    viewer.add_permissions [:create_hosts]
+    refute viewer.valid?
+    assert_equal "is locked for user modifications.", viewer.errors.messages.values.first.first
+  end
+
+  it "should modify locked role permissions when required" do
+    viewer = Role.find_by :name => "Viewer"
+    viewer.modify_locked = true
+    viewer.add_permissions [:create_hosts]
+    assert viewer.valid?
+  end
+
+  it "should modify role using ignore_locking method" do
+    viewer = Role.find_by :name => "Viewer"
+    viewer.ignore_locking do |role|
+      role.name = "Changed Viewer"
+      role.save!
+    end
+    assert Role.find_by(:name => "Changed Viewer")
+    refute Role.find_by(:name => "Viewer")
+  end
+
+  it "should be givable even when locked" do
+    user = FactoryGirl.create(:user)
+    role = roles(:manager)
+    assert role.locked?
+    user.roles << role
+    assert user.save
+  end
+
   describe "Cloning" do
     let(:role) { FactoryGirl.create(:role) }
     let(:cloned_role) do
@@ -91,8 +137,13 @@ class RoleTest < ActiveSupport::TestCase
       setup do
         role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_ROLE}").pluck(:id)
         UserRole.where(:role_id => role_ids).destroy_all
-        Filter.where(:role_id => role_ids).destroy_all
-        Role.where(:id => role_ids).delete_all
+        roles = Role.where(:id => role_ids)
+        roles.each do |found_role|
+          found_role.ignore_locking do |r|
+            r.filters.destroy_all
+            r.delete
+          end
+        end
       end
 
       should "create a new default role" do
@@ -159,7 +210,6 @@ class RoleTest < ActiveSupport::TestCase
     it "should build filters with assigned permission" do
       @role.add_permissions [@permission1.name, @permission2.name.to_sym]
       assert @role.filters.all?(&:unlimited?)
-
       permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
       assert_equal 2, @role.filters.size
       assert_includes permissions, Permission.find_by_name(@permission1.name)
@@ -205,6 +255,22 @@ class RoleTest < ActiveSupport::TestCase
       assert_equal 2, @role.filters.size
       assert_includes permissions, Permission.find_by_name(@permission1.name)
       assert_includes permissions, Permission.find_by_name(@permission2.name)
+    end
+
+    it "should add permission to an existing filter" do
+      role = roles(:destroy_hosts)
+      assert_equal 1, role.permissions.count
+      role.add_permissions!([:create_hosts])
+      assert_equal 2, role.permissions.count
+      assert_equal 1, role.filters.count
+    end
+
+    it "should add permissions to a newly created filter" do
+      role = roles(:destroy_hosts)
+      assert_equal 1, role.permissions.count
+      role.add_permissions!([:create_architectures])
+      assert_equal 2, role.permissions.count
+      assert_equal 2, role.filters.count
     end
   end
 

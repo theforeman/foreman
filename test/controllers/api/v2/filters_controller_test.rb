@@ -17,7 +17,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
   end
 
   test "should create filter" do
-    valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_architectures).id] }
+    valid_attrs = { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:view_architectures).id] }
     assert_difference('Filter.count') do
       post :create, { :filter => valid_attrs }
     end
@@ -25,14 +25,14 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
   end
 
   test "should update filter" do
-    valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_architectures).id] }
-    put :update, { :id => filters(:manager_1).to_param, :filter => valid_attrs }
+    valid_attrs = { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:create_hosts).id] }
+    put :update, { :id => filters(:destroy_hosts_1).to_param, :filter => valid_attrs }
     assert_response :success
   end
 
   test "should destroy filters" do
     assert_difference('Filter.count', -1) do
-      delete :destroy, { :id => filters(:crud_hosts_1).to_param }
+      delete :destroy, { :id => filters(:destroy_hosts_1).to_param }
     end
     assert_response :success
   end
@@ -43,7 +43,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     end
 
     test "filter can override taxonomies" do
-      valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_domains).id], :organization_ids => [@org.id], :override => true }
+      valid_attrs = { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:view_media).id], :organization_ids => [@org.id], :override => true }
       assert_difference('Filter.count') do
         post :create, { :filter => valid_attrs }
       end
@@ -52,7 +52,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     end
 
     test "taxonomies are ignored if override is not explicitly enabled" do
-      valid_attrs = { :role_id => roles(:manager).id, :permission_ids => [permissions(:view_domains).id], :organization_ids => [@org.id] }
+      valid_attrs = { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:view_domains).id], :organization_ids => [@org.id] }
       assert_difference('Filter.count') do
         post :create, { :filter => valid_attrs }
       end

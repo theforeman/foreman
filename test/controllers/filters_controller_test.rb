@@ -33,19 +33,19 @@ class FiltersControllerTest < ActionController::TestCase
 
   test "should create filter" do
     assert_difference('Filter.count') do
-      post :create, {:filter => { :role_id => roles(:manager).id, :permission_ids => [permissions(:access_dashboard).id] }}, set_session_user
+      post :create, {:filter => { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:access_dashboard).id] }}, set_session_user
     end
     assert_redirected_to filters_path
   end
 
   test "should update filter" do
-    put :update, {:id => filters(:manager_1), :filter => { :permission_ids => [permissions(:access_dashboard).id] }}, set_session_user
+    put :update, {:id => filters(:destroy_hosts_1), :filter => { :permission_ids => [permissions(:access_dashboard).id] }}, set_session_user
     assert_redirected_to filters_path
   end
 
   test "should destroy filter" do
     assert_difference('Filter.count', -1) do
-      delete :destroy, {:id => filters(:manager_1)}, set_session_user
+      delete :destroy, {:id => filters(:destroy_hosts_1)}, set_session_user
     end
     assert_redirected_to filters_path
   end

@@ -1330,7 +1330,9 @@ class HostsControllerTest < ActionController::TestCase
   test '#process_hostgroup works on Host subclasses' do
     class Host::Test < Host::Base; end
     user = FactoryGirl.create(:user, :with_mail, :admin => false)
-    FactoryGirl.create(:filter, :role => user.roles.first, :permissions => Permission.where(:name => [ 'edit_hosts', 'view_hosts' ]))
+    FactoryGirl.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => [ 'edit_hosts', 'view_hosts' ]))
+    user.roles << roles(:create_hosts)
+    user.save!
     hostgroup = FactoryGirl.create(:hostgroup)
     host = FactoryGirl.create(:host, :type => "Host::Test", :hostgroup => hostgroup)
     host.stubs(:set_hostgroup_defaults)
