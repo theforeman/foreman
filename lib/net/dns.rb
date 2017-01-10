@@ -10,6 +10,7 @@ module Net
     autoload :ReverseRecord, "net/dns/reverse_record.rb"
     autoload :PTR4Record,    "net/dns/ptr4_record.rb"
     autoload :PTR6Record,    "net/dns/ptr6_record.rb"
+    autoload :CNAMERecord,   "net/dns/cname_record.rb"
 
     # Looks up the IP or MAC address. Handles the conversion of a DNS miss
     # exception into nil
@@ -22,6 +23,7 @@ module Net
       proxy = options.fetch(:proxy, nil)
       resolver = options.fetch(:resolver, Resolv::DNS.new)
       ipfamily = options.fetch(:ipfamily, Socket::AF_INET)
+      host_alias = false
 
       Timeout.timeout(Setting[:dns_conflict_timeout]) do
         ipquery = IPAddr.new(query) rescue false
@@ -38,12 +40,19 @@ module Net
           hostname = query
           type = "AAAA"
         else
+          hostname = resolver.getresource(query, Resolv::DNS::Resource::IN::CNAME).name.to_s rescue nil
           ip = resolver.getresource(query, Resolv::DNS::Resource::IN::A).address.to_s
-          hostname = query
-          type = "A"
+
+          if hostname
+            host_alias = query
+            type ="CNAME"
+          else
+            hostname = query
+            type = "A"
+          end
         end
 
-        attrs = { :hostname => hostname, :ip => ip, :resolver => resolver, :proxy => proxy }
+        attrs = { :hostname => hostname, :ip => ip, :resolver => resolver, :proxy => proxy, :host_alias => host_alias}
 
         case type
           when "A"
@@ -54,6 +63,8 @@ module Net
             PTR4Record.new attrs
           when "PTR6"
             PTR6Record.new attrs
+          when "CNAME"
+            CNAMERecord.new attrs
         end
       end
     rescue Resolv::ResolvError, SocketError
