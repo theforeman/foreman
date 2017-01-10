@@ -514,4 +514,6 @@ Foreman::Application.routes.draw do
       get :random_name
     end
   end
+
+  resources :notification_recipients, :only => [:index, :update, :destroy]
 end
