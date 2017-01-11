@@ -46,7 +46,7 @@ module Hostext
       scoped_search :in => :puppet_proxy, :on => :name, :complete_value => true, :rename => :smart_proxy, :ext_method => :search_by_proxy, :only_explicit => true
       scoped_search :in => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :in => :compute_resource, :on => :id,      :complete_enabled => false, :rename => :compute_resource_id, :only_explicit => true
-      scoped_search :in => :image, :on => :name, :complete_value => true
+      scoped_search :in => :image, :on => :name, :complete_value => true, :rename => :image
 
       scoped_search :in => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
       scoped_search :in => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
