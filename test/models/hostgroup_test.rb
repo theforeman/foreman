@@ -262,14 +262,42 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_empty hostgroup.parent_config_groups
   end
 
-  test "individual puppetclasses added to hostgroup (that can be removed) does not include classes that are included by config group" do
-    hostgroup = hostgroups(:parent)
-    # update parent to production environment
-    hostgroup.update_attribute(:environment_id, environments(:production).id)
-    # nagios puppetclasses(:five) is also in config_groups(:one) Monitoring
-    hostgroup.puppetclasses << puppetclasses(:five)
-    assert_equal ['git', 'nagios'].sort, hostgroup.puppetclasses.map(&:name).sort
-    assert_equal [], hostgroup.individual_puppetclasses.map(&:name)
+  describe '#individual_puppetclasses' do
+    setup do
+      @hostgroup = FactoryGirl.create(:hostgroup, :with_puppetclass)
+      @puppetclass = @hostgroup.puppetclasses.first
+    end
+
+    context 'has NOT set an environment' do
+      test 'returns all classes' do
+        assert_includes @hostgroup.individual_puppetclasses.all, @puppetclass
+      end
+    end
+
+    context 'has an environment set' do
+      setup do
+        @environment = environments(:production)
+        @puppetclass.environments << @environment
+        @other_puppetclass = FactoryGirl.create(:puppetclass)
+        @hostgroup.puppetclasses << @other_puppetclass
+        @hostgroup.stubs(:environment).returns(@environment)
+      end
+
+      test 'returns classes regardless of environment by default' do
+        assert_includes @hostgroup.individual_puppetclasses, @puppetclass
+        assert_includes @hostgroup.individual_puppetclasses, @other_puppetclass
+      end
+    end
+
+    test "individual puppetclasses added to hostgroup (that can be removed) does not include classes that are included by config group" do
+      hostgroup = hostgroups(:parent)
+      class_in_group = puppetclasses(:five)
+      hostgroup.stubs(:cg_class_ids).returns([class_in_group.id])
+      hostgroup.puppetclasses << class_in_group
+
+      assert_includes hostgroup.puppetclasses, class_in_group
+      refute_includes hostgroup.individual_puppetclasses, class_in_group
+    end
   end
 
   test "available_puppetclasses should return all if no environment" do
@@ -513,6 +541,23 @@ class HostgroupTest < ActiveSupport::TestCase
     refute hostgroup.valid?, "Can't be valid with invalid subnet types: #{hostgroup.errors.messages}"
     assert_includes hostgroup.errors.keys, :subnet
     assert_includes hostgroup.errors.keys, :subnet6
+  end
+
+  describe '#environment' do
+    setup do
+      @hostgroup       = FactoryGirl.create(:hostgroup, :with_puppetclass)
+      @new_environment = FactoryGirl.create(:environment)
+    end
+
+    test 'changing it should preserve puppetclasses' do
+      puppetclasses = @hostgroup.puppetclasses.all
+      old_environment = @hostgroup.environment
+
+      @hostgroup.update(environment: @new_environment)
+
+      assert_equal puppetclasses, @hostgroup.puppetclasses.all
+      refute_equal old_environment, @hostgroup.environment
+    end
   end
 
   private

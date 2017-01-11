@@ -14,7 +14,7 @@
     <ul id="selected_classes">
       <% if authorized_for(:controller => :host_editing, :action => :edit_classes) %>
         <%= render :partial => "puppetclasses/selectedClasses",
-          :collection => obj.individual_puppetclasses ,:as => :klass, :locals => { :type => obj_type(obj), :host => obj } %>
+          :collection => obj.individual_puppetclasses,:as => :klass, :locals => { :type => obj_type(obj), :host => obj } %>
         <% unless controller_name == 'config_groups' %>
             <%= render :partial => "puppetclasses/classes_in_groups",
           :collection => obj.classes_in_groups ,:as => :klass, :locals => { :type => obj_type(obj), :obj => obj } %>
