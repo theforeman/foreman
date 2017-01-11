@@ -6,7 +6,7 @@
 <table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
   <thead>
     <tr>
-      <th class="col-md-2"><%= s_("SmartProxy|Name") %></th>
+      <th class="col-md-2"><%= sort :name, :as => s_("SmartProxy|Name") %></th>
       <% unless SETTINGS[:locations_enabled] && SETTINGS[:organizations_enabled] %>
         <th class="hidden-sm hidden-xs nbsp"><%= s_("SmartProxy|Url") %></th>
       <% end %>

@@ -4,9 +4,9 @@
 <table class="<%= table_css_classes("table-two-pane table-hover") %>">
   <thead>
     <tr>
-      <th><%= s_("Bookmark|Name") %></th>
+      <th><%= sort :name, :as => s_("Bookmark|Name") %></th>
       <th><%= s_("Bookmark|Query") %></th>
-      <th><%= s_("Bookmark|Controller") %></th>
+      <th><%= sort :controller, :as => s_("Bookmark|Controller") %></th>
       <th><%= s_("Bookmark|Public") %></th>
       <th><%= _('Actions') %></th>
     </tr>
