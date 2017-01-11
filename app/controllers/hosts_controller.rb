@@ -165,8 +165,11 @@ class HostsController < ApplicationController
   end
 
   def hostgroup_or_environment_selected
+    @environment = Environment.find(params['host']['environment_id'])
+    @hostgroup = Hostgroup.find(params['host']['hostgroup_id'])
+
     Taxonomy.as_taxonomy @organization, @location do
-      if params['host']['environment_id'].present? || params['host']['hostgroup_id'].present?
+      if @environment || @hostgroup
         render :partial => 'puppetclasses/class_selection', :locals => {:obj => (refresh_host)}
       else
         logger.info "environment_id or hostgroup_id is required to render puppetclasses"

@@ -32,8 +32,12 @@
   .matcher .matcher-group {
     display: block;
   }
-  
+
   .matcher_value {
     width: 60%;
   }
+}
+
+.selected_puppetclass.unavailable a {
+  color: $color-pf-black-400;
 }

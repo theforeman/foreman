@@ -359,6 +359,7 @@ function update_puppetclasses(element) {
       $('#puppet_klasses').html(request);
       reload_puppetclass_params();
       tfm.tools.activateTooltips();
+      tfm.hostgroups.checkForUnavailablePuppetclasses();
     },
     complete: function() {
       reloadOnAjaxComplete(element);

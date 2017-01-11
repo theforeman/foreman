@@ -30,6 +30,36 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     assert_equal env.name, host.environment.name
   end
 
+  describe 'edit form' do
+    setup do
+      @hostgroup = FactoryGirl.create(:hostgroup, :with_puppetclass)
+      @another_puppetclass = FactoryGirl.create(:puppetclass)
+    end
+
+    context 'puppet classes are not available in the environment' do
+      setup do
+        @hostgroup.puppetclasses << @another_puppetclass
+        visit edit_hostgroup_path(@hostgroup)
+      end
+
+      describe 'Puppet classes tab' do
+        test 'it shows a warning' do
+          click_link 'Puppet Classes'
+          wait_for_ajax
+
+          assert page.has_selector?('#puppetclasses_unavailable_warning')
+        end
+
+        test 'it marks selected classes as unavailable' do
+          click_link 'Puppet Classes'
+          wait_for_ajax
+
+          assert page.has_selector?('.selected_puppetclass.unavailable')
+        end
+      end
+    end
+  end
+
   test 'submit updates taxonomy' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
     new_location = FactoryGirl.create(:location)

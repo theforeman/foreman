@@ -13,12 +13,32 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link? 'staging'
   end
 
-  test "edit page" do
-    visit hostgroups_path
-    click_link "db"
-    fill_in "hostgroup_name", :with => "db Old"
-    assert_submit_button(hostgroups_path)
-    assert page.has_link? 'db Old'
+  describe 'edit page' do
+    setup do
+      @another_environment = FactoryGirl.create(:environment)
+      @hostgroup = FactoryGirl.create(:hostgroup, :with_puppetclass)
+      visit hostgroups_path
+      click_link @hostgroup.name
+    end
+
+    test 'changing hostgroup_name' do
+      new_hostgroup_name = "#{@hostgroup.name} Old"
+      fill_in 'hostgroup_name', with: new_hostgroup_name
+      assert_submit_button(hostgroups_path)
+
+      assert page.has_link? new_hostgroup_name
+    end
+
+    describe 'changing the environment' do
+      test 'preserves the puppetclasses' do
+        puppetclasses = @hostgroup.puppetclasses.all
+
+        select @another_environment.name, from: 'hostgroup_environment_id'
+        assert_submit_button(hostgroups_path)
+
+        assert_equal puppetclasses, @hostgroup.puppetclasses.all
+      end
+    end
   end
 
   test 'edit shows errors on invalid lookup values' do
