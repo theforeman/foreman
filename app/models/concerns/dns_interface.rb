@@ -100,7 +100,7 @@ module DnsInterface
   end
 
   def dns_cname_record_attrs
-   host_ip = ip || ip6
+    host_ip = ip || ip6
     { :hostname => hostname, :ip => host_ip, :host_alias => host_alias, :resolver => domain.resolver, :proxy => domain.proxy }
   end
 end

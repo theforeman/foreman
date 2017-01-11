@@ -41,6 +41,10 @@ FactoryGirl.define do
     type 'HostParameter'
   end
 
+  factory :host_alias, :class => HostAlias do
+    sequence(:name) {|n| "my_alias_#{n}"}
+  end
+
   factory :hostgroup_parameter, :parent => :parameter, :class => GroupParameter do
     type 'GroupParameter'
   end
@@ -74,6 +78,12 @@ FactoryGirl.define do
 
     trait :with_ipv6 do
       sequence(:ip6) { |n| 4.times.map { '%x' % rand(16**4) }.join(':') + '::' + n}
+    end
+
+    trait :with_host_alias do
+      host_aliases do
+        FactoryGirl.build(:host_alias, :nic_id => id)
+      end
     end
   end
 
@@ -426,6 +436,12 @@ FactoryGirl.define do
 
     trait :without_owner do
       owner nil
+    end
+
+    trait :with_aliases do
+      host_aliases do
+        FactoryGirl.build(:host_alias, :nic_id => nic.id)
+      end
     end
   end
 

@@ -171,6 +171,11 @@ class Nic::BaseTest < ActiveSupport::TestCase
     end
   end
 
+  test '#host_aliases' do
+    nic = FactoryGirl.build(:nic_base)
+    nic.host_aliases
+  end
+
   describe 'normalization' do
     let(:host) { FactoryGirl.build(:host) }
     let(:nic) { FactoryGirl.build(:nic_base, :host => host) }
