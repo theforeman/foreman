@@ -9,7 +9,14 @@ class Api::V2::ConfigGroupsControllerTest < ActionController::TestCase
   end
 
   test "should update config group" do
-    put :update, { :id => config_groups(:one).to_param, :config_group => {:name => 'new name', :puppetclass_ids => [puppetclasses(:one).id, puppetclasses(:four).id]} }
+    name = 'new name'
+    put :update, { :id => config_groups(:one).to_param,
+                   :config_group => { :name => name,
+                                      :puppetclass_ids => [puppetclasses(:one).id, puppetclasses(:four).id]
+                                    }
+                  }
     assert_response :success
+    response = JSON.parse(@response.body)
+    assert_equal 2, response['puppetclasses'].count
   end
 end
