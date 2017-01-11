@@ -5,7 +5,7 @@
 <table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
   <thead>
     <tr>
-      <th class="col-md-4"><%= s_("Usergroup|Name") %></th>
+      <th class="col-md-4"><%= sort :name, :as => s_("Usergroup|Name") %></th>
       <th class="col-md-4"><%= _("Users") %></th>
       <th class="col-md-3"><%= _("User Groups") %></th>
       <th><%= _('Actions') %></th>
