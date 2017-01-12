@@ -62,6 +62,14 @@ module HostCommon
     end
   end
 
+  def parent_name
+    if is_a?(Host::Base) && hostgroup
+      hostgroup.name
+    elsif is_a?(Hostgroup) && parent
+      parent.name
+    end
+  end
+
   # Returns a url pointing to boot file
   def url_for_boot(file)
     "#{os.medium_uri(self)}/#{os.url_for_boot(file)}"
