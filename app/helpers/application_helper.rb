@@ -367,8 +367,8 @@ module ApplicationHelper
 
   def documentation_button(section = "", options = {})
     url = documentation_url section, options
-    link_to(icon_text('help', _('Documentation'), :class => 'icon-white', :kind => 'pficon'),
-      url, :rel => 'external', :class => 'btn btn-info btn-docs', :target => '_blank')
+    link_to(icon_text('help', _('Documentation'), :kind => 'pficon'),
+      url, :rel => 'external', :class => 'btn btn-default btn-docs', :target => '_blank')
   end
 
   def generate_links_for(sub_model)
