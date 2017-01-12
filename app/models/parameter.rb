@@ -66,3 +66,12 @@ class Parameter < ApplicationRecord
     ['value']
   end
 end
+
+require_dependency 'common_parameter'
+require_dependency 'domain_parameter'
+require_dependency 'group_parameter'
+require_dependency 'host_parameter'
+require_dependency 'location_parameter'
+require_dependency 'organization_parameter'
+require_dependency 'os_parameter'
+require_dependency 'subnet_parameter'
