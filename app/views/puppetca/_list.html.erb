@@ -23,11 +23,11 @@
         <td>
           <%= action_buttons(
                     if cert.state == "pending"
-                      display_link_if_authorized(_("Sign"), hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => cert), :method => :put)
+                      display_link_if_authorized(_("Sign"), hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param, :id => url_encode(cert.name)), :method => :put)
                     end,
                     if cert.state != "revoked"
                       display_delete_if_authorized(hash_for_smart_proxy_puppetca_path(:smart_proxy_id => @proxy.to_param,
-                                                                                      :id => cert,
+                                                                                      :id => url_encode(cert.name),
                                                                                       :text =>  cert.state == "pending" ? _("Delete") : _("Revoke")))
                     end)
             %>
