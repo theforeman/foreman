@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import _ from 'lodash';
 
 export function initInheritedRoles() {
   $('#inherited-roles .dropdown-menu a').click(({target}) => {
@@ -8,4 +9,18 @@ export function initInheritedRoles() {
              .children('.btn')
              .html(`${_.escape(target.text)} <span class="caret"></span>`);
   }).first().click();
+}
+
+function getSelectValues({options = []}) {
+  // need to use lodash because options is an HTMLOptionsCollection, not array
+  return _.filter(options, opt => opt.selected).map(opt => [opt.value, opt.text]);
+}
+
+export function taxonomyAdded(taxonomies, type) {
+  const selected = [['', ''], ...getSelectValues(taxonomies)];
+  const defaults = document.getElementById(`user_default_${type}_id`);
+
+  defaults.innerHTML = selected.map(opt =>
+                                      `<option value='${opt[0]}'>${_.escape(opt[1])}</option>`)
+                               .join('');
 }
