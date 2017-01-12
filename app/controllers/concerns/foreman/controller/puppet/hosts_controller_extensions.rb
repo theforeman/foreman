@@ -8,6 +8,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
                              select_multiple_puppet_proxy update_multiple_puppet_proxy
                              select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
   PUPPET_MULTIPLE_ACTIONS = %w(multiple_puppetrun update_multiple_puppetrun) + MULTIPLE_EDIT_ACTIONS
+
   included do
     add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
     alias_method :find_resource_for_puppet_host_extensions, :find_resource
@@ -27,9 +28,11 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   end
 
   def hostgroup_or_environment_selected
+    refresh_host
+    set_class_variables(@host)
     Taxonomy.as_taxonomy @organization, @location do
-      if params['host']['environment_id'].present? || params['host']['hostgroup_id'].present?
-        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (refresh_host)}
+      if @environment || @hostgroup
+        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
       else
         logger.info "environment_id or hostgroup_id is required to render puppetclasses"
       end

@@ -1439,6 +1439,31 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :method_not_allowed
   end
 
+  describe '#hostgroup_or_environment_selected' do
+    test 'choosing only one of hostgroup or environment renders classes' do
+      xhr :post, :hostgroup_or_environment_selected, {
+        :host_id => nil,
+        :host => {
+          :environment_id => Environment.unscoped.first.id
+        }
+      }, set_session_user
+      assert_response :success
+      assert_template :partial => 'puppetclasses/_class_selection'
+    end
+
+    test 'choosing both hostgroup and environment renders classes' do
+      xhr :post, :hostgroup_or_environment_selected, {
+        :host_id => @host.id,
+        :host => {
+          :environment_id => Environment.unscoped.first.id,
+          :hostgroup_id => Hostgroup.unscoped.first.id
+        }
+      }, set_session_user
+      assert_response :success
+      assert_template :partial => 'puppetclasses/_class_selection'
+    end
+  end
+
   private
 
   def initialize_host
