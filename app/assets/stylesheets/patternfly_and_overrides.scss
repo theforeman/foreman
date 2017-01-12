@@ -319,3 +319,30 @@ a.btn-info span{
 .pficon-ok.warn:before {
   color: #ec7a08;
 }
+
+.paneless {
+  .panel {
+    box-shadow: none;
+  }
+
+  .panel-title {
+    font-size: inherit;
+  }
+
+  .panel-heading + .panel-collapse .panel-body {
+    border: none;
+    padding: 0;
+  }
+
+  .panel-heading {
+    background: none;
+    border: none;
+    padding-left: inherit;
+    padding-right: inherit;
+
+    a {
+      font-weight: inherit;
+      font-size: inherit;
+    }
+  }
+}

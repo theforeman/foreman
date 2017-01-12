@@ -95,6 +95,30 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     assert page.has_selector?("#inherited_parameters #name_x")
   end
 
+  describe 'Puppet Classes tab' do
+    context 'has inherited Puppetclasses' do
+      setup do
+        @hostgroup = FactoryGirl.create(:hostgroup, :with_puppetclass)
+        @child_hostgroup = FactoryGirl.create(:hostgroup, parent: @hostgroup)
+
+        visit edit_hostgroup_path(@child_hostgroup)
+        page.find(:link, 'Puppet Classes', href: '#puppet_klasses').click
+      end
+
+      test 'it mentions the parent hostgroup by name in the tooltip' do
+        page.find('#puppet_klasses .panel h3 a').click
+        class_element = page.find('#inherited_ids>li')
+
+        assert_equal @hostgroup.puppetclasses.first.name, class_element.text
+      end
+
+      test 'it shows a header mentioning the hostgroup inherited from' do
+        header_element = page.find('#puppet_klasses .panel h3 a')
+        assert header_element.text =~ /#{@hostgroup.name}$/
+      end
+    end
+  end
+
   private
 
   def select_from_list(list_id, item)

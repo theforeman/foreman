@@ -41,3 +41,11 @@
 .selected_puppetclass.unavailable a {
   color: $color-pf-black-400;
 }
+
+#inherited_ids {
+  padding-left: 0;
+}
+
+#inherited-classes .panel-title {
+  font-size: 1.6rem;
+}
