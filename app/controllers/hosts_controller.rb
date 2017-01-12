@@ -38,6 +38,7 @@ class HostsController < ApplicationController
   before_action :set_host_type, :only => [:update]
   before_action :find_multiple, :only => MULTIPLE_ACTIONS
   before_action :validate_power_action, :only => :update_multiple_power_state
+
   helper :hosts, :reports, :interfaces
 
   def index(title = nil)
@@ -162,19 +163,6 @@ class HostsController < ApplicationController
     @host.apply_compute_profile(InterfaceMerge.new)
 
     render :partial => "interfaces_tab"
-  end
-
-  def hostgroup_or_environment_selected
-    @environment = Environment.find(params['host']['environment_id'])
-    @hostgroup = Hostgroup.find(params['host']['hostgroup_id'])
-
-    Taxonomy.as_taxonomy @organization, @location do
-      if @environment || @hostgroup
-        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (refresh_host)}
-      else
-        logger.info "environment_id or hostgroup_id is required to render puppetclasses"
-      end
-    end
   end
 
   def current_parameters
@@ -898,6 +886,7 @@ class HostsController < ApplicationController
       @subnet          = host.subnet
       @compute_profile = host.compute_profile
       @realm           = host.realm
+      @hostgroup       = host.hostgroup
     end
   end
 
