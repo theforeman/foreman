@@ -34,7 +34,6 @@ Foreman::Application.configure do |app|
                   noVNC
                   reports
                   spice
-                  trends
                   charts
                   taxonomy_edit
                   gettext/all
