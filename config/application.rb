@@ -135,8 +135,7 @@ module Foreman
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
-    # enables in memory cache store with ttl
-    #config.cache_store = TimedCachedStore.new
+    # By default use file store
     config.cache_store = :file_store, Rails.root.join("tmp", "cache")
 
     # enables JSONP support in the Rack middleware

@@ -196,4 +196,48 @@ class MenuMapperTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_hash_consistency
+    m1 = Menu::Manager::Mapper.new(:test_menu1, {})
+    m1.item :test_item, :caption => "Some Item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    m1.divider
+    m1.sub_menu :test_sub_menu, :caption => "Some Sub-menu" do
+      m1.item :test_sub_item, :caption => "Some Sub-item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    end
+    m2 = Menu::Manager::Mapper.new(:test_menu2, {})
+    m2.item :test_item, :caption => "Some Item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    m2.divider
+    m2.sub_menu :test_sub_menu, :caption => "Some Sub-menu" do
+      m2.item :test_sub_item, :caption => "Some Sub-item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    end
+    assert_equal m1.find(:root).content_hash, m2.find(:root).content_hash
+  end
+
+  def test_hash_item_change
+    m1 = Menu::Manager::Mapper.new(:test_menu1, {})
+    m1.item :test_item, :caption => "Some Item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    m2 = Menu::Manager::Mapper.new(:test_menu2, {})
+    m2.item :test_item, :caption => "Some Changed Item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    assert_not_equal m1.find(:root).content_hash, m2.find(:root).content_hash
+  end
+
+  def test_hash_url_change
+    m1 = Menu::Manager::Mapper.new(:test_menu1, {})
+    m1.item :test_item, :caption => "Some Item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    m2 = Menu::Manager::Mapper.new(:test_menu2, {})
+    m2.item :test_item, :caption => "Some Item", :url_hash => { :controller => 'facts', :action => 'show'}
+    assert_not_equal m1.find(:root).content_hash, m2.find(:root).content_hash
+  end
+
+  def test_hash_submenu_change
+    m1 = Menu::Manager::Mapper.new(:test_menu1, {})
+    m1.sub_menu :test_sub_menu, :caption => "Some Sub-menu" do
+      m1.item :test_sub_item, :caption => "Some Sub-item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    end
+    m2 = Menu::Manager::Mapper.new(:test_menu2, {})
+    m2.sub_menu :test_sub_menu, :caption => "Renamed Sub-menu" do
+      m2.item :test_sub_item, :caption => "Some Sub-item", :url_hash => { :controller => 'hosts', :action => 'show'}
+    end
+    assert_not_equal m1.find(:root).content_hash, m2.find(:root).content_hash
+  end
 end
