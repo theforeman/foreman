@@ -18,11 +18,47 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     assert_kind_of ProxyAPI::Puppet, klass.send(:proxy)
   end
 
-  test "should contain only the specified environment in changes" do
-    proxy = smart_proxies(:puppetmaster)
-    importer = PuppetClassImporter.new(:url => proxy.url, :env => 'foreman-testing')
-    assert importer.changes['new'].include?('foreman-testing')
-    assert !importer.changes['new'].include?('foreman-testing-1')
+  describe '#changes' do
+    setup do
+      @proxy = smart_proxies(:puppetmaster)
+    end
+
+    context 'a spcefific environment is set' do
+      test "should contain only the specified environment in changes" do
+        importer = PuppetClassImporter.new(url: @proxy.url, env: 'foreman-testing')
+
+        assert importer.changes['new'].include?('foreman-testing')
+        assert !importer.changes['new'].include?('foreman-testing-1')
+      end
+    end
+
+    context 'has ignored environments' do
+      test 'it returns them' do
+        importer = PuppetClassImporter.new(url: @proxy.url)
+        importer.stubs(:ignored_environments).returns(['ignored-env'])
+
+        assert_not_nil importer.changes['ignored']
+        assert_not_nil importer.changes['ignored']['ignored-env']
+      end
+    end
+  end
+
+  describe "#changes_for_environment" do
+    setup do
+      @proxy = smart_proxies(:puppetmaster)
+    end
+
+    test 'it calls for new, updated and obsolete classes' do
+      importer = PuppetClassImporter.new(url: @proxy.url)
+      environment_name = 'foreman-testing'
+      changes = { 'new' => { }, 'obsolete' => { }, 'updated' => { }, 'ignored' => { } }
+
+      importer.expects(:updated_classes_for).with(environment_name).once.returns({})
+      importer.expects(:new_classes_for).with(environment_name).once.returns({})
+      importer.expects(:removed_classes_for).with(environment_name).once.returns({})
+
+      importer.changes_for_environment(environment_name, changes)
+    end
   end
 
   test "should return list of envs" do
