@@ -25,7 +25,7 @@ class Authorizer
 
   def find_collection(resource_class, options = {})
     permission = options.delete :permission
-    Foreman::Logging.logger('permissions').debug "checking permission #{permission}"
+    Foreman::Logging.logger('permissions').debug "checking permission #{permission} for class #{resource_class}"
 
     # retrieve all filters relevant to this permission for the user
     base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])

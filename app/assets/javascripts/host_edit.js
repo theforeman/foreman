@@ -124,15 +124,13 @@ function update_capabilities(capabilities){
 var stop_pooling;
 
 function submit_with_all_params(){
-  var url = window.location.pathname.replace(/\/edit$|\/new|\/\d+.*\/nest$/,'');
+  var url = $('form').attr('action');
   if (url.match('hostgroups')) {
     resource = 'hostgroup'
   } else {
     resource = 'host'
   }
-  resources = resource + 's';
   capitalized_resource = resource[0].toUpperCase + resource.slice(1);
-  if(/\/clone$/.test(window.location.pathname)){ url = foreman_url('/' + resources); }
   $('form input[type="submit"]').attr('disabled', true);
   stop_pooling = false;
   $("body").css("cursor", "progress");

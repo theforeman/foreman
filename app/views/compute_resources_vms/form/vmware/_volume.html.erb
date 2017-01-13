@@ -5,8 +5,8 @@
   :class => "span5",
   :label => _("Datastore Cluster"),
   :label_size => "col-md-2",
-  :onchange => 'vsphereStoragePodSelected(this)' if new_host && vsphere_storage_pods(compute_resource).any? %>
-<% if new_host %>
+  :onchange => 'vsphereStoragePodSelected(this)' if new_vm && vsphere_storage_pods(compute_resource).any? %>
+<% if new_vm %>
   <%= selectable_f f, :datastore, vsphere_datastores(compute_resource), { }, :class => "span5", :label => _("Data store"), :label_size => "col-md-2" %>
 <% else %>
   <%= text_f f, :datastore, :class => "span5", :label => _("Data store"), :label_size => "col-md-2", :disabled => true %>
@@ -16,11 +16,11 @@
            :class       => "col-md-2",
            :label => _("Size (GB)"), :label_size => "col-md-2" %>
 <%= checkbox_f f, :thin, {
-           :label => _("Thin provision"), :label_size => "col-md-2", :disabled => !new_host},
+           :label => _("Thin provision"), :label_size => "col-md-2", :disabled => !new_vm},
            "true",
            "false" %>
 <%= checkbox_f f, :eager_zero, {
-           :label => _("Eager zero"), :label_size => "col-md-2", :disabled => !new_host},
+           :label => _("Eager zero"), :label_size => "col-md-2", :disabled => !new_vm},
            "true",
            "false" %>
 <%= select_f f, :mode, compute_resource.disk_mode_types, :first, :last, { }, :class => "span5", :label => _("Disk mode"), :label_size => "col-md-2", :disabled => !new_host %>

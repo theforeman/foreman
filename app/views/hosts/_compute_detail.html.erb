@@ -1,8 +1,8 @@
 
-<% new_host = @host.nil? || new_host?(@host) %>
+<% new_vm = @host.nil? || new_vm?(@host) %>
 
 <%= render :partial => provider_partial(compute_resource, 'base'),
-            :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_host }.merge(args_for_compute_resource_partial(@host)) %>
+            :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm }.merge(args_for_compute_resource_partial(@host)) %>
 
 <!--NICS-->
 <% if provider_partial_exist?(compute_resource, 'network') %>
@@ -15,4 +15,4 @@
 <% end %>
 
 <!--Storage-->
-<%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_host, :item_layout => 'removable' } %>
+<%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm, :item_layout => 'removable' } %>

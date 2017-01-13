@@ -5,7 +5,7 @@
               :id => 'update_not_supported',
               :text => _('Virtual machine settings cannot be edited on an existing machine in %s') %
               compute_resource.provider_friendly_name) %>
-    <%= render :partial => "compute_detail", :locals => { :f => compute, :compute_resource => compute_resource } %>
+    <%= render :partial => "hosts/compute_detail", :locals => { :f => compute, :compute_resource => compute_resource, :new_vm => !compute.object.persisted? } %>
   <% else %>
     <% if @host %>
       <%= alert(:class => 'alert-danger',

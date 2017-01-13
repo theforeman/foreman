@@ -251,6 +251,7 @@ class VmwareTest < ActiveSupport::TestCase
       }
       @vm = mock('vm')
       @vm.stubs(:attributes).returns(plain_attrs)
+      @vm.stubs(:interfaces).returns([])
 
       @cr = compute_resources(:vmware)
       @cr.stubs(:find_vm_by_uuid).returns(@vm)
@@ -265,17 +266,50 @@ class VmwareTest < ActiveSupport::TestCase
         vol1,
         vol2
       ]
+      @vm.stubs(:volumes).returns(@volumes)
+
+      @networks = [
+        OpenStruct.new(:id => 'dvportgroup-123456', :name => 'Testnetwork')
+      ]
+      @cr.stubs(:networks).returns(@networks)
     end
 
     test "returns vm attributes without id" do
-      @vm.stubs(:volumes).returns(@volumes)
-
       expected_attrs = {
         :cpus => 5,
         :volumes_attributes => {
           "0" => { :vol => 1, :size_gb => 4 },
           "1" => { :vol => 2, :size_gb => 4 }
-        }
+        },
+        :interfaces_attributes => {}
+      }
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+
+    test "returns correct vm attributes when vm has interfaces" do
+      interfaces = [
+        OpenStruct.new(
+          :mac => '00:50:56:84:f1:b1',
+          :network => 'dvportgroup-123456',
+          :name => 'Network adapter 1',
+          :status => 'ok',
+          :summary => 'DVSwitch: 8a 0e 04 61 f0 b9 99 42-78 a8 08 be c8 28 a0 1c',
+          :type => 'RbVmomi::VIM::VirtualVmxnet3',
+          :key => 4000,
+          :virtualswitch => nil,
+          :server_id => '5004913f-4ba3-7a6c-4481-b796d1234999'
+        )
+      ]
+      @vm.stubs(:interfaces).returns(interfaces)
+      expected_attrs = {
+        :cpus => 5,
+        :volumes_attributes => {
+          "0" => { :vol => 1, :size_gb => 4 },
+          "1" => { :vol => 2, :size_gb => 4 }
+        },
+        :interfaces_attributes => {"0"=>{:compute_attributes=>{:network=>"Testnetwork", :type=>"VirtualVmxnet3"}, :mac=>"00:50:56:84:f1:b1"}}
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 

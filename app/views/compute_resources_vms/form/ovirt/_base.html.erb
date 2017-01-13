@@ -4,26 +4,26 @@
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3" if show_vm_name? %>
 <% clusters = compute_resource.clusters %>
 <%= select_f f, :cluster, clusters, :id, :name, { },
-             { :disabled    => !new_host, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
+             { :disabled    => !new_vm, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_clusterSelected(this);',
                :help_inline => :indicator,
                :label      => _('Cluster'), :label_size => "col-md-2" } %>
-<%= f.hidden_field :cluster if !new_host %>
+<%= f.hidden_field :cluster if !new_vm %>
 <%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Select template")},
-             { :disabled    => !new_host, :'data-url' => template_selected_compute_resource_path(compute_resource),
+             { :disabled    => !new_vm, :'data-url' => template_selected_compute_resource_path(compute_resource),
                :onchange    => 'ovirt_templateSelected(this);',
                :help_inline => :indicator,
                :help_block  => _("oVirt/RHEV template to use"),
                :label       => _('Template'), :label_size => "col-md-2" } %>
-<%= f.hidden_field :template if !new_host %>
+<%= f.hidden_field :template if !new_vm %>
 
 <% selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster] %>
 
-<%= counter_f f, :cores, :disabled => !new_host, :label => _('Cores'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
-<%= byte_size_f f, :memory, :disabled => !new_host, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
+<%= counter_f f, :cores, :disabled => !new_vm, :label => _('Cores'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
+<%= byte_size_f f, :memory, :disabled => !new_vm, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_host && controller_name != "compute_attributes" %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 
 <%
    arch ||= nil ; os ||= nil

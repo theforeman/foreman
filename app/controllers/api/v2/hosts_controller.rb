@@ -114,8 +114,13 @@ module Api
       param_group :host, :as => :create
 
       def create
-        @host = Host.new(host_attributes(host_params))
-        @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+        if params[:host][:uuid].present? && params[:host][:compute_resource_id].present?
+          @host = import_host
+          @host.assign_attributes(host_attributes(host_params))
+        else
+          @host = Host.new(host_attributes(host_params))
+          @host.managed = true if (params[:host] && params[:host][:managed].nil?)
+        end
         apply_compute_profile(@host)
         @host.suggest_default_pxe_loader if params[:host] && params[:host][:pxe_loader].nil?
 
@@ -378,6 +383,14 @@ Return the host's compute attributes that can be used to create a clone of this 
       def resource_class_join(association, scope)
         resource_class_join = resource_class.joins(association.name)
         resource_class_join.merge(scope).present? ? resource_class_join.merge(scope) : resource_class_join
+      end
+
+      def import_host
+        compute_resource = ComputeResource.authorized(:edit_compute_resources).find(params[:host][:compute_resource_id])
+        ComputeResourceHostImporter.new(
+          :compute_resource => compute_resource,
+          :uuid => params[:host][:uuid]
+        ).host
       end
     end
   end

@@ -49,8 +49,8 @@ FactoryGirl.define do
       provider 'Vmware'
       user 'vuser'
       password 'vpassword'
-      sequence(:server) { |n| "#{n}.example.com" }
-      datacenter 'vdatacenter'
+      sequence(:url) { |n| "#{n}.example.com" } # alias for server
+      uuid 'vdatacenter' # alias for datacenter
       after(:build) { |cr| cr.stubs(:update_public_key) }
     end
 

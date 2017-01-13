@@ -9,6 +9,9 @@ module Foreman::Model
     validates :user, :password, :server, :datacenter, :presence => true
     before_create :update_public_key
 
+    alias_attribute :server, :url
+    alias_attribute :datacenter, :uuid
+
     def self.available?
       Fog::Compute.providers.include?(:vsphere)
     end
@@ -472,22 +475,6 @@ module Foreman::Model
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])
     end
 
-    def server
-      url
-    end
-
-    def server=(value)
-      self.url = value
-    end
-
-    def datacenter
-      uuid
-    end
-
-    def datacenter=(value)
-      self.uuid = value
-    end
-
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" unless vm.ready?
@@ -524,6 +511,24 @@ module Foreman::Model
 
     def self.provider_friendly_name
       "VMware"
+    end
+
+    def vm_compute_attributes(vm)
+      vm_attrs = super
+      dc_networks = networks
+      interfaces = vm.interfaces || []
+      vm_attrs[:interfaces_attributes] = interfaces.each_with_index.inject({}) do |hsh, (interface, index)|
+        network = dc_networks.detect { |n| [n.id, n.name].include?(interface.network) }
+        raise Foreman::Exception.new(N_("Could not find network %s on VMWare compute resource"), interface.network) unless network
+        interface_attrs = {}
+        interface_attrs[:compute_attributes] = {}
+        interface_attrs[:mac] = interface.mac
+        interface_attrs[:compute_attributes][:network] = network.name
+        interface_attrs[:compute_attributes][:type] = interface.type.to_s.split('::').last
+        hsh[index.to_s] = interface_attrs
+        hsh
+      end
+      vm_attrs
     end
 
     private
