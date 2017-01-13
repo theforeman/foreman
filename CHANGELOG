@@ -1,3 +1,7 @@
+2017-01-13	Dominic Cleal <dominic@cleal.org>
+	* Release 1.14.0
+	* fixes #17979 - pin nokogiri for Ruby 2.0 compatibility
+
 2017-01-05	Dominic Cleal <dominic@cleal.org>
 	* Release 1.14.0-RC3
 
