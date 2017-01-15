@@ -104,7 +104,7 @@ class User < ActiveRecord::Base
   scoped_search :on => :admin, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_admin
   scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true
-  scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true
+  scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :relation => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
 
   default_scope lambda {

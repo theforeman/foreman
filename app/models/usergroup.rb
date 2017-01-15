@@ -32,7 +32,7 @@ class Usergroup < ActiveRecord::Base
   scope :visible, -> { }
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true
-  scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true
+  scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   validate :ensure_uniq_name, :ensure_last_admin_remains_admin
 
   accepts_nested_attributes_for :external_usergroups, :reject_if => ->(a) { a[:name].blank? }, :allow_destroy => true
