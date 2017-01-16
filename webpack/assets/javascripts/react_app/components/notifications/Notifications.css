@@ -1,0 +1,4 @@
+.notification-panel-scroll {
+    max-height: 364px;
+    overflow-y: auto;
+}
