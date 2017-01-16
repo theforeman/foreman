@@ -18,7 +18,7 @@ class ComputeResource < ActiveRecord::Base
   validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :type, :complete_value => :true
-  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   before_save :sanitize_url
   has_many_hosts
   has_many :images, :dependent => :destroy
