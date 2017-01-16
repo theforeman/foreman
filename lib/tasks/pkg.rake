@@ -24,5 +24,8 @@ namespace :pkg do
     version = `git show #{ref}:VERSION`.chomp.chomp('-develop')
     raise "can't find VERSION from #{ref}" if version.empty?
     `git archive --prefix=foreman-#{version}/ #{ref} | bzip2 -9 > pkg/foreman-#{version}.tar.bz2`
+
+    `npm install --no-optional --global-style true`
+    `tar -cvjf pkg/foreman-node-modules-#{version}.tar.bz2 node_modules/`
   end
 end
