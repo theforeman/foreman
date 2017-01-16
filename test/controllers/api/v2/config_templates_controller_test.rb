@@ -65,7 +65,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     config_template = templates(:pxekickstart)
     delete :destroy, { :id => config_template.to_param }
     assert_response 422
-    assert ProvisioningTemplate.exists?(config_template.id)
+    assert ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
 
   test "should destroy" do
@@ -73,7 +73,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     config_template.os_default_templates.clear
     delete :destroy, { :id => config_template.to_param }
     assert_response :ok
-    refute ProvisioningTemplate.exists?(config_template.id)
+    refute ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
 
   test "should build pxe menu" do
@@ -126,6 +126,8 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "should show template with non-admin user" do
     setup_user('view', 'provisioning_templates')
+    templates(:pxekickstart).organizations = User.current.organizations
+    templates(:pxekickstart).locations = User.current.locations
     get :show, { :id => templates(:pxekickstart).to_param }, set_session_user.merge(:user => User.current.id)
     assert_response :success
   end

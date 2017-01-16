@@ -2,7 +2,7 @@ require 'test_helper'
 
 class DomainsControllerTest < ActionController::TestCase
   setup do
-    @model = Domain.first
+    @model = domains(:mydomain)
   end
 
   basic_index_test
@@ -23,18 +23,18 @@ class DomainsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Domain.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Domain.first.to_param, :domain => {:name => Domain.first.name }}, set_session_user
+    put :update, {:id => @model.to_param, :domain => {:name => @model.name }}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Domain.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Domain.first.to_param, :domain => {:name => Domain.first.name }}, set_session_user
+    put :update, {:id => @model.to_param, :domain => {:name => @model.name }}, set_session_user
     assert_redirected_to domains_url
   end
 
   def test_destroy
-    domain = Domain.first
+    domain = @model
     domain.hosts.clear
     domain.hostgroups.clear
     domain.subnets.clear
@@ -45,7 +45,7 @@ class DomainsControllerTest < ActionController::TestCase
 
   def user_with_viewer_rights_should_fail_to_edit_a_domain
     setup_users
-    get :edit, {:id => Domain.first.id}
+    get :edit, {:id => @model.id}
     assert @response.status == '403 Forbidden'
   end
 

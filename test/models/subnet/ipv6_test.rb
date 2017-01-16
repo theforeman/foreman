@@ -26,7 +26,7 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
 
   test "should find the subnet by ip" do
     subnet = FactoryGirl.create(:subnet_ipv6)
-    assert_equal subnet, Subnet::Ipv6.subnet_for(get_ip(subnet, 10))
+    assert_equal subnet, Subnet::Ipv6.unscoped.subnet_for(get_ip(subnet, 10))
   end
 
   test "from cant be bigger than to range" do

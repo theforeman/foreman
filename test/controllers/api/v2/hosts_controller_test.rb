@@ -235,9 +235,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     post :create, { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes =>  nics_attrs) }
     assert_response :created
 
-    assert_equal compute_attrs.vm_interfaces.count, last_record.interfaces.count
-    assert_equal expected_compute_attributes(compute_attrs, 0), last_record.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
-    assert_equal expected_compute_attributes(compute_attrs, 1), last_record.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
+    as_admin do
+      assert_equal compute_attrs.vm_interfaces.count,
+        last_record.interfaces.count
+      assert_equal expected_compute_attributes(compute_attrs, 0),
+        last_record.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
+      assert_equal expected_compute_attributes(compute_attrs, 1),
+        last_record.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
+    end
   end
 
   test "should create host with managed is false if parameter is passed" do
@@ -280,10 +285,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     put :update, { :id => @host.to_param, :host => basic_attrs_with_profile(compute_attrs) }
     assert_response :success
 
-    @host.interfaces.reload
-    assert_equal compute_attrs.vm_interfaces.count, @host.interfaces.count
-    assert_equal expected_compute_attributes(compute_attrs, 0), @host.interfaces.find_by_primary(true).compute_attributes
-    assert_equal expected_compute_attributes(compute_attrs, 1), @host.interfaces.find_by_primary(false).compute_attributes
+    as_admin do
+      @host.interfaces.reload
+      assert_equal compute_attrs.vm_interfaces.count, @host.interfaces.count
+      assert_equal expected_compute_attributes(compute_attrs, 0), @host.interfaces.find_by_primary(true).compute_attributes
+      assert_equal expected_compute_attributes(compute_attrs, 1), @host.interfaces.find_by_primary(false).compute_attributes
+    end
   end
 
   test "should update host without :host root node and rails wraps it correctly" do
@@ -521,6 +528,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = false
 
     proxy = smart_proxies(:puppetmaster)
+    proxy.update_attribute(:url, 'https://factsimporter.foreman')
     host = URI.parse(proxy.url).host
     Resolv.any_instance.stubs(:getnames).returns([host])
     hostname = fact_json['name']

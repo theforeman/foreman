@@ -23,13 +23,13 @@ class MediaControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Medium.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Medium.first, :medium => {:name => nil}}, set_session_user
+    put :update, {:id => @model, :medium => {:name => nil}}, set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Medium.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Medium.first, :medium => {:name => "MyUpdatedMedia"}}, set_session_user
+    put :update, {:id => @model, :medium => {:name => "MyUpdatedMedia"}}, set_session_user
     assert_redirected_to media_url
   end
 
@@ -47,7 +47,7 @@ class MediaControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a medium' do
     setup_user
-    get :edit, {:id => Medium.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, {:id => @model.id}, set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 

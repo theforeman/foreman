@@ -120,7 +120,13 @@ class FactValueTest < ActiveSupport::TestCase
 
     test 'returns visible facts for unlimited user' do
       user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :unlimited => true)
+      FactoryGirl.create(:filter, :role => user_role.role,
+                         :permissions => Permission.unscoped.where(:name => 'view_hosts'),
+                         :unlimited => true)
+      target_host.organization = user_role.owner.organizations.first
+      target_host.location = user_role.owner.locations.first
+      other_host.organization = user_role.owner.organizations.first
+      other_host.location = user_role.owner.locations.first
       as_user user_role.owner do
         assert_empty (target_host.fact_values + other_host.fact_values).map(&:id) - FactValue.my_facts.map(&:id)
       end

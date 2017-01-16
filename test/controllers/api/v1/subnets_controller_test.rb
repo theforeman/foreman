@@ -20,19 +20,19 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "should create IPv4 subnet" do
-    assert_difference('Subnet::Ipv4.count') do
+    assert_difference('Subnet::Ipv4.unscoped.count') do
       post :create, { :subnet => valid_v4_attrs }
     end
     assert_response :success
-    assert_equal 'Subnet::Ipv4', Subnet.find_by_name('QA2').type
+    assert_equal 'Subnet::Ipv4', Subnet.unscoped.find_by_name('QA2').type
   end
 
   test "should create IPv6 subnet" do
-    assert_difference('Subnet::Ipv6.count') do
+    assert_difference('Subnet::Ipv6.unscoped.count') do
       post :create, { :subnet => valid_v6_attrs }
     end
     assert_response :success
-    assert_equal 'Subnet::Ipv6', Subnet.find_by_name('QA2').type
+    assert_equal 'Subnet::Ipv6', Subnet.unscoped.find_by_name('QA2').type
   end
 
   test "does not create subnet with non-existent domain" do
@@ -46,14 +46,14 @@ class Api::V1::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "should destroy subnets" do
-    assert_difference('Subnet.count', -1) do
+    assert_difference('Subnet.unscoped.count', -1) do
       delete :destroy, { :id => subnets(:four).to_param }
     end
     assert_response :success
   end
 
   test "should NOT destroy subnet that is in use" do
-    assert_difference('Subnet.count', 0) do
+    assert_difference('Subnet.unscoped.count', 0) do
       delete :destroy, { :id => subnets(:one).to_param }
     end
     assert_response :unprocessable_entity

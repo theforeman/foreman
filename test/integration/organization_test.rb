@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
   def setup
-    FactoryGirl.create(:host)
+    FactoryGirl.create(:host, :organization => nil)
   end
 
   test "index page" do

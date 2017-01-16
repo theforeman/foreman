@@ -158,7 +158,7 @@ class UsersController < ApplicationController
   end
 
   def verify_active_session
-    if !request.post? && params[:status].blank? && User.exists?(session[:user].presence)
+    if !request.post? && params[:status].blank? && User.unscoped.exists?(session[:user].presence)
       warning _("You have already logged in")
       redirect_back_or_to hosts_path
       return

@@ -40,14 +40,14 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = provisioning_templates_path
     get :lock, {:id => templates(:pxekickstart).to_param }, set_session_user
     assert_redirected_to provisioning_templates_path
-    assert_equal ProvisioningTemplate.find(templates(:pxekickstart).id).locked, true
+    assert_equal ProvisioningTemplate.unscoped.find(templates(:pxekickstart).id).locked, true
   end
 
   test "unlock" do
     @request.env['HTTP_REFERER'] = provisioning_templates_path
     get :unlock, {:id => templates(:locked).to_param }, set_session_user
     assert_redirected_to provisioning_templates_path
-    assert_equal ProvisioningTemplate.find(templates(:locked).id).locked, false
+    assert_equal ProvisioningTemplate.unscoped.find(templates(:locked).id).locked, false
   end
 
   test "clone" do
@@ -79,7 +79,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     config_template = templates(:pxekickstart)
     delete :destroy, {:id => config_template.to_param }, set_session_user
     assert_redirected_to provisioning_templates_url
-    assert ProvisioningTemplate.exists?(config_template.id)
+    assert ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
 
   test "destroy" do
@@ -87,7 +87,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     config_template.os_default_templates.clear
     delete :destroy, {:id => config_template.to_param }, set_session_user
     assert_redirected_to provisioning_templates_url
-    assert !ProvisioningTemplate.exists?(config_template.id)
+    assert !ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
 
   test "audit comment" do
@@ -199,8 +199,8 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
         :template_kind_id => TemplateKind.find_by_name('iPXE').id,
         :template_combinations_attributes => { '3923' => template_combination }
       }
-      assert_difference('TemplateCombination.count', 1) do
-        assert_difference('ProvisioningTemplate.count', 1) do
+      assert_difference('TemplateCombination.unscoped.count', 1) do
+        assert_difference('ProvisioningTemplate.unscoped.count', 1) do
           post :create, {
             :provisioning_template => provisioning_template
           }, set_session_user
@@ -230,8 +230,10 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
           }
         }, set_session_user
         assert_response :found
-        @template_combination.reload
-        assert_equal new_environment, @template_combination.environment
+        as_admin do
+          @template_combination.reload
+          assert_equal new_environment, @template_combination.environment
+        end
       end
 
       test 'can be destroyed' do

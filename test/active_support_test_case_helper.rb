@@ -9,6 +9,7 @@ class ActiveSupport::TestCase
   setup :begin_gc_deferment
   setup :reset_setting_cache
   setup :skip_if_plugin_asked_to
+  setup :set_admin
 
   teardown :reconsider_gc_deferment
   teardown :clear_current_user
@@ -37,6 +38,10 @@ class ActiveSupport::TestCase
     if skips.any?{|name| @NAME.end_with?(name)}
       skip "Test was disabled by plugin"
     end
+  end
+
+  def set_admin
+    User.current = users(:admin)
   end
 
   def clear_current_user
@@ -119,7 +124,8 @@ class ActiveSupport::TestCase
   def setup_user(operation, type = "", search = nil, user = :one)
     @one = users(user)
     as_admin do
-      permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
+      permission = Permission.find_by_name("#{operation}_#{type}") ||
+        FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
       filter = FactoryGirl.build(:filter, :search => search)
       filter.permissions = [ permission ]
       role = Role.where(:name => "#{operation}_#{type}").first_or_create
