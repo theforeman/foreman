@@ -27,5 +27,32 @@ export default {
       .error((jqXHR, textStatus, errorThrown) => {
         ServerActions.hostsRequestError(jqXHR, textStatus, errorThrown);
       });
+  },
+  getNotifications(url) {
+    $.get(url)
+      .success(
+        (response, textStatus, jqXHR) => {
+          ServerActions.receivedNotifications(response, textStatus, jqXHR);
+        })
+      .error((jqXHR, textStatus, errorThrown) => {
+        ServerActions.notificationsRequestError(jqXHR, textStatus, errorThrown);
+      });
+  },
+  markNotificationAsRead(url) {
+    const data = JSON.stringify({'seen': true});
+
+    $.ajax({
+      url: url,
+      contentType: 'application/json',
+      type: 'put',
+      dataType: 'json',
+      data: data,
+      success: function (response, textstatus, jqXHR) {
+        ServerActions.notificationMarkedAsRead(response, textstatus, jqXHR);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+      }
+    });
   }
 };

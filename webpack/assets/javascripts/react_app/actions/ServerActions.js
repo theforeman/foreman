@@ -33,5 +33,27 @@ export default {
         errorThrown: errorThrown
       }
     });
+  },
+ receivedNotifications(response, textStatus, jqXHR) {
+    AppDispatcher.dispatch({
+      actionType: ACTIONS.RECEIVED_NOTIFICATIONS,
+      notifications: response.notifications
+    });
+  },
+
+  notificationsRequestError(jqXHR, textStatus, errorThrown) {
+    AppDispatcher.dispatch({
+      actionType: ACTIONS.NOTIFICATIONSS_REQUEST_ERROR, info: {
+        jqXHR: jqXHR,
+        textStatus: textStatus,
+        errorThrown: errorThrown
+      }
+    });
+  },
+
+  notificationMarkedAsRead(response, textStatus, jqXHR) {
+    AppDispatcher.dispatch(({
+      actionType: ACTIONS.NOTIFICATIONS_MARKED_AS_READ
+    }));
   }
 };
