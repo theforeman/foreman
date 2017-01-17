@@ -196,6 +196,7 @@ class Host::Managed < Host::Base
     validate :short_name_periods
     before_validation :set_compute_attributes, :on => :create, :if => Proc.new { compute_attributes_empty? }
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
+    validates :uuid, uniqueness: { :allow_blank => true }
   else
     def fqdn
       facts['fqdn'] || name

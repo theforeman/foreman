@@ -176,7 +176,9 @@ FactoryGirl.define do
     end
 
     trait :on_compute_resource do
-      uuid Foreman.uuid
+      sequence :uuid do |n|
+        Foreman.uuid
+      end
       association :compute_resource, :factory => :ec2_cr
       before(:create) { |host| host.expects(:queue_compute) }
     end
