@@ -1,4 +1,6 @@
 class ExternalUsergroupsController < ApplicationController
+  include Foreman::Controller::ExternalUsergroupsErrors
+
   before_action :find_resource, :only => [:refresh]
 
   def refresh
@@ -7,7 +9,9 @@ class ExternalUsergroupsController < ApplicationController
     else
       warning _("External user group %{name} could not be refreshed") % { :name => @external_usergroup.name }
     end
-    redirect_to :usergroups
+  rescue => e
+    external_usergroups_error(@external_usergroup, e)
+    process_error :redirect => edit_usergroup_url(@external_usergroup.usergroup)
   end
 
   private
