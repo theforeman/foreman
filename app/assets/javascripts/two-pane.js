@@ -146,7 +146,7 @@ function right_pane_content(response){
 
   if (!$("#content", response).length){
     $('.two-pane-right').html(response);
-    $('.two-pane-right form').prepend("<div class='fr close-button'><a class='two-pane-close' href='#'>&times;</a></div>");
+    $('.two-pane-right form').prepend("<div class='fr close-button'><span class='pficon pficon-close two-pane-close'></span></div>");
     $('.form-actions a').addClass('two-pane-close');
     fix_multi_checkbox();
   } else {
@@ -186,4 +186,3 @@ function handle_redirect(response){
   }
   return redirect
 }
-
