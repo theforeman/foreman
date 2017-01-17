@@ -4,6 +4,7 @@
   "environments_with_new_puppetclasses": <%= @changed["new"].size.to_json.html_safe %>,
   "environments_updated_puppetclasses": <%= @changed["updated"].size.to_json.html_safe %>,
   "environments_obsolete": <%= @changed["obsolete"].size.to_json.html_safe %>,
+  "environments_ignored": <%= @changed["ignored"].size.to_json.html_safe %>,
   <% end %>
   "results": <%= yield %>
 }
