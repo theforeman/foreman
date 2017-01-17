@@ -6,6 +6,8 @@ module PuppetclassesAndEnvironmentsHelper
       _("Deleted environment")
     elsif pcs.delete "_destroy_"
       _("Deleted environment %{env} and %{pcs}") % { :env => env, :pcs => pcs.to_sentence }
+    elsif pcs == ["_ignored_"]
+      _("Ignored environment")
     else
       pretty_print(pcs.is_a?(Hash) ? pcs.keys : pcs)
     end

@@ -163,7 +163,27 @@ class EnvironmentsControllerTest < ActionController::TestCase
     PuppetClassImporter.any_instance.stubs(:ignored_environments).returns(["env1","env2","env3"])
     get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
 
-    assert_equal "No changes to your environments detected", flash[:notice]
+    assert_equal "No changes to your environments detected\nIgnored environments: env1, env2, and env3", flash[:notice]
+  end
+
+  test "should obey puppet class filters in config/ignored_environments.yml" do
+    setup_import_classes
+    PuppetClassImporter.any_instance.stubs(:updated_classes_for).returns([])
+    PuppetClassImporter.any_instance.stubs(:removed_classes_for).returns([])
+
+    PuppetClassImporter.any_instance.stubs(:ignored_environments).returns([])
+    PuppetClassImporter.any_instance.stubs(:ignored_classes).returns([/^a$/])
+    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+
+    assert_equal "No changes to your environments detected\nIgnored classes in the environments: env1 and env2", flash[:notice]
+  end
+
+  test 'it adds a warning when boolean keys are found' do
+   setup_import_classes
+   PuppetClassImporter.any_instance.stubs(:ignored_environments).returns([true])
+
+   get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+   assert_equal "Ignored environment names resulting in booleans found. Please quote strings like true/false and yes/no in config/ignored_environments.yml.", flash[:warning]
   end
 
   def setup_user

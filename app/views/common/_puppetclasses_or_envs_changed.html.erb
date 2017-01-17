@@ -27,18 +27,23 @@
       </tr>
     </thead>
     <tbody>
-      <% for kind in ["new", "obsolete", "updated"] %>
+      <% for kind in ["new", "obsolete", "updated", "ignored"] %>
         <% unless (envs = @changed[kind]).empty? %>
           <% for env in envs.keys.sort %>
             <tr>
+              <% unless kind == 'ignored' %>
+                <td>
+                  <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, false, :class => "env_select_boxes env_select_boxes_#{kind} env_select_boxes_env_#{env}" %>
+                </td>
+                <td>
+                  <%= link_to_function("#{env}", "toggleCheckboxesBySelector('.env_select_boxes_env_#{env}')", :title => _("Check/Uncheck all %s changes") % env) %>
+                </td>
+              <% else %>
+                <td>&nbsp;</td>
+                <td><%= env %></td>
+              <% end %>
               <td>
-                <%= check_box_tag "changed[#{kind}][#{env}]", @changed[kind][env].to_json, false, :class => "env_select_boxes env_select_boxes_#{kind} env_select_boxes_env_#{env}" %>
-              </td>
-              <td>
-                <%= link_to_function("#{env}", "toggleCheckboxesBySelector('.env_select_boxes_env_#{env}')", :title => _("Check/Uncheck all %s changes") % env) %>
-              </td>
-              <td>
-                <%= {"new" => _("Add:"), "obsolete" => _("Remove:"), "updated" => _("Update:")}[kind] %>
+                <%= {"new" => _("Add:"), "obsolete" => _("Remove:"), "updated" => _("Update:"), "ignored" => _("Ignored:")}[kind] %>
               </td>
               <td>
                 <% pcs = @changed[kind][env] %>

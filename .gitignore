@@ -8,6 +8,7 @@ jenkins/reports/*
 test/reports/*
 db/schema.rb
 config/settings.yaml
+config/ignored_environments.yml
 config/settings.plugins.d
 config/email.yaml
 config/database.yml
