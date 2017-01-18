@@ -93,5 +93,5 @@
     <%= new_child_fields_template(f, :lookup_keys, {:partial => "lookup_keys/fields"})%>
   </div>
 
-  <%= submit_or_cancel f %>
+  <%= submit_or_cancel(f, false, { :cancel_path => cancel_path_with_index_search }) %>
 <% end %>
