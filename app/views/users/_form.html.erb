@@ -1,4 +1,4 @@
-<%= javascript 'users', 'password_strength' %>
+<%= javascript 'password_strength' %>
 
 <%= form_for @user do |f| %>
   <%= base_errors_for @user %>
@@ -53,7 +53,7 @@
       <%= field_set_tag _("General") do %>
         <%= checkbox_f f, :mail_enabled %>
         <div class='col-md-4'>
-            <%= link_to_function(_("Test email"), "test_mail(this, '#{f.object.id}', '#{test_mail_user_url(f.object)}')",
+            <%= link_to_function(_("Test email"), "tfm.users.testMail(this, '#{test_mail_user_url(f.object)}', {user_email: $('#user_mail').val()})",
                                                 :title => _("Send a test message to the user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_indicator').html_safe if action_name == "edit" %>
         </div>
       <% end %>

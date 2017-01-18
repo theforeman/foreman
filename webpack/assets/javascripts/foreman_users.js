@@ -24,3 +24,24 @@ export function taxonomyAdded(taxonomies, type) {
                                       `<option value='${opt[0]}'>${_.escape(opt[1])}</option>`)
                                .join('');
 }
+
+/* eslint-disable no-undef */
+export function testMail(item, url, param = {}) {
+  const button = $(item),
+        spinner = $('#test_indicator');
+
+  button.addClass('disabled');
+  spinner.show();
+
+  $.ajax({
+    url: url,
+    type: 'put',
+    data: param,
+    success: ({message}) => notify(`<p>${message}</p>`, 'success'),
+    error: ({responseText}) => notify(`<p>${JSON.parse(responseText).message}</p>`, 'danger'),
+    complete: () => {
+      spinner.hide();
+      button.removeClass('disabled');
+    }
+  });
+}

@@ -38,7 +38,6 @@ Foreman::Application.configure do |app|
                   taxonomy_edit
                   gettext/all
                   filters
-                  users
                   class_edit
                   dashboard
                   auth_source_ldap
