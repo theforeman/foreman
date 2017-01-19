@@ -12,6 +12,10 @@
             <%= render_menu :header_menu %>
             <%= render 'home/user_dropdown' if SETTINGS[:login] %>
           </ul>
+          <% if SETTINGS[:login] %>
+            <div id='notification_drawer'> </div>
+            <%= mount_react_component('NotificationDrawer', '#notification_drawer', {}) %>
+          <% end %>
         </div>
       <% end %>
     </div>

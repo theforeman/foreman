@@ -346,3 +346,17 @@ a.btn-info span{
     }
   }
 }
+
+// gridster on dashboard conflicts with notifications drawer
+.gridster .gs-w {
+  z-index: auto !important;
+}
+
+// workaround to patternfly css after removing class navbar-pf from navbar
+// to retain original navbar height
+.navbar-outer .drawer-pf {
+  height: calc(100vh - 46px);
+  top: 26px;
+}
+
+
