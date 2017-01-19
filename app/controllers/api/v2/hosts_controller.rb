@@ -46,6 +46,7 @@ module Api
 
       api :GET, "/hosts/:id/", N_("Show a host")
       param :id, :identifier_dottable, :required => true
+      param :show_hidden_parameter, :bool, :desc => N_("Should unhide hidden parameters values for display")
 
       def show
         @parameters = true
