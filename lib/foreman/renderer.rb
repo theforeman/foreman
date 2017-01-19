@@ -86,11 +86,11 @@ module Foreman
     end
 
     # provide embedded snippets support as simple erb templates
-    def snippets(file)
+    def snippets(file, options = {})
       if Template.where(:name => file, :snippet => true).empty?
         render :partial => "unattended/snippets/#{file}"
       else
-        return snippet(file.gsub(/^_/, ""))
+        return snippet(file.gsub(/^_/, ""), options)
       end
     end
 
@@ -110,8 +110,8 @@ module Foreman
       end
     end
 
-    def snippet_if_exists(name)
-      snippet name, :silent => true
+    def snippet_if_exists(name, options = {})
+      snippet name, options.merge(:silent => true)
     end
 
     def indent(count)

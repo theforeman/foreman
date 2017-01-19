@@ -166,6 +166,20 @@ class RendererTest < ActiveSupport::TestCase
       assert_equal 'A B C D', tmpl
     end
 
+    test "#{renderer_name} should render a snippet_if_exists with variables" do
+      send "setup_#{renderer_name}"
+      snippet = FactoryGirl.create(:provisioning_template, :snippet, :template => "A <%= @b + ' ' + @c -%> D")
+      tmpl = @renderer.snippet_if_exists(snippet.name, :variables => { :b => 'B', :c => 'C' })
+      assert_equal 'A B C D', tmpl
+    end
+
+    test "#{renderer_name} should render a snippet_if_exists with variables" do
+      send "setup_#{renderer_name}"
+      snippet = FactoryGirl.create(:provisioning_template, :snippet, :template => "A <%= @b + ' ' + @c -%> D")
+      tmpl = @renderer.snippets(snippet.name, :variables => { :b => 'B', :c => 'C' })
+      assert_equal 'A B C D', tmpl
+    end
+
     test "#{renderer_name} should render a templates_used" do
       send "setup_#{renderer_name}"
       @renderer.host = FactoryGirl.build(
