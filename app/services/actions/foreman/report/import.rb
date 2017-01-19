@@ -33,7 +33,7 @@ module Actions
         end
 
         def self.cleanup_after
-          "#{Hash[::Report::DEFAULT_EXPIRATION.parts][:days]}d"
+          "#{::Report::DEFAULT_EXPIRATION / 1.day}d"
         end
       end
     end
