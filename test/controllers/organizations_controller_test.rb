@@ -235,10 +235,10 @@ class OrganizationsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization2)
     organization.update_attributes(:smart_proxy_ids => [ smart_proxies(:one).id ])
     saved_organization = Organization.find_by_id(organization.id)
-    assert_equal saved_organization.smart_proxy_ids.count, 1
-    put :update, { :id => organization.id, :organization => {:smart_proxy_ids => []}}, set_session_user
+    assert_equal 1, saved_organization.smart_proxy_ids.count
+    put :update, { :id => organization.id, :organization => {:smart_proxy_ids => [""]}}, set_session_user
     updated_organization = Organization.find_by_id(organization.id)
-    assert_equal updated_organization.smart_proxy_ids.count, 0
+    assert_equal 0, updated_organization.smart_proxy_ids.count
   end
 
   context 'wizard' do

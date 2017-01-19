@@ -231,10 +231,10 @@ class LocationsControllerTest < ActionController::TestCase
     location = taxonomies(:location2)
     location.update_attributes(:organization_ids => [taxonomies(:organization2).id])
     saved_location = Location.find_by_id(location.id)
-    assert_equal saved_location.organization_ids.count, 1
-    put :update, { :id => location.id, :location => {:organization_ids => []}}, set_session_user
+    assert_equal 1, saved_location.organization_ids.count
+    put :update, { :id => location.id, :location => {:organization_ids => [""]}}, set_session_user
     updated_location = Location.find_by_id(location.id)
-    assert_equal updated_location.organization_ids.count, 0
+    assert_equal 0, updated_location.organization_ids.count
   end
 
   context 'wizard' do
