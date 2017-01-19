@@ -17,6 +17,7 @@ module Api
       api :GET, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("List of override values for a specific smart class parameter")
       param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
+      param :show_hidden, :bool, :desc => N_("Display hidden values")
       param_group :pagination, ::Api::V2::BaseController
 
       def index
@@ -27,6 +28,7 @@ module Api
       param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
       param :id, :identifier, :required => true
+      param :show_hidden, :bool, :desc => N_("Display hidden values")
 
       def show
       end

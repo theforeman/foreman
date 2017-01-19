@@ -33,6 +33,7 @@ module Api
 
       api :GET, "/domains/:id/", N_("Show a domain")
       param :id, :identifier, :required => true, :desc => N_("Numerical ID or domain name")
+      param :show_hidden_parameter, :bool, :desc => N_("Display hidden parameter values")
 
       def show
       end

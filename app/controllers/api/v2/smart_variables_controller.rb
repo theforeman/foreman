@@ -14,6 +14,7 @@ module Api
       param :host_id, :identifier, :required => false
       param :hostgroup_id, :identifier, :required => false
       param :puppetclass_id, :identifier, :required => false
+      param :show_hidden, :bool, :desc => N_("Display hidden values")
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -21,6 +22,7 @@ module Api
 
       api :GET, "/smart_variables/:id/", N_("Show a smart variable")
       param :id, :identifier, :required => true
+      param :show_hidden, :bool, :desc => N_("Display hidden values")
 
       def show
       end

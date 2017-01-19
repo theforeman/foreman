@@ -22,6 +22,7 @@ module Api
 
       api :GET, "/hostgroups/:id/", N_("Show a host group")
       param :id, :identifier, :required => true
+      param :show_hidden_parameter, :bool, :desc => N_("Display hidden parameter values")
 
       def show
       end
