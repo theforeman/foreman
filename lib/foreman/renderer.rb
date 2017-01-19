@@ -97,7 +97,7 @@ module Foreman
     def snippet(name, options = {})
       if (template = Template.where(:name => name, :snippet => true).first)
         begin
-          return unattended_render(template)
+          return unattended_render(template, nil, options[:variables] || {})
         rescue => exc
           raise "The snippet '#{name}' threw an error: #{exc}"
         end
@@ -135,13 +135,13 @@ module Foreman
     end
 
     # accepts either template object or plain string
-    def unattended_render(template, overridden_name = nil)
+    def unattended_render(template, overridden_name = nil, variables = {})
       @template_name = template.respond_to?(:name) ? template.name : (overridden_name || 'Unnamed')
       template_logger.info "Rendering template '#{@template_name}'"
       raise ::Foreman::Exception.new(N_("Template '%s' is either missing or has an invalid organization or location"), @template_name) if template.nil?
       content = template.respond_to?(:template) ? template.template : template
       allowed_variables = allowed_variables_mapping(ALLOWED_VARIABLES)
-      render_safe content, ALLOWED_HELPERS, allowed_variables
+      render_safe content, ALLOWED_HELPERS, allowed_variables.merge(variables)
     end
 
     def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})
