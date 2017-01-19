@@ -5,6 +5,8 @@ module Foreman
     class RenderingError < Foreman::Exception; end
     class SyntaxError < RenderingError; end
     class WrongSubnetError < RenderingError; end
+    class HostUnknown < RenderingError; end
+    class HostParamUndefined < RenderingError; end
 
     include ::Foreman::ForemanUrlRenderer
 
@@ -14,7 +16,7 @@ module Foreman
     ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
                                :media_path, :param_true?, :param_false?, :match,
                                :host_param_true?, :host_param_false?,
-                               :host_param, :host_puppet_classes, :host_enc ]
+                               :host_param, :host_param!, :host_puppet_classes, :host_enc ]
 
     ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
 
@@ -27,6 +29,7 @@ module Foreman
     end
 
     def host_enc(*path)
+      check_host
       @enc ||= @host.info.deep_dup
       return @enc if path.compact.empty?
       enc = @enc
@@ -34,19 +37,28 @@ module Foreman
       enc
     end
 
-    def host_param(param_name)
-      @host.params[param_name]
+    def host_param(param_name, default = nil)
+      check_host
+      @host.params[param_name] || default
+    end
+
+    def host_param!(param_name)
+      check_host_param(param_name)
+      host_param(param_name)
     end
 
     def host_puppet_classes
+      check_host
       @host.puppetclasses
     end
 
     def host_param_true?(name)
+      check_host
       @host.params.has_key?(name) && Foreman::Cast.to_bool(@host.params[name])
     end
 
     def host_param_false?(name)
+      check_host
       @host.params.has_key?(name) && Foreman::Cast.to_bool(@host.params[name]) == false
     end
 
@@ -218,6 +230,15 @@ module Foreman
     end
 
     private
+
+    def check_host
+      raise HostUnknown, _('This templates requires a host to render but none was specified') if @host.nil?
+    end
+
+    def check_host_param(name)
+      check_host
+      raise(HostParamUndefined, _('Parameter %{name} is not set for host %{host}') % { :name => name, :host => @host }) unless @host.params.key?(name)
+    end
 
     # takes variable names array and loads instance variables with the same name like this
     # { :name => @name, :another => @another }
