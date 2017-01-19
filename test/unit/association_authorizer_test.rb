@@ -13,6 +13,8 @@ class AssociationAuthorizerTest < ActiveSupport::TestCase
     @user.update_attribute :roles, [role]
 
     as_user @user do
+      Organization.current = @host.organization
+      Location.current = @host.location
       authorized = AssociationAuthorizer.authorized_associations(Hostgroup.reflect_on_association(:hosts).klass, :hosts)
       assert authorized.include?(@host)
     end
@@ -20,6 +22,8 @@ class AssociationAuthorizerTest < ActiveSupport::TestCase
 
   test "user without permissions can't view host" do
     as_user @user do
+      Organization.current = @host.organization
+      Location.current = @host.location
       authorized = AssociationAuthorizer.authorized_associations(Hostgroup.reflect_on_association(:hosts).klass, :hosts)
       refute authorized.include?(@host)
     end

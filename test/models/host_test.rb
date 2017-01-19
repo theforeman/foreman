@@ -131,7 +131,9 @@ class HostTest < ActiveSupport::TestCase
     h = FactoryGirl.create(:host, :managed)
     setup_user('view', 'hosts', 'name ~ *')
 
-    assert_includes Host.authorized('view_hosts'), h
+    Organization.current = h.organization
+    Location.current = h.location
+    assert_includes Host.unscoped.authorized('view_hosts'), h
   end
 
   context "when unattended is false" do
@@ -668,12 +670,13 @@ class HostTest < ActiveSupport::TestCase
     assert_includes hosts, host2
     refute_includes hosts, host3
 
+    # User 'one' has no organizations/locations, shouldn't see anything
     as_user(:one) do
       hosts = Host::Managed.all
     end
-    assert_includes hosts, host1
-    assert_includes hosts, host2
-    assert_includes hosts, host3
+    refute_includes hosts, host1
+    refute_includes hosts, host2
+    refute_includes hosts, host3
   end
 
   context 'associated provisioning template for taxed host' do
@@ -3543,9 +3546,8 @@ class HostTest < ActiveSupport::TestCase
 
   describe 'taxonomy scopes' do
     test 'no_location overrides default scope' do
-      location = FactoryGirl.create(:location)
       host = FactoryGirl.create(:host, :location => nil)
-      Location.stubs(:current).returns(location)
+      Location.stubs(:current).returns(taxonomies(:location1))
 
       assert_nil Host.where(:id => host.id).first
       assert_not_nil Host.no_location.where(:id => host.id).first
@@ -3553,13 +3555,52 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'no_organization overrides default scope' do
-      organization = FactoryGirl.create(:organization)
       host = FactoryGirl.create(:host, :organization => nil)
-      Organization.stubs(:current).returns(organization)
+      Organization.stubs(:current).returns(taxonomies(:organization1))
 
       assert_nil Host.where(:id => host.id).first
       assert_not_nil Host.no_organization.where(:id => host.id).first
       Organization.unstub(:current)
+    end
+
+    test 'default scope returns hosts in current taxonomies' do
+      visible_host = FactoryGirl.create(
+        :host,
+        :organization => taxonomies(:organization1),
+        :location => taxonomies(:location1))
+      hidden_host = FactoryGirl.create(
+        :host,
+        :organization => taxonomies(:organization2),
+        :location => taxonomies(:location2))
+
+      Organization.current = taxonomies(:organization1)
+      Location.current = taxonomies(:location1)
+      assert_empty Host.where(:id => hidden_host.id)
+      assert_includes Host.where(:id => visible_host.id), visible_host
+    end
+
+    test 'default scope returns no hosts in current user has no taxonomies' do
+      unaccessible_host = FactoryGirl.create(
+        :host,
+        :organization => taxonomies(:organization1),
+        :location => taxonomies(:location1))
+
+      as_user(:one) do
+        Organization.current = nil
+        Location.current = nil
+        assert_empty Host.where(:id => unaccessible_host.id)
+      end
+    end
+
+    test 'default scope returns all hosts for an admin with no taxonomies' do
+      accessible_host = FactoryGirl.create(
+        :host,
+        :organization => taxonomies(:organization1),
+        :location => taxonomies(:location1))
+
+      Organization.current = nil
+      Location.current = nil
+      assert_includes Host.where(:id => accessible_host), accessible_host
     end
   end
 

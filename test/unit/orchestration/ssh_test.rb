@@ -10,7 +10,7 @@ class SshOrchestrationTest < ActiveSupport::TestCase
     host = FactoryGirl.create(:host, :managed)
     host.expects(:client).returns(ssh)
     host.send(:setSSHProvision)
-    refute Host::Managed.find_by_id(host.id)
+    refute Host::Managed.unscoped.find_by_id(host.id)
   end
 
   test 'failed SSH deployment retains host if disabled' do
@@ -20,6 +20,6 @@ class SshOrchestrationTest < ActiveSupport::TestCase
     host = FactoryGirl.create(:host, :managed)
     host.expects(:client).returns(ssh)
     host.send(:setSSHProvision)
-    assert Host::Managed.find_by_id(host.id)
+    assert Host::Managed.unscoped.find_by_id(host.id)
   end
 end

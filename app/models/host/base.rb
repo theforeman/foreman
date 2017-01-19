@@ -46,11 +46,22 @@ module Host
     default_scope -> { where(taxonomy_conditions) }
 
     def self.taxonomy_conditions
-      org = Organization.expand(Organization.current) if SETTINGS[:organizations_enabled]
-      loc = Location.expand(Location.current) if SETTINGS[:locations_enabled]
+      return {} if Taxonomy.enabled_taxonomies.empty?
       conditions = {}
-      conditions[:organization_id] = Array(org).map { |o| o.subtree_ids }.flatten.uniq if org.present?
-      conditions[:location_id] = Array(loc).map { |l| l.subtree_ids }.flatten.uniq if loc.present?
+      Taxonomy.enabled_taxonomies.each do |taxonomy|
+        taxonomy_class = taxonomy.classify.constantize
+        current_taxonomies = taxonomy_class.expand(taxonomy_class.current)
+        if current_taxonomies.present?
+          conditions["#{taxonomy.singularize}_id"] = Array(current_taxonomies).
+            map(&:subtree_ids).flatten.uniq
+        elsif User.current.present? && User.current.admin?
+          conditions.delete "#{taxonomy.singularize}_id"
+        else
+          # If there are no taxonomies available, only show orphaned
+          # hosts without taxonomies.
+          conditions["#{taxonomy.singularize}_id"] = nil
+        end
+      end
       conditions
     end
 

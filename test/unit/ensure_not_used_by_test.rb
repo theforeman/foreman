@@ -17,8 +17,11 @@ class EnsureNotUsedByTest < ActiveSupport::TestCase
 
     as_user @user do
       in_taxonomy @org1 do
-        refute hostgroup.destroy
-        assert_equal "#{hostgroup.name} is used by #{host.name}", hostgroup.errors.full_messages.first
+        in_taxonomy host.location do
+          refute hostgroup.destroy
+          assert_equal "#{hostgroup.name} is used by #{host.name}",
+            hostgroup.errors.full_messages.first
+        end
       end
     end
   end

@@ -55,7 +55,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should create host" do
     disable_orchestration
-    assert_difference('Host.count') do
+    assert_difference('Host.unscoped.count') do
       post :create, { :host => valid_attrs }
     end
     assert_response :success
@@ -64,7 +64,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   test "should create host with host_parameters_attributes" do
     disable_orchestration
     Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
-    assert_difference('Host.count') do
+    assert_difference('Host.unscoped.count') do
       attrs = [{"name" => "compute_resource_id", "value" => "1", "nested" => "true"}]
       post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
     end
@@ -74,7 +74,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   test "should create host with host_parameters_attributes sent in a hash" do
     disable_orchestration
     Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
-    assert_difference('Host.count') do
+    assert_difference('Host.unscoped.count') do
       attrs = {"0" => {"name" => "compute_resource_id", "value" => "1", "nested" => "true"}}
       post :create, { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
     end
@@ -109,7 +109,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should be able to create hosts even when restricted" do
     disable_orchestration
-    assert_difference('Host.count') do
+    assert_difference('Host.unscoped.count') do
       post :create, { :host => valid_attrs }
     end
     assert_response :success
@@ -132,7 +132,7 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
 
   test "should allow destroy for restricted user who owns the hosts" do
     host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
-    assert_difference('Host.count', -1) do
+    assert_difference('Host.unscoped.count', -1) do
       setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
       delete :destroy, { :id => host.to_param }
     end

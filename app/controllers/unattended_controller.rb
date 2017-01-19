@@ -116,7 +116,7 @@ class UnattendedController < ApplicationController
     if (result = token.match(/^([a-z0-9-]+)(.slax)$/i))
       token, _suffix = result.captures
     end
-    Host.for_token(token).first
+    Host.unscoped.for_token(token).first
   end
 
   def find_host_by_ip_or_mac
@@ -142,7 +142,7 @@ class UnattendedController < ApplicationController
     # we try to match first based on the MAC, falling back to the IP
     # host is readonly because of association so we reload it if we find it
     host = Host.joins(:provision_interface).where(mac_list.empty? ? {:nics => {:ip => ip}} : ["lower(nics.mac) IN (?)", mac_list]).first
-    host ? Host.find(host.id) : nil
+    host ? Host.unscoped.find(host.id) : nil
   end
 
   def allowed_to_install?
