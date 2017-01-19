@@ -33,7 +33,7 @@ module Api
         param :gateway, String, :desc => 'Primary DNS for this subnet'
         param :dns_primary, String, :desc => 'Primary DNS for this subnet'
         param :dns_secondary, String, :desc => 'Secondary DNS for this subnet'
-        param :ipam, :bool, :desc => 'Enable IP Address auto suggestion for this subnet'
+        param :ipam, String, :desc => 'Enable IP Address auto suggestion for this subnet'
         param :from, String, :desc => 'Starting IP Address for IP auto suggestion'
         param :to, String, :desc => 'Ending IP Address for IP auto suggestion'
         param :vlanid, String, :desc => 'VLAN ID for this subnet'
