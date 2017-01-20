@@ -235,7 +235,7 @@ function setRenderMode() {
 export function getRenderedTemplate() {
   let
     session = Editor.getSession(),
-    hostId = $('#preview_host_selector select').val(),
+    hostId = $('#preview_host_id').select2('val'),
     url = $('.editor_source').data('render-path'),
     template = $('#new').val(),
     params = {

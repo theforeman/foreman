@@ -128,9 +128,8 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
   end
 
   test '#preview_host_collection obeys view_hosts permission' do
-    provisioning_template = FactoryGirl.build(:provisioning_template)
     Host.expects(:authorized).with(:view_hosts).returns(Host.where(nil))
-    provisioning_template.preview_host_collection
+    ProvisioningTemplate.preview_host_collection
   end
 
   test 'saving removes carriage returns' do

@@ -14,9 +14,12 @@
     </div>
 
     <% if show_preview %>
+      <%= javascript_tag("$(document).on('ContentLoad', function() { tfm.tools.initTypeAheadSelect($('#preview_host_id')) });"); %>
       <span id="preview_host_selector" style="display:none">
-        <%= select_tag :preview_host_id, options_from_collection_for_select(@template.preview_host_collection, :id, :name),
-                       :onchange => 'tfm.editor.getRenderedTemplate()' %>
+        <%= text_field_tag :preview_host_id, nil,
+            :'data-url' => preview_host_collection_hosts_path,
+            :'data-scope' => controller.send(:model_of_controller),
+            :onchange => 'tfm.editor.getRenderedTemplate()' %>
       </span>
     <% end %>
 

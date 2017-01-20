@@ -51,3 +51,32 @@ export function activateTooltips(el = 'body') {
 export function deprecate(oldMethod, newMethod, version = '1.17') {
   console.warn(`DEPRECATION WARNING: you are using deprecated ${oldMethod}, it will be removed in Foreman ${version}. Use ${newMethod} instead.`);
 }
+
+export function initTypeAheadSelect(input) {
+  input.select2({
+    ajax: {
+      url: input.data('url'),
+      dataType: 'json',
+      quietMillis: 250,
+      data: (term, page) => ({
+        q: term,
+        scope: input.data('scope')
+      }),
+      results: (data) => ({results: data.map(({id, name}) => ({id, text: name}))}),
+      cache: true
+    },
+    initSelection: function (element, callback) {
+      $.ajax(input.data('url'), {
+        data: {
+          scope: input.data('scope')
+        },
+        dataType: 'json'
+      }).done((data) => {
+        if (data.length > 0) {
+          callback({id: data[0].id, text: data[0].name});
+        }
+      });
+    },
+    width: '400px'
+  });
+}

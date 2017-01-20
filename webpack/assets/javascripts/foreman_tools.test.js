@@ -57,3 +57,30 @@ describe('deprecate', () => {
     expect(console.warn).toHaveBeenCalledWith('DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.');
   });
 });
+
+/* eslint-disable max-statements */
+describe('initTypeAheadSelect', () => {
+  it('initializes select2 on given input field', () => {
+    const $ = require('jquery');
+
+    require('select2');
+
+    document.body.innerHTML =
+      '<input type="text" id="typeahead" data-url="testurl" data-scope="testscope">';
+
+    let field = $('#typeahead');
+
+    $.ajax = jest.fn((url) => {
+      let ajaxMock = $.Deferred();
+
+      ajaxMock.resolve([{'id': 1, 'name': 'testoption'}, {'id': 2, 'name': 'anotheroption'}]);
+      return ajaxMock.promise();
+    });
+
+    tools.initTypeAheadSelect(field);
+    $('.select2-choice').trigger('mousedown');
+    $('.select2-choice').trigger('mouseup');
+    expect(document.body.innerHTML).toContain('select2-container');
+    expect($('.select2-chosen').text()).toEqual('testoption');
+  });
+});
