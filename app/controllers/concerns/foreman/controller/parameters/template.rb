@@ -8,6 +8,7 @@ module Foreman::Controller::Parameters::Template
         :locked,
         :name,
         :snippet,
+        :preview_enabled,
         :template,
         :template_kind, :template_kind_id, :template_kind_name,
         :vendor
