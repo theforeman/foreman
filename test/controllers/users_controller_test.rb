@@ -240,7 +240,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should create and login external user" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache_mod'
-    @request.session = nil
+    @request.session.clear
     @request.env['REMOTE_USER'] = 'ares'
     get :extlogin, {}, {}
     assert_redirected_to edit_user_path(User.find_by_login('ares'))
