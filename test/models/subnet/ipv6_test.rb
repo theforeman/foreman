@@ -77,6 +77,18 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
     assert_equal 4, subnet.known_ips.size
   end
 
+  test "#known_ips returns host/interface IPs after creation" do
+    subnet = FactoryGirl.create(:subnet_ipv6, :name => 'my_subnet', :network => '2001:db8::', :dns_primary => '2001:db8::1', :gateway => '2001:db8::2', :ipam => IPAM::MODES[:db])
+    refute_includes subnet.known_ips, '2001:db8::3'
+    refute_includes subnet.known_ips, '2001:db8::4'
+
+    host = FactoryGirl.create(:host, :subnet6 => subnet, :ip6 => '2001:db8::3')
+    Nic::Managed.create :mac => "00:00:01:10:00:00", :host => host, :subnet6 => subnet, :name => "", :ip6 => '2001:db8::4'
+
+    assert_includes subnet.known_ips, '2001:db8::3'
+    assert_includes subnet.known_ips, '2001:db8::4'
+  end
+
   private
 
   def get_ip(subnet, i = 1)
