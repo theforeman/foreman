@@ -74,9 +74,8 @@ class PtableTest < ActiveSupport::TestCase
   end
 
   test '#preview_host_collection obeys view_hosts permission' do
-    ptable = FactoryGirl.build(:ptable)
     Host.expects(:authorized).with(:view_hosts).returns(Host.where(nil))
-    ptable.preview_host_collection
+    Ptable.preview_host_collection
   end
 
   test "#metadata should include OS family" do

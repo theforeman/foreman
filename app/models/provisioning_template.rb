@@ -172,7 +172,7 @@ class ProvisioningTemplate < Template
     end
   end
 
-  def preview_host_collection
+  def self.preview_host_collection
     super.where(:managed => true)
   end
 

@@ -31,8 +31,9 @@ class Template < ActiveRecord::Base
     []
   end
 
-  def preview_host_collection
-    Host.authorized(:view_hosts).order(:name).limit(100)
+  # May be extended or overwritten by plugins
+  def self.preview_host_collection
+    Host.authorized(:view_hosts).order(:name)
   end
 
   def metadata

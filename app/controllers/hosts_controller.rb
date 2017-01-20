@@ -648,6 +648,14 @@ class HostsController < ApplicationController
     render :partial => 'provisioning', :locals => { :templates => templates }
   end
 
+  def preview_host_collection
+    scope = Template.descendants.detect { |klass| klass.name == params[:scope] } || Template
+    @hosts = scope.preview_host_collection.where("name LIKE :name", :name => "%#{params['q']}%").limit(10).pluck(:id, :name).map {|id, name| {:id => id, :name => name}}
+    respond_to do |format|
+     format.json { render :json => @hosts }
+    end
+  end
+
   private
 
   def resource_base
@@ -656,7 +664,7 @@ class HostsController < ApplicationController
 
   define_action_permission [
     'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
-    'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state'], :view
+    'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection'], :view
   define_action_permission [
     'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build',
     'rebuild_config', 'submit_rebuild_config'], :build

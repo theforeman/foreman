@@ -99,6 +99,7 @@ Foreman::Application.routes.draw do
         get  'rebuild_config'
         post 'submit_rebuild_config'
         get 'random_name', :only => :new
+        get 'preview_host_collection'
       end
 
       constraints(:host_id => /[^\/]+/) do

@@ -1481,6 +1481,31 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
+  context '#preview_host_collection' do
+    test 'should list hosts' do
+      host = FactoryGirl.create(:host, :managed)
+      xhr :get, :preview_host_collection, { :q => '' }, set_session_user
+      assert_response :success
+      response = JSON.parse(@response.body)
+      assert_kind_of Array, response
+      assert_kind_of Hash, response.first
+      expected = {'id' => host.id, 'name' => host.name}
+      assert_includes response, expected
+    end
+
+    test 'should find a host by name' do
+      host1 = FactoryGirl.create(:host, :managed, :hostname => 'aaaaaaa')
+      host2 = FactoryGirl.create(:host, :managed, :hostname => 'zzzzzzz')
+      xhr :get, :preview_host_collection, { :q => 'aaaaaaa' }, set_session_user
+      assert_response :success
+      response = JSON.parse(@response.body)
+      expected = {'id' => host1.id, 'name' => host1.name}
+      not_expected = {'id' => host2.id, 'name' => host2.name}
+      assert_includes response, expected
+      assert_not_includes response, not_expected
+    end
+  end
+
   private
 
   def initialize_host
