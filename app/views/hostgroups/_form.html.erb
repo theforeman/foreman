@@ -86,5 +86,5 @@
   </div>
 
   <%= f.hidden_field :id %>
-  <%= submit_or_cancel f %>
+  <%= submit_or_cancel(f, false, { :cancel_path => cancel_path_with_index_search }) %>
 <% end %>
