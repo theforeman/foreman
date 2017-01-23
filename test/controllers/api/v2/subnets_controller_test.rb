@@ -135,4 +135,22 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     get :show, {:id => subnet_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end
+
+  context 'hidden parameters' do
+    test "should show a subnet parameter as hidden unless show_hidden_parameters is true" do
+      subnet = FactoryGirl.create(:subnet_ipv4)
+      subnet.subnet_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => subnet.id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal '*****', show_response['parameters'].first['value']
+    end
+
+    test "should show a subnet parameter as unhidden when show_hidden_parameters is true" do
+      subnet = FactoryGirl.create(:subnet_ipv4)
+      subnet.subnet_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => subnet.id, :show_hidden_parameters => 'true' }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 'bar', show_response['parameters'].first['value']
+    end
+  end
 end

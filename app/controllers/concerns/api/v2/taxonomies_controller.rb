@@ -50,7 +50,7 @@ module Api::V2::TaxonomiesController
   end
 
   api :GET, '/:resource_id/:id', N_('Show :a_resource')
-  param :show_hidden_parameter, :bool, :desc => N_("Display hidden parameter values")
+  param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
   def show
     @render_template ||= 'api/v2/taxonomies/show'
     render @render_template

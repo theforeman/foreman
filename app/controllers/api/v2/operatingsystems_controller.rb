@@ -31,7 +31,7 @@ module Api
 
       api :GET, "/operatingsystems/:id/", N_("Show an operating system")
       param :id, String, :required => true
-      param :show_hidden_parameter, :bool, :desc => N_("Display hidden parameter values")
+      param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
 
       def show
       end
