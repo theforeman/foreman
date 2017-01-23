@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class EnvironmentsControllerTest < ActionController::TestCase
-  include ForemanTasks::TestHelpers::WithInThreadExecutor
   setup do
     @model = Environment.first
   end

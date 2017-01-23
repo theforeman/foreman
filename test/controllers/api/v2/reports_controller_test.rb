@@ -2,7 +2,6 @@ require 'test_helper'
 require 'controllers/shared/report_host_permissions_test'
 
 class Api::V2::ReportsControllerTest < ActionController::TestCase
-  include ForemanTasks::TestHelpers::WithInThreadExecutor
   include ::ReportHostPermissionsTest
 
   setup do
@@ -21,22 +20,22 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     def test_create_valid
       User.current=nil
       post :create, {:report => create_a_puppet_transaction_report }, set_session_user
-      assert_response :accepted
+      assert_response :success
     end
 
     def test_create_invalid
       User.current=nil
       post :create, {:report => ["not a hash", "throw an error"] }, set_session_user
-      assert_response :accepted
+      assert_response :unprocessable_entity
     end
 
     def test_create_duplicate
       User.current=nil
       post :create, {:report => create_a_puppet_transaction_report }, set_session_user
-      assert_response :accepted
+      assert_response :success
       Foreman::Deprecation.expects(:api_deprecation_warning)
       post :create, {:report => create_a_puppet_transaction_report }, set_session_user
-      assert_response :accepted
+      assert_response :unprocessable_entity
     end
 
     test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to create a report' do
@@ -46,7 +45,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :create, {:report => create_a_puppet_transaction_report }
       assert_nil @controller.detected_proxy
-      assert_response :accepted
+      assert_response :created
     end
 
     test 'hosts with a registered smart proxy on should create a report successfully' do
@@ -58,7 +57,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Resolv.any_instance.stubs(:getnames).returns([host])
       post :create, {:report => create_a_puppet_transaction_report }
       assert_equal proxy, @controller.detected_proxy
-      assert_response :accepted
+      assert_response :created
     end
 
     test 'hosts without a registered smart proxy on should not be able to create a report' do
@@ -78,7 +77,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
       @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
       post :create, {:report => create_a_puppet_transaction_report }
-      assert_response :accepted
+      assert_response :created
     end
 
     test 'hosts without a registered smart proxy but with an SSL cert should not be able to create a report' do
@@ -121,7 +120,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :create, {:report => create_a_puppet_transaction_report }
-      assert_response :accepted
+      assert_response :created
     end
   end
 

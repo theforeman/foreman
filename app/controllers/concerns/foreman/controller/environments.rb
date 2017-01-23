@@ -38,21 +38,11 @@ module Foreman::Controller::Environments
   end
 
   def obsolete_and_new
-    import_params = { :changed => params[:changed] }
-    if params[:commit] == _("Update on background")
-      ForemanTasks.async_task(::Actions::Foreman::PuppetClass::Import, import_params)
-      notice _("Added import task to the queue, it will be run shortly")
+    if (errors = ::PuppetClassImporter.new.obsolete_and_new(params[:changed])).empty?
+      notice _("Successfully updated environments and Puppet classes from the on-disk Puppet installation")
     else
-      ForemanTasks.sync_task(::Actions::Foreman::PuppetClass::Import, import_params)
-      begin
-        notice _('Successfully updated environments and Puppet classes from the on-disk Puppet installation')
-      rescue ForemanTasks::TaskError
-        error _('Failed to update environments and Puppet classes from the Puppet installation')
-      end
+      error _("Failed to update environments and Puppet classes from the on-disk Puppet installation: %s") % errors.to_sentence
     end
-  rescue ::Foreman::Exception => e
-    error _("Failed to add task to queue: %s") % e.to_s
-  ensure
     redirect_to :controller => controller_path
   end
 

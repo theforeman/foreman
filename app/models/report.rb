@@ -1,6 +1,5 @@
 class Report < ActiveRecord::Base
   LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
-  DEFAULT_EXPIRATION = 1.week
 
   include Foreman::STI
   include Authorizable
@@ -45,10 +44,6 @@ class Report < ActiveRecord::Base
   # with_changes
   scope :interesting, -> { where("status <> 0") }
 
-  def self.humanized_name
-    N_('Report')
-  end
-
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
     return {} if read_attribute(:metrics).nil?
@@ -72,7 +67,7 @@ class Report < ActiveRecord::Base
   # Expire reports based on time and status
   # Defaults to expire reports older than a week regardless of the status
   def self.expire(conditions = {})
-    timerange = conditions[:timerange] || DEFAULT_EXPIRATION
+    timerange = conditions[:timerange] || 1.week
     status = conditions[:status]
     cond = "reports.created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
     cond += " and reports.status = #{status}" unless status.nil?
