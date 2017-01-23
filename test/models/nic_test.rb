@@ -245,7 +245,7 @@ class NicTest < ActiveSupport::TestCase
       SmartProxy.with_features('BMC').map {|sp| sp.features = []}
 
       assert_raise Foreman::Exception do
-        @interface.proxy
+        @interface.reload.proxy
       end
     end
 
