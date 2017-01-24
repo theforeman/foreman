@@ -122,6 +122,24 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_not_empty JSON.parse(response.body)['parameters']
   end
 
+  context 'hidden parameters' do
+    test "should show a os parameter as hidden unless show_hidden_parameters is true" do
+      os = FactoryGirl.create(:operatingsystem)
+      os.os_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => os.id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal '*****', show_response['parameters'].first['value']
+    end
+
+    test "should show a os parameter as unhidden when show_hidden_parameters is true" do
+      os = FactoryGirl.create(:operatingsystem)
+      os.os_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => os.id, :show_hidden_parameters => 'true' }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 'bar', show_response['parameters'].first['value']
+    end
+  end
+
   private
 
   def os_params

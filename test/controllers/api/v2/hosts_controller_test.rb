@@ -775,6 +775,24 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal host.puppetclasses.first.name, puppet_class
   end
 
+  context 'hidden parameters' do
+    test "should show a host parameter as hidden unless show_hidden_parameters is true" do
+      host = FactoryGirl.create(:host)
+      host.host_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => host.id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal '*****', show_response['parameters'].first['value']
+    end
+
+    test "should show a host parameter as unhidden when show_hidden_parameters is true" do
+      host = FactoryGirl.create(:host)
+      host.host_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => host.id, :show_hidden_parameters => 'true' }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 'bar', show_response['parameters'].first['value']
+    end
+  end
+
   private
 
   def last_record

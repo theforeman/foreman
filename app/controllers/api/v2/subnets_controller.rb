@@ -23,7 +23,7 @@ module Api
 
       api :GET, "/subnets/:id/", N_("Show a subnet")
       param :id, :identifier, :required => true
-      param :show_hidden_parameter, :bool, :desc => N_("Display hidden parameter values")
+      param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
 
       def show
       end

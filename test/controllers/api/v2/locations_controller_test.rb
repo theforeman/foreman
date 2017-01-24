@@ -288,4 +288,22 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     get :show, {:id => location_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end
+
+  context 'hidden parameters' do
+    test "should show a location parameter as hidden unless show_hidden_parameters is true" do
+      location = FactoryGirl.create(:location)
+      location.location_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => location.id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal '*****', show_response['parameters'].first['value']
+    end
+
+    test "should show a location parameter as unhidden when show_hidden_parameters is true" do
+      location = FactoryGirl.create(:location)
+      location.location_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, { :id => location.id, :show_hidden_parameters => 'true' }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 'bar', show_response['parameters'].first['value']
+    end
+  end
 end
