@@ -173,11 +173,15 @@ class RendererTest < ActiveSupport::TestCase
       assert_equal 'A B C D', tmpl
     end
 
-    test "#{renderer_name} should render a snippet_if_exists with variables" do
+    test "#{renderer_name} should render a snippets with variables" do
       send "setup_#{renderer_name}"
       snippet = FactoryGirl.create(:provisioning_template, :snippet, :template => "A <%= @b + ' ' + @c -%> D")
       tmpl = @renderer.snippets(snippet.name, :variables => { :b => 'B', :c => 'C' })
       assert_equal 'A B C D', tmpl
+    end
+
+    test "#{renderer_name} should render a save_to_file macro" do
+      assert_renders('<%= save_to_file("/etc/puppet/puppet.conf", "[main]\nserver=example.com\n") %>', "cat << EOF > /etc/puppet/puppet.conf\n[main]\nserver=example.com\nEOF", nil)
     end
 
     test "#{renderer_name} should render a templates_used" do
@@ -293,5 +297,17 @@ class RendererTest < ActiveSupport::TestCase
 
   test 'templates_used is allowed to render for host' do
     assert Safemode.find_jail_class(Host::Managed).allowed? :templates_used
+  end
+
+  private
+
+  def assert_renders(template_content, output, host)
+    @renderer.host = host
+    template = mock('template')
+    template.stubs(:template).returns(template_content)
+    assert_nothing_raised do
+      content = @renderer.unattended_render(template)
+      assert_equal(output, content)
+    end
   end
 end
