@@ -55,7 +55,7 @@ module Menu
 
         menu.sub_menu :hosts_menu,      :caption => N_('Hosts') do
           menu.item :hosts,             :caption => N_('All hosts')
-          menu.item :newhost,           :caption => N_('New host'),
+          menu.item :newhost,           :caption => N_('Create host'),
                     :url_hash => {:controller => '/hosts', :action => 'new'}
           if SETTINGS[:unattended]
             menu.divider                :caption => N_('Provisioning Setup')

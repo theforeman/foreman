@@ -2,11 +2,11 @@ require 'integration_test_helper'
 
 class ModelIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
-    assert_index_page(models_path,"Hardware Models","New Model")
+    assert_index_page(models_path,"Hardware Models","Create Model")
   end
 
   test "create new page" do
-    assert_new_button(models_path,"New Model",new_model_path)
+    assert_new_button(models_path,"Create Model",new_model_path)
     fill_in "model_name", :with => "IBM 123"
     fill_in "model_hardware_model", :with => "IBMabcde"
     fill_in "model_vendor_class", :with => "ABCDE"

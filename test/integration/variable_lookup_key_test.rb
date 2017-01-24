@@ -18,7 +18,7 @@ class VariableLookupKeyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "create new page" do
-    assert_new_button(variable_lookup_keys_path,"New Smart variable", new_variable_lookup_key_path)
+    assert_new_button(variable_lookup_keys_path,"Create Smart Variable", new_variable_lookup_key_path)
     fill_in "variable_lookup_key_key", :with => "test"
     select "base", :from => "variable_lookup_key_puppetclass_id"
     fill_in "variable_lookup_key_default_value", :with => "test"

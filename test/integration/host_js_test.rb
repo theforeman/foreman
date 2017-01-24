@@ -102,7 +102,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
   describe "create new host page" do
     test "default primary interface is in the overview table" do
-      assert_new_button(hosts_path, "New Host", new_host_path)
+      assert_new_button(hosts_path, "Create Host", new_host_path)
 
       # switch to interfaces tab
       page.find(:link, "Interfaces").click
