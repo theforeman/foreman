@@ -105,6 +105,26 @@ class RendererTest < ActiveSupport::TestCase
       end
     end
 
+    test "#{renderer_name} should raise renderer syntax error on syntax error" do
+      send "setup_#{renderer_name}"
+      template = <<EOS
+line 1: ok
+line 2: ok
+line 3: <%= 1 + %>
+line 4: ok
+EOS
+      @renderer.instance_variable_set '@template_name', 'my_template'
+      exception = assert_raises Foreman::Renderer::SyntaxError do
+        @renderer.render_safe(template, [], {})
+      end
+      if renderer_name == :normal_renderer
+        assert_include exception.message, 'my_template:3' if ERB.method_defined?(:location=)
+        assert_include exception.message, "syntax error, unexpected ')'"
+      else
+        assert_include exception.message, 'parse error on value ")"'
+      end
+    end
+
     test "#{renderer_name} should evaluate template variables" do
       send "setup_#{renderer_name}"
       tmpl = @renderer.render_safe('<%= @foo %>', [], { :foo => 'bar' })

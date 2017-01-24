@@ -2,6 +2,9 @@ require 'tempfile'
 
 module Foreman
   module Renderer
+    class RenderingError < Foreman::Exception; end
+    class SyntaxError < RenderingError; end
+
     include ::Foreman::ForemanUrlRenderer
 
     ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
@@ -48,8 +51,9 @@ module Foreman
 
     def render_safe(template, allowed_methods = [], allowed_vars = {}, scope_variables = {})
       if Setting[:safemode_render]
-        box = Safemode::Box.new self, allowed_methods
-        box.eval(ERB.new(template, nil, '-').src, allowed_vars.merge(scope_variables))
+        box = Safemode::Box.new self, allowed_methods, template_name
+        erb = ERB.new(template, nil, '-')
+        box.eval(erb.src, allowed_vars.merge(scope_variables))
       else
         # we need to keep scope variables and reset them after rendering otherwise they would remain
         # after snippets are rendered in parent template scope
@@ -57,11 +61,20 @@ module Foreman
         scope_variables.each { |k,v| kept_variables[k] = instance_variable_get("@#{k}") }
 
         allowed_vars.merge(scope_variables).each { |k,v| instance_variable_set "@#{k}", v }
-        result = ERB.new(template, nil, '-').result(binding)
+        erb = ERB.new(template, nil, '-')
+        # erb allows to set location since Ruby 2.2
+        erb.location = template_name, 0 if erb.respond_to?(:location=)
+        result = erb.result(binding)
 
         scope_variables.each { |k,v| instance_variable_set "@#{k}", kept_variables[k] }
         result
       end
+
+    rescue ::Racc::ParseError, ::SyntaxError => e
+      # Racc::ParseError is raised in safe mode, SyntaxError in unsafe mode
+      new_e = Foreman::Renderer::SyntaxError.new(N_("Syntax error occurred while parsing the template %{template_name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"), :template_name => template_name, :message => e.message)
+      new_e.set_backtrace(e.backtrace)
+      raise new_e
     end
 
     def foreman_server_fqdn
@@ -107,7 +120,13 @@ module Foreman
         begin
           return unattended_render(template, nil, options[:variables] || {})
         rescue => exc
-          raise "The snippet '#{name}' threw an error: #{exc}"
+          if exc.is_a?(::Foreman::Exception)
+            raise exc
+          else
+            e = ::Foreman::Exception.new(N_("The snippet '%{name}' threw an error: %{exc}"), { :name => name, :exc => exc })
+            e.set_backtrace exc.backtrace
+            raise e
+          end
         end
       else
         if options[:silent]
