@@ -106,8 +106,13 @@ class TemplatesController < ApplicationController
     render :text => unattended_render(template)
   rescue => error
     Foreman::Logging.exception("Error rendering the #{template.name} template", error)
-    render :text => _("There was an error rendering the %{name} template: %{error}") % {:name => template.name, :error => error.message},
-           :status => :internal_server_error
+    if error.is_a?(Foreman::Renderer::RenderingError)
+      text = error.message
+    else
+      text = _("There was an error rendering the %{name} template: %{error}") % {:name => template.name, :error => error.message}
+    end
+
+    render :text => text, :status => :internal_server_error
   end
 
   def set_locked(locked)

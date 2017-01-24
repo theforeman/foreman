@@ -187,7 +187,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_equal '2', @response.body
 
     post :preview, { :template => '<%= 1+ -%>', :id => template }, set_session_user
-    assert_includes @response.body, 'There was an error'
+    assert_includes @response.body, 'parse error on value'
   end
 
   context 'templates combinations' do
