@@ -184,6 +184,15 @@ class RendererTest < ActiveSupport::TestCase
       assert_renders('<%= save_to_file("/etc/puppet/puppet.conf", "[main]\nserver=example.com\n") %>', "cat << EOF > /etc/puppet/puppet.conf\n[main]\nserver=example.com\nEOF", nil)
     end
 
+    test "#{renderer_name} should define passed variables only in snippet scope" do
+      send "setup_#{renderer_name}"
+      level2_snippet = FactoryGirl.create(:provisioning_template, :snippet, :template => "<%= @level2 -%>")
+      level1_snippet = FactoryGirl.create(:provisioning_template, :snippet, :template => "<%= @level1 -%><%= snippet('#{level2_snippet.name}', :variables => {:level2 => 2}) %><%= @level2 %>")
+      tmpl = @renderer.render_safe("<%= snippet('#{level1_snippet.name}', :variables => {:level1 => 1}) -%><%= @level1 %>", [:snippet])
+
+      assert_equal '12', tmpl
+    end
+
     test "#{renderer_name} should render a templates_used" do
       send "setup_#{renderer_name}"
       @renderer.host = FactoryGirl.build(
