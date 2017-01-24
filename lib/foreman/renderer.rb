@@ -6,7 +6,7 @@ module Foreman
 
     ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
                                   :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup,
-                                  :pxe_kernel_options ]
+                                  :pxe_kernel_options, :save_to_file ]
     ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
                                :media_path, :param_true?, :param_false?, :match,
                                :host_param_true?, :host_param_false?,
@@ -112,6 +112,10 @@ module Foreman
 
     def snippet_if_exists(name, options = {})
       snippet name, options.merge(:silent => true)
+    end
+
+    def save_to_file(filename, content)
+      "cat << EOF > #{filename}\n#{content}EOF"
     end
 
     def indent(count)
