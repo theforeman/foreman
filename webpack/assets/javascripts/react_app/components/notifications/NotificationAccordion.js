@@ -15,6 +15,10 @@ class NotificationAccordion extends React.Component {
     NotificationsStore.addChangeListener(this.onChange);
   }
 
+  componentWillUnmount() {
+    NotificationsStore.removeChangeListener(this.onChange);
+  }
+
   onChange(actionType) {
     switch (actionType) {
       case ACTIONS.NOTIFICATIONS_EXPAND_DRAWER_TAB: {

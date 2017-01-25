@@ -17,6 +17,11 @@ class NotificationDrawer extends Component {
   componentDidMount() {
     NotificationsStore.addChangeListener(this.onChange);
   }
+
+  componentWillUnmount() {
+    NotificationsStore.removeChangeListener(this.onChange);
+  }
+
   onChange(actionType) {
     switch (actionType) {
       case ACTIONS.RECEIVED_NOTIFICATIONS: {
