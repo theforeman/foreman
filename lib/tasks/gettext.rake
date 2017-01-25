@@ -14,7 +14,7 @@ begin
 
     # redefine file globs for Foreman
     def files_to_translate
-      Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml,js,rabl}")
+      Dir.glob("{app,lib,config,locale,webpack}/**/*.{rb,erb,haml,slim,rhtml,js,rabl}")
     end
   end
 
