@@ -273,4 +273,11 @@ class OrganizationsControllerTest < ActionController::TestCase
       Host.unstub(:authorized)
     end
   end
+
+  test 'should switch to newly created org' do
+    name = 'test-org'
+    put :create, { :commit => "Submit", :organization => { :name => name } }, set_session_user
+    new_org = Organization.find_by :name => name
+    assert_equal new_org.id, session[:organization_id]
+  end
 end

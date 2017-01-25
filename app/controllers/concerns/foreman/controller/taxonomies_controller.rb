@@ -6,6 +6,7 @@ module Foreman::Controller::TaxonomiesController
                                               assign_selected_hosts assign_all_hosts step2 select
                                               parent_taxonomy_selected}
     before_action :count_nil_hosts, :only => %w{index create step2}
+    before_action :new_taxonomy, :only => %w{create}
     skip_before_action :authorize, :set_taxonomy, :only => %w{select clear}
   end
 
@@ -48,8 +49,8 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def create
-    @taxonomy = taxonomy_class.new(resource_params)
     if @taxonomy.save
+      switch_taxonomy
       if @count_nil_hosts > 0
         redirect_to send("step2_#{taxonomy_single}_path",@taxonomy)
       else
@@ -96,10 +97,7 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def select
-    taxonomy_class.current = @taxonomy
-    session[taxonomy_id] = @taxonomy ? @taxonomy.id : nil
-
-    TopbarSweeper.expire_cache(self)
+    switch_taxonomy
     redirect_back_or_to root_url
   end
 
@@ -214,5 +212,16 @@ module Foreman::Controller::TaxonomiesController
 
   def resource_params
     public_send("#{taxonomy_single}_params".to_sym)
+  end
+
+  def new_taxonomy
+    @taxonomy = taxonomy_class.new(resource_params)
+  end
+
+  def switch_taxonomy
+    taxonomy_class.current = @taxonomy
+    session[taxonomy_id] = @taxonomy ? @taxonomy.id : nil
+
+    TopbarSweeper.expire_cache(self)
   end
 end
