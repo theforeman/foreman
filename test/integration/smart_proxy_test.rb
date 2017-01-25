@@ -1,4 +1,5 @@
 require 'integration_test_helper'
+require 'pagelets_test_helper'
 
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
@@ -47,13 +48,14 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   describe 'pagelets on show page' do
+    include PageletsIsolation
+
     setup do
       @view_paths = SmartProxiesController.view_paths
       SmartProxiesController.prepend_view_path File.expand_path('../../static_fixtures/views', __FILE__)
     end
 
     def teardown
-      Pagelets::Manager.clear
       SmartProxiesController.view_paths = @view_paths
     end
 

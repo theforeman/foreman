@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'test_helper'
+require 'pagelets_test_helper'
 
 module Awesome
   module Provider; class MyAwesome < ::ComputeResource; end; end
@@ -321,17 +322,6 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal 'Awesomeness Based', Host::Managed.provision_methods['awesome']
   end
 
-  def test_extend_page
-    Foreman::Plugin.register(:foo) do
-      extend_page("tests/show") do |context|
-        context.add_pagelet :main_tabs, :name => "My Tab", :partial => "partial"
-      end
-    end
-
-    assert_equal 1, ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).count
-    assert_equal "My Tab", ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).first.name
-  end
-
   def test_register_facet
     Facets.stubs(:configuration).returns({})
 
@@ -452,6 +442,21 @@ class PluginTest < ActiveSupport::TestCase
         role 'Test role', [:test_permission]
       end
       assert_equal({'Test role' => [:test_permission]}, Foreman::Plugin.find(:test_role).default_roles)
+    end
+  end
+
+  context 'with pagelets' do
+    include PageletsIsolation
+
+    def test_extend_page
+      Foreman::Plugin.register(:foo) do
+        extend_page("tests/show") do |context|
+          context.add_pagelet :main_tabs, :name => "My Tab", :partial => "partial"
+        end
+      end
+
+      assert_equal 1, ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).count
+      assert_equal "My Tab", ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).first.name
     end
   end
 end
