@@ -61,4 +61,23 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
       assert_equal 'bar', show_response['parameters'].first['value']
     end
   end
+
+  test "should update existing organization parameters" do
+    organization = FactoryGirl.create(:organization)
+    param_params = { :name => "foo", :value => "bar" }
+    organization.organization_parameters.create!(param_params)
+    put :update, { :id => organization.id, :organization => { :organization_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
+    assert_response :success
+    assert param_params[:name], organization.parameters[param_params[:name]]
+  end
+
+  test "should delete existing organization parameters" do
+    organization = FactoryGirl.create(:organization)
+    param_1 = { :name => "foo", :value => "bar" }
+    param_2 = { :name => "boo", :value => "test" }
+    organization.organization_parameters.create!([param_1, param_2])
+    put :update, { :id => organization.id, :organization => { :organization_parameters_attributes => [{ :name => param_1[:name], :value => "new_value" }] } }
+    assert_response :success
+    assert_equal 1, organization.reload.organization_parameters.count
+  end
 end

@@ -8,6 +8,7 @@ class Domain < ActiveRecord::Base
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
   include BelongsToProxies
+  include ParameterAttributes
 
   audited
   validates_lengths_from_database

@@ -2,12 +2,15 @@ module Api::V2::TaxonomiesController
   extend ActiveSupport::Concern
 
   included do
+    include ParameterAttributes
+
     before_action :rename_config_template, :only => %w{update create}
     before_action :find_optional_nested_object
     before_action :find_taxonomy, :only => %w(show update destroy settings
                                               domain_ids subnet_ids hostgroup_ids config_template_ids ptable_ids compute_resource_ids
                                               medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids)
     before_action :params_match_database, :only => %w(create update)
+    before_action :process_parameter_attributes, :only => %w(update)
   end
 
   extend Apipie::DSL::Concern

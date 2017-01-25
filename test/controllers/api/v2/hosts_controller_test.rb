@@ -793,6 +793,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should update existing host parameters" do
+    host = FactoryGirl.create(:host, :with_parameter)
+    host_param = host.parameters.first
+    put :update, { :id => host.id, :host => { :host_parameters_attributes => [{ :name => host_param.name, :value => "new_value" }] } }
+    assert_response :success
+  end
+
   private
 
   def last_record

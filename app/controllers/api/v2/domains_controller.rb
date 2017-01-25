@@ -4,6 +4,7 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Domain
+      include ParameterAttributes
 
       resource_description do
         desc <<-DOC
@@ -18,6 +19,7 @@ module Api
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
+      before_action :process_parameter_attributes, :only => %w{update}
 
       api :GET, "/domains/", N_("List of domains")
       api :GET, "/subnets/:subnet_id/domains", N_("List of domains per subnet")
