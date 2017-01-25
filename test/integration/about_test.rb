@@ -28,5 +28,13 @@ class AboutIntegrationTest < IntegrationTestWithJavascript
     visit about_index_path
     wait_for_ajax
     assert page.has_selector?('th', :text => "Version")
+    assert page.has_selector?('div.proxy-version', :text => '1.13.0')
+  end
+
+  private
+
+  def wait_for_ajax
+    super
+    assert page.has_no_selector?('div.spinner'), 'AJAX spinners still active'
   end
 end
