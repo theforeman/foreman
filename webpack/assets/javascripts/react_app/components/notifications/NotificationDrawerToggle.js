@@ -13,8 +13,11 @@ class NotificationDrawerToggle extends Component {
 
   componentDidMount() {
     NotificationsStore.addChangeListener(this.onChange);
-    // NotificationsStore.addErrorListener(this.onError);
     NotificationActions.getNotifications(this.props.url);
+  }
+
+  componentWillUnmount() {
+    NotificationsStore.removeChangeListener(this.onChange);
   }
 
   onChange(actionType) {
@@ -35,7 +38,6 @@ class NotificationDrawerToggle extends Component {
       default:
         break;
     }
-
   }
 
   onClick() {

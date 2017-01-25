@@ -1,4 +1,6 @@
 import ServerActions from './actions/ServerActions';
+import NotificationActions from './actions/NotificationActions';
+import { STATUS } from './constants';
 import $ from 'jquery';
 
 export default {
@@ -29,6 +31,7 @@ export default {
       });
   },
   getNotifications(url) {
+    NotificationActions.setRequestStatus(STATUS.PENDING);
     $.get(url)
       .success(
         (response, textStatus, jqXHR) => {
