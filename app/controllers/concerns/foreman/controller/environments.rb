@@ -39,7 +39,7 @@ module Foreman::Controller::Environments
 
   def obsolete_and_new
     import_params = { :changed => params[:changed] }
-    if params[:commit] == _("Update on background")
+    if params[:commit] == _("Update in the background")
       ForemanTasks.async_task(::Actions::Foreman::PuppetClass::Import, import_params)
       notice _("Added import task to the queue, it will be run shortly")
     else
