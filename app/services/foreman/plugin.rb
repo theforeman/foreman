@@ -195,7 +195,7 @@ module Foreman #:nodoc:
     #                       :onlyif => Proc.new { |subject| subject.should_show_pagelet? }
     # end
     def extend_page(virtual_path, &block)
-      yield Pagelets::Manager.new(virtual_path) if block_given?
+      Pagelets::Manager.with_key(virtual_path, &block) if block_given?
     end
 
     def tests_to_skip(hash)
