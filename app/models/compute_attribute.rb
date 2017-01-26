@@ -10,6 +10,8 @@ class ComputeAttribute < ActiveRecord::Base
   serialize :vm_attrs, Hash
   before_save :update_name
 
+  delegate :provider_friendly_name, :to => :compute_resource
+
   def method_missing(method, *args, &block)
     method = method.to_s
     return super if method[-1]=="="
