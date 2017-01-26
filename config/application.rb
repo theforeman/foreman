@@ -43,11 +43,6 @@ else
         end
       end
     end
-    begin
-      Bundler.require(:foreman_tasks)
-    rescue LoadError => e
-      warn "Could not load foreman tasks, async processing will not be available: #{e.message}"
-    end
   end
 end
 

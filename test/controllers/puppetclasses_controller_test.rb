@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class PuppetclassesControllerTest < ActionController::TestCase
-  include ForemanTasks::TestHelpers::WithInThreadExecutor
   include LookupKeysHelper
 
   def host_attributes(host)
