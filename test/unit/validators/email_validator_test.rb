@@ -11,16 +11,6 @@ class EmailValidatorTest < ActiveSupport::TestCase
     @validatable = Validatable.new
   end
 
-  test 'should pass when email is valid' do
-    @validatable.mail = 'admin@example.com'
-    assert @validatable.valid?
-  end
-
-  test 'should fail when email invalid' do
-    @validatable.mail = 'invalid@'
-    refute @validatable.valid?
-  end
-
   test 'should pass when email too long' do
     @validatable.mail = ("a" * 250) + "@example.com"
     refute @validatable.valid?
@@ -29,5 +19,24 @@ class EmailValidatorTest < ActiveSupport::TestCase
 
   test 'should allow blank' do
     assert @validatable.valid?
+  end
+
+  %w(admin@example.com admin@example--domain.com admin@localhost).each do |mail|
+    test "should pass email '#{mail} as valid" do
+      @validatable.mail = mail
+      assert @validatable.valid?
+    end
+  end
+
+  %w(
+    admin@
+    admin@-invalid.com
+    admin@invalid-.com
+    admin@in_valid.com
+  ).each do |mail|
+    test "should fail with email '#{mail}'" do
+      @validatable.mail = mail
+      refute @validatable.valid?
+    end
   end
 end
