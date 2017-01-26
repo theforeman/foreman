@@ -81,12 +81,12 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :compute_resources do |map|
     ajax_actions = [:test_connection]
-    map.permission :view_compute_resources, {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images],
+    map.permission :view_compute_resources, {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images, :refresh_cache],
                                                 :"api/v1/compute_resources" => [:index, :show],
                                                 :"api/v2/compute_resources" => [:index, :show, :available_images, :available_clusters, :available_folders,
                                                                                 :available_flavors, :available_networks, :available_resource_pools,
                                                                                 :available_security_groups, :available_storage_domains, :available_zones,
-                                                                                :available_storage_pods]
+                                                                                :available_storage_pods, :refresh_cache]
     }
     map.permission :create_compute_resources, {:compute_resources => [:new, :create].push(*ajax_actions),
                                                 :"api/v1/compute_resources" => [:create],

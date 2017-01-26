@@ -399,6 +399,7 @@ Foreman::Application.routes.draw do
           get 'resource_pools'
           post 'ping'
           put 'associate'
+          put 'refresh_cache'
         end
         constraints(:id => /[^\/]+/) do
           resources :vms, :controller => "compute_resources_vms" do

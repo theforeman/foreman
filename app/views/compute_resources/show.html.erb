@@ -4,6 +4,7 @@
 <% title_actions display_link_if_authorized(_("Associate VMs"),
                                             hash_for_associate_compute_resource_path(:compute_resource_id => @compute_resource).merge(:auth_object => @compute_resource, :permission => 'edit_compute_resources'),
                                             :title => _("Associate VMs to Foreman hosts"), :method => :put, :class=>"btn btn-default"),
+(display_link_if_authorized(_('Refresh Cache'), hash_for_refresh_cache_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource), :method => :put, :class => "btn btn-default") if @compute_resource.respond_to?(:refresh_cache) && @compute_resource.caching_enabled),
    link_to_if_authorized(_('Edit'), hash_for_edit_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource), :class => "btn btn-default")  %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">

@@ -148,6 +148,18 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert !available_storage_domains.empty?
   end
 
+  context 'cache refreshing' do
+    test 'should refresh cache if supported' do
+      put :refresh_cache, { :id => compute_resources(:vmware).to_param }
+      assert_response :success
+    end
+
+    test 'should fail if unsupported' do
+      put :refresh_cache, { :id => compute_resources(:ovirt).to_param }
+      assert_response :unprocessable_entity
+    end
+  end
+
   context 'ec2' do
     setup do
       @ec2_object = Object.new

@@ -194,6 +194,21 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     end
   end
 
+  context 'compute resource cache' do
+    test 'should refresh the cache' do
+      @compute_resource = compute_resources(:vmware)
+      put :refresh_cache, {:id => @compute_resource.to_param}, set_session_user
+      assert_redirected_to compute_resource_url(@compute_resource)
+      assert_match /Successfully refreshed the cache/, flash[:notice]
+    end
+
+    test 'should not refresh the cache if unsupported' do
+      put :refresh_cache, {:id => @compute_resource.to_param}, set_session_user
+      assert_redirected_to compute_resource_url(@compute_resource)
+      assert_match /Failed to refresh the cache/, flash[:error]
+    end
+  end
+
   def set_session_user
     User.current = users(:admin) unless User.current
     SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
