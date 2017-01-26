@@ -23,6 +23,7 @@ module Api
       def_param_group :config_group do
         param :config_group, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
+          param :puppetclass_ids, Array
         end
       end
 

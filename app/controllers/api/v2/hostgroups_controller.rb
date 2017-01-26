@@ -41,6 +41,7 @@ module Api
           param :subnet_id, :number, :desc => N_('Subnet ID')
           param :domain_id, :number, :desc => N_('Domain ID')
           param :realm_id, :number, :desc => N_('Realm ID')
+          param :config_group_ids, Array, :desc => N_("IDs of associated config groups")
           Hostgroup.registered_smart_proxies.each do |name, options|
             param :"#{name}_id", :number, :desc => options[:api_description]
           end
