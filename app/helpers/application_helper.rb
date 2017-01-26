@@ -433,7 +433,13 @@ module ApplicationHelper
   end
 
   def hosts_count(resource_name = controller.resource_name)
-    @hosts_count ||= Host::Managed.reorder('').authorized.group("#{resource_name}_id").count
+    # If we are on /organizations or /locations, this allows to display the
+    # count for hosts not in the current organization & location.
+    hosts_scope = Host::Managed.reorder('')
+    if ['organization', 'location'].include? resource_name
+      hosts_scope = hosts_scope.unscoped
+    end
+    @hosts_count ||= hosts_scope.authorized.group("#{resource_name}_id").count
   end
 
   def webpack_dev_server
