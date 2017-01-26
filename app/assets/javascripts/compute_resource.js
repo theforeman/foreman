@@ -4,7 +4,7 @@ $(function() {
     var url = $(this).attr('data-url');
     $(this).load(url + ' table', function(response, status, xhr) {
       if (status == "error") {
-        $(this).closest(".tab-content").find("#spinner").html(Jed.sprintf(__("There was an error listing VMs: %(status)s %(statusText)s"), {status: xhr.status, statusText: xhr.statusText}));
+        $(this).html(Jed.sprintf(__("There was an error listing VMs: %(status)s %(statusText)s"), {status: xhr.status, statusText: xhr.statusText}));
       }
       else {
         tfm.tools.activateDatatables();
