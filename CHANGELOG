@@ -1,3 +1,13 @@
+2017-01-26	Dominic Cleal <dominic@cleal.org>
+	* Release 1.13.4
+	* templates - sync from community-templates
+
+2017-01-26	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #17808 - fix 'multipart form data' IE bug
+
+2017-01-18	Dominic Cleal <dominic@cleal.org>
+	* fixes #17979 - pin nokogiri for Ruby 2.0 compatibility
+
 2016-12-20	Dominic Cleal <dominic@cleal.org>
 	* Release 1.13.3
 	* templates - sync from community-templates
