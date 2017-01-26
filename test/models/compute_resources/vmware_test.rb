@@ -229,4 +229,44 @@ class VmwareTest < ActiveSupport::TestCase
     vm = mock('vm', :interfaces => [iface1, iface2])
     assert_equal host, as_admin { cr.associated_host(vm) }
   end
+
+  describe "vm_compute_attributes_for" do
+    before do
+      plain_attrs = {
+        :id => 'abc',
+        :cpus => 5
+      }
+      @vm = mock('vm')
+      @vm.stubs(:attributes).returns(plain_attrs)
+
+      @cr = compute_resources(:vmware)
+      @cr.stubs(:find_vm_by_uuid).returns(@vm)
+
+      vol1 = mock('vol1')
+      vol1.stubs(:attributes).returns({:vol => 1})
+      vol1.stubs(:size_gb).returns(4)
+      vol2 = mock('vol2')
+      vol2.stubs(:attributes).returns({:vol => 2})
+      vol2.stubs(:size_gb).returns(4)
+      @volumes = [
+        vol1,
+        vol2
+      ]
+    end
+
+    test "returns vm attributes without id" do
+      @vm.stubs(:volumes).returns(@volumes)
+
+      expected_attrs = {
+        :cpus => 5,
+        :volumes_attributes => {
+          "0" => { :vol => 1, :size_gb => 4 },
+          "1" => { :vol => 2, :size_gb => 4 }
+        }
+      }
+      attrs = @cr.vm_compute_attributes_for('abc')
+
+      assert_equal expected_attrs, attrs
+    end
+  end
 end

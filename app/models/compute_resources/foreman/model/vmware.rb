@@ -412,15 +412,24 @@ module Foreman::Model
       client.servers.new opts
     end
 
+    def save_vm(uuid, attr)
+      vm = find_vm_by_uuid(uuid)
+      vm.attributes.merge!(attr.deep_symbolize_keys)
+      #volumes are not part of vm.attributes so we have to set them seperately if needed
+      if attr.has_key?(:volumes_attributes)
+        vm.volumes.each do |vm_volume|
+          volume_attrs = attr[:volumes_attributes].values.detect {|vol| vol[:id] == vm_volume.id}
+          vm_volume.size_gb = volume_attrs[:size_gb]
+        end
+      end
+      vm.save
+    end
+
     def destroy_vm(uuid)
       find_vm_by_uuid(uuid).destroy :force => true
     rescue ActiveRecord::RecordNotFound
       # if the VM does not exists, we don't really care.
       true
-    end
-
-    def update_required?(old_attrs, new_attrs)
-      super(old_attrs.deep_merge(old_attrs) {|_,_,v| v.to_s}, new_attrs)
     end
 
     # === Power on
@@ -560,6 +569,12 @@ module Foreman::Model
     def firmware_mapping(firmware_type)
       return 'efi' if firmware_type == :uefi
       'bios'
+    end
+
+    def set_vm_volumes_attributes(vm, vm_attrs)
+      volumes = vm.volumes || []
+      vm_attrs[:volumes_attributes] = Hash[volumes.each_with_index.map { |volume, idx| [idx.to_s, volume.attributes.merge(:size_gb => volume.size_gb)] }]
+      vm_attrs
     end
   end
 end
