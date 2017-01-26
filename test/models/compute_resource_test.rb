@@ -264,7 +264,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
       @vm = mock()
       @vm.stubs(:attributes).returns(plain_attrs)
 
-      @cr = compute_resources(:vmware)
+      @cr = compute_resources(:ovirt)
       @cr.stubs(:find_vm_by_uuid).returns(@vm)
 
       vol1 = mock()
@@ -349,6 +349,22 @@ class ComputeResourceTest < ActiveSupport::TestCase
       host = FactoryGirl.build(:host, :interfaces => [physical_nic, virtual_nic])
       nic_attributes = @cr.host_interfaces_attrs(host).values.select(&:present?)
       assert_equal '1', nic_attributes.first[:id]
+    end
+  end
+
+  context '#update_required?' do
+    let(:compute_resource) { compute_resources(:mycompute) }
+
+    test 'should not require an update if hashes are equal' do
+      old_attrs = {:a => 'b', 'c' => {:a => '1', :d => 3}}
+      new_attrs = {:a => 'b', :c => {'a' => 1}}
+      assert_equal false, compute_resource.update_required?(old_attrs, new_attrs)
+    end
+
+    test 'should require an update if hashes are different' do
+      old_attrs = {:a => 'b', 'c' => {:a => '1', :d => 3}}
+      new_attrs = {:a => 'b', :c => {'a' => 2}}
+      assert_equal true, compute_resource.update_required?(old_attrs, new_attrs)
     end
   end
 end

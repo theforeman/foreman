@@ -14,7 +14,7 @@
 <%= text_f f, :name, :class => "col-md-2", :label => _("Name"), :label_size => "col-md-2", :disabled => !new_host %>
 <%= text_f f, :size_gb,
            :class       => "col-md-2",
-           :label => _("Size (GB)"), :label_size => "col-md-2", :disabled => !new_host %>
+           :label => _("Size (GB)"), :label_size => "col-md-2" %>
 <%= checkbox_f f, :thin, {
            :label => _("Thin provision"), :label_size => "col-md-2", :disabled => !new_host},
            "true",
