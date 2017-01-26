@@ -7,4 +7,6 @@
 <%= checkbox_f f, :set_console_password, :checked => f.object.set_console_password?,
                   :label => _("Console passwords"),
                   :help_inline => _("Set a randomly generated password on the display connection") %>
+<%= checkbox_f f, :caching_enabled, :label => _("Enable caching"),
+                  :help_inline => _("Cache slow calls to VMWare to speed up page rendering") %>
 <%= f.hidden_field(:pubkey_hash) if f.object.uuid.present? %>

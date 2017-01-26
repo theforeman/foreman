@@ -47,7 +47,8 @@ module Foreman::Controller::Parameters::ComputeResource
         filter.permit :datacenter,
           :pubkey_hash,
           :server,
-          :uuid
+          :uuid,
+          :caching_enabled
 
         add_taxonomix_params_filter(filter)
       end

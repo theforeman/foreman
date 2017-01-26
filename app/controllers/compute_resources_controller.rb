@@ -4,7 +4,7 @@ class ComputeResourcesController < ApplicationController
 
   AJAX_REQUESTS = [:template_selected, :cluster_selected, :resource_pools]
   before_action :ajax_request, :only => AJAX_REQUESTS
-  before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping] + AJAX_REQUESTS
+  before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping, :refresh_cache] + AJAX_REQUESTS
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
@@ -73,6 +73,20 @@ class ComputeResourcesController < ApplicationController
     end
   end
 
+  def refresh_cache
+    if @compute_resource.respond_to?(:refresh_cache) && @compute_resource.refresh_cache
+      process_success(
+        :success_msg => _('Successfully refreshed the cache.'),
+        :success_redirect => @compute_resource
+      )
+    else
+      process_error(
+        :error_msg => _('Failed to refresh the cache.'),
+        :redirect => @compute_resource
+      )
+    end
+  end
+
   #ajax methods
   def provider_selected
     @compute_resource = ComputeResource.new_provider :provider => params[:provider]
@@ -125,7 +139,7 @@ class ComputeResourcesController < ApplicationController
     case params[:action]
       when 'associate'
         'edit'
-      when 'ping', 'template_selected', 'cluster_selected', 'resource_pools'
+      when 'ping', 'template_selected', 'cluster_selected', 'resource_pools', 'refresh_cache'
         'view'
       else
         super

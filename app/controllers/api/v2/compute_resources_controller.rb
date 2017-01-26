@@ -10,7 +10,7 @@ module Api
       before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_clusters, :available_flavors, :available_folders,
                                               :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
-                                              :available_zones, :available_storage_pods]
+                                              :available_zones, :available_storage_pods, :refresh_cache]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -41,6 +41,7 @@ module Api
           param :server, String, :desc => N_("for VMware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
           param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt only')
+          param :caching_enabled, :bool, :desc => N_('enable caching, for VMware only')
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
@@ -162,11 +163,21 @@ module Api
         render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :PUT, "/compute_resources/:id/refresh_cache/", N_("Refresh Compute Resource Cache")
+      param :id, :identifier, :required => true
+      def refresh_cache
+        if @compute_resource.respond_to?(:refresh_cache) && @compute_resource.refresh_cache
+          render_message(_('Successfully refreshed the cache.'))
+        else
+          render_message(_('Failed to refresh the cache.'), :status => :unprocessable_entity)
+        end
+      end
+
       private
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'available_zones', 'associate', 'available_storage_pods'
+          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'available_zones', 'associate', 'available_storage_pods', 'refresh_cache'
             :view
           else
             super

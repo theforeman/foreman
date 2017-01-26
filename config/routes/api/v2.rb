@@ -270,6 +270,7 @@ Foreman::Application.routes.draw do
           get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member
           get :available_zones, :on => :member
           put :associate, :on => :member
+          put :refresh_cache, :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
           resources :compute_attributes, :only => [:create, :update]
