@@ -29,6 +29,11 @@ class ComputeAttributeTest < ActiveSupport::TestCase
     end
   end
 
+  test "#provider_friendly_name" do
+    refute_nil @set.provider_friendly_name
+    assert_equal(@compute_resource.provider_friendly_name, @set.provider_friendly_name)
+  end
+
   describe "vm_interfaces" do
     test "returns array of interface attributes" do
       set = compute_attributes(:with_interfaces)
