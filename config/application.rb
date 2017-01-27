@@ -247,7 +247,7 @@ module Foreman
         if defined?(ForemanTasks)
           ForemanTasks.dynflow
         else
-          ::Dynflow::Rails.new(nil, Foreman::Dynflow::Configuration.new)
+          ::Dynflow::Rails.new(nil, ::Foreman::Dynflow::Configuration.new)
         end
       @dynflow.require!
       @dynflow
