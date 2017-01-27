@@ -10,7 +10,6 @@ module TaxonomiesBaseTest
 
     setup do
       User.current = users :admin
-      taxonomy_class.current = nil # Any context
     end
 
     test 'name can be the same if parent is different' do
@@ -403,8 +402,9 @@ module TaxonomiesBaseTest
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       assert_empty taxonomy.ignore_types
       taxonomy.ignore_types << 'Environment'
-      taxonomy_class.current = taxonomy
-      assert taxonomy_class.ignore?('Environment')
+      in_taxonomy(taxonomy) do
+        assert taxonomy_class.ignore?('Environment')
+      end
     end
 
     test "'no current Taxonomy' is understood as 'any taxonomy'" do
