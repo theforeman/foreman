@@ -1,5 +1,6 @@
 import AppDispatcher from '../dispatcher';
-import {ACTIONS} from '../constants';
+import { ACTIONS, STATUS } from '../constants';
+import NotificationActions from './NotificationActions';
 
 export default {
   receivedStatistics(rawStatistics, textStatus, jqXHR) {
@@ -35,6 +36,7 @@ export default {
     });
   },
  receivedNotifications(response, textStatus, jqXHR) {
+   NotificationActions.setRequestStatus(STATUS.RESOLVED);
     AppDispatcher.dispatch({
       actionType: ACTIONS.RECEIVED_NOTIFICATIONS,
       notifications: response.notifications
@@ -42,8 +44,9 @@ export default {
   },
 
   notificationsRequestError(jqXHR, textStatus, errorThrown) {
+    NotificationActions.setRequestStatus(STATUS.ERROR);
     AppDispatcher.dispatch({
-      actionType: ACTIONS.NOTIFICATIONSS_REQUEST_ERROR, info: {
+      actionType: ACTIONS.NOTIFICATIONS_REQUEST_ERROR, info: {
         jqXHR: jqXHR,
         textStatus: textStatus,
         errorThrown: errorThrown

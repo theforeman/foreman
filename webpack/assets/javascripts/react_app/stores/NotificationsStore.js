@@ -1,10 +1,11 @@
 import AppDispatcher from '../dispatcher';
-import { ACTIONS } from '../constants';
+import { ACTIONS, STATUS } from '../constants';
 import AppEventEmitter from './AppEventEmitter';
 import moment from 'moment';
 
 let _notifications = {};
 let _expandedTab = null;
+let _requestStatus = STATUS.RESOLVED;
 
 class NotificationsEventEmitter extends AppEventEmitter {
   constructor() {
@@ -23,6 +24,10 @@ class NotificationsEventEmitter extends AppEventEmitter {
 
   getExpandedGroup() {
     return _expandedTab;
+  }
+
+  getRequestStatus() {
+    return _requestStatus;
   }
 
   prepareNotifications(notifications) {
@@ -81,6 +86,11 @@ AppDispatcher.register(action => {
         _expandedTab = action.expand;
       }
       NotificationsStore.emitChange(action.actionType);
+      break;
+    }
+
+    case ACTIONS.NOTIFICATIONS_SET_REQUEST_STATUS: {
+      _requestStatus = action.status;
       break;
     }
 
