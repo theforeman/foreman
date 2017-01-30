@@ -5,13 +5,13 @@
 # Translators:
 # Andi Chandler <andi@gowling.com>, 2016
 # Dominic Cleal <dominic@cleal.org>, 2013-2015
-# Dominic Cleal <dominic@cleal.org>, 2016
+# Dominic Cleal <dominic@cleal.org>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-12-14 09:53+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2017-01-12 08:32+0000\n"
+"Last-Translator: Dominic Cleal <dominic@cleal.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -8074,7 +8074,7 @@ msgstr "Member type"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Admin"
-msgstr ""
+msgstr "Administrator"
 
 msgid "Usergroup|Auth source"
 msgstr ""
