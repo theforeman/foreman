@@ -27,7 +27,7 @@ service network restart
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
 
-<% if @host.provision_method == 'image' && !root_pass.empty? -%>
+<% if @host.provision_method == 'image' && root_pass.present? -%>
 # Install the root password
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
