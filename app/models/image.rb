@@ -1,6 +1,6 @@
 class Image < ActiveRecord::Base
   include Authorizable
-
+  include Taxonomix
   audited
 
   belongs_to :operatingsystem
