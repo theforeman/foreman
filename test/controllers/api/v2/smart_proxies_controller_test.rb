@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'master02', :url => 'http://server:8443' }
+  include SmartProxiesControllerSharedTest
 
   setup do
     ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
@@ -90,35 +91,6 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, {:id => proxy}, set_session_user
     assert_response :unprocessable_entity
-  end
-
-  # same method as in EnvironmentsControllerTest
-  def setup_import_classes
-    as_admin do
-      Host::Managed.update_all(:environment_id => nil)
-      Hostgroup.update_all(:environment_id => nil)
-      HostClass.destroy_all
-      HostgroupClass.destroy_all
-      Puppetclass.destroy_all
-      Environment.destroy_all
-    end
-    # This is the database status
-    # and should result in a db_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
-    as_admin do
-      ["a", "b", "c"].each {|name| Puppetclass.create :name => name}
-      for name in ["env1", "env2"] do
-        e = Environment.create!(:name => name)
-        e.puppetclasses = Puppetclass.all
-      end
-    end
-    # This is the on-disk status
-    # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
-    envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
-    pcs = [HashWithIndifferentAccess.new("a" => { "name" => "a", "module" => nil, "params"=> {'key' => 'special'} })]
-    classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
-    Environment.expects(:puppetEnvs).returns(envs).at_least(0)
-    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
-    ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes)
   end
 
   # puppetmaster proxy - import_puppetclasses tests

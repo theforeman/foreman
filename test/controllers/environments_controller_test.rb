@@ -50,11 +50,13 @@ class EnvironmentsControllerTest < ActionController::TestCase
     @request.env["HTTP_REFERER"] = environments_url
     # This is the database status
     # and should result in a db_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
+    orgs = [taxonomies(:organization1)]
+    locs = [taxonomies(:location1)]
     as_admin do
-      ["a", "b", "c"].each {|name| Puppetclass.create :name => name}
-      for name in ["env1", "env2"] do
-        e = Environment.create!(:name => name)
-        e.puppetclasses += [Puppetclass.find_by_name("a"), Puppetclass.find_by_name("b"), Puppetclass.find_by_name("c")]
+      klasses = ["a", "b", "c"].map { |name| FactoryGirl.create :puppetclass, :name => name }
+      ["env1", "env2"].each do |name|
+        env = FactoryGirl.create :environment, :name => name, :organizations => orgs, :locations => locs
+        env.puppetclasses += klasses
       end
     end
     # This is the on-disk status

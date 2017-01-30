@@ -171,7 +171,15 @@ class PuppetClassImporter
   end
 
   def actual_environments
-    @proxy_envs ||= (proxy.environments.map(&:to_s) - ignored_environments)
+    (proxy_environments & (User.current.visible_environments + to_be_created_environments)) - ignored_environments
+  end
+
+  def proxy_environments
+    proxy.environments.map(&:to_s)
+  end
+
+  def to_be_created_environments
+    proxy_environments - Environment.where(:name => proxy_environments).pluck(:name)
   end
 
   def new_environments
