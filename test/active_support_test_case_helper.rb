@@ -12,6 +12,7 @@ class ActiveSupport::TestCase
 
   teardown :reconsider_gc_deferment
   teardown :clear_current_user
+  teardown :clear_current_taxonomies
   teardown :reset_setting_cache
 
   DEFERRED_GC_THRESHOLD = (ENV['DEFER_GC'] || 1.0).to_f
@@ -41,6 +42,11 @@ class ActiveSupport::TestCase
 
   def clear_current_user
     User.current = nil
+  end
+
+  def clear_current_taxonomies
+    Location.current = nil
+    Organization.current = nil
   end
 
   def reset_setting_cache
