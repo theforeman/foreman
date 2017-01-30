@@ -24,7 +24,9 @@
         :security_groups => vpc_security_group_hash(compute_resource.security_groups),
         :subnets => subnet_vpc_hash(compute_resource.subnets)
       },
-      :class => 'security_group_ids' } %>
+      :class => 'security_group_ids without_select2'
+    }
+  %>
 <% end %>
 
 <%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP"), :label_size => "col-md-2" } %>
