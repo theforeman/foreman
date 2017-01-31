@@ -95,6 +95,8 @@ ProvisioningTemplate.without_auditing do
     contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 
     if (t = ProvisioningTemplate.unscoped.find_by_name(input[:name])) && !audit_modified?(ProvisioningTemplate, input[:name])
+      next if t.global_default?
+
       if t.template != contents
         t.template = contents
         raise "Unable to update template #{t.name}: #{format_errors t}" unless t.save
