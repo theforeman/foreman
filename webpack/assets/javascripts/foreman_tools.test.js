@@ -48,3 +48,12 @@ describe('activateTooltips', () => {
     expect($.fn.tooltip).toHaveBeenCalledTimes(3);
   });
 });
+
+/* eslint-disable no-console, max-len */
+describe('deprecate', () => {
+  it('Logs the correct deprecation message', () => {
+    console.warn = jest.fn();
+    tools.deprecate('oldtest', 'tfm.tools.newtest', '1.42');
+    expect(console.warn).toHaveBeenCalledWith('DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.');
+  });
+});
