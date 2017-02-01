@@ -39,8 +39,8 @@ module Api
 
     rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
-    def get_resource
-      instance_variable_get(:"@#{resource_name}") || raise('no resource loaded')
+    def get_resource(message = "Couldn't find resource")
+      instance_variable_get(:"@#{resource_name}") || raise(message)
     end
 
     def controller_permission
@@ -121,7 +121,7 @@ module Api
     end
 
     def process_resource_error(options = { })
-      resource = options[:resource] || get_resource
+      resource = options[:resource] || get_resource(options[:message])
 
       raise 'resource have no errors' if resource.errors.empty?
 
