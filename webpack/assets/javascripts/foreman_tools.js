@@ -46,3 +46,8 @@ export function activateTooltips(el = 'body') {
   el.find('*[title]').not('*[rel]').tooltip({ container: 'body' });
   $(document).on('page:restore', () => {$('.tooltip.in').remove();});
 }
+
+/* eslint-disable no-console, max-len */
+export function deprecate(oldMethod, newMethod, version = '1.17') {
+  console.warn(`DEPRECATION WARNING: you are using deprecated ${oldMethod}, it will be removed in Foreman ${version}. Use ${newMethod} instead.`);
+}
