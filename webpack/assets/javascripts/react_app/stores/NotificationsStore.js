@@ -4,7 +4,6 @@ import AppEventEmitter from './AppEventEmitter';
 import moment from 'moment';
 
 let _notifications = {};
-let _expandedTab = null;
 let _requestStatus = STATUS.RESOLVED;
 
 class NotificationsEventEmitter extends AppEventEmitter {
@@ -23,7 +22,9 @@ class NotificationsEventEmitter extends AppEventEmitter {
   }
 
   getExpandedGroup() {
-    return _expandedTab;
+    const value = window.sessionStorage.getItem('expandedGroup') || null;
+
+    return JSON.parse(value);
   }
 
   getRequestStatus() {
@@ -80,11 +81,14 @@ AppDispatcher.register(action => {
     }
 
     case ACTIONS.NOTIFICATIONS_EXPAND_DRAWER_TAB: {
-      if (_expandedTab === action.expand) {
-        _expandedTab = null;
+      let expandedTab = NotificationsStore.getExpandedGroup();
+
+      if (expandedTab === action.expand) {
+        window.sessionStorage.setItem('expandedGroup', JSON.stringify(null));
       } else {
-        _expandedTab = action.expand;
+        window.sessionStorage.setItem('expandedGroup', JSON.stringify(action.expand));
       }
+
       NotificationsStore.emitChange(action.actionType);
       break;
     }

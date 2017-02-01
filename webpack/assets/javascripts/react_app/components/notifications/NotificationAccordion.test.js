@@ -6,8 +6,10 @@ import { shallow } from 'enzyme';
 import NotificationAccordion from './NotificationAccordion';
 import testData from '../../stores/NotificationsTestData';
 import NotificationsStore from '../../stores/NotificationsStore';
+import testHelpers from '../../common/testHelpers';
 
 function setup(data) {
+  global.sessionStorage = testHelpers.mockStorage();
   return shallow(<NotificationAccordion notifications={data}/>);
 }
 
