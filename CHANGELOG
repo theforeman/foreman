@@ -1,3 +1,81 @@
+2017-02-01	Dominic Cleal <dominic@cleal.org>
+	* Release 1.14.1
+
+2017-02-01	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18040 - URL escape PuppetCA CN on proxy view
+	* Fixes #18260 - Display proper organizations count on table
+
+2017-02-01	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #18126 - Fix security groups select for EC2 form
+
+2017-01-30	Dominic Cleal <dominic@cleal.org>
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+	* fixes #18024 - add 'image' search field to hosts
+
+2017-01-30	Timo Goebel <mail@timogoebel.name>
+	* fixes #18250 - show compute resource xhr errors
+
+2017-01-30	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #17681 - Switch to newly created taxonomy
+
+2017-01-30	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #18213 - Added webpack folder to string extraction
+	* Fixes #17855 - reflect changes to template on image selection
+
+2017-01-30	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #4519, #9531 - Correctly handle invalid host name changes
+	* Fixes #10957 - Correctly handle to_gb when no unit given
+	* Fixes #17627 - remove tooltips after clicking back
+	* Fixes #17597 - Prevent error on saving empty dashboard
+
+2017-01-30	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17998 - Only print LDAP bind status if available
+	* Fixes #17864 - Show smart proxy errors on unattended fail
+	* Fixes #17904 - Show tooltips for long proxy log messages
+	* Fixes #17858 - OpenStack scheduler doesn't show spinner
+
+2017-01-30	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #17438 - Disable selecting IPv6 on import
+	* Fixes #17842 - Adds 'type = compute_resource' to Audit search
+	* Fixes #17813 - Add type=LookupValue to Audit search
+
+2017-01-30	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16782 - reset dhcp record cache after mac change
+	* Fixes #17623 - include model in metadata
+
+2017-01-30	Amit Karsale <karsale.amit@gmail.com>
+	* Fixes #13775 - merge if data set is present
+
+2017-01-30	orrabin <orabin@redhat.com>
+	* Fixes #17870 - Empty boolean matcher should not turn into false
+
+2017-01-30	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #17808 - fix 'multipart form data' IE bug
+
+2017-01-30	Sean O\'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #17683 - Wrong resource type in HG AJAX permission check
+
+2017-01-30	Guido Günther <agx@sigxcpu.org>
+	* Fixes #17641 - Use force when destroying VMs
+
+2017-01-30	kgaikwad <kavitagaikwad103@gmail.com>
+	* fixes #17630 - show tooltips after deselecting selected item
+
+2017-01-30	Ivan Necas <inecas@redhat.com>
+	* Fixes #5483,#11106 - pass the virtualswitch value to fog
+
+2017-01-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17632 - Reports widget will not fail on ambiguous filter
+	* Fixes #17570 - Only execute `onContentLoad` once per page
+
+2017-01-30	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #17636 - token no longer needed for proxied preview
+	* Fixes #17042 - add logging of task statuses after orchestration
+
+2017-01-30	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #17592 - dont truncate on audit details page
+
 2017-01-13	Dominic Cleal <dominic@cleal.org>
 	* Release 1.14.0
 	* fixes #17979 - pin nokogiri for Ruby 2.0 compatibility
