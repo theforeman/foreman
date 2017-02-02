@@ -2,6 +2,8 @@ import React from 'react';
 import StatisticsChartsList from '../components/charts/StatisticsChartsList';
 import PowerStatus from '../components/hosts/powerStatus/';
 import NotificationContainer from '../components/notifications/';
+import ToastNotificationsContainer from
+'../components/notifications/toast/ToastNotificationsContainer';
 import ReactDOM from 'react-dom';
 import store from '../redux';
 export function mount(component, selector, data) {
@@ -18,7 +20,11 @@ export function mount(component, selector, data) {
     NotificationContainer: {
       type: NotificationContainer,
       markup: <NotificationContainer store={store} data={data} />
-    }
+    },
+    ToastNotifications: {
+     type: ToastNotificationsContainer,
+     markup: <ToastNotificationsContainer/>
+   }
   };
 
   const reactNode = document.querySelector(selector);

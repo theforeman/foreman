@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
+class ParametersPermissionsIntegrationTest < IntegrationTestWithJavascript
   setup do
     role = FactoryGirl.create(:role)
     @filter = FactoryGirl.create(:filter,
