@@ -398,6 +398,7 @@ module Foreman::Model
         clone_vm(args)
       else
         vm = new_vm(args)
+        vm.firmware = 'bios' if vm.firmware == 'automatic'
         vm.save
       end
     rescue Fog::Errors::Error => e
