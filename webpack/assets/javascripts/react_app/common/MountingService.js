@@ -3,6 +3,8 @@ import StatisticsChartsList from '../components/charts/StatisticsChartsList';
 import PowerStatusContainer from '../components/hosts/PowerStatusContainer';
 import NotificationDrawerToggle from '../components/notifications/NotificationDrawerToggle';
 import NotificationDrawer from '../components/notifications/NotificationDrawer';
+import ToastNotificationsContainer from
+'../components/notifications/toast/ToastNotificationsContainer';
 import ReactDOM from 'react-dom';
 
 export function mount(component, selector, data) {
@@ -23,7 +25,11 @@ export function mount(component, selector, data) {
     NotificationDrawer: {
       type: NotificationDrawer,
       markup: <NotificationDrawer data={data} />
-    }
+    },
+    ToastNotifications: {
+     type: ToastNotificationsContainer,
+     markup: <ToastNotificationsContainer/>
+   }
   };
 
   const reactNode = document.querySelector(selector);

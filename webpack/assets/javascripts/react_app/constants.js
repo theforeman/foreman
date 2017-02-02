@@ -9,7 +9,9 @@ export const ACTIONS = {
   NOTIFICATIONS_EXPAND_DRAWER_TAB: 'NOTIFICATIONS_EXPAND_DRAWER_TAB',
   NOTIFICATIONS_MARK_AS_READ: 'NOTIFICATIONS_MARK_AS_READ',
   NOTIFICATIONS_MARKED_AS_READ: 'NOTIFICATIONS_MARKED_AS_READ',
-  NOTIFICATIONS_SET_REQUEST_STATUS: 'NOTIFICATIONS_SET_REQUEST_STATUS'
+  NOTIFICATIONS_SET_REQUEST_STATUS: 'NOTIFICATIONS_SET_REQUEST_STATUS',
+  RECEIVED_TOAST_NOTIFICATIONS: 'RECEIVED_TOAST_NOTIFICATIONS',
+  REMOVE_TOAST_NOTIFICATIONS: 'REMOVE_TOAST_NOTIFICATIONS'
 };
 
 export const STATUS = {
@@ -23,5 +25,14 @@ export const ICON_CSS = {
   success: 'pficon pficon-ok',
   info: 'pficon pficon-info',
   warning: 'pficon pficon-warning-triangle-o',
-  error: 'pficon pficon-error-circle-o'
+  error: 'pficon pficon-error-circle-o',
+  close: 'pficon pficon-close'
+};
+
+export const ALERT_CSS = {
+  success: 'alert alert-success',
+  info: 'alert alert-info',
+  warning: 'alert alert-warning',
+  error: 'alert alert-danger',
+  dismissable: 'alert-dismissable'
 };

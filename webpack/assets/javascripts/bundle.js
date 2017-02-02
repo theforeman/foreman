@@ -17,6 +17,7 @@ window.tfm = Object.assign(
     users: require('./foreman_users'),
     trends: require('./foreman_trends'),
     hostgroups: require('./foreman_hostgroups'),
+    toastNotifications: require('./foreman_toast_notifications'),
     numFields: require('./jquery.ui.custom_spinners'),
     reactMounter: require('./react_app/common/MountingService')
   }
