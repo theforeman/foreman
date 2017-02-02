@@ -35,12 +35,12 @@ function remove_widget(item){
             type: 'DELETE',
             url: $(item).data('url'),
             success: function(){
-                $.jnotify(__("Widget removed from dashboard."), 'success', false);
+                tfm.toastNotifications.notify(__("Widget removed from dashboard."), 'success');
                 gridster.remove_widget(widget);
                 window.location.reload();
             },
             error: function(){
-                $.jnotify(__("Error removing widget from dashboard."), 'error', true);
+                tfm.toastNotifications.notify(__("Error removing widget from dashboard."), 'error');
             },
         });
     }
@@ -52,11 +52,11 @@ function add_widget(name){
         url: 'widgets',
         data: {'name': name},
         success: function(){
-            $.jnotify(__("Widget added to dashboard."), 'success', false);
+            tfm.toastNotifications.notify(__("Widget added to dashboard."), 'success');
             window.location.reload();
         },
         error: function(){
-            $.jnotify(__("Error adding widget to dashboard."), 'error', true);
+            tfm.toastNotifications.notify(__("Error adding widget to dashboard."), 'error');
         },
         dataType: 'json'
     });
@@ -69,10 +69,10 @@ function save_position(path){
         url: path,
         data: {'widgets': positions},
         success: function(){
-            $.jnotify(__("Widget positions successfully saved."), 'success', false);
+            tfm.toastNotifications.notify(__("Widget positions successfully saved."), 'success');
         },
         error: function(){
-            $.jnotify(__("Failed to save widget positions."), 'error', true);
+            tfm.toastNotifications.notify(__("Failed to save widget positions."), 'error');
         },
         dataType: 'json'
     });
