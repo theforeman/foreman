@@ -194,11 +194,11 @@ module Foreman::Model
         :openstack_tenant   => tenant,
         :openstack_identity_endpoint => url,
         :openstack_user_domain       => domain,
-        :openstack_endpoint_type     => "publicURL",
-      }.tap { |h| h.merge!(
-        :openstack_domain_name       => domain,
-        :openstack_project_name      => tenant,
-        ) if tenant }
+        :openstack_endpoint_type     => "publicURL"
+      }.tap do |h|
+        h.merge!(:openstack_domain_name  => domain,
+                 :openstack_project_name => tenant) if tenant
+      end
     end
 
     def identity_client
@@ -218,7 +218,6 @@ module Foreman::Model
     def volume_client
       @volume_client ||= ::Fog::Volume.new(fog_credentials)
     end
-
 
     def vm_instance_defaults
       super.merge(:key_name => key_pair.name)
