@@ -40,13 +40,17 @@ function readFromCookie() {
 }
 
 function toggle_actions() {
-  var dropdown = $("#submit_multiple a");
+  var dropDownContainer = $("#submit_multiple");
+  var dropdown = dropDownContainer.find("a");
+  var disabledMessage = __("Please select hosts to perform action on.");
   if ($.foremanSelectedHosts.length == 0) {
-    dropdown.addClass("disabled hide");
+    dropdown.addClass("disabled");
     dropdown.attr('disabled', 'disabled');
+    dropDownContainer.attr('title', disabledMessage);
   } else {
-    dropdown.removeClass("disabled hide");
+    dropdown.removeClass("disabled");
     dropdown.removeAttr('disabled');
+    dropDownContainer.removeAttr('title');
   }
 }
 
