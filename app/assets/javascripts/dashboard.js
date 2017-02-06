@@ -11,7 +11,7 @@ function auto_refresh(){
   if (element[0]) {
     refresh_timeout = setTimeout(function(){
       if ($(".auto-refresh").hasClass("on")) {
-        Turbolinks.visit(location.toString());
+        history.go(0);
       }
     },60000);
   }
