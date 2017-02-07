@@ -273,8 +273,10 @@ module Api
     def set_error_details(error, options)
       case error
       when 'access_denied'
+        fail_message = _('Missing one of the required permissions: %s') % missing_permissions.map(&:name).join(', ')
+        Foreman::Logging.logger('permissions').info fail_message
         if options.fetch(:locals, {}).fetch(:details, nil).blank?
-          options = options.deep_merge({:locals => {:details => _('Missing one of the required permissions: %s') % missing_permissions.map(&:name).join(', ') }})
+          options = options.deep_merge({:locals => {:details => fail_message }})
         end
       end
       options
