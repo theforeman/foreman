@@ -1,0 +1,18 @@
+<tr class="fields">
+  <td>
+    <%= text_f f, :name, :value => "", :no_label => true,
+               :help_inline => :indicator,
+               :size => "col-md-11" %>
+  </td>
+  <td>
+    <%= select_f f, :domain_id, accessible_resource(f.object, :domain), :id, :to_label,
+                 { :include_blank => accessible_resource(f.object, :domain).any? ? true : _("No domains") },
+                 { :disabled => accessible_resource(f.object, :domain).empty? ? true : false,
+                   :help_inline => :indicator, :no_label => true,
+                   :'data-url' => domain_selected_hosts_path,
+                   :size => "col-md-11" } %>
+  </td>
+  <td>
+      <%= link_to_remove_fields(_('remove'), f) %>
+  </td>
+</tr>

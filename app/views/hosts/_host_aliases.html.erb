@@ -1,0 +1,17 @@
+<div class="col-md-offset-2" id="host_aliases">
+  <table class="table" id="host_aliases_table">
+    <thead class="white-header">
+    <tr>
+      <th class='col-md-3'><%= _("Host alias") %></th>
+      <th class='col-md-7'><%= _("Domain") %></th>
+      <th class='col-md-2 ca'><%= _('Actions') %></th>
+    </tr>
+    </thead>
+    <tbody>
+      <%= f.fields_for :host_aliases do |builder| %>
+        <%= render "hosts/host_alias", :f => builder %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to_add_fields('+ ' + _("Add host alias"), f, :host_aliases, "hosts/host_alias", :target => '#host_aliases_table tbody') %>
+</div>

@@ -41,6 +41,13 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       assert page.has_link?("Parameters", :href => "#params")
       assert page.has_link?("Additional Information", :href => "#info")
     end
+
+#    test 'host alias' do
+#      visit new_host_path
+#      click_link 'Interfaces'
+#      click_link '#showModal'
+#      assert class_params.find('textarea').disabled?
+#    end
   end
 
   test "destroy redirects to hosts index" do

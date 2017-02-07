@@ -25,6 +25,8 @@ module Foreman::Controller::Parameters::NicBase
         :virtual,
         {:attached_devices => []},
         {:compute_attributes => [:bridge, :from_profile, :model, :network, :type, :name]},
+        :host_aliases => [host_alias_params_filter],
+        :host_aliases_attributes => [host_alias_params_filter],
         :nested => true
 
       filter.permit_by_context :id,
