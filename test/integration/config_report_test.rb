@@ -30,6 +30,6 @@ class ConfigReportIntegrationTest < ActionDispatch::IntegrationTest
   test "adrift report displays warning" do
     report = FactoryGirl.create(:report, :adrift)
     visit config_report_path(report)
-    assert has_content?('Host times seems to be adrift!')
+    assert has_content?('Host times seem to be adrift!')
   end
 end
