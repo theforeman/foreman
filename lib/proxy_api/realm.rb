@@ -9,6 +9,7 @@ module ProxyAPI
     # [+args+] : Hash containing at a minimum :hostname
     # Returns  : JSON Result
     def create(args)
+      logger.info "Create realm entry #{args[:hostname]}"
       parse(post(args, ""))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to create realm entry"))
@@ -18,6 +19,7 @@ module ProxyAPI
     # [+key+] : String containing the hostname
     # Returns : Boolean status
     def delete(key)
+      logger.info "Delete realm entry #{key}"
       parse(super(key))
     rescue
       # maybe the entry was already deleted
