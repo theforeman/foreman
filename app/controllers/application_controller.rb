@@ -242,10 +242,10 @@ class ApplicationController < ActionController::Base
   def render_403(msg = nil)
     if msg.nil?
       @missing_permissions = Foreman::AccessControl.permissions_for_controller_action(path_to_authenticate)
-      Foreman::Logging.logger('permissions').debug "rendering 403 because of missing permission #{@missing_permissions.map(&:name).join(', ')}"
+      Foreman::Logging.logger('permissions').info "rendering 403 because of missing permission #{@missing_permissions.map(&:name).join(', ')}"
     else
       @missing_permissions = []
-      Foreman::Logging.logger('permissions').debug msg
+      Foreman::Logging.logger('permissions').info msg
     end
 
     respond_to do |format|
