@@ -1,4 +1,4 @@
-require "net/validations"
+require_dependency "net/validations"
 
 module Net
   class Record

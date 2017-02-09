@@ -1,5 +1,3 @@
-require 'api_constraints'
-
 Foreman::Application.routes.draw do
   resources :mail_notifications, :only => [] do
     collection do

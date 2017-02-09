@@ -1,4 +1,4 @@
-require 'foreman/util'
+require_dependency 'foreman/util'
 
 namespace :security do
   desc 'Generate new encryption key'
