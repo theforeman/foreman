@@ -174,6 +174,9 @@ Foreman::Application.routes.draw do
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         end
         resources :users, :except => [:new, :edit]
+        member do
+          post :clone
+        end
       end
       resources :permissions, :only => [:index, :show] do
         collection do

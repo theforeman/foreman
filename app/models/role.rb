@@ -21,7 +21,6 @@ class Role < ActiveRecord::Base
   friendly_id :name
 
   include Parameterizable::ByIdName
-
   # Built-in roles
   BUILTIN_DEFAULT_ROLE = 2
   audited
@@ -143,6 +142,13 @@ class Role < ActiveRecord::Base
 
   def disable_filters_overriding
     self.filters.where(:override => true).map { |filter| filter.disable_overriding! }
+  end
+
+  def clone(role_params = {})
+    new_role = self.deep_clone(:except  => [:name, :builtin],
+                               :include => [:locations, :organizations, { :filters => :permissions }])
+    new_role.attributes = role_params
+    new_role
   end
 
   private

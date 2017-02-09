@@ -89,8 +89,7 @@ class RolesController < ApplicationController
 
   def role_from_form
     if cloning?
-      new_role = Role.find(params[:original_role_id]).
-                   deep_clone(:include => [:filters => :filterings])
+      new_role = Role.find(params[:original_role_id]).clone
       new_role.name = params[:role][:name]
       new_role.organization_ids = params[:role][:organization_ids]
       new_role.location_ids = params[:role][:location_ids]

@@ -590,7 +590,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :view_roles,    {:roles => [:index, :auto_complete_search],
                                     :'api/v2/roles' => [:index, :show]}
     map.permission :create_roles,  {:roles => [:new, :create, :clone],
-                                    :'api/v2/roles' => [:create]}
+                                    :'api/v2/roles' => [:create, :clone]}
     map.permission :edit_roles,    {:roles => [:edit, :update, :disable_filters_overriding],
                                     :'api/v2/roles' => [:update]}
     map.permission :destroy_roles, {:roles => [:destroy],
