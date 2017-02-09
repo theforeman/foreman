@@ -38,7 +38,11 @@ class ComputeAttribute < ActiveRecord::Base
 
   def pretty_vm_attrs
     # vm_description is defined in FogExtensions for each compute resource
-    @pretty_vm_attrs ||= new_vm.try(:vm_description)
+    if defined? vm_description
+      @pretty_vm_attrs ||= new_vm.try(:vm_description)
+    else
+      @pretty_vm_attrs ||= new_vm.try(:description)
+    end
   end
 
   private
