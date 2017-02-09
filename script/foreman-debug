@@ -142,13 +142,13 @@ UPLOAD=0
 UPLOAD_DISABLED=0
 
 if type -p xz >/dev/null; then
-  COMPRESS="xz -9"
+  COMPRESS="xz -1"
   EXTENSION=".xz"
 elif type -p bzip2 >/dev/null; then
-  COMPRESS="bzip2 -9"
+  COMPRESS="bzip2 -1"
   EXTENSION=".bz2"
 elif type -p gzip >/dev/null; then
-  COMPRESS="gzip -9"
+  COMPRESS="gzip -5"
   EXTENSION=".gz"
 else
   COMPRESS="cat"
