@@ -454,6 +454,8 @@ module Foreman::Model
         "resource_pool" => [args[:cluster], args[:resource_pool]]
       }
 
+      opts['transform'] = args[:volumes].first[:thin] == 'true' ? 'sparse' : 'flat' unless args[:volumes].empty?
+
       vm_model = new_vm(raw_args)
       opts['interfaces'] = vm_model.interfaces
       opts['volumes'] = vm_model.volumes
