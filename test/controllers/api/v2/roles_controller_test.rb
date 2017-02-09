@@ -37,4 +37,86 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "should clone role and its permissions" do
+    new_name = "New Manager"
+    manager = Role.find_by :name => "Manager"
+    perm_count = manager.permissions.count
+    post :clone, { :name => "New Manager", :id => manager.id }
+    assert_response :success
+    r = Role.find_by :name => new_name
+    assert_equal perm_count, r.permissions.count
+  end
+
+  test "should clone role and its taxonomies" do
+    new_name = "New Role"
+    loc = Location.first
+    org = Organization.first
+    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org])
+    post :clone, { :id => role.id, :role => { :name => new_name } }
+    assert_response :success
+    r = Role.find_by :name => new_name
+    assert_equal 1, r.organizations.count
+    assert_equal 1, r.locations.count
+    assert_equal org, r.organizations.first
+    assert_equal loc, r.locations.first
+  end
+
+  test "should override attributes when clonning" do
+    new_name = "New Role"
+    loc = taxonomies(:location1)
+    org = taxonomies(:organization1)
+    desc = "default description"
+    new_org = taxonomies(:organization2)
+    new_loc = taxonomies(:location2)
+    new_desc = "updated description"
+    new_role = { :description => new_desc, :location_ids => [new_loc.id], :organization_ids => [new_org.id], :name => new_name }
+    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
+    post :clone, { :new_name => new_name,
+                   :id => role.id,
+                   :role => new_role }
+    assert_response :success
+    cloned_role = Role.find_by :name => new_name
+    assert cloned_role
+    assert_equal new_org, cloned_role.organizations.first
+    assert_equal new_loc, cloned_role.locations.first
+    assert_equal new_desc, cloned_role.description
+  end
+
+  test "should override organizations and leave locations alone when clonning" do
+    new_name = "New Role"
+    loc = taxonomies(:location1)
+    org = taxonomies(:organization1)
+    desc = "default description"
+    new_org = taxonomies(:organization2)
+    new_desc = "updated description"
+    new_role = { :description => new_desc, :organization_ids => [new_org.id], :name => new_name }
+    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
+    post :clone, { :new_name => new_name,
+                   :id => role.id,
+                   :role => new_role }
+    assert_response :success
+    cloned_role = Role.find_by :name => new_name
+    assert cloned_role
+    assert_equal new_org, cloned_role.organizations.first
+    assert_equal loc, cloned_role.locations.first
+    assert_equal new_desc, cloned_role.description
+  end
+
+  test "should not have any taxonomies when clonning" do
+    new_name = "New Role"
+    loc = taxonomies(:location1)
+    org = taxonomies(:organization1)
+    desc = "default description"
+    new_role = { :location_ids => [], :organization_ids => [], :name => new_name }
+    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
+    post :clone, { :new_name => new_name,
+                   :id => role.id,
+                   :role => new_role }
+    assert_response :success
+    cloned_role = Role.find_by :name => new_name
+    assert cloned_role
+    assert_equal [], cloned_role.organizations
+    assert_equal [], cloned_role.locations
+  end
 end

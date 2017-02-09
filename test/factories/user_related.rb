@@ -66,6 +66,8 @@ FactoryGirl.define do
 
   factory :role do
     sequence(:name) {|n| "role #{n}" }
+    locations []
+    organizations []
     builtin 0
   end
 
