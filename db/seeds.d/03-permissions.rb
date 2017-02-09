@@ -133,7 +133,6 @@ permissions = [
   ['Role', 'create_roles'],
   ['Role', 'edit_roles'],
   ['Role', 'destroy_roles'],
-  [nil, 'access_settings'],
   ['SmartProxy', 'view_smart_proxies'],
   ['SmartProxy', 'create_smart_proxies'],
   ['SmartProxy', 'edit_smart_proxies'],
