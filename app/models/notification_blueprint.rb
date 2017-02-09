@@ -9,6 +9,7 @@
 class NotificationBlueprint < ActiveRecord::Base
   has_many :notifications
   belongs_to :subject, :polymorphic => true
+  store :actions, :accessors => [:links], :coder => JSON
 
   validates :message, :presence => true
   validates :group, :presence => true

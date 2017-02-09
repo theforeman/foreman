@@ -17,6 +17,7 @@ class NotificationRecipient < ActiveRecord::Base
       :subject    => notification_blueprint.subject,
       :created_at => notification.created_at,
       :group      => notification_blueprint.group,
+      :actions    => notification_blueprint.actions
     }
   end
 
