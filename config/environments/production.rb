@@ -13,8 +13,7 @@ Foreman::Application.configure do |app|
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  # Eager load all classes under lib directory
-  config.eager_load_paths += ["#{config.root}/lib"]
+  # Eager load all classes pre-fork for performance
   config.eager_load = true
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application

@@ -50,13 +50,13 @@ end
 # load the corresponding bit of fog
 require 'fog/ovirt' if defined?(::OVIRT)
 
-require File.expand_path('../../lib/foreman.rb', __FILE__)
-require File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
-require File.expand_path('../../lib/foreman/exception', __FILE__)
-require File.expand_path('../../lib/core_extensions', __FILE__)
-require File.expand_path('../../lib/foreman/logging', __FILE__)
-require File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
-require File.expand_path('../../lib/middleware/tagged_logging', __FILE__)
+require_dependency File.expand_path('../../lib/foreman.rb', __FILE__)
+require_dependency File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
+require_dependency File.expand_path('../../lib/foreman/exception', __FILE__)
+require_dependency File.expand_path('../../lib/core_extensions', __FILE__)
+require_dependency File.expand_path('../../lib/foreman/logging', __FILE__)
+require_dependency File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
+require_dependency File.expand_path('../../lib/middleware/tagged_logging', __FILE__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
@@ -96,6 +96,9 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/trends)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
     config.autoload_paths += %W(#{config.root}/app/models/mail_notifications)
+
+    # Eager load all classes under lib directory
+    config.eager_load_paths += ["#{config.root}/lib"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

@@ -1,4 +1,5 @@
-require 'orchestration/task'
+require_dependency 'orchestration/task'
+
 module Orchestration
   # Represents tasks queue for orchestration
   class Queue

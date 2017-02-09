@@ -1,5 +1,5 @@
-require "proxy_api"
-require 'orchestration/queue'
+require_dependency "proxy_api"
+require_dependency 'orchestration/queue'
 
 module Orchestration
   extend ActiveSupport::Concern
