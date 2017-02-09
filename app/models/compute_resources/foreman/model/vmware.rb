@@ -402,7 +402,7 @@ module Foreman::Model
       end
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled VMware error", e)
-      destroy_vm vm.id if vm
+      destroy_vm vm.id if vm && vm.id
       raise e
     end
 
