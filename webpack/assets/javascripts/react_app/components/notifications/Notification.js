@@ -1,11 +1,12 @@
 import React from 'react';
 import Icon from '../common/Icon';
 import moment from 'moment';
+import NotificationDropdown from './NotificationDropdown';
 import NotificationActions from '../../actions/NotificationActions';
 import '../../common/commonStyles.css';
 
 /* eslint-disable camelcase */
-const Notification = ({created_at, seen, text, level, id}) => {
+const Notification = ({created_at, seen, text, level, id, actions}) => {
   const created = moment(created_at);
   const title = __('Click to mark as read').toString();
   const tooltip = {
@@ -27,6 +28,7 @@ const Notification = ({created_at, seen, text, level, id}) => {
   return (
     <div className="drawer-pf-notification">
       <Icon type={level} css="pull-left"></Icon>
+      {actions.links && <NotificationDropdown links={actions.links} id={id} />}
       {markup}
       <div className="drawer-pf-notification-info">
         <span className="date">{created.format('M/D/YY')}</span>
