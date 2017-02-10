@@ -151,6 +151,10 @@ module Foreman::Model
       resource_pools({ :cluster_id => opts[:cluster_id] })
     end
 
+    def available_images
+      client.templates
+    end
+
     def nictypes
       {
         "VirtualE1000" => "E1000",
