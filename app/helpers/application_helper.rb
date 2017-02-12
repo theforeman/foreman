@@ -152,6 +152,11 @@ module ApplicationHelper
     display_link_if_authorized(name, options, html_options)
   end
 
+  def csv_link
+    link_to(_('Export'), params.merge(:format => :csv),
+      {:title => _('Export to CSV'), :class => 'btn btn-default', 'data-no-turbolink' => true})
+  end
+
   # renders a style=display based on an attribute properties
   def display?(attribute = true)
     "style=#{display(attribute)}"

@@ -99,6 +99,10 @@ class TemplatesController < ApplicationController
     send_data @template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @template.filename
   end
 
+  def resource_class
+    @resource_class ||= controller_name.singularize.classify.constantize
+  end
+
   private
 
   def safe_render(template)
@@ -142,10 +146,6 @@ class TemplatesController < ApplicationController
 
   def resource_name
     'template'
-  end
-
-  def resource_class
-    @resource_class ||= controller_name.singularize.classify.constantize
   end
 
   def type_name_plural

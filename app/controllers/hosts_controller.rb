@@ -9,6 +9,7 @@ class HostsController < ApplicationController
   include Foreman::Controller::SmartProxyAuth
   include Foreman::Controller::Parameters::Host
   include Foreman::Controller::Puppet::HostsControllerExtensions
+  include Foreman::Controller::CsvResponder
 
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
@@ -58,8 +59,10 @@ class HostsController < ApplicationController
         @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title && (@title = title)
       end
-      format.yaml { render :text => search.all(:select => "hosts.name").map(&:name).to_yaml }
-      format.json
+      format.csv do
+        @hosts = search.includes(included_associations - [:host_statuses, :token, :compute_resource])
+        csv_response(@hosts)
+      end
     end
   end
 
@@ -917,5 +920,9 @@ class HostsController < ApplicationController
     host_params.select do |k,v|
        host_attributes.include?(k) && !k.end_with?('_ids')
     end.except(:host_parameters_attributes)
+  end
+
+  def csv_columns
+    [:name, :operatingsystem, :environment, :model, :hostgroup, :last_report]
   end
 end
