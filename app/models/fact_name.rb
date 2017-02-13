@@ -9,6 +9,9 @@ class FactName < ActiveRecord::Base
 
   scope :no_timestamp_fact, -> { where("fact_names.name <> ?",:_timestamp) }
   scope :timestamp_facts, -> { where(:name => :_timestamp) }
+  scope :composes, -> { where(:compose => true) }
+  scope :leaves, -> { where(:compose => false) }
+
   scope :with_parent_id, lambda { |find_ids|
     conds, binds = [], []
     [find_ids].flatten.each do |find_id|
