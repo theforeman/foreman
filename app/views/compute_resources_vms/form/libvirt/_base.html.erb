@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'compute_resource' %>
+
 <%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
 
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_host if show_vm_name? %>
