@@ -1,5 +1,6 @@
 require 'logging'
 require 'fileutils'
+require_dependency File.expand_path('../silenced_logger', __FILE__)
 
 ::Logging::Logger.send(:include, ActiveRecord::SessionStore::Extension::LoggerSilencer)
 
@@ -50,7 +51,7 @@ module Foreman
     end
 
     def logger(name)
-      return ::Logging.logger[name] if ::Logging::Repository.instance.has_logger?(name)
+      return Foreman::SilencedLogger.new(::Logging.logger[name]) if ::Logging::Repository.instance.has_logger?(name)
       fail "Trying to use logger #{name} which has not been configured."
     end
 
