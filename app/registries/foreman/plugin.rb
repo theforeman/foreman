@@ -93,6 +93,7 @@ module Foreman #:nodoc:
       end
     end
 
+    prepend Foreman::Plugin::Assets
     prepend Foreman::Plugin::SearchOverrides
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
