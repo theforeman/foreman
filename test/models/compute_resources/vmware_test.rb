@@ -19,6 +19,7 @@ class VmwareTest < ActiveSupport::TestCase
 
     mock_vm = mock('vm')
     mock_vm.expects(:save).returns(mock_vm)
+    mock_vm.expects(:firmware).returns('biod')
 
     cr = FactoryGirl.build(:vmware_cr)
     cr.expects(:parse_networks).with(attrs_in).returns(attrs_parsed)
@@ -68,8 +69,20 @@ class VmwareTest < ActiveSupport::TestCase
       args = {"image_id" =>"2", "provision_method" => "build" }
       mock_vm = mock('vm')
       mock_vm.expects(:save).returns(mock_vm)
+      mock_vm.stubs(:firmware).returns('bios')
       @cr.stubs(:parse_networks).returns(args)
       @cr.expects(:clone_vm).times(0)
+      @cr.expects(:new_vm).returns(mock_vm)
+      @cr.create_vm(args)
+    end
+
+    test 'converts automatic firmware to bios default' do
+      args = {"provision_method" => "build"}
+      mock_vm = mock('vm')
+      mock_vm.expects(:save).returns(mock_vm)
+      mock_vm.stubs(:firmware).returns('automatic')
+      mock_vm.expects(:firmware=).with('bios')
+      @cr.stubs(:parse_networks).returns(args)
       @cr.expects(:new_vm).returns(mock_vm)
       @cr.create_vm(args)
     end
