@@ -1,10 +1,29 @@
-import ToastActions from './react_app/actions/ToastNotificationActions';
+import * as ToastActions from './react_app/redux/actions/toasts';
+import store from '../javascripts/react_app/redux';
 import $ from 'jquery';
 
-export function notify(notification) {
-  ToastActions.addNotification(notification);
+// to accommodate jnotify syntax
+export function notify(message, type, sticky) {
+  let toast = {
+    message
+  };
+
+  if (type) {
+    toast.type = type;
+  }
+
+  if (sticky) {
+    toast.sticky = sticky;
+  }
+
+  showToast(toast);
 }
 
+function showToast(toast) {
+  store.dispatch(ToastActions.addToast(toast));
+}
+
+// to accommodate rails flash syntax
 function importFlashMessagesFromRails() {
   const notifications = $('#notifications').data().flash;
 
@@ -15,16 +34,15 @@ function importFlashMessagesFromRails() {
       type = 'error';
     }
 
-    notify({type, message, sticky: (type !== 'success')});
+    showToast({
+      type,
+      message,
+      sticky: (type !== 'success')
+    });
   });
 }
 
-// clear all notifications when leaving the page
-$(window).bind('beforeunload', function () {
-  ToastActions.closeNotifications();
-});
-
-// load notifications from Rails
+// load notifications from Rails on ContentLoad
 $(document).on('ContentLoad', function () {
   importFlashMessagesFromRails();
 });
