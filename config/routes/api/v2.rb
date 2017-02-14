@@ -29,7 +29,6 @@ Foreman::Application.routes.draw do
         post :clone, :on => :member
         collection do
           post 'build_pxe_default'
-          get 'build_pxe_default' # Keeping get variant for backward compatibility, see #6976 for details
           get 'revision'
         end
         resources :template_combinations, :only => [:index, :create, :update, :show]
