@@ -73,7 +73,7 @@ class Host::Managed < Host::Base
       :image_build?, :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :primary_interface,
       :provision_interface, :interfaces, :bond_interfaces, :bridge_interfaces, :interfaces_with_identifier,
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
-      :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used
+      :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type, :ssh_authorized_keys
   end
 
   scope :recent,      ->(*args) { where(["last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
@@ -398,6 +398,8 @@ class Host::Managed < Host::Base
     if SETTINGS[:login] && owner
       param["owner_name"]  = owner.name
       param["owner_email"] = owner.is_a?(User) ? owner.mail : owner.users.map(&:mail)
+      param["ssh_authorized_keys"] = ssh_authorized_keys
+      param["foreman_users"] = owner.to_export
     end
 
     if Setting[:ignore_puppet_facts_for_provisioning]

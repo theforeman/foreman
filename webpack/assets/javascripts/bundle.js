@@ -15,6 +15,7 @@ window.tfm = Object.assign(
   {
     tools: require('./foreman_tools'),
     users: require('./foreman_users'),
+    sshKeys: require('./foreman_ssh_keys'),
     trends: require('./foreman_trends'),
     hostgroups: require('./foreman_hostgroups'),
     numFields: require('./jquery.ui.custom_spinners'),

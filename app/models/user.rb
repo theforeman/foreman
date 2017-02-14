@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   include Taxonomix
   include DirtyAssociations
   include UserTime
+  include UserUsergroupCommon
+  include Exportable
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
 
   ANONYMOUS_ADMIN = 'foreman_admin'
@@ -38,6 +40,7 @@ class User < ActiveRecord::Base
   has_many :permissions,       :through => :filters
   has_many :cached_usergroup_members
   has_many :widgets, :dependent => :destroy
+  has_many :ssh_keys, :dependent => :destroy
 
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :mail_notifications, :through => :user_mail_notifications
@@ -114,6 +117,12 @@ class User < ActiveRecord::Base
   }
 
   dirty_has_many_associations :roles
+
+  attr_exportable :firstname, :lastname, :mail, :description, :fullname, :name => ->(user) { user.login }, :ssh_authorized_keys => ->(user) { user.ssh_keys.map(&:to_export_hash) }
+
+  class Jail < ::Safemode::Jail
+    allow :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail
+  end
 
   def can?(permission, subject = nil)
     if self.admin?
@@ -351,7 +360,13 @@ class User < ActiveRecord::Base
       options[:id].to_i == self.id ||
     options[:controller].to_s =~ /\Aapi\/v\d+\/users\Z/ &&
       options[:action] =~ /show|update/ &&
-      (options[:id].to_i == self.id || options[:id] == self.login)
+      (options[:id].to_i == self.id || options[:id] == self.login) ||
+    options[:controller].to_s == 'ssh_keys' &&
+      options[:user_id].to_i == self.id &&
+      options[:action] =~ /new|create|destroy/ ||
+    options[:controller].to_s == 'api/v2/ssh_keys' &&
+      options[:action] =~ /show|destroy|index|create/ &&
+      options[:user_id].to_i == self.id
   end
 
   def taxonomy_foreign_conditions
@@ -461,6 +476,14 @@ class User < ActiveRecord::Base
 
   def unset_password_changed
     @password_changed = false
+  end
+
+  def fullname
+    [firstname, lastname].delete_if(&:blank?).join(' ')
+  end
+
+  def to_export
+    { login => super }
   end
 
   private

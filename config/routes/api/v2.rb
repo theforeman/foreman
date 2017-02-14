@@ -236,6 +236,7 @@ Foreman::Application.routes.draw do
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         resources :roles, :except => [:new, :edit]
         resources :usergroups, :except => [:new, :edit]
+        resources :ssh_keys, :only => [:index, :show, :create, :destroy]
       end
 
       resources :template_kinds, :only => [:index]

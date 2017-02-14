@@ -281,6 +281,7 @@ Foreman::Application.routes.draw do
         get 'auth_source_selected'
         get 'auto_complete_search'
       end
+      resources :ssh_keys, :only => [:new, :create, :destroy]
     end
     resources :roles, :except => [:show] do
       member do

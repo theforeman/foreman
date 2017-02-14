@@ -1,5 +1,6 @@
 module Foreman::Controller::UsersMixin
   extend ActiveSupport::Concern
+  include Foreman::Controller::UserSelfEditing
 
   included do
     before_action :clear_session_locale_on_update, :only => :update
@@ -16,10 +17,6 @@ module Foreman::Controller::UsersMixin
       # Remove locale from the session when set to "Browser Locale" and editing self
       session.delete(:locale) if params[:user][:locale].try(:empty?)
     end
-  end
-
-  def editing_self?
-    @editing_self ||= User.current.editing_self?(params.slice(:controller, :action, :id))
   end
 
   def update_sub_hostgroups_owners

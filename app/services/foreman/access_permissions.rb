@@ -795,4 +795,15 @@ Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :anonymous do |map|
     map.permission :logout, {:users => [:logout]}, :public => true
   end
+
+  permission_set.security_block :ssh_keys do |map|
+    map.permission :view_ssh_keys,
+                   :"api/v2/ssh_keys" => [:index, :show]
+    map.permission :create_ssh_keys,
+                   :ssh_keys => [:new, :create],
+                   :"api/v2/ssh_keys" => [:create]
+    map.permission :destroy_ssh_keys,
+                   :ssh_keys => [:destroy],
+                   :"api/v2/ssh_keys" => [:destroy]
+  end
 end

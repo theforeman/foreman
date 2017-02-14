@@ -6,7 +6,7 @@ class HostJailTest < ActiveSupport::TestCase
                :organization, :url_for_boot, :params, :info, :hostgroup, :compute_resource, :domain, :ip, :mac, :shortname, :architecture,
                :model, :certname, :capabilities, :provider, :subnet, :token, :location, :organization, :provision_method, :image_build?,
                :pxe_build?, :otp, :realm, :param_true?, :param_false?, :nil?, :indent, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :facts,
-               :facts_hash, :bmc_nic]
+               :facts_hash, :bmc_nic, :templates_used, :owner, :owner_type, :ssh_authorized_keys]
 
     allowed.each do |m|
       assert Host::Managed::Jail.allowed?(m), "Method #{m} is not available in Host::Managed::Jail while should be allowed."
