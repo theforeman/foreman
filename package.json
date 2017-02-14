@@ -61,7 +61,7 @@
     "select2": "~3.5.2-browserify"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/assets/**/*.js || exit 0",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ || exit 0",
     "test": "node --harmony_proxies node_modules/.bin/jest",
     "storybook": "start-storybook --dont-track -p 6006",
     "build-storybook": "build-storybook"
