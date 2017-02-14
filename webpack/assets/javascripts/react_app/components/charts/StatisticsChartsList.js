@@ -1,111 +1,49 @@
-import React, {PropTypes} from 'react';
-import helpers from '../../common/helpers';
+import React, { PropTypes } from 'react';
 import chartService from '../../../services/statisticsChartService';
 import ChartBox from './ChartBox';
-import { STATUS } from '../../constants';
-import StatisticsStore from '../../stores/StatisticsStore';
-import StatisticsChartActions from '../../actions/StatisticsChartActions';
 import './StatisticsChartsListStyles.css';
+import { connect } from 'react-redux';
+import * as StatisticsChartActions from '../../redux/actions/statistics';
+import { STATUS } from '../../constants';
+
+const getStatusFromChart = (chart) => {
+  if (chart.data) {
+    return STATUS.RESOLVED;
+  }
+  if (chart.error) {
+    return STATUS.ERROR;
+  }
+  return STATUS.PENDING;
+};
 
 class StatisticsChartsList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {charts: this.stateSetup(this.props.data)};
-
-    helpers.bindMethods(this, [
-      'onChange',
-      'onError']
-    );
-  }
-
-  stateSetup(data) {
-    let chartStates = {};
-
-    data.forEach(chart => {
-      chartStates[chart.id] = {};
-    });
-
-    return chartStates;
-  }
-
   componentDidMount() {
-    StatisticsStore.addChangeListener(this.onChange);
-    StatisticsStore.addErrorListener(this.onError);
+    const { getStatisticsData, data } = this.props;
 
-    let chartStates = this.cloneChartStates();
-
-    this.props.data.forEach(chart => {
-      StatisticsChartActions.getStatisticsData(chart.url);
-      chartStates[chart.id].status = STATUS.PENDING;
-    });
-
-    this.updateStateCharts(chartStates);
-  }
-
-  cloneChartStates() {
-    return Object.assign({}, this.state.charts);
-  }
-
-  updateStateCharts(chartStates) {
-    this.setState({ charts: chartStates });
-  }
-
-  componentWillUnmount() {
-    StatisticsStore.removeChangeListener(this.onChange);
-    StatisticsStore.removeErrorListener(this.onError);
-  }
-
-  onChange(event) {
-    const id = event.id;
-    const statistics = StatisticsStore.getStatisticsData(id);
-    let chartStates = this.cloneChartStates();
-
-    chartStates[id] = Object.assign({}, chartStates[id], {
-      status: STATUS.RESOLVED,
-      data: statistics.data
-    });
-
-    this.updateStateCharts(chartStates);
-  }
-
-  onError(info) {
-    const xhr = info.jqXHR;
-    const id = xhr.originalRequestOptions.url.split('/')[1];
-
-    let chartStates = this.cloneChartStates();
-
-    chartStates[id] = Object.assign({}, chartStates[id], {
-      status: STATUS.ERROR,
-      errorText: info.errorThrown
-    });
-
-    this.updateStateCharts(chartStates);
+    getStatisticsData(data);
   }
 
   render() {
     const noDataMsg = __('No data available').toString();
-    let charts = [];
     const tip = __('Expand the chart').toString();
+    const charts = this.props.charts.map(chart => {
+      const config = chartService.getChartConfig(chart);
 
-    this.props.data.forEach(chart => {
-      let config, modalConfig;
+      chartService.syncConfigData(config, chart.data);
+      const modalConfig = chartService.getModalChartConfig(chart);
 
-      config = chartService.getChartConfig(chart);
-      chartService.syncConfigData(config, this.state.charts[chart.id].data);
-      modalConfig = chartService.getModalChartConfig(chart);
-      chartService.syncConfigData(modalConfig, this.state.charts[chart.id].data);
+      chartService.syncConfigData(modalConfig, chart.data);
 
-      charts.push(
+      return (
         <ChartBox
           key={chart.id}
           config={config}
           modalConfig={modalConfig}
           noDataMsg={noDataMsg}
           tip={tip}
-          status={this.state.charts[chart.id].status || STATUS.PENDING}
-          errorText={this.state.charts[chart.id].errorText}
+          errorText={chart.error}
           id={chart.id}
+          status={ getStatusFromChart(chart) }
           title={chart.title}
           search={chart.search}
         />
@@ -114,7 +52,7 @@ class StatisticsChartsList extends React.Component {
 
     return (
       <div className="statistics-charts-list-root">
-        {charts}
+        {this.props.charts && charts}
       </div>
     );
   }
@@ -124,4 +62,10 @@ StatisticsChartsList.PropTypes = {
   data: PropTypes.array.isRequired
 };
 
-export default StatisticsChartsList;
+const mapStateToProps = state => ({
+  charts: state.statistics.charts
+});
+
+export default connect(mapStateToProps, StatisticsChartActions)(
+  StatisticsChartsList
+);
