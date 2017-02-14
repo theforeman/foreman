@@ -23,7 +23,7 @@ export function mount(component, selector, data) {
     },
     ToastNotifications: {
      type: ToastNotificationsContainer,
-     markup: <ToastNotificationsContainer/>
+     markup: <ToastNotificationsContainer store={store} />
    }
   };
 

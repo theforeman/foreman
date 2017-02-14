@@ -17,6 +17,5 @@ export const ALERT_CSS = {
   success: 'alert alert-success',
   info: 'alert alert-info',
   warning: 'alert alert-warning',
-  error: 'alert alert-danger',
-  dismissable: 'alert-dismissable'
+  error: 'alert alert-danger'
 };
