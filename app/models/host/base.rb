@@ -120,6 +120,7 @@ module Host
 
       facts[:domain] = facts[:domain].downcase if facts[:domain].present?
 
+      hostgroup_title = facts.delete(:foreman_hostgroup)
       time = facts[:_timestamp]
       time = time.to_time if time.is_a?(String)
       self.last_compile = time if time
@@ -128,6 +129,7 @@ module Host
       importer = FactImporter.importer_for(type).new(self, facts)
       importer.import!
 
+      set_hostgroup(hostgroup_title) if hostgroup_title.present? && new_record?
       save(:validate => false)
       set_taxonomies(facts)
       populate_fields_from_facts(facts, type)
@@ -206,6 +208,11 @@ module Host
         comparison_object.is_a?(Host::Base) &&
         id.present? &&
         comparison_object.id == id
+    end
+
+    def set_hostgroup(title)
+      self.hostgroup = Hostgroup.find_by_title(title)
+      set_hostgroup_defaults
     end
 
     def set_taxonomies(facts)
