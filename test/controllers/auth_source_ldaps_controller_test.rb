@@ -73,14 +73,23 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     end
   end
 
-  test "blank account_password submitted does not erase existing account_password" do
-    auth_source_ldap = AuthSourceLdap.first
+  test "#update without account_password does not erase existing account_password" do
+    auth_source_ldap = FactoryGirl.create(:auth_source_ldap, :service_account)
     old_pass = auth_source_ldap.account_password
     as_admin do
-      put :update, {:commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:account_password => nil, :name => auth_source_ldap.name} }, set_session_user
+      put :update, {:commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:name => auth_source_ldap.name} }, set_session_user
     end
     auth_source_ldap = AuthSourceLdap.find(auth_source_ldap.id)
     assert_equal old_pass, auth_source_ldap.account_password
+  end
+
+  test "#update with blank account_password erases password" do
+    auth_source_ldap = FactoryGirl.create(:auth_source_ldap, :service_account)
+    as_admin do
+      put :update, {:commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:account_password => '', :name => auth_source_ldap.name} }, set_session_user
+    end
+    auth_source_ldap = AuthSourceLdap.find(auth_source_ldap.id)
+    assert_empty auth_source_ldap.account_password
   end
 
   test "LDAP test succeeded" do
