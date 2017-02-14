@@ -3,22 +3,6 @@ import { ACTIONS, STATUS } from '../constants';
 import NotificationActions from './NotificationActions';
 
 export default {
-  receivedStatistics(rawStatistics, textStatus, jqXHR) {
-    AppDispatcher.dispatch({
-      actionType: ACTIONS.RECEIVED_STATISTICS,
-      rawStatistics
-    });
-  },
-
-  statisticsRequestError(jqXHR, textStatus, errorThrown) {
-    AppDispatcher.dispatch({
-      actionType: ACTIONS.STATISTICS_REQUEST_ERROR, info: {
-        jqXHR: jqXHR,
-        textStatus: textStatus,
-        errorThrown: errorThrown
-      }
-    });
-  },
     receivedHostsPowerState(response, textStatus, jqXHR) {
     AppDispatcher.dispatch({
       actionType: ACTIONS.RECEIVED_HOSTS_POWER_STATE,

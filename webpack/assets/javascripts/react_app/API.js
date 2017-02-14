@@ -10,16 +10,6 @@ export default {
     });
     return $.getJSON(url);
   },
-  getStatisticsData(url) {
-    this.get(url)
-      .success(
-        (rawStatistics, textStatus, jqXHR) => {
-          ServerActions.receivedStatistics(rawStatistics, textStatus, jqXHR);
-        })
-      .error((jqXHR, textStatus, errorThrown) => {
-        ServerActions.statisticsRequestError(jqXHR, textStatus, errorThrown);
-      });
-  },
   getHostPowerData(url) {
     this.get(url)
       .success(

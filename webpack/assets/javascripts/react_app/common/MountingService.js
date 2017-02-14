@@ -4,13 +4,13 @@ import PowerStatusContainer from '../components/hosts/PowerStatusContainer';
 import NotificationDrawerToggle from '../components/notifications/NotificationDrawerToggle';
 import NotificationDrawer from '../components/notifications/NotificationDrawer';
 import ReactDOM from 'react-dom';
-
+import store from '../redux';
 export function mount(component, selector, data) {
 
   const components = {
     StatisticsChartsList: {
       type: StatisticsChartsList,
-      markup: <StatisticsChartsList data={data}/>
+      markup: <StatisticsChartsList store={store} data={data}/>
     },
     PowerStatusContainer: {
       type: PowerStatusContainer,
