@@ -54,7 +54,7 @@ module Foreman #:nodoc:
         plugin = new(id)
         if (gem = Gem.loaded_specs[id.to_s])
           plugin.name gem.name
-          plugin.author gem.authors.join(',')
+          plugin.author gem.authors.to_sentence
           plugin.description gem.description
           plugin.url gem.homepage
           plugin.version gem.version.to_s
