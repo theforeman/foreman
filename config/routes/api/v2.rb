@@ -311,7 +311,7 @@ Foreman::Application.routes.draw do
           resources :environments, :only => [] do
             post :import_puppetclasses, :on => :member
           end
-          resources :autosign, :only => [:index]
+          resources :autosign, :only => [:index, :create, :destroy]
         end
         resources :hosts, :except => [:new, :edit] do
           get :enc, :on => :member
