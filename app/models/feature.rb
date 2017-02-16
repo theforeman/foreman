@@ -2,6 +2,7 @@ class Feature < ApplicationRecord
   extend FriendlyId
   friendly_id :name
   has_and_belongs_to_many :smart_proxies
+  has_many :smart_proxy_pools, :through => :smart_proxies, :source => 'pools'
   validates_lengths_from_database
   validates :name, :presence => true
 

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :smart_proxy do
     sequence(:name) {|n| "proxy#{n}" }
-    sequence(:url) {|n| "https://somewhere#{n}.net:8443" }
+    sequence(:url) {|n| "http://somewhere#{n}.net:8443" }
     organizations { [Organization.find_by_name('Organization 1')] } if SETTINGS[:organizations_enabled]
     locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
 
@@ -42,6 +42,10 @@ FactoryBot.define do
 
     factory :realm_smart_proxy do
       features { |sp| [sp.association(:feature, :realm)] }
+    end
+
+    trait :with_ssl do
+      sequence(:url) {|n| "https://somewhere#{n}.net:8443" }
     end
   end
 end

@@ -40,6 +40,14 @@
         </div>
         <div class="row">
           <div class="col-md-4">
+            <strong><%= _('Pool(s)') %></strong>
+          </div>
+          <div class="col-md-8">
+            <%= @smart_proxy.pools.map(&:name).to_sentence %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
             <strong><%= _('Version') %></strong>
           </div>
           <div class="col-md-8">

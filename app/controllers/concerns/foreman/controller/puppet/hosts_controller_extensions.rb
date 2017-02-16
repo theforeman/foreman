@@ -5,8 +5,8 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   PUPPET_AJAX_REQUESTS = %w{hostgroup_or_environment_selected puppetclass_parameters}
 
   MULTIPLE_EDIT_ACTIONS = %w(select_multiple_environment update_multiple_environment
-                             select_multiple_puppet_proxy update_multiple_puppet_proxy
-                             select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
+                             select_multiple_puppet_proxy_pool update_multiple_puppet_proxy_pool
+                             select_multiple_puppet_ca_proxy_pool update_multiple_puppet_ca_proxy_pool)
   PUPPET_MULTIPLE_ACTIONS = %w(multiple_puppetrun update_multiple_puppetrun) + MULTIPLE_EDIT_ACTIONS
 
   included do
@@ -18,8 +18,8 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     before_action :find_resource_for_puppet_host_extensions, :only => [:puppetrun]
     before_action :taxonomy_scope_for_puppet_host_extensions, :only => PUPPET_AJAX_REQUESTS
     before_action :find_multiple_for_puppet_host_extensions, :only => PUPPET_MULTIPLE_ACTIONS
-    before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
-    before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
+    before_action :validate_multiple_puppet_proxy_pool, :only => :update_multiple_puppet_proxy_pool
+    before_action :validate_multiple_puppet_ca_proxy_pool, :only => :update_multiple_puppet_ca_proxy_pool
 
     define_action_permission ['puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'], :puppetrun
     define_action_permission MULTIPLE_EDIT_ACTIONS, :edit
@@ -105,15 +105,16 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     end
   end
 
-  def validate_multiple_puppet_proxy
-    validate_multiple_proxy(select_multiple_puppet_proxy_hosts_path)
+  def validate_multiple_puppet_proxy_pool
+    validate_multiple_proxy_pool(hosts_path)
   end
 
-  def validate_multiple_puppet_ca_proxy
-    validate_multiple_proxy(select_multiple_puppet_ca_proxy_hosts_path)
+  def validate_multiple_puppet_ca_proxy_pool
+    validate_multiple_proxy_pool(hosts_path)
   end
 
   def validate_multiple_proxy(redirect_path)
+    Foreman::Deprecation.deprecation_warning('1.18', "This object is now assignd a Proxy SmartProxyPool instead of a Proxy, Please update your code to reflect this.")
     if params[:proxy].nil? || (proxy_id = params[:proxy][:proxy_id]).nil?
       error _('No proxy selected!')
       redirect_to(redirect_path)
@@ -127,7 +128,22 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     end
   end
 
+  def validate_multiple_proxy_pool(redirect_path)
+    if params[:proxy_pool].nil? || (pool_id = params[:proxy_pool][:pool_id]).nil?
+      error _('No proxy SmartProxyPool selected!')
+      redirect_to(redirect_path)
+      return false
+    end
+
+    if pool_id.present? && !SmartProxyPool.find_by_id(pool_id)
+      error _('Invalid proxy SmartProxyPool selected!')
+      redirect_to(redirect_path)
+      return false
+    end
+  end
+
   def update_multiple_proxy(proxy_type, host_update_method)
+    Foreman::Deprecation.deprecation_warning('1.18', "This object can now be assignd a Proxy SmartProxyPool instead of a Proxy, Please update your code to reflect this.")
     proxy_id = params[:proxy][:proxy_id]
     if proxy_id
       proxy = SmartProxy.find_by_id(proxy_id)
@@ -162,6 +178,41 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     redirect_back_or_to hosts_path
   end
 
+  def update_multiple_proxy_pool(proxy_type, host_update_method)
+    pool_id = params[:proxy_pool][:pool_id]
+    if pool_id
+      pool = SmartProxyPool.find_by_id(pool_id)
+    else
+      pool = nil
+    end
+
+    failed_hosts = {}
+
+    @hosts.each do |host|
+      begin
+        host.send(host_update_method, pool)
+        host.save!
+      rescue => error
+        failed_hosts[host.name] = error
+        message = _('Failed to set %{proxy_type} proxy Pool for %{host}.') % {:host => host, :proxy_type => proxy_type}
+        Foreman::Logging.exception(message, error)
+      end
+    end
+
+    if failed_hosts.empty?
+      if pool
+        success _('The %{proxy_type} Proxy Pool of the selected hosts was set to %{proxy_pool}.') % {:proxy_pool => pool.hostname, :proxy_type => proxy_type}
+      else
+        success _('The %{proxy_type} Proxy Pool of the selected hosts was cleared.') % {:proxy_type => proxy_type}
+      end
+    else
+      error n_("The %{proxy_type} proxy SmartProxyPool could not be set for host: %{host_names}.",
+               "The %{proxy_type} puppet ca proxy SmartProxyPool could not be set for hosts: %{host_names}.",
+               failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
+    end
+    redirect_back_or_to hosts_path
+  end
+
   def handle_proxy_messages(errors, proxy, proxy_type)
     if errors.empty?
       if proxy
@@ -176,18 +227,18 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     end
   end
 
-  def select_multiple_puppet_proxy
+  def select_multiple_puppet_proxy_pool
   end
 
-  def update_multiple_puppet_proxy
-    update_multiple_proxy(_('Puppet'), :puppet_proxy=)
+  def update_multiple_puppet_proxy_pool
+    update_multiple_proxy_pool(_('Puppet'), :puppet_proxy_pool=)
   end
 
-  def select_multiple_puppet_ca_proxy
+  def select_multiple_puppet_ca_proxy_pool
   end
 
-  def update_multiple_puppet_ca_proxy
-    update_multiple_proxy(_('Puppet CA'), :puppet_ca_proxy=)
+  def update_multiple_puppet_ca_proxy_pool
+    update_multiple_proxy_pool(_('Puppet CA'), :puppet_ca_proxy_pool=)
   end
 
   def set_puppet_class_variables

@@ -1,5 +1,14 @@
 ---
-# https://projects.theforeman.org/issues/7570
+- message: You are using a deprecated behavior, it will be removed in version 1.18,
+    Hosts should now be assigned a SmartProxyPool, not a SmartProxy, Please update your code
+    to reflect this.
+- message: You are using a deprecated behavior, it will be removed in version 1.18,
+    Use puppet_proxy.id instead of puppet_proxy_id for accessing a Hosts Puppet Smart
+    Proxy ID attribute.
+- message: Your API call uses deprecated behavior, puppet_proxy_id parameter is deprecated,
+    please use the new puppet_proxy_pool_id parameter instead
+
+# http://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.
 

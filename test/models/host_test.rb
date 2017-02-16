@@ -122,7 +122,7 @@ class HostTest < ActiveSupport::TestCase
     Host.any_instance.expects(:set_compute_attributes).once.returns(true)
     Host.create! :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
   end
 
@@ -268,7 +268,7 @@ class HostTest < ActiveSupport::TestCase
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster),
       :environment => environments(:production), :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
@@ -283,7 +283,7 @@ class HostTest < ActiveSupport::TestCase
       assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
       :subnet => subnets(:two), :architecture => architectures(:x86_64),
-      :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+      :puppet_proxy_pool => smart_proxy_pools(:puppetmaster), :medium => media(:one),
       :organization => users(:one).organizations.first, :location => users(:one).locations.first,
       :environment => environments(:production), :disk => "empty partition",
       :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
@@ -294,7 +294,7 @@ class HostTest < ActiveSupport::TestCase
     assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
       Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "3.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster),
         :environment => environments(:production), :disk => "empty partition",
         :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value" => "some_value"}}
     end
@@ -420,7 +420,7 @@ class HostTest < ActiveSupport::TestCase
     refute host.configuration?
 
     proxy = FactoryBot.create(:smart_proxy)
-    host.puppet_proxy = proxy
+    host.puppet_proxy_pool = proxy.pools.first
     assert host.configuration?
   end
 
@@ -882,14 +882,14 @@ class HostTest < ActiveSupport::TestCase
 
     test "should save if neither ptable or disk are defined when the host is not managed" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster),
         :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
 
     test "should save if ptable is defined" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster), :medium => media(:one),
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
       assert !host.new_record?
     end
@@ -897,7 +897,7 @@ class HostTest < ActiveSupport::TestCase
     test "should save if disk is defined" do
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :medium => media(:one),
-        :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
+        :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy_pool => smart_proxy_pools(:puppetmaster)
       assert !host.new_record?
     end
 
@@ -905,7 +905,7 @@ class HostTest < ActiveSupport::TestCase
       if unattended?
         host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.5.2.3", :ptable => FactoryBot.create(:ptable),
           :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
-          :architecture => Architecture.first, :environment => Environment.first, :puppet_proxy => smart_proxies(:puppetmaster),
+          :architecture => Architecture.first, :environment => Environment.first, :puppet_proxy_pool => smart_proxy_pools(:puppetmaster),
           :ip6 => "2001:db8::1", :subnet6 => subnets(:six)
         refute host.valid?, "Host should be invalid: #{host.errors.messages}"
         assert_includes host.errors.messages.keys, :"interfaces.ip"
@@ -915,7 +915,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "should not save if installation media is missing" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => FactoryBot.create(:ptable),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster),
         :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
         :owner_type => "User", :root_pass => "xybxa6JUkz63w"
       refute host.valid?
@@ -924,7 +924,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "should save if owner_type is empty and Host is unmanaged" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster),
         :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
       assert host.valid?
     end
@@ -937,7 +937,7 @@ class HostTest < ActiveSupport::TestCase
       host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
         :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
-        :puppet_proxy => smart_proxies(:puppetmaster)
+        :puppet_proxy_pool => smart_proxy_pools(:puppetmaster)
 
       # dummy external node info
       nodeinfo = {"environment" => "production",
@@ -1124,13 +1124,13 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "when saving a host, do not require a puppet environment" do
-      h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => nil)
+      h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy_pool => nil)
       h.environment = nil
       assert h.valid?
     end
 
     test "when saving a host, require puppet environment if puppet master is set" do
-      h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster))
+      h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy_pool => smart_proxy_pools(:puppetmaster))
       h.environment = nil
       refute h.valid?
     end
@@ -2064,19 +2064,102 @@ class HostTest < ActiveSupport::TestCase
       assert results.include?(host1)
     end
 
+    test "can search hosts by smart proxy with realm connection" do
+      host = FactoryBot.create(:host)
+      realm = FactoryBot.create(:realm)
+      results = Host.search_for("smart_proxy = #{realm.realm_proxy.name}")
+      assert_equal 0, results.count
+      host.update_attribute(:realm_id, realm.id)
+      results = Host.search_for("smart_proxy = #{realm.realm_proxy.name}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+    end
+
     test "can search hosts by smart proxy" do
       host = FactoryBot.create(:host)
       proxy = FactoryBot.create(:puppet_and_ca_smart_proxy)
       results = Host.search_for("smart_proxy = #{proxy.name}")
       assert_equal 0, results.count
-      host.update_attribute(:puppet_proxy_id, proxy.id)
+      host.update_attribute(:puppet_proxy_pool_id, proxy.pools.first.id)
       results = Host.search_for("smart_proxy = #{proxy.name}")
       assert_equal 1, results.count
       assert results.include?(host)
       # the results should not change even if the host has multiple connections to same proxy
-      host.update_attribute(:puppet_ca_proxy_id, proxy.id)
+      host.update_attribute(:puppet_ca_proxy_pool_id, proxy.pools.first.id)
       results2 = Host.search_for("smart_proxy = #{proxy.name}")
       assert_equal results, results2
+    end
+
+    test "can search hosts by smart proxy pool id" do
+      host = FactoryBot.create(:host)
+      proxy = FactoryBot.create(:puppet_and_ca_smart_proxy)
+      pool = proxy.pools.first
+      results = Host.search_for("puppetmaster_pool_id = #{pool.id}")
+      assert_equal 0, results.count
+      results = Host.search_for("puppet_ca_pool_id = #{pool.id}")
+      assert_equal 0, results.count
+      host.update_attribute(:puppet_proxy_pool_id, pool.id)
+      host.update_attribute(:puppet_ca_proxy_pool_id, pool.id)
+      results = Host.search_for("puppetmaster_pool_id = #{pool.id}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+      results = Host.search_for("puppet_ca_pool_id = #{pool.id}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+    end
+
+    test "can search hosts by smart proxy pool" do
+      host = FactoryBot.create(:host)
+      proxy = FactoryBot.create(:puppet_and_ca_smart_proxy)
+      pool = proxy.pools.first
+      results = Host.search_for("puppetmaster_hostname = #{pool.hostname}")
+      assert_equal 0, results.count
+      results = Host.search_for("puppet_ca_hostname = #{pool.hostname}")
+      assert_equal 0, results.count
+      host.update_attribute(:puppet_proxy_pool_id, pool.id)
+      host.update_attribute(:puppet_ca_proxy_pool_id, pool.id)
+      results = Host.search_for("puppetmaster_hostname = #{pool.hostname}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+      results = Host.search_for("puppet_ca_hostname = #{pool.hostname}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+    end
+
+    test "can search hosts by smart proxy name" do
+      host = FactoryBot.create(:host)
+      proxy = FactoryBot.create(:puppet_and_ca_smart_proxy)
+      pool = proxy.pools.first
+      results = Host.search_for("puppetmaster = #{proxy.name}")
+      assert_equal 0, results.count
+      results = Host.search_for("puppet_ca = #{proxy.name}")
+      assert_equal 0, results.count
+      host.update_attribute(:puppet_proxy_pool_id, pool.id)
+      host.update_attribute(:puppet_ca_proxy_pool_id, pool.id)
+      results = Host.search_for("puppetmaster = #{proxy.name}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+      results = Host.search_for("puppet_ca = #{proxy.name}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+    end
+
+    test "can search hosts by smart proxy id" do
+      host = FactoryBot.create(:host)
+      proxy = FactoryBot.create(:puppet_and_ca_smart_proxy)
+      pool = proxy.pools.first
+      results = Host.search_for("puppet_proxy_id = #{proxy.id}")
+      assert_equal 0, results.count
+      results = Host.search_for("puppet_ca_proxy_id = #{proxy.id}")
+      assert_equal 0, results.count
+      host.update_attribute(:puppet_proxy_pool_id, pool.id)
+      host.update_attribute(:puppet_ca_proxy_pool_id, pool.id)
+      results = Host.search_for("puppet_proxy_id = #{proxy.id}")
+      assert_equal 1, results.count
+      assert results.include?(host)
+      results = Host.search_for("puppet_ca_proxy_id = #{proxy.id}")
+      assert_equal 1, results.count
+      assert results.include?(host)
     end
 
     test "can search hosts by puppet class" do
@@ -2115,29 +2198,29 @@ class HostTest < ActiveSupport::TestCase
       assert_equal host, results.first
     end
 
-    test "should update puppet_proxy_id to the id of the validated proxy" do
+    test "should update puppet_proxy_pool_id to the id of the validated proxy pool" do
       sp = smart_proxies(:puppetmaster)
       raw = read_json_fixture('facts/facts_with_caps.json')
       host = Host.import_host(raw['name'], nil)
       assert host.import_facts(raw['facts'], sp)
-      assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
+      assert_equal sp.pools.first.id, Host.find_by_name('sinn1636.lan').puppet_proxy_pool_id
     end
 
-    test "should not update puppet_proxy_id if it was not puppet upload" do
+    test "should not update puppet_proxy_pool_id if it was not puppet upload" do
       sp = smart_proxies(:puppetmaster)
       raw = read_json_fixture('facts/facts_with_caps.json')
       host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'].merge(:_type => 'chef'), sp)
-      assert_nil host.puppet_proxy_id
+      assert_nil host.puppet_proxy_pool_id
     end
 
-    test "shouldn't update puppet_proxy_id if it has been set" do
-      Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
+    test "shouldn't update puppet_proxy_pool_id if it has been set" do
+      Host.new(:name => 'sinn1636.lan', :puppet_proxy_pool_id => smart_proxy_pools(:puppetmaster).id).save(:validate => false)
       sp = smart_proxies(:puppetmaster)
       raw = read_json_fixture('facts/facts_with_certname.json')
       host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'], sp)
-      assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
+      assert_equal smart_proxy_pools(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_pool_id
     end
 
     # Ip validations
@@ -3508,8 +3591,8 @@ class HostTest < ActiveSupport::TestCase
     test 'returns IDs for proxies associated with host services' do
       # IDs are fake, just to prove host.smart_proxy_ids gathers them
       host = FactoryBot.build(:host, :with_subnet, :with_realm,
-                               :puppet_proxy_id => 1,
-                               :puppet_ca_proxy_id => 1)
+                               :puppet_proxy_pool_id => 1,
+                               :puppet_ca_proxy_pool_id => 1)
       host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
       host.subnet.tftp_id = 2
       host.subnet.dhcp_id = 3
@@ -3523,21 +3606,21 @@ class HostTest < ActiveSupport::TestCase
         @host = FactoryBot.build_stubbed(:host)
         @host.hostgroup = @hostgroup
         @host.send(:assign_hostgroup_attributes,
-                   [:puppet_ca_proxy_id, :puppet_proxy_id])
+                   [:puppet_ca_proxy_pool_id, :puppet_proxy_pool_id])
       end
 
       test 'returns IDs for proxies used by services inherited from hostgroup' do
         @host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
-        assert_equal [@hostgroup.puppet_ca_proxy_id,
-                      @hostgroup.puppet_proxy_id,
+        assert_equal [@hostgroup.puppet_ca_proxy_pool.smart_proxies.first.id,
+                      @hostgroup.puppet_proxy_pool.smart_proxies.first.id,
                       @host.realm.realm_proxy_id].sort,
                       @host.smart_proxy_ids.sort
       end
 
       test 'does not return IDs for services not inherited from the hostgroup' do
         @host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
-        @host.puppet_proxy_id = nil
-        assert_equal [@hostgroup.puppet_ca_proxy_id,
+        @host.puppet_proxy_pool_id = nil
+        assert_equal [@hostgroup.puppet_ca_proxy.id,
                       @host.realm.realm_proxy_id].sort,
                       @host.smart_proxy_ids.sort
       end
@@ -3622,8 +3705,8 @@ class HostTest < ActiveSupport::TestCase
     dns_proxy_id = host_2.primary_interface.subnet.dns_id
     dhcp_proxy_id = host_3.primary_interface.subnet.dhcp_id
     realm_proxy_id = host_4.realm.realm_proxy_id
-    puppet_id = host_5.puppet_proxy_id
-    puppet_ca_id = host_6.puppet_ca_proxy_id
+    puppet_id = host_5.puppet_proxy.id
+    puppet_ca_id = host_6.puppet_ca_proxy.id
 
     res = Host.smart_proxy_ids(Host.where(:id => [host_1, host_2, host_3, host_4, host_5, host_6].map(&:id)))
 

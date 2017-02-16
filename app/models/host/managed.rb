@@ -78,7 +78,8 @@ class Host::Managed < Host::Base
   smart_proxy_reference :subnet6 => [:dns_id, :dhcp_id, :tftp_id]
   smart_proxy_reference :domain => [:dns_id]
   smart_proxy_reference :realm => [:realm_proxy_id]
-  smart_proxy_reference :self => [:puppet_proxy_id, :puppet_ca_proxy_id]
+  smart_proxy_reference :puppet_ca_proxy => [:id]
+  smart_proxy_reference :puppet_proxy => [:id]
 
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
@@ -501,7 +502,7 @@ class Host::Managed < Host::Base
   end
 
   def hostgroup_inherited_attributes
-    %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id compute_resource_id}
+    %w{puppet_proxy_pool_id puppet_ca_proxy_pool_id environment_id compute_profile_id realm_id compute_resource_id}
   end
 
   def apply_inherited_attributes(attributes, initialized = true)
@@ -587,7 +588,7 @@ class Host::Managed < Host::Base
   end
 
   def puppetrun!
-    unless puppet_proxy.present?
+    unless puppet_proxy_pool.present?
       errors.add(:base, _("no puppet proxy defined - cant continue"))
       logger.warn "unable to execute puppet run, no puppet proxies defined"
       return false

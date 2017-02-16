@@ -218,15 +218,15 @@ FactoryBot.define do
 
     trait :with_puppet do
       environment
-      puppet_proxy do
-        FactoryBot.create(:puppet_smart_proxy)
+      puppet_proxy_pool do
+        FactoryBot.create(:puppet_smart_proxy).pools.first
       end
     end
 
     trait :with_puppet_ca do
       environment
-      puppet_ca_proxy do
-        FactoryBot.create(:smart_proxy, :features => [FactoryBot.create(:feature, :puppetca)])
+      puppet_ca_proxy_pool do
+        FactoryBot.create(:puppet_ca_smart_proxy).pools.first
       end
     end
 
@@ -435,8 +435,8 @@ FactoryBot.define do
       association :compute_resource, :factory => :libvirt_cr
       domain
       interfaces { [ FactoryBot.build(:nic_primary_and_provision) ] }
-      puppet_ca_proxy do
-        FactoryBot.create(:puppet_ca_smart_proxy)
+      puppet_ca_proxy_pool do
+        FactoryBot.create(:puppet_ca_smart_proxy).pools.first
       end
     end
 
@@ -508,11 +508,11 @@ FactoryBot.define do
       operatingsystem do
         FactoryBot.create(:operatingsystem, :architectures => [architecture], :ptables => [ptable])
       end
-      puppet_ca_proxy do
-        FactoryBot.create(:puppet_ca_smart_proxy)
+      puppet_ca_proxy_pool do
+        FactoryBot.create(:puppet_ca_smart_proxy).pools.first
       end
-      puppet_proxy do
-        FactoryBot.create(:puppet_smart_proxy)
+      puppet_proxy_pool do
+        FactoryBot.create(:puppet_smart_proxy).pools.first
       end
     end
   end

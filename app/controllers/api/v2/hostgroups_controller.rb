@@ -8,6 +8,7 @@ module Api
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone rebuild_config}
       before_action :process_parameter_attributes, :only => %w{update}
+      before_action :swap_proxy_for_pool, :only => %w{create update}
 
       api :GET, "/hostgroups/", N_("List all host groups")
       api :GET, "/puppetclasses/:puppetclass_id/hostgroups", N_("List all host groups for a Puppet class")
@@ -70,7 +71,7 @@ module Api
       def create
         @parameters = true
 
-        @hostgroup = Hostgroup.new(hostgroup_params)
+        @hostgroup = Hostgroup.new(@hostgroup_params)
         @hostgroup.suggest_default_pxe_loader if params[:hostgroup] && params[:hostgroup][:pxe_loader].nil?
 
         process_response @hostgroup.save
@@ -83,7 +84,7 @@ module Api
       def update
         @parameters = true
 
-        process_response @hostgroup.update(hostgroup_params)
+        process_response @hostgroup.update(@hostgroup_params)
       end
 
       api :DELETE, "/hostgroups/:id/", N_("Delete a host group")
@@ -139,6 +140,16 @@ module Api
 
       def allowed_nested_id
         %w(puppetclass_id location_id organization_id)
+      end
+
+      def swap_proxy_for_pool
+        ca_proxy_pool = SmartProxy.find_by_id(hostgroup_params[:puppet_ca_proxy_id]).try(:pools).try(:first)
+        puppet_proxy_pool = SmartProxy.find_by_id(hostgroup_params[:puppet_proxy_id]).try(:pools).try(:first)
+        Foreman::Deprecation.api_deprecation_warning('puppet_ca_proxy_id parameter is deprecated, please use the new puppet_ca_proxy_pool_id parameter instead') if ca_proxy_pool
+        Foreman::Deprecation.api_deprecation_warning('puppet_proxy_id parameter is deprecated, please use the new puppet_proxy_pool_id parameter instead') if puppet_proxy_pool
+        @hostgroup_params = hostgroup_params.merge(puppet_proxy_pool_id: puppet_proxy_pool.try(:id)).
+                                            merge(puppet_ca_proxy_pool_id: ca_proxy_pool.try(:id)).
+                                            except(:puppet_ca_proxy_id, :puppet_proxy_id)
       end
     end
   end
