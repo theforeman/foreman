@@ -30,6 +30,7 @@
     "jest-cli": "^16.0.1",
     "jsdom": "^9.5.0",
     "react-addons-test-utils": "^15.3.1",
+    "redux-mock-store": "^1.2.2",
     "stats-webpack-plugin": "^0.2.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
@@ -61,7 +62,6 @@
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
-    "redux-mock-store": "^1.2.2",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.0.1",
     "select2": "~3.5.2-browserify"
