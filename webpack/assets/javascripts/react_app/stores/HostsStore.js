@@ -10,7 +10,7 @@ class HostsEventEmitter extends AppEventEmitter {
     super();
   }
 
-  getHostsData(id) {
+  getHostData(id) {
     _hosts[id] = _hosts[id] || { data: [] };
 
     return _hosts[id];

@@ -30,7 +30,7 @@ class PowerStatusContainer extends React.Component {
     const id = parseInt(event.id, 10);
 
     if (id === this.props.id) {
-      this.updateState(HostsStore.getHostsData(id));
+      this.updateState(HostsStore.getHostData(id));
     }
   }
 
