@@ -19,6 +19,10 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
     { :hostgroup => valid_attrs.merge(extra_attrs) }
   end
 
+  def old_valid_attrs
+    { :name => 'TestHostgroup', :puppet_proxy_id => smart_proxies(:puppetmaster).id, :puppet_ca_proxy_id => smart_proxies(:puppetmaster).id }
+  end
+
   test "should get index" do
     get :index, { }
     assert_response :success
@@ -74,6 +78,18 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
     put :update, { :id => hostgroups(:db).to_param, :hostgroup => {:parent_id => hostgroups(:common).id} }
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.unscoped.find_by_name("db").ancestry
+  end
+
+  test "should create hostgroup with old attrs" do
+    assert_difference('Hostgroup.unscoped.count') do
+      post :create, { :hostgroup => old_valid_attrs }
+    end
+    assert_response :success
+  end
+
+  test "should update hostgroup with old attrs" do
+    put :update, { :id => hostgroups(:common).to_param, :hostgroup => old_valid_attrs }
+    assert_response :success
   end
 
   private

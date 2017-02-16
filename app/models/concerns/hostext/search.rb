@@ -41,8 +41,13 @@ module Hostext
       scoped_search :relation => :environment, :on => :name,    :complete_value => true,  :rename => :environment
       scoped_search :relation => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :relation => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster, :only_explicit => true
-      scoped_search :on => :puppet_proxy_id, :complete_value => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+      scoped_search :relation => :puppet_proxy, :on => :id, :complete_value => true, :rename => :puppet_proxy_id, :only_explicit => true
+      scoped_search :relation => :puppet_proxy_hostname, :on => :hostname, :complete_value => true, :rename => :puppetmaster_hostname, :only_explicit => true
+      scoped_search :on => :puppet_proxy_hostname_id, :complete_value => false, :only_explicit => true, :rename => :puppetmaster_hostname_id, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :puppet_ca_proxy, :on => :name, :complete_value => true, :rename => :puppet_ca, :only_explicit => true
+      scoped_search :relation => :puppet_ca_proxy_hostname, :on => :hostname, :complete_value => true, :rename => :puppet_ca_hostname, :only_explicit => true
+      scoped_search :relation => :puppet_ca_proxy, :on => :id, :complete_value => true, :rename => :puppet_ca_proxy_id, :only_explicit => true
+      scoped_search :on => :puppet_ca_proxy_hostname_id, :complete_value => false, :rename => :puppet_ca_hostname_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :puppet_proxy, :on => :name, :complete_value => true, :rename => :smart_proxy, :ext_method => :search_by_proxy, :only_explicit => true
       scoped_search :relation => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :relation => :compute_resource, :on => :id,      :complete_enabled => false, :rename => :compute_resource_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
@@ -184,11 +189,11 @@ module Hostext
       end
 
       def search_by_proxy(key, operator, value)
-        proxy_cond = sanitize_sql_for_conditions(["smart_proxies.name #{operator} ?", value_to_sql(operator, value)])
+        proxy_cond = sanitize_sql_for_conditions(["sp.name #{operator} ?", value_to_sql(operator, value)])
         host_ids = Host::Managed.reorder('')
                                 .authorized(:view_hosts, Host)
                                 .eager_load(proxy_connections_tables)
-                                .joins("LEFT JOIN smart_proxies ON smart_proxies.id IN (#{proxy_connections_columns.join(',')})")
+                                .joins("LEFT JOIN smart_proxies AS sp ON sp.id IN (#{proxy_connections_columns.join(',')})")
                                 .where(proxy_cond)
                                 .uniq
                                 .pluck('hosts.id')
@@ -230,11 +235,11 @@ module Hostext
 
       #override these if needed to add connection in plugin
       def proxy_connections_columns
-        ['subnets.dhcp_id', 'subnets.dns_id', 'subnets.tftp_id', 'domains.dns_id', 'realms.realm_proxy_id', 'hosts.puppet_proxy_id', 'hosts.puppet_ca_proxy_id']
+        ['subnets.dhcp_id', 'subnets.dns_id', 'subnets.tftp_id', 'domains.dns_id', 'realms.realm_proxy_id', 'hostnames_smart_proxies.smart_proxy_id' ]
       end
 
       def proxy_connections_tables
-        [:realm, :interfaces => [:subnet, :domain]]
+        [:realm, :puppet_proxy, :puppet_ca_proxy, :interfaces => [:subnet, :domain]]
       end
     end
   end

@@ -426,7 +426,9 @@ class Host::Managed < Host::Base
 
     # if proxy authentication is enabled and we have no puppet proxy set and the upload came from puppet,
     # use it as puppet proxy.
-    host.puppet_proxy_id ||= proxy_id if import_type == 'puppet'
+
+    proxy_hostname_id = SmartProxy.unscoped.where(:id => proxy_id).try(:first).try(:hostnames).try(:first).try(:id)
+    host.puppet_proxy_hostname_id ||= proxy_hostname_id if import_type == 'puppet'
 
     host
   end
@@ -558,7 +560,7 @@ class Host::Managed < Host::Base
   end
 
   def hostgroup_inherited_attributes
-    %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id}
+    %w{puppet_proxy_hostname_id puppet_ca_proxy_hostname_id environment_id compute_profile_id realm_id}
   end
 
   def apply_inherited_attributes(attributes, initialized = true)
@@ -642,7 +644,7 @@ class Host::Managed < Host::Base
   end
 
   def puppetrun!
-    unless puppet_proxy.present?
+    unless puppet_proxy_hostname.present?
       errors.add(:base, _("no puppet proxy defined - cant continue"))
       logger.warn "unable to execute puppet run, no puppet proxies defined"
       return false

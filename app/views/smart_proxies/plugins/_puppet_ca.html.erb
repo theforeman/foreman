@@ -15,7 +15,7 @@
         <div class="row">
           <div class="col-md-4"><%= _('Hosts managed:') %></div>
           <div class="col-md-8">
-            <%= link_to Host::Managed.where(:puppet_ca_proxy_id => @smart_proxy.id).count, hosts_path(:search => "puppet_ca = \"#{@smart_proxy.name}\"") %>
+            <%= link_to Host::Managed.search_for("puppet_ca_proxy_id = #{@smart_proxy.id}").count, hosts_path(:search => "puppet_ca = \"#{@smart_proxy.name}\"") %>
           </div>
         </div>
       </div>

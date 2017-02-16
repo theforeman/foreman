@@ -10,6 +10,9 @@
       <% if User.current.allowed_to?(:view_smart_proxies) %>
         <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
       <% end %>
+      <% if User.current.allowed_to?(:view_hostnames) %>
+        <li><a href="#hostnames" data-toggle="tab"><%= _("Hostnames") %></a></li>
+      <% end %>
       <% if SETTINGS[:unattended] %>
         <% if User.current.allowed_to?(:view_subnets) %>
           <li><a href="#subnets" data-toggle="tab"><%= _("Subnets") %></a></li>
@@ -65,6 +68,7 @@
 
       <%= show_resource_if_allowed(f, taxonomy, {:resource => :users, :association => User.except_admin}) %>
       <%= show_resource_if_allowed(f, taxonomy, :smart_proxies) %>
+      <%= show_resource_if_allowed(f, taxonomy, :hostnames) %>
 
       <% if SETTINGS[:unattended] %>
         <%= show_resource_if_allowed(f, taxonomy, :subnets) %>

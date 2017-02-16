@@ -143,7 +143,7 @@ class HostgroupTest < ActiveSupport::TestCase
   # test NestedAncestryCommon methods generate by class method nested_attribute_for
   test "respond to nested_attribute_for methods" do
     hostgroup = hostgroups(:common)
-    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_hostname_id, :puppet_ca_proxy_hostname_id,
      :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id].each do |field|
       assert hostgroup.respond_to?("inherited_#{field}")
     end
@@ -151,7 +151,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test "inherited id value equals field id value if no ancestry" do
     hostgroup = hostgroups(:parent)
-    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+    [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_hostname_id, :puppet_ca_proxy_hostname_id,
      :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id].each do |field|
       refute_nil hostgroup.send(field), "missing #{field}"
       assert_equal hostgroup.send(field), hostgroup.send("inherited_#{field}")
@@ -162,7 +162,7 @@ class HostgroupTest < ActiveSupport::TestCase
     child = hostgroups(:inherited)
     parent = hostgroups(:parent)
     # environment_id is not included in the array below since child value is not null
-    [:compute_profile_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+    [:compute_profile_id, :domain_id, :puppet_proxy_hostname_id, :puppet_ca_proxy_hostname_id,
      :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id].each do |field|
       refute_nil parent.send(field), "missing #{field}"
       assert_equal parent.send(field), child.send("inherited_#{field}")
@@ -182,7 +182,7 @@ class HostgroupTest < ActiveSupport::TestCase
     parent = hostgroups(:parent)
     # methods below do not include _id
     # environment is not included in the array below since child value is not null
-    [:compute_profile, :domain, :puppet_proxy, :puppet_ca_proxy,
+    [:compute_profile, :domain, :puppet_proxy_hostname, :puppet_ca_proxy_hostname,
      :operatingsystem, :architecture, :medium, :ptable, :subnet, :subnet6].each do |field|
       refute_nil parent.send(field), "missing #{field}"
       assert_equal parent.send(field), child.send(field)
@@ -526,11 +526,11 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "should not associate proxies without appropriate features" do
-    proxy = smart_proxies(:one)
-    hostgroup = Hostgroup.new(:name => ".otherDomain.", :puppet_proxy_id => proxy.id, :puppet_ca_proxy_id => proxy.id)
+    hostname = hostnames(:one)
+    hostgroup = Hostgroup.new(:name => ".otherDomain.", :puppet_proxy_hostname_id => hostname.id, :puppet_ca_proxy_hostname_id => hostname.id)
     refute hostgroup.save
-    assert_equal "does not have the Puppet feature", hostgroup.errors["puppet_proxy_id"].first
-    assert_equal "does not have the Puppet CA feature", hostgroup.errors["puppet_ca_proxy_id"].first
+    assert_equal "does not have the Puppet feature", hostgroup.errors["puppet_proxy_hostname_id"].first
+    assert_equal "does not have the Puppet CA feature", hostgroup.errors["puppet_ca_proxy_hostname_id"].first
   end
 
   test 'should be invalid when subnet types are wrong' do

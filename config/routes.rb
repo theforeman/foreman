@@ -53,10 +53,10 @@ Foreman::Application.routes.draw do
         post 'update_multiple_owner'
         post 'select_multiple_power_state'
         post 'update_multiple_power_state'
-        post 'select_multiple_puppet_proxy'
-        post 'update_multiple_puppet_proxy'
-        post 'select_multiple_puppet_ca_proxy'
-        post 'update_multiple_puppet_ca_proxy'
+        post 'select_multiple_puppet_proxy_hostname'
+        post 'update_multiple_puppet_proxy_hostname'
+        post 'select_multiple_puppet_ca_proxy_hostname'
+        post 'update_multiple_puppet_ca_proxy_hostname'
         post 'multiple_puppetrun'
         post 'update_multiple_puppetrun'
         post 'multiple_destroy'
@@ -248,6 +248,14 @@ Foreman::Application.routes.draw do
     end
     collection do
       get 'auto_complete_search'
+    end
+  end
+
+  constraints(:id => /[^\/]+/) do
+    resources :hostnames, :only => [:index, :edit, :update, :new, :create, :destroy] do
+      collection do
+        get 'auto_complete_search'
+      end
     end
   end
 

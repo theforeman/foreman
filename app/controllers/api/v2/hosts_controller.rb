@@ -17,6 +17,7 @@ module Api
       before_action :find_resource, :except => [:index, :create, :facts]
       before_action :permissions_check, :only => %w{power boot puppetrun}
       before_action :process_parameter_attributes, :only => %w{update}
+      before_action :swap_proxy_for_hostname, :only => %w{create update}
 
       add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
 
@@ -118,9 +119,10 @@ module Api
           @host = import_host
           @host.assign_attributes(host_attributes(host_params))
         else
-          @host = Host.new(host_attributes(host_params))
+          @host = Host.new(host_attributes(@host_params))
           @host.managed = true if (params[:host] && params[:host][:managed].nil?)
         end
+        @host.managed = true if (params[:host] && params[:host][:managed].nil?)
         apply_compute_profile(@host)
         @host.suggest_default_pxe_loader if params[:host] && params[:host][:pxe_loader].nil?
 
@@ -135,7 +137,7 @@ module Api
       param_group :host
 
       def update
-        @host.attributes = host_attributes(host_params, @host)
+        @host.attributes = host_attributes(@host_params, @host)
         apply_compute_profile(@host)
 
         process_response @host.save
@@ -392,6 +394,16 @@ Return the host's compute attributes that can be used to create a clone of this 
           :compute_resource => compute_resource,
           :uuid => params[:host][:uuid]
         ).host
+      end
+
+      def swap_proxy_for_hostname
+        ca_proxy_hostname = SmartProxy.find_by_id(host_params[:puppet_ca_proxy_id]).try(:hostnames).try(:first)
+        puppet_proxy_hostname = SmartProxy.find_by_id(host_params[:puppet_proxy_id]).try(:hostnames).try(:first)
+        Foreman::Deprecation.api_deprecation_warning('puppet_ca_proxy_id parameter is deprecated, please use the new puppet_ca_proxy_hostname_id parameter instead') if ca_proxy_hostname
+        Foreman::Deprecation.api_deprecation_warning('puppet_proxy_id parameter is deprecated, please use the new puppet_proxy_hostname_id parameter instead') if puppet_proxy_hostname
+        @host_params = host_params.merge(puppet_proxy_hostname_id: puppet_proxy_hostname.try(:id)).
+                                  merge(puppet_ca_proxy_hostname_id: ca_proxy_hostname.try(:id)).
+                                  except(:puppet_ca_proxy_id, :puppet_proxy_id)
       end
     end
   end

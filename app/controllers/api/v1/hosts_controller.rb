@@ -6,6 +6,7 @@ module Api
 
       before_action :check_create_host_nested, :only => [:create, :update]
       before_action :find_resource, :only => %w{show update destroy status}
+      before_action :swap_proxy_for_hostname, :only => %w{create update}
 
       api :GET, "/hosts/", "List all hosts."
       param :search, String, :desc => "Filter results"
@@ -69,7 +70,7 @@ module Api
       end
 
       def create
-        @host = Host.new(host_params)
+        @host = Host.new(@host_params)
         @host.managed = true if (params[:host] && params[:host][:managed].nil?)
         @host.suggest_default_pxe_loader if params[:host] && params[:host][:pxe_loader].nil?
         forward_request_url
@@ -112,7 +113,7 @@ module Api
       end
 
       def update
-        process_response @host.update_attributes(host_params)
+        process_response @host.update_attributes(@host_params)
       end
 
       api :DELETE, "/hosts/:id/", "Delete an host."
@@ -151,6 +152,14 @@ Return value may either be one of the following:
       # this is required for template generation (such as pxelinux) which is not done via a web request
       def forward_request_url
         @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
+      end
+
+      def swap_proxy_for_hostname
+        ca_proxy_hostname = SmartProxy.find_by_id(host_params[:puppet_ca_proxy_id]).try(:hostnames).try(:first)
+        puppet_proxy_hostname = SmartProxy.find_by_id(host_params[:puppet_proxy_id]).try(:hostnames).try(:first)
+        @host_params = host_params.merge(puppet_proxy_hostname_id: puppet_proxy_hostname.try(:id)).
+                                  merge(puppet_ca_proxy_hostname_id: ca_proxy_hostname.try(:id)).
+                                  except(:puppet_ca_proxy_id, :puppet_proxy_id)
       end
     end
   end

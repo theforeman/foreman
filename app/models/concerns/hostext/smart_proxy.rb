@@ -15,7 +15,8 @@ module Hostext
       end
       ids << domain.dns_id if domain.present?
       ids << realm.realm_proxy_id if realm.present?
-      ids += [puppet_proxy_id, puppet_ca_proxy_id]
+      ids << puppet_proxy.id if puppet_proxy.present?
+      ids << puppet_ca_proxy.id if puppet_ca_proxy.present?
       ids.uniq.compact
     end
   end

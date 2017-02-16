@@ -1,40 +1,60 @@
 one:
   name: DHCP Proxy
-  url: https://somewhere.net:8443
+  hostnames:
+    - one
+  url: https://somewhere.net:8443 
   features: dhcp
+  hostnames:
+    - one
 
 two:
   name: TFTP Proxy
+  hostnames:
+    - two
   url: http://somewhere.else
   features: tftp
+  hostnames:
+    - two
 
 three:
   name: DNS Proxy
-  url: http://else.where:45671
+  url: http://else.where.three:45671
   features: dns
+  hostnames:
+    - three
 
 puppetmaster:
   name: Puppetmaster Proxy
-  url: http://else.where:4567
+  url: http://else.where.puppetmaster:4567
   features: 'puppet, puppetca'
+  hostnames:
+    - puppetmaster
 
 realm:
   name: Realm Proxy
-  url: http://else.where:1337
+  url: http://else.where.realm:1337
   features: realm
+  hostnames:
+    - realm
 
 four:
   name: Unused Proxy
-  url: http://else.where:45672
+  url: http://else.where.bmc:45672
+  hostnames:
+    - four
 
 bmc:
   name: BMC proxy
-  url: http://else.where:45673
   features: bmc
+  hostnames:
+    - bmc
+  url: http://else.where.bmc:45673
 
 logs:
   name: A proxy with Logs feature
-  url: http://else.where:45674
+  url: http://else.where.logs:45674
+  hostnames:
+    - logs
   features:
     - dhcp
     - dns

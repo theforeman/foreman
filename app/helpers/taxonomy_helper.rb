@@ -170,6 +170,7 @@ module TaxonomyHelper
     labels = { :users => { :all => _("All users"), :select => _("Select users") },
                :smart_proxies => { :all => _("All smart proxies"), :select => _("Select smart proxies") },
                :subnets => { :all => _("All subnets"), :select => _("Select subnets") },
+               :hostnames => { :all => _("All Hostnames"), :select => _("Select Hostnames") },
                :compute_resources => { :all => _("All compute resources"), :select => _("Select compute resources") },
                :media => { :all => _("All media"), :select => _("Select media") },
                :provisioning_templates => { :all => _("All provisioning templates"), :select => _("Select provisioning templates") },

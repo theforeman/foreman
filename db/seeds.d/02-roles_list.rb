@@ -25,6 +25,7 @@ class RolesList
                                     :create_puppetclasses, :edit_puppetclasses, :destroy_puppetclasses, :import_puppetclasses,
                                     :create_smart_proxies, :edit_smart_proxies, :destroy_smart_proxies,
                                     :create_smart_proxies_autosign, :destroy_smart_proxies_autosign,
+                                    :create_hostnames, :edit_hostnames, :destroy_hostname,
                                     :edit_smart_proxies_puppetca, :destroy_smart_proxies_puppetca,
                                     :create_ssh_keys, :destroy_ssh_keys,
                                     :create_subnets, :edit_subnets, :destroy_subnets, :import_subnets,
@@ -50,7 +51,7 @@ class RolesList
                                     :view_smart_proxies, :edit_smart_proxies, :view_subnets, :edit_subnets,
                                     :view_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
                                     :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications,
-                                    :view_params, :view_ssh_keys]
+                                    :view_params, :view_ssh_keys, :view_hostnames]
       }
     end
 
@@ -77,7 +78,7 @@ class RolesList
         :view_provisioning_templates, :view_ptables, :view_puppetclasses, :view_smart_proxies, :view_smart_proxies_autosign,
         :view_smart_proxies_puppetca, :view_subnets, :view_organizations, :view_usergroups, :view_users, :view_config_reports,
         :view_facts, :view_audit_logs, :view_statistics, :view_tasks, :view_trends, :view_plugins, :view_mail_notifications,
-        :access_dashboard, :view_roles, :view_ssh_keys
+        :access_dashboard, :view_roles, :view_ssh_keys, :view_hostnames
       ]
     end
   end

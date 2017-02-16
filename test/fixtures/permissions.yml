@@ -519,6 +519,26 @@
     resource_type:
     created_at: "2013-12-04 08:41:06.132528"
     updated_at: "2013-12-04 08:41:06.132528"
+  view_hostnames:
+    name: view_hostnames
+    resource_type: Hostname
+    created_at: "2013-12-04 08:41:06.140564"
+    updated_at: "2013-12-04 08:41:06.140564"
+  create_hostnames:
+    name: create_hostnames
+    resource_type: Hostname
+    created_at: "2013-12-04 08:41:06.149029"
+    updated_at: "2013-12-04 08:41:06.149029"
+  edit_hostnames:
+    name: edit_hostnames
+    resource_type: Hostname
+    created_at: "2013-12-04 08:41:06.157364"
+    updated_at: "2013-12-04 08:41:06.157364"
+  destroy_hostnames:
+    name: destroy_hostnames
+    resource_type: Hostname
+    created_at: "2013-12-04 08:41:06.1657"
+    updated_at: "2013-12-04 08:41:06.1657"
   view_smart_proxies:
     name: view_smart_proxies
     resource_type: SmartProxy

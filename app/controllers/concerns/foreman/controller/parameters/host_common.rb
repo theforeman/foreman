@@ -12,6 +12,9 @@ module Foreman::Controller::Parameters::HostCommon
         :image_file,
         :lookup_value_matcher,
         :use_image,
+        # These legacy smart proxy params are here for legacy API compatibility
+        :puppet_proxy_id,
+        :puppet_ca_proxy_id,
         :lookup_values_attributes => [lookup_value_params_filter]
       add_smart_proxies_common_params_filter(filter)
     end

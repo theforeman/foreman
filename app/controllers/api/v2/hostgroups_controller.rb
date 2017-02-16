@@ -9,6 +9,7 @@ module Api
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone}
       before_action :process_parameter_attributes, :only => %w{update}
+      before_action :swap_proxy_for_hostname, :only => %w{create update}
 
       api :GET, "/hostgroups/", N_("List all host groups")
       api :GET, "/puppetclasses/:puppetclass_id/hostgroups", N_("List all host groups for a Puppet class")
@@ -61,7 +62,7 @@ module Api
       param_group :hostgroup, :as => :create
 
       def create
-        @hostgroup = Hostgroup.new(hostgroup_params)
+        @hostgroup = Hostgroup.new(@hostgroup_params)
         @hostgroup.suggest_default_pxe_loader if params[:hostgroup] && params[:hostgroup][:pxe_loader].nil?
 
         process_response @hostgroup.save
@@ -72,7 +73,7 @@ module Api
       param_group :hostgroup
 
       def update
-        process_response @hostgroup.update_attributes(hostgroup_params)
+        process_response @hostgroup.update_attributes(@hostgroup_params)
       end
 
       api :DELETE, "/hostgroups/:id/", N_("Delete a host group")
@@ -107,6 +108,16 @@ module Api
 
       def allowed_nested_id
         %w(puppetclass_id location_id organization_id)
+      end
+
+      def swap_proxy_for_hostname
+        ca_proxy_hostname = SmartProxy.find_by_id(hostgroup_params[:puppet_ca_proxy_id]).try(:hostnames).try(:first)
+        puppet_proxy_hostname = SmartProxy.find_by_id(hostgroup_params[:puppet_proxy_id]).try(:hostnames).try(:first)
+        Foreman::Deprecation.api_deprecation_warning('puppet_ca_proxy_id parameter is deprecated, please use the new puppet_ca_proxy_hostname_id parameter instead') if ca_proxy_hostname
+        Foreman::Deprecation.api_deprecation_warning('puppet_proxy_id parameter is deprecated, please use the new puppet_proxy_hostname_id parameter instead') if puppet_proxy_hostname
+        @hostgroup_params = hostgroup_params.merge(puppet_proxy_hostname_id: puppet_proxy_hostname.try(:id)).
+                                            merge(puppet_ca_proxy_hostname_id: ca_proxy_hostname.try(:id)).
+                                            except(:puppet_ca_proxy_id, :puppet_proxy_id)
       end
     end
   end

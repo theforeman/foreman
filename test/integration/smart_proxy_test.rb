@@ -45,6 +45,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
     # smart_proxies(:one) has DHCP feature
     assert page.has_selector?('h3', :text => "DHCP")
     assert page.has_content? "Version"
+    assert page.has_content? "Hostname(s)"
   end
 
   describe 'pagelets on show page' do

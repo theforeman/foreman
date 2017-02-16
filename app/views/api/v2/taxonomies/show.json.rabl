@@ -14,6 +14,10 @@ child :smart_proxies do
   extends "api/v2/smart_proxies/base"
 end
 
+child :hostnames do
+  extends "api/v2/hostnames/base"
+end
+
 child :subnets do
   extends "api/v2/subnets/base"
 end

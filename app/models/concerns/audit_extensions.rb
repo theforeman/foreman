@@ -14,6 +14,7 @@ module AuditExtensions
         :config_group => 'ConfigGroup',
         :domain => 'Domain',
         :host => 'Host',
+        :hostname => 'Hostname',
         :hostgroup => 'Hostgroup',
         :image => 'Image',
         :location => 'Location',

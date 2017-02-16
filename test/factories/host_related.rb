@@ -218,15 +218,15 @@ FactoryGirl.define do
 
     trait :with_puppet do
       environment
-      puppet_proxy do
-        FactoryGirl.create(:puppet_smart_proxy)
+      puppet_proxy_hostname do
+        FactoryGirl.create(:puppet_smart_proxy).hostnames.first
       end
     end
 
     trait :with_puppet_ca do
       environment
-      puppet_ca_proxy do
-        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
+      puppet_ca_proxy_hostname do
+        FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)]).hostnames.first
       end
     end
 
@@ -431,8 +431,8 @@ FactoryGirl.define do
       association :compute_resource, :factory => :libvirt_cr
       domain
       interfaces { [ FactoryGirl.build(:nic_primary_and_provision) ] }
-      puppet_ca_proxy do
-        FactoryGirl.create(:puppet_ca_smart_proxy)
+      puppet_ca_proxy_hostname do
+        FactoryGirl.create(:puppet_ca_smart_proxy).hostnames.first
       end
     end
 
@@ -500,11 +500,11 @@ FactoryGirl.define do
       operatingsystem do
         FactoryGirl.create(:operatingsystem, :architectures => [architecture], :ptables => [ptable])
       end
-      puppet_ca_proxy do
-        FactoryGirl.create(:puppet_ca_smart_proxy)
+      puppet_ca_proxy_hostname do
+        FactoryGirl.create(:puppet_ca_smart_proxy).hostnames.first
       end
-      puppet_proxy do
-        FactoryGirl.create(:puppet_smart_proxy)
+      puppet_proxy_hostname do
+        FactoryGirl.create(:puppet_smart_proxy).hostnames.first
       end
     end
   end

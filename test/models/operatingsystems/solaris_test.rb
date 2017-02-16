@@ -13,7 +13,7 @@ class SolarisTest < ActiveSupport::TestCase
           :compute_resource => compute_resources(:one),
           :model => models(:V210),
           :medium => media(:solaris10),
-          :puppet_proxy => smart_proxies(:puppetmaster),
+          :puppet_proxy_hostname => hostnames(:puppetmaster),
           :ptable => FactoryGirl.create(:ptable, :operatingsystem_ids => [operatingsystems(:solaris10).id])
         )
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
