@@ -287,8 +287,8 @@ class HostsControllerTest < ActionController::TestCase
     setup_user_and_host "view", "domain_id = #{domains(:mydomain).id}"
 
     as_admin do
-      @host1.update_attribute(:domain, domains(:mydomain))
-      @host2.update_attribute(:domain, domains(:yourdomain))
+      @host1.primary_interface.update_attribute(:domain, domains(:mydomain))
+      @host2.primary_interface.update_attribute(:domain, domains(:yourdomain))
     end
     get :index, {}, set_session_user.merge(:user => @one.id)
 
