@@ -624,8 +624,10 @@ Foreman::AccessControl.map do |permission_set|
                                                      :"api/v1/autosign" => [:index],
                                                      :"api/v2/autosign" => [:index]
                                                     }
-    map.permission :create_smart_proxies_autosign,  {:autosign => [:new, :create]}
-    map.permission :destroy_smart_proxies_autosign, {:autosign => [:destroy]}
+    map.permission :create_smart_proxies_autosign,  {:autosign => [:new, :create],
+                                                     :"api/v2/autosign" => [:create]}
+    map.permission :destroy_smart_proxies_autosign, {:autosign => [:destroy],
+                                                     :"api/v2/autosign" => [:destroy]}
   end
 
   permission_set.security_block :smart_proxies_puppetca do |map|
