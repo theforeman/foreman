@@ -42,7 +42,7 @@ module Orchestration::DNS
     results = {}
 
     DnsInterface::RECORD_TYPES.each do |record_type|
-      del_dns_record_safe(record_type)
+      dns_record(record_type).nil? || dns_record(record_type).valid? || del_dns_record_safe(record_type)
 
       begin
         results[record_type] = dns_feasible?(record_type) ? recreate_dns_record(record_type) : true
