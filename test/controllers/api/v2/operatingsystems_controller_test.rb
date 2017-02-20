@@ -140,6 +140,25 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should update existing operatingsystem parameters" do
+    operatingsystem = FactoryGirl.create(:operatingsystem)
+    param_params = { :name => "foo", :value => "bar" }
+    operatingsystem.os_parameters.create!(param_params)
+    put :update, { :id => operatingsystem.id, :operatingsystem => { :os_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
+    assert_response :success
+    assert param_params[:name], operatingsystem.parameters.first.name
+  end
+
+  test "should delete existing os parameters" do
+    operatingsystem = FactoryGirl.create(:operatingsystem)
+    param_1 = { :name => "foo", :value => "bar" }
+    param_2 = { :name => "boo", :value => "test" }
+    operatingsystem.os_parameters.create!([param_1, param_2])
+    put :update, { :id => operatingsystem.id, :operatingsystem => { :os_parameters_attributes => [{ :name => param_1[:name], :value => "new_value" }] } }
+    assert_response :success
+    assert_equal 1, operatingsystem.parameters.count
+  end
+
   private
 
   def os_params

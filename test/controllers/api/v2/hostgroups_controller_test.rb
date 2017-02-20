@@ -115,6 +115,25 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should update existing hostgroup parameters" do
+    hostgroup = FactoryGirl.create(:hostgroup)
+    param_params = { :name => "foo", :value => "bar" }
+    hostgroup.group_parameters.create!(param_params)
+    put :update, { :id => hostgroup.id, :hostgroup => { :group_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
+    assert_response :success
+    assert param_params[:name], hostgroup.parameters[param_params[:name]]
+  end
+
+  test "should delete existing hostgroup parameters" do
+    hostgroup = FactoryGirl.create(:hostgroup)
+    param_1 = { :name => "foo", :value => "bar" }
+    param_2 = { :name => "boo", :value => "test" }
+    hostgroup.group_parameters.create!([param_1, param_2])
+    put :update, { :id => hostgroup.id, :hostgroup => { :group_parameters_attributes => [{ :name => param_1[:name], :value => "new_value" }] } }
+    assert_response :success
+    assert_equal 1, hostgroup.reload.parameters.keys.count
+  end
+
   private
 
   def last_record

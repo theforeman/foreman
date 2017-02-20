@@ -2,6 +2,7 @@ module Api
   module V2
     class OperatingsystemsController < V2::BaseController
       include Foreman::Controller::Parameters::Operatingsystem
+      include ParameterAttributes
 
       resource_description do
         name 'Operating systems'
@@ -11,6 +12,7 @@ module Api
       before_action :rename_config_template, :only => %w{index}
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show edit update destroy bootfiles}
+      before_action :process_parameter_attributes, :only => %w{update}
 
       api :GET, "/operatingsystems/", N_("List all operating systems")
       api :GET, "/architectures/:architecture_id/operatingsystems", N_("List all operating systems for nested architecture")
@@ -23,6 +25,10 @@ module Api
       param :ptable_id, String, :desc => N_("ID of partition table")
       param :config_template_id, String, :desc => N_("ID of template")
       param :provisioning_template_id, String, :desc => N_("ID of template")
+      param :os_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters")  do
+        param :name, String, :desc => N_("Name of the parameter"), :required => true
+        param :value, String, :desc => N_("Parameter value"), :required => true
+      end
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -44,7 +50,7 @@ module Api
           param :description, String
           param :family, String
           param :release_name, String
-          param :os_parameters_attributes, Array, :desc => N_("OS' parameters (array or indexed hash)") do
+          param :os_parameters_attributes, Array, :desc => N_("Array of parameters") do
             param :name, String, :desc => N_("Name of the parameter"), :required => true
             param :value, String, :desc => N_("Parameter value"), :required => true
           end

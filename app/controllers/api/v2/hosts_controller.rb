@@ -7,6 +7,7 @@ module Api
       include ScopesPerAction
       include Foreman::Controller::SmartProxyAuth
       include Foreman::Controller::Parameters::Host
+      include ParameterAttributes
 
       wrap_parameters :host, :include => host_params_filter.accessible_attributes(parameter_filter_context) + ['compute_attributes']
 
@@ -15,6 +16,7 @@ module Api
       before_action :find_optional_nested_object, :except => [:facts]
       before_action :find_resource, :except => [:index, :create, :facts]
       before_action :permissions_check, :only => %w{power boot puppetrun}
+      before_action :process_parameter_attributes, :only => %w{update}
 
       add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
 

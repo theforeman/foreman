@@ -4,10 +4,12 @@ module Api
       include Api::Version2
       include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Subnet
+      include ParameterAttributes
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy freeip}
       before_action :find_ipam, :only => %w{freeip}
+      before_action :process_parameter_attributes, :only => %w{update}
 
       api :GET, '/subnets', N_("List of subnets")
       api :GET, "/domains/:domain_id/subnets", N_("List of subnets for a domain")
