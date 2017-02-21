@@ -23,3 +23,17 @@
            :label => _("Eager zero"), :label_size => "col-md-2", :disabled => !new_host},
            "true",
            "false" %>
+<%
+# regarding to the following documentation:
+# http://pubs.vmware.com/vsphere-65/index.jsp?topic=%2Fcom.vmware.wssdk.apiref.doc%2Fvim.vm.device.VirtualDiskOption.DiskMode.html
+# there are some more disk modes available (nonpersistent, undoable, append) but as far as I can see, 
+# these disk modes don't work and don't exist on current vmware vsphere configuration GUI.
+#  ['nonpersistent', :nonpersistent], 
+#  ['undoable', :undoable],
+#  ['append', :append]]
+%>
+<% disk_mode_values = [['Dependent', :persistent],
+   ['Independent - Persistent', :independent_persistent],
+   ['Independent - Nonpersistent', :independent_nonpersistent]] %>
+<%= selectable_f f, :mode, disk_mode_values, { }, :class => "span5", :label => _("Disk mode"), :label_size => "col-md-2", :disabled => !new_host %>
+
