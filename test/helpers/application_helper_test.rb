@@ -87,18 +87,4 @@ class ApplicationHelperTest < ActionView::TestCase
       end
     end
   end
-  describe 'authorized_for' do
-    setup do
-      @permission = Permission.find_by_name('view_domains')
-      @user = FactoryGirl.create(:user)
-      @domain1 = FactoryGirl.create(:domain, :name => 'fake-domain.arpa')
-    end
-
-    test "disable cache when calling can?" do
-      as_user @user do
-        Authorizer.any_instance.expects(:can?).with(@permission, @domain1, false)
-        authorized_for({:permission => @permission, :auth_object => @domain1})
-      end
-    end
-  end
 end
