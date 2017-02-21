@@ -51,6 +51,14 @@ class RendererTest < ActiveSupport::TestCase
     end
   end
 
+  describe "yast_attributes" do
+    test "does not fail if @host does not have medium" do
+      @renderer.host = FactoryGirl.build(:host)
+      @renderer.send :yast_attributes
+      assert_nil @renderer.instance_variable_get('@mediapath')
+    end
+  end
+
   test '#foreman_url can be rendered even outside of controller context' do
     assert_nothing_raised do
       assert_match /\/unattended\/built/, @renderer.foreman_url('built')
