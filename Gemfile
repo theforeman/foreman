@@ -50,6 +50,9 @@ gem 'webpack-rails', '~> 0.9.8'
 gem 'mail', '~> 2.6'
 gem 'sshkey', '~> 1.9'
 gem 'ruby2ruby', '2.3.2'
+gem 'dynflow', '>= 0.8.25', '< 1.0.0'
+gem 'daemons'
+gem 'get_process_mem'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))
