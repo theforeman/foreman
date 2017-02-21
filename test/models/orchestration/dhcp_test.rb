@@ -6,6 +6,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     disable_orchestration
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
+    skip_without_unattended
   end
 
   def teardown
@@ -15,53 +16,47 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test 'host_should_have_dhcp' do
-    if unattended?
-      h = FactoryGirl.create(:host, :with_dhcp_orchestration)
-      assert h.valid?
-      assert h.dhcp?, 'host.dhcp? does not return true'
-      assert_instance_of Net::DHCP::Record, h.dhcp_record
-      assert_equal h.name, h.dhcp_record.hostname
-    end
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    assert h.valid?
+    assert h.dhcp?, 'host.dhcp? does not return true'
+    assert_equal 1, h.dhcp_records.size
+    assert_kind_of Array, h.dhcp_records
+    assert_instance_of Net::DHCP::Record, h.dhcp_records.first
+    assert_equal h.name, h.dhcp_records.first.hostname
   end
 
   test 'host_should_not_have_dhcp' do
-    if unattended?
-      h = FactoryGirl.create(:host)
-      assert h.valid?
-      assert_equal false, h.dhcp?
-    end
+    h = FactoryGirl.create(:host)
+    assert h.valid?
+    assert_equal false, h.dhcp?
+    assert_equal [], h.dhcp_records
   end
 
   test 'unmanaged should not call methods after managed?' do
-    if unattended?
-      h = FactoryGirl.create(:host)
-      Nic::Managed.any_instance.expects(:ip_available?).never
-      assert h.valid?
-      assert_equal false, h.dhcp?
-    end
+    h = FactoryGirl.create(:host)
+    Nic::Managed.any_instance.expects(:ip_available?).never
+    assert h.valid?
+    assert_equal false, h.dhcp?
   end
 
   test 'bmc_should_have_valid_dhcp_record' do
-    if unattended?
-      h = FactoryGirl.create(:host, :with_dhcp_orchestration)
-      b = FactoryGirl.build(:nic_bmc, :ip => '10.0.0.10', :name => 'bmc')
-      b.host   = h
-      b.domain = domains(:mydomain)
-      b.subnet = subnets(:five)
-      assert b.dhcp?
-      assert_equal "#{b.name}.#{b.domain.name}-#{b.mac}/#{b.ip}", b.dhcp_record.to_s
-    end
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    b = FactoryGirl.build(:nic_bmc, :ip => '10.0.0.10', :name => 'bmc')
+    b.host   = h
+    b.domain = domains(:mydomain)
+    b.subnet = subnets(:five)
+    assert b.dhcp?
+    assert_equal 1, b.dhcp_records.size
+    assert_equal "#{b.name}.#{b.domain.name}-#{b.mac}/#{b.ip}", b.dhcp_records.first.to_s
   end
 
   test 'static boot mode still enables dhcp orchestration' do
-    if unattended?
-      h = FactoryGirl.build(:host, :with_dhcp_orchestration)
-      i = FactoryGirl.build(:nic_managed, :ip => '10.0.0.10', :name => 'eth0:0')
-      i.host   = h
-      i.domain = domains(:mydomain)
-      i.subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :boot_mode => 'Static', :ipam => 'Internal DB')
-      assert i.dhcp?
-    end
+    h = FactoryGirl.build(:host, :with_dhcp_orchestration)
+    i = FactoryGirl.build(:nic_managed, :ip => '10.0.0.10', :name => 'eth0:0')
+    i.host   = h
+    i.domain = domains(:mydomain)
+    i.subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :boot_mode => 'Static', :ipam => 'Internal DB')
+    assert i.dhcp?
   end
 
   test "DHCP record contains jumpstart attributes" do
@@ -70,7 +65,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h.expects(:jumpstart?).at_least_once.returns(true)
     h.os.expects(:jumpstart_params).at_least_once.with(h, h.model.vendor_class).returns(:vendor => '<Sun-Fire-V210>')
     h.valid?
-    d = h.provision_interface.dhcp_record
+    assert_equal 1, h.provision_interface.dhcp_records.size
+    d = h.provision_interface.dhcp_records.first
     assert_instance_of Net::DHCP::SparcRecord, d
     assert_equal '<Sun-Fire-V210>', d.vendor
   end
@@ -79,24 +75,115 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
     subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
     h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet)
-    assert_equal 'grub2/grubx64.efi', h.provision_interface.dhcp_record.filename
-    assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
+    assert_equal 1, h.provision_interface.dhcp_records.size
+    assert_equal 'grub2/grubx64.efi', h.provision_interface.dhcp_records.first.filename
+    assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
   end
 
   test "provision interface DHCP records should contain explicit filename/next-server attributes for IPv4 tftp proxy" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
     subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
     h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet, :pxe_loader => 'PXELinux BIOS')
-    assert_equal 'pxelinux.0', h.provision_interface.dhcp_record.filename
-    assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
+    assert_equal 1, h.provision_interface.dhcp_records.size
+    assert_equal 'pxelinux.0', h.provision_interface.dhcp_records.first.filename
+    assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
   end
 
   test "provision interface DHCP records should not contain explicit filename attribute when PXE loader is set to None" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
     subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
     h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet, :pxe_loader => 'None')
-    assert_nil h.provision_interface.dhcp_record.filename
-    assert_equal '192.168.1.1', h.provision_interface.dhcp_record.nextServer
+    assert_equal 1, h.provision_interface.dhcp_records.size
+    assert_nil h.provision_interface.dhcp_records.first.filename
+    assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
+  end
+
+  context 'host with bond interface' do
+    let(:subnet) do
+      FactoryGirl.build(:subnet_ipv4, :dhcp, :with_taxonomies)
+    end
+    let(:interfaces) do
+      [
+        FactoryGirl.build(:nic_bond, :primary => true,
+                          :identifier => 'bond0',
+                          :attached_devices => ['eth0', 'eth1'],
+                          :provision => true,
+                          :domain => FactoryGirl.build(:domain),
+                          :subnet => subnet,
+                          :mac => nil,
+                          :ip => subnet.network.sub(/0\Z/, '2')),
+        FactoryGirl.build(:nic_interface,
+                          :identifier => 'eth0',
+                          :mac => '00:53:67:ab:dd:00'
+                         ),
+        FactoryGirl.build(:nic_interface,
+                          :identifier => 'eth1',
+                          :mac => '00:53:67:ab:dd:01'
+                         )
+      ]
+    end
+    let(:host) do
+      FactoryGirl.create(:host,
+                         :with_dhcp_orchestration,
+                         :subnet => subnet,
+                         :interfaces => interfaces,
+                         :build => true,
+                         :location => subnet.locations.first,
+                         :organization => subnet.organizations.first)
+    end
+
+    test 'should have two dhcp records' do
+      assert_equal true, host.provision_interface.mac_available?
+      assert_equal true, host.dhcp?
+      assert_equal 2, host.dhcp_records.size
+
+      # Record 1
+      assert_equal '00:53:67:ab:dd:00', host.dhcp_records.first.mac
+      assert_equal host.hostname, host.dhcp_records.first.hostname
+      assert_equal "#{host.name}-01", host.dhcp_records.first.name
+
+      # Record 2
+      assert_equal '00:53:67:ab:dd:01', host.dhcp_records.last.mac
+      assert_equal host.hostname, host.dhcp_records.last.hostname
+      assert_equal "#{host.name}-02", host.dhcp_records.last.name
+    end
+
+    test 'the records should not be conflicting' do
+      Net::DHCP::Record.any_instance.unstub(:conflicting?)
+      ProxyAPI::DHCP.any_instance.stubs(:record).with(subnet.network, host.dhcp_records.first.mac).returns(host.dhcp_records.first)
+      ProxyAPI::DHCP.any_instance.stubs(:records_by_ip).with(subnet.network, host.provision_interface.ip).returns([host.dhcp_records.first, host.dhcp_records.last])
+      ProxyAPI::DHCP.any_instance.stubs(:record).with(subnet.network, host.dhcp_records.last.mac).returns(host.dhcp_records.last)
+      refute host.dhcp_records.first.conflicting?
+      refute host.dhcp_records.last.conflicting?
+    end
+
+    test '#set_dhcp should provision dhcp for all bond child macs' do
+      dhcp_proxy = mock()
+      subnet.stubs(:dhcp_proxy).returns(dhcp_proxy)
+      dhcp_proxy.expects(:set).with(
+        subnet.network,
+        host.dhcp_records.first.attrs
+      ).once.returns(true)
+      dhcp_proxy.expects(:set).with(
+        subnet.network,
+        host.dhcp_records.last.attrs
+      ).once.returns(true)
+
+      Net::DHCP::Record.any_instance.unstub(:create)
+      assert host.provision_interface.send(:set_dhcp)
+    end
+
+    test 'should queue an update when mac of child interface changes' do
+      host.save
+      host.queue.clear
+      host.interfaces.last.mac = next_mac(host.interfaces.last.mac)
+      assert host.interfaces.all?(&:save)
+      assert_valid host
+      tasks = host.queue.all.map(&:name)
+      assert_includes tasks, "Remove DHCP Settings for #{host.provision_interface}"
+      assert_includes tasks, "Create DHCP Settings for #{host.provision_interface}"
+      assert_equal 2, tasks.size
+    end
   end
 
   test "new host should create a dhcp reservation" do
@@ -137,7 +224,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_empty interface_tasks.select { |t| t.action.last == :del_dhcp }
   end
 
-  test "when an existing host change its ip address, its dhcp record should be updated" do
+  test "when an existing host changes its ip address, its dhcp records should be updated" do
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
     h.ip = h.ip.succ
     assert h.valid?
@@ -147,7 +234,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
-  test "when an existing host change its bmc ip address, its dhcp record should be updated" do
+  test "when an existing host change its bmc ip address, its dhcp records should be updated" do
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
     as_admin do
       Nic::BMC.create!(:host_id => h.id, :mac => "da:aa:aa:ab:db:bb", :domain_id => h.domain_id,
@@ -161,7 +248,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
   end
 
-  test "when an existing host change its mac address, its dhcp record should be updated" do
+  test "when an existing host changes its mac address, its dhcp records should be updated" do
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
     h.mac = next_mac(h.mac)
     assert h.valid?
@@ -169,7 +256,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
-  test "when an existing host trigger a 'rebuild', its dhcp record should be updated if no dhcp record is found" do
+  test "when an existing host triggers a 'rebuild', its dhcp records should be updated if no dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(false)
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
 
@@ -180,7 +267,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
-  test "when an existing host trigger a 'rebuild', its dhcp record should not be updated if valid dhcp record is found" do
+  test "when an existing host trigger a 'rebuild', its dhcp records should not be updated if valid dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(true)
     h = FactoryGirl.create(:host, :with_dhcp_orchestration)
 
@@ -254,9 +341,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     refute h.interfaces.first.rebuild_dhcp
   end
 
-  test "dhcp_record should return nil for invalid mac" do
+  test "dhcp_records should return nil for invalid mac" do
     host = FactoryGirl.build(:host, :with_dhcp_orchestration, :interfaces => [FactoryGirl.build(:nic_primary_and_provision, :mac => "aaaaaa")])
-    assert_nil host.dhcp_record
+    assert_nil host.dhcp_records.first
   end
 
   context '#boot_server' do

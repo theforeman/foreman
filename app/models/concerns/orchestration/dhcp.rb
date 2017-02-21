@@ -19,58 +19,58 @@ module Orchestration::DHCP
         !subnet.nil? && subnet.dhcp? && SETTINGS[:unattended] && (!provision? || operatingsystem.present?)
   end
 
-  def dhcp_record
-    return unless dhcp? || @dhcp_record
-    handle_validation_errors do
-      @dhcp_record ||= (provision? && jumpstart?) ? Net::DHCP::SparcRecord.new(dhcp_attrs) : Net::DHCP::Record.new(dhcp_attrs)
+  def dhcp_records
+    return [] unless dhcp?
+    @dhcp_records ||= mac_addresses_for_provisioning.map do |record_mac|
+      build_dhcp_record(record_mac)
     end
   end
 
   def reset_dhcp_record_cache
-    @dhcp_record = nil
+    @dhcp_records = nil
   end
 
   def rebuild_dhcp
-    if dhcp?
-      del_dhcp_safe
-      begin
-        set_dhcp
-      rescue => e
-        Foreman::Logging.exception "Failed to rebuild DHCP record for #{name}, #{ip}", e, :level => :error
-        false
-      end
-    else
+    unless dhcp?
       logger.info "DHCP not supported for #{name}, #{ip}, skipping orchestration rebuild"
-      true
+      return true
+    end
+
+    del_dhcp_safe
+    begin
+      set_dhcp
+    rescue => e
+      Foreman::Logging.exception "Failed to rebuild DHCP record for #{name}, #{ip}", e, :level => :error
+      false
     end
   end
 
   protected
 
   def del_dhcp_safe
-    if dhcp_record
-      begin
-        del_dhcp
-      rescue => e
-        Foreman::Logging.exception "Proxy failed to delete DHCP record for #{name}, #{ip}", e, :level => :error
-      end
-    end
+    del_dhcp
+  rescue => e
+    Foreman::Logging.exception "Proxy failed to delete DHCP record for #{name}, #{ip}", e, :level => :error
   end
 
   def set_dhcp
-    dhcp_record.create
+    dhcp_records.all? { |record| record.create }
   end
 
   def set_dhcp_conflicts
-    dhcp_record.conflicts.each{|conflict| conflict.create}
+    dhcp_records.all? do |record|
+      record.conflicts.each { |conflict| conflict.create }
+    end
   end
 
   def del_dhcp
-    dhcp_record.destroy
+    dhcp_records.all? { |record| record.destroy }
   end
 
   def del_dhcp_conflicts
-    dhcp_record.conflicts.each{|conflict| conflict.destroy}
+    dhcp_records.all? do |record|
+      record.conflicts.all? { |conflict| conflict.destroy }
+    end
   end
 
   # where are we booting from
@@ -93,16 +93,27 @@ module Orchestration::DHCP
 
   private
 
-  # returns a hash of dhcp record settings
-  def dhcp_attrs
+  def build_dhcp_record(record_mac)
     raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
+    record_attrs = dhcp_attrs(record_mac)
+    record_type = (provision? && jumpstart?) ? Net::DHCP::SparcRecord : Net::DHCP::Record
+    handle_validation_errors do
+      record_type.new(record_attrs)
+    end
+  end
+
+  # returns a hash of dhcp record settings
+  def dhcp_attrs(record_mac)
+    raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
+
     dhcp_attr = {
-      :name => name,
+      :name => dhcp_record_name(record_mac),
       :hostname => hostname,
       :ip => ip,
-      :mac => mac,
+      :mac => record_mac,
       :proxy => subnet.dhcp_proxy,
-      :network => subnet.network
+      :network => subnet.network,
+      :related_macs => mac_addresses_for_provisioning - [record_mac]
     }
 
     if provision?
@@ -118,6 +129,11 @@ module Orchestration::DHCP
     dhcp_attr
   end
 
+  def dhcp_record_name(record_mac)
+    return name if mac_addresses_for_provisioning.size <= 1
+    "#{name}-#{'%02d' % (mac_addresses_for_provisioning.index(record_mac) + 1)}"
+  end
+
   def queue_dhcp
     return unless (dhcp? || (old && old.dhcp?)) && orchestration_errors?
     queue_remove_dhcp_conflicts
@@ -131,20 +147,19 @@ module Orchestration::DHCP
   end
 
   def queue_dhcp_update
-    if dhcp_update_required?
-      logger.debug("Detected a changed required for DHCP record")
-      queue.create(:name => _("Remove DHCP Settings for %s") % old, :priority => 5,
-                   :action => [old, :del_dhcp]) if old.dhcp?
-      queue.create(:name   => _("Create DHCP Settings for %s") % self, :priority => 9,
-                   :action => [self, :set_dhcp]) if dhcp?
-    end
+    return unless dhcp_update_required?
+    logger.debug("Detected a changed required for DHCP record")
+    queue.create(:name => _("Remove DHCP Settings for %s") % old, :priority => 5,
+                 :action => [old, :del_dhcp]) if old.dhcp?
+    queue.create(:name   => _("Create DHCP Settings for %s") % self, :priority => 9,
+                 :action => [self, :set_dhcp]) if dhcp?
   end
 
   # do we need to update our dhcp reservations
   def dhcp_update_required?
     # IP Address / name changed, or 'rebuild' action is triggered and DHCP record on the smart proxy is not present/identical.
-    return true if ((old.ip != ip) || (old.hostname != hostname) || (old.mac != mac) || (old.subnet != subnet) || (operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(self.host)) ||
-                    (!old.build? && build? && !dhcp_record.valid?))
+    return true if ((old.ip != ip) || (old.hostname != hostname) || (provision_mac_addresses_changed?) || (old.subnet != subnet) || (operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(self.host)) ||
+                    (!old.build? && build? && !all_dhcp_records_valid?))
     # Handle jumpstart
     #TODO, abstract this way once interfaces are fully used
     if self.is_a?(Host::Base) && jumpstart?
@@ -154,6 +169,10 @@ module Orchestration::DHCP
       end
     end
     false
+  end
+
+  def all_dhcp_records_valid?
+    dhcp_records.all? { |record| record.valid? }
   end
 
   def queue_dhcp_destroy
@@ -176,10 +195,14 @@ module Orchestration::DHCP
     return false if mac.blank? || hostname.blank?
     return false unless dhcp?
 
-    if dhcp_record && dhcp_record.conflicting? && (!overwrite?)
-      failure(_("DHCP records %s already exists") % dhcp_record.conflicts.to_sentence, nil, :conflict)
+    if dhcp_records.any? && dhcp_records.any? { |record| record.conflicting? } && !overwrite?
+      failure(_("DHCP records %s already exists") % dhcp_records.map {|record| record.conflicts}.flatten.to_sentence, nil, :conflict) # compact?
       return true
     end
     false
+  end
+
+  def provision_mac_addresses_changed?
+    old.mac_addresses_for_provisioning != mac_addresses_for_provisioning
   end
 end

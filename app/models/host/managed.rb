@@ -167,7 +167,7 @@ class Host::Managed < Host::Base
     include UnattendedHelper # which also includes Foreman::Renderer
     include Orchestration
     # DHCP orchestration delegation
-    delegate :dhcp?, :dhcp_record, :to => :primary_interface
+    delegate :dhcp?, :dhcp_records, :to => :primary_interface
     # DNS orchestration delegation
     delegate :dns?, :dns6?, :reverse_dns?, :reverse_dns6?, :dns_record, :to => :primary_interface
     # IP delegation

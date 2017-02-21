@@ -35,12 +35,12 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to retrieve unused IP"))
     end
 
-    # Retrieves a DHCP entry
+    # Retrieves a DHCP entry for a mac
     # [+subnet+] : String in dotted decimal format
     # [+mac+]    : String in coloned sextuplet format
     # Returns    : Hash or false
     def record(subnet, mac)
-      response = parse(get("#{subnet}/#{mac}"))
+      response = parse(get("#{subnet}/mac/#{mac}"))
       attrs = response.merge(:network => subnet, :proxy => self)
       if response.keys.grep(/Sun/i).empty?
         Net::DHCP::Record.new attrs
@@ -51,6 +51,26 @@ module ProxyAPI
       nil
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to retrieve DHCP entry for %s"), mac)
+    end
+
+    # Retrieves an array of DHCP entries
+    # [+subnet+] : String in dotted decimal format
+    # [+ip+]    : ip address
+    # Returns    : Hash or false
+    def records_by_ip(subnet, ip)
+      response = parse(get("#{subnet}/ip/#{ip}"))
+      response.map do |entry|
+        attrs = entry.merge(:network => subnet, :proxy => self)
+        if entry.keys.grep(/Sun/i).empty?
+          Net::DHCP::Record.new attrs
+        else
+          Net::DHCP::SparcRecord.new attrs
+        end
+      end
+    rescue RestClient::ResourceNotFound
+      nil
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to retrieve DHCP entry for %s"), ip)
     end
 
     # Sets a DHCP entry

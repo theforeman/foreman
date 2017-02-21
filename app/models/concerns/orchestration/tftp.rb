@@ -99,7 +99,7 @@ module Orchestration::TFTP
     if content
       logger.info "Deploying TFTP #{kind} configuration for #{host.name}"
       each_unique_feasible_tftp_proxy do |proxy|
-        mac_addresses_for_tftp.each do |mac_addr|
+        mac_addresses_for_provisioning.each do |mac_addr|
           proxy.set(kind, mac_addr, :pxeconfig => content)
         end
       end
@@ -114,7 +114,7 @@ module Orchestration::TFTP
   def delTFTP(kind)
     logger.info "Delete the TFTP configuration for #{host.name}"
     each_unique_feasible_tftp_proxy do |proxy|
-      mac_addresses_for_tftp.each do |mac_addr|
+      mac_addresses_for_provisioning.each do |mac_addr|
         proxy.delete(kind, mac_addr)
       end
     end
@@ -208,9 +208,5 @@ module Orchestration::TFTP
       yield(proxy)
     end
     results.all?
-  end
-
-  def mac_addresses_for_tftp
-    [mac, children_mac_addresses].flatten.compact.uniq
   end
 end
