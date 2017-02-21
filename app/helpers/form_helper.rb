@@ -254,7 +254,7 @@ module FormHelper
         options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
         link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " + f.submit(text, options)
       end
-    end
+    end + ie_multipart_fix
   end
 
   def add_help_to_label(size_class, label, help_inline)
@@ -373,6 +373,14 @@ module FormHelper
           end
         end.html_safe
       end
+    end
+  end
+
+  def ie_multipart_fix
+    # This hidden input is a workaround to fix IE Multipart form data bug (https://connect.microsoft.com/IE/Feedback/Details/868498)
+    # Only add this fix for two-pane layouts, as these are the only ones that trigger the bug
+    if request.headers["X-Foreman-Layout"] == 'two-pane'
+      content_tag(:input, '', {:type => "hidden", :name => "_ie_support"})
     end
   end
 end
