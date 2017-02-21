@@ -16,22 +16,15 @@ module AccessPermissionsTestBase
         # Skip if excluded from this test (e.g. user login)
         next if (skipped_actions).include? path
 
-        # Basic check for a filter presence, can't do advanced features (:only, skip_*)
-        begin
+        test "route #{path} should have a permission that grants access" do
+          # Basic check for a filter presence, can't do advanced features (:only, skip_*)
           controller = "#{r.defaults[:controller]}_controller".classify.constantize
           filters    = controller.send(:_process_action_callbacks)
-        rescue NameError
-          test "Could not constantize #{path}" do
-            assert false
+
+          # Pass if the controller deliberately only permit admins (e.g. SettingsController)
+          if filters.select { |f| f.filter == :require_admin }.empty?
+            assert_not_equal [], Foreman::AccessControl.permissions.select { |p| p.actions.include? path }
           end
-          next
-        end
-
-        # Or that deliberately only permit admins (e.g. SettingsController)
-        next unless filters.select { |f| f.filter == :require_admin }.empty?
-
-        test "route #{path} should have a permission that grants access" do
-          assert_not_equal [], Foreman::AccessControl.permissions.select { |p| p.actions.include? path }
         end
       end
     end
