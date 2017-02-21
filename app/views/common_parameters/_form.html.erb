@@ -17,9 +17,10 @@
       </div>
     </div>
     <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :onchange => 'turn_textarea_switch()', :checked => f.object.hidden_value? %>
-    <%= submit_or_cancel f %>
 
     <input type="hidden" id="old" value="<%= @common_parameter.value %>" />
     <input type="hidden" id="new" value="<%= @common_parameter.value %>" />
+
+    <%= submit_or_cancel f %>
 <% end %>
 
