@@ -6,6 +6,7 @@ require 'apipie/middleware/checksum_in_headers'
 require 'rails/all'
 
 require File.expand_path('../../config/settings', __FILE__)
+require File.expand_path('../../lib/foreman/dynflow', __FILE__)
 
 if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
   # If there is a Gemfile.in file, we will not use Bundler but BundlerExt
@@ -183,6 +184,9 @@ module Foreman
     # New config option to opt out of params "deep munging" that was used to address security vulnerability CVE-2013-0155.
     config.action_dispatch.perform_deep_munge = false
 
+    # Use Dynflow as the backend for ActiveJob
+    config.active_job.queue_adapter = :dynflow
+
     Foreman::Logging.configure(
       :log_directory => "#{Rails.root}/log",
       :environment => Rails.env,
@@ -197,7 +201,9 @@ module Foreman
       :permissions => {:enabled => false},
       :sql => {:enabled => false},
       :templates => {:enabled => true},
-      :notifications => {:enabled => true}
+      :notifications => {:enabled => true},
+      :background => {:enabled => true},
+      :dynflow => {:enabled => true}
     ))
 
     config.logger = Foreman::Logging.logger('app')
@@ -230,6 +236,19 @@ module Foreman
 
     # Use the database for sessions instead of the cookie-based default
     config.session_store :active_record_store, :secure => !!SETTINGS[:require_ssl]
+
+    def dynflow
+      return @dynflow if @dynflow.present?
+      @dynflow =
+        if defined?(ForemanTasks)
+          ForemanTasks.dynflow
+        else
+          Dynflow::Rails.new(Foreman::Dynflow::Configuration.new)
+        end
+      @dynflow.require!
+      @dynflow.initialize!
+      @dynflow
+    end
   end
 
   def self.setup_console

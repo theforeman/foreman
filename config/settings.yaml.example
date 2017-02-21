@@ -59,4 +59,7 @@
 #  :templates:
 #    :enabled: true
 #  :notifications:
+#  :background:
+#    :enabled: true
+#  :dynflow:
 #    :enabled: true
