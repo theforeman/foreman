@@ -11,6 +11,9 @@ import chartService from '../assets/javascripts/services/statisticsChartService'
 import mockData from './data/charts/donutChartMockData';
 import PowerStatus from
   '../assets/javascripts/react_app/components/hosts/PowerStatus';
+import Toast from '../assets/javascripts/react_app/components/notifications/toast/Toast';
+import Alert from '../assets/javascripts/react_app/components/common/Alert';
+import Fade from '../assets/javascripts/react_app/components/common/Fade';
 
 addDecorator((story) => (
   <div className="ca" style={{ textAlign: 'center' }}>
@@ -115,3 +118,37 @@ storiesOf('Power Status', module)
       />
     )
   );
+
+storiesOf('Notifications', module)
+  .add('Success State', () => (
+    <Toast title="Great Succees!" />
+  ))
+  .add('Error', () => (
+    <Toast message="Please don't do that again" type="error"/>
+  ))
+  .add('Oops - no close', () => (
+    <Toast message="Please don't do that again" type="error" close={false}/>
+  ))
+  .add('Success with link', () => (
+    <Toast title="Payment recieved"
+      link="click for details" />
+  ))
+  .add('Warning', () => (
+    <Toast message="I'm not sure you should do that" type="warning"/>
+  ))
+  .add('With Alert', () => (
+    <Alert dismissable={true}>
+      <p>Hello</p>
+    </Alert>
+  ))
+  .add('Fade out', () => (
+    <Fade>
+      <Toast message="I'm about to expire" type="warning"/>
+    </Fade>
+  ))
+  .add('With persistent Fader', () => (
+    <Fade sticky={true}>
+      <Toast message="I'm Going to stick around" type="warning"/>
+    </Fade>
+  )
+);

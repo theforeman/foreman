@@ -25,10 +25,6 @@ $(document).on("page:fetch", tfm.tools.showSpinner)
 
 $(document).on("page:change", tfm.tools.hideSpinner)
 
-$(window).bind('beforeunload', function() {
-  $(".jnotify-container").remove();
-});
-
 $(function() {
   $(document).trigger('ContentLoad');
 });
@@ -39,22 +35,6 @@ function onContentLoad(){
     $.each(uninitialized_autocompletes, function(i, input) {$(input).scopedSearch({'delay': 250})});
     $('.ui-helper-hidden-accessible').remove();
   }
-
-  $('.flash.error').each(function(index, item) {
-     if ($('.alert.alert-danger.base').length == 0) {
-       if ($('#host-conflicts-modal').length == 0) {
-         notify(item, 'danger');
-       }
-     }
-   });
-
-   $('.flash.warning').each(function(index, item) {
-     notify(item, 'warning');
-   });
-
-   $('.flash.notice').each(function(index, item) {
-     notify(item, 'success');
-   });
 
   if ($("input[focus_on_load=true]").length > 0) {
     $("input[focus_on_load]").first().focus();
@@ -377,16 +357,9 @@ function spinner_placeholder(text){
   return "<div class='spinner-placeholder'><p class='spinner-label'>" + text + "</p><div id='Loading' class='spinner spinner-md spinner-inline'> </div></div>";
 }
 
-function notify(item, type) {
-  var icon = typeToIcon(type);
-  var options = { classMessage: "foreman-alert",
-                  classBackground: "",
-                  sticky: (type != 'success'),
-                  type: type };
-  $.jnotify("</div>" + icon + $(item).text(), options);
-  // jnotify does not support multiple classes passed via classMessage so added via jquery.
-  $('.foreman-alert').addClass("alert alert-" + type);
-  $(item).remove();
+function notify(message, type) {
+  tfm.tools.deprecate('notify', 'tfm.toastNotifications.notify');
+  tfm.toastNotifications.notify({message: message, type: type});
 }
 
 function typeToIcon(type) {
