@@ -2027,6 +2027,14 @@ class HostTest < ActiveSupport::TestCase
       results = Host.search_for(%{params.#{parameter.name} = "#{override.value}"})
       assert results.include?(host1)
       refute results.include?(host2)
+
+      results = Host.search_for(%{params.#{parameter.name} != "very_different_parameter"})
+      assert results.include?(host2)
+      assert results.include?(host1)
+
+      results = Host.search_for(%{params.#{parameter.name} != "#{parameter.value}"})
+      refute results.include?(host2)
+      assert results.include?(host1)
     end
 
     test "can search hosts by smart proxy" do
