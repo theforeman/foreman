@@ -1,8 +1,5 @@
 <%= javascript "host_checkbox" %>
 <% title header ||= "" %>
-<% content_for :meta do %>
-<meta name="itemsPerPage" content=<%= Host.per_page %> />
-<% end %>
 <table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
@@ -29,7 +26,7 @@
           <td class="ca">
             <% selector = dom_id(host, 'power') %>
             <span id=<%= selector %>></span>
-            <%= mount_react_component('PowerStatusContainer', '#' + selector, {:id => host.id, :url => power_host_path(host.id)}.to_json) %>
+            <%= mount_react_component('PowerStatus', '#' + selector, {:id => host.id, :url => power_host_path(host.id)}.to_json) %>
           </td>
         <% end %>
         <td class="ellipsis"><%= name_column(host) %>

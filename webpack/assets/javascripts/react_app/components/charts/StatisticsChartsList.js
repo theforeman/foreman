@@ -5,6 +5,7 @@ import './StatisticsChartsListStyles.css';
 import { connect } from 'react-redux';
 import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
+import _ from 'lodash';
 
 const getStatusFromChart = (chart) => {
   if (chart.data) {
@@ -26,7 +27,7 @@ class StatisticsChartsList extends React.Component {
   render() {
     const noDataMsg = __('No data available').toString();
     const tip = __('Expand the chart').toString();
-    const charts = this.props.charts.map(chart => {
+    const charts = _.map(this.props.charts, chart => {
       const config = chartService.getChartConfig(chart);
 
       chartService.syncConfigData(config, chart.data);

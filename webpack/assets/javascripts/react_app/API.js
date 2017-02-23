@@ -10,16 +10,6 @@ export default {
     });
     return $.getJSON(url);
   },
-  getHostPowerData(url) {
-    this.get(url)
-      .success(
-        (rawHosts, textStatus, jqXHR) => {
-          ServerActions.receivedHostsPowerState(rawHosts, textStatus, jqXHR);
-        })
-      .error((jqXHR, textStatus, errorThrown) => {
-        ServerActions.hostsRequestError(jqXHR, textStatus, errorThrown);
-      });
-  },
   getNotifications(url) {
     NotificationActions.setRequestStatus(STATUS.PENDING);
     $.get(url)

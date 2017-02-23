@@ -6,24 +6,25 @@ import {
 import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
-  charts: []
+  charts: Immutable({})
 });
 
 export default (state = initialState, action) => {
   const { payload } = action;
 
   switch (action.type) {
-    case STATISTICS_DATA_REQUEST: return state.set('charts', payload);
+    case STATISTICS_DATA_REQUEST:
+      return state.setIn(['charts', payload.id], payload);
     case STATISTICS_DATA_SUCCESS:
-      return state.set('charts', state.charts.map(chart => chart.id === payload.id ?
-        { ...chart, data: payload.data } :
-        chart
-      ));
+      return state.setIn(
+        ['charts', payload.id],
+        { ...state.charts[payload.id], data: payload.data }
+      );
     case STATISTICS_DATA_FAILURE:
-      return state.set('charts', state.charts.map(chart => chart.id === payload.id ?
-        { ...chart, error: payload.error } :
-        chart
-      ));
+      return state.setIn(
+        ['charts', payload.id],
+        { ...state.charts[payload.id], error: payload.error }
+      );
     default: return state;
   }
 };
