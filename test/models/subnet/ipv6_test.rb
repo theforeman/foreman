@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class Subnet::Ipv6Test < ActiveSupport::TestCase
-  def setup
-    User.current = User.find_by_login "admin"
-  end
-
   should_not allow_value(9.times.map { 'abcd' }.join(':')).for(:mask) # 45 characters
   should_not allow_value('2001:db8::1:').for(:network)
   should_not allow_value('2001:db8:abcde::1').for(:network)
@@ -26,7 +22,7 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
 
   test "should find the subnet by ip" do
     subnet = FactoryGirl.create(:subnet_ipv6)
-    assert_equal subnet, Subnet::Ipv6.unscoped.subnet_for(get_ip(subnet, 10))
+    assert_equal subnet, Subnet::Ipv6.subnet_for(get_ip(subnet, 10))
   end
 
   test "from cant be bigger than to range" do
