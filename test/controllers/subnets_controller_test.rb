@@ -35,7 +35,7 @@ class SubnetsControllerTest < ActionController::TestCase
   def test_update_valid
     Subnet.any_instance.stubs(:valid?).returns(true)
     put :update, {:id => @model, :subnet => {:network => '192.168.100.10'}}, set_session_user
-    assert_equal '192.168.100.10', Subnet.unscoped.find(@model).network
+    assert_equal '192.168.100.10', Subnet.unscoped.find(@model.id).network
     assert_redirected_to subnets_url
   end
 
