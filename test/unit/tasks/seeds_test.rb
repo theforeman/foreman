@@ -95,7 +95,7 @@ class SeedsTest < ActiveSupport::TestCase
     assert_not_equal count, ProvisioningTemplate.unscoped.count
 
     Dir["#{Rails.root}/app/views/unattended/**/*.erb"].each do |tmpl|
-      if tmpl =~ /disklayout/
+      if tmpl =~ /partition_tables_templates/
         assert Ptable.unscoped.where(:template => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
       else
         assert ProvisioningTemplate.unscoped.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"

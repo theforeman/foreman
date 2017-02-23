@@ -1,0 +1,14 @@
+<%#
+name: kickstart_ifcfg_bonded_interface
+snippet: true
+model: ProvisioningTemplate
+kind: snippet
+-%>
+<%= snippet('kickstart_ifcfg_generic_interface', :variables => {
+                  :interface => @interface,
+                  :subnet => @subnet,
+                  :subnet6 => @subnet6,
+                  :dhcp => @dhcp }) -%>
+NM_CONTROLLED=no
+MASTER=<%= @bond_identifier %>
+SLAVE=yes

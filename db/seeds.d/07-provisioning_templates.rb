@@ -3,7 +3,7 @@ organizations = Organization.unscoped.all
 locations = Location.unscoped.all
 ProvisioningTemplate.without_auditing do
   SEEDED_TEMPLATES.each do |input|
-    contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
+    contents = File.read(File.join("#{Rails.root}/app/views/unattended/provisioning_templates", input.delete(:source)))
 
     if (t = ProvisioningTemplate.unscoped.find_by_name(input[:name])) && !SeedHelper.audit_modified?(ProvisioningTemplate, input[:name])
       if t.template != contents

@@ -1,0 +1,45 @@
+<%#
+name: kickstart_networking_setup
+snippet: true
+model: ProvisioningTemplate
+kind: snippet
+-%>
+<%- bonded_interfaces = [] -%>
+<%- @host.bond_interfaces.each do |bond| -%>
+<%=   "# #{bond.identifier} interface" %>
+<%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :identifier => bond.identifier }) %>
+<%-   ifcfg = snippet('kickstart_ifcfg_bond_interface', :variables => {
+                        :interface => bond,
+                        :subnet => bond.subnet,
+                        :subnet6 => bond.subnet6,
+                        :dhcp => bond.subnet.nil? ? false : bond.subnet.dhcp_boot_mode? }) -%>
+<%=   save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
+
+<%-   @host.interfaces_with_identifier(bond.attached_devices_identifiers).each do |interface| -%>
+<%-     next if !interface.managed? -%>
+<%=     "# #{interface.identifier} interface" %>
+<%=     snippet('kickstart_ifcfg_get_identifier_names', :variables => { :interface => interface }) -%>
+<%-     ifcfg = snippet('kickstart_ifcfg_bonded_interface', :variables => {
+                          :interface => interface,
+                          :subnet => interface.subnet,
+                          :subnet6 => interface.subnet6,
+                          :dhcp => false,
+                          :bond_identifier => bond.identifier }) %>
+<%=     save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
+<%-     bonded_interfaces.push(interface.identifier) %>
+<%-   end -%>
+<%- end -%>
+
+<%- @host.managed_interfaces.each do |interface| %>
+<%-   next if !interface.managed? || interface.subnet.nil? -%>
+<%-   next if bonded_interfaces.include?(interface.identifier) -%>
+
+<%=   "# #{interface.identifier} interface" %>
+<%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :interface => interface }) -%>
+<%-   ifcfg = snippet('kickstart_ifcfg_generic_interface', :variables => {
+                        :interface => interface,
+                        :subnet => interface.subnet,
+                        :subnet6 => interface.subnet6,
+                        :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode? }) %>
+<%=   save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
+<%- end %>
