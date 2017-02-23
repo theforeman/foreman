@@ -50,6 +50,7 @@ module Api::V2::TaxonomiesController
   end
 
   api :GET, '/:resource_id/:id', N_('Show :a_resource')
+  param :id, :identifier, :required => true
   def show
     @render_template ||= 'api/v2/taxonomies/show'
     render @render_template
@@ -65,6 +66,7 @@ module Api::V2::TaxonomiesController
 
   api :PUT, '/:resource_id/:id', N_('Update :a_resource')
   param_group :resource
+  param :id, :identifier, :required => true
   def update
     # NOTE - if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
     # removed process_response & added explicit render 'api/v2/taxonomies/update'.  Otherwise, *_ids are not returned
@@ -73,6 +75,7 @@ module Api::V2::TaxonomiesController
   end
 
   api :DELETE, '/:resource_id/:id', N_('Delete :a_resource')
+  param :id, :identifier, :required => true
   def destroy
     process_response @taxonomy.destroy
   rescue Ancestry::AncestryException
