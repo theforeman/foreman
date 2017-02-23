@@ -1,5 +1,14 @@
 require 'facter'
 class Setting::Provisioning < Setting
+  def self.default_global_labels
+    TemplateKind::PXE.map do |pxe_kind|
+      "global_#{pxe_kind}"
+    end
+  end
+
+  Setting::BLANK_ATTRS += default_global_labels
+  validates :value, :pxe_template_name => true, :if => Proc.new { |s| s.class.default_global_labels.include?(s.name) }
+
   def self.default_settings
     fqdn = Facter.value(:fqdn) || SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"
@@ -23,7 +32,7 @@ class Setting::Provisioning < Setting
       self.set('dns_conflict_timeout', N_("Timeout for DNS conflict validation (in seconds)"), 3, N_('DNS conflict timeout')),
       self.set('clean_up_failed_deployment', N_("Foreman will delete virtual machine if provisioning script ends with non zero exit code"), true, N_('Clean up failed deployment')),
       self.set('name_generator_type', N_("Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"), 'Random-based', N_("Type of name generator"), nil, {:collection => Proc.new {NameGenerator::GENERATOR_TYPES} })
-    ]
+    ] + default_global_templates
   end
 
   def self.load_defaults
@@ -44,6 +53,13 @@ class Setting::Provisioning < Setting
   def validate_safemode_render(record)
     if !record.value && !Setting[:bmc_credentials_accessible]
       record.errors[:base] << _("Unable to disable safemode_render when bmc_credentials_accessible is disabled")
+    end
+  end
+
+  def self.default_global_templates
+    TemplateKind::PXE.map do |pxe_kind|
+      templates = Proc.new { { "" => "" }.merge Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] }
+      self.set("global_#{pxe_kind}", N_("Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.") % pxe_kind, nil, N_("Global default %s template") % pxe_kind, nil, { :collection =>  templates })
     end
   end
 end
