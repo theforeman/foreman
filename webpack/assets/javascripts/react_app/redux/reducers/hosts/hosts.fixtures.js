@@ -1,41 +1,37 @@
 import Immutable from 'seamless-immutable';
 export const initialState = Immutable({
-  charts: Immutable({})
+  powerStatus: Immutable({})
 });
 
 export const request = {
-    id: 'operatingsystem',
-    title: 'OS Distribution',
-    url: 'statistics/operatingsystem',
-    search: '/hosts?search=os_title=~VAL~'
+    id: '2',
+    url: 'test'
 };
 
 export const response = {
-  id: 'operatingsystem',
-  data: [['RedHat 3', 2]]
+  id: '2',
+  data: 'data'
 };
 
 export const error = 'some error happened';
 
 export const stateBeforeResponse = Immutable({
-  charts: {
+  powerStatus: {
     [request.id]: request
   }
 });
 
 export const stateAfterSuccess = Immutable({
-  charts: Immutable({
+  powerStatus: Immutable({
     [request.id]: {
-      ...request,
-      data: response.data
+      ...response
     }
   })
 });
 
 export const stateAfterFailure = Immutable({
-  charts: Immutable({
+  powerStatus: Immutable({
     [request.id]: {
-      ...request,
       error
     }
   })

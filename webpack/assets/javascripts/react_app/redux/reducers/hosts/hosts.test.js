@@ -8,35 +8,35 @@ import {
   stateAfterSuccess,
   stateAfterFailure,
   error
-} from './statistics.fixtures';
+} from './hosts.fixtures';
 
 describe('statistics reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle STATISTICS_DATA_REQUEST', () => {
+  it('should handle HOST_POWER_STATUS_REQUEST', () => {
     expect(
       reducer(initialState, {
-        type: types.STATISTICS_DATA_REQUEST,
+        type: types.HOST_POWER_STATUS_REQUEST,
         payload: request
       })
     ).toEqual(stateBeforeResponse);
   });
 
-  it('should handle STATISTICS_DATA_SUCCESS', () => {
+  it('should handle HOST_POWER_STATUS_SUCCESS', () => {
     expect(
       reducer(stateBeforeResponse, {
-        type: types.STATISTICS_DATA_SUCCESS,
+        type: types.HOST_POWER_STATUS_SUCCESS,
         payload: response
       })
     ).toEqual(stateAfterSuccess);
   });
 
-  it('should handle STATISTICS_DATA_FAILURE', () => {
+  it('should handle HOST_POWER_STATUS_FAILURE', () => {
     expect(
       reducer(stateBeforeResponse, {
-        type: types.STATISTICS_DATA_FAILURE,
+        type: types.HOST_POWER_STATUS_FAILURE,
         payload: { error, id: request.id}
       })
     ).toEqual(stateAfterFailure);

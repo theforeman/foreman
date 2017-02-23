@@ -1,6 +1,6 @@
 import React from 'react';
 import StatisticsChartsList from '../components/charts/StatisticsChartsList';
-import PowerStatusContainer from '../components/hosts/PowerStatusContainer';
+import PowerStatus from '../components/hosts/powerStatus/';
 import NotificationDrawerToggle from '../components/notifications/NotificationDrawerToggle';
 import NotificationDrawer from '../components/notifications/NotificationDrawer';
 import ReactDOM from 'react-dom';
@@ -12,9 +12,9 @@ export function mount(component, selector, data) {
       type: StatisticsChartsList,
       markup: <StatisticsChartsList store={store} data={data}/>
     },
-    PowerStatusContainer: {
-      type: PowerStatusContainer,
-      markup: <PowerStatusContainer url={data.url} id={data.id}/>
+    PowerStatus: {
+      type: PowerStatus,
+      markup: <PowerStatus store={store} data={data}/>
     },
     NotificationDrawerToggle: {
       type: NotificationDrawerToggle,

@@ -9,9 +9,10 @@ import ChartBox from
 import ChartModal from '../assets/javascripts/react_app/components/charts/ChartModal';
 import chartService from '../assets/javascripts/services/statisticsChartService';
 import mockData from './data/charts/donutChartMockData';
-import PowerStatus from
-  '../assets/javascripts/react_app/components/hosts/PowerStatus';
-
+import { simpleLoader } from '../assets/javascripts/react_app/components/common/Loader';
+import PowerStatusInner from
+  '../assets/javascripts/react_app/components/hosts/powerStatus/powerStatusInner';
+import Store from '../assets/javascripts/react_app/redux';
 addDecorator((story) => (
   <div className="ca" style={{ textAlign: 'center' }}>
     {story()}
@@ -78,39 +79,35 @@ storiesOf('Charts', module)
 
 storiesOf('Power Status', module)
   .add('Loading', () => (
-    <PowerStatus
-      loadingStatus="PENDING"
+    <PowerStatusInner
     />
   ))
   .add('ON', () => (
-    <PowerStatus
+    <PowerStatusInner
       state="on"
       title="on"
-      loadingStatus="RESOLVED"
       statusText="On"
     />
   ))
   .add('OFF', () => (
-    <PowerStatus
+    <PowerStatusInner
       state="off"
       title="off"
-      loadingStatus="RESOLVED"
       statusText="Off"
     />
   ))
   .add('N/A', () => (
-    <PowerStatus
+    <PowerStatusInner
       state="na"
       statusText="No power support"
-      loadingStatus="RESOLVED"
       title="N/A"
     />
   ))
   .add('Error', () => (
-      <PowerStatus
+      <PowerStatusInner
         state="na"
         statusText="Exception error some where"
-        loadingStatus="ERROR"
+        error="someError"
         title="N/A"
       />
     )

@@ -3,22 +3,6 @@ import { ACTIONS, STATUS } from '../constants';
 import NotificationActions from './NotificationActions';
 
 export default {
-    receivedHostsPowerState(response, textStatus, jqXHR) {
-    AppDispatcher.dispatch({
-      actionType: ACTIONS.RECEIVED_HOSTS_POWER_STATE,
-      response
-    });
-  },
-  hostsRequestError(jqXHR, textStatus, errorThrown) {
-    AppDispatcher.dispatch({
-      actionType: ACTIONS.HOSTS_REQUEST_ERROR, info: {
-        jqXHR: jqXHR,
-        textStatus: textStatus,
-        id: parseInt(jqXHR.originalRequestOptions.url.split('/')[2], 10),
-        errorThrown: errorThrown
-      }
-    });
-  },
  receivedNotifications(response, textStatus, jqXHR) {
    NotificationActions.setRequestStatus(STATUS.RESOLVED);
     AppDispatcher.dispatch({

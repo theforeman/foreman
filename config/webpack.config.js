@@ -96,7 +96,8 @@ if (production) {
   config.devServer = {
     host: process.env.BIND || '127.0.0.1',
     port: devServerPort,
-    headers: { 'Access-Control-Allow-Origin': '*' }
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    hot: true
   };
   // Source maps
   config.devtool = 'inline-source-map';
