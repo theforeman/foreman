@@ -212,7 +212,7 @@ module Hostext
         p.each do |param|
           case param.class.to_s
             when 'CommonParameter'
-              conditions << "1==1" #include all Global parameters
+              conditions << "1 = 1" #include all Global parameters
             when 'DomainParameter'
               conditions << "nics.domain_id = #{param.reference_id}"
             when 'OsParameter'
