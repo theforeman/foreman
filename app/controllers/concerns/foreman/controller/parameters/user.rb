@@ -14,6 +14,7 @@ module Foreman::Controller::Parameters::User
           :lastname,
           :locale,
           :mail,
+          :description,
           :mail_enabled,
           :password,
           :password_confirmation,
