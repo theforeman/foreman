@@ -6,7 +6,7 @@ class Setting::Provisioning < Setting
     end
   end
 
-  Setting::BLANK_ATTRS += default_global_labels
+  Setting::BLANK_ATTRS.push(*default_global_labels)
   validates :value, :pxe_template_name => true, :if => Proc.new { |s| s.class.default_global_labels.include?(s.name) }
 
   def self.default_settings
