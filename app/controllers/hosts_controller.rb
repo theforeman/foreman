@@ -41,6 +41,7 @@ class HostsController < ApplicationController
   before_action :validate_power_action, :only => :update_multiple_power_state
 
   helper :hosts, :reports, :interfaces
+  helper_method :multiple_with_filter?
 
   def index(title = nil)
     begin
@@ -751,6 +752,10 @@ class HostsController < ApplicationController
     @host
   end
 
+  def multiple_with_filter?
+    params.key?(:search)
+  end
+
   def load_vars_for_ajax
     return unless @host
 
@@ -764,10 +769,11 @@ class HostsController < ApplicationController
 
   def find_multiple
   # Lets search by name or id and make sure one of them exists first
-    if params[:host_names].present? || params[:host_ids].present?
-      @hosts = resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names])
+    if params.key?(:host_names) || params.key?(:host_ids) || multiple_with_filter?
+      @hosts = resource_base.search_for(params[:search]) if multiple_with_filter?
+      @hosts ||= resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names])
       if @hosts.empty?
-        error _('No hosts were found with that id or name')
+        error _('No hosts were found with that id, name or query filter')
         redirect_to(hosts_path)
         return false
       end

@@ -374,7 +374,7 @@ class HostsControllerTest < ActionController::TestCase
     post :update_multiple_hostgroup, {:host_ids => [-1], :host_names => ["no.such.host"]}, set_session_user
 
     assert_redirected_to hosts_url
-    assert_equal "No hosts were found with that id or name", flash[:error]
+    assert_equal "No hosts were found with that id, name or query filter", flash[:error]
   end
 
   test 'multiple hostgroup change by host ids' do
@@ -498,6 +498,50 @@ class HostsControllerTest < ActionController::TestCase
 
     post :update_multiple_power_state, params,
       set_session_user.merge(:user => users(:admin).id)
+  end
+
+  test "find multiple hosts by filter query" do
+    setup_user_and_host "edit"
+    post :update_multiple_owner, { :search => "",
+      :owner => { :id => users(:one).id_and_type}},
+      set_session_user.merge(:user => users(:admin).id)
+    as_admin do
+      assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
+      assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
+    end
+  end
+
+  test "use filter query which generate a collection" do
+    setup_user_and_host "edit"
+    post :update_multiple_owner, { :search => "owner = #{users(:admin).login}",
+      :owner => { :id => users(:one).id_and_type}},
+      set_session_user.merge(:user => users(:admin).id)
+    as_admin do
+      assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
+      assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
+    end
+  end
+
+  test "use a filter query which generates empty collection" do
+    setup_user_and_host "edit"
+    post :update_multiple_owner, { :search => "owner = #{users(:one).login}",
+      :owner => { :id => users(:one).id_and_type}},
+       set_session_user.merge(:user => users(:admin).id)
+    as_admin do
+      assert_equal users(:admin).id_and_type, @host1.reload.is_owned_by
+      assert_equal users(:admin).id_and_type, @host2.reload.is_owned_by
+    end
+  end
+
+  test "use empty filter query when it exists in params" do
+    setup_user_and_host "edit"
+    post :update_multiple_owner, {:host_ids => [@host1.id], :search => "",
+      :owner => { :id => users(:one).id_and_type}},
+      set_session_user.merge(:user => users(:admin).id)
+    as_admin do
+      assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
+      assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
+    end
   end
 
   describe "setting puppet proxy on multiple hosts" do

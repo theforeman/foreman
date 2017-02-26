@@ -42,4 +42,11 @@ module HostsAndHostgroupsHelper
                 { :help_inline   => :indicator }
             ).html_safe
   end
+
+  def multiple_filter(hosts)
+    return unless multiple_with_filter?
+    no_filter   = _("Reminder: <strong> All #{hosts.size} hosts are selected </strong>").html_safe
+    with_filter = _("Reminder: <strong> All #{hosts.size} hosts are selected </strong> for query filter #{h(params[:search])}").html_safe
+    params[:search].blank? ? no_filter : with_filter
+  end
 end

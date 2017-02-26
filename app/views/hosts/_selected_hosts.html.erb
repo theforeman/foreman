@@ -1,6 +1,9 @@
 <div class="row">
-  <table class="<%= table_css_classes %>">
-    <thead>
+  <%= alert(:class => 'alert-info hide', :id => 'multiple-modal-alert', :close => true, :header => '',
+            :text => multiple_filter(hosts)) %>
+  <% unless multiple_with_filter? %>
+    <table class="<%= table_css_classes %>">
+      <thead>
       <tr>
         <th>
           <%= _("Name") %>
@@ -14,8 +17,8 @@
         <%= raw("<th>" + _("Location") + "</th>") if SETTINGS[:locations_enabled]%>
         <%= raw("<th>" + _("Organization") + "</th>") if SETTINGS[:organizations_enabled]%>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       <% associations = [:hostgroup, :environment] %>
       <% associations << :organization if SETTINGS[:organizations_enabled]  %>
       <% associations << :location     if SETTINGS[:locations_enabled]  %>
@@ -33,8 +36,9 @@
           <% end %>
         </tr>
       <% end %>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
   <%= check_box_tag "keep_selected", "", false, :title => _("Keep selected hosts for a future action") %>
   <%= _('Keep selected hosts for a future action') %><br/><br/>
+  <% end %>
 </div>
