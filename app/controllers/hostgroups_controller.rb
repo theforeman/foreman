@@ -85,11 +85,11 @@ class HostgroupsController < ApplicationController
     env_id = params[:environment_id] || params[:hostgroup][:environment_id]
     return not_found unless (@environment = Environment.find(env_id)) if env_id.to_i > 0
 
-    @hostgroup ||= Hostgroup.new
+    @hostgroup = Hostgroup.find_by_id(params[:hostgroup_id]) || Hostgroup.new
     @hostgroup.environment = @environment if @environment
-
     @hostgroup.puppetclasses = Puppetclass.where(:id => params[:hostgroup][:puppetclass_ids])
     @hostgroup.config_groups = ConfigGroup.where(:id => params[:hostgroup][:config_group_ids])
+
     render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup), :type => 'hostgroup'}
   end
 
