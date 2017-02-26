@@ -4,11 +4,17 @@ $.foremanSelectedHosts = readFromCookie();
 
 // triggered by a host checkbox change
 function hostChecked(box) {
+  var multiple_alert = $("#multiple-alert");
   var cid = parseInt(box.id.replace("host_ids_", ""));
   if (box.checked)
     addHostId(cid);
-  else
+  else{
     rmHostId(cid);
+    if (multiple_alert.length){
+      multiple_alert.hide('slow');
+      multiple_alert.data('multiple', false)
+    }
+  }
   $.cookie($.cookieName, JSON.stringify($.foremanSelectedHosts), { secure: location.protocol === 'https:' });
   toggle_actions();
   update_counter();
@@ -89,14 +95,41 @@ function cleanHostsSelection() {
   return false;
 }
 
+function multiple_selection() {
+  var total = $("#pagination").data("count");
+  var alert_text = Jed.sprintf(__("All <b> %d </b> hosts are selected. "), total);
+  var undo_text = __("Undo selection");
+  var multiple_alert = $("#multiple-alert");
+  multiple_alert.find(".text").html(alert_text + '<a href="#" onclick="undo_multiple_selection();">' + undo_text + '</a>');
+  multiple_alert.data('multiple', true)
+}
+
+function undo_multiple_selection() {
+  var pagination = pagination_metadata();
+  var alert_text = Jed.sprintf(__("All %s hosts on this page are selected. "), pagination.per_page);
+  var select_text = Jed.sprintf(__("Select all<b> %s </b> hosts"), pagination.total);
+  var multiple_alert = $("#multiple-alert");
+  multiple_alert.find(".text").html( alert_text + '<a href="#" onclick="multiple_selection();">' + select_text + '</a>');
+  multiple_alert.data('multiple', false)
+}
+
 function toggleCheck() {
+  var pagination = pagination_metadata();
+  var multiple_alert = $("#multiple-alert");
   var checked = $("#check_all").is(':checked');
   $('.host_select_boxes').each(function(index, box) {
     box.checked = checked;
     hostChecked(box);
   });
-  if(!checked)
+  if(checked && (pagination.per_page - pagination.total < 0) ) {
+    multiple_alert.show('slow');
+    multiple_alert.data('multiple', true);
+  }
+  else if (!checked) {
+    multiple_alert.hide('slow');
+    multiple_alert.data('multiple', false);
     cleanHostsSelection();
+  }
   return false;
 }
 
@@ -118,20 +151,33 @@ $(function() {
 function submit_modal_form() {
   if (!$('#keep_selected').is(':checked'))
     removeForemanHostsCookie();
+  if ($("#multiple-alert").data('multiple')){
+    var query = $("<input>")
+            .attr("type", "hidden")
+            .attr("name", "search").val($("#search").val());
+    $("#confirmation-modal form").append(query);
+  }
   $("#confirmation-modal form").submit();
   $('#confirmation-modal').modal('hide');
 }
 
 function build_modal(element, url) {
+  var is_multiple = $("#multiple-alert");
+  if (is_multiple.data('multiple'))
+    var data = {search: $("#search").val()};
+  else
+    var data = {host_ids: $.foremanSelectedHosts};
   var title = $(element).attr('data-dialog-title');
   $('#confirmation-modal .modal-header h4').text(title);
   $('#confirmation-modal .modal-body').empty()
     .append("<div class='modal-spinner spinner spinner-lg'></div>");
   $('#confirmation-modal').modal();
-  $("#confirmation-modal .modal-body").load(url + " #content",{host_ids: $.foremanSelectedHosts},
+  $("#confirmation-modal .modal-body").load(url + " #content", data,
       function(response, status, xhr) {
         $("#loading").hide();
         $('#submit_multiple').val('');
+        if (is_multiple.data('multiple'))
+          $("#multiple-modal-alert").show();
         var b = $("#confirmation-modal .btn-primary");
         if ($(response).find('#content form select').length > 0)
           b.addClass("disabled").attr("disabled", true);
@@ -146,12 +192,17 @@ function build_redirect(url) {
   window.location.replace(url);
 }
 
+function pagination_metadata() {
+  var pagination = $("#pagination");
+  var total = pagination.data("count");
+  var per_page = pagination.data("per-page");
+  return { total: total, per_page: per_page }
+}
+
 function update_counter() {
   var item = $("#check_all");
-  if ($.foremanSelectedHosts) {
+  if ($.foremanSelectedHosts)
     $(".select_count").text($.foremanSelectedHosts.length);
-    item.attr("checked", $.foremanSelectedHosts.length > 0 );
-  }
   var title = "";
   if (item.attr("checked"))
     title = $.foremanSelectedHosts.length + " - " + item.attr("uncheck-title");

@@ -81,7 +81,8 @@ module LayoutHelper
   end
 
   def will_paginate_with_info(collection = nil, options = {})
-    content_tag(:div, :id => "pagination", :class => "row") do
+    content_tag(:div, :id => "pagination", :class => "row",
+                :data => ({'count' => collection.total_entries, 'per-page' => per_page(collection)})) do
       page_entries_info(collection, options) +
         will_paginate(collection, options)
     end
@@ -186,6 +187,10 @@ module LayoutHelper
 
   def render_if_partial_exists(path, f)
     render path, :f => f if lookup_context.exists?(path, [], true)
+  end
+
+  def per_page(collection)
+    [Setting[:entries_per_page], collection.total_entries].min
   end
 
   private
