@@ -47,6 +47,8 @@ module Api
           param :password, String, :required => true
           param :default_location_id, Integer if SETTINGS[:locations_enabled]
           param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
+          param :default_location_name, String if SETTINGS[:locations_enabled]
+          param :default_organization_name, String if SETTINGS[:organizations_enabled]
           param :auth_source_id, Integer, :required => true
           param :timezone, ActiveSupport::TimeZone.all.map(&:name), :required => false, :desc => N_("User's timezone")
           param :locale, FastGettext.available_locales, :required => false, :desc => N_("User's preferred locale")

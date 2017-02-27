@@ -9,7 +9,7 @@ class Location < Taxonomy
   before_destroy EnsureNotUsedBy.new(:hosts)
 
   has_many :location_parameters, :class_name => 'LocationParameter', :foreign_key => :reference_id, :dependent => :destroy, :inverse_of => :location
-  has_many :default_users,       :class_name => 'User',              :foreign_key => :default_location_id
+  has_many :default_users,       :class_name => 'User',              :foreign_key => :default_location_id, :inverse_of => :default_location
   accepts_nested_attributes_for :location_parameters, :allow_destroy => true
   include ParameterValidators
 

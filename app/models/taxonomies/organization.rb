@@ -9,7 +9,7 @@ class Organization < Taxonomy
   before_destroy EnsureNotUsedBy.new(:hosts)
 
   has_many :organization_parameters, :class_name => 'OrganizationParameter', :foreign_key => :reference_id,            :dependent => :destroy, :inverse_of => :organization
-  has_many :default_users,           :class_name => 'User',                  :foreign_key => :default_organization_id, :dependent => :nullify
+  has_many :default_users,           :class_name => 'User',                  :foreign_key => :default_organization_id, :dependent => :nullify, :inverse_of => :default_organization
   accepts_nested_attributes_for :organization_parameters, :allow_destroy => true
   include ParameterValidators
 
