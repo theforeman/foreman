@@ -165,6 +165,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
   test "should clone organization with associations" do
     organization = taxonomies(:organization1)
+    organization.locations << taxonomies(:location1)
     FactoryGirl.create(:host, :organization => nil)
     organization_dup = organization.clone
 
@@ -178,16 +179,12 @@ class OrganizationsControllerTest < ActionController::TestCase
     new_organization = Organization.unscoped.order(:id).last
     assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.to_param
 
-    assert_equal new_organization.environment_ids.uniq.sort, organization.environment_ids.uniq.sort
-    assert_equal new_organization.hostgroup_ids.uniq.sort, organization.hostgroup_ids.uniq.sort
-    assert_equal new_organization.environment_ids.uniq.sort, organization.environment_ids.uniq.sort
-    assert_equal new_organization.domain_ids.uniq.sort, organization.domain_ids.uniq.sort
-    assert_equal new_organization.medium_ids.uniq.sort, organization.medium_ids.uniq.sort
-    assert_equal new_organization.user_ids.uniq.sort, organization.user_ids.uniq.sort
-    assert_equal new_organization.smart_proxy_ids.uniq.sort, organization.smart_proxy_ids.uniq.sort
-    assert_equal new_organization.provisioning_template_ids.uniq.sort, organization.provisioning_template_ids.uniq.sort
-    assert_equal new_organization.compute_resource_ids.uniq.sort, organization.compute_resource_ids.uniq.sort
-    assert_equal new_organization.location_ids.uniq.sort, organization.location_ids.uniq.sort
+    as_admin do
+      [:environment_ids, :hostgroup_ids, :environment_ids, :domain_ids, :medium_ids, :user_ids, :smart_proxy_ids, :provisioning_template_ids, :compute_resource_ids, :location_ids].each do |association|
+        assert new_organization.public_send(association).present?, "missing #{association}"
+        assert_equal organization.public_send(association).uniq.sort, new_organization.public_send(association).uniq.sort, "#{association} is different"
+      end
+    end
   end
 
   test "should clear out Organization.current" do

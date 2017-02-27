@@ -153,6 +153,7 @@ class LocationsControllerTest < ActionController::TestCase
   end
   test "should clone location with associations" do
     location = taxonomies(:location1)
+    location.organizations << taxonomies(:organization1)
     FactoryGirl.create(:host, :location => nil)
     location_dup = location.clone
 
@@ -166,16 +167,12 @@ class LocationsControllerTest < ActionController::TestCase
     new_location = Location.unscoped.order(:id).last
     assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.to_param
 
-    assert_equal new_location.environment_ids.uniq.sort, location.environment_ids.uniq.sort
-    assert_equal new_location.hostgroup_ids.uniq.sort, location.hostgroup_ids.uniq.sort
-    assert_equal new_location.environment_ids.uniq.sort, location.environment_ids.uniq.sort
-    assert_equal new_location.domain_ids.uniq.sort, location.domain_ids.uniq.sort
-    assert_equal new_location.medium_ids.uniq.sort, location.medium_ids.uniq.sort
-    assert_equal new_location.user_ids.uniq.sort, location.user_ids.uniq.sort
-    assert_equal new_location.smart_proxy_ids.uniq.sort, location.smart_proxy_ids.uniq.sort
-    assert_equal new_location.provisioning_template_ids.uniq.sort, location.provisioning_template_ids.uniq.sort
-    assert_equal new_location.compute_resource_ids.uniq.sort, location.compute_resource_ids.uniq.sort
-    assert_equal new_location.organization_ids.uniq.sort, location.organization_ids.uniq.sort
+    as_admin do
+      [:environment_ids, :hostgroup_ids, :environment_ids, :domain_ids, :medium_ids, :user_ids, :smart_proxy_ids, :provisioning_template_ids, :compute_resource_ids, :organization_ids].each do |association|
+        assert new_location.public_send(association).present?, "missing #{association}"
+        assert_equal location.public_send(association).uniq.sort, new_location.public_send(association).uniq.sort, "#{association} is different"
+      end
+    end
   end
 
   test "should clear out Location.current" do
