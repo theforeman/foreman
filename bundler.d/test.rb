@@ -10,6 +10,7 @@ group :test do
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
   gem 'factory_girl_rails', '~> 4.5', :require => false
+  gem 'parser', '2.3.0.2'
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
   gem "poltergeist", :require => false
   gem 'test_after_commit', '>= 0.4', '< 2.0'
