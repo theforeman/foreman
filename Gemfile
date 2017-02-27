@@ -3,7 +3,7 @@ FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.8'
 gem 'rest-client', '>= 1.8.0', '< 3', :require => 'rest_client'
 gem 'audited', '~> 4.3'
 gem 'will_paginate', '~> 3.0'
