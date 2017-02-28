@@ -4,7 +4,7 @@ class CreateCachedUsergroupMembers < ActiveRecord::Migration
       t.integer :user_id
       t.integer :usergroup_id
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :cached_usergroup_members, :user_id

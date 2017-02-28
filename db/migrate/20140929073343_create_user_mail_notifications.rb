@@ -6,7 +6,7 @@ class CreateUserMailNotifications < ActiveRecord::Migration
       t.datetime :last_sent
       t.string :interval, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_foreign_key :user_mail_notifications, :users, :name => "user_mail_notifications_user_id_fk"

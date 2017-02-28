@@ -3,7 +3,7 @@ class CreateConfigGroups < ActiveRecord::Migration
     create_table :config_groups do |t|
       t.string :name, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

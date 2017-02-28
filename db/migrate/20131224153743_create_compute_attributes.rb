@@ -6,7 +6,7 @@ class CreateComputeAttributes < ActiveRecord::Migration
       t.string :name, :limit => 255
       t.text :vm_attrs
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :compute_attributes, :compute_profile_id

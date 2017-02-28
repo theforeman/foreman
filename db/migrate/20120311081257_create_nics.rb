@@ -10,7 +10,7 @@ class CreateNics < ActiveRecord::Migration
       t.references :domain
       t.text :attrs
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :nics, [:type], :name => 'index_by_type'

@@ -5,7 +5,7 @@ class CreateTemplateCombinations < ActiveRecord::Migration
       t.references :hostgroup
       t.references :environment
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

@@ -3,7 +3,7 @@ class CreateSessions < ActiveRecord::Migration
     create_table :sessions do |t|
       t.string :session_id, :null => false, :limit => 255
       t.text :data
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :sessions, :session_id

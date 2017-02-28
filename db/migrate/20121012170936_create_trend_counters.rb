@@ -4,7 +4,7 @@ class CreateTrendCounters < ActiveRecord::Migration
       t.integer :trend_id
       t.integer :count
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :trend_counters, :trend_id
   end

@@ -2,7 +2,7 @@ class CreateUsergroups < ActiveRecord::Migration
   def up
     create_table :usergroups do |t|
       t.string :name, :limit => 255
-      t.timestamps
+      t.timestamps null: true
     end
     create_table :usergroup_members do |t|
       t.references :member, :polymorphic => true

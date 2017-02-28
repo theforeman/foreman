@@ -4,7 +4,7 @@ class CreateConfigGroupClasses < ActiveRecord::Migration
       t.integer :puppetclass_id
       t.integer :config_group_id
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

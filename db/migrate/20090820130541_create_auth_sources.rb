@@ -15,7 +15,7 @@ class CreateAuthSources < ActiveRecord::Migration
       t.boolean "onthefly_register",               :default => false, :null => false
       t.boolean "tls",                             :default => false, :null => false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

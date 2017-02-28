@@ -5,7 +5,7 @@ class CreateProxyFeatures < ActiveRecord::Migration
     # Create the tables
     create_table :features do |t|
       t.string :name, :limit => 16
-      t.timestamps
+      t.timestamps null: true
     end
 
     create_table :features_smart_proxies, :id => false do |t|

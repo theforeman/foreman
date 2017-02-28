@@ -4,7 +4,7 @@ class CreateReports < ActiveRecord::Migration
       t.references :host, :null => false
       t.text       :log
       t.datetime   :reported_at
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

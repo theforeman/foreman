@@ -3,7 +3,7 @@ class CreateComputeProfiles < ActiveRecord::Migration
     create_table :compute_profiles do |t|
       t.string :name, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

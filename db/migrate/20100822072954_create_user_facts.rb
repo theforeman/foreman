@@ -8,7 +8,7 @@ class CreateUserFacts < ActiveRecord::Migration
       t.string     :criteria, :limit => 255
       t.string     :operator, :limit => 3, :default => "="
       t.string     :andor,    :limit => 3, :default => "or"
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

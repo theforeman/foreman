@@ -4,7 +4,7 @@ class CreateMedia < ActiveRecord::Migration
       t.string :name, :limit => 50, :default => "", :null => false
       t.string :path, :limit => 100, :default => "", :null => false
       t.references :operatingsystem
-      t.timestamps
+      t.timestamps null: true
     end
   end
 
