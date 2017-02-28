@@ -6,7 +6,7 @@ class NotificationRecipientsController < Api::V2::BaseController
 
   def index
     @notifications = NotificationRecipient.
-      where(:user_id => User.current.id).
+      where(:user_id => User.current.id, :notification_id => Notification.active).
       order(:created_at).
       eager_load(:notification, :notification_blueprint)
 
