@@ -57,6 +57,16 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test "should not respond with expired notifications" do
+    notification = add_notification
+    notification.update_attribute(:expired_at, Time.now.utc - 48.hours)
+    get :index, { :format => 'json' }, set_session_user
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_empty response['notifications']
+    assert_equal 0, response['total']
+  end
+
   private
 
   def add_notification
