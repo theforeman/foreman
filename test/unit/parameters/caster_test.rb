@@ -45,6 +45,12 @@ class CasterTest < ActiveSupport::TestCase
       assert_equal false, item.foo
     end
 
+    test "empty boolean is not casted to false" do
+      item = OpenStruct.new(:foo => "true")
+      Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :boolean, :value => "").cast!
+      assert_nil item.foo
+    end
+
     test "array (json)" do
       item = OpenStruct.new(:foo => [1,2,3].to_json)
       Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :array).cast!

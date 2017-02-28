@@ -54,6 +54,7 @@ module Foreman
       end
 
       def cast_boolean
+        return nil if value == ""
         val = Foreman::Cast.to_bool(value)
         return val if [true, false].include?(val)
         raise TypeError

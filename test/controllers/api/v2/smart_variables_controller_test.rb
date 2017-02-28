@@ -7,7 +7,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:smart_variables)
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['results'].empty?
-    assert_equal 2, results['results'].length
+    assert_equal 3, results['results'].length
   end
 
   test "should get smart variables for a specific host" do
@@ -19,8 +19,8 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:smart_variables)
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['results'].empty?
-    assert_equal 1, results['results'].count
-    assert_equal "ssl_port", results['results'][0]['variable']
+    assert_equal 2, results['results'].count
+    assert_equal "bool_test", results['results'][0]['variable']
   end
 
   test "should get smart variables for a specific hostgroup" do
@@ -29,8 +29,8 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:smart_variables)
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['results'].empty?
-    assert_equal 1, results['results'].count
-    assert_equal "ssl_port", results['results'][0]['variable']
+    assert_equal 2, results['results'].count
+    assert_equal "bool_test", results['results'][0]['variable']
   end
 
   test "should get smart variables for a specific puppetclass" do
