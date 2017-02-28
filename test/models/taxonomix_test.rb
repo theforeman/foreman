@@ -329,18 +329,51 @@ class TaxonomixTest < ActiveSupport::TestCase
     end
   end
 
-  test 'users can only see objects scoped to its current taxonomies' do
-    # Environment in organization 1 and location 1 cannot be seen by an user
-    # who is scoped to organization 1 and location 2
-    users(:one).organizations = [taxonomies(:organization1)]
-    users(:one).locations = [taxonomies(:location2)]
-    unreachable_env = FactoryGirl.create(
-      :environment,
-      :organizations => [taxonomies(:organization1)],
-      :locations => [taxonomies(:location1)])
+  context 'user with objects outside its current taxonomies' do
+    setup do
+      # Environment in organization 1 and location 1 cannot be seen by an user
+      # who is scoped to organization 1 and location 2
+      users(:one).organizations = [taxonomies(:organization1)]
+      users(:one).locations = [taxonomies(:location2)]
+      @unreachable_env = FactoryGirl.create(
+        :environment,
+        :organizations => [taxonomies(:organization1)],
+        :locations => [taxonomies(:location1)])
+    end
 
-    as_user(:one) do
-      assert_not_include Environment.all, unreachable_env
+    test 'via resource default scope' do
+      as_user(:one) do
+        assert_not_include Environment.all, @unreachable_env
+      end
+    end
+
+    context 'via resource association' do
+      setup do
+        @hg = FactoryGirl.create(:hostgroup, environment: @unreachable_env, locations: [taxonomies(:location2)], organizations: [taxonomies(:organization1)])
+      end
+
+      test 'via resource association with no reachable environments' do
+        as_user(:one) do
+          assert_empty Environment.all, "User should not see any environments for this test"
+          hg = Hostgroup.find(@hg.id)
+          refute hg.environment
+          assert_equal @unreachable_env.id, hg.environment_id
+        end
+      end
+
+      test 'via resource association with other reachable environments' do
+        # Create a reachable environment too, as scope_by_taxable_ids has a separate code path when
+        # one or more resources are visible to the user
+        FactoryGirl.create(:environment,
+          :organizations => [taxonomies(:organization1)],
+          :locations => [taxonomies(:location2)])
+
+        as_user(:one) do
+          hg = Hostgroup.find(@hg.id)
+          refute hg.environment
+          assert_equal @unreachable_env.id, hg.environment_id
+        end
+      end
     end
   end
 end

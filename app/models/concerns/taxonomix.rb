@@ -134,7 +134,7 @@ module Taxonomix
         scope
       when []
         # If *no* taxable ids were found, then don't show any resources
-        scope.where(:id => [])
+        scope.where('1=0')
       else
         # We need to generate the WHERE part of the SQL query as a string,
         # otherwise the default scope would set id on each new instance

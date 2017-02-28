@@ -110,9 +110,13 @@ class HostsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     end
-    new_host = Host.search_for('myotherfullhost').first
-    assert_equal new_host.environment, hostgroup.environment
-    assert_equal new_host.puppet_proxy, hostgroup.puppet_proxy
+    as_admin do
+      new_host = Host.search_for('myotherfullhost').first
+      assert new_host.environment.present?
+      assert_equal hostgroup.environment, new_host.environment
+      assert new_host.puppet_proxy.present?
+      assert_equal hostgroup.puppet_proxy, new_host.puppet_proxy
+    end
     assert_redirected_to host_url(assigns['host'])
   end
 
