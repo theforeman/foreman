@@ -15,6 +15,22 @@ class PuppetclassLookupKeyJSTest < IntegrationTestWithJavascript
     assert page.find("#puppetclass_lookup_key_hidden_value:enabled")
   end
 
+  test "does not turn empty boolean value to false" do
+    visit puppetclass_lookup_keys_path
+    within(:xpath, "//table") do
+      click_link "ssl"
+    end
+
+    page.find(".add_nested_fields").click
+    row = page.first(".lookup_values table tbody tr")
+    row.find(".matcher_key").select('os')
+    row.find(".matcher_value").set('fake')
+    wait_for_ajax
+
+    click_button('Submit')
+    assert page.has_selector?(".has-error")
+  end
+
   test "uncheck override" do
     visit puppetclass_lookup_keys_path
     within(:xpath, "//table") do

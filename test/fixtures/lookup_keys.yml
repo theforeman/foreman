@@ -10,8 +10,8 @@ one:
 
 three:
   key: ssl
-  key_type: Boolean
-  path: "fqdn\nhostgroup\nhostgroup,domain"
+  key_type: boolean
+  path: "fqdn\nhostgroup\nhostgroup,domain\nos"
   validator_rule:
   default_value: true
   override: true
@@ -79,4 +79,11 @@ four:
   override: true
   puppetclass: two
   path: "organization,location\nxyz\nhostgroup"
+  type: VariableLookupKey
+
+eight:
+  key: bool_test
+  key_type: boolean
+  puppetclass: one
+  default_value: true
   type: VariableLookupKey
