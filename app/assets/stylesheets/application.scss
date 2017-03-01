@@ -557,6 +557,13 @@ table {
   width: 80%;
 }
 
+.modal-spinner {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+}
+
 @media screen and (min-width: 768px) {
   .modal-big {
       width: 70%;

@@ -124,7 +124,7 @@ function build_modal(element, url) {
   var title = $(element).attr('data-dialog-title');
   $('#confirmation-modal .modal-header h4').text(title);
   $('#confirmation-modal .modal-body').empty()
-    .append("<img class='modal-loading' src='<%= asset_path('spinner.gif') %>'");
+    .append("<div class='modal-spinner spinner spinner-lg'></div>");
   $('#confirmation-modal').modal();
   $("#confirmation-modal .modal-body").load(url + " #content",
       function(response, status, xhr) {
