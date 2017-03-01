@@ -22,9 +22,10 @@ module Foreman
       SecureRandom.base64(96).tr('+/=', '-_*')
     end
 
-    # recommended to make encryption_key at least 32 bytes. Ex. SecureRandom.hex(20)
+    # recommended to make encryption_key 32 bytes, matching the key length preferred by
+    # AS::MessageEncryptor's default algorithm
     def secure_encryption_key
-      SecureRandom.hex(20)
+      SecureRandom.hex(ActiveSupport::MessageEncryptor.key_len / 2)
     end
   end
 end

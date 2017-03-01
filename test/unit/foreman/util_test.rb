@@ -36,4 +36,8 @@ class UtilTest < ActiveSupport::TestCase
     FileTest.stubs(:executable?).with('/usr/bin/utiltest').returns(false)
     assert_equal false, which('utiltest')
   end
+
+  test 'secure_encryption_key should match AS default key length' do
+    assert_equal ActiveSupport::MessageEncryptor.key_len, secure_encryption_key.length
+  end
 end
