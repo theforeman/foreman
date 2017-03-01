@@ -13,7 +13,6 @@ class Widget < ActiveRecord::Base
     self.sizey ||= 1
     self.col   ||= 1
     self.row   ||= 1
-    self.hide  ||= false
     self.data  ||= {}
   end
 

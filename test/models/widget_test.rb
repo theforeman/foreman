@@ -27,7 +27,6 @@ class WidgetTest < ActiveSupport::TestCase
     assert_equal 1, widget.sizey
     assert_equal 1, widget.col
     assert_equal 1, widget.row
-    refute widget.hide
     assert widget.data.blank?
     assert_equal widget.user_id, @user.id
   end
