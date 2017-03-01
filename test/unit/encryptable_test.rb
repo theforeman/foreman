@@ -7,11 +7,15 @@ class EncryptableTest < ActiveSupport::TestCase
   end
 
   def cr_with_encryption_key
-    stub_encryption_key(FactoryGirl.build(:ec2_cr, password: 'encrypted-NEN1YVJtdWdaaTdlOHdiUXRHd29nWUZsOHc1UjdMb3p1MFZLenlLekFEbz0tLVA0MGVzUEorUDlJZHVUV2F6azUzUEE9PQ==--9f45d5c88ec582eeb48ebb906ae0a66345ded0fa'))
+    stub_encryption_key(FactoryGirl.build(:ec2_cr, password: 'encrypted-aXVpUzdTSTArRlFwR1RKTy90QWFKQVZDOERGQXhteUFaMG1xVnMxWmFuaz0tLTJHcnlIUDV3N0RrcjhkMWRzdWtJNkE9PQ==--e9227b0757885a231036fe9a7e4f959cfdf66f56'))
   end
 
-  def stub_encryption_key(model)
-    model.stubs(:encryption_key).returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+  def cr_with_long_encryption_key
+    stub_encryption_key(FactoryGirl.build(:ec2_cr, password: 'encrypted-NEN1YVJtdWdaaTdlOHdiUXRHd29nWUZsOHc1UjdMb3p1MFZLenlLekFEbz0tLVA0MGVzUEorUDlJZHVUV2F6azUzUEE9PQ==--9f45d5c88ec582eeb48ebb906ae0a66345ded0fa'), '25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+  end
+
+  def stub_encryption_key(model, key = '25d224dd383e92a7e0c82b8bf7c985e8')
+    model.stubs(:encryption_key).returns(key)
     model
   end
 
@@ -99,6 +103,15 @@ class EncryptableTest < ActiveSupport::TestCase
 
   test "decrypt successfully" do
     compute_resource = cr_with_encryption_key
+    plain_str = "secretpassword"
+    encrypted_str = compute_resource.encrypt_field(plain_str)
+    decrypted_str = compute_resource.decrypt_field(encrypted_str)
+    refute_equal encrypted_str, decrypted_str
+    assert_equal plain_str, decrypted_str
+  end
+
+  test "decrypt successfully with over-sized key" do
+    compute_resource = cr_with_long_encryption_key
     plain_str = "secretpassword"
     encrypted_str = compute_resource.encrypt_field(plain_str)
     decrypted_str = compute_resource.decrypt_field(encrypted_str)

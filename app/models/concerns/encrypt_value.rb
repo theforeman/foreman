@@ -39,7 +39,6 @@ module EncryptValue
 
   def encrypt_field(str)
     return str unless is_encryptable?(str)
-    encryptor = ActiveSupport::MessageEncryptor.new(encryption_key)
     begin
       # add prefix to encrypted string
       str_encrypted = "#{ENCRYPTION_PREFIX}#{encryptor.encrypt_and_sign(str)}"
@@ -53,7 +52,6 @@ module EncryptValue
 
   def decrypt_field(str)
     return str unless is_decryptable?(str)
-    encryptor = ActiveSupport::MessageEncryptor.new(encryption_key)
     begin
       # remove prefix before decrypting string
       str_no_prefix = str.gsub(/^#{ENCRYPTION_PREFIX}/, "")
@@ -71,5 +69,16 @@ module EncryptValue
   def puts_and_logs(msg, level = Logger::INFO)
     logger.add level, msg
     puts msg if Foreman.in_rake? && !Rails.env.test? && level >= Logger::INFO
+  end
+
+  def encryptor
+    full_key = encryption_key
+
+    # Pass a limited length encryption key as Ruby's OpenSSL bindings will either raise an
+    # exception for a mis-sized key or it will be silently truncated.
+    #
+    # Pass a full length signature key though, so pre-existing encrypted data can still be verified
+    # against a key that is longer than the necessary encryption key.
+    ActiveSupport::MessageEncryptor.new(full_key[0, ActiveSupport::MessageEncryptor.key_len], full_key)
   end
 end
