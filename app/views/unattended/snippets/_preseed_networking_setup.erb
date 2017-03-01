@@ -34,7 +34,7 @@ EOF
 <% dhcp = subnet.nil? ? false : subnet.dhcp_boot_mode? -%>
 real=`ip -o link | grep <%= interface.mac -%> | awk '{print $2;}' | sed s/:$//`
 <% if virtual -%>
-real=`echo <%= interface.identifier -%> | sed s/<%= interface.physical_device -%>/$real/`
+real=`echo <%= interface.identifier -%> | sed s/<%= interface.attached_to -%>/$real/`
 <% end -%>
 
 cat << EOF >> /etc/network/interfaces

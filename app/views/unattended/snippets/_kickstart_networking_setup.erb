@@ -20,14 +20,14 @@ BOOTPROTO="<%= dhcp ? 'dhcp' : 'none' -%>"
 <% unless dhcp -%>
 IPADDR="<%= @host.ip -%>"
 NETMASK="<%= subnet.mask -%>"
-<% if subnet.gateway.present? -%>
+<% if subnet && subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% if @host.ip6.present? -%>
 IPV6INIT=yes
 IPV6_AUTOCONF=no
 IPV6ADDR=<%= @host.ip6 %>
-<% if subnet6.gateway.present? -%>
+<% if subnet6 && subnet6.gateway.present? -%>
 IPV6_DEFAULTGW=<%= subnet6.gateway %>
 <% end -%>
 IPV6_PEERDNS=no
@@ -53,14 +53,14 @@ BOOTPROTO="<%= dhcp ? 'dhcp' : 'none' -%>"
 <% unless dhcp || subnet.nil? -%>
 IPADDR="<%= bond.ip -%>"
 NETMASK="<%= subnet.mask -%>"
-<% if subnet.gateway.present? -%>
+<% if subnet && subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% if bond.ip6.present? -%>
 IPV6INIT=yes
 IPV6_AUTOCONF=no
 IPV6ADDR=<%= bond.ip6 %>
-<% if subnet6.gateway.present? -%>
+<% if subnet6 && subnet6.gateway.present? -%>
 IPV6_DEFAULTGW=<%= subnet6.gateway %>
 <% end -%>
 IPV6_PEERDNS=no
@@ -152,7 +152,7 @@ BOOTPROTO="<%= dhcp ? 'dhcp' : 'none' -%>"
 <% unless dhcp -%>
 IPADDR="<%= interface.ip -%>"
 NETMASK="<%= subnet.mask -%>"
-<% if subnet.gateway.present? -%>
+<% if subnet && subnet.gateway.present? -%>
 GATEWAY="<%= subnet.gateway %>"
 <% end -%>
 <% end -%>
@@ -180,7 +180,7 @@ DEFROUTE=no
 IPV6INIT=yes
 IPV6_AUTOCONF=no
 IPV6ADDR=<%= @host.ip6 %>
-<% if subnet6.gateway.present? -%>
+<% if subnet6 && subnet6.gateway.present? -%>
 IPV6_DEFAULTGW=<%= subnet6.gateway %>
 <% end -%>
 IPV6_PEERDNS=no
