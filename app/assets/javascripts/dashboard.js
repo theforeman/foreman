@@ -1,6 +1,5 @@
 $(document).on('ContentLoad', function(){start_gridster(); auto_refresh()});
 
-$(document).on("click",".widget_control .minimize" ,function(){ hide_widget(this);});
 $(document).on("click",".widget_control .remove" ,function(){ remove_widget(this);});
 
 var refresh_timeout;
@@ -26,23 +25,6 @@ function start_gridster(){
         max_cols: 12,
         autogenerate_stylesheet: false
     }).data('gridster');
-
-    $(".gridster>ul>li[data-hide='true']").each(function(i, widget) {
-        $(widget).hide();
-        gridster.remove_widget(widget);
-        $(".gridster>ul").append($(widget));
-    });
-    fill_restore_list();
-}
-
-function hide_widget(item){
-    var gridster = $(".gridster>ul").gridster().data('gridster');
-    var widget = $(item).parents('li.gs-w');
-
-    widget.attr('data-hide', 'true').hide();
-    gridster.remove_widget(widget);
-    $(".gridster>ul").append(widget);
-    fill_restore_list();
 }
 
 function remove_widget(item){
@@ -101,7 +83,6 @@ function serialize_grid(){
     $(".gridster>ul>li").each(function(i, widget) {
         $widget = $(widget);
         result[$widget.data('id')] = {
-            hide:   $widget.data('hide'),
             col:    $widget.data('col'),
             row:    $widget.data('row'),
             sizex:  $widget.data('sizex'),
@@ -110,34 +91,6 @@ function serialize_grid(){
     });
 
     return result;
-}
-
-function fill_restore_list(){
-   $("ul>li.widget-restore").remove();
-   var restore_list = [];
-   var hidden_widgets = $(".gridster>ul>li[data-hide='true']");
-   if (hidden_widgets.exists()){
-       hidden_widgets.each(function(i, widget) {
-           restore_list.push("<li class='widget-restore'><a href='#' onclick='show_widget(\"" +
-               $(widget).attr('data-id') + "\")'>" +
-               $(widget).attr('data-name') + "</a></li>");
-       });
-   } else {
-       restore_list.push("<li class='widget-restore'><a>" + __('Nothing to restore') + "</a></li>");
-   }
-   $('#restore_list').after(restore_list.join(" "));
-}
-
-function show_widget(id){
-    var gridster = $(".gridster>ul").gridster().data('gridster');
-    var widget = $(".gridster>ul>li[data-id="+id+"]");
-    widget.attr("data-hide", 'false');
-    widget.attr("data-row", 1);
-    widget.attr("data-col", 1);
-    widget.show();
-
-    gridster.register_widget(widget);
-    fill_restore_list();
 }
 
 function widgetLoaded(widget){
