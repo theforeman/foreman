@@ -6,7 +6,7 @@ class CreateLogs < ActiveRecord::Migration
       t.integer :report_id
       t.integer :level_id
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :logs, :report_id
     add_index :logs, :message_id

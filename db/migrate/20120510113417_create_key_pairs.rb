@@ -5,7 +5,7 @@ class CreateKeyPairs < ActiveRecord::Migration
       t.integer :compute_resource_id
       t.string :name, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

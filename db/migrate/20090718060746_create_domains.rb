@@ -5,7 +5,7 @@ class CreateDomains < ActiveRecord::Migration
       t.string  :dnsserver,  :limit => 255
       t.string  :gateway,    :limit => 40
       t.string  :fullname,   :limit => 32
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

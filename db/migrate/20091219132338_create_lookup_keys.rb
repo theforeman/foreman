@@ -2,7 +2,7 @@ class CreateLookupKeys < ActiveRecord::Migration
   def up
     create_table :lookup_keys do |t|
       t.string :key, :limit => 255
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :lookup_keys, :key
   end

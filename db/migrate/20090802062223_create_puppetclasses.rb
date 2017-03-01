@@ -5,7 +5,7 @@ class CreatePuppetclasses < ActiveRecord::Migration
       t.string :nameindicator, :limit => 255
       t.integer :operatingsystem_id
 
-      t.timestamps
+      t.timestamps null: true
     end
     create_table :hosts_puppetclasses, :id => false do |t|
       t.references :puppetclass, :null => false

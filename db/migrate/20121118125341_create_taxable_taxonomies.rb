@@ -5,7 +5,7 @@ class CreateTaxableTaxonomies < ActiveRecord::Migration
       t.integer :taxable_id
       t.string :taxable_type, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :taxable_taxonomies, [:taxable_id, :taxable_type]

@@ -6,7 +6,7 @@ class CreateOperatingsystems < ActiveRecord::Migration
       t.string   :minor, :limit => 16
       t.string   :nameindicator, :limit => 3
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

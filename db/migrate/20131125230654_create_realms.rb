@@ -6,7 +6,7 @@ class CreateRealms < ActiveRecord::Migration
       t.integer     :realm_proxy_id
       t.integer     :hosts_count, :default => 0
       t.integer     :hostgroups_count, :default => 0
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :realms, :name, :unique => true
