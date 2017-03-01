@@ -12,7 +12,7 @@
 # Dominic Cleal <dominic@cleal.org>, 2013-2014
 # Dominic Cleal <dominic@cleal.org>, 2016
 # Eike Stehr <estehr@gmail.com>, 2015
-# Ettore Atalan <atalanttore@googlemail.com>, 2014-2016
+# Ettore Atalan <atalanttore@googlemail.com>, 2014-2017
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Paul Puschmann, 2013
@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2016-12-14 09:53+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2017-02-11 12:28+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -398,7 +398,7 @@ msgid "Account"
 msgstr "Account"
 
 msgid "Acquire IP addresses for %s"
-msgstr ""
+msgstr "IP-Adressen für %s erlangen"
 
 msgid "Action"
 msgstr "Aktion"
@@ -485,7 +485,7 @@ msgid "Additional information about this host"
 msgstr "Weitere Informationen über diesen Host"
 
 msgid "Address to connect to"
-msgstr ""
+msgstr "Adresse zum Verbinden"
 
 msgid "Admin permissions required"
 msgstr "Administratorberechtigungen erdorderlich"
@@ -590,7 +590,7 @@ msgid "Allow external network as main network"
 msgstr "Externes Netzwerk als Hauptnetzwerk zulassen"
 
 msgid "Allowed methods or members"
-msgstr ""
+msgstr "Erlaubte Methoden und Mitglieder"
 
 msgid "Always show configuration status"
 msgstr "Konfigurationsstatus immer anzeigen"
@@ -889,7 +889,7 @@ msgid "AuthSource|Tls"
 msgstr "TLS"
 
 msgid "Authentication"
-msgstr ""
+msgstr "Authentifizierung"
 
 msgid "Author"
 msgstr "Autor"
@@ -952,10 +952,10 @@ msgid "BMC"
 msgstr "BMC"
 
 msgid "BMC credentials access"
-msgstr ""
+msgstr "BMC-Anmeldedatenzugriff"
 
 msgid "BMC password usage"
-msgstr ""
+msgstr "BMC-Passwortnutzung"
 
 msgid "Back"
 msgstr "Zurück"
@@ -1126,7 +1126,7 @@ msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "%{current} kann nicht gelöscht werden, da es verschachtelte %{sti_name} hat."
 
 msgid "Cannot delete built-in role"
-msgstr ""
+msgstr "Kann die eingebaute Rolle nicht löschen"
 
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Gruppe %{current} kann nicht gelöscht werden, da sie verschachtelte Gruppen enthält."
@@ -1282,7 +1282,7 @@ msgid "Cluster ID is required to list available networks"
 msgstr "Cluster-Kennung wird benötigt um verfügbare Netzwerke aufzulisten"
 
 msgid "Comments"
-msgstr ""
+msgstr "Kommentare"
 
 msgid "Communication status"
 msgstr "Kommunikationsstatus"
@@ -1600,13 +1600,13 @@ msgid "Create realm entry for %s"
 msgstr "Realm-Eintrag für %s erstellen"
 
 msgid "Created"
-msgstr ""
+msgstr "Erstellt"
 
 msgid "Ctrl-Alt-Del"
 msgstr "Strg-Alt-Entf"
 
 msgid "Current password"
-msgstr ""
+msgstr "Aktuelles Passwort"
 
 msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "Angepasster LDAP-Suchfilter, <i>optional</i>"
@@ -1741,7 +1741,7 @@ msgid "Default variables lookup path"
 msgstr "Standardmäßiger variabler Suchpfad"
 
 msgid "Default verification mode"
-msgstr ""
+msgstr "Standardmäßiger Verifikationsmodus"
 
 msgid "Defaults to image size if left blank"
 msgstr "Standard bei Freilassen ist die Abbildgröße"
@@ -2369,7 +2369,7 @@ msgid "Explain matchers"
 msgstr "Prüfwerte erklären"
 
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 msgid "Export a partition template to ERB"
 msgstr ""
@@ -2667,7 +2667,7 @@ msgid "Filter classes"
 msgstr "Filterklassen"
 
 msgid "Filter overriding has been disabled"
-msgstr ""
+msgstr "Filterüberschreibung wurde deaktiviert"
 
 msgid "Filters"
 msgstr "Filter"
@@ -2912,13 +2912,13 @@ msgid "General"
 msgstr "Allgemein"
 
 msgid "General role description"
-msgstr ""
+msgstr "Allgemeine Rollenbeschreibung"
 
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "Allgemeine nützliche Beschreibung, zum Beispiel, dass diese Art der Hardware ein spezielles BIOS Setup benötigt"
 
 msgid "General user description"
-msgstr ""
+msgstr "Allgemeine Benutzerbeschreibung"
 
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr ""
@@ -2957,10 +2957,10 @@ msgid "Global Parameters"
 msgstr "Globale Parameter"
 
 msgid "Global functions"
-msgstr ""
+msgstr "Globale Funktionen"
 
 msgid "Global methods (functions)"
-msgstr ""
+msgstr "Globale Methoden (Funktionen)"
 
 msgid "Global parameters"
 msgstr "Globale Parameter"
@@ -2969,7 +2969,7 @@ msgid "Global status changed from %{from} to %{to}"
 msgstr ""
 
 msgid "Global variables"
-msgstr ""
+msgstr "Globale Variablen"
 
 msgid "Good host reports in the last %s"
 msgstr "Gute Systemberichte in den letzten %s"
@@ -3618,10 +3618,10 @@ msgid "Import IPv4 subnets"
 msgstr "IPv4-Subnetze importieren"
 
 msgid "Import classes from %s"
-msgstr ""
+msgstr "Klassen aus %s importieren"
 
 msgid "Import environments from %s"
-msgstr ""
+msgstr "Umgebungen aus %s importieren"
 
 msgid "Import of facts failed for host %s"
 msgstr "Import von Fakten für Host %s fehlgeschlagen"
@@ -3657,7 +3657,7 @@ msgid "Included Config Groups"
 msgstr "Einbezogene Konfigurationsklassen"
 
 msgid "Incorrect password"
-msgstr ""
+msgstr "Falsches Passwort"
 
 msgid "Incorrect username or password"
 msgstr "Falscher Benutzername oder falsches Passwort"
@@ -4246,7 +4246,7 @@ msgid "Load Tenants"
 msgstr "Lade Mieter"
 
 msgid "Load Zones"
-msgstr ""
+msgstr "Zonen laden"
 
 msgid "Loading"
 msgstr "Lade"
@@ -4754,7 +4754,7 @@ msgid "New Host Group"
 msgstr "Neue Hostgruppe"
 
 msgid "New Hosts"
-msgstr ""
+msgstr "Neue Hosts"
 
 msgid "New Image"
 msgstr "Neues Abbild"
@@ -5004,7 +5004,7 @@ msgid "No hosts are mismatched!"
 msgstr "Keine Hosts mit Fehlzuweisungen!"
 
 msgid "No hosts available."
-msgstr ""
+msgstr "Keine Hosts verfügbar."
 
 msgid "No hosts selected"
 msgstr "Keine Systeme ausgewählt"
@@ -5696,7 +5696,7 @@ msgid "Plugins"
 msgstr "Plugins"
 
 msgid "Port to connect to"
-msgstr ""
+msgstr "Port zum Verbinden"
 
 msgid "Power"
 msgstr "Strom"
@@ -6226,7 +6226,7 @@ msgid "Roles"
 msgstr "Rollen"
 
 msgid "Roles from user groups"
-msgstr ""
+msgstr "Rollen von Benutzergruppen"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role|Builtin"
@@ -6282,7 +6282,7 @@ msgid "SCSI controller"
 msgstr "SCSI-Controller"
 
 msgid "SMTP"
-msgstr ""
+msgstr "SMTP"
 
 msgid "SMTP HELO/EHLO domain"
 msgstr ""
@@ -6291,25 +6291,25 @@ msgid "SMTP OpenSSL verify mode"
 msgstr ""
 
 msgid "SMTP address"
-msgstr ""
+msgstr "SMTP-Adresse"
 
 msgid "SMTP authentication"
-msgstr ""
+msgstr "SMTP-Authentifizierung"
 
 msgid "SMTP automatic STARTTLS"
-msgstr ""
+msgstr "SMTP automatisches STARTTLS"
 
 msgid "SMTP enable StartTLS auto"
 msgstr ""
 
 msgid "SMTP password"
-msgstr ""
+msgstr "SMTP-Passwort"
 
 msgid "SMTP port"
-msgstr ""
+msgstr "SMTP-Port"
 
 msgid "SMTP username"
-msgstr ""
+msgstr "SMTP-Benutzername"
 
 msgid "SSL CA file"
 msgstr "SSL-CA-Datei"
@@ -6501,10 +6501,10 @@ msgid "Send welcome email"
 msgstr "Willkommens-E-Mail senden"
 
 msgid "Sendmail"
-msgstr ""
+msgstr "Sendmail"
 
 msgid "Sendmail arguments"
-msgstr ""
+msgstr "Sendmail-Argumente"
 
 msgid "Sendmail location"
 msgstr ""
@@ -6525,7 +6525,7 @@ msgid "Services"
 msgstr "Dienste"
 
 msgid "Set IP addresses for %s"
-msgstr ""
+msgstr "IP-Adressen für %s festlegen"
 
 msgid "Set a randomly generated password on the display connection"
 msgstr "Zufälliges Passwort für die Verbindung generieren"
@@ -6942,7 +6942,7 @@ msgid "Subnet ID"
 msgstr "Subnetzkennung"
 
 msgid "Subnet IDs"
-msgstr "Subnetz-Kennungen"
+msgstr "Subnetzkennungen"
 
 msgid "Subnet name"
 msgstr "Subnetzname"
@@ -7002,7 +7002,7 @@ msgstr "Bis"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
-msgstr "Subnetz|Vlan-ID"
+msgstr "Subnetz|Vlan-Kennung"
 
 msgid "Subscribe"
 msgstr "Abonnieren"
@@ -7154,7 +7154,7 @@ msgid "Template locked"
 msgstr "Vorlage gesperrt"
 
 msgid "Template syntax"
-msgstr ""
+msgstr "Vorlagensyntax"
 
 msgid "Template unlocked"
 msgstr "Vorlage entsperrt"
@@ -7611,7 +7611,7 @@ msgid "Type"
 msgstr "Typ"
 
 msgid "Type of name generator"
-msgstr ""
+msgstr "Typ des Namensgenerators"
 
 msgid "Type of realm, e.g. FreeIPA"
 msgstr "Art des Realms, z.B. FreeIPA"
@@ -7974,7 +7974,7 @@ msgid "Update a smart variable"
 msgstr "Smart variable aktualisieren"
 
 msgid "Update a subnet"
-msgstr "Subnet aktualisieren"
+msgstr "Subnetz aktualisieren"
 
 msgid "Update a user"
 msgstr "Benutzer aktualisieren"
@@ -8013,7 +8013,7 @@ msgid "Update realm entry for %s"
 msgstr "Realm-Eintrag wird für %s aktualisiert"
 
 msgid "Update subnets from facts"
-msgstr ""
+msgstr "Subnetze nach Fakten aktualisieren"
 
 msgid "Update template combination"
 msgstr "Vorlagen-Kombination aktualisieren"
@@ -8537,7 +8537,7 @@ msgid "Zone"
 msgstr "Zone"
 
 msgid "[encrypted]"
-msgstr ""
+msgstr "[verschlüsselt]"
 
 msgid "a location"
 msgstr "ein Standort"
@@ -8864,7 +8864,7 @@ msgid "is an admin account"
 msgstr "ist ein Administrator-Account"
 
 msgid "is an admin user group"
-msgstr ""
+msgstr "ist eine Admin-Benutzergruppe"
 
 msgid "is an unsupported provisioning method"
 msgstr "ist eine nicht unterstützte Bereitstellungsmethode"
@@ -9005,7 +9005,7 @@ msgid "nil means host is bare metal"
 msgstr "\"nil\" bedeutet, dass es sich um einen Bare-Metal-Host handelt"
 
 msgid "no free IP could be found in our DB"
-msgstr ""
+msgstr "in unserer DB konnte keine freie IP gefunden werden"
 
 msgid "no puppet proxy defined - cant continue"
 msgstr "kein Puppet-Proxy definiert - kann nicht fortfahren"
@@ -9014,7 +9014,7 @@ msgid "no value"
 msgstr "kein Wert"
 
 msgid "none"
-msgstr ""
+msgstr "keine"
 
 msgid "not found"
 msgstr "Nicht gefunden"

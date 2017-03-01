@@ -4948,6 +4948,9 @@ msgstr ""
 msgid "No compute resource to show"
 msgstr "Attributes"
 
+msgid "No data available"
+msgstr ""
+
 msgid "No data for this trend."
 msgstr ""
 

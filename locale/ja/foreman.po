@@ -7,7 +7,7 @@
 # Jean-Baptiste Langlois <jeanbaptiste.langlois@gmail.com>, 2013
 # Kazuki Omo <kazuki.omo@gmail.com>, 2016
 # Shuji Yamada <uzy.exe@gmail.com>, 2015
-# Tomoyuki KATO <tomo@dream.daynight.jp>, 2014
+# Tomoyuki KATO <inactive+katomo@transifex.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
