@@ -130,7 +130,7 @@ module ApplicationHelper
     text = options.delete(:text) || _("Delete")
     method = options.delete(:method) || :delete
     options = {:auth_action => :destroy}.merge(options)
-    html_options = { :data => { :confirm => _('Are you sure?') }, :method => method, :class => 'delete' }.merge(html_options)
+    html_options = { :data => { :confirm => _('Are you sure?') }, :method => method }.merge(html_options)
     display_link_if_authorized(text, options, html_options)
   end
 
