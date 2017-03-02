@@ -36,21 +36,32 @@ module Api
       def show
       end
 
+      def_param_group :user_params do
+        param :login, String, :required => true
+        param :firstname, String, :required => false
+        param :lastname, String, :required => false
+        param :mail, String, :required => true
+        param :description, String, :required => false
+        param :admin, :bool, :required => false, :desc => N_("is an admin account")
+        param :password, String, :required => true
+        param :default_location_id, Integer if SETTINGS[:locations_enabled]
+        param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
+        param :auth_source_id, Integer, :required => true
+        param :timezone, ActiveSupport::TimeZone.all.map(&:name), :required => false, :desc => N_("User's timezone")
+        param :locale, FastGettext.available_locales, :required => false, :desc => N_("User's preferred locale")
+        param_group :taxonomies, ::Api::V2::BaseController
+      end
+
       def_param_group :user do
         param :user, Hash, :required => true, :action_aware => true do
-          param :login, String, :required => true
-          param :firstname, String, :required => false
-          param :lastname, String, :required => false
-          param :mail, String, :required => true
-          param :description, String, :required => false
-          param :admin, :bool, :required => false, :desc => N_("is an admin account")
-          param :password, String, :required => true
-          param :default_location_id, Integer if SETTINGS[:locations_enabled]
-          param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
-          param :auth_source_id, Integer, :required => true
-          param :timezone, ActiveSupport::TimeZone.all.map(&:name), :required => false, :desc => N_("User's timezone")
-          param :locale, FastGettext.available_locales, :required => false, :desc => N_("User's preferred locale")
-          param_group :taxonomies, ::Api::V2::BaseController
+          param_group :user_params
+        end
+      end
+
+      def_param_group :user_update do
+        param :user, Hash, :required => true, :action_aware => true do
+          param_group :user_params
+          param :current_password, String, :desc => N_("Required when user want to change own password")
         end
       end
 
@@ -75,7 +86,7 @@ module Api
         Only another admin can change the admin account attribute.
       DOC
       param :id, String, :required => true
-      param_group :user
+      param_group :user_update
 
       def update
         if @user.update_attributes(user_params)
