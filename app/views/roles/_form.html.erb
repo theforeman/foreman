@@ -11,7 +11,7 @@
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
-      <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4", :help_block => _("General role description") %>
+      <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
       <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
 
       <% if show_location_tab? || show_organization_tab? %>
