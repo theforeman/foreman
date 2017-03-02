@@ -1,3 +1,37 @@
+2017-03-02	Dominic Cleal <dominic@cleal.org>
+	* Release 1.14.2
+
+2017-03-01	Dominic Cleal <dominic@cleal.org>
+	* Pin patternfly-sass due to missing precompiled asset
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+	* refs #18468 - move compute_resources JS to compute profile index
+
+2017-03-01	Jo Vandeginste <Jo.Vandeginste@kuleuven.be>
+	* Add pxe_loader to host REST
+
+2017-03-01	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #18582 - add missing id params to taxonomy apidoc
+
+2017-03-01	Daniel Augustin <hossie@hossie.de>
+	* fixes #17866 - Remove PXE Properties from Gentoo Operatingsystem
+
+2017-03-01	Jo Vandeginste <jo.vandeginste@gmail.com>
+	* fixes #18574 - add ip6 address to the REST api results
+
+2017-03-01	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #18559 - Order mail notifications by name
+
+2017-03-01	Timo Goebel <mail@timogoebel.name>
+	* fixes #18511 - plugin authors shown nicely
+	* fixes #18366 - vmware: delete vm only if created with errors
+
+2017-03-01	Sebastian Gräßl <bastilian@users.noreply.github.com>
+	* Fixes #18468 - Include JS in libvirt compute profile form
+
+2017-03-01	Ivan Nečas <inecas@redhat.com>
+	* Fixes #3541,#13769 - return true on success of ssh orchestration
+
 2017-02-01	Dominic Cleal <dominic@cleal.org>
 	* Release 1.14.1
 
