@@ -4,7 +4,7 @@ require "#{root}/app/services/foreman/version"
 
 settings_file = Rails.env.test? ? 'config/settings.yaml.test' : 'config/settings.yaml'
 
-SETTINGS = YAML.load_file("#{root}/#{settings_file}")
+SETTINGS = YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result)
 SETTINGS[:version] = Foreman::Version.new
 SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
 SETTINGS[:login]    ||= SETTINGS[:ldap]
@@ -14,5 +14,5 @@ SETTINGS[:puppetssldir]  ||= "#{SETTINGS[:puppetvardir]}/ssl"
 
 # Load plugin config, if any
 Dir["#{root}/config/settings.plugins.d/*.yaml"].each do |f|
-  SETTINGS.merge! YAML.load_file f
+  SETTINGS.merge! YAML.load(ERB.new(File.read(f)).result)
 end
