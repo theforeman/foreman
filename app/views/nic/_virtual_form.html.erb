@@ -1,3 +1,5 @@
-<%= text_f f, :tag, :help_inline => popover('',_("Inherits from subnet VLAN ID if not set"), :rel => 'popover-modal'), :size => "col-md-8", :label_size => "col-md-3" %>
-<%= text_f f, :attached_to, :help_inline => popover('',_("Identifier of the interface to which this interface belongs, e.g. eth1"), :rel => 'popover-modal'),
+<%= text_f f, :tag, :label_help => _("Inherits from subnet VLAN ID if not set"),
+           :label_help_options => { :rel => 'popover-modal' }, :size => "col-md-8", :label_size => "col-md-3" %>
+<%= text_f f, :attached_to, :label_help => _("Identifier of the interface to which this interface belongs, e.g. eth1"),
+           :label_help_options => { :rel => 'popover-modal' },
            :required => local_assigns[:attached_to_required], :class => 'attached', :size => "col-md-8", :label_size => "col-md-3" %>

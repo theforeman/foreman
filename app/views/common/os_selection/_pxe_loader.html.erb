@@ -5,6 +5,7 @@
         :include_blank => blank_or_inherit_f(f, :pxe_loader),
       },
       :label => _('PXE loader'),
-      :help_inline => popover("", _("DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"), :data => { :placement => 'top' }) %>
+      :label_help =>  _("DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"),
+      :label_help_options => { :data => { :placement => 'top' } } %>
   <% end -%>
 <% end -%>

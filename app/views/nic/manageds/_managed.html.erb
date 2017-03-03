@@ -3,7 +3,8 @@
 <%= checkbox_f f, :virtual,
                :disabled => !f.object.new_record?,
                :label => _("Virtual NIC"),
-               :help_inline => popover('',_("Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"), :rel => 'popover-modal'),
+               :label_help => _("Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"),
+               :label_help_options => { :rel => 'popover-modal'},
                :class => 'virtual',
                :size => "col-md-8", :label_size => "col-md-3" %>
 

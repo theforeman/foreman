@@ -302,18 +302,24 @@ module FormHelper
   end
 
   def add_label options, f, attr
+    return ''.html_safe if options[:label] == :none
+
     label_size = options.delete(:label_size) || "col-md-2"
     required_mark = check_required(options, f, attr)
-    label = options[:label] == :none ? '' : options.delete(:label)
-    label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
-        s_(clazz.gettext_translation_for_attribute_name attr)) if f
-    label = label.present? ? label_tag(attr, "#{label}#{required_mark}", :class => label_size + " control-label") : ''
+    label = ''.html_safe + options.delete(:label)
+    label += ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
+      s_(clazz.gettext_translation_for_attribute_name attr).html_safe) if f && label.empty?
+
+    if options[:label_help].present?
+      label += ' '.html_safe + popover("", options[:label_help], options[:label_help_options] || {})
+    end
+    label = label.present? ? label_tag(attr, label.to_s + required_mark.to_s, :class => label_size + " control-label") : ''
     label
   end
 
   def check_required options, f, attr
     required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
-    return ' *' if required.nil? ? is_required?(f, attr) : required
+    return ' *'.html_safe if required.nil? ? is_required?(f, attr) : required
   end
 
   def blank_or_inherit_f(f, attr)

@@ -10,24 +10,26 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
+      <% if @role.persisted? && (show_location_tab? || show_organization_tab?) %>
+          <h5><%= _("Changes to %s will propagate to all inheriting filters") % org_loc_string(_('and')) %></h5>
+          <hr>
+      <% end %>
+
       <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
       <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
       <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
 
-      <% if show_location_tab? || show_organization_tab? %>
-        <%= alert(:close => false, :class => 'alert-info', :header => '', :text => (_("Changes to following associations will propagate to all inheriting filters") + ' ' +
-            popover("", _("When the role's associated %{orgs_or_locs} are changed,<br> the change will propagate to all inheriting filters.
-                               Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.
-                               Note that not all filters support <br> %{orgs_and_locs}, so these always remain global.") % { :orgs_or_locs => org_loc_string('or'), :orgs_and_locs => org_loc_string('and') },
-                    :title => _("Role %s.") % org_loc_string('and'))).html_safe) %>
-      <% end %>
-
+      <% tax_help = N_("When the role's associated %{taxonomies} are changed,<br> the change will propagate to all inheriting filters.
+                         Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.
+                         Note that not all filters support <br>%{taxonomies}, so these always remain global.") %>
       <% if show_location_tab? %>
-        <%= multiple_checkboxes f, :locations, f.object, User.current.my_locations, { :label => _("Locations") } %>
+        <% loc_help = _(tax_help) % { :taxonomies => _('locations') }%>
+        <%= multiple_checkboxes f, :locations, f.object, User.current.my_locations, { :label => _("Locations"), :label_help => loc_help, :label_help_options => { :title => _("Role locations") } } %>
       <% end %>
 
       <% if show_organization_tab? %>
-        <%= multiple_checkboxes f, :organizations, f.object, User.current.my_organizations, { :label => _("Organizations") } %>
+        <% org_help = _(tax_help) % { :taxonomies => _('organizations') }%>
+        <%= multiple_checkboxes f, :organizations, f.object, User.current.my_organizations, { :label => _("Organizations"), :label_help => org_help, :label_help_options => { :title => _("Role organizations") } } %>
       <% end %>
     </div>
 
