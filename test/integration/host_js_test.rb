@@ -234,6 +234,43 @@ class HostJSTest < IntegrationTestWithJavascript
       click_link 'Parameters'
       assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}")
     end
+
+    test 'new parameters can be edited and removed' do
+      role = FactoryGirl.create(:role)
+      user = FactoryGirl.create(:user, :with_mail)
+      user.roles << role
+      FactoryGirl.create(:filter,
+                         :permissions => Permission.where(:name => ['create_hosts']),
+                         :role => role)
+      FactoryGirl.create(:filter,
+                         :permissions => Permission.where(:name => ['create_params', 'view_params']),
+                         :role => role)
+
+      FactoryGirl.create(:common_parameter, :name => "a_parameter")
+
+      set_request_user(user)
+
+      host = FactoryGirl.create(:host, :with_puppetclass)
+      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                         :key_type => 'string', :default_value => true, :path => "fqdn",
+                         :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
+
+      visit new_host_path
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+
+      assert page.has_link? '+ Add Parameter'
+      click_link '+ Add Parameter'
+      assert page.has_no_css? '#new_host_parameter_value[disabled=disabled]'
+      assert page.has_link? 'remove'
+      click_link 'remove'
+
+      assert page.has_css? 'a#override-param-a_parameter'
+      find(:css, 'a#override-param-a_parameter').click
+
+      assert page.has_no_css? '#new_host_parameter_value[disabled=disabled]'
+      assert page.has_link? 'remove'
+    end
   end
 
   describe "hosts index multiple actions" do
