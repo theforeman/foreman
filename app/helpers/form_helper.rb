@@ -307,13 +307,13 @@ module FormHelper
     label = options[:label] == :none ? '' : options.delete(:label)
     label ||= ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
         s_(clazz.gettext_translation_for_attribute_name attr)) if f
-    label = label.present? ? label_tag(attr, "#{label}#{required_mark}", :class => label_size + " control-label") : ''
+    label = label.present? ? label_tag(attr, label.to_s + required_mark.to_s, :class => label_size + " control-label") : ''
     label
   end
 
   def check_required options, f, attr
     required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
-    return ' *' if required.nil? ? is_required?(f, attr) : required
+    return ' *'.html_safe if required.nil? ? is_required?(f, attr) : required
   end
 
   def blank_or_inherit_f(f, attr)
