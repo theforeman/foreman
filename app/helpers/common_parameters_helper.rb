@@ -20,9 +20,15 @@ module CommonParametersHelper
   end
 
   def omit_help
-    title = _("Omit parameter from classification")
-    body = _("Foreman will not send this parameter in classification output.")
-    popover(nil, body, :title => title)
+    popover(nil, omit_help_body, :title => omit_help_title)
+  end
+
+  def omit_help_title
+    _("Omit parameter from classification")
+  end
+
+  def omit_help_body
+    _("Foreman will not send this parameter in classification output.")
   end
 
   def hidden_value_field(f, field, disabled, options = {})

@@ -25,11 +25,8 @@
     <%= text_f f, :bridge,
       :class => "libvirt_bridge",
       :label => _("Network"),
-      :help_inline => popover(
-        '',
-        _('There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)'),
-        :rel => 'popover-modal'
-      ),
+      :label_help => _('There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)'),
+      :label_help_options => { :rel => 'popover-modal' },
       :disabled => !new_host,
       :label_size => "col-md-3" %>
   <% end %>
