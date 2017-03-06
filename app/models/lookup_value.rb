@@ -52,6 +52,10 @@ class LookupValue < ActiveRecord::Base
       :getter => :value).validate!
   end
 
+  def path
+    match.split(LookupKey::KEY_DELM).map{|s| s.split(LookupKey::EQ_DELM).first}.join(LookupKey::KEY_DELM)
+  end
+
   private
 
   #TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)

@@ -19,7 +19,7 @@
   </thead>
 
   <tbody>
-  <%= f.fields_for :lookup_values do |lookup_value| %>
+  <%= f.fields_for :lookup_values, f.object.sorted_values do |lookup_value| %>
     <%= render 'lookup_keys/value', :f => lookup_value, :is_param => is_param, :is_template => false, :hidden_value => f.object.hidden_value? %>
   <% end %>
   </tbody>
