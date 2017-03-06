@@ -8,7 +8,7 @@ class CreateImages < ActiveRecord::Migration
       t.string :username, :limit => 255
       t.string :name, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

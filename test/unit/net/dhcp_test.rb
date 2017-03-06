@@ -13,6 +13,16 @@ class DhcpTest < ActiveSupport::TestCase
     }'
     @lease1.stubs(:code).returns(200)
     @lease1.stubs(:body).returns(@lease1)
+    @lease1_array = '[{
+      "starts": "2014-05-09 11:55:21 UTC",
+      "ends": "2214-05-09 12:05:21 UTC",
+      "state": "active",
+      "mac": "aa:bb:cc:dd:ee:01",
+      "subnet": "127.0.0.0/255.0.0.0",
+      "ip": "127.0.0.1"
+    }]'
+    @lease1_array.stubs(:code).returns(200)
+    @lease1_array.stubs(:body).returns(@lease1_array)
   end
 
   test "dhcp record should not be created without a mac" do
@@ -36,7 +46,7 @@ class DhcpTest < ActiveSupport::TestCase
   test "record should have dhcp attributes" do
     record = Net::DHCP::Record.new(:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",
                                  :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
-    assert_equal({:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",:network => "127.0.0.0", :ip => "127.0.0.1"}, record.send(:attrs))
+    assert_equal({:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",:network => "127.0.0.0", :ip => "127.0.0.1", :related_macs => []}, record.send(:attrs))
   end
 
   test "record should be equal if their attrs are the same" do
@@ -68,8 +78,11 @@ class DhcpTest < ActiveSupport::TestCase
 
   test "conflicts should be detected for mismatched records" do
     proxy_lease = {"starts"=>"2014-05-09 11:55:21 UTC", "ends"=>"2014-05-09 12:05:21 UTC", "state"=>"active", "mac"=>"aa:bb:cc:dd:ee:ff", "subnet"=>"127.0.0.0/255.0.0.0", "ip"=>"127.0.0.1"}
-    ProxyAPI::Resource.any_instance.stubs(:get).returns("")
-    ProxyAPI::Resource.any_instance.stubs(:parse).returns(proxy_lease)
+    ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/mac/aa:bb:cc:dd:ee:ff').returns("lease")
+    ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/ip/127.0.0.1').returns("")
+    ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/ip/127.0.0.2').returns("")
+    ProxyAPI::Resource.any_instance.stubs(:parse).with('lease').returns(proxy_lease)
+    ProxyAPI::Resource.any_instance.stubs(:parse).with('').returns([])
     record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
                                     :network => "127.0.0.0", :ip => "127.0.0.2",
                                     "proxy" => subnets(:one).dhcp_proxy)
@@ -78,8 +91,10 @@ class DhcpTest < ActiveSupport::TestCase
 
   test "conflicts should be not detected for records with no hostname" do
     proxy_lease = {"starts"=>"2014-05-09 11:55:21 UTC", "ends"=>"2014-05-09 12:05:21 UTC", "state"=>"active", "mac"=>"aa:bb:cc:dd:ee:ff", "subnet"=>"127.0.0.0/255.0.0.0", "ip"=>"127.0.0.1"}
-    ProxyAPI::Resource.any_instance.stubs(:get).returns("")
-    ProxyAPI::Resource.any_instance.stubs(:parse).returns(proxy_lease)
+    ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/mac/aa:bb:cc:dd:ee:ff').returns("lease")
+    ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/ip/127.0.0.1').returns("")
+    ProxyAPI::Resource.any_instance.stubs(:parse).with('lease').returns(proxy_lease)
+    ProxyAPI::Resource.any_instance.stubs(:parse).with('').returns([])
     record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
                                     :network => "127.0.0.0", :ip => "127.0.0.1",
                                     "proxy" => subnets(:one).dhcp_proxy)
@@ -95,9 +110,9 @@ class DhcpTest < ActiveSupport::TestCase
   end
 
   test "dhcp record must not validate when there is IP conflict" do
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/aa:bb:cc:dd:ee:01").returns(@lease1)
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.1").returns(@lease1)
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/aa:bb:cc:dd:ee:02").raises(RestClient::ResourceNotFound, 'Record not found')
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/mac/aa:bb:cc:dd:ee:01").returns(@lease1)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/mac/aa:bb:cc:dd:ee:02").raises(RestClient::ResourceNotFound, 'Record not found')
     record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:02",
                                     :network => "127.0.0.0", :ip => "127.0.0.1",
                                     "proxy" => subnets(:one).dhcp_proxy)
@@ -106,9 +121,9 @@ class DhcpTest < ActiveSupport::TestCase
   end
 
   test "dhcp record must not validate when there is MAC conflict" do
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/aa:bb:cc:dd:ee:01").returns(@lease1)
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.1").returns(@lease1)
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.2").raises(RestClient::ResourceNotFound, 'Record not found')
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/mac/aa:bb:cc:dd:ee:01").returns(@lease1)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.2").raises(RestClient::ResourceNotFound, 'Record not found')
     record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:01",
                                     :network => "127.0.0.0", :ip => "127.0.0.2",
                                     "proxy" => subnets(:one).dhcp_proxy)
@@ -127,9 +142,19 @@ class DhcpTest < ActiveSupport::TestCase
     }'
     @lease2.stubs(:code).returns(200)
     @lease2.stubs(:body).returns(@lease2)
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/aa:bb:cc:dd:ee:01").returns(@lease2)
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.1").returns(@lease1)
-    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/127.0.0.2").returns(@lease2)
+    @lease2_array = '[{
+      "starts": "2014-05-09 11:55:21 UTC",
+      "ends": "2214-05-09 12:05:21 UTC",
+      "state": "active",
+      "mac": "aa:bb:cc:dd:ee:01",
+      "subnet": "127.0.0.0/255.0.0.0",
+      "ip": "127.0.0.2"
+    }]'
+    @lease2_array.stubs(:code).returns(200)
+    @lease2_array.stubs(:body).returns(@lease2_array)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/mac/aa:bb:cc:dd:ee:01").returns(@lease2)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
+    ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.2").returns(@lease2_array)
     record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:01",
                                     :network => "127.0.0.0", :ip => "127.0.0.2",
                                     "proxy" => subnets(:one).dhcp_proxy)

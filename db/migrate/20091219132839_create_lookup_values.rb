@@ -5,7 +5,7 @@ class CreateLookupValues < ActiveRecord::Migration
       t.string :value, :limit => 255
       t.references :lookup_key
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :lookup_values, :priority
   end

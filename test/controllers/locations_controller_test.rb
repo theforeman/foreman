@@ -151,40 +151,28 @@ class LocationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_match "Clone", @response.body
   end
-  test "should clone location with assocations" do
+  test "should clone location with associations" do
     location = taxonomies(:location1)
+    location.organizations << taxonomies(:organization1)
     FactoryGirl.create(:host, :location => nil)
     location_dup = location.clone
 
-    assert_difference "Location.count", 1 do
-      post :create, {:location => {:name => "location_dup_name",
-                                 :environment_ids => location_dup.environment_ids,
-                                 :hostgroup_ids => location_dup.hostgroup_ids,
-                                 :subnet_ids => location_dup.hostgroup_ids,
-                                 :domain_ids => location_dup.domain_ids,
-                                 :medium_ids => location_dup.medium_ids,
-                                 :user_ids => location_dup.user_ids,
-                                 :smart_proxy_ids => location_dup.smart_proxy_ids,
-                                 :provisioning_template_ids => location_dup.provisioning_template_ids,
-                                 :compute_resource_ids => location_dup.compute_resource_ids,
-                                 :organization_ids => location_dup.organization_ids
-                               }
-                   }, set_session_user
+    assert_difference "Location.unscoped.count", 1 do
+      post :create, {
+        :location => location_dup.selected_ids.each { |_,v| v.uniq! }
+          .merge(:name => 'location_dup_name')
+      }, set_session_user
     end
 
     new_location = Location.unscoped.order(:id).last
     assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.to_param
 
-    assert_equal new_location.environment_ids.sort, location.environment_ids.sort
-    assert_equal new_location.hostgroup_ids.sort, location.hostgroup_ids.sort
-    assert_equal new_location.environment_ids.sort, location.environment_ids.sort
-    assert_equal new_location.domain_ids.sort, location.domain_ids.sort
-    assert_equal new_location.medium_ids.sort, location.medium_ids.sort
-    assert_equal new_location.user_ids.sort, location.user_ids.sort
-    assert_equal new_location.smart_proxy_ids.sort, location.smart_proxy_ids.sort
-    assert_equal new_location.provisioning_template_ids.sort, location.provisioning_template_ids.sort
-    assert_equal new_location.compute_resource_ids.sort, location.compute_resource_ids.sort
-    assert_equal new_location.organization_ids.sort, location.organization_ids.sort
+    as_admin do
+      [:environment_ids, :hostgroup_ids, :environment_ids, :domain_ids, :medium_ids, :user_ids, :smart_proxy_ids, :provisioning_template_ids, :compute_resource_ids, :organization_ids].each do |association|
+        assert new_location.public_send(association).present?, "missing #{association}"
+        assert_equal location.public_send(association).uniq.sort, new_location.public_send(association).uniq.sort, "#{association} is different"
+      end
+    end
   end
 
   test "should clear out Location.current" do

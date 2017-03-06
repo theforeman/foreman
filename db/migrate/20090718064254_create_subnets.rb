@@ -8,7 +8,7 @@ class CreateSubnets < ActiveRecord::Migration
       t.string   :ranges, :limit => 512
       t.text     :name
       t.string   :vlanid, :limit => 10
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

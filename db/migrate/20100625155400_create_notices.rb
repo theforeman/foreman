@@ -5,7 +5,7 @@ class CreateNotices < ActiveRecord::Migration
       t.string  :content, :null => false, :limit => 1024
       t.boolean :global,  :null => false, :default => true
       t.string  :level,   :null => false, :limit => 255
-      t.timestamps
+      t.timestamps null: true
     end
     # Global messages have to be acknowledged by every user individually
     create_table :user_notices, :id => false do |t|

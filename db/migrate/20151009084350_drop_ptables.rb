@@ -8,7 +8,7 @@ class DropPtables < ActiveRecord::Migration
       t.string :name, :limit => 64, :null => false
       t.text :layout, :null => false
       t.string :os_family, :limit => 255
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

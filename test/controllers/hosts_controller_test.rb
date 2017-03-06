@@ -63,7 +63,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should create new host" do
-    assert_difference 'Host.count' do
+    assert_difference 'Host.unscoped.count' do
       post :create, { :commit => "Create",
         :host => {:name => "myotherfullhost",
           :mac => "aabbecddee06",
@@ -91,7 +91,7 @@ class HostsControllerTest < ActionController::TestCase
     leftovers = Host.search_for('myotherfullhost').first
     refute leftovers
     hostgroup = hostgroups(:common)
-    assert_difference 'Host.count' do
+    assert_difference 'Host.unscoped.count' do
       post :create, { :commit => "Create",
         :host => {:name => "myotherfullhost",
           :mac => "aabbecddee06",
@@ -110,9 +110,13 @@ class HostsControllerTest < ActionController::TestCase
         }
       }, set_session_user
     end
-    new_host = Host.search_for('myotherfullhost').first
-    assert_equal new_host.environment, hostgroup.environment
-    assert_equal new_host.puppet_proxy, hostgroup.puppet_proxy
+    as_admin do
+      new_host = Host.search_for('myotherfullhost').first
+      assert new_host.environment.present?
+      assert_equal hostgroup.environment, new_host.environment
+      assert new_host.puppet_proxy.present?
+      assert_equal hostgroup.puppet_proxy, new_host.puppet_proxy
+    end
     assert_redirected_to host_url(assigns['host'])
   end
 
@@ -141,7 +145,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should destroy host" do
-    assert_difference('Host.count', -1) do
+    assert_difference('Host.unscoped.count', -1) do
       delete :destroy, {:id => @host.name}, set_session_user
     end
     assert_redirected_to hosts_url
@@ -302,6 +306,8 @@ class HostsControllerTest < ActionController::TestCase
     as_admin do
       @host1.owner = @one
       @host2.owner = users(:two)
+      @host2.organization = users(:two).organizations.first
+      @host2.location = users(:two).locations.first
       @host1.save!
       @host2.save!
     end
@@ -382,8 +388,9 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :redirect
 
     # reloads hosts
-    hosts.map! {|h| Host.find(h.id)}
-    hosts.each { |host| assert_equal hostgroup, host.hostgroup }
+    as_admin do
+      hosts.each { |host| assert_equal hostgroup, host.reload.hostgroup }
+    end
   end
 
   test 'multiple hostgroup change by host names' do
@@ -402,9 +409,11 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :redirect
 
     host_names.each do |name|
-      host = Host.find_by_name name
-      assert_not_nil host
-      assert_equal host.hostgroup, hostgroup
+      as_admin do
+        host = Host.unscoped.find_by_name(name)
+        assert_not_nil host
+        assert_equal host.hostgroup, hostgroup
+      end
     end
   end
 
@@ -423,8 +432,10 @@ class HostsControllerTest < ActionController::TestCase
     post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => environments(:global_puppetmaster).id}},
       set_session_user.merge(:user => users(:admin).id)
-    assert_equal environments(:global_puppetmaster), Host.find(@host1.id).environment
-    assert_equal environments(:global_puppetmaster), Host.find(@host2.id).environment
+    as_admin do
+      assert_equal environments(:global_puppetmaster), @host1.reload.environment
+      assert_equal environments(:global_puppetmaster), @host2.reload.environment
+    end
     assert_equal "Updated hosts: changed environment", flash[:notice]
   end
 
@@ -449,8 +460,8 @@ class HostsControllerTest < ActionController::TestCase
     post :update_multiple_environment, params,
       set_session_user.merge(:user => users(:admin).id)
 
-    assert Host.find(@host1.id).environment == hostgroup.environment
-    assert Host.find(@host2.id).environment == hostgroup.environment
+    assert_equal hostgroup.environment_id, Host.unscoped.find(@host1.id).environment_id
+    assert_equal hostgroup.environment_id, Host.unscoped.find(@host2.id).environment_id
   end
 
   test "user with edit host rights with update owner should change owner" do
@@ -461,8 +472,10 @@ class HostsControllerTest < ActionController::TestCase
     post :update_multiple_owner, { :host_ids => [@host1.id, @host2.id],
       :owner => { :id => users(:one).id_and_type}},
       set_session_user.merge(:user => users(:admin).id)
-    assert_equal users(:one).id_and_type, Host.find(@host1.id).is_owned_by
-    assert_equal users(:one).id_and_type, Host.find(@host2.id).is_owned_by
+    as_admin do
+      assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
+      assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
+    end
   end
 
   def setup_multiple_compute_resource
@@ -552,7 +565,9 @@ class HostsControllerTest < ActionController::TestCase
       assert_empty flash[:error]
 
       @hosts.each do |host|
-        assert_equal proxy, host.reload.puppet_ca_proxy
+        as_admin do
+          assert_equal proxy, host.reload.puppet_ca_proxy
+        end
       end
     end
 
@@ -640,11 +655,11 @@ class HostsControllerTest < ActionController::TestCase
 
   test "if only authorize_login_delegation is set, REMOTE_USER should be
         ignored for API requests" do
+    host = Host.first
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = false
     set_remote_user_to users(:admin)
     User.current = nil # User.current is admin at this point (from initialize_host)
-    host = Host.first
     get :show, {:id => host.to_param, :format => 'json'}
     assert_response 401
     get :show, {:id => host.to_param}
@@ -931,7 +946,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     cnt_hosts_location = location.hosts.count
-    assert_difference "location.hosts.count", (Host.count - cnt_hosts_location) do
+    assert_difference "location.hosts.count", (Host.unscoped.count - cnt_hosts_location) do
       post :update_multiple_location, {
         :location => {:id => location.id, :optimistic_import => "yes"},
         :host_ids => Host.pluck('hosts.id')
@@ -1002,7 +1017,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     cnt_hosts_organization = organization.hosts.count
-    assert_difference "organization.hosts.count", (Host.count - cnt_hosts_organization) do
+    assert_difference "organization.hosts.count", (Host.unscoped.count - cnt_hosts_organization) do
       post :update_multiple_organization, {
         :organization => {:id => organization.id, :optimistic_import => "yes"},
         :host_ids => Host.pluck('hosts.id')
@@ -1083,6 +1098,8 @@ class HostsControllerTest < ActionController::TestCase
 
   test "test non admin multiple action" do
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
+    User.current.organizations << taxonomies(:organization1)
+    User.current.locations << taxonomies(:location1)
     host = FactoryGirl.create(:host)
     host_ids = [host.id]
     #the ajax can be any of the multiple actions, toke multiple_parameters for example

@@ -1,9 +1,10 @@
 module Net::DHCP
   class Record < Net::Record
-    attr_accessor :ip, :mac, :network, :nextServer, :filename
+    attr_accessor :name, :ip, :mac, :network, :nextServer, :filename, :related_macs
 
     def initialize(opts = { })
       super(opts)
+      self.related_macs ||= []
       self.mac     = Net::Validations.validate_mac! self.mac
       self.network = Net::Validations.validate_network! self.network
       self.ip      = Net::Validations.validate_ip! self.ip
@@ -15,14 +16,14 @@ module Net::DHCP
 
     # Deletes the DHCP entry
     def destroy
-      logger.info "Delete DHCP reservation for #{self}"
+      logger.info "Delete DHCP reservation #{name} for #{self}"
       # it is safe to call destroy even if the entry does not exists, so we don't bother with validating anything here.
       proxy.delete network, mac
     end
 
     # Create a DHCP entry
     def create
-      logger.info "Create DHCP reservation for #{self}"
+      logger.info "Create DHCP reservation #{name} for #{self}"
       logger.debug "DHCP reservation on net #{network} with attrs: #{attrs.inspect}"
       begin
         raise "Must define a hostname" if hostname.blank?
@@ -40,13 +41,13 @@ module Net::DHCP
 
     # Returns an array of record objects which are conflicting with our own
     def conflicts
-      conflicts = [proxy.record(network, mac), proxy.record(network, ip)].delete_if { |c| c == self }.compact
+      conflicts = [proxy.record(network, mac), proxy.records_by_ip(network, ip)].flatten.compact.delete_if { |c| c == self || related_macs.include?(c.mac) }
       @conflicts ||= conflicts.uniq {|c| c.attrs}
     end
 
-    # Verifies that are record already exists on the dhcp server
+    # Verifies that a record already exists on the dhcp server
     def valid?
-      logger.info "Fetching DHCP reservation for #{self}"
+      logger.info "Fetching DHCP reservation #{name} for #{self}"
       self == proxy.record(network, mac)
     end
 
@@ -68,7 +69,8 @@ module Net::DHCP
 
     def attrs
       { :hostname   => hostname, :mac => mac, :ip => ip, :network => network,
-        :nextServer => nextServer, :filename => filename
+        :nextServer => nextServer, :filename => filename, :name => name,
+        :related_macs => related_macs
       }.delete_if { |k, v| v.nil? }
     end
   end

@@ -5,7 +5,7 @@ class CreateHostConfigGroups < ActiveRecord::Migration
       t.integer :host_id
       t.string  :host_type, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

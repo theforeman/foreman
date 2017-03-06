@@ -5,7 +5,7 @@ class CreateConfigTemplates < ActiveRecord::Migration
       t.text :template
       t.boolean :snippet
       t.references :template_kind
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

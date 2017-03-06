@@ -35,12 +35,13 @@ class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
 
   test "should update compute resource" do
     put :update, { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
-    assert_equal "new_description", ComputeResource.find_by_name('mycompute').description
+    assert_equal "new_description",
+      ComputeResource.unscoped.find_by_name('mycompute').description
     assert_response :success
   end
 
   test "should destroy compute resource" do
-    assert_difference('ComputeResource.count', -1) do
+    assert_difference('ComputeResource.unscoped.count', -1) do
       delete :destroy, { :id => compute_resources(:yourcompute).id }
     end
     assert_response :success
@@ -66,12 +67,13 @@ class Api::V1::ComputeResourcesControllerTest < ActionController::TestCase
   test "should update compute resource for owner" do
     setup_user 'edit', 'compute_resources', "id = #{compute_resources(:mycompute).id}"
     put :update, { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
-    assert_equal "new_description", ComputeResource.find_by_name('mycompute').description
+    assert_equal "new_description",
+      ComputeResource.unscoped.find_by_name('mycompute').description
     assert_response :success
   end
 
   test "should destroy compute resource for owner" do
-    assert_difference('ComputeResource.count', -1) do
+    assert_difference('ComputeResource.unscoped.count', -1) do
       setup_user 'destroy', 'compute_resources', "id = #{compute_resources(:mycompute).id}"
       delete :destroy, { :id => compute_resources(:mycompute).id }
     end

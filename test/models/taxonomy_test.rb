@@ -64,7 +64,7 @@ class TaxonomyTest < ActiveSupport::TestCase
 
   test 'for non admin user, nil is expanded to [] if user is not assigned to any org' do
     # we have to run on specific taxonomy because my_* is defined only in Organization and Location
-    user = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user, :organizations => [])
     as_user(user) do
       assert_equal [], Organization.expand(nil)
       assert_equal [], Organization.expand([])

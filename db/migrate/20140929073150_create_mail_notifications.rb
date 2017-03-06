@@ -8,7 +8,7 @@ class CreateMailNotifications < ActiveRecord::Migration
       t.boolean :subscriptable, :default => true
       t.string :default_interval, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

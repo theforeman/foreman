@@ -21,11 +21,11 @@ class Notification < ActiveRecord::Base
     :in => [AUDIENCE_USER, AUDIENCE_GROUP, AUDIENCE_TAXONOMY,
             AUDIENCE_GLOBAL, AUDIENCE_ADMIN]
   }, :presence => true
-  before_create :calculate_expiry, :set_notification_recipients,
+  before_create :set_expiry, :set_notification_recipients,
     :set_default_initiator
 
-  scope :active, -> { where('expired_at >= :now', {:now => Time.now.utc}) }
-  scope :expired, -> { where('expired_at < :now', {:now => Time.now.utc}) }
+  scope :active, -> { where('notifications.expired_at >= :now', {:now => Time.now.utc}) }
+  scope :expired, -> { where('notifications.expired_at < :now', {:now => Time.now.utc}) }
 
   def expired?
     Time.now.utc > expired_at
@@ -48,8 +48,9 @@ class Notification < ActiveRecord::Base
 
   private
 
-  def calculate_expiry
-    self.expired_at = Time.now.utc + notification_blueprint.expires_in
+  # use timestamp definitions from blueprint and store the value in our model.
+  def set_expiry
+    self.expired_at = notification_blueprint.expired_at
   end
 
   def set_default_initiator

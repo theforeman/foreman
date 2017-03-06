@@ -13,7 +13,7 @@ class NicInterfaceParametersTest < ActiveSupport::TestCase
     filtered = nic_interface_params
 
     assert_equal 'test.example.com', filtered['name']
-    assert_equal({'foo' => 'bar', 'memory' => 2}, filtered['compute_attributes'])
+    assert_equal({'foo' => 'bar', 'memory' => 2}, filtered['compute_attributes'].to_h)
     assert filtered.permitted?
   end
 

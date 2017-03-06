@@ -1,3 +1,8 @@
+# Track deprecation warnings in test environment as early as possible, but pause processing of
+# deprecations until all plugins are registered (prior to the finisher_hook initializer) to ensure
+# the whitelist is fully configured. This is done in the after_initialize block below.
+ASDeprecationTracker.pause!
+
 Foreman::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -62,4 +67,15 @@ Foreman::Application.configure do
   config.active_support.test_order = :random
 
   config.webpack.dev_server.enabled = false
+
+  # Whitelist all plugin engines by default from raising errors on deprecation warnings for
+  # compatibility, allow them to override it by adding an ASDT configuration file.
+  config.after_initialize do
+    Foreman::Plugin.all.each do |plugin|
+      unless File.exist?(File.join(plugin.path, 'config', 'as_deprecation_whitelist.yaml'))
+        ASDeprecationTracker.whitelist.add(engine: plugin.id.to_s.gsub('-', '_'))
+      end
+    end
+    ASDeprecationTracker.resume!
+  end
 end

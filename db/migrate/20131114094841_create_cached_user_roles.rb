@@ -5,7 +5,7 @@ class CreateCachedUserRoles < ActiveRecord::Migration
       t.integer :role_id, :null => false
       t.integer :user_role_id, :null => false
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :cached_user_roles, :user_id

@@ -38,8 +38,9 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   def test_update_valid
     SmartProxy.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => SmartProxy.first,:smart_proxy => {:url => "http://elsewhere.com:8443"}}, set_session_user
-    assert_equal "http://elsewhere.com:8443", SmartProxy.first.url
+    put :update, {:id => SmartProxy.unscoped.first,
+                  :smart_proxy => {:url => "http://elsewhere.com:8443"}}, set_session_user
+    assert_equal "http://elsewhere.com:8443", SmartProxy.unscoped.first.url
     assert_redirected_to smart_proxies_url
   end
 

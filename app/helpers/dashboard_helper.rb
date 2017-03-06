@@ -8,10 +8,8 @@ module DashboardHelper
       _("Generated at %s") % Time.zone.now.to_s(:short),
       select_action_button(
         _('Manage'), {},
-        link_to_function(_('Save dashboard'), "save_position('#{save_positions_widgets_path}')"),
+        link_to_function(_('Save positions'), "save_position('#{save_positions_widgets_path}')"),
         link_to(_('Reset to default'), reset_default_widgets_path, :method => :put),
-        content_tag(:li, '', :class=>'divider'),
-        content_tag(:li, _("Restore widgets"), :class=>'nav-header', :id=>'restore_list'),
         content_tag(:li, '', :class=>'divider'),
         content_tag(:li, _("Add widgets"), :class=>'nav-header'),
         content_tag(:li, '', :class=>'widget-add') do
@@ -37,7 +35,7 @@ module DashboardHelper
 
   def widget_data(widget)
     { :data => { :id    => widget.id,    :name  => _(widget.name), :row  => widget.row, :col => widget.col,
-                 :sizex => widget.sizex, :sizey =>  widget.sizey,  :hide => widget.hide } }
+                 :sizex => widget.sizex, :sizey =>  widget.sizey } }
   end
 
   def count_reports(hosts)

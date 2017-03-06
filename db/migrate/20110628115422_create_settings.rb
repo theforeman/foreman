@@ -7,7 +7,7 @@ class CreateSettings < ActiveRecord::Migration
       t.string :category, :limit => 255
       t.string :settings_type, :limit => 255
       t.text :default, :null => false
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :settings, :name, :unique => true
   end

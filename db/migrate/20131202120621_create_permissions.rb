@@ -4,7 +4,7 @@ class CreatePermissions < ActiveRecord::Migration
       t.string :name, :null => false, :limit => 255
       t.string :resource_type, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :permissions, [:name, :resource_type]

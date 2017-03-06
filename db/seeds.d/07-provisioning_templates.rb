@@ -7,14 +7,14 @@ os_windows = Operatingsystem.where(:type => "Windows")
 # Template kinds
 kinds = {}
 TemplateKind.default_template_labels.keys.collect(&:to_sym).each do |type|
-  kinds[type] = TemplateKind.find_by_name(type)
-  kinds[type] ||= TemplateKind.create(:name => type)
+  kinds[type] = TemplateKind.unscoped.find_by_name(type)
+  kinds[type] ||= TemplateKind.unscoped.create(:name => type)
   raise "Unable to create template kind: #{format_errors kinds[type]}" if kinds[type].nil? || kinds[type].errors.any?
 end
 
 # Provisioning templates
-organizations = Organization.all
-locations = Location.all
+organizations = Organization.unscoped.all
+locations = Location.unscoped.all
 ProvisioningTemplate.without_auditing do
   [
     # Generic PXE files
@@ -81,7 +81,6 @@ ProvisioningTemplate.without_auditing do
     { :name => 'puppet.conf', :source => 'snippets/_puppet.conf.erb', :snippet => true },
     { :name => 'puppet_setup', :source => 'snippets/_puppet_setup.erb', :snippet => true },
     { :name => 'puppetlabs_repo', :source => 'snippets/_puppetlabs_repo.erb', :snippet => true },
-    { :name => 'pxelinux_discovery', :source => 'snippets/_pxelinux_discovery.erb', :snippet => true },
     { :name => 'redhat_register', :source => 'snippets/_redhat_register.erb', :snippet => true },
     { :name => 'remote_execution_ssh_keys', :source => 'snippets/_remote_execution_ssh_keys.erb', :snippet => true },
     { :name => 'saltstack_minion', :source => 'snippets/_saltstack_minion.erb', :snippet => true },
@@ -95,7 +94,9 @@ ProvisioningTemplate.without_auditing do
   ].each do |input|
     contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
 
-    if (t = ProvisioningTemplate.find_by_name(input[:name])) && !audit_modified?(ProvisioningTemplate, input[:name])
+    if (t = ProvisioningTemplate.unscoped.find_by_name(input[:name])) && !audit_modified?(ProvisioningTemplate, input[:name])
+      next if t.global_default?
+
       if t.template != contents
         t.template = contents
         raise "Unable to update template #{t.name}: #{format_errors t}" unless t.save

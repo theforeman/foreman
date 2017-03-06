@@ -40,7 +40,12 @@ end
 
 class ActionController::TestCase
   include ::BasicRestResponseTest
-  setup :setup_set_script_name, :set_api_user, :turn_off_login, :disable_webpack
+  setup :setup_set_script_name, :set_api_user, :turn_off_login,
+    :disable_webpack, :set_admin
+
+  def set_admin
+    User.current = users(:admin)
+  end
 
   def turn_off_login
     SETTINGS[:require_ssl] = false

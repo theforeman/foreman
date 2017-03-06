@@ -4,7 +4,7 @@ class CreateFilters < ActiveRecord::Migration
       t.text :search
       t.integer :role_id
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

@@ -48,6 +48,13 @@ var config = {
       {
         test: /(\.png|\.gif)$/,
         loader: "url-loader?limit=32767"
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract(
+          'style-loader', // The backup style loader
+          'css-loader?sourceMap!sass-loader?sourceMap'
+        )
       }
     ]
   },

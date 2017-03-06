@@ -3,7 +3,7 @@ class CreateHostgroups < ActiveRecord::Migration
     create_table :hostgroups do |t|
       t.string :name, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     create_table :hostgroups_puppetclasses, :id => false do |t|

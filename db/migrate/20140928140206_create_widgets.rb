@@ -12,7 +12,7 @@ class CreateWidgets < ActiveRecord::Migration
       t.integer :row, :default => 1
       t.boolean :hide, :default => false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

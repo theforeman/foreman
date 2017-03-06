@@ -5,7 +5,7 @@ class CreateOsDefaultTemplates < ActiveRecord::Migration
       t.references :template_kind
       t.references :operatingsystem
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

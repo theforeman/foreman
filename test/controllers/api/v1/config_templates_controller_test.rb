@@ -51,7 +51,7 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     config_template = templates(:pxekickstart)
     delete :destroy, { :id => config_template.to_param }
     assert_response :unprocessable_entity
-    assert ProvisioningTemplate.exists?(config_template.id)
+    assert ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
 
   test "should destroy" do
@@ -59,7 +59,7 @@ class Api::V1::ConfigTemplatesControllerTest < ActionController::TestCase
     config_template.os_default_templates.clear
     delete :destroy, { :id => config_template.to_param }
     assert_response :success
-    refute ProvisioningTemplate.exists?(config_template.id)
+    refute ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
 
   test "should build pxe menu" do

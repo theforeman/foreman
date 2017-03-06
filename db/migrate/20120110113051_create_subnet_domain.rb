@@ -4,7 +4,7 @@ class CreateSubnetDomain < ActiveRecord::Migration
       t.references :domain
       t.references :subnet
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     Subnet.unscoped.find_each do |s|

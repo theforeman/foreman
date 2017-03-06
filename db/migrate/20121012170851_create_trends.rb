@@ -8,7 +8,7 @@ class CreateTrends < ActiveRecord::Migration
       t.string :fact_value, :limit => 255
       t.string :fact_name, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :trends, :type
     add_index :trends, [:trendable_type, :trendable_id]

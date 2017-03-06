@@ -9,7 +9,7 @@ class CreateComputeResources < ActiveRecord::Migration
       t.string :uuid, :limit => 255
       t.string :type, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

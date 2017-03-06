@@ -3,7 +3,7 @@ class CreateParameters < ActiveRecord::Migration
     create_table :parameters do |t|
       t.string :name, :value, :limit => 255
       t.references :host
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

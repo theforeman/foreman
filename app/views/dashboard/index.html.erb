@@ -14,7 +14,6 @@
           <%= content_tag(:li, widget_data(widget)) do %>
             <div class='widget_control'>
               <a class='remove' data-url='<%= widget_path(widget) %>'>&times;</a>
-              <a class='minimize'>&minus;</a>
             </div>
             <div class="widget <%= widget.name.parameterize %>">
               <div data-ajax-url="<%= widget_path(widget, params.slice(:search)) %>" data-on-complete="widgetLoaded">

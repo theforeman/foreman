@@ -20,7 +20,7 @@ module SSO
       if OAuth::Signature.verify(request, :consumer_secret => Setting['oauth_consumer_secret'])
         if Setting['oauth_map_users']
           user_name = request.headers['HTTP_FOREMAN_USER'].to_s
-          User.find_by_login(user_name).tap do |obj|
+          User.unscoped.find_by_login(user_name).tap do |obj|
             Rails.logger.warn "Oauth: mapping to user '#{user_name}' failed" if obj.nil?
           end.try(:login)
         else

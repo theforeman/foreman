@@ -42,7 +42,6 @@ class ApiTaxonomyScopeTest < ActiveSupport::TestCase
     end
 
     test "set_taxonomy_scope respects user association to orgs and locs, fails on not allowed organization" do
-      users(:one).locations << taxonomies(:location1)
       Location.expects(:my_locations).returns(Location.where(:id => taxonomies(:location1).id))
       Organization.expects(:my_organizations).returns(Organization.where(:id => nil))
       @dummy.expects(:not_found)
@@ -52,8 +51,6 @@ class ApiTaxonomyScopeTest < ActiveSupport::TestCase
     end
 
     test "set_taxonomy_scope respects user association to orgs and locs, sets both if allowed" do
-      users(:one).locations << taxonomies(:location1)
-      users(:one).organizations << taxonomies(:organization1)
       Location.expects(:my_locations).returns(Location.where(:id => taxonomies(:location1).id))
       Organization.expects(:my_organizations).returns(Organization.where(:id => taxonomies(:organization1).id))
       as_user :one do

@@ -51,6 +51,14 @@ class RendererTest < ActiveSupport::TestCase
     end
   end
 
+  describe "yast_attributes" do
+    test "does not fail if @host does not have medium" do
+      @renderer.host = FactoryGirl.build(:host)
+      @renderer.send :yast_attributes
+      assert_nil @renderer.instance_variable_get('@mediapath')
+    end
+  end
+
   test '#foreman_url can be rendered even outside of controller context' do
     assert_nothing_raised do
       assert_match /\/unattended\/built/, @renderer.foreman_url('built')
@@ -94,6 +102,26 @@ class RendererTest < ActiveSupport::TestCase
         assert Setting[:safemode_render] == false
       else
         assert Setting[:safemode_render] == true
+      end
+    end
+
+    test "#{renderer_name} should raise renderer syntax error on syntax error" do
+      send "setup_#{renderer_name}"
+      template = <<EOS
+line 1: ok
+line 2: ok
+line 3: <%= 1 + %>
+line 4: ok
+EOS
+      @renderer.instance_variable_set '@template_name', 'my_template'
+      exception = assert_raises Foreman::Renderer::SyntaxError do
+        @renderer.render_safe(template, [], {})
+      end
+      if renderer_name == :normal_renderer
+        assert_include exception.message, 'my_template:3' if ERB.method_defined?(:location=)
+        assert_include exception.message, "syntax error, unexpected ')'"
+      else
+        assert_include exception.message, 'parse error on value ")"'
       end
     end
 

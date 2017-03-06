@@ -9,7 +9,7 @@ class CreateUsers < ActiveRecord::Migration
       t.datetime :last_login_on
       t.integer :auth_source_id
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

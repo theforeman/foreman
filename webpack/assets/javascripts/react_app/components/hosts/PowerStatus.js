@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from '../common/Loader';
-import './PowerStatus.css';
+import './PowerStatus.scss';
 
 const PowerStatus = ({ state, loadingStatus, title, statusText }) => {
   const icon = (

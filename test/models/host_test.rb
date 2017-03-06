@@ -175,10 +175,12 @@ class HostTest < ActiveSupport::TestCase
   test "non-admin user should be able to create host with new lookup value" do
     User.current = users(:one)
     User.current.roles << [roles(:manager)]
-    assert_difference('LookupValue.count') do
+    assert_difference('LookupValue.unscoped.count') do
       assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64),
+      :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+      :organization => nil, :location => nil,
       :environment => environments(:production), :disk => "empty partition",
       :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
     end
@@ -655,6 +657,7 @@ class HostTest < ActiveSupport::TestCase
     org2 = FactoryGirl.create(:organization)
     org3 = FactoryGirl.create(:organization)
     user = FactoryGirl.create(:user, :organizations => [org1, org2])
+    users(:one).organizations << [org1, org2, org3]
     host1 = FactoryGirl.create(:host, :organization => org1)
     host2 = FactoryGirl.create(:host, :organization => org2)
     host3 = FactoryGirl.create(:host, :organization => org3)
@@ -2024,6 +2027,14 @@ class HostTest < ActiveSupport::TestCase
       results = Host.search_for(%{params.#{parameter.name} = "#{override.value}"})
       assert results.include?(host1)
       refute results.include?(host2)
+
+      results = Host.search_for(%{params.#{parameter.name} != "very_different_parameter"})
+      assert results.include?(host2)
+      assert results.include?(host1)
+
+      results = Host.search_for(%{params.#{parameter.name} != "#{parameter.value}"})
+      refute results.include?(host2)
+      assert results.include?(host1)
     end
 
     test "can search hosts by smart proxy" do

@@ -212,7 +212,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
       get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
                            {@pc.name => {'obsolete' => [lks.first.key]}})
       assert_equal [@envs.last], lks.first.environments
-      assert_equal @envs, lks.last.environments
+      assert_equal @envs.to_a.sort, lks.last.environments.to_a.sort
     end
 
     test 'when overridden' do
@@ -220,7 +220,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
       get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
                            {@pc.name => {'obsolete' => [lks.first.key]}})
       assert_equal [@envs.last], lks.first.environments
-      assert_equal @envs, lks.last.environments
+      assert_equal @envs.to_a.sort, lks.last.environments.sort
     end
 
     test 'deletes the key from all environments' do
@@ -232,7 +232,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
                            {@pc.name => {'obsolete' => [lks.first.key]}})
       refute PuppetclassLookupKey.find_by_id(lks.first.id)
       refute LookupValue.find_by_id(lval.id)
-      assert_equal @envs, lks.last.environments
+      assert_equal @envs.to_a.sort, lks.last.environments.to_a.sort
     end
   end
 
