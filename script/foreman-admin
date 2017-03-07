@@ -1,0 +1,83 @@
+#!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
+
+require 'clamp'
+
+module ForemanAdmin
+  class Command < ::Clamp::Command
+    def self.command_name(name = nil)
+      @command_name = name if name
+      @command_name
+    end
+
+    def command_name
+      self.class.command_name
+    end
+
+    def self.description(description = nil)
+      @description = description if description
+      @description
+    end
+
+    def description
+      self.class.description
+    end
+  end
+
+  class ExternalCommand < Command
+    # The base command that will be executed externally.
+    # Think of this as ARGV[0] of what we're running externally.
+    def self.external_invocation(invocation = nil)
+      @external_invocation = invocation if invocation
+      @external_invocation
+    end
+
+    def external_invocation
+      self.class.external_invocation
+    end
+
+    # The exact assembled command that will be executed externally.
+    # Override this in a child class if you want it have logic.
+    def external_command
+      "#{external_invocation}"
+    end
+
+    def execute
+      puts `#{external_command}`
+    end
+  end
+
+  class DebugCommand < ForemanAdmin::ExternalCommand
+    command_name 'generate-debug'
+    description 'Create a foreman-debug tarball for debugging purposes'
+    external_invocation '/usr/sbin/foreman-debug'
+
+    parameter "[ARGS] ...", "args", :hidden => true
+
+    def help
+      `#{external_invocation} -h`.gsub(external_invocation, File.expand_path(__FILE__))
+    end
+
+    def external_command
+      "#{external_invocation} #{args_list}"
+    end
+  end
+
+  class MainCommand < ForemanAdmin::Command
+    subcommand(DebugCommand.command_name, DebugCommand.description, DebugCommand)
+
+    preload_constants = ForemanAdmin.constants
+    Dir.glob('/etc/foreman-admin.d/*.rb').each do |file|
+      require file
+    end
+    plugin_commands = ForemanAdmin.constants - preload_constants
+
+    plugin_commands.map { |c| ForemanAdmin.const_get(c) }.each do |com|
+      subcommand(com.command_name, com.description, com)
+    end
+  end
+end
+
+if __FILE__ == $0
+  ForemanAdmin::MainCommand.run
+end
