@@ -11,12 +11,20 @@
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
       <% if @role.persisted? && (show_location_tab? || show_organization_tab?) %>
-          <h5><%= _("Changes to %s will propagate to all inheriting filters") % org_loc_string(_('and')) %></h5>
-          <hr>
+        <h5><%= _("Changes to %s will propagate to all inheriting filters") % org_loc_string(_('and')) %></h5>
+        <% divider = '<hr>'.html_safe %>
       <% end %>
+
+      <% if @role.cloned_from_id.present? && User.current.can?(:view_roles, @role.cloned_from) %>
+        <h5><%= _("This role has been cloned from role %s").html_safe % link_to(@role.cloned_from.name, edit_role_path(@role.cloned_from)) %></h5>
+        <% divider = '<hr>'.html_safe %>
+      <% end %>
+      
+      <%= divider %>
 
       <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
       <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
+
       <%= hidden_field_tag :original_role_id, @original_role_id if @cloned_role %>
 
       <% tax_help = N_("When the role's associated %{taxonomies} are changed,<br> the change will propagate to all inheriting filters.
