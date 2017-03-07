@@ -177,9 +177,9 @@ module Foreman::Model
 
     def disk_mode_types
       {
-        "persistent" => N_("Persistent"),
-        "independent_persistent" => N_("Independent - Persistent"),
-        "independent_nonpersistent" => N_("Independent - Nonpersistent")
+        "persistent" => _("Persistent"),
+        "independent_persistent" => _("Independent - Persistent"),
+        "independent_nonpersistent" => _("Independent - Nonpersistent")
       }
     end
 
