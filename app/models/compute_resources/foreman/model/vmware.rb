@@ -357,7 +357,11 @@ module Foreman::Model
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
+      # Backwards compatibility for e.g. API requests.
+      # User can set the scsi_controller_type attribute
+      # to define a single scsi controller by that type
       if args[:scsi_controller_type].present?
+        Foreman::Deprecation.deprecation_warning("1.17", _("SCSI controller type is deprecated. Please change to scsi_controllers"))
         args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
       end
 
@@ -502,6 +506,10 @@ module Foreman::Model
       client.cdroms.new attr
     end
 
+    def new_scsi_controller(attr = {})
+      Fog::Compute::Vsphere::SCSIController.new(attr)
+    end
+
     def pubkey_hash
       attrs[:pubkey_hash]
     end
@@ -562,7 +570,7 @@ module Foreman::Model
         :memory_mb  => 768,
         :interfaces => [new_interface],
         :volumes    => [new_volume],
-        :scsi_controller => { :type => scsi_controller_default_type },
+        :scsi_controllers => [{ :type => scsi_controller_default_type }],
         :datacenter => datacenter,
         :firmware => 'automatic',
         :boot_order => ['network', 'disk']
