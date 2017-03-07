@@ -480,6 +480,17 @@ FactoryGirl.define do
       domain
     end
 
+    trait :with_rootpass do
+      sequence(:root_pass) { |n| "xybxa6JUkz63#{n}" }
+    end
+
+    trait :with_os do
+      architecture { operatingsystem.try(:architectures).try(:first) }
+      medium { operatingsystem.try(:media).try(:first) }
+      ptable { operatingsystem.try(:ptables).try(:first) }
+      association :operatingsystem, :with_associations
+    end
+
     trait :with_puppet_orchestration do
       architecture
       ptable
