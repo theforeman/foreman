@@ -12,7 +12,7 @@ class NotificationsEventEmitter extends AppEventEmitter {
   }
 
   getNotifications() {
-    return (_notifications.data || []);
+    return (_notifications.data || {});
   }
 
   getIsDrawerOpen() {

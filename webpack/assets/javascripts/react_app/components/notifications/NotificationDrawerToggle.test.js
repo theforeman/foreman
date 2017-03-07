@@ -18,6 +18,14 @@ describe('NotificationDrawerToggle', () => {
     global.sessionStorage = testHelpers.mockStorage();
   });
 
+  it('should show bell icon', () => {
+    const wrapper = setup();
+    const emptyBellIcon = wrapper.find('.fa-bell-o');
+    const fullBellIcon = wrapper.find('.fa-bell');
+
+    expect(emptyBellIcon.length || fullBellIcon.length).toBe(1);
+  });
+
   it('stores show/hide status in store', () => {
     NotificationActions.getNotifications = jest.fn();
 
