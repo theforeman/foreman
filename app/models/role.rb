@@ -31,6 +31,7 @@ class Role < ActiveRecord::Base
     compare = 'not' if args.first
     where("#{compare} builtin = 0")
   }
+  scope :cloned, -> { where.not(:cloned_from_id => nil) }
 
   validates_lengths_from_database
 
@@ -46,6 +47,9 @@ class Role < ActiveRecord::Base
   has_many :filters, :dependent => :destroy
 
   has_many :permissions, :through => :filters
+
+  has_many :cloned_roles, :class_name => 'Role', :foreign_key => 'cloned_from_id', :dependent => :nullify
+  belongs_to :cloned_from, :class_name => 'Role'
 
   # these associations are not used by Taxonomix but serve as a pattern for role filters
   # we intentionally don't include Taxonomix since roles are not taxable, we only need these relations
@@ -145,9 +149,10 @@ class Role < ActiveRecord::Base
   end
 
   def clone(role_params = {})
-    new_role = self.deep_clone(:except  => [:name, :builtin],
+    new_role = self.deep_clone(:except => [:name, :builtin],
                                :include => [:locations, :organizations, { :filters => :permissions }])
     new_role.attributes = role_params
+    new_role.cloned_from_id = self.id
     new_role
   end
 

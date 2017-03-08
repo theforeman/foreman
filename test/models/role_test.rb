@@ -45,6 +45,41 @@ class RoleTest < ActiveSupport::TestCase
     end
   end
 
+  describe "Cloning" do
+    let(:role) { FactoryGirl.create(:role) }
+    let(:cloned_role) do
+      cloned_role = role.clone
+      cloned_role.name = "Clone of #{role.name}"
+      cloned_role.save!
+      cloned_role
+    end
+
+    it "cloned role keeps link to origin" do
+      assert_equal role, cloned_role.cloned_from
+    end
+
+    it "allows me to find all roles that were cloned from origin" do
+      another_role = FactoryGirl.create(:role)
+      cloned_role # enforce lazy let to create the cloned role and role
+      clones = role.cloned_roles
+      assert_include clones, cloned_role
+      assert_not_include clones, another_role
+    end
+
+    it 'nullifies the relation when origin is deleted' do
+      cloned_role # enforce lazy let to create the cloned role and role
+      assert role.destroy
+      cloned_role.reload
+      assert_nil cloned_role.cloned_from
+    end
+
+    it 'can be found by cloned scope' do
+      cloned_role # enforce lazy let to create the cloned role and role
+      assert_include Role.cloned, cloned_role
+      assert_not_include Role.cloned, role
+    end
+  end
+
   context "System roles" do
     should "return the default role" do
       role = Role.default
