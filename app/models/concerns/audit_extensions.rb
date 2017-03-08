@@ -3,6 +3,39 @@ module AuditExtensions
   extend ActiveSupport::Concern
 
   included do
+    def self.auditable_type_complete_values
+      @auditable_type_complete_values ||= {
+        :architecture => 'Architecture',
+        :auth_source => 'AuthSource',
+        :bookmark => 'Bookmark',
+        :compute_attribute => 'ComputeAttribute',
+        :compute_profile => 'ComputeProfile',
+        :compute_resource => 'ComputeResource',
+        :config_group => 'ConfigGroup',
+        :domain => 'Domain',
+        :host => 'Host',
+        :hostgroup => 'Hostgroup',
+        :image => 'Image',
+        :location => 'Location',
+        :medium => 'Medium',
+        :os => 'Operatingsystem',
+        :organization => 'Organization',
+        :override_value => 'LookupValue',
+        :partition_table => 'PartitionTable',
+        :parameter => 'Parameter',
+        :puppetclass => 'Puppetclass',
+        :realm => 'Realm',
+        :role => 'Role',
+        :setting => 'Setting',
+        :ssh_key => 'KeyPair',
+        :smart_proxy => 'SmartProxy',
+        :subnet => 'Subnet',
+        :user => 'User',
+        :usergroup => 'Usergroup',
+        :template => 'ProvisioningTemplate'
+      }
+    end
+
     belongs_to :user, :class_name => 'User'
     belongs_to :search_users, :class_name => 'User', :foreign_key => :user_id
     belongs_to :search_hosts, -> { where(:audits => { :auditable_type => 'Host' }) },
@@ -17,10 +50,7 @@ module AuditExtensions
     scoped_search :on => :audited_changes, :rename => 'changes'
     scoped_search :on => :created_at, :complete_value => true, :rename => :time, :default_order => :desc
     scoped_search :on => :action, :complete_value => { :create => 'create', :update => 'update', :delete => 'destroy' }
-    scoped_search :on => :auditable_type, :complete_value => { :host => 'Host', :parameter => 'Parameter', :architecture => 'Architecture',
-                                                               :puppetclass => 'Puppetclass', :os => 'Operatingsystem', :hostgroup => 'Hostgroup',
-                                                               :template => "ProvisioningTemplate", :override_value => 'LookupValue',
-                                                               :ssh_key => 'KeyPair', :compute_resource => 'ComputeResource'}, :rename => :type
+    scoped_search :on => :auditable_type, :complete_value => auditable_type_complete_values, :rename => :type
 
     scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
     scoped_search :relation => :search_templates, :on => :name, :complete_value => true, :rename => :template, :only_explicit => true
@@ -39,7 +69,7 @@ module AuditExtensions
     include Authorizable
 
     def self.humanize_class_name
-      "Audit"
+      _("Audit")
     end
   end
 
