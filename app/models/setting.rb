@@ -10,7 +10,7 @@ class Setting < ActiveRecord::Base
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category full_name }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend outofsync_interval }
-  BLANK_ATTRS = %w{ trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text
+  BLANK_ATTRS = %w{ host_owner trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text
                     smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location }
   ARRAY_HOSTNAMES = %w{ trusted_puppetmaster_hosts }
   URI_ATTRS = %w{ foreman_url unattended_url }
@@ -42,6 +42,7 @@ class Setting < ActiveRecord::Base
 
   validates :value, :url_schema => ['http', 'https'], :if => Proc.new { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
 
+  validate :validate_host_owner, :if => Proc.new {|s| s.name == "host_owner" }
   validates :value, :format => { :with => Resolv::AddressRegex }, :if => Proc.new { |s| IP_ATTRS.include? s.name }
   validates :value, :regexp => true, :if => Proc.new { |s| REGEXP_ATTRS.include? s.name }
   validates :value, :array_type => true, :if => Proc.new { |s| s.settings_type == "array" }
@@ -268,7 +269,10 @@ class Setting < ActiveRecord::Base
   def self.set(name, description, default, full_name = nil, value = nil, options = {})
     if options.has_key? :collection
       SettingsHelper.module_eval do
-        define_method("#{name}_collection".to_sym){ options[:collection].call }
+        define_method("#{name}_collection".to_sym) do
+          collection = options[:collection].call
+          collection.is_a?(Hash) ? collection : editable_select_optgroup(collection, :include_blank => options[:include_blank])
+        end
       end
     end
     options[:encrypted] ||= false
@@ -286,6 +290,13 @@ class Setting < ActiveRecord::Base
   # End methods for loading default settings
 
   private
+
+  def validate_host_owner
+    owner_type_and_id = self.value
+    return if owner_type_and_id.blank?
+    owner = OwnerClassifier.new(owner_type_and_id).user_or_usergroup
+    errors.add(:value, _("Host owner is invalid")) if owner.nil?
+  end
 
   def invalid_value_error(error)
     errors.add(:value, _("is invalid: %s") % error)

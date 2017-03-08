@@ -219,22 +219,8 @@ class Host::Managed < Host::Base
     self.name <=> other.name
   end
 
-  # method to return the correct owner list for host edit owner select dropbox
-  def is_owned_by
-    owner.id_and_type if owner
-  end
-
   def self.model_name
     ActiveModel::Name.new(Host)
-  end
-
-  # virtual attributes which sets the owner based on the user selection
-  # supports a simple user, or a usergroup
-  # selection parameter is expected to be an ActiveRecord id_and_type method (see Foreman's AR extentions).
-  def is_owned_by=(selection)
-    oid = User.find(selection.to_i) if selection =~ (/-Users\Z/)
-    oid = Usergroup.find(selection.to_i) if selection =~ (/-Usergroups\Z/)
-    self.owner = oid
   end
 
   def clear_reports

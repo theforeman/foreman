@@ -343,3 +343,8 @@ attribute71:
   category: Setting::Provisioning
   default: "false"
   description: 'Stop updating domain from facts'
+attribute72:
+  name: host_owner
+  category: Setting::Provisioning
+  default: nil
+  description: 'Default host owner'
