@@ -23,3 +23,4 @@
            :label => _("Eager zero"), :label_size => "col-md-2", :disabled => !new_host},
            "true",
            "false" %>
+<%= select_f f, :mode, compute_resource.disk_mode_types, :first, :last, { }, :class => "span5", :label => _("Disk mode"), :label_size => "col-md-2", :disabled => !new_host %>

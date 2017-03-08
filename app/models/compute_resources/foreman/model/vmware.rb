@@ -175,6 +175,14 @@ module Foreman::Model
       }
     end
 
+    def disk_mode_types
+      {
+        "persistent" => _("Persistent"),
+        "independent_persistent" => _("Independent - Persistent"),
+        "independent_nonpersistent" => _("Independent - Nonpersistent")
+      }
+    end
+
     # vSphere guest OS type descriptions
     # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values and
     # http://pubs.vmware.com/vsphere-60/topic/com.vmware.wssdk.apiref.doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
