@@ -8,6 +8,7 @@ module Hostext
 
       has_many :search_parameters, :class_name => 'Parameter', :foreign_key => :reference_id
       belongs_to :search_users, :class_name => 'User', :foreign_key => :owner_id
+      belongs_to :search_usersgroup, :class_name => 'Usergroup', :foreign_key => :owner_id
 
       scoped_search :on => :name,          :complete_value => true, :default_order => true
       scoped_search :on => :last_report,   :complete_value => true, :only_explicit => true
@@ -92,10 +93,18 @@ module Hostext
       end
 
       if SETTINGS[:login]
+<<<<<<< HEAD
         scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login',    :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
         scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname',:operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
+=======
+        scoped_search :in => :search_users,      :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login',    :operators => ['= ', '~ '], :ext_method => :search_by_user,      :alias => :owner
+        scoped_search :in => :search_users,      :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname',:operators => ['= ', '~ '], :ext_method => :search_by_user
+        scoped_search :in => :search_users,      :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
+        scoped_search :in => :search_users,      :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
+        scoped_search :in => :search_usergroups, :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name',:operators => ['= ', '~ '], :ext_method => :search_by_usergroup
+>>>>>>> Fixes #18854 - initial commit
       end
 
       cattr_accessor :fact_values_table_counter
@@ -116,6 +125,17 @@ module Hostext
         hosts = users.map(&:hosts).flatten
         opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
 
+        {:conditions => " hosts.id #{opts} " }
+      end
+
+      def search_by_usergroup(key, operator, value)
+        clean_key = key.sub(/^.*\./,'')
+        key_name = Usergroup.connection.quote_column_name(clean_key)
+
+        condition = sanitize_sql_for_conditions(["#{key_name} #{operator} ?", value_to_sql(operator, value)])
+        groups = Usergroup.where(condition)
+        hosts = groups.map(&:hosts).flatten
+        opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
         {:conditions => " hosts.id #{opts} " }
       end
 
