@@ -93,18 +93,11 @@ module Hostext
       end
 
       if SETTINGS[:login]
-<<<<<<< HEAD
-        scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login',    :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
-        scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname',:operators => ['= ', '~ '], :ext_method => :search_by_user
-        scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
-        scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
-=======
         scoped_search :in => :search_users,      :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login',    :operators => ['= ', '~ '], :ext_method => :search_by_user,      :alias => :owner
         scoped_search :in => :search_users,      :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname',:operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :in => :search_users,      :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :in => :search_users,      :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :in => :search_usergroups, :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name',:operators => ['= ', '~ '], :ext_method => :search_by_usergroup
->>>>>>> Fixes #18854 - initial commit
       end
 
       cattr_accessor :fact_values_table_counter
