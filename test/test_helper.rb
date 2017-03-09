@@ -9,6 +9,9 @@ require 'controllers/shared/basic_rest_response_test'
 require 'facet_test_helper'
 require 'active_support_test_case_helper'
 
+# load notification blueprint seeds
+require File.join(Rails.root,'db','seeds.d','17-notification_blueprints.rb')
+
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :minitest_4

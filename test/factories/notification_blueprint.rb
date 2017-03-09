@@ -3,7 +3,6 @@ FactoryGirl.define do
     sequence(:group) { |n| "notification_blueprint_#{n}" }
     sequence(:message) { |n| "message_#{n}" }
     sequence(:name) { |n| "name_#{n}" }
-    subject User.first
     level 'info'
     expires_in 24.hours
   end

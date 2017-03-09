@@ -3,5 +3,6 @@ FactoryGirl.define do
     notification_blueprint
     association :initiator, :factory => :user
     audience 'user'
+    subject User.first
   end
 end

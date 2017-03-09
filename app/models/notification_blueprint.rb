@@ -8,7 +8,6 @@
 # NotificationBlueprint of storing it.
 class NotificationBlueprint < ActiveRecord::Base
   has_many :notifications, :dependent => :destroy
-  belongs_to :subject, :polymorphic => true
   store :actions, :accessors => [:links], :coder => JSON
 
   validates :message, :presence => true

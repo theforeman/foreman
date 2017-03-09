@@ -12,14 +12,13 @@ class NotificationTest < ActiveSupport::TestCase
   test 'should be able to create notification' do
     blueprint = FactoryGirl.create(
       :notification_blueprint,
-      :message => 'this test just executed successfully',
-      :subject => nil
+      :message => 'this test just executed successfully'
     )
     notice = FactoryGirl.create(:notification,
                                 :audience => 'global',
                                 :notification_blueprint => blueprint)
     assert notice.valid?
-    assert_equal blueprint.message, notice.notification_blueprint.message
+    assert_equal blueprint.message, notice.message
     assert_equal User.all, notice.recipients
   end
 
@@ -45,7 +44,7 @@ class NotificationTest < ActiveSupport::TestCase
     group.users = FactoryGirl.create_list(:user,25)
     notification = FactoryGirl.build(:notification,
                                      :audience => Notification::AUDIENCE_GROUP)
-    notification.notification_blueprint.subject = group
+    notification.subject = group
     assert group.all_users.any?
     assert_equal group.all_users.map(&:id),
       notification.subscriber_ids
@@ -56,7 +55,7 @@ class NotificationTest < ActiveSupport::TestCase
     org.users = FactoryGirl.create_list(:user,25)
     notification = FactoryGirl.build(:notification,
                                      :audience => Notification::AUDIENCE_TAXONOMY)
-    notification.notification_blueprint.subject = org
+    notification.subject = org
     assert org.user_ids.any?
     assert_equal org.user_ids, notification.subscriber_ids
   end
@@ -66,7 +65,7 @@ class NotificationTest < ActiveSupport::TestCase
     loc.users = FactoryGirl.create_list(:user,25)
     notification = FactoryGirl.build(:notification,
                                      :audience => Notification::AUDIENCE_TAXONOMY)
-    notification.notification_blueprint.subject = loc
+    notification.subject = loc
     assert loc.user_ids.any?
     assert_equal loc.user_ids, notification.subscriber_ids
   end
@@ -85,5 +84,19 @@ class NotificationTest < ActiveSupport::TestCase
     assert User.only_admin.count > 0
     assert_equal User.only_admin.reorder('').pluck(:id).sort,
       notification.subscriber_ids.sort
+  end
+
+  test 'notification message should be stored' do
+    host = FactoryGirl.create(:host)
+    blueprint = FactoryGirl.create(
+      :notification_blueprint,
+      :message => "%{subject} has been lost",
+      :level => 'error'
+    )
+    notice = FactoryGirl.create(:notification,
+      :audience => 'global',
+      :subject => host,
+      :notification_blueprint => blueprint)
+    assert_equal "#{host} has been lost", notice.message
   end
 end

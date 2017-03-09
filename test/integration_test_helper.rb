@@ -9,6 +9,8 @@ require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
 require 'minitest-optional_retry'
+# load notification blueprint seeds
+require File.join(Rails.root,'db','seeds.d','17-notification_blueprints.rb')
 
 DatabaseCleaner.strategy = :transaction
 
