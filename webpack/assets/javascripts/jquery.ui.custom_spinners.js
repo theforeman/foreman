@@ -115,6 +115,8 @@ export function initCounter() {
     field.change(function () {
       field.limitedSpinner('validate');
     });
+
+    field.parents('div.form-group').find('label a').popover();
   });
 }
 
@@ -134,5 +136,7 @@ export function initByte() {
       field.byteSpinner('updateValueTarget');
       field.byteSpinner('validate');
     });
+
+    field.parents('div.form-group').find('label a').popover();
   });
 }
