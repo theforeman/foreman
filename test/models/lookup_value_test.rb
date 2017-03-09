@@ -275,4 +275,11 @@ EOF
     assert value.save!
     assert_equal value.value, text
   end
+
+  test "path should return the correct path for the key" do
+    value = LookupValue.new(:match => 'fqdn=abc.example.com')
+    assert_equal('fqdn',value.path)
+    value.match = "hostgroup=Common,domain=example.com"
+    assert_equal('hostgroup,domain', value.path)
+  end
 end

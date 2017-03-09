@@ -420,4 +420,15 @@ EOF
     assert_equal 1, host.lookup_values.size
     assert key.overridden?(host)
   end
+
+  test 'sorted_values returns correctly ordered values' do
+    key = FactoryGirl.create(:puppetclass_lookup_key, :path => "model\nos\r\narch\nos,model")
+    value1 = LookupValue.create(:value => 1, :lookup_key => key, :match => "os=test")
+    value2 = LookupValue.create(:value => 2, :lookup_key => key, :match => "os=test2,model=a")
+    value3 = LookupValue.create(:value => 3, :lookup_key => key, :match => "model=testmodel")
+    value4 = LookupValue.create(:value => 4, :lookup_key => key, :match => "arch=testarcg")
+
+    assert_equal([value3, value1, value4, value2], key.sorted_values)
+    refute_equal([value3, value1, value4, value2], key.lookup_values)
+  end
 end

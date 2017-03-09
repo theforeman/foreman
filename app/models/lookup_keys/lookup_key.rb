@@ -146,6 +146,11 @@ class LookupKey < ActiveRecord::Base
     false
   end
 
+  def sorted_values
+    prio = path.split
+    lookup_values.sort_by{|val| prio.index(val.path)}
+  end
+
   private
 
   # Generate possible lookup values type matches to a given host
