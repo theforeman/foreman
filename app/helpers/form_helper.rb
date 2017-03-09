@@ -205,9 +205,10 @@ module FormHelper
 
   def byte_size_f(f, attr, options = {})
     options[:class] = options[:class].to_s + ' byte_spinner'
-    options[:help_inline] ||= popover('', _("When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."))
+    options[:label_help] = _("When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified.")
     options[:help_block] ||= soft_limit_warning_block
     options[:help_block] += f.hidden_field(attr, :class => "real-hidden-value", :id => nil)
+    options[:label_help_options] = { :rel => 'popover-modal' }
 
     text_f(f, attr, options)
   end
