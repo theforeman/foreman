@@ -97,7 +97,7 @@ module Hostext
         scoped_search :in => :search_users,      :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname',:operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :in => :search_users,      :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :in => :search_users,      :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
-        scoped_search :in => :search_usergroups, :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name',:operators => ['= ', '~ '], :ext_method => :search_by_usergroup 
+        scoped_search :in => :search_usergroups, :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name',:operators => ['= ', '~ '], :ext_method => :search_by_usergroup
       end
 
       cattr_accessor :fact_values_table_counter
@@ -130,7 +130,7 @@ module Hostext
         hosts = groups.map(&:hosts).flatten
         opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
         {:conditions => " hosts.id #{opts} " }
-      end 
+      end
 
       def search_by_puppetclass(key, operator, value)
         conditions = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
