@@ -54,3 +54,5 @@
 #    :enabled: false
 #  :templates:
 #    :enabled: true
+#  :notifications:
+#    :enabled: true

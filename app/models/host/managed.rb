@@ -34,6 +34,7 @@ class Host::Managed < Host::Base
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
   define_model_callbacks :provision, :only => :before
+  include Hostext::UINotifications
 
   before_validation :refresh_build_status, :if => :build_changed?
 
@@ -50,7 +51,7 @@ class Host::Managed < Host::Base
   end
 
   def build_hooks
-    return unless respond_to?(:old) && old && (build? != old.build?)
+    return if previous_changes['build'].nil?
     if build?
       run_callbacks :build do
         logger.debug "custom hook after_build on #{name} will be executed if defined."

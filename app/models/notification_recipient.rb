@@ -13,11 +13,10 @@ class NotificationRecipient < ActiveRecord::Base
       :id         => id,
       :seen       => seen,
       :level      => notification_blueprint.level,
-      :text       => notification_blueprint.message,
-      :subject    => notification_blueprint.subject,
+      :text       => notification.message,
       :created_at => notification.created_at,
       :group      => notification_blueprint.group,
-      :actions    => notification_blueprint.actions
+      :actions    => notification.actions
     }
   end
 

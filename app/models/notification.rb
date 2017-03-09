@@ -12,8 +12,10 @@ class Notification < ActiveRecord::Base
 
   belongs_to :notification_blueprint
   belongs_to :initiator, :class_name => User, :foreign_key => 'user_id'
+  belongs_to :subject, :polymorphic => true
   has_many :notification_recipients, :dependent => :delete_all
   has_many :recipients, :class_name => User, :through => :notification_recipients, :source => :user
+  store :actions, :accessors => [:links], :coder => JSON
 
   validates :notification_blueprint, :presence => true
   validates :initiator, :presence => true
@@ -21,6 +23,8 @@ class Notification < ActiveRecord::Base
     :in => [AUDIENCE_USER, AUDIENCE_GROUP, AUDIENCE_TAXONOMY,
             AUDIENCE_GLOBAL, AUDIENCE_ADMIN]
   }, :presence => true
+  validates :message, :presence => true
+  before_validation :set_custom_attributes
   before_create :set_expiry, :set_notification_recipients,
     :set_default_initiator
 
@@ -36,13 +40,13 @@ class Notification < ActiveRecord::Base
     when AUDIENCE_GLOBAL
       User.reorder('').pluck(:id)
     when AUDIENCE_TAXONOMY
-      notification_blueprint.subject.user_ids.uniq
+      subject.user_ids.uniq
     when AUDIENCE_USER
       [initiator.id]
     when AUDIENCE_ADMIN
       User.only_admin.reorder('').uniq.pluck(:id)
     when AUDIENCE_GROUP
-      notification_blueprint.subject.all_users.uniq.map(&:id) # This needs to be rewritten in usergroups.
+      subject.all_users.uniq.map(&:id) # This needs to be rewritten in usergroups.
     end
   end
 
@@ -60,5 +64,18 @@ class Notification < ActiveRecord::Base
   def set_notification_recipients
     subscribers = subscriber_ids
     notification_recipients.build subscribers.map{|id| { :user_id => id}}
+  end
+
+  def set_custom_attributes
+    return unless notification_blueprint # let validation catch this.
+    self.actions = UINotifications::URLResolver.new(
+      subject,
+      notification_blueprint.actions
+    ).actions if notification_blueprint.actions.any?
+    # copy notification message in case we didn't create a custom one.
+    self.message ||= UINotifications::StringParser.new(
+      notification_blueprint.message,
+      {subject: subject, initator: initiator}
+    ).to_s
   end
 end

@@ -67,6 +67,40 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     assert_equal 0, response['total']
   end
 
+  test "notification when host is destroyed" do
+    host = FactoryGirl.create(:host)
+    assert host.destroy
+    get :index, { :format => 'json' }, set_session_user
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 1, response['total']
+    assert_equal "#{host} has been deleted successfully", response['notifications'][0]["text"]
+  end
+
+  test "notification when host is built" do
+    host = FactoryGirl.create(:host, owner: User.current)
+    assert host.update_attribute(:build, true)
+    assert host.built
+    get :index, { :format => 'json' }, set_session_user
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 1, response['total']
+    assert_equal "#{host} has been provisioned successfully", response['notifications'][0]["text"]
+  end
+
+  test "notification when host has no owner" do
+    host = FactoryGirl.create(:host, :managed)
+    User.current = nil
+    assert host.update_attributes(owner_id: nil, owner_type: nil, build: true)
+    assert_nil host.owner
+    assert host.built
+    get :index, { :format => 'json' }, set_session_user
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 1, response['total']
+    assert_equal "#{host} has no owner set", response['notifications'][0]["text"]
+  end
+
   private
 
   def add_notification
