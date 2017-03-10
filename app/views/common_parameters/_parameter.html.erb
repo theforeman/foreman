@@ -1,13 +1,14 @@
 <tr class="fields <%= 'has-error' if f.object.errors.any? %>" id="<%= dom_id(f.object) + '_row' %>">
+  <% authorized = f.object.new_record? ? authorizer.can?(:create_params) : authorizer.can?(:edit_params, f.object) %>
   <td>
-    <%= f.text_field(:name,  :class => "form-control", :disabled => !authorizer.can?(:edit_params, f.object), :placeholder => _("Name")) %>
+    <%= f.text_field(:name,  :class => "form-control", :disabled => !authorized, :placeholder => _("Name")) %>
   </td>
   <td>
-    <%= hidden_value_field(f, :value, !authorizer.can?(:edit_params, f.object)) %>
+    <%= hidden_value_field(f, :value, !authorized) %>
   </td>
   <td>
-    <%= f.check_box(:hidden_value, :class => 'set_hidden_value hide', :checked => f.object.hidden_value?) if authorizer.can?(:edit_params, f.object) %>
-    <%= link_to_remove_fields(_('remove'), f) if authorizer.can?(:destroy_params, f.object) %>
+    <%= f.check_box(:hidden_value, :class => 'set_hidden_value hide', :checked => f.object.hidden_value?) if authorized %>
+    <%= link_to_remove_fields(_('remove'), f) if f.object.new_record? || authorizer.can?(:destroy_params, f.object) %>
   </td>
 </tr>
 <% if f.object.errors.any? %>
