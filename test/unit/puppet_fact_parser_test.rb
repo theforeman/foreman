@@ -104,6 +104,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_os_idempotent
     end
 
+    test "should set version correctly for PSBM" do
+      @importer = PuppetFactParser.new("operatingsystem" => "PSBM",
+                                       "operatingsystemrelease" => "2.6.32-042stab111.11")
+      assert_equal '2', os.major
+      assert_equal '6', os.minor
+      assert_os_idempotent
+    end
+
     test "should not set description if lsbdistdescription is missing" do
       facts.delete('lsbdistdescription')
       @importer = PuppetFactParser.new(facts)

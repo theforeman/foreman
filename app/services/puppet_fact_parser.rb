@@ -28,6 +28,9 @@ class PuppetFactParser < FactParser
         orel.gsub!(/\-RELEASE\-p[0-9]+/, '')
       elsif os_name[/Solaris/i]
         orel.gsub!(/_u/, '.')
+      elsif os_name[/PSBM/i]
+        majorpsbm, minorpsbm = orel.split(".")
+        orel = majorpsbm + "." + minorpsbm
       end
       major, minor = orel.split('.', 2)
       major = major.to_s.gsub(/\D/, '')
