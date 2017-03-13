@@ -44,7 +44,7 @@ module Orchestration::SSHProvision
   end
 
   def setSSHWaitForResponse
-    logger.info "Starting SSH provisioning script - waiting for #{provision_ip} to respond"
+    logger.info "Starting SSH provisioning script - waiting for #{provision_host} to respond"
     if compute_resource.respond_to?(:key_pair) && compute_resource.key_pair.try(:secret)
       credentials = { :key_data => [compute_resource.key_pair.secret] }
     elsif vm.respond_to?(:password) && vm.password.present?
@@ -54,7 +54,7 @@ module Orchestration::SSHProvision
     else
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
     end
-    self.client = Foreman::Provision::SSH.new provision_ip, image.username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
+    self.client = Foreman::Provision::SSH.new provision_host, image.username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
   rescue => e
     failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
   end
@@ -81,7 +81,7 @@ module Orchestration::SSHProvision
   end
 
   def setSSHProvision
-    logger.info "SSH connection established to #{provision_ip} - executing template"
+    logger.info "SSH connection established to #{provision_host} - executing template"
     if client.deploy!
       # since we are in a after_commit callback, we need to fetch our host again, and clean up puppet ca on our own
       Host.find(id).built
@@ -118,7 +118,8 @@ module Orchestration::SSHProvision
     failure(_("No finish templates were found for this host, make sure you define at least one in your %s settings") % os) unless status
   end
 
-  def provision_ip
-    provision_interface.ip
+  def provision_host
+    # usually cloud compute resources provide IPs but virtualization do not
+    provision_interface.ip || provision_interface.fqdn
   end
 end
