@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'controllers/shared/smart_proxies_controller_shared_test'
 
 class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'master02', :url => 'http://server:8443' }
