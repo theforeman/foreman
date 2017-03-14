@@ -378,6 +378,20 @@ class User < ActiveRecord::Base
     Location.my_locations(self)
   end
 
+  def taxonomy_ids
+    { :organizations => my_organizations.pluck(:id),
+      :locations => my_locations.pluck(:id) }
+  end
+
+  def visible_environments
+    Environment.unscoped
+               .authorized(:view_environemnts)
+               .joins(:taxable_taxonomies)
+               .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
+               .distinct
+               .pluck(:name)
+  end
+
   def taxonomy_and_child_ids(taxonomies)
     ids = []
     send(taxonomies).each do |taxonomy|

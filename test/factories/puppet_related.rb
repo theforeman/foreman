@@ -1,6 +1,8 @@
 FactoryGirl.define do
   factory :environment do
     sequence(:name) {|n| "environment#{n}" }
+    organizations []
+    locations []
   end
 
   factory :environment_class
