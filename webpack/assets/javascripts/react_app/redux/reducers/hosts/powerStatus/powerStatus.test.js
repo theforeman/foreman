@@ -1,5 +1,5 @@
 import reducer from './index';
-import * as types from '../../consts';
+import * as types from '../../../consts';
 import {
   initialState,
   request,
@@ -8,9 +8,9 @@ import {
   stateAfterSuccess,
   stateAfterFailure,
   error
-} from './hosts.fixtures';
+} from './powerStatus.fixtures';
 
-describe('statistics reducer', () => {
+describe('powerStatus reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
