@@ -1,7 +1,7 @@
 <h4 class="header">
   <%= _("Latest Events") %>
 </h4>
-<% if @data.latest_events.exists? %>
+<% if @data.latest_events? %>
   <table class="<%= table_css_classes 'table-fixed reports-table' %>">
     <thead>
       <tr>

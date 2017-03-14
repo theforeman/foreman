@@ -27,7 +27,14 @@ class Dashboard::Data
     @latest_events ||= ConfigReport.authorized(:view_config_reports).my_reports.interesting
                                    .where("#{ConfigReport.quoted_table_name}.#{con.quote_column_name('host_id')} IN (#{ids})")
                                    .search_for('reported > "7 days ago"')
-                                   .limit(9).includes(:host)
+                                   .reorder(:reported_at => :desc)
+                                   .limit(9)
+                                   .preload(:host)
+  end
+
+  def latest_events?
+    #exists? removes the order field causing the db to use the wrong index
+    latest_events.limit(1).present?
   end
 
   private
