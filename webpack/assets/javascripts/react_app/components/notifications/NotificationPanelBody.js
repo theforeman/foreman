@@ -1,6 +1,6 @@
 import React from 'react';
 import Notification from './Notification';
-import './Notifications.css';
+import './Notifications.scss';
 
 const NotificationPanelBody = ({notifications, expandedGroup, group}) => {
   let data;

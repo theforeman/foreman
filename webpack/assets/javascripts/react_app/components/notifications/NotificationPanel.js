@@ -15,9 +15,12 @@ const NotificationPanel = ({notifications, title, id, expandedGroup}) => {
     } else {
       unread = 0;
     }
+    const className = `panel panel-default ${expandedGroup === id ?
+      'expanded' :
+      ''}`;
 
     return (
-      <div className="panel panel-default">
+      <div className={ className }>
         <NotificationPanelHeading title={title} group={id} unread={unread}/>
         <NotificationPanelBody notifications={notifications}
                                group={id} expandedGroup={expandedGroup}/>
