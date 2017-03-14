@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as HostsActions from '../../../redux/actions/hosts/';
+import * as HostsActions from '../../../redux/actions/hosts/powerStatus/';
 import PowerStatusInner from './powerStatusInner';
 
 class PowerStatus extends React.Component {
