@@ -54,6 +54,16 @@ FactoryGirl.define do
       after(:build) { |cr| cr.stubs(:update_public_key) }
     end
 
+    trait :with_subnets do
+      transient do
+        subnets_count 2
+      end
+
+      after(:create) do |compute_resource, evaluator|
+        FactoryGirl.create_list(:subnet, evaluator.subnets_count, :compute_resources => [compute_resource])
+      end
+    end
+
     factory :ec2_cr, :class => Foreman::Model::EC2, :traits => [:ec2]
     factory :gce_cr, :class => Foreman::Model::GCE, :traits => [:gce]
     factory :libvirt_cr, :class => Foreman::Model::Libvirt, :traits => [:libvirt]

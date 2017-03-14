@@ -671,6 +671,7 @@ function interface_subnet_selected(element, ip_field) {
   if (subnet_id == '') return;
   var interface_ip = $(element).closest('fieldset').find('input[id$=_' + ip_field + ']');
 
+  update_compute_resource_subnet(element);
   toggle_suggest_new_link(element, ip_field);
 
   interface_ip.attr('disabled', true);
@@ -733,6 +734,50 @@ function interface_subnet_selected(element, ip_field) {
     complete: function () {
       tfm.tools.hideSpinner();
       interface_ip.attr('disabled', false);
+    }
+  });
+}
+
+function update_compute_resource_subnet(element) {
+  var compute_resource = $('#host_compute_resource_id :selected').val();
+  var select = $(element).closest('fieldset#interface').find('select[id$=_compute_attributes_network]');
+  var subnet = $(element).val();
+  var url = $(select).attr('data-url');
+  if (subnet == '' || compute_resource == '' || !url) return;
+  tfm.tools.showSpinner();
+  select.attr('disabled', true);
+  var cluster = $('#host_compute_attributes_cluster :selected').val();
+
+  // mark the selected value to preserve it for form hiding
+  preserve_selected_options($(select));
+
+  var org = $('#host_organization_id :selected').val();
+  var loc = $('#host_location_id :selected').val();
+
+  var data = {
+    subnet_id: subnet,
+    organization_id: org,
+    location_id: loc,
+    compute_resource_id: compute_resource,
+    cluster_id: cluster
+  }
+  $.ajax({
+    data: data,
+    type: 'post',
+    url: url,
+    dataType: 'json',
+    success: function (result) {
+      select.empty();
+      $.each(result, function () {
+        opt = select.append($("<option />").val(this.id).text(this.name));
+        if (this.vlanid) {
+          opt.prop('selected', true);
+        }
+      });
+    },
+    complete: function () {
+      reloadOnAjaxComplete(select);
+      select.attr('disabled', false);
     }
   });
 }
