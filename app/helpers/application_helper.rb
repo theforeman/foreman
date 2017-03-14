@@ -152,8 +152,8 @@ module ApplicationHelper
     display_link_if_authorized(name, options, html_options)
   end
 
-  def csv_link
-    link_to(_('Export'), params.merge(:format => :csv),
+  def csv_link(permitted: [])
+    link_to(_('Export'), current_url_params(:permitted => permitted).merge(:format => :csv),
       {:title => _('Export to CSV'), :class => 'btn btn-default', 'data-no-turbolink' => true})
   end
 
@@ -199,7 +199,7 @@ module ApplicationHelper
   end
 
   def sort(field, permitted: [], **kwargs)
-    kwargs[:url_options] ||= params.permit(permitted + [:locale, :search])
+    kwargs[:url_options] ||= current_url_params(permitted: permitted)
     super(field, kwargs)
   end
 
@@ -506,5 +506,9 @@ module ApplicationHelper
     return true if params[:action] == 'clone'
     # check if the user set the field explicitly despite setting a hostgroup.
     params[:host] && params[:host][:hostgroup_id] && params[:host][field]
+  end
+
+  def current_url_params(permitted: [])
+    params.permit(permitted + [:locale, :search])
   end
 end

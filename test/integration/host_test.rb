@@ -19,6 +19,11 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     assert_index_page(hosts_path,"Hosts","Create Host")
   end
 
+  test "index page with search" do
+    visit hosts_path(search: "name = #{@host.name}")
+    assert page.has_link?('Export', href: hosts_path(format: 'csv', search: "name = #{@host.name}"))
+  end
+
   test "show page" do
     visit hosts_path
     click_link @host.fqdn
