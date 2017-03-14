@@ -4,7 +4,7 @@ if Rails.env.test?
 
     namespace :api do
       namespace :v2 do
-        resources :testable, :only => [:create, :index]
+        resources :testable, :only => [:create, :index, :new]
       end
 
       resources :testable, :only => :index do

@@ -8,6 +8,10 @@ class Api::V2::TestableController < Api::V2::BaseController
   def create
     render :text => 'dummy', :status => 200
   end
+
+  def new
+    nil.id
+  end
 end
 
 class Api::V2::TestableControllerTest < ActionController::TestCase
@@ -49,5 +53,14 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal users(:admin).id, session[:user]
     end
+  end
+
+  test "should have server error message" do
+    get :new
+    assert_response 500
+    msg = "Internal Server Error: the server was unable to finish the request. "
+    msg << "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
+    msg << "There may be more information in the server's logs."
+    assert_equal JSON.parse(response.body)['error']['message'], msg
   end
 end
