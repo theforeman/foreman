@@ -80,7 +80,7 @@
   background-color: $primary_color;
   border-color: darken($primary_color, 5%);
   min-height: 0;
-  z-index: 1;
+  z-index: 4;
   padding: 0 40px;
 
   .navbar-brand a,
