@@ -21,18 +21,15 @@ export default {
         ServerActions.notificationsRequestError(jqXHR, textStatus, errorThrown);
       });
   },
-  markNotificationAsRead(url) {
+  markNotificationAsRead(id) {
     const data = JSON.stringify({'seen': true});
 
     $.ajax({
-      url: url,
+      url: `/notification_recipients/${id}`,
       contentType: 'application/json',
       type: 'put',
       dataType: 'json',
       data: data,
-      success: function (response, textstatus, jqXHR) {
-        ServerActions.notificationMarkedAsRead(response, textstatus, jqXHR);
-      },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(jqXHR);
       }

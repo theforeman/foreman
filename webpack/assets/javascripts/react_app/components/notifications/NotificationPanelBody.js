@@ -8,7 +8,8 @@ const NotificationPanelBody = ({notifications, expandedGroup, group}) => {
 
   if (notifications && notifications.length) {
     data = notifications
-      .map(notification => <Notification key={notification.id} {...notification}></Notification>
+      .map(notification =>
+        <Notification key={notification.id} {...notification} group={group}></Notification>
       );
   } else {
     data = null;

@@ -6,7 +6,7 @@ import NotificationActions from '../../actions/NotificationActions';
 import '../../common/commonStyles.css';
 
 /* eslint-disable camelcase */
-const Notification = ({created_at, seen, text, level, id, actions}) => {
+const Notification = ({created_at, seen, text, level, id, actions, group}) => {
   const created = moment(created_at);
   const title = __('Click to mark as read').toString();
   const tooltip = {
@@ -20,7 +20,7 @@ const Notification = ({created_at, seen, text, level, id, actions}) => {
              onClick={markAsRead}>{text}</strong>);
 
   function markAsRead() {
-    NotificationActions.markAsRead('/notification_recipients/' + id);
+    NotificationActions.markAsRead(id, group);
   }
 
   window.tfm.tools.activateTooltips();

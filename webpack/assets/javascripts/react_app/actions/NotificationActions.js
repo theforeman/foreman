@@ -33,7 +33,12 @@ export default {
       expand: group
     });
   },
-  markAsRead(url) {
-    API.markNotificationAsRead(url);
+  markAsRead(id, group) {
+    API.markNotificationAsRead(id);
+    AppDispatcher.dispatch({
+      actionType: ACTIONS.MARK_AS_READ,
+      group,
+      id
+    });
   }
 };

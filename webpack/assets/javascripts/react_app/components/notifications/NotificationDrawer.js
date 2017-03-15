@@ -24,6 +24,7 @@ class NotificationDrawer extends Component {
 
   onChange(actionType) {
     switch (actionType) {
+      case ACTIONS.MARK_AS_READ:
       case ACTIONS.RECEIVED_NOTIFICATIONS: {
         this.setState({ notifications: NotificationsStore.getNotifications() });
         break;
