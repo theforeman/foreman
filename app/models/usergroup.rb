@@ -4,6 +4,7 @@ class Usergroup < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
+  include UserUsergroupCommon
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
@@ -36,6 +37,10 @@ class Usergroup < ActiveRecord::Base
   validate :ensure_uniq_name, :ensure_last_admin_remains_admin
 
   accepts_nested_attributes_for :external_usergroups, :reject_if => ->(a) { a[:name].blank? }, :allow_destroy => true
+
+  class Jail < ::Safemode::Jail
+    allow :ssh_keys, :all_users, :ssh_authorized_keys
+  end
 
   # This methods retrieves all user addresses in a usergroup
   # Returns: Array of strings representing the user's email addresses
@@ -71,6 +76,14 @@ class Usergroup < ActiveRecord::Base
 
   def remove_users(userlist)
     self.users = self.users - User.where(:lower_login => userlist.map(&:downcase))
+  end
+
+  def to_export
+    all_users.map(&:to_export).reduce({}, :merge)
+  end
+
+  def ssh_keys
+    all_users.flat_map(&:ssh_keys)
   end
 
   protected

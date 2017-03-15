@@ -23,6 +23,16 @@ class UsergroupTest < ActiveSupport::TestCase
   should have_many(:usergroup_members).dependent(:destroy)
   should have_many(:users).dependent(:destroy)
 
+  context 'Jail' do
+    test 'should allow methods' do
+      allowed = [:ssh_keys, :ssh_authorized_keys]
+
+      allowed.each do |m|
+        assert Usergroup::Jail.allowed?(m), "Method #{m} is not available in Usergroup::Jail while should be allowed."
+      end
+    end
+  end
+
   def populate_usergroups
     (1..6).each do |number|
       instance_variable_set("@ug#{number}", FactoryGirl.create(:usergroup, :name=> "ug#{number}"))

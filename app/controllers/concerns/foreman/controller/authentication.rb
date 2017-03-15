@@ -40,7 +40,7 @@ module Foreman::Controller::Authentication
   end
 
   def path_to_authenticate
-    Foreman::AccessControl.normalize_path_hash(params.slice(:controller, :action, :id))
+    Foreman::AccessControl.normalize_path_hash(params.slice(:controller, :action, :id, :user_id))
   end
 
   def require_login

@@ -24,6 +24,8 @@ class UserTest < ActiveSupport::TestCase
   should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:lastname)
   should_not allow_value('The Riddle?').for(:firstname)
   should_not allow_value("it's the JOKER$$$").for(:lastname)
+  # Associations
+  should have_many(:ssh_keys).dependent(:destroy)
 
   test "mail address is optional on creation" do
     assert_valid FactoryGirl.build(:user, :mail => nil)
@@ -976,6 +978,16 @@ class UserTest < ActiveSupport::TestCase
       user.current_password = "password"
       user.password = "newpassword"
       assert user.save
+    end
+  end
+
+  context 'Jail' do
+    test 'should allow methods' do
+      allowed = [:login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail]
+
+      allowed.each do |m|
+        assert User::Jail.allowed?(m), "Method #{m} is not available in User::Jail while should be allowed."
+      end
     end
   end
 end
