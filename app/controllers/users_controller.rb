@@ -106,7 +106,7 @@ class UsersController < ApplicationController
       return
     end
 
-    TopbarSweeper.expire_cache(self)
+    TopbarSweeper.expire_cache
     sso_logout_path = get_sso_method.try(:logout_url)
     session[:user] = @user = User.current = nil
     if flash[:notice] || flash[:error]
@@ -149,7 +149,7 @@ class UsersController < ApplicationController
     uri                    = session.to_hash.with_indifferent_access[:original_uri]
     session[:original_uri] = nil
     set_current_taxonomies(user, {:session => session})
-    TopbarSweeper.expire_cache(self)
+    TopbarSweeper.expire_cache
     redirect_to (uri || hosts_path)
   end
 

@@ -70,5 +70,27 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('h1', :text => "Trends")
   end
 
+  test "taxonomy switcher" do
+    with_controller_caching(DashboardController, LocationsController) do
+      visit root_path
+      within("li.org-switcher") do
+        assert has_selector?(:xpath, "//a[contains(@class, 'dropdown-toggle') and text() = 'Any Context']")
+        assert has_link?(taxonomies(:location1), href: select_location_path(taxonomies(:location1)))
+        click_link(taxonomies(:location1))
+      end
+
+      # Page change within location context
+      within("li.org-switcher") do
+        assert has_selector?(:xpath, "//a[contains(@class, 'dropdown-toggle') and text() = '#{taxonomies(:location1).name}']")
+        click_link('Any Location')
+      end
+
+      # Page change out of location context
+      within("li.org-switcher") do
+        assert has_selector?(:xpath, "//a[contains(@class, 'dropdown-toggle') and text() = 'Any Context']")
+      end
+    end
+  end
+
   #PENDING - click on Menu Bar js
 end

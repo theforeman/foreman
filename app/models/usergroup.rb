@@ -4,6 +4,7 @@ class Usergroup < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
+  include TopbarCacheExpiry
   include UserUsergroupCommon
 
   validates_lengths_from_database
@@ -66,8 +67,8 @@ class Usergroup < ActiveRecord::Base
     group_list.uniq.sort
   end
 
-  def expire_topbar_cache(sweeper)
-    users.each { |u| u.expire_topbar_cache(sweeper) }
+  def expire_topbar_cache
+    users.each { |u| u.expire_topbar_cache }
   end
 
   def add_users(userlist)

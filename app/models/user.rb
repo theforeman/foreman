@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   include UserTime
   include UserUsergroupCommon
   include Exportable
+  include TopbarCacheExpiry
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
 
   ANONYMOUS_ADMIN = 'foreman_admin'
@@ -428,9 +429,8 @@ class User < ActiveRecord::Base
     size.times.collect {|i| set[rand(set.size)] }.join
   end
 
-  def expire_topbar_cache(sweeper)
-    return if sweeper.controller.nil?
-    sweeper.expire_fragment(TopbarSweeper.fragment_name(id))
+  def expire_topbar_cache
+    TopbarSweeper.expire_cache(self)
   end
 
   def external_usergroups

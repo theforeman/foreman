@@ -1,6 +1,7 @@
 class Filter < ActiveRecord::Base
   include Taxonomix
   include Authorizable
+  include TopbarCacheExpiry
 
   attr_writer :resource_type
   attr_accessor :unlimited
@@ -140,9 +141,9 @@ class Filter < ActiveRecord::Base
     searches.join(' and ')
   end
 
-  def expire_topbar_cache(sweeper)
-    role.users.each      { |u| u.expire_topbar_cache(sweeper) }
-    role.usergroups.each { |g| g.expire_topbar_cache(sweeper) }
+  def expire_topbar_cache
+    role.users.each      { |u| u.expire_topbar_cache }
+    role.usergroups.each { |g| g.expire_topbar_cache }
   end
 
   def disable_overriding!
