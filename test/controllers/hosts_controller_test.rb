@@ -1103,8 +1103,29 @@ class HostsControllerTest < ActionController::TestCase
     host = FactoryGirl.create(:host)
     host_ids = [host.id]
     #the ajax can be any of the multiple actions, toke multiple_parameters for example
-    xhr :get, :multiple_parameters, {:host_ids => host_ids}, set_session_user(:restricted)
+    xhr :post, :multiple_parameters, {:host_ids => host_ids}, set_session_user(:restricted)
     assert_response :success
+  end
+
+  test "select multiple action with valid host_ids param should return a selection page" do
+    host = FactoryGirl.create(:host)
+    host2 = FactoryGirl.create(:host)
+    host_ids = [host.id, host2.id]
+    xhr :post, :multiple_parameters, {:host_ids => host_ids}, set_session_user
+    assert_response :success
+    assert response.body =~ /#{host.name}.*#{host2.name}/m
+  end
+
+  test "select multiple action with empty host_ids should redirect to hosts page" do
+    xhr :post, :multiple_parameters, {:host_ids => []}, set_session_user
+    assert_response :redirect, hosts_path
+    assert_not_nil flash[:error]
+  end
+
+  test "select multiple action with not exists host_ids should redirect to hosts page" do
+    xhr :post, :multiple_parameters, {:host_ids => [-1,2]}, set_session_user
+    assert_response :redirect, hosts_path
+    assert_not_nil flash[:error]
   end
 
   test "#disassociate shows error when used on non-CR host" do
