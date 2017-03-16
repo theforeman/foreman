@@ -109,7 +109,7 @@ module Foreman::Controller::TaxonomiesController
   def clear_current_taxonomy_from_session
     taxonomy_class.current = nil
     session[taxonomy_id] = nil
-    TopbarSweeper.expire_cache(self)
+    TopbarSweeper.expire_cache
   end
 
   def mismatches
@@ -222,6 +222,6 @@ module Foreman::Controller::TaxonomiesController
     taxonomy_class.current = @taxonomy
     session[taxonomy_id] = @taxonomy ? @taxonomy.id : nil
 
-    TopbarSweeper.expire_cache(self)
+    TopbarSweeper.expire_cache
   end
 end

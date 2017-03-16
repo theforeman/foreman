@@ -25,8 +25,6 @@ class ApplicationController < ActionController::Base
 
   attr_reader :original_search_parameter
 
-  cache_sweeper :topbar_sweeper
-
   def welcome
     if (model_of_controller.first.nil? rescue false)
       @welcome = true

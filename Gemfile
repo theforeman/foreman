@@ -29,7 +29,6 @@ gem 'net-ssh'
 gem 'net-ldap', '>= 0.8.0'
 gem 'net-ping', :require => false
 gem 'activerecord-session_store', '>= 0.1.1', '< 2'
-gem 'rails-observers', '~> 0.1'
 gem 'sprockets', '~> 3'
 gem 'sprockets-rails', '>= 2.3.3', '< 3'
 gem 'responders', '~> 2.0'

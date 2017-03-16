@@ -4,6 +4,7 @@ module ApplicationShared
   include Foreman::Controller::MigrationChecker
   include Foreman::Controller::Authentication
   include Foreman::Controller::Session
+  include Foreman::Controller::TopbarSweeper
   include Foreman::ThreadSession::Cleaner
   include FindCommon
 

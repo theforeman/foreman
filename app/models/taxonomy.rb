@@ -3,6 +3,7 @@ class Taxonomy < ActiveRecord::Base
 
   include Authorizable
   include NestedAncestryCommon
+  include TopbarCacheExpiry
 
   serialize :ignore_types, Array
 
@@ -170,8 +171,8 @@ class Taxonomy < ActiveRecord::Base
     end
   end
 
-  def expire_topbar_cache(sweeper)
-    (users+User.only_admin).each { |u| u.expire_topbar_cache(sweeper) }
+  def expire_topbar_cache
+    (users+User.only_admin).each { |u| u.expire_topbar_cache }
   end
 
   def parent_params(include_source = false)

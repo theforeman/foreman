@@ -124,6 +124,13 @@ class ActionDispatch::IntegrationTest
     user = users(user) unless user.is_a?(User)
     create_cookie('test_user', user.login)
   end
+
+  def with_controller_caching(*controller_klasses)
+    controller_klasses.each { |c| c.perform_caching = true }
+    yield
+  ensure
+    controller_klasses.each { |c| c.perform_caching = false }
+  end
 end
 
 class IntegrationTestWithJavascript < ActionDispatch::IntegrationTest

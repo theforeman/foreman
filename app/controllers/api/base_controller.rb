@@ -11,8 +11,6 @@ module Api
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
 
-    cache_sweeper :topbar_sweeper
-
     respond_to :json
 
     after_action :log_response_body
