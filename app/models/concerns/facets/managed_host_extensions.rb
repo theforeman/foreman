@@ -40,15 +40,20 @@ module Facets
           if Foreman.in_rake?("db:migrate")
             # To prevent running into issues in old migrations when new facet is defined but not migrated yet.
             # We define it only when in migration to avoid this unnecessary checks outside for the migration
-            define_method("#{facet_config.name}_with_migration_check") do
-              if facet_config.model.table_exists?
-                send("#{facet_config.name}_without_migration_check")
-              else
-                logger.warn("Table for #{facet_config.name} not defined yet: skipping the facet data")
-                nil
+            @facet_relation_db_migrate_extensions ||= {} # prevent duplicates
+            unless @facet_relation_db_migrate_extensions.key?(facet_config.name)
+              @facet_relation_db_migrate_extensions[facet_config.name] = Module.new do
+                define_method(facet_config.name) do
+                  if facet_config.model.table_exists?
+                    super()
+                  else
+                    logger.warn("Table for #{facet_config.name} not defined yet: skipping the facet data")
+                    nil
+                  end
+                end
               end
+              prepend @facet_relation_db_migrate_extensions[facet_config.name]
             end
-            alias_method_chain facet_config.name, :migration_check unless instance_methods.find_index("#{facet_config.name}_without_migration_check".to_sym)
           end
           alias_method "#{facet_config.name}_attributes", facet_config.name
 

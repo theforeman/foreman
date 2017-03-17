@@ -7,50 +7,15 @@
     removed in Rails 5.2.
   callstack: config/routes.rb:19:in `block in <top (required)>'
 # Caused by turbolinks (classic) dependency
+- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
+    module, you can access the original method using super.
+  callstack: config/environment.rb:5:in `<top (required)>'
 - message: after_filter is deprecated and will be removed in Rails 5.1. Use after_action
     instead.
   callstack: config/environment.rb:5:in `<top (required)>'
 - message: before_filter is deprecated and will be removed in Rails 5.1. Use before_action
     instead.
   callstack: config/environment.rb:5:in `<top (required)>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/controllers/concerns/foreman/controller/smart_proxy_auth.rb:24:in
-    `add_smart_proxy_filters'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/controllers/unattended_controller.rb:12:in `block in <class:UnattendedController>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/concerns/dirty_associations.rb:38:in `block in dirty_has_many_associations'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/concerns/fog_extensions/openstack/server.rb:7:in `block in
-    <module:Server>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/concerns/fog_extensions/ovirt/server.rb:12:in `block in <module:Server>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/concerns/foreman/sti.rb:7:in `block (2 levels) in <module:STI>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/concerns/foreman/sti.rb:9:in `block in <module:STI>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/nic/managed.rb:44:in `<class:Managed>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/subnet.rb:287:in `singleton class'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: app/models/concerns/facets/managed_host_extensions.rb:51:in `block in register_facet_relation'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: config/environment.rb:5:in `<top (required)>'
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: config/initializers/rabl_init.rb:23:in `<class:Engine>'
 
 # Not a "true" deprecation, no action required, it's being used correctly.
 - message: "#table_exists? currently checks both tables and views. This behavior is

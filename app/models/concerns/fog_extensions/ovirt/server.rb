@@ -7,18 +7,8 @@ module FogExtensions
 
       attr_accessor :image_id
 
-      # locked_with_refresh? is only needed until 1989e915ff9487fb5fbfd3dae1964db4c289cb1f is included in fog release (1.23)
-      included do
-        alias_method_chain :locked?, :refresh
-      end
-
       def to_s
         name
-      end
-
-      def locked_with_refresh?
-        @volumes = nil # force reload volumes
-        locked_without_refresh?
       end
 
       def state
