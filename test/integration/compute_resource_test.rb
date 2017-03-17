@@ -13,13 +13,4 @@ class ComputeResourceIntegrationTest < ActionDispatch::IntegrationTest
     assert_submit_button(compute_resources_path)
     assert page.has_link? 'mycompute_old'
   end
-
-  test "compute resource password doesn't deleted while test connection" do
-    visit compute_resources_path
-    click_link "Vmware"
-    click_link "Edit"
-    fill_in "compute_resource_password", :disabled => true, :with => "123456"
-    click_link "Load Datacenters"
-    assert_equal "123456", find_field("compute_resource_password",:disabled => true).value
-  end
 end
