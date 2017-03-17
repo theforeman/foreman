@@ -52,6 +52,11 @@ module Foreman
           end
 
           Rails.logger.debug "Setting current user thread-local variable to " + (o.is_a?(User) ? o.login : 'nil')
+          if o.is_a? User
+            ::Logging.mdc['user'] = o.login
+          else
+            ::Logging.mdc.delete('user')
+          end
           Thread.current[:user] = o
         end
 

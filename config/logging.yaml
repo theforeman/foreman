@@ -55,7 +55,7 @@
   :log_trace: false
   :level: info
   :type: file
-  :pattern: "%d %.8X{session} [%c] [%.1l] %m\n"
+  :pattern: "%d %.8X{session} [user:%X{user}] [%c] [%.1l] %m\n"
 
 :production:
   :filename: "production.log"
