@@ -27,11 +27,12 @@ module Foreman
       def clear_thread
         if Thread.current[:user] && !Rails.env.test?
           Rails.logger.warn("Current user is set, but not expected. Clearing")
-          Thread.current[:user] = nil
+          User.current = nil
         end
         yield
       ensure
-        [:user, :organization, :location].each do |key|
+        User.current = nil
+        [:organization, :location].each do |key|
           Thread.current[key] = nil
         end
       end
