@@ -20,9 +20,9 @@ class ProvisioningTemplate < Template
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
 
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
+  has_many :template_combinations, :dependent => :destroy
   has_many :hostgroups, :through => :template_combinations
   has_many :environments, :through => :template_combinations
-  has_many :template_combinations, :dependent => :destroy
   belongs_to :template_kind
   accepts_nested_attributes_for :template_combinations, :allow_destroy => true,
     :reject_if => ->(tc) { tc[:environment_id].blank? && tc[:hostgroup_id].blank? }
