@@ -47,6 +47,7 @@
 #     [%M] method name where the logging request was issued
 #     [%X{request}] request-ID set in HTTP headers, or random UUID
 #     [%X{session}] session ID from cookies, else the request-ID
+#     [%X{user}] information about current user
 #     [%X{string}] variable set using ::Logging.mdc['string'] =
 
 :default:
@@ -55,7 +56,7 @@
   :log_trace: false
   :level: info
   :type: file
-  :pattern: "%d %.8X{session} [user:%X{user}] [%c] [%.1l] %m\n"
+  :pattern: "%d %.8X{session} %X{user} [%c] [%.1l] %m\n"
 
 :production:
   :filename: "production.log"
