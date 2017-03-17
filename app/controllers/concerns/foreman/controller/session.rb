@@ -17,7 +17,7 @@ module Foreman::Controller::Session
   def backup_session_content
     save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri', 'sso_method').symbolize_keys
     yield if block_given?
-    session.merge!(save_items)
+    session.update(save_items)
   end
 
   def update_activity_time

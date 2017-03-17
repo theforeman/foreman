@@ -129,9 +129,11 @@ class TestableResourcesControllerTest < ActionController::TestCase
       it "retains taxonomy session attributes in new session" do
         get :index, {}, {:location_id => taxonomies(:location1).id,
                          :organization_id => taxonomies(:organization1).id,
+                         :sso_method => 'SSO::Apache',
                          :foo => 'bar'}
         assert_equal taxonomies(:location1).id, session[:location_id]
         assert_equal taxonomies(:organization1).id, session[:organization_id]
+        assert_equal 'SSO::Apache', session[:sso_method]
         refute session[:foo], "session contains 'foo', but should have been reset"
       end
 
