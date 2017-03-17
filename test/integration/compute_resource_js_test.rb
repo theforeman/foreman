@@ -35,4 +35,14 @@ class ComputeResourceJSIntegrationTest < IntegrationTestWithJavascript
   test "add new compute attributes two pane" do
     check_two_pane(compute_resources(:ec2), compute_profiles(:three))
   end
+
+  test "compute resource password isn't deleted when testing connection" do
+    visit compute_resources_path
+    click_link "Vmware"
+    click_link "Edit"
+    find("#disable-pass-btn").click
+    fill_in "compute_resource_password", :with => "123456"
+    click_link "Test Connection"
+    assert_equal "123456", find_field("compute_resource_password").value
+  end
 end
