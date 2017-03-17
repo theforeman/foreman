@@ -34,13 +34,13 @@ class User < ApplicationRecord
   has_many :usergroup_member,  :dependent => :destroy,   :as => :member
   has_many :user_roles,        :dependent => :destroy, :as => :owner
   has_many :cached_user_roles, :dependent => :destroy
+  has_many :cached_usergroup_members
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
   has_many :cached_roles,      -> { distinct }, :through => :cached_user_roles, :source => :role
   has_many :usergroups,        :through => :usergroup_member, :dependent => :destroy
   has_many :roles,             :through => :user_roles,       :dependent => :destroy
   has_many :filters,           :through => :cached_roles
   has_many :permissions,       :through => :filters
-  has_many :cached_usergroup_members
   has_many :widgets, :dependent => :destroy
   has_many :ssh_keys, :dependent => :destroy
 
