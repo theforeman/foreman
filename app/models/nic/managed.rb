@@ -31,14 +31,13 @@ module Nic
 
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes
-    def queue_with_host
+    def queue
       if host && host.respond_to?(:queue)
         host.queue
       else
-        queue_without_host
+        super
       end
     end
-    alias_method_chain :queue, :host
 
     def progress_report_id
       if host && host.respond_to?(:progress_report_id)

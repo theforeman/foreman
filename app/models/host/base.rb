@@ -1,6 +1,6 @@
 module Host
   class Base < ApplicationRecord
-    include Foreman::STI
+    prepend Foreman::STI
     include Authorizable
     include Parameterizable::ByName
     include DestroyFlag

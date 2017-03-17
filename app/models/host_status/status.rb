@@ -1,6 +1,6 @@
 module HostStatus
   class Status < ApplicationRecord
-    include Foreman::STI
+    prepend Foreman::STI
 
     self.table_name = 'host_status'
 

@@ -6,8 +6,10 @@ module Rabl
     attr_accessor :use_controller_name_as_json_root
     attr_accessor :json_root_default_name
   end
+end
 
-  class Engine
+module Foreman
+  module RablEngineExt
     def api_version
       respond_to?(:response) ? response.headers["Foreman_api_version"] : '1'
     end
@@ -17,10 +19,9 @@ module Rabl
       {}
     end
 
-    def collection_with_defaults(data, options = default_options)
-      collection_without_defaults(data, options)
+    def collection(data, options = default_options)
+      super(data, options)
     end
-    alias_method_chain :collection, :defaults
 
     # extending this helper defined in module Rabl::Helpers allows users to
     # overwrite the object root name in show rabl views.  Two options:
@@ -36,6 +37,7 @@ module Rabl
     end
   end
 end
+Rabl::Engine.send(:prepend, Foreman::RablEngineExt)
 
 Rabl.configure do |config|
   # Commented as these are defaults

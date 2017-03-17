@@ -7,7 +7,7 @@ class Subnet < ApplicationRecord
   BOOT_MODES = {:static => N_('Static'), :dhcp => N_('DHCP')}
 
   include Authorizable
-  include Foreman::STI
+  prepend Foreman::STI
   extend FriendlyId
   friendly_id :name
   include Taxonomix
@@ -279,12 +279,11 @@ class Subnet < ApplicationRecord
     end
 
     # This casts Subnet to Subnet::Ipv4 if no type is set
-    def new_with_default_type(*attributes, &block)
+    def new(*attributes, &block)
       type = attributes.first.with_indifferent_access.delete(:type) if attributes.first.is_a?(Hash)
-      return Subnet::Ipv4.new_without_cast(*attributes, &block) if self == Subnet && type.nil?
-      new_without_default_type(*attributes, &block)
+      return Subnet::Ipv4.new(*attributes, &block) if self == Subnet && type.nil?
+      super
     end
-    alias_method_chain :new, :default_type
 
     # allows to create a specific subnet class based on the network_type.
     # network_type is more user friendly than the class names

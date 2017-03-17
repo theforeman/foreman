@@ -2,7 +2,7 @@
 # This class is the both parent
 module Nic
   class Base < ApplicationRecord
-    include Foreman::STI
+    prepend Foreman::STI
     include Encryptable
     encrypts :password
 
