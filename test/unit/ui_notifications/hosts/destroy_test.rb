@@ -21,6 +21,11 @@ class UINotificationsHostsDestroyTest < ActiveSupport::TestCase
     assert_equal 1, blueprint.notifications.count
   end
 
+  test 'the result of deliver! method should not prevent the deletion of the host' do
+    ::UINotifications::Hosts::Destroy.stubs(:deliver!).returns(false)
+    assert host.destroy
+  end
+
   private
 
   def host

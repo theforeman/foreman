@@ -8,10 +8,12 @@ module Hostext
 
     def provision_notification
       ::UINotifications::Hosts::BuildCompleted.deliver!(self) if just_provisioned?
+      true
     end
 
     def remove_ui_notifications
       ::UINotifications::Hosts::Destroy.deliver!(self)
+      true
     end
 
     def just_provisioned?
