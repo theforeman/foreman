@@ -24,10 +24,6 @@
     background: linear-gradient(to bottom, $hover_gradient_start, $hover_gradient_end);
   }
 
-  .navbar-header {
-    float: none;
-  }
-
   .org-switcher > a {
     font-size: 14px;
     border-right: solid 1px $border_color;
@@ -38,25 +34,50 @@
   }
 }
 
-.navbar-brand {
+.user-dropdown-container {
+  float: right;
+  height: 38px;
   display: flex;
-  padding: 0;
-  height: inherit;
-  img {
-    height: 34px;
-    margin-bottom: -10px;
+  align-items: center;
+}
+.navbar-left-side {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .org-switcher {
+    > a {
+      color: #fff;
+      font-size: 11px;
+    }
   }
 
-  a {
-    color: white;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 16px;
+  li {
+    list-style-type: none;
 
-    &:hover {
-      color: white;
-      text-decoration: none;
+  }
+  .logo-container {
+    display: flex;
+    padding: 0;
+    width: 200px;
+    align-items: center;
+    list-style-type: none;
+    padding-left: 20px;
+    img {
+      height: 34px;
     }
+
+    a {
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 16px;
+
+      &:hover {
+        color: white;
+        text-decoration: none;
+      }
+    }
+
   }
 
 }
@@ -80,9 +101,17 @@
   background-color: $primary_color;
   border-color: darken($primary_color, 5%);
   min-height: 0;
-  z-index: 1;
-  padding: 0 40px;
-
+  height: 38px;
+  z-index: 1000;
+  padding: 20px 0px;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:before,
+  &:after {
+    display: none;
+  }
   .navbar-brand a,
   .navbar-right a {
     vertical-align: middle;
@@ -108,8 +137,6 @@
 }
 
 .navbar-inner {
-  border-bottom: none;
-  border-top: 1px solid $border_color;
   clear: both;
   left: 0;
   min-height: 40px;
@@ -117,9 +144,6 @@
   right: 0;
   top: 0;
   padding: 0 40px;
-
-  background: linear-gradient(to bottom, $primary_gradient_start, $primary_gradient_end);
-
   .menu_tab_dropdown > a {
     padding-top: 10px;
     padding-bottom: 9px;

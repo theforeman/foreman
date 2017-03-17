@@ -1,17 +1,24 @@
 require 'integration_test_helper'
 
 class TopBarIntegrationTest < ActionDispatch::IntegrationTest
+  def in_menu
+    within("div#vertical-navigation-container") do
+      yield
+    end
+  end
+
   def setup
     FactoryGirl.create(:fact_value, :value => '2.6.9',:host => FactoryGirl.create(:host),
                        :fact_name => FactoryGirl.create(:fact_name))
   end
-
+  
   test "top bar links" do
     visit root_path
     within("div.navbar-outer") do
       assert page.has_link?("Foreman", :href => "/")
     end
-    within("div.navbar-inner") do
+
+    in_menu do
       assert page.has_link?("Dashboard", :href => "/")
       assert page.has_link?("All hosts", :href => "/hosts")
       assert page.has_link?("Config management", :href => "/config_reports?search=eventful+%3D+true")
@@ -24,7 +31,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "Dashboard link" do
     visit root_path
-    within("div.navbar-inner") do
+    in_menu do
       click_link("Dashboard")
     end
     assert page.has_selector?('h1', :text => "Overview")
@@ -32,7 +39,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "Hosts link" do
     visit root_path
-    within("div.navbar-inner") do
+    in_menu do
       click_link("All hosts")
     end
     assert page.has_selector?('h1', :text => "Hosts")
@@ -40,7 +47,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "Facts link" do
     visit root_path
-    within("div.navbar-inner") do
+    in_menu do
       click_link("Facts")
     end
     assert page.has_selector?('h1', :text => "Fact Values")
@@ -48,7 +55,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "Audits link" do
     visit root_path
-    within("div.navbar-inner") do
+    in_menu do
       click_link("Audits")
     end
     assert page.has_selector?('h1', :text => "Audits")
@@ -56,7 +63,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "Statistics link" do
     visit root_path
-    within("div.navbar-inner") do
+    in_menu do
       click_link("Statistics")
     end
     assert page.has_selector?('h1', :text => "Statistics")
@@ -64,7 +71,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "Trends link" do
     visit root_path
-    within("div.navbar-inner") do
+    in_menu do
       click_link("Trends")
     end
     assert page.has_selector?('h1', :text => "Trends")

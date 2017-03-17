@@ -1,9 +1,13 @@
 module HomeHelper
-  def render_menu(menu_name)
+  def render_menu(menu_name, partial_name = "home/submenu")
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
-      render "home/submenu", :menu_items => items, :menu_title => _(menu.caption), :menu_name => menu.name if items.any?
+      render partial_name, :menu_items => items, :menu_title => _(menu.caption), :menu_name => menu.name if items.any?
     end.join(' ').html_safe
+  end
+
+  def render_vertical_menu(menu_name)
+    return render_menu(menu_name, "home/vertical_menu")
   end
 
   def authorized_menu_actions(choices)

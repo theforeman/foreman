@@ -11,7 +11,7 @@
 @import "patternfly";
 @import "editable/bootstrap-editable";
 @import "/*";
-
+@import "colors";
 html {
   height: 100%;
   overflow: auto;
@@ -19,6 +19,44 @@ html {
 
 body {
   height: 100%;
+  overflow: hidden;
+  #mainContainer {
+    height: 100%;
+    .nav-pf-vertical {
+      float: left;
+      width: 200px;
+      position: static;
+      display: flex;
+      height: 100%;
+      .list-group {
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: inherit;
+        flex: 1;
+        li.list-group-item {
+          border-width: 0px 0px 1px 0px;
+          margin-bottom: 1px;
+          z-index: inherit;
+          a {
+            margin-left: 3px;
+          }
+          a,
+          a:after {
+            color: #efefef;
+            &:hover {
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+    #main {
+      overflow: auto;
+      height: 100%;
+      flex: 1;
+      z-index: 1020;
+    }
+  }
 }
 
 .base li {
@@ -26,23 +64,32 @@ body {
   list-style: none;
 }
 
-#hostclasses, .classes li, .classes li a {
+#hostclasses,
+.classes li,
+.classes li a {
   list-style-type: none;
   margin-right: 0.5em;
   text-decoration: none;
 }
 
-.classes > ul {
+.classes>ul {
   margin-bottom: 0;
   margin-left: -42px;
 }
 
-.puppetclass, .puppetclass li, .selected_puppetclass, .selected_puppetclass li,
-.config_group, .config_group li, .selected_config_group, .selected_config_group li {
+.puppetclass,
+.puppetclass li,
+.selected_puppetclass,
+.selected_puppetclass li,
+.config_group,
+.config_group li,
+.selected_config_group,
+.selected_config_group li {
   a {
     color: #333;
   }
-  a.glyphicon-minus-sign, a.glyphicon-plus-sign {
+  a.glyphicon-minus-sign,
+  a.glyphicon-plus-sign {
     float: right;
     margin-right: 10px;
   }
@@ -62,27 +109,37 @@ a.config_group_name {
   padding: 0 0 8px;
 }
 
+
 /* text align left */
+
 .la {
   text-align: left;
 }
 
+
 /* text align right */
+
 .ra {
   text-align: right;
 }
 
+
 /* text align center */
+
 .ca {
   text-align: center;
 }
 
+
 /* float  right */
+
 .fr {
   float: right;
 }
 
+
 /* float left */
+
 .fl {
   float: left;
 }
@@ -91,7 +148,6 @@ a.config_group_name {
   .modal-dialog {
     width: 850px;
   }
-
   .modal-body {
     overflow-y: auto;
     overflow-x: hidden;
@@ -182,7 +238,7 @@ select {
   float: right;
 }
 
-.tabs-left .nav-tabs > li > a.btn:hover {
+.tabs-left .nav-tabs>li>a.btn:hover {
   background: inherit;
   background-color: #408140;
 }
@@ -198,19 +254,22 @@ select {
   margin-top: 9px;
 }
 
-#title_action{
+#title_action {
   padding-bottom: 12px;
 }
 
-.grey, .gray {
+.grey,
+.gray {
   color: #808080 !important;
 }
 
-.lightgrey, .lightgray {
+.lightgrey,
+.lightgray {
   color: #999 !important;
 }
 
-.darkgrey, .darkgray {
+.darkgrey,
+.darkgray {
   color: #606060 !important;
 }
 
@@ -218,15 +277,15 @@ select {
   color: #000 !important;
 }
 
-.form-group{
-  td{
+.form-group {
+  td {
     vertical-align: top
   }
 }
 
-.form-group > div.control-label{
+.form-group>div.control-label {
   text-align: left;
-  > a {
+  >a {
     padding-left: 10px;
   }
 }
@@ -244,12 +303,10 @@ select {
 table {
   margin-bottom: 6px !important;
   clear: both;
-
   tr td:last-child {
     .btn {
       float: none;
     }
-
     .btn-group {
       white-space: nowrap;
     }
@@ -296,16 +353,15 @@ table {
   text-overflow: ellipsis;
 }
 
-.fact-col{
+.fact-col {
   white-space: normal;
   max-width: 500px;
 }
 
-.fact-origin{
+.fact-origin {
   width: 60px;
   text-align: center;
-
-  img{
+  img {
     width: 14px;
   }
 }
@@ -316,7 +372,8 @@ table {
   right: 30px;
 }
 
-.config_group, .selected_config_group {
+.config_group,
+.selected_config_group {
   min-height: 30px;
 }
 
@@ -345,57 +402,46 @@ table {
 }
 
 #interfaceList.table {
-
   border-collapse: separate;
   border-width: 1px 0 1px 0;
-
   tr {
     th:first-child,
     td:first-child {
       border-width: 1px 1px 0 1px;
     }
-
-    th, td {
+    th,
+    td {
       border-width: 1px 1px 0 0;
     }
   }
-
   tr.has-error {
     td:first-child {
       border-left: 1px solid #a94442;
     }
-
     td:last-child {
       border-right: 1px solid #a94442;
     }
-
     td {
       color: #333333;
       border-top: 1px solid #a94442;
       border-bottom: 1px solid #a94442;
     }
   }
-
   .primary-flag,
   .provision-flag {
-
     cursor: pointer;
     color: #bbb;
     margin: 2px;
-
     &:hover {
-     color: #999;
+      color: #999;
     }
-
     &.active {
       color: black;
       &:hover {
         color: #428bca;
       }
     }
-
   }
-
 }
 
 .additional-info {
@@ -403,24 +449,26 @@ table {
 }
 
 .autocomplete-input {
-  display:inline-block !important;
+  display: inline-block !important;
 }
 
 .glyphicon.nic-flag {
   margin: 2px;
 }
 
-.lookup-keys-container{
-  li .close{
+.lookup-keys-container {
+  li .close {
     display: none;
   }
-  li.active .close{
+  li.active .close {
     display: block;
   }
 }
 
 .toggle-hidden-value {
-  span {display: none;}
+  span {
+    display: none;
+  }
   &.unhide span {
     display: inline;
   }
@@ -437,7 +485,8 @@ table {
   }
 }
 
-.puppetclass_group, .config_group_group {
+.puppetclass_group,
+.config_group_group {
   li {
     a {
       i.glyphicon {
@@ -460,13 +509,13 @@ table {
   margin-bottom: 25px;
 }
 
-.fullscreen{
+.fullscreen {
   position: fixed !important;
   height: 100vh !important;
   width: 100vw !important;
 }
 
-.select2-arrow > b{
+.select2-arrow>b {
   margin: -2px 0 0 0;
 }
 
@@ -474,40 +523,48 @@ table {
   color: white;
 }
 
-.select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices .select2-chosen{
+.select2-container .select2-choices .select2-search-field input,
+.select2-container .select2-choice,
+.select2-container .select2-choices .select2-chosen {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   line-height: 2.0;
 }
 
-.navbar-editor > span > .select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices .select2-chosen {
+.navbar-editor>span>.select2-container .select2-choices .select2-search-field input,
+.select2-container .select2-choice,
+.select2-container .select2-choices .select2-chosen {
   height: 24px;
   .select2-search-choice-close {
     top: 6px;
   }
 }
 
-.select2-chosen, .select2-choice > span:first-child, .select2-container .select2-choices .select2-search-field input{
+.select2-chosen,
+.select2-choice>span:first-child,
+.select2-container .select2-choices .select2-search-field input {
   padding: 0 0;
 }
 
-.select2-chosen, .select2-choice > span:first-child, .select2-container .select2-choices .select2-search-field input{
+.select2-chosen,
+.select2-choice>span:first-child,
+.select2-container .select2-choices .select2-search-field input {
   padding-left: 6px;
 }
 
 .expander {
   cursor: pointer;
   *cursor: hand;
-  .caret{
+  .caret {
     margin-right: 5px;
     transform: rotate(0deg);
     transition-duration: 0.8s;
   }
-  &.collapsed .caret{
+  &.collapsed .caret {
     transform: rotate(-90deg);
   }
 }
 
-.error-message{
+.error-message {
   padding-right: 10px;
 }
 
@@ -539,11 +596,11 @@ table {
   }
 }
 
-.spinner-placeholder{
+.spinner-placeholder {
   position: absolute;
 }
 
-.spinner-label{
+.spinner-label {
   display: block;
   float: left;
 }
@@ -566,7 +623,7 @@ table {
 
 @media screen and (min-width: 768px) {
   .modal-big {
-      width: 70%;
+    width: 70%;
   }
 }
 
