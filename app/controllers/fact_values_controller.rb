@@ -1,10 +1,11 @@
 class FactValuesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::CsvResponder
 
   before_action :setup_search_options, :only => :index
 
   def index
-    base = resource_base.no_timestamp_facts
+    base = resource_base
     begin
       values = base.my_facts.search_for(params[:search], :order => params[:order])
     rescue => e
@@ -24,12 +25,30 @@ class FactValuesController < ApplicationController
       values = values.root_only
     end
 
-    @fact_values = values.no_timestamp_facts.required_fields.paginate :page => params[:page]
+    @fact_values = values.no_timestamp_facts
+
+    respond_to do |format|
+      format.html do
+        @fact_values = @fact_values.preload(related_tables).paginate :page => params[:page]
+        render :index
+      end
+      format.csv do
+        csv_response(@fact_values.joins(related_tables).includes(related_tables))
+      end
+    end
+  end
+
+  def csv_columns
+    [:host, :fact_name, :value, :origin, :updated_at]
   end
 
   private
 
   def controller_permission
     'facts'
+  end
+
+  def related_tables
+    [:host, :fact_name]
   end
 end

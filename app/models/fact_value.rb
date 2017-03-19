@@ -17,10 +17,10 @@ class FactValue < ActiveRecord::Base
   scoped_search :relation => :fact_name, :on => :short_name, :complete_value => true, :aliases => ["fact_short_name"]
 
   scope :no_timestamp_facts, lambda {
-    eager_load(:fact_name).where("fact_names.name <> ?",:_timestamp)
+    joins(:fact_name).where("fact_names.name <> ?",:_timestamp)
   }
   scope :timestamp_facts, lambda {
-    eager_load(:fact_name).where("fact_names.name = ?",:_timestamp)
+    joins(:fact_name).where("fact_names.name = ?",:_timestamp)
   }
   scope :my_facts, lambda {
     if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?
@@ -28,10 +28,9 @@ class FactValue < ActiveRecord::Base
     end
   }
 
-  scope :required_fields, -> { includes(:host, :fact_name) }
   scope :facts_counter, ->(value, name_id) { where(:value => value, :fact_name_id => name_id) }
   scope :with_fact_parent_id, ->(find_ids) { joins(:fact_name).merge FactName.with_parent_id(find_ids) }
-  scope :with_roots, -> { includes(:fact_name) }
+  scope :with_roots, -> { joins(:fact_name) }
   scope :root_only, -> { with_roots.where(:fact_names => {:ancestry => nil}) }
 
   validates :fact_name_id, :uniqueness => { :scope => :host_id }

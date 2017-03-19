@@ -5,8 +5,10 @@ module CsvExporter
     Enumerator.new do |csv|
       csv << csv_header(columns)
 
-      resources.reorder(nil).limit(nil).find_each do |obj|
-        csv << CSV.generate_line(columns.map{|c| obj.send(c)})
+      resources.uncached do
+        resources.reorder(nil).limit(nil).find_each do |obj|
+          csv << CSV.generate_line(columns.map{|c| obj.send(c)})
+        end
       end
     end
   end
