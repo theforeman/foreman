@@ -12,6 +12,13 @@ class FactValuesControllerTest < ActionController::TestCase
     assert_not_nil :fact_values
   end
 
+  test 'csv export works' do
+    FactoryGirl.create(:fact_value)
+    get :index, {format: :csv}, set_session_user
+    assert_response :success
+    assert_equal 2, response.body.lines.size
+  end
+
   test 'user with viewer rights should succeed in viewing facts' do
     as_admin do
       users(:one).roles = [Role.default, Role.find_by_name('Viewer')]
