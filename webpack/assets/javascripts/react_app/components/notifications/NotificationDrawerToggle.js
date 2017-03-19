@@ -57,7 +57,9 @@ class NotificationDrawerToggle extends Component {
   render() {
     return (
       <a className="nav-item-iconic drawer-pf-trigger-icon" onClick={this.onClick}>
-        <span className={'fa ' + this.iconType()} title={__('Notifications')}></span>
+        <span className={'fa ' + this.iconType()}
+              data-placement="bottom"
+              title={__('Notifications')}></span>
       </a>
     );
   }
