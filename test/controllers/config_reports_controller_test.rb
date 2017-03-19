@@ -12,6 +12,13 @@ class ConfigReportsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test 'csv export works' do
+    FactoryGirl.create(:config_report)
+    get :index, {format: :csv}, set_session_user
+    assert_response :success
+    assert_equal 2, response.body.lines.size
+  end
+
   def test_show
     report = FactoryGirl.create(:config_report)
     get :show, {:id => report.id}, set_session_user

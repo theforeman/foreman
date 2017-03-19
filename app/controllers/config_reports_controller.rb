@@ -1,10 +1,20 @@
 class ConfigReportsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
+  include Foreman::Controller::CsvResponder
 
   before_action :setup_search_options, :only => :index
 
   def index
-    @config_reports = resource_base_search_and_page(:host)
+    respond_to do |format|
+      format.html do
+        @config_reports = resource_base_search_and_page(:host)
+        render :index
+      end
+      format.csv do
+        @config_reports = resource_base_with_search.preload(:host)
+        csv_response(@config_reports)
+      end
+    end
   end
 
   def show
@@ -27,6 +37,10 @@ class ConfigReportsController < ApplicationController
     else
       process_error
     end
+  end
+
+  def csv_columns
+    [:host, :reported_at, :applied, :restarted, :failed, :failed_restarts, :skipped, :pending]
   end
 
   private
