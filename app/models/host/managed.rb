@@ -812,7 +812,7 @@ class Host::Managed < Host::Base
     if dups.present?
       dups.last.first.errors.add(:name, :taken)
       self.errors.add :interfaces, _('Some interfaces are invalid')
-      return false
+      throw :abort
     end
   end
 

@@ -14,8 +14,3 @@
 # Used by BookmarkControllerValidator and inside shoulda-matchers
 - message: "#tables currently returns both tables and views. This behavior is deprecated
     and will be changed with Rails 5.1 to only return tables. Use #data_sources instead."
-
-# Incompatible with Rails 4.2
-- message: Returning `false` in Active Record and Active Model callbacks will not
-    implicitly halt a callback chain in Rails 5.1. To explicitly halt the callback
-    chain, please use `throw :abort` instead.

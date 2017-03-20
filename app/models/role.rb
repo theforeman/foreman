@@ -289,8 +289,10 @@ class Role < ApplicationRecord
   end
 
   def check_deletable
-    errors.add(:base, _("Cannot delete built-in role")) if builtin?
-    errors.empty?
+    if builtin?
+      errors.add(:base, _("Cannot delete built-in role"))
+      throw :abort
+    end
   end
 
   def not_locked

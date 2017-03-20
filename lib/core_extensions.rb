@@ -53,11 +53,9 @@ class ActiveRecord::Base
           record.errors.add :base, error_message % { :record => record, :what => what }
         end
       end
-      if record.errors.empty?
-        true
-      else
+      if record.errors.present?
         logger.error "You may not destroy #{record.to_label} as it is in use!"
-        false
+        throw :abort
       end
     end
   end
