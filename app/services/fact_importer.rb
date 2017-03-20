@@ -61,7 +61,7 @@ class FactImporter
 
   def delete_removed_facts
     ActiveSupport::Notifications.instrument "fact_importer_deleted.foreman", :host_id => host.id, :host_name => host.name, :facts => facts, :deleted => [] do |payload|
-      delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class).where.not('fact_names.name' => facts.keys)
+      delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class.name).where.not('fact_names.name' => facts.keys)
       if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
         # MySQL does not handle delete with inner query correctly (slow) so we will do two queries on purpose
         payload[:count] = @counters[:deleted] = FactValue.delete_all(:id => delete_query.pluck(:id))
@@ -84,7 +84,7 @@ class FactImporter
 
   # value is used in structured importer to identify leaf nodes
   def find_or_create_fact_name(name, value = nil)
-    fact_name_class.where(:name => name, :type => fact_name_class).first_or_create!
+    fact_name_class.where(:name => name, :type => fact_name_class.name).first_or_create!
   end
 
   def add_new_facts
