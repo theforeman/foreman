@@ -1,12 +1,5 @@
 ---
 # Pending fixes, compatible with Rails 4.2 and 5.0
-- message: Accessing mime types via constants is deprecated. Please change `Mime::JSON`
-    to `Mime[:json]`.
-  callstack: test/controllers/notification_recipients_controller_test.rb
-- message: Accessing mime types via constants is deprecated. Please change `Mime::TEXT`
-    to `Mime[:text]`.
-  callstack: app/controllers/application_controller.rb:87:in `block (2 levels) in
-    require_mail'
 - message: ActiveModel::Errors#[]= is deprecated and will be removed in Rails 5.1.
     Use model.errors.add(:name, "has already been taken") instead.
   callstack: app/models/concerns/parameter_validators.rb:15:in `block in validate_parameters_names'

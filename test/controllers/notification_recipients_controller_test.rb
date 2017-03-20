@@ -3,8 +3,8 @@ require 'notifications_test_helper'
 
 class NotificationRecipientsControllerTest < ActionController::TestCase
   setup do
-    @request.headers['Accept'] = Mime::JSON
-    @request.headers['Content-Type'] = Mime::JSON.to_s
+    @request.headers['Accept'] = Mime[:json]
+    @request.headers['Content-Type'] = Mime[:json].to_s
   end
 
   test "should get index" do
