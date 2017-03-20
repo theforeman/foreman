@@ -68,24 +68,6 @@
     this method you may be creating a security vulnerability in your app that can
     be exploited. Instead, consider using one of these documented methods which are'
   callstack: app/models/report.rb:50:in `metrics'
-- message: Passing a class as a value in an Active Record query is deprecated and
-    will be removed. Pass a string instead.
-  callstack: app/controllers/templates_controller.rb:124:in `load_history'
-- message: Passing a class as a value in an Active Record query is deprecated and
-    will be removed. Pass a string instead.
-  callstack: app/models/host/base.rb:186:in `set_interfaces'
-- message: Passing a class as a value in an Active Record query is deprecated and
-    will be removed. Pass a string instead.
-  callstack: app/services/fact_importer.rb:65:in `block in delete_removed_facts'
-- message: Passing a class as a value in an Active Record query is deprecated and
-    will be removed. Pass a string instead.
-  callstack: app/services/fact_importer.rb:81:in `find_or_create_fact_name'
-- message: Passing a class as a value in an Active Record query is deprecated and
-    will be removed. Pass a string instead.
-  callstack: test/unit/tasks/seeds_test.rb:19:in `seed'
-- message: Passing a class as a value in an Active Record query is deprecated and
-    will be removed. Pass a string instead.
-  callstack: test/unit/seed_helper_test.rb
 - message: Passing an argument to force an association to reload is now deprecated
     and will be removed in Rails 5.1. Please call `reload` on the result collection
     proxy instead.

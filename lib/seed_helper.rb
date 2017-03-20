@@ -7,7 +7,7 @@ class SeedHelper
     # additional attributes may be specified for narrowing the scope but note
     # that it can be slow if there's high number of audits for the specified type
     def audit_modified?(type, name, attributes = {})
-      audits = Audit.where(:auditable_type => type.base_class, :auditable_name => name)
+      audits = Audit.where(:auditable_type => type.base_class.name, :auditable_name => name)
       audits = audits_from_attributes(audits, attributes) if attributes.present?
 
       return true if audits.where(:action => :destroy).present?
