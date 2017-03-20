@@ -64,6 +64,6 @@ class Medium < ApplicationRecord
       self.errors.add :base, _("%{record} is used by host in build mode %{what}") % { :record => self.name, :what => host.name }
     end
     Rails.logger.error "You may not destroy #{self.to_label} as it is used by hosts in build mode!"
-    false
+    throw :abort
   end
 end

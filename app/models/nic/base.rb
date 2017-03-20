@@ -238,7 +238,7 @@ module Nic
           self.errors.add :provision, _("can't delete provision interface of managed host")
         end
       end
-      !(self.errors[:primary].present? || self.errors[:provision].present?)
+      throw :abort if self.errors[:primary].present? || self.errors[:provision].present?
     end
 
     def exclusive_primary_interface

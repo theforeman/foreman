@@ -123,7 +123,7 @@ class Usergroup < ApplicationRecord
     if admin? && other_admins.empty?
       errors.add :base, _("Can't delete the last admin user group")
       logger.warn "Unable to delete the last admin user group"
-      false
+      throw :abort
     end
   end
 
