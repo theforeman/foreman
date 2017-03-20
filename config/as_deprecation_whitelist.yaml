@@ -51,10 +51,6 @@
     this method you may be creating a security vulnerability in your app that can
     be exploited. Instead, consider using one of these documented methods which are'
   callstack: app/models/report.rb:50:in `metrics'
-- message: Passing an argument to force an association to reload is now deprecated
-    and will be removed in Rails 5.1. Please call `reload` on the result collection
-    proxy instead.
-  callstack: test/models/host_test.rb
 # http://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.
