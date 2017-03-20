@@ -27,7 +27,7 @@ class NotificationRecipientsController < Api::V2::BaseController
     logger.debug("updated #{count} notification recipents as seen for group #{params[:group]}")
     UINotifications::CacheHandler.new(User.current.id).clear unless count.zero?
 
-    head status: (count.zero? ? :not_modified : :ok)
+    head (count.zero? ? :not_modified : :ok)
   end
 
   private

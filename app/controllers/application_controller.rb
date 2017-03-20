@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
     logger.debug "not found: #{exception}" if exception
     respond_to do |format|
       format.html { render "common/404", :status => :not_found }
-      format.any { head :status => :not_found}
+      format.any { head :not_found}
     end
     true
   end
@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
     logger.debug "service unavailable: #{exception}" if exception
     respond_to do |format|
       format.html { render "common/503", :status => :service_unavailable, :locals => { :exception => exception } }
-      format.any { head :status => :service_unavailable }
+      format.any { head :service_unavailable }
     end
     true
   end
