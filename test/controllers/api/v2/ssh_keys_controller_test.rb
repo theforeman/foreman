@@ -12,7 +12,7 @@ class Api::V2::SshKeysControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { :user_id => @user.id }
+    get :index, params: { :user_id => @user.id }
     assert_response :success
     assert_not_nil assigns(:ssh_keys)
     ssh_keys = ActiveSupport::JSON.decode(@response.body)
@@ -20,7 +20,7 @@ class Api::V2::SshKeysControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => @ssh_key.to_param, :user_id => @user.id }
+    get :show, params: { :id => @ssh_key.to_param, :user_id => @user.id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -28,21 +28,21 @@ class Api::V2::SshKeysControllerTest < ActionController::TestCase
 
   test "should create ssh_key" do
     assert_difference('SshKey.count') do
-      post :create, { :ssh_key => valid_attrs, :user_id => @user.id }
+      post :create, params: { :ssh_key => valid_attrs, :user_id => @user.id }
     end
     assert_response :created
   end
 
   test "should created ssh_key with unwrapped 'layout'" do
     assert_difference('SshKey.count') do
-      post :create, valid_attrs.merge(:user_id => @user.id)
+      post :create, params: valid_attrs.merge(:user_id => @user.id)
     end
     assert_response :created
   end
 
   test "should destroy ssh_key" do
     assert_difference('SshKey.count', -1) do
-      delete :destroy, { :id => @ssh_key.to_param, :user_id => @user.id }
+      delete :destroy, params: { :id => @ssh_key.to_param, :user_id => @user.id }
     end
     assert_response :success
   end

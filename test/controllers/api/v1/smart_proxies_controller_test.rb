@@ -10,7 +10,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     assert_not_nil assigns(:smart_proxies)
     smart_proxies = ActiveSupport::JSON.decode(@response.body)
@@ -19,7 +19,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
 
   test "should get index filtered by type" do
     as_user :admin do
-      get :index, { :type => 'TFTP' }
+      get :index, params: { :type => 'TFTP' }
     end
     assert_response :success
     assert_not_nil assigns(:smart_proxies)
@@ -33,13 +33,13 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
 
   test "index should fail with invalid type filter" do
     as_user :admin do
-      get :index, { :type => 'unknown_type' }
+      get :index, params: { :type => 'unknown_type' }
     end
     assert_response :error
   end
 
   test "should show individual record" do
-    get :show, { :id => smart_proxies(:one).to_param }
+    get :show, params: { :id => smart_proxies(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not show_response.empty?
@@ -47,19 +47,19 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
 
   test "should create smart_proxy" do
     assert_difference('SmartProxy.unscoped.count') do
-      post :create, { :smart_proxy => valid_attrs }
+      post :create, params: { :smart_proxy => valid_attrs }
     end
     assert_response :success
   end
 
   test "should update smart_proxy" do
-    put :update, { :id => smart_proxies(:one).to_param, :smart_proxy => valid_attrs }
+    put :update, params: { :id => smart_proxies(:one).to_param, :smart_proxy => valid_attrs }
     assert_response :success
   end
 
   test "should destroy smart_proxy" do
     assert_difference('SmartProxy.unscoped.count', -1) do
-      delete :destroy, { :id => smart_proxies(:four).to_param }
+      delete :destroy, params: { :id => smart_proxies(:four).to_param }
     end
     assert_response :success
   end
@@ -77,7 +77,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
   test "should refresh smart proxy features" do
     proxy = smart_proxies(:one)
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
-    post :refresh, {:id => proxy}
+    post :refresh, params: { :id => proxy }
     assert_response :success
   end
 
@@ -87,7 +87,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     errors.add :base, "Unable to communicate with the proxy: it's down"
     SmartProxy.any_instance.stubs(:errors).returns(errors)
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
-    post :refresh, {:id => proxy}, set_session_user
+    post :refresh, params: { :id => proxy }, session: set_session_user
     assert_response :unprocessable_entity
   end
 
@@ -102,7 +102,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
       Environment.destroy_all
     end
     assert_difference('Environment.unscoped.count', 2) do
-      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+      post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id }, session: set_session_user
     end
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
@@ -119,8 +119,8 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
         Environment.destroy_all
         assert_difference('Puppetclass.unscoped.count', 1) do
           post :import_puppetclasses,
-               { :id => smart_proxies(:puppetmaster).id }.merge(dryrun_param),
-               set_session_user
+               params: { :id => smart_proxies(:puppetmaster).id }.merge(dryrun_param),
+               session: set_session_user
         end
       end
       assert_response :success
@@ -135,7 +135,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
       Puppetclass.destroy_all
       Environment.destroy_all
       assert_difference('Puppetclass.unscoped.count', 0) do
-        post :import_puppetclasses, { :id => smart_proxies(:puppetmaster).id, :dryrun => true }, set_session_user
+        post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id, :dryrun => true }, session: set_session_user
       end
     end
     assert_response :success
@@ -147,7 +147,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
       Environment.create!(:name => 'xyz')
     end
     assert_difference('Environment.unscoped.count', -1) do
-      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+      post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id }, session: set_session_user
     end
     assert_response :success
   end
@@ -156,7 +156,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       assert_difference('Environment.unscoped.find_by_name("env1").puppetclasses.count', -2) do
-        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+        post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id }, session: set_session_user
       end
     end
     assert_response :success
@@ -166,7 +166,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     setup_import_classes
     LookupKey.destroy_all
     assert_difference('LookupKey.unscoped.count', 1) do
-      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+      post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id }, session: set_session_user
     end
     assert_response :success
   end
@@ -176,7 +176,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
     Puppetclass.find_by_name('b').destroy
     Puppetclass.find_by_name('c').destroy
     assert_difference('Environment.unscoped.count', 0) do
-      post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id}, set_session_user
+      post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id }, session: set_session_user
     end
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
@@ -189,7 +189,7 @@ class Api::V1::SmartProxiesControllerTest < ActionController::TestCase
       env_name = 'env1'
       assert Environment.find_by_name(env_name).destroy
       assert_difference('Environment.unscoped.count', 1) do
-        post :import_puppetclasses, {:id => smart_proxies(:puppetmaster).id, :environment_id => env_name}, set_session_user
+        post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id, :environment_id => env_name }, session: set_session_user
       end
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)

@@ -2,25 +2,25 @@ require 'test_helper'
 
 class DashboardControllerTest < ActionController::TestCase
   test 'should get index' do
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
   end
 
   test 'create returns 404 if widget to add is not found' do
-    post :create, { :name => 'non-existent-widget' }, set_session_user
+    post :create, params: { :name => 'non-existent-widget' }, session: set_session_user
     assert_response :not_found
   end
 
   test 'create adds widget to user if widget is valid' do
     assert_difference('users(:admin).widgets.count', 1) do
-      post :create, { :name => 'Host Configuration Status' }, set_session_user
+      post :create, params: { :name => 'Host Configuration Status' }, session: set_session_user
     end
     assert_response :success
   end
 
   test '#destroy removes a widget from the user' do
     widget = FactoryBot.create(:widget, :user => users(:admin))
-    delete :destroy, { :id => widget.id, :format => 'json' }, set_session_user
+    delete :destroy, params: { :id => widget.id, :format => 'json' }, session: set_session_user
     assert_response :success
     assert_equal widget.id.to_s, @response.body
     assert_empty users(:admin).widgets.reload
@@ -29,7 +29,7 @@ class DashboardControllerTest < ActionController::TestCase
   test "#destroy returns forbidden for other user's widget" do
     other_user = FactoryBot.create(:user, :with_widget)
     widget = other_user.widgets.first
-    delete :destroy, { :id => widget.id, :format => 'json' }, set_session_user
+    delete :destroy, params: { :id => widget.id, :format => 'json' }, session: set_session_user
     assert_response :forbidden
     assert_equal widget.id.to_s, @response.body
     assert_includes other_user.widgets.reload, widget
@@ -37,7 +37,7 @@ class DashboardControllerTest < ActionController::TestCase
 
   test "#reset_to_default resets user's widgets" do
     Dashboard::Manager.expects(:reset_user_to_default).with(users(:admin))
-    put :reset_default, {}, set_session_user
+    put :reset_default, session: set_session_user
     assert_redirected_to root_path
   end
 
@@ -46,7 +46,7 @@ class DashboardControllerTest < ActionController::TestCase
     params = {
       widget.id.to_s => {:col => '4', :row => '3', :sizex => '8', :sizey => '1'}
     }
-    post :save_positions, {:widgets => params, :format => 'json'}, set_session_user
+    post :save_positions, params: { :widgets => params, :format => 'json' }, session: set_session_user
     assert_response :success
     widget.reload
     assert_equal 4, widget.col

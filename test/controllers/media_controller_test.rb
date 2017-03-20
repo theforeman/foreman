@@ -13,31 +13,31 @@ class MediaControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Medium.any_instance.stubs(:valid?).returns(false)
-    post :create, {:medium => {:name => nil}}, set_session_user
+    post :create, params: { :medium => {:name => nil} }, session: set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Medium.any_instance.stubs(:valid?).returns(true)
-    post :create, {:medium => {:name => "MyMedia"}}, set_session_user
+    post :create, params: { :medium => {:name => "MyMedia"} }, session: set_session_user
     assert_redirected_to media_url
   end
 
   def test_update_invalid
     Medium.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => @model, :medium => {:name => nil}}, set_session_user
+    put :update, params: { :id => @model, :medium => {:name => nil} }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Medium.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => @model, :medium => {:name => "MyUpdatedMedia"}}, set_session_user
+    put :update, params: { :id => @model, :medium => {:name => "MyUpdatedMedia"} }, session: set_session_user
     assert_redirected_to media_url
   end
 
   def test_destroy
     medium = media(:unused)
-    delete :destroy, {:id => medium}, set_session_user
+    delete :destroy, params: { :id => medium }, session: set_session_user
     assert_redirected_to media_url
     assert !Medium.exists?(medium.id)
   end
@@ -49,13 +49,13 @@ class MediaControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a medium' do
     setup_user
-    get :edit, {:id => @model.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => @model.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing media' do
     setup_user
-    get :index, {}, set_session_user.merge(:user => users(:one).id)
+    get :index, session: set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
 end

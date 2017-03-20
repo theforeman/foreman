@@ -13,7 +13,7 @@ class Api::V1::RolesControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => roles(:manager).to_param }
+    get :show, params: { :id => roles(:manager).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -21,19 +21,19 @@ class Api::V1::RolesControllerTest < ActionController::TestCase
 
   test "should create role" do
     assert_difference('Role.count') do
-      post :create, { :role => valid_attrs }
+      post :create, params: { :role => valid_attrs }
     end
     assert_response :success
   end
 
   test "should update role" do
-    put :update, { :id => roles(:destroy_hosts).to_param, :role => valid_attrs }
+    put :update, params: { :id => roles(:destroy_hosts).to_param, :role => valid_attrs }
     assert_response :success
   end
 
   test "should destroy roles" do
     assert_difference('Role.count', -1) do
-      delete :destroy, { :id => roles(:destroy_hosts).to_param }
+      delete :destroy, params: { :id => roles(:destroy_hosts).to_param }
     end
     assert_response :success
   end

@@ -8,7 +8,7 @@ class Api::V1::UsergroupsControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'test_usergroup' }
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     assert_not_nil assigns(:usergroups)
     usergroups = ActiveSupport::JSON.decode(@response.body)
@@ -16,7 +16,7 @@ class Api::V1::UsergroupsControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => @usergroup.to_param }
+    get :show, params: { :id => @usergroup.to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -24,19 +24,19 @@ class Api::V1::UsergroupsControllerTest < ActionController::TestCase
 
   test "should create usergroup" do
     assert_difference('Usergroup.count') do
-      post :create, { :usergroup => valid_attrs }
+      post :create, params: { :usergroup => valid_attrs }
     end
     assert_response :success
   end
 
   test "should update usergroup" do
-    put :update, { :id => @usergroup.to_param, :usergroup => valid_attrs }
+    put :update, params: { :id => @usergroup.to_param, :usergroup => valid_attrs }
     assert_response :success
   end
 
   test "should destroy usergroups" do
     assert_difference('Usergroup.count', -1) do
-      delete :destroy, { :id => @usergroup.to_param }
+      delete :destroy, params: { :id => @usergroup.to_param }
     end
     assert_response :success
   end

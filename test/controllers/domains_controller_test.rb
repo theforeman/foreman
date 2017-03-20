@@ -13,25 +13,25 @@ class DomainsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Domain.any_instance.stubs(:valid?).returns(false)
-    post :create, {:domain => {:name => nil}}, set_session_user
+    post :create, params: { :domain => {:name => nil} }, session: set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Domain.any_instance.stubs(:valid?).returns(true)
-    post :create, {:domain => {:name => "MyDomain"}}, set_session_user
+    post :create, params: { :domain => {:name => "MyDomain"} }, session: set_session_user
     assert_redirected_to domains_url
   end
 
   def test_update_invalid
     Domain.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => @model.to_param, :domain => {:name => @model.name }}, set_session_user
+    put :update, params: { :id => @model.to_param, :domain => {:name => @model.name } }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Domain.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => @model.to_param, :domain => {:name => @model.name }}, set_session_user
+    put :update, params: { :id => @model.to_param, :domain => {:name => @model.name } }, session: set_session_user
     assert_redirected_to domains_url
   end
 
@@ -40,14 +40,14 @@ class DomainsControllerTest < ActionController::TestCase
     domain.hosts.clear
     domain.hostgroups.clear
     domain.subnets.clear
-    delete :destroy, {:id => domain}, set_session_user
+    delete :destroy, params: { :id => domain }, session: set_session_user
     assert_redirected_to domains_url
     assert !Domain.exists?(domain.id)
   end
 
   def user_with_viewer_rights_should_fail_to_edit_a_domain
     setup_users
-    get :edit, {:id => @model.id}
+    get :edit, params: { :id => @model.id }
     assert @response.status == '403 Forbidden'
   end
 
@@ -61,14 +61,14 @@ class DomainsControllerTest < ActionController::TestCase
     domain = FactoryBot.create(:domain, :with_parameter)
     setup_user "edit", "domains"
     setup_user "view", "params"
-    get :edit, {:id => domain.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => domain.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_not_nil response.body['Parameter']
   end
 
   test 'user without view_params rights should not see parameters in a domain' do
     domain = FactoryBot.create(:domain, :with_parameter)
     setup_user "edit", "domains"
-    get :edit, {:id => domain.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => domain.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Parameter']
   end
 end

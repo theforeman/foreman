@@ -13,7 +13,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => subnets(:one).to_param }
+    get :show, params: { :id => subnets(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -21,14 +21,14 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
   test "should create IPv4 subnet" do
     assert_difference('Subnet.unscoped.count') do
-      post :create, { :subnet => valid_v4_attrs }
+      post :create, params: { :subnet => valid_v4_attrs }
     end
     assert_response :created
   end
 
   test "should create IPv4 subnet if type is not defined" do
     assert_difference('Subnet.unscoped.count') do
-      post :create, { :subnet => valid_v4_attrs.reject {|k, v| k == :network_type} }
+      post :create, params: { :subnet => valid_v4_attrs.reject {|k, v| k == :network_type} }
     end
     subnet = Subnet.unscoped.find_by_name(valid_v4_attrs[:name])
     assert_equal valid_v4_attrs[:network_type], subnet.network_type
@@ -37,36 +37,36 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
   test "should create IPv6 subnet" do
     assert_difference('Subnet.unscoped.count') do
-      post :create, { :subnet => valid_v6_attrs }
+      post :create, params: { :subnet => valid_v6_attrs }
     end
     assert_response :created
   end
 
   test "does not create subnet with non-existent domain" do
-    post :create, { :subnet => valid_v4_attrs.merge(:domain_ids => [1, 2]) }
+    post :create, params: { :subnet => valid_v4_attrs.merge(:domain_ids => [1, 2]) }
     assert_response :not_found
   end
 
   test "should update subnet" do
-    put :update, { :id => subnets(:one).to_param, :subnet => valid_v4_attrs }
+    put :update, params: { :id => subnets(:one).to_param, :subnet => valid_v4_attrs }
     assert_response :success
   end
 
   test "should not update subnet and change type" do
-    put :update, { :id => subnets(:one).to_param, :subnet => valid_v6_attrs }
+    put :update, params: { :id => subnets(:one).to_param, :subnet => valid_v6_attrs }
     assert_response :unprocessable_entity
   end
 
   test "should destroy subnets" do
     assert_difference('Subnet.unscoped.count', -1) do
-      delete :destroy, { :id => subnets(:four).to_param }
+      delete :destroy, params: { :id => subnets(:four).to_param }
     end
     assert_response :success
   end
 
   test "should NOT destroy subnet that is in use" do
     assert_difference('Subnet.unscoped.count', 0) do
-      delete :destroy, { :id => subnets(:one).to_param }
+      delete :destroy, params: { :id => subnets(:one).to_param }
     end
     assert_response :unprocessable_entity
   end
@@ -76,7 +76,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     subnet.hosts.clear
     subnet.interfaces.clear
     subnet.domains.clear
-    as_admin { delete :destroy, {:id => subnet.id} }
+    as_admin { delete :destroy, params: { :id => subnet.id } }
     ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
     assert !Subnet.exists?(:id => subnet.id)
@@ -90,7 +90,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
       end
 
       test "should get free ip" do
-        get :freeip, { :id => @subnet.to_param }
+        get :freeip, params: { :id => @subnet.to_param }
         assert_response :success
         show_response = ActiveSupport::JSON.decode(@response.body)
         assert !show_response.empty?
@@ -98,7 +98,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
       end
 
       test "should get free ip and honor excluded ips" do
-        get :freeip, { :id => @subnet.to_param, :excluded_ips => ['192.168.2.10'] }
+        get :freeip, params: { :id => @subnet.to_param, :excluded_ips => ['192.168.2.10'] }
         assert_response :success
         show_response = ActiveSupport::JSON.decode(@response.body)
         assert !show_response.empty?
@@ -112,7 +112,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
       end
 
       test "should not get free ip" do
-        get :freeip, { :id => @subnet.to_param }
+        get :freeip, params: { :id => @subnet.to_param }
         assert_response :success
         show_response = ActiveSupport::JSON.decode(@response.body)
         assert !show_response.empty?
@@ -124,7 +124,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   test "user without view_params permission can't see subnet parameters" do
     subnet_with_parameter = FactoryBot.create(:subnet_ipv4, :with_parameter)
     setup_user "view", "subnets"
-    get :show, {:id => subnet_with_parameter.to_param, :format => 'json'}
+    get :show, params: { :id => subnet_with_parameter.to_param, :format => 'json' }
     assert_empty JSON.parse(response.body)['parameters']
   end
 
@@ -132,7 +132,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     subnet_with_parameter = FactoryBot.create(:subnet_ipv4, :with_parameter)
     setup_user "view", "subnets"
     setup_user "view", "params"
-    get :show, {:id => subnet_with_parameter.to_param, :format => 'json'}
+    get :show, params: { :id => subnet_with_parameter.to_param, :format => 'json' }
     assert_not_empty JSON.parse(response.body)['parameters']
   end
 
@@ -140,7 +140,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     test "should show a subnet parameter as hidden unless show_hidden_parameters is true" do
       subnet = FactoryBot.create(:subnet_ipv4)
       subnet.subnet_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
-      get :show, { :id => subnet.id }
+      get :show, params: { :id => subnet.id }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal '*****', show_response['parameters'].first['value']
     end
@@ -148,7 +148,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     test "should show a subnet parameter as unhidden when show_hidden_parameters is true" do
       subnet = FactoryBot.create(:subnet_ipv4)
       subnet.subnet_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
-      get :show, { :id => subnet.id, :show_hidden_parameters => 'true' }
+      get :show, params: { :id => subnet.id, :show_hidden_parameters => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal 'bar', show_response['parameters'].first['value']
     end
@@ -158,7 +158,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     subnet = FactoryBot.create(:subnet_ipv4)
     param_params = { :name => "foo", :value => "bar" }
     subnet.subnet_parameters.create!(param_params)
-    put :update, { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
+    put :update, params: { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
     assert_response :success
     assert param_params[:name], subnet.parameters.first.name
   end
@@ -168,7 +168,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     param_1 = { :name => "foo", :value => "bar" }
     param_2 = { :name => "boo", :value => "test" }
     subnet.subnet_parameters.create!([param_1, param_2])
-    put :update, { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [{ :name => param_1[:name], :value => "new_value" }] } }
+    put :update, params: { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [{ :name => param_1[:name], :value => "new_value" }] } }
     assert_response :success
     assert_equal 1, subnet.parameters.count
   end

@@ -4,7 +4,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'test_puppetclass' }
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses.empty?
@@ -12,7 +12,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should get index with style=list" do
-    get :index, {:style => 'list' }
+    get :index, params: { :style => 'list' }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses.empty?
@@ -21,13 +21,13 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
 
   test "should create puppetclass" do
     assert_difference('Puppetclass.count') do
-      post :create, { :puppetclass => valid_attrs }
+      post :create, params: { :puppetclass => valid_attrs }
     end
     assert_response :created
   end
 
   test "should update puppetclass" do
-    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => valid_attrs }
+    put :update, params: { :id => puppetclasses(:one).to_param, :puppetclass => valid_attrs }
     assert_response :success
   end
 
@@ -35,7 +35,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     HostClass.delete_all
     HostgroupClass.delete_all
     assert_difference('Puppetclass.count', -1) do
-      delete :destroy, { :id => puppetclasses(:one).to_param }
+      delete :destroy, params: { :id => puppetclasses(:one).to_param }
     end
     assert_response :success
   end
@@ -43,21 +43,21 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   test "should get puppetclasses for given host only" do
     host1 = FactoryBot.create(:host, :with_puppetclass)
     FactoryBot.create(:host, :with_puppetclass)
-    get :index, {:host_id => host1.to_param }
+    get :index, params: { :host_id => host1.to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert_equal host1.puppetclasses.map(&:name).sort, puppetclasses['results'].keys.sort
   end
 
   test "should not get puppetclasses for nonexistent host" do
-    get :index, {"search" => "host = imaginaryhost.nodomain.what" }
+    get :index, params: { "search" => "host = imaginaryhost.nodomain.what" }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert puppetclasses['results'].empty?
   end
 
   test "should get puppetclasses for hostgroup" do
-    get :index, {:hostgroup_id => hostgroups(:common).to_param }
+    get :index, params: { :hostgroup_id => hostgroups(:common).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses['results'].empty?
@@ -65,7 +65,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should get puppetclasses for environment" do
-    get :index, {:environment_id => environments(:production).to_param }
+    get :index, params: { :environment_id => environments(:production).to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses['results'].empty?
@@ -73,7 +73,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should show error if optional nested environment does not exist" do
-    get :index, {:environment_id => 'nonexistent' }
+    get :index, params: { :environment_id => 'nonexistent' }
     assert_response 404
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert_equal "Environment not found by id 'nonexistent'", puppetclasses['message']
@@ -81,21 +81,21 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
 
   test "should show puppetclass for host" do
     host = FactoryBot.create(:host, :with_puppetclass)
-    get :show, { :host_id => host.to_param, :id => host.puppetclasses.first.id }
+    get :show, params: { :host_id => host.to_param, :id => host.puppetclasses.first.id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     refute_empty show_response
   end
 
   test "should show puppetclass for hostgroup" do
-    get :show, { :hostgroup_id => hostgroups(:common).to_param, :id => puppetclasses(:one).id }
+    get :show, params: { :hostgroup_id => hostgroups(:common).to_param, :id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
   end
 
   test "should show puppetclass for environment" do
-    get :show, { :environment_id => environments(:production), :id => puppetclasses(:one).id }
+    get :show, params: { :environment_id => environments(:production), :id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     refute_empty show_response
@@ -103,7 +103,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
 
   # CRUD actions - same test as V1
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     refute_empty puppetclasses
@@ -111,7 +111,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
 
   # FYI - show puppetclass doesn't work in V1
   test "should show puppetclass with no nesting" do
-    get :show, { :id => puppetclasses(:one).to_param }
+    get :show, params: { :id => puppetclasses(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     refute_empty show_response
@@ -119,20 +119,20 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
 
   test "should create puppetclass" do
     assert_difference('Puppetclass.count') do
-      post :create, { :puppetclass => valid_attrs }
+      post :create, params: { :puppetclass => valid_attrs }
     end
     assert_response :success
   end
 
   test "create puppetclass with smart variable as nested attribute" do
     assert_difference('Puppetclass.count') do
-      post :create, { :puppetclass => valid_attrs.merge(:lookup_keys_attributes => {"new_1372154591368" => {:key => 'smart_variable1'}}) }
+      post :create, params: { :puppetclass => valid_attrs.merge(:lookup_keys_attributes => {"new_1372154591368" => {:key => 'smart_variable1'}}) }
     end
     assert_response :success
   end
 
   test "should update puppetclass" do
-    put :update, { :id => puppetclasses(:one).to_param, :puppetclass => valid_attrs }
+    put :update, params: { :id => puppetclasses(:one).to_param, :puppetclass => valid_attrs }
     assert_response :success
   end
 
@@ -140,7 +140,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     HostClass.delete_all
     HostgroupClass.delete_all
     assert_difference('Puppetclass.count', -1) do
-      delete :destroy, { :id => puppetclasses(:one).to_param }
+      delete :destroy, params: { :id => puppetclasses(:one).to_param }
     end
     assert_response :success
   end
@@ -149,7 +149,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     klass = FactoryBot.create(:puppetclass, :environments => [FactoryBot.create(:environment)])
     FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => klass)
     assert_equal 1, klass.class_params.length
-    put :update, { :id => klass.id, :smart_class_parameter_ids => [] }
+    put :update, params: { :id => klass.id, :smart_class_parameter_ids => [] }
     klass.reload
     assert_equal 1, klass.class_params.length
   end

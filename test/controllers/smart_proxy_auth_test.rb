@@ -175,7 +175,7 @@ class SmartProxyAuthWebUITest < ActionController::TestCase
     @controller.stubs(:auth_smart_proxy).returns(false)
     @controller.stubs(:require_login).returns(false)
 
-    get :externalNodes, :id => 123
+    get :externalNodes, params: { :id => 123 }
 
     assert_response :forbidden
     assert_template "common/403"

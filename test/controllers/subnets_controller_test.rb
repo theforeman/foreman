@@ -14,37 +14,37 @@ class SubnetsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Subnet.any_instance.stubs(:valid?).returns(false)
-    post :create, {:subnet => {:network => nil}}, set_session_user
+    post :create, params: { :subnet => {:network => nil} }, session: set_session_user
     assert_template 'new'
   end
 
   def test_create_valid_without_type
-    post :create, {:subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet'}}, set_session_user
+    post :create, params: { :subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet'} }, session: set_session_user
     assert_redirected_to subnets_url
   end
 
   def test_create_valid_with_type
-    post :create, {:subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet', :type => 'Subnet::Ipv4'}}, set_session_user
+    post :create, params: { :subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet', :type => 'Subnet::Ipv4'} }, session: set_session_user
     assert_redirected_to subnets_url
   end
 
   def test_update_invalid
     Subnet.any_instance.stubs(:valid?).returns(false)
     subnet_id = @model
-    put :update, {:id => subnet_id, :subnet => {:network => nil}}, set_session_user
+    put :update, params: { :id => subnet_id, :subnet => {:network => nil} }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Subnet.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => @model, :subnet => {:network => '192.168.100.10'}}, set_session_user
+    put :update, params: { :id => @model, :subnet => {:network => '192.168.100.10'} }, session: set_session_user
     assert_equal '192.168.100.10', Subnet.unscoped.find(@model.id).network
     assert_redirected_to subnets_url
   end
 
   def test_should_not_destroy_if_used_by_hosts
     subnet = subnets(:one)
-    delete :destroy, {:id => subnet}, set_session_user
+    delete :destroy, params: { :id => subnet }, session: set_session_user
     assert_redirected_to subnets_url
     assert Subnet.unscoped.exists?(subnet.id)
   end
@@ -53,20 +53,20 @@ class SubnetsControllerTest < ActionController::TestCase
     @model.hosts.clear
     @model.interfaces.clear
     @model.domains.clear
-    delete :destroy, {:id => @model}, set_session_user
+    delete :destroy, params: { :id => @model }, session: set_session_user
     assert_redirected_to subnets_url
     refute Subnet.exists?(@model.id)
   end
 
   context 'freeip' do
     test 'fails when subnet is not provided' do
-      get :freeip, {}, set_session_user
+      get :freeip, session: set_session_user
       assert_response :bad_request
     end
 
     test '404s when user is not authorized to see subnet' do
       subnet_id = setup_subnet
-      get :freeip, {subnet_id: subnet_id}, set_session_user
+      get :freeip, params: { subnet_id: subnet_id }, session: set_session_user
       assert_response :not_found
     end
 
@@ -75,7 +75,7 @@ class SubnetsControllerTest < ActionController::TestCase
       subnet.stubs(:unused_ip).returns(nil)
       subnet_id = setup_subnet subnet
 
-      get :freeip, {subnet_id: subnet_id}, set_session_user
+      get :freeip, params: { subnet_id: subnet_id }, session: set_session_user
 
       assert_response :not_found
     end
@@ -85,7 +85,7 @@ class SubnetsControllerTest < ActionController::TestCase
       subnet.stubs(:unused_ip).raises(StandardError, 'Exception message')
       subnet_id = setup_subnet subnet
 
-      get :freeip, {subnet_id: subnet_id}, set_session_user
+      get :freeip, params: { subnet_id: subnet_id }, session: set_session_user
 
       assert_response :internal_server_error
     end
@@ -99,7 +99,7 @@ class SubnetsControllerTest < ActionController::TestCase
       subnet.stubs(:unused_ip).returns(ipam)
       subnet_id = setup_subnet subnet
 
-      get :freeip, {subnet_id: subnet_id}, set_session_user
+      get :freeip, params: { subnet_id: subnet_id }, session: set_session_user
 
       assert_response :success
       assert_equal ip, JSON.parse(response.body)['ip']
@@ -112,14 +112,14 @@ class SubnetsControllerTest < ActionController::TestCase
       subnet = FactoryBot.create(:subnet_ipv4, :with_parameter)
       setup_user "edit", "subnets"
       setup_user "view", "params"
-      get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+      get :edit, params: { :id => subnet.id }, session: set_session_user.merge(:user => users(:one).id)
       assert_not_nil response.body['Parameter']
     end
 
     test 'without view_params user should not see parameters in a subnet' do
       subnet = FactoryBot.create(:subnet_ipv4, :with_parameter)
       setup_user "edit", "subnets"
-      get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
+      get :edit, params: { :id => subnet.id }, session: set_session_user.merge(:user => users(:one).id)
       assert_nil response.body['Parameter']
     end
   end
@@ -131,16 +131,16 @@ class SubnetsControllerTest < ActionController::TestCase
 
     test 'redirects to index if none were found' do
       Subnet::Ipv4.expects(:import).returns([])
-      get :import, { :subnet_id => setup_subnet,
-                     :smart_proxy_id => 'foo' }, set_session_user
+      get :import, params: { :subnet_id => setup_subnet,
+                             :smart_proxy_id => 'foo' }, session: set_session_user
       assert_redirected_to :subnets
       assert_match 'No new IPv4 subnets found', flash[:warning]
     end
 
     test 'renders import page with results' do
       Subnet::Ipv4.expects(:import).returns([FactoryBot.build(:subnet_ipv4)])
-      get :import, { :subnet_id => setup_subnet,
-                     :smart_proxy_id => 'foo' }, set_session_user
+      get :import, params: { :subnet_id => setup_subnet,
+                             :smart_proxy_id => 'foo' }, session: set_session_user
       assert_response :success
       assert_template :import
       assert assigns(:subnets)
@@ -157,7 +157,7 @@ class SubnetsControllerTest < ActionController::TestCase
                     :ipam => sample_subnet.ipam,
                     :boot_mode => sample_subnet.boot_mode }
     assert_difference 'Subnet.unscoped.count', 1 do
-      post :create_multiple, { :subnets => [subnet_hash] }, set_session_user
+      post :create_multiple, params: { :subnets => [subnet_hash] }, session: set_session_user
     end
     assert_response :redirect
     assert_redirected_to subnets_url

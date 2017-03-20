@@ -17,13 +17,13 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
                                      })
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     assert_not_nil assigns(:bookmarks)
   end
 
   test "should show bookmark" do
-    get :show, { :id => bookmarks(:one).to_param }
+    get :show, params: { :id => bookmarks(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -31,39 +31,39 @@ class Api::V1::BookmarksControllerTest < ActionController::TestCase
 
   test "should create bookmark" do
     assert_difference('Bookmark.count') do
-      post :create, { :bookmark => simple_bookmark }
+      post :create, params: { :bookmark => simple_bookmark }
     end
     assert_response :success
   end
 
   test "should create bookmark with a dot" do
     assert_difference('Bookmark.count') do
-      post :create, { :bookmark => dot_bookmark }
+      post :create, params: { :bookmark => dot_bookmark }
     end
     assert_response :success
   end
 
   test "should update bookmark" do
-    put :update, { :id => bookmarks(:one).to_param, :bookmark => bookmark_base }
+    put :update, params: { :id => bookmarks(:one).to_param, :bookmark => bookmark_base }
     assert_response :success
   end
 
   test "should destroy bookmark" do
     assert_difference('Bookmark.count', -1) do
-      delete :destroy, { :id => bookmarks(:one).to_param }
+      delete :destroy, params: { :id => bookmarks(:one).to_param }
     end
     assert_response :success
   end
 
   test "should only show public and user's bookmarks" do
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
     assert_includes assigns(:bookmarks), bookmarks(:one)
     refute_includes assigns(:bookmarks), bookmarks(:two)
   end
 
   test "should not allow actions on non public/non user bookmarks" do
-    put :update, {:id => bookmarks(:two).to_param, :bookmark => { :name => 'bar' }}, set_session_user
+    put :update, params: { :id => bookmarks(:two).to_param, :bookmark => { :name => 'bar' } }, session: set_session_user
     assert_response 404
   end
 end

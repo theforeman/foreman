@@ -14,30 +14,30 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   context 'template rendering' do
     test 'index' do
-      get :index, {}, set_session_user
+      get :index, session: set_session_user
       assert_template 'index'
     end
 
     test 'new' do
-      get :new, {}, set_session_user
+      get :new, session: set_session_user
       assert_template 'new'
     end
 
     test 'create invalid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(false)
-      post :create, {:operatingsystem => {:name => nil}}, set_session_user
+      post :create, params: { :operatingsystem => {:name => nil} }, session: set_session_user
       assert_template 'new'
     end
 
     test 'edit' do
-      get :edit, {:id => Operatingsystem.first}, set_session_user
+      get :edit, params: { :id => Operatingsystem.first }, session: set_session_user
       assert_template 'edit'
     end
 
     test 'update invalid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(false)
       Redhat.any_instance.stubs(:valid?).returns(false)
-      put :update, {:id => Operatingsystem.first, :operatingsystem => {:name => Operatingsystem.first.name}}, set_session_user
+      put :update, params: { :id => Operatingsystem.first, :operatingsystem => {:name => Operatingsystem.first.name} }, session: set_session_user
       assert_template 'edit'
     end
   end
@@ -45,14 +45,14 @@ class OperatingsystemsControllerTest < ActionController::TestCase
   context 'redirects' do
     test 'create valid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(true)
-      post :create, {:operatingsystem => {:name => "MyOS"}}, set_session_user
+      post :create, params: { :operatingsystem => {:name => "MyOS"} }, session: set_session_user
       assert_redirected_to operatingsystems_url
     end
 
     test 'update valid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(true)
       Redhat.any_instance.stubs(:valid?).returns(true)
-      put :update, {:id => Operatingsystem.first, :operatingsystem => {:name => "MyOS"}}, set_session_user
+      put :update, params: { :id => Operatingsystem.first, :operatingsystem => {:name => "MyOS"} }, session: set_session_user
       assert_redirected_to operatingsystems_url
     end
 
@@ -60,7 +60,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       operatingsystem = Operatingsystem.first
       operatingsystem.hosts.delete_all
       operatingsystem.hostgroups.delete_all
-      delete :destroy, {:id => operatingsystem}, set_session_user
+      delete :destroy, params: { :id => operatingsystem }, session: set_session_user
       assert_redirected_to operatingsystems_url
       assert !Operatingsystem.exists?(operatingsystem.id)
     end
@@ -69,13 +69,13 @@ class OperatingsystemsControllerTest < ActionController::TestCase
   context 'permission access' do
     test 'user with viewer rights should fail to edit an operating system' do
       setup_os_user
-      get :edit, {:id => Operatingsystem.first.id}, set_session_user.merge(:user => users(:one).id)
+      get :edit, params: { :id => Operatingsystem.first.id }, session: set_session_user.merge(:user => users(:one).id)
       assert_equal @response.status, 403
     end
 
     test 'user with viewer rights should succeed in viewing operatingsystems' do
       setup_os_user
-      get :index, {}, set_session_user.merge(:user => users(:one).id)
+      get :index, session: set_session_user.merge(:user => users(:one).id)
       assert_response :success
     end
 
@@ -83,28 +83,28 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       os = FactoryBot.create(:operatingsystem, :with_parameter)
       setup_user "edit", "operatingsystems"
       setup_user "view", "params"
-      get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
+      get :edit, params: { :id => os.id }, session: set_session_user.merge(:user => users(:one).id)
       assert_not_nil response.body['Parameter']
     end
 
     test 'user without view_params rights should not see parameters in an os' do
       os = FactoryBot.create(:operatingsystem, :with_parameter)
       setup_user "edit", "operatingsystems"
-      get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
+      get :edit, params: { :id => os.id }, session: set_session_user.merge(:user => users(:one).id)
       assert_nil response.body['Parameter']
     end
   end
 
   context 'search' do
     test 'valid fields' do
-      get :index, { :search => 'name = centos' }, set_session_user
+      get :index, params: { :search => 'name = centos' }, session: set_session_user
       assert_response :success
       assert flash.empty?
     end
 
     test 'invalid fields' do
       @request.env['HTTP_REFERER'] = "http://test.host#{operatingsystems_path}"
-      get :index, { :search => 'wrongwrong = centos' }, set_session_user
+      get :index, params: { :search => 'wrongwrong = centos' }, session: set_session_user
       assert_response :redirect
       assert_redirected_to :back
       assert_match /not recognized for searching/, flash[:error]
@@ -119,16 +119,16 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
     test 'valid os_default_template should be saved' do
       operatingsystem = Operatingsystem.first
-      put :update, {:id => operatingsystem.id, :operatingsystem =>
-          {:os_default_templates_attributes => [{:provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id} ]}}, set_session_user
+      put :update, params: { :id => operatingsystem.id, :operatingsystem =>
+          {:os_default_templates_attributes => [{:provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id} ]} }, session: set_session_user
       refute_empty operatingsystem.os_default_templates
       assert_redirected_to operatingsystems_url
     end
 
     test 'invalid os_default_template should be rejected' do
       operatingsystem = Operatingsystem.create({ :name => "PalmOS", :major => 1, :minor => 2 })
-      put :update, {:id => operatingsystem.id,
-                    :operatingsystem => {:os_default_templates_attributes => [{ :provisioning_template_id => nil, :template_kind_id => @template_kind.id }]} }, set_session_user
+      put :update, params: { :id => operatingsystem.id,
+                             :operatingsystem => {:os_default_templates_attributes => [{ :provisioning_template_id => nil, :template_kind_id => @template_kind.id }]} }, session: set_session_user
 
       assert_empty operatingsystem.os_default_templates
     end
@@ -138,8 +138,8 @@ class OperatingsystemsControllerTest < ActionController::TestCase
                                                 :os_default_templates_attributes => [{:provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id}]})
       assert_difference 'OsDefaultTemplate.count', -1 do
         os_default_template_id = operatingsystem.os_default_templates.first.id
-        put :update, {:id => operatingsystem.id,
-                      :operatingsystem => {:os_default_templates_attributes => [{ :id => os_default_template_id, :provisioning_template_id => '', :template_kind_id => @template_kind.id }]}}, set_session_user
+        put :update, params: { :id => operatingsystem.id,
+                               :operatingsystem => {:os_default_templates_attributes => [{ :id => os_default_template_id, :provisioning_template_id => '', :template_kind_id => @template_kind.id }]} }, session: set_session_user
       end
     end
   end

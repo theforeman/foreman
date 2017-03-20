@@ -17,32 +17,32 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   def test_index
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_template 'index'
   end
 
   def test_edit
-    get :edit, {:id => Puppetclass.first.to_param}, set_session_user
+    get :edit, params: { :id => Puppetclass.first.to_param }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
     Puppetclass.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Puppetclass.first.to_param, :puppetclass => {:name => nil}}, set_session_user
+    put :update, params: { :id => Puppetclass.first.to_param, :puppetclass => {:name => nil} }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Puppetclass.any_instance.stubs(:valid?).returns(true)
     updated_puppetclass_id = Puppetclass.first.id
-    put :update, {:id => updated_puppetclass_id, :puppetclass => {:name => 'foo'}}, set_session_user
+    put :update, params: { :id => updated_puppetclass_id, :puppetclass => {:name => 'foo'} }, session: set_session_user
     assert_equal 'foo', Puppetclass.find(updated_puppetclass_id).name
     assert_redirected_to puppetclasses_url
   end
 
   def test_destroy
     puppetclass = Puppetclass.first
-    delete :destroy, {:id => puppetclass.to_param}, set_session_user
+    delete :destroy, params: { :id => puppetclass.to_param }, session: set_session_user
     assert_redirected_to puppetclasses_url
     assert !Puppetclass.exists?(puppetclass.id)
   end
@@ -58,13 +58,13 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a puppetclass' do
     setup_user
-    get :edit, {:id => Puppetclass.first.to_param}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => Puppetclass.first.to_param }, session: set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing puppetclasses' do
     setup_user
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
   end
 
@@ -73,7 +73,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     puppetclass = puppetclasses(:two)  #puppetclass to be added to host
     host_puppetclass_ids = host.host_classes.pluck(:puppetclass_id)
     assert_difference('HostClass.count', 0) do
-      post :parameters, {:id => puppetclass.id, :host_id => host.id, :host => {:puppetclass_ids => (host_puppetclass_ids + [puppetclass.id])}}, set_session_user
+      post :parameters, params: { :id => puppetclass.id, :host_id => host.id, :host => {:puppetclass_ids => (host_puppetclass_ids + [puppetclass.id])} }, session: set_session_user
     end
   end
 
@@ -82,7 +82,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     puppetclass = puppetclasses(:two)  #puppetclass to be added to hostgroup
     hostgroup_puppetclass_ids = hostgroup.hostgroup_classes.pluck(:puppetclass_id)
     assert_difference('HostgroupClass.count', 0) do
-      post :parameters, {:id => puppetclass.id, :host_id => hostgroup.id, :hostgroup => {:puppetclass_ids => (hostgroup_puppetclass_ids + [puppetclass.id])}}, set_session_user
+      post :parameters, params: { :id => puppetclass.id, :host_id => hostgroup.id, :hostgroup => {:puppetclass_ids => (hostgroup_puppetclass_ids + [puppetclass.id])} }, session: set_session_user
     end
   end
 
@@ -94,8 +94,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
     host = FactoryBot.create(:host, :environment => environments(:production))
     existing_host_attributes = host_attributes(host)
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => host.id,
-                       :host => existing_host_attributes }, set_session_user
+    post :parameters, params: { :id => puppetclass.id, :host_id => host.id,
+                                :host => existing_host_attributes }, session: set_session_user
     assert_response :success
     lookup_keys_added = overridable_lookup_keys(puppetclass, host)
     assert_equal 2, lookup_keys_added.count
@@ -109,8 +109,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
     existing_host_attributes = host_attributes(host)
     existing_host_attributes['environment_id'] = environments(:global_puppetmaster).id
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => host.id,
-                       :host => existing_host_attributes }, set_session_user
+    post :parameters, params: { :id => puppetclass.id, :host_id => host.id,
+                                :host => existing_host_attributes }, session: set_session_user
     assert_response :success
     as_admin do
       lookup_keys_added = overridable_lookup_keys(puppetclass, assigns(:obj))
@@ -125,8 +125,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
     puppetclass = puppetclasses(:two)
     existing_hostgroup_attributes = hostgroup_attributes(hostgroup)
     # host_id is posted instead of hostgroup_id per host_edit.js#load_puppet_class_parameters
-    post :parameters, {:id => puppetclass.id, :host_id => hostgroup.id,
-                       :hostgroup => existing_hostgroup_attributes }, set_session_user
+    post :parameters, params: { :id => puppetclass.id, :host_id => hostgroup.id,
+                                :hostgroup => existing_hostgroup_attributes }, session: set_session_user
     assert_response :success
     as_admin do
       lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
@@ -140,8 +140,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
     host = Host::Managed.new(:name => "new_host", :environment_id => environments(:production).id)
     new_host_attributes = host_attributes(host)
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => 'undefined',
-                       :host => new_host_attributes }, set_session_user
+    post :parameters, params: { :id => puppetclass.id, :host_id => 'undefined',
+                                :host => new_host_attributes }, session: set_session_user
     assert_response :success
     as_admin do
       lookup_keys_added = overridable_lookup_keys(puppetclass, host)
@@ -156,8 +156,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
     new_hostgroup_attributes = hostgroup_attributes(hostgroup)
     puppetclass = puppetclasses(:two)
     # host_id is posted instead of hostgroup_id per host_edit.js#load_puppet_class_parameters
-    post :parameters, {:id => puppetclass.id, :host_id => 'undefined',
-                       :hostgroup => new_hostgroup_attributes }, set_session_user
+    post :parameters, params: { :id => puppetclass.id, :host_id => 'undefined',
+                                :hostgroup => new_hostgroup_attributes }, session: set_session_user
     assert_response :success
     as_admin do
       lookup_keys_added = overridable_lookup_keys(puppetclass, hostgroup)
@@ -171,19 +171,19 @@ class PuppetclassesControllerTest < ActionController::TestCase
     setup_user
     #environment_classes(:nine) which assigned puppetclasses(:three) with environments(:global_puppetmaster) broke test, so remove it
     environment_classes(:nine).destroy
-    get :index, {:order => "environment ASC"}, set_session_user
+    get :index, params: { :order => "environment ASC" }, session: set_session_user
     assert_equal puppetclasses(:three), assigns(:puppetclasses).last
   end
 
   test "text filtering on the index screen should work" do
     setup_user
-    get :index, {:search => "git"}, set_session_user
+    get :index, params: { :search => "git" }, session: set_session_user
     assert_equal puppetclasses(:three), assigns(:puppetclasses).first
   end
 
   test "predicate filtering on the index screen should work" do
     setup_user
-    get :index, {:search => "environment = testing"}, set_session_user
+    get :index, params: { :search => "environment = testing" }, session: set_session_user
     assert_equal puppetclasses(:three), assigns(:puppetclasses).first
   end
 
@@ -191,7 +191,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     env = FactoryBot.create(:environment)
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     refute pc.class_params.first.override
-    post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user
+    post :override, params: { :id => pc.to_param, :enable => 'true' }, session: set_session_user
     assert pc.class_params.reload.first.override
     assert_match /overridden all parameters/, flash[:notice]
     assert_redirected_to puppetclasses_url
@@ -201,7 +201,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     env = FactoryBot.create(:environment)
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     pc.class_params.first.update_attributes(:override => true)
-    post :override, {:id => pc.to_param, :enable => 'false'}, set_session_user
+    post :override, params: { :id => pc.to_param, :enable => 'false' }, session: set_session_user
     refute pc.class_params.reload.first.override
     assert_match /reset all parameters/, flash[:notice]
     assert_redirected_to puppetclasses_url
@@ -209,7 +209,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   def test_override_none
     pc = FactoryBot.create(:puppetclass)
-    post :override, {:id => pc.to_param}, set_session_user
+    post :override, params: { :id => pc.to_param }, session: set_session_user
     assert_match /No parameters to override/, flash[:error]
     assert_redirected_to puppetclasses_url
   end
@@ -221,7 +221,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     setup_user "edit", "puppetclasses"
     refute pc.class_params.first.override
-    post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
+    post :override, params: { :id => pc.to_param, :enable => 'true' }, session: set_session_user.merge(:user => users(:one).id)
     assert_match /overridden all parameters/, flash[:notice]
     assert_redirected_to puppetclasses_url
   end
@@ -233,7 +233,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     setup_user "view", "puppetclasses"
     refute pc.class_params.first.override
-    post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
+    post :override, params: { :id => pc.to_param, :enable => 'true' }, session: set_session_user.merge(:user => users(:one).id)
     assert_match /You are not authorized to perform this action/, response.body
   end
 end

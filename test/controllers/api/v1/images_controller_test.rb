@@ -10,7 +10,7 @@ class Api::V1::ImagesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { :compute_resource_id => images(:two).compute_resource_id }
+    get :index, params: { :compute_resource_id => images(:two).compute_resource_id }
     assert_response :success
     assert_not_nil assigns(:images)
     images = ActiveSupport::JSON.decode(@response.body)
@@ -18,7 +18,7 @@ class Api::V1::ImagesControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param }
+    get :show, params: { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -26,19 +26,19 @@ class Api::V1::ImagesControllerTest < ActionController::TestCase
 
   test "should create image" do
     assert_difference('Image.count') do
-      post :create, { :compute_resource_id => images(:two).compute_resource_id, :image => valid_attrs }
+      post :create, params: { :compute_resource_id => images(:two).compute_resource_id, :image => valid_attrs }
     end
     assert_response :success
   end
 
   test "should update image" do
-    put :update, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param, :image => { :name => "testimagegergt"} }
+    put :update, params: { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param, :image => { :name => "testimagegergt"} }
     assert_response :success
   end
 
   test "should destroy images" do
     assert_difference('Image.count', -1) do
-      delete :destroy, { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param }
+      delete :destroy, params: { :compute_resource_id => images(:two).compute_resource_id, :id => images(:one).to_param }
     end
     assert_response :success
   end

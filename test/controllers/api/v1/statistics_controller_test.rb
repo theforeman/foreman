@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::StatisticsControllerTest < ActionController::TestCase
   test "should get statistics" do
-    get :index, { }
+    get :index
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
     assert_not response.empty?

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::HostgroupClassesControllerTest < ActionController::TestCase
   test "should get puppetclass ids for hostgroup" do
-    get :index, {:hostgroup_id => hostgroups(:common).id }
+    get :index, params: { :hostgroup_id => hostgroups(:common).id }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
     assert !puppetclasses['results'].empty?
@@ -12,7 +12,7 @@ class Api::V2::HostgroupClassesControllerTest < ActionController::TestCase
   test "should add a puppetclass to a hostgroup" do
     hostgroup = hostgroups(:common)
     assert_difference('hostgroup.hostgroup_classes.count') do
-      post :create, { :hostgroup_id => hostgroup.id, :puppetclass_id => puppetclasses(:four).id }
+      post :create, params: { :hostgroup_id => hostgroup.id, :puppetclass_id => puppetclasses(:four).id }
     end
     assert_response :success
   end
@@ -20,7 +20,7 @@ class Api::V2::HostgroupClassesControllerTest < ActionController::TestCase
   test "should remove a puppetclass from a hostgroup" do
     hostgroup = hostgroups(:common)
     assert_difference('hostgroup.hostgroup_classes.count', -1) do
-      delete :destroy, { :hostgroup_id => hostgroup.id, :id => puppetclasses(:one).id }
+      delete :destroy, params: { :hostgroup_id => hostgroup.id, :id => puppetclasses(:one).id }
     end
     assert_response :success
   end

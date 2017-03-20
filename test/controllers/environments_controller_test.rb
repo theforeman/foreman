@@ -13,7 +13,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should create new environment" do
     assert_difference 'Environment.unscoped.count' do
-      post :create, { :commit => "Create", :environment => {:name => "some_environment"} }, set_session_user
+      post :create, params: { :commit => "Create", :environment => {:name => "some_environment"} }, session: set_session_user
     end
     assert_redirected_to environments_path
   end
@@ -23,7 +23,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     environment = Environment.new :name => "some_environment"
     assert environment.save!
 
-    put :update, { :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, set_session_user
+    put :update, params: { :commit => "Update", :id => environment.name, :environment => {:name => "other_environment"} }, session: set_session_user
     env = Environment.unscoped.find(environment.id)
     assert env.name == "other_environment"
 
@@ -36,7 +36,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert environment.save!
 
     assert_difference('Environment.unscoped.count', -1) do
-      delete :destroy, {:id => environment.name}, set_session_user
+      delete :destroy, params: { :id => environment.name }, session: set_session_user
     end
 
     assert_redirected_to environments_path
@@ -74,12 +74,12 @@ class EnvironmentsControllerTest < ActionController::TestCase
   test "should import as admin when organization changed" do
     setup_import_classes
     Organization.current = taxonomies(:organization2)
-    post :obsolete_and_new,
-      {"changed" =>
+    post :obsolete_and_new, params:
+      { "changed" =>
         {"new" =>
           {"env1" => '{"a":{"new":{}}}'}
         }
-      }, set_session_user
+      }, session: set_session_user
     assert_redirected_to environments_url
   end
 
@@ -88,15 +88,15 @@ class EnvironmentsControllerTest < ActionController::TestCase
     Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
 #    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
 #    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
-    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+    get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
     assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_new_env1'
-    post :obsolete_and_new,
-      {"changed" =>
+    post :obsolete_and_new, params:
+      { "changed" =>
         {"new" =>
           {"env1" => '{"a":{"new":{}}}'}
         }
-      }, set_session_user
+      }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     assert_equal ["a", "b", "c"],
@@ -109,15 +109,15 @@ class EnvironmentsControllerTest < ActionController::TestCase
     Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
     #db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
     #disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
-    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+    get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
     assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env1[value*="d"]'
     post :obsolete_and_new,
-      {"changed" =>
+      params: { "changed" =>
         {"obsolete" =>
           {"env1" => '["d"]'}
         }
-      }, set_session_user
+      }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     envs = Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
@@ -128,15 +128,15 @@ class EnvironmentsControllerTest < ActionController::TestCase
     as_admin {Environment.create(:name => "env3")}
     #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
-    get :import_environments, {:proxy => smart_proxies(:puppetmaster).id}, set_session_user
+    get :import_environments, params: { :proxy => smart_proxies(:puppetmaster).id }, session: set_session_user
     assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env3'
-    post :obsolete_and_new,
-      {"changed" =>
+    post :obsolete_and_new, params:
+      { "changed" =>
         {"obsolete" =>
           {"env3" => '[]'}
         }
-      }, set_session_user
+      }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     assert_equal [], Environment.unscoped.find_by_name("env3").puppetclasses.map(&:name).sort
@@ -155,12 +155,12 @@ class EnvironmentsControllerTest < ActionController::TestCase
     end
 
     # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
-    post :obsolete_and_new,
-      {"changed"=>
+    post :obsolete_and_new, params:
+      { "changed"=>
        {"obsolete" =>
         {"env1"  => '["a","b","c","_destroy_"]'}
        }
-    }, set_session_user
+     }, session: set_session_user
     assert Environment.unscoped.find_by_name("env1").hosts.count > 0
     #assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
     assert Environment.unscoped.find_by_name("env1")
@@ -177,7 +177,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
 
     PuppetClassImporter.any_instance.stubs(:ignored_environments).returns(["env1","env2","env3"])
-    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+    get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
 
     assert_equal "No changes to your environments detected\nIgnored environments: env1, env2, and env3", flash[:notice]
   end
@@ -189,7 +189,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
     PuppetClassImporter.any_instance.stubs(:ignored_environments).returns([])
     PuppetClassImporter.any_instance.stubs(:ignored_classes).returns([/^a$/])
-    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+    get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
 
     assert_equal "No changes to your environments detected\nIgnored classes in the environments: env1 and env2", flash[:notice]
   end
@@ -198,7 +198,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
    setup_import_classes
    PuppetClassImporter.any_instance.stubs(:ignored_environments).returns([true])
 
-   get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
+   get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
    assert_equal "Ignored environment names resulting in booleans found. Please quote strings like true/false and yes/no in config/ignored_environments.yml", flash[:warning]
   end
 
@@ -209,26 +209,26 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit an environment' do
     setup_user
-    get :edit, {:id => environments(:production).name}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => environments(:production).name }, session: set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing environments' do
     setup_user
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
   end
 
   test "should accept environment with name 'name'" do
     @request.env["HTTP_REFERER"] = environments_url
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["new"])
-    get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
-    post :obsolete_and_new,
-      {"changed" =>
+    get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
+    post :obsolete_and_new, params:
+      { "changed" =>
        {"new" =>
         {"new" => '{"a":{"new":{}}}'}
        }
-    }, set_session_user
+    }, session: set_session_user
     assert(Environment.unscoped.all.map(&:name).include?('new'), 'Should include environment with name "new"')
   end
 end

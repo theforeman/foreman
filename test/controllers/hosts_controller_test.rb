@@ -15,31 +15,31 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'show' do
-    get :show, {:id => Host.first.name}, set_session_user
+    get :show, params: { :id => Host.first.name }, session: set_session_user
     assert_template 'show'
   end
 
   test 'create_invalid' do
     Host.any_instance.stubs(:valid?).returns(false)
-    post :create, {:host => {:name => nil}}, set_session_user
+    post :create, params: { :host => {:name => nil} }, session: set_session_user
     assert_template 'new'
   end
 
   test 'create_valid' do
     Host.any_instance.stubs(:valid?).returns(true)
-    post :create, {:host => {:name => "test"}}, set_session_user
+    post :create, params: { :host => {:name => "test"} }, session: set_session_user
     assert_redirected_to host_url(assigns('host'))
   end
 
   test "should get index" do
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
     assert_template 'index'
   end
 
   test "should get csv index with data" do
     host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource, :with_reports)
-    get :index, { :format => 'csv', :search => "name = #{host.name}" }, set_session_user
+    get :index, params: { :format => 'csv', :search => "name = #{host.name}" }, session: set_session_user
     assert_response :success
     buf = response.stream.instance_variable_get(:@buf)
     assert_equal "Name,Operatingsystem,Environment,Compute Resource Or Model,Hostgroup,Last Report\n", buf.next
@@ -58,7 +58,7 @@ class HostsControllerTest < ActionController::TestCase
       scope_accessed = true
       base_scope
     end
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
     assert_template 'index'
     assert scope_accessed
@@ -69,20 +69,20 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should render 404 when host is not found" do
-    get :show, {:id => "no.such.host"}, set_session_user
+    get :show, params: { :id => "no.such.host" }, session: set_session_user
     assert_response :missing
     assert_template 'common/404'
   end
 
   test "should get new" do
-    get :new, {}, set_session_user
+    get :new, session: set_session_user
     assert_response :success
     assert_template 'new'
   end
 
   test "should create new host" do
     assert_difference 'Host.unscoped.count' do
-      post :create, { :commit => "Create",
+      post :create, params: { :commit => "Create",
         :host => {:name => "myotherfullhost",
           :mac => "aabbecddee06",
           :ip => "2.3.4.125",
@@ -100,7 +100,7 @@ class HostsControllerTest < ActionController::TestCase
           :location_id => taxonomies(:location1).id,
           :organization_id => taxonomies(:organization1).id
         }
-      }, set_session_user
+       }, session: set_session_user
     end
     assert_redirected_to host_url(assigns['host'])
   end
@@ -110,7 +110,7 @@ class HostsControllerTest < ActionController::TestCase
     refute leftovers
     hostgroup = hostgroups(:common)
     assert_difference 'Host.unscoped.count' do
-      post :create, { :commit => "Create",
+      post :create, params: { :commit => "Create",
         :host => {:name => "myotherfullhost",
           :mac => "aabbecddee06",
           :ip => "2.3.4.125",
@@ -126,7 +126,7 @@ class HostsControllerTest < ActionController::TestCase
           :location_id => taxonomies(:location1).id,
           :organization_id => taxonomies(:organization1).id
         }
-      }, set_session_user
+      }, session: set_session_user
     end
     as_admin do
       new_host = Host.search_for('myotherfullhost').first
@@ -139,39 +139,39 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, {:id => @host.name}, set_session_user
+    get :edit, params: { :id => @host.name }, session: set_session_user
     assert_response :success
     assert_template 'edit'
   end
 
   test "should update host" do
-    put :update, { :commit => "Update", :id => @host.name, :host => {:disk => "ntfs"} }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:disk => "ntfs"} }, session: set_session_user
     @host = Host.find(@host.id)
     assert_equal @host.disk, "ntfs"
   end
 
   def test_update_invalid
     Host.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Host.first.name, :host => {:disk => 'ntfs'}}, set_session_user
+    put :update, params: { :id => Host.first.name, :host => {:disk => 'ntfs'} }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Host.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Host.first.name, :host => {:name => "Updated_#{Host.first.name}"}}, set_session_user
+    put :update, params: { :id => Host.first.name, :host => {:name => "Updated_#{Host.first.name}"} }, session: set_session_user
     assert_redirected_to host_url(assigns(:host))
   end
 
   test "should destroy host" do
     assert_difference('Host.unscoped.count', -1) do
-      delete :destroy, {:id => @host.name}, set_session_user
+      delete :destroy, params: { :id => @host.name }, session: set_session_user
     end
     assert_redirected_to hosts_url
   end
 
   test "externalNodes should render correctly when format text/html is given" do
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name}, set_session_user
+    get :externalNodes, params: { :name => @host.name }, session: set_session_user
     assert_response :success
     as_admin { @enc = @host.info.to_yaml}
     assert_equal "<pre>#{ERB::Util.html_escape(@enc)}</pre>", response.body
@@ -179,7 +179,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "externalNodes should render yml request correctly" do
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }, session: set_session_user
     assert_response :success
     as_admin { @enc = @host.info.to_yaml }
     assert_equal @enc, response.body
@@ -189,7 +189,7 @@ class HostsControllerTest < ActionController::TestCase
     Host.any_instance.stubs(:setBuild).returns(false)
     @request.env['HTTP_REFERER'] = hosts_path
 
-    put :setBuild, {:id => @host.name}, set_session_user
+    put :setBuild, params: { :id => @host.name }, session: set_session_user
     assert_response :found
     assert_redirected_to hosts_path
     assert_not_nil flash[:error]
@@ -208,7 +208,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test "the flash should inform it" do
       Host::Managed.any_instance.stubs(:setBuild).returns(true)
-      put :setBuild, {:id => @host.name}, set_session_user
+      put :setBuild, params: { :id => @host.name }, session: set_session_user
       assert_response :found
       assert_redirected_to hosts_path
       assert_not_nil flash[:notice]
@@ -225,7 +225,7 @@ class HostsControllerTest < ActionController::TestCase
       end
       Host::Managed.any_instance.stubs(:power).returns(PowerShmocker.new())
 
-      put :setBuild, {:id => @host.name, :host => {:build => '1'}}, set_session_user
+      put :setBuild, params: { :id => @host.name, :host => {:build => '1'} }, session: set_session_user
       assert_response :found
       assert_redirected_to hosts_path
       assert_not_nil flash[:notice]
@@ -241,7 +241,7 @@ class HostsControllerTest < ActionController::TestCase
         end
       end
       Host::Managed.any_instance.stubs(:power).returns(PowerShmocker.new)
-      put :setBuild, {:id => @host.name, :host => {:build => '1'}}, set_session_user
+      put :setBuild, params: { :id => @host.name, :host => {:build => '1'} }, session: set_session_user
       @host.power.reset
       assert_response :found
       assert_redirected_to hosts_path
@@ -251,7 +251,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test 'and reboot requested and reboot raised exception, the flash should inform it' do
       Host::Managed.any_instance.stubs(:setBuild).returns(true)
-      put :setBuild, {:id => @host.name, :host => {:build => '1'}}, set_session_user
+      put :setBuild, params: { :id => @host.name, :host => {:build => '1'} }, session: set_session_user
       assert_raise Foreman::Exception do
         @host.power.reset
       end
@@ -264,14 +264,14 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_clone
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
-    get :clone, {:id => Host.first.name}, set_session_user
+    get :clone, params: { :id => Host.first.name }, session: set_session_user
     assert assigns(:clone_host)
     assert_template 'clone'
   end
 
   def test_clone_empties_fields
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
-    get :clone, {:id => Host.first.name}, set_session_user
+    get :clone, params: { :id => Host.first.name }, session: set_session_user
     refute assigns(:host).name
     refute assigns(:host).ip
     refute assigns(:host).mac
@@ -280,7 +280,7 @@ class HostsControllerTest < ActionController::TestCase
   def test_clone_with_hostgroup
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
     host = FactoryBot.create(:host, :with_hostgroup)
-    get :clone, {:id => host.id}, set_session_user
+    get :clone, params: { :id => host.id }, session: set_session_user
     assert assigns(:clone_host)
     assert_template 'clone'
     assert_response :success
@@ -312,7 +312,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.primary_interface.update_attribute(:domain, domains(:mydomain))
       @host2.primary_interface.update_attribute(:domain, domains(:yourdomain))
     end
-    get :index, {}, set_session_user.merge(:user => @one.id)
+    get :index, session: set_session_user.merge(:user => @one.id)
 
     assert_response :success
     assert_match /#{@host1.shortname}/, @response.body
@@ -329,7 +329,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index, {}, set_session_user.merge(:user => @one.id)
+    get :index, session: set_session_user.merge(:user => @one.id)
     assert_response :success
     assert_match /#{@host1.name}/, @response.body
     refute_match /#{@host2.name}/, @response.body
@@ -343,7 +343,7 @@ class HostsControllerTest < ActionController::TestCase
       @host1.save!
       @host2.save!
     end
-    get :index, {}, set_session_user.merge(:user => @one.id)
+    get :index, session: set_session_user.merge(:user => @one.id)
     assert_response :success
     assert_match /#{@host1.name}/, @response.body
     refute_match /#{@host2.name}/, @response.body
@@ -356,7 +356,7 @@ class HostsControllerTest < ActionController::TestCase
       FactValue.create! :host => @host1, :fact_name_id => fn_id, :value    => "x86_64"
       FactValue.create! :host => @host2, :fact_name_id => fn_id, :value    => "i386"
     end
-    get :index, {}, set_session_user.merge(:user => @one.id)
+    get :index, session: set_session_user.merge(:user => @one.id)
     assert_response :success
     assert_match /#{@host1.name}/, @response.body
     refute_match /#{@host2.name}/, @response.body
@@ -364,7 +364,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'user with view host rights should fail to edit host' do
     setup_user_and_host "view"
-    get :edit, {:id => @host1.id}, set_session_user.merge(:user => @one.id)
+    get :edit, params: { :id => @host1.id }, session: set_session_user.merge(:user => @one.id)
     assert_equal @response.status, 403
   end
 
@@ -372,24 +372,24 @@ class HostsControllerTest < ActionController::TestCase
     host = FactoryBot.create(:host, :with_parameter)
     setup_user "edit"
     setup_user "view", "params"
-    get :edit, {:id => host.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => host.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_not_nil response.body['Global Parameters']
   end
 
   test 'user without view_params rights should not see parameters in a host' do
     host = FactoryBot.create(:host, :with_parameter)
     setup_user "edit"
-    get :edit, {:id => host.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => host.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Global Parameters']
   end
 
   test 'multiple without hosts' do
-    post :update_multiple_hostgroup, {}, set_session_user
+    post :update_multiple_hostgroup, session: set_session_user
     assert_redirected_to hosts_url
     assert_equal "No hosts selected", flash[:error]
 
     # now try to pass an invalid id
-    post :update_multiple_hostgroup, {:host_ids => [-1], :host_names => ["no.such.host"]}, set_session_user
+    post :update_multiple_hostgroup, params: { :host_ids => [-1], :host_names => ["no.such.host"] }, session: set_session_user
 
     assert_redirected_to hosts_url
     assert_equal "No hosts were found with that id, name or query filter", flash[:error]
@@ -402,7 +402,7 @@ class HostsControllerTest < ActionController::TestCase
     hosts.each { |host| assert_nil host.hostgroup }
 
     hostgroup = hostgroups(:unusual)
-    post :update_multiple_hostgroup, { :host_ids => hosts.map(&:id), :hostgroup => { :id => hostgroup.id } }, set_session_user
+    post :update_multiple_hostgroup, params: { :host_ids => hosts.map(&:id), :hostgroup => { :id => hostgroup.id } }, session: set_session_user
     assert_response :redirect
 
     # reloads hosts
@@ -423,7 +423,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     hostgroup = hostgroups(:common)
-    post :update_multiple_hostgroup, { :host_names => host_names, :hostgroup  => { :id => hostgroup.id} }, set_session_user
+    post :update_multiple_hostgroup, params: { :host_names => host_names, :hostgroup  => { :id => hostgroup.id} }, session: set_session_user
     assert_response :redirect
 
     host_names.each do |name|
@@ -449,9 +449,9 @@ class HostsControllerTest < ActionController::TestCase
     setup_multiple_environments
     assert @host1.environment == environments(:production)
     assert @host2.environment == environments(:production)
-    post :update_multiple_environment, { :host_ids => [@host1.id, @host2.id],
-      :environment => { :id => environments(:global_puppetmaster).id}},
-      set_session_user.merge(:user => users(:admin).id)
+    post :update_multiple_environment, params: { :host_ids => [@host1.id, @host2.id],
+      :environment => { :id => environments(:global_puppetmaster).id} },
+      session: set_session_user.merge(:user => users(:admin).id)
     as_admin do
       assert_equal environments(:global_puppetmaster), @host1.reload.environment
       assert_equal environments(:global_puppetmaster), @host2.reload.environment
@@ -479,8 +479,8 @@ class HostsControllerTest < ActionController::TestCase
     params = { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => 'inherit' } }
 
-    post :update_multiple_environment, params,
-      set_session_user.merge(:user => users(:admin).id)
+    post :update_multiple_environment, params: params,
+      session: set_session_user.merge(:user => users(:admin).id)
 
     assert_equal hostgroup.environment_id, Host.unscoped.find(@host1.id).environment_id
     assert_equal hostgroup.environment_id, Host.unscoped.find(@host2.id).environment_id
@@ -491,9 +491,9 @@ class HostsControllerTest < ActionController::TestCase
     setup_user_and_host "edit"
     assert_equal users(:admin).id_and_type, @host1.is_owned_by
     assert_equal users(:admin).id_and_type, @host2.is_owned_by
-    post :update_multiple_owner, { :host_ids => [@host1.id, @host2.id],
-      :owner => { :id => users(:one).id_and_type}},
-      set_session_user.merge(:user => users(:admin).id)
+    post :update_multiple_owner, params: { :host_ids => [@host1.id, @host2.id],
+      :owner => { :id => users(:one).id_and_type} },
+      session: set_session_user.merge(:user => users(:admin).id)
     as_admin do
       assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
       assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
@@ -518,15 +518,15 @@ class HostsControllerTest < ActionController::TestCase
     power_mock.expects(:poweroff).twice
     Host::Managed.any_instance.stubs(:power).returns(power_mock)
 
-    post :update_multiple_power_state, params,
-      set_session_user.merge(:user => users(:admin).id)
+    post :update_multiple_power_state, params: params,
+      session: set_session_user.merge(:user => users(:admin).id)
   end
 
   test "find multiple hosts by filter query" do
     setup_user_and_host "edit"
-    post :update_multiple_owner, { :search => "",
+    post :update_multiple_owner, params: { :search => "",
       :owner => { :id => users(:one).id_and_type}},
-      set_session_user.merge(:user => users(:admin).id)
+      session: set_session_user.merge(:user => users(:admin).id)
     as_admin do
       assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
       assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
@@ -535,9 +535,9 @@ class HostsControllerTest < ActionController::TestCase
 
   test "use filter query which generate a collection" do
     setup_user_and_host "edit"
-    post :update_multiple_owner, { :search => "owner = #{users(:admin).login}",
+    post :update_multiple_owner, params: { :search => "owner = #{users(:admin).login}",
       :owner => { :id => users(:one).id_and_type}},
-      set_session_user.merge(:user => users(:admin).id)
+      session: set_session_user.merge(:user => users(:admin).id)
     as_admin do
       assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
       assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
@@ -546,9 +546,9 @@ class HostsControllerTest < ActionController::TestCase
 
   test "use a filter query which generates empty collection" do
     setup_user_and_host "edit"
-    post :update_multiple_owner, { :search => "owner = #{users(:one).login}",
+    post :update_multiple_owner, params: { :search => "owner = #{users(:one).login}",
       :owner => { :id => users(:one).id_and_type}},
-       set_session_user.merge(:user => users(:admin).id)
+      session: set_session_user.merge(:user => users(:admin).id)
     as_admin do
       assert_equal users(:admin).id_and_type, @host1.reload.is_owned_by
       assert_equal users(:admin).id_and_type, @host2.reload.is_owned_by
@@ -557,9 +557,9 @@ class HostsControllerTest < ActionController::TestCase
 
   test "use empty filter query when it exists in params" do
     setup_user_and_host "edit"
-    post :update_multiple_owner, {:host_ids => [@host1.id], :search => "",
+    post :update_multiple_owner, params: {:host_ids => [@host1.id], :search => "",
       :owner => { :id => users(:one).id_and_type}},
-      set_session_user.merge(:user => users(:admin).id)
+      session: set_session_user.merge(:user => users(:admin).id)
     as_admin do
       assert_equal users(:one).id_and_type, @host1.reload.is_owned_by
       assert_equal users(:one).id_and_type, @host2.reload.is_owned_by
@@ -582,8 +582,8 @@ class HostsControllerTest < ActionController::TestCase
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }
 
-      post :update_multiple_puppet_proxy, params,
-        set_session_user.merge(:user => users(:admin).id)
+      post :update_multiple_puppet_proxy, params: params,
+        session: set_session_user.merge(:user => users(:admin).id)
 
       assert_empty flash[:error]
 
@@ -598,8 +598,8 @@ class HostsControllerTest < ActionController::TestCase
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => "" } }
 
-      post :update_multiple_puppet_proxy, params,
-        set_session_user.merge(:user => users(:admin).id)
+      post :update_multiple_puppet_proxy, params: params,
+        session: set_session_user.merge(:user => users(:admin).id)
 
       assert_empty flash[:error]
 
@@ -625,8 +625,8 @@ class HostsControllerTest < ActionController::TestCase
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }
 
-      post :update_multiple_puppet_ca_proxy, params,
-        set_session_user.merge(:user => users(:admin).id)
+      post :update_multiple_puppet_ca_proxy, params: params,
+        session: set_session_user.merge(:user => users(:admin).id)
 
       assert_empty flash[:error]
 
@@ -643,8 +643,8 @@ class HostsControllerTest < ActionController::TestCase
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => "" } }
 
-      post :update_multiple_puppet_ca_proxy, params,
-        set_session_user.merge(:user => users(:admin).id)
+      post :update_multiple_puppet_ca_proxy, params: params,
+        session: set_session_user.merge(:user => users(:admin).id)
 
       assert_empty flash[:error]
 
@@ -666,9 +666,9 @@ class HostsControllerTest < ActionController::TestCase
       @host2.host_parameters = [param2]
     end
 
-    post :update_multiple_parameters,
-      {:name => { "p1" => "hello"},:host_ids => [@host1.id, @host2.id]},
-      set_session_user.merge(:user => users(:admin).id)
+    post :update_multiple_parameters, params: {
+      :name => { "p1" => "hello"}, :host_ids => [@host1.id, @host2.id] },
+      session: set_session_user.merge(:user => users(:admin).id)
     assert Host.find(@host1.id).host_parameters[0][:value] == "hello"
     assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end
@@ -682,39 +682,39 @@ class HostsControllerTest < ActionController::TestCase
                                 :description => "<script>alert('hacked!');</script>",
                                 :puppetclass => host.puppetclasses.first)
     FactoryBot.create(:hostgroup_parameter, :hostgroup => hg)
-    get :edit, {:id => host.name}, set_session_user
+    get :edit, params: { :id => host.name }, session: set_session_user
     refute response.body.include?("<script>alert(")
     assert response.body.include?("&lt;script&gt;alert(")
     assert_equal 3, response.body.scan("&lt;script&gt;alert(").size
   end
 
   test "should get errors" do
-    get :errors, {}, set_session_user
+    get :errors, session: set_session_user
     assert_response :success
     assert_template 'index'
   end
 
   test "should get active" do
-    get :active, {}, set_session_user
+    get :active, session: set_session_user
     assert_response :success
     assert_template :partial => "_list"
     assert_template 'index'
   end
 
   test "should get out of sync" do
-    get :out_of_sync, {}, set_session_user
+    get :out_of_sync, session: set_session_user
     assert_response :success
     assert_template 'index'
   end
 
   test "should get pending" do
-    get :pending, {}, set_session_user
+    get :pending, session: set_session_user
     assert_response :success
     assert_template 'index'
   end
 
   test "should get disabled hosts" do
-    get :disabled, {}, set_session_user
+    get :disabled, session: set_session_user
     assert_response :success
     assert_template 'index'
   end
@@ -723,7 +723,7 @@ class HostsControllerTest < ActionController::TestCase
     one = users(:one)
     one.roles << [roles(:manager)]
     FactName.create :name =>"architecture"
-    get :disabled, {:user => one.id}, set_session_user
+    get :disabled, params: { :user => one.id }, session: set_session_user
     assert_response :success
   end
 
@@ -737,12 +737,12 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test "REMOTE_USER should be ignored for API requests" do
-      get :show, {:id => @host.to_param, :format => 'json'}
+      get :show, params: {:id => @host.to_param, :format => 'json'}
       assert_response 401
     end
 
     test "REMOTE_USER should be trusted for UI requests" do
-      get :show, {:id => @host.to_param}
+      get :show, params: {:id => @host.to_param}
       assert_response :success
     end
   end
@@ -757,12 +757,12 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test "REMOTE_USER should ignored for API requests" do
-      get :show, {:id => @host.to_param, :format => 'json'}
+      get :show, params: {:id => @host.to_param, :format => 'json'}
       assert_response 401
     end
 
     test "REMOTE_USER should trusted for UI requests" do
-      get :show, {:id => @host.to_param}
+      get :show, params: {:id => @host.to_param}
       assert_redirected_to "/users/login"
     end
   end
@@ -819,7 +819,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     def multiple_hosts_submit_request(method, ids, notice, params = {})
-      post :"submit_multiple_#{method}", params.merge({:host_ids => ids}), set_session_user
+      post :"submit_multiple_#{method}", params: params.merge({:host_ids => ids}), session: set_session_user
       assert_response :found
       assert_redirected_to hosts_path
       assert_equal notice, flash[:notice]
@@ -830,7 +830,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = edit_host_path @host
     as_admin { assert @host.update_attribute :managed, false }
     assert_empty @host.errors
-    put :toggle_manage, {:id => @host.name}, set_session_user
+    put :toggle_manage, params: { :id => @host.name }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
     assert flash[:notice] == _("Foreman now manages the build cycle for %s") %(@host.name)
   end
@@ -839,7 +839,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = edit_host_path @host
     as_admin { assert @host.update_attribute :managed, true }
     assert_empty @host.errors
-    put :toggle_manage, {:id => @host.name}, set_session_user
+    put :toggle_manage, params: { :id => @host.name }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
     assert flash[:notice] == _("Foreman now no longer manages the build cycle for %s") %(@host.name)
   end
@@ -850,7 +850,7 @@ class HostsControllerTest < ActionController::TestCase
     SETTINGS[:require_ssl] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_response :success
   end
 
@@ -860,7 +860,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_response :success
   end
 
@@ -870,7 +870,7 @@ class HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['another.host'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_equal 403, @response.status
   end
 
@@ -883,7 +883,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_response :success
   end
 
@@ -897,7 +897,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_response :success
   end
 
@@ -911,7 +911,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = 'CN=foreman.example,OU=PUPPET,O=FOREMAN,ST=North Carolina,C=US'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_response :success
   end
 
@@ -925,7 +925,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = '/C=US/ST=NC/L=City/O=Example/OU=IT/CN=foreman.linux.lab.local/emailAddress=user@example.com'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_response :success
   end
 
@@ -937,7 +937,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_equal 403, @response.status
   end
 
@@ -949,7 +949,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
     @request.env['SSL_CLIENT_VERIFY'] = 'FAILURE'
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_equal 403, @response.status
   end
 
@@ -960,7 +960,7 @@ class HostsControllerTest < ActionController::TestCase
     SETTINGS[:require_ssl] = true
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_equal 403, @response.status
   end
 
@@ -972,7 +972,7 @@ class HostsControllerTest < ActionController::TestCase
     SETTINGS[:require_ssl] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }
     assert_response :success
   end
 
@@ -982,7 +982,7 @@ class HostsControllerTest < ActionController::TestCase
     SETTINGS[:require_ssl] = false
 
     Resolv.any_instance.stubs(:getnames).returns(['users.host'])
-    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }, session: set_session_user
     assert_response :success
   end
 
@@ -993,7 +993,7 @@ class HostsControllerTest < ActionController::TestCase
 
     Resolv.any_instance.stubs(:getnames).returns(['users.host'])
     @request.env['HTTPS'] = 'on'
-    get :externalNodes, {:name => @host.name, :format => "yml"}, set_session_user
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }, session: set_session_user
     assert_response :success
   end
 
@@ -1001,10 +1001,10 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple location fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
-    post :update_multiple_location, {
+    post :update_multiple_location, params: {
       :location => {:id => location.id, :optimistic_import => "no"},
       :host_ids => Host.pluck('hosts.id')
-    }, set_session_user
+    }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
   end
@@ -1012,20 +1012,20 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     assert_difference "location.hosts.count", 0 do
-      post :update_multiple_location, {
+      post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "no"},
         :host_ids => Host.pluck('hosts.id')
-      }, set_session_user
+      }, session: set_session_user
     end
   end
   test "update multiple location does not import taxable_taxonomies rows if fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     assert_difference "location.taxable_taxonomies.count", 0 do
-      post :update_multiple_location, {
+      post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "no"},
         :host_ids => Host.pluck('hosts.id')
-      }, set_session_user
+      }, session: set_session_user
     end
   end
 
@@ -1035,10 +1035,10 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     cnt_hosts_location = location.hosts.count
     assert_difference "location.hosts.count", (Host.unscoped.count - cnt_hosts_location) do
-      post :update_multiple_location, {
+      post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "yes"},
         :host_ids => Host.pluck('hosts.id')
-      }, set_session_user
+      }, session: set_session_user
     end
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Location", flash[:notice]
@@ -1051,10 +1051,10 @@ class HostsControllerTest < ActionController::TestCase
                                     :environment => environments(:production),
                                     :location => taxonomies(:location2))
     assert_difference "location.taxable_taxonomies.count", 1 do
-      post :update_multiple_location, {
+      post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "yes"},
         :host_ids => hosts.map(&:id)
-      }, set_session_user
+      }, session: set_session_user
     end
   end
 
@@ -1062,10 +1062,10 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    post :update_multiple_organization, {
+    post :update_multiple_organization, params: {
       :organization => {:id => organization.id, :optimistic_import => "no"},
       :host_ids => Host.pluck('hosts.id')
-    }, set_session_user
+    }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
   end
@@ -1073,20 +1073,20 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     assert_difference "organization.hosts.count", 0 do
-      post :update_multiple_organization, {
+      post :update_multiple_organization, params: {
         :organization => {:id => organization.id, :optimistic_import => "no"},
         :host_ids => Host.pluck('hosts.id')
-      }, set_session_user
+      }, session: set_session_user
     end
   end
   test "update multiple organization does not import taxable_taxonomies rows if fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     assert_difference "organization.taxable_taxonomies.count", 0 do
-      post :update_multiple_organization, {
+      post :update_multiple_organization, params: {
         :organization => {:id => organization.id, :optimistic_import => "no"},
         :host_ids => Host.pluck('hosts.id')
-      }, set_session_user
+      }, session: set_session_user
     end
   end
 
@@ -1094,10 +1094,10 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    post :update_multiple_organization, {
+    post :update_multiple_organization, params: {
       :organization => {:id => organization.id, :optimistic_import => "yes"},
       :host_ids => Host.pluck('hosts.id')
-    }, set_session_user
+    }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Organization", flash[:notice]
   end
@@ -1106,10 +1106,10 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     cnt_hosts_organization = organization.hosts.count
     assert_difference "organization.hosts.count", (Host.unscoped.count - cnt_hosts_organization) do
-      post :update_multiple_organization, {
+      post :update_multiple_organization, params: {
         :organization => {:id => organization.id, :optimistic_import => "yes"},
         :host_ids => Host.pluck('hosts.id')
-      }, set_session_user
+      }, session: set_session_user
     end
   end
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
@@ -1120,36 +1120,36 @@ class HostsControllerTest < ActionController::TestCase
                                     :environment => environments(:production),
                                     :organization => taxonomies(:organization2))
     assert_difference "organization.taxable_taxonomies.count", 1 do
-      post :update_multiple_organization, {
+      post :update_multiple_organization, params: {
         :organization => { :id => organization.id, :optimistic_import => "yes"},
         :host_ids => hosts.map(&:id)
-      }, set_session_user
+      }, session: set_session_user
     end
   end
 
   test "can change sti type to valid subtype" do
     class Host::Valid < Host::Managed; end
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:type => "Host::Valid"} }, session: set_session_user
     @host = Host::Base.find(@host.id)
     assert_equal "Host::Valid", @host.type
   end
 
   test "cannot change sti type to invalid subtype" do
     old_type = @host.type
-    put :update, { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid"} }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:type => "Host::Notvalid"} }, session: set_session_user
     @host = Host.find(@host.id)
     assert_equal old_type, @host.type
   end
 
   test "host update without root password in the params does not erase existing password" do
     old_root_pass = @host.root_pass
-    put :update, {:commit => "Update", :id => @host.name, :host => {:name => @host.name} }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:name => @host.name} }, session: set_session_user
     @host = Host.find(@host.id)
     assert_equal old_root_pass, @host.root_pass
   end
 
   test 'blank root password submitted in host does erase existing password' do
-    put :update, {:commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, session: set_session_user
     @host = Host.find(@host.id)
     assert @host.root_pass.empty?
   end
@@ -1159,7 +1159,7 @@ class HostsControllerTest < ActionController::TestCase
                       :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     assert bmc1.save
     old_password = bmc1.password
-    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id} } } }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id} } } }, session: set_session_user
     @host = Host.find(@host.id)
     assert_equal old_password, @host.interfaces.bmc.first.password
   end
@@ -1168,7 +1168,7 @@ class HostsControllerTest < ActionController::TestCase
     bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
                       :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     assert bmc1.save
-    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => ''} } } }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => ''} } } }, session: set_session_user
     @host = Host.find(@host.id)
     assert @host.interfaces.bmc.first.password.empty?
   end
@@ -1179,7 +1179,7 @@ class HostsControllerTest < ActionController::TestCase
                       :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     assert bmc1.save
     new_password = "topsecret"
-    put :update, { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => new_password, :mac => bmc1.mac} } } }, set_session_user
+    put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => new_password, :mac => bmc1.mac} } } }, session: set_session_user
     @host = Host.find(@host.id)
     assert_equal new_password, @host.interfaces.bmc.first.password
   end
@@ -1220,7 +1220,7 @@ class HostsControllerTest < ActionController::TestCase
   test "#disassociate shows error when used on non-CR host" do
     host = FactoryBot.create(:host)
     @request.env["HTTP_REFERER"] = hosts_path
-    put :disassociate, {:id => host.to_param}, set_session_user
+    put :disassociate, params: { :id => host.to_param }, session: set_session_user
     assert_response :redirect, hosts_path
     assert_not_nil flash[:error]
   end
@@ -1228,7 +1228,7 @@ class HostsControllerTest < ActionController::TestCase
   test "#disassociate removes UUID and CR association from host" do
     host = FactoryBot.create(:host, :on_compute_resource)
     @request.env["HTTP_REFERER"] = hosts_path
-    put :disassociate, {:id => host.to_param}, set_session_user
+    put :disassociate, params: { :id => host.to_param }, session: set_session_user
     assert_response :redirect, hosts_path
     host.reload
     refute host.uuid
@@ -1237,7 +1237,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test '#update_multiple_disassociate' do
     host = FactoryBot.create(:host, :on_compute_resource)
-    post :update_multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
+    post :update_multiple_disassociate, params: { :host_ids => [host.id], :host_names => [host.name] }, session: set_session_user
     assert_response :redirect, hosts_path
     assert_not_nil flash[:notice]
     host.reload
@@ -1247,14 +1247,14 @@ class HostsControllerTest < ActionController::TestCase
 
   test '#multiple_disassociate with vm' do
     host = FactoryBot.create(:host, :on_compute_resource)
-    post :multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
+    post :multiple_disassociate, params: { :host_ids => [host.id], :host_names => [host.name] }, session: set_session_user
     assert_equal 1, assigns(:non_physical_hosts).count
     assert_equal 0, assigns(:physical_hosts).count
   end
 
   test '#multiple_disassociate with physical host' do
     host = FactoryBot.create(:host)
-    post :multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
+    post :multiple_disassociate, params: { :host_ids => [host.id], :host_names => [host.name] }, session: set_session_user
     assert_equal 0, assigns(:non_physical_hosts).count
     assert_equal 1, assigns(:physical_hosts).count
   end
@@ -1327,7 +1327,7 @@ class HostsControllerTest < ActionController::TestCase
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true})
       h = as_admin {FactoryBot.create(:host)}
 
-      post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
+      post :submit_rebuild_config, params: { :host_ids => [h.id] }, session: set_session_user
 
       assert_response :found
       assert_redirected_to hosts_path
@@ -1339,7 +1339,7 @@ class HostsControllerTest < ActionController::TestCase
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => false, "DHCP" => false, "DNS" => false})
       h = as_admin {FactoryBot.create(:host)}
 
-      post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
+      post :submit_rebuild_config, params: { :host_ids => [h.id] }, session: set_session_user
 
       assert_response :found
       assert_redirected_to hosts_path
@@ -1493,7 +1493,7 @@ class HostsControllerTest < ActionController::TestCase
     HostsController.any_instance.stubs(:resource_finder).returns(@host)
     @host.errors[:test] << 'my error'
     @host.interfaces = [] # force save failure
-    get :cancelBuild, { id: @host.name }, set_session_user
+    get :cancelBuild, params: { id: @host.name }, session: set_session_user
 
     assert_response :redirect
     assert_match(/Failed to cancel/, flash[:error])
@@ -1519,16 +1519,16 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test 'returns error for non-admin user if BMC is not available' do
-      put :ipmi_boot, { :id => @host.id, :ipmi_device => 'bios'},
-        set_session_user.merge(:user => @one.id)
+      put :ipmi_boot, params: { :id => @host.id, :ipmi_device => 'bios' },
+        session: set_session_user.merge(:user => @one.id)
       assert_match(/No BMC NIC available for host/, flash[:error])
       assert_redirected_to host_path(@host.id)
     end
 
     test 'responds correctly for non-admin user if BMC is available' do
       Host::Managed.any_instance.expects(:ipmi_boot).with('bios').returns(true)
-      put :ipmi_boot, { :id => @host.id, :ipmi_device => 'bios'},
-        set_session_user.merge(:user => @one.id)
+      put :ipmi_boot, params: { :id => @host.id, :ipmi_device => 'bios' },
+        session: set_session_user.merge(:user => @one.id)
       assert_match(/#{@host.name} now boots from BIOS/, flash[:notice])
       assert_redirected_to host_path(@host.id)
     end
@@ -1577,7 +1577,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'do not provide power state for non ajax requests' do
-    get :get_power_state, { :id => @host.id }, set_session_user
+    get :get_power_state, params: { :id => @host.id }, session: set_session_user
     assert_response :method_not_allowed
   end
 
@@ -1641,7 +1641,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test '#show renders a pagelet tab' do
-      get :show, {:id => Host.first.name}, set_session_user
+      get :show, params: {:id => Host.first.name}, session: set_session_user
       assert @response.body.match /id='my-special-id'/
     end
   end

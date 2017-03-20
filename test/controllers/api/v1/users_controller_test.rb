@@ -8,19 +8,19 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
   end
 
   test "should show individual record by ID" do
-    get :show, { :id => users(:one).id }
+    get :show, params: { :id => users(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not show_response.empty?
   end
 
   test "should show individual record by login name" do
-    get :show, { :id => users(:one).login }
+    get :show, params: { :id => users(:one).login }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not show_response.empty?
@@ -28,7 +28,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-    put :update, { :id => user.id, :user => valid_attrs }
+    put :update, params: { :id => user.id, :user => valid_attrs }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -37,7 +37,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
   test "should update admin flag" do
     user = users(:one)
-    put :update, { :id => user.id, :user => { :admin => true } }
+    put :update, params: { :id => user.id, :user => { :admin => true } }
 
     assert_response :success
     assert User.unscoped.find_by_id(user.id).admin?
@@ -48,7 +48,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
 
     assert user.roles =([roles(:default_role)])
 
-    put :update, { :id => user.id, :user => valid_attrs }
+    put :update, params: { :id => user.id, :user => valid_attrs }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -61,7 +61,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
+    put :update, params: { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -73,7 +73,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
+    put :update, params: { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
     assert_response :unprocessable_entity
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -83,7 +83,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   test "should delete different user" do
     user = users(:one)
 
-    delete :destroy, { :id => user.id }
+    delete :destroy, params: { :id => user.id }
     assert_response :success
 
     refute User.unscoped.exists?(user.id)
@@ -94,7 +94,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     user.update_attribute :admin, true
 
     as_user :one do
-      delete :destroy, { :id => user.id }
+      delete :destroy, params: { :id => user.id }
       assert_response :forbidden
 
       response = ActiveSupport::JSON.decode(@response.body)
@@ -116,7 +116,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
       user.save
     end
     as_user :one do
-      put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+      put :update, params: { :id => user.id, :user => { :login => "johnsmith" } }
       assert_response :forbidden
     end
   end
@@ -134,7 +134,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
     user.update_attribute :admin, true
 
     as_user :one do
-      post :create, { :user => {
+      post :create, params: { :user => {
         :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
       }
       assert_response :success
@@ -143,26 +143,26 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "#index should not show hidden users" do
-    get :index, { :search => "login == #{users(:anonymous).login}" }
+    get :index, params: { :search => "login == #{users(:anonymous).login}" }
     results = ActiveSupport::JSON.decode(@response.body)
     assert results.empty?, results.inspect
   end
 
   test "#find_resource should not return hidden users" do
-    get :show, { :id => users(:anonymous).id }
+    get :show, params: { :id => users(:anonymous).id }
     assert_response :not_found
   end
 
   test "#show should not allow displaying other users without proper permission" do
     as_user :two do
-      get :show, { :id => users(:one).id }
+      get :show, params: { :id => users(:one).id }
     end
     assert_response :forbidden
   end
 
   test "#show should allow displaying myself without any special permissions" do
     as_user :two do
-      get :show, { :id => users(:two).id }
+      get :show, params: { :id => users(:two).id }
     end
     assert_response :success
   end
@@ -170,7 +170,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   test "#update should not update other users without proper permission" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user :two do
-      put :update, { :id => user.id, :user => valid_attrs }
+      put :update, params: { :id => user.id, :user => valid_attrs }
     end
     assert_response :forbidden
   end
@@ -178,7 +178,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   test "#update should allow updating myself without any special permissions" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs }
+      put :update, params: { :id => user.id, :user => valid_attrs }
     end
     assert_response :success
   end
@@ -186,7 +186,7 @@ class Api::V1::UsersControllerTest < ActionController::TestCase
   test '#update should not be editing User.current' do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs }
+      put :update, params: { :id => user.id, :user => valid_attrs }
     end
     assert_equal user, assigns(:user)
     refute_equal user.object_id, assigns(:user).object_id

@@ -60,7 +60,7 @@ class Api::TestableControllerTest < ActionController::TestCase
 
       test "request fails even if the session expired" do
         # this would be typical API call  initiated directly or from cli
-        get :index, {}, { :expires_at => 5.days.ago.utc, :user => users(:apiadmin).id }
+        get :index, session: { :expires_at => 5.days.ago.utc, :user => users(:apiadmin).id }
         assert_response :unauthorized
       end
     end
@@ -72,13 +72,13 @@ class Api::TestableControllerTest < ActionController::TestCase
 
       test "request fails if the session expired" do
         # this would be typical API call  initiated from a web ui session
-        get :index, {}, { :expires_at => 5.days.ago.utc, :user => users(:apiadmin).id }
+        get :index, session: { :expires_at => 5.days.ago.utc, :user => users(:apiadmin).id }
         assert_response :unauthorized
       end
 
       test "request succeeds if the session has not expired" do
         # this would be typical API call  initiated from a web ui session
-        get :index, {}, { :expires_at => 5.days.from_now.utc, :user => users(:apiadmin).id }
+        get :index, session: { :expires_at => 5.days.from_now.utc, :user => users(:apiadmin).id }
         assert_response :success
       end
     end
@@ -134,7 +134,7 @@ class Api::TestableControllerTest < ActionController::TestCase
       @controller.expects(:authenticate).times(30).returns(false)
       @controller.expects(:log_bruteforce).once
       31.times do
-        get :index, {:user => 'admin', :password => 'brute-force'}
+        get :index, params: { :user => 'admin', :password => 'brute-force' }
       end
     end
 
@@ -184,20 +184,20 @@ class Api::TestableControllerTest < ActionController::TestCase
 
     it "blocks access without CSRF token when there is a session user" do
       request.headers['X-CSRF-Token'] = nil
-      post :index, {}, set_session_user
+      post :index, session: set_session_user
       assert_response :unauthorized
     end
 
     it "permits access without CSRF token when the session was authenticated via api" do
       request.headers['X-CSRF-Token'] = nil
-      post :index, {}, set_session_user.merge(:api_authenticated_session => true)
+      post :index, session: set_session_user.merge(:api_authenticated_session => true)
       assert_response :success
     end
 
     it "works with a CSRF token when there is a session user" do
       token = @controller.send(:form_authenticity_token)
       request.headers['X-CSRF-Token'] = token
-      post :index, {:authenticity_token => token}, set_session_user
+      post :index, params: { :authenticity_token => token }, session: set_session_user
       assert_response :success
     end
   end
@@ -210,37 +210,37 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
 
     it 'should return 404 error, if association not defined for required parameters' do
-      get :required_nested_values, :xxx_id => 1
+      get :required_nested_values, params: { :xxx_id => 1 }
 
       assert_equal 404, @response.status
     end
 
     it 'should return error, if required nested resource requested, but not found' do
-      get :required_nested_values, :domain_id => 2, :action => 'index'
+      get :required_nested_values, params: { :domain_id => 2, :action => 'index' }
 
       assert_match /.*message.*not found.*/, @response.body
     end
 
     it 'should return error, if required nested resource not requested' do
-      get :required_nested_values, :action => 'index'
+      get :required_nested_values, params: { :action => 'index' }
 
       assert_match /.*message.*not found.*/, @response.body
     end
 
     it 'should not return error, if association not defined for optional parameters' do
-      get :optional_nested_values, :xxx_id => 1
+      get :optional_nested_values, params: { :xxx_id => 1 }
 
       assert_equal @response.status, 200
     end
 
     it 'should return error, if optional nested resource requested, but not found' do
-      get :optional_nested_values, :domain_id => 2, :action => 'index'
+      get :optional_nested_values, params: { :domain_id => 2, :action => 'index' }
 
       assert_match /.*message.*not found.*/, @response.body
     end
 
     it 'should not return error, if optional nested resource not requested' do
-      get :optional_nested_values, :action => 'index'
+      get :optional_nested_values, params: { :action => 'index' }
 
       assert_equal @response.status, 200
     end
@@ -268,7 +268,7 @@ class Api::TestableControllerTest < ActionController::TestCase
           Testable.stubs(:where).returns(@testable_scope2)
           Testable.stubs(:scoped).returns(@testable_scope2)
 
-          get :nested_values, :domain_id => 1, :id => 1
+          get :nested_values, params: { :domain_id => 1, :id => 1 }
 
           assert_equal @testable_obj, @controller.instance_variable_get('@testable')
           assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
@@ -281,7 +281,7 @@ class Api::TestableControllerTest < ActionController::TestCase
           child_auth_scope.stubs(:where).returns(@testable_scope2)
           child_auth_scope.stubs(:scoped).returns(@testable_scope2)
 
-          get :nested_values, :domain_id => 1, :id => 1
+          get :nested_values, params: { :domain_id => 1, :id => 1 }
 
           assert_equal @testable_obj, @controller.instance_variable_get('@testable')
           assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
@@ -291,14 +291,14 @@ class Api::TestableControllerTest < ActionController::TestCase
       context 'check authorized for nested resources' do
         it 'checks Host::Managed scope when :host_id is passed' do
           Host::Managed.expects(:authorized)
-          get :nested_values, :host_id => 1, :id => 1
+          get :nested_values, params: { :host_id => 1, :id => 1 }
         end
 
         it 'determines class properly from resource_id parameter' do
           Domain.expects(:authorized)
-          get :nested_values, :domain_id => 1, :id => 1
+          get :nested_values, params: { :domain_id => 1, :id => 1 }
           Subnet.expects(:authorized)
-          get :nested_values, :subnet_id => 1, :id => 1
+          get :nested_values, params: { :subnet_id => 1, :id => 1 }
         end
       end
     end
@@ -312,7 +312,7 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
 
     it 'modifies timezone only inside a controller' do
-      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      get :index, session: { :user => @user.id, :expires_at => 5.minutes.from_now }
       # inside the controller
       assert_equal(@response.body, @user.timezone)
       # outside the controller
@@ -321,14 +321,14 @@ class Api::TestableControllerTest < ActionController::TestCase
 
     it 'defaults to UTC timezone if user timezone and cookie are not set' do
       @user.update_attribute(:timezone, nil)
-      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      get :index, session: { :user => @user.id, :expires_at => 5.minutes.from_now }
       assert_equal(@response.body, 'UTC')
     end
 
     it 'changes the timezone according to cookie when user timezone is nil' do
       @user.update_attribute(:timezone, nil)
       cookies[:timezone] = 'Australia/Sydney'
-      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      get :index, session: { :user => @user.id, :expires_at => 5.minutes.from_now }
       assert_equal(@response.body, cookies[:timezone])
     end
   end

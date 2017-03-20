@@ -27,7 +27,7 @@ class CsvResponderTest < ActionController::TestCase
   tests FakeController
 
   test "response is streamed correctly with right headers" do
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_equal "text/csv; charset=utf-8", response.headers["Content-Type"]
     assert_equal "no-cache", response.headers["Cache-Control"]
     assert_equal "attachment; filename=\"fake-#{Date.today}.csv\"", response.headers["Content-Disposition"]
@@ -41,7 +41,7 @@ class CsvApiResponderTest < ActionController::TestCase
   tests Api::V2::FakeController
 
   test "response is streamed correctly with right headers" do
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_equal "text/csv; charset=utf-8", response.headers["Content-Type"]
     assert_equal "no-cache", response.headers["Cache-Control"]
     assert_equal "attachment; filename=\"fake-#{Date.today}.csv\"", response.headers["Content-Disposition"]

@@ -110,7 +110,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
   test "should clone a locked template as unlocked" do
     tmplt = templates(:locked)
     clone = tmplt.clone
-    assert_equal clone.name, nil
+    assert_nil clone.name
     assert_equal clone.operatingsystems, tmplt.operatingsystems
     assert_equal clone.template_kind_id, tmplt.template_kind_id
     assert_equal clone.template, tmplt.template

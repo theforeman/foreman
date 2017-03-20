@@ -8,7 +8,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should get index for specific host" do
-    get :index, {:host_id => @host.to_param }
+    get :index, params: {:host_id => @host.to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -16,7 +16,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should get index for specific domain" do
-    get :index, {:domain_id => domains(:mydomain).to_param }
+    get :index, params: { :domain_id => domains(:mydomain).to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -24,7 +24,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should get index for specific hostgroup" do
-    get :index, {:hostgroup_id => hostgroups(:common).to_param }
+    get :index, params: {:hostgroup_id => hostgroups(:common).to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -32,7 +32,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should get index for specific os" do
-    get :index, {:operatingsystem_id => operatingsystems(:redhat).to_param }
+    get :index, params: {:operatingsystem_id => operatingsystems(:redhat).to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -40,7 +40,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should get index for specific location" do
-    get :index, { :location_id => taxonomies(:location1).to_param }
+    get :index, params: { :location_id => taxonomies(:location1).to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -48,7 +48,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should get index for specific organization" do
-    get :index, { :organization_id => taxonomies(:organization1).to_param }
+    get :index, params: { :organization_id => taxonomies(:organization1).to_param }
     assert_response :success
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
@@ -56,49 +56,49 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should show a host parameter" do
-    get :show, { :host_id => @host.to_param, :id => @host.parameters.first.to_param }
+    get :show, params: { :host_id => @host.to_param, :id => @host.parameters.first.to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
   end
 
   test "should show a domain parameter" do
-    get :show, {:domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param }
+    get :show, params: {:domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
   end
 
   test "should show a hostgroup parameter" do
-    get :show, {:hostgroup_id => hostgroups(:common).to_param,:id => parameters(:group).to_param }
+    get :show, params: {:hostgroup_id => hostgroups(:common).to_param,:id => parameters(:group).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
   end
 
   test "should show an os parameter" do
-    get :show, {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => parameters(:os).to_param }
+    get :show, params: {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => parameters(:os).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
   end
 
   test "should show a location parameter" do
-    get :show, { :location_id => taxonomies(:location1).to_param, :id => parameters(:location).to_param }
+    get :show, params: { :location_id => taxonomies(:location1).to_param, :id => parameters(:location).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
   end
 
   test "should show an organization parameter" do
-    get :show, { :organization_id => taxonomies(:organization1).to_param, :id => parameters(:organization).to_param }
+    get :show, params: { :organization_id => taxonomies(:organization1).to_param, :id => parameters(:organization).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
   end
 
   test "should show a subnet parameter" do
-    get :show, {:subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param }
+    get :show, params: {:subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
@@ -109,7 +109,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     # create DomainParamter with name name
     assert Domain.first.parameters.create(:name => 'os1')
     param = parameters(:os)
-    get :show, {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => param.name }
+    get :show, params: {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => param.name }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_equal param.id, show_response['id']
@@ -117,7 +117,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should create host parameter" do
     assert_difference('@host.parameters.count') do
-      post :create, { :host_id => @host.to_param, :parameter => valid_attrs }
+      post :create, params: { :host_id => @host.to_param, :parameter => valid_attrs }
     end
     assert_response :created
   end
@@ -125,7 +125,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create domain parameter" do
     domain = domains(:mydomain)
     assert_difference('domain.parameters.count') do
-      post :create, { :domain_id => domain.to_param, :parameter => valid_attrs }
+      post :create, params: { :domain_id => domain.to_param, :parameter => valid_attrs }
     end
     assert_response :created
   end
@@ -133,7 +133,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create subnet parameter" do
     subnet = subnets(:five)
     assert_difference('subnet.parameters.count') do
-      post :create, { :subnet_id => subnet.to_param, :parameter => valid_attrs }
+      post :create, params: { :subnet_id => subnet.to_param, :parameter => valid_attrs }
     end
     assert_response :created
   end
@@ -141,7 +141,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create hostgroup parameter" do
     hostgroup = hostgroups(:common)
     assert_difference('hostgroup.group_parameters.count') do
-      post :create, { :hostgroup_id => hostgroup.to_param, :parameter => valid_attrs }
+      post :create, params: { :hostgroup_id => hostgroup.to_param, :parameter => valid_attrs }
     end
     assert_response :created
   end
@@ -149,41 +149,41 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create os parameter" do
     os = operatingsystems(:redhat)
     assert_difference('os.parameters.count') do
-      post :create, { :operatingsystem_id => os.to_param, :parameter => valid_attrs }
+      post :create, params: { :operatingsystem_id => os.to_param, :parameter => valid_attrs }
     end
     assert_response :created
   end
 
   test "should update nested host parameter" do
-    put :update, { :host_id => @host.to_param, :id => @host.parameters.first.to_param, :parameter => valid_attrs }
+    put :update, params: { :host_id => @host.to_param, :id => @host.parameters.first.to_param, :parameter => valid_attrs }
     assert_response :success
     assert_equal '123', Host.unscoped.find_by_name(@host.name).parameters.
       order("parameters.updated_at").last.value
   end
 
   test "should update nested domain parameter" do
-    put :update, { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param, :parameter => valid_attrs }
+    put :update, params: { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param, :parameter => valid_attrs }
     assert_response :success
     assert_equal Domain.unscoped.find_by_name("mydomain.net").parameters.
       order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested subnet parameter" do
-    put :update, { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param, :parameter => valid_attrs }
+    put :update, params: { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param, :parameter => valid_attrs }
     assert_response :success
     assert_equal Subnet.unscoped.find_by_name("five").parameters.
       order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested hostgroup parameter" do
-    put :update, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs }
+    put :update, params: { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs }
     assert_response :success
     assert_equal Hostgroup.unscoped.find_by_name("Common").group_parameters.
       order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested os parameter" do
-    put :update, { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param, :parameter => valid_attrs }
+    put :update, params: { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param, :parameter => valid_attrs }
     assert_response :success
     assert_equal Operatingsystem.unscoped.find_by_name("Redhat").parameters.
       order("parameters.updated_at").last.value, "123"
@@ -191,78 +191,78 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should destroy nested host parameter" do
     assert_difference('HostParameter.count', -1) do
-      delete :destroy, { :host_id => @host.to_param, :id => @host.parameters.first.to_param }
+      delete :destroy, params: { :host_id => @host.to_param, :id => @host.parameters.first.to_param }
     end
     assert_response :success
   end
 
   test "should destroy nested domain parameter" do
     assert_difference('DomainParameter.count', -1) do
-      delete :destroy, { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param }
+      delete :destroy, params: { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param }
     end
     assert_response :success
   end
 
   test "should destroy nested subnet parameter" do
     assert_difference('SubnetParameter.count', -1) do
-      delete :destroy, { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param }
+      delete :destroy, params: { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param }
     end
     assert_response :success
   end
 
   test "should destroy Hostgroup parameter" do
     assert_difference('GroupParameter.count', -1) do
-      delete :destroy, { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param }
+      delete :destroy, params: { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param }
     end
     assert_response :success
   end
 
   test "should destroy nested os parameter" do
     assert_difference('OsParameter.count', -1) do
-      delete :destroy, { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param }
+      delete :destroy, params: { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param }
     end
     assert_response :success
   end
 
   test "should reset nested host parameter" do
     assert_difference('HostParameter.count', -1) do
-      delete :reset, { :host_id => @host.to_param }
+      delete :reset, params: { :host_id => @host.to_param }
     end
     assert_response :success
   end
 
   test "should reset nested domain parameter" do
     assert_difference('DomainParameter.count', -1) do
-      delete :reset, { :domain_id => domains(:mydomain).to_param }
+      delete :reset, params: { :domain_id => domains(:mydomain).to_param }
     end
     assert_response :success
   end
 
   test "should reset nested subnet parameter" do
     assert_difference('SubnetParameter.count', -1) do
-      delete :reset, { :subnet_id => subnets(:five).to_param }
+      delete :reset, params: { :subnet_id => subnets(:five).to_param }
     end
     assert_response :success
   end
 
   test "should reset Hostgroup parameter" do
     assert_difference('GroupParameter.count', -1) do
-      delete :reset, { :hostgroup_id => hostgroups(:common).to_param }
+      delete :reset, params: { :hostgroup_id => hostgroups(:common).to_param }
     end
     assert_response :success
   end
 
   test "should reset nested os parameters" do
     assert_difference('OsParameter.count', -1) do
-      delete :reset, { :operatingsystem_id => operatingsystems(:redhat).id }
+      delete :reset, params: { :operatingsystem_id => operatingsystems(:redhat).id }
     end
     assert_response :success
   end
 
   context "scoped search" do
     def assert_filtering_works(resource, id)
-      post :create, { "#{resource}_id".to_sym => id, :parameter => { :name => 'parameter2', :value => 'X' } }
-      get :index, { "#{resource}_id".to_sym => id, :search => 'name = parameter2' }
+      post :create, params: { "#{resource}_id".to_sym => id, :parameter => { :name => 'parameter2', :value => 'X' } }
+      get :index, params: { "#{resource}_id".to_sym => id, :search => 'name = parameter2' }
       assert_response :success
       assert_not_nil assigns(:parameters)
       parameters = ActiveSupport::JSON.decode(@response.body)
@@ -295,14 +295,14 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     test 'user with permissions to view host can also view its parameters' do
       setup_user 'view', 'params'
       setup_user 'view', 'hosts', "name = #{@host.name}"
-      get :index, { :host_id => @host.name }, set_session_user(:one)
+      get :index, params: { :host_id => @host.name }, session: set_session_user(:one)
       assert_response :success
     end
 
     test 'user without permissions to view host cannot view parameters' do
       setup_user 'view', 'params'
       setup_user 'view', 'hosts', "name = some.other.host"
-      get :index, { :host_id => @host.name }, set_session_user(:one)
+      get :index, params: { :host_id => @host.name }, session: set_session_user(:one)
       assert_response :not_found
     end
   end
@@ -310,7 +310,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   context 'hidden' do
     test "should show a host parameter as hidden unless show_hidden is true" do
       parameter = FactoryBot.create(:host_parameter, :host => @host, :hidden_value => true)
-      get :show, { :host_id => @host.to_param, :id => parameter.to_param }
+      get :show, params: { :host_id => @host.to_param, :id => parameter.to_param }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['value']
     end
@@ -320,7 +320,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
       setup_user 'view', 'params'
       setup_user 'edit', 'params'
       setup_user 'view', 'hosts', "name = #{@host.name}"
-      get :show, { :host_id => @host.to_param, :id => parameter.to_param, :show_hidden => 'true' }, set_session_user(:one)
+      get :show, params: { :host_id => @host.to_param, :id => parameter.to_param, :show_hidden => 'true' }, session: set_session_user(:one)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.value, show_response['value']
     end
@@ -329,7 +329,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
       parameter = FactoryBot.create(:host_parameter, :host => @host, :hidden_value => true)
       setup_user 'view', 'params'
       setup_user 'view', 'hosts', "name = #{@host.name}"
-      get :show, { :host_id => @host.to_param, :id => parameter.to_param, :show_hidden => 'true' }, set_session_user(:one)
+      get :show, params: { :host_id => @host.to_param, :id => parameter.to_param, :show_hidden => 'true' }, session: set_session_user(:one)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['value']
     end
