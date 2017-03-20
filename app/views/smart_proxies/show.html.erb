@@ -107,7 +107,7 @@
       <div class="tab-pane" id="services">
         <div class="col-md-6">
           <% service_features.each do |feature| %>
-            <% feature_erb = "smart_proxies/plugins/#{feature.parameterize('_')}" %>
+            <% feature_erb = "smart_proxies/plugins/#{feature.parameterize(separator: '_')}" %>
             <% if lookup_context.template_exists?(feature_erb, [], true) %>
               <%= render :partial => feature_erb, :locals => {:feature => feature} %>
             <% else %>

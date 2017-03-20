@@ -24,9 +24,6 @@
     Switch to e.g. `post :create, params: { comment: { body: 'Honey bunny' } }, xhr: true`.
 - message: use_transactional_fixtures= is deprecated and will be removed from Rails
     5.1 (use use_transactional_tests= instead)
-- message: 'Passing the separator argument as a positional parameter is deprecated
-    and will soon be removed. Use `separator: ''_''` instead.'
-  callstack: app/views/smart_proxies/show.html.erb:110
 - message: Returning `false` in Active Record and Active Model callbacks will not
     implicitly halt a callback chain in Rails 5.1. To explicitly halt the callback
     chain, please use `throw :abort` instead.
