@@ -6,25 +6,25 @@ class SshKeysControllerTest < ActionController::TestCase
   let(:user) { ssh_key.user }
 
   test 'new' do
-    get :new, {:user_id => user.id}, set_session_user
+    get :new, params: { :user_id => user.id }, session: set_session_user
     assert_template 'new'
   end
 
   test 'create_invalid' do
-    post :create, {:ssh_key => {:name => nil}, :user_id => user.id}, set_session_user
+    post :create, params: { :ssh_key => {:name => nil}, :user_id => user.id }, session: set_session_user
     assert_template 'new'
   end
 
   test 'create_valid' do
     user
     assert_difference 'SshKey.count', 1 do
-      post :create, {:ssh_key => { :name => 'dummy', :key => key}, :user_id => user.id}, set_session_user
+      post :create, params: { :ssh_key => { :name => 'dummy', :key => key}, :user_id => user.id }, session: set_session_user
     end
     assert_redirected_to edit_user_url(user)
   end
 
   test 'destroy' do
-    delete :destroy, {:id => ssh_key.id, :user_id => user.id}, set_session_user
+    delete :destroy, params: { :id => ssh_key.id, :user_id => user.id }, session: set_session_user
     assert_redirected_to edit_user_url(user)
     refute SshKey.exists?(ssh_key.id)
   end

@@ -5,14 +5,14 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   smart_class_attrs = { :match => 'os=abc', :value => 'liftoff' }
 
   test "should get override values for specific smart variable" do
-    get :index, {:smart_variable_id => lookup_keys(:two).to_param }
+    get :index, params: { :smart_variable_id => lookup_keys(:two).to_param }
     assert_response :success
     override_values = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty override_values
     assert_equal 1, override_values["results"].length
   end
   test "should get override values for specific smart class parameter" do
-    get :index, {:smart_class_parameter_id => lookup_keys(:complex).to_param }
+    get :index, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param }
     assert_response :success
     override_values = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty override_values
@@ -22,34 +22,34 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   test 'should mark override on creation' do
     k = FactoryBot.create(:variable_lookup_key, :puppetclass => puppetclasses(:two), :path => "xyz")
     refute k.override
-    post :create, {:smart_variable_id => k.id, :override_value => smart_variable_attrs }
+    post :create, params: { :smart_variable_id => k.id, :override_value => smart_variable_attrs }
     k.reload
     assert k.override
   end
 
   test "should create override values for specific smart variable" do
     assert_difference('LookupValue.count') do
-      post :create,  {:smart_variable_id => lookup_keys(:four).to_param, :override_value => smart_variable_attrs }
+      post :create, params: { :smart_variable_id => lookup_keys(:four).to_param, :override_value => smart_variable_attrs }
     end
     assert_response :success
   end
 
   test "should create override values for specific smart class parameter" do
     assert_difference('LookupValue.count') do
-      post :create,  {:smart_class_parameter_id => lookup_keys(:complex).to_param, :override_value => smart_class_attrs }
+      post :create, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :override_value => smart_class_attrs }
     end
     assert_response :created
   end
 
   test "should show specific override values for specific smart variable" do
-    get :show, {:smart_variable_id => lookup_keys(:two).to_param, :id => lookup_values(:four).to_param }
+    get :show, params: { :smart_variable_id => lookup_keys(:two).to_param, :id => lookup_values(:four).to_param }
     assert_response :success
     results = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty results
     assert_equal "hostgroup=Common", results['match']
   end
   test "should show specific override values for specific smart class parameter" do
-    get :show, {:smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param }
+    get :show, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param }
     results = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty results
     assert_equal "hostgroup=Common", results['match']
@@ -57,13 +57,13 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test "should update specific override value" do
-    put :update, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'os=abc' } }
+    put :update, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'os=abc' } }
     assert_response :success
   end
 
   test "should destroy specific override value" do
     assert_difference('LookupValue.count', -1) do
-      delete :destroy, { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'host=abc.com' } }
+      delete :destroy, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'host=abc.com' } }
     end
     assert_response :success
   end
@@ -73,7 +73,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :path => "os", :puppetclass => puppetclasses(:two))
       refute lookup_key.override
       assert_difference('LookupValue.count', 0) do
-        post :create, {:smart_class_parameter_id => lookup_key.id, :override_value => override_value}
+        post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value => override_value }
       end
       response = ActiveSupport::JSON.decode(@response.body)
       param_not_posted = override_value.keys.first.to_s == 'match' ? 'Value' : 'Match' # The opposite of override_value is missing
@@ -86,7 +86,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     lookup_key = FactoryBot.create(:variable_lookup_key, :puppetclass => puppetclasses(:two))
     refute lookup_key.override
     assert_difference('LookupValue.count', 1) do
-      post :create, {:smart_variable_id => lookup_key.id, :override_value =>  { :match => 'os=string'}}
+      post :create, params: { :smart_variable_id => lookup_key.id, :override_value =>  { :match => 'os=string'} }
     end
     assert_response :success
   end
@@ -95,17 +95,17 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 
     assert_difference('LookupValue.count', 1) do
-      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => true}}
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => true} }
     end
     assert_response :success
   end
 
-  test "should create override value when use_puppet_default is true (compatibility test)" do
+  test "should create override value without when use_puppet_default is true (compatibility test)" do
     Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 
     assert_difference('LookupValue.count', 1) do
-      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => true}}
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => true} }
     end
     assert_response :success
   end
@@ -115,7 +115,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two), :omit => true)
 
     assert_difference('LookupValue.count', 1) do
-      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => false, :value => 'test_val'}}
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => false, :value => 'test_val'} }
     end
     assert_response :success
   end
@@ -124,7 +124,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 
     assert_difference('LookupValue.count', 0) do
-      post :create, {:smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => false}}
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => false} }
     end
     assert_response :error
   end
@@ -134,7 +134,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
       FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
-      get :show, { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param }
+      get :show, params: { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.hidden_value, show_response['value']
     end
@@ -146,7 +146,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       setup_user "edit", "external_parameters"
-      get :show, { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
+      get :show, params: { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.value, show_response['value']
     end
@@ -158,7 +158,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       setup_user "edit", "external_variables"
-      get :show, { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
+      get :show, params: { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.hidden_value, show_response['value']
     end
@@ -169,7 +169,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
       setup_user "view", "external_parameters"
-      get :show, { :smart_variable_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
+      get :show, params: { :smart_variable_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.hidden_value, show_response['value']
     end

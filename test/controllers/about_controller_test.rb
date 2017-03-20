@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AboutControllerTest < ActionController::TestCase
   def test_index
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
     assert_template 'index'
   end
@@ -14,7 +14,7 @@ class AboutControllerTest < ActionController::TestCase
     ComputeResource.expects(:registered_providers).at_least_once.returns('Example' => klass_string)
     ComputeResource.expects(:supported_providers).at_least_once.returns({})
 
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
 
     assert_kind_of Array, assigns(:providers)

@@ -13,7 +13,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => roles(:manager).to_param }
+    get :show, params: { :id => roles(:manager).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -21,19 +21,19 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
 
   test "should create role" do
     assert_difference('Role.count') do
-      post :create, { :role => valid_attrs }
+      post :create, params: { :role => valid_attrs }
     end
     assert_response :created
   end
 
   test "should update role" do
-    put :update, { :id => roles(:destroy_hosts).to_param, :role => valid_attrs }
+    put :update, params: { :id => roles(:destroy_hosts).to_param, :role => valid_attrs }
     assert_response :success
   end
 
   test "should destroy roles" do
     assert_difference('Role.count', -1) do
-      delete :destroy, { :id => roles(:destroy_hosts).to_param }
+      delete :destroy, params: { :id => roles(:destroy_hosts).to_param }
     end
     assert_response :success
   end
@@ -42,7 +42,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_name = "New Manager"
     manager = Role.find_by :name => "Manager"
     perm_count = manager.permissions.count
-    post :clone, { :name => "New Manager", :id => manager.id }
+    post :clone, params: { :name => "New Manager", :id => manager.id }
     assert_response :success
     r = Role.find_by :name => new_name
     assert_equal perm_count, r.permissions.count
@@ -53,7 +53,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     loc = Location.first
     org = Organization.first
     role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org])
-    post :clone, { :id => role.id, :role => { :name => new_name } }
+    post :clone, params: { :id => role.id, :role => { :name => new_name } }
     assert_response :success
     r = Role.find_by :name => new_name
     assert_equal 1, r.organizations.count
@@ -72,9 +72,9 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_desc = "updated description"
     new_role = { :description => new_desc, :location_ids => [new_loc.id], :organization_ids => [new_org.id], :name => new_name }
     role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
-    post :clone, { :new_name => new_name,
-                   :id => role.id,
-                   :role => new_role }
+    post :clone, params: { :new_name => new_name,
+                           :id => role.id,
+                           :role => new_role }
     assert_response :success
     cloned_role = Role.find_by :name => new_name
     assert cloned_role
@@ -92,9 +92,9 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_desc = "updated description"
     new_role = { :description => new_desc, :organization_ids => [new_org.id], :name => new_name }
     role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
-    post :clone, { :new_name => new_name,
-                   :id => role.id,
-                   :role => new_role }
+    post :clone, params: { :new_name => new_name,
+                           :id => role.id,
+                           :role => new_role }
     assert_response :success
     cloned_role = Role.find_by :name => new_name
     assert cloned_role
@@ -110,9 +110,9 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     desc = "default description"
     new_role = { :location_ids => [], :organization_ids => [], :name => new_name }
     role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
-    post :clone, { :new_name => new_name,
-                   :id => role.id,
-                   :role => new_role }
+    post :clone, params: { :new_name => new_name,
+                           :id => role.id,
+                           :role => new_role }
     assert_response :success
     cloned_role = Role.find_by :name => new_name
     assert cloned_role

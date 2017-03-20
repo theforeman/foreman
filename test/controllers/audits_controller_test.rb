@@ -5,19 +5,19 @@ class AuditsControllerTest < ActionController::TestCase
   basic_pagination_rendered_test
 
   def test_index
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_template 'index'
   end
 
   def test_show
-    get :show, {:id => Audit.first}, set_session_user
+    get :show, params: { :id => Audit.first }, session: set_session_user
     assert_response :success
     assert_template 'show'
   end
 
   def test_show_diff
     audit = FactoryBot.create(:audit, :with_diff)
-    get :show, {:id => audit.id}, set_session_user
+    get :show, params: { :id => audit.id }, session: set_session_user
     assert_response :success
     assert_template 'show'
     assert_template '_diff'
@@ -30,7 +30,7 @@ class AuditsControllerTest < ActionController::TestCase
 
   def user_with_viewer_rights_should_fail_to(edit_audit)
     setup_user
-    get :edit, {:id => Audit.first}
+    get :edit, params: { :id => Audit.first }
     assert @response.status == '403 Forbidden'
   end
 

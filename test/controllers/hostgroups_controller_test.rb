@@ -5,57 +5,57 @@ class HostgroupsControllerTest < ActionController::TestCase
   include PageletsIsolation
 
   def test_index
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_template 'index'
   end
 
   def test_new
-    get :new, {}, set_session_user
+    get :new, session: set_session_user
     assert_template 'new'
   end
 
   def test_nest
-    get :nest, {:id => hostgroups(:common).id}, set_session_user
+    get :nest, params: { :id => hostgroups(:common).id }, session: set_session_user
     assert_template 'new'
   end
 
   def test_create_invalid
     Hostgroup.any_instance.stubs(:valid?).returns(false)
-    post :create, {:hostgroup => {:name => nil}}, set_session_user
+    post :create, params: { :hostgroup => {:name => nil} }, session: set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
     pc = Puppetclass.first
-    post :create, {:hostgroup => {:name=>"test_it", :group_parameters_attributes=>{"1272344174448"=>{:name => "x", :value =>"y", :_destroy => ""}},
-                   :puppetclass_ids=>["", pc.id.to_s], :realm_id => realms(:myrealm).id}}, set_session_user
+    post :create, params: { :hostgroup => {:name=>"test_it", :group_parameters_attributes=>{"1272344174448"=>{:name => "x", :value =>"y", :_destroy => ""}},
+                   :puppetclass_ids=>["", pc.id.to_s], :realm_id => realms(:myrealm).id} }, session: set_session_user
     assert_redirected_to hostgroups_url
   end
 
   def test_clone
-    get :clone, {:id => hostgroups(:common)}, set_session_user
+    get :clone, params: { :id => hostgroups(:common) }, session: set_session_user
     assert_template 'new'
   end
 
   def test_edit
-    get :edit, {:id => hostgroups(:common)}, set_session_user
+    get :edit, params: { :id => hostgroups(:common) }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_invalid
-    put :update, {:id => hostgroups(:common), :hostgroup => { :name => '' }}, set_session_user
+    put :update, params: { :id => hostgroups(:common), :hostgroup => { :name => '' } }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
-    put :update, {:id => hostgroups(:common), :hostgroup => { :name => hostgroups(:common).name }}, set_session_user
+    put :update, params: { :id => hostgroups(:common), :hostgroup => { :name => hostgroups(:common).name } }, session: set_session_user
     assert_redirected_to hostgroups_url
   end
 
   def test_destroy
     hostgroup = hostgroups(:unusual)
-    delete :destroy, {:id => hostgroup.id}, set_session_user
+    delete :destroy, params: { :id => hostgroup.id }, session: set_session_user
     assert_redirected_to hostgroups_url
     assert !Hostgroup.exists?(hostgroup.id)
   end
@@ -66,19 +66,19 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a hostgroup ' do
     setup_user "view"
-    get :edit, {:id => hostgroups(:common).id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => hostgroups(:common).id }, session: set_session_user.merge(:user => users(:one).id)
     assert_response :forbidden
   end
 
   test 'user with viewer rights should succeed in viewing hostgroups' do
     setup_user "view"
-    get :index, {}, set_session_user.merge(:user => users(:one).id)
+    get :index, session: set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
 
   test 'csv export works' do
     host = FactoryBot.create(:host, :with_hostgroup)
-    get :index, { :format => 'csv' }, set_session_user
+    get :index, params: { :format => 'csv' }, session: set_session_user
     assert_response :success
     assert response.body.include? "#{host.hostgroup.title},1,1"
   end
@@ -87,7 +87,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     hostgroup = hostgroups(:common)
     old_root_pass = hostgroup.root_pass
     as_admin do
-      put :update, {:commit => "Update", :id => hostgroup.id, :hostgroup => {:name => hostgroup.name} }, set_session_user
+      put :update, params: { :commit => "Update", :id => hostgroup.id, :hostgroup => {:name => hostgroup.name} }, session: set_session_user
     end
     hostgroup = Hostgroup.find(hostgroup.id)
     assert_equal old_root_pass, hostgroup.root_pass
@@ -96,7 +96,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   test 'blank root password submitted does erase existing password' do
     hostgroup = hostgroups(:common)
     as_admin do
-      put :update, {:commit => "Update", :id => hostgroup.id, :hostgroup => {:root_pass => '', :name => hostgroup.name} }, set_session_user
+      put :update, params: { :commit => "Update", :id => hostgroup.id, :hostgroup => {:root_pass => '', :name => hostgroup.name} }, session: set_session_user
     end
     hostgroup = Hostgroup.find(hostgroup.id)
     assert hostgroup.root_pass.empty?
@@ -104,28 +104,28 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   test "hostgroup rename changes matcher" do
     hostgroup = hostgroups(:common)
-    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_common'}}, set_session_user
+    put :update, params: { :id => hostgroup.id, :hostgroup => {:name => 'new_common'} }, session: set_session_user
     assert_equal 'hostgroup=new_common', lookup_values(:hostgroupcommon).match
     assert_equal 'hostgroup=new_common', lookup_values(:four).match
   end
 
   test "hostgroup rename changes matcher" do
     hostgroup = hostgroups(:common)
-    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_common'}}, set_session_user
+    put :update, params: { :id => hostgroup.id, :hostgroup => {:name => 'new_common'} }, session: set_session_user
     assert_equal 'hostgroup=new_common', lookup_values(:hostgroupcommon).match
     assert_equal 'hostgroup=new_common', lookup_values(:four).match
   end
 
   test "hostgroup rename of parent changes matcher of parent and child hostgroup" do
     hostgroup = hostgroups(:parent)
-    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_parent'}}, set_session_user
+    put :update, params: { :id => hostgroup.id, :hostgroup => {:name => 'new_parent'} }, session: set_session_user
     assert_equal 'hostgroup=new_parent', lookup_values(:five).match
     assert_equal 'hostgroup=new_parent/inherited', lookup_values(:six).match
   end
 
   test "hostgroup rename of child only changes matcher of child hostgroup" do
     hostgroup = hostgroups(:inherited)
-    put :update, {:id => hostgroup.id, :hostgroup => {:name => 'new_child'}}, set_session_user
+    put :update, params: { :id => hostgroup.id, :hostgroup => {:name => 'new_child'} }, session: set_session_user
     assert_equal 'hostgroup=Parent/new_child', lookup_values(:six).match
   end
 
@@ -146,7 +146,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "architecture_selected should not fail when no architecture selected" do
-    post :architecture_selected, {:id => hostgroups(:common), :hostgroup => {}, :architecture_id => nil}, set_session_user
+    post :architecture_selected, params: { :id => hostgroups(:common), :hostgroup => {}, :architecture_id => nil }, session: set_session_user
     assert_response :success
     assert_template :partial => "common/os_selection/_architecture"
   end
@@ -169,7 +169,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     test "should return the selected puppet classes on environment change" do
       assert_equal 0, @hostgroup.puppetclasses.length
 
-      post :environment_selected, @params, set_session_user
+      post :environment_selected, params: @params, session: set_session_user
       assert_equal(1, (assigns(:hostgroup).puppetclasses.length))
       assert_include assigns(:hostgroup).puppetclasses, @puppetclass
     end
@@ -179,7 +179,7 @@ class HostgroupsControllerTest < ActionController::TestCase
         other_environment = FactoryBot.create(:environment)
         @params[:hostgroup][:environment_id] = other_environment.id
 
-        post :environment_selected, @params, set_session_user
+        post :environment_selected, params: @params, session: set_session_user
         assert_equal assigns(:environment), other_environment
       end
     end
@@ -189,14 +189,14 @@ class HostgroupsControllerTest < ActionController::TestCase
     hg = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "edit"
     setup_user "view", "params"
-    get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => hg.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_not_nil response.body['Global Parameters']
   end
 
   test 'user without view_params rights should not see parameters in a hostgroup' do
     hg = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "edit"
-    get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => hg.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Global Parameters']
   end
 
@@ -209,8 +209,8 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
 
     it "creates a hostgroup with a parent parameter" do
-      post :create, {"hostgroup" => {"name"=>"test_it", "parent_id" => @base.id, :realm_id => realms(:myrealm).id,
-                                     :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
+      post :create, params: { "hostgroup" => {"name"=>"test_it", "parent_id" => @base.id, :realm_id => realms(:myrealm).id,
+                                     :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}} }, session: set_session_user
       assert_redirected_to hostgroups_url
       hostgroup = Hostgroup.unscoped.where(:name => "test_it").last
       as_admin do
@@ -223,8 +223,8 @@ class HostgroupsControllerTest < ActionController::TestCase
       as_admin do
         assert_equal "original", child.parameters["x"]
       end
-      post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
-                                                       :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}}}, set_session_user
+      post :update, params: { "id" => child.id, "hostgroup" => {"name" => child.name,
+                                                       :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}} }, session: set_session_user
       assert_redirected_to hostgroups_url
       as_admin do
         child.reload
@@ -237,9 +237,9 @@ class HostgroupsControllerTest < ActionController::TestCase
       as_admin do
         assert_equal "original", child.parameters["x"]
       end
-      post :update, {"id" => child.id, "hostgroup" => {"name" => child.name,
+      post :update, params: { "id" => child.id, "hostgroup" => {"name" => child.name,
                                                        :group_parameters_attributes => {"0" => {:name => "x", :value => "", :_destroy => ""},
-                                                                                        "1" => {:name => "y", :value => "overridden", :_destroy => ""}}}}, set_session_user
+                                                                                        "1" => {:name => "y", :value => "overridden", :_destroy => ""}}} }, session: set_session_user
       assert_redirected_to hostgroups_url
       as_admin do
         child.reload
@@ -257,7 +257,7 @@ class HostgroupsControllerTest < ActionController::TestCase
       new_parent = FactoryBot.create(:hostgroup)
       new_parent.group_parameters << GroupParameter.create(:name => "z", :value => "original")
 
-      post :update, {"id" => child.id, "hostgroup" => {"name" => child.name, "parent_id" => new_parent.id}}, set_session_user
+      post :update, params: { "id" => child.id, "hostgroup" => {"name" => child.name, "parent_id" => new_parent.id} }, session: set_session_user
 
       assert_redirected_to hostgroups_url
       child.reload
@@ -278,12 +278,12 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
 
     test '#new renders a pagelet tab' do
-      get :new, {}, set_session_user
+      get :new, session: set_session_user
       assert @response.body.match /id='my-special-id'/
     end
 
     test '#edit renders a pagelet tab' do
-      get :edit, {:id => Hostgroup.first.to_param}, set_session_user
+      get :edit, params: { :id => Hostgroup.first.to_param }, session: set_session_user
       assert @response.body.match /id='my-special-id'/
     end
   end

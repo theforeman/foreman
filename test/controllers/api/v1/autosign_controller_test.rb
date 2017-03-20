@@ -6,7 +6,7 @@ class Api::V1::AutosignControllerTest < ActionController::TestCase
   end
 
   test "should get index and return json" do
-    get :index, { :smart_proxy_id => smart_proxies(:puppetmaster).id }
+    get :index, params: { :smart_proxy_id => smart_proxies(:puppetmaster).id }
     assert_response :success
     assert_equal 'http://else.where:4567/puppet/ca', ProxyAPI::Puppetca.new(:url => smart_proxies(:puppetmaster).url).url
     results = ActiveSupport::JSON.decode(@response.body)

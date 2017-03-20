@@ -7,7 +7,7 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
   }
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     assert_not_nil assigns(:media)
     medium = ActiveSupport::JSON.decode(@response.body)
@@ -15,7 +15,7 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
   end
 
   test "should show medium" do
-    get :show, { :id => media(:one).to_param }
+    get :show, params: { :id => media(:one).to_param }
     assert_not_nil assigns(:medium)
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
@@ -24,7 +24,7 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
 
   test "should create medium" do
     assert_difference('Medium.unscoped.count', +1) do
-      post :create, { :medium => new_medium }
+      post :create, params: { :medium => new_medium }
     end
     assert_response :created
     assert_not_nil assigns(:medium)
@@ -32,13 +32,13 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
 
   test "should update medium" do
     name = Medium.first.name
-    put :update, { :id => Medium.first.id.to_param, :name => name.to_s.to_param }
+    put :update, params: { :id => Medium.first.id.to_param, :name => name.to_s.to_param }
     assert_response :success
   end
 
   test "should destroy medium" do
     assert_difference('Medium.unscoped.count', -1) do
-      delete :destroy, { :id => media(:unused).id.to_param }
+      delete :destroy, params: { :id => media(:unused).id.to_param }
     end
     assert_response :success
   end

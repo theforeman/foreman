@@ -16,7 +16,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     @host = FactoryBot.create(:host,
                                :puppetclasses => [puppetclasses(:one)],
                                :environment => environments(:production))
-    get :index, {:host_id => @host.to_param}
+    get :index, params: { :host_id => @host.to_param }
     assert_response :success
     assert_not_nil assigns(:smart_variables)
     results = ActiveSupport::JSON.decode(@response.body)
@@ -26,7 +26,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
   end
 
   test "should get smart variables for a specific hostgroup" do
-    get :index, {:hostgroup_id => hostgroups(:common).to_param}
+    get :index, params: { :hostgroup_id => hostgroups(:common).to_param }
     assert_response :success
     assert_not_nil assigns(:smart_variables)
     results = ActiveSupport::JSON.decode(@response.body)
@@ -36,7 +36,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
   end
 
   test "should get smart variables for a specific puppetclass" do
-    get :index, {:puppetclass_id => puppetclasses(:two).id}
+    get :index, params: { :puppetclass_id => puppetclasses(:two).id }
     assert_response :success
     assert_not_nil assigns(:smart_variables)
     results = ActiveSupport::JSON.decode(@response.body)
@@ -49,14 +49,14 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     assert_difference('LookupKey.count') do
       as_admin do
         valid_attrs = { :variable => 'test_smart_variable', :puppetclass_id => puppetclasses(:one).id }
-        post :create, { :smart_variable => valid_attrs }
+        post :create, params: { :smart_variable => valid_attrs }
       end
     end
     assert_response :created
   end
 
   test "should show specific smart variable" do
-    get :show, {:id => lookup_keys(:two).to_param, :puppetclass_id => puppetclasses(:one).id}
+    get :show, params: { :id => lookup_keys(:two).to_param, :puppetclass_id => puppetclasses(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -64,7 +64,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
 
   test "should update smart variable" do
     orig_value = lookup_keys(:four).default_value
-    put :update, { :id => lookup_keys(:four).to_param, :smart_variable => { :default_value => 'newstring' } }
+    put :update, params: { :id => lookup_keys(:four).to_param, :smart_variable => { :default_value => 'newstring' } }
     assert_response :success
     new_value = lookup_keys(:four).reload.default_value
     refute_equal orig_value, new_value
@@ -72,7 +72,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
 
   test "should destroy smart variable" do
     assert_difference('LookupKey.count', -1) do
-      delete :destroy, { :id => lookup_keys(:four).to_param }
+      delete :destroy, params: { :id => lookup_keys(:four).to_param }
     end
     assert_response :success
   end
@@ -80,7 +80,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
   context 'hidden' do
     test "should show a smart variable as hidden unless show_hidden is true" do
       parameter = FactoryBot.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
-      get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id }
+      get :show, params: { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['default_value']
     end
@@ -90,7 +90,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
       setup_user "edit", "external_variables"
-      get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
+      get :show, params: { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, session: set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.default_value, show_response['default_value']
     end
@@ -99,7 +99,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
       parameter = FactoryBot.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
-      get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
+      get :show, params: { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, session: set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['default_value']
     end

@@ -13,7 +13,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   test "should get template detail" do
-    get :show, { :id => templates(:pxekickstart).to_param }
+    get :show, params: { :id => templates(:pxekickstart).to_param }
     assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
     assert !template.empty?
@@ -23,7 +23,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   test "should create valid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
     valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName" }
-    post :create, { :config_template => valid_attrs }
+    post :create, params: { :config_template => valid_attrs }
     template = ActiveSupport::JSON.decode(@response.body)
     assert template["name"] == "RandomName"
     assert_response :created
@@ -36,8 +36,8 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
 
   test "should update valid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, { :id              => templates(:pxekickstart).to_param,
-                   :config_template => { :template => "blah" } }
+    put :update, params: { :id              => templates(:pxekickstart).to_param,
+                           :config_template => { :template => "blah" } }
     assert_response :ok
   end
 
@@ -47,8 +47,8 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     refute tpl.operatingsystem_ids.include?(os.id), "OS can't be associated to the config template before the test"
 
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, { :id => tpl.to_param,
-                   :operatingsystem_ids => [os.to_param] }
+    put :update, params: { :id => tpl.to_param,
+                           :operatingsystem_ids => [os.to_param] }
     assert_response :ok
 
     tpl.reload
@@ -56,14 +56,14 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not update invalid" do
-    put :update, { :id              => templates(:pxekickstart).to_param,
-                   :config_template => { :name => "" } }
+    put :update, params: { :id              => templates(:pxekickstart).to_param,
+                           :config_template => { :name => "" } }
     assert_response 422
   end
 
   test "should not destroy template with associated hosts" do
     config_template = templates(:pxekickstart)
-    delete :destroy, { :id => config_template.to_param }
+    delete :destroy, params: { :id => config_template.to_param }
     assert_response 422
     assert ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
@@ -71,7 +71,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   test "should destroy" do
     config_template = templates(:pxekickstart)
     config_template.os_default_templates.clear
-    delete :destroy, { :id => config_template.to_param }
+    delete :destroy, params: { :id => config_template.to_param }
     assert_response :ok
     refute ProvisioningTemplate.unscoped.exists?(config_template.id)
   end
@@ -89,16 +89,16 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   test "should add audit comment" do
     ProvisioningTemplate.auditing_enabled = true
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, { :id              => templates(:pxekickstart).to_param,
-                   :config_template => { :audit_comment => "aha", :template => "tmp" } }
+    put :update, params: { :id              => templates(:pxekickstart).to_param,
+                           :config_template => { :audit_comment => "aha", :template => "tmp" } }
     assert_response :success
     assert_equal "aha", templates(:pxekickstart).audits.last.comment
   end
 
   test 'should clone template' do
     original_config_template = templates(:pxekickstart)
-    post :clone, { :id => original_config_template.to_param,
-                   :config_template => {:name => 'MyClone'} }
+    post :clone, params: { :id => original_config_template.to_param,
+                           :config_template => {:name => 'MyClone'} }
     assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
     assert_equal(template['name'], 'MyClone')
@@ -106,19 +106,19 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
   end
 
   test 'clone name should not be blank' do
-    post :clone, { :id => templates(:pxekickstart).to_param,
-                   :config_template => {:name => ''} }
+    post :clone, params: { :id => templates(:pxekickstart).to_param,
+                           :config_template => {:name => ''} }
     assert_response :unprocessable_entity
   end
 
   test "should show templates from os" do
-    get :index, { :operatingsystem_id => operatingsystems(:centos5_3).fullname }
+    get :index, params: { :operatingsystem_id => operatingsystems(:centos5_3).fullname }
     assert_response :success
   end
 
   test "should list templates with non-admin user" do
     setup_user('view', 'provisioning_templates')
-    get :index, {}, set_session_user.merge(:user => User.current.id)
+    get :index, session: set_session_user.merge(:user => User.current.id)
     assert_response :success
     templates = ActiveSupport::JSON.decode(@response.body)
     assert !templates.empty?, "Should respond with templates"
@@ -128,7 +128,7 @@ class Api::V2::ConfigTemplatesControllerTest < ActionController::TestCase
     setup_user('view', 'provisioning_templates')
     templates(:pxekickstart).organizations = User.current.organizations
     templates(:pxekickstart).locations = User.current.locations
-    get :show, { :id => templates(:pxekickstart).to_param }, set_session_user.merge(:user => User.current.id)
+    get :show, params: { :id => templates(:pxekickstart).to_param }, session: set_session_user.merge(:user => User.current.id)
     assert_response :success
   end
 end

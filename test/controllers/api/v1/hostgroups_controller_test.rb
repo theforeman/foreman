@@ -20,7 +20,7 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     assert_not_nil assigns(:hostgroups)
     hostgroups = ActiveSupport::JSON.decode(@response.body)
@@ -28,7 +28,7 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => hostgroups(:common).to_param }
+    get :show, params: { :id => hostgroups(:common).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -36,20 +36,20 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
 
   test "should create hostgroup" do
     assert_difference('Hostgroup.unscoped.count') do
-      post :create, { :hostgroup => valid_attrs }
+      post :create, params: { :hostgroup => valid_attrs }
     end
     assert_response :success
   end
 
   test "should update hostgroup" do
-    put :update, { :id => hostgroups(:common).to_param, :hostgroup => valid_attrs }
+    put :update, params: { :id => hostgroups(:common).to_param, :hostgroup => valid_attrs }
     assert_response :success
   end
 
   test "should destroy hostgroups" do
     hostgroup = FactoryBot.create(:hostgroup)
     assert_difference('Hostgroup.unscoped.count', -1) do
-      delete :destroy, :id => hostgroup
+      delete :destroy, params: { :id => hostgroup }
     end
     assert_response :success
   end
@@ -57,21 +57,21 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
   test "blocks API deletion of hosts with children" do
     assert hostgroups(:parent).has_children?
     assert_no_difference('Hostgroup.unscoped.count') do
-      delete :destroy, { :id => hostgroups(:parent).to_param }
+      delete :destroy, params: { :id => hostgroups(:parent).to_param }
     end
     assert_response :conflict
   end
 
   test "should create nested hostgroup with a parent" do
     assert_difference('Hostgroup.unscoped.count') do
-      post :create, { :hostgroup => valid_attrs.merge(:parent_id => hostgroups(:common).id) }
+      post :create, params: { :hostgroup => valid_attrs.merge(:parent_id => hostgroups(:common).id) }
     end
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.unscoped.order(:id).last.ancestry
   end
 
   test "should update a hostgroup to nested by passing parent_id" do
-    put :update, { :id => hostgroups(:db).to_param, :hostgroup => {:parent_id => hostgroups(:common).id} }
+    put :update, params: { :id => hostgroups(:db).to_param, :hostgroup => {:parent_id => hostgroups(:common).id} }
     assert_response :success
     assert_equal hostgroups(:common).id.to_s, Hostgroup.unscoped.find_by_name("db").ancestry
   end

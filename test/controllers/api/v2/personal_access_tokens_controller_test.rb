@@ -17,7 +17,7 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { :user_id => @user.id }
+    get :index, params: { :user_id => @user.id }
     assert_response :success
     assert_not_nil assigns(:personal_access_tokens)
     personal_access_tokens = ActiveSupport::JSON.decode(@response.body)
@@ -25,7 +25,7 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => @personal_access_token.to_param, :user_id => @user.id }
+    get :show, params: { :id => @personal_access_token.to_param, :user_id => @user.id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -33,7 +33,7 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
 
   test "should create personal_access_token" do
     assert_difference('PersonalAccessToken.count') do
-      post :create, { :personal_access_token => valid_attrs, :user_id => @user.id }
+      post :create, params: { :personal_access_token => valid_attrs, :user_id => @user.id }
     end
     assert_response :created
     response = ActiveSupport::JSON.decode(@response.body)
@@ -43,14 +43,14 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
 
   test "should created personal_access_token with unwrapped 'layout'" do
     assert_difference('PersonalAccessToken.count') do
-      post :create, valid_attrs.merge(:user_id => @user.id)
+      post :create, params: valid_attrs.merge(:user_id => @user.id)
     end
     assert_response :created
   end
 
   test "should revoke personal_access_token" do
     refute @personal_access_token.reload.revoked?
-    delete :destroy, { :id => @personal_access_token.to_param, :user_id => @user.id }
+    delete :destroy, params: { :id => @personal_access_token.to_param, :user_id => @user.id }
     assert @personal_access_token.reload.revoked?
     assert_response :success
   end

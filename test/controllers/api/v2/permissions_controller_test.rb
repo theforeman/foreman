@@ -13,7 +13,7 @@ class Api::V2::PermissionsControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => permissions(:view_architectures).to_param }
+    get :show, params: { :id => permissions(:view_architectures).to_param }
     assert_response_not_empty
   end
 

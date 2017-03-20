@@ -2,13 +2,13 @@ require 'test_helper'
 
 class Api::V2::TasksControllerTest < ActionController::TestCase
   test 'should not get index without an id' do
-    get :index, { :id => nil }
+    get :index, params: { :id => nil }
     assert_response :not_found
 
-    get :index, { :id => '' }
+    get :index, params: { :id => '' }
     assert_response :not_found
 
-    get :index, { :id => "Random-#{Foreman.uuid}" }
+    get :index, params: { :id => "Random-#{Foreman.uuid}" }
     assert_response :not_found
   end
 
@@ -19,7 +19,7 @@ class Api::V2::TasksControllerTest < ActionController::TestCase
     queue.create(:name => 'create something', :priority => 10, :action => [Object.new, :to_s])
     Rails.cache.write(uuid, queue.to_json)
 
-    get :index, { :id => uuid }
+    get :index, params: { :id => uuid }
     tasks = ActiveSupport::JSON.decode(@response.body)
     assert_response :success
     assert_equal 1, tasks['results'].size

@@ -21,12 +21,12 @@ class FiltersControllerTest < ActionController::TestCase
     role.save!
 
     User.any_instance.expects(:expire_topbar_cache).twice
-    put :update, { :id => filter.id, :filter => {:role_id => role.id, :search => "name ~ a*"}}, set_session_user
+    put :update, params: { :id => filter.id, :filter => {:role_id => role.id, :search => "name ~ a*"} }, session: set_session_user
   end
 
   test "should get index with role_id and create scoped search on role.name" do
     role = roles(:manager)
-    get :index, {:role_id => role.id}, set_session_user
+    get :index, params: { :role_id => role.id }, session: set_session_user
     assert_response :success
     refute_empty assigns(:filters)
     assert_equal Filter.search_for("role = #{role.name}").count, assigns(:filters).count
@@ -35,26 +35,26 @@ class FiltersControllerTest < ActionController::TestCase
 
   test "should create filter" do
     assert_difference('Filter.count') do
-      post :create, {:filter => { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:access_dashboard).id] }}, set_session_user
+      post :create, params: {:filter => { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:access_dashboard).id] }}, session: set_session_user
     end
     assert_redirected_to filters_path
   end
 
   test "should update filter" do
-    put :update, {:id => filters(:destroy_hosts_1), :filter => { :permission_ids => [permissions(:access_dashboard).id] }}, set_session_user
+    put :update, params: {:id => filters(:destroy_hosts_1), :filter => { :permission_ids => [permissions(:access_dashboard).id] }}, session: set_session_user
     assert_redirected_to filters_path
   end
 
   test "should destroy filter" do
     assert_difference('Filter.count', -1) do
-      delete :destroy, {:id => filters(:destroy_hosts_1)}, set_session_user
+      delete :destroy, params: {:id => filters(:destroy_hosts_1)}, session: set_session_user
     end
     assert_redirected_to filters_path
   end
 
   test 'should return server pagination controls by default' do
     role = roles(:manager)
-    get :index, {:role_id => role.id}, set_session_user
+    get :index, params: { :role_id => role.id }, session: set_session_user
     assert_response :success
     refute_empty assigns(:filters)
 
@@ -64,7 +64,7 @@ class FiltersControllerTest < ActionController::TestCase
 
   test 'should return data-tables pagination when asked for it' do
     role = roles(:manager)
-    get :index, {:role_id => role.id, :paginate => 'client'}, set_session_user
+    get :index, params: { :role_id => role.id, :paginate => 'client' }, session: set_session_user
     assert_response :success
     refute_empty assigns(:filters)
 
@@ -82,7 +82,7 @@ class FiltersControllerTest < ActionController::TestCase
     filter_with_org = role.filters.detect(&:allows_organization_filtering?)
     filter_with_org.update_attributes :organizations => [ org1, org2 ], :override => true
 
-    patch :disable_overriding, { :role_id => role.id, :id => filter_with_org.id }, set_session_user
+    patch :disable_overriding, params: { :role_id => role.id, :id => filter_with_org.id }, session: set_session_user
 
     assert_response :redirect
     filter_with_org.reload

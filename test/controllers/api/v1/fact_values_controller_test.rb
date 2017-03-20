@@ -8,14 +8,14 @@ class Api::V1::FactValuesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
     refute_empty fact_values
   end
 
   test "should get facts for given host only" do
-    get :index, {:host_id => @host.name }
+    get :index, params: { :host_id => @host.name }
     assert_response :success
     fact_values   = ActiveSupport::JSON.decode(@response.body)
     expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
@@ -23,7 +23,7 @@ class Api::V1::FactValuesControllerTest < ActionController::TestCase
   end
 
   test "should get facts for given host id" do
-    get :index, {:host_id => @host.id }
+    get :index, params: { :host_id => @host.id }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)
     expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
@@ -34,7 +34,7 @@ class Api::V1::FactValuesControllerTest < ActionController::TestCase
     setup_user
     @host.update_attribute(:hostgroup, FactoryBot.create(:hostgroup))
     as_user(users(:one)) do
-      get :index, {:search => "host.hostgroup = #{@host.hostgroup.name}"}
+      get :index, params: { :search => "host.hostgroup = #{@host.hostgroup.name}" }
     end
     assert_response :success
     fact_values   = ActiveSupport::JSON.decode(@response.body)

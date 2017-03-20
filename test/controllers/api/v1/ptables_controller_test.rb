@@ -8,7 +8,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     assert_not_nil assigns(:ptables)
     ptables = ActiveSupport::JSON.decode(@response.body)
@@ -16,7 +16,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
-    get :show, { :id => @ptable.to_param }
+    get :show, params: { :id => @ptable.to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -24,13 +24,13 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
 
   test "should create ptable" do
     assert_difference('Ptable.unscoped.count') do
-      post :create, { :ptable => valid_attrs }
+      post :create, params: { :ptable => valid_attrs }
     end
     assert_response :success
   end
 
   test "should update ptable" do
-    put :update, { :id => @ptable.to_param, :ptable => valid_attrs }
+    put :update, params: { :id => @ptable.to_param, :ptable => valid_attrs }
     assert_response :success
   end
 
@@ -38,14 +38,14 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
     FactoryBot.create(:host, :ptable_id => @ptable.id)
 
     assert_difference('Ptable.unscoped.count', -0) do
-      delete :destroy, { :id => @ptable.to_param }
+      delete :destroy, params: { :id => @ptable.to_param }
     end
     assert_response :unprocessable_entity
   end
 
   test "should destroy ptable that is NOT in use" do
     assert_difference('Ptable.unscoped.count', -1) do
-      delete :destroy, { :id => @ptable.to_param }
+      delete :destroy, params: { :id => @ptable.to_param }
     end
     assert_response :success
   end

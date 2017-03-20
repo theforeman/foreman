@@ -8,7 +8,7 @@ class Api::V2::AutosignControllerTest < ActionController::TestCase
   end
 
   test "should get index and return json" do
-    get :index, { :smart_proxy_id => smart_proxies(:puppetmaster).id }
+    get :index, params: { :smart_proxy_id => smart_proxies(:puppetmaster).id }
     assert_response :success
     assert_equal 'http://else.where:4567/puppet/ca', ProxyAPI::Puppetca.new(:url => smart_proxies(:puppetmaster).url).url
     results = ActiveSupport::JSON.decode(@response.body)
@@ -17,7 +17,7 @@ class Api::V2::AutosignControllerTest < ActionController::TestCase
 
   test "should create autosign entry" do
     ProxyAPI::Puppetca.any_instance.stubs(:set_autosign).returns(true)
-    post :create, { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
+    post :create, params: { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
     assert response['results']
@@ -25,7 +25,7 @@ class Api::V2::AutosignControllerTest < ActionController::TestCase
 
   test "should not create autosign entry" do
     ProxyAPI::Puppetca.any_instance.stubs(:set_autosign).raises(@proxy_error)
-    post :create, { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
+    post :create, params: { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
     assert_response :internal_server_error
     response = ActiveSupport::JSON.decode(@response.body)
     assert response['error'].match(@msg)
@@ -33,7 +33,7 @@ class Api::V2::AutosignControllerTest < ActionController::TestCase
 
   test "should delete autosign entry" do
     ProxyAPI::Puppetca.any_instance.stubs(:del_autosign).returns(true)
-    post :destroy, { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
+    post :destroy, params: { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
     assert response['results']
@@ -41,7 +41,7 @@ class Api::V2::AutosignControllerTest < ActionController::TestCase
 
   test "should not delete autosign entry" do
     ProxyAPI::Puppetca.any_instance.stubs(:del_autosign).raises(@proxy_error)
-    post :destroy, { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
+    post :destroy, params: { :smart_proxy_id => smart_proxies(:puppetmaster).id, :id => "test" }
     assert_response :internal_server_error
     response = ActiveSupport::JSON.decode(@response.body)
     assert response['error'].match(@msg)

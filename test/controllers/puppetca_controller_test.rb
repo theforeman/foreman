@@ -9,7 +9,7 @@ class PuppetcaControllerTest < ActionController::TestCase
     # Try set any random path in the referer to ensure it doesn't redirect_to :back
     @request.env['HTTP_REFERER'] = hosts_path
     # This will try to find the certificate to no avail and will raise a ProxyException
-    post :update, { :smart_proxy_id => @proxy.id, :id => 1 }, set_session_user
+    post :update, params: { :smart_proxy_id => @proxy.id, :id => 1 }, session: set_session_user
     assert_redirected_to smart_proxy_path(@proxy, :anchor => 'certificates')
     assert_match(/ProxyAPI::ProxyException/, flash[:error])
   end
@@ -19,7 +19,7 @@ class PuppetcaControllerTest < ActionController::TestCase
       ['mcollective/OL=mcollective', 'pending', 'fingerprint', '2000-01-01 00:00:00', '3000-01-01 00:00:00'])
     ProxyStatus::PuppetCA.any_instance.expects(:certs).returns([cert])
     assert_nothing_raised do
-      get :index, { :smart_proxy_id => @proxy.id }, set_session_user
+      get :index, params: { :smart_proxy_id => @proxy.id }, session: set_session_user
     end
     assert_match(/mcollective%252FOL%253Dmcollective/, response.body)
     assert_empty flash[:error]

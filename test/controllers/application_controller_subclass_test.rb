@@ -83,7 +83,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
       as_admin do
         @user = FactoryBot.create(:user)
       end
-      get :index, {}, set_session_user.merge(:user => @user.id)
+      get :index, session: set_session_user.merge(:user => @user.id)
       assert_response :redirect
       assert_redirected_to edit_user_path(@user)
       assert_equal "An email address is required, please update your account details", flash[:error]
@@ -127,10 +127,10 @@ class TestableResourcesControllerTest < ActionController::TestCase
       end
 
       it "retains taxonomy session attributes in new session" do
-        get :index, {}, {:location_id => taxonomies(:location1).id,
-                         :organization_id => taxonomies(:organization1).id,
-                         :sso_method => 'SSO::Apache',
-                         :foo => 'bar'}
+        get :index, session: {:location_id => taxonomies(:location1).id,
+                              :organization_id => taxonomies(:organization1).id,
+                              :sso_method => 'SSO::Apache',
+                              :foo => 'bar'}
         assert_equal taxonomies(:location1).id, session[:location_id]
         assert_equal taxonomies(:organization1).id, session[:organization_id]
         assert_equal 'SSO::Apache', session[:sso_method]
@@ -144,7 +144,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
 
         it 'redirects to login page on page refresh or navigation by deleted user' do
           sample_user = users(:admin)
-          get :index, {}, set_session_user.merge(:user => sample_user.id)
+          get :index, session: set_session_user.merge(:user => sample_user.id)
           sample_user.destroy
 
           def @sso.authenticated?
@@ -152,7 +152,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
           end
           @sso.stubs(:has_rendered).returns(true)
           @sso.stubs(:current_user).returns(nil)
-          get :index, {}, set_session_user.merge(:user => sample_user.id)
+          get :index, session: set_session_user.merge(:user => sample_user.id)
           assert_response :redirect
           assert_redirected_to '/users/extlogin'
           assert_equal('Your session has expired, please login again', flash[:warning])
@@ -199,7 +199,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
     end
 
     it 'modifies timezone only inside a controller' do
-      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      get :index, session: { :user => @user.id, :expires_at => 5.minutes.from_now }
       # inside the controller
       assert_equal(@response.body, @user.timezone)
       # outside the controller
@@ -208,14 +208,14 @@ class TestableResourcesControllerTest < ActionController::TestCase
 
     it 'defaults to UTC timezone if user timezone and cookie are not set' do
       @user.update_attribute(:timezone, nil)
-      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      get :index, session: { :user => @user.id, :expires_at => 5.minutes.from_now }
       assert_equal(@response.body, 'UTC')
     end
 
     it 'changes the timezone according to cookie when user timezone is nil' do
       @user.update_attribute(:timezone, nil)
       cookies[:timezone] = 'Australia/Sydney'
-      get :index, {}, {:user => @user.id, :expires_at => 5.minutes.from_now}
+      get :index, session: { :user => @user.id, :expires_at => 5.minutes.from_now }
       assert_equal(@response.body, cookies[:timezone])
     end
   end
@@ -274,14 +274,14 @@ class TestableResourcesControllerTest < ActionController::TestCase
   context 'welcome page' do
     it 'shows a welcome page' do
       Realm.destroy_all # Realm is our TestableResource
-      get :index, {}, set_session_user
+      get :index, session: set_session_user
       assert_response :success
       assert_template 'welcome'
     end
 
     it 'does not shows a welcome page when there is content' do
       FactoryBot.create(:realm) # Realm is our TestableResource
-      get :index, {}, set_session_user
+      get :index, session: set_session_user
       assert_response :success
       assert_template :partial => false
     end
@@ -290,9 +290,9 @@ class TestableResourcesControllerTest < ActionController::TestCase
   context 'logged in user is deleted' do
     it 'redirects to login page on page refresh or navigation by deleted user' do
       sample_user = users(:admin)
-      get :index, {}, set_session_user.merge(:user => sample_user.id)
+      get :index, session: set_session_user.merge(:user => sample_user.id)
       sample_user.destroy
-      get :index, {}, set_session_user.merge(:user => sample_user.id)
+      get :index, session: set_session_user.merge(:user => sample_user.id)
       assert_response :redirect
       assert_redirected_to login_users_url
       assert_equal('Your session has expired, please login again', flash[:warning])
@@ -301,7 +301,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
 
   context 'smart proxy errors are displayed when no referer is set' do
     test 'proxy exception' do
-      get :index, { :exception => 'some error' }, set_session_user
+      get :index, params: { :exception => 'some error' }, session: set_session_user
       assert_response :success
       assert_match(/.*ProxyAPI::ProxyException.*some error.*/, response.body)
     end
@@ -314,7 +314,7 @@ class Testscope::TestableResourcesControllerTest < ActionController::TestCase
   context 'welcome page' do
     it 'shows a welcome page' do
       Realm.destroy_all # Realm is our Testscope::TestableResource
-      get :index, {}, set_session_user
+      get :index, session: set_session_user
       assert_response :success
       assert_template 'welcome'
     end
