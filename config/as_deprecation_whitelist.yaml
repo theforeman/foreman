@@ -65,10 +65,6 @@
     and will be removed in Rails 5.1. Please call `reload` on the result collection
     proxy instead.
   callstack: test/models/host_test.rb
-- message: Passing conditions to delete_all is deprecated and will be removed in
-    Rails 5.1. To achieve the same use where(conditions).delete_all.
-- message: Passing conditions to destroy_all is deprecated and will be removed in
-    Rails 5.1. To achieve the same use where(conditions).destroy_all.
 # http://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.

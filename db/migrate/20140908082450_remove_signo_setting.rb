@@ -4,7 +4,7 @@ class RemoveSignoSetting < ActiveRecord::Migration
   end
 
   def up
-    FakeSetting.delete_all(:name => %w(signo_url signo_sso))
+    FakeSetting.where(:name => %w(signo_url signo_sso)).delete_all
   end
 
   def down

@@ -10,7 +10,7 @@ class RemoveDuplicateFactNames < ActiveRecord::Migration
         UserFact.update_all(
             ["fact_name_id=?", fact_name_id],
             ["fact_name_id in (?)", duplicates])
-        FactName.delete_all(["id in (?)", duplicates])
+        FactName.where(["id in (?)", duplicates]).delete_all
       end if duplicates.any?
     end
   end
