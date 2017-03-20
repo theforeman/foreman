@@ -181,14 +181,14 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     test 'resource_pools' do
       resource_pools = ['swimming-pool', 'fishing-pool']
       Foreman::Model::Vmware.any_instance.stubs(:resource_pools).returns(resource_pools)
-      xhr :get, :resource_pools, {:id => @compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      get :resource_pools, params: {:id => @compute_resource, :cluster_id => 'my_cluster'}, session: set_session_user, xhr: true
       assert_response :success
       assert_equal(resource_pools, JSON.parse(response.body))
     end
 
     test 'resource_pools for non-vmware compute resource should return not allowed' do
       compute_resource = compute_resources(:mycompute)
-      xhr :get, :resource_pools, {:id => compute_resource, :cluster_id => 'my_cluster'}, set_session_user
+      get :resource_pools, params: {:id => compute_resource, :cluster_id => 'my_cluster'}, session: set_session_user, xhr: true
       assert_response :method_not_allowed
     end
 

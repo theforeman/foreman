@@ -16,12 +16,6 @@
     and will be changed with Rails 5.1 to only return tables. Use #data_sources instead."
 
 # Incompatible with Rails 4.2
-- message: |-
-    DEPRECATION WARNING: Using positional arguments in functional tests has been deprecated,
-    in favor of keyword arguments, and will be removed in Rails 5.1.
-- message: |-
-    DEPRECATION WARNING: `xhr` and `xml_http_request` are deprecated and will be removed in Rails 5.1.
-    Switch to e.g. `post :create, params: { comment: { body: 'Honey bunny' } }, xhr: true`.
 - message: Returning `false` in Active Record and Active Model callbacks will not
     implicitly halt a callback chain in Rails 5.1. To explicitly halt the callback
     chain, please use `throw :abort` instead.

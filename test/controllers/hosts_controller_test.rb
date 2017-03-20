@@ -1191,7 +1191,7 @@ class HostsControllerTest < ActionController::TestCase
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
     host_ids = [host.id]
     #the ajax can be any of the multiple actions, toke multiple_parameters for example
-    xhr :post, :multiple_parameters, {:host_ids => host_ids}, set_session_user(:restricted)
+    post :multiple_parameters, params: {:host_ids => host_ids}, session: set_session_user(:restricted), xhr: true
     assert_response :success
   end
 
@@ -1199,20 +1199,20 @@ class HostsControllerTest < ActionController::TestCase
     host = FactoryBot.create(:host)
     host2 = FactoryBot.create(:host)
     host_ids = [host.id, host2.id]
-    xhr :post, :multiple_parameters, {:host_ids => host_ids}, set_session_user
+    post :multiple_parameters, params: {:host_ids => host_ids}, session: set_session_user, xhr: true
     assert_response :success
     assert_includes response.body, host.name
     assert_includes response.body, host2.name
   end
 
   test "select multiple action with empty host_ids should redirect to hosts page" do
-    xhr :post, :multiple_parameters, {:host_ids => []}, set_session_user
+    post :multiple_parameters, params: {:host_ids => []}, session: set_session_user, xhr: true
     assert_response :redirect, hosts_path
     assert_not_nil flash[:error]
   end
 
   test "select multiple action with not exists host_ids should redirect to hosts page" do
-    xhr :post, :multiple_parameters, {:host_ids => [-1,2]}, set_session_user
+    post :multiple_parameters, params: {:host_ids => [-1,2]}, session: set_session_user, xhr: true
     assert_response :redirect, hosts_path
     assert_not_nil flash[:error]
   end
@@ -1261,7 +1261,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test '#review_before_build' do
     HostBuildStatus.any_instance.stubs(:host_status).returns(true)
-    xhr :get, :review_before_build, {:id => @host.name}, set_session_user
+    get :review_before_build, params: {:id => @host.name}, session: set_session_user, xhr: true
     assert_response :success
     assert_template 'review_before_build'
   end
@@ -1277,21 +1277,21 @@ class HostsControllerTest < ActionController::TestCase
     test 'returns templates with interfaces' do
       nic=FactoryBot.create(:nic_managed, :host => @host)
       @attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
-      xhr :put, :template_used, {:provisioning => 'build', :host => @attrs, :id => @host.id }, set_session_user
+      put :template_used, params: {:provisioning => 'build', :host => @attrs, :id => @host.id }, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_provisioning'
     end
 
     test 'returns templates with host parameters' do
       @attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar', :id => '34'}}
-      xhr :put, :template_used, {:provisioning => 'build', :host => @attrs }, set_session_user
+      put :template_used, params: {:provisioning => 'build', :host => @attrs }, session: set_session_user
       assert_response :success
       assert_template :partial => '_provisioning'
     end
 
     test 'does not save has_many relations on existing hosts' do
       @attrs[:config_group_ids] = [config_groups(:one).id]
-      xhr :put, :template_used, {:provisioning => 'build', :host => @attrs, :id => @host.id }, set_session_user
+      put :template_used, params: {:provisioning => 'build', :host => @attrs, :id => @host.id }, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_provisioning'
     end
@@ -1302,7 +1302,7 @@ class HostsControllerTest < ActionController::TestCase
       @attrs[:operatingsystem_id] = image.operatingsystem.id
       @attrs[:compute_attributes] ||= {}
       @attrs[:compute_attributes][compute_resources(:one).image_param_name] = image.uuid
-      xhr :put, :template_used, {:provisioning => 'image', :host => @attrs }, set_session_user
+      put :template_used, params: {:provisioning => 'image', :host => @attrs }, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_provisioning'
       assert_includes response.body, 'MyFinish'
@@ -1315,7 +1315,7 @@ class HostsControllerTest < ActionController::TestCase
     attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
     ActiveRecord::Base.any_instance.expects(:destroy).never
     ActiveRecord::Base.any_instance.expects(:save).never
-    xhr :put, :process_taxonomy, { :host => attrs }, set_session_user
+    put :process_taxonomy, params: { :host => attrs }, session: set_session_user, xhr: true
     assert_response :success
     assert response.body.include?(nic.attributes["mac"])
     assert_template :partial => '_form'
@@ -1355,7 +1355,7 @@ class HostsControllerTest < ActionController::TestCase
     teardown { Fog.unmock! }
 
     test "#schedulerHintFilterSelected applies #scheduler_hint form for raw" do
-      xhr :post, :scheduler_hint_selected, { :host => {:compute_attributes => { :scheduler_hint_filter => "Raw"}, :compute_resource_id => compute_resources(:openstack).id }}, set_session_user
+      post :scheduler_hint_selected, params: { :host => {:compute_attributes => { :scheduler_hint_filter => "Raw"}, :compute_resource_id => compute_resources(:openstack).id }}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => 'compute_resources_vms/form/openstack/scheduler_filters/_raw'
     end
@@ -1387,7 +1387,7 @@ class HostsControllerTest < ActionController::TestCase
       attrs['hostgroup_id'] = group2.id
       attrs.delete 'compute_profile_id'
 
-      xhr :put, :process_hostgroup, { :host => attrs }, set_session_user
+      put :process_hostgroup, params: { :host => attrs }, session: set_session_user, xhr: true
 
       assert_response :success
       assert_template :partial => '_form'
@@ -1411,7 +1411,7 @@ class HostsControllerTest < ActionController::TestCase
       attrs['compute_attributes'] = { 'cpus' => 3 }
       attrs.delete 'uuid'
 
-      xhr :put, :process_hostgroup, { :host => attrs }, set_session_user
+      put :process_hostgroup, params: { :host => attrs }, session: set_session_user, xhr: true
 
       assert_response :success
       assert_template :partial => '_form'
@@ -1419,14 +1419,14 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test '#compute_resource_selected renders compute tab without compute profile' do
-      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id}}, set_session_user
+      get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
       assert_select '#host_compute_attributes_cpus'
     end
 
     test '#compute_resource_selected renders compute tab with explicit compute profile' do
-      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :compute_profile_id => compute_profiles(:two).id}}, set_session_user
+      get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :compute_profile_id => compute_profiles(:two).id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
       assert_select '#host_compute_attributes_cpus'
@@ -1434,7 +1434,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test '#compute_resource_selected renders compute tab with hostgroup\'s compute profile' do
       group = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
-      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, set_session_user
+      get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
       assert_select '#host_compute_attributes_cpus'
@@ -1443,7 +1443,7 @@ class HostsControllerTest < ActionController::TestCase
     test '#compute_resource_selected renders compute tab with hostgroup parent\'s compute profile' do
       parent = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
       group = FactoryBot.create(:hostgroup, :parent => parent)
-      xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, set_session_user
+      get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
       assert_select '#host_compute_attributes_cpus'
@@ -1470,12 +1470,12 @@ class HostsControllerTest < ActionController::TestCase
     attrs = host_attributes(host)
     attrs[:id] = host.id
     attrs[:hostgroup_id] = hostgroup.id
-    xhr :put, :process_hostgroup, { :host => attrs }, set_session_user(user)
+    put :process_hostgroup, params: { :host => attrs }, session: set_session_user(user), xhr: true
     assert_response :success
   end
 
   test '#compute_resource_selected returns 404 without compute_resource_id' do
-    xhr :get, :compute_resource_selected, { :host => {} }, set_session_user
+    get :compute_resource_selected, params: { :host => {} }, session: set_session_user, xhr: true
     assert_response :not_found
   end
 
@@ -1483,7 +1483,7 @@ class HostsControllerTest < ActionController::TestCase
     modifier = mock('InterfaceMerge')
     InterfaceMerge.expects(:new).with().returns(modifier)
     Host::Managed.any_instance.expects(:apply_compute_profile).with(modifier)
-    xhr :get, :interfaces, { :host => {:compute_resource_id => compute_resources(:one).id, :compute_profile_id => compute_profiles(:one).id}}, set_session_user
+    get :interfaces, params: { :host => {:compute_resource_id => compute_resources(:one).id, :compute_profile_id => compute_profiles(:one).id}}, session: set_session_user, xhr: true
     assert_response :success
     assert_template :partial => '_interfaces'
   end
@@ -1537,7 +1537,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'show power status for a host' do
     Host.any_instance.stubs(:supports_power?).returns(true)
     Host.any_instance.stubs(:supports_power_and_running?).returns(true)
-    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    get :get_power_state, params: { :id => @host.id }, session: set_session_user, xhr: true
     assert_response :success
     response = JSON.parse @response.body
     assert_equal({"id" => @host.id, "state" => "on", "title" => "On"}, response)
@@ -1546,7 +1546,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'show power status for a powered off host' do
     Host.any_instance.stubs(:supports_power?).returns(true)
     Host.any_instance.stubs(:supports_power_and_running?).returns(false)
-    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    get :get_power_state, params: { :id => @host.id }, session: set_session_user, xhr: true
     assert_response :success
     response = JSON.parse @response.body
     assert_equal({"id" => @host.id, "state" => "off", "title" => "Off"}, response)
@@ -1554,7 +1554,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'show power status for a host that has no power' do
     Host.any_instance.stubs(:supports_power?).returns(false)
-    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    get :get_power_state, params: { :id => @host.id }, session: set_session_user, xhr: true
     assert_response :success
     response = JSON.parse @response.body
     assert_equal({"id" => @host.id, "state" => "na", "title" => 'N/A',
@@ -1564,7 +1564,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'show power status for a host that has an exception' do
     Host.any_instance.stubs(:supports_power?).returns(true)
     Host.any_instance.stubs(:power).raises(::Foreman::Exception.new(N_("Unknown power management support - can't continue")))
-    xhr :get, :get_power_state, { :id => @host.id }, set_session_user
+    get :get_power_state, params: { :id => @host.id }, session: set_session_user, xhr: true
     assert_response :success
     response = JSON.parse @response.body
     assert_equal({"id" => @host.id, "state" => "na", "title" => "N/A",
@@ -1572,7 +1572,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'do not provide power state on an unknown host' do
-    xhr :get, :get_power_state, { :id => 'no-such-host' }, set_session_user
+    get :get_power_state, params: { :id => 'no-such-host' }, session: set_session_user, xhr: true
     assert_response :not_found
   end
 
@@ -1583,24 +1583,24 @@ class HostsControllerTest < ActionController::TestCase
 
   describe '#hostgroup_or_environment_selected' do
     test 'choosing only one of hostgroup or environment renders classes' do
-      xhr :post, :hostgroup_or_environment_selected, {
+      post :hostgroup_or_environment_selected, params: {
         :host_id => nil,
         :host => {
           :environment_id => Environment.unscoped.first.id
         }
-      }, set_session_user
+      }, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => 'puppetclasses/_class_selection'
     end
 
     test 'choosing both hostgroup and environment renders classes' do
-      xhr :post, :hostgroup_or_environment_selected, {
+      post :hostgroup_or_environment_selected, params: {
         :host_id => @host.id,
         :host => {
           :environment_id => Environment.unscoped.first.id,
           :hostgroup_id => Hostgroup.unscoped.first.id
         }
-      }, set_session_user
+      }, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => 'puppetclasses/_class_selection'
     end
@@ -1609,7 +1609,7 @@ class HostsControllerTest < ActionController::TestCase
   context '#preview_host_collection' do
     test 'should list hosts' do
       host = FactoryBot.create(:host, :managed)
-      xhr :get, :preview_host_collection, { :q => '' }, set_session_user
+      get :preview_host_collection, params: { :q => '' }, session: set_session_user, xhr: true
       assert_response :success
       response = JSON.parse(@response.body)
       assert_kind_of Array, response
@@ -1621,7 +1621,7 @@ class HostsControllerTest < ActionController::TestCase
     test 'should find a host by name' do
       host1 = FactoryBot.create(:host, :managed, :hostname => 'aaaaaaa')
       host2 = FactoryBot.create(:host, :managed, :hostname => 'zzzzzzz')
-      xhr :get, :preview_host_collection, { :q => 'aaaaaaa' }, set_session_user
+      get :preview_host_collection, params: { :q => 'aaaaaaa' }, session: set_session_user, xhr: true
       assert_response :success
       response = JSON.parse(@response.body)
       expected = {'id' => host1.id, 'name' => host1.name}
