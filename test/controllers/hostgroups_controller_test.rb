@@ -134,13 +134,13 @@ class HostgroupsControllerTest < ActionController::TestCase
     subnet = FactoryBot.create(:subnet_ipv4)
     domain.subnets << subnet
     domain.save
-    xhr :post, :domain_selected, {:id => hostgroups(:common), :hostgroup => {}, :domain_id => domain.id, :format => :json}, set_session_user
+    post :domain_selected, params: {:id => hostgroups(:common), :hostgroup => {}, :domain_id => domain.id, :format => :json}, session: set_session_user, xhr: true
     assert_equal subnet.name, JSON.parse(response.body)[0]["subnet"]["name"]
     assert_equal subnet.unused_ip.suggest_new?, JSON.parse(response.body)[0]["subnet"]["unused_ip"]["suggest_new"]
   end
 
   test "domain_selected should return empty on no domain_id" do
-    xhr :post, :domain_selected, {:id => hostgroups(:common), :hostgroup => {}, :format => :json, :domain_id => nil}, set_session_user
+    post :domain_selected, params: {:id => hostgroups(:common), :hostgroup => {}, :format => :json, :domain_id => nil}, session: set_session_user, xhr: true
     assert_response :success
     assert_empty JSON.parse(response.body)
   end
