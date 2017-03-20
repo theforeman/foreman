@@ -2,9 +2,9 @@ require 'test_helper'
 require 'database_cleaner'
 
 class SeedsTest < ActiveSupport::TestCase
-  # Disable AR transactional fixtures as we use DatabaseCleaner's truncation
+  # Disable AR transactional tests as we use DatabaseCleaner's truncation
   # to empty the DB of fixtures for testing the seed script
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   setup do
     DatabaseCleaner.clean_with :truncation

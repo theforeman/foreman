@@ -32,7 +32,7 @@ class ActionDispatch::IntegrationTest
   include ShowMeTheCookies
 
   # Stop ActiveRecord from wrapping tests in transactions
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   def assert_index_page(index_path,title_text,new_link_text = nil,has_search = true,has_pagination = true)
     visit index_path
