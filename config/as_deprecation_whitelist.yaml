@@ -94,15 +94,6 @@
     Rails 5.1. To achieve the same use where(conditions).delete_all.
 - message: Passing conditions to destroy_all is deprecated and will be removed in
     Rails 5.1. To achieve the same use where(conditions).destroy_all.
-- message: The :status option on `head` has been deprecated and will be removed in
-    Rails 5.1. Please pass the status as a separate parameter before the options,
-    instead.
-  callstack: app/controllers/application_controller.rb:102:in `block (2 levels) in
-    not_found'
-- message: The :status option on `head` has been deprecated and will be removed in
-    Rails 5.1. Please pass the status as a separate parameter before the options,
-    instead.
-  callstack: app/controllers/notification_recipients_controller.rb:30:in `update_group_as_read'
 # http://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.
