@@ -909,8 +909,8 @@ class Host::Managed < Host::Base
   # see http://projects.theforeman.org/issues/8316 for details
   def remove_reports
     return if reports.empty?
-    Log.delete_all("report_id IN (#{reports.pluck(:id).join(',')})")
-    Report.delete_all("host_id = #{id}")
+    Log.where("report_id IN (#{reports.pluck(:id).join(',')})").delete_all
+    Report.where("host_id = #{id}").delete_all
   end
 
   def clear_puppetinfo

@@ -28,7 +28,7 @@ class PxeTemplateNameValidatorTest < ActiveSupport::TestCase
 
   test "should be valid even if default template does not exist" do
     name = "PXELinux default local boot"
-    Template.destroy_all(:name => name)
+    Template.where(:name => name).destroy_all
     @item.value = name
     assert @item.valid?
   end

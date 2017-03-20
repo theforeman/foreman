@@ -132,7 +132,7 @@ class SeedsTest < ActiveSupport::TestCase
   test "doesn't add a template back that was deleted" do
     seed
     assert_equal 1, ProvisioningTemplate.unscoped.
-      destroy_all(:name => 'Kickstart default').size
+      where(:name => 'Kickstart default').destroy_all.size
     seed
     refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
   end

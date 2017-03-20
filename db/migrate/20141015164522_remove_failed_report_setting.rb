@@ -4,7 +4,7 @@ class RemoveFailedReportSetting < ActiveRecord::Migration
   end
 
   def up
-    FakeSetting.delete_all(:name => 'failed_report_email_notification')
+    FakeSetting.where(:name => 'failed_report_email_notification').delete_all
   end
 
   def down

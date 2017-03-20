@@ -64,7 +64,7 @@ class FactImporter
       delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class).where.not('fact_names.name' => facts.keys)
       if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
         # MySQL does not handle delete with inner query correctly (slow) so we will do two queries on purpose
-        payload[:count] = @counters[:deleted] = FactValue.delete_all(:id => delete_query.pluck(:id))
+        payload[:count] = @counters[:deleted] = FactValue.where(:id => delete_query.pluck(:id)).delete_all
       else
         # deletes all facts using a single SQL query with inner query otherwise
         payload[:count] = @counters[:deleted] = delete_query.delete_all
