@@ -51,6 +51,9 @@ module Foreman
             raise(ArgumentError, "Unable to set current User, expected class '#{self}', got #{o.inspect}")
           end
 
+          if o.is_a?(User)
+            Rails.logger.info "Current user: #{o.login} (#{o.admin? ? 'administrator' : 'regular user'})"
+          end
           Rails.logger.debug "Setting current user thread-local variable to " + (o.is_a?(User) ? o.login : 'nil')
           Thread.current[:user] = o
         end
