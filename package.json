@@ -43,6 +43,7 @@
     "phantomjs-prebuilt": "^2.1.0"
   },
   "dependencies": {
+    "brace": "^0.10.0",
     "c3": "^0.4.11",
     "datatables.net": "~1.10.12",
     "datatables.net-bs": "~1.10.12",
