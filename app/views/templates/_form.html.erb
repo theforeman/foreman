@@ -4,7 +4,7 @@
            public_send("#{@type_name_singular}_path", :id => @resource_class.new)
          end
 %>
-<%= form_for @template, :url => url, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
+<%= form_for @template, :url => url, :html => { :multipart => true, :onsubmit => 'tfm.editor.submitCode();' } do |f| %>
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
@@ -70,7 +70,7 @@
             </div>
             <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
             <div class='col-md-8 audit-content'>
-              <%= link_to_function icon_text("retweet", _("Revert")), "revert_template(this)", :data => {:url => revision_provisioning_templates_url, :version => audit.id } %>
+              <%= link_to_function icon_text("retweet", _("Revert")), "tfm.editor.revertTemplate(this)", :data => {:url => revision_provisioning_templates_url, :version => audit.id } %>
               <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit), :rel => 'external' %>
             </div>
           </div>

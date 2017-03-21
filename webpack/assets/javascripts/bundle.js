@@ -19,6 +19,7 @@ window.tfm = Object.assign(
     trends: require('./foreman_trends'),
     hostgroups: require('./foreman_hostgroups'),
     numFields: require('./jquery.ui.custom_spinners'),
-    reactMounter: require('./react_app/common/MountingService')
+    reactMounter: require('./react_app/common/MountingService'),
+    editor: require('./foreman_editor')
   }
 );
