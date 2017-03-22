@@ -1,12 +1,17 @@
 import React from 'react';
 import { Dropdown, Glyphicon, MenuItem } from 'react-bootstrap';
+import NotificationActions from '../../actions/NotificationActions';
 
 const NotificationDropdown = ({ links, id }) => {
   const listLinks = links.map((link, i) => {
     const liKey = `notification-link-${i}-${id}`;
+    const isExternalUrl = (link.href).includes(window.location.origin);
 
     return (
-      <MenuItem key={liKey} id={liKey} target="_blank" href={link.href}>
+      <MenuItem key={liKey} id={liKey}
+                target={isExternalUrl ? '_blank' : '_self'} href={link.href}
+                onClick={() => isExternalUrl ?
+                  'false' : NotificationActions.toggleNotificationDrawer()}>
         {link.title}
       </MenuItem>
     );
