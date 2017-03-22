@@ -58,7 +58,7 @@ Foreman::Application.configure do |app|
   config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
   # Precompile additional assets
-  config.assets.precompile << /\.(?:svg|eot|woff|gif|ttf)$/
+  config.assets.precompile << /\.(?:svg|eot|woff|woff2|gif|ttf)$/
   config.assets.precompile += javascript.map { |js| js + '.js' } + stylesheets + images
 
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
