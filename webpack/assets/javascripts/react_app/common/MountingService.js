@@ -2,8 +2,8 @@ import React from 'react';
 import StatisticsChartsList from '../components/charts/StatisticsChartsList';
 import PowerStatus from '../components/hosts/powerStatus/';
 import NotificationContainer from '../components/notifications/';
-import ToastNotificationsContainer from
-'../components/notifications/toast/ToastNotificationsContainer';
+import ToastsList from
+'../components/notifications/toast/ToastsList';
 import ReactDOM from 'react-dom';
 import store from '../redux';
 export function mount(component, selector, data) {
@@ -22,8 +22,8 @@ export function mount(component, selector, data) {
       markup: <NotificationContainer store={store} data={data} />
     },
     ToastNotifications: {
-     type: ToastNotificationsContainer,
-     markup: <ToastNotificationsContainer store={store} />
+     type: ToastsList,
+     markup: <ToastsList store={store} />
    }
   };
 
