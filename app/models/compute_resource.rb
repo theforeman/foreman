@@ -314,14 +314,19 @@ class ComputeResource < ActiveRecord::Base
 
   def vm_compute_attributes_for(uuid)
     vm = find_vm_by_uuid(uuid)
+    return {} unless vm
+    vm_compute_attributes(vm)
+  rescue ActiveRecord::RecordNotFound
+    logger.warn("VM with UUID '#{uuid}' not found on #{self}")
+    {}
+  end
+
+  def vm_compute_attributes(vm)
     vm_attrs = vm.attributes rescue {}
     vm_attrs = vm_attrs.reject{|k,v| k == :id }
 
     vm_attrs = set_vm_volumes_attributes(vm, vm_attrs)
     vm_attrs
-  rescue ActiveRecord::RecordNotFound
-    logger.warn("VM with UUID '#{uuid}' not found on #{self}")
-    {}
   end
 
   def user_data_supported?

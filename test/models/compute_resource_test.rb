@@ -294,7 +294,9 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
 
     test "returns correct vm attributes when vm does not respond to volumes" do
-      expected_attrs = { :cpus => 5 }
+      expected_attrs = {
+        :cpus => 5
+      }
       attrs = @cr.vm_compute_attributes_for('abc')
 
       assert_equal expected_attrs, attrs

@@ -81,7 +81,10 @@ class HostsController < ApplicationController
   end
 
   def new
-    @host = Host.new :managed => true
+    @host = Host.new(
+      :managed => true,
+      :build => true
+    )
   end
 
   # Clone the host

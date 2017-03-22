@@ -1,5 +1,5 @@
-<%= text_f f, :name, :disabled => !new_host, :class => "ovirt_name", :label => _('Name'), :label_size => "col-md-3" %>
+<%= text_f f, :name, :disabled => !new_vm, :class => "ovirt_name", :label => _('Name'), :label_size => "col-md-3" %>
 <% selected_cluster ||= compute_resource.clusters.first.id %>
 <%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
-             { }, :disabled => !new_host, :class => "ovirt_network",
+             { }, :disabled => !new_vm, :class => "ovirt_network",
              :label         => _('Network'), :label_size => "col-md-3" %>

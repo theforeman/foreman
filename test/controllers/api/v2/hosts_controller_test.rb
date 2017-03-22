@@ -808,6 +808,60 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  context 'import from compute resource' do
+    setup do
+      disable_orchestration
+      Fog.mock!
+    end
+    teardown { Fog.unmock! }
+
+    let(:domain) do
+      FactoryGirl.create(
+        :domain,
+        :name => 'virt.bos.redhat.com',
+        :location_ids => [ basic_attrs[:location_id] ],
+        :organization_ids => [ basic_attrs[:organization_id] ]
+      )
+    end
+    let(:compute_resource) do
+      cr = FactoryGirl.create(:compute_resource, :vmware, :uuid => 'Solutions')
+      ComputeResource.find_by_id(cr.id)
+    end
+    let(:uuid) { '5032c8a5-9c5e-ba7a-3804-832a03e16381' }
+    let(:import_attrs) { basic_attrs.except(:name, :domain_id, :compute_resource_id) }
+    let(:host_attrs) do
+      import_attrs.merge(
+        :compute_resource_id => compute_resource.id,
+        :uuid => uuid,
+        :ip => '10.0.0.20',
+        :build => true
+      )
+    end
+
+    test 'should create a host' do
+      assert domain
+      assert_difference('Host.count') do
+        post :create, { :host => host_attrs }
+      end
+      assert_response :created
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil body['id']
+      host = Host.find_by_id(body['id'])
+      assert_equal 'dhcp75-197.virt.bos.redhat.com', host.name
+      assert_equal @domain, host.domain
+      assert_equal '00:50:56:a9:00:28', host.mac
+      assert_equal true, host.build
+    end
+
+    test 'should not import if associated host exists' do
+      FactoryGirl.create(:host, :on_compute_resource, :uuid => uuid, :compute_resource => compute_resource)
+      post :create, { :host => host_attrs }
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_includes body['error']['errors'].keys, 'uuid'
+    end
+  end
+
   private
 
   def last_record

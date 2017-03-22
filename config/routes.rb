@@ -409,6 +409,7 @@ Foreman::Application.routes.draw do
               put 'pause'
               put 'associate'
               get 'console'
+              get 'import'
             end
           end
         end

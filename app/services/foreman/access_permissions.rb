@@ -340,6 +340,7 @@ Foreman::AccessControl.map do |permission_set|
                                      :organizations =>  [:mismatches]
                                   }
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone].push(*ajax_actions),
+                                    :compute_resources_vms => [:import],
                                     :compute_resources => cr_ajax_actions,
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,

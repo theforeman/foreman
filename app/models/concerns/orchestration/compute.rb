@@ -37,7 +37,8 @@ module Orchestration::Compute
 
   def queue_compute
     return unless compute? && errors.empty?
-    new_record? ? queue_compute_create : queue_compute_update
+    # Create a new VM if it doesn't already exist or update an existing vm
+    vm_exists? ? queue_compute_create : queue_compute_update
   end
 
   def queue_compute_create
@@ -52,7 +53,7 @@ module Orchestration::Compute
     queue.create(:name   => _("Set IP addresses for %s") % self, :priority => 5,
                  :action => [self, :setComputeIPAM]) if compute_provides?(:mac) && (mac_based_ipam?(:subnet) || mac_based_ipam?(:subnet6))
     queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
-                 :action => [self, :setComputePowerUp]) if compute_attributes[:start] == '1'
+                 :action => [self, :setComputePowerUp]) if compute_attributes && compute_attributes[:start] == '1'
   end
 
   def queue_compute_update
@@ -215,8 +216,9 @@ module Orchestration::Compute
 
   def compute_update_required?
     return false unless compute_resource.supports_update? && !compute_attributes.nil?
-    old.compute_attributes = compute_resource.vm_compute_attributes_for(uuid)
-    compute_resource.update_required?(old.compute_attributes, compute_attributes)
+    attrs = compute_resource.vm_compute_attributes_for(uuid)
+    old.compute_attributes = attrs if old
+    compute_resource.update_required?(attrs, compute_attributes.symbolize_keys)
   end
 
   def find_image
@@ -344,5 +346,10 @@ module Orchestration::Compute
       return false unless validate_required_foreman_attr(mac,Nic::Base.physical,:mac)
     end
     true
+  end
+
+  def vm_exists?
+    return true unless compute_object
+    !compute_object.persisted?
   end
 end

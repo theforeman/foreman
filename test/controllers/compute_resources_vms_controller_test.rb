@@ -7,8 +7,9 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     get_test_vm
   end
 
-  def setup_user(operation, type = 'compute_resources_vms')
-    super(operation, type, "id = #{@compute_resource.id}")
+  def setup_user(operation, type = 'compute_resources_vms', search = nil)
+    search ||= "id = #{@compute_resource.id}"
+    super(operation, type, search)
   end
 
   test "should not get index when not permitted" do
@@ -177,6 +178,38 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     assert_match /Power error/, flash[:error]
     assert_redirected_to @request.env['HTTP_REFERER']
   end
+
+  context '#import' do
+    setup { Fog.mock! }
+    teardown { Fog.unmock! }
+
+    let(:compute_resource) do
+      FactoryGirl.create(:compute_resource, :vmware, :uuid => 'Solutions',
+                         :organizations => User.current.organizations, :locations => User.current.locations)
+    end
+
+    test 'imports a host' do
+      setup_user('create', 'hosts', '')
+      setup_user('view', 'compute_resources_vms', "id = #{compute_resource.id}")
+      get :import, {:compute_resource_id => compute_resource.id, :id => '5032c8a5-9c5e-ba7a-3804-832a03e16381'}, set_session_user
+      assert assigns(:host)
+      assert_template 'compute_resources_vms/import'
+    end
+
+    test 'should not import when not permitted to view compute_resource' do
+      setup_user('none')
+      get :import, {:compute_resource_id => compute_resource.id, :id => '5032c8a5-9c5e-ba7a-3804-832a03e16381'}, set_session_user
+      assert_response :forbidden
+    end
+
+    test 'should not import when not permitted to create hosts' do
+      setup_user('view', 'compute_resources_vms', "id = #{compute_resource.id}")
+      get :import, {:compute_resource_id => compute_resource.id, :id => '5032c8a5-9c5e-ba7a-3804-832a03e16381'}, set_session_user
+      assert_response :forbidden
+    end
+  end
+
+  private
 
   def get_test_vm
     @test_vm = @compute_resource.vms.find { |vm| vm.name == 'test' }

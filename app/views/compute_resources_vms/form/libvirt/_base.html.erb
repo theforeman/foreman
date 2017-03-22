@@ -1,14 +1,14 @@
 <%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
 
-<%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_host if show_vm_name? %>
+<%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_vm if show_vm_name? %>
 
-<%= counter_f f, :cpus, :disabled => !new_host, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
+<%= counter_f f, :cpus, :disabled => !new_vm, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
 
-<%= byte_size_f f, :memory, :disabled => !new_host, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
+<%= byte_size_f f, :memory, :disabled => !new_vm, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2"} if new_host && controller_name != "compute_attributes" %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2"} if new_vm && controller_name != "compute_attributes" %>
 
 <%
    arch ||= nil ; os ||= nil
