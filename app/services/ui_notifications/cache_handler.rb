@@ -37,6 +37,7 @@ module UINotifications
       @notifications ||= NotificationRecipient.
         where(user_id: user_id, notification_id: Notification.active).
         order(created_at: :desc).
+        limit(100).
         preload(:notification, :notification_blueprint).
         map(&:payload)
     end

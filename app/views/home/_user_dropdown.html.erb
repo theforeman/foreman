@@ -1,4 +1,4 @@
-<li id='notification_icon' class="drawer-pf-trigger dropdown"> </li>
+<li id='notifications_container' class="drawer-pf-trigger dropdown"> </li>
 <li class="dropdown menu_tab_dropdown">
   <%= user_header %>
   <ul class="dropdown-menu pull-right">
@@ -13,4 +13,4 @@
   </ul>
 </li>
 
-<%= mount_react_component('NotificationDrawerToggle', '#notification_icon', {:url => notification_recipients_path}.to_json ) %>
+<%= mount_react_component('NotificationContainer','#notifications_container',{:url => notification_recipients_path}.to_json) %>
