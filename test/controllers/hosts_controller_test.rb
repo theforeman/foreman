@@ -653,30 +653,44 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "if only authorize_login_delegation is set, REMOTE_USER should be
-        ignored for API requests" do
-    host = Host.first
-    Setting[:authorize_login_delegation] = true
-    Setting[:authorize_login_delegation_api] = false
-    set_remote_user_to users(:admin)
-    User.current = nil # User.current is admin at this point (from initialize_host)
-    get :show, {:id => host.to_param, :format => 'json'}
-    assert_response 401
-    get :show, {:id => host.to_param}
-    assert_response :success
+  context 'authorize_login_delegation = true' do
+    setup do
+      @host = Host.first
+      Setting[:authorize_login_delegation] = true
+      Setting[:authorize_login_delegation_api] = false
+      set_remote_user_to users(:admin)
+      User.current = nil # User.current is admin at this point (from initialize_host)
+    end
+
+    test "REMOTE_USER should be ignored for API requests" do
+      get :show, {:id => @host.to_param, :format => 'json'}
+      assert_response 401
+    end
+
+    test "REMOTE_USER should be trusted for UI requests" do
+      get :show, {:id => @host.to_param}
+      assert_response :success
+    end
   end
 
-  test "if both authorize_login_delegation{,_api} are unset,
-        REMOTE_USER should ignored in all cases" do
-    Setting[:authorize_login_delegation] = false
-    Setting[:authorize_login_delegation_api] = false
-    set_remote_user_to users(:admin)
-    User.current = nil # User.current is admin at this point (from initialize_host)
-    host = Host.first
-    get :show, {:id => host.to_param, :format => 'json'}
-    assert_response 401
-    get :show, {:id => host.to_param}
-    assert_redirected_to "/users/login"
+  context 'authorize_login_delegation = false' do
+    setup do
+      @host = Host.first
+      Setting[:authorize_login_delegation] = false
+      Setting[:authorize_login_delegation_api] = false
+      set_remote_user_to users(:admin)
+      User.current = nil # User.current is admin at this point (from initialize_host)
+    end
+
+    test "REMOTE_USER should ignored for API requests" do
+      get :show, {:id => @host.to_param, :format => 'json'}
+      assert_response 401
+    end
+
+    test "REMOTE_USER should trusted for UI requests" do
+      get :show, {:id => @host.to_param}
+      assert_redirected_to "/users/login"
+    end
   end
 
   def set_remote_user_to(user)
