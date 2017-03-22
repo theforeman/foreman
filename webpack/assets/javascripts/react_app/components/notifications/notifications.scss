@@ -1,0 +1,84 @@
+  #notifications_container {
+    position: static;
+    margin-top: 2px;
+    .fa-bell,
+    .fa-bell-o {
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .fa-bell {
+      position: relative;
+      &:after {
+        width: 0px;
+        height: 0px;
+        border: 4px solid rgb(204, 0, 0);
+        padding: 0px;
+        content: '';
+        border-radius: 50%;
+        position: absolute;
+        top: -3px;
+        right: -3px;
+      }
+    }
+    .drawer-pf {
+      top: 25px;
+      max-height: 600px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      .drawer-pf-title,
+      .panel-group {
+        position: static;
+      }
+      .panel-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        .panel.expanded {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          .panel-body {
+            overflow-y: auto;
+            flex: 1;
+          }
+        }
+        .panel {
+          cursor: pointer;
+          .panel-title {
+            a {
+              font-size: 14px;
+            }
+          }
+          .panel-body {
+            padding: 0px;
+            .drawer-pf-notification {
+              display: flex;
+              .notification-text-container {
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+                position: relative;
+                margin: 0px 12px;
+                .not-seen {
+                  font-weight: bold;
+                  cursor: pointer;
+                }
+                .drawer-pf-notification-message,
+                .drawer-pf-notification-info {
+                  padding: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #no-notifications-container {
+      padding: 20px;
+      text-align: center;
+      background: #efefef;
+      font-size: 15px;
+    }
+  }
