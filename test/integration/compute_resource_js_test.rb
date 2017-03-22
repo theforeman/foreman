@@ -44,5 +44,6 @@ class ComputeResourceJSIntegrationTest < IntegrationTestWithJavascript
     fill_in "compute_resource_password", :with => "123456"
     click_link "Test Connection"
     assert_equal "123456", find_field("compute_resource_password").value
+    wait_for_ajax
   end
 end
