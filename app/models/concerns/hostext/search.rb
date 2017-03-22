@@ -122,13 +122,10 @@ module Hostext
       end
 
       def search_by_usergroup(key, operator, value)
-        clean_key = key.sub(/^.*\./,'')
-        key_name = Usergroup.connection.quote_column_name(clean_key)
-
-        condition = sanitize_sql_for_conditions(["#{key_name} #{operator} ?", value_to_sql(operator, value)])
-        groups = Usergroup.where(condition)
-        hosts = groups.map(&:hosts).flatten
+        key_name = Usergroup.connection.quote_column_name(key.sub(/^.*\./,''))
+        hosts = Usergroup.where(sanitize_sql_for_conditions(["#{key_name} #{operator} ?", value_to_sql(operator, value)])).map(&:hosts).flatten
         opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
+
         {:conditions => " hosts.id #{opts} " }
       end
 
