@@ -32,6 +32,14 @@ module Foreman::Model
       [:build, :image]
     end
 
+    def boot_devices
+       {
+         :disk => 'Harddisk',
+         :cdrom => 'CD-ROM',
+         :network => 'Network'
+       }
+    end
+
     def vms(opts = {})
       if opts[:eager_loading] == true
         super()
@@ -374,6 +382,8 @@ module Foreman::Model
 
       add_cdrom = args.delete(:add_cdrom)
       args[:cdroms] = [new_cdrom] if add_cdrom == '1'
+
+      args[:boot_order] = [] if args[:manage_boot_order] == '0'
 
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 

@@ -23,6 +23,8 @@ end %>
 <%= checkbox_f f, :memoryHotAddEnabled, { :help_inline => _("Memory hot add lets you add memory resources for a virtual machine while the machine is powered on."), :label => _('Memory hot add'), :label_size => "col-md-2", :disabled => !new_vm } %>
 <%= checkbox_f f, :cpuHotAddEnabled, { :help_inline => _("CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."), :label => _('CPU hot add'), :label_size => "col-md-2", :disabled => !new_vm } %>
 <%= checkbox_f f, :add_cdrom, { :help_inline => _("Add a CD-ROM drive to the virtual machine."), :label => _('CD-ROM drive'), :label_size => "col-md-2" } if new_vm %>
+<%= checkbox_f f, :manage_boot_order, { :help_inline => _("Use default Foreman behavior to lock boot order on creation"), :label => _('Hardcode boot order'), :label_size => "col-md-2", :disabled => !new_vm } %>
+<%= select_f f, :boot_order, compute_resource.boot_devices, :first, :last, {}, { :label => _("Boot order"), :class => "col-md-2 without_multiselect", :disabled => !new_vm, :multiple => true } %>
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
