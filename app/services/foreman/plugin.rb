@@ -241,6 +241,8 @@ module Foreman #:nodoc:
         role = Role.where(:name => name).first_or_create
         role.add_permissions!(permissions) if role.permissions.empty?
       end
+    rescue ArgumentError => e
+      Rails.logger.warn("Could not create role '#{name}': #{e.message}")
     end
 
     def pending_migrations
