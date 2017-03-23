@@ -365,9 +365,13 @@ module Foreman::Model
       @api_version ||= client.api_version
     end
 
-    def ca_cert_store(cert)
-      return if cert.blank?
-      OpenSSL::X509::Store.new.add_cert(OpenSSL::X509::Certificate.new(cert))
+    def ca_cert_store(certs)
+      return if certs.blank?
+      store = OpenSSL::X509::Store.new
+      certs.split(/(?=-----BEGIN)/).each do |cert|
+        store.add_cert(OpenSSL::X509::Certificate.new(cert))
+      end
+      store
     rescue => e
       raise _("Failed to create X509 certificate, error: %s" % e.message)
     end
