@@ -1127,7 +1127,8 @@ class HostsControllerTest < ActionController::TestCase
     host_ids = [host.id, host2.id]
     xhr :post, :multiple_parameters, {:host_ids => host_ids}, set_session_user
     assert_response :success
-    assert response.body =~ /#{host.name}.*#{host2.name}/m
+    assert_includes response.body, host.name
+    assert_includes response.body, host2.name
   end
 
   test "select multiple action with empty host_ids should redirect to hosts page" do
