@@ -8,7 +8,7 @@ module Foreman
         return false if value.blank? || value =~ (/\A(false|f|no|n|off|0)\z/i)
         return nil
 
-      when Fixnum
+      when Integer
         return true if value == 1
         return false if value == 0
 

@@ -181,6 +181,6 @@ class Authorizer
   def base_ids
     raise ArgumentError, 'you must set base_collection to get base_ids' if @base_collection.nil?
 
-    @base_ids ||= @base_collection.all? { |i| i.is_a?(Fixnum) } ? @base_collection : @base_collection.map(&:id)
+    @base_ids ||= @base_collection.all? { |i| i.is_a?(Integer) } ? @base_collection : @base_collection.map(&:id)
   end
 end
