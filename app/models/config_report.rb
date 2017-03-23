@@ -36,7 +36,7 @@ class ConfigReport < Report
   # it is not supported to edit status values after it has been written once.
   def status=(st)
     s = case st
-          when Integer, Fixnum
+          when Integer
             st
           when Hash
             ConfigReportStatusCalculator.new(:counters => st).calculate
