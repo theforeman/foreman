@@ -46,7 +46,11 @@
     <![endif]-->
     <%= render "home/topbar" if User.current %>
 
+    <div id="mainContainer">
+    
+    <%= render "home/navBar" if User.current %>
     <%= yield(:content) %>
+    </div>
 
   </body>
 </html>

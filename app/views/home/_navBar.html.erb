@@ -1,0 +1,13 @@
+<div id="vertical-navigation-container" class="nav-pf-vertical
+     nav-pf-vertical-with-sub-menus
+     nav-pf-persistent-secondary">
+    <!-- menu -->
+    <% if User.current %>
+      <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
+        <ul class="list-group" id="menu">
+          <%= render_vertical_menu :top_menu %>
+          <%= render_vertical_menu :admin_menu %>
+        </ul>
+      <% end %>
+    <% end %>
+</div>

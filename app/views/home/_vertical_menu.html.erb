@@ -1,13 +1,16 @@
 <li class="list-group-item secondary-nav-item-pf">
-  <%= link_to (menu_title + content_tag(:span, '', :class => "secondary-nav-item-pf")).html_safe, "#", :class => "dropdown-toggle", :'data-toggle' => "dropdown", :id => menu_name %>
-  <ul class="dropdown-menu">
+  <%= link_to (menu_title + content_tag(:span, '', :class => "secondary-nav-item-pf")).html_safe, "#", :id => menu_name %>
+  <div class="nav-pf-secondary-nav">
+    <ul class="list-group">
+        <%= content_tag(:li, _(menu_title), :class => "nav-item-pf-header") %>
+    
     <% authorized_menu_actions(menu_items).each do |item| %>
       <% case item %>
       <% when Menu::Item %>
           <%= menu_item_tag item %>
       <% when Menu::Divider %>
         <%= content_tag(:li, "", :class => "divider") %>
-        <%= content_tag(:li, _(item.caption), :class => "nav-header") if item.caption %>
+        <%= content_tag(:li, _(item.caption), :class => "nav-item-pf-header") if item.caption %>
       <% when Menu::Toggle %>
         <%= content_tag :li, :class => "dropdown-submenu" do %>
           <%= link_to(_(item.caption), "#", :class => "dropdown-toggle", :"data-toggle" => "dropdown") %>
@@ -19,5 +22,6 @@
         <% end %>
       <% end %>
     <% end %>
-  </ul>
+    </ul>
+  </div>
 </li>
