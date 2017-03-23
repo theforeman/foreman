@@ -24,6 +24,7 @@
               :help_inline => popover('', _("Primary interface's DNS name and domain define host's FQDN"), :rel => 'popover-modal'),
               :class => :interface_name,
               :size => "col-md-8", :label_size => "col-md-3" %>
+<%= render 'hosts/host_aliases', :f => f %>
 <% if SETTINGS[:unattended] %>
   <%= select_f f, :domain_id, accessible_resource(f.object, :domain), :id, :to_label,
                { :include_blank => accessible_resource(f.object, :domain).any? ? true : _("No domains")},
@@ -78,4 +79,3 @@
                :class => :interface_provision,
                :size => "col-md-8", :label_size => "col-md-3" %>
 
-<%= render 'hosts/host_aliases', :f => f %>

@@ -1,10 +1,11 @@
-<div class="col-md-offset-2" id="host_aliases">
+<div class="col-md-offset-3 col-md-8" id="host_aliases">
+  <%= link_to_add_fields('+ ' + _("Add host alias"), f, :host_aliases, "hosts/host_alias", :target => '#host_aliases_table tbody') %>
   <table class="table" id="host_aliases_table">
     <thead class="white-header">
     <tr>
-      <th class='col-md-3'><%= _("Host alias") %></th>
-      <th class='col-md-7'><%= _("Domain") %></th>
-      <th class='col-md-2 ca'><%= _('Actions') %></th>
+      <th class='col-md-3'></th>
+      <th class='col-md-7'></th>
+      <th class='col-md-2 ca'></th>
     </tr>
     </thead>
     <tbody>
@@ -13,5 +14,4 @@
       <% end %>
     </tbody>
   </table>
-  <%= link_to_add_fields('+ ' + _("Add host alias"), f, :host_aliases, "hosts/host_alias", :target => '#host_aliases_table tbody') %>
 </div>
