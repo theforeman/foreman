@@ -235,14 +235,11 @@ module Foreman #:nodoc:
     # Add a new role if it doesn't exist
     def role(name, permissions)
       @default_roles[name] = permissions
-      return false if pending_migrations || Rails.env.test?
-
+      return false if pending_migrations || Rails.env.test? || Foreman.in_rake?('db:migrate')
       Role.transaction do
         role = Role.where(:name => name).first_or_create
         role.add_permissions!(permissions) if role.permissions.empty?
       end
-    rescue ArgumentError => e
-      Rails.logger.warn("Could not create role '#{name}': #{e.message}")
     end
 
     def pending_migrations
