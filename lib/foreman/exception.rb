@@ -47,6 +47,9 @@ module Foreman
   class MaintenanceException < Foreman::Exception
   end
 
+  class PermissionMissingException < Foreman::Exception
+  end
+
   class CyclicGraphException < ::ActiveRecord::RecordInvalid
   end
 

@@ -169,7 +169,7 @@ class RoleTest < ActiveSupport::TestCase
     end
 
     it "should raise error when given permission does not exist" do
-      assert_raises ArgumentError do
+      assert_raises ::Foreman::PermissionMissingException do
         @role.add_permissions ['does_not_exist']
       end
     end
