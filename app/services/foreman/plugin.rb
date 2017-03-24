@@ -272,6 +272,26 @@ module Foreman #:nodoc:
       Plugin::RbacSupport.new.add_all_permissions_to_default_roles(registered_permissions)
     end
 
+    # Add plugin permissions to core's Manager and Viewer roles
+    # Usage:
+    # add_resource_permissions_to_default_roles ['MyPlugin::FirstResource', 'MyPlugin::SecondResource'], :except => [:skip_this_permission]
+    def add_resource_permissions_to_default_roles(resources, opts = {})
+      Plugin::RbacSupport.new.add_resource_permissions_to_default_roles resources, opts
+    end
+
+    # Add plugin permissions to Manager and Viewer roles. Use this for permissions without resource_type or to handle special cases
+    # Usage:
+    # add_permissions_to_default_roles 'Role Name' => [:first_permission, :second_permission]
+    def add_permissions_to_default_roles(args)
+      Plugin::RbacSupport.new.add_permissions_to_default_roles args
+    end
+
+    # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
+    # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
+    def add_all_permissions_to_default_roles
+      Plugin::RbacSupport.new.add_all_permissions_to_default_roles(registered_permissions)
+    end
+
     def pending_migrations
       migration_paths = ActiveRecord::Migrator.migrations(
         ActiveRecord::Migrator.migrations_paths)
