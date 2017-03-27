@@ -5,15 +5,8 @@ class NotificationRecipientsController < Api::V2::BaseController
   before_action :find_resource, :only => [:update, :destroy]
 
   def index
-    @notifications = NotificationRecipient.
-      where(:user_id => User.current.id, :notification_id => Notification.active).
-      order(:created_at).
-      eager_load(:notification, :notification_blueprint)
-
-    render :json => {
-      :notifications => @notifications.paginate(paginate_options).map(&:payload),
-      :total => @notifications.count
-    }
+    payload = UINotifications::CacheHandler.new(User.current.id).payload
+    render :json => payload
   end
 
   def update

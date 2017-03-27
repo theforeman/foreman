@@ -7,6 +7,7 @@ class NotificationRecipient < ActiveRecord::Base
   validates :user, :presence => true
 
   scope :unseen, -> { where(:seen => false) }
+  after_save :delete_user_cache
 
   def payload
     {
@@ -23,5 +24,10 @@ class NotificationRecipient < ActiveRecord::Base
   def current_user?
     return true unless SETTINGS[:login]
     User.current.id == user_id
+  end
+  private
+
+  def delete_user_cache
+    UINotifications::CacheHandler.new(user_id).clear
   end
 end
