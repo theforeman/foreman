@@ -458,49 +458,49 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
-  # context "adding permissions" do
-  #   teardown do
-  #     permission = Foreman::AccessControl.permission(:test_permission)
-  #     Foreman::AccessControl.remove_permission(permission) if permission
-  #   end
+  context "adding permissions" do
+    teardown do
+      permission = Foreman::AccessControl.permission(:test_permission)
+      Foreman::AccessControl.remove_permission(permission) if permission
+    end
 
-  #   def test_add_permission
-  #     Foreman::Plugin.register :test_permission do
-  #       name 'Permission test'
-  #       security_block :test_permission do
-  #         permission :test_permission, {:controller_name => [:test]}
-  #       end
-  #     end
-  #     assert_includes Foreman::Plugin.find(:test_permission).permission_names, :test_permission
-  #     ac_permission = Foreman::AccessControl.permission(:test_permission)
-  #     assert ac_permission, ":test_permission is not registered in Foreman::AccessControl"
-  #     assert_equal ['controller_name/test'], ac_permission.actions
-  #   end
+    def test_add_permission
+      Foreman::Plugin.register :test_permission do
+        name 'Permission test'
+        security_block :test_permission do
+          permission :test_permission, {:controller_name => [:test]}
+        end
+      end
+      assert_includes Foreman::Plugin.find(:test_permission).permission_names, :test_permission
+      ac_permission = Foreman::AccessControl.permission(:test_permission)
+      assert ac_permission, ":test_permission is not registered in Foreman::AccessControl"
+      assert_equal ['controller_name/test'], ac_permission.actions
+    end
 
-  #   def test_add_role
-  #     Foreman::Plugin.register :test_role do
-  #       name 'Role test'
-  #       security_block :test_permission do
-  #         permission :test_permission, {:controller_name => [:test]}
-  #       end
-  #       role 'Test role', [:test_permission]
-  #     end
-  #     assert_equal({'Test role' => [:test_permission]}, Foreman::Plugin.find(:test_role).default_roles)
-  #   end
-  # end
+    def test_add_role
+      Foreman::Plugin.register :test_role do
+        name 'Role test'
+        security_block :test_permission do
+          permission :test_permission, {:controller_name => [:test]}
+        end
+        role 'Test role', [:test_permission]
+      end
+      assert_equal({'Test role' => [:test_permission]}, Foreman::Plugin.find(:test_role).default_roles)
+    end
+  end
 
-  # context 'with pagelets' do
-  #   include PageletsIsolation
+  context 'with pagelets' do
+    include PageletsIsolation
 
-  #   def test_extend_page
-  #     Foreman::Plugin.register(:foo) do
-  #       extend_page("tests/show") do |context|
-  #         context.add_pagelet :main_tabs, :name => "My Tab", :partial => "partial"
-  #       end
-  #     end
+    def test_extend_page
+      Foreman::Plugin.register(:foo) do
+        extend_page("tests/show") do |context|
+          context.add_pagelet :main_tabs, :name => "My Tab", :partial => "partial"
+        end
+      end
 
-  #     assert_equal 1, ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).count
-  #     assert_equal "My Tab", ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).first.name
-  #   end
-  # end
+      assert_equal 1, ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).count
+      assert_equal "My Tab", ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).first.name
+    end
+  end
 end
