@@ -146,14 +146,14 @@ class Role < ApplicationRecord
     permissions = Array(permissions)
     search = options.delete(:search)
 
-    collection = Permission.where(:name => permissions).all
-    raise ::Foreman::PermissionMissingException.new(N_('some permissions were not found')) if collection.size != permissions.size
+    collection = permission_records permissions
 
     current_filters = self.filters
     collection.group_by(&:resource_type).each do |resource_type, grouped_permissions|
-      filter = find_filter resource_type, current_filters, search
+      filter = filter_for_permission_add resource_type, current_filters, search
 
       grouped_permissions.each do |permission|
+        next if filter.permissions.include?(permission)
         filtering = filter.filterings.build
         filtering.filter = filter
         filtering.permission = permission
@@ -161,14 +161,49 @@ class Role < ApplicationRecord
     end
   end
 
+  def find_for_permission_removal(permission_names)
+    collection = permission_records permission_names
+    current_filters = self.filters
+    collection.group_by(&:resource_type).inject([]) do |memo, (resource_type, grouped_permissions)|
+      memo.concat filters_and_filterings_for_removal(resource_type, grouped_permissions, current_filters)
+    end
+  end
+
+  def filters_and_filterings_for_removal(resource_type, grouped_permissions, current_filters)
+    filter = filter_for_permissions_remove resource_type, current_filters
+    if filter.permissions.size == grouped_permissions.size
+      [filter]
+    else
+      grouped_permissions.map do |perm|
+        Filtering.find_by(:filter_id => filter.id, :permission_id => perm.id)
+      end
+    end
+  end
+
   def permission_diff(permission_names)
-    current_names = permissions.map(&:name).map(&:to_sym)
-    (current_names - permission_names) | (permission_names - current_names)
+    current_names = permission_symbols
+    extra_permissions(permission_names, current_names) | missing_permissions(permission_names, current_names)
+  end
+
+  def permission_symbols
+    permissions.map { |p| p.name.to_sym }
+  end
+
+  def extra_permissions(permission_names, current_names = permission_symbols)
+    current_names - permission_names
+  end
+
+  def missing_permissions(permission_names, current_names = permission_symbols)
+    permission_names - current_names
   end
 
   def add_permissions!(*args)
     add_permissions(*args)
     save!
+  end
+
+  def remove_permissions!(*args)
+    find_for_permission_removal(args).map(&:destroy!)
   end
 
   def disable_filters_overriding
@@ -254,13 +289,32 @@ class Role < ApplicationRecord
   end
 
   def find_filter(resource_type, current_filters, search)
-    filter_record = Filter.where(:search => search, :role_id => id).joins(:permissions)
-                          .where("permissions.resource_type" => resource_type).first
+    Filter.where(:search => search, :role_id => id).joins(:permissions)
+          .where("permissions.resource_type" => resource_type).first
+  end
+
+  def filter_for_permission_add(resource_type, current_filters, search)
+    filter_record = find_filter resource_type, current_filters, search
     if filter_record
       # add filterings to what we have in memory, not to a newly fetched record
-      current_filters.detect { |fil| fil.id == filter_record.id }
+      find_current_filter current_filters, filter_record
     else
       self.filters.build(:search => search)
     end
+  end
+
+  def filter_for_permissions_remove(resource_type, current_filters)
+    filter_record = find_filter resource_type, current_filters, nil
+    find_current_filter current_filters, filter_record
+  end
+
+  def find_current_filter(current_filters, filter_record)
+    current_filters.detect { |fil| fil.id == filter_record.id }
+  end
+
+  def permission_records(permissions)
+    collection = Permission.where(:name => permissions).all
+    raise ::Foreman::PermissionMissingException.new(N_('some permissions were not found')) if collection.size != permissions.size
+    collection
   end
 end

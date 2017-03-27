@@ -45,6 +45,16 @@ class RoleTest < ActiveSupport::TestCase
     end
   end
 
+  it "should detect extra permissions" do
+    role = roles(:manage_hosts)
+    assert_equal [:create_hosts, :view_hosts], role.extra_permissions([:destroy_hosts, :edit_hosts, :create_architectures]).sort
+  end
+
+  it "should detect missing permissions" do
+    role = roles(:manage_hosts)
+    assert_equal [:create_architectures, :view_architectures], role.missing_permissions([:view_hosts, :view_architectures, :create_architectures]).sort
+  end
+
   context 'locked roles' do
     it "should not rename locked role" do
       manager = Role.find_by :name => "Manager"
@@ -283,6 +293,37 @@ class RoleTest < ActiveSupport::TestCase
       role.add_permissions!([:create_architectures])
       assert_equal 2, role.permissions.count
       assert_equal 2, role.filters.count
+    end
+
+    it "should not duplicate existing filterings" do
+      role = roles(:create_hosts)
+      permissions = [:view_architectures]
+      role.add_permissions!(permissions)
+      filterings = Filtering.where(:filter_id => Filter.where(:role_id => role.id))
+      role.add_permissions!(permissions)
+      assert_equal filterings.count, Filtering.where(:filter_id => Filter.where(:role_id => role.id)).count
+    end
+  end
+
+  describe "#remove_permissions!" do
+    it "should remove permissions from role" do
+      role = roles(:manage_hosts)
+      assert role.permission_symbols.include?(:create_hosts)
+      assert role.permission_symbols.include?(:view_hosts)
+      assert role.permission_symbols.include?(:edit_hosts)
+      role.remove_permissions!(:view_hosts, :create_hosts)
+      role.reload
+      refute role.permission_symbols.include?(:create_hosts)
+      refute role.permission_symbols.include?(:view_hosts)
+      assert role.permission_symbols.include?(:edit_hosts)
+    end
+
+    it "should remove filters when removing all permissions" do
+      role = roles(:manage_hosts)
+      perms = [:view_hosts, :create_hosts, :edit_hosts, :destroy_hosts]
+      role.remove_permissions!(*perms)
+      role.reload
+      assert_empty role.filters
     end
   end
 
