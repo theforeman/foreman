@@ -11,7 +11,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
     assert_empty response['notifications']
-    assert_equal 0, response['total']
+    assert_equal 0, response['notifications'].size
   end
 
   test "should get index" do
@@ -64,7 +64,6 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
     assert_empty response['notifications']
-    assert_equal 0, response['total']
   end
 
   test "notification when host is destroyed" do
@@ -73,7 +72,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     get :index, { :format => 'json' }, set_session_user
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 1, response['total']
+    assert_equal 1, response['notifications'].size
     assert_equal "#{host} has been deleted successfully", response['notifications'][0]["text"]
   end
 
@@ -84,7 +83,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     get :index, { :format => 'json' }, set_session_user
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 1, response['total']
+    assert_equal 1, response['notifications'].size
     assert_equal "#{host} has been provisioned successfully", response['notifications'][0]["text"]
   end
 
@@ -97,7 +96,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     get :index, { :format => 'json' }, set_session_user
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 1, response['total']
+    assert_equal 1, response['notifications'].size
     assert_equal "#{host} has no owner set", response['notifications'][0]["text"]
   end
 
