@@ -225,7 +225,7 @@ module Foreman #:nodoc:
     #   class to which this permissions is related, rest of options is passed
     #   to AccessControl
     def permission(name, hash, options = {})
-      rbac_registry.permission_names << name
+      rbac_registry.register name, options
       options[:engine] ||= self.id.to_s
       options.merge!(:security_block => @security_block)
       Foreman::AccessControl.map do |map|
@@ -269,7 +269,7 @@ module Foreman #:nodoc:
     # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
     # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
     def add_all_permissions_to_default_roles
-      Plugin::RbacSupport.new.add_all_permissions_to_default_roles(registered_permissions)
+      Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
     end
 
     def pending_migrations
