@@ -7,6 +7,8 @@ module Foreman
           add_all_permissions_to_role("Manager", all_permissions)
           add_all_permissions_to_role("Viewer", view_permissions)
         end
+      rescue ActiveRecord::StatementInvalid => e
+        Foreman::Logging.exception _("Could not add permissions to Manager and Viewer roles: %s") % e.message, e, :level => :debug
       end
 
       def add_resource_permissions_to_default_roles(resources, opts = {})
@@ -38,6 +40,8 @@ module Foreman
         manager = Role.find_by :name => "Manager"
         return if !manager || resources.empty?
         include_permissions manager, resources, opts
+      rescue ActiveRecord::StatementInvalid => e
+        Foreman::Logging.exception _("Could not add permissions to Manager role: %s") % e.message, e, :level => :debug
       end
 
       def add_resource_permissions_to_viewer(resources, opts)
@@ -46,6 +50,8 @@ module Foreman
         opts[:condition_hash] = { :name => "view_%" }
         return if !viewer || resources.empty?
         include_permissions viewer, resources, opts
+      rescue ActiveRecord::StatementInvalid => e
+        Foreman::Logging.exception _("Could not add permissions to Viewer role: %s") % e.message, e, :level => :debug
       end
 
       def include_permissions(role, resources, opts)
@@ -85,6 +91,8 @@ module Foreman
         role = Role.find_by :name => role_name
         return unless role
         include_permissions_for_role role, permissions.map(&:name)
+      rescue ActiveRecord::StatementInvalid => e
+        Foreman::Logging.exception _("Could not extend role '%{name}': %{message}") % {:name => role_name, :message => e.message}, e, :level => :debug
       end
     end
   end

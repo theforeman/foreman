@@ -1,11 +1,11 @@
 module Foreman
   class Plugin
     class RbacRegistry
-      attr_accessor :role_ids, :permission_names, :default_roles
+      attr_accessor :role_ids, :default_roles, :registered_permissions
 
       def initialize
         @role_ids = []
-        @permission_names = []
+        @registered_permissions = []
         @default_roles = {}
       end
 
@@ -13,16 +13,18 @@ module Foreman
         Role.where(:id => @role_ids)
       end
 
-      def registered_permissions
-        Permission.where(:name => @permission_names.map(&:to_s))
+      def register(name, options)
+        @registered_permissions << [name, options]
       end
 
       # needed for fixtures permissions.yml,
       # because we do not write plugin permissions and roles to db when registering in test
       def permissions
-        registered_permissions.inject({}.with_indifferent_access) do |memo, perm|
-          memo.tap { |mem| mem[perm.name] = { :resource_type => perm.resource_type } }
-        end
+        Hash[registered_permissions.map { |name, options| [name, :resource_type => options[:resource_type]] }].with_indifferent_access
+      end
+
+      def permission_names
+        registered_permissions.map(&:first)
       end
     end
   end
