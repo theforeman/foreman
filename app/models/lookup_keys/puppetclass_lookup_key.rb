@@ -3,9 +3,8 @@ class PuppetclassLookupKey < LookupKey
   has_many :environments, -> { uniq }, :through => :environment_classes
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
 
-  before_validation :cast_default_value, :if => :override?
   before_validation :check_override_selected, :if => -> { persisted? && @validation_context != :importer }
-  validate :validate_default_value, :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default, :if => :override?
+  validate :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default, :if => :override?
   after_validation :reset_override_params, :if => ->(key) { key.override_changed? && !key.override? }
 
   scoped_search :relation => :param_classes, :on => :name, :rename => :puppetclass, :aliases => [:puppetclass_name], :complete_value => true
@@ -32,14 +31,11 @@ class PuppetclassLookupKey < LookupKey
     param_class
   end
 
-  def cast_default_value
-    super unless omit
-    true
-  end
-
-  def validate_default_value
-    super unless omit
-    true
+  def build_default_value
+    if default.nil?
+      super
+      default.value = puppet_default_value
+    end
   end
 
   def puppet?
@@ -55,7 +51,7 @@ class PuppetclassLookupKey < LookupKey
   end
 
   def check_override_selected
-    return if (changed - ['description', 'override']).empty?
+    return if (changed - ['description', 'override']).empty? && !self.default.try(:changed?)
     return if override?
     errors.add(:override, _("must be true to edit the parameter"))
   end

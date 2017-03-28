@@ -36,6 +36,7 @@ module Api
       end
 
       def create
+        transform_default_value
         @lookup_key = LookupKey.new(variable_lookup_key_params)
         process_response @lookup_key.save
       end
@@ -51,6 +52,7 @@ module Api
       end
 
       def update
+        transform_default_value
         lk_params = @lookup_key.is_a?(PuppetclassLookupKey) ? puppetclass_lookup_key_params : variable_lookup_key_params
         process_response @lookup_key.update_attributes(lk_params)
       end
@@ -64,6 +66,20 @@ module Api
             :status => :unprocessable_entity
         else
           process_response @lookup_key.destroy
+        end
+      end
+
+      private
+
+      def transform_default_value
+        default_value = params[:lookup_key].delete(:default_value)
+
+        default_value_attributes = {}
+        default_value_attributes = {:value => default_value} if default_value.present?
+
+        if default_value_attributes.present?
+          default_value_attributes.merge!({:id => @lookup_key.default.id}) if @lookup_key.present? && @lookup_key.default.present?
+          params[:lookup_key][:default_attributes] = default_value_attributes
         end
       end
     end

@@ -136,7 +136,7 @@ class Hostgroup < ActiveRecord::Base
         return v.value, hg.to_label
       end
     end if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
-    [key.default_value, _("Default value")]
+    [key.default.value, _("Default value")]
   end
 
   def parent_params(include_source = false)

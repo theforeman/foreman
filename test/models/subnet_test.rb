@@ -110,7 +110,7 @@ class SubnetTest < ActiveSupport::TestCase
     host = FactoryGirl.create(:host, :with_subnet, :puppetclasses => [puppetclasses(:one)])
     subnet = host.subnet
     key = FactoryGirl.create(:variable_lookup_key, :key_type => 'string',
-                             :default_value => 'default', :path => "subnet",
+                             :default_attributes => { :value => 'default' }, :path => "subnet",
                              :puppetclass => puppetclasses(:one))
 
     value = as_admin do

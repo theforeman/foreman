@@ -11,7 +11,7 @@ class PuppetclassLookupKeyIntegrationTest < ActionDispatch::IntegrationTest
       click_link "ssl"
     end
     fill_in "puppetclass_lookup_key_description", :with => "test"
-    fill_in "puppetclass_lookup_key_default_value", :with => "false"
+    fill_in "puppetclass_lookup_key_default_attributes_value", :with => "false"
     assert_submit_button(puppetclass_lookup_keys_path)
     assert page.has_link? 'ssl'
   end

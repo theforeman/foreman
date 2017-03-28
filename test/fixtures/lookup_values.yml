@@ -5,6 +5,11 @@ one:
   lookup_key: one
   value: 8080
 
+one_default:
+  match: default
+  lookup_key: one
+  value: 80
+
 two:
   match: hostgroup=db
   lookup_key: one
@@ -14,6 +19,11 @@ three:
   match: fqdn=suse01.yourdomain.net
   lookup_key: one
   value: 3000
+
+three_default:
+  match: default
+  lookup_key: three
+  value: true
 
 hosttwo:
   match: fqdn=temp.yourdomain.net
@@ -35,7 +45,42 @@ five:
   lookup_key: four
   value: 8443
 
+five_default:
+  match: default
+  lookup_key: five
+  value: 'abcdef'
+
+five_same_name_default:
+  match: default
+  lookup_key: five_same_name
+  value: 'abcdef'
+
+six_default:
+  match: default
+  lookup_key: six
+  value: "--- \nfoo: bar\n"
+
 six:
   match: hostgroup=Parent/inherited
   lookup_key: four
   value: 8443
+
+complex_default:
+  match: default
+  lookup_key: complex
+  value: 'secret'
+
+seven_default:
+  match: default
+  lookup_key: seven
+  value: "[{'hostname': 'test.example.com'}]"
+
+two_default:
+  match: default
+  lookup_key: two
+  value: 443
+
+four_default:
+  match: default
+  lookup_key: four
+  value: 'secret'

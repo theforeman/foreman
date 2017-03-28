@@ -61,10 +61,10 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
   end
 
   test "should update smart variable" do
-    orig_value = lookup_keys(:four).default_value
+    orig_value = lookup_keys(:four).default.value
     put :update, { :id => lookup_keys(:four).to_param, :smart_variable => { :default_value => 'newstring' } }
     assert_response :success
-    new_value = lookup_keys(:four).reload.default_value
+    new_value = lookup_keys(:four).reload.default.value
     refute_equal orig_value, new_value
   end
 
@@ -77,7 +77,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
 
   context 'hidden' do
     test "should show a smart variable as hidden unless show_hidden is true" do
-      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_attributes => { :value => 'hidden' }, :puppetclass => puppetclasses(:one))
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['default_value']
@@ -87,16 +87,16 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
       setup_user "edit", "external_variables"
-      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_attributes => { :value => 'hidden' }, :puppetclass => puppetclasses(:one))
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
-      assert_equal parameter.default_value, show_response['default_value']
+      assert_equal parameter.default.value, show_response['default_value']
     end
 
     test "should show a smart variable parameter as hidden even when show_hidden is true if user is not authorized" do
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
-      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_attributes => { :value => 'hidden' }, :puppetclass => puppetclasses(:one))
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['default_value']

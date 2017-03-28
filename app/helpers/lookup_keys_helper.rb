@@ -89,7 +89,7 @@ module LookupKeysHelper
       if value_for_key.present?
         [value_for_key[:value], "#{value_for_key[:element]} (#{value_for_key[:element_name]})"]
       else
-        [lookup_key.default_value, _("Default value")]
+        [lookup_key.default.value, _("Default value")]
       end
     else #hostgroup
       obj.inherited_lookup_value(lookup_key)
@@ -160,7 +160,7 @@ module LookupKeysHelper
     check_box(lookup_value_name_prefix(lookup_key.id), :omit,
               :value    => lookup_value.id,
               :disabled => disabled || !can_edit_params?,
-              :onchange => "toggleOmitValue(this, 'value')",
+              :onchange => "toggleOmitValue(this)",
               :hidden   => disabled,
               :title    => _('Omit from classification output'),
               :checked  => lookup_value.omit)

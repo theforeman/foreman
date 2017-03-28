@@ -51,7 +51,7 @@ module Classification
         end
         value = nil
         if key.merge_overrides
-          default = key.merge_default ? key.default_value : nil
+          default = key.merge_default ? key.default.value : nil
           case key.key_type
             when "array"
               value = update_array_matcher(default, key.avoid_duplicates, sorted_lookup_values, options)
@@ -73,8 +73,8 @@ module Classification
       value = if values[key.id] && values[key.id][key.to_s]
                 {:value => values[key.id][key.to_s][:value], :managed => values[key.id][key.to_s][:managed] }
               else
-                default_value_method = %w(yaml json).include?(key.key_type) ? :default_value_before_type_cast : :default_value
-                {:value => key.send(default_value_method), :managed => key.omit}
+                default_value_method = %w(yaml json).include?(key.key_type) ? :value_before_type_cast : :value
+                {:value => key.default.send(default_value_method), :managed => key.default.omit}
               end
 
       return nil if value[:managed]
@@ -148,7 +148,7 @@ module Classification
     end
 
     def type_cast(key, value)
-      Foreman::Parameters::Caster.new(key, :attribute_name => :default_value, :to => key.key_type, :value => value).cast
+      Foreman::Parameters::Caster.new(key, :attribute_name => :default, :to => key.key_type, :value => value).cast
     rescue TypeError
       Rails.logger.warn "Unable to type cast #{value} to #{key.key_type}"
     end

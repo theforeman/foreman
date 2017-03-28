@@ -8,19 +8,18 @@ class LookupValue < ActiveRecord::Base
   delegate :hidden_value?, :editable_by_user?, :to => :lookup_key, :allow_nil => true
 
   belongs_to :lookup_key
-  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
+  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}
+  validates :match, :format => LookupKey::VALUE_REGEX, :unless => Proc.new{|p| p.match == 'default' }
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
 
+  validate :validate_value, :unless => Proc.new{|p| p.omit || !p.lookup_key.override}
   validate :ensure_fqdn_exists, :ensure_hostgroup_exists, :ensure_matcher_exists
-  validate :validate_value, :unless => Proc.new{|p| p.omit }
 
   attr_accessor :host_or_hostgroup
 
   serialize :value
   attr_name :match
-
-  scope :default, -> { where(:match => "default").limit(1) }
 
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
@@ -78,8 +77,6 @@ class LookupValue < ActiveRecord::Base
     return true if Host.unscoped.find_by_name(fqdn) || host_or_hostgroup.try(:new_record?) ||
         (host_or_hostgroup.present? && host_or_hostgroup.type_changed? && host_or_hostgroup.type == "Host::Managed")
     errors.add(:match, _("%{match} does not match an existing host") % { :match => "fqdn=#{fqdn}" })
-
-    false
   end
 
   def ensure_hostgroup_exists
@@ -88,8 +85,6 @@ class LookupValue < ActiveRecord::Base
     hostgroup = md[1].split(LookupKey::KEY_DELM)[0]
     return true if Hostgroup.unscoped.find_by_name(hostgroup) || Hostgroup.unscoped.find_by_title(hostgroup) || host_or_hostgroup.try(:new_record?)
     errors.add(:match, _("%{match} does not match an existing host group") % { :match => "hostgroup=#{hostgroup}" })
-
-    false
   end
 
   def ensure_matcher(match_type)
@@ -101,6 +96,7 @@ class LookupValue < ActiveRecord::Base
 
   def ensure_matcher_exists
     return false if match.blank?
+    return true if match == 'default'
     key_elements = []
     match.split(LookupKey::KEY_DELM).each do |m|
       key_elements << m.split(LookupKey::EQ_DELM).first

@@ -236,7 +236,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "should be able to update complex YAML lookup value" do
     host = FactoryGirl.create(:host)
-    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :key_type => 'yaml')
+    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :with_override, :path => "fqdn\ncomment", :key_type => 'yaml')
     lookup_value = FactoryGirl.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => host.lookup_value_matcher, :value => YAML.dump(:foo => :bar))
     host.reload
@@ -251,12 +251,14 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should raise nested lookup value validation errors" do
-    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :key_type => 'hash')
+    lookup_key = FactoryGirl.build(:puppetclass_lookup_key, :with_override, :key_type => 'hash', :path => 'fqdn',:default_attributes => { :value => {} })
     host = FactoryGirl.build(:host)
+    lookup_key.save!
     host.attributes = {:lookup_values_attributes => {'0' =>
                                                      {:lookup_key_id => lookup_key.id.to_s, :value => '{"a":',
                                                       :match => host.lookup_value_matcher,
                                                       :_destroy => 'false'}}}
+
     assert host.lookup_values.first.present?
     refute_valid host, :'lookup_values.value', /invalid hash/
   end

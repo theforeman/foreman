@@ -142,7 +142,7 @@ function toggleOverrideValue(item) {
   var fields = $(item).closest('.fields');
   var fields_to_disable = fields.find("[name$='[required]'],[id$='_key_type'],[id$='_validator_type'],[name$='[omit]'],[name$='[hidden_value]']");
   var omit = $(item).closest('fieldset').find("[id$='omit']").is(':checked');
-  var default_value_field = fields.find("[id$='_default_value']");
+  var default_value_field = $(item).closest('fieldset').find("[id$='value']");
   var pill_icon = $('#pill_' + fields[0].id +' i');
   var override_value_div = fields.find("[id$='lookup_key_override_value']");
 
@@ -188,9 +188,10 @@ function mergeOverridesChanged(item) {
   changeCheckboxEnabledStatus(mergeDefault, item.checked);
 }
 
-function toggleOmitValue(item, value_field) {
+
+function toggleOmitValue(item) {
   var omit = $(item).is(':checked');
-  $(item).closest('.fields').find('[id$=' + value_field + ']').prop('disabled', omit);
+  $(item).closest('.fields').find('[id$=value]').prop('disabled', omit);
 }
 
 function filterByEnvironment(item){
@@ -279,7 +280,7 @@ function build_match() {
 }
 
 function toggle_lookupkey_hidden(checkbox) {
-  var default_value = $('#'+checkbox.id.replace(/hidden_value$/, "default_value"));
+  var default_value = $(checkbox).closest('.fields').find('.default_value [id$="value"]');
   var lookup_values = $(checkbox).closest('.fields').find('.lookup_values [id$="value"]');
   toggle_value_hidden(default_value);
   lookup_values.each(function () {

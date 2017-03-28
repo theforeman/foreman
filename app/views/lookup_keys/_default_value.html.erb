@@ -1,0 +1,15 @@
+<% override = f.object.lookup_key.override %>
+<div class="fields default_value">
+  <%= textarea_f f, :value, :value => f.object.value_before_type_cast, :label => _('Default Value'), :size => "col-md-8",
+                    :disabled => (is_param && (!override || f.object.omit)),
+                    :input_group_btn => fullscreen_input,
+                    :rows => 1,
+                    :label_help => _("Value to use when there is no match."),
+                    :class => "no-stretch #{'masked-input' if f.object.lookup_key.hidden_value?}" %>
+  <%= checkbox_f(f, :omit, :label => _('Omit'),
+                 :label_help => omit_help_body,
+                 :label_help_options => { :title => omit_help_title },
+                 :size => "col-md-1", :label_size => "col-md-2", :table_field => true,
+                 :onchange => 'toggleOmitValue(this, "default_value")',
+                 :disabled => (is_param && !override)) if is_param %>
+</div>

@@ -12,14 +12,14 @@ class LookupKey < ActiveRecord::Base
   audited :associated_with => :audit_class
   validates_lengths_from_database
 
-  serialize :default_value
-
-  has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
+  has_many :lookup_values, -> { where.not(:match =>  'default') }, :dependent => :destroy, :inverse_of => :lookup_key
+  has_one :default, -> { where :match => 'default' }, :class_name => 'LookupValue', :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values,
                                 :reject_if => :reject_invalid_lookup_values,
                                 :allow_destroy => true
+  accepts_nested_attributes_for :default
 
-  alias_attribute :value, :default_value
+  alias_attribute :value, :default
 
   validates :key, :presence => true
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
@@ -40,8 +40,16 @@ class LookupKey < ActiveRecord::Base
     super
   end
 
+  def default_value
+    default.value
+  end
+
   def self.hidden_value
     HIDDEN_VALUE
+  end
+
+  def build_default_value
+    build_default if self.default.nil?
   end
 
   default_scope -> { order('lookup_keys.key') }
@@ -102,11 +110,6 @@ class LookupKey < ActiveRecord::Base
     return unless v
     using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
     write_attribute(:path, using_default ? nil : v)
-  end
-
-  def default_value_before_type_cast
-    return read_attribute(:default_value) if errors[:default_value].present?
-    value_before_type_cast default_value
   end
 
   def value_before_type_cast(val)
@@ -191,16 +194,6 @@ class LookupKey < ActiveRecord::Base
     end.join("\n")
   end
 
-  def cast_default_value
-    return true if default_value.nil? || default_value.contains_erb?
-    begin
-      Foreman::Parameters::Caster.new(self, :attribute_name => :default_value, :to => key_type).cast!
-    rescue
-      errors.add(:default_value, _("is invalid"))
-    end
-    true
-  end
-
   def load_yaml_or_json(value)
     return value unless value.is_a? String
     begin
@@ -208,13 +201,6 @@ class LookupKey < ActiveRecord::Base
     rescue
       YAML.load value
     end
-  end
-
-  def validate_default_value
-    Foreman::Parameters::Validator.new(self,
-      :type => validator_type,
-      :validate_with => validator_rule,
-      :getter => :default_value).validate!
   end
 
   def disable_merge_overrides
