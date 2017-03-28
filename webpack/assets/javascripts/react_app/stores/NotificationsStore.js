@@ -98,6 +98,11 @@ AppDispatcher.register(action => {
       break;
     }
 
+    case ACTIONS.MARK_AS_READ: {
+      _notifications.data[action.group].find(n => n.id === action.id).seen = true;
+      NotificationsStore.emitChange(action.actionType);
+    }
+      break;
     default:
       // no op
       break;

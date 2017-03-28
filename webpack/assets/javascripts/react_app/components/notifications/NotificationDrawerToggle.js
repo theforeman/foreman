@@ -23,9 +23,9 @@ class NotificationDrawerToggle extends Component {
 
   onChange(actionType) {
     switch (actionType) {
-      case ACTIONS.RECEIVED_NOTIFICATIONS: {
+      case ACTIONS.RECEIVED_NOTIFICATIONS:
+      case ACTIONS.MARK_AS_READ: {
         const notifications = NotificationsStore.getNotifications();
-
         const newState = {
           hasUnreadNotifications: _.some(notifications, group =>
             _.some(group, notification => !notification.seen)),
