@@ -1,5 +1,6 @@
 class Template < ActiveRecord::Base
   include Exportable
+  attr_accessor :modify_locked, :modify_default
 
   validates_lengths_from_database
 
@@ -58,6 +59,20 @@ class Template < ActiveRecord::Base
     name.downcase.delete('-').gsub(/\s+/, '_') + '.erb'
   end
 
+  def ignore_locking
+    self.modify_locked = true
+    yield
+    self.modify_locked = false
+    self
+  end
+
+  def ignore_default
+    self.modify_default = true
+    yield
+    self.modify_default = false
+    self
+  end
+
   private
 
   def allowed_changes
@@ -72,19 +87,19 @@ class Template < ActiveRecord::Base
     actual_changes = changes
 
     # Locked & Default are Special
-    if actual_changes.include? 'locked'
-      unless User.current.can?("lock_#{self.class.to_s.underscore.pluralize}", self)
+    if actual_changes.include?('locked') && !self.modify_locked
+      if User.current.nil? || !User.current.can?("lock_#{self.class.to_s.underscore.pluralize}", self)
         errors.add(:base, _("You are not authorized to lock templates."))
       end
     end
 
-    if actual_changes.include? 'default'
-      unless User.current.can?(:create_organizations) || User.current.can?(:create_locations)
+    if actual_changes.include?('default') && !self.modify_default
+      if User.current.nil? || !(User.current.can?(:create_organizations) || User.current.can?(:create_locations))
         errors.add(:base, _("You are not authorized to make a template default."))
       end
     end
 
-    unless actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty?
+    if  !self.modify_locked && !actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty?
       errors.add(:base, _("This template is locked. Please clone it to a new template to customize."))
     end
   end
