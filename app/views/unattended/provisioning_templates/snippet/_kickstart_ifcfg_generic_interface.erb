@@ -1,0 +1,47 @@
+<%#
+name: kickstart_ifcfg_generic_interface
+snippet: true
+model: ProvisioningTemplate
+kind: snippet
+-%>
+BOOTPROTO="<%= @dhcp ? 'dhcp' : 'none' -%>"
+<%- unless @dhcp || @subnet.nil? -%>
+<%-   if @interface.ip.present? -%>
+<%=     "IPADDR=\"#{@interface.ip}\"" %>
+<%=     "NETMASK=\"#{@subnet.mask}\"" %>
+<%-     if @subnet.gateway.present? -%>
+<%=       "GATEWAY=\"#{@subnet.gateway}\"" %>
+<%-     end -%>
+<%-   end -%>
+<%-   if @interface.ip6.present? -%>
+<%=     "IPV6INIT=yes" %>
+<%=     "IPV6_AUTOCONF=no" %>
+<%=     "IPV6ADDR=#{@interface.ip6}" %>
+<%-     if @subnet6.gateway.present? -%>
+<%=       "IPV6_DEFAULTGW=#{@subnet6.gateway}" %><%= '%$real' if subnet6.gateway.match(/^fe80:/) %>
+<%-     end -%>
+<%=     "IPV6_PEERDNS=no" %>
+<%-   end -%>
+<%- end -%>
+DEVICE=$real
+<%- unless @interface.virtual? -%>
+<%=   "HWADDR=\"#{@interface.mac}\"" %>
+<%- end -%>
+ONBOOT=yes
+<%- primary = @interface.primary ? 'yes' : 'no' -%>
+PEERDNS=<%= primary %>
+PEERROUTES=<%= primary %>
+DEFROUTE=<%= primary %>
+<%- if @interface.primary -%>
+<%-   if !@dhcp && @subnet && @subnet.dns_primary.present? -%>
+<%=     "DNS1=\"#{@subnet.dns_primary}\"" %>
+<%-     if @subnet.dns_secondary.present? -%>
+<%=       "DNS2=\"#{@subnet.dns_secondary}\"" %>
+<%-     end -%>
+<%-   end -%>
+<%- end -%>
+<%- if @interface.virtual? && ((!@subnet.nil? && @subnet.has_vlanid?) || @interface.vlanid.present?) -%>
+<%=   "VLAN=yes" %>
+<%- elsif @interface.virtual? && !@subnet.nil? && !@subnet.has_vlanid? && @interface.identifier.include?(':') -%>
+<%=   "TYPE=Alias" %>
+<%- end -%>

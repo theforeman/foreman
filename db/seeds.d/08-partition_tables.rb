@@ -4,7 +4,7 @@ locations = Location.unscoped.all
 
 Ptable.without_auditing do
   SEEDED_PARTITION_TABLES.each do |input|
-    contents = File.read(File.join("#{Rails.root}/app/views/unattended", input.delete(:source)))
+    contents = File.read(File.join("#{Rails.root}/app/views/unattended/partition_tables_templates", input.delete(:source)))
 
     if (p = Ptable.unscoped.find_by_name(input[:name])) && !SeedHelper.audit_modified?(Ptable, input[:name])
       if p.layout != contents

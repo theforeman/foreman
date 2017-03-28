@@ -1,0 +1,13 @@
+<%#
+kind: snippet
+name: pxegrub_discovery
+-%>
+<%#
+discovery image is based on CentOS/RHEL and therefor it is affected by https://bugzilla.redhat.com/show_bug.cgi?id=1259015.
+In short, before RHEL 7.2 virtio driver didn't have the new persistent naming scheme, causing interfaces to be named eth0, eth1, etc..
+If you want to enable the new persistent naming scheme and get inteface names like ens3, add net.ifnames=1 to the kernel line below.
+-%>
+# http://projects.theforeman.org/issues/15997
+title Foreman Discovery Image - not supported with Grub 1.x
+  kernel boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-$net_default_mac
+  initrd boot/fdi-image/initrd0.img
