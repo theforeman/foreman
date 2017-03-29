@@ -1,3 +1,829 @@
+2017-03-29	Daniel Lobato Garcia <me@daniellobato.me>
+	* templates - sync from community-templates
+	* Revert "fixes #18691 - add as_deprecation_tracker to test environment"
+
+2017-03-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #18954 - Add CSV export to facts table
+
+2017-03-28	matanwerbner <verbmat@gmail.com>
+	* Fixes #18957,#18193,#18678,#18853 - notifications redux
+
+2017-03-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #18762 - Add csv export to reports table
+
+2017-03-28	Dominic Cleal <dominic@cleal.org>
+	* fixes #19035 - rewrite TopbarSweeper without rails-observers
+
+2017-03-28	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18640 - realign templates structure
+	* Fixes #18639 - lock all templates we seed
+
+2017-03-28	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15374 - move progress_report_id to Host
+
+2017-03-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #18940 - adds caching to notification api calls.
+
+2017-03-27	Marek Hulan <mhulan@redhat.com>
+	* Refs #18001 - Avoid role extending from rake tasks permission
+
+2017-03-27	Ivan Necas <inecas@redhat.com>
+	* Fixes #19017 - prefer request id over session id in logging
+
+2017-03-27	Bryan Kearney <bryan.kearney@gmail.com>
+	* Fixes #19036 - Add the hiera.yaml file from to foreman-debug
+
+2017-03-27	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #19030 - Uncomment plugin tests
+
+2017-03-27	Ori Rabin <orabin@redhat.com>
+	* Fixes #12272 - Support multiple certificates in ovirt resource
+
+2017-03-26	Dominic Cleal <dominic@cleal.org>
+	* fixes #18719 - replace usage of deprecated Fixnum constant
+
+2017-03-24	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #18001 - Add plugin permissions to core's roles
+
+2017-03-24	adamruzicka <adamruzicka@users.noreply.github.com>
+	* Fixes #18977 - Do not raise on creating a role in plugin when in Rake
+
+2017-03-23	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #18893 - Improve latest events widget performance
+
+2017-03-23	Timo Goebel <mail@timogoebel.name>
+	* fixes #12419 - template preview host has typeahead
+	* fixes #18980 - ssh keys new page has breadcrumbs
+
+2017-03-23	lizagilman <lizagilman@gmail.com>
+	* Fixes #18467, #18737 - search input is not layed on top of notification drawer
+
+2017-03-23	Dominic Cleal <dominic@cleal.org>
+	* refs #18264 - remove text order assumption in response body test
+
+2017-03-23	Walden Raines <walden@redhat.com>
+	* Fixes #18986: upgrade patternfly-sass to 3.23.0.
+
+2017-03-23	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #18065 - make API v1 deprecation warning more apparent
+
+2017-03-22	Timo Goebel <mail@timogoebel.name>
+	* fixes #18064 - import host from compute resource
+
+2017-03-22	Dominic Cleal <dominic@cleal.org>
+	* refs #18950 - wait for CR test connection to complete
+	* fixes #18976 - separate tests with different request formats
+
+2017-03-22	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #18264 - change select multiple host actions to POST
+
+2017-03-21	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18948 - correctly relogin user with SSO sessions
+
+2017-03-21	Ivan Necas <inecas@redhat.com>
+	* Fixes #18949 - info message about current user
+
+2017-03-21	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #16288 - moves ace editor to webpack.
+
+2017-03-21	Dominic Cleal <dominic@cleal.org>
+	* refs #18760 - exclude test routes from permission checks
+
+2017-03-20	Dominic Cleal <dominic@cleal.org>
+	* fixes #18958 - correct format of multiple REMOTE_ADDR addresses
+
+2017-03-20	matan <matan@dhcp-3-123.tlv.redhat.com>
+	* Fixes #18906 - empty tooltip on notification
+
+2017-03-19	Ivan Nečas <inecas@redhat.com>
+	* Fixes #18952 - fix destroy of host without owner
+
+2017-03-19	Dominic Cleal <dominic@cleal.org>
+	* fixes #18950 - enable password field in CR form test
+	* fixes #18929 - add rails-observers dep for TopbarSweeper
+
+2017-03-15	matanwerbner <verbmat@gmail.com>
+	* Fixes #18901 - fix bottom notification dropdown
+
+2017-03-15	Timo Goebel <mail@timogoebel.name>
+	* fixes #18476 - users have ssh keys
+
+2017-03-15	Sean O\'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #18898 - "Host" prefix isnt required on Host show page
+
+2017-03-14	matan <matan@dhcp-3-123.tlv.redhat.com>
+	* Fixes #18728 - notifications scroll
+	* Fixes #18888 - refactor powerStatus
+
+2017-03-14	Dominic Cleal <dominic@cleal.org>
+	* refs #18760 - only build CSV URL from permitted params
+	* refs #17463 - require test helper for smart proxy mixin
+
+2017-03-14	lizagilman <lizagilman@gmail.com>
+	* Fixes #18234 - display correct icon when no unread notifications
+
+2017-03-14	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #18760 - Allow export to CSV
+
+2017-03-14	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #18843 - Changed from eager_load to includes in #index
+
+2017-03-14	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #17463 - Detect user's orgs when importing from puppet
+
+2017-03-13	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #18868 - add Parallels PSBM version handling
+
+2017-03-12	Ori Rabin <orabin@redhat.com>
+	* Fixes #18718 - Empty boolean matcher should not turn into false
+
+2017-03-10	Swapnil Abnave <sabnave@redhat.com>
+	* Fixes #6817 - AWS VPC groups - show after saving
+
+2017-03-10	Dominik Hlavac <xhlava42@stud.fit.vutbr.cz>
+	* Fixes #18764 - Hammer-cli current user password update
+
+2017-03-10	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18722 - fix host parameters in host form
+
+2017-03-10	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #18800 - strong params no longer breaks inherited attrs
+
+2017-03-09	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #18813 - Sort matchers by priority
+
+2017-03-09	Marek Hulán <ares@users.noreply.github.com>
+	* Refs #18804 - move spinner help icons
+
+2017-03-09	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #18681 - moves polymorphic subject into notification object
+	* fixes #18796 - do not flot charts by default
+
+2017-03-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #12163 - add a rake task to clean up orphaned facts
+
+2017-03-08	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18767 - keep cloning info
+
+2017-03-08	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #18690 - add missing auditable types into scoped search
+
+2017-03-08	Evgeni Golov <egolov@redhat.com>
+	* Fixes #18587, #18588 - Fix 'multipart form data' IE bug
+
+2017-03-08	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #14013 - add a setting for default owner of new hosts
+
+2017-03-08	Alexander "Ace" Olofsson <ace@haxalot.com>
+	* Fixes #18830 - PXE Loaders for Windows
+
+2017-03-08	BernhardAtix <BernhardAtix@users.noreply.github.com>
+	* fixes #18815 - VMware vSphere Disk Mode support
+
+2017-03-08	Marek Hulan <mhulan@redhat.com>
+	* Fixes #18783,#18804 - replace inline helps with label helps
+
+2017-03-07	matan <matan@dhcp-3-121.tlv.redhat.com>
+	* Fixes #18591 - powerStatus in redux
+
+2017-03-07	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #18317 - Clone user role via API
+
+2017-03-06	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #18788 - log protected attributes in prod
+
+2017-03-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #14492 - Unify delete and minimize for dashboard widgets
+
+2017-03-03	Marek Hulan <mhulan@redhat.com>
+	* Fixes #18345 - Improve templates error handling
+
+2017-03-02	Eric D Helms <eric.d.helms@gmail.com>
+	* Fixes #18657 - Allow ERB in settings files
+
+2017-03-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #18768 - remove generic inline helps
+
+2017-03-02	June Zhang <junzhang@redhat.com>
+	* Fixes #18763 - Change delete button to standard style
+
+2017-03-01	amirfefer <amirfefer@gmail.com>
+	* Fixes #18740 - remove erb extension from host_checkbox.js
+
+2017-03-01	Chris Roberts <croberts@croberts.us>
+	* Fixes #18514 - switch prefix/mask fields
+
+2017-03-01	Dominic Cleal <dominic@cleal.org>
+	* fixes #18735 - truncate encryption key to match preferred length (#4350)
+
+2017-03-01	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #18726 - Set null to true on migrations for Rails 5
+
+2017-02-28	Dominic Cleal <dominic@cleal.org>
+	* fixes #18662 - stop default scope being overridden by association
+
+2017-02-28	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #18676 - don't ignore notification expiry
+
+2017-02-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #18688 - pin sass-loader to version supporting webpack 1
+
+2017-02-28	matanwerbner <verbmat@gmail.com>
+	* fixes #18716 - make storybook work with scss
+
+2017-02-27	Dominic Cleal <dominic@cleal.org>
+	* refs #16982 - check _ids getters as admin user in taxonomy tests
+	* fixes #18695 - create test/functional/ for test:functionals task
+	* fixes #18691 - add as_deprecation_tracker to test environment
+	* fixes #18477 - update Rails to 4.2.8
+	* fixes #18665 - call #to_h before comparing AC
+
+2017-02-27	Ohad Levy <ohadlevy@gmail.com>
+	* refs #17545 - notifications should be deleted with blueprint
+
+2017-02-26	matan <matan@dhcp-3-121.tlv.redhat.com>
+	* Fixes #18638 - add sass support to webpack
+
+2017-02-26	Jo Vandeginste <Jo.Vandeginste@kuleuven.be>
+	* Add pxe_loader to host REST
+
+2017-02-26	Dominic Cleal <dominic@cleal.org>
+	* refs #16982 - remove User.current deassignment (no such user)
+
+2017-02-24	Dominic Cleal <dominic@cleal.org>
+	* fixes #18664 - ignore missing callbacks in SmartProxyAuth concern
+	* refs #16982 - pass ID, not models into model.find
+	* refs #17228 - modify, don't re-define existing constant
+
+2017-02-23	Ivan Nečas <inecas@redhat.com>
+	* Refs #17272 - fix sql condition
+
+2017-02-23	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #18582 - add missing id params to taxonomy apidoc
+
+2017-02-23	Dominik Hlavac <xhlava42@stud.fit.vutbr.cz>
+	* Fixes #17272 - Fixed Searches on parameters with !=
+
+2017-02-23	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18426 - Add actions to notification entries
+
+2017-02-23	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #17228 - Select templates as global defaults (#4283)
+
+2017-02-23	Daniel Augustin <hossie@hossie.de>
+	* fixes #17866 - Remove PXE Properties from Gentoo Operatingsystem
+
+2017-02-22	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #18576 - update OpenSUSE mirror url
+	* Fixes #18581 - conditionalize SUSE mediapath
+
+2017-02-22	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16982 - Scope properly when no taxonomies are set
+
+2017-02-21	Marek Hulan <mhulan@redhat.com>
+	* Refs #18554 - Revert cache removal
+
+2017-02-21	Chris Duryee <cduryee@redhat.com>
+	* Fixes #18554 - skip collection_cache_lookup on authorized_for
+
+2017-02-21	Dominic Cleal <dominic@cleal.org>
+	* fixes #18551 - skip table_exists? error when the DB doesn't exist
+	* fixes #18565 - move constantize inside access permission tests
+
+2017-02-21	Timo Goebel <mail@timogoebel.name>
+	* fixes #17533 - provision dhcp for bond child macs
+
+2017-02-21	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #16204 - Singularize ExternalUsergroups for permissions
+
+2017-02-21	Jo Vandeginste <jo.vandeginste@gmail.com>
+	* fixes #18574 - add ip6 address to the REST api results
+
+2017-02-20	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #12294 - Update existing params using API
+
+2017-02-20	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #18560 - Remove searchbar from 403, change 403 style
+
+2017-02-20	Dominic Cleal <dominic@cleal.org>
+	* fixes #18566 - permit apipie-rails 0.4.x
+	* fixes #18568 - replace deprecated AC
+	* refs #7495 - correct syntax in API error handler
+
+2017-02-19	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #18559 - Order mail notifications by name
+
+2017-02-17	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #7495 - Create/delete autosign entries via API
+
+2017-02-17	Dominic Cleal <dominic@cleal.org>
+	* fixes #18540 - update domain on primary in hosts_count tests
+
+2017-02-16	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* refs #18464 - rename *.spec.js to *.test.js
+	* Fixes #18491 - Fix failing users js test
+
+2017-02-16	Dominic Cleal <dominic@cleal.org>
+	* refs #18530 - move redux-mock-store to dev/test deps
+	* fixes #18534 - configure rubocop for Ruby 2.0 compatibility
+
+2017-02-16	verbmat@gmail.com <verbmat@gmail.com>
+	* Fixes #18530 - fix package.json dependencies
+
+2017-02-16	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #18466 - change getHostsData function name to be singular
+
+2017-02-15	Timo Goebel <mail@timogoebel.name>
+	* fixes #18511 - plugin authors shown nicely
+
+2017-02-15	matan <matan@dhcp-3-121.tlv.redhat.com>
+	* fixes #18464 - Add Redux to statistics page
+
+2017-02-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #18227 - clean up variables after rendering
+
+2017-02-15	Marek Hulán <ares@users.noreply.github.com>
+	* Refs #18469 - align subnet button label with the rest
+	* Refs #18473 - align CR button label with the rest
+
+2017-02-14	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #18490 - run eslint on all files in webpack
+
+2017-02-14	Dominic Cleal <dominic@cleal.org>
+	* fixes #18489 - test AuthSourceLdap missing and blank passwords
+	* refs #18468 - move compute_resources JS to compute profile index
+
+2017-02-14	Sebastian Gräßl <bastilian@users.noreply.github.com>
+	* Fixes #18468 - Include JS in libvirt compute profile form
+
+2017-02-14	Timo Goebel <mail@timogoebel.name>
+	* fixes #18373 - vmware: do not pass automatic firmware to vm
+
+2017-02-13	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #18469 - Add Patternfly empty page for subnets
+	* Fixes #18473 - Add Patternfly empty page for compute resources
+	* Fixes #18474 - Add Patternfly empty page for OSs
+
+2017-02-13	Timo Goebel <mail@timogoebel.name>
+	* fixes #18481 - host index page loads faster
+
+2017-02-13	matan <matan@dhcp-3-121.tlv.redhat.com>
+	* Fixes #18364 - disable hide of dropdown + tooltip
+
+2017-02-12	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #18462 - Change LDAP filter field to text area
+	* Fixes #18461 - reword 'External groups'
+
+2017-02-10	Gail Steiger <gsteiger@netvision.net.il>
+	* fixes #18248 - dashboard auto refresh mounts duplicate components
+
+2017-02-10	Ivan Nečas <inecas@redhat.com>
+	* Fixes #3541,#13769 - return true on success of ssh orchestration
+
+2017-02-10	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18425 - Update README screenshots and links
+
+2017-02-09	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18440 - removes dead code and obsolete permission
+
+2017-02-09	Amit Karsale <karsale.amit@gmail.com>
+	* Fixes #16846 - Org create failure with specific msg
+
+2017-02-09	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #14716 - Added option to transform thin template to thick
+
+2017-02-09	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18412 - Alert styling for adrift host time
+
+2017-02-09	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #18348 - foreman-debug compress faster
+
+2017-02-09	Timo Goebel <mail@timogoebel.name>
+	* fixes #18366 - vmware: delete vm only if created with errors
+
+2017-02-09	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #18367 - Add patternfly welcome to user groups index
+
+2017-02-09	Ivan Necas <inecas@redhat.com>
+	* Fixes #18410 - log permission denials
+
+2017-02-09	Bryan Kearney <bryan.kearney@gmail.com>
+	* Fixes #18433 - Remove the Data not available message
+
+2017-02-07	Chris Roberts <croberts@croberts.us>
+	* Fixes #12652 - VMware Volume name is readonly
+
+2017-02-02	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #17005 - more strict debug password filter
+
+2017-02-02	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #18343 - add method for deprecation of JS functions
+
+2017-02-01	Gail Steiger <gsteiger@netvision.net.il>
+	* Fixes #18194, #18326 - minor UI bugs Notifications
+
+2017-02-01	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #18321 - added migration for builtin roles
+
+2017-01-31	Adam, Till - D0249540 <till.adam@dm.de>
+	* fixes #18216 - volume size editable for existing VMs one
+
+2017-01-31	Timo Goebel <mail@timogoebel.name>
+	* fixes #13618 - cache expensive vmware api calls
+
+2017-01-31	Dominic Cleal <dominic@cleal.org>
+	* fixes #18233, #18235 - isolate pagelets state between tests
+
+2017-01-31	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18040 - URL escape PuppetCA CN on proxy view
+
+2017-01-30	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #18126 - Fix security groups select for EC2 form
+
+2017-01-30	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18260 - Display proper organizations count on table
+
+2017-01-30	Dominic Cleal <dominic@cleal.org>
+	* refs #17526 - reset taxonomy.current after each test
+	* refs #18232 - make phantomjs optional, not available on all archs
+
+2017-01-29	Gail Steiger <gsteiger@netvision.net.il>
+	* fixes #18191,#18192 - monitor notification request
+
+2017-01-27	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #18280 - Adds compute resource provider name
+
+2017-01-26	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #12599 - Add config groups related apipie doc
+
+2017-01-26	thomasmckay <thomasmckay@redhat.com>
+	* fixes #18252 - added docker* to ignore
+
+2017-01-26	Timo Goebel <mail@timogoebel.name>
+	* fixes #18102 - a host cannot be backed by the same vm
+	* fixes #18250 - show compute resource xhr errors
+
+2017-01-26	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17526 - Taxonomy.ignore? does not work with "any context"
+
+2017-01-26	Ivan Necas <inecas@redhat.com>
+	* Refs #15779 - make background processing unavailable for now (#4217)
+
+2017-01-26	Dominic Cleal <dominic@cleal.org>
+	* fixes #18239 - wait for AJAX spinners removal on about page test
+
+2017-01-25	Dominic Cleal <dominic@cleal.org>
+	* fixes #18238 - use fixed model name in test expectation
+	* fixes #18232 - install phantomjs via npm
+
+2017-01-25	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #17681 - Switch to newly created taxonomy
+
+2017-01-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #18205 - Add save_to_file macro
+
+2017-01-25	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #18213 - Added webpack folder to string extraction
+
+2017-01-24	June Zhang <junzhang@redhat.com>
+	* Fixes #17872 - Update button label from New to Create
+
+2017-01-24	Dominic Cleal <dominic@cleal.org>
+	* fixes #18214 - accept `params` as AC
+	* fixes #18208 - replace audited-activerecord with audited (#4218)
+
+2017-01-24	orrabin <orabin@redhat.com>
+	* Refs #17653 - fix typo in show_hidden_parameters and add tests
+
+2017-01-24	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #16752 - Extract template code from Host
+
+2017-01-23	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #12649 - Index search not retained on cancel click
+
+2017-01-23	Dominic Cleal <dominic@cleal.org>
+	* fixes #18176 - replace clear_association_cache with reload
+	* fixes #18199 - empty parameter value is an empty string, not nil
+
+2017-01-20	Ori Rabin <orabin@redhat.com>
+	* Refs #17653 - add show_hidden to apidoc
+
+2017-01-20	Marek Hulán <ares@users.noreply.github.com>
+	* Refs #18143 - extend snippet_if_exists too
+
+2017-01-20	Dominic Cleal <dominic@cleal.org>
+	* fixes #18159 - change incorrect clearing of test request session
+	* fixes #18155 - add string to empty form-encoded arrays in test
+	* fixes #18157 - use AS
+
+2017-01-20	Gail Steiger <gsteiger@netvision.net.il>
+	* fixes #18010 - UI Notifications front-end implementation
+
+2017-01-19	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #17545 - adds UI notification support
+
+2017-01-19	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18143 - enable variables for snippets (#4205)
+
+2017-01-19	Timo Goebel <mail@timogoebel.name>
+	* fixes #18130 - add autoincrement for bigint id columns
+
+2017-01-18	Timo Goebel <mail@timogoebel.name>
+	* fixes #18136 - add indices for reports type column
+
+2017-01-18	lizagilman <lizagilman@gmail.com>
+	* Fixes #18127 - Correcting length of group base field
+
+2017-01-18	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18045 - Puppet classes show up choosing only env.
+
+2017-01-18	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17844 - unify test mail js code
+
+2017-01-17	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #17898 - update rackspace to 0.1.4
+
+2017-01-17	June Zhang <junzhang@redhat.com>
+	* Fixes #18099 - Update the close button style
+
+2017-01-17	Sebastian Gräßl <bastilian@users.noreply.github.com>
+	* Fixes #6502 - List ignored classes and environments on import
+
+2017-01-16	Baptiste <bagasse@users.noreply.github.com>
+	* Fixes #10539 - Add default names for ifaces for oVirt CR VMs
+
+2017-01-16	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #12547 - Added validators to interger fields
+
+2017-01-16	June Zhang <junzhang@redhat.com>
+	* Fixes #18085 - Update 'Build PXE Default' to secondary style
+
+2017-01-15	Ori Rabin <orabin@redhat.com>
+	* Fixes #17653 - Allow all parameters api to unhide values
+	* fixes #17899 - Delete instead of destroy orphaned records
+
+2017-01-15	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #15405 - Moved puppet UI to helpers
+
+2017-01-13	Timo Goebel <mail@timogoebel.name>
+	* fixes #13810 - increase value range for id columns
+
+2017-01-13	Bryan Kearney <bryan.kearney@gmail.com>
+	* Fixes #18061 - Use the term 'Actions' consistently in smart proxy
+
+2017-01-12	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Refs #17972 - remove trends.js from assets initializer
+	* Fixes #17971 - move user taxonomyAdded js to webpack
+	* Fixes #4519, #9531 - Correctly handle invalid host name changes
+
+2017-01-12	Sebastian Gräßl <bastilian@users.noreply.github.com>
+	* Fixes #14714 - Make inherited Puppet Classes more apparent
+
+2017-01-12	Dominic Cleal <dominic@cleal.org>
+	* refs #18031 - change Admin field string in PO, remove new string
+
+2017-01-12	June Zhang <junzhang@redhat.com>
+	* Fixes #18039 - Update documentation buttons style
+
+2017-01-11	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18025 - make user groups sortable
+	* Fixes #18031 - unify admin flag label
+
+2017-01-11	Sebastian Gräßl <bastilian@users.noreply.github.com>
+	* Fixes #3551 - Show unavailable Puppet Classes in Host Group edit
+
+2017-01-11	Dominic Cleal <dominic@cleal.org>
+	* fixes #18024 - add 'image' search field to hosts
+
+2017-01-11	amirfefer <amirfefer@gmail.com>
+	* Fixes #6952 - Set hostgroup after provisioning from pxe
+
+2017-01-11	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17972 - Simplify new trend form js and helpers
+
+2017-01-11	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17330 - skip admin email if it's unknown
+
+2017-01-11	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18017 - Allow single/double quotes for HoundCI
+
+2017-01-10	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17998 - Only print LDAP bind status if available
+
+2017-01-09	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #17438 - Disable selecting IPv6 on import
+
+2017-01-09	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17977 - remove ES6-promise polyfill
+
+2017-01-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #16782 - reset dhcp record cache after mac change
+
+2017-01-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17979 - Pin nokogiri to last version supporting ruby 2.0
+
+2017-01-05	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17864 - Show smart proxy errors on unattended fail
+
+2017-01-04	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17904 - Show tooltips for long proxy log messages
+	* Fixes #17680 - templates_used host helper
+
+2017-01-04	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #15403 - moved puppet to a concern in hosts UI controller
+
+2017-01-04	Dominic Cleal <dominic@cleal.org>
+	* fixes #17657 - permit fog-aws 1.x
+
+2017-01-04	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17913 - Remove deprecation message when loading ACE editor
+
+2017-01-04	Sebastian Gräßl <sebastian@validcode.me>
+	* Fixes #17910 - Quote strings for JQuery href attribute selector
+
+2017-01-03	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #17855 - reflect changes to template on image selection
+
+2017-01-03	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17457 - multiple_checkboxes doesn't work with orgs/locs
+
+2017-01-03	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #16740 - Access host params through macro
+
+2017-01-02	Justin Sherrill <jlsherrill@gmail.com>
+	* Fixes #17894 - load needed dependent api param group
+
+2017-01-02	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17837 - Fix hosts:scan_out_of_sync task
+	* Fixes #17850 - Prevent 414 on architecture/usergroup
+
+2017-01-02	Timo Goebel <mail@timogoebel.name>
+	* fixes #4166 - vmware: update cpus, memory for vms
+	* fixes #8290 - remove foreman_url redundancy
+
+2017-01-02	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #17886 - move config groups under parameters
+
+2017-01-02	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17874 - Extract contains_erb? from lookup key
+
+2016-12-29	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #16682 - Compress webpack compiled assets
+
+2016-12-29	Amit Karsale <karsale.amit@gmail.com>
+	* Fixes #13775 - merge if data set is present
+
+2016-12-29	orrabin <orabin@redhat.com>
+	* Fixes #17870 - Empty boolean matcher should not turn into false
+	* Fixes #17810 - Deleting smart class parameters with puppetclass
+
+2016-12-29	Timo Goebel <mail@timogoebel.name>
+	* fixes #17853 - resolve ips in interface scope
+
+2016-12-28	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17858 - OpenStack scheduler doesn't show spinner
+
+2016-12-28	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #10957 - Correctly handle to_gb when no unit given
+
+2016-12-28	Gail Steiger <gsteiger@netvision.net.il>
+	* fixes #17600 - Storybook does not draw chart
+
+2016-12-27	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17852 - Pin concurrent-ruby-edge to 0.2.3
+
+2016-12-27	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Refs #17602 - correct typo in mention-bot config
+
+2016-12-27	Nagoor Shaik <nagoor.s@gmail.com>
+	* Fixes #17846 - auth_source_ldaps API now displays taxonomies
+
+2016-12-26	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #17842 - Adds 'type = compute_resource' to Audit search
+
+2016-12-25	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #17015 - Adds Key pairs controller
+
+2016-12-23	Dominic Cleal <dominic@cleal.org>
+	* fixes #17838 - translate New Hosts title string
+
+2016-12-23	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #17808 - fix 'multipart form data' IE bug
+
+2016-12-22	Sean O\'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #17683 - Wrong resource type in HG AJAX permission check
+
+2016-12-22	dhlavac <dhlavacd@redhat.com>
+	* Fixes #16850 - Added record of password change to audit log
+
+2016-12-21	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #17813 - Add type=LookupValue to Audit search
+
+2016-12-21	Dominic Cleal <dominic@cleal.org>
+	* fixes #16792 - don't modify AR record attributes in-place
+
+2016-12-21	Daniel Lobato García <me@daniellobato.me>
+	* Fixes #17516 - Update jquery to 2.2.4 to fix XSS
+
+2016-12-21	Guido Günther <agx@sigxcpu.org>
+	* Fixes #17641 - Use force when destroying VMs
+
+2016-12-20	Swapnil Abnave <sabnave@redhat.com>
+	* Fixes #17678 - APIdoc - URL desc add missing CR types
+
+2016-12-20	orrabin <orabin@redhat.com>
+	* Fixes #16440 - Creating smart variable from index page
+
+2016-12-20	kgaikwad <kavitagaikwad103@gmail.com>
+	* fixes #17630 - show tooltips after deselecting selected item
+
+2016-12-20	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17587 - remove autoprefixer gem
+
+2016-12-20	June Zhang <junzhang@redhat.com>
+	* Fixes #17679 - Fixing the style issues in Login Page
+
+2016-12-20	Shlomi Zadok <shlomi@ben-hanna.com>
+	* Fixes #17525 - Add a friendly error message to invalid dns_id
+	* Fixes #17796 - bump to rubocop 0.46
+
+2016-12-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17602 - mention-bot won't ping inactive past contributers
+
+2016-12-18	Dominic Cleal <dominic@cleal.org>
+	* fixes #17574, #17364 - update scoped_search to 4.x
+
+2016-12-14	Ivan Necas <inecas@redhat.com>
+	* Fixes #5483,#11106 - pass the virtualswitch value to fog
+
+2016-12-14	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17632 - Reports widget will not fail on ambiguous filter
+	* Fixes #17666 - prevent migration failures on counter cache
+
+2016-12-13	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17627 - remove tooltips after clicking back
+
+2016-12-13	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #17636 - token no longer needed for proxied preview
+
+2016-12-13	David Davis <daviddavis@users.noreply.github.com>
+	* Fixes #17654 - Add a mention bot config
+
+2016-12-13	Dominic Cleal <dominic@cleal.org>
+	* refs #17257 - remove interpolation from extracted string
+	* refs #17485 - use IP within host's primary subnet
+
+2016-12-13	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17570 - Only execute `onContentLoad` once per page
+
+2016-12-13	Trey Dockendorf <tdockendorf@osc.edu>
+	* Fixes #17257 - Allow specific configs to be recreated
+
+2016-12-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #17623 - include model in metadata
+
+2016-12-13	Timo Goebel <mail@timogoebel.name>
+	* fixes #17485 - provision tftp for bond children
+
+2016-12-12	Daniel Lobato García <me@daniellobato.me>
+	* Fixes #17599 - Smart vars allow you to select 'none' class
+
+2016-12-12	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #17611 - Localize smart variables strings
+
+2016-12-09	Timo Goebel <timo.goebel@dm.de>
+	* fixes #15610 - choose firmware for vsphere vms
+
+2016-12-09	Trey Dockendorf <tdockendorf@osc.edu>
+	* Fixes #6006 - Add options to disable updates from facts
+
+2016-12-09	Dominic Cleal <dominic@cleal.org>
+	* fixes #16459 - remove 1.15 deprecations
+
+2016-12-08	Dominic Cleal <dominic@cleal.org>
+	* fixes #17395 - use admin user for load_template_vars
+
+2016-12-07	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #17042 - add logging of task statuses after orchestration
+
+2016-12-07	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #17592 - dont truncate on audit details page
+
+2016-12-07	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #17597 - Prevent error on saving empty dashboard
+
+2016-12-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #17287 - add storybook support
+
+2016-12-07	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #17503 - Only trigger PXELoader suggestion when needed
+
+2016-12-06	Gail Steiger <gsteiger@netvision.net.il>
+	* Fixes #17580 - React Chart Component has unsafe function
+
+2016-12-06	Dominic Cleal <dominic@cleal.org>
+	* Bump version to 1.15-develop
+
 2016-12-06	kgaikwad <kavitagaikwad103@gmail.com>
 	* fixes #3158 - Remove rescues from try calls in helper file
 
