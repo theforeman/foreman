@@ -10,6 +10,7 @@ class SeedsTest < ActiveSupport::TestCase
     DatabaseCleaner.clean_with :truncation
     Setting.stubs(:[]).with(:administrator).returns("root@localhost")
     Setting.stubs(:[]).with(:send_welcome_email).returns(false)
+    Setting.stubs(:[]).with(:authorize_login_delegation_auth_source_user_autocreate).returns('EXTERNAL')
     Foreman.stubs(:in_rake?).returns(true)
   end
 
@@ -107,6 +108,12 @@ class SeedsTest < ActiveSupport::TestCase
     count = Bookmark.unscoped.where(:public => true).count
     seed
     assert_not_equal count, Bookmark.unscoped.where(:public => true).count
+  end
+
+  test 'populates external auth source if the authorize_login_delegation_auth_source_user_autocreate setting is set' do
+    assert_difference 'AuthSourceExternal.count', 1 do
+      seed
+    end
   end
 
   test 'is idempotent' do
