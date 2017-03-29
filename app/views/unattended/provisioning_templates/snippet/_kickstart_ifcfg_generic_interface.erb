@@ -13,15 +13,15 @@ BOOTPROTO="<%= @dhcp ? 'dhcp' : 'none' -%>"
 <%=       "GATEWAY=\"#{@subnet.gateway}\"" %>
 <%-     end -%>
 <%-   end -%>
-<%-   if @interface.ip6.present? -%>
-<%=     "IPV6INIT=yes" %>
-<%=     "IPV6_AUTOCONF=no" %>
-<%=     "IPV6ADDR=#{@interface.ip6}" %>
-<%-     if @subnet6.gateway.present? -%>
-<%=       "IPV6_DEFAULTGW=#{@subnet6.gateway}" %><%= '%$real' if subnet6.gateway.match(/^fe80:/) %>
-<%-     end -%>
-<%=     "IPV6_PEERDNS=no" %>
+<%- end -%>
+<%- if @interface.ip6.present? -%>
+<%=   "IPV6INIT=yes" %>
+<%=   "IPV6_AUTOCONF=no" %>
+<%=   "IPV6ADDR=#{@interface.ip6}" %>
+<%-   if @subnet6.gateway.present? -%>
+<%=     "IPV6_DEFAULTGW=#{@subnet6.gateway}" %><%= '%$real' if subnet6.gateway.match(/^fe80:/) %>
 <%-   end -%>
+<%=   "IPV6_PEERDNS=no" %>
 <%- end -%>
 DEVICE=$real
 <%- unless @interface.virtual? -%>

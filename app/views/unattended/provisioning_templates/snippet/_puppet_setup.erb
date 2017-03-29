@@ -17,7 +17,7 @@ elsif @host.param_true?('enable-puppetlabs-pc1-repo') || @host.param_true?('enab
   etc_path = '/etc/puppetlabs/puppet'
   bin_path = '/opt/puppetlabs/bin'
 else
-  linux_package = 'puppet'
+  linux_package = os_family == 'Suse' ? 'rubygem-puppet' : 'puppet'
   etc_path = '/etc/puppet'
   bin_path = '/usr/bin'
 end
@@ -34,10 +34,14 @@ if [ -f /usr/bin/dnf ]; then
 else
   yum -t -y install <%= linux_package %>
 fi
-<% elsif os_name == 'SLES' && @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+<% elsif os_family == 'Suse' -%>
+<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
 rpmkeys --import http://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs
 rpmkeys --import http://yum.puppetlabs.com/RPM-GPG-KEY-puppet
-<%= bin_path %>/puppet resource service puppet enable=true
+<% end -%>
+<% if @host.provision_method == 'image' -%>
+/usr/bin/zypper -n install <%= linux_package %>
+<% end -%>
 <% end -%>
 
 cat > <%= etc_path %>/puppet.conf << EOF
@@ -67,7 +71,6 @@ if [ -f "/etc/sysconfig/puppet" ]
 then
 /usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster.blank? ? '' : @host.puppetmaster %>/ /etc/sysconfig/puppet
 fi
-/sbin/chkconfig puppet on -f
 <% end -%>
 <% end -%>
 <%#
@@ -95,3 +98,9 @@ mkdir -p /run/systemd/system
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
 <%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= @host.param_true?('run-puppet-in-installer') ? '' : '--tags no_such_tag' %> <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<% if os_family == 'Suse' || (os_name == 'Debian' && os_major > 8) -%>
+<%= bin_path %>/puppet resource service puppet enable=true
+<% if @host.provision_method == 'image' -%>
+<%= bin_path %>/puppet resource service puppet ensure=running
+<% end -%>
+<% end -%>

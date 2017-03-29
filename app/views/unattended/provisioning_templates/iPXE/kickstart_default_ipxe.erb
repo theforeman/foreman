@@ -15,7 +15,7 @@ oses:
   <% static = (@host.token.nil? ? '?' : '&') + static_arg -%>
 <% end -%>
 
-kernel <%= "#{@host.url_for_boot(:kernel)}" %> ks=<%= foreman_url('provision')%><%= static %> ksdevice=<%= @host.mac %> network kssendmac ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}
+kernel <%= "#{@host.url_for_boot(:kernel)}" %> ks=<%= foreman_url('provision')%><%= static %> ksdevice=<%= @host.mac %> network kssendmac ks.sendmac inst.ks.sendmac ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}
 initrd <%= "#{@host.url_for_boot(:initrd)}" %>
 
 boot

@@ -36,7 +36,7 @@ oses:
       dns.push(subnet.dns_secondary)
     end
     if (@host.operatingsystem.name.match(/Fedora/i) && major < 17) || major < 7
-      # old Anacoda found in Fedora 16 or RHEL 6 and older
+      # old Anaconda found in Fedora 16 or RHEL 6 and older
       dns_servers = dns.join(',')
       options.push("ip=#{ip}", "netmask=#{mask}", "gateway=#{gw}", "dns=#{dns_servers}")
     else

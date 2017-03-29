@@ -7,7 +7,7 @@ kind: snippet
 <%- if @identifier -%>
 <%=   "real=\"#{@identifier}\"" %>
 <%- else -%>
-<%=   "real=`ip -o link | grep #{@interface.inheriting_mac} | awk '{print $2;}' | sed s/:$//`" -%>
+<%=   "real=`ip -o link | awk '/#{@interface.inheriting_mac}/ {print $2;}' | sed s/:$//`" -%>
 <%-   if @interface.virtual? -%>
 <%=     "\nreal=`echo #{@interface.identifier} | sed s/#{@interface.attached_to}/$real/`" -%>
 <%-   end -%>

@@ -7,6 +7,15 @@ lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
 keyboard <%= @host.params['keyboard'] || 'us' %>
 timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
 
+<% subnet = @host.subnet -%>
+<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
+<% dhcp = subnet.dhcp_boot_mode? && !@static -%>
+<% else -%>
+<% dhcp = !@static -%>
+<% end -%>
+
+network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{[subnet.dns_primary, subnet.dns_secondary].select(&:present?).join(',')}" %> --hostname <%= @host %><%= " --device=#{@host.mac}" -%>
+
 # Partition table should create /boot and a volume atomicos
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
@@ -33,6 +42,7 @@ rootpw --iscrypted <%= root_pass %>
 reboot
 
 %post
+<%= snippet('remote_execution_ssh_keys') %>
 (
 # Report success back to Foreman
 curl -s -o /dev/null --insecure <%= foreman_url('built') %>

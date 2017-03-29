@@ -15,11 +15,12 @@ ONTIMEOUT local
 
 <%= snippet "pxelinux_discovery" %>
 
+<% unless @profiles.nil? -%>
 <% for profile in @profiles
   url = default_template_url(profile[:template], profile[:hostgroup])
   case profile[:pxe_type]
   when 'kickstart'
-    append = "ks=#{url} ksdevice=bootif network kssendmac"
+    append = "ks=#{url} ksdevice=bootif network kssendmac ks.sendmac inst.ks.sendmac"
   when 'preseed'
     locale = profile[:hostgroup].params['lang'] || 'en_US'
     append = "interface=auto url=#{url} ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=unassigned-hostname locale=#{locale} console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA"
@@ -30,3 +31,4 @@ LABEL <%= "#{profile[:hostgroup]} - #{profile[:template]}" %>
   KERNEL <%= profile[:kernel] %>
   APPEND initrd=<%= profile[:initrd] %> <%= append %>
 <% end %>
+<% end -%>

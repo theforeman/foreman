@@ -6,10 +6,7 @@ oses:
 - Ubuntu
 %>
 <%
-  # safemode renderer does not support unary negation
-  pm_set = @host.puppetmaster.empty? ? false : true
   proxy_string = @host.params['http-proxy'] ? " http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : ''
-  puppet_enabled = pm_set || @host.param_true?('force-puppet')
   salt_enabled = @host.params['salt_master'] ? true : false
   os_major = @host.operatingsystem.major.to_i
   squeeze_or_older = (@host.operatingsystem.name == 'Debian' && os_major <= 6)
@@ -116,14 +113,8 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 # Install minimal task set (see tasksel --task-packages minimal)
 tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
 
-<% if puppet_enabled && !(@host.param_true?('enable-puppetlabs-repo') || @host.param_true?('enable-puppetlabs-pc1-repo')) %>
-<% puppet_package = 'puppet' -%>
-<% else -%>
-<% puppet_package = '' -%>
-<% end -%>
-
 # Install some base packages
-d-i pkgsel/include string <%= puppet_package %> <%= salt_package %> lsb-release
+d-i pkgsel/include string <%= salt_package %> lsb-release
 d-i pkgsel/update-policy select <%= @host.params['preseed-update-policy'] || 'unattended-upgrades' %>
 d-i pkgsel/upgrade select <%= @host.params['preseed-post-install-upgrade'] || 'none' %>
 
