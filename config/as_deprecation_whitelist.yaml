@@ -1,0 +1,4 @@
+---
+# http://projects.theforeman.org/issues/7570
+- message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
+    more about this new config option.
