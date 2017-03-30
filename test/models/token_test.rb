@@ -5,12 +5,6 @@ class TokenTest < ActiveSupport::TestCase
   should validate_presence_of(:expires)
   should validate_presence_of(:host_id)
 
-  test "a token expires when set to expire" do
-    expiry = Time.now.utc
-    t      = Token.new :value => "aaaaaa", :expires => expiry
-    assert_equal t.expires, expiry
-  end
-
   test "a host can create a token" do
     h = FactoryGirl.create(:host)
     h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
