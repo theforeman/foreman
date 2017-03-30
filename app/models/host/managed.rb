@@ -34,7 +34,7 @@ class Host::Managed < Host::Base
   # Define custom hook that can be called in model by magic methods (before, after, around)
   define_model_callbacks :build, :only => :after
   define_model_callbacks :provision, :only => :before
-  include Hostext::UINotifications
+  prepend Hostext::UINotifications
 
   before_validation :refresh_build_status, :if => :build_changed?
 

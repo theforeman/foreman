@@ -1,23 +1,19 @@
 module Hostext
   module UINotifications
-    extend ActiveSupport::Concern
-    included do
-      before_provision :provision_notification
-      before_destroy :remove_ui_notifications
+    def self.prepended(base)
+      base.before_destroy :remove_ui_notifications
     end
 
-    def provision_notification
-      ::UINotifications::Hosts::BuildCompleted.deliver!(self) if just_provisioned?
-      true
+    # Extend #built to deliver notification only when the build was successful
+    def built(installed = true)
+      super.tap do |result|
+        ::UINotifications::Hosts::BuildCompleted.deliver!(self) if result && installed
+      end
     end
 
     def remove_ui_notifications
       ::UINotifications::Hosts::Destroy.deliver!(self)
       true
-    end
-
-    def just_provisioned?
-      !!previous_changes['installed_at']
     end
   end
 end
