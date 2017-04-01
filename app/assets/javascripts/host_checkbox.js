@@ -63,6 +63,9 @@ $(function() {
   }
   toggle_actions();
   update_counter();
+  $("#search-form").submit(function(){
+    resetSelection();
+  });
   return false;
 });
 
