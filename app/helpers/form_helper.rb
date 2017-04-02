@@ -314,8 +314,9 @@ module FormHelper
     label_size = options.delete(:label_size) || "col-md-2"
     required_mark = check_required(options, f, attr)
     label = ''.html_safe + options.delete(:label)
-    label += ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name) &&
-      s_(clazz.gettext_translation_for_attribute_name attr).html_safe) if f && label.empty?
+    if label.empty? && f.try(:object) && ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name))
+      label = s_(clazz.gettext_translation_for_attribute_name attr).html_safe
+    end
 
     if options[:label_help].present?
       label += ' '.html_safe + popover("", options[:label_help], options[:label_help_options] || {})

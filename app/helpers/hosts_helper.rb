@@ -471,7 +471,7 @@ module HostsHelper
       [[_("*Clear %s proxy*") % _(proxy_feature), "" ]] +
       SmartProxy.with_features(proxy_feature).map {|p| [p.name, p.id]},
       {},
-      { :onchange => "toggle_multiple_ok_button(this)" }
+      {:label => _(proxy_feature), :onchange => "toggle_multiple_ok_button(this)" }
   end
 
   def randomize_mac_link
