@@ -61,8 +61,14 @@ class FactImporter
 
   def delete_removed_facts
     ActiveSupport::Notifications.instrument "fact_importer_deleted.foreman", :host_id => host.id, :host_name => host.name, :facts => facts, :deleted => [] do |payload|
-      # deletes all facts using a single SQL query (with inner query)
-      payload[:count] = @counters[:deleted] = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class).where.not('fact_names.name' => facts.keys).delete_all
+      delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class).where.not('fact_names.name' => facts.keys)
+      if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
+        # MySQL does not handle delete with inner query correctly (slow) so we will do two queries on purpose
+        payload[:count] = @counters[:deleted] = FactValue.delete_all(:id => delete_query.pluck(:id))
+      else
+        # deletes all facts using a single SQL query with inner query otherwise
+        payload[:count] = @counters[:deleted] = delete_query.delete_all
+      end
     end
   end
 
