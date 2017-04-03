@@ -1,3 +1,30 @@
+2017-04-03	Dominic Cleal <dominic@cleal.org>
+	* Release 1.14.3
+
+2017-03-29	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #15374 - move progress_report_id to Host
+
+2017-03-28	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #18948 - correctly relogin user with SSO sessions
+	* Fixes #18722 - fix host parameters in host form
+
+2017-03-28	Dominic Cleal <dominic@cleal.org>
+	* refs #18950 - wait for CR test connection to complete
+	* fixes #18950 - enable password field in CR form test
+	* fixes #18929 - add rails-observers dep for TopbarSweeper
+
+2017-03-28	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #18843 - Changed from eager_load to includes in #index
+
+2017-03-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #18718 - Empty boolean matcher should not turn into false
+
+2017-03-28	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #18800 - strong params no longer breaks inherited attrs
+
+2017-03-28	Evgeni Golov <egolov@redhat.com>
+	* Fixes #18587, #18588 - Fix 'multipart form data' IE bug
+
 2017-03-02	Dominic Cleal <dominic@cleal.org>
 	* Release 1.14.2
 
