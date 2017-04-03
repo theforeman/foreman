@@ -15,11 +15,11 @@ class OwnerClassifierTest < ActiveSupport::TestCase
 
   test "Should return nil if id_and_type does not exist" do
     id_and_type = "0-Users"
-    assert_equal nil, OwnerClassifier.new(id_and_type).user_or_usergroup
+    assert_nil OwnerClassifier.new(id_and_type).user_or_usergroup
   end
 
   test "Should return nil if id_and_type is ilegal" do
     id_and_type = "5-UsErS"
-    assert_equal nil, OwnerClassifier.new(id_and_type).user_or_usergroup
+    assert_nil OwnerClassifier.new(id_and_type).user_or_usergroup
   end
 end

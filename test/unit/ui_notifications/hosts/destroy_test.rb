@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'notifications_test_helper'
 
 class UINotificationsHostsDestroyTest < ActiveSupport::TestCase
+  include NotificationBlueprintSeeds
+
   test 'destroying a host should create a notification' do
     assert_equal 0, Notification.where(:subject => host).count
     host.destroy

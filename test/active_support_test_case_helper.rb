@@ -234,4 +234,11 @@ class ActiveSupport::TestCase
       raise "unknown RestClient::Response.create version (#{RestClient.version}, arity #{RestClient::Response.method(:create).arity})"
     end
   end
+
+  # Minitest provides a "_" expects syntax which overrides the gettext "_" method
+  # Override the minitest method and call the original instead for compatibility
+  # with the app's runtime environment.
+  def _(*args)
+    Object.instance_method(:_).bind(self).call(*args)
+  end
 end

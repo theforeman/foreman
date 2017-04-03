@@ -45,7 +45,8 @@ class TrendsTest < ActiveSupport::TestCase
     trend_20 = trend_20.first
 
     assert_equal trend_10.interval_start, trend_20.interval_start
-    assert_equal trend_10.interval_end, trend_20.interval_end
+    assert_nil trend_10.interval_end
+    assert_nil trend_20.interval_end
   end
 
   test 'trends:reduce crossing graphs' do
@@ -67,9 +68,15 @@ class TrendsTest < ActiveSupport::TestCase
       assert_equal start, old_os_intervals[idx].interval_start
       assert_equal start, new_os_intervals[idx].interval_start
 
-      next_start = interval_starts[idx + 1] unless idx >= 2
-      assert_equal next_start, old_os_intervals[idx].interval_end
-      assert_equal next_start, new_os_intervals[idx].interval_end
+      if idx < 2
+        next_start = interval_starts[idx + 1]
+        refute_nil next_start
+        assert_equal next_start, old_os_intervals[idx].interval_end
+        assert_equal next_start, new_os_intervals[idx].interval_end
+      else
+        assert_nil old_os_intervals[idx].interval_end
+        assert_nil new_os_intervals[idx].interval_end
+      end
 
       assert_equal 4, old_os_intervals[idx].count + new_os_intervals[idx].count
     end
@@ -95,9 +102,15 @@ class TrendsTest < ActiveSupport::TestCase
       assert_equal start, old_os_intervals[idx].interval_start
       assert_equal start, new_os_intervals[idx].interval_start
 
-      next_start = interval_starts[idx + 1] unless idx >= 3
-      assert_equal next_start, old_os_intervals[idx].interval_end
-      assert_equal next_start, new_os_intervals[idx].interval_end
+      if idx < 3
+        next_start = interval_starts[idx + 1]
+        refute_nil next_start
+        assert_equal next_start, old_os_intervals[idx].interval_end
+        assert_equal next_start, new_os_intervals[idx].interval_end
+      else
+        assert_nil old_os_intervals[idx].interval_end
+        assert_nil new_os_intervals[idx].interval_end
+      end
 
       assert_equal 4, old_os_intervals[idx].count + new_os_intervals[idx].count
       assert_equal new_os_counts[idx], new_os_intervals[idx].count

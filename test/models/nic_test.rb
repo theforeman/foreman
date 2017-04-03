@@ -390,7 +390,7 @@ class NicTest < ActiveSupport::TestCase
     end
 
     test "type_by_name returns nil for an unknown name" do
-      assert_equal nil, Nic::Base.type_by_name("UNKNOWN_NAME")
+      assert_nil Nic::Base.type_by_name("UNKNOWN_NAME")
     end
 
     test "type_by_name finds the class" do
@@ -398,7 +398,7 @@ class NicTest < ActiveSupport::TestCase
     end
 
     test "type_by_name returns nil for classes that aren't allowed" do
-      assert_equal nil, Nic::Base.type_by_name("DisallowedTestNic")
+      assert_nil Nic::Base.type_by_name("DisallowedTestNic")
     end
 
     test 'fqdn_changed? should be true if name changes' do

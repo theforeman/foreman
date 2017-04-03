@@ -219,15 +219,15 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
   end
 
   describe 'setting eui-64 ip address based on mac provided by compute resource' do
-    let(:organization) { FactoryGirl.create(:organization) }
-    let(:location) { FactoryGirl.create(:location) }
+    let(:tax_organization) { FactoryGirl.create(:organization) }
+    let(:tax_location) { FactoryGirl.create(:location) }
     let(:subnet6) do
       FactoryGirl.build(:subnet_ipv6,
                         :network => '2001:db8::',
                         :mask => 'ffff:ffff:ffff:ffff::',
                         :dns => FactoryGirl.create(:dns_smart_proxy),
-                        :organizations => [organization],
-                        :locations => [location],
+                        :organizations => [tax_organization],
+                        :locations => [tax_location],
                         :ipam => IPAM::MODES[:eui64])
     end
 
@@ -237,8 +237,8 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
                         :on_compute_resource,
                         :with_compute_profile,
                         :subnet6 => subnet6,
-                        :organization => organization,
-                        :location => location,
+                        :organization => tax_organization,
+                        :location => tax_location,
                         :mac => nil)
     end
 

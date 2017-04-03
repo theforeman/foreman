@@ -153,7 +153,7 @@ class FactParserTest < ActiveSupport::TestCase
       parser.expects(:get_facts_for_interface).with('em1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eno1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       result = parser.send(:find_virtual_interface, parser.interfaces)
-      assert_equal result, nil
+      assert_nil result
     end
   end
 
@@ -164,7 +164,7 @@ class FactParserTest < ActiveSupport::TestCase
       parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('bond7').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       result = parser.send(:find_physical_interface, parser.interfaces)
-      assert_equal result, nil
+      assert_nil result
     end
   end
 

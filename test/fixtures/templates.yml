@@ -93,3 +93,10 @@ locked:
   operatingsystems: centos5_3
   locked: true
   type: ProvisioningTemplate
+
+autopart:
+  name: Example partition table
+  template: autopart
+  operatingsystems: centos5_3
+  locked: true
+  type: Ptable

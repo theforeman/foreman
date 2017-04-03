@@ -103,6 +103,6 @@ class MediumTest < ActiveSupport::TestCase
 
   test "blank os family is saved as nil" do
     medium = Medium.new :name => "dummy", :path => "http://hello", :os_family => ""
-    assert_equal nil, medium.os_family
+    assert_nil medium.os_family
   end
 end

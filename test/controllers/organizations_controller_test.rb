@@ -72,8 +72,8 @@ class OrganizationsControllerTest < ActionController::TestCase
       delete :destroy, {:id => organization.id}, set_session_user.merge(:organization_id => organization.id)
     end
 
-    assert_equal Organization.current, nil
-    assert_equal session[:organization_id], nil
+    assert_nil Organization.current
+    assert_nil session[:organization_id]
   end
 
   test "should save organization on session expiry" do
@@ -190,8 +190,8 @@ class OrganizationsControllerTest < ActionController::TestCase
   test "should clear out Organization.current" do
     @request.env['HTTP_REFERER'] = root_url
     get :clear, {}, set_session_user
-    assert_equal Organization.current, nil
-    assert_equal session[:organization_id], nil
+    assert_nil Organization.current
+    assert_nil session[:organization_id]
     assert_redirected_to root_url
   end
 

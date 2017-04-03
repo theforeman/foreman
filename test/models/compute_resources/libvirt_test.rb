@@ -43,7 +43,7 @@ class LibvirtTest < ActiveSupport::TestCase
       cr.stubs(:find_vm_by_uuid).returns(vm)
 
       attrs = cr.vm_compute_attributes_for('abc')
-      assert_equal nil, attrs[:memory]
+      assert_nil attrs[:memory]
     end
   end
 

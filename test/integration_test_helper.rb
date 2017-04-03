@@ -9,10 +9,6 @@ require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
 require 'minitest-optional_retry'
-# load notification blueprint seeds
-require File.join(Rails.root,'db','seeds.d','17-notification_blueprints.rb')
-
-DatabaseCleaner.strategy = :transaction
 
 Capybara.register_driver :poltergeist do |app|
   opts = {
@@ -100,7 +96,7 @@ class ActionDispatch::IntegrationTest
     end
   end
 
-  setup :login_admin
+  setup :start_database_cleaner, :login_admin
 
   teardown do
     DatabaseCleaner.clean       # Truncate the database
@@ -110,6 +106,15 @@ class ActionDispatch::IntegrationTest
   end
 
   private
+
+  def start_database_cleaner
+    DatabaseCleaner.strategy = database_cleaner_strategy
+    DatabaseCleaner.start
+  end
+
+  def database_cleaner_strategy
+    :transaction
+  end
 
   def login_admin
     SSO.register_method(TestSSO)
@@ -134,9 +139,11 @@ class ActionDispatch::IntegrationTest
 end
 
 class IntegrationTestWithJavascript < ActionDispatch::IntegrationTest
+  def database_cleaner_strategy
+    :truncation
+  end
+
   def login_admin
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
     Capybara.current_driver = Capybara.javascript_driver
     super
   end

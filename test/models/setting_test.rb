@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class SettingTest < ActiveSupport::TestCase
-  def setup
-    Setting.cache.clear
-  end
-
   should validate_presence_of(:name)
   should validate_presence_of(:default)
   should validate_uniqueness_of(:name)
@@ -76,7 +72,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_default_value_can_be_nil
     assert Setting.create(:name => "foo", :default => nil, :description => "test foo")
-    assert_equal nil, Setting["foo"]
+    assert_nil Setting["foo"]
   end
 
   def test_should_return_updated_value_only_after_it_is_saved

@@ -152,7 +152,7 @@ class MenuMapperTest < ActiveSupport::TestCase
     menu_mapper.item :test_overview, :url_hash => { :controller => 'hosts', :action => 'show'}
 
     item = menu_mapper.find(:nothing)
-    assert_equal nil, item
+    assert_nil item
   end
 
   def test_delete

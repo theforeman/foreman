@@ -36,6 +36,7 @@ parent:
   environment: global_puppetmaster
   operatingsystem: centos5_3
   medium: one
+  ptable: autopart
   puppet_proxy: puppetmaster
   puppet_ca_proxy: puppetmaster
   domain: mydomain

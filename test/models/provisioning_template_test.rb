@@ -48,7 +48,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     as_admin do
       assert tmplt.save
     end
-    assert_equal nil,tmplt.template_kind
+    assert_nil tmplt.template_kind
     assert_equal [],tmplt.hostgroups
     assert_equal [],tmplt.environments
     assert_equal [],tmplt.template_combinations
@@ -75,7 +75,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     end
     clone = tmplt.clone
 
-    assert_equal clone.name, nil
+    assert_nil clone.name
     assert_equal clone.operatingsystems, tmplt.operatingsystems
     assert_equal clone.template_kind_id, tmplt.template_kind_id
     assert_equal clone.template, tmplt.template

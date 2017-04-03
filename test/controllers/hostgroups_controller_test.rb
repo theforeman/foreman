@@ -253,7 +253,7 @@ class HostgroupsControllerTest < ActionController::TestCase
       child.reload
       as_admin do
         assert_equal "original", child.parameters["z"]
-        assert_equal nil, child.parameters["x"]
+        assert_nil child.parameters["x"]
       end
     end
   end

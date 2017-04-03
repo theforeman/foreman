@@ -87,6 +87,6 @@ class InterfaceMergeTest < ActiveSupport::TestCase
     assert_equal 'eth0', interfaces[0].identifier
 
     assert_equal expected_attrs(2), interfaces[1].compute_attributes
-    assert_equal nil, interfaces[1].identifier
+    assert_nil interfaces[1].identifier
   end
 end

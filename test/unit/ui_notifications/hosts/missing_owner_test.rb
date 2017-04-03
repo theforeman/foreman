@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'notifications_test_helper'
 
 class UINotificationsHostsMissingOwnerTest < ActiveSupport::TestCase
+  include NotificationBlueprintSeeds
+
   test 'add missing host owner notification' do
     assert_difference("Notification.where(:subject => host).count", 1) do
       UINotifications::Hosts::MissingOwner.deliver!(host)
