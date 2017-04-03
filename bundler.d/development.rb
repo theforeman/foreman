@@ -12,7 +12,7 @@ group :development do
 
   gem 'bullet'
   gem "parallel_tests"
-  gem 'spring', '~> 1.0'
+  gem 'spring', '>= 1.0', '< 3'
   gem 'benchmark-ips'
   gem 'foreman'
 end
