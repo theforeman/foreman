@@ -33,6 +33,7 @@ module Api
       def_param_group :subnet do
         param :subnet, Hash, :required => true, :action_aware => true do
           param :name, String, :desc => N_("Subnet name"), :required => true
+          param :description, String, :desc => N_("Subnet description")
           param :network_type, Subnet::SUBNET_TYPES.values, :desc => N_('Type or protocol, IPv4 or IPv6, defaults to IPv4')
           param :network, String, :desc => N_("Subnet network"), :required => true
           param :mask, String, :desc => N_("Netmask for this subnet"), :required => true

@@ -9,6 +9,7 @@ module Foreman::Controller::Parameters::Subnet
       Foreman::ParameterFilter.new(::Subnet).tap do |filter|
         filter.permit :boot_mode,
           :cidr,
+          :description,
           :dns_primary,
           :dns_secondary,
           :from,
