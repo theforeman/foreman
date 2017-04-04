@@ -59,7 +59,7 @@ module Nic
     belongs_to :subnet6, -> { where :type => 'Subnet::Ipv6' }, :class_name => "Subnet"
     belongs_to :domain
 
-    belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
+    belongs_to_host_base :inverse_of => :interfaces
 
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash

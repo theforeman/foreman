@@ -67,15 +67,6 @@ class FactValueTest < ActiveSupport::TestCase
     refute_empty results
   end
 
-  test 'should return search results for host.hostgroup = name' do
-    host = FactoryGirl.create(:host, :with_hostgroup)
-    hostgroup = host.hostgroup.to_label
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
-    results = FactValue.search_for("host.hostgroup = #{hostgroup}")
-    refute_empty results
-  end
-
   test 'should return empty search results for host with no facts' do
     host = FactoryGirl.create(:host)
     results = FactValue.search_for("host = #{host.fqdn}")
@@ -132,51 +123,10 @@ class FactValueTest < ActiveSupport::TestCase
       end
     end
 
-    test 'returns visible facts for filtered user' do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{target_host.hostgroup_id}")
-      as_user user_role.owner do
-        assert_equal target_host.fact_values.map(&:id).sort, FactValue.my_facts.map(&:id).sort
-      end
-    end
-
     context 'taxonomies' do
       setup do
         @orgs = FactoryGirl.create_pair(:organization)
         @locs = FactoryGirl.create_pair(:location)
-      end
-
-      context 'limited view permissions' do
-        setup do
-          setup_user('view', 'hosts',
-                     "hostgroup_id = #{target_host.hostgroup_id}")
-
-          as_admin do
-            target_host.location = @locs.last
-            target_host.organization = @orgs.last
-            target_host.save
-
-            hostgroup = Hostgroup.find(target_host.hostgroup_id)
-            hostgroup.organizations = [@orgs.last]
-            hostgroup.locations = [@locs.last]
-            hostgroup.save
-          end
-        end
-
-        test 'user cannot view host taxonomy, my_facts is empty' do
-          users(:one).locations = [@locs.first]
-          users(:one).organizations = [@orgs.first]
-
-          assert_equal [], FactValue.my_facts.map(&:id).sort
-        end
-
-        test 'user can view host taxonomy, my_facts contains host facts' do
-          users(:one).locations = [@locs.last]
-          users(:one).organizations = [@orgs.last]
-
-          assert_equal target_host.fact_values.map(&:id).sort,
-            FactValue.my_facts.map(&:id).sort
-        end
       end
 
       test "only return facts from host in admin's currently selected taxonomy" do

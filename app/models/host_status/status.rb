@@ -4,7 +4,7 @@ module HostStatus
 
     self.table_name = 'host_status'
 
-    belongs_to_host :inverse_of => :host_statuses
+    belongs_to_host_managed :inverse_of => :host_statuses
 
     validates :host, :presence => true
     validates :host_id, :uniqueness => {:scope => :type}
