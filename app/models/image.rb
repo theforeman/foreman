@@ -1,12 +1,15 @@
 class Image < ActiveRecord::Base
   include Authorizable
 
-  audited
+  audited :except => [ :password ]
 
   belongs_to :operatingsystem
   belongs_to :compute_resource
   belongs_to :architecture
   has_many_hosts :dependent => :nullify
+  attr_reader :password_changed
+  after_save :unset_password_changed
+  before_validation :set_password_changed, :if => Proc.new { |audit| audit.password_changed? }
 
   validates_lengths_from_database
   validates :username, :name, :operatingsystem_id, :compute_resource_id, :architecture_id, :presence => true
@@ -18,6 +21,19 @@ class Image < ActiveRecord::Base
   scoped_search :relation => :architecture, :on => :id, :rename => "architecture", :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :relation => :operatingsystem, :on => :id, :rename => "operatingsystem", :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :user_data, :complete_value => {:true => true, :false => false}
+
+  def password_changed_changed?
+    changed.include?('password_changed')
+  end
+
+  def set_password_changed
+    @password_changed = true
+    attribute_will_change!('password_changed')
+  end
+
+  def unset_password_changed
+    @password_changed = false
+  end
 
   private
 
