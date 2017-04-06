@@ -10,7 +10,6 @@ class Host::Managed < Host::Base
 
   has_many :host_classes, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
-  belongs_to :hostgroup
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_one :last_report_object, -> { order("#{Report.table_name}.id DESC") }, :foreign_key => :host_id, :class_name => 'ConfigReport'
 

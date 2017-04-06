@@ -2,7 +2,7 @@ class FactValue < ActiveRecord::Base
   include Authorizable
   include ScopedSearchExtensions
 
-  belongs_to_host
+  belongs_to :host, {:class_name => "Host::Base", :foreign_key => :host_id}
   belongs_to :fact_name
   delegate :name, :short_name, :compose, :origin, :to => :fact_name
   has_many :hostgroup, :through => :host

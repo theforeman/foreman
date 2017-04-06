@@ -27,6 +27,7 @@ module Host
 
     belongs_to :location
     belongs_to :organization
+    belongs_to :hostgroup
 
     alias_attribute :hostname, :name
 
