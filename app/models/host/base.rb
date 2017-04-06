@@ -392,6 +392,7 @@ module Host
       iface.mac = attributes.delete(:macaddress)
       iface.ip = attributes.delete(:ipaddress)
       iface.ip6 = attributes.delete(:ipaddress6)
+      iface.ip6 = nil if (IPAddr.new('fe80::/10').include?(iface.ip6) rescue false)
 
       if Setting[:update_subnets_from_facts]
         iface.subnet = Subnet.subnet_for(iface.ip) if iface.ip_changed? && !iface.matches_subnet?(:ip, :subnet)

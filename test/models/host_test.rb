@@ -283,6 +283,31 @@ class HostTest < ActiveSupport::TestCase
     refute host.primary_interface.managed?
   end
 
+  test "should ignore link-local ipv6 addresses when importing from facts" do
+    host = FactoryGirl.create(:host, :mac => '00:00:11:22:11:22')
+
+    interfaces = {
+      :eth0 => {
+        :macaddress => '00:00:11:22:11:22',
+        :ipaddress => '10.10.20.2',
+        :ipaddress6 => 'fe80::200:11ff:fe22:1122',
+        :virtual => false
+      },
+      :eth1 => {
+        :macaddress => '00:00:11:22:11:23',
+        :ipaddress => '10.10.30.3',
+        :ipaddress6 => '2001:db8::1',
+        :virtual => false
+      }
+    }.with_indifferent_access
+    parser = stub(:interfaces => interfaces, :ipmi_interface => {}, :suggested_primary_interface => interfaces.to_a.last)
+
+    host.set_interfaces(parser)
+
+    assert_nil host.primary_interface.ip6
+    assert_equal 1, host.interfaces.where(:ip6 => '2001:db8::1').count
+  end
+
   test "#configuration? returns true when host has puppetmaster" do
     host = FactoryGirl.build(:host)
     refute host.configuration?
