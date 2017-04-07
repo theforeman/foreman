@@ -368,6 +368,20 @@ FactoryGirl.define do
       subnet { FactoryGirl.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]) }
     end
 
+    trait :with_separate_provision_interface do
+      interfaces do
+        [FactoryGirl.build(:nic_managed,
+                           :primary => true,
+                           :provision => false,
+                           :domain => FactoryGirl.build(:domain)),
+         FactoryGirl.build(:nic_managed,
+                           :primary => false,
+                           :provision => true,
+                           :domain => FactoryGirl.build(:domain),
+                           :subnet => FactoryGirl.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]))]
+      end
+    end
+
     trait :with_tftp_v6_subnet do
       subnet6 { FactoryGirl.build(:subnet_ipv6, :tftp, locations: [location], organizations: [organization]) }
     end
