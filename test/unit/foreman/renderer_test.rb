@@ -79,6 +79,12 @@ class RendererTest < ActiveSupport::TestCase
     Setting[:safemode_render] = true
   end
 
+  test "foreman_url should respect proxy with Templates feature" do
+    host = FactoryGirl.build(:host, :with_separate_provision_interface)
+    @renderer.host = host
+    assert_match(host.provision_interface.subnet.tftp.url, @renderer.foreman_url)
+  end
+
   test "foreman_url should run with @host as nil" do
     assert_nothing_raised(NoMethodError) { @renderer.foreman_url }
   end

@@ -16,7 +16,7 @@ module Foreman
 
       host = @host
       host = self if @host.nil? && self.class < Host::Base
-      proxy = host.try(:subnet).try(:tftp)
+      proxy = host.try(:provision_interface).try(:subnet).try(:tftp)
 
       # use template_url from the request if set, but otherwise look for a Template
       # feature proxy, as PXE templates are written without an incoming request.
