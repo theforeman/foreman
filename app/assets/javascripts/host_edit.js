@@ -347,7 +347,7 @@ function architecture_selected(element){
   var url = $(element).attr('data-url');
   var type = $(element).attr('data-type');
   var attrs = {};
-  attrs[type] = attribute_hash(['architecture_id', 'organization_id', 'location_id']);
+  attrs[type] = attribute_hash(tfm.hosts.getAttributesToPost("architecture"));
   tfm.tools.showSpinner();
   $.ajax({
     data: attrs,
@@ -366,7 +366,7 @@ function os_selected(element){
   var url = $(element).attr('data-url');
   var type = $(element).attr('data-type');
   var attrs = {};
-  attrs[type] = attribute_hash(['operatingsystem_id', 'organization_id', 'location_id']);
+  attrs[type] = attribute_hash(tfm.hosts.getAttributesToPost("os"));
   tfm.tools.showSpinner();
   $.ajax({
     data: attrs,
@@ -419,7 +419,7 @@ function medium_selected(element){
   var url = $(element).attr('data-url');
   var type = $(element).attr('data-type');
   var attrs = {};
-  attrs[type] = attribute_hash(['medium_id', 'operatingsystem_id', 'architecture_id']);
+  attrs[type] = attribute_hash(tfm.hosts.getAttributesToPost("medium"));
   attrs[type]["use_image"] = $('*[id*=use_image]').attr('checked') == "checked";
   $.ajax({
     data: attrs,
@@ -435,7 +435,7 @@ function use_image_selected(element){
   var url = $(element).attr('data-url');
   var type = $(element).attr('data-type');
   var attrs = {};
-  attrs[type] = attribute_hash(['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id']);
+  attrs[type] = attribute_hash(tfm.hosts.getAttributesToPost("image"));
   attrs[type]['use_image'] = ($(element).attr('checked') == "checked");
   $.ajax({
     data: attrs,

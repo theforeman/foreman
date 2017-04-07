@@ -18,6 +18,7 @@ window.tfm = Object.assign(
     sshKeys: require('./foreman_ssh_keys'),
     trends: require('./foreman_trends'),
     hostgroups: require('./foreman_hostgroups'),
+    hosts: require('./foreman_hosts'),
     toastNotifications: require('./foreman_toast_notifications'),
     numFields: require('./jquery.ui.custom_spinners'),
     reactMounter: require('./react_app/common/MountingService'),
