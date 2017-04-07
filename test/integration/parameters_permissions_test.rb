@@ -122,7 +122,7 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
   def assert_domain_parameter_can_be_deleted(domain, parameter)
     visit edit_domain_path(domain)
     within("tr#domain_parameter_#{parameter.id}_row") do
-      assert page.has_link?('remove')
+      assert page.has_link?('Remove')
       # click_link 'remove' (we don't want to use JS here)
       hidden = find(:css, "#domain_domain_parameters_attributes_0__destroy", :visible => false)
       hidden.set '1'
