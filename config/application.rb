@@ -193,6 +193,9 @@ module Foreman
     config.log_level = Foreman::Logging.logger_level('app').to_sym
     config.active_record.logger = Foreman::Logging.logger('sql')
 
+    # Rails info log message filtering (password is filtered by default)
+    config.filter_parameters << :login
+
     if config.serve_static_files
       ::Rails::Engine.subclasses.map(&:instance).each do |engine|
         if File.exist?("#{engine.root}/public/assets")
