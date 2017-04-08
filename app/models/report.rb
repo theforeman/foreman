@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
   include ConfigurationStatusScopedSearch
 
   validates_lengths_from_database
-  belongs_to_host
+  belongs_to_host_managed
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
   has_many :logs, :dependent => :destroy

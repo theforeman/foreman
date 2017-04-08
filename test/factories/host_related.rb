@@ -108,6 +108,17 @@ FactoryGirl.define do
     sequence(:name) { |n| "hal900#{n}" }
   end
 
+  factory :host_base, :class => Host::Base do
+    sequence(:name) { |n| "host_base#{n}" }
+    sequence(:hostname) { |n| "host_base#{n}" }
+    organization { Organization.find_by_name('Organization 1') } if SETTINGS[:organizations_enabled]
+    location { Location.find_by_name('Location 1') } if SETTINGS[:locations_enabled]
+
+    trait :with_hostgroup do
+      hostgroup { FactoryGirl.create(:hostgroup) }
+    end
+  end
+
   factory :host do
     sequence(:name) { |n| "host#{n}" }
     sequence(:hostname) { |n| "host#{n}" }

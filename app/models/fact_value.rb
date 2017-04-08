@@ -2,7 +2,7 @@ class FactValue < ActiveRecord::Base
   include Authorizable
   include ScopedSearchExtensions
 
-  belongs_to_host
+  belongs_to_host_base
   belongs_to :fact_name
   delegate :name, :short_name, :compose, :origin, :to => :fact_name
   has_many :hostgroup, :through => :host
@@ -12,8 +12,7 @@ class FactValue < ActiveRecord::Base
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
   scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts
   scoped_search :relation => :fact_name, :on => :name, :complete_value => true, :aliases => ["fact"]
-  scoped_search :relation => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
-  scoped_search :relation => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup", :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
+  scoped_search :relation => :host,      :on => :name, :complete_value => true, :rename => :host, :only_explicit => true
   scoped_search :relation => :fact_name, :on => :short_name, :complete_value => true, :aliases => ["fact_short_name"]
 
   scope :no_timestamp_facts, lambda {
@@ -34,13 +33,6 @@ class FactValue < ActiveRecord::Base
   scope :root_only, -> { with_roots.where(:fact_names => {:ancestry => nil}) }
 
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
-
-  def self.search_by_host_or_hostgroup(key, operator, value)
-    host_or_hg = key == 'host.hostgroup' ? 'hostgroup' : 'host'
-    search_term = value =~ /\A\d+\Z/ ? 'id' : 'name'
-    conditions = sanitize_sql_for_conditions(["#{host_or_hg.pluralize}.#{search_term} #{operator} ?", value_to_sql(operator, value)])
-    { :joins => host_or_hg.to_sym, :conditions => conditions }
-  end
 
   # returns the average of all facts
   # required only on facts that return a unit (e.g. MB, GB etc)

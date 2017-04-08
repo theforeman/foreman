@@ -5,7 +5,7 @@ module Facets
     extend ActiveSupport::Concern
 
     included do
-      belongs_to_host
+      belongs_to_host_managed
     end
 
     # Add facet's details to host's ENC by returning it from this method
