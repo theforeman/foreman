@@ -87,16 +87,20 @@ add_file() {
   case $MIME in
         application/x-gzip)
           zcat "$FILE" | sed -r "$FILTER" > "$DIR$FILE.txt"
+	  touch -c -r "$FILE" "$DIR$FILE.txt"
           ;;
         application/x-bzip2)
           bzcat "$FILE" | sed -r "$FILTER" > "$DIR$FILE.txt"
+	  touch -c -r "$FILE" "$DIR$FILE.txt"
           ;;
         application/x-xz)
           xzcat "$FILE" | sed -r "$FILTER" > "$DIR$FILE.txt"
+	  touch -c -r "$FILE" "$DIR$FILE.txt"
           ;;
         text/plain | application/xml)
           sed -r "$FILTER" "$FILE" > "$DIR$FILE"
           [ $PRINTPASS -eq 1 ] && grep -H "+FILTERED+" "$DIR$FILE"
+	  touch -c -r "$FILE" "$DIR$FILE"
           ;;
         *)
           echo "Skipping file $FILE: unknown MIME type $MIME" >> "$DIR/skipped_files"
@@ -125,6 +129,7 @@ add_files() {
       add_file $FILE
       SUMSIZE=$(($((SUMSIZE))+$((SIZE))))
     fi
+    touch -c -r "$SUBDIR" "$DIR$SUBDIR"
   done
 }
 
