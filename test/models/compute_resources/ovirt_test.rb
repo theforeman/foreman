@@ -13,6 +13,14 @@ class OvirtTest < ActiveSupport::TestCase
     assert_equal host, as_admin { cr.associated_host(vm) }
   end
 
+  describe "destroy_vm" do
+    it "handles situation when vm is not present" do
+      cr = mock_cr_servers(Foreman::Model::Ovirt.new, empty_servers)
+      cr.expects(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
+      assert cr.destroy_vm('abc')
+    end
+  end
+
   describe "find_vm_by_uuid" do
     it "raises RecordNotFound when the vm does not exist" do
       cr = mock_cr_servers(Foreman::Model::Ovirt.new, empty_servers)
