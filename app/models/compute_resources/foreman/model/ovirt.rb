@@ -253,12 +253,8 @@ module Foreman::Model
     end
 
     def destroy_vm(uuid)
-      begin
-        find_vm_by_uuid(uuid).destroy
-      rescue OVIRT::OvirtException => e
-        #404 error are ignored on delete.
-        raise e unless e.message =~ /404/
-      end
+      find_vm_by_uuid(uuid).destroy
+    rescue ActiveRecord::RecordNotFound
       true
     end
 
