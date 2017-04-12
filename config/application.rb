@@ -50,6 +50,7 @@ end
 # load the corresponding bit of fog
 require 'fog/ovirt' if defined?(::OVIRT)
 
+require_dependency File.expand_path('../../app/models/application_record.rb', __FILE__)
 require_dependency File.expand_path('../../lib/foreman.rb', __FILE__)
 require_dependency File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
 require_dependency File.expand_path('../../lib/foreman/exception', __FILE__)
