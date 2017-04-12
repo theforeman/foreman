@@ -107,7 +107,7 @@ class ComputeResourcesVmsController < ApplicationController
   define_action_permission 'console', :console
   define_action_permission ['pause', 'power'], :power
   define_action_permission 'import', :view
-  define_action_permission 'edit', :associate # edit_compute_resources
+  define_action_permission 'associate', :edit # edit_compute_resources
 
   def find_compute_resource
     @compute_resource = ComputeResource.authorized(current_permission).find(params[:compute_resource_id])
