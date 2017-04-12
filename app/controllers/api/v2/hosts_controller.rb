@@ -162,12 +162,13 @@ module Api
       description <<-eos
 Return value may either be one of the following:
 
-* missing
-* failed
-* pending
-* changed
-* unchanged
-* unreported
+* Alerts disabled
+* No reports
+* Error
+* Out of sync
+* Active
+* Pending
+* No changes
       eos
 
       def status
