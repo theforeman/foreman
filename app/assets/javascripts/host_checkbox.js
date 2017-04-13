@@ -94,19 +94,22 @@ function cleanHostsSelection() {
 
 function multiple_selection() {
   var total = $("#pagination").data("count");
-  var alert_text = Jed.sprintf(__("All <b> %d </b> hosts are selected. "), total);
+  var alert_text = Jed.sprintf(n__("Single host is selected in total",
+                                   "All <b> %d </b> hosts are selected.", total), total);
   var undo_text = __("Undo selection");
   var multiple_alert = $("#multiple-alert");
-  multiple_alert.find(".text").html(alert_text + '<a href="#" onclick="undo_multiple_selection();">' + undo_text + '</a>');
+  multiple_alert.find(".text").html(alert_text + ' <a href="#" onclick="undo_multiple_selection();">' + undo_text + '</a>');
   multiple_alert.data('multiple', true)
 }
 
 function undo_multiple_selection() {
   var pagination = pagination_metadata();
-  var alert_text = Jed.sprintf(__("All %s hosts on this page are selected. "), pagination.per_page);
-  var select_text = Jed.sprintf(__("Select all<b> %s </b> hosts"), pagination.total);
+  var alert_text = Jed.sprintf(n__("Single host on this page is selected.",
+                                   "All %s hosts on this page are selected.", pagination.per_page), pagination.per_page);
+  var select_text = Jed.sprintf(n__("Select this host",
+                                    "Select all<b> %s </b> hosts", pagination.total), pagination.total);
   var multiple_alert = $("#multiple-alert");
-  multiple_alert.find(".text").html( alert_text + '<a href="#" onclick="multiple_selection();">' + select_text + '</a>');
+  multiple_alert.find(".text").html( alert_text + ' <a href="#" onclick="multiple_selection();">' + select_text + '</a>');
   multiple_alert.data('multiple', false)
 }
 
