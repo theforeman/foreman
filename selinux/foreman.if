@@ -1,0 +1,8 @@
+interface(`httpd_foreman_script_domtrans',`
+	gen_require(`
+		type httpd_foreman_script_t, httpd_foreman_script_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	domtrans_pattern($1, httpd_foreman_script_exec_t, httpd_foreman_script_t)
+')

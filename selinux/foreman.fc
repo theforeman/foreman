@@ -1,0 +1,7 @@
+foreman		                 --	gen_context(system_u:object_r:httpd_foreman_script_exec_t,s0)
+/var/log/foreman(/.*)?                  gen_context(system_u:object_r:httpd_foreman_script_log_t,s0)
+/var/lib/foreman/db                     gen_context(system_u:object_r:var_lib_t,s0)
+/var/lib/foreman/db(/.*.sqlite3)?       gen_context(system_u:object_r:foreman_db_t,s0)
+/usr/share/foreman(/.*)?                gen_context(system_u:object_r:httpd_foreman_script_exec_t,s0)
+/etc/foreman(/.*)?                      gen_context(system_u:object_r:foreman_config_t,s0)
+/etc/logrotate.d/foreman                gen_context(system_u:object_r:logrotate_exec_t,s0)
