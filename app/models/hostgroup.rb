@@ -181,6 +181,14 @@ class Hostgroup < ApplicationRecord
     Setting[:root_pass]
   end
 
+  def explicit_pxe_loader
+    read_attribute(:pxe_loader).presence
+  end
+
+  def pxe_loader
+    explicit_pxe_loader || nested(:pxe_loader).presence
+  end
+
   include_in_clone :lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters
   exclude_from_clone :name, :title, :lookup_value_matcher
 

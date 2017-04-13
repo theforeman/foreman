@@ -332,7 +332,8 @@ module FormHelper
 
   def blank_or_inherit_f(f, attr)
     return true unless f.object.respond_to?(:parent_id) && f.object.parent_id
-    inherited_value   = f.object.send(attr).try(:name_method)
+    inherited_value   = f.object.send(attr)
+    inherited_value   = inherited_value.name_method if inherited_value.present? && inherited_value.respond_to?(:name_method)
     inherited_value ||= _("no value")
     _("Inherit parent (%s)") % inherited_value
   end
