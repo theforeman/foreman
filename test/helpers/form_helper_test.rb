@@ -15,6 +15,37 @@ class FormHelperTest < ActionView::TestCase
     end
   end
 
+  context '#blank_or_inherit_f attr is :pxe_loader' do
+    context 'form object is hostgroup' do
+      test "returns 'Inherit parent(<parent-pxe-loader-value>)'" do
+        hostgroup = hostgroups(:inherited)
+        f = ActionView::Helpers::FormBuilder.new(:hostgroup, hostgroup, nil, {})
+        attr = :pxe_loader
+        assert_equal "Inherit parent (#{hostgroup.parent.pxe_loader})", blank_or_inherit_f(f, attr)
+      end
+
+      test "inherited but pxe_loader attr is overriden -> returns 'Inherit parent(<parent-pxe-loader-value>)'" do
+        new_pxe_loader = 'Grub UEFI'
+        hostgroup = hostgroups(:inherited)
+        hostgroup.pxe_loader = new_pxe_loader
+        hostgroup.save
+        f = ActionView::Helpers::FormBuilder.new(:hostgroup, hostgroup, nil, {})
+        attr = :pxe_loader
+        assert_equal "Inherit parent (#{new_pxe_loader})", blank_or_inherit_f(f, attr)
+      end
+    end
+
+    context 'form object is host' do
+      test "returns true" do
+        hostgroup = hostgroups(:inherited)
+        host = FactoryGirl.build(:host, :managed, hostgroup_id: hostgroup.id)
+        f = ActionView::Helpers::FormBuilder.new(:host, host, nil, {})
+        attr = :pxe_loader
+        assert blank_or_inherit_f(f, attr)
+      end
+    end
+  end
+
   test "is_required?(f, attr) method returns true if attribute is required and false if not required" do
     f = ActionView::Helpers::FormBuilder.new(:hostgroup, Hostgroup.new, @hostgroup, {})
     assert is_required?(f, :name)

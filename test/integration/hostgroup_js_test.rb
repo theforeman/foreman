@@ -60,6 +60,29 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     end
   end
 
+  describe 'with parent hostgroup' do
+    setup do
+      @hostgroup = hostgroups(:inherited)
+    end
+
+    describe 'edit' do
+      test 'explicit pxe loader' do
+        explicit_pxe_loader = @hostgroup.operatingsystem.available_loaders.last
+        visit edit_hostgroup_path(@hostgroup)
+
+        click_link 'Operating System'
+        wait_for_ajax
+        select2 explicit_pxe_loader, :from => 'hostgroup_pxe_loader'
+        wait_for_ajax
+
+        click_button 'Submit'
+        wait_for_ajax
+
+        assert_equal explicit_pxe_loader, @hostgroup.reload.pxe_loader
+      end
+    end
+  end
+
   test 'submit updates taxonomy' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
     new_location = FactoryGirl.create(:location)

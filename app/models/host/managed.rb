@@ -750,6 +750,14 @@ class Host::Managed < Host::Base
     read_attribute(:provision_method) || capabilities.first.to_s
   end
 
+  def explicit_pxe_loader
+    read_attribute(:pxe_loader).presence
+  end
+
+  def pxe_loader
+    explicit_pxe_loader || hostgroup.try(:pxe_loader)
+  end
+
   def image_build?
     self.provision_method == 'image'
   end

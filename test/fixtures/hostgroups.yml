@@ -44,6 +44,7 @@ parent:
   compute_profile: one
   id: 1
   lookup_value_matcher: hostgroup=Parent
+  pxe_loader: 'PXELinux BIOS'
 
 inherited:
   name: inherited

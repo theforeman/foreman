@@ -98,6 +98,7 @@ class HostgroupsController < ApplicationController
     define_hostgroup
     inherit_parent_attributes
     load_vars_for_ajax
+    reset_explicit_attributes
 
     render :partial => "form"
   end
@@ -154,5 +155,9 @@ class HostgroupsController < ApplicationController
     @hostgroup.subnet             ||= @parent.subnet
     @hostgroup.realm              ||= @parent.realm
     @hostgroup.environment        ||= @parent.environment
+  end
+
+  def reset_explicit_attributes
+    @hostgroup.pxe_loader = nil if @parent.present?
   end
 end
