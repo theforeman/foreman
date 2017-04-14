@@ -262,14 +262,14 @@ class HostJSTest < IntegrationTestWithJavascript
       assert page.has_link? '+ Add Parameter'
       click_link '+ Add Parameter'
       assert page.has_no_css? '#new_host_parameter_value[disabled=disabled]'
-      assert page.has_link? 'remove'
-      click_link 'remove'
+      assert page.has_link? 'Remove'
+      click_link 'Remove'
 
       assert page.has_css? 'a#override-param-a_parameter'
       find(:css, 'a#override-param-a_parameter').click
 
       assert page.has_no_css? '#new_host_parameter_value[disabled=disabled]'
-      assert page.has_link? 'remove'
+      assert page.has_link? 'Remove'
     end
   end
 
