@@ -5,13 +5,7 @@ class FactValuesController < ApplicationController
   before_action :setup_search_options, :only => :index
 
   def index
-    base = resource_base
-    begin
-      values = base.my_facts.search_for(params[:search], :order => params[:order])
-    rescue => e
-      error e.to_s
-      values = base.search_for ""
-    end
+    values = resource_base.my_facts.search_for(params[:search], :order => params[:order])
 
     conds = (original_search_parameter || '').split(/AND|OR/i)
     conds = conds.flatten.reject { |c| c.include?('host') }

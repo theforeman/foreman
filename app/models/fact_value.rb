@@ -15,6 +15,7 @@ class FactValue < ApplicationRecord
   scoped_search :relation => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
   scoped_search :relation => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup", :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
   scoped_search :relation => :fact_name, :on => :short_name, :complete_value => true, :aliases => ["fact_short_name"]
+  scoped_search :relation => :fact_name, :on => :type, :complete_value => false, :only_explicit => true, :aliases => ["origin"]
 
   scope :no_timestamp_facts, lambda {
     joins(:fact_name).where("fact_names.name <> ?",:_timestamp)

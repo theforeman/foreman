@@ -26,4 +26,14 @@ class FactValuesControllerTest < ActionController::TestCase
     get :index, {}, set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
+
+  def test_index_with_sort
+    FactoryGirl.create(:fact_value)
+    @request.env['HTTP_REFERER'] = fact_values_path
+    get :index, {order: 'origin ASC'}, set_session_user
+    assert_response :success
+    assert_not_nil :fact_values
+    get :index, {order: 'wrong ASC'}, set_session_user
+    assert_response :redirect
+  end
 end
