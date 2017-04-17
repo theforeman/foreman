@@ -24,7 +24,7 @@
   <td class='fact-origin'><%= fact_origin_icon(fact.origin) %></td>
   <td><%= fact_from fact %></td>
   <td><% unless fact.compose %>
-          <%= link_to_function(content_tag(:button, icon_text("adjust", "")),
+          <%= link_to_function(content_tag(:span, "View Chart", :class => "btn btn-sm btn-default"),
                                "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')",
                                :title => _("Show distribution chart")) %>
       <% end %>
