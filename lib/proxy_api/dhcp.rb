@@ -91,10 +91,7 @@ module ProxyAPI
     # [+mac+]    : String in coloned sextuplet format
     # Returns    : Boolean status
     def delete(subnet, mac)
-      parse super("#{subnet}/#{mac}")
-    rescue RestClient::ResourceNotFound
-      # entry doesn't exists anyway
-      return true
+      parse super("#{subnet}/mac/#{mac}")
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to delete DHCP entry for %s"), mac)
     end
