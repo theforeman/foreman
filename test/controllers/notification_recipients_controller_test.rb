@@ -100,10 +100,50 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     assert_equal "#{host} has no owner set", response['notifications'][0]["text"]
   end
 
+  test 'group mark as read' do
+    add_notification
+    query = {user_id: User.current.id, seen: false}
+    assert_equal 1, NotificationRecipient.where(query).count
+    put :update_group_as_read, { :group => 'Testing' }, set_session_user
+    assert_response :success
+    assert_equal 1, NotificationRecipient.where(query.merge({seen: true})).count
+    assert_equal 0, NotificationRecipient.where(query).count
+  end
+
+  test 'group mark as read twice' do
+    add_notification
+    put :update_group_as_read, { :group => 'Testing' }, set_session_user
+    assert_response :success
+    put :update_group_as_read, { :group => 'Testing' }, set_session_user
+    assert_response :not_modified
+  end
+
+  test 'invalid group mark as read' do
+    put :update_group_as_read, { :group => 'unknown;INSERT INTO users (user_id, group)' }, set_session_user
+    assert_response :not_modified
+  end
+
+  test 'group mark as read only update the correct group' do
+    add_notification('Group1')
+    add_notification('Group2')
+    query = {user_id: User.current.id, seen: false}
+    assert_equal 2, NotificationRecipient.where(query).count
+    put :update_group_as_read, { :group => 'Group1' }, set_session_user
+    assert_response :success
+    assert_equal 1, NotificationRecipient.where(query.merge({seen: true})).count
+    assert_equal 0, NotificationRecipient.where(query).
+      joins(:notification_blueprint).
+      where(notification_blueprints: { group: 'Group1' }).count
+    assert_equal 1, NotificationRecipient.where(query).
+      joins(:notification_blueprint).
+      where(notification_blueprints: { group: 'Group2' }).count
+  end
+
   private
 
-  def add_notification
+  def add_notification(group = 'Testing')
     type = FactoryGirl.create(:notification_blueprint,
+                              :group => group,
                               :message => 'this test just executed successfully')
     FactoryGirl.create(:notification, :notification_blueprint => type, :audience => 'global')
   end

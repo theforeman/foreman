@@ -2,7 +2,8 @@ import {
   NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
-  NOTIFICATIONS_MARK_AS_READ
+  NOTIFICATIONS_MARK_AS_READ,
+  NOTIFICATIONS_MARK_GROUP_AS_READ
 } from '../../consts';
 import {
   notificationsDrawer as sessionStorage
@@ -50,6 +51,16 @@ export const onMarkAsRead = (group, id) => dispatch => {
     }
   });
   API.markNotificationAsRead(id);
+};
+
+export const onMarkGroupAsRead = (group) => dispatch => {
+  dispatch({
+    type: NOTIFICATIONS_MARK_GROUP_AS_READ,
+    payload: {
+      group
+    }
+  });
+  API.markGroupNotificationAsRead(group);
 };
 
 export const expandGroup = group => (dispatch, getState) => {

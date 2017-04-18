@@ -21,6 +21,7 @@ class notificationContainer extends React.Component {
       expandGroup,
       expandedGroup,
       onMarkAsRead,
+      onMarkGroupAsRead,
       hasUnreadMessages,
       isReady,
       onClickedLink
@@ -34,6 +35,7 @@ class notificationContainer extends React.Component {
             onExpandGroup={expandGroup}
             onClickedLink={onClickedLink}
             onMarkAsRead={onMarkAsRead}
+            onMarkGroupAsRead={onMarkGroupAsRead}
             expandedGroup={expandedGroup}
             notificationGroups={notifications}
           />}

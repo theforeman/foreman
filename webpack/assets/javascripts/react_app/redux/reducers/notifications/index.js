@@ -2,7 +2,8 @@ import {
   NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
-  NOTIFICATIONS_MARK_AS_READ
+  NOTIFICATIONS_MARK_AS_READ,
+  NOTIFICATIONS_MARK_GROUP_AS_READ
 } from '../../consts';
 import Immutable from 'seamless-immutable';
 import { notificationsDrawer } from '../../../common/sessionStorage';
@@ -25,12 +26,19 @@ export default (state = initialState, action) => {
     case NOTIFICATIONS_SET_EXPANDED_GROUP:
       return state.set('expandedGroup', payload.group);
     case NOTIFICATIONS_MARK_AS_READ:
+    return state.set(
+      'notifications',
+      state.notifications.map(
+        n => n.id === payload.id ?
+          Object.assign({}, n, {seen: true}) : n
+      )
+    );
+    case NOTIFICATIONS_MARK_GROUP_AS_READ:
       return state.set(
         'notifications',
         state.notifications.map(
-          n => n.id === payload.id ?
-            Object.assign({}, n, {seen: true}) :
-            n
+          n => n.group === payload.group ?
+            Object.assign({}, n, {seen: true}) : n
         )
       );
     default:

@@ -89,6 +89,9 @@
     ],
     "moduleNameMapper": {
       "^.+\\.(png|gif|css|scss)$": "identity-obj-proxy"
+    },
+    "globals": {
+      "__testing__": true
     }
   }
 }

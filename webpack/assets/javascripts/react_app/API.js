@@ -17,6 +17,18 @@ export default {
       dataType: 'json',
       data: data,
       error: function (jqXHR, textStatus, errorThrown) {
+        /* eslint-disable no-console */
+        console.log(jqXHR);
+      }
+    });
+  },
+  markGroupNotificationAsRead(group) {
+    $.ajax({
+      url: `/notification_recipients/group/${group}`,
+      contentType: 'application/json',
+      type: 'PUT',
+      error: function (jqXHR, textStatus, errorThrown) {
+        /* eslint-disable no-console */
         console.log(jqXHR);
       }
     });

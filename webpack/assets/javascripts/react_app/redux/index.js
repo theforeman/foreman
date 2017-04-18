@@ -5,12 +5,16 @@ import reducer from './reducers';
 
 let middleware = [thunk];
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && !global.__testing__) {
   middleware = [...middleware, createLogger()];
 }
 
-export default createStore(
+const _getStore = () => createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(...middleware)
 );
+
+export default _getStore();
+
+export const getStore = _getStore;
