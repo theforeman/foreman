@@ -7,6 +7,7 @@ export default (
     expandedGroup,
     onExpandGroup,
     onMarkAsRead,
+    onMarkGroupAsRead,
     onClickedLink
   }
 ) => {
@@ -17,6 +18,7 @@ export default (
         key={key}
         onClickedLink={onClickedLink}
         onMarkAsRead={onMarkAsRead}
+        onMarkGroupAsRead={onMarkGroupAsRead}
         isExpanded={expandedGroup === key}
         onExpand={onExpandGroup}
         notifications={notificationGroups[key]}

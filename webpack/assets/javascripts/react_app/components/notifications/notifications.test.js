@@ -1,9 +1,9 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import {shallow, mount} from 'enzyme';
 import Notifications from './';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import Store from '../../redux';
+import {getStore} from '../../redux';
 import {
   emptyState,
   emptyHtml,
@@ -28,7 +28,11 @@ describe('notifications', () => {
     };
 
     $.getJSON = jest.genMockFunction().mockImplementation(url => {
-      return new Promise(resolve => resolve(JSON.parse(serverResponse)));
+      return {
+        then: function (callback) {
+          callback(JSON.parse(serverResponse));
+        }
+      };
     });
   });
 
@@ -52,9 +56,7 @@ describe('notifications', () => {
     const store = mockStore(stateWithNotifications);
     const box = shallow(<Notifications store={store} />);
 
-    expect(
-      box.render().find('.drawer-pf-notification').length
-    ).toEqual(1);
+    expect(box.render().find('.drawer-pf-notification').length).toEqual(1);
   });
 
   it('should display full bell on a state with unread notifications', () => {
@@ -64,36 +66,28 @@ describe('notifications', () => {
     expect(box.render().find('.fa-bell').length).toBe(1);
   });
 
-  it('full flow', done => {
-    const data = { url: '/notification_recipients' };
-    const wrapper = mount(<Notifications data={data} store={Store} />);
+  it('full flow', () => {
+    const data = {url: '/notification_recipients'};
+    const wrapper = mount(<Notifications data={data} store={getStore()} />);
 
-    try {
-      expect(wrapper.render().find('.fa-bell-o').length).toBe(1);
-      setTimeout(() => {
-        const rendered = wrapper.render();
+    wrapper.find('.fa-bell').simulate('click');
+    expect(wrapper.find('.panel-group').length).toEqual(1);
+    wrapper.find('.panel-group .panel-heading').simulate('click');
+    expect(wrapper.find('.not-seen').length).toEqual(1);
+    wrapper.find('.not-seen').simulate('click');
+    expect(wrapper.find('.not-seen').length).toEqual(0);
+  });
 
-        // full bell is rendered
-        expect(rendered.find('.fa-bell').length).toBe(1);
-        wrapper.find('.fa-bell').simulate('click');
-        expect(rendered.find('.panel-group').length).toEqual(0);
+  it('mark group as read flow', () => {
+    const data = {url: '/notification_recipients'};
+    const wrapper = mount(<Notifications data={data} store={getStore()} />);
+    const matcher = '.drawer-pf-action a.btn-link';
 
-        setTimeout(() => {
-          // a panel group is rendered (inside the accordion)
-          expect(wrapper.find('.panel-group').length).toEqual(1);
-          wrapper.find('.panel-group .panel-heading').simulate('click');
-          setTimeout(() => {
-            expect(wrapper.find('.not-seen').length).toEqual(1);
-            wrapper.find('.not-seen').simulate('click');
-            setTimeout(() => {
-              expect(wrapper.find('.not-seen').length).toEqual(0);
-              done();
-            });
-          });
-        });
-      });
-    } catch (e) {
-      done();
-    }
+    wrapper.find('.fa-bell').simulate('click');
+    wrapper.find('.panel-group .panel-heading').simulate('click');
+    expect(wrapper.find(matcher).length).toBe(1);
+    expect(wrapper.find(`${matcher}[disabled=true]`).length).toBe(0);
+    wrapper.find(matcher).simulate('click');
+    expect(wrapper.find(`${matcher}[disabled=true]`).length).toBe(1);
   });
 });

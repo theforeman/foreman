@@ -8,6 +8,7 @@ export default (
     isExpanded,
     onExpand,
     onMarkAsRead,
+    onMarkGroupAsRead,
     onClickedLink
   }
 ) => {
@@ -42,6 +43,14 @@ export default (
               onMarkAsRead={onMarkAsRead.bind(this, group)}
             />
           ))}
+          <div className="drawer-pf-action">
+            <a
+              className="btn btn-link btn-block"
+              onClick={onMarkGroupAsRead.bind(this, group)}
+              disabled={unreadCount === 0}>
+              {__('Mark All Read')}
+            </a>
+          </div>
         </div>}
     </div>
   );
