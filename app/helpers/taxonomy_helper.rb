@@ -10,13 +10,6 @@ module TaxonomyHelper
     SETTINGS[:organizations_enabled] && User.current.allowed_to?(:view_organizations)
   end
 
-  def show_taxonomy_tabs?
-    Foreman::Deprecation.deprecation_warning(
-      '1.16', 'The partial "taxonomy/loc_org_tabs" checks already if '\
-      'taxonomies are enabled or not.')
-    SETTINGS[:locations_enabled] || SETTINGS[:organizations_enabled]
-  end
-
   def organization_dropdown(count)
     text = Organization.current.nil? ? _("Any Organization") : truncate(Organization.current.to_label)
     if count == 1 && !User.current.admin?

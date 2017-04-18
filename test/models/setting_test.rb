@@ -46,20 +46,6 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal 5, Setting["foo"]
   end
 
-  def test_should_find_setting_via_method_missing_too
-    Foreman::Deprecation.expects(:deprecation_warning).twice
-    assert Setting.create(:name => "bar", :value => "baz", :default => "x", :description => "test bar")
-    assert_equal Setting["bar"], Setting.bar
-    assert_equal "baz", Setting.bar
-  end
-
-  def test_should_write_setting_via_method_missing_too
-    Foreman::Deprecation.expects(:deprecation_warning)
-    assert Setting.create(:name => "bar", :value => "baz", :default => "x", :description => "test bar")
-    Setting.bar = 'foo'
-    assert_equal 'foo', Setting.find_by_name('bar').value
-  end
-
   def test_settings_with_the_same_value_as_default_should_not_save_the_value
     assert Setting.create(:name => "foo", :value => "bar", :default => "bar", :description => "x")
     s = Setting.find_by_name "foo"

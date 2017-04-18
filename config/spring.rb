@@ -1,7 +1,6 @@
 %w(
   .ruby-version
   .rbenv-vars
-  config/email.yaml
   config/ignored_environments.yml
   config/logging.yaml
   config/settings.yaml

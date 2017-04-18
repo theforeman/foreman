@@ -99,23 +99,6 @@ class Setting < ApplicationRecord
     record.save!
   end
 
-  def self.method_missing(method, *args)
-    super
-  rescue NoMethodError
-    method_name = method.to_s
-
-    #setter method
-    if method_name =~ /=\Z/
-      setting_name = method_name.chomp("=")
-      Foreman::Deprecation.deprecation_warning('1.16', "Setting.#{method_name} must be replaced with Setting[:#{setting_name}]= to write settings")
-      self[setting_name] = args.first
-      #getter
-    else
-      Foreman::Deprecation.deprecation_warning('1.16', "Setting.#{method_name} must be replaced with Setting[:#{method_name}] to read settings")
-      self[method_name]
-    end
-  end
-
   def value=(v)
     v = v.to_yaml unless v.nil?
     # the has_attribute is for enabling DB migrations on older versions

@@ -26,7 +26,6 @@ class Setting::Email < Setting
   end
 
   def self.load_defaults
-    Foreman::Deprecation.deprecation_warning('1.16', "'email.yaml' file configuration has been deprecated, email configuration has been moved to Foreman settings") if mailconfig.present?
     # Check the table exists
     return unless super
 
@@ -35,10 +34,6 @@ class Setting::Email < Setting
     end
 
     true
-  end
-
-  def self.config_file
-    File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'config', 'email.yaml'))
   end
 
   def self.delivery_settings
@@ -52,33 +47,6 @@ class Setting::Email < Setting
       end
     end
     options
-  end
-
-  # Load the configuration from email.yaml, if it exists.  Stored in class instance variable to prevent multiple reads.
-  def self.mailconfig
-    @mailconfig ||= File.file?(config_file) ? YAML.load_file(config_file).with_indifferent_access : {}
-    @mailconfig[Rails.env] if @mailconfig.is_a?(Hash)
-  end
-
-  def self.lookup_value(name)
-    extract_smtp = extract_prefix(name, 'smtp')
-    extract_sendmail = extract_prefix(name, 'sendmail')
-    if name.to_s.start_with?('smtp_') && mailconfig["smtp_settings"].is_a?(Hash)
-      mailconfig["smtp_settings"][extract_smtp]
-    elsif name.to_s.start_with?('sendmail_') && mailconfig["sendmail_settings"].is_a?(Hash)
-      mailconfig["sendmail_settings"][extract_sendmail]
-    else
-      mailconfig[name.to_s]
-    end
-  end
-
-  def self.readonly_value(name)
-    return if mailconfig.blank?
-    lookup_value(name)
-  end
-
-  def has_readonly_value?
-    self.class.mailconfig.present? && NON_EMAIL_YAML_SETTINGS.exclude?(name)
   end
 
   def self.extract_prefix(name, prefix)
