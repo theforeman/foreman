@@ -6,6 +6,8 @@ module ParameterAttributes
     return unless model_params
     parameter_params = model_params["#{parameter_class_mapping}_parameters_attributes"]
     return unless parameter_params
+    # parameters may be either Array or indexed Hash
+    parameter_params = parameter_params.values unless parameter_params.kind_of?(Array)
 
     param_names = parameter_params.map { |hash| hash[:name] }
 
