@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class ParametersPermissionsIntegrationTest < IntegrationTestWithJavascript
+class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     role = FactoryGirl.create(:role)
     @filter = FactoryGirl.create(:filter,
@@ -53,7 +53,6 @@ class ParametersPermissionsIntegrationTest < IntegrationTestWithJavascript
       within parameter_row_css do
         click_link 'Delete'
       end
-      assert page.has_text?('Successfully deleted a_parameter.')
 
       assert page.has_no_css? "tr#common_parameter_#{@visible_global_parameter.id}_row"
     end
@@ -112,7 +111,6 @@ class ParametersPermissionsIntegrationTest < IntegrationTestWithJavascript
 
     fill_in "domain_parameter_#{parameter.id}_value", :with => 'new_value'
     click_button 'Submit'
-    assert_includes page.text, "Successfully updated #{domain.name}."
 
     visit edit_domain_path(domain)
     parameter_area = find(:css, "#domain_parameter_#{parameter.id}_value")

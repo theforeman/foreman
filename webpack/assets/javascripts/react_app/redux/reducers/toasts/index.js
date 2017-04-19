@@ -1,14 +1,8 @@
-import {
-  TOASTS_ADD,
-  TOASTS_HIDE,
-  TOASTS_DELETE
-} from '../../consts';
+import { TOASTS_ADD, TOASTS_DELETE, TOASTS_CLEAR } from '../../consts';
 import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
-  messages: {},
-  counter: 0,
-  visibilityFilter: 'all'
+  messages: {}
 });
 
 export default (state = initialState, action) => {
@@ -16,20 +10,15 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case TOASTS_ADD: {
-      const id = (state.counter + 1).toString();
-
-      return state.merge({
-        messages: state.messages.set(id, Immutable(payload).set('id', id)),
-        counter: state.counter + 1
-      });
-    }
-
-    case TOASTS_HIDE: {
-      return state.setIn(['messages', payload.id, 'visible'], false);
+      return state.setIn(['messages', payload.key], payload.message);
     }
 
     case TOASTS_DELETE: {
-      return state.set('messages', state.messages.without(payload.id));
+      return state.set('messages', state.messages.without(payload.key));
+    }
+
+    case TOASTS_CLEAR: {
+      return initialState;
     }
 
     default: {

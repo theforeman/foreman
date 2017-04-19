@@ -64,7 +64,8 @@
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.0.1",
-    "select2": "~3.5.2-browserify"
+    "select2": "~3.5.2-browserify",
+    "uuid": "^3.0.1"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ || exit 0",

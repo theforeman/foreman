@@ -35,12 +35,18 @@ function remove_widget(item){
             type: 'DELETE',
             url: $(item).data('url'),
             success: function(){
-                tfm.toastNotifications.notify(__("Widget removed from dashboard."), 'success');
+                tfm.toastNotifications.notify({
+                    message: __("Widget removed from dashboard."),
+                    type: 'success'
+                });
                 gridster.remove_widget(widget);
                 window.location.reload();
             },
             error: function(){
-                tfm.toastNotifications.notify(__("Error removing widget from dashboard."), 'error');
+                tfm.toastNotifications.notify({
+                    message: __("Error removing widget from dashboard."),
+                    type: 'error'
+                });
             },
         });
     }
@@ -52,11 +58,17 @@ function add_widget(name){
         url: 'widgets',
         data: {'name': name},
         success: function(){
-            tfm.toastNotifications.notify(__("Widget added to dashboard."), 'success');
+            tfm.toastNotifications.notify({
+                message: __("Widget added to dashboard."),
+                type: 'success'
+            });
             window.location.reload();
         },
         error: function(){
-            tfm.toastNotifications.notify(__("Error adding widget to dashboard."), 'error');
+            tfm.toastNotifications.notify({
+                message: __("Error adding widget to dashboard."),
+                type: 'error'
+            });
         },
         dataType: 'json'
     });
@@ -69,10 +81,16 @@ function save_position(path){
         url: path,
         data: {'widgets': positions},
         success: function(){
-            tfm.toastNotifications.notify(__("Widget positions successfully saved."), 'success');
+            tfm.toastNotifications.notify({
+                message: __("Widget positions successfully saved."),
+                type: 'success'
+            });
         },
         error: function(){
-            tfm.toastNotifications.notify(__("Failed to save widget positions."), 'error');
+              tfm.toastNotifications.notify({
+                message: __("Failed to save widget positions."),
+                type: 'error'
+              });
         },
         dataType: 'json'
     });
