@@ -801,7 +801,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should update existing host parameters" do
+  test "should update existing host parameters using indexed hash format" do
+    host = FactoryGirl.create(:host, :with_parameter)
+    host_param = host.parameters.first
+    put :update, { :id => host.id, :host => { :host_parameters_attributes => { "0" => { :name => host_param.name, :value => "new_value" } } } }
+    assert_response :success
+  end
+
+  test "should update existing host parameters using array format" do
     host = FactoryGirl.create(:host, :with_parameter)
     host_param = host.parameters.first
     put :update, { :id => host.id, :host => { :host_parameters_attributes => [{ :name => host_param.name, :value => "new_value" }] } }
