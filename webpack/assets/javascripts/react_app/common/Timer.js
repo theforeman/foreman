@@ -1,5 +1,5 @@
 class Timer {
-  constructor(func, delay = 8000) {
+  constructor(func, delay) {
     this.timer = null;
     this.delay = delay;
     this.execute = func;

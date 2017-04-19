@@ -3,9 +3,7 @@ import * as types from '../../consts';
 import {
   initialState,
   messageBeforeAdd,
-  stateAfterAdd,
-  stateAfterHide,
-  stateAfterDelete
+  stateAfterAdd
 } from './toasts.fixtures';
 
 describe('toasts reducer', () => {
@@ -14,23 +12,31 @@ describe('toasts reducer', () => {
   });
 
   it('should handle TOASTS_ADD', () => {
-    expect(reducer(initialState, {
-      type: types.TOASTS_ADD,
-      payload: messageBeforeAdd
-    })).toEqual(stateAfterAdd);
-  });
-
-  it('should handle TOASTS_ADD', () => {
-    expect(reducer(stateAfterAdd, {
-      type: types.TOASTS_HIDE,
-      payload: { id: '1' }
-    })).toEqual(stateAfterHide);
+    expect(
+      reducer(initialState, {
+        type: types.TOASTS_ADD,
+        payload: {
+          key: '1',
+          message: messageBeforeAdd
+        }
+      })
+    ).toEqual(stateAfterAdd);
   });
 
   it('should handle TOASTS_DELETE', () => {
-    expect(reducer(stateAfterAdd, {
-      type: types.TOASTS_DELETE,
-      payload: { id: '1' }
-    })).toEqual(stateAfterDelete);
+    expect(
+      reducer(stateAfterAdd, {
+        type: types.TOASTS_DELETE,
+        payload: { key: '1' }
+      })
+    ).toEqual(initialState);
+  });
+
+  it('should handle TOASTS_CLEAR', () => {
+    expect(
+      reducer(stateAfterAdd, {
+        type: types.TOASTS_CLEAR
+      })
+    ).toEqual(initialState);
   });
 });

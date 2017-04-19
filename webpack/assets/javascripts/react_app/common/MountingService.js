@@ -2,8 +2,7 @@ import React from 'react';
 import StatisticsChartsList from '../components/charts/StatisticsChartsList';
 import PowerStatus from '../components/hosts/powerStatus/';
 import NotificationContainer from '../components/notifications/';
-import ToastsList from
-'../components/notifications/toast/ToastsList';
+import ToastsList from '../components/toastNotifications/';
 import ReactDOM from 'react-dom';
 import store from '../redux';
 export function mount(component, selector, data) {
