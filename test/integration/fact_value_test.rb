@@ -21,7 +21,7 @@ class FactValueIntegrationTest < ActionDispatch::IntegrationTest
 
   test "fact_name fact links" do
     visit fact_values_path
-    find(:xpath, "//tr[contains(.,'#{@fact_name.name}')]//td[2]/a").click
+    find(:xpath, "//tr[contains(.,'#{@fact_name.name}')]//td[2]//a").click
     assert_equal "name = #{@fact_name.name}", find_field('search').value
   end
 
@@ -49,15 +49,16 @@ class ChildFactValueIntegrationTest < ActionDispatch::IntegrationTest
 
     #click on the parent name link
     within(:xpath, "//tr[contains(.,'#{@parent_name.name}')]") do
-      assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]/span/a")[:title]
-      first(:xpath, "//td[2]/a").click
+      assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]//span//a")[:title]
+      first(:xpath, "//td[2]//span//a").click
     end
 
     #click on the child name link
-    within(:xpath, "//tr[contains(.,'#{@child_name.name}')]") do
-      first(:xpath, "//td[2]/a").click
+    within(:xpath, "//tr[contains(.,'#{@child_name.short_name}')]") do
+      assert_equal "Show #{@child_name.name} fact values for all hosts", first(:xpath, "//td[1]//a")[:title]
+      first(:xpath, "//td[1]//a").click
     end
 
-    assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]/a")[:'title']
+    assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]//a")[:'title']
   end
 end
