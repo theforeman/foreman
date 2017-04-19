@@ -15,7 +15,7 @@ module Foreman::Controller::Session
   # Backs up some state from a user's session around a supplied block, which
   # will usually expire or reset the session in some way
   def backup_session_content
-    save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri', 'sso_method').symbolize_keys
+    save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri', 'sso_method')
     yield if block_given?
     session.update(save_items)
   end
