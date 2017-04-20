@@ -24,7 +24,7 @@ class OvirtTest < ActiveSupport::TestCase
   test "fingerprint error is ignored on update of operating systems" do
     record = new_ovirt_cr
     record.stubs(:client).raises(Foreman::FingerprintException.new('fingerprint error'))
-    original_oses = record.attrs[:available_operating_systems]
+    original_oses = record.attrs[:available_operating_systems] = { foo: :bar }
 
     assert_nothing_raised do
       assert record.send(:update_available_operating_systems), 'before validation filter does not return true which would cancel the callback chain'

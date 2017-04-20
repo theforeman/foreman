@@ -173,7 +173,7 @@ class UserTest < ActiveSupport::TestCase
         user = User.try_to_auto_create_user('foo', 'password')
         assert_equal 'foo#bar', user.mail
         assert user.errors[:mail].present?
-        assert_equal nil, user.reload.mail
+        assert_nil user.reload.mail
       end
 
       test "ldap user attribute should not be saved in DB on create when invalid format (firstname)" do
@@ -182,7 +182,7 @@ class UserTest < ActiveSupport::TestCase
         user = User.try_to_auto_create_user('foo', 'password')
         assert_equal '$%$%%%', user.firstname
         assert user.errors[:firstname].present?
-        assert_equal nil, user.reload.firstname
+        assert_nil user.reload.firstname
       end
 
       test "ldap user attribute should not be saved in DB on login when invalid format (mail)" do
@@ -200,7 +200,7 @@ class UserTest < ActiveSupport::TestCase
         user = User.try_to_login('foo', 'password')
         assert_equal '$%$%%%', user.firstname
         assert user.errors[:firstname].present?
-        assert_equal nil, user.reload.firstname
+        assert_nil user.reload.firstname
       end
     end
   end

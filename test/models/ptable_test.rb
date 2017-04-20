@@ -40,7 +40,7 @@ class PtableTest < ActiveSupport::TestCase
 
   test "blank os family is saved as nil" do
     partition_table = Ptable.new :name => "Archlinux default", :layout => "any layout", :os_family => ""
-    assert_equal nil, partition_table.os_family
+    assert_nil partition_table.os_family
   end
 
   # I'm commenting this one out for now, as I'm not sure that its actully needed

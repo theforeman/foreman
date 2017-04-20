@@ -566,7 +566,7 @@ class HostsControllerTest < ActionController::TestCase
       assert_empty flash[:error]
 
       @hosts.each do |host|
-        assert_equal nil, host.reload.puppet_ca_proxy
+        assert_nil host.reload.puppet_ca_proxy
       end
     end
 
@@ -582,7 +582,7 @@ class HostsControllerTest < ActionController::TestCase
       assert_empty flash[:error]
 
       @hosts.each do |host|
-        assert_equal nil, host.reload.puppet_ca_proxy
+        assert_nil host.reload.puppet_ca_proxy
       end
     end
   end
@@ -627,7 +627,7 @@ class HostsControllerTest < ActionController::TestCase
       assert_empty flash[:error]
 
       @hosts.each do |host|
-        assert_equal nil, host.reload.puppet_ca_proxy
+        assert_nil host.reload.puppet_ca_proxy
       end
     end
   end

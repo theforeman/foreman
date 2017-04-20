@@ -150,9 +150,10 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "inherited id value equals field id value if no ancestry" do
-    hostgroup = hostgroups(:common)
+    hostgroup = hostgroups(:parent)
     [:compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
      :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id].each do |field|
+      refute_nil hostgroup.send(field), "missing #{field}"
       assert_equal hostgroup.send(field), hostgroup.send("inherited_#{field}")
     end
   end
@@ -163,6 +164,7 @@ class HostgroupTest < ActiveSupport::TestCase
     # environment_id is not included in the array below since child value is not null
     [:compute_profile_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
      :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id].each do |field|
+      refute_nil parent.send(field), "missing #{field}"
       assert_equal parent.send(field), child.send("inherited_#{field}")
     end
   end
@@ -182,6 +184,7 @@ class HostgroupTest < ActiveSupport::TestCase
     # environment is not included in the array below since child value is not null
     [:compute_profile, :domain, :puppet_proxy, :puppet_ca_proxy,
      :operatingsystem, :architecture, :medium, :ptable, :subnet, :subnet6].each do |field|
+      refute_nil parent.send(field), "missing #{field}"
       assert_equal parent.send(field), child.send(field)
     end
   end

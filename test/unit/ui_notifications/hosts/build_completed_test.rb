@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'notifications_test_helper'
 
 class UINotificationsHostsBuildCompletedTest < ActiveSupport::TestCase
+  include NotificationBlueprintSeeds
+
   test 'create new host build notification' do
     host.update_attribute(:build, true)
     assert_difference("blueprint.notifications.where(:subject => host).count", 1) do

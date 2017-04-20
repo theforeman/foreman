@@ -68,7 +68,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
     test "release_name should be nil when lsbdistcodename isn't set on Debian" do
       @importer = PuppetFactParser.new(debian_facts.delete_if { |k, v| k == "lsbdistcodename" })
-      assert_equal nil, os.release_name
+      assert_nil os.release_name
       assert_os_idempotent
     end
 

@@ -142,7 +142,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
     test "blank os family is saved as nil" do
       os.family = ""
-      assert_equal nil, os.family
+      assert_nil os.family
     end
 
     test "deduce_family correctly returns the family when not set" do

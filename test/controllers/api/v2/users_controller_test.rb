@@ -41,7 +41,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
 
     assert_equal taxonomies(:location1).id, show_response['default_location']['id']
-    assert_equal nil, show_response['default_organization']
+    assert_nil show_response['default_organization']
   end
 
   test "effective_admin is true if group admin is enabled" do

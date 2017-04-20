@@ -60,8 +60,8 @@ class LocationsControllerTest < ActionController::TestCase
       delete :destroy, {:id => location.id}, set_session_user.merge(:location_id => location.id)
     end
 
-    assert_equal Location.current, nil
-    assert_equal session[:location_id], nil
+    assert_nil Location.current
+    assert_nil session[:location_id]
   end
 
   test "should save location on session expiry" do
@@ -178,8 +178,8 @@ class LocationsControllerTest < ActionController::TestCase
   test "should clear out Location.current" do
     @request.env['HTTP_REFERER'] = root_url
     get :clear, {}, set_session_user
-    assert_equal Location.current, nil
-    assert_equal session[:location_id], nil
+    assert_nil Location.current
+    assert_nil session[:location_id]
     assert_redirected_to root_url
   end
 

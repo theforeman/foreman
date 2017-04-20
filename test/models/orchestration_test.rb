@@ -143,36 +143,26 @@ class OrchestrationTest < ActiveSupport::TestCase
     SETTINGS[:unattended] = original
   end
 
-  context "when subscribing orchestration methods to nic" do
+  context "when registering orchestration rebuild methods" do
     setup do
-      @nic.class.send :include, Orchestration::TestModule
+      @klass = Class.new(ActiveRecord::Base) do
+        include Orchestration
+        include Orchestration::TestModule
+      end
     end
 
     test "register_rebuild can register methods" do
-      assert @nic.class.respond_to? :register_rebuild
-      assert @nic.class.ancestors.include? Orchestration::TestModule
+      assert @klass.respond_to? :register_rebuild
+      assert @klass.ancestors.include? Orchestration::TestModule
     end
 
     test "we can retrieve registered methods" do
-      assert @nic.class.rebuild_methods.keys.include? :rebuild_test
-    end
-  end
-
-  context "when subscribing orchestration methods to host" do
-    setup do
-      @host.class.send :include, Orchestration::HostTest
-    end
-
-    test "register_rebuild can register methods" do
-      assert @host.class.respond_to? :register_rebuild
-      assert @host.class.ancestors.include? Orchestration::HostTest
-    end
-
-    test "we can retrieve registered methods" do
-      assert @host.class.rebuild_methods.keys.include? :rebuild_host
+      assert @klass.rebuild_methods.keys.include? :rebuild_test
     end
 
     test "we cannot override already subscribed methods" do
+      @klass.send(:include, Orchestration::HostTest)
+
       module Orchestration::HostTest2
         extend ActiveSupport::Concern
 
@@ -183,7 +173,7 @@ class OrchestrationTest < ActiveSupport::TestCase
         def rebuild_host
         end
       end
-      assert_raises(RuntimeError) { @host.class.send :include, Orchestration::HostTest2 }
+      assert_raises(RuntimeError) { @klass.send :include, Orchestration::HostTest2 }
     end
   end
 
@@ -197,7 +187,7 @@ class OrchestrationTest < ActiveSupport::TestCase
     end
 
     test "get one from rebuild_methods_for" do
-      assert_equal ['TFTP'], @host.class.rebuild_methods_for(['TFTP']).values
+      assert_equal ['TFTP'], @nic.class.rebuild_methods_for(['TFTP']).values
     end
   end
 

@@ -86,7 +86,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert_valid @host
       assert !@host.dns?
       assert @host.reverse_dns?
-      assert_equal nil, @host.dns_record(:a)
+      assert_nil @host.dns_record(:a)
       assert_not_nil @host.dns_record(:ptr4)
     end
 

@@ -124,7 +124,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "fetches nil vm compute attributes for bare metal" do
     host = FactoryGirl.create(:host)
-    assert_equal host.vm_compute_attributes, nil
+    assert_nil host.vm_compute_attributes
   end
 
   test "can authorize Host::Managed as non-admin user" do
@@ -415,7 +415,7 @@ class HostTest < ActiveSupport::TestCase
       assert host.import_facts(raw['facts'])
       host = Host.find_by_name('sinn1636.fail')
       assert_equal '10.35.27.2', host.interfaces.find_by_identifier('br180').ip
-      assert_equal nil, host.primary_interface.ip # eth0 does not have ip address among facts
+      assert_nil host.primary_interface.ip # eth0 does not have ip address among facts
     end
 
     test 'should update certname when host is found by hostname and certname is provided' do
@@ -1717,7 +1717,7 @@ class HostTest < ActiveSupport::TestCase
       end
 
       test "hosts should be able to retrieve their token if one exists" do
-        h = FactoryGirl.create(:host, :managed)
+        h = FactoryGirl.create(:host, :managed, build: true)
         assert_equal Token.first, h.token
       end
 
@@ -1765,12 +1765,12 @@ class HostTest < ActiveSupport::TestCase
         assert_equal Token.all.size, 0
       end
 
-      test "token should return false when tokens are disabled or invalid" do
+      test "token should be nil when tokens are disabled or invalid" do
         h = FactoryGirl.create(:host, :managed)
-        assert_equal h.token, nil
+        assert_nil h.token
         Setting[:token_duration] = 30
         h.reload
-        assert_equal h.token, nil
+        assert_nil h.token
       end
     end
 

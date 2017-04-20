@@ -44,7 +44,7 @@ class TaxonomyTest < ActiveSupport::TestCase
   test 'does not expand if no user set' do
     org1 = FactoryGirl.build(:organization)
     org2 = FactoryGirl.build(:organization)
-    assert_equal nil, Taxonomy.expand(nil)
+    assert_nil Taxonomy.expand(nil)
     assert_equal [], Taxonomy.expand([])
     assert_equal org1, Taxonomy.expand(org1)
     assert_equal [org1, org2], Taxonomy.expand([org1, org2])
@@ -57,8 +57,8 @@ class TaxonomyTest < ActiveSupport::TestCase
     FactoryGirl.create(:organization) # this one won't be expanded
     user = FactoryGirl.create(:user, :organizations => [org1, org2])
     as_user(user) do
-      assert_equal [org1, org2], Organization.expand(nil)
-      assert_equal [org1, org2], Organization.expand([])
+      assert_equal [org1, org2].sort, Organization.expand(nil).sort
+      assert_equal [org1, org2].sort, Organization.expand([]).sort
     end
   end
 

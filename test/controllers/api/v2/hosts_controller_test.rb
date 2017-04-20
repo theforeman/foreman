@@ -853,11 +853,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_response :created
       body = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil body['id']
-      host = Host.find_by_id(body['id'])
-      assert_equal 'dhcp75-197.virt.bos.redhat.com', host.name
-      assert_equal @domain, host.domain
-      assert_equal '00:50:56:a9:00:28', host.mac
-      assert_equal true, host.build
+      as_admin do
+        host = Host.find_by_id(body['id'])
+        assert_equal 'dhcp75-197.virt.bos.redhat.com', host.name
+        assert_equal domain, host.domain
+        assert_equal '00:50:56:a9:00:28', host.mac
+        assert_equal true, host.build
+      end
     end
 
     test 'should not import if associated host exists' do

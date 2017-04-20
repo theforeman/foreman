@@ -82,7 +82,7 @@ FactoryGirl.define do
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
     type 'Nic::BMC'
     sequence(:mac) { |n| "00:43:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 255) + n, Socket::AF_INET).to_s }
+    sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 256 * 256 * 256) + n, Socket::AF_INET).to_s }
     provider 'IPMI'
     username 'admin'
     password 'admin'

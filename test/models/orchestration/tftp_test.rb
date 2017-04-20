@@ -12,8 +12,8 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       skip_without_unattended
       assert_equal false, @host.tftp?
       assert_equal false, @host.tftp6?
-      assert_equal nil, @host.tftp
-      assert_equal nil, @host.tftp6
+      assert_nil @host.tftp
+      assert_nil @host.tftp6
     end
 
     test '#setTFTP should not call any tftp proxy' do
@@ -59,7 +59,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       skip_without_unattended
       @host.expects(:pxe_loader).returns('').at_least(1)
       assert_equal false, @host.tftp?
-      assert_equal nil, @host.tftp
+      assert_nil @host.tftp
     end
   end
 
