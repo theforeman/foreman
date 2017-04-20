@@ -1,4 +1,4 @@
-require 'foreman/access_control'
+require_dependency 'foreman/access_control'
 
 # Permissions
 Foreman::AccessControl.map do |permission_set|

@@ -15,9 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require_relative 'plugin/logging'
-require_relative 'plugin/rbac_registry'
-require_relative 'plugin/rbac_support'
+require_dependency 'foreman/plugin/logging'
+require_dependency 'foreman/plugin/rbac_registry'
+require_dependency 'foreman/plugin/rbac_support'
 
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
