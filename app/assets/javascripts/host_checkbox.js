@@ -120,7 +120,7 @@ function toggleCheck() {
   });
   if(checked && (pagination.per_page - pagination.total < 0) ) {
     multiple_alert.show('slow');
-    multiple_alert.data('multiple', true);
+    multiple_alert.data('multiple', false);
   }
   else if (!checked) {
     multiple_alert.hide('slow');
