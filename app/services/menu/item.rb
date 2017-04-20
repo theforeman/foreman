@@ -27,7 +27,8 @@ module Menu
     end
 
     def url_hash
-      @url_hash ||= @context.routes.url_helpers.send("hash_for_#{name}_path")
+      return @url_hash if @url_hash
+      @url_hash = @context.routes.url_helpers.send("hash_for_#{name}_path")
       @url_hash.inject({}) do |h,(key,value)|
         h[key] = (value.respond_to?(:call) ? value.call : value)
         h
