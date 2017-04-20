@@ -2,7 +2,8 @@ class PuppetclassLookupKey < LookupKey
   has_many :environment_classes, :dependent => :destroy
   has_many :environments, -> { uniq }, :through => :environment_classes
   has_many :param_classes, :through => :environment_classes, :source => :puppetclass
-
+  belongs_to :puppetclass, :inverse_of => :puppetclass_lookup_keys
+  validates :puppetclass, :presence => true
   before_validation :cast_default_value, :if => :override?
   before_validation :check_override_selected, :if => -> { persisted? && @validation_context != :importer }
   validate :validate_default_value, :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default, :if => :override?
