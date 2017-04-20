@@ -98,6 +98,10 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
     config.autoload_paths += %W(#{config.root}/app/models/mail_notifications)
 
+    # Custom directories that will only be loaded once
+    # Should only contain classes with class-level data set by initializers (registries etc.)
+    config.autoload_once_paths += %W(#{config.root}/app/registries)
+
     # Eager load all classes under lib directory
     config.eager_load_paths += ["#{config.root}/lib"]
 

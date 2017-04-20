@@ -1,9 +1,14 @@
+# stdlib dependencies
 require 'English'
 
+# Registries from app/registries/
+# All are loaded and populated early but are loaded only once
 require_dependency 'foreman/access_permissions'
 require_dependency 'menu/loader'
 require_dependency 'dashboard/loader'
 require_dependency 'foreman/plugin'
+
+# Other internal dependencies, may be autoloaded
 require_dependency 'foreman/renderer'
 require_dependency 'foreman/foreman_url_renderer'
 require_dependency 'foreman/controller'

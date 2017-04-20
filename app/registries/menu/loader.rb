@@ -1,10 +1,8 @@
-# We require these files explicitly as the menu classes can't be reloaded
-# to keep the singletons working.
-require 'menu/node'
-require 'menu/item'
-require 'menu/divider'
-require 'menu/toggle'
-require 'menu/manager'
+require_dependency 'menu/node'
+require_dependency 'menu/item'
+require_dependency 'menu/divider'
+require_dependency 'menu/toggle'
+require_dependency 'menu/manager'
 
 module Menu
   class Loader
