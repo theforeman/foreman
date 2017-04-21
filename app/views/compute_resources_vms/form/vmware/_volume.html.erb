@@ -24,3 +24,4 @@
            "true",
            "false" %>
 <%= select_f f, :mode, compute_resource.disk_mode_types, :first, :last, { }, :class => "span5", :label => _("Disk mode"), :label_size => "col-md-2", :disabled => !new_host %>
+<%= select_f f, :controller_key, compute_resource.controller_ids, :first, :last, { }, :class => "span5", :label => _("SCSI Controller ID"), :label_size => "col-md-2" , :disabled => !new_vm %>

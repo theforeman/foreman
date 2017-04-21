@@ -31,6 +31,8 @@ module FogExtensions
       end
 
       def scsi_controller_type
+        # if the scsi_controller is a array, we are using the first to get the type
+        return scsi_controller.first[:type] if scsi_controller.is_a?(Array)
         return scsi_controller[:type] if scsi_controller.is_a?(Hash)
         scsi_controller.type
       end
