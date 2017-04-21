@@ -161,8 +161,8 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     end
 
     test "pxe menu's labels should be sorted by full hostgroup title" do
-      first = FactoryGirl.build(:hostgroup, :with_parent, :name => "def", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
-      second = FactoryGirl.build(:hostgroup, :with_parent, :name => "abc", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
+      first = FactoryGirl.build(:hostgroup, :parent => FactoryGirl.create(:hostgroup, :name => "parent1"), :name => "def", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
+      second = FactoryGirl.build(:hostgroup, :parent => FactoryGirl.create(:hostgroup, :name => "parent2"), :name => "abc", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
       FactoryGirl.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => second)
       FactoryGirl.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => first)
       ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{first.name}.*#{second.name}/m))).returns(true).times(3)
