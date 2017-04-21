@@ -60,12 +60,12 @@ class UsergroupTest < ActiveSupport::TestCase
     @h5 = FactoryGirl.create(:host, :owner => @u2)
     @h6 = FactoryGirl.create(:host, :owner => @ug3)
 
-    assert_equal @u1.hosts.sort, [@h1]
-    assert_equal @u2.hosts.sort, [@h2, @h5]
-    assert_equal @u3.hosts.sort, [@h2, @h3, @h6]
-    assert_equal @u4.hosts.sort, [@h6]
-    assert_equal @u5.hosts.sort, [@h2, @h4, @h6]
-    assert_equal @u6.hosts.sort, []
+    assert_equal [@h1], @u1.hosts
+    assert_equal [@h2, @h5].sort, @u2.hosts.sort
+    assert_equal [@h2, @h3, @h6].sort, @u3.hosts.sort
+    assert_equal [@h6], @u4.hosts
+    assert_equal [@h2, @h4, @h6].sort, @u5.hosts.sort
+    assert_equal [], @u6.hosts
   end
 
   test "addresses should be retrieved from recursive/complex usergroup definitions" do
