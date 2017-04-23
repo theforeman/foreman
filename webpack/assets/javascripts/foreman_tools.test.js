@@ -120,7 +120,7 @@ describe('updateTableTest', () => {
   </div>
 </form>
 <table></table>
-<form class="content-view-pf-pagination table-view-pf-pagination paginate" id="pagination" data-count="7" data-per-page="7">
+<form onsubmit="return tfm.tools.updateTable(this);" class="content-view-pf-pagination table-view-pf-pagination paginate" id="pagination" data-count="7" data-per-page="7">
   <div class="form-group">
     <select name="per_page" id="per_page" label="per page" onchange="tfm.tools.updateTable(this)" class="pagination-pf-pagesize without_select2 per-page"><option selected="selected" value="5">5</option>
 <option value="10">10</option>
@@ -153,25 +153,34 @@ describe('updateTableTest', () => {
     expect(global.Turbolinks.visit).toBeCalled();
   });
 
-  it('should use find search term and add it to the url considering per page value and pagination', () => {
-    let PerPage = $('#per_page').val();
-
-    $('form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}&page=1`);
-  });
-
   it('should use selected per page value and add it to the url considering search term and pagination', () => {
     let PerPage = $('#per_page').val();
 
-    $('#per_page').change();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}&page=1`);
+    $('#search-form').submit();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
   });
 
   it('should change page', () => {
     let PerPage = $('#per_page').val();
 
     $('#cur_page_num').val('4');
-    $('form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}&page=4`);
+    $('#pagination').submit();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=4&per_page=${PerPage}`);
+  });
+
+  it('should use find search term and add it to the url considering per page value and pagination', () => {
+    let PerPage = $('#per_page').val();
+
+    $('#search-form').submit();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
+  });
+
+  it('should reset page param to 1 after new search', () => {
+    let PerPage = $('#per_page').val();
+
+    window.location.href = 'http://localhost/?page=4';
+    $('.autocomplete-input').val('test');
+    $('#search-form').submit();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=test&per_page=${PerPage}`);
   });
 });
