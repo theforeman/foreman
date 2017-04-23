@@ -11,27 +11,28 @@ module FactValuesHelper
     name       = name.split(FactName::SEPARATOR).map do |current_name|
       memo = memo.empty? ? current_name : memo + FactName::SEPARATOR + current_name
       content_tag(:li) do
-        if parent.present? && h(parent.name) == memo
-          current_name
-        else
-          if value_name != memo || value.compose
-            parameters = { :parent_fact => memo }
-            url = host_parent_fact_facts_path(parameters.merge({ :host_id => params[:host_id] || value.host.name }))
-            link_to(current_name, url,
-                    :title => _("Show all %s children fact values") % memo)
-          else
-            link_to(current_name, fact_values_path(:search => "name = #{value_name}"),
-                    :title => _("Show %s fact values for all hosts") % value_name)
-          end
-        end
+        create_fact_name_link(parent, current_name, params[:host_id], value, value_name, memo)
       end
     end.join.html_safe
 
     if value.compose
       url = host_parent_fact_facts_path(:parent_fact => value_name, :host_id => params[:host_id] || value.host.name)
-      link_to(icon_text('plus-sign','', :title => _('Expand nested items')), url) + ' ' + content_tag(:span, name)
+      link_to(icon_text('plus-sign','', :title => _('Expand nested items')), url) + ' ' + name
     else
       name
+    end
+  end
+
+  def create_fact_name_link(parent, current_name, host_id, value, value_name, memo)
+    return current_name if parent.present? && h(parent.name) == memo
+    if value_name != memo || value.compose
+      parameters = { :parent_fact => memo }
+      url = host_parent_fact_facts_path(parameters.merge({ :host_id => host_id || value.host.name }))
+      link_to(current_name, url,
+              :title => _("Show all %s children fact values") % memo)
+    else
+      link_to(current_name, fact_values_path(:search => "name = #{value_name}"),
+              :title => _("Show %s fact values for all hosts") % value_name)
     end
   end
 
