@@ -20,7 +20,7 @@ export function iconText(name, innerText, iconClass) {
 
 export function activateDatatables() {
   $('[data-table=inline]').not('.dataTable').DataTable({
-      dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>"
+    dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>"
   });
 
   $('[data-table=server]').not('.dataTable').each((i, el) => {
@@ -40,10 +40,10 @@ export function activateTooltips(el = 'body') {
   el = $(el);
   el.find('[rel="twipsy"]').tooltip({ container: 'body' });
   el.find('.ellipsis').tooltip({ container: 'body', title: function () {
-                                   return (this.scrollWidth > this.clientWidth ?
-                                           this.textContent : null);
-                                   }
-                              });
+    return (this.scrollWidth > this.clientWidth ?
+      this.textContent : null);
+  }
+  });
   el.find('*[title]').not('*[rel]').tooltip({ container: 'body' });
   $(document).on('page:restore', () => {$('.tooltip.in').remove();});
 }
@@ -85,23 +85,34 @@ export function initTypeAheadSelect(input) {
 // handle table updates via turoblinks
 export function updateTable(element) {
   let uri = new URI(window.location.href);
-  let search, perPage, pageNum;
+  let searchTerm, perPage, isSearchForm, pageNum;
 
   if (element !== undefined) {
-    search = $(element).find('.autocomplete-input').val() || $('#search-form').find('.autocomplete-input').val();
-    if (search !== undefined) {
-      uri.setSearch('search', search.trim());
+    isSearchForm = (element.id === 'search-form');
+
+    pageNum = $('#cur_page_num').val();
+    if (pageNum !== undefined) {
+      uri.setSearch('page', pageNum);
     }
-  }
-  perPage = $('#per_page').val();
-  if (perPage !== undefined) {
+
+    if ((isSearchForm || element.id === 'per_page')) {
+      uri.setSearch('page', 1);
+    }
+
+    if (isSearchForm) {
+      searchTerm = $(element).find('.autocomplete-input').val();
+      if (searchTerm) {
+        uri.setSearch('search', searchTerm.trim());
+      }
+    }
+
+    perPage = $('#per_page').val();
+    if (perPage !== undefined && $('#search-form').find('.autocomplete-input').val() === undefined) {
+      uri.removeSearch('search');
+    }
     uri.setSearch('per_page', perPage);
   }
 
-  pageNum = $('#cur_page_num').val();
-  if (pageNum !== undefined) {
-    uri.setSearch('page', pageNum);
-  }
   /* eslint-disable no-undef */
   Turbolinks.visit(uri.toString());
   return false;
