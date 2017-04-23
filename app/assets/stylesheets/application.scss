@@ -57,6 +57,10 @@ a.config_group_name {
   margin-left: 3px;
 }
 
+.dropdown-menu > li > a.disabled {
+  color:#aaa !important;
+}
+
 #settings li {
   list-style-type: none;
   padding: 0 0 8px;
