@@ -28,7 +28,7 @@ module FormHelper
              title="'.html_safe + _('Caps lock ON') +
               '" style="display:none"></span>'.html_safe
           if unset_button
-            button = link_to_function(icon_text('pencil'), 'toggle_input_group(this)', {:id => 'disable-pass-btn', :class => 'btn btn-default', :title => _("Change the password")})
+            button = link_to_function(icon_text("edit", "", :kind => "pficon"), 'toggle_input_group(this)', {:id => 'disable-pass-btn', :class => 'btn btn-default', :title => _("Change the password")})
             input_group(pass, input_group_btn(button))
           else
             pass
