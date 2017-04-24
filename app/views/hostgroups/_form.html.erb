@@ -25,6 +25,7 @@
                       :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
+      <%= textarea_f f, :description, :rows => :auto %>
       <%= hostgroup_puppet_environment_field f %>
       <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
