@@ -1,3 +1,3 @@
 object @hostgroup
 
-attributes :id, :name, :title
+attributes :id, :name, :title, :description

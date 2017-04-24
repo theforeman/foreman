@@ -9,6 +9,7 @@ module Foreman::Controller::Parameters::Hostgroup
     def hostgroup_params_filter
       Foreman::ParameterFilter.new(::Hostgroup).tap do |filter|
         filter.permit :name,
+          :description,
           :root_pass,
           :title,
           :vm_defaults,

@@ -32,6 +32,7 @@ module Api
       def_param_group :hostgroup do
         param :hostgroup, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_('Name of the host group')
+          param :description, String, :desc => N_('Host group description')
           param :parent_id, :number, :desc => N_('Parent ID of the host group')
           param :environment_id, :number, :desc => N_('Environment ID')
           param :compute_profile_id, :number, :desc => N_('Compute profile ID')
