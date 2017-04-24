@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-02 08:48+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2017-04-03 08:42+0000\n"
+"Last-Translator: Dominic Cleal <dominic@cleal.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1574,7 +1574,7 @@ msgid "Create Operating system"
 msgstr ""
 
 msgid "Create Organization"
-msgstr ""
+msgstr "Create Organisation"
 
 msgid "Create Parameter"
 msgstr ""
@@ -3001,7 +3001,7 @@ msgid "Foreman supports automatically creating realm entries for new hosts."
 msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
-msgstr ""
+msgstr "Foreman supports creating and managing hosts on a number of virtualisation and cloud services - referred to as “compute resources” - as well as bare metal hosts."
 
 msgid "Foreman test email"
 msgstr ""
@@ -4785,7 +4785,7 @@ msgid "Media ID"
 msgstr ""
 
 msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will overwrite the provided value with new random MAC address."
-msgstr ""
+msgstr "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualisation compute resources (e.g. VMware, oVirt, libvirt) <br/> will overwrite the provided value with new random MAC address."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -6414,7 +6414,7 @@ msgid "Role locations"
 msgstr ""
 
 msgid "Role organizations"
-msgstr ""
+msgstr "Role organisations"
 
 msgid "Roles"
 msgstr ""
@@ -9191,7 +9191,8 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "English (United Kingdom)"
 

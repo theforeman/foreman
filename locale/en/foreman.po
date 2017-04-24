@@ -5199,7 +5199,7 @@ msgstr ""
 msgid "No hosts selected"
 msgstr ""
 
-msgid "No hosts were found with that id or name"
+msgid "No hosts were found with that id, name or query filter"
 msgstr ""
 
 msgid "No interesting reports received in the last week"
@@ -6270,6 +6270,16 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6704,6 +6714,11 @@ msgstr ""
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr ""
 
@@ -7025,6 +7040,11 @@ msgstr ""
 
 msgid "Sign"
 msgstr ""
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr ""
@@ -8096,6 +8116,9 @@ msgid "Unattended URL"
 msgstr ""
 
 msgid "Undo remove"
+msgstr ""
+
+msgid "Undo selection"
 msgstr ""
 
 msgid "Unhide this value"

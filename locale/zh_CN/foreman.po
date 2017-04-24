@@ -7,13 +7,14 @@
 # Dominic Cleal <dominic@cleal.org>, 2014-2015
 # Martin Liu <liuzh66@gmail.com>, 2015
 # tim123, 2013-2014
+# Xingchao Yu <yuxcer@gmail.com>, 2017
 # 蒋浩海 <jhaohai@foxmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:51+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-19 09:22+0000\n"
+"Last-Translator: Xingchao Yu <yuxcer@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -594,7 +595,7 @@ msgid "An email address is required, please update your account details"
 msgstr ""
 
 msgid "An error occurred while testing the connection: "
-msgstr ""
+msgstr "测试连接性时发生错误"
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "明确硬盘分区。 E.G."
@@ -5854,7 +5855,7 @@ msgid "Please select an image"
 msgstr "请选择介质"
 
 msgid "Please select hosts to perform action on."
-msgstr ""
+msgstr "请选择要执行操作的主机。"
 
 msgid "Please specify volume size. You may optionally use suffix 'G' to specify volume size in gigabytes."
 msgstr "请指定卷大小。可选择使用前缀 'G' 以 GB 为单位指定卷大小。"
@@ -8778,10 +8779,10 @@ msgid "Your password should not contain that many repetitions"
 msgstr ""
 
 msgid "Your password should not contain your email"
-msgstr ""
+msgstr "你的密码不应该包含你的邮箱信息"
 
 msgid "Your password should not contain your username"
-msgstr ""
+msgstr "你的密码不应该包含你的用户名信息"
 
 msgid "Your password should use characters from different character classes too"
 msgstr ""
@@ -9200,7 +9201,8 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列表"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "简体中文"
 
