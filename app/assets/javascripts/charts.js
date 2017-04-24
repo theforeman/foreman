@@ -297,7 +297,7 @@ function get_pie_chart(div, url) {
     $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
     $("#"+div+" .modal-content").append('<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title"></h4></div>')
         .append('<div class="container">')
-        .append('<div id="' + div + '-body" class="fact_chart modal-body">' + __('Loading') + ' ... </div>')
+        .append('<div id="' + div + '-body" class="modal-body"><div class="spinner spinner-lg modal-spinner"></div></div>')
         .append('<div class="legend" ></div>')
         .append('</div>')
         .append('<div class="modal-footer"></div>');
@@ -307,6 +307,7 @@ function get_pie_chart(div, url) {
       $.getJSON(url, function(data) {
         var target = $("#"+div+"-body");
         target.empty();
+        target.addClass('fact_chart');
         var hostsCount = 0;
         $.each(data.values,function() {
           hostsCount += this.data;
