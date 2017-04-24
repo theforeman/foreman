@@ -49,8 +49,6 @@ class KeyPairsController < ApplicationController
 
   def action_permission
     case params[:action]
-      when 'download'
-        :view
       when 'create'
         :destroy
       else

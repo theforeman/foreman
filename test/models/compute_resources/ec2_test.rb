@@ -43,6 +43,15 @@ class EC2Test < ActiveSupport::TestCase
       cr = FactoryGirl.create(:ec2_cr)
       assert_includes(cr.capabilities, :key_pair)
     end
+
+    test "should not delete attached key pair" do
+      compute_resource = FactoryGirl.create(:ec2_cr)
+      key_pair = FactoryGirl.create(:key_pair, compute_resource: compute_resource)
+      assert_raise Foreman::Exception do
+        compute_resource.delete_key_pair(key_pair.name)
+      end
+      refute_nil(compute_resource.key_pair)
+    end
   end
 end
 

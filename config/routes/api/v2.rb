@@ -281,6 +281,7 @@ Foreman::Application.routes.draw do
           resources :compute_profiles, :except => [:new, :edit] do
             resources :compute_attributes, :only => [:create, :update]
           end
+          resources :key_pairs, :except => [:new, :edit, :update]
         end
 
         resources :mail_notifications, :only => [:index, :show]

@@ -23,15 +23,16 @@ module KeyPairComputeResource
     setup_key_pair
   end
 
-  def delete_key_pair(kay_pair_name)
-    delete_key_from_resource(kay_pair_name)
+  def delete_key_pair(key_pair_name)
+    raise Foreman::Exception.new(N_('Cannot delete existing key pair %s') % key_pair_name) if KeyPair.find_by_name(key_pair_name)
+    delete_key_from_resource(key_pair_name)
   end
 
   private
 
-  def setup_key_pair
+  def setup_key_pair(cr_id = id)
     key = client.key_pairs.create :name => "foreman-#{id}#{Foreman.uuid}"
-    KeyPair.create! :name => key.name, :compute_resource_id => id, :secret => key.private_key
+    KeyPair.create! :name => key.name, :compute_resource_id => cr_id, :secret => key.private_key
   rescue => e
     Foreman::Logging.exception("Failed to generate key pair", e)
     destroy_key_pair
