@@ -1,3 +1,24 @@
+2017-04-24	Daniel Lobato Garcia <me@daniellobato.me>
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+
+2017-04-24	Marek Hulan <mhulan@redhat.com>
+	* Fixes #18687 - restore hash format for parameter attributes
+	* Fixes #19169 - remove image password from audit
+
+2017-04-24	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #17897 - update status api documentation
+
+2017-04-24	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #19252 - Correct permission mapping for vm association
+	* Fixes #19309 - Only select first hosts page on select all (#4467)
+
+2017-04-24	amirfefer <amirfefer@gmail.com>
+	* Fixes #19176 - fix translated strings in select all hosts
+
+2017-04-05	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.0-RC1
+
 2017-04-05	amirfefer <amirfefer@gmail.com>
 	* Fixes #16043 - add select all hosts option
 	* Fixes #19123 - fix labels on multiple action pages
