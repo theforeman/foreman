@@ -23,6 +23,7 @@ module Foreman::Controller::Parameters::Subnet
           :type,
           :vlanid,
           :domain_ids => [], :domain_names => [],
+          :compute_resource_ids => [],
           :subnet_parameters_attributes => [parameter_params_filter(::SubnetParameter)]
         add_taxonomix_params_filter(filter)
         add_smart_proxies_common_params_filter(filter)

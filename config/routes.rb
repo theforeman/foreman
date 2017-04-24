@@ -85,6 +85,7 @@ Foreman::Application.routes.draw do
         post 'architecture_selected'
         post 'os_selected'
         post 'domain_selected'
+        post 'subnet_selected'
         post 'use_image_selected'
         post 'compute_resource_selected'
         post 'scheduler_hint_selected'
