@@ -8,7 +8,7 @@ description: this will configure your host networking, it configures your primar
 <% subnet = @host.subnet -%>
 <% dhcp = subnet.dhcp_boot_mode? -%>
 
-real=`ip -o link | awk '/<%= @host.mac/ {print $2;}' | sed s/://`
+real=`ip -o link | awk '/<%= @host.mac -%>/ {print $2;}' | sed s/://`
 cat << EOF > /etc/network/interfaces
 #loopback
 auto lo

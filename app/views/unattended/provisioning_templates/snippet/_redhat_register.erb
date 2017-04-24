@@ -150,10 +150,10 @@ name: redhat_register
   <% end %>
   <% if @host.params['subscription_manager_username'] && @host.params['subscription_manager_password'] %>
     <% if @host.params['subscription_manager_pool'] %>
-      subscription-manager register --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>"
+      subscription-manager register --name="<%= @host.name %>" --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>"
       subscription-manager attach --pool="<%= @host.params['subscription_manager_pool'] %>"
     <% else %>
-      subscription-manager register --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>" --auto-attach
+      subscription-manager register --name="<%= @host.name %>" --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>" --auto-attach
     <% end %>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
@@ -164,7 +164,7 @@ name: redhat_register
     <% elsif @host.params['subscription_manager_host'] %>
       rpm -Uvh <%= @host.params['subscription_manager_host'] %>/pub/candlepin-cert-consumer-latest.noarch.rpm
     <% end %>
-    subscription-manager register --org="<%= @host.params['subscription_manager_org'] %>" --activationkey="<%= @host.params['activation_key'] %>"
+    subscription-manager register --name="<%= @host.name %>" --org="<%= @host.params['subscription_manager_org'] %>" --activationkey="<%= @host.params['activation_key'] %>"
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= enabled_repos if enabled_repos %>
