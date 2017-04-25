@@ -95,7 +95,7 @@ module Foreman #:nodoc:
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
-                :facets, :rbac_registry
+                :facets, :rbac_registry, :dashboard_widgets
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
@@ -112,6 +112,7 @@ module Foreman #:nodoc:
       @parameter_filters = {}
       @smart_proxies = {}
       @controller_action_scopes = {}
+      @dashboard_widgets = []
     end
 
     def after_initialize
@@ -320,7 +321,7 @@ module Foreman #:nodoc:
     end
 
     def widget(template, options)
-      Dashboard::Manager.register_default_widget({:template=>template}.merge!(options))
+      @dashboard_widgets << {:template => template}.merge(options)
     end
 
     # To add FiltersHelper#search_path override,

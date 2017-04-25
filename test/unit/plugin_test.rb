@@ -458,6 +458,15 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
+  def test_add_dashboard_widget
+    widget_params = {template: 'plugin_widget', name: 'Plugin Widget', sizex: 2, sizey: 2}
+    plugin = Foreman::Plugin.register :test_widget do
+      widget 'plugin_widget', widget_params.except(:template)
+    end
+    assert_equal [widget_params], plugin.dashboard_widgets
+    assert_includes Dashboard::Manager.default_widgets, widget_params
+  end
+
   context "adding permissions" do
     teardown do
       permission = Foreman::AccessControl.permission(:test_permission)
