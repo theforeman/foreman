@@ -66,6 +66,10 @@ class ReportImporter
     raw['logs'] || []
   end
 
+  def producer
+    raw['producer'] || ''
+  end
+
   def import_log_messages
     logs.each do |log|
       # Parse the API format
@@ -127,7 +131,7 @@ class ReportImporter
     status = report_status
 
     # and save our report
-    @report = report_name_class.new(:host => host, :reported_at => time, :status => status, :metrics => raw['metrics'])
+    @report = report_name_class.new(:host => host, :reported_at => time, :status => status, :metrics => raw['metrics'], :producer => producer)
     @report.save
     @report
   end

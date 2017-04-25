@@ -20,6 +20,11 @@ class ReportImporterTest < ActiveSupport::TestCase
     assert_empty r.logs
   end
 
+  test 'it should set the producer while importing a report' do
+    report = TestReportImporter.import read_json_fixture('reports/producer.json')
+    assert_equal 'puppetmaster.example.com', report.producer
+  end
+
   context 'puppet error state notification' do
     setup do
       @user = as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
