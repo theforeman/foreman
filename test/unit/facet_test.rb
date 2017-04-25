@@ -127,4 +127,20 @@ class FacetTest < ActiveSupport::TestCase
       assert_not_nil saved_host.test_facet
     end
   end
+
+  context 'inside db:migrate task' do
+    setup do
+      Foreman.stubs(:in_rake?).with("db:migrate").returns(true)
+    end
+
+    test 'facet can be registered more than once' do
+      #register facet twice
+      Facets.register TestFacet
+      Facets.register TestFacet
+
+      @host = Host::Managed.new
+
+      @host.test_facet
+    end
+  end
 end

@@ -48,7 +48,7 @@ module Facets
                 nil
               end
             end
-            alias_method_chain facet_config.name, :migration_check
+            alias_method_chain facet_config.name, :migration_check unless instance_methods.find_index("#{facet_config.name}_without_migration_check".to_sym)
           end
           alias_method "#{facet_config.name}_attributes", facet_config.name
 
