@@ -63,7 +63,10 @@ Foreman::Application.routes.draw do
       resources :settings, :only => [:index, :show, :update]
       resources :subnets, :except => [:new, :edit]
       resources :usergroups, :except => [:new, :edit]
-      resources :users, :except => [:new, :edit]
+      # add "constraint" that unconstrained and allows :id to have dot notation ex. first.lastname
+      constraints(:id => /[^\/]+/) do
+        resources :users, :except => [:new, :edit]
+      end
       resources :template_kinds, :only => [:index]
 
       get '/', :to => 'home#index'
