@@ -234,12 +234,15 @@ Foreman::Application.routes.draw do
         end
       end
 
-      resources :users, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        resources :roles, :except => [:new, :edit]
-        resources :usergroups, :except => [:new, :edit]
-        resources :ssh_keys, :only => [:index, :show, :create, :destroy]
+      # add "constraint" that unconstrained and allows :id to have dot notation ex. first.lastname
+      constraints(:id => /[^\/]+/) do
+        resources :users, :except => [:new, :edit] do
+          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :roles, :except => [:new, :edit]
+          resources :usergroups, :except => [:new, :edit]
+          resources :ssh_keys, :only => [:index, :show, :create, :destroy]
+        end
       end
 
       resources :template_kinds, :only => [:index]
