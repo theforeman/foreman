@@ -9,6 +9,9 @@
   .ms-selection li.ms-elem-selection{
     padding: 5px 10px;
     font-size: 12px;
+    display: table;
+    white-space: nowrap;
+    min-width: 100%;
   }
 
   .ms-header{
