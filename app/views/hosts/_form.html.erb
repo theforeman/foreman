@@ -134,6 +134,6 @@
 
     <%= hidden_field_tag 'bare_metal_capabilities', @host.bare_metal_capabilities %>
     <%= f.hidden_field :overwrite? %>
-    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => @host.new_record? || !@host.name_changed? ? @host : edit_host_path(@host.name_was) %>
+    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => (@host.new_record? ? hosts_path : host_path(:id => @host.name_was)) %>
   <% end %>
 <% end %>
