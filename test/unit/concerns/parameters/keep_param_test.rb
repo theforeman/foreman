@@ -30,4 +30,11 @@ class KeepParamParametersTest < ActiveSupport::TestCase
     assert_equal 'foo', returned[:login]
     assert_equal 'foo', params[:user][:login]
   end
+
+  test "don't error if params doesn't contain the top hash" do
+    params = ActionController::Parameters.new(:user => {:login => 'foo'})
+    returned = keep_param(params, 'unicorn', :login) { params.permit(:another) }
+    assert_nil returned[:unicorn]
+    assert_equal 'foo', params[:user][:login]
+  end
 end
