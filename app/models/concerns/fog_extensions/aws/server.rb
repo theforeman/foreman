@@ -6,7 +6,7 @@ module FogExtensions
       attr_accessor :managed_ip
 
       def to_s
-        tags.try([], 'Name') || identity
+        tags.try(:[], 'Name') || identity
       end
 
       def name
