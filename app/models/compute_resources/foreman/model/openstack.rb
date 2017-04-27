@@ -9,6 +9,8 @@ module Foreman::Model
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }
 
+    alias_method :available_flavors, :flavors
+
     SEARCHABLE_ACTIONS = [:server_group_anti_affinity, :server_group_affinity, :raw]
 
     def provided_attributes
