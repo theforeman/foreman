@@ -37,6 +37,7 @@ class BookmarkTest < ActiveSupport::TestCase
     FactoryGirl.create(:permission, :resource_type => 'ProvisioningTemplate', :name => 'manage_provisioning_templates')
     FactoryGirl.create(:permission, :resource_type => 'MyPlugin', :name => 'view_my_plugins')
     Permission.reset_resources
+    BookmarkControllerValidator.reset_controllers_list
     b = FactoryGirl.build(:bookmark, :name => 'STI controller', :controller => 'provisioning_templates', :query => 'foo=bar', :public => true)
     assert(b.valid?, 'STI controller bookmark should be valid')
     b = FactoryGirl.build(:bookmark, :name => 'My plugin controller', :controller => 'my_plugins', :query => 'foo=bar', :public => true)
