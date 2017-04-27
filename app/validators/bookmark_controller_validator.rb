@@ -1,5 +1,4 @@
 class BookmarkControllerValidator < ActiveModel::EachValidator
-  @@active_record_tables = ActiveRecord::Base.connection.tables.map(&:to_s)
   def validate_each(record, attribute, value)
     unless self.class.valid_controllers_list.include?(value)
       record.errors[attribute] << _("%{value} is not a valid controller") % {:value => value }
