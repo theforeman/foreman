@@ -17,7 +17,7 @@ end
       <th><%= sort :name, :as => _("Name")  %></th>
       <th><%= sort :value, :as => s_("FactValue|Value") %></th>
       <th class="fact-origin"><%= sort :origin, :as => s_("FactValue|Origin") %></th>
-      <th class="col-md-2"><%= _('Reported at') %></th>
+      <th class="col-md-2"><%= sort :reported_at, :as => _('Reported at') %></th>
       <th class="col-md-1"><%= _('Actions') %></th>
     </tr>
   </thead>
