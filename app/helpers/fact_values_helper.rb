@@ -17,7 +17,7 @@ module FactValuesHelper
 
     if value.compose
       url = host_parent_fact_facts_path(:parent_fact => value_name, :host_id => params[:host_id] || value.host.name)
-      link_to(icon_text('plus-sign','', :title => _('Expand nested items')), url) + ' ' + name
+      link_to(icon_text('angle-down', '', :kind => 'fa', :title => _('Expand nested items')), url) + ' ' + content_tag(:span, name)
     else
       name
     end
