@@ -173,7 +173,7 @@ module HostsHelper
 
   def multiple_actions_select
     select_action_button(_("Select Action"), {:id => 'submit_multiple'},
-      multiple_actions.map do |action|
+      multiple_actions.sort_by(&:first).map do |action|
         # If the action array has 3 entries, the third one is whether to use a modal dialog or not
         modal = action.size == 3 ? action[3] : true
         if modal
