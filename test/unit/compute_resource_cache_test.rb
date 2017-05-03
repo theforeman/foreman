@@ -1,14 +1,6 @@
 require 'test_helper'
 
 class ComputeResourceCacheTest < ActiveSupport::TestCase
-  setup do
-    Rails.cache.clear
-  end
-
-  teardown do
-    Rails.cache.clear
-  end
-
   let(:compute_resource) { compute_resources(:vmware) }
   let(:cache) { ComputeResourceCache.new(compute_resource) }
 

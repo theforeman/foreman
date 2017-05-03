@@ -19,7 +19,6 @@ class ProxyStatusVersionsTest < ActiveSupport::TestCase
   end
 
   test 'it does not cache versions when set not to' do
-    Rails.cache.clear
     versions = ProxyStatus::Version.new(@proxy, {:cache => false}).versions
     assert_equal(@expected_versions, versions)
     assert_nil(Rails.cache.fetch("proxy_#{@proxy.id}/Version"))
