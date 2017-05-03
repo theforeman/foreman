@@ -102,7 +102,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
     let(:compute_resource) { FactoryGirl.create(:openstack_cr) }
     let(:compute) { compute_resource.send(:client) }
     let(:flavor) { compute.flavors.first.id }
-    let(:image) { compute.images.first.id }
+    let(:os_image) { compute.images.first.id }
     let(:floating_ip) do
       compute.allocate_address('f0000000-0000-0000-0000-000000000000').body["floating_ip"]["ip"].to_s
     end
@@ -110,7 +110,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       compute.servers.new(
         :name       => 'test.example.com',
         :flavor_ref => flavor,
-        :image_ref  => image
+        :image_ref  => os_image
       )
     end
     setup do
@@ -147,12 +147,12 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
     let(:uuid) { '52b9406e-cf66-4867-8655-719a094e324c' }
     let(:compute) { compute_resource.send(:client) }
     let(:flavor) { compute.flavors.first.id }
-    let(:image) { compute.images.first.id }
+    let(:os_image) { compute.images.first.id }
     let(:vm) do
       compute.servers.new(
         :name         => 'test.example.com',
         :flavor_id    => flavor,
-        :image_id     => image,
+        :image_id     => os_image,
         :ipv4_address => '192.168.100.1',
         :ipv6_address => '2001:db8::1'
       )

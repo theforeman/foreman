@@ -17,40 +17,40 @@ class ImageTest < ActiveSupport::TestCase
   end
 
   context "audits for password change" do
-    let(:image) { FactoryGirl.build(:image, :compute_resource => FactoryGirl.create(:compute_resource, :libvirt)) }
+    let(:protected_image) { FactoryGirl.build(:image, :compute_resource => FactoryGirl.create(:compute_resource, :libvirt)) }
 
     test "audit of password change should be saved only once, second time audited changes should not contain password_changed" do
       as_admin do
-        image.password = "newpassword"
-        assert_valid image
-        assert image.password_changed_changed?
-        assert image.password_changed
-        assert_includes image.changed, "password_changed"
-        assert image.save
+        protected_image.password = "newpassword"
+        assert_valid protected_image
+        assert protected_image.password_changed_changed?
+        assert protected_image.password_changed
+        assert_includes protected_image.changed, "password_changed"
+        assert protected_image.save
         #testing after_save
-        refute image.password_changed_changed?
-        refute image.password_changed
-        refute_includes image.changed, "password_changed"
+        refute protected_image.password_changed_changed?
+        refute protected_image.password_changed
+        refute_includes protected_image.changed, "password_changed"
       end
     end
 
     test "audit of password change should be saved" do
       as_admin do
-        assert image.save
-        image.password = "newpassword"
-        assert image.save
-        assert_includes image.audits.last.audited_changes, "password_changed"
+        assert protected_image.save
+        protected_image.password = "newpassword"
+        assert protected_image.save
+        assert_includes protected_image.audits.last.audited_changes, "password_changed"
       end
     end
 
     test "audit of password change should not be saved - due to no password change" do
       as_admin do
-        image.name = image.name + '_changed'
-        refute image.password_changed_changed?
-        refute image.password_changed
-        refute_includes image.changed, "password_changed"
-        assert image.save
-        refute_includes image.audits.last.audited_changes, "password_changed"
+        protected_image.name = protected_image.name + '_changed'
+        refute protected_image.password_changed_changed?
+        refute protected_image.password_changed
+        refute_includes protected_image.changed, "password_changed"
+        assert protected_image.save
+        refute_includes protected_image.audits.last.audited_changes, "password_changed"
       end
     end
   end
