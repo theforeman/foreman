@@ -19,7 +19,6 @@ class ProxyStatusTftpTest < ActiveSupport::TestCase
   end
 
   test 'it does not cache tftp_server if set to false' do
-    Rails.cache.clear
     ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('127.13.0.1')
     tftp_server = ProxyStatus::TFTP.new(@proxy, {:cache => false}).server
     assert_equal('127.13.0.1', tftp_server)

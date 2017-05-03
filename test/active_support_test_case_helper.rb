@@ -7,14 +7,14 @@ class ActiveSupport::TestCase
   set_fixture_class :nics => Nic::BMC
 
   setup :begin_gc_deferment
-  setup :reset_setting_cache
+  setup :reset_rails_cache
   setup :skip_if_plugin_asked_to
   setup :set_admin
 
   teardown :reconsider_gc_deferment
   teardown :clear_current_user
   teardown :clear_current_taxonomies
-  teardown :reset_setting_cache
+  teardown :reset_rails_cache
 
   DEFERRED_GC_THRESHOLD = (ENV['DEFER_GC'] || 1.0).to_f
 
@@ -54,8 +54,8 @@ class ActiveSupport::TestCase
     Organization.current = nil
   end
 
-  def reset_setting_cache
-    Setting.cache.clear
+  def reset_rails_cache
+    Rails.cache.clear
   rescue Errno::ENOENT
     # Clear on a file cache fails on a clean checkout when the cache hasn't been written to.
     # This rescue may be removed on Rails 5 (16d7cfb fixes it).
