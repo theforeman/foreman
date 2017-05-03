@@ -209,7 +209,8 @@ module ApplicationHelper
   end
 
   def method_path(method)
-    send("#{method}_#{controller_name}_path")
+    controller = controller_name.start_with?('compute') ? 'hosts' : controller_name
+    send("#{method}_#{controller}_path")
   end
 
   def edit_textfield(object, property, options = {})
