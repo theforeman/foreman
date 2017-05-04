@@ -139,6 +139,11 @@ module Foreman::Model
       raise message
     end
 
+    def vm_ready(vm)
+      vm.wait_for { self.ready? || self.failed? }
+      raise Foreman::Exception.new(N_("Failed to deploy vm %{name}, fault: %{e}"), { :name => vm.name, :e => vm.fault['message'] }) if vm.failed?
+    end
+
     def destroy_vm(uuid)
       vm           = find_vm_by_uuid(uuid)
       floating_ips = vm.all_addresses

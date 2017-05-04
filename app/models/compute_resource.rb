@@ -329,6 +329,10 @@ class ComputeResource < ApplicationRecord
     vm_attrs
   end
 
+  def vm_ready(vm)
+    vm.wait_for { self.ready? }
+  end
+
   def user_data_supported?
     false
   end
