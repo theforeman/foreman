@@ -149,7 +149,7 @@ module Orchestration::Compute
     attrs = compute_resource.provided_attributes
     if attrs.keys.include?(:ip) || attrs.keys.include?(:ip6)
       logger.info "Waiting for #{name} to become ready"
-      vm.wait_for { self.ready? }
+      compute_resource.vm_ready vm
       logger.info "waiting for instance to acquire ip address"
       vm.wait_for do
         (attrs.keys.include?(:ip) && self.send(attrs[:ip]).present?) ||
