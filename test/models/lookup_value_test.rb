@@ -123,7 +123,7 @@ class LookupValueTest < ActiveSupport::TestCase
     key = pc.class_params.first
     lvalue = nil
     assert_difference('Audit.count') do
-      lvalue = FactoryGirl.create :lookup_value, :lookup_key_id => key.id, :value => 'test', :match => 'os=bar'
+      lvalue = FactoryGirl.create :lookup_value, :with_auditing, :lookup_key_id => key.id, :value => 'test', :match => 'os=bar'
     end
     assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
   end
