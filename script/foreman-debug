@@ -377,10 +377,15 @@ fi
 # upload if -u was passed in
 if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
   qprintf "Uploading...\n"
-  rsync $TARBALL rsync://theforeman.org/debug-incoming
-  qprintf "The tarball has been uploaded, please contact us on our mailing list or IRC\n"
-  qprintf "referencing the following URL:\n\n"
-  qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n\n"
+  if rsync $TARBALL rsync://theforeman.org/debug-incoming ; then
+    qprintf "The tarball has been uploaded, please contact us on our mailing list or IRC\n"
+    qprintf "referencing the following URL:\n\n"
+    qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n\n"
+  else
+    error "The tarball could not be uploaded, please upload it to an alternate location"
+    error "and contact us on our mailing list or IRC referencing that URL."
+    exit 3
+  fi
 else
   [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
 fi
