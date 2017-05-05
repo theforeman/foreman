@@ -15,7 +15,6 @@ require_dependency 'foreman/controller'
 require_dependency 'net'
 require_dependency 'foreman/provision' if SETTINGS[:unattended]
 require_dependency 'foreman'
-require_dependency 'filters_helper_overrides'
 require_dependency 'fog_extensions'
 
 # We may be executing something like rake db:migrate:reset, which destroys this table
