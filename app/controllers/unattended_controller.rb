@@ -14,7 +14,9 @@ class UnattendedController < ApplicationController
 
   before_action :set_admin_user, :unless => Proc.new { preview? }
   # We want to find out our requesting host
-  before_action :get_host_details, :allowed_to_install?, :except => :hostgroup_template
+  before_action :get_host_details, :except => [:hostgroup_template, :built]
+  before_action :get_built_host_details, :only => :built
+  before_action :allowed_to_install?, :except => :hostgroup_template
   before_action :handle_ca, :if => Proc.new { params[:kind] == 'provision' }
   before_action :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
   # load "helper" variables to be available in the templates
@@ -81,25 +83,39 @@ class UnattendedController < ApplicationController
   # lookup for a host based on the ip address and if possible by a mac address(as sent by anaconda)
   # if the host was found than its record will be in @host
   # if the host doesn't exists, it will return 404 and the requested method will not be reached.
-
   def get_host_details
     @host = find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
-    unless @host
-      error_message = N_("%{controller}: unable to find a host that matches the request from %{addr}")
-      render_custom_error(:not_found, error_message, {:controller => controller_name, :addr => request.env['REMOTE_ADDR']})
-      return
-    end
-    unless @host.operatingsystem
-      error_message = N_("%{controller}: %{host}'s operating system is missing")
-      render_custom_error(:conflict, error_message, {:controller => controller_name, :host => @host.name})
-      return
-    end
-    unless @host.operatingsystem.family
-      error_message = N_("%{controller}: %{host}'s operating system %{os} has no OS family")
-      render_custom_error(:conflict, error_message, {:controller => controller_name, :host => @host.name, :os => @host.operatingsystem.fullname})
-      return
-    end
-    logger.debug "Found #{@host}"
+    verify_found_host(@host)
+  end
+
+  def get_built_host_details
+    @host = find_host_by_spoof || find_built_host_by_token || find_host_by_ip_or_mac
+    verify_found_host(@host)
+  end
+
+  def verify_found_host(a_host)
+    logger.debug "Found #{@host}" unless host_not_found?(@host) || host_os_is_missing?(@host) || host_os_family_is_missing?(@host)
+  end
+
+  def value_missing?(value, error_message, error_type, custom_error_parameters = {})
+    return false if value
+    render_custom_error(error_type, error_message, custom_error_parameters)
+    true
+  end
+
+  def host_not_found?(a_host)
+    value_missing?(a_host, N_("%{controller}: unable to find a host that matches the request from %{addr}"),
+                        :not_found, :controller => controller_name, :addr => request.env['REMOTE_ADDR'])
+  end
+
+  def host_os_is_missing?(a_host)
+    value_missing?(a_host.operatingsystem, N_("%{controller}: %{host}'s operating system is missing"),
+                        :conflict, :controller => controller_name, :host => a_host.name)
+  end
+
+  def host_os_family_is_missing?(a_host)
+    value_missing?(a_host.operatingsystem.family, N_("%{controller}: %{host}'s operating system %{os} has no OS family"),
+                   :conflict, :controller => controller_name, :host => a_host.name, :os => a_host.operatingsystem.fullname)
   end
 
   def find_host_by_spoof
@@ -110,13 +126,25 @@ class UnattendedController < ApplicationController
   end
 
   def find_host_by_token
+    token = token_from_params
+    return nil if token.nil?
+    Host.for_token(token).first
+  end
+
+  def find_built_host_by_token
+    token = token_from_params
+    return nil if token.nil?
+    Host.for_token_when_built(token).first
+  end
+
+  def token_from_params
     token = params.delete('token')
     return nil if token.blank?
     # Quirk: ZTP requires the .slax suffix
     if (result = token.match(/^([a-z0-9-]+)(.slax)$/i))
-      token, _suffix = result.captures
+      return result[1]
     end
-    Host.for_token(token).first
+    token
   end
 
   def find_host_by_ip_or_mac

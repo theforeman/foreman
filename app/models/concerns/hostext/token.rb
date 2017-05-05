@@ -6,6 +6,7 @@ module Hostext
       has_one :token, :foreign_key => :host_id, :dependent => :destroy
 
       scope :for_token, ->(token) { joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
+      scope :for_token_when_built, ->(token) { joins(:token).where(:tokens => { :value => token }).select('hosts.*') }
 
       after_validation :refresh_token_on_build
     end

@@ -187,6 +187,15 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_equal host.build,false
   end
 
+  test "should accept built notifications_with_expired_token" do
+    @request.env["REMOTE_ADDR"] = @ub_host.ip
+    @ub_host.create_token(:value => "expired_token", :expires => Time.now.utc - 1.minutes)
+    get :built, {'token' => @ub_host.token.value }
+    assert_response :created
+    host = Nic::Base.primary.find_by_ip(@ub_host.ip)
+    assert_equal host.build,false
+  end
+
   test "should not provide unattened files to hosts which are not in built state" do
     @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
     @request.env['REMOTE_ADDR'] = '10.0.1.2'
