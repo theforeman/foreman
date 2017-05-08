@@ -205,8 +205,8 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def setup_user(operation)
-    super operation, "users"
+  def setup_user(operation, type = 'users', search = nil)
+    super operation, type, search
   end
 
   test "user with create permissions should be able to create" do
@@ -988,6 +988,49 @@ class UserTest < ActiveSupport::TestCase
       allowed.each do |m|
         assert User::Jail.allowed?(m), "Method #{m} is not available in User::Jail while should be allowed."
       end
+    end
+  end
+
+  describe '#visible_environments' do
+    teardown do
+      SETTINGS[:locations_enabled] = true
+      SETTINGS[:organizations_enabled] = true
+    end
+
+    test 'should check for environments permission with orgs/locs disabled' do
+      SETTINGS[:locations_enabled] = false
+      SETTINGS[:organizations_enabled] = false
+      setup_user 'view', 'environments', 'name != production'
+      all_but_production = Environment.unscoped.select { |e| e.name != 'production' }
+      assert all_but_production.any?
+      assert_equal all_but_production.map(&:name).sort, User.current.visible_environments.sort
+    end
+
+    test 'should show the list of environments visible when only orgs are enabled' do
+      SETTINGS[:locations_enabled] = false
+      SETTINGS[:organizations_enabled] = true
+      Taxonomy.expects(:locations_enabled).returns(false).at_least_once
+      setup_user 'view', 'environments', 'name = test_env_org1'
+      FactoryGirl.create(:environment, :name => 'test_env_org1',
+                         :organizations => [User.current.organizations.first])
+      assert_equal ['test_env_org1'], User.current.visible_environments
+    end
+
+    test 'should show the list of environments visible when only locs are enabled' do
+      SETTINGS[:locations_enabled] = true
+      SETTINGS[:organizations_enabled] = false
+      setup_user 'view', 'environments', 'name = test_env_loc1'
+      FactoryGirl.create(:environment, :name => 'test_env_loc1',
+                         :locations => [User.current.locations.first])
+      assert_equal ['test_env_loc1'], User.current.visible_environments
+    end
+
+    test 'should show the list of environments visible when both orgs/locs are enabled' do
+      # Admin user sees all environments - including the ones without taxonomies
+      assert_equal ['production', 'global_puppetmaster', 'testing'].sort, User.current.visible_environments.sort
+      # Non-admin user only sees environments in a taxonomy at least
+      setup_user 'view', 'environments'
+      assert_equal ['production'], User.current.visible_environments
     end
   end
 end
