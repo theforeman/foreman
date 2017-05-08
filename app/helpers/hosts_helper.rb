@@ -482,9 +482,4 @@ module HostsHelper
   def power_status_visible?
     SETTINGS[:unattended] && Setting[:host_power_status]
   end
-
-  def host_or_hostgroup_path(method)
-    controller = controller_name == 'hostgroups' ? 'hostgroups' : 'hosts'
-    send("#{method}_#{controller}_path")
-  end
 end
