@@ -400,12 +400,24 @@ class User < ActiveRecord::Base
   end
 
   def visible_environments
-    Environment.unscoped
-               .authorized(:view_environemnts)
-               .joins(:taxable_taxonomies)
-               .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
-               .distinct
-               .pluck(:name)
+    authorized_scope = Environment.unscoped.authorized(:view_environments)
+    if Taxonomy.locations_enabled || Taxonomy.organizations_enabled
+      authorized_scope = authorized_scope.
+        joins(:taxable_taxonomies)
+        .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
+    end
+    result = authorized_scope.distinct.pluck(:name)
+    if User.current.admin
+      # Admin users can also see Environments that do not have any organization or location, even when
+      # organizations and locations are enabled.
+      untaxed_environments = Environment.unscoped.where(
+        "id NOT IN (
+          SELECT DISTINCT(taxable_id) FROM taxable_taxonomies
+            WHERE taxable_type='Environment'
+          )").pluck(:name)
+      result += untaxed_environments
+    end
+    result
   end
 
   def taxonomy_and_child_ids(taxonomies)
