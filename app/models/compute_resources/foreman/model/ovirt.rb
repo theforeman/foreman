@@ -236,7 +236,11 @@ module Foreman::Model
       args[:template] = args[:image_id] if args[:image_id]
 
       sanitize_inherited_vm_attributes(args)
+
+      preallocate_disks(args) if args[:volumes_attributes].present?
+
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
+
       begin
         create_interfaces(vm, args[:interfaces_attributes])
         create_volumes(vm, args[:volumes_attributes])
@@ -245,6 +249,16 @@ module Foreman::Model
         raise e
       end
       vm
+    end
+
+    def preallocate_disks(args)
+      change_allocation_volumes = args[:volumes_attributes].values.select{ |x| x[:preallocate] == '1' }
+      if args[:template].present? && change_allocation_volumes.present?
+        disks = change_allocation_volumes.map do |volume|
+          { :id => volume[:id], :sparse => 'false', :format => 'raw', :storagedomain => volume[:storage_domain] }
+        end
+        args.merge!(:clone => true, :disks => disks)
+      end
     end
 
     def new_vm(attr = {})
