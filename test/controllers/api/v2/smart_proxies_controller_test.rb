@@ -82,6 +82,8 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, {:id => proxy}
     assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal [{'name' => 'DHCP', 'id' => features(:dhcp).id}], response['features']
   end
 
   test "should return errors during smart proxy refresh" do
