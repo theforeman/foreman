@@ -4,7 +4,7 @@ kind: provision
 name: AutoYaST SLES default
 oses:
 - SLES
-%>
+-%>
 <%
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
@@ -14,7 +14,10 @@ oses:
   salt_enabled = @host.params['salt_master'] ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
   spacewalk_enabled = @host.params['spacewalk_host'] ? true : false
-%>
+
+  primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
+  primary_interface_subnet = @host.primary_interface.subnet
+-%>
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
   <general>
@@ -26,7 +29,23 @@ oses:
   <networking>
     <dns>
       <hostname><%= @host.name %></hostname>
+<% unless primary_interface_subnet.dhcp_boot_mode? -%>
+      <dhcp_hostname config:type="boolean">false</dhcp_hostname>
+      <dhcp_resolv config:type="boolean">false</dhcp_resolv>
+<% if @host.domain -%>
+      <domain><%= @host.domain -%></domain>
+<% end -%>
+<% if primary_interface_subnet.dns_primary.present? -%>
+      <nameservers config:type="list">
+        <nameserver><%= primary_interface_subnet.dns_primary -%></nameserver>
+<% if primary_interface_subnet.dns_secondary.present? -%>
+        <nameserver><%= primary_interface_subnet.dns_secondary -%></nameserver>
+<% end -%>
+      </nameservers>
+<% end -%>
+<% else -%>
       <resolv_conf_policy>auto</resolv_conf_policy>
+<% end -%>
 <% if @host.domain -%>
       <searchlist config:type="list">
         <search><%= @host.domain %></search>
@@ -34,13 +53,42 @@ oses:
 <% end -%>
     </dns>
     <interfaces config:type="list">
+<%
+  @host.managed_interfaces.each do |interface|
+    next if !interface.managed? || interface.subnet.nil? || interface.ip.nil?
+    dhcp = interface.subnet.dhcp_boot_mode?
+-%>
+<% if dhcp -%>
       <interface>
         <bootproto>dhcp</bootproto>
-        <device>eth0</device>
+        <device><%= interface.primary ? primary_interface_identifier : interface.identifier -%></device>
         <startmode>auto</startmode>
         <usercontrol>no</usercontrol>
       </interface>
+<% else -%>
+      <interface>
+        <bootproto>static</bootproto>
+        <device><%= interface.primary ? primary_interface_identifier : interface.identifier -%></device>
+        <ipaddr><%= interface.ip -%></ipaddr>
+        <netmask><%= interface.subnet.mask -%></netmask>
+        <startmode>onboot</startmode>
+        <usercontrol>no</usercontrol>
+      </interface>
+<% end -%>
+<% end -%>
     </interfaces>
+<% unless primary_interface_subnet.dhcp_boot_mode? -%>
+    <routing>
+      <routes config:type="list">
+        <route>
+          <destination>default</destination>
+          <device><%= primary_interface_identifier -%></device>
+          <gateway><%= primary_interface_subnet.gateway -%></gateway>
+          <netmask><%= primary_interface_subnet.mask -%></netmask>
+        </route>
+      </routes>
+    </routing>
+<% end -%>
   </networking>
   <ntp-client>
     <configure_dhcp config:type="boolean">false</configure_dhcp>

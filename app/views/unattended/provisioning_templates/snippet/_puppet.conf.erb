@@ -11,6 +11,11 @@ name: puppet.conf
     log_dir = '/var/log/puppetlabs/puppet'
     run_dir = '/var/run/puppetlabs'
     ssl_dir = '/etc/puppetlabs/puppet/ssl'
+  elsif os_family == 'Windows'
+    var_dir = 'C:\ProgramData\PuppetLabs\puppet\cache'
+    log_dir = 'C:\ProgramData\PuppetLabs\puppet\var\log'
+    run_dir = 'C:\ProgramData\PuppetLabs\puppet\var\run'
+    ssl_dir = 'C:\ProgramData\PuppetLabs\puppet\etc\ssl'
   else
     if @host.operatingsystem.family == 'Freebsd'
       var_dir = '/var/puppet'

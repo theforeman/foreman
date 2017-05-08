@@ -12,6 +12,10 @@ if os_family == 'Freebsd'
   freebsd_package = @host.param_true?('enable-puppet4') ? 'puppet4' : 'puppet38'
   etc_path = '/usr/local/etc/puppet'
   bin_path = '/usr/local/bin'
+elsif os_family == 'Windows'
+  windows_package = "puppet-agent-#{@host.architecture}-latest.msi"
+  etc_path = 'C:\ProgramData\PuppetLabs\puppet\etc'
+  bin_path = 'C:\Program Files\Puppet Labs\Puppet\bin'
 elsif @host.param_true?('enable-puppetlabs-pc1-repo') || @host.param_true?('enable-puppet4')
   linux_package = 'puppet-agent'
   etc_path = '/etc/puppetlabs/puppet'
@@ -42,11 +46,31 @@ rpmkeys --import http://yum.puppetlabs.com/RPM-GPG-KEY-puppet
 <% if @host.provision_method == 'image' -%>
 /usr/bin/zypper -n install <%= linux_package %>
 <% end -%>
+<% elsif os_family == 'Windows' -%>
+$puppet_agent_msi = "${env:TEMP}\puppet-agent-<%= @host.architecture %>.msi"
+$puppet_install_args = @(
+  '/qn',
+  '/norestart',
+  '/i',
+  "${puppet_agent_msi}",
+  <%- if @host.puppet_ca_server.strip -%>
+  "PUPPET_CA_SERVER=<%= @host.puppet_ca_server %>",
+  <%- end -%>
+  "PUPPET_MASTER_SERVER=<%= @host.puppetmaster %>"
+)
+
+Write-Host "Installing ${puppet_agent_msi} with args ${puppet_install_args}"
+Start-Process 'msiexec.exe' -ArgumentList $puppet_install_args -Wait -NoNewWindow
 <% end -%>
 
+<% if os_family == 'Windows' -%>
+$puppet_conf = @("<%= snippet 'puppet.conf' %>".Replace("`n","`r`n"))
+Out-File -FilePath <%= etc_path %>\puppet.conf -InputObject $puppet_conf
+<% else -%>
 cat > <%= etc_path %>/puppet.conf << EOF
 <%= snippet 'puppet.conf' %>
 EOF
+<% end -%>
 
 <% if os_family == 'Redhat' -%>
 <% if os_major > 6 -%>
@@ -95,6 +119,20 @@ mkdir -p /run/systemd/system
 <% end -%>
 <% end -%>
 # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+<% if os_family == 'Windows' -%>
+$env:FACTER_is_installer = $TRUE
+
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+$puppet_agent_args = @(
+  "agent",
+  "--config", "<%= etc_path %>\puppet.conf",
+  "--onetime",
+  <%= @host.param_true?('run-puppet-in-installer') ? '' : '"--tags no_such_tag",' %>
+  <%= @host.puppetmaster.blank? ? '' : "\"--server #{@host.puppetmaster}\"," %>
+  "--no-daemonize"
+)
+Start-Process '<%= bin_path %>\puppet' -ArgumentList $puppet_agent_args -Wait -NoNewWindow
+<% else -%>
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
 <%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= @host.param_true?('run-puppet-in-installer') ? '' : '--tags no_such_tag' %> <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
@@ -102,5 +140,6 @@ export FACTER_is_installer=true
 <%= bin_path %>/puppet resource service puppet enable=true
 <% if @host.provision_method == 'image' -%>
 <%= bin_path %>/puppet resource service puppet ensure=running
+<% end -%>
 <% end -%>
 <% end -%>
