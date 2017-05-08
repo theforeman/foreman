@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-02 08:48+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -411,6 +411,9 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr "Afegeix l'adreça d'interès"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "Afegeix una interfície"
 
@@ -440,9 +443,6 @@ msgstr "Afegeix una classe de Puppet a un grup d'amfitrions"
 
 msgid "Add a template combination"
 msgstr "Afegeix una combinació de plantilles"
-
-msgid "Add combination"
-msgstr "Afegeix una combinació"
 
 msgid "Add external user group"
 msgstr "Afegeix el grup d'usuaris externs"
@@ -1928,6 +1928,9 @@ msgstr "Suprimeix :a_resource"
 msgid "Delete Hosts"
 msgstr "Suprimeix els amfitrions"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr ""
 
@@ -2082,9 +2085,6 @@ msgid "Delete an override value for a specific smart variable"
 msgstr ""
 
 msgid "Delete autosign entry"
-msgstr ""
-
-msgid "Delete autosign entry for %s"
 msgstr ""
 
 msgid "Delete filter?"
@@ -3274,6 +3274,9 @@ msgstr "Grup d'amfitrions i entorn"
 
 msgid "Host group configuration"
 msgstr "Configuració del grup d'amfitrions"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr "Herència dels classificadors de grup d'amfitrions"
@@ -4524,9 +4527,6 @@ msgstr "Carrega els inquilins"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "S'està carregant"
-
 msgid "Loading ..."
 msgstr "S'està carregant..."
 
@@ -4768,6 +4768,9 @@ msgid "Manually Assign"
 msgstr ""
 
 msgid "Manually select and assign hosts with no %s"
+msgstr ""
+
+msgid "Mark All Read"
 msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
@@ -5185,8 +5188,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Cap amfitrió seleccionat"
 
-msgid "No hosts were found with that id or name"
-msgstr "No s'ha trobat cap amfitrió amb aquest id. o nom"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "En l'última setmana no s'han rebut informes interessants"
@@ -5589,6 +5592,9 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "Interval dels desincronitzats"
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "Sobreescriu tots els paràmetres"
 
@@ -5801,6 +5807,9 @@ msgstr "Atribut de la foto"
 
 msgid "Physical (Bridge)"
 msgstr "Física (pont)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "Si us plau, confirmeu"
@@ -6247,11 +6256,24 @@ msgstr "Refresca les característiques del servidor intermediari intel·ligent"
 msgid "Region"
 msgstr "Regió"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
 msgstr "Adreça remota"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Remove %s?"
 msgstr "Voleu suprimir %s?"
@@ -6679,6 +6701,11 @@ msgstr "Selecciona la plantilla"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Seleccioneu aquesta, ja que pertany a un amfitrió"
 
@@ -7001,6 +7028,11 @@ msgstr "Mostra l'últim informe per un amfitrió"
 msgid "Sign"
 msgstr "Signa"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "Mida"
 
@@ -7170,6 +7202,9 @@ msgstr "Id. de subxarxa"
 
 msgid "Subnet IDs"
 msgstr "Els id. de les subxarxes"
+
+msgid "Subnet description"
+msgstr ""
 
 msgid "Subnet name"
 msgstr "Nom de la subxarxa"
@@ -8072,6 +8107,9 @@ msgstr "URL desatès"
 msgid "Undo remove"
 msgstr ""
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr ""
 
@@ -8470,11 +8508,11 @@ msgstr "La MV no està executant-se!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "El xifratge d'accés de la consola del servidor intermediari de WebSockets de VNC/SPICE (requereix l'establiment de websockets_ssl_key/cert)"
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "Vàlid des del"
-
-msgid "Valid host group and environment combinations"
-msgstr ""
 
 msgid "Validation types"
 msgstr "Tipus de validació"
@@ -8515,6 +8553,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Molt fort"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "Visualitza les diferències"
@@ -9330,9 +9371,6 @@ msgstr "organització"
 msgid "organizations"
 msgstr "organitzacions"
 
-msgid "override"
-msgstr "sobreescriu"
-
 msgid "paginate results"
 msgstr "pagina els resultats"
 
@@ -9377,9 +9415,6 @@ msgstr ""
 
 msgid "regexp"
 msgstr ""
-
-msgid "remove"
-msgstr "suprimeix"
 
 msgid "remove network interface"
 msgstr "suprimeix la interfície de xarxa"

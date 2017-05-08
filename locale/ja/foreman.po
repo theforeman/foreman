@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:50+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
 "MIME-Version: 1.0\n"
@@ -409,6 +409,9 @@ msgstr "エントリーの自動署名の追加"
 msgid "Add Bookmark"
 msgstr "ブックマークの追加"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "インターフェースの追加"
 
@@ -438,9 +441,6 @@ msgstr "Puppet クラスをホストグループに追加"
 
 msgid "Add a template combination"
 msgstr "テンプレートの組み合わせの追加"
-
-msgid "Add combination"
-msgstr "組み合わせの追加"
 
 msgid "Add external user group"
 msgstr "外部ユーザーグループの追加"
@@ -1926,6 +1926,9 @@ msgstr ":a_resource の削除"
 msgid "Delete Hosts"
 msgstr "ホストの削除"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "%s の Puppet CA 証明書を削除"
 
@@ -2081,9 +2084,6 @@ msgstr "特定スマート変数の上書き値を削除"
 
 msgid "Delete autosign entry"
 msgstr ""
-
-msgid "Delete autosign entry for %s"
-msgstr "%s の自動署名エントリーを削除"
 
 msgid "Delete filter?"
 msgstr "フィルターを削除しますか?"
@@ -3273,6 +3273,9 @@ msgstr "ホストグループと環境"
 
 msgid "Host group configuration"
 msgstr "ホストグループ設定"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr "ホストグループ Matcher の継承"
@@ -4523,9 +4526,6 @@ msgstr "テナントのロード"
 msgid "Load Zones"
 msgstr "ゾーンのロード"
 
-msgid "Loading"
-msgstr "ロード中"
-
 msgid "Loading ..."
 msgstr "ロード中 ..."
 
@@ -4768,6 +4768,9 @@ msgstr "手動割り当て"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "%s のないホストを手動で選択し、割り当てます"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "Matcher は、属性とその値の組み合わせであり、それらが一致すると、以下のような値が提供されます。<br>Foreman が認識するファクトなどのすべての属性を使用できます: <code> domain = example.com </code> または <code> is_virtual = true</code>"
@@ -5182,8 +5185,8 @@ msgstr "利用可能なホストがありません"
 msgid "No hosts selected"
 msgstr "ホストが選択されていません"
 
-msgid "No hosts were found with that id or name"
-msgstr "該当 ID または名前を持つホストが見つかりませんでした"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "関連するレポートを過去一週間受信していません"
@@ -5586,6 +5589,9 @@ msgstr "アラートが有効な同期されていないホスト"
 msgid "Out of sync interval"
 msgstr "非同期間隔"
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "すべてのパラメーターの上書き"
 
@@ -5798,6 +5804,9 @@ msgstr "写真属性"
 
 msgid "Physical (Bridge)"
 msgstr "物理 (ブリッジ)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "確認してください"
@@ -6244,11 +6253,24 @@ msgstr "スマートプロキシー機能の更新"
 msgid "Region"
 msgstr "リージョン"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
 msgstr "リモートアドレス"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Remove %s?"
 msgstr "%s を削除しますか?"
@@ -6676,6 +6698,11 @@ msgstr "テンプレートの選択"
 msgid "Select the changes you want to apply to Foreman"
 msgstr "Foreman に適用する変更を選択します"
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "ホストに属するのでこれを選択してください"
 
@@ -6998,6 +7025,11 @@ msgstr "ホストの最終レポートの表示"
 msgid "Sign"
 msgstr "サイン"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "サイズ"
 
@@ -7167,6 +7199,9 @@ msgstr "サブネット ID"
 
 msgid "Subnet IDs"
 msgstr "サブネット ID"
+
+msgid "Subnet description"
+msgstr ""
 
 msgid "Subnet name"
 msgstr "サブネット名"
@@ -8073,6 +8108,9 @@ msgstr "自動 URL"
 msgid "Undo remove"
 msgstr "削除を元に戻す"
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr "この値の非表示設定を解除"
 
@@ -8471,11 +8509,11 @@ msgstr "VM が実行されていません!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "VNC/SPICE websocket プロキシーコンソールアクセス暗号化 (websockets_ssl_key/cert 設定が必要)"
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "有効期間の起点"
-
-msgid "Valid host group and environment combinations"
-msgstr "有効なホストグループと環境の組み合わせ"
 
 msgid "Validation types"
 msgstr "検証タイプ"
@@ -8516,6 +8554,9 @@ msgstr "バージョン %{version} %{copyright} 2009-%{year} Paul Kelly およ�
 
 msgid "Very Strong"
 msgstr "非常に強度が高い"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "差分の表示"
@@ -9329,9 +9370,6 @@ msgstr "組織"
 msgid "organizations"
 msgstr "組織"
 
-msgid "override"
-msgstr "上書き"
-
 msgid "paginate results"
 msgstr "結果のページネーション"
 
@@ -9376,9 +9414,6 @@ msgstr "再作成"
 
 msgid "regexp"
 msgstr "正規表現"
-
-msgid "remove"
-msgstr "削除"
 
 msgid "remove network interface"
 msgstr "ネットワークインターフェースの削除"

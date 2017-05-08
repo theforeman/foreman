@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:43+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Italian (http://www.transifex.com/foreman/foreman/language/it/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -409,6 +409,9 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr "Aggiungi segnalibro"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "Aggiungi interfaccia"
 
@@ -438,9 +441,6 @@ msgstr "Aggiungi una classe Puppet al gruppo di host"
 
 msgid "Add a template combination"
 msgstr "Aggiungi una combinazione di template"
-
-msgid "Add combination"
-msgstr "Aggiungi combinazione"
 
 msgid "Add external user group"
 msgstr "Aggiungi gruppo di utenti esterno"
@@ -1926,6 +1926,9 @@ msgstr "Cancella :a_resource"
 msgid "Delete Hosts"
 msgstr "Rimuovi host"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Cancellare i certificati PuppetCA per %s"
 
@@ -2081,9 +2084,6 @@ msgstr "Cancella un valore override per una variabile smart specifica"
 
 msgid "Delete autosign entry"
 msgstr ""
-
-msgid "Delete autosign entry for %s"
-msgstr "Rimuovere la voce autosign per %s"
 
 msgid "Delete filter?"
 msgstr "Cancella filtro?"
@@ -3269,6 +3269,9 @@ msgstr "Gruppo di host e Ambiente"
 
 msgid "Host group configuration"
 msgstr "Configurazione gruppo di host"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr ""
@@ -4519,9 +4522,6 @@ msgstr "Carica i titolari"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "Caricamento in corso"
-
 msgid "Loading ..."
 msgstr "Caricamento in corso..."
 
@@ -4764,6 +4764,9 @@ msgstr "Assegna manualmente"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Seleziona e assegna manualmente gli host senza %s"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr ""
@@ -5178,8 +5181,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Nessun host selezionato"
 
-msgid "No hosts were found with that id or name"
-msgstr "Nessun host trovato con l'id o nome indicato"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Nessun riporto di rilievo ricevuto durante la scorsa settimana"
@@ -5582,6 +5585,9 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr ""
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "Sovrascrivi tutti i parametri"
 
@@ -5794,6 +5800,9 @@ msgstr "Attributo foto"
 
 msgid "Physical (Bridge)"
 msgstr "Fisico (Bridge)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "Conferma"
@@ -6240,10 +6249,23 @@ msgstr "Aggiorna funzionalità smart proxy"
 msgid "Region"
 msgstr "Regione"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid "Remove %s?"
@@ -6672,6 +6694,11 @@ msgstr "Seleziona modello"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Selezionarlo poichè appartiene ad un host"
 
@@ -6994,6 +7021,11 @@ msgstr "Mostra l'ultima notifica per un host"
 msgid "Sign"
 msgstr "Accedi"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "Dimensione"
 
@@ -7163,6 +7195,9 @@ msgstr ""
 
 msgid "Subnet IDs"
 msgstr "ID sottoreti"
+
+msgid "Subnet description"
+msgstr ""
 
 msgid "Subnet name"
 msgstr "Nome sottorete"
@@ -8062,6 +8097,9 @@ msgstr ""
 msgid "Undo remove"
 msgstr "Annulla la rimozione"
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr ""
 
@@ -8460,11 +8498,11 @@ msgstr "La VM non è in esecuzione!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr ""
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "Valido da"
-
-msgid "Valid host group and environment combinations"
-msgstr "Combinazioni ambiente e gruppo utenti valide"
 
 msgid "Validation types"
 msgstr "Tipi di convalida"
@@ -8505,6 +8543,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Molto forte"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "Visualizze le differenze"
@@ -9320,9 +9361,6 @@ msgstr "organizzazione"
 msgid "organizations"
 msgstr "organizzazioni"
 
-msgid "override"
-msgstr "sovrascrivi"
-
 msgid "paginate results"
 msgstr "paginazione risultati"
 
@@ -9367,9 +9405,6 @@ msgstr ""
 
 msgid "regexp"
 msgstr "regexp"
-
-msgid "remove"
-msgstr "rimuovi"
 
 msgid "remove network interface"
 msgstr "rimuovi interfaccia di rete"

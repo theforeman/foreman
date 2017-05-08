@@ -7,7 +7,7 @@
 # Alexander Savchenko, 2013
 # Alexander Savchenko, 2015
 # Andrei Burd <burdandrei@gmail.com>, 2013
-# cert <certainy@gmail.com>, 2016
+# Andrei M. <certainy@gmail.com>, 2016
 # Denis Denis <stereodenis@gmail.com>, 2014
 # Dominic Cleal <dominic@cleal.org>, 2014-2015
 # Denis Denis <stereodenis@gmail.com>, 2014
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:51+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -453,6 +453,9 @@ msgstr "Добавить запись для автоматической под
 msgid "Add Bookmark"
 msgstr "Добавить закладку"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "Добавить интерфейс"
 
@@ -482,9 +485,6 @@ msgstr "Добавить класс Puppet к группе узлов"
 
 msgid "Add a template combination"
 msgstr "Добавить комбинацию шаблонов"
-
-msgid "Add combination"
-msgstr "Добавить"
 
 msgid "Add external user group"
 msgstr "Добавить внешнюю группу пользователей"
@@ -1972,6 +1972,9 @@ msgstr "Удалить :a_resource"
 msgid "Delete Hosts"
 msgstr "Удалить узлы"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Удалить сертификаты PuppetCA %s"
 
@@ -2127,9 +2130,6 @@ msgstr "Удалить значение переопределения смар�
 
 msgid "Delete autosign entry"
 msgstr ""
-
-msgid "Delete autosign entry for %s"
-msgstr "Отменить автоматическую подпись для %s"
 
 msgid "Delete filter?"
 msgstr "Удалить фильтр?"
@@ -3324,6 +3324,9 @@ msgstr "Группа узлов и окружение"
 
 msgid "Host group configuration"
 msgstr "Конфигурация группы узлов"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr "Наследовать правила подстановки группы узлов"
@@ -4574,9 +4577,6 @@ msgstr "Загрузить арендаторов"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "Загружается"
-
 msgid "Loading ..."
 msgstr "Загрузка..."
 
@@ -4819,6 +4819,9 @@ msgstr "Выбрать вручную"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Вручную выбрать узлы, для которых %s еще не настраивалось(ась)"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "Подстановка выполняет операцию замены значения в соответствии с заданным правилом. Правило определяет атрибут и его значение, при совпадении с которым будет выбрано новое значение. <br>Вы можете указать любые атрибуты и факты, с которыми работает Foreman, например: <code> domain = example.com </code>, <code> is_virtual = true</code>"
@@ -5233,8 +5236,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Узлы не выбраны"
 
-msgid "No hosts were found with that id or name"
-msgstr "Узлы с таким идентификатором или именем не найдены"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Нет отчетов за прошлую неделю"
@@ -5637,6 +5640,9 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "Интервал потери синхронизации"
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "Перезаписать все параметры"
 
@@ -5849,6 +5855,9 @@ msgstr "Фотография"
 
 msgid "Physical (Bridge)"
 msgstr "Физический (мост)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "Подтвердите"
@@ -6295,11 +6304,24 @@ msgstr "Обновить возможности капсулы"
 msgid "Region"
 msgstr "Регион"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
 msgstr "Удаленный адрес"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Remove %s?"
 msgstr "Удалить %s?"
@@ -6727,6 +6749,11 @@ msgstr "Выберите шаблон"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Выберите, так как это принадлежит узлу"
 
@@ -7049,6 +7076,11 @@ msgstr "Показать последний отчет узла"
 msgid "Sign"
 msgstr "Подписать"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "Размер"
 
@@ -7218,6 +7250,9 @@ msgstr "Код подсети"
 
 msgid "Subnet IDs"
 msgstr "Код подсети"
+
+msgid "Subnet description"
+msgstr ""
 
 msgid "Subnet name"
 msgstr "Имя подсети"
@@ -8129,6 +8164,9 @@ msgstr "URL сопровождения"
 msgid "Undo remove"
 msgstr "Отменить удаление"
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr "Показать значение"
 
@@ -8527,11 +8565,11 @@ msgstr "Виртуальная машина не выполняется"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "Шифрование трафика Websocket при подключении к консоли прокси с использованием VNC/SPICE (требует установки websockets_ssl_key или websockets_ssl_cert)"
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "Вступил в силу"
-
-msgid "Valid host group and environment combinations"
-msgstr "Группы узлов и окружения"
 
 msgid "Validation types"
 msgstr "Тип проверки"
@@ -8572,6 +8610,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Очень сильный"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "Просмотр отличий"
@@ -9391,9 +9432,6 @@ msgstr "организация"
 msgid "organizations"
 msgstr "организации"
 
-msgid "override"
-msgstr "переопределить"
-
 msgid "paginate results"
 msgstr "постраничный вывод"
 
@@ -9438,9 +9476,6 @@ msgstr "создать заново"
 
 msgid "regexp"
 msgstr "регулярное выражение"
-
-msgid "remove"
-msgstr "удалить"
 
 msgid "remove network interface"
 msgstr "удалить сетевой интерфейс"

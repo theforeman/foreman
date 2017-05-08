@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:51+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -434,6 +434,9 @@ msgstr "Adicionar entrada automática"
 msgid "Add Bookmark"
 msgstr "Adicionar marcador"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "Adicionar interface"
 
@@ -463,9 +466,6 @@ msgstr "Adicionar uma classe Puppet para o grupo"
 
 msgid "Add a template combination"
 msgstr "Adicionar uma combinação de template"
-
-msgid "Add combination"
-msgstr "Adicionar combinação"
 
 msgid "Add external user group"
 msgstr "Adicionar grupo de usuários externos"
@@ -1951,6 +1951,9 @@ msgstr "Apagar :a_resource"
 msgid "Delete Hosts"
 msgstr "Apagar hosts"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Apagar certificados PuppetCA para %s"
 
@@ -2106,9 +2109,6 @@ msgstr "Remover um valor de substituição para uma variável inteligente espec�
 
 msgid "Delete autosign entry"
 msgstr ""
-
-msgid "Delete autosign entry for %s"
-msgstr "Remover registro autosign para %s"
 
 msgid "Delete filter?"
 msgstr "Apagar filtro?"
@@ -3297,6 +3297,9 @@ msgstr "Grupo de hosts e ambiente"
 
 msgid "Host group configuration"
 msgstr "Configuração do grupo de host"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr "Herança de correspondências do grupo de hosts "
@@ -4547,9 +4550,6 @@ msgstr "Carregar inquilino"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "Carregando"
-
 msgid "Loading ..."
 msgstr "Carregando ..."
 
@@ -4792,6 +4792,9 @@ msgstr "Associar manualmente"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Selecionar manualmente e atribuir hosts sem um %s"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "Correspondência é a combinação de um atributo e seu valor, caso correspondem, o valor abaixo seria fornecido. <br> Você pode usar qualquer atributo conhecido pelo Foreman, como fatos e etc, por exemplo.:<code> domain = example.com </code> ou <code> is_virtual = true</code>."
@@ -5206,8 +5209,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Nenhum host selecionado"
 
-msgid "No hosts were found with that id or name"
-msgstr "Nenhum host foi encontrado com este id ou nome"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Nenhum relatório interessante recebido na última semana."
@@ -5610,6 +5613,9 @@ msgstr "Hosts fora de sincronia e com alertas habilitados"
 msgid "Out of sync interval"
 msgstr "Fora do intervalo de sincronização "
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "Sobrescrever todos os parâmetros"
 
@@ -5822,6 +5828,9 @@ msgstr "Atributo de Foto"
 
 msgid "Physical (Bridge)"
 msgstr "Físico (Ponte)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "Por favor Confirme"
@@ -6268,11 +6277,24 @@ msgstr "Atualizar os recursos do proxy inteligente"
 msgid "Region"
 msgstr "Região"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
 msgstr "Endereço remoto"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Remove %s?"
 msgstr "Remover %s?"
@@ -6700,6 +6722,11 @@ msgstr "Selecionar template"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Selecione este já que pertence a um host"
 
@@ -7022,6 +7049,11 @@ msgstr "Exibir o último relatório para um host"
 msgid "Sign"
 msgstr "Assinar"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "Tamanho"
 
@@ -7191,6 +7223,9 @@ msgstr "ID da subrede"
 
 msgid "Subnet IDs"
 msgstr "Ids de Subrede"
+
+msgid "Subnet description"
+msgstr ""
 
 msgid "Subnet name"
 msgstr "Nome da subnet"
@@ -8098,6 +8133,9 @@ msgstr "URL autônomo "
 msgid "Undo remove"
 msgstr "Impossível remover"
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr "Re-exibir este valor "
 
@@ -8496,11 +8534,11 @@ msgstr "VM não está executando!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "Criptografia de acesso a consoles de proxy websocket VNC/SPICE (configuração websockets_ssl_key/cert necessária)"
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "Válido a partir de"
-
-msgid "Valid host group and environment combinations"
-msgstr "Grupo de host e combinações de ambientes válidos"
 
 msgid "Validation types"
 msgstr "Tipos de validação"
@@ -8541,6 +8579,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Muito forte"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "Visualizar Dif"
@@ -9356,9 +9397,6 @@ msgstr "organização"
 msgid "organizations"
 msgstr "organizações"
 
-msgid "override"
-msgstr "substituir"
-
 msgid "paginate results"
 msgstr "paginar resultados"
 
@@ -9403,9 +9441,6 @@ msgstr "recriar"
 
 msgid "regexp"
 msgstr "regexp"
-
-msgid "remove"
-msgstr "remover"
 
 msgid "remove network interface"
 msgstr "remover a interface de rede "

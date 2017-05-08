@@ -7,7 +7,7 @@
 # Florentin Raud <florentin.raud@gmail.com>, 2013
 # Dominic Cleal <dominic@cleal.org>, 2013
 # Dominic Cleal <dominic@cleal.org>, 2013-2015
-# Dominic Cleal <dominic@cleal.org>, 2016
+# Dominic Cleal <dominic@cleal.org>, 2016-2017
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014
 # Romain Vrignaud <rvrignaud@gmail.com>, 2013
 # Florentin Raud <florentin.raud@gmail.com>, 2013-2014
@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:43+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -330,7 +330,7 @@ msgstr ""
 "<b>Valeur héritée :</b> %{inherited_value}"
 
 msgid "<b>Foreman API v1 is deprecated. Please use v2.</b><br />If you still need to use v1, you may do so by either passing 'version=1' in the Accept Header or using api/v1/ in the URL."
-msgstr ""
+msgstr "<b>L'API v1 de Foreman est obsolète. Merci d'utiliser l'API v2.</b><br />Si vous avez absolument besoin de l'API v1, vous pouvez soit passer l'option 'version=1' au Header Accept, soit utiliser api/v1/ dans l'URL d'accès."
 
 msgid "<b>Foreman</b> Build Complete"
 msgstr "<b>Foreman</b> Construction terminée"
@@ -432,6 +432,9 @@ msgstr "Ajouter une entrée à signer automatiquement"
 msgid "Add Bookmark"
 msgstr "Ajouter un marque-pages"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "Ajouter une interface"
 
@@ -461,9 +464,6 @@ msgstr "Ajouter une classe Puppet à un groupe d'hôtes"
 
 msgid "Add a template combination"
 msgstr "Ajouter une combinaison de modèle"
-
-msgid "Add combination"
-msgstr "Ajout de combinaison"
 
 msgid "Add external user group"
 msgstr "Ajouter un groupe d'utilisateur externe"
@@ -714,7 +714,7 @@ msgid "Array of operating system IDs to associate with the template"
 msgstr "Tableau des ID de systèmes d'exploitation associés à ce modèle"
 
 msgid "Array of parameters"
-msgstr ""
+msgstr "Tableau de paramètres"
 
 msgid "Array of parameters (name, value)"
 msgstr "Tableau de paramètres (nom, valeur)"
@@ -1158,7 +1158,7 @@ msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "Impossible de supprimer %{current} car cet élément possède des imbrications avec %{sti_name}."
 
 msgid "Cannot delete built-in role"
-msgstr ""
+msgstr "Impossible de supprimer les rôles pré-définis"
 
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Impossible d'effacer le groupe %{current} car il possède des sous groupes."
@@ -1302,7 +1302,7 @@ msgid "Clone a provision template"
 msgstr "Cloner un modèle de provisioning"
 
 msgid "Clone a role"
-msgstr ""
+msgstr "Cloner un rôle"
 
 msgid "Clone a template"
 msgstr "Cloner un modèle"
@@ -1503,7 +1503,7 @@ msgid "Could not find %{association} with name: %{name}"
 msgstr ""
 
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
-msgstr ""
+msgstr "Impossible de trouve un modèle de configuration avec le nom \"%s\", merci d'en créer un."
 
 msgid "Could not find network %s on VMWare compute resource"
 msgstr ""
@@ -1539,10 +1539,10 @@ msgid "Create Bookmark"
 msgstr ""
 
 msgid "Create Compute Profile"
-msgstr ""
+msgstr "Créer un profil de calcul"
 
 msgid "Create Compute Resource"
-msgstr ""
+msgstr "Créer une ressource de calcul"
 
 msgid "Create Config Group"
 msgstr ""
@@ -1599,7 +1599,7 @@ msgid "Create Organization"
 msgstr ""
 
 msgid "Create Parameter"
-msgstr ""
+msgstr "Créer un paramètre"
 
 msgid "Create Partition Table"
 msgstr ""
@@ -1773,7 +1773,7 @@ msgid "Create an override value for a specific smart variable"
 msgstr "Créer une valeur de substitution pour une variable d'une smart class spécifique"
 
 msgid "Create autosign entry"
-msgstr ""
+msgstr "Créer l'entrée de signature automatique"
 
 msgid "Create host"
 msgstr ""
@@ -1949,6 +1949,9 @@ msgstr "Suppression : a_resource"
 msgid "Delete Hosts"
 msgstr "Supprimer ces Hôtes"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Supprimer les certificats PuppetCA pour %s"
 
@@ -2105,9 +2108,6 @@ msgstr "Supprimer une valeur de substitution pour une smart variable spécifique
 msgid "Delete autosign entry"
 msgstr ""
 
-msgid "Delete autosign entry for %s"
-msgstr "Supprimer les entrées signées automatiquement pour %s"
-
 msgid "Delete filter?"
 msgstr "Supprimer le filtre ?"
 
@@ -2139,7 +2139,7 @@ msgid "Deprecated, please use datacenter"
 msgstr "Déprécier, merci d'utiliser le centre de donnée"
 
 msgid "Deprecated, please use omit"
-msgstr ""
+msgstr "Déprécier, merci d'utiliser \"omit\""
 
 msgid "Description"
 msgstr "Description"
@@ -2220,10 +2220,10 @@ msgid "Display Name"
 msgstr "Nom affiché"
 
 msgid "Display hidden parameter values"
-msgstr ""
+msgstr "Afficher les valeurs des paramètres cachés"
 
 msgid "Display hidden values"
-msgstr ""
+msgstr "Afficher les valeurs cachée"
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "Afficher les modèles qui seront utilisés pour le provisioning de cet hôte"
@@ -2790,7 +2790,7 @@ msgid "Failed to redeploy %s."
 msgstr "Échec du redéploiement de %s."
 
 msgid "Failed to refresh the cache."
-msgstr ""
+msgstr "Échec d'actualisation du cache."
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Échec de suppression de certificats pour %{name}: %{e}"
@@ -3296,6 +3296,9 @@ msgstr "Groupe d'hôtes et Environnement"
 msgid "Host group configuration"
 msgstr "Configuration d'un groupe d'hôtes"
 
+msgid "Host group description"
+msgstr ""
+
 msgid "Host group matchers inheritance"
 msgstr "Héritage des matchers des groupes d'hôtes"
 
@@ -3312,7 +3315,7 @@ msgid "Host owner"
 msgstr ""
 
 msgid "Host owner is invalid"
-msgstr ""
+msgstr "Le propriétaire de l'hôte est invalide"
 
 msgid "Host parameters"
 msgstr "Paramètres de l'hôte"
@@ -3643,7 +3646,7 @@ msgid "ID of template"
 msgstr "ID du modèle"
 
 msgid "ID of the user"
-msgstr ""
+msgstr "ID du utilisateur"
 
 msgid "ID of user group"
 msgstr "ID du groupe utilisateur"
@@ -3673,7 +3676,7 @@ msgid "IDs of associated architectures"
 msgstr "ID des architectures associées"
 
 msgid "IDs of associated config groups"
-msgstr ""
+msgstr "IDs des groupes de configurations associés"
 
 msgid "IDs of associated media"
 msgstr "ID des médias associés"
@@ -4543,10 +4546,7 @@ msgid "Load Tenants"
 msgstr "Charger les tenants"
 
 msgid "Load Zones"
-msgstr ""
-
-msgid "Loading"
-msgstr "Chargement"
+msgstr "Zones de charge"
 
 msgid "Loading ..."
 msgstr "Chargement ..."
@@ -4791,6 +4791,9 @@ msgstr "Affectation manuelle"
 msgid "Manually select and assign hosts with no %s"
 msgstr "Sélectionner et affecter manuellement les hôtes sans %s"
 
+msgid "Mark All Read"
+msgstr ""
+
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "Un Matcher est une combinaison d'un attribut et de sa valeur, s'il y a correspondance, la valeur ci-dessous sera fournie.<br>Vous pouvez utiliser n'importe quel attribut connu de Foreman, comme les Facts. Par Ex : <code>domain = example.com</code> ou <code>is_virtual = true</code>."
 
@@ -4934,7 +4937,7 @@ msgid "Monthly"
 msgstr "Mensuel"
 
 msgid "Must provide an operating system"
-msgstr ""
+msgstr "Vous devez fournir un système d'exploitation"
 
 msgid "Must provide template kind"
 msgstr "Vous devez fournir un type de modèle"
@@ -5204,8 +5207,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Aucun hôte sélectionné"
 
-msgid "No hosts were found with that id or name"
-msgstr "Aucun Hôte trouvé avec cet id ou ce nom"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Aucun rapport pertinent reçu cette dernière semaine"
@@ -5608,6 +5611,9 @@ msgstr "Hôtes désynchronisés avec des alertes activées"
 msgid "Out of sync interval"
 msgstr "Intervalle de désynchronisation"
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "Remplacer tous les paramètres"
 
@@ -5820,6 +5826,9 @@ msgstr "Attribut Photo"
 
 msgid "Physical (Bridge)"
 msgstr "Physique (Pont)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "Merci de confirmer"
@@ -6266,11 +6275,24 @@ msgstr "Rafraichir les fonctions smart proxy"
 msgid "Region"
 msgstr "Région"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
 msgstr "Adresse distante"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Remove %s?"
 msgstr "Supprimer %s ?"
@@ -6698,6 +6720,11 @@ msgstr "Choisir un modèle"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Choix retenu vu qu'il appartient à un hôte"
 
@@ -7020,6 +7047,11 @@ msgstr "Afficher le dernier rapport d'un hôte"
 msgid "Sign"
 msgstr "Signer"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "Taille"
 
@@ -7190,6 +7222,9 @@ msgstr "ID du sous-réseau"
 msgid "Subnet IDs"
 msgstr "ID des sous-réseaux"
 
+msgid "Subnet description"
+msgstr ""
+
 msgid "Subnet name"
 msgstr "Nom du sous-réseau"
 
@@ -7290,7 +7325,7 @@ msgid "Successfully refreshed features from %s."
 msgstr "Actualisation des fonctions de %s réussie."
 
 msgid "Successfully refreshed the cache."
-msgstr ""
+msgstr "Actualisation du cache réussie."
 
 msgid "Successfully reset all parameters of Puppet class %s to their default values"
 msgstr "Réinitialisation réussie de tous les paramètres de la classe Puppet %s à leur valeurs par défaut"
@@ -7654,7 +7689,7 @@ msgstr[0] "Il y a "
 msgstr[1] "Il y a "
 
 msgid "There is no owner with id %d and type %s"
-msgstr ""
+msgstr "Il n'y a un utilisateur avec l'ID %d et le type %s"
 
 msgid "There is no proxy with BMC feature set up. Please register a smart proxy with this feature."
 msgstr "Il n'y a aucun proxy configuré avec la fonctionnalité BMC. Merci de configurer un proxy ayant cette fonctionnalité."
@@ -7729,7 +7764,7 @@ msgid "This role is locked for editing."
 msgstr ""
 
 msgid "This role is locked from being modified by users."
-msgstr ""
+msgstr "Ce rôle est verrouillé contre les modifications d'un utilisateur."
 
 msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
 msgstr ""
@@ -7897,7 +7932,7 @@ msgid "URL"
 msgstr "URL"
 
 msgid "URL for %{providers_requiring_url}"
-msgstr ""
+msgstr "URL pour %{providers_requiring_url}"
 
 msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
 msgstr "L'URL de récupération de modèles des hôtes durant la phase de construction (normalement en HTTP car beaucoup de programmes d'installation ne prennent pas en charge HTTPS) "
@@ -8093,6 +8128,9 @@ msgstr "URL provisioning sans intervention"
 
 msgid "Undo remove"
 msgstr "Annuler la suppression"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "Réafficher cette valeur"
@@ -8492,11 +8530,11 @@ msgstr "La VM n'est pas lancée !"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "Chiffrement des accès console VNC/SPICE websocket  proxifiées  (paramètres websockets_ssl_key/cert requis)"
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "Valable depuis"
-
-msgid "Valid host group and environment combinations"
-msgstr "Combinaison valide de groupe d'hôtes et d'environnement"
 
 msgid "Validation types"
 msgstr "Types de validation"
@@ -8537,6 +8575,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Très fort"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "Voir le diff"
@@ -8946,7 +8987,7 @@ msgid "does not belong into host's location"
 msgstr ""
 
 msgid "does not belong into host's organization"
-msgstr ""
+msgstr "ne fait pas partie de l'organisation de l'hôte"
 
 msgid "does not belong to subnet"
 msgstr "n'apparait pas au sous-réseau"
@@ -9171,7 +9212,7 @@ msgid "is invalid: %s"
 msgstr "est invalide : %s"
 
 msgid "is locked for user modifications."
-msgstr ""
+msgstr "est verrouillé contre les modifications d'un utilisateur"
 
 msgid "is not a valid MAC address"
 msgstr "invalide adresse MAC"
@@ -9352,9 +9393,6 @@ msgstr "organisation"
 msgid "organizations"
 msgstr "organisations"
 
-msgid "override"
-msgstr "remplacer"
-
 msgid "paginate results"
 msgstr "paginer les résultats"
 
@@ -9399,9 +9437,6 @@ msgstr "Re-créer"
 
 msgid "regexp"
 msgstr "regexp"
-
-msgid "remove"
-msgstr "supprimer"
 
 msgid "remove network interface"
 msgstr "supprimer l'interface réseau"

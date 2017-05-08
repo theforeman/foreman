@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:51+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -412,6 +412,9 @@ msgstr "新增 Autosign 項目"
 msgid "Add Bookmark"
 msgstr "新增書籤"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "新增介面"
 
@@ -441,9 +444,6 @@ msgstr "新增 Puppet 類別至主機群組"
 
 msgid "Add a template combination"
 msgstr "新增範本組合"
-
-msgid "Add combination"
-msgstr "新增組合"
 
 msgid "Add external user group"
 msgstr "新增外部使用者群組"
@@ -1929,6 +1929,9 @@ msgstr "刪除資源(_R)"
 msgid "Delete Hosts"
 msgstr "刪除主機"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "刪除 %s 的 PuppetCA 憑證"
 
@@ -2084,9 +2087,6 @@ msgstr "刪除特定智慧型變數的置換值"
 
 msgid "Delete autosign entry"
 msgstr ""
-
-msgid "Delete autosign entry for %s"
-msgstr "刪除 %s 的 autosign 項目？"
 
 msgid "Delete filter?"
 msgstr "刪除篩選器？"
@@ -3275,6 +3275,9 @@ msgstr "主機群組和環境"
 
 msgid "Host group configuration"
 msgstr "主機群組配置"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr "主機群組比對器的繼承"
@@ -4525,9 +4528,6 @@ msgstr "載入租用戶"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "載入中"
-
 msgid "Loading ..."
 msgstr "正在載入..."
 
@@ -4770,6 +4770,9 @@ msgstr "手動式指定"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "手動式選擇並指定沒有 %s 的主機"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "比對器乃一個屬性與它的值的組合，若它們相符的話，以下的值將會被提供。<br> 您可使用任何 Foreman 所能辨識的屬性，例如詳情等等。比方說：<code> domain = example.com </code> 或是 <code> is_virtual = true</code>。"
@@ -5184,8 +5187,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "未選擇主機"
 
-msgid "No hosts were found with that id or name"
-msgstr "找不到擁有此 ID 或名稱的主機"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "上個禮拜未收到有趣的報告"
@@ -5588,6 +5591,9 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "失去同步的間隔"
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "置換所有參數"
 
@@ -5800,6 +5806,9 @@ msgstr "照片屬性"
 
 msgid "Physical (Bridge)"
 msgstr "實體（橋接）"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "請確認"
@@ -6246,11 +6255,24 @@ msgstr "更新智慧型代理伺服器的功能"
 msgid "Region"
 msgstr "區域"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
 msgstr "遠端位址"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Remove %s?"
 msgstr "移除 %s？"
@@ -6678,6 +6700,11 @@ msgstr "選擇範本"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "選擇此項目因為它屬於一部主機"
 
@@ -7000,6 +7027,11 @@ msgstr "顯示主機的最後報告"
 msgid "Sign"
 msgstr "簽署"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "大小"
 
@@ -7169,6 +7201,9 @@ msgstr "子網路 ID"
 
 msgid "Subnet IDs"
 msgstr "子網路的 ID"
+
+msgid "Subnet description"
+msgstr ""
 
 msgid "Subnet name"
 msgstr "子網路名稱"
@@ -8076,6 +8111,9 @@ msgstr "無人看顧的 URL"
 msgid "Undo remove"
 msgstr "還原移除"
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr "取消隱藏此值"
 
@@ -8474,11 +8512,11 @@ msgstr "VM 沒有在運作！"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "VNC/SPICE websocket 代理主控台存取加密（需要設定 websockets_ssl_key/cert）"
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "可從...使用："
-
-msgid "Valid host group and environment combinations"
-msgstr "有效的主機群組和環境組合"
 
 msgid "Validation types"
 msgstr "驗證類型"
@@ -8519,6 +8557,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "非常強"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "檢視差異"
@@ -9334,9 +9375,6 @@ msgstr "組織"
 msgid "organizations"
 msgstr "組織"
 
-msgid "override"
-msgstr "置換"
-
 msgid "paginate results"
 msgstr "編頁結果"
 
@@ -9381,9 +9419,6 @@ msgstr "重新建立"
 
 msgid "regexp"
 msgstr "正規表示式"
-
-msgid "remove"
-msgstr "移除"
 
 msgid "remove network interface"
 msgstr "移除網路介面卡"

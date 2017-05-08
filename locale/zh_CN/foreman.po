@@ -7,13 +7,14 @@
 # Dominic Cleal <dominic@cleal.org>, 2014-2015
 # Martin Liu <liuzh66@gmail.com>, 2015
 # tim123, 2013-2014
+# Xingchao Yu <yuxcer@gmail.com>, 2017
 # 蒋浩海 <jhaohai@foxmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-15 12:51+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -410,6 +411,9 @@ msgstr "添加 Autosign 条目"
 msgid "Add Bookmark"
 msgstr "增加书签"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "增加接口"
 
@@ -439,9 +443,6 @@ msgstr "在主机组中添加 Puppet 类别"
 
 msgid "Add a template combination"
 msgstr "添加模板组合"
-
-msgid "Add combination"
-msgstr "添加组合"
 
 msgid "Add external user group"
 msgstr "添加外部用户组"
@@ -594,7 +595,7 @@ msgid "An email address is required, please update your account details"
 msgstr ""
 
 msgid "An error occurred while testing the connection: "
-msgstr ""
+msgstr "测试连接性时发生错误"
 
 msgid "An explicit layout for the partitions of your hard drive(s). E.G."
 msgstr "明确硬盘分区。 E.G."
@@ -1926,6 +1927,9 @@ msgstr "删除：a_resource"
 msgid "Delete Hosts"
 msgstr "删除主机"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "删除 %s的证书"
 
@@ -2081,9 +2085,6 @@ msgstr "为具体智能变量删除覆盖值"
 
 msgid "Delete autosign entry"
 msgstr ""
-
-msgid "Delete autosign entry for %s"
-msgstr "删除 %s 的自动签名"
 
 msgid "Delete filter?"
 msgstr "删除过滤器？"
@@ -3273,6 +3274,9 @@ msgstr "主机组和环境"
 
 msgid "Host group configuration"
 msgstr "配置主机组"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr "主机组映射器继承"
@@ -4523,9 +4527,6 @@ msgstr "载入租客"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "加载中"
-
 msgid "Loading ..."
 msgstr "加载中......"
 
@@ -4768,6 +4769,9 @@ msgstr "手动分配"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "手动选择并分配没有 %s 的主机"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "映射器是属性及属性值的组合。如果它们匹配，则提供以下值。<br>您可以使用任意 Foreman 了解的属性，比如 fact 等等。例如：<code> domain = example.com </code> 或者 <code> is_virtual = true</code>。"
@@ -5182,8 +5186,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "没有选择主机"
 
-msgid "No hosts were found with that id or name"
-msgstr "没有发现该ID或者名称的主机"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "上周没有收到任何需要查看的报告"
@@ -5586,6 +5590,9 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "非同步间隔"
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr "覆盖所有参数"
 
@@ -5799,6 +5806,9 @@ msgstr "照片属性"
 msgid "Physical (Bridge)"
 msgstr "物理（桥）"
 
+msgid "Play Ansible roles"
+msgstr ""
+
 msgid "Please Confirm"
 msgstr "请确认"
 
@@ -5854,7 +5864,7 @@ msgid "Please select an image"
 msgstr "请选择介质"
 
 msgid "Please select hosts to perform action on."
-msgstr ""
+msgstr "请选择要执行操作的主机。"
 
 msgid "Please specify volume size. You may optionally use suffix 'G' to specify volume size in gigabytes."
 msgstr "请指定卷大小。可选择使用前缀 'G' 以 GB 为单位指定卷大小。"
@@ -6244,11 +6254,24 @@ msgstr "刷新智能代理服务器功能"
 msgid "Region"
 msgstr "区域"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
 msgstr "远程地址"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Remove %s?"
 msgstr "是否删除 %s ？"
@@ -6676,6 +6699,11 @@ msgstr "选择模板"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "选择这个因为它属于主机"
 
@@ -6998,6 +7026,11 @@ msgstr "显示主机的最新报告"
 msgid "Sign"
 msgstr "登入"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "大小"
 
@@ -7167,6 +7200,9 @@ msgstr "子网 ID"
 
 msgid "Subnet IDs"
 msgstr "子网 ID"
+
+msgid "Subnet description"
+msgstr ""
 
 msgid "Subnet name"
 msgstr "子网名"
@@ -8073,6 +8109,9 @@ msgstr "无人参与的 URL"
 msgid "Undo remove"
 msgstr "撤销删除"
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr "取消隐藏该值"
 
@@ -8471,11 +8510,11 @@ msgstr "VM 尚未运行！"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "VNC/SPICE websocket 代理服务器控制台访问加密（需要 websockets_ssl_key/cert 设置）"
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "有效期从"
-
-msgid "Valid host group and environment combinations"
-msgstr "有效的主机组和环境组合"
 
 msgid "Validation types"
 msgstr "验证类型"
@@ -8516,6 +8555,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "很强"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "查看不同"
@@ -8778,10 +8820,10 @@ msgid "Your password should not contain that many repetitions"
 msgstr ""
 
 msgid "Your password should not contain your email"
-msgstr ""
+msgstr "你的密码不应该包含你的邮箱信息"
 
 msgid "Your password should not contain your username"
-msgstr ""
+msgstr "你的密码不应该包含你的用户名信息"
 
 msgid "Your password should use characters from different character classes too"
 msgstr ""
@@ -9330,9 +9372,6 @@ msgstr "组织"
 msgid "organizations"
 msgstr "组织"
 
-msgid "override"
-msgstr "覆盖"
-
 msgid "paginate results"
 msgstr "编页结果"
 
@@ -9377,9 +9416,6 @@ msgstr "再次创建"
 
 msgid "regexp"
 msgstr "regexp"
-
-msgid "remove"
-msgstr "删除"
 
 msgid "remove network interface"
 msgstr "删除网络接口"

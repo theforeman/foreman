@@ -409,6 +409,9 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr ""
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr ""
 
@@ -437,9 +440,6 @@ msgid "Add a Puppet class to host group"
 msgstr ""
 
 msgid "Add a template combination"
-msgstr ""
-
-msgid "Add combination"
 msgstr ""
 
 msgid "Add external user group"
@@ -1933,6 +1933,9 @@ msgstr ""
 msgid "Delete Hosts"
 msgstr ""
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr ""
 
@@ -2087,9 +2090,6 @@ msgid "Delete an override value for a specific smart variable"
 msgstr ""
 
 msgid "Delete autosign entry"
-msgstr ""
-
-msgid "Delete autosign entry for %s"
 msgstr ""
 
 msgid "Delete filter?"
@@ -3283,6 +3283,9 @@ msgid "Host group and Environment"
 msgstr "Environment"
 
 msgid "Host group configuration"
+msgstr ""
+
+msgid "Host group description"
 msgstr ""
 
 msgid "Host group matchers inheritance"
@@ -4537,9 +4540,6 @@ msgstr ""
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr ""
-
 msgid "Loading ..."
 msgstr ""
 
@@ -4781,6 +4781,9 @@ msgid "Manually Assign"
 msgstr ""
 
 msgid "Manually select and assign hosts with no %s"
+msgstr ""
+
+msgid "Mark All Read"
 msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
@@ -5199,7 +5202,7 @@ msgstr ""
 msgid "No hosts selected"
 msgstr ""
 
-msgid "No hosts were found with that id or name"
+msgid "No hosts were found with that id, name or query filter"
 msgstr ""
 
 msgid "No interesting reports received in the last week"
@@ -5606,6 +5609,9 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr ""
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr ""
 
@@ -5820,6 +5826,9 @@ msgid "Photo attribute"
 msgstr ""
 
 msgid "Physical (Bridge)"
+msgstr ""
+
+msgid "Play Ansible roles"
 msgstr ""
 
 msgid "Please Confirm"
@@ -6270,10 +6279,23 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid "Remove %s?"
@@ -6704,6 +6726,11 @@ msgstr ""
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr ""
 
@@ -7026,6 +7053,11 @@ msgstr ""
 msgid "Sign"
 msgstr ""
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr ""
 
@@ -7197,6 +7229,9 @@ msgid "Subnet ID"
 msgstr "End of IP range"
 
 msgid "Subnet IDs"
+msgstr ""
+
+msgid "Subnet description"
 msgstr ""
 
 msgid "Subnet name"
@@ -8098,6 +8133,9 @@ msgstr ""
 msgid "Undo remove"
 msgstr ""
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr ""
 
@@ -8498,10 +8536,10 @@ msgstr ""
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr ""
 
-msgid "Valid from"
+msgid "Valid Host Group and Environment Combinations"
 msgstr ""
 
-msgid "Valid host group and environment combinations"
+msgid "Valid from"
 msgstr ""
 
 msgid "Validation types"
@@ -8542,6 +8580,9 @@ msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
 msgstr ""
 
 msgid "Very Strong"
+msgstr ""
+
+msgid "View Chart"
 msgstr ""
 
 msgid "View Diff"
@@ -9359,9 +9400,6 @@ msgstr "Organizations and/or"
 msgid "organizations"
 msgstr ""
 
-msgid "override"
-msgstr ""
-
 msgid "paginate results"
 msgstr ""
 
@@ -9405,9 +9443,6 @@ msgid "recreate"
 msgstr ""
 
 msgid "regexp"
-msgstr ""
-
-msgid "remove"
 msgstr ""
 
 msgid "remove network interface"

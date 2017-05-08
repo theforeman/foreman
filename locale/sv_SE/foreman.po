@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-02 08:48+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -413,6 +413,9 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr "Lägg till bokmärke"
 
+msgid "Add Combination"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "Lägg till nätverksgränssnitt"
 
@@ -442,9 +445,6 @@ msgstr ""
 
 msgid "Add a template combination"
 msgstr ""
-
-msgid "Add combination"
-msgstr "Lägg till kombination"
 
 msgid "Add external user group"
 msgstr ""
@@ -1930,6 +1930,9 @@ msgstr ""
 msgid "Delete Hosts"
 msgstr "Radera värd"
 
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
+
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Radera PuppetCA certifikat för %s"
 
@@ -2085,9 +2088,6 @@ msgstr ""
 
 msgid "Delete autosign entry"
 msgstr ""
-
-msgid "Delete autosign entry for %s"
-msgstr "Radera autosigneringsvärde för %s"
 
 msgid "Delete filter?"
 msgstr ""
@@ -3273,6 +3273,9 @@ msgstr "Värdgrupp och Miljö"
 
 msgid "Host group configuration"
 msgstr "Värdgruppskonfiguration"
+
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr ""
@@ -4523,9 +4526,6 @@ msgstr "Ladda Innehavare"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "Laddar"
-
 msgid "Loading ..."
 msgstr "Laddar ..."
 
@@ -4768,6 +4768,9 @@ msgstr "Tilldela Manuellt"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Välj manuellt och tilldela värdar utan %s"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr ""
@@ -5182,8 +5185,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Inga värdar markerade"
 
-msgid "No hosts were found with that id or name"
-msgstr "Inga värdar med det idt eller namnet hittades"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Inga intressanta rapporter togs emot den senaste veckan"
@@ -5586,6 +5589,9 @@ msgstr "Värdar ur synk med aktiverade notifieringar"
 msgid "Out of sync interval"
 msgstr ""
 
+msgid "Override"
+msgstr ""
+
 msgid "Override all parameters"
 msgstr ""
 
@@ -5798,6 +5804,9 @@ msgstr ""
 
 msgid "Physical (Bridge)"
 msgstr "Fysisk(Brygga)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "Vänligen bekräfta"
@@ -6244,10 +6253,23 @@ msgstr ""
 msgid "Region"
 msgstr "Region"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
 msgid "Remote address"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid "Remove %s?"
@@ -6676,6 +6698,11 @@ msgstr "Välj mall"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr ""
 
@@ -6998,6 +7025,11 @@ msgstr "Visa senaste rapporten för en värd"
 msgid "Sign"
 msgstr "Signera"
 
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Size"
 msgstr "Storlek"
 
@@ -7166,6 +7198,9 @@ msgid "Subnet ID"
 msgstr ""
 
 msgid "Subnet IDs"
+msgstr ""
+
+msgid "Subnet description"
 msgstr ""
 
 msgid "Subnet name"
@@ -8066,6 +8101,9 @@ msgstr ""
 msgid "Undo remove"
 msgstr "Ångra radering"
 
+msgid "Undo selection"
+msgstr ""
+
 msgid "Unhide this value"
 msgstr ""
 
@@ -8464,11 +8502,11 @@ msgstr "VM körs ej!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr ""
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "Giltig från"
-
-msgid "Valid host group and environment combinations"
-msgstr "Korrekt värdgrupp och miljökombinationer"
 
 msgid "Validation types"
 msgstr "Valideringstyper"
@@ -8509,6 +8547,9 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Väldigt stark"
+
+msgid "View Chart"
+msgstr ""
 
 msgid "View Diff"
 msgstr "Granska Skillnad"
@@ -9324,9 +9365,6 @@ msgstr "organisation"
 msgid "organizations"
 msgstr "organisationer"
 
-msgid "override"
-msgstr "tvinga"
-
 msgid "paginate results"
 msgstr ""
 
@@ -9371,9 +9409,6 @@ msgstr ""
 
 msgid "regexp"
 msgstr ""
-
-msgid "remove"
-msgstr "ta bort"
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
