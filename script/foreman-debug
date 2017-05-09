@@ -86,21 +86,25 @@ add_file() {
   MIME=$(file -bi "$FILE" | cut -d\; -f1)
   case $MIME in
         application/x-gzip)
-          zcat "$FILE" | sed -r "$FILTER" > "$DIR$FILE.txt"
-	  touch -c -r "$FILE" "$DIR$FILE.txt"
+          OUTFILE="$DIR${FILE/%.gz/}"
+          zcat "$FILE" | sed -r "$FILTER" > "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         application/x-bzip2)
-          bzcat "$FILE" | sed -r "$FILTER" > "$DIR$FILE.txt"
-	  touch -c -r "$FILE" "$DIR$FILE.txt"
+          OUTFILE="$DIR${FILE/%.bz2/}"
+          bzcat "$FILE" | sed -r "$FILTER" > "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         application/x-xz)
-          xzcat "$FILE" | sed -r "$FILTER" > "$DIR$FILE.txt"
-	  touch -c -r "$FILE" "$DIR$FILE.txt"
+          OUTFILE="$DIR${FILE/%.xz/}"
+          xzcat "$FILE" | sed -r "$FILTER" > "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         text/plain | application/xml)
-          sed -r "$FILTER" "$FILE" > "$DIR$FILE"
-          [ $PRINTPASS -eq 1 ] && grep -H "+FILTERED+" "$DIR$FILE"
-	  touch -c -r "$FILE" "$DIR$FILE"
+          OUTFILE="$DIR$FILE"
+          sed -r "$FILTER" "$FILE" > "$OUTFILE"
+          [ $PRINTPASS -eq 1 ] && grep -H "+FILTERED+" "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         *)
           echo "Skipping file $FILE: unknown MIME type $MIME" >> "$DIR/skipped_files"
