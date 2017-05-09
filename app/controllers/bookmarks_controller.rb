@@ -23,7 +23,7 @@ class BookmarksController < ApplicationController
   def create
     @bookmark = Bookmark.new(bookmark_params)
     if @bookmark.save
-      redirect_to send("#{@bookmark.controller}_path"), :notice => _('Bookmark was successfully created.')
+      redirect_to send("#{@bookmark.controller}_path"), :notice => _('Bookmark was successfully created')
     else
       render :action => "new"
     end
@@ -31,7 +31,7 @@ class BookmarksController < ApplicationController
 
   def update
     if @bookmark.update_attributes(bookmark_params)
-      redirect_to(bookmarks_path, :notice => _('Bookmark was successfully updated.'))
+      redirect_to(bookmarks_path, :notice => _('Bookmark was successfully updated'))
     else
       render :action => "edit"
     end

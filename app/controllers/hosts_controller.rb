@@ -93,7 +93,7 @@ class HostsController < ApplicationController
     @clone_host = @host
     @host = @clone_host.clone
     load_vars_for_ajax
-    flash[:warning] = _("The marked fields will need reviewing")
+    warning(_("The marked fields will need reviewing"), true)
     @host.valid?
   end
 
@@ -393,7 +393,7 @@ class HostsController < ApplicationController
 
   def update_multiple_parameters
     if params[:name].empty?
-      notice _("No parameters were allocated to the selected hosts, can't mass assign.")
+      notice _("No parameters were allocated to the selected hosts, can't mass assign")
       redirect_to hosts_path
       return
     end
@@ -511,7 +511,7 @@ class HostsController < ApplicationController
     end
 
     if message.blank?
-      notice _('Configuration successfully rebuilt.')
+      notice _('Configuration successfully rebuilt')
     else
       error message
     end
@@ -878,13 +878,13 @@ class HostsController < ApplicationController
 
     if failed_hosts.empty?
       if proxy
-        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}.') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
+        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
       else
-        notice _('The %{proxy_type} proxy of the selected hosts was cleared.') % {:proxy_type => proxy_type}
+        notice _('The %{proxy_type} proxy of the selected hosts was cleared') % {:proxy_type => proxy_type}
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
-               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}.",
+               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
                failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
     end
     redirect_back_or_to hosts_path

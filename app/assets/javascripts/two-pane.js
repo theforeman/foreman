@@ -136,6 +136,7 @@ function hide_columns(){
     $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
   tfm.tools.showSpinner();
+  tfm.toastNotifications.clear()
   $('.two-pane-left').after("<div class='col-md-9 two-pane-right'></div>");
 }
 

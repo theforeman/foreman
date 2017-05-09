@@ -160,16 +160,25 @@ class ApplicationController < ActionController::Base
                        end
   end
 
-  def notice(notice)
-    flash[:notice] = CGI.escapeHTML(notice)
+  def notice(message, now = false)
+    flash_message(:notice, message, now)
   end
 
-  def error(error)
-    flash[:error] = CGI.escapeHTML(error)
+  def error(message, now = false)
+    flash_message(:error, message, now)
   end
 
-  def warning(warning)
-    flash[:warning] = CGI.escapeHTML(warning)
+  def warning(message, now = false)
+    flash_message(:warning, message, now)
+  end
+
+  def flash_message(type, message, now = false)
+    message = CGI.escapeHTML(message)
+    if now
+      flash.now[type] = message
+    else
+      flash[type] = message
+    end
   end
 
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
@@ -294,7 +303,7 @@ class ApplicationController < ActionController::Base
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
     if hash[:render]
-      flash.now[:error] = CGI.escapeHTML(hash[:error_msg]) unless hash[:error_msg].empty?
+      error(hash[:error_msg], true) unless hash[:error_msg].empty?
       render hash[:render]
     elsif hash[:redirect]
       error(hash[:error_msg]) unless hash[:error_msg].empty?
@@ -335,7 +344,7 @@ class ApplicationController < ActionController::Base
                              elsif session[:organization_id]
                                orgs.find_by_id(session[:organization_id])
                              end
-      warning _("Organization you had selected as your context has been deleted.") if (session[:organization_id] && Organization.current.nil?)
+      warning _("Organization you had selected as your context has been deleted") if (session[:organization_id] && Organization.current.nil?)
     end
 
     if SETTINGS[:locations_enabled]
@@ -345,7 +354,7 @@ class ApplicationController < ActionController::Base
                          elsif session[:location_id]
                            locations.find_by_id(session[:location_id])
                          end
-      warning _("Location you had selected as your context has been deleted.") if (session[:location_id] && Location.current.nil?)
+      warning _("Location you had selected as your context has been deleted") if (session[:location_id] && Location.current.nil?)
     end
   end
 

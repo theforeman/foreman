@@ -81,7 +81,7 @@ class LocationsControllerTest < ActionController::TestCase
 
   test "should display a warning if current location has been deleted" do
     get :index, {}, set_session_user.merge(:location_id => 1234)
-    assert_equal "Location you had selected as your context has been deleted.", flash[:warning]
+    assert_equal "Location you had selected as your context has been deleted", flash[:warning]
   end
 
   # Assign All Hosts

@@ -26,7 +26,7 @@ class TemplatesController < ApplicationController
     @template = @template.dup
     @template.locked = false
     load_vars_from_template
-    flash[:warning] = _("The marked fields will need reviewing")
+    warning(_("The marked fields will need reviewing"), true)
     @template.valid?
     render :action => :new
   end
