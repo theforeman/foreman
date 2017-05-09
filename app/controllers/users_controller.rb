@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   def destroy
     @user = find_resource(:destroy_users)
     if @user == User.current
-      notice _("You cannot delete this user while logged in as this user.")
+      warning _("You cannot delete this user while logged in as this user")
       redirect_to :back
       return
     end

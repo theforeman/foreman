@@ -23,7 +23,7 @@ module Foreman::Controller::Authentication
         @available_sso ||= SSO::Base.new(self)
         if session[:user] && !User.current
           backup_session_content { reset_session }
-          flash[:warning] = _('Your session has expired, please login again')
+          warning _('Your session has expired, please login again')
         end
         return if @available_sso.has_rendered
         redirect_to @available_sso.login_url

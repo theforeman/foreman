@@ -13,15 +13,27 @@ export function notify({message, type, link, sticky = isSticky(type)}) {
       }));
 }
 
+export function clear() {
+  store.dispatch(ToastActions.clearToasts());
+}
+
 function importFlashMessagesFromRails() {
-  $('#notifications').data().flash.forEach(([type, message]) => {
+  const notifications = $('#notifications');
+
+  if (notifications.length === 0 ||
+    !notifications.data('flash')) {return;}
+
+  notifications.data('flash').forEach(([type, message]) => {
     notify({message, type});
   });
+  // remove both jquery cache and dom entry to avoid ajax ContentLoad events
+  // reloading our notifications
+  notifications.attr('data-flash', '').removeData();
 }
 
 // load notifications from Rails on ContentLoad
 // to accommodate rails flash syntax
 $(document).on('ContentLoad', () => {
-  store.dispatch(ToastActions.clearToasts());
+  clear();
   importFlashMessagesFromRails();
 });

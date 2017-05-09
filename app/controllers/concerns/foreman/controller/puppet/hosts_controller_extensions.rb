@@ -150,13 +150,13 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
     if failed_hosts.empty?
       if proxy
-        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}.') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
+        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
       else
         notice _('The %{proxy_type} proxy of the selected hosts was cleared.') % {:proxy_type => proxy_type}
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
-               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}.",
+               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
                failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
     end
     redirect_back_or_to hosts_path
@@ -171,7 +171,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
-               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}.",
+               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
                errors.count) % {:proxy_type => proxy_type, :host_names => errors.map {|h, err| "#{h} (#{err})"}.to_sentence}
     end
   end
