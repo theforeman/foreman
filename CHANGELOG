@@ -1,4 +1,14 @@
+2017-05-09	Timo Goebel <mail@timogoebel.name>
+	* refs #19419 - test aws fog_extensions name methods
+
+2017-05-09	Ben Plessinger <plessbd@users.noreply.github.com>
+	* fixes #19419 - fix invalid syntax in aws fog extention
+
+2017-05-09	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #18995, #18996 - visible_environments works w/o taxonomies
+
 2017-04-24	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.0-RC2
 	* templates - sync from community-templates
 	* i18n - extracting new, pulling from tx
 
