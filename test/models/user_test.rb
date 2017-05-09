@@ -1025,9 +1025,17 @@ class UserTest < ActiveSupport::TestCase
       assert_equal ['test_env_loc1'], User.current.visible_environments
     end
 
-    test 'should show the list of environments visible when both orgs/locs are enabled' do
+    test 'should show the list of environments visible when both orgs/locs are enabled as admin user' do
       # Admin user sees all environments - including the ones without taxonomies
       assert_equal ['production', 'global_puppetmaster', 'testing'].sort, User.current.visible_environments.sort
+    end
+
+    test 'should show the list of environments visible when both orgs/locs are enabled as inherited admin user' do
+      User.current = FactoryGirl.create(:user, usergroups: [FactoryGirl.create(:usergroup, admin: true)]).reload
+      assert_equal ['production', 'global_puppetmaster', 'testing'].sort, User.current.visible_environments.sort
+    end
+
+    test 'should show the list of environments visible when both orgs/locs are enabled as non-admin user' do
       # Non-admin user only sees environments in a taxonomy at least
       setup_user 'view', 'environments'
       assert_equal ['production'], User.current.visible_environments
