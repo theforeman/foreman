@@ -407,7 +407,7 @@ class User < ApplicationRecord
         .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
     end
     result = authorized_scope.distinct.pluck(:name)
-    if User.current.admin
+    if User.current.admin?
       # Admin users can also see Environments that do not have any organization or location, even when
       # organizations and locations are enabled.
       untaxed_environments = Environment.unscoped.where(
