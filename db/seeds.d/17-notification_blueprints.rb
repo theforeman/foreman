@@ -1,35 +1,35 @@
 blueprints = [
   {
-    group: _('Hosts'),
+    group: N_('Hosts'),
     name: 'host_build_completed',
-    message: _('%{subject} has been provisioned successfully'),
+    message: N_('%{subject} has been provisioned successfully'),
     level: 'success',
     actions:
     {
       links:
       [
         path_method: :host_path,
-        title: _('Details')
+        title: N_('Details')
       ]
     }
   },
   {
-    group: _('Hosts'),
+    group: N_('Hosts'),
     name: 'host_destroyed',
-    message: _('%{subject} has been deleted successfully'),
+    message: N_('%{subject} has been deleted successfully'),
     level: 'info'
   },
   {
-    group: _('Hosts'),
+    group: N_('Hosts'),
     name: 'host_missing_owner',
-    message: _('%{subject} has no owner set'),
+    message: N_('%{subject} has no owner set'),
     level: 'warning',
     actions:
     {
       links:
       [
         path_method: :edit_host_path,
-        title: _('Update host')
+        title: N_('Update host')
       ]
     }
   }
