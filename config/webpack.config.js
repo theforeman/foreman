@@ -3,19 +3,21 @@
 var path = require('path');
 var webpack = require('webpack');
 var StatsPlugin = require('stats-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
 
 // set TARGETNODE_ENV=production on the environment to add asset fingerprints
-var production = process.env.RAILS_ENV === 'production' || process.env.NODE_ENV === 'production';
+var production =
+  process.env.RAILS_ENV === 'production' ||
+  process.env.NODE_ENV === 'production';
 
 var config = {
   entry: {
     // Sources are expected to live in $app_root/webpack
-    'bundle': './webpack/assets/javascripts/bundle.js'
+    bundle: './webpack/assets/javascripts/bundle.js'
   },
 
   output: {
@@ -30,8 +32,10 @@ var config = {
   },
 
   resolve: {
-    extensions: ['', '.js'],
-    root: path.join(__dirname, '..', 'webpack')
+    modules: [
+      path.join(__dirname, '..', 'webpack'),
+      path.join(__dirname, '..', 'node_modules')
+    ]
   },
 
   module: {
@@ -43,18 +47,21 @@ var config = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
       },
       {
         test: /(\.png|\.gif)$/,
-        loader: "url-loader?limit=32767"
+        loader: 'url-loader?limit=32767'
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader', // The backup style loader
-          'css-loader?sourceMap!sass-loader?sourceMap'
-        )
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader', // The backup style loader
+          use: 'css-loader?sourceMap!sass-loader?sourceMap'
+        })
       }
     ]
   },
@@ -69,8 +76,9 @@ var config = {
       modules: false,
       assets: true
     }),
-    new ExtractTextPlugin(production ? '[name]-[chunkhash].css' : '[name].css', {
-        allChunks: true
+    new ExtractTextPlugin({
+      filename: production ? '[name]-[chunkhash].css' : '[name].css',
+      allChunks: true
     }),
     new webpack.DefinePlugin({
       'process.env': {
@@ -83,14 +91,13 @@ var config = {
 
 if (production) {
   config.plugins.push(
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: { warnings: false },
       sourceMap: false
     }),
-
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new CompressionPlugin()
   );
 } else {
