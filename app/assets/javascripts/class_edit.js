@@ -2,7 +2,7 @@ function filter_puppet_classes(item){
   var term = $(item).val().trim();
   var class_elems = $('.available_classes').find('.puppetclass_group, .puppetclass');
   if (term.length > 0) {
-    class_elems.hide().has('[data-class-name*='+term+']').show();
+    class_elems.hide().has('[data-class-name*="'+term+'"]').show();
   } else {
     class_elems.show();
   }
