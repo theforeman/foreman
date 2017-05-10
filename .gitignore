@@ -44,3 +44,4 @@ config/hooks
 node_modules
 public/webpack
 .env*
+package-lock.json
