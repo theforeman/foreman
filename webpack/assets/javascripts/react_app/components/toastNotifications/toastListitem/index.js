@@ -2,8 +2,9 @@ import React from 'react';
 import helpers from '../../../common/helpers';
 import Timer from '../../../common/Timer';
 import Alert from '../../common/Alert';
-
+import PropTypes from 'prop-types';
 import { defaultTimerDelay } from './Toast.consts';
+
 import './Toast.scss';
 class Toast extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class Toast extends React.Component {
   }
 }
 Toast.propTypes = {
-  message: React.PropTypes.string.isRequired
+  message: PropTypes.string.isRequired
 };
 
 export default Toast;

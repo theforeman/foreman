@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import chartService from '../../../services/statisticsChartService';
 import ChartBox from './ChartBox';
 import './StatisticsChartsListStyles.css';

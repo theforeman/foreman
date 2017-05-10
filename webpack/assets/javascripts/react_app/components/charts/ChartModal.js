@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import c3 from 'c3';
 
@@ -32,7 +33,7 @@ const ChartModal = ({ show, config, onHide, setTitle, title, id }) => {
   );
 };
 
-ChartModal.PropTypes = {
+ChartModal.propTypes = {
   show: PropTypes.bool.isRequired,
   config: PropTypes.object,
   onHide: PropTypes.func.isRequired,

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import helpers from '../../common/helpers';
 import Chart from './Chart';
 import chartService from '../../../services/statisticsChartService';
