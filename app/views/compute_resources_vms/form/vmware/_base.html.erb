@@ -18,7 +18,6 @@ end %>
 <%= vsphere_resource_pools(f, compute_resource, !new_vm) %>
 <%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_vm } %>
 <%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_vm } %>
-<%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_vm } %>
 <%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_vm } %>
 <%= checkbox_f f, :memoryHotAddEnabled, { :help_inline => _("Memory hot add lets you add memory resources for a virtual machine while the machine is powered on."), :label => _('Memory hot add'), :label_size => "col-md-2", :disabled => !new_vm } %>
 <%= checkbox_f f, :cpuHotAddEnabled, { :help_inline => _("CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."), :label => _('CPU hot add'), :label_size => "col-md-2", :disabled => !new_vm } %>
@@ -42,3 +41,18 @@ end %>
 </div>
 
 <%= compute_specific_js(compute_resource, "nic_info") %>
+
+<div id="scsi_controllers"></div>
+
+<%= mount_react_component('StorageContainer', '#scsi_controllers', {
+  config: {
+    vmExists: !new_vm,
+    controllerTypes: compute_resource.scsi_controller_types,
+    diskModeTypes: compute_resource.disk_mode_types,
+    storagePods: vsphere_storage_pods(compute_resource),
+    datastores: vsphere_datastores(compute_resource),
+    paramsScope: "#{f.object_name}[scsi_controllers]"
+  },
+  volumes: f.object.volumes.map { |volume| volume.attributes.merge(:size_gb => volume.size_gb).deep_transform_keys { |key| key.to_s.camelize(:lower).to_sym }.reject { |k,v| k == :Size } },
+  controllers: f.object.scsi_controllers
+}.to_json) %>
