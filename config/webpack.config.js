@@ -73,7 +73,10 @@ var config = {
         allChunks: true
     }),
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify(production ? 'production' : 'development') }
+      'process.env': {
+        NODE_ENV: JSON.stringify(production ? 'production' : 'development'),
+        NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING
+      }
     })
   ]
 };
@@ -85,7 +88,7 @@ if (production) {
       compressor: { warnings: false },
       sourceMap: false
     }),
-    
+
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new CompressionPlugin()

@@ -9,7 +9,11 @@ import {
   notificationsDrawer as sessionStorage
 } from '../../../common/sessionStorage';
 import API from '../../../API';
-const getNotificationsInterval = 10000;
+import { isNil } from 'lodash';
+const defaultNotificationsPollingInterval = 10000;
+const notificationsInterval = isNil(process.env.NOTIFICATIONS_POLLING) ?
+  defaultNotificationsPollingInterval :
+  process.env.NOTIFICATIONS_POLLING;
 
 export const getNotifications = url => dispatch => {
   new Promise((resolve, reject) => {
@@ -17,25 +21,30 @@ export const getNotifications = url => dispatch => {
       document.visibilityState === 'visible' ||
       document.visibilityState === 'prerender'
     ) {
-      API.get(url).then(response => {
-        dispatch({
-          type: NOTIFICATIONS_GET_NOTIFICATIONS,
-          payload: {
-            notifications: response.notifications
-          }
-        });
-        resolve();
-      }, () => reject());
+      API.get(url).then(
+        response => {
+          dispatch({
+            type: NOTIFICATIONS_GET_NOTIFICATIONS,
+            payload: {
+              notifications: response.notifications
+            }
+          });
+          resolve();
+        },
+        () => reject()
+      );
     } else {
       resolve();
     }
     return null;
   }).then(
     () => {
-      setTimeout(
-        () => dispatch(getNotifications(url)),
-        getNotificationsInterval
-      );
+      if (notificationsInterval) {
+        setTimeout(
+          () => dispatch(getNotifications(url)),
+          notificationsInterval
+        );
+      }
     },
     // error handling
     () => {}
