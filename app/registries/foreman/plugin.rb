@@ -93,6 +93,8 @@ module Foreman #:nodoc:
       end
     end
 
+    prepend Foreman::Plugin::SearchOverrides
+
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
                 :facets, :rbac_registry, :dashboard_widgets
@@ -322,17 +324,6 @@ module Foreman #:nodoc:
 
     def widget(template, options)
       @dashboard_widgets << {:template => template}.merge(options)
-    end
-
-    # To add FiltersHelper#search_path override,
-    # in lib/engine.rb, in plugin initialization block:
-    # search_path_override("EngineModuleName") { |resource| ... }
-    def search_path_override(engine_name, &blk)
-      if block_given?
-        FiltersHelperOverrides.override_search_path(engine_name, blk)
-      else
-        Rails.logger.warn "Ignoring override of FiltersHelper#search_path_override for '#{engine_name}': no override block is present"
-      end
     end
 
     # list of API controller paths, globs allowed

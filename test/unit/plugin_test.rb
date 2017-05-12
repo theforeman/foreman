@@ -276,9 +276,10 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_add_search_path_override
-    Foreman::Plugin.register :filter_helpers do
+    plugin = Foreman::Plugin.register :filter_helpers do
       search_path_override("TestEngine") { |resource| "test_engine/another_search_path" }
     end
+    assert plugin.search_overrides.key?("TestEngine")
     assert FiltersHelperOverrides.can_override?("TestEngine::TestResource")
   end
 
