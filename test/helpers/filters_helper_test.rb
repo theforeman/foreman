@@ -26,12 +26,20 @@ class FiltersHelperTest < ActionView::TestCase
   end
 
   def test_engine_search_path_is_used_when_engine_override_available
-    FiltersHelperOverrides.override_search_path("TestOverride", ->(resource) { 'test_override/auto_complete_search' })
+    with_search_overrides('TestOverride' => ->(resource) { 'test_override/auto_complete_search' })
     assert_equal "test_override/auto_complete_search", search_path('TestOverride::Resource')
   end
 
   def test_no_deconstantization_if_there_is_no_namespace
-    FiltersHelperOverrides.override_search_path("TestOverride", ->(resource) { 'test_override/auto_complete_search' })
+    with_search_overrides('TestOverride' => ->(resource) { 'test_override/auto_complete_search' })
     assert_equal "test_override/auto_complete_search", search_path('TestOverride')
+  end
+
+  private
+
+  def with_search_overrides(search_overrides)
+    plugin = mock('ExamplePlugin')
+    plugin.expects(:search_overrides).at_least_once.returns(search_overrides)
+    Foreman::Plugin.expects(:all).at_least_once.returns([plugin])
   end
 end
