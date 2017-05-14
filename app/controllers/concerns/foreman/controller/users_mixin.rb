@@ -28,6 +28,12 @@ module Foreman::Controller::UsersMixin
     sub_hg.each { |hg| hg.users << @user }
   end
 
+  def update_timezone
+    if @user.timezone.blank? && cookies[:timezone]
+      @user.update(timezone: cookies[:timezone])
+    end
+  end
+
   def set_current_taxonomies(user, options = {})
     session ||= options.fetch(:session, {})
     ['location', 'organization'].each do |taxonomy|

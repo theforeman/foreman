@@ -38,6 +38,7 @@ class UsersController < ApplicationController
     editing_self?
     @user = find_resource(:edit_users)
     if @user.update_attributes(user_params)
+      update_timezone
       update_sub_hostgroups_owners
 
       process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
