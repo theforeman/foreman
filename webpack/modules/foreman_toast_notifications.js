@@ -1,5 +1,5 @@
-import * as ToastActions from './react_app/redux/actions/toasts';
-import store from '../javascripts/react_app/redux';
+import * as ToastActions from '../react_app/redux/actions/toasts';
+import store from '../react_app/redux';
 import $ from 'jquery';
 
 const isSticky = type => ['notice', 'success', 'info'].indexOf(type) === -1;

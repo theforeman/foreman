@@ -2,18 +2,18 @@ import React from 'react';
 
 /* eslint-disable no-unused-vars */
 import { storiesOf, action, linkTo, addDecorator } from '@kadira/storybook';
-require('../assets/javascripts/bundle');
+require('../');
 require('../../app/assets/javascripts/application');
 import ChartBox from
-  '../assets/javascripts/react_app/components/charts/ChartBox';
-import ChartModal from '../assets/javascripts/react_app/components/charts/ChartModal';
-import chartService from '../assets/javascripts/services/statisticsChartService';
+  '../react_app/components/charts/ChartBox';
+import ChartModal from '../react_app/components/charts/ChartModal';
+import chartService from '../react_app/components/charts/utils/statisticsChartService';
 import mockData from './data/charts/donutChartMockData';
-import { simpleLoader } from '../assets/javascripts/react_app/components/common/Loader';
+import { simpleLoader } from '../react_app/components/common/Loader';
 import PowerStatusInner from
-  '../assets/javascripts/react_app/components/hosts/powerStatus/powerStatusInner';
-import Store from '../assets/javascripts/react_app/redux';
-import Toast from '../assets/javascripts/react_app/components/toastNotifications/toastListitem';
+  '../react_app/components/hosts/powerStatus/powerStatusInner';
+import Store from '../react_app/redux';
+import Toast from '../react_app/components/toastNotifications/toastListitem';
 
 addDecorator((story) => (
   <div className="ca" style={{ textAlign: 'center' }}>

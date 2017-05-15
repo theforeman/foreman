@@ -1,5 +1,5 @@
 jest.unmock('./ChartBox');
-jest.unmock('../../../services/statisticsChartService');
+jest.unmock('./utils/statisticsChartService');
 
 import React from 'react';
 import { mount } from 'enzyme';

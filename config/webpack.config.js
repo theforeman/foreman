@@ -15,7 +15,7 @@ var production = process.env.RAILS_ENV === 'production' || process.env.NODE_ENV 
 var config = {
   entry: {
     // Sources are expected to live in $app_root/webpack
-    'bundle': './webpack/assets/javascripts/bundle.js'
+    'bundle': './webpack/index.js'
   },
 
   output: {
