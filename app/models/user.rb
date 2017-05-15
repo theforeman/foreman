@@ -43,7 +43,7 @@ class User < ApplicationRecord
   has_many :widgets, :dependent => :destroy
   has_many :ssh_keys, :dependent => :destroy
 
-  has_many :user_mail_notifications, :dependent => :destroy
+  has_many :user_mail_notifications, :dependent => :destroy, :inverse_of => :user
   has_many :mail_notifications, :through => :user_mail_notifications
 
   accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
