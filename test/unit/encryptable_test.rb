@@ -30,14 +30,12 @@ class EncryptableTest < ActiveSupport::TestCase
   test "is_encryptable? is false when key is empty" do
     cr = FactoryGirl.build(:ec2_cr)
     cr.stubs(:encryption_key).returns(nil)
-    cr.expects(:puts_and_logs)
     refute cr.is_encryptable?('foo')
   end
 
   test "is_decryptable? is false when key is empty" do
     cr = FactoryGirl.build(:ec2_cr)
     cr.stubs(:encryption_key).returns(nil)
-    cr.expects(:puts_and_logs)
     refute cr.is_decryptable?('encrypted-WkQyR0xMVXZCT2hRTmVGaTNIWlY3RkoxM1M4')
   end
 
