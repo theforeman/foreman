@@ -11,14 +11,7 @@ module EncryptValue
   end
 
   def is_encryptable?(str)
-    if !encryption_key.present?
-      puts_and_logs "Missing ENCRYPTION_KEY configuration, so #{self.class.name} #{name} could not be encrypted", Logger::WARN
-      false
-    elsif str.blank?
-      puts_and_logs "String is blank', so #{self.class.name} #{name} was not encrypted", Logger::DEBUG
-      false
-    elsif matches_prefix?(str)
-      puts_and_logs "String starts with the prefix '#{ENCRYPTION_PREFIX}', so #{self.class.name} #{name} was not encrypted again", Logger::DEBUG
+    if !encryption_key.present? || str.blank? || matches_prefix?(str)
       false
     else
       true
@@ -26,11 +19,7 @@ module EncryptValue
   end
 
   def is_decryptable?(str)
-    if !matches_prefix?(str)
-      puts_and_logs "String does not start with the prefix '#{ENCRYPTION_PREFIX}', so #{self.class.name} #{name} was not decrypted", Logger::DEBUG
-      false
-    elsif !encryption_key.present?
-      puts_and_logs "Missing ENCRYPTION_KEY configuration, so #{self.class.name} #{name} could not be decrypted", Logger::WARN
+    if !matches_prefix?(str) || !encryption_key.present?
       false
     else
       true
@@ -42,10 +31,10 @@ module EncryptValue
     begin
       # add prefix to encrypted string
       str_encrypted = "#{ENCRYPTION_PREFIX}#{encryptor.encrypt_and_sign(str)}"
-      puts_and_logs "Successfully encrypted field for #{self.class.name} #{name}"
       str = str_encrypted
-    rescue
-      puts_and_logs "WARNING: Encryption failed for string. Please check that the ENCRYPTION_KEY has not changed.", Logger::WARN
+    rescue => e
+      puts_and_logs("At least one field encryption failed: #{e}") unless @@encrypt_err_reported
+      @@encrypt_err_reported = true
     end
     str
   end
@@ -56,19 +45,19 @@ module EncryptValue
       # remove prefix before decrypting string
       str_no_prefix = str.gsub(/^#{ENCRYPTION_PREFIX}/, "")
       str_decrypted = encryptor.decrypt_and_verify(str_no_prefix)
-      puts_and_logs "Successfully decrypted field for #{self.class.name} #{name}"
       str = str_decrypted
     rescue ActiveSupport::MessageVerifier::InvalidSignature
-      puts_and_logs "WARNING: Decryption failed for string. Please check that the ENCRYPTION_KEY has not changed.", Logger::WARN
+      puts_and_logs("At least one field decryption failed, check ENCRYPTION_KEY") unless @@decrypt_err_reported
+      @@decrypt_err_reported = true
     end
     str
   end
 
   private
 
-  def puts_and_logs(msg, level = Logger::INFO)
+  def puts_and_logs(msg, level = Logger::WARN)
     logger.add level, msg
-    puts msg if Foreman.in_rake? && !Rails.env.test? && level >= Logger::INFO
+    puts msg if Foreman.in_rake? && !Rails.env.test? && level >= Logger::WARN
   end
 
   def encryptor
