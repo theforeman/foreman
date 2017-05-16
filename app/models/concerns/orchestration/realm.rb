@@ -45,7 +45,6 @@ module Orchestration::Realm
   private
 
   def queue_realm
-    logger.debug "Queueing Realm"
     return unless realm? && errors.empty?
     new_record? ? queue_realm_create : queue_realm_update
   end

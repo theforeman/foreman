@@ -88,11 +88,11 @@ module Orchestration
   end
 
   def queue
-    @queue ||= Orchestration::Queue.new
+    @queue ||= Orchestration::Queue.new(self.class.name + ' Main')
   end
 
   def post_queue
-    @post_queue ||= Orchestration::Queue.new
+    @post_queue ||= Orchestration::Queue.new(self.class.name + ' Post')
   end
 
   def record_conflicts
@@ -126,6 +126,7 @@ module Orchestration
   # if any of them fail, it rollbacks all completed tasks
   # in order not to keep any left overs in our proxies.
   def process(queue_name)
+    processed = 0
     return true if skip_orchestration?
 
     # queue is empty - nothing to do.
@@ -138,10 +139,11 @@ module Orchestration
       break unless q.failed.empty?
 
       task.status = "running"
-
       update_cache
+      logger.debug("Processing task '#{task.name}' from '#{q.name}'")
       begin
         task.status = execute({:action => task.action}) ? "completed" : "failed"
+        processed += 1
       rescue Net::Conflict => e
         task.status = "conflict"
         add_conflict(e)
@@ -162,13 +164,15 @@ module Orchestration
     rollback
   ensure
     unless q.nil?
-      logger.info("Processed queue '#{queue_name}', #{q.completed.count}/#{q.all.count} completed tasks") unless q.empty?
-      q.all.each do |task|
-        msg = "Task #{task.name} *#{task.status}*"
-        if task.status?(:completed) || task.status?(:pending)
-          logger.debug msg
-        else
-          logger.error msg
+      if processed > 0
+        logger.info("Processed #{processed} tasks from queue '#{q.name}', completed #{q.completed.count}/#{q.all.count}") unless q.empty?
+        q.all.each do |task|
+          msg = "Task '#{task.name}' *#{task.status}*"
+          if task.status?(:completed) || task.status?(:pending)
+            logger.debug msg
+          else
+            logger.error msg
+          end
         end
       end
     end
