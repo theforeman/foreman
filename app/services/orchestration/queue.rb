@@ -3,18 +3,21 @@ require_dependency 'orchestration/task'
 module Orchestration
   # Represents tasks queue for orchestration
   class Queue
-    attr_reader :items
+    attr_reader :items, :name
     STATUS = %w[ pending running failed completed rollbacked conflict canceled]
 
     delegate :count, :empty?, :to => :items
     delegate :to_json, :to => :all
+    delegate :to_s, :to => :name
 
-    def initialize
+    def initialize(name = "Unnamed")
       @items = []
+      @name = name
     end
 
     def create(options)
       options[:status] ||= default_status
+      Rails.logger.debug "Enqueued task '#{options[:name]}' to '#{name}' queue"
       items << Task.new(options)
     end
 

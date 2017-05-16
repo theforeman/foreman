@@ -33,10 +33,8 @@ module Nic
     # e.g. outside to Host nested attributes
     def queue_with_host
       if host && host.respond_to?(:queue)
-        logger.debug 'Using host queue'
         host.queue
       else
-        logger.debug 'Using nic queue'
         queue_without_host
       end
     end
