@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import helpers from '../../common/helpers';
 import Chart from './Chart';
-import chartService from '../../../services/statisticsChartService';
+import chartService from './utils/statisticsChartService';
 import ChartModal from './ChartModal';
 import Loader from '../common/Loader';
 import Panel from '../common/Panel/Panel';

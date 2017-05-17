@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import chartService from '../../../services/statisticsChartService';
+import chartService from './utils/statisticsChartService';
 import ChartBox from './ChartBox';
 import './StatisticsChartsListStyles.css';
 import { connect } from 'react-redux';
