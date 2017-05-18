@@ -5,6 +5,9 @@ class CsvExporterTest < ActiveSupport::TestCase
     result = CsvExporter.export(Host::Managed, [:id])
     assert_equal "Id\n", result.next
     assert_equal result.count, Host::Managed.count+1
+    assert_difference('CsvExporter.export(Host::Managed, [:id]).count') do
+      FactoryGirl.create(:host)
+    end
   end
 
   test 'handles empty results correctly' do
@@ -22,6 +25,16 @@ class CsvExporterTest < ActiveSupport::TestCase
     result = CsvExporter.export(Domain.where(:id => id), [:id, :test_method])
     assert_equal "Id,Test Method\n", result.next
     assert_equal "#{id},success!\n", result.next
+    assert_raises StopIteration do
+      result.next
+    end
+  end
+
+  test 'calls nested methods on records' do
+    host = FactoryGirl.create(:host)
+    result = CsvExporter.export(Host::Managed, [:name, 'location.name'])
+    assert_equal "Name,Location.Name\n", result.next
+    assert_equal "#{host.name},#{host.location.name}\n", result.next
     assert_raises StopIteration do
       result.next
     end

@@ -31,8 +31,9 @@ class CsvResponderTest < ActionController::TestCase
     assert_equal "text/csv; charset=utf-8", response.headers["Content-Type"]
     assert_equal "no-cache", response.headers["Cache-Control"]
     assert_equal "attachment; filename=\"fake-#{Date.today}.csv\"", response.headers["Content-Disposition"]
-    assert response.stream.instance_variable_get(:@buf).is_a? Enumerator
-    assert_equal "Name\n", response.stream.instance_variable_get(:@buf).next
+    buf = response.stream.instance_variable_get(:@buf)
+    assert buf.is_a? Enumerator
+    assert_equal "Name\n", buf.next
   end
 end
 
@@ -40,11 +41,12 @@ class CsvApiResponderTest < ActionController::TestCase
   tests Api::V2::FakeController
 
   test "response is streamed correctly with right headers" do
-    get :index
+    get :index, {}, set_session_user
     assert_equal "text/csv; charset=utf-8", response.headers["Content-Type"]
     assert_equal "no-cache", response.headers["Cache-Control"]
     assert_equal "attachment; filename=\"fake-#{Date.today}.csv\"", response.headers["Content-Disposition"]
-    assert response.stream.instance_variable_get(:@buf).is_a? Enumerator
-    assert_equal "Name\n", response.stream.instance_variable_get(:@buf).next
+    buf = response.stream.instance_variable_get(:@buf)
+    assert buf.is_a? Enumerator
+    assert_equal "Name\n", buf.next
   end
 end
