@@ -593,7 +593,7 @@ $(document).on('change', '.interface_type', function () {
 
 function interface_subnet_activate_if_not_empty(element) {
   if (element.find('option').length > 0) {
-    element.prepend($("<option />").val(null).text(__('Please select')));
+    element.prepend($("<option />").val(null).text(null).prop('selected', true));
     element.attr('disabled', false);
     element.change();
   }
