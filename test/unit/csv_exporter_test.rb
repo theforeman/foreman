@@ -39,4 +39,15 @@ class CsvExporterTest < ActiveSupport::TestCase
       result.next
     end
   end
+
+  test 'accepts custom column headers' do
+    result = CsvExporter.export(Host::Managed, [:id], ['My Lovely Header'])
+    assert_equal "My Lovely Header\n", result.next
+  end
+
+  test 'ensures correct number of headers' do
+    assert_raises ArgumentError do
+      CsvExporter.export(Host::Managed, [:id, :name], ['Not Enough Headers!'])
+    end
+  end
 end
