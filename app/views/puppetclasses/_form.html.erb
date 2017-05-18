@@ -1,5 +1,8 @@
 <%= form_for @puppetclass, :url => (@puppetclass.new_record? ? puppetclasses_path : puppetclass_path(:id => @puppetclass)) do |f| %>
   <%= base_errors_for @puppetclass %>
+  <% unless @puppetclass.errors.empty? %>
+    <%= alert :class => 'alert-danger', :header => '', :text => _("The class could not be saved because of an error in one of the class parameters.") %>
+  <% end %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Puppet Class') %></a></li>
     <li><a href="#smart_class_param" data-toggle="tab"><%= _('Smart Class Parameter') %></a></li>
