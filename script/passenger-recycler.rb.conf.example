@@ -1,0 +1,19 @@
+#
+# Trivial Passenger memory monitor. This configuration file is Ruby syntax.
+#
+
+# set to 'false' to disable script (use configuration file)
+#ENABLED = true
+
+# RSS memory threashold to recycle processes (in kB)
+#MAX_PRIV_RSS_MEMORY = 2_000_000
+
+# seconds to wait for graceful shutdown
+#GRACEFUL_SHUTDOWN_SLEEP = 120
+
+# kill processes which do not terminate gracefully
+#KILL_BUSY = true
+
+# print 'passenger-status' output before termination
+#SEND_STATUS = true
+
