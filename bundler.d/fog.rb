@@ -1,3 +1,3 @@
 group :fog do
-  gem 'fog', '1.38.0', :require => false
+  gem 'fog', '1.40.0', :require => false
 end
