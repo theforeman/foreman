@@ -103,6 +103,10 @@ class TemplatesController < ApplicationController
     @resource_class ||= controller_name.singularize.classify.constantize
   end
 
+  def resource_name
+    'template'
+  end
+
   private
 
   def safe_render(template)
@@ -142,10 +146,6 @@ class TemplatesController < ApplicationController
       else
         super
     end
-  end
-
-  def resource_name
-    'template'
   end
 
   def type_name_plural

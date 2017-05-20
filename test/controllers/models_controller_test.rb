@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class ModelsControllerTest < ActionController::TestCase
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
+
   def test_index
     get :index, {}, set_session_user
     assert_template 'index'

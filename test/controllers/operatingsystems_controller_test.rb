@@ -1,5 +1,12 @@
 require 'test_helper'
 class OperatingsystemsControllerTest < ActionController::TestCase
+  setup do
+    @factory_options = :with_parameter
+  end
+
+  basic_pagination_rendered_test
+  basic_pagination_per_page_test
+
   def setup_os_user
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]

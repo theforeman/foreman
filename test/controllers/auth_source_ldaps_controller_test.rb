@@ -8,6 +8,8 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
   basic_index_test
   basic_new_test
   basic_edit_test
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
 
   def test_create_invalid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)

@@ -5,8 +5,7 @@ class ArchitecturesController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    base = resource_base.includes(:operatingsystems).search_for(params[:search], :order => params[:order])
-    @architectures = base.paginate(:page => params[:page])
+    @architectures = resource_base_search_and_page.includes(:operatingsystems)
   end
 
   def new

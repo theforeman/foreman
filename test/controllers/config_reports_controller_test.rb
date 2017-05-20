@@ -4,6 +4,9 @@ require 'controllers/shared/report_host_permissions_test'
 class ConfigReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
+  basic_pagination_rendered_test
+  basic_pagination_per_page_test
+
   let :report do
     as_admin { FactoryGirl.create(:config_report) }
   end

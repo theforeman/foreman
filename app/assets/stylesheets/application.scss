@@ -342,6 +342,10 @@ table {
   vertical-align: bottom;
 }
 
+#pagination {
+  margin-top: -6px;
+}
+
 #interfaceModal {
   .modal-dialog {
     min-width: 1000px;
@@ -655,3 +659,8 @@ code.transparent {
     }
   }
 }
+
+.per-page {
+  margin-right: 5px;
+}
+

@@ -100,6 +100,7 @@ describe('updateTableTest', () => {
       value: 'http://localhost'
     });
     document.body.innerHTML = `
+<div>
     <form id="search-form" onsubmit="return tfm.tools.updateTable(this);" action="/templates/provisioning_templates" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
   <div class="input-group">
     <input type="text" name="search" id="search" value="name = y " placeholder="Filter ..." class="autocomplete-input form-control ui-autocomplete-input ui-autocomplete-loading" data-url="/templates/provisioning_templates/auto_complete_search" autocomplete="off"><a class="autocomplete-clear" tabindex="-1" title="" data-original-title="Clear" style="display: none;">×</a>
@@ -118,6 +119,32 @@ describe('updateTableTest', () => {
     </span>
   </div>
 </form>
+<table></table>
+<form class="content-view-pf-pagination table-view-pf-pagination paginate" id="pagination" data-count="7" data-per-page="7">
+  <div class="form-group">
+    <select name="per_page" id="per_page" label="per page" onchange="tfm.tools.updateTable(this)" class="pagination-pf-pagesize without_select2 per-page"><option selected="selected" value="5">5</option>
+<option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="25">25</option>
+<option value="50">50</option></select>
+    <span>per page</span>
+  </div>
+
+  <div class="form-group">
+    <span>
+      <span class="pagination-pf-items-current">
+        1-5
+      </span>
+      of
+      <span class="pagination-pf-items-total">
+        7
+      </span>
+    </span>
+    <ul class="pagination pagination-pf-back"><li class="firs first_page disabled"><a href="#"><span class="fa fa-angle-double-left "></span> </a></li><li class="prev previous_page disabled"><a href="#"><span class="fa fa-angle-left "></span> </a></li></ul> <input class="pagination-pf-page" type="text" value="1" id="pagination1-page"><label class="sr-only" for="pagination1-page">Current Page</label><span>of <span class="pagination-pf-pages">2</span></span> <ul class="pagination pagination-pf-forward"><li class="next next_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-right "></span> </a></li><li class="last last_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-double-right "></span> </a></li></ul>
+  </div>
+</form>
+</div>
     `;
   });
 
@@ -126,8 +153,17 @@ describe('updateTableTest', () => {
     expect(global.Turbolinks.visit).toBeCalled();
   });
 
-  it('should use find search term and add it to the url', () => {
+  it('should use find search term and add it to the url considering per page value', () => {
+    let PerPage = $('#per_page').val();
+
     $('form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith('http://localhost/?search=name+%3D+y');
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}`);
+  });
+
+  it('should use selected per page value and add it to the url considering search term', () => {
+    let PerPage = $('#per_page').val();
+
+    $('#per_page').change();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}`);
   });
 });

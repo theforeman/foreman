@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class PuppetclassLookupKeysControllerTest < ActionController::TestCase
+  setup do
+    @factory_options = [:as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test']
+  end
+
+  basic_pagination_rendered_test
+  basic_pagination_per_page_test
+
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success

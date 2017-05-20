@@ -524,6 +524,6 @@ module ApplicationHelper
   end
 
   def current_url_params(permitted: [])
-    params.permit(permitted + [:locale, :search])
+    params.permit(permitted + [:locale, :search, :per_page])
   end
 end

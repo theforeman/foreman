@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class OrganizationsControllerTest < ActionController::TestCase
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
+
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success

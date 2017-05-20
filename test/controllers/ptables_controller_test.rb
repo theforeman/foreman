@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class PtablesControllerTest < ActionController::TestCase
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
+
   def setup
     @ptable = FactoryGirl.create(:ptable)
   end

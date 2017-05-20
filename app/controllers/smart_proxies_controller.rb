@@ -6,7 +6,7 @@ class SmartProxiesController < ApplicationController
   before_action :find_status, :only => [:ping, :tftp_server, :puppet_environments]
 
   def index
-    @smart_proxies = resource_base.includes(:features).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @smart_proxies = resource_base_search_and_page.includes(:features)
   end
 
   def show

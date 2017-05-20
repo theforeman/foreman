@@ -13,7 +13,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def index
-    @compute_resources = resource_base.live_descendants.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @compute_resources = resource_base_search_and_page.live_descendants
   end
 
   def new

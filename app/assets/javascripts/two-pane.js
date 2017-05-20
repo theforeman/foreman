@@ -117,7 +117,7 @@ function two_pane_close(){
   $('.table-two-pane tr td').show();
   $('.table-two-pane th').show();
   $("#title_action").show();
-  $('.pagination').show();
+  $('#pagination').show();
   if ($('.two-pane-left').length){
     $('.table-two-pane').unwrap().unwrap();
   }
@@ -131,7 +131,7 @@ function hide_columns(){
   $('.table-two-pane th:nth-child(1)').show();
   $("#title_action").hide();
   $('.two-pane-right').remove();
-  $('.pagination').hide();
+  $('#pagination').hide();
   if ($('.two-pane-left').length == 0){
     $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
