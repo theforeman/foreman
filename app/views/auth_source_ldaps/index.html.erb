@@ -4,7 +4,7 @@
 
 <% title_actions(new_link(_("Create LDAP Source")), documentation_button('4.1.1LDAPAuthentication')) %>
 
-<table class="<%= table_css_classes("table-two-pane table-hover") %>">
+<table class="<%= table_css_classes("table-two-pane table-hover table-fixed") %>">
   <thead>
     <tr>
       <th><%= sort :name, :as => s_("AuthSource|Name") %></th>
@@ -26,3 +26,5 @@
   <% end %>
   </tbody>
 </table>
+
+<%= will_paginate_with_info @auth_source_ldaps %>

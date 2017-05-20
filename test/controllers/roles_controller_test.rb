@@ -25,6 +25,8 @@ class RolesControllerTest < ActionController::TestCase
   basic_index_test('roles')
   basic_new_test
   basic_edit_test
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
 
   test 'creates role' do
     post :create, { :role => {:name => 'test role'}}, set_session_user

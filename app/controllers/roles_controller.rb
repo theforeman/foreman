@@ -22,7 +22,7 @@ class RolesController < ApplicationController
 
   def index
     params[:order] ||= 'name'
-    @roles = Role.authorized(:view_roles).search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    @roles = Role.authorized(:view_roles).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def new

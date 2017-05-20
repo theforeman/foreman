@@ -53,7 +53,7 @@ class HostsController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        @hosts = search.includes(included_associations).paginate(:page => params[:page])
+        @hosts = search.includes(included_associations).paginate(:page => params[:page], :per_page => params[:per_page])
         # SQL optimizations queries
         @last_report_ids = ConfigReport.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         @last_reports = ConfigReport.where(:id => @last_report_ids.values)

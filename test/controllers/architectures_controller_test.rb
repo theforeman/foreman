@@ -8,6 +8,8 @@ class ArchitecturesControllerTest < ActionController::TestCase
   basic_index_test
   basic_new_test
   basic_edit_test
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
 
   def test_new_submit_button_id
     get :new, {}, set_session_user
@@ -72,7 +74,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
   def user_with_viewer_rights_should_fail_to_edit_an_architecture
     setup_user
     get :edit, {:id => Architecture.first.id}
-    assert @response.status == '403 Forbidden'
+    assert_response :forbidden
   end
 
   def user_with_viewer_rights_should_succeed_in_viewing_architectures

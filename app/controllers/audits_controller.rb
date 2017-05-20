@@ -4,7 +4,7 @@ class AuditsController < ApplicationController
   before_action :setup_search_options, :only => :index
 
   def index
-    Audit.unscoped { @audits = resource_base.includes(:user).search_for(params[:search], :order => params[:order]).paginate :page => params[:page] }
+    Audit.unscoped { @audits = resource_base_search_and_page.includes(:user) }
   end
 
   def show

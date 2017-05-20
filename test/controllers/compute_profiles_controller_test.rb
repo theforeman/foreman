@@ -6,6 +6,9 @@ class ComputeProfilesControllerTest < ActionController::TestCase
     @compute_profile = compute_profiles(:one)
   end
 
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
+
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success

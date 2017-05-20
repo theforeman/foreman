@@ -53,41 +53,6 @@ module LayoutHelper
                                                                            :tabindex => '-1' }.deep_merge(options))
   end
 
-  def will_paginate(collection = nil, options = {})
-    options[:class] = "col-md-7"
-    options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
-    options[:inner_window] ||= 2
-    options[:outer_window] ||= 0
-    options[:previous_label] ||= _('&laquo;')
-    options[:next_label] ||= _('&raquo;')
-    super collection, options
-  end
-
-  def page_entries_info(collection, options = {})
-    html = if collection.total_entries == 0
-             _("No entries found")
-           else
-             if collection.total_pages < 2
-               n_("Displaying <b>%{count}</b> entry", "Displaying <b>all %{count}</b> entries", collection.total_entries) % {:count => collection.total_entries}
-             else
-               _("Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total") %
-                   { :from => collection.offset + 1, :to => collection.offset + collection.length, :count => collection.total_entries }
-             end
-           end.html_safe
-    html += options[:more].html_safe if options[:more]
-    content_tag(:div, :class => "col-md-5 hidden-xs") do
-      content_tag(:div, html, :class => "pull-left pull-bottom darkgray pagination")
-    end
-  end
-
-  def will_paginate_with_info(collection = nil, options = {})
-    content_tag(:div, :id => "pagination", :class => "row",
-                :data => ({'count' => collection.total_entries, 'per-page' => per_page(collection)})) do
-      page_entries_info(collection, options) +
-        will_paginate(collection, options)
-    end
-  end
-
   def icon_text(i, text = "", opts = {})
     opts[:kind] ||= "glyphicon"
     (content_tag(:span,"", :class=>"#{opts[:kind] + ' ' + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe

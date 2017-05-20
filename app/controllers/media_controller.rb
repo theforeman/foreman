@@ -5,7 +5,7 @@ class MediaController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @media = resource_base.includes(:operatingsystems).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @media = resource_base_search_and_page.includes(:operatingsystems)
   end
 
   def new

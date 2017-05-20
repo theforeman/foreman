@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class BookmarksControllerTest < ActionController::TestCase
+  setup do
+    @factory_options = [{:controller => "users"}]
+  end
+
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
+
   test "should get index" do
     get :index, {}, set_session_user
     assert_response :success

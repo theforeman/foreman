@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class TrendsControllerTest < ActionController::TestCase
+  basic_pagination_rendered_test
+  basic_pagination_per_page_test
+
   test "should get empty_data page, if no trend counters exist" do
     trend = FactoryGirl.create(:trend_os)
     get :show, { :id => trend.id }, set_session_user

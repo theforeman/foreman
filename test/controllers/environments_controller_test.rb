@@ -8,6 +8,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
   basic_index_test
   basic_new_test
   basic_edit_test
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
 
   test "should create new environment" do
     assert_difference 'Environment.unscoped.count' do

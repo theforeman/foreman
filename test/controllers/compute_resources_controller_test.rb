@@ -4,7 +4,11 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   setup do
     @compute_resource = compute_resources(:mycompute)
     @your_compute_resource = compute_resources(:yourcompute)
+    @factory_options = :ec2
   end
+
+  basic_pagination_per_page_test
+  basic_pagination_rendered_test
 
   test "should not get index when not permitted" do
     setup_user "none"

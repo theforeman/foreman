@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   before_action      :verify_active_session, :only => :login
 
   def index
-    @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page])
+    @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def new

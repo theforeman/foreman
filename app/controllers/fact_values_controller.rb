@@ -5,7 +5,7 @@ class FactValuesController < ApplicationController
   before_action :setup_search_options, :only => :index
 
   def index
-    values = resource_base.my_facts.search_for(params[:search], :order => params[:order])
+    values = resource_base_search_and_page.my_facts
 
     conds = (original_search_parameter || '').split(/AND|OR/i)
     conds = conds.flatten.reject { |c| c.include?('host') }
@@ -23,7 +23,7 @@ class FactValuesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @fact_values = @fact_values.preload(related_tables).paginate :page => params[:page]
+        @fact_values = @fact_values.preload(related_tables).paginate(:page => params[:page], :per_page => params[:per_page])
         render :index
       end
       format.csv do

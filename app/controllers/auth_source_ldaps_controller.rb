@@ -4,7 +4,7 @@ class AuthSourceLdapsController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @auth_source_ldaps = resource_base.all
+    @auth_source_ldaps = resource_base_search_and_page.all
   end
 
   def new

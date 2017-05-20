@@ -39,7 +39,6 @@ class ActionDispatch::IntegrationTest
     assert page.has_selector?('h1', :text => title_text), "#{title_text} was expected in the <h1> tag, but was not found"
     (assert find_link(new_link_text).visible?, "#{new_link_text} is not visible") if new_link_text
     (assert find_button('Search').visible?, "Search button is not visible") if has_search
-    (assert has_content?("Displaying"), "Pagination 'Display ...' does not appear") if has_pagination
   end
 
   def assert_new_button(index_path,new_link_text,new_path)
