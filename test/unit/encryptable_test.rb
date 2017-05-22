@@ -99,6 +99,16 @@ class EncryptableTest < ActiveSupport::TestCase
     assert compute_resource.is_decryptable?(encrypted_str)
   end
 
+  test "encrypt unsuccessfully logs error once" do
+    EncryptValue.reset_warnings
+    compute_resource = cr_with_encryption_key
+    ActiveSupport::MessageEncryptor.any_instance.expects(:encrypt_and_sign).twice.raises('Encryption error')
+    compute_resource.expects(:puts_and_logs).once
+    encrypted_str = compute_resource.encrypt_field('secret')
+    assert_equal 'secret', encrypted_str
+    compute_resource.encrypt_field('secret')
+  end
+
   test "decrypt successfully" do
     compute_resource = cr_with_encryption_key
     plain_str = "secretpassword"
@@ -115,6 +125,15 @@ class EncryptableTest < ActiveSupport::TestCase
     decrypted_str = compute_resource.decrypt_field(encrypted_str)
     refute_equal encrypted_str, decrypted_str
     assert_equal plain_str, decrypted_str
+  end
+
+  test "decrypt unsuccessfully logs error once" do
+    EncryptValue.reset_warnings
+    compute_resource = stub_encryption_key(FactoryGirl.build(:ec2_cr, password: 'encrypted-invalid'))
+    compute_resource.expects(:puts_and_logs).once
+    decrypted_str = compute_resource.password
+    assert_equal 'encrypted-invalid', decrypted_str
+    compute_resource.password
   end
 
   test "encrypt_field returns nil if password is nil" do
