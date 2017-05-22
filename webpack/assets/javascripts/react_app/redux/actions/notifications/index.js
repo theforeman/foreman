@@ -21,34 +21,38 @@ export const getNotifications = url => dispatch => {
       document.visibilityState === 'visible' ||
       document.visibilityState === 'prerender'
     ) {
-      API.get(url).then(
-        response => {
-          dispatch({
-            type: NOTIFICATIONS_GET_NOTIFICATIONS,
-            payload: {
-              notifications: response.notifications
-            }
-          });
-          resolve();
-        },
-        () => reject()
-      );
+      API.get(url).then(onSuccess, onFailure);
     } else {
       resolve();
     }
-    return null;
-  }).then(
-    () => {
-      if (notificationsInterval) {
-        setTimeout(
+
+    function onSuccess(response) {
+      dispatch({
+        type: NOTIFICATIONS_GET_NOTIFICATIONS,
+        payload: {
+          notifications: response.notifications
+        }
+      });
+      resolve();
+    }
+
+    function onFailure(error) {
+      if (error.status === 401) {
+        window.location.replace('/users/login');
+      }
+      reject();
+    }
+
+  }).then(triggerPolling);
+
+  function triggerPolling() {
+    if (notificationsInterval) {
+      setTimeout(
           () => dispatch(getNotifications(url)),
           notificationsInterval
-        );
-      }
-    },
-    // error handling
-    () => {}
-  );
+      );
+    }
+  }
 };
 
 export const onMarkAsRead = (group, id) => dispatch => {

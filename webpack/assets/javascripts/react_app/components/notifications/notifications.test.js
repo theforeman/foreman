@@ -13,7 +13,6 @@ import {
   serverResponse
 } from './notifications.fixtures';
 jest.unmock('jquery');
-
 const mockStore = configureMockStore([thunk]);
 
 describe('notifications', () => {
@@ -89,5 +88,20 @@ describe('notifications', () => {
     expect(wrapper.find(`${matcher}[disabled=true]`).length).toBe(0);
     wrapper.find(matcher).simulate('click');
     expect(wrapper.find(`${matcher}[disabled=true]`).length).toBe(1);
+  });
+
+  it('should redirect to login when 401', () => {
+    window.location.replace = jest.fn();
+    $.getJSON = jest.genMockFunction().mockImplementation(url => {
+      return {
+        then: function (callback, failCallback) {
+          failCallback({status: 401});
+        }
+      };
+    });
+    const data = {url: '/notification_recipients'};
+
+    mount(<Notifications data={data} store={getStore()} />);
+    expect(global.location.replace).toBeCalled();
   });
 });
