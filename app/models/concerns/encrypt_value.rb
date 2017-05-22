@@ -33,7 +33,7 @@ module EncryptValue
       str_encrypted = "#{ENCRYPTION_PREFIX}#{encryptor.encrypt_and_sign(str)}"
       str = str_encrypted
     rescue => e
-      puts_and_logs("At least one field encryption failed: #{e}") unless @@encrypt_err_reported
+      puts_and_logs("At least one field encryption failed: #{e}") unless defined?(@@encrypt_err_reported) && @@encrypt_err_reported
       @@encrypt_err_reported = true
     end
     str
@@ -47,10 +47,15 @@ module EncryptValue
       str_decrypted = encryptor.decrypt_and_verify(str_no_prefix)
       str = str_decrypted
     rescue ActiveSupport::MessageVerifier::InvalidSignature
-      puts_and_logs("At least one field decryption failed, check ENCRYPTION_KEY") unless @@decrypt_err_reported
+      puts_and_logs("At least one field decryption failed, check ENCRYPTION_KEY") unless defined?(@@decrypt_err_reported) && @@decrypt_err_reported
       @@decrypt_err_reported = true
     end
     str
+  end
+
+  def self.reset_warnings
+    @@decrypt_err_reported = false
+    @@encrypt_err_reported = false
   end
 
   private
