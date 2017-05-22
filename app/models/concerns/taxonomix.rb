@@ -82,7 +82,7 @@ module Taxonomix
       if self == User
         # In the case of users we want the taxonomy scope to get both the users
         # of the taxonomy, admins, and the current user.
-        ids.concat(admin_ids)
+        ids.concat(admin_ids) if User.current.present? && User.current.admin?
         ids << User.current.id if User.current.present?
       end
 
