@@ -4,7 +4,7 @@ module Foreman::Controller::Session
   def session_expiry
     return if ignore_api_request?
     if session[:expires_at].blank? || (Time.at(session[:expires_at]).utc - Time.now.utc).to_i < 0
-      session[:original_uri] = request.fullpath unless session[:api_authenticated_session]
+      session[:original_uri] = request.fullpath unless api_request?
       expire_session
     end
   rescue => e

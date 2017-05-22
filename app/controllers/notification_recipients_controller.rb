@@ -1,6 +1,6 @@
 class NotificationRecipientsController < Api::V2::BaseController
   include Foreman::Controller::Parameters::NotificationRecipient
-
+  skip_before_action :update_activity_time, :only => [:index]
   before_action :require_login
   before_action :find_resource, :only => [:update, :destroy]
 
