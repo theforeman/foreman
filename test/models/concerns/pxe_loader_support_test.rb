@@ -28,12 +28,22 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
     end
 
     test "PXEGrub is found for given filename" do
-      @host.pxe_loader = "grub/bootx64.efi"
+      @host.pxe_loader = "grub/grubx64.efi"
       assert_equal :PXEGrub, @subject.pxe_loader_kind(@host)
     end
 
     test "PXEGrub2 is found for given filename" do
       @host.pxe_loader = "grub2/grubx64.efi"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for shimx64.efi filename" do
+      @host.pxe_loader = "grub2/shimx64.efi"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for shimia32.efi filename" do
+      @host.pxe_loader = "grub2/shimia32.efi"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 

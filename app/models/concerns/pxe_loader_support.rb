@@ -19,10 +19,9 @@ module PxeLoaderSupport
         "None" => "",
         "PXELinux BIOS" => "pxelinux.0",
         "PXELinux UEFI" => "pxelinux.efi",
-        "Grub UEFI" => "grub/boot#{precision}.efi",
-        "Grub UEFI SecureBoot" => "grub/shim.efi",
+        "Grub UEFI" => "grub/grub#{precision}.efi",
         "Grub2 UEFI" => "grub2/grub#{precision}.efi",
-        "Grub2 UEFI SecureBoot" => "grub2/shim.efi"
+        "Grub2 UEFI SecureBoot" => "grub2/shim#{precision}.efi"
       }.freeze
     end
 
