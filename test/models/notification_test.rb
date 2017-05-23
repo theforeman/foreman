@@ -78,12 +78,15 @@ class NotificationTest < ActiveSupport::TestCase
       notification.subscriber_ids
   end
 
-  test 'Admin notifications should subscribe to all admin users' do
+  test 'Admin notifications should subscribe to all admin users except hidden' do
     notification = FactoryGirl.build(:notification,
                                      :audience => Notification::AUDIENCE_ADMIN)
-    assert User.only_admin.count > 0
-    assert_equal User.only_admin.reorder('').pluck(:id).sort,
-      notification.subscriber_ids.sort
+    admin = FactoryGirl.create(:user, :admin)
+
+    subscriber_ids = notification.subscriber_ids
+    assert_includes subscriber_ids, admin.id
+    refute_includes subscriber_ids, User.anonymous_admin.id
+    refute_includes subscriber_ids, User.anonymous_api_admin.id
   end
 
   test 'notification message should be stored' do

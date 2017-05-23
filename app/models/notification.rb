@@ -44,7 +44,7 @@ class Notification < ApplicationRecord
     when AUDIENCE_USER
       [initiator.id]
     when AUDIENCE_ADMIN
-      User.only_admin.reorder('').uniq.pluck(:id)
+      User.only_admin.except_hidden.reorder('').uniq.pluck(:id)
     when AUDIENCE_GROUP
       subject.all_users.uniq.map(&:id) # This needs to be rewritten in usergroups.
     end
