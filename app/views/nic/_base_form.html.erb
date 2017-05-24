@@ -63,17 +63,17 @@
 
 <% if SETTINGS[:unattended] %>
   <%= checkbox_f f, :managed,
-                 :label_help => _("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"),
+                 :label_help => _("If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided.") + '<br/>' + _("The services to be configured are determined by the subnet and domain that are selected for this interface. If you want to manage<br/> only a subset of these services, change the %{subnet} and %{domain} proxies configuration. When a proxy is set to 'None', the corresponding") + '<br/>' + _("service configuration will be skipped.") + '<br/><br/>' + _("If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain.") + '<br/><br/>' + _("The Managed flag also determines whether the interface should be configured during host provisioning, so that the configuration remains after reboot.") % { :subnet => link_to(_('subnet'), subnets_path, :target => :blank), :domain => link_to(_('domain'), domains_path, :target => :blank)},
                  :label_help_options => { :rel => 'popover-modal' },
                  :size => "col-md-8", :label_size => "col-md-3" %>
 <% end %>
 <%= checkbox_f f, :primary,
-               :label_help => _("The Primary interface is used for constructing the FQDN of the host"),
+               :label_help => _("The Primary interface is used for constructing the FQDN of the host.") + '<br/>' + _("This interface is also used for network communication during provisioning, e.g. downloading installation packages."),
                :label_help_options => { :rel => 'popover-modal' },
                :class => :interface_primary,
                :size => "col-md-8", :label_size => "col-md-3" %>
 <%= checkbox_f f, :provision,
-               :label_help => _("The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"),
+               :label_help => _("The Provisioning interface is used for TFTP configuration for PXE boot based on this interface MAC address.") + '<br/>' + _("For image based provisioning using finish template, this interface's IP will be used as the SSH target."),
                :label_help_options => { :rel => 'popover-modal' },
                :class => :interface_provision,
                :size => "col-md-8", :label_size => "col-md-3" %>
