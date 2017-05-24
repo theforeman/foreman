@@ -27,6 +27,8 @@
         <%= checkbox_f f, :default, :label=>_('Default'), :help_block => default_template_description %>
       <% end -%>
 
+      <%= f.hidden_field(:preview_enabled, :value => @template.preview_enabled) %>
+
       <%= render "custom_tabs", :f => f if type == 'ptable' %>
       <%= render_if_exists "#{@type_name_plural}/_alerts" %>
 
@@ -42,7 +44,7 @@
 
         <div class="col-md-12">
           <div class="editor-container">
-            <%= render :partial => 'editor/toolbar', :locals => {:show_preview => true} %>
+            <%= render :partial => 'editor/toolbar', :locals => { :show_preview => @template.preview_enabled } %>
 
             <%= alert :class => 'alert-danger hide', :id => 'preview_error', :close => false %>
             <%= textarea_f f, :template, :class => "editor_source", :label =>:none, :disabled => @template.locked?, :size => "max",
