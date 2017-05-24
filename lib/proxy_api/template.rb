@@ -10,9 +10,7 @@ module ProxyAPI
       if (response = parse(get("templateServer"))) && response["templateServer"].present?
         return response["templateServer"]
       end
-    rescue SocketError, Timeout::Error, Errno::EINVAL, Errno::ECONNRESET,
-           EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError,
-           Net::ProtocolError, RestClient::ResourceNotFound => e
+    rescue Exception => e
       Foreman::Logging.exception("Failed to obtain template server from smart-proxy #{@url}", e)
       nil
     end
