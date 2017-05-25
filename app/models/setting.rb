@@ -102,8 +102,15 @@ class Setting < ApplicationRecord
   def value=(v)
     v = v.to_yaml unless v.nil?
     # the has_attribute is for enabling DB migrations on older versions
-    v = encrypt_field(v) if has_attribute?(:encrypted) && encrypted
-    write_attribute :value, v
+    if has_attribute?(:encrypted) && encrypted
+      # Don't re-write the attribute if the current encrypted value is identical to the new one
+      current_value = read_attribute(:value)
+      unless is_decryptable?(current_value) && decrypt_field(current_value) == v
+        write_attribute :value, encrypt_field(v)
+      end
+    else
+      write_attribute :value, v
+    end
   end
 
   def value
