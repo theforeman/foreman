@@ -23,8 +23,17 @@ module KeyPairComputeResource
     setup_key_pair
   end
 
-  def delete_key_pair(kay_pair_name)
-    delete_key_from_resource(kay_pair_name)
+  def delete_key_from_resource(remote_key_pair = key_pair.name)
+    logger.info "removing key from compute resource #{name} "\
+                "(#{provider_friendly_name}): #{remote_key_pair}"
+    client.key_pairs.get(remote_key_pair).try(:destroy)
+  rescue => e
+    Foreman::Logging.exception(
+      "Failed to delete key pair from #{provider_friendly_name}: #{name}, you "\
+      "might need to cleanup manually: #{e}",
+      e,
+      :level => :warn
+    )
   end
 
   private
@@ -39,16 +48,12 @@ module KeyPairComputeResource
   end
 
   def destroy_key_pair
-    return unless key_pair
-    delete_key_from_resource(key_pair.name)
-    key_pair.destroy!
-  end
-
-  def delete_key_from_resource(key_pair_name)
-    logger.info "removing #{provider_friendly_name}: #{name} key #{key_pair_name}"
-    key = client.key_pairs.get(key_pair_name)
-    key.nil? || key.destroy
-  rescue => e
-    logger.warn "failed to delete key pair from #{provider_friendly_name}: #{name}, you might need to cleanup manually : #{e}"
+    return unless key_pair.present?
+    delete_key_from_resource
+    # If the key pair could not be removed, it will be logged.
+    # Returning 'true' allows this method to not halt the deletion
+    # of the Compute Resource even if the key pair could not be
+    # deleted for some reason (permissions, not found, etc...)
+    true
   end
 end
