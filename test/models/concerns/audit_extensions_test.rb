@@ -46,4 +46,15 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     FactoryGirl.create(:ec2_cr, :with_auditing)
     refute_empty Audit.search_for("type = compute_resource")
   end
+
+  test "audited changes field can be greater then 65K bytes" do
+    prov_template = templates(:mystring)
+    prov_template.template = "0000000000" * 3500
+    as_admin do
+      assert prov_template.save!
+      prov_template.template = "1111111111" * 3500
+      assert prov_template.save!
+    end
+    assert Audit.last.audited_changes.to_s.bytesize > 66000
+  end
 end
