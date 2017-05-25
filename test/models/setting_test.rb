@@ -26,15 +26,41 @@ class SettingTest < ActiveSupport::TestCase
     assert setting.read_attribute(:value).include? EncryptValue::ENCRYPTION_PREFIX
   end
 
-  test "update an encrypted value should saved encrypted in db, and decrypted while reading" do
+  test "#value= with previously unencrypted value is encrypted when set" do
+    setting = Setting.create(name: 'encrypted', value: 'first', default: 'test', description: 'Test', encrypted: false)
+    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    setting.encrypted = true
+    setting.value = 'new'
+    assert_difference 'setting.audits.count' do
+      as_admin { setting.save! }
+    end
+    assert_includes setting.read_attribute(:value), EncryptValue::ENCRYPTION_PREFIX
+    assert_equal 'new', setting.value
+  end
+
+  test "update an encrypted value should saved encrypted in db with audit, and decrypted while reading" do
     setting = settings(:attributes63)
     setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     setting.value = '123456'
-    as_admin do
-      assert setting.save
+    assert_difference 'setting.audits.count' do
+      as_admin { assert setting.save }
     end
     assert setting.read_attribute(:value).include? EncryptValue::ENCRYPTION_PREFIX
     assert_equal '123456', setting.value
+  end
+
+  test "#value= with unchanged value on encrypted setting does not modify DB or create audit" do
+    setting = Setting.create(name: 'encrypted', value: 'first', default: 'test', description: 'Test', encrypted: true)
+    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    setting.value = 'new'
+    as_admin { setting.save! }
+    db_value = setting.read_attribute(:value)
+    assert_includes db_value, EncryptValue::ENCRYPTION_PREFIX
+    assert_no_difference 'setting.audits.count' do
+      setting.value = 'new'
+      setting.save!
+      assert_equal db_value, setting.read_attribute(:value)
+    end
   end
 
   def test_should_provide_default_if_no_value_defined
