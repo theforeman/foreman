@@ -27,7 +27,7 @@ class KeyPairsController < ApplicationController
   def destroy
     key_to_delete = params[:id]
     return not_found unless key_to_delete
-    if @compute_resource.delete_key_pair(key_to_delete)
+    if @compute_resource.delete_key_from_resource(key_to_delete)
       process_success :success_msg => _('Successfully delete %s') % key_to_delete,
                       :success_redirect => compute_resource_path(@compute_resource)
     else
