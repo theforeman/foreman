@@ -1,6 +1,6 @@
-// raw data from Foreman's old parsing of reports, with some readable formatting
 {
   "host": "rhel6n01.corp.com",
+  "producer": "puppetmaster.example.com",
   "reported_at": "2010-11-19 02:39:04 UTC",
   "metrics": {
   },
