@@ -117,9 +117,9 @@ module Orchestration::DHCP
     }
 
     if provision?
-      dhcp_attr.merge!(:nextServer => boot_server)
+      dhcp_attr[:nextServer] = boot_server
       filename = operatingsystem.boot_filename(self.host)
-      dhcp_attr.merge!(:filename => filename) if filename.present?
+      dhcp_attr[:filename] = filename if filename.present?
       if jumpstart?
         jumpstart_arguments = os.jumpstart_params self.host, model.vendor_class
         dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?

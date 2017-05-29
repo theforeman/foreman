@@ -41,7 +41,7 @@ module UINotifications
 
     def validate_link link
       path_method = link[:path_method]
-      unless path_method.to_s.match(/_path$/)
+      unless path_method.to_s =~ /_path$/
         raise(Foreman::Exception, "Invalid path_method #{path_method}, must end with _path")
       end
     end

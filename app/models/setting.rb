@@ -221,7 +221,7 @@ class Setting < ApplicationRecord
     bypass_readonly(s) do
       attrs = column_check([:default, :description, :full_name, :encrypted])
       to_update = Hash[opts.select { |k,v| attrs.include? k }]
-      to_update.merge!(:value => readonly_value(s.name.to_sym)) if s.has_readonly_value?
+      to_update[:value] = readonly_value(s.name.to_sym) if s.has_readonly_value?
       s.update_attributes(to_update)
       s.update_column :category, opts[:category] if s.category != opts[:category]
       s.update_column :full_name, opts[:full_name] if !column_check([:full_name]).empty?

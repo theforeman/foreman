@@ -118,7 +118,7 @@ module Taxonomix
       conditions = { :taxable_type => self.base_class.name }
       if taxonomy.present?
         taxonomy_ids = get_taxonomy_ids(taxonomy, inner_method)
-        conditions.merge!(:taxonomy_id => taxonomy_ids)
+        conditions[:taxonomy_id] = taxonomy_ids
       end
 
       TaxableTaxonomy.where(conditions).uniq.pluck(:taxable_id).compact

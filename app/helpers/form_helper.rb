@@ -54,7 +54,7 @@ module FormHelper
 
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
-    options.merge!(:size => "col-md-10")
+    options[:size] = "col-md-10"
     case attr
       when :organizations
         klass = Organization
@@ -119,9 +119,9 @@ module FormHelper
     end
 
     select_options[:disabled] = '' if select_options[:disabled] == include_blank
-    html_options.merge!(:disabled => true) if disable_button_enabled
+    html_options[:disabled] = true if disable_button_enabled
 
-    html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
+    html_options[:size] = 'col-md-10' if html_options[:multiple]
     field(f, attr, html_options) do
       addClass html_options, "form-control"
 
@@ -168,7 +168,7 @@ module FormHelper
   end
 
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
-    html_options.merge!(:size => 'col-md-10') if html_options[:multiple]
+    html_options[:size] = 'col-md-10' if html_options[:multiple]
     field(f, attr, html_options) do
       addClass html_options, "form-control"
       f.select attr, array, select_options, html_options
@@ -260,7 +260,7 @@ module FormHelper
     options = {}
     options[:disabled] = true if args[:disabled]
     options[:class] = "btn btn-#{overwrite ? 'danger' : 'primary'} remove_form_templates"
-    options.merge! :'data-id' => form_to_submit_id(f) unless options.has_key?(:'data-id')
+    options[:'data-id'] = form_to_submit_id(f) unless options.has_key?(:'data-id')
     options
   end
 

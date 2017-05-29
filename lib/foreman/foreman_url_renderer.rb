@@ -25,7 +25,8 @@ module Foreman
 
       url_options = foreman_url_options_from_url(url) if url.present?
 
-      url_options.merge!(:action => action, :path => config.path)
+      url_options[:action] = action
+      url_options[:path] = config.path
       render_foreman_url(host, url_options)
     end
 

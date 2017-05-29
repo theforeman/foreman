@@ -104,7 +104,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     # below is the same test as above, except environment is changed from production to global_puppetmaster, so custom_class_param is NOT added
     host = FactoryGirl.create(:host, :environment => environments(:production))
     existing_host_attributes = host_attributes(host)
-    existing_host_attributes.merge!('environment_id' => environments(:global_puppetmaster).id)
+    existing_host_attributes['environment_id'] = environments(:global_puppetmaster).id
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => host.id,
                        :host => existing_host_attributes }, set_session_user

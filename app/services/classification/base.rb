@@ -173,7 +173,7 @@ module Classification
         computed_lookup_value = {:value => lookup_value.send(value_method), :element => element,
                                  :element_name => element_name}
 
-        computed_lookup_value.merge!({ :managed => lookup_value.omit }) if lookup_value.lookup_key.puppet?
+        computed_lookup_value[:managed] = lookup_value.omit if lookup_value.lookup_key.puppet?
         break
       end
       computed_lookup_value

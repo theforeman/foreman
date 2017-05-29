@@ -3,7 +3,8 @@ module ConfigurationStatusScopedSearch
 
   module ClassMethods
     def scoped_search_status(status, options)
-      options.merge!({ :offset => ConfigReport::METRIC.index(status.to_s), :word_size => ConfigReport::BIT_NUM })
+      options[:offset] = ConfigReport::METRIC.index(status.to_s)
+      options[:word_size] = ConfigReport::BIT_NUM
       scoped_search options
     end
   end

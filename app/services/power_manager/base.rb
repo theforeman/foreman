@@ -48,8 +48,8 @@ module PowerManager
     def translate_status(result)
       result = result.to_s
       return N_("Unknown") if result.empty?
-      return 'on' if result.match(/on/i)
-      return 'off' if result.match(/off/i)
+      return 'on' if result =~ /on/i
+      return 'off' if result =~ /off/i
       result
     end
 

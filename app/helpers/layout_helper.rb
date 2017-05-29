@@ -54,7 +54,7 @@ module LayoutHelper
   end
 
   def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"col-md-7")
+    options[:class] = "col-md-7"
     options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
     options[:inner_window] ||= 2
     options[:outer_window] ||= 0

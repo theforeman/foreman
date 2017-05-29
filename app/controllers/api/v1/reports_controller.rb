@@ -48,7 +48,7 @@ module Api
       end
 
       def resource_scope(options = {})
-        options.merge!(:permission => :view_config_reports)
+        options[:permission] = :view_config_reports
         super(options).my_reports
       end
 

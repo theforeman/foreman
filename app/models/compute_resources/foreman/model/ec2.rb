@@ -37,7 +37,7 @@ module Foreman::Model
     def create_vm(args = { })
       args = vm_instance_defaults.merge(args.to_hash.symbolize_keys).deep_symbolize_keys
       if (name = args[:name])
-        args.merge!(:tags => {:Name => name})
+        args[:tags] = {:Name => name}
       end
       if (image_id = args[:image_id])
         image = images.find_by_uuid(image_id.to_s)

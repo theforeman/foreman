@@ -100,7 +100,7 @@ module Api
 
       case options
       when String
-        not_found_message.merge! :message => options
+        not_found_message[:message] = options
       when Hash
         not_found_message.merge! options
       else

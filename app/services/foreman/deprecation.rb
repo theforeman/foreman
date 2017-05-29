@@ -7,7 +7,7 @@ module Foreman
     end
 
     def self.check_version_format(foreman_version_deadline)
-      raise Foreman::Exception.new(N_("Invalid version format, please enter in x.y (only major version).")) unless foreman_version_deadline.to_s.match(/\A\d[.]\d+\z/)
+      raise Foreman::Exception.new(N_("Invalid version format, please enter in x.y (only major version).")) unless foreman_version_deadline.to_s =~ /\A\d[.]\d+\z/
     end
 
     def self.api_deprecation_warning(info)
@@ -18,9 +18,9 @@ module Foreman
       check_version_format foreman_version_deadline
       called_from_params = false
       caller.each_with_index do |item, index|
-        called_from_params = true if item.match(/host_params\.rb.*params/)
+        called_from_params = true if item =~ /host_params\.rb.*params/
         return if called_from_params && item.match(/managed\.rb.*info/)
-        next unless item.match(/renderer\.rb.*render_safe/)
+        next unless item =~ /renderer\.rb.*render_safe/
         Rails.logger.warn "DEPRECATION WARNING: you are using deprecated @host.#{method} in a template, it will be removed in #{foreman_version_deadline}. Use #{new_method} instead."
         return
       end

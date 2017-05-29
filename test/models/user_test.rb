@@ -755,19 +755,20 @@ class UserTest < ActiveSupport::TestCase
 
     test "update self" do
       editing_self_helper
-      @options.merge!({ :action => "update" })
+      @options[:action] = "update"
       assert User.current.editing_self?(@options)
     end
 
     test "update other user" do
       editing_self_helper
-      @options.merge!({ :id => users(:two).id })
+      @options[:id] = users(:two).id
       refute User.current.editing_self?(@options)
     end
 
     test "update through other controller" do
       editing_self_helper
-      @options.merge!({ :controller => "hosts", :id => User.current.id })
+      @options[:controller] = "hosts"
+      @options[:id] = User.current.id
       refute User.current.editing_self?(@options)
     end
   end

@@ -86,10 +86,10 @@ module HostsHelper
   def last_report_tooltip(record)
     opts = { :rel => "twipsy" }
     if @last_report_ids[record.id]
-      opts.merge!("data-original-title" => _("View last report details"))
+      opts["data-original-title"] = _("View last report details")
     else
       opts.merge!(:disabled => true, :class => "disabled", :onclick => 'return false')
-      opts.merge!("data-original-title" => _("Report Already Deleted")) unless record.last_report.nil?
+      opts["data-original-title"] = _("Report Already Deleted") unless record.last_report.nil?
     end
     opts
   end

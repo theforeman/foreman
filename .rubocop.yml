@@ -41,3 +41,9 @@ Metrics/ClassLength:
 Performance/FixedSize:
   Exclude:
     - 'test/**/*'
+
+Performance/RedundantMatch:
+  Enabled: true
+
+Performance/RedundantMerge:
+  Enabled: true
