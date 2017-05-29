@@ -41,7 +41,6 @@ class HostsController < ApplicationController
   before_action :validate_power_action, :only => :update_multiple_power_state
 
   helper :hosts, :reports, :interfaces
-  helper_method :multiple_with_filter?
 
   def index(title = nil)
     begin

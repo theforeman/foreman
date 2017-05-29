@@ -40,6 +40,12 @@ module ApplicationHelper
     content_tag(:a, name, html_options.merge(:href => href, :onclick => onclick))
   end
 
+  # the same method is defined in hosts but we need to have this available in all views
+  # because of plugins that are extending bulk actions menu, their actions don't use hosts controller
+  def multiple_with_filter?
+    params.key?(:search)
+  end
+
   protected
 
   def contract(model)
