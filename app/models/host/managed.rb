@@ -355,10 +355,6 @@ class Host::Managed < Host::Base
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/CyclomaticComplexity
   def info
-    renderer_regex = /renderer\.rb.*host_enc/
-    unless caller.first.match(renderer_regex) || caller[1].match(renderer_regex)
-      Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_enc')
-    end
     # Static parameters
     param = {}
     # maybe these should be moved to the common parameters, leaving them in for now
@@ -401,8 +397,16 @@ class Host::Managed < Host::Base
     # Parse ERB values contained in the parameters
     param = SafeRender.new(:variables => { :host => self }).parse(param)
 
+    classes = if self.environment.nil?
+                []
+              elsif Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
+                lookup_keys_class_params
+              else
+                self.puppetclasses_names
+              end
+
     info_hash = {}
-    info_hash['classes'] = self.enc_puppetclasses
+    info_hash['classes'] = classes
     info_hash['parameters'] = param
     info_hash['environment'] = param["foreman_env"] if Setting["enc_environment"] && param["foreman_env"]
 
@@ -866,16 +870,6 @@ class Host::Managed < Host::Base
   def firmware_type
     return unless pxe_loader.present?
     Operatingsystem.firmware_type(pxe_loader)
-  end
-
-  def enc_puppetclasses
-    if self.environment.nil?
-      []
-    elsif Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
-      lookup_keys_class_params
-    else
-      self.puppetclasses_names
-    end
   end
 
   private

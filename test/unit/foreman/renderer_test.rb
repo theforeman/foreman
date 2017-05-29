@@ -305,39 +305,6 @@ EOS
     assert_equal({ :whatever_random_name => 'has_value' }, @renderer.send(:allowed_variables_mapping, [ :whatever_random_name ]))
   end
 
-  test 'should render puppetclasses using host_puppetclasses helper' do
-    @renderer.host = FactoryGirl.create(:host, :with_puppetclass)
-    assert @renderer.host_puppet_classes
-  end
-
-  test 'should render host param using "host_param" helper' do
-    @renderer.host = FactoryGirl.create(:host, :with_puppet)
-    assert @renderer.host_param('test').present?
-  end
-
-  test 'should have host_param_true? helper' do
-    @renderer.host = FactoryGirl.create(:host, :with_puppet)
-    FactoryGirl.create(:parameter, :name => 'true_param', :value => "true")
-    assert @renderer.host_param_true?('true_param')
-  end
-
-  test 'should have host_param_false? helper' do
-    @renderer.host = FactoryGirl.create(:host, :with_puppet)
-    FactoryGirl.create(:parameter, :name => 'false_param', :value => "false")
-    assert @renderer.host_param_false?('false_param')
-  end
-
-  test 'should have host_enc helper' do
-    @renderer.host = FactoryGirl.create(:host, :with_puppet)
-    assert @renderer.host_enc
-  end
-
-  test "should find path in host_enc" do
-    host = FactoryGirl.create(:host, :with_puppet)
-    @renderer.host = host
-    assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster')
-  end
-
   test 'templates_used is allowed to render for host' do
     assert Safemode.find_jail_class(Host::Managed).allowed? :templates_used
   end

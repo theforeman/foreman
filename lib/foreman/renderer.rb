@@ -11,9 +11,7 @@ module Foreman
                                   :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup,
                                   :pxe_kernel_options, :save_to_file ]
     ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
-                               :media_path, :param_true?, :param_false?, :match,
-                               :host_param_true?, :host_param_false?,
-                               :host_param, :host_puppet_classes, :host_enc ]
+                               :media_path, :param_true?, :param_false?, :match ]
 
     ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
 
@@ -23,30 +21,6 @@ module Foreman
 
     def template_logger
       @template_logger ||= Foreman::Logging.logger('templates')
-    end
-
-    def host_enc(*path)
-      @enc ||= @host.info.deep_dup
-      return @enc if path.compact.empty?
-      enc = @enc
-      path.each { |step| enc = enc.fetch step }
-      enc
-    end
-
-    def host_param(param_name)
-      @host.params[param_name]
-    end
-
-    def host_puppet_classes
-      @host.puppetclasses
-    end
-
-    def host_param_true?(name)
-      @host.params.has_key?(name) && Foreman::Cast.to_bool(@host.params[name])
-    end
-
-    def host_param_false?(name)
-      @host.params.has_key?(name) && Foreman::Cast.to_bool(@host.params[name]) == false
     end
 
     def render_safe(template, allowed_methods = [], allowed_vars = {}, scope_variables = {})
