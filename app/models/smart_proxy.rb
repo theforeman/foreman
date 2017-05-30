@@ -37,7 +37,11 @@ class SmartProxy < ApplicationRecord
     end
   }
 
-  scope :with_features, ->(*feature_names) { where(:features => { :name => feature_names }).joins(:features) if feature_names.any? }
+  scope :with_features, lambda { |*feature_names|
+    if feature_names.any?
+      where(:features => { :name => feature_names.flatten }).joins(:features)
+    end
+  }
 
   def hostname
     URI(url).host
