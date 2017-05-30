@@ -10,6 +10,7 @@ module Api
       api :GET, "/operatingsystems/:operatingsystem_id/architectures", N_("List all architectures for operating system")
       param_group :search_and_pagination, ::Api::V2::BaseController
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      add_scoped_search_description_for(Architecture)
 
       def index
         @architectures = resource_scope_for_index

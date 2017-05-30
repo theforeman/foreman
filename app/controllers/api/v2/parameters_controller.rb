@@ -30,6 +30,7 @@ module Api
       param :subnet_id, String, :desc => N_("ID of subnet")
       param :show_hidden, :bool, :desc => N_("Display hidden values")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Parameter)
 
       def index
         base = nested_obj.send(parameters_method).authorized(current_permission)

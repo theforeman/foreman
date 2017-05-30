@@ -8,6 +8,7 @@ module Api
 
       api :GET, "/usergroups/", N_("List all user groups")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Usergroup)
 
       def index
         @usergroups = resource_scope_for_index

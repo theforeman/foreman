@@ -21,6 +21,7 @@ module Api
       param :environment_id, :identifier, :required => false
       param :show_hidden, :bool, :desc => N_("Display hidden values")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(PuppetclassLookupKey)
 
       def index
       end

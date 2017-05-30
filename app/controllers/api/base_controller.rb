@@ -420,6 +420,23 @@ module Api
       def parameter_filter_context
         Foreman::ParameterFilter::Context.new(:api, controller_name, nil)
       end
+
+      protected
+
+      def add_scoped_search_description_for(resource)
+        search_fields = resource.scoped_search_definition.fields.map do |k,f|
+          info = { :name => k.to_s }
+          if f.complete_value.is_a?(Hash)
+            info[:values] = f.complete_value.keys
+          else
+            # type is unknown for fields that are delegated to external methods
+            # 'string' is a good guess in such cases
+            info[:type] = f.ext_method.nil? ? f.type.to_s : 'string' rescue ''
+          end
+          info
+        end
+        meta :search => search_fields.sort_by { |info| info[:name] }
+      end
     end
   end
 end

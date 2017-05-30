@@ -9,6 +9,7 @@ module Api
       api :GET, "/realms/", N_("List of realms")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Realm)
 
       def index
         @realms = resource_scope_for_index

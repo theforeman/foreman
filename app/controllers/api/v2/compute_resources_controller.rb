@@ -14,6 +14,7 @@ module Api
       api :GET, "/compute_resources/", N_("List all compute resources")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ComputeResource)
 
       def index
         @compute_resources = resource_scope_for_index

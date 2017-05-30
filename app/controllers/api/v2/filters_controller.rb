@@ -9,6 +9,7 @@ module Api
 
       api :GET, "/filters/", N_("List all filters")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Filter)
 
       def index
         @filters = resource_scope_for_index

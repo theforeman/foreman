@@ -15,6 +15,7 @@ module Api
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :environment_id, String, :desc => N_("ID of environment")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Puppetclass)
 
       def index
         values   = Puppetclass.authorized(:view_puppetclasses).search_for(*search_options) unless nested_obj

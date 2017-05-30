@@ -17,6 +17,7 @@ module Api
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
       param :include, Array, :in => ['parameters'], :desc => N_("Array of extra information types to include")
+      add_scoped_search_description_for(Hostgroup)
 
       def index
         @hostgroups = resource_scope_for_index
