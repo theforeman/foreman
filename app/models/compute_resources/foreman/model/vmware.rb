@@ -186,6 +186,16 @@ module Foreman::Model
       }
     end
 
+    def controller_ids
+      {
+        "1000" => "SCSI (0:X)",
+        "1001" => "SCSI (1:X)",
+        "1002" => "SCSI (2:X)",
+        "1003" => "SCSI (3:X)",
+        "1004" => "SCSI (4:X)"
+      }
+    end
+
     # vSphere guest OS type descriptions
     # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values and
     # http://pubs.vmware.com/vsphere-60/topic/com.vmware.wssdk.apiref.doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
@@ -337,6 +347,10 @@ module Foreman::Model
       "VirtualLsiLogicController"
     end
 
+    def scsi_controller_default_id
+      "1000"
+    end
+
     def vm_hw_versions
       {
         'Default' => _("Default"),
@@ -362,14 +376,30 @@ module Foreman::Model
     def parse_args(args)
       args = args.deep_symbolize_keys
 
+      # set the default type first and then receive the configured type
+      scsi_controller_type = scsi_controller_default_type
+      if args[:scsi_controller_type].present?
+        scsi_controller_type = args.delete(:scsi_controller_type)
+      end
+
+      scsi_controllers = Hash.new
+      if args[:volumes_attributes].present?
+        args[:volumes_attributes].each do |index,volume|
+          controller_key = scsi_controller_default_id
+          controller_key = volume[:controller_key] if volume[:controller_key].present?
+
+          Rails.logger.info("Will add #{controller_key} vmware controller with type #{scsi_controller_type}")
+          scsi_controllers[controller_key] = {:type => scsi_controller_type, :key => controller_key}
+        end
+      else
+        scsi_controllers[scsi_controller_default_id] = {:type => scsi_controller_default_type, :key => scsi_controller_default_id }
+      end
+      args[:scsi_controllers] = scsi_controllers.values
+
       # convert rails nested_attributes into a plain, symbolized hash
       [:interfaces, :volumes].each do |collection|
         nested_attrs = args.delete("#{collection}_attributes".to_sym)
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
-      end
-
-      if args[:scsi_controller_type].present?
-        args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
       end
 
       add_cdrom = args.delete(:add_cdrom)
@@ -575,7 +605,6 @@ module Foreman::Model
         :memory_mb  => 768,
         :interfaces => [new_interface],
         :volumes    => [new_volume],
-        :scsi_controller => { :type => scsi_controller_default_type },
         :datacenter => datacenter,
         :firmware => 'automatic',
         :boot_order => ['network', 'disk']
