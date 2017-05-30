@@ -198,4 +198,11 @@ class PuppetclassTest < ActiveSupport::TestCase
       assert_includes(Puppetclass.search_for("config_group = #{@config_group.to_label}"), @class)
     end
   end
+
+  it "destroys dependent puppetclass_lookup_keys" do
+    puppetclass, puppetclass_lkey = puppetclasses(:nine), lookup_keys(:eight)
+    assert puppetclass.destroy
+    assert !PuppetclassLookupKey.exists?(puppetclass_lkey.id)
+    assert_raise(ActiveRecord::RecordNotFound) { puppetclass_lkey.reload }
+  end
 end

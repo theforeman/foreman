@@ -23,3 +23,6 @@ seven:
 
 eight:
   name: auth
+
+nine:
+  name: checkeditor

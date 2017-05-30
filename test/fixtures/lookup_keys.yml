@@ -6,6 +6,7 @@ one:
   path: "hostgroup\ncomment\nfqdn"
   validator_type:
   default_value: 80
+  puppetclass: one
   type: PuppetclassLookupKey
 
 three:
@@ -33,6 +34,7 @@ five:
   default_value: 'abcdef'
   path: "fqdn\norganization,location\nhostgroup"
   override: true
+  puppetclass: one
   type: PuppetclassLookupKey
 
 five_same_name:
@@ -42,6 +44,7 @@ five_same_name:
   default_value: 'abcdef'
   path: 'organization,location'
   override: true
+  puppetclass: one
   type: PuppetclassLookupKey
 
 six:
@@ -87,3 +90,11 @@ eight:
   puppetclass: one
   default_value: true
   type: VariableLookupKey
+
+eight:
+  key: dependant_class_param
+  key_type: integer
+  validator_type:
+  default_value: 80
+  puppetclass: nine
+  type: PuppetclassLookupKey
