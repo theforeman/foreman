@@ -7,5 +7,5 @@ node_js:
   - "6.9" # initial EPEL 7
   - "6.10" # current LTS, current EPEL 7
 before_install:
-  npm install -g npm@'>=3.0.0'
+  npm install -g npm@'>=3.0.0, <5.0.0'
 script: ./script/travis_run_js_tests.sh
