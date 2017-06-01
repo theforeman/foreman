@@ -44,7 +44,7 @@ class Notification < ActiveRecord::Base
     when AUDIENCE_USER
       [initiator.id]
     when AUDIENCE_ADMIN
-      User.only_admin.reorder('').uniq.pluck(:id)
+      User.unscoped.only_admin.except_hidden.reorder('').uniq.pluck(:id)
     when AUDIENCE_GROUP
       subject.all_users.uniq.map(&:id) # This needs to be rewritten in usergroups.
     end
@@ -62,8 +62,8 @@ class Notification < ActiveRecord::Base
   end
 
   def set_notification_recipients
-    subscribers = subscriber_ids
-    notification_recipients.build subscribers.map{|id| { :user_id => id}}
+    subscribers = User.unscoped.where(:id => subscriber_ids)
+    notification_recipients.build subscribers.map{|user| { :user => user}}
   end
 
   def set_custom_attributes

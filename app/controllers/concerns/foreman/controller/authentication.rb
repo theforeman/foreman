@@ -31,7 +31,7 @@ module Foreman::Controller::Authentication
     else
       # We assume we always have a user logged in
       # if authentication is disabled, the user is the built-in admin account
-      set_current_user User.only_admin.except_hidden.first
+      set_current_user User.unscoped.only_admin.except_hidden.first
     end
   end
 
