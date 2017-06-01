@@ -270,7 +270,7 @@ div.form-group .pficon-info{
 .select2-dropdown-open.select2-drop-above [class^="select2-choice"],
 .select2-drop,
 .select2-container .select2-choices {
-  border-radius: 0px;
+  border-radius: 0px !important;
 }
 
 .btn-group > .btn + .dropdown-toggle {
