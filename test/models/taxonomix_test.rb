@@ -188,6 +188,21 @@ class TaxonomixTest < ActiveSupport::TestCase
       end
     end
 
+    test 'list only users from the organization and myself but not global admins' do
+      loc = FactoryGirl.create(:location)
+      org = FactoryGirl.create(:organization)
+      user1 = FactoryGirl.create(:user, :organizations => [org], :locations => [loc])
+      user2 = FactoryGirl.create(:user, :organizations => [org], :locations => [loc])
+      admin = FactoryGirl.create(:user, :admin)
+
+      as_user(user1) do
+        found_ids = User.taxable_ids(loc, org)
+        assert_includes found_ids, user1.id
+        assert_includes found_ids, user2.id
+        refute_includes found_ids, admin.id
+      end
+    end
+
     test "can work with array of taxonomies" do
       loc1 = FactoryGirl.create(:location)
       loc2 = FactoryGirl.create(:location, :parent_id => loc1.id)
@@ -325,7 +340,6 @@ class TaxonomixTest < ActiveSupport::TestCase
     as_user(:one) do
       scoped_users = User.with_taxonomy_scope([],[])
       assert_include scoped_users, User.current
-      assert_include scoped_users, users(:admin)
     end
   end
 
