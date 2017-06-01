@@ -45,7 +45,7 @@ class SmartProxy < ApplicationRecord
 
   def to_s
     return hostname unless Setting[:legacy_puppet_hostname]
-    hostname.match(/^puppet\./) ? 'puppet' : hostname
+    hostname =~ /^puppet\./ ? 'puppet' : hostname
   end
 
   def self.smart_proxy_ids_for(hosts)

@@ -22,9 +22,7 @@ module RolesHelper
   end
 
   def new_link_unless_locked(name, path_hash, role)
-    if role && !role.locked?
-      new_link name, path_hash
-    end
+    new_link name, path_hash if role && !role.locked?
   end
 
   def delete_role_confirmation(role)

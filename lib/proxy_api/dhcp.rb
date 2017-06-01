@@ -22,9 +22,12 @@ module ProxyAPI
 
     def unused_ip(subnet, mac = nil)
       params = {}
-      params.merge!({:mac => mac}) if mac.present?
+      params[:mac] = mac if mac.present?
 
-      params.merge!({:from => subnet.from, :to => subnet.to}) if subnet.from.present? && subnet.to.present?
+      if subnet.from.present? && subnet.to.present?
+        params[:from] = subnet.from
+        params[:to] = subnet.to
+      end
       if params.any?
         params = "?" + params.map{|e| e.join("=")}.join("&")
       else

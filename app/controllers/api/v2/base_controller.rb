@@ -116,10 +116,10 @@ module Api
             association_name_ids = "#{k.singularize}_ids"
             association_name_names = "#{k.singularize}_names"
             if resource_class.instance_methods.map(&:to_s).include?(association_name_ids) && v.any? && v.all? { |a| a.keys.include?("id") }
-              params[model_name].merge!(association_name_ids => v.map { |a| a["id"] })
+              params[model_name][association_name_ids] = v.map { |a| a["id"] }
               params[model_name].except!(k)
             elsif resource_class.instance_methods.map(&:to_s).include?(association_name_names) && v.any? && v.all? { |a| a.keys.include?("name") }
-              params[model_name].merge!(association_name_names => v.map { |a| a["name"] })
+              params[model_name][association_name_names] = v.map { |a| a["name"] }
               params[model_name].except!(k)
             end
           end

@@ -9,7 +9,7 @@ module ProxyAPI
                         :user => args[:user], :password => args[:password]}
 
       # We authenticate only if we are using SSL
-      if url.match(/^https/i)
+      if url =~ /^https/i
         cert         = Setting[:ssl_certificate]
         ca_cert      = Setting[:ssl_ca_file]
         hostprivkey  = Setting[:ssl_priv_key]

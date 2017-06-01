@@ -175,8 +175,8 @@ class Operatingsystem < ApplicationRecord
     a = str.split(" ")
     b = a[1].split('.') if a[1]
     cond = {:name => a[0]}
-    cond.merge!(:major => b[0]) if b && b[0]
-    cond.merge!(:minor => b[1]) if b && b[1]
+    cond[:major] = b[0] if b && b[0]
+    cond[:minor] = b[1] if b && b[1]
     self.where(cond).first
   end
 
@@ -288,7 +288,7 @@ class Operatingsystem < ApplicationRecord
   def reject_empty_provisioning_template(attributes)
     template_exists = attributes[:id].present?
     provisioning_template_id_empty = attributes[:provisioning_template_id].blank?
-    attributes.merge!({:_destroy => 1}) if template_exists && provisioning_template_id_empty
+    attributes[:_destroy] = 1 if template_exists && provisioning_template_id_empty
     (!template_exists && provisioning_template_id_empty)
   end
 

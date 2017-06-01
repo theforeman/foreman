@@ -22,7 +22,7 @@ module ApplicationHelper
           Foreman::Logging.exception("Failed generating link using #{args.inspect}", e)
           id = 'not_parseable'
         end
-        html_options.merge!(:'data-id' => "aid_#{id}")
+        html_options[:'data-id'] = "aid_#{id}"
       end
       if html_options[:confirm]
         html_options[:data] ||= {}
@@ -201,7 +201,8 @@ module ApplicationHelper
   def auto_complete_search(name, val, options = {})
     path = options[:full_path]
     path ||= (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}"
-    options.merge!(:class => "autocomplete-input form-control", :'data-url' => path)
+    options[:class] = "autocomplete-input form-control"
+    options[:'data-url'] = path
     text_field_tag(name, val, options)
   end
 

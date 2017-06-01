@@ -66,7 +66,7 @@ class LookupValue < ApplicationRecord
   def validate_and_cast_value
     return if !self.value.is_a?(String) || value.contains_erb?
     Foreman::Parameters::Caster.new(self, :attribute_name => :value, :to => lookup_key.key_type).cast!
-    rescue StandardError, SyntaxError => e
+  rescue StandardError, SyntaxError => e
       Foreman::Logging.exception("Error while parsing #{lookup_key}", e)
       errors.add(:value, _("is invalid %s") % lookup_key.key_type)
   end

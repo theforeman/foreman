@@ -167,14 +167,14 @@ module Foreman #:nodoc:
     # name parameter can be: :top_menu or :admin_menu
     #
     def menu(menu, name, options = {})
-      options.merge!(:parent => @parent) if @parent
+      options[:parent] = @parent if @parent
       Menu::Manager.map(menu).item(name, options)
     end
 
     alias_method :add_menu_item, :menu
 
     def sub_menu(menu, name, options = {}, &block)
-      options.merge!(:parent => @parent) if @parent
+      options[:parent] = @parent if @parent
       Menu::Manager.map(menu).sub_menu(name, options)
       current = @parent
       @parent = name
@@ -230,7 +230,7 @@ module Foreman #:nodoc:
     def permission(name, hash, options = {})
       rbac_registry.register name, options
       options[:engine] ||= self.id.to_s
-      options.merge!(:security_block => @security_block)
+      options[:security_block] = @security_block
       Foreman::AccessControl.map do |map|
         map.permission name, hash, options
       end

@@ -9,7 +9,7 @@ module HostParams
     attr_reader :cached_host_params
 
     def params
-      Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param') unless caller.first.match(/renderer\.rb.*host_param/)
+      Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param') unless caller.first =~ /renderer\.rb.*host_param/
       host_params.update(lookup_keys_params)
     end
 
@@ -25,9 +25,7 @@ module HostParams
         options = {:value => param.value,
                    :source => source,
                    :safe_value => param.safe_value }
-        if source != 'global'
-          options.merge!(:source_name => param.associated_label)
-        end
+        options[:source_name] = param.associated_label if source != 'global'
         hp.update(Hash[param.name => include_source ? options : param.value])
       end
       hp

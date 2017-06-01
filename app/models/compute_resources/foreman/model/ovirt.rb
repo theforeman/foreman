@@ -211,7 +211,7 @@ module Foreman::Model
     def create_vm(args = {})
       args[:comment] = args[:user_data] if args[:user_data]
       if (image_id = args[:image_id])
-        args.merge!({:template => image_id})
+        args[:template] = image_id
       end
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
       begin

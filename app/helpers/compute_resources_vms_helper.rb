@@ -59,9 +59,7 @@ module ComputeResourcesVmsHelper
       :subject     => console[:subject],
       :title       => _("%s - Press Shift-F12 to release the cursor.") % console[:name]
     ) if supports_spice_xpi?
-    options.merge!(
-      :ca_cert     => URI.escape(console[:ca_cert])
-    ) if console[:ca_cert].present?
+    options[:ca_cert] = URI.escape(console[:ca_cert]) if console[:ca_cert].present?
     options
   end
 

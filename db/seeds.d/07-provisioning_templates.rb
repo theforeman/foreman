@@ -17,7 +17,7 @@ ProvisioningTemplate.without_auditing do
       end
     else
       next if SeedHelper.audit_modified? ProvisioningTemplate, input[:name]
-      input.merge!(:default => true)
+      input[:default] = true
 
       t = ProvisioningTemplate.create({
         :snippet  => false,

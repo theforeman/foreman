@@ -93,5 +93,5 @@ SEEDED_TEMPLATES = [
   { :name => 'redhat_register', :source => 'snippet/_redhat_register.erb', :snippet => true },
   { :name => 'remote_execution_ssh_keys', :source => 'snippet/_remote_execution_ssh_keys.erb', :snippet => true },
   { :name => 'saltstack_minion', :source => 'snippet/_saltstack_minion.erb', :snippet => true },
-  { :name => 'saltstack_setup', :source => 'snippet/_saltstack_setup.erb', :snippet => true },
+  { :name => 'saltstack_setup', :source => 'snippet/_saltstack_setup.erb', :snippet => true }
 ]

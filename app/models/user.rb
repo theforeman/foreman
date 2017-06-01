@@ -541,7 +541,7 @@ class User < ApplicationRecord
   def reject_empty_intervals(attributes)
     user_mail_notification_exists = attributes[:id].present?
     interval_empty = attributes[:interval].blank?
-    attributes.merge!({:_destroy => 1}) if user_mail_notification_exists && interval_empty
+    attributes[:_destroy] = 1 if user_mail_notification_exists && interval_empty
     (!user_mail_notification_exists && interval_empty)
   end
 
