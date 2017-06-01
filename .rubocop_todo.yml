@@ -695,3 +695,7 @@ Style/WordArray:
 # Cop supports --auto-correct.
 Style/ZeroLengthPredicate:
   Enabled: false
+
+# http://projects.theforeman.org/issues/16564
+Style/FrozenStringLiteralComment:
+  Enabled: false
