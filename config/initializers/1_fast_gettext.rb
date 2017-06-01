@@ -7,6 +7,9 @@ locale_domain = 'foreman'
 Foreman::Gettext::Support.register_available_locales locale_domain, locale_dir
 Foreman::Gettext::Support.add_text_domain locale_domain, locale_dir
 
+# this prevents from reading 'en' translations in test environment
+locale_domain = 'foreman_test' if Rails.env.test?
+
 I18n.config.enforce_available_locales = false
 I18n.config.available_locales = FastGettext.default_available_locales.map { |loc| loc.tr('_', '-') }
 
