@@ -227,6 +227,7 @@ module Foreman
 
   def self.setup_console
     ENV['IRBRC'] = File.expand_path('../irbrc', __FILE__)
-    puts "For some operations a user must be set, try User.current = User.first"
+    User.current = User.anonymous_console_admin
+    Rails.logger.warn "Console started with '#{User.current.login}' user, call User.current= to change it"
   end
 end

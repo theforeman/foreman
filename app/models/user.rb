@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
+  ANONYMOUS_CONSOLE_ADMIN = 'foreman_console_admin'
 
   validates_lengths_from_database :except => [:firstname, :lastname, :format, :mail, :login]
   attr_accessor :password, :password_confirmation, :current_password
@@ -186,6 +187,10 @@ class User < ApplicationRecord
 
   def self.anonymous_api_admin
     unscoped.find_by_login(ANONYMOUS_API_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_API_ADMIN))
+  end
+
+  def self.anonymous_console_admin
+    unscoped.find_by_login(ANONYMOUS_CONSOLE_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_CONSOLE_ADMIN))
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source
@@ -644,7 +649,7 @@ class User < ApplicationRecord
   end
 
   def hidden_authsource_restricted
-    if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN].include?(self.login)
+    if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN, ANONYMOUS_CONSOLE_ADMIN].include?(self.login)
       errors.add :auth_source, _("is not permitted")
     end
   end

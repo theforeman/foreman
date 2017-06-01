@@ -35,7 +35,7 @@ class SeedsTest < ActiveSupport::TestCase
     assert_difference 'User.unscoped.where(:login => [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN]).count', 2 do
       seed
     end
-    [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN].each do |login|
+    [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN, User::ANONYMOUS_CONSOLE_ADMIN].each do |login|
       user = User.unscoped.find_by_login(login)
       assert user.present?, "cannot find user #{login}"
       assert user.password_hash.blank?
