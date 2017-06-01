@@ -71,6 +71,8 @@ module AuditExtensions
     def self.humanize_class_name
       _("Audit")
     end
+
+    serialize :audited_changes
   end
 
   private
