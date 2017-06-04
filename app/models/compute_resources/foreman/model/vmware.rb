@@ -189,7 +189,6 @@ module Foreman::Model
     # vSphere guest OS type descriptions
     # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values and
     # http://pubs.vmware.com/vsphere-60/topic/com.vmware.wssdk.apiref.doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
-    # rubocop:disable MethodLength
     def guest_types_descriptions
       {
         "dosGuest" => "Microsoft MS-DOS",
