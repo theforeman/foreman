@@ -14,7 +14,6 @@ class Host::Managed < Host::Base
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_one :last_report_object, -> { order("#{Report.table_name}.id DESC") }, :foreign_key => :host_id, :class_name => 'ConfigReport'
 
-  belongs_to :compute_resource
   belongs_to :image
   has_many :host_statuses, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host, :dependent => :destroy
   has_one :configuration_status_object, :class_name => 'HostStatus::ConfigurationStatus', :foreign_key => 'host_id'
@@ -479,7 +478,7 @@ class Host::Managed < Host::Base
   end
 
   def hostgroup_inherited_attributes
-    %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id}
+    %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id compute_resource_id}
   end
 
   def apply_inherited_attributes(attributes, initialized = true)
@@ -528,7 +527,7 @@ class Host::Managed < Host::Base
   def inherited_attributes
     inherited_attrs = %w{domain_id}
     if SETTINGS[:unattended]
-      inherited_attrs.concat(%w{operatingsystem_id architecture_id})
+      inherited_attrs.concat(%w{operatingsystem_id architecture_id compute_resource_id})
       inherited_attrs << "subnet_id" unless compute_provides?(:ip)
       inherited_attrs << "subnet6_id" unless compute_provides?(:ip6)
       inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) if pxe_build?

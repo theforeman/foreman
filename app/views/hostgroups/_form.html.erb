@@ -28,6 +28,12 @@
       <%= text_f f, :name %>
       <%= textarea_f f, :description, :rows => :auto %>
       <%= hostgroup_puppet_environment_field f %>
+
+      <%= select_f f, :compute_resource_id, accessible_resource(@hostgroup, :compute_resource), :id, :to_label,
+          { :include_blank => blank_or_inherit_f(f, :compute_resource, blank_value: _('Bare Metal')) },
+          { :label => _('Deploy on'),
+            :help_inline => :indicator } if SETTINGS[:unattended] %>
+
       <%= select_f(f, :compute_profile_id, visible_compute_profiles(@hostgroup), :id, :name,
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
                        { :label => _("Compute profile") }

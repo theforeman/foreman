@@ -17,7 +17,7 @@ module Foreman::Controller::Parameters::Hostgroup
           # Relations in alphabetical order
           :arch, :arch_id, :arch_name,
           :architecture_id, :architecture_name,
-          :domain_id, :domain_name,
+          :compute_resource_id, :domain_id, :domain_name,
           :environment_id, :environment_name,
           :medium_id, :medium_name,
           :subnet_id, :subnet_name,

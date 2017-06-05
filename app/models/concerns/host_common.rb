@@ -26,6 +26,7 @@ module HostCommon
     belongs_to :ptable
     belongs_to :realm
     belongs_to :compute_profile
+    belongs_to :compute_resource
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
     has_many :host_config_groups, :as => :host

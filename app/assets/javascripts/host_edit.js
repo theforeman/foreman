@@ -257,9 +257,7 @@ function handleHostgroupChangedNew(element) {
   // call for form update only if there is a hostgroup selected
   if ($('#host_hostgroup_id').val() != "") {
     $("#host_compute_resource_id").prop("disabled", true);
-    return update_form(element).then(function () {
-      $("#host_compute_resource_id").prop("disabled", false);
-    });
+    return update_form(element);
   }
 }
 

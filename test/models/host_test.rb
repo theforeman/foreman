@@ -3313,8 +3313,10 @@ class HostTest < ActiveSupport::TestCase
 
   context 'compute resources' do
     setup do
-      @group1 = FactoryBot.create(:hostgroup, :with_domain, :with_os, :compute_profile => compute_profiles(:one))
-      @group2 = FactoryBot.create(:hostgroup, :with_domain, :with_os, :compute_profile => compute_profiles(:two))
+      @group1 = FactoryBot.create(:hostgroup, :with_domain, :with_os,
+                                  :compute_profile => compute_profiles(:one), :compute_resource => compute_resources(:ec2))
+      @group2 = FactoryBot.create(:hostgroup, :with_domain, :with_os,
+                                  :compute_profile => compute_profiles(:two), :compute_resource => compute_resources(:one))
     end
 
     test 'set_hostgroup_defaults doesnt touch compute attributes' do
@@ -3329,7 +3331,6 @@ class HostTest < ActiveSupport::TestCase
     test 'set_compute_attributes changes the compute attributes' do
       host = FactoryBot.create(:host, :managed, :compute_resource => compute_resources(:one), :hostgroup => @group1)
       assert_not_equal 4, host.compute_attributes['cpus']
-
       host.attributes = host.apply_inherited_attributes('hostgroup_id' => @group2.id)
       host.set_compute_attributes
       assert_equal 4, host.compute_attributes['cpus']

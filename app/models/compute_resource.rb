@@ -21,6 +21,7 @@ class ComputeResource < ApplicationRecord
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   before_save :sanitize_url
   has_many_hosts
+  has_many :hostgroups
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
   has_many :compute_attributes, :dependent => :destroy
