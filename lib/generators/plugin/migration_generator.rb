@@ -1,3 +1,5 @@
+require 'rails/generators'
+
 module Plugin
   class MigrationGenerator < Rails::Generators::Base
     class_option :plugin_name, :required => true
