@@ -2,6 +2,7 @@ module Foreman
   class Plugin
     class RbacSupport
       def add_all_permissions_to_default_roles(all_permissions)
+        return if Foreman.in_rake?('db:migrate')
         view_permissions = all_permissions.where("name LIKE :name", :name => "view_%")
         Role.transaction do
           add_all_permissions_to_role("Manager", all_permissions)
