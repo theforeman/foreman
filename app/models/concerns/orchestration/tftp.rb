@@ -84,8 +84,7 @@ module Orchestration::TFTP
   end
 
   def default_pxe_render(kind)
-    template_name = "#{kind} default local boot"
-    template = ProvisioningTemplate.find_by_name(template_name)
+    template = ProvisioningTemplate.find_by_name(local_boot_template_name kind)
     raise Foreman::Exception.new(N_("Template '%s' was not found"), template_name) unless template
     unattended_render template, template_name
   rescue => e
@@ -208,5 +207,10 @@ module Orchestration::TFTP
       yield(proxy)
     end
     results.all?
+  end
+
+  def local_boot_template_name(kind)
+    key = "local_boot_#{kind}"
+    host.host_params[key] || Setting[key] || "#{kind} default local boot"
   end
 end

@@ -186,34 +186,33 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "generate_pxe_template_for_pxelinux_build" do
-    if unattended?
-      h = FactoryGirl.build(:host, :managed, :build => true,
-                            :operatingsystem => operatingsystems(:redhat),
-                            :architecture => architectures(:x86_64))
-      h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
-      h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
-      Setting[:unattended_url] = "http://ahost.com:3000"
+    return unless unattended?
+    h = FactoryGirl.build(:host, :managed, :build => true,
+                          :operatingsystem => operatingsystems(:redhat),
+                          :architecture => architectures(:x86_64))
+    h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
+    h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
+    Setting[:unattended_url] = "http://ahost.com:3000"
 
-      template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
-      expected = <<-EXPECTED
+    template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
+    expected = <<-EXPECTED
 default linux
 label linux
 kernel boot/Redhat-6.1-x86_64-vmlinuz
 append initrd=boot/Redhat-6.1-x86_64-initrd.img ks=http://ahost.com:3000/unattended/kickstart ksdevice=bootif network kssendmac
 EXPECTED
-      assert_equal template,expected.strip
-      assert h.build
-    end
+    assert_equal template,expected.strip
+    assert h.build
   end
 
   test "generate_pxe_template_for_pxelinux_localboot" do
-    if unattended?
-      h = FactoryGirl.create(:host, :managed)
-      as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
-      assert !h.build
+    return unless unattended?
+    h = FactoryGirl.create(:host, :managed)
+    as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
+    assert !h.build
 
-      template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
-      expected = <<-EXPECTED
+    template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
+    expected = <<-EXPECTED
 DEFAULT menu
 PROMPT 0
 MENU TITLE PXE Menu
@@ -226,9 +225,37 @@ MENU LABEL (local)
 MENU DEFAULT
 LOCALBOOT 0
 EXPECTED
-      assert_equal template,expected.strip
-    end
+    assert_equal template,expected.strip
   end
+
+  test "generate_default_pxe_template_for_pxelinux_localboot_from_setting" do
+    return unless unattended?
+    template = FactoryGirl.create(:provisioning_template, :name => 'my template',
+                                                          :template => 'test content',
+                                                          :template_kind => template_kinds(:pxelinux))
+    Setting['local_boot_PXELinux'] = template.name
+    h = FactoryGirl.create(:host, :managed)
+    as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
+    assert !h.build
+
+    result = h.send(:generate_pxe_template, :PXELinux)
+    assert_equal template.template, result
+  end
+
+  test "generate_default_pxe_template_for_pxelinux_localboot_from_param" do
+    return unless unattended?
+    template = FactoryGirl.create(:provisioning_template, :name => 'my template',
+                                                          :template => 'test content again',
+                                                          :template_kind => template_kinds(:pxelinux))
+    h = FactoryGirl.create(:host, :managed)
+    param = FactoryGirl.create(:host_parameter, :name => 'local_boot_PXELinux', :value => template.name, :reference_id => h.id)
+    as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
+    assert !h.build
+
+    result = h.send(:generate_pxe_template, :PXELinux)
+    assert_equal template.template, result
+  end
+
 
   test 'should rebuild tftp IPv4' do
     host = FactoryGirl.create(:host, :with_tftp_orchestration)
@@ -303,23 +330,22 @@ EXPECTED
   end
 
   test "generate_pxelinux_template_for_suse_build" do
-    if unattended?
-      h = FactoryGirl.build(:host, :managed, :build => true,
-                            :operatingsystem => operatingsystems(:opensuse),
-                            :architecture => architectures(:x86_64))
-      Setting[:unattended_url] = "http://ahost.com:3000"
-      h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
-      h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
+    return unless unattended?
+    h = FactoryGirl.build(:host, :managed, :build => true,
+                          :operatingsystem => operatingsystems(:opensuse),
+                          :architecture => architectures(:x86_64))
+    Setting[:unattended_url] = "http://ahost.com:3000"
+    h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
+    h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
 
-      template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
-      expected = <<-EXPECTED
+    template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
+    expected = <<-EXPECTED
 DEFAULT linux
 LABEL linux
 KERNEL boot/OpenSuse-12.3-x86_64-linux
 APPEND initrd=boot/OpenSuse-12.3-x86_64-initrd ramdisk_size=65536 install=http://download.opensuse.org/distribution/12.3/repo/oss autoyast=http://ahost.com:3000/unattended/provision textmode=1
 EXPECTED
-      assert_equal template,expected.strip
-      assert h.build
-    end
+    assert_equal template,expected.strip
+    assert h.build
   end
 end
