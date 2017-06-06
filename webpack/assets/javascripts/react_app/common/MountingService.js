@@ -1,13 +1,18 @@
 import React from 'react';
-import StatisticsChartsList from '../components/charts/StatisticsChartsList';
+import StatisticsChartsList from '../components/statistics/StatisticsChartsList';
 import PowerStatus from '../components/hosts/powerStatus/';
 import NotificationContainer from '../components/notifications/';
 import ToastsList from '../components/toastNotifications/';
+import PieChart from '../components/common/charts/PieChart/';
 import ReactDOM from 'react-dom';
 import store from '../redux';
-export function mount(component, selector, data) {
 
+export function mount(component, selector, data) {
   const components = {
+    PieChart: {
+      type: PieChart,
+      markup: <PieChart data={ data } />
+    },
     StatisticsChartsList: {
       type: StatisticsChartsList,
       markup: <StatisticsChartsList store={store} data={data}/>

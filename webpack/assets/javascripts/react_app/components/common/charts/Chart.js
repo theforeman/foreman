@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import c3 from 'c3';
-import MessageBox from '../common/MessageBox';
+import MessageBox from '../MessageBox';
 
 class Chart extends React.Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class Chart extends React.Component {
     const msg = this.props.noDataMsg || 'No data available';
 
     return this.hasData() ?
-      <div className={this.props.cssClass} id={this.props.id + 'Chart'}></div> :
+      <div className={this.props.className} data-id={this.props.config.id}></div> :
       (
         <MessageBox msg={msg} icontype="info"></MessageBox>
       );

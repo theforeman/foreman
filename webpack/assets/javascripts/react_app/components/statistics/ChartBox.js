@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import helpers from '../../common/helpers';
-import Chart from './Chart';
-import chartService from '../../../services/statisticsChartService';
+import PieChart from '../common/charts/PieChart/';
+import {
+  getLargePieChartConfig,
+  navigateToSearch
+} from '../../../services/ChartService';
 import ChartModal from './ChartModal';
 import Loader from '../common/Loader';
 import Panel from '../common/Panel/Panel';
@@ -15,18 +18,12 @@ import MessageBox from '../common/MessageBox';
 class ChartBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showModal: false};
-    helpers.bindMethods(this, [
-      'onClick',
-      'closeModal',
-      'openModal']
-    );
+    this.state = { showModal: false };
+    helpers.bindMethods(this, ['onClick', 'closeModal', 'openModal']);
   }
 
   onClick() {
-    if (this.props.modalConfig.data.columns.length) {
-      this.openModal();
-    }
+    this.openModal();
   }
 
   openModal() {
@@ -38,44 +35,60 @@ class ChartBox extends React.Component {
   }
 
   render() {
+    const { chart } = this.props;
+
+    const modalConfig = getLargePieChartConfig({
+      data: this.props.chart.data,
+      id: chart.id + 'Modal'
+    });
+
     const tooltip = {
       onClick: this.onClick,
       title: this.props.tip,
       'data-toggle': 'tooltip',
       'data-placement': 'top'
     };
+    const onclickChartClicked = chart.search && chart.search.match(/=$/) ?
+      null :
+      navigateToSearch.bind(null, chart.search);
 
-    const chart = (<Chart {...this.props} key="0"
-                          config={this.props.config}
-                          noDataMsg={this.props.noDataMsg}
-                          cssClass="statistics-pie small"
-                          setTitle={chartService.setTitle}/>);
+    const _chart = (
+      <PieChart
+        key={this.props.chart.id + '-chart'}
+        data={this.props.chart.data}
+        onclick={onclickChartClicked}
+      />
+    );
 
-    const error = (<MessageBox msg={this.props.errorText}
-                               icontype="error-circle-o" key="1"></MessageBox>);
+    const error = (
+      <MessageBox
+        msg={this.props.errorText}
+        key={this.props.chart.id + '-error'}
+        icontype="error-circle-o"
+      />
+    );
 
     return (
-      <Panel className="statistics-charts-list-panel">
+      <Panel className="statistics-charts-list-panel" key={this.props.chart.id}>
         <PanelHeading {...tooltip} className="statistics-charts-list-heading">
-          <PanelTitle text={this.props.title}/>
+          <PanelTitle text={this.props.title} />
         </PanelHeading>
 
         <PanelBody className="statistics-charts-list-body">
           <Loader status={this.props.status}>
-            {[chart, error]}
+            {[_chart, error]}
           </Loader>
 
-          <ChartModal {...this.props}
-                      show={this.state.showModal}
-                      onHide={this.closeModal}
-                      onEnter={this.onEnter}
-                      config={this.props.modalConfig}
-                      title={this.props.title}
-                      id={this.props.id + 'Modal'}
-                      setTitle={chartService.setTitle}
+          <ChartModal
+            {...this.props}
+            show={this.state.showModal}
+            onHide={this.closeModal}
+            onEnter={this.onEnter}
+            config={modalConfig}
+            title={this.props.title}
           />
         </PanelBody>
-      </Panel >
+      </Panel>
     );
   }
 }

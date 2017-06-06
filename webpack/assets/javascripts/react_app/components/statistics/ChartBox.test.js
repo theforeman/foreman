@@ -1,34 +1,33 @@
 jest.unmock('./ChartBox');
-jest.unmock('../../../services/statisticsChartService');
+jest.unmock('../../../services/ChartService');
 
 import React from 'react';
 import { mount } from 'enzyme';
 import ChartBox from './ChartBox';
+global.patternfly = {
+  pfSetDonutChartTitle: jest.fn()
+};
 
 describe('ChartBox', () => {
-  let chart, config, modalConfig, noDataMsg, errorText;
+  let chart, noDataMsg, errorText;
 
   beforeEach(() => {
     chart = {
-      id: '1'
+      id: '2'
     };
-    config = {};
-    modalConfig = {};
     noDataMsg = 'no data';
     errorText = 'some error';
-
   });
 
   it('pending', () => {
     const box = mount(
       <ChartBox
-        key={chart.id}
-        config={config}
-        modalConfig={modalConfig}
+        chart={chart}
         noDataMsg={noDataMsg}
         status={'PENDING'}
         errorText={errorText}
-        {...chart} />
+        {...chart}
+      />
     );
 
     expect(box.find('.spinner.spinner-lg').length).toBe(1);
@@ -37,13 +36,12 @@ describe('ChartBox', () => {
   it('error', () => {
     const box = mount(
       <ChartBox
-        key={chart.id}
-        config={config}
-        modalConfig={modalConfig}
+        chart={chart}
         noDataMsg={noDataMsg}
         status={'ERROR'}
         errorText={errorText}
-        {...chart} />
+        {...chart}
+      />
     );
 
     expect(box.find('.pficon.pficon-error-circle-o').length).toBe(1);
@@ -52,15 +50,14 @@ describe('ChartBox', () => {
   it('resolved', () => {
     const box = mount(
       <ChartBox
-        key={chart.id}
-        config={{data: {columns: [1, 2]}}}
-        modalConfig={modalConfig}
+        chart={{ data: [[1, 2]] }}
         noDataMsg={noDataMsg}
         status={'RESOLVED'}
         errorText={errorText}
-        {...chart} />
+        {...chart}
+      />
     );
 
-    expect(box.find('.statistics-pie.small').length).toBe(1);
+    expect(box.find('.c3-statistics-pie.small').length).toBe(1);
   });
 });
