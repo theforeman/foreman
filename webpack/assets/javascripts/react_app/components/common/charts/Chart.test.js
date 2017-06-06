@@ -1,12 +1,11 @@
 jest.unmock('./Chart');
-jest.unmock('../common/MessageBox');
+jest.unmock('../MessageBox');
 jest.mock('c3');
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Chart from './Chart';
 import c3 from 'c3';
-
 // setup functions
 
 describe('Chart', () => {
@@ -17,7 +16,9 @@ describe('Chart', () => {
           columns: []
         }
       };
-      const chart = shallow(<Chart config={config} noDataMsg={'No data here'}></Chart>);
+      const chart = shallow(
+        <Chart config={config} noDataMsg={'No data here'} />
+      );
 
       expect(chart.node.props.msg).toBe('No data here');
       expect(chart.node.props.icontype).toBe('info');
@@ -30,7 +31,7 @@ describe('Chart', () => {
         }
       };
 
-      const chart = shallow(<Chart config={config}></Chart>);
+      const chart = shallow(<Chart config={config} />);
 
       expect(chart.node.props.msg).toBe('No data available');
       expect(chart.node.props.icontype).toBe('info');
@@ -42,7 +43,7 @@ describe('Chart', () => {
           columns: [1, 2]
         }
       };
-      const chart = shallow(<Chart config={config}></Chart>);
+      const chart = shallow(<Chart config={config} />);
 
       expect(chart.node.type.name).not.toBe('MessageBox');
     });
@@ -57,10 +58,11 @@ describe('Chart', () => {
       so that unmount will throw 'is not a function, error when calling chart.destroy()
       this facilitates checking that 'destroy' is called
     */
-    c3.generate = jest.fn().mockReturnValue({destroy: ''});
+    c3.generate = jest.fn().mockReturnValue({ destroy: '' });
 
     beforeEach(() => {
       config = {
+        id: 'operatingsystem',
         bindto: '#operatingsystem',
         donut: {
           width: 15,
@@ -69,22 +71,10 @@ describe('Chart', () => {
         data: {
           type: 'donut',
           columns: [
-            [
-              'Fedora 21',
-              3
-            ],
-            [
-              'Ubuntu 14.04',
-              4
-            ],
-            [
-              'Centos 7',
-              2
-            ],
-            [
-              'Debian 8',
-              1
-            ]
+            ['Fedora 21', 3],
+            ['Ubuntu 14.04', 4],
+            ['Centos 7', 2],
+            ['Debian 8', 1]
           ]
         },
         tooltip: {
@@ -102,16 +92,16 @@ describe('Chart', () => {
     });
 
     it('renders chart shell', () => {
-      const chart = shallow(<Chart id="operatingsystem" config={config}></Chart>);
+      const chart = shallow(<Chart config={config} />);
 
-      expect(chart.is('div#operatingsystemChart')).toBe(true);
+      expect(chart.is('div[data-id="operatingsystem"]')).toBe(true);
 
       expect(chart.node.type).toBe('div');
     });
 
     describe('calls c3.generate when appropriate', () => {
       it('calls c3 generate with config', () => {
-        mount(<Chart id="operatingsystem" config={config}></Chart>);
+        mount(<Chart id="operatingsystem" config={config} />);
 
         expect(c3.generate).toBeCalledWith(config);
       });
@@ -119,7 +109,7 @@ describe('Chart', () => {
         config.data.columns = [];
         c3.generate.mockClear();
 
-        mount(<Chart id="operatingsystem" config={config}></Chart>);
+        mount(<Chart id="operatingsystem" config={config} />);
 
         expect(c3.generate).not.toBeCalled();
       });
@@ -129,14 +119,16 @@ describe('Chart', () => {
       it('calls setTitle if present', () => {
         const setTitle = jest.fn();
 
-        mount(<Chart id="operatingsystem" setTitle={setTitle} config={config}></Chart>);
+        mount(
+          <Chart id="operatingsystem" setTitle={setTitle} config={config} />
+        );
 
         expect(setTitle).toBeCalledWith(config);
       });
       it('does not call setTitle if not supplied', () => {
         const setTitle = jest.fn();
 
-        mount(<Chart id="operatingsystem" config={config}></Chart>);
+        mount(<Chart id="operatingsystem" config={config} />);
 
         expect(setTitle).not.toBeCalled();
       });
@@ -144,19 +136,20 @@ describe('Chart', () => {
 
     describe('life cycle events', () => {
       it('update', () => {
-        let chart = mount(<Chart id="operatingsystem" config={config}></Chart>);
+        let chart = mount(<Chart id="operatingsystem" config={config} />);
 
         chart.update();
 
         expect(c3.generate).toHaveBeenCalled();
       });
       it('unmount', () => {
-        let chart = mount(<Chart id="operatingsystem" config={config}></Chart>);
+        let chart = mount(<Chart id="operatingsystem" config={config} />);
 
         // a very peculiar way to prove that chart is destroyed when unmounting
-        expect(()=> {chart.unmount();}).toThrowError('this.chart.destroy is not a function');
+        expect(() => {
+          chart.unmount();
+        }).toThrowError('this.chart.destroy is not a function');
       });
     });
   });
 });
-

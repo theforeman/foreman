@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import chartService from '../../../services/statisticsChartService';
 import ChartBox from './ChartBox';
 import './StatisticsChartsListStyles.css';
 import { connect } from 'react-redux';
@@ -26,23 +25,14 @@ class StatisticsChartsList extends React.Component {
   }
 
   render() {
-    const noDataMsg = __('No data available').toString();
-    const tip = __('Expand the chart').toString();
     const charts = _.map(this.props.charts, chart => {
-      const config = chartService.getChartConfig(chart);
-
-      chartService.syncConfigData(config, chart.data);
-      const modalConfig = chartService.getModalChartConfig(chart);
-
-      chartService.syncConfigData(modalConfig, chart.data);
 
       return (
         <ChartBox
           key={chart.id}
-          config={config}
-          modalConfig={modalConfig}
-          noDataMsg={noDataMsg}
-          tip={tip}
+          chart={chart}
+          noDataMsg={__('No data available')}
+          tip={__('Expand the chart')}
           errorText={chart.error}
           id={chart.id}
           status={ getStatusFromChart(chart) }

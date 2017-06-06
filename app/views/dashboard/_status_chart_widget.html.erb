@@ -1,7 +1,9 @@
 <h4 class="header">
   <%= title = _('Host Configuration Chart') %>
 </h4>
-<%= render_overview(@data.report, :class => 'statistics-pie small', :custom_title => title) %>
+<div id="host_configuration_chart">
+</div>
+<%= mount_react_component('PieChart', '#host_configuration_chart', get_overview_json(@data.report))%>
 <ul class="ui-helper-hidden">
   <%= render "dashboard/status_links" %>
 </ul>
