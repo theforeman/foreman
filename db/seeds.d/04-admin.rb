@@ -15,6 +15,17 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).present?
   end
 end
 
+# Anonymous Console Admin is used for console commands etc.
+unless User.unscoped.find_by_login(User::ANONYMOUS_CONSOLE_ADMIN).present?
+  User.without_auditing do
+    user = User.new(:login => User::ANONYMOUS_CONSOLE_ADMIN, :firstname => "Console", :lastname => "Admin")
+    user.admin = true
+    user.auth_source = src_hidden
+    User.current = user
+    raise "Unable to create anonymous console admin user: #{format_errors user}" unless user.save
+  end
+end
+
 # Anonymous API user is used for API access when oauth_map_users is disabled
 # It should be removed and replaced by per-user OAuth tokens (#1301)
 unless User.unscoped.find_by_login(User::ANONYMOUS_API_ADMIN).present?
