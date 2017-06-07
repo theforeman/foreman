@@ -13,13 +13,6 @@
 Bundler/OrderedGems:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: outdent, indent
-Layout/AccessModifierIndentation:
-  Enabled: false
-
 # Offense count: 588
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedHashRocketStyle, SupportedHashRocketStyles, EnforcedColonStyle, SupportedColonStyles, EnforcedLastArgumentHashStyle, SupportedLastArgumentHashStyles.
