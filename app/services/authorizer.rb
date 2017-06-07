@@ -169,7 +169,7 @@ class Authorizer
     return 'Parameter' if klass <= Parameter
 
     case (name = klass.to_s)
-    when 'Audited::Adapters::ActiveRecord::Audit'
+    when 'Audited::Audit'
       'Audit'
     when /\AHost::.*\Z/
       'Host'
