@@ -1,11 +1,44 @@
+2017-06-08	Daniel Lobato Garcia <me@daniellobato.me>
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* Fixes #19952 - Allow view_audit_logs to work
+	* Fixes #19631 - ComputeResource with KeyPair can be removed
+
+2017-06-08	Partha Aji <paji@redhat.com>
+	* fixes #14699 - Enable host edit to accept new params
+
+2017-06-08	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #19672 - fix bulk actions for plugins
+	* Fixes #19612 - CVE-2017-7505 don't expose admin to taxed users
+
+2017-06-08	Dominic Cleal <dominic@cleal.org>
+	* refs #19534 - check EncryptValue class variables are defined
+
+2017-06-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #19534 - removed excessive encryptor logging
+
+2017-06-08	amirfefer <amirfefer@gmail.com>
+	* Fixes #19034 - add tasks for clearing expired notifications
+
+2017-06-08	Ivan Necas <inecas@redhat.com>
+	* Fixes #19241 - fix warning: already initialized constant ARGV
+	* Fixes #19236 - handle situation when host is destroyed oVirt
+
+2017-06-08	Ivan Nečas <inecas@redhat.com>
+	* Fixes #19213 - use provision interface in foreman_url
+
+2017-06-07	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #19728 - set admin user in rake console
+
+2017-05-09	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.0
+	* Fixes #18995, #18996 - visible_environments works w/o taxonomies
+
 2017-05-09	Timo Goebel <mail@timogoebel.name>
 	* refs #19419 - test aws fog_extensions name methods
 
 2017-05-09	Ben Plessinger <plessbd@users.noreply.github.com>
 	* fixes #19419 - fix invalid syntax in aws fog extention
-
-2017-05-09	Daniel Lobato Garcia <me@daniellobato.me>
-	* Fixes #18995, #18996 - visible_environments works w/o taxonomies
 
 2017-04-24	Daniel Lobato Garcia <me@daniellobato.me>
 	* Release 1.15.0-RC2
