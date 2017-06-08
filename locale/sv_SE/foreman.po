@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -5182,8 +5182,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Inga värdar markerade"
 
-msgid "No hosts were found with that id or name"
-msgstr "Inga värdar med det idt eller namnet hittades"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Inga intressanta rapporter togs emot den senaste veckan"
@@ -6244,6 +6244,16 @@ msgstr ""
 msgid "Region"
 msgstr "Region"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6676,6 +6686,11 @@ msgstr "Välj mall"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr ""
 
@@ -6997,6 +7012,11 @@ msgstr "Visa senaste rapporten för en värd"
 
 msgid "Sign"
 msgstr "Signera"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "Storlek"
@@ -8065,6 +8085,9 @@ msgstr ""
 
 msgid "Undo remove"
 msgstr "Ångra radering"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr ""

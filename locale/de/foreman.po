@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -5211,8 +5211,8 @@ msgstr "Keine Hosts verfügbar."
 msgid "No hosts selected"
 msgstr "Keine Systeme ausgewählt"
 
-msgid "No hosts were found with that id or name"
-msgstr "Keine Hosts mit dieser Kennung oder diesem Namen gefunden"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Keine interessanten Berichte in der letzten Woche erhalten"
@@ -6273,6 +6273,16 @@ msgstr "Smart-Proxy-Funktionen aktualisieren"
 msgid "Region"
 msgstr "Region"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6705,6 +6715,11 @@ msgstr "Vorlage auswählen"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Wählen Sie dies, da es zu einem Host gehört"
 
@@ -7026,6 +7041,11 @@ msgstr "Letzten Bericht für einen Host anzeigen"
 
 msgid "Sign"
 msgstr "Signieren"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "Größe"
@@ -8102,6 +8122,9 @@ msgstr "Unbeaufsichtigte URL"
 
 msgid "Undo remove"
 msgstr "Löschen rückgängig machen"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "Diesen Wert anzeigen"

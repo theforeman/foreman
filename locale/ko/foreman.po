@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -5178,8 +5178,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "선택된 호스트가 없음 "
 
-msgid "No hosts were found with that id or name"
-msgstr "해당 ID 또는 이름의 호스트를 찾을 수 없음 "
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "지난 1 주일 동안 보고서가 수신되지 않았습니다 "
@@ -6240,6 +6240,16 @@ msgstr "스마트 프록시 기능 새로고침 "
 msgid "Region"
 msgstr "지역 "
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6672,6 +6682,11 @@ msgstr "템플릿 선택 "
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "호스트에 속해 있으므로 이를 선택합니다 "
 
@@ -6993,6 +7008,11 @@ msgstr "호스트의 마지막 보고서 표시"
 
 msgid "Sign"
 msgstr "로그인 "
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "사이즈"
@@ -8068,6 +8088,9 @@ msgstr "자동 URL"
 
 msgid "Undo remove"
 msgstr "삭제 취소 "
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "이 값 숨기기 취소"

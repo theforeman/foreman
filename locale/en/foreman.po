@@ -5822,6 +5822,9 @@ msgstr ""
 msgid "Physical (Bridge)"
 msgstr ""
 
+msgid "Play Ansible roles"
+msgstr ""
+
 msgid "Please Confirm"
 msgstr ""
 

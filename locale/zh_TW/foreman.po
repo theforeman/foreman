@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
@@ -5184,8 +5184,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "未選擇主機"
 
-msgid "No hosts were found with that id or name"
-msgstr "找不到擁有此 ID 或名稱的主機"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "上個禮拜未收到有趣的報告"
@@ -6246,6 +6246,16 @@ msgstr "更新智慧型代理伺服器的功能"
 msgid "Region"
 msgstr "區域"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6678,6 +6688,11 @@ msgstr "選擇範本"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "選擇此項目因為它屬於一部主機"
 
@@ -6999,6 +7014,11 @@ msgstr "顯示主機的最後報告"
 
 msgid "Sign"
 msgstr "簽署"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "大小"
@@ -8075,6 +8095,9 @@ msgstr "無人看顧的 URL"
 
 msgid "Undo remove"
 msgstr "還原移除"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "取消隱藏此值"

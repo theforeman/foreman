@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -5182,8 +5182,8 @@ msgstr "利用可能なホストがありません"
 msgid "No hosts selected"
 msgstr "ホストが選択されていません"
 
-msgid "No hosts were found with that id or name"
-msgstr "該当 ID または名前を持つホストが見つかりませんでした"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "関連するレポートを過去一週間受信していません"
@@ -6244,6 +6244,16 @@ msgstr "スマートプロキシー機能の更新"
 msgid "Region"
 msgstr "リージョン"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6676,6 +6686,11 @@ msgstr "テンプレートの選択"
 msgid "Select the changes you want to apply to Foreman"
 msgstr "Foreman に適用する変更を選択します"
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "ホストに属するのでこれを選択してください"
 
@@ -6997,6 +7012,11 @@ msgstr "ホストの最終レポートの表示"
 
 msgid "Sign"
 msgstr "サイン"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "サイズ"
@@ -8072,6 +8092,9 @@ msgstr "自動 URL"
 
 msgid "Undo remove"
 msgstr "削除を元に戻す"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "この値の非表示設定を解除"

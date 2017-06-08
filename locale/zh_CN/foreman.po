@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-19 09:22+0000\n"
-"Last-Translator: Xingchao Yu <yuxcer@gmail.com>\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -5183,8 +5183,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "没有选择主机"
 
-msgid "No hosts were found with that id or name"
-msgstr "没有发现该ID或者名称的主机"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "上周没有收到任何需要查看的报告"
@@ -6245,6 +6245,16 @@ msgstr "刷新智能代理服务器功能"
 msgid "Region"
 msgstr "区域"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6677,6 +6687,11 @@ msgstr "选择模板"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "选择这个因为它属于主机"
 
@@ -6998,6 +7013,11 @@ msgstr "显示主机的最新报告"
 
 msgid "Sign"
 msgstr "登入"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "大小"
@@ -8073,6 +8093,9 @@ msgstr "无人参与的 URL"
 
 msgid "Undo remove"
 msgstr "撤销删除"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "取消隐藏该值"

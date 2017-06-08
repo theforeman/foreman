@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
@@ -5233,8 +5233,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Узлы не выбраны"
 
-msgid "No hosts were found with that id or name"
-msgstr "Узлы с таким идентификатором или именем не найдены"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Нет отчетов за прошлую неделю"
@@ -6295,6 +6295,16 @@ msgstr "Обновить возможности капсулы"
 msgid "Region"
 msgstr "Регион"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6727,6 +6737,11 @@ msgstr "Выберите шаблон"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Выберите, так как это принадлежит узлу"
 
@@ -7048,6 +7063,11 @@ msgstr "Показать последний отчет узла"
 
 msgid "Sign"
 msgstr "Подписать"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "Размер"
@@ -8128,6 +8148,9 @@ msgstr "URL сопровождения"
 
 msgid "Undo remove"
 msgstr "Отменить удаление"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "Показать значение"

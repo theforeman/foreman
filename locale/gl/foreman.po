@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Galician (http://www.transifex.com/foreman/foreman/language/gl/"
 ")\n"
@@ -5178,8 +5178,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Ningún equipo seleccionado"
 
-msgid "No hosts were found with that id or name"
-msgstr "Non se atopou ningún equipos con ese id ou nome"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "Non se recibiron informes interesantes na última semana"
@@ -6240,6 +6240,16 @@ msgstr ""
 msgid "Region"
 msgstr "Rexión"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6672,6 +6682,11 @@ msgstr "Selecciona plantilla"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr ""
 
@@ -6993,6 +7008,11 @@ msgstr ""
 
 msgid "Sign"
 msgstr "Rexistrar"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr ""
@@ -8061,6 +8081,9 @@ msgstr ""
 
 msgid "Undo remove"
 msgstr "Desfacer borrado"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr ""

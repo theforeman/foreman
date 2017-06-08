@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -5185,8 +5185,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Cap amfitrió seleccionat"
 
-msgid "No hosts were found with that id or name"
-msgstr "No s'ha trobat cap amfitrió amb aquest id. o nom"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "En l'última setmana no s'han rebut informes interessants"
@@ -6247,6 +6247,16 @@ msgstr "Refresca les característiques del servidor intermediari intel·ligent"
 msgid "Region"
 msgstr "Regió"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6679,6 +6689,11 @@ msgstr "Selecciona la plantilla"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Seleccioneu aquesta, ja que pertany a un amfitrió"
 
@@ -7000,6 +7015,11 @@ msgstr "Mostra l'últim informe per un amfitrió"
 
 msgid "Sign"
 msgstr "Signa"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "Mida"
@@ -8070,6 +8090,9 @@ msgid "Unattended URL"
 msgstr "URL desatès"
 
 msgid "Undo remove"
+msgstr ""
+
+msgid "Undo selection"
 msgstr ""
 
 msgid "Unhide this value"

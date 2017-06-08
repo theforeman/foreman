@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-03-31 10:09+0000\n"
+"PO-Revision-Date: 2017-04-24 13:35+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
@@ -5203,8 +5203,8 @@ msgstr ""
 msgid "No hosts selected"
 msgstr "Ningún host seleccionado"
 
-msgid "No hosts were found with that id or name"
-msgstr "No se han encontrado hosts con ese ID o nombre"
+msgid "No hosts were found with that id, name or query filter"
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "No se han recibido informes interesantes en la última semana"
@@ -6265,6 +6265,16 @@ msgstr "Actualizar las funcionalidades del Proxy inteligente"
 msgid "Region"
 msgstr "Región"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote action:"
 msgstr ""
 
@@ -6697,6 +6707,11 @@ msgstr "Selecciona plantilla"
 msgid "Select the changes you want to apply to Foreman"
 msgstr ""
 
+msgid "Select this host"
+msgid_plural "Select all <b> %{total} </b> hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Select this since it belongs to a host"
 msgstr "Seleccionar esto,  ya que pertenece a un host"
 
@@ -7018,6 +7033,11 @@ msgstr "Mostrar ultimo reporte de un host"
 
 msgid "Sign"
 msgstr "Registrar"
+
+msgid "Single host on this page is selected."
+msgid_plural "All %{per_page} hosts on this page are selected."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Size"
 msgstr "Tamaño"
@@ -8092,6 +8112,9 @@ msgstr "URL desatendida"
 
 msgid "Undo remove"
 msgstr "Deshacer borrado"
+
+msgid "Undo selection"
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "Mostrar este valor"
