@@ -11,6 +11,17 @@ class ActiveRecord::Base
     self.name <=> other.name
   end
 
+  # Backport the behavior of #destroy from Rails 5 (and imitate Rails 3)
+  # by returning false on failure instead of raising RecordNotDestroyed.
+  #
+  # From https://github.com/rails/rails/commit/d937a1175f10586b892842348c1d6ecaa47aad2e
+  # Fixes http://projects.theforeman.org/issues/14702
+  def destroy
+    super
+  rescue ActiveRecord::RecordNotDestroyed
+    false
+  end
+
   def update_single_attribute(attribute, value)
     connection.update(
       "UPDATE #{self.class.quoted_table_name} SET " +
