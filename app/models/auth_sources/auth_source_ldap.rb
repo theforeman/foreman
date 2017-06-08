@@ -15,6 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'rbconfig'
 require 'net/ldap'
 require 'timeout'
 
@@ -95,7 +96,11 @@ class AuthSourceLdap < AuthSource
 
   def encryption_config
     return nil unless tls
-    { :method => :simple_tls, :tls_options => { :verify_mode => OpenSSL::SSL::VERIFY_PEER } }
+    if RbConfig::CONFIG['host_os'] =~ /freebsd/i
+      { :method => :simple_tls, :tls_options => { :ca_file => "/usr/local/etc/ssl/cert.pem", :verify_mode => OpenSSL::SSL::VERIFY_PEER } }
+    else
+      { :method => :simple_tls, :tls_options => { :verify_mode => OpenSSL::SSL::VERIFY_PEER } }
+    end
   end
 
   def ldap_con(login = nil, password = nil)
