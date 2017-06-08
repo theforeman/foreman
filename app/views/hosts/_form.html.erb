@@ -73,7 +73,7 @@
 
         <%= render_pagelets_for(:main_tab_fields, :host => @host, :form => f) %>
 
-        <%= smart_proxy_fields f,
+        <%= smart_proxy_fields f, true,
               :can_override => true,
               :override => @host.hostgroup && @host.hostgroup_id_was.nil?
         %>

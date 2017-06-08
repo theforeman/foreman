@@ -6,7 +6,7 @@ common:
   environment: production
   operatingsystem: centos5_3
   medium: one
-  puppet_proxy: puppetmaster
+  puppet_proxy_hostname: puppetmaster
   domain: mydomain
   title: Common
   root_pass: $1$foreman$NW1XVtbk4/XkJqmKNrFWV0
@@ -15,7 +15,7 @@ common:
 
 unusual:
   name: Unusual
-  puppet_proxy: puppetmaster
+  puppet_proxy_hostname: puppetmaster
   title: Unusual
   lookup_value_matcher: hostgroup=Unusual
 
@@ -25,7 +25,7 @@ db:
   environment: production
   operatingsystem: centos5_3
   medium: one
-  puppet_proxy: puppetmaster
+  puppet_proxy_hostname: puppetmaster
   title: db
   lookup_value_matcher: hostgroup=db
 
@@ -37,8 +37,8 @@ parent:
   operatingsystem: centos5_3
   medium: one
   ptable: autopart
-  puppet_proxy: puppetmaster
-  puppet_ca_proxy: puppetmaster
+  puppet_proxy_hostname: puppetmaster
+  puppet_ca_proxy_hostname: puppetmaster
   domain: mydomain
   subnet: three
   subnet6: six

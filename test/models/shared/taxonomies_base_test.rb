@@ -56,21 +56,21 @@ module TaxonomiesBaseTest
                                   :"#{taxonomy_name.pluralize}" => [taxonomy])
       domain = FactoryGirl.create(:domain)
       FactoryGirl.create(:host,
-                         :compute_resource => compute_resources(:one),
-                         :domain           => domain,
-                         :environment      => environments(:production),
-                         :medium           => media(:one),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :owner            => users(:scoped),
-                         :puppet_proxy     => smart_proxies(:puppetmaster),
-                         :realm            => realms(:myrealm),
-                         :subnet           => subnet,
-                         :"#{taxonomy_name}" => taxonomy,
+                         :compute_resource       => compute_resources(:one),
+                         :domain                 => domain,
+                         :environment            => environments(:production),
+                         :medium                 => media(:one),
+                         :operatingsystem        => operatingsystems(:centos5_3),
+                         :owner                  => users(:scoped),
+                         :puppet_proxy_hostname  => hostnames(:puppetmaster),
+                         :realm                  => realms(:myrealm),
+                         :subnet                 => subnet,
+                         :"#{taxonomy_name}"     => taxonomy,
                          :"#{opposite_taxonomy}" => nil)
       FactoryGirl.create(:os_default_template,
                          :provisioning_template  => templates(:mystring2),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :template_kind    => TemplateKind.find_by_name('provision'))
+                         :operatingsystem        => operatingsystems(:centos5_3),
+                         :template_kind          => TemplateKind.find_by_name('provision'))
       # run used_ids method
       used_ids = taxonomy.used_ids
       # get results from Host object
@@ -268,24 +268,24 @@ module TaxonomiesBaseTest
 
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent.id
       FactoryGirl.create(:host,
-                         :compute_resource => compute_resources(:one),
-                         :domain           => domain1,
-                         :environment      => environments(:production),
-                         :"#{taxonomy_name}" => parent,
-                         :organization     => taxonomies(:organization1),
-                         :medium           => media(:one),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :owner            => users(:scoped),
-                         :puppet_proxy     => smart_proxies(:puppetmaster),
-                         :realm            => realms(:myrealm),
-                         :subnet           => subnet)
+                         :compute_resource      => compute_resources(:one),
+                         :domain                => domain1,
+                         :environment           => environments(:production),
+                         :"#{taxonomy_name}"    => parent,
+                         :organization          => taxonomies(:organization1),
+                         :medium                => media(:one),
+                         :operatingsystem       => operatingsystems(:centos5_3),
+                         :owner                 => users(:scoped),
+                         :puppet_proxy_hostname => hostnames(:puppetmaster),
+                         :realm                 => realms(:myrealm),
+                         :subnet                => subnet)
       FactoryGirl.create(:host,
                          :"#{taxonomy_name}" => parent,
-                         :domain           => domain2)
+                         :domain             => domain2)
       FactoryGirl.create(:os_default_template,
                          :provisioning_template  => templates(:mystring2),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :template_kind    => TemplateKind.find_by_name('provision'))
+                         :operatingsystem        => operatingsystems(:centos5_3),
+                         :template_kind          => TemplateKind.find_by_name('provision'))
 
       # check that inherited_ids of taxonomy matches selected_ids of parent
       taxonomy.inherited_ids.each do |k,v|

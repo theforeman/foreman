@@ -1,0 +1,53 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+  name: DHCP Proxy Hostname
+  hostname: somewhere.net
+  smart_proxies:
+    - one
+
+two:
+  name: TFTP Proxy Hostname
+  hostname: somewhere.else
+  smart_proxies:
+    - two
+
+three:
+  name: DNS Proxy Hostname
+  hostname: else.where.three
+  smart_proxies:
+    - three
+
+puppetmaster:
+  name: Puppetmaster Proxy Hostname
+  hostname: else.where.puppetmaster
+  smart_proxies:
+    - puppetmaster
+
+realm:
+  name: Realm Proxy Hostname
+  hostname: else.where.realm
+  smart_proxies:
+    - realm
+
+four:
+  name: Unused Proxy Hostname
+  hostname: else.where.bmc
+  smart_proxies:
+    - four
+
+bmc:
+  name: BMC Proxy Hostname
+  hostname: else.where.bmc
+  smart_proxies:
+    - bmc
+
+logs:
+  name: A Proxy Hostname with Logs feature
+  hostname: else.where.logs
+  smart_proxies:
+    - logs

@@ -358,8 +358,8 @@ Foreman::AccessControl.map do |permission_set|
                                                :disassociate, :multiple_disassociate, :update_multiple_disassociate,
                                                :select_multiple_owner, :update_multiple_owner,
                                                :select_multiple_power_state, :update_multiple_power_state,
-                                               :select_multiple_puppet_proxy, :update_multiple_puppet_proxy,
-                                               :select_multiple_puppet_ca_proxy, :update_multiple_puppet_ca_proxy,
+                                               :select_multiple_puppet_proxy_hostname, :update_multiple_puppet_proxy_hostname,
+                                               :select_multiple_puppet_ca_proxy_hostname, :update_multiple_puppet_ca_proxy_hostname,
                                                :select_multiple_location, :update_multiple_location].push(*ajax_actions),
                                     :compute_resources => [:associate].push(cr_ajax_actions),
                                     :compute_resources_vms => [:associate],
@@ -617,6 +617,21 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :destroy_smart_proxies, {:smart_proxies => [:destroy],
                                           :"api/v1/smart_proxies" => [:destroy],
                                           :"api/v2/smart_proxies" => [:destroy]
+    }
+  end
+
+  permission_set.security_block :hostnames do |map|
+    map.permission :view_hostnames, {:hostnames => [:index, :auto_complete_search],
+                                     :"api/v2/hostnames" => [:index, :show]
+    }
+    map.permission :create_hostnames, {:hostnames => [:new, :create],
+                                       :"api/v2/hostnames" => [:create]
+    }
+    map.permission :edit_hostnames, {:hostnames => [:edit, :update],
+                                     :"api/v2/hostnames" => [:update]
+    }
+    map.permission :destroy_hostnames, {:hostnames => [:destroy],
+                                        :"api/v2/hostnames" => [:destroy]
     }
   end
 

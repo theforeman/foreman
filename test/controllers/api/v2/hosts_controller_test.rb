@@ -11,18 +11,18 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def basic_attrs
-    { :name                => 'testhost11',
-      :environment_id      => environments(:production).id,
-      :domain_id           => domains(:mydomain).id,
-      :ptable_id           => @ptable.id,
-      :medium_id           => media(:one).id,
-      :architecture_id     => Architecture.find_by_name('x86_64').id,
-      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
-      :puppet_proxy_id     => smart_proxies(:puppetmaster).id,
-      :compute_resource_id => compute_resources(:one).id,
-      :root_pass           => "xybxa6JUkz63w",
-      :location_id         => taxonomies(:location1).id,
-      :organization_id     => taxonomies(:organization1).id
+    { :name                     => 'testhost11',
+      :environment_id           => environments(:production).id,
+      :domain_id                => domains(:mydomain).id,
+      :ptable_id                => @ptable.id,
+      :medium_id                => media(:one).id,
+      :architecture_id          => Architecture.find_by_name('x86_64').id,
+      :operatingsystem_id       => Operatingsystem.find_by_name('Redhat').id,
+      :puppet_proxy_hostname_id => hostnames(:puppetmaster).id,
+      :compute_resource_id      => compute_resources(:one).id,
+      :root_pass                => "xybxa6JUkz63w",
+      :location_id              => taxonomies(:location1).id,
+      :organization_id          => taxonomies(:organization1).id
     }
   end
 
@@ -514,7 +514,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:restrict_registered_smart_proxies] = false
     SETTINGS[:require_ssl] = false
 
-    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    Resolv.any_instance.stubs(:getnames).returns(['else.where.puppetmaster'])
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts}
@@ -528,8 +528,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = false
 
     proxy = smart_proxies(:puppetmaster)
-    proxy.update_attribute(:url, 'https://factsimporter.foreman')
-    host = URI.parse(proxy.url).host
+    host = 'factsimporter.foreman'
+    proxy.hostnames.first.update_attribute(:hostname, host)
     Resolv.any_instance.stubs(:getnames).returns([host])
     hostname = fact_json['name']
     facts    = fact_json['facts']
@@ -556,7 +556,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = true
 
     @request.env['HTTPS'] = 'on'
-    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where.puppetmaster'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     hostname = fact_json['name']
     facts    = fact_json['facts']
@@ -598,7 +598,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = true
     SETTINGS[:require_ssl] = true
 
-    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    Resolv.any_instance.stubs(:getnames).returns(['else.where.puppetmaster'])
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts}
@@ -612,7 +612,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     Setting[:require_ssl_smart_proxies] = true
     SETTINGS[:require_ssl] = false
 
-    Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+    Resolv.any_instance.stubs(:getnames).returns(['else.where.puppetmaster'])
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, {:name => hostname, :facts => facts}

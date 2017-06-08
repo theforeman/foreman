@@ -40,6 +40,14 @@
         </div>
         <div class="row">
           <div class="col-md-4">
+            <%= _('Hostname(s)') %>
+          </div>
+          <div class="col-md-8">
+            <%= @smart_proxy.hostnames.map(&:hostname).to_sentence %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
             <%= _('Version') %>
           </div>
           <div class="col-md-8">

@@ -1,4 +1,10 @@
 ---
+- message: You are using a deprecated behavior, it will be removed in version 1.18,
+    Hosts should now be assigned a Hostname, not a SmartProxy, Please update your code
+    to reflect this.
+- message: You are using a deprecated behavior, it will be removed in version 1.18,
+    Use puppet_proxy.id instead of puppet_proxy_id for accessing a Hosts Puppet Smart
+    Proxy ID attribute.
 # http://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.

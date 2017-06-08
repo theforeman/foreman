@@ -59,7 +59,7 @@ module NestedAncestryCommon
           define_method md[1] do
             if ancestry.present?
               klass = md[1].classify
-              klass = "SmartProxy" if ["puppet_proxy", "puppet_ca_proxy"].include?(md[1])
+              klass = "Hostname" if ["puppet_proxy_hostname", "puppet_ca_proxy_hostname"].include?(md[1])
               klass = 'Subnet::Ipv4' if md[1] == 'subnet'
               klass = 'Subnet::Ipv6' if md[1] == 'subnet6'
               klass.classify.constantize.find_by_id(send("inherited_#{field}"))

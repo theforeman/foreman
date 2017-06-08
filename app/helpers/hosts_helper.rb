@@ -162,8 +162,8 @@ module HostsHelper
       actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
       actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
       actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
-      actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
-      actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
+      actions <<  [_('Change Puppet Master Hostname'), select_multiple_puppet_proxy_hostname_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
+      actions <<  [_('Change Puppet CA Hostname'), select_multiple_puppet_ca_proxy_hostname_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
     end
     actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun] && authorized_for(:controller => :hosts, :action => :puppetrun)
     actions <<  [_('Change Power State'), select_multiple_power_state_hosts_path] if authorized_for(:controller => :hosts, :action => :power)
@@ -464,12 +464,12 @@ module HostsHelper
     !params[:host][field]
   end
 
-  def multiple_proxy_select(form, proxy_feature)
+  def multiple_proxy_hostname_select(form, proxy_feature)
     selectable_f form,
-      :proxy_id,
-      [[_("Select desired %s proxy") % _(proxy_feature), "disabled"]] +
-      [[_("*Clear %s proxy*") % _(proxy_feature), "" ]] +
-      SmartProxy.with_features(proxy_feature).map {|p| [p.name, p.id]},
+      :hostname_id,
+      [[_("Select desired %s proxy hostname") % _(proxy_feature), "disabled"]] +
+      [[_("*Clear %s proxy hostname*") % _(proxy_feature), "" ]] +
+      Feature.find_by_name('Puppet').hostnames.map {|h| [h.name, h.id]},
       {},
       {:label => _(proxy_feature), :onchange => "toggle_multiple_ok_button(this)" }
   end

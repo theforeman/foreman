@@ -11,18 +11,18 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
   end
 
   def basic_attrs
-    { :name                => 'testhost11',
-      :environment_id      => environments(:production).id,
-      :domain_id           => domains(:mydomain).id,
-      :ptable_id           => @ptable.id,
-      :medium_id           => media(:one).id,
-      :architecture_id     => Architecture.find_by_name('x86_64').id,
-      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
-      :puppet_proxy_id     => smart_proxies(:puppetmaster).id,
-      :compute_resource_id => compute_resources(:one).id,
-      :root_pass           => "xybxa6JUkz63w",
-      :location_id         => taxonomies(:location1).id,
-      :organization_id     => taxonomies(:organization1).id
+    { :name                     => 'testhost11',
+      :environment_id           => environments(:production).id,
+      :domain_id                => domains(:mydomain).id,
+      :ptable_id                => @ptable.id,
+      :medium_id                => media(:one).id,
+      :architecture_id          => Architecture.find_by_name('x86_64').id,
+      :operatingsystem_id       => Operatingsystem.find_by_name('Redhat').id,
+      :puppet_proxy_hostname_id => hostnames(:puppetmaster).id,
+      :compute_resource_id      => compute_resources(:one).id,
+      :root_pass                => "xybxa6JUkz63w",
+      :location_id              => taxonomies(:location1).id,
+      :organization_id          => taxonomies(:organization1).id
     }
   end
 
@@ -196,6 +196,21 @@ class Api::V1::HostsControllerTest < ActionController::TestCase
     get :show, {:id => host.to_param, :format => 'json'}
     assert_response :success
     get :show, {:id => host.to_param}
+    assert_response :success
+  end
+
+  test "should create host with old attrs" do
+    old_valid_attrs = valid_attrs.merge({:puppet_ca_proxy_id => 1})
+    disable_orchestration
+    assert_difference('Host.count') do
+      post :create, { :host => old_valid_attrs }
+    end
+    assert_response :success
+  end
+
+  test "should update host with old attrs" do
+    old_valid_attrs = { :name => 'TestHostgroup', :puppet_proxy_id => 1, :puppet_ca_proxy_id => 1 }
+    put :update, { :id => @host.to_param, :host => old_valid_attrs }
     assert_response :success
   end
 

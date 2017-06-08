@@ -31,7 +31,7 @@
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
                        { :label => _("Compute profile") }
                   ) if ComputeProfile.visibles.exists? %>
-      <%= smart_proxy_fields f %>
+      <%= smart_proxy_fields f, true %>
     </div>
 
     <%= puppetclasses_tab(@hostgroup) %>

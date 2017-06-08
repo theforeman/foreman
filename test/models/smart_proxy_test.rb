@@ -49,7 +49,7 @@ class SmartProxyTest < ActiveSupport::TestCase
 
   # test taxonomix methods
   test "should get used location ids for host" do
-    FactoryGirl.create(:host, :with_environment, :puppet_proxy => smart_proxies(:puppetmaster),
+    FactoryGirl.create(:host, :with_environment, :puppet_proxy_hostname => hostnames(:puppetmaster),
                        :location => taxonomies(:location1))
     assert_equal ["Puppet", "Puppet CA"], smart_proxies(:puppetmaster).features.pluck(:name).sort
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_location_ids
@@ -69,7 +69,7 @@ class SmartProxyTest < ActiveSupport::TestCase
 
   test "can count connected hosts" do
     proxy = FactoryGirl.create(:puppet_smart_proxy)
-    FactoryGirl.create(:host, :with_environment, :puppet_proxy => proxy)
+    FactoryGirl.create(:host, :with_environment, :puppet_proxy_hostname => proxy.hostnames.first)
     as_admin do
       assert_equal 1, proxy.hosts_count
     end
@@ -96,5 +96,31 @@ class SmartProxyTest < ActiveSupport::TestCase
     ProxyAPI::Features.any_instance.stubs(:features => {:fe => :at, :ur => :e})
     refute proxy.save
     assert_equal('An invalid response was received while requesting available features from this proxy', proxy.errors[:base].first)
+  end
+
+  test "can search smart proxy by name" do
+    proxy = FactoryGirl.create(:puppet_and_ca_smart_proxy)
+    results = SmartProxy.search_for("name = #{proxy.name}")
+    assert_equal 1, results.count
+    assert_includes results, proxy
+    results = SmartProxy.search_for("name = #{proxy.name}-empty")
+    assert_equal 0, results.count
+  end
+
+  test "can search smart proxy by hostname" do
+    proxy = FactoryGirl.create(:puppet_and_ca_smart_proxy)
+    results = SmartProxy.search_for("hostname = #{proxy.hostnames.first.name}")
+    assert_equal 1, results.count
+    assert_includes results, proxy
+    results = SmartProxy.search_for("hostname = #{proxy.hostnames.first.name}-empty")
+    assert_equal 0, results.count
+  end
+
+  test "can search smart proxy by feature" do
+    proxy = smart_proxies(:one)
+    results = SmartProxy.search_for("feature = DHCP")
+    assert_includes results, proxy
+    results = SmartProxy.search_for("feature = Puppet")
+    refute_includes results, proxy
   end
 end

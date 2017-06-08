@@ -4,6 +4,7 @@ module Api
       include Foreman::Controller::Parameters::Hostgroup
 
       before_action :find_resource, :only => %w{show update destroy}
+      before_action :swap_proxy_for_hostname, :only => %w{create update}
 
       api :GET, "/hostgroups/", "List all hostgroups."
       param :search, String, :desc => "filter results"
@@ -40,7 +41,7 @@ module Api
       end
 
       def create
-        @hostgroup = Hostgroup.new(hostgroup_params)
+        @hostgroup = Hostgroup.new(@hostgroup_params)
         @hostgroup.suggest_default_pxe_loader if params[:hostgroup] && params[:hostgroup][:pxe_loader].nil?
 
         process_response @hostgroup.save
@@ -64,7 +65,7 @@ module Api
       end
 
       def update
-        process_response @hostgroup.update_attributes(hostgroup_params)
+        process_response @hostgroup.update_attributes(@hostgroup_params)
       end
 
       api :DELETE, "/hostgroups/:id/", "Delete an hostgroup."
@@ -76,6 +77,16 @@ module Api
         else
           process_response @hostgroup.destroy
         end
+      end
+
+      private
+
+      def swap_proxy_for_hostname
+        ca_proxy_hostname = SmartProxy.find_by_id(hostgroup_params[:puppet_ca_proxy_id]).try(:hostnames).try(:first)
+        puppet_proxy_hostname = SmartProxy.find_by_id(hostgroup_params[:puppet_proxy_id]).try(:hostnames).try(:first)
+        @hostgroup_params = hostgroup_params.merge(puppet_proxy_hostname_id: puppet_proxy_hostname.try(:id)).
+                                            merge(puppet_ca_proxy_hostname_id: ca_proxy_hostname.try(:id)).
+                                            except(:puppet_ca_proxy_id, :puppet_proxy_id)
       end
     end
   end

@@ -1,0 +1,29 @@
+<%= form_for @hostname, :url => (@hostname.new_record? ? hostnames_path : hostname_path(:id => @hostname)) do |f| %>
+  <%= base_errors_for @hostname %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Domain") %></a></li>
+    <% if authorizer.can?(:view_smart_proxies) %>
+      <li><a href="#proxies" data-toggle="tab"><%= _("Smart proxies") %></a></li>
+    <% end %>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="primary">
+      <%= text_f   f, :name, :help_inline => _("The hostname name") %>
+      <%= text_f   f, :hostname, :help_inline => _("The fully qualified hostname") %>
+    </div>
+    <div class="tab-pane" id="proxies">
+      <%= multiple_checkboxes f, :smart_proxies, f.object, SmartProxy, {:help_inline => _("Smart Proxies that use this hostname"), :size => 'col-md-6', :prefix => f.object_name}, { :label => _("Smart proxies")} %>
+    </div>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @hostname %>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>
