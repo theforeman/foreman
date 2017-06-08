@@ -38,6 +38,7 @@ gem 'deacon', '~> 1.0'
 gem 'webpack-rails', '~> 0.9.8'
 gem 'mail', '~> 2.6'
 gem 'sshkey', '~> 1.9'
+gem 'faraday', '0.11.0' #temp workaround for https://github.com/lostisland/faraday/issues/679
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))
