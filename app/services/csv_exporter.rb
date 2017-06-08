@@ -1,7 +1,8 @@
 require 'csv'
 
 module CsvExporter
-  def self.export(resources, columns, header = default_header(columns))
+  def self.export(resources, columns, header = nil)
+    header ||= default_header(columns)
     raise ArgumentError, "Columns and header row aren't the same length" unless columns.length == header.length
     Enumerator.new do |csv|
       csv << CSV.generate_line(header)
