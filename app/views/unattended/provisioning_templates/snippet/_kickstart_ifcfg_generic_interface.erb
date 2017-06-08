@@ -18,7 +18,7 @@ BOOTPROTO="<%= @dhcp ? 'dhcp' : 'none' -%>"
 <%=   "IPV6INIT=yes" %>
 <%=   "IPV6_AUTOCONF=no" %>
 <%=   "IPV6ADDR=#{@interface.ip6}" %>
-<%-   if @subnet6.gateway.present? -%>
+<%-   if !@subnet6.nil? && @subnet6.gateway.present? -%>
 <%=     "IPV6_DEFAULTGW=#{@subnet6.gateway}" %><%= '%$real' if subnet6.gateway.match(/^fe80:/) %>
 <%-   end -%>
 <%=   "IPV6_PEERDNS=no" %>

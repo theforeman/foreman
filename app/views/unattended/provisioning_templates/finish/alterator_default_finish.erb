@@ -18,7 +18,7 @@ cat > /etc/puppet/puppet.conf << EOF
 EOF
 
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
-/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
+/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url('built') %>
 /sbin/chkconfig puppetd on
 
 exit 0
