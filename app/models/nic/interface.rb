@@ -27,7 +27,21 @@ module Nic
     alias_method :network6, :subnet6_network
 
     def vlanid
-      self.tag.blank? ? self.subnet.vlanid : self.tag
+      # Determine a vlanid according to the following cascading rules:
+      # 1. if the interface has a tag, use that as the vlanid
+      # 2. if the interface has a v4 subnet with a non-blank vlanid, use that
+      # 3. if the interface has a v6 subnet with a non-blank vlanid, use that
+      # 4. if no reasonable vlanid was determined, then return an empty string
+      #
+      # In case the v4 and v6 subnet are both present, they should have the same
+      # vlanid. If they have a different vlanid, this is probably an error in the
+      # user's database. There is no way of determining the real vlanid, so we
+      # pick the v4 one unless it turns out to be blank.
+
+      return self.tag unless self.tag.blank?
+      return self.subnet.vlanid if self.subnet && self.subnet.vlanid.present?
+      return self.subnet6.vlanid if self.subnet6 && self.subnet6.vlanid.present?
+      return ''
     end
 
     def bridge?
