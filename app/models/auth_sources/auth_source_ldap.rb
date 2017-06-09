@@ -38,6 +38,7 @@ class AuthSourceLdap < AuthSource
   validate :validate_ldap_filter, :unless => Proc.new { |auth| auth.ldap_filter.blank? }
 
   before_validation :strip_ldap_attributes
+  before_validation :sanitize_use_netgroups
   after_initialize :set_defaults
 
   scoped_search :on => :name, :complete_value => :true
@@ -90,7 +91,8 @@ class AuthSourceLdap < AuthSource
       :server_type  => server_type.to_sym, :search_filter => ldap_filter,
       :anon_queries => account.blank?, :service_user => service_user(login),
       :service_pass => use_user_login_for_service? ? password : account_password,
-      :instrumentation_service => ActiveSupport::Notifications }
+      :instrumentation_service => ActiveSupport::Notifications,
+      :use_netgroups => use_netgroups }
   end
 
   def encryption_config
@@ -162,6 +164,10 @@ class AuthSourceLdap < AuthSource
     [:attr_login, :attr_firstname, :attr_lastname, :attr_mail].each do |attr|
       write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
     end
+  end
+
+  def sanitize_use_netgroups
+    self.use_netgroups = false if server_type.to_s == 'active_directory'
   end
 
   def set_defaults
