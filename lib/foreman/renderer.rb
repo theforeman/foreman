@@ -4,12 +4,13 @@ module Foreman
   module Renderer
     class RenderingError < Foreman::Exception; end
     class SyntaxError < RenderingError; end
+    class WrongSubnetError < RenderingError; end
 
     include ::Foreman::ForemanUrlRenderer
 
     ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
                                   :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup,
-                                  :pxe_kernel_options, :save_to_file ]
+                                  :pxe_kernel_options, :save_to_file, :subnet_param, :subnet_has_param? ]
     ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
                                :media_path, :param_true?, :param_false?, :match,
                                :host_param_true?, :host_param_false?,
@@ -47,6 +48,17 @@ module Foreman
 
     def host_param_false?(name)
       @host.params.has_key?(name) && Foreman::Cast.to_bool(@host.params[name]) == false
+    end
+
+    def subnet_has_param?(subnet, param_name)
+      validate_subnet(subnet)
+      subnet.parameters.exists?(name: param_name)
+    end
+
+    def subnet_param(subnet, param_name)
+      validate_subnet(subnet)
+      param = subnet.parameters.where(name: param_name).first
+      param.nil? ? nil : param.value
     end
 
     def render_safe(template, allowed_methods = [], allowed_vars = {}, scope_variables = {})
@@ -283,6 +295,10 @@ module Foreman
     def pxe_config
       @kernel = @host.operatingsystem.kernel @host.arch
       @initrd = @host.operatingsystem.initrd @host.arch
+    end
+
+    def validate_subnet(subnet)
+      raise ::Foreman::Renderer::WrongSubnetError.new(N_("'%{object_name}' is a '%{object_class}', expected a subnet.") % { object_name: subnet.to_s, object_class: subnet.class.to_s}) unless subnet.is_a?(Subnet)
     end
   end
 end
