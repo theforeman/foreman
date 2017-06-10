@@ -33,13 +33,13 @@ export default ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
+    {onClose && <CloseButton onClick={onClose} />}
+    <Icon type={type} />
     {title && <strong>{title}</strong>}
     {title && <br />}
 
-      {onClose && <CloseButton onClick={onClose} />}
       {link && linkMarkup(link.title, link.href)}
       <span dangerouslySetInnerHTML={{__html: message}} />
-      <Icon type={type} />
       {children}
     </div>
   );

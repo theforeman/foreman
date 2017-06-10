@@ -5,6 +5,7 @@ import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
 import ToastsList from './toastNotifications/';
 import StorageContainer from './hosts/storage/vmware/';
+import PersonalAccessTokens from './users/personalAccessTokens/';
 import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 
@@ -62,6 +63,7 @@ const coreComponets = [
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList, data: false },
+  { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
   { name: 'StorageContainer', type: StorageContainer }
 ];
 

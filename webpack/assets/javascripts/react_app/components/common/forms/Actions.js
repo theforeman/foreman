@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../../common/forms/Button';
-import { simpleLoader } from '../Loader';
+import simpleLoader from '../Loader';
 
 export default ({ onCancel, disabled = false, submitting = false }) => {
   return (
@@ -11,7 +11,7 @@ export default ({ onCancel, disabled = false, submitting = false }) => {
           {__('Submit')}
           {submitting &&
             <span className="fr">
-              {simpleLoader('sm')}
+              <simpleLoader size="sm" />
             </span>}
         </Button>
         {' ' /* adds whitespace between the buttons */}

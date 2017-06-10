@@ -14,13 +14,13 @@ export default type => {
     case 'info':
       return infoIcon;
     case 'warning':
-    case 'danger':
       return warningIcon;
+    case 'danger':
     case 'error':
       return errorIcon;
     case 'close':
       return closeIcon;
     default:
-      throw { error: 'unknown icon type ' + type };
+      throw { error: `unknown icon type ${type}` };
   }
 };

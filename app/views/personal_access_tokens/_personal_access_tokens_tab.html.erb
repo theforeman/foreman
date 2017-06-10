@@ -1,0 +1,10 @@
+<div class="tab-pane" id="personal_access_tokens">
+  <% #if authorized_for(hash_for_new_user_personal_access_token_path(:user_id => @user)) %>
+  <div id="personal_access_token_create"></div>
+  <%= mount_react_component('PersonalAccessTokens', '#personal_access_token_create', {
+    userId: @user.id,
+    url: api_user_personal_access_tokens_path(:user_id => @user),
+    canCreate: authorized_for(hash_for_api_user_personal_access_tokens_path(:user_id => @user))
+  }.to_json) %>
+  <% #end %>
+</div>

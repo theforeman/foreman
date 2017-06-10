@@ -46,7 +46,8 @@ const verifyProps = (item, values) => {
   }
 };
 
-export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), method = 'post' }) => {
+export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), method = 'post', successAction = null }) => {
+  successAction = successAction || `${item.toUpperCase()}_FORM_SUBMITTED`;
   verifyProps(item, values);
   return dispatch => {
     return fetch(url, {
@@ -65,7 +66,7 @@ export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), meth
           .json()
           .then(body =>
             dispatch({
-              type: `${item.toUpperCase()}_FORM_SUBMITTED`,
+              type: successAction,
               payload: { item, body }
             })
           )

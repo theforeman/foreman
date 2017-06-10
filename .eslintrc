@@ -61,6 +61,7 @@
       "tabWidth": 2,
       "ignoreTrailingComments": true,
       "ignoreUrls": true,
+      "ignoreStrings": true,
       "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(/"
     }],
     "max-nested-callbacks": ["error", 5],

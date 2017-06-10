@@ -1,11 +1,36 @@
 import $ from 'jquery';
 
-export default {
+const API = {
+  getcsrfToken() {
+    const token = document.querySelector('meta[name="csrf-token"]');
+
+    if (token) {
+      return token.content;
+    }
+    // fail gracefully when no token is found
+    return '';
+  },
   get(url) {
     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
       jqXHR.originalRequestOptions = originalOptions;
     });
     return $.getJSON(url);
+  },
+  delete(url) {
+    return fetch(url, {
+      credentials: 'include',
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRF-Token': API.getcsrfToken()
+      }
+    }).then(result => {
+      if (result.status > 299) {
+        throw result;
+      }
+      return result;
+    });
   },
   markNotificationAsRead(id) {
     const data = JSON.stringify({'seen': true});
@@ -34,3 +59,5 @@ export default {
     });
   }
 };
+
+export default API;

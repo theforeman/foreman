@@ -1,5 +1,5 @@
 import React from 'react';
-import { simpleLoader } from '../../../common/Loader';
+import { SimpleLoader } from '../../../common/Loader';
 import './PowerStatusInner.scss';
 
 export default ({ state, title, statusText, error }) => {
@@ -12,7 +12,7 @@ export default ({ state, title, statusText, error }) => {
     );
   }
   if (!state) {
-    return simpleLoader('xs');
+    return <SimpleLoader size="xs" />;
   }
   return (
     <span

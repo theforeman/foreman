@@ -3,9 +3,9 @@ import {STATUS} from '../../constants';
 import MessageBox from './MessageBox';
 import './LoaderStyles.css';
 
-const _simpleLoader = (spinnerSize) => (
+export const SimpleLoader = ({ size = 'lg', className = '' }) => (
   <div className="loader-root">
-    <div className={'spinner spinner-' + spinnerSize}></div>
+    <div className={`spinner spinner-${size} ${className}`}></div>
   </div>
 );
 
@@ -14,7 +14,7 @@ let content;
 
   switch (status) {
     case STATUS.PENDING: {
-      return _simpleLoader(spinnerSize);
+      return <SimpleLoader size={spinnerSize} />;
     }
     case STATUS.RESOLVED: {
       content = children[0];
@@ -37,5 +37,3 @@ let content;
 };
 
 export default Loader;
-
-export const simpleLoader = _simpleLoader;

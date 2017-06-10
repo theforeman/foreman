@@ -1,4 +1,3 @@
-/* eslint-disable no-throw-literal */
 const okClass = 'alert alert-success';
 const infoClass = 'alert alert-info';
 const warningClass = 'alert alert-warning';
@@ -18,7 +17,8 @@ const getClassByType = type => {
     case 'error':
       return errorClass;
     default:
-      throw { error: 'unknown alert type ' + type };
+      // eslint-disable-next-line no-throw-literal
+      throw { error: `unknown alert type ${type}` };
   }
 };
 

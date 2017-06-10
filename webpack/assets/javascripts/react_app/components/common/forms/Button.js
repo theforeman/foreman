@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ className, onClick, children, type = 'button', disabled = false }) => {
+export default ({ className = 'btn-default', onClick, children, type = 'button', disabled = false }) => {
   const _className = `btn ${className}`;
 
   return (
