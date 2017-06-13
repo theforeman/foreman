@@ -261,14 +261,14 @@ Return the host's compute attributes that can be used to create a clone of this 
         render_message(e.to_s, :status => :unprocessable_entity)
       end
 
-      api :POST, "/hosts/facts", N_("Upload facts for a host, creating the host if required")
+      api :POST, "/hosts/facts", N_("Upload facts for a host, creating the host if required (bypasses username/password authentication and validates trusted hosts setting or known smart proxies based on client cert CN or PTR record)")
       param :name, String, :required => true, :desc => N_("hostname of the host")
       param :facts, Hash,      :required => true, :desc => N_("hash containing the facts for the host")
       param :certname, String, :desc => N_("optional: certname of the host")
       param :type, String,     :desc => N_("optional: the STI type of host to create")
 
       def facts
-        @host = detect_host_type.import_host params[:name], params[:facts][:_type] || 'puppet', params[:certname], detected_proxy.try(:id)
+        @host = detect_host_type.import_host params[:name], (params[:facts] || {})[:_type] || 'puppet', params[:certname], detected_proxy.try(:id)
         state = @host.import_facts(params[:facts])
         process_response state
       rescue ::Foreman::Exception => e
