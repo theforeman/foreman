@@ -71,7 +71,7 @@ module Nic
       allow :managed?, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
             :link, :tag, :domain, :vlanid, :bond_options, :attached_devices, :mode,
             :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
-            :children_mac_addresses
+            :children_mac_addresses, :fqdn, :shortname
     end
 
     def physical?
