@@ -6,7 +6,7 @@ class EmailValidator < ActiveModel::EachValidator
       address = value.split("@")
       encoded_address = address.count == 2 ? Mail::Encodings.decode_encode(address[0],:encode) + '@' + Mail::Encodings.decode_encode(address[1],:encode) : value
       m = Mail::Address.new(encoded_address)
-      r = m.domain.present? && m.address == value
+      r = m.domain.present? && m.address == value && !m.domain.include?('..')
     rescue Mail::Field::ParseError => exception
       Foreman::Logging.exception("Email address is invalid", exception)
       r = false
