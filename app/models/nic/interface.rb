@@ -20,7 +20,11 @@ module Nic
 
     validate :alias_subnet
 
-    delegate :network, :to => :subnet
+    delegate :network, :to => :subnet, :prefix => true
+    delegate :network, :to => :subnet6, :prefix => true
+
+    alias_method :network, :subnet_network
+    alias_method :network6, :subnet6_network
 
     def vlanid
       self.tag.blank? ? self.subnet.vlanid : self.tag
