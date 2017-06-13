@@ -10,7 +10,7 @@ function auto_refresh(){
   if (element[0]) {
     refresh_timeout = setTimeout(function(){
       if ($(".auto-refresh").hasClass("on")) {
-        history.go(0);
+        Turbolinks.visit(window.location.href);
       }
     },60000);
   }
