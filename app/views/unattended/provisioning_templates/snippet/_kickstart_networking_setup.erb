@@ -31,7 +31,7 @@ kind: snippet
 <%- end -%>
 
 <%- @host.managed_interfaces.each do |interface| %>
-<%-   next if !interface.managed? || interface.subnet.nil? -%>
+<%-   next if !interface.managed? || (interface.subnet.nil? && interface.subnet6.nil?) -%>
 <%-   next if bonded_interfaces.include?(interface.identifier) -%>
 
 <%=   "# #{interface.identifier} interface" %>

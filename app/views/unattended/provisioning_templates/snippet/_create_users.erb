@@ -12,9 +12,9 @@ snippet: true
 <%-     index = 0 -%>
 <%-     user.ssh_keys.each do |key| -%>
 <%-       if index == 0 -%>
-<%=        "#{key.type} #{key.key} #{key.comment}" %>
+<%=        "#{key.type} #{key.ssh_key} #{key.comment}" %>
 <%-       else -%>
-<%=        "#{key.type} #{key.key} #{key.comment} - #{index}" %>
+<%=        "#{key.type} #{key.ssh_key} #{key.comment} - #{index}" %>
 <%-       end -%>
 <%-       index += 1 -%>
 <%-     end -%>
