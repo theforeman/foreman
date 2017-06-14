@@ -8,9 +8,9 @@ import { groupBy, some, isUndefined } from 'lodash';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
-    const { getNotifications, data: { url } } = this.props;
+    const { startNotificationsPolling, data: { url } } = this.props;
 
-    getNotifications(url);
+    startNotificationsPolling(url);
   }
 
   render() {
@@ -29,8 +29,12 @@ class notificationContainer extends React.Component {
 
     return (
       <div id="notifications_container">
-        <ToggleIcon hsUnreadMessages={hasUnreadMessages} onClick={toggleDrawer} />
-        { isReady && isDrawerOpen &&
+        <ToggleIcon
+          hsUnreadMessages={hasUnreadMessages}
+          onClick={toggleDrawer}
+        />
+        {isReady &&
+          isDrawerOpen &&
           <Drawer
             onExpandGroup={expandGroup}
             onClickedLink={onClickedLink}
@@ -48,11 +52,13 @@ const mapStateToProps = state => {
   const {
     notifications,
     isDrawerOpen,
-    expandedGroup
+    expandedGroup,
+    isPolling
   } = state.notifications;
 
   return {
     isDrawerOpen,
+    isPolling,
     notifications: groupBy(notifications, 'group'),
     expandedGroup,
     isReady: !isUndefined(notifications),

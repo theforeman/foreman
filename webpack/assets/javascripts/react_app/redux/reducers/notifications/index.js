@@ -3,20 +3,24 @@ import {
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_READ,
-  NOTIFICATIONS_MARK_GROUP_AS_READ
+  NOTIFICATIONS_MARK_GROUP_AS_READ,
+  NOTIFICATIONS_POLLING_STARTED
 } from '../../consts';
 import Immutable from 'seamless-immutable';
 import { notificationsDrawer } from '../../../common/sessionStorage';
 
 const initialState = Immutable({
   isDrawerOpen: notificationsDrawer.getIsOpened(),
-  expandedGroup: notificationsDrawer.getExpandedGroup()
+  expandedGroup: notificationsDrawer.getExpandedGroup(),
+  isPolling: false
 });
 
 export default (state = initialState, action) => {
   const { payload } = action;
 
   switch (action.type) {
+    case NOTIFICATIONS_POLLING_STARTED:
+      return state.set('isPolling', true);
     case NOTIFICATIONS_GET_NOTIFICATIONS:
       return state.set(
         'notifications', payload.notifications
