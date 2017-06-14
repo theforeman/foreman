@@ -3,7 +3,8 @@ import {
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_READ,
-  NOTIFICATIONS_MARK_GROUP_AS_READ
+  NOTIFICATIONS_MARK_GROUP_AS_READ,
+  NOTIFICATIONS_POLLING_STARTED
 } from '../../consts';
 import {
   notificationsDrawer as sessionStorage
@@ -15,44 +16,52 @@ const notificationsInterval = isNil(process.env.NOTIFICATIONS_POLLING) ?
   defaultNotificationsPollingInterval :
   process.env.NOTIFICATIONS_POLLING;
 
-export const getNotifications = url => dispatch => {
-  new Promise((resolve, reject) => {
-    if (
-      document.visibilityState === 'visible' ||
-      document.visibilityState === 'prerender'
-    ) {
-      API.get(url).then(onSuccess, onFailure);
-    } else {
-      resolve();
-    }
+const getNotifications = url => dispatch => {
+  const isDocumentVisible =
+    document.visibilityState === 'visible' ||
+    document.visibilityState === 'prerender';
 
-    function onSuccess(response) {
-      dispatch({
-        type: NOTIFICATIONS_GET_NOTIFICATIONS,
-        payload: {
-          notifications: response.notifications
-        }
-      });
-      resolve();
-    }
+  if (isDocumentVisible) {
+    API.get(url).then(
+      onGetNotificationsSuccess,
+      onGetNotificationsFailed,
+      triggerPolling
+    );
+  } else {
+    // document is not visible, keep polling without api call
+    triggerPolling();
+  }
 
-    function onFailure(error) {
-      if (error.status === 401) {
-        window.location.replace('/users/login');
+  function onGetNotificationsSuccess(response) {
+    dispatch({
+      type: NOTIFICATIONS_GET_NOTIFICATIONS,
+      payload: {
+        notifications: response.notifications
       }
-      reject();
-    }
+    });
+  }
 
-  }).then(triggerPolling);
+  function onGetNotificationsFailed(error) {
+    if (error.status === 401) {
+      window.location.replace('/users/login');
+    }
+  }
 
   function triggerPolling() {
     if (notificationsInterval) {
-      setTimeout(
-          () => dispatch(getNotifications(url)),
-          notificationsInterval
-      );
+      setTimeout(() => dispatch(getNotifications(url)), notificationsInterval);
     }
   }
+};
+
+export const startNotificationsPolling = url => (dispatch, getState) => {
+  if (getState().notifications.isPolling) {
+    return;
+  }
+  dispatch({
+    type: NOTIFICATIONS_POLLING_STARTED
+  });
+  dispatch(getNotifications(url));
 };
 
 export const onMarkAsRead = (group, id) => dispatch => {
@@ -66,7 +75,7 @@ export const onMarkAsRead = (group, id) => dispatch => {
   API.markNotificationAsRead(id);
 };
 
-export const onMarkGroupAsRead = (group) => dispatch => {
+export const onMarkGroupAsRead = group => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_GROUP_AS_READ,
     payload: {
@@ -79,7 +88,7 @@ export const onMarkGroupAsRead = (group) => dispatch => {
 export const expandGroup = group => (dispatch, getState) => {
   const currentExpanded = getState().notifications.expandedGroup;
 
-  const getNewExpandedGroup = () => currentExpanded === group ? '' : group;
+  const getNewExpandedGroup = () => (currentExpanded === group ? '' : group);
 
   sessionStorage.setExpandedGroup(getNewExpandedGroup());
   dispatch({

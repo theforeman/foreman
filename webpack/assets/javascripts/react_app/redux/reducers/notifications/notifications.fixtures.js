@@ -3,7 +3,8 @@ import Immutable from 'seamless-immutable';
 export const initialState = Immutable(
   {
     expandedGroup: null,
-    isDrawerOpen: null
+    isDrawerOpen: null,
+    isPolling: false
   });
 
 export const stateWithNotifications = Immutable(

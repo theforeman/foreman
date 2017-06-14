@@ -7,11 +7,13 @@ import {getStore} from '../../redux';
 import {
   emptyState,
   emptyHtml,
+  componentMountData,
   stateWithoutNotifications,
   stateWithNotifications,
   stateWithUnreadNotifications,
   serverResponse
 } from './notifications.fixtures';
+import API from '../../API';
 jest.unmock('jquery');
 const mockStore = configureMockStore([thunk]);
 
@@ -66,8 +68,7 @@ describe('notifications', () => {
   });
 
   it('full flow', () => {
-    const data = {url: '/notification_recipients'};
-    const wrapper = mount(<Notifications data={data} store={getStore()} />);
+    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
 
     wrapper.find('.fa-bell').simulate('click');
     expect(wrapper.find('.panel-group').length).toEqual(1);
@@ -78,8 +79,7 @@ describe('notifications', () => {
   });
 
   it('mark group as read flow', () => {
-    const data = {url: '/notification_recipients'};
-    const wrapper = mount(<Notifications data={data} store={getStore()} />);
+    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
     const matcher = '.drawer-pf-action a.btn-link';
 
     wrapper.find('.fa-bell').simulate('click');
@@ -99,9 +99,17 @@ describe('notifications', () => {
         }
       };
     });
-    const data = {url: '/notification_recipients'};
-
-    mount(<Notifications data={data} store={getStore()} />);
+    mount(<Notifications data={componentMountData} store={getStore()} />);
     expect(global.location.replace).toBeCalled();
+  });
+
+  it('should avoid multiple polling on re-mount', () => {
+    const store = getStore();
+    const spy = jest.spyOn(API, 'get');
+
+    mount(<Notifications data={componentMountData} store={store} />);
+    mount(<Notifications data={componentMountData} store={store} />);
+
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
