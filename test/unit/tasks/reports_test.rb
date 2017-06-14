@@ -23,6 +23,17 @@ class ReportsTest < ActiveSupport::TestCase
     assert_match /Summary from/, mail.body.encoded
   end
 
+  test 'reports:daily works also for admins not assigned to any organization/location' do
+    @owner.organizations = []
+    @owner.locations = []
+    User.current, saved_user = nil, User.current
+    Rake.application.invoke_task 'reports:daily'
+    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Configuration Management Summary/ }
+    User.current = saved_user
+    assert mail
+    assert_match /Summary from/, mail.body.encoded
+  end
+
   test 'reports:daily shows a recent report' do
     as_admin do
       report = read_json_fixture('reports/errors.json')
