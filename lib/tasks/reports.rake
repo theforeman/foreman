@@ -36,7 +36,7 @@ namespace :reports do
 end
 # TRANSLATORS: do not translate
 desc <<-END_DESC
-Send an email summarising hosts Puppet reports (and lack of it).
+Send an email notifications such as summarising hosts Puppet reports (and lack of it), audits summaries, built hosts summary etc.
 
 Users can configure the frequency they desire to receive mail notifications under
 My account -> Mail Preferences -> Notifications, and this task will send emails to
@@ -92,9 +92,11 @@ namespace :reports do
     options
   end
 
-  def process_notifications interval
-    UserMailNotification.send(interval).each do |notification|
-      notification.deliver(mail_options)
+  def process_notifications(interval)
+    User.as_anonymous_admin do
+      UserMailNotification.public_send(interval).each do |notification|
+        notification.deliver(mail_options)
+      end
     end
   end
 
