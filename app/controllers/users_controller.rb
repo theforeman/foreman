@@ -124,7 +124,7 @@ class UsersController < ApplicationController
 
   def test_mail
     begin
-      user = find_resource(:edit_users)
+      user = find_resource
       if (params.has_key?(:user_email) && params[:user_email].blank?) || user.mail.blank?
         render :json => {:message => _("Email address is missing")}, :status => :unprocessable_entity
         return
