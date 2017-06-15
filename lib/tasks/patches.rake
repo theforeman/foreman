@@ -16,4 +16,3 @@ task :mail_patches do
     # Finally, clean up the patches
   sh "rm 00*.patch"
 end
-

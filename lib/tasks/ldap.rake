@@ -14,4 +14,3 @@ namespace :ldap do
     end
   end
 end
-
