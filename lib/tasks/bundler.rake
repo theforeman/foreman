@@ -17,5 +17,3 @@ namespace :bundler do
     end
   end
 end
-
-
