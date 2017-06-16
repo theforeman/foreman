@@ -2,8 +2,8 @@
 organizations = Organization.unscoped.all
 locations = Location.unscoped.all
 ProvisioningTemplate.without_auditing do
-  SEEDED_TEMPLATES.each do |input|
-    contents = File.read(File.join("#{Rails.root}/app/views/unattended/provisioning_templates", input.delete(:source)))
+  ProvisioningTemplatesList.seeded_templates.each do |input|
+    contents = File.read(File.join("#{Rails.root}/app/views/unattended/provisioning_templates", input[:source]))
 
     if (t = ProvisioningTemplate.unscoped.find_by_name(input[:name])) && !SeedHelper.audit_modified?(ProvisioningTemplate, input[:name])
       if t.template != contents
@@ -17,13 +17,14 @@ ProvisioningTemplate.without_auditing do
       end
     else
       next if SeedHelper.audit_modified? ProvisioningTemplate, input[:name]
-      input[:default] = true
-
       t = ProvisioningTemplate.create({
-        :snippet  => false,
-        :template => contents,
-        :locked => true
-      }.merge(input))
+                                        :template => contents,
+                                        :locked => true,
+                                        :default => true,
+                                        :name => input[:name],
+                                        :template_kind => input[:template_kind],
+                                        :snippet => input[:snippet] || false
+                                      })
 
       t.organizations = organizations if SETTINGS[:organizations_enabled]
       t.locations = locations if SETTINGS[:locations_enabled]
