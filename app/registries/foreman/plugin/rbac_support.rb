@@ -4,8 +4,10 @@ module Foreman
       def add_all_permissions_to_default_roles(all_permissions)
         return if Foreman.in_rake?('db:migrate')
         view_permissions = all_permissions.where("name LIKE :name", :name => "view_%")
+        org_admin_permissions = all_permissions.where('resource_type <> :resource_type OR resource_type IS NULL', { :resource_type => "Organization" })
         Role.transaction do
           add_all_permissions_to_role("Manager", all_permissions)
+          add_all_permissions_to_role("Organization admin", org_admin_permissions)
           add_all_permissions_to_role("Viewer", view_permissions)
         end
       rescue ActiveRecord::StatementInvalid => e
@@ -19,6 +21,7 @@ module Foreman
           Role.transaction do
             add_resource_permissions_to_viewer(resources, opts.dup)
             add_resource_permissions_to_manager(resources, opts.dup)
+            add_resource_permissions_to_organization_admin(resources, opts.dup)
           end
         end
       end
@@ -34,7 +37,7 @@ module Foreman
 
       def check_role_name_before_extending(role_name)
         msg = "Invalid role name, only 'Viewer' or 'Manager' is allowed to be extended from a plugin"
-        raise Foreman::Exception.new msg if role_name != "Viewer" && role_name != "Manager"
+        raise Foreman::Exception.new msg if role_name != "Viewer" && role_name != "Manager" && role_name != "Organization admin"
       end
 
       def add_resource_permissions_to_manager(resources, opts)
@@ -53,6 +56,16 @@ module Foreman
         include_permissions viewer, resources, opts
       rescue ActiveRecord::StatementInvalid => e
         Foreman::Logging.exception _("Could not add permissions to Viewer role: %s") % e.message, e, :level => :debug
+      end
+
+      def add_resource_permissions_to_organization_admin(resources, opts)
+        organization_admin = Role.find_by :name => "Organization admin"
+        opts[:condition] = "resource_type <> :not_resource_type"
+        opts[:condition_hash] = { :not_resource_type => "Organization" }
+        return if !organization_admin || resources.empty?
+        include_permissions organization_admin, resources, opts
+      rescue ActiveRecord::StatementInvalid => e
+        Foreman::Logging.exception _("Could not add permissions to Organization admin role: %s") % e.message, e, :level => :debug
       end
 
       def include_permissions(role, resources, opts)
