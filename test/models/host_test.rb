@@ -2535,9 +2535,7 @@ class HostTest < ActiveSupport::TestCase
     Setting[:Enable_Smart_Variables_in_ENC] = true
     host = FactoryGirl.build(:host, :with_environment)
     classes = {'myclass' => {'myparam' => 'myvalue'}}
-    classification = mock('Classification::ClassParam')
-    classification.expects(:enc).returns(classes)
-    Classification::ClassParam.expects(:new).with(:host => host).returns(classification)
+    HostInfoProviders::PuppetInfo.any_instance.expects(:puppetclass_parameters).returns(classes)
     enc = host.info
     assert_kind_of Hash, enc
     assert_equal classes, enc['classes']

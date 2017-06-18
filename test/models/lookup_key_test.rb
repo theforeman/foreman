@@ -28,18 +28,6 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert_equal "domain", elements[1][0]
   end
 
-  def test_path2match_single_domain_path
-    key   = ""
-    value = ""
-    as_admin do
-      key   = VariableLookupKey.create!(:key => "ntp", :path => "domain", :puppetclass => Puppetclass.first)
-      value = LookupValue.create!(:value => "ntp.mydomain.net", :match => "domain =  mydomain.net", :lookup_key => key)
-    end
-
-    @host1.domain = domains(:mydomain)
-    assert_equal [value.match], key.send(:path2matches,@host1)
-  end
-
   def test_fetching_the_correct_value_to_a_given_key
     key   = ""
     value = ""
@@ -56,18 +44,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     assert key.lookup_values.count > 0
     @host1.domain = domains(:mydomain)
 
-    assert_equal value.value, Classification::ClassParam.new(:host => @host1).enc['base']['dns']
-  end
-
-  def test_path2match_single_hostgroup_path
-    key   = ""
-    value = ""
-    as_admin do
-      key   = VariableLookupKey.create!(:key => "ntp", :path => "hostgroup", :puppetclass => Puppetclass.first)
-      value = LookupValue.create!(:value => "ntp.pool.org", :match => "hostgroup =  Common", :lookup_key => key)
-    end
-    @host1.hostgroup = hostgroups(:common)
-    assert_equal [value.match], key.send(:path2matches,@host1)
+    assert_equal value.value, HostInfoProviders::PuppetInfo.new(@host1).puppetclass_parameters['base']['dns']
   end
 
   def test_multiple_paths
@@ -99,9 +76,9 @@ class LookupKeyTest < ActiveSupport::TestCase
 
     key.reload
 
-    assert_equal value1.value, Classification::ClassParam.new(:host=>@host1).enc['apache']['dns']
-    assert_equal value2.value, Classification::ClassParam.new(:host=>@host2).enc['apache']['dns']
-    assert_equal default, Classification::ClassParam.new(:host=>@host3).enc['apache']['dns']
+    assert_equal value1.value, HostInfoProviders::PuppetInfo.new(@host1).puppetclass_parameters['apache']['dns']
+    assert_equal value2.value, HostInfoProviders::PuppetInfo.new(@host2).puppetclass_parameters['apache']['dns']
+    assert_equal default, HostInfoProviders::PuppetInfo.new(@host3).puppetclass_parameters['apache']['dns']
     assert key.overridden?(@host2)
     refute key.overridden?(@host1)
   end
@@ -129,9 +106,9 @@ class LookupKeyTest < ActiveSupport::TestCase
 
     key.reload
 
-    assert_equal value1.value, Classification::GlobalParam.new(:host=>@host1).enc['dns']
-    assert_equal value2.value, Classification::GlobalParam.new(:host=>@host2).enc['dns']
-    assert_equal default, Classification::GlobalParam.new(:host=>@host3).enc['dns']
+    assert_equal value1.value, HostInfoProviders::PuppetInfo.new(@host1).smart_variables['dns']
+    assert_equal value2.value, HostInfoProviders::PuppetInfo.new(@host2).smart_variables['dns']
+    assert_equal default, HostInfoProviders::PuppetInfo.new(@host3).smart_variables['dns']
   end
 
   test 'default_value value should not be casted if override is false' do

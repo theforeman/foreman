@@ -42,8 +42,9 @@ module HostsHelper
   def value_hash_cache(host)
     @value_hash_cache ||= {}
     @value_hash_cache[host.id] ||= begin
-      Classification::ClassParam.new(:host=>host).inherited_values.
-        merge(Classification::GlobalParam.new(:host=>host).inherited_values)
+      info = HostInfoProviders::PuppetInfo.new(host)
+      info.inherited_puppetclass_parameters.
+        merge(info.inherited_smart_variables)
     end
   end
 
