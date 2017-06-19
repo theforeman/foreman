@@ -230,7 +230,7 @@ module HostsHelper
   end
 
   def reports_show
-    return unless @host.reports.size > 0
+    return if @host.reports.empty?
     number_of_days = days_ago(@host.reports.order(:reported_at).first.reported_at)
     width = [number_of_days.to_s.size + 2, 4].max
 

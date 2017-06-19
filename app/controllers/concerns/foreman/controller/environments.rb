@@ -23,7 +23,7 @@ module Foreman::Controller::Environments
       warning(_("Ignored environment names resulting in booleans found. Please quote strings like true/false and yes/no in config/ignored_environments.yml"))
     end
 
-    if @changed["new"].size > 0 || @changed["obsolete"].size > 0 || @changed["updated"].size > 0
+    if !@changed["new"].empty? || !@changed["obsolete"].empty? || !@changed["updated"].empty?
       render "common/_puppetclasses_or_envs_changed"
     else
       notice_message = _("No changes to your environments detected")

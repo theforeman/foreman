@@ -37,7 +37,7 @@ module ReportsHelper
   end
 
   def logs_show
-    return unless @config_report.logs.size > 0
+    return if @config_report.logs.empty?
     form_tag config_report_path(@config_report), :id => 'level_filter', :method => :get, :class => "form form-horizontal" do
       content_tag(:span, _("Show log messages:") + ' ') +
       select(nil, 'level', [[_('All messages'), 'info'],[_('Notices, warnings and errors'), 'notice'],[_('Warnings and errors'), 'warning'],[_('Errors only'), 'error']],
