@@ -1,43 +1,12 @@
 class RolesList
   class << self
     def seeded_roles
-      { 'Manager'               => [:create_architectures, :edit_architectures, :destroy_architectures,
-                                    :create_authenticators, :edit_authenticators, :destroy_authenticators,
-                                    :create_bookmarks, :edit_bookmarks, :destroy_bookmarks,
-                                    :create_compute_resources, :edit_compute_resources, :destroy_compute_resources,
-                                    :create_compute_resources_vms, :edit_compute_resources_vms, :destroy_compute_resources_vms, :power_compute_resources_vms, :console_compute_resources_vms,
-                                    :create_domains, :edit_domains, :destroy_domains,
-                                    :create_realms, :edit_realms, :destroy_realms,
-                                    :create_environments, :edit_environments, :destroy_environments, :import_environments,
-                                    :create_external_variables, :edit_external_variables, :destroy_external_variables,
-                                    :create_external_parameters, :edit_external_parameters, :destroy_external_parameters,
-                                    :create_hostgroups, :edit_hostgroups, :destroy_hostgroups,
-                                    :create_hosts, :edit_hosts, :destroy_hosts, :build_hosts, :power_hosts, :console_hosts, :ipmi_boot_hosts, :puppetrun_hosts,
-                                    :edit_classes,
-                                    :create_params, :edit_params, :destroy_params,
-                                    :create_images, :edit_images, :destroy_images,
-                                    :create_locations, :edit_locations, :destroy_locations, :assign_locations,
-                                    :create_media, :edit_media, :destroy_media,
-                                    :create_models, :edit_models, :destroy_models,
-                                    :create_operatingsystems, :edit_operatingsystems, :destroy_operatingsystems,
-                                    :create_provisioning_templates, :edit_provisioning_templates, :destroy_provisioning_templates, :deploy_provisioning_templates,
-                                    :create_ptables, :edit_ptables, :destroy_ptables,
-                                    :create_puppetclasses, :edit_puppetclasses, :destroy_puppetclasses, :import_puppetclasses,
-                                    :create_smart_proxies, :edit_smart_proxies, :destroy_smart_proxies,
-                                    :create_smart_proxies_autosign, :destroy_smart_proxies_autosign,
-                                    :edit_smart_proxies_puppetca, :destroy_smart_proxies_puppetca,
-                                    :create_ssh_keys, :destroy_ssh_keys,
-                                    :create_subnets, :edit_subnets, :destroy_subnets, :import_subnets,
-                                    :create_organizations, :edit_organizations, :destroy_organizations, :assign_organizations,
-                                    :create_usergroups, :edit_usergroups, :destroy_usergroups,
-                                    :create_users, :edit_users, :destroy_users,
-                                    :destroy_config_reports, :upload_config_reports,
-                                    :upload_facts,
-                                    :create_trends, :edit_trends, :destroy_trends, :update_trends] + view_permissions,
+      { Role::MANAGER           => base_manage_permissions + view_permissions + manage_organizations_permissions,
+        Role::ORG_ADMIN         => base_manage_permissions + view_permissions - [:view_organizations],
         'Edit partition tables' => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables],
         'View hosts'            => [:view_hosts],
         'Edit hosts'            => [:view_hosts, :edit_hosts, :create_hosts, :destroy_hosts, :build_hosts],
-        'Viewer'                => view_permissions,
+        Role::VIEWER            => view_permissions,
         'Site manager'          => [:view_architectures, :view_audit_logs, :view_authenticators, :access_dashboard,
                                     :view_domains, :view_environments, :import_environments, :view_external_variables,
                                     :create_external_variables, :edit_external_variables, :destroy_external_variables,
@@ -66,6 +35,47 @@ class RolesList
 
     def role_names
       roles.map { |name, permissions| name }
+    end
+
+    def base_manage_permissions
+      [:create_architectures, :edit_architectures, :destroy_architectures,
+       :create_authenticators, :edit_authenticators, :destroy_authenticators,
+       :create_bookmarks, :edit_bookmarks, :destroy_bookmarks,
+       :create_compute_resources, :edit_compute_resources, :destroy_compute_resources,
+       :create_compute_resources_vms, :edit_compute_resources_vms, :destroy_compute_resources_vms, :power_compute_resources_vms, :console_compute_resources_vms,
+       :create_domains, :edit_domains, :destroy_domains,
+       :create_realms, :edit_realms, :destroy_realms,
+       :create_environments, :edit_environments, :destroy_environments, :import_environments,
+       :create_external_variables, :edit_external_variables, :destroy_external_variables,
+       :create_external_parameters, :edit_external_parameters, :destroy_external_parameters,
+       :create_hostgroups, :edit_hostgroups, :destroy_hostgroups,
+       :create_hosts, :edit_hosts, :destroy_hosts, :build_hosts, :power_hosts, :console_hosts, :ipmi_boot_hosts, :puppetrun_hosts,
+       :edit_classes,
+       :create_params, :edit_params, :destroy_params,
+       :create_images, :edit_images, :destroy_images,
+       :create_locations, :edit_locations, :destroy_locations, :assign_locations,
+       :create_media, :edit_media, :destroy_media,
+       :create_models, :edit_models, :destroy_models,
+       :create_operatingsystems, :edit_operatingsystems, :destroy_operatingsystems,
+       :create_provisioning_templates, :edit_provisioning_templates, :destroy_provisioning_templates, :deploy_provisioning_templates,
+       :create_ptables, :edit_ptables, :destroy_ptables,
+       :create_puppetclasses, :edit_puppetclasses, :destroy_puppetclasses, :import_puppetclasses,
+       :create_smart_proxies, :edit_smart_proxies, :destroy_smart_proxies,
+       :create_smart_proxies_autosign, :destroy_smart_proxies_autosign,
+       :edit_smart_proxies_puppetca, :destroy_smart_proxies_puppetca,
+       :create_ssh_keys, :destroy_ssh_keys,
+       :create_subnets, :edit_subnets, :destroy_subnets, :import_subnets,
+       :create_usergroups, :edit_usergroups, :destroy_usergroups,
+       :create_users, :edit_users, :destroy_users,
+       :destroy_config_reports, :upload_config_reports,
+       :upload_facts,
+       :create_trends, :edit_trends, :destroy_trends, :update_trends]
+    end
+
+    def manage_organizations_permissions
+      [
+        :create_organizations, :edit_organizations, :destroy_organizations, :assign_organizations
+      ]
     end
 
     def view_permissions

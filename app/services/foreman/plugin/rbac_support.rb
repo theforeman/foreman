@@ -1,12 +1,17 @@
 module Foreman
   class Plugin
     class RbacSupport
+      # These plugins can be extended by plugins through plugin API
+      AUTO_EXTENDED_ROLES = [ Role::VIEWER, Role::MANAGER, Role::ORG_ADMIN ]
+
       def add_all_permissions_to_default_roles(all_permissions)
         return if Foreman.in_rake?('db:migrate')
         view_permissions = all_permissions.where("name LIKE :name", :name => "view_%")
+        org_admin_permissions = all_permissions.where('resource_type <> :resource_type OR resource_type IS NULL', { :resource_type => "Organization" })
         Role.transaction do
-          add_all_permissions_to_role("Manager", all_permissions)
-          add_all_permissions_to_role("Viewer", view_permissions)
+          add_all_permissions_to_role(Role::MANAGER, all_permissions)
+          add_all_permissions_to_role(Role::ORG_ADMIN, org_admin_permissions)
+          add_all_permissions_to_role(Role::VIEWER, view_permissions)
         end
       rescue ActiveRecord::StatementInvalid => e
         Foreman::Logging.exception _("Could not add permissions to Manager and Viewer roles: %s") % e.message, e, :level => :debug
@@ -19,6 +24,7 @@ module Foreman
           Role.transaction do
             add_resource_permissions_to_viewer(resources, opts.dup)
             add_resource_permissions_to_manager(resources, opts.dup)
+            add_resource_permissions_to_organization_admin(resources, opts.dup)
           end
         end
       end
@@ -33,12 +39,12 @@ module Foreman
       end
 
       def check_role_name_before_extending(role_name)
-        msg = "Invalid role name, only 'Viewer' or 'Manager' is allowed to be extended from a plugin"
-        raise Foreman::Exception.new msg if role_name != "Viewer" && role_name != "Manager"
+        msg = "Invalid role name, only '#{AUTO_EXTENDED_ROLES.map {|r| "'#{r}'"}.join(', ')}' is allowed to be extended from a plugin"
+        raise Foreman::Exception.new msg unless AUTO_EXTENDED_ROLES.include?(role_name)
       end
 
       def add_resource_permissions_to_manager(resources, opts)
-        manager = Role.find_by :name => "Manager"
+        manager = Role.find_by :name => Role::MANAGER
         return if !manager || resources.empty?
         include_permissions manager, resources, opts
       rescue ActiveRecord::StatementInvalid => e
@@ -46,13 +52,23 @@ module Foreman
       end
 
       def add_resource_permissions_to_viewer(resources, opts)
-        viewer = Role.find_by :name => "Viewer"
+        viewer = Role.find_by :name => Role::VIEWER
         opts[:condition] = "name LIKE :name"
         opts[:condition_hash] = { :name => "view_%" }
         return if !viewer || resources.empty?
         include_permissions viewer, resources, opts
       rescue ActiveRecord::StatementInvalid => e
         Foreman::Logging.exception _("Could not add permissions to Viewer role: %s") % e.message, e, :level => :debug
+      end
+
+      def add_resource_permissions_to_organization_admin(resources, opts)
+        organization_admin = Role.find_by :name => Role::ORG_ADMIN
+        opts[:condition] = "resource_type <> :not_resource_type"
+        opts[:condition_hash] = { :not_resource_type => "Organization" }
+        return if !organization_admin || resources.empty?
+        include_permissions organization_admin, resources, opts
+      rescue ActiveRecord::StatementInvalid => e
+        Foreman::Logging.exception _("Could not add permissions to Organization admin role: %s") % e.message, e, :level => :debug
       end
 
       def include_permissions(role, resources, opts)
