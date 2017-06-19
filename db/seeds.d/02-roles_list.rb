@@ -1,12 +1,12 @@
 class RolesList
   class << self
     def seeded_roles
-      { 'Manager'               => base_manage_permissions + view_permissions + manage_organizations_permissions,
-        'Organization admin'    => base_manage_permissions + view_permissions - [:view_organizations],
+      { Role::MANAGER           => base_manage_permissions + view_permissions + manage_organizations_permissions,
+        Role::ORG_ADMIN         => base_manage_permissions + view_permissions - [:view_organizations],
         'Edit partition tables' => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables],
         'View hosts'            => [:view_hosts],
         'Edit hosts'            => [:view_hosts, :edit_hosts, :create_hosts, :destroy_hosts, :build_hosts],
-        'Viewer'                => view_permissions,
+        Role::VIEWER            => view_permissions,
         'Site manager'          => [:view_architectures, :view_audit_logs, :view_authenticators, :access_dashboard,
                                     :view_domains, :view_environments, :import_environments, :view_external_variables,
                                     :create_external_variables, :edit_external_variables, :destroy_external_variables,
