@@ -327,6 +327,41 @@ EOS
     assert @renderer.host_param_false?('false_param')
   end
 
+  context 'subnet helpers' do
+    setup do
+      @renderer.host = FactoryGirl.create(:host, :with_puppet)
+      subnets(:one).subnet_parameters.create(name: 'myparam', value: 'myvalue')
+    end
+
+    test 'should have subnet_has_param? helper returning true' do
+      assert @renderer.subnet_has_param?(subnets(:one), 'myparam')
+    end
+
+    test 'should have subnet_has_param? helper returning false' do
+      refute @renderer.subnet_has_param?(subnets(:one), 'my_wrong_param')
+    end
+
+    test 'should have subnet_has_param? helper returning false when subnet is nil' do
+      assert_raises Foreman::Renderer::WrongSubnetError do
+        @renderer.subnet_has_param?(nil, 'myparam')
+      end
+    end
+
+    test 'should render existing subnet param using "subnet_param" helper' do
+      assert_equal @renderer.subnet_param(subnets(:one), 'myparam'), 'myvalue'
+    end
+
+    test 'should not render missing subnet param using "subnet_param" helper' do
+      assert_nil @renderer.subnet_param(subnets(:one), 'my_wrong_param')
+    end
+
+    test 'should throw an error using "subnet_param" helper with nil' do
+      assert_raises Foreman::Renderer::WrongSubnetError do
+        @renderer.subnet_param(nil, 'myparam')
+      end
+    end
+  end
+
   test 'should have host_enc helper' do
     @renderer.host = FactoryGirl.create(:host, :with_puppet)
     assert @renderer.host_enc
