@@ -22,7 +22,7 @@ module HomeHelper
           item
         end
       when Menu::Toggle
-        if item.authorized_children.size > 0
+        if !item.authorized_children.empty?
           last_shown_item_was_divider = false
           item
         end

@@ -4,7 +4,7 @@ module AncestryHelper
     return if obj.blank?
     options = (obj.title.to_s.size > max_length) ? { :'data-original-title' => obj.title, :rel => 'twipsy' } : {}
     nesting = obj.title.chomp(obj.name)
-    nesting = truncate(nesting, :length => max_length - obj.name.to_s.size) if nesting.to_s.size > 0
+    nesting = truncate(nesting, :length => max_length - obj.name.to_s.size) unless nesting.to_s.empty?
     name    = truncate(obj.name, :length => max_length - nesting.to_s.size)
     link_to_if_authorized(
       content_tag(:span,

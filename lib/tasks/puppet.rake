@@ -11,7 +11,7 @@ namespace :puppet do
     task :populate_hosts => :environment do
       counter = 0
       Host.find_each do |host|
-        if host.fact_values.size == 0
+        if host.fact_values.empty?
           $stdout.puts "#{host.hostname} has no facts, skipping"
           next
         end

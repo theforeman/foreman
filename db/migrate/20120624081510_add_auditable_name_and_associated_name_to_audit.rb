@@ -16,7 +16,7 @@ class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
           username = audit.user.to_label rescue nil
           attr[:username] = username if !username.empty?
         end
-        audit.update_multiple_attribute(attr) if attr.length > 0
+        audit.update_multiple_attribute(attr) if !attr.empty?
       end
     end
   end
