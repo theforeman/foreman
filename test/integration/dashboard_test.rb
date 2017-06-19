@@ -1,6 +1,10 @@
 require 'integration_test_helper'
 
 class DashboardIntegrationTest < IntegrationTestWithJavascript
+  # intermittent failures:
+  #   DashboardIntegrationTest.test_0005_dashboard link hosts that had pending changes
+  extend MiniTest::OptionalRetry
+
   def setup
     Dashboard::Manager.reset_user_to_default(users(:admin))
   end

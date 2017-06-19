@@ -1,6 +1,10 @@
 require 'integration_test_helper'
 
 class ComputeResourceJSIntegrationTest < IntegrationTestWithJavascript
+  # intermittent failures:
+  #   ComputeResourceJSIntegrationTest.test_0002_add new compute attributes two pane
+  extend Minitest::OptionalRetry
+
   setup do
     Fog.mock!
   end
