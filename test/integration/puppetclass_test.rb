@@ -1,6 +1,10 @@
 require 'integration_test_helper'
 
 class PuppetclassIntegrationTest < IntegrationTestWithJavascript
+  # intermittent failures:
+  #   PuppetclassIntegrationTest.test_0001_edit page
+  extend Minitest::OptionalRetry
+
   test "edit page" do
     visit puppetclasses_path
     click_link "vim"
