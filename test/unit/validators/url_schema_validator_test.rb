@@ -3,7 +3,7 @@ require 'test_helper'
 class UrlSchemaValidatorTest < ActiveSupport::TestCase
   class Validatable
     include ActiveModel::Validations
-    validates :url, :url_schema => ['http', 'https', 'nfs', 'ftp']
+    validates :url, :url_schema => %w[http https nfs ftp]
     attr_accessor :url
   end
 

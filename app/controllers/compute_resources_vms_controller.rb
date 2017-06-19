@@ -105,7 +105,7 @@ class ComputeResourcesVmsController < ApplicationController
   private
 
   define_action_permission 'console', :console
-  define_action_permission ['pause', 'power'], :power
+  define_action_permission %w[pause power], :power
   define_action_permission 'import', :view
   define_action_permission 'associate', :edit # edit_compute_resources
 

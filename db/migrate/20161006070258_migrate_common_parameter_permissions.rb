@@ -4,9 +4,9 @@ class MigrateCommonParameterPermissions < ActiveRecord::Migration
   end
 
   def up
-    all_new_permissions = Permission.where(:name => ['view_params', 'edit_params', 'create_params', 'destroy_params'])
+    all_new_permissions = Permission.where(:name => %w[view_params edit_params create_params destroy_params])
 
-    affected = Filter.includes(:permissions).where(:permissions => {:name => ['view_globals', 'edit_globals', 'create_globals', 'destroy_globals']})
+    affected = Filter.includes(:permissions).where(:permissions => {:name => %w[view_globals edit_globals create_globals destroy_globals]})
     affected.each do |filter|
       new_names = filter.permissions.map { |old| old.name.sub(/globals/, 'params') }
       new_permissions = all_new_permissions.select do |new|
@@ -20,7 +20,7 @@ class MigrateCommonParameterPermissions < ActiveRecord::Migration
       filter.permissions = new_permissions
     end
 
-    Permission.where(:name => ['view_globals', 'edit_globals', 'create_globals', 'destroy_globals']).destroy_all
+    Permission.where(:name => %w[view_globals edit_globals create_globals destroy_globals]).destroy_all
   end
 
   def down

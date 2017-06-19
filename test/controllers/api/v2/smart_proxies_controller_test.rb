@@ -224,7 +224,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
 
   context 'import puppetclasses' do
     setup do
-      ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
+      ProxyAPI::Puppet.any_instance.stubs(:environments).returns(%w[env1 env2])
       classes_env1 = {'a' => Foreman::ImporterPuppetclass.new('name' => 'a')}
       classes_env2 = {'b' => Foreman::ImporterPuppetclass.new('name' => 'b')}
       ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes_env1.merge(classes_env2))

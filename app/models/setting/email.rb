@@ -40,7 +40,7 @@ class Setting::Email < Setting
     options = {}
     self.all.each do |setting|
       extracted = {:smtp => extract_prefix(setting.name, 'smtp'), :sendmail => extract_prefix(setting.name, 'sendmail')}
-      ["smtp", "sendmail"].each do |method|
+      %w[smtp sendmail].each do |method|
         if Setting[:delivery_method].to_s == method && setting.name.start_with?(method) && setting.value.to_s.present?
           options[extracted[method.to_sym]] = setting.value
         end

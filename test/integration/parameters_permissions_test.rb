@@ -7,7 +7,7 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
                                  :permissions => Permission.where(:name => ['view_params']),
                                  :search => 'name ~ a* or domain_name ~ example*com',
                                  :role => role)
-    domain_filter = FactoryGirl.create(:filter, :permissions => Permission.where(:name => ['edit_domains', 'view_domains']))
+    domain_filter = FactoryGirl.create(:filter, :permissions => Permission.where(:name => %w[edit_domains view_domains]))
 
     role.filters = [ @filter, domain_filter ]
     @user = FactoryGirl.create(:user, :with_mail)

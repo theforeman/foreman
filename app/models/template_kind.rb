@@ -7,7 +7,7 @@ class TemplateKind < ApplicationRecord
   validates :name, :presence => true, :uniqueness => true
   scoped_search :on => :name
 
-  PXE = ["PXEGrub2", "PXELinux", "PXEGrub"]
+  PXE = %w[PXEGrub2 PXELinux PXEGrub]
 
   def self.default_template_labels
     {

@@ -15,7 +15,7 @@ class HasManyCommonTest < ActiveSupport::TestCase
     env = environments(:production)
     assert_equal 4, env.provisioning_template_ids.count
     assert_equal 4, env.provisioning_template_names.count
-    assert_equal ["MyFinish", "MyScript", "MyString", "MyString2"], env.provisioning_template_names.sort
+    assert_equal %w[MyFinish MyScript MyString MyString2], env.provisioning_template_names.sort
   end
 
   test "should add provisioning_template association by passing array of names" do
@@ -31,11 +31,11 @@ class HasManyCommonTest < ActiveSupport::TestCase
   test "should delete provisioning_template association by passing array of names" do
     env = environments(:production)
     assert_difference('env.provisioning_template_names.count', -1) do
-      env.provisioning_template_names = ["MyFinish", "MyScript", "MyString"]
+      env.provisioning_template_names = %w[MyFinish MyScript MyString]
     end
     assert_equal 3, env.provisioning_template_ids.count
     assert_equal 3, env.provisioning_template_names.count
-    assert_equal ["MyFinish", "MyScript", "MyString"], env.provisioning_template_names.sort
+    assert_equal %w[MyFinish MyScript MyString], env.provisioning_template_names.sort
   end
 
   # Test non-default AR extension *_names where method is :label for has_many :hostgroups

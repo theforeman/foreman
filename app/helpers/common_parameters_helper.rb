@@ -60,7 +60,7 @@ module CommonParametersHelper
 
     case options[:lookup_key_type]
     when "boolean"
-      select_tag(id, options_for_select(['true', 'false'], value), option_hash)
+      select_tag(id, options_for_select(%w[true false], value), option_hash)
     when "integer", "real"
       number_field_tag(id, value, option_hash)
     else

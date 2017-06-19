@@ -50,7 +50,7 @@ module ProvisioningTemplatesHelper
   end
 
   def pxe_with_building_hosts?(template)
-    kinds = ["PXELinux", "PXEGrub"]
+    kinds = %w[PXELinux PXEGrub]
     template.respond_to?(:template_kind) &&
       template.respond_to?(:operatingsystem_ids) &&
       template.template_kind.present? &&

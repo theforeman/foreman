@@ -380,7 +380,7 @@ class User < ApplicationRecord
   end
 
   def set_current_taxonomies
-    ['location', 'organization'].each do |taxonomy|
+    %w[location organization].each do |taxonomy|
       default_taxonomy = self.send "default_#{taxonomy}"
       if default_taxonomy.present?
         taxonomy.classify.constantize.send 'current=', default_taxonomy

@@ -144,7 +144,7 @@ class ClassificationTest < ActiveSupport::TestCase
     end
     key.reload
 
-    assert_equal({key.id => {key.key => {:value => value2.value, :element => ['organization', 'location'],
+    assert_equal({key.id => {key.key => {:value => value2.value, :element => %w[organization location],
                                          :element_name => ['Organization 1', 'Location 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -170,7 +170,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => value2.value + value.value,
-                                         :element => ['organization', 'location'],
+                                         :element => %w[organization location],
                                          :element_name => ['Organization 1', 'Location 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -196,7 +196,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test', :b => 'test2'}},
-                                         :element => ['location', 'organization'],
+                                         :element => %w[location organization],
                                          :element_name => ['Location 1', 'Organization 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -221,7 +221,7 @@ class ClassificationTest < ActiveSupport::TestCase
     end
     key.reload
 
-    assert_equal({key.id => {key.key => {:value => value.value, :element => ['location', 'organization'],
+    assert_equal({key.id => {key.key => {:value => value.value, :element => %w[location organization],
                                          :element_name => ['Location 1', 'Organization 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -254,7 +254,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:a => 'test', :example => {:b => 'test2'}},
-                                         :element => ['location', 'os', 'organization'],
+                                         :element => %w[location os organization],
                                          :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -286,7 +286,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test3', :b => 'test2'}},
-                                         :element => ['location', 'os', 'organization'],
+                                         :element => %w[location os organization],
                                          :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -325,7 +325,7 @@ class ClassificationTest < ActiveSupport::TestCase
     end
     key.reload
 
-    assert_equal({key.id => {key.key => {:value => value2.value, :element => ['organization', 'location'],
+    assert_equal({key.id => {key.key => {:value => value2.value, :element => %w[organization location],
                                          :element_name => ['Organization 1', 'Location 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -348,7 +348,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => value2.value + value.value,
-                                         :element => ['organization', 'location'],
+                                         :element => %w[organization location],
                                          :element_name => ['Organization 1', 'Location 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -371,7 +371,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test', :b => 'test2'}},
-                                         :element => ['location', 'organization'],
+                                         :element => %w[location organization],
                                          :element_name => ['Location 1', 'Organization 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -400,7 +400,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:a => 'test', :example => {:b => 'test2'}},
-                                         :element => ['location', 'os', 'organization'],
+                                         :element => %w[location os organization],
                                          :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
@@ -424,7 +424,7 @@ class ClassificationTest < ActiveSupport::TestCase
     key.reload
 
     assert_equal({key.id => {key.key => {:value => {:example => {:a => 'test3', :b => 'test2'}},
-                                         :element => ['location', 'os', 'organization'],
+                                         :element => %w[location os organization],
                                          :element_name => ['Location 1', 'Redhat 6.1', 'Organization 1']}}},
                  Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end

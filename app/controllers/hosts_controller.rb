@@ -665,26 +665,26 @@ class HostsController < ApplicationController
     @resource_base ||= Host.authorized(current_permission, Host)
   end
 
-  define_action_permission [
-    'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
-    'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection'], :view
-  define_action_permission [
-    'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build',
-    'rebuild_config', 'submit_rebuild_config'], :build
+  define_action_permission %w[
+    clone externalNodes overview bmc vm runtime resources templates nics
+    pxe_config storeconfig_klasses active errors out_of_sync pending disabled get_power_state preview_host_collection], :view
+  define_action_permission %w[
+    setBuild cancelBuild multiple_build submit_multiple_build review_before_build
+    rebuild_config submit_rebuild_config], :build
   define_action_permission 'power', :power
   define_action_permission 'ipmi_boot', :ipmi_boot
   define_action_permission 'console', :console
-  define_action_permission [
-    'toggle_manage', 'multiple_parameters', 'update_multiple_parameters',
-    'select_multiple_hostgroup', 'update_multiple_hostgroup',
-    'multiple_disable', 'submit_multiple_disable',
-    'multiple_enable', 'submit_multiple_enable',
-    'update_multiple_organization', 'select_multiple_organization',
-    'update_multiple_location', 'select_multiple_location',
-    'disassociate', 'update_multiple_disassociate', 'multiple_disassociate',
-    'select_multiple_owner', 'update_multiple_owner',
-    'select_multiple_power_state', 'update_multiple_power_state', 'random_name'], :edit
-  define_action_permission ['multiple_destroy', 'submit_multiple_destroy'], :destroy
+  define_action_permission %w[
+    toggle_manage multiple_parameters update_multiple_parameters
+    select_multiple_hostgroup update_multiple_hostgroup
+    multiple_disable submit_multiple_disable
+    multiple_enable submit_multiple_enable
+    update_multiple_organization select_multiple_organization
+    update_multiple_location select_multiple_location
+    disassociate update_multiple_disassociate multiple_disassociate
+    select_multiple_owner update_multiple_owner
+    select_multiple_power_state update_multiple_power_state random_name], :edit
+  define_action_permission %w[multiple_destroy submit_multiple_destroy], :destroy
 
   def refresh_host
     @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params['host_id'])

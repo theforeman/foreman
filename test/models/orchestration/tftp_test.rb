@@ -134,7 +134,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       [
         FactoryGirl.build(:nic_bond, :primary => true,
                           :identifier => 'bond0',
-                          :attached_devices => ['eth0', 'eth1'],
+                          :attached_devices => %w[eth0 eth1],
                           :provision => true,
                           :domain => FactoryGirl.build(:domain),
                           :subnet => subnet,

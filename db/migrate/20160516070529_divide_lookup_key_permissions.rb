@@ -15,7 +15,7 @@ class DivideLookupKeyPermissions < ActiveRecord::Migration
   end
 
   def up
-    permissions_to_update = Permission.where(:name => ['view_external_variables', 'edit_external_variables', 'create_external_variables', 'destroy_external_variables'])
+    permissions_to_update = Permission.where(:name => %w[view_external_variables edit_external_variables create_external_variables destroy_external_variables])
     permissions_to_update.update_all(:resource_type => 'VariableLookupKey')
 
     permissions_to_update.each do |original_permission|
@@ -29,14 +29,14 @@ class DivideLookupKeyPermissions < ActiveRecord::Migration
   end
 
   def down
-    new_permission_names = ['view_external_parameters', 'edit_external_parameters', 'create_external_parameters', 'destroy_external_parameters']
+    new_permission_names = %w[view_external_parameters edit_external_parameters create_external_parameters destroy_external_parameters]
     permissions_to_delete = Permission.where(:name => new_permission_names)
     filterings_to_delete = Filtering.where('permission_id' => permissions_to_delete.pluck(:id))
     filterings_ids = filterings_to_delete.pluck(:id)
     filterings_to_delete.delete_all
     Filter.joins(:filterings).where('filterings.id' => filterings_ids).delete_all
     permissions_to_delete.delete_all
-    Permission.where(:name => ['view_external_variables', 'edit_external_variables', 'create_external_variables', 'destroy_external_variables'])
+    Permission.where(:name => %w[view_external_variables edit_external_variables create_external_variables destroy_external_variables])
               .update_all(:resource_type => 'LookupKey')
   end
 end

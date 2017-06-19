@@ -243,7 +243,7 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   test "validation does not prevent taxonomy association if user does not have permissions of already assigned taxonomies" do
     filter = FactoryGirl.create(:filter, :search => 'name ~ visible*')
-    filter.permissions = Permission.where(:name => [ 'view_organizations', 'assign_organizations' ])
+    filter.permissions = Permission.where(:name => %w[view_organizations assign_organizations])
     role = FactoryGirl.create(:role)
     role.filters = [ filter ]
 

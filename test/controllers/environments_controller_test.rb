@@ -53,8 +53,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     orgs = [taxonomies(:organization1)]
     locs = [taxonomies(:location1)]
     as_admin do
-      klasses = ["a", "b", "c"].map { |name| FactoryGirl.create :puppetclass, :name => name }
-      ["env1", "env2"].each do |name|
+      klasses = %w[a b c].map { |name| FactoryGirl.create :puppetclass, :name => name }
+      %w[env1 env2].each do |name|
         env = FactoryGirl.create :environment, :name => name, :organizations => orgs, :locations => locs
         env.puppetclasses += klasses
       end
@@ -65,7 +65,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     pcs = [HashWithIndifferentAccess.new("a" => { "name" => "a", "module" => "", "params"=> {}})]
     classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
     Environment.expects(:puppetEnvs).returns(envs).at_least(0)
-    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
+    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(%w[env1 env2])
     ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes)
   end
 
@@ -85,7 +85,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
       }, set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
-    assert_equal ["a", "b", "c"],
+    assert_equal %w[a b c],
       Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
   end
 
@@ -107,7 +107,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
     envs = Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
-    assert_equal ["a", "b", "c"], envs
+    assert_equal %w[a b c], envs
   end
   test "should handle disk environment containing less environments" do
     setup_import_classes
@@ -162,7 +162,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     #db_tree   of {"env1" => ["a", "b", "c"], "env3" => []}
     #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
 
-    PuppetClassImporter.any_instance.stubs(:ignored_environments).returns(["env1","env2","env3"])
+    PuppetClassImporter.any_instance.stubs(:ignored_environments).returns(%w[env1 env2 env3])
     get :import_environments, {:proxy => smart_proxies(:puppetmaster)}, set_session_user
 
     assert_equal "No changes to your environments detected\nIgnored environments: env1, env2, and env3", flash[:notice]

@@ -114,7 +114,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
   context 'PXE menu' do
     setup do
       TemplateKind::PXE.each do |kind|
-        ["chainload", "discovery"].each do |snippet_type|
+        %w[chainload discovery].each do |snippet_type|
           snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/snippet/_#{kind.downcase}_#{snippet_type}.erb"))
           ProvisioningTemplate.create!(:name => "#{kind.downcase}_#{snippet_type}", :template => snippet, :snippet => true)
         end

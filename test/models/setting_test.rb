@@ -206,7 +206,7 @@ class SettingTest < ActiveSupport::TestCase
 
   # tests for saving settings attributes
   def test_settings_should_save_arrays
-    check_properties_saved_and_loaded_ok :name => "foo", :value => [1,2,3,'b'], :default => ['b',"b"], :description => "test foo"
+    check_properties_saved_and_loaded_ok :name => "foo", :value => [1,2,3,'b'], :default => %w[b b], :description => "test foo"
   end
 
   def test_settings_should_save_hashes
@@ -262,7 +262,7 @@ class SettingTest < ActiveSupport::TestCase
 
   # tests for default type constraints
   test "arrays cannot be empty by default" do
-    check_setting_did_not_save_with :name => "foo", :value => [], :default => ["a", "b", "c"], :description => "test foo"
+    check_setting_did_not_save_with :name => "foo", :value => [], :default => %w[a b c], :description => "test foo"
   end
 
   test "hashes can be empty by default" do
@@ -294,7 +294,7 @@ class SettingTest < ActiveSupport::TestCase
     attrs = { :name => "trusted_puppetmaster_hosts", :default => [], :description => "desc" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("trusted_puppetmaster_hosts")
-    setting.value = ["localhost", "remotehost"]
+    setting.value = %w[localhost remotehost]
     assert setting.save
     setting.value = ["localhost remotehost"]
     refute setting.save
@@ -403,8 +403,8 @@ class SettingTest < ActiveSupport::TestCase
 
   test "parse array attribute from string" do
     check_parsed_value "array", [], "[]"
-    check_parsed_value "array", ["a", "b"], "[a,b]"
-    check_parsed_value "array", ["a", "b"], "[ a, b ]"
+    check_parsed_value "array", %w[a b], "[a,b]"
+    check_parsed_value "array", %w[a b], "[ a, b ]"
     check_parsed_value "array", [1, 2], "[1, 2]"
     check_parsed_value_failure "array", "1234"
   end

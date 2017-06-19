@@ -101,7 +101,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     results = ActiveSupport::JSON.decode(@response.body)
     assert !results['results'].empty?
     assert_equal 2, results['results'].count
-    assert_equal ["cluster", "custom_class_param"], results['results'].map {|cp| cp["parameter"] }.sort
+    assert_equal %w[cluster custom_class_param], results['results'].map {|cp| cp["parameter"] }.sort
   end
 
   test "should get :not_found for a non-existing environment" do

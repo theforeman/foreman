@@ -359,7 +359,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_empty_taxonomy
-    return if ["locations","organizations"].include?(controller_name)
+    return if %w[locations organizations].include?(controller_name)
 
     if User.current && User.current.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?

@@ -1,7 +1,7 @@
 class AddHostStatusHostIdIndex < ActiveRecord::Migration
   def up
     # Remove all but the first status per host/type combination
-    duplicate_statuses = HostStatus::Status.having('count(*) > 1').group(:host_id, :type).select(['host_id', 'type'])
+    duplicate_statuses = HostStatus::Status.having('count(*) > 1').group(:host_id, :type).select(%w[host_id type])
     duplicate_statuses.each do |row|
       HostStatus::Status.where(:type => row[:type], :host_id => row[:host_id]).offset(1).destroy_all
     end

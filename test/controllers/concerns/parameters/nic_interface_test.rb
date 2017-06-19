@@ -17,7 +17,7 @@ class NicInterfaceParametersTest < ActiveSupport::TestCase
     assert filtered.permitted?
   end
 
-  ['eth0,eth1', ['eth0', 'eth1']].each do |input|
+  ['eth0,eth1', %w[eth0 eth1]].each do |input|
     test "passes through :attached_devices => #{input.class.name}" do
       inner_params = {:name => 'test.example.com', :attached_devices => input}
       expects(:params).at_least_once.returns(ActionController::Parameters.new(:interface => inner_params))

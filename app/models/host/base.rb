@@ -206,7 +206,7 @@ module Host
     end
 
     def set_taxonomies(facts)
-      ['location', 'organization'].each do |taxonomy|
+      %w[location organization].each do |taxonomy|
         next unless SETTINGS["#{taxonomy.pluralize}_enabled".to_sym]
         taxonomy_class = taxonomy.classify.constantize
         taxonomy_fact = Setting["#{taxonomy}_fact"]

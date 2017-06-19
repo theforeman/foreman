@@ -120,7 +120,7 @@ BANNER
     end
 
     def complex_type?(type)
-      ["hash", "array"].include? type
+      %w[hash array].include? type
     end
 
     # we expect simple values or JSON encoded hashes or arrays (if applicible)

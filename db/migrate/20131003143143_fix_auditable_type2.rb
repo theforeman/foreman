@@ -12,7 +12,7 @@ class FixAuditableType2 < ActiveRecord::Migration
 
   def down
     # Taxonomy
-    Audit.where(:auditable_type => ['Organization', 'Location']).update_all(:auditable_type => 'Taxonomy')
+    Audit.where(:auditable_type => %w[Organization Location]).update_all(:auditable_type => 'Taxonomy')
 
     # ComputeResource
     Audit.where(:auditable_type => 'ComputeResource').each do |audit|

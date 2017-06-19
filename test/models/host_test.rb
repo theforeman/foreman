@@ -892,11 +892,11 @@ class HostTest < ActiveSupport::TestCase
 
     test "should import from non-parameterized external nodes output" do
       host = FactoryGirl.create(:host, :environment => environments(:production))
-      host.importNode("environment" => "production", "classes" => ["apache", "base"], "parameters" => {})
+      host.importNode("environment" => "production", "classes" => %w[apache base], "parameters" => {})
 
       Setting[:Parametrized_Classes_in_ENC] = true
       Setting[:Enable_Smart_Variables_in_ENC] = true
-      assert_equal ['apache', 'base'], host.info['classes'].keys
+      assert_equal %w[apache base], host.info['classes'].keys
     end
 
     test "show be enabled by default" do
@@ -2381,7 +2381,7 @@ class HostTest < ActiveSupport::TestCase
     group_classes = host.classes_in_groups
     # four classes in config groups, all are in same environment
     assert_equal 4, (group1.puppetclasses + group2.puppetclasses).uniq.count
-    assert_equal ['chkmk', 'nagios', 'pam', 'auth'].sort, group_classes.map(&:name).sort
+    assert_equal %w[chkmk nagios pam auth].sort, group_classes.map(&:name).sort
   end
 
   test "should return all classes for environment only" do
@@ -2394,7 +2394,7 @@ class HostTest < ActiveSupport::TestCase
     all_classes = host.classes
     # four classes in config groups plus one manually added
     assert_equal 5, all_classes.count
-    assert_equal ['base', 'chkmk', 'nagios', 'pam', 'auth'].sort, all_classes.map(&:name).sort
+    assert_equal %w[base chkmk nagios pam auth].sort, all_classes.map(&:name).sort
     assert_equal all_classes, host.all_puppetclasses
   end
 
@@ -2569,7 +2569,7 @@ class HostTest < ActiveSupport::TestCase
     host.config_groups = [config_groups(:one)]
     hostgroup.config_groups = [config_groups(:two)]
     enc = host.info
-    assert_equal(enc['parameters']['foreman_config_groups'], ['Monitoring', 'Security'])
+    assert_equal(enc['parameters']['foreman_config_groups'], %w[Monitoring Security])
   end
 
   describe 'cloning' do
