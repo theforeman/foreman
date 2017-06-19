@@ -66,6 +66,12 @@ manage_hosts:
   builtin: "0"
   origin: ""
 
+organization_admin:
+  name: Organization admin
+  id: "13"
+  builtin: "0"
+  origin: foreman
+
 <% Foreman::Plugin.all.map do |plugin| %>
 <% plugin.default_roles.each do |role_name, permissions| %>
 <%= role_name.tr(' ', '_').scan(/[a-z_]/i).join %>:

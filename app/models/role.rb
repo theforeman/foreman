@@ -23,6 +23,10 @@ class Role < ApplicationRecord
   include Parameterizable::ByIdName
   # Built-in roles
   BUILTIN_DEFAULT_ROLE = 2
+  MANAGER = 'Manager'
+  ORG_ADMIN = 'Organization admin'
+  VIEWER = 'Viewer'
+
   audited
 
   scope :givable, -> { where(:builtin => 0).order(:name) }

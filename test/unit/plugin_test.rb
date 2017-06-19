@@ -425,8 +425,10 @@ class PluginTest < ActiveSupport::TestCase
       add_resource_permissions_to_default_roles ["Test::Resource"], :except => [:create_test]
     end
     manager = Role.find_by :name => "Manager"
+    org_admin = Role.find_by :name => "Organization admin"
     viewer = Role.find_by :name => "Viewer"
     assert_equal 2, manager.permissions.where(:resource_type => "Test::Resource").count
+    assert_equal 2, org_admin.permissions.where(:resource_type => "Test::Resource").count
     assert_equal 1, viewer.permissions.where(:resource_type => "Test::Resource").count
   end
 
@@ -451,11 +453,20 @@ class PluginTest < ActiveSupport::TestCase
     end
     manager = Role.find_by :name => "Manager"
     viewer = Role.find_by :name => "Viewer"
-    view_perm = Permission.find_by(:name => 'view_test')
-    assert view_perm.roles.include?(manager)
-    assert view_perm.roles.include?(viewer)
+    org_admin = Role.find_by :name => "Organization admin"
+
+    %w(view_test).each do |perm|
+      permission = Permission.find_by(:name => perm)
+      assert permission.roles.include?(manager)
+      assert permission.roles.include?(viewer)
+      assert permission.roles.include?(org_admin)
+    end
+
     %w(edit_test create_test misc_test).each do |perm|
-      assert Permission.find_by(:name => perm).roles.include?(manager)
+      permission = Permission.find_by(:name => perm)
+      assert permission.roles.include?(manager)
+      assert permission.roles.include?(org_admin)
+      refute permission.roles.include?(viewer)
     end
   end
 
