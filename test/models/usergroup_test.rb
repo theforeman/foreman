@@ -121,18 +121,18 @@ class UsergroupTest < ActiveSupport::TestCase
 
   test 'add_users is case insensitive and does not add nonexistent users' do
     usergroup = FactoryGirl.create(:usergroup)
-    usergroup.send(:add_users, ['OnE', 'TwO', 'tHREE'])
+    usergroup.send(:add_users, %w[OnE TwO tHREE])
 
     # users 'one' 'two' are defined in fixtures, 'three' is not defined
-    assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
+    assert_equal %w[one two], usergroup.users.map(&:login).sort
   end
 
   test 'remove_users removes user list and is case insensitive' do
     usergroup = FactoryGirl.create(:usergroup)
-    usergroup.send(:add_users, ['OnE', 'tWo'])
-    assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
+    usergroup.send(:add_users, %w[OnE tWo])
+    assert_equal %w[one two], usergroup.users.map(&:login).sort
 
-    usergroup.send(:remove_users, ['ONE', 'TWO'])
+    usergroup.send(:remove_users, %w[ONE TWO])
     assert_equal [], usergroup.users
   end
 

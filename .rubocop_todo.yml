@@ -853,13 +853,6 @@ Style/UnlessElse:
 Style/VariableNumber:
   Enabled: false
 
-# Offense count: 313
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, MinSize, WordRegex.
-# SupportedStyles: percent, brackets
-Style/WordArray:
-  Enabled: false
-
 # Offense count: 15
 # Cop supports --auto-correct.
 Style/ZeroLengthPredicate:

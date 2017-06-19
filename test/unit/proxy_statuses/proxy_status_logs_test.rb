@@ -57,7 +57,7 @@ class ProxyStatusLogsTest < ActiveSupport::TestCase
 
   test 'it returns failed module names' do
     ProxyAPI::Logs.any_instance.expects(:all).returns(@two_failed_buffer)
-    assert_equal(["BMC", "Puppet"], @status.logs.failed_module_names)
+    assert_equal(%w[BMC Puppet], @status.logs.failed_module_names)
   end
 
   test 'it returns failed modules' do

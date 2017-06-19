@@ -77,7 +77,7 @@ class BondTest < ActiveSupport::TestCase
 
   context '#children_mac_addresses' do
     test 'lists mac addresses' do
-      attached_devices = ['eth0', 'eth1', 'eth2']
+      attached_devices = %w[eth0 eth1 eth2]
       host = FactoryGirl.create(:host)
       bond = FactoryGirl.build(:nic_bond,
                                 :identifier => 'bond',

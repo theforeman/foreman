@@ -21,7 +21,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
     before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
 
-    define_action_permission ['puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'], :puppetrun
+    define_action_permission %w[puppetrun multiple_puppetrun update_multiple_puppetrun], :puppetrun
     define_action_permission MULTIPLE_EDIT_ACTIONS, :edit
 
     set_callback :set_class_variables, :after, :set_puppet_class_variables

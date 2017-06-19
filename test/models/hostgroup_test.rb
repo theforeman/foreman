@@ -205,7 +205,7 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal 4, (config_groups(:one).puppetclasses + config_groups(:three).puppetclasses).uniq.count
     # but only 3 are in production environment. git is in testing environment
     assert_equal 3, group_classes.count
-    assert_equal ['chkmk', 'nagios', 'vim'].sort, group_classes.map(&:name).sort
+    assert_equal %w[chkmk nagios vim].sort, group_classes.map(&:name).sort
   end
 
   test "should return all classes for environment only" do
@@ -214,14 +214,14 @@ class HostgroupTest < ActiveSupport::TestCase
     all_classes = hostgroup.classes
     # three classes from group plus one class directly - base
     assert_equal 4, all_classes.count
-    assert_equal ['base', 'chkmk', 'nagios', 'vim'].sort, all_classes.map(&:name).sort
+    assert_equal %w[base chkmk nagios vim].sort, all_classes.map(&:name).sort
   end
 
   test "search hostgroups by config group" do
     config_group = config_groups(:one)
     hostgroups = Hostgroup.search_for("config_group = #{config_group.name}")
     assert_equal 3, hostgroups.count
-    assert_equal ["Common", "Parent", "inherited"].sort, hostgroups.map(&:name).sort
+    assert_equal %w[Common Parent inherited].sort, hostgroups.map(&:name).sort
   end
 
   test "parent_classes should return parent classes if hostgroup has parent and environment are the same" do

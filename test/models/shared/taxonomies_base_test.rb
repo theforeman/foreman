@@ -42,10 +42,10 @@ module TaxonomiesBaseTest
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       taxonomy.public_send(:"#{opposite_taxonomy}_ids=",
                            [taxonomies(:"#{opposite_taxonomy}1").id])
-      taxonomy.ignore_types = ["Domain", "Hostgroup", "Environment",
-                               "User", "Medium", "Subnet", "SmartProxy",
-                               "ProvisioningTemplate", "ComputeResource",
-                               "Realm"]
+      taxonomy.ignore_types = %w[Domain Hostgroup Environment
+                                 User Medium Subnet SmartProxy
+                                 ProvisioningTemplate ComputeResource
+                                 Realm]
       assert taxonomy.valid?
     end
 
@@ -150,7 +150,7 @@ module TaxonomiesBaseTest
     test 'it should return selected_ids array of ALL values (when types are ignored)' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       # ignore all types
-      taxonomy.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
+      taxonomy.ignore_types = %w[Domain Hostgroup Environment User Medium Subnet SmartProxy ProvisioningTemplate ComputeResource Realm]
       # run selected_ids method
       selected_ids = taxonomy.selected_ids
       # should return all when type is ignored

@@ -577,7 +577,7 @@ module Foreman::Model
         :scsi_controller => { :type => scsi_controller_default_type },
         :datacenter => datacenter,
         :firmware => 'automatic',
-        :boot_order => ['network', 'disk']
+        :boot_order => %w[network disk]
       )
     end
 

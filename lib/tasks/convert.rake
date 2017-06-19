@@ -79,7 +79,7 @@ namespace :db do
       end
 
       ActiveRecord::Base.establish_connection(:production)
-      skip_tables = ["schema_info", "schema_migrations"]
+      skip_tables = %w[schema_info schema_migrations]
       (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
         time = Time.now
 

@@ -38,9 +38,9 @@ class Setting < ApplicationRecord
   validates :value, :inclusion => {:in => [true,false]}, :if => Proc.new {|s| s.settings_type == "boolean"}
   validates :value, :presence => true, :if => Proc.new {|s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
-  validates :value, :url_schema => ['http', 'https'], :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
+  validates :value, :url_schema => %w[http https], :if => Proc.new {|s| URI_ATTRS.include?(s.name) }
 
-  validates :value, :url_schema => ['http', 'https'], :if => Proc.new { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
+  validates :value, :url_schema => %w[http https], :if => Proc.new { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
 
   validate :validate_host_owner, :if => Proc.new {|s| s.name == "host_owner" }
   validates :value, :format => { :with => Resolv::AddressRegex }, :if => Proc.new { |s| IP_ATTRS.include? s.name }

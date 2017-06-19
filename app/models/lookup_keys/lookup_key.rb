@@ -75,7 +75,7 @@ class LookupKey < ApplicationRecord
   end
 
   def supports_merge?
-    ['array', 'hash'].include?(key_type)
+    %w[array hash].include?(key_type)
   end
 
   def supports_uniq?

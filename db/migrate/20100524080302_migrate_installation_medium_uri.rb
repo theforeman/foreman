@@ -3,7 +3,7 @@ class MigrateInstallationMediumUri < ActiveRecord::Migration
     Medium.unscoped.all.each do |medium|
       matches = /^([^:]+):(\/.+)/.match(medium.path)
 
-      if matches.size == 3 && ![ 'http', 'https', 'ftp', 'ftps', 'nfs' ].include?(matches[1])
+      if matches.size == 3 && !%w[http https ftp ftps nfs].include?(matches[1])
         medium.path = 'nfs://' + matches[1] + matches[2]
         medium.save
       end

@@ -54,7 +54,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
 
   test "#accessible_attributes returns list of known attributes" do
     filter.permit(:test, :hash => [:inner])
-    assert_equal ['test', 'hash'], filter.accessible_attributes(ui_context)
+    assert_equal %w[test hash], filter.accessible_attributes(ui_context)
   end
 
   context "with nested object" do

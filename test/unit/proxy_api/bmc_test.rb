@@ -18,13 +18,13 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   end
 
   test "providers should get list of providers" do
-    expected = ["freeipmi", "ipmitool"]
+    expected = %w[freeipmi ipmitool]
     @testbmc.stubs(:get).returns(fake_rest_client_response(expected))
     assert_equal(expected, @testbmc.providers)
   end
 
   test "providers installed should get list of installed providers" do
-    expected = ["freeipmi", "ipmitool"]
+    expected = %w[freeipmi ipmitool]
     @testbmc.stubs(:get).returns(fake_rest_client_response(expected))
     assert_equal(expected, @testbmc.providers_installed)
   end

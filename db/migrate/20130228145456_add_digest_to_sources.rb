@@ -1,6 +1,6 @@
 class AddDigestToSources < ActiveRecord::Migration
   def up
-    if ["mysql", "mysql2"].include? ActiveRecord::Base.connection.instance_values["config"][:adapter]
+    if %w[mysql mysql2].include? ActiveRecord::Base.connection.instance_values["config"][:adapter]
       execute "DROP INDEX value ON sources" if index_exists?(:sources, :value, :name => 'value')
     else
       remove_index(:sources, :value) if index_exists?(:sources, :value)
@@ -13,7 +13,7 @@ class AddDigestToSources < ActiveRecord::Migration
   def down
     remove_index :sources, :digest
     remove_column :sources, :digest
-    if ["mysql", "mysql2"].include? ActiveRecord::Base.connection.instance_values["config"][:adapter]
+    if %w[mysql mysql2].include? ActiveRecord::Base.connection.instance_values["config"][:adapter]
       execute "ALTER TABLE sources ADD FULLTEXT (value)"
     else
       add_index :sources, :value

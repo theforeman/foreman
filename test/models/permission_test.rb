@@ -11,8 +11,8 @@ class PermissionTest < ActiveSupport::TestCase
   end
 
   test ".resources_with_translations are ordered by translation" do
-    Permission.stubs(:with_translations).returns([['Z', 'z'], ['A', 'b'], ['H', 'a']])
-    assert_equal [['A', 'b'], ['H', 'a'], ['Z', 'z']], Permission.resources_with_translations
+    Permission.stubs(:with_translations).returns([%w[Z z], %w[A b], %w[H a]])
+    assert_equal [%w[A b], %w[H a], %w[Z z]], Permission.resources_with_translations
   end
 
   test "can search permissions by name" do

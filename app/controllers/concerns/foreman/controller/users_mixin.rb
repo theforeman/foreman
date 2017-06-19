@@ -30,7 +30,7 @@ module Foreman::Controller::UsersMixin
 
   def set_current_taxonomies(user, options = {})
     session ||= options.fetch(:session, {})
-    ['location', 'organization'].each do |taxonomy|
+    %w[location organization].each do |taxonomy|
       default_taxonomy = user.send "default_#{taxonomy}"
       if default_taxonomy.present?
         taxonomy.classify.constantize.send 'current=', default_taxonomy

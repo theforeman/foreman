@@ -27,7 +27,7 @@ module Api::ImportPuppetclassesCommonController
     if params[:except].present?
       kinds = params[:except].split(',')
       kinds.each do |kind|
-        @changed[kind] = {} if ["new", "obsolete", "updated", "ignored"].include?(kind)
+        @changed[kind] = {} if %w[new obsolete updated ignored].include?(kind)
       end
     end
 
@@ -60,7 +60,7 @@ module Api::ImportPuppetclassesCommonController
       # check if environemnt id passed in URL is name of NEW environment in puppetmaster that doesn't exist in db
       if @environment || (@changed['new'].keys.include?(@env_id) && (@environment ||= OpenStruct.new(:name => @env_id)))
         # only return :keys equal to @environment in @changed hash
-        ["new", "obsolete", "updated", "ignored"].each do |kind|
+        %w[new obsolete updated ignored].each do |kind|
           @changed[kind].slice!(@environment.name) unless @changed[kind].empty?
         end
       end
@@ -77,7 +77,7 @@ module Api::ImportPuppetclassesCommonController
     end
 
     # PuppetClassImporter expects [kind][env] to be in json format
-    ["new", "obsolete", "updated", "ignored"].each do |kind|
+    %w[new obsolete updated ignored].each do |kind|
       unless (envs = @changed[kind]).empty?
         envs.keys.sort.each do |env|
           @changed[kind][env] = @changed[kind][env].to_json

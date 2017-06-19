@@ -7,7 +7,7 @@ class ChangeFamilyInOs < ActiveRecord::Migration
 
     Operatingsystem.reset_column_information
 
-    families = ["Debian", "Redhat", "Solaris", "Suse", "Windows"]
+    families = %w[Debian Redhat Solaris Suse Windows]
 
     ok = true
     Operatingsystem.all.each do |os|

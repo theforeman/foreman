@@ -7,7 +7,7 @@ class Setting::Puppet < Setting
       self.set('modulepath',N_("Foreman will set this as the default Puppet module path if it cannot auto detect one"), "/etc/puppet/modules", N_('Module path')),
       self.set('puppetrun', N_("Enable puppetrun support"), false, N_('Puppetrun')),
       self.set('puppet_server', N_("Default Puppet server hostname"), "puppet", N_('Puppet server')),
-      self.set('Default_variables_Lookup_Path', N_("Foreman will evaluate host smart variables in this order by default"), ["fqdn", "hostgroup", "os", "domain"], N_('Default variables lookup path')),
+      self.set('Default_variables_Lookup_Path', N_("Foreman will evaluate host smart variables in this order by default"), %w[fqdn hostgroup os domain], N_('Default variables lookup path')),
       self.set('Enable_Smart_Variables_in_ENC', N_("Foreman smart variables will be exposed via the ENC yaml output"), true, N_('Enable smart variables in ENC')),
       self.set('Parametrized_Classes_in_ENC', N_("Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"), true, N_('Parameterized classes in ENC')),
       self.set('interpolate_erb_in_parameters', N_("Foreman will parse ERB in parameters value in the ENC output"), true, N_('Interpolate ERB in parameters')),

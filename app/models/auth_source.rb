@@ -27,7 +27,7 @@ class AuthSource < ApplicationRecord
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
 
-  scope :non_internal, -> { where("type NOT IN (?)", ['AuthSourceInternal', 'AuthSourceHidden']) }
+  scope :non_internal, -> { where("type NOT IN (?)", %w[AuthSourceInternal AuthSourceHidden]) }
   scope :except_hidden, -> { where('type <> ?', 'AuthSourceHidden') }
 
   def authenticate(login, password)

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class InterfacesControllerTest < ActionController::TestCase
-  ['managed', 'bmc', 'bond', 'bridge'].each do |type|
+  %w[managed bmc bond bridge].each do |type|
     test "#new with #{type} interface attributes should render form" do
       nic = FactoryGirl.build(:"nic_#{type}")
       xhr :get, :new, { :host => { :interfaces_attributes => { "0" => nic.attributes } } }, set_session_user

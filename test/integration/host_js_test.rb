@@ -243,7 +243,7 @@ class HostJSTest < IntegrationTestWithJavascript
                          :permissions => Permission.where(:name => ['create_hosts']),
                          :role => role)
       FactoryGirl.create(:filter,
-                         :permissions => Permission.where(:name => ['create_params', 'view_params']),
+                         :permissions => Permission.where(:name => %w[create_params view_params]),
                          :role => role)
 
       FactoryGirl.create(:common_parameter, :name => "a_parameter")

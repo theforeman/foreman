@@ -160,7 +160,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     test "families_as_collection contains correct names and values" do
       families = Operatingsystem.families_as_collection
       assert_equal ["AIX", "Altlinux", "Arch Linux", "CoreOS", "Debian", "FreeBSD", "Gentoo", "Junos", "NX-OS", "Red Hat", "SUSE", "Solaris", "Windows", "XenServer"], families.map(&:name).sort
-      assert_equal ["AIX", "Altlinux", "Archlinux", "Coreos", "Debian", "Freebsd", "Gentoo", "Junos", "NXOS", "Redhat", "Solaris", "Suse", "Windows", "Xenserver"], families.map(&:value).sort
+      assert_equal %w[AIX Altlinux Archlinux Coreos Debian Freebsd Gentoo Junos NXOS Redhat Solaris Suse Windows Xenserver], families.map(&:value).sort
     end
   end
 

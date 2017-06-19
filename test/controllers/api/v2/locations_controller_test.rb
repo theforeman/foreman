@@ -18,9 +18,9 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
     #assert child nodes are included in response'
-    NODES = ["users", "smart_proxies", "subnets", "compute_resources", "media", "config_templates",
-             "provisioning_templates", "domains", "ptables", "realms", "environments", "hostgroups",
-             "organizations", "parameters"].sort
+    NODES = %w[users smart_proxies subnets compute_resources media config_templates
+               provisioning_templates domains ptables realms environments hostgroups
+               organizations parameters].sort
     NODES.each do |node|
       assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
     end
@@ -53,7 +53,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should update location on if valid is location" do
-    ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
+    ignore_types = %w[Domain Hostgroup Environment User Medium Subnet SmartProxy ProvisioningTemplate ComputeResource Realm]
     put :update, { :id => @location.to_param, :location => { :name => "New Location", :ignore_types => ignore_types } }
     assert_equal "New Location", Location.find(@location.id).name
     assert_response :success
@@ -95,9 +95,9 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should update *_ids. test for domain_ids" do
     # ignore all but Domain
-    @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium",
-                              "Subnet", "SmartProxy", "ProvisioningTemplate",
-                              "ComputeResource", "Realm"]
+    @location.ignore_types = %w[Hostgroup Environment User Medium
+                                Subnet SmartProxy ProvisioningTemplate
+                                ComputeResource Realm]
     as_admin do
       @location.save(:validate => false)
       assert_difference('@location.domains.count', 2) do
@@ -164,7 +164,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     assert response.is_a?(Hash)
     assert response['results'].is_a?(Array)
-    assert_equal ['ancestry', 'created_at', 'description', 'id', 'name', 'parent_id', 'parent_name', 'title', 'updated_at'], response['results'][0].keys.sort
+    assert_equal %w[ancestry created_at description id name parent_id parent_name title updated_at], response['results'][0].keys.sort
   end
 
   test "object name on show defaults to object class name" do
