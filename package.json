@@ -72,8 +72,8 @@
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ || exit 0",
-    "test": "node --harmony_proxies node_modules/.bin/jest",
-    "test:watch": "node --harmony_proxies node_modules/.bin/jest --watchAll",
+    "test": "node node_modules/.bin/jest",
+    "test:watch": "node node_modules/.bin/jest --watchAll",
     "storybook": "start-storybook --dont-track -p 6006",
     "build-storybook": "build-storybook"
   },
