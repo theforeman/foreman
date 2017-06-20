@@ -3,8 +3,8 @@ organizations = Organization.unscoped.all
 locations = Location.unscoped.all
 
 Ptable.without_auditing do
-  SEEDED_PARTITION_TABLES.each do |input|
-    contents = File.read(File.join("#{Rails.root}/app/views/unattended/partition_tables_templates", input.delete(:source)))
+  PartitionTablesList.seeded_templates.each do |input|
+    contents = File.read(File.join("#{Rails.root}/app/views/unattended/partition_tables_templates", input[:source]))
 
     if (p = Ptable.unscoped.find_by_name(input[:name])) && !SeedHelper.audit_modified?(Ptable, input[:name])
       if p.layout != contents
@@ -18,8 +18,11 @@ Ptable.without_auditing do
     else
       next if SeedHelper.audit_modified? Ptable, input[:name]
       p = Ptable.create({
-        :layout => contents
-      }.merge(input.merge(:default => true)))
+                          :layout => contents,
+                          :default => true,
+                          :name => input[:name],
+                          :os_family => input[:os_family]
+                        })
 
       if p.default?
         p.organizations = organizations if SETTINGS[:organizations_enabled]
