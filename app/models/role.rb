@@ -64,9 +64,9 @@ class Role < ApplicationRecord
   taxonomy_join_table = :taxable_taxonomies
   has_many taxonomy_join_table.to_sym, :dependent => :destroy, :as => :taxable
   has_many :locations, -> { where(:type => 'Location') },
-           :through => taxonomy_join_table, :source => :taxonomy
+           :through => taxonomy_join_table, :source => :taxonomy, :validate => false
   has_many :organizations, -> { where(:type => 'Organization') },
-           :through => taxonomy_join_table, :source => :taxonomy
+           :through => taxonomy_join_table, :source => :taxonomy, :validate => false
 
   validates :name, :presence => true, :uniqueness => true
   validates :builtin, :inclusion => { :in => 0..2 }
