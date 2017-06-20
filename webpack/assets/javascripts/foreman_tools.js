@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import URI from 'urijs';
 
 export function showSpinner() {
   $('#turbolinks-progress').show();
@@ -79,4 +80,20 @@ export function initTypeAheadSelect(input) {
     },
     width: '400px'
   });
+}
+
+// handle table updates via turoblinks
+export function updateTable(element) {
+  let uri = new URI(window.location.href);
+  let search;
+
+  if (element !== undefined) {
+    search = $(element).find('.autocomplete-input').val();
+    if (search !== undefined) {
+      uri.setSearch('search', search.trim());
+    }
+  }
+  /* eslint-disable no-undef */
+  Turbolinks.visit(uri.toString());
+  return false;
 }

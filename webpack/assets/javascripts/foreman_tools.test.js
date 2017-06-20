@@ -84,3 +84,50 @@ describe('initTypeAheadSelect', () => {
     expect($('.select2-chosen').text()).toEqual('testoption');
   });
 });
+
+describe('updateTableTest', () => {
+  beforeEach(() => {
+    global.Turbolinks = {
+      visit: jest.fn()
+    };
+
+    global.tfm = {
+      tools: tools
+    };
+
+    Object.defineProperty(window.location, 'href', {
+      writable: true,
+      value: 'http://localhost'
+    });
+    document.body.innerHTML = `
+    <form id="search-form" onsubmit="return tfm.tools.updateTable(this);" action="/templates/provisioning_templates" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+  <div class="input-group">
+    <input type="text" name="search" id="search" value="name = y " placeholder="Filter ..." class="autocomplete-input form-control ui-autocomplete-input ui-autocomplete-loading" data-url="/templates/provisioning_templates/auto_complete_search" autocomplete="off"><a class="autocomplete-clear" tabindex="-1" title="" data-original-title="Clear" style="display: none;">×</a>
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="submit">
+        <span class="glyphicon glyphicon-search "></span> <span class="hidden-xs">Search</span>
+      </button>
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right">
+        <li class="divider"></li>
+        <li><a id="bookmark" data-url="/bookmarks/new?kontroller=provisioning_templates" href="#" onclick="$('#bookmarks-modal').modal();; return false;">Bookmark this search</a></li>
+        <li><a rel="external" target="_blank" data-id="aid_manuals_1.16_index.html" href="http://www.theforeman.org/manuals/1.16/index.html#4.1.5Searching"><span class="glyphicon glyphicon-question-sign icon-black"></span> Documentation</a></li>
+      </ul>
+    </span>
+  </div>
+</form>
+    `;
+  });
+
+  it('should use turoblinks', () => {
+    tools.updateTable();
+    expect(global.Turbolinks.visit).toBeCalled();
+  });
+
+  it('should use find search term and add it to the url', () => {
+    $('form').submit();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith('http://localhost/?search=name+%3D+y');
+  });
+});
