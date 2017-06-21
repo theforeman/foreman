@@ -20,13 +20,15 @@ module HostParams
     def host_inherited_params(include_source = false)
       hp = {}
       params = host_inherited_params_objects
+      renderer = SafeRender.new(:variables => { :host => self })
       params.each do |param|
         source = param.associated_type
-        options = {:value => param.value,
+        value = renderer.parse(param.value)
+        options = {:value => value,
                    :source => source,
                    :safe_value => param.safe_value }
         options[:source_name] = param.associated_label if source != 'global'
-        hp.update(Hash[param.name => include_source ? options : param.value])
+        hp.update(Hash[param.name => include_source ? options : value])
       end
       hp
     end
