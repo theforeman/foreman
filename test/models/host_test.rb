@@ -3577,6 +3577,22 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'HostParams module' do
+    test 'shows global params' do
+      host = FactoryGirl.build(:host)
+      parameter = FactoryGirl.create(:common_parameter, :name => 'test_param1', :value => 'test_value1')
+
+      assert_equal 'test_value1', host.host_params['test_param1']
+    end
+
+    test 'renders global params if template specified' do
+      host = FactoryGirl.build(:host)
+      parameter = FactoryGirl.create(:common_parameter, :name => 'test_param1', :value => '<%= "test_value1-#{@host.name}" %>')
+
+      assert_equal "test_value1-#{host.name}", host.host_params['test_param1']
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)
