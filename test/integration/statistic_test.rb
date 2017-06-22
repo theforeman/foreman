@@ -1,6 +1,10 @@
 require 'integration_test_helper'
 
 class StatisticIntegrationTest < IntegrationTestWithJavascript
+  # intermittent failures:
+  #   StatisticIntegrationTest.test_0001_statistics page
+  extend Minitest::OptionalRetry
+
   test "statistics page" do
     visit statistics_path
     wait_for_ajax

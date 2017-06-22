@@ -1,6 +1,10 @@
 require 'integration_test_helper'
 
 class SubnetJSIntegrationTest < IntegrationTestWithJavascript
+  # intermittent failures:
+  #   SubnetJSIntegrationTest.test_0001_create new page
+  extend Minitest::OptionalRetry
+
   test "create new page" do
     visit new_subnet_path
     assert page.has_link?('Parameters', :href => '#params')
