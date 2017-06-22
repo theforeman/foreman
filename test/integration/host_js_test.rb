@@ -5,6 +5,7 @@ require 'integration/shared/host_orchestration_stubs'
 class HostJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   HostJSTest::edit page.test_0003_correctly override global params
+  #   HostJSTest::create new host page.test_0003_saves correct values for inherited fields without hostgroup
   extend Minitest::OptionalRetry
 
   include HostFinders
