@@ -85,6 +85,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert !hosts.empty?
   end
 
+  test "should get thin index" do
+    get :index, thin: true
+    assert_response :success
+    assert_not_nil assigns(:hosts)
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    assert !hosts.empty?
+    assert_equal Host.all.pluck(:id, :name), hosts['results'].map(&:values)
+  end
+
   test "should include registered scope on index" do
     # remember the previous state
     old_scopes = Api::V2::HostsController.scopes_for(:index).dup
