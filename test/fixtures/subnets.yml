@@ -51,3 +51,11 @@ six:
   network: '2001:db10::'
   mask: 'ffff:ffff:ffff:ffff::'
   dns: three
+
+seven:
+  name: seven
+  type: Subnet::Ipv6
+  network: '2001:db10:7::'
+  mask: 'ffff:ffff:ffff:ffff::'
+  dns: three
+  vlanid: 44

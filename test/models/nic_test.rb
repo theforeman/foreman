@@ -72,16 +72,37 @@ class NicTest < ActiveSupport::TestCase
 
   test "should delegate subnet attributes" do
     subnet = subnets(:two)
+    subnet6 = subnets(:seven)
     domain = (subnet.domains.any? ? subnet.domains : subnet.domains << Domain.first).first
     interface = FactoryGirl.build(:nic_managed,
                                   :ip => "3.3.4.127",
                                   :mac => "cabbccddeeff",
                                   :host => FactoryGirl.create(:host),
                                   :subnet => subnet,
+                                  :subnet6 => subnet6,
                                   :name => "a" + FactoryGirl.create(:host).name,
                                   :domain => domain)
     assert_equal subnet.network, interface.network
+    assert_equal subnet6.network, interface.network6
     assert_equal subnet.vlanid, interface.vlanid
+    assert_equal '42', interface.vlanid
+  end
+
+  test "should delegate subnet6 attributes if subnet is nil" do
+    subnet = nil
+    subnet6 = subnets(:seven)
+    domain = (subnet6.domains.any? ? subnet6.domains : subnet6.domains << Domain.first).first
+    interface = FactoryGirl.build(:nic_managed,
+                                  :ip => "3.3.4.127",
+                                  :mac => "cabbccddeeff",
+                                  :host => FactoryGirl.create(:host),
+                                  :subnet => subnet,
+                                  :subnet6 => subnet6,
+                                  :name => "a" + FactoryGirl.create(:host).name,
+                                  :domain => domain)
+    assert_equal subnet6.vlanid, interface.vlanid
+    assert_equal subnet6.network, interface.network6
+    assert_equal '44', interface.vlanid
   end
 
   test "should reject subnet with mismatched taxonomy in host" do
