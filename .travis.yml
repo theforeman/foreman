@@ -4,5 +4,5 @@ node_js:
   - '6' # current LTS
   - '8' # current stable
 before_install:
-  npm install -g npm@'>=3.0.0, <5.0.0'
+  npm install -g npm@'>=3.0.0, <6.0.0'
 script: ./script/travis_run_js_tests.sh
