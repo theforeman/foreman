@@ -9,6 +9,7 @@ class PuppetclassLookupKey < LookupKey
   after_validation :reset_override_params, :if => ->(key) { key.override_changed? && !key.override? }
 
   scoped_search :relation => :param_classes, :on => :name, :rename => :puppetclass, :aliases => [:puppetclass_name], :complete_value => true
+  scoped_search :relation => :environments, :on => :name, :rename => :environment, :complete_value => true, :only_explicit => true
 
   scope :smart_class_parameters_for_class, lambda { |puppetclass_ids, environment_id|
                                              joins(:environment_classes).where(:environment_classes => {:puppetclass_id => puppetclass_ids, :environment_id => environment_id})
