@@ -28,7 +28,7 @@ gem 'net-scp'
 gem 'net-ssh'
 gem 'net-ldap', '>= 0.8.0'
 gem 'activerecord-session_store', '>= 0.1.1', '< 2'
-gem 'rails-observers', '~> 0.1'
+gem 'rails-observers', '>= 0.1', (RUBY_VERSION < '2.2.2' ? '< 0.1.4' : '< 1')
 gem 'sprockets', '~> 3'
 gem 'sprockets-rails', '>= 2.3.3', '< 3'
 gem 'responders', '~> 2.0'
