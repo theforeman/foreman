@@ -5,7 +5,7 @@ require 'integration/shared/host_orchestration_stubs'
 class HostJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   HostJSTest::edit page.test_0003_correctly override global params
-  extend Minitest::OptionalRetry
+  #extend Minitest::OptionalRetry
 
   include HostFinders
   include HostOrchestrationStubs
@@ -276,11 +276,11 @@ class HostJSTest < IntegrationTestWithJavascript
   describe "hosts index multiple actions" do
     test 'show action buttons' do
       visit hosts_path
-      page.find('#check_all').trigger('click')
+      #page.find('#check_all').trigger('click')
+      page.execute_script("$('#check_all').trigger('click')")
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
-
       # Dropdown visible?
       assert multiple_actions_div.find('.dropdown-toggle').visible?
       multiple_actions_div.find('.dropdown-toggle').click
@@ -301,6 +301,26 @@ class HostJSTest < IntegrationTestWithJavascript
       index_modal.find('.btn-primary').click
       assert_current_path hosts_path
       assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
+    end
+
+    test 'select all hosts in all pages' do
+      Setting[:entries_per_page] = 1
+      # We need to create a second host for 2 pages to show up
+      FactoryGirl.create(:host)
+      visit hosts_path
+      page.find('#check_all').trigger('click')
+      # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
+      assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
+      # Suggestion dialog shows up once we click on 'check all'
+      assert page.has_selector? "#multiple-alert"
+      select_all_hosts = "Select all #{Host.unscoped.count} hosts"
+      assert page.has_link? select_all_hosts
+      # Multiple is false when we have not clicked "select all"
+      assert page.evaluate_script('$("#multiple-alert").data("multiple")')
+      click_link select_all_hosts
+      # Multiple is false after clicking on "select all"
+      refute page.evaluate_script('$("#multiple-alert").data("multiple")')
+      Setting[:entries_per_page] = 20
     end
   end
 
