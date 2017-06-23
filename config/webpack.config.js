@@ -11,11 +11,13 @@ var devServerPort = 3808;
 
 // set TARGETNODE_ENV=production on the environment to add asset fingerprints
 var production = process.env.RAILS_ENV === 'production' || process.env.NODE_ENV === 'production';
+const execSync = require('child_process').execSync;
 
 var config = {
   entry: {
     // Sources are expected to live in $app_root/webpack
     'bundle': './webpack/assets/javascripts/bundle.js'
+    'plugin': execSync('./script/plugin_webpack_directories.rb').toString().split('\n');
   },
 
   output: {
@@ -98,6 +100,7 @@ if (production) {
 
   config.devServer = {
     host: process.env.BIND || '127.0.0.1',
+    disableHostCheck: true,
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' },
     hot: true
