@@ -223,6 +223,7 @@ module Foreman::Model
         "windows8Server64Guest" => "Microsoft Windows Server 2012 (64-bit)",
         "windows9Guest" => "Microsoft Windows 10 (32-bit)",
         "windows9_64Guest" => "Microsoft Windows 10 (64-bit)",
+        "windows9srv-64" => "Microsoft Windows Server 2016 (64-bit)",
         "windows9Server64Guest" => "Microsoft Windows Server Threshhold (64-bit)",
         "windowsHyperVGuest" => "Microsoft Windows Hyper-V",
         "freebsd64Guest" => "FreeBSD (64-bit)",
