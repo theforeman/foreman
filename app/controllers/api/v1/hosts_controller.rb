@@ -57,7 +57,7 @@ module Api
           param :value, String, :desc => "Parameter value", :required => true
         end
         param :build, :bool
-        param :enabled, :bool
+        param :enabled, :bool, :desc => "Include this host within Foreman reporting"
         param :provision_method, String
         param :managed, :bool, :desc => "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
         param :progress_report_id, String, :desc => "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
