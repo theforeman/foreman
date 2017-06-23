@@ -10,6 +10,7 @@ class ComputeResource < ApplicationRecord
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+  belongs_to :http_proxy
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates :name, :presence => true, :uniqueness => true
@@ -120,6 +121,10 @@ class ComputeResource < ApplicationRecord
 
   def to_label
     "#{name} (#{provider_friendly_name})"
+  end
+
+  def connection_options
+    http_proxy ? {:proxy => http_proxy.full_url} : {}
   end
 
   # Override this method to specify provider name

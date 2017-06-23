@@ -1,0 +1,28 @@
+<% title _('HTTP Proxies') %>
+
+<% title_actions new_link(_('New HTTP Proxy')), help_button %>
+
+<table class="<%= table_css_classes 'table-fixed' %>">
+  <thead>
+    <tr>
+      <th class="col-md-8"><%= sort :name, :as => s_('Name') %></th>
+      <th><%= _('URL') %></th>
+      <th><%= _('Actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @http_proxies.each do |http_proxy| %>
+      <tr>
+        <td class="ellipsis">
+          <%= link_to_if_authorized (http_proxy.name), hash_for_edit_http_proxy_path(:id => http_proxy).merge(:auth_object => http_proxy, :authorizer => authorizer) %>
+        </td>
+        <td><%= http_proxy.url %></td>
+        <td class="col-md-1">
+          <%= action_buttons(display_delete_if_authorized hash_for_http_proxy_path(:id => http_proxy).merge(:auth_object => http_proxy, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % http_proxy.name }) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate_with_info @http_proxies %>

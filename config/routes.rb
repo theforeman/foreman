@@ -251,6 +251,13 @@ Foreman::Application.routes.draw do
     end
   end
 
+  resources :http_proxies, :controller => 'http_proxies' do
+    collection do
+      get 'auto_complete_search'
+      put 'test_connection'
+    end
+  end
+
   resources :fact_values, :only => [:index] do
     collection do
       get 'auto_complete_search'

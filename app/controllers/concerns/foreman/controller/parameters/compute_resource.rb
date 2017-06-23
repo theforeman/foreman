@@ -12,6 +12,7 @@ module Foreman::Controller::Parameters::ComputeResource
           :provider,
           :set_console_password,
           :url,
+          :http_proxy_id,
           :user
 
         # ec2

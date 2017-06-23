@@ -87,6 +87,7 @@ module Menu
             menu.item :compute_profiles,  :caption => N_('Compute Profiles')
             menu.item :subnets,           :caption => N_('Subnets')
             menu.item :domains,           :caption => N_('Domains')
+            menu.item :http_proxies,      :caption => N_('HTTP Proxies')
             menu.item :realms,            :caption => N_('Realms')
           end
         end
