@@ -211,6 +211,8 @@ Foreman::Application.routes.draw do
 
       resources :config_reports, :only => [:create]
 
+      resources :http_proxies, :except => [:new, :edit]
+
       resources :subnets, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]

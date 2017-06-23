@@ -152,6 +152,21 @@ Foreman::AccessControl.map do |permission_set|
                                       }
   end
 
+  permission_set.security_block :http_proxies do |map|
+    map.permission :view_http_proxies, {:http_proxies => [:index, :show, :auto_complete_search],
+                                      :"api/v2/http_proxies" => [:index, :show]
+    }
+    map.permission :create_http_proxies, {:http_proxies => [:new, :create, :test_connection],
+                                      :"api/v2/http_proxies" => [:create]
+    }
+    map.permission :edit_http_proxies, {:http_proxies => [:edit, :update, :test_connection],
+                                      :"api/v2/http_proxies" => [:update]
+    }
+    map.permission :destroy_http_proxies, {:http_proxies => [:destroy],
+                                      :"api/v2/http_proxies" => [:destroy]
+    }
+  end
+
   permission_set.security_block :realms do |map|
     map.permission :view_realms, {:realms => [:index, :show, :auto_complete_search],
                                       :"api/v2/realms" => [:index, :show]
