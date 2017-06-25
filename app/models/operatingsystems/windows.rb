@@ -14,7 +14,7 @@ class Windows < Operatingsystem
   end
 
   def bootfile arch, type
-    pxe_prefix(arch) + eval("#{self.family}::PXEFILES[:#{type}]")
+    pxe_prefix(arch) + PXEFILES[type.to_sym]
   end
 
   def boot_files_uri(medium, architecture, host = nil)
