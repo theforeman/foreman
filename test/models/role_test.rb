@@ -45,50 +45,62 @@ class RoleTest < ActiveSupport::TestCase
     end
   end
 
-  it "should not rename locked role" do
-    manager = Role.find_by :name => "Manager"
-    manager.name = "Renamed Manager"
-    refute manager.save
-    assert_equal "This role is locked from being modified by users.", manager.errors.messages[:base].first
-  end
-
-  it "should rename locked role when required" do
-    manager = Role.find_by :name => "Manager"
-    manager.name = "Renamed Manager"
-    manager.modify_locked = true
-    assert manager.save
-  end
-
-  it "should not modify locked role permissions" do
-    viewer = Role.find_by :name => "Viewer"
-    viewer.add_permissions [:create_hosts]
-    refute viewer.valid?
-    assert_equal "is locked for user modifications.", viewer.errors.messages.values.first.first
-  end
-
-  it "should modify locked role permissions when required" do
-    viewer = Role.find_by :name => "Viewer"
-    viewer.modify_locked = true
-    viewer.add_permissions [:create_hosts]
-    assert viewer.valid?
-  end
-
-  it "should modify role using ignore_locking method" do
-    viewer = Role.find_by :name => "Viewer"
-    viewer.ignore_locking do |role|
-      role.name = "Changed Viewer"
-      role.save!
+  context 'locked roles' do
+    it "should not rename locked role" do
+      manager = Role.find_by :name => "Manager"
+      manager.name = "Renamed Manager"
+      refute manager.save
+      assert_equal "This role is locked from being modified by users.", manager.errors.messages[:base].first
     end
-    assert Role.find_by(:name => "Changed Viewer")
-    refute Role.find_by(:name => "Viewer")
-  end
 
-  it "should be givable even when locked" do
-    user = FactoryGirl.create(:user)
-    role = roles(:manager)
-    assert role.locked?
-    user.roles << role
-    assert user.save
+    it "should rename locked role when required" do
+      manager = Role.find_by :name => "Manager"
+      manager.name = "Renamed Manager"
+      manager.modify_locked = true
+      assert manager.save
+    end
+
+    it "should not modify locked role permissions" do
+      viewer = Role.find_by :name => "Viewer"
+      viewer.add_permissions [:create_hosts]
+      refute viewer.valid?
+      assert_equal "is locked for user modifications.", viewer.errors.messages.values.first.first
+    end
+
+    it "should modify locked role permissions when required" do
+      viewer = Role.find_by :name => "Viewer"
+      viewer.modify_locked = true
+      viewer.add_permissions [:create_hosts]
+      assert viewer.valid?
+    end
+
+    it "should modify role using ignore_locking method" do
+      viewer = Role.find_by :name => "Viewer"
+      viewer.ignore_locking do |role|
+        role.name = "Changed Viewer"
+        role.save!
+      end
+      assert Role.find_by(:name => "Changed Viewer")
+      refute Role.find_by(:name => "Viewer")
+    end
+
+    it "should be givable even when locked" do
+      user = FactoryGirl.create(:user)
+      role = roles(:viewer)
+      assert role.locked?
+      user.roles << role
+      assert user.save
+    end
+
+    # Using 'def' to ensure bypass_locking is disabled after the test
+    def test_allow_to_modify_roles_when_bypass_locking
+      assert roles(:manager).locked?
+      Role.ignore_locking do
+        viewer = roles(:viewer)
+        viewer.add_permissions [:create_hosts]
+        assert viewer.valid?
+      end
+    end
   end
 
   describe "Cloning" do

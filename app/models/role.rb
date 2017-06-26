@@ -75,6 +75,34 @@ class Role < ApplicationRecord
   scoped_search :on => :builtin, :complete_value => { :true => true, :false => false }
   scoped_search :on => :description, :complete_value => false
 
+  class << self
+    attr_accessor :modify_locked
+
+    def ignore_locking
+      self.modify_locked = true
+      yield
+    ensure
+      self.modify_locked = false
+    end
+
+    # Find all the roles that can be given to a user
+    def find_all_givable
+      all(:conditions => {:builtin => 0}, :order => 'name')
+    end
+
+    # Return the builtin 'Default role' role. If the role doesn't exist,
+    # it will be created on the fly.
+    def default
+      default_role = find_by_builtin(BUILTIN_DEFAULT_ROLE)
+      if default_role.nil?
+        opts = { :name => 'Default role', :builtin => BUILTIN_DEFAULT_ROLE }
+        default_role = create! opts
+        raise ::Foreman::Exception.new(N_("Unable to create the default role.")) if default_role.new_record?
+      end
+      default_role
+    end
+  end
+
   def permissions=(new_permissions)
     add_permissions(new_permissions.map(&:name).uniq) if new_permissions.present?
   end
@@ -108,23 +136,6 @@ class Role < ApplicationRecord
     else
       allowed_permissions.include? action
     end
-  end
-
-  # Find all the roles that can be given to a user
-  def self.find_all_givable
-    all(:conditions => {:builtin => 0}, :order => 'name')
-  end
-
-  # Return the builtin 'Default role' role. If the role doesn't exist,
-  # it will be created on the fly.
-  def self.default
-    default_role = find_by_builtin(BUILTIN_DEFAULT_ROLE)
-    if default_role.nil?
-      opts = { :name => 'Default role', :builtin => BUILTIN_DEFAULT_ROLE }
-      default_role = create! opts
-      raise ::Foreman::Exception.new(N_("Unable to create the default role.")) if default_role.new_record?
-    end
-    default_role
   end
 
   # options can have following keys
@@ -171,6 +182,7 @@ class Role < ApplicationRecord
   end
 
   def locked?
+    return false if self.modify_locked || self.class.modify_locked
     return false unless respond_to? :origin
     origin.present? && builtin != BUILTIN_DEFAULT_ROLE
   end
