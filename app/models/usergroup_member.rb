@@ -32,12 +32,26 @@ class UsergroupMember < ApplicationRecord
 
   def remove_old_cache_for_old_record
     klass = member_type_changed? ? self.member_type_was.constantize : self.member_type.constantize
-    users = member_id_changed? ? find_all_affected_users_for(klass.find(member_id_was)).flatten : find_all_affected_users
-    roles = usergroup_id_changed? ? find_all_user_roles_for(Usergroup.find(usergroup_id_was)).flatten : find_all_user_roles
+    users = if member_id_changed?
+              find_all_affected_users_for(klass.unscoped.find(member_id_was)).flatten
+            else
+              find_all_affected_users
+            end
+
+    roles = if usergroup_id_changed?
+              find_all_user_roles_for(Usergroup.unscoped.find(usergroup_id_was)).flatten
+            else
+              find_all_user_roles
+            end
 
     drop_role_cache(users, roles)
 
-    groups = usergroup_id_changed? ? find_all_usergroups_for(Usergroup.find(usergroup_id_was)).flatten : find_all_usergroups
+    groups = if usergroup_id_changed?
+               find_all_usergroups_for(Usergroup.unscoped.find(usergroup_id_was)).flatten
+             else
+               find_all_usergroups
+             end
+
     drop_group_cache(users, groups)
   end
 
@@ -64,7 +78,7 @@ class UsergroupMember < ApplicationRecord
   end
 
   def find_all_affected_users
-    find_all_affected_users_for(member).flatten.uniq
+    find_all_affected_users_for(member_type.constantize.unscoped.find(member_id)).flatten.uniq
   end
 
   def find_all_affected_users_for(member)
