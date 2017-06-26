@@ -101,10 +101,13 @@ if (production) {
     new CompressionPlugin()
   );
 } else {
+  config.plugins.push(
+    new webpack.HotModuleReplacementPlugin() // Enable HMR
+  );
   require('dotenv').config();
 
   config.devServer = {
-    host: process.env.BIND || '127.0.0.1',
+    host: process.env.BIND || 'localhost',
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' },
     hot: true
