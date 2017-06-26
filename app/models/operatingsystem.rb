@@ -205,7 +205,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def bootfile(arch, type)
-    pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]")
+    pxe_prefix(arch) + "-" + self.family.constantize::PXEFILES[type.to_sym]
   end
 
   # Does this OS family support a build variant that is constructed from a prebuilt archive
@@ -259,7 +259,7 @@ class Operatingsystem < ApplicationRecord
     raise ::Foreman::Exception.new(N_("%{os} medium was not set for host '%{host}'"), :host => host, :os => self) if medium.nil?
     raise ::Foreman::Exception.new(N_("Invalid medium '%{medium}' for '%{os}'"), :medium => medium, :os => self) unless media.include?(medium)
     raise ::Foreman::Exception.new(N_("Invalid architecture '%{arch}' for '%{os}'"), :arch => architecture, :os => self) unless architectures.include?(architecture)
-    eval("#{self.family}::PXEFILES").values.collect do |img|
+    self.family.constantize::PXEFILES.values.map do |img|
       medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
     end
   end

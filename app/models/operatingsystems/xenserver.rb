@@ -27,13 +27,13 @@ class Xenserver < Operatingsystem
   end
 
   def bootfile(arch, type)
-    pxe_prefix(arch) + "-" + eval("#{self.family}::PXEFILES[:#{type}]").split("/")[-1]
+    pxe_prefix(arch) + "-" + PXEFILES[type.to_sym].split("/")[-1]
   end
 
   def boot_files_uri(medium, architecture, host = nil)
     raise ::Foreman::Exception.new(N_("Invalid medium for %s"), self) unless media.include?(medium)
     raise ::Foreman::Exception.new(N_("Invalid architecture for %s"), self) unless architectures.include?(architecture)
-    eval("#{self.family}::PXEFILES").values.push(MBOOT).collect do |img|
+    PXEFILES.values.push(MBOOT).map do |img|
       medium_vars_to_uri("#{medium.path}/#{img}", architecture.name, self)
     end
   end
