@@ -39,7 +39,7 @@ module FogExtensions
         nic_attrs = nic.compute_attributes
         all_networks = service.raw_networks(datacenter)
         vm_network = all_networks.detect { |network| network._ref == nic_attrs['network'] }
-        vm_network ||= all_networks.detect { |network| network.name == nic_attrs['network'] }
+        vm_network ||= all_networks.detect { |network| [network.name, network.key].include? nic_attrs['network'] }
         unless vm_network
           Rails.logger.info "Could not find Vsphere network for #{nic_attrs.inspect}"
           return
