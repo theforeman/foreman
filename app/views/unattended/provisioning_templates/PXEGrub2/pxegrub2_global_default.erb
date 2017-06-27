@@ -7,6 +7,11 @@ name: PXEGrub2 global default
 default=0
 timeout=20
 
+regexp --set=1:m1 --set=2:m2 --set=3:m3 --set=4:m4 --set=5:m5 --set=6:m6 '^([[:xdigit:]]{1,2})\:([[:xdigit:]]{1,2})\:([[:xdigit:]]{1,2})\:([[:xdigit:]]{1,2})\:([[:xdigit:]]{1,2})\:([[:xdigit:]]{1,2})' "$net_default_mac"
+mac=${m1}-${m2}-${m3}-${m4}-${m5}-${m6}
+configfile=/grub2/grub.cfg-01-$mac
+source "$configfile"
+
 <%= snippet "pxegrub2_chainload" %>
 
 <%= snippet "pxegrub2_discovery" %>
