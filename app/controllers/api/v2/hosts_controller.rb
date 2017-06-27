@@ -27,6 +27,7 @@ module Api
       api :GET, "/locations/:location_id/hosts", N_("List hosts per location")
       api :GET, "/organizations/:organization_id/hosts", N_("List hosts per organization")
       api :GET, "/environments/:environment_id/hosts", N_("List hosts per environment")
+      param :thin, :bool, :desc => N_("Only list ID and name of hosts")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
@@ -36,6 +37,12 @@ module Api
 
       def index
         @hosts = action_scope_for(:index, resource_scope_for_index)
+
+        if params[:thin]
+          @hosts = @hosts.reorder(:name).distinct.pluck(:id, :name)
+          render 'thin'
+          return
+        end
 
         # SQL optimizations queries
         @last_report_ids = Report.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
