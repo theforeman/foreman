@@ -27,10 +27,13 @@
               <%= _("You can add SSH public keys to a user in Foreman.") %><br />
               <%= _("The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman.") %><br />
              </p>
-             <% if authorized_for(hash_for_new_user_ssh_key_path(:user_id => @user)) %>
+             <% if @user.persisted? && authorized_for(hash_for_new_user_ssh_key_path(:user_id => @user)) %>
                <div class="blank-slate-pf-main-action">
                  <%= link_to(_('Create SSH key'), hash_for_new_user_ssh_key_path(:user_id => @user), :class => "btn btn-success btn-lg" ) %>
                </div>
+             <% else %>
+               <%= alert :header => '', :class => 'alert-warning', :close => false,
+                         :text => _("In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too.") %>
              <% end %>
         </td>
       </tr>
