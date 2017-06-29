@@ -46,7 +46,7 @@ class ProvisioningTemplatesList
         { :name => 'Preseed default', :source => 'provision/preseed_default.erb', :template_kind => kinds[:provision] },
         { :name => 'Preseed default finish', :source => 'finish/preseed_default_finish.erb', :template_kind => kinds[:finish] },
         { :name => 'Preseed default PXELinux', :source => 'PXELinux/preseed_default_pxelinux.erb', :template_kind => kinds[:PXELinux] },
-        { :name => 'Preseed default PXEGrub2', :source => 'PXEGrub2/preseed_default_pxegrub2.erb', :template_kind => kinds[:PXELinux] },
+        { :name => 'Preseed default PXEGrub2', :source => 'PXEGrub2/preseed_default_pxegrub2.erb', :template_kind => kinds[:PXEGrub2] },
         { :name => 'Preseed default iPXE', :source => 'iPXE/preseed_default_ipxe.erb', :template_kind => kinds[:iPXE] },
         { :name => 'Preseed default user data', :source => 'user_data/preseed_default_user_data.erb', :template_kind => kinds[:user_data] },
         { :name => 'UserData default', :source => 'user_data/userdata_default.erb', :template_kind => kinds[:user_data] },
