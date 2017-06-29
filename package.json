@@ -43,6 +43,7 @@
     "phantomjs-prebuilt": "^2.1.0"
   },
   "dependencies": {
+    "@storybook/storybook-deployer": "^2.0.0",
     "brace": "^0.10.0",
     "c3": "^0.4.11",
     "datatables.net": "~1.10.12",
@@ -76,7 +77,8 @@
     "test": "node node_modules/.bin/jest",
     "test:watch": "node node_modules/.bin/jest --watchAll",
     "storybook": "start-storybook --dont-track -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "jest": {
     "automock": true,
