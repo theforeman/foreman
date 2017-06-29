@@ -43,7 +43,7 @@
 
     <div class="tab-pane" id="filters">
       <% if @role.new_record? %>
-        <%= alert :header => '', :class => 'alert-warning',
+        <%= alert :header => '', :class => 'alert-warning', :close => false,
                   :text => _("Please save the role first. You can edit it later to add filters") %>
       <% else %>
         <div data-ajax-url="<%= filters_path(:role_id => @role, :paginate => 'client') %> table" data-on-complete="tfm.tools.activateDatatables">
