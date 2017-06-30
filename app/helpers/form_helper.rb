@@ -281,9 +281,9 @@ module FormHelper
 
   def form_for(record_or_name_or_array, *args, &proc)
     if args.last.is_a?(Hash)
-      args.last[:html] = {:class=>"form-horizontal well"}.merge(args.last[:html]||{})
+      args.last[:html] = {:class=>"form-horizontal"}.merge(args.last[:html]||{})
     else
-      args << {:html=>{:class=>"form-horizontal well"}}
+      args << {:html=>{:class=>"form-horizontal"}}
     end
     super record_or_name_or_array, *args, &proc
   end
