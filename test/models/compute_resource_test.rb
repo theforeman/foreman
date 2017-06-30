@@ -369,4 +369,18 @@ class ComputeResourceTest < ActiveSupport::TestCase
       assert_equal true, compute_resource.update_required?(old_attrs, new_attrs)
     end
   end
+
+  test 'capable? returns true if capabilities include the feature' do
+    cr = compute_resources(:mycompute)
+    cr.stubs(:capabilities).returns([:new_volume]) do
+      assert cr.capable?(:new_volume)
+    end
+  end
+
+  test 'capable? returns false if capabilities do not include the feature' do
+    cr = compute_resources(:mycompute)
+    cr.stubs(:capabilities).returns([:new_volume]) do
+      refute cr.capable?(:build)
+    end
+  end
 end

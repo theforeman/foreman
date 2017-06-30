@@ -88,4 +88,20 @@ class LibvirtTest < ActiveSupport::TestCase
       assert_equal 'create_error', err.message
     end
   end
+
+  describe '#new_volume' do
+    let(:cr) { FactoryGirl.build(:libvirt_cr) }
+
+    test 'new_volume_errors reports error for empty storage pool' do
+      cr.stubs(:storage_pools).returns([]) do
+        assert_equal 1, cr.new_volume_errors.size
+      end
+    end
+
+    test 'new_volume returns nil if there is an error' do
+      cr.stubs(:new_volume_errors).returns(['something']) do
+        assert_nil cr.new_volume({})
+      end
+    end
+  end
 end

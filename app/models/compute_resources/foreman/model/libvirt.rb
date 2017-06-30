@@ -29,7 +29,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build, :image]
+      [:build, :image, :new_volume]
     end
 
     def editable_network_interfaces?
@@ -75,7 +75,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def new_nic(attr = { })
+    def new_nic(attr = {})
       client.nics.new attr
     end
 
@@ -84,8 +84,15 @@ module Foreman::Model
       new_nic(attr)
     end
 
-    def new_volume(attr = { })
+    def new_volume(attr = {})
+      return unless new_volume_errors.empty?
       client.volumes.new(attr.merge(:allocation => '0G'))
+    end
+
+    def new_volume_errors
+      errors = []
+      errors.push _('no storage pool available on hypervisor') if storage_pools.empty?
+      errors
     end
 
     def storage_pools
@@ -210,7 +217,7 @@ module Foreman::Model
       super.merge(
         :memory     => 768.megabytes,
         :nics       => [new_nic],
-        :volumes    => [new_volume],
+        :volumes    => [new_volume].compact,
         :display    => { :type     => display_type,
                          :listen   => Setting[:libvirt_default_console_address],
                          :password => random_password,

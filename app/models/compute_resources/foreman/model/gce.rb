@@ -16,7 +16,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:image]
+      [:image, :new_volume]
     end
 
     def project
