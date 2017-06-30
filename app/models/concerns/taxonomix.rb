@@ -219,7 +219,7 @@ module Taxonomix
       tried = self.send(key).to_set
 
       if tried.empty? || !tried.subset?(allowed)
-        errors.add key, _('Invalid %s selection, you must select at least one of yours') % _(assoc)
+        errors.add key, _("Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission.") % { :assoc => _(assoc), :perm => "assign_#{assoc}" }
       end
     end
   end
