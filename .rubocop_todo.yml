@@ -348,11 +348,6 @@ Performance/StartWith:
 Performance/StringReplacement:
   Enabled: false
 
-# Offense count: 8
-# Cop supports --auto-correct.
-Performance/TimesMap:
-  Enabled: false
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Rails/ActiveSupportAliases:

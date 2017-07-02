@@ -41,7 +41,7 @@ FactoryGirl.define do
     end
 
     factory :subnet_ipv4, :class => Subnet::Ipv4 do
-      network { 3.times.map { rand(256) }.join('.') + '.0' }
+      network { Array.new(3) { rand(256) }.join('.') + '.0' }
       mask { '255.255.255.0' }
 
       factory :subnet_ipv4_with_domains, :traits => [:with_domains]
@@ -58,8 +58,8 @@ FactoryGirl.define do
     end
 
     factory :subnet_ipv6, :class => Subnet::Ipv6 do
-      network { 4.times.map { '%x' % rand(16**4) }.join(':') + '::' }
-      mask { 4.times.map { 'ffff' }.join(':') + '::' }
+      network { Array.new(4) { '%x' % rand(16**4) }.join(':') + '::' }
+      mask { Array.new(4, 'ffff').join(':') + '::' }
 
       factory :subnet_ipv6_with_domains, :traits => [:with_domains]
     end
