@@ -337,12 +337,6 @@ Performance/CompareWithBlock:
 Performance/RangeInclude:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect.
-Performance/StartWith:
-  Enabled: false
-
 # Offense count: 8
 # Cop supports --auto-correct.
 Performance/StringReplacement:
