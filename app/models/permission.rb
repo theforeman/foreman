@@ -15,7 +15,7 @@ class Permission < ApplicationRecord
   end
 
   def self.resources_with_translations
-    with_translations.sort { |a, b| a.first <=> b.first }
+    with_translations.sort_by(&:first)
   end
 
   def self.with_translations

@@ -327,11 +327,6 @@ Performance/Caller:
 Performance/Casecmp:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/CompareWithBlock:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Performance/RangeInclude:
