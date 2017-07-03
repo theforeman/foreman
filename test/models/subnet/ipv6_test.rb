@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Subnet::Ipv6Test < ActiveSupport::TestCase
-  should_not allow_value(9.times.map { 'abcd' }.join(':')).for(:mask) # 45 characters
+  should_not allow_value(Array.new(9, 'abcd').join(':')).for(:mask) # 45 characters
   should_not allow_value('2001:db8::1:').for(:network)
   should_not allow_value('2001:db8:abcde::1').for(:network)
   # Test smart proxies from Subnet are inherited

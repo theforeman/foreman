@@ -12,7 +12,7 @@ class ComputeResourceCacheTest < ActiveSupport::TestCase
     test 'it caches data' do
       mock_networks = {'net' => 'work'}
       compute_resource.expects(:networks).once.returns(mock_networks)
-      values = 10.times.map do
+      values = Array.new(10) do
         cache.cache(:networks) do
           networks
         end
@@ -55,7 +55,7 @@ class ComputeResourceCacheTest < ActiveSupport::TestCase
       Rails.cache.expects(:read).never
       Rails.cache.expects(:fetch).never
       compute_resource.expects(:networks).times(10).returns(mock_networks)
-      values = 10.times.map do
+      values = Array.new(10) do
         cache.cache(:networks) do
           networks
         end

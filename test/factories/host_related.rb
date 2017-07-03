@@ -75,7 +75,7 @@ FactoryGirl.define do
     end
 
     trait :with_ipv6 do
-      sequence(:ip6) { |n| 4.times.map { '%x' % rand(16**4) }.join(':') + '::' + n}
+      sequence(:ip6) { |n| Array.new(4) { '%x' % rand(16**4) }.join(':') + '::' + n}
     end
   end
 
