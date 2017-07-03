@@ -95,6 +95,10 @@ class ComputeResource < ApplicationRecord
     []
   end
 
+  def capable?(feature)
+    capabilities.include?(feature)
+  end
+
   # attributes that this provider can provide back to the host object
   def provided_attributes
     {:uuid => :identity}
@@ -277,6 +281,17 @@ class ComputeResource < ApplicationRecord
 
   def available_storage_pods(storage_pod = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  # if this method is overridden in a provider, new_volume_errors should be also overridden
+  # method should return nil in case it can't build new volume because of some misconfiguration or runtime issue
+  def new_volume(attr = {})
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  # returs an array of translated errors that prevents to build a volume on this provider
+  def new_volume_errors
+    []
   end
 
   # this method is overwritten for Libvirt and OVirt
