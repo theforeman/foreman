@@ -18,7 +18,7 @@ module SSO
     end
 
     def http_auth_set?
-      request.authorization.present? && request.authorization =~ /\ABasic/
+      request.authorization.present? && request.authorization.start_with?('Basic')
     end
   end
 end
