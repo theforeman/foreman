@@ -1,3 +1,4 @@
+/* eslint-disable no-var*/
 'use strict';
 
 var path = require('path');
@@ -5,6 +6,7 @@ var webpack = require('webpack');
 var StatsPlugin = require('stats-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
+var execSync = require('child_process').execSync;
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
@@ -14,12 +16,15 @@ var production =
   process.env.RAILS_ENV === 'production' ||
   process.env.NODE_ENV === 'production';
 
-var config = {
-  entry: {
-    // Sources are expected to live in $app_root/webpack
-    bundle: './webpack/assets/javascripts/bundle.js'
-  },
+var plugins = JSON.parse(execSync('./script/plugin_webpack_directories.rb'));
 
+var config = {
+  entry: Object.assign(
+    {
+      bundle: './webpack/assets/javascripts/bundle.js'
+    },
+    plugins.entries
+  ),
   output: {
     // Build assets directly in to public/webpack/, let webpack know
     // that all webpacked assets start with webpack/
@@ -34,31 +39,46 @@ var config = {
   resolve: {
     modules: [
       path.join(__dirname, '..', 'webpack'),
-      path.join(__dirname, '..', 'node_modules')
-    ]
+      path.join(__dirname, '..', 'node_modules'),
+    ],
+    alias: {
+      foremanReact:
+        path.join(__dirname,
+           '../webpack/assets/javascripts/react_app/components')
+    }
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          'presets': [
+            path.join(__dirname, '..', 'node_modules/babel-preset-react'),
+            path.join(__dirname, '..', 'node_modules/babel-preset-es2015')
+          ],
+          'plugins': [
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign')
+          ]
+        }
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
+        use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader'
         })
       },
       {
         test: /(\.png|\.gif)$/,
-        loader: 'url-loader?limit=32767'
+        use: 'url-loader?limit=32767'
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
+        use: ExtractTextPlugin.extract({
           fallback: 'style-loader', // The backup style loader
           use: 'css-loader?sourceMap!sass-loader?sourceMap'
         })
@@ -85,7 +105,11 @@ var config = {
         NODE_ENV: JSON.stringify(production ? 'production' : 'development'),
         NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING
       }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
     })
+
   ]
 };
 
