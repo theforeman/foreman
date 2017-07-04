@@ -1,9 +1,20 @@
 # foreman plugins import this file therefore __FILE__ cannot be used
 FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
 
+require_relative 'config/boot_settings'
+
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.8'
+case SETTINGS[:rails]
+when '4.2'
+  gem 'rails', '4.2.8'
+when '5.0'
+  gem 'rails', '5.0.3'
+  gem 'record_tag_helper', '~> 1.0'
+else
+  raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
+end
+
 gem 'rest-client', '>= 1.8.0', '< 3', :require => 'rest_client'
 gem 'audited', '~> 4.3'
 gem 'will_paginate', '~> 3.0'
@@ -20,7 +31,7 @@ gem 'secure_headers', '~> 3.4'
 gem 'safemode', '~> 1.2', '>= 1.2.4'
 gem 'fast_gettext', '~> 1.4'
 gem 'gettext_i18n_rails', '~> 1.0'
-gem 'rails-i18n', '~> 4.0.0'
+gem 'rails-i18n', (SETTINGS[:rails] == '4.2' ? '~> 4.0.0' : '~> 5.0.0')
 gem 'turbolinks', '~> 2.5'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '1.44.2'
