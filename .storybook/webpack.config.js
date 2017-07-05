@@ -1,15 +1,26 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+let path = require('path');
+
 module.exports = {
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          'presets': [
+            path.join(__dirname, '..', 'node_modules/babel-preset-react'),
+            path.join(__dirname, '..', 'node_modules/babel-preset-es2015')
+          ],
+          'plugins': [
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign')
+          ]
+        }
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loaders: ['style-loader', 'css-loader']
       },
       {
         test: /(\.png|\.gif)$/,
@@ -17,7 +28,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style-loader!css-loader?sourceMap!sass-loader?sourceMap'
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }
