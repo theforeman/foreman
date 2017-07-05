@@ -337,11 +337,6 @@ Performance/RangeInclude:
 Performance/StringReplacement:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Rails/ActiveSupportAliases:
-  Enabled: false
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Rails/ApplicationRecord:
