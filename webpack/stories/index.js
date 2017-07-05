@@ -1,21 +1,17 @@
 import React from 'react';
 
-/* eslint-disable no-unused-vars */
-import { storiesOf, action, linkTo, addDecorator } from '@kadira/storybook';
+import { storiesOf, addDecorator } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
 import ChartBox
   from '../assets/javascripts/react_app/components/statistics/ChartBox';
 import PieChart
   from '../assets/javascripts/react_app/components/common/charts/PieChart';
-import { getLargePieChartConfig } from '../assets/javascripts/services/ChartService';
 import mockData from './data/charts/donutChartMockData';
-import {
-  simpleLoader
-} from '../assets/javascripts/react_app/components/common/Loader';
 import PowerStatusInner
   from '../assets/javascripts/react_app/components/hosts/powerStatus/powerStatusInner';
-import Store from '../assets/javascripts/react_app/redux';
 import Toast
   from '../assets/javascripts/react_app/components/toastNotifications/toastListitem';
 
