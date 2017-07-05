@@ -11,7 +11,7 @@ module EncryptValue
   end
 
   def is_encryptable?(str)
-    if !encryption_key.present? || str.blank? || matches_prefix?(str)
+    if encryption_key.blank? || str.blank? || matches_prefix?(str)
       false
     else
       true
@@ -19,7 +19,7 @@ module EncryptValue
   end
 
   def is_decryptable?(str)
-    if !matches_prefix?(str) || !encryption_key.present?
+    if !matches_prefix?(str) || encryption_key.blank?
       false
     else
       true

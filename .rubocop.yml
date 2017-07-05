@@ -47,3 +47,6 @@ Performance/RedundantMatch:
 
 Performance/RedundantMerge:
   Enabled: true
+
+Rails/Blank:
+  UnlessPresent: false

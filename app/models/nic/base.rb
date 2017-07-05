@@ -25,7 +25,7 @@ module Nic
     validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
 
     validates :identifier, :uniqueness => { :scope => :host_id },
-      :if => ->(nic) { nic.identifier.present? && nic.host && !nic.identifier_was.present? }
+      :if => ->(nic) { nic.identifier.present? && nic.host && nic.identifier_was.blank? }
 
     validate :exclusive_primary_interface
     validate :exclusive_provision_interface
@@ -129,7 +129,7 @@ module Nic
     # if this interface does not have MAC and is attached to other interface,
     # we can fetch mac from this other interface
     def inheriting_mac
-      if self.mac.nil? || self.mac.empty?
+      if self.mac.blank?
         self.host.interfaces.detect { |i| i.identifier == self.attached_to }.try(:mac)
       else
         self.mac
