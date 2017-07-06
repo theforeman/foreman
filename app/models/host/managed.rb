@@ -817,7 +817,7 @@ class Host::Managed < Host::Base
   end
 
   def compute_attributes_empty?
-    compute_attributes.nil? || compute_attributes.empty?
+    compute_attributes.blank?
   end
 
   # validate uniqueness can't prevent saving two interfaces that has same DNS name
@@ -841,7 +841,7 @@ class Host::Managed < Host::Base
   end
 
   def assign_hostgroup_attribute(attr, value, force)
-    self.send("#{attr}=", value) if force || !send(attr).present?
+    self.send("#{attr}=", value) if force || send(attr).blank?
   end
 
   # checks if the host association is a valid association for this host

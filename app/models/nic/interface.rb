@@ -105,7 +105,7 @@ module Nic
       # no hostname was given or a domain was selected, since this is before validation we need to ignore
       # it and let the validations to produce an error
       return if name.empty?
-      if domain.nil? && name.include?('.') && !changed_attributes['domain_id'].present?
+      if domain.nil? && name.include?('.') && changed_attributes['domain_id'].blank?
         # try to assign the domain automatically based on our existing domains from the host FQDN
         self.domain = Domain.find_by(:name => name.partition('.')[2])
       elsif persisted? && changed_attributes['domain_id'].present?

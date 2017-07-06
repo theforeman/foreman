@@ -17,7 +17,7 @@ module SharedSmartProxiesHelper
     blank = options.fetch(:blank, blank_or_inherit_f(f, resource))
 
     proxies = accessible_smart_proxies(f.object, resource, options[:feature])
-    return if !required && !proxies.present?
+    return if !required && proxies.blank?
 
     select_options = {
       :disable_button => can_override ? _(INHERIT_TEXT) : nil,

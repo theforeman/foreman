@@ -347,12 +347,6 @@ Rails/ActiveSupportAliases:
 Rails/ApplicationRecord:
   Enabled: false
 
-# Offense count: 64
-# Cop supports --auto-correct.
-# Configuration parameters: NilOrEmpty, NotPresent, UnlessPresent.
-Rails/Blank:
-  Enabled: false
-
 # Offense count: 5
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: strict, flexible
