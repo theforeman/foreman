@@ -101,6 +101,13 @@
     },
     "globals": {
       "__testing__": true
-    }
+    },
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "webpack"
+    ]
   }
 }
