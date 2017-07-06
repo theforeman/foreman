@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-06-08 14:27+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -5798,6 +5798,9 @@ msgstr "写真属性"
 
 msgid "Physical (Bridge)"
 msgstr "物理 (ブリッジ)"
+
+msgid "Play Ansible roles"
+msgstr ""
 
 msgid "Please Confirm"
 msgstr "確認してください"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-08 13:47+0000\n"
-"PO-Revision-Date: 2017-06-08 13:47+0000\n"
+"POT-Creation-Date: 2017-07-06 19:14+0200\n"
+"PO-Revision-Date: 2017-07-06 19:14+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -3831,16 +3831,16 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:236
+#: ../app/helpers/application_helper.rb:237
 #: ../webpack/assets/javascripts/react_app/components/charts/StatisticsChartsList.js:29
 msgid "Expand the chart"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:348
+#: ../app/helpers/application_helper.rb:349
 msgid "Change your avatar at gravatar.com"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:382
+#: ../app/helpers/application_helper.rb:383
 #: ../app/views/about/index.html.erb:125
 #: ../app/views/bookmarks/welcome.html.erb:10
 #: ../app/views/common/_searchbar.html.erb:19
@@ -3849,7 +3849,7 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:387
+#: ../app/helpers/application_helper.rb:388
 msgid "None found"
 msgstr ""
 
@@ -6314,19 +6314,19 @@ msgstr ""
 msgid "Proxy ID to use within this realm"
 msgstr ""
 
-#: ../app/models/role.rb:121
+#: ../app/models/role.rb:100
 msgid "Unable to create the default role."
 msgstr ""
 
-#: ../app/models/role.rb:133
+#: ../app/models/role.rb:148
 msgid "some permissions were not found"
 msgstr ""
 
-#: ../app/models/role.rb:196
+#: ../app/models/role.rb:212
 msgid "Cannot delete built-in role"
 msgstr ""
 
-#: ../app/models/role.rb:201
+#: ../app/models/role.rb:217
 msgid "This role is locked from being modified by users."
 msgstr ""
 
@@ -7546,19 +7546,23 @@ msgstr ""
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
-#: ../app/services/foreman/plugin/rbac_support.rb:11
+#: ../app/services/foreman/plugin/rbac_support.rb:17
 msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
 
-#: ../app/services/foreman/plugin/rbac_support.rb:44
+#: ../app/services/foreman/plugin/rbac_support.rb:51
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
-#: ../app/services/foreman/plugin/rbac_support.rb:54
+#: ../app/services/foreman/plugin/rbac_support.rb:61
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
-#: ../app/services/foreman/plugin/rbac_support.rb:95
+#: ../app/services/foreman/plugin/rbac_support.rb:71
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
+#: ../app/services/foreman/plugin/rbac_support.rb:112
 msgid "Could not extend role '%{name}': %{message}"
 msgstr ""
 
@@ -10872,12 +10876,12 @@ msgid "Create Location"
 msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:4
-msgid "Remove %s?"
+#: ../app/views/variable_lookup_keys/index.html.erb:6
+msgid "Variable"
 msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:4
-#: ../app/views/variable_lookup_keys/index.html.erb:6
-msgid "Variable"
+msgid "Remove %s?"
 msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:6
@@ -11916,7 +11920,13 @@ msgstr ""
 msgid "Create SSH key"
 msgstr ""
 
-#: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:42
+#: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:36
+msgid ""
+"In order to create the SSH key, the user must be saved first. A 'create_ssh_ke"
+"ys' permission is required too."
+msgstr ""
+
+#: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:45
 #: ../app/views/ssh_keys/new.html.erb:6
 msgid "Create SSH Key"
 msgstr ""
@@ -12845,26 +12855,6 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/notifications/drawer/notificationGroup.js:31
 msgid "New Event"
-msgstr ""
-
-#: action_names.rb:2
-msgid "Action with sub plans"
-msgstr ""
-
-#: action_names.rb:3
-msgid "Import facts"
-msgstr ""
-
-#: action_names.rb:4
-msgid "Import Puppet classes"
-msgstr ""
-
-#: action_names.rb:5
-msgid "Play Ansible roles"
-msgstr ""
-
-#: action_names.rb:6
-msgid "Remote action:"
 msgstr ""
 
 #: apipie.rb:8
