@@ -11,7 +11,7 @@ module Nic
     before_validation :copy_hostname_from_host, :if => Proc.new { |nic| nic.primary? && nic.hostname.blank? }
     before_validation :normalize_name
 
-    validates :name, :allow_nil => true, :allow_blank => true, :format => {:with => Net::Validations::HOST_REGEXP}
+    validates :name, :allow_nil => true, :allow_blank => true, :format => {:with => Net::Validations::HOST_REGEXP, :message => _(Net::Validations::HOST_REGEXP_ERR_MSG)}
 
     validate :name_uniqueness, :if => Proc.new { |i| i.name.present? }
 
