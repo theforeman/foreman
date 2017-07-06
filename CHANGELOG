@@ -1,4 +1,48 @@
+2017-07-06	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+	* Fixes #19266 - fix_db_cache crashes Rails initialization
+	* Fixes #20104 - fix_db_cache needs to run as admin
+	* Refs #20049 - Retry various integration tests
+	* Fixes #20049 - Retry various integration tests before failing
+
+2017-07-06	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #20143 - changed kind for Preseed default PXEGrub2 (#4630)
+
+2017-07-06	orrabin <orabin@redhat.com>
+	* Fixes #20134 - Compute Profile for Ovirt loads template data
+
+2017-07-06	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #18855 - Disable taxonomy validations for roles
+
+2017-07-06	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #20137 - hide ssh keys for new users
+	* Fixes #20034 - add Organization admin role
+
+2017-07-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #20141 - remove close icon from filter warning
+	* Fixes #20017 - mail notifications work for global admins
+
+2017-07-06	amirfefer <amirfefer@gmail.com>
+	* Fixes #16807 - remove premission edit_users for test_mail
+
+2017-07-06	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #20038 - exclude classes from hostgroup free search
+	* Fixes #19491 - properly i18n notification seed
+
+2017-07-06	Eric D Helms <eric.d.helms@gmail.com>
+	* Fixes #19930: Skip adding permissions to default_roles during migrate
+
+2017-07-06	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #19436 - Better controller selection on host dropdown (#4498)
+
+2017-06-20	Marek Hulan <mhulan@redhat.com>
+	* Fixes #19630 - ignore hidden admins
+
+2017-06-09	Dominic Cleal <dominic@cleal.org>
+	* fixes #19524 - pin roadie-rails to 1.1.x on Ruby 2.0-2.1
+
 2017-06-08	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.1
 	* templates - sync from community-templates
 	* i18n - extracting new, pulling from tx
 	* Fixes #19952 - Allow view_audit_logs to work
