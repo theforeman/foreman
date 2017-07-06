@@ -24,7 +24,7 @@ class Host::Managed < Host::Base
     matcher = /(\s*(?:(?:user\.[a-z]+)|owner)\s*[=~])\s*(\S*)\s*\z/
     matches = matcher.match(query)
     output = super(query, opts)
-    if matches.present? && 'current_user'.starts_with?(matches[2])
+    if matches.present? && 'current_user'.start_with?(matches[2])
       current_user_result = query.sub(matcher, '\1 current_user')
       output = [current_user_result] + output
     end
