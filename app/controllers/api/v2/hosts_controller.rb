@@ -114,6 +114,9 @@ module Api
       param_group :host, :as => :create
 
       def create
+        @parameters = true
+        @all_parameters = true
+
         if params[:host][:uuid].present? && params[:host][:compute_resource_id].present?
           @host = import_host
           @host.assign_attributes(host_attributes(host_params))
@@ -135,6 +138,9 @@ module Api
       param_group :host
 
       def update
+        @parameters = true
+        @all_parameters = true
+
         @host.attributes = host_attributes(host_params, @host)
         apply_compute_profile(@host)
 
