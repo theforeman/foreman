@@ -16,8 +16,7 @@ var production =
   process.env.RAILS_ENV === 'production' ||
   process.env.NODE_ENV === 'production';
 
-var plugins = JSON.parse(execSync('./script/plugin_webpack_directories.rb'));
-
+var plugins = JSON.parse(execSync(path.join(__dirname, '../script/plugin_webpack_directories.rb')));
 var config = {
   entry: Object.assign(
     {
@@ -39,7 +38,7 @@ var config = {
   resolve: {
     modules: [
       path.join(__dirname, '..', 'webpack'),
-      path.join(__dirname, '..', 'node_modules'),
+      path.join(__dirname, '..', 'node_modules')
     ],
     alias: {
       foremanReact:
@@ -107,7 +106,7 @@ var config = {
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
+      name: 'vendor'
     })
 
   ]
