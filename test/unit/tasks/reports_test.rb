@@ -28,7 +28,7 @@ class ReportsTest < ActiveSupport::TestCase
     @owner.locations = []
     User.current, saved_user = nil, User.current
     Rake.application.invoke_task 'reports:daily'
-    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Configuration Management Summary/ }
+    mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Puppet Summary/ }
     User.current = saved_user
     assert mail
     assert_match /Summary from/, mail.body.encoded
