@@ -510,6 +510,64 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
+  context "asset precompilation" do
+    teardown do
+      Rails.application.config.assets.precompile.delete_if { |f| f.is_a?(String) && f.start_with?('test_assets_') }
+    end
+
+    def test_assets_from_precompile_assets
+      plugin = Foreman::Plugin.register(:test_assets_from_precompile_assets) do
+        precompile_assets 'test_assets_example.js', 'test_assets_another.css'
+      end
+      assert_equal ['test_assets_example.js', 'test_assets_another.css'], plugin.assets
+      assert_include Rails.application.config.assets.precompile, 'test_assets_example.js'
+    end
+
+    def test_assets_from_settings
+      SETTINGS[:test_assets_from_settings] = { assets: { precompile: [ 'test_assets_example' ] } }
+      Foreman::Deprecation.expects(:deprecation_warning)
+      plugin = Foreman::Plugin.register(:test_assets_from_settings) {}
+      assert_equal ['test_assets_example'], plugin.assets
+      assert_include Rails.application.config.assets.precompile, 'test_assets_example'
+    end
+
+    def test_assets_from_settings_hyphen
+      SETTINGS[:test_assets_from_settings_hyphen] = { assets: { precompile: [ 'test_assets_example' ] } }
+      Foreman::Deprecation.expects(:deprecation_warning)
+      plugin = Foreman::Plugin.register(:'test-assets-from-settings-hyphen') {}
+      assert_equal ['test_assets_example'], plugin.assets
+      assert_include Rails.application.config.assets.precompile, 'test_assets_example'
+    end
+
+    def test_assets_from_root
+      Dir.mktmpdir do |root|
+        FileUtils.mkdir_p File.join(root, 'app', 'assets', 'javascripts', 'test_assets_from_root')
+        FileUtils.touch File.join(root, 'app', 'assets', 'javascripts', 'test_outside.js')
+        FileUtils.touch File.join(root, 'app', 'assets', 'javascripts', 'test_assets_from_root', 'test_assets_example.js')
+
+        Rails.logger.expects(:warn).with(regexp_matches(/test_outside\.js/))
+        plugin = Foreman::Plugin.register(:test_assets_from_root) do
+          path root
+        end
+        assert_equal ['test_assets_from_root/test_assets_example.js'], plugin.assets
+        assert_include Rails.application.config.assets.precompile, 'test_assets_from_root/test_assets_example.js'
+      end
+    end
+
+    def test_assets_without_automatic
+      Dir.mktmpdir do |root|
+        FileUtils.mkdir_p File.join(root, 'app', 'assets', 'javascripts', 'test_assets_without_automatic')
+        FileUtils.touch File.join(root, 'app', 'assets', 'javascripts', 'test_assets_without_automatic', 'test_assets_example.js')
+
+        plugin = Foreman::Plugin.register(:test_assets_without_automatic) do
+          path root
+          automatic_assets false
+        end
+        assert_equal [], plugin.assets
+      end
+    end
+  end
+
   context 'with pagelets' do
     include PageletsIsolation
 

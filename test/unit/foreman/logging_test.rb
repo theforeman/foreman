@@ -28,6 +28,16 @@ class ForemanLoggingTest < ActiveSupport::TestCase
     assert Foreman::Logging.logger('test_logger')
   end
 
+  def test_logger_supports_silence
+    Foreman::Logging.add_logger('test_logger', {:enabled => true, :level => :debug})
+    logger = Foreman::Logging.logger('test_logger')
+    appender = ::Logging::Appenders.string_io('buffer')
+    logger.appenders = [appender]
+    logger.silence { |log| log.warn("Should not be logged") }
+    assert_equal [], appender.readlines
+    assert_equal 0, logger.level
+  end
+
   def test_error_config_missing
     File.expects(:exist?).returns(false)
 
