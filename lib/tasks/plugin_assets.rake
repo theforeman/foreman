@@ -1,5 +1,5 @@
-desc 'Compile engine assets - called via rake plugin:assets:precompile[plugin_name]'
-task 'plugin:assets:precompile', [:engine] do |t, args|
+desc 'Compile plugin assets - called via rake plugin:assets:precompile[plugin_name]'
+task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
   # This task will generate assets for a plugin and namespace them in
   # plugin_name/public/assets/<plugin_name>. The generated manifest.yaml found
   # in the assets directory of the plugin is used to add the asset digest paths
@@ -36,10 +36,10 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
 
   module Foreman
     class PluginAssetsTask < Sprockets::Rails::Task
-      attr_accessor :engine
+      attr_accessor :plugin
 
-      def initialize(engine_name)
-        @engine = "#{engine_name.camelize}::Engine".constantize
+      def initialize(plugin_id)
+        @plugin = Foreman::Plugin.find(plugin_id) or raise("Unable to find registered plugin #{plugin_id}")
 
         env = Rails.application.assets
         app = Rails.application
@@ -47,7 +47,7 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
         config = Rails.application.config
         config.assets.digest = true
 
-        Rails.application.config.assets.precompile = SETTINGS[@engine.engine_name.to_sym][:assets][:precompile]
+        Rails.application.config.assets.precompile = plugin.assets
 
         env.register_engine '.scss', Sass::Rails::ScssTemplate
         env.js_compressor = :uglifier
@@ -90,11 +90,11 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
       end
 
       def output
-        File.join(@engine.root, 'public', 'assets')
+        File.join(plugin.path, 'public', 'assets')
       end
 
       def manifest_path
-        File.join(output, @engine.engine_name, "#{@engine.engine_name}.json")
+        File.join(output, plugin.id.to_s, "#{plugin.id}.json")
       end
 
       def manifest
@@ -103,11 +103,8 @@ task 'plugin:assets:precompile', [:engine] do |t, args|
     end
   end
 
-  if args[:engine]
-    # Partially load the Rails environment to avoid
-    # the need of a database being setup
-    Rails.application.initialize!(:assets)
-    task = Foreman::PluginAssetsTask.new(args[:engine])
+  if args[:plugin]
+    task = Foreman::PluginAssetsTask.new(args[:plugin])
     task.compile
   else
     puts "You must specify the name of the plugin (e.g. rake plugin:assets:precompile['my_plugin'])"

@@ -66,16 +66,20 @@ Foreman::Application.configure do |app|
     if (manifest_file = Dir.glob("#{Rails.root}/public/assets/.sprockets-manifest*.json").first)
       foreman_manifest = JSON.parse(File.read(manifest_file))
 
-      ::Rails::Engine.subclasses.map(&:instance).each do |engine|
-        [engine.root, app.root].each do |root_dir|
-          manifest_path = File.join(root_dir, "public/assets/#{engine.engine_name}/#{engine.engine_name}.json")
+      Foreman::Plugin.all.each do |plugin|
+        # Manifests may be stored under the engine installation or under the Foreman app root, then
+        # either with just the plugin name or with hyphens replaced with underscores.
+        possible_manifests = [plugin.path, app.root].map do |root_dir|
+          [File.join(root_dir, "public/assets/#{plugin.id}/#{plugin.id}.json"),
+           File.join(root_dir, "public/assets/#{plugin.id.to_s.gsub('-', '_')}/#{plugin.id.to_s.gsub('-', '_')}.json")]
+        end.flatten
 
-          if File.file?(manifest_path)
-            assets = JSON.parse(File.read(manifest_path))
+        if (manifest_path = possible_manifests.detect { |path| File.file?(path) })
+          Rails.logger.debug { "Loading #{plugin.id} precompiled asset manifest from #{manifest_path}" }
+          assets = JSON.parse(File.read(manifest_path))
 
-            foreman_manifest['files']  = foreman_manifest['files'].merge(assets['files'])
-            foreman_manifest['assets'] = foreman_manifest['assets'].merge(assets['assets'])
-          end
+          foreman_manifest['files']  = foreman_manifest['files'].merge(assets['files'])
+          foreman_manifest['assets'] = foreman_manifest['assets'].merge(assets['assets'])
         end
       end
 
