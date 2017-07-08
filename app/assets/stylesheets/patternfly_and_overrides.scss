@@ -73,6 +73,9 @@ span.input-group-btn .hidden-xs {display:inline !important;}
 span.btn a {
   text-decoration: none;
   color: #333333;
+  // make sure the link inside span covers the whole area of the button
+  padding: 8px;
+  margin: -8px
 }
 
 a {
