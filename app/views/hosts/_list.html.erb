@@ -33,7 +33,7 @@
         </td>
         <td class="hidden-xs ellipsis"><%= (icon(host.operatingsystem, :size => "16x16") + " #{host.operatingsystem.to_label}").html_safe if host.operatingsystem %></td>
         <td class="hidden-xs ellipsis"><%= host.environment %></td>
-        <td class="hidden-tablet hidden-xs ellipsis"><%= model_name host %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= host.compute_resource_or_model %></td>
         <td class="hidden-tablet hidden-xs"><%= label_with_link host.hostgroup, 23, @hostgroup_authorizer %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= last_report_column(host) %></td>
         <td>

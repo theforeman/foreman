@@ -62,7 +62,7 @@ class HostsController < ApplicationController
         render :index if title && (@title = title)
       end
       format.csv do
-        @hosts = search.includes(included_associations - [:host_statuses, :token, :compute_resource])
+        @hosts = search.preload(included_associations - [:host_statuses, :token])
         csv_response(@hosts)
       end
     end
@@ -941,7 +941,7 @@ class HostsController < ApplicationController
   end
 
   def csv_columns
-    [:name, :operatingsystem, :environment, :model, :hostgroup, :last_report]
+    [:name, :operatingsystem, :environment, :compute_resource_or_model, :hostgroup, :last_report]
   end
 
   def normalize_vm_attributes

@@ -1,12 +1,6 @@
 module HostsAndHostgroupsHelper
   include AncestryHelper
 
-  def model_name(host)
-    name = host.try(:model)
-    name = host.compute_resource.name if host.compute_resource
-    name
-  end
-
   def domain_subnets(type)
     accessible_related_resource(@domain, :subnets, :where => {:type => type})
   end
