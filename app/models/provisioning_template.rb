@@ -111,6 +111,10 @@ class ProvisioningTemplate < Template
     ProvisioningTemplate.unscoped.joins(:template_kind).where(:name => name, "template_kinds.name" => kind).first
   end
 
+  def self.local_boot_name(kind)
+    "#{kind} default local boot"
+  end
+
   def self.global_default_name(kind)
     "#{kind} global default"
   end

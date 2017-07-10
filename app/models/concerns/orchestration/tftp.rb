@@ -211,6 +211,6 @@ module Orchestration::TFTP
 
   def local_boot_template_name(kind)
     key = "local_boot_#{kind}"
-    host.host_params[key] || Setting[key] || "#{kind} default local boot"
+    host.host_params[key] || Setting[key]
   end
 end

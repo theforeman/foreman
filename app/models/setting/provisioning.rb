@@ -67,13 +67,13 @@ class Setting::Provisioning < Setting
 
   def self.default_global_templates
     map_pxe_kind do |pxe_kind, templates|
-      self.set("global_#{pxe_kind}", N_("Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.") % pxe_kind, nil, N_("Global default %s template") % pxe_kind, nil, { :collection =>  templates })
+      self.set("global_#{pxe_kind}", N_("Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.") % pxe_kind, ProvisioningTemplate.global_default_name(pxe_kind), N_("Global default %s template") % pxe_kind, nil, { :collection =>  templates })
     end
   end
 
   def self.default_local_boot_templates
     map_pxe_kind do |pxe_kind, templates|
-      self.set("local_boot_#{pxe_kind}", N_("Template that will be selected as %s default for local boot.") % pxe_kind, nil, N_("Local boot %s template") % pxe_kind, nil, { :collection => templates })
+      self.set("local_boot_#{pxe_kind}", N_("Template that will be selected as %s default for local boot.") % pxe_kind, ProvisioningTemplate.local_boot_name(pxe_kind), N_("Local boot %s template") % pxe_kind, nil, { :collection => templates })
     end
   end
 

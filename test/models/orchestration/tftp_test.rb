@@ -256,7 +256,6 @@ EXPECTED
     assert_equal template.template, result
   end
 
-
   test 'should rebuild tftp IPv4' do
     host = FactoryGirl.create(:host, :with_tftp_orchestration)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').once.returns(true)
