@@ -2,10 +2,12 @@
   .fields {
     border-top: 1px dotted lightgrey;
     padding-top: 10px;
+
     &:nth-child(3) {
       border-top: none;
     }
-    .btn-hide{
+
+    .btn-hide {
       display: none;
     }
   }
@@ -13,18 +15,18 @@
 
 .lookup-keys-container {
   h6 {
-    margin-top: 0px;
+    margin-top: 0;
   }
 
   .help-block {
-    margin: 0px;
+    margin: 0;
   }
 
-  input[type=checkbox]{
+  input[type=checkbox] {
     margin-top: 8px;
   }
 
-  .nav a.btn-success:focus{
+  .nav a.btn-success:focus {
     background-color: #5cb85c;
     border-color: #4cae4c;
   }

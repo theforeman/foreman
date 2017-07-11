@@ -1,6 +1,10 @@
 table.dataTable {
   thead {
-    .sorting:after, .sorting_asc:after, .sorting_desc:after, .sorting_asc_disabled:after, .sorting_desc_disabled:after{
+    .sorting::after,
+    .sorting_asc::after,
+    .sorting_desc::after,
+    .sorting_asc_disabled::after,
+    .sorting_desc_disabled::after {
       bottom: 3px;
     }
   }

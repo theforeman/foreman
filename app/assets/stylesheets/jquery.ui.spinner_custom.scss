@@ -1,10 +1,7 @@
 span.ui-spinner {
   width: 100%;
   border: none;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
+  border-radius: 0;
 }
 
 input.ui-spinner-input {
@@ -15,6 +12,7 @@ input.ui-spinner-input {
   border-radius: 0;
   border: 1px solid #bababa;
   background-color: #eee;
+
   &.ui-spinner-up {
     border-bottom: none;
   }
