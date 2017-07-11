@@ -108,8 +108,12 @@ view_compute_resources_1:
   role_id: 11
 crud_hosts_1:
   role_id: 12
-<% Foreman::Plugin.all.map(&:default_roles).inject({}, :merge).keys.each do |role| %>
+<% Foreman::Plugin.all.map(&:default_roles).inject({}, :merge).each do |role, permissions| %>
 <% role_id = role.tr(' ', '_').scan(/[a-z_]/i).join %>
-<%= role_id %>:
+# This line assumes permissions come in the form of a symbol 'action_resource'
+<% resources = permissions.map { |p| p.to_s.split('_')[1..-1].join('_') } %>
+<% resources.each do |resource| %>
+<%= "#{role_id}_#{resource}" %>:
   role: <%= role_id %>
+<% end %>
 <% end %>
