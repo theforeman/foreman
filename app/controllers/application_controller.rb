@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
 
   force_ssl :if => :require_ssl?
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
+  rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ProxyAPI::ProxyException, :with => :smart_proxy_exception
   rescue_from Foreman::MaintenanceException, :with => :service_unavailable
