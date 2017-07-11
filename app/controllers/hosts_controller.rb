@@ -10,6 +10,7 @@ class HostsController < ApplicationController
   include Foreman::Controller::Parameters::Host
   include Foreman::Controller::Puppet::HostsControllerExtensions
   include Foreman::Controller::CsvResponder
+  include Foreman::Controller::NormalizeScsiAttributes
 
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
@@ -97,6 +98,7 @@ class HostsController < ApplicationController
   end
 
   def create
+    normalize_scsi_attributes(host_params["compute_attributes"]) if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
     @host = Host.new(host_params)
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
     forward_url_options
@@ -114,6 +116,7 @@ class HostsController < ApplicationController
   end
 
   def update
+    normalize_scsi_attributes(host_params["compute_attributes"]) if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
     forward_url_options
     Taxonomy.no_taxonomy_scope do
       attributes = @host.apply_inherited_attributes(host_params)
@@ -936,9 +939,5 @@ class HostsController < ApplicationController
     host_params.select do |k,v|
        host_attributes.include?(k) && !k.end_with?('_ids')
     end.except(:host_parameters_attributes)
-  end
-
-  def csv_columns
-    [:name, :operatingsystem, :environment, :model, :hostgroup, :last_report]
   end
 end
