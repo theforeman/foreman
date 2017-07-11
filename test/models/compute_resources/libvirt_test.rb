@@ -126,4 +126,135 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe '#normalize_vm_attrs' do
+    let(:cr) { FactoryBot.build(:libvirt_cr) }
+
+    describe 'images' do
+      let(:cr) { FactoryBot.create(:gce_cr, :with_images) }
+
+      test 'adds image name' do
+        vm_attrs = {
+          'image_id' => cr.images.last.uuid
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert_equal(cr.images.last.name, normalized['image_name'])
+      end
+
+      test 'leaves image name empty when image_id is nil' do
+        vm_attrs = {
+          'image_id' => nil
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert(normalized.has_key?('image_name'))
+        assert_nil(normalized['image_name'])
+      end
+
+      test "leaves image name empty when image wasn't found" do
+        vm_attrs = {
+          'image_id' => 'unknown'
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert(normalized.has_key?('image_name'))
+        assert_nil(normalized['image_name'])
+      end
+    end
+
+    describe 'volumes_attributes' do
+      test 'adds volumes_attributes when they were missing' do
+        normalized = cr.normalize_vm_attrs({})
+
+        assert_equal({}, normalized['volumes_attributes'])
+      end
+
+      test 'normalizes volumes_attributes' do
+        vm_attrs = {
+          'volumes_attributes' => {
+            '1' => {
+              'capacity' => '1GB',
+              'allocation' => '2GB',
+              'pool_name' => 'pool1',
+              'format_type' => 'qcow',
+              'unknown' => 'value'
+            }
+          }
+        }
+        expected_attrs = {
+          '1' => {
+            'capacity' => 1.gigabyte.to_s,
+            'allocation' => 2.gigabyte.to_s,
+            'pool' => 'pool1',
+            'format_type' => 'qcow'
+          }
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert_equal(expected_attrs, normalized['volumes_attributes'])
+      end
+    end
+
+    describe 'interfaces_attributes' do
+      test 'adds interfaces_attributes when they were missing' do
+        normalized = cr.normalize_vm_attrs({})
+
+        assert_equal({}, normalized['interfaces_attributes'])
+      end
+
+      test 'normalizes interfaces_attributes' do
+        vm_attrs = {
+          'nics_attributes' => {
+            '1' => {
+              'type' => 'network',
+              'network' => 'default',
+              'bridge' => nil,
+              'model' => 'virtio',
+              'unknown' => 'value'
+            },
+            '2' => {
+              'type' => 'bridge',
+              'network' => nil,
+              'bridge' => 'br1',
+              'model' => 'virtio'
+            }
+          }
+        }
+        expected_attrs = {
+          '1' => {
+            'type' => 'network',
+            'network' => 'default',
+            'model' => 'virtio'
+          },
+          '2' => {
+            'type' => 'bridge',
+            'bridge' => 'br1',
+            'model' => 'virtio'
+          }
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert_equal(expected_attrs, normalized['interfaces_attributes'])
+      end
+    end
+
+    test 'correctly fills empty attributes' do
+      normalized = cr.normalize_vm_attrs({})
+      expected_attrs = {
+        "cpus" => nil,
+        "memory" => nil,
+        "volumes_attributes" => {},
+        "image_id" => nil,
+        "image_name" => nil,
+        "interfaces_attributes" => {}
+      }
+
+      assert_equal(expected_attrs, normalized)
+    end
+
+    test 'attribute names' do
+      check_vm_attribute_names(cr)
+    end
+  end
 end

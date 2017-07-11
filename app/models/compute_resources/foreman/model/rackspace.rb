@@ -94,6 +94,14 @@ module Foreman::Model
       true
     end
 
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['flavor_id', 'image_id'])
+
+      normalized['flavor_name'] = self.flavors.detect { |f| f.id == normalized['flavor_id'] }.try(:name)
+      normalized['image_name'] = self.images.find_by(:uuid => normalized['image_id']).try(:name)
+      normalized
+    end
+
     private
 
     def client

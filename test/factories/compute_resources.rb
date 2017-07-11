@@ -54,6 +54,14 @@ FactoryBot.define do
       after(:build) { |cr| cr.stubs(:update_public_key) }
     end
 
+    trait :with_images do
+      after(:create) do |cr, evaluator|
+        cr.stubs(:image_exists?).returns(true)
+        FactoryBot.create(:image, :compute_resource => cr)
+        FactoryBot.create(:image, :compute_resource => cr)
+      end
+    end
+
     factory :ec2_cr, :class => Foreman::Model::EC2, :traits => [:ec2]
     factory :gce_cr, :class => Foreman::Model::GCE, :traits => [:gce]
     factory :libvirt_cr, :class => Foreman::Model::Libvirt, :traits => [:libvirt]

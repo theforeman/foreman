@@ -360,7 +360,7 @@ module Foreman::Model
 
     def guest_types
       types = { }
-      RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values.compact.each do |v|
+      ::RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values.compact.each do |v|
         types[v] = guest_types_descriptions.has_key?(v) ? guest_types_descriptions[v] : v
       end
       types
@@ -598,6 +598,70 @@ module Foreman::Model
         controller.attributes
       end
       vm_attrs
+    end
+
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['cpus', 'firmware', 'guest_id', 'annotation', 'resource_pool_id', 'image_id'])
+
+      normalized['cores_per_socket'] = vm_attrs['corespersocket']
+      normalized['memory'] = vm_attrs['memory_mb'].nil? ? nil : (vm_attrs['memory_mb'].to_i * 1024)
+
+      normalized['folder_path'] = vm_attrs['path']
+      normalized['folder_name'] = self.folders.detect { |f| f.path == normalized['folder_path'] }.try(:name)
+
+      normalized['cluster_id'] = self.available_clusters.detect { |c| c.name == vm_attrs['cluster'] }.try(:id)
+      normalized['cluster_name'] = vm_attrs['cluster']
+      normalized['cluster_name'] = nil if normalized['cluster_name'].empty?
+
+      if normalized['cluster_name']
+        normalized['resource_pool_id'] = self.resource_pools(:cluster_id => normalized['cluster_name']).detect { |p| p.name == vm_attrs['resource_pool'] }.try(:id)
+      end
+      normalized['resource_pool_name'] = vm_attrs['resource_pool']
+      normalized['resource_pool_name'] = nil if normalized['resource_pool_name'].empty?
+
+      normalized['guest_name'] = self.guest_types[vm_attrs['guest_id']]
+
+      normalized['hardware_version_id'] = vm_attrs['hardware_version']
+      normalized['hardware_version_name'] = vm_hw_versions[vm_attrs['hardware_version']]
+
+      normalized['memory_hot_add_enabled'] = to_bool(vm_attrs['memoryHotAddEnabled'])
+      normalized['cpu_hot_add_enabled'] = to_bool(vm_attrs['cpuHotAddEnabled'])
+      normalized['add_cdrom'] = to_bool(vm_attrs['add_cdrom'])
+
+      normalized['image_name'] = self.images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+
+      scsi_controllers = vm_attrs['scsi_controllers'] || {}
+      normalized['scsi_controllers'] = scsi_controllers.map.with_index do |ctrl, idx|
+        ctrl['eager_zero'] = ctrl.delete('eagerzero')
+        [idx.to_s, ctrl]
+      end.to_h
+
+      stores = self.datastores
+      volumes_attributes = vm_attrs['volumes_attributes'] || {}
+      normalized['volumes_attributes'] = volumes_attributes.each_with_object({}) do |(key, vol), volumes|
+        volumes[key] = slice_vm_attributes(vol, ['name', 'mode'])
+
+        volumes[key]['controller_key'] = vol['controller_key']
+        volumes[key]['thin'] = to_bool(vol['thin'])
+        volumes[key]['size'] = memory_gb_to_bytes(vol['size_gb']).to_s
+        if vol['datastore'].empty?
+          volumes[key]['datastore_id'] = volumes[key]['datastore_name'] = nil
+        else
+          volumes[key]['datastore_name'] = vol['datastore']
+          volumes[key]['datastore_id'] = stores.detect { |s| s.name == vol['datastore'] }.try(:id)
+        end
+      end
+
+      interfaces_attributes = vm_attrs['interfaces_attributes'] || {}
+      normalized['interfaces_attributes'] = interfaces_attributes.inject({}) do |interfaces, (key, nic)|
+        interfaces.update(key => { 'type_id' => nic['type'],
+                                   'type_name' => nictypes[nic['type']],
+                                   'network_id' => nic['network'],
+                                   'network_name' => networks.detect { |n| n.id == nic['network'] }.try(:name)
+                                 })
+      end
+
+      normalized
     end
 
     private

@@ -151,6 +151,22 @@ module Foreman::Model
       client.disks.new(args)
     end
 
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['image_id', 'machine_type', 'network'])
+
+      normalized['external_ip'] = to_bool(vm_attrs['external_ip'])
+      normalized['image_name'] = self.images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+
+      volume_attrs = vm_attrs['volumes_attributes'] || {}
+      normalized['volumes_attributes'] = volume_attrs.each_with_object({}) do |(key, vol), volumes|
+        volumes[key] = {
+          'size' => memory_gb_to_bytes(vol['size_gb']).to_s
+        }
+      end
+
+      normalized
+    end
+
     private
 
     def client

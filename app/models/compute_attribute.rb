@@ -28,12 +28,16 @@ class ComputeAttribute < ApplicationRecord
     vm_attrs.has_key?(method.to_s) || super
   end
 
+  def normalized_vm_attrs
+    compute_resource.normalize_vm_attrs(vm_attrs)
+  end
+
   def vm_interfaces
     attribute_values(compute_resource.interfaces_attrs_name)
   end
 
   def new_vm
-    compute_resource.new_vm(vm_attrs) if vm_attrs
+    compute_resource.new_vm(vm_attrs.dup) if vm_attrs
   end
 
   def pretty_vm_attrs

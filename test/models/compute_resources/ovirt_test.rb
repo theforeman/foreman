@@ -115,4 +115,144 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       @compute_resource.use_v4?.must_equal false
     end
   end
+
+  describe '#normalize_vm_attrs' do
+    let(:cr) do
+      mock_cr(FactoryBot.build(:ovirt_cr),
+        :clusters => [
+          stub(:id => 'c1', :name => 'cluster 1'),
+          stub(:id => 'c2', :name => 'cluster 2')
+        ],
+        :templates => [
+          stub(:id => 'tpl1', :name => 'template 1'),
+          stub(:id => 'tpl2', :name => 'template 2')
+        ],
+        :networks => [
+          stub(:id => 'net1', :name => 'network 1'),
+          stub(:id => 'net2', :name => 'network 2')
+        ],
+        :storage_domains => [
+          stub(:id => '312f6', :name => 'domain 1'),
+          stub(:id => '382ec', :name => 'domain 2'),
+          stub(:id => '3ea4f', :name => 'domain 3')
+        ]
+      )
+    end
+
+    test 'maps cluster to cluster_id' do
+      assert_attrs_mapped(cr, 'cluster', 'cluster_id')
+    end
+
+    test 'finds cluster_name' do
+      vm_attrs = {
+        'cluster' => 'c2'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal('cluster 2', normalized['cluster_name'])
+    end
+
+    test 'maps template to template_id' do
+      assert_attrs_mapped(cr, 'template', 'template_id')
+    end
+
+    test 'finds template_name' do
+      vm_attrs = {
+        'template' => 'tpl2'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal('template 2', normalized['template_name'])
+    end
+
+    test 'normalizes interfaces_attributes' do
+      vm_attrs = {
+        'interfaces_attributes' => {
+          '0' => {
+            'name' => 'eth0',
+            'network' => 'net1'
+          },
+          '1' => {
+            'name' => 'eth1',
+            'network' => 'net2'
+          }
+        }
+      }
+      expected_attrs = {
+        '0' => {
+          'network_id' => 'net1',
+          'network_name' => 'network 1',
+          'name' => 'eth0'
+        },
+        '1' => {
+          'network_id' => 'net2',
+          'network_name' => 'network 2',
+          'name' => 'eth1'
+        }
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(expected_attrs, normalized['interfaces_attributes'])
+    end
+
+    test 'normalizes volumes_attributes' do
+      vm_attrs = {
+        'volumes_attributes' => {
+          '0' => {
+            'size_gb' => '15',
+            'storage_domain' => '312f6',
+            'id' => '',
+            'preallocate' => '0'
+          },
+          '1' => {
+            'size_gb' => '5',
+            'storage_domain' => '382ec',
+            'id' => '',
+            'preallocate' => '1',
+            'bootable' => 'true'
+          }
+        }
+      }
+      expected_attrs = {
+        '0' => {
+          'size' => 15.gigabyte.to_s,
+          'storage_domain_id' => '312f6',
+          'storage_domain_name' => 'domain 1',
+          'preallocate' => false,
+          'bootable' => nil
+        },
+        '1' => {
+          'size' => 5.gigabyte.to_s,
+          'storage_domain_id' => '382ec',
+          'storage_domain_name' => 'domain 2',
+          'preallocate' => true,
+          'bootable' => true
+        }
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(expected_attrs, normalized['volumes_attributes'])
+    end
+
+    test 'correctly fills empty attributes' do
+      normalized = cr.normalize_vm_attrs({})
+      expected_attrs = {
+        'cores' => nil,
+        'memory' => nil,
+        'cluster_id' => nil,
+        'cluster_name' => nil,
+        'template_id' => nil,
+        'template_name' => nil,
+        'interfaces_attributes' => {},
+        'volumes_attributes' => {}
+      }
+
+      assert_equal(expected_attrs.keys.sort, normalized.keys.sort)
+      assert_equal(expected_attrs, normalized)
+    end
+
+    test 'attribute names' do
+      check_vm_attribute_names(cr)
+    end
+  end
 end

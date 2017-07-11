@@ -10,6 +10,7 @@ class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
   end
 
   test "should show individual record" do
+    Foreman::Model::EC2.any_instance.expects(:normalize_vm_attrs).returns({})
     get :show, params: { :id => compute_profiles(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
@@ -26,6 +27,7 @@ class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
   end
 
   test "should update compute_profile" do
+    Foreman::Model::EC2.any_instance.expects(:normalize_vm_attrs).returns({})
     name = 'new name'
     put :update, params: { :id => compute_profiles(:one).to_param, :compute_profile => {:name => name } }
     assert_response :success
