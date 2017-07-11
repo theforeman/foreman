@@ -200,7 +200,15 @@ class Filter < ActiveRecord::Base
 
   # if we have 0 types, empty validation will set error, we can't have more than one type
   def same_resource_type_permissions
-    errors.add(:permissions, _('Permissions must be of same resource type')) if self.permissions.map(&:resource_type).uniq.size > 1
+    types = self.permissions.map(&:resource_type).uniq
+    errors.add(
+      :permissions,
+      _('must be of same resource type (%s) - Role (%s)') %
+      [
+        types.join(','),
+        self.role.name
+      ]
+    ) if types.size > 1
   end
 
   def not_empty_permissions

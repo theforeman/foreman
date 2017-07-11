@@ -376,8 +376,9 @@ crud_hosts_1_3:
 <% Foreman::Plugin.all.map(&:default_roles).inject({}, :merge).each do |role,permissions| %>
 <% role_id = role.tr(' ', '_').scan(/[a-z_]/i).join %>
 <% permissions.each do |permission| %>
+<% resource = permission.to_s.split('_')[1..-1].join('_') %>
 <%= role_id %>_<%= permission %>:
-  filter: <%= role_id %>
+  filter: <%= "#{role_id}_#{resource}" %>
   permission: <%= permission %>
 <% end %>
 <% end %>
