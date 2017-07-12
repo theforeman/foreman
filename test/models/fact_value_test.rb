@@ -67,6 +67,19 @@ class FactValueTest < ActiveSupport::TestCase
     refute_empty results
   end
 
+  test 'should return empty search results for ILIKE operator on host' do
+    results = FactValue.search_for("host ~ abc")
+    assert_empty results
+  end
+
+  test 'should return search results for ILIKE operator on hostgroup' do
+    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup, :name => 'samplehgp'))
+    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
+                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    results = FactValue.search_for("host.hostgroup ~ ampl")
+    assert_equal 1, results.count
+  end
+
   test 'should return search results for host.hostgroup = name' do
     host = FactoryGirl.create(:host, :with_hostgroup)
     hostgroup = host.hostgroup.to_label
