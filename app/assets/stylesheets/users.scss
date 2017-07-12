@@ -4,7 +4,7 @@
   left: 20%;
 }
 
-#audit_summary_query_builder:before {
+#audit_summary_query_builder::before {
   content: "";
   padding: 15px;
   border: 1px solid #ccc;
@@ -17,13 +17,14 @@
 
 .mail_notification_query {
   margin: 8px;
+
   .audit_summary_query_setting {
     cursor: pointer;
     font-size: 10px;
   }
 }
 
-.list-group{
+.list-group {
   max-height: 200px;
-  overflow-y:scroll;
+  overflow-y: scroll;
 }

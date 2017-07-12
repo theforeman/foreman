@@ -1,7 +1,7 @@
 $row-height: 340px;
 $row-margin: 10px;
 
-.gridster ul{
+.gridster ul {
   padding-left: 0;
   list-style: none;
   max-width: 100%;
@@ -17,22 +17,22 @@ $row-margin: 10px;
       }
 
       [data-sizey="#{$i}"] {
-        height: $row-height * $i + $row-margin * ($i - 1)
+        height: $row-height * $i + $row-margin * ($i - 1);
       }
     }
 
     @for $i from 1 through 30 {
-      [data-row="#{$i}"]{
+      [data-row="#{$i}"] {
         top: $row-height * ($i - 1) + ($i * 2 - 1) * $row-margin;
       }
     }
 
-    [data-col="1"]{
+    [data-col="1"] {
       left: 0;
     }
   }
 
-  @media(max-width: 992px) {
+  @media (max-width: 992px) {
     .gs-w:not(.preview-holder) {
       position: relative !important;
       margin: $row-margin 0;
@@ -46,9 +46,9 @@ $row-margin: 10px;
   .gs-w {
     padding: 19px;
     border: 1px solid #e3e3e3;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
 
-    &:hover{
+    &:hover {
       border: 1px solid #00618a;
     }
   }

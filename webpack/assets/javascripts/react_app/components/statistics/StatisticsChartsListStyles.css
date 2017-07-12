@@ -1,32 +1,32 @@
 .statistics-charts-list-root {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .statistics-charts-list-panel {
-    height: 312px;
-    width: 280px;
-    margin-left: 20px;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-height: 312px;
+  height: 312px;
+  width: 280px;
+  margin-left: 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 312px;
 }
 
 .statistics-charts-list-heading {
-    -ms-flex: 0 0 30px;
-    flex: 0 0 30px;
+  -ms-flex: 0 0 30px;
+  flex: 0 0 30px;
 }
 
 .statistics-charts-list-body {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex: 1;
-    flex: 1;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1;
+  flex: 1;
 }
 
 .statistics-charts-list-fullWidth {
-    -ms-flex: 1 1;
-    flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
 }

@@ -1,41 +1,48 @@
 @import "jquery.gridster";
 @import "gridster.scss";
 
-.dashboard{
-  .host-configuration-status{
-    li{
+.dashboard {
+  .host-configuration-status {
+    li {
       margin: 10px 0;
       list-style: none;
       clear: both;
-      h4{
-          float:right;
-          line-height: 10px;
+
+      h4 {
+        float: right;
+        line-height: 10px;
       }
     }
-    .total{
+
+    .total {
       border-top: 1px solid #ddd;
       text-align: right;
       padding-top: 10px;
     }
   }
-  .header{
+
+  .header {
     border-bottom: 1px solid #ddd;
-    padding: 0px 10px 10px;
+    padding: 0 10px 10px;
     margin-top: 0;
   }
+
   .stats-well {
     min-height: 360px;
   }
-  .statistics-bar{
+
+  .statistics-bar {
     height: 270px;
     width: 95%;
     margin-left: -10px;
   }
-  .statistics-chart{
+
+  .statistics-chart {
     height: 240px;
     width: 95%;
   }
-  .widget_control a{
+
+  .widget_control a {
     float: right;
     font-size: 21px;
     font-weight: bold;
@@ -45,38 +52,41 @@
     opacity: 0.2;
     cursor: pointer;
     margin: 0 3px;
-    &:hover{
+
+    &:hover {
       text-decoration: none;
     }
   }
 
   .reports-table {
-    th:not(:first-child){
+    th:not(:first-child) {
       width: 50px;
     }
   }
 }
 
-.dashboard-links{
-  color: #333333;
+.dashboard-links {
+  color: #333;
 }
 
-.dashboard-pie{
- height: 180px;
- width: 180px;
+.dashboard-pie {
+  height: 180px;
+  width: 180px;
 }
 
 .dashboard-right {
- margin-right: 10px;
- margin-top: 80px;
- float: right;
+  margin-right: 10px;
+  margin-top: 80px;
+  float: right;
 }
 
 .auto-refresh {
   background: none;
+
   &.on {
-    color: #005C7E;
+    color: #005c7e;
   }
+
   &.off {
     color: #ccc;
   }
