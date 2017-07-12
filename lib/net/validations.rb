@@ -9,7 +9,7 @@ module Net
     HOST_REGEXP ||= /\A(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\z/
     MASK_REGEXP ||= /\A((255.){3}(0|128|192|224|240|248|252|254))|((255.){2}(0|128|192|224|240|248|252|254).0)|(255.(0|128|192|224|240|248|252|254)(.0){2})|((128|192|224|240|248|252|254)(.0){3})\z/
 
-    HOST_REGEXP_ERR_MSG = N_("hostname can contain only lowercase letters, numbers, dashes and dots")
+    HOST_REGEXP_ERR_MSG = N_("hostname can contain only lowercase letters, numbers, dashes and dots according to RFC921, RFC952 and RFC1123")
 
     class Error < RuntimeError
     end
