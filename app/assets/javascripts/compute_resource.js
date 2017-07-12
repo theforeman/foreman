@@ -66,7 +66,7 @@ function testConnection(item) {
 
 function ovirt_templateSelected(item){
   var template = $(item).val();
-  if (template && !item.disabled) {
+  if (!item.disabled) {
     var url = $(item).attr('data-url');
     tfm.tools.showSpinner();
     $.ajax({
@@ -78,7 +78,7 @@ function ovirt_templateSelected(item){
         $('[id$=_cores]').val(result.cores);
         $('#network_interfaces').children('.fields').remove();
         $.each(result.interfaces, function() {add_network_interface(this);});
-        $('#storage_volumes').children('.fields').remove();
+        $('#storage_volumes .children_fields >.fields').remove();
         $.each(result.volumes, function() {add_volume(this);});
         templateSelector = $("#host_compute_attributes_template");
         if (templateSelector.is(':disabled')) {
@@ -109,7 +109,9 @@ function add_volume(item){
   disable_element($('[id$='+new_id+'_size_gb]').val(item.size_gb));
   disable_element($('[id$='+new_id+'_storage_domain]').val(item.storage_domain));
   disable_element( $('[id$='+new_id+'_bootable_true]').attr('checked', item.bootable));
-  $('[id$='+new_id+'_id]').val(7);
+  if (item.id) {
+    $('[id$=' + new_id + '_id]').val(item.id);
+  }
   $('[id$='+new_id+'_storage_domain]').next().hide();
 }
 
