@@ -264,7 +264,7 @@ attributes55:
 attributes56:
   name: email_reply_address
   category: Setting::Email
-  default: "Foreman-noreply@#{SETTINGS[:domain]}"
+  default: "foreman-noreply@#{SETTINGS[:domain]}"
   description: 'Email reply address for emails that Foreman is sending'
 attributes57:
   name: clean_up_failed_deployment

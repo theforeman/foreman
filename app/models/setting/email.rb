@@ -4,8 +4,8 @@ class Setting::Email < Setting
   NON_EMAIL_YAML_SETTINGS = %w(send_welcome_email email_reply_address email_subject_prefix)
 
   def self.default_settings
-    domain = Facter.value(:domain) || SETTINGS[:domain]
-    email_reply_address = "Foreman-noreply@#{domain}"
+    domain = SETTINGS[:domain]
+    email_reply_address = "foreman-noreply@#{domain}"
 
     [
       self.set('email_reply_address', N_("Email reply address for emails that Foreman is sending"), email_reply_address, N_('Email reply address')),

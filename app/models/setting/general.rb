@@ -2,7 +2,7 @@ require 'facter'
 class Setting::General < Setting
   def self.default_settings
     protocol = SETTINGS[:require_ssl] ? 'https' : 'http'
-    domain = Facter.value(:domain) || SETTINGS[:domain]
+    domain = SETTINGS[:domain]
     administrator = "root@#{domain}"
     foreman_url = "#{protocol}://#{Facter.value(:fqdn) || SETTINGS[:fqdn]}"
 
