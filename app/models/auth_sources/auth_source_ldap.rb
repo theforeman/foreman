@@ -76,8 +76,8 @@ class AuthSourceLdap < AuthSource
     logger.debug "Retrieved LDAP Attributes for #{login}: #{attrs}"
 
     attrs
-  rescue Net::LDAP::LdapError => error
-    raise "LdapError: %s" % error
+  rescue Net::LDAP::Error, Net::LDAP::LdapError => error
+    raise ::Foreman::LdapException.new(error, N_("Error while connecting to '%{name}' LDAP server at '%{url}' during authentication" % {:url => self.host, :name => self.name}))
   end
 
   def auth_method_name
@@ -217,7 +217,7 @@ class AuthSourceLdap < AuthSource
 
   def validate_ldap_filter
     Net::LDAP::Filter.construct(ldap_filter)
-  rescue Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError => e
+  rescue Net::LDAP::Error, Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError => e
     message = _("invalid LDAP filter syntax")
     Foreman::Logging.exception(message, e)
     errors.add(:ldap_filter, message)
