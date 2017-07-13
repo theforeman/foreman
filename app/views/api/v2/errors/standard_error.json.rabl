@@ -1,5 +1,3 @@
-exception = locals[:exception]
-
-object exception => :error
-
-attributes :message
+node :message do
+  locals[:exception].message
+end
