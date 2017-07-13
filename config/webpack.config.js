@@ -16,7 +16,19 @@ var production =
   process.env.RAILS_ENV === 'production' ||
   process.env.NODE_ENV === 'production';
 
-var plugins = JSON.parse(execSync(path.join(__dirname, '../script/plugin_webpack_directories.rb')));
+// If we get multiple lines, then the plugin_webpack_directories.rb script
+// has on the stdout more that just the JSON we want, so we use newline to split and check.
+var sanitizeWebpackDirs = function (pluginDirs) {
+  var splitDirs = pluginDirs.toString().split("\n").reverse();
+
+  return splitDirs.length > 2 ? splitDirs[1] : pluginDirs;
+};
+
+var webpackDirs = execSync(path.join(__dirname, '../script/plugin_webpack_directories.rb'), {
+  stdio: ['pipe', 'pipe', 'ignore']
+});
+var plugins = JSON.parse(sanitizeWebpackDirs(webpackDirs));
+
 var config = {
   entry: Object.assign(
     {
