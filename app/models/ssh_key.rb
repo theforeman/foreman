@@ -27,7 +27,7 @@ class SshKey < ApplicationRecord
     :format => { :without => /\n|\r/, :message => N_('should be a single line') }
 
   validates :fingerprint,
-    :uniqueness => true,
+    :uniqueness => { :scope => :user_id },
     :presence => { :message => N_('could not be generated') }
 
   validates :length,
