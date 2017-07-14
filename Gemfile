@@ -41,7 +41,7 @@ gem 'net-ldap', '>= 0.8.0'
 gem 'net-ping', :require => false
 gem 'activerecord-session_store', '>= 0.1.1', '< 2'
 gem 'sprockets', '~> 3'
-gem 'sprockets-rails', '>= 2.3.3', '< 4'
+gem 'sprockets-rails', '~> 3.0'
 gem 'responders', '~> 2.0'
 gem 'roadie-rails', '>= 1.1', (RUBY_VERSION < '2.2' ? '< 1.2' : '< 2')
 gem 'x-editable-rails', '~> 1.5.5'
