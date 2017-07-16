@@ -3580,14 +3580,14 @@ class HostTest < ActiveSupport::TestCase
   describe 'HostParams module' do
     test 'shows global params' do
       host = FactoryGirl.build(:host)
-      parameter = FactoryGirl.create(:common_parameter, :name => 'test_param1', :value => 'test_value1')
+      FactoryGirl.create(:common_parameter, :name => 'test_param1', :value => 'test_value1')
 
       assert_equal 'test_value1', host.host_params['test_param1']
     end
 
     test 'renders global params if template specified' do
       host = FactoryGirl.build(:host)
-      parameter = FactoryGirl.create(:common_parameter, :name => 'test_param1', :value => '<%= "test_value1-#{@host.name}" %>')
+      FactoryGirl.create(:common_parameter, :name => 'test_param1', :value => '<%= "test_value1-#{@host.name}" %>')
 
       assert_equal "test_value1-#{host.name}", host.host_params['test_param1']
     end

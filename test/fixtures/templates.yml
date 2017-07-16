@@ -86,6 +86,22 @@ pxegrub:
    locked: false
    type: ProvisioningTemplate
 
+pxegrub_default:
+   name: PXEGrub global default
+   template: "FOO"
+   template_kind: pxegrub
+   operatingsystems: centos5_3, redhat
+   locked: false
+   type: ProvisioningTemplate
+
+pxegrub2_default:
+   name: PXEGrub2 global default
+   template: "FOO"
+   template_kind: pxegrub2
+   operatingsystems: centos5_3, redhat
+   locked: false
+   type: ProvisioningTemplate
+
 locked:
   name: Locked Template
   template: provision script

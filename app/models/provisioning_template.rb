@@ -128,13 +128,13 @@ class ProvisioningTemplate < Template
   end
 
   def self.build_pxe_default(renderer)
-    return [422, _("No TFTP proxies defined, can't continue")] if (proxies = SmartProxy.with_features("TFTP")).empty?
+    return [:unprocessable_entity, _("No TFTP proxies defined, can't continue")] if (proxies = SmartProxy.with_features("TFTP")).empty?
     error_msgs = []
     used_templates = []
     TemplateKind::PXE.each do |kind|
       global_template_name = global_template_name_for(kind, renderer)
       if (default_template = find_global_default_template global_template_name, kind).nil?
-        error_msg = _("Could not find a Configuration Template with the name \"%s\", please create one.") % global_template_name
+        error_msgs << _("Could not find a Configuration Template with the name \"%s\", please create one.") % global_template_name
       else
         begin
           @profiles = pxe_default_combos
@@ -144,7 +144,7 @@ class ProvisioningTemplate < Template
           Foreman::Logging.exception("Cannot render '#{global_template_name}'", exception)
           error_msgs << "#{exception.message} (#{kind})"
         end
-        return [422, error_msg] unless error_msg.empty?
+        return [:unprocessable_entity, error_msgs.join(', ')] unless error_msgs.empty?
         proxies.each do |proxy|
           begin
             tftp = ProxyAPI::TFTP.new(:url => proxy.url)
@@ -160,9 +160,9 @@ class ProvisioningTemplate < Template
     end
 
     if error_msgs.empty?
-      [200, _("PXE files for templates %s have been deployed to all Smart Proxies") % used_templates.to_sentence]
+      [:ok, _("PXE files for templates %s have been deployed to all Smart Proxies") % used_templates.to_sentence]
     else
-      [500, _("There was an error creating the PXE file: %s") % error_msgs.join(", ")]
+      [:internal_server_error, _("There was an error creating the PXE file: %s") % error_msgs.join(", ")]
     end
   end
 
