@@ -15,7 +15,7 @@ class PowerStatus extends React.Component {
   }
 
   render() {
-    return (<PowerStatusInner { ...this.props.power } />);
+    return <PowerStatusInner {...this.props.power} />;
   }
 }
 

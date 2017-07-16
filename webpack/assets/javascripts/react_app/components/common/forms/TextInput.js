@@ -1,19 +1,9 @@
 import React from 'react';
 import CommonForm from './CommonForm';
-const TextInput = ({
-  label,
-  className = '',
-  value,
-  onChange
-}) => {
+const TextInput = ({ label, className = '', value, onChange }) => {
   return (
-    <CommonForm label={label}
-    className={`common-textInput ${className}`}>
-      <input
-        type="text"
-        className="form-control"
-        value={value}
-        onChange={onChange}/>
+    <CommonForm label={label} className={`common-textInput ${className}`}>
+      <input type="text" className="form-control" value={value} onChange={onChange} />
     </CommonForm>
   );
 };

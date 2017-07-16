@@ -268,6 +268,10 @@ class VmwareTest < ActiveSupport::TestCase
       ]
       @vm.stubs(:volumes).returns(@volumes)
 
+      scsi_controller1 = mock('scsi_controller1')
+      scsi_controller1.stubs(:attributes).returns({:type=>"VirtualLsiLogicController", :shared_bus=>"noSharing", :unit_number=>7, :key=>1000})
+      @vm.stubs(:scsi_controllers).returns([scsi_controller1])
+
       @networks = [
         OpenStruct.new(:id => 'dvportgroup-123456', :name => 'Testnetwork')
       ]
@@ -281,7 +285,15 @@ class VmwareTest < ActiveSupport::TestCase
           "0" => { :vol => 1, :size_gb => 4 },
           "1" => { :vol => 2, :size_gb => 4 }
         },
-        :interfaces_attributes => {}
+        :interfaces_attributes => {},
+        :scsi_controllers => [
+          {
+            :type => "VirtualLsiLogicController",
+            :shared_bus => "noSharing",
+            :unit_number => 7,
+            :key => 1000
+          }
+        ]
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -309,7 +321,15 @@ class VmwareTest < ActiveSupport::TestCase
           "0" => { :vol => 1, :size_gb => 4 },
           "1" => { :vol => 2, :size_gb => 4 }
         },
-        :interfaces_attributes => {"0"=>{:compute_attributes=>{:network=>"Testnetwork", :type=>"VirtualVmxnet3"}, :mac=>"00:50:56:84:f1:b1"}}
+        :interfaces_attributes => {"0"=>{:compute_attributes=>{:network=>"Testnetwork", :type=>"VirtualVmxnet3"}, :mac=>"00:50:56:84:f1:b1"}},
+        :scsi_controllers => [
+          {
+            :type => "VirtualLsiLogicController",
+            :shared_bus => "noSharing",
+            :unit_number => 7,
+            :key => 1000
+          }
+        ]
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 

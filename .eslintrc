@@ -65,7 +65,7 @@
     }],
     "max-nested-callbacks": ["error", 5],
     "max-params": ["error", 3],
-    "max-statements": ["error", 14, { "ignoreTopLevelFunctions": true }],
+    "max-statements": ["error", 10, { "ignoreTopLevelFunctions": true }],
     "new-cap": ["error", { "newIsCap": true, "capIsNew": false }],
     "newline-after-var": ["error", "always"],
     "new-parens": "error",

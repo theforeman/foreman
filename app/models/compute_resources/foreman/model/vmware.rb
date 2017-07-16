@@ -29,7 +29,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build, :image, :new_volume]
+      [:build, :image]
     end
 
     def vms(opts = {})
@@ -389,7 +389,7 @@ module Foreman::Model
       # User can set the scsi_controller_type attribute
       # to define a single scsi controller by that type
       if args[:scsi_controller_type].present?
-        Foreman::Deprecation.deprecation_warning("1.17", _("SCSI controller type is deprecated. Please change to scsi_controllers"))
+        Foreman::Deprecation.deprecation_warning("1.18", _("SCSI controller type is deprecated. Please change to scsi_controllers"))
         args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
       end
 

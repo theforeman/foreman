@@ -944,5 +944,4 @@ class HostsController < ApplicationController
   def csv_columns
     [:name, :operatingsystem, :environment, :model, :hostgroup, :last_report]
   end
-
 end

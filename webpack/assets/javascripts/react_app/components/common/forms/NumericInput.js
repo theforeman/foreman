@@ -12,13 +12,14 @@ const TextInput = ({
   minValue = 0
 }) => {
   return (
-    <CommonForm label={label}
-    className={`common-numericInput ${className}`}>
-      <NumericInput format={ format }
+    <CommonForm label={label} className={`common-numericInput ${className}`}>
+      <NumericInput
+        format={format}
         min={minValue}
         value={value}
         precision={precision}
-        onChange={onChange}/>
+        onChange={onChange}
+      />
     </CommonForm>
   );
 };
