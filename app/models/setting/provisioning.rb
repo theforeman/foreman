@@ -79,7 +79,7 @@ class Setting::Provisioning < Setting
 
   def self.map_pxe_kind
     TemplateKind::PXE.map do |pxe_kind|
-      templates = Proc.new { { "" => "" }.merge Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] }
+      templates = Proc.new { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] }
       yield pxe_kind, templates
     end
   end
