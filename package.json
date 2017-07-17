@@ -77,7 +77,7 @@
     "webpack-stats-plugin": "^0.1.5"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ || exit 0",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ $(./script/foreman_plugins_eslint.js) || exit 0",
     "test": "node node_modules/.bin/jest",
     "test:watch": "node node_modules/.bin/jest --watchAll",
     "storybook": "start-storybook -p 6006",

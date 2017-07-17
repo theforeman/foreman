@@ -6,7 +6,7 @@ var webpack = require('webpack');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
-var execSync = require('child_process').execSync;
+var plugins = require('../script/plugin_webpack_directories');
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
@@ -16,18 +16,16 @@ var production =
   process.env.RAILS_ENV === 'production' ||
   process.env.NODE_ENV === 'production';
 
-// If we get multiple lines, then the plugin_webpack_directories.rb script
-// has on the stdout more that just the JSON we want, so we use newline to split and check.
-var sanitizeWebpackDirs = function (pluginDirs) {
-  var splitDirs = pluginDirs.toString().split("\n").reverse();
-
-  return splitDirs.length > 2 ? splitDirs[1] : pluginDirs;
-};
-
-var webpackDirs = execSync(path.join(__dirname, '../script/plugin_webpack_directories.rb'), {
-  stdio: ['pipe', 'pipe', 'ignore']
-});
-var plugins = JSON.parse(sanitizeWebpackDirs(webpackDirs));
+// Create aliases for plugins so that their components are easily accessible.
+// Each alias points to /$path_to_plugin/webpack
+var aliasPlugins  = function (pluginEntries) {
+  var aliases = {};
+  Object.keys(pluginEntries).forEach(function(key) {
+    var pathSplit = pluginEntries[key].split('/');
+    aliases[key] = pathSplit.slice(0, pathSplit.length - 1).join('/');
+  });
+  return aliases;
+}
 
 var config = {
   entry: Object.assign(
@@ -50,13 +48,15 @@ var config = {
   resolve: {
     modules: [
       path.join(__dirname, '..', 'webpack'),
-      'node_modules/'
+      path.join(__dirname, '..', 'node_modules')
     ],
-    alias: {
+    alias: Object.assign({
       foremanReact:
         path.join(__dirname,
-           '../webpack/assets/javascripts/react_app/components')
-    }
+           '../webpack/assets/javascripts/react_app')
+    },
+    aliasPlugins(plugins['entries'])
+    )
   },
 
   module: {
