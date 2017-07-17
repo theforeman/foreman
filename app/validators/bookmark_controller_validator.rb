@@ -6,7 +6,7 @@ class BookmarkControllerValidator < ActiveModel::EachValidator
   end
 
   def self.valid_controllers_list
-    @valid_controllers_list ||= (["dashboard"] +
+    @valid_controllers_list ||= (["dashboard", "common_parameters"] +
       ActiveRecord::Base.connection.tables.map(&:to_s) +
       Permission.resources.map(&:tableize)).uniq
   end

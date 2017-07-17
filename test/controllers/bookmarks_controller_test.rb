@@ -75,4 +75,13 @@ class BookmarksControllerTest < ActionController::TestCase
     refute_empty assigns(:bookmarks)
     assert assigns(:bookmarks).include?(bookmarks(:one))
   end
+
+  test "should create bookmark for global parameter" do
+    User.current = users(:one)
+    assert_difference('Bookmark.count') do
+      post :create, { :bookmark => { :name => "foo-bar", :query => "bar", :public => false, :controller => "common_parameters" } }, set_session_user
+    end
+
+    assert_redirected_to common_parameters_path
+  end
 end
