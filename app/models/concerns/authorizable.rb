@@ -2,6 +2,8 @@ module Authorizable
   extend ActiveSupport::Concern
 
   def check_permissions_after_save
+    return true if Thread.current[:ignore_permission_check]
+
     authorizer = Authorizer.new(User.current)
     creation = self.id_changed?
     name = permission_name(creation ? :create : :edit)
@@ -106,6 +108,13 @@ module Authorizable
 
     def joins_authorized(resource, permission = nil, opts = {})
       joins_authorized_as(User.current, resource, permission, opts)
+    end
+
+    def skip_permission_check
+      original_value, Thread.current[:ignore_permission_check] = Thread.current[:ignore_permission_check], true
+      yield
+    ensure
+      Thread.current[:ignore_permission_check] = original_value
     end
   end
 end
