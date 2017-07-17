@@ -40,6 +40,7 @@ module Foreman #:nodoc:
       attr_reader   :registered_plugins
       attr_accessor :tests_to_skip
       private :new
+      include Foreman::WebpackAssets
 
       def def_field(*names)
         class_eval do
