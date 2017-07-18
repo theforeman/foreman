@@ -22,11 +22,10 @@ const getNotifications = url => dispatch => {
     document.visibilityState === 'prerender';
 
   if (isDocumentVisible) {
-    API.get(url).then(
-      onGetNotificationsSuccess,
-      onGetNotificationsFailed,
-      triggerPolling
-    );
+    API.get(url)
+    .done(onGetNotificationsSuccess)
+    .fail(onGetNotificationsFailed)
+    .always(triggerPolling);
   } else {
     // document is not visible, keep polling without api call
     triggerPolling();

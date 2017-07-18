@@ -17,6 +17,24 @@ import API from '../../API';
 jest.unmock('jquery');
 const mockStore = configureMockStore([thunk]);
 
+let failResponse = { status: 200 };
+
+function mockjqXHR() {
+  return {
+    done: (callback) => {
+      callback(JSON.parse(serverResponse));
+      return mockjqXHR();
+    },
+    fail: (failCallback) => {
+      failCallback(failResponse);
+      return mockjqXHR();
+    },
+    always: () => {
+      return mockjqXHR();
+    }
+  };
+}
+
 describe('notifications', () => {
   const $ = require('jquery');
 
@@ -28,13 +46,7 @@ describe('notifications', () => {
       }
     };
 
-    $.getJSON = jest.genMockFunction().mockImplementation(url => {
-      return {
-        then: function (callback) {
-          callback(JSON.parse(serverResponse));
-        }
-      };
-    });
+    $.getJSON = mockjqXHR;
   });
 
   it('empty state', () => {
@@ -92,13 +104,8 @@ describe('notifications', () => {
 
   it('should redirect to login when 401', () => {
     window.location.replace = jest.fn();
-    $.getJSON = jest.genMockFunction().mockImplementation(url => {
-      return {
-        then: function (callback, failCallback) {
-          failCallback({status: 401});
-        }
-      };
-    });
+    failResponse = {status: 401};
+
     mount(<Notifications data={componentMountData} store={getStore()} />);
     expect(global.location.replace).toBeCalled();
   });
