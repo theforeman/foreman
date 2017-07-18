@@ -11,8 +11,8 @@ class PxeTemplateNameValidatorTest < ActiveSupport::TestCase
     @item.name = "global_PXELinux"
   end
 
-  test "should be valid when empty" do
-    assert @item.valid?
+  test "should not be valid when empty" do
+    refute @item.valid?
   end
 
   test "should not be valid when template does not exist" do
@@ -23,6 +23,13 @@ class PxeTemplateNameValidatorTest < ActiveSupport::TestCase
   test "should be valid when template exists" do
     template = TemplateKind.find_by(:name => "PXELinux").provisioning_templates.first
     @item.value = template.name
+    assert @item.valid?
+  end
+
+  test "should be valid even if default template does not exist" do
+    name = "PXELinux default local boot"
+    Template.destroy_all(:name => name)
+    @item.value = name
     assert @item.valid?
   end
 end
