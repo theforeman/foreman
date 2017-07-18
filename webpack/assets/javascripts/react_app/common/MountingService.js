@@ -34,6 +34,7 @@ export function mount(component, selector, data) {
   const reactNode = document.querySelector(selector);
 
   if (reactNode) {
+    reactNode.innerHTML = '';
     ReactDOM.render(components[component].markup, reactNode);
   } else {
     const componentName = components[component].type.name;
