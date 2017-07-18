@@ -101,12 +101,12 @@ BANNER
         value = @key_values[key]
         setting = Setting.find_by_name(key)
         if value == :unset
-          value = nil
+          setting.value = nil
         elsif complex_type?(setting.settings_type)
           setting.value = typecast_value(setting.settings_type, value)
         else
           parse_and_set_string(setting, value)
-       end
+        end
 
         validate_and_save(setting)
       end
