@@ -17,6 +17,7 @@
 
 class Role < ApplicationRecord
   include Authorizable
+  include ScopedSearchExtensions
   extend FriendlyId
   friendly_id :name
 
@@ -74,6 +75,7 @@ class Role < ApplicationRecord
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :builtin, :complete_value => { :true => true, :false => false }
   scoped_search :on => :description, :complete_value => false
+  scoped_search :relation => :permissions, :on => :name, :complete_value => true, :rename => :permission, :only_explicit => true, :ext_method => :search_by_permission
 
   class << self
     attr_accessor :modify_locked
@@ -192,6 +194,39 @@ class Role < ApplicationRecord
     yield self
     self.modify_locked = false
     self
+  end
+
+  def self.search_by_permission(key, operator, value)
+    condition = search_condition_for_permission(operator, value)
+    role_ids = Filter.joins(:permissions).where(condition).select(
+      'distinct filters.role_id, filters.id'
+    ).map(&:role_id).uniq.join(',')
+    role_ids = '-1' if role_ids.empty?
+    role_condition = "id IN (#{role_ids})"
+    role_condition = "id NOT IN (#{role_ids})" if ['<>', 'NOT ILIKE', 'NOT IN'].include?(operator)
+    {:conditions => role_condition}
+  end
+
+  def self.search_condition_for_permission(operator, value)
+    operator_val = override_search_operator(operator)
+    if operator_val.eql?('IN')
+      sanitize_sql_for_conditions(["permissions.name #{operator_val} (?)", value_to_sql(operator_val, value)])
+    else
+      sanitize_sql_for_conditions(["permissions.name #{operator_val} ?", value_to_sql(operator_val, value)])
+    end
+  end
+
+  def self.override_search_operator(operator)
+    case operator.strip
+    when '<>'
+      '='
+    when 'NOT ILIKE'
+      'ILIKE'
+    when 'NOT IN'
+      'IN'
+    else
+      operator
+    end
   end
 
   private
