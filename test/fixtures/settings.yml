@@ -348,3 +348,8 @@ attribute72:
   category: Setting::Provisioning
   default: nil
   description: 'Default host owner'
+attribute73:
+  name: local_boot_PXELinux
+  category: Setting::Provisioning
+  default: PXELinux default local boot
+  description: 'Set up default local boot template for PXELinux'

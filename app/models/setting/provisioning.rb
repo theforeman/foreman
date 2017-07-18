@@ -6,7 +6,13 @@ class Setting::Provisioning < Setting
     end
   end
 
-  Setting::BLANK_ATTRS.push(*default_global_labels)
+  def self.local_boot_labels
+    TemplateKind::PXE.map do |pxe_kind|
+      "local_boot_#{pxe_kind}"
+    end
+  end
+
+  Setting::BLANK_ATTRS.push(*(default_global_labels + local_boot_labels))
   validates :value, :pxe_template_name => true, :if => Proc.new { |s| s.class.default_global_labels.include?(s.name) }
 
   def self.default_settings
@@ -35,7 +41,7 @@ class Setting::Provisioning < Setting
       self.set('dns_conflict_timeout', N_("Timeout for DNS conflict validation (in seconds)"), 3, N_('DNS conflict timeout')),
       self.set('clean_up_failed_deployment', N_("Foreman will delete virtual machine if provisioning script ends with non zero exit code"), true, N_('Clean up failed deployment')),
       self.set('name_generator_type', N_("Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"), 'Random-based', N_("Type of name generator"), nil, {:collection => Proc.new {NameGenerator::GENERATOR_TYPES} })
-    ] + default_global_templates
+    ] + default_global_templates + default_local_boot_templates
   end
 
   def self.load_defaults
@@ -60,9 +66,21 @@ class Setting::Provisioning < Setting
   end
 
   def self.default_global_templates
+    map_pxe_kind do |pxe_kind, templates|
+      self.set("global_#{pxe_kind}", N_("Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.") % pxe_kind, ProvisioningTemplate.global_default_name(pxe_kind), N_("Global default %s template") % pxe_kind, nil, { :collection =>  templates })
+    end
+  end
+
+  def self.default_local_boot_templates
+    map_pxe_kind do |pxe_kind, templates|
+      self.set("local_boot_#{pxe_kind}", N_("Template that will be selected as %s default for local boot.") % pxe_kind, ProvisioningTemplate.local_boot_name(pxe_kind), N_("Local boot %s template") % pxe_kind, nil, { :collection => templates })
+    end
+  end
+
+  def self.map_pxe_kind
     TemplateKind::PXE.map do |pxe_kind|
-      templates = Proc.new { { "" => "" }.merge Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] }
-      self.set("global_#{pxe_kind}", N_("Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.") % pxe_kind, nil, N_("Global default %s template") % pxe_kind, nil, { :collection =>  templates })
+      templates = Proc.new { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] }
+      yield pxe_kind, templates
     end
   end
 end
