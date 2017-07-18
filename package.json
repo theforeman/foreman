@@ -12,7 +12,7 @@
     "babel-core": "~6.7.2",
     "babel-eslint": "^6.1.2",
     "babel-jest": "^15.0.0",
-    "babel-loader": "~6.2.4",
+    "babel-loader": "~7.1.1",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-polyfill": "^6.13.0",
@@ -35,13 +35,12 @@
     "react-test-renderer": "^15.5.4",
     "redux-mock-store": "^1.2.2",
     "sass-loader": "~6.0.6",
-    "stats-webpack-plugin": "^0.6.0",
     "style-loader": "^0.13.1",
     "stylelint": "^7.13.0",
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.7",
     "webpack": "^3.0.0",
-    "webpack-dev-server": "^2.5.0"
+    "webpack-dev-server": "^2.5.1"
   },
   "optionalDependencies": {
     "phantomjs-prebuilt": "^2.1.0"
@@ -52,7 +51,7 @@
     "datatables.net": "~1.10.12",
     "datatables.net-bs": "~1.10.12",
     "diff": "~3.0.0",
-    "extract-text-webpack-plugin": "^2.1.0",
+    "extract-text-webpack-plugin": "^3.0.0",
     "fbjs": "0.8.12",
     "ipaddr.js": "~1.2.0",
     "jquery": "~2.2.4",
@@ -73,7 +72,8 @@
     "seamless-immutable": "^7.0.1",
     "select2": "~3.5.2-browserify",
     "urijs": "^1.18.10",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "webpack-stats-plugin": "^0.1.5"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ || exit 0",

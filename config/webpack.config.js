@@ -3,7 +3,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
-var StatsPlugin = require('stats-webpack-plugin');
+var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var execSync = require('child_process').execSync;
@@ -87,13 +87,17 @@ var config = {
 
   plugins: [
     // must match config.webpack.manifest_filename
-    new StatsPlugin('manifest.json', {
-      // We only need assetsByChunkName
-      chunkModules: false,
-      source: false,
-      chunks: false,
-      modules: false,
-      assets: true
+    new StatsWriterPlugin({
+      filename: 'manifest.json',
+      fields: null,
+      transform: function (data, opts) {
+        return JSON.stringify(
+          {
+            assetsByChunkName: data.assetsByChunkName,
+            errors: data.errors,
+            warnings: data.warnings
+          }, null, 2 );
+      }
     }),
     new ExtractTextPlugin({
       filename: production ? '[name]-[chunkhash].css' : '[name].css',
