@@ -101,7 +101,7 @@ class ComputeResourcesController < ApplicationController
 
   def test_connection
     # cr_id is posted from AJAX function. cr_id is nil if new
-    if params[:cr_id].present? && params[:cr_id] != 'null'
+    if params[:cr_id].present?
       @compute_resource = ComputeResource.authorized(:edit_compute_resources).find(params[:cr_id])
       @compute_resource.attributes = compute_resource_params.reject { |k,v| k == :password && v.blank? }
     else

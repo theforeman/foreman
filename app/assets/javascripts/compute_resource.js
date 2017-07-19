@@ -33,6 +33,11 @@ function providerSelected(item)
 
 function testConnection(item) {
   var cr_id = $("form").data('id');
+
+  if(cr_id === undefined || cr_id === null) {
+    cr_id = '';
+  }
+
   var password = $("input#compute_resource_password").val();
   $('.tab-error').removeClass('tab-error');
   $('#test_connection_indicator').show();
