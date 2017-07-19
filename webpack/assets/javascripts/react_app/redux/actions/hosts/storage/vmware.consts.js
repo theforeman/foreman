@@ -1,4 +1,4 @@
-export const defaultConrollerAttributes = {
+export const defaultControllerAttributes = {
   type: 'ParaVirtualSCSIController'
 };
 

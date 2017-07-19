@@ -27,9 +27,9 @@ export function mount(component, selector, data) {
       markup: <NotificationContainer store={store} data={data} />
     },
     ToastNotifications: {
-     type: ToastsList,
-     markup: <ToastsList store={store} />
-   },
+      type: ToastsList,
+      markup: <ToastsList store={store} />
+    },
     StorageContainer: {
       type: StorageContainer,
       markup: <StorageContainer store={store} data={data} />
@@ -39,7 +39,7 @@ export function mount(component, selector, data) {
   const reactNode = document.querySelector(selector);
 
   if (reactNode) {
-    reactNode.innerHTML = '';
+    ReactDOM.unmountComponentAtNode(reactNode);
     ReactDOM.render(components[component].markup, reactNode);
   } else {
     const componentName = components[component].type.name;

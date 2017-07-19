@@ -7,7 +7,7 @@ import {
   STORAGE_VMWARE_UPDATE_DISK,
   STORAGE_VMWARE_INIT
 } from '../../../consts';
-import { defaultConrollerAttributes, getDefaultDiskAttributes } from './vmware.consts';
+import { defaultControllerAttributes, getDefaultDiskAttributes } from './vmware.consts';
 
 export const updateDisk = (key, newValues) => {
   return {
@@ -24,7 +24,7 @@ export const initController = (config, controllers, volumes) => {
     type: STORAGE_VMWARE_INIT,
     payload: {
       config,
-      controllers: controllers || defaultConrollerAttributes,
+      controllers: controllers || defaultControllerAttributes,
       volumes: volumes || getDefaultDiskAttributes()
     }
   };
@@ -33,7 +33,7 @@ export const initController = (config, controllers, volumes) => {
 export const addController = data => ({
   type: STORAGE_VMWARE_ADD_CONTROLLER,
   payload: {
-    controller: defaultConrollerAttributes,
+    controller: defaultControllerAttributes,
     volume: getDefaultDiskAttributes()
   }
 });

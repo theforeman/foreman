@@ -40,6 +40,7 @@ class HostsController < ApplicationController
   before_action :set_host_type, :only => [:update]
   before_action :find_multiple, :only => MULTIPLE_ACTIONS
   before_action :validate_power_action, :only => :update_multiple_power_state
+  before_action :normalize_vm_attributes, :only => [:create, :update, :process_taxonomy]
 
   helper :hosts, :reports, :interfaces
 
@@ -98,7 +99,6 @@ class HostsController < ApplicationController
   end
 
   def create
-    normalize_scsi_attributes(host_params["compute_attributes"]) if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
     @host = Host.new(host_params)
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
     forward_url_options
@@ -116,7 +116,6 @@ class HostsController < ApplicationController
   end
 
   def update
-    normalize_scsi_attributes(host_params["compute_attributes"]) if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
     forward_url_options
     Taxonomy.no_taxonomy_scope do
       attributes = @host.apply_inherited_attributes(host_params)
@@ -943,5 +942,11 @@ class HostsController < ApplicationController
 
   def csv_columns
     [:name, :operatingsystem, :environment, :model, :hostgroup, :last_report]
+  end
+
+  def normalize_vm_attributes
+    if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
+      normalize_scsi_attributes(host_params["compute_attributes"])
+    end
   end
 end
