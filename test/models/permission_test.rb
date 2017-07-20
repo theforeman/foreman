@@ -30,4 +30,8 @@ class PermissionTest < ActiveSupport::TestCase
       assert_includes permissions, permission
     end
   end
+
+  test ".resource_name" do
+    assert_equal 'Domain', Permission.resource_name(Domain)
+  end
 end

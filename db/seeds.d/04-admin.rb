@@ -10,8 +10,9 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).present?
     user = User.new(:login => User::ANONYMOUS_ADMIN, :firstname => "Anonymous", :lastname => "Admin")
     user.admin = true
     user.auth_source = src_hidden
-    User.current = user
+    original_user, User.current = User.current, user
     raise "Unable to create anonymous admin user: #{format_errors user}" unless user.save
+    User.current = original_user
   end
 end
 
@@ -21,8 +22,9 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_CONSOLE_ADMIN).present?
     user = User.new(:login => User::ANONYMOUS_CONSOLE_ADMIN, :firstname => "Console", :lastname => "Admin")
     user.admin = true
     user.auth_source = src_hidden
-    User.current = user
+    original_user, User.current = User.current, user
     raise "Unable to create anonymous console admin user: #{format_errors user}" unless user.save
+    User.current = original_user
   end
 end
 
@@ -33,8 +35,9 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_API_ADMIN).present?
     user = User.new(:login => User::ANONYMOUS_API_ADMIN, :firstname => "API", :lastname => "Admin")
     user.admin = true
     user.auth_source = src_hidden
-    User.current = user
+    original_user, User.current = User.current, user
     raise "Unable to create anonymous API user: #{format_errors user}" unless user.save
+    User.current = original_user
   end
 end
 

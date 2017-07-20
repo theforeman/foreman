@@ -173,6 +173,8 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "non-admin user should be able to create host with new lookup value" do
+    subnets(:two).organizations = users(:one).organizations
+    subnets(:two).locations = users(:one).locations
     User.current = users(:one)
     User.current.roles << [roles(:manager)]
     assert_difference('LookupValue.unscoped.count') do
@@ -180,7 +182,7 @@ class HostTest < ActiveSupport::TestCase
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
       :subnet => subnets(:two), :architecture => architectures(:x86_64),
       :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
-      :organization => nil, :location => nil,
+      :organization => users(:one).organizations.first, :location => users(:one).locations.first,
       :environment => environments(:production), :disk => "empty partition",
       :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
     end

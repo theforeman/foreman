@@ -351,16 +351,16 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'user with view_params rights should see parameters in a host' do
+    host = FactoryGirl.create(:host, :with_parameter)
     setup_user "edit"
     setup_user "view", "params"
-    host = FactoryGirl.create(:host, :with_parameter)
     get :edit, {:id => host.id}, set_session_user.merge(:user => users(:one).id)
     assert_not_nil response.body['Global parameters']
   end
 
   test 'user without view_params rights should not see parameters in a host' do
-    setup_user "edit"
     host = FactoryGirl.create(:host, :with_parameter)
+    setup_user "edit"
     get :edit, {:id => host.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Global parameters']
   end
@@ -420,7 +420,9 @@ class HostsControllerTest < ActionController::TestCase
   def setup_multiple_environments
     setup_user_and_host "edit"
     as_admin do
-      @host1, @host2 = FactoryGirl.create_list(:host, 2, :environment => environments(:production))
+      @host1, @host2 = FactoryGirl.create_list(:host, 2, :environment => environments(:production),
+                                               :organization => users(:one).organizations.first,
+                                               :location => users(:one).locations.first)
     end
   end
 
@@ -446,13 +448,15 @@ class HostsControllerTest < ActionController::TestCase
     assert @host2.environment == environments(:production)
 
     hostgroup = hostgroups(:common)
-    hostgroup.environment = environments(:global_puppetmaster)
-    hostgroup.save(:validate => false)
+    as_admin do
+      hostgroup.environment = environments(:global_puppetmaster)
+      hostgroup.save(:validate => false)
 
-    @host1.hostgroup = hostgroup
-    @host1.save(:validate => false)
-    @host2.hostgroup = hostgroup
-    @host2.save(:validate => false)
+      @host1.hostgroup = hostgroup
+      @host1.save(:validate => false)
+      @host2.hostgroup = hostgroup
+      @host2.save(:validate => false)
+    end
 
     params = { :host_ids => [@host1.id, @host2.id],
       :environment => { :id => 'inherit' } }
@@ -555,7 +559,7 @@ class HostsControllerTest < ActionController::TestCase
     test "should change the puppet proxy" do
       @request.env['HTTP_REFERER'] = hosts_path
 
-      proxy = FactoryGirl.create(:puppet_smart_proxy)
+      proxy = as_admin { FactoryGirl.create(:puppet_smart_proxy) }
 
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }
@@ -598,7 +602,7 @@ class HostsControllerTest < ActionController::TestCase
     test "should change the puppet ca proxy" do
       @request.env['HTTP_REFERER'] = hosts_path
 
-      proxy = FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)])
+      proxy = as_admin { FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)]) }
 
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }
@@ -627,15 +631,23 @@ class HostsControllerTest < ActionController::TestCase
       assert_empty flash[:error]
 
       @hosts.each do |host|
-        assert_nil host.reload.puppet_ca_proxy
+        as_admin do
+          assert_nil host.reload.puppet_ca_proxy
+        end
       end
     end
   end
 
   test "user with edit host rights with update parameters should change parameters" do
     setup_multiple_environments
-    @host1.host_parameters = [HostParameter.create(:name => "p1", :value => "yo")]
-    @host2.host_parameters = [HostParameter.create(:name => "p1", :value => "hi")]
+    param1 = HostParameter.create(:name => "p1", :value => "yo")
+    param2 = HostParameter.create(:name => "p1", :value => "hi")
+
+    as_admin do
+      @host1.host_parameters = [param1]
+      @host2.host_parameters = [param2]
+    end
+
     post :update_multiple_parameters,
       {:name => { "p1" => "hello"},:host_ids => [@host1.id, @host2.id]},
       set_session_user.merge(:user => users(:admin).id)
@@ -798,7 +810,7 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_set_manage
     @request.env['HTTP_REFERER'] = edit_host_path @host
-    assert @host.update_attribute :managed, false
+    as_admin { assert @host.update_attribute :managed, false }
     assert_empty @host.errors
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
@@ -807,7 +819,7 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_unset_manage
     @request.env['HTTP_REFERER'] = edit_host_path @host
-    assert @host.update_attribute :managed, true
+    as_admin { assert @host.update_attribute :managed, true }
     assert_empty @host.errors
     put :toggle_manage, {:id => @host.name}, set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
@@ -1155,10 +1167,10 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "test non admin multiple action" do
+    users(:restricted).organizations << taxonomies(:organization1)
+    users(:restricted).locations << taxonomies(:location1)
+    host = FactoryGirl.create(:host, :organization => taxonomies(:organization1), :location => taxonomies(:location1), :owner => users(:restricted))
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    User.current.organizations << taxonomies(:organization1)
-    User.current.locations << taxonomies(:location1)
-    host = FactoryGirl.create(:host)
     host_ids = [host.id]
     #the ajax can be any of the multiple actions, toke multiple_parameters for example
     xhr :post, :multiple_parameters, {:host_ids => host_ids}, set_session_user(:restricted)
@@ -1285,7 +1297,8 @@ class HostsControllerTest < ActionController::TestCase
   def test_submit_multiple_rebuild_config_optimistic
     @request.env['HTTP_REFERER'] = hosts_path
     Host.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true})
-    h = FactoryGirl.create(:host)
+    h = as_admin { FactoryGirl.create(:host) }
+
     post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
 
     assert_response :found
@@ -1296,7 +1309,7 @@ class HostsControllerTest < ActionController::TestCase
   def test_submit_multiple_rebuild_config_pessimistic
     @request.env['HTTP_REFERER'] = hosts_path
     Host.any_instance.expects(:recreate_config).returns({"TFTP" => false, "DHCP" => false, "DNS" => false})
-    h = FactoryGirl.create(:host)
+    h = as_admin { FactoryGirl.create(:host) }
     post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
 
     assert_response :found

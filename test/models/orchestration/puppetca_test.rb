@@ -2,6 +2,7 @@ require 'test_helper'
 
 class PuppetCaOrchestrationTest < ActiveSupport::TestCase
   def setup
+    users(:one).roles << Role.find_by_name('Manager')
     User.current = users(:one)
     disable_orchestration
     SETTINGS[:locations_enabled] = false

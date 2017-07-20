@@ -4,8 +4,12 @@ require 'controllers/shared/report_host_permissions_test'
 class ConfigReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
+  let :report do
+    as_admin { FactoryGirl.create(:config_report) }
+  end
+
   def test_index
-    FactoryGirl.create(:config_report)
+    report
     get :index, {}, set_session_user
     assert_response :success
     assert_not_nil assigns('config_reports')
@@ -13,14 +17,13 @@ class ConfigReportsControllerTest < ActionController::TestCase
   end
 
   test 'csv export works' do
-    FactoryGirl.create(:config_report)
+    report
     get :index, {format: :csv}, set_session_user
     assert_response :success
     assert_equal 2, response.body.lines.size
   end
 
   def test_show
-    report = FactoryGirl.create(:config_report)
     get :show, {:id => report.id}, set_session_user
     assert_template 'show'
   end
@@ -32,7 +35,7 @@ class ConfigReportsControllerTest < ActionController::TestCase
   end
 
   def test_show_last
-    FactoryGirl.create(:config_report)
+    report
     get :show, {:id => "last"}, set_session_user
     assert_template 'show'
   end
@@ -44,7 +47,6 @@ class ConfigReportsControllerTest < ActionController::TestCase
   end
 
   def test_show_last_report_for_host
-    report = FactoryGirl.create(:config_report)
     get :show, {:id => "last", :host_id => report.host.to_param}, set_session_user
     assert_template 'show'
   end
@@ -56,7 +58,6 @@ class ConfigReportsControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    report = FactoryGirl.create(:config_report)
     delete :destroy, {:id => report}, set_session_user
     assert_redirected_to config_reports_url
     assert !ConfigReport.exists?(report.id)
@@ -83,7 +84,6 @@ class ConfigReportsControllerTest < ActionController::TestCase
 
   test 'cannot view the last report without hosts view permission' do
     setup_user('view', 'config_reports')
-    report = FactoryGirl.create(:config_report)
     get :show, { :id => 'last', :host_id => report.host.id }, set_session_user.merge(:user => User.current.id)
     assert_response :not_found
   end

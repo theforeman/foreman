@@ -122,16 +122,16 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see subnet parameters" do
-    setup_user "view", "subnets"
     subnet_with_parameter = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+    setup_user "view", "subnets"
     get :show, {:id => subnet_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see subnet parameters" do
+    subnet_with_parameter = FactoryGirl.create(:subnet_ipv4, :with_parameter)
     setup_user "view", "subnets"
     setup_user "view", "params"
-    subnet_with_parameter = FactoryGirl.create(:subnet_ipv4, :with_parameter)
     get :show, {:id => subnet_with_parameter.to_param, :format => 'json'}
     assert_not_empty JSON.parse(response.body)['parameters']
   end

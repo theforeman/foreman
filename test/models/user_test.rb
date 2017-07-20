@@ -234,13 +234,17 @@ class UserTest < ActiveSupport::TestCase
 
   test "non-admin user can't assign roles he does not have himself" do
     setup_user "create"
-    create_role          = Role.find_by_name 'create_users'
-    extra_role           = Role.where(:name => "foobar").first_or_create
-    record               = User.new :login    => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
-                                    :role_ids => [extra_role.id, create_role.id].map(&:to_s)
+    record = nil
+    as_admin do
+      create_role = Role.find_by_name 'create_users'
+      extra_role = Role.where(:name => "foobar").first_or_create
+      record = User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
+                        :role_ids => [extra_role.id, create_role.id].map(&:to_s),
+                        :organizations => users(:one).organizations, :locations => users(:one).locations
+    end
     record.password_hash = "asd"
-    assert_not record.save
-    assert_not record.valid?
+    refute record.save
+    refute record.valid?
     assert_includes record.errors.keys, :role_ids
     assert record.new_record?
   end
@@ -276,16 +280,17 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user cannot assign role he has not assigned himself" do
-    setup_user "edit"
     extra_role      = Role.where(:name => "foobar").first_or_create
     record          = users(:one)
     record.role_ids = [extra_role.id]
-    assert_not record.save
-    assert_not record.valid?
+    setup_user "edit"
+    refute record.save
+    refute record.valid?
     assert_includes record.errors.keys, :role_ids
   end
 
   test "user can assign role he has assigned himself" do
+    users(:one).roles << Role.find_by_name('Manager')
     setup_user "edit"
     edit_role       = Role.find_by_name 'edit_users'
     record          = users(:one)
@@ -295,8 +300,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user cannot escalate his own roles" do
-    setup_user "edit"
     extra_role = Role.where(:name => "foobar").first_or_create
+    setup_user "edit"
     record = User.current
     record.role_ids = record.role_ids + [extra_role.id]
     refute record.save
@@ -576,6 +581,7 @@ class UserTest < ActiveSupport::TestCase
     user = FactoryGirl.build(:user)
     user.organizations = [org1, org2]
     user.locations = [loc1]
+    user.roles << Role.find_by_name('Manager')
     user.save
     Organization.expects(:authorized).with('assign_organizations', Organization).returns(Organization.where(:id => [org1, org2])).times(4)
     Location.expects(:authorized).with('assign_locations', Location).returns(Location.where(:id => [loc1])).times(4)
@@ -802,6 +808,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "return location and child ids for non-admin user" do
+    users(:one).roles << Role.find_by_name('Manager')
     as_user :one do
       # User 'one' contains location1 already
       in_taxonomy :location1 do
@@ -812,6 +819,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "return organization and child ids for non-admin user" do
+    users(:one).roles << Role.find_by_name('Manager')
     as_user :one do
       # User 'one' contains organization1 already
       in_taxonomy :organization1 do
@@ -1011,19 +1019,19 @@ class UserTest < ActiveSupport::TestCase
       SETTINGS[:locations_enabled] = false
       SETTINGS[:organizations_enabled] = true
       Taxonomy.expects(:locations_enabled).returns(false).at_least_once
-      setup_user 'view', 'environments', 'name = test_env_org1'
       FactoryGirl.create(:environment, :name => 'test_env_org1',
-                         :organizations => [User.current.organizations.first])
-      assert_equal ['test_env_org1'], User.current.visible_environments
+                         :organizations => [users(:one).organizations.first])
+      setup_user 'view', 'environments', 'name = test_env_org1'
+      assert_equal ['test_env_org1'], users(:one).visible_environments
     end
 
     test 'should show the list of environments visible when only locs are enabled' do
       SETTINGS[:locations_enabled] = true
       SETTINGS[:organizations_enabled] = false
-      setup_user 'view', 'environments', 'name = test_env_loc1'
       FactoryGirl.create(:environment, :name => 'test_env_loc1',
-                         :locations => [User.current.locations.first])
-      assert_equal ['test_env_loc1'], User.current.visible_environments
+                         :locations => [users(:one).locations.first])
+      setup_user 'view', 'environments', 'name = test_env_loc1'
+      assert_equal ['test_env_loc1'], users(:one).visible_environments
     end
 
     test 'should show the list of environments visible when both orgs/locs are enabled as admin user' do

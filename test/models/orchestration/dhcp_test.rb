@@ -2,6 +2,7 @@ require 'test_helper'
 
 class DhcpOrchestrationTest < ActiveSupport::TestCase
   def setup
+    users(:one).roles << Role.find_by_name('Manager')
     User.current = users(:one)
     disable_orchestration
     SETTINGS[:locations_enabled] = false
@@ -110,7 +111,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
                           :provision => true,
                           :domain => FactoryGirl.build(:domain),
                           :subnet => subnet,
-                          :mac => nil,
+                          :mac => '00:53:67:ab:dd:00',
                           :ip => subnet.network.sub(/0\Z/, '2')),
         FactoryGirl.build(:nic_interface,
                           :identifier => 'eth0',
@@ -123,13 +124,15 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       ]
     end
     let(:host) do
-      FactoryGirl.create(:host,
-                         :with_dhcp_orchestration,
-                         :subnet => subnet,
-                         :interfaces => interfaces,
-                         :build => true,
-                         :location => subnet.locations.first,
-                         :organization => subnet.organizations.first)
+      as_admin do
+        FactoryGirl.create(:host,
+                           :with_dhcp_orchestration,
+                           :subnet => subnet,
+                           :interfaces => interfaces,
+                           :build => true,
+                           :location => subnet.locations.first,
+                           :organization => subnet.organizations.first)
+      end
     end
 
     test 'should have two dhcp records' do
@@ -207,7 +210,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "new host should create a BMC dhcp reservation" do
-    h = FactoryGirl.build(:host, :with_dhcp_orchestration, :name => 'dummy-123')
+    h = as_admin do
+      FactoryGirl.build(:host, :with_dhcp_orchestration, :name => 'dummy-123')
+    end
     assert h.new_record?
     h.interfaces_attributes = [{ :name => "dummy-bmc", :ip => h.ip.succ, :mac => "aa:bb:cd:cd:ee:ff",
                                  :subnet_id => h.subnet_id, :provider => 'IPMI', :type => 'Nic::BMC', :domain_id => h.domain_id}]
@@ -225,7 +230,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "when an existing host changes its ip address, its dhcp records should be updated" do
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    h = as_admin do
+      FactoryGirl.create(:host, :with_dhcp_orchestration)
+    end
     h.ip = h.ip.succ
     assert h.valid?
     # 1st is creation from factory, 2nd is triggered by h.valid?
@@ -235,8 +242,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "when an existing host change its bmc ip address, its dhcp records should be updated" do
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    h = nil
     as_admin do
+      h = FactoryGirl.create(:host, :with_dhcp_orchestration)
       Nic::BMC.create!(:host_id => h.id, :mac => "da:aa:aa:ab:db:bb", :domain_id => h.domain_id,
                        :ip => h.ip.succ, :subnet_id => h.subnet_id, :name => "bmc-#{h}", :provider => 'IPMI')
     end
@@ -249,7 +257,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "when an existing host changes its mac address, its dhcp records should be updated" do
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    h = as_admin do
+      FactoryGirl.create(:host, :with_dhcp_orchestration)
+    end
     h.mac = next_mac(h.mac)
     assert h.valid?
     assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
@@ -258,7 +268,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "when an existing host triggers a 'rebuild', its dhcp records should be updated if no dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(false)
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    h = as_admin do
+      FactoryGirl.create(:host, :with_dhcp_orchestration)
+    end
 
     h.build = true
 
@@ -269,7 +281,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "when an existing host trigger a 'rebuild', its dhcp records should not be updated if valid dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(true)
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    h = as_admin do
+      FactoryGirl.create(:host, :with_dhcp_orchestration)
+    end
 
     h.build = true
 
@@ -279,8 +293,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "when an existing host change its bmc mac address, its dhcp record should be updated" do
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration)
+    h = nil
     as_admin do
+      h = FactoryGirl.create(:host, :with_dhcp_orchestration)
       Nic::BMC.create! :host => h, :mac => "aa:aa:aa:ab:bd:bb", :ip => h.ip.succ, :domain => h.domain,
                        :subnet => h.subnet, :name => "bmc1-#{h}", :provider => 'IPMI'
     end
@@ -294,8 +309,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "when an existing host change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
-    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :mac => "aa:aa:ad:ab:bb:cc")
+    h = nil
     as_admin do
+      h = FactoryGirl.create(:host, :with_dhcp_orchestration, :mac => "aa:aa:ad:ab:bb:cc")
       Nic::BMC.create!(:host => h, :mac => "aa:aa:ad:ab:bb:bb", :domain => h.domain, :subnet => h.subnet,
                        :name => "bmc-it", :provider => 'IPMI', :ip => h.ip.succ)
     end

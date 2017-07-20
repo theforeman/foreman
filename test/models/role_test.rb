@@ -177,8 +177,8 @@ class RoleTest < ActiveSupport::TestCase
       let(:first) { Role.create(:name => 'First') }
       let(:second) { Role.create(:name => 'Second') }
       before do
+        users(:one).roles<< first
         User.current = users(:one)
-        User.current.roles<< first
       end
 
       subject { Role.for_current_user.to_a }

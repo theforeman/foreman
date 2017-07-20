@@ -48,7 +48,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       Setting[:require_ssl_smart_proxies] = false
 
       proxy = smart_proxies(:puppetmaster)
-      proxy.update_attribute(:url, 'http://configreports.foreman')
+      as_admin { proxy.update_attribute(:url, 'http://configreports.foreman') }
       host = URI.parse(proxy.url).host
       Resolv.any_instance.stubs(:getnames).returns([host])
       post :create, { :config_report => create_a_puppet_transaction_report }
@@ -194,8 +194,8 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
   end
 
   test 'cannot view the last report without hosts view permission' do
-    setup_user('view', 'config_reports')
     report = FactoryGirl.create(:report)
+    setup_user('view', 'config_reports')
     get :last, { :host_id => report.host.id }, set_session_user.merge(:user => User.current.id)
     assert_response :not_found
   end

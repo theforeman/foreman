@@ -205,16 +205,17 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   test 'user with view_params rights should see parameters in an os' do
+    organization = FactoryGirl.create(:organization, :with_parameter)
+    as_admin { organization.users << users(:one) }
     setup_user "edit", "organizations"
     setup_user "view", "params"
-    organization = FactoryGirl.create(:organization, :with_parameter)
     get :edit, {:id => organization.id}, set_session_user.merge(:user => users(:one).id)
     assert_not_nil response.body['Parameter']
   end
 
   test 'user without view_params rights should not see parameters in an os' do
-    setup_user "edit", "organizations"
     organization = FactoryGirl.create(:organization, :with_parameter)
+    setup_user "edit", "organizations"
     get :edit, {:id => organization.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Parameter']
   end

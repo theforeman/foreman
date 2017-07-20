@@ -26,6 +26,12 @@ class LookupValue < ApplicationRecord
   scoped_search :on => :match, :complete_value => true
   scoped_search :relation => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
+  # Lookup values are currently not authorized granularly,
+  # they should use permissions from their keys (puppet or variable)
+  def check_permissions_after_save
+    true
+  end
+
   def value=(val)
     if val.is_a?(HashWithIndifferentAccess)
       super(val.deep_to_hash)

@@ -25,4 +25,21 @@ class Permission < ApplicationRecord
   def self.reset_resources
     @all_resources = nil
   end
+
+  # converts klass to name used as resource_type in permissions table
+  def self.resource_name(klass)
+    return 'Operatingsystem' if klass <= Operatingsystem
+    return 'ComputeResource' if klass <= ComputeResource
+    return 'Subnet' if klass <= Subnet
+    return 'Parameter' if klass <= Parameter
+
+    case (name = klass.to_s)
+    when 'Audited::Audit'
+      'Audit'
+    when /\AHost::.*\Z/
+      'Host'
+    else
+      name
+    end
+  end
 end

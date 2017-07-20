@@ -296,11 +296,11 @@ class UnattendedControllerTest < ActionController::TestCase
     setup do
       @host_param = FactoryGirl.create(:host_parameter, :host => @rh_host, :name => 'my_param')
       @secret_param = FactoryGirl.create(:host_parameter, :host => @rh_host, :name => 'secret_param')
+      @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "params: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
       setup_user 'view', 'hosts'
       setup_user 'view', 'params', 'name = my_param'
       users(:one).organizations << @rh_host.organization
       users(:one).locations << @rh_host.location
-      @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "params: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
     end
 
     test "in preview should only show permitted parameters" do
@@ -316,8 +316,10 @@ class UnattendedControllerTest < ActionController::TestCase
 
     context "and ptable with host parameters" do
       setup do
-        @rh_host.ptable.update_attribute(:template, "params: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
-        @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "ptable: <%= @host.diskLayout %>\nparams: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
+        as_admin do
+          @rh_host.ptable.update_attribute(:template, "params: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
+          @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "ptable: <%= @host.diskLayout %>\nparams: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
+        end
       end
 
       test "in preview should only show permitted parameters" do

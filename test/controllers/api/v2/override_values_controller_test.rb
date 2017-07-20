@@ -140,35 +140,35 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     end
 
     test "should show override value unhidden when show_hidden is true" do
-      setup_user "view", "puppetclasses"
-      setup_user "view", "external_parameters"
-      setup_user "edit", "external_parameters"
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
       lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
+      setup_user "view", "puppetclasses"
+      setup_user "view", "external_parameters"
+      setup_user "edit", "external_parameters"
       get :show, { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.value, show_response['value']
     end
 
     test "should show a override value parameter as hidden when user in unauthorized for smart class variable" do
-      setup_user "view", "puppetclasses"
-      setup_user "view", "external_parameters"
-      setup_user "edit", "external_variables"
       lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
       FactoryGirl.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
       lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
+      setup_user "view", "puppetclasses"
+      setup_user "view", "external_parameters"
+      setup_user "edit", "external_variables"
       get :show, { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.hidden_value, show_response['value']
     end
 
     test "should show a override value parameter as hidden when user in unauthorized for smart class parameter" do
+      lookup_key = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
       setup_user "view", "external_parameters"
-      lookup_key = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
-      lookup_value = FactoryGirl.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
       get :show, { :smart_variable_id => lookup_key.to_param, :id => lookup_value.to_param, :show_hidden => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal lookup_value.hidden_value, show_response['value']

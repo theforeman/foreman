@@ -44,6 +44,8 @@ manager_22:
   role_id: 1
 manager_23:
   role_id: 1
+manager_24:
+  role_id: 1
 edit_partition_tables_1:
   role_id: 2
 view_hosts_1:

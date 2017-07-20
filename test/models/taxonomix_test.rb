@@ -247,8 +247,13 @@ class TaxonomixTest < ActiveSupport::TestCase
     role = FactoryGirl.create(:role)
     role.filters = [ filter ]
 
+    filter2 = FactoryGirl.create(:filter)
+    filter2.permissions = Permission.where(:name => [ 'edit_domains' ])
+    role2 = FactoryGirl.create(:role)
+    role2.filters = [ filter2 ]
+
     user = FactoryGirl.create(:user)
-    user.roles = [ role ]
+    user.roles = [ role, role2 ]
     org1 = FactoryGirl.create :organization, :name => 'visible1'
     org2 = FactoryGirl.create :organization, :name => 'visible2'
     org3 = FactoryGirl.create :organization, :name => 'hidden'
