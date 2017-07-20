@@ -49,6 +49,15 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "should not create invalid dns_id" do
+    skip if ActiveRecord::Base.connection_config[:adapter].eql?("sqlite3")
+    invalid_proxy_id = -1
+    post :update, { :id => Domain.first.to_param, :domain => { :name => "domain.new", :dns_id => invalid_proxy_id } }
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_includes(show_response["error"]["full_messages"], "Dns Invalid smart-proxy id")
+    assert_response :unprocessable_entity
+  end
+
   test "should destroy domain" do
     domain = Domain.first
     domain.hosts.clear
