@@ -1,0 +1,13 @@
+.host-power-status {
+  &.on {
+    color: #3f9c35;
+  }
+
+  &.off {
+    color: #c00;
+  }
+
+  &.na {
+    color: #8b8d8f;
+  }
+}

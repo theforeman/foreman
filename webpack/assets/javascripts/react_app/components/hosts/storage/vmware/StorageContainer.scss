@@ -1,0 +1,28 @@
+@import '../../../../common/colors';
+
+.vmware-storage-container {
+  display: flex;
+  flex-direction: column;
+
+  .storage-header {
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid $pf-black-200;
+
+    .storage-title {
+      font-size: 18px;
+    }
+
+    .storage-controller-buttons {
+      text-align: right;
+
+      > button {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .controller-container {
+    margin-bottom: 20px;
+  }
+}

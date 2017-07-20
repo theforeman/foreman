@@ -1,5 +1,8 @@
 class ComputeAttributesController < ApplicationController
   include Foreman::Controller::Parameters::ComputeAttribute
+  include Foreman::Controller::NormalizeScsiAttributes
+
+  before_action :normalize_vm_attributes, :only => [:create, :update]
 
   def new
     @set = ComputeAttribute.new(:compute_profile_id => params[:compute_profile_id].to_i,
@@ -25,6 +28,14 @@ class ComputeAttributesController < ApplicationController
       process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
     else
       process_error :object => @set
+    end
+  end
+
+  private
+
+  def normalize_vm_attributes
+    if compute_attribute_params["vm_attrs"] && compute_attribute_params["vm_attrs"]["scsi_controllers"]
+      normalize_scsi_attributes(compute_attribute_params["vm_attrs"])
     end
   end
 end

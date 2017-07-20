@@ -37,7 +37,7 @@ describe('powerStatus reducer', () => {
     expect(
       reducer(stateBeforeResponse, {
         type: types.HOST_POWER_STATUS_FAILURE,
-        payload: { error, id: request.id}
+        payload: { error, id: request.id }
       })
     ).toEqual(stateAfterFailure);
   });

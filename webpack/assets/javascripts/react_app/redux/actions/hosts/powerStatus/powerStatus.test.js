@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as actions from './index';
 import immutable from 'seamless-immutable';
-import { requestData, onFailureActions } from './hosts.fixtures';
+import { requestData, onFailureActions } from './powerStatus.fixtures';
 const mockStore = configureMockStore([thunk]);
 
 describe('hosts actions', () => {

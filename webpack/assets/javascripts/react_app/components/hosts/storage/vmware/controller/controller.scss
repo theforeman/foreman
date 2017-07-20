@@ -1,0 +1,25 @@
+.controller-header {
+  display: flex;
+  width: 100%;
+  align-items: top;
+
+  .controller-selected-container {
+    display: flex;
+    justify-content: flex-end;
+
+    > label {
+      margin-left: 5px;
+    }
+  }
+
+  .controller-type-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .btn-add-disk {
+    margin-top: 10px;
+  }
+}
