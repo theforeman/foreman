@@ -1,0 +1,3 @@
+#!/bin/sh
+./node_modules/.bin/webpack-dev-server --config config/webpack.config.js $WEBPACK_OPTS &
+./bin/rails server -b 0.0.0.0 "$@"
