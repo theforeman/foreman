@@ -11,16 +11,19 @@
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
 
-      <%= render_tab_header_for(:main_tabs, :subject => @host) %>
-
-      <li id="network_tab" data-refresh-url="<%= interfaces_hosts_path %>"><a href="#network" data-toggle="tab"><%= _('Interfaces') %></a></li>
       <% if SETTINGS[:unattended] and @host.managed %>
-        <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
         <% if authorized_for(:controller => "Compute::Resources::Vms", :action => :create) %>
           <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
         <% end %>
+        <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
       <% end %>
+
+      <li id="network_tab" data-refresh-url="<%= interfaces_hosts_path %>"><a href="#network" data-toggle="tab"><%= _('Interfaces') %></a></li>
+
+      <%= render_tab_header_for(:main_tabs, :subject => @host) %>
+
       <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+
       <li><a href="#info" data-toggle="tab"><%= _('Additional Information') %></a></li>
     </ul>
 
