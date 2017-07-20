@@ -62,10 +62,12 @@ module Api
 
       def create
         @domain = Domain.new(domain_params)
-        process_response @domain.save
-      rescue ActiveRecord::InvalidForeignKey
-        @domain.errors.add(:dns_id, _('Invalid smart-proxy id'))
-        process_resource_error
+        if verify_proxy_id(domain_params[:dns_id])
+          process_response @domain.save
+        else
+          @domain.errors.add(:dns_id, _('Invalid smart-proxy id'))
+          process_resource_error
+        end
       end
 
       api :PUT, "/domains/:id/", N_("Update a domain")
@@ -73,7 +75,12 @@ module Api
       param_group :domain
 
       def update
-        process_response @domain.update_attributes(domain_params)
+        if verify_proxy_id(domain_params[:dns_id])
+          process_response @domain.update_attributes(domain_params)
+        else
+          @domain.errors.add(:dns_id, _('Invalid smart-proxy id'))
+          process_resource_error
+        end
       end
 
       api :DELETE, "/domains/:id/", N_("Delete a domain")
@@ -87,6 +94,10 @@ module Api
 
       def allowed_nested_id
         %w(subnet_id location_id organization_id)
+      end
+
+      def verify_proxy_id(id)
+        id.nil? || SmartProxy.authorized(:view_smart_proxies).find_by_id(id).present?
       end
     end
   end
