@@ -1,5 +1,6 @@
 module Orchestration::TFTP
   extend ActiveSupport::Concern
+  include Orchestration::Common
 
   included do
     after_validation :validate_tftp, :unless => :skip_orchestration?
@@ -150,7 +151,7 @@ module Orchestration::TFTP
   end
 
   def queue_tftp
-    return unless (tftp? || tftp6?) && no_errors
+    return log_orchestration_errors unless (tftp? || tftp6?) && no_errors
     # Jumpstart builds require only minimal tftp services. They do require a tftp object to query for the boot_server.
     return true if host.jumpstart?
     new_record? ? queue_tftp_create : queue_tftp_update
