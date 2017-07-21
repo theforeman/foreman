@@ -61,7 +61,7 @@ class PuppetFactParser < FactParser
 
   def environment
     # by default, puppet doesn't store an env name in the database
-    name = facts[:environment] || Setting[:default_puppet_environment]
+    name = facts[:environment] || facts[:agent_specified_environment] || Setting[:default_puppet_environment]
     Environment.where(:name => name).first_or_create
   end
 
