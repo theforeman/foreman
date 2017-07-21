@@ -340,6 +340,7 @@ module Foreman::Model
     def vm_hw_versions
       {
         'Default' => _("Default"),
+        'vmx-13' => '13 (ESXi 6.5)',
         'vmx-11' => '11 (ESXi 6.0)',
         'vmx-10' => '10 (ESXi 5.5)',
         'vmx-09' => '9 (ESXi 5.1)',
