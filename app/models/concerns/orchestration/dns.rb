@@ -55,7 +55,7 @@ module Orchestration::DNS
   end
 
   def queue_dns
-    return unless (dns? || dns6? || reverse_dns? || reverse_dns6?) && errors.empty?
+    return log_orchestration_errors unless (dns? || dns6? || reverse_dns? || reverse_dns6?) && errors.empty?
     queue_remove_dns_conflicts if overwrite?
     new_record? ? queue_dns_create : queue_dns_update
   end

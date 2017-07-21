@@ -3,6 +3,7 @@ require 'timeout'
 
 module Orchestration::Compute
   extend ActiveSupport::Concern
+  include Orchestration::Common
 
   included do
     attr_accessor :compute_attributes, :vm
@@ -36,7 +37,7 @@ module Orchestration::Compute
   protected
 
   def queue_compute
-    return unless compute? && errors.empty?
+    return log_orchestration_errors unless compute? && errors.empty?
     # Create a new VM if it doesn't already exist or update an existing vm
     vm_exists? ? queue_compute_create : queue_compute_update
   end
