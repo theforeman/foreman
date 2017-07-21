@@ -16,6 +16,8 @@ class ExternalUsergroup < ApplicationRecord
 
     current_users = usergroup.users.map(&:login)
     my_users = users
+    return false unless my_users
+
     all_other_users = (usergroup.external_usergroups - [self]).map(&:users)
     all_users = (all_other_users + my_users).flatten.uniq
 
@@ -32,6 +34,9 @@ class ExternalUsergroup < ApplicationRecord
 
   def users
     auth_source.users_in_group(name)
+  rescue Net::LDAP::Error, Net::LDAP::LdapError => e
+    errors.add :auth_source_id, _("LDAP error - %{message}") % { :message => e.message }
+    return false
   end
 
   private
