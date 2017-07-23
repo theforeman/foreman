@@ -5,7 +5,7 @@ module DashboardHelper
 
   def dashboard_actions
     [
-      _("Generated at %s") % Time.zone.now.to_s(:short),
+      _("Generated at %s") % date_time_absolute(Time.zone.now),
       select_action_button(
         _('Manage'), {},
         link_to_function(_('Save positions'), "save_position('#{save_positions_widgets_path}')"),
