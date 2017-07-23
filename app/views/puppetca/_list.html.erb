@@ -17,8 +17,8 @@
       <tr>
         <td class="ellipsis"><%= cert.name %></td>
         <td><%= _(cert.state) %></td>
-        <td><%= time_column cert.valid_from %></td>
-        <td><%= time_column cert.expires_at, :tense => :future %></td>
+        <td><%= date_time_relative cert.valid_from %></td>
+        <td><%= date_time_relative cert.expires_at %></td>
         <td class="ellipsis"><%= cert.fingerprint %></td>
         <td>
           <%= action_buttons(

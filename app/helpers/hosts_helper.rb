@@ -78,7 +78,7 @@ module HostsHelper
   end
 
   def last_report_column(record)
-    time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report): ""
+    time = record.last_report? ? date_time_relative_value(record.last_report) : ""
     link_to_if_authorized(time,
                           hash_for_host_config_report_path(:host_id => record.to_param, :id => "last"),
                           last_report_tooltip(record))
@@ -86,11 +86,12 @@ module HostsHelper
 
   def last_report_tooltip(record)
     opts = { :rel => "twipsy" }
+    date = record.last_report.nil? ? '' : date_time_absolute_value(record.last_report) + ", "
     if @last_report_ids[record.id]
-      opts["data-original-title"] = _("View last report details")
+      opts["data-original-title"] = date + _("view last report details")
     else
       opts.merge!(:disabled => true, :class => "disabled", :onclick => 'return false')
-      opts["data-original-title"] = _("Report Already Deleted") unless record.last_report.nil?
+      opts["data-original-title"] = date + _("report already deleted") unless record.last_report.nil?
     end
     opts
   end

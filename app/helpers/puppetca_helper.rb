@@ -10,17 +10,4 @@ module PuppetcaHelper
                                             [[_('all'),'']]),
                :class => "datatable-filter", :id => "puppetca-filter"
   end
-
-  def time_column(time, opts = {})
-    return _("N/A") if time.blank?
-    opts[:tense] ||= :past
-
-    if opts[:tense] == :future
-      _("in %s") % (time_ago_in_words time)
-    elsif opts[:tense] == :past
-      _("%s ago") % (time_ago_in_words time)
-    else
-      time_ago_in_words time
-    end
-  end
 end

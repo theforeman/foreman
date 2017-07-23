@@ -30,7 +30,7 @@ function activateLogsDataTable() {
     autoWidth: false,
     columnDefs: [{
       render: function ( data, type, row ) {
-        return new Date(data * 1000).toLocaleString();
+        return data;
       },
       width: "15%",
       targets: 0
@@ -45,9 +45,10 @@ function activateLogsDataTable() {
   $('#logEntryModal').on('show.bs.modal', function (event) {
     var link = $(event.relatedTarget);
     var modal = $(this);
-    var datetime = new Date(link.data('time') * 1000);
-    modal.find('#modal-bt-timegmt').text(datetime.toUTCString());
-    modal.find('#modal-bt-time').text(datetime.toLocaleString());
+    var datetime = link.data('time');
+    var utc_datetime = link.data('utc-time');
+    modal.find('#modal-bt-timegmt').text(utc_datetime);
+    modal.find('#modal-bt-time').text(datetime);
     modal.find('#modal-bt-level').text(link.data('level'));
     if (link.data('message')) modal.find('#modal-bt-message').text(link.data('message'));
     if (link.data('backtrace')) modal.find('#modal-bt-backtrace').text(link.data('backtrace'));

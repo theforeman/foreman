@@ -46,6 +46,35 @@ module ApplicationHelper
     params.key?(:search)
   end
 
+  # this helper should be used to print date time in absolute form
+  # it will also define a title with relative time information
+  # it supports two formats :short and :long
+  # example of long is February 12, 2021 17:13
+  # example of short is Aug 31, 12:52
+  def date_time_absolute(time, format = :short)
+    raise ArgumentError, "unsupported format '#{format}', use :long or :short" unless %w(long short).include?(format.to_s)
+
+    content_tag :span, :title => date_time_relative_value(time) do
+      date_time_absolute_value(time, format)
+    end
+  end
+
+  # this helper should be used to print date time in relative form, e.g. "10 days ago",
+  # it will also define a title with absolute time information
+  def date_time_relative(time)
+    content_tag :span, :title => date_time_absolute_value(time, :long) do
+      date_time_relative_value(time)
+    end
+  end
+
+  def date_time_absolute_value(time, format = :short)
+    l(time, :format => format)
+  end
+
+  def date_time_relative_value(time)
+    (time > Time.now.utc ? _('in %s') : _('%s ago')) % time_ago_in_words(time)
+  end
+
   protected
 
   def contract(model)

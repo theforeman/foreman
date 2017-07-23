@@ -1,6 +1,6 @@
 module FactValuesHelper
   def fact_from(record)
-    _("%s ago") % time_ago_in_words(record.updated_at)
+    date_time_relative(record.updated_at)
   rescue
     _("N/A")
   end
