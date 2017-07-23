@@ -16,7 +16,7 @@ class PuppetcaControllerTest < ActionController::TestCase
 
   test 'index encodes any CN to an url safe string' do
     cert = SmartProxies::PuppetCACertificate.new(
-      ['mcollective/OL=mcollective', 'pending'])
+      ['mcollective/OL=mcollective', 'pending', 'fingerprint', '2000-01-01 00:00:00', '3000-01-01 00:00:00'])
     ProxyStatus::PuppetCA.any_instance.expects(:certs).returns([cert])
     assert_nothing_raised do
       get :index, { :smart_proxy_id => @proxy.id }, set_session_user

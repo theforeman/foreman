@@ -1,7 +1,7 @@
 require 'ostruct'
 module ReportsHelper
   def reported_at_column(record)
-    link_to(_("%s ago") % time_ago_in_words(record.reported_at), config_report_path(record))
+    link_to date_time_relative(record.reported_at).html_safe, config_report_path(record)
   end
 
   def report_event_column(event, style = "")
