@@ -16,6 +16,7 @@ module Foreman::Controller::AutoCompleteSearch
         completed = item.to_s.chomp(part)
         {:completed => CGI.escapeHTML(completed), :part => CGI.escapeHTML(part), :label => item, :category => category}
       end
+      params[:search].strip!
     rescue ScopedSearch::QueryNotSupported => e
       @items = [{:error =>e.to_s}]
     end
