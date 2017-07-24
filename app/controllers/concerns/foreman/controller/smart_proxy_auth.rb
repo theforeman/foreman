@@ -81,17 +81,17 @@ module Foreman::Controller::SmartProxyAuth
             request_hosts << $1 if $1
           end
         else
-          logger.warn "SSL cert has not been verified (#{verify}) - request from #{request.ip}, #{dn}"
+          logger.warn "SSL cert has not been verified (#{verify}) - request from #{request.remote_ip}, #{dn}"
         end
       elsif require_cert
         logger.warn "No SSL cert with CN supplied - request from #{request.ip}, #{dn}"
       else
-        request_hosts = Resolv.new.getnames(request.ip)
+        request_hosts = Resolv.new.getnames(request.remote_ip)
       end
     elsif SETTINGS[:require_ssl]
-      logger.warn "SSL is required - request from #{request.ip}"
+      logger.warn "SSL is required - request from #{request.remote_ip}"
     else
-      request_hosts = Resolv.new.getnames(request.ip)
+      request_hosts = Resolv.new.getnames(request.remote_ip)
     end
     return false unless request_hosts
 
