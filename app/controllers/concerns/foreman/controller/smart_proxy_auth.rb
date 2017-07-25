@@ -92,6 +92,7 @@ module Foreman::Controller::SmartProxyAuth
       logger.warn "SSL is required - request from #{request.ip}"
     else
       request_hosts = Resolv.new.getnames(request.ip)
+      request_hosts = [request.ip] if request_hosts == []
     end
     return false unless request_hosts
 
