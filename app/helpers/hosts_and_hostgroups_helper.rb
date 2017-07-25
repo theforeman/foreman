@@ -23,6 +23,10 @@ module HostsAndHostgroupsHelper
     accessible_related_resource(@operatingsystem, :ptables)
   end
 
+  def visible_compute_profiles(obj)
+    (ComputeProfile.authorized(:view_compute_profiles).visibles.to_a | [obj.compute_profile]).compact
+  end
+
   INHERIT_TEXT = N_("inherit")
 
   def realm_field(f, can_override = false, override = false)

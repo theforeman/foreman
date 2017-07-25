@@ -79,6 +79,26 @@
     resource_type: ComputeResource
     created_at: "2013-12-04 08:41:04.481549"
     updated_at: "2013-12-04 08:41:04.481549"
+  view_compute_profiles:
+    name: view_compute_profiles
+    resource_type: ComputeProfile
+    created_at: "2013-12-04 08:41:04.456196"
+    updated_at: "2013-12-04 08:41:04.456196"
+  create_compute_profiles:
+    name: create_compute_profiles
+    resource_type: ComputeProfile
+    created_at: "2013-12-04 08:41:04.464913"
+    updated_at: "2013-12-04 08:41:04.464913"
+  edit_compute_profiles:
+    name: edit_compute_profiles
+    resource_type: ComputeProfile
+    created_at: "2013-12-04 08:41:04.473288"
+    updated_at: "2013-12-04 08:41:04.473288"
+  destroy_compute_profiles:
+    name: destroy_compute_profiles
+    resource_type: ComputeProfile
+    created_at: "2013-12-04 08:41:04.481549"
+    updated_at: "2013-12-04 08:41:04.481549"
   view_provisioning_templates:
     name: view_provisioning_templates
     resource_type: ProvisioningTemplate
