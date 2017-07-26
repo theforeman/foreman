@@ -91,7 +91,6 @@ class SmartProxy < ApplicationRecord
 
   def statuses
     return @statuses if @statuses
-
     @statuses = {}
     features.each do |feature|
       name = feature.name.delete(' ')

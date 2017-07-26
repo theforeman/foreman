@@ -62,6 +62,7 @@ class Setting < ApplicationRecord
   scope :organization_fact, -> { where('name not in (?)', 'organization_fact') unless Taxonomy.enabled_taxonomies.include? 'organizations' }
   scope :default_location, -> { where('name not in (?)', 'default_location') unless Taxonomy.enabled_taxonomies.include? 'locations' }
   scope :location_fact, -> { where('name not in (?)', 'location_fact') unless Taxonomy.enabled_taxonomies.include? 'locations' }
+  scope :order_by, ->(attr) { except(:order).order(attr) }
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
@@ -71,7 +72,12 @@ class Setting < ApplicationRecord
   end
 
   def self.live_descendants
-    self.disabled_plugins.default_organization.organization_fact.default_location.location_fact
+    self.disabled_plugins.default_organization.organization_fact.default_location.location_fact.order_by(:category)
+  end
+
+  def self.stick_general_first
+    sticky_setting = 'Setting::General'
+    where(:category => sticky_setting).concat(where.not(:category => sticky_setting)).group_by(&:category)
   end
 
   def self.per_page; 20 end # can't use our own settings
