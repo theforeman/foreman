@@ -345,5 +345,39 @@ class RoleTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe '#search_by_permission' do
+      setup do
+        @domain_permission = FactoryGirl.create(:permission, :domain, :name => 'view_test_domain')
+        @arch_permission = FactoryGirl.create(:permission, :architecture, :name => 'view_test_arch')
+        @role = FactoryGirl.build(:role, :permissions => [])
+        @role.add_permissions! [@domain_permission.name, @arch_permission.name]
+      end
+
+      it 'returns matched roles using equal operator on permission' do
+        results = Role.search_for('permission = view_test_domain')
+        assert_includes results, @role
+      end
+
+      it 'allows filtering roles using not equal operator on permission' do
+        results = Role.search_for('permission != view_test_arch')
+        refute_includes results, @role
+      end
+
+      it 'empty result if no matched permission found using LIKE operator' do
+        results = Role.search_for('permission ~ not')
+        assert_empty results
+      end
+
+      it 'non-empty result if matched permission found using LIKE operator' do
+        results = Role.search_for('permission ~ test_arch')
+        refute_empty results
+      end
+
+      it 'allows filtering roles using not in operator on permission' do
+        results = Role.search_for('permission !^ view_test_arch')
+        refute_includes results, @role
+      end
+    end
   end
 end
