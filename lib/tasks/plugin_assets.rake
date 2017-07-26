@@ -41,8 +41,8 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
       def initialize(plugin_id)
         @plugin = Foreman::Plugin.find(plugin_id) or raise("Unable to find registered plugin #{plugin_id}")
 
-        env = Rails.application.assets
         app = Rails.application
+        env = app.assets || Sprockets::Environment.new(app.root.to_s)
 
         config = Rails.application.config
         config.assets.digest = true
@@ -57,8 +57,6 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
         env.context_class.class_eval do
           class_attribute :sass_config
           self.sass_config = app.config.sass
-          self.assets_prefix = config.assets.prefix
-          self.digest_assets = config.assets.digest
         end
 
         super(Rails.application)
@@ -71,8 +69,9 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
       end
 
       def environment
-        env = Rails.application.assets
-        config = Rails.application.config
+        app    = Rails.application
+        config = app.config
+        env    = app.assets || Sprockets::Environment.new(app.root.to_s)
 
         Rails.application.config.assets.paths.each do |path|
           env.append_path path
