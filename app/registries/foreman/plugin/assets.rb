@@ -11,9 +11,9 @@ module Foreman
 
       def after_initialize
         super
-        precompile_assets(*find_assets(path)) if @automatic_assets
         precompile_assets(*assets_from_settings(id))
         precompile_assets(*assets_from_settings(id.to_s.gsub('-', '_').to_sym))
+        precompile_assets(*find_assets(path)) if @automatic_assets
         register_assets
       end
 
@@ -32,19 +32,23 @@ module Foreman
       def find_assets(root)
         return [] unless root.present? && Dir.exist?(root)
 
-        assets = Dir.chdir(root) do
+        present_assets = Dir.chdir(root) do
           Dir["app/assets/**/*"].select { |f| File.file?(f) }.map { |f| f.split(File::SEPARATOR, 4).last }
         end
+        new_assets = present_assets - self.assets
 
         # Assets outside of the namespace can't properly be packaged, so don't
         # automatically detect and include them. Requires manual configuration
         # to use this unsupported layout.
-        assets, outside_prefix = assets.partition { |p| p.start_with?("#{id}/") }
+        new_assets, outside_prefix = new_assets.partition do |p|
+          p.start_with?("#{id}/") || p.start_with?("#{id.to_s.gsub('-', '_')}/")
+        end
+
         if outside_prefix.present?
           Rails.logger.warn "Plugin #{id} has assets outside of its namespace, these will be ignored: #{outside_prefix.join(', ')}"
         end
 
-        assets
+        new_assets
       end
 
       # Call any initializers that configure SETTINGS for the plugin:assets:precompile
