@@ -7,7 +7,7 @@
   %>
   <%= select_f f, :ptable_id, os_ptable, :id, :to_label,
     {:include_blank => blank_or_inherit_f(f, :ptable), :selected => item.ptable_id},
-    {:label => _("Partition table"), :disabled => os_ptable.empty?, :required => true}
+    {:label => _("Partition Table"), :disabled => os_ptable.empty?, :required => true}
   %>
 
   <% if @operatingsystem && @operatingsystem.supports_image %>

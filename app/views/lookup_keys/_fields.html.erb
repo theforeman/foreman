@@ -3,7 +3,7 @@
 
   <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f, { :class => 'btn btn-danger hide' }) if controller_name ==  "puppetclasses" && !is_param %>
   <fieldset>
-    <h2><%= _("Parameter details") %></h2>
+    <h2><%= _("Parameter Details") %></h2>
     <%= text_f f, :key, :disabled => is_param, :size => "col-md-8" %>
     <%= f.hidden_field :key if is_param %>
     <%= textarea_f f, :description, :rows => :auto, :size => "col-md-8", :class => "no-stretch" %>
@@ -11,7 +11,7 @@
     <%= show_puppet_class f %>
   </fieldset>
   <fieldset>
-    <h2><%= _("Default behavior") %></h2>
+    <h2><%= _("Default Behavior") %></h2>
     <h6><%= _("Override the default value of the Puppet class parameter.") if is_param%></h6>
     <%= checkbox_f(f, :override, :onchange => 'toggleOverrideValue(this)', :size => "col-md-8",
                    :label_help => _('Whether the class parameter value is managed by Foreman.')
@@ -30,7 +30,7 @@
                      :size => "col-md-1", :label_size => "col-md-2", :table_field => true,
                      :onchange => 'toggleOmitValue(this, "default_value")',
                      :disabled => (is_param && !f.object.override)) if is_param %>
-      <%= checkbox_f(f, :hidden_value, :label => _('Hidden value'),
+      <%= checkbox_f(f, :hidden_value, :label => _('Hidden Value'),
                      :class => 'hidden_value_textarea_switch', :onchange => 'toggle_lookupkey_hidden(this)',
                      :checked => f.object.hidden_value?,
                      :label_help => _("Hide all values for this parameter."),
@@ -39,7 +39,7 @@
     </div>
   </fieldset>
   <fieldset>
-    <%= collapsing_header _("Optional input validator"), "#optional_input_validators_#{f.object.id}", "collapsed" %>
+    <%= collapsing_header _("Optional Input Validator"), "#optional_input_validators_#{f.object.id}", "collapsed" %>
     <div id="optional_input_validators_<%= f.object.id %>" class="collapse out">
       <h6><%= _('If ERB is used in a parameter value, the validation of the value will happen during the ENC request. If the value is invalid, the ENC request will fail.') %></h6>
 
@@ -53,7 +53,7 @@
   </br>
   <div class="matcher-parent" <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ', '_')}_lookup_key_override_value" %> style=<%= "display:none;" if (is_param && !f.object.override) %>>
     <fieldset>
-      <h2><%= _("Prioritize attribute order") %></h2>
+      <h2><%= _("Prioritize Attribute Order") %></h2>
       <h6><%= _("Set the order in which values are resolved.") %></h6>
       <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :id => 'order', :size => "col-md-8", :onchange => 'fill_in_matchers()', :value => f.object.path, :class => "no-stretch",
                         :label_help => _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>").html_safe %>
@@ -68,7 +68,7 @@
     </fieldset>
     </br>
     <fieldset>
-      <h2><%= _("Specify matchers") %>  <%= documentation_button('4.2.6SmartMatchers') %></h2>
+      <h2><%= _("Specify Matchers") %>  <%= documentation_button('4.2.6SmartMatchers') %></h2>
       <div class="children_fields lookup_values">
         <%= render 'lookup_keys/values', :f => f, :is_param => is_param %>
       </div>

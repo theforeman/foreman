@@ -2,12 +2,12 @@
 <%= textarea_f f, :description, :rows => :auto  %>
 
 <%= subnet_type_f f %>
-<%= text_f f, :network %>
-<%= text_f f, :cidr, :label => _("Network prefix"), :help_inline => _("Suffix or prefix length for this subnet, e.g. 32") %>
-<%= text_f f, :mask, :help_inline => _("Netmask for this subnet"), :wrapper_class => "form-group #{'hide' unless f.object.show_mask?}" %>
-<%= text_f f, :gateway, :help_inline => _("Optional: Gateway for this subnet") %>
-<%= text_f f, :dns_primary, :help_inline => _("Optional: Primary DNS for this subnet") %>
-<%= text_f f, :dns_secondary, :help_inline => _("Optional: Secondary DNS for this subnet") %>
+<%= text_f f, :network, :label => _("Network Address") %>
+<%= text_f f, :cidr, :label => _("Network Prefix"), :help_inline => _("Suffix or prefix length for this subnet, e.g. 32") %>
+<%= text_f f, :mask, :label => _("Network Mask"), :help_inline => _("Netmask for this subnet"), :wrapper_class => "form-group #{'hide' unless f.object.show_mask?}" %>
+<%= text_f f, :gateway, :label => _("Gateway Address"), :help_inline => _("Optional: Gateway for this subnet") %>
+<%= text_f f, :dns_primary, :label => _("Primary DNS Server"), :help_inline => _("Optional: Primary DNS for this subnet") %>
+<%= text_f f, :dns_secondary, :label => _("Secondary DNS Server"), :help_inline => _("Optional: Secondary DNS for this subnet") %>
 <%= selectable_f f, :ipam, subnet_ipam_modes(f.object.type), {}, :data => {'disable-auto-suggest-on' => [IPAM::MODES[:none], IPAM::MODES[:eui64]]},
                  :label => _('IPAM'),
                  :label_help => _("You can select one of the IPAM modes supported by the selected IP protocol:<br/>" +
@@ -22,5 +22,5 @@
 </div>
 <%= number_f f, :vlanid, :min => 0, :max => 4095, :help_inline => _("Optional: VLAN ID for this subnet") %>
 <%= selectable_f f, :boot_mode, Subnet.boot_modes_with_translations, {},
-                 :help_inline => _("Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates") %>
+                 :label => _("Boot Mode"), :help_inline => _("Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates") %>
 <%= hidden_field_tag :redirect, params[:redirect] %>

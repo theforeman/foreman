@@ -16,7 +16,7 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="primary">
-      <%= text_f   f, :name, :help_inline => _("The full DNS domain name") %>
+      <%= text_f   f, :name, :label => _("DNS Domain"), :help_inline => _("The full DNS domain name") %>
       <%= text_f   f, :fullname, :help_inline => _("Full name describing the domain") %>
       <%= smart_proxy_fields f %>
     </div>

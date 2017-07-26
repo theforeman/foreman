@@ -54,7 +54,7 @@
 
         <%= select_f f, :compute_resource_id, accessible_resource(@host, :compute_resource), :id, :to_label,
           { :include_blank => _('Bare Metal') },
-          {:label => _('Deploy on'), :disabled => (!@host.new_record? || @host.uuid.present?), :'data-url' => compute_resource_selected_hosts_path,
+          {:label => _('Deploy On'), :disabled => (!@host.new_record? || @host.uuid.present?), :'data-url' => compute_resource_selected_hosts_path,
             :onchange => 'computeResourceSelected(this);',
             :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
 
@@ -103,15 +103,15 @@
 
       <div class="tab-pane"  id="params">
         <fieldset>
-          <h2><%= _('Puppet class parameters') %></h2>
+          <h2><%= _('Puppet Class Parameters') %></h2>
           <%= render "puppetclasses/classes_parameters", :obj => @host %>
         </fieldset>
         <br/>
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>
-            <h2><%= _('Global parameters') %></h2>
+            <h2><%= _('Global Parameters') %></h2>
             <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @host.host_inherited_params(true), :parameters => @host.host_parameters } %>
-            <h2><%= _('Host parameters') %></h2>
+            <h2><%= _('Host Parameters') %></h2>
             <%= render "common_parameters/parameters", { :f => f, :type => :host_parameters } %>
           </fieldset>
         <% end %>

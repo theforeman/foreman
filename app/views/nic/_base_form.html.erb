@@ -4,11 +4,12 @@
                     :size => "col-md-8", :label_size => "col-md-3" %>
 
 <%= text_f f, :mac,
+              :label => _("MAC Address"),
               :label_help => _("Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will overwrite the provided value with new random MAC address.").html_safe,
               :label_help_options => { :rel => 'popover-modal' },
               :class => :interface_mac, :'data-url' => random_name_interfaces_path, :size => "col-md-8", :label_size => "col-md-3" %>
 <%= text_f f, :identifier,
-              :label => _("Device identifier"),
+              :label => _("Device Identifier"),
               :label_help => _("Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul>" +
                                 "<li>Use the basic name for physical interface identifiers, e.g. <strong>eth0</strong> or <strong>em0</strong> with biosdevname.</li>" +
                                 "<li>For virtual interfaces, use either alias notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>eth0.15</strong>, name.tag).</li>" +
@@ -16,7 +17,7 @@
               :label_help_options => { :rel => 'popover-modal', :'data-placement' => "top" },
               :class => :interface_identifier,
               :size => "col-md-8", :label_size => "col-md-3" %>
-<%= text_f f, :name, :label => _("DNS name"), :value => f.object.shortname,
+<%= text_f f, :name, :label => _("DNS Name"), :value => f.object.shortname,
               :label_help => _("Primary interface's DNS name and domain define host's FQDN"),
               :label_help_options => { :rel => 'popover-modal' },
               :class => :interface_name,
@@ -37,7 +38,7 @@
 <% end %>
 <%= text_f f, :ip,
               :class => :interface_ip,
-              :label => _("IPv4 address"),
+              :label => _("IPv4 Address"),
               :autocomplete => 'off',
               :help_block => suggest_new_link(f, :subnet , 'suggest_new_ip'),
               :label_help => _("An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>").html_safe,
@@ -49,7 +50,7 @@
               :size => "col-md-8", :label_size => "col-md-3" %>
 
 <%= text_f f, :ip6,
-              :label => _("IPv6 address"),
+              :label => _("IPv6 Address"),
               :class => :interface_ip6,
               :autocomplete => 'off',
               :help_block => suggest_new_link(f, :subnet6, 'suggest_new_ip6'),
