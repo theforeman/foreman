@@ -402,6 +402,16 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal user.mail, mail.to[0]
   end
 
+  test "test email should be delivered even when user has read only role" do
+    user = users(:one)
+    user.roles = [Role.find_by_name('Viewer')]
+    User.current = user
+    put :test_mail, { :id => user.id, :user => {:login => user.login} }, set_session_user
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.subject.include? "Foreman test email"
+    assert_equal user.mail, mail.to[0]
+  end
+
   context "when user is logged in" do
     test "#login redirects to previous url" do
       @previous_url = "/bookmarks"

@@ -371,7 +371,7 @@ class User < ApplicationRecord
 
   def editing_self?(options = {})
     options[:controller].to_s == 'users' &&
-      options[:action] =~ /edit|update/ &&
+      options[:action] =~ /edit|update|test_email/ &&
       options[:id].to_i == self.id ||
     options[:controller].to_s =~ /\Aapi\/v\d+\/users\Z/ &&
       options[:action] =~ /show|update/ &&
