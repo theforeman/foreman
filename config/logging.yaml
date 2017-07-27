@@ -47,6 +47,8 @@
 #     [%M] method name where the logging request was issued
 #     [%X{request}] request-ID set in HTTP headers, or random UUID
 #     [%X{session}] session ID from cookies, else the request-ID
+#     [%X{session_safe}] random ID assigned per session, not available early on during
+#                        request logging, but prevents disclosure of the session ID
 #     [%X{string}] variable set using ::Logging.mdc['string'] =
 
 :default:
