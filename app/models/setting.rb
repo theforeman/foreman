@@ -77,7 +77,7 @@ class Setting < ApplicationRecord
 
   def self.stick_general_first
     sticky_setting = 'Setting::General'
-    where(:category => sticky_setting).concat(where.not(:category => sticky_setting)).group_by(&:category)
+    (where(:category => sticky_setting) + where.not(:category => sticky_setting)).group_by(&:category)
   end
 
   def self.per_page; 20 end # can't use our own settings
