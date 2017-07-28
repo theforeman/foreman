@@ -237,6 +237,34 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     end
   end
 
+  test "should detect correct environments for import" do
+    org_a = FactoryGirl.create(:organization, :name => "OrgA")
+    loc_a = FactoryGirl.create(:location, :name => "LocA")
+    org_b = FactoryGirl.create(:organization, :name => "OrgB")
+    loc_b = FactoryGirl.create(:location, :name => "LocB")
+    b_role = roles(:manager).clone :name => 'b_role'
+    b_role.add_permissions! [:destroy_external_parameters, :edit_external_parameters, :create_external_parameters, :view_external_parameters]
+    a_user = FactoryGirl.create(:user, :organizations => [org_a], :locations => [loc_a], :roles => [roles(:manager)], :login => 'a_user')
+    b_user = FactoryGirl.create(:user, :organizations => [org_b], :locations => [loc_b], :roles => [b_role], :login => 'b_user')
+    proxy = FactoryGirl.create(:puppet_smart_proxy, :organizations => [org_a, org_b], :locations => [loc_a, loc_b])
+    importer = PuppetClassImporter.new(:url => proxy.url)
+    FactoryGirl.create(:environment, :name => "env_a", :organizations => [org_a], :locations => [loc_a])
+    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(['env_a', 'b_env_new'])
+    User.current = b_user
+    changes = importer.changes
+
+    assert changes['new']['b_env_new']
+    refute changes['new']['env_a']
+    refute changes['updated']['env_a']
+
+    changes['new']['b_env_new'] = changes['new']['b_env_new'].to_json
+
+    importer.obsolete_and_new(changes)
+    assert Environment.find_by(:name => 'b_env_new')
+    User.current = a_user
+    refute Environment.find_by(:name => 'b_env_new')
+  end
+
   private
 
   def get_an_instance

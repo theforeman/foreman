@@ -179,7 +179,7 @@ class PuppetClassImporter
   end
 
   def to_be_created_environments
-    proxy_environments - Environment.where(:name => proxy_environments).pluck(:name)
+    proxy_environments - Environment.unscoped.where(:name => proxy_environments).pluck(:name)
   end
 
   def new_environments
@@ -330,7 +330,9 @@ class PuppetClassImporter
   end
 
   def find_or_create_env(env)
-    Environment.where(:name => env).first || Environment.create!(:name => env)
+    Environment.where(:name => env).first || Environment.create!(:name => env,
+                                                                 :organizations => User.current.my_organizations,
+                                                                 :locations => User.current.my_locations)
   end
 
   def find_or_create_puppet_class_param(klass, param_name, value)
