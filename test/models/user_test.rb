@@ -78,6 +78,17 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user.lower_login, "user"
   end
 
+  # :user uses 'internal' as its authsource in the factory
+  test "user can update username" do
+    user = FactoryGirl.create(:user)
+    assert user.can_update_username?
+  end
+
+  test "user can not update username" do
+    user = FactoryGirl.create(:user, :auth_source => FactoryGirl.create(:auth_source_ldap))
+    refute user.can_update_username?
+  end
+
   test "mail should have format" do
     refute User.new(:auth_source => auth_sources(:one), :login => "foo", :mail => "bar").valid?
   end
