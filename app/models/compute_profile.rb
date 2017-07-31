@@ -20,5 +20,5 @@ class ComputeProfile < ApplicationRecord
   scoped_search :on => :name, :complete_value => true
   default_scope -> { order('compute_profiles.name') }
 
-  scope :visibles, -> { eager_load(:compute_attributes).where('compute_attributes.id > 0') }
+  scope :visibles, -> { where(:id => ComputeAttribute.select(:compute_profile_id)) }
 end
