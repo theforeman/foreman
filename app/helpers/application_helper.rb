@@ -491,10 +491,8 @@ module ApplicationHelper
     list
   end
 
-  def accessible_related_resource(obj, relation, opts = {})
+  def accessible_related_resource(obj, relation, order: :name, where: nil)
     return [] if obj.blank?
-    order = opts.fetch(:order, :name)
-    where = opts.fetch(:where, nil)
     related = obj.public_send(relation)
     related = related.with_taxonomy_scope_override(@location, @organization) if obj.class.reflect_on_association(relation).klass.include?(Taxonomix)
     related.authorized.where(where).reorder(order)

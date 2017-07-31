@@ -26,10 +26,10 @@
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
       <%= hostgroup_puppet_environment_field f %>
-      <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
+      <%= select_f(f, :compute_profile_id, visible_compute_profiles(@hostgroup), :id, :name,
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
                        { :label => _("Compute profile") }
-                  ) if ComputeProfile.visibles.exists? %>
+                  ) if visible_compute_profiles(@hostgroup).any? %>
       <%= smart_proxy_fields f %>
     </div>
 

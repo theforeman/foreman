@@ -55,11 +55,11 @@
             :onchange => 'computeResourceSelected(this);',
             :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
 
-        <% if @host.new_record? && ComputeProfile.visibles.exists? %>
+        <% if @host.new_record? && visible_compute_profiles(@host).any? %>
         <%# only show compute_profile select box for new hosts. It is not relevant for existing hosts as the VM attributes defined could
          be different from the defaults, or the defaults could have changed after the vm was created. %>
         <div id="compute_profile" <%= display?(!@host.compute_resource_id) %> >
-          <%= select_f f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
+          <%= select_f f, :compute_profile_id, visible_compute_profiles(@host), :id, :name,
             { :include_blank => true,
               :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
               :disable_button_enabled => inherited_by_default?(:compute_profile_id, @host),
