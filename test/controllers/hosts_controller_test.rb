@@ -31,6 +31,18 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should get csv index with data" do
+    host = FactoryGirl.create(:host, :with_hostgroup, :with_environment, :on_compute_resource, :with_reports)
+    get :index, { :format => 'csv', :search => "name = #{host.name}" }, set_session_user
+    assert_response :success
+    buf = response.stream.instance_variable_get(:@buf)
+    assert_equal "Name,Operatingsystem,Environment,Compute Resource Or Model,Hostgroup,Last Report\n", buf.next
+    assert_equal "#{host.name},#{host.operatingsystem},#{host.environment},#{host.compute_resource.name},#{host.hostgroup},#{host.last_report}\n", buf.next
+    assert_raises StopIteration do
+      buf.next
+    end
+  end
+
   test "should include registered scope on index" do
     # remember the previous state
     old_scopes = HostsController.scopes_for(:index).dup

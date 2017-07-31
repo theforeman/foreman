@@ -37,6 +37,24 @@ module Foreman
       end
     end
 
+    # This allows getting and setting all current values in case it's needed,
+    # for example to pass to an enumerator that is executed by a separate thread
+    module Context
+      def self.get
+        {
+          :user => User.current,
+          :organization => Organization.current,
+          :location => Location.current
+        }
+      end
+
+      def self.set(user: nil, organization: nil, location: nil)
+        User.current = user
+        Organization.current = organization
+        Location.current = location
+      end
+    end
+
     # include this in the User model
     module UserModel
       extend ActiveSupport::Concern
