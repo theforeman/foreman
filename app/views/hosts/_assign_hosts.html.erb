@@ -26,7 +26,7 @@
               </td>
               <td class="hidden-xs"><%= (icon(host.operatingsystem, :size => "18x18") + trunc_with_tooltip(" #{host.operatingsystem.to_label}",14)).html_safe if host.operatingsystem %></td>
               <td class="hidden-xs"><%= trunc_with_tooltip(host.try(:environment), 14) %></td>
-              <td class="hidden-tablet hidden-xs"><%= model_name host %></td>
+              <td class="hidden-tablet hidden-xs"><%= host.compute_resource_or_model %></td>
               <td class="hidden-tablet hidden-xs"><%= label_with_link host.hostgroup, 26 %></td>
             </tr>
           <% end %>

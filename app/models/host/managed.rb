@@ -811,6 +811,11 @@ class Host::Managed < Host::Base
     Operatingsystem.firmware_type(pxe_loader)
   end
 
+  def compute_resource_or_model
+    return self.compute_resource.name if self.compute_resource
+    self.hardware_model_name
+  end
+
   private
 
   def compute_profile_present?

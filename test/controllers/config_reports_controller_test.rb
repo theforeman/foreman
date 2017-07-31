@@ -26,6 +26,24 @@ class ConfigReportsControllerTest < ActionController::TestCase
     assert_equal 2, response.body.lines.size
   end
 
+  test 'csv export respects taxonomy scope' do
+    host = FactoryGirl.create(:host)
+    FactoryGirl.create(:config_report, :host => host)
+
+    # "any context"
+    get :index, {format: :csv}, set_session_user
+    assert_response :success
+    assert_equal 2, response.body.lines.size
+
+    get :index, {format: :csv}, set_session_user.merge(location_id: host.location_id)
+    assert_response :success
+    assert_equal 2, response.body.lines.size
+
+    get :index, {format: :csv}, set_session_user.merge(location_id: FactoryGirl.create(:location).id)
+    assert_response :success
+    assert_equal 1, response.body.lines.size
+  end
+
   def test_show
     get :show, {:id => report.id}, set_session_user
     assert_template 'show'
