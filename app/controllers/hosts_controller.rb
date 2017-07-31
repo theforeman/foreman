@@ -942,4 +942,10 @@ class HostsController < ApplicationController
   def csv_columns
     [:name, :operatingsystem, :environment, :compute_resource_or_model, :hostgroup, :last_report]
   end
+
+  def normalize_vm_attributes
+    if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
+      normalize_scsi_attributes(host_params["compute_attributes"])
+    end
+  end
 end
