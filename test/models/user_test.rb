@@ -1,6 +1,5 @@
 # encoding: UTF-8
 require 'test_helper'
-require 'minitest/mock'
 
 class UserTest < ActiveSupport::TestCase
   def setup
