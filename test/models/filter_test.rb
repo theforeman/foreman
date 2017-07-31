@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'minitest/mock'
 
 class FilterTest < ActiveSupport::TestCase
   test "#unlimited?" do

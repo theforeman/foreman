@@ -1,5 +1,4 @@
 require "test_helper"
-require 'minitest/mock'
 
 class FactParserTest < ActiveSupport::TestCase
   attr_reader :parser, :host
