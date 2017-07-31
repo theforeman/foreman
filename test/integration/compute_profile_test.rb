@@ -45,6 +45,6 @@ class ComputeProfileIntegrationTest < ActionDispatch::IntegrationTest
     visit compute_profile_path(compute_profiles(:one))
     # another-ec2 is not in fixture compute_attributes.yml
     click_link("another-ec2 (eu-west-1-EC2)")
-    assert page.has_selector?('h1', :text => 'New compute profile on another-ec2 (eu-west-1-EC2)'), "New compute profile on another-ec2 (eu-west-1-EC2) was expected in the <h1> tag, but was not found"
+    assert page.has_selector?('h1', :text => 'Create compute profile on another-ec2 (eu-west-1-EC2)'), "Create compute profile on another-ec2 (eu-west-1-EC2) was expected in the <h1> tag, but was not found"
   end
 end

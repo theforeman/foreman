@@ -41,14 +41,14 @@
             <div class="blank-slate-pf-icon">
               <%= icon_text("key", "", :kind => "fa") %>
             </div>
-            <h1><%= _('SSH keys') %></h1>
+            <h1><%= _('SSH Keys') %></h1>
             <p>
               <%= _("When using SSH based provisioning, a special SSH key is created in order to automate the provisioning process.") %><br />
               <%= _("Normally when setting up a Compute Resource, a key pair (private and public) is created for you automatically.") %><br />
               <%= _("However, if it was deleted externally this page helps you to recreate it") %>
              </p>
             <div class="blank-slate-pf-main-action">
-              <%= link_to(_('New SSH key'), compute_resource_key_pairs_path(@compute_resource), :method=> :post, :class => "btn-lg" ) %>
+              <%= link_to(_('Create SSH Key'), compute_resource_key_pairs_path(@compute_resource), :method=> :post, :class => "btn-lg" ) %>
             </div>
         </td>
       </tr>
