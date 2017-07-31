@@ -38,6 +38,25 @@ module Foreman
     end
   end
 
+  class WrappedException < ::Foreman::Exception
+    def initialize(wrapped_exception, message, *params)
+      super(message, *params)
+      @wrapped_exception = wrapped_exception
+    end
+
+    def wrapped_exception
+      @wrapped_exception
+    end
+
+    def message
+      super unless @wrapped_exception.present?
+
+      cls = @wrapped_exception.class.name
+      msg = @wrapped_exception.message.try(:truncate, 90)
+      super + " ([#{cls}]: #{msg})"
+    end
+  end
+
   class FingerprintException < Foreman::Exception
     def fingerprint
       @params[0]
@@ -48,6 +67,9 @@ module Foreman
   end
 
   class PermissionMissingException < Foreman::Exception
+  end
+
+  class LdapException < Foreman::WrappedException
   end
 
   class CyclicGraphException < ::ActiveRecord::RecordInvalid
