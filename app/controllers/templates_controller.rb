@@ -137,7 +137,7 @@ class TemplatesController < ApplicationController
     return unless @template
     @history = Audit.descending
                     .where(:auditable_id => @template.id,
-                           :auditable_type => @template.class.base_class,
+                           :auditable_type => @template.class.base_class.to_s,
                            :action => 'update')
                     .select { |audit| audit_template? audit }
   end
