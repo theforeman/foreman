@@ -36,6 +36,7 @@ class Filter < ApplicationRecord
     end
   end
 
+  audited :associated_with => :role
   belongs_to :role
   has_many :filterings, :autosave => true, :dependent => :destroy
   has_many :permissions, :through => :filterings
@@ -100,6 +101,10 @@ class Filter < ApplicationRecord
 
   def to_s
     _('filter for %s role') % self.role.try(:name) || 'unknown'
+  end
+
+  def to_label
+    permissions.pluck(:name).to_sentence
   end
 
   def resource_type
