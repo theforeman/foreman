@@ -563,6 +563,41 @@ class HostgroupTest < ActiveSupport::TestCase
     end
   end
 
+  context "recreating host configs" do
+    setup do
+      @hostgroup = FactoryGirl.create(:hostgroup, :with_parent)
+      @host = FactoryGirl.create(:host, :managed, :hostgroup => @hostgroup)
+      @host2 = FactoryGirl.create(:host, :managed, :hostgroup => @hostgroup.parent)
+    end
+
+    test "recreate config with success - only empty" do
+      Host::Managed.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true}).once
+      result = @hostgroup.recreate_hosts_config()
+      assert result[@host.name]["DHCP"]
+      assert result[@host.name]["DNS"]
+      assert result[@host.name]["TFTP"]
+    end
+
+    test "recreate config with success - only TFTP" do
+      Host::Managed.any_instance.expects(:recreate_config).returns({"TFTP" => true}).once
+      result = @hostgroup.recreate_hosts_config(['TFTP'])
+      refute result[@host.name]["DHCP"]
+      refute result[@host.name]["DNS"]
+      assert result[@host.name]["TFTP"]
+    end
+
+    test 'recreate children hostgroup hosts' do
+      Host::Managed.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true}).twice
+      result = @hostgroup.parent.recreate_hosts_config(nil, true)
+      assert result[@host.name]["DHCP"]
+      assert result[@host.name]["DNS"]
+      assert result[@host.name]["TFTP"]
+      assert result[@host2.name]["DHCP"]
+      assert result[@host2.name]["DNS"]
+      assert result[@host2.name]["TFTP"]
+    end
+  end
+
   private
 
   def setup_user(operation)

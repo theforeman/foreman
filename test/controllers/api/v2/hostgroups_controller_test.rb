@@ -144,6 +144,27 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_equal 1, hostgroup.reload.parameters.keys.count
   end
 
+  test "should successfully recreate host configs" do
+    Hostgroup.any_instance.expects(:recreate_hosts_config).returns({'foo.example.com' => { "TFTP" => true, "DNS" => true, "DHCP" => true }})
+    hostgroup = FactoryGirl.create(:hostgroup)
+    post :rebuild_config, { :id => hostgroup.to_param }, set_session_user
+    assert_response :success
+  end
+
+  test "should not successfully recreate host configs" do
+    Hostgroup.any_instance.expects(:recreate_hosts_config).returns({'foo.example.com' => { "TFTP" => true, "DNS" => false, "DHCP" => true }})
+    hostgroup = FactoryGirl.create(:hostgroup)
+    post :rebuild_config, { :id => hostgroup.to_param }, set_session_user
+    assert_response 422
+  end
+
+  test "should successfully recreate TFTP configs" do
+    Hostgroup.any_instance.expects(:recreate_hosts_config).returns({'foo.example.com' => { "TFTP" => true}})
+    hostgroup = FactoryGirl.create(:hostgroup)
+    post :rebuild_config, { :id => hostgroup.to_param, :only => ['TFTP'] }, set_session_user
+    assert_response :success
+  end
+
   private
 
   def last_record

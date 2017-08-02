@@ -294,7 +294,7 @@ Foreman::AccessControl.map do |permission_set|
                                             :host => host_ajax_actions,
                                             :puppetclasses => pc_ajax_actions,
                                             :"api/v1/hostgroups" => [:update],
-                                            :"api/v2/hostgroups" => [:update],
+                                            :"api/v2/hostgroups" => [:update, :rebuild_config],
                                             :"api/v2/hostgroup_classes" => [:index, :create, :destroy]
                                            }
     map.permission :destroy_hostgroups,    {:hostgroups => [:destroy],

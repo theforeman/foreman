@@ -7,7 +7,7 @@ module Api
       include ParameterAttributes
 
       before_action :find_optional_nested_object
-      before_action :find_resource, :only => %w{show update destroy clone}
+      before_action :find_resource, :only => %w{show update destroy clone rebuild_config}
       before_action :process_parameter_attributes, :only => %w{update}
 
       api :GET, "/hostgroups/", N_("List all host groups")
@@ -104,12 +104,33 @@ module Api
         process_response @hostgroup.save
       end
 
+      api :PUT, "/hostgroups/:id/rebuild_config", N_("Rebuild orchestration config")
+      param :id, :identifier, :required => true
+      param :only, Array, :desc => N_("Limit rebuild steps, valid steps are %{host_rebuild_steps}")
+      param :children_hosts, :bool, :desc => N_("Operate on child hostgroup hosts")
+      def rebuild_config
+        results = @hostgroup.recreate_hosts_config(params[:only], params[:children_hosts])
+        failures = []
+        results.each_pair do |host, result|
+          host_failures = result.reject { |key, value| value }.keys.map{ |k| _(k) }
+          failures << "#{host}(#{host_failures.to_sentence})" unless host_failures.empty?
+        end
+        if failures.empty?
+          render_message _("Configuration successfully rebuilt."), :status => :ok
+        else
+          render_error :custom_error, :status => :unprocessable_entity,
+                       :locals => { :message => _("Configuration rebuild failed for: %s." % failures.to_sentence) }
+        end
+      end
+
       private
 
       def action_permission
         case params[:action]
           when 'clone'
             'create'
+          when 'rebuild_config'
+            :edit
           else
             super
         end

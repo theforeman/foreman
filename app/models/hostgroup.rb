@@ -214,6 +214,21 @@ class Hostgroup < ApplicationRecord
     Host::Managed.authorized.where(:hostgroup => subtree_ids).size
   end
 
+  # rebuilds orchestration configuration for hostgroup's hosts
+  # takes all the methods from Orchestration modules that are registered for configuration rebuild
+  # arguments:
+  # => only : Array of rebuild methods to execute (Example: ['TFTP'])
+  # => children_hosts : Boolean that if true will operate on children hostgroup's hosts
+  # returns  : Hash with 'true' if rebuild was a success for a given key (Example: {'host.example.com': {"TFTP" => true, "DNS" => false}})
+  def recreate_hosts_config(only = nil, children_hosts = false)
+    result = {}
+
+    Host::Managed.authorized.where(:hostgroup => (children_hosts ? subtree_ids : self.id)).each do |host|
+      result[host.name] = host.recreate_config(only)
+    end
+    result
+  end
+
   protected
 
   def lookup_value_match
