@@ -49,7 +49,7 @@ class ChildFactValueIntegrationTest < ActionDispatch::IntegrationTest
 
     #click on the parent name link
     within(:xpath, "//tr[contains(.,'#{@parent_name.name}')]") do
-      assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]//li[1]//a[1]")[:title]
+      assert_equal "Show all #{@parent_name.name} children fact values", first(:xpath, "//td[2]//li[1]//a[2]")[:title]
       first(:xpath, "//td[2]//a[1]").click
     end
 

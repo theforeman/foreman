@@ -8,19 +8,17 @@ module FactValuesHelper
   def fact_name(value, parent)
     value_name = name = h(value.name)
     memo       = ''
-    name       = name.split(FactName::SEPARATOR).map do |current_name|
+    name.split(FactName::SEPARATOR).map do |current_name|
       memo = memo.empty? ? current_name : memo + FactName::SEPARATOR + current_name
       content_tag(:li) do
-        create_fact_name_link(parent, current_name, params[:host_id], value, value_name, memo)
+        if value.compose && current_name == name.split(FactName::SEPARATOR).last
+          url = host_parent_fact_facts_path(:parent_fact => value_name, :host_id => params[:host_id] || value.host.name)
+          link_to(icon_text('angle-down', '', :kind => 'fa', :title => _('Expand nested items')), url) + ' ' + create_fact_name_link(parent, current_name, params[:host_id], value, value_name, memo)
+        else
+          create_fact_name_link(parent, current_name, params[:host_id], value, value_name, memo)
+        end
       end
     end.join.html_safe
-
-    if value.compose
-      url = host_parent_fact_facts_path(:parent_fact => value_name, :host_id => params[:host_id] || value.host.name)
-      link_to(icon_text('angle-down', '', :kind => 'fa', :title => _('Expand nested items')), url) + ' ' + content_tag(:span, name)
-    else
-      name
-    end
   end
 
   def create_fact_name_link(parent, current_name, host_id, value, value_name, memo)
