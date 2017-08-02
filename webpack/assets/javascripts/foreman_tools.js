@@ -85,7 +85,7 @@ export function initTypeAheadSelect(input) {
 // handle table updates via turoblinks
 export function updateTable(element) {
   let uri = new URI(window.location.href);
-  let search, perPage;
+  let search, perPage, pageNum;
 
   if (element !== undefined) {
     search = $(element).find('.autocomplete-input').val() || $('#search-form').find('.autocomplete-input').val();
@@ -96,6 +96,11 @@ export function updateTable(element) {
   perPage = $('#per_page').val();
   if (perPage !== undefined) {
     uri.setSearch('per_page', perPage);
+  }
+
+  pageNum = $('#cur_page_num').val();
+  if (pageNum !== undefined) {
+    uri.setSearch('page', pageNum);
   }
   /* eslint-disable no-undef */
   Turbolinks.visit(uri.toString());

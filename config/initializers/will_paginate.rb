@@ -23,8 +23,8 @@ module WillPaginate
       end
 
       def pages
-        current_page_input = tag(:input, '', class: 'pagination-pf-page', type: 'text', value: current_page, id: 'pagination1-page')
-        current_page_label = tag(:label, _('Current Page'), class: 'sr-only', for: 'pagination1-page')
+        current_page_input = tag(:input, '', class: 'pagination-pf-page', type: 'text', value: current_page, id: 'cur_page_num')
+        current_page_label = tag(:label, _('Current Page'), class: 'sr-only', for: 'cur_page_num')
         of_total_pages = tag(:span, _('of ') + tag(:span, total_pages, class: 'pagination-pf-pages'))
         current_page_input + current_page_label + of_total_pages
       end
