@@ -141,7 +141,7 @@ describe('updateTableTest', () => {
         7
       </span>
     </span>
-    <ul class="pagination pagination-pf-back"><li class="firs first_page disabled"><a href="#"><span class="fa fa-angle-double-left "></span> </a></li><li class="prev previous_page disabled"><a href="#"><span class="fa fa-angle-left "></span> </a></li></ul> <input class="pagination-pf-page" type="text" value="1" id="pagination1-page"><label class="sr-only" for="pagination1-page">Current Page</label><span>of <span class="pagination-pf-pages">2</span></span> <ul class="pagination pagination-pf-forward"><li class="next next_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-right "></span> </a></li><li class="last last_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-double-right "></span> </a></li></ul>
+    <ul class="pagination pagination-pf-back"><li class="firs first_page disabled"><a href="#"><span class="fa fa-angle-double-left "></span> </a></li><li class="prev previous_page disabled"><a href="#"><span class="fa fa-angle-left "></span> </a></li></ul> <input class="pagination-pf-page" type="text" value="1" id="cur_page_num"><label class="sr-only" for="cur_page_num">Current Page</label><span>of <span class="pagination-pf-pages">2</span></span> <ul class="pagination pagination-pf-forward"><li class="next next_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-right "></span> </a></li><li class="last last_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-double-right "></span> </a></li></ul>
   </div>
 </form>
 </div>
@@ -153,17 +153,25 @@ describe('updateTableTest', () => {
     expect(global.Turbolinks.visit).toBeCalled();
   });
 
-  it('should use find search term and add it to the url considering per page value', () => {
+  it('should use find search term and add it to the url considering per page value and pagination', () => {
     let PerPage = $('#per_page').val();
 
     $('form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}&page=1`);
   });
 
-  it('should use selected per page value and add it to the url considering search term', () => {
+  it('should use selected per page value and add it to the url considering search term and pagination', () => {
     let PerPage = $('#per_page').val();
 
     $('#per_page').change();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}&page=1`);
+  });
+
+  it('should change page', () => {
+    let PerPage = $('#per_page').val();
+
+    $('#cur_page_num').val('4');
+    $('form').submit();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?search=name+%3D+y&per_page=${PerPage}&page=4`);
   });
 });
