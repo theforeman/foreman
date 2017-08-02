@@ -78,6 +78,7 @@ Foreman::Application.routes.draw do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         post :clone, :on => :member
+        put :rebuild_config, :on => :member
         resources :parameters, :except => [:new, :edit] do
           collection do
             delete '/', :action => :reset
