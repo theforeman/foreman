@@ -37,10 +37,8 @@ module Api
       param_group :config_report, :as => :create
 
       def create
-        @config_report = ConfigReport.import(params[:config_report], detected_proxy.try(:id))
-        process_response @config_report.errors.empty?
-      rescue ::Foreman::Exception => e
-        render_message(e.to_s, :status => :unprocessable_entity)
+        job = ImportConfigReport.perform_later(params[:config_report], detected_proxy.try(:id))
+        process_success _('Report import has been enqueued as job %s') % job.job_id, :accepted
       end
 
       api :DELETE, "/config_reports/:id/", N_("Delete a report")

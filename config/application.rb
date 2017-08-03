@@ -243,10 +243,10 @@ module Foreman
     def dynflow
       return @dynflow if @dynflow.present?
       @dynflow =
-        if defined?(ForemanTasks)
-          ForemanTasks.dynflow
+        if defined?(::ForemanTasks)
+          ::ForemanTasks.dynflow
         else
-          Dynflow::Rails.new(Foreman::Dynflow::Configuration.new)
+          ::Dynflow::Rails.new(::Foreman::Dynflow::Configuration.new)
         end
       @dynflow.require!
       @dynflow.initialize!
