@@ -12,7 +12,7 @@ module HostsAndHostgroupsHelper
   end
 
   def arch_oss
-    accessible_related_resource(@architecture, :operatingsystems)
+    accessible_related_resource(@architecture, :operatingsystems, order: :title)
   end
 
   def os_media
