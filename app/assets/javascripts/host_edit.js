@@ -561,7 +561,7 @@ function clearIpField(parent, childclass) {
 function suggestNewClick(element, e, suffix) {
   suffix = suffix || '';
   clearIpField(element, '.interface_ip' + suffix);
-  interface_subnet_selected($(element).closest('fieldset').find('select.interface_subnet' + suffix), 'ip' + suffix);
+  interface_subnet_selected($(element).closest('fieldset').find('select.interface_subnet' + suffix), 'ip' + suffix, true);
   e.preventDefault();
 }
 
@@ -582,8 +582,11 @@ $(document).on('change', '.interface_subnet6', function () {
 });
 
 $(document).on('change', '.interface_mac', function () {
+  var subnet_select = $(this).closest('fieldset').find('select.interface_subnet');
   var subnet6_select = $(this).closest('fieldset').find('select.interface_subnet6');
+  clearIpField(subnet_select, '.interface_ip');
   clearIpField(subnet6_select, '.interface_ip6');
+  interface_subnet_selected(subnet_select, 'ip');
   interface_subnet_selected(subnet6_select, 'ip6');
 });
 
@@ -661,7 +664,7 @@ function interface_domain_selected(element) {
   });
 }
 
-function interface_subnet_selected(element, ip_field) {
+function interface_subnet_selected(element, ip_field, skip_mac) {
   // mark the selected value to preserve it for form hiding
   preserve_selected_options($(element));
 
@@ -701,7 +704,7 @@ function interface_subnet_selected(element, ip_field) {
 
   var data = {
     subnet_id: subnet_id,
-    host_mac: interface_mac.val(),
+    host_mac: skip_mac ? "" : interface_mac.val(),
     organization_id: org,
     location_id: loc,
     taken_ips: taken_ips

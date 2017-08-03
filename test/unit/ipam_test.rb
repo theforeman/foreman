@@ -15,7 +15,7 @@ class IPAMTest < ActiveSupport::TestCase
   end
 
   context 'internal db' do
-    test "should find unused IPv4 in internal DB" do
+    test "should find unused IPv4" do
       subnet = FactoryGirl.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.2.0',
@@ -24,7 +24,7 @@ class IPAMTest < ActiveSupport::TestCase
       assert_equal '192.168.2.3', ipam.suggest_ip
     end
 
-    test "should find unused IPv6 in internal DB" do
+    test "should find unused IPv6" do
       subnet = FactoryGirl.create(
         :subnet_ipv6, :name => 'my_subnet',
         :network => '2001:db8::',
@@ -42,6 +42,62 @@ class IPAMTest < ActiveSupport::TestCase
         :ipam => IPAM::MODES[:db])
       ipam = IPAM::Db.new(:subnet => subnet)
       assert_equal '192.168.2.10', ipam.suggest_ip
+    end
+  end
+
+  context 'random db' do
+    test "should find unused IPv4" do
+      subnet = FactoryGirl.create(
+        :subnet_ipv4, :name => 'my_subnet',
+        :network => '10.0.0.0',
+        :mask => '255.0.0.0',
+        :ipam => IPAM::MODES[:random_db])
+      ipam = IPAM::RandomDb.new(:subnet => subnet)
+      assert_match /^10\./, ipam.suggest_ip
+    end
+
+    test "should return IPv4 based on MAC if provided" do
+      subnet = FactoryGirl.create(
+        :subnet_ipv4, :name => 'my_subnet',
+        :network => '10.0.0.0',
+        :mask => '255.0.0.0',
+        :ipam => IPAM::MODES[:random_db])
+      ipam1 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:FF")
+      ipam2 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:FF")
+      assert_equal ipam1.suggest_ip, ipam2.suggest_ip
+    end
+
+    test "should find the only possible IPv4" do
+      subnet = FactoryGirl.create(
+        :subnet_ipv4, :name => 'my_subnet',
+        :network => '192.168.11.0',
+        :from => '192.168.11.5',
+        :to => '192.168.11.5',
+        :ipam => IPAM::MODES[:random_db])
+      ipam = IPAM::RandomDb.new(:subnet => subnet)
+      assert_equal '192.168.11.5', ipam.suggest_ip
+    end
+
+    test "should find the only possible IPv4 with excluded IPs" do
+      subnet = FactoryGirl.create(
+        :subnet_ipv4, :name => 'my_subnet',
+        :network => '192.168.11.0',
+        :from => '192.168.11.5',
+        :to => '192.168.11.100',
+        :ipam => IPAM::MODES[:random_db])
+      ipam = IPAM::RandomDb.new(:subnet => subnet, :excluded_ips => (1..99).map{|x| "192.168.11.#{x}"})
+      assert_equal '192.168.11.100', ipam.suggest_ip
+    end
+
+    test "should stop trying to find random IPv4 after reasonable time" do
+      subnet = FactoryGirl.create(
+        :subnet_ipv4, :name => 'my_subnet',
+        :network => '10.0.0.0',
+        :mask => '255.0.0.0',
+        :ipam => IPAM::MODES[:random_db])
+      ipam = IPAM::RandomDb.new(:subnet => subnet)
+      ipam.excluded_ips.stubs(:include?).returns(true)
+      assert_nil ipam.suggest_ip
     end
   end
 
