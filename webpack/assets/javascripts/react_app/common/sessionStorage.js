@@ -19,5 +19,7 @@ export const notificationsDrawer = {
   getIsOpened: () => getValue('isDrawerOpen'),
   setIsOpened: value => setValue('isDrawerOpen', value),
   getExpandedGroup: () => getValue('expandedGroup'),
-  setExpandedGroup: value => setValue('expandedGroup', value)
+  setExpandedGroup: value => setValue('expandedGroup', value),
+  getHasUnreadMessages: () => getValue('hasUnreadMessages'),
+  setHasUnreadMessages: value => setValue('hasUnreadMessages', value)
 };
