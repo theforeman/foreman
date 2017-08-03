@@ -43,7 +43,8 @@ export const stateWithNotifications = immutable({
           ]
         }
       }
-    }
+    },
+    hasUnreadMessages: true
   }
 });
 
@@ -77,7 +78,8 @@ export const stateWithUnreadNotifications = immutable({
           ]
         }
       }
-    }
+    },
+    hasUnreadMessages: true
   }
 });
 

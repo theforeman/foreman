@@ -4,13 +4,15 @@ export const initialState = Immutable(
   {
     expandedGroup: null,
     isDrawerOpen: null,
-    isPolling: false
+    isPolling: false,
+    hasUnreadMessages: false
   });
 
 export const stateWithNotifications = Immutable(
   {
     isDrawerOpen: true,
     expandedGroup: 'Hosts',
+    hasUnreadMessages: true,
     notifications: [
       {
         id: 52435,
@@ -49,6 +51,7 @@ export const response = Immutable(
   {
     isDrawerOpen: true,
     expandedGroup: 'Hosts',
+    hasUnreadMessages: true,
     notifications: [
       {
         id: 52435,

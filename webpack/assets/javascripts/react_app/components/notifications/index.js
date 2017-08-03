@@ -4,7 +4,7 @@ import * as NotificationActions from '../../redux/actions/notifications';
 import './notifications.scss';
 import ToggleIcon from './toggleIcon/';
 import Drawer from './drawer/';
-import { groupBy, some, isUndefined } from 'lodash';
+import { groupBy, isUndefined } from 'lodash';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
@@ -53,7 +53,8 @@ const mapStateToProps = state => {
     notifications,
     isDrawerOpen,
     expandedGroup,
-    isPolling
+    isPolling,
+    hasUnreadMessages
   } = state.notifications;
 
   return {
@@ -62,7 +63,7 @@ const mapStateToProps = state => {
     notifications: groupBy(notifications, 'group'),
     expandedGroup,
     isReady: !isUndefined(notifications),
-    hasUnreadMessages: some(notifications, n => !n.seen)
+    hasUnreadMessages
   };
 };
 
