@@ -12,7 +12,8 @@
                  :label => _('IPAM'),
                  :label_help => _("You can select one of the IPAM modes supported by the selected IP protocol:<br/>" +
                                    "<ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li>" +
-                                   "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em></li>" +
+                                   "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li>" +
+                                   "<li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li>" +
                                    "<li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li>" +
                                    "<li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>").html_safe,
                  :label_help_options => { :title => _("IP Address Management"), :'data-placement' => 'top' }%>
