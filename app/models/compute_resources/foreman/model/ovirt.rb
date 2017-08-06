@@ -6,7 +6,7 @@ module Foreman::Model
     validates :url, :format => { :with => URI.regexp }
     validates :user, :password, :presence => true
     before_create :update_public_key
-    before_validation :update_available_operating_systems unless Rails.env.test?
+    after_validation :update_available_operating_systems unless Rails.env.test?
 
     alias_attribute :datacenter, :uuid
 
