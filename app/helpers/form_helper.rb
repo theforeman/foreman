@@ -17,11 +17,13 @@ module FormHelper
 
   def password_f(f, attr, options = {})
     unset_button = options.delete(:unset)
-    password_field_tag(:fakepassword, nil, :style => 'display: none') +
+    value = f.object[attr] if options.delete(:keep_value)
+    password_field_tag(:fakepassword, value, :style => 'display: none') +
         field(f, attr, options) do
           options[:autocomplete]   ||= 'off'
           options[:placeholder]    ||= password_placeholder(f.object, attr)
           options[:disabled] = true if unset_button
+          options[:value] = value if value.present?
           addClass options, 'form-control'
           pass = f.password_field(attr, options) +
               '<span class="glyphicon glyphicon-warning-sign input-addon"
