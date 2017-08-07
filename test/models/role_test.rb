@@ -356,6 +356,29 @@ class RoleTest < ActiveSupport::TestCase
         assert_empty @filter_with_org.organizations
       end
 
+      it 'should forced unlimited check if role or filter have no taxonomies' do
+        @role.organizations = [ @org1 ]
+        @role.save
+        @filter_with_org.reload
+        assert @filter_without_org.unlimited?
+        refute @filter_with_org.unlimited?
+        @role.organizations = []
+        @role.save
+        @filter_with_org.reload
+        assert @filter_without_org.unlimited?
+        assert @filter_with_org.unlimited?
+      end
+
+      it 'should rollback when invalid filter was saved' do
+        role = FactoryGirl.build(:role)
+        role.add_permissions! :view_domains
+        invalid_filter = role.filters.first
+        invalid_filter.permissions << Permission.where(:name => 'view_subnets')
+        invalid_filter.save(:validate => false)
+        refute role.save
+        assert role.errors[:base].include? "One or more of the associated filters are invalid which prevented the role to be saved"
+      end
+
       it 'does not touch filters that do not support taxonomies' do
         @role.organizations = [ @org1 ]
         @role.save
