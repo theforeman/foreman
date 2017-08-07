@@ -134,5 +134,17 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       click_link 'Parameters'
       assert page.has_no_selector?('#params .has-error')
     end
+
+    test 'build mode is enabled for managed hosts' do
+      host = FactoryGirl.create(:host, :managed)
+      visit clone_host_path(host)
+      assert page.has_checked_field?('host_build')
+    end
+
+    test 'build mode is not enabled for unmanaged hosts' do
+      host = FactoryGirl.create(:host)
+      visit clone_host_path(host)
+      refute page.has_checked_field?('host_build')
+    end
   end
 end
