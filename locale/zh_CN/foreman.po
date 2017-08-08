@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-07-03 07:00+0000\n"
-"Last-Translator: June Zhang <zhangjune99@gmail.com>\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -387,9 +387,6 @@ msgstr ""
 
 msgid "Action"
 msgstr "动作"
-
-msgid "Action with sub plans"
-msgstr ""
 
 msgid "Actions"
 msgstr "操作"
@@ -1464,6 +1461,9 @@ msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
 
 msgid "Could not add permissions to Manager role: %s"
+msgstr ""
+
+msgid "Could not add permissions to Organization admin role: %s"
 msgstr ""
 
 msgid "Could not add permissions to Viewer role: %s"
@@ -3855,9 +3855,6 @@ msgstr "导入"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3865,9 +3862,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3884,6 +3878,9 @@ msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "除规定构建这个主机类型需要包含的 puppet 类别外，您还可以为主机组分配变量及置备信息，以便细化 puppet 运行时行为。"
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -5801,9 +5798,6 @@ msgstr "照片属性"
 msgid "Physical (Bridge)"
 msgstr "物理（桥）"
 
-msgid "Play Ansible roles"
-msgstr ""
-
 msgid "Please Confirm"
 msgstr "请确认"
 
@@ -6258,9 +6252,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "远程地址"

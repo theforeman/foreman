@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-06-08 14:27+0000\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -412,9 +412,6 @@ msgstr "IP-Adressen für %s erlangen"
 
 msgid "Action"
 msgstr "Aktion"
-
-msgid "Action with sub plans"
-msgstr ""
 
 msgid "Actions"
 msgstr "Aktionen"
@@ -1490,6 +1487,9 @@ msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
 
 msgid "Could not add permissions to Manager role: %s"
+msgstr ""
+
+msgid "Could not add permissions to Organization admin role: %s"
 msgstr ""
 
 msgid "Could not add permissions to Viewer role: %s"
@@ -3882,9 +3882,6 @@ msgstr "Import"
 msgid "Import IPv4 subnets"
 msgstr "IPv4-Subnetze importieren"
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3893,9 +3890,6 @@ msgstr "Klassen aus %s importieren"
 
 msgid "Import environments from %s"
 msgstr "Umgebungen aus %s importieren"
-
-msgid "Import facts"
-msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr "Import von Fakten für Host %s fehlgeschlagen"
@@ -3911,6 +3905,9 @@ msgstr "Importierte IPv4-Subnetze"
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "Sie können nicht nur angeben, welche Puppetklassen beim Erstellen des Hosttyps inkludiert werden, sondern auch Variablen und Erstellungsinformationen zu einer Hostgruppe zuweisen, um das Verhalten der Puppet-Laufzeit weiter einzuschränken."
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -5828,9 +5825,6 @@ msgstr "Fotoattribut"
 msgid "Physical (Bridge)"
 msgstr "Physikalische (Bridge)"
 
-msgid "Play Ansible roles"
-msgstr ""
-
 msgid "Please Confirm"
 msgstr "Bitte bestätigen"
 
@@ -6285,9 +6279,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "Entfernte Adresse"

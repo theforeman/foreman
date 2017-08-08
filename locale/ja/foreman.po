@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-06-08 14:27+0000\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -384,9 +384,6 @@ msgstr "%s の IP アドレスの取得"
 
 msgid "Action"
 msgstr "アクション"
-
-msgid "Action with sub plans"
-msgstr ""
 
 msgid "Actions"
 msgstr "アクション"
@@ -1462,6 +1459,9 @@ msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
 
 msgid "Could not add permissions to Manager role: %s"
+msgstr ""
+
+msgid "Could not add permissions to Organization admin role: %s"
 msgstr ""
 
 msgid "Could not add permissions to Viewer role: %s"
@@ -3853,9 +3853,6 @@ msgstr "インポート"
 msgid "Import IPv4 subnets"
 msgstr "IPv4 サブネットのインポート"
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3864,9 +3861,6 @@ msgstr "%s からのクラスのインポート"
 
 msgid "Import environments from %s"
 msgstr "%s からの環境のインポート"
-
-msgid "Import facts"
-msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr "ホスト %s のファクトのインポートに失敗しました"
@@ -3882,6 +3876,9 @@ msgstr "インポート済みの IPv4 サブネット"
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "このホストタイプのビルド時に組み込む puppet クラスを定義するほか、puppet ランタイムの動作を設定し直すため、変数とプロビジョニング情報をホストグループに割り当てることができます。 "
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr "インラインコード構文"
@@ -5799,9 +5796,6 @@ msgstr "写真属性"
 msgid "Physical (Bridge)"
 msgstr "物理 (ブリッジ)"
 
-msgid "Play Ansible roles"
-msgstr ""
-
 msgid "Please Confirm"
 msgstr "確認してください"
 
@@ -6256,9 +6250,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "リモートアドレス"
