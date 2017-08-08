@@ -118,7 +118,7 @@ class AuthSourceLdap < AuthSource
     end
 
     logger.debug "Updating user groups for user #{login}"
-    internal = User.find_by_login(login).external_usergroups.map(&:name)
+    internal = User.unscoped.find_by_login(login).external_usergroups.map(&:name)
     external = ldap_con.group_list(login) # this list may return all groups in lowercase
     (internal | external).each do |name|
       begin

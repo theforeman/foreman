@@ -239,11 +239,13 @@ module Foreman #:nodoc:
     # Add a new role if it doesn't exist
     def role(name, permissions)
       default_roles[name] = permissions
-      return false if pending_migrations || Rails.env.test?
-      Role.transaction do
-        role = Role.where(:name => name).first_or_create
-        role.add_permissions!(permissions) if role.permissions.empty?
-        rbac_registry.role_ids << role.id
+      return false if pending_migrations || Rails.env.test? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
+      User.as_anonymous_admin do
+        Role.transaction do
+          role = Role.where(:name => name).first_or_create
+          role.add_permissions!(permissions) if role.permissions.empty?
+          rbac_registry.role_ids << role.id
+        end
       end
     rescue PermissionMissingException => e
       Rails.logger.warn(_("Could not create role '%{name}': %{message}") % {:name => name, :message => e.message})
