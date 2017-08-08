@@ -3,7 +3,7 @@
 
 <%= subnet_type_f f %>
 <%= text_f f, :network, :label => _("Network Address") %>
-<%= text_f f, :cidr, :label => _("Network Prefix"), :help_inline => _("Suffix or prefix length for this subnet, e.g. 32") %>
+<%= text_f f, :cidr, :label => _("Network Prefix"), :help_inline => _("Prefix length for this subnet, e.g. 24") %>
 <%= text_f f, :mask, :label => _("Network Mask"), :help_inline => _("Netmask for this subnet"), :wrapper_class => "form-group #{'hide' unless f.object.show_mask?}" %>
 <%= text_f f, :gateway, :label => _("Gateway Address"), :help_inline => _("Optional: Gateway for this subnet") %>
 <%= text_f f, :dns_primary, :label => _("Primary DNS Server"), :help_inline => _("Optional: Primary DNS for this subnet") %>
