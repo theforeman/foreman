@@ -1,18 +1,29 @@
-2017-08-08	Ondřej Pražák <xprazak2@users.noreply.github.com>
-	* Fixes #19677 - Add settings for local boot templates
-	* Fixes #19947 - Fix creating bookmarks for global params
+2017-08-08	Ivan Nečas <inecas@redhat.com>
+	* Fixes #19400 - defer loading of tables list cache
 
 2017-08-08	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #20248, #20327 - Respect context in CSV export
+	* Refs #19588 - Allow passing header to csv responder
 	* Fixes #20403 - Only show authorized compute profiles in forms
 	* Fixes #20248, #20327 - Respect context in CSV export
 
+2017-08-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #19588 - Allow setting custom headers in CSV export
+	* Fixes #19585 - Allow csv export of nested attributes
+	* Fixes #19417 - Safely check params for nested keys
+
 2017-08-08	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.3 - fix
 	* Fixes #20401 - Allow pxe_loader in the Jail
 	* Fixes #20373 - Add ESXi 6.5 to VMWare
 	* Fixes #20274 - Filter fixtures have many resource_types
 	* Release 1.15.3
 	* i18n - extracting new, pulling from tx
 	* i18n - extracting new, pulling from tx
+
+2017-08-08	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #19677 - Add settings for local boot templates
+	* Fixes #19947 - Fix creating bookmarks for global params
 
 2017-08-08	Marek Hulán <ares@users.noreply.github.com>
 	* Fixes #20321 - run puppet tasks under admin
@@ -24,9 +35,6 @@
 
 2017-08-08	Shimon Shtein <sshtein@redhat.com>
 	* Fixes #20212 - create and update host actions now showing params
-
-2017-08-08	Tomer Brisker <tbrisker@gmail.com>
-	* Fixes #19417 - Safely check params for nested keys
 
 2017-08-08	Anurag Patel <apatel@redhat.com>
 	* Fixes #17770 - Preserve timestamps for collected files.
