@@ -243,7 +243,7 @@ module Foreman #:nodoc:
     # Add a new role if it doesn't exist
     def role(name, permissions)
       default_roles[name] = permissions
-      return false if pending_migrations || Rails.env.test? || User.find_by_login(User::ANONYMOUS_ADMIN).nil?
+      return false if pending_migrations || Rails.env.test? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
       User.as_anonymous_admin do
         Role.transaction do
           role = Role.where(:name => name).first_or_create
