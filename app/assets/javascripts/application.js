@@ -229,28 +229,26 @@ function filter_by_level(item){
 
   // Note that class names don't map to log level names (label-info == notice)
   if(level == 'info'){
-    $('.label-info').closest('tr').show();
-    $('.label-default').closest('tr').show();
-    $('.label-warning').closest('tr').show();
-    $('.label-danger').closest('tr').show();
+    $('.label-info.result-filter-tag, ' +
+       '.label-default.result-filter-tag, ' +
+       '.label-warning.result-filter-tag, ' +
+       '.label-danger.result-filter-tag, ' +
+       '.label-success.result-filter-tag').closest('tr').show();
   }
   if(level == 'notice'){
-    $('.label-info').closest('tr').show();
-    $('.label-default').closest('tr').hide();
-    $('.label-warning').closest('tr').show();
-    $('.label-danger').closest('tr').show();
+    $('.label-info.result-filter-tag, .label-warning.result-filter-tag, .label-danger.result-filter-tag').closest('tr').show();
+    $('.label-default.result-filter-tag, .label-success.result-filter-tag').closest('tr').hide();
   }
   if(level == 'warning'){
-    $('.label-info').closest('tr').hide();
-    $('.label-default').closest('tr').hide();
-    $('.label-warning').closest('tr').show();
-    $('.label-danger').closest('tr').show();
+    $('.label-warning.result-filter-tag, .label-danger.result-filter-tag').closest('tr').show();
+    $('.label-info.result-filter-tag, .label-default.result-filter-tag, .label-success.result-filter-tag').closest('tr').hide();
   }
   if(level == 'error'){
-    $('.label-info').closest('tr').hide();
-    $('.label-default').closest('tr').hide();
-    $('.label-warning').closest('tr').hide();
-    $('.label-danger').closest('tr').show();
+    $('.label-danger.result-filter-tag').closest('tr').show();
+    $('.label-info.result-filter-tag, ' +
+      '.label-default.result-filter-tag, ' +
+      '.label-warning.result-filter-tag, ' +
+      '.label-success.result-filter-tag').closest('tr').hide();
   }
   if($("#report_log tr:visible ").length ==1 || $("#report_log tr:visible ").length ==2 && $('#ntsh:visible').length > 0 ){
     $('#ntsh').show();
