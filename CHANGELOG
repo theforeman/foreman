@@ -1,4 +1,37 @@
+2017-08-08	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+	* i18n - extracting new, pulling from tx
+
+2017-08-07	Timo Goebel <mail@timogoebel.name>
+	* fixes #20453 - build is enabled for cloned host (#4704)
+
+2017-07-31	Dominic Cleal <dominic@cleal.org>
+	* fixes #18200 - don't re-encrypt settings when value is unchanged
+
+2017-07-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #19264 - order images by name
+
+2017-07-25	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #20325 - Pin ruby2ruby to 2.3.2
+
+2017-07-21	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #18561 - faster fact deletion on MySQL
+
+2017-07-20	Marek Hulán <ares@users.noreply.github.com>
+	* Refs #17525 - verify domain dns id also on update
+
+2017-07-12	orrabin <orabin@redhat.com>
+	* Fixes #20209 - Remove ovirt image from compute profile
+
+2017-07-11	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #20272 - correctly rescue QueryNotSupported in production
+	* Fixes #20271 - update safemode gem
+
+2017-07-07	Daniel Lobato García <me@daniellobato.me>
+	* Fixes #20241 - Fix test for mail notifications
+
 2017-07-06	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.2
 	* i18n - extracting new, pulling from tx
 	* Fixes #19266 - fix_db_cache crashes Rails initialization
 	* Fixes #20104 - fix_db_cache needs to run as admin
