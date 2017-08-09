@@ -49,7 +49,10 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
 
         Rails.application.config.assets.precompile = plugin.assets
 
-        env.register_engine '.scss', Sass::Rails::ScssTemplate
+        env.register_transformer 'text/scss', 'text/css',
+          Sprockets::ScssProcessor.new(
+            importer: Sass::Rails::SassImporter,
+            sass_config: app.config.sass)
         env.js_compressor = :uglifier
         env.css_compressor = :sass
         env.cache = nil
@@ -63,6 +66,12 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
       end
 
       def compile
+        environment.context_class.class_eval do
+          def asset_path(path, options = {})
+            ActionController::Base.helpers.asset_path(path, options)
+          end
+        end
+
         with_logger do
           manifest.compile(assets)
         end
