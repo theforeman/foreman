@@ -77,6 +77,12 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
           env.append_path path
         end
 
+        env.context_class.class_eval do
+          def asset_path(path, options = {})
+            ActionController::Base.helpers.asset_path(path, options)
+          end
+        end
+
         env.version = [
           'production',
           config.assets.version,
