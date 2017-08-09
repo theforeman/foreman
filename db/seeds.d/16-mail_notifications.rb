@@ -31,7 +31,7 @@ notifications = [
 
   {
     :name               => 'audit_summary',
-    :description        => N_('A summary of audit changes report'),
+    :description        => N_('A summary of audit changes report <br> Filtered by a query if needed'),
     :mailer             => 'AuditMailer',
     :method             => 'summary',
     :subscription_type  => 'report',
