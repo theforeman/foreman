@@ -2,6 +2,7 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::HostDetails
   include Foreman::Controller::Parameters::Hostgroup
+  include Foreman::Controller::CsvResponder
 
   before_action :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
   before_action :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
@@ -9,6 +10,14 @@ class HostgroupsController < ApplicationController
 
   def index
     @hostgroups = resource_base_search_and_page
+    respond_to do |format|
+      format.html do
+        render :index
+      end
+      format.csv do
+        csv_response(@hostgroups)
+      end
+    end
   end
 
   def new
@@ -101,6 +110,10 @@ class HostgroupsController < ApplicationController
     reset_explicit_attributes
 
     render :partial => "form"
+  end
+
+  def csv_columns
+    [:title, :hosts_count, :children_hosts_count]
   end
 
   private
