@@ -206,6 +206,10 @@ class Hostgroup < ApplicationRecord
     new
   end
 
+  def hosts_count
+    Host::Managed.authorized(:view_hosts, Host).where(:hostgroup => id).size
+  end
+
   def children_hosts_count
     Host::Managed.authorized.where(:hostgroup => subtree_ids).size
   end

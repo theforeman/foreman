@@ -73,6 +73,15 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'csv export works' do
+    hostgroup = FactoryGirl.build(:hostgroup)
+    host = FactoryGirl.build(:host)
+    host.update_attribute(:hostgroup, hostgroup)
+    get :index, { :format => 'csv' }, set_session_user
+    assert_response :success
+    assert response.body.include? "#{hostgroup.title},1,1"
+  end
+
   test "hostgroup update without root password in the params does not erase existing password" do
     hostgroup = hostgroups(:common)
     old_root_pass = hostgroup.root_pass
