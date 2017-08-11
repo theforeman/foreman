@@ -47,7 +47,7 @@ class ComputeResourceJSIntegrationTest < IntegrationTestWithJavascript
     find("#disable-pass-btn").click
     fill_in "compute_resource_password", :with => "123456"
     click_link "Test Connection"
-    assert_equal "123456", find_field("compute_resource_password").value
+    assert find_field("compute_resource_password").has_content?('123456')
     wait_for_ajax
   end
 end
