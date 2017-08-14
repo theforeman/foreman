@@ -240,9 +240,7 @@ class User < ApplicationRecord
     else
       user = try_to_auto_create_user(login, password)
     end
-    if user
-      user.post_successful_login
-    else
+    unless user
       logger.info "invalid user"
       User.current = nil
     end
