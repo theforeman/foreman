@@ -1,8 +1,10 @@
 require 'test_helper'
 require 'models/compute_resources/compute_resource_test_helpers'
 
-class RackspaceTest < ActiveSupport::TestCase
+class Foreman::Model::RackspaceTest < ActiveSupport::TestCase
   include ComputeResourceTestHelpers
+
+  should validate_presence_of(:url)
 
   test "#associated_host matches any NIC" do
     host = FactoryGirl.create(:host, :ip => '10.0.0.154')

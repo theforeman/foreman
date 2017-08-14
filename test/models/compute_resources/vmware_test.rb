@@ -1,6 +1,18 @@
 require 'test_helper'
 
-class VmwareTest < ActiveSupport::TestCase
+class Foreman::Model::VmwareTest < ActiveSupport::TestCase
+  should validate_presence_of(:server)
+  should validate_presence_of(:user)
+  should validate_presence_of(:password)
+  should validate_presence_of(:datacenter)
+  should allow_values('vcenter.example.com', 'vcenter').for(:server)
+
+  test 'error message is added for server attribute' do
+    vmware_cr = FactoryGirl.build(:vmware_cr, :server => nil)
+    vmware_cr.validate
+    assert_includes vmware_cr.errors.full_messages, "Server can't be blank"
+  end
+
   test "#create_vm calls new_vm when network provisioning" do
     interfaces_attributes = { "new_interfaces" => { "type" => "VirtualE1000",   "network" => "network-17", "_delete" => ""},
                               "0"              => { "type" => "VirtualVmxnet3", "network" => "network-17", "_delete" => ""}}

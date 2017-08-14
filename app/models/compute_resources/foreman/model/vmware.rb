@@ -7,6 +7,7 @@ module Foreman::Model
     include ComputeResourceCaching
 
     validates :user, :password, :server, :datacenter, :presence => true
+
     before_create :update_public_key
 
     alias_attribute :server, :url

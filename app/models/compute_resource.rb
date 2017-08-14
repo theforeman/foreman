@@ -15,7 +15,6 @@ class ComputeResource < ApplicationRecord
   validates :name, :presence => true, :uniqueness => true
   validate :ensure_provider_not_changed, :on => :update
   validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
-  validates :url, :presence => true
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :type, :complete_value => :true
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER

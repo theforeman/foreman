@@ -6,6 +6,7 @@ module Foreman::Model
     delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
 
+    validates :url, :format => { :with => URI.regexp }, :presence => true
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }
 

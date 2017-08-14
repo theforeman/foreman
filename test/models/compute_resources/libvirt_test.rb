@@ -1,8 +1,10 @@
 require 'test_helper'
 require 'models/compute_resources/compute_resource_test_helpers'
 
-class LibvirtTest < ActiveSupport::TestCase
+class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
   include ComputeResourceTestHelpers
+
+  should validate_presence_of(:url)
 
   test "#associated_host matches any NIC" do
     host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:97')
