@@ -218,7 +218,7 @@ module Foreman::Model
     def start_vm(uuid)
       vm = find_vm_by_uuid(uuid)
       if vm.comment.include? "cloud-config"
-        vm.start_with_cloudinit(:blocking => true, :user_data => vm.comment)
+        vm.start_with_cloudinit(:blocking => true, :user_data => vm.comment, :use_custom_script => true)
         vm.comment = ''
         vm.save
       else
@@ -227,7 +227,7 @@ module Foreman::Model
     end
 
     def start_with_cloudinit(uuid, user_data = nil)
-      find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data)
+      find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data, :use_custom_script => true)
     end
 
     def sanitize_inherited_vm_attributes(args)
