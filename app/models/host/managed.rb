@@ -221,6 +221,10 @@ class Host::Managed < Host::Base
     self.name <=> other.name
   end
 
+  def owner_name
+    owner.try(:name)
+  end
+
   def self.model_name
     ActiveModel::Name.new(Host)
   end
