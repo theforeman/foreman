@@ -6,6 +6,8 @@ module Foreman
     class EC2Test < ActiveSupport::TestCase
       include ComputeResourceTestHelpers
 
+      should_not validate_presence_of(:url)
+
       should have_one(:key_pair).with_foreign_key('compute_resource_id').
         dependent(:destroy)
 

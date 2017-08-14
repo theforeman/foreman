@@ -1,5 +1,6 @@
 module Foreman::Model
   class Rackspace < ComputeResource
+    validates :url, :format => { :with => URI.regexp }, :presence => true
     validates :user, :password, :region, :presence => true
     validate :ensure_valid_region
 
@@ -82,7 +83,7 @@ module Foreman::Model
     end
 
     def ensure_valid_region
-      errors.add(:region, 'is not valid') unless regions.include?(region.upcase)
+      errors.add(:region, 'is not valid') unless regions.include?(region.to_s.upcase)
     end
 
     def associated_host(vm)

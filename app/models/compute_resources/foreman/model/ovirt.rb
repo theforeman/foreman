@@ -3,7 +3,8 @@ require 'uri'
 
 module Foreman::Model
   class Ovirt < ComputeResource
-    validates :url, :format => { :with => URI.regexp }
+    validates :url, :format => { :with => URI.regexp }, :presence => true,
+              :url_schema => ['http', 'https']
     validates :user, :password, :presence => true
     before_create :update_public_key
     after_validation :update_available_operating_systems unless Rails.env.test?

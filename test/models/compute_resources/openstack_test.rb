@@ -9,6 +9,10 @@ module Foreman
       should have_one(:key_pair).with_foreign_key('compute_resource_id').
         dependent(:destroy)
 
+      should validate_presence_of(:url)
+      should validate_presence_of(:user)
+      should validate_presence_of(:password)
+
       setup do
         @compute_resource = FactoryGirl.build(:openstack_cr)
       end
