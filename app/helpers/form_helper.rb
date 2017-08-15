@@ -18,9 +18,9 @@ module FormHelper
   def password_f(f, attr, options = {})
     unset_button = options.delete(:unset)
     value = f.object[attr] if options.delete(:keep_value)
-    password_field_tag(:fakepassword, value, :style => 'display: none') +
+    password_field_tag(:fakepassword, value, :style => 'display: none', :autocomplete => 'new-password-fake') +
         field(f, attr, options) do
-          options[:autocomplete]   ||= 'off'
+          options[:autocomplete]   ||= 'new-password'
           options[:placeholder]    ||= password_placeholder(f.object, attr)
           options[:disabled] = true if unset_button
           options[:value] = value if value.present?
