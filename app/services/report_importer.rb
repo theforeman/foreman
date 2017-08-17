@@ -33,13 +33,14 @@ class ReportImporter
   end
 
   def import
-    start_time = Time.now.utc
-    logger.info "processing report for #{name}"
-    logger.debug { "Report: #{raw.inspect}" }
+    start_time = Time.now
+    logger.debug { "Processing report: #{raw.inspect}" }
     create_report_and_logs
     if report.persisted?
-      logger.info("Imported report for #{name} in #{(Time.now.utc - start_time).round(2)} seconds")
-      host.refresh_statuses
+      imported_time = Time.now
+      host.refresh_statuses(statuses_for_refresh)
+      refreshed_time = Time.now
+      logger.info("Imported report for #{name} in #{(imported_time - start_time).round(2)} seconds, status refreshed in #{(refreshed_time - imported_time).round(2)} seconds")
     end
   end
 
@@ -86,6 +87,10 @@ class ReportImporter
 
   def report_status
     raise NotImplementedError
+  end
+
+  def statuses_for_refresh
+    HostStatus.status_registry
   end
 
   def notify_on_report_error(mail_error_state)
