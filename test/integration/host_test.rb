@@ -135,6 +135,15 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       assert page.has_no_selector?('#params .has-error')
     end
 
+    test 'clones root_pass' do
+      host = FactoryGirl.create(:host, :managed)
+      visit clone_host_path(host)
+      assert page.has_link?('Operating System', :href => '#os')
+      click_link 'Operating System'
+      root_pass = page.find("#host_root_pass")
+      assert_equal host.root_pass, root_pass.value
+    end
+
     test 'build mode is enabled for managed hosts' do
       host = FactoryGirl.create(:host, :managed)
       visit clone_host_path(host)

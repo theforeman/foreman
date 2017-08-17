@@ -59,7 +59,8 @@
 
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
-      <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more").html_safe, :unset => action_name == "edit" %>
+      <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more").html_safe,
+                     :unset => action_name == "edit", :keep_value => action_name == "clone"  %>
     </div>
 
     <div class="tab-pane" id="params">
