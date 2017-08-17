@@ -114,6 +114,24 @@ class ReportImporterTest < ActiveSupport::TestCase
     host = reporter.send(:host)
     assert_equal host, db_host
   end
+
+  test 'it should refresh all statuses' do
+    host = FactoryGirl.create(:host)
+    report = read_json_fixture('reports/applied.json')
+    report["host"] = host.name
+    reporter = TestReportImporter.new(report)
+    reporter.send(:host).expects(:refresh_statuses).with(HostStatus.status_registry)
+    reporter.import
+  end
+
+  test 'it should refresh zero statuses' do
+    host = FactoryGirl.create(:host)
+    report = read_json_fixture('reports/applied.json')
+    report["host"] = host.name
+    reporter = TestNoStatusUpdateReportImporter.new(report)
+    reporter.send(:host).expects(:refresh_statuses).with([])
+    reporter.import
+  end
 end
 
 class TestReportImporter < ReportImporter
@@ -123,5 +141,11 @@ class TestReportImporter < ReportImporter
 
   def report_name_class
     Report
+  end
+end
+
+class TestNoStatusUpdateReportImporter < TestReportImporter
+  def statuses_for_refresh
+    []
   end
 end

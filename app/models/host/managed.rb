@@ -785,8 +785,8 @@ class Host::Managed < Host::Base
     save!(:validate => false)
   end
 
-  def refresh_statuses
-    HostStatus.status_registry.each do |status_class|
+  def refresh_statuses(which = HostStatus.status_registry)
+    which.each do |status_class|
       status = get_status(status_class)
       status.refresh! if status.relevant?
     end

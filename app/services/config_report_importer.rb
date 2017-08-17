@@ -23,4 +23,8 @@ class ConfigReportImporter < ReportImporter
   def report_status
     ConfigReportStatusCalculator.new(:counters => raw['status']).calculate
   end
+
+  def statuses_for_refresh
+    [HostStatus.find_status_by_humanized_name("configuration")]
+  end
 end
