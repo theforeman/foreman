@@ -69,6 +69,15 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal lookup_value.value, a.value
   end
 
+  test 'clones root_pass' do
+    group = FactoryGirl.create(:hostgroup, :with_rootpass)
+    visit clone_hostgroup_path(group)
+    assert page.has_link?('Operating System', :href => '#os')
+    click_link 'Operating System'
+    root_pass = page.find("#hostgroup_root_pass")
+    assert_equal group.root_pass, root_pass.value
+  end
+
   test 'clone shows no errors on lookup values' do
     group = FactoryGirl.create(:hostgroup, :with_puppetclass)
     FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
