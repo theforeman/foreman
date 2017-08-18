@@ -1,0 +1,36 @@
+<% title "#{@console[:name]}" %>
+<% if webmks_assets_provided? %>
+  <%= stylesheet_link_tag '/webmks/css/wmks-all.css' %>
+  <%= javascript_include_tag '/webmks/wmks.min.js' %>
+  <%= javascript_tag("$(document).on('ContentLoad', function() { tfm.webmksConsole.initConsole() });"); %>
+
+  <%= title_actions(
+    button_group(
+      link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn btn-default", :disabled => true),
+      link_to(_("Full Screen"), "#", :id => "enterFullScreenButton", :class => "btn btn-default", :disabled => true),
+      if @host
+        link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')
+      end
+    )
+  ) %>
+
+  <p><%= (_('The VM is running on host %s.') % link_to(@console[:host], @console[:host_url])).html_safe %></p>
+
+  <div style="text-align: center;"><span class="label label-info" id="wmksStatus"><%= _('Connecting...') %></span></div>
+  <div id="wmksError" style="display: none;"></div>
+  <div id="wmksContainer" style="position: absolute; width: 99%; height: 99%; display: none;" data-url="<%= @console[:console_url] %>"></div>
+<% else %>
+  <div class="blank-slate-pf">
+    <div class="blank-slate-pf-icon">
+      <%= icon_text('screen', '', :kind => 'pficon') %>
+    </div>
+    <h1><%= _('WebMKS Console') %></h1>
+    <p><%= _('The WebMKS console is not available because the required libraries are not installed.') %></p>
+    <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("5.2.9VMwareNotes")%></p>
+    <div class="blank-slate-pf-main-action">
+      <% if @host %>
+        <%= link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-primary btn-lg') %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

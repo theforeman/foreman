@@ -33,6 +33,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   numFields: require('./jquery.ui.custom_spinners'),
   reactMounter: require('./react_app/common/MountingService'),
   editor: require('./foreman_editor'),
+  webmksConsole: require('./foreman_webmks_console'),
   nav: require('./foreman_navigation'),
   medium: require('./foreman_medium'),
 });

@@ -28,7 +28,8 @@ module Foreman::Model
     def self.supported_display_types
       {
         'vnc' => _('VNC'),
-        'vmrc' => _('VMRC')
+        'vmrc' => _('VMRC'),
+        'webmks' => _('WebMKS')
       }
     end
 
@@ -517,6 +518,8 @@ module Foreman::Model
       case display_type
       when 'vmrc'
         vmrc_console(vm)
+      when 'webmks'
+        webmks_console(vm)
       else
         vnc_console(vm)
       end
@@ -533,6 +536,25 @@ module Foreman::Model
         :name => vm.name,
         :console_url => build_vmrc_uri(server, vm.mo_ref, client.connection.serviceContent.sessionManager.AcquireCloneTicket),
         :type => 'vmrc'
+      }
+    end
+
+    def webmks_console(vm)
+      ticket = vm.acquire_ticket('webmks')
+      host_url = URI::Generic.build(:scheme => 'https',
+                                    :host   => ticket.host,
+                                    :port   => ticket.port).to_s
+      console_url = URI::Generic.build(:scheme => 'wss',
+                                       :host   => ticket.host,
+                                       :port   => ticket.port,
+                                       :path   => "/ticket/#{ticket.ticket}").to_s
+      {
+        :name => vm.name,
+        :host => ticket.host,
+        :extend_content_security_policy => ["wss://#{ticket.host}"],
+        :host_url => host_url,
+        :console_url => console_url,
+        :type => 'webmks'
       }
     end
 
