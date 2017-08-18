@@ -2620,7 +2620,7 @@ class HostTest < ActiveSupport::TestCase
       assert copy.last_report.blank?
     end
 
-    test 'clone host should copy interfaces without name, mac and ip' do
+    test 'clone host should copy interfaces without name, mac, host_id and ips' do
       host = FactoryGirl.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :dualstack)
       copy = host.clone
 
@@ -2631,6 +2631,7 @@ class HostTest < ActiveSupport::TestCase
       assert interface.mac.blank?
       assert interface.ip.blank?
       assert interface.ip6.blank?
+      assert interface.host_id.blank?
     end
 
     test 'without save makes no changes' do
@@ -2639,6 +2640,15 @@ class HostTest < ActiveSupport::TestCase
       ActiveRecord::Base.any_instance.expects(:destroy).never
       ActiveRecord::Base.any_instance.expects(:save).never
       host.clone
+    end
+
+    test 'clone host with identifier should be valid' do
+      interface = FactoryGirl.build(:nic_primary_and_provision, :identifier => 'eth0')
+      host = FactoryGirl.create(:host, :interfaces => [ interface ])
+      copy = host.clone
+
+      cloned_interface = copy.interfaces.first
+      assert_valid cloned_interface
     end
   end
 
