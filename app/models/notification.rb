@@ -4,11 +4,13 @@
 # This class' responsibility is, given a notification blueprint, to determine
 # who are the notification recipients
 class Notification < ApplicationRecord
-  AUDIENCE_USER     = 'user'
-  AUDIENCE_GROUP    = 'usergroup'
-  AUDIENCE_TAXONOMY = 'taxonomy'
-  AUDIENCE_GLOBAL   = 'global'
-  AUDIENCE_ADMIN    = 'admin'
+  AUDIENCE_USER      = 'user'
+  AUDIENCE_USERGROUP = 'usergroup'
+  AUDIENCE_GLOBAL    = 'global'
+  AUDIENCE_ADMIN     = 'admin'
+  # calls notification_recipients_ids on the subject to
+  # determine the recipient user ids
+  AUDIENCE_SUBJECT   = 'subject'
 
   belongs_to :notification_blueprint
   belongs_to :initiator, :class_name => User, :foreign_key => 'user_id'
@@ -20,7 +22,7 @@ class Notification < ApplicationRecord
   validates :notification_blueprint, :presence => true
   validates :initiator, :presence => true
   validates :audience, :inclusion => {
-    :in => [AUDIENCE_USER, AUDIENCE_GROUP, AUDIENCE_TAXONOMY,
+    :in => [AUDIENCE_USER, AUDIENCE_USERGROUP, AUDIENCE_SUBJECT,
             AUDIENCE_GLOBAL, AUDIENCE_ADMIN]
   }, :presence => true
   validates :message, :presence => true
@@ -39,14 +41,10 @@ class Notification < ApplicationRecord
     case audience
     when AUDIENCE_GLOBAL
       User.reorder('').pluck(:id)
-    when AUDIENCE_TAXONOMY
-      subject.user_ids.uniq
-    when AUDIENCE_USER
-      [initiator.id]
     when AUDIENCE_ADMIN
       User.unscoped.only_admin.except_hidden.reorder('').uniq.pluck(:id)
-    when AUDIENCE_GROUP
-      subject.all_users.uniq.map(&:id) # This needs to be rewritten in usergroups.
+    else
+      subject.try(:notification_recipients_ids) || []
     end
   end
 

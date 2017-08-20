@@ -34,48 +34,49 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test 'user notifications should subscribe only to itself' do
-    notification = FactoryGirl.build(:notification,
-                                     :audience => Notification::AUDIENCE_USER)
-    assert_equal [notification.initiator.id], notification.subscriber_ids
+    notification = FactoryGirl.create(:notification,
+                                      :subject => User.current,
+                                      :audience => Notification::AUDIENCE_USER)
+    assert_equal [User.current.id], notification.subscriber_ids
   end
 
   test 'usergroup notifications should subscribe to all of its members' do
     group = FactoryGirl.create(:usergroup)
     group.users = FactoryGirl.create_list(:user,25)
     notification = FactoryGirl.build(:notification,
-                                     :audience => Notification::AUDIENCE_GROUP)
+                                     :audience => Notification::AUDIENCE_USERGROUP)
     notification.subject = group
     assert group.all_users.any?
-    assert_equal group.all_users.map(&:id),
-      notification.subscriber_ids
+    assert_equal group.all_users.map(&:id).sort,
+      notification.subscriber_ids.sort
   end
 
   test 'Organization notifications should subscribe to all of its members' do
     org = FactoryGirl.create(:organization)
     org.users = FactoryGirl.create_list(:user,25)
     notification = FactoryGirl.build(:notification,
-                                     :audience => Notification::AUDIENCE_TAXONOMY)
+                                     :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = org
     assert org.user_ids.any?
-    assert_equal org.user_ids, notification.subscriber_ids
+    assert_equal org.user_ids.sort, notification.subscriber_ids.sort
   end
 
   test 'Location notifications should subscribe to all of its members' do
     loc = FactoryGirl.create(:location)
     loc.users = FactoryGirl.create_list(:user,25)
     notification = FactoryGirl.build(:notification,
-                                     :audience => Notification::AUDIENCE_TAXONOMY)
+                                     :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = loc
     assert loc.user_ids.any?
-    assert_equal loc.user_ids, notification.subscriber_ids
+    assert_equal loc.user_ids.sort, notification.subscriber_ids.sort
   end
 
   test 'Global notifications should subscribe to all users' do
     notification = FactoryGirl.build(:notification,
                                      :audience => Notification::AUDIENCE_GLOBAL)
     assert User.count > 0
-    assert_equal User.reorder('').pluck(:id),
-      notification.subscriber_ids
+    assert_equal User.reorder('').pluck(:id).sort,
+      notification.subscriber_ids.sort
   end
 
   test 'Admin notifications should subscribe to all admin users except hidden' do

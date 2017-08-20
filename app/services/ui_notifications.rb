@@ -9,6 +9,7 @@ module UINotifications
       # Do not break actions using notifications even if there is a failure.
       logger.warn("Failed to handle notifications - this is most likely a bug: #{e}")
       logger.debug(e.backtrace.join("\n"))
+      false
     end
 
     def self.logger

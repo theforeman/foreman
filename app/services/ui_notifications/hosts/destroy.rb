@@ -10,10 +10,19 @@ module UINotifications
         Notification.create!(
           initiator: initiator,
           audience: audience,
-          # note we do not store the subject, as the object is being deleted.
+          subject: subject.owner, # note we store the host owner, as the host object is being deleted.
           message: StringParser.new(blueprint.message, {subject: subject}),
           notification_blueprint: blueprint
         )
+      end
+
+      def audience
+        case subject.owner_type
+        when 'User'
+          ::Notification::AUDIENCE_USER
+        when 'Usergroup'
+          ::Notification::AUDIENCE_USERGROUP
+        end
       end
 
       def delete_others
