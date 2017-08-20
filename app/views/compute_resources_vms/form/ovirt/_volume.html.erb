@@ -9,6 +9,6 @@
 <%= checkbox_f f, :preallocate, { :checked => f.object.sparse == 'false', :help_inline => _('Uses thin provisioning if unchecked'), :label => _('Preallocate disk'), :label_size => "col-md-2" } %>
 
 <%= field(f, :bootable, :label => _('Bootable'), :label_size => "col-md-2") do
-    radio_button_f f, :bootable, {:disabled => !new_vm, :value=>'true', :checked => (f.object.bootable == 'true'), :onclick => 'bootable_radio(this)',
+    radio_button_f f, :bootable, {:disabled => !new_vm, :value=>'true', :checked => (f.object.bootable == 'true'), :onclick => 'tfm.computeResource.ovirt.bootableRadio(this)',
     :text => _('Only one volume can be bootable')}
 end %>

@@ -89,7 +89,7 @@ module ComputeResourcesHelper
     caption ||= _("Test Connection")
     btn_class = success ? 'btn-success' : 'btn-default'
     spinner_class = success ? 'spinner-inverse' : nil
-    spinner_button_f(f, caption, "testConnection(this)",
+    spinner_button_f(f, caption, "tfm.computeResource.testConnection(this)",
                      :id => 'test_connection_button',
                      :spinner_id => 'test_connection_indicator',
                      :class => btn_class,

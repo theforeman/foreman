@@ -5,7 +5,7 @@
 <%= selectable_f f, :type, libvirt_networks(compute_resource), {},
                  { :label    => _('Network type'),
                    :disabled => !new_vm,
-                   :onchange => 'libvirt_network_selected(this)',
+                   :onchange => 'tfm.computeResource.libvirt.networkSelected(this)',
                    :class => 'libvirt_network',
                    :label_size => "col-md-3"
                  } %>
