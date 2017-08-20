@@ -1,4 +1,3 @@
-<%= javascript 'compute_resource' %>
 <%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initCounter)"); %>
 <%= text_f f, :name, :label => _('Name'), :disabled => !new_vm if show_vm_name? %>
 <%= counter_f f, :cpus, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
@@ -12,7 +11,7 @@
 end %>
 <%= selectable_f f, :cluster, compute_resource.clusters, { :include_blank => _('Please select a cluster') },
                     :class => "col-md-2", :disabled => !new_vm,
-                    :label => _('Cluster'), :onchange => 'vsphereGetResourcePools(this)',
+                    :label => _('Cluster'), :onchange => 'tfm.computeResource.vmware.getResourcePools(this)',
                     :help_inline => :indicator,
                     :data => {:url => resource_pools_compute_resource_path(compute_resource)} %>
 <%= vsphere_resource_pools(f, compute_resource, !new_vm) %>

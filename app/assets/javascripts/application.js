@@ -18,6 +18,7 @@
 //= require lookup_keys
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require compute_resource
 
 $(document).on("page:fetch", tfm.tools.showSpinner)
 

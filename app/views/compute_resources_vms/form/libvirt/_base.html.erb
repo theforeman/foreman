@@ -18,7 +18,7 @@
   <%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
              { :disabled    => images.empty? || (params[:host] && params[:host][:provision_method] == 'build'),
                :'data-url'  => template_selected_compute_resource_path(compute_resource),
-               :onchange    => 'libvirt_image_selected(this);',
+               :onchange    => 'tfm.computeResource.libvirt.imageSelected(this);',
                :help_inline => :indicator,
                :help_block  => _("Image to use"),
                :label => _('Image'), :label_size => "col-md-2"} %>

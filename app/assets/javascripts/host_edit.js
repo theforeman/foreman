@@ -401,12 +401,12 @@ function update_provisioning_image(){
         if (image_options.find('option').length > 0) {
           if ($('#host_provision_method_image')[0].checked) {
             if ($('#provider').val() == 'Libvirt') {
-              libvirt_image_selected(image_options);
+              tfm.computeResource.libvirt.imageSelected(image_options);
             } else if ($('#provider').val() == 'Ovirt') {
               var template_select = $('#host_compute_attributes_template');
               if (template_select.length > 0) {
                 template_select.val(image_options.val());
-                ovirt_templateSelected(image_options);
+                tfm.computeResource.ovirt.templateSelected(image_options);
               }
             }
           }
@@ -533,13 +533,13 @@ function image_provision_method_selected() {
   var image_options = $('#image_selection select');
   image_options.attr('disabled', false);
   if ($('#provider').val() == 'Libvirt') {
-    libvirt_image_selected(image_options);
+    tfm.computeResource.libvirt.imageSelected(image_options);
   } else if ($('#provider').val() == 'Ovirt') {
     var template_options = $('#host_compute_attributes_template');
     if (template_options.length > 0) {
       template_options.attr('disabled', true);
       template_options.val(image_options.val());
-      ovirt_templateSelected(image_options);
+      tfm.computeResource.ovirt.templateSelected(image_options);
     }
   }
 }

@@ -12,7 +12,7 @@ images = possible_images(compute_resource, arch, os)
   <% if compute_resource.subnets.any? %>
     <%= select_f f, :subnet_id, compute_resource.subnets, :subnet_id, :cidr_block,
     {:include_blank => _("EC2")},
-    {:label => _("Subnet"), :label_size => "col-md-2", :onchange => "ec2_vpcSelected(this);"} %>
+    {:label => _("Subnet"), :label_size => "col-md-2", :onchange => "tfm.computeResource.ec2.vpcSelected(this);"} %>
   <% end %>
 
   <% groups, vpc_sg_hash, subnet_vpc_hash = security_groups_selectable(compute_resource, f) %>

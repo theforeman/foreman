@@ -1,17 +1,16 @@
 <%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
 
-<% javascript 'compute_resource' %>
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3" if show_vm_name? %>
 <% clusters = compute_resource.clusters %>
 <%= select_f f, :cluster, clusters, :id, :name, { },
              { :disabled    => !new_vm, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
-               :onchange    => 'ovirt_clusterSelected(this);',
+               :onchange    => 'tfm.computeResource.ovirt.clusterSelected(this);',
                :help_inline => :indicator,
                :label      => _('Cluster'), :label_size => "col-md-2" } %>
 <%= f.hidden_field :cluster if !new_vm %>
 <%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Select template")},
              { :disabled    => !new_vm, :'data-url' => template_selected_compute_resource_path(compute_resource),
-               :onchange    => 'ovirt_templateSelected(this);',
+               :onchange    => 'tfm.computeResource.ovirt.templateSelected(this);',
                :help_inline => :indicator,
                :help_block  => _("oVirt/RHEV template to use"),
                :label       => _('Template'), :label_size => "col-md-2" } %>
@@ -34,7 +33,7 @@
   <div id='image_selection'>
     <%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
                { :disabled    => true, :'data-url' => template_selected_compute_resource_path(compute_resource),
-                 :onchange    => 'ovirt_templateSelected(this);',
+                 :onchange    => 'tfm.computeResource.ovirt.templateSelected(this);',
                  :help_inline => :indicator,
                  :help_block  => _("Image to use"),
                  :label => _('Image'), :label_size => "col-md-2"} %>

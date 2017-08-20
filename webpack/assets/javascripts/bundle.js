@@ -9,12 +9,14 @@ require('./bundle_flot');
 require('./bundle_multiselect');
 require('./bundle_select2');
 require('./bundle_datatables');
+import compute from './foreman_compute_resource';
 
 window.tfm = Object.assign(
   window.tfm || {},
   {
     tools: require('./foreman_tools'),
     users: require('./foreman_users'),
+    computeResource: compute,
     sshKeys: require('./foreman_ssh_keys'),
     trends: require('./foreman_trends'),
     hostgroups: require('./foreman_hostgroups'),
