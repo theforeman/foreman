@@ -21,6 +21,8 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
+      <%= render_if_exists "#{@type_name_plural}/_alerts" %>
+
       <%= text_f f, :name, :disabled => @template.locked? %>
 
       <% if show_default? %>
@@ -28,7 +30,6 @@
       <% end -%>
 
       <%= render "custom_tabs", :f => f if type == 'ptable' %>
-      <%= render_if_exists "#{@type_name_plural}/_alerts" %>
 
       <% if pxe_with_building_hosts?(@template) -%>
         <% warning_text = (_("The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu") % link_to(_('recreate'), building_hosts_path(@template))).html_safe %>
