@@ -24,9 +24,9 @@ class TemplatesController < ApplicationController
   # detect method definitions in controller ancestors, only methods defined directly in child controller
   def clone_template
     @template = @template.dup
+    @template.name += ' clone'
     @template.locked = false
     load_vars_from_template
-    warning(_("The marked fields will need reviewing"), true)
     @template.valid?
     render :action => :new
   end
