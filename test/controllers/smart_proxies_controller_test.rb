@@ -221,7 +221,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
     xhr :get, :errors_card, { :id => proxy.id }, set_session_user
     assert_response :success
     assert_template 'smart_proxies/logs/_errors_card'
-    assert @response.body.include?('2 log messages')
+    assert @response.body.include?('2 Log Messages')
     assert @response.body.include?('2 error messages')
   end
 
@@ -238,7 +238,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'smart_proxies/logs/_errors_card'
     assert @response.body.include?('pficon-ok')
-    assert @response.body.include?('0 log messages')
+    assert @response.body.include?('0 Log Messages')
     refute @response.body.include?('warning message')
     refute @response.body.include?('error message')
   end
@@ -258,7 +258,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
     xhr :get, :modules_card, { :id => proxy.id }, set_session_user
     assert_response :success
     assert_template 'smart_proxies/logs/_modules_card'
-    assert @response.body.include?('4 active features')
+    assert @response.body.include?('4 Active Features')
     assert @response.body.include?('Failed features: BMC, Puppet')
   end
 
