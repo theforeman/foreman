@@ -9,11 +9,9 @@
       <p class="card-pf-aggregate-status-notifications">
       <span class="card-pf-aggregate-status-notification">
         <% if authorized_for(:controller => "SmartProxies::Autosign", :action => :create, :auth_object => @proxy) %>
-          <a href="" class="add" data-toggle='modal' data-target='#autosignModal'>
-          <span class="pficon pficon-add-circle-o" data-toggle="tooltip" title="<%= _('Add Autosign entry') %>"></span></a>
+          <a href="" class="btn btn-default" data-toggle='modal' data-target='#autosignModal'><%= _('Add Autosign entry') %></a>
         <% else %>
-          <a href="#autosign">
-          <span class="fa fa-search" data-toggle="tooltip" title="<%= _('View list') %>"></span></a>
+          <a href="#autosign" class="btn btn-default"><%= _('View list') %></a>
         <% end %>
       </span>
       </p>
