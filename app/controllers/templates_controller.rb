@@ -2,6 +2,7 @@ class TemplatesController < ApplicationController
   include UnattendedHelper # includes also Foreman::Renderer
   include Foreman::Controller::ProvisioningTemplates
   include Foreman::Controller::AutoCompleteSearch
+  include AuditsHelper
 
   before_action :handle_template_upload, :only => [:create, :update]
   before_action :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock, :export]
@@ -134,7 +135,11 @@ class TemplatesController < ApplicationController
 
   def load_history
     return unless @template
-    @history = Audit.descending.where(:auditable_id => @template.id, :auditable_type => @template.class.base_class, :action => 'update')
+    @history = Audit.descending
+                    .where(:auditable_id => @template.id,
+                           :auditable_type => @template.class.base_class,
+                           :action => 'update')
+                    .select { |audit| audit_template? audit }
   end
 
   def action_permission
