@@ -12,6 +12,7 @@ require('brace/theme/twilight');
 require('brace/theme/clouds');
 require('brace/keybinding/vim');
 require('brace/keybinding/emacs');
+require('brace/ext/searchbox');
 
 let Editor;
 
