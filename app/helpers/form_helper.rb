@@ -355,7 +355,7 @@ module FormHelper
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
     end
-    options[:class] = "btn btn-primary #{options[:class]}"
+    options[:class] = link_to_add_fields_classes(options)
     link_to_function(name, ("add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}')").html_safe, options)
   end
 
@@ -400,5 +400,13 @@ module FormHelper
     if request.headers["X-Foreman-Layout"] == 'two-pane'
       content_tag(:input, '', {:type => "hidden", :name => "_ie_support"})
     end
+  end
+
+  private
+
+  def link_to_add_fields_classes(options = {})
+    classes = "btn btn-default #{options[:class]}"
+    classes << ' btn-primary' if options.fetch(:primary_button, true)
+    classes
   end
 end
