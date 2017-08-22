@@ -12,7 +12,7 @@
         <td><%= h cert%>
         </td>
         <td>
-          <%= action_buttons(display_delete_if_authorized hash_for_smart_proxy_autosign_path(:smart_proxy_id => @proxy, :id => cert).merge(:auth_object => @proxy), :class => 'delete')%>
+          <%= action_buttons(display_delete_if_authorized hash_for_smart_proxy_autosign_path(:smart_proxy_id => @proxy, :id => cert).merge(:auth_object => @proxy))%>
         </td>
       </tr>
     <% end %>
