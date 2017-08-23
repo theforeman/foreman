@@ -1,6 +1,6 @@
 module AuditsHelper
   MAIN_OBJECTS = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ProvisioningTemplate ComputeProfile ComputeAttribute
-                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup)
+                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup Ptable)
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label(name, change, truncate = true)
@@ -140,6 +140,8 @@ module AuditsHelper
                     'Smart Class Parameter'
                   when 'LookupValue'
                     'Override Value'
+                  when 'Ptable'
+                    'Partition Table'
                   else
                     audit.auditable_type
                 end
