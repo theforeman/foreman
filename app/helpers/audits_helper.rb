@@ -45,7 +45,7 @@ module AuditsHelper
       audit.audited_changes.map do |name, change|
         next if change.nil? || change.to_s.empty?
         if name == 'template'
-          (_("Provisioning Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
+          (_("Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
         elsif name == "password_changed"
           _("Password has been changed")
         elsif name == "owner_id" || name == "owner_type"
