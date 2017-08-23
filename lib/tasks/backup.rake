@@ -9,9 +9,13 @@ A valid config/database.yml file with the database details is needed to perform 
 
 Available conditions:
   * destination => path to dump output file (defaults to #{File.expand_path('../../../db', __FILE__)}/foreman.EPOCH.sql)
-
+  * tables => optional comma separated list of tables (you can use regex to match multiple)
+              Specifies the list of tables to include in the dump.
+              This option works for postgres and mysql only.
   Example:
     rake db:dump destination=/mydir/dumps/foreman.sql RAILS_ENV=production # puts production dump in /mydir/dumps/foreman.sql
+    rake db:dump tables="hostgro.*"# will match ["hostgroup_classes", "hostgroups"]
+
 END_DESC
 
   task :dump => :environment do
@@ -26,12 +30,23 @@ END_DESC
       end
     end
 
+    if ENV['tables'].present?
+      tables = get_matched_tables(ENV['tables'].split(","))
+      if tables.blank?
+        puts "No tables matching your pattern. '#{ENV['tables']}'."
+        exit(0)
+      else
+        puts "Generating dump for the following tables -> #{tables.inspect}"
+      end
+    else
+      tables = []
+    end
     puts "Your backup is going to be created in: #{backup_name}"
     case config['adapter']
     when 'mysql', 'mysql2'
-      mysql_dump(backup_name, config)
+      mysql_dump(backup_name, config, tables)
     when 'postgresql'
-      postgres_dump(backup_name, config)
+      postgres_dump(backup_name, config, tables)
     when 'sqlite3'
       sqlite_dump(backup_name, config)
     else
@@ -41,25 +56,39 @@ END_DESC
     puts "Completed."
   end
 
-  def mysql_dump(name, config)
+  def mysql_dump(name, config, tables = [])
     cmd = "mysqldump --opt #{config['database']} -u #{config['username']} "
     cmd += " -p#{config['password']} " if config['password'].present?
     cmd += " -h #{config['host']} "    if config['host'].present?
     cmd += " -P #{config['port']} "    if config['port'].present?
+    cmd += " #{tables.join(" ")} " unless tables.blank?
     cmd += " > #{name}"
     system(cmd)
   end
 
-  def postgres_dump(name, config)
+  def postgres_dump(name, config, tables = [])
     cmd = "pg_dump -Fc #{config['database']} -U #{config['username']} "
     cmd += " -h #{config['host']} "    if config['host'].present?
     cmd += " -p #{config['port']} "    if config['port'].present?
+    cmd += " " + (tables.map {|t| "-t #{t}"}).join(" ") + " " unless tables.blank?
     cmd += " > #{name}"
     system({'PGPASSWORD' => config['password']}, cmd)
   end
 
   def sqlite_dump(name, config)
     FileUtils.cp config['database'], name
+  end
+
+  def get_matched_tables(input_table_names)
+    existing_tables = ActiveRecord::Base.connection.tables.sort
+    input_table_names.map do |table_name|
+      table_name.strip!
+      if existing_tables.include? table_name
+        table_name
+      else
+        existing_tables.grep(/#{table_name}/)
+      end
+    end.flatten
   end
 
   desc <<-END_DESC
