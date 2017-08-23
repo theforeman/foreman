@@ -45,6 +45,7 @@ module Api
         param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
         param :primary, :bool, :desc => N_("Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface.")
         param :provision, :bool, :desc => N_("Should this interface be used for TFTP of PXELinux (or SSH for image-based hosts)? Each managed hosts needs to have one provision interface.")
+        param :execution, :bool, :desc => N_("Should this interface be used for Remote Execution.")
         #bmc specific parameters
         param :username, String, :desc => N_("Only for BMC interfaces.")
         param :password, String, :desc => N_("Only for BMC interfaces.")
