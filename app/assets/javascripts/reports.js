@@ -13,8 +13,7 @@ function show_diff(item){
   $("#diff-modal-editor")
         .css("position","relative")
         .css("padding-top","0")
-        .height('380')
-        .width('588');
+        .height('380px');
 
   var editor = ace.edit("diff-modal-editor");
   editor.setTheme("ace/theme/clouds");
