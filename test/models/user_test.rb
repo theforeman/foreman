@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
   should allow_value('').for(:mail).on(:create)
   should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:firstname)
   should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:lastname)
-  should allow_value('A$APRocky').for(:login)
+  should allow_value('A$#APRocky').for(:login)
   should_not allow_value('The Riddle?').for(:firstname)
   should_not allow_value("it's the JOKER$$$").for(:lastname)
   # Associations
