@@ -1,7 +1,6 @@
 class ComputeAttributesController < ApplicationController
   include Foreman::Controller::Parameters::ComputeAttribute
-  before_action :set_redirect_path, only: [:new, :edit]
-  after_action :reset_redirect_path, only: [:create, :update]
+  include Foreman::Controller::SetRedirectionPath
 
   def new
     @set = ComputeAttribute.new(:compute_profile_id => params[:compute_profile_id].to_i,
@@ -31,15 +30,5 @@ class ComputeAttributesController < ApplicationController
     else
       process_error :object => @set
     end
-  end
-
-  private
-
-  def reset_redirect_path
-    session[:redirect_path] = nil
-  end
-
-  def set_redirect_path
-    session[:redirect_path] = request.referer
   end
 end
