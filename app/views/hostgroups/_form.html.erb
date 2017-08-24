@@ -1,5 +1,5 @@
 <%= javascript 'host_edit', 'host_edit_interfaces' %>
-<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id), :submit => 'progress_bar' }} do |f| %>
+<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -97,5 +97,5 @@
   </div>
 
   <%= f.hidden_field :id %>
-  <%= submit_or_cancel(f, false, { :cancel_path => cancel_path_with_index_search }) %>
+  <%= submit_or_cancel(f, false, { :cancel_path => resource_prev_url_with_search_filters }) %>
 <% end %>

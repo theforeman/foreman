@@ -379,7 +379,7 @@ module ApplicationHelper
     sub_model.map {|model| link_to(model.to_label, { :controller => model.class.model_name.plural.downcase, :action => :index, :search => "name = \"#{model.name}\"" })}.to_sentence
   end
 
-  def cancel_path_with_index_search
+  def resource_prev_url_with_search_filters
     prev_controller_url = session["redirect_to_url_#{controller_name}"].to_s
     return nil unless prev_controller_url.include?('search')
     prev_controller_url

@@ -3,6 +3,7 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::HostDetails
   include Foreman::Controller::Parameters::Hostgroup
   include Foreman::Controller::CsvResponder
+  include Foreman::Controller::SetRedirectionPath
 
   before_action :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
   before_action :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
@@ -50,10 +51,10 @@ class HostgroupsController < ApplicationController
   def create
     @hostgroup = Hostgroup.new(hostgroup_params)
     if @hostgroup.save
-      process_success :success_redirect => hostgroups_path
+      process_success :success_redirect => session.fetch(:redirect_path, hostgroups_path)
     else
       load_vars_for_ajax
-      process_error
+      process_error :object => @hostgroup
     end
   end
 
@@ -63,17 +64,17 @@ class HostgroupsController < ApplicationController
 
   def update
     if @hostgroup.update(hostgroup_params)
-      process_success :success_redirect => hostgroups_path
+      process_success :success_redirect => session.fetch(:redirect_path, hostgroups_path)
     else
       taxonomy_scope
       load_vars_for_ajax
-      process_error
+      process_error :object => @hostgroup
     end
   end
 
   def destroy
     if @hostgroup.destroy
-      process_success :success_redirect => hostgroups_path
+      process_success :success_redirect => session.fetch(:redirect_path, hostgroups_path)
     else
       load_vars_for_ajax
       process_error

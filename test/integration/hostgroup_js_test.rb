@@ -24,8 +24,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     wait_for_ajax
     select2 os.ptables.first.name, :from => 'hostgroup_ptable_id'
     fill_in 'hostgroup_root_pass', :with => '12345678'
-    assert_submit_button(new_hostgroup_path)
-    wait_for_ajax
+    click_button 'Submit'
 
     host = Hostgroup.where(:name => "myhostgroup1").first
     assert host
