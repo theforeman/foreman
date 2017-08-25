@@ -84,7 +84,7 @@ class User < ApplicationRecord
   end
 
   validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},
-                    :format => {:with => /\A[[:alnum:]_\-@\.\\$#]*\Z/}, :length => {:maximum => 100}
+                    :format => {:with => /\A[[:alnum:]_\-@\.\\$#+]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
   validates :password, :confirmation => true, :if => Proc.new {|user| user.manage_password?},
