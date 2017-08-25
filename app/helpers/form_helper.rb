@@ -85,7 +85,7 @@ module FormHelper
         hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id=>'')
       end
       hidden_fields + f.collection_select(attr_ids, authorized.sort_by { |a| a.to_s },
-                                          :id, :to_label, options.merge(:selected => selected_ids),
+                                          :id, options.delete(:object_label_method) || :to_label, options.merge(:selected => selected_ids),
                                           html_options.merge(:multiple => true))
     end
   end
