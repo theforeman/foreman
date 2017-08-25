@@ -21,7 +21,8 @@ class RolesList
                                     :view_smart_proxies, :edit_smart_proxies, :view_subnets, :edit_subnets,
                                     :view_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
                                     :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications,
-                                    :view_params, :view_ssh_keys]
+                                    :view_params, :view_ssh_keys],
+      'Bookmarks manager'       => [:view_bookmarks, :create_bookmarks, :edit_bookmarks, :destroy_bookmarks]
       }
     end
 
