@@ -9,7 +9,7 @@
       <div class="col-md-6">
         <%= show_feature_version('puppet') %>
         <div class="row">
-          <div class="col-md-4"><%= _('Hosts managed:') %></div>
+          <div class="col-md-4"><strong><%= _('Hosts managed:') %></strong></div>
           <div class="col-md-8">
             <%= link_to Host::Managed.where(:puppet_proxy_id => @smart_proxy.id).count, hosts_path(:search => "puppetmaster = \"#{@smart_proxy.name}\"") %>
           </div>

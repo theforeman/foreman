@@ -22,7 +22,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Communication status') %>
+            <strong><%= _('Communication status') %></strong>
           </div>
           <div class="col-md-8">
             <span class="proxy-show-status">
@@ -32,7 +32,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('URL') %>
+            <strong><%= _('URL') %></strong>
           </div>
           <div class="col-md-8">
             <%= @smart_proxy.url %>
@@ -40,7 +40,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Version') %>
+            <strong><%= _('Version') %></strong>
           </div>
           <div class="col-md-8">
             <span class="proxy-version" data-url="<%= ping_smart_proxy_path(@smart_proxy) %>">
@@ -50,7 +50,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Active features') %>
+            <strong><%= _('Active features') %></strong>
           </div>
           <div class="col-md-8">
             <%= @smart_proxy.features.map(&:name).to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
@@ -58,7 +58,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Hosts managed') %>
+            <strong><%= _('Hosts managed') %></strong>
           </div>
           <div class="col-md-8">
             <%= link_to @smart_proxy.hosts_count, hosts_path(:search => "smart_proxy = \"#{@smart_proxy.name}\"") %>
@@ -67,7 +67,7 @@
         <% if @smart_proxy.has_feature?('Logs') %>
           <div class="row">
             <div class="col-md-4">
-              <%= _('Failed features') %>
+              <strong><%= _('Failed features') %></strong>
             </div>
             <div class="col-md-8">
               <div class="tab-pane" id="failed-modules"

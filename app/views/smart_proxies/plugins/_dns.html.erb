@@ -4,7 +4,7 @@
 <%= show_feature_version('dns') %>
 <div class="row">
   <div class="col-md-4">
-    <%= _('Domains') %>
+    <strong><%= _('Domains') %></strong>
   </div>
   <div class="col-md-8">
     <%= generate_links_for(@smart_proxy.domains).html_safe %>
