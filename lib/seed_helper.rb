@@ -1,3 +1,5 @@
+require (Rails.root + 'db/seeds.d/02-roles_list.rb')
+
 # methods which are used in seeds and migrations
 class SeedHelper
   class << self
@@ -47,9 +49,18 @@ class SeedHelper
     end
 
     def create_role(role_name, permission_names, builtin, check_audit = true)
-      return if Role.find_by_name(role_name)
+      description = RolesList.roles_descriptions[role_name]
+
+      if existing = Role.find_by_name(role_name)
+        if existing.description != description
+          existing.update_attribute :description, description
+        end
+        return
+      end
+
       return if check_audit && audit_modified?(Role, role_name) && (builtin == 0)
-      role = Role.new(:name => role_name, :builtin => builtin)
+
+      role = Role.new(:name => role_name, :builtin => builtin, :description => description)
       if role.respond_to? :origin
         role.origin = "foreman"
         role.modify_locked = true

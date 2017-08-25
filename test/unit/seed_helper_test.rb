@@ -11,6 +11,17 @@ class SeedHelperTest < ActiveSupport::TestCase
     assert_equal permissions_names.sort, role.permissions.pluck(:name).sort.map(&:to_sym)
   end
 
+  test "should update a description for a role" do
+    role_name = 'existing role'
+    SeedHelper.create_role role_name, [], 0
+    role = Role.find_by(:name => role_name)
+    refute_equal 'new description', role.description
+    RolesList.stub(:roles_descriptions, {role_name => 'new description'}) do
+      SeedHelper.create_role role_name, [], 0
+    end
+    assert_equal 'new description', role.reload.description
+  end
+
   test "should recognize object was modified" do
     medium = Medium.last
     medium_name = medium.name

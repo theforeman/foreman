@@ -53,5 +53,19 @@ class RolesList
     def view_permissions
       PermissionsList.permissions.select { |resource, name| name.start_with?('view_') }.map { |p| p.last.to_sym }
     end
+
+    def roles_descriptions
+      {
+        Role::MANAGER => 'Role granting all available permissions. With this role, user is able to do everything that admin can except for changing Settings.',
+        Role::ORG_ADMIN => 'Role granting all permissions except for managing organizations. It can be used to delegate administration of specific organization to a user. In order to create such role, clone this role and assign desired organizations',
+        'Edit partition tables' => 'Role granting permissions required for managin partition tables',
+        'View hosts' => 'Role granting permission only to view hosts',
+        'Edit hosts' => 'Role granting permissions to update hosts. For features provided by plugins, you might need to combine this role with roles provided by those plugins',
+        Role::VIEWER => 'Role granting read only access. Users with this role can see all data but can not do any modifications',
+        'Site manager' => 'Role granting mostly view permissions but also permissions required for managing hosts in the infrastructure. Users with this role can update puppet parameters, create and edit hosts, manage installation media, subnets, usergroups and edit existing users.',
+        'Bookmarks user' => 'Role granting permissions for managing search bookmarks. Usually useful in combination with Viewer role. This role also grants the permission to update all public bookmarks.',
+        'Default role' => 'Role that is automatically assigned to every user in the system. Adding a permission grants it to everybody'
+      }
+    end
   end
 end

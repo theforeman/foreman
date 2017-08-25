@@ -5,7 +5,8 @@
 <table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
   <thead>
     <tr>
-      <th class="col-md-8"><%= sort :name, :as => s_("Role|Name") %></th>
+      <th class="col-md-2"><%= sort :name, :as => s_("Role|Name") %></th>
+      <th class="col-md-8"><%= sort :description, :as => s_("Role|Description") %></th>
       <th class="col-md-1"><%= sort :locked, :as => s_("Role|Locked"), :default => "DESC" %></th>
       <th><%= _('Actions') %></th>
     </tr>
@@ -15,6 +16,9 @@
       <tr>
         <td class="display-two-pane ellipsis">
           <%= role_link(role) %>
+        </td>
+        <td class="ellipsis">
+          <%= role.description %>
         </td>
         <td align='center'><%= locked_icon role.locked?, _("This role is locked for editing.") %>
         <td class='col-md-1'>
