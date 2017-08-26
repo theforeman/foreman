@@ -259,6 +259,7 @@ module HostsHelper
     fields += [[_("Realm"), (link_to(host.realm, hosts_path(:search => %{realm = "#{host.realm}"})))]] if host.realm.present?
     fields += [[_("IP Address"), host.ip]] if host.ip.present?
     fields += [[_("IPv6 Address"), host.ip6]] if host.ip6.present?
+    fields += [[_("Comment"), host.comment]] if host.comment.present?
     fields += [[_("MAC Address"), host.mac]] if host.mac.present?
     fields += [[_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => %{environment = "#{host.environment}"})))]] if host.environment.present?
     fields += [[_("Architecture"), (link_to(host.arch, hosts_path(:search => %{architecture = "#{host.arch}"})))]] if host.arch.present?
