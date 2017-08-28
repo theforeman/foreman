@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
@@ -429,9 +429,6 @@ msgstr ""
 msgid "Action"
 msgstr "Действие"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Действия"
 
@@ -452,9 +449,6 @@ msgstr "Добавить запись для автоматической под
 
 msgid "Add Bookmark"
 msgstr "Добавить закладку"
-
-msgid "Add Combination"
-msgstr ""
 
 msgid "Add Interface"
 msgstr "Добавить интерфейс"
@@ -485,6 +479,9 @@ msgstr "Добавить класс Puppet к группе узлов"
 
 msgid "Add a template combination"
 msgstr "Добавить комбинацию шаблонов"
+
+msgid "Add combination"
+msgstr "Добавить"
 
 msgid "Add external user group"
 msgstr "Добавить внешнюю группу пользователей"
@@ -1510,6 +1507,9 @@ msgstr ""
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
@@ -1972,9 +1972,6 @@ msgstr "Удалить :a_resource"
 msgid "Delete Hosts"
 msgstr "Удалить узлы"
 
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
-
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Удалить сертификаты PuppetCA %s"
 
@@ -2130,6 +2127,9 @@ msgstr "Удалить значение переопределения смар�
 
 msgid "Delete autosign entry"
 msgstr ""
+
+msgid "Delete autosign entry for %s"
+msgstr "Отменить автоматическую подпись для %s"
 
 msgid "Delete filter?"
 msgstr "Удалить фильтр?"
@@ -3325,9 +3325,6 @@ msgstr "Группа узлов и окружение"
 msgid "Host group configuration"
 msgstr "Конфигурация группы узлов"
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr "Наследовать правила подстановки группы узлов"
 
@@ -3907,9 +3904,6 @@ msgstr "Импорт"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3917,9 +3911,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3936,6 +3927,9 @@ msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "Вы сможете определить не только классы Puppet для новых узлов, но также переменные и другие характеристики, контролирующие поведение группы."
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -4577,6 +4571,9 @@ msgstr "Загрузить арендаторов"
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "Загружается"
+
 msgid "Loading ..."
 msgstr "Загрузка..."
 
@@ -4819,9 +4816,6 @@ msgstr "Выбрать вручную"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Вручную выбрать узлы, для которых %s еще не настраивалось(ась)"
-
-msgid "Mark All Read"
-msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "Подстановка выполняет операцию замены значения в соответствии с заданным правилом. Правило определяет атрибут и его значение, при совпадении с которым будет выбрано новое значение. <br>Вы можете указать любые атрибуты и факты, с которыми работает Foreman, например: <code> domain = example.com </code>, <code> is_virtual = true</code>"
@@ -5640,9 +5634,6 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "Интервал потери синхронизации"
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr "Перезаписать все параметры"
 
@@ -5855,9 +5846,6 @@ msgstr "Фотография"
 
 msgid "Physical (Bridge)"
 msgstr "Физический (мост)"
-
-msgid "Play Ansible roles"
-msgstr ""
 
 msgid "Please Confirm"
 msgstr "Подтвердите"
@@ -6314,14 +6302,8 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
 msgstr "Удаленный адрес"
-
-msgid "Remove"
-msgstr ""
 
 msgid "Remove %s?"
 msgstr "Удалить %s?"
@@ -7250,9 +7232,6 @@ msgstr "Код подсети"
 
 msgid "Subnet IDs"
 msgstr "Код подсети"
-
-msgid "Subnet description"
-msgstr ""
 
 msgid "Subnet name"
 msgstr "Имя подсети"
@@ -8565,11 +8544,11 @@ msgstr "Виртуальная машина не выполняется"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "Шифрование трафика Websocket при подключении к консоли прокси с использованием VNC/SPICE (требует установки websockets_ssl_key или websockets_ssl_cert)"
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr ""
-
 msgid "Valid from"
 msgstr "Вступил в силу"
+
+msgid "Valid host group and environment combinations"
+msgstr "Группы узлов и окружения"
 
 msgid "Validation types"
 msgstr "Тип проверки"
@@ -8610,9 +8589,6 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Очень сильный"
-
-msgid "View Chart"
-msgstr ""
 
 msgid "View Diff"
 msgstr "Просмотр отличий"
@@ -9302,7 +9278,8 @@ msgstr "связать внешнюю группу пользователей с
 msgid "list"
 msgstr "список"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Русский"
 
@@ -9432,6 +9409,9 @@ msgstr "организация"
 msgid "organizations"
 msgstr "организации"
 
+msgid "override"
+msgstr "переопределить"
+
 msgid "paginate results"
 msgstr "постраничный вывод"
 
@@ -9476,6 +9456,9 @@ msgstr "создать заново"
 
 msgid "regexp"
 msgstr "регулярное выражение"
+
+msgid "remove"
+msgstr "удалить"
 
 msgid "remove network interface"
 msgstr "удалить сетевой интерфейс"

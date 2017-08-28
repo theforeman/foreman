@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -385,9 +385,6 @@ msgstr "%s の IP アドレスの取得"
 msgid "Action"
 msgstr "アクション"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "アクション"
 
@@ -408,9 +405,6 @@ msgstr "エントリーの自動署名の追加"
 
 msgid "Add Bookmark"
 msgstr "ブックマークの追加"
-
-msgid "Add Combination"
-msgstr ""
 
 msgid "Add Interface"
 msgstr "インターフェースの追加"
@@ -441,6 +435,9 @@ msgstr "Puppet クラスをホストグループに追加"
 
 msgid "Add a template combination"
 msgstr "テンプレートの組み合わせの追加"
+
+msgid "Add combination"
+msgstr "組み合わせの追加"
 
 msgid "Add external user group"
 msgstr "外部ユーザーグループの追加"
@@ -1464,6 +1461,9 @@ msgstr ""
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
@@ -1926,9 +1926,6 @@ msgstr ":a_resource の削除"
 msgid "Delete Hosts"
 msgstr "ホストの削除"
 
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
-
 msgid "Delete PuppetCA certificates for %s"
 msgstr "%s の Puppet CA 証明書を削除"
 
@@ -2084,6 +2081,9 @@ msgstr "特定スマート変数の上書き値を削除"
 
 msgid "Delete autosign entry"
 msgstr ""
+
+msgid "Delete autosign entry for %s"
+msgstr "%s の自動署名エントリーを削除"
 
 msgid "Delete filter?"
 msgstr "フィルターを削除しますか?"
@@ -3274,9 +3274,6 @@ msgstr "ホストグループと環境"
 msgid "Host group configuration"
 msgstr "ホストグループ設定"
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr "ホストグループ Matcher の継承"
 
@@ -3856,9 +3853,6 @@ msgstr "インポート"
 msgid "Import IPv4 subnets"
 msgstr "IPv4 サブネットのインポート"
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3867,9 +3861,6 @@ msgstr "%s からのクラスのインポート"
 
 msgid "Import environments from %s"
 msgstr "%s からの環境のインポート"
-
-msgid "Import facts"
-msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr "ホスト %s のファクトのインポートに失敗しました"
@@ -3885,6 +3876,9 @@ msgstr "インポート済みの IPv4 サブネット"
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "このホストタイプのビルド時に組み込む puppet クラスを定義するほか、puppet ランタイムの動作を設定し直すため、変数とプロビジョニング情報をホストグループに割り当てることができます。 "
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr "インラインコード構文"
@@ -4526,6 +4520,9 @@ msgstr "テナントのロード"
 msgid "Load Zones"
 msgstr "ゾーンのロード"
 
+msgid "Loading"
+msgstr "ロード中"
+
 msgid "Loading ..."
 msgstr "ロード中 ..."
 
@@ -4768,9 +4765,6 @@ msgstr "手動割り当て"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "%s のないホストを手動で選択し、割り当てます"
-
-msgid "Mark All Read"
-msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "Matcher は、属性とその値の組み合わせであり、それらが一致すると、以下のような値が提供されます。<br>Foreman が認識するファクトなどのすべての属性を使用できます: <code> domain = example.com </code> または <code> is_virtual = true</code>"
@@ -5589,9 +5583,6 @@ msgstr "アラートが有効な同期されていないホスト"
 msgid "Out of sync interval"
 msgstr "非同期間隔"
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr "すべてのパラメーターの上書き"
 
@@ -5804,9 +5795,6 @@ msgstr "写真属性"
 
 msgid "Physical (Bridge)"
 msgstr "物理 (ブリッジ)"
-
-msgid "Play Ansible roles"
-msgstr ""
 
 msgid "Please Confirm"
 msgstr "確認してください"
@@ -6263,14 +6251,8 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
 msgstr "リモートアドレス"
-
-msgid "Remove"
-msgstr ""
 
 msgid "Remove %s?"
 msgstr "%s を削除しますか?"
@@ -7199,9 +7181,6 @@ msgstr "サブネット ID"
 
 msgid "Subnet IDs"
 msgstr "サブネット ID"
-
-msgid "Subnet description"
-msgstr ""
 
 msgid "Subnet name"
 msgstr "サブネット名"
@@ -8509,11 +8488,11 @@ msgstr "VM が実行されていません!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "VNC/SPICE websocket プロキシーコンソールアクセス暗号化 (websockets_ssl_key/cert 設定が必要)"
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr ""
-
 msgid "Valid from"
 msgstr "有効期間の起点"
+
+msgid "Valid host group and environment combinations"
+msgstr "有効なホストグループと環境の組み合わせ"
 
 msgid "Validation types"
 msgstr "検証タイプ"
@@ -8554,9 +8533,6 @@ msgstr "バージョン %{version} %{copyright} 2009-%{year} Paul Kelly およ�
 
 msgid "Very Strong"
 msgstr "非常に強度が高い"
-
-msgid "View Chart"
-msgstr ""
 
 msgid "View Diff"
 msgstr "差分の表示"
@@ -9240,7 +9216,8 @@ msgstr "外部ユーザーグループをこのユーザーグループにリン
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "日本語"
 
@@ -9370,6 +9347,9 @@ msgstr "組織"
 msgid "organizations"
 msgstr "組織"
 
+msgid "override"
+msgstr "上書き"
+
 msgid "paginate results"
 msgstr "結果のページネーション"
 
@@ -9414,6 +9394,9 @@ msgstr "再作成"
 
 msgid "regexp"
 msgstr "正規表現"
+
+msgid "remove"
+msgstr "削除"
 
 msgid "remove network interface"
 msgstr "ネットワークインターフェースの削除"

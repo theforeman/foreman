@@ -5,6 +5,7 @@
 # Translators:
 # dingtim, 2013
 # Dominic Cleal <dominic@cleal.org>, 2014-2015
+# June Zhang <zhangjune99@gmail.com>, 2017
 # Martin Liu <liuzh66@gmail.com>, 2015
 # tim123, 2013-2014
 # Xingchao Yu <yuxcer@gmail.com>, 2017
@@ -13,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -387,9 +388,6 @@ msgstr ""
 msgid "Action"
 msgstr "动作"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "操作"
 
@@ -410,9 +408,6 @@ msgstr "添加 Autosign 条目"
 
 msgid "Add Bookmark"
 msgstr "增加书签"
-
-msgid "Add Combination"
-msgstr ""
 
 msgid "Add Interface"
 msgstr "增加接口"
@@ -443,6 +438,9 @@ msgstr "在主机组中添加 Puppet 类别"
 
 msgid "Add a template combination"
 msgstr "添加模板组合"
+
+msgid "Add combination"
+msgstr "添加组合"
 
 msgid "Add external user group"
 msgstr "添加外部用户组"
@@ -1280,7 +1278,7 @@ msgid "Clone a provision template"
 msgstr "克隆预配模板"
 
 msgid "Clone a role"
-msgstr ""
+msgstr "角色复制"
 
 msgid "Clone a template"
 msgstr "克隆模板"
@@ -1463,6 +1461,9 @@ msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
 
 msgid "Could not add permissions to Manager role: %s"
+msgstr ""
+
+msgid "Could not add permissions to Organization admin role: %s"
 msgstr ""
 
 msgid "Could not add permissions to Viewer role: %s"
@@ -1802,7 +1803,7 @@ msgid "DHCP conflicts removal for %s"
 msgstr "去除 %s DHCP冲突"
 
 msgid "DHCP filename option"
-msgstr ""
+msgstr "DHCP 文件名选项"
 
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
@@ -1926,9 +1927,6 @@ msgstr "删除：a_resource"
 
 msgid "Delete Hosts"
 msgstr "删除主机"
-
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "删除 %s的证书"
@@ -2085,6 +2083,9 @@ msgstr "为具体智能变量删除覆盖值"
 
 msgid "Delete autosign entry"
 msgstr ""
+
+msgid "Delete autosign entry for %s"
+msgstr "删除 %s 的自动签名"
 
 msgid "Delete filter?"
 msgstr "删除过滤器？"
@@ -3275,9 +3276,6 @@ msgstr "主机组和环境"
 msgid "Host group configuration"
 msgstr "配置主机组"
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr "主机组映射器继承"
 
@@ -3511,22 +3509,22 @@ msgid "Hosts which didn't run puppet in the last %s"
 msgstr "没有在上一个 %s 中运行 puppet 的主机"
 
 msgid "Hosts which recently applied changes"
-msgstr ""
+msgstr "最近应用变更的主机"
 
 msgid "Hosts which recently applied changes successfully"
-msgstr ""
+msgstr "最近成功应用变更的主机"
 
 msgid "Hosts which recently applied changes successfully with alerts enabled"
-msgstr ""
+msgstr "最近警报启动并成功应用变更的主机"
 
 msgid "Hosts with alerts disabled"
 msgstr "主机告警禁用"
 
 msgid "Hosts with error state"
-msgstr ""
+msgstr "错误状态的主机"
 
 msgid "Hosts with error state and alerts enabled"
-msgstr ""
+msgstr "警报启动的错误状态主机"
 
 msgid "Hosts with errors"
 msgstr "主机有错误"
@@ -3541,7 +3539,7 @@ msgid "Hosts with notifications disabled"
 msgstr "主机通知禁用"
 
 msgid "Hosts without changes or errors"
-msgstr ""
+msgstr "没有变更或者错误的主机"
 
 msgid "Hosts without changes or errors, with alerts enabled"
 msgstr ""
@@ -3857,9 +3855,6 @@ msgstr "导入"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3867,9 +3862,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3886,6 +3878,9 @@ msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "除规定构建这个主机类型需要包含的 puppet 类别外，您还可以为主机组分配变量及置备信息，以便细化 puppet 运行时行为。"
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -4527,6 +4522,9 @@ msgstr "载入租客"
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "加载中"
+
 msgid "Loading ..."
 msgstr "加载中......"
 
@@ -4769,9 +4767,6 @@ msgstr "手动分配"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "手动选择并分配没有 %s 的主机"
-
-msgid "Mark All Read"
-msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "映射器是属性及属性值的组合。如果它们匹配，则提供以下值。<br>您可以使用任意 Foreman 了解的属性，比如 fact 等等。例如：<code> domain = example.com </code> 或者 <code> is_virtual = true</code>。"
@@ -5590,9 +5585,6 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "非同步间隔"
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr "覆盖所有参数"
 
@@ -5805,9 +5797,6 @@ msgstr "照片属性"
 
 msgid "Physical (Bridge)"
 msgstr "物理（桥）"
-
-msgid "Play Ansible roles"
-msgstr ""
 
 msgid "Please Confirm"
 msgstr "请确认"
@@ -6264,14 +6253,8 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
 msgstr "远程地址"
-
-msgid "Remove"
-msgstr ""
 
 msgid "Remove %s?"
 msgstr "是否删除 %s ？"
@@ -6434,7 +6417,7 @@ msgid "Role"
 msgstr "角色"
 
 msgid "Role description"
-msgstr ""
+msgstr "角色描述"
 
 msgid "Role locations"
 msgstr ""
@@ -7201,9 +7184,6 @@ msgstr "子网 ID"
 msgid "Subnet IDs"
 msgstr "子网 ID"
 
-msgid "Subnet description"
-msgstr ""
-
 msgid "Subnet name"
 msgstr "子网名"
 
@@ -7831,7 +7811,7 @@ msgid "Total Hosts: %s"
 msgstr "主机合计: %s"
 
 msgid "Total hosts count"
-msgstr ""
+msgstr "主机总数"
 
 msgid "Total of one host"
 msgid_plural "Total of %{hosts} hosts"
@@ -8110,7 +8090,7 @@ msgid "Undo remove"
 msgstr "撤销删除"
 
 msgid "Undo selection"
-msgstr ""
+msgstr "取消选择"
 
 msgid "Unhide this value"
 msgstr "取消隐藏该值"
@@ -8510,11 +8490,11 @@ msgstr "VM 尚未运行！"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "VNC/SPICE websocket 代理服务器控制台访问加密（需要 websockets_ssl_key/cert 设置）"
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr ""
-
 msgid "Valid from"
 msgstr "有效期从"
+
+msgid "Valid host group and environment combinations"
+msgstr "有效的主机组和环境组合"
 
 msgid "Validation types"
 msgstr "验证类型"
@@ -8555,9 +8535,6 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "很强"
-
-msgid "View Chart"
-msgstr ""
 
 msgid "View Diff"
 msgstr "查看不同"
@@ -9242,7 +9219,8 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列表"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "简体中文"
 
@@ -9372,6 +9350,9 @@ msgstr "组织"
 msgid "organizations"
 msgstr "组织"
 
+msgid "override"
+msgstr "覆盖"
+
 msgid "paginate results"
 msgstr "编页结果"
 
@@ -9416,6 +9397,9 @@ msgstr "再次创建"
 
 msgid "regexp"
 msgstr "regexp"
+
+msgid "remove"
+msgstr "删除"
 
 msgid "remove network interface"
 msgstr "删除网络接口"

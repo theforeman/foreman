@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
@@ -386,9 +386,6 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr ""
 
@@ -408,9 +405,6 @@ msgid "Add Autosign entry"
 msgstr ""
 
 msgid "Add Bookmark"
-msgstr ""
-
-msgid "Add Combination"
 msgstr ""
 
 msgid "Add Interface"
@@ -441,6 +435,9 @@ msgid "Add a Puppet class to host group"
 msgstr ""
 
 msgid "Add a template combination"
+msgstr ""
+
+msgid "Add combination"
 msgstr ""
 
 msgid "Add external user group"
@@ -1465,6 +1462,9 @@ msgstr ""
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
@@ -1927,9 +1927,6 @@ msgstr ""
 msgid "Delete Hosts"
 msgstr ""
 
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
-
 msgid "Delete PuppetCA certificates for %s"
 msgstr ""
 
@@ -2084,6 +2081,9 @@ msgid "Delete an override value for a specific smart variable"
 msgstr ""
 
 msgid "Delete autosign entry"
+msgstr ""
+
+msgid "Delete autosign entry for %s"
 msgstr ""
 
 msgid "Delete filter?"
@@ -3271,9 +3271,6 @@ msgstr ""
 msgid "Host group configuration"
 msgstr ""
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr ""
 
@@ -3853,9 +3850,6 @@ msgstr ""
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3863,9 +3857,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3881,6 +3872,9 @@ msgid "Imported IPv4 Subnets"
 msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
+msgstr ""
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr ""
 
 msgid "In-line code syntax"
@@ -4523,6 +4517,9 @@ msgstr ""
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "Loading"
+
 msgid "Loading ..."
 msgstr "Loading ..."
 
@@ -4764,9 +4761,6 @@ msgid "Manually Assign"
 msgstr ""
 
 msgid "Manually select and assign hosts with no %s"
-msgstr ""
-
-msgid "Mark All Read"
 msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
@@ -5586,9 +5580,6 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr ""
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr ""
 
@@ -5800,9 +5791,6 @@ msgid "Photo attribute"
 msgstr ""
 
 msgid "Physical (Bridge)"
-msgstr ""
-
-msgid "Play Ansible roles"
 msgstr ""
 
 msgid "Please Confirm"
@@ -6260,13 +6248,7 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
-msgstr ""
-
-msgid "Remove"
 msgstr ""
 
 msgid "Remove %s?"
@@ -7195,9 +7177,6 @@ msgid "Subnet ID"
 msgstr ""
 
 msgid "Subnet IDs"
-msgstr ""
-
-msgid "Subnet description"
 msgstr ""
 
 msgid "Subnet name"
@@ -8499,10 +8478,10 @@ msgstr ""
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr ""
 
-msgid "Valid Host Group and Environment Combinations"
+msgid "Valid from"
 msgstr ""
 
-msgid "Valid from"
+msgid "Valid host group and environment combinations"
 msgstr ""
 
 msgid "Validation types"
@@ -8543,9 +8522,6 @@ msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
 msgstr ""
 
 msgid "Very Strong"
-msgstr ""
-
-msgid "View Chart"
 msgstr ""
 
 msgid "View Diff"
@@ -9232,7 +9208,8 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "English (United Kingdom)"
 
@@ -9362,6 +9339,9 @@ msgstr "organisation"
 msgid "organizations"
 msgstr "organisations"
 
+msgid "override"
+msgstr ""
+
 msgid "paginate results"
 msgstr "paginate results"
 
@@ -9405,6 +9385,9 @@ msgid "recreate"
 msgstr ""
 
 msgid "regexp"
+msgstr ""
+
+msgid "remove"
 msgstr ""
 
 msgid "remove network interface"

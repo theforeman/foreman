@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -382,9 +382,6 @@ msgstr ""
 msgid "Action"
 msgstr "동작 "
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "동작 "
 
@@ -405,9 +402,6 @@ msgstr "자동 서명 항목 추가"
 
 msgid "Add Bookmark"
 msgstr "북마크 추가 "
-
-msgid "Add Combination"
-msgstr ""
 
 msgid "Add Interface"
 msgstr "인터페이스 추가 "
@@ -438,6 +432,9 @@ msgstr "호스트 그룹에 Puppet 클래스 추가 "
 
 msgid "Add a template combination"
 msgstr "템플릿 조합 추가 "
+
+msgid "Add combination"
+msgstr "조합 추가 "
 
 msgid "Add external user group"
 msgstr "외부 사용자 그룹 추가 "
@@ -1460,6 +1457,9 @@ msgstr ""
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
@@ -1922,9 +1922,6 @@ msgstr ":a_resource 삭제 "
 msgid "Delete Hosts"
 msgstr "호스트 삭제 "
 
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
-
 msgid "Delete PuppetCA certificates for %s"
 msgstr "%s의 PuppetCA 인증서 삭제 "
 
@@ -2080,6 +2077,9 @@ msgstr "특정 스마트 매개 변수의 덮어쓰기 값 삭제 "
 
 msgid "Delete autosign entry"
 msgstr ""
+
+msgid "Delete autosign entry for %s"
+msgstr "%s의 자동 서명 항목 삭제 "
 
 msgid "Delete filter?"
 msgstr "필터를 삭제하시겠습니까?"
@@ -3270,9 +3270,6 @@ msgstr "호스트 그룹 및 환경 "
 msgid "Host group configuration"
 msgstr "호스트 그룹 설정 "
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr "호스트 그룹 일치 조건 상속"
 
@@ -3852,9 +3849,6 @@ msgstr "불러오기"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3862,9 +3856,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3881,6 +3872,9 @@ msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "이러한 호스트 유형을 빌드할 때 포함된 puppet 클래스를 정의하는 것에 더하여 puppet 런타임 동작을 다시 정의하기 위해 호스트 그룹에 매개 변수 및 프로비저닝 정보를 할당할 수 있습니다."
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -4522,6 +4516,9 @@ msgstr "테넌트 로드 "
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "로딩 중 "
+
 msgid "Loading ..."
 msgstr "로딩 중..."
 
@@ -4764,9 +4761,6 @@ msgstr "수동 할당 "
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "%s이(가) 없는 호스트를 수동으로 선택 및 할당합니다 "
-
-msgid "Mark All Read"
-msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "일치 조건은 속성과 해당 값의 조합입니다. 일치하는 경우 아래의 값이 제공됩니다.<br> 팩트와 같이 Foreman에 알려진 속성을 모두 사용할 수 있습니다. 예: <code> domain = example.com </code> 또는 <code> is_virtual = true</code>."
@@ -5585,9 +5579,6 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "비동기화 간격"
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr "모든 매개 변수 덮어쓰기 "
 
@@ -5800,9 +5791,6 @@ msgstr "사진 속성 "
 
 msgid "Physical (Bridge)"
 msgstr "물리 (브리지)"
-
-msgid "Play Ansible roles"
-msgstr ""
 
 msgid "Please Confirm"
 msgstr "확인해 주십시오 "
@@ -6259,14 +6247,8 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
 msgstr "원격 주소"
-
-msgid "Remove"
-msgstr ""
 
 msgid "Remove %s?"
 msgstr "%s을(를) 삭제하시겠습니까? "
@@ -7195,9 +7177,6 @@ msgstr "서브넷 ID"
 
 msgid "Subnet IDs"
 msgstr "서브넷 ID "
-
-msgid "Subnet description"
-msgstr ""
 
 msgid "Subnet name"
 msgstr "서브넷 이름 "
@@ -8505,11 +8484,11 @@ msgstr "VM이 실행되고 있지 않습니다! "
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "VNC/SPICE websocket 프록시 콘솔 액세스 암호화(websockets_ssl_key/cert 설정 필요)"
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr ""
-
 msgid "Valid from"
 msgstr "유효 기간 시작 "
+
+msgid "Valid host group and environment combinations"
+msgstr "유효한 호스트 그룹 및 환경 조합 "
 
 msgid "Validation types"
 msgstr "검증 유형 "
@@ -8550,9 +8529,6 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "매우 강력함"
-
-msgid "View Chart"
-msgstr ""
 
 msgid "View Diff"
 msgstr "차이점 표시 "
@@ -9237,7 +9213,8 @@ msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습�
 msgid "list"
 msgstr "목록"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "한국어"
 
@@ -9367,6 +9344,9 @@ msgstr "조직 "
 msgid "organizations"
 msgstr "조직 "
 
+msgid "override"
+msgstr "덮어쓰기 "
+
 msgid "paginate results"
 msgstr "페이지네이션 결과 "
 
@@ -9411,6 +9391,9 @@ msgstr "재생성"
 
 msgid "regexp"
 msgstr "정규식 "
+
+msgid "remove"
+msgstr "제거 "
 
 msgid "remove network interface"
 msgstr "네트워크 인터페이스 삭제 "

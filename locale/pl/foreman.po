@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12"
-" || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || ("
-"n%100>=12 && n%100<=14) ? 2 : 3);\n"
+" || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n"
+"%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 msgid " Remove"
 msgstr "Usuń"
@@ -424,9 +424,6 @@ msgstr ""
 msgid "Action"
 msgstr "Akcja"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Akcja"
 
@@ -447,9 +444,6 @@ msgstr "Dodaj wejście autosign"
 
 msgid "Add Bookmark"
 msgstr "Dodaj zakładkę"
-
-msgid "Add Combination"
-msgstr ""
 
 msgid "Add Interface"
 msgstr "Dodaj interface"
@@ -480,6 +474,9 @@ msgstr "Dodaj klasę Puppeta do grupy hostów"
 
 msgid "Add a template combination"
 msgstr "Dodaj kombinację szablonu"
+
+msgid "Add combination"
+msgstr "Dodaj kombinację"
 
 msgid "Add external user group"
 msgstr "Dodaj zewnętrzną grupę użytkowników"
@@ -1505,6 +1502,9 @@ msgstr ""
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
@@ -1967,9 +1967,6 @@ msgstr "Usuń :a_resource"
 msgid "Delete Hosts"
 msgstr "Usuń hosty"
 
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
-
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Usuń certyfikaty PuppetCA dla %s"
 
@@ -2125,6 +2122,9 @@ msgstr "Usuń wartość nadpisaną dla określanej smart variable"
 
 msgid "Delete autosign entry"
 msgstr ""
+
+msgid "Delete autosign entry for %s"
+msgstr "Usuń wejście autosign dla: %s"
 
 msgid "Delete filter?"
 msgstr "Usunąć filtr"
@@ -3320,9 +3320,6 @@ msgstr "Lista hostów i środowisko"
 msgid "Host group configuration"
 msgstr "Konfiguracja grup hostów"
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr "Grupa hostów dopasowujących dziedziczenie"
 
@@ -3902,9 +3899,6 @@ msgstr "Import"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3912,9 +3906,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3931,6 +3922,9 @@ msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "Ponadto do zdefiniowania, które klasy puppet trafiaj przy budowie tego typu hosta jesteś w stanie przypisać zmienne i informacje o dostawie do grupy przyjmującej dopracować jak będzie się zachowywał puppet po uruchomieniu."
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -4572,6 +4566,9 @@ msgstr "Załaduj dzierżawców"
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "Ładowanie"
+
 msgid "Loading ..."
 msgstr "Ładowanie ..."
 
@@ -4814,9 +4811,6 @@ msgstr "Ręczne przypisanie"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Ręcznie wybierz i przypisz hosty bez %s"
-
-msgid "Mark All Read"
-msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "Dopasowanie jest kombinacją atrybutu i jego wartości, jeśli są zgodne, wartość powyżej będzie dostarczona. <br> Możesz użyć jakichkolwiek atrybutów o których wie Foreman, takich jak fakty itp. np. <code> domain = example.com </code> lub <code> is_virtual = true</code>."
@@ -5635,9 +5629,6 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "Spoza przedziału synchronizacji"
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr "Zastąp wszystkie parametry"
 
@@ -5850,9 +5841,6 @@ msgstr "atrybut zdjęcia"
 
 msgid "Physical (Bridge)"
 msgstr "Fizyczny (Bridge)"
-
-msgid "Play Ansible roles"
-msgstr ""
 
 msgid "Please Confirm"
 msgstr "Proszę potwierdzić"
@@ -6309,14 +6297,8 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
 msgstr "adres zdalny"
-
-msgid "Remove"
-msgstr ""
 
 msgid "Remove %s?"
 msgstr "Usunąć %s?"
@@ -7245,9 +7227,6 @@ msgstr "ID podsieci"
 
 msgid "Subnet IDs"
 msgstr "ID podsieci"
-
-msgid "Subnet description"
-msgstr ""
 
 msgid "Subnet name"
 msgstr "Nazwa podsieci"
@@ -8560,11 +8539,11 @@ msgstr "VM nie działa!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "Szyfrowany dostęp do konsoli VNC/SPICE websocket proxy (wymaga ustawienia websockets_ssl_key/cert)"
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr ""
-
 msgid "Valid from"
 msgstr "Ważny od"
+
+msgid "Valid host group and environment combinations"
+msgstr "Poprawna kombinacja grupy hosta i środowiska"
 
 msgid "Validation types"
 msgstr "Typy walidacji"
@@ -8605,9 +8584,6 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Bardzo silne"
-
-msgid "View Chart"
-msgstr ""
 
 msgid "View Diff"
 msgstr "Pokaż różnice"
@@ -9297,7 +9273,8 @@ msgstr "Link zewnętrzny grupy użytkowników z tej grupy użytkowników"
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -9427,6 +9404,9 @@ msgstr "organizacja"
 msgid "organizations"
 msgstr "organizacje"
 
+msgid "override"
+msgstr "nadpisz"
+
 msgid "paginate results"
 msgstr "rezultat paginacji"
 
@@ -9471,6 +9451,9 @@ msgstr "odtwórz"
 
 msgid "regexp"
 msgstr "regexp"
+
+msgid "remove"
+msgstr "usuń"
 
 msgid "remove network interface"
 msgstr "usuń interfejs sieciowy"

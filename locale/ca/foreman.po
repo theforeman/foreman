@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:20+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -387,9 +387,6 @@ msgstr ""
 msgid "Action"
 msgstr "Acció"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Accions"
 
@@ -410,9 +407,6 @@ msgstr ""
 
 msgid "Add Bookmark"
 msgstr "Afegeix l'adreça d'interès"
-
-msgid "Add Combination"
-msgstr ""
 
 msgid "Add Interface"
 msgstr "Afegeix una interfície"
@@ -443,6 +437,9 @@ msgstr "Afegeix una classe de Puppet a un grup d'amfitrions"
 
 msgid "Add a template combination"
 msgstr "Afegeix una combinació de plantilles"
+
+msgid "Add combination"
+msgstr "Afegeix una combinació"
 
 msgid "Add external user group"
 msgstr "Afegeix el grup d'usuaris externs"
@@ -1466,6 +1463,9 @@ msgstr ""
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
@@ -1928,9 +1928,6 @@ msgstr "Suprimeix :a_resource"
 msgid "Delete Hosts"
 msgstr "Suprimeix els amfitrions"
 
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
-
 msgid "Delete PuppetCA certificates for %s"
 msgstr ""
 
@@ -2085,6 +2082,9 @@ msgid "Delete an override value for a specific smart variable"
 msgstr ""
 
 msgid "Delete autosign entry"
+msgstr ""
+
+msgid "Delete autosign entry for %s"
 msgstr ""
 
 msgid "Delete filter?"
@@ -3275,9 +3275,6 @@ msgstr "Grup d'amfitrions i entorn"
 msgid "Host group configuration"
 msgstr "Configuració del grup d'amfitrions"
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr "Herència dels classificadors de grup d'amfitrions"
 
@@ -3857,9 +3854,6 @@ msgstr "Importa"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3867,9 +3861,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3886,6 +3877,9 @@ msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "A part de definir quines classes de puppet queden incloses en la construcció d'aquest tipus d'amfitrió, també podeu assignar variables i la informació d'aprovisionament a un grup d'amfitrions per perfeccionar el comportament del temps d'execució de puppet."
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -4527,6 +4521,9 @@ msgstr "Carrega els inquilins"
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "S'està carregant"
+
 msgid "Loading ..."
 msgstr "S'està carregant..."
 
@@ -4768,9 +4765,6 @@ msgid "Manually Assign"
 msgstr ""
 
 msgid "Manually select and assign hosts with no %s"
-msgstr ""
-
-msgid "Mark All Read"
 msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
@@ -5592,9 +5586,6 @@ msgstr ""
 msgid "Out of sync interval"
 msgstr "Interval dels desincronitzats"
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr "Sobreescriu tots els paràmetres"
 
@@ -5807,9 +5798,6 @@ msgstr "Atribut de la foto"
 
 msgid "Physical (Bridge)"
 msgstr "Física (pont)"
-
-msgid "Play Ansible roles"
-msgstr ""
 
 msgid "Please Confirm"
 msgstr "Si us plau, confirmeu"
@@ -6266,14 +6254,8 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
 msgstr "Adreça remota"
-
-msgid "Remove"
-msgstr ""
 
 msgid "Remove %s?"
 msgstr "Voleu suprimir %s?"
@@ -7202,9 +7184,6 @@ msgstr "Id. de subxarxa"
 
 msgid "Subnet IDs"
 msgstr "Els id. de les subxarxes"
-
-msgid "Subnet description"
-msgstr ""
 
 msgid "Subnet name"
 msgstr "Nom de la subxarxa"
@@ -8508,11 +8487,11 @@ msgstr "La MV no està executant-se!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "El xifratge d'accés de la consola del servidor intermediari de WebSockets de VNC/SPICE (requereix l'establiment de websockets_ssl_key/cert)"
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr ""
-
 msgid "Valid from"
 msgstr "Vàlid des del"
+
+msgid "Valid host group and environment combinations"
+msgstr ""
 
 msgid "Validation types"
 msgstr "Tipus de validació"
@@ -8553,9 +8532,6 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Molt fort"
-
-msgid "View Chart"
-msgstr ""
 
 msgid "View Diff"
 msgstr "Visualitza les diferències"
@@ -9241,7 +9217,8 @@ msgstr "enllaça el grup d'usuaris externs amb aquest grup d'usuaris"
 msgid "list"
 msgstr "llista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Català"
 
@@ -9371,6 +9348,9 @@ msgstr "organització"
 msgid "organizations"
 msgstr "organitzacions"
 
+msgid "override"
+msgstr "sobreescriu"
+
 msgid "paginate results"
 msgstr "pagina els resultats"
 
@@ -9415,6 +9395,9 @@ msgstr ""
 
 msgid "regexp"
 msgstr ""
+
+msgid "remove"
+msgstr "suprimeix"
 
 msgid "remove network interface"
 msgstr "suprimeix la interfície de xarxa"

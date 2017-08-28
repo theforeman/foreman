@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-04-24 13:35+0000\n"
+"PO-Revision-Date: 2017-08-03 17:21+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -389,9 +389,6 @@ msgstr ""
 msgid "Action"
 msgstr "Åtgärd"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Åtgärder"
 
@@ -412,9 +409,6 @@ msgstr ""
 
 msgid "Add Bookmark"
 msgstr "Lägg till bokmärke"
-
-msgid "Add Combination"
-msgstr ""
 
 msgid "Add Interface"
 msgstr "Lägg till nätverksgränssnitt"
@@ -445,6 +439,9 @@ msgstr ""
 
 msgid "Add a template combination"
 msgstr ""
+
+msgid "Add combination"
+msgstr "Lägg till kombination"
 
 msgid "Add external user group"
 msgstr ""
@@ -1468,6 +1465,9 @@ msgstr ""
 msgid "Could not add permissions to Manager role: %s"
 msgstr ""
 
+msgid "Could not add permissions to Organization admin role: %s"
+msgstr ""
+
 msgid "Could not add permissions to Viewer role: %s"
 msgstr ""
 
@@ -1930,9 +1930,6 @@ msgstr ""
 msgid "Delete Hosts"
 msgstr "Radera värd"
 
-msgid "Delete PuppetCA autosign entry for %s"
-msgstr ""
-
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Radera PuppetCA certifikat för %s"
 
@@ -2088,6 +2085,9 @@ msgstr ""
 
 msgid "Delete autosign entry"
 msgstr ""
+
+msgid "Delete autosign entry for %s"
+msgstr "Radera autosigneringsvärde för %s"
 
 msgid "Delete filter?"
 msgstr ""
@@ -3274,9 +3274,6 @@ msgstr "Värdgrupp och Miljö"
 msgid "Host group configuration"
 msgstr "Värdgruppskonfiguration"
 
-msgid "Host group description"
-msgstr ""
-
 msgid "Host group matchers inheritance"
 msgstr ""
 
@@ -3856,9 +3853,6 @@ msgstr "Importera"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -3866,9 +3860,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3885,6 +3876,9 @@ msgstr ""
 
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "Utöver möjligheten att definiera vilka puppetklasser som blir inkluderade vid byggandet av denna värd, kan du även tilldela variabler och provisioneringsinformation till en värdgrupp för att i mer detalj kunna styra beteendet över puppet."
+
+msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -4526,6 +4520,9 @@ msgstr "Ladda Innehavare"
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "Laddar"
+
 msgid "Loading ..."
 msgstr "Laddar ..."
 
@@ -4768,9 +4765,6 @@ msgstr "Tilldela Manuellt"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Välj manuellt och tilldela värdar utan %s"
-
-msgid "Mark All Read"
-msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr ""
@@ -5589,9 +5583,6 @@ msgstr "Värdar ur synk med aktiverade notifieringar"
 msgid "Out of sync interval"
 msgstr ""
 
-msgid "Override"
-msgstr ""
-
 msgid "Override all parameters"
 msgstr ""
 
@@ -5804,9 +5795,6 @@ msgstr ""
 
 msgid "Physical (Bridge)"
 msgstr "Fysisk(Brygga)"
-
-msgid "Play Ansible roles"
-msgstr ""
 
 msgid "Please Confirm"
 msgstr "Vänligen bekräfta"
@@ -6263,13 +6251,7 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Remote action:"
-msgstr ""
-
 msgid "Remote address"
-msgstr ""
-
-msgid "Remove"
 msgstr ""
 
 msgid "Remove %s?"
@@ -7198,9 +7180,6 @@ msgid "Subnet ID"
 msgstr ""
 
 msgid "Subnet IDs"
-msgstr ""
-
-msgid "Subnet description"
 msgstr ""
 
 msgid "Subnet name"
@@ -8502,11 +8481,11 @@ msgstr "VM körs ej!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr ""
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr ""
-
 msgid "Valid from"
 msgstr "Giltig från"
+
+msgid "Valid host group and environment combinations"
+msgstr "Korrekt värdgrupp och miljökombinationer"
 
 msgid "Validation types"
 msgstr "Valideringstyper"
@@ -8547,9 +8526,6 @@ msgstr ""
 
 msgid "Very Strong"
 msgstr "Väldigt stark"
-
-msgid "View Chart"
-msgstr ""
 
 msgid "View Diff"
 msgstr "Granska Skillnad"
@@ -9235,7 +9211,8 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -9365,6 +9342,9 @@ msgstr "organisation"
 msgid "organizations"
 msgstr "organisationer"
 
+msgid "override"
+msgstr "tvinga"
+
 msgid "paginate results"
 msgstr ""
 
@@ -9409,6 +9389,9 @@ msgstr ""
 
 msgid "regexp"
 msgstr ""
+
+msgid "remove"
+msgstr "ta bort"
 
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
