@@ -6,23 +6,23 @@ class TidyCurrentRoles < ActiveRecord::Migration
     return if Role.count == 0
     Filter.reset_column_information
     Role.without_auditing do
-      ::RolesList.seeded_roles.each do |name, permission_names|
+      ::RolesList.seeded_roles.each do |name, options|
         role = Role.find_by :name => name
         if role
-          process_existing name, role, permission_names
+          process_existing name, role, options
         else
-          create_from_seeds name, permission_names
+          create_from_seeds name, options
         end
       end
     end
     process_default_role
   end
 
-  def process_existing(original_name, role, permission_names)
-    diff = role.permission_diff permission_names
+  def process_existing(original_name, role, options)
+    diff = role.permission_diff options[:permissions]
     return if diff.empty?
     rename_existing role, original_name
-    create_from_seeds original_name, permission_names
+    create_from_seeds original_name, options
   end
 
   def rename_existing(role, original_name)
@@ -49,8 +49,8 @@ class TidyCurrentRoles < ActiveRecord::Migration
     "#{prefix} #{original_name} #{num}"
   end
 
-  def create_from_seeds(name, permission_names)
-    SeedHelper.create_role name, permission_names, 0, false
+  def create_from_seeds(name, options)
+    SeedHelper.create_role name, options, 0, false
   end
 
   def process_default_role

@@ -2,11 +2,11 @@ require (Rails.root + 'db/seeds.d/02-roles_list.rb')
 
 Role.without_auditing do
   Role.skip_permission_check do
-    RolesList.seeded_roles.each do |role_name, permission_names|
-      SeedHelper.create_role(role_name, permission_names, 0)
+    RolesList.seeded_roles.each do |role_name, options|
+      SeedHelper.create_role(role_name, options, 0)
     end
-    RolesList.default_role.each do |role_name, permission_names|
-      SeedHelper.create_role(role_name, permission_names, Role::BUILTIN_DEFAULT_ROLE)
+    RolesList.default_role.each do |role_name, options|
+      SeedHelper.create_role(role_name, options, Role::BUILTIN_DEFAULT_ROLE)
     end
   end
 end

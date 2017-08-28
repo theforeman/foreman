@@ -48,8 +48,8 @@ class SeedHelper
       end
     end
 
-    def create_role(role_name, permission_names, builtin, check_audit = true)
-      description = RolesList.roles_descriptions[role_name]
+    def create_role(role_name, options, builtin, check_audit = true)
+      description = options[:description]
 
       if existing = Role.find_by_name(role_name)
         if existing.description != description
@@ -66,7 +66,7 @@ class SeedHelper
         role.modify_locked = true
       end
       role.save!
-      permissions = Permission.where(:name => permission_names)
+      permissions = Permission.where(:name => options[:permissions])
       create_filters(role, permissions)
     end
   end

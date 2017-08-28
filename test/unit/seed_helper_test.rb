@@ -5,7 +5,7 @@ class SeedHelperTest < ActiveSupport::TestCase
     role_name = "Test role"
     permissions_names = [:view_hosts, :destroy_hosts]
     refute Role.find_by(:name => role_name)
-    SeedHelper.create_role role_name, permissions_names, 0
+    SeedHelper.create_role role_name, {:permissions => permissions_names}, 0
     role = Role.find_by(:name => role_name)
     assert role
     assert_equal permissions_names.sort, role.permissions.pluck(:name).sort.map(&:to_sym)
@@ -13,12 +13,10 @@ class SeedHelperTest < ActiveSupport::TestCase
 
   test "should update a description for a role" do
     role_name = 'existing role'
-    SeedHelper.create_role role_name, [], 0
+    SeedHelper.create_role role_name, {:permissions => []}, 0
     role = Role.find_by(:name => role_name)
     refute_equal 'new description', role.description
-    RolesList.stub(:roles_descriptions, {role_name => 'new description'}) do
-      SeedHelper.create_role role_name, [], 0
-    end
+    SeedHelper.create_role role_name, {:permissions => [], :description => 'new description'}, 0
     assert_equal 'new description', role.reload.description
   end
 
