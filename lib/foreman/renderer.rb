@@ -7,6 +7,7 @@ module Foreman
     class WrongSubnetError < RenderingError; end
     class HostUnknown < RenderingError; end
     class HostParamUndefined < RenderingError; end
+    class HostENCParamUndefined < RenderingError; end
 
     include ::Foreman::ForemanUrlRenderer
 
@@ -33,8 +34,11 @@ module Foreman
       @enc ||= @host.info.deep_dup
       return @enc if path.compact.empty?
       enc = @enc
+      step = nil
       path.each { |step| enc = enc.fetch step }
       enc
+    rescue KeyError
+      raise(HostENCParamUndefined, _('Parameter %{name} is not set in host %{host} ENC output, resolving failed on step %{step}') % { :name => path, :step => step, :host => @host })
     end
 
     def host_param(param_name, default = nil)

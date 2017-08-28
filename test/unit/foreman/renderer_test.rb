@@ -399,6 +399,21 @@ EOS
     assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster')
   end
 
+  test "should raise rendering exception if no such parameter exists while rendering host_enc" do
+    host = FactoryGirl.create(:host, :with_puppet)
+    @renderer.host = host
+    assert_raises(Foreman::Renderer::HostENCParamUndefined) do
+      assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster_that_does_not_exist')
+    end
+  end
+
+  test 'should raise rendering exception if @host is not set while rendering host_enc' do
+    @renderer.host = nil
+    assert_raises(Foreman::Renderer::HostUnknown) do
+      @renderer.host_enc('parameters', 'puppetmaster')
+    end
+  end
+
   test 'templates_used is allowed to render for host' do
     assert Safemode.find_jail_class(Host::Managed).allowed? :templates_used
   end

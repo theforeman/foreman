@@ -1,6 +1,6 @@
 class MigrateTemplateToParametersMacros < ActiveRecord::Migration
   def up
-    Template.descendants.each do |klass|
+    Template.unscoped.descendants.each do |klass|
       klass.all.each do |template|
         template.template = convert(template.template)
         if template.template_changed?
