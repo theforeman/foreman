@@ -10,24 +10,6 @@ module TaxonomyHelper
     SETTINGS[:organizations_enabled] && User.current.allowed_to?(:view_organizations)
   end
 
-  def organization_dropdown(count)
-    text = Organization.current.nil? ? _("Any Organization") : truncate(Organization.current.to_label)
-    if count == 1 && !User.current.admin?
-      link_to text, "#"
-    else
-      link_to(text, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
-    end
-  end
-
-  def location_dropdown(count)
-    text = Location.current.nil? ? _("Any Location") : truncate(Location.current.to_label)
-    if count == 1 && !User.current.admin?
-      link_to text, "#"
-    else
-      link_to(text, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
-    end
-  end
-
   def taxonomy_single
     _(controller_name.singularize)
   end

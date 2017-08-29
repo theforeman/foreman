@@ -6,7 +6,6 @@
 //= require scoped_search
 //= require bootstrap
 //= require patternfly
-//= require topbar
 //= require two-pane
 //= require vendor
 //= require jquery.extentions
@@ -20,11 +19,15 @@
 //= require editable/rails
 //= require compute_resource
 
-$(document).on("page:fetch", tfm.tools.showSpinner)
+$(document).on("page:fetch", function() {
+  tfm.tools.showSpinner();
+  tfm.nav.activate();
+});
 
 $(document).on("page:change", tfm.tools.hideSpinner)
 
 $(function() {
+  tfm.nav.init();
   $(document).trigger('ContentLoad');
 });
 

@@ -1,8 +1,8 @@
 module HomeHelper
-  def render_menu(menu_name)
+  def render_vertical_menu(menu_name)
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
-      render "home/submenu", :menu_items => items, :menu_title => _(menu.caption), :menu_name => menu.name if items.any?
+      render "home/vertical_menu", :menu_items => items, :menu_title => _(menu.caption), :menu_icon => menu.icon, :menu_name => menu.name if items.any?
     end.join(' ').html_safe
   end
 
@@ -43,24 +43,32 @@ module HomeHelper
                 :class => "menu_tab_#{item.url_hash[:controller]}_#{item.url_hash[:action]}")
   end
 
-  def org_switcher_title
-    org_current = truncate(Organization.current.to_label) if Organization.current
-    loc_current = truncate(Location.current.to_label) if Location.current
-    title = if org_current && loc_current
-              org_current + "@" + loc_current
-            elsif org_current
-              org_current
-            elsif loc_current
-              loc_current
-            else
-              _("Any Context")
-            end
-    title
+  def menu_secondary_item(item)
+    html_options = {:id => "menu_item_#{item.name}"}
+    html_options['data-no-turbolink'] = true if !item.turbolinks
+
+    content_tag(:li,
+                link_to(content_tag(:span, _(item.caption), :class => "list-group-item-value").html_safe, item.url, item.html_options.merge(html_options)),
+                :class => "list-group-item")
+  end
+
+  def taxonomies_menu(item)
+    html_options = {:id => "menu_item_#{item[:name]}"}
+
+    content_tag(:li,
+                link_to(content_tag(:span, _(item[:caption]), :class => "list-group-item-value").html_safe, item[:url], html_options),
+                :class => "list-group-item")
+  end
+
+  def tax_title(tax)
+    current_tax = tax.humanize.constantize.current
+    return _("Any #{tax.humanize}") unless current_tax
+    truncate(current_tax.to_label)
   end
 
   def user_header
     summary = avatar_image_tag(User.current, :class=>'avatar small') +
               "#{User.current.to_label} " + content_tag(:span, "", :class=>'caret')
-    link_to(summary.html_safe, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown", :id => "account_menu")
+    link_to(summary.html_safe, "#", :class => "dropdown-toggle nav-item-iconic", :'data-toggle'=>"dropdown", :id => "account_menu")
   end
 end

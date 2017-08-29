@@ -25,6 +25,7 @@ window.tfm = Object.assign(
     toastNotifications: require('./foreman_toast_notifications'),
     numFields: require('./jquery.ui.custom_spinners'),
     reactMounter: require('./react_app/common/MountingService'),
-    editor: require('./foreman_editor')
+    editor: require('./foreman_editor'),
+    nav: require('./foreman_navigation')
   }
 );
