@@ -1,9 +1,9 @@
-<% title _('Create SSH Key for %s') % @user.name %>
+<% title _('Add SSH Key for %s') % @user.name %>
 
 <ol class="breadcrumb">
   <li class="breadcrumb-item"><%= link_to_if_authorized(_("Users"), hash_for_users_path) %></li>
   <li class="breadcrumb-item"><%= link_to_if_authorized(@user.name, hash_for_edit_user_path(@user)) %></li>
-  <li class="breadcrumb-item active"><%= _('Create SSH Key') %></li>
+  <li class="breadcrumb-item active"><%= _('Add SSH Key') %></li>
 </ol>
 
 <%= render :partial => 'form' %>

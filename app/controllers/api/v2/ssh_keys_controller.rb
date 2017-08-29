@@ -31,7 +31,7 @@ module Api
         end
       end
 
-      api :POST, "/users/:user_id/ssh_keys", N_("Create an SSH key for a user")
+      api :POST, "/users/:user_id/ssh_keys", N_("Add an SSH key for a user")
       param_group :ssh_key, :as => :create
 
       def create
