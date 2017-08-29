@@ -8,6 +8,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
   def setup
     @host = FactoryGirl.create(:host)
     @nic  = FactoryGirl.create(:nic_managed, :host => @host)
+    @bond  = FactoryGirl.create(:nic_bond, :host => @host)
   end
 
   test "get index for specific host" do
@@ -45,6 +46,29 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "update interface without type" do
+    post :update, { :id => @bond.to_param, :host_id => @host.to_param, :interface => valid_attrs.except('type').merge('name' => 'newname') }
+    assert_response :success
+    assert_equal('Nic::Bond', Nic::Base.find(@bond.to_param).type)
+    assert_equal('newname', Nic::Base.find(@bond.to_param).name)
+  end
+
+  test "update interface type" do
+    post :update, { :id => @bond.to_param, :host_id => @host.to_param, :interface => valid_attrs }
+    assert_response :unprocessable_entity
+
+    body = ActiveSupport::JSON.decode(response.body)
+    assert_includes body['error']['errors'].keys, 'type'
+    assert_equal('Nic::Bond', Nic::Base.find(@bond.to_param).type)
+  end
+
+  test "update sets default interface when type is nil" do
+    post :update, { :id => @bond.to_param, :host_id => @host.to_param, :interface => valid_attrs.merge('type' => nil) }
+    body = ActiveSupport::JSON.decode(response.body)
+    assert_includes body['error']['errors'].keys, 'type'
+    assert_equal('Nic::Bond', Nic::Base.find(@bond.to_param).type)
+  end
+
   test "username and password are set on POST (create)" do
     post :create, { :host_id => @host.to_param, :interface => valid_attrs }
     assert_equal valid_attrs['password'], Nic::BMC.find_by_host_id(@host.id).password
@@ -53,7 +77,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
   test "update a host interface" do
     put :update, { :host_id => @host.to_param,
                    :id => @nic.to_param,
-                   :interface => valid_attrs.merge({ :host_id => @host.id }) }
+                   :interface => valid_attrs.except('type') }
     assert_response :success
     assert_equal valid_attrs['ip'], Host.find_by_name(@host.name).interfaces.where(:id => @nic.to_param).first.ip
   end

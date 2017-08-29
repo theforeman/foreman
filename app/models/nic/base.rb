@@ -35,6 +35,7 @@ module Nic
     validates :ip6, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip6_validation? }
 
     validate :validate_subnet_types
+    validate :validate_updating_types
 
     # Validate that subnet's taxonomies are defined for nic's host
     Taxonomy.enabled_taxonomies.map(&:singularize).map(&:to_sym).each do |taxonomy|
@@ -257,6 +258,11 @@ module Nic
 
     def validate_mac_is_unicast
       errors.add(:mac, _('must be a unicast MAC address')) if Net::Validations.multicast_mac?(mac) || Net::Validations.broadcast_mac?(mac)
+    end
+
+    def validate_updating_types
+      sti_type = self.type || 'Nic::Base'
+      errors.add(:type, _("can't be changed once the interface is saved")) if self.persisted? && (self.class.name != sti_type)
     end
 
     def mac_addresses_for_provisioning

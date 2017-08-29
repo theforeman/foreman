@@ -104,7 +104,9 @@ module Api
       end
 
       def convert_type
-        params[:interface][:type] = InterfaceTypeMapper.map(params[:interface][:type])
+        if params[:action] != 'update' || params[:interface].has_key?(:type)
+          params[:interface][:type] = InterfaceTypeMapper.map(params[:interface][:type])
+        end
       rescue InterfaceTypeMapper::UnknownTypeExeption => e
         render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
       end

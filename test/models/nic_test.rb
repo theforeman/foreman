@@ -56,6 +56,13 @@ class NicTest < ActiveSupport::TestCase
     assert_equal "123.1.2.3", interface.ip
   end
 
+  test "type can't by updated" do
+    interface = FactoryGirl.create(:nic_managed, :host => FactoryGirl.create(:host))
+    interface.type = 'Nic::BMC'
+    interface.valid?
+    assert_includes interface.errors.keys, :type
+  end
+
   test "managed nic should generate progress report uuid" do
     uuid = '710d4a8f-b1b6-47f5-9ef5-5892a19dabcd'
     Foreman.stubs(:uuid).returns(uuid)
