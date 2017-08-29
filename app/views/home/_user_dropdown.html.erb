@@ -1,5 +1,5 @@
-<li id='notifications_container' class="drawer-pf-trigger dropdown"> </li>
-<li class="dropdown menu_tab_dropdown">
+<li id='notifications_container' class="drawer-pf-trigger dropdown notifification-dropdown"> </li>
+<li class="dropdown">
   <%= user_header %>
   <ul class="dropdown-menu pull-right">
     <% authorized_menu_actions(Menu::Manager.items(:user_menu).children).map do |item| %>

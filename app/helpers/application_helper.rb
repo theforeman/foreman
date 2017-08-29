@@ -366,7 +366,7 @@ module ApplicationHelper
       image_tag(gravatar_image(user.mail),
                 html_options.merge!(gravatar_html_options))
     else
-      image_tag('user.jpg', html_options)
+      icon_text("user #{html_options[:class]}", "", :kind => "fa")
     end
   end
 
