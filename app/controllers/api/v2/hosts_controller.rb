@@ -331,15 +331,15 @@ Return the host's compute attributes that can be used to create a clone of this 
           end
           # map interface types
           params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
-            interface_attributes(nic_attr)
+            interface_attributes(nic_attr, allow_nil_type: host.nil?)
           end
         end
         params = host.apply_inherited_attributes(params) if host
         params
       end
 
-      def interface_attributes(params)
-        params[:type] = InterfaceTypeMapper.map(params[:type])
+      def interface_attributes(params, allow_nil_type: false)
+        params[:type] = InterfaceTypeMapper.map(params[:type]) if params.has_key?(:type) || allow_nil_type
         params
       end
 

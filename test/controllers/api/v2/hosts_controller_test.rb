@@ -297,6 +297,26 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "updating interface type isn't allowed" do
+    @host = FactoryGirl.create(:host, :interfaces => [FactoryGirl.build(:nic_bond, :primary => true)])
+    nic_id = @host.interfaces.first.id
+    put :update, { :id => @host.to_param, :host => { :interfaces_attributes => [{ :id => nic_id, :name => 'newname', :type => 'bmc'}] } }
+
+    assert_response :unprocessable_entity
+    body = ActiveSupport::JSON.decode(response.body)
+    assert_includes body['error']['errors'].keys, 'interfaces.type'
+  end
+
+  test "should update interfaces without changing their type" do
+    @host = FactoryGirl.create(:host, :interfaces => [FactoryGirl.build(:nic_bond, :primary => true)])
+    nic_id = @host.interfaces.first.id
+    put :update, { :id => @host.to_param, :host => { :interfaces_attributes => [{ :id => nic_id, :name => 'newname' }] } }
+
+    assert_response :success
+    assert_equal('Nic::Bond', Nic::Base.find(nic_id).type)
+    assert_equal('newname', Nic::Base.find(nic_id).name)
+  end
+
   test "should update interfaces from compute profile" do
     disable_orchestration
 
