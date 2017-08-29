@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { storiesOf, addDecorator } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
+require('../../app/assets/stylesheets/base.scss');
 import ChartBox from '../assets/javascripts/react_app/components/statistics/ChartBox';
 import PieChart from '../assets/javascripts/react_app/components/common/charts/PieChart';
 import mockData from './data/charts/donutChartMockData';
@@ -14,13 +15,6 @@ import Store from '../assets/javascripts/react_app/redux';
 import Toast from '../assets/javascripts/react_app/components/toastNotifications/toastListitem';
 import StorageContainer from '../assets/javascripts/react_app/components/hosts/storage/vmware';
 import * as VMWareData from './data/storage/vmware';
-
-addDecorator(story =>
-  <div className="ca" style={{ textAlign: 'center' }}>
-    {story()}
-    <div id="targetChart" />
-  </div>
-);
 
 storiesOf('Charts', module)
   .add('Loading', () =>
