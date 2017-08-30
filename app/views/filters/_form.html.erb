@@ -35,11 +35,14 @@
 
       <%= hidden_field_tag :role_id, @role.try(:id) %>
 
-
-      <div class="controls" id="granular_warning" style="<%= f.object.granular? ? 'display:none' : '' %>">
-          <span class="help-block">
-            <strong><%= _("Selected resource type does not support granular filtering, therefore you can't configure granularity") %></strong>
-          </span>
+      <div class="clearfix">
+        <div class="controls" id="granular_warning" style="<%= f.object.granular? ? 'display:none' : '' %>">
+          <div class="col-md-2"></div>
+            <div class="col-sm-10 alert alert-info">
+              <span class="pficon pficon-info"></span>
+              <%= _("Selected resource type does not support granular filtering, therefore you can't configure granularity") %>
+            </div>
+        </div>
       </div>
 
       <div id="override_taxonomy_form" class="<%= f.object.allows_taxonomies_filtering? && Taxonomy.enabled_taxonomies.any? ? '' : 'hidden' %>">
