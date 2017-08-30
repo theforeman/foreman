@@ -153,16 +153,6 @@ module HostCommon
     end
   end
 
-  def param_true?(name)
-    Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param_true?')
-    params.has_key?(name) && Foreman::Cast.to_bool(params[name])
-  end
-
-  def param_false?(name)
-    Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param_false?')
-    params.has_key?(name) && Foreman::Cast.to_bool(params[name]) == false
-  end
-
   def cg_class_ids
     cg_ids = if is_a?(Hostgroup)
                path.each.map(&:config_group_ids).flatten.uniq

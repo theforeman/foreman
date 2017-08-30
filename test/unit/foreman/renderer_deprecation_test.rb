@@ -7,22 +7,6 @@ class RendererTest < ActiveSupport::TestCase
     include Foreman::Renderer
   end
 
-  test 'should show the deprecation for @host.info' do
-    renderer = DummyRenderer.new
-    renderer.host = FactoryGirl.create(:host, :with_puppet)
-    template = FactoryGirl.create(:provisioning_template, :template => '<%= @host.info %>')
-    Rails.logger.expects(:warn).with("DEPRECATION WARNING: you are using deprecated @host.info in a template, it will be removed in 1.17. Use host_enc instead.").once
-    renderer.unattended_render template
-  end
-
-  test 'should show the deprecation for @host.params' do
-    renderer = DummyRenderer.new
-    renderer.host = FactoryGirl.create(:host, :with_puppet)
-    template = FactoryGirl.create(:provisioning_template, :template => '<%= @host.params %>')
-    Rails.logger.expects(:warn).with("DEPRECATION WARNING: you are using deprecated @host.params in a template, it will be removed in 1.17. Use host_param instead.").once
-    renderer.unattended_render template
-  end
-
   test 'should render host param using "host_param" helper without deprecation' do
     renderer = DummyRenderer.new
     renderer.host = FactoryGirl.create(:host, :with_puppet)
