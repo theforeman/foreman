@@ -114,6 +114,20 @@ module ComputeResourcesVmsHelper
     end
   end
 
+  def common_available_actions(vm, authorizer = nil)
+    actions = []
+    actions << vm_delete_action(vm, authorizer)
+    actions << vm_console_action(vm)
+    host_action = vm_host_action(vm)
+    if host_action
+      actions << host_action
+    else
+      actions << vm_import_action(vm, :class => 'btn btn-default')
+      actions << vm_associate_action(vm)
+    end
+    actions
+  end
+
   def openstack_available_actions(vm, authorizer = nil)
     actions = []
     if vm.state == 'ACTIVE'
@@ -125,12 +139,13 @@ module ComputeResourcesVmsHelper
       actions << vm_power_action(vm, authorizer)
     end
 
-    actions << vm_import_action(vm)
-    actions << vm_delete_action(vm, authorizer)
+    (actions + common_available_actions(vm, authorizer)).compact
   end
 
   def default_available_actions(vm, authorizer = nil)
-    [vm_power_action(vm, authorizer), vm_delete_action(vm, authorizer)]
+    actions = []
+    actions << vm_power_action(vm, authorizer)
+    (actions + common_available_actions(vm, authorizer)).compact
   end
 
   def vpc_security_group_hash(security_groups)
@@ -230,8 +245,48 @@ module ComputeResourcesVmsHelper
     !host.compute_object.persisted?
   end
 
-  def vm_import_action(vm)
+  def vm_host_action(vm)
+    host = Host.for_vm(@compute_resource, vm).first
+    return unless host
+    display_link_if_authorized(_("Host"), hash_for_host_path(:id => host), :class => 'btn btn-default')
+  end
+
+  def vm_import_action(vm, html_options = {})
     return unless Host.for_vm(@compute_resource, vm).empty?
-    display_link_if_authorized(_("Import"), hash_for_import_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity))
+    display_link_if_authorized(
+      _("Import"),
+      hash_for_import_compute_resource_vm_path(
+        :compute_resource_id => @compute_resource,
+        :id => vm.identity),
+        html_options
+    )
+  end
+
+  def vm_associate_action(vm)
+    display_link_if_authorized(
+      _("Associate VM"),
+      hash_for_associate_compute_resource_vm_path(
+        :compute_resource_id => @compute_resource,
+        :id => vm.identity
+      ).merge(
+        :auth_object => @compute_resource,
+        :permission => 'edit_compute_resources'),
+        :title => _("Associate VM to a Foreman host"),
+        :method => :put,
+        :class =>"btn btn-default"
+    )
+  end
+
+  def vm_console_action(vm)
+    return unless vm.ready?
+    link_to_if_authorized(
+      _("Console"),
+      hash_for_console_compute_resource_vm_path.merge(
+        :auth_object => @compute_resource
+      ),
+      {
+        :class => "btn btn-info"
+      }
+    )
   end
 end
