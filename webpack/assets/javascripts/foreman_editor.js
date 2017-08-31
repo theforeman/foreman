@@ -295,3 +295,45 @@ export function revertTemplate(item) {
     }
   });
 }
+
+export function enterFullscreen(element, relativeTo) {
+  let $element = $(element);
+
+  if (relativeTo) {
+    $element = $(relativeTo).find(element);
+  }
+
+  $element.children().removeClass('hidden');
+  $element.data('origin', $element.parent())
+          .data('position', $(window).scrollTop())
+          .addClass('fullscreen')
+          .appendTo($('body'))
+          .resize();
+
+  $('.navbar').not('.navbar-editor').addClass('hidden');
+  $('.btn-fullscreen').addClass('hidden');
+  $('.btn-exit-fullscreen').removeClass('hidden');
+
+  $('#content').addClass('hidden');
+  $(document).on('keyup', function (e) {
+      if (e.keyCode === 27) {    // esc
+        exit_fullscreen_editor();
+      }
+  });
+  Editor.resize(true);
+}
+
+export function exitFullscreen() {
+  let element = $('.fullscreen');
+
+  $('#content').removeClass('hidden');
+  $('.navbar').removeClass('hidden');
+  element.removeClass('fullscreen')
+         .prependTo(element.data('origin'))
+         .resize();
+
+  $('.btn-exit-fullscreen').addClass('hidden');
+  $('.btn-fullscreen').removeClass('hidden');
+  $(window).scrollTop(element.data('position'));
+  Editor.resize(true);
+}
