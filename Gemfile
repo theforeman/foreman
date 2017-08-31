@@ -40,6 +40,7 @@ gem 'mail', '~> 2.6'
 gem 'nokogiri', '< 1.7' if RUBY_VERSION.start_with? '2.0.'
 gem 'sshkey', '~> 1.9'
 gem 'ruby2ruby', '2.3.2'
+gem 'public_suffix', '< 3.0.0' if RUBY_VERSION.start_with? '2.0.'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))
