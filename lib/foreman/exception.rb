@@ -52,7 +52,7 @@ module Foreman
       super unless @wrapped_exception.present?
 
       cls = @wrapped_exception.class.name
-      msg = @wrapped_exception.message.try(:truncate, 90)
+      msg = @wrapped_exception.message
       super + " ([#{cls}]: #{msg})"
     end
   end
