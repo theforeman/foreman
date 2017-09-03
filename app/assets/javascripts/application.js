@@ -73,6 +73,7 @@ function onContentLoad(){
       if ($(this).data('on-complete')){
         _.get(window, $(this).data('on-complete')).call(null, this, status);
       }
+      tfm.tools.activateTooltips(this)
     });
   });
 
