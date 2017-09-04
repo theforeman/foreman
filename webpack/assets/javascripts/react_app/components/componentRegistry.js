@@ -24,7 +24,7 @@ const componentRegistry = {
   },
 
   registerMultiple(componentObjs) {
-    return forEach(componentObjs, (obj) => {
+    return forEach(componentObjs, obj => {
       return this.register(obj);
     });
   },
@@ -47,8 +47,12 @@ const componentRegistry = {
     }
     const ComponentName = currentComponent.type;
 
-    return (<ComponentName data={ currentComponent.data ? data : undefined }
-                           store={ currentComponent.store ? store : undefined } />);
+    return (
+      <ComponentName
+        data={currentComponent.data ? data : undefined}
+        store={currentComponent.store ? store : undefined}
+      />
+    );
   }
 };
 

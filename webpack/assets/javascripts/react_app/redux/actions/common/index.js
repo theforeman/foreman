@@ -10,7 +10,7 @@ export const ajaxRequestAction = ({
 }) => {
   dispatch({ type: requestAction, payload: item });
   API.get(url).then(
-     result => dispatch({ type: successAction, payload: result }),
+     result => dispatch({ type: successAction, payload: Object.assign(item, result) }),
       (jqXHR, textStatus, error) => dispatch(
         { type: failedAction, payload: { error, item } }
       )

@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextField should default to a text field 1`] = `
+<Field
+  className=""
+  component={[Function]}
+  label="Name"
+  name="name"
+  type="text"
+/>
+`;
+
+exports[`TextField should render a checkbox 1`] = `
+<Field
+  className=""
+  component={[Function]}
+  label="Name"
+  name="name"
+  type="checkbox"
+/>
+`;
+
+exports[`TextField should render a text area 1`] = `
+<Field
+  className=""
+  component={[Function]}
+  label="Name"
+  name="name"
+  type="textarea"
+/>
+`;
