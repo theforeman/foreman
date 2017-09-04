@@ -10,6 +10,7 @@ export default ({
   onMouseLeave,
   onClose,
   link,
+  title,
   message
 }) => {
   const linkMarkup = (title, href) => (
@@ -32,10 +33,14 @@ export default ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
+    {title && <strong>{title}</strong>}
+    {title && <br />}
+
       {onClose && <CloseButton onClick={onClose} />}
       {link && linkMarkup(link.title, link.href)}
       <span dangerouslySetInnerHTML={{__html: message}} />
       <Icon type={type} />
+      {children}
     </div>
   );
 };
