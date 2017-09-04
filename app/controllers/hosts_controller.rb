@@ -1,6 +1,4 @@
 class HostsController < ApplicationController
-  define_callbacks :set_class_variables
-
   include Foreman::Controller::ActionPermissionDsl
   include ScopesPerAction
   include Foreman::Controller::HostDetails
@@ -8,6 +6,7 @@ class HostsController < ApplicationController
   include Foreman::Controller::TaxonomyMultiple
   include Foreman::Controller::SmartProxyAuth
   include Foreman::Controller::Parameters::Host
+  include Foreman::Controller::HostFormCommon
   include Foreman::Controller::Puppet::HostsControllerExtensions
   include Foreman::Controller::CsvResponder
   include Foreman::Controller::NormalizeScsiAttributes
@@ -719,24 +718,6 @@ class HostsController < ApplicationController
     error _("Something went wrong while changing host type - %s") % (e)
   end
 
-  def taxonomy_scope
-    if params[:host]
-      @organization = Organization.find_by_id(params[:host][:organization_id])
-      @location = Location.find_by_id(params[:host][:location_id])
-    end
-
-    if @host
-      @organization ||= @host.organization
-      @location     ||= @host.location
-    end
-
-    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
-    @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
-
-    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
-    @location     ||= Location.current     if SETTINGS[:locations_enabled]
-  end
-
   # overwrite application_controller
   def find_resource
     if (id = params[:id]).blank?
@@ -756,17 +737,6 @@ class HostsController < ApplicationController
 
   def multiple_with_filter?
     params.key?(:search)
-  end
-
-  def load_vars_for_ajax
-    return unless @host
-
-    taxonomy_scope
-    if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
-      @host.compute_attributes = params[:host][:compute_attributes]
-    end
-
-    set_class_variables(@host)
   end
 
   def find_multiple
@@ -898,18 +868,6 @@ class HostsController < ApplicationController
       @host.provisioning_template(:kind => kind.name)
     end.compact
     raise Foreman::Exception.new(N_("No templates found")) if @templates.empty?
-  end
-
-  def set_class_variables(host)
-    run_callbacks :set_class_variables do
-      @architecture    = host.architecture
-      @operatingsystem = host.operatingsystem
-      @domain          = host.domain
-      @subnet          = host.subnet
-      @compute_profile = host.compute_profile
-      @realm           = host.realm
-      @hostgroup       = host.hostgroup
-    end
   end
 
   def host_power_ping(result)

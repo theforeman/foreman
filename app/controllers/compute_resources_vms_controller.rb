@@ -1,6 +1,7 @@
 class ComputeResourcesVmsController < ApplicationController
   include Foreman::Controller::ComputeResourcesCommon
   include ::Foreman::Controller::ActionPermissionDsl
+  include ::Foreman::Controller::HostFormCommon
 
   before_action :find_compute_resource
   before_action :find_vm, :only => [:import, :associate, :show, :console, :pause, :power]
@@ -100,6 +101,7 @@ class ComputeResourcesVmsController < ApplicationController
       :compute_resource => @compute_resource,
       :vm => @vm
     ).host
+    load_vars_for_ajax
   end
 
   private
