@@ -215,7 +215,7 @@ module HostsHelper
     end
     [{:label=>_("Applied"), :data=>applied,:color =>'#89A54E'},
      {:label=>_("Failed"), :data=>failed,:color =>'#AA4643'},
-     {:label=>_("Failed restarts"), :data=>failed_restarts,:color =>'#AA4643'},
+     {:label=>_("Failed restarts"), :data=>failed_restarts,:color =>'#EC971F'},
      {:label=>_("Skipped"), :data=>skipped,:color =>'#80699B'},
      {:label=>_("Restarted"), :data=>restarted,:color =>'#4572A7'}]
   end
