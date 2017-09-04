@@ -63,7 +63,7 @@ qprintf() {
 }
 
 printv() {
-  [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo $*
+  [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo "[$SECONDS]" $*
 }
 
 clean_stdin() {
@@ -375,6 +375,7 @@ qprintf "\n\n"
 
 if [ "$NOTAR" -eq 0 ]; then
   pushd "$DIR" >/dev/null
+  printv "Compressing directory structure"
   tar -c ../$(basename $DIR) 2>/dev/null | $COMPRESS > "$TARBALL"
   popd >/dev/null
   qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
@@ -397,5 +398,7 @@ if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
 else
   [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
 fi
+
+printv "Finished in $SECONDS seconds"
 
 exit 0
