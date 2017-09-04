@@ -935,7 +935,10 @@ class HostsController < ApplicationController
     # kind of host. For example 'is_owned_by', even if it's in host_params,
     # should be ignored by Host::Discovered or any other Host class that does
     # not have that attribute
-    host_attributes = host.class.attribute_names
+    host_attributes = host.class.attribute_names.dup
+    if host_params["compute_attributes"].present?
+      host_attributes << 'compute_attributes'
+    end
     host_params.select do |k,v|
        host_attributes.include?(k) && !k.end_with?('_ids')
     end.except(:host_parameters_attributes)

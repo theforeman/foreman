@@ -1263,38 +1263,47 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'review_before_build'
   end
 
-  test 'template_used returns templates with interfaces' do
-    @host.setBuild
-    nic=FactoryGirl.create(:nic_managed, :host => @host)
-    attrs = host_attributes(@host)
-    attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
-    ActiveRecord::Base.any_instance.expects(:destroy).never
-    ActiveRecord::Base.any_instance.expects(:save).never
-    xhr :put, :template_used, {:provisioning => 'build', :host => attrs, :id => @host.id }, set_session_user
-    assert_response :success
-    assert_template :partial => '_provisioning'
-  end
+  describe '#template_used' do
+    setup do
+      @host.setBuild
+      ActiveRecord::Base.any_instance.expects(:destroy).never
+      ActiveRecord::Base.any_instance.expects(:save).never
+      @attrs = host_attributes(@host)
+    end
 
-  test 'template_used returns templates with host parameters' do
-    @host.setBuild
-    attrs = host_attributes(@host)
-    attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar', :id => '34'}}
-    ActiveRecord::Base.any_instance.expects(:destroy).never
-    ActiveRecord::Base.any_instance.expects(:save).never
-    xhr :put, :template_used, {:provisioning => 'build', :host => attrs }, set_session_user
-    assert_response :success
-    assert_template :partial => '_provisioning'
-  end
+    test 'returns templates with interfaces' do
+      nic=FactoryGirl.create(:nic_managed, :host => @host)
+      @attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
+      xhr :put, :template_used, {:provisioning => 'build', :host => @attrs, :id => @host.id }, set_session_user
+      assert_response :success
+      assert_template :partial => '_provisioning'
+    end
 
-  test 'template_used does not save has_many relations on existing hosts' do
-    @host.setBuild
-    attrs = host_attributes(@host)
-    attrs[:config_group_ids] = [config_groups(:one).id]
-    ActiveRecord::Base.any_instance.expects(:destroy).never
-    ActiveRecord::Base.any_instance.expects(:save).never
-    xhr :put, :template_used, {:provisioning => 'build', :host => attrs, :id => @host.id }, set_session_user
-    assert_response :success
-    assert_template :partial => '_provisioning'
+    test 'returns templates with host parameters' do
+      @attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar', :id => '34'}}
+      xhr :put, :template_used, {:provisioning => 'build', :host => @attrs }, set_session_user
+      assert_response :success
+      assert_template :partial => '_provisioning'
+    end
+
+    test 'does not save has_many relations on existing hosts' do
+      @attrs[:config_group_ids] = [config_groups(:one).id]
+      xhr :put, :template_used, {:provisioning => 'build', :host => @attrs, :id => @host.id }, set_session_user
+      assert_response :success
+      assert_template :partial => '_provisioning'
+    end
+
+    test 'shows templates for image provisioning' do
+      image = compute_resources(:one).images.first
+      @attrs[:compute_resource_id] = compute_resources(:one).id
+      @attrs[:operatingsystem_id] = image.operatingsystem.id
+      @attrs[:compute_attributes] ||= {}
+      @attrs[:compute_attributes][compute_resources(:one).image_param_name] = image.uuid
+      xhr :put, :template_used, {:provisioning => 'image', :host => @attrs }, set_session_user
+      assert_response :success
+      assert_template :partial => '_provisioning'
+      assert_includes response.body, 'MyFinish'
+    end
   end
 
   test 'process_taxonomy renders a host from the params correctly' do
