@@ -25,6 +25,14 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:hostgroups)
     hostgroups = ActiveSupport::JSON.decode(@response.body)
     assert !hostgroups.empty?
+    assert hostgroups['results'].select { |h| h.has_key?('parameters') }.empty?
+  end
+
+  test "should get index with parameters" do
+    get :index, { :include => ['parameters'] }
+    assert_response :success
+    hostgroups = ActiveSupport::JSON.decode(@response.body)
+    assert !hostgroups['results'].select { |h| h.has_key?('parameters') }.empty?
   end
 
   test "should show individual record" do
@@ -32,6 +40,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
+    assert show_response.has_key?('parameters')
   end
 
   test "should create hostgroup" do

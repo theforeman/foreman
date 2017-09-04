@@ -17,9 +17,14 @@ module Api
       param :puppetclass_id, String, :desc => N_("ID of Puppet class")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      param :include, Array, :in => ['parameters'], :desc => N_("Array of extra information types to include")
 
       def index
         @hostgroups = resource_scope_for_index
+
+        if params[:include].present?
+          @parameters = params[:include].include?('parameters')
+        end
       end
 
       api :GET, "/hostgroups/:id/", N_("Show a host group")
@@ -27,6 +32,7 @@ module Api
       param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
 
       def show
+        @parameters = true
       end
 
       def_param_group :hostgroup do
@@ -61,6 +67,8 @@ module Api
       param_group :hostgroup, :as => :create
 
       def create
+        @parameters = true
+
         @hostgroup = Hostgroup.new(hostgroup_params)
         @hostgroup.suggest_default_pxe_loader if params[:hostgroup] && params[:hostgroup][:pxe_loader].nil?
 
@@ -72,6 +80,8 @@ module Api
       param_group :hostgroup
 
       def update
+        @parameters = true
+
         process_response @hostgroup.update_attributes(hostgroup_params)
       end
 
