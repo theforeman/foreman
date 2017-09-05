@@ -507,7 +507,6 @@ function onHostEditLoad(){
   }
   $('#params-tab').on('shown', function(){mark_params_override()});
   if ($('#supports_update') && !$('#supports_update').data('supports-update')) disable_vm_form_fields();
-  pxeLoaderCompatibilityCheck();
 }
 
 $(document).on('submit',"[data-submit='progress_bar']", function() {
@@ -790,18 +789,3 @@ function randomizeName() {
     }
   });
  }
-
-function pxeLoaderCompatibilityCheck() {
-  var pxeLoader = $('#host_pxe_loader').val();
-  var osTitle = $("#host_operatingsystem_id option:selected").text();
-  var compatible = tfm.hosts.checkPXELoaderCompatibility(osTitle, pxeLoader);
-  if (compatible === false) {
-    $('#host_pxe_loader').closest('.form-group').addClass('has-warning');
-    $('#host_pxe_loader').closest('.form-group').find('.help-inline').html('<span class="error-message">' + __("Warning: This combination of loader and OS might not be able to boot.") + '</span>');
-  } else {
-    $('#host_pxe_loader').closest('.form-group').removeClass('has-warning');
-    $('#host_pxe_loader').closest('.form-group').find('.help-inline').html('');
-  }
-}
-
-$(document).on('change', '#host_pxe_loader', pxeLoaderCompatibilityCheck);
