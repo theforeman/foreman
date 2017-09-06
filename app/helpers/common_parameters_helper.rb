@@ -69,6 +69,10 @@ module CommonParametersHelper
   end
 
   def authorized_resource_parameters(resource, type)
-    resource.send(type).authorized(:view_params) + resource.send(type).select(&:new_record?)
+    parameters_by_type = resource.send(type)
+    parameter_ids_to_view = parameters_by_type.authorized(:view_params).map(&:id)
+    resource_parameters = parameters_by_type.select { |p| parameter_ids_to_view.include?(p.id) }
+    resource_parameters += parameters_by_type.select(&:new_record?)
+    resource_parameters
   end
 end

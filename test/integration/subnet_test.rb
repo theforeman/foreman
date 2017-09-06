@@ -14,4 +14,16 @@ class SubnetIntegrationTest < ActionDispatch::IntegrationTest
     assert_submit_button(subnets_path)
     assert page.has_link? 'one-secure'
   end
+
+  test 'edit shows errors on invalid name for parameters values' do
+    subnet = FactoryGirl.create(:subnet_ipv4)
+    subnet.subnet_parameters.create!(:name => "foo_param", :value => "bar", :hidden_value => true)
+    visit edit_subnet_path(subnet)
+    assert page.has_link?('Parameters', :href => '#params')
+    click_link 'Parameters'
+    assert page.has_no_selector?('#params .input-group.has-error')
+    fill_in "subnet_subnet_parameters_attributes_0_name", :with => 'invalid name'
+    click_button('Submit')
+    assert page.has_selector?('#params tr.has-error')
+  end
 end
