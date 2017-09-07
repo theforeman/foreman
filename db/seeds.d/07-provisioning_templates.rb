@@ -6,9 +6,10 @@ ProvisioningTemplate.without_auditing do
     contents = File.read(File.join("#{Rails.root}/app/views/unattended/provisioning_templates", input.delete(:source)))
 
     if (t = ProvisioningTemplate.unscoped.find_by_name(input[:name])) && !SeedHelper.audit_modified?(ProvisioningTemplate, input[:name])
-      if t.template != contents
+      if t.template != contents || t.vendor != 'Foreman'
         t.template = contents
         t.locked = true
+        t.vendor = 'Foreman'
         t.ignore_locking do
           t.ignore_default do
             raise "Unable to update template #{t.name}: #{format_errors t}" unless t.save
@@ -22,7 +23,8 @@ ProvisioningTemplate.without_auditing do
       t = ProvisioningTemplate.create({
         :snippet  => false,
         :template => contents,
-        :locked => true
+        :locked => true,
+        :vendor => 'Foreman'
       }.merge(input))
 
       t.organizations = organizations if SETTINGS[:organizations_enabled]
