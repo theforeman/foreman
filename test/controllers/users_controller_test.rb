@@ -214,9 +214,12 @@ class UsersControllerTest < ActionController::TestCase
   test "should login external user" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
+    time = Time.zone.now
     @request.env['REMOTE_USER'] = users(:admin).login
-    get :extlogin, {}, {}
+    get :extlogin, {}, {:user => users(:admin).id }
     assert_redirected_to hosts_path
+    users(:admin).reload
+    assert users(:admin).last_login_on.to_i >= time.to_i, 'User last login time was not updated'
   end
 
   test "should logout external user" do
@@ -303,10 +306,13 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  test "#login sets the session user" do
+  test "#login sets the session user and bumps last log in time" do
+    time = Time.zone.now
     post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
     assert_redirected_to hosts_path
     assert_equal users(:admin).id, session[:user]
+    users(:admin).reload
+    assert users(:admin).last_login_on.to_i >= time.to_i, 'User last login on was not updated'
   end
 
   test "#login resets the session ID to prevent fixation" do

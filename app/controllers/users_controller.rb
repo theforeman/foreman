@@ -150,6 +150,7 @@ class UsersController < ApplicationController
     session[:original_uri] = nil
     set_current_taxonomies(user, {:session => session})
     TopbarSweeper.expire_cache
+    user.post_successful_login
     redirect_to (uri || hosts_path)
   end
 

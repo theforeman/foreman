@@ -111,23 +111,6 @@ class UserTest < ActiveSupport::TestCase
       assert_nil User.try_to_login("anything", "")
     end
 
-    test "when a user logs in, last login time should be updated" do
-      user = users(:internal)
-      last_login = user.last_login_on
-      assert_not_nil User.try_to_login(user.login, "changeme")
-      assert_not_equal last_login, User.unscoped.find(user.id).last_login_on
-    end
-
-    test "updating the last login time must not persist invalid attributes" do
-      user = FactoryGirl.create(:user, :with_mail, :auth_source => FactoryGirl.create(:auth_source_ldap))
-      AuthSourceLdap.any_instance.expects(:authenticate).returns(:mail => 'foo#bar')
-      AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
-      assert_not_nil User.try_to_login(user.login, "changeme")
-      reloaded_user = User.unscoped.find(user.id)
-      assert_not_equal user.last_login_on, reloaded_user.last_login_on
-      assert_equal user.mail, reloaded_user.mail
-    end
-
     test ".try_to_login on unknown user should return nil" do
       User.expects(:try_to_auto_create_user).with('unknown user account', 'secret')
       refute User.try_to_login('unknown user account', 'secret')
