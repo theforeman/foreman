@@ -173,6 +173,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal model.name, show_response['model_name']
   end
 
+  test "should show host owner name" do
+    owner = User.first
+    host = FactoryGirl.create(:host, :owner => owner)
+    get :show, {:id => host.id}, set_session_user
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal owner.name, response["owner_name"]
+  end
+
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do
