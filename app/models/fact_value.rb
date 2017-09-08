@@ -79,10 +79,12 @@ class FactValue < ApplicationRecord
   end
 
   def self.build_facts_hash(facts)
+    hosts = Host.where(:id => facts.group_by(&:host_id).keys).all
+
     hash = {}
     facts.each do |fact|
-      hash[fact.host.to_s] ||= {}
-      hash[fact.host.to_s].update({fact.name.to_s => fact.value})
+      hash[hosts.detect {|h| h.id == fact.host_id}.to_s] ||= {}
+      hash[hosts.detect {|h| h.id == fact.host_id}.to_s].update({fact.name.to_s => fact.value})
     end
     hash
   end
