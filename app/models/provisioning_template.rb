@@ -4,7 +4,17 @@ class ProvisioningTemplate < Template
   friendly_id :name
   include Parameterizable::ByIdName
 
+  class << self
+    # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
+    # http://apidock.com/rails/ActiveRecord/Associations/ClassMethods/has_many#1010-Polymorphic-has-many-within-inherited-class-gotcha
+    def base_class
+      self
+    end
+  end
+  self.table_name = 'templates'
+
   audited
+  has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
 
   validates :name, :uniqueness => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }

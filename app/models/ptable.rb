@@ -9,8 +9,17 @@ class Ptable < Template
   include Parameterizable::ByIdName
   include ValidateOsFamily
 
+  class << self
+    # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
+    # http://apidock.com/rails/ActiveRecord/Associations/ClassMethods/has_many#1010-Polymorphic-has-many-within-inherited-class-gotcha
+    def base_class
+      self
+    end
+  end
+  self.table_name = 'templates'
+
   audited
-  has_many :audits, :as => :auditable, :class_name => 'Audited::Audit'
+  has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts

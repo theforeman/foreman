@@ -32,7 +32,9 @@ module AuditExtensions
         :subnet => 'Subnet',
         :user => 'User',
         :usergroup => 'Usergroup',
-        :template => 'ProvisioningTemplate'
+        :template => 'ProvisioningTemplate',
+        :provisioning_template => 'ProvisioningTemplate',
+        :ptable => 'Ptable'
       }
     end
 
@@ -43,6 +45,7 @@ module AuditExtensions
     belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id
     belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id
     belongs_to :search_templates, :class_name => 'ProvisioningTemplate', :foreign_key => :auditable_id
+    belongs_to :search_ptables, :class_name => 'Ptable', :foreign_key => :auditable_id
     belongs_to :search_os, :class_name => 'Operatingsystem', :foreign_key => :auditable_id
     belongs_to :search_class, :class_name => 'Puppetclass', :foreign_key => :auditable_id
 
@@ -53,7 +56,8 @@ module AuditExtensions
     scoped_search :on => :auditable_type, :complete_value => auditable_type_complete_values, :rename => :type
 
     scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
-    scoped_search :relation => :search_templates, :on => :name, :complete_value => true, :rename => :template, :only_explicit => true
+    scoped_search :relation => :search_templates, :on => :name, :complete_value => true, :rename => :provisioning_template, :only_explicit => true
+    scoped_search :relation => :search_ptables, :on => :name, :complete_value => true, :rename => :partition_table, :only_explicit => true
     scoped_search :relation => :search_os, :on => :name, :complete_value => true, :rename => :os, :only_explicit => true
     scoped_search :relation => :search_os, :on => :title, :complete_value => true, :rename => :os_title, :only_explicit => true
     scoped_search :relation => :search_class, :on => :name, :complete_value => true, :rename => :puppetclass, :only_explicit => true
