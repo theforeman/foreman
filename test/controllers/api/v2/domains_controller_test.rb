@@ -27,10 +27,6 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "should not create invalid dns_id" do
-    # Currently Rails 4.2 does not support foreign key constraint with sqlite3
-    # (See https://github.com/rails/rails/pull/22236)
-    # Skipping this test until resolved
-    skip if ActiveRecord::Base.connection_config[:adapter].eql?"sqlite3"
     invalid_proxy_id = SmartProxy.last.id + 100
     post :create, { :domain => { :name => "doma.in", :dns_id => invalid_proxy_id } }
     show_response = ActiveSupport::JSON.decode(@response.body)
@@ -50,7 +46,6 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "should not create invalid dns_id" do
-    skip if ActiveRecord::Base.connection_config[:adapter].eql?("sqlite3")
     invalid_proxy_id = -1
     post :update, { :id => Domain.first.to_param, :domain => { :name => "domain.new", :dns_id => invalid_proxy_id } }
     show_response = ActiveSupport::JSON.decode(@response.body)
@@ -158,5 +153,13 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     put :update, { :id => domain.id, :domain => { :domain_parameters_attributes => [{ :name => param_1[:name], :value => "new_value" }] } }
     assert_response :success
     assert_equal 1, domain.parameters.count
+  end
+
+  test "should get domains for searched location only" do
+    taxonomies(:location2).domain_ids = [domains(:unuseddomain).id]
+    get :index, {:search => "location_id=#{taxonomies(:location2).id}" }
+    assert_response :success
+    assert_equal taxonomies(:location2).domains.length, assigns(:domains).length
+    assert_equal assigns(:domains), taxonomies(:location2).domains
   end
 end
