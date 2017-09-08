@@ -28,7 +28,12 @@ class TemplateKind < ApplicationRecord
     Foreman::Plugin.all.map(&:get_template_labels).inject({}, :merge)
   end
 
+  def humanized_name
+    [self.class.default_template_labels[name], self.class.plugin_template_labels[name]].detect(&:present?)
+  end
+
   def to_s
-    _(self.class.default_template_labels[name]) || _(self.class.plugin_template_labels[name]) || name
+    return _(humanized_name) if humanized_name.present?
+    name
   end
 end
