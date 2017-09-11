@@ -52,10 +52,26 @@
           <div class="col-md-4">
             <strong><%= _('Active features') %></strong>
           </div>
+
+          <% @smart_proxy.features.order(:name).pluck(:name).in_groups_of(5, false) do |features| %>
+            <div class="col-md-2">
+              <ul class="">
+                <% features.each do |feature| %>
+                  <li class=""><%= h(feature).gsub(' ', '&nbsp;').html_safe %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4"></div>
           <div class="col-md-8">
-            <%= @smart_proxy.features.map(&:name).to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
+            <%= refresh_proxy_button(@smart_proxy, authorizer) %>
           </div>
         </div>
+        <br>
+
         <div class="row">
           <div class="col-md-4">
             <strong><%= _('Hosts managed') %></strong>
