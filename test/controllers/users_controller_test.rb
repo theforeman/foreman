@@ -332,7 +332,7 @@ class UsersControllerTest < ActionController::TestCase
     User.expects(:try_to_login).with(u.login, 'password').returns(nil)
     post :login, {:login => {'login' => u.login, 'password' => 'password'}}
     assert_redirected_to login_users_path
-    assert flash[:error].present?
+    assert flash[:inline][:error].present?
   end
 
   test "#login retains taxonomy session attributes in new session" do

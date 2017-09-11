@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
   prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
   around_action :set_timezone
   layout :display_layout?
+  add_flash_types :inline
 
   attr_reader :original_search_parameter
 
@@ -166,6 +167,14 @@ class ApplicationController < ActionController::Base
 
   def error(message, now = false)
     flash_message(:error, message, now)
+  end
+
+  def inline_error(message, now = false)
+    flash[:inline] = { :error => CGI.escapeHTML(message) }
+  end
+
+  def inline_success(message, now = false)
+    flash[:inline] = { :success => CGI.escapeHTML(message) }
   end
 
   def warning(message, now = false)

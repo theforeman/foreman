@@ -74,7 +74,7 @@ class UsersController < ApplicationController
       end
       if user.nil?
         #failed to authenticate, and/or to generate the account on the fly
-        error _("Incorrect username or password")
+        inline_error _("Incorrect username or password")
         redirect_to login_users_path
       else
         #valid user
@@ -113,7 +113,7 @@ class UsersController < ApplicationController
       flash.keep
     else
       session.clear
-      notice _("Logged out - See you soon")
+      inline_success _("Logged out - See you soon")
     end
     redirect_to sso_logout_path || login_users_path
   end
