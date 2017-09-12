@@ -4,7 +4,7 @@ class Api::V2::AuthSourceExternalsControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'new_name_external' }
 
   test "should get index" do
-    get :index, { }
+    get :index, params: { }
     assert_response :success
     assert_not_nil assigns(:auth_source_externals)
     auth_source_externals = ActiveSupport::JSON.decode(@response.body)
@@ -12,14 +12,14 @@ class Api::V2::AuthSourceExternalsControllerTest < ActionController::TestCase
   end
 
   test "should show auth_source_external" do
-    get :show, { :id => auth_sources(:external).to_param }
+    get :show, params: { :id => auth_sources(:external).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     refute_empty show_response
   end
 
   test "should update auth_source_external" do
-    put :update, { :id => auth_sources(:external).to_param, :auth_source_external => valid_attrs }
+    put :update, params: { :id => auth_sources(:external).to_param, :auth_source_external => valid_attrs }
     assert_response :success
     update_response = ActiveSupport::JSON.decode(@response.body)
     assert_equal "new_name_external", update_response['name']
@@ -29,12 +29,12 @@ class Api::V2::AuthSourceExternalsControllerTest < ActionController::TestCase
     setup_user('view', 'authenticators')
     auth_sources(:external).organizations = User.current.organizations
     auth_sources(:external).locations = User.current.locations
-    get :show, { :id => auth_sources(:external).to_param }
+    get :show, params: { :id => auth_sources(:external).to_param }
     assert_response :success
   end
 
   test 'taxonomies can be set' do
-    put :update, { :id => auth_sources(:external).to_param,
+    put :update, params: { :id => auth_sources(:external).to_param,
                    :auth_source_external => {
                      :organization_names => [taxonomies(:organization1).name],
                      :location_ids => [taxonomies(:location1).id] }

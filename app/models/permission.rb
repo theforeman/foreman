@@ -32,7 +32,7 @@ class Permission < ApplicationRecord
     return 'ComputeResource' if klass <= ComputeResource
     return 'Subnet' if klass <= Subnet
     return 'Parameter' if klass <= Parameter
-    return 'AuthSource' if klass.superclass <= AuthSource
+    return 'AuthSource' if klass <= AuthSource
 
     case (name = klass.to_s)
     when 'Audited::Audit'

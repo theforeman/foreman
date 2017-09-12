@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::AuthSourcesControllerTest < ActionController::TestCase
   test "should get index" do
-    get :index, { }
+    get :index, params: { }
     assert_response :success
     auth_sources = ActiveSupport::JSON.decode(@response.body)
     refute_empty auth_sources

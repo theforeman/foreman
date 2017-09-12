@@ -1,4 +1,4 @@
-class ChangeAuthSourceResourceType < ActiveRecord::Migration
+class ChangeAuthSourceResourceType < ActiveRecord::Migration[4.2]
   def up
     Permission.where(:resource_type => 'AuthSourceLdap').update_all(:resource_type => 'AuthSource')
   end

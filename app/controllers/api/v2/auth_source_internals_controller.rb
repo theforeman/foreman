@@ -10,10 +10,14 @@ module Api
         @auth_source_internals = resource_scope_for_index
       end
 
-      api :GET, "/auth_source_internals/:id/", N_("Show an internal authentication sources")
+      api :GET, "/auth_source_internals/:id/", N_("Show an internal authentication source")
       param :id, :identifier, :required => true
 
       def show
+      end
+
+      def controller_permission
+        'authenticators'
       end
     end
   end
