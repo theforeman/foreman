@@ -14,6 +14,14 @@ Foreman::Application.routes.draw do
 
       resources :audits, :only => [:index, :show]
 
+      resources :auth_source, :only => [:index, :show]
+
+      resources :auth_source_external, :only => [:index, :show, :edit] do
+        resources :users, :only => [:edit]
+      end
+
+      resources :auth_source_internal, :only => [:index, :show]
+
       resources :auth_source_ldaps, :except => [:new, :edit] do
         resources :users, :except => [:new, :edit]
         resources :external_usergroups, :except => [:new, :edit]
