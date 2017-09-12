@@ -17,6 +17,7 @@
 
 class AuthSource < ApplicationRecord
   include Authorizable
+  scoped_search :on => :name, :complete_value => :true
 
   audited
 

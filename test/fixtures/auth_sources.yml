@@ -23,3 +23,7 @@ internal:
 hidden:
   name: Hidden
   type: AuthSourceHidden
+
+external:
+  name: External
+  type: AuthSourceExternal

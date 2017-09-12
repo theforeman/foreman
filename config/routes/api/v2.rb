@@ -14,7 +14,23 @@ Foreman::Application.routes.draw do
 
       resources :audits, :only => [:index, :show]
 
+      resources :auth_sources, :only => [:index, :show] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
+
+      resources :auth_source_externals, :only => [:index, :show, :update] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :external_usergroups, :except => [:new, :edit, :destroy]
+        resources :users, :except => [:new, :edit, :destroy]
+      end
+
+      resources :auth_source_internals, :only => [:index, :show]
+
       resources :auth_source_ldaps, :except => [:new, :edit] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         resources :users, :except => [:new, :edit]
         resources :external_usergroups, :except => [:new, :edit]
       end
@@ -366,6 +382,9 @@ Foreman::Application.routes.draw do
       if SETTINGS[:locations_enabled]
         resources :locations, :except => [:new, :edit] do
           # scoped by location
+          resources :auth_sources, :only => [:index, :show]
+          resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_externals, :only => [:index, :show]
           resources :domains, :only => [:index, :show]
           resources :realms, :only => [:index, :show]
           resources :subnets, :only => [:index, :show]
@@ -388,6 +407,9 @@ Foreman::Application.routes.draw do
 
           # scoped by location AND organization
           resources :organizations, :except => [:new, :edit] do
+            resources :auth_sources, :only => [:index, :show]
+            resources :auth_source_ldaps, :only => [:index, :show]
+            resources :auth_source_externals, :only => [:index, :show]
             resources :domains, :only => [:index, :show]
             resources :realms, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]
@@ -409,6 +431,9 @@ Foreman::Application.routes.draw do
       if SETTINGS[:organizations_enabled]
         resources :organizations, :except => [:new, :edit] do
           # scoped by organization
+          resources :auth_sources, :only => [:index, :show]
+          resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_externals, :only => [:index, :show]
           resources :domains, :only => [:index, :show]
           resources :realms, :only => [:index, :show]
           resources :subnets, :only => [:index, :show]
@@ -431,6 +456,9 @@ Foreman::Application.routes.draw do
 
           # scoped by location AND organization
           resources :locations, :except => [:new, :edit] do
+            resources :auth_sources, :only => [:index, :show]
+            resources :auth_source_ldaps, :only => [:index, :show]
+            resources :auth_source_externals, :only => [:index, :show]
             resources :domains, :only => [:index, :show]
             resources :realms, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]

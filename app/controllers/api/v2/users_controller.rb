@@ -15,6 +15,7 @@ module Api
 
       api :GET, "/users/", N_("List all users")
       api :GET, "/auth_source_ldaps/:auth_source_ldap_id/users", N_("List all users for LDAP authentication source")
+      api :GET, "/auth_source_external/:auth_source_external_id/users", N_("List all users for external authentication source")
       api :GET, "/usergroups/:usergroup_id/users", N_("List all users for user group")
       api :GET, "/roles/:role_id/users", N_("List all users for role")
       api :GET, "/locations/:location_id/users", N_("List all users for location")

@@ -21,22 +21,22 @@ destroy_architectures:
   updated_at: "2013-12-04 08:41:04.373182"
 view_authenticators:
   name: view_authenticators
-  resource_type: AuthSourceLdap
+  resource_type: AuthSource
   created_at: "2013-12-04 08:41:04.389686"
   updated_at: "2013-12-04 08:41:04.389686"
 create_authenticators:
   name: create_authenticators
-  resource_type: AuthSourceLdap
+  resource_type: AuthSource
   created_at: "2013-12-04 08:41:04.398376"
   updated_at: "2013-12-04 08:41:04.398376"
 edit_authenticators:
   name: edit_authenticators
-  resource_type: AuthSourceLdap
+  resource_type: AuthSource
   created_at: "2013-12-04 08:41:04.40647"
   updated_at: "2013-12-04 08:41:04.40647"
 destroy_authenticators:
   name: destroy_authenticators
-  resource_type: AuthSourceLdap
+  resource_type: AuthSource
   created_at: "2013-12-04 08:41:04.414794"
   updated_at: "2013-12-04 08:41:04.414794"
 view_bookmarks:
