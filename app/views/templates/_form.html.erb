@@ -26,7 +26,7 @@
       <%= text_f f, :name, :disabled => @template.locked? %>
 
       <% if show_default? %>
-        <%= checkbox_f f, :default, :label=>_('Default'), :help_block => default_template_description %>
+        <%= checkbox_f f, :default, :label=>_('Default'), :label_help => default_template_description %>
       <% end -%>
 
       <%= render "custom_tabs", :f => f if type == 'ptable' %>
