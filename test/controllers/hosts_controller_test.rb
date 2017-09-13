@@ -1252,7 +1252,6 @@ class HostsControllerTest < ActionController::TestCase
     setup do
       @host.setBuild
       ActiveRecord::Base.any_instance.expects(:destroy).never
-      ActiveRecord::Base.any_instance.expects(:save).never
       @attrs = host_attributes(@host)
     end
 
