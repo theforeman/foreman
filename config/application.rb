@@ -246,11 +246,26 @@ module Foreman
         if defined?(ForemanTasks)
           ForemanTasks.dynflow
         else
-          Dynflow::Rails.new(Foreman::Dynflow::Configuration.new)
+          ::Dynflow::Rails.new(nil, Foreman::Dynflow::Configuration.new)
         end
       @dynflow.require!
-      @dynflow.initialize!
       @dynflow
+    end
+
+    config.after_initialize do
+      dynflow = Rails.application.dynflow
+      dynflow.eager_load_actions!
+      dynflow.config.increase_db_pool_size
+
+      unless dynflow.config.lazy_initialization
+        if defined?(PhusionPassenger)
+          PhusionPassenger.on_event(:starting_worker_process) do |forked|
+            dynflow.initialize! if forked
+          end
+        else
+          dynflow.initialize!
+        end
+      end
     end
   end
 
