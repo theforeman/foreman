@@ -73,12 +73,12 @@ class ParameterTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :location => loc2)
 
     loc1.location_parameters << LocationParameter.create(:name => "animal", :value => "lion")
-    params = host.host_inherited_params(true)
+    params = host.inherited_params_hash
     assert_equal "lion", params["animal"][:safe_value]
     assert_equal loc1.title, params["animal"][:source_name]
 
     loc2.location_parameters << LocationParameter.create(:name => "animal", :value => "dog")
-    params = host.host_inherited_params(true)
+    params = host.inherited_params_hash
     assert_equal "dog", params["animal"][:safe_value]
     assert_equal loc2.title, params["animal"][:source_name]
   end
