@@ -317,6 +317,30 @@ EOS
     assert @renderer.host_param('test').present?
   end
 
+  test 'should render host param using "host_param" helper for not existing parameter' do
+    @renderer.host = FactoryGirl.create(:host, :with_puppet)
+    assert_nil @renderer.host_param('not_existing_param')
+  end
+
+  test 'should render host param using "host_param" helper for not existing parameter using default value' do
+    @renderer.host = FactoryGirl.create(:host, :with_puppet)
+    assert_equal 42, @renderer.host_param('not_existing_param', 42)
+  end
+
+  test 'should raise rendering exception if @host is not set while rendering @host based macros' do
+    @renderer.host = nil
+    assert_raises(Foreman::Renderer::HostUnknown) do
+      @renderer.host_param('test')
+    end
+  end
+
+  test 'should raise rendering exception if host_param! is used for not existing param' do
+    @renderer.host = FactoryGirl.create(:host, :with_puppet)
+    assert_raises(Foreman::Renderer::HostParamUndefined) do
+      @renderer.host_param!('not_existing_param')
+    end
+  end
+
   test 'should have host_param_true? helper' do
     @renderer.host = FactoryGirl.create(:host, :with_puppet)
     FactoryGirl.create(:parameter, :name => 'true_param', :value => "true")
@@ -373,6 +397,21 @@ EOS
     host = FactoryGirl.create(:host, :with_puppet)
     @renderer.host = host
     assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster')
+  end
+
+  test "should raise rendering exception if no such parameter exists while rendering host_enc" do
+    host = FactoryGirl.create(:host, :with_puppet)
+    @renderer.host = host
+    assert_raises(Foreman::Renderer::HostENCParamUndefined) do
+      assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster_that_does_not_exist')
+    end
+  end
+
+  test 'should raise rendering exception if @host is not set while rendering host_enc' do
+    @renderer.host = nil
+    assert_raises(Foreman::Renderer::HostUnknown) do
+      @renderer.host_enc('parameters', 'puppetmaster')
+    end
   end
 
   test 'templates_used is allowed to render for host' do
