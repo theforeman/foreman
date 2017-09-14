@@ -23,17 +23,21 @@
     <% end %>
     <div class='tab-pane <%= "active" unless tmplt%>' id="tab1">
       <table class="<%= table_css_classes %>">
-        <thead>
-          <tr>
-            <th><%= _('Item') %></th>
-            <% if @audit.action == 'update' %>
-              <th><%= _('Old') %></th>
-              <th><%= _('New') %></th>
-            <% else %>
-              <th><%= _('Value') %></th>
-            <% end  %>
-          </tr>
-        </thead>
+        <% if @audit.audited_changes.key?("template") && @audit.audited_changes.size == 1 %>
+          <%= alert :class => 'alert-info', :header => _('There are no changes'), :text => _(' in the provisioning template.') %>
+        <%else%>
+          <thead>
+            <tr>
+              <th><%= _('Item') %></th>
+              <% if @audit.action == 'update' %>
+                <th><%= _('Old') %></th>
+                <th><%= _('New') %></th>
+              <% else %>
+                <th><%= _('Value') %></th>
+              <% end  %>
+            </tr>
+          </thead>
+        <% end %>
         <tbody>
         <% @audit.audited_changes.each do |name,change| %>
           <% next if change.nil? or change.to_s.empty? %>
@@ -41,19 +45,18 @@
           <tr>
             <td><%= name.humanize %></td>
             <% if change.is_a?(Array) %>
-                <% change.each do |v| %>
-                    <td><%= id_to_label(name,v,false) %></td>
-                <% end %>
+              <% change.each do |v| %>
+                <td><%= id_to_label(name,v,false) %></td>
+              <% end %>
             <% else %>
-                <td><%= id_to_label(name,change,false) %></td>
+              <td><%= id_to_label(name,change,false) %></td>
             <% end %>
           </tr>
         <% end %>
         </tbody>
       </table>
       <% unless @audit.comment.blank? %>
-        <%= alert(:class => 'alert-info', :close => false, :header => '',
-                  :text => @audit.comment) %>
+        <%= alert(:class => 'alert-info', :close => false, :header => '', :text => @audit.comment) %>
       <% end %>
     </div>
     <div class="tab-pane" id="tab2">
@@ -61,4 +64,3 @@
     </div>
   </div>
 </div>
-
