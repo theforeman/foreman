@@ -13,7 +13,8 @@ module Foreman
   end
 
   def self.in_rake?(rake_task = nil)
-    defined?(Rake) && Rake.application.top_level_tasks.any? do |running_rake_task|
+    return false unless defined?(Rake) && Rake.respond_to?(:application)
+    Rake.application.top_level_tasks.any? do |running_rake_task|
       rake_task.nil? || running_rake_task.start_with?(rake_task)
     end
   end
