@@ -1,5 +1,7 @@
 require 'facter'
 class Setting::General < Setting
+  include UrlValidator
+
   def self.default_settings
     protocol = SETTINGS[:require_ssl] ? 'https' : 'http'
     domain = SETTINGS[:domain]
@@ -17,7 +19,9 @@ class Setting::General < Setting
       self.set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true, N_('DB pending seed')),
       self.set('proxy_request_timeout', N_("Max timeout for REST client requests to smart-proxy"), 60, N_('Proxy request timeout')),
       self.set('login_text', N_("Text to be shown in the login-page footer"), nil, N_('Login page footer text')),
-      self.set('host_power_status', N_("Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."), true, N_('Show host power status'))
+      self.set('host_power_status', N_("Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."), true, N_('Show host power status')),
+      self.set('http_proxy', N_('Sets a proxy for all outgoing HTTP connections.'), nil, N_('HTTP(S) proxy')),
+      self.set('http_proxy_except_list', N_('Set hostnames to which requests are not to be proxied'), [], N_('HTTP(S) proxy except hosts'))
     ]
   end
 
@@ -34,5 +38,11 @@ class Setting::General < Setting
 
   def self.humanized_category
     N_('General')
+  end
+
+  def validate_http_proxy(record)
+    if !record.value.blank? && !is_http_url?(record.value)
+      record.errors[:base] << _("Not a valid URL for a HTTP proxy")
+    end
   end
 end
