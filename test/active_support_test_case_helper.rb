@@ -241,4 +241,12 @@ class ActiveSupport::TestCase
   def _(*args)
     Object.instance_method(:_).bind(self).call(*args)
   end
+
+  def assert_raises_with_message(exception, msg, &block)
+    yield
+  rescue => e
+    assert_match msg, e.message
+  else
+    raise "Expected to raise #{e} w/ message #{msg}, none raised"
+  end
 end
