@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-08-03 17:20+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2017-09-13 18:55+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1322,7 +1322,7 @@ msgid "Cluster ID is required to list available networks"
 msgstr "Cluster-Kennung wird benötigt um verfügbare Netzwerke aufzulisten"
 
 msgid "Comments"
-msgstr "Kommentare"
+msgstr "Anmerkungen"
 
 msgid "Communication status"
 msgstr "Kommunikationsstatus"
@@ -7209,7 +7209,7 @@ msgid "Subnet ID"
 msgstr "Subnetzkennung"
 
 msgid "Subnet IDs"
-msgstr "Subnetzkennungen"
+msgstr "Subnetz-Kennungen"
 
 msgid "Subnet name"
 msgstr "Subnetzname"
@@ -7269,7 +7269,7 @@ msgstr "Bis"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
-msgstr "Subnetz|Vlan-Kennung"
+msgstr "Subnetz|Vlan-ID"
 
 msgid "Subscribe"
 msgstr "Abonnieren"
@@ -8268,7 +8268,7 @@ msgid "Update a smart variable"
 msgstr "Smart variable aktualisieren"
 
 msgid "Update a subnet"
-msgstr "Subnetz aktualisieren"
+msgstr "Subnet aktualisieren"
 
 msgid "Update a user"
 msgstr "Benutzer aktualisieren"
@@ -8789,7 +8789,7 @@ msgid "You may create puppet classes that represent high-level host configuratio
 msgstr "Sie können Puppet-Klassen erstellen, die Hostkonfigurationen auf hoher Ebene repräsentieren, z. B. eine Klasse <b>host-type-ldap-server</b>, die alle erforderlichen Funktionalitäten von anderen Modulen beinhaltet, oder Sie können eine Hostgruppe namens <b>host-type-ldap-server</b> erstellen und die erforderlichen Klassen zur Hostgruppenkonfiguration hinzufügen."
 
 msgid "You must create a location before continuing."
-msgstr "Es muss zuerst ein Standort angelegt werden."
+msgstr "Sie müssen zuerst einen Standort erstellen, bevor Sie fortfahren können."
 
 msgid "You must create an organization before continuing."
 msgstr "Sie müssen zuerst eine Organisation erstellen, bevor Sie fortfahren können."

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-08 10:59+0200\n"
-"PO-Revision-Date: 2017-08-08 10:59+0200\n"
+"POT-Creation-Date: 2017-09-15 14:28+0200\n"
+"PO-Revision-Date: 2017-09-15 14:28+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -206,7 +206,7 @@ msgid "Primary"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:179
-#: ../app/models/setting/provisioning.rb:53
+#: ../app/models/setting/provisioning.rb:59
 msgid "Provisioning"
 msgstr ""
 
@@ -246,7 +246,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/assets/javascripts/jquery.multi-select.js:8
-#: ../app/helpers/form_helper.rb:198 ../app/views/common/_searchbar.html.erb:3
+#: ../app/helpers/form_helper.rb:200 ../app/views/common/_searchbar.html.erb:3
 #: ../app/views/filters/_form.html.erb:6 model_attributes.rb:168
 msgid "Filter"
 msgstr ""
@@ -1596,27 +1596,27 @@ msgstr ""
 msgid "Create a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:133
+#: ../app/controllers/api/v2/hosts_controller.rb:136
 msgid "Update a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:146
+#: ../app/controllers/api/v2/hosts_controller.rb:152
 msgid "Delete a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:153
+#: ../app/controllers/api/v2/hosts_controller.rb:159
 msgid "Get ENC values of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:160
+#: ../app/controllers/api/v2/hosts_controller.rb:166
 msgid "Get configuration status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:179
+#: ../app/controllers/api/v2/hosts_controller.rb:185
 msgid "Get status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:181
+#: ../app/controllers/api/v2/hosts_controller.rb:187
 msgid ""
 "status type, can be one of\n"
 "* global\n"
@@ -1624,102 +1624,102 @@ msgid ""
 "* build\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:188
+#: ../app/controllers/api/v2/hosts_controller.rb:194
 msgid "Returns string representing a host status of a given type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:198
+#: ../app/controllers/api/v2/hosts_controller.rb:204
 msgid "Get vm attributes of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:221
+#: ../app/controllers/api/v2/hosts_controller.rb:227
 msgid "Force a Puppet agent run on the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:229
+#: ../app/controllers/api/v2/hosts_controller.rb:235
 msgid "Disassociate the host from a VM"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:236
+#: ../app/controllers/api/v2/hosts_controller.rb:242
 msgid "Run a power operation on host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:238
+#: ../app/controllers/api/v2/hosts_controller.rb:244
 msgid ""
 "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/"
 "reset), (state/status)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:245
+#: ../app/controllers/api/v2/hosts_controller.rb:251
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:249
+#: ../app/controllers/api/v2/hosts_controller.rb:255
 msgid "Boot host from specified device"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:251
+#: ../app/controllers/api/v2/hosts_controller.rb:257
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:258
+#: ../app/controllers/api/v2/hosts_controller.rb:264
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:264
+#: ../app/controllers/api/v2/hosts_controller.rb:270
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:265
+#: ../app/controllers/api/v2/hosts_controller.rb:271
 msgid "hostname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:266
+#: ../app/controllers/api/v2/hosts_controller.rb:272
 msgid "hash containing the facts for the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:267
+#: ../app/controllers/api/v2/hosts_controller.rb:273
 msgid "optional: certname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:268
+#: ../app/controllers/api/v2/hosts_controller.rb:274
 msgid "optional: the STI type of host to create"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:278
+#: ../app/controllers/api/v2/hosts_controller.rb:284
 msgid "Rebuild orchestration config"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:280
+#: ../app/controllers/api/v2/hosts_controller.rb:286
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:285
+#: ../app/controllers/api/v2/hosts_controller.rb:291
 #: ../app/controllers/hosts_controller.rb:514
 msgid "Configuration successfully rebuilt."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:287
+#: ../app/controllers/api/v2/hosts_controller.rb:293
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:291
+#: ../app/controllers/api/v2/hosts_controller.rb:297
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:293
+#: ../app/controllers/api/v2/hosts_controller.rb:299
 msgid "Template kinds, available values: %{template_kinds}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:297
+#: ../app/controllers/api/v2/hosts_controller.rb:303
 msgid "No template with kind %{kind} for %{host}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:365
+#: ../app/controllers/api/v2/hosts_controller.rb:371
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:368
+#: ../app/controllers/api/v2/hosts_controller.rb:374
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
@@ -4137,34 +4137,34 @@ msgstr ""
 msgid "Show full value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:28 ../app/views/users/login.html.erb:22
+#: ../app/helpers/form_helper.rb:30 ../app/views/users/login.html.erb:22
 msgid "Caps lock ON"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:31
+#: ../app/helpers/form_helper.rb:33
 msgid "Change the password"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:208
+#: ../app/helpers/form_helper.rb:210
 msgid ""
 "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case s"
 "ensitive and MB is default if unspecified."
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:226
+#: ../app/helpers/form_helper.rb:228
 msgid "Specified value is higher than recommended maximum"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:252 ../app/views/hosts/_conflicts.html.erb:23
+#: ../app/helpers/form_helper.rb:254 ../app/views/hosts/_conflicts.html.erb:23
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:252 ../app/views/common/_searchbar.html.erb:37
+#: ../app/helpers/form_helper.rb:254 ../app/views/common/_searchbar.html.erb:37
 #: ../app/views/hosts/_list.html.erb:60 ../app/views/trends/edit.html.erb:44
 msgid "Submit"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:254 ../app/views/autosign/_form.html.erb:4
+#: ../app/helpers/form_helper.rb:256 ../app/views/autosign/_form.html.erb:4
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:59
 #: ../app/views/common/_searchbar.html.erb:36
 #: ../app/views/hosts/_assign_hosts.html.erb:39
@@ -4173,15 +4173,15 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:336
+#: ../app/helpers/form_helper.rb:338
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:337
+#: ../app/helpers/form_helper.rb:339
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:341
+#: ../app/helpers/form_helper.rb:343
 msgid "Remove Parameter"
 msgstr ""
 
@@ -4220,18 +4220,18 @@ msgstr ""
 msgid "Please delete all nested groups before deleting it."
 msgstr ""
 
-#: ../app/helpers/hosts_and_hostgroups_helper.rb:26
+#: ../app/helpers/hosts_and_hostgroups_helper.rb:24
 #: ../app/helpers/shared_smart_proxies_helper.rb:10
 msgid "inherit"
 msgstr ""
 
-#: ../app/helpers/hosts_and_hostgroups_helper.rb:49
+#: ../app/helpers/hosts_and_hostgroups_helper.rb:47
 msgid "Reminder: <strong> One host is selected </strong>"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/helpers/hosts_and_hostgroups_helper.rb:51
+#: ../app/helpers/hosts_and_hostgroups_helper.rb:49
 msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
 msgid_plural ""
 "Reminder: <strong> All %{count} hosts are selected </strong> for query filter "
@@ -5394,11 +5394,11 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:522
+#: ../app/models/compute_resources/foreman/model/vmware.rb:523
 msgid "Could not find network %s on VMWare compute resource"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:558
+#: ../app/models/compute_resources/foreman/model/vmware.rb:559
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a di"
 "fferent hash. If you are sure the remote system is authentic, go to the comput"
@@ -5431,7 +5431,7 @@ msgstr ""
 msgid "%{cpus} CPUs and %{memory} MB memory"
 msgstr ""
 
-#: ../app/models/concerns/foreman/thread_session.rb:74
+#: ../app/models/concerns/foreman/thread_session.rb:92
 msgid "Cannot find user %s when switching context"
 msgstr ""
 
@@ -5756,33 +5756,33 @@ msgstr ""
 msgid "Unable to render %{kind} template '%{name}': %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:89
+#: ../app/models/concerns/orchestration/tftp.rb:88
 msgid "Template '%s' was not found"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:92
+#: ../app/models/concerns/orchestration/tftp.rb:91
 msgid "Unable to render '%{name}' template: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:133
+#: ../app/models/concerns/orchestration/tftp.rb:132
 msgid "Failed to fetch boot files"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:148
+#: ../app/models/concerns/orchestration/tftp.rb:147
 msgid ""
 "No %{template_kind} templates were found for this host, make sure you define a"
 "t least one in your %{os} settings or change PXE loader"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:162
+#: ../app/models/concerns/orchestration/tftp.rb:161
 msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:165
+#: ../app/models/concerns/orchestration/tftp.rb:164
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:191
+#: ../app/models/concerns/orchestration/tftp.rb:190
 msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
@@ -5848,7 +5848,7 @@ msgstr ""
 msgid "LDAP error - %{message}"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:47 ../app/models/user.rb:648
+#: ../app/models/external_usergroup.rb:47 ../app/models/user.rb:649
 msgid "is not permitted"
 msgstr ""
 
@@ -5860,23 +5860,23 @@ msgstr ""
 msgid "filter for %s role"
 msgstr ""
 
-#: ../app/models/filter.rb:203
-msgid "Permissions must be of same resource type"
+#: ../app/models/filter.rb:206
+msgid "must be of same resource type (%s) - Role (%s)"
 msgstr ""
 
-#: ../app/models/filter.rb:207
+#: ../app/models/filter.rb:215
 msgid "You must select at least one permission"
 msgstr ""
 
-#: ../app/models/filter.rb:212
+#: ../app/models/filter.rb:220
 msgid "You can't assign organizations to this resource"
 msgstr ""
 
-#: ../app/models/filter.rb:216
+#: ../app/models/filter.rb:224
 msgid "You can't assign locations to this resource"
 msgstr ""
 
-#: ../app/models/filter.rb:226
+#: ../app/models/filter.rb:234
 msgid "is locked for user modifications."
 msgstr ""
 
@@ -5896,79 +5896,79 @@ msgstr ""
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
-#: ../app/models/host/managed.rb:142
+#: ../app/models/host/managed.rb:143
 msgid "invalid time range"
 msgstr ""
 
-#: ../app/models/host/managed.rb:187 ../app/models/hostgroup.rb:22
+#: ../app/models/host/managed.rb:188 ../app/models/hostgroup.rb:22
 msgid "should be 8 characters or more"
 msgstr ""
 
-#: ../app/models/host/managed.rb:188
+#: ../app/models/host/managed.rb:189
 msgid "should not be blank - consider setting a global or host group default"
 msgstr ""
 
-#: ../app/models/host/managed.rb:190
+#: ../app/models/host/managed.rb:191
 msgid "can't be blank unless a custom partition has been defined"
 msgstr ""
 
-#: ../app/models/host/managed.rb:192
+#: ../app/models/host/managed.rb:193
 msgid "is unknown"
 msgstr ""
 
-#: ../app/models/host/managed.rb:480
+#: ../app/models/host/managed.rb:481
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:538
+#: ../app/models/host/managed.rb:539
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:539
+#: ../app/models/host/managed.rb:540
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:647
+#: ../app/models/host/managed.rb:648
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:653
+#: ../app/models/host/managed.rb:654
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:741
+#: ../app/models/host/managed.rb:742
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:844
+#: ../app/models/host/managed.rb:845
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:891
+#: ../app/models/host/managed.rb:897
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:924
+#: ../app/models/host/managed.rb:930
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:931
+#: ../app/models/host/managed.rb:937
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:944
+#: ../app/models/host/managed.rb:950
 msgid "is an unsupported provisioning method"
 msgstr ""
 
-#: ../app/models/host/managed.rb:949
+#: ../app/models/host/managed.rb:955
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:954 ../app/models/nic/interface.rb:103
+#: ../app/models/host/managed.rb:960 ../app/models/nic/interface.rb:103
 msgid "must not include periods"
 msgstr ""
 
@@ -6287,19 +6287,19 @@ msgstr ""
 msgid "Must provide an operating system"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:127
+#: ../app/models/provisioning_template.rb:131
 msgid "No TFTP proxies defined, can't continue"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:133
+#: ../app/models/provisioning_template.rb:137
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:159
+#: ../app/models/provisioning_template.rb:163
 msgid "PXE files for templates %s have been deployed to all Smart Proxies"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:161
+#: ../app/models/provisioning_template.rb:165
 msgid "There was an error creating the PXE file: %s"
 msgstr ""
 
@@ -6801,7 +6801,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:15 ../app/services/menu/loader.rb:32
+#: ../app/models/setting/provisioning.rb:21 ../app/services/menu/loader.rb:32
 #: ../app/views/ssh_keys/new.html.erb:4
 #: ../app/views/taxonomies/_form.html.erb:8
 #: ../app/views/usergroups/_form.html.erb:14
@@ -6810,200 +6810,208 @@ msgid "Users"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/models/setting/provisioning.rb:16 model_attributes.rb:572
+#: ../app/models/setting/provisioning.rb:22 model_attributes.rb:572
 msgid "Usergroup"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:19
+#: ../app/models/setting/provisioning.rb:25
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:19
+#: ../app/models/setting/provisioning.rb:25
 msgid "Host owner"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:19
+#: ../app/models/setting/provisioning.rb:25
 #: ../app/views/hosts/_form.html.erb:120
 msgid "Select an owner"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:20
+#: ../app/models/setting/provisioning.rb:26
 msgid "Default encrypted root password on provisioned hosts"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:20
+#: ../app/models/setting/provisioning.rb:26
 msgid "Root password"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:21
+#: ../app/models/setting/provisioning.rb:27
 msgid ""
 "URL hosts will retrieve templates from during build (normally http as many ins"
 "tallers don't support https)"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:21
+#: ../app/models/setting/provisioning.rb:27
 msgid "Unattended URL"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:22
+#: ../app/models/setting/provisioning.rb:28
 msgid "Enable safe mode config templates rendering (recommended)"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:22
+#: ../app/models/setting/provisioning.rb:28
 msgid "Safemode rendering"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:23
+#: ../app/models/setting/provisioning.rb:29
 msgid "Allow access to unattended URLs without build mode being used"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:23
+#: ../app/models/setting/provisioning.rb:29
 msgid "Access unattended without build"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:24
+#: ../app/models/setting/provisioning.rb:30
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:24
+#: ../app/models/setting/provisioning.rb:30
 msgid "Manage PuppetCA"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:25
+#: ../app/models/setting/provisioning.rb:31
 msgid ""
 "Stop updating IP address and MAC values from Puppet facts (affects all interfa"
 "ces)"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:25
+#: ../app/models/setting/provisioning.rb:31
 msgid "Ignore Puppet facts for provisioning"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:26
+#: ../app/models/setting/provisioning.rb:32
 msgid ""
 "Ignore interfaces that match these values during facts importing, you can use "
 "* wildcard to match names with indexes e.g. macvtap*"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:26
+#: ../app/models/setting/provisioning.rb:32
 msgid "Ignore interfaces with matching identifier"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:27
+#: ../app/models/setting/provisioning.rb:33
 msgid "Stop updating Operating System from facts"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:27
+#: ../app/models/setting/provisioning.rb:33
 msgid "Ignore facts for operating system"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:28
+#: ../app/models/setting/provisioning.rb:34
 msgid "Stop updating domain values from facts"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:28
+#: ../app/models/setting/provisioning.rb:34
 msgid "Ignore facts for domain"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:29
+#: ../app/models/setting/provisioning.rb:35
 msgid ""
 "Foreman will query the locally configured resolver instead of the SOA/NS autho"
 "rities"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:29
+#: ../app/models/setting/provisioning.rb:35
 msgid "Query local nameservers"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:30
+#: ../app/models/setting/provisioning.rb:36
 msgid ""
 "If Foreman is running behind Passenger or a remote load balancer, the IP shoul"
 "d be set here. This is a regular expression, so it can support several load ba"
 "lancers, i.e: (10.0.0.1|127.0.0.1)"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:30
+#: ../app/models/setting/provisioning.rb:36
 msgid "Remote address"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:31
+#: ../app/models/setting/provisioning.rb:37
 msgid ""
 "Time in minutes installation tokens should be valid for, 0 to disable token ge"
 "neration"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:31
+#: ../app/models/setting/provisioning.rb:37
 msgid "Token duration"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:32
+#: ../app/models/setting/provisioning.rb:38
 msgid ""
 "The IP address that should be used for the console listen address when provisi"
 "oning new virtual machines via Libvirt"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:32
+#: ../app/models/setting/provisioning.rb:38
 msgid "Libvirt default console address"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:33
+#: ../app/models/setting/provisioning.rb:39
 msgid "Foreman will update the host IP with the IP that made the built request"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:33
+#: ../app/models/setting/provisioning.rb:39
 msgid "Update IP from built request"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:34
+#: ../app/models/setting/provisioning.rb:40
 msgid ""
 "Foreman will use the short hostname instead of the FQDN for creating new virtu"
 "al machines"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:34
+#: ../app/models/setting/provisioning.rb:40
 msgid "Use short name for VMs"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:35
+#: ../app/models/setting/provisioning.rb:41
 msgid "Timeout for DNS conflict validation (in seconds)"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:35
+#: ../app/models/setting/provisioning.rb:41
 msgid "DNS conflict timeout"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:36
+#: ../app/models/setting/provisioning.rb:42
 msgid ""
 "Foreman will delete virtual machine if provisioning script ends with non zero "
 "exit code"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:36
+#: ../app/models/setting/provisioning.rb:42
 msgid "Clean up failed deployment"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:37
+#: ../app/models/setting/provisioning.rb:43
 msgid ""
 "Random gives unique names, MAC-based are longer but stable (and only works wit"
 "h bare-metal)"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:37
+#: ../app/models/setting/provisioning.rb:43
 msgid "Type of name generator"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:58
+#: ../app/models/setting/provisioning.rb:64
 msgid "Unable to disable safemode_render when bmc_credentials_accessible is disabled"
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:65
+#: ../app/models/setting/provisioning.rb:70
 msgid ""
 "Global default %s template. This template gets deployed to all configured TFTP"
 " servers. It will not be affected by upgrades."
 msgstr ""
 
-#: ../app/models/setting/provisioning.rb:65
+#: ../app/models/setting/provisioning.rb:70
 msgid "Global default %s template"
+msgstr ""
+
+#: ../app/models/setting/provisioning.rb:76
+msgid "Template that will be selected as %s default for local boot."
+msgstr ""
+
+#: ../app/models/setting/provisioning.rb:76
+msgid "Local boot %s template"
 msgstr ""
 
 #: ../app/models/setting/puppet.rb:4
@@ -7395,59 +7403,59 @@ msgstr ""
 msgid "POAP PXE template"
 msgstr ""
 
-#: ../app/models/user.rb:84
+#: ../app/models/user.rb:85
 msgid "already exists"
 msgstr ""
 
-#: ../app/models/user.rb:184 ../app/models/user.rb:188
+#: ../app/models/user.rb:185 ../app/models/user.rb:189
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:554
+#: ../app/models/user.rb:555
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:562
+#: ../app/models/user.rb:563
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:568
+#: ../app/models/user.rb:569
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:576 ../app/models/usergroup.rb:112
+#: ../app/models/user.rb:577 ../app/models/usergroup.rb:112
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:585
+#: ../app/models/user.rb:586
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:594
+#: ../app/models/user.rb:595
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:600
+#: ../app/models/user.rb:601
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:612
+#: ../app/models/user.rb:613
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:619
+#: ../app/models/user.rb:620
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:630
+#: ../app/models/user.rb:631
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:636
+#: ../app/models/user.rb:637
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:642
+#: ../app/models/user.rb:643
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
@@ -7533,17 +7541,17 @@ msgid ""
 "ugin_version}"
 msgstr ""
 
-#: ../app/services/foreman/plugin.rb:249
+#: ../app/services/foreman/plugin.rb:251
 msgid "Could not create role '%{name}': %{message}"
 msgstr ""
 
-#: ../app/services/foreman/plugin.rb:251
+#: ../app/services/foreman/plugin.rb:253
 msgid ""
 "Cannot continue because some permissions were not found, please run rake db:se"
 "ed and retry"
 msgstr ""
 
-#: ../app/services/foreman/plugin.rb:317
+#: ../app/services/foreman/plugin.rb:319
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
@@ -7795,7 +7803,7 @@ msgid "Partition tables"
 msgstr ""
 
 #: ../app/services/menu/loader.rb:69
-#: ../app/views/hosts/_operating_system.html.erb:29
+#: ../app/views/hosts/_operating_system.html.erb:30
 msgid "Provisioning templates"
 msgstr ""
 
@@ -7810,7 +7818,7 @@ msgstr ""
 msgid "Host groups"
 msgstr ""
 
-#: ../app/services/menu/loader.rb:76 ../app/views/hostgroups/_form.html.erb:74
+#: ../app/services/menu/loader.rb:76 ../app/views/hostgroups/_form.html.erb:75
 #: ../app/views/hosts/_form.html.erb:108
 msgid "Global parameters"
 msgstr ""
@@ -7990,7 +7998,7 @@ msgstr ""
 msgid "Invalid report"
 msgstr ""
 
-#: ../app/services/report_importer.rb:81
+#: ../app/services/report_importer.rb:82
 msgid "Invalid log level: %s"
 msgstr ""
 
@@ -8084,7 +8092,7 @@ msgstr ""
 msgid "does not match selected subnet"
 msgstr ""
 
-#: ../app/validators/bookmark_controller_validator.rb:5
+#: ../app/validators/bookmark_controller_validator.rb:4
 msgid "%{value} is not a valid controller"
 msgstr ""
 
@@ -10145,17 +10153,17 @@ msgstr ""
 msgid "Password must be 8 characters or more"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:68
+#: ../app/views/hostgroups/_form.html.erb:69
 #: ../app/views/hosts/_form.html.erb:102
 msgid "Puppet class parameters"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:76
+#: ../app/views/hostgroups/_form.html.erb:77
 #: ../app/views/taxonomies/_form.html.erb:104
 msgid "Parent parameters"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:79
+#: ../app/views/hostgroups/_form.html.erb:80
 msgid "Host group parameters"
 msgstr ""
 
@@ -10418,11 +10426,11 @@ msgstr ""
 msgid "Provisioning Method"
 msgstr ""
 
-#: ../app/views/hosts/_operating_system.html.erb:31
+#: ../app/views/hosts/_operating_system.html.erb:32
 msgid "Resolve"
 msgstr ""
 
-#: ../app/views/hosts/_operating_system.html.erb:33
+#: ../app/views/hosts/_operating_system.html.erb:34
 msgid "Display the templates that will be used to provision this host"
 msgstr ""
 
