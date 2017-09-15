@@ -1,3 +1,65 @@
+2017-09-15	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+	* Refs #20098 - Remove save expectation for templates_used
+
+2017-09-14	orrabin <orabin@redhat.com>
+	* Fixes #20452 - Keep password value after validation in ovirt CR
+
+2017-09-13	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #19707 - test searching domains with locs
+
+2017-09-13	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #20622 - puppet import does not refresh all statuses
+
+2017-09-13	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #20628 - cloned host/hostgroup should copy rootpass
+
+2017-09-13	Timo Goebel <mail@timogoebel.name>
+	* fixes #20646 - clear host_id during interface cloning
+
+2017-09-13	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #20316 - allow to delete a user that has notifications
+
+2017-09-13	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #20098 - Resolve template_used for image provisioning
+
+2017-09-11	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #20872 - scoped_search should be >= 4.1.2
+
+2017-09-08	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #19742 - cache hosts for fact values
+
+2017-09-08	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #19730 - Add vendor to provisioning templates
+
+2017-09-07	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #20867 - pin down scoped search
+
+2017-09-05	Daniel Lobato Garcia <me@daniellobato.me>
+	* Revert "Fixes #19554 - Warning for unsupported PXE loader combinations"
+
+2017-09-04	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #15954 - pin public_suffix for Ruby 2.0
+
+2017-09-04	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #19554 - Warning for unsupported PXE loader combinations
+
+2017-08-31	Eric D Helms <eric.d.helms@gmail.com>
+	* Fixes #19529: Use main_app for redirect in case of plugins
+
+2017-08-31	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #20240 - fix fullscreen mode in ace editor
+
+2017-08-08	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.3 - fix tests
+	* Release 1.15.3 - fix
+	* Fixes #20401 - Allow pxe_loader in the Jail
+	* Fixes #20373 - Add ESXi 6.5 to VMWare
+	* Fixes #20274 - Filter fixtures have many resource_types
+	* Release 1.15.3
+	* i18n - extracting new, pulling from tx
+	* i18n - extracting new, pulling from tx
+
 2017-08-08	Ivan Nečas <inecas@redhat.com>
 	* Fixes #19400 - defer loading of tables list cache
 
@@ -11,15 +73,6 @@
 	* Fixes #19588 - Allow setting custom headers in CSV export
 	* Fixes #19585 - Allow csv export of nested attributes
 	* Fixes #19417 - Safely check params for nested keys
-
-2017-08-08	Daniel Lobato Garcia <me@daniellobato.me>
-	* Release 1.15.3 - fix
-	* Fixes #20401 - Allow pxe_loader in the Jail
-	* Fixes #20373 - Add ESXi 6.5 to VMWare
-	* Fixes #20274 - Filter fixtures have many resource_types
-	* Release 1.15.3
-	* i18n - extracting new, pulling from tx
-	* i18n - extracting new, pulling from tx
 
 2017-08-08	Ondřej Pražák <xprazak2@users.noreply.github.com>
 	* Fixes #19677 - Add settings for local boot templates

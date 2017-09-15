@@ -99,7 +99,7 @@ name: coreos_cloudconfig
 <% end -%>
 <% if @host.params['ssh_authorized_keys'] -%>
       ssh_authorized_keys:
-  <% @host.params['ssh_authorized_keys'].split(',').map(&:strip).each do |ssh_key| -%>
+  <% @host.params['ssh_authorized_keys'].split(',').map{ |item| item.strip }.each do |ssh_key| -%>
       - "<%= ssh_key %>"
   <% end -%>
 <% else -%>
