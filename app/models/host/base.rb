@@ -53,6 +53,7 @@ module Host
     scope :no_organization, -> { rewhere(:organization_id => nil) }
 
     delegate :ssh_authorized_keys, :to => :owner, :allow_nil => true
+    delegate :notification_recipients_ids, :to => :owner, :allow_nil => true
 
     PRIMARY_INTERFACE_ATTRIBUTES = [:name, :ip, :ip6, :mac,
                                     :subnet, :subnet_id, :subnet_name,

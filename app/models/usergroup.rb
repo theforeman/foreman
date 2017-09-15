@@ -87,6 +87,10 @@ class Usergroup < ApplicationRecord
     all_users.flat_map(&:ssh_keys)
   end
 
+  def notification_recipients_ids
+    all_users.map(&:id)
+  end
+
   protected
 
   # Recurses down the tree of usergroups and finds the users
