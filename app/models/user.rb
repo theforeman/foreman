@@ -529,6 +529,10 @@ class User < ApplicationRecord
     { login => super }
   end
 
+  def notification_recipients_ids
+    [self.id]
+  end
+
   private
 
   def prepare_password

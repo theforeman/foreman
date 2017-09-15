@@ -210,6 +210,10 @@ class Taxonomy < ApplicationRecord
     (self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
   end
 
+  def notification_recipients_ids
+    self.subtree.flat_map(&:users).map(&:id).uniq
+  end
+
   private
 
   delegate :need_to_be_selected_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
