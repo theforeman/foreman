@@ -251,6 +251,10 @@ Return the host's compute attributes that can be used to create a clone of this 
       param :power_action, String, :required => true, :desc => N_("power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)")
 
       def power
+        unless @host.supports_power?
+          return render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _('Power operations are not enabled on this host.') }
+        end
+
         valid_actions = PowerManager::SUPPORTED_ACTIONS
         if valid_actions.include? params[:power_action]
           render :json => { :power => @host.power.send(params[:power_action]) }, :status => :ok
