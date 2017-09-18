@@ -24,10 +24,10 @@ module Api
       end
 
       def_param_group :ssh_key do
+        param :user_id, String, :desc => N_("ID of the user"), :required => true
         param :ssh_key, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :key, String, :required => true, :desc => N_("Public SSH key")
-          param :user_id, String, :desc => N_("ID of the user"), :required => true
         end
       end
 
