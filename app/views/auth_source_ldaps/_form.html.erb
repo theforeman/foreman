@@ -27,7 +27,7 @@
                     { :label => _('Server type'), :onchange => 'change_ldap_server_type()' } %>
     </div>
     <div class="tab-pane" id="account">
-      <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe, :label_help => account_help_data[@auth_source_ldap.server_type], :data => { :help => account_help_data } %>
+      <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe, :label_help => account_help_data[@auth_source_ldap.server_type], :data => { :help => account_help_data }, :autocomplete => 'new-account' %>
       <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe, :unset => action_name == "edit" %>
       <%= text_f f, :base_dn, :label => _("Base DN"), :size => "col-md-8", :label_help => base_dn_help_data[@auth_source_ldap.server_type], :data => { :help => base_dn_help_data } %>
       <%= text_f f, :groups_base, :label => _("Groups base DN"), :size => "col-md-8", :label_help => groups_base_dn_help_data[@auth_source_ldap.server_type], :data => { :help => groups_base_dn_help_data } %>
