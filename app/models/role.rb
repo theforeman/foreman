@@ -97,8 +97,12 @@ class Role < ApplicationRecord
     def default
       default_role = find_by_builtin(BUILTIN_DEFAULT_ROLE)
       if default_role.nil?
-        opts = { :name => 'Default role', :builtin => BUILTIN_DEFAULT_ROLE }
-        default_role = create! opts
+        Role.without_auditing do
+          Role.skip_permission_check do
+            opts = { :name => 'Default role', :builtin => BUILTIN_DEFAULT_ROLE }
+            default_role = create! opts
+          end
+        end
         raise ::Foreman::Exception.new(N_("Unable to create the default role.")) if default_role.new_record?
       end
       default_role
