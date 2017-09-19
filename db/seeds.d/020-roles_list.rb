@@ -1,4 +1,4 @@
-require (Rails.root + 'db/seeds.d/02-permissions_list.rb')
+require (Rails.root + 'db/seeds.d/020-permissions_list.rb')
 
 class RolesList
   class << self

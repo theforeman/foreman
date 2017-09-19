@@ -1,4 +1,4 @@
-require (Rails.root + 'db/seeds.d/02-roles_list.rb')
+require Rails.root + 'db/seeds.d/020-roles_list.rb'
 
 # methods which are used in seeds and migrations
 class SeedHelper
