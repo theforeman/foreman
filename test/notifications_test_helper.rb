@@ -7,6 +7,6 @@ module NotificationBlueprintSeeds
   end
 
   def seed_notification_blueprints
-    load File.join(Rails.root, 'db', 'seeds.d', '17-notification_blueprints.rb')
+    load File.join(Rails.root, 'db', 'seeds.d', '170-notification_blueprints.rb')
   end
 end

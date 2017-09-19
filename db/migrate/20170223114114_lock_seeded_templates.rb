@@ -1,5 +1,5 @@
-require Rails.root + 'db/seeds.d/02-provisioning_templates_list.rb'
-require Rails.root + 'db/seeds.d/02-partition_tables_list.rb'
+require Rails.root + 'db/seeds.d/020-provisioning_templates_list.rb'
+require Rails.root + 'db/seeds.d/020-partition_tables_list.rb'
 
 class LockSeededTemplates < ActiveRecord::Migration
   def up
