@@ -11,7 +11,7 @@ child :puppetclasses do
 end
 
 node do |hostgroup|
-  { :all_puppetclasses => partial("api/v2/puppetclasses/index", :object => hostgroup.all_puppetclasses) }
+  { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => hostgroup.all_puppetclasses) }
 end
 
 child :config_groups do
