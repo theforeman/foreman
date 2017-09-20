@@ -1,7 +1,6 @@
 <form
-  class='content-view-pf-pagination table-view-pf-pagination paginate' id='pagination'
-  data-count=<%= collection.total_entries %> data-per-page=<%= per_page(collection) %>
-  onsubmit='return tfm.tools.updateTable(this);'>
+  class='col-md-12 <%= options[:pagination_classes] %> content-view-pf-pagination table-view-pf-pagination paginate' id='pagination'
+  data-count=<%= collection.total_entries %> data-per-page=<%= per_page(collection) %> >
   <div class='form-group'>
     <%= select_tag('per_page',
                    options_for_select(per_page_options,
