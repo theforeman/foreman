@@ -13,7 +13,7 @@ module AuditExtensions
         :compute_resource => 'ComputeResource',
         :config_group => 'ConfigGroup',
         :domain => 'Domain',
-        :host => 'Host',
+        :host => 'Host::Base',
         :hostgroup => 'Hostgroup',
         :image => 'Image',
         :location => 'Location',
@@ -40,8 +40,8 @@ module AuditExtensions
 
     belongs_to :user, :class_name => 'User'
     belongs_to :search_users, :class_name => 'User', :foreign_key => :user_id
-    belongs_to :search_hosts, -> { where(:audits => { :auditable_type => 'Host' }) },
-      :class_name => 'Host', :foreign_key => :auditable_id
+    belongs_to :search_hosts, -> { where(:audits => { :auditable_type => 'Host::Base' }) },
+      :class_name => 'Host::Base', :foreign_key => :auditable_id
     belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id
     belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id
     belongs_to :search_templates, :class_name => 'ProvisioningTemplate', :foreign_key => :auditable_id
@@ -103,8 +103,8 @@ module AuditExtensions
 
   def fix_auditable_type
     # STI Host class should use the stub module instead of Host::Base
-    self.auditable_type = "Host"          if auditable_type =~  /Host::/
-    self.associated_type = "Host"         if associated_type =~ /Host::/
+    self.auditable_type = "Host::Base"          if auditable_type =~  /Host::/
+    self.associated_type = "Host::Base"         if associated_type =~ /Host::/
     self.auditable_type = auditable.type if ["Taxonomy", "LookupKey"].include?(auditable_type) && auditable
     self.associated_type = associated.type if ["Taxonomy", "LookupKey"].include?(associated_type) && associated
   end

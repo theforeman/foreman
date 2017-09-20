@@ -64,9 +64,13 @@ module Api
 
       return resource_class.where(nil) unless scope
 
-      association = resource_class.reflect_on_all_associations.find {|assoc| assoc.plural_name == parent_name.pluralize}
+      association = resource_class.reflect_on_all_associations.detect {|assoc| assoc.plural_name == parent_name.pluralize}
       #if couldn't find an association by name, try to find one by class
-      association ||= resource_class.reflect_on_all_associations.find {|assoc| assoc.class_name == parent_name.camelize}
+      association ||= resource_class.reflect_on_all_associations.detect {|assoc| assoc.class_name == parent_name.camelize}
+      if association.nil? && parent_name == 'host'
+        association = resource_class.reflect_on_all_associations.detect {|assoc| assoc.class_name == 'Host::Base'}
+      end
+      raise "Association not found for #{parent_name}" unless association
       result_scope = resource_class_join(association, scope)
       # Check that the scope resolves before return
       result_scope if result_scope.to_a
