@@ -486,7 +486,8 @@ module Foreman::Model
         "memoryMB" => args[:memory_mb],
         "datastore" => args[:volumes].first[:datastore],
         "storage_pod" => args[:volumes].first[:storage_pod],
-        "resource_pool" => [args[:cluster], args[:resource_pool]]
+        "resource_pool" => [args[:cluster], args[:resource_pool]],
+        "boot_order" => [:disk],
       }
 
       opts['transform'] = args[:volumes].first[:thin] == 'true' ? 'sparse' : 'flat' unless args[:volumes].empty?
