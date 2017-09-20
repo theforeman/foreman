@@ -2,7 +2,7 @@
 kind: snippet
 name: http_proxy
 %>
-<% if (proxy = @host.params["http_proxy"]) -%>
+<% if (proxy = host_param("http_proxy")) -%>
 http_proxy=<%= proxy %>
 export http_proxy
 https_proxy=<%= proxy %>

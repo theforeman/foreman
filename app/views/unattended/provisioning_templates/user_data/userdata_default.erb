@@ -15,12 +15,12 @@ This template accepts the following parameters:
 - reboot: boolean (default=false)
 -%>
 <%
-  ssh_pwauth = @host.params['ssh_pwauth'] ? @host.param_true?('ssh_pwauth') : !@host.params['ssh_authorized_keys']
+  ssh_pwauth = host_param('ssh_pwauth') ? host_param_true?('ssh_pwauth') : !host_param('ssh_authorized_keys')
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.param_true?('force-puppet')
-  salt_enabled = @host.params['salt_master'] ? true : false
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 -%>
 #cloud-config
@@ -43,14 +43,14 @@ users:
   lock-passwd: false
   passwd: <%= @host.root_pass %>
 <% end -%>
-<% if @host.params['ssh_authorized_keys'] -%>
+<% if host_param('ssh_authorized_keys') -%>
 ssh_authorized_keys:
-<% @host.params['ssh_authorized_keys'].split("\n").each do |ssh_key| -%>
+<% host_param('ssh_authorized_keys').split("\n").each do |ssh_key| -%>
 - <%= ssh_key %>
 <% end -%>
 <% end -%>
 
-<% if @host.param_true?('package_upgrade') -%>
+<% if host_param_true?('package_upgrade') -%>
 package_upgrade: true
 <% end -%>
 
@@ -82,7 +82,7 @@ phone_home:
   post: []
   tries: 10
 
-<% if @host.param_true?('reboot') -%>
+<% if host_param_true?('reboot') -%>
 power_state:
   mode: reboot
   timeout: 30

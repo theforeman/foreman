@@ -45,23 +45,23 @@ name: freeipa_register
 ##
 ## IPA Client Installation
 ##
-<% if @host.params['freeipa_server'] -%>
-<% domain = @host.params['freeipa_domain'] || @host.realm.name.downcase -%>
+<% if host_param('freeipa_server') -%>
+<% domain = host_param('freeipa_domain') || @host.realm.name.downcase -%>
 
-freeipa_server="--server <%= @host.params['freeipa_server'] %>"
+freeipa_server="--server <%= host_param('freeipa_server') %>"
 freeipa_domain="--domain <%= domain %>"
 <% end -%>
 
-<% unless @host.param_false? 'freeipa_mkhomedir' %>
+<% unless host_param_false?('freeipa_mkhomedir') %>
 freeipa_mkhomedir="--mkhomedir"
 <% end -%>
 
-<% if @host.param_false? 'freeipa_ssh' %>
+<% if host_param_false?('freeipa_ssh') %>
 freeipa_ssh="--no-ssh"
 <% end -%>
 
-<% if @host.params['freeipa_opts'] -%>
-freeipa_opts="<%= @host.params['freeipa_opts'] %>"
+<% if host_param('freeipa_opts') -%>
+freeipa_opts="<%= host_param('freeipa_opts') %>"
 <% end -%>
 
 # One-time password will be requested at install time. Otherwise, $HOST[OTP] is used as a placeholder value.
@@ -71,15 +71,15 @@ freeipa_opts="<%= @host.params['freeipa_opts'] %>"
 ## Automounter
 ##
 
-<% if @host.params['freeipa_automount_location'] -%>
-automount_location="--location <%= @host.params['freeipa_automount_location'] %>"
+<% if host_param('freeipa_automount_location') -%>
+automount_location="--location <%= host_param('freeipa_automount_location') %>"
 <% end -%>
 
-<% if @host.param_true? 'freeipa_automount' -%>
+<% if host_param_true?('freeipa_automount') -%>
 if [ -f /usr/sbin/ipa-client-automount ]
 then
   automount_server=$freeipa_server
-  <%- if automount_server = @host.params['freeipa_automount_server'] || @host.params['freeipa_server'] -%>
+  <%- if automount_server = host_param('freeipa_automount_server') || host_param('freeipa_server') -%>
   automount_server="--server <%= automount_server %>"
   <%- end -%>
   /usr/sbin/ipa-client-automount $automount_server $automount_location --unattended
@@ -90,7 +90,7 @@ fi
 ## Sudoers
 ##
 
-<% unless @host.param_false? 'freeipa_enable_sudo' %>
+<% unless host_param_false?('freeipa_enable_sudo') %>
 
 freeipa_client_version=$(ipa-client-install --version)
 freeipa_client_version_major=$(echo $freeipa_client_version | cut -f1 -d.)
@@ -114,9 +114,9 @@ then
   # Modify sssd.conf for sssd <1.11 (RHEL <6.6)
   if [ $sssd_minor -lt 11 ] || [ $sssd_major -lt 1 ]
   then
-    <% if @host.params['freeipa_server'] -%>
-    ldap_uri=", ldap://<%= @host.params['freeipa_server'] %>"
-    krb5_server=<%= @host.params['freeipa_server'] %>
+    <% if host_param('freeipa_server') -%>
+    ldap_uri=", ldap://<%= host_param('freeipa_server') %>"
+    krb5_server=<%= host_param('freeipa_server') %>
     <% else -%>
     krb5_server="_srv_"
     <% end -%>

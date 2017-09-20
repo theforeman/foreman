@@ -9,9 +9,9 @@ oses:
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  proxy_uri = @host.params['http-proxy'] ? "http://#{@host.params['http-proxy']}:#{@host.params['http-proxy-port']}" : nil
-  puppet_enabled = pm_set || @host.param_true?('force-puppet')
-  salt_enabled = @host.params['salt_master'] ? true : false
+  proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 -%>
 #!/bin/bash
@@ -32,18 +32,18 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 #update local time
 echo "updating system time"
 yum -y install ntpdate
-/usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
+/usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
 
-<% if rhel_compatible && !@host.param_false?('enable-epel') -%>
+<% if rhel_compatible && !host_param_false?('enable-epel') -%>
 <%= snippet 'epel' -%>
 <% end -%>
 
-<% if @host.info['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
-<% unless @host.param_false?('package_upgrade') -%>
+<% unless host_param_false?('package_upgrade') -%>
 # update all the base packages from the updates repository
 if [ -f /usr/bin/dnf ]; then
   dnf -y update
@@ -59,7 +59,7 @@ fi
 <% end -%>
 
 <% if puppet_enabled %>
-<% if @host.param_true?('enable-puppetlabs-pc1-repo') || @host.param_true?('enable-puppetlabs-repo') -%>
+<% if host_param_true?('enable-puppetlabs-pc1-repo') || host_param_true?('enable-puppetlabs-repo') -%>
 <%= snippet 'puppetlabs_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>

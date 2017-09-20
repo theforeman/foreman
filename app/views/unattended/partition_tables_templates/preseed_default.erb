@@ -6,15 +6,15 @@ oses:
 - Ubuntu
 %>
 <%
-  partitioning_method = @host.params['partitioning-method'] ? @host.params['partitioning-method'] : 'regular'
-  partitioning_recipe = @host.params['partitioning-recipe'] ? @host.params['partitioning-recipe'] : 'atomic'
-  partitioning_expert_recipe = @host.params['partitioning-expert-recipe'] ? @host.params['partitioning-expert-recipe'] : ''
-  vg_name = @host.params['partitioning-vg-name'] ? @host.params['partitioning-vg-name'] : ''
-  partitioning_filesystem = @host.params['partitioning-filesystem'] ? @host.params['partitioning-filesystem'] : ''
+  partitioning_method = host_param('partitioning-method') ? host_param('partitioning-method') : 'regular'
+  partitioning_recipe = host_param('partitioning-recipe') ? host_param('partitioning-recipe') : 'atomic'
+  partitioning_expert_recipe = host_param('partitioning-expert-recipe') ? host_param('partitioning-expert-recipe') : ''
+  vg_name = host_param('partitioning-vg-name') ? host_param('partitioning-vg-name') : ''
+  partitioning_filesystem = host_param('partitioning-filesystem') ? host_param('partitioning-filesystem') : ''
 -%>
 
-<% if @host.params['install-disk'] -%>
-d-i partman-auto/disk string <%= @host.params['install-disk'] %>
+<% if host_param('install-disk') -%>
+d-i partman-auto/disk string <%= host_param('install-disk') %>
 <% else -%>
 # Use the first detected hard disk as default installation disk
 d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"

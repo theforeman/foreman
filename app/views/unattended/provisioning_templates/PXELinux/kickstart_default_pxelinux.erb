@@ -52,14 +52,14 @@ oses:
     options.push("inst.repo=#{@host.operatingsystem.medium_uri(@host)}")
   end
   
-  if @host.params['blacklist']
-    options.push("modprobe.blacklist=" + @host.params['blacklist'].gsub(' ', ''))
+  if host_param('blacklist')
+    options.push("modprobe.blacklist=" + host_param('blacklist').gsub(' ', ''))
   end
 
   ksoptions = options.join(' ')
 -%>
 
-TIMEOUT <%= @host.params['loader_timeout'] || 10 %>
+TIMEOUT <%= host_param('loader_timeout') || 10 %>
 DEFAULT <%= template_name %>
 
 LABEL <%= template_name %>

@@ -20,15 +20,15 @@ coreos:
         Type=oneshot
         ExecStart=/usr/bin/coreos-install \
           -C <%= @host.operatingsystem.release_name %> \
-          -d <%= @host.params['install-disk'] || '/dev/sda' %> \
+          -d <%= host_param('install-disk') || '/dev/sda' %> \
           -c /home/core/cloud-config.yml <% if os_major >= 557 -%>-b <%= @mediapath %><% end %>
         ExecStartPost=/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url('built') %>
         ExecStartPost=/usr/sbin/reboot
         [X-Fleet]
         X-Conflicts=coreos-bootstrap.service
-<% if @host.params['ssh_authorized_keys'] -%>
+<% if host_param('ssh_authorized_keys') -%>
 ssh_authorized_keys:
-<% @host.params['ssh_authorized_keys'].split(',').map(&:strip).each do |ssh_key| -%>
+<% host_param('ssh_authorized_keys').split(',').map{ |item| item.strip }.each do |ssh_key| -%>
   - "<%= ssh_key %>"
 <% end -%>
 <% else -%>

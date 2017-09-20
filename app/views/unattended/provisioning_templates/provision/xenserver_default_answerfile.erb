@@ -12,7 +12,7 @@ oses:
 <?xml version="1.0"?>
 <installation mode="fresh" srtype="lvm">
 <%= @host.diskLayout -%>
-  <keymap><%= @host.params['keyboard'] || 'us' %></keymap>
+  <keymap><%= host_param('keyboard') || 'us' %></keymap>
   <hostname><%= @host.shortname %></hostname>
   <root-password type="hash"><%= root_pass %></root-password>
   <source type="url"><%= @mediapath %></source>
@@ -31,8 +31,8 @@ oses:
 <% if subnet.dns_secondary.present? -%>
   <name-server><%= subnet.dns_secondary %></name-server>
 <% end -%>
-  <ntp-server><%= @host.params['ntp-server'] || 'pool.ntp.org' %></ntp-server>
-  <timezone><%= @host.params['time-zone'] || 'UTC' %></timezone>
+  <ntp-server><%= host_param('ntp-server') || 'pool.ntp.org' %></ntp-server>
+  <timezone><%= host_param('time-zone') || 'UTC' %></timezone>
   <time-config-method>ntp</time-config-method>
   <script stage="installation-complete" type="url">
     <%= foreman_url('finish') %>

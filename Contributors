@@ -21,6 +21,7 @@ Andrew Schofield <aas@ourhavens.co.uk>
 Andy Bohne <bohne.andrew@pennmutual.com>
 Andy Taylor <andy.taylor@sift.com>
 Antony Perigault <antony.perigault@1000mercis.com>
+Anurag Patel <apatel@redhat.com>
 Anya Marshall <anya.elise.marshall@gmail.com>
 Arnoud de Jonge <arnoud.dejonge@nxs.nl>
 Ash Caire <ash.caire@gmail.com>
@@ -28,12 +29,15 @@ Ashay Humane <ashay.humane@gmail.com>
 Ashish Humbe <ahumbe@redhat.com>
 Avi Tal <avi3tal@gmail.com>
 Avi Tal <avi@primarydata.com>
+Avram Lubkin <git_hub@avram.us>
 Baptiste <bagasse@users.noreply.github.com>
 Baptiste AGASSE <baptiste.agasse@lyra-network.com>
 Baptiste Agasse <baptiste.agasse@lyra-network.com>
 Beat Gätzi <beat@chruetertee.ch>
+Ben Plessinger <plessbd@users.noreply.github.com>
 Bernard McKeever <dregin@gmail.com>
 BernhardAtix <BernhardAtix@users.noreply.github.com>
+Boaz Shuster <ripcurld.github@gmail.com>
 Brad Buckingham <bbuckingham@redhat.com>
 Brad P. Crochet <brad@redhat.com>
 Brandon Weeks <weeks@squareup.com>
@@ -77,6 +81,7 @@ Dominic Cleal <dominic@cleal.org>
 Dominik Hlavac <xhlava42@stud.fit.vutbr.cz>
 Dominique Quatravaux <dominique@quatravaux.org>
 Dustin Tsang <dtsang@redhat.com>
+Elisiano Petrini <elisiano@gmail.com>
 Endre Karlson <endre.karlson@gmail.com>
 Eric D Helms <eric.d.helms@gmail.com>
 Eric D. Helms <ericdhelms@gmail.com>
@@ -97,6 +102,7 @@ Francois Herbert <francois@herbert.org.nz>
 Frank Sweetser <fs@WPI.EDU>
 Frank Sweetser <fs@wpi.edu>
 Frank Wall <fw@moov.de>
+François Cami <fcami@fedoraproject.org>
 Gail Steiger <gsteiger@netvision.net.il>
 Gail Steiger <gsteiger@redhat.com>
 Gavin McCance <gmccance@gmail.com>
@@ -161,6 +167,7 @@ Kamjar Gerami <kami.gerami@gmail.com>
 Karli Sjoberg <karli.sjoberg@gmail.com>
 Keenan Brock <keenan@thebrocks.net>
 Klaas Demter <Klaas-@users.noreply.github.com>
+Klaas Demter <externer.dl.demter@muenchen.de>
 Kot <kot4my@gmail.com>
 Kyle Flavin <Kyle.Flavin@gmail.com>
 Kęstutis Mizara <vilkas@riftus.lt>
@@ -190,6 +197,8 @@ Martin Matuska <martin.matuska@axelspringer.de>
 Martin Matuska <martin@matuska.org>
 Martin Milata <mmilata@srck.net>
 Martin Schurz <Martin.Schurz@t-systems.com>
+Matan Werbner <mwerbner@redhat.com>
+Maximilian Mack <max@mack.io>
 Michael Moll <kvedulv@kvedulv.de>
 Mikael Fridh <frimik@gmail.com>
 Mikael Fridh <mfridh@marinsoftware.com>
@@ -208,11 +217,13 @@ Ondřej Pražák <xprazak2@users.noreply.github.com>
 Ori Rabin <orabin@redhat.com>
 Oved Ourfali <oourfali@redhat.com>
 Partha Aji <paji@redhat.com>
+Partha Aji <parthaa@gmail.com>
 Paul Kelly <paul.ian.kelly@googlemail.com>
 Paul Kelly <pikelly@blueyonder.co.uk>
 Pavel Moravec <pmoravec@dhcp-27-35.brq.redhat.com>
 Pavel Moravec <pmoravec@redhat.com>
 Pavel Pokorný <pajkycz@gmail.com>
+Petr Benas <petr.benas@gooddata.com>
 Petr Chalupa (Pitr) <git@pitr.ch>
 Petr Chalupa <pchalupa@redhat.com>
 Phirince Philip <phirince@gmail.com>
@@ -232,6 +243,7 @@ Romain Vrignaud <rvrignaud@gmail.com>
 Roman Plevka <rplevka@redhat.com>
 Ruediger Mueck <ruediger.mueck@gmail.com>
 Rufus Post <rufuspost@gmail.com>
+Rune Hammersland <rune.hammersland+github@gmail.com>
 Ryan Davies <ryan@ryandavies.co.nz>
 Rytis Sileika <rytis.sileika@gmail.com>
 Sam Kottler <sam@kottlerdevelopment.com>
@@ -242,6 +254,7 @@ Sean Handley <sean.handley@gmail.com>
 Sean O'Keeffe <seanokeeffe797@gmail.com>
 Sean OKeeffe <seanokeeffe797@gmail.com>
 Sean O\'Keeffe <seanokeeffe797@gmail.com>
+Sebastian Gräßl <mail@bastilian.me>
 Sebastian Gräßl <sebastian@validcode.me>
 Sebastian Gräßl <bastilian@users.noreply.github.com>
 Shimon Shtein <sshtein@redhat.com>
@@ -315,6 +328,8 @@ lphiri <lphiri@redhat.com>
 marianitadn <maria.nita.dn@gmail.com>
 matan <matan@dhcp-3-121.tlv.redhat.com>
 matan <matan@dhcp-3-123.tlv.redhat.com>
+matanw <matanw@dhcp-2-138.tlv.redhat.com>
+matanw <mwerbner@redhat.com>
 matanwerbner <verbmat@gmail.com>
 mattmoran76@gmail.com <mattmoran76@gmail.com>
 motyla <motyla@gmail.com>
@@ -335,4 +350,5 @@ thomasmckay <thomasmckay@redhat.com>
 treydock <treydock@gmail.com>
 untsakas <raul.laansoo@gmail.com>
 verbmat@gmail.com <verbmat@gmail.com>
+wiad <adam.winberg@gmail.com>
 Šimon Lukašík <slukasik@redhat.com>

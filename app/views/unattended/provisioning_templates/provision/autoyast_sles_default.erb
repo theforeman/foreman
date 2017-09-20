@@ -10,10 +10,11 @@ oses:
   os_minor = @host.operatingsystem.minor.to_i
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.param_true?('force-puppet')
-  salt_enabled = @host.params['salt_master'] ? true : false
+  aio_enabled = host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppetlabs-pc1-repo') || host_param_true?('enable-puppet4') || host_param_true?('enable-puppet5')
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
-  spacewalk_enabled = @host.params['spacewalk_host'] ? true : false
+  spacewalk_enabled = host_param('spacewalk_host') ? true : false
 
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
@@ -94,7 +95,7 @@ oses:
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
-        <address><%= @host.params['ntp-server'] || '0.opensuse.pool.ntp.org' %></address>
+        <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
         <initial_sync config:type="boolean">true</initial_sync>
         <options></options>
         <type>server</type>
@@ -123,7 +124,7 @@ oses:
       <package>lsb-release</package>
       <package>openssh</package>
 <% if puppet_enabled -%>
-<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+<% if aio_enabled -%>
       <package>puppet-agent</package>
 <% else -%>
       <package>rubygem-puppet</package>
@@ -209,12 +210,12 @@ rm /etc/resolv.conf
   </keyboard>
   <timezone>
     <hwclock>UTC</hwclock>
-    <timezone><%= @host.params['time-zone'] || 'Etc/UTC' %></timezone>
+    <timezone><%= host_param('time-zone') || 'Etc/UTC' %></timezone>
   </timezone>
   <add-on>
     <add_on_products config:type="list">
 <% if puppet_enabled -%>
-<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+<% if host_param_true?('enable-puppetlabs-pc1-repo') -%>
     <listentry>
         <media_url><![CDATA[http://yum.puppetlabs.com/sles/<%= os_major %>/PC1/<%= @host.architecture %>/]]></media_url>
         <name>puppet</name>

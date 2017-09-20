@@ -6,15 +6,18 @@ oses:
 - Ubuntu
 %>
 <%
-  partitioning_method = @host.params['partitioning-method'] ? @host.params['partitioning-method'] : 'lvm'
-  partitioning_recipe = @host.params['partitioning-recipe'] ? @host.params['partitioning-recipe'] : 'multi'
-  partitioning_expert_recipe = @host.params['partitioning-expert-recipe'] ? @host.params['partitioning-expert-recipe'] : ''
-  vg_name = @host.params['partitioning-vg-name'] ? @host.params['partitioning-vg-name'] : 'vg00'
-  partitioning_filesystem = @host.params['partitioning-filesystem'] ? @host.params['partitioning-filesystem'] : ''
+  partitioning_method = host_param('partitioning-method') ? host_param('partitioning-method') : 'lvm'
+  partitioning_recipe = host_param('partitioning-recipe') ? host_param('partitioning-recipe') : 'multi'
+  partitioning_expert_recipe = host_param('partitioning-expert-recipe') ? host_param('partitioning-expert-recipe') : ''
+  vg_name = host_param('partitioning-vg-name') ? host_param('partitioning-vg-name') : 'vg00'
+  partitioning_filesystem = host_param('partitioning-filesystem') ? host_param('partitioning-filesystem') : ''
+  partitioning_crypto_erase = host_param('partitioning-crypto-erase') ? host_param('partitioning-crypto-erase') : 'false'
+  partitioning_crypto_password = host_param('partitioning-crypto-password') ? host_param('partitioning-crypto-password') : 'temporarypassword'
+  partitioning_crypto_password_weak = host_param('partitioning-crypto-password-weak') ? host_param('partitioning-crypto-password-weak') : 'false'
 -%>
 
-<% if @host.params['install-disk'] -%>
-d-i partman-auto/disk string <%= @host.params['install-disk'] %>
+<% if host_param('install-disk') -%>
+d-i partman-auto/disk string <%= host_param('install-disk') %>
 <% else -%>
 # Use the first detected hard disk as default installation disk
 d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
@@ -34,10 +37,16 @@ d-i partman-md/device_remove_md boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-lvm/confirm_nooverwrite boolean true
 
-<% if partitioning_method == 'lvm' -%>
+<% if partitioning_method == 'lvm' or partitioning_method == 'crypto' -%>
 # For LVM partitioning, you can select how much of the volume group to use
 # for logical volumes.
 d-i partman-auto-lvm/guided_size string max
+<% if partitioning_method == 'crypto' -%>
+d-i partman-crypto/erase_data boolean <%= partitioning_crypto_erase %>
+d-i partman-crypto/passphrase password <%= partitioning_crypto_password %>
+d-i partman-crypto/passphrase-again password <%= partitioning_crypto_password %>
+d-i partman-crypto/weak_passphrase boolean <%= partitioning_crypto_password_weak %>
+<% end -%>
 <% if vg_name != '' -%>
 d-i partman-auto-lvm/new_vg_name string <%= vg_name %>
 <% end -%>

@@ -23,6 +23,9 @@ BOOTPROTO="<%= @dhcp ? 'dhcp' : 'none' -%>"
 <%-   end -%>
 <%=   "IPV6_PEERDNS=no" %>
 <%- end -%>
+<%- if @interface.domain -%>
+DOMAIN="<%= @interface.domain %>"
+<%- end -%>
 DEVICE=$real
 <%- unless @interface.virtual? -%>
 <%=   "HWADDR=\"#{@interface.mac}\"" %>
@@ -42,6 +45,13 @@ DEFROUTE=<%= primary %>
 <%- end -%>
 <%- if @interface.virtual? && ((!@subnet.nil? && @subnet.has_vlanid?) || @interface.vlanid.present?) -%>
 <%=   "VLAN=yes" %>
+<%-   if @interface.identifier.match(/^vlan\d+/) -%>
+<%=     "VLAN_NAME_TYPE=VLAN_PLUS_VID_NO_PAD" %>
+<%=     "PHYSDEV=#{@interface.attached_to}" %>
+<%-     if bonding_interfaces.include?(interface.attached_to) -%>
+<%=       "TYPE=bonding" %>
+<%-     end -%>
+<%-   end -%>
 <%- elsif @interface.virtual? && !@subnet.nil? && !@subnet.has_vlanid? && @interface.identifier.include?(':') -%>
 <%=   "TYPE=Alias" %>
 <%- end -%>

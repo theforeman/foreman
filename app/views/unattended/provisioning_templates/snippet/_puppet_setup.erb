@@ -8,15 +8,17 @@ os_family = @host.operatingsystem.family
 os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
+aio_enabled = host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppetlabs-pc1-repo') || host_param_true?('enable-puppet4') || host_param_true?('enable-puppet5')
+
 if os_family == 'Freebsd'
-  freebsd_package = @host.param_true?('enable-puppet4') ? 'puppet4' : 'puppet38'
+  freebsd_package = host_param_true?('enable-puppet5') ? 'puppet5' : 'puppet4'
   etc_path = '/usr/local/etc/puppet'
   bin_path = '/usr/local/bin'
 elsif os_family == 'Windows'
-  windows_package = "puppet-agent-#{@host.architecture}-latest.msi"
+  windows_package = "puppet-agent-#{@host.architecture}.msi"
   etc_path = 'C:\ProgramData\PuppetLabs\puppet\etc'
   bin_path = 'C:\Program Files\Puppet Labs\Puppet\bin'
-elsif @host.param_true?('enable-puppetlabs-pc1-repo') || @host.param_true?('enable-puppet4')
+elsif aio_enabled
   linux_package = 'puppet-agent'
   etc_path = '/etc/puppetlabs/puppet'
   bin_path = '/opt/puppetlabs/bin'
@@ -39,7 +41,7 @@ else
   yum -t -y install <%= linux_package %>
 fi
 <% elsif os_family == 'Suse' -%>
-<% if @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+<% if host_param_true?('enable-puppetlabs-pc1-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
 rpmkeys --import http://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs
 rpmkeys --import http://yum.puppetlabs.com/RPM-GPG-KEY-puppet
 <% end -%>
@@ -47,7 +49,7 @@ rpmkeys --import http://yum.puppetlabs.com/RPM-GPG-KEY-puppet
 /usr/bin/zypper -n install <%= linux_package %>
 <% end -%>
 <% elsif os_family == 'Windows' -%>
-$puppet_agent_msi = "${env:TEMP}\puppet-agent-<%= @host.architecture %>.msi"
+$puppet_agent_msi = "${env:TEMP}\<%= windows_package %>"
 $puppet_install_args = @(
   '/qn',
   '/norestart',
@@ -83,7 +85,7 @@ puppet_unit=puppet
 <% if os_family == 'Freebsd' -%>
 echo 'puppet_enable="YES"' >>/etc/rc.conf
 <% end -%>
-<% unless @host.param_true?('enable-puppetlabs-pc1-repo') -%>
+<% unless aio_enabled -%>
 <% if os_family == 'Debian' -%>
 if [ -f "/etc/default/puppet" ]
 then
@@ -109,7 +111,7 @@ run-puppet-in-installer to true.
 
 Note, that this is an *unsupported mode of operation* and not supported by Foreman at all. You have been warned!
 %>
-<% if @host.param_true?('run-puppet-in-installer') -%>
+<% if host_param_true?('run-puppet-in-installer') -%>
 <% if (os_name == 'Ubuntu' and os_major >= 15) or (os_name == 'Debian' and os_major >= 8) -%>
 # Puppet tries to detect the init system by checking the presence of the directory /run/systemd/system. That detection
 # fails in a chroot environment like the one the installer provides. See Puppet tickets PA-136 and PUP-5577
@@ -127,7 +129,7 @@ $puppet_agent_args = @(
   "agent",
   "--config", "<%= etc_path %>\puppet.conf",
   "--onetime",
-  <%= @host.param_true?('run-puppet-in-installer') ? '' : '"--tags no_such_tag",' %>
+  <%= host_param_true?('run-puppet-in-installer') ? '' : '"--tags no_such_tag",' %>
   <%= @host.puppetmaster.blank? ? '' : "\"--server #{@host.puppetmaster}\"," %>
   "--no-daemonize"
 )
@@ -135,7 +137,7 @@ Start-Process '<%= bin_path %>\puppet' -ArgumentList $puppet_agent_args -Wait -N
 <% else -%>
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
-<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= @host.param_true?('run-puppet-in-installer') ? '' : '--tags no_such_tag' %> <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') ? '' : '--tags no_such_tag' %> <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
 <% if os_family == 'Suse' || (os_name == 'Debian' && os_major > 8) -%>
 <%= bin_path %>/puppet resource service puppet enable=true
 <% if @host.provision_method == 'image' -%>

@@ -13,12 +13,12 @@ oses:
 <%
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || @host.param_true?('force-puppet')
-  salt_enabled = @host.params['salt_master'] ? true : false
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
 
-<% if @host.info['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
@@ -29,7 +29,7 @@ oses:
 <% end -%>
 
 <% if puppet_enabled %>
-<% if @host.param_true?('enable-puppetlabs-pc1-repo') || @host.param_true?('enable-puppetlabs-repo') -%>
+<% if host_param_true?('enable-puppetlabs-pc1-repo') || host_param_true?('enable-puppetlabs-repo') -%>
 <%= snippet 'puppetlabs_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>

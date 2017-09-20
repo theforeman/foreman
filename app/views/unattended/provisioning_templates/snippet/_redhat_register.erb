@@ -58,18 +58,18 @@ name: redhat_register
 #                                subscription-manager with hosted RHN)
 #
 
-<% unless @host.params['subscription_manager'] %>
-  <% type = @host.params['spacewalk_type'] || 'hosted' %>
+<% unless host_param('subscription_manager') %>
+  <% type = host_param('spacewalk_type') || 'hosted' %>
 
-  <% if @host.params['activation_key'] %>
-    # Discovered Activation Key <%= @host.params['activation_key'] %>
-    rhn_activation_key="<%= @host.params['activation_key'] -%>"
+  <% if host_param('activation_key') %>
+    # Discovered Activation Key <%= host_param('activation_key') %>
+    rhn_activation_key="<%= host_param('activation_key') -%>"
 
     <% if type == 'site' -%>
-    satellite_hostname="<%= @host.params['spacewalk_host'] -%>"
+    satellite_hostname="<%= host_param('spacewalk_host') -%>"
     rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
     <% else -%>
-    satellite_hostname="<%= @host.params['spacewalk_host'] || 'xmlrpc.rhn.redhat.com' -%>"
+    satellite_hostname="<%= host_param('spacewalk_host') || 'xmlrpc.rhn.redhat.com' -%>"
     rhn_cert_file="RHNS-CA-CERT"
     <% end -%>
 
@@ -132,39 +132,39 @@ name: redhat_register
     yum -t -y install subscription-manager <%= @host.operatingsystem.major.to_i >= 6 ? 'yum-config-manager' : '' %>
   fi
   <% if @host.operatingsystem.major.to_i >= 6  %>
-    <% ( enabled_repos = "yum-config-manager --enable #{@host.params['subscription_manager_repos'].gsub(',', ' ')}") if @host.params['subscription_manager_repos'] %>
+    <% ( enabled_repos = "yum-config-manager --enable #{host_param('subscription_manager_repos').gsub(',', ' ')}") if host_param('subscription_manager_repos') %>
   <% else %>
-    <% ( enabled_repos = "subscription-manager repos --enable #{@host.params['subscription_manager_repos'].gsub(',', ' --enable')}") if @host.params['subscription_manager_repos'] %>
+    <% ( enabled_repos = "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(',', ' --enable')}") if host_param('subscription_manager_repos') %>
   <% end %>
-  <% if @host.params['http-proxy'] %>
-    subscription-manager config --server.proxy_hostname="<%= @host.params['http-proxy'] %>"
-    <% if @host.params['http-proxy-user'] %>
-      subscription-manager config --server.proxy_user="<%= @host.params['http-proxy-user'] %>"
+  <% if host_param('http-proxy') %>
+    subscription-manager config --server.proxy_hostname="<%= host_param('http-proxy') %>"
+    <% if host_param('http-proxy-user') %>
+      subscription-manager config --server.proxy_user="<%= host_param('http-proxy-user') %>"
     <% end %>
-    <% if @host.params['http-proxy-password'] %>
-      subscription-manager config --server.proxy_password="<%= @host.params['http-proxy-password'] %>"
+    <% if host_param('http-proxy-password') %>
+      subscription-manager config --server.proxy_password="<%= host_param('http-proxy-password') %>"
     <% end %>
-    <% if @host.params['http-proxy-port'] %>
-      subscription-manager config --server.proxy_port="<%= @host.params['http-proxy-port'] %>"
+    <% if host_param('http-proxy-port') %>
+      subscription-manager config --server.proxy_port="<%= host_param('http-proxy-port') %>"
     <% end %>
   <% end %>
-  <% if @host.params['subscription_manager_username'] && @host.params['subscription_manager_password'] %>
-    <% if @host.params['subscription_manager_pool'] %>
-      subscription-manager register --name="<%= @host.name %>" --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>"
-      subscription-manager attach --pool="<%= @host.params['subscription_manager_pool'] %>"
+  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') %>
+    <% if host_param('subscription_manager_pool') %>
+      subscription-manager register --name="<%= @host.name %>" --username="<%= host_param('subscription_manager_username') %>" --password="<%= host_param('subscription_manager_password') %>"
+      subscription-manager attach --pool="<%= host_param('subscription_manager_pool') %>"
     <% else %>
-      subscription-manager register --name="<%= @host.name %>" --username="<%= @host.params['subscription_manager_username'] %>" --password="<%= @host.params['subscription_manager_password'] %>" --auto-attach
+      subscription-manager register --name="<%= @host.name %>" --username="<%= host_param('subscription_manager_username') %>" --password="<%= host_param('subscription_manager_password') %>" --auto-attach
     <% end %>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= enabled_repos if enabled_repos %>
-  <% elsif @host.params['activation_key'] %>
-    <% if @host.params['subscription_manager_certpkg_url'] %>
-      rpm -Uvh <%= @host.params['subscription_manager_certpkg_url'] %>
-    <% elsif @host.params['subscription_manager_host'] %>
-      rpm -Uvh <%= @host.params['subscription_manager_host'] %>/pub/candlepin-cert-consumer-latest.noarch.rpm
+  <% elsif host_param('activation_key') %>
+    <% if host_param('subscription_manager_certpkg_url') %>
+      rpm -Uvh <%= host_param('subscription_manager_certpkg_url') %>
+    <% elsif host_param('subscription_manager_host') %>
+      rpm -Uvh <%= host_param('subscription_manager_host') %>/pub/candlepin-cert-consumer-latest.noarch.rpm
     <% end %>
-    subscription-manager register --name="<%= @host.name %>" --org="<%= @host.params['subscription_manager_org'] %>" --activationkey="<%= @host.params['activation_key'] %>"
+    subscription-manager register --name="<%= @host.name %>" --org="<%= host_param('subscription_manager_org') %>" --activationkey="<%= host_param('activation_key') %>"
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= enabled_repos if enabled_repos %>

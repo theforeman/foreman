@@ -41,9 +41,9 @@ name: bmc_nic_setup
 bmc_nic = @host.bmc_nic
 
 privilege_levels = {'ADMINISTRATOR' => 4, 'OPERATOR' => 3}
-user_privilege_level = @host.params['bmc_ipmi_priv_level'] || 'ADMINISTRATOR'
-auth_method = @host.params['bmc_ipmi_auth_method'] || 'MD5'
-channel_id = @host.params['bmc_ipmi_channel_id'] || '1'
+user_privilege_level = host_param('bmc_ipmi_priv_level') || 'ADMINISTRATOR'
+auth_method = host_param('bmc_ipmi_auth_method') || 'MD5'
+channel_id = host_param('bmc_ipmi_channel_id') || '1'
 
 os_family = @host.operatingsystem.family
 %>
