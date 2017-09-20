@@ -1,8 +1,8 @@
 module Host
   def self.method_missing(method, *args, &block)
-    type = "Host::Managed"
     case method.to_s
     when /create/, 'new'
+      type = "Host::Managed"
       if args.empty? || args[0].nil? # got no parameters
         #set the default type
         args = [{:type => type}]
@@ -10,6 +10,8 @@ module Host
         args[0][:type] ||= type # adds the type if it doesn't exists
         type = args[0][:type]   # stores the type for later usage.
       end
+    else
+      type = 'Host::Base'
     end
     if type.constantize.respond_to?(method, true)
       type.constantize.send(method,*args, &block)
