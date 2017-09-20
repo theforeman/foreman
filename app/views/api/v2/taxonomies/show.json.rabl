@@ -6,6 +6,10 @@ attribute :ignore_types => :select_all_types
 
 attributes :description, :created_at, :updated_at
 
+node :hosts_count do |taxonomy|
+  taxonomy.hosts.count
+end
+
 child :users do
   extends "api/v2/users/base"
 end
