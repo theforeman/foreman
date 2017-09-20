@@ -51,7 +51,6 @@
 - message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
     module, you can access the original method using super.
   callstack: config/initializers/rabl_init.rb:23:in `<class:Engine>'
-- message: uniq is deprecated and will be removed from Rails 5.1 (use distinct instead)
 
 # Not a "true" deprecation, no action required, it's being used correctly.
 - message: "#table_exists? currently checks both tables and views. This behavior is
