@@ -13,10 +13,10 @@ class Notification < ApplicationRecord
   AUDIENCE_SUBJECT   = 'subject'
 
   belongs_to :notification_blueprint
-  belongs_to :initiator, :class_name => User, :foreign_key => 'user_id'
+  belongs_to :initiator, :class_name => 'User', :foreign_key => 'user_id'
   belongs_to :subject, :polymorphic => true
   has_many :notification_recipients, :dependent => :delete_all
-  has_many :recipients, :class_name => User, :through => :notification_recipients, :source => :user
+  has_many :recipients, :class_name => 'User', :through => :notification_recipients, :source => :user
   store :actions, :accessors => [:links], :coder => JSON
 
   validates :notification_blueprint, :presence => true
