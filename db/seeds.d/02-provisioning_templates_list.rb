@@ -55,6 +55,7 @@ class ProvisioningTemplatesList
         { :name => 'XenServer default finish', :source => 'finish/xenserver_default_finish.erb', :template_kind => kinds[:finish] },
         { :name => 'XenServer default PXELinux', :source => 'PXELinux/xenserver_default_pxelinux.erb', :template_kind => kinds[:PXELinux] },
         # snippets
+        { :name => 'ansible_tower_callback_service', :source => 'snippet/_ansible_tower_callback_service.erb', :snippet => true },
         { :name => 'alterator_pkglist', :source => 'snippet/_alterator_pkglist.erb', :snippet => true },
         { :name => 'bmc_nic_setup', :source => 'snippet/_bmc_nic_setup.erb', :snippet => true },
         { :name => 'chef_client', :source => 'snippet/_chef_client.erb', :snippet => true },
