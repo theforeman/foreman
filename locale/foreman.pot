@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-28 11:57+0200\n"
-"PO-Revision-Date: 2017-08-28 11:57+0200\n"
+"POT-Creation-Date: 2017-09-20 08:53+0200\n"
+"PO-Revision-Date: 2017-09-20 08:53+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -82,7 +82,7 @@ msgid "Failed to load chart"
 msgstr ""
 
 #: ../app/assets/javascripts/class_edit.js:23
-#: ../app/helpers/application_helper.rb:68
+#: ../app/helpers/application_helper.rb:97
 msgid "Click to remove %s"
 msgstr ""
 
@@ -176,15 +176,19 @@ msgstr ""
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:604
+#: ../app/assets/javascripts/host_edit.js:605
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:45
 #: ../app/views/hostgroups/_form.html.erb:52
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:732
+#: ../app/assets/javascripts/host_edit.js:733
 msgid "Error generating IP: %s"
+msgstr ""
+
+#: ../app/assets/javascripts/host_edit.js:803
+msgid "Warning: This combination of loader and OS might not be able to boot."
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:30
@@ -226,8 +230,8 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-#: ../app/assets/javascripts/hosts.js:20 ../app/helpers/hosts_helper.rb:317
-#: ../app/helpers/hosts_helper.rb:450 ../app/helpers/hosts_helper.rb:452
+#: ../app/assets/javascripts/hosts.js:20 ../app/helpers/hosts_helper.rb:318
+#: ../app/helpers/hosts_helper.rb:451 ../app/helpers/hosts_helper.rb:453
 #: ../app/models/host_status/build_status.rb:8
 msgid "Build"
 msgstr ""
@@ -3451,23 +3455,22 @@ msgstr ""
 #: ../app/controllers/hosts_controller.rb:28
 #: ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
-#: ../app/helpers/hosts_helper.rb:299
+#: ../app/helpers/hosts_helper.rb:300
 msgid "On"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:29
 #: ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
-#: ../app/helpers/hosts_helper.rb:299 ../app/services/name_generator.rb:3
+#: ../app/helpers/hosts_helper.rb:300 ../app/services/name_generator.rb:3
 msgid "Off"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:30 ../app/helpers/audits_helper.rb:7
 #: ../app/helpers/audits_helper.rb:25 ../app/helpers/audits_helper.rb:52
 #: ../app/helpers/compute_resources_vms_helper.rb:37
-#: ../app/helpers/fact_values_helper.rb:5 ../app/helpers/hosts_helper.rb:191
-#: ../app/helpers/hosts_helper.rb:198 ../app/helpers/puppetca_helper.rb:15
-#: ../app/helpers/reports_helper.rb:22
+#: ../app/helpers/fact_values_helper.rb:5 ../app/helpers/hosts_helper.rb:192
+#: ../app/helpers/hosts_helper.rb:199 ../app/helpers/reports_helper.rb:22
 #: ../app/views/fact_values/_fact.html.erb:7
 #: ../app/views/filters/index.html.erb:42
 msgid "N/A"
@@ -3838,47 +3841,60 @@ msgstr ""
 msgid "You have already logged in"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:81
+#: ../app/helpers/application_helper.rb:75
+msgid "in %s"
+msgstr ""
+
+#: ../app/helpers/application_helper.rb:75
+#: ../app/helpers/compute_resources_vms_helper.rb:35
+#: ../app/helpers/hosts_helper.rb:191 ../app/helpers/users_helper.rb:3
+#: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:15
+#: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:16
+#: ../app/views/ssh_keys/_ssh_key_row.html.erb:7
+msgid "%s ago"
+msgstr ""
+
+#: ../app/helpers/application_helper.rb:110
 msgid "Click to add %s"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:137 ../app/helpers/hosts_helper.rb:343
+#: ../app/helpers/application_helper.rb:166 ../app/helpers/hosts_helper.rb:344
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
 msgid "Delete"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:140 ../app/helpers/bmc_helper.rb:18
+#: ../app/helpers/application_helper.rb:169 ../app/helpers/bmc_helper.rb:18
 #: ../app/helpers/bmc_helper.rb:26
 #: ../app/helpers/compute_resources_vms_helper.rb:5
 #: ../app/views/images/_list.html.erb:21
 msgid "Are you sure?"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:163
+#: ../app/helpers/application_helper.rb:192
 #: ../app/helpers/provisioning_templates_helper.rb:18
 msgid "Export"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:164
+#: ../app/helpers/application_helper.rb:193
 msgid "Export to CSV"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:215
+#: ../app/helpers/application_helper.rb:244
 #: ../app/views/templates/_form.html.erb:19
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:238
+#: ../app/helpers/application_helper.rb:267
 #: ../webpack/assets/javascripts/react_app/components/statistics/StatisticsChartsList.js:35
 msgid "Expand the chart"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:350
+#: ../app/helpers/application_helper.rb:379
 msgid "Change your avatar at gravatar.com"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:384
+#: ../app/helpers/application_helper.rb:413
 #: ../app/views/about/index.html.erb:125
 #: ../app/views/bookmarks/welcome.html.erb:10
 #: ../app/views/common/_searchbar.html.erb:22
@@ -3887,7 +3903,7 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:389
+#: ../app/helpers/application_helper.rb:418
 msgid "None found"
 msgstr ""
 
@@ -3916,20 +3932,9 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/audits_helper.rb:95 ../app/helpers/hosts_helper.rb:271
+#: ../app/helpers/audits_helper.rb:95 ../app/helpers/hosts_helper.rb:272
 #: ../app/views/users/_form.html.erb:7 model_attributes.rb:542
 msgid "User"
-msgstr ""
-
-#: ../app/helpers/audits_helper.rb:99
-#: ../app/helpers/compute_resources_vms_helper.rb:35
-#: ../app/helpers/fact_values_helper.rb:3 ../app/helpers/hosts_helper.rb:81
-#: ../app/helpers/hosts_helper.rb:190 ../app/helpers/puppetca_helper.rb:21
-#: ../app/helpers/reports_helper.rb:4 ../app/helpers/users_helper.rb:3
-#: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:15
-#: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:16
-#: ../app/views/ssh_keys/_ssh_key_row.html.erb:7
-msgid "%s ago"
 msgstr ""
 
 #: ../app/helpers/auth_source_ldaps_helper.rb:9
@@ -4125,7 +4130,7 @@ msgstr ""
 msgid "Applied|A"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:86 ../app/helpers/hosts_helper.rb:216
+#: ../app/helpers/dashboard_helper.rb:86 ../app/helpers/hosts_helper.rb:217
 #: ../app/views/config_reports/_list.html.erb:8
 msgid "Applied"
 msgstr ""
@@ -4135,7 +4140,7 @@ msgstr ""
 msgid "Restarted|R"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:88 ../app/helpers/hosts_helper.rb:220
+#: ../app/helpers/dashboard_helper.rb:88 ../app/helpers/hosts_helper.rb:221
 #: ../app/views/config_reports/_list.html.erb:9
 msgid "Restarted"
 msgstr ""
@@ -4145,7 +4150,7 @@ msgstr ""
 msgid "Failed|F"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:90 ../app/helpers/hosts_helper.rb:217
+#: ../app/helpers/dashboard_helper.rb:90 ../app/helpers/hosts_helper.rb:218
 #: ../app/models/config_report.rb:79
 #: ../app/views/config_reports/_list.html.erb:10
 msgid "Failed"
@@ -4165,7 +4170,7 @@ msgstr ""
 msgid "Skipped|S"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:94 ../app/helpers/hosts_helper.rb:219
+#: ../app/helpers/dashboard_helper.rb:94 ../app/helpers/hosts_helper.rb:220
 #: ../app/views/config_reports/_list.html.erb:12
 msgid "Skipped"
 msgstr ""
@@ -4317,103 +4322,103 @@ msgstr[1] ""
 msgid "Create Host"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:90
-msgid "View last report details"
+#: ../app/helpers/hosts_helper.rb:91
+msgid "view last report details"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:93
-msgid "Report Already Deleted"
-msgstr ""
-
-#: ../app/helpers/hosts_helper.rb:154
-msgid "Change Group"
+#: ../app/helpers/hosts_helper.rb:94
+msgid "report already deleted"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:155
-msgid "Change Environment"
+msgid "Change Group"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:156
-msgid "Edit Parameters"
+msgid "Change Environment"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:157
-msgid "Disable Notifications"
+msgid "Edit Parameters"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:158
-msgid "Enable Notifications"
+msgid "Disable Notifications"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:159
-msgid "Disassociate Hosts"
+msgid "Enable Notifications"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:160
+msgid "Disassociate Hosts"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:161
 msgid "Rebuild Config"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:162
+#: ../app/helpers/hosts_helper.rb:163
 msgid "Build Hosts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:163
+#: ../app/helpers/hosts_helper.rb:164
 msgid "Assign Organization"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:164
+#: ../app/helpers/hosts_helper.rb:165
 msgid "Assign Location"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:165
+#: ../app/helpers/hosts_helper.rb:166
 msgid "Change Owner"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:166
+#: ../app/helpers/hosts_helper.rb:167
 msgid "Change Puppet Master"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:167
+#: ../app/helpers/hosts_helper.rb:168
 msgid "Change Puppet CA"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:169
+#: ../app/helpers/hosts_helper.rb:170
 msgid "Run Puppet"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:170
+#: ../app/helpers/hosts_helper.rb:171
 msgid "Change Power State"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:171
+#: ../app/helpers/hosts_helper.rb:172
 msgid "Delete Hosts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:176
+#: ../app/helpers/hosts_helper.rb:177
 msgid "Select Action"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:181
+#: ../app/helpers/hosts_helper.rb:182
 msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:218
+#: ../app/helpers/hosts_helper.rb:219
 msgid "Failed restarts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:229
+#: ../app/helpers/hosts_helper.rb:230
 msgid "Config Retrieval"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:229 ../app/views/hosts/show.html.erb:72
+#: ../app/helpers/hosts_helper.rb:230 ../app/views/hosts/show.html.erb:72
 msgid "Runtime"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:238
+#: ../app/helpers/hosts_helper.rb:239
 msgid "Found %{count} reports from the last %{days} days"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:253 ../app/views/about/index.html.erb:27
+#: ../app/helpers/hosts_helper.rb:254 ../app/views/about/index.html.erb:27
 #: ../app/views/about/index.html.erb:50 ../app/views/about/index.html.erb:77
 #: ../app/views/hosts/_bmc.html.erb:9
 #: ../app/views/smart_proxies/index.html.erb:20
@@ -4421,46 +4426,46 @@ msgid "Status"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/hosts_helper.rb:258 ../app/views/domains/_form.html.erb:4
+#: ../app/helpers/hosts_helper.rb:259 ../app/views/domains/_form.html.erb:4
 #: ../app/views/hostgroups/_form.html.erb:42
 #: ../app/views/subnets/_form.html.erb:25 model_attributes.rb:128
 msgid "Domain"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/hosts_helper.rb:259 ../app/views/hostgroups/_form.html.erb:57
+#: ../app/helpers/hosts_helper.rb:260 ../app/views/hostgroups/_form.html.erb:57
 #: ../app/views/realms/_form.html.erb:4
 #: ../app/views/smart_proxies/plugins/_realm.html.erb:2 model_attributes.rb:426
 msgid "Realm"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:260
+#: ../app/helpers/hosts_helper.rb:261
 msgid "IP Address"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:261
+#: ../app/helpers/hosts_helper.rb:262
 #: ../app/views/hosts/_interfaces.html.erb:17
 #: ../app/views/hosts/_nics.html.erb:22 ../app/views/nic/_base_form.html.erb:53
 msgid "IPv6 Address"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:262
+#: ../app/helpers/hosts_helper.rb:263
 #: ../app/views/hosts/_interfaces.html.erb:15
 #: ../app/views/hosts/_nics.html.erb:14 ../app/views/nic/_base_form.html.erb:7
 msgid "MAC Address"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:263
+#: ../app/helpers/hosts_helper.rb:264
 msgid "Puppet Environment"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/hosts_helper.rb:264
+#: ../app/helpers/hosts_helper.rb:265
 #: ../app/views/common/os_selection/_initial.html.erb:3 model_attributes.rb:2
 msgid "Architecture"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:265
+#: ../app/helpers/hosts_helper.rb:266
 #: ../app/helpers/provisioning_templates_helper.rb:84
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:4
 #: ../app/views/hostgroups/_form.html.erb:10
@@ -4469,11 +4474,11 @@ msgstr ""
 msgid "Operating System"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:266
+#: ../app/helpers/hosts_helper.rb:267
 msgid "PXE Loader"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:267 ../app/helpers/trends_helper.rb:6
+#: ../app/helpers/hosts_helper.rb:268 ../app/helpers/trends_helper.rb:6
 #: ../app/views/host_mailer/_active_hosts.html.erb:6
 #: ../app/views/host_mailer/_nonactive_hosts.html.erb:6
 #: ../app/views/hosts/_assign_hosts.html.erb:16
@@ -4482,14 +4487,14 @@ msgstr ""
 msgid "Host group"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:268
+#: ../app/helpers/hosts_helper.rb:269
 #: ../app/views/home/_location_dropdown.html.erb:1
 #: ../app/views/hosts/_selected_hosts.html.erb:17
 #: ../app/views/hosts/select_multiple_location.html.erb:5 taxonomies.rb:10
 msgid "Location"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:269
+#: ../app/helpers/hosts_helper.rb:270
 #: ../app/views/home/_organization_dropdown.html.erb:1
 #: ../app/views/hosts/_selected_hosts.html.erb:18
 #: ../app/views/hosts/select_multiple_organization.html.erb:5
@@ -4497,17 +4502,17 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:272 ../app/helpers/hosts_helper.rb:274
+#: ../app/helpers/hosts_helper.rb:273 ../app/helpers/hosts_helper.rb:275
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:5
 #: ../app/views/hosts/select_multiple_owner.html.erb:6
 msgid "Owner"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:277 ../app/views/puppetca/_list.html.erb:7
+#: ../app/helpers/hosts_helper.rb:278 ../app/views/puppetca/_list.html.erb:7
 msgid "Certificate Name"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:305 ../app/helpers/smart_proxies_helper.rb:50
+#: ../app/helpers/hosts_helper.rb:306 ../app/helpers/smart_proxies_helper.rb:50
 #: ../app/views/common/403.html.erb:14 ../app/views/common/404.html.erb:4
 #: ../app/views/common/500.html.erb:2 ../app/views/common/503.html.erb:2
 #: ../app/views/compute_profiles/show.html.erb:4
@@ -4516,7 +4521,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:308 ../app/helpers/hosts_helper.rb:459
+#: ../app/helpers/hosts_helper.rb:309 ../app/helpers/hosts_helper.rb:460
 #: ../app/helpers/smart_proxies_helper.rb:6
 #: ../app/helpers/smart_proxies_helper.rb:54
 #: ../app/views/compute_resources/index.html.erb:19
@@ -4532,11 +4537,11 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:309
+#: ../app/helpers/hosts_helper.rb:310
 msgid "Edit this host"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:310
+#: ../app/helpers/hosts_helper.rb:311
 #: ../app/helpers/provisioning_templates_helper.rb:17
 #: ../app/views/hostgroups/index.html.erb:29
 #: ../app/views/hosts/_list.html.erb:42 ../app/views/roles/index.html.erb:23
@@ -4544,132 +4549,132 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:311
+#: ../app/helpers/hosts_helper.rb:312
 msgid "Clone this host"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:313
+#: ../app/helpers/hosts_helper.rb:314
 msgid "Cancel build"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:315
+#: ../app/helpers/hosts_helper.rb:316
 msgid "Cancel build request for this host"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:319
+#: ../app/helpers/hosts_helper.rb:320
 msgid "Enable rebuild on next host boot"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:331
+#: ../app/helpers/hosts_helper.rb:332
 msgid "Loading power state ..."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:336
+#: ../app/helpers/hosts_helper.rb:337
 msgid "Run puppet"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:339
+#: ../app/helpers/hosts_helper.rb:340
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:354
+#: ../app/helpers/hosts_helper.rb:355
 msgid ""
 "Are you sure you want to delete host %s? This will delete the virtual machine "
 "and its disks, and is irreversible."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:356
+#: ../app/helpers/hosts_helper.rb:357
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:385 ../app/registries/menu/loader.rb:47
+#: ../app/helpers/hosts_helper.rb:386 ../app/registries/menu/loader.rb:47
 #: ../app/views/audits/index.html.erb:1
 msgid "Audits"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:385
+#: ../app/helpers/hosts_helper.rb:386
 msgid "Host audit entries"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:386 ../app/helpers/trends_helper.rb:6
+#: ../app/helpers/hosts_helper.rb:387 ../app/helpers/trends_helper.rb:6
 #: ../app/registries/menu/loader.rb:44
 msgid "Facts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:386
+#: ../app/helpers/hosts_helper.rb:387
 msgid "Browse host facts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:387 ../app/registries/menu/loader.rb:48
+#: ../app/helpers/hosts_helper.rb:388 ../app/registries/menu/loader.rb:48
 #: ../app/views/config_reports/index.html.erb:1
 #: ../app/views/config_reports/welcome.html.erb:5
 msgid "Reports"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:387
+#: ../app/helpers/hosts_helper.rb:388
 msgid "Browse host config management reports"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:388
+#: ../app/helpers/hosts_helper.rb:389
 msgid "YAML"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:388
+#: ../app/helpers/hosts_helper.rb:389
 msgid "Puppet external nodes YAML dump"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:396
+#: ../app/helpers/hosts_helper.rb:397
 msgid "Allocation (GB)"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:399 ../app/helpers/lookup_keys_helper.rb:49
+#: ../app/helpers/hosts_helper.rb:400 ../app/helpers/lookup_keys_helper.rb:49
 #: ../app/helpers/provisioning_templates_helper.rb:5
 #: ../app/helpers/provisioning_templates_helper.rb:6 ../app/services/ipam.rb:2
 msgid "None"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:399
+#: ../app/helpers/hosts_helper.rb:400
 msgid "Size"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:399
+#: ../app/helpers/hosts_helper.rb:400
 msgid "Full"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:420
+#: ../app/helpers/hosts_helper.rb:421
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:6
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:15
 msgid "remove network interface"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:429
+#: ../app/helpers/hosts_helper.rb:430
 msgid "Interface is up"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:431
+#: ../app/helpers/hosts_helper.rb:432
 msgid "Interface is down"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:452
+#: ../app/helpers/hosts_helper.rb:453
 msgid "Errors occurred, build may fail"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:460
+#: ../app/helpers/hosts_helper.rb:461
 #: ../app/views/compute_resources/edit.html.erb:1
 #: ../app/views/hostgroups/edit.html.erb:1 ../app/views/hosts/edit.html.erb:1
 #: ../app/views/images/edit.html.erb:1 ../app/views/taxonomies/edit.html.erb:1
 msgid "Edit %s"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:474
+#: ../app/helpers/hosts_helper.rb:475
 msgid "Select desired %s proxy"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:475
+#: ../app/helpers/hosts_helper.rb:476
 msgid "*Clear %s proxy*"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:483
+#: ../app/helpers/hosts_helper.rb:484
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr ""
 
@@ -4922,10 +4927,6 @@ msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:10
 msgid "all"
-msgstr ""
-
-#: ../app/helpers/puppetca_helper.rb:19
-msgid "in %s"
 msgstr ""
 
 #: ../app/helpers/puppetclasses_and_environments_helper.rb:4
@@ -5938,7 +5939,7 @@ msgstr ""
 msgid "LDAP error - %{message}"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:47 ../app/models/user.rb:665
+#: ../app/models/external_usergroup.rb:47 ../app/models/user.rb:669
 msgid "is not permitted"
 msgstr ""
 
@@ -5970,19 +5971,19 @@ msgstr ""
 msgid "is locked for user modifications."
 msgstr ""
 
-#: ../app/models/host/base.rb:476
+#: ../app/models/host/base.rb:477
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:482
+#: ../app/models/host/base.rb:483
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:501
+#: ../app/models/host/base.rb:502
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:507
+#: ../app/models/host/base.rb:508
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
@@ -7500,51 +7501,51 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:571
+#: ../app/models/user.rb:575
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:579
+#: ../app/models/user.rb:583
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:585
+#: ../app/models/user.rb:589
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:593 ../app/models/usergroup.rb:112
+#: ../app/models/user.rb:597 ../app/models/usergroup.rb:116
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:602
+#: ../app/models/user.rb:606
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:611
+#: ../app/models/user.rb:615
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:617
+#: ../app/models/user.rb:621
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:629
+#: ../app/models/user.rb:633
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:636
+#: ../app/models/user.rb:640
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:647
+#: ../app/models/user.rb:651
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:653
+#: ../app/models/user.rb:657
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:659
+#: ../app/models/user.rb:663
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
@@ -7552,11 +7553,11 @@ msgstr ""
 msgid "has this role already"
 msgstr ""
 
-#: ../app/models/usergroup.rb:107
+#: ../app/models/usergroup.rb:111
 msgid "is already used by a user account"
 msgstr ""
 
-#: ../app/models/usergroup.rb:120
+#: ../app/models/usergroup.rb:124
 msgid "Can't delete the last admin user group"
 msgstr ""
 
@@ -12512,7 +12513,7 @@ msgid "Delete all the trend history for %s?"
 msgstr ""
 
 #: ../app/views/trends/index.html.erb:38
-msgid "Last updated %s ago"
+msgid "Last update: %s"
 msgstr ""
 
 #: ../app/views/trends/new.html.erb:1

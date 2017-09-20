@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-08-03 17:20+0000\n"
+"PO-Revision-Date: 2017-09-19 16:40+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1322,7 +1322,7 @@ msgid "Cluster ID is required to list available networks"
 msgstr "Cluster-Kennung wird benötigt um verfügbare Netzwerke aufzulisten"
 
 msgid "Comments"
-msgstr "Kommentare"
+msgstr "Anmerkungen"
 
 msgid "Communication status"
 msgstr "Kommunikationsstatus"
@@ -4600,6 +4600,9 @@ msgstr "Lade Informationen über die virtuelle Maschine ..."
 msgid "Loading virtual machines information ..."
 msgstr "Lade Informationen über virtuelle Maschinen ...."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr "Ortszeit"
 
@@ -5801,9 +5804,6 @@ msgstr "Berechtigung"
 
 msgid "Permission denied"
 msgstr "Erlaubnis verweigert"
-
-msgid "Permissions must be of same resource type"
-msgstr "Berechtigungen müssen vom selben Ressourcentyp sein"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -7209,7 +7209,7 @@ msgid "Subnet ID"
 msgstr "Subnetzkennung"
 
 msgid "Subnet IDs"
-msgstr "Subnetzkennungen"
+msgstr "Subnetz-Kennungen"
 
 msgid "Subnet name"
 msgstr "Subnetzname"
@@ -7269,7 +7269,7 @@ msgstr "Bis"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Vlanid"
-msgstr "Subnetz|Vlan-Kennung"
+msgstr "Subnetz|Vlan-ID"
 
 msgid "Subscribe"
 msgstr "Abonnieren"
@@ -7434,6 +7434,9 @@ msgstr "Vorlage gesperrt"
 
 msgid "Template syntax"
 msgstr "Vorlagensyntax"
+
+msgid "Template that will be selected as %s default for local boot."
+msgstr ""
 
 msgid "Template unlocked"
 msgstr "Vorlage entsperrt"
@@ -8268,7 +8271,7 @@ msgid "Update a smart variable"
 msgstr "Smart variable aktualisieren"
 
 msgid "Update a subnet"
-msgstr "Subnetz aktualisieren"
+msgstr "Subnet aktualisieren"
 
 msgid "Update a user"
 msgstr "Benutzer aktualisieren"
@@ -8789,7 +8792,7 @@ msgid "You may create puppet classes that represent high-level host configuratio
 msgstr "Sie können Puppet-Klassen erstellen, die Hostkonfigurationen auf hoher Ebene repräsentieren, z. B. eine Klasse <b>host-type-ldap-server</b>, die alle erforderlichen Funktionalitäten von anderen Modulen beinhaltet, oder Sie können eine Hostgruppe namens <b>host-type-ldap-server</b> erstellen und die erforderlichen Klassen zur Hostgruppenkonfiguration hinzufügen."
 
 msgid "You must create a location before continuing."
-msgstr "Es muss zuerst ein Standort angelegt werden."
+msgstr "Sie müssen zuerst einen Standort erstellen, bevor Sie fortfahren können."
 
 msgid "You must create an organization before continuing."
 msgstr "Sie müssen zuerst eine Organisation erstellen, bevor Sie fortfahren können."
@@ -9282,6 +9285,9 @@ msgstr "muss mit Komma getrennt sein"
 
 msgid "must be integer"
 msgstr "muss ganzzahlig sein"
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr "muss vom Typ Subnet::Ipv4 sein."

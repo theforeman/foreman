@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-08-03 17:20+0000\n"
+"PO-Revision-Date: 2017-09-19 16:40+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -4571,6 +4571,9 @@ msgstr "仮想マシン情報をロード中です..."
 msgid "Loading virtual machines information ..."
 msgstr "仮想マシン情報をロード中です..."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr "ローカル時間"
 
@@ -5772,9 +5775,6 @@ msgstr "パーミッション"
 
 msgid "Permission denied"
 msgstr "パーミッションが拒否されました。"
-
-msgid "Permissions must be of same resource type"
-msgstr "パーミッションは、同じリソースタイプのものである必要があります"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -7405,6 +7405,9 @@ msgstr "テンプレートのロック"
 
 msgid "Template syntax"
 msgstr "テンプレート構文"
+
+msgid "Template that will be selected as %s default for local boot."
+msgstr ""
 
 msgid "Template unlocked"
 msgstr "テンプレートのロック解除"
@@ -9250,6 +9253,9 @@ msgstr "コンマで区切る必要があります"
 
 msgid "must be integer"
 msgstr "整数でなければなりません"
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr "タイプ Subnet::Ipv4 である必要があります。"

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-08-03 17:21+0000\n"
+"PO-Revision-Date: 2017-09-19 16:40+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
@@ -4622,6 +4622,9 @@ msgstr "Загрузка информации о виртуальной маши
 msgid "Loading virtual machines information ..."
 msgstr "Загрузка информации о виртуальных машинах..."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr "Местное время"
 
@@ -5823,9 +5826,6 @@ msgstr "Разрешение"
 
 msgid "Permission denied"
 msgstr "Отказано в разрешении"
-
-msgid "Permissions must be of same resource type"
-msgstr "Разрешения должны определяться для ресурсов одного типа"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -7455,6 +7455,9 @@ msgid "Template locked"
 msgstr "Шаблон заблокирован"
 
 msgid "Template syntax"
+msgstr ""
+
+msgid "Template that will be selected as %s default for local boot."
 msgstr ""
 
 msgid "Template unlocked"
@@ -9312,6 +9315,9 @@ msgstr "в качестве разделителя должна использо
 
 msgid "must be integer"
 msgstr "должно содержать целое число"
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr ""

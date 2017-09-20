@@ -4166,7 +4166,7 @@ msgstr ""
 msgid "Last report"
 msgstr ""
 
-msgid "Last updated %s ago"
+msgid "Last update: %s"
 msgstr ""
 
 msgid "Latest Events"
@@ -6397,9 +6397,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
-msgstr ""
-
-msgid "Report Already Deleted"
 msgstr ""
 
 msgid "Report Metrics"
@@ -8679,9 +8676,6 @@ msgstr ""
 msgid "View in Foreman:"
 msgstr ""
 
-msgid "View last report details"
-msgstr ""
-
 msgid "View list"
 msgstr ""
 
@@ -8722,6 +8716,9 @@ msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Warning: This combination of loader and OS might not be able to boot."
+msgstr ""
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
@@ -9566,6 +9563,9 @@ msgstr ""
 msgid "remove storage volume"
 msgstr ""
 
+msgid "report already deleted"
+msgstr ""
+
 msgid "required"
 msgstr ""
 
@@ -9716,6 +9716,9 @@ msgid "valid"
 msgstr ""
 
 msgid "valid or pending"
+msgstr ""
+
+msgid "view last report details"
 msgstr ""
 
 msgid "virtual"

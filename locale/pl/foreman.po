@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-08-03 17:21+0000\n"
+"PO-Revision-Date: 2017-09-15 15:13+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -4617,6 +4617,9 @@ msgstr "Ładowanie informacji o maszynie wirtualnej ..."
 msgid "Loading virtual machines information ..."
 msgstr "Ładowanie informacji o maszynach wirtualnych ..."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr "Czas lokalny"
 
@@ -5818,9 +5821,6 @@ msgstr "Dostęp"
 
 msgid "Permission denied"
 msgstr "Odmowa dostępu"
-
-msgid "Permissions must be of same resource type"
-msgstr "Uprawnienia muszą być tego samego typu zasobów"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -7450,6 +7450,9 @@ msgid "Template locked"
 msgstr "Szablon zablokowany"
 
 msgid "Template syntax"
+msgstr ""
+
+msgid "Template that will be selected as %s default for local boot."
 msgstr ""
 
 msgid "Template unlocked"
@@ -9307,6 +9310,9 @@ msgstr ""
 
 msgid "must be integer"
 msgstr "musi być typem integer"
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr ""
