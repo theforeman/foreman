@@ -61,13 +61,16 @@
         </div>
       <% end %>
       </br>
-      <% if @user.new_record? %>
-        <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications.") %>
-      <% else %>
-        <%= field_set_tag _("Notifications") do %>
+
+      <%= field_set_tag _("Notifications") do %>
+        <% if @user.new_record? %>
+          <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications."), :close => false %>
+        <% elsif !@user.user_mail_notifications.empty? %>
           <%= f.fields_for :user_mail_notifications do |mail_form| %>
             <%= render :partial => "users/mail_notifications", :locals => { :f => mail_form }  %>
           <% end %>
+        <% else %>
+          <%= alert :class => 'alert-info', :header => '', :text => _("Notifications can't be assigned to this user."), :close => false %>
         <% end %>
       <% end %>
     </div>
