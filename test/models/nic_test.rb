@@ -135,8 +135,8 @@ class NicTest < ActiveSupport::TestCase
       nic.subnet6 = subnet6
 
       refute nic.valid?, "Can't be valid with mismatching taxonomy: #{nic.errors.messages}"
-      assert_includes nic.errors.keys, :subnet
-      assert_includes nic.errors.keys, :subnet6
+      assert_includes nic.errors.keys, :subnet_id
+      assert_includes nic.errors.keys, :subnet6_id
     end
   end
 

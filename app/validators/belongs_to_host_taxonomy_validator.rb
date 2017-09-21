@@ -13,7 +13,8 @@ class BelongsToHostTaxonomyValidator < ActiveModel::EachValidator
 
     return if host_taxonomy.nil? && attribute_taxonomies.empty?
 
-    record.errors.add(attribute, _("is not defined for host's %s.") % _(taxonomy)) unless include_or_empty?(attribute_taxonomies, host_taxonomy)
+    attribute_name = attribute.to_s.end_with?('_id') ? attribute : "#{attribute}_id"
+    record.errors.add(attribute_name, _("is not defined for host's %s") % _(taxonomy)) unless include_or_empty?(attribute_taxonomies, host_taxonomy)
   end
 
   private
