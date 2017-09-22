@@ -3,7 +3,7 @@
 <%= title_actions link_to_if_authorized(_("Host details"),
                                         hash_for_host_path(:id => @audit.auditable.to_param).merge(:auth_object => @audit.auditable, :auth_action => 'view'),
                                         :title => _("Host details"),
-                                        :class => 'btn btn-info') if @audit.auditable_type == 'Host' && @audit.auditable %>
+                                        :class => 'btn btn-info') if @audit.auditable_type == 'Host::Base' && @audit.auditable %>
 <%= title_actions link_to 'Back', :back, :class=>'btn btn-default' %>
 <% tmplt = audit_template?(@audit) %>
 

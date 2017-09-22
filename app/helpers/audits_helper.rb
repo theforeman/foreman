@@ -1,5 +1,5 @@
 module AuditsHelper
-  MAIN_OBJECTS = %w(Host Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ProvisioningTemplate ComputeProfile ComputeAttribute
+  MAIN_OBJECTS = %w(Host::Base Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ProvisioningTemplate ComputeProfile ComputeAttribute
                     Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup Ptable)
 
   # lookup the Model representing the numerical id and return its label
@@ -129,6 +129,8 @@ module AuditsHelper
 
   def audited_type(audit)
     type_name = case audit.auditable_type
+                  when 'Host::Base'
+                    'Host'
                   when 'HostClass'
                     'Puppet Class'
                   when 'Parameter'
@@ -161,6 +163,7 @@ module AuditsHelper
   private
 
   def main_object?(audit)
+    return true if MAIN_OBJECTS.include?(audit.auditable_type)
     type = audit.auditable_type.split("::").last rescue ''
     MAIN_OBJECTS.include?(type)
   end
