@@ -35,27 +35,28 @@ module HostParams
       end
     end
 
+    def host_params_renderer
+      @host_params_renderer ||= ParameterSafeRender.new(self)
+    end
+
     def host_params_hash
-      return @cached_host_params_hash if @cached_host_params_hash
-      @cached_host_params_hash = inherited_params_hash.merge(non_inherited_params_hash)
+      @cached_host_params_hash ||= inherited_params_hash.merge(non_inherited_params_hash)
     end
 
     def host_param(name)
       if @cached_host_params_rendered
         @cached_host_params_rendered[name]
       else
-        renderer = ParameterSafeRender.new(self)
-        renderer.render(host_params_hash.fetch(name, {})[:value])
+        host_params_renderer.render(host_params_hash.fetch(name, {})[:value])
       end
     end
 
     def host_params
       return @cached_host_params_rendered if @cached_host_params_rendered
-      renderer = ParameterSafeRender.new(self)
       key_value_hash = host_params_hash.each_with_object({}) do |(key, value), hash|
         hash[key] = value[:value]
       end
-      @cached_host_params_rendered = renderer.render(key_value_hash)
+      @cached_host_params_rendered = host_params_renderer.render(key_value_hash)
     end
 
     def host_inherited_params_objects

@@ -1,10 +1,8 @@
-# Class to parse ERB with or without Safemode rendering. Needs a set
-# of variables, usually something like:
-#   @allowed_vars = { :host => @host }
-# so that <%= @host.name %> has the right @host variable
+# Recursively parses a hash and in case the value is a string,
+# renders it using ERB. It respects the safe-mode settings.
 #
 class ParameterSafeRender
-  include Foreman::Renderer
+  include UnattendedHelper
   def initialize(host)
     @host = host
   end
@@ -33,6 +31,6 @@ class ParameterSafeRender
   end
 
   def render_string(string)
-    render_safe(string, ::Foreman::Renderer::ALLOWED_HOST_HELPERS, :host => @host)
+    render_safe(string, ALLOWED_HELPERS, :host => @host)
   end
 end
