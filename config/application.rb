@@ -171,11 +171,7 @@ module Foreman
     config.assets.quiet = true
 
     # Catching Invalid JSON Parse Errors with Rack Middleware
-    if Rails::VERSION::MAJOR == 4
-      config.middleware.insert_before ActionDispatch::ParamsParser, Middleware::CatchJsonParseErrors
-    else
-      config.middleware.use Middleware::CatchJsonParseErrors
-    end
+    config.middleware.use Middleware::CatchJsonParseErrors
 
     # Record request ID in logging MDC storage
     config.middleware.insert_before Rails::Rack::Logger, Middleware::TaggedLogging

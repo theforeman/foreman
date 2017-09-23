@@ -1,9 +1,6 @@
 # config/initializers/will_paginate.rb
 require 'will_paginate/array'
-
-unless Rails::VERSION::MAJOR == 4
-  require 'will_paginate/view_helpers/action_view'
-end
+require 'will_paginate/view_helpers/action_view'
 
 module WillPaginate
   module ActionView
