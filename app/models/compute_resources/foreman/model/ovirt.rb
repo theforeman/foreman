@@ -46,7 +46,7 @@ module Foreman::Model
     end
 
     def supports_operating_systems?
-      if (client.respond_to?(:operating_systems) || rbovirt_client.respond_to?(:operating_systems))
+      if client.respond_to?(:operating_systems)
         unless self.attrs.key?(:available_operating_systems)
           update_available_operating_systems
           save
@@ -421,11 +421,8 @@ module Foreman::Model
 
     def update_available_operating_systems
       return false if errors[:url].any?
-      ovirt_operating_systems = if client.respond_to?(:operating_systems)
-                                  client.operating_systems
-                                elsif rbovirt_client.respond_to?(:operating_systems)
-                                  rbovirt_client.operating_systems
-                                end
+      ovirt_operating_systems = client.operating_systems if client.respond_to?(:operating_systems)
+
       attrs[:available_operating_systems] = ovirt_operating_systems.map do |os|
         { :id => os.id, :name => os.name, :href => os.href }
       end
@@ -507,11 +504,6 @@ module Foreman::Model
         vm.destroy_volume(:id => volume[:id], :blocking => api_version.to_f < 3.1) if volume[:_delete] == '1' && volume[:id].present?
         vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
-    end
-
-    def rbovirt_client
-      # to access the data directly from the rbovirt when something is not exposed via fog
-      client.send(:client)
     end
   end
 end
