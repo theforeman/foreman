@@ -7,11 +7,11 @@ function test_connection(item, url) {
     type: 'put',
     data: data,
     success: function (result, textstatus, xhr) {
-      notify("<p>" + result.message + "</p>", 'success');
+      tfm.toastNotifications.notify({message: "<p>" + result.message + "</p>", type: 'success'});
     },
     error: function (xhr) {
       var error = $.parseJSON(xhr.responseText).message;
-      notify("<p>" + error + "</p>", 'danger');
+      tfm.toastNotifications.notify({message: "<p>" + error + "</p>", type: 'danger'});
     },
     complete: function (result) {
       $('#test_connection_indicator').hide();

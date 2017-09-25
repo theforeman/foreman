@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
+import { notify } from './foreman_toast_notifications';
 
 export function initInheritedRoles() {
   $('#inherited-roles .dropdown-menu a').click(({target}) => {
@@ -37,8 +38,9 @@ export function testMail(item, url, param = {}) {
     url: url,
     type: 'put',
     data: param,
-    success: ({message}) => notify(`<p>${message}</p>`, 'success'),
-    error: ({responseText}) => notify(`<p>${JSON.parse(responseText).message}</p>`, 'danger'),
+    success: ({message}) => notify({message: `<p>${message}</p>`, type: 'success'}),
+    error: ({responseText}) => notify({message: `<p>${JSON.parse(responseText).message}</p>`,
+                                       type: 'danger'}),
     complete: () => {
       spinner.hide();
       button.removeClass('disabled');

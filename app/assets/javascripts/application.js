@@ -355,11 +355,6 @@ function spinner_placeholder(text){
   return "<div class='spinner-placeholder'><p class='spinner-label'>" + text + "</p><div id='Loading' class='spinner spinner-md spinner-inline'> </div></div>";
 }
 
-function notify(message, type) {
-  tfm.tools.deprecate('notify', 'tfm.toastNotifications.notify');
-  tfm.toastNotifications.notify({message: message, type: type});
-}
-
 function typeToIcon(type) {
   switch(type)
   {
