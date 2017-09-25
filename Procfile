@@ -3,3 +3,4 @@
 rails: [ -n "$RAILS_STARTUP" ] && env PRY_WARNING=1 $RAILS_STARTUP || [ -n "$BIND" ] && bin/rails server -b $BIND || env PRY_WARNING=1 bin/rails server
 # you can use WEBPACK_OPTS to customize webpack server, e.g. 'WEBPACK_OPTS='--https --key /path/to/key --cert /path/to/cert.pem --cacert /path/to/cacert.pem' foreman start '
 webpack: ./node_modules/.bin/webpack-dev-server --config config/webpack.config.js $WEBPACK_OPTS
+dynflow: bin/rake dynflow:executor
