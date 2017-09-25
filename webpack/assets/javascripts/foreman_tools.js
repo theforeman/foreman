@@ -49,7 +49,7 @@ export function activateTooltips(el = 'body') {
 }
 
 /* eslint-disable no-console, max-len */
-export function deprecate(oldMethod, newMethod, version = '1.17') {
+export function deprecate(oldMethod, newMethod, version = '1.18') {
   console.warn(`DEPRECATION WARNING: you are using deprecated ${oldMethod}, it will be removed in Foreman ${version}. Use ${newMethod} instead.`);
 }
 
