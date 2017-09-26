@@ -430,7 +430,6 @@ class UnattendedControllerTest < ActionController::TestCase
   test "should return and log error when template not found" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     Host::Managed.any_instance.expects(:provisioning_template).returns(nil)
-    Rails.logger.expects(:error).with(regexp_matches(/unable to find.*template/))
     get :host_template, {:kind => 'provision'}
     assert_response :not_found
   end

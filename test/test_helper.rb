@@ -30,6 +30,36 @@ if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
   ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
 end
 
+module TestCaseRailsLoggerExtensions
+  def before_setup
+    super
+  ensure
+    @_ext_current_buffer = StringIO.new
+    @_ext_old_logger = Rails.logger
+    @_ext_old_ar_logger = ActiveRecord::Base.logger
+    Rails.logger = Foreman::SilencedLogger.new(ActiveSupport::TaggedLogging.new(Logger.new(@_ext_current_buffer)))
+    ActiveRecord::Base.logger = Rails.logger
+  end
+
+  def after_teardown
+    Rails.logger = @_ext_old_logger if @_ext_old_logger
+    ActiveRecord::Base.logger = @_ext_old_ar_logger if @_ext_old_ar_logger
+    if !self.passed?
+      @_ext_current_buffer.close_write
+      STDOUT << "\n\nRails logs for #{self.name} FAILURE:\n"
+      STDOUT << @_ext_current_buffer.string
+    end
+    super
+  ensure
+    @_ext_current_buffer.close if @_ext_current_buffer
+    @_ext_current_buffer = nil
+  end
+end
+
+class ActiveSupport::TestCase
+  prepend TestCaseRailsLoggerExtensions
+end
+
 class ActionView::TestCase
   helper Rails.application.routes.url_helpers
 end
