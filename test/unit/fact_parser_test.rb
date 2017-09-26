@@ -14,6 +14,13 @@ class FactParserTest < ActiveSupport::TestCase
     refute_match FactParser::BONDS, 'bond0:0'
   end
 
+  test "bridge regexp matches bridges" do
+    assert_match FactParser::BRIDGES, 'br12'
+    assert_match FactParser::BRIDGES, 'br-ex'
+    assert_match FactParser::BRIDGES, 'virbr1'
+    refute_match FactParser::BRIDGES, 'bridge'
+  end
+
   test "default parsers" do
     assert_includes FactParser.parsers.keys, 'puppet'
     assert_equal PuppetFactParser, FactParser.parser_for(:puppet)
