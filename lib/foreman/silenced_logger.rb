@@ -3,7 +3,7 @@
 # assets logging feature.
 module Foreman
   class SilencedLogger < SimpleDelegator
-    def silence(new_level = :error, &block)
+    def silence(new_level = Logger::ERROR, &block)
       old_level = self.level
       begin
         self.level = new_level
