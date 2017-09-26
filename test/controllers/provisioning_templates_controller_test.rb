@@ -174,6 +174,17 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       get :build_pxe_default, session: set_session_user
       assert_redirected_to provisioning_templates_path
     end
+
+    test "pxe menu build calls media with hostgroup" do
+      hg = FactoryBot.build(:hostgroup, :name => "hg", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
+      FactoryBot.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => hg)
+      ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
+      Redhat.any_instance.expects(:pxe_files) do |_, __, host|
+        host.name == "hg"
+      end.at_least(1)
+      get :build_pxe_default, session: set_session_user
+      assert_redirected_to provisioning_templates_path
+    end
   end
 
   test 'preview' do
