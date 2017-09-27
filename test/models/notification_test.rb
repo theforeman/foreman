@@ -9,6 +9,8 @@ class NotificationTest < ActiveSupport::TestCase
   should validate_presence_of(:notification_blueprint)
   should validate_presence_of(:audience)
 
+  should have_many(:notification_recipients).dependent(:destroy)
+
   test 'should be able to create notification' do
     blueprint = FactoryGirl.create(
       :notification_blueprint,
