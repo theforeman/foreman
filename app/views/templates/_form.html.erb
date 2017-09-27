@@ -38,12 +38,12 @@
 
       <div class='form-group'>
         <div class="col-md-12">
-            <label class="control-label"  for="template"><%= _("Template editor") %></label>
+            <label class="control-label"  for="template"><%= _("Template *") %></label>
         </div>
 
         <div class="col-md-12">
           <div class="editor-container">
-            <%= render :partial => 'editor/toolbar', :locals => {:show_preview => true} %>
+            <%= render :partial => 'editor/toolbar', :locals => { :show_preview => true, :show_import => !@template.locked?} %>
 
             <%= alert :class => 'alert-danger hide', :id => 'preview_error', :close => false %>
             <%= textarea_f f, :template, :class => "editor_source", :label =>:none, :disabled => @template.locked?, :size => "max",
@@ -51,11 +51,6 @@
           </div>
         </div>
       </div>
-
-      <% unless @template.locked? -%>
-        <%= file_field_f f, :template, :class => "editor_file_source",:size => "col-md-10", :id => 'template_file',
-                         :help_block  => _("Selecting a file will override the editor and load the file instead") %>
-      <% end -%>
 
       <%= textarea_f f, :audit_comment, :size => "col-md-10", :rows => 3, :label => _("Audit Comment"),
                      :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>

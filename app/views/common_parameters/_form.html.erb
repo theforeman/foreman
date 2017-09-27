@@ -6,7 +6,7 @@
 
       <div class="col-md-9">
         <div class="editor-container">
-          <%= render :partial => 'editor/toolbar', :locals => {:show_preview => false} %>
+          <%= render :partial => 'editor/toolbar', :locals => { :show_preview => false, :show_import => false} %>
           <% masked = @common_parameter.hidden_value? ? 'masked-input' : '' %>
           <%= f.text_area(:value,
                           :class => "form-control value editor_source #{masked}",
