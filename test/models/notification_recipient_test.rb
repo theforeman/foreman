@@ -13,4 +13,11 @@ class NotificationRecipientTest < ActiveSupport::TestCase
     id = FactoryGirl.create(:notification_recipient).id
     assert NotificationRecipient.unseen.pluck(:id).include?(id)
   end
+
+  test "destroying triggers clearing user cache" do
+    recipient = FactoryGirl.create(:notification_recipient)
+    UINotifications::CacheHandler.any_instance
+                                 .expects(:clear)
+    recipient.destroy
+  end
 end
