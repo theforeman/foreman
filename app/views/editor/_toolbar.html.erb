@@ -1,4 +1,5 @@
 <div class="navbar navbar-form navbar-full-width navbar-editor">
+
     <div class="btn-group" data-toggle="buttons" >
       <label class="btn btn-default btn-sm active" onclick="tfm.editor.setCode()">
         <input type="radio" name="options" id="option1" ><%= _("Input") %>
@@ -13,6 +14,12 @@
       <% end %>
     </div>
 
+    <% if show_import %>
+      <a class="btn btn-default btn-sm" onclick="tfm.editor.showImporter()">
+        <%= _("Import") %>
+      </a>
+    <% end %>
+
     <% if show_preview %>
       <%= javascript_tag("$(document).on('ContentLoad', function() { tfm.tools.initTypeAheadSelect($('#preview_host_id')) });"); %>
       <span id="preview_host_selector" style="display:none">
@@ -24,11 +31,11 @@
     <% end %>
 
     <a class="btn btn-default btn-sm btn-fullscreen" href="#" onclick="tfm.editor.enterFullscreen('.editor-container');">
-      <i class="glyphicon glyphicon-resize-full"></i>
+      <%= _('Fullscreen') %>
     </a>
 
     <a class="btn btn-default btn-sm btn-exit-fullscreen hidden" href="#" onclick="tfm.editor.exitFullscreen();">
-      <i class="glyphicon glyphicon-resize-small"></i>
+      <%= _('Exit Fullscreen') %>
     </a>
 
     <ul class="nav navbar-nav navbar-right navbar-editor">
@@ -40,4 +47,8 @@
         <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm without_select2') %>
       </li>
     </ul>
+
+    <% if show_import %>
+      <%= file_field_tag :import_file, :class => "hidden editor_file_source", :id => 'import_file' %>
+    <% end %>
 </div>

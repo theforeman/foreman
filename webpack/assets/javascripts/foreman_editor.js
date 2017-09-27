@@ -87,6 +87,10 @@ function setMode(mode) {
   session.setMode(mode);
 }
 
+export function showImporter() {
+  $('.editor_file_source').click();
+}
+
 /* eslint-disable max-statements, no-alert */
 function editorFileSource(evt) {
   if (window.File && window.FileList && window.FileReader) {
@@ -110,6 +114,8 @@ function editorFileSource(evt) {
       // Read in the file as text.
       reader.readAsText(f);
       $('.editor_file_source').val('');
+      $('.navbar-editor input[type="radio"]').blur();
+      $('.navbar-editor #option1').click();
     }
   } else {
     // Browser can't read the file content,
