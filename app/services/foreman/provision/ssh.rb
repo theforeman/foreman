@@ -81,14 +81,13 @@ class Foreman::Provision::SSH
         rescue => e
           logger.debug "Error occured while connecting \"#{e.inspect}\", retrying"
           sleep(2)
-          retry 
+          retry
         end
       end
     rescue => e
       Foreman::Logging.exception("Error connecting over SSH, reached max timeout of 360 seconds", e)
     end
   end
-
 
   def ssh
     Fog::SSH.new(address, username, options.merge(:timeout => 4))
