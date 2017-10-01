@@ -72,38 +72,23 @@ class Foreman::Provision::SSH
   end
 
   def initiate_connection!
-    Timeout.timeout(360) do
-      begin
-        Timeout.timeout(8) do
-          ssh.run('pwd')
+    begin
+      Timeout.timeout(360) do
+        begin
+          Timeout.timeout(8) do
+            ssh.run('pwd')
+          end
+        rescue => e
+          logger.debug "Error occured while connecting \"#{e.inspect}\", retrying"
+          sleep(2)
+          retry 
         end
-      rescue Errno::ECONNREFUSED
-        logger.debug "Connection refused for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Errno::EHOSTUNREACH
-        logger.debug "Host unreachable for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Net::SSH::Disconnect
-        logger.debug "Host dropping connections for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Net::SSH::ConnectionTimeout
-        logger.debug "Host timed out for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Net::SSH::AuthenticationFailed
-        logger.debug "Auth failed for #{username} at #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Timeout::Error
-        retry
-      rescue => e
-        Foreman::Logging.exception("SSH error", e)
       end
+    rescue => e
+      Foreman::Logging.exception("Error connecting over SSH, reached max timeout of 360 seconds", e)
     end
   end
+
 
   def ssh
     Fog::SSH.new(address, username, options.merge(:timeout => 4))
