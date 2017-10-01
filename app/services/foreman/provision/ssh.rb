@@ -72,21 +72,19 @@ class Foreman::Provision::SSH
   end
 
   def initiate_connection!
-    begin
-      Timeout.timeout(360) do
-        begin
-          Timeout.timeout(8) do
-            ssh.run('pwd')
-          end
-        rescue => e
-          logger.debug "Error occured while connecting \"#{e.inspect}\", retrying"
-          sleep(2)
-          retry
+    Timeout.timeout(360) do
+      begin
+        Timeout.timeout(8) do
+          ssh.run('pwd')
         end
+      rescue => e
+        logger.debug "Error occured while connecting \"#{e.inspect}\", retrying"
+        sleep(2)
+        retry
       end
-    rescue => e
-      Foreman::Logging.exception("Error connecting over SSH, reached max timeout of 360 seconds", e)
     end
+  rescue => e
+    Foreman::Logging.exception("Error connecting over SSH, reached max timeout of 360 seconds", e)
   end
 
   def ssh
