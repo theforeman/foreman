@@ -330,7 +330,7 @@ module Foreman
     end
 
     def kickstart_attributes
-      @dynamic   = @host.diskLayout =~ /^#Dynamic/ if (@host.respond_to?(:disk) && @host.disk.present?) || @host.ptable.present?
+      @dynamic   = @host.disk_layout_template[:template] =~ /^#Dynamic/ if @host.disk_layout_template
       @arch      = @host.architecture.name
       @osver     = @host.operatingsystem.major.to_i
       @mediapath = @host.operatingsystem.mediumpath @host if @host.medium

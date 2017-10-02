@@ -113,8 +113,15 @@ class Hostgroup < ApplicationRecord
     "title".freeze
   end
 
+  def disk_layout_template
+    if ptable.present?
+      { name: ptable.name, template: ptable.layout }
+    end
+  end
+
   def diskLayout
-    ptable.layout.tr("\r", '')
+    raise 'Partition table not defined for hostgroup' unless disk_layout_template
+    disk_layout_template[:template].tr("\r", '')
   end
 
   def all_config_groups
