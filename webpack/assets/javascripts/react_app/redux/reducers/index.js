@@ -5,6 +5,7 @@ import statistics from './statistics';
 import hosts from './hosts';
 import notifications from './notifications/';
 import toasts from './toasts';
+import passwordStrength from './user/passwordStrength';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -14,6 +15,7 @@ export function combineReducersAsync(asyncReducers) {
     hosts,
     notifications,
     toasts,
+    passwordStrength,
     ...asyncReducers,
   });
 }

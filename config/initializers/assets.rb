@@ -41,7 +41,6 @@ Foreman::Application.configure do |app|
                   auth_source_ldap
                   subnets
                   hidden_values
-                  password_strength
                   proxy_status
                   about
                   parameter_override)

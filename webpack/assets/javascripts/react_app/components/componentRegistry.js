@@ -7,6 +7,7 @@ import NotificationContainer from './notifications/';
 import ToastsList from './toastNotifications/';
 import StorageContainer from './hosts/storage/vmware/';
 import BookmarkContainer from './bookmarks';
+import PasswordStrength from './user/passwordStrength/';
 
 const componentRegistry = {
   registry: {},
@@ -62,6 +63,7 @@ const coreComponets = [
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList, data: false },
   { name: 'StorageContainer', type: StorageContainer },
+  { name: 'PasswordStrength', type: PasswordStrength },
 ];
 
 componentRegistry.registerMultiple(coreComponets);
