@@ -1029,11 +1029,16 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "custom_disk_partition_with_erb" do
-      h = FactoryBot.create(:host)
-      h.disk = "<%= template_name %>"
-      assert h.save
-      assert h.disk.present?
-      assert_equal "Custom disk layout", h.diskLayout
+      operatingsystem = operatingsystems(:redhat)
+      host = FactoryBot.build(
+        :host,
+        :operatingsystem => operatingsystem,
+        :architecture => FactoryGirl.build(:architecture)
+      )
+      host.disk = "<%= template_name %> - <%= @osver %>"
+      assert host.save
+      assert host.disk.present?
+      assert_equal "Custom disk layout - #{operatingsystem.major}", host.diskLayout
     end
 
     test "custom_disk_partition_with_ptable" do

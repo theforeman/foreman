@@ -333,12 +333,20 @@ class Host::Managed < Host::Base
     end
   end
 
+  def disk_layout_template
+    if disk.present?
+      { name: 'Custom disk layout', template: disk }
+    elsif ptable.present?
+      { name: ptable.name, template: ptable.layout }
+    end
+  end
+
   # returns the host correct disk layout, custom or common
   def diskLayout
+    raise 'Neither disk nor partition table defined for host' unless disk_layout_template
     @host = self
-    template = disk.presence || ptable.layout
-    template_name = disk.blank? ? ptable.name : 'Custom disk layout'
-    unattended_render(template.tr("\r", ''), template_name)
+    load_template_vars
+    unattended_render(disk_layout_template[:template].tr("\r", ''), disk_layout_template[:name])
   end
 
   # reports methods
