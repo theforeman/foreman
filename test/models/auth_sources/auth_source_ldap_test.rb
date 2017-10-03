@@ -48,6 +48,14 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal "following spaces", @auth_source_ldap.attr_mail
   end
 
+  test "it enforces use_netgroups to false for active directory" do
+    @auth_source_ldap.use_netgroups = true
+    @auth_source_ldap.server_type = :active_directory
+
+    assert @auth_source_ldap.valid?
+    refute @auth_source_ldap.use_netgroups
+  end
+
   test "return nil if login is blank or password is blank" do
     assert_nil @auth_source_ldap.authenticate("", "")
   end
