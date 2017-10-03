@@ -45,3 +45,4 @@ node_modules
 public/webpack
 .env*
 package-lock.json
+npm-debug.log

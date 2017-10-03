@@ -79,13 +79,14 @@
     "webpack-stats-plugin": "^0.1.5"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ $(./script/foreman_plugins_eslint.js) || exit 0",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/ $(./script/foreman_plugins_eslint.js) || exit 0",
     "test": "node node_modules/.bin/jest",
     "test:watch": "node node_modules/.bin/jest --watchAll",
     "test:current": "node node_modules/.bin/jest --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "postinstall": "node ./script/npm_install_plugins.js"
   },
   "jest": {
     "automock": true,
@@ -113,7 +114,8 @@
     },
     "moduleDirectories": [
       "node_modules",
-      "webpack"
+      "webpack",
+      "script"
     ]
   }
 }
