@@ -1,5 +1,11 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 import React from 'react';
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import StatisticsChartsList from './StatisticsChartsList';
 import { statisticsData } from './StatisticsChartsList.fixtures';
 import thunk from 'redux-thunk';
@@ -20,9 +26,8 @@ describe('StatisticsChartsList', () => {
       <StatisticsChartsList store={store} data={statisticsData} />
     );
 
-    expect(
-      wrapper.render().find('.statistics-charts-list-panel').length
-    ).toEqual(0);
+    expect(toJson(wrapper)).toMatchSnapshot();
+
   });
 
   it('should render two panels for fixtures data', () => {

@@ -1,5 +1,11 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 import React from 'react';
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import { props } from './controller.fixtures';
 import Controller from './';
 
@@ -15,6 +21,6 @@ describe('StorageContainer', () => {
   });
 
   it('should render controller', () => {
-    expect(wrapper.render().find('.controller-container').length).toEqual(1);
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 });

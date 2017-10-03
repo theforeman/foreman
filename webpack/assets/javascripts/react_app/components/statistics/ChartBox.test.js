@@ -1,8 +1,14 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 jest.unmock('./ChartBox');
 jest.unmock('../../../services/ChartService');
 
 import React from 'react';
 import { mount } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import ChartBox from './ChartBox';
 global.patternfly = {
   pfSetDonutChartTitle: jest.fn()
@@ -30,7 +36,7 @@ describe('ChartBox', () => {
       />
     );
 
-    expect(box.find('.spinner.spinner-lg').length).toBe(1);
+    expect(toJson(box)).toMatchSnapshot();
   });
 
   it('error', () => {
@@ -44,7 +50,7 @@ describe('ChartBox', () => {
       />
     );
 
-    expect(box.find('.pficon.pficon-error-circle-o').length).toBe(1);
+    expect(toJson(box)).toMatchSnapshot();
   });
 
   it('resolved', () => {
@@ -58,6 +64,6 @@ describe('ChartBox', () => {
       />
     );
 
-    expect(box.find('.c3-statistics-pie.small').length).toBe(1);
+    expect(box.find('.c3-statistics-pie.small').at(0).length).toBe(1);
   });
 });

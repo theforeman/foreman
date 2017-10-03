@@ -1,3 +1,8 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 jest.unmock('./Chart');
 jest.unmock('../MessageBox');
 jest.mock('c3');
@@ -20,8 +25,8 @@ describe('Chart', () => {
         <Chart config={config} noDataMsg={'No data here'} />
       );
 
-      expect(chart.node.props.msg).toBe('No data here');
-      expect(chart.node.props.icontype).toBe('info');
+      expect(chart.getElement().props.msg).toBe('No data here');
+      expect(chart.getElement().props.icontype).toBe('info');
     });
 
     it('renders MessageBox with default no data message', () => {
@@ -33,8 +38,8 @@ describe('Chart', () => {
 
       const chart = shallow(<Chart config={config} />);
 
-      expect(chart.node.props.msg).toBe('No data available');
-      expect(chart.node.props.icontype).toBe('info');
+      expect(chart.getElement().props.msg).toBe('No data available');
+      expect(chart.getElement().props.icontype).toBe('info');
     });
 
     it('does not display no data message if hasData is true', () => {
@@ -45,7 +50,7 @@ describe('Chart', () => {
       };
       const chart = shallow(<Chart config={config} />);
 
-      expect(chart.node.type.name).not.toBe('MessageBox');
+      expect(chart.getElement().type.name).not.toBe('MessageBox');
     });
   });
 
@@ -96,7 +101,7 @@ describe('Chart', () => {
 
       expect(chart.is('div[data-id="operatingsystem"]')).toBe(true);
 
-      expect(chart.node.type).toBe('div');
+      expect(chart.getElement().type).toBe('div');
     });
 
     describe('calls c3.generate when appropriate', () => {

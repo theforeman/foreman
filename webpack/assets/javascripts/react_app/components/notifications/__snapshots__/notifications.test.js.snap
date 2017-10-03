@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`notifications empty state 1`] = `
+<notificationContainer
+  expandGroup={[Function]}
+  isReady={false}
+  notifications={Object {}}
+  onClickedLink={[Function]}
+  onMarkAsRead={[Function]}
+  onMarkGroupAsRead={[Function]}
+  startNotificationsPolling={[Function]}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+  storeSubscription={
+    Subscription {
+      "listeners": Object {
+        "clear": [Function],
+        "get": [Function],
+        "notify": [Function],
+        "subscribe": [Function],
+      },
+      "onStateChange": [Function],
+      "parentSub": undefined,
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "unsubscribe": [Function],
+    }
+  }
+  toggleDrawer={[Function]}
+/>
+`;
+
+exports[`notifications should render empty html for state before notifications 1`] = `
+<notificationContainer
+  expandGroup={[Function]}
+  expandedGroup="React devs2"
+  isDrawerOpen={true}
+  isReady={false}
+  notifications={Object {}}
+  onClickedLink={[Function]}
+  onMarkAsRead={[Function]}
+  onMarkGroupAsRead={[Function]}
+  startNotificationsPolling={[Function]}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+  storeSubscription={
+    Subscription {
+      "listeners": Object {
+        "clear": [Function],
+        "get": [Function],
+        "notify": [Function],
+        "subscribe": [Function],
+      },
+      "onStateChange": [Function],
+      "parentSub": undefined,
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "unsubscribe": [Function],
+    }
+  }
+  toggleDrawer={[Function]}
+/>
+`;
+
+exports[`notifications should render full html on a state with notifications 1`] = `
+<notificationContainer
+  expandGroup={[Function]}
+  expandedGroup="React devs2"
+  hasUnreadMessages={true}
+  isDrawerOpen={true}
+  isReady={true}
+  notifications={
+    Object {
+      "React devs": Array [
+        Object {
+          "actions": Object {},
+          "created_at": "2017-02-23T05:00:28.715Z",
+          "group": "React devs",
+          "id": 1,
+          "level": "info",
+          "seen": true,
+          "text": null,
+        },
+      ],
+      "React devs2": Array [
+        Object {
+          "actions": Object {
+            "links": Array [
+              Object {
+                "href": "https://theforeman.org/blog",
+                "title": "Link to blog",
+              },
+            ],
+          },
+          "created_at": "2017-03-14T11:25:07.138Z",
+          "group": "React devs2",
+          "id": 6,
+          "level": "info",
+          "seen": true,
+          "text": "Hi! This is a notification message",
+        },
+      ],
+    }
+  }
+  onClickedLink={[Function]}
+  onMarkAsRead={[Function]}
+  onMarkGroupAsRead={[Function]}
+  startNotificationsPolling={[Function]}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+  storeSubscription={
+    Subscription {
+      "listeners": Object {
+        "clear": [Function],
+        "get": [Function],
+        "notify": [Function],
+        "subscribe": [Function],
+      },
+      "onStateChange": [Function],
+      "parentSub": undefined,
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "unsubscribe": [Function],
+    }
+  }
+  toggleDrawer={[Function]}
+/>
+`;

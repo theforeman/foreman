@@ -1,7 +1,13 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 jest.unmock('./Loader');
 
 import React from 'react';
 import {shallow, mount} from 'enzyme';
+import toJson from 'enzyme-to-json';
 import Loader from './Loader';
 import {STATUS} from '../../constants';
 
@@ -24,37 +30,31 @@ describe('Loader', () => {
     it('success', () => {
       const wrapper = setup(STATUS.RESOLVED);
 
-      expect(wrapper.children().length).toBe(1);
-      expect(wrapper.children().equals(<div key="0" className="success">Success</div>)).toBe(true);
+      expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('failure', () => {
       const wrapper = setup(STATUS.ERROR);
 
-      expect(wrapper.children().length).toBe(1);
-      expect(wrapper.children().equals(<div key="1" className="failure">Failure</div>)).toBe(true);
+      expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('pending', () => {
       const wrapper = setup(STATUS.PENDING);
 
-      expect(wrapper.children().length).toBe(1);
-      expect(wrapper.children().equals(<div className="spinner spinner-lg"></div>)).toBe(true);
+      expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('pending-different-spinner', () => {
       const wrapper = setup(STATUS.PENDING, 'xs');
 
-      expect(wrapper.children().length).toBe(1);
-      expect(wrapper.children().equals(<div className="spinner spinner-xs"></div>)).toBe(true);
+      expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('default case', () => {
-      const wrapper = mount(<Loader>
-      </Loader>);
+      const wrapper = mount(<Loader />);
 
-      expect(wrapper.children().children().at(0).is('.pficon.pficon-error-circle-o')).toBe(true);
-      expect(wrapper.children().children().at(1).text()).toBe('Invalid Status');
+      expect(toJson(wrapper)).toMatchSnapshot();
     });
   });
 });

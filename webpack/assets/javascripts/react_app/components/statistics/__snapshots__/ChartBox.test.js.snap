@@ -1,0 +1,294 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChartBox error 1`] = `
+<ChartBox
+  chart={
+    Object {
+      "id": "2",
+    }
+  }
+  errorText="some error"
+  id="2"
+  noDataMsg="no data"
+  status="ERROR"
+>
+  <Panel
+    className="statistics-charts-list-panel"
+    key="2"
+  >
+    <div
+      className="panel panel-default statistics-charts-list-panel"
+    >
+      <PanelHeading
+        className="statistics-charts-list-heading"
+        data-placement="top"
+        data-toggle="tooltip"
+        onClick={[Function]}
+        title={undefined}
+      >
+        <div
+          className="panel-heading statistics-charts-list-heading"
+          data-toggle="tooltip"
+          onClick={[Function]}
+          title={undefined}
+        >
+          <PanelTitle
+            text={undefined}
+          >
+            <h3
+              className="panel-title "
+            />
+          </PanelTitle>
+        </div>
+      </PanelHeading>
+      <PanelBody
+        className="statistics-charts-list-body"
+      >
+        <div
+          className="panel-body statistics-charts-list-body"
+        >
+          <Loader
+            status="ERROR"
+          >
+            <div
+              className="loader-root"
+            >
+              <MessageBox
+                icontype="error-circle-o"
+                key="2-error"
+                msg="some error"
+              >
+                <div
+                  className="message-box-root"
+                >
+                  <div
+                    className="pficon pficon-error-circle-o message-box-content message-box-icon"
+                  />
+                  <div
+                    className="message-box-content message-box-message"
+                  >
+                    some error
+                  </div>
+                </div>
+              </MessageBox>
+            </div>
+          </Loader>
+          <ChartModal
+            chart={
+              Object {
+                "id": "2",
+              }
+            }
+            config={Object {}}
+            errorText="some error"
+            id="2"
+            noDataMsg="no data"
+            onEnter={undefined}
+            onHide={[Function]}
+            show={false}
+            status="ERROR"
+            title={undefined}
+          >
+            <Modal
+              animation={true}
+              autoFocus={true}
+              backdrop={true}
+              bsClass="modal"
+              dialogComponentClass={[Function]}
+              enforceFocus={true}
+              keyboard={true}
+              manager={
+                ModalManager {
+                  "add": [Function],
+                  "containers": Array [],
+                  "data": Array [],
+                  "handleContainerOverflow": true,
+                  "hideSiblingNodes": true,
+                  "isTopModal": [Function],
+                  "modals": Array [],
+                  "remove": [Function],
+                }
+              }
+              onEnter={[Function]}
+              onHide={[Function]}
+              renderBackdrop={[Function]}
+              restoreFocus={true}
+              show={false}
+            >
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropClassName="modal-backdrop"
+                backdropTransitionTimeout={150}
+                containerClassName="modal-open"
+                dialogTransitionTimeout={300}
+                enforceFocus={true}
+                keyboard={true}
+                manager={
+                  ModalManager {
+                    "add": [Function],
+                    "containers": Array [],
+                    "data": Array [],
+                    "handleContainerOverflow": true,
+                    "hideSiblingNodes": true,
+                    "isTopModal": [Function],
+                    "modals": Array [],
+                    "remove": [Function],
+                  }
+                }
+                onEnter={[Function]}
+                onEntering={[Function]}
+                onExited={[Function]}
+                onHide={[Function]}
+                renderBackdrop={[Function]}
+                restoreFocus={true}
+                show={false}
+                transition={[Function]}
+              />
+            </Modal>
+          </ChartModal>
+        </div>
+      </PanelBody>
+    </div>
+  </Panel>
+</ChartBox>
+`;
+
+exports[`ChartBox pending 1`] = `
+<ChartBox
+  chart={
+    Object {
+      "id": "2",
+    }
+  }
+  errorText="some error"
+  id="2"
+  noDataMsg="no data"
+  status="PENDING"
+>
+  <Panel
+    className="statistics-charts-list-panel"
+    key="2"
+  >
+    <div
+      className="panel panel-default statistics-charts-list-panel"
+    >
+      <PanelHeading
+        className="statistics-charts-list-heading"
+        data-placement="top"
+        data-toggle="tooltip"
+        onClick={[Function]}
+        title={undefined}
+      >
+        <div
+          className="panel-heading statistics-charts-list-heading"
+          data-toggle="tooltip"
+          onClick={[Function]}
+          title={undefined}
+        >
+          <PanelTitle
+            text={undefined}
+          >
+            <h3
+              className="panel-title "
+            />
+          </PanelTitle>
+        </div>
+      </PanelHeading>
+      <PanelBody
+        className="statistics-charts-list-body"
+      >
+        <div
+          className="panel-body statistics-charts-list-body"
+        >
+          <Loader
+            status="PENDING"
+          >
+            <div
+              className="loader-root"
+            >
+              <div
+                className="spinner spinner-lg"
+              />
+            </div>
+          </Loader>
+          <ChartModal
+            chart={
+              Object {
+                "id": "2",
+              }
+            }
+            config={Object {}}
+            errorText="some error"
+            id="2"
+            noDataMsg="no data"
+            onEnter={undefined}
+            onHide={[Function]}
+            show={false}
+            status="PENDING"
+            title={undefined}
+          >
+            <Modal
+              animation={true}
+              autoFocus={true}
+              backdrop={true}
+              bsClass="modal"
+              dialogComponentClass={[Function]}
+              enforceFocus={true}
+              keyboard={true}
+              manager={
+                ModalManager {
+                  "add": [Function],
+                  "containers": Array [],
+                  "data": Array [],
+                  "handleContainerOverflow": true,
+                  "hideSiblingNodes": true,
+                  "isTopModal": [Function],
+                  "modals": Array [],
+                  "remove": [Function],
+                }
+              }
+              onEnter={[Function]}
+              onHide={[Function]}
+              renderBackdrop={[Function]}
+              restoreFocus={true}
+              show={false}
+            >
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropClassName="modal-backdrop"
+                backdropTransitionTimeout={150}
+                containerClassName="modal-open"
+                dialogTransitionTimeout={300}
+                enforceFocus={true}
+                keyboard={true}
+                manager={
+                  ModalManager {
+                    "add": [Function],
+                    "containers": Array [],
+                    "data": Array [],
+                    "handleContainerOverflow": true,
+                    "hideSiblingNodes": true,
+                    "isTopModal": [Function],
+                    "modals": Array [],
+                    "remove": [Function],
+                  }
+                }
+                onEnter={[Function]}
+                onEntering={[Function]}
+                onExited={[Function]}
+                onHide={[Function]}
+                renderBackdrop={[Function]}
+                restoreFocus={true}
+                show={false}
+                transition={[Function]}
+              />
+            </Modal>
+          </ChartModal>
+        </div>
+      </PanelBody>
+    </div>
+  </Panel>
+</ChartBox>
+`;

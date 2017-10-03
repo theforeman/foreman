@@ -6,7 +6,6 @@ export const initialState = Immutable({
   }
 });
 
-export const emptyHtml = '<div class="toast-notifications-list-pf"></div>';
 export const singleMessageState = Immutable({
   toasts: {
     messages: {
