@@ -11,8 +11,7 @@
       <% end %>
     </div>
   <% end %>
-  <%= textarea_f f, :key, :size => 'col-md-8', :rows=> '3', :autofocus => true %>
+  <%= textarea_f f, :key, :size => 'col-md-8', :rows=> '3', :autofocus => true, :onfocusout => "tfm.sshKeys.autofillSshKeyName()" %>
   <%= text_f f, :name, :focus_on_load => false %>
   <%= submit_or_cancel f, false, :cancel_path => edit_user_path(@user) %>
-  <%= javascript_tag("$('#ssh_key_key').on('focusout', tfm.sshKeys.autofillSshKeyName);"); %>
 <% end %>
