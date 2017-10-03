@@ -1,12 +1,17 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 import React from 'react';
 import {shallow, mount} from 'enzyme';
+import toJson from 'enzyme-to-json';
 import Notifications from './';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import {getStore} from '../../redux';
 import {
   emptyState,
-  emptyHtml,
   componentMountData,
   stateWithoutNotifications,
   stateWithNotifications,
@@ -54,7 +59,7 @@ describe('notifications', () => {
 
     const box = shallow(<Notifications store={store} />);
 
-    expect(box.render().html()).toEqual(emptyHtml);
+    expect(toJson(box)).toMatchSnapshot();
   });
 
   it('should render empty html for state before notifications', () => {
@@ -62,14 +67,14 @@ describe('notifications', () => {
 
     const box = shallow(<Notifications store={store} />);
 
-    expect(box.render().find('.drawer-pf').length).toEqual(0);
+    expect(toJson(box)).toMatchSnapshot();
   });
 
   it('should render full html on a state with notifications', () => {
     const store = mockStore(stateWithNotifications);
     const box = shallow(<Notifications store={store} />);
 
-    expect(box.render().find('.drawer-pf-notification').length).toEqual(1);
+    expect(toJson(box)).toMatchSnapshot();
   });
 
   it('should display full bell on a state with unread notifications', () => {

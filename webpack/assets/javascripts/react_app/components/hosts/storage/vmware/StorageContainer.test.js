@@ -1,3 +1,8 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 import React from 'react';
 import { mount } from 'enzyme';
 import { vmwareData, hiddenFieldValue } from './StorageContainer.fixtures';
@@ -27,7 +32,7 @@ describe('StorageContainer', () => {
       wrapper.render().find('.disk-container').length
     ).toEqual(1);
 
-    wrapper.find('.btn-add-disk').simulate('click');
+    wrapper.find('button.btn-add-disk').simulate('click');
 
     expect(
       wrapper.render().find('.disk-container').length
@@ -39,7 +44,7 @@ describe('StorageContainer', () => {
       wrapper.render().find('.controller-container').length
     ).toEqual(1);
 
-    wrapper.find('.btn-add-controller').simulate('click');
+    wrapper.find('button.btn-add-controller').simulate('click');
 
     expect(
       wrapper.render().find('.controller-container').length
@@ -51,7 +56,7 @@ describe('StorageContainer', () => {
       wrapper.render().find('.controller-container').length
     ).toEqual(1);
 
-    wrapper.find('.btn-remove-controller').simulate('click');
+    wrapper.find('button.btn-remove-controller').simulate('click');
 
     expect(
       wrapper.render().find('.controller-container').length
@@ -63,7 +68,7 @@ describe('StorageContainer', () => {
       wrapper.render().find('.controller-container').length
     ).toEqual(1);
 
-    wrapper.find('.btn-remove-controller').simulate('click');
+    wrapper.find('button.btn-remove-controller').simulate('click');
 
     expect(
       wrapper.render().find('.controller-container').length

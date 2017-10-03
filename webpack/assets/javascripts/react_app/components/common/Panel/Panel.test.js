@@ -1,7 +1,13 @@
+// Configure Enzyme
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+configure({ adapter: new Adapter() });
+
 jest.unmock('./Panel');
 
 import React from 'react';
 import {mount, shallow} from 'enzyme';
+import toJson from 'enzyme-to-json';
 import Panel from './Panel';
 import PanelHeading from './PanelHeading';
 import PanelTitle from './PanelTitle';
@@ -39,7 +45,7 @@ describe('Panel', () => {
     it('Panel composition', () => {
       const wrapper = mountPanel();
 
-      expect(wrapper.children().length).toBe(3);
+      expect(toJson(wrapper)).toMatchSnapshot();
     });
     it('Panel component', () => {
       const wrapper = getPanel();
@@ -128,21 +134,10 @@ describe('Panel', () => {
       );
     }
 
-    it('renders correct text', () => {
+    it('renders correct text, style, and children', () => {
       const footer = getFooter();
 
-      expect(footer.text()).toBe('This is the footer');
-    });
-    it('has no children', () => {
-      const footer = getFooter();
-
-      expect(footer.children().length).toBe(1);
-      expect(footer.childAt(0).node).toBe('This is the footer');
-    });
-    it('is styled correctly', () => {
-      const footer = getFooter();
-
-      expect(footer.is('.panel-footer')).toBe(true);
+      expect(toJson(footer)).toMatchSnapshot();
     });
   });
 });

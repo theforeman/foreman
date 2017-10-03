@@ -5,19 +5,14 @@ import { connect } from 'react-redux';
 import { map } from 'lodash';
 
 class ToastsList extends Component {
-
   render() {
     const { messages, deleteToast } = this.props;
 
     return (
       <div className="toast-notifications-list-pf">
-        {
-          map(
-            messages,
-            toast => <Toast {...toast}
-                      dismiss={deleteToast.bind(this, toast.key)} />
-          )
-        }
+        {map(messages, (toast, key) => (
+          <Toast {...toast} key={key} dismiss={deleteToast.bind(this, toast.key)} />
+        ))}
       </div>
     );
   }
