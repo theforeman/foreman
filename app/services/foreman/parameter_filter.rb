@@ -16,7 +16,7 @@ module Foreman
       Foreman::Plugin.all.each do |plugin|
         plugin.parameter_filters(resource_class).each do |filter|
           if filter.last.is_a?(Proc)
-            filter_block = filter.pop
+            *filter, filter_block = filter
             permit(*filter, &filter_block)
           else
             permit(*filter)
