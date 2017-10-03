@@ -168,6 +168,7 @@ class AuthSourceLdap < AuthSource
 
   def sanitize_use_netgroups
     self.use_netgroups = false if server_type.to_s == 'active_directory'
+    true
   end
 
   def set_defaults
