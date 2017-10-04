@@ -3,24 +3,9 @@ class FactValuesController < ApplicationController
   include Foreman::Controller::CsvResponder
 
   before_action :setup_search_options, :only => :index
+  before_action :find_facts, :only => :index
 
   def index
-    values = resource_base_search_and_page.my_facts
-
-    conds = (original_search_parameter || '').split(/AND|OR/i)
-    conds = conds.flatten.reject { |c| c.include?('host') }
-
-    if (parent = params[:parent_fact]).present? && (@parent = ::FactName.where(:name => parent)).present?
-      values = values.with_fact_parent_id(@parent.map(&:id))
-      @parent = @parent.first
-    elsif conds.present?
-      values
-    else
-      values = values.root_only
-    end
-
-    @fact_values = values.no_timestamp_facts
-
     respond_to do |format|
       format.html do
         @fact_values = @fact_values.preload(related_tables).paginate(:page => params[:page], :per_page => params[:per_page])
@@ -37,6 +22,25 @@ class FactValuesController < ApplicationController
   end
 
   private
+
+  def find_facts
+    @parent = FactName.where(:name => params[:parent_fact]).first
+    values = resource_base_search_and_page.my_facts.no_timestamp_facts
+
+    @fact_values = if @parent
+                     values.with_fact_parent_id(@parent)
+                   elsif has_conditions? || request.format.csv?
+                     values
+                   else
+                     values.root_only
+                   end
+  end
+
+  def has_conditions?
+    (original_search_parameter || '').split(/AND|OR/i)
+      .flatten.reject { |c| c.include?('host') }
+      .present?
+  end
 
   def controller_permission
     'facts'
