@@ -323,18 +323,24 @@ module ApplicationHelper
     # the no-buttons code is needed for users with less permissions
     args = args.flatten.select(&:present?)
     return if args.blank?
+    button_classes = %w(btn btn-default)
+    button_classes << 'btn-primary' if options[:primary]
 
     content_tag(:div, options.merge(:class=>'btn-group')) do
       #single button
       if args.length == 1
-        content_tag(:span, args[0], :class => 'btn btn-default').html_safe
+        content_tag(:span, args[0], :class => button_classes).html_safe
       #multiple options
       else
-        link_to((title + " " + content_tag(:span, '', :class => 'caret')).html_safe, '#',
-              :class => "btn btn-default dropdown-toggle", :'data-toggle' => 'dropdown') +
-             content_tag(:ul, :class=>"dropdown-menu pull-right") do
-               args.map{ |option| content_tag(:li,option) }.join(" ").html_safe
-             end
+        button_classes << 'dropdown-toggle'
+        title = (title + " " + content_tag(:span, '', :class => 'caret'))
+        button = link_to(title.html_safe, '#',
+                         :class => button_classes,
+                         :'data-toggle' => 'dropdown')
+        dropdown_list = content_tag(:ul, :class=>"dropdown-menu pull-right") do
+          args.map { |option| content_tag(:li,option) }.join(" ").html_safe
+        end
+        button + dropdown_list
       end
     end
   end
