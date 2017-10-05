@@ -359,7 +359,17 @@ attribute75:
   category: Setting::Notification
   default: "http://theforeman.org/feed.xml"
   description: 'Default URL for RSS feed notifications'
-attributes76:
+attribute76:
+  name: default_pxe_item_global
+  category: Setting::Provisioning
+  default: "local"
+  description: 'Default PXE global template entry'
+attribute77:
+  name: default_pxe_item_local
+  category: Setting::Provisioning
+  default: "local_chain_hd0"
+  description: 'Default PXE local template entry'
+attributes78:
   name: excluded_facts
   category: Setting::Provisioning
   default: "['lo', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"

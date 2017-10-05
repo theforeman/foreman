@@ -206,22 +206,40 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
-  def test_register_allowed_template_helpers_and_variables
+  def test_register_allowed_template_helpers
     refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
-    refute_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
-
     @klass.register :foo do
       allowed_template_helpers :my_helper
+    end
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
+  ensure
+    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
+  end
+
+  def test_register_allowed_template_variables
+    refute_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+    @klass.register :foo do
       allowed_template_variables :my_variable
     end
     # simulate application start
     @klass.find(:foo).to_prepare_callbacks.each(&:call)
-
-    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
     assert_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
   ensure
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
+    Foreman::Renderer::ALLOWED_VARIABLES.delete(:my_variable)
+  end
+
+  def test_register_allowed_global_settings
+    refute_includes Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS, :my_global_setting
+    @klass.register :foo do
+      allowed_template_global_settings :my_global_setting
+    end
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    assert_includes Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS, :my_global_setting
+  ensure
+    Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS.delete(:my_global_setting)
   end
 
   def test_extend_rendering_helpers

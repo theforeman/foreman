@@ -315,6 +315,13 @@ module Foreman #:nodoc:
       end
     end
 
+    # List of global settings allowed for templates
+    def allowed_template_global_settings(*settings)
+      in_to_prepare do
+        Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS.concat(settings).uniq!
+      end
+    end
+
     # List of modules which public methods will be available during template rendering
     # including safe mode
     def extend_template_helpers(*mods)
