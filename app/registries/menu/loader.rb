@@ -92,6 +92,10 @@ module Menu
           end
         end
       end
+
+      Manager.map :labs_menu do |menu|
+        menu.sub_menu :lab_features_menu, :caption => N_('Lab Features'), :icon => 'fa fa-flask'
+      end
     end
   end
 end

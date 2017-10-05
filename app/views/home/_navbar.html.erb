@@ -3,7 +3,13 @@
   nav-pf-persistent-secondary">
   <ul class="list-group">
     <%= render_vertical_menu :top_menu %>
+
+    <% if Setting[:lab_features] %>
+      <%= render_vertical_menu :labs_menu %>
+    <% end %>
+
     <%= render_vertical_menu :admin_menu %>
+
     <%= render "home/vertical_taxonomies", :taxonomy_type => "location", :icon_name => "fa fa-globe" if SETTINGS[:locations_enabled]  %>
     <%= render "home/vertical_taxonomies", :taxonomy_type => "organization", :icon_name => "fa fa-building" if SETTINGS[:organizations_enabled]  %>
   </ul>
