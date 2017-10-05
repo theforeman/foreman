@@ -1,7 +1,9 @@
 require 'ostruct'
 module ReportsHelper
   def reported_at_column(record)
-    link_to date_time_relative(record.reported_at).html_safe, config_report_path(record)
+    link_to config_report_path(record) do
+      date_time_relative(record.reported_at)
+    end
   end
 
   def report_event_column(event, style = "")

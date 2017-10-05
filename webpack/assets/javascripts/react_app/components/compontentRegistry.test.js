@@ -45,12 +45,40 @@ describe('Component registry', () => {
     expect(componentRegistry.getComponent(second)).toBeTruthy();
   });
 
-  it('should return component markup', () => {
-    const name = 'MarkupComponent';
+  describe('markup', () => {
+    it('should return component markup', () => {
+      const name = 'MarkupComponent';
 
-    componentRegistry.register({ name, type: FakeComponent, store: false });
-    const markup = componentRegistry.markup(name, { fakeData: true }, {});
+      componentRegistry.register({
+        name, type: FakeComponent, store: true, data: true,
+      });
+      const markup = componentRegistry.markup(name, {
+        data: { fakeData: true },
+        store: {},
+        wrapper(component) { return component; },
+      });
 
-    expect(markup).toEqual(<FakeComponent data={{ fakeData: true }} store={undefined} />);
+      expect(markup).toEqual(<FakeComponent />);
+    });
+
+    it('should use default wrapper', () => {
+      const name = 'WrappedMarkupComponent';
+
+      componentRegistry.register({
+        name, type: FakeComponent, store: true, data: true,
+      });
+      componentRegistry.defaultWrapper = jest.fn((component, data, store) => cmp => cmp);
+
+      componentRegistry.markup(name, {
+        data: 'DATA',
+        store: 'STORE',
+      });
+
+      expect(componentRegistry.defaultWrapper).toBeCalledWith(
+        componentRegistry.getComponent(name),
+        'DATA',
+        'STORE',
+      );
+    });
   });
 });

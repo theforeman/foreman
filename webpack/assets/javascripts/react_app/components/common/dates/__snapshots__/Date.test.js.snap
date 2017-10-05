@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date formats date 1`] = `
+<Date
+  data={
+    Object {
+      "date": 2017-10-13T11:54:55.000Z,
+      "default": "Default value",
+    }
+  }
+>
+  <span
+    title="15 days ago"
+  >
+    <FormattedDate
+      day="2-digit"
+      month="2-digit"
+      timeZone="UTC"
+      value={2017-10-13T11:54:55.000Z}
+      year="numeric"
+    >
+      <span>
+        10/13/2017
+      </span>
+    </FormattedDate>
+  </span>
+</Date>
+`;
+
+exports[`Date renders default value 1`] = `
+<Date
+  data={
+    Object {
+      "date": null,
+      "default": "Default value",
+    }
+  }
+>
+  <span>
+    Default value
+  </span>
+</Date>
+`;

@@ -6,4 +6,7 @@ export default {
     });
   },
   noop: Function.prototype, // empty function
+  getDisplayName(Component) {
+    return Component.displayName || Component.name || 'Component';
+  },
 };
