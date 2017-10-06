@@ -29,5 +29,7 @@ subjectAltName = @alt_names
 DNS.1 = www.example.com
 DNS.2 = www.example.net
 DNS.3 = www.example.org
+IP.1 = 192.168.1.1
+IP.2 = 2001:0db8:0000:0000::0001
 
 # vim:ft=config
