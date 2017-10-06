@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-09-12 08:25+0000\n"
-"Last-Translator: francis <hackgo@gmail.com>\n"
+"PO-Revision-Date: 2017-09-19 16:40+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -4592,6 +4592,9 @@ msgstr "Cargando información de máquina virtual..."
 msgid "Loading virtual machines information ..."
 msgstr "Cargando información de máquinas virtuales..."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr "Hora local"
 
@@ -5793,9 +5796,6 @@ msgstr "Permiso"
 
 msgid "Permission denied"
 msgstr "Permiso denegado"
-
-msgid "Permissions must be of same resource type"
-msgstr "Los permisos deben ser del mismo tipo de recursos"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -7426,6 +7426,9 @@ msgstr "Plantilla bloqueada"
 
 msgid "Template syntax"
 msgstr "Sintaxis de la plantilla"
+
+msgid "Template that will be selected as %s default for local boot."
+msgstr ""
 
 msgid "Template unlocked"
 msgstr "Plantilla desbloqueada"
@@ -9274,6 +9277,9 @@ msgstr "Debe ir separado por comas"
 
 msgid "must be integer"
 msgstr "debe ser un entero"
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr "debe ser del tipo Subred::Ipv4."

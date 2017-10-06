@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-09-11 19:34+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2017-09-23 19:09+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -4573,6 +4573,9 @@ msgstr "正在加载虚拟机信息......"
 msgid "Loading virtual machines information ..."
 msgstr "正在加载虚拟机的详细信息..."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr "本地时间"
 
@@ -5774,9 +5777,6 @@ msgstr "权限"
 
 msgid "Permission denied"
 msgstr "权限不足"
-
-msgid "Permissions must be of same resource type"
-msgstr "权限必须是同样的资源类型"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -7407,6 +7407,9 @@ msgstr "模板已锁定"
 
 msgid "Template syntax"
 msgstr "模板语法"
+
+msgid "Template that will be selected as %s default for local boot."
+msgstr ""
 
 msgid "Template unlocked"
 msgstr "模板解锁"
@@ -9259,6 +9262,9 @@ msgstr "必须用逗号隔开"
 
 msgid "must be integer"
 msgstr "必须是整型"
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr "必须是类型 Subnet::Ipv4。"

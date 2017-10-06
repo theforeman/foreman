@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-09-11 19:07+0000\n"
+"PO-Revision-Date: 2017-09-20 11:08+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -4567,6 +4567,9 @@ msgstr "가상 머신 정보 로딩 중 ..."
 msgid "Loading virtual machines information ..."
 msgstr "가상 머신 정보 로딩 중 ..."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr "현지 시간"
 
@@ -5768,9 +5771,6 @@ msgstr "권한 "
 
 msgid "Permission denied"
 msgstr "권한이 거부되었습니다"
-
-msgid "Permissions must be of same resource type"
-msgstr "권한은 동일한 리소스 유형이어야 합니다 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -7400,6 +7400,9 @@ msgid "Template locked"
 msgstr "템플릿 잠금 "
 
 msgid "Template syntax"
+msgstr ""
+
+msgid "Template that will be selected as %s default for local boot."
 msgstr ""
 
 msgid "Template unlocked"
@@ -9247,6 +9250,9 @@ msgstr ""
 
 msgid "must be integer"
 msgstr "정수여야 합니다 "
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr ""
