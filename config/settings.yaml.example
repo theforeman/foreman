@@ -65,3 +65,9 @@
 #    :enabled: true
 #  :dynflow:
 #    :enabled: true
+
+#
+# Configure how many workers should dynflow use to handle incoming requests.
+#
+# :dynflow:
+#   :pool_size: 5
