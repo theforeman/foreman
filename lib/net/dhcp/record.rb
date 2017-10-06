@@ -1,6 +1,6 @@
 module Net::DHCP
   class Record < Net::Record
-    attr_accessor :name, :ip, :mac, :network, :nextServer, :filename, :related_macs
+    attr_accessor :name, :ip, :mac, :network, :nextServer, :filename, :related_macs, :type
 
     def initialize(opts = { })
       super(opts)
@@ -8,6 +8,19 @@ module Net::DHCP
       self.mac     = Net::Validations.validate_mac! self.mac
       self.network = Net::Validations.validate_network! self.network
       self.ip      = Net::Validations.validate_ip! self.ip
+      self.type    = opts["type"]
+    end
+
+    def legacy_dhcp_api?
+      type.nil?
+    end
+
+    def lease?
+      type && type == "lease"
+    end
+
+    def reservation?
+      !lease?
     end
 
     def to_s
@@ -41,7 +54,7 @@ module Net::DHCP
 
     # Returns an array of record objects which are conflicting with our own
     def conflicts
-      conflicts = [proxy.record(network, mac), proxy.records_by_ip(network, ip)].flatten.compact.delete_if { |c| c == self || related_macs.include?(c.mac) }
+      conflicts = [proxy.record(network, mac), proxy.records_by_ip(network, ip)].flatten.compact.delete_if { |c| c.lease? || c == self || related_macs.include?(c.mac) }
       @conflicts ||= conflicts.uniq {|c| c.attrs}
     end
 
@@ -57,8 +70,10 @@ module Net::DHCP
 
       # If we're converting an 'ad-hoc' lease created by a host booting outside of Foreman's knowledge,
       # then :hostname will be blank on the incoming lease - if the ip/mac still match, then this
-      # isn't a conflict.
-      to_compare << :hostname if other.attrs[:hostname].present? && attrs[:hostname].present?
+      # isn't a conflict. Only applicable on legacy proxy API without "type" attribute.
+      if legacy_dhcp_api?
+        to_compare << :hostname if other.attrs[:hostname].present? && attrs[:hostname].present?
+      end
 
       # Not all DHCP smart-proxy providers support TFTP filename option (e.g. libvirt).
       to_compare << :filename if other.attrs[:filename].present? && attrs[:filename].present?
@@ -68,9 +83,16 @@ module Net::DHCP
     end
 
     def attrs
-      { :hostname   => hostname, :mac => mac, :ip => ip, :network => network,
-        :nextServer => nextServer, :filename => filename, :name => name,
-        :related_macs => related_macs
+      {
+        :hostname => hostname,
+        :mac => mac,
+        :ip => ip,
+        :network => network,
+        :nextServer => nextServer,
+        :filename => filename,
+        :name => name,
+        :related_macs => related_macs,
+        :type => type
       }.delete_if { |k, v| v.nil? }
     end
   end
