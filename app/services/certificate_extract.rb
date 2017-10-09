@@ -17,6 +17,10 @@ class CertificateExtract
         sequence = OpenSSL::ASN1.decode(ostr.value)
         sequence.value.each do |san|
           @subject_alternative_names << san.value if san.tag == 2 # dNSName in RFC5280
+          if san.tag == 7 # iPAddress in RFC5280
+            @subject_alternative_names << san.value.unpack('C*').join('.') if san.value.size == 4 # IPv4
+            @subject_alternative_names << san.value.unpack('n*').map { |e| sprintf("%X", e) }.join(':') if san.value.size == 16 # IPv6
+          end
         end
       end
       @subject_alternative_names
