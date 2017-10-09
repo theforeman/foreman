@@ -272,6 +272,7 @@ module Api
       allowed_nested_id.each do |obj_id|
         if params[obj_id].present?
           not_found _("%{resource_name} not found by id '%{id}'") % { :resource_name => obj_id.humanize, :id => params[obj_id] }
+          return
         end
       end
     end
