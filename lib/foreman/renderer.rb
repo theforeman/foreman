@@ -155,8 +155,8 @@ module Foreman
       resolver = Resolv::DNS.new
       Timeout.timeout(Setting[:dns_conflict_timeout]) do
         begin
-          resolver.getname(IPAddr.new(name_or_ip))
-        rescue IPAddr::Error
+          resolver.getname(name_or_ip)
+        rescue Resolv::ResolvError
           resolver.getaddress(name_or_ip)
         end
       end
