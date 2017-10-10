@@ -191,6 +191,8 @@ yum -t -y remove kernel-uek*
 sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/kernel
 <% end -%>
 
+<%= snippet('ansible_provisioning_callback') %>
+
 sync
 
 # Inform the build system that we are done.

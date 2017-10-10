@@ -1,4 +1,11 @@
+2017-10-10	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+
+2017-10-10	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #21269 - fixed dns_lookup with address resolution
+
 2017-10-06	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.5
 	* i18n - extracting new, pulling from tx
 
 2017-10-06	Lukáš Zapletal <lzap@redhat.com>

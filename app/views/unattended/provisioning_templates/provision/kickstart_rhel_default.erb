@@ -164,6 +164,9 @@ fi
 <%= snippet 'saltstack_setup' %>
 <% end -%>
 
+<%= snippet('ansible_provisioning_callback') %>
+
+
 sync
 
 # Inform the build system that we are done.
