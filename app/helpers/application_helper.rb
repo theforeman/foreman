@@ -53,6 +53,7 @@ module ApplicationHelper
   # example of short is Aug 31, 12:52
   def date_time_absolute(time, format = :short)
     raise ArgumentError, "unsupported format '#{format}', use :long or :short" unless %w(long short).include?(format.to_s)
+    return _('N/A') if time.nil?
 
     content_tag :span, :title => date_time_relative_value(time) do
       date_time_absolute_value(time, format)
@@ -62,6 +63,8 @@ module ApplicationHelper
   # this helper should be used to print date time in relative form, e.g. "10 days ago",
   # it will also define a title with absolute time information
   def date_time_relative(time)
+    return _('N/A') if time.nil?
+
     content_tag :span, :title => date_time_absolute_value(time, :long) do
       date_time_relative_value(time)
     end
