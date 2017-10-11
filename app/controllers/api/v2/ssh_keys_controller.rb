@@ -9,7 +9,7 @@ module Api
       before_action :find_resource, :only => %w{show destroy}
 
       api :GET, "/users/:user_id/ssh_keys", N_("List all SSH keys for a user")
-      param :user_id, String, :desc => N_("ID of the user")
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
       param_group :search_and_pagination, ::Api::V2::BaseController
 
       def index
@@ -18,7 +18,7 @@ module Api
 
       api :GET, "/users/:user_id/ssh_keys/:id/", N_("Show an SSH key from a user")
       param :id, :identifier, :required => true
-      param :user_id, String, :desc => N_("ID of the user")
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
 
       def show
       end
