@@ -253,6 +253,27 @@ module Foreman
       @dynflow
     end
 
+    # We need to mount the sprockets engine before we use the routes_reloader
+    initializer(:mount_sprocket_env, :before => :sooner_routes_load) do
+      if config.assets.compile
+        app = Rails.application
+        if Sprockets::Railtie.instance.respond_to?(:build_environment)
+          app.assets = Sprockets::Railtie.instance.build_environment(app, true)
+        end
+        routes.prepend do
+          mount app.assets => app.config.assets.prefix
+        end
+      end
+    end
+
+    # We use the routes_reloader before the to_prepare and eager_load callbacks
+    # to make the routes load sooner than the controllers. Otherwise, the definition
+    # of named routes helpers in the module significantly slows down the startup
+    # of the application. Switching the order helps a lot.
+    initializer(:sooner_routes_load, :before => :run_prepare_callbacks) do
+      routes_reloader.execute_if_updated
+    end
+
     config.after_initialize do
       dynflow = Rails.application.dynflow
       dynflow.eager_load_actions!
