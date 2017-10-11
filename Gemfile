@@ -15,7 +15,7 @@ else
   raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
 end
 
-gem 'rest-client', '>= 1.8.0', '< 3', :require => 'rest_client'
+gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
 gem 'audited', '~> 4.3'
 gem 'will_paginate', '~> 3.0'
 gem 'ancestry', '>= 2.0', '< 4'
