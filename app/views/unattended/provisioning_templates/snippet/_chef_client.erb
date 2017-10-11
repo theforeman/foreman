@@ -7,4 +7,4 @@ description: this is a single entry point for chef-client bootstrapping, it sele
     if there's no strategy set, omnibus is used by default
 %>
 echo "Bootstraping chef"
-<%= snippet_if_exists(@host.params['chef_bootstrap_template'] || 'chef-client omnibus bootstrap') %>
+<%= snippet_if_exists(host_param('chef_bootstrap_template') || 'chef-client omnibus bootstrap') %>

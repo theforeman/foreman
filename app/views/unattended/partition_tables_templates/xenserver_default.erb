@@ -5,7 +5,7 @@ oses:
 - XenServer
 -%>
 <%
-  gueststorage = @host.params['gueststorage'] || 'yes'
-  primary_disk = @host.params['install-disk'] || 'sda'
+  gueststorage = host_param('gueststorage') || 'yes'
+  primary_disk = host_param('install-disk') || 'sda'
 -%>
   <primary-disk gueststorage="<%= gueststorage %>"><%= primary_disk %></primary-disk>

@@ -5,7 +5,9 @@ model: ProvisioningTemplate
 kind: snippet
 -%>
 <%- bonded_interfaces = [] -%>
+<%- bonding_interfaces = [] -%>
 <%- @host.bond_interfaces.each do |bond| -%>
+<%-   bonding_interfaces.push(bond.identifier) -%>
 <%=   "# #{bond.identifier} interface" %>
 <%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :identifier => bond.identifier }) %>
 <%-   ifcfg = snippet('kickstart_ifcfg_bond_interface', :variables => {
@@ -40,6 +42,7 @@ kind: snippet
                         :interface => interface,
                         :subnet => interface.subnet,
                         :subnet6 => interface.subnet6,
+                        :bonding_interfaces => bonding_interfaces,
                         :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode? }) %>
 <%=   save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
 <%- end %>

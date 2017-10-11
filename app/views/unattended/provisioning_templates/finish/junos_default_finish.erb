@@ -4,7 +4,7 @@ name: Junos default finish
 -%>
 system {
     host-name <%= @host %>;
-    time-zone <%= @host.params['time-zone'] || 'Etc/UTC' %>;
+    time-zone <%= host_param('time-zone') || 'Etc/UTC' %>;
     root-authentication {
         encrypted-password "<%= root_pass %>"; ## SECRET-DATA
     }
@@ -15,8 +15,8 @@ system {
         <% end -%>
     }
     ntp {
-        boot-server <%= @host.params['ntp-server'] || '0.pool.ntp.org' %>;
-        server <%= @host.params['ntp-server'] || '0.pool.ntp.org' %>;
+        boot-server <%= host_param('ntp-server') || '0.pool.ntp.org' %>;
+        server <%= host_param('ntp-server') || '0.pool.ntp.org' %>;
     }
     login {
         message "This device was provisioned by using The Foreman!\nSee http://theforeman.org/ for further information.\n";

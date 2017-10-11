@@ -2,7 +2,7 @@
 kind: snippet
 name: saltstack_minion
 %>
-master: <%= @host.params['salt_master'] %>
+master: <%= host_param('salt_master') %>
 log_level: warning
 
 <%#
@@ -14,4 +14,4 @@ log_level: warning
 # * {'roles': ['webserver', 'frontend']}
 #
 %>
-grains: <%= @host.params['salt_grains'] ? @host.params['salt_grains'] : '{}' %>
+grains: <%= host_param('salt_grains') ? host_param('salt_grains') : '{}' %>

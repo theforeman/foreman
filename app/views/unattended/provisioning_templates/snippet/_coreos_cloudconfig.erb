@@ -5,10 +5,10 @@ name: coreos_cloudconfig
 %>
 <%
   units = 0
-  unless @host.param_false?('enable_etcd')
+  unless host_param_false?('enable_etcd')
     units += 1
   end
-  if @host.param_true?('expose_docker_socket')
+  if host_param_true?('expose_docker_socket')
     units += 1
   end
   if @host.subnet.respond_to?(:dhcp_boot_mode?)
@@ -22,14 +22,14 @@ name: coreos_cloudconfig
 -%>
 <% if units > 0 -%>
       coreos:
-<% if @host.params['reboot-strategy'] -%>
+<% if host_param('reboot-strategy') -%>
         update:
-          reboot-strategy: <%= @host.params['reboot-strategy'] %>
+          reboot-strategy: <%= host_param('reboot-strategy') %>
 <% end -%>
-<% unless @host.param_false?('enable_etcd') -%>
+<% unless host_param_false?('enable_etcd') -%>
         etcd2:
-<% if @host.params['etcd_discovery_url'] -%>
-          discovery: <%= @host.params['etcd_discovery_url'] %>
+<% if host_param('etcd_discovery_url') -%>
+          discovery: <%= host_param('etcd_discovery_url') %>
 <% end -%>
           advertise-client-urls: http://<%= @host.ip %>:2379
           initial-advertise-peer-urls: http://<%= @host.ip %>:2380
@@ -37,13 +37,13 @@ name: coreos_cloudconfig
           listen-peer-urls: http://0.0.0.0:2380
 <% end -%>
         units:
-<% unless @host.param_false?('enable_etcd') -%>
+<% unless host_param_false?('enable_etcd') -%>
           - name: etcd2.service
             command: start
           - name: fleet.service
             command: start
 <% end -%>
-<% if @host.param_true?('expose_docker_socket') -%>
+<% if host_param_true?('expose_docker_socket') -%>
           - name: docker-tcp.socket
             command: start
             enable: yes
@@ -97,9 +97,9 @@ name: coreos_cloudconfig
             command: restart
 <% end -%>
 <% end -%>
-<% if @host.params['ssh_authorized_keys'] -%>
+<% if host_param('ssh_authorized_keys') -%>
       ssh_authorized_keys:
-  <% @host.params['ssh_authorized_keys'].split(',').map(&:strip).each do |ssh_key| -%>
+  <% host_param('ssh_authorized_keys').split(',').map{ |item| item.strip }.each do |ssh_key| -%>
       - "<%= ssh_key %>"
   <% end -%>
 <% else -%>

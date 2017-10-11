@@ -26,13 +26,13 @@
 # parameter manually.
 # See http://projects.theforeman.org/issues/16107 for details.
 
-<% if !@host.params['remote_execution_ssh_keys'].blank? %>
-<% ssh_user = @host.params['remote_execution_ssh_user'] || 'root' %>
+<% if !host_param('remote_execution_ssh_keys').blank? %>
+<% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
 
 user_exists=false
 getent passwd <%= ssh_user %> >/dev/null 2>&1 && user_exists=true
 
-<% if ssh_user != 'root' && @host.param_true?('remote_execution_create_user') -%>
+<% if ssh_user != 'root' && host_param_true?('remote_execution_create_user') -%>
 if ! $user_exists; then
   useradd -m <%= ssh_user %> && user_exists=true
 fi
@@ -44,7 +44,7 @@ if $user_exists; then
   mkdir -p <%= ssh_path %>
 
   cat << EOF >> <%= ssh_path %>/authorized_keys
-<%= @host.params['remote_execution_ssh_keys'].join("\n") %>
+<%= host_param('remote_execution_ssh_keys').join("\n") %>
 EOF
 
   chmod 0700 <%= ssh_path %>
@@ -54,7 +54,7 @@ EOF
   # Restore SELinux context with restorecon, if it's available:
   command -v restorecon && restorecon -RvF <%= ssh_path %> || true
   
-<% if ssh_user != 'root' && @host.params['remote_execution_effective_user_method'] == 'sudo' -%>
+<% if ssh_user != 'root' && host_param('remote_execution_effective_user_method') == 'sudo' -%>
 <% if @host.operatingsystem.family == 'Redhat' || @host.operatingsystem.family == 'Debian' -%>
 echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL
 Defaults:<%= ssh_user %> !requiretty" > /etc/sudoers.d/<%= ssh_user %>
