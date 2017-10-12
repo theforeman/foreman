@@ -427,15 +427,12 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   context 'default taxonomies' do
-    test 'logging in loads default taxonomies' do
+    test 'accessing a regular page sets default taxonomies' do
       users(:one).update_attributes(:default_location_id     => taxonomies(:location1).id,
                                     :default_organization_id => taxonomies(:organization1).id,
                                     :password                => 'changeme')
 
-      User.expects(:try_to_login).with(users(:one).login, users(:one).password).
-        returns(users(:one).post_successful_login)
-
-      post :login, { :login => { :login => users(:one).login, :password => users(:one).password } }
+      get :index, { }, set_session_user(:one)
       assert_equal session['organization_id'], users(:one).default_organization_id
       assert_equal session['location_id'],     users(:one).default_location_id
     end

@@ -2,7 +2,6 @@ module Api
   module V2
     class HostgroupClassesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
 
       before_action :find_hostgroup, :only => [:index, :create, :destroy]
 

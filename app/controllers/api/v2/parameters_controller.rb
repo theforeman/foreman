@@ -2,7 +2,6 @@ module Api
   module V2
     class ParametersController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Parameter
 
       before_action :find_required_nested_object

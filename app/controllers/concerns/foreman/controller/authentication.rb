@@ -92,8 +92,8 @@ module Foreman::Controller::Authentication
       backup_session_content { reset_session }
       session[:user] = user.id
       update_activity_time
-      Foreman::Controller::UsersMixin.set_current_taxonomies(user, {:session => session})
     end
+    set_taxonomy
     user.present?
   end
 end

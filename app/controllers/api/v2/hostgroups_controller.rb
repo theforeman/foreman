@@ -2,7 +2,6 @@ module Api
   module V2
     class HostgroupsController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Hostgroup
       include ParameterAttributes
 
