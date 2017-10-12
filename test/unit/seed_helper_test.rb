@@ -20,6 +20,35 @@ class SeedHelperTest < ActiveSupport::TestCase
     assert_equal 'new description', role.reload.description
   end
 
+  test "should add new permissions to existing roles" do
+    role_name = 'existing role'
+    SeedHelper.create_role role_name, {:permissions => [:view_domains, :edit_domains]}, 0
+    role = Role.find_by(:name => role_name)
+
+    SeedHelper.create_role role_name, {:permissions => [:edit_domains, :create_domains]}, 0
+    permissions = role.permissions.pluck(:name)
+    # create new permissions
+    assert_includes permissions, 'create_domains'
+    # keeps existing permissions
+    assert_includes permissions, 'edit_domains'
+    # drops additional permissions
+    refute_includes permissions, 'view_domains'
+  end
+
+  test "should not try add new permissions to existing roles if it's explicitly disabled, the permission might not exist e.g. while in migration" do
+    role_name = 'existing role'
+    SeedHelper.create_role role_name, {:permissions => [:view_domains, :edit_domains]}, 0
+    role = Role.find_by(:name => role_name)
+
+    SeedHelper.create_role role_name, {:permissions => [:edit_domains, :create_domains], :update_permissions => false}, 0
+    permissions = role.permissions.pluck(:name)
+    # does not create new permission
+    refute_includes permissions, 'create_domains'
+    # keeps existing permissions
+    assert_includes permissions, 'edit_domains'
+    assert_includes permissions, 'view_domains'
+  end
+
   test "should recognize object was modified" do
     medium = Medium.last
     medium_name = medium.name
