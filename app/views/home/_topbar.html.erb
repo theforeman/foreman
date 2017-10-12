@@ -10,7 +10,7 @@
         <div>
           <ul class="nav navbar-nav navbar-right navbar-header-menu navbar-collapse collapse" id="menu4">
             <%= render_menu :header_menu %>
-            <%= render 'home/user_dropdown' if SETTINGS[:login] %>
+            <%= render 'home/notifications' if SETTINGS[:login] %>
           </ul>
           <% if SETTINGS[:login] %>
             <div id='notification_drawer'> </div>
@@ -41,7 +41,7 @@
           <%= render_menu :top_menu %>
         </ul>
         <ul class="nav navbar-nav navbar-admin navbar-right navbar-collapse collapse" id="menu2">
-          <%= render_menu :admin_menu %>
+          <%= render "home/user_dropdown" if SETTINGS[:login] %>
         </ul>
       <% end %>
     <% end %>
