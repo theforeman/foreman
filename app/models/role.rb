@@ -161,6 +161,7 @@ class Role < ApplicationRecord
         filtering = filter.filterings.build
         filtering.filter = filter
         filtering.permission = permission
+        filtering.save! if options[:save!]
       end
     end
   end
@@ -322,7 +323,7 @@ class Role < ApplicationRecord
   end
 
   def permission_records(permissions)
-    collection = Permission.where(:name => permissions).all
+    collection = Permission.where(:name => permissions.flatten).all
     raise ::Foreman::PermissionMissingException.new(N_('some permissions were not found')) if collection.size != permissions.size
     collection
   end

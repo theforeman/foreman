@@ -50,7 +50,7 @@ class TidyCurrentRoles < ActiveRecord::Migration
   end
 
   def create_from_seeds(name, options)
-    SeedHelper.create_role name, options, 0, false
+    SeedHelper.create_role name, options.merge(:update_permissions => false), 0, false
   end
 
   def process_default_role
