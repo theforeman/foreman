@@ -94,7 +94,9 @@ class PtablesControllerTest < ActionController::TestCase
 
   def setup_edit_user
     @user = User.find_by_login("one")
-    @user.roles = [Role.default, Role.find_by_name('Viewer'), Role.find_by_name('Edit partition tables')]
+    role = FactoryBot.build(:role)
+    role.add_permissions!([:view_locations, :assign_locations, :edit_locations, :view_organizations, :assign_organizations, :edit_organizations])
+    @user.roles = [Role.default, Role.find_by_name('Viewer'), Role.find_by_name('Edit partition tables'), role]
   end
 
   test 'user with editing rights should succeed in editing a partition table' do

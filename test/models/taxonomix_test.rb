@@ -57,8 +57,8 @@ class TaxonomixTest < ActiveSupport::TestCase
   test "#set_current_taxonomy" do
     Organization.stubs(:current).returns(taxonomies(:organization1))
     @dummy.set_current_taxonomy
-    assert_includes @dummy.organizations, taxonomies(:organization1)
-    assert_empty @dummy.locations
+    assert_includes @dummy.organization_ids, taxonomies(:organization1).id
+    assert_empty @dummy.location_ids
   end
 
   describe '.with_taxonomy_scope' do

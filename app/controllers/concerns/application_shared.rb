@@ -34,15 +34,17 @@ module ApplicationShared
       determined_taxonomy = nil
 
       if api_request? # API request
-        if user.admin? && !params.has_key?("#{taxonomy}_id") # admin always uses any context, they can limit the scope with explicit parameters such as organization_id(s)
-          determined_taxonomy = nil
-        elsif params.has_key?("#{taxonomy}_id") # admin and non-admin who specified explicit context
-          determined_taxonomy = available.where(:id => params["#{taxonomy}_id"]).first
+        if params.has_key?("#{taxonomy}_id") # admin and non-admin who specified context explicitly
+          if params["#{taxonomy}_id"].blank? # the key is present and explicitly set to nil which indicates "any" context
+            determined_taxonomy = nil
+          else
+            determined_taxonomy = available.where(:id => params["#{taxonomy}_id"]).first
 
-          # in case admin asked for taxonomy that does not exist or is not accessible, we reply with 404
-          if determined_taxonomy.nil?
-            not_found _("%{taxonomy} with id %{id} not found") % { :taxonomy => taxonomy.capitalize, :id => params["#{taxonomy}_id"] }
-            return false
+            # in case admin or non-admin asked for taxonomy that does not exist or is not accessible, we reply with 404
+            if determined_taxonomy.nil?
+              not_found _("%{taxonomy} with id %{id} not found") % { :taxonomy => taxonomy.capitalize, :id => params["#{taxonomy}_id"] }
+              return false
+            end
           end
         elsif request.session["#{taxonomy}_id"].present? # non-admin who didn't not specify explicit context
           determined_taxonomy = find_session_taxonomy(taxonomy, user)
