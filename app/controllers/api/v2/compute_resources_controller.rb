@@ -148,19 +148,14 @@ module Api
       api :PUT, "/compute_resources/:id/associate/", N_("Associate VMs to Hosts")
       param :id, :identifier, :required => true
       def associate
-        @hosts = []
-        if @compute_resource.respond_to?(:associated_host)
-          @compute_resource.vms(:eager_loading => true).each do |vm|
-            if Host.for_vm(@compute_resource, vm).empty?
-              host = @compute_resource.associated_host(vm)
-              if host.present?
-                host.associate!(@compute_resource, vm)
-                @hosts << host
-              end
-            end
-          end
+        if @compute_resource.supports_host_association?
+          associator = ComputeResourceHostAssociator.new(@compute_resource)
+          associator.associate_hosts
+          @hosts = associator.hosts
+          render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
+        else
+          render_message(_('Associating VMs is not supported for this compute resource'), :status => :unprocessable_entity)
         end
-        render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
       end
 
       api :PUT, "/compute_resources/:id/refresh_cache/", N_("Refresh Compute Resource Cache")

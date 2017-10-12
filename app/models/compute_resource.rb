@@ -361,6 +361,10 @@ class ComputeResource < ApplicationRecord
     true
   end
 
+  def supports_host_association?
+    respond_to?(:associated_host)
+  end
+
   protected
 
   def client

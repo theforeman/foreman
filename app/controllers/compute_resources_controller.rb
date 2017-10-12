@@ -42,19 +42,26 @@ class ComputeResourcesController < ApplicationController
   end
 
   def associate
-    count = 0
-    if @compute_resource.respond_to?(:associated_host)
-      @compute_resource.vms(:eager_loading => true).each do |vm|
-        if Host.for_vm(@compute_resource, vm).empty?
-          host = @compute_resource.associated_host(vm)
-          if host.present?
-            host.associate!(@compute_resource, vm)
-            count += 1
-          end
-        end
+    if @compute_resource.supports_host_association?
+      associator = ComputeResourceHostAssociator.new(@compute_resource)
+      associator.associate_hosts
+      messages = []
+      if associator.hosts.empty?
+        messages << _('No VMs matched any host.')
+      else
+        messages << n_('%s VM was associated to a host.', '%s VMs were each associated to hosts.', associator.hosts.count) % associator.hosts.count
       end
+      if associator.fail_count > 0
+        messages << n_('%s VM failed while processing: check logs for more details.',
+                       '%s VMs failed while processing: check logs for more details.',
+                       associator.fail_count) % associator.fail_count
+        process_error(:error_msg => messages.join(' '))
+      else
+        process_success(:success_msg => messages.join(' '))
+      end
+    else
+      process_error(:error_msg => 'Associating VMs is not supported for this compute resource.')
     end
-    process_success(:success_msg => n_("%s VM associated to a host", "%s VMs associated to hosts", count) % count)
   end
 
   def update
