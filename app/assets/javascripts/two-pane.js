@@ -136,7 +136,6 @@ function hide_columns(){
     $('.table-two-pane').wrap( "<div class='row'><div class='col-md-3 two-pane-left'></div></div>");
   }
   tfm.tools.showSpinner();
-  tfm.toastNotifications.clear()
   $('.two-pane-left').after("<div class='col-md-9 two-pane-right'></div>");
 }
 
@@ -144,6 +143,24 @@ function hide_columns(){
 function right_pane_content(response){
   var contentId;
   if (handle_redirect(response)) return; //session expired redirect to login
+
+  // move notifications to main document
+  var notification_tag = $('#notifications', response)[0];
+  if (notification_tag) {
+    var dest_array = $($('#notifications')[0]).data('flash');
+    var flash_array = $(notification_tag).data('flash');
+    var length = flash_array.length;
+    var i;
+    $(notification_tag).detach();
+    if (dest_array == "") {
+      dest_array = Array();
+    }
+    for (i = 0; i < length; i++){
+      dest_array.push(flash_array[i]);
+    }
+    $('#notifications').data('flash', dest_array);
+    tfm.toastNotifications.clear();
+  }
 
   if (!$("#content", response).length){
     $('.two-pane-right').html(response);
