@@ -35,6 +35,7 @@ class FactValue < ApplicationRecord
   scope :with_roots, -> { joins(:fact_name) }
   scope :root_only, -> { with_roots.where(:fact_names => {:ancestry => nil}) }
 
+  validates_lengths_from_database
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
 
   def self.search_by_host_or_hostgroup(key, operator, value)
