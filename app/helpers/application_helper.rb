@@ -266,7 +266,7 @@ module ApplicationHelper
 
   def flot_pie_chart(name, title, data, options = {})
     data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if data.is_a?(Hash)
-    data.map{|element| element[:label] = truncate(element[:label],:length => 16)}
+    data = Hash[data.keys.map { |name| [ truncate(name, :length => 16), data[name] ] }]
     header = content_tag(:h4,(options[:show_title]) ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
     link_to_function(header, "expand_chart(this)")+
         content_tag(:div, nil,
