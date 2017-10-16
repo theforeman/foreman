@@ -33,7 +33,7 @@ class FactImporter
   def initialize(host, facts = {})
     @error    = false
     @host     = host
-    @facts    = normalize(facts)
+    @facts    = stringify(facts)
     @counters = {}
   end
 
@@ -115,7 +115,7 @@ class FactImporter
     end
   end
 
-  def normalize(facts)
+  def stringify(facts)
     # convert all structures to simple strings
     facts = Hash[facts.map {|k, v| [k.to_s, v.to_s]}]
     # and remove empty values
