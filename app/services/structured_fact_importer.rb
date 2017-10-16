@@ -1,7 +1,7 @@
 class StructuredFactImporter < FactImporter
   def normalize(facts)
-    # Remove empty values first, so nil facts added by normalize_recurse imply compose
-    facts = facts.select { |k, v| v.present? }
+    # Make sure to remove empty values, unless it's a bool false,
+    facts = facts.reject {|k, v| v.nil? unless v.class == FalseClass }
     normalize_recurse({}, facts)
   end
 
