@@ -26,9 +26,13 @@ class HttpProxy < ApplicationRecord
   end
 
   def test_connection(url)
-    raise self.errors.full_messages.join("\n") unless self.valid?
-
-    RestClient::Request.execute(method: :head, url: url, proxy: full_url)
+    RestClient::Request.execute(
+      method: :head,
+      url: url,
+      proxy: full_url,
+      timeout: 5,
+      open_timeout: 5
+    )
   rescue Excon::Error::Socket => e
     e.message
   end
