@@ -21,7 +21,7 @@
 }
 
 .login-page {
-  height: 100%;
+  height: auto;
   background: $primary_color;
   background-size: 100% auto;
   color: #fff;
@@ -40,6 +40,10 @@
     padding-left: 80px;
     position: absolute;
     width: 100%;
+  }
+
+  .login-page {
+    height: 100%;
   }
 }
 
@@ -84,6 +88,11 @@
 @media (min-width: 768px) {
   .login-page .container .login {
     padding-right: 40px;
+  }
+
+  #login_text {
+    max-height: 17em;
+    overflow-y: auto;
   }
 }
 
