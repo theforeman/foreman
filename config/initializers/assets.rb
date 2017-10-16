@@ -17,7 +17,6 @@ Foreman::Application.configure do |app|
                   host_edit_interfaces
                   hosts
                   host_checkbox
-                  http_proxy
                   nfs_visibility
                   noVNC/base64
                   noVNC/des
