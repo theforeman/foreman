@@ -10,6 +10,8 @@ class HttpProxy < ApplicationRecord
 
   has_many :compute_resources
 
+  validates :name, :presence => true
+
   validates :url, :presence => true
   validates :url, :format => URI::regexp(["http", "https"])
 
