@@ -1,11 +1,12 @@
 import $ from 'jquery';
-import { notify } from './foreman_toast_notifications';
+import { notify, clear } from './foreman_toast_notifications';
 
 export function testConnection(item, url) {
   let data = $('form').serialize();
 
   $('#test_connection_indicator').show();
   $(item).addClass('disabled');
+  clear();
   $.ajax({
     url: url,
     type: 'put',
