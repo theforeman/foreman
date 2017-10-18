@@ -21,4 +21,30 @@ class AuditTest < ActiveSupport::TestCase
     audits = Audit.search_for "partition_table = #{template.name}"
     assert_not_nil audits.select { |a| a.action.to_s == 'update' && a.audited_changes['template'].last == 'new content' }
   end
+
+  describe 'audited nics' do
+    let(:host) { FactoryBot.create(:host, :managed, :with_auditing) }
+    let(:nic) { host.primary_interface }
+
+    test 'can be found by ip' do
+      nic
+      audit = Audit.search_for("interface_ip = #{nic.ip}").first
+      assert_equal nic.type, audit.auditable_type
+      assert_equal 'create', audit.action
+    end
+
+    test 'can be found by name' do
+      nic
+      audit = Audit.search_for("interface_fqdn = #{nic.name}").first
+      assert_equal nic.type, audit.auditable_type
+      assert_equal 'create', audit.action
+    end
+
+    test 'can be found by mac' do
+      nic
+      audit = Audit.search_for("interface_mac = #{nic.mac}").first
+      assert_equal nic.type, audit.auditable_type
+      assert_equal 'create', audit.action
+    end
+  end
 end

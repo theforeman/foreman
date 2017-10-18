@@ -62,6 +62,8 @@ module Nic
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
 
+    audited associated_with: :host
+
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
@@ -73,6 +75,11 @@ module Nic
             :link, :tag, :domain, :vlanid, :bond_options, :attached_devices, :mode,
             :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
             :children_mac_addresses, :fqdn, :shortname
+    end
+
+    # include STI inheritance column in audits
+    def self.default_ignored_attributes
+      super - [inheritance_column]
     end
 
     def physical?
@@ -190,6 +197,12 @@ module Nic
       return unless send(subnet_field).present?
       ip_value = send(ip_field)
       ip_value.present? && public_send(subnet_field).contains?(ip_value)
+    end
+
+    def to_audit_label
+      return "#{name} (#{identifier})" if name.present? && identifier.present?
+      return "#{mac} (#{identifier})" if mac.present? && identifier.present?
+      [mac, name, identifier, _('Unnamed')].detect(&:present?)
     end
 
     protected

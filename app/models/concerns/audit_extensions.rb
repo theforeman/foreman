@@ -16,6 +16,7 @@ module AuditExtensions
         :host => 'Host::Base',
         :hostgroup => 'Hostgroup',
         :image => 'Image',
+        :interface => 'Nic::Base',
         :location => 'Location',
         :medium => 'Medium',
         :os => 'Operatingsystem',
@@ -48,6 +49,7 @@ module AuditExtensions
     belongs_to :search_ptables, :class_name => 'Ptable', :foreign_key => :auditable_id
     belongs_to :search_os, :class_name => 'Operatingsystem', :foreign_key => :auditable_id
     belongs_to :search_class, :class_name => 'Puppetclass', :foreign_key => :auditable_id
+    belongs_to :search_nics, -> { where('audits.auditable_type LIKE ?', "Nic::%") }, :class_name => 'Nic::Base', :foreign_key => :auditable_id
 
     scoped_search :on => [:username, :remote_address], :complete_value => true
     scoped_search :on => :audited_changes, :rename => 'changes'
@@ -65,6 +67,9 @@ module AuditExtensions
     scoped_search :relation => :search_hostgroups, :on => :name, :complete_value => true, :rename => :hostgroup, :only_explicit => true
     scoped_search :relation => :search_hostgroups, :on => :title, :complete_value => true, :rename => :hostgroup_title, :only_explicit => true
     scoped_search :relation => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true
+    scoped_search :relation => :search_nics, :on => :name, :complete_value => true, :rename => :interface_fqdn, :only_explicit => true
+    scoped_search :relation => :search_nics, :on => :ip, :complete_value => true, :rename => :interface_ip, :only_explicit => true
+    scoped_search :relation => :search_nics, :on => :mac, :complete_value => true, :rename => :interface_mac, :only_explicit => true
 
     before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name
     before_save :filter_encrypted, :if => Proc.new {|audit| audit.audited_changes.present?}
@@ -103,10 +108,11 @@ module AuditExtensions
 
   def fix_auditable_type
     # STI Host class should use the stub module instead of Host::Base
-    self.auditable_type = "Host::Base" if auditable_type =~  /Host::/
+    self.auditable_type = "Host::Base" if auditable_type =~ /Host::/
     self.associated_type = "Host::Base" if associated_type =~ /Host::/
     self.auditable_type = auditable.type if ["Taxonomy", "LookupKey"].include?(auditable_type) && auditable
     self.associated_type = associated.type if ["Taxonomy", "LookupKey"].include?(associated_type) && associated
+    self.auditable_type = auditable.type if auditable_type =~ /Nic::/
   end
 
   def ensure_auditable_and_associated_name

@@ -15,6 +15,7 @@ module AuditsHelper
       else
         label = change.to_s == "[encrypted]" ? _(change.to_s) : change.to_s
     end
+    label = _('[empty]') unless label.present?
     if truncate
       label = label.truncate(50)
     else
@@ -31,11 +32,17 @@ module AuditsHelper
       when 'Puppet Class'
         (id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]).to_s
       else
-        name = audit.auditable_name.blank? ? audit.revision.to_label : audit.auditable_name
-        name += " / #{audit.associated_name}" if audit.associated_id && !audit.associated_name.blank?
+        name = if audit.auditable_name.blank?
+                 revision = audit.revision
+                 (revision.respond_to?(:to_audit_label) && revision.to_audit_label) || revision.to_label
+               else
+                 audit.auditable_name
+               end
+        name += " / #{audit.associated_name}" if audit.associated_id && !audit.associated_name.blank? && type_name != 'Interface'
         name
     end
-  rescue
+  rescue StandardError => exception
+    Foreman::Logging.exception("Could not render audit_title", exception)
     ""
   end
 
@@ -116,15 +123,17 @@ module AuditsHelper
     type   = audited_type(audit)
     symbol = case type
                when "Host"
-                 'hdd'
+                 {:icon => 'server', :kind => 'pficon'}
                when "Hostgroup"
-                 'tasks'
+                 {:icon => 'server-group', :kind => 'pficon'}
+               when 'Interface'
+                 {:icon => 'network', :kind => 'pficon'}
                when "User"
-                 'user'
+                 {:icon => 'user', :kind => 'fa'}
                else
-                 'cog'
+                 {:icon => 'cog', :kind => 'fa'}
              end
-    content_tag(:b, icon_text(symbol, type, :class => 'icon-white'), :class => style)
+    content_tag(:b, icon_text(symbol[:icon], type, :class => 'icon-white', :kind => symbol[:kind]), :class => style)
   end
 
   def audited_type(audit)
@@ -143,6 +152,8 @@ module AuditsHelper
                     'Override Value'
                   when 'Ptable'
                     'Partition Table'
+                  when /^Nic/
+                    'Interface'
                   else
                     audit.auditable_type
                 end
