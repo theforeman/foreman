@@ -253,7 +253,7 @@ module FormHelper
       content_tag(:div, :class => "form-actions") do
         text    = overwrite ? _("Overwrite") : _("Submit")
         options = options_for_submit_or_cancel(f, overwrite, args)
-        link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " + f.submit(text, options)
+        f.submit(text, options) + " " + link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default")
       end
     end + ie_multipart_fix
   end
