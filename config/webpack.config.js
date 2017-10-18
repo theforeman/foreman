@@ -6,7 +6,7 @@ var webpack = require('webpack');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
-var plugins = require('../script/plugin_webpack_directories');
+var pluginUtils = require('../script/plugin_webpack_directories');
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
@@ -16,16 +16,12 @@ var production =
   process.env.RAILS_ENV === 'production' ||
   process.env.NODE_ENV === 'production';
 
-// Create aliases for plugins so that their components are easily accessible.
-// Each alias points to /$path_to_plugin/webpack
-var aliasPlugins  = function (pluginEntries) {
-  var aliases = {};
-  Object.keys(pluginEntries).forEach(function(key) {
-    var pathSplit = pluginEntries[key].split('/');
-    aliases[key] = pathSplit.slice(0, pathSplit.length - 1).join('/');
-  });
-  return aliases;
-}
+var plugins = pluginUtils.getPluginDirs();
+
+var resolveModules = [  path.join(__dirname, '..', 'webpack'),
+                        path.join(__dirname, '..', 'node_modules'),
+                        'node_modules/',
+                     ].concat(pluginUtils.pluginNodeModules(plugins));
 
 var config = {
   entry: Object.assign(
@@ -46,16 +42,13 @@ var config = {
   },
 
   resolve: {
-    modules: [
-      path.join(__dirname, '..', 'webpack'),
-      'node_modules/'
-    ],
+    modules: resolveModules,
     alias: Object.assign({
       foremanReact:
         path.join(__dirname,
-           '../webpack/assets/javascripts/react_app')
-    },
-    aliasPlugins(plugins['entries'])
+           '../webpack/assets/javascripts/react_app'),
+      },
+      pluginUtils.aliasPlugins(plugins['entries'])
     )
   },
 
