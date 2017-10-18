@@ -42,6 +42,7 @@ class notificationContainer extends React.Component {
             onMarkGroupAsRead={onMarkGroupAsRead}
             expandedGroup={expandedGroup}
             notificationGroups={notifications}
+            toggleDrawer={toggleDrawer}
           />}
       </div>
     );
