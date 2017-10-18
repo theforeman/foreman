@@ -47,6 +47,8 @@ module ApplicationShared
           end
         elsif request.session["#{taxonomy}_id"].present?
           determined_taxonomy = find_session_taxonomy(taxonomy, user)
+        elsif !user.admin? && available.count == 1
+          determined_taxonomy = available.first
         else
           determined_taxonomy = find_default_taxonomy(user, taxonomy)
         end
