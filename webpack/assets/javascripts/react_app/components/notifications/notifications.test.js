@@ -124,4 +124,15 @@ describe('notifications', () => {
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should close the notification box when click the close button', () => {
+    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
+    const closeButtonSelector = '.drawer-pf .drawer-pf-title a.drawer-pf-close';
+
+    wrapper.find('.fa-bell').simulate('click');
+    expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find(closeButtonSelector).simulate('click');
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
 });
