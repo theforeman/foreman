@@ -32,38 +32,33 @@ module ApplicationShared
       available = user.send("my_#{taxonomy.pluralize}")
       determined_taxonomy = nil
 
-      # this keeps "any context" for admins unless they ask for specific context via parameters
-      if api_request? && user.admin?
-        if params["#{taxonomy}_id"].present?
-          determined_taxonomy = available.where(:id => params["#{taxonomy}_id"]).first
+      if api_request? # API request
+        if user.admin? # admin always uses any context, they can limit the scope with explicit parameters such as organization_id(s)
+          if params["#{taxonomy}_id"].present?
+            determined_taxonomy = available.where(:id => params["#{taxonomy}_id"]).first
 
-          # in case user asked for taxonomy that does not exist or is not accessible, we reply with 404
-          if determined_taxonomy.nil?
-            not_found _("%{taxonomy} with id %{id} not found") % { :taxonomy => taxonomy.capitalize, :id => params["#{taxonomy}_id"] }
-            return false
+            # in case admin asked for taxonomy that does not exist or is not accessible, we reply with 404
+            if determined_taxonomy.nil?
+              not_found _("%{taxonomy} with id %{id} not found") % { :taxonomy => taxonomy.capitalize, :id => params["#{taxonomy}_id"] }
+              return false
+            end
+          else # keep any context for admin
+            determined_taxonomy = nil
           end
+        elsif request.session["#{taxonomy}_id"].present?
+          determined_taxonomy = find_session_taxonomy(taxonomy, user)
         else
-          determined_taxonomy = nil
-        end
-      # if there was a session set, try to load the taxonomy from there
-      elsif request.session["#{taxonomy}_id"].present?
-        determined_taxonomy = available.where(:id => request.session["#{taxonomy}_id"]).first
-        # warn user if taxonomy stored in session does not exist and delete it from session (probably taxonomy has been deleted meanwhile)
-        if determined_taxonomy.nil?
-          warning _("#{taxonomy.capitalize} you had selected as your context has been deleted") unless api_request?
-          request.session["#{taxonomy}_id"] = nil
           determined_taxonomy = find_default_taxonomy(user, taxonomy)
         end
-      # no session, non-admin API request uses default taxonomy
-      elsif api_request?
-        determined_taxonomy = find_default_taxonomy(user, taxonomy)
-      elsif !user.admin? && available.count == 1
-        determined_taxonomy = available.first
+      else # UI request
+        if request.session["#{taxonomy}_id"].present?
+          determined_taxonomy = find_session_taxonomy(taxonomy, user)
+        elsif !user.admin? && available.count == 1
+          determined_taxonomy = available.first
+        end
       end
 
-      if determined_taxonomy.present?
-        store_taxonomy(taxonomy, determined_taxonomy)
-      end
+      store_taxonomy(taxonomy, determined_taxonomy) if determined_taxonomy.present?
     end
   end
 
@@ -90,5 +85,17 @@ module ApplicationShared
       # no default taxonomy and user is either admin or user with more taxonomies, nil represents "Any Context"
       nil
     end
+  end
+
+  def find_session_taxonomy(taxonomy, user)
+    available = user.send("my_#{taxonomy.pluralize}")
+    determined_taxonomy = available.where(:id => request.session["#{taxonomy}_id"]).first
+    # warn user if taxonomy stored in session does not exist and delete it from session (probably taxonomy has been deleted meanwhile)
+    if determined_taxonomy.nil?
+      warning _("#{taxonomy.capitalize} you had selected as your context has been deleted") unless api_request?
+      request.session["#{taxonomy}_id"] = nil
+      determined_taxonomy = find_default_taxonomy(user, taxonomy)
+    end
+    determined_taxonomy
   end
 end
