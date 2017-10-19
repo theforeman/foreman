@@ -37,21 +37,54 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
     setup do
       User.current = nil
       SETTINGS[:login] = true
-
-      @sso = mock('dummy_sso')
-      @sso.stubs(:authenticated?).returns(true)
-      @sso.stubs(:current_user).returns(users(:admin))
-      @sso.stubs(:support_expiration?).returns(true)
-      @sso.stubs(:expiration_url).returns("/users/extlogin")
-      @sso.stubs(:controller).returns(@controller)
-      @controller.instance_variable_set(:@available_sso, @sso)
-      @controller.stubs(:get_sso_method).returns(@sso)
     end
 
-    it "sets the session user" do
-      get :index
-      assert_response :success
-      assert_equal users(:admin).id, session[:user]
+    context 'with dummy sso' do
+      setup do
+        @sso = mock('dummy_sso')
+        @sso.stubs(:authenticated?).returns(true)
+        @sso.stubs(:current_user).returns(users(:admin))
+        @sso.stubs(:support_expiration?).returns(true)
+        @sso.stubs(:expiration_url).returns("/users/extlogin")
+        @sso.stubs(:controller).returns(@controller)
+        @controller.instance_variable_set(:@available_sso, @sso)
+        @controller.stubs(:get_sso_method).returns(@sso)
+      end
+
+      it "sets the session user" do
+        get :index
+        assert_response :success
+        assert_equal users(:admin).id, session[:user]
+      end
+    end
+
+    context 'with basic auth via internal sso' do
+      let(:user) { as_admin { FactoryGirl.create(:user, :admin) } }
+
+      test '#login authenticates user with personal access token' do
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, 'password')
+        get :index
+        assert_response :success
+        assert_equal user.id, session[:user]
+      end
+
+      context 'personal access tokens' do
+        let(:token) { as_admin { FactoryGirl.create(:personal_access_token, :user => user) } }
+        let(:token_value) do
+          as_admin do
+            token_value = token.generate_token
+            token.save
+            token_value
+          end
+        end
+
+        test '#login authenticates user with personal access token' do
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, token_value)
+          get :index
+          assert_response :success
+          assert_equal user.id, session[:user]
+        end
+      end
     end
   end
 

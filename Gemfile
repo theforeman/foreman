@@ -53,6 +53,7 @@ gem 'ruby2ruby', '2.3.2'
 gem 'dynflow', '>= 0.8.29', '< 1.0.0'
 gem 'daemons'
 gem 'get_process_mem'
+gem 'where-or' if SETTINGS[:rails] == '4.2'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))

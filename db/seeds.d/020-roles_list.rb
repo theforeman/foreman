@@ -26,7 +26,7 @@ class RolesList
                                              :view_smart_proxies, :edit_smart_proxies, :view_subnets, :edit_subnets,
                                              :view_statistics, :view_usergroups, :create_usergroups, :edit_usergroups,
                                              :destroy_usergroups, :view_users, :edit_users, :view_realms, :view_mail_notifications,
-                                             :view_params, :view_ssh_keys],
+                                             :view_params, :view_ssh_keys, :view_personal_access_tokens],
                             :description => 'Role granting mostly view permissions but also permissions required for managing hosts in the infrastructure. Users with this role can update puppet parameters, create and edit hosts, manage installation media, subnets, usergroups and edit existing users.' },
         'Bookmarks manager' => { :permissions => [:view_bookmarks, :create_bookmarks, :edit_bookmarks, :destroy_bookmarks],
                                  :description => 'Role granting permissions for managing search bookmarks. Usually useful in combination with Viewer role. This role also grants the permission to update all public bookmarks.' }

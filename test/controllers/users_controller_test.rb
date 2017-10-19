@@ -486,4 +486,20 @@ class UsersControllerTest < ActionController::TestCase
     post :login, {:login => {'login' => users(:admin).login, 'password' => 'secret'}}
     assert_redirected_to realms_path
   end
+
+  context 'personal access tokens' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:token) { FactoryGirl.create(:personal_access_token, :user => user) }
+    let(:token_value) do
+      token_value = token.generate_token
+      token.save
+      token_value
+    end
+
+    test '#login does not allow login via personal access token' do
+      post :login, {:login => {'login' => user.login, 'password' => token_value}}
+      assert_redirected_to login_users_path
+      assert flash[:inline][:error].present?
+    end
+  end
 end

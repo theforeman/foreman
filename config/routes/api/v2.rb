@@ -245,6 +245,7 @@ Foreman::Application.routes.draw do
           resources :roles, :except => [:new, :edit]
           resources :usergroups, :except => [:new, :edit]
           resources :ssh_keys, :only => [:index, :show, :create, :destroy]
+          resources :personal_access_tokens, :only => [:index, :show, :create, :destroy]
         end
       end
 
