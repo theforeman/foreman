@@ -78,12 +78,12 @@ module ApplicationShared
     default_taxonomy = user.send "default_#{taxonomy}"
     available = user.send("my_#{taxonomy.pluralize}")
 
-    if default_taxonomy.present?
+    if default_taxonomy.present? && available.include?(default_taxonomy)
       default_taxonomy
     elsif available.count == 1
       available.first
     else
-      # no default taxonomy and user is either admin or user with more taxonomies, nil represents "Any Context"
+      # no available default taxonomy and user is either admin or user with more taxonomies, nil represents "Any Context"
       nil
     end
   end

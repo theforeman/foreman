@@ -79,11 +79,12 @@ class TaxonomiesSelectionIntegrationTest < ActionDispatch::IntegrationTest
         @third_organization = FactoryGirl.create(:organization)
         @second_location = FactoryGirl.create(:location)
         @user.update_attributes(:organization_ids => [@organization.id, @second_organization.id], :location_ids => [@location.id, @second_location.id])
+        @user.roles << Role.find_by_name('Manager')
       end
 
       test 'any context is supported, user can switch between his orgs' do
-        set_empty_default_context(users(:admin))
-        login_user(users(:admin).login, 'secret')
+        set_empty_default_context(@user)
+        login_user(@user.login, 'changeme')
         assert_current_organization('Any Organization')
         assert_current_location('Any Location')
         refute_available_organization(@third_organization.name)
@@ -113,74 +114,59 @@ class TaxonomiesSelectionIntegrationTest < ActionDispatch::IntegrationTest
         visit subnets_path
         assert_current_organization(@second_organization)
       end
-    end
-  end
 
-  # to integration_test_helper.rb
-  def login_user(username, password)
-    logout_admin
-    visit "/"
-    fill_in "login_login", :with => username
-    fill_in "login_password", :with => password
-    click_button "Log In"
-    assert_current_path root_path
-  end
+      test 'user gets warning if he was removed from organization while he was working in it' do
+        set_empty_default_context(@user)
+        login_user(@user.login, 'changeme')
+        select_organization(@organization)
+        visit domains_path
+        assert_current_organization(@organization.name)
 
-  def set_empty_default_context(user)
-    user.update_attribute :default_organization_id, nil
-    user.update_attribute :default_location_id, nil
-  end
+        @user.organization_ids = [@second_organization.id, @third_organization.id]
 
-  def set_default_context(user, org, loc)
-    user.update_attribute :default_organization_id, org.try(:id)
-    user.update_attribute :default_location_id, loc.try(:id)
-  end
+        visit domains_path
+        assert_current_organization('Any Organization')
+        assert_warning 'Organization you had selected as your context has been deleted'
 
-  def assert_available_location(location)
-    within('li#location-dropdown ul') do
-      assert page.has_link?(location)
-    end
-  end
+        @user.organization_ids = [@second_organization.id]
+        visit domains_path
+        assert_current_organization(@second_organization.name)
+        assert_warning 'Organization you had selected as your context has been deleted'
+      end
 
-  def refute_available_location(location)
-    within('li#location-dropdown ul') do
-      assert page.has_no_link?(location)
-    end
-  end
+      test 'user gets warning if he has default organization set and he/she does not have access to it anymore' do
+        set_default_context(@user, @organization, @location)
+        login_user(@user.login, 'changeme')
+        visit domains_path
+        assert_current_organization(@organization.name)
 
-  def assert_available_organization(organization)
-    within('li#organization-dropdown ul') do
-      assert page.has_link?(organization)
-    end
-  end
+        @user.organization_ids = [@second_organization.id, @third_organization.id]
 
-  def refute_available_organization(organization)
-    within('li#location-dropdown ul') do
-      assert page.has_no_link?(organization)
-    end
-  end
+        visit domains_path
+        assert_current_organization('Any Organization')
+        assert_warning 'Organization you had selected as your context has been deleted'
 
-  def assert_current_organization(organization)
-    within('li#organization-dropdown > a') do
-      assert page.has_content?(organization)
-    end
-  end
+        @user.organization_ids = [@second_organization.id]
+        visit domains_path
+        assert_current_organization(@second_organization.name)
+        assert_warning 'Organization you had selected as your context has been deleted'
+      end
 
-  def assert_current_location(location)
-    within('li#location-dropdown > a') do
-      assert page.has_content?(location)
-    end
-  end
+      test 'user organization resets to any org if he/she has default organization but does not have access to it while she/he has access to 2 or more orgs' do
+        set_default_context(@user, @organization, @location)
+        @user.organization_ids = [@second_organization.id, @third_organization.id]
 
-  def select_organization(organization)
-    within('li#organization-dropdown ul') do
-      click_link organization
-    end
-  end
+        login_user(@user.login, 'changeme')
+        assert_current_organization('Any Organization')
+      end
 
-  def select_location(location)
-    within('li#location-dropdown ul') do
-      click_link location
+      test 'user organization resets to the his/her only org if he/she has default organization but does not have access to it' do
+        set_default_context(@user, @organization, @location)
+        @user.organization_ids = [@second_organization.id]
+
+        login_user(@user.login, 'changeme')
+        assert_current_organization(@second_organization.name)
+      end
     end
   end
 end
