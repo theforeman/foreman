@@ -60,6 +60,11 @@ class AuthSource < ApplicationRecord
   def update_usergroups(login)
   end
 
+  # Does the user exist?
+  def valid_user?(name)
+    false
+  end
+
   # Try to authenticate a user not yet registered against available sources
   # Returns : user's attributes OR nil
   def self.authenticate(login, password)

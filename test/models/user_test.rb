@@ -1033,4 +1033,43 @@ class UserTest < ActiveSupport::TestCase
       assert_equal ['production'], User.current.visible_environments
     end
   end
+
+  context 'personal access token auth' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:token) { FactoryGirl.create(:personal_access_token, :user => user) }
+    let(:token_value) do
+      token_value = token.generate_token
+      token.save
+      token_value
+    end
+    let(:expired_token) { FactoryGirl.create(:personal_access_token, :user => user, :expires_at => 4.weeks.ago ) }
+    let(:expired_token_value) do
+      token_value = expired_token.generate_token
+      expired_token.save
+      token_value
+    end
+
+    context 'api login' do
+      test 'user can api login via personal access token' do
+        assert_nil token.last_used_at
+        assert_equal user, User.try_to_login(user.login, token_value, true)
+        assert_not_nil token.reload.last_used_at
+      end
+
+      test 'user can not api login with expired personal access token' do
+        assert_nil User.try_to_login(user.login, expired_token_value, true)
+      end
+
+      test 'token is validated' do
+        token
+        assert_nil User.try_to_login(user.login, 'invalid', true)
+      end
+    end
+
+    context 'ui login' do
+      test 'user can not ui login via personal access token' do
+        assert_nil User.try_to_login(user.login, token_value, false)
+      end
+    end
+  end
 end

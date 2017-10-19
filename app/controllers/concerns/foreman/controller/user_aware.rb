@@ -1,4 +1,4 @@
-module Foreman::Controller::SshKeysCommon
+module Foreman::Controller::UserAware
   extend ActiveSupport::Concern
   include Foreman::Controller::UserSelfEditing
 

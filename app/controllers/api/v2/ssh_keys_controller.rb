@@ -2,7 +2,7 @@ module Api
   module V2
     class SshKeysController < V2::BaseController
       include Foreman::Controller::Parameters::SshKey
-      include Foreman::Controller::SshKeysCommon
+      include Foreman::Controller::UserAware
 
       wrap_parameters :ssh_key, :include => ssh_key_params_filter.accessible_attributes(parameter_filter_context)
 
