@@ -384,8 +384,8 @@ module ApplicationHelper
   end
 
   def gravatar_html_options
-    { :onerror => "this.src='#{path_to_image('user.jpg')}'",
-      :alt     => _('Change your avatar at gravatar.com') }
+    { :onerror => "$(this).addClass('fa fa-user')",
+      :alt     => '' }
   end
 
   def readonly_field(object, property, options = {})
