@@ -85,7 +85,8 @@
     "webpack-stats-plugin": "^0.1.5"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/ $(./script/foreman_plugins_eslint.js) || exit 0",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/ || exit 0",
+    "postlint": "node ./script/npm_lint_plugins.js",
     "test": "node node_modules/.bin/jest",
     "test:watch": "node node_modules/.bin/jest --watchAll",
     "test:current": "node node_modules/.bin/jest --watch",
