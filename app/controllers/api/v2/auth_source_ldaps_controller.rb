@@ -1,7 +1,6 @@
 module Api
   module V2
     class AuthSourceLdapsController < V2::BaseController
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::AuthSourceLdap
 
       wrap_parameters AuthSourceLdap,

@@ -6,7 +6,6 @@ module Api
       include Foreman::Controller::UsersMixin
       include Foreman::Controller::Parameters::User
       include Api::Version2
-      include Api::TaxonomyScope
 
       wrap_parameters User, :include => user_params_filter.accessible_attributes(
         Foreman::Controller::Parameters::User::Context.new(:api, controller_name, nil, false)) +

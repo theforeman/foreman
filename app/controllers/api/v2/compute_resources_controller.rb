@@ -2,7 +2,6 @@ module Api
   module V2
     class ComputeResourcesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::ComputeResource
 
       wrap_parameters ComputeResource, :include => compute_resource_params_filter.accessible_attributes(parameter_filter_context)

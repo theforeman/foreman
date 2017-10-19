@@ -2,7 +2,6 @@ module Api
   module V2
     class ProvisioningTemplatesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
       include Foreman::Controller::Parameters::ProvisioningTemplate

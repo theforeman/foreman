@@ -3,7 +3,6 @@ module Api
     class HostsController < V2::BaseController
       include Api::Version2
       include Api::CompatibilityChecker
-      include Api::TaxonomyScope
       include ScopesPerAction
       include Foreman::Controller::SmartProxyAuth
       include Foreman::Controller::Parameters::Host

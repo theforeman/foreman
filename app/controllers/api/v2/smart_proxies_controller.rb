@@ -2,7 +2,6 @@ module Api
   module V2
     class SmartProxiesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
       include Foreman::Controller::Parameters::SmartProxy
 

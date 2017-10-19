@@ -2,7 +2,6 @@ module Api
   module V2
     class SubnetsController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Subnet
       include ParameterAttributes
 

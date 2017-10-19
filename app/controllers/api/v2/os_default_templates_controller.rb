@@ -2,7 +2,6 @@ module Api
   module V2
     class OsDefaultTemplatesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::OsDefaultTemplate
 
       wrap_parameters OsDefaultTemplate, :include => (os_default_template_params_filter.accessible_attributes(parameter_filter_context) + ['config_template_id'])

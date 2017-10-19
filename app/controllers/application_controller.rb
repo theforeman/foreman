@@ -343,30 +343,6 @@ class ApplicationController < ActionController::Base
     render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
   end
 
-  def set_taxonomy
-    return if User.current.nil?
-
-    if SETTINGS[:organizations_enabled]
-      orgs = Organization.my_organizations
-      Organization.current = if orgs.count == 1 && !User.current.admin?
-                               orgs.first
-                             elsif session[:organization_id]
-                               orgs.find_by_id(session[:organization_id])
-                             end
-      warning _("Organization you had selected as your context has been deleted") if (session[:organization_id] && Organization.current.nil?)
-    end
-
-    if SETTINGS[:locations_enabled]
-      locations = Location.my_locations
-      Location.current = if locations.count == 1 && !User.current.admin?
-                           locations.first
-                         elsif session[:location_id]
-                           locations.find_by_id(session[:location_id])
-                         end
-      warning _("Location you had selected as your context has been deleted") if (session[:location_id] && Location.current.nil?)
-    end
-  end
-
   def check_empty_taxonomy
     return if ["locations","organizations"].include?(controller_name)
 
