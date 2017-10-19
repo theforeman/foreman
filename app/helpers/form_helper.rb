@@ -317,7 +317,7 @@ module FormHelper
     required_mark = check_required(options, f, attr)
     label = ''.html_safe + options.delete(:label)
     if label.empty? && f.try(:object) && ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name))
-      label = s_(clazz.gettext_translation_for_attribute_name attr).html_safe
+      label = s_(clazz.gettext_translation_for_attribute_name attr).titleize.html_safe
     end
 
     if options[:label_help].present?
