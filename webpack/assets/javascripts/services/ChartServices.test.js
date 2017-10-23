@@ -1,5 +1,6 @@
+import Immutable from 'seamless-immutable';
 import { getDonutChartConfig } from './ChartService';
-import { zeroedData, mixedData } from '../react_app/components/common/charts/DonutChart/DonutChart.fixtures';
+import { zeroedData, mixedData, dataWithLongLabels } from '../react_app/components/common/charts/DonutChart/DonutChart.fixtures';
 
 jest.unmock('./ChartService');
 describe('getDonutChartConfig', () => {
@@ -12,19 +13,27 @@ describe('getDonutChartConfig', () => {
     })).toMatchSnapshot();
   });
   it('data should not be filtered with regular size donut ', () => {
-    expect(getDonutChartConfig({
+    expect(getDonutChartConfig(Immutable({
       data: mixedData,
       onclick: jest.fn(),
       config: 'regular',
       id: 'some-id',
-    })).toMatchSnapshot();
+    }))).toMatchSnapshot();
   });
   it('data should not be filtered with large size donut', () => {
-    expect(getDonutChartConfig({
+    expect(getDonutChartConfig(Immutable({
       data: mixedData,
       onclick: jest.fn(),
       config: 'large',
       id: 'some-id',
-    })).toMatchSnapshot();
+    }))).toMatchSnapshot();
+  });
+  it('data with long labels should be trimmed', () => {
+    expect(getDonutChartConfig(Immutable({
+      data: dataWithLongLabels,
+      onclick: jest.fn(),
+      config: 'regular',
+      id: 'some-id',
+    }))).toMatchSnapshot();
   });
 });

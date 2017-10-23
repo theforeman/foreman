@@ -1,4 +1,5 @@
 import uuidV1 from 'uuid/v1';
+import Immutable from 'seamless-immutable';
 import { donutChartConfig, donutLargeChartConfig } from './ChartService.consts';
 
 const sizeConfig = {
@@ -30,14 +31,47 @@ const getChartConfig = ({
   const chartConfigForType = sizeConfig[config];
   const colors = getColors(data);
   const colorsSize = Object.keys(colors).length;
+  const dataExists = doDataExist(data);
+
+  const longNames = [];
+  const shortNames = [];
+
+  let dataWithShortNames = [];
+
+  if (dataExists) {
+    dataWithShortNames = data.map((val) => {
+      const item = Immutable.asMutable(val.slice());
+      longNames.push(item[0]);
+      item[0] = item[0].length > 30 ? `${val[0].substring(0, 10)}...` : item[0];
+      shortNames.push(item[0]);
+      return item;
+    });
+  }
 
   return {
     ...chartConfigForType,
     id,
     data: {
-      columns: doDataExist(data) ? data : [],
+      columns: dataExists ? dataWithShortNames : [],
       onclick,
       ...(colorsSize > 0 ? { colors } : {}),
+    },
+    // eslint-disable-next-line no-shadow
+    tooltip: { format: { name: (d, value, ratio, id) => longNames[id] } },
+
+    onrendered: () => {
+      shortNames.forEach((name, i) => {
+        const nameOfClass = name.replace(/\W/g, '-');
+        const selector = `.c3-legend-item-${nameOfClass} > title`;
+        const hasTooltip = d3.select(selector)[0][0];
+
+        if (!hasTooltip) {
+          d3
+            .select(`.c3-legend-item-${nameOfClass}`)
+            .append('svg:title')
+            .text(longNames[i]);
+        }
+      });
     },
   };
 };

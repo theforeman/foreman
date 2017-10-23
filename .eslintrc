@@ -19,7 +19,8 @@
     "window": false,
     "$": true,
     "_": true,
-    "__": true
+    "__": true,
+    "d3": true
   },
   "parser": "babel-eslint",
   "rules": {

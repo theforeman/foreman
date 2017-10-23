@@ -24,9 +24,13 @@
   <td class='fact-origin'><%= fact_origin_icon(fact.origin) %></td>
   <td><%= fact_from fact %></td>
   <td><% unless fact.compose %>
-          <%= link_to_function(content_tag(:span, _("View Chart"), :class => "btn btn-sm btn-default"),
-                               "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')",
-                               :title => _("Show distribution chart")) %>
+        <span id="view-fact-chart-<%= fact.id %>"></span>
+        <%= mount_react_component('FactChart', "#view-fact-chart-#{fact.id}", {
+            path: fact_path(fact.fact_name_id),
+            title: fact.fact_name.name,
+            id: fact.id,
+            search: '/hosts?search=facts.' + fact.fact_name.name + '~~VAL1~'
+        }.to_json) %>
       <% end %>
   </td>
 </tr>

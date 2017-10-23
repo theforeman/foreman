@@ -19,6 +19,7 @@ Object {
   "legend": Object {
     "show": false,
   },
+  "onrendered": [Function],
   "padding": Object {
     "bottom": 0,
     "left": 0,
@@ -30,7 +31,9 @@ Object {
     "width": 240,
   },
   "tooltip": Object {
-    "show": true,
+    "format": Object {
+      "name": [Function],
+    },
   },
 }
 `;
@@ -72,6 +75,7 @@ Object {
     "position": "bottom",
     "show": true,
   },
+  "onrendered": [Function],
   "padding": Object {
     "bottom": 0,
     "left": 0,
@@ -82,7 +86,9 @@ Object {
     "height": 500,
   },
   "tooltip": Object {
-    "show": true,
+    "format": Object {
+      "name": [Function],
+    },
   },
 }
 `;
@@ -123,6 +129,7 @@ Object {
   "legend": Object {
     "show": false,
   },
+  "onrendered": [Function],
   "padding": Object {
     "bottom": 0,
     "left": 0,
@@ -134,7 +141,64 @@ Object {
     "width": 240,
   },
   "tooltip": Object {
-    "show": true,
+    "format": Object {
+      "name": [Function],
+    },
+  },
+}
+`;
+
+exports[`getDonutChartConfig data with long labels should be trimmed 1`] = `
+Object {
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "columns": Array [
+      Array [
+        "Fedora 21 ...",
+        3,
+      ],
+      Array [
+        "Ubuntu 14....",
+        2,
+      ],
+      Array [
+        "Centos 7 e...",
+        0,
+      ],
+      Array [
+        "Debian 8 e...",
+        0,
+      ],
+    ],
+    "onclick": [Function],
+  },
+  "donut": Object {
+    "label": Object {
+      "show": false,
+    },
+    "width": 15,
+  },
+  "id": "some-id",
+  "legend": Object {
+    "show": false,
+  },
+  "onrendered": [Function],
+  "padding": Object {
+    "bottom": 0,
+    "left": 0,
+    "right": 0,
+    "top": 0,
+  },
+  "size": Object {
+    "height": 240,
+    "width": 240,
+  },
+  "tooltip": Object {
+    "format": Object {
+      "name": [Function],
+    },
   },
 }
 `;
