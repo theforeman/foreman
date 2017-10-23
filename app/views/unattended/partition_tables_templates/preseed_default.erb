@@ -54,7 +54,7 @@ d-i partman-auto/choose_recipe select <%= partitioning_recipe %>
 # If you have a way to get a recipe file into the d-i environment, you can
 # just point at it.
 d-i partman-auto/expert_recipe string \
-<%= partitioning_expert_recipe.gsub(/$/, " \\") %>
+<%= partitioning_expert_recipe.gsub(/(?:\n\r?|\r\n?)/, " \\\n") %>
 
 <% end -%>
 

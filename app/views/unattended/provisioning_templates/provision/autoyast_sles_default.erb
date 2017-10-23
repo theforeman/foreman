@@ -222,9 +222,18 @@ rm /etc/resolv.conf
         <product>puppet</product>
         <product_dir>/</product_dir>
         <signature-handling>
-          <accept_file_without_checksum config:type="boolean">true</accept_file_without_checksum>
-          <accept_unsigned_file config:type="boolean">true</accept_unsigned_file>
-          <accept_unknown_gpg_key config:type="boolean">true</accept_unknown_gpg_key>
+          <accept_non_trusted_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>2ABFA143A0E46E11</keyid>
+            </keys>
+          </accept_non_trusted_gpg_key>
+          <import_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>2ABFA143A0E46E11</keyid>
+            </keys>
+          </import_gpg_key>
         </signature-handling>
       </listentry>
 <% else -%>

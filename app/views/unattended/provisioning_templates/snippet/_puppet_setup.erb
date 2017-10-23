@@ -112,7 +112,7 @@ run-puppet-in-installer to true.
 Note, that this is an *unsupported mode of operation* and not supported by Foreman at all. You have been warned!
 %>
 <% if host_param_true?('run-puppet-in-installer') -%>
-<% if (os_name == 'Ubuntu' and os_major >= 15) or (os_name == 'Debian' and os_major >= 8) -%>
+<% if (os_name == 'Ubuntu' && os_major >= 15) || (os_name == 'Debian' && os_major >= 8) -%>
 # Puppet tries to detect the init system by checking the presence of the directory /run/systemd/system. That detection
 # fails in a chroot environment like the one the installer provides. See Puppet tickets PA-136 and PUP-5577
 #
@@ -138,7 +138,7 @@ Start-Process '<%= bin_path %>\puppet' -ArgumentList $puppet_agent_args -Wait -N
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
 <%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') ? '' : '--tags no_such_tag' %> <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
-<% if os_family == 'Suse' || (os_name == 'Debian' && os_major > 8) -%>
+<% if os_family == 'Suse' || (os_name == 'Debian' && os_major > 8) || (os_name == 'Ubuntu' && os_major >= 15) -%>
 <%= bin_path %>/puppet resource service puppet enable=true
 <% if @host.provision_method == 'image' -%>
 <%= bin_path %>/puppet resource service puppet ensure=running
