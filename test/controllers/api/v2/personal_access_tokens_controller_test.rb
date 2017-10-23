@@ -12,8 +12,8 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
   end
 
   def setup
-    @user = FactoryGirl.create(:user)
-    @personal_access_token = FactoryGirl.create(:personal_access_token, :user => @user)
+    @user = FactoryBot.create(:user)
+    @personal_access_token = FactoryBot.create(:personal_access_token, :user => @user)
   end
 
   test "should get index" do

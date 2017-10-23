@@ -39,7 +39,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
 
   context "with organizations" do
     before do
-      @org = FactoryGirl.create(:organization)
+      @org = FactoryBot.create(:organization)
     end
 
     test "filter can override taxonomies" do

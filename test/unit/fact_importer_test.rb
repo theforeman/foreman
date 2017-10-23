@@ -9,7 +9,7 @@ class FactImporterTest < ActiveSupport::TestCase
     end
   end
 
-  let(:host) { FactoryGirl.create(:host) }
+  let(:host) { FactoryBot.create(:host) }
 
   test "default importers" do
     assert_includes FactImporter.importers.keys, 'puppet'
@@ -54,10 +54,10 @@ class FactImporterTest < ActiveSupport::TestCase
 
   describe '#import!' do
     setup do
-      FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
-                         :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
-      FactoryGirl.create(:fact_value, :value => '10.0.19.33',:host => host,
-                         :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress'))
+      FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+                         :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
+      FactoryBot.create(:fact_value, :value => '10.0.19.33',:host => host,
+                         :fact_name => FactoryBot.create(:fact_name, :name => 'ipaddress'))
     end
 
     test 'importer imports everything as strings' do
@@ -126,8 +126,8 @@ class FactImporterTest < ActiveSupport::TestCase
 
     test "importer retains 'other' facts" do
       assert_equal '2.6.9', value('kernelversion')
-      FactoryGirl.create(:fact_value, :value => 'othervalue',:host => host,
-                         :fact_name => FactoryGirl.create(:fact_name_other, :name => 'otherfact'))
+      FactoryBot.create(:fact_value, :value => 'othervalue',:host => host,
+                         :fact_name => FactoryBot.create(:fact_name_other, :name => 'otherfact'))
       default_import('ipaddress' => '10.0.19.5', 'uptime' => '1 picosecond')
       assert_equal 'othervalue', value('otherfact')
       assert_nil value('kernelversion')

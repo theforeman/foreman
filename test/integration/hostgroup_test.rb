@@ -15,8 +15,8 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
 
   describe 'edit page' do
     setup do
-      @another_environment = FactoryGirl.create(:environment)
-      @hostgroup = FactoryGirl.create(:hostgroup, :with_puppetclass)
+      @another_environment = FactoryBot.create(:environment)
+      @hostgroup = FactoryBot.create(:hostgroup, :with_puppetclass)
       visit hostgroups_path
       click_link @hostgroup.name
     end
@@ -42,8 +42,8 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'edit shows errors on invalid lookup values' do
-    group = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+    group = FactoryBot.create(:hostgroup, :with_puppetclass)
+    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                     :key_type => 'integer', :default_value => true, :path => "hostgroup\ncomment",
                                     :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => false})
 
@@ -57,8 +57,8 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'clones lookup values' do
-    group = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
+    group = FactoryBot.create(:hostgroup, :with_puppetclass)
+    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
                                     :puppetclass => group.puppetclasses.first)
     lookup_value = LookupValue.create(:value => 'abc', :match => group.lookup_value_matcher, :lookup_key_id => lookup_key.id)
 
@@ -70,7 +70,7 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'clones root_pass' do
-    group = FactoryGirl.create(:hostgroup, :with_rootpass)
+    group = FactoryBot.create(:hostgroup, :with_rootpass)
     visit clone_hostgroup_path(group)
     assert page.has_link?('Operating System', :href => '#os')
     click_link 'Operating System'
@@ -79,8 +79,8 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'clone shows no errors on lookup values' do
-    group = FactoryGirl.create(:hostgroup, :with_puppetclass)
-    FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
+    group = FactoryBot.create(:hostgroup, :with_puppetclass)
+    FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
                        :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => 'test'})
 
     visit clone_hostgroup_path(group)

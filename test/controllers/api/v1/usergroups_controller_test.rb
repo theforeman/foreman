@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::UsergroupsControllerTest < ActionController::TestCase
   def setup
-    as_admin { @usergroup = FactoryGirl.create(:usergroup) }
+    as_admin { @usergroup = FactoryBot.create(:usergroup) }
   end
 
   valid_attrs = { :name => 'test_usergroup' }

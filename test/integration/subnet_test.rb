@@ -16,7 +16,7 @@ class SubnetIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'edit shows errors on invalid name for parameters values' do
-    subnet = FactoryGirl.create(:subnet_ipv4)
+    subnet = FactoryBot.create(:subnet_ipv4)
     subnet.subnet_parameters.create!(:name => "foo_param", :value => "bar", :hidden_value => true)
     visit edit_subnet_path(subnet)
     assert page.has_link?('Parameters', :href => '#params')

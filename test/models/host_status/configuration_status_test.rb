@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ConfigurationStatusTest < ActiveSupport::TestCase
   def setup
-    @host = FactoryGirl.create(:host)
+    @host = FactoryBot.create(:host)
     @report = @host.reports.build
     @report.status = {"applied" => 92, "restarted" => 300, "failed" => 4, "failed_restarts" => 12, "skipped" => 3, "pending" => 0}
     @report.reported_at = '2015-01-01 00:00:00'

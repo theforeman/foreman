@@ -20,7 +20,7 @@ class PuppetclassLookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should update lookup_keys" do
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
+    lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
     put :update, {:id => lkey.to_param, :puppetclass_lookup_key => { :description => "test that" }}, set_session_user
     assert_equal 'test that', lkey.reload.description
     assert_redirected_to puppetclass_lookup_keys_path
@@ -51,8 +51,8 @@ class PuppetclassLookupKeysControllerTest < ActionController::TestCase
   end
 
   test "smart class parameters that aren't connected to an environment class shouldn't appear in the index" do
-    lkey1 = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
-    lkey2 = FactoryGirl.create(:puppetclass_lookup_key)
+    lkey1 = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
+    lkey2 = FactoryBot.create(:puppetclass_lookup_key)
     get :index, {:search => "key=#{lkey1.key}"}, set_session_user
     refute_empty assigns(:lookup_keys)
     get :index, {:search => "key=#{lkey2.key}"}, set_session_user

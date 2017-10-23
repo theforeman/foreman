@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :feature do
     factory :template_feature do
       name 'Templates'

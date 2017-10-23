@@ -2,8 +2,8 @@ require 'integration_test_helper'
 
 class TaxonomiesSelectionIntegrationTest < ActionDispatch::IntegrationTest
   setup do
-    @organization = FactoryGirl.create(:organization)
-    @location = FactoryGirl.create(:location)
+    @organization = FactoryBot.create(:organization)
+    @location = FactoryBot.create(:location)
   end
 
   test "admin can login to any context and switch between contexts" do
@@ -34,7 +34,7 @@ class TaxonomiesSelectionIntegrationTest < ActionDispatch::IntegrationTest
 
   context 'under non-admin user' do
     setup do
-      @user = FactoryGirl.create(:user, :password => 'changeme', :mail => "user@example.com")
+      @user = FactoryBot.create(:user, :password => 'changeme', :mail => "user@example.com")
     end
 
     context 'with single organization' do
@@ -75,9 +75,9 @@ class TaxonomiesSelectionIntegrationTest < ActionDispatch::IntegrationTest
 
     context 'with multiple organizations' do
       setup do
-        @second_organization = FactoryGirl.create(:organization)
-        @third_organization = FactoryGirl.create(:organization)
-        @second_location = FactoryGirl.create(:location)
+        @second_organization = FactoryBot.create(:organization)
+        @third_organization = FactoryBot.create(:organization)
+        @second_location = FactoryBot.create(:location)
         @user.update_attributes(:organization_ids => [@organization.id, @second_organization.id], :location_ids => [@location.id, @second_location.id])
         @user.roles << Role.find_by_name('Manager')
       end

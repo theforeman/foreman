@@ -15,14 +15,14 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
 
   context 'on vmware' do
     let(:compute_resource) do
-      cr = FactoryGirl.create(:compute_resource, :vmware, :uuid => 'Solutions')
+      cr = FactoryBot.create(:compute_resource, :vmware, :uuid => 'Solutions')
       ComputeResource.find_by_id(cr.id)
     end
     let(:uuid) { '5032c8a5-9c5e-ba7a-3804-832a03e16381' }
 
     context 'with existing domain' do
       setup do
-        @domain = FactoryGirl.create(:domain, :name => 'virt.bos.redhat.com')
+        @domain = FactoryBot.create(:domain, :name => 'virt.bos.redhat.com')
       end
 
       test 'imports the VM with all parameters' do
@@ -58,7 +58,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   end
 
   context 'on libvirt' do
-    let(:compute_resource) { FactoryGirl.create(:libvirt_cr) }
+    let(:compute_resource) { FactoryBot.create(:libvirt_cr) }
     let(:uuid) { 'fog-449765558356062' }
 
     test 'imports the VM with all parameters' do
@@ -71,7 +71,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   end
 
   context 'on ec2' do
-    let(:compute_resource) { FactoryGirl.create(:ec2_cr) }
+    let(:compute_resource) { FactoryBot.create(:ec2_cr) }
     let(:vm) { compute_resource.send(:client).servers.new }
     setup do
       vm.save
@@ -99,7 +99,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   end
 
   context 'on openstack' do
-    let(:compute_resource) { FactoryGirl.create(:openstack_cr) }
+    let(:compute_resource) { FactoryBot.create(:openstack_cr) }
     let(:compute) { compute_resource.send(:client) }
     let(:flavor) { compute.flavors.first.id }
     let(:os_image) { compute.images.first.id }
@@ -114,7 +114,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       )
     end
     setup do
-      @domain = FactoryGirl.create(:domain, :name => 'example.com')
+      @domain = FactoryBot.create(:domain, :name => 'example.com')
       vm.save
       vm.associate_address(floating_ip)
       vm.reload
@@ -130,7 +130,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   end
 
   context 'on ovirt' do
-    let(:compute_resource) { FactoryGirl.create(:ovirt_cr) }
+    let(:compute_resource) { FactoryBot.create(:ovirt_cr) }
     let(:uuid) { '52b9406e-cf66-4867-8655-719a094e324c' }
 
     test 'imports the VM with all parameters' do
@@ -143,7 +143,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   end
 
   context 'on rackspace' do
-    let(:compute_resource) { FactoryGirl.create(:rackspace_cr) }
+    let(:compute_resource) { FactoryBot.create(:rackspace_cr) }
     let(:uuid) { '52b9406e-cf66-4867-8655-719a094e324c' }
     let(:compute) { compute_resource.send(:client) }
     let(:flavor) { compute.flavors.first.id }
@@ -158,7 +158,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       )
     end
     setup do
-      @domain = FactoryGirl.create(:domain, :name => 'example.com')
+      @domain = FactoryBot.create(:domain, :name => 'example.com')
       vm.save
     end
 

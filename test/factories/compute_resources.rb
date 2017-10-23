@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :compute_resource do
     sequence(:name) { |n| "compute_resource#{n}" }
     sequence(:url) { |n| "http://#{n}.example.com/" }
@@ -91,7 +91,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |compute_profile, evaluator|
-        compute_profile.compute_attributes << FactoryGirl.create(:compute_attribute,
+        compute_profile.compute_attributes << FactoryBot.create(:compute_attribute,
           :compute_resource => evaluator.compute_resource,
           :compute_profile => compute_profile)
       end

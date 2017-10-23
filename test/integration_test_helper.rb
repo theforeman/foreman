@@ -3,7 +3,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha/mini_test'
 require 'capybara/rails'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'capybara/poltergeist'
 require 'show_me_the_cookies'
 require 'database_cleaner'

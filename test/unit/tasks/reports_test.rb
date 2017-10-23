@@ -9,10 +9,10 @@ class ReportsTest < ActiveSupport::TestCase
 
     as_admin do
       ActionMailer::Base.deliveries = []
-      @owner = FactoryGirl.create(:user, :admin, :with_mail)
+      @owner = FactoryBot.create(:user, :admin, :with_mail)
       @owner.mail_notifications << MailNotification[:config_summary]
       @owner.user_mail_notifications.all.each { |notification| notification.update_attribute(:interval, 'Daily') }
-      @host = FactoryGirl.create(:host, :owner => @owner)
+      @host = FactoryBot.create(:host, :owner => @owner)
     end
   end
 

@@ -5,7 +5,7 @@ class ParameterTest < ActiveSupport::TestCase
     User.current = users :admin
   end
   test "names may be reused in different parameter groups" do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     p1 = HostParameter.new :name => "param", :value => "value1", :reference_id => host.id
     assert p1.save
     p2 = DomainParameter.new :name => "param", :value => "value2", :reference_id => Domain.first.id
@@ -27,7 +27,7 @@ class ParameterTest < ActiveSupport::TestCase
   test "parameters are hierarchically applied" do
     CommonParameter.create :name => "animal", :value => "cat"
 
-    host         = FactoryGirl.create(:host, :with_hostgroup, :with_subnet, :managed)
+    host         = FactoryBot.create(:host, :with_hostgroup, :with_subnet, :managed)
     organization = host.organization
     location     = host.location
     domain       = host.domain
@@ -68,9 +68,9 @@ class ParameterTest < ActiveSupport::TestCase
   end
 
   test "parameters should display correct safe value for nested taxonomies" do
-    loc1 = FactoryGirl.create(:location)
-    loc2 = FactoryGirl.create(:location, :parent => loc1)
-    host = FactoryGirl.create(:host, :location => loc2)
+    loc1 = FactoryBot.create(:location)
+    loc2 = FactoryBot.create(:location, :parent => loc1)
+    host = FactoryBot.create(:host, :location => loc2)
 
     loc1.location_parameters << LocationParameter.create(:name => "animal", :value => "lion")
     params = host.host_inherited_params(true)

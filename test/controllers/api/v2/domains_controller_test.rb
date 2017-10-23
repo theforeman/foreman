@@ -104,14 +104,14 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see domain parameters" do
-    domain_with_parameter = FactoryGirl.create(:domain, :with_parameter)
+    domain_with_parameter = FactoryBot.create(:domain, :with_parameter)
     setup_user "view", "domains"
     get :show, {:id => domain_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see domain parameters" do
-    domain_with_parameter = FactoryGirl.create(:domain, :with_parameter)
+    domain_with_parameter = FactoryBot.create(:domain, :with_parameter)
     setup_user "view", "domains"
     setup_user "view", "params"
     get :show, {:id => domain_with_parameter.to_param, :format => 'json'}
@@ -120,7 +120,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
 
   context 'hidden parameters' do
     test "should show a domain parameter as hidden unless show_hidden_parameters is true" do
-      domain = FactoryGirl.create(:domain)
+      domain = FactoryBot.create(:domain)
       domain.domain_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => domain.id }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -128,7 +128,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test "should show a domain parameter as unhidden when show_hidden_parameters is true" do
-      domain = FactoryGirl.create(:domain)
+      domain = FactoryBot.create(:domain)
       domain.domain_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => domain.id, :show_hidden_parameters => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -137,7 +137,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "should update existing domain parameters" do
-    domain = FactoryGirl.create(:domain)
+    domain = FactoryBot.create(:domain)
     param_params = { :name => "foo", :value => "bar" }
     domain.domain_parameters.create!(param_params)
     put :update, { :id => domain.id, :domain => { :domain_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
@@ -146,7 +146,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "should delete existing domain parameters" do
-    domain = FactoryGirl.create(:domain)
+    domain = FactoryBot.create(:domain)
     param_1 = { :name => "foo", :value => "bar" }
     param_2 = { :name => "boo", :value => "test" }
     domain.domain_parameters.create!([param_1, param_2])
@@ -164,8 +164,8 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "should get domains when searching with organization_id" do
-    domain = FactoryGirl.create(:domain)
-    org = FactoryGirl.create(:organization)
+    domain = FactoryBot.create(:domain)
+    org = FactoryBot.create(:organization)
     org.domain_ids = [domain.id]
     get :index, {:search => domain.name, :organization_id => org.id }
     assert_response :success

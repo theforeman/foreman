@@ -19,7 +19,7 @@ class DashboardControllerTest < ActionController::TestCase
   end
 
   test '#destroy removes a widget from the user' do
-    widget = FactoryGirl.create(:widget, :user => users(:admin))
+    widget = FactoryBot.create(:widget, :user => users(:admin))
     delete :destroy, { :id => widget.id, :format => 'json' }, set_session_user
     assert_response :success
     assert_equal widget.id.to_s, @response.body
@@ -27,7 +27,7 @@ class DashboardControllerTest < ActionController::TestCase
   end
 
   test "#destroy returns forbidden for other user's widget" do
-    other_user = FactoryGirl.create(:user, :with_widget)
+    other_user = FactoryBot.create(:user, :with_widget)
     widget = other_user.widgets.first
     delete :destroy, { :id => widget.id, :format => 'json' }, set_session_user
     assert_response :forbidden
@@ -42,7 +42,7 @@ class DashboardControllerTest < ActionController::TestCase
   end
 
   test "#save_positions updates each widget" do
-    widget = FactoryGirl.create(:widget, :user => users(:admin))
+    widget = FactoryBot.create(:widget, :user => users(:admin))
     params = {
       widget.id.to_s => {:col => '4', :row => '3', :sizex => '8', :sizey => '1'}
     }

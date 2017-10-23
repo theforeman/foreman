@@ -6,7 +6,7 @@ class CsvExporterTest < ActiveSupport::TestCase
     assert_equal "Id\n", result.next
     assert_equal result.count, Host::Managed.count+1
     assert_difference('CsvExporter.export(Host::Managed, [:id]).count') do
-      FactoryGirl.create(:host)
+      FactoryBot.create(:host)
     end
   end
 
@@ -31,7 +31,7 @@ class CsvExporterTest < ActiveSupport::TestCase
   end
 
   test 'calls nested methods on records' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     result = CsvExporter.export(Host::Managed, [:name, 'location.name'])
     assert_equal "Name,Location.Name\n", result.next
     assert_equal "#{host.name},#{host.location.name}\n", result.next

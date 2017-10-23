@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::HostClassesControllerTest < ActionController::TestCase
   def setup
-    @host = FactoryGirl.create(:host, :with_puppetclass)
+    @host = FactoryBot.create(:host, :with_puppetclass)
   end
 
   test "should get puppetclass ids for host" do

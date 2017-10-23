@@ -8,7 +8,7 @@ class ConfigReportsControllerTest < ActionController::TestCase
   basic_pagination_per_page_test
 
   let :report do
-    as_admin { FactoryGirl.create(:config_report) }
+    as_admin { FactoryBot.create(:config_report) }
   end
 
   def test_index
@@ -27,8 +27,8 @@ class ConfigReportsControllerTest < ActionController::TestCase
   end
 
   test 'csv export respects taxonomy scope' do
-    host = FactoryGirl.create(:host)
-    FactoryGirl.create(:config_report, :host => host)
+    host = FactoryBot.create(:host)
+    FactoryBot.create(:config_report, :host => host)
 
     # "any context"
     get :index, {format: :csv}, set_session_user
@@ -39,7 +39,7 @@ class ConfigReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 2, response.body.lines.size
 
-    get :index, {format: :csv}, set_session_user.merge(location_id: FactoryGirl.create(:location).id)
+    get :index, {format: :csv}, set_session_user.merge(location_id: FactoryBot.create(:location).id)
     assert_response :success
     assert_equal 1, response.body.lines.size
   end
@@ -62,7 +62,7 @@ class ConfigReportsControllerTest < ActionController::TestCase
   end
 
   test '404 on last when no reports available' do
-    get :show, { :id => 'last', :host_id => FactoryGirl.create(:host) }, set_session_user
+    get :show, { :id => 'last', :host_id => FactoryBot.create(:host) }, set_session_user
     assert_response :missing
     assert_template 'common/404'
   end

@@ -3,7 +3,7 @@ module ReportHostPermissionsTest
   included do
     context 'when user does not have permission to view hosts' do
       let :report do
-        as_admin { FactoryGirl.create(:config_report) }
+        as_admin { FactoryBot.create(:config_report) }
       end
 
       setup { setup_user('view', 'config_reports') }

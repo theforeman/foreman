@@ -81,7 +81,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
 
     it "requires an account with mail" do
       as_admin do
-        @user = FactoryGirl.create(:user)
+        @user = FactoryBot.create(:user)
       end
       get :index, {}, set_session_user.merge(:user => @user.id)
       assert_response :redirect
@@ -280,7 +280,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
     end
 
     it 'does not shows a welcome page when there is content' do
-      FactoryGirl.create(:realm) # Realm is our TestableResource
+      FactoryBot.create(:realm) # Realm is our TestableResource
       get :index, {}, set_session_user
       assert_response :success
       assert_template :partial => false

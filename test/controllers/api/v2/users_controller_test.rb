@@ -50,7 +50,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     refute response["effective_admin"]
 
-    as_admin { FactoryGirl.create(:usergroup, :admin => true, :users => [user]) }
+    as_admin { FactoryBot.create(:usergroup, :admin => true, :users => [user]) }
     get :show, { :id => user.id }
     response = ActiveSupport::JSON.decode(@response.body)
     assert response["effective_admin"]

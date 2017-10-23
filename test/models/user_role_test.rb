@@ -6,15 +6,15 @@ class UserRoleTest < ActiveSupport::TestCase
   end
 
   test "type detection" do
-    user_role = FactoryGirl.create :user_user_role
+    user_role = FactoryBot.create :user_user_role
     assert user_role.user_role?
-    usergroup_role = FactoryGirl.create :user_group_user_role
+    usergroup_role = FactoryBot.create :user_group_user_role
     assert usergroup_role.user_group_role?
   end
 
   test "cache user roles" do
-    user = FactoryGirl.create :user
-    FactoryGirl.create :user_user_role, :owner => user
+    user = FactoryBot.create :user
+    FactoryBot.create :user_user_role, :owner => user
     cached_user_roles = user.cached_user_roles.map(&:role)
 
     user.roles.each do |role|
@@ -34,7 +34,7 @@ class UserRoleTest < ActiveSupport::TestCase
   end
 
   test "update role of usergroup role" do
-    new_role = FactoryGirl.create :role
+    new_role = FactoryBot.create :role
     user_role = setup_admins_scenario
     user_role.role = new_role
     user_role.save
@@ -63,22 +63,22 @@ class UserRoleTest < ActiveSupport::TestCase
   end
 
   def setup_admins_scenario
-    @semiadmins  = FactoryGirl.create :usergroup
-    @admins      = FactoryGirl.create :usergroup
-    @superadmins = FactoryGirl.create :usergroup
+    @semiadmins  = FactoryBot.create :usergroup
+    @admins      = FactoryBot.create :usergroup
+    @superadmins = FactoryBot.create :usergroup
 
     @semiadmins.usergroups = [@admins]
     @admins.usergroups     = [@superadmins]
 
-    @semiadmin_users = [FactoryGirl.create(:user, :login => 'ur_semiadmin1'),
-                        FactoryGirl.create(:user, :login => 'ur_semiadmin2')]
-    @admin_user      = FactoryGirl.create(:user, :login => 'ur_admin1')
-    @superadmin_user = FactoryGirl.create(:user, :login => 'ur_superadmin1')
+    @semiadmin_users = [FactoryBot.create(:user, :login => 'ur_semiadmin1'),
+                        FactoryBot.create(:user, :login => 'ur_semiadmin2')]
+    @admin_user      = FactoryBot.create(:user, :login => 'ur_admin1')
+    @superadmin_user = FactoryBot.create(:user, :login => 'ur_superadmin1')
 
     @semiadmins.users  += @semiadmin_users
     @admins.users      = [@admin_user]
     @superadmins.users = [@superadmin_user]
 
-    FactoryGirl.create :user_group_user_role, :owner => @semiadmins
+    FactoryBot.create :user_group_user_role, :owner => @semiadmins
   end
 end

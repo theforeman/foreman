@@ -166,10 +166,10 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     end
 
     test "pxe menu's labels should be sorted by full hostgroup title" do
-      first = FactoryGirl.build(:hostgroup, :parent => FactoryGirl.create(:hostgroup, :name => "parent1"), :name => "def", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
-      second = FactoryGirl.build(:hostgroup, :parent => FactoryGirl.create(:hostgroup, :name => "parent2"), :name => "abc", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
-      FactoryGirl.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => second)
-      FactoryGirl.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => first)
+      first = FactoryBot.build(:hostgroup, :parent => FactoryBot.create(:hostgroup, :name => "parent1"), :name => "def", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
+      second = FactoryBot.build(:hostgroup, :parent => FactoryBot.create(:hostgroup, :name => "parent2"), :name => "abc", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
+      FactoryBot.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => second)
+      FactoryBot.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => first)
       ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{first.name}.*#{second.name}/m))).returns(true).times(3)
       get :build_pxe_default, {}, set_session_user
       assert_redirected_to provisioning_templates_path
@@ -177,8 +177,8 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
   end
 
   test 'preview' do
-    host = FactoryGirl.create(:host, :managed, :operatingsystem => FactoryGirl.create(:suse, :with_archs, :with_media))
-    template = FactoryGirl.create(:provisioning_template)
+    host = FactoryBot.create(:host, :managed, :operatingsystem => FactoryBot.create(:suse, :with_archs, :with_media))
+    template = FactoryBot.create(:provisioning_template)
 
     # works for given host
     post :preview, { :preview_host_id => host.id, :template => '<%= @host.name -%>', :id => template }, set_session_user
@@ -216,12 +216,12 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
 
     context 'for already existing templates' do
       setup do
-        @template_combination = FactoryGirl.create(:template_combination)
+        @template_combination = FactoryBot.create(:template_combination)
       end
 
       test 'can be edited' do
         template = @template_combination.provisioning_template
-        new_environment = FactoryGirl.create(:environment)
+        new_environment = FactoryBot.create(:environment)
         assert_not_equal new_environment, @template_combination.environment
         put :update, {
           :id => template.to_param,

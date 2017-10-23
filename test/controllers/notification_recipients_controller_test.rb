@@ -71,7 +71,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     include NotificationBlueprintSeeds
 
     test "notification when host is destroyed" do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       assert host.destroy
       get :index, { :format => 'json' }, set_session_user
       assert_response :success
@@ -81,7 +81,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     end
 
     test "notification when host is built" do
-      host = FactoryGirl.create(:host, owner: User.current)
+      host = FactoryBot.create(:host, owner: User.current)
       assert host.update_attribute(:build, true)
       assert host.built
       get :index, { :format => 'json' }, set_session_user
@@ -92,7 +92,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     end
 
     test "notification when host has no owner" do
-      host = FactoryGirl.create(:host, :managed)
+      host = FactoryBot.create(:host, :managed)
       assert host.update_attribute(:owner_id, nil)
       Host::Managed.where(:owner_id => nil).update_all(:owner_type => nil) # owner type must be set by hack because of sti.rb
       host.reload
@@ -156,10 +156,10 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
   private
 
   def add_notification(group = 'Testing')
-    type = FactoryGirl.create(:notification_blueprint,
+    type = FactoryBot.create(:notification_blueprint,
                               :group => group,
                               :message => 'this test just executed successfully')
-    FactoryGirl.create(:notification, :notification_blueprint => type, :audience => 'global')
+    FactoryBot.create(:notification, :notification_blueprint => type, :audience => 'global')
   end
 
   def response

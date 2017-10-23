@@ -2,7 +2,7 @@ require 'test_helper'
 
 class HttpProxiesControllerTest < ActionController::TestCase
   setup do
-    @model = FactoryGirl.create(:http_proxy)
+    @model = FactoryBot.create(:http_proxy)
   end
 
   basic_index_test

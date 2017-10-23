@@ -2,11 +2,11 @@ require 'test_helper'
 
 class WidgetTest < ActiveSupport::TestCase
   setup do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
   end
 
   test 'new user should have default widgets' do
-    assert_equal Dashboard::Manager.default_widgets.count, FactoryGirl.create(:user).widgets.count
+    assert_equal Dashboard::Manager.default_widgets.count, FactoryBot.create(:user).widgets.count
   end
 
   test 'reset to default should add default widgets to user' do

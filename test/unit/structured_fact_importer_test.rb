@@ -3,7 +3,7 @@ require 'test_helper'
 class StructuredFactImporterTest < ActiveSupport::TestCase
   attr_reader :importer
 
-  let(:host) { FactoryGirl.create(:host) }
+  let(:host) { FactoryBot.create(:host) }
 
   describe '#import!' do
     test 'hash facts are imported' do

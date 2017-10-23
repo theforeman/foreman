@@ -41,8 +41,8 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should get puppetclasses for given host only" do
-    host1 = FactoryGirl.create(:host, :with_puppetclass)
-    FactoryGirl.create(:host, :with_puppetclass)
+    host1 = FactoryBot.create(:host, :with_puppetclass)
+    FactoryBot.create(:host, :with_puppetclass)
     get :index, {:host_id => host1.to_param }
     assert_response :success
     puppetclasses = ActiveSupport::JSON.decode(@response.body)
@@ -80,7 +80,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should show puppetclass for host" do
-    host = FactoryGirl.create(:host, :with_puppetclass)
+    host = FactoryBot.create(:host, :with_puppetclass)
     get :show, { :host_id => host.to_param, :id => host.puppetclasses.first.id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
@@ -146,8 +146,8 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test "should not remove puppetclass params" do
-    klass = FactoryGirl.create(:puppetclass, :environments => [FactoryGirl.create(:environment)])
-    FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => klass)
+    klass = FactoryBot.create(:puppetclass, :environments => [FactoryBot.create(:environment)])
+    FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => klass)
     assert_equal 1, klass.class_params.length
     put :update, { :id => klass.id, :smart_class_parameter_ids => [] }
     klass.reload

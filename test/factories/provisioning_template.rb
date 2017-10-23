@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :provisioning_template do
     sequence(:name) { |n| "provisioning_template#{n}" }
     sequence(:template) { |n| "template content #{n}" }
@@ -19,8 +19,8 @@ FactoryGirl.define do
 
   factory :os_default_template do
     template_kind
-    provisioning_template { FactoryGirl.create(:provisioning_template, :template_kind => template_kind) }
-    operatingsystem { FactoryGirl.create(:operatingsystem, :provisioning_templates => [provisioning_template]) }
+    provisioning_template { FactoryBot.create(:provisioning_template, :template_kind => template_kind) }
+    operatingsystem { FactoryBot.create(:operatingsystem, :provisioning_templates => [provisioning_template]) }
   end
 
   factory :template_kind do

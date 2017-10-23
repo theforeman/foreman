@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
   setup do
-    @proxy = FactoryGirl.build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
+    @proxy = FactoryBot.build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
     #don't cache because the mock breaks when trying to cache the array of certs
     @proxy_status = ProxyStatus::PuppetCA.new(@proxy, :cache => false)
   end

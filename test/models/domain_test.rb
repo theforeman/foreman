@@ -60,7 +60,7 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should update hosts_count" do
     assert_difference "@domain.hosts_count" do
-      h = FactoryGirl.create(:host)
+      h = FactoryBot.create(:host)
       h.domain = @domain
       h.save!
       @domain.reload
@@ -69,7 +69,7 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should update hosts_count on setting primary interface domain" do
     assert_difference "@domain.hosts_count" do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
+      host = FactoryBot.create(:host, :managed, :ip => '127.0.0.1')
       primary = host.primary_interface
       primary.domain = @domain
       primary.host.overwrite = true
@@ -79,20 +79,20 @@ class DomainTest < ActiveSupport::TestCase
   end
 
   test "should update hosts_count on changing primary interface domain" do
-    host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
+    host = FactoryBot.create(:host, :managed, :ip => '127.0.0.1')
     primary = host.primary_interface
     primary.domain = @domain
     primary.host.overwrite = true
     assert primary.save
     assert_difference "@domain.hosts_count", -1 do
-      primary.domain = FactoryGirl.create(:domain)
+      primary.domain = FactoryBot.create(:domain)
       assert primary.save
       @domain.reload
     end
   end
 
   test "should update hosts_count on changing primarity of interface with domain" do
-    host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
+    host = FactoryBot.create(:host, :managed, :ip => '127.0.0.1')
     primary = host.primary_interface
     primary.domain = @domain
     primary.host.overwrite = true
@@ -109,22 +109,22 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should not update hosts_count on non-primary interface with domain" do
     assert_difference "@domain.hosts_count", 0 do
-      host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
-      FactoryGirl.create(:nic_base, :primary => false, :domain => @domain, :host => host)
+      host = FactoryBot.create(:host, :managed, :ip => '127.0.0.1')
+      FactoryBot.create(:nic_base, :primary => false, :domain => @domain, :host => host)
       @domain.reload
     end
   end
 
   test "should update hosts_count on domain_id change" do
-    host = FactoryGirl.create(:host, :managed, :domain => @domain)
+    host = FactoryBot.create(:host, :managed, :domain => @domain)
     assert_difference "@domain.hosts_count", -1 do
-      host.primary_interface.update_attribute(:domain_id, FactoryGirl.create(:domain).id)
+      host.primary_interface.update_attribute(:domain_id, FactoryBot.create(:domain).id)
       @domain.reload
     end
   end
 
   test "should update hosts_count on host destroy" do
-    host = FactoryGirl.create(:host, :managed, :domain => @domain)
+    host = FactoryBot.create(:host, :managed, :domain => @domain)
     assert_difference "@domain.hosts_count", -1 do
       host.destroy
       @domain.reload
@@ -139,7 +139,7 @@ class DomainTest < ActiveSupport::TestCase
 #  end
 
   def create_a_host
-    FactoryGirl.create(:host, :domain => FactoryGirl.build(:domain))
+    FactoryBot.create(:host, :domain => FactoryBot.build(:domain))
   end
 
   test "should query local nameservers when enabled" do
@@ -148,7 +148,7 @@ class DomainTest < ActiveSupport::TestCase
   end
 
   test "should query remote nameservers from domain SOA" do
-    domain = FactoryGirl.build(:domain)
+    domain = FactoryBot.build(:domain)
 
     ns = mock
     ns.expects(:mname).returns('10.1.1.1')
@@ -162,7 +162,7 @@ class DomainTest < ActiveSupport::TestCase
 
   # test taxonomix methods
   test "should get used location ids for host" do
-    FactoryGirl.create(:host, :domain => domains(:mydomain), :location => taxonomies(:location1))
+    FactoryBot.create(:host, :domain => domains(:mydomain), :location => taxonomies(:location1))
     assert_equal [taxonomies(:location1).id], domains(:mydomain).used_location_ids
   end
 

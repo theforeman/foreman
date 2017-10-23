@@ -4,7 +4,7 @@ module Host
   class ManagedTest < ActiveSupport::TestCase
     describe 'validations' do
       subject do
-        FactoryGirl.build(:host, :managed)
+        FactoryBot.build(:host, :managed)
       end
       should validate_uniqueness_of(:uuid)
     end

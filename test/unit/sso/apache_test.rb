@@ -64,7 +64,7 @@ class ApacheTest < ActiveSupport::TestCase
 
     apache.controller.request.env[SSO::Apache::CAS_USERNAME] = 'ares'
     apache.controller.request.env['REMOTE_USER_GROUP_N']     = 2
-    existing = FactoryGirl.create :usergroup
+    existing = FactoryBot.create :usergroup
     apache.controller.request.env['REMOTE_USER_GROUP_1']     = existing.name
     apache.controller.request.env['REMOTE_USER_GROUP_2']     = 'does-not-exist-for-sure'
     User.expects(:find_or_create_external_user).

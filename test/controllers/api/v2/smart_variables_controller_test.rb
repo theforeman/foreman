@@ -13,7 +13,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
   end
 
   test "should get smart variables for a specific host" do
-    @host = FactoryGirl.create(:host,
+    @host = FactoryBot.create(:host,
                                :puppetclasses => [puppetclasses(:one)],
                                :environment => environments(:production))
     get :index, {:host_id => @host.to_param}
@@ -79,14 +79,14 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
 
   context 'hidden' do
     test "should show a smart variable as hidden unless show_hidden is true" do
-      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      parameter = FactoryBot.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['default_value']
     end
 
     test "should show a smart variable unhidden when show_hidden is true" do
-      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      parameter = FactoryBot.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
       setup_user "edit", "external_variables"
@@ -96,7 +96,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     end
 
     test "should show a smart variable parameter as hidden even when show_hidden is true if user is not authorized" do
-      parameter = FactoryGirl.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
+      parameter = FactoryBot.create(:variable_lookup_key, :hidden_value => true, :default_value => 'hidden', :puppetclass => puppetclasses(:one))
       setup_user "view", "puppetclasses"
       setup_user "view", "external_variables"
       get :show, { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, set_session_user.merge(:user => users(:one).id)

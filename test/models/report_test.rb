@@ -9,8 +9,8 @@ class ReportTest < ActiveSupport::TestCase
     report_count = 3
     Message.delete_all
     Source.delete_all
-    FactoryGirl.create_list(:report, report_count, :with_logs)
-    FactoryGirl.create_list(:report, report_count, :with_logs, :old_report)
+    FactoryBot.create_list(:report, report_count, :with_logs)
+    FactoryBot.create_list(:report, report_count, :with_logs, :old_report)
     assert_equal report_count*2, Report.count
     assert_difference('Report.count', -1*report_count) do
       assert_difference(['Log.count', 'Message.count', 'Source.count'], -1*report_count*5) do
@@ -21,9 +21,9 @@ class ReportTest < ActiveSupport::TestCase
 
   describe '.my_reports' do
     setup do
-      @target_host = FactoryGirl.create(:host, :with_hostgroup, :with_reports, :report_count => 2)
+      @target_host = FactoryBot.create(:host, :with_hostgroup, :with_reports, :report_count => 2)
       @target_reports = @target_host.reports
-      @other_host = FactoryGirl.create(:host, :with_hostgroup, :with_reports, :report_count => 2)
+      @other_host = FactoryBot.create(:host, :with_hostgroup, :with_reports, :report_count => 2)
       @other_reports = @other_host.reports
     end
 
@@ -34,8 +34,8 @@ class ReportTest < ActiveSupport::TestCase
     end
 
     test 'returns visible reports for unlimited user' do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :unlimited => true)
+      user_role = FactoryBot.create(:user_user_role)
+      FactoryBot.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :unlimited => true)
       collection = as_user(user_role.owner) { Report.my_reports }
       assert_empty (@target_reports + @other_reports).map(&:id) - collection.map(&:id)
     end
@@ -47,11 +47,11 @@ class ReportTest < ActiveSupport::TestCase
     end
 
     test "only return reports from host in user's taxonomies" do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{@target_host.hostgroup_id}")
+      user_role = FactoryBot.create(:user_user_role)
+      FactoryBot.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{@target_host.hostgroup_id}")
 
-      orgs = FactoryGirl.create_pair(:organization)
-      locs = FactoryGirl.create_pair(:location)
+      orgs = FactoryBot.create_pair(:organization)
+      locs = FactoryBot.create_pair(:location)
       @target_host.update_attributes(:location => locs.last, :organization => orgs.last)
       @target_host.hostgroup.update_attributes(:locations => [locs.last], :organizations => [orgs.last])
 
@@ -67,9 +67,9 @@ class ReportTest < ActiveSupport::TestCase
     end
 
     test "only return reports from host in admin's currently selected taxonomy" do
-      user = FactoryGirl.create(:user, :admin)
-      orgs = FactoryGirl.create_pair(:organization)
-      locs = FactoryGirl.create_pair(:location)
+      user = FactoryBot.create(:user, :admin)
+      orgs = FactoryBot.create_pair(:organization)
+      locs = FactoryBot.create_pair(:location)
       @target_host.update_attributes(:location => locs.last, :organization => orgs.last)
 
       as_user user do
@@ -95,8 +95,8 @@ class ReportTest < ActiveSupport::TestCase
     end
 
     test '.expire should delete only the class which calls it' do
-      FactoryGirl.create_list(:config_report, 5, :old_report)
-      FactoryGirl.create_list(:report, 5, :old_report, :type => 'TestReport')
+      FactoryBot.create_list(:config_report, 5, :old_report)
+      FactoryBot.create_list(:report, 5, :old_report, :type => 'TestReport')
       TestReport.expire
       refute(TestReport.all.any?)
       assert(ConfigReport.all.any?)
@@ -113,7 +113,7 @@ class ReportTest < ActiveSupport::TestCase
     end
 
     test 'can view host reports as non-admin user' do
-      report = FactoryGirl.create(:config_report)
+      report = FactoryBot.create(:config_report)
       setup_user('view', 'hosts', "name = #{report.host.name}")
       setup_user('view', 'config_reports')
 

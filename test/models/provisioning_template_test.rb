@@ -82,7 +82,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
   end
 
   test "can instantiate a locked template" do
-    assert FactoryGirl.create(:provisioning_template, :locked => true)
+    assert FactoryBot.create(:provisioning_template, :locked => true)
   end
 
   context 'locked templates outside of rake' do
@@ -101,7 +101,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     end
 
     test "should not unlock a template if not allowed" do
-      User.current = FactoryGirl.create(:user)
+      User.current = FactoryBot.create(:user)
       @template.locked = false
       refute_valid @template, :base, /not authorized/
     end
@@ -133,43 +133,43 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
   end
 
   test 'saving removes carriage returns' do
-    template = FactoryGirl.build(:provisioning_template, template: "a\r\nb\r\nc\n")
+    template = FactoryBot.build(:provisioning_template, template: "a\r\nb\r\nc\n")
     template.save!
     assert_equal "a\nb\nc\n", template.template
   end
 
   describe "Association cascading" do
     setup do
-      @os1 = FactoryGirl.create(:operatingsystem)
-      @hg1 = FactoryGirl.create(:hostgroup)
-      @hg2 = FactoryGirl.create(:hostgroup)
-      @hg3 = FactoryGirl.create(:hostgroup)
-      @ev1 = FactoryGirl.create(:environment)
-      @ev2 = FactoryGirl.create(:environment)
-      @ev3 = FactoryGirl.create(:environment)
+      @os1 = FactoryBot.create(:operatingsystem)
+      @hg1 = FactoryBot.create(:hostgroup)
+      @hg2 = FactoryBot.create(:hostgroup)
+      @hg3 = FactoryBot.create(:hostgroup)
+      @ev1 = FactoryBot.create(:environment)
+      @ev2 = FactoryBot.create(:environment)
+      @ev3 = FactoryBot.create(:environment)
 
-      @tk = FactoryGirl.create(:template_kind)
+      @tk = FactoryBot.create(:template_kind)
 
       # Most specific template association
-      @ct1 = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct1 = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ct1.template_combinations.create(:hostgroup => @hg1, :environment => @ev1)
 
       # HG only
       # We add an association on HG2/EV2 to ensure that we're not just blindly
       # selecting all template_combinations where environment_id => nil
-      @ct2 = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct2 = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ct2.template_combinations.create(:hostgroup => @hg1, :environment => nil)
       @ct2.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
 
       # Env only
       # We add an association on HG2/EV2 to ensure that we're not just blindly
       # selecting all template_combinations where hostgroup_id => nil
-      @ct3 = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct3 = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ct3.template_combinations.create(:hostgroup => nil, :environment => @ev1)
       @ct3.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
 
       # Default template for the OS
-      @ctd = FactoryGirl.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ctd = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
       @ctd.os_default_templates.create(:operatingsystem => @os1,
                                       :template_kind_id => @ctd.template_kind_id)
     end
@@ -221,10 +221,10 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     end
 
     test "#metadata should include OSes and kind" do
-      template = FactoryGirl.build(:provisioning_template, :operatingsystems => [
-        FactoryGirl.create(:operatingsystem, :name => 'CentOS'),
-        FactoryGirl.create(:operatingsystem, :name => 'CentOS'),
-        FactoryGirl.create(:operatingsystem, :name => 'Fedora')])
+      template = FactoryBot.build(:provisioning_template, :operatingsystems => [
+        FactoryBot.create(:operatingsystem, :name => 'CentOS'),
+        FactoryBot.create(:operatingsystem, :name => 'CentOS'),
+        FactoryBot.create(:operatingsystem, :name => 'Fedora')])
 
       lines = template.metadata.split("\n")
       assert_includes lines, '- CentOS'

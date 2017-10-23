@@ -5,14 +5,14 @@ class UnattendedControllerTest < ActionController::TestCase
     Host::Managed.any_instance.stubs(:handle_ca).returns(true)
     as_admin do
       disable_orchestration # avoids dns errors
-      ptable = FactoryGirl.create(:ptable, :name => 'default',
+      ptable = FactoryBot.create(:ptable, :name => 'default',
                                   :operatingsystem_ids => [operatingsystems(:redhat).id])
-      ptable_ubuntu = FactoryGirl.create(:ptable, :ubuntu, :name => 'ubuntu default',
+      ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
         :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
-      @org = FactoryGirl.create(:organization, :ignore_types => ['ProvisioningTemplate'])
-      @loc = FactoryGirl.create(:location, :ignore_types => ['ProvisioningTemplate'])
-      @rh_host = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
+      @org = FactoryBot.create(:organization, :ignore_types => ['ProvisioningTemplate'])
+      @loc = FactoryBot.create(:location, :ignore_types => ['ProvisioningTemplate'])
+      @rh_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:redhat),
                                     :ptable => ptable,
                                     :medium => media(:one),
@@ -20,7 +20,7 @@ class UnattendedControllerTest < ActionController::TestCase
                                     :organization => @org,
                                     :location => @loc
                                    )
-      @ub_host = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :build => true,
+      @ub_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
                                     :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
@@ -28,7 +28,7 @@ class UnattendedControllerTest < ActionController::TestCase
                                     :organization => @org,
                                     :location => @loc
                                    )
-      @host_with_template_subnet = FactoryGirl.create(:host, :managed, :with_dhcp_orchestration, :with_tftp_subnet, :build => true,
+      @host_with_template_subnet = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :with_tftp_subnet, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
                                     :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
@@ -60,13 +60,13 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "should get a template from the provision interface" do
-    os = FactoryGirl.create(:debian7_0, :with_provision, :with_associations)
-    host = FactoryGirl.create(:host, :managed, :build => true, :operatingsystem => os,
+    os = FactoryBot.create(:debian7_0, :with_provision, :with_associations)
+    host = FactoryBot.create(:host, :managed, :build => true, :operatingsystem => os,
                               :organization => @org,
                               :location => @loc,
                               :interfaces => [
-                                FactoryGirl.build(:nic_managed, :primary => true),
-                                FactoryGirl.build(:nic_managed, :provision => true)
+                                FactoryBot.build(:nic_managed, :primary => true),
+                                FactoryBot.build(:nic_managed, :provision => true)
                               ])
 
     @request.env["REMOTE_ADDR"] = host.provision_interface.ip
@@ -241,7 +241,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "template with hostgroup should be identified as hostgroup provisioning" do
     ProvisioningTemplate.any_instance.stubs(:template).returns("type:<%= @provisioning_type %>")
-    hostgroups(:common).update_attribute :ptable_id, FactoryGirl.create(:ptable).id
+    hostgroups(:common).update_attribute :ptable_id, FactoryBot.create(:ptable).id
     get :hostgroup_template, {:id => "MyString2", :hostgroup => "Common"}
     assert_response :success
     assert_match(%r{type:hostgroup}, @response.body)
@@ -294,8 +294,8 @@ class UnattendedControllerTest < ActionController::TestCase
 
   context "template with host parameters" do
     setup do
-      @host_param = FactoryGirl.create(:host_parameter, :host => @rh_host, :name => 'my_param')
-      @secret_param = FactoryGirl.create(:host_parameter, :host => @rh_host, :name => 'secret_param')
+      @host_param = FactoryBot.create(:host_parameter, :host => @rh_host, :name => 'my_param')
+      @secret_param = FactoryBot.create(:host_parameter, :host => @rh_host, :name => 'secret_param')
       @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "params: <%= @host.params['my_param'] %>, <%= @host.params['secret_param'] %>")
       setup_user 'view', 'hosts'
       setup_user 'view', 'params', 'name = my_param'
@@ -444,18 +444,18 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "should not render a template to user w/o email" do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text'}, set_session_user(user)
     assert_response :unprocessable_entity
   end
 
   test 'should render a template to user with valid filter' do
-    user = FactoryGirl.build(:user, :with_mail, :admin => false,
+    user = FactoryBot.build(:user, :with_mail, :admin => false,
                               :organizations => [@org], :locations => [@loc])
     user_role = roles(:destroy_hosts)
     user.roles << user_role
     user.save
-    FactoryGirl.create(:filter, :role => user_role,
+    FactoryBot.create(:filter, :role => user_role,
                        :permissions => Permission.where(:name => 'view_hosts'),
                        :search => "name = #{@rh_host.name}")
     get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text'}, set_session_user(user)
@@ -464,12 +464,12 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test 'should not render a template to user with invalid filter' do
-    user = FactoryGirl.create(:user, :with_mail, :admin => false)
+    user = FactoryBot.create(:user, :with_mail, :admin => false)
     user_role = roles(:destroy_hosts)
     user.roles << user_role
     user.save
 
-    FactoryGirl.create(:filter, :role => user_role,
+    FactoryBot.create(:filter, :role => user_role,
                        :permissions => Permission.where(:name => 'view_hosts'),
                        :search => "name = does_not_exist")
     get :host_template, {:kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text'}, set_session_user(user)

@@ -187,7 +187,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
       orgs = User.current.organizations
       locs = User.current.locations
       as_admin do
-        FactoryGirl.create(:compute_resource, :vmware, :uuid => 'Solutions',
+        FactoryBot.create(:compute_resource, :vmware, :uuid => 'Solutions',
                            :organizations => orgs, :locations => locs)
       end
     end

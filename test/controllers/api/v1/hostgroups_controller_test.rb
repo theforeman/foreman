@@ -47,7 +47,7 @@ class Api::V1::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should destroy hostgroups" do
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
     assert_difference('Hostgroup.unscoped.count', -1) do
       delete :destroy, :id => hostgroup
     end

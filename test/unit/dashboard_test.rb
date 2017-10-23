@@ -2,8 +2,8 @@ require 'test_helper'
 
 class DashboardTest < ActiveSupport::TestCase
   setup do
-    @env = FactoryGirl.create(:environment)
-    @host = FactoryGirl.create(:host, :with_reports, :environment => @env)
+    @env = FactoryBot.create(:environment)
+    @host = FactoryBot.create(:host, :with_reports, :environment => @env)
   end
 
   test 'hosts returns correct host' do

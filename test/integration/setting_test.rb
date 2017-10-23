@@ -16,7 +16,7 @@ class SettingIntegrationTest < ActionDispatch::IntegrationTest
       end
     end
 
-    FactoryGirl.create(:setting, :settings_type => "boolean", :category => "Setting::Test", :name => 'test_setting', :default => false)
+    FactoryBot.create(:setting, :settings_type => "boolean", :category => "Setting::Test", :name => 'test_setting', :default => false)
 
     assert_index_page(settings_path,"Settings",false,true,false)
     assert page.has_link?("My Pretty Setting Label", :href => "#Test")

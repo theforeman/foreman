@@ -29,7 +29,7 @@ class KeyPairComputeResourceTest < ActiveSupport::TestCase
     end
 
     cr = DummyComputeResource.new
-    key_pair = FactoryGirl.build(:key_pair)
+    key_pair = FactoryBot.build(:key_pair)
     cr.key_pair = key_pair
     DummyComputeResource.any_instance.stubs(:key_pairs).returns(@key_pairs)
     assert_kind_of(ComputeResourceKeyPair, cr.get_compute_key_pairs.first)
@@ -37,7 +37,7 @@ class KeyPairComputeResourceTest < ActiveSupport::TestCase
 
   test 'should remove the key pair on compute resource deletion' do
     cr = DummyComputeResource.new
-    key_pair = FactoryGirl.build(:key_pair)
+    key_pair = FactoryBot.build(:key_pair)
     cr.key_pair = key_pair
     mock_key_pairs = mock('mock_key_pairs')
     fog_key_pair = mock('fog_key_pair')

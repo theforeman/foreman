@@ -108,14 +108,14 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see os parameters" do
-    os_with_parameter = FactoryGirl.create(:operatingsystem, :with_parameter)
+    os_with_parameter = FactoryBot.create(:operatingsystem, :with_parameter)
     setup_user "view", "operatingsystems"
     get :show, {:id => os_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see os parameters" do
-    os_with_parameter = FactoryGirl.create(:operatingsystem, :with_parameter)
+    os_with_parameter = FactoryBot.create(:operatingsystem, :with_parameter)
     setup_user "view", "operatingsystems"
     setup_user "view", "params"
     get :show, {:id => os_with_parameter.to_param, :format => 'json'}
@@ -124,7 +124,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
 
   context 'hidden parameters' do
     test "should show a os parameter as hidden unless show_hidden_parameters is true" do
-      os = FactoryGirl.create(:operatingsystem)
+      os = FactoryBot.create(:operatingsystem)
       os.os_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => os.id }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -132,7 +132,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     end
 
     test "should show a os parameter as unhidden when show_hidden_parameters is true" do
-      os = FactoryGirl.create(:operatingsystem)
+      os = FactoryBot.create(:operatingsystem)
       os.os_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => os.id, :show_hidden_parameters => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -141,7 +141,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "should update existing operatingsystem parameters" do
-    operatingsystem = FactoryGirl.create(:operatingsystem)
+    operatingsystem = FactoryBot.create(:operatingsystem)
     param_params = { :name => "foo", :value => "bar" }
     operatingsystem.os_parameters.create!(param_params)
     put :update, { :id => operatingsystem.id, :operatingsystem => { :os_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
@@ -150,7 +150,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "should delete existing os parameters" do
-    operatingsystem = FactoryGirl.create(:operatingsystem)
+    operatingsystem = FactoryBot.create(:operatingsystem)
     param_1 = { :name => "foo", :value => "bar" }
     param_2 = { :name => "boo", :value => "test" }
     operatingsystem.os_parameters.create!([param_1, param_2])

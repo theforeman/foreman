@@ -6,8 +6,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   def setup
     as_admin do
-      @host = FactoryGirl.create(:host)
-      @ptable = FactoryGirl.create(:ptable)
+      @host = FactoryBot.create(:host)
+      @ptable = FactoryBot.create(:ptable)
       @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
     end
   end
@@ -140,7 +140,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should get all_parameters from index" do
-    hostgroup = FactoryGirl.create(:hostgroup, :with_parent, :with_domain, :with_os)
+    hostgroup = FactoryBot.create(:hostgroup, :with_parent, :with_domain, :with_os)
     hostgroup.group_parameters = [GroupParameter.new(name: 'foobar', value: 'baz')]
     last_record.parameters = [HostParameter.new(name: 'foo', value: 'bar')]
     last_record.update_attribute(:hostgroup_id, hostgroup.id)
@@ -164,7 +164,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'should show host with model name' do
-    model = FactoryGirl.create(:model)
+    model = FactoryBot.create(:model)
     @host.update_attribute(:model_id, model.id)
     get :show, { :id => @host.to_param }
     assert_response :success
@@ -175,7 +175,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should show host owner name" do
     owner = User.first
-    host = FactoryGirl.create(:host, :owner => owner)
+    host = FactoryBot.create(:host, :owner => owner)
     get :show, {:id => host.id}, set_session_user
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
@@ -292,13 +292,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update hostgroup_id of host" do
-    @host = FactoryGirl.create(:host, basic_attrs_with_hg)
+    @host = FactoryBot.create(:host, basic_attrs_with_hg)
     put :update, { :id => @host.to_param, :hostgroup_id => Hostgroup.last.id }
     assert_response :success
   end
 
   test "updating interface type isn't allowed" do
-    @host = FactoryGirl.create(:host, :interfaces => [FactoryGirl.build(:nic_bond, :primary => true)])
+    @host = FactoryBot.create(:host, :interfaces => [FactoryBot.build(:nic_bond, :primary => true)])
     nic_id = @host.interfaces.first.id
     put :update, { :id => @host.to_param, :host => { :interfaces_attributes => [{ :id => nic_id, :name => 'newname', :type => 'bmc'}] } }
 
@@ -308,7 +308,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update interfaces without changing their type" do
-    @host = FactoryGirl.create(:host, :interfaces => [FactoryGirl.build(:nic_bond, :primary => true)])
+    @host = FactoryBot.create(:host, :interfaces => [FactoryBot.build(:nic_bond, :primary => true)])
     nic_id = @host.interfaces.first.id
     put :update, { :id => @host.to_param, :host => { :interfaces_attributes => [{ :id => nic_id, :name => 'newname' }] } }
 
@@ -368,7 +368,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should allow access to restricted user who owns the host" do
-    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    host = FactoryBot.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     get :show, { :id => host.to_param }
     assert_response :success
@@ -376,14 +376,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should allow to update for restricted user who owns the host" do
     disable_orchestration
-    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    host = FactoryBot.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     put :update, { :id => host.to_param, :host => valid_attrs }
     assert_response :success
   end
 
   test "should allow destroy for restricted user who owns the hosts" do
-    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    host = FactoryBot.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
     assert_difference('Host.count', -1) do
       setup_user 'destroy', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
       delete :destroy, { :id => host.to_param }
@@ -393,7 +393,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should allow show status for restricted user who owns the hosts" do
     Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/status route is deprecated}))
-    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    host = FactoryBot.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     get :status, { :id => host.to_param }
     assert_response :success
@@ -406,7 +406,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should not list a host out of users hosts scope" do
-    host = FactoryGirl.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    host = FactoryBot.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
     get :index, {}
     assert_response :success
@@ -435,7 +435,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should show hosts vm attributes" do
-    host = FactoryGirl.create(:host, :compute_resource => compute_resources(:one))
+    host = FactoryBot.create(:host, :compute_resource => compute_resources(:one))
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns(:cpus => 4)
     get :vm_compute_attributes, { :id => host.to_param }
     assert_response :success
@@ -462,7 +462,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should disassociate host" do
-    host = FactoryGirl.create(:host, :on_compute_resource)
+    host = FactoryBot.create(:host, :on_compute_resource)
     assert host.compute?
     put :disassociate, { :id => host.to_param }
     assert_response :success
@@ -474,7 +474,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should run puppet for specific host" do
-    as_admin { @phost = FactoryGirl.create(:host, :with_puppet) }
+    as_admin { @phost = FactoryBot.create(:host, :with_puppet) }
     User.current=nil
     ProxyAPI::Puppet.any_instance.stubs(:run).returns(true)
     put :puppetrun, { :id => @phost.to_param }
@@ -483,21 +483,21 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   def test_rebuild_config_optimistic
     Host.any_instance.expects(:recreate_config).returns({ "TFTP" => true, "DNS" => true, "DHCP" => true })
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     post :rebuild_config, { :id => host.to_param }, set_session_user
     assert_response :success
   end
 
   def test_rebuild_config_pessimistic
     Host.any_instance.expects(:recreate_config).returns({ "TFTP" => false, "DNS" => false, "DHCP" => false })
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     post :rebuild_config, { :id => host.to_param }, set_session_user
     assert_response 422
   end
 
   def test_rebuild_tftp_config
     Host.any_instance.expects(:recreate_config).returns({ "TFTP" => true })
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     post :rebuild_config, { :id => host.to_param, :only => ['TFTP'] }, set_session_user
     assert_response :success
   end
@@ -529,7 +529,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test 'set hostgroup when foreman_hostgroup present in facts' do
     Setting[:create_new_host_when_facts_are_uploaded] = true
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
     hostname = fact_json['name']
     facts    = fact_json['facts']
     facts['foreman_hostgroup'] = hostgroup.title
@@ -540,7 +540,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test 'assign hostgroup attributes when foreman_hostgroup present in facts' do
     Setting[:create_new_host_when_facts_are_uploaded] = true
-    hostgroup = FactoryGirl.create(:hostgroup, :with_rootpass)
+    hostgroup = FactoryBot.create(:hostgroup, :with_rootpass)
     hostname = fact_json['name']
     facts    = fact_json['facts']
     facts['foreman_hostgroup'] = hostgroup.title
@@ -684,12 +684,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'non-admin user with power_host permission can boot a vm' do
-    @bmchost = FactoryGirl.create(:host, :managed)
-    FactoryGirl.create(:nic_bmc, :host => @bmchost)
+    @bmchost = FactoryBot.create(:host, :managed)
+    FactoryBot.create(:nic_bmc, :host => @bmchost)
     ProxyAPI::BMC.any_instance.stubs(:power).with(:action => 'status').returns("on")
-    role = FactoryGirl.create(:role, :name => 'power_hosts')
+    role = FactoryBot.create(:role, :name => 'power_hosts')
     role.add_permissions!(['power_hosts'])
-    api_user = FactoryGirl.create(:user)
+    api_user = FactoryBot.create(:user)
     api_user.update_attribute :roles, [role]
     as_user(api_user) do
       put :power, { :id => @bmchost.to_param, :power_action => 'status' }
@@ -703,8 +703,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     def initialize_proxy_ops
       User.current = users(:apiadmin)
-      @bmchost = FactoryGirl.create(:host, :managed)
-      FactoryGirl.create(:nic_bmc, :host => @bmchost)
+      @bmchost = FactoryBot.create(:host, :managed)
+      FactoryBot.create(:nic_bmc, :host => @bmchost)
     end
 
     test "power call to interface" do
@@ -758,7 +758,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
 
     test "should return correct total and subtotal metadata if search param is passed" do
-      FactoryGirl.create_list(:host, 8)
+      FactoryBot.create_list(:host, 8)
       get :index, {:search => @bmchost.name }
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)
@@ -769,15 +769,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'template should return rendered template' do
-    managed_host = FactoryGirl.create(:host, :managed)
-    Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provision'}).returns(FactoryGirl.create(:provisioning_template))
+    managed_host = FactoryBot.create(:host, :managed)
+    Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provision'}).returns(FactoryBot.create(:provisioning_template))
     get :template, { :id => managed_host.to_param, :kind => 'provision' }
     assert_response :success
     assert @response.body =~ /template content/
   end
 
   test 'wrong template name should return not found' do
-    managed_host = FactoryGirl.create(:host, :managed)
+    managed_host = FactoryBot.create(:host, :managed)
     Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provitamin'}).returns(nil)
     get :template, { :id => managed_host.to_param, :kind => 'provitamin' }
     assert_response :not_found
@@ -785,8 +785,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   context 'search by hostgroup' do
     def setup
-      @hostgroup = FactoryGirl.create(:hostgroup, :with_parent, :with_domain, :with_os)
-      @managed_host = FactoryGirl.create(:host, :managed, :hostgroup => @hostgroup)
+      @hostgroup = FactoryBot.create(:hostgroup, :with_parent, :with_domain, :with_os)
+      @managed_host = FactoryBot.create(:host, :managed, :hostgroup => @hostgroup)
     end
 
     test "should search host by hostgroup name" do
@@ -801,14 +801,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see host parameters" do
-    host_with_parameter = FactoryGirl.create(:host, :with_parameter)
+    host_with_parameter = FactoryBot.create(:host, :with_parameter)
     setup_user "view", "hosts"
     get :show, {:id => host_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see host parameters" do
-    host_with_parameter = FactoryGirl.create(:host, :with_parameter)
+    host_with_parameter = FactoryBot.create(:host, :with_parameter)
     setup_user "view", "hosts"
     setup_user "view", "params"
     get :show, {:id => host_with_parameter.to_param, :format => 'json'}
@@ -816,7 +816,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should get ENC values of host" do
-    host = FactoryGirl.create(:host, :with_puppetclass)
+    host = FactoryBot.create(:host, :with_puppetclass)
     get :enc, { :id => host.to_param }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
@@ -826,7 +826,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   context 'hidden parameters' do
     test "should show a host parameter as hidden unless show_hidden_parameters is true" do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       host.host_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => host.id }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -834,7 +834,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
 
     test "should show a host parameter as unhidden when show_hidden_parameters is true" do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       host.host_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => host.id, :show_hidden_parameters => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -843,14 +843,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update existing host parameters using indexed hash format" do
-    host = FactoryGirl.create(:host, :with_parameter)
+    host = FactoryBot.create(:host, :with_parameter)
     host_param = host.parameters.first
     put :update, { :id => host.id, :host => { :host_parameters_attributes => { "0" => { :name => host_param.name, :value => "new_value" } } } }
     assert_response :success
   end
 
   test "should update existing host parameters using array format" do
-    host = FactoryGirl.create(:host, :with_parameter)
+    host = FactoryBot.create(:host, :with_parameter)
     host_param = host.parameters.first
     put :update, { :id => host.id, :host => { :host_parameters_attributes => [{ :name => host_param.name, :value => "new_value" }] } }
     assert_response :success
@@ -864,7 +864,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     teardown { Fog.unmock! }
 
     let(:domain) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :domain,
         :name => 'virt.bos.redhat.com',
         :location_ids => [ basic_attrs[:location_id] ],
@@ -872,7 +872,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       )
     end
     let(:compute_resource) do
-      cr = FactoryGirl.create(:compute_resource, :vmware, :uuid => 'Solutions')
+      cr = FactoryBot.create(:compute_resource, :vmware, :uuid => 'Solutions')
       ComputeResource.find_by_id(cr.id)
     end
     let(:uuid) { '5032c8a5-9c5e-ba7a-3804-832a03e16381' }
@@ -904,7 +904,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
 
     test 'should not import if associated host exists' do
-      FactoryGirl.create(:host, :on_compute_resource, :uuid => uuid, :compute_resource => compute_resource)
+      FactoryBot.create(:host, :on_compute_resource, :uuid => uuid, :compute_resource => compute_resource)
       post :create, { :host => host_attrs }
       assert_response :unprocessable_entity
       body = ActiveSupport::JSON.decode(@response.body)
@@ -920,11 +920,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "host with two interfaces should get ips assigned on both interfaces" do
     disable_orchestration
-    subnet1 = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet1', :network => '192.168.2.0', :from => '192.168.2.10',
+    subnet1 = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet1', :network => '192.168.2.0', :from => '192.168.2.10',
                                   :to => '192.168.2.12', :dns_primary => '192.168.2.2', :gateway => '192.168.2.3',
                                   :ipam => IPAM::MODES[:db], :location_ids => [ basic_attrs[:location_id] ],
                                   :organization_ids => [ basic_attrs[:organization_id] ])
-    subnet2 = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet2', :network => '192.168.3.0', :from => '192.168.3.10',
+    subnet2 = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet2', :network => '192.168.3.0', :from => '192.168.3.10',
                                  :to => '192.168.3.12', :dns_primary => '192.168.3.2', :gateway => '192.168.3.3',
                                  :ipam => IPAM::MODES[:db], :location_ids => [ basic_attrs[:location_id] ],
                                  :organization_ids => [ basic_attrs[:organization_id] ])

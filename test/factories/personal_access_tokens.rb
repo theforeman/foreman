@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :personal_access_token do
     sequence(:name) {|n| "Personal Access Token #{n}" }
     token { Digest::SHA1.hexdigest(SecureRandom.urlsafe_base64(nil, false)) }

@@ -19,7 +19,7 @@ class ModelTest < ActiveSupport::TestCase
 
   test "should not be used when destroyed" do
     m = Model.create :name => "m1"
-    FactoryGirl.create(:host, :model => m)
+    FactoryBot.create(:host, :model => m)
     assert_equal 1, m.reload.hosts.size
     assert !m.destroy
   end

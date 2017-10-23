@@ -17,7 +17,7 @@ class Api::V2::AuditsControllerTest < ActionController::TestCase
   end
 
   test 'should show audit for parent resource only' do
-    host = FactoryGirl.create(:host, :managed)
+    host = FactoryBot.create(:host, :managed)
     host.reload
     host.model = Model.first
     host.save!

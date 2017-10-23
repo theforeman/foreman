@@ -5,7 +5,7 @@ class NicTest < ActiveSupport::TestCase
     disable_orchestration
     User.current = users :admin
 
-    @nic = FactoryGirl.build(:nic_managed, :host => FactoryGirl.build(:host, :managed => true))
+    @nic = FactoryBot.build(:nic_managed, :host => FactoryBot.build(:host, :managed => true))
   end
 
   def teardown
@@ -13,51 +13,51 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "should create simple interface" do
-    i = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
+    i = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryBot.create(:host)
     assert_equal "Nic::Base", i.class.to_s
   end
 
   test "type casting should return the correct class" do
-    i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => FactoryGirl.create(:host),
+    i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => FactoryBot.create(:host),
                           :type => "Nic::Interface"
     assert_equal "Nic::Interface", i.type
   end
 
   test "should fail on invalid mac" do
-    i = Nic::Base.new :mac => "abccddeeff", :host => FactoryGirl.create(:host, :managed)
+    i = Nic::Base.new :mac => "abccddeeff", :host => FactoryBot.create(:host, :managed)
     assert !i.valid?
     assert i.errors.keys.include?(:mac)
   end
 
   test "should be valid with 64-bit mac address" do
-    i = Nic::Base.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryGirl.create(:host)
+    i = Nic::Base.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryBot.create(:host)
     assert i.valid?
     assert !i.errors.keys.include?(:mac)
   end
 
   test "should fail on invalid dns name" do
-    i = Nic::Managed.new :mac => "dabbccddeeff", :host => FactoryGirl.create(:host), :name => "invalid_dns_name"
+    i = Nic::Managed.new :mac => "dabbccddeeff", :host => FactoryBot.create(:host), :name => "invalid_dns_name"
     assert !i.valid?
     assert i.errors.keys.include?(:name)
   end
 
   test "should fix mac address" do
-    interface = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
+    interface = Nic::Base.create! :mac => "cabbccddeeff", :host => FactoryBot.create(:host)
     assert_equal "ca:bb:cc:dd:ee:ff", interface.mac
   end
 
   test "should fix 64-bit mac address" do
-    interface = Nic::Base.create! :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryGirl.create(:host)
+    interface = Nic::Base.create! :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryBot.create(:host)
     assert_equal "ba:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd", interface.mac
   end
 
   test "should fix ip address if a leading zero is used" do
-    interface = Nic::Interface.create! :ip => "123.01.02.03", :mac => "dabbccddeeff", :host => FactoryGirl.create(:host)
+    interface = Nic::Interface.create! :ip => "123.01.02.03", :mac => "dabbccddeeff", :host => FactoryBot.create(:host)
     assert_equal "123.1.2.3", interface.ip
   end
 
   test "type can't by updated" do
-    interface = FactoryGirl.create(:nic_managed, :host => FactoryGirl.create(:host))
+    interface = FactoryBot.create(:nic_managed, :host => FactoryBot.create(:host))
     interface.type = 'Nic::BMC'
     interface.valid?
     assert_includes interface.errors.keys, :type
@@ -66,13 +66,13 @@ class NicTest < ActiveSupport::TestCase
   test "managed nic should generate progress report uuid" do
     uuid = '710d4a8f-b1b6-47f5-9ef5-5892a19dabcd'
     Foreman.stubs(:uuid).returns(uuid)
-    nic = FactoryGirl.build(:nic_managed)
+    nic = FactoryBot.build(:nic_managed)
     assert_equal uuid, nic.progress_report_id
   end
 
   test "host with managed nic should delegate progress report creation" do
     uuid = '710d4a8f-b1b6-47f5-9ef5-5892a19dabcd'
-    host = FactoryGirl.create(:host, :managed)
+    host = FactoryBot.create(:host, :managed)
     host.expects(:progress_report_id).returns(uuid)
     assert_equal uuid, host.primary_interface.progress_report_id
   end
@@ -81,13 +81,13 @@ class NicTest < ActiveSupport::TestCase
     subnet = subnets(:two)
     subnet6 = subnets(:seven)
     domain = (subnet.domains.any? ? subnet.domains : subnet.domains << Domain.first).first
-    interface = FactoryGirl.build(:nic_managed,
+    interface = FactoryBot.build(:nic_managed,
                                   :ip => "3.3.4.127",
                                   :mac => "cabbccddeeff",
-                                  :host => FactoryGirl.create(:host),
+                                  :host => FactoryBot.create(:host),
                                   :subnet => subnet,
                                   :subnet6 => subnet6,
-                                  :name => "a" + FactoryGirl.create(:host).name,
+                                  :name => "a" + FactoryBot.create(:host).name,
                                   :domain => domain)
     assert_equal subnet.network, interface.network
     assert_equal subnet6.network, interface.network6
@@ -99,13 +99,13 @@ class NicTest < ActiveSupport::TestCase
     subnet = nil
     subnet6 = subnets(:seven)
     domain = (subnet6.domains.any? ? subnet6.domains : subnet6.domains << Domain.first).first
-    interface = FactoryGirl.build(:nic_managed,
+    interface = FactoryBot.build(:nic_managed,
                                   :ip => "3.3.4.127",
                                   :mac => "cabbccddeeff",
-                                  :host => FactoryGirl.create(:host),
+                                  :host => FactoryBot.create(:host),
                                   :subnet => subnet,
                                   :subnet6 => subnet6,
-                                  :name => "a" + FactoryGirl.create(:host).name,
+                                  :name => "a" + FactoryBot.create(:host).name,
                                   :domain => domain)
     assert_equal subnet6.vlanid, interface.vlanid
     assert_equal subnet6.network, interface.network6
@@ -116,11 +116,11 @@ class NicTest < ActiveSupport::TestCase
     taxonomy_to_test = [:organization, :location]
 
     taxonomy_to_test.each do |taxonomy|
-      tax_object1 = FactoryGirl.build(taxonomy)
-      tax_object2 = FactoryGirl.build(taxonomy)
+      tax_object1 = FactoryBot.build(taxonomy)
+      tax_object2 = FactoryBot.build(taxonomy)
       subnet = subnets(:one)
       subnet6 = subnets(:six)
-      host = FactoryGirl.build(:host)
+      host = FactoryBot.build(:host)
 
       subnet_list = subnet.send((taxonomy.to_s.pluralize).to_s)
       subnet_list << tax_object1
@@ -142,10 +142,10 @@ class NicTest < ActiveSupport::TestCase
 
   test "should ignore subnet with mismatched taxonomy in host when settings disabled" do
     disable_taxonomies do
-      orgs = FactoryGirl.build_pair(:organization)
-      locs = FactoryGirl.build_pair(:location)
-      subn = FactoryGirl.build(:subnet_ipv4, :locations => [locs.first], :organizations => [orgs.first])
-      host = FactoryGirl.build(:host, :location => locs.last, :organization => orgs.last)
+      orgs = FactoryBot.build_pair(:organization)
+      locs = FactoryBot.build_pair(:location)
+      subn = FactoryBot.build(:subnet_ipv4, :locations => [locs.first], :organizations => [orgs.first])
+      host = FactoryBot.build(:host, :location => locs.last, :organization => orgs.last)
       nic = Nic::Base.new :mac => "cabbccddeeff", :host => host
       nic.subnet = subn
       assert_valid nic
@@ -153,11 +153,11 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "should accept subnets with aligned location and organization in host" do
-    location1 = FactoryGirl.build(:location)
-    organization1 = FactoryGirl.build(:organization)
+    location1 = FactoryBot.build(:location)
+    organization1 = FactoryBot.build(:organization)
 
     subnet = subnets(:one)
-    host = FactoryGirl.build(:host)
+    host = FactoryBot.build(:host)
 
     subnet.locations << location1
     subnet.organizations << organization1
@@ -171,14 +171,14 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "Nic::Managed#hostname should return blank for blank hostnames" do
-    i = Nic::Managed.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryGirl.create(:host), :subnet => subnets(:one), :domain => subnets(:one).domains.first, :name => ""
+    i = Nic::Managed.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryBot.create(:host), :subnet => subnets(:one), :domain => subnets(:one).domains.first, :name => ""
     assert i.name.blank?
     assert i.domain.present?
     assert i.hostname.blank?
   end
 
   test "Mac address uniqueness validation is skipped for virtual NICs and unmanaged hosts" do
-    host = FactoryGirl.create(:host, :managed)
+    host = FactoryBot.create(:host, :managed)
     Nic::Base.create! :mac => "cabbccddeeff", :host => host # physical
     host.reload
     virtual = Nic::Base.new :mac => "cabbccddeeff", :host => host, :virtual => true
@@ -186,24 +186,24 @@ class NicTest < ActiveSupport::TestCase
     assert virtual.save
     another_physical = Nic::Base.new :mac => "cabbccddeeff", :host => host
     refute another_physical.save
-    another_physical_on_unmanaged = Nic::Base.new :mac => "cabbccddeeff", :host => FactoryGirl.create(:host)
+    another_physical_on_unmanaged = Nic::Base.new :mac => "cabbccddeeff", :host => FactoryBot.create(:host)
     assert another_physical_on_unmanaged.save
   end
 
   test "VLAN requires identifier" do
-    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :tag => 5, :managed => true, :identifier => '')
+    nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :tag => 5, :managed => true, :identifier => '')
     refute nic.valid?
     assert_includes nic.errors.keys, :identifier
   end
 
   test "Alias requires identifier" do
-    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => '')
+    nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => '')
     refute nic.valid?
     assert_includes nic.errors.keys, :identifier
   end
 
   test "#alias? detects alias based on virtual and identifier attributes" do
-    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0')
+    nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0')
     refute nic.alias?
 
     nic.identifier = 'eth0:0'
@@ -214,9 +214,9 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "Alias subnet can only use static boot mode if it's managed" do
-    nic = FactoryGirl.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0:0')
-    nic.host = FactoryGirl.build(:host)
-    nic.subnet = FactoryGirl.build(:subnet_ipv4, :boot_mode => Subnet::BOOT_MODES[:dhcp])
+    nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0:0')
+    nic.host = FactoryBot.build(:host)
+    nic.subnet = FactoryBot.build(:subnet_ipv4, :boot_mode => Subnet::BOOT_MODES[:dhcp])
     refute nic.valid?
     assert_includes nic.errors.keys, :subnet_id
 
@@ -231,31 +231,31 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "BMC does not require identifier" do
-    nic = FactoryGirl.build(:nic_bmc, :managed => true, :identifier => '')
+    nic = FactoryBot.build(:nic_bmc, :managed => true, :identifier => '')
     nic.valid?
     refute_includes nic.errors.keys, :identifier
   end
 
   test "Bond requires identifier if managed" do
-    nic = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => true, :identifier => 'bond0')
+    nic = FactoryBot.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => true, :identifier => 'bond0')
     nic.valid?
     refute_includes nic.errors.keys, :identifier
   end
 
   test "Bond does not require identifier if not managed" do
-    nic = FactoryGirl.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => false, :identifier => '')
+    nic = FactoryBot.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => false, :identifier => '')
     nic.valid?
     refute_includes nic.errors.keys, :identifier
   end
 
   context 'physical?' do
     test 'returns true for a physical interface' do
-      nic = FactoryGirl.build(:nic_managed, :virtual => false)
+      nic = FactoryBot.build(:nic_managed, :virtual => false)
       assert nic.physical?
     end
 
     test 'returns false for a virtual interface' do
-      nic = FactoryGirl.build(:nic_managed, :virtual => true)
+      nic = FactoryBot.build(:nic_managed, :virtual => true)
       refute nic.physical?
     end
   end
@@ -263,10 +263,10 @@ class NicTest < ActiveSupport::TestCase
   context 'BMC' do
     setup do
       disable_orchestration
-      @subnet    = FactoryGirl.create(:subnet_ipv4, :dhcp, :ipam => IPAM::MODES[:db])
-      @domain    = FactoryGirl.create(:domain)
-      @interface = FactoryGirl.create(:nic_bmc, :ip => @subnet.unused_ip.suggest_ip,
-                                      :host => FactoryGirl.create(:host),
+      @subnet    = FactoryBot.create(:subnet_ipv4, :dhcp, :ipam => IPAM::MODES[:db])
+      @domain    = FactoryBot.create(:domain)
+      @interface = FactoryBot.create(:nic_bmc, :ip => @subnet.unused_ip.suggest_ip,
+                                      :host => FactoryBot.create(:host),
                                       :subnet => @subnet, :domain => @domain, :name => 'bmc')
     end
 
@@ -298,20 +298,20 @@ class NicTest < ActiveSupport::TestCase
     end
 
     test "bmc requires MAC address if managed" do
-      bmc = FactoryGirl.build(:nic_bmc, :managed => true, :mac => '')
+      bmc = FactoryBot.build(:nic_bmc, :managed => true, :mac => '')
       refute bmc.valid?
       assert_includes bmc.errors.keys, :mac
     end
 
     test "bmc does not require MAC address if unmanaged" do
-      bmc = FactoryGirl.build(:nic_bmc, :managed => false, :mac => '')
+      bmc = FactoryBot.build(:nic_bmc, :managed => false, :mac => '')
       bmc.valid?
       refute_includes bmc.errors.keys, :mac
     end
 
     context "on managed host" do
       setup do
-        @host = FactoryGirl.create(:host, :managed, :ip => '127.0.0.1')
+        @host = FactoryBot.create(:host, :managed, :ip => '127.0.0.1')
       end
 
       test "we can't destroy primary interface of managed host" do
@@ -321,7 +321,7 @@ class NicTest < ActiveSupport::TestCase
       end
 
       test "we can destroy non primary interface of managed host" do
-        interface = FactoryGirl.create(:nic_managed, :primary => false, :host => @host)
+        interface = FactoryBot.create(:nic_managed, :primary => false, :host => @host)
         assert interface.destroy
       end
 
@@ -341,7 +341,7 @@ class NicTest < ActiveSupport::TestCase
       end
 
       test "we can destroy non provision interface of managed host" do
-        interface = FactoryGirl.create(:nic_managed, :provision => false, :host => @host)
+        interface = FactoryBot.create(:nic_managed, :provision => false, :host => @host)
         assert interface.destroy
       end
 
@@ -357,7 +357,7 @@ class NicTest < ActiveSupport::TestCase
 
     context "on unmanaged host" do
       setup do
-        @host = FactoryGirl.create(:host)
+        @host = FactoryBot.create(:host)
       end
 
       test "we can destroy any interface of unmanaged host" do
@@ -372,7 +372,7 @@ class NicTest < ActiveSupport::TestCase
 
       test "host can have one primary interface at most" do
         # factory already created primary interface
-        interface = FactoryGirl.build(:nic_managed, :primary => true, :host => @host)
+        interface = FactoryBot.build(:nic_managed, :primary => true, :host => @host)
         refute interface.save
         assert_includes interface.errors.keys, :primary
 
@@ -382,9 +382,9 @@ class NicTest < ActiveSupport::TestCase
       end
 
       test "provision flag is set for primary interface automatically" do
-        primary = FactoryGirl.build(:nic_managed, :primary => true, :provision => false,
-                                    :domain => FactoryGirl.build(:domain))
-        host = FactoryGirl.create(:host, :interfaces => [primary])
+        primary = FactoryBot.build(:nic_managed, :primary => true, :provision => false,
+                                    :domain => FactoryBot.build(:domain))
+        host = FactoryBot.create(:host, :interfaces => [primary])
         assert host.save!
         primary.reload
         assert_equal primary, host.provision_interface
@@ -449,18 +449,18 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test 'new nic name containing existing domain should set nic domain' do
-    domain = FactoryGirl.create(:domain)
-    host = FactoryGirl.create(:host)
+    domain = FactoryBot.create(:domain)
+    host = FactoryBot.create(:host)
     nic_name = [host.name, domain.name].join('.')
-    interface = FactoryGirl.create(:nic_managed, :host => host, :name => nic_name)
+    interface = FactoryBot.create(:nic_managed, :host => host, :name => nic_name)
     refute_nil(interface.domain)
     assert_equal(interface.domain, domain)
   end
 
   test 'new nic name containing existing subdomain should set nic domain correctly' do
     nic_name = 'hostname.sub.bigdomain'
-    interface = FactoryGirl.build_stubbed(:nic_managed, :name => nic_name)
-    subdomain = FactoryGirl.create(:domain, :name => 'sub.bigdomain')
+    interface = FactoryBot.build_stubbed(:nic_managed, :name => nic_name)
+    subdomain = FactoryBot.create(:domain, :name => 'sub.bigdomain')
     Domain.expects(:find_by).with(:name => subdomain.name).returns(subdomain)
     interface.send(:normalize_name)
     assert_equal subdomain, interface.domain
@@ -468,8 +468,8 @@ class NicTest < ActiveSupport::TestCase
 
   test 'new nic name containing non-existing subdomain should not set nic domain' do
     nic_name = 'hostname.undefined-subdomain.bigdomain'
-    FactoryGirl.create(:domain, :name => 'bigdomain')
-    interface = FactoryGirl.build_stubbed(:nic_managed, :name => nic_name)
+    FactoryBot.create(:domain, :name => 'bigdomain')
+    interface = FactoryBot.build_stubbed(:nic_managed, :name => nic_name)
     Domain.expects(:find_by).
       with(:name => 'undefined-subdomain.bigdomain').
       returns(nil)
@@ -478,22 +478,22 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test 'new nic with non-existing domain should not set nic domain' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     nic_name = [host.name, 'domain.name'].join('.')
-    interface = FactoryGirl.create(:nic_managed, :host => host, :name => nic_name)
+    interface = FactoryBot.create(:nic_managed, :host => host, :name => nic_name)
     assert_nil(interface.domain)
   end
 
   test 'update nic domain should update nic name' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     existing_domain = Domain.first
-    interface = FactoryGirl.create(:nic_managed, :host => host, :name => 'nick')
+    interface = FactoryBot.create(:nic_managed, :host => host, :name => 'nick')
     # no domain
     assert_equal(interface.name, 'nick')
     interface.update_attributes(:domain_id => existing_domain.id)
     name_should_be = "nick.#{existing_domain.name}"
     assert_equal(name_should_be, interface.name)
-    new_domain = FactoryGirl.create(:domain)
+    new_domain = FactoryBot.create(:domain)
     interface.update_attributes(:domain_id => new_domain.id)
     name_should_change_to = "nick.#{new_domain.name}"
     assert_equal(name_should_change_to, interface.name)

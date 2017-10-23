@@ -19,11 +19,11 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "index respects taxonomies" do
-    org1 = FactoryGirl.create(:organization)
-    org2 = FactoryGirl.create(:organization)
-    user = FactoryGirl.create(:user, :mail => 'a@b.c')
+    org1 = FactoryBot.create(:organization)
+    org2 = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :mail => 'a@b.c')
     user.organizations = [ org1 ]
-    filter = FactoryGirl.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
     user.roles << filter.role
     as_user user do
       get :index, { }, set_session_user.merge(:user => User.current.id)
@@ -112,8 +112,8 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
-    domain = FactoryGirl.create(:domain, :organizations => [taxonomies(:organization2)])
-    FactoryGirl.create_list(:host, 2, :domain => domain,
+    domain = FactoryBot.create(:domain, :organizations => [taxonomies(:organization2)])
+    FactoryBot.create_list(:host, 2, :domain => domain,
                             :environment => environments(:production),
                             :organization => nil)
     assert_difference "organization.taxable_taxonomies.count", 1 do
@@ -129,7 +129,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
   test "assigned selected hosts with no organization to selected organization" do
     organization = taxonomies(:organization1)
-    hosts = FactoryGirl.create_list(:host, 2, :organization => nil)
+    hosts = FactoryBot.create_list(:host, 2, :organization => nil)
     selected_hosts_no_organization_ids = hosts.map(&:id)
 
     assert_difference "organization.hosts.count", 2 do
@@ -143,7 +143,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   # Mismatches
   test "should show all mismatches and button Fix All Mismatches if there are" do
-    FactoryGirl.create_list(:host, 2, :with_environment, :organization => taxonomies(:organization1))
+    FactoryBot.create_list(:host, 2, :with_environment, :organization => taxonomies(:organization1))
     TaxableTaxonomy.delete_all
     get :mismatches, {}, set_session_user
     assert_response :success
@@ -169,7 +169,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   test "should clone organization with associations" do
     organization = taxonomies(:organization1)
     organization.locations << taxonomies(:location1)
-    FactoryGirl.create(:host, :organization => nil)
+    FactoryBot.create(:host, :organization => nil)
     organization_dup = organization.clone
 
     assert_difference "Organization.unscoped.count", 1 do
@@ -199,16 +199,16 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "changes should expire topbar cache" do
-    user1 = FactoryGirl.create(:user, :with_mail)
-    user2 = FactoryGirl.create(:user, :with_mail)
-    organization = as_admin { FactoryGirl.create(:organization, :users => [user1, user2]) }
+    user1 = FactoryBot.create(:user, :with_mail)
+    user2 = FactoryBot.create(:user, :with_mail)
+    organization = as_admin { FactoryBot.create(:organization, :users => [user1, user2]) }
 
     User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
     put :update, { :id => organization.id, :organization => {:name => "Topbar Org" }}, set_session_user
   end
 
   test 'user with view_params rights should see parameters in an os' do
-    organization = FactoryGirl.create(:organization, :with_parameter)
+    organization = FactoryBot.create(:organization, :with_parameter)
     as_admin { organization.users << users(:one) }
     setup_user "edit", "organizations"
     setup_user "view", "params"
@@ -217,7 +217,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   test 'user without view_params rights should not see parameters in an os' do
-    organization = FactoryGirl.create(:organization, :with_parameter)
+    organization = FactoryBot.create(:organization, :with_parameter)
     setup_user "edit", "organizations"
     get :edit, {:id => organization.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Parameter']
@@ -235,10 +235,10 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   context 'wizard' do
     test 'redirects to step 2 if unassigned hosts exist' do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       host.update_attributes(:organization => nil)
 
-      organization = FactoryGirl.create(:organization)
+      organization = FactoryBot.create(:organization)
       Organization.stubs(:current).returns(organization)
 
       post :create, {:organization => {:name => "test_org"} }, set_session_user
@@ -254,7 +254,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     end
 
     test 'redirects to step 3 if no permissins for hosts' do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       host.update_attributes(:organization => nil)
 
       Host.stubs(:authorized).returns(Host.where('1=0'))

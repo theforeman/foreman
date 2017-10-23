@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :mail_notification do
     sequence(:name) {|n| "notification#{n}"}
     default_interval "Daily"

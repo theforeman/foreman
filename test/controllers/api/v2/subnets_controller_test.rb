@@ -85,7 +85,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   context 'free ip' do
     context 'subnet with ipam' do
       setup do
-        @subnet = FactoryGirl.create(:subnet_ipv4, :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+        @subnet = FactoryBot.create(:subnet_ipv4, :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
                                      :ipam => IPAM::MODES[:db])
       end
 
@@ -108,7 +108,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
     context 'subnet without ipam' do
       setup do
-        @subnet = FactoryGirl.create(:subnet_ipv4, :network => '192.168.2.0')
+        @subnet = FactoryBot.create(:subnet_ipv4, :network => '192.168.2.0')
       end
 
       test "should not get free ip" do
@@ -122,14 +122,14 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see subnet parameters" do
-    subnet_with_parameter = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+    subnet_with_parameter = FactoryBot.create(:subnet_ipv4, :with_parameter)
     setup_user "view", "subnets"
     get :show, {:id => subnet_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see subnet parameters" do
-    subnet_with_parameter = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+    subnet_with_parameter = FactoryBot.create(:subnet_ipv4, :with_parameter)
     setup_user "view", "subnets"
     setup_user "view", "params"
     get :show, {:id => subnet_with_parameter.to_param, :format => 'json'}
@@ -138,7 +138,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
   context 'hidden parameters' do
     test "should show a subnet parameter as hidden unless show_hidden_parameters is true" do
-      subnet = FactoryGirl.create(:subnet_ipv4)
+      subnet = FactoryBot.create(:subnet_ipv4)
       subnet.subnet_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => subnet.id }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -146,7 +146,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     end
 
     test "should show a subnet parameter as unhidden when show_hidden_parameters is true" do
-      subnet = FactoryGirl.create(:subnet_ipv4)
+      subnet = FactoryBot.create(:subnet_ipv4)
       subnet.subnet_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => subnet.id, :show_hidden_parameters => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -155,7 +155,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "should update existing subnet parameters" do
-    subnet = FactoryGirl.create(:subnet_ipv4)
+    subnet = FactoryBot.create(:subnet_ipv4)
     param_params = { :name => "foo", :value => "bar" }
     subnet.subnet_parameters.create!(param_params)
     put :update, { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
@@ -164,7 +164,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   end
 
   test "should delete existing subnet parameters" do
-    subnet = FactoryGirl.create(:subnet_ipv4)
+    subnet = FactoryBot.create(:subnet_ipv4)
     param_1 = { :name => "foo", :value => "bar" }
     param_2 = { :name => "boo", :value => "test" }
     subnet.subnet_parameters.create!([param_1, param_2])

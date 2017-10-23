@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BuildStatusTest < ActiveSupport::TestCase
   def setup
-    @host = FactoryGirl.build_stubbed(:host)
+    @host = FactoryBot.build_stubbed(:host)
     @status = HostStatus::BuildStatus.new
     @status.host = @host
   end

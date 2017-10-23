@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UINotificationsTest < ActiveSupport::TestCase
   test 'should parse a messsage with a subject' do
-    subject = FactoryGirl.create(:host)
+    subject = FactoryBot.create(:host)
     template = "hello %{subject}"
     options = {subject: subject}
     resolver = UINotifications::StringParser.new(template, options)
@@ -10,7 +10,7 @@ class UINotificationsTest < ActiveSupport::TestCase
   end
 
   test 'should parse a messsage with a subject twice' do
-    subject = FactoryGirl.create(:host)
+    subject = FactoryBot.create(:host)
     template = "hello %{subject} / %{subject}"
     options = {subject: subject}
     resolver = UINotifications::StringParser.new(template, options)

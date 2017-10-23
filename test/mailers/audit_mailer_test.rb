@@ -5,10 +5,10 @@ class AuditMailerTest <ActionMailer::TestCase
   def setup
     disable_orchestration
     # Add 'update' action to audits
-    @audit = FactoryGirl.create(:audit)
+    @audit = FactoryBot.create(:audit)
     as_admin do
       # Add 'create' action to audits
-      @host = FactoryGirl.create(:host)
+      @host = FactoryBot.create(:host)
     end
     @options = {}
     @options[:env] = @env

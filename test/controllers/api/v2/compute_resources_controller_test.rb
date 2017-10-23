@@ -263,8 +263,8 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should associate hosts that match" do
-    host_cr = FactoryGirl.create(:host, :on_compute_resource)
-    host_bm = FactoryGirl.create(:host)
+    host_cr = FactoryBot.create(:host, :on_compute_resource)
+    host_bm = FactoryBot.create(:host)
 
     uuid = Foreman.uuid
     vm2 = mock('vm2')

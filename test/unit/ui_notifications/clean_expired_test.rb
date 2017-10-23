@@ -88,13 +88,13 @@ class CleanExpiredTest < ActiveSupport::TestCase
   private
 
   def create_notification(blueprint)
-    FactoryGirl.create(:notification,
+    FactoryBot.create(:notification,
                        :audience => Notification::AUDIENCE_ADMIN,
                        :notification_blueprint => blueprint)
   end
 
   def create_blueprint(expired_time, validate = true)
-    blueprint = FactoryGirl.build(
+    blueprint = FactoryBot.build(
         :notification_blueprint,
         :expires_in => expired_time
     )

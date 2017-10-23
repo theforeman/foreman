@@ -7,7 +7,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   before do
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
-    as_admin { @host = FactoryGirl.create(:host, :with_puppet, :managed) }
+    as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
   end
 
   after do
@@ -59,8 +59,8 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
   describe 'edit page' do
     test 'correctly show hash type overrides' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                          :with_override, :key_type => 'hash',
                          :default_value => 'a: b', :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
@@ -73,13 +73,13 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test 'user without edit_params permission can save host with params' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                          :with_override, :key_type => 'string',
                          :default_value => 'string1', :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
                          :overrides => { host.lookup_value_matcher => 'string2' })
-      user = FactoryGirl.create(:user, :with_mail)
+      user = FactoryBot.create(:user, :with_mail)
       user.update_attribute(:roles, roles(:viewer, :edit_hosts))
       refute user.can? 'edit_params'
       set_request_user(user)
@@ -94,8 +94,8 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test 'shows errors on invalid lookup values' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                       :key_type => 'real', :default_value => true, :path => "fqdn\ncomment",
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
@@ -112,8 +112,8 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
   describe 'clone page' do
     test 'clones lookup values' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                       :puppetclass => host.puppetclasses.first, :path => "fqdn\ncomment")
       lookup_value = LookupValue.create(:value => 'abc', :match => host.lookup_value_matcher, :lookup_key_id => lookup_key.id)
 
@@ -125,8 +125,8 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test 'shows no errors on lookup values' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment",
+      host = FactoryBot.create(:host, :with_puppetclass)
+      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
 
       visit clone_host_path(host)
@@ -136,7 +136,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test 'clones root_pass' do
-      host = FactoryGirl.create(:host, :managed)
+      host = FactoryBot.create(:host, :managed)
       visit clone_host_path(host)
       assert page.has_link?('Operating System', :href => '#os')
       click_link 'Operating System'
@@ -145,13 +145,13 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test 'build mode is enabled for managed hosts' do
-      host = FactoryGirl.create(:host, :managed)
+      host = FactoryBot.create(:host, :managed)
       visit clone_host_path(host)
       assert page.has_checked_field?('host_build')
     end
 
     test 'build mode is not enabled for unmanaged hosts' do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       visit clone_host_path(host)
       refute page.has_checked_field?('host_build')
     end

@@ -12,8 +12,8 @@ module Foreman
         dependent(:destroy)
 
       test "#associated_host matches any NIC" do
-        host = FactoryGirl.create(:host, :ip => '10.0.0.154')
-        cr = FactoryGirl.build(:ec2_cr)
+        host = FactoryBot.create(:host, :ip => '10.0.0.154')
+        cr = FactoryBot.build(:ec2_cr)
         iface = mock('iface1', :public_ip_address => '10.0.0.154', :private_ip_address => "10.1.1.1")
         assert_equal host, as_admin { cr.associated_host(iface) }
       end
@@ -32,7 +32,7 @@ module Foreman
 
       context "key pairs" do
         test "should be capable of key_pair" do
-          cr = FactoryGirl.create(:ec2_cr)
+          cr = FactoryBot.create(:ec2_cr)
           assert_includes(cr.capabilities, :key_pair)
         end
       end

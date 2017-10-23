@@ -16,7 +16,7 @@ class AuditsControllerTest < ActionController::TestCase
   end
 
   def test_show_diff
-    audit = FactoryGirl.create(:audit, :with_diff)
+    audit = FactoryBot.create(:audit, :with_diff)
     get :show, {:id => audit.id}, set_session_user
     assert_response :success
     assert_template 'show'

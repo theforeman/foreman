@@ -28,7 +28,7 @@ class ProxyStatusLogsTest < ActiveSupport::TestCase
       },
       "logs" => []}
 
-    @proxy = FactoryGirl.build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
+    @proxy = FactoryBot.build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
     @status = ProxyStatus::Logs.new(@proxy, :cache => false)
   end
 

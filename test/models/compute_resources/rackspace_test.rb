@@ -7,8 +7,8 @@ class Foreman::Model::RackspaceTest < ActiveSupport::TestCase
   should validate_presence_of(:url)
 
   test "#associated_host matches any NIC" do
-    host = FactoryGirl.create(:host, :ip => '10.0.0.154')
-    cr = FactoryGirl.build(:rackspace_cr)
+    host = FactoryBot.create(:host, :ip => '10.0.0.154')
+    cr = FactoryBot.build(:rackspace_cr)
     iface = mock('iface1', :public_ip_address => '10.0.0.154', :private_ip_address => "10.1.1.1")
     assert_equal host, as_admin { cr.associated_host(iface) }
   end

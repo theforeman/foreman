@@ -7,10 +7,10 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'OpenSuse 11.4' } }.
   each do |os, config|
     test "os label for #{os}" do
-      stub_os = FactoryGirl.build(config['os'],
+      stub_os = FactoryBot.build(config['os'],
                                   :architectures => [architectures((config['arch']))],
-                                  :ptables => [FactoryGirl.create(:ptable)],
-                                  :media => [FactoryGirl.build(:medium)])
+                                  :ptables => [FactoryBot.create(:ptable)],
+                                  :media => [FactoryBot.build(:medium)])
       assert_equal(config['expected'], stub_os.to_label)
     end
   end
@@ -21,10 +21,10 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'boot/$arch/loader' } }.
   each do |os, config|
     test "pxedir  for #{os}" do
-      stub_os = FactoryGirl.build(config['os'],
+      stub_os = FactoryBot.build(config['os'],
                              :architectures => [architectures((config['arch']))],
-                             :ptables => [FactoryGirl.create(:ptable)],
-                             :media => [FactoryGirl.build(:medium)])
+                             :ptables => [FactoryBot.create(:ptable)],
+                             :media => [FactoryBot.build(:medium)])
 
       assert_equal(config['expected'], stub_os.pxedir)
     end
@@ -37,11 +37,11 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "kernel location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
-      host = FactoryGirl.build(:host,
-                               :operatingsystem => FactoryGirl.build(config['os'],
+      host = FactoryBot.build(:host,
+                               :operatingsystem => FactoryBot.build(config['os'],
                                                                      :architectures => [arch],
-                                                                     :ptables => [FactoryGirl.create(:ptable)],
-                                                                     :media => [FactoryGirl.build(:medium)]),
+                                                                     :ptables => [FactoryBot.create(:ptable)],
+                                                                     :media => [FactoryBot.build(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.kernel(host.arch))
     end
@@ -54,11 +54,11 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "initrd location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
-      host = FactoryGirl.build(:host,
-                               :operatingsystem => FactoryGirl.build(config['os'],
+      host = FactoryBot.build(:host,
+                               :operatingsystem => FactoryBot.build(config['os'],
                                                                      :architectures => [arch],
-                                                                     :ptables => [FactoryGirl.create(:ptable)],
-                                                                     :media => [FactoryGirl.build(:medium)]),
+                                                                     :ptables => [FactoryBot.create(:ptable)],
+                                                                     :media => [FactoryBot.build(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.initrd(host.arch))
     end
@@ -71,11 +71,11 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "pxe prefix for #{os}" do
       arch = architectures(config['arch'])
-      host = FactoryGirl.build(:host,
-                               :operatingsystem => FactoryGirl.build(config['os'],
+      host = FactoryBot.build(:host,
+                               :operatingsystem => FactoryBot.build(config['os'],
                                                                      :architectures => [arch],
-                                                                     :ptables => [FactoryGirl.create(:ptable)],
-                                                                     :media => [FactoryGirl.build(:medium)]),
+                                                                     :ptables => [FactoryBot.create(:ptable)],
+                                                                     :media => [FactoryBot.build(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.pxe_prefix(host.arch))
     end
@@ -95,14 +95,14 @@ class OperatingsystemsTest < ActiveSupport::TestCase
                       'initrd' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/initrd' } }.
   each do |os, config|
     test "pxe files for  #{os}" do
-      medium = FactoryGirl.build(:medium, config['medium'])
+      medium = FactoryBot.build(:medium, config['medium'])
 
       arch = architectures(config['arch'])
-      operatingsystem = FactoryGirl.build(config['os'],
+      operatingsystem = FactoryBot.build(config['os'],
                                           :architectures => [arch],
-                                          :ptables => [FactoryGirl.create(:ptable)],
+                                          :ptables => [FactoryBot.create(:ptable)],
                                           :media => [medium])
-      host = FactoryGirl.build(:host,
+      host = FactoryBot.build(:host,
                                :operatingsystem => operatingsystem,
                                :architecture    => arch,
                                :medium          => medium)

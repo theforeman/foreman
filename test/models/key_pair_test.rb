@@ -12,8 +12,8 @@ class KeyPairTest < ActiveSupport::TestCase
 
   context "compute resource key pair" do
     setup do
-      @compute_resource = FactoryGirl.create(:ec2_cr)
-      @key_pair = FactoryGirl.create(:key_pair, compute_resource: @compute_resource)
+      @compute_resource = FactoryBot.create(:ec2_cr)
+      @key_pair = FactoryBot.create(:key_pair, compute_resource: @compute_resource)
     end
 
     test "should not be active" do
@@ -29,7 +29,7 @@ class KeyPairTest < ActiveSupport::TestCase
     end
 
     test "should be used elsewhere" do
-      another_key_pair = FactoryGirl.create(:key_pair)
+      another_key_pair = FactoryBot.create(:key_pair)
       key = ComputeResourceKeyPair.new(another_key_pair.name, '30:06:44:08:30', @key_pair.name, @key_pair.id)
       refute key.active
       assert key.used_elsewhere

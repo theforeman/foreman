@@ -109,7 +109,7 @@ class SubnetsControllerTest < ActionController::TestCase
 
   context 'parameters permissions' do
     test 'with view_params user should see parameters in a subnet' do
-      subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+      subnet = FactoryBot.create(:subnet_ipv4, :with_parameter)
       setup_user "edit", "subnets"
       setup_user "view", "params"
       get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
@@ -117,7 +117,7 @@ class SubnetsControllerTest < ActionController::TestCase
     end
 
     test 'without view_params user should not see parameters in a subnet' do
-      subnet = FactoryGirl.create(:subnet_ipv4, :with_parameter)
+      subnet = FactoryBot.create(:subnet_ipv4, :with_parameter)
       setup_user "edit", "subnets"
       get :edit, {:id => subnet.id}, set_session_user.merge(:user => users(:one).id)
       assert_nil response.body['Parameter']
@@ -138,7 +138,7 @@ class SubnetsControllerTest < ActionController::TestCase
     end
 
     test 'renders import page with results' do
-      Subnet::Ipv4.expects(:import).returns([FactoryGirl.build(:subnet_ipv4)])
+      Subnet::Ipv4.expects(:import).returns([FactoryBot.build(:subnet_ipv4)])
       get :import, { :subnet_id => setup_subnet,
                      :smart_proxy_id => 'foo' }, set_session_user
       assert_response :success
@@ -148,7 +148,7 @@ class SubnetsControllerTest < ActionController::TestCase
   end
 
   test 'create_multiple filters parameters when given a list of subnets' do
-    sample_subnet = FactoryGirl.build(:subnet_ipv4)
+    sample_subnet = FactoryBot.build(:subnet_ipv4)
     subnet_hash = { :name => sample_subnet.name,
                     :type => sample_subnet.type,
                     :network => sample_subnet.network,

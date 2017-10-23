@@ -29,7 +29,7 @@ class MediumTest < ActiveSupport::TestCase
 
   context 'path validations' do
     setup do
-      @medium = FactoryGirl.build(:medium)
+      @medium = FactoryBot.build(:medium)
     end
 
     test "can't be blank" do
@@ -42,7 +42,7 @@ class MediumTest < ActiveSupport::TestCase
       @medium.path = 'http://www.google.com'
       assert @medium.save!
 
-      other_medium = FactoryGirl.build(:medium, :path => @medium.path)
+      other_medium = FactoryBot.build(:medium, :path => @medium.path)
       refute_valid other_medium
     end
   end
@@ -51,7 +51,7 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = FactoryGirl.create(:host, :with_operatingsystem)
+    host = FactoryBot.create(:host, :with_operatingsystem)
     refute host.build?
     host.medium = medium
     host.operatingsystem.media << medium
@@ -68,7 +68,7 @@ class MediumTest < ActiveSupport::TestCase
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!
 
-    host = FactoryGirl.create(:host, :with_operatingsystem, :managed)
+    host = FactoryBot.create(:host, :with_operatingsystem, :managed)
     host.build = true
     host.medium = medium
     host.operatingsystem.media << medium

@@ -3,7 +3,7 @@ require 'test_helper'
 class FactValueTest < ActiveSupport::TestCase
   def setup
     as_admin do
-      @host = FactoryGirl.create(:host)
+      @host = FactoryBot.create(:host)
       @fact_name   = FactName.create(:name => "my_facting_name")
       @fact_value  = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
       @child_name  = FactName.create(:name => 'my_facting_name::child', :parent => @fact_name)
@@ -22,7 +22,7 @@ class FactValueTest < ActiveSupport::TestCase
     assert_equal h, FactValue.count_each("my_facting_name")
 
     #Now creating a new fact value
-    @other_host = FactoryGirl.create(:host)
+    @other_host = FactoryBot.create(:host)
     FactValue.create(:value => "some value", :host => @other_host, :fact_name => @fact_name)
     h = [{:label=>"some value", :data=>2}]
     assert_equal h, FactValue.count_each("my_facting_name")
@@ -51,25 +51,25 @@ class FactValueTest < ActiveSupport::TestCase
   end
 
   test "should return search results if search free text is fact name" do
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => FactoryGirl.create(:host),
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    FactoryBot.create(:fact_value, :value => '2.6.9',:host => FactoryBot.create(:host),
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for('kernelversion')
     assert_equal 1, results.count
     assert_equal 'kernelversion', results.first.name
   end
 
   test "should return search results for name = fact name" do
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => FactoryGirl.create(:host),
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    FactoryBot.create(:fact_value, :value => '2.6.9',:host => FactoryBot.create(:host),
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for('name = kernelversion')
     assert_equal 1, results.count
     assert_equal 'kernelversion', results.first.name
   end
 
   test 'should return search results for host = fqdn' do
-    host = FactoryGirl.create(:host)
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    host = FactoryBot.create(:host)
+    FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for("host = #{host.fqdn}")
     refute_empty results
   end
@@ -80,32 +80,32 @@ class FactValueTest < ActiveSupport::TestCase
   end
 
   test 'should return search results for ILIKE operator on hostgroup' do
-    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup, :name => 'samplehgp'))
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup, :name => 'samplehgp'))
+    FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for("host.hostgroup ~ ampl")
     assert_equal 1, results.count
   end
 
   test 'should return search results for host.hostgroup = name' do
-    host = FactoryGirl.create(:host, :with_hostgroup)
+    host = FactoryBot.create(:host, :with_hostgroup)
     hostgroup = host.hostgroup.to_label
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
+    FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for("host.hostgroup = #{hostgroup}")
     refute_empty results
   end
 
   test 'should return empty search results for host with no facts' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     results = FactValue.search_for("host = #{host.fqdn}")
     assert_empty results
   end
 
   test 'numeric searches should use numeric comparsion' do
-    host = FactoryGirl.create(:host)
-    FactoryGirl.create(:fact_value, :value => '64498',:host => host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'memory_mb'))
+    host = FactoryBot.create(:host)
+    FactoryBot.create(:fact_value, :value => '64498',:host => host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'memory_mb'))
     results = FactValue.search_for("facts.memory_mb > 112889")
     assert_empty results
     results = FactValue.search_for("facts.memory_mb > 6544")
@@ -129,8 +129,8 @@ class FactValueTest < ActiveSupport::TestCase
   end
 
   describe '.my_facts' do
-    let(:target_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }
-    let(:other_host) { FactoryGirl.create(:host, :with_hostgroup, :with_facts) }
+    let(:target_host) { FactoryBot.create(:host, :with_hostgroup, :with_facts) }
+    let(:other_host) { FactoryBot.create(:host, :with_hostgroup, :with_facts) }
 
     test 'returns all facts for admin' do
       as_admin do
@@ -139,8 +139,8 @@ class FactValueTest < ActiveSupport::TestCase
     end
 
     test 'returns visible facts for unlimited user' do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role,
+      user_role = FactoryBot.create(:user_user_role)
+      FactoryBot.create(:filter, :role => user_role.role,
                          :permissions => Permission.unscoped.where(:name => 'view_hosts'),
                          :unlimited => true)
       target_host.organization = user_role.owner.organizations.first
@@ -153,8 +153,8 @@ class FactValueTest < ActiveSupport::TestCase
     end
 
     test 'returns visible facts for filtered user' do
-      user_role = FactoryGirl.create(:user_user_role)
-      FactoryGirl.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{target_host.hostgroup_id}")
+      user_role = FactoryBot.create(:user_user_role)
+      FactoryBot.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :search => "hostgroup_id = #{target_host.hostgroup_id}")
       as_user user_role.owner do
         assert_equal target_host.fact_values.map(&:id).sort, FactValue.my_facts.map(&:id).sort
       end
@@ -162,8 +162,8 @@ class FactValueTest < ActiveSupport::TestCase
 
     context 'taxonomies' do
       setup do
-        @orgs = FactoryGirl.create_pair(:organization)
-        @locs = FactoryGirl.create_pair(:location)
+        @orgs = FactoryBot.create_pair(:organization)
+        @locs = FactoryBot.create_pair(:location)
       end
 
       context 'limited view permissions' do
@@ -200,7 +200,7 @@ class FactValueTest < ActiveSupport::TestCase
       end
 
       test "only return facts from host in admin's currently selected taxonomy" do
-        user = as_admin { FactoryGirl.create(:user, :admin) }
+        user = as_admin { FactoryBot.create(:user, :admin) }
         target_host.update_attributes(:location => @locs.last, :organization => @orgs.last)
 
         as_user user do

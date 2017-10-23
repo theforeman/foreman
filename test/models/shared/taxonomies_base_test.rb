@@ -51,11 +51,11 @@ module TaxonomiesBaseTest
 
     test 'it should return array of used ids by hosts' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
-      subnet = FactoryGirl.create(:subnet_ipv4,
+      subnet = FactoryBot.create(:subnet_ipv4,
                                   :"#{opposite_taxonomy}_ids" => [],
                                   :"#{taxonomy_name.pluralize}" => [taxonomy])
-      domain = FactoryGirl.create(:domain)
-      FactoryGirl.create(:host,
+      domain = FactoryBot.create(:domain)
+      FactoryBot.create(:host,
                          :compute_resource => compute_resources(:one),
                          :domain           => domain,
                          :environment      => environments(:production),
@@ -67,7 +67,7 @@ module TaxonomiesBaseTest
                          :subnet           => subnet,
                          :"#{taxonomy_name}" => taxonomy,
                          :"#{opposite_taxonomy}" => nil)
-      FactoryGirl.create(:os_default_template,
+      FactoryBot.create(:os_default_template,
                          :provisioning_template  => templates(:mystring2),
                          :operatingsystem  => operatingsystems(:centos5_3),
                          :template_kind    => TemplateKind.find_by_name('provision'))
@@ -220,9 +220,9 @@ module TaxonomiesBaseTest
     end
 
     test ".my_taxonomies returns user's associated taxonomies and children" do
-      tax1 = FactoryGirl.create(:"#{taxonomy_name}")
-      tax2 = FactoryGirl.create(:"#{taxonomy_name}", :parent => tax1)
-      user = FactoryGirl.create(:user, :"#{taxonomy_name.pluralize}" => [tax1])
+      tax1 = FactoryBot.create(:"#{taxonomy_name}")
+      tax2 = FactoryBot.create(:"#{taxonomy_name}", :parent => tax1)
+      user = FactoryBot.create(:user, :"#{taxonomy_name.pluralize}" => [tax1])
       as_user(user) do
         assert_equal [tax1.id, tax2.id].sort,
           taxonomy_class.public_send(:"my_#{taxonomy_name.pluralize}").pluck(:id).sort
@@ -259,16 +259,16 @@ module TaxonomiesBaseTest
 
     test "used_and_selected_or_inherited_ids for inherited taxonomy" do
       parent = taxonomies(:"#{taxonomy_name}1")
-      subnet = FactoryGirl.create(:subnet_ipv4, :organizations => [taxonomies(:organization1)])
-      domain1 = FactoryGirl.create(:domain)
-      domain2 = FactoryGirl.create(:domain)
+      subnet = FactoryBot.create(:subnet_ipv4, :organizations => [taxonomies(:organization1)])
+      domain1 = FactoryBot.create(:domain)
+      domain2 = FactoryBot.create(:domain)
       parent.update_attribute(:domains, [domain1, domain2])
       parent.update_attribute(:subnets, [subnet])
       # we're no longer using the fixture dhcp/dns/tftp proxy to create the host, so remove them
       parent.update_attribute(:smart_proxies,[smart_proxies(:puppetmaster),smart_proxies(:realm)])
 
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent.id
-      FactoryGirl.create(:host,
+      FactoryBot.create(:host,
                          :compute_resource => compute_resources(:one),
                          :domain           => domain1,
                          :environment      => environments(:production),
@@ -280,10 +280,10 @@ module TaxonomiesBaseTest
                          :puppet_proxy     => smart_proxies(:puppetmaster),
                          :realm            => realms(:myrealm),
                          :subnet           => subnet)
-      FactoryGirl.create(:host,
+      FactoryBot.create(:host,
                          :"#{taxonomy_name}" => parent,
                          :domain           => domain2)
-      FactoryGirl.create(:os_default_template,
+      FactoryBot.create(:os_default_template,
                          :provisioning_template  => templates(:mystring2),
                          :operatingsystem  => operatingsystems(:centos5_3),
                          :template_kind    => TemplateKind.find_by_name('provision'))
@@ -380,7 +380,7 @@ module TaxonomiesBaseTest
     end
 
     test "taxonomy name can't be too big to create lookup value matcher over 255 characters" do
-      parent = FactoryGirl.create(:"#{taxonomy_name}")
+      parent = FactoryBot.create(:"#{taxonomy_name}")
       min_lookupvalue_length = "#{taxonomy_name}=".length + parent.title.length + 1
       taxonomy = taxonomy_class.new :parent => parent, :name => 'a' * (256 - min_lookupvalue_length)
       refute_valid taxonomy
@@ -389,14 +389,14 @@ module TaxonomiesBaseTest
     end
 
     test "taxonomy name can be up to 255 characters" do
-      parent = FactoryGirl.create(:"#{taxonomy_name}")
+      parent = FactoryBot.create(:"#{taxonomy_name}")
       min_lookupvalue_length = "#{taxonomy_name}=".length + parent.title.length + 1
       taxonomy = taxonomy_class.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
       assert_valid taxonomy
     end
 
     test "taxonomy should not save when matcher is exactly 256 characters" do
-      parent = FactoryGirl.create(:"#{taxonomy_name}", :name => 'a' * (255 - taxonomy_name.length - 2))
+      parent = FactoryBot.create(:"#{taxonomy_name}", :name => 'a' * (255 - taxonomy_name.length - 2))
       taxonomy = taxonomy_class.new :parent => parent, :name => 'b'
       refute_valid taxonomy
       assert_equal _("is too long (maximum is 0 characters)"), taxonomy.errors[:name].first
