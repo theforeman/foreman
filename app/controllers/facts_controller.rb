@@ -13,6 +13,7 @@ class FactsController < ApplicationController
     rescue
       data = @fact
     end
+    data[:values].map!(&:values)
     render :json => data
   end
 

@@ -15,7 +15,7 @@ exports[`renders DonutChart render donut chart 1`] = `
     Object {
       "columns": Array [
         Array [
-          "Fedora 21",
+          "Fedora 21 extra extra extra extra extra extra extra extra extra extra long label",
           3,
         ],
         Array [
@@ -23,7 +23,7 @@ exports[`renders DonutChart render donut chart 1`] = `
           4,
         ],
         Array [
-          "Centos 7",
+          "Centos 7 extra extra long label",
           2,
         ],
         Array [

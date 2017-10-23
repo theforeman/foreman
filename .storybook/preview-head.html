@@ -11,3 +11,14 @@
     return str;
   }
 </script>
+<!-- workaround to get Jed into storybook -->
+
+<script>
+  function sprintfStr(str, elem){
+      return str;
+  }
+
+  window.Jed = {
+    sprintf: sprintfStr
+    }
+</script>

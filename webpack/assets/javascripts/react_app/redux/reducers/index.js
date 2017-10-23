@@ -7,6 +7,7 @@ import notifications from './notifications/';
 import toasts from './toasts';
 import passwordStrength from './user/passwordStrength';
 import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBar';
+import factChart from './factCharts/';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -19,6 +20,7 @@ export function combineReducersAsync(asyncReducers) {
     passwordStrength,
     ...breadcrumbBarReducers,
     ...asyncReducers,
+    factChart,
   });
 }
 
