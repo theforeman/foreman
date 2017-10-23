@@ -3,7 +3,7 @@
 <table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
-      <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :'check-title' => _("Select all items in this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
+      <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onchange => "toggleCheck()", :'check-title' => _("Select all items on this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
       <% if power_status_visible? %>
         <th class="ca" width="5%"><%= _('Power') %></th>
       <% end %>

@@ -207,12 +207,14 @@ function update_counter() {
   if ($.foremanSelectedHosts)
     $(".select_count").text($.foremanSelectedHosts.length);
   var title = "";
-  if (item.attr("checked"))
-    title = $.foremanSelectedHosts.length + " - " + item.attr("uncheck-title");
+  if (item.prop('checked'))
+    title = pagination_metadata().per_page + " - " + item.attr("uncheck-title");
   else
     title = item.attr("check-title");
 
   item.attr("data-original-title", title );
-  item.tooltip();
+  item.tooltip({
+    trigger : 'hover'
+})
   return false;
 }

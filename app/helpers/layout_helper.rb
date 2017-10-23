@@ -155,7 +155,8 @@ module LayoutHelper
   end
 
   def per_page(collection)
-    [Setting[:entries_per_page], collection.total_entries].min
+    per_page = params[:per_page] ? params[:per_page].to_i : Setting[:entries_per_page]
+    [per_page, collection.total_entries].min
   end
 
   private
