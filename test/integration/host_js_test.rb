@@ -28,6 +28,38 @@ class HostJSTest < IntegrationTestWithJavascript
     SETTINGS[:organizations_enabled] = true
   end
 
+  describe 'multiple hosts selection' do
+    setup do
+      @entries = Setting[:entries_per_page]
+      FactoryBot.create_list(:host, 2)
+    end
+
+    teardown do
+      Setting[:entries_per_page] = @entries
+    end
+
+    test 'hosts counter should refer to per_page value first (max prespective)' do
+      Setting[:entries_per_page] = 2
+      visit hosts_path(per_page: 3)
+      check 'check_all'
+      assert page.has_text?(:all, "All 3 hosts on this page are selected")
+    end
+
+    test 'hosts counter should refer to per_page value first (min prespective)' do
+      Setting[:entries_per_page] = 3
+      visit hosts_path(per_page: 2)
+      check 'check_all'
+      assert page.has_text?(:all, "All 2 hosts on this page are selected")
+    end
+
+    test 'hosts counter should refer to setting- entries_per_page when there is no per_page value' do
+      Setting[:entries_per_page] = 3
+      visit hosts_path()
+      check 'check_all'
+      assert page.has_text?(:all, "All 3 hosts on this page are selected")
+    end
+  end
+
   describe 'edit page' do
     test 'class parameters and overrides are displayed correctly for strings' do
       host = FactoryBot.create(:host, :with_puppetclass)
