@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-20 08:53+0200\n"
-"PO-Revision-Date: 2017-09-20 08:53+0200\n"
+"POT-Creation-Date: 2017-10-23 16:56+0200\n"
+"PO-Revision-Date: 2017-10-23 16:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -82,7 +82,7 @@ msgid "Failed to load chart"
 msgstr ""
 
 #: ../app/assets/javascripts/class_edit.js:23
-#: ../app/helpers/application_helper.rb:97
+#: ../app/helpers/application_helper.rb:100
 msgid "Click to remove %s"
 msgstr ""
 
@@ -3466,7 +3466,9 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:30 ../app/helpers/audits_helper.rb:7
+#: ../app/controllers/hosts_controller.rb:30
+#: ../app/helpers/application_helper.rb:56
+#: ../app/helpers/application_helper.rb:66 ../app/helpers/audits_helper.rb:7
 #: ../app/helpers/audits_helper.rb:25 ../app/helpers/audits_helper.rb:52
 #: ../app/helpers/compute_resources_vms_helper.rb:37
 #: ../app/helpers/fact_values_helper.rb:5 ../app/helpers/hosts_helper.rb:192
@@ -3841,11 +3843,11 @@ msgstr ""
 msgid "You have already logged in"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:75
+#: ../app/helpers/application_helper.rb:78
 msgid "in %s"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:75
+#: ../app/helpers/application_helper.rb:78
 #: ../app/helpers/compute_resources_vms_helper.rb:35
 #: ../app/helpers/hosts_helper.rb:191 ../app/helpers/users_helper.rb:3
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:15
@@ -3854,47 +3856,47 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:110
+#: ../app/helpers/application_helper.rb:113
 msgid "Click to add %s"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:166 ../app/helpers/hosts_helper.rb:344
+#: ../app/helpers/application_helper.rb:169 ../app/helpers/hosts_helper.rb:344
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
 msgid "Delete"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:169 ../app/helpers/bmc_helper.rb:18
+#: ../app/helpers/application_helper.rb:172 ../app/helpers/bmc_helper.rb:18
 #: ../app/helpers/bmc_helper.rb:26
 #: ../app/helpers/compute_resources_vms_helper.rb:5
 #: ../app/views/images/_list.html.erb:21
 msgid "Are you sure?"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:192
+#: ../app/helpers/application_helper.rb:195
 #: ../app/helpers/provisioning_templates_helper.rb:18
 msgid "Export"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:193
+#: ../app/helpers/application_helper.rb:196
 msgid "Export to CSV"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:244
+#: ../app/helpers/application_helper.rb:247
 #: ../app/views/templates/_form.html.erb:19
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:267
+#: ../app/helpers/application_helper.rb:270
 #: ../webpack/assets/javascripts/react_app/components/statistics/StatisticsChartsList.js:35
 msgid "Expand the chart"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:379
+#: ../app/helpers/application_helper.rb:382
 msgid "Change your avatar at gravatar.com"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:413
+#: ../app/helpers/application_helper.rb:416
 #: ../app/views/about/index.html.erb:125
 #: ../app/views/bookmarks/welcome.html.erb:10
 #: ../app/views/common/_searchbar.html.erb:22
@@ -3903,7 +3905,7 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:418
+#: ../app/helpers/application_helper.rb:421
 msgid "None found"
 msgstr ""
 
