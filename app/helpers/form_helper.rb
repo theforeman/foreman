@@ -187,7 +187,11 @@ module FormHelper
 
   def file_field_f(f, attr, options = {})
     field(f, attr, options) do
-      f.file_field attr, options
+      html = ''
+      if options[:file_name]
+        html += content_tag(:span) {"File '#{options.delete(:file_name)}' has been uploaded, choose a file to change the selection" + ' ' || '' }
+      end
+      html + (f.file_field attr, options)
     end
   end
 
