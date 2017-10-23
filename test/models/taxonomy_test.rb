@@ -35,15 +35,15 @@ class TaxonomyTest < ActiveSupport::TestCase
   end
 
   test 'expand return the specified taxonomy for admin' do
-    org = FactoryGirl.build(:organization)
+    org = FactoryBot.build(:organization)
     as_admin do
       assert_equal org, Taxonomy.expand(org)
     end
   end
 
   test 'does not expand if no user set' do
-    org1 = FactoryGirl.build(:organization)
-    org2 = FactoryGirl.build(:organization)
+    org1 = FactoryBot.build(:organization)
+    org2 = FactoryBot.build(:organization)
     assert_nil Taxonomy.expand(nil)
     assert_equal [], Taxonomy.expand([])
     assert_equal org1, Taxonomy.expand(org1)
@@ -52,10 +52,10 @@ class TaxonomyTest < ActiveSupport::TestCase
 
   test 'for non admin user, nil is expanded to user assigned taxonomies' do
     # we have to run on specific taxonomy because my_* is defined only in Organization and Location
-    org1 = FactoryGirl.create(:organization)
-    org2 = FactoryGirl.create(:organization)
-    FactoryGirl.create(:organization) # this one won't be expanded
-    user = FactoryGirl.create(:user, :organizations => [org1, org2])
+    org1 = FactoryBot.create(:organization)
+    org2 = FactoryBot.create(:organization)
+    FactoryBot.create(:organization) # this one won't be expanded
+    user = FactoryBot.create(:user, :organizations => [org1, org2])
     as_user(user) do
       assert_equal [org1, org2].sort, Organization.expand(nil).sort
       assert_equal [org1, org2].sort, Organization.expand([]).sort
@@ -64,7 +64,7 @@ class TaxonomyTest < ActiveSupport::TestCase
 
   test 'for non admin user, nil is expanded to [] if user is not assigned to any org' do
     # we have to run on specific taxonomy because my_* is defined only in Organization and Location
-    user = FactoryGirl.create(:user, :organizations => [])
+    user = FactoryBot.create(:user, :organizations => [])
     as_user(user) do
       assert_equal [], Organization.expand(nil)
       assert_equal [], Organization.expand([])
@@ -73,9 +73,9 @@ class TaxonomyTest < ActiveSupport::TestCase
 
   test 'for non admin user, expand return the specified taxonomy' do
     # we have to run on specific taxonomy because my_* is defined only in Organization and Location
-    org1 = FactoryGirl.create(:organization)
-    org2 = FactoryGirl.create(:organization)
-    user = FactoryGirl.create(:user, :organizations => [org1, org2])
+    org1 = FactoryBot.create(:organization)
+    org2 = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :organizations => [org1, org2])
     as_user(user) do
       assert_equal org1, Organization.expand(org1)
       assert_equal [org1, org2], Organization.expand([org1, org2])

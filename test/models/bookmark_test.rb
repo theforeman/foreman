@@ -20,8 +20,8 @@ class BookmarkTest < ActiveSupport::TestCase
 
   test "my bookmarks should be able to create two bookmarks with same name under different controllers" do
     assert_difference 'Bookmark.count',1 do
-      FactoryGirl.create(:bookmark, :name => 'private', :controller => "users")
-      bookmark = FactoryGirl.build(:bookmark, :name => 'private', :controller => "hosts")
+      FactoryBot.create(:bookmark, :name => 'private', :controller => "users")
+      bookmark = FactoryBot.build(:bookmark, :name => 'private', :controller => "hosts")
       assert_valid bookmark
     end
   end
@@ -34,13 +34,13 @@ class BookmarkTest < ActiveSupport::TestCase
   end
 
   test "save bookmarks from STI controllers" do
-    FactoryGirl.create(:permission, :resource_type => 'ProvisioningTemplate', :name => 'manage_provisioning_templates')
-    FactoryGirl.create(:permission, :resource_type => 'MyPlugin', :name => 'view_my_plugins')
+    FactoryBot.create(:permission, :resource_type => 'ProvisioningTemplate', :name => 'manage_provisioning_templates')
+    FactoryBot.create(:permission, :resource_type => 'MyPlugin', :name => 'view_my_plugins')
     Permission.reset_resources
     BookmarkControllerValidator.reset_controllers_list
-    b = FactoryGirl.build(:bookmark, :name => 'STI controller', :controller => 'provisioning_templates', :query => 'foo=bar', :public => true)
+    b = FactoryBot.build(:bookmark, :name => 'STI controller', :controller => 'provisioning_templates', :query => 'foo=bar', :public => true)
     assert(b.valid?, 'STI controller bookmark should be valid')
-    b = FactoryGirl.build(:bookmark, :name => 'My plugin controller', :controller => 'my_plugins', :query => 'foo=bar', :public => true)
+    b = FactoryBot.build(:bookmark, :name => 'My plugin controller', :controller => 'my_plugins', :query => 'foo=bar', :public => true)
     assert(b.valid?, 'plugin controller bookmark should be valid')
   end
 

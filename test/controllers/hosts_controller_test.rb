@@ -35,7 +35,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should get csv index with data" do
-    host = FactoryGirl.create(:host, :with_hostgroup, :with_environment, :on_compute_resource, :with_reports)
+    host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource, :with_reports)
     get :index, { :format => 'csv', :search => "name = #{host.name}" }, set_session_user
     assert_response :success
     buf = response.stream.instance_variable_get(:@buf)
@@ -276,7 +276,7 @@ class HostsControllerTest < ActionController::TestCase
 
   def test_clone_with_hostgroup
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
-    host = FactoryGirl.create(:host, :with_hostgroup)
+    host = FactoryBot.create(:host, :with_hostgroup)
     get :clone, {:id => host.id}, set_session_user
     assert assigns(:clone_host)
     assert_template 'clone'
@@ -291,10 +291,10 @@ class HostsControllerTest < ActionController::TestCase
     setup_user operation, 'hosts', filter, &block
 
     as_admin do
-      @host1           = FactoryGirl.create(:host)
+      @host1           = FactoryBot.create(:host)
       @host1.owner     = users(:admin)
       @host1.save!
-      @host2           = FactoryGirl.create(:host)
+      @host2           = FactoryBot.create(:host)
       @host2.owner     = users(:admin)
       @host2.save!
     end
@@ -366,7 +366,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'user with view_params rights should see parameters in a host' do
-    host = FactoryGirl.create(:host, :with_parameter)
+    host = FactoryBot.create(:host, :with_parameter)
     setup_user "edit"
     setup_user "view", "params"
     get :edit, {:id => host.id}, set_session_user.merge(:user => users(:one).id)
@@ -374,7 +374,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'user without view_params rights should not see parameters in a host' do
-    host = FactoryGirl.create(:host, :with_parameter)
+    host = FactoryBot.create(:host, :with_parameter)
     setup_user "edit"
     get :edit, {:id => host.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Global Parameters']
@@ -395,7 +395,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'multiple hostgroup change by host ids' do
     @request.env['HTTP_REFERER'] = hosts_path
     # check that we have hosts and their hostgroup is empty
-    hosts = FactoryGirl.create_list(:host, 2)
+    hosts = FactoryBot.create_list(:host, 2)
     hosts.each { |host| assert_nil host.hostgroup }
 
     hostgroup = hostgroups(:unusual)
@@ -410,7 +410,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = hosts_path
-    hosts = FactoryGirl.create_list(:host, 2)
+    hosts = FactoryBot.create_list(:host, 2)
     host_names = hosts.map(&:name)
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|
@@ -435,7 +435,7 @@ class HostsControllerTest < ActionController::TestCase
   def setup_multiple_environments
     setup_user_and_host "edit"
     as_admin do
-      @host1, @host2 = FactoryGirl.create_list(:host, 2, :environment => environments(:production),
+      @host1, @host2 = FactoryBot.create_list(:host, 2, :environment => environments(:production),
                                                :organization => users(:one).organizations.first,
                                                :location => users(:one).locations.first)
     end
@@ -500,7 +500,7 @@ class HostsControllerTest < ActionController::TestCase
   def setup_multiple_compute_resource
     setup_user_and_host "edit"
     as_admin do
-      @host1, @host2 = FactoryGirl.create_list(:host, 2, :on_compute_resource)
+      @host1, @host2 = FactoryBot.create_list(:host, 2, :on_compute_resource)
     end
   end
 
@@ -567,14 +567,14 @@ class HostsControllerTest < ActionController::TestCase
     before do
       setup_user_and_host "edit"
       as_admin do
-        @hosts = FactoryGirl.create_list(:host, 2, :with_puppet)
+        @hosts = FactoryBot.create_list(:host, 2, :with_puppet)
       end
     end
 
     test "should change the puppet proxy" do
       @request.env['HTTP_REFERER'] = hosts_path
 
-      proxy = as_admin { FactoryGirl.create(:puppet_smart_proxy) }
+      proxy = as_admin { FactoryBot.create(:puppet_smart_proxy) }
 
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }
@@ -610,14 +610,14 @@ class HostsControllerTest < ActionController::TestCase
     before do
       setup_user_and_host "edit"
       as_admin do
-        @hosts = FactoryGirl.create_list(:host, 2, :with_puppet_ca)
+        @hosts = FactoryBot.create_list(:host, 2, :with_puppet_ca)
       end
     end
 
     test "should change the puppet ca proxy" do
       @request.env['HTTP_REFERER'] = hosts_path
 
-      proxy = as_admin { FactoryGirl.create(:smart_proxy, :features => [FactoryGirl.create(:feature, :puppetca)]) }
+      proxy = as_admin { FactoryBot.create(:smart_proxy, :features => [FactoryBot.create(:feature, :puppetca)]) }
 
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }
@@ -671,14 +671,14 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "parameter details should be html escaped" do
-    hg = FactoryGirl.create(:hostgroup, :name => "<script>alert('hacked')</script>")
-    host = FactoryGirl.create(:host, :with_puppetclass, :hostgroup => hg)
-    FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    hg = FactoryBot.create(:hostgroup, :name => "<script>alert('hacked')</script>")
+    host = FactoryBot.create(:host, :with_puppetclass, :hostgroup => hg)
+    FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'string',
                                 :default_value => "<script>alert('hacked!');</script>",
                                 :description => "<script>alert('hacked!');</script>",
                                 :puppetclass => host.puppetclasses.first)
-    FactoryGirl.create(:hostgroup_parameter, :hostgroup => hg)
+    FactoryBot.create(:hostgroup_parameter, :hostgroup => hg)
     get :edit, {:id => host.name}, set_session_user
     refute response.body.include?("<script>alert(")
     assert response.body.include?("&lt;script&gt;alert(")
@@ -770,7 +770,7 @@ class HostsControllerTest < ActionController::TestCase
 
   context 'submit actions with multiple hosts' do
     setup do
-      @host1, @host2 = FactoryGirl.create_list(:host, 2, :managed)
+      @host1, @host2 = FactoryBot.create_list(:host, 2, :managed)
     end
 
     test 'build without reboot' do
@@ -1043,8 +1043,8 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
-    domain = FactoryGirl.create(:domain, :locations => [taxonomies(:location2)])
-    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
+    domain = FactoryBot.create(:domain, :locations => [taxonomies(:location2)])
+    hosts = FactoryBot.create_list(:host, 2, :domain => domain,
                                     :environment => environments(:production),
                                     :location => taxonomies(:location2))
     assert_difference "location.taxable_taxonomies.count", 1 do
@@ -1112,8 +1112,8 @@ class HostsControllerTest < ActionController::TestCase
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
-    domain = FactoryGirl.create(:domain, :organizations => [taxonomies(:organization2)])
-    hosts = FactoryGirl.create_list(:host, 2, :domain => domain,
+    domain = FactoryBot.create(:domain, :organizations => [taxonomies(:organization2)])
+    hosts = FactoryBot.create_list(:host, 2, :domain => domain,
                                     :environment => environments(:production),
                                     :organization => taxonomies(:organization2))
     assert_difference "organization.taxable_taxonomies.count", 1 do
@@ -1184,7 +1184,7 @@ class HostsControllerTest < ActionController::TestCase
   test "test non admin multiple action" do
     users(:restricted).organizations << taxonomies(:organization1)
     users(:restricted).locations << taxonomies(:location1)
-    host = FactoryGirl.create(:host, :organization => taxonomies(:organization1), :location => taxonomies(:location1), :owner => users(:restricted))
+    host = FactoryBot.create(:host, :organization => taxonomies(:organization1), :location => taxonomies(:location1), :owner => users(:restricted))
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
     host_ids = [host.id]
     #the ajax can be any of the multiple actions, toke multiple_parameters for example
@@ -1193,8 +1193,8 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "select multiple action with valid host_ids param should return a selection page" do
-    host = FactoryGirl.create(:host)
-    host2 = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
+    host2 = FactoryBot.create(:host)
     host_ids = [host.id, host2.id]
     xhr :post, :multiple_parameters, {:host_ids => host_ids}, set_session_user
     assert_response :success
@@ -1215,7 +1215,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "#disassociate shows error when used on non-CR host" do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     @request.env["HTTP_REFERER"] = hosts_path
     put :disassociate, {:id => host.to_param}, set_session_user
     assert_response :redirect, hosts_path
@@ -1223,7 +1223,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "#disassociate removes UUID and CR association from host" do
-    host = FactoryGirl.create(:host, :on_compute_resource)
+    host = FactoryBot.create(:host, :on_compute_resource)
     @request.env["HTTP_REFERER"] = hosts_path
     put :disassociate, {:id => host.to_param}, set_session_user
     assert_response :redirect, hosts_path
@@ -1233,7 +1233,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test '#update_multiple_disassociate' do
-    host = FactoryGirl.create(:host, :on_compute_resource)
+    host = FactoryBot.create(:host, :on_compute_resource)
     post :update_multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
     assert_response :redirect, hosts_path
     assert_not_nil flash[:notice]
@@ -1243,14 +1243,14 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test '#multiple_disassociate with vm' do
-    host = FactoryGirl.create(:host, :on_compute_resource)
+    host = FactoryBot.create(:host, :on_compute_resource)
     post :multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
     assert_equal 1, assigns(:non_physical_hosts).count
     assert_equal 0, assigns(:physical_hosts).count
   end
 
   test '#multiple_disassociate with physical host' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     post :multiple_disassociate, {:host_ids => [host.id], :host_names => [host.name]}, set_session_user
     assert_equal 0, assigns(:non_physical_hosts).count
     assert_equal 1, assigns(:physical_hosts).count
@@ -1272,7 +1272,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test 'returns templates with interfaces' do
-      nic=FactoryGirl.create(:nic_managed, :host => @host)
+      nic=FactoryBot.create(:nic_managed, :host => @host)
       @attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
       xhr :put, :template_used, {:provisioning => 'build', :host => @attrs, :id => @host.id }, set_session_user
       assert_response :success
@@ -1307,7 +1307,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'process_taxonomy renders a host from the params correctly' do
-    nic = FactoryGirl.build(:nic_managed, :host => @host)
+    nic = FactoryBot.build(:nic_managed, :host => @host)
     attrs = host_attributes(@host)
     attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
     ActiveRecord::Base.any_instance.expects(:destroy).never
@@ -1322,7 +1322,7 @@ class HostsControllerTest < ActionController::TestCase
     def test_submit_multiple_rebuild_config_optimistic
       @request.env['HTTP_REFERER'] = hosts_path
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true})
-      h = as_admin {FactoryGirl.create(:host)}
+      h = as_admin {FactoryBot.create(:host)}
 
       post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
 
@@ -1334,7 +1334,7 @@ class HostsControllerTest < ActionController::TestCase
     def test_submit_multiple_rebuild_config_pessimistic
       @request.env['HTTP_REFERER'] = hosts_path
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => false, "DHCP" => false, "DNS" => false})
-      h = as_admin {FactoryGirl.create(:host)}
+      h = as_admin {FactoryBot.create(:host)}
 
       post :submit_rebuild_config, {:host_ids => [h.id]}, set_session_user
 
@@ -1369,8 +1369,8 @@ class HostsControllerTest < ActionController::TestCase
     teardown { Fog.unmock! }
 
     test '#process_hostgroup changes compute attributes' do
-      group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
-      host = FactoryGirl.build(:host, :managed, :on_compute_resource)
+      group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
+      host = FactoryBot.build(:host, :managed, :on_compute_resource)
       #remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1
@@ -1378,7 +1378,7 @@ class HostsControllerTest < ActionController::TestCase
       host.compute_profile = compute_profiles(:one)
       host.set_compute_attributes
 
-      group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      group2 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
 
       attrs = host_attributes(host)
       attrs['hostgroup_id'] = group2.id
@@ -1392,8 +1392,8 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test '#process_hostgroup does not change compute attributes if compute profile selected manually' do
-      group1 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:one))
-      host = FactoryGirl.build(:host, :managed, :on_compute_resource)
+      group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
+      host = FactoryBot.build(:host, :managed, :on_compute_resource)
       #remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1
@@ -1401,7 +1401,7 @@ class HostsControllerTest < ActionController::TestCase
       host.compute_profile = compute_profiles(:one)
       host.set_compute_attributes
 
-      group2 = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      group2 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
 
       attrs = host_attributes(host)
       attrs['hostgroup_id'] = group2.id
@@ -1430,7 +1430,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test '#compute_resource_selected renders compute tab with hostgroup\'s compute profile' do
-      group = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      group = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
       xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, set_session_user
       assert_response :success
       assert_template :partial => '_compute'
@@ -1438,8 +1438,8 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test '#compute_resource_selected renders compute tab with hostgroup parent\'s compute profile' do
-      parent = FactoryGirl.create(:hostgroup, :compute_profile => compute_profiles(:two))
-      group = FactoryGirl.create(:hostgroup, :parent => parent)
+      parent = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      group = FactoryBot.create(:hostgroup, :parent => parent)
       xhr :get, :compute_resource_selected, { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, set_session_user
       assert_response :success
       assert_template :partial => '_compute'
@@ -1449,12 +1449,12 @@ class HostsControllerTest < ActionController::TestCase
 
   test '#process_hostgroup works on Host subclasses' do
     class Host::Test < Host::Base; end
-    user = FactoryGirl.create(:user, :with_mail, :admin => false)
-    FactoryGirl.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => [ 'edit_hosts', 'view_hosts' ]))
+    user = FactoryBot.create(:user, :with_mail, :admin => false)
+    FactoryBot.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => [ 'edit_hosts', 'view_hosts' ]))
     user.roles << roles(:create_hosts)
     user.save!
-    hostgroup = FactoryGirl.create(:hostgroup)
-    host = FactoryGirl.create(:host, :type => "Host::Test", :hostgroup => hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
+    host = FactoryBot.create(:host, :type => "Host::Test", :hostgroup => hostgroup)
     host.stubs(:set_hostgroup_defaults)
     host.stubs(:set_compute_attributes)
     host.stubs(:architecture)
@@ -1499,8 +1499,8 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should create matcher for host turning into managed" do
-    original_host = Host::Base.create(:name => 'test', :domain => FactoryGirl.create(:domain))
-    lookup_key = FactoryGirl.create(:lookup_key)
+    original_host = Host::Base.create(:name => 'test', :domain => FactoryBot.create(:domain))
+    lookup_key = FactoryBot.create(:lookup_key)
     host = original_host.becomes(::Host::Managed)
     host.type = 'Host::Managed'
     host.managed = true
@@ -1605,7 +1605,7 @@ class HostsControllerTest < ActionController::TestCase
 
   context '#preview_host_collection' do
     test 'should list hosts' do
-      host = FactoryGirl.create(:host, :managed)
+      host = FactoryBot.create(:host, :managed)
       xhr :get, :preview_host_collection, { :q => '' }, set_session_user
       assert_response :success
       response = JSON.parse(@response.body)
@@ -1616,8 +1616,8 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test 'should find a host by name' do
-      host1 = FactoryGirl.create(:host, :managed, :hostname => 'aaaaaaa')
-      host2 = FactoryGirl.create(:host, :managed, :hostname => 'zzzzzzz')
+      host1 = FactoryBot.create(:host, :managed, :hostname => 'aaaaaaa')
+      host2 = FactoryBot.create(:host, :managed, :hostname => 'zzzzzzz')
       xhr :get, :preview_host_collection, { :q => 'aaaaaaa' }, set_session_user
       assert_response :success
       response = JSON.parse(@response.body)

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :os_parameter, :parent => :parameter, :class => OsParameter do
     type 'OsParameter'
   end
@@ -10,7 +10,7 @@ FactoryGirl.define do
     trait :with_os_defaults do
       after(:create) do |os,evaluator|
         os.provisioning_templates.each do |tmpl|
-          FactoryGirl.create(:os_default_template,
+          FactoryBot.create(:os_default_template,
                              :operatingsystem => os,
                              :provisioning_template => tmpl,
                              :template_kind => tmpl.template_kind)
@@ -20,35 +20,35 @@ FactoryGirl.define do
 
     trait :with_provision do
       provisioning_templates do
-        [FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('provision'))]
+        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('provision'))]
       end
       with_os_defaults
     end
 
     trait :with_pxelinux do
       provisioning_templates do
-        [FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXELinux'))]
+        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXELinux'))]
       end
       with_os_defaults
     end
 
     trait :with_grub do
       provisioning_templates do
-        [FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXEGrub'))]
+        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXEGrub'))]
       end
       with_os_defaults
     end
 
     trait :with_archs do
-      architectures { [FactoryGirl.create(:architecture)] }
+      architectures { [FactoryBot.create(:architecture)] }
     end
 
     trait :with_media do
-      media { [FactoryGirl.create(:medium)] }
+      media { [FactoryBot.create(:medium)] }
     end
 
     trait :with_ptables do
-      ptables { [FactoryGirl.create(:ptable)] }
+      ptables { [FactoryBot.create(:ptable)] }
     end
 
     trait :with_associations do
@@ -59,7 +59,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |os,evaluator|
-        FactoryGirl.create(:os_parameter, :operatingsystem => os)
+        FactoryBot.create(:os_parameter, :operatingsystem => os)
       end
     end
 

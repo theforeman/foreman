@@ -4,7 +4,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'special_key', :value => '123' }
 
   def setup
-    @host = FactoryGirl.create(:host, :with_parameter)
+    @host = FactoryBot.create(:host, :with_parameter)
   end
 
   test "should get index for specific host" do
@@ -309,14 +309,14 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   context 'hidden' do
     test "should show a host parameter as hidden unless show_hidden is true" do
-      parameter = FactoryGirl.create(:host_parameter, :host => @host, :hidden_value => true)
+      parameter = FactoryBot.create(:host_parameter, :host => @host, :hidden_value => true)
       get :show, { :host_id => @host.to_param, :id => parameter.to_param }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['value']
     end
 
     test "should show a host parameter unhidden when show_hidden is true" do
-      parameter = FactoryGirl.create(:host_parameter, :host => @host, :hidden_value => true)
+      parameter = FactoryBot.create(:host_parameter, :host => @host, :hidden_value => true)
       setup_user 'view', 'params'
       setup_user 'edit', 'params'
       setup_user 'view', 'hosts', "name = #{@host.name}"
@@ -326,7 +326,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     end
 
     test "should show a host parameter as hidden even when show_hidden is true if user is not authorized" do
-      parameter = FactoryGirl.create(:host_parameter, :host => @host, :hidden_value => true)
+      parameter = FactoryBot.create(:host_parameter, :host => @host, :hidden_value => true)
       setup_user 'view', 'params'
       setup_user 'view', 'hosts', "name = #{@host.name}"
       get :show, { :host_id => @host.to_param, :id => parameter.to_param, :show_hidden => 'true' }, set_session_user(:one)

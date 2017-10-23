@@ -32,7 +32,7 @@ class UINotificationsHostsDestroyTest < ActiveSupport::TestCase
   private
 
   def host
-    @host ||= FactoryGirl.create(:host, :managed)
+    @host ||= FactoryBot.create(:host, :managed)
   end
 
   def blueprint

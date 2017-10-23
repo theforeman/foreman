@@ -80,7 +80,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     end
 
     test 'user with view_params rights should see parameters in an os' do
-      os = FactoryGirl.create(:operatingsystem, :with_parameter)
+      os = FactoryBot.create(:operatingsystem, :with_parameter)
       setup_user "edit", "operatingsystems"
       setup_user "view", "params"
       get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
@@ -88,7 +88,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     end
 
     test 'user without view_params rights should not see parameters in an os' do
-      os = FactoryGirl.create(:operatingsystem, :with_parameter)
+      os = FactoryBot.create(:operatingsystem, :with_parameter)
       setup_user "edit", "operatingsystems"
       get :edit, {:id => os.id}, set_session_user.merge(:user => users(:one).id)
       assert_nil response.body['Parameter']
@@ -113,8 +113,8 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   context 'os_default_template' do
     setup do
-      @template_kind = FactoryGirl.create(:template_kind)
-      @provisioning_template = FactoryGirl.create(:provisioning_template, :template_kind_id => @template_kind.id)
+      @template_kind = FactoryBot.create(:template_kind)
+      @provisioning_template = FactoryBot.create(:provisioning_template, :template_kind_id => @template_kind.id)
     end
 
     test 'valid os_default_template should be saved' do

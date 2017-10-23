@@ -12,11 +12,11 @@ class NotificationTest < ActiveSupport::TestCase
   should have_many(:notification_recipients).dependent(:destroy)
 
   test 'should be able to create notification' do
-    blueprint = FactoryGirl.create(
+    blueprint = FactoryBot.create(
       :notification_blueprint,
       :message => 'this test just executed successfully'
     )
-    notice = FactoryGirl.create(:notification,
+    notice = FactoryBot.create(:notification,
                                 :audience => 'global',
                                 :notification_blueprint => blueprint)
     assert notice.valid?
@@ -25,27 +25,27 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test 'should return active notifications' do
-    blueprint = FactoryGirl.create(
+    blueprint = FactoryBot.create(
       :notification_blueprint,
       :expires_in => 5.minutes
     )
-    notice = FactoryGirl.create(:notification,
+    notice = FactoryBot.create(:notification,
                                 :audience => Notification::AUDIENCE_ADMIN,
                                 :notification_blueprint => blueprint)
     assert_includes Notification.active, notice
   end
 
   test 'user notifications should subscribe only to itself' do
-    notification = FactoryGirl.create(:notification,
+    notification = FactoryBot.create(:notification,
                                       :subject => User.current,
                                       :audience => Notification::AUDIENCE_USER)
     assert_equal [User.current.id], notification.subscriber_ids
   end
 
   test 'usergroup notifications should subscribe to all of its members' do
-    group = FactoryGirl.create(:usergroup)
-    group.users = FactoryGirl.create_list(:user,25)
-    notification = FactoryGirl.build(:notification,
+    group = FactoryBot.create(:usergroup)
+    group.users = FactoryBot.create_list(:user,25)
+    notification = FactoryBot.build(:notification,
                                      :audience => Notification::AUDIENCE_USERGROUP)
     notification.subject = group
     assert group.all_users.any?
@@ -54,9 +54,9 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test 'Organization notifications should subscribe to all of its members' do
-    org = FactoryGirl.create(:organization)
-    org.users = FactoryGirl.create_list(:user,25)
-    notification = FactoryGirl.build(:notification,
+    org = FactoryBot.create(:organization)
+    org.users = FactoryBot.create_list(:user,25)
+    notification = FactoryBot.build(:notification,
                                      :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = org
     assert org.user_ids.any?
@@ -64,9 +64,9 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test 'Location notifications should subscribe to all of its members' do
-    loc = FactoryGirl.create(:location)
-    loc.users = FactoryGirl.create_list(:user,25)
-    notification = FactoryGirl.build(:notification,
+    loc = FactoryBot.create(:location)
+    loc.users = FactoryBot.create_list(:user,25)
+    notification = FactoryBot.build(:notification,
                                      :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = loc
     assert loc.user_ids.any?
@@ -74,7 +74,7 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test 'Global notifications should subscribe to all users' do
-    notification = FactoryGirl.build(:notification,
+    notification = FactoryBot.build(:notification,
                                      :audience => Notification::AUDIENCE_GLOBAL)
     assert User.count > 0
     assert_equal User.reorder('').pluck(:id).sort,
@@ -82,9 +82,9 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test 'Admin notifications should subscribe to all admin users except hidden' do
-    notification = FactoryGirl.build(:notification,
+    notification = FactoryBot.build(:notification,
                                      :audience => Notification::AUDIENCE_ADMIN)
-    admin = FactoryGirl.create(:user, :admin)
+    admin = FactoryBot.create(:user, :admin)
 
     subscriber_ids = notification.subscriber_ids
     assert_includes subscriber_ids, admin.id
@@ -93,13 +93,13 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test 'notification message should be stored' do
-    host = FactoryGirl.create(:host)
-    blueprint = FactoryGirl.create(
+    host = FactoryBot.create(:host)
+    blueprint = FactoryBot.create(
       :notification_blueprint,
       :message => "%{subject} has been lost",
       :level => 'error'
     )
-    notice = FactoryGirl.create(:notification,
+    notice = FactoryBot.create(:notification,
       :audience => 'global',
       :subject => host,
       :notification_blueprint => blueprint)

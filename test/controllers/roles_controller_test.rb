@@ -36,7 +36,7 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   test 'put edit updates role' do
-    role = FactoryGirl.create(:role)
+    role = FactoryBot.create(:role)
     put :update, {:id => role.id, :role => {:name => 'masterManager'}}, set_session_user
 
     assert_redirected_to roles_path
@@ -45,7 +45,7 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   test 'delete destroy removes role' do
-    role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
+    role = FactoryBot.build(:role, :name => 'ToBeDestroyed')
     role.add_permissions! :view_ptables
 
     delete :destroy, {:id => role}, set_session_user
@@ -63,11 +63,11 @@ class RolesControllerTest < ActionController::TestCase
 
   context "with taxonomies" do
     before do
-      @permission1 = FactoryGirl.create(:permission, :domain, :name => 'permission1')
-      @role = FactoryGirl.build(:role, :permissions => [])
+      @permission1 = FactoryBot.create(:permission, :domain, :name => 'permission1')
+      @role = FactoryBot.build(:role, :permissions => [])
       @role.add_permissions! [ @permission1.name ]
-      @org1 = FactoryGirl.create(:organization)
-      @org2 = FactoryGirl.create(:organization)
+      @org1 = FactoryBot.create(:organization)
+      @org2 = FactoryBot.create(:organization)
       @role.organizations = [ @org1 ]
     end
 
@@ -105,7 +105,7 @@ class RolesControllerTest < ActionController::TestCase
 
   context 'clone' do
     setup do
-      @role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
+      @role = FactoryBot.build(:role, :name => 'ToBeDestroyed')
       @role.add_permissions! :view_ptables
     end
 

@@ -18,7 +18,7 @@ class ArchitectureTest < ActiveSupport::TestCase
     architecture = Architecture.new :name => "i386"
     assert architecture.save
 
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     host.architecture = architecture
     host.save(:validate => false)
 

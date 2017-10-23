@@ -41,7 +41,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
     assert operating_system.save
 
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     host.operatingsystem = operating_system
     host.save(:validate => false)
 
@@ -195,7 +195,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test "release name is changed to lower case on save" do
-    os = FactoryGirl.build(:operatingsystem, release_name: 'TEST')
+    os = FactoryBot.build(:operatingsystem, release_name: 'TEST')
     os.save!
     assert_equal 'test', os.release_name
   end
@@ -208,7 +208,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should create os with two different parameters" do
     pid = Time.now.to_i
-    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
+    operatingsystem = FactoryBot.build(:operatingsystem, :os_parameters_attributes =>
         {pid += 1=>{"name"=>"a", "value"=>"1"},
          pid +  1=>{"name"=>"b", "value"=>"1"}})
     assert_valid operatingsystem
@@ -216,7 +216,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should not create os with two new parameters with the same name" do
     pid = Time.now.to_i
-    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
+    operatingsystem = FactoryBot.build(:operatingsystem, :os_parameters_attributes =>
         {pid += 1=>{"name"=>"a", "value"=>"1"},
          pid += 1=>{"name"=>"a", "value"=>"2"},
          pid +  1=>{"name"=>"b", "value"=>"1"}})
@@ -226,7 +226,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test "should not create os with a new parameter with the same name as a existing parameter" do
-    operatingsystem = FactoryGirl.create(:operatingsystem)
+    operatingsystem = FactoryBot.create(:operatingsystem)
     operatingsystem.os_parameters = [OsParameter.new({:name => "a", :value => "3"})]
     assert operatingsystem.valid?
     operatingsystem.os_parameters.push(OsParameter.new({:name => "a", :value => "43"}))
@@ -235,7 +235,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should not create os with an invalid parameter - no name" do
     pid = Time.now.to_i
-    operatingsystem = FactoryGirl.build(:operatingsystem, :os_parameters_attributes =>
+    operatingsystem = FactoryBot.build(:operatingsystem, :os_parameters_attributes =>
         {pid += 1=>{"value"=>"1"},
          pid += 1=>{"name"=>"a", "value"=>"2"},
          pid +  1=>{"name"=>"b", "value"=>"1"}})
@@ -266,19 +266,19 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test "should have preferred pxe loader for OS with PXELinux template" do
-    os = FactoryGirl.create(:operatingsystem, :with_associations, :with_pxelinux)
+    os = FactoryBot.create(:operatingsystem, :with_associations, :with_pxelinux)
     assert_equal "PXELinux BIOS", os.preferred_loader
   end
 
   test "should have preferred pxe loader for OS with Grub template" do
-    os = FactoryGirl.create(:operatingsystem, :with_associations, :with_grub)
+    os = FactoryBot.create(:operatingsystem, :with_associations, :with_grub)
     assert_equal "Grub UEFI", os.preferred_loader
   end
 
   context 'os default templates' do
     setup do
-      @template_kind = FactoryGirl.create(:template_kind)
-      @provisioning_template = FactoryGirl.create(:provisioning_template, :template_kind_id => @template_kind.id)
+      @template_kind = FactoryBot.create(:template_kind)
+      @provisioning_template = FactoryBot.create(:provisioning_template, :template_kind_id => @template_kind.id)
       @os = operatingsystems(:centos5_3)
       @os.update_attributes(:os_default_templates_attributes =>
                                [{ :provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id }]
@@ -302,13 +302,13 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test 'name can include utf-8 and non-alpha numeric chars' do
-    operatingsystem = FactoryGirl.build(:operatingsystem, :name => '<applet>מערכתההפעלהשלי', :major => 4)
+    operatingsystem = FactoryBot.build(:operatingsystem, :name => '<applet>מערכתההפעלהשלי', :major => 4)
     assert operatingsystem.valid?
     assert_equal("#{operatingsystem.id}-applet-מערכתההפעלהשלי 4", operatingsystem.to_param)
   end
 
   test 'interpolated $version does not include dots if only major is specified' do
-    operatingsystem = FactoryGirl.build(:operatingsystem, :name => 'foo', :major => '4')
+    operatingsystem = FactoryBot.build(:operatingsystem, :name => 'foo', :major => '4')
     result_path = operatingsystem.interpolate_medium_vars('http://foo.org/$version',
                                                           'x64', operatingsystem)
     assert result_path, 'http://foo.org/4'
@@ -316,7 +316,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   context 'name should be unique in scope of major and minor' do
     setup do
-      @os = FactoryGirl.create(:operatingsystem, :name => 'centos', :major => 8, :minor => 3)
+      @os = FactoryBot.create(:operatingsystem, :name => 'centos', :major => 8, :minor => 3)
     end
 
     test 'should not create os with existing name, major and minor' do

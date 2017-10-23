@@ -100,8 +100,8 @@ class LocationsControllerTest < ActionController::TestCase
 
   test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
     location = taxonomies(:location1)
-    domain = FactoryGirl.create(:domain, :locations => [taxonomies(:location2)])
-    FactoryGirl.create_list(:host, 2, :domain => domain,
+    domain = FactoryBot.create(:domain, :locations => [taxonomies(:location2)])
+    FactoryBot.create_list(:host, 2, :domain => domain,
                             :environment => environments(:production),
                             :location => nil)
     assert_difference "location.taxable_taxonomies.count", 1 do
@@ -117,7 +117,7 @@ class LocationsControllerTest < ActionController::TestCase
   end
   test "assigned selected hosts with no location to selected location" do
     location = taxonomies(:location1)
-    hosts = FactoryGirl.create_list(:host, 2, :location => nil)
+    hosts = FactoryBot.create_list(:host, 2, :location => nil)
     selected_hosts_no_location_ids = hosts.map(&:id)
 
     assert_difference "location.hosts.count", 2 do
@@ -131,7 +131,7 @@ class LocationsControllerTest < ActionController::TestCase
 
   # Mismatches
   test "should show all mismatches and button Fix All Mismatches if there are" do
-    FactoryGirl.create_list(:host, 2, :with_environment, :location => taxonomies(:location1))
+    FactoryBot.create_list(:host, 2, :with_environment, :location => taxonomies(:location1))
     TaxableTaxonomy.delete_all
     get :mismatches, {}, set_session_user
     assert_response :success
@@ -157,7 +157,7 @@ class LocationsControllerTest < ActionController::TestCase
   test "should clone location with associations" do
     location = taxonomies(:location1)
     location.organizations << taxonomies(:organization1)
-    FactoryGirl.create(:host, :location => nil)
+    FactoryBot.create(:host, :location => nil)
     location_dup = location.clone
 
     assert_difference "Location.unscoped.count", 1 do
@@ -195,16 +195,16 @@ class LocationsControllerTest < ActionController::TestCase
   end
 
   test "changes should expire topbar cache" do
-    user1 = FactoryGirl.create(:user, :with_mail)
-    user2 = FactoryGirl.create(:user, :with_mail)
-    location = as_admin { FactoryGirl.create(:location, :users => [user1, user2]) }
+    user1 = FactoryBot.create(:user, :with_mail)
+    user2 = FactoryBot.create(:user, :with_mail)
+    location = as_admin { FactoryBot.create(:location, :users => [user1, user2]) }
 
     User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
     put :update, { :id => location.id, :location => {:name => "Topbar Loc" }}, set_session_user
   end
 
   test 'user with view_params rights should see parameters in a location' do
-    location = FactoryGirl.create(:location, :with_parameter, :organizations => [taxonomies(:organization1)])
+    location = FactoryBot.create(:location, :with_parameter, :organizations => [taxonomies(:organization1)])
     as_admin { location.users << users(:one) }
     setup_user "edit", "locations"
     setup_user "view", "params"
@@ -213,7 +213,7 @@ class LocationsControllerTest < ActionController::TestCase
   end
 
   test 'user without view_params rights should not see parameters in an os' do
-    location = FactoryGirl.create(:location, :with_parameter)
+    location = FactoryBot.create(:location, :with_parameter)
     setup_user "edit", "locations"
     get :edit, {:id => location.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Parameter']
@@ -231,10 +231,10 @@ class LocationsControllerTest < ActionController::TestCase
 
   context 'wizard' do
     test 'redirects to step 2 if unassigned hosts exist' do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       host.update_attributes(:location => nil)
 
-      location = FactoryGirl.create(:location)
+      location = FactoryBot.create(:location)
       Location.stubs(:current).returns(location)
 
       post :create, {:location => {:name => "test_loc"} }, set_session_user
@@ -250,7 +250,7 @@ class LocationsControllerTest < ActionController::TestCase
     end
 
     test 'redirects to step 3 if no permissins for hosts' do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       host.update_attributes(:location => nil)
 
       Host.stubs(:authorized).returns(Host.where('1=0'))

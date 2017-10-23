@@ -2,15 +2,15 @@ require 'integration_test_helper'
 
 class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
   setup do
-    role = FactoryGirl.create(:role)
-    @filter = FactoryGirl.create(:filter,
+    role = FactoryBot.create(:role)
+    @filter = FactoryBot.create(:filter,
                                  :permissions => Permission.where(:name => ['view_params']),
                                  :search => 'name ~ a* or domain_name ~ example*com',
                                  :role => role)
-    domain_filter = FactoryGirl.create(:filter, :permissions => Permission.where(:name => ['edit_domains', 'view_domains']))
+    domain_filter = FactoryBot.create(:filter, :permissions => Permission.where(:name => ['edit_domains', 'view_domains']))
 
     role.filters = [ @filter, domain_filter ]
-    @user = FactoryGirl.create(:user, :with_mail)
+    @user = FactoryBot.create(:user, :with_mail)
     @user.roles << role
 
     set_request_user(@user)
@@ -18,8 +18,8 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
 
   describe "global parameters" do
     before do
-      @visible_global_parameter = FactoryGirl.create(:common_parameter, :name => "a_parameter")
-      @invisible_global_parameter = FactoryGirl.create(:common_parameter, :name => "b_parameter")
+      @visible_global_parameter = FactoryBot.create(:common_parameter, :name => "a_parameter")
+      @invisible_global_parameter = FactoryBot.create(:common_parameter, :name => "b_parameter")
     end
 
     test "user can only see global parameters limited by filter on name" do
@@ -60,12 +60,12 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
 
   describe "domain parameters" do
     before do
-      @domain1 = FactoryGirl.create(:domain, :name => 'example.tst')
-      @visible_domain_parameter = FactoryGirl.create(:domain_parameter, :domain => @domain1, :name => 'a_parameter')
-      @invisible_domain_parameter = FactoryGirl.create(:domain_parameter, :domain => @domain1, :name => 'b_parameter')
+      @domain1 = FactoryBot.create(:domain, :name => 'example.tst')
+      @visible_domain_parameter = FactoryBot.create(:domain_parameter, :domain => @domain1, :name => 'a_parameter')
+      @invisible_domain_parameter = FactoryBot.create(:domain_parameter, :domain => @domain1, :name => 'b_parameter')
 
-      @domain2 = FactoryGirl.create(:domain)
-      @domain_visible_domain_parameter = FactoryGirl.create(:domain_parameter, :domain => @domain2, :name => 'c_parameter')
+      @domain2 = FactoryBot.create(:domain)
+      @domain_visible_domain_parameter = FactoryBot.create(:domain_parameter, :domain => @domain2, :name => 'c_parameter')
     end
 
     test "user can only see domain parameters limited by filter on name or domain" do

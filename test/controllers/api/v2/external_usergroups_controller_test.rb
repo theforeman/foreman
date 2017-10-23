@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
   setup do
     ExternalUsergroup.any_instance.stubs(:in_auth_source?).returns(true)
-    @external_usergroup = FactoryGirl.create(:external_usergroup)
+    @external_usergroup = FactoryBot.create(:external_usergroup)
   end
 
   test 'external user groups in user group' do
@@ -21,8 +21,8 @@ class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
   end
 
   test 'create external user group' do
-    usergroup   = FactoryGirl.create(:usergroup)
-    auth_source = FactoryGirl.create(:auth_source_ldap)
+    usergroup   = FactoryBot.create(:usergroup)
+    auth_source = FactoryBot.create(:auth_source_ldap)
     valid_attrs = { 'name' => 'foremanusergroup', 'auth_source_id' => auth_source.id }
     ExternalUsergroup.any_instance.expects(:refresh).returns(true)
     assert_difference('usergroup.external_usergroups.count') do

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :notification_blueprint do
     sequence(:group) { |n| "notification_blueprint_#{n}" }
     sequence(:message) { |n| "message_#{n}" }

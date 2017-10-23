@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UsergroupsControllerTest < ActionController::TestCase
   setup do
-    as_admin { FactoryGirl.create(:usergroup) }
+    as_admin { FactoryBot.create(:usergroup) }
     @model = Usergroup.first
   end
 
@@ -61,9 +61,9 @@ class UsergroupsControllerTest < ActionController::TestCase
   end
 
   test "changes should expire topbar cache" do
-    user1 = FactoryGirl.create(:user, :with_mail)
-    user2 = FactoryGirl.create(:user, :with_mail)
-    usergroup = FactoryGirl.create(:usergroup, :users => [user1, user2])
+    user1 = FactoryBot.create(:user, :with_mail)
+    user2 = FactoryBot.create(:user, :with_mail)
+    usergroup = FactoryBot.create(:usergroup, :users => [user1, user2])
     User.any_instance.expects(:expire_topbar_cache).twice
     put :update, { :id => usergroup.id, :usergroup => {:admin => true }}, set_session_user
   end
@@ -71,7 +71,7 @@ class UsergroupsControllerTest < ActionController::TestCase
   context "external user groups" do
     test 'a suggestion is shown if the LDAP source is not reachable' do
       AuthSourceLdap.any_instance.stubs(:valid_group? => true)
-      external = FactoryGirl.create(:external_usergroup)
+      external = FactoryBot.create(:external_usergroup)
       ExternalUsergroup.any_instance.expects(:refresh).
         raises(Net::LDAP::Error.new('foo'))
       put :update, { :id => external.usergroup_id, :usergroup => {
@@ -90,7 +90,7 @@ class UsergroupsControllerTest < ActionController::TestCase
 
     test 'are refreshed even when destroyed' do
       AuthSourceLdap.any_instance.stubs(:valid_group? => true)
-      external = FactoryGirl.create(:external_usergroup)
+      external = FactoryBot.create(:external_usergroup)
       ExternalUsergroup.any_instance.expects(:refresh).returns(true)
 
       put :update, { :id => external.usergroup_id, :usergroup => { :external_usergroups_attributes => {
@@ -101,8 +101,8 @@ class UsergroupsControllerTest < ActionController::TestCase
   end
 
   test 'index supports search' do
-    FactoryGirl.create(:usergroup, :name => 'aaa')
-    FactoryGirl.create(:usergroup, :name => 'bbb')
+    FactoryBot.create(:usergroup, :name => 'aaa')
+    FactoryBot.create(:usergroup, :name => 'bbb')
 
     get :index, {:search => 'aaa'}, set_session_user
 

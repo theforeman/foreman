@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SshKeysControllerTest < ActionController::TestCase
   let(:key) { 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIhRoL6PfBRs9YwW3r2/pYeLrxRzEZSUO3Go8JivxMsguEKjJ3byHDPvPpMHhKKSZD/HJY/A+2Ndqp0ElB+t2qs= foreman@example.com' }
-  let(:ssh_key) { FactoryGirl.create(:ssh_key)  }
+  let(:ssh_key) { FactoryBot.create(:ssh_key)  }
   let(:user) { ssh_key.user }
 
   test 'new' do

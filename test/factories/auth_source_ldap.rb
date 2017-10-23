@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :auth_source_ldap do
     sequence(:name) { |n| "auth_source_ldap_#{n}" }
     sequence(:host) { |n| "host_#{n}" }

@@ -5,7 +5,7 @@ class PtablesControllerTest < ActionController::TestCase
   basic_pagination_rendered_test
 
   def setup
-    @ptable = FactoryGirl.create(:ptable)
+    @ptable = FactoryBot.create(:ptable)
   end
 
   test 'index' do
@@ -118,8 +118,8 @@ class PtablesControllerTest < ActionController::TestCase
   end
 
   test 'preview' do
-    host = FactoryGirl.create(:host, :managed, :operatingsystem => FactoryGirl.create(:suse, :with_archs, :with_media))
-    template = FactoryGirl.create(:ptable)
+    host = FactoryBot.create(:host, :managed, :operatingsystem => FactoryBot.create(:suse, :with_archs, :with_media))
+    template = FactoryBot.create(:ptable)
 
     # works for given host
     post :preview, { :preview_host_id => host.id, :template => '<%= @host.name -%>', :id => template }, set_session_user

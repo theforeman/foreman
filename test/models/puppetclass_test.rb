@@ -23,9 +23,9 @@ class PuppetclassTest < ActiveSupport::TestCase
     @one = users(:one)
     # add permission for user :one
     as_admin do
-      filter1 = FactoryGirl.build(:filter)
+      filter1 = FactoryBot.build(:filter)
       filter1.permissions = Permission.where(:name => ['create_external_variables'])
-      filter2 = FactoryGirl.build(:filter)
+      filter2 = FactoryBot.build(:filter)
       filter2.permissions = Permission.where(:name => ['edit_puppetclasses'])
       role = Role.where(:name => "testing_role").first_or_create
       role.filters = [ filter1, filter2 ]
@@ -67,11 +67,11 @@ class PuppetclassTest < ActiveSupport::TestCase
 
   context "all_hostgroups should show hostgroups and their descendants" do
     setup do
-      @class = FactoryGirl.create(:puppetclass)
-      @hg1 = FactoryGirl.create(:hostgroup)
-      @hg2 = FactoryGirl.create(:hostgroup, :parent_id => @hg1.id)
-      @hg3 = FactoryGirl.create(:hostgroup, :parent_id => @hg2.id)
-      @config_group = FactoryGirl.create(:config_group)
+      @class = FactoryBot.create(:puppetclass)
+      @hg1 = FactoryBot.create(:hostgroup)
+      @hg2 = FactoryBot.create(:hostgroup, :parent_id => @hg1.id)
+      @hg3 = FactoryBot.create(:hostgroup, :parent_id => @hg2.id)
+      @config_group = FactoryBot.create(:config_group)
       @hg1.config_groups << @config_group
     end
 
@@ -102,12 +102,12 @@ class PuppetclassTest < ActiveSupport::TestCase
 
   context "host counting" do
     setup do
-      @env = FactoryGirl.create(:environment)
-      @class = FactoryGirl.create(:puppetclass)
-      @parent_hg = FactoryGirl.create(:hostgroup)
-      @hostgroup = FactoryGirl.create(:hostgroup, :parent => @parent_hg)
-      @config_group = FactoryGirl.create(:config_group, :puppetclasses => [@class])
-      @host = FactoryGirl.create(:host, :environment => @env)
+      @env = FactoryBot.create(:environment)
+      @class = FactoryBot.create(:puppetclass)
+      @parent_hg = FactoryBot.create(:hostgroup)
+      @hostgroup = FactoryBot.create(:hostgroup, :parent => @parent_hg)
+      @config_group = FactoryBot.create(:config_group, :puppetclasses => [@class])
+      @host = FactoryBot.create(:host, :environment => @env)
     end
 
     test "correctly counts direct hosts" do
@@ -157,9 +157,9 @@ class PuppetclassTest < ActiveSupport::TestCase
   end
 
   test "three levels of nested attributes still validate nested objects" do
-    klass = FactoryGirl.create(:puppetclass)
-    hostgroup = FactoryGirl.create(:hostgroup)
-    lk = FactoryGirl.create(:variable_lookup_key, puppetclass_id: klass.id)
+    klass = FactoryBot.create(:puppetclass)
+    hostgroup = FactoryBot.create(:hostgroup)
+    lk = FactoryBot.create(:variable_lookup_key, puppetclass_id: klass.id)
     attributes = {"hostgroup_ids"=>[hostgroup.id],
       "lookup_keys_attributes"=>
       {"0"=>
@@ -184,10 +184,10 @@ class PuppetclassTest < ActiveSupport::TestCase
 
   context "search in puppetclasses" do
     setup do
-      @class = FactoryGirl.create(:puppetclass)
-      @hostgroup = FactoryGirl.create(:hostgroup)
+      @class = FactoryBot.create(:puppetclass)
+      @hostgroup = FactoryBot.create(:hostgroup)
       @hostgroup.puppetclasses << @class
-      @config_group = FactoryGirl.create(:config_group, :puppetclasses => [@class])
+      @config_group = FactoryBot.create(:config_group, :puppetclasses => [@class])
     end
 
     test "search for puppetclass by hostgroup" do

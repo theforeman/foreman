@@ -44,7 +44,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should show all puppet clases for individual record" do
-    hostgroup = FactoryGirl.create(:hostgroup, :with_config_group)
+    hostgroup = FactoryBot.create(:hostgroup, :with_config_group)
     get :show, { :id => hostgroup.id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
@@ -102,14 +102,14 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see hostgroup parameters" do
-    hostgroup_with_parameter = FactoryGirl.create(:hostgroup, :with_parameter)
+    hostgroup_with_parameter = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "view", "hostgroups"
     get :show, {:id => hostgroup_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see hostgroup parameters" do
-    hostgroup_with_parameter = FactoryGirl.create(:hostgroup, :with_parameter)
+    hostgroup_with_parameter = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "view", "hostgroups"
     setup_user "view", "params"
     get :show, {:id => hostgroup_with_parameter.to_param, :format => 'json'}
@@ -118,7 +118,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
 
   context 'hidden parameters' do
     test "should show a group parameter as hidden unless show_hidden_parameters is true" do
-      hostgroup = FactoryGirl.create(:hostgroup)
+      hostgroup = FactoryBot.create(:hostgroup)
       hostgroup.group_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => hostgroup.id }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -126,7 +126,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     end
 
     test "should show a group parameter as unhidden when show_hidden_parameters is true" do
-       hostgroup = FactoryGirl.create(:hostgroup)
+       hostgroup = FactoryBot.create(:hostgroup)
        hostgroup.group_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
        get :show, { :id => hostgroup.id, :show_hidden_parameters => 'true' }
        show_response = ActiveSupport::JSON.decode(@response.body)
@@ -135,7 +135,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should update existing hostgroup parameters" do
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
     param_params = { :name => "foo", :value => "bar" }
     hostgroup.group_parameters.create!(param_params)
     put :update, { :id => hostgroup.id, :hostgroup => { :group_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
@@ -144,7 +144,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "should delete existing hostgroup parameters" do
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
     param_1 = { :name => "foo", :value => "bar" }
     param_2 = { :name => "boo", :value => "test" }
     hostgroup.group_parameters.create!([param_1, param_2])
@@ -155,21 +155,21 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
 
   test "should successfully recreate host configs" do
     Hostgroup.any_instance.expects(:recreate_hosts_config).returns({'foo.example.com' => { "TFTP" => true, "DNS" => true, "DHCP" => true }})
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
     post :rebuild_config, { :id => hostgroup.to_param }, set_session_user
     assert_response :success
   end
 
   test "should not successfully recreate host configs" do
     Hostgroup.any_instance.expects(:recreate_hosts_config).returns({'foo.example.com' => { "TFTP" => true, "DNS" => false, "DHCP" => true }})
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
     post :rebuild_config, { :id => hostgroup.to_param }, set_session_user
     assert_response 422
   end
 
   test "should successfully recreate TFTP configs" do
     Hostgroup.any_instance.expects(:recreate_hosts_config).returns({'foo.example.com' => { "TFTP" => true}})
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.create(:hostgroup)
     post :rebuild_config, { :id => hostgroup.to_param, :only => ['TFTP'] }, set_session_user
     assert_response :success
   end

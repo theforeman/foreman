@@ -2,7 +2,7 @@ require 'test_helper'
 
 class DashboardManagerTest < ActiveSupport::TestCase
   test '.add_widget_to_user adds built-in widget with params' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     user.widgets.clear
 
     widget_params = {template: 'status_widget', sizex: 8, sizey: 1, name: 'Host Configuration Status'}
@@ -13,7 +13,7 @@ class DashboardManagerTest < ActiveSupport::TestCase
   end
 
   test '.add_widget_to_user adds plugin widget with params' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     user.widgets.clear
 
     widget_params = {template: 'plugin_widget', sizex: 8, sizey: 1, name: 'Plugin 1'}
@@ -59,7 +59,7 @@ class DashboardManagerTest < ActiveSupport::TestCase
   end
 
   test '.reset_user_to_default removes and adds default widgets' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     user.widgets = [user.widgets.first]
 
     Foreman::Plugin.expects(:all).at_least_once.returns([])

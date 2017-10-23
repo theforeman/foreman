@@ -198,7 +198,7 @@ class Api::TestableControllerTest < ActionController::TestCase
     setup do
       @controller.stubs(:allowed_nested_id).returns(['domain_id'])
       @controller.stubs(:action_permission).returns('view')
-      @nested_obj = FactoryGirl.create(:domain, :id => 1)
+      @nested_obj = FactoryBot.create(:domain, :id => 1)
     end
 
     it 'should return 404 error, if association not defined for required parameters' do

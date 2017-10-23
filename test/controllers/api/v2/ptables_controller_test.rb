@@ -4,7 +4,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'ptable_test', :layout => 'd-i partman-auto/disk' }
 
   def setup
-    @ptable = FactoryGirl.create(:ptable)
+    @ptable = FactoryBot.create(:ptable)
   end
 
   test "should get index" do
@@ -51,7 +51,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should NOT destroy ptable in use" do
-    FactoryGirl.create(:host, :ptable_id => @ptable.id)
+    FactoryBot.create(:host, :ptable_id => @ptable.id)
     assert_difference('Ptable.unscoped.count', 0) do
       delete :destroy, { :id => @ptable.to_param }
     end
@@ -68,7 +68,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   test "should add audit comment" do
     Ptable.auditing_enabled = true
     Ptable.any_instance.stubs(:valid?).returns(true)
-    ptable = FactoryGirl.create(:ptable)
+    ptable = FactoryBot.create(:ptable)
     put :update, { :id => ptable.to_param,
                    :ptable => { :audit_comment => "aha", :template => "tmp" } }
     assert_response :success
@@ -76,7 +76,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   end
 
   test 'should clone template' do
-    original_ptable = FactoryGirl.create(:ptable)
+    original_ptable = FactoryBot.create(:ptable)
     post :clone, { :id => original_ptable.to_param,
                    :ptable => {:name => 'MyClone'} }
     assert_response :success
@@ -86,7 +86,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   end
 
   test 'export should export the erb of the template' do
-    ptable = FactoryGirl.create(:ptable)
+    ptable = FactoryBot.create(:ptable)
     get :export, { :id => ptable.to_param }
     assert_response :success
     assert_equal 'text/plain', response.content_type
@@ -94,7 +94,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   end
 
   test 'clone name should not be blank' do
-    post :clone, { :id => FactoryGirl.create(:ptable).to_param,
+    post :clone, { :id => FactoryBot.create(:ptable).to_param,
                    :ptable => {:name => ''} }
     assert_response :unprocessable_entity
   end

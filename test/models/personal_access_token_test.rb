@@ -7,8 +7,8 @@ class PersonalAccessTokenTest < ActiveSupport::TestCase
   should belong_to(:user)
 
   context 'a personal access token' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:token) { FactoryGirl.create(:personal_access_token, :user => user) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:token) { FactoryBot.create(:personal_access_token, :user => user) }
     let(:token_value) do
       token_value = token.generate_token
       token.save

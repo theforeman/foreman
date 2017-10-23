@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :audit do
     sequence(:version) {|n| n.to_s }
     auditable_type "test"

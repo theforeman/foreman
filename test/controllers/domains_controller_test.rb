@@ -58,7 +58,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'user with view_params rights should see parameters in a domain' do
-    domain = FactoryGirl.create(:domain, :with_parameter)
+    domain = FactoryBot.create(:domain, :with_parameter)
     setup_user "edit", "domains"
     setup_user "view", "params"
     get :edit, {:id => domain.id}, set_session_user.merge(:user => users(:one).id)
@@ -66,7 +66,7 @@ class DomainsControllerTest < ActionController::TestCase
   end
 
   test 'user without view_params rights should not see parameters in a domain' do
-    domain = FactoryGirl.create(:domain, :with_parameter)
+    domain = FactoryBot.create(:domain, :with_parameter)
     setup_user "edit", "domains"
     get :edit, {:id => domain.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Parameter']

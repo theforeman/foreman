@@ -3,7 +3,7 @@ require 'test_helper'
 class IPAMTest < ActiveSupport::TestCase
   context 'dhcp' do
     test "should find unused IP on proxy if proxy is set" do
-      subnet = FactoryGirl.build(:subnet_ipv4, :ipam_dhcp, :name => 'my_subnet', :network => '192.168.1.0')
+      subnet = FactoryBot.build(:subnet_ipv4, :ipam_dhcp, :name => 'my_subnet', :network => '192.168.1.0')
       subnet.stubs(:dhcp? => true)
       subnet.stubs(:dhcp => mock('attribute', :url => 'proxy.example.com'))
       fake_proxy = mock("dhcp_proxy")
@@ -16,7 +16,7 @@ class IPAMTest < ActiveSupport::TestCase
 
   context 'internal db' do
     test "should find unused IPv4" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.2.0',
         :ipam => IPAM::MODES[:db])
@@ -25,7 +25,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should find unused IPv6" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv6, :name => 'my_subnet',
         :network => '2001:db8::',
         :ipam => IPAM::MODES[:db])
@@ -34,7 +34,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should respect subnet from and to if it's set" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.2.0',
         :from => '192.168.2.10',
@@ -47,7 +47,7 @@ class IPAMTest < ActiveSupport::TestCase
 
   context 'random db' do
     test "should find unused IPv4" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '10.0.0.0',
         :mask => '255.0.0.0',
@@ -57,7 +57,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should return IPv4 based on MAC if provided" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '10.0.0.0',
         :mask => '255.0.0.0',
@@ -68,7 +68,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should find the only possible IPv4" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.11.0',
         :from => '192.168.11.5',
@@ -79,7 +79,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should find the only possible IPv4 with excluded IPs" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.11.0',
         :from => '192.168.11.5',
@@ -90,7 +90,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should stop trying to find random IPv4 after reasonable time" do
-      subnet = FactoryGirl.create(
+      subnet = FactoryBot.create(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '10.0.0.0',
         :mask => '255.0.0.0',
@@ -103,7 +103,7 @@ class IPAMTest < ActiveSupport::TestCase
 
   context 'EUI-64 IPAM' do
     test "should calculate unused IP via eui-64" do
-      subnet = FactoryGirl.build(:subnet_ipv6,
+      subnet = FactoryBot.build(:subnet_ipv6,
                                  :network => '2001:db8::',
                                  :mask => 'ffff:ffff:ffff:ffff::',
                                  :ipam => IPAM::MODES[:eui64])
@@ -112,7 +112,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test 'should not suggest an ip if given mac is invalid' do
-      subnet = FactoryGirl.build(:subnet_ipv6, :network => '2001:db8::')
+      subnet = FactoryBot.build(:subnet_ipv6, :network => '2001:db8::')
       ipam = IPAM::Eui64.new(:subnet => subnet, :mac => 'invalid')
       assert_nil ipam.suggest_ip
       refute_empty ipam.errors
@@ -120,7 +120,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test 'should not suggest an ip if prefix length is not suitable' do
-      subnet = FactoryGirl.build(:subnet_ipv6, :network => '2001:db8::', :cidr => 70)
+      subnet = FactoryBot.build(:subnet_ipv6, :network => '2001:db8::', :cidr => 70)
       ipam = IPAM::Eui64.new(:subnet => subnet, :mac => '00:11:22:33:44:55')
       assert_nil ipam.suggest_ip
       refute_empty ipam.errors

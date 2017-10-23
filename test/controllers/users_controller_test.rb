@@ -62,22 +62,22 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should assign a mail notification" do
-    user = FactoryGirl.create(:user, :with_mail)
-    notification = FactoryGirl.create(:mail_notification)
+    user = FactoryBot.create(:user, :with_mail)
+    notification = FactoryBot.create(:mail_notification)
     put :update, { :id => user.id, :user => {:user_mail_notifications_attributes => {'0' => {:mail_notification_id => notification.id, :interval => 'Subscribe'}}}}, set_session_user
     user = User.unscoped.find_by_id(user.id)
     assert user.mail_notifications.include? notification
   end
 
   test "user changes should expire topbar cache" do
-    user = FactoryGirl.create(:user, :with_mail)
+    user = FactoryBot.create(:user, :with_mail)
     User.any_instance.expects(:expire_topbar_cache).once
     put :update, { :id => user.id, :user => {:admin => true, :mail => user.mail} }, set_session_user
   end
 
   test "role changes should expire topbar cache" do
-    user = FactoryGirl.create(:user, :with_mail)
-    role1 = FactoryGirl.create :role
+    user = FactoryBot.create(:user, :with_mail)
+    role1 = FactoryBot.create :role
     UserRole.any_instance.expects(:expire_topbar_cache).at_least(1)
     put :update, { :id => user.id, :user => {:role_ids => [role1.id]} }, set_session_user
   end
@@ -138,7 +138,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "current user have to enter current password to change password" do
-    user = FactoryGirl.create(:user, :password => 'password')
+    user = FactoryBot.create(:user, :password => 'password')
     User.current = user
 
     put :update, {:id => user.id,
@@ -328,7 +328,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "#login refuses logins when User.try_to_login fails" do
-    u = FactoryGirl.create(:user)
+    u = FactoryBot.create(:user)
     User.expects(:try_to_login).with(u.login, 'password').returns(nil)
     post :login, {:login => {'login' => u.login, 'password' => 'password'}}
     assert_redirected_to login_users_path
@@ -488,8 +488,8 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   context 'personal access tokens' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:token) { FactoryGirl.create(:personal_access_token, :user => user) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:token) { FactoryBot.create(:personal_access_token, :user => user) }
     let(:token_value) do
       token_value = token.generate_token
       token.save

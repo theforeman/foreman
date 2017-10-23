@@ -7,7 +7,7 @@ class AuditExtensionsTest < ActiveSupport::TestCase
 
   test "should be connected to current user" do
     audit = as_admin do
-      FactoryGirl.create(:audit)
+      FactoryBot.create(:audit)
     end
 
     assert_equal audit.user_id, @user.id
@@ -15,12 +15,12 @@ class AuditExtensionsTest < ActiveSupport::TestCase
   end
 
   test "host scoped search for audit works" do
-    resource = FactoryGirl.create(:host, :managed, :with_auditing)
+    resource = FactoryBot.create(:host, :managed, :with_auditing)
     assert Audit.search_for("host = #{resource.name}").count > 0
   end
 
   test "host autocomplete works in audit search" do
-    FactoryGirl.create(:host, :managed)
+    FactoryBot.create(:host, :managed)
     hosts = Audit.complete_for("host = ", {:controller => 'audits'})
     assert hosts.count > 0
   end
@@ -38,12 +38,12 @@ class AuditExtensionsTest < ActiveSupport::TestCase
 
   test "search for type=lookupvalue in audit" do
     key = lookup_keys(:three)
-    FactoryGirl.create :lookup_value, :with_auditing, :lookup_key_id => key.id, :value => false, :match => "hostgroup=Common"
+    FactoryBot.create :lookup_value, :with_auditing, :lookup_key_id => key.id, :value => false, :match => "hostgroup=Common"
     refute_empty Audit.search_for("type = override_value")
   end
 
   test "search for type=compute_resource in audit" do
-    FactoryGirl.create(:ec2_cr, :with_auditing)
+    FactoryBot.create(:ec2_cr, :with_auditing)
     refute_empty Audit.search_for("type = compute_resource")
   end
 

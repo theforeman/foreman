@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :report do
     host
     reported_at { Time.now.utc }
@@ -22,7 +22,7 @@ FactoryGirl.define do
     end
     after(:create) do |report,evaluator|
       evaluator.log_count.times do
-        FactoryGirl.create(:log, :report => report)
+        FactoryBot.create(:log, :report => report)
       end
     end
   end
@@ -38,8 +38,8 @@ FactoryGirl.define do
     report
     level_id 1
     after(:build) do |log|
-      log.message = FactoryGirl.create(:message)
-      log.source = FactoryGirl.create(:source)
+      log.message = FactoryBot.create(:message)
+      log.source = FactoryBot.create(:source)
     end
   end
 

@@ -7,7 +7,7 @@ end
 class PxeLoaderSupportTest < ActiveSupport::TestCase
   def setup
     @subject = DummyPxeLoader.new
-    @host = FactoryGirl.create(:host)
+    @host = FactoryBot.create(:host)
     @subject.stubs(:template_kinds).returns(Operatingsystem.new.template_kinds)
   end
 
@@ -65,9 +65,9 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
 
   describe "preferred loader" do
     setup do
-      @template_pxelinux = FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXELinux))
-      @template_pxegrub = FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub))
-      @template_pxegrub2 = FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub2))
+      @template_pxelinux = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXELinux))
+      @template_pxegrub = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub))
+      @template_pxegrub2 = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub2))
     end
 
     test "is none for zero template kinds and templates" do

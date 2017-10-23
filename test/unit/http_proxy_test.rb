@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class HttpProxyTest < ActiveSupport::TestCase
-  let(:http_proxy) {FactoryGirl.create(:http_proxy)}
+  let(:http_proxy) {FactoryBot.create(:http_proxy)}
 
   should validate_presence_of(:url)
   should_not allow_value('börks').for(:url)

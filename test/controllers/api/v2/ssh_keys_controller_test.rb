@@ -7,8 +7,8 @@ class Api::V2::SshKeysControllerTest < ActionController::TestCase
   }
 
   def setup
-    @user = FactoryGirl.create(:user)
-    @ssh_key = FactoryGirl.create(:ssh_key, :user => @user)
+    @user = FactoryBot.create(:user)
+    @ssh_key = FactoryBot.create(:ssh_key, :user => @user)
   end
 
   test "should get index" do

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :realm do
     sequence(:name) {|n| "EXAMPLE#{n}.COM" }
     realm_type Realm::TYPES.first

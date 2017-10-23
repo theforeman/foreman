@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TrendTest < ActiveSupport::TestCase
   test "should delete trend and associated trend counters" do
-    trend = FactoryGirl.create(:trend, :value, :with_counters)
+    trend = FactoryBot.create(:trend, :value, :with_counters)
     trend_id = trend.id
     assert_equal 2, TrendCounter.where(:trend_id => trend_id).length
     assert_difference('Trend.count', -1) do

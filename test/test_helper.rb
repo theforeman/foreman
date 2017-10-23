@@ -5,7 +5,7 @@ require 'minitest/mock'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha/mini_test'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'controllers/shared/basic_rest_response_test'
 require 'facet_test_helper'
 require 'active_support_test_case_helper'

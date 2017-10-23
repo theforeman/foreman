@@ -17,7 +17,7 @@ class ImageTest < ActiveSupport::TestCase
   end
 
   context "audits for password change" do
-    let(:protected_image) { FactoryGirl.build(:image, :compute_resource => FactoryGirl.create(:compute_resource, :libvirt)) }
+    let(:protected_image) { FactoryBot.build(:image, :compute_resource => FactoryBot.create(:compute_resource, :libvirt)) }
 
     test "audit of password change should be saved only once, second time audited changes should not contain password_changed" do
       as_admin do

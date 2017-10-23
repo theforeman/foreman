@@ -16,23 +16,23 @@ class HostextOwnershipTest < ActiveSupport::TestCase
     end
 
     test "should save if owner_type is User or Usergroup" do
-      host = FactoryGirl.build(:host, :owner_type => "User", :owner => User.current)
+      host = FactoryBot.build(:host, :owner_type => "User", :owner => User.current)
       assert_valid host
     end
 
     test 'should succeed validation if owner not set' do
-      host = FactoryGirl.build(:host, :without_owner)
+      host = FactoryBot.build(:host, :without_owner)
       assert_valid host
     end
 
     test "should not save if owner_type is set without owner" do
-      host = FactoryGirl.build(:host, :owner_type => "Usergroup")
+      host = FactoryBot.build(:host, :owner_type => "Usergroup")
       refute_valid host
       assert_match(/owner must be specified/, host.errors[:owner].first)
     end
 
     test "should not save if owner_type is not in sync with owner" do
-      host = FactoryGirl.build(:host, :owner => User.current)
+      host = FactoryBot.build(:host, :owner => User.current)
       host.owner_type = 'Usergroup'
       refute_valid host
       assert_match(/Usergroup/, host.errors[:owner].first)
@@ -41,7 +41,7 @@ class HostextOwnershipTest < ActiveSupport::TestCase
 
   test "should use current user as host owner if host owner setting is empty" do
     Setting[:host_owner] = ''
-    h = FactoryGirl.build(:host, :managed)
+    h = FactoryBot.build(:host, :managed)
     h.validate
     assert_equal User.current, h.owner
   end
@@ -53,13 +53,13 @@ class HostextOwnershipTest < ActiveSupport::TestCase
     end
 
     test "should use host owner setting if it exists" do
-      h = FactoryGirl.build(:host, :managed)
+      h = FactoryBot.build(:host, :managed)
       h.validate
       assert_equal users(:one), h.owner
     end
 
     test "should use host owner if it exist in params" do
-      h = FactoryGirl.build(:host, :managed, :owner => users(:two))
+      h = FactoryBot.build(:host, :managed, :owner => users(:two))
       h.validate
       assert_equal users(:two), h.owner
     end
@@ -68,7 +68,7 @@ class HostextOwnershipTest < ActiveSupport::TestCase
   test "search by user returns only the relevant hosts" do
     host = nil
     as_user :one do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
     end
     refute_equal User.current, host.owner
     results = Host.search_for("owner = " + User.current.login)
@@ -83,7 +83,7 @@ class HostextOwnershipTest < ActiveSupport::TestCase
   end
 
   test "can search hosts by owner" do
-    FactoryGirl.create(:host)
+    FactoryBot.create(:host)
     results = Host.search_for("owner = " + User.current.login)
     assert_equal User.current.hosts.count, results.count
     assert_equal results[0].owner, User.current

@@ -1,13 +1,13 @@
 # encoding: utf-8
-FactoryGirl.define do
+FactoryBot.define do
   factory :usergroup do
     sequence(:name) {|n| "usergroup#{n}" }
   end
 
   factory :external_usergroup do
     sequence(:name) {|n| "external_usergroup#{n}" }
-    usergroup { FactoryGirl.create :usergroup }
-    auth_source { FactoryGirl.create :auth_source_ldap }
+    usergroup { FactoryBot.create :usergroup }
+    auth_source { FactoryBot.create :auth_source_ldap }
   end
 
   factory :user do
@@ -31,15 +31,15 @@ FactoryGirl.define do
 
     trait :with_mail_notification do
       sequence(:mail) {|n| "email#{n}@example.com" }
-      mail_notifications { [FactoryGirl.create(:mail_notification)] }
+      mail_notifications { [FactoryBot.create(:mail_notification)] }
     end
 
     trait :with_widget do
-      after(:create) { |user,evaluator| FactoryGirl.create(:widget, :user => user) }
+      after(:create) { |user,evaluator| FactoryBot.create(:widget, :user => user) }
     end
 
     trait :with_usergroup do
-      usergroups { [FactoryGirl.create(:usergroup)] }
+      usergroups { [FactoryBot.create(:usergroup)] }
     end
   end
 
@@ -72,33 +72,33 @@ FactoryGirl.define do
   end
 
   factory :user_role do
-    role { FactoryGirl.create :role }
+    role { FactoryBot.create :role }
 
     factory :user_user_role do
-      owner { FactoryGirl.create :user }
+      owner { FactoryBot.create :user }
     end
 
     factory :user_group_user_role do
-      owner { FactoryGirl.create :usergroup }
+      owner { FactoryBot.create :usergroup }
     end
   end
 
   factory :usergroup_member do
-    usergroup { FactoryGirl.create :usergroup }
+    usergroup { FactoryBot.create :usergroup }
 
     factory :user_usergroup_member do
-      member { FactoryGirl.create :user }
+      member { FactoryBot.create :user }
     end
 
     factory :usergroup_usergroup_member do
-      member { FactoryGirl.create :usergroup }
+      member { FactoryBot.create :usergroup }
     end
   end
 
   factory :filter do
     search nil
-    role { FactoryGirl.create :role }
-    permissions { [ FactoryGirl.create(:permission, :host) ] }
+    role { FactoryBot.create :role }
+    permissions { [ FactoryBot.create(:permission, :host) ] }
 
     trait :on_name_all do
       search 'name ~ *'

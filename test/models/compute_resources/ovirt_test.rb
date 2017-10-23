@@ -11,8 +11,8 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
   should_not allow_values('ftp://foo.com', 'buz').for(:url)
 
   test "#associated_host matches any NIC" do
-    host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:97')
-    cr = FactoryGirl.build(:ovirt_cr)
+    host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
+    cr = FactoryBot.build(:ovirt_cr)
     iface1 = mock('iface1', :mac => '36:48:c5:c9:86:f2')
     iface2 = mock('iface2', :mac => 'ca:d0:e6:32:16:97')
     vm = mock('vm', :interfaces => [iface1, iface2])
@@ -48,8 +48,8 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       @os_hashes = @ovirt_oses.map do |ovirt_os|
         { :id => ovirt_os.id, :name => ovirt_os.name, :href => ovirt_os.href }
       end
-      @compute_resource = FactoryGirl.build(:ovirt_cr)
-      @host = FactoryGirl.build(:host, :mac => 'ca:d0:e6:32:16:97')
+      @compute_resource = FactoryBot.build(:ovirt_cr)
+      @host = FactoryBot.build(:host, :mac => 'ca:d0:e6:32:16:97')
     end
 
     it 'maps operating system to ovirt operating systems' do

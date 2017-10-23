@@ -55,9 +55,9 @@ class EnvironmentsControllerTest < ActionController::TestCase
     orgs = [taxonomies(:organization1)]
     locs = [taxonomies(:location1)]
     as_admin do
-      klasses = ["a", "b", "c"].map { |name| FactoryGirl.create :puppetclass, :name => name }
+      klasses = ["a", "b", "c"].map { |name| FactoryBot.create :puppetclass, :name => name }
       ["env1", "env2"].each do |name|
-        env = FactoryGirl.create :environment, :name => name, :organizations => orgs, :locations => locs
+        env = FactoryBot.create :environment, :name => name, :organizations => orgs, :locations => locs
         env.puppetclasses += klasses
       end
     end
@@ -134,7 +134,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     disable_orchestration
     setup_import_classes
     as_admin do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
       Environment.find_by_name("env1").puppetclasses += [puppetclasses(:one)]
       host.environment_id = Environment.find_by_name("env1").id
       assert host.save!

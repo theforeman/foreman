@@ -3,7 +3,7 @@ require 'test_helper'
 module Api
   module V2
     class HttpProxiesControllerTest < ActionController::TestCase
-      let(:model) { FactoryGirl.create(:http_proxy) }
+      let(:model) { FactoryBot.create(:http_proxy) }
 
       def test_index
         get :index, {}, set_session_user

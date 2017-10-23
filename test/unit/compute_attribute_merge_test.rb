@@ -4,7 +4,7 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
   def setup
     @merge = ComputeAttributeMerge.new
     @profile_attributes = compute_attributes(:two)
-    @host = FactoryGirl.build(:host)
+    @host = FactoryBot.build(:host)
   end
 
   test "it doesn't change anything when profile attributes are nil" do

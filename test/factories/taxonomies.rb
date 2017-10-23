@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :organization_parameter, :parent => :parameter, :class => OrganizationParameter do
     type 'OrganizationParameter'
   end
@@ -8,7 +8,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |organization,evaluator|
-        FactoryGirl.create(:organization_parameter, :organization => organization)
+        FactoryBot.create(:organization_parameter, :organization => organization)
       end
     end
   end
@@ -22,7 +22,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |location,evaluator|
-        FactoryGirl.create(:location_parameter, :location => location)
+        FactoryBot.create(:location_parameter, :location => location)
       end
     end
   end

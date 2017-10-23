@@ -31,7 +31,7 @@ foreman_benchmark do
           [0, 25].each do |structured_names|
             facts = generate_facts(total_facts, unique_names, structured_names)
             x.report("#{importer} (#{total_facts}) - #{unique_names} UN #{structured_names} SN") do
-              host = FactoryGirl.create(:host, :name => "benchmark-#{Foreman.uuid}")
+              host = FactoryBot.create(:host, :name => "benchmark-#{Foreman.uuid}")
               importer.new(host, facts).import!
               importer.new(host, {}).import!
             end

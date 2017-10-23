@@ -2,8 +2,8 @@ require 'test_helper'
 
 class LookupValueTest < ActiveSupport::TestCase
   def setup
-    @host1 = FactoryGirl.create(:host)
-    @host2 = FactoryGirl.create(:host)
+    @host1 = FactoryBot.create(:host)
+    @host2 = FactoryBot.create(:host)
   end
 
   def valid_attrs1
@@ -38,10 +38,10 @@ class LookupValueTest < ActiveSupport::TestCase
   test "non-admin user can view only his hosts allowed by filters" do
     # Host.authorized(:view_hosts, Host) returns only hosts(:one)
     user = users(:one)
-    role = FactoryGirl.create(:role, :name => 'user_view_host_by_ip')
-    FactoryGirl.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "name = #{@host1.name}")
+    role = FactoryBot.create(:role, :name => 'user_view_host_by_ip')
+    FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "name = #{@host1.name}")
     # Todo, restore the ip test variant once our scoped-search works with host.ip again
-    # FactoryGirl.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "ip = #{@host1.ip}")
+    # FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "ip = #{@host1.ip}")
     user.roles<< [ role ]
     as_user :one do
       assert Host.authorized(:view_hosts, Host).where(:name => @host1.name).exists?
@@ -118,20 +118,20 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "when created, an audit entry should be added" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     key = pc.class_params.first
     lvalue = nil
     assert_difference('Audit.count') do
-      lvalue = FactoryGirl.create :lookup_value, :with_auditing, :lookup_key_id => key.id, :value => 'test', :match => 'os=bar'
+      lvalue = FactoryBot.create :lookup_value, :with_auditing, :lookup_key_id => key.id, :value => 'test', :match => 'os=bar'
     end
     assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
   end
 
   test "when changed, an audit entry should be added" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :environments => [env])
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
     lvalue = key.lookup_values.first
     assert_difference('Audit.count') do
       lvalue.value = 'new overridden value'
@@ -141,7 +141,7 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "shuld not cast string with erb" do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
                             :default_value => [1,2,3], :puppetclass => puppetclasses(:one))
 
@@ -214,15 +214,15 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "shouldn't save with empty boolean matcher for smart class parameter" do
-    lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :key_type => 'boolean', :override => true,
+    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :key_type => 'boolean', :override => true,
                                     :default_value => "true", :description => 'description')
-    lookup_value = FactoryGirl.build(:lookup_value, :lookup_key => lookup_key, :match => "os=fake", :value => '')
+    lookup_value = FactoryBot.build(:lookup_value, :lookup_key => lookup_key, :match => "os=fake", :value => '')
     refute lookup_value.valid?
   end
 
   context "when key is a boolean and default_value is a string" do
     def setup
-      @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+      @key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'boolean',
                                 :default_value => 'whatever', :puppetclass => puppetclasses(:one), :omit => true)
       @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :omit => true)
@@ -240,11 +240,11 @@ class LookupValueTest < ActiveSupport::TestCase
 
   context "when key type is puppetclass lookup and value is empty" do
     def setup
-      @key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+      @key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :with_override, :with_omit, :path => "hostgroup\ncomment",
                                 :key_type => 'string',
                                 :puppetclass => puppetclasses(:one))
-      @value = FactoryGirl.build_stubbed(:lookup_value, :value => "",
+      @value = FactoryBot.build_stubbed(:lookup_value, :value => "",
                                          :match => "hostgroup=Common",
                                          :lookup_key_id => @key.id,
                                          :omit => true)
@@ -261,7 +261,7 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "should allow white space in value" do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :with_override, :path => "hostgroup\ncomment",
                              :key_type => 'string',
                              :puppetclass => puppetclasses(:one))

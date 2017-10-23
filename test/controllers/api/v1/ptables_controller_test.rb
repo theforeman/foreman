@@ -4,7 +4,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'ptable_test', :layout => 'd-i partman-auto/disk' }
 
   def setup
-    @ptable = FactoryGirl.create(:ptable)
+    @ptable = FactoryBot.create(:ptable)
   end
 
   test "should get index" do
@@ -35,7 +35,7 @@ class Api::V1::PtablesControllerTest < ActionController::TestCase
   end
 
   test "should NOT destroy ptable in use" do
-    FactoryGirl.create(:host, :ptable_id => @ptable.id)
+    FactoryBot.create(:host, :ptable_id => @ptable.id)
 
     assert_difference('Ptable.unscoped.count', -0) do
       delete :destroy, { :id => @ptable.to_param }

@@ -41,7 +41,7 @@ module BasicRestResponseTest
       context 'GET #index' do
         setup do
           @entries_per_page = Setting[:entries_per_page] ? Setting[:entries_per_page] : 5
-          FactoryGirl.create_list(get_factory_name, @entries_per_page + 2, *@factory_options)
+          FactoryBot.create_list(get_factory_name, @entries_per_page + 2, *@factory_options)
         end
 
         test 'should render correct per_page value' do
@@ -88,7 +88,7 @@ module BasicRestResponseTest
       context 'GET #index' do
         setup do
           @old = Setting[:entries_per_page]
-          FactoryGirl.create(get_factory_name) if @controller.resource_class.count.zero?
+          FactoryBot.create(get_factory_name) if @controller.resource_class.count.zero?
           Setting[:entries_per_page] = @controller.resource_class.count
         end
 
@@ -99,7 +99,7 @@ module BasicRestResponseTest
         end
 
         test 'should render pagination' do
-          FactoryGirl.create(get_factory_name, *@factory_options)
+          FactoryBot.create(get_factory_name, *@factory_options)
           get :index, {}, set_session_user
           assert_response :success
           assert_select "form[id='pagination']"

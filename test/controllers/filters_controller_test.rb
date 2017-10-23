@@ -13,9 +13,9 @@ class FiltersControllerTest < ActionController::TestCase
   basic_pagination_rendered_test
 
   test "changes should expire topbar cache" do
-    user1 = FactoryGirl.create(:user, :with_mail)
-    user2 = FactoryGirl.create(:user, :with_mail)
-    filter = FactoryGirl.create(:filter, :on_name_all)
+    user1 = FactoryBot.create(:user, :with_mail)
+    user2 = FactoryBot.create(:user, :with_mail)
+    filter = FactoryBot.create(:filter, :on_name_all)
     role = filter.role
     role.users = [user1, user2]
     role.save!
@@ -72,11 +72,11 @@ class FiltersControllerTest < ActionController::TestCase
   end
 
   test 'should disable overriding and start inheriting taxonomies from roles' do
-    permission1 = FactoryGirl.create(:permission, :domain, :name => 'permission1')
-    role = FactoryGirl.build(:role, :permissions => [])
+    permission1 = FactoryBot.create(:permission, :domain, :name => 'permission1')
+    role = FactoryBot.build(:role, :permissions => [])
     role.add_permissions! [permission1.name]
-    org1 = FactoryGirl.create(:organization)
-    org2 = FactoryGirl.create(:organization)
+    org1 = FactoryBot.create(:organization)
+    org2 = FactoryBot.create(:organization)
     role.organizations = [ org1 ]
     role.filters.reload
     filter_with_org = role.filters.detect(&:allows_organization_filtering?)

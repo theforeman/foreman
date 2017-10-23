@@ -3,7 +3,7 @@ require 'test_helper'
 
 class AuthSourceLdapTest < ActiveSupport::TestCase
   def setup
-    @auth_source_ldap = FactoryGirl.create(:auth_source_ldap)
+    @auth_source_ldap = FactoryBot.create(:auth_source_ldap)
     User.current = users(:admin)
   end
 
@@ -101,15 +101,15 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     test 'update_usergroups calls refresh_ldap if entry belongs to some group' do
       @auth_source_ldap.expects(:valid_group?).with('ipausers').returns(true)
-      FactoryGirl.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
+      FactoryBot.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
       ExternalUsergroup.any_instance.expects(:refresh)
       @auth_source_ldap.send(:update_usergroups, 'test')
     end
 
     test 'update_usergroups matches LDAP gids with external user groups case insensitively' do
       @auth_source_ldap.expects(:valid_group?).with('IPAUSERS').returns(true)
-      external = FactoryGirl.create(:external_usergroup, :auth_source => @auth_source_ldap, :name => 'IPAUSERS')
-      ldap_user = FactoryGirl.create(:user, :login => 'JohnSmith', :mail => 'a@b.com', :auth_source => @auth_source_ldap)
+      external = FactoryBot.create(:external_usergroup, :auth_source => @auth_source_ldap, :name => 'IPAUSERS')
+      ldap_user = FactoryBot.create(:user, :login => 'JohnSmith', :mail => 'a@b.com', :auth_source => @auth_source_ldap)
       AuthSourceLdap.any_instance.expects(:users_in_group).with('IPAUSERS').returns(['JohnSmith'])
       @auth_source_ldap.send(:update_usergroups, 'test')
       assert_include ldap_user.usergroups, external.usergroup
@@ -117,65 +117,65 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     test 'update_usergroups refreshes on all external user groups, in LDAP and in Foreman auth source' do
       @auth_source_ldap.expects(:valid_group?).with('new external group').returns(true)
-      external = FactoryGirl.create(:external_usergroup, :name => 'new external group', :auth_source => @auth_source_ldap)
+      external = FactoryBot.create(:external_usergroup, :name => 'new external group', :auth_source => @auth_source_ldap)
       User.any_instance.expects(:external_usergroups).returns([external])
       @auth_source_ldap.send(:update_usergroups, 'test')
     end
   end
 
   test 'update_usergroups is no-op with $login service account' do
-    ldap = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    ldap = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login')
     User.any_instance.expects(:external_usergroups).never
     ExternalUsergroup.any_instance.expects(:refresh).never
     ldap.send(:update_usergroups, 'test')
   end
 
   test 'update_usergroups is no-op with usergroup_sync=false' do
-    ldap = FactoryGirl.build(:auth_source_ldap, :usergroup_sync => false)
+    ldap = FactoryBot.build(:auth_source_ldap, :usergroup_sync => false)
     User.any_instance.expects(:external_usergroups).never
     ExternalUsergroup.any_instance.expects(:refresh).never
     ldap.send(:update_usergroups, 'test')
   end
 
   test '#to_config with dedicated service account returns hash' do
-    conf = FactoryGirl.build(:auth_source_ldap, :service_account).to_config
+    conf = FactoryBot.build(:auth_source_ldap, :service_account).to_config
     assert_kind_of Hash, conf
     refute conf[:anon_queries]
   end
 
   test '#to_config with $login service account and no username fails' do
-    ldap = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    ldap = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login')
     assert_raise(Foreman::Exception) { ldap.to_config }
   end
 
   test '#to_config with $login service account and username returns hash with service user' do
-    conf = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login').to_config('user', 'pass')
+    conf = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login').to_config('user', 'pass')
     assert_kind_of Hash, conf
     refute conf[:anon_queries]
     assert_equal 'DOMAIN/user', conf[:service_user]
   end
 
   test '#to_config with no service account returns hash with anonymous queries' do
-    conf = FactoryGirl.build(:auth_source_ldap).to_config('user', 'pass')
+    conf = FactoryBot.build(:auth_source_ldap).to_config('user', 'pass')
     assert_kind_of Hash, conf
     assert conf[:anon_queries]
   end
 
   test '#to_config keeps encryption nil if tls is not used' do
     AuthSourceLdap.any_instance.stubs(:tls => false)
-    conf = FactoryGirl.build(:auth_source_ldap).to_config('user', 'pass')
+    conf = FactoryBot.build(:auth_source_ldap).to_config('user', 'pass')
     assert_nil conf[:encryption]
   end
 
   test '#to_config enforces verify_mode peer for tls' do
     AuthSourceLdap.any_instance.stubs(:tls => true)
-    conf = FactoryGirl.build(:auth_source_ldap).to_config('user', 'pass')
+    conf = FactoryBot.build(:auth_source_ldap).to_config('user', 'pass')
     assert_kind_of Hash, conf[:encryption]
     assert_equal OpenSSL::SSL::VERIFY_PEER, conf[:encryption][:tls_options][:verify_mode]
   end
 
   test '#ldap_con does not cache connections with user auth' do
-    ldap = FactoryGirl.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    ldap = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login')
     refute_equal ldap.ldap_con('user', 'pass'), ldap.ldap_con('user', 'pass')
   end
 
@@ -198,7 +198,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     end
 
     test "account_password is stored encrypted" do
-      auth_source = FactoryGirl.create(:auth_source_ldap, :account_password => 'fakepass')
+      auth_source = FactoryBot.create(:auth_source_ldap, :account_password => 'fakepass')
       assert auth_source.is_decryptable?(auth_source.account_password_in_db)
     end
   end

@@ -72,11 +72,11 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should delete taxonomies if it's one of user's" do
-    loc1 = FactoryGirl.create(:location)
-    loc2 = FactoryGirl.create(:location)
-    user = FactoryGirl.create(:user)
+    loc1 = FactoryBot.create(:location)
+    loc2 = FactoryBot.create(:location)
+    user = FactoryBot.create(:user)
     user.locations = [ loc1 ]
-    filter = FactoryGirl.create(:filter, :permissions => [ Permission.find_by_name(:destroy_locations) ])
+    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:destroy_locations) ])
     user.roles << filter.role
     as_user user do
       delete :destroy, { :id => loc2 }
@@ -85,7 +85,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should dissociate hosts from the destroyed location" do
-    host = FactoryGirl.create(:host, :location => taxonomies(:location1))
+    host = FactoryBot.create(:host, :location => taxonomies(:location1))
     assert_difference('Location.unscoped.count', -1) do
       delete :destroy, { :id => taxonomies(:location1).to_param }
     end
@@ -284,14 +284,14 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "user without view_params permission can't see location parameters" do
-    location_with_parameter = FactoryGirl.create(:location, :with_parameter)
+    location_with_parameter = FactoryBot.create(:location, :with_parameter)
     setup_user "view", "locations"
     get :show, {:id => location_with_parameter.to_param, :format => 'json'}
     assert_empty JSON.parse(response.body)['parameters']
   end
 
   test "user with view_params permission can see location parameters" do
-    location_with_parameter = FactoryGirl.create(:location, :with_parameter)
+    location_with_parameter = FactoryBot.create(:location, :with_parameter)
     location_with_parameter.users << users(:one)
     setup_user "view", "locations"
     setup_user "view", "params"
@@ -301,7 +301,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   context 'hidden parameters' do
     test "should show a location parameter as hidden unless show_hidden_parameters is true" do
-      location = FactoryGirl.create(:location)
+      location = FactoryBot.create(:location)
       location.location_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => location.id }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -309,7 +309,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     end
 
     test "should show a location parameter as unhidden when show_hidden_parameters is true" do
-      location = FactoryGirl.create(:location)
+      location = FactoryBot.create(:location)
       location.location_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
       get :show, { :id => location.id, :show_hidden_parameters => 'true' }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -318,7 +318,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should update existing location parameters" do
-    location = FactoryGirl.create(:location)
+    location = FactoryBot.create(:location)
     param_params = { :name => "foo", :value => "bar" }
     location.location_parameters.create!(param_params)
     put :update, { :id => location.id, :location => { :location_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
@@ -327,7 +327,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should delete existing location parameters" do
-    location = FactoryGirl.create(:location)
+    location = FactoryBot.create(:location)
     param_1 = { :name => "foo", :value => "bar" }
     param_2 = { :name => "boo", :value => "test" }
     location.location_parameters.create!([param_1, param_2])

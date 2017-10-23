@@ -59,7 +59,7 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
     end
 
     context 'with basic auth via internal sso' do
-      let(:user) { as_admin { FactoryGirl.create(:user, :admin) } }
+      let(:user) { as_admin { FactoryBot.create(:user, :admin) } }
 
       test '#login authenticates user with personal access token' do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, 'password')
@@ -69,7 +69,7 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
       end
 
       context 'personal access tokens' do
-        let(:token) { as_admin { FactoryGirl.create(:personal_access_token, :user => user) } }
+        let(:token) { as_admin { FactoryBot.create(:personal_access_token, :user => user) } }
         let(:token_value) do
           as_admin do
             token_value = token.generate_token

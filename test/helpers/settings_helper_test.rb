@@ -22,7 +22,7 @@ class SettingsHelperTest < ActionView::TestCase
   test "create a setting with a dynamic collection" do
     expected_hostgroup_count = Hostgroup.all.count + 1
     options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new {Hash[:size => Hostgroup.all.count]} })
-    FactoryGirl.create(:hostgroup, :root_pass => '12345678')
+    FactoryBot.create(:hostgroup, :root_pass => '12345678')
     setting = Setting.create(options)
     assert_equal self.send("#{setting.name}_collection"), { :size => expected_hostgroup_count }
     self.expects(:edit_select).with(setting, :value, :title => setting.full_name, :select_values => { :size => expected_hostgroup_count })

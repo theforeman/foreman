@@ -10,8 +10,8 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   test "should return list of interfaces" do
     assert importer.interfaces.present?
-    assert_not_nil importer.suggested_primary_interface(FactoryGirl.create(:host))
-    assert importer.interfaces.keys.include?(importer.suggested_primary_interface(FactoryGirl.create(:host)).first)
+    assert_not_nil importer.suggested_primary_interface(FactoryBot.create(:host))
+    assert importer.interfaces.keys.include?(importer.suggested_primary_interface(FactoryBot.create(:host)).first)
   end
 
   test "should parse virtual interfaces as vlan interfaces" do
@@ -120,7 +120,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     end
 
     test 'should accept y.z minor version' do
-      FactoryGirl.create(:operatingsystem, name: "CentOS",
+      FactoryBot.create(:operatingsystem, name: "CentOS",
                                            major: "7",
                                            minor: "2.1511",
                                            description: "CentOS Linux 7.2.1511")
@@ -164,13 +164,13 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   end
 
   test "#get_interfaces" do
-    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
     parser = get_parser(host.facts_hash)
 
     assert_empty parser.send(:get_interfaces)
 
-    interfaces = FactoryGirl.create(:fact_value,
-                                    :fact_name => FactoryGirl.create(:fact_name, :name => 'interfaces'),
+    interfaces = FactoryBot.create(:fact_value,
+                                    :fact_name => FactoryBot.create(:fact_name, :name => 'interfaces'),
                                     :host => host,
                                     :value => '')
     parser = get_parser(host.facts_hash)
@@ -184,37 +184,37 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   end
 
   test "#get_facts_for_interface(interface)" do
-    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'link_eth0'),
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'link_eth0'),
                        :host => host,
                        :value => 'true')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'macaddress_eth0'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'macaddress_eth0'),
                        :host => host,
                        :value => '00:00:00:00:00:ab')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress_eth0'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'ipaddress_eth0'),
                        :host => host,
                        :value => '192.168.0.1')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'custom_fact_eth0'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'custom_fact_eth0'),
                        :host => host,
                        :value => 'custom_value')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'link_eth0_0'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'link_eth0_0'),
                        :host => host,
                        :value => 'false')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'macaddress_eth0_0'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'macaddress_eth0_0'),
                        :host => host,
                        :value => '00:00:00:00:00:cd')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress_eth0_0'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'ipaddress_eth0_0'),
                        :host => host,
                        :value => '192.168.0.2')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'custom_fact_eth0_0'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'custom_fact_eth0_0'),
                        :host => host,
                        :value => 'another_value')
     parser = get_parser(host.facts_hash)
@@ -227,18 +227,18 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   end
 
   test "#ipmi_interface" do
-    host = FactoryGirl.create(:host, :hostgroup => FactoryGirl.create(:hostgroup))
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
     parser = get_parser(host.facts_hash)
 
     result = parser.ipmi_interface
     assert_equal({}, result)
 
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipmi_ipaddress'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'ipmi_ipaddress'),
                        :host => host,
                        :value => '192.168.0.1')
-    FactoryGirl.create(:fact_value,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipmi_custom'),
+    FactoryBot.create(:fact_value,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'ipmi_custom'),
                        :host => host,
                        :value => 'custom_value')
     parser = get_parser(host.facts_hash)

@@ -3,11 +3,11 @@ require 'test_helper'
 class PuppetFactImporterTest < ActiveSupport::TestCase
   attr_reader :host, :importer
   setup do
-    @host = FactoryGirl.create(:host)
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => @host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
-    FactoryGirl.create(:fact_value, :value => '10.0.19.33',:host => @host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress'))
+    @host = FactoryBot.create(:host)
+    FactoryBot.create(:fact_value, :value => '2.6.9',:host => @host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
+    FactoryBot.create(:fact_value, :value => '10.0.19.33',:host => @host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'ipaddress'))
   end
 
   test 'importer imports everything as strings' do

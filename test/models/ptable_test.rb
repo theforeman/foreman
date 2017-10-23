@@ -58,7 +58,7 @@ class PtableTest < ActiveSupport::TestCase
     partition_table = Ptable.new :name => "Ubuntu default", :layout => "some layout"
     assert partition_table.save
 
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     host.ptable = partition_table
     host.save(:validate => false)
 
@@ -79,7 +79,7 @@ class PtableTest < ActiveSupport::TestCase
   end
 
   test "#metadata should include OS family" do
-    ptable = FactoryGirl.build(:ptable)
+    ptable = FactoryBot.build(:ptable)
 
     lines = ptable.metadata.split("\n")
     assert_includes lines, "os_family: #{ptable.os_family}"

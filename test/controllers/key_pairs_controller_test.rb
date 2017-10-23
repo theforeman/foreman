@@ -2,7 +2,7 @@ require 'test_helper'
 
 class KeyPairsControllerTest < ActionController::TestCase
   setup do
-    @compute_resource = FactoryGirl.create(:ec2_cr)
+    @compute_resource = FactoryBot.create(:ec2_cr)
   end
 
   test "cr with key_pair should get index" do
@@ -11,13 +11,13 @@ class KeyPairsControllerTest < ActionController::TestCase
   end
 
   test "cr without key_pair should not get index" do
-    compute_resource = FactoryGirl.create(:libvirt_cr)
+    compute_resource = FactoryBot.create(:libvirt_cr)
     get :index, {:compute_resource_id => compute_resource.to_param}, set_session_user
     assert_response :not_found
   end
 
   test "should download pem file" do
-    key = FactoryGirl.create(:key_pair)
+    key = FactoryBot.create(:key_pair)
     get :show, {:compute_resource_id => @compute_resource.to_param, :id => key.id}, set_session_user
     assert_response :success
     assert_equal(key.secret, @response.body)
@@ -28,7 +28,7 @@ class KeyPairsControllerTest < ActionController::TestCase
     Foreman::Model::EC2.any_instance.stubs(:recreate).returns(KeyPair.create(:name => "foreman-#{Foreman.uuid}",
                                                                              :secret => "shhh",
                                                                              :compute_resource_id => @compute_resource.id))
-    key_pair = FactoryGirl.create(:key_pair)
+    key_pair = FactoryBot.create(:key_pair)
     key_pair.compute_resource = @compute_resource
     post :create, {:compute_resource_id => @compute_resource.to_param}, set_session_user
     assert_response :redirect

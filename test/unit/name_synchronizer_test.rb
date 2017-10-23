@@ -2,8 +2,8 @@ require 'test_helper'
 
 class NameSynchronizerName < ActiveSupport::TestCase
   def setup
-    @host = FactoryGirl.build(:host, :managed)
-    @nic  = FactoryGirl.build(:nic_managed, :host => @host, :name => 'myname', :primary => true)
+    @host = FactoryBot.build(:host, :managed)
+    @nic  = FactoryBot.build(:nic_managed, :host => @host, :name => 'myname', :primary => true)
     @hsync = NameSynchronizer.new(@host)
     @nsync = NameSynchronizer.new(@nic)
   end
@@ -37,7 +37,7 @@ class NameSynchronizerName < ActiveSupport::TestCase
   end
 
   test 'synchronization is not triggered for other than primary interfaces' do
-    nic = FactoryGirl.build(:nic_managed, :host => @host, :name => 'myname', :primary => false)
+    nic = FactoryBot.build(:nic_managed, :host => @host, :name => 'myname', :primary => false)
     sync = NameSynchronizer.new(nic)
     refute_equal nic.name, nic.host.name
     refute sync.sync_required?

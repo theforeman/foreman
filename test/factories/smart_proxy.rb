@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :smart_proxy do
     sequence(:name) {|n| "proxy#{n}" }
     sequence(:url) {|n| "https://somewhere#{n}.net:8443" }

@@ -74,7 +74,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   test 'csv export works' do
-    host = FactoryGirl.create(:host, :with_hostgroup)
+    host = FactoryBot.create(:host, :with_hostgroup)
     get :index, { :format => 'csv' }, set_session_user
     assert_response :success
     assert response.body.include? "#{host.hostgroup.title},1,1"
@@ -127,8 +127,8 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "domain_selected should return subnets" do
-    domain = FactoryGirl.create(:domain)
-    subnet = FactoryGirl.create(:subnet_ipv4)
+    domain = FactoryBot.create(:domain)
+    subnet = FactoryBot.create(:subnet_ipv4)
     domain.subnets << subnet
     domain.save
     xhr :post, :domain_selected, {:id => hostgroups(:common), :hostgroup => {}, :domain_id => domain.id, :format => :json}, set_session_user
@@ -150,9 +150,9 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   describe '#environment_selected' do
     setup do
-      @environment = FactoryGirl.create(:environment)
-      @puppetclass = FactoryGirl.create(:puppetclass)
-      @hostgroup = FactoryGirl.create(:hostgroup, :environment => @environment)
+      @environment = FactoryBot.create(:environment)
+      @puppetclass = FactoryBot.create(:puppetclass)
+      @hostgroup = FactoryBot.create(:hostgroup, :environment => @environment)
       @params = {
         id: @hostgroup.id,
         hostgroup: {
@@ -173,7 +173,7 @@ class HostgroupsControllerTest < ActionController::TestCase
 
     context 'no environment_id param is set' do
       test 'it will take the hostgroup params environment_id' do
-        other_environment = FactoryGirl.create(:environment)
+        other_environment = FactoryBot.create(:environment)
         @params[:hostgroup][:environment_id] = other_environment.id
 
         post :environment_selected, @params, set_session_user
@@ -183,7 +183,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   test 'user with view_params rights should see parameters in a hostgroup' do
-    hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    hg = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "edit"
     setup_user "view", "params"
     get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
@@ -191,7 +191,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   test 'user without view_params rights should not see parameters in a hostgroup' do
-    hg = FactoryGirl.create(:hostgroup, :with_parameter)
+    hg = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "edit"
     get :edit, {:id => hg.id}, set_session_user.merge(:user => users(:one).id)
     assert_nil response.body['Global Parameters']
@@ -199,7 +199,7 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   describe "parent attributes" do
     before do
-      @base = FactoryGirl.create(:hostgroup)
+      @base = FactoryBot.create(:hostgroup)
       @base.group_parameters << GroupParameter.create(:name => "x", :value => "original")
       @base.group_parameters << GroupParameter.create(:name => "y", :value => "originally")
       Hostgroup.any_instance.stubs(:valid?).returns(true)
@@ -216,7 +216,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
 
     it "updates a hostgroup with a parent parameter" do
-      child = FactoryGirl.create(:hostgroup, :parent => @base)
+      child = FactoryBot.create(:hostgroup, :parent => @base)
       as_admin do
         assert_equal "original", child.parameters["x"]
       end
@@ -230,7 +230,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
 
     it "updates a hostgroup with a parent parameter, allows empty values" do
-      child = FactoryGirl.create(:hostgroup, :parent => @base)
+      child = FactoryBot.create(:hostgroup, :parent => @base)
       as_admin do
         assert_equal "original", child.parameters["x"]
       end
@@ -246,12 +246,12 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
 
     it "changes the hostgroup's parent and check the parameters are updated" do
-      child = FactoryGirl.create(:hostgroup, :parent => @base)
+      child = FactoryBot.create(:hostgroup, :parent => @base)
       as_admin do
         assert_equal "original", child.parameters["x"]
       end
 
-      new_parent = FactoryGirl.create(:hostgroup)
+      new_parent = FactoryBot.create(:hostgroup)
       new_parent.group_parameters << GroupParameter.create(:name => "z", :value => "original")
 
       post :update, {"id" => child.id, "hostgroup" => {"name" => child.name, "parent_id" => new_parent.id}}, set_session_user

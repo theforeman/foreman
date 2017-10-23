@@ -18,7 +18,7 @@ class PuppetCaOrchestrationTest < ActiveSupport::TestCase
   end
 
   context 'a host with puppetca orchestration' do
-    let(:host) { FactoryGirl.create(:host, :managed, :with_puppet_ca, :build => true) }
+    let(:host) { FactoryBot.create(:host, :managed, :with_puppet_ca, :build => true) }
 
     test 'should queue puppetca update' do
       host.build = false

@@ -6,9 +6,9 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
                   'type' => "bmc", 'ip6' => '2001:db8::1' }
 
   def setup
-    @host = FactoryGirl.create(:host)
-    @nic  = FactoryGirl.create(:nic_managed, :host => @host)
-    @bond  = FactoryGirl.create(:nic_bond, :host => @host)
+    @host = FactoryBot.create(:host)
+    @nic  = FactoryBot.create(:nic_managed, :host => @host)
+    @bond  = FactoryBot.create(:nic_bond, :host => @host)
   end
 
   test "get index for specific host" do
@@ -103,7 +103,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     end
 
     test 'user with hostgroup-scoped view_hosts can view its interfaces' do
-      @host.update_attributes(:hostgroup => FactoryGirl.create(:hostgroup))
+      @host.update_attributes(:hostgroup => FactoryBot.create(:hostgroup))
       setup_user 'view', 'hosts', "hostgroup_title = #{@host.hostgroup.title}"
       get :index, { :host_id => @host.name }, set_session_user
       assert_response :success

@@ -54,13 +54,13 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "the name should be unique in the domain scope" do
-    first = FactoryGirl.create(:subnet_ipv6, :with_domains)
-    subnet = FactoryGirl.build(:subnet_ipv6, :name => first.name, :domains => first.domains)
+    first = FactoryBot.create(:subnet_ipv6, :with_domains)
+    subnet = FactoryBot.build(:subnet_ipv6, :name => first.name, :domains => first.domains)
     refute subnet.valid?
   end
 
   test "when to_label is applied should show the domain, the mask and network" do
-    subnet = FactoryGirl.create(:subnet_ipv4,
+    subnet = FactoryBot.create(:subnet_ipv4,
                                 :with_domains,
                                 :name => 'valid',
                                 :network => '123.123.123.0',
@@ -72,7 +72,7 @@ class SubnetTest < ActiveSupport::TestCase
 
   # test module StripWhitespace which strips leading and trailing whitespace on :name field
   test "should strip whitespace on name" do
-    s = FactoryGirl.build(:subnet_ipv6, :name => '    ABC Network     ')
+    s = FactoryBot.build(:subnet_ipv6, :name => '    ABC Network     ')
     assert s.save!
     assert_equal "ABC Network", s.name
   end
@@ -93,23 +93,23 @@ class SubnetTest < ActiveSupport::TestCase
   end
 
   test "should not destroy if hostgroup uses it" do
-    hostgroup = FactoryGirl.create(:hostgroup, :with_subnet)
+    hostgroup = FactoryBot.create(:hostgroup, :with_subnet)
     subnet = hostgroup.subnet
     refute subnet.destroy
     assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
 
   test "should not destroy if host uses it" do
-    host = FactoryGirl.create(:host, :with_subnet)
+    host = FactoryBot.create(:host, :with_subnet)
     subnet = host.subnet
     refute subnet.destroy
     assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
 
   test 'smart variable matches on subnet name' do
-    host = FactoryGirl.create(:host, :with_subnet, :puppetclasses => [puppetclasses(:one)])
+    host = FactoryBot.create(:host, :with_subnet, :puppetclasses => [puppetclasses(:one)])
     subnet = host.subnet
-    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'string',
+    key = FactoryBot.create(:variable_lookup_key, :key_type => 'string',
                              :default_value => 'default', :path => "subnet",
                              :puppetclass => puppetclasses(:one))
 

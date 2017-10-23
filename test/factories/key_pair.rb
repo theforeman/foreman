@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :key_pair do
     sequence(:name) {|n| "foreman-#{n}" }
     secret "--- BEGIN RSA Blah blah #{Foreman.uuid}"

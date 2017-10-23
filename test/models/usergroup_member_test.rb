@@ -102,8 +102,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the root" do
     setup_admins_scenario
 
-    basic      = FactoryGirl.create :usergroup, :name => 'um_basic'
-    basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
+    basic      = FactoryBot.create :usergroup, :name => 'um_basic'
+    basic_role = FactoryBot.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @semiadmins
     [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
@@ -120,8 +120,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the middle of chain" do
     setup_admins_scenario
 
-    basic      = FactoryGirl.create :usergroup, :name => 'um_basic'
-    basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
+    basic      = FactoryBot.create :usergroup, :name => 'um_basic'
+    basic_role = FactoryBot.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @admins
     [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
@@ -138,8 +138,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the leaf" do
     setup_admins_scenario
 
-    basic      = FactoryGirl.create :usergroup, :name => 'um_basic'
-    basic_role = FactoryGirl.create :role, :name => 'um_basic_role'
+    basic      = FactoryBot.create :usergroup, :name => 'um_basic'
+    basic_role = FactoryBot.create :role, :name => 'um_basic_role'
     basic.roles<< basic_role
     basic.usergroups<< @superadmins
     [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
@@ -207,7 +207,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
   test "user is in three two joined groups, middle membership is removed" do
     setup_redundant_scenario
-    @superadmins = FactoryGirl.create :usergroup, :name => 'um_superadmins'
+    @superadmins = FactoryBot.create :usergroup, :name => 'um_superadmins'
     @superadmins.usergroups = [@semiadmins]
     @superadmins.roles<< @admin_role
 
@@ -219,23 +219,23 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   end
 
   test "diamond-with-tail usergroups, one of way is removed" do
-    @a = FactoryGirl.create :usergroup, :name => 'um_a'
-    @b = FactoryGirl.create :usergroup, :name => 'um_b'
-    @c = FactoryGirl.create :usergroup, :name => 'um_c'
-    @d = FactoryGirl.create :usergroup, :name => 'um_d'
-    @e = FactoryGirl.create :usergroup, :name => 'um_e'
+    @a = FactoryBot.create :usergroup, :name => 'um_a'
+    @b = FactoryBot.create :usergroup, :name => 'um_b'
+    @c = FactoryBot.create :usergroup, :name => 'um_c'
+    @d = FactoryBot.create :usergroup, :name => 'um_d'
+    @e = FactoryBot.create :usergroup, :name => 'um_e'
     @a.usergroups = [@b, @c]
     @b.usergroups = [@d]
     @c.usergroups = [@d]
     @d.usergroups = [@e]
 
     as_admin do
-      @user1 = FactoryGirl.create(:user, :login => 'um_user1')
-      @user2 = FactoryGirl.create(:user, :login => 'um_user2')
+      @user1 = FactoryBot.create(:user, :login => 'um_user1')
+      @user2 = FactoryBot.create(:user, :login => 'um_user2')
       @user1.usergroups = [@d.reload] # @d cached #users already as []
       @user2.usergroups = [@e]
-      @role = FactoryGirl.create(:role, :name => 'um_role')
-      @role_ur = FactoryGirl.create :user_group_user_role, :owner => @a, :role => @role
+      @role = FactoryBot.create(:role, :name => 'um_role')
+      @role_ur = FactoryBot.create :user_group_user_role, :owner => @a, :role => @role
     end
 
     assert_includes @user1.reload.cached_user_roles.map(&:role), @role
@@ -291,7 +291,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
   test "user is in two joined groups with redundant role, second membership is removed" do
     setup_redundant_scenario
-    @semiadmin_ur = FactoryGirl.create :user_group_user_role, :owner => @semiadmins, :role => @admin_role
+    @semiadmin_ur = FactoryBot.create :user_group_user_role, :owner => @semiadmins, :role => @admin_role
 
     @admins.users = []
     @semiadmin_user.reload
@@ -301,7 +301,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
   test "user is in two joined groups with redundant role, first membership is removed" do
     setup_redundant_scenario
-    @semiadmin_ur = FactoryGirl.create :user_group_user_role, :owner => @semiadmins, :role => @admin_role
+    @semiadmin_ur = FactoryBot.create :user_group_user_role, :owner => @semiadmins, :role => @admin_role
 
     @semiadmins.users = []
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
@@ -309,7 +309,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
   test "user is in two joined groups with redundant role, joining is removed" do
     setup_redundant_scenario
-    @semiadmin_ur = FactoryGirl.create :user_group_user_role, :owner => @semiadmins, :role => @admin_role
+    @semiadmin_ur = FactoryBot.create :user_group_user_role, :owner => @semiadmins, :role => @admin_role
 
     @semiadmins.usergroups = []
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
@@ -317,50 +317,50 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
   def setup_redundant_scenario
     as_admin do
-      @semiadmins = FactoryGirl.create :usergroup, :name => 'um_semiadmins'
-      @admins     = FactoryGirl.create :usergroup, :name => 'um_admins'
+      @semiadmins = FactoryBot.create :usergroup, :name => 'um_semiadmins'
+      @admins     = FactoryBot.create :usergroup, :name => 'um_admins'
 
       @semiadmins.usergroups = [@admins]
 
-      @semiadmin_user = FactoryGirl.create(:user, :login => 'um_semiadmin1')
+      @semiadmin_user = FactoryBot.create(:user, :login => 'um_semiadmin1')
 
       @semiadmins.users = [@semiadmin_user]
       @admins.users     = [@semiadmin_user]
 
-      @admin_role = FactoryGirl.create(:role, :name => 'um_admin')
+      @admin_role = FactoryBot.create(:role, :name => 'um_admin')
 
-      @admin_ur = FactoryGirl.create :user_group_user_role, :owner => @admins, :role => @admin_role
+      @admin_ur = FactoryBot.create :user_group_user_role, :owner => @admins, :role => @admin_role
     end
   end
 
   def setup_admins_scenario
     as_admin do
-      @semiadmins  = FactoryGirl.create :usergroup, :name => 'um_semiadmins'
-      @admins      = FactoryGirl.create :usergroup, :name => 'um_admins'
-      @superadmins = FactoryGirl.create :usergroup, :name => 'um_superadmins'
+      @semiadmins  = FactoryBot.create :usergroup, :name => 'um_semiadmins'
+      @admins      = FactoryBot.create :usergroup, :name => 'um_admins'
+      @superadmins = FactoryBot.create :usergroup, :name => 'um_superadmins'
 
       @semiadmins.usergroups = [@admins]
       @admins.usergroups     = [@superadmins]
 
-      @semiadmin_user  = FactoryGirl.create(:user, :login => 'um_semiadmin1')
-      @admin_user      = FactoryGirl.create(:user, :login => 'um_admin1')
-      @superadmin_user = FactoryGirl.create(:user, :login => 'um_superadmin1')
+      @semiadmin_user  = FactoryBot.create(:user, :login => 'um_semiadmin1')
+      @admin_user      = FactoryBot.create(:user, :login => 'um_admin1')
+      @superadmin_user = FactoryBot.create(:user, :login => 'um_superadmin1')
 
       @semiadmins.users  = [@semiadmin_user]
       @admins.users      = [@admin_user]
       @superadmins.users = [@superadmin_user]
 
-      @semiadmin_role  = FactoryGirl.create(:role, :name => 'um_semiadmin')
-      @admin_role      = FactoryGirl.create(:role, :name => 'um_admin')
-      @superadmin_role = FactoryGirl.create(:role, :name => 'um_superadmin')
+      @semiadmin_role  = FactoryBot.create(:role, :name => 'um_semiadmin')
+      @admin_role      = FactoryBot.create(:role, :name => 'um_admin')
+      @superadmin_role = FactoryBot.create(:role, :name => 'um_superadmin')
 
-      @semiadmin_ur  = FactoryGirl.create :user_group_user_role, :owner => @semiadmins, :role => @semiadmin_role
-      @admin_ur      = FactoryGirl.create :user_group_user_role, :owner => @admins, :role => @admin_role
-      @superadmin_ur = FactoryGirl.create :user_group_user_role, :owner => @superadmins, :role => @superadmin_role
+      @semiadmin_ur  = FactoryBot.create :user_group_user_role, :owner => @semiadmins, :role => @semiadmin_role
+      @admin_ur      = FactoryBot.create :user_group_user_role, :owner => @admins, :role => @admin_role
+      @superadmin_ur = FactoryBot.create :user_group_user_role, :owner => @superadmins, :role => @superadmin_role
 
-      @role1 = FactoryGirl.create(:role)
-      @role2 = FactoryGirl.create(:role)
-      @role3 = FactoryGirl.create(:role)
+      @role1 = FactoryBot.create(:role)
+      @role2 = FactoryBot.create(:role)
+      @role3 = FactoryBot.create(:role)
       @semiadmin_user.roles<< @role1
       @admin_user.roles<< @role2
       @superadmin_user.roles<< @role3

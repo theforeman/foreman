@@ -20,7 +20,7 @@ class VariableLookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should update variable_lookup_keys" do
-    lkey = FactoryGirl.create(:variable_lookup_key, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
+    lkey = FactoryBot.create(:variable_lookup_key, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
     put :update, {:id => lkey.to_param, :variable_lookup_key => { :description => "test that" }}, set_session_user
     assert_redirected_to variable_lookup_keys_path
   end
@@ -33,7 +33,7 @@ class VariableLookupKeysControllerTest < ActionController::TestCase
   end
 
   test "should create variable_lookup_keys" do
-    puppetclass = FactoryGirl.create(:puppetclass)
+    puppetclass = FactoryBot.create(:puppetclass)
     assert_difference('VariableLookupKey.count', 1) do
       post :create, { :variable_lookup_key => { :key => "dummy", :type => "string", :default_value => 'test', :puppetclass_id => puppetclass.id } }, set_session_user
     end

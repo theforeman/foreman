@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SafeRenderTest < ActiveSupport::TestCase
   def setup
-    @host = FactoryGirl.create(:host)
+    @host = FactoryBot.create(:host)
     @safe_render = SafeRender.new(:variables => { :host => @host })
   end
 

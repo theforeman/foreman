@@ -6,8 +6,8 @@ class HostConfigGroupTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:host_id).scoped_to(:config_group_id, :host_type)
 
   test 'relationship host.group_puppetclasses' do
-    host = FactoryGirl.create(:host, :config_groups => [
-      FactoryGirl.create(:config_group, :puppetclasses => [
+    host = FactoryBot.create(:host, :config_groups => [
+      FactoryBot.create(:config_group, :puppetclasses => [
         puppetclasses(:five),
         puppetclasses(:six),
         puppetclasses(:seven),
@@ -19,9 +19,9 @@ class HostConfigGroupTest < ActiveSupport::TestCase
   end
 
   test 'relationship host.config_groups ' do
-    c1 = FactoryGirl.create(:config_group)
-    c2 = FactoryGirl.create(:config_group)
-    host = FactoryGirl.create(:host, :config_groups => [c1,c2])
+    c1 = FactoryBot.create(:config_group)
+    c2 = FactoryBot.create(:config_group)
+    host = FactoryBot.create(:host, :config_groups => [c1,c2])
     assert_equal 2, host.config_groups.count
     assert_equal [c1.name, c2.name].sort, host.config_groups.pluck(:name).sort
   end

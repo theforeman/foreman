@@ -16,7 +16,7 @@ class ComputeProfileTest < ActiveSupport::TestCase
 
   test "can destroy if used by host, but not hostgroup, and ensure host.compute_profile_id is nullified" do
     compute_profile = compute_profiles(:two)
-    host = FactoryGirl.create(:host, :compute_profile => compute_profile)
+    host = FactoryBot.create(:host, :compute_profile => compute_profile)
     assert_difference('ComputeProfile.count', -1) do
       assert compute_profile.destroy
     end

@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class FactValuesControllerTest < ActionController::TestCase
-  let(:host) { FactoryGirl.create(:host) }
-  let(:fact_name) { FactoryGirl.create(:fact_name)}
+  let(:host) { FactoryBot.create(:host) }
+  let(:fact_name) { FactoryBot.create(:fact_name)}
   let(:fact_value) do
-    FactoryGirl.create(:fact_value, :fact_name => fact_name, :host => host)
+    FactoryBot.create(:fact_value, :fact_name => fact_name, :host => host)
   end
 
   def setup
@@ -48,7 +48,7 @@ class FactValuesControllerTest < ActionController::TestCase
     test 'csv exports nested values ' do
       child_fact_name_name = [fact_name.name, "child"].join(FactName::SEPARATOR)
       as_admin do
-        child_fact = FactoryGirl.create(:fact_name, :parent => fact_name,
+        child_fact = FactoryBot.create(:fact_name, :parent => fact_name,
                                         :name => child_fact_name_name)
         fact_name.update_attribute(:compose, true)
         fact_value.update_attribute(:fact_name, child_fact)

@@ -22,9 +22,9 @@ class ReportImporterTest < ActiveSupport::TestCase
 
   context 'config error state notification' do
     setup do
-      @user = as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
+      @user = as_admin { FactoryBot.create(:user, :admin, :with_mail) }
       @user.mail_notifications << ConfigManagementError.first
-      @host = FactoryGirl.create(:host)
+      @host = FactoryBot.create(:host)
     end
 
     test "when a user is subscribed to all hosts notification,  a mail should be sent on error" do
@@ -47,8 +47,8 @@ class ReportImporterTest < ActiveSupport::TestCase
 
   context 'with user owner' do
     setup do
-      @owner = as_admin { FactoryGirl.create(:user, :admin, :with_mail) }
-      @host = FactoryGirl.create(:host, :owner => @owner)
+      @owner = as_admin { FactoryBot.create(:user, :admin, :with_mail) }
+      @host = FactoryBot.create(:host, :owner => @owner)
     end
 
     # Only ConfigReportImporter is set to send config error states
@@ -73,7 +73,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'when a host has no owner, no mail should be sent on error' do
-    host = FactoryGirl.create(:host, :owner => nil)
+    host = FactoryBot.create(:host, :owner => nil)
     report = read_json_fixture('reports/errors.json')
     report["host"] = host.name
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
@@ -83,9 +83,9 @@ class ReportImporterTest < ActiveSupport::TestCase
 
   # Only ConfigReportImporter is set to send config error states
   test 'when usergroup owner is subscribed to notification, a mail should be sent to all users on error' do
-    ug = FactoryGirl.create(:usergroup, :users => FactoryGirl.create_pair(:user, :with_mail))
+    ug = FactoryBot.create(:usergroup, :users => FactoryBot.create_pair(:user, :with_mail))
     Usergroup.any_instance.expects(:recipients_for).with(:config_error_state).returns(ug.users)
-    host = FactoryGirl.create(:host, :owner => ug)
+    host = FactoryBot.create(:host, :owner => ug)
     report = read_json_fixture('reports/errors.json')
     report["host"] = host.name
     ConfigReportImporter.import report
@@ -107,7 +107,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'hostname is matched downcased' do
-    db_host = FactoryGirl.create(:host)
+    db_host = FactoryBot.create(:host)
     report = read_json_fixture('reports/errors.json')
     report["host"] = db_host.name.upcase
     reporter = ReportImporter.new(report)
@@ -116,7 +116,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'it should refresh all statuses' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     report = read_json_fixture('reports/applied.json')
     report["host"] = host.name
     reporter = TestReportImporter.new(report)
@@ -125,7 +125,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'it should refresh zero statuses' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     report = read_json_fixture('reports/applied.json')
     report["host"] = host.name
     reporter = TestNoStatusUpdateReportImporter.new(report)

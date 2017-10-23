@@ -61,7 +61,7 @@ class ApplicationMailerTest < ActiveSupport::TestCase
   end
 
   test 'address can include non ASCII characters' do
-    user = FactoryGirl.build(:user, :with_utf8_mail)
+    user = FactoryBot.build(:user, :with_utf8_mail)
     mail(user.mail, 'UTF8')
     mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /UTF8/ }
     assert mail

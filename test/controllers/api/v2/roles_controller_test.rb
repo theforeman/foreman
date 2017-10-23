@@ -52,7 +52,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_name = "New Role"
     loc = Location.first
     org = Organization.first
-    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org])
+    role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org])
     post :clone, { :id => role.id, :role => { :name => new_name } }
     assert_response :success
     r = Role.find_by :name => new_name
@@ -71,7 +71,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_loc = taxonomies(:location2)
     new_desc = "updated description"
     new_role = { :description => new_desc, :location_ids => [new_loc.id], :organization_ids => [new_org.id], :name => new_name }
-    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
+    role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
     post :clone, { :new_name => new_name,
                    :id => role.id,
                    :role => new_role }
@@ -91,7 +91,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_org = taxonomies(:organization2)
     new_desc = "updated description"
     new_role = { :description => new_desc, :organization_ids => [new_org.id], :name => new_name }
-    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
+    role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
     post :clone, { :new_name => new_name,
                    :id => role.id,
                    :role => new_role }
@@ -109,7 +109,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     org = taxonomies(:organization1)
     desc = "default description"
     new_role = { :location_ids => [], :organization_ids => [], :name => new_name }
-    role = FactoryGirl.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
+    role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
     post :clone, { :new_name => new_name,
                    :id => role.id,
                    :role => new_role }

@@ -3,7 +3,7 @@ require 'ostruct'
 
 class RablTest < ActiveSupport::TestCase
   test 'render of single template' do
-    @media = FactoryGirl.build(:medium)
+    @media = FactoryBot.build(:medium)
     rendered = Rabl.render(@media,
                            'api/v2/media/show',
                            :format => :json,

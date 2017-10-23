@@ -69,7 +69,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test 'new db rows are not added to HostClass when POST to parameters' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     puppetclass = puppetclasses(:two)  #puppetclass to be added to host
     host_puppetclass_ids = host.host_classes.pluck(:puppetclass_id)
     assert_difference('HostClass.count', 0) do
@@ -91,7 +91,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   # special_info is a smart_variable that is added independant of environment
   # custom_class_param is a smart_class_param for production environment only AND is marked as :override => TRUE
   test 'puppetclass lookup keys are added to partial _class_parameters on EXISTING host form through ajax POST to parameters' do
-    host = FactoryGirl.create(:host, :environment => environments(:production))
+    host = FactoryBot.create(:host, :environment => environments(:production))
     existing_host_attributes = host_attributes(host)
     puppetclass = puppetclasses(:two)
     post :parameters, {:id => puppetclass.id, :host_id => host.id,
@@ -105,7 +105,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'puppetclass smart class parameters are NOT added if environment does not match' do
     # below is the same test as above, except environment is changed from production to global_puppetmaster, so custom_class_param is NOT added
-    host = FactoryGirl.create(:host, :environment => environments(:production))
+    host = FactoryBot.create(:host, :environment => environments(:production))
     existing_host_attributes = host_attributes(host)
     existing_host_attributes['environment_id'] = environments(:global_puppetmaster).id
     puppetclass = puppetclasses(:two)
@@ -188,8 +188,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   def test_override_enable
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     refute pc.class_params.first.override
     post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user
     assert pc.class_params.reload.first.override
@@ -198,8 +198,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   def test_override_disable
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     pc.class_params.first.update_attributes(:override => true)
     post :override, {:id => pc.to_param, :enable => 'false'}, set_session_user
     refute pc.class_params.reload.first.override
@@ -208,17 +208,17 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   def test_override_none
-    pc = FactoryGirl.create(:puppetclass)
+    pc = FactoryBot.create(:puppetclass)
     post :override, {:id => pc.to_param}, set_session_user
     assert_match /No parameters to override/, flash[:error]
     assert_redirected_to puppetclasses_url
   end
 
   test 'user with edit_puppetclasses permission should succeed in overriding all parameters' do
-    env = FactoryGirl.create(:environment,
+    env = FactoryBot.create(:environment,
                              :organizations => [users(:one).organizations.first],
                              :locations => [users(:one).locations.first])
-    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     setup_user "edit", "puppetclasses"
     refute pc.class_params.first.override
     post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
@@ -227,10 +227,10 @@ class PuppetclassesControllerTest < ActionController::TestCase
   end
 
   test 'user without edit_puppetclasses permission should fail in overriding all parameters' do
-    env = FactoryGirl.create(:environment,
+    env = FactoryBot.create(:environment,
                              :organizations => [users(:one).organizations.first],
                              :locations => [users(:one).locations.first])
-    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     setup_user "view", "puppetclasses"
     refute pc.class_params.first.override
     post :override, {:id => pc.to_param, :enable => 'true'}, set_session_user.merge(:user => users(:one).id)
