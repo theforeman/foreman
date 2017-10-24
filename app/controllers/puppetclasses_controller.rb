@@ -59,8 +59,8 @@ class PuppetclassesController < ApplicationController
   private
 
   def get_host_or_hostgroup
-    # params['host_id'] = 'null' if NEW since hosts/form and hostgroups/form has data-id="null"
-    if params['host_id'] == 'null'
+    # params['host_id'] = 'undefined' if NEW since hosts/form and hostgroups/form has no data-id
+    if params['host_id'] == 'undefined'
       @obj = Host::Managed.new(host_params('host')) if params['host']
       @obj ||= Hostgroup.new(hostgroup_params) if params['hostgroup']
     else
