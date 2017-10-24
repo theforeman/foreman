@@ -16,7 +16,6 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-polyfill": "^6.13.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.9.0",
@@ -50,6 +49,7 @@
     "phantomjs-prebuilt": "^2.1.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "brace": "^0.10.0",
     "c3": "^0.4.11",
     "datatables.net": "~1.10.12",
@@ -65,6 +65,8 @@
     "jstz": "~1.0.7",
     "lodash": "~4.15.0",
     "multiselect": "~0.9.12",
+    "patternfly": "^3.29.5",
+    "patternfly-react": "^0.8.1",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "react": "^16.0.0",
