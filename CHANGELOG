@@ -1,4 +1,32 @@
+2017-10-24	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+	* Revert "Refs #19050 - Update Rails 5.0 to 5.0.6"
+
+2017-10-23	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+
+2017-10-23	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #19050 - Update Rails 5.0 to 5.0.6
+
+2017-10-12	Martin Bačovský <martin.bacovsky@gmail.com>
+	* Fixes #21299 - Make user_id required
+
+2017-10-12	Andrew Kofink <akofink@redhat.com>
+	* Fixes #21253 - fix latest events widget
+
+2017-10-11	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #21213 - don't fail on nil time stamps
+
+2017-10-10	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #21269 - fixed dns_lookup with address resolution
+
+2017-10-09	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #19706 - don't treat DHCP leases as conflicts
+
 2017-09-20	Daniel Lobato Garcia <me@daniellobato.me>
+	* Add Ansible Tower to template seeds
+	* Release 1.16.0-RC1
 	* i18n - extracting new, pulling from tx
 
 2017-09-20	Michael Moll <kvedulv@kvedulv.de>
