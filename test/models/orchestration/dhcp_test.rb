@@ -75,9 +75,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   test "provision interface DHCP records should contain default filename/next-server attributes for IPv4 tftp proxy" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
     subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
-    h = as_admin do
-      FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet)
-    end
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet)
     assert_equal 1, h.provision_interface.dhcp_records.size
     assert_equal 'grub2/grubx64.efi', h.provision_interface.dhcp_records.first.filename
     assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
@@ -86,9 +84,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   test "provision interface DHCP records should contain explicit filename/next-server attributes for IPv4 tftp proxy" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
     subnet = FactoryGirl.build(:subnet_ipv4, :dhcp, :tftp)
-    h = as_admin do
-      FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet, :pxe_loader => 'PXELinux BIOS')
-    end
+    h = FactoryGirl.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet, :pxe_loader => 'PXELinux BIOS')
     assert_equal 1, h.provision_interface.dhcp_records.size
     assert_equal 'pxelinux.0', h.provision_interface.dhcp_records.first.filename
     assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
