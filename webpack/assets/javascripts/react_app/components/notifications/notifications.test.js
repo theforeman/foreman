@@ -84,6 +84,13 @@ describe('notifications', () => {
     expect(box.render().find('.fa-bell').length).toBe(1);
   });
 
+  it('should render a dropdown kebab when links are provided', () => {
+    const store = mockStore(stateWithUnreadNotifications);
+    const wrapper = shallow(<Notifications store={store} />);
+
+    expect(wrapper.render().find('.dropdown-toggle').length).toBe(1);
+  });
+
   it('full flow', () => {
     const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
 
