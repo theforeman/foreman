@@ -248,7 +248,7 @@ EXPECTED
                                                           :template => 'test content again',
                                                           :template_kind => template_kinds(:pxelinux))
     h = FactoryGirl.create(:host, :managed)
-    param = FactoryGirl.create(:host_parameter, :name => 'local_boot_PXELinux', :value => template.name, :reference_id => h.id)
+    FactoryGirl.create(:host_parameter, :name => 'local_boot_PXELinux', :value => template.name, :reference_id => h.id)
     as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
     assert !h.build
 
