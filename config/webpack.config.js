@@ -61,7 +61,7 @@ var config = {
         options: {
           'presets': [
             path.join(__dirname, '..', 'node_modules/babel-preset-react'),
-            path.join(__dirname, '..', 'node_modules/babel-preset-es2015')
+            path.join(__dirname, '..', 'node_modules/babel-preset-env')
           ],
           'plugins': [
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
