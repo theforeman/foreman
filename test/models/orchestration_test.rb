@@ -145,7 +145,7 @@ class OrchestrationTest < ActiveSupport::TestCase
 
   context "when registering orchestration rebuild methods" do
     setup do
-      @klass = Class.new(ActiveRecord::Base) do
+      @klass = Class.new(ApplicationRecord) do
         include Orchestration
         include Orchestration::TestModule
       end

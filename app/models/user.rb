@@ -310,7 +310,7 @@ class User < ApplicationRecord
   end
 
   def matching_password?(pass)
-    self.password_hash == encrypt_password(pass)
+    self.password_hash == hash_password(pass)
   end
 
   def my_usergroups
@@ -551,7 +551,7 @@ class User < ApplicationRecord
   def prepare_password
     unless password.blank?
       self.password_salt = Digest::SHA1.hexdigest([Time.now.utc, rand].join)
-      self.password_hash = encrypt_password(password)
+      self.password_hash = hash_password(password)
     end
   end
 
@@ -560,7 +560,7 @@ class User < ApplicationRecord
     MailNotification[:welcome].deliver(:user => self)
   end
 
-  def encrypt_password(pass)
+  def hash_password(pass)
     Digest::SHA1.hexdigest([pass, password_salt].join)
   end
 

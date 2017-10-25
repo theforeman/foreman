@@ -69,11 +69,11 @@ namespace :db do
       # We need unique classes so ActiveRecord can hash different connections
       # We do not want to use the real Model classes because any business
       # rules will likely get in the way of a database transfer
-      class ProductionModelClass < ActiveRecord::Base
+      class ProductionModelClass < ActiveRecord::Base # rubocop:disable Rails/ApplicationRecord
         # disable STI
         self.inheritance_column = :_type_disabled
       end
-      class DevelopmentModelClass < ActiveRecord::Base
+      class DevelopmentModelClass < ActiveRecord::Base # rubocop:disable Rails/ApplicationRecord
         # disable STI
         self.inheritance_column = :_type_disabled
       end
