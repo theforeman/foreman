@@ -8,7 +8,7 @@ class ArgvParser
   def initialize(argv, file)
     @options = { rails_root: Dir.pwd }
 
-    opts = OptionParser.new do |opts|
+    parser = OptionParser.new do |opts|
       opts.banner = banner(file)
 
       opts.on('-h', '--help', 'Show this message') do
@@ -32,7 +32,7 @@ class ArgvParser
       end
     end
 
-    args = opts.parse!(argv)
+    args = parser.parse!(argv)
     @command = args.first || 'run'
   end
 
@@ -69,4 +69,3 @@ if $PROGRAM_NAME == __FILE__
 
   Dynflow::Rails::Daemon.new.run_background(parser.command, parser.options)
 end
-

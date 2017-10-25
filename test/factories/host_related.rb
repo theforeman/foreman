@@ -173,7 +173,7 @@ FactoryGirl.define do
       end
       after(:create) do |host,evaluator|
         evaluator.report_count.times do |i|
-          report = FactoryGirl.create(:report, :host => host, :reported_at => (evaluator.report_count - i).minutes.ago)
+          FactoryGirl.create(:report, :host => host, :reported_at => (evaluator.report_count - i).minutes.ago)
         end
         host.update_attribute(:last_report, host.reports.last.reported_at)
       end
