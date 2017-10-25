@@ -1,3 +1,7 @@
+// this variable should be removed and get loaded from patternfly
+// when we will update patternfly to be apart of webpack
+$color-pf-blue-400: #0088ce;
+
 #notifications_container {
   position: static;
   margin-top: -1px;
@@ -46,7 +50,7 @@
 
       &:hover,
       &:focus {
-        color: inherit;
+        color: $color-pf-blue-400;
         text-decoration: none;
       }
     }
