@@ -29,7 +29,7 @@
 
     <div class="tab-content">
 
-      <div class="tab-pane active" id="primary">
+      <div class="tab-pane " id="primary">
         <%= text_f f, :name, :size => "col-md-4", :value => name_field(@host),
             :input_group_btn => randomize_mac_link,
             :help_inline => _("This value is used also as the host's primary interface name.") %>
@@ -95,7 +95,7 @@
       <%= f.hidden_field :progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)} %>
       <%= f.hidden_field :type, :value => @host.type if @host.type_changed? %>
 
-      <div class="tab-pane"  id="network">
+      <div class="tab-pane active"  id="network">
         <%= render 'hosts/interfaces', :host => @host, :f => f %>
       </div>
 

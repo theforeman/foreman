@@ -1,7 +1,7 @@
 module DnsInterface
   extend ActiveSupport::Concern
 
-  RECORD_TYPES = [:a, :aaaa, :ptr4, :ptr6]
+  RECORD_TYPES = [:a, :aaaa, :ptr4, :ptr6, :cname]
 
   def dns_record(type)
     validate_record_type(type)
@@ -31,6 +31,8 @@ module DnsInterface
       reverse_dns6?
     when :ptr4
       reverse_dns?
+    when :cname
+      dns? || dns6?
     end
   end
 
@@ -95,5 +97,10 @@ module DnsInterface
 
   def dns_ptr6_record_attrs
     { :hostname => hostname, :ip => ip6, :proxy => subnet6.dns_proxy }
+  end
+
+  def dns_cname_record_attrs
+    host_ip = ip || ip6
+    { :hostname => hostname, :ip => host_ip, :host_alias => host_alias, :resolver => domain.resolver, :proxy => domain.proxy }
   end
 end

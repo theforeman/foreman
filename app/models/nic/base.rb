@@ -56,6 +56,8 @@ module Nic
     scope :primary, -> { where(:primary => true) }
     scope :provision, -> { where(:provision => true) }
 
+    has_many :host_aliases, :foreign_key => :nic_id
+
     belongs_to :subnet, -> { where :type => 'Subnet::Ipv4' }
     belongs_to :subnet6, -> { where :type => 'Subnet::Ipv6' }, :class_name => "Subnet"
     belongs_to :domain

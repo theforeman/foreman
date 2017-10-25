@@ -1,5 +1,6 @@
 module Foreman::Controller::Parameters::NicBase
   extend ActiveSupport::Concern
+  include Foreman::Controller::Parameters::HostAlias
 
   class_methods do
     def add_nic_base_params_filter(filter)
@@ -25,6 +26,7 @@ module Foreman::Controller::Parameters::NicBase
         :virtual,
         {:attached_devices => []},
         {:compute_attributes => [:bridge, :from_profile, :model, :network, :type, :name]},
+        {:host_aliases_attributes => [host_alias_params_filter]},
         :nested => true
 
       filter.permit_by_context :id,

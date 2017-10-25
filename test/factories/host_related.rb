@@ -47,6 +47,12 @@ FactoryGirl.define do
     type 'GroupParameter'
   end
 
+  factory :host_alias, :class => HostAlias do
+    sequence(:name) { |n| "my_alias_#{n}" }
+    association :nic, :factory => [:nic_base, :with_host]
+    association :domain, :factory => :domain
+  end
+
   factory :nic_base, :class => Nic::Base do
     type 'Nic::Base'
     sequence(:identifier) { |n| "eth#{n}" }
@@ -57,6 +63,18 @@ FactoryGirl.define do
         FactoryGirl.build(:subnet_ipv4,
           :organizations => host ? [host.organization] : [],
           :locations => host ? [host.location] : [])
+      end
+    end
+
+    trait :with_host do
+      host do
+        FactoryGirl.create(:host)
+      end
+    end
+
+    trait :with_domain do
+      domain do
+        FactoryGirl.create(:domain)
       end
     end
   end
@@ -442,6 +460,12 @@ FactoryGirl.define do
 
     trait :without_owner do
       owner nil
+    end
+
+    trait :with_aliases do
+      host_aliases do
+        FactoryGirl.build(:host_alias, :nic => nic)
+      end
     end
   end
 

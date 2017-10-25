@@ -146,6 +146,12 @@ class ManagedTest < ActiveSupport::TestCase
     end
   end
 
+  context "there is host alias" do
+    test "# should have an alias attr" do
+
+    end
+  end
+
   private
 
   def setup_primary_nic_with_name(name, opts = {})
