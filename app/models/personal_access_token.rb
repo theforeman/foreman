@@ -1,4 +1,4 @@
-class PersonalAccessToken < ActiveRecord::Base
+class PersonalAccessToken < ApplicationRecord
   include Authorizable
   include Expirable
 
@@ -20,7 +20,7 @@ class PersonalAccessToken < ActiveRecord::Base
   attr_accessor :token_value
 
   def self.authenticate_user(user, token)
-    token = self.active.find_by(user: user, token: encrypt_token(user, token))
+    token = self.active.find_by(user: user, token: hash_token(user, token))
     return false unless token
     token.update(last_used_at: Time.current.utc)
     true
@@ -30,13 +30,13 @@ class PersonalAccessToken < ActiveRecord::Base
     Digest::SHA1.hexdigest(user.id.to_s)
   end
 
-  def self.encrypt_token(user, token)
+  def self.hash_token(user, token)
     Digest::SHA1.hexdigest([token, token_salt(user)].join)
   end
 
   def generate_token
     self.token_value = SecureRandom.urlsafe_base64(nil, false)
-    self.token = self.class.encrypt_token(user, token_value)
+    self.token = self.class.hash_token(user, token_value)
     token_value
   end
 
