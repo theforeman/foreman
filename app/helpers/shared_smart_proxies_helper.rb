@@ -29,7 +29,7 @@ module SharedSmartProxiesHelper
     select_f f, :"#{resource}_id", proxies, :id, :name,
       select_options,
       :label => _(options[:label]),
-      :help_inline => _(options[:description]),
+      :label_help => _(options[:description]),
       :wrapper_class => "form-group #{'hide' if hidden}"
   end
 
