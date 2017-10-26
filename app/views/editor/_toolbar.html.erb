@@ -21,7 +21,6 @@
     <% end %>
 
     <% if show_preview %>
-      <%= javascript_tag("$(document).on('ContentLoad', function() { tfm.tools.initTypeAheadSelect($('#preview_host_id')) });"); %>
       <span id="preview_host_selector" style="display:none">
         <%= text_field_tag :preview_host_id, nil,
             :'data-url' => preview_host_collection_hosts_path,
