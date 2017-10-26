@@ -420,15 +420,14 @@ function reloadOnAjaxComplete(element) {
 
 function set_fullscreen(element){
   var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+
-    __('Exit Full Screen')+'">' + tfm.tools.iconText('expand','','fa') + '</a></div>');
+    __('Exit Full Screen')+'">' + tfm.tools.iconText('compress','','fa') + '</a></div>');
   element.before("<span id='fullscreen-placeholder'></span>")
          .data('position', $(window).scrollTop())
          .addClass('fullscreen')
-         .appendTo($('body'))
+         .appendTo($('.container-pf-nav-pf-vertical'))
          .resize()
          .after(exit_button);
   $('#content').addClass('hidden');
-  $('.navbar').addClass('hidden');
   $(document).on('keyup', function(e) {
     if (e.keyCode == 27) {    // esc
       exit_fullscreen();
@@ -439,7 +438,6 @@ function set_fullscreen(element){
 function exit_fullscreen(){
   var element = $('.fullscreen');
   $('#content').removeClass('hidden');
-  $('.navbar').removeClass('hidden');
   element.removeClass('fullscreen')
          .insertAfter('#fullscreen-placeholder')
          .resize();
