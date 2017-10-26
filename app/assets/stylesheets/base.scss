@@ -318,9 +318,9 @@ table {
 }
 
 .exit-fullscreen {
-  position: absolute;
-  right: 30px;
-  top: 30px;
+  position: fixed;
+  right: 20px;
+  top: 80px;
 }
 
 .config_group,
@@ -483,9 +483,9 @@ table {
 }
 
 .fullscreen {
-  height: 100vh !important;
-  position: fixed !important;
-  width: 100vw !important;
+  height: 90vh !important;
+  width: 100%;
+  margin-top: 20px;
   font-family: monospace;
 }
 
