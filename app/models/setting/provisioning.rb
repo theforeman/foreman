@@ -15,6 +15,23 @@ class Setting::Provisioning < Setting
   Setting::BLANK_ATTRS.push(*(default_global_labels + local_boot_labels))
   validates :value, :pxe_template_name => true, :if => Proc.new { |s| s.class.default_global_labels.include?(s.name) }
 
+  IGNORED_INTERFACES = [
+    'lo',
+    'usb*',
+    'vnet*',
+    'macvtap*',
+    '_vdsmdummy_',
+    'veth*',
+    'docker*',
+    'tap*',
+    'qbr*',
+    'qvb*',
+    'qvo*',
+    'qr-*',
+    'qg-*',
+    'vlinuxbr*',
+    'vovsbr*'
+  ]
   def self.default_settings
     fqdn = Facter.value(:fqdn) || SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"
@@ -29,7 +46,7 @@ class Setting::Provisioning < Setting
       self.set('access_unattended_without_build', N_("Allow access to unattended URLs without build mode being used"), false, N_('Access unattended without build')),
       self.set('manage_puppetca', N_("Foreman will automate certificate signing upon provision of new host"), true, N_('Manage PuppetCA')),
       self.set('ignore_puppet_facts_for_provisioning', N_("Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"), false, N_('Ignore Puppet facts for provisioning')),
-      self.set('ignored_interface_identifiers', N_("Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*"), ['lo', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*'], N_('Ignore interfaces with matching identifier')),
+      self.set('ignored_interface_identifiers', N_("Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*"), IGNORED_INTERFACES, N_('Ignore interfaces with matching identifier')),
       self.set('ignore_facts_for_operatingsystem', N_("Stop updating Operating System from facts"), false, N_('Ignore facts for operating system')),
       self.set('ignore_facts_for_domain', N_("Stop updating domain values from facts"), false, N_('Ignore facts for domain')),
       self.set('query_local_nameservers', N_("Foreman will query the locally configured resolver instead of the SOA/NS authorities"), false, N_('Query local nameservers')),
