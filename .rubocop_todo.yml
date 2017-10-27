@@ -413,11 +413,6 @@ Performance/RangeInclude:
 Performance/StringReplacement:
   Enabled: false
 
-# Offense count: 4
-# Cop supports --auto-correct.
-Rails/ApplicationRecord:
-  Enabled: false
-
 # Offense count: 5
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: strict, flexible
