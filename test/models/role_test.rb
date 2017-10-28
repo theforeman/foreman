@@ -229,6 +229,10 @@ class RoleTest < ActiveSupport::TestCase
       @role = FactoryGirl.build(:role, :permissions => [])
     end
 
+    it 'should fetch the appropriate permissions' do
+      assert_equal 2, @role.send(:permission_records, [[@permission1.name, @permission2.name]]).size
+    end
+
     it "should build filters with assigned permission" do
       @role.add_permissions [@permission1.name, @permission2.name.to_sym]
       assert @role.filters.all?(&:unlimited?)
