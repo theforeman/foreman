@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import onClickOutside from 'react-onclickoutside';
 import * as NotificationActions from '../../redux/actions/notifications';
 import './notifications.scss';
 import ToggleIcon from './toggleIcon/';
@@ -11,6 +12,18 @@ class notificationContainer extends React.Component {
     const { startNotificationsPolling, data: { url } } = this.props;
 
     startNotificationsPolling(url);
+  }
+
+  handleClickOutside() {
+    const {
+      isDrawerOpen,
+      isReady,
+      toggleDrawer
+    } = this.props;
+
+    if (isReady && isDrawerOpen) {
+      toggleDrawer();
+    }
   }
 
   render() {
@@ -69,5 +82,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, NotificationActions)(
-  notificationContainer
+  onClickOutside(notificationContainer)
 );

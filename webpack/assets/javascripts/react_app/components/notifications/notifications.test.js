@@ -135,4 +135,19 @@ describe('notifications', () => {
     wrapper.find(closeButtonSelector).simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
   });
+
+  it('should close the notification box when click outside of the box', () => {
+    const wrapper = mount(
+      <div>
+        <div className="something-outside"></div>
+        <Notifications data={componentMountData} store={getStore()} />
+      </div>
+    );
+
+    wrapper.find('.fa-bell').simulate('click');
+    expect(toJson(wrapper)).toMatchSnapshot();
+
+    wrapper.find('.something-outside').simulate('click');
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
 });
