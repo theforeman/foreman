@@ -16,7 +16,8 @@
   }
 }
 
-.fullscreen {
+.editor-container.fullscreen {
+  height: 82vh !important;
   .navbar-editor {
     margin: 0;
   }

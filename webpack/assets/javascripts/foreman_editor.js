@@ -314,10 +314,8 @@ export function enterFullscreen(element, relativeTo) {
   $element.data('origin', $element.parent())
           .data('position', $(window).scrollTop())
           .addClass('fullscreen')
-          .appendTo($('body'))
+          .appendTo($('.container-pf-nav-pf-vertical'))
           .resize();
-
-  $('.navbar').not('.navbar-editor').addClass('hidden');
   $('.btn-fullscreen').addClass('hidden');
   $('.btn-exit-fullscreen').removeClass('hidden');
 
@@ -334,7 +332,6 @@ export function exitFullscreen() {
   let element = $('.fullscreen');
 
   $('#content').removeClass('hidden');
-  $('.navbar').removeClass('hidden');
   element.removeClass('fullscreen')
          .prependTo(element.data('origin'))
          .resize();
