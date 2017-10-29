@@ -19,22 +19,4 @@ module HostInfoExtensions
     HostInfo.register_info_provider(HostInfoProviders::PuppetInfo)
     HostInfo.register_info_provider(HostInfoProviders::HostParamsInfo)
   end
-
-  # This is the base method that gathers information from all providers.
-  def info
-    renderer_regex = /renderer\.rb.*host_enc/
-    unless caller.first.match(renderer_regex) || caller[1].match(renderer_regex)
-      Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_enc')
-    end
-
-    info_hash = {}
-
-    HostInfo.providers.each do |provider_class|
-      provider = provider_class.new(self)
-      info = provider.host_info
-      info_hash.deep_merge! info if info
-    end
-
-    info_hash
-  end
 end

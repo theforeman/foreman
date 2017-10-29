@@ -775,11 +775,6 @@ class Host::Managed < Host::Base
     result
   end
 
-  def to_ip_address(name_or_ip)
-    Foreman::Deprecation.deprecation_warning('1.17', 'Host::Managed#to_ip_address has been deprecated, you should use NicIpResolver class instead')
-    NicIpResolver.new(:nic => provision_interface).to_ip_address(name_or_ip)
-  end
-
   def apply_compute_profile(modification)
     modification.run(self, compute_resource.try(:compute_profile_for, compute_profile_id))
   end
