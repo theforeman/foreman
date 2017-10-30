@@ -140,7 +140,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     host = Host::Managed.new(:name => "new_host", :environment_id => environments(:production).id)
     new_host_attributes = host_attributes(host)
     puppetclass = puppetclasses(:two)
-    post :parameters, {:id => puppetclass.id, :host_id => 'null',
+    post :parameters, {:id => puppetclass.id, :host_id => 'undefined',
                        :host => new_host_attributes }, set_session_user
     assert_response :success
     as_admin do
@@ -156,7 +156,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     new_hostgroup_attributes = hostgroup_attributes(hostgroup)
     puppetclass = puppetclasses(:two)
     # host_id is posted instead of hostgroup_id per host_edit.js#load_puppet_class_parameters
-    post :parameters, {:id => puppetclass.id, :host_id => 'null',
+    post :parameters, {:id => puppetclass.id, :host_id => 'undefined',
                        :hostgroup => new_hostgroup_attributes }, set_session_user
     assert_response :success
     as_admin do
