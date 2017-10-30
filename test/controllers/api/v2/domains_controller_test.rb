@@ -162,4 +162,14 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     assert_equal taxonomies(:location2).domains.length, assigns(:domains).length
     assert_equal assigns(:domains), taxonomies(:location2).domains
   end
+
+  test "should get domains when searching with organization_id" do
+    domain = FactoryGirl.create(:domain)
+    org = FactoryGirl.create(:organization)
+    org.domain_ids = [domain.id]
+    get :index, {:search => domain.name, :organization_id => org.id }
+    assert_response :success
+    assert_equal org.domains.length, assigns(:domains).length
+    assert_equal assigns(:domains), org.domains
+  end
 end
