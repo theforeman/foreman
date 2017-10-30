@@ -13,12 +13,11 @@ require('brace/theme/clouds');
 require('brace/keybinding/vim');
 require('brace/keybinding/emacs');
 require('brace/ext/searchbox');
+import { initTypeAheadSelect } from './foreman_tools';
 
 let Editor;
 
-$(document).on('ContentLoad', function () {
-  onEditorLoad();
-});
+$(document).on('ContentLoad', onEditorLoad);
 
 $(document).on('click', '#editor_submit', function () {
   if ($('.diffMode').exists()) {
@@ -51,6 +50,8 @@ function onEditorLoad() {
       setEditMode(editorSource);
     }
   }
+
+  initTypeAheadSelect($('#preview_host_id'));
 }
 
 function setKeybinding() {
