@@ -1072,4 +1072,50 @@ class UserTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context 'update login' do
+    let(:auth_source_ldap) { FactoryBot.create(:auth_source_ldap) }
+    let (:user_login) { FactoryBot.create(:user, :locations => [Location.first], :organizations => [Organization.first] )}
+    let (:external_user) { FactoryBot.create(:user, :auth_source => auth_source_ldap, :locations => user_login.locations, :organizations => user_login.organizations)}
+    let (:external_user_manager) { FactoryBot.create(:user, :auth_source => auth_source_ldap, :locations => user_login.locations, :organizations => user_login.organizations, :roles => [roles(:manager)]) }
+    let (:internal_user) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :mail => "foo@bar.com",  :current_password => "password" )}
+    let (:internal_user_manager) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :roles => [roles(:manager)])}
+
+    test 'Internal user can update his own login' do
+      as_user internal_user do
+        internal_user.login = "dummy2"
+        internal_user.valid?
+        assert internal_user.save
+      end
+    end
+
+    test 'Internal user with permission can edit other users login' do
+      as_user internal_user_manager do
+        user_login.login = "dummy2"
+        assert user_login.valid?
+        assert user_login.save
+      end
+    end
+
+    test 'Internal user without permission can not edit other user login' do
+      as_user internal_user do
+        user_login.login = "dummy3"
+        assert_not user_login.save
+      end
+    end
+
+    test 'External user can not edit his own login' do
+      as_user external_user do
+        external_user.login = "dummy4"
+        assert_not external_user.save
+      end
+    end
+
+    test 'External user login can not be changed' do
+      as_user external_user_manager do
+        external_user.login = "dummy5"
+        assert_not external_user.save
+      end
+    end
+  end
 end

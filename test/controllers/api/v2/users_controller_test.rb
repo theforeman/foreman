@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::UsersControllerTest < ActionController::TestCase
   def valid_attrs
-    { :login => "johnsmith", :mail => 'john@example.com',
+    { :mail => 'john@example.com',
       :auth_source_id => auth_sources(:internal), :password => '123456' }
   end
 
@@ -62,7 +62,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
-    assert mod_user.login == "johnsmith"
+    assert mod_user.mail == "john@example.com"
   end
 
   test "should update admin flag" do
@@ -78,7 +78,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
 
     assert user.roles =([roles(:default_role)])
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+    put :update, { :id => user.id, :user => { :mail => "bar@foo.com" } }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)

@@ -29,11 +29,6 @@ class UserParametersTest < ActiveSupport::TestCase
       assert_includes filtered, 'role_ids'
       assert_includes filtered, 'role_names'
     end
-
-    test "permits login attribute" do
-      params = ActionController::Parameters.new(:user => {:login => 'another'})
-      assert_includes(as_admin { self.class.user_params_filter.filter_params(params, context) }, 'login')
-    end
   end
 
   context "editing self" do
@@ -41,13 +36,6 @@ class UserParametersTest < ActiveSupport::TestCase
 
     test "blocks role attributes" do
       params = ActionController::Parameters.new(:user => {:roles => ['a'], :role_ids => [1], :role_names => ['a']})
-      as_user(FactoryBot.create(:user)) do
-        assert_empty self.class.user_params_filter.filter_params(params, context)
-      end
-    end
-
-    test "blocks login attribute" do
-      params = ActionController::Parameters.new(:user => {:login => 'another'})
       as_user(FactoryBot.create(:user)) do
         assert_empty self.class.user_params_filter.filter_params(params, context)
       end

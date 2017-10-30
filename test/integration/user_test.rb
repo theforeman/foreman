@@ -12,9 +12,9 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
   test "edit page" do
     visit users_path
     click_link "one"
-    fill_in "user_login", :with => "user12345"
+    fill_in "user_firstname", :with => "user12345"
     assert_submit_button(users_path)
-    assert page.has_link? 'user12345'
+    assert page.has_content? 'user12345'
   end
 
   context "without automatic login" do
