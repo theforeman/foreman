@@ -71,6 +71,18 @@ class EnvironmentsControllerTest < ActionController::TestCase
     ProxyAPI::Puppet.any_instance.stubs(:classes).returns(classes)
   end
 
+  test "should import as admin when organization changed" do
+    setup_import_classes
+    Organization.current = taxonomies(:organization2)
+    post :obsolete_and_new,
+      {"changed" =>
+        {"new" =>
+          {"env1" => '{"a":{"new":{}}}'}
+        }
+      }, set_session_user
+    assert_redirected_to environments_url
+  end
+
   test "should handle disk environment containing additional classes" do
     setup_import_classes
     Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
