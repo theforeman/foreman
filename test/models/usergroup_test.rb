@@ -228,6 +228,25 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup.external_usergroups.find { |eu| eu.name == 'aname'}.refresh
       assert_includes @usergroup.users, users(:one)
     end
+
+    test 'internal auth source users remain after refresh' do
+      external_user = FactoryBot.create(
+        :user,
+        :auth_source => @external.auth_source,
+        :login => 'external_user'
+        )
+      internal_user = FactoryBot.create(:user)
+      LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
+      @usergroup.users << internal_user
+      @usergroup.users << external_user
+      @usergroup.save
+
+      AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').
+        returns(['external_user'])
+      @usergroup.external_usergroups.detect { |eu| eu.name == 'aname'}.refresh
+      assert_includes @usergroup.users, internal_user
+      assert_includes @usergroup.users, external_user
+    end
   end
 
   test 'can search usergroup by role id' do

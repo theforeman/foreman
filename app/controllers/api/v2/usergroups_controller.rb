@@ -38,6 +38,13 @@ module Api
       end
 
       api :PUT, "/usergroups/:id/", N_("Update a user group")
+      description <<-DOC
+        User groups linked to external groups (LDAP) are automatically synced
+        with these groups on update. Remember this synchronization will remove
+        any LDAP users manually added to the Foreman user group. Only LDAP
+        users in the external groups will remain. Internal users can be added
+        or removed freely.
+      DOC
       param :id, String, :required => true
       param_group :usergroup
 
