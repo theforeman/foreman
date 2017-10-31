@@ -28,7 +28,7 @@ module TrendsHelper
     chart_colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92']
     values = trend.values
     labels = {}
-    values.includes(:trendable).each {|v| labels[v.id] = [v.to_label, trend_path(:id => v)]}
+    values.includes(:trendable).each {|v| labels[v.id] = [CGI.escapeHTML(v.to_label), trend_path(:id => v)]}
     values.includes(:trend_counters).where(["trend_counters.interval_end > ? or trend_counters.interval_end is null", from])
                                     .reorder("trend_counters.interval_start")
                                     .each_with_index.map do |value, idx|
