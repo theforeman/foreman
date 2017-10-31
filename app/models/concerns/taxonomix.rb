@@ -13,9 +13,9 @@ module Taxonomix
              :validate => false
     after_initialize :set_current_taxonomy
 
-    scoped_search :relation => :locations, :on => :name, :rename => :location, :complete_value => true
+    scoped_search :relation => :locations, :on => :name, :rename => :location, :complete_value => true, :only_explicit => true
     scoped_search :relation => :locations, :on => :id, :rename => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-    scoped_search :relation => :organizations, :on => :name, :rename => :organization, :complete_value => true
+    scoped_search :relation => :organizations, :on => :name, :rename => :organization, :complete_value => true, :only_explicit => true
     scoped_search :relation => :organizations, :on => :id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
     dirty_has_many_associations :organizations, :locations
