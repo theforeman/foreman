@@ -1,4 +1,4 @@
-<li class="list-group-item secondary-nav-item-pf" data-target=<%= "#{menu_name}-secondary" %>>
+<%= content_tag :li, :class => "list-group-item secondary-nav-item-pf #{mobile_class}", "data-target" => "#{menu_name}-secondary" do %> 
   <a id= <%= "#{menu_name}" %>>
   <%= content_tag(:span, '', :class => "#{menu_icon}", "data-toggle" => "tooltip", :title => menu_title) %>
   <%= content_tag(:span, menu_title, :class => "list-group-item-value")   %>
@@ -30,4 +30,4 @@
       <% end %>
     </ul>
   </div>
-</li>
+<% end %>

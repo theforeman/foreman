@@ -12,5 +12,6 @@
 
     <%= render "home/vertical_taxonomies", :taxonomy_type => "location", :icon_name => "fa fa-globe" if SETTINGS[:locations_enabled]  %>
     <%= render "home/vertical_taxonomies", :taxonomy_type => "organization", :icon_name => "fa fa-building" if SETTINGS[:organizations_enabled]  %>
+    <%= render_vertical_menu :side_menu, true %>
   </ul>
 </div>
