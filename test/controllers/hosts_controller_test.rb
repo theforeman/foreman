@@ -1812,6 +1812,31 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
+  context 'redirection after destroying a host' do
+    setup do
+      @hostgroup1 = FactoryBot.create(:hostgroup, :with_parent, :with_domain, :with_os)
+      @hostgroup2 = FactoryBot.create(:hostgroup, :with_parent, :with_domain, :with_os)
+      @managed_host1 = FactoryBot.create(:host, :managed, :hostgroup => @hostgroup1)
+      @managed_host2 = FactoryBot.create(:host, :managed, :hostgroup => @hostgroup1)
+      @managed_host3 = FactoryBot.create(:host, :managed, :hostgroup => @hostgroup2)
+    end
+
+    test "after deleting host search filter should remain as it is" do
+      hosts_search_path = hosts_path(search: "hostgroup_name = #{@hostgroup1.name}")
+      @request.session["redirect_to_url_hosts"] = hosts_search_path
+
+      delete :destroy, params: { :id => @managed_host1.id }, session: set_session_user
+      assert_redirected_to hosts_search_path
+      assert_not Host.exists?(@managed_host1.id)
+    end
+
+    test "after deleting host, it should redirect to hosts page if no session" do
+      delete :destroy, params: { :id => @managed_host1.id }, session: set_session_user
+      assert_redirected_to hosts_path
+      assert_not Host.exists?(@managed_host1.id)
+    end
+  end
+
   private
 
   def initialize_host

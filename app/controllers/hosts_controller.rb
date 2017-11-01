@@ -126,9 +126,9 @@ class HostsController < ApplicationController
 
   def destroy
     if @host.destroy
-      process_success :success_redirect => hosts_path
+      process_success redirection_url_on_host_deletion
     else
-      process_error
+      process_error :redirect => saved_redirect_url_or(send("#{controller_name}_url"))
     end
   end
 
@@ -867,5 +867,13 @@ class HostsController < ApplicationController
     Hash[Report.origins.map do |origin|
       [origin, Setting[:"#{origin.downcase}_interval"].to_i]
     end]
+  end
+
+  def redirection_url_on_host_deletion
+    default_redirection = { :success_redirect => hosts_path }
+    return default_redirection unless session["redirect_to_url_#{controller_name}"]
+    path_hash = main_app.routes.recognize_path(session["redirect_to_url_#{controller_name}"])
+    return default_redirection if (path_hash.nil? || (path_hash && path_hash[:action] != 'index'))
+    { :success_redirect => saved_redirect_url_or(send("#{controller_name}_url")) }
   end
 end
