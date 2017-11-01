@@ -1,8 +1,9 @@
 module HomeHelper
-  def render_vertical_menu(menu_name)
+  def render_vertical_menu(menu_name, mobile = false)
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
-      render "home/vertical_menu", :menu_items => items, :menu_title => _(menu.caption), :menu_icon => menu.icon, :menu_name => menu.name if items.any?
+      render "home/vertical_menu", :menu_items => items, :menu_title => _(menu.caption), :menu_icon => menu.icon,
+                                   :menu_name => menu.name, :mobile_class => mobile ? 'visible-xs-block' : ''  if items.any?
     end.join(' ').html_safe
   end
 

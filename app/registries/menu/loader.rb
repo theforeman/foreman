@@ -9,17 +9,18 @@ module Menu
     def self.load
       Manager.map :header_menu
 
-      Manager.map :user_menu do |menu|
-        menu.item :my_account,
-                  :caption => N_('My Account'),
-                  :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
-        menu.divider
-        menu.item :logout,
-                  :caption => N_('Log Out'),
-                  :html => {:method => :post},
-                  :url_hash => {:controller => '/users', :action => 'logout'}
+      Manager.map :side_menu do |menu|
+        menu.sub_menu :user_menu, :caption => N_('User'), :icon => 'fa fa-user' do
+          menu.item :my_account,
+                    :caption => N_('My Account'),
+                    :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
+          menu.divider
+          menu.item :logout,
+                    :caption => N_('Log Out'),
+                    :html => {:method => :post},
+                    :url_hash => {:controller => '/users', :action => 'logout'}
+        end
       end
-
       Manager.map :admin_menu do |menu|
         menu.sub_menu :administer_menu,  :caption => N_('Administer'), :icon => 'fa fa-cog' do
           menu.item :locations,          :caption => N_('Locations') if SETTINGS[:locations_enabled]
