@@ -49,7 +49,7 @@
           <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
             <% @puppetclass.class_params.includes(:environments, :environment_classes, :lookup_values).each do |key| %>
               <li data-used-environments=<%= key.environments.map(&:to_s).to_json %> >
-                <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key %>">
+                <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key.key.size > 43 ? key : "" %>">
                   <div class="clip"><%= icon_text((key.override ? "flag": ""), key.to_s.tr('_',' '), :kind => 'fa') %></div>
                 </a>
               </li>
@@ -79,7 +79,7 @@
         <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
           <% @puppetclass.lookup_keys.each do |key| %>
             <li>
-              <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key %>">
+              <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key.key.size > 43 ? key : "" %>">
                 <div class="clip"><%= key.to_s.tr('_',' ') %></div><span class="close pull-right">&times;</span>
               </a>
             </li>
