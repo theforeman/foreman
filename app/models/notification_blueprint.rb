@@ -8,6 +8,8 @@
 # NotificationBlueprint of storing it.
 class NotificationBlueprint < ApplicationRecord
   has_many :notifications, :dependent => :destroy
+  has_many :notification_recipients, :through => :notifications
+
   store :actions, :accessors => [:links], :coder => JSON
 
   validates :message, :presence => true
@@ -19,6 +21,10 @@ class NotificationBlueprint < ApplicationRecord
 
   def mass_update_expiry
     notifications.update_all(expired_at: expired_at)
+  end
+
+  def mass_set_seen(value = true)
+    notification_recipients.update_all(seen: value)
   end
 
   def expired_at
