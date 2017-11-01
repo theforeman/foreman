@@ -4,7 +4,7 @@ In development mode, the Dynflow executor is part of the web server process. How
 
 The executor process needs to be executed before the web server. You can run it by:
 
-  foreman-rake foreman_tasks:dynflow:executor
+  foreman-rake dynflow:executor
 
 END_DESC
   task :executor => :environment do

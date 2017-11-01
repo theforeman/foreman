@@ -277,6 +277,7 @@ module Foreman
     config.after_initialize do
       dynflow = Rails.application.dynflow
       dynflow.eager_load_actions!
+      dynflow.config.remote = false
       dynflow.config.increase_db_pool_size
 
       unless dynflow.config.lazy_initialization
