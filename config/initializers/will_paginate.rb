@@ -1,6 +1,10 @@
 # config/initializers/will_paginate.rb
 require 'will_paginate/array'
 
+unless Rails::VERSION::MAJOR == 4
+  require 'will_paginate/view_helpers/action_view'
+end
+
 module WillPaginate
   module ActionView
     class PatternflyLinkRenderer < LinkRenderer
