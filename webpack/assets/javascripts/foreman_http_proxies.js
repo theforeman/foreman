@@ -11,17 +11,17 @@ export function testConnection(item, url) {
     url: url,
     type: 'put',
     data: data,
-    success: function (result, textstatus, xhr) {
-      notify({message: result.message, type: 'success'});
+    success: function(result, textstatus, xhr) {
+      notify({ message: result.message, type: 'success' });
     },
-    error: function (xhr) {
+    error: function(xhr) {
       let error = $.parseJSON(xhr.responseText).message;
 
-      notify({message: error, type: 'danger'});
+      notify({ message: error, type: 'danger' });
     },
-    complete: function (result) {
+    complete: function(result) {
       $('#test_connection_indicator').hide();
       $(item).removeClass('disabled');
-    }
+    },
   });
 }

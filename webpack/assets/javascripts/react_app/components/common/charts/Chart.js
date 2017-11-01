@@ -11,8 +11,9 @@ class Chart extends React.Component {
   hasData() {
     const config = this.props.config;
 
-    return config && config.data && config.data.columns &&
-      config.data.columns.length;
+    return (
+      config && config.data && config.data.columns && config.data.columns.length
+    );
   }
 
   drawChart() {
@@ -44,18 +45,18 @@ class Chart extends React.Component {
   render() {
     const msg = this.props.noDataMsg || 'No data available';
 
-    return this.hasData() ?
-      <div className={this.props.className} data-id={this.props.config.id}></div> :
-      (
-        <MessageBox msg={msg} icontype="info"></MessageBox>
-      );
+    return this.hasData() ? (
+      <div className={this.props.className} data-id={this.props.config.id} />
+    ) : (
+      <MessageBox msg={msg} icontype="info" />
+    );
   }
 }
 
 Chart.propTypes = {
   config: PropTypes.object.isRequired,
   noDataMsg: PropTypes.string,
-  setTitle: PropTypes.func
+  setTitle: PropTypes.func,
 };
 
 export default Chart;

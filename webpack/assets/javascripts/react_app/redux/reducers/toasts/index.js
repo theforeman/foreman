@@ -2,7 +2,7 @@ import { TOASTS_ADD, TOASTS_DELETE, TOASTS_CLEAR } from '../../consts';
 import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
-  messages: {}
+  messages: {},
 });
 
 export default (state = initialState, action) => {

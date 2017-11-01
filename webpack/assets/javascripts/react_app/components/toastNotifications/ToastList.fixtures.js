@@ -2,8 +2,8 @@ import Immutable from 'seamless-immutable';
 
 export const initialState = Immutable({
   toasts: {
-    messages: {}
-  }
+    messages: {},
+  },
 });
 
 export const singleMessageState = Immutable({
@@ -11,10 +11,10 @@ export const singleMessageState = Immutable({
     messages: {
       1: {
         message: 'Widget positions successfully saved.',
-        type: 'success'
-      }
-    }
-  }
+        type: 'success',
+      },
+    },
+  },
 });
 
 export const singleMessageWithLinkState = Immutable({
@@ -25,9 +25,9 @@ export const singleMessageWithLinkState = Immutable({
         type: 'success',
         link: {
           title: 'hi link!',
-          href: 'google.com'
-        }
-      }
-    }
-  }
+          href: 'google.com',
+        },
+      },
+    },
+  },
 });

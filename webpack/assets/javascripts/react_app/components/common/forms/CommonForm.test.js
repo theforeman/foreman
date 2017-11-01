@@ -23,12 +23,16 @@ describe('common Form', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should display validation errors if touched', () => {
-    const wrapper = shallow(<CommonForm label="my label" touched={true} error="is required!" />);
+    const wrapper = shallow(
+      <CommonForm label="my label" touched={true} error="is required!" />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should not display validation errors if not touched', () => {
-    const wrapper = shallow(<CommonForm label="my label" error="is required!" />);
+    const wrapper = shallow(
+      <CommonForm label="my label" error="is required!" />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });

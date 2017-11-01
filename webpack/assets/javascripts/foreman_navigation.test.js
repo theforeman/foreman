@@ -5,10 +5,9 @@ import { init } from './foreman_navigation';
 describe('initNavigation', () => {
   Object.defineProperty(window.location, 'pathname', {
     writable: true,
-    value: '/locations/1/select'
+    value: '/locations/1/select',
   });
-  const menuWithoutTaxonomies =
-      `<div id="vertical-nav" class="nav-pf-vertical hover-secondary-nav-pf">    
+  const menuWithoutTaxonomies = `<div id="vertical-nav" class="nav-pf-vertical hover-secondary-nav-pf">    
          <ul class="list-group" >
            <li class="list-group-item secondary-nav-item-pf"
                data-target="location-secondary">  

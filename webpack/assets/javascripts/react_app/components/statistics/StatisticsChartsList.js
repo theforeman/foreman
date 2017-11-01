@@ -7,7 +7,7 @@ import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
 import _ from 'lodash';
 
-const getStatusFromChart = (chart) => {
+const getStatusFromChart = chart => {
   if (chart.data) {
     return STATUS.RESOLVED;
   }
@@ -26,7 +26,6 @@ class StatisticsChartsList extends React.Component {
 
   render() {
     const charts = _.map(this.props.charts, chart => {
-
       return (
         <ChartBox
           key={chart.id}
@@ -35,7 +34,7 @@ class StatisticsChartsList extends React.Component {
           tip={__('Expand the chart')}
           errorText={chart.error}
           id={chart.id}
-          status={ getStatusFromChart(chart) }
+          status={getStatusFromChart(chart)}
           title={chart.title}
           search={chart.search}
         />
@@ -51,11 +50,11 @@ class StatisticsChartsList extends React.Component {
 }
 
 StatisticsChartsList.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
-  charts: state.statistics.charts
+  charts: state.statistics.charts,
 });
 
 export default connect(mapStateToProps, StatisticsChartActions)(

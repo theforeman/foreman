@@ -29,7 +29,7 @@ ChartModal.propTypes = {
   show: PropTypes.bool.isRequired,
   config: PropTypes.object,
   onHide: PropTypes.func.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default ChartModal;

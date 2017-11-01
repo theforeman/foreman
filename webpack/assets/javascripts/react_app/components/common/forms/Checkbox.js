@@ -3,7 +3,12 @@ import CommonForm from './CommonForm';
 const Checkbox = ({ className = '', checked, onChange, label, disabled }) => {
   return (
     <CommonForm label={label} className={`common-checkbox ${className}`}>
-      <input disabled={disabled} type="checkbox" checked={checked} onChange={onChange} />
+      <input
+        disabled={disabled}
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+      />
     </CommonForm>
   );
 };

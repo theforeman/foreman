@@ -9,7 +9,7 @@ const TextInput = ({
   onChange,
   format,
   precision = 0,
-  minValue = 0
+  minValue = 0,
 }) => {
   return (
     <CommonForm label={label} className={`common-numericInput ${className}`}>

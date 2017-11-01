@@ -3,13 +3,15 @@ const tools = require('./foreman_tools');
 
 describe('iconText', () => {
   it('creates a label with the right icon class', () => {
-    expect(tools.iconText('plus', '', 'patternfly'))
-    .toBe('<span class="patternfly patternfly-plus"/>');
+    expect(tools.iconText('plus', '', 'patternfly')).toBe(
+      '<span class="patternfly patternfly-plus"/>'
+    );
   });
 
   it('adds a bold text next to the label', () => {
-    expect(tools.iconText('plus', 'foo', 'patternfly'))
-    .toBe('<span class="patternfly patternfly-plus"/><strong>foo</strong>');
+    expect(tools.iconText('plus', 'foo', 'patternfly')).toBe(
+      '<span class="patternfly patternfly-plus"/><strong>foo</strong>'
+    );
   });
 });
 
@@ -18,8 +20,7 @@ describe('activateDatatables', () => {
     const $ = require('jquery');
 
     // Used for rendering lists of VMs under compute resources
-    document.body.innerHTML =
-      `<div data-table=server data-source=http://example.foo>
+    document.body.innerHTML = `<div data-table=server data-source=http://example.foo>
       To be filled by a table
       </div>`;
     $.fn.DataTable = jest.fn();
@@ -29,7 +30,7 @@ describe('activateDatatables', () => {
       serverSide: true,
       ordering: false,
       ajax: $('[data-table=server]').data('source'),
-      dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>"
+      dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>",
     });
   });
 });
@@ -37,8 +38,7 @@ describe('activateDatatables', () => {
 describe('activateTooltips', () => {
   it('calls $.fn.tooltip on all matching elements', () => {
     const $ = require('jquery');
-    const elements =
-      `<div rel='twipsy'></div>
+    const elements = `<div rel='twipsy'></div>
       <div class='ellipsis'></div>
       <div title='test'></div>
       <div title='test' rel='popover'></div>`;
@@ -54,7 +54,9 @@ describe('deprecate', () => {
   it('Logs the correct deprecation message', () => {
     console.warn = jest.fn();
     tools.deprecate('oldtest', 'tfm.tools.newtest', '1.42');
-    expect(console.warn).toHaveBeenCalledWith('DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.');
+    expect(console.warn).toHaveBeenCalledWith(
+      'DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.'
+    );
   });
 });
 
@@ -70,10 +72,13 @@ describe('initTypeAheadSelect', () => {
 
     let field = $('#typeahead');
 
-    $.ajax = jest.fn((url) => {
+    $.ajax = jest.fn(url => {
       let ajaxMock = $.Deferred();
 
-      ajaxMock.resolve([{'id': 1, 'name': 'testoption'}, {'id': 2, 'name': 'anotheroption'}]);
+      ajaxMock.resolve([
+        { id: 1, name: 'testoption' },
+        { id: 2, name: 'anotheroption' },
+      ]);
       return ajaxMock.promise();
     });
 
@@ -88,16 +93,16 @@ describe('initTypeAheadSelect', () => {
 describe('updateTableTest', () => {
   beforeEach(() => {
     global.Turbolinks = {
-      visit: jest.fn()
+      visit: jest.fn(),
     };
 
     global.tfm = {
-      tools: tools
+      tools: tools,
     };
 
     Object.defineProperty(window.location, 'href', {
       writable: true,
-      value: 'http://localhost'
+      value: 'http://localhost',
     });
     document.body.innerHTML = `
 <div>
@@ -157,7 +162,9 @@ describe('updateTableTest', () => {
     let PerPage = $('#per_page').val();
 
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
+    );
   });
 
   it('should change page', () => {
@@ -165,14 +172,18 @@ describe('updateTableTest', () => {
 
     $('#cur_page_num').val('4');
     $('#pagination').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=4&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=4&per_page=${PerPage}`
+    );
   });
 
   it('should use find search term and add it to the url considering per page value and pagination', () => {
     let PerPage = $('#per_page').val();
 
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
+    );
   });
 
   it('should reset page param to 1 after new search', () => {
@@ -181,6 +192,8 @@ describe('updateTableTest', () => {
     window.location.href = 'http://localhost/?page=4';
     $('.autocomplete-input').val('test');
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=test&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=test&per_page=${PerPage}`
+    );
   });
 });

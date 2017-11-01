@@ -43,7 +43,9 @@ const componentRegistry = {
     const currentComponent = this.getComponent(name);
 
     if (!currentComponent) {
-      throw new Error(`Component not found:  ${name} among ${this.registeredComponents()}`);
+      throw new Error(
+        `Component not found:  ${name} among ${this.registeredComponents()}`
+      );
     }
     const ComponentName = currentComponent.type;
 
@@ -53,7 +55,7 @@ const componentRegistry = {
         store={currentComponent.store ? store : undefined}
       />
     );
-  }
+  },
 };
 
 const coreComponets = [
@@ -62,7 +64,7 @@ const coreComponets = [
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList, data: false },
-  { name: 'StorageContainer', type: StorageContainer }
+  { name: 'StorageContainer', type: StorageContainer },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

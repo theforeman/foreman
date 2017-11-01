@@ -18,8 +18,8 @@ describe('Chart', () => {
     it('renders MessageBox with noDataMsg property', () => {
       const config = {
         data: {
-          columns: []
-        }
+          columns: [],
+        },
       };
       const chart = shallow(
         <Chart config={config} noDataMsg={'No data here'} />
@@ -32,8 +32,8 @@ describe('Chart', () => {
     it('renders MessageBox with default no data message', () => {
       const config = {
         data: {
-          columns: []
-        }
+          columns: [],
+        },
       };
 
       const chart = shallow(<Chart config={config} />);
@@ -45,8 +45,8 @@ describe('Chart', () => {
     it('does not display no data message if hasData is true', () => {
       const config = {
         data: {
-          columns: [1, 2]
-        }
+          columns: [1, 2],
+        },
       };
       const chart = shallow(<Chart config={config} />);
 
@@ -71,7 +71,7 @@ describe('Chart', () => {
         bindto: '#operatingsystem',
         donut: {
           width: 15,
-          label: { show: false }
+          label: { show: false },
         },
         data: {
           type: 'donut',
@@ -79,20 +79,20 @@ describe('Chart', () => {
             ['Fedora 21', 3],
             ['Ubuntu 14.04', 4],
             ['Centos 7', 2],
-            ['Debian 8', 1]
-          ]
+            ['Debian 8', 1],
+          ],
         },
         tooltip: {
           show: true,
-          contents: 'tooltip'
+          contents: 'tooltip',
         },
         legend: { show: false },
         padding: {
           top: 0,
           left: 0,
           right: 0,
-          bottom: 0
-        }
+          bottom: 0,
+        },
       };
     });
 

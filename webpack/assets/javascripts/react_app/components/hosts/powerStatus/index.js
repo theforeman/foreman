@@ -21,7 +21,7 @@ class PowerStatus extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    power: state.hosts.powerStatus[ownProps.data.id] || {}
+    power: state.hosts.powerStatus[ownProps.data.id] || {},
   };
 };
 

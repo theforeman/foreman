@@ -17,40 +17,39 @@ const Disk = ({
   sizeGb,
   thin,
   eagerzero,
-  mode
+  mode,
 }) => {
   return (
     <div className="disk-container">
       <div className="form-group">
-        <label className="col-md-2 control-label">
-          {__('Disk name')}
-        </label>
-        <div className="col-md-4">
-          {name}
-        </div>
+        <label className="col-md-2 control-label">{__('Disk name')}</label>
+        <div className="col-md-4">{name}</div>
         <div className="col-md-2">
-          {!vmExists &&
+          {!vmExists ? (
             <Button className="close" onClick={removeDisk}>
               <span aria-hidden="true">×</span>
-            </Button>}
+            </Button>
+          ) : null}
         </div>
       </div>
-      {!datastore &&
+      {!datastore ? (
         <Select
           label={__('Storage Pod')}
           value={storagePod}
           disabled={vmExists}
           onChange={updateDisk.bind(this, 'storagePod')}
           options={storagePods}
-        />}
-      {!storagePod &&
+        />
+      ) : null}
+      {!storagePod ? (
         <Select
           disabled={vmExists}
           label={__('Data store')}
           value={datastore}
           onChange={updateDisk.bind(this, 'datastore')}
           options={datastores}
-        />}
+        />
+      ) : null}
 
       <Select
         label={__('Disk Mode')}

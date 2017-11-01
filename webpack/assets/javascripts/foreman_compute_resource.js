@@ -10,30 +10,35 @@ export default {
   vmware: require('./compute_resource/vmware'),
   capacityEdit,
   providerSelected,
-  testConnection
+  testConnection,
 };
 
 // Common functions used by one or more Compute Resource
 
 // AJAX load vm listing
 $(() => {
-  $('#vms, #images_list, #key_pairs_list').filter('[data-url]').each(function () {
-    const url = $(this).attr('data-url');
+  $('#vms, #images_list, #key_pairs_list')
+    .filter('[data-url]')
+    .each(function() {
+      const url = $(this).attr('data-url');
 
-    $(this).load(`${url} table`, function (response, status, xhr) {
-      if (status === 'error') {
-        $(this).html(
-          // eslint-disable-next-line no-undef
-          Jed.sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
-            status: xhr.status,
-            statusText: xhr.statusText
-          })
-        );
-      } else {
-        activateDatatables();
-      }
+      $(this).load(`${url} table`, function(response, status, xhr) {
+        if (status === 'error') {
+          $(this).html(
+            // eslint-disable-next-line no-undef
+            Jed.sprintf(
+              __('There was an error listing VMs: %(status)s %(statusText)s'),
+              {
+                status: xhr.status,
+                statusText: xhr.statusText,
+              }
+            )
+          );
+        } else {
+          activateDatatables();
+        }
+      });
     });
-  });
 });
 
 // eslint-disable-next-line max-statements
@@ -86,13 +91,18 @@ export function testConnection(item) {
         $('.alert-danger', result).length === 0 &&
         $('#compute_connection .has-error', result).length === 0
       ) {
-        notify({ message: `<p>${__('Test connection was successful')}</p>`, type: 'success' });
+        notify({
+          message: `<p>${__('Test connection was successful')}</p>`,
+          type: 'success',
+        });
       }
     },
     error({ statusText }) {
       notify({
-        message: `<p>${__('An error occurred while testing the connection: ')}${statusText}</p>`,
-        type: 'danger'
+        message: `<p>${__('An error occurred while testing the connection: ')}${
+          statusText
+        }</p>`,
+        type: 'danger',
       });
     },
     complete(result) {
@@ -101,15 +111,19 @@ export function testConnection(item) {
       $('#test_connection_indicator').hide();
       // eslint-disable-next-line no-undef
       reloadOnAjaxComplete('#test_connection_indicator');
-    }
+    },
   });
 }
 
 export function capacityEdit(element) {
-  let buttons = $(element).closest('.fields').find('button[name=allocation_radio_btn].btn.active');
+  let buttons = $(element)
+    .closest('.fields')
+    .find('button[name=allocation_radio_btn].btn.active');
 
   if (buttons.length > 0 && $(buttons[0]).text() === 'Full') {
-    let allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+    let allocation = $(element)
+      .closest('.fields')
+      .find('[id$=allocation]')[0];
 
     allocation.value = element.value;
   }

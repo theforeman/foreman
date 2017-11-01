@@ -4,5 +4,5 @@ import { combineReducers } from 'redux';
 
 export default combineReducers({
   storage,
-  powerStatus
+  powerStatus,
 });

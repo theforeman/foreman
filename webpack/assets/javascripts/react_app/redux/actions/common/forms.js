@@ -23,7 +23,11 @@ const checkErrors = response => {
     });
   }
   throw new SubmissionError({
-    _error: [`${__('Error submitting data:')} ${response.status} ${__(response.statusText)}`]
+    _error: [
+      `${__('Error submitting data:')} ${response.status} ${__(
+        response.statusText
+      )}`,
+    ],
   });
 };
 
@@ -46,7 +50,13 @@ const verifyProps = (item, values) => {
   }
 };
 
-export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), method = 'post' }) => {
+export const submitForm = ({
+  item,
+  url,
+  values,
+  csrfToken = getcsrfToken(),
+  method = 'post',
+}) => {
   verifyProps(item, values);
   return dispatch => {
     return fetch(url, {
@@ -55,9 +65,9 @@ export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), meth
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-CSRF-Token': csrfToken
+        'X-CSRF-Token': csrfToken,
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(values),
     })
       .then(checkErrors)
       .then(response => {
@@ -66,7 +76,7 @@ export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), meth
           .then(body =>
             dispatch({
               type: `${item.toUpperCase()}_FORM_SUBMITTED`,
-              payload: { item, body }
+              payload: { item, body },
             })
           )
           .then(() =>
@@ -74,7 +84,7 @@ export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), meth
               addToast({
                 type: 'success',
                 // eslint-disable-next-line no-undef
-                message: Jed.sprintf('%s was successfully created.', __(item))
+                message: Jed.sprintf('%s was successfully created.', __(item)),
               })
             )
           );

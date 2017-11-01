@@ -26,20 +26,20 @@ function getChartConfig({ data, type, onclick, id = uuidV1() }) {
 
       const names = {
         ...curr.names,
-        [key]: key
+        [key]: key,
       };
 
       const retVal = {
         ...curr,
-        names
+        names,
       };
 
       if (color) {
         return Object.assign({}, retVal, {
           colors: {
             ...(retVal.colors || {}),
-            [key]: color
-          }
+            [key]: color,
+          },
         });
       }
 
@@ -52,7 +52,7 @@ function getChartConfig({ data, type, onclick, id = uuidV1() }) {
     ...chartConfigForType,
     bindto: `[data-id="${id}"]`,
     data: chartData,
-    id
+    id,
   };
 }
 
@@ -75,7 +75,7 @@ export const setTitle = config => {
 function getTotal(columns) {
   return _.reduce(
     columns,
-    function (sum, item) {
+    function(sum, item) {
       return sum + item[1];
     },
     0
@@ -83,7 +83,7 @@ function getTotal(columns) {
 }
 
 function getMax(columns) {
-  return columns.reduce(function (prev, curr) {
+  return columns.reduce(function(prev, curr) {
     return curr[1] > prev[1] ? curr : prev;
   });
 }
@@ -96,7 +96,8 @@ export const navigateToSearch = (url, data) => {
   if (url.includes('~VAL1~') || url.includes('~VAL2~')) {
     const vals = val.split(' ');
 
-    let val1 = encodeURIComponent(vals[0]), val2 = encodeURIComponent(vals[1]);
+    let val1 = encodeURIComponent(vals[0]),
+      val2 = encodeURIComponent(vals[1]);
 
     url = url.replace('~VAL1~', val1).replace('~VAL2~', val2);
   } else {

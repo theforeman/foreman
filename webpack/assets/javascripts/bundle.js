@@ -25,5 +25,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   numFields: require('./jquery.ui.custom_spinners'),
   reactMounter: require('./react_app/common/MountingService'),
   editor: require('./foreman_editor'),
-  nav: require('./foreman_navigation')
+  nav: require('./foreman_navigation'),
 });

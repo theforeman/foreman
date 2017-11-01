@@ -11,7 +11,11 @@ import toJson from 'enzyme-to-json';
 import PowerStatus from './';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { pendingState, errorState, resolvedState } from './PowerStatus.fixtures';
+import {
+  pendingState,
+  errorState,
+  resolvedState,
+} from './PowerStatus.fixtures';
 const mockStore = configureMockStore([thunk]);
 
 describe('PowerStatus', () => {
@@ -36,7 +40,9 @@ describe('PowerStatus', () => {
   it('resolvedWithOn', () => {
     const store = mockStore(resolvedState);
 
-    const resolvedOnBox = shallow(<PowerStatus store={store} data={{ id: 1 }} />);
+    const resolvedOnBox = shallow(
+      <PowerStatus store={store} data={{ id: 1 }} />
+    );
 
     const resolvedOnBoxRendered = resolvedOnBox.render();
 
@@ -46,7 +52,9 @@ describe('PowerStatus', () => {
   it('resolvedWithOff', () => {
     const store = mockStore(resolvedState);
 
-    const resolvedOnBox = shallow(<PowerStatus store={store} data={{ id: 2 }} />);
+    const resolvedOnBox = shallow(
+      <PowerStatus store={store} data={{ id: 2 }} />
+    );
 
     const resolvedOffBoxRendered = resolvedOnBox.render();
 

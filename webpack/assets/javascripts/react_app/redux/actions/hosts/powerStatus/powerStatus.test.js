@@ -9,8 +9,8 @@ describe('hosts actions', () => {
   it('creates HOST_POWER_STATUS_REQUEST and fails when http mocking is not applied', () => {
     const store = mockStore({
       hosts: {
-        powerStatus: immutable({})
-      }
+        powerStatus: immutable({}),
+      },
     });
 
     store.dispatch(actions.getHostPowerState(requestData));

@@ -16,12 +16,14 @@ export function templateSelected(item) {
       success(result) {
         $('[id$=_memory]').val(result.memory);
         $('[id$=_cores]').val(result.cores);
-        $('#network_interfaces').children('.fields').remove();
-        $.each(result.interfaces, function () {
+        $('#network_interfaces')
+          .children('.fields')
+          .remove();
+        $.each(result.interfaces, function() {
           addNetworkInterface(this);
         });
         $('#storage_volumes .children_fields >.fields').remove();
-        $.each(result.volumes, function () {
+        $.each(result.volumes, function() {
           addVolume(this);
         });
         const templateSelector = $('#host_compute_attributes_template');
@@ -33,7 +35,7 @@ export function templateSelected(item) {
       complete() {
         // eslint-disable-next-line no-undef
         reloadOnAjaxComplete(item);
-      }
+      },
     });
   }
 }
@@ -64,11 +66,16 @@ function addVolume({ size_gb, storage_domain, bootable, id }) {
   if (id) {
     $(`[id$=${newId}_id]`).val(id);
   }
-  $(`[id$=${newId}_storage_domain]`).next().hide();
+  $(`[id$=${newId}_storage_domain]`)
+    .next()
+    .hide();
 }
 
 function disableElement(element) {
-  element.clone().attr('type', 'hidden').appendTo(element);
+  element
+    .clone()
+    .attr('type', 'hidden')
+    .appendTo(element);
   element.attr('disabled', 'disabled');
 }
 
@@ -94,14 +101,18 @@ export function clusterSelected(item) {
     success(result) {
       let networkOptions = $('select[id$=_network]').empty();
 
-      $.each(result, function () {
-        networkOptions.append($('<option />').val(this.id).text(this.name));
+      $.each(result, function() {
+        networkOptions.append(
+          $('<option />')
+            .val(this.id)
+            .text(this.name)
+        );
       });
     },
     complete() {
       // eslint-disable-next-line no-undef
       reloadOnAjaxComplete(item);
-    }
+    },
   });
 }
 

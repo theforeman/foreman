@@ -4,7 +4,7 @@ import {
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
-  NOTIFICATIONS_POLLING_STARTED
+  NOTIFICATIONS_POLLING_STARTED,
 } from '../../consts';
 import Immutable from 'seamless-immutable';
 import { notificationsDrawer } from '../../../common/sessionStorage';
@@ -14,7 +14,7 @@ const initialState = Immutable({
   isDrawerOpen: notificationsDrawer.getIsOpened(),
   expandedGroup: notificationsDrawer.getExpandedGroup(),
   isPolling: false,
-  hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false
+  hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false,
 });
 
 const hasUnreadMessages = notifications => {
@@ -53,7 +53,8 @@ export default (state = initialState, action) => {
     }
     case NOTIFICATIONS_MARK_GROUP_AS_READ: {
       const notifications = state.notifications.map(
-        n => (n.group === payload.group ? Object.assign({}, n, { seen: true }) : n)
+        n =>
+          n.group === payload.group ? Object.assign({}, n, { seen: true }) : n
       );
 
       return state

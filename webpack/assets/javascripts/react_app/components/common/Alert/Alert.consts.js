@@ -22,4 +22,5 @@ const getClassByType = type => {
   }
 };
 
-export default (type, onClose) => `${onClose ? 'alert-dismissable ' : ''} ${getClassByType(type)}`;
+export default (type, onClose) =>
+  `${onClose ? 'alert-dismissable ' : ''} ${getClassByType(type)}`;

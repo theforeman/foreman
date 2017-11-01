@@ -8,14 +8,14 @@ export const addToast = toast => {
     type: TOASTS_ADD,
     payload: {
       key,
-      message: { ...toast, key }
-    }
+      message: { ...toast, key },
+    },
   };
 };
 
 export const deleteToast = key => ({
   type: TOASTS_DELETE,
-  payload: { key }
+  payload: { key },
 });
 
 export const clearToasts = () => ({ type: TOASTS_CLEAR });

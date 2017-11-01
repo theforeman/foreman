@@ -6,7 +6,9 @@ import { map } from 'lodash';
 class Select extends React.Component {
   componentDidMount() {
     if ($.fn.select2) {
-      $(this.refs.select).select2().on('change', this.props.onChange);
+      $(this.refs.select)
+        .select2()
+        .on('change', this.props.onChange);
     }
   }
 
@@ -20,7 +22,14 @@ class Select extends React.Component {
         );
       });
 
-    const { label, className = '', value, onChange, options, disabled } = this.props;
+    const {
+      label,
+      className = '',
+      value,
+      onChange,
+      options,
+      disabled,
+    } = this.props;
 
     const innerSelect = (
       <select

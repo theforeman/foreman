@@ -22,13 +22,16 @@ export function schedulerHintFilterSelected(item) {
       error(jqXHR, status, error) {
         $('#scheduler_hint_wrapper').html(
           // eslint-disable-next-line no-undef
-          Jed.sprintf(__('Error loading scheduler hint filters information: %s'), error)
+          Jed.sprintf(
+            __('Error loading scheduler hint filters information: %s'),
+            error
+          )
         );
         $('#compute_resource_tab a').addClass('tab-error');
       },
       success(result) {
         $('#scheduler_hint_wrapper').html(result);
-      }
+      },
     });
   }
 }

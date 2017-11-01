@@ -2,13 +2,13 @@ import $ from 'jquery';
 
 export default {
   get(url) {
-    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
       jqXHR.originalRequestOptions = originalOptions;
     });
     return $.getJSON(url);
   },
   markNotificationAsRead(id) {
-    const data = JSON.stringify({'seen': true});
+    const data = JSON.stringify({ seen: true });
 
     $.ajax({
       url: `/notification_recipients/${id}`,
@@ -16,10 +16,10 @@ export default {
       type: 'put',
       dataType: 'json',
       data: data,
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown) {
         /* eslint-disable no-console */
         console.log(jqXHR);
-      }
+      },
     });
   },
   markGroupNotificationAsRead(group) {
@@ -27,10 +27,10 @@ export default {
       url: `/notification_recipients/group/${group}`,
       contentType: 'application/json',
       type: 'PUT',
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown) {
         /* eslint-disable no-console */
         console.log(jqXHR);
-      }
+      },
     });
-  }
+  },
 };
