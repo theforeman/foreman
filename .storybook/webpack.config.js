@@ -13,6 +13,7 @@ module.exports = {
             path.join(__dirname, '..', 'node_modules/babel-preset-env')
           ],
           plugins: [
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-class-properties'),
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign')
           ]

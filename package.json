@@ -13,6 +13,7 @@
     "babel-eslint": "^6.1.2",
     "babel-jest": "^15.0.0",
     "babel-loader": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-polyfill": "^6.13.0",
