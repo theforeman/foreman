@@ -46,6 +46,7 @@ class Setting::Provisioning < Setting
       self.set('access_unattended_without_build', N_("Allow access to unattended URLs without build mode being used"), false, N_('Access unattended without build')),
       self.set('manage_puppetca', N_("Foreman will automate certificate signing upon provision of new host"), true, N_('Manage PuppetCA')),
       self.set('ignore_puppet_facts_for_provisioning', N_("Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"), false, N_('Ignore Puppet facts for provisioning')),
+      self.set('enable_orchestration_on_fact_import', N_("Enable host orchestration on puppet fact import. This could cause serious performance issues as the number of hosts increase"), false, N_('Enable orchestration on puppet fact import')),
       self.set('ignored_interface_identifiers', N_("Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*"), IGNORED_INTERFACES, N_('Ignore interfaces with matching identifier')),
       self.set('ignore_facts_for_operatingsystem', N_("Stop updating Operating System from facts"), false, N_('Ignore facts for operating system')),
       self.set('ignore_facts_for_domain', N_("Stop updating domain values from facts"), false, N_('Ignore facts for domain')),
