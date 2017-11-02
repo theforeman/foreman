@@ -163,6 +163,43 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  context "when enable_orchestration_on_fact_import is true" do
+    def setup
+      SETTINGS[:enable_orchestration_on_fact_import] = true
+    end
+
+    def teardown
+      SETTINGS[:enable_orchestration_on_fact_import] = false
+    end
+
+    test "should trigger orchestration when importing facts if enable_orchestration_on_fact_import is true" do
+      refute Host.find_by_name('sinn1636.lan')
+      raw = read_json_fixture('facts/facts_with_certname.json')
+      host = Host.import_host(raw['name'], 'puppet')
+      host.stubs(:skip_orchestration_for_testing?).returns(false) # Explicitly enable orchestration
+
+      host.expects(:skip_orchestration!).never
+      host.expects(:skip_orchestration?).at_least_once.returns(false)
+      host.expects(:queue).at_least_once
+
+      assert host.import_facts(raw['facts'])
+    end
+  end
+
+  test "should not trigger orchestration when importing facts if enable_orchestration_on_fact_import is false" do
+    refute Host.find_by_name('sinn1636.lan')
+    raw = read_json_fixture('facts/facts_with_certname.json')
+    host = Host.import_host(raw['name'], 'puppet')
+    host.stubs(:skip_orchestration_for_testing?).returns(false) # Explicitly enable orchestration
+
+    host.expects(:skip_orchestration!).at_least_once
+    host.expects(:skip_orchestration?).at_least_once.returns(true)
+    host.expects(:enable_orchestration!).at_least_once
+    host.expects(:queue).never
+
+    assert host.import_facts(raw['facts'])
+  end
+
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
