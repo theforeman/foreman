@@ -8,11 +8,11 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          'presets': [
+          presets: [
             path.join(__dirname, '..', 'node_modules/babel-preset-react'),
-            path.join(__dirname, '..', 'node_modules/babel-preset-es2015')
+            path.join(__dirname, '..', 'node_modules/babel-preset-env')
           ],
-          'plugins': [
+          plugins: [
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign')
           ]
