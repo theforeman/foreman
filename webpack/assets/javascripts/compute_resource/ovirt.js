@@ -43,7 +43,7 @@ function addNetworkInterface({ name, network }) {
   const nestedFields = $('#network_interfaces .add_nested_fields');
   // no network interfaces update when the network editing is not allowed by the compute resource
 
-  if (nestedFields.length > -1) {
+  if (nestedFields.length > 0) {
     // eslint-disable-next-line no-undef
     const newId = add_child_node(nestedFields);
 
