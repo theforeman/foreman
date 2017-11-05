@@ -50,7 +50,7 @@ class StatisticsChartsList extends React.Component {
   }
 }
 
-StatisticsChartsList.PropTypes = {
+StatisticsChartsList.propTypes = {
   data: PropTypes.array.isRequired
 };
 
