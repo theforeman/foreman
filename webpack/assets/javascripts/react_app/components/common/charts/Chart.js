@@ -52,11 +52,9 @@ class Chart extends React.Component {
   }
 }
 
-Chart.PropTypes = {
+Chart.propTypes = {
   config: PropTypes.object.isRequired,
-  id: PropTypes.string.isRequired,
   noDataMsg: PropTypes.string,
-  cssClass: PropTypes.string,
   setTitle: PropTypes.func
 };
 

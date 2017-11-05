@@ -93,7 +93,7 @@ class ChartBox extends React.Component {
   }
 }
 
-ChartBox.PropTypes = {
+ChartBox.propTypes = {
   status: PropTypes.string.isRequired,
   config: PropTypes.object,
   modalConfig: PropTypes.object,
