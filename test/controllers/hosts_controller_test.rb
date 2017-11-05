@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'pagelets_test_helper'
 
 class HostsControllerTest < ActionController::TestCase
+  include PageletsIsolation
+
   setup :initialize_host
 
   basic_pagination_rendered_test
@@ -1625,6 +1628,21 @@ class HostsControllerTest < ActionController::TestCase
       not_expected = {'id' => host2.id, 'name' => host2.name}
       assert_includes response, expected
       assert_not_includes response, not_expected
+    end
+  end
+
+  context 'with pagelets' do
+    setup do
+      @controller.prepend_view_path File.expand_path('../../static_fixtures', __FILE__)
+      Pagelets::Manager.add_pagelet('hosts/show', :main_tabs,
+                                    :name => 'TestTab',
+                                    :id => 'my-special-id',
+                                    :partial => 'views/test')
+    end
+
+    test '#show renders a pagelet tab' do
+      get :show, {:id => Host.first.name}, set_session_user
+      assert @response.body.match /id='my-special-id'/
     end
   end
 
