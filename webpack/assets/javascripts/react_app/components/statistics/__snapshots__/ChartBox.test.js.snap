@@ -24,17 +24,13 @@ exports[`ChartBox error 1`] = `
         data-placement="top"
         data-toggle="tooltip"
         onClick={[Function]}
-        title={undefined}
       >
         <div
           className="panel-heading statistics-charts-list-heading"
           data-toggle="tooltip"
           onClick={[Function]}
-          title={undefined}
         >
-          <PanelTitle
-            text={undefined}
-          >
+          <PanelTitle>
             <h3
               className="panel-title "
             />
@@ -83,11 +79,9 @@ exports[`ChartBox error 1`] = `
             errorText="some error"
             id="2"
             noDataMsg="no data"
-            onEnter={undefined}
             onHide={[Function]}
             show={false}
             status="ERROR"
-            title={undefined}
           >
             <Modal
               animation={true}
@@ -178,17 +172,13 @@ exports[`ChartBox pending 1`] = `
         data-placement="top"
         data-toggle="tooltip"
         onClick={[Function]}
-        title={undefined}
       >
         <div
           className="panel-heading statistics-charts-list-heading"
           data-toggle="tooltip"
           onClick={[Function]}
-          title={undefined}
         >
-          <PanelTitle
-            text={undefined}
-          >
+          <PanelTitle>
             <h3
               className="panel-title "
             />
@@ -222,11 +212,9 @@ exports[`ChartBox pending 1`] = `
             errorText="some error"
             id="2"
             noDataMsg="no data"
-            onEnter={undefined}
             onHide={[Function]}
             show={false}
             status="PENDING"
-            title={undefined}
           >
             <Modal
               animation={true}
