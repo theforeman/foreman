@@ -11,8 +11,6 @@ exports[`Panel Panel and composition Panel composition 1`] = `
       <div
         className="panel-heading "
         data-toggle="tooltip"
-        onClick={undefined}
-        title={undefined}
       >
         <PanelTitle
           text="Title"
