@@ -13,6 +13,7 @@ class User < ApplicationRecord
   include Exportable
   include TopbarCacheExpiry
   audited :except => [:last_login_on, :password, :password_hash, :password_salt, :password_confirmation]
+  delegate :can_update_username?, :to => :auth_source
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'

@@ -25,7 +25,7 @@ module Foreman::Controller::Parameters::User
         end
 
         filter.permit do |ctx|
-          if !ctx.editing_self? && (ctx.ui? || ctx.api?)
+          if ctx.can_update_username? && (ctx.ui? || ctx.api?)
             ctx.permit :auth_source, :auth_source_id, :auth_source_name,
               :login,
               :roles => [], :role_ids => [], :role_names => []
@@ -49,6 +49,10 @@ module Foreman::Controller::Parameters::User
 
     def editing_self?
       @editing_self
+    end
+
+    def can_update_username?
+      !!User.current.try(:can_update_username?)
     end
 
     def currently_admin?

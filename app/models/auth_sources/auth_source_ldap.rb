@@ -84,6 +84,10 @@ class AuthSourceLdap < AuthSource
     "LDAP"
   end
 
+  def can_update_username?
+    false
+  end
+
   def to_config(login = nil, password = nil)
     raise ::Foreman::Exception.new(N_('Cannot create LDAP configuration for %s without dedicated service account'), self.name) if login.nil? && use_user_login_for_service?
     { :host    => host,    :port => port, :encryption => encryption_config,

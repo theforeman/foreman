@@ -40,6 +40,10 @@ class AuthSource < ApplicationRecord
     "Abstract"
   end
 
+  def can_update_username?
+    true
+  end
+
   def to_label
     if type_before_type_cast.empty?
       logger.warn "Corrupt AuthSource! Record id:#{id} name:#{name} does not have an associated type. This may be due to importing a production database."
