@@ -473,14 +473,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     @json ||= read_json_fixture('facts/brslc022.facts.json')
   end
 
-  test "should run puppet for specific host" do
-    as_admin { @phost = FactoryBot.create(:host, :with_puppet) }
-    User.current=nil
-    ProxyAPI::Puppet.any_instance.stubs(:run).returns(true)
-    put :puppetrun, { :id => @phost.to_param }
-    assert_response :success
-  end
-
   def test_rebuild_config_optimistic
     Host.any_instance.expects(:recreate_config).returns({ "TFTP" => true, "DNS" => true, "DHCP" => true })
     host = FactoryBot.create(:host)
