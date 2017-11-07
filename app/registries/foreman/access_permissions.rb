@@ -791,11 +791,16 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :trends do |map|
-    map.permission :view_trends,    {:trends => [:index, :show]}
-    map.permission :create_trends,  {:trends => [:new, :create]}
-    map.permission :edit_trends,    {:trends => [:edit, :update]}
-    map.permission :destroy_trends, {:trends => [:destroy]}
-    map.permission :update_trends,  {:trends => [:count]}
+    map.permission :view_trends,    {:trends => [:index, :show],
+                                     :"api/v2/trends" => [:index, :show]}
+    map.permission :create_trends,  {:trends => [:new, :create],
+                                      :"api/v2/trends" => [:new, :create]}
+    map.permission :edit_trends,    {:trends => [:edit, :update],
+                                     :"api/v2/trends" => [:edit, :update]}
+    map.permission :destroy_trends, {:trends => [:destroy],
+                                     :"api/v2/trends" => [:destroy]}
+    map.permission :update_trends,  {:trends => [:count],
+                                     :"api/v2/trends" => [:count]}
   end
 
   permission_set.security_block :tasks do |map|
