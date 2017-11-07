@@ -390,7 +390,11 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       def resource_class_join(association, scope)
         resource_class_join = resource_class.joins(association.name)
-        resource_class_join.merge(scope).present? ? resource_class_join.merge(scope) : resource_class_join
+        if action_name == 'update' && resource_class_join.merge(scope).blank?
+          resource_class_join
+        else
+          resource_class.joins(association.name).merge(scope)
+        end
       end
 
       def import_host

@@ -792,6 +792,24 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
   end
 
+  context 'host list after passing hostgroup filter' do
+    def setup
+      @hg1 = FactoryBot.create(:hostgroup, :with_parent, :with_domain, :with_os)
+      @unassigned_hg2 = FactoryBot.create(:hostgroup, :with_parent, :with_domain, :with_os)
+      @managed_host = FactoryBot.create(:host, :managed, :hostgroup => @hg1)
+    end
+
+    test "should return empty host list by unassigned hostgroup id" do
+      get :index, { :hostgroup_id => @unassigned_hg2.id }
+      assert_equal [], assigns(:hosts)
+    end
+
+    test "should return a host in list" do
+      get :index, { :hostgroup_id => @hg1.id }
+      assert_equal [@managed_host], assigns(:hosts)
+    end
+  end
+
   test "user without view_params permission can't see host parameters" do
     host_with_parameter = FactoryBot.create(:host, :with_parameter)
     setup_user "view", "hosts"
