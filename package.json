@@ -54,7 +54,7 @@
     "webpack-stats-plugin": "^0.1.5"
   },
   "optionalDependencies": {
-    "phantomjs-prebuilt": "^2.1.0"
+    "chromedriver": "^2.36.0"
   },
   "dependencies": {
     "axios": "^0.17.1",

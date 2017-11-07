@@ -4,10 +4,10 @@ require 'rails/test_help'
 require 'mocha/mini_test'
 require 'capybara/rails'
 require 'factory_bot_rails'
-require 'capybara/poltergeist'
 require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
+require 'selenium/webdriver'
 require 'minitest/retry'
 Minitest::Retry.use!
 
@@ -15,21 +15,20 @@ Minitest::Retry.on_consistent_failure do |klass, test_name|
   Rails.logger.error("DO NOT IGNORE - Consistent failure - #{klass} #{test_name}")
 end
 
-Capybara.register_driver :poltergeist do |app|
-  opts = {
-    # To enable debugging uncomment `:inspector => true` and
-    # add `page.driver.debug` in code to open webkit inspector
-    # :inspector => true
-    :js_errors => true,
-    :timeout => 60,
-    :extensions => ["#{Rails.root}/test/integration/support/poltergeist_onload_extensions.js"],
-    :phantomjs => File.join(Rails.root, 'node_modules', '.bin', 'phantomjs')
-  }
-  Capybara::Poltergeist::Driver.new(app, opts)
+Selenium::WebDriver::Chrome.driver_path = File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
+Capybara.register_driver :selenium_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w(headless disable-gpu) }
+  )
+
+  Capybara::Selenium::Driver.new app,
+    browser: :chrome,
+
+    desired_capabilities: capabilities
 end
 
-Capybara.default_max_wait_time = 30
-Capybara.javascript_driver = :poltergeist
+Capybara.default_max_wait_time = 5
+Capybara.javascript_driver = :selenium_chrome
 
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
@@ -211,6 +210,7 @@ class ActionDispatch::IntegrationTest
 
   def login_admin
     SSO.register_method(TestSSO)
+    visit '/'
     set_request_user(:admin)
   end
 
