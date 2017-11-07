@@ -1,0 +1,4 @@
+Gemfile         @theforeman/packaging
+Rakefile.dist	@theforeman/packaging
+bundler.d/*.rb  @theforeman/packaging
+package.json    @theforeman/packaging
