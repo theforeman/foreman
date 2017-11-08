@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Panel } from 'react-bootstrap';
 import helpers from '../../common/helpers';
 import PieChart from '../common/charts/PieChart/';
 import {
@@ -8,11 +9,6 @@ import {
 } from '../../../services/ChartService';
 import ChartModal from './ChartModal';
 import Loader from '../common/Loader';
-import Panel from '../common/Panel/Panel';
-import PanelHeading from '../common/Panel/PanelHeading';
-import PanelTitle from '../common/Panel/PanelTitle';
-import PanelBody from '../common/Panel/PanelBody';
-import './StatisticsChartsListStyles.css';
 import MessageBox from '../common/MessageBox';
 
 class ChartBox extends React.Component {
@@ -68,26 +64,28 @@ class ChartBox extends React.Component {
       />
     );
 
+    const boxHeader = (
+      <h3 {...tooltip}>{this.props.title}</h3>
+    );
+
     return (
-      <Panel className="statistics-charts-list-panel" key={this.props.chart.id}>
-        <PanelHeading {...tooltip} className="statistics-charts-list-heading">
-          <PanelTitle text={this.props.title} />
-        </PanelHeading>
+      <Panel
+        className="chart-box"
+        header={boxHeader}
+        key={this.props.chart.id}
+      >
+        <Loader status={this.props.status}>
+          {[_chart, error]}
+        </Loader>
 
-        <PanelBody className="statistics-charts-list-body">
-          <Loader status={this.props.status}>
-            {[_chart, error]}
-          </Loader>
-
-          <ChartModal
-            {...this.props}
-            show={this.state.showModal}
-            onHide={this.closeModal}
-            onEnter={this.onEnter}
-            config={modalConfig}
-            title={this.props.title}
-          />
-        </PanelBody>
+        <ChartModal
+          {...this.props}
+          show={this.state.showModal}
+          onHide={this.closeModal}
+          onEnter={this.onEnter}
+          config={modalConfig}
+          title={this.props.title}
+        />
       </Panel>
     );
   }
