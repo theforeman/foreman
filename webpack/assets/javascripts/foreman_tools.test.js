@@ -1,25 +1,23 @@
+import $ from 'jquery';
+import 'select2';
+import * as tools from './foreman_tools';
+
 jest.unmock('./foreman_tools');
-const tools = require('./foreman_tools');
 
 describe('iconText', () => {
   it('creates a label with the right icon class', () => {
-    expect(tools.iconText('plus', '', 'patternfly'))
-    .toBe('<span class="patternfly patternfly-plus"/>');
+    expect(tools.iconText('plus', '', 'patternfly')).toBe('<span class="patternfly patternfly-plus"/>');
   });
 
   it('adds a bold text next to the label', () => {
-    expect(tools.iconText('plus', 'foo', 'patternfly'))
-    .toBe('<span class="patternfly patternfly-plus"/><strong>foo</strong>');
+    expect(tools.iconText('plus', 'foo', 'patternfly')).toBe('<span class="patternfly patternfly-plus"/><strong>foo</strong>');
   });
 });
 
 describe('activateDatatables', () => {
   it('calls $.fn.DataTable when it finds a data-table=server', () => {
-    const $ = require('jquery');
-
     // Used for rendering lists of VMs under compute resources
-    document.body.innerHTML =
-      `<div data-table=server data-source=http://example.foo>
+    document.body.innerHTML = `<div data-table=server data-source=http://example.foo>
       To be filled by a table
       </div>`;
     $.fn.DataTable = jest.fn();
@@ -29,16 +27,14 @@ describe('activateDatatables', () => {
       serverSide: true,
       ordering: false,
       ajax: $('[data-table=server]').data('source'),
-      dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>"
+      dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>",
     });
   });
 });
 
 describe('activateTooltips', () => {
   it('calls $.fn.tooltip on all matching elements', () => {
-    const $ = require('jquery');
-    const elements =
-      `<div rel='twipsy'></div>
+    const elements = `<div rel='twipsy'></div>
       <div class='ellipsis'></div>
       <div title='test'></div>
       <div title='test' rel='popover'></div>`;
@@ -61,19 +57,15 @@ describe('deprecate', () => {
 /* eslint-disable max-statements */
 describe('initTypeAheadSelect', () => {
   it('initializes select2 on given input field', () => {
-    const $ = require('jquery');
-
-    require('select2');
-
     document.body.innerHTML =
       '<input type="text" id="typeahead" data-url="testurl" data-scope="testscope">';
 
-    let field = $('#typeahead');
+    const field = $('#typeahead');
 
     $.ajax = jest.fn((url) => {
-      let ajaxMock = $.Deferred();
+      const ajaxMock = $.Deferred();
 
-      ajaxMock.resolve([{'id': 1, 'name': 'testoption'}, {'id': 2, 'name': 'anotheroption'}]);
+      ajaxMock.resolve([{ id: 1, name: 'testoption' }, { id: 2, name: 'anotheroption' }]);
       return ajaxMock.promise();
     });
 
@@ -88,16 +80,16 @@ describe('initTypeAheadSelect', () => {
 describe('updateTableTest', () => {
   beforeEach(() => {
     global.Turbolinks = {
-      visit: jest.fn()
+      visit: jest.fn(),
     };
 
     global.tfm = {
-      tools: tools
+      tools,
     };
 
     Object.defineProperty(window.location, 'href', {
       writable: true,
-      value: 'http://localhost'
+      value: 'http://localhost',
     });
     document.body.innerHTML = `
 <div>
@@ -154,14 +146,14 @@ describe('updateTableTest', () => {
   });
 
   it('should use selected per page value and add it to the url considering search term and pagination', () => {
-    let PerPage = $('#per_page').val();
+    const PerPage = $('#per_page').val();
 
     $('#search-form').submit();
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
   });
 
   it('should change page', () => {
-    let PerPage = $('#per_page').val();
+    const PerPage = $('#per_page').val();
 
     $('#cur_page_num').val('4');
     $('#pagination').submit();
@@ -169,14 +161,14 @@ describe('updateTableTest', () => {
   });
 
   it('should use find search term and add it to the url considering per page value and pagination', () => {
-    let PerPage = $('#per_page').val();
+    const PerPage = $('#per_page').val();
 
     $('#search-form').submit();
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
   });
 
   it('should reset page param to 1 after new search', () => {
-    let PerPage = $('#per_page').val();
+    const PerPage = $('#per_page').val();
 
     window.location.href = 'http://localhost/?page=4';
     $('.autocomplete-input').val('test');

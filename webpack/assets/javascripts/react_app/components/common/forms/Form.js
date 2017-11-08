@@ -1,6 +1,8 @@
 import React from 'react';
-import Actions from './Actions';
+
 import Alert from '../Alert';
+
+import Actions from './Actions';
 
 export default ({
   className = 'form-horizontal well',
@@ -11,7 +13,7 @@ export default ({
   touched,
   disabled = false,
   submitting = false,
-  errorTitle = __('Unable to save')
+  errorTitle = __('Unable to save'),
 }) => (
   <form className={className} onSubmit={onSubmit}>
     {error && (

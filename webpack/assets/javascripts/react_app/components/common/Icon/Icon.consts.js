@@ -1,11 +1,12 @@
 /* eslint-disable no-throw-literal */
+/* eslint-disable no-throw-literal */
 const okIcon = 'pficon pficon-ok';
 const infoIcon = 'pficon pficon-info';
 const warningIcon = 'pficon pficon-warning-triangle-o';
 const errorIcon = 'pficon pficon-error-circle-o';
 const closeIcon = 'pficon pficon-close';
 
-export default type => {
+export default (type) => {
   switch (type) {
     case 'ok':
     case 'notice':
@@ -21,6 +22,6 @@ export default type => {
     case 'close':
       return closeIcon;
     default:
-      throw { error: 'unknown icon type ' + type };
+      throw { error: `unknown icon type ${type}` };
   }
 };

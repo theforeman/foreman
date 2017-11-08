@@ -3,14 +3,14 @@ import immutable from 'seamless-immutable';
 export const componentMountData = { url: '/notification_recipients' };
 
 export const emptyState = immutable({
-  notifications: {}
+  notifications: {},
 });
 
 export const stateWithoutNotifications = immutable({
   notifications: {
     expandedGroup: 'React devs2',
-    isDrawerOpen: true
-  }
+    isDrawerOpen: true,
+  },
 });
 
 export const stateWithNotifications = immutable({
@@ -18,34 +18,34 @@ export const stateWithNotifications = immutable({
     expandedGroup: 'React devs2',
     isDrawerOpen: true,
     notifications: {
-      '1': {
+      1: {
         id: 1,
         seen: true,
         level: 'info',
         text: null,
-        'created_at': '2017-02-23T05:00:28.715Z',
+        created_at: '2017-02-23T05:00:28.715Z',
         group: 'React devs',
-        actions: {}
+        actions: {},
       },
-      '6': {
+      6: {
         id: 6,
         seen: true,
         level: 'info',
         text: 'Hi! This is a notification message',
-        'created_at': '2017-03-14T11:25:07.138Z',
+        created_at: '2017-03-14T11:25:07.138Z',
         group: 'React devs2',
         actions: {
           links: [
             {
               href: 'https://theforeman.org/blog',
-              title: 'Link to blog'
-            }
-          ]
-        }
-      }
+              title: 'Link to blog',
+            },
+          ],
+        },
+      },
     },
-    hasUnreadMessages: true
-  }
+    hasUnreadMessages: true,
+  },
 });
 
 export const stateWithUnreadNotifications = immutable({
@@ -53,34 +53,34 @@ export const stateWithUnreadNotifications = immutable({
     expandedGroup: 'React devs2',
     isDrawerOpen: true,
     notifications: {
-      '1': {
+      1: {
         id: 1,
         seen: true,
         level: 'info',
         text: null,
-        'created_at': '2017-02-23T05:00:28.715Z',
+        created_at: '2017-02-23T05:00:28.715Z',
         group: 'React devs',
-        actions: {}
+        actions: {},
       },
-      '6': {
+      6: {
         id: 6,
         seen: false,
         level: 'info',
         text: 'Hi! This is a notification message',
-        'created_at': '2017-03-14T11:25:07.138Z',
+        created_at: '2017-03-14T11:25:07.138Z',
         group: 'React devs2',
         actions: {
           links: [
             {
               href: 'https://theforeman.org/blog',
-              title: 'Link to blog'
-            }
-          ]
-        }
-      }
+              title: 'Link to blog',
+            },
+          ],
+        },
+      },
     },
-    hasUnreadMessages: true
-  }
+    hasUnreadMessages: true,
+  },
 });
 
 export const serverResponse = `{ "notifications":[

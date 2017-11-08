@@ -1,17 +1,16 @@
 import _ from 'lodash';
 
-let pluginEditAttributes = {
+const pluginEditAttributes = {
   architecture: [],
   os: [],
   medium: [],
-  image: []
+  image: [],
 };
 
 export function registerPluginAttributes(componentType, attributes) {
   if (pluginEditAttributes[componentType] !== undefined) {
-    pluginEditAttributes[componentType] = _.uniq(
-      pluginEditAttributes[componentType].concat(attributes)
-    );
+    const combinedAttributes = pluginEditAttributes[componentType].concat(attributes);
+    pluginEditAttributes[componentType] = _.uniq(combinedAttributes);
   }
 }
 
@@ -20,7 +19,7 @@ export function getAttributesToPost(componentType) {
     architecture: ['architecture_id', 'organization_id', 'location_id'],
     os: ['operatingsystem_id', 'organization_id', 'location_id'],
     medium: ['medium_id', 'operatingsystem_id', 'architecture_id'],
-    image: ['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id']
+    image: ['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id'],
   };
   let attrsToPost = defaultAttributes[componentType];
 
@@ -40,14 +39,13 @@ class PXECompatibilityCheck {
   }
 
   isCompatible(osTitle, pxeLoader) {
-    let os, supportedLoaders;
+    const os = this.__regexp.exec(osTitle);
 
-    os = this.__regexp.exec(osTitle);
     if (os == null) {
       return null;
     }
 
-    supportedLoaders = this.__compatibleLoadersFunc(os);
+    const supportedLoaders = this.__compatibleLoadersFunc(os);
     if (supportedLoaders != null) {
       return supportedLoaders.indexOf(pxeLoader) > -1;
     }
@@ -62,49 +60,55 @@ const GRUB_UEFI = 'Grub UEFI';
 const GRUB2_UEFI = 'Grub2 UEFI';
 const GRUB2_UEFI_SB = 'Grub2 UEFI SecureBoot';
 
-export let pxeCompatibility = {};
+export const pxeCompatibility = {};
 
 // Ubuntu 10.x or older and Grub1
 // Ubuntu 11.x or newer and Grub2
-_.set(pxeCompatibility, 'ubuntu', new PXECompatibilityCheck(
-    /ubuntu[^\d]*(\d+)(?:[.]\d+)?/,
-    function (os) {
-      if (os[1] <= '10') {
-        return [PXE_BIOS, GRUB_UEFI];
-      } else if (os[1] > '10') {
-        return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
-      }
-      return null;
+_.set(
+  pxeCompatibility,
+  'ubuntu',
+  new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
+    if (os[1] <= '10') {
+      return [PXE_BIOS, GRUB_UEFI];
+    } else if (os[1] > '10') {
+      return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }
-));
+    return null;
+  }),
+);
 
 // RHEL 6.x and Grub1
 // RHEL 7.x and Grub2
-_.set(pxeCompatibility, 'rhel', new PXECompatibilityCheck(
+_.set(
+  pxeCompatibility,
+  'rhel',
+  new PXECompatibilityCheck(
     /(?:red[ ]*hat|rhel|cent[ ]*os|scientific|oracle)[^\d]*(\d+)(?:[.]\d+)?/,
-    os => {
+    (os) => {
       if (os[1] === '6') {
         return [PXE_BIOS, GRUB_UEFI];
       } else if (os[1] >= '7') {
         return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
       }
       return null;
-    }
-));
+    },
+  ),
+);
 
 // Debian 2-6 and Grub1
 // Debian 7+ and Grub2
-_.set(pxeCompatibility, 'debian', new PXECompatibilityCheck(
-    /debian[^\d]*(\d+)(?:[.]\d+)?/,
-    function (os) {
-      if (os[1] >= '2' && os[1] <= '6') {
-        return [PXE_BIOS, GRUB_UEFI];
-      } else if (os[1] > '6') {
-        return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
-      }
-      return null;
+_.set(
+  pxeCompatibility,
+  'debian',
+  new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
+    if (os[1] >= '2' && os[1] <= '6') {
+      return [PXE_BIOS, GRUB_UEFI];
+    } else if (os[1] > '6') {
+      return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }
-));
+    return null;
+  }),
+);
 
 export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
   if (pxeLoader === 'None' || pxeLoader === '') {
@@ -112,9 +116,10 @@ export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
   }
   let compatible = null;
 
+  // eslint-disable-next-line no-param-reassign
   osTitle = osTitle.toLowerCase();
   _.forEach(_.values(pxeCompatibility), (check) => {
-    let compatibleCheck = check.isCompatible(osTitle, pxeLoader);
+    const compatibleCheck = check.isCompatible(osTitle, pxeLoader);
 
     if (compatibleCheck != null) {
       compatible = compatibleCheck;

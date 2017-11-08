@@ -1,12 +1,12 @@
 // Configure Enzyme
-import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-configure({ adapter: new Adapter() });
 import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
-
+import { configure, shallow } from 'enzyme';
 import React from 'react';
+
 import Form from './Form';
+
+configure({ adapter: new Adapter() });
 
 describe('Form', () => {
   beforeEach(() => {
@@ -37,6 +37,6 @@ describe('Form', () => {
     const wrapper = shallow(<Form onSubmit={submit} />);
 
     wrapper.find('form').simulate('submit');
-    expect(submit).toBeCalled;
+    expect(submit).toBeCalled();
   });
 });

@@ -1,6 +1,6 @@
-import vmware from './vmware';
 import { combineReducers } from 'redux';
+import vmware from './vmware';
 
 export default combineReducers({
-  vmware
+  vmware,
 });

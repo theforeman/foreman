@@ -1,10 +1,14 @@
-import React from 'react';
+import c3 from 'c3';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
-import c3 from 'c3';
+import React from 'react';
+
 import { setTitle } from '../../../services/ChartService';
+
 // destroy chart on close
-const ChartModal = ({ show, config, onHide, title }) => {
+const ChartModal = ({
+  show, config, onHide, title,
+}) => {
   if (!config) {
     return <div />;
   }
@@ -14,7 +18,7 @@ const ChartModal = ({ show, config, onHide, title }) => {
   }
 
   return (
-    <Modal show={show} enforceFocus={true} onHide={onHide} onEnter={onEnter}>
+    <Modal show={show} enforceFocus onHide={onHide} onEnter={onEnter}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
@@ -29,7 +33,7 @@ ChartModal.propTypes = {
   show: PropTypes.bool.isRequired,
   config: PropTypes.object,
   onHide: PropTypes.func.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default ChartModal;

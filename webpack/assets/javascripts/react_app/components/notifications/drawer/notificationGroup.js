@@ -1,21 +1,17 @@
 import React from 'react';
 import Notification from './notification';
 
-export default (
-  {
-    group,
-    notifications,
-    isExpanded,
-    onExpand,
-    onMarkAsRead,
-    onMarkGroupAsRead,
-    onClickedLink
-  }
-) => {
+export default ({
+  group,
+  notifications,
+  isExpanded,
+  onExpand,
+  onMarkAsRead,
+  onMarkGroupAsRead,
+  onClickedLink,
+}) => {
   const className = `panel panel-default ${isExpanded ? 'expanded' : ''}`;
-  const unreadCount = notifications.filter(
-    notification => !notification.seen
-  ).length;
+  const unreadCount = notifications.filter(notification => !notification.seen).length;
 
   return (
     <div className={className}>
@@ -47,7 +43,8 @@ export default (
             <a
               className="btn btn-link btn-block"
               onClick={onMarkGroupAsRead.bind(this, group)}
-              disabled={unreadCount === 0}>
+              disabled={unreadCount === 0}
+            >
               {__('Mark All Read')}
             </a>
           </div>

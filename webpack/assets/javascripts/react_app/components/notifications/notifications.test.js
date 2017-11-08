@@ -1,24 +1,28 @@
 // Configure Enzyme
-import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-configure({ adapter: new Adapter() });
-
-import React from 'react';
-import {shallow, mount} from 'enzyme';
 import toJson from 'enzyme-to-json';
-import Notifications from './';
-import thunk from 'redux-thunk';
+import { configure, shallow, mount } from 'enzyme';
+import $ from 'jquery';
+import React from 'react';
 import configureMockStore from 'redux-mock-store';
-import {getStore} from '../../redux';
+import thunk from 'redux-thunk';
+
+import { getStore } from '../../redux';
+import API from '../../API';
+
 import {
   emptyState,
   componentMountData,
   stateWithoutNotifications,
   stateWithNotifications,
   stateWithUnreadNotifications,
-  serverResponse
+  serverResponse,
 } from './notifications.fixtures';
-import API from '../../API';
+
+import Notifications from './';
+
+configure({ adapter: new Adapter() });
+
 jest.unmock('jquery');
 const mockStore = configureMockStore([thunk]);
 
@@ -34,21 +38,17 @@ function mockjqXHR() {
       failCallback(failResponse);
       return mockjqXHR();
     },
-    always: () => {
-      return mockjqXHR();
-    }
+    always: () => mockjqXHR(),
   };
 }
 
 describe('notifications', () => {
-  const $ = require('jquery');
-
   beforeEach(() => {
     global.__ = str => str;
     global.tfm = {
       tools: {
-        activateTooltips: () => {}
-      }
+        activateTooltips: () => {},
+      },
     };
 
     $.getJSON = mockjqXHR;
@@ -116,7 +116,7 @@ describe('notifications', () => {
 
   it('should redirect to login when 401', () => {
     window.location.replace = jest.fn();
-    failResponse = {status: 401};
+    failResponse = { status: 401 };
 
     mount(<Notifications data={componentMountData} store={getStore()} />);
     expect(global.location.replace).toBeCalled();
@@ -144,12 +144,10 @@ describe('notifications', () => {
   });
 
   it('should close the notification box when click outside of the box', () => {
-    const wrapper = mount(
-      <div>
-        <div className="something-outside"></div>
-        <Notifications data={componentMountData} store={getStore()} />
-      </div>
-    );
+    const wrapper = mount(<div>
+      <div className="something-outside" />
+      <Notifications data={componentMountData} store={getStore()} />
+                          </div>);
 
     wrapper.find('.fa-bell').simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();

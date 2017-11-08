@@ -1,9 +1,11 @@
-import { submitForm } from './forms';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import nock from 'nock';
 import { SubmissionError } from 'redux-form';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
 import * as types from '../../consts';
+
+import { submitForm } from './forms';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -39,13 +41,11 @@ describe('form actions', () => {
     const store = mockStore({ resources: [] });
 
     store
-      .dispatch(
-        submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' })
-      )
+      .dispatch(submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' }))
       .then(() => {
         throw new Error('Should not hit this then block - test was set up incorrectly');
       })
-      .catch(error => {
+      .catch((error) => {
         expect(error).toBeInstanceOf(SubmissionError);
       });
   });
@@ -57,13 +57,11 @@ describe('form actions', () => {
     const store = mockStore({ resources: [] });
 
     store
-      .dispatch(
-        submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' })
-      )
+      .dispatch(submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' }))
       .then(() => {
         throw new Error('Should not hit this then block - test was set up incorrectly');
       })
-      .catch(error => {
+      .catch((error) => {
         expect(error).toBeInstanceOf(SubmissionError);
         expect(error.errors).toEqual({ _error: ['Error submitting data: 404 Not Found'] });
       });
@@ -76,13 +74,11 @@ describe('form actions', () => {
     const store = mockStore({ resources: [] });
 
     store
-      .dispatch(
-        submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' })
-      )
+      .dispatch(submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' }))
       .then(() => {
         throw new Error('Should not hit this then block - test was set up incorrectly');
       })
-      .catch(error => {
+      .catch((error) => {
         expect(error).toBeInstanceOf(SubmissionError);
         expect(error.errors).toEqual({ name: 'already used', _error: 'some error' });
       });
@@ -92,19 +88,17 @@ describe('form actions', () => {
       .post('/api/resource')
       .reply(201, {
         name: 'xc',
-        id: 70
+        id: 70,
       });
 
     const store = mockStore({ resources: [] });
     const expectedAction = {
       type: 'RESOURCE_FORM_SUBMITTED',
-      payload: { item: 'Resource', body: { name: 'xc', id: 70 } }
+      payload: { item: 'Resource', body: { name: 'xc', id: 70 } },
     };
 
     store
-      .dispatch(
-        submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' })
-      )
+      .dispatch(submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' }))
       .then(() => {
         // dispatch RESOURCE_FORM_SUBMITTED action
         expect(store.getActions()[0]).toEqual(expectedAction);

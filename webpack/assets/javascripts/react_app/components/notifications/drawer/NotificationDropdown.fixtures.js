@@ -3,8 +3,8 @@ export const propsWithLinks = {
   links: [
     {
       href: 'https://theforeman.org/blog',
-      title: 'Link to blog'
-    }
+      title: 'Link to blog',
+    },
   ],
-  onClickedLink: () => {}
+  onClickedLink: () => {},
 };

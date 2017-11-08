@@ -2,14 +2,14 @@ import $ from 'jquery';
 import { showSpinner, hideSpinner } from '../foreman_tools';
 
 export function schedulerHintFilterSelected(item) {
-  let filter = $(item).val();
+  const filter = $(item).val();
 
   if (filter === '') {
     $('#scheduler_hint_wrapper').empty();
   } else {
-    let url = $(item).attr('data-url');
+    const url = $(item).attr('data-url');
     // eslint-disable-next-line no-undef
-    let data = serializeForm().replace('method=patch', 'method=post');
+    const data = serializeForm().replace('method=patch', 'method=post');
 
     showSpinner();
     $.ajax({
@@ -20,15 +20,15 @@ export function schedulerHintFilterSelected(item) {
         hideSpinner();
       },
       error(jqXHR, status, error) {
+        // eslint-disable-next-line function-paren-newline
         $('#scheduler_hint_wrapper').html(
           // eslint-disable-next-line no-undef
-          Jed.sprintf(__('Error loading scheduler hint filters information: %s'), error)
-        );
+          Jed.sprintf(__('Error loading scheduler hint filters information: %s'), error));
         $('#compute_resource_tab a').addClass('tab-error');
       },
       success(result) {
         $('#scheduler_hint_wrapper').html(result);
-      }
+      },
     });
   }
 }

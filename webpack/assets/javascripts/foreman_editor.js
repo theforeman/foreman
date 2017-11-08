@@ -1,5 +1,10 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable import/first */
 import $ from 'jquery';
 import ace from 'brace';
+
 require('brace/mode/javascript');
 require('brace/mode/ruby');
 require('brace/mode/html_ruby');
@@ -13,34 +18,35 @@ require('brace/theme/clouds');
 require('brace/keybinding/vim');
 require('brace/keybinding/emacs');
 require('brace/ext/searchbox');
+
 import { initTypeAheadSelect } from './foreman_tools';
 
 let Editor;
 
 $(document).on('ContentLoad', onEditorLoad);
 
-$(document).on('click', '#editor_submit', function () {
+$(document).on('click', '#editor_submit', () => {
   if ($('.diffMode').exists()) {
     setEditMode($('.editor_source'));
   }
 });
 
-$(document).on('change', '.editor_file_source', function (e) {
+$(document).on('change', '.editor_file_source', (e) => {
   if ($('.editor_file_source').val() !== '') {
     editorFileSource(e);
   }
 });
 
-$(document).on('change', '#keybinding', function () {
+$(document).on('change', '#keybinding', () => {
   setKeybinding();
 });
 
-$(document).on('change', '#mode', function () {
+$(document).on('change', '#mode', () => {
   setMode();
 });
 
 function onEditorLoad() {
-  let editorSource = $('.editor_source');
+  const editorSource = $('.editor_source');
 
   if (editorSource.exists()) {
     createEditor();
@@ -58,14 +64,14 @@ function setKeybinding() {
   const keybindings = [
     null, // Null = use "default" keymapping
     'ace/keyboard/vim',
-    'ace/keyboard/emacs'
+    'ace/keyboard/emacs',
   ];
 
   Editor.setKeyboardHandler(keybindings[$('#keybinding')[0].selectedIndex]);
 }
 
 function setMode(mode) {
-  let session = Editor.getSession();
+  const session = Editor.getSession();
   const modes = [
     'ace/mode/text',
     'ace/mode/json',
@@ -74,7 +80,7 @@ function setMode(mode) {
     'ace/mode/javascript',
     'ace/mode/sh',
     'ace/mode/xml',
-    'ace/mode/yaml'
+    'ace/mode/yaml',
   ];
 
   if (mode) {
@@ -82,6 +88,7 @@ function setMode(mode) {
       $('#mode').val(mode.replace('ace/mode/', ''));
     }
   } else {
+    // eslint-disable-next-line no-param-reassign
     mode = modes[$('#mode')[0].selectedIndex];
   }
 
@@ -100,15 +107,17 @@ function editorFileSource(evt) {
       return;
     }
 
-    const files = evt.target.files; // files is a FileList object
+    const { files } = evt.target; // files is a FileList object
 
-    for (let f of files) {
-      let reader = new FileReader();
+    for (const f of files) {
+      const reader = new FileReader();
       // Closure to capture the file information.
 
+      // eslint-disable-next-line
       reader.onloadend = function (evt) {
-        if (evt.target.readyState === FileReader.DONE) { // DONE == 2
-          $('#new').val((evt.target.result));
+        if (evt.target.readyState === FileReader.DONE) {
+          // DONE == 2
+          $('#new').val(evt.target.result);
           setEditMode($('.editor_source'));
         }
       };
@@ -128,7 +137,7 @@ function editorFileSource(evt) {
 }
 
 export function snippetChanged(item) {
-  let checked = $(item).is(':checked');
+  const checked = $(item).is(':checked');
 
   $('#kind_selector').toggle(!checked);
   $('#snippet_message').toggle(checked);
@@ -136,11 +145,11 @@ export function snippetChanged(item) {
 }
 
 function createEditor() {
-  let editorId = 'editor-' + Math.random(),
-    $editorContainer = $('.editor-container'),
-    $editorSource = $editorContainer.find('.editor_source');
+  const editorId = `editor-${Math.random()}`;
+  const $editorContainer = $('.editor-container');
+  const $editorSource = $editorContainer.find('.editor_source');
 
-  $editorContainer.append('<div id="' + editorId + '" class="editor"></div>');
+  $editorContainer.append(`<div id="${editorId}" class="editor"></div>`);
   $editorSource.hide();
 
   Editor = ace.edit(editorId);
@@ -148,7 +157,7 @@ function createEditor() {
   Editor.setShowPrintMargin(false);
   Editor.renderer.setShowGutter(false);
   setMode('ace/mode/ruby');
-  $(document).on('resize', editorId, function () {
+  $(document).on('resize', editorId, () => {
     Editor.resize();
   });
   if ($editorSource.is(':disabled')) {
@@ -164,7 +173,8 @@ export function setPreview() {
     return;
   }
   $('#preview_host_selector').hide();
-  if ($('.editor_source').hasClass('renderMode')) { // coming from renderMode, don't store code
+  if ($('.editor_source').hasClass('renderMode')) {
+    // coming from renderMode, don't store code
     $('.editor_source').removeClass('renderMode');
   } else {
     $('#new').val(Editor.getSession().getValue());
@@ -184,7 +194,8 @@ export function setRender() {
     return;
   }
   $('#preview_host_selector').show();
-  if ($('.editor_source').hasClass('diffMode')) { // coming from diffMode, don't store code
+  if ($('.editor_source').hasClass('diffMode')) {
+    // coming from diffMode, don't store code
     $('.editor_source').removeClass('diffMode');
   } else {
     $('#new').val(Editor.getSession().getValue());
@@ -204,10 +215,10 @@ function setEditMode(item) {
 
   setMode('ace/mode/ruby');
 
-  let session = Editor.getSession();
+  const session = Editor.getSession();
 
   session.setValue($('#new').val());
-  session.on('change', function () {
+  session.on('change', () => {
     item.text(session.getValue());
   });
 }
@@ -215,10 +226,10 @@ function setEditMode(item) {
 function setDiffMode(item) {
   Editor.setTheme('ace/theme/clouds');
   Editor.setReadOnly(true);
-  let session = Editor.getSession();
+  const session = Editor.getSession();
 
   session.setMode('ace/mode/diff');
-  const JsDiff = require('diff');
+  const JsDiff = require('diff'); // eslint-disable-line global-require
   let patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').val(), $('#new').val());
 
   patch = patch.replace(/^(.*\n){0,4}/, '');
@@ -233,7 +244,7 @@ function setDiffMode(item) {
 function setRenderMode() {
   Editor.setTheme('ace/theme/twilight');
   Editor.setReadOnly(true);
-  let session = Editor.getSession();
+  const session = Editor.getSession();
 
   session.setMode('ace/mode/text');
   $(session).off('change');
@@ -241,14 +252,13 @@ function setRenderMode() {
 }
 
 export function getRenderedTemplate() {
-  let
-    session = Editor.getSession(),
-    hostId = $('#preview_host_id').select2('val'),
-    url = $('.editor_source').data('render-path'),
-    template = $('#new').val(),
-    params = {
-      template: template
-    };
+  const session = Editor.getSession();
+  const hostId = $('#preview_host_id').select2('val');
+  const url = $('.editor_source').data('render-path');
+  const template = $('#new').val();
+  const params = {
+    template,
+  };
 
   if (hostId != null) {
     /* eslint-disable camelcase */
@@ -256,16 +266,14 @@ export function getRenderedTemplate() {
   }
 
   session.setValue(__('Rendering the template, please wait...'));
-  $.post(url, params, function (response) {
+  $.post(url, params, (response) => {
     $('div#preview_error').hide();
     $('div#preview_error span.text').html('');
     session.setValue(response);
-  }).fail(function (response) {
+  }).fail((response) => {
     $('div#preview_error span.text').html(response.responseText);
     $('div#preview_error').show();
-    session.setValue(__(
-      'There was an error during rendering, return to the Code tab to edit the template.'
-    ));
+    session.setValue(__('There was an error during rendering, return to the Code tab to edit the template.'));
   });
 }
 
@@ -277,30 +285,32 @@ export function submitCode() {
 
 /* eslint-disable max-len */
 export function revertTemplate(item) {
-  if (!confirm(__('You are about to override the editor content with a previous version, are you sure?'))) {
+  if (
+    !confirm(__('You are about to override the editor content with a previous version, are you sure?'))
+  ) {
     return;
   }
 
-  let version = $(item).attr('data-version');
-  let url = $(item).attr('data-url');
+  const version = $(item).attr('data-version');
+  const url = $(item).attr('data-url');
 
   $.ajax({
     type: 'get',
-    url: url,
-    data: 'version=' + version,
-    complete: function (res) {
+    url,
+    data: `version=${version}`,
+    complete(res) {
       $('#primary_tab').click();
       if ($('#new').length) {
         $('#new').val(res.responseText);
         setEditMode($('.editor_source'));
       }
-      let time = $(item).closest('div.row').find('h6 span').attr('data-original-title');
+      const time = $(item)
+        .closest('div.row')
+        .find('h6 span')
+        .attr('data-original-title');
 
-      $('#provisioning_template_audit_comment').text(
-        /* eslint-disable no-undef */
-        Jed.sprintf(__('Revert to revision from: %s'), time)
-      );
-    }
+      $('#provisioning_template_audit_comment').text(Jed.sprintf(__('Revert to revision from: %s'), time));
+    },
   });
 }
 
@@ -312,30 +322,33 @@ export function enterFullscreen(element, relativeTo) {
   }
 
   $element.children().removeClass('hidden');
-  $element.data('origin', $element.parent())
-          .data('position', $(window).scrollTop())
-          .addClass('fullscreen')
-          .appendTo($('.container-pf-nav-pf-vertical'))
-          .resize();
+  $element
+    .data('origin', $element.parent())
+    .data('position', $(window).scrollTop())
+    .addClass('fullscreen')
+    .appendTo($('.container-pf-nav-pf-vertical'))
+    .resize();
   $('.btn-fullscreen').addClass('hidden');
   $('.btn-exit-fullscreen').removeClass('hidden');
 
   $('#content').addClass('hidden');
-  $(document).on('keyup', function (e) {
-      if (e.keyCode === 27) {    // esc
-        exit_fullscreen_editor();
-      }
+  $(document).on('keyup', (e) => {
+    if (e.keyCode === 27) {
+      // esc
+      exit_fullscreen_editor();
+    }
   });
   Editor.resize(true);
 }
 
 export function exitFullscreen() {
-  let element = $('.fullscreen');
+  const element = $('.fullscreen');
 
   $('#content').removeClass('hidden');
-  element.removeClass('fullscreen')
-         .prependTo(element.data('origin'))
-         .resize();
+  element
+    .removeClass('fullscreen')
+    .prependTo(element.data('origin'))
+    .resize();
 
   $('.btn-exit-fullscreen').addClass('hidden');
   $('.btn-fullscreen').removeClass('hidden');

@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import $ from 'jquery';
 import { showSpinner } from '../foreman_tools';
 import { testConnection } from '../foreman_compute_resource';
@@ -33,7 +34,7 @@ export function templateSelected(item) {
       complete() {
         // eslint-disable-next-line no-undef
         reloadOnAjaxComplete(item);
-      }
+      },
     });
   }
 }
@@ -54,7 +55,9 @@ function addNetworkInterface({ name, network }) {
 
 // fill in the template volumes.
 // eslint-disable-next-line camelcase
-function addVolume({ size_gb, storage_domain, bootable, id }) {
+function addVolume({
+  size_gb, storage_domain, bootable, id,
+}) {
   // eslint-disable-next-line no-undef
   const newId = add_child_node($('#storage_volumes .add_nested_fields'));
 
@@ -73,7 +76,7 @@ function disableElement(element) {
 }
 
 export function bootableRadio(item) {
-  let disabled = $('[id$=_bootable_true]:disabled:checked:visible');
+  const disabled = $('[id$=_bootable_true]:disabled:checked:visible');
 
   $('[id$=_bootable_true]').prop('checked', false);
   if (disabled.length > 0) {
@@ -92,7 +95,7 @@ export function clusterSelected(item) {
     url,
     data: `cluster_id=${cluster}`,
     success(result) {
-      let networkOptions = $('select[id$=_network]').empty();
+      const networkOptions = $('select[id$=_network]').empty();
 
       $.each(result, function () {
         networkOptions.append($('<option />').val(this.id).text(this.name));
@@ -101,7 +104,7 @@ export function clusterSelected(item) {
     complete() {
       // eslint-disable-next-line no-undef
       reloadOnAjaxComplete(item);
-    }
+    },
   });
 }
 

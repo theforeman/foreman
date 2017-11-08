@@ -6,12 +6,12 @@ export const vmwareData = {
       VirtualBusLogicController: 'Bus Logic Parallel',
       VirtualLsiLogicController: 'LSI Logic Parallel',
       VirtualLsiLogicSASController: 'LSI Logic SAS',
-      ParaVirtualSCSIController: 'VMware Paravirtual'
+      ParaVirtualSCSIController: 'VMware Paravirtual',
     },
     diskModeTypes: {
       persistent: 'Persistent',
       independent_persistent: 'Independent - Persistent',
-      independent_nonpersistent: 'Independent - Nonpersistent'
+      independent_nonpersistent: 'Independent - Nonpersistent',
     },
     storagePods: { StorageCluster: 'StorageCluster (free: 1.01 TB, prov: 7.49 TB, total: 8.5 TB)' },
     datastores: {
@@ -31,8 +31,8 @@ export const vmwareData = {
       'do-not-use-host-prov': 'do-not-use-host-prov (free: 0 Bytes, prov: 973 MB, total: 973 MB)',
       master_iso_rdu: 'master_iso_rdu (free: 689 GB, prov: 289 GB, total: 973 GB)',
       temp_store: 'temp_store (free: 475 GB, prov: 19.5 MB, total: 475 GB)',
-      vsanDatastore: 'vsanDatastore (free: 207 GB, prov: 26.1 GB, total: 233 GB)'
-    }
+      vsanDatastore: 'vsanDatastore (free: 207 GB, prov: 26.1 GB, total: 233 GB)',
+    },
   },
   volumes: [
     {
@@ -40,10 +40,10 @@ export const vmwareData = {
       name: 'Hard disk',
       mode: 'persistent',
       controllerKey: 1000,
-      sizeGb: 10
-    }
+      sizeGb: 10,
+    },
   ],
-  controllers: [{ type: 'VirtualLsiLogicController', key: 1000 }]
+  controllers: [{ type: 'VirtualLsiLogicController', key: 1000 }],
 };
 
 export const hiddenFieldValue = {
@@ -54,11 +54,10 @@ export const hiddenFieldValue = {
       mode: 'persistent',
       name: 'Hard disk',
       sizeGb: 10,
-      thin: true
-    }
-  ]
+      thin: true,
+    },
+  ],
 };
-
 
 /* storybook data */
 export const state1 = {
@@ -67,15 +66,15 @@ export const state1 = {
       VirtualBusLogicController: 'Bus Logic Parallel',
       VirtualLsiLogicController: 'LSI Logic Parallel',
       VirtualLsiLogicSASController: 'LSI Logic SAS',
-      ParaVirtualSCSIController: 'VMware Paravirtual'
+      ParaVirtualSCSIController: 'VMware Paravirtual',
     },
     diskModeTypes: {
       persistent: 'Persistent',
       independent_persistent: 'Independent - Persistent',
-      independent_nonpersistent: 'Independent - Nonpersistent'
+      independent_nonpersistent: 'Independent - Nonpersistent',
     },
     storagePods: {
-      StorageCluster: 'StorageCluster (free: 1.01 TB, prov: 7.49 TB, total: 8.5 TB)'
+      StorageCluster: 'StorageCluster (free: 1.01 TB, prov: 7.49 TB, total: 8.5 TB)',
     },
     datastores: {
       'org-esx-55-01-local': 'org-esx-55-01-local (free: 524 GB, prov: 465 GB, total: 924 GB)',
@@ -92,9 +91,9 @@ export const state1 = {
       'do-not-use-host-prov': 'do-not-use-host-prov (free: 0 Bytes, prov: 973 MB, total: 973 MB)',
       master_iso: 'master_iso (free: 689 GB, prov: 289 GB, total: 973 GB)',
       temp_store: 'temp_store (free: 475 GB, prov: 19.5 MB, total: 475 GB)',
-      vsanDatastore: 'vsanDatastore (free: 207 GB, prov: 26.1 GB, total: 233 GB)'
+      vsanDatastore: 'vsanDatastore (free: 207 GB, prov: 26.1 GB, total: 233 GB)',
     },
-    paramsScope: 'abc'
+    paramsScope: 'abc',
   },
   volumes: [
     {
@@ -102,10 +101,10 @@ export const state1 = {
       name: 'Hard disk',
       mode: 'persistent',
       controllerKey: 1000,
-      sizeGb: 10
-    }
+      sizeGb: 10,
+    },
   ],
-  controllers: [{ type: 'VirtualLsiLogicController', key: 1000 }]
+  controllers: [{ type: 'VirtualLsiLogicController', key: 1000 }],
 };
 
 export const state2 = {
@@ -114,12 +113,12 @@ export const state2 = {
       VirtualBusLogicController: 'Bus Logic Parallel',
       VirtualLsiLogicController: 'LSI Logic Parallel',
       VirtualLsiLogicSASController: 'LSI Logic SAS',
-      ParaVirtualSCSIController: 'VMware Paravirtual'
+      ParaVirtualSCSIController: 'VMware Paravirtual',
     },
     diskModeTypes: {
       persistent: 'Persistent',
       independent_persistent: 'Independent - Persistent',
-      independent_nonpersistent: 'Independent - Nonpersistent'
+      independent_nonpersistent: 'Independent - Nonpersistent',
     },
     storagePods: {},
     datastores: {
@@ -128,17 +127,17 @@ export const state2 = {
       'Local-Jericho': 'Local-Jericho (free: 1.99 TB, prov: 3.02 TB, total: 4.09 TB)',
       'Local-Nightwing': 'Local-Nightwing (free: 591 GB, prov: 182 GB, total: 756 GB)',
       'Local-Supermicro': 'Local-Supermicro (free: 599 GB, prov: 317 GB, total: 917 GB)',
-      'NFS-Engineering': 'NFS-Engineering (free: 2.3 TB, prov: 1.74 TB, total: 2.64 TB)'
+      'NFS-Engineering': 'NFS-Engineering (free: 2.3 TB, prov: 1.74 TB, total: 2.64 TB)',
     },
-    paramsScope: 'abc'
+    paramsScope: 'abc',
   },
   controllers: [
     {
       type: 'VirtualLsiLogicController',
       sharedBus: 'noSharing',
       unitNumber: 7,
-      key: 1000
-    }
+      key: 1000,
+    },
   ],
   volumes: [
     {
@@ -153,9 +152,9 @@ export const state2 = {
         '[Local-Ironforge] wanda-marcial.www.somedomain.com/wanda-marcial.www.somedomain.com.vmdk',
       sizeGb: 10,
       key: 2000,
-      unitNumber: 0
-    }
-  ]
+      unitNumber: 0,
+    },
+  ],
 };
 
 export const clone = {
@@ -165,12 +164,12 @@ export const clone = {
       VirtualBusLogicController: 'Bus Logic Parallel',
       VirtualLsiLogicController: 'LSI Logic Parallel',
       VirtualLsiLogicSASController: 'LSI Logic SAS',
-      ParaVirtualSCSIController: 'VMware Paravirtual'
+      ParaVirtualSCSIController: 'VMware Paravirtual',
     },
     diskModeTypes: {
       persistent: '»Persistent«',
       independent_persistent: '»Independent - Persistent«',
-      independent_nonpersistent: '»Independent - Nonpersistent«'
+      independent_nonpersistent: '»Independent - Nonpersistent«',
     },
     storagePods: {
       'LX-ESX-SOA-DC1-NoMirror':
@@ -195,7 +194,7 @@ export const clone = {
       LX_LAN_DC1_BDABI_NoBackup:
         'LX_LAN_DC1_BDABI_NoBackup (»free«: 8.45 TB, »prov«: 1.55 TB, »total«: 10 TB)',
       LX_LAN_DC1_BDASAS_NoBackup:
-        'LX_LAN_DC1_BDASAS_NoBackup (»free«: 14.6 TB, »prov«: 15.9 TB, »total«: 30.5 TB)'
+        'LX_LAN_DC1_BDASAS_NoBackup (»free«: 14.6 TB, »prov«: 15.9 TB, »total«: 30.5 TB)',
     },
     datastores: {
       ESX_RZ3_1: 'ESX_RZ3_1 (»free«: 346 GB, »prov«: 709 GB, »total«: 500 GB)',
@@ -337,8 +336,8 @@ export const clone = {
       LX_ESX_STD_DC2_13: 'LX_ESX_STD_DC2_13 (»free«: 173 GB, »prov«: 1.26 TB, »total«: 500 GB)',
       LX_ESX_STD_DC2_14: 'LX_ESX_STD_DC2_14 (»free«: 172 GB, »prov«: 593 GB, »total«: 500 GB)',
       LX_ESX_STD_DC2_15: 'LX_ESX_STD_DC2_15 (»free«: 132 GB, »prov«: 1.1 TB, »total«: 500 GB)',
-      LX_ESX_STD_DC2_16: 'LX_ESX_STD_DC2_16 (»free«: 173 GB, »prov«: 511 GB, »total«: 500 GB)'
-    }
+      LX_ESX_STD_DC2_16: 'LX_ESX_STD_DC2_16 (»free«: 173 GB, »prov«: 511 GB, »total«: 500 GB)',
+    },
   },
   volumes: [
     {
@@ -353,7 +352,7 @@ export const clone = {
       size: 13631488,
       key: 2000,
       unitNumber: 0,
-      sizeGb: 13
+      sizeGb: 13,
     },
     {
       thin: false,
@@ -367,7 +366,7 @@ export const clone = {
       size: 11534336,
       key: 2016,
       unitNumber: 0,
-      sizeGb: 11
+      sizeGb: 11,
     },
     {
       thin: false,
@@ -381,19 +380,19 @@ export const clone = {
       size: 1048576,
       key: 2017,
       unitNumber: 1,
-      sizeGb: 1
-    }
+      sizeGb: 1,
+    },
   ],
   controllers: [
     {
       type: 'VirtualLsiLogicController',
-      key: 1000
+      key: 1000,
     },
     {
       type: 'VirtualLsiLogicController',
-      key: 1001
-    }
-  ]
+      key: 1001,
+    },
+  ],
 };
 
 export const emptyState = {
@@ -402,16 +401,16 @@ export const emptyState = {
       VirtualBusLogicController: 'Bus Logic Parallel',
       VirtualLsiLogicController: 'LSI Logic Parallel',
       VirtualLsiLogicSASController: 'LSI Logic SAS',
-      ParaVirtualSCSIController: 'VMware Paravirtual'
+      ParaVirtualSCSIController: 'VMware Paravirtual',
     },
     diskModeTypes: {
       persistent: 'Persistent',
       independent_persistent: 'Independent - Persistent',
-      independent_nonpersistent: 'Independent - Nonpersistent'
+      independent_nonpersistent: 'Independent - Nonpersistent',
     },
     storagePods: {},
-    datastores: {}
+    datastores: {},
   },
   volumes: [],
-  controllers: []
+  controllers: [],
 };

@@ -1,11 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+
 import helpers from '../../../common/helpers';
 import Timer from '../../../common/Timer';
 import Alert from '../../common/Alert';
-import PropTypes from 'prop-types';
-import { defaultTimerDelay } from './Toast.consts';
 
+import { defaultTimerDelay } from './Toast.consts';
 import './Toast.scss';
+
 class Toast extends React.Component {
   constructor(props) {
     super(props);
@@ -22,35 +24,43 @@ class Toast extends React.Component {
   }
 
   componentWillUnmount() {
-    this.timer && this.timer.clearTimer();
+    if (this.timer) {
+      this.timer.clearTimer();
+    }
   }
 
   onMouseEnter() {
-    this.timer && this.timer.clearTimer();
+    if (this.timer) {
+      this.timer.clearTimer();
+    }
   }
 
   onMouseLeave() {
-    this.timer && this.timer.startTimer();
+    if (this.timer) {
+      this.timer.startTimer();
+    }
   }
 
   render() {
-    const { type, link, message, dismiss } = this.props;
+    const {
+      type, link, message, dismiss,
+    } = this.props;
 
     return (
       <Alert
         type={type}
         className="toast-pf"
-        onClose={ dismiss }
+        onClose={dismiss}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        link={ link }
-        message={ message }
+        link={link}
+        message={message}
       />
     );
   }
 }
 Toast.propTypes = {
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
 };
 
 export default Toast;

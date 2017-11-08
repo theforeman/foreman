@@ -2,24 +2,25 @@ import $ from 'jquery';
 
 export default {
   get(url) {
-    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+    $.ajaxPrefilter((options, originalOptions, jqXHR) => {
+      // eslint-disable-next-line no-param-reassign
       jqXHR.originalRequestOptions = originalOptions;
     });
     return $.getJSON(url);
   },
   markNotificationAsRead(id) {
-    const data = JSON.stringify({'seen': true});
+    const data = JSON.stringify({ seen: true });
 
     $.ajax({
       url: `/notification_recipients/${id}`,
       contentType: 'application/json',
       type: 'put',
       dataType: 'json',
-      data: data,
-      error: function (jqXHR, textStatus, errorThrown) {
+      data,
+      error(jqXHR, textStatus, errorThrown) {
         /* eslint-disable no-console */
         console.log(jqXHR);
-      }
+      },
     });
   },
   markGroupNotificationAsRead(group) {
@@ -27,10 +28,10 @@ export default {
       url: `/notification_recipients/group/${group}`,
       contentType: 'application/json',
       type: 'PUT',
-      error: function (jqXHR, textStatus, errorThrown) {
+      error(jqXHR, textStatus, errorThrown) {
         /* eslint-disable no-console */
         console.log(jqXHR);
-      }
+      },
     });
-  }
+  },
 };

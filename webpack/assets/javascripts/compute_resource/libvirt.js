@@ -48,7 +48,7 @@ export function imageSelected(item) {
       url,
       data: `template_id=${template}`,
       success(result) {
-        let capacity = $('#storage_volumes').children('.fields').find('[id$=capacity]')[0];
+        const capacity = $('#storage_volumes').children('.fields').find('[id$=capacity]')[0];
 
         if (parseInt(capacity.value.slice(0, -1), 10) < parseInt(result.capacity, 10)) {
           capacity.value = `${result.capacity}G`;
@@ -58,7 +58,7 @@ export function imageSelected(item) {
       complete() {
         // eslint-disable-next-line no-undef
         reloadOnAjaxComplete(item);
-      }
+      },
     });
   }
 }
@@ -69,7 +69,7 @@ export function allocationSwitcher(element, action) {
   previous.removeClass('active');
 
   const capacity = $(element).closest('.fields').find('[id$=capacity]')[0];
-  let allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+  const allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
 
   switch (action) {
     case 'None':

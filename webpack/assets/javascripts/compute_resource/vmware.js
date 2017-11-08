@@ -4,7 +4,7 @@ import { showSpinner, hideSpinner } from '../foreman_tools';
 export function getResourcePools(item) {
   // eslint-disable-next-line camelcase
   const data = { cluster_id: $(item).val() };
-  let url = $(item).data('url');
+  const url = $(item).data('url');
 
   showSpinner();
   const selectbox = $('select[id$="resource_pool"]');
@@ -22,6 +22,6 @@ export function getResourcePools(item) {
         $('<option>').text(name).val(name).appendTo(selectbox);
       });
       $(selectbox).select2();
-    }
+    },
   });
 }

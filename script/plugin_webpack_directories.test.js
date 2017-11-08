@@ -1,20 +1,24 @@
-jest.unmock('./plugin_webpack_directories');
-import pluginUtils from './plugin_webpack_directories';
 import path from 'path';
+import pluginUtils from './plugin_webpack_directories';
 
-const json = { 'entries':
-               { 'foo': '/some/path/webpack/index.js',
-                 'bar': '/path/to/webpack/index.js'},
-              'paths':
-                ['/some/path/webpack/index.js',
-                 '/path/to/webpack/index.js']
-             };
+jest.unmock('./plugin_webpack_directories');
+
+const json = {
+  entries: {
+    foo: '/some/path/webpack/index.js',
+    bar: '/path/to/webpack/index.js',
+  },
+  paths: ['/some/path/webpack/index.js', '/path/to/webpack/index.js'],
+};
 
 describe('sanitizeWebpackDirs', () => {
   it('should return json when debug output is present', () => {
-    const output = ['Warning: this is not a json',
-                    'This is some random text',
-                    JSON.stringify(json), ''].join('\n');
+    const output = [
+      'Warning: this is not a json',
+      'This is some random text',
+      JSON.stringify(json),
+      '',
+    ].join('\n');
 
     const res = pluginUtils.sanitizeWebpackDirs(output);
 
@@ -38,7 +42,7 @@ describe('aliasPlugins', () => {
 
 describe('pluginPath', () => {
   it('should return path if exists', () => {
-    const obj = { 'paths': [__filename, '/path/to/webpack/index.js'] };
+    const obj = { paths: [__filename, '/path/to/webpack/index.js'] };
 
     const res = pluginUtils.pluginPath(path.basename(__filename))(obj);
 

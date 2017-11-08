@@ -1,14 +1,14 @@
 // Configure Enzyme
-import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import toJson from 'enzyme-to-json';
+import { configure, shallow } from 'enzyme';
+import React from 'react';
+
+import MessageBox from './MessageBox';
+
 configure({ adapter: new Adapter() });
 
 jest.unmock('./MessageBox');
-
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import MessageBox from './MessageBox';
 
 function setup(msg, type) {
   return shallow(<MessageBox msg={msg} icontype={type} />);

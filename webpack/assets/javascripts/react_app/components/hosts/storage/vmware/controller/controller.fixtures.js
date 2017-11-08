@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+/* eslint-disable camelcase */
 export const props = {
   controller: { type: 'VirtualLsiLogicController', key: 1000 },
   controllerVolumes: [
@@ -8,8 +9,8 @@ export const props = {
       mode: 'persistent',
       controllerKey: 1000,
       sizeGb: 10,
-      key: 'e86728ee-dbde-ad59-13d6-0c5488635e73'
-    }
+      key: 'e86728ee-dbde-ad59-13d6-0c5488635e73',
+    },
   ],
   addDiskEnabled: true,
   config: {
@@ -17,12 +18,12 @@ export const props = {
       VirtualBusLogicController: 'Bus Logic Parallel',
       VirtualLsiLogicController: 'LSI Logic Parallel',
       VirtualLsiLogicSASController: 'LSI Logic SAS',
-      ParaVirtualSCSIController: 'VMware Paravirtual'
+      ParaVirtualSCSIController: 'VMware Paravirtual',
     },
     diskModeTypes: {
       persistent: 'Persistent',
       independent_persistent: 'Independent - Persistent',
-      independent_nonpersistent: 'Independent - Nonpersistent'
+      independent_nonpersistent: 'Independent - Nonpersistent',
     },
     storagePods: { StorageCluster: 'StorageCluster (free: 1.01 TB, prov: 7.49 TB, total: 8.5 TB)' },
     datastores: {
@@ -42,12 +43,12 @@ export const props = {
       'do-not-use-host-prov': 'do-not-use-host-prov (free: 0 Bytes, prov: 973 MB, total: 973 MB)',
       master_iso_rdu: 'master_iso_rdu (free: 689 GB, prov: 289 GB, total: 973 GB)',
       temp_store: 'temp_store (free: 475 GB, prov: 19.5 MB, total: 475 GB)',
-      vsanDatastore: 'vsanDatastore (free: 207 GB, prov: 26.1 GB, total: 233 GB)'
-    }
+      vsanDatastore: 'vsanDatastore (free: 207 GB, prov: 26.1 GB, total: 233 GB)',
+    },
   },
   addDisk: () => {},
   removeDisk: () => {},
   removeController: () => {},
   updateController: () => {},
-  updateDisk: () => {}
+  updateDisk: () => {},
 };

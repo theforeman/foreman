@@ -1,12 +1,13 @@
 // Configure Enzyme
-import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-configure({ adapter: new Adapter() });
-
+import { configure, shallow } from 'enzyme';
 import React from 'react';
-import { shallow } from 'enzyme';
+
 import { props } from './disk.fixtures';
+
 import Disk from './';
+
+configure({ adapter: new Adapter() });
 
 describe('StorageContainer', () => {
   beforeEach(() => {
@@ -14,16 +15,10 @@ describe('StorageContainer', () => {
   });
 
   it('renders controller correctly', () => {
-    const wrapper = shallow(
-      <Disk {...props} />
-    );
+    const wrapper = shallow(<Disk {...props} />);
 
-    expect(
-      wrapper.render().find('.text-vmware-size').length
-    ).toEqual(1);
+    expect(wrapper.render().find('.text-vmware-size').length).toEqual(1);
 
-    expect(
-      wrapper.find('.text-vmware-size').props().value
-    ).toEqual('10 gb');
+    expect(wrapper.find('.text-vmware-size').props().value).toEqual('10 gb');
   });
 });
