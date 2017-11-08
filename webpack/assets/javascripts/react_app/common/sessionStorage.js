@@ -1,7 +1,7 @@
 if (!window.sessionStorage) {
   window.sessionStorage = {
     getItem: () => {},
-    setItem: () => {}
+    setItem: () => {},
   };
 }
 
@@ -21,5 +21,5 @@ export const notificationsDrawer = {
   getExpandedGroup: () => getValue('expandedGroup'),
   setExpandedGroup: value => setValue('expandedGroup', value),
   getHasUnreadMessages: () => getValue('hasUnreadMessages'),
-  setHasUnreadMessages: value => setValue('hasUnreadMessages', value)
+  setHasUnreadMessages: value => setValue('hasUnreadMessages', value),
 };

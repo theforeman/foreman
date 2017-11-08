@@ -20,19 +20,18 @@ describe('StatisticsChartsList', () => {
 
   it('should render no panels for empty data', () => {
     const store = mockStore({
-      statistics: immutable({ charts: [] })
+      statistics: immutable({ charts: [] }),
     });
     const wrapper = shallow(
       <StatisticsChartsList store={store} data={statisticsData} />
     );
 
     expect(toJson(wrapper)).toMatchSnapshot();
-
   });
 
   it('should render two panels for fixtures data', () => {
     const store = mockStore({
-      statistics: immutable({ charts: statisticsData })
+      statistics: immutable({ charts: statisticsData }),
     });
 
     const wrapper = shallow(

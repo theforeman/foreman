@@ -4,7 +4,7 @@ let pluginEditAttributes = {
   architecture: [],
   os: [],
   medium: [],
-  image: []
+  image: [],
 };
 
 export function registerPluginAttributes(componentType, attributes) {
@@ -20,7 +20,7 @@ export function getAttributesToPost(componentType) {
     architecture: ['architecture_id', 'organization_id', 'location_id'],
     os: ['operatingsystem_id', 'organization_id', 'location_id'],
     medium: ['medium_id', 'operatingsystem_id', 'architecture_id'],
-    image: ['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id']
+    image: ['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id'],
   };
   let attrsToPost = defaultAttributes[componentType];
 
@@ -66,21 +66,25 @@ export let pxeCompatibility = {};
 
 // Ubuntu 10.x or older and Grub1
 // Ubuntu 11.x or newer and Grub2
-_.set(pxeCompatibility, 'ubuntu', new PXECompatibilityCheck(
-    /ubuntu[^\d]*(\d+)(?:[.]\d+)?/,
-    function (os) {
-      if (os[1] <= '10') {
-        return [PXE_BIOS, GRUB_UEFI];
-      } else if (os[1] > '10') {
-        return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
-      }
-      return null;
+_.set(
+  pxeCompatibility,
+  'ubuntu',
+  new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, function(os) {
+    if (os[1] <= '10') {
+      return [PXE_BIOS, GRUB_UEFI];
+    } else if (os[1] > '10') {
+      return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }
-));
+    return null;
+  })
+);
 
 // RHEL 6.x and Grub1
 // RHEL 7.x and Grub2
-_.set(pxeCompatibility, 'rhel', new PXECompatibilityCheck(
+_.set(
+  pxeCompatibility,
+  'rhel',
+  new PXECompatibilityCheck(
     /(?:red[ ]*hat|rhel|cent[ ]*os|scientific|oracle)[^\d]*(\d+)(?:[.]\d+)?/,
     os => {
       if (os[1] === '6') {
@@ -90,21 +94,23 @@ _.set(pxeCompatibility, 'rhel', new PXECompatibilityCheck(
       }
       return null;
     }
-));
+  )
+);
 
 // Debian 2-6 and Grub1
 // Debian 7+ and Grub2
-_.set(pxeCompatibility, 'debian', new PXECompatibilityCheck(
-    /debian[^\d]*(\d+)(?:[.]\d+)?/,
-    function (os) {
-      if (os[1] >= '2' && os[1] <= '6') {
-        return [PXE_BIOS, GRUB_UEFI];
-      } else if (os[1] > '6') {
-        return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
-      }
-      return null;
+_.set(
+  pxeCompatibility,
+  'debian',
+  new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, function(os) {
+    if (os[1] >= '2' && os[1] <= '6') {
+      return [PXE_BIOS, GRUB_UEFI];
+    } else if (os[1] > '6') {
+      return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }
-));
+    return null;
+  })
+);
 
 export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
   if (pxeLoader === 'None' || pxeLoader === '') {
@@ -113,7 +119,7 @@ export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
   let compatible = null;
 
   osTitle = osTitle.toLowerCase();
-  _.forEach(_.values(pxeCompatibility), (check) => {
+  _.forEach(_.values(pxeCompatibility), check => {
     let compatibleCheck = check.isCompatible(osTitle, pxeLoader);
 
     if (compatibleCheck != null) {

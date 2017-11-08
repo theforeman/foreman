@@ -4,7 +4,7 @@ import helpers from '../../common/helpers';
 import PieChart from '../common/charts/PieChart/';
 import {
   getLargePieChartConfig,
-  navigateToSearch
+  navigateToSearch,
 } from '../../../services/ChartService';
 import ChartModal from './ChartModal';
 import Loader from '../common/Loader';
@@ -39,18 +39,21 @@ class ChartBox extends React.Component {
 
     const modalConfig = getLargePieChartConfig({
       data: this.props.chart.data,
-      id: chart.id + 'Modal'
+      id: chart.id + 'Modal',
     });
 
     const tooltip = {
       onClick: this.onClick,
       title: this.props.tip,
       'data-toggle': 'tooltip',
-      'data-placement': 'top'
+      'data-placement': 'top',
     };
-    const onclickChartClicked = chart.search && chart.search.match(/=$/) ?
-      null :
-      navigateToSearch.bind(null, chart.search);
+    const onclickChartClicked = (function() {
+      if (chart.search && chart.search.match(/=$/)) {
+        return null;
+      }
+      return navigateToSearch.bind(null, chart.search);
+    })();
 
     const _chart = (
       <PieChart
@@ -75,9 +78,7 @@ class ChartBox extends React.Component {
         </PanelHeading>
 
         <PanelBody className="statistics-charts-list-body">
-          <Loader status={this.props.status}>
-            {[_chart, error]}
-          </Loader>
+          <Loader status={this.props.status}>{[_chart, error]}</Loader>
 
           <ChartModal
             {...this.props}
@@ -99,7 +100,7 @@ ChartBox.propTypes = {
   modalConfig: PropTypes.object,
   id: PropTypes.string.isRequired,
   noDataMsg: PropTypes.string,
-  errorText: PropTypes.string
+  errorText: PropTypes.string,
 };
 
 export default ChartBox;

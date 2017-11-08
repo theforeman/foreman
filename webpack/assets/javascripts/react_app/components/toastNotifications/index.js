@@ -11,7 +11,11 @@ class ToastsList extends Component {
     return (
       <div className="toast-notifications-list-pf">
         {map(messages, (toast, key) => (
-          <Toast {...toast} key={key} dismiss={deleteToast.bind(this, toast.key)} />
+          <Toast
+            {...toast}
+            key={key}
+            dismiss={deleteToast.bind(this, toast.key)}
+          />
         ))}
       </div>
     );
@@ -19,7 +23,7 @@ class ToastsList extends Component {
 }
 
 const mapStateToProps = state => ({
-  messages: state.toasts.messages
+  messages: state.toasts.messages,
 });
 
 export default connect(mapStateToProps, ToastActions)(ToastsList);

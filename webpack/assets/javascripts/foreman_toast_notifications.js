@@ -4,13 +4,15 @@ import $ from 'jquery';
 
 const isSticky = type => ['notice', 'success', 'info'].indexOf(type) === -1;
 
-export function notify({message, type, link, sticky = isSticky(type)}) {
-  store.dispatch(ToastActions.addToast({
-        message,
-        type,
-        sticky,
-        link
-      }));
+export function notify({ message, type, link, sticky = isSticky(type) }) {
+  store.dispatch(
+    ToastActions.addToast({
+      message,
+      type,
+      sticky,
+      link,
+    })
+  );
 }
 
 export function clear() {
@@ -20,11 +22,12 @@ export function clear() {
 function importFlashMessagesFromRails() {
   const notifications = $('#notifications');
 
-  if (notifications.length === 0 ||
-    !notifications.data('flash')) {return;}
+  if (notifications.length === 0 || !notifications.data('flash')) {
+    return;
+  }
 
   notifications.data('flash').forEach(([type, message]) => {
-    notify({message, type});
+    notify({ message, type });
   });
   // remove both jquery cache and dom entry to avoid ajax ContentLoad events
   // reloading our notifications

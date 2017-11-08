@@ -40,17 +40,17 @@ class Toast extends React.Component {
       <Alert
         type={type}
         className="toast-pf"
-        onClose={ dismiss }
+        onClose={dismiss}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        link={ link }
-        message={ message }
+        link={link}
+        message={message}
       />
     );
   }
 }
 Toast.propTypes = {
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
 };
 
 export default Toast;

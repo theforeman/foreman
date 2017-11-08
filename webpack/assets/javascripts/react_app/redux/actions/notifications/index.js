@@ -4,17 +4,15 @@ import {
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
-  NOTIFICATIONS_POLLING_STARTED
+  NOTIFICATIONS_POLLING_STARTED,
 } from '../../consts';
-import {
-  notificationsDrawer as sessionStorage
-} from '../../../common/sessionStorage';
+import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
 import API from '../../../API';
 import { isNil } from 'lodash';
 const defaultNotificationsPollingInterval = 10000;
-const notificationsInterval = isNil(process.env.NOTIFICATIONS_POLLING) ?
-  defaultNotificationsPollingInterval :
-  process.env.NOTIFICATIONS_POLLING;
+const notificationsInterval = isNil(process.env.NOTIFICATIONS_POLLING)
+  ? defaultNotificationsPollingInterval
+  : process.env.NOTIFICATIONS_POLLING;
 
 const getNotifications = url => dispatch => {
   const isDocumentVisible =
@@ -23,9 +21,9 @@ const getNotifications = url => dispatch => {
 
   if (isDocumentVisible) {
     API.get(url)
-    .done(onGetNotificationsSuccess)
-    .fail(onGetNotificationsFailed)
-    .always(triggerPolling);
+      .done(onGetNotificationsSuccess)
+      .fail(onGetNotificationsFailed)
+      .always(triggerPolling);
   } else {
     // document is not visible, keep polling without api call
     triggerPolling();
@@ -35,8 +33,8 @@ const getNotifications = url => dispatch => {
     dispatch({
       type: NOTIFICATIONS_GET_NOTIFICATIONS,
       payload: {
-        notifications: response.notifications
-      }
+        notifications: response.notifications,
+      },
     });
   }
 
@@ -58,7 +56,7 @@ export const startNotificationsPolling = url => (dispatch, getState) => {
     return;
   }
   dispatch({
-    type: NOTIFICATIONS_POLLING_STARTED
+    type: NOTIFICATIONS_POLLING_STARTED,
   });
   dispatch(getNotifications(url));
 };
@@ -68,8 +66,8 @@ export const onMarkAsRead = (group, id) => dispatch => {
     type: NOTIFICATIONS_MARK_AS_READ,
     payload: {
       group,
-      id
-    }
+      id,
+    },
   });
   API.markNotificationAsRead(id);
 };
@@ -78,8 +76,8 @@ export const onMarkGroupAsRead = group => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_GROUP_AS_READ,
     payload: {
-      group
-    }
+      group,
+    },
   });
   API.markGroupNotificationAsRead(group);
 };
@@ -93,8 +91,8 @@ export const expandGroup = group => (dispatch, getState) => {
   dispatch({
     type: NOTIFICATIONS_SET_EXPANDED_GROUP,
     payload: {
-      group: getNewExpandedGroup()
-    }
+      group: getNewExpandedGroup(),
+    },
   });
 };
 
@@ -105,8 +103,8 @@ export const toggleDrawer = () => (dispatch, getState) => {
   dispatch({
     type: NOTIFICATIONS_TOGGLE_DRAWER,
     payload: {
-      value: !isDrawerOpened
-    }
+      value: !isDrawerOpened,
+    },
   });
 };
 

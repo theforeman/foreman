@@ -6,13 +6,13 @@ export const ajaxRequestAction = ({
   successAction,
   failedAction,
   url,
-  item
+  item,
 }) => {
   dispatch({ type: requestAction, payload: item });
   API.get(url).then(
-     result => dispatch({ type: successAction, payload: Object.assign(item, result) }),
-      (jqXHR, textStatus, error) => dispatch(
-        { type: failedAction, payload: { error, item } }
-      )
+    result =>
+      dispatch({ type: successAction, payload: Object.assign(item, result) }),
+    (jqXHR, textStatus, error) =>
+      dispatch({ type: failedAction, payload: { error, item } })
   );
 };

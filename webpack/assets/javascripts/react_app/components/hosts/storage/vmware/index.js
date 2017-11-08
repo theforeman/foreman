@@ -14,7 +14,7 @@ class StorageContainer extends React.Component {
   componentDidMount() {
     const {
       data: { config, controllers, volumes },
-      initController
+      initController,
     } = this.props;
 
     initController(config, controllers, volumes);
@@ -28,7 +28,7 @@ class StorageContainer extends React.Component {
       updateDisk,
       removeController,
       config,
-      volumes
+      volumes,
     } = this.props;
 
     return controllers.map((controller, idx) => {
@@ -61,15 +61,13 @@ class StorageContainer extends React.Component {
     const controllersToJsonString = (controllers, volumes) =>
       JSON.stringify({
         scsiControllers: controllers,
-        volumes: volumes.map(v => omit(v, 'key'))
+        volumes: volumes.map(v => omit(v, 'key')),
       });
 
     return (
       <div className="row vmware-storage-container">
         <div className="storage-header">
-          <div className="col-md-2 storage-title">
-            {__('Storage')}
-          </div>
+          <div className="col-md-2 storage-title">{__('Storage')}</div>
           <div className="col-md-10 storage-controller-buttons">
             <Button
               className="btn-add-controller"

@@ -15,7 +15,5 @@ describe('Notification dropdown', () => {
     const wrapper = mount(<NotificationDropdown {...propsWithLinks} />);
 
     expect(toJson(wrapper)).toMatchSnapshot();
-
   });
-
 });

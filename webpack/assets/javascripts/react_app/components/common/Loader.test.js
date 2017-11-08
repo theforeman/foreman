@@ -6,23 +6,29 @@ configure({ adapter: new Adapter() });
 jest.unmock('./Loader');
 
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import Loader from './Loader';
-import {STATUS} from '../../constants';
+import { STATUS } from '../../constants';
 
 function setup(status, spinnerSize) {
   const props = {
     status: status,
-    spinnerSize: spinnerSize
+    spinnerSize: spinnerSize,
   };
 
-  return shallow(<Loader {...props}>
-    {[
-      <div key="0" className="success">Success</div>,
-      <div key="1" className="failure">Failure</div>
-    ]}
-  </Loader>);
+  return shallow(
+    <Loader {...props}>
+      {[
+        <div key="0" className="success">
+          Success
+        </div>,
+        <div key="1" className="failure">
+          Failure
+        </div>,
+      ]}
+    </Loader>
+  );
 }
 
 describe('Loader', () => {

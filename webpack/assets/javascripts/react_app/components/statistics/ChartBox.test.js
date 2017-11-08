@@ -11,7 +11,7 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import ChartBox from './ChartBox';
 global.patternfly = {
-  pfSetDonutChartTitle: jest.fn()
+  pfSetDonutChartTitle: jest.fn(),
 };
 
 describe('ChartBox', () => {
@@ -19,7 +19,7 @@ describe('ChartBox', () => {
 
   beforeEach(() => {
     chart = {
-      id: '2'
+      id: '2',
     };
     noDataMsg = 'no data';
     errorText = 'some error';

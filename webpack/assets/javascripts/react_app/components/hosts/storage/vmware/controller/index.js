@@ -13,7 +13,7 @@ const Controller = ({
   controller,
   controllerVolumes,
   removeController,
-  config
+  config,
 }) => {
   const getEventValue = e => {
     if (!e.target) {
@@ -49,9 +49,7 @@ const Controller = ({
     <div className="controller-container">
       <div className="controller-header">
         <div className="control-label col-md-2 controller-selected-container">
-          <label>
-            {__('Create SCSI controller')}
-          </label>
+          <label>{__('Create SCSI controller')}</label>
         </div>
         <div className="controller-type-container col-md-4">
           <Select
@@ -78,9 +76,7 @@ const Controller = ({
           </Button>
         </div>
       </div>
-      <div className="disks-container">
-        {disks()}
-      </div>
+      <div className="disks-container">{disks()}</div>
     </div>
   );
 };

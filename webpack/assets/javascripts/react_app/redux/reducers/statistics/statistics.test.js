@@ -7,7 +7,7 @@ import {
   response,
   stateAfterSuccess,
   stateAfterFailure,
-  error
+  error,
 } from './statistics.fixtures';
 
 describe('statistics reducer', () => {
@@ -19,7 +19,7 @@ describe('statistics reducer', () => {
     expect(
       reducer(initialState, {
         type: types.STATISTICS_DATA_REQUEST,
-        payload: request
+        payload: request,
       })
     ).toEqual(stateBeforeResponse);
   });
@@ -28,7 +28,7 @@ describe('statistics reducer', () => {
     expect(
       reducer(stateBeforeResponse, {
         type: types.STATISTICS_DATA_SUCCESS,
-        payload: response
+        payload: response,
       })
     ).toEqual(stateAfterSuccess);
   });
@@ -37,7 +37,7 @@ describe('statistics reducer', () => {
     expect(
       reducer(stateBeforeResponse, {
         type: types.STATISTICS_DATA_FAILURE,
-        payload: { error, id: request.id}
+        payload: { error, id: request.id },
       })
     ).toEqual(stateAfterFailure);
   });

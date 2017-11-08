@@ -1,41 +1,34 @@
 import React from 'react';
 import Notification from './notification';
 
-export default (
-  {
-    group,
-    notifications,
-    isExpanded,
-    onExpand,
-    onMarkAsRead,
-    onMarkGroupAsRead,
-    onClickedLink
-  }
-) => {
+export default ({
+  group,
+  notifications,
+  isExpanded,
+  onExpand,
+  onMarkAsRead,
+  onMarkGroupAsRead,
+  onClickedLink,
+}) => {
   const className = `panel panel-default ${isExpanded ? 'expanded' : ''}`;
-  const unreadCount = notifications.filter(
-    notification => !notification.seen
-  ).length;
+  const unreadCount = notifications.filter(notification => !notification.seen)
+    .length;
 
   return (
     <div className={className}>
       <div className="panel-heading" onClick={() => onExpand(group)}>
         <h4 className="panel-title">
-          <a className={isExpanded ? '' : 'collapsed'}>
-            {group}
-          </a>
+          <a className={isExpanded ? '' : 'collapsed'}>{group}</a>
         </h4>
         <span className="panel-counter">
-          {
-            `${unreadCount} ${unreadCount !== 1 ?
-              __('New Events') :
-              __('New Event')}`
-          }
+          {`${unreadCount} ${
+            unreadCount !== 1 ? __('New Events') : __('New Event')
+          }`}
         </span>
       </div>
-      {isExpanded &&
+      {isExpanded && (
         <div className="panel-body">
-          { notifications.map(notification => (
+          {notifications.map(notification => (
             <Notification
               onClickedLink={onClickedLink}
               key={notification.id}
@@ -47,11 +40,13 @@ export default (
             <a
               className="btn btn-link btn-block"
               onClick={onMarkGroupAsRead.bind(this, group)}
-              disabled={unreadCount === 0}>
+              disabled={unreadCount === 0}
+            >
               {__('Mark All Read')}
             </a>
           </div>
-        </div>}
+        </div>
+      )}
     </div>
   );
 };

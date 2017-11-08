@@ -6,7 +6,7 @@ configure({ adapter: new Adapter() });
 jest.unmock('./Panel');
 
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import Panel from './Panel';
 import PanelHeading from './PanelHeading';
@@ -17,20 +17,19 @@ import PanelFooter from './PanelFooter';
 function mountPanel(type) {
   return mount(
     <Panel type={type || ''}>
-    <PanelHeading>
-      <PanelTitle text="Title"></PanelTitle>
-    </PanelHeading>
-    <PanelBody>
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-      </ul>
-    </PanelBody>
-    <PanelFooter>
-      This is the footer
-    </PanelFooter>
-  </Panel>);
+      <PanelHeading>
+        <PanelTitle text="Title" />
+      </PanelHeading>
+      <PanelBody>
+        <ul>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </ul>
+      </PanelBody>
+      <PanelFooter>This is the footer</PanelFooter>
+    </Panel>
+  );
 }
 
 describe('Panel', () => {
@@ -38,8 +37,9 @@ describe('Panel', () => {
     function getPanel(type) {
       return shallow(
         <Panel type={type || ''}>
-          <PanelBody></PanelBody>
-        </Panel>);
+          <PanelBody />
+        </Panel>
+      );
     }
 
     it('Panel composition', () => {
@@ -63,8 +63,9 @@ describe('Panel', () => {
     function getHeading() {
       return shallow(
         <PanelHeading>
-          <PanelTitle text="Title"></PanelTitle>
-        </PanelHeading>);
+          <PanelTitle text="Title" />
+        </PanelHeading>
+      );
     }
 
     it('has children', () => {
@@ -81,9 +82,7 @@ describe('Panel', () => {
 
   describe('PanelTitle', () => {
     function getTitle() {
-      return shallow(
-        <PanelTitle text="Title"></PanelTitle>
-      );
+      return shallow(<PanelTitle text="Title" />);
     }
 
     it('renders correct text', () => {
@@ -127,11 +126,7 @@ describe('Panel', () => {
 
   describe('PanelFooter', () => {
     function getFooter() {
-      return shallow(
-        <PanelFooter>
-          This is the footer
-        </PanelFooter>
-      );
+      return shallow(<PanelFooter>This is the footer</PanelFooter>);
     }
 
     it('renders correct text, style, and children', () => {

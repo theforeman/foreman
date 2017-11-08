@@ -7,7 +7,7 @@ import {
   response,
   stateAfterSuccess,
   stateAfterFailure,
-  error
+  error,
 } from './powerStatus.fixtures';
 
 describe('powerStatus reducer', () => {
@@ -19,7 +19,7 @@ describe('powerStatus reducer', () => {
     expect(
       reducer(initialState, {
         type: types.HOST_POWER_STATUS_REQUEST,
-        payload: request
+        payload: request,
       })
     ).toEqual(stateBeforeResponse);
   });
@@ -28,7 +28,7 @@ describe('powerStatus reducer', () => {
     expect(
       reducer(stateBeforeResponse, {
         type: types.HOST_POWER_STATUS_SUCCESS,
-        payload: response
+        payload: response,
       })
     ).toEqual(stateAfterSuccess);
   });
@@ -37,7 +37,7 @@ describe('powerStatus reducer', () => {
     expect(
       reducer(stateBeforeResponse, {
         type: types.HOST_POWER_STATUS_FAILURE,
-        payload: { error, id: request.id }
+        payload: { error, id: request.id },
       })
     ).toEqual(stateAfterFailure);
   });

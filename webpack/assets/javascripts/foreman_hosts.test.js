@@ -2,7 +2,7 @@ jest.unmock('./foreman_hosts');
 import {
   getAttributesToPost,
   registerPluginAttributes,
-  checkPXELoaderCompatibility
+  checkPXELoaderCompatibility,
 } from './foreman_hosts';
 
 describe('getAttributesToPost', () => {
@@ -13,7 +13,11 @@ describe('getAttributesToPost', () => {
   it('attribute hash holds the default attributes', () => {
     const ret = getAttributesToPost('os');
 
-    expect(ret).toEqual(['operatingsystem_id', 'organization_id', 'location_id']);
+    expect(ret).toEqual([
+      'operatingsystem_id',
+      'organization_id',
+      'location_id',
+    ]);
   });
 
   it('adds the plugin_edit_attributes', () => {
@@ -22,7 +26,7 @@ describe('getAttributesToPost', () => {
       'operatingsystem_id',
       'organization_id',
       'location_id',
-      'foo'
+      'foo',
     ]);
   });
 });
@@ -78,8 +82,14 @@ describe('checkPXELoaderCompatibility', () => {
         'Red Hat Enterprise Linux Server release 6.0 (Santiago)',
         'PXELinux UEFI'
       );
-      assertCompatibility('Red Hat Enterprise Linux Server release 6.0 (Santiago)', 'Grub UEFI');
-      refuteCompatibility('Red Hat Enterprise Linux Server release 6.0 (Santiago)', 'Grub2 UEFI');
+      assertCompatibility(
+        'Red Hat Enterprise Linux Server release 6.0 (Santiago)',
+        'Grub UEFI'
+      );
+      refuteCompatibility(
+        'Red Hat Enterprise Linux Server release 6.0 (Santiago)',
+        'Grub2 UEFI'
+      );
       refuteCompatibility(
         'Red Hat Enterprise Linux Server release 6.0 (Santiago)',
         'Grub2 UEFI SecureBoot'

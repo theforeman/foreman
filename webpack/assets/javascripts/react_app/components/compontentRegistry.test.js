@@ -5,7 +5,6 @@ import componentRegistry from './componentRegistry';
 class FakeComponent extends React.Component {}
 
 describe('Component registry', () => {
-
   it('should register a component', () => {
     const name = 'TestComponent';
 
@@ -27,23 +26,25 @@ describe('Component registry', () => {
   });
 
   it('should not register a component without a name', () => {
-    expect(() =>
-      componentRegistry.register({ type: FakeComponent })
-    ).toThrow('Component name or type is missing');
+    expect(() => componentRegistry.register({ type: FakeComponent })).toThrow(
+      'Component name or type is missing'
+    );
   });
 
   it('should not register a component without a type', () => {
-    expect(() =>
-      componentRegistry.register({ name: 'SadComponent' })
-    ).toThrow('Component name or type is missing');
+    expect(() => componentRegistry.register({ name: 'SadComponent' })).toThrow(
+      'Component name or type is missing'
+    );
   });
 
   it('should register multiple components', () => {
     const first = 'FirstComponent',
-          second = 'SecondComponent';
+      second = 'SecondComponent';
 
-    componentRegistry.registerMultiple([{ name: first, type: FakeComponent },
-                                        { name: second, type: FakeComponent }]);
+    componentRegistry.registerMultiple([
+      { name: first, type: FakeComponent },
+      { name: second, type: FakeComponent },
+    ]);
     expect(componentRegistry.getComponent(first)).toBeTruthy();
     expect(componentRegistry.getComponent(second)).toBeTruthy();
   });
@@ -54,6 +55,8 @@ describe('Component registry', () => {
     componentRegistry.register({ name, type: FakeComponent, store: false });
     const markup = componentRegistry.markup(name, { fakeData: true }, {});
 
-    expect(markup).toEqual(<FakeComponent data={{'fakeData': true}} store={undefined} />);
+    expect(markup).toEqual(
+      <FakeComponent data={{ fakeData: true }} store={undefined} />
+    );
   });
 });

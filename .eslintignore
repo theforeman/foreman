@@ -1,4 +1,4 @@
-# node_modules is ignored by default
-app/**
-vendor/**
-config/webpack.config.js
+# explicitly exclude all files except webpack/ and script/
+**/*.js
+!webpack/**/*.js
+!script/**/*.js

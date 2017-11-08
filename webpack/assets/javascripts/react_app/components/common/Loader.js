@@ -1,16 +1,16 @@
 import React from 'react';
-import {STATUS} from '../../constants';
+import { STATUS } from '../../constants';
 import MessageBox from './MessageBox';
 import './LoaderStyles.css';
 
-const _simpleLoader = (spinnerSize) => (
+const _simpleLoader = spinnerSize => (
   <div className="loader-root">
-    <div className={'spinner spinner-' + spinnerSize}></div>
+    <div className={'spinner spinner-' + spinnerSize} />
   </div>
 );
 
 const Loader = ({ status, children, spinnerSize = 'lg' }) => {
-let content;
+  let content;
 
   switch (status) {
     case STATUS.PENDING: {
@@ -25,15 +25,11 @@ let content;
       break;
     }
     default:
-      content = (<MessageBox icontype="error-circle-o" msg="Invalid Status" />);
+      content = <MessageBox icontype="error-circle-o" msg="Invalid Status" />;
       break;
   }
 
-  return (
-    <div className="loader-root">
-      {content}
-    </div>
-  );
+  return <div className="loader-root">{content}</div>;
 };
 
 export default Loader;

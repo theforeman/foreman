@@ -14,7 +14,7 @@ import configureMockStore from 'redux-mock-store';
 import {
   initialState,
   singleMessageState,
-  singleMessageWithLinkState
+  singleMessageWithLinkState,
 } from './ToastList.fixtures';
 const mockStore = configureMockStore([thunk]);
 
@@ -37,6 +37,11 @@ describe('ToastList', () => {
     const store = mockStore(singleMessageWithLinkState);
     const box = mount(<ToastList store={store} />);
 
-    expect(box.render().find('a').attr('href')).toBe('google.com');
+    expect(
+      box
+        .render()
+        .find('a')
+        .attr('href')
+    ).toBe('google.com');
   });
 });

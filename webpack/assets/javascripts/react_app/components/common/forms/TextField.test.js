@@ -15,12 +15,16 @@ describe('TextField', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should render a text area', () => {
-    const wrapper = shallow(<TextField name="name" type="textarea" label="Name" />);
+    const wrapper = shallow(
+      <TextField name="name" type="textarea" label="Name" />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should render a checkbox', () => {
-    const wrapper = shallow(<TextField name="name" type="checkbox" label="Name" />);
+    const wrapper = shallow(
+      <TextField name="name" type="checkbox" label="Name" />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });

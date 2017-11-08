@@ -6,20 +6,20 @@ export default {
       setItem: (key, value) => {
         storage[key] = value || '';
       },
-      getItem: (key) => {
+      getItem: key => {
         return key in storage ? storage[key] : null;
       },
-      removeItem: (key) => {
+      removeItem: key => {
         delete storage[key];
       },
       get length() {
         return Object.keys(storage).length;
       },
-      key: (i) => {
+      key: i => {
         let keys = Object.keys(storage);
 
         return keys[i] || null;
-      }
+      },
     };
-  }
+  },
 };

@@ -7,5 +7,5 @@ export default combineReducers({
   statistics,
   hosts,
   notifications,
-  toasts
+  toasts,
 });

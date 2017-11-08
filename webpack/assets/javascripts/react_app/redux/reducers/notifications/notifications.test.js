@@ -4,7 +4,7 @@ import {
   initialState,
   stateWithNotifications,
   request,
-  response
+  response,
 } from './notifications.fixtures';
 
 describe('notification reducer', () => {
@@ -16,7 +16,7 @@ describe('notification reducer', () => {
     expect(
       reducer(stateWithNotifications, {
         type: types.NOTIFICATIONS_MARK_GROUP_AS_READ,
-        payload: request
+        payload: request,
       })
     ).toEqual(response);
   });

@@ -3,14 +3,14 @@ export const requestData = [
     id: 'operatingsystem',
     title: 'OS Distribution',
     url: 'statistics/operatingsystem',
-    search: '/hosts?search=os_title=~VAL~'
+    search: '/hosts?search=os_title=~VAL~',
   },
   {
     id: 'architecture',
     title: 'Architecture Distribution',
     url: 'statistics/architecture',
-    search: '/hosts?search=facts.architecture=~VAL~'
-  }
+    search: '/hosts?search=facts.architecture=~VAL~',
+  },
 ];
 
 export const onFailureActions = [
@@ -19,9 +19,9 @@ export const onFailureActions = [
       id: 'operatingsystem',
       search: '/hosts?search=os_title=~VAL~',
       title: 'OS Distribution',
-      url: 'statistics/operatingsystem'
+      url: 'statistics/operatingsystem',
     },
-    type: 'STATISTICS_DATA_REQUEST'
+    type: 'STATISTICS_DATA_REQUEST',
   },
   {
     payload: {
@@ -30,19 +30,19 @@ export const onFailureActions = [
         id: 'operatingsystem',
         search: '/hosts?search=os_title=~VAL~',
         title: 'OS Distribution',
-        url: 'statistics/operatingsystem'
-      }
+        url: 'statistics/operatingsystem',
+      },
     },
-    type: 'STATISTICS_DATA_FAILURE'
+    type: 'STATISTICS_DATA_FAILURE',
   },
   {
     payload: {
       id: 'architecture',
       search: '/hosts?search=facts.architecture=~VAL~',
       title: 'Architecture Distribution',
-      url: 'statistics/architecture'
+      url: 'statistics/architecture',
     },
-    type: 'STATISTICS_DATA_REQUEST'
+    type: 'STATISTICS_DATA_REQUEST',
   },
   {
     payload: {
@@ -51,9 +51,9 @@ export const onFailureActions = [
         id: 'architecture',
         search: '/hosts?search=facts.architecture=~VAL~',
         title: 'Architecture Distribution',
-        url: 'statistics/architecture'
-      }
+        url: 'statistics/architecture',
+      },
     },
-    type: 'STATISTICS_DATA_FAILURE'
-  }
+    type: 'STATISTICS_DATA_FAILURE',
+  },
 ];

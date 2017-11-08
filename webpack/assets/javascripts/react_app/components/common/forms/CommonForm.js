@@ -6,21 +6,24 @@ const CommonForm = ({
   touched = false,
   error = undefined,
   required = false,
-  children
+  children,
 }) => {
+  if (touched && error) {
+    className += 'has-error';
+  }
+
   return (
-    <div className={`form-group ${className} ${touched && error ? 'has-error' : ''}`}>
+    <div className={`form-group ${className}`}>
       <label className="col-md-2 control-label">
         {label}
         {required && ' *'}
       </label>
       <div className="col-md-4">{children}</div>
-      {touched &&
-      error && (
+      {touched && error ? (
         <span className="help-block help-inline">
           <span className="error-message">{error}</span>
         </span>
-      )}
+      ) : null}
     </div>
   );
 };

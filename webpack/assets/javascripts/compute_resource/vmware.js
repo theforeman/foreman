@@ -19,9 +19,12 @@ export function getResourcePools(item) {
     },
     success(request) {
       request.forEach(({ name }) => {
-        $('<option>').text(name).val(name).appendTo(selectbox);
+        $('<option>')
+          .text(name)
+          .val(name)
+          .appendTo(selectbox);
       });
       $(selectbox).select2();
-    }
+    },
   });
 }
