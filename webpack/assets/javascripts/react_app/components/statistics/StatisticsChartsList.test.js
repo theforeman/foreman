@@ -40,7 +40,7 @@ describe('StatisticsChartsList', () => {
     );
 
     expect(
-      wrapper.render().find('.statistics-charts-list-panel').length
+      wrapper.render().find('.chart-box').length
     ).toEqual(2);
   });
 });

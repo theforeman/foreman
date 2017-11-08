@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ChartBox from './ChartBox';
-import './StatisticsChartsListStyles.css';
+import './StatisticsChartsListStyles.scss';
 import { connect } from 'react-redux';
 import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
