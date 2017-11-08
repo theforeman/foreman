@@ -12,6 +12,8 @@ class FactValue < ApplicationRecord
   scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
   scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts
   scoped_search :on => :updated_at, :rename => :reported_at, :only_explicit => true, :complete_value => true
+  scoped_search :on => :host_id, :only_explicit => true, :complete_value => false
+
   scoped_search :relation => :fact_name, :on => :name, :complete_value => true, :aliases => ["fact"]
   scoped_search :relation => :host,      :on => :name, :complete_value => true, :rename => :host, :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
   scoped_search :relation => :hostgroup, :on => :name, :complete_value => true, :rename => :"host.hostgroup", :ext_method => :search_by_host_or_hostgroup, :only_explicit => true
