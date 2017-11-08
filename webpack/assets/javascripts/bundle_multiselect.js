@@ -1,2 +1,3 @@
-require('multiselect');
-require('multiselect/css/multi-select.css');
+import 'multiselect/css/multi-select.css';
+import 'multiselect';
+

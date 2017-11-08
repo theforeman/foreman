@@ -1,9 +1,10 @@
-jest.unmock('./foreman_hosts');
 import {
   getAttributesToPost,
   registerPluginAttributes,
-  checkPXELoaderCompatibility
+  checkPXELoaderCompatibility,
 } from './foreman_hosts';
+
+jest.unmock('./foreman_hosts');
 
 describe('getAttributesToPost', () => {
   beforeEach(() => {
@@ -22,7 +23,7 @@ describe('getAttributesToPost', () => {
       'operatingsystem_id',
       'organization_id',
       'location_id',
-      'foo'
+      'foo',
     ]);
   });
 });
@@ -72,17 +73,17 @@ describe('checkPXELoaderCompatibility', () => {
 
       assertCompatibility(
         'Red Hat Enterprise Linux Server release 6.0 (Santiago)',
-        'PXELinux BIOS'
+        'PXELinux BIOS',
       );
       refuteCompatibility(
         'Red Hat Enterprise Linux Server release 6.0 (Santiago)',
-        'PXELinux UEFI'
+        'PXELinux UEFI',
       );
       assertCompatibility('Red Hat Enterprise Linux Server release 6.0 (Santiago)', 'Grub UEFI');
       refuteCompatibility('Red Hat Enterprise Linux Server release 6.0 (Santiago)', 'Grub2 UEFI');
       refuteCompatibility(
         'Red Hat Enterprise Linux Server release 6.0 (Santiago)',
-        'Grub2 UEFI SecureBoot'
+        'Grub2 UEFI SecureBoot',
       );
     });
 

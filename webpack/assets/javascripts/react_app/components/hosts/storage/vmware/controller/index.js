@@ -1,8 +1,11 @@
-import React from 'react';
 import { Button } from 'react-bootstrap';
+import React from 'react';
+
+import Select from '../../../../common/forms/Select';
+
 import Disk from './disk';
 import './controller.scss';
-import Select from '../../../../common/forms/Select';
+
 const Controller = ({
   addDiskEnabled,
   addDisk,
@@ -13,9 +16,9 @@ const Controller = ({
   controller,
   controllerVolumes,
   removeController,
-  config
+  config,
 }) => {
-  const getEventValue = e => {
+  const getEventValue = (e) => {
     if (!e.target) {
       return e;
     }
@@ -30,20 +33,16 @@ const Controller = ({
     updateDisk(uuid, { [attribute]: getEventValue(e) });
   };
 
-  const disks = () => {
-    return controllerVolumes.map(disk => {
-      return (
-        <Disk
-          key={disk.key}
-          id={disk.key}
-          updateDisk={_updateDisk.bind(this, disk.key)}
-          removeDisk={removeDisk.bind(this, disk.key)}
-          config={config}
-          {...disk}
-        />
-      );
-    });
-  };
+  const disks = () => controllerVolumes.map(disk => (
+    <Disk
+      key={disk.key}
+      id={disk.key}
+      updateDisk={_updateDisk.bind(this, disk.key)}
+      removeDisk={removeDisk.bind(this, disk.key)}
+      config={config}
+      {...disk}
+    />
+  ));
 
   return (
     <div className="controller-container">

@@ -1,11 +1,13 @@
-import reducer from './index';
 import * as types from '../../consts';
+
 import {
   initialState,
   stateWithNotifications,
   request,
-  response
+  response,
 } from './notifications.fixtures';
+
+import reducer from './index';
 
 describe('notification reducer', () => {
   it('should return the initial state', () => {
@@ -13,11 +15,9 @@ describe('notification reducer', () => {
   });
 
   it('should handle NOTIFICATIONS_MARK_GROUP_AS_READ', () => {
-    expect(
-      reducer(stateWithNotifications, {
-        type: types.NOTIFICATIONS_MARK_GROUP_AS_READ,
-        payload: request
-      })
-    ).toEqual(response);
+    expect(reducer(stateWithNotifications, {
+      type: types.NOTIFICATIONS_MARK_GROUP_AS_READ,
+      payload: request,
+    })).toEqual(response);
   });
 });

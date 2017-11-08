@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
+
 import helpers from '../../common/helpers';
 import PieChart from '../common/charts/PieChart/';
-import {
-  getLargePieChartConfig,
-  navigateToSearch
-} from '../../../services/ChartService';
+import { getLargePieChartConfig, navigateToSearch } from '../../../services/ChartService';
 import ChartModal from './ChartModal';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
@@ -35,22 +33,21 @@ class ChartBox extends React.Component {
 
     const modalConfig = getLargePieChartConfig({
       data: this.props.chart.data,
-      id: chart.id + 'Modal'
+      id: `${chart.id}Modal`,
     });
 
     const tooltip = {
       onClick: this.onClick,
       title: this.props.tip,
       'data-toggle': 'tooltip',
-      'data-placement': 'top'
+      'data-placement': 'top',
     };
-    const onclickChartClicked = chart.search && chart.search.match(/=$/) ?
-      null :
-      navigateToSearch.bind(null, chart.search);
+    const onclickChartClicked =
+      chart.search && chart.search.match(/=$/) ? null : navigateToSearch.bind(null, chart.search);
 
     const _chart = (
       <PieChart
-        key={this.props.chart.id + '-chart'}
+        key={`${this.props.chart.id}-chart`}
         data={this.props.chart.data}
         onclick={onclickChartClicked}
       />
@@ -59,24 +56,16 @@ class ChartBox extends React.Component {
     const error = (
       <MessageBox
         msg={this.props.errorText}
-        key={this.props.chart.id + '-error'}
+        key={`${this.props.chart.id}-error`}
         icontype="error-circle-o"
       />
     );
 
-    const boxHeader = (
-      <h3 {...tooltip}>{this.props.title}</h3>
-    );
+    const boxHeader = <h3 {...tooltip}>{this.props.title}</h3>;
 
     return (
-      <Panel
-        className="chart-box"
-        header={boxHeader}
-        key={this.props.chart.id}
-      >
-        <Loader status={this.props.status}>
-          {[_chart, error]}
-        </Loader>
+      <Panel className="chart-box" header={boxHeader} key={this.props.chart.id}>
+        <Loader status={this.props.status}>{[_chart, error]}</Loader>
 
         <ChartModal
           {...this.props}
@@ -97,7 +86,7 @@ ChartBox.propTypes = {
   modalConfig: PropTypes.object,
   id: PropTypes.string.isRequired,
   noDataMsg: PropTypes.string,
-  errorText: PropTypes.string
+  errorText: PropTypes.string,
 };
 
 export default ChartBox;

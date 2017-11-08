@@ -1,4 +1,11 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-webpack-loader-syntax */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+/* eslint-disable import/first */
 import 'babel-polyfill';
+
 require('expose-loader?$!expose-loader?jQuery!jquery');
 require('jquery-ujs');
 require('expose-loader?_!lodash');
@@ -10,6 +17,7 @@ require('./bundle_flot');
 require('./bundle_multiselect');
 require('./bundle_select2');
 require('./bundle_datatables');
+
 import compute from './foreman_compute_resource';
 
 window.tfm = Object.assign(window.tfm || {}, {
@@ -25,5 +33,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   numFields: require('./jquery.ui.custom_spinners'),
   reactMounter: require('./react_app/common/MountingService'),
   editor: require('./foreman_editor'),
-  nav: require('./foreman_navigation')
+  nav: require('./foreman_navigation'),
 });

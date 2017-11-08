@@ -1,11 +1,17 @@
+import $ from 'jquery';
+
+import { checkForUnavailablePuppetclasses } from './foreman_hostgroups';
+
 jest.unmock('./foreman_hostgroups');
-const hostgroups = require('./foreman_hostgroups');
-const $ = require('jquery');
 
 describe('checkForUnavailablePuppetclasses', () => {
   beforeEach(() => {
-    window.Jed = { sprintf: function (input) { return input; } };
-    window.__ = function (input) { return input; };
+    window.Jed = {
+      sprintf(input) {
+        return input;
+      },
+    };
+    window.__ = input => input;
 
     document.body.innerHTML = `<div>
         <ul class="nav-tabs">
@@ -32,7 +38,7 @@ describe('checkForUnavailablePuppetclasses', () => {
   it('adds a warning if an unavailable class is found', () => {
     $('#selected_classes').append('<li class="unavailable">Unavailable Class</li>');
 
-    hostgroups.checkForUnavailablePuppetclasses();
+    checkForUnavailablePuppetclasses();
     expect($('#puppetclasses_unavailable_warning').size()).toBe(1);
   });
 
@@ -40,13 +46,16 @@ describe('checkForUnavailablePuppetclasses', () => {
     $('#hostgroup .help-block').empty();
     $('#selected_classes').empty();
 
-    hostgroups.checkForUnavailablePuppetclasses();
-    expect($('#hostgroup .help-block').first().children().size()).toBe(0);
+    checkForUnavailablePuppetclasses();
+    expect($('#hostgroup .help-block')
+      .first()
+      .children()
+      .size()).toBe(0);
   });
 
   it('adds a warning sign to the tab if unavailable classes are found', () => {
     $('#selected_classes').append('<li class="unavailable">Unavailable Class</li>');
-    hostgroups.checkForUnavailablePuppetclasses();
+    checkForUnavailablePuppetclasses();
     setTimeout(() => {
       expect($('a .pficon').size()).toBe(1);
     }, 100);

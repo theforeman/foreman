@@ -1,25 +1,25 @@
-import React from 'react';
-import Icon from '../../common/Icon';
-import NotificationDropdown from './NotificationDropdown';
-import '../../../common/commonStyles.css';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import React from 'react';
+
+import Icon from '../../common/Icon';
+import '../../../common/commonStyles.css';
+
+import NotificationDropdown from './NotificationDropdown';
 
 /* eslint-disable camelcase */
 
-const Notification = (
-  {
-    notification: {
-      created_at,
-      seen,
-      text,
-      level,
-      id,
-      actions
-    },
-    onMarkAsRead,
-    onClickedLink
-  }
-) => {
+const Notification = ({
+  notification: {
+    created_at,
+    seen,
+    text,
+    level,
+    id,
+    actions,
+  },
+  onMarkAsRead,
+  onClickedLink,
+}) => {
   const created = new Date(created_at);
   const title = __('Click to mark as read');
   const tooltip = (
@@ -27,12 +27,14 @@ const Notification = (
   );
   const messageText = seen ?
     <span className="drawer-pf-notification-message">{text}</span> :
-    <span className="drawer-pf-notification-message not-seen"
-        onClick={onMarkAsRead.bind(this, id)}>
-        <OverlayTrigger placement="top" overlay={tooltip}>
-        < span>{ text }</span>
-        </OverlayTrigger>
-    </span>;
+    (<span
+      className="drawer-pf-notification-message not-seen"
+      onClick={onMarkAsRead.bind(this, id)}
+    >
+      <OverlayTrigger placement="top" overlay={tooltip}>
+        <span>{ text }</span>
+      </OverlayTrigger>
+     </span>);
 
   return (
     <div className="drawer-pf-notification">
@@ -46,9 +48,11 @@ const Notification = (
       </div>
       {
         actions.links &&
-        <NotificationDropdown links={actions.links}
-                              id={id}
-                              onClickedLink={onClickedLink}/>
+        <NotificationDropdown
+          links={actions.links}
+          id={id}
+          onClickedLink={onClickedLink}
+        />
       }
     </div>
   );

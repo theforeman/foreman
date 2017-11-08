@@ -1,6 +1,7 @@
+import $ from 'jquery';
+
 jest.unmock('./foreman_trends');
 window.trends = require('./foreman_trends');
-const $ = require('jquery');
 
 describe('selecting trend type', () => {
   it('should disable fields on non-fact trend', () => {
@@ -34,5 +35,4 @@ describe('selecting trend type', () => {
     expect($('#trend_trendable_id').is(':disabled')).toBeFalsy();
     expect($('#trend_name').is(':disabled')).toBeFalsy();
   });
-
 });

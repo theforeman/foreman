@@ -1,8 +1,11 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as actions from './index';
 import immutable from 'seamless-immutable';
+
 import { requestData, onFailureActions } from './statistics.fixtures';
+
+import * as actions from './index';
+
 const mockStore = configureMockStore([thunk]);
 
 describe('statistics actions', () => {
@@ -13,6 +16,6 @@ describe('statistics actions', () => {
 
       store.dispatch(actions.getStatisticsData(requestData));
       expect(store.getActions()).toEqual(onFailureActions);
-    }
+    },
   );
 });

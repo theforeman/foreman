@@ -1,21 +1,22 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import Controller from './controller/';
 import { connect } from 'react-redux';
+import { omit } from 'lodash';
+
+import Controller from './controller/';
 import * as VmWareActions from '../../../../redux/actions/hosts/storage/vmware';
 import { MaxDisksPerController } from './StorageContainer.consts';
 import './StorageContainer.scss';
-import { omit } from 'lodash';
+
+const controllersToJsonString = (controllers, volumes) =>
+  JSON.stringify({
+    scsiControllers: controllers,
+    volumes: volumes.map(v => omit(v, 'key')),
+  });
 
 class StorageContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
-    const {
-      data: { config, controllers, volumes },
-      initController
-    } = this.props;
+    const { data: { config, controllers, volumes }, initController } = this.props;
 
     initController(config, controllers, volumes);
   }
@@ -28,13 +29,11 @@ class StorageContainer extends React.Component {
       updateDisk,
       removeController,
       config,
-      volumes
+      volumes,
     } = this.props;
 
     return controllers.map((controller, idx) => {
-      const controllerVolumes = volumes.filter(
-        v => v.controllerKey === controller.key
-      );
+      const controllerVolumes = volumes.filter(v => v.controllerKey === controller.key);
 
       return (
         <Controller
@@ -54,22 +53,16 @@ class StorageContainer extends React.Component {
   }
 
   render() {
-    const { addController, controllers, volumes, config } = this.props;
+    const {
+      addController, controllers, volumes, config,
+    } = this.props;
     const paramsScope = config && config.paramsScope;
-    const enableAddControllerBtn =
-      config && config.addControllerEnabled && !config.vmExists;
-    const controllersToJsonString = (controllers, volumes) =>
-      JSON.stringify({
-        scsiControllers: controllers,
-        volumes: volumes.map(v => omit(v, 'key'))
-      });
+    const enableAddControllerBtn = config && config.addControllerEnabled && !config.vmExists;
 
     return (
       <div className="row vmware-storage-container">
         <div className="storage-header">
-          <div className="col-md-2 storage-title">
-            {__('Storage')}
-          </div>
+          <div className="col-md-2 storage-title">{__('Storage')}</div>
           <div className="col-md-10 storage-controller-buttons">
             <Button
               className="btn-add-controller"
@@ -95,7 +88,7 @@ class StorageContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = state => {
+const mapDispatchToProps = (state) => {
   const { controllers, config, volumes = [] } = state.hosts.storage.vmware;
 
   return { controllers, volumes, config };

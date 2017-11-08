@@ -1,7 +1,8 @@
-import React from 'react';
-import CommonForm from './CommonForm';
 import $ from 'jquery';
 import { map } from 'lodash';
+import React from 'react';
+
+import CommonForm from './CommonForm';
 
 class Select extends React.Component {
   componentDidMount() {
@@ -12,15 +13,15 @@ class Select extends React.Component {
 
   render() {
     const renderOptions = arr =>
-      map(arr, (attribute, value) => {
-        return (
-          <option key={attribute} value={value}>
-            {value}
-          </option>
-        );
-      });
+      map(arr, (attribute, value) => (
+        <option key={attribute} value={value}>
+          {value}
+        </option>
+      ));
 
-    const { label, className = '', value, onChange, options, disabled } = this.props;
+    const {
+      label, className = '', value, onChange, options, disabled,
+    } = this.props;
 
     const innerSelect = (
       <select

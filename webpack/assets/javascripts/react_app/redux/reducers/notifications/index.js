@@ -1,23 +1,24 @@
+import { some } from 'lodash';
+import Immutable from 'seamless-immutable';
+
 import {
   NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
-  NOTIFICATIONS_POLLING_STARTED
+  NOTIFICATIONS_POLLING_STARTED,
 } from '../../consts';
-import Immutable from 'seamless-immutable';
 import { notificationsDrawer } from '../../../common/sessionStorage';
-import { some } from 'lodash';
 
 const initialState = Immutable({
   isDrawerOpen: notificationsDrawer.getIsOpened(),
   expandedGroup: notificationsDrawer.getExpandedGroup(),
   isPolling: false,
-  hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false
+  hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false,
 });
 
-const hasUnreadMessages = notifications => {
+const hasUnreadMessages = (notifications) => {
   const result = some(notifications, n => !n.seen);
 
   // store indicator in sessionStorage.
@@ -43,18 +44,16 @@ export default (state = initialState, action) => {
     case NOTIFICATIONS_SET_EXPANDED_GROUP:
       return state.set('expandedGroup', payload.group);
     case NOTIFICATIONS_MARK_AS_READ: {
-      const notifications = state.notifications.map(
-        n => (n.id === payload.id ? Object.assign({}, n, { seen: true }) : n)
-      );
+      const notifications = state.notifications.map(n => (
+        n.id === payload.id ? Object.assign({}, n, { seen: true }) : n));
 
       return state
         .set('notifications', notifications)
         .set('hasUnreadMessages', hasUnreadMessages(notifications));
     }
     case NOTIFICATIONS_MARK_GROUP_AS_READ: {
-      const notifications = state.notifications.map(
-        n => (n.group === payload.group ? Object.assign({}, n, { seen: true }) : n)
-      );
+      const notifications = state.notifications.map(n => (
+        n.group === payload.group ? Object.assign({}, n, { seen: true }) : n));
 
       return state
         .set('notifications', notifications)

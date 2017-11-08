@@ -1,26 +1,27 @@
 // Configure Enzyme
-import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import toJson from 'enzyme-to-json';
+import { configure, shallow, mount } from 'enzyme';
+import React from 'react';
+
+import { STATUS } from '../../constants';
+
+import Loader from './Loader';
+
 configure({ adapter: new Adapter() });
 
 jest.unmock('./Loader');
 
-import React from 'react';
-import {shallow, mount} from 'enzyme';
-import toJson from 'enzyme-to-json';
-import Loader from './Loader';
-import {STATUS} from '../../constants';
-
 function setup(status, spinnerSize) {
   const props = {
-    status: status,
-    spinnerSize: spinnerSize
+    status,
+    spinnerSize,
   };
 
   return shallow(<Loader {...props}>
     {[
       <div key="0" className="success">Success</div>,
-      <div key="1" className="failure">Failure</div>
+      <div key="1" className="failure">Failure</div>,
     ]}
   </Loader>);
 }

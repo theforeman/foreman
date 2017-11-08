@@ -1,12 +1,12 @@
 // Configure Enzyme
-import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-configure({ adapter: new Adapter() });
 import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
-
+import { configure, shallow } from 'enzyme';
 import React from 'react';
+
 import CommonForm from './CommonForm';
+
+configure({ adapter: new Adapter() });
 
 describe('common Form', () => {
   beforeEach(() => {
@@ -18,12 +18,12 @@ describe('common Form', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should accept a required field', () => {
-    const wrapper = shallow(<CommonForm label="my label" required={true} />);
+    const wrapper = shallow(<CommonForm label="my label" required />);
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should display validation errors if touched', () => {
-    const wrapper = shallow(<CommonForm label="my label" touched={true} error="is required!" />);
+    const wrapper = shallow(<CommonForm label="my label" touched error="is required!" />);
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });

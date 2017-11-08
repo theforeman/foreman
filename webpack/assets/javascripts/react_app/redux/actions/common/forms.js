@@ -1,9 +1,11 @@
-import { SubmissionError } from 'redux-form';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import fetch from 'isomorphic-fetch';
+import { SubmissionError } from 'redux-form';
+
 import { addToast } from '../toasts';
 
 const fieldErrors = ({ error }) => {
-  let errors = error.errors;
+  const { errors } = error;
 
   if (errors.base) {
     errors._error = errors.base;
@@ -12,18 +14,18 @@ const fieldErrors = ({ error }) => {
   return new SubmissionError(errors);
 };
 
-const checkErrors = response => {
+const checkErrors = (response) => {
   if (response.ok) {
     return response;
   }
   if (response.status === 422) {
     // Handle invalid form data
-    return response.json().then(body => {
+    return response.json().then((body) => {
       throw fieldErrors(body);
     });
   }
   throw new SubmissionError({
-    _error: [`${__('Error submitting data:')} ${response.status} ${__(response.statusText)}`]
+    _error: [`${__('Error submitting data:')} ${response.status} ${__(response.statusText)}`],
   });
 };
 
@@ -46,41 +48,37 @@ const verifyProps = (item, values) => {
   }
 };
 
-export const submitForm = ({ item, url, values, csrfToken = getcsrfToken(), method = 'post' }) => {
+export const submitForm = ({
+  item, url, values, csrfToken = getcsrfToken(), method = 'post',
+}) => {
   verifyProps(item, values);
-  return dispatch => {
-    return fetch(url, {
+  return dispatch =>
+    fetch(url, {
       credentials: 'include',
       method,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-CSRF-Token': csrfToken
+        'X-CSRF-Token': csrfToken,
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(values),
     })
       .then(checkErrors)
-      .then(response => {
-        return response
+      .then(response =>
+        response
           .json()
           .then(body =>
             dispatch({
               type: `${item.toUpperCase()}_FORM_SUBMITTED`,
-              payload: { item, body }
-            })
-          )
+              payload: { item, body },
+            }))
           .then(() =>
-            dispatch(
-              addToast({
-                type: 'success',
-                // eslint-disable-next-line no-undef
-                message: Jed.sprintf('%s was successfully created.', __(item))
-              })
-            )
-          );
-      })
-      .catch(error => {
+            dispatch(addToast({
+              type: 'success',
+              // eslint-disable-next-line no-undef
+              message: Jed.sprintf('%s was successfully created.', __(item)),
+            }))))
+      .catch((error) => {
         throw error;
       });
-  };
 };

@@ -1,19 +1,19 @@
-jest.unmock('./foreman_navigation');
 import $ from 'jquery';
 import { init } from './foreman_navigation';
+
+jest.unmock('./foreman_navigation');
 
 describe('initNavigation', () => {
   Object.defineProperty(window.location, 'pathname', {
     writable: true,
-    value: '/locations/1/select'
+    value: '/locations/1/select',
   });
-  const menuWithoutTaxonomies =
-      `<div id="vertical-nav" class="nav-pf-vertical hover-secondary-nav-pf">    
+  const menuWithoutTaxonomies = `<div id="vertical-nav" class="nav-pf-vertical hover-secondary-nav-pf">
          <ul class="list-group" >
            <li class="list-group-item secondary-nav-item-pf"
-               data-target="location-secondary">  
+               data-target="location-secondary">
              <a>
-               <span class="list-group-item-value"> Location </span> 
+               <span class="list-group-item-value"> Location </span>
              </a>
              <div id='location-secondary' class="nav-pf-secondary-nav">
                <div class="nav-item-pf-header">
@@ -30,12 +30,12 @@ describe('initNavigation', () => {
                      href="/locations/1/select"><span class="list-group-item-value">
                      Loc1</span></a></li>
                </ul>
-             </div>  
+             </div>
            </li>
            <li class="list-group-item secondary-nav-item-pf"
-             data-target="organization-secondary">  
+             data-target="organization-secondary">
              <a>
-               <span class="list-group-item-value"> Organization </span> 
+               <span class="list-group-item-value"> Organization </span>
              </a>
              <div id='organization-secondary' class="nav-pf-secondary-nav">
                <div class="nav-item-pf-header">
@@ -52,9 +52,9 @@ describe('initNavigation', () => {
                      href="/organizations/1/select"><span class="list-group-item-value">
                      Org1</span></a></li>
                </ul>
-             </div>  
-           </li>  
-         </ul>     
+             </div>
+           </li>
+         </ul>
        </div>
        <div class="container-pf-nav-pf-vertical secondary-visible-pf"></div>`;
 
@@ -69,21 +69,13 @@ describe('initNavigation', () => {
          <a href="#" class="dropdown-toggle nav-item-iconic" data-toggle="dropdown" >
            Org1 <span class="caret"></span>
          </a>
-       </li>         
+       </li>
        ${menuWithoutTaxonomies}
      </div>`;
   it('Mark current location/organization as active in vertical menu', () => {
     init();
-    expect(
-      $('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass(
-        'active'
-      )
-    ).toBe(true);
-    expect(
-      $('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass(
-        'active'
-      )
-    ).toBe(true);
+    expect($('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass('active')).toBe(true);
+    expect($('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass('active')).toBe(true);
   });
 
   it('Mark main menu item as active', () => {
@@ -93,23 +85,13 @@ describe('initNavigation', () => {
   it('Should close secondary menu after menu item click', () => {
     $('#menu_item_loc1').click();
     expect($('#vertical-nav').hasClass('hover-secondary-nav-pf')).toBe(false);
-    expect(
-      $('.container-pf-nav-pf-vertical').hasClass('secondary-visible-pf')
-    ).toBe(false);
+    expect($('.container-pf-nav-pf-vertical').hasClass('secondary-visible-pf')).toBe(false);
   });
 
   it('Should not set secondary menu as active when taxonomies are off', () => {
     document.body.innerHTML = menuWithoutTaxonomies;
     init();
-    expect(
-      $('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass(
-        'active'
-      )
-    ).toBe(false);
-    expect(
-      $('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass(
-        'active'
-      )
-    ).toBe(false);
+    expect($('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass('active')).toBe(false);
+    expect($('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass('active')).toBe(false);
   });
 });

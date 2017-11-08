@@ -1,9 +1,9 @@
+import Immutable from 'seamless-immutable';
 import {
   HOST_POWER_STATUS_REQUEST,
   HOST_POWER_STATUS_SUCCESS,
-  HOST_POWER_STATUS_FAILURE
+  HOST_POWER_STATUS_FAILURE,
 } from '../../../consts';
-import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({});
 
@@ -15,12 +15,12 @@ export default (state = initialState, action) => {
     case HOST_POWER_STATUS_SUCCESS:
       return state.set(
         payload.id,
-        payload
+        payload,
       );
     case HOST_POWER_STATUS_FAILURE:
       return state.set(
         payload.id,
-        { error: payload.error }
+        { error: payload.error },
       );
     default:
       return state;

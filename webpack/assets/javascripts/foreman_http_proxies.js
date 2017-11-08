@@ -2,26 +2,26 @@ import $ from 'jquery';
 import { notify, clear } from './foreman_toast_notifications';
 
 export function testConnection(item, url) {
-  let data = $('form').serialize();
+  const data = $('form').serialize();
 
   $('#test_connection_indicator').show();
   $(item).addClass('disabled');
   clear();
   $.ajax({
-    url: url,
+    url,
     type: 'put',
-    data: data,
-    success: function (result, textstatus, xhr) {
-      notify({message: result.message, type: 'success'});
+    data,
+    success(result, textstatus, xhr) {
+      notify({ message: result.message, type: 'success' });
     },
-    error: function (xhr) {
-      let error = $.parseJSON(xhr.responseText).message;
+    error(xhr) {
+      const error = $.parseJSON(xhr.responseText).message;
 
-      notify({message: error, type: 'danger'});
+      notify({ message: error, type: 'danger' });
     },
-    complete: function (result) {
+    complete(result) {
       $('#test_connection_indicator').hide();
       $(item).removeClass('disabled');
-    }
+    },
   });
 }

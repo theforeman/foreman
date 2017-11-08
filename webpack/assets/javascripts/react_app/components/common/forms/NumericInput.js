@@ -1,6 +1,7 @@
-import React from 'react';
-import CommonForm from './CommonForm';
 import NumericInput from 'react-numeric-input';
+import React from 'react';
+
+import CommonForm from './CommonForm';
 
 const TextInput = ({
   label,
@@ -9,19 +10,17 @@ const TextInput = ({
   onChange,
   format,
   precision = 0,
-  minValue = 0
-}) => {
-  return (
-    <CommonForm label={label} className={`common-numericInput ${className}`}>
-      <NumericInput
-        format={format}
-        min={minValue}
-        value={value}
-        precision={precision}
-        onChange={onChange}
-      />
-    </CommonForm>
-  );
-};
+  minValue = 0,
+}) => (
+  <CommonForm label={label} className={`common-numericInput ${className}`}>
+    <NumericInput
+      format={format}
+      min={minValue}
+      value={value}
+      precision={precision}
+      onChange={onChange}
+    />
+  </CommonForm>
+);
 
 export default TextInput;

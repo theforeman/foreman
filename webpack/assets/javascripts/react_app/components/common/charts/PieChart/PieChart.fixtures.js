@@ -5,8 +5,8 @@ export const mockStoryData = {
     donut: {
       width: 15,
       label: {
-        show: false
-      }
+        show: false,
+      },
     },
     data: {
       type: 'donut',
@@ -15,29 +15,29 @@ export const mockStoryData = {
         'Fedora 21': 'Fedora 21',
         'Ubuntu 14.04': 'Ubuntu 14.04',
         'Centos 7': 'Centos 7',
-        'Debian 8': 'Debian 8'
-      }
+        'Debian 8': 'Debian 8',
+      },
     },
     tooltip: {
-      show: true
+      show: true,
     },
     legend: {
-      show: false
+      show: false,
     },
     padding: {
       top: 0,
       left: 0,
       right: 0,
-      bottom: 0
+      bottom: 0,
     },
-    bindto: '#operatingsystemChart'
+    bindto: '#operatingsystemChart',
   },
   modalConfig: {
     donut: {
       width: 25,
       label: {
-        show: false
-      }
+        show: false,
+      },
     },
     data: {
       type: 'donut',
@@ -46,29 +46,29 @@ export const mockStoryData = {
         'Fedora 21': 'Fedora 21',
         'Ubuntu 14.04': 'Ubuntu 14.04',
         'Centos 7': 'Centos 7',
-        'Debian 8': 'Debian 8'
-      }
+        'Debian 8': 'Debian 8',
+      },
     },
     tooltip: {
-      show: true
+      show: true,
     },
     legend: {
-      show: false
+      show: false,
     },
     padding: {
       top: 0,
       left: 0,
       right: 0,
-      bottom: 0
+      bottom: 0,
     },
     size: {
-      height: 500
-    }
+      height: 500,
+    },
   },
   noDataMsg: 'No data available',
   tip: 'Expand the chart',
   status: 'RESOLVED',
   id: 'operatingsystem',
   title: 'OS Distribution',
-  search: '/hosts?search=os_title=~VAL~'
+  search: '/hosts?search=os_title=~VAL~',
 };

@@ -1,8 +1,9 @@
 export default {
-  bindMethods: function (context, methods) {
-    methods.forEach(method => {
+  bindMethods(context, methods) {
+    methods.forEach((method) => {
+      // eslint-disable-next-line no-param-reassign
       context[method] = context[method].bind(context);
     });
   },
-  noop: Function.prototype // empty function
+  noop: Function.prototype, // empty function
 };

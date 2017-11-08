@@ -1,5 +1,5 @@
 export const defaultControllerAttributes = {
-  type: 'ParaVirtualSCSIController'
+  type: 'ParaVirtualSCSIController',
 };
 
 const _defaultDiskAttributes = () => ({
@@ -9,7 +9,7 @@ const _defaultDiskAttributes = () => ({
   thin: false,
   eagerZero: false,
   name: __('Hard disk'),
-  mode: 'persistent'
+  mode: 'persistent',
 });
 
 export const getDefaultDiskAttributes = _defaultDiskAttributes;

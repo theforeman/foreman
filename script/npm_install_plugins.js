@@ -1,8 +1,6 @@
-'use strict';
-/* eslint-disable no-var */
-var childProcess = require('child_process');
-var packageJsonDirs = require('./plugin_webpack_directories').packageJsonDirs;
+const childProcess = require('child_process');
+const { packageJsonDirs } = require('./plugin_webpack_directories');
 
-packageJsonDirs('pipe').forEach(function (pluginPath) {
-  childProcess.spawn('npm', ['i'], { env: process.env, cwd: pluginPath, stdio: 'inherit'});
+packageJsonDirs().forEach((pluginPath) => {
+  childProcess.spawn('npm', ['i'], { env: process.env, cwd: pluginPath, stdio: 'inherit' });
 });

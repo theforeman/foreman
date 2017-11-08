@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import Toast from './toastListitem/';
-import * as ToastActions from '../../redux/actions/toasts';
-import { connect } from 'react-redux';
 import { map } from 'lodash';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
+
+import * as ToastActions from '../../redux/actions/toasts';
+
+import Toast from './toastListitem/';
 
 class ToastsList extends Component {
   render() {
@@ -19,7 +21,7 @@ class ToastsList extends Component {
 }
 
 const mapStateToProps = state => ({
-  messages: state.toasts.messages
+  messages: state.toasts.messages,
 });
 
 export default connect(mapStateToProps, ToastActions)(ToastsList);

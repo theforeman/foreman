@@ -1,21 +1,23 @@
 // Configure Enzyme
-import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import toJson from 'enzyme-to-json';
+import { configure, mount } from 'enzyme';
+import React from 'react';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+import {
+  initialState,
+  singleMessageState,
+  singleMessageWithLinkState,
+} from './ToastList.fixtures';
+
+import ToastList from './';
+
 configure({ adapter: new Adapter() });
 
 jest.unmock('./');
 
-import React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import ToastList from './';
-import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
-import {
-  initialState,
-  singleMessageState,
-  singleMessageWithLinkState
-} from './ToastList.fixtures';
 const mockStore = configureMockStore([thunk]);
 
 describe('ToastList', () => {
