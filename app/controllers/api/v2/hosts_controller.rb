@@ -20,7 +20,12 @@ module Api
 
       add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
 
-      add_scope_for(:index) { |base_scope| base_scope.preload([:host_statuses, :compute_resource, :hostgroup, :operatingsystem, :interfaces, :token, :owner]) }
+      add_scope_for(:index) do |base_scope|
+        base_scope.preload([:host_statuses, :compute_resource, :hostgroup, :operatingsystem,
+                            :interfaces, :token, :owner, :model, :environment, :location,
+                            :organization, :image, :compute_profile, :realm, :architecture,
+                            :ptable, :medium, :puppet_proxy, :puppet_ca_proxy])
+      end
 
       api :GET, "/hosts/", N_("List all hosts")
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
