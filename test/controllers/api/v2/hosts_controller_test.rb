@@ -3,6 +3,9 @@ require 'controllers/shared/pxe_loader_test'
 
 class Api::V2::HostsControllerTest < ActionController::TestCase
   include ::PxeLoaderTest
+  include FactImporterIsolation
+
+  allow_transactions_for_any_importer
 
   def setup
     as_admin do

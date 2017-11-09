@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class StructuredFactImporterTest < ActiveSupport::TestCase
+  include FactImporterIsolation
+
   attr_reader :importer
 
   let(:host) { FactoryBot.create(:host) }
@@ -81,6 +83,7 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
   def import(facts)
     @importer = StructuredFactImporter.new(host, facts)
     @importer.stubs(:fact_name_class).returns(FactName)
+    allow_transactions_for @importer
     @importer.import!
   end
 

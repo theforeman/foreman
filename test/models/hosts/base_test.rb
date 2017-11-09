@@ -2,7 +2,11 @@ require 'test_helper'
 
 module Host
   class BaseTest < ActiveSupport::TestCase
+    include FactImporterIsolation
+
     should validate_presence_of(:name)
+    allow_transactions_for_any_importer
+
     context "with new host" do
       subject { Host::Base.new(:name => 'test') }
       should validate_uniqueness_of(:name).case_insensitive
