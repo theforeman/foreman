@@ -9,6 +9,7 @@ require 'factory_bot_rails'
 require 'controllers/shared/basic_rest_response_test'
 require 'facet_test_helper'
 require 'active_support_test_case_helper'
+require 'fact_importer_test_helper'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

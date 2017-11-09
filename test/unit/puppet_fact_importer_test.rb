@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class PuppetFactImporterTest < ActiveSupport::TestCase
+  include FactImporterIsolation
+
   attr_reader :host, :importer
   setup do
     @host = FactoryBot.create(:host)
@@ -24,6 +26,7 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
 
   def import(facts)
     @importer = PuppetFactImporter.new(@host, facts)
+    allow_transactions_for @importer
     importer.import!
   end
 

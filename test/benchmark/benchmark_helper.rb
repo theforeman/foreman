@@ -1,7 +1,6 @@
 require 'benchmark/ips'
 
 require File.expand_path('../../../config/environment', __FILE__)
-require 'factory_bot_rails'
 
 unless Rails.env.production? && !Rails.configuration.database_configuration["production"]["migrate"]
   puts "Rais must be in production and database must have migrations turned off!"
@@ -18,6 +17,7 @@ EOS
 end
 
 load "#{Rails.root}/db/schema.rb"
+require 'factory_bot_rails'
 
 def foreman_benchmark
   GC.start

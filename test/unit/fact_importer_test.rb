@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'fact_importer_test_helper'
 
 class FactImporterTest < ActiveSupport::TestCase
+  include FactImporterIsolation
+
   attr_reader :importer
   class CustomFactName < FactName; end
   class CustomImporter < FactImporter
@@ -137,21 +140,61 @@ class FactImporterTest < ActiveSupport::TestCase
       assert_equal 1, importer.counters[:updated]
       assert_equal 1, importer.counters[:added]
     end
+
+    test "importer handles fact name additions" do
+      facts = { 'duplicate_name' => 'some_value' }
+      importer = FactImporter.new(host, facts)
+      importer.stubs(:fact_name_class).returns(FactName)
+      allow_transactions_for importer
+      importer.stubs(:save_name_record).raises(ActiveRecord::RecordNotUnique, 'Test message')
+
+      # redefine fact_name_attributes for this instance, so it will create
+      # the fact name before it's actually created by the importer
+      def importer.fact_name_attributes(fact_name)
+        ActiveRecord::Base.transaction(:requires_new => true) do
+          dup_record = FactoryBot.build(:fact_name, :name => fact_name)
+          # save duplicate record in isolated transaction
+          dup_record.save!
+        end
+
+        {
+          name: fact_name
+        }
+      end
+
+      importer.import!
+
+      name_record = FactName.find_by(name: 'duplicate_name')
+      assert_not_nil name_record
+    end
+
+    test 'importer cannot run in transaction' do
+      facts = { 'some_name' => 'some_value' }
+      importer = FactImporter.new(host, facts)
+      importer.stubs(:fact_name_class).returns(FactName)
+      exception = assert_raises(RuntimeError) do
+        importer.import!
+      end
+      assert_match(/outside of global transaction/, exception.message)
+    end
   end
 
   def default_import(facts)
     @importer = FactImporter.new(host, facts)
+    allow_transactions_for @importer
     @importer.stubs(:fact_name_class).returns(FactName)
     @importer.import!
   end
 
   def custom_import(facts)
     @importer = CustomImporter.new(host, facts)
+    allow_transactions_for @importer
     @importer.import!
   end
 
   def puppet_import(facts)
     @importer = PuppetFactImporter.new(host, facts)
+    allow_transactions_for @importer
     @importer.import!
   end
 
