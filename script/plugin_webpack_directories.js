@@ -40,18 +40,20 @@ var aliasPlugins = function (pluginEntries) {
   return aliases;
 };
 
-var webpackedDirs = function () {
+var webpackedDirs = function (stderr) {
+  var handleStderr = stderr || 'ignore';
+
   return execSync(path.join(__dirname, './plugin_webpack_directories.rb'), {
-    stdio: ['pipe', 'pipe', 'ignore']
+    stdio: ['pipe', 'pipe', handleStderr]
   });
 };
 
-var getPluginDirs = function () {
-  return JSON.parse(sanitizeWebpackDirs(webpackedDirs()));
+var getPluginDirs = function (stderr) {
+  return JSON.parse(sanitizeWebpackDirs(webpackedDirs(stderr)));
 };
 
-var packageJsonDirs = function () {
-  return pluginPath('package.json')(getPluginDirs()).map(path.dirname);
+var packageJsonDirs = function (stderr) {
+  return pluginPath('package.json')(getPluginDirs(stderr)).map(path.dirname);
 };
 
 module.exports = {
