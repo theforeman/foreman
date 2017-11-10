@@ -1,6 +1,4 @@
-export default [['column1', 100], ['column2', 50]];
-
-export const mockStoryData = {
+const mockStoryData = {
   config: {
     donut: {
       width: 15,
@@ -72,3 +70,5 @@ export const mockStoryData = {
   title: 'OS Distribution',
   search: '/hosts?search=os_title=~VAL~'
 };
+
+export default mockStoryData;
