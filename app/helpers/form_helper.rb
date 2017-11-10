@@ -75,7 +75,8 @@ module FormHelper
 
     unauthorized = selected_ids.blank? ? [] : selected_ids - authorized.map(&:id)
     field(f, attr, options) do
-      attr_ids = (attr.to_s.singularize+"_ids").to_sym
+      attr_ids = attr.to_s
+      attr_ids = (attr_ids.singularize + '_ids').to_sym unless attr_ids.end_with?('_ids')
       hidden_fields = ''
       html_options["data-useds"] ||= "[]"
       JSON.parse(html_options["data-useds"]).each do |disabled_value|
