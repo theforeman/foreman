@@ -102,7 +102,8 @@ module LookupKeysHelper
     popover('', description.prepend(warnings[:text]),
             :data => { :placement => 'top' },
             :title => _("Original value info"),
-            :icon => warnings[:icon])
+            :icon => "info-circle",
+            :kind => "fa")
   end
 
   def lookup_key_description(lookup_key, matcher, inherited_value)

@@ -1,6 +1,7 @@
 @import "colors";
 
 $navbar-default-bg: $primary_color;
+$pf-blue-500: #00659c;
 
 .control-label {
   text-align: left;
@@ -247,7 +248,11 @@ div.form-group .glyphicon-info-sign {
   color: black;
 }
 
-div.form-group .pficon-info {
+form .pficon-info {
+  color: $pf-blue-500;
+}
+
+form .fa-info-circle {
   color: black;
 }
 
