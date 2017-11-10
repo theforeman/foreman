@@ -10,6 +10,7 @@ class ExternalUsergroup < ApplicationRecord
   validates :name, :auth_source, :usergroup, :presence => true
   validate :hidden_authsource_restricted
   validate :in_auth_source?, :if => Proc.new { |eu| eu.auth_source.respond_to?(:valid_group?) }
+  validate :domain_users_forbidden
 
   def refresh
     return false unless auth_source.respond_to?(:users_in_group)
@@ -45,6 +46,18 @@ class ExternalUsergroup < ApplicationRecord
   def hidden_authsource_restricted
     if auth_source_id_changed? && auth_source.is_a?(AuthSourceHidden)
       errors.add :auth_source, _("is not permitted")
+    end
+  end
+
+  def domain_users_forbidden
+    if auth_source.server_type == 'active_directory' &&
+       name.downcase == 'domain users'
+      errors.add(
+        :name,
+        _("Domain Users is a special group in AD. Unfortunately, we cannot "\
+          "obtain membership information from a LDAP search and therefore "\
+          "sync it.")
+      )
     end
   end
 end
