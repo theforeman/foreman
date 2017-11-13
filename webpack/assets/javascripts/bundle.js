@@ -34,4 +34,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   reactMounter: require('./react_app/common/MountingService'),
   editor: require('./foreman_editor'),
   nav: require('./foreman_navigation'),
+  medium: require('./foreman_medium'),
 });

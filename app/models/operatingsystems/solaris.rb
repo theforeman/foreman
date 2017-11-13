@@ -48,7 +48,7 @@ class Solaris < Operatingsystem
   end
 
   # If this OS family requires access to its media via NFS
-  def require_nfs_access_to_medium
+  def self.require_nfs_access_to_medium
     true
   end
 
