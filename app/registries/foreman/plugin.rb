@@ -448,6 +448,18 @@ module Foreman #:nodoc:
       @rabl_template_extensions.fetch(virtual_path, [])
     end
 
+    def add_counter_telemetry(name, description, instance_labels = [])
+      Foreman::Telemetry.instance.add_counter(name, description, instance_labels)
+    end
+
+    def add_gauge_telemetry(name, description, instance_labels = [])
+      Foreman::Telemetry.instance.add_gauge(name, description, instance_labels)
+    end
+
+    def add_histogram_telemetry(name, description, instance_labels = [], buckets = DEFAULT_BUCKETS)
+      Foreman::Telemetry.instance.add_histogram(name, description, instance_labels, buckets)
+    end
+
     private
 
     def permission_table_exists?

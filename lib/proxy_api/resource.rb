@@ -2,6 +2,7 @@ require 'securerandom'
 
 module ProxyAPI
   class Resource
+    include Foreman::TelemetryHelper
     attr_reader :url
 
     def initialize(args)
@@ -44,6 +45,7 @@ module ProxyAPI
     #      OR: false if a HTTP error is detected
     # TODO: add error message handling
     def parse(response)
+      telemetry_increment_counter(:proxy_api_response_code, 1, code: response.code) if response && response.code
       if response && response.code >= 200 && response.code < 300
         return response.body.present? ? JSON.parse(response.body) : true
       else
@@ -57,11 +59,13 @@ module ProxyAPI
     # Perform GET operation on the supplied path
     def get(path = nil, payload = {})
       with_logger do
-        # This ensures that an extra "/" is not generated
-        if path
-          resource[URI.escape(path)].get payload
-        else
-          resource.get payload
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'get') do
+          # This ensures that an extra "/" is not generated
+          if path
+            resource[URI.escape(path)].get payload
+          else
+            resource.get payload
+          end
         end
       end
     end
@@ -70,7 +74,9 @@ module ProxyAPI
     def post(payload, path = "")
       logger.debug("POST request payload: #{payload}")
       with_logger do
-        resource[path].post payload
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'post') do
+          resource[path].post payload
+        end
       end
     end
 
@@ -78,14 +84,18 @@ module ProxyAPI
     def put(payload, path = "")
       logger.debug("PUT request payload: #{payload}")
       with_logger do
-        resource[path].put payload
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'put') do
+          resource[path].put payload
+        end
       end
     end
 
     # Perform DELETE operation on the supplied path
     def delete(path)
       with_logger do
-        resource[path].delete
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'delete') do
+          resource[path].delete
+        end
       end
     end
 

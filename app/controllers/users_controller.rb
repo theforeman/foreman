@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   include Foreman::Controller::UsersMixin
   include Foreman::Controller::Parameters::User
   include Foreman::Controller::BruteforceProtection
+  include Foreman::TelemetryHelper
 
   skip_before_action :require_mail, :only => [:edit, :update, :logout]
   skip_before_action :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
@@ -69,6 +70,7 @@ class UsersController < ApplicationController
     if bruteforce_attempt?
       inline_error _("Too many tries, please try again in a few minutes.")
       log_bruteforce
+      telemetry_increment_counter(:bruteforce_locked_ui_logins)
       render :layout => 'login', :status => :unauthorized
       return
     end
@@ -85,6 +87,7 @@ class UsersController < ApplicationController
         #failed to authenticate, and/or to generate the account on the fly
         inline_error _("Incorrect username or password")
         count_login_failure
+        telemetry_increment_counter(:failed_ui_logins)
         redirect_to login_users_path
       else
         #valid user
@@ -161,6 +164,7 @@ class UsersController < ApplicationController
     store_default_taxonomy(user, 'organization') unless session.has_key?(:organization_id)
     store_default_taxonomy(user, 'location') unless session.has_key?(:location_id)
     TopbarSweeper.expire_cache
+    telemetry_increment_counter(:successful_ui_logins)
     user.post_successful_login
     redirect_to (uri || hosts_path)
   end

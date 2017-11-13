@@ -70,6 +70,29 @@
 #    :enabled: true
 #  :dynflow:
 #    :enabled: true
+#  :telemetry:
+#    :enabled: true
+
+# Foreman telemetry has three destinations: prometheus, statsd and rails log.
+:telemetry:
+  # prefix for all metrics
+  :prefix: 'fm_rails'
+  # prometheus endpoint is at /metrics
+  # warning: ruby client library currently does not supprt multi-process web servers
+  :prometheus:
+    :enabled: false
+  # works with statsd_exporter too, use the rake task to generate config
+  :statsd:
+    :enabled: false
+    # IP and port (do not use DNS)
+    :host: '127.0.0.1:8125'
+    # one of 'statsd', 'statsite' or 'datadog'
+    :protocol: 'statsd'
+  # Rails logs end up in logger named 'telemetry' when enabled
+  :logger:
+    :enabled: false
+    # logging level as in Logger::LEVEL
+    :level: 'DEBUG'
 
 #
 # Configure how many workers should dynflow use to handle incoming requests.
