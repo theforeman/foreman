@@ -193,3 +193,8 @@ auth_source_ldap_one_loc:
   taxonomy: location1
   taxable: one
   taxable_type: "AuthSource"
+
+puppetmaster_organization2:
+  taxonomy: organization2
+  taxable: puppetmaster
+  taxable_type: "SmartProxy"

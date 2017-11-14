@@ -254,10 +254,12 @@ class PuppetClassImporter
 
   def add_classes_to_foreman(env_name, klasses)
     env         = find_or_create_env env_name
-    new_classes = klasses.map { |k| Puppetclass.where(:name => k[0]).first_or_create }
+    # look for Puppet class in all scopes to make sure we do not try to create a new record
+    # with a name that already exists and hit the uniqueness constraint on name
+    new_classes = klasses.map { |k| Puppetclass.unscoped.where(:name => k[0]).first_or_create }
 
     new_classes.each do |new_class|
-      EnvironmentClass.create! :puppetclass_id => new_class.id, :environment_id => env.id
+      EnvironmentClass.find_or_create_by! :puppetclass_id => new_class.id, :environment_id => env.id
       class_params = klasses[new_class.to_s]
       add_new_parameter(env, new_class, class_params) if class_params.any?
     end
@@ -306,7 +308,7 @@ class PuppetClassImporter
   def add_new_parameter(env, klass, changed_params)
     changed_params["new"].map do |param_name, value|
       param = find_or_create_puppet_class_param klass, param_name, value
-      EnvironmentClass.create! :puppetclass_id => klass.id, :environment_id => env.id,
+      EnvironmentClass.find_or_create_by! :puppetclass_id => klass.id, :environment_id => env.id,
         :puppetclass_lookup_key_id => param.id
     end
   end
@@ -330,9 +332,14 @@ class PuppetClassImporter
   end
 
   def find_or_create_env(env)
-    Environment.where(:name => env).first || Environment.create!(:name => env,
+    user_visible_environment(env) || Environment.create!(:name => env,
                                                                  :organizations => User.current.my_organizations,
                                                                  :locations => User.current.my_locations)
+  end
+
+  def user_visible_environment(env)
+    return unless User.current.visible_environments.include? env
+    Environment.unscoped.find_by :name => env
   end
 
   def find_or_create_puppet_class_param(klass, param_name, value)
