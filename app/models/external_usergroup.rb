@@ -16,6 +16,8 @@ class ExternalUsergroup < ApplicationRecord
     return false unless auth_source.respond_to?(:users_in_group)
 
     current_users = usergroup.users.map(&:login)
+    internal_users = usergroup.users.
+      where(:auth_source => AuthSourceInternal.first).map(&:login)
     my_users = users
     all_other_users = (usergroup.external_usergroups - [self]).map(&:users)
     all_users = (all_other_users + my_users).flatten.uniq
@@ -23,7 +25,7 @@ class ExternalUsergroup < ApplicationRecord
     # We need to make sure when we refresh a external_usergroup
     # other external_usergroup users remain in. Otherwise refreshing
     # a external user group with no users in will empty the user group.
-    old_users = current_users - all_users
+    old_users = current_users - all_users - internal_users
     new_users = my_users - current_users
 
     usergroup.remove_users(old_users)
