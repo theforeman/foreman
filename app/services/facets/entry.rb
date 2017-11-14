@@ -4,7 +4,7 @@ module Facets
       :api_single_view, :api_list_view,
       :api_param_group_description, :api_param_group, :api_controller,
       :tabs,
-      :compatibility_properties
+      :compatibility_properties, :dependent
 
     def initialize(facet_model, facet_name)
       @compatibility_properties = []
@@ -78,6 +78,13 @@ module Facets
     #  host.foo # => 'bar'
     def template_compatibility_properties(*property_symbols)
       @compatibility_properties = property_symbols
+    end
+
+    # Specify what should happen with the facet when the host object is deleted.
+    # [+:destroy+] The facet object will be deleted by calling the destroy record.
+    # [+:delete+] The facet will be deleted directly from the database without calling their destroy method.
+    def set_dependent_action(value)
+      @dependent = value
     end
 
     def load_api_controller
