@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'pagelets_test_helper'
 
 class HostgroupsControllerTest < ActionController::TestCase
+  include PageletsIsolation
+
   def test_index
     get :index, {}, set_session_user
     assert_template 'index'
@@ -262,6 +265,26 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["z"]
         assert_nil child.parameters["x"]
       end
+    end
+  end
+
+  context 'with pagelets' do
+    setup do
+      @controller.prepend_view_path File.expand_path('../../static_fixtures', __FILE__)
+      Pagelets::Manager.add_pagelet('hostgroups/_form', :main_tabs,
+                                    :name => 'TestTab',
+                                    :id => 'my-special-id',
+                                    :partial => 'views/test')
+    end
+
+    test '#new renders a pagelet tab' do
+      get :new, {}, set_session_user
+      assert @response.body.match /id='my-special-id'/
+    end
+
+    test '#edit renders a pagelet tab' do
+      get :edit, {:id => Hostgroup.first.to_param}, set_session_user
+      assert @response.body.match /id='my-special-id'/
     end
   end
 end
