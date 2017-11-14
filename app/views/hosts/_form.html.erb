@@ -92,7 +92,7 @@
       <%= f.hidden_field :uuid if @host.uuid.present? %>
       <% # Required for import action %>
       <%= f.hidden_field :compute_resource_id if @host.new_record? && @host.uuid.present? %>
-      <%= f.hidden_field :progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)} %>
+      <%= f.hidden_field(:progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)}) if @host.orchestrated? %>
       <%= f.hidden_field :type, :value => @host.type if @host.type_changed? %>
 
       <div class="tab-pane"  id="network">
