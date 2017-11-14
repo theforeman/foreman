@@ -314,6 +314,10 @@ module Host
       false
     end
 
+    def orchestrated?
+      self.class.included_modules.include?(Orchestration)
+    end
+
     private
 
     def build_values_for_primary_interface!(values_for_primary_interface, args)
