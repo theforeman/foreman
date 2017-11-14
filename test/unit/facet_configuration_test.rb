@@ -12,10 +12,10 @@ class FacetConfigurationTest < ActiveSupport::TestCase
   module TestHelper
   end
 
-  teardown do
-    Host::Managed.cloned_parameters[:include].delete(:test_model)
-    Host::Managed.cloned_parameters[:include].delete(:test_facet)
-    Host::Managed.cloned_parameters[:include].delete(:facet_name)
+  setup do
+    # Do not mess with the Host::Managed object as
+    # we just want to test the configuration here
+    Facets::ManagedHostExtensions.stubs(:register_facet_relation)
   end
 
   test 'enables block configuration' do
@@ -56,6 +56,7 @@ class FacetConfigurationTest < ActiveSupport::TestCase
         api_view(:single => 'single_view', :list => 'list_view')
         api_docs(:my_group, TestModel, 'my test description')
         template_compatibility_properties :prop1
+        set_dependent_action :restrict_with_exception
       end
       facet_configuration = Facets.registered_facets[:test_model]
       assert_equal :test_model, facet_configuration.name
@@ -69,6 +70,7 @@ class FacetConfigurationTest < ActiveSupport::TestCase
       assert_equal TestModel, facet_configuration.api_controller
       assert_equal 'tab_view', facet_configuration.tabs[:a]
       assert_equal [:prop1], facet_configuration.compatibility_properties
+      assert_equal :restrict_with_exception, facet_configuration.dependent
     end
   end
 end
