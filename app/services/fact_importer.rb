@@ -39,11 +39,9 @@ class FactImporter
 
   # expect a facts hash
   def import!
-    ActiveRecord::Base.transaction do
-      delete_removed_facts
-      update_facts
-      add_new_facts
-    end
+    delete_removed_facts
+    update_facts
+    add_new_facts
 
     if @error
       Foreman::Logging.exception("Error during fact import for #{@host.name}", @error)
