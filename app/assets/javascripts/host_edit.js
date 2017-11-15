@@ -655,7 +655,11 @@ function interface_domain_selected(element) {
           select = subnet6_options
         }
         if (select) {
-          select.append($("<option />").val(this.subnet.id).attr('data-suggest_new', this.subnet.unused_ip.suggest_new).text(this.subnet.to_label));
+          select.append($("<option />")
+            .val(this.subnet.id)
+            .attr('data-suggest_new', this.subnet.unused_ip.suggest_new)
+            .attr('data-vlan_id', this.subnet.vlanid)
+            .text(this.subnet.to_label));
         }
       });
       interface_domain_selected_subnet_handler(subnet_options, 'ip')
@@ -674,6 +678,8 @@ function interface_subnet_selected(element, ip_field, skip_mac) {
   var interface_ip = $(element).closest('fieldset').find('input[id$=_' + ip_field + ']');
 
   toggle_suggest_new_link(element, ip_field);
+
+  selectRelatedNetwork(element);
 
   interface_ip.attr('disabled', true);
   tfm.tools.showSpinner();
@@ -737,6 +743,28 @@ function interface_subnet_selected(element, ip_field, skip_mac) {
       interface_ip.attr('disabled', false);
     }
   });
+}
+
+function selectRelatedNetwork(element) {
+  var subnet_select = $(element);
+  var vlanId = subnet_select.find(':selected').attr('data-vlan_id');
+  var network_select = subnet_select.closest('fieldset').find('.vmware_network');
+
+  if (!vlanId || network_select.length == 0) {
+    return;
+  }
+
+  var selected = null;
+
+  network_select.find('option').each(function(index, option) {
+    if (selected === null && $(option).text().indexOf(vlanId) !== -1) {
+      selected = option.value;
+    }
+  });
+
+  if (selected !== null) {
+    network_select.val(selected).trigger('change');
+  }
 }
 
 function interface_type_selected(element) {
