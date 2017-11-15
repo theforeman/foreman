@@ -1,14 +1,9 @@
 module FogExtensions
   module Openstack
     module Server
-      extend ActiveSupport::Concern
-
-      included do
-        alias_method_chain :security_groups, :no_id
-        attr_reader :nics
-        attr_accessor :boot_from_volume, :size_gb, :scheduler_hint_filter
-        attr_writer :security_group, :network # floating IP
-      end
+      attr_reader :nics
+      attr_writer :security_group, :network # floating IP
+      attr_accessor :boot_from_volume, :size_gb, :scheduler_hint_filter
 
       def to_s
         name
@@ -43,18 +38,17 @@ module FogExtensions
       end
 
       # the original method requires a server ID, however we want to be able to call this method on new instances too
-      def security_groups_with_no_id
+      def security_groups
         return [] if id.nil?
-
-        security_groups_without_no_id
+        super
       end
 
       def boot_from_volume
-        attr[:boot_from_volume]
+        attributes[:boot_from_volume]
       end
 
       def size_gb
-        attr[:size_gb]
+        attributes[:size_gb]
       end
 
       def network
