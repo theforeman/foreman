@@ -1,1 +1,1 @@
-attributes :user, :tenant
+attributes :user, :tenant, :domain
