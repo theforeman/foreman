@@ -247,6 +247,7 @@ class UsersControllerTest < ActionController::TestCase
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache_mod'
     @request.session.clear
     @request.env['REMOTE_USER'] = 'ares'
+    AuthSourceLdap.any_instance.expects(:update_usergroups).with('ares')
     get :extlogin, {}, {}
     assert_redirected_to edit_user_path(User.unscoped.find_by_login('ares'))
   end
