@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'rest-client-patch'
 
 module ProxyAPI
   class Resource
@@ -106,10 +107,19 @@ module ProxyAPI
       ca_cert      = Setting[:ssl_ca_file]
       hostprivkey  = Setting[:ssl_priv_key]
 
+      raw_cert     = File.read(cert)
+
+      # split the certificate data, to extract certificate chains if they exists
+      cert_end  = '-----END CERTIFICATE-----'
+      cert_list = raw_cert.split(/(?<=#{cert_end})/)
+                   .reject { |s| s.strip.empty? }
+                   .map{ |cert_data| OpenSSL::X509::Certificate.new(cert_data) }
+
       {
-        :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
+        :ssl_client_cert  =>  cert_list[0],
         :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
         :ssl_ca_file      =>  ca_cert,
+        :extra_chain_cert =>  cert_list.drop(1),
         :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
       }
     end
