@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { getStore } from '../../../../redux';
+import { generateStore } from '../../../../redux';
 import { vmwareData, hiddenFieldValue } from './StorageContainer.fixtures';
 import StorageContainer from './';
 
@@ -9,7 +9,7 @@ let wrapper = null;
 
 describe('StorageContainer', () => {
   beforeEach(() => {
-    wrapper = mount(<StorageContainer store={getStore()} data={vmwareData} />);
+    wrapper = mount(<StorageContainer store={generateStore()} data={vmwareData} />);
   });
 
   it('render hidden field correctly', () => {

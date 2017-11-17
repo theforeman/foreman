@@ -4,9 +4,14 @@ import hosts from './hosts';
 import notifications from './notifications/';
 import toasts from './toasts';
 
-export default combineReducers({
-  statistics,
-  hosts,
-  notifications,
-  toasts,
-});
+export function combineReducersAsync(asyncReducers) {
+  return combineReducers({
+    statistics,
+    hosts,
+    notifications,
+    toasts,
+    ...asyncReducers,
+  });
+}
+
+export default combineReducersAsync();
