@@ -5,6 +5,8 @@ import React from 'react';
 import store from '../redux';
 import componentRegistry from '../components/componentRegistry';
 
+export { default as registerReducer } from '../redux/reducers/registerReducer';
+
 export function mount(component, selector, data) {
   const reactNode = document.querySelector(selector);
 

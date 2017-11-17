@@ -5,7 +5,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { getStore } from '../../redux';
+import { generateStore } from '../../redux';
 import API from '../../API';
 
 import {
@@ -87,7 +87,7 @@ describe('notifications', () => {
   });
 
   it('full flow', () => {
-    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
+    const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
 
     wrapper.find('.fa-bell').simulate('click');
     expect(wrapper.find('.panel-group').length).toEqual(1);
@@ -98,7 +98,7 @@ describe('notifications', () => {
   });
 
   it('mark group as read flow', () => {
-    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
+    const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
     const matcher = '.drawer-pf-action a.btn-link';
 
     wrapper.find('.fa-bell').simulate('click');
@@ -113,12 +113,12 @@ describe('notifications', () => {
     window.location.replace = jest.fn();
     failResponse = { status: 401 };
 
-    mount(<Notifications data={componentMountData} store={getStore()} />);
+    mount(<Notifications data={componentMountData} store={generateStore()} />);
     expect(global.location.replace).toBeCalled();
   });
 
   it('should avoid multiple polling on re-mount', () => {
-    const store = getStore();
+    const store = generateStore();
     const spy = jest.spyOn(API, 'get');
 
     mount(<Notifications data={componentMountData} store={store} />);
@@ -128,7 +128,7 @@ describe('notifications', () => {
   });
 
   it('should close the notification box when click the close button', () => {
-    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
+    const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
     const closeButtonSelector = '.drawer-pf .drawer-pf-title a.drawer-pf-close';
 
     wrapper.find('.fa-bell').simulate('click');
@@ -141,7 +141,7 @@ describe('notifications', () => {
   it('should close the notification box when click outside of the box', () => {
     const wrapper = mount(<div>
       <div className="something-outside" />
-      <Notifications data={componentMountData} store={getStore()} />
+      <Notifications data={componentMountData} store={generateStore()} />
                           </div>);
 
     wrapper.find('.fa-bell').simulate('click');
