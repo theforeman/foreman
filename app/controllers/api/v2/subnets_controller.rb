@@ -44,6 +44,7 @@ module Api
           param :from, String, :desc => N_("Starting IP Address for IP auto suggestion")
           param :to, String, :desc => N_("Ending IP Address for IP auto suggestion")
           param :vlanid, String, :desc => N_("VLAN ID for this subnet")
+          param :mtu, Integer, :desc => N_("MTU for this subnet")
           param :domain_ids, Array, :desc => N_("Domains in which this subnet is part")
           Subnet.registered_smart_proxies.each do |name, options|
             param :"#{name}_id", :number, :desc => options[:api_description]

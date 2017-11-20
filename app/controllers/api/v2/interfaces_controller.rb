@@ -51,6 +51,7 @@ module Api
         #virtual device specific parameters
         param :virtual, :bool, :desc => N_("Alias or VLAN device")
         param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces.")
+        param :mtu, Integer, :desc => N_("MTU, this attribute has precedence over the subnet MTU.")
         param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1. Only for virtual interfaces.")
         #bond specific parameters
         param :mode, Nic::Bond::MODES, :desc => N_("Bond mode of the interface, e.g. balance-rr. Only for bond interfaces.")
