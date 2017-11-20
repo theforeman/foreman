@@ -4,6 +4,8 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
   should_not allow_value(Array.new(9, 'abcd').join(':')).for(:mask) # 45 characters
   should_not allow_value('2001:db8::1:').for(:network)
   should_not allow_value('2001:db8:abcde::1').for(:network)
+  should_not allow_value(1279).for(:mtu)
+  should_not allow_value(4294967296).for(:mtu)
   # Test smart proxies from Subnet are inherited
   should belong_to(:tftp)
   should belong_to(:dns)
@@ -83,6 +85,12 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
 
     assert_includes subnet.known_ips, '2001:db8::3'
     assert_includes subnet.known_ips, '2001:db8::4'
+  end
+
+  test "should be able to save with MTU set to 4294967295" do
+    subnet = FactoryBot.build(:subnet_ipv6, :mtu => 4294967295)
+    assert subnet.save
+    assert_equal 4294967295, subnet.reload.mtu
   end
 
   private

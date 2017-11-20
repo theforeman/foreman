@@ -12,6 +12,8 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
   should_not allow_value('100101.102.103.').for(:network)
   should_not allow_value('300.300.300.0').for(:network)
   should_not allow_value('100.101.102').for(:network)
+  should_not allow_value(67).for(:mtu)
+  should_not allow_value(65537).for(:mtu)
   should allow_value('100.101.102.103.').for(:network) # clean invalid addresses
   should allow_value('100.101.102.25555').for(:network) # clean invalid addresses
   # Test smart proxies from Subnet are inherited

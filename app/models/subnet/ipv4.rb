@@ -9,6 +9,7 @@ class Subnet::Ipv4 < Subnet
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
 
   validates :mask, :format => {:with => Net::Validations::MASK_REGEXP}
+  validates :mtu, :numericality => {:only_integer => true, :greater_than_or_equal_to => 68, :less_than_or_equal_to => 65536}
 
   before_validation :cleanup_addresses
 

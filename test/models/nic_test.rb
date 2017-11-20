@@ -93,6 +93,8 @@ class NicTest < ActiveSupport::TestCase
     assert_equal subnet6.network, interface.network6
     assert_equal subnet.vlanid, interface.vlanid
     assert_equal 42, interface.vlanid
+    assert_equal 1496, interface.mtu
+    assert_equal subnet.mtu, interface.mtu
   end
 
   test "should delegate subnet6 attributes if subnet is nil" do
@@ -108,8 +110,10 @@ class NicTest < ActiveSupport::TestCase
                                   :name => "a" + FactoryBot.create(:host).name,
                                   :domain => domain)
     assert_equal subnet6.vlanid, interface.vlanid
+    assert_equal subnet6.mtu, interface.mtu
     assert_equal subnet6.network, interface.network6
     assert_equal 44, interface.vlanid
+    assert_equal 9000, interface.mtu
   end
 
   test "should reject subnet with mismatched taxonomy in host" do
@@ -497,5 +501,13 @@ class NicTest < ActiveSupport::TestCase
     interface.update_attributes(:domain_id => new_domain.id)
     name_should_change_to = "nick.#{new_domain.name}"
     assert_equal(name_should_change_to, interface.name)
+  end
+
+  test 'nic MTU fact should override subnet MTU' do
+    domain = FactoryBot.create(:domain)
+    subnet = FactoryBot.create(:subnet_ipv4, :domains => [domain], :mtu => 9000)
+    interface = FactoryBot.build(:nic_managed, :name => 'nick', :subnet => subnet)
+    interface.attrs['mtu'] = 1500
+    assert_equal 1500, interface.mtu
   end
 end
