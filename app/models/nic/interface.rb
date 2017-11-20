@@ -44,6 +44,23 @@ module Nic
       ''
     end
 
+    def mtu
+      # Determine a mtu according to the following cascading rules:
+      # 1. if the interface has a v4 subnet with a non-blank mtu, use that
+      # 2. if the interface has a v6 subnet with a non-blank mtu, use that
+      # 3. if no reasonable mtu was determined, then return nil
+      #
+      # In case the v4 and v6 subnet are both present, they should have the same
+      # mtu. If they have a different mtu, this is probably an error in the
+      # user's database. There is no way of determining the real mtu, so we
+      # pick the v4 one unless it turns out to be blank.
+
+      return self.attrs['mtu'] if self.attrs['mtu'].present?
+      return self.subnet.mtu if self.subnet && self.subnet.mtu.present?
+      return self.subnet6.mtu if self.subnet6 && self.subnet6.mtu.present?
+      nil
+    end
+
     def bridge?
       !!bridge
     end

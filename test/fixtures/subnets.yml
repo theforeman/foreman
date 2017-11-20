@@ -17,6 +17,7 @@ two:
   dhcp: one
   tftp: two
   vlanid: 42
+  mtu: 1496
 
 three:
   name: three
@@ -34,6 +35,7 @@ four:
   mask: 255.255.255.0
   tftp: two
   vlanid: 44
+  mtu: 9000
 
 five:
   name: five
@@ -58,3 +60,4 @@ seven:
   mask: 'ffff:ffff:ffff:ffff::'
   dns: three
   vlanid: 44
+  mtu: 9000

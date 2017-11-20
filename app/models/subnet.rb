@@ -17,7 +17,7 @@ class Subnet < ApplicationRecord
   include BelongsToProxies
 
   attr_exportable :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to, :boot_mode,
-    :ipam, :vlanid, :network_type, :description
+    :ipam, :vlanid, :mtu, :network_type, :description
 
   # This sets the rails model name of all child classes to the
   # model name of the parent class, i.e. Subnet.
@@ -75,6 +75,7 @@ class Subnet < ApplicationRecord
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name, :length => {:maximum => 255}, :uniqueness => true
   validates :vlanid, numericality: { :only_integer => true, :greater_than_or_equal_to => 0, :less_than => 4096}, :allow_blank => true
+  validates :mtu, :presence => true
 
   before_validation :normalize_addresses
   validate :ensure_ip_addrs_valid
@@ -89,7 +90,7 @@ class Subnet < ApplicationRecord
   }
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary,
-                        :vlanid, :ipam, :boot_mode, :type], :complete_value => true
+                        :vlanid, :mtu, :ipam, :boot_mode, :type], :complete_value => true
 
   scoped_search :relation => :domains, :on => :name, :rename => :domain, :complete_value => true
   scoped_search :relation => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
@@ -98,7 +99,7 @@ class Subnet < ApplicationRecord
 
   class Jail < ::Safemode::Jail
     allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,
-          :vlanid, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description
+          :vlanid, :mtu, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description
   end
 
   # Subnets are displayed in the form of their network network/network mask
