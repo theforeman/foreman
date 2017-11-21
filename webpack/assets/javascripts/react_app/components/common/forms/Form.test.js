@@ -1,17 +1,10 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
-import { configure, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 
 import Form from './Form';
 
-configure({ adapter: new Adapter() });
-
 describe('Form', () => {
-  beforeEach(() => {
-    global.__ = str => str;
-  });
   it('should render a form', () => {
     const wrapper = shallow(<Form />);
 

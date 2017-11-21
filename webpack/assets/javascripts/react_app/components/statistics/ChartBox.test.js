@@ -1,12 +1,8 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
-import { configure, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import ChartBox from './ChartBox';
-
-configure({ adapter: new Adapter() });
 
 jest.unmock('./ChartBox');
 jest.unmock('../../../services/ChartService');

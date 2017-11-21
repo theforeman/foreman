@@ -1,19 +1,10 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
-import { configure, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 
 import { props } from './disk.fixtures';
-
 import Disk from './';
 
-configure({ adapter: new Adapter() });
-
 describe('StorageContainer', () => {
-  beforeEach(() => {
-    global.__ = str => str;
-  });
-
   it('renders controller correctly', () => {
     const wrapper = shallow(<Disk {...props} />);
 

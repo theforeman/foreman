@@ -1,17 +1,10 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
-import { configure, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 
 import CommonForm from './CommonForm';
 
-configure({ adapter: new Adapter() });
-
 describe('common Form', () => {
-  beforeEach(() => {
-    global.__ = str => str;
-  });
   it('should display a label field', () => {
     const wrapper = shallow(<CommonForm label="my label" />);
 
