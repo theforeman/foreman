@@ -1,13 +1,9 @@
-// Configure Enzyme
 import c3 from 'c3';
-import Adapter from 'enzyme-adapter-react-16';
-import { configure, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import chartData from './PieChart.fixtures';
 import PieChart from './';
-
-configure({ adapter: new Adapter() });
 
 jest.mock('c3');
 jest.unmock('../../../../../services/ChartService');

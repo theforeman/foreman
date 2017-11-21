@@ -129,7 +129,8 @@
       "script"
     ],
     "setupFiles": [
-      "raf/polyfill"
+      "raf/polyfill",
+      "./webpack/test_setup.js"
     ]
   }
 }

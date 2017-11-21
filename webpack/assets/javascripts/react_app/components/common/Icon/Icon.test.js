@@ -1,11 +1,7 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
-import { configure, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 
 import Icon from './';
-
-configure({ adapter: new Adapter() });
 
 jest.unmock('./');
 

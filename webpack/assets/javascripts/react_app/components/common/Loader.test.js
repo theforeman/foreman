@@ -1,14 +1,9 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
-import { configure, shallow, mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import React from 'react';
 
 import { STATUS } from '../../constants';
-
 import Loader from './Loader';
-
-configure({ adapter: new Adapter() });
 
 jest.unmock('./Loader');
 

@@ -1,19 +1,14 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
-import { configure, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import { getStore } from '../../../../redux';
 import { vmwareData, hiddenFieldValue } from './StorageContainer.fixtures';
 import StorageContainer from './';
 
-configure({ adapter: new Adapter() });
-
 let wrapper = null;
 
 describe('StorageContainer', () => {
   beforeEach(() => {
-    global.__ = str => str;
     wrapper = mount(<StorageContainer store={getStore()} data={vmwareData} />);
   });
 

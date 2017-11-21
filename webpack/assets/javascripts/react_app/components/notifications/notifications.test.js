@@ -1,7 +1,5 @@
-// Configure Enzyme
-import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
-import { configure, shallow, mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import $ from 'jquery';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
@@ -20,8 +18,6 @@ import {
 } from './notifications.fixtures';
 
 import Notifications from './';
-
-configure({ adapter: new Adapter() });
 
 jest.unmock('jquery');
 const mockStore = configureMockStore([thunk]);
@@ -44,7 +40,6 @@ function mockjqXHR() {
 
 describe('notifications', () => {
   beforeEach(() => {
-    global.__ = str => str;
     global.tfm = {
       tools: {
         activateTooltips: () => {},

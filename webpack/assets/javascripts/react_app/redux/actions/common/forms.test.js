@@ -14,7 +14,6 @@ describe('form actions', () => {
   beforeEach(() => {
     document.head.innerHTML = `<meta name="csrf-param" content="authenticity_token" />
      <meta name="csrf-token" content="token123" />`;
-    global.__ = str => str;
   });
   afterEach(() => {
     nock.cleanAll();

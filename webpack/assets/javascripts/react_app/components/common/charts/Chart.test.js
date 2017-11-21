@@ -1,12 +1,8 @@
-// Configure Enzyme
 import c3 from 'c3';
-import Adapter from 'enzyme-adapter-react-16';
-import { configure, shallow, mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import React from 'react';
 
 import Chart from './Chart';
-
-configure({ adapter: new Adapter() });
 
 jest.unmock('./Chart');
 jest.unmock('../MessageBox');
