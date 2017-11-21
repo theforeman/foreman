@@ -1,4 +1,4 @@
-class AddSomeIndexes < ActiveRecord::Migration
+class AddSomeIndexes < ActiveRecord::Migration[4.2]
   def up
     #environments_puppetclasses
     add_index :environments_puppetclasses, :puppetclass_id

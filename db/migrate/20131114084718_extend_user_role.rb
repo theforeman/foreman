@@ -1,4 +1,4 @@
-class ExtendUserRole < ActiveRecord::Migration
+class ExtendUserRole < ActiveRecord::Migration[4.2]
   def up
     if foreign_key_exists?('user_roles', :name => 'user_roles_user_id_fk')
       remove_foreign_key 'user_roles', :name => 'user_roles_user_id_fk'

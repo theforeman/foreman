@@ -1,4 +1,4 @@
-class AddManagedToHosts < ActiveRecord::Migration
+class AddManagedToHosts < ActiveRecord::Migration[4.2]
   def up
     add_column :hosts, :managed, :boolean
 

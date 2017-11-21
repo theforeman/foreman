@@ -1,4 +1,4 @@
-class CreateHostStatus < ActiveRecord::Migration
+class CreateHostStatus < ActiveRecord::Migration[4.2]
   def up
     create_table :host_status do |t|
       t.string :type, :limit => 255

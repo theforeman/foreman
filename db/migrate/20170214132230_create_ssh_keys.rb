@@ -1,4 +1,4 @@
-class CreateSshKeys < ActiveRecord::Migration
+class CreateSshKeys < ActiveRecord::Migration[4.2]
   def change
     create_table :ssh_keys do |t|
       t.string :name, :limit => 255

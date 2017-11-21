@@ -1,4 +1,4 @@
-class ChangeLabelToTitle < ActiveRecord::Migration
+class ChangeLabelToTitle < ActiveRecord::Migration[4.2]
   def change
     rename_column :hostgroups, :label, :title
 

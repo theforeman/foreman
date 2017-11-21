@@ -1,4 +1,4 @@
-class ChangeReportPermissions < ActiveRecord::Migration
+class ChangeReportPermissions < ActiveRecord::Migration[4.2]
   PERMISSIONS = %w(view_reports destroy_reports upload_reports)
   def up
     old_name = 'Report'

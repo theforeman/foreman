@@ -10,7 +10,7 @@ class FakeHost < ApplicationRecord
   self.table_name = 'hosts'
 end
 
-class MoveHostNicsToInterfaces < ActiveRecord::Migration
+class MoveHostNicsToInterfaces < ActiveRecord::Migration[4.2]
   def up
     add_column :nics, :primary, :boolean, :default => false
     add_column :nics, :provision, :boolean, :default => false

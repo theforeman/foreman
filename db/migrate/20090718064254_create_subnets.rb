@@ -1,4 +1,4 @@
-class CreateSubnets < ActiveRecord::Migration
+class CreateSubnets < ActiveRecord::Migration[4.2]
   def up
     create_table :subnets do |t|
       t.string   :number,     :limit => 15

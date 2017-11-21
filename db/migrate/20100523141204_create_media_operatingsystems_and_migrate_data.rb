@@ -1,4 +1,4 @@
-class CreateMediaOperatingsystemsAndMigrateData < ActiveRecord::Migration
+class CreateMediaOperatingsystemsAndMigrateData < ActiveRecord::Migration[4.2]
   class Medium < ApplicationRecord; end
 
   def up

@@ -1,7 +1,7 @@
-class CorrectMedia < ActiveRecord::Migration
+class CorrectMedia < ActiveRecord::Migration[4.2]
   def up
-    if table_exists? :medias
-      if table_exists? :medias_operatingsystems
+    if data_source_exists? :medias
+      if data_source_exists? :medias_operatingsystems
         rename_column :medias_operatingsystems, :media_id, :medium_id
         rename_table :medias_operatingsystems, :media_operatingsystems
       end
@@ -17,8 +17,8 @@ class CorrectMedia < ActiveRecord::Migration
   end
 
   def down
-    if table_exists? :media
-      if table_exists? :media_operatingsystems
+    if data_source_exists? :media
+      if data_source_exists? :media_operatingsystems
         rename_column :medias_operatingsystems, :medium_id, :media_id
         rename_table :media_operatingsystems, :medias_operatingsystems
       end

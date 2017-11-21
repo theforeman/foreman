@@ -1,4 +1,4 @@
-class CreateLogs < ActiveRecord::Migration
+class CreateLogs < ActiveRecord::Migration[4.2]
   def up
     create_table :logs do |t|
       t.integer :source_id

@@ -1,4 +1,4 @@
-class RemoveDuplicateSnippets < ActiveRecord::Migration
+class RemoveDuplicateSnippets < ActiveRecord::Migration[4.2]
   class FakeConfigTemplate < ApplicationRecord
     self.table_name = 'config_templates'
   end

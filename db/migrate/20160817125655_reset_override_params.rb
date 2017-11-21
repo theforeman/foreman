@@ -1,4 +1,4 @@
-class ResetOverrideParams < ActiveRecord::Migration
+class ResetOverrideParams < ActiveRecord::Migration[4.2]
   def up
     PuppetclassLookupKey.where(override: false).update_all(
       :merge_overrides => false,

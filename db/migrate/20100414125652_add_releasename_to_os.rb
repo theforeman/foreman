@@ -1,4 +1,4 @@
-class AddReleasenameToOs < ActiveRecord::Migration
+class AddReleasenameToOs < ActiveRecord::Migration[4.2]
   class Operatingsystem < ApplicationRecord; end
 
   def up

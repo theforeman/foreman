@@ -1,4 +1,4 @@
-class AddCounterCaches < ActiveRecord::Migration
+class AddCounterCaches < ActiveRecord::Migration[4.2]
   def up
     # Architectures
     add_column :architectures, :hosts_count, :integer, :default => 0

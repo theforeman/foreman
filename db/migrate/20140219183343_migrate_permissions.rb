@@ -74,7 +74,7 @@ class FakeUser < ApplicationRecord
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
 end
 
-class MigratePermissions < ActiveRecord::Migration
+class MigratePermissions < ActiveRecord::Migration[4.2]
   # STEP 0 - add missing permissions to DB
   # some engines could have defined new permissions during their initialization
   # but permissions table hadn't existed yet so we check all registered

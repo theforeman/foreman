@@ -1,4 +1,4 @@
-class CreateNotices < ActiveRecord::Migration
+class CreateNotices < ActiveRecord::Migration[4.2]
   def up
     # These are notice messages
     create_table :notices do |t|

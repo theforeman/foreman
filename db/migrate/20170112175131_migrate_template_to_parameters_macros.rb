@@ -1,4 +1,4 @@
-class MigrateTemplateToParametersMacros < ActiveRecord::Migration
+class MigrateTemplateToParametersMacros < ActiveRecord::Migration[4.2]
   def up
     Template.unscoped.descendants.each do |klass|
       klass.all.each do |template|

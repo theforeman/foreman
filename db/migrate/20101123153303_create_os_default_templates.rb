@@ -1,4 +1,4 @@
-class CreateOsDefaultTemplates < ActiveRecord::Migration
+class CreateOsDefaultTemplates < ActiveRecord::Migration[4.2]
   def up
     create_table :os_default_templates do |t|
       t.references :config_template

@@ -27,7 +27,7 @@ class FakeBMCNic < ApplicationRecord
   end
 end
 
-class ExtractNicAttributes < ActiveRecord::Migration
+class ExtractNicAttributes < ActiveRecord::Migration[4.2]
   def up
     add_column :nics, :provider, :string, :limit => 255
     add_column :nics, :username, :string, :limit => 255

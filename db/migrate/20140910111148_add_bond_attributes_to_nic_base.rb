@@ -1,6 +1,6 @@
 require_dependency 'nic/base'
 
-class AddBondAttributesToNicBase < ActiveRecord::Migration
+class AddBondAttributesToNicBase < ActiveRecord::Migration[4.2]
   def up
     add_column :nics, :mode, :string, :null => false, :default => Nic::Bond::MODES.first, :limit => 255
     add_column :nics, :attached_devices, :string, :default => '', :null => false, :limit => 255

@@ -1,4 +1,4 @@
-class CreateTrends < ActiveRecord::Migration
+class CreateTrends < ActiveRecord::Migration[4.2]
   def up
     create_table :trends do |t|
       t.string :trendable_type, :limit => 255

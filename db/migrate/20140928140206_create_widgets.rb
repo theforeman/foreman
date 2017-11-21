@@ -1,4 +1,4 @@
-class CreateWidgets < ActiveRecord::Migration
+class CreateWidgets < ActiveRecord::Migration[4.2]
   def change
     create_table :widgets do |t|
       t.references :user, :index => true

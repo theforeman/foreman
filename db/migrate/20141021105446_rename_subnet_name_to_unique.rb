@@ -1,4 +1,4 @@
-class RenameSubnetNameToUnique < ActiveRecord::Migration
+class RenameSubnetNameToUnique < ActiveRecord::Migration[4.2]
   def up
     multiple_same_name = Subnet.unscoped.group(:name).count.delete_if {|name, value| value == 1}
     multiple_same_name.each_key do | subnet_name |

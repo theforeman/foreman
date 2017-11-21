@@ -1,4 +1,4 @@
-class FixTemplateSnippetFlag < ActiveRecord::Migration
+class FixTemplateSnippetFlag < ActiveRecord::Migration[4.2]
   class FakeTemplate < ApplicationRecord
     self.table_name = 'templates'
   end

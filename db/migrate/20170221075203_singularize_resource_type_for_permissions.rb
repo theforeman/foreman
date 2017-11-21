@@ -1,4 +1,4 @@
-class SingularizeResourceTypeForPermissions < ActiveRecord::Migration
+class SingularizeResourceTypeForPermissions < ActiveRecord::Migration[4.2]
   def up
     Permission.where(:resource_type => "ExternalUsergroups").map do |perm|
       perm.resource_type = "ExternalUsergroup"

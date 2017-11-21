@@ -1,4 +1,4 @@
-class FixTaxableTaxonomiesTemplateTypesUnscoped < ActiveRecord::Migration
+class FixTaxableTaxonomiesTemplateTypesUnscoped < ActiveRecord::Migration[4.2]
   def up
     TaxableTaxonomy.unscoped.where(:taxable_type => 'Template', :taxable_id => Ptable.unscoped.pluck(:id)).update_all(:taxable_type => 'Ptable')
     TaxableTaxonomy.unscoped.where(:taxable_type => 'Template', :taxable_id => ProvisioningTemplate.unscoped.pluck(:id)).update_all(:taxable_type => 'ProvisioningTemplate')
