@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-08-03 17:21+0000\n"
+"PO-Revision-Date: 2017-10-17 23:44+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -26,14 +26,36 @@ msgstr ""
 msgid " Remove"
 msgstr "Ta bort:"
 
+msgid " in the provisioning template."
+msgstr ""
+
+msgid "\"Any #{tax.humanize}\""
+msgstr ""
+
+msgid "\"Error during LDAP connection #{name} using login #{login}: #{e}\""
+msgstr ""
+
+msgid "\"Unable to submit role: Problem with associated filter #{f.errors}\""
+msgstr ""
+
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - Tryck Shift-F12 för att frigöra markören."
 
 msgid "%s - The following hosts are about to be changed"
 msgstr "%s - Följande värdar kommer att ändras"
 
+msgid "%s Active Feature"
+msgid_plural "%s Active Features"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s Distribution"
 msgstr "%s Distribution"
+
+msgid "%s Log Message"
+msgid_plural "%s Log Messages"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%s Parameters updated, see below for more information"
 msgstr "%s Parametrar uppdaterade, se nedan för mer information"
@@ -45,11 +67,6 @@ msgid "%s VM associated to a host"
 msgid_plural "%s VMs associated to hosts"
 msgstr[0] "%s VM associerad till en värd"
 msgstr[1] "%s VM's associerade till värdar"
-
-msgid "%s active feature"
-msgid_plural "%s active features"
-msgstr[0] ""
-msgstr[1] ""
 
 msgid "%s ago"
 msgstr "%s sedan"
@@ -89,11 +106,6 @@ msgstr ""
 msgid "%s is not in environment"
 msgstr ""
 
-msgid "%s log message"
-msgid_plural "%s log messages"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s minut sedan"
@@ -118,6 +130,9 @@ msgstr[0] "%s vecka sedan"
 msgstr[1] "%s veckor sedan"
 
 msgid "%s widget loading..."
+msgstr ""
+
+msgid "%s you had selected as your context has been deleted"
 msgstr ""
 
 msgid "%{app_name} API documentation homepage"
@@ -215,6 +230,9 @@ msgid_plural "%{taxonomy_type} %{taxonomy_name} has %{count} hosts that will nee
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%{taxonomy} with id %{id} not found"
+msgstr ""
+
 msgid "%{type} %{conflicts} already exists"
 msgstr ""
 
@@ -233,12 +251,6 @@ msgstr "%{value} är inte en av %{rules}"
 msgid "%{vm} is now %{vm_state}"
 msgstr "%{vm} är nu %{vm_state}"
 
-msgid "&laquo;"
-msgstr "&laquo;"
-
-msgid "&raquo;"
-msgstr "&raquo;"
-
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr "'%{host}' kan vara raderad eller så svarar inte '%{resource}'."
 
@@ -246,6 +258,9 @@ msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{host}' finns inte på '%{resource}'"
 
 msgid "'%{loader}' is not one of %{loaders}"
+msgstr ""
+
+msgid "'%{object_name}' is a '%{object_class}', expected a subnet."
 msgstr ""
 
 msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
@@ -312,16 +327,16 @@ msgid ""
 "     <b>Inherited value:</b> %{inherited_value}"
 msgstr ""
 
-msgid "<b>Foreman API v1 is deprecated. Please use v2.</b><br />If you still need to use v1, you may do so by either passing 'version=1' in the Accept Header or using api/v1/ in the URL."
+msgid "<b>Foreman API v1 is deprecated. Please use v2.</b><br>If you still need to use v1, you may do so by either passing 'version=1' in the Accept Header or using api/v1/ in the URL."
 msgstr ""
 
 msgid "<b>Foreman</b> Build Complete"
 msgstr ""
 
-msgid "<b>Foreman</b> Puppet error report"
+msgid "<b>Foreman</b> Configuration Management Error Report"
 msgstr ""
 
-msgid "<b>Foreman</b> Puppet summary"
+msgid "<b>Foreman</b> Configuration Management Summary"
 msgstr ""
 
 msgid "<b>Foreman</b> audit summary"
@@ -365,11 +380,17 @@ msgstr "En användargrupp finns redan med detta namn"
 msgid "API Key"
 msgstr "API Key"
 
+msgid "API Resources"
+msgstr ""
+
 msgid "API documentation"
 msgstr ""
 
 msgid "About"
 msgstr "Om"
+
+msgid "Abstract async task"
+msgstr ""
 
 msgid "Access Key"
 msgstr "Access Key"
@@ -388,6 +409,9 @@ msgstr ""
 
 msgid "Action"
 msgstr "Åtgärd"
+
+msgid "Action with sub plans"
+msgstr ""
 
 msgid "Actions"
 msgstr "Åtgärder"
@@ -410,6 +434,12 @@ msgstr ""
 msgid "Add Bookmark"
 msgstr "Lägg till bokmärke"
 
+msgid "Add Combination"
+msgstr ""
+
+msgid "Add Controller"
+msgstr ""
+
 msgid "Add Interface"
 msgstr "Lägg till nätverksgränssnitt"
 
@@ -418,6 +448,18 @@ msgstr ""
 
 msgid "Add Parameter"
 msgstr "Lägg till Parameter"
+
+msgid "Add SSH Key"
+msgstr ""
+
+msgid "Add SSH Key for %s"
+msgstr ""
+
+msgid "Add SSH key"
+msgstr ""
+
+msgid "Add Sync Plan Products"
+msgstr ""
 
 msgid "Add Trend Counter"
 msgstr "Lägg till Trendräknare"
@@ -440,8 +482,8 @@ msgstr ""
 msgid "Add a template combination"
 msgstr ""
 
-msgid "Add combination"
-msgstr "Lägg till kombination"
+msgid "Add an SSH key for a user"
+msgstr ""
 
 msgid "Add external user group"
 msgstr ""
@@ -450,6 +492,9 @@ msgid "Add filter"
 msgstr ""
 
 msgid "Add to dashboard"
+msgstr ""
+
+msgid "Add volume"
 msgstr ""
 
 msgid "Add widgets"
@@ -500,6 +545,9 @@ msgstr ""
 msgid "All"
 msgstr ""
 
+msgid "All Hosts"
+msgstr ""
+
 msgid "All Puppet Classes for %s"
 msgstr "Alla Puppetklasser för %s"
 
@@ -520,9 +568,6 @@ msgstr ""
 
 msgid "All host groups"
 msgstr "Alla värdgrupper"
-
-msgid "All hosts"
-msgstr "Alla värdar"
 
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "Alla värdars data matchar konfigurationer för platser och organisationer."
@@ -593,6 +638,9 @@ msgstr ""
 msgid "An email address is required, please update your account details"
 msgstr ""
 
+msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
+msgstr ""
+
 msgid "An error occurred while testing the connection: "
 msgstr ""
 
@@ -610,9 +658,6 @@ msgstr ""
 
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
-
-msgid "Any Context"
-msgstr "Alla Sammanhang"
 
 msgid "Any Location"
 msgstr "Alla Platser"
@@ -741,10 +786,16 @@ msgstr "Associera VMs till Foreman värdar"
 msgid "Associate VMs to Hosts"
 msgstr ""
 
+msgid "Associated Host"
+msgstr ""
+
 msgid "Association"
 msgstr "Association"
 
 msgid "At least one volume must be specified for image-based provisioning."
+msgstr ""
+
+msgid "Attach subscriptions"
 msgstr ""
 
 msgid "Attempting to construct an operating system image filename but %s cannot be built from an image"
@@ -907,10 +958,19 @@ msgstr "Delegera login till REMOTE_USER miljövariabel även för API-anrop"
 msgid "Authorized by"
 msgstr "Godkänd av"
 
+msgid "Auto attach subscriptions"
+msgstr ""
+
 msgid "Auto refresh off"
 msgstr ""
 
 msgid "Auto refresh on"
+msgstr ""
+
+msgid "Auto-attach subscriptions"
+msgstr ""
+
+msgid "Automate Foreman via a simple and powerful API"
 msgstr ""
 
 msgid "Automatic"
@@ -918,6 +978,9 @@ msgstr ""
 
 msgid "Autosign"
 msgstr "Autosignatur"
+
+msgid "Autosign Entries"
+msgstr ""
 
 msgid "Autosign entries"
 msgstr ""
@@ -937,11 +1000,11 @@ msgstr ""
 msgid "Available Providers"
 msgstr "Tillgänliga Leverantörer"
 
-msgid "Average memory usage"
-msgstr "Genomsnittlig minnesanvändning"
+msgid "Average Memory Usage"
+msgstr ""
 
-msgid "Average swap usage"
-msgstr "Genomsnittlig växlingsanvändning"
+msgid "Average Swap Usage"
+msgstr ""
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr ""
@@ -992,11 +1055,11 @@ msgstr "Bokmärke"
 msgid "Bookmark this search"
 msgstr "Bokmärk denna sökning"
 
-msgid "Bookmark was successfully created."
-msgstr "Bokmärke har skapats."
+msgid "Bookmark was successfully created"
+msgstr ""
 
-msgid "Bookmark was successfully updated."
-msgstr "Bokmärke har uppdaterats."
+msgid "Bookmark was successfully updated"
+msgstr ""
 
 msgid "Bookmarks"
 msgstr "Bokmärken"
@@ -1023,6 +1086,9 @@ msgstr "Publik"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Query"
 msgstr "Fråga"
+
+msgid "Boot Mode"
+msgstr ""
 
 msgid "Boot device"
 msgstr "Startenhet"
@@ -1060,16 +1126,16 @@ msgstr "Bygg Värdar"
 msgid "Build PXE Default"
 msgstr "Bygg PXE Default"
 
-msgid "Build a query for %{mailer}"
-msgstr ""
-
 msgid "Build from OS image"
 msgstr "Bygg från OS-avbild"
+
+msgid "By default we map user groups to standard LDAP Group objects. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups. Enable this checkbox if using Netgroups is preferred instead of standard groups."
+msgstr ""
 
 msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
 msgstr ""
 
-msgid "CA certificate expiry date"
+msgid "CA Certificate Expiry Date"
 msgstr ""
 
 msgid "CD-ROM drive"
@@ -1159,8 +1225,8 @@ msgstr ""
 msgid "Certificate Name"
 msgstr "Certifikatsnamn"
 
-msgid "Certificate path"
-msgstr "Certifikatssökväg"
+msgid "Certificate Path"
+msgstr ""
 
 msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr ""
@@ -1188,9 +1254,6 @@ msgstr ""
 
 msgid "Change the password"
 msgstr ""
-
-msgid "Change your avatar at gravatar.com"
-msgstr "Ändra din avatar hos gravatar.com"
 
 msgid "Changed environments"
 msgstr "Ändrade miljöer"
@@ -1221,6 +1284,9 @@ msgstr "Markera/Avmarkera uppdaterade"
 
 msgid "Choose a family"
 msgstr "Välj en familj"
+
+msgid "Choose a new file:"
+msgstr ""
 
 msgid "Choose a provider"
 msgstr "Välj en leverantör"
@@ -1297,10 +1363,16 @@ msgstr "Kluster"
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
+msgid "Comment"
+msgstr ""
+
 msgid "Comments"
 msgstr ""
 
 msgid "Communication status"
+msgstr ""
+
+msgid "Compute Profiles"
 msgstr ""
 
 msgid "Compute Resource"
@@ -1335,9 +1407,6 @@ msgstr ""
 
 msgid "Compute resource update for %s"
 msgstr "Beräkningsresursuppdatering för %s"
-
-msgid "Compute resources"
-msgstr "Beräkningsresurser"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeAttribute|Name"
@@ -1379,17 +1448,17 @@ msgstr "Användare"
 msgid "ComputeResource|Uuid"
 msgstr "Uuid"
 
+msgid "Config Groups"
+msgstr ""
+
+msgid "Config Management"
+msgstr ""
+
 msgid "Config Retrieval"
 msgstr "Konfigurationshämtning"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Config group"
-msgstr ""
-
-msgid "Config groups"
-msgstr ""
-
-msgid "Config management"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -1411,7 +1480,16 @@ msgstr ""
 msgid "Configuration"
 msgstr ""
 
+msgid "Configuration Management Error on %s"
+msgstr ""
+
+msgid "Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
+msgstr ""
+
 msgid "Configuration rebuild failed for: %s."
+msgstr ""
+
+msgid "Configuration successfully rebuilt"
 msgstr ""
 
 msgid "Configuration successfully rebuilt."
@@ -1419,6 +1497,9 @@ msgstr ""
 
 msgid "Configure"
 msgstr "Konfigurera"
+
+msgid "Configure capsule"
+msgstr ""
 
 msgid "Configure instance %s via SSH"
 msgstr "Konfigurera instans %s via SSH"
@@ -1437,6 +1518,9 @@ msgstr "Ansluter (okrypterat) till: %s"
 
 msgid "Console"
 msgstr "Konsol"
+
+msgid "Console Passwords"
+msgstr ""
 
 msgid "Console output may be out of date"
 msgstr "Konsolutdatan kan vara föråldrad"
@@ -1483,6 +1567,9 @@ msgstr ""
 msgid "Could not find %{association} with name: %{name}"
 msgstr ""
 
+msgid "Could not find %{migration_name} migration in %{destination}"
+msgstr ""
+
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
 msgstr ""
 
@@ -1496,6 +1583,9 @@ msgid "Could not locate CA certificate."
 msgstr ""
 
 msgid "Could not recreate a new SSH key"
+msgstr ""
+
+msgid "Could not refresh external usergroups: %{e} - %{message} - %{suggestion}"
 msgstr ""
 
 msgid "Create"
@@ -1514,6 +1604,9 @@ msgid "Create Architecture"
 msgstr ""
 
 msgid "Create Authentication Source"
+msgstr ""
+
+msgid "Create Autosign Entry"
 msgstr ""
 
 msgid "Create Bookmark"
@@ -1573,10 +1666,10 @@ msgstr ""
 msgid "Create Operating System"
 msgstr ""
 
-msgid "Create Operating system"
+msgid "Create Organization"
 msgstr ""
 
-msgid "Create Organization"
+msgid "Create Package Group"
 msgstr ""
 
 msgid "Create Parameter"
@@ -1597,13 +1690,7 @@ msgstr ""
 msgid "Create Role"
 msgstr ""
 
-msgid "Create SSH Key"
-msgstr ""
-
-msgid "Create SSH Key for %s"
-msgstr ""
-
-msgid "Create SSH key"
+msgid "Create SCSI controller"
 msgstr ""
 
 msgid "Create Smart Proxy"
@@ -1628,6 +1715,9 @@ msgid "Create User Group"
 msgstr ""
 
 msgid "Create User group"
+msgstr ""
+
+msgid "Create a Personal Access Token for a user"
 msgstr ""
 
 msgid "Create a Puppet class"
@@ -1723,11 +1813,11 @@ msgstr ""
 msgid "Create a user group"
 msgstr ""
 
+msgid "Create an HTTP Proxy"
+msgstr ""
+
 msgid "Create an LDAP authentication source"
 msgstr "Skapa en LDAP-autentiseringskälla"
-
-msgid "Create an SSH key for a user"
-msgstr ""
 
 msgid "Create an architecture"
 msgstr "Skapa en arkitektur"
@@ -1756,9 +1846,6 @@ msgstr ""
 msgid "Create autosign entry"
 msgstr ""
 
-msgid "Create host"
-msgstr ""
-
 msgid "Create new boot volume from image"
 msgstr ""
 
@@ -1771,11 +1858,17 @@ msgstr ""
 msgid "Create realm entry for %s"
 msgstr ""
 
+msgid "Create repos"
+msgstr ""
+
 msgid "Created"
 msgstr ""
 
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
+
+msgid "Current Page"
+msgstr ""
 
 msgid "Current password"
 msgstr ""
@@ -1825,6 +1918,12 @@ msgstr "DHCP-poster %s finns redan"
 msgid "DNS"
 msgstr "DNS"
 
+msgid "DNS Domain"
+msgstr ""
+
+msgid "DNS Name"
+msgstr ""
+
 msgid "DNS Proxy"
 msgstr "DNS Proxy"
 
@@ -1836,9 +1935,6 @@ msgstr ""
 
 msgid "DNS conflict timeout"
 msgstr ""
-
-msgid "DNS name"
-msgstr "DNS namn"
 
 msgid "DNS proxy ID to use within this domain"
 msgstr ""
@@ -1858,20 +1954,17 @@ msgstr "Datalager"
 msgid "Datacenter"
 msgstr "Datacenter"
 
-msgid "Datastore Cluster"
-msgstr ""
-
 msgid "Default"
 msgstr "Standard"
+
+msgid "Default Behavior"
+msgstr ""
 
 msgid "Default Puppet environment"
 msgstr ""
 
 msgid "Default Puppet server hostname"
 msgstr "Standard Puppet-server värdnamn"
-
-msgid "Default behavior"
-msgstr ""
 
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
@@ -1918,6 +2011,9 @@ msgstr ""
 msgid "Defaults to image size if left blank"
 msgstr ""
 
+msgid "Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies."
+msgstr ""
+
 msgid "Delete"
 msgstr "Radera"
 
@@ -1927,8 +2023,26 @@ msgstr "Radera %s"
 msgid "Delete :a_resource"
 msgstr ""
 
+msgid "Delete Activation Key"
+msgstr ""
+
+msgid "Delete Controller"
+msgstr ""
+
 msgid "Delete Hosts"
 msgstr "Radera värd"
+
+msgid "Delete Lifecycle Environment"
+msgstr ""
+
+msgid "Delete Package Group"
+msgstr ""
+
+msgid "Delete Product"
+msgstr ""
+
+msgid "Delete PuppetCA autosign entry for %s"
+msgstr ""
 
 msgid "Delete PuppetCA certificates for %s"
 msgstr "Radera PuppetCA certifikat för %s"
@@ -2056,6 +2170,9 @@ msgstr ""
 msgid "Delete all the trend history for %s?"
 msgstr "Radera all trendhistorik för %s"
 
+msgid "Delete an HTTP Proxy"
+msgstr ""
+
 msgid "Delete an LDAP authentication source"
 msgstr "Radera en LDAP-autentiseringskälla"
 
@@ -2086,9 +2203,6 @@ msgstr ""
 msgid "Delete autosign entry"
 msgstr ""
 
-msgid "Delete autosign entry for %s"
-msgstr "Radera autosigneringsvärde för %s"
-
 msgid "Delete filter?"
 msgstr ""
 
@@ -2107,14 +2221,11 @@ msgstr "Raderade miljön %{env} och %{pcs}"
 msgid "Delivery method"
 msgstr ""
 
+msgid "Deploy On"
+msgstr ""
+
 msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
-
-msgid "Deploy VM on selected datastore"
-msgstr ""
-
-msgid "Deploy on"
-msgstr "Installera på"
 
 msgid "Deprecated, please use datacenter"
 msgstr ""
@@ -2140,13 +2251,16 @@ msgstr "Avmarkera alla"
 msgid "Destroy"
 msgstr "Förstör"
 
+msgid "Destroy Content Host"
+msgstr ""
+
 msgid "Destroyed selected hosts"
 msgstr "Förstör markerade värdar"
 
 msgid "Details"
 msgstr "Detaljer"
 
-msgid "Device identifier"
+msgid "Device Identifier"
 msgstr ""
 
 msgid "Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul><li>Use the basic name for physical interface identifiers, e.g. <strong>eth0</strong> or <strong>em0</strong> with biosdevname.</li><li>For virtual interfaces, use either alias notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>eth0.15</strong>, name.tag).</li><li>For bonds it's common to use <strong>bond0</strong> on Linux, <strong>lagg0</strong> on FreeBSD systems.</li></ul>"
@@ -2160,6 +2274,9 @@ msgstr ""
 
 msgid "Diff View"
 msgstr "Skillnadsvy"
+
+msgid "Disable"
+msgstr ""
 
 msgid "Disable Notifications"
 msgstr "Inaktivera notifieringar"
@@ -2191,7 +2308,10 @@ msgstr ""
 msgid "Disk"
 msgstr "Hårddisk"
 
-msgid "Disk mode"
+msgid "Disk Mode"
+msgstr ""
+
+msgid "Disk name"
 msgstr ""
 
 msgid "Display"
@@ -2199,6 +2319,9 @@ msgstr "Visa"
 
 msgid "Display Name"
 msgstr "Visningsnamn"
+
+msgid "Display Type"
+msgstr ""
 
 msgid "Display hidden parameter values"
 msgstr ""
@@ -2209,21 +2332,10 @@ msgstr ""
 msgid "Display the templates that will be used to provision this host"
 msgstr "Visa mallar som används för att provisionera denna värd"
 
-msgid "Display type"
-msgstr "Visningstyp"
-
 msgid "Displaying %{num_audits} of %{total_audits} audit"
 msgid_plural "Displaying %{num_audits} of %{total_audits} audits"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Displaying <b>%{count}</b> entry"
-msgid_plural "Displaying <b>all %{count}</b> entries"
-msgstr[0] "Visar <b>%{count}</b> post"
-msgstr[1] "Visar <b>alla %{count}</b> poster"
-
-msgid "Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
-msgstr "Visar poster <b>%{from} - %{to}</b> av totalt <b>%{count}</b>"
 
 msgid "Documentation"
 msgstr "Dokumentation"
@@ -2239,6 +2351,12 @@ msgid "Domain ID"
 msgstr ""
 
 msgid "Domain IDs"
+msgstr ""
+
+msgid "Domain Users is a special group in AD. Unfortunately, we cannot obtain membership information from a LDAP search and therefore sync it."
+msgstr ""
+
+msgid "Domain for V3 authentication"
 msgstr ""
 
 msgid "Domains"
@@ -2326,6 +2444,9 @@ msgstr ""
 msgid "Edit Global Parameter"
 msgstr "Redigera Globala Parametrar"
 
+msgid "Edit HTTP Proxy"
+msgstr ""
+
 msgid "Edit Host"
 msgstr ""
 
@@ -2410,14 +2531,17 @@ msgstr ""
 msgid "Empty environment"
 msgstr "Tom miljö"
 
+msgid "Enable"
+msgstr ""
+
+msgid "Enable Caching"
+msgstr ""
+
 msgid "Enable Notifications"
 msgstr "Aktivera Notifieringar"
 
 msgid "Enable alerts for selected hosts"
 msgstr "Aktivera larm för valda värdar"
-
-msgid "Enable caching"
-msgstr ""
 
 msgid "Enable certificate generation for %s"
 msgstr "Aktivera certifikatgenerering för %s"
@@ -2498,6 +2622,9 @@ msgstr ""
 msgid "Environment|Name"
 msgstr "Namn"
 
+msgid "Errata mail"
+msgstr ""
+
 msgid "Error"
 msgstr "Fel"
 
@@ -2531,6 +2658,12 @@ msgstr ""
 msgid "Error removing widget from dashboard."
 msgstr "Fel vid borttagning av widget från instrumentbrädan."
 
+msgid "Error submitting data:"
+msgstr ""
+
+msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
+msgstr ""
+
 msgid "Errors"
 msgstr ""
 
@@ -2543,11 +2676,38 @@ msgstr "Enbart fel"
 msgid "Errors: %s"
 msgstr "Fel: %s"
 
+msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
+msgstr ""
+
+msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
+msgstr ""
+
+msgid "Example value is <code>DOMAIN\\foreman</code>"
+msgstr ""
+
+msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
+msgstr ""
+
+msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
+msgstr ""
+
+msgid "Example value is <code>dc=example,dc=com</code>"
+msgstr ""
+
+msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
+msgstr ""
+
+msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
+msgstr ""
+
 msgid "Examples"
 msgstr ""
 
 msgid "Exit Full Screen"
 msgstr "Lämna Fullskärmsläge"
+
+msgid "Exit Fullscreen"
+msgstr ""
 
 msgid "Expand nested items"
 msgstr "Expandera nästlade poster"
@@ -2560,6 +2720,9 @@ msgstr ""
 
 msgid "Expires"
 msgstr "Utgår"
+
+msgid "Expiry Date"
+msgstr ""
 
 msgid "Explain matchers"
 msgstr ""
@@ -2630,9 +2793,6 @@ msgstr "Faktanamn"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
 msgstr "Faktavärde"
-
-msgid "Fact values"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "FactName|Ancestry"
@@ -2711,6 +2871,9 @@ msgstr ""
 msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: %{message}\n"
 " "
+msgstr ""
+
+msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
@@ -2869,6 +3032,9 @@ msgstr "Filterklasser"
 msgid "Filter overriding has been disabled"
 msgstr ""
 
+msgid "Filtered index content"
+msgstr ""
+
 msgid "Filters"
 msgstr "Filter"
 
@@ -2941,6 +3107,9 @@ msgid ""
 "For example, if you have copied several Red Hat release disks into a directory structure where the disk images are named 5.8 or 6.2, and each contained both x86_64 and i386 binaries, then you\n"
 "  could create a single medium entry describing them all.\n"
 "  The entry, which could be just named 'Red Hat' could contain a path like this <em>'http://server/redhat/$version/$arch'</em>"
+msgstr ""
+
+msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr ""
 
 msgid "For more info visit our documentation."
@@ -3102,6 +3271,9 @@ msgstr "Fullskärmsläge"
 msgid "Full trace"
 msgstr "Fullständigt spårning"
 
+msgid "Fullscreen"
+msgstr ""
+
 msgid "Function not available for %s"
 msgstr ""
 
@@ -3110,6 +3282,9 @@ msgstr ""
 
 msgid "Gateway"
 msgstr "Nätsluss"
+
+msgid "Gateway Address"
+msgstr ""
 
 msgid "General"
 msgstr ""
@@ -3165,9 +3340,6 @@ msgstr ""
 msgid "Global methods (functions)"
 msgstr ""
 
-msgid "Global parameters"
-msgstr "Globala parametrar"
-
 msgid "Global status changed from %{from} to %{to}"
 msgstr ""
 
@@ -3189,6 +3361,24 @@ msgstr ""
 msgid "HELO/EHLO domain"
 msgstr ""
 
+msgid "HTTP Proxies"
+msgstr ""
+
+msgid "HTTP Proxy"
+msgstr ""
+
+msgid "HTTP Proxy connection successful."
+msgstr ""
+
+msgid "HTTP(S) proxy"
+msgstr ""
+
+msgid "HTTP(S) proxy except hosts"
+msgstr ""
+
+msgid "Hard disk"
+msgstr ""
+
 msgid "Hardware"
 msgstr "Hårdvara"
 
@@ -3196,9 +3386,6 @@ msgid "Hardware Model"
 msgstr "Hårdvarumodell"
 
 msgid "Hardware Models"
-msgstr "Hårdvarumodeller"
-
-msgid "Hardware models"
 msgstr "Hårdvarumodeller"
 
 msgid "Hash function to use. Change takes effect for new or updated hosts."
@@ -3213,7 +3400,7 @@ msgstr ""
 msgid "Help"
 msgstr "Hjälp"
 
-msgid "Hidden value"
+msgid "Hidden Value"
 msgstr ""
 
 msgid "Hide all values for this parameter."
@@ -3243,11 +3430,23 @@ msgstr ""
 msgid "Host Configuration Status"
 msgstr "Värdkonfigurationsstatus"
 
+msgid "Host Group / Environment"
+msgstr ""
+
+msgid "Host Group Configuration"
+msgstr ""
+
 msgid "Host Group Distribution"
+msgstr ""
+
+msgid "Host Group Parameters"
 msgstr ""
 
 msgid "Host Groups"
 msgstr "Värdgrupper"
+
+msgid "Host Parameters"
+msgstr ""
 
 msgid "Host audit entries"
 msgstr "Värdgranskningslogg"
@@ -3262,26 +3461,20 @@ msgstr "Värddetaljer"
 msgid "Host group"
 msgstr "Värdgrupp"
 
-msgid "Host group / Environment"
-msgstr "Värdgrupp / Miljö"
-
 msgid "Host group IDs"
 msgstr ""
 
 msgid "Host group and Environment"
 msgstr "Värdgrupp och Miljö"
 
-msgid "Host group configuration"
-msgstr "Värdgruppskonfiguration"
+msgid "Host group description"
+msgstr ""
 
 msgid "Host group matchers inheritance"
 msgstr ""
 
 msgid "Host group only"
 msgstr "Enbart värdgrupp"
-
-msgid "Host group parameters"
-msgstr "Värdgruppsparametrar"
 
 msgid "Host groups"
 msgstr "Värdgrupper"
@@ -3290,9 +3483,6 @@ msgid "Host owner"
 msgstr ""
 
 msgid "Host owner is invalid"
-msgstr ""
-
-msgid "Host parameters"
 msgstr ""
 
 msgid "Host reported time is <em>%s</em>"
@@ -3473,7 +3663,7 @@ msgstr ""
 msgid "Hosts in error state"
 msgstr "Värdar med felaktigt tillstånd"
 
-msgid "Hosts including sub-groups"
+msgid "Hosts including Sub-groups"
 msgstr ""
 
 msgid "Hosts managed"
@@ -3497,14 +3687,14 @@ msgstr "Värdar, utöver Smarta Proxies, som är betrodda med åtkomst till fakt
 msgid "Hosts which Foreman reporting is disabled"
 msgstr ""
 
-msgid "Hosts which are currently not running Puppet"
-msgstr ""
-
 msgid "Hosts which are not reporting"
 msgstr "Värdar som inte rapporterar"
 
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr "Värdar, vilka inte körde puppet den senaste %s"
+
+msgid "Hosts which do not have recent reports from configuration management"
+msgstr ""
 
 msgid "Hosts which recently applied changes"
 msgstr "Värdar med nyligen tillämpade ändringar"
@@ -3555,6 +3745,12 @@ msgid "How values are validated"
 msgstr "Hur värden valideras"
 
 msgid "However, if it was deleted externally this page helps you to recreate it"
+msgstr ""
+
+msgid "Hypervisors"
+msgstr ""
+
+msgid "Hypervisors update"
 msgstr ""
 
 msgid "ID of LDAP authentication source"
@@ -3703,9 +3899,6 @@ msgstr[1] ""
 msgid "IPv4 Subnet"
 msgstr ""
 
-msgid "IPv4 address"
-msgstr ""
-
 msgid "IPv4 address of interface"
 msgstr ""
 
@@ -3721,9 +3914,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv6 Subnet"
-msgstr ""
-
-msgid "IPv6 address"
 msgstr ""
 
 msgid "IPv6 address of interface"
@@ -3759,6 +3949,12 @@ msgstr "Om vald, kommer ett fel att flaggas om det inte finns något standardvä
 msgid "If owner type is specified, owner must be specified too."
 msgstr ""
 
+msgid "If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain."
+msgstr ""
+
+msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
+msgstr ""
+
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr ""
 
@@ -3792,7 +3988,7 @@ msgstr ""
 msgid "Ignored environment"
 msgstr ""
 
-msgid "Ignored environment names resulting in booleans found. Please quote strings like true/false and yes/no in config/ignored_environments.yml."
+msgid "Ignored environment names resulting in booleans found. Please quote strings like true/false and yes/no in config/ignored_environments.yml"
 msgstr ""
 
 msgid "Ignored environments: %s"
@@ -3853,6 +4049,9 @@ msgstr "Importera"
 msgid "Import IPv4 subnets"
 msgstr ""
 
+msgid "Import Puppet classes"
+msgstr ""
+
 msgid "Import VM %s"
 msgstr ""
 
@@ -3860,6 +4059,9 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
+msgstr ""
+
+msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -3877,7 +4079,7 @@ msgstr ""
 msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
 msgstr "Utöver möjligheten att definiera vilka puppetklasser som blir inkluderade vid byggandet av denna värd, kan du även tilldela variabler och provisioneringsinformation till en värdgrupp för att i mer detalj kunna styra beteendet över puppet."
 
-msgid "In order to create the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
+msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr ""
 
 msgid "In-line code syntax"
@@ -3904,10 +4106,25 @@ msgstr ""
 msgid "Incorrect username or password"
 msgstr "Felaktigt användarnamn eller lösenord"
 
+msgid "Incremental Update"
+msgstr ""
+
+msgid "Incremental Update of  Content View Version(s) "
+msgstr ""
+
 msgid "Independent - Nonpersistent"
 msgstr ""
 
 msgid "Independent - Persistent"
+msgstr ""
+
+msgid "Index content"
+msgstr ""
+
+msgid "Index errata"
+msgstr ""
+
+msgid "Index package groups"
 msgstr ""
 
 msgid "Infrastructure"
@@ -3925,10 +4142,19 @@ msgstr ""
 msgid "Input"
 msgstr ""
 
-msgid "Installation Media"
-msgstr "Installationsmedia"
+msgid "Install Applicable Errata"
+msgstr ""
 
-msgid "Installation media"
+msgid "Install erratum"
+msgstr ""
+
+msgid "Install package"
+msgstr ""
+
+msgid "Install package group"
+msgstr ""
+
+msgid "Installation Media"
 msgstr "Installationsmedia"
 
 msgid "Installation medium configuration"
@@ -3961,17 +4187,17 @@ msgstr ""
 msgid "Internal DB"
 msgstr ""
 
+msgid "Internal Server Error: the server was unable to finish the request. "
+msgstr ""
+
 msgid "Internal network"
 msgstr ""
 
 msgid "Interpolate ERB in parameters"
 msgstr ""
 
-msgid "Invalid %s selection, you must select at least one of yours"
+msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr ""
-
-msgid "Invalid Host"
-msgstr "Felaktig Värd"
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr ""
@@ -4073,9 +4299,6 @@ msgstr "Variant"
 msgid "LDAP Authentication"
 msgstr "LDAP Autentisering"
 
-msgid "LDAP authentication"
-msgstr "LDAP autentisering"
-
 msgid "LDAP authentication sources"
 msgstr ""
 
@@ -4091,6 +4314,9 @@ msgstr "LDAP-server"
 msgid "LDAP users will have their Foreman account automatically created the first time they log into Foreman"
 msgstr "LDAP-användare får sina konton automatiskt skapade första gången dom loggar in i Foreman"
 
+msgid "Lab Features"
+msgstr ""
+
 msgid "Language"
 msgstr ""
 
@@ -4100,8 +4326,8 @@ msgstr ""
 msgid "Last report"
 msgstr "Senaste rapport"
 
-msgid "Last updated %s ago"
-msgstr "Senast uppdaterade %s sedan"
+msgid "Last update: %s"
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Senaste Händelserna"
@@ -4138,6 +4364,9 @@ msgstr ""
 
 msgid "List all LDAP authentication sources"
 msgstr "Lista alla LDAP-autentiseringskällor"
+
+msgid "List all Personal Access Tokens for a user"
+msgstr ""
 
 msgid "List all Puppet class IDs for host"
 msgstr ""
@@ -4409,6 +4638,9 @@ msgstr "Lista värdar per organisation"
 msgid "List installed plugins"
 msgstr ""
 
+msgid "List of HTTP Proxies"
+msgstr ""
+
 msgid "List of compute profiles"
 msgstr "Lista alla beräkningsprofiler"
 
@@ -4520,9 +4752,6 @@ msgstr "Ladda Innehavare"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading"
-msgstr "Laddar"
-
 msgid "Loading ..."
 msgstr "Laddar ..."
 
@@ -4571,6 +4800,9 @@ msgstr "Laddar information för virtuell maskin ..."
 msgid "Loading virtual machines information ..."
 msgstr "Laddar information för virtuella maskiner ..."
 
+msgid "Local boot %s template"
+msgstr ""
+
 msgid "Local time"
 msgstr ""
 
@@ -4585,12 +4817,6 @@ msgstr ""
 
 msgid "Location parameters"
 msgstr ""
-
-msgid "Location with id %{id} not found"
-msgstr ""
-
-msgid "Location you had selected as your context has been deleted."
-msgstr "Lokationen du hade valt som kontext har blivit raderad."
 
 msgid "Location/Organization"
 msgstr "Lokation/Organisation"
@@ -4610,10 +4836,10 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-msgid "Log entry details"
+msgid "Log Out"
 msgstr ""
 
-msgid "Log out"
+msgid "Log entry details"
 msgstr ""
 
 msgid "Log out idle users after a certain number of minutes"
@@ -4715,9 +4941,6 @@ msgstr "MAC"
 msgid "MAC Address"
 msgstr "MACAdress"
 
-msgid "MAC address"
-msgstr ""
-
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr ""
 
@@ -4732,6 +4955,9 @@ msgstr "Maskintyp"
 
 msgid "Machine type"
 msgstr "Maskintyp"
+
+msgid "Mail query"
+msgstr ""
 
 msgid "Mailing lists"
 msgstr "Epostlistor"
@@ -4765,6 +4991,9 @@ msgstr "Tilldela Manuellt"
 
 msgid "Manually select and assign hosts with no %s"
 msgstr "Välj manuellt och tilldela värdar utan %s"
+
+msgid "Mark All Read"
+msgstr ""
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr ""
@@ -4809,6 +5038,9 @@ msgstr "Mediesökväg"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Name"
 msgstr "Namn"
+
+msgid "Medium|OS Family"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Os family"
@@ -4876,6 +5108,9 @@ msgstr ""
 msgid "Model"
 msgstr "Modell"
 
+msgid "Model|Hardware Model"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
 msgstr "Hårdvarumodell"
@@ -4920,8 +5155,8 @@ msgstr ""
 msgid "Must specify a valid user with email enabled"
 msgstr ""
 
-msgid "My account"
-msgstr "Mitt konto"
+msgid "My Account"
+msgstr ""
 
 msgid "N/A"
 msgstr "N/A"
@@ -4968,8 +5203,17 @@ msgstr "Nätmask för detta subnät"
 msgid "Network"
 msgstr "Nätverk"
 
+msgid "Network Address"
+msgstr ""
+
 msgid "Network Based"
 msgstr "Nätverksbaserad"
+
+msgid "Network Mask"
+msgstr ""
+
+msgid "Network Prefix"
+msgstr ""
 
 msgid "Network can't be blank"
 msgstr ""
@@ -4978,9 +5222,6 @@ msgid "Network interfaces"
 msgstr "Nätverkskort"
 
 msgid "Network interfaces management has been moved to the Interfaces tab. Please set your interfaces there."
-msgstr ""
-
-msgid "Network prefix"
 msgstr ""
 
 msgid "Network type"
@@ -4996,6 +5237,9 @@ msgid "New Event"
 msgstr ""
 
 msgid "New Events"
+msgstr ""
+
+msgid "New HTTP Proxy"
 msgstr ""
 
 msgid "New Hosts"
@@ -5095,6 +5339,9 @@ msgstr ""
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
+msgid "No Failed Features"
+msgstr ""
+
 msgid "No IPv4 subnets selected"
 msgstr ""
 
@@ -5120,6 +5367,9 @@ msgid "No changes found when refreshing features from %s."
 msgstr "Inga ändringar funna vid uppdatering av funktioner från %s."
 
 msgid "No changes to your environments detected"
+msgstr ""
+
+msgid "No comment provided"
 msgstr ""
 
 msgid "No compute resource to show"
@@ -5209,8 +5459,8 @@ msgstr ""
 msgid "No parameters to override for Puppet class %s"
 msgstr ""
 
-msgid "No parameters were allocated to the selected hosts, can't mass assign."
-msgstr "Inga parametrar blev satta på de valda värdarna, kan inte masseditera."
+msgid "No parameters were allocated to the selected hosts, can't mass assign"
+msgstr ""
 
 msgid "No plugins found"
 msgstr "Inga plugins hittade"
@@ -5242,7 +5492,7 @@ msgstr ""
 msgid "No smart proxies to show"
 msgstr "Inga smarta proxies att visa"
 
-msgid "No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature."
+msgid "No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature"
 msgstr ""
 
 msgid "No subnets"
@@ -5284,6 +5534,9 @@ msgstr ""
 msgid "Not Installed"
 msgstr "Inte Installerad"
 
+msgid "Not a valid URL for a HTTP proxy"
+msgstr ""
+
 msgid "Not authorized to edit classes"
 msgstr "Inte auktoriserad att redigera klasser"
 
@@ -5314,6 +5567,9 @@ msgstr "Notifiering inaktiverad"
 msgid "Notifications"
 msgstr "Notifieringar"
 
+msgid "Notifications can't be assigned to this user."
+msgstr ""
+
 msgid "Number Of Clients"
 msgstr "Antal Klienter"
 
@@ -5326,13 +5582,16 @@ msgstr "Antal Event"
 msgid "Number of Hosts"
 msgstr "Antal Värdar"
 
+msgid "Number of Overrides"
+msgstr ""
+
 msgid "Number of classes"
 msgstr ""
 
-msgid "Number of overrides"
+msgid "Number of records shown per page in Foreman"
 msgstr ""
 
-msgid "Number of records shown per page in Foreman"
+msgid "Numerical ID or HTTP Proxy name"
 msgstr ""
 
 msgid "Numerical ID or domain name"
@@ -5398,10 +5657,21 @@ msgstr ""
 msgid "On"
 msgstr "På"
 
+msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr ""
 
+msgid ""
+"Only internal (non-LDAP) users can be added manually. LDAP users\n"
+"                are automatically synced from the External Groups list."
+msgstr ""
+
 msgid "Only known Smart Proxies may access features that use Smart Proxy authentication"
+msgstr ""
+
+msgid "Only list ID and name of hosts"
 msgstr ""
 
 msgid "Only one declaration of a proxy is allowed"
@@ -5419,8 +5689,14 @@ msgstr "Hoppsan, vi är ledsna, men något gick fel"
 msgid "Open Spice in a new window"
 msgstr "Öppna Spice i ett nytt fönster"
 
+msgid "Operate on child hostgroup hosts"
+msgstr ""
+
 msgid "Operating System"
 msgstr "Operativsystem"
+
+msgid "Operating System Family"
+msgstr ""
 
 msgid "Operating System version is required"
 msgstr "Versionen av Operativsystemet krävs"
@@ -5439,9 +5715,6 @@ msgstr ""
 
 msgid "Operating system default"
 msgstr "Standardoperativsystem"
-
-msgid "Operating system family"
-msgstr ""
 
 msgid "Operating system family, available values: %{operatingsystem_families}"
 msgstr ""
@@ -5505,13 +5778,13 @@ msgstr "Operation"
 msgid "Operators"
 msgstr ""
 
+msgid "Optional Input Validator"
+msgstr ""
+
 msgid "Optional array of log hashes"
 msgstr ""
 
 msgid "Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes"
-msgstr ""
-
-msgid "Optional input validator"
 msgstr ""
 
 msgid "Optional parameter without value.<br/><i>Still managed by Foreman, the value will be empty.</i><br/>"
@@ -5553,12 +5826,6 @@ msgstr ""
 msgid "Organization parameters"
 msgstr ""
 
-msgid "Organization with id %{id} not found"
-msgstr ""
-
-msgid "Organization you had selected as your context has been deleted."
-msgstr "Organisationen du hade valt som din kontext har blivit raderad"
-
 msgid "Organizations"
 msgstr "Organisationer"
 
@@ -5581,6 +5848,12 @@ msgid "Out of sync hosts with alerts enabled"
 msgstr "Värdar ur synk med aktiverade notifieringar"
 
 msgid "Out of sync interval"
+msgstr ""
+
+msgid "Overridden"
+msgstr ""
+
+msgid "Override"
 msgstr ""
 
 msgid "Override all parameters"
@@ -5640,6 +5913,9 @@ msgstr ""
 msgid "PXELinux template"
 msgstr ""
 
+msgid "Package Profile Update"
+msgstr ""
+
 msgid "Param name"
 msgstr ""
 
@@ -5647,7 +5923,13 @@ msgstr ""
 msgid "Parameter"
 msgstr "Parameter"
 
-msgid "Parameter details"
+msgid "Parameter %{name} is not set for host %{host}"
+msgstr ""
+
+msgid "Parameter %{name} is not set in host %{host} ENC output, resolving failed on step %{step}"
+msgstr ""
+
+msgid "Parameter Details"
 msgstr ""
 
 msgid "Parameter value"
@@ -5693,26 +5975,26 @@ msgstr ""
 msgid "Parent ID of the host group"
 msgstr ""
 
+msgid "Parent Parameters"
+msgstr ""
+
 msgid "Parent is already selected"
 msgstr ""
 
 msgid "Parent parameters"
 msgstr ""
 
+msgid "Partition Table"
+msgstr ""
+
 msgid "Partition Tables"
 msgstr "Partitiontabell"
-
-msgid "Partition table"
-msgstr "Partitionstabell"
 
 msgid "Partition table ID"
 msgstr ""
 
 msgid "Partition table configuration"
 msgstr "Partitiontabellskonfiguration"
-
-msgid "Partition tables"
-msgstr "Partitionstabell"
 
 msgid "Partition template IDs"
 msgstr ""
@@ -5732,7 +6014,13 @@ msgstr ""
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr ""
 
+msgid "Password to use if authentication is required."
+msgstr ""
+
 msgid "Password to use to authenticate, if required"
+msgstr ""
+
+msgid "Password used to authenticate with the HTTP Proxy"
 msgstr ""
 
 msgid "Password:"
@@ -5772,9 +6060,6 @@ msgstr ""
 
 msgid "Permission denied"
 msgstr "Tillåts ej"
-
-msgid "Permissions must be of same resource type"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Permission|Name"
@@ -5838,9 +6123,6 @@ msgstr ""
 msgid "Please save the user first before assigning mail notifications."
 msgstr ""
 
-msgid "Please select"
-msgstr "Vänligen välj"
-
 msgid "Please select a cluster"
 msgstr ""
 
@@ -5861,9 +6143,6 @@ msgstr "Var god och försök uppdatera din begäran"
 
 msgid "Please wait while your request is being processed"
 msgstr ""
-
-msgid "Please wait..."
-msgstr "Var vänlig och vänta"
 
 msgid "Plugins"
 msgstr "Plugin"
@@ -5892,6 +6171,9 @@ msgstr ""
 msgid "Prefix length can't be blank"
 msgstr ""
 
+msgid "Prefix length for this subnet, e.g. 24"
+msgstr ""
+
 msgid "Prefix length must be /64 or less to use EUI-64"
 msgstr ""
 
@@ -5910,6 +6192,9 @@ msgstr ""
 msgid "Primary"
 msgstr "Primär"
 
+msgid "Primary DNS Server"
+msgstr ""
+
 msgid "Primary DNS for this subnet"
 msgstr ""
 
@@ -5919,7 +6204,7 @@ msgstr ""
 msgid "Printing data"
 msgstr ""
 
-msgid "Prioritize attribute order"
+msgid "Prioritize Attribute Order"
 msgstr ""
 
 msgid "Private"
@@ -5930,6 +6215,15 @@ msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "Gå vidare till redigering"
+
+msgid "Product Create"
+msgstr ""
+
+msgid "Promote"
+msgstr ""
+
+msgid "Promotion to Environment"
+msgstr ""
 
 msgid "Properties"
 msgstr "Egenskaper"
@@ -5964,9 +6258,6 @@ msgstr "Provisioneringsmetod"
 msgid "Provisioning Setup"
 msgstr "Provisioneringsuppläggning"
 
-msgid "Provisioning Template content changed %s"
-msgstr "Provisioneringsmallens innehåll ändrad %s"
-
 msgid "Provisioning Templates"
 msgstr "Provisioneringsmallar"
 
@@ -5976,9 +6267,6 @@ msgstr ""
 
 msgid "Provisioning template IDs"
 msgstr ""
-
-msgid "Provisioning templates"
-msgstr "Provisineringsmallar"
 
 msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
@@ -6007,6 +6295,9 @@ msgstr ""
 msgid "ProvisioningTemplate|Vendor"
 msgstr ""
 
+msgid "Proxied request failed with: %s"
+msgstr ""
+
 msgid "Proxies"
 msgstr "Proxies"
 
@@ -6031,6 +6322,9 @@ msgstr ""
 msgid "Ptable|Name"
 msgstr "Namn"
 
+msgid "Ptable|OS Family"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Os family"
 msgstr "OSfamilj"
@@ -6044,6 +6338,9 @@ msgstr "Publik"
 msgid "Public SSH key"
 msgstr ""
 
+msgid "Publish"
+msgstr ""
+
 msgid "Puppet"
 msgstr "Puppet"
 
@@ -6055,6 +6352,9 @@ msgstr ""
 
 msgid "Puppet Class"
 msgstr "Puppet Klass"
+
+msgid "Puppet Class Parameters"
+msgstr ""
 
 msgid "Puppet Classes"
 msgstr "Puppet Klasser"
@@ -6071,26 +6371,14 @@ msgstr "Puppetmästare"
 msgid "Puppet Modules"
 msgstr "Puppetmoduler"
 
-msgid "Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
-msgstr ""
-
 msgid "Puppet class"
 msgstr "Puppetklass"
 
 msgid "Puppet class ID"
 msgstr ""
 
-msgid "Puppet class parameters"
-msgstr ""
-
-msgid "Puppet classes"
-msgstr "Puppetklasser"
-
 msgid "Puppet environments"
 msgstr "Puppetmiljöer"
-
-msgid "Puppet error on %s"
-msgstr "Puppetfel på %s"
 
 msgid "Puppet external nodes YAML dump"
 msgstr "Puppet externa noder YAML-export"
@@ -6149,6 +6437,9 @@ msgstr ""
 msgid "REPLACE organizations with given ids."
 msgstr ""
 
+msgid "Random DB"
+msgstr ""
+
 msgid "Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"
 msgstr ""
 
@@ -6165,6 +6456,9 @@ msgstr ""
 msgid "Realm IDs"
 msgstr ""
 
+msgid "Realm Type"
+msgstr ""
+
 msgid "Realm name, e.g. EXAMPLE.COM"
 msgstr ""
 
@@ -6175,9 +6469,6 @@ msgid "Realm proxy did not return a one-time password"
 msgstr ""
 
 msgid "Realm proxy to use within this realm"
-msgstr ""
-
-msgid "Realm type"
 msgstr ""
 
 msgid "Realm type, e.g. FreeIPA or Active Directory"
@@ -6241,6 +6532,12 @@ msgstr ""
 msgid "Region"
 msgstr "Region"
 
+msgid "Register Host"
+msgstr ""
+
+msgid "Reindex subscriptions"
+msgstr ""
+
 msgid "Reminder: <strong> One host is selected </strong>"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
 msgstr[0] ""
@@ -6254,17 +6551,35 @@ msgstr[1] ""
 msgid "Remote address"
 msgstr ""
 
+msgid "Remove"
+msgstr ""
+
 msgid "Remove %s?"
 msgstr "Radera %s?"
 
 msgid "Remove %{type} for %{host}"
 msgstr ""
 
+msgid "Remove Combination"
+msgstr ""
+
+msgid "Remove Content"
+msgstr ""
+
 msgid "Remove DHCP Settings for %s"
 msgstr "Ta bort DHCP-inställningar för %s"
 
+msgid "Remove Matcher"
+msgstr ""
+
 msgid "Remove Parameter"
 msgstr "Ta bort Parameter"
+
+msgid "Remove Version"
+msgstr ""
+
+msgid "Remove Versions and Associations"
+msgstr ""
 
 msgid "Remove a Puppet class from host"
 msgstr ""
@@ -6276,6 +6591,18 @@ msgid "Remove conflicting %{type} for %{host}"
 msgstr ""
 
 msgid "Remove duplicate values (only array type)"
+msgstr ""
+
+msgid "Remove from Environment"
+msgstr ""
+
+msgid "Remove package"
+msgstr ""
+
+msgid "Remove package group"
+msgstr ""
+
+msgid "Remove subscriptions"
 msgstr ""
 
 msgid "Remove this override"
@@ -6299,9 +6626,6 @@ msgstr "Renderar mallen, vänligen vänta..."
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "Rapport"
-
-msgid "Report Already Deleted"
-msgstr "Rapporten är redan raderad"
 
 msgid "Report Metrics"
 msgstr "Rapportstatistik"
@@ -6329,6 +6653,9 @@ msgstr "Rapporterades vid"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
 msgstr "Status"
+
+msgid "Republish Version Repositories"
+msgstr ""
 
 msgid "Require SSL for smart proxies"
 msgstr ""
@@ -6410,6 +6737,9 @@ msgstr ""
 msgid "Revoke"
 msgstr ""
 
+msgid "Revoke a Personal Access Token for a user"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role"
 msgstr "Roll"
@@ -6433,6 +6763,9 @@ msgstr ""
 msgid "Role|Builtin"
 msgstr "Inbyggd"
 
+msgid "Role|Description"
+msgstr ""
+
 msgid "Role|Locked"
 msgstr ""
 
@@ -6444,10 +6777,10 @@ msgstr "Namn"
 msgid "Role|Permissions"
 msgstr "Rättigheter"
 
-msgid "Root password"
+msgid "Root Password Hash"
 msgstr ""
 
-msgid "Root password hash"
+msgid "Root password"
 msgstr ""
 
 msgid "Root password hash function to use, one of MD5, SHA256, SHA512, Base64"
@@ -6482,7 +6815,7 @@ msgstr "Körs på"
 msgid "Runtime"
 msgstr "Exekveringsmiljö"
 
-msgid "SCSI controller"
+msgid "SCSI controller type is deprecated. Please change to scsi_controllers"
 msgstr ""
 
 msgid "SMTP"
@@ -6586,6 +6919,9 @@ msgstr ""
 
 msgid "Search"
 msgstr "Sök"
+
+msgid "Secondary DNS Server"
+msgstr ""
 
 msgid "Secondary DNS for this subnet"
 msgstr ""
@@ -6706,9 +7042,6 @@ msgstr ""
 msgid "Selected role"
 msgstr ""
 
-msgid "Selecting a file will override the editor and load the file instead"
-msgstr "Väljs en fil åsidosätts redigeraren och filen laddas istället"
-
 msgid "Send a test message to the current user's email address to confirm the configuration is working."
 msgstr ""
 
@@ -6751,6 +7084,9 @@ msgstr ""
 msgid "Set a randomly generated password on the display connection"
 msgstr "Sätt ett slumpgenererat lösenord för skärmanslutningen"
 
+msgid "Set hostnames to which requests are not to be proxied"
+msgstr ""
+
 msgid "Set parameters to defaults"
 msgstr ""
 
@@ -6759,6 +7095,9 @@ msgstr ""
 
 msgid "Set up compute instance %s"
 msgstr "Sätt upp beräkningsinstans %s"
+
+msgid "Sets a proxy for all outgoing HTTP connections."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
@@ -6815,11 +7154,17 @@ msgstr ""
 msgid "Show Diff"
 msgstr "Visa Skillnad"
 
+msgid "Show Experimental Labs"
+msgstr ""
+
 msgid "Show Host"
 msgstr "Visa Värd"
 
 msgid "Show Trends"
 msgstr "Visa Trender"
+
+msgid "Show a Personal Access Token for a user"
+msgstr ""
 
 msgid "Show a Puppet class"
 msgstr ""
@@ -6932,6 +7277,9 @@ msgstr "Visa alla %s underliggande faktavärden"
 msgid "Show all %s facts with the same value"
 msgstr ""
 
+msgid "Show an HTTP Proxy"
+msgstr ""
+
 msgid "Show an LDAP authentication source"
 msgstr "Visa en LDAP-autentiseringskälla"
 
@@ -7031,6 +7379,9 @@ msgstr "S"
 msgid "Smart Class Parameter"
 msgstr "Smart Klassparameter"
 
+msgid "Smart Class Parameters"
+msgstr ""
+
 msgid "Smart Proxies"
 msgstr "Smarta Proxies"
 
@@ -7043,21 +7394,12 @@ msgstr ""
 msgid "Smart Variables"
 msgstr "Smarta Variabler"
 
-msgid "Smart class parameters"
-msgstr ""
-
-msgid "Smart proxies"
-msgstr "Smarta proxies"
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
 msgstr "Smart proxy"
 
 msgid "Smart proxy IDs"
 msgstr ""
-
-msgid "Smart variables"
-msgstr "Smarta variabler"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Name"
@@ -7121,13 +7463,13 @@ msgstr ""
 msgid "Specified value is higher than recommended maximum"
 msgstr ""
 
+msgid "Specify Matchers"
+msgstr ""
+
 msgid "Specify additional options to sendmail"
 msgstr ""
 
 msgid "Specify authentication type, if required"
-msgstr ""
-
-msgid "Specify matchers"
 msgstr ""
 
 msgid "Start"
@@ -7160,6 +7502,9 @@ msgstr ""
 msgid "Storage"
 msgstr "Lagring"
 
+msgid "Storage Pod"
+msgstr ""
+
 msgid "Storage domain"
 msgstr "Lagringsdomän"
 
@@ -7180,6 +7525,9 @@ msgid "Subnet ID"
 msgstr ""
 
 msgid "Subnet IDs"
+msgstr ""
+
+msgid "Subnet description"
 msgstr ""
 
 msgid "Subnet name"
@@ -7254,6 +7602,9 @@ msgstr ""
 msgid "Success"
 msgstr "Lyckades"
 
+msgid "Success!"
+msgstr ""
+
 msgid "Successfully created %s."
 msgstr "Lyckades skapa %s."
 
@@ -7293,9 +7644,6 @@ msgstr "Lyckades uppdatera %s."
 msgid "Successfully updated environments and Puppet classes from the on-disk Puppet installation"
 msgstr ""
 
-msgid "Suffix or prefix length for this subnet, e.g. 32"
-msgstr ""
-
 msgid "Suggest new"
 msgstr ""
 
@@ -7311,7 +7659,13 @@ msgstr "Hjälp"
 msgid "Supported Formats"
 msgstr ""
 
+msgid "Synchronize"
+msgstr ""
+
 msgid "Synchronize group from authentication source"
+msgstr ""
+
+msgid "Synchronize smart proxy"
 msgstr ""
 
 msgid "Syntax Highlighting"
@@ -7381,17 +7735,20 @@ msgstr ""
 msgid "Template '%s' was not found"
 msgstr ""
 
+msgid "Template *"
+msgstr ""
+
 msgid "Template Diff"
 msgstr "Mallskillnad"
 
 msgid "Template Type"
 msgstr "Malltyp"
 
+msgid "Template content changed %s"
+msgstr ""
+
 msgid "Template diff"
 msgstr "Mallskillnad"
-
-msgid "Template editor"
-msgstr "Malleditor"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template kind"
@@ -7404,6 +7761,9 @@ msgid "Template locked"
 msgstr ""
 
 msgid "Template syntax"
+msgstr ""
+
+msgid "Template that will be selected as %s default for local boot."
 msgstr ""
 
 msgid "Template unlocked"
@@ -7431,6 +7791,9 @@ msgstr "Testa LDAP-anslutning"
 msgid "Test LDAP connectivity"
 msgstr ""
 
+msgid "Test URL"
+msgstr ""
+
 msgid "Test connection to LDAP server was successful."
 msgstr ""
 
@@ -7449,11 +7812,17 @@ msgid ""
 msgstr ""
 
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
-msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}."
+msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "The %{proxy_type} proxy of the selected hosts was cleared"
+msgstr ""
+
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
+msgstr ""
+
+msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
 msgstr ""
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
@@ -7470,8 +7839,14 @@ msgstr "Fältet för Granskningskommentar sparas tillsammas med mallen för att 
 msgid "The BMC password will be used by Foreman to access the host's BMC controller via a BMC-enabled smart proxy, if available.<br/>"
 msgstr ""
 
+msgid "The HTTP Proxy name"
+msgstr ""
+
 msgid "The IP address that should be used for the console listen address when provisioning new virtual machines via Libvirt"
 msgstr "IP-adressen som skall användas för konsolens lyssnaradress vid provisionering av nya maskiner via Libvirt"
+
+msgid "The Managed flag also determines whether the interface should be configured during host provisioning, so that the configuration remains after reboot."
+msgstr ""
 
 msgid "The NFS path to the image directory."
 msgstr "NFS-sökvägen till avbildningsbiblioteket."
@@ -7485,15 +7860,21 @@ msgstr "NFS-sökvägen till mediet"
 msgid "The Operating systems detail the OSs known to Foreman, and is the central point that the other required components tie into."
 msgstr ""
 
-msgid "The Primary interface is used for constructing the FQDN of the host"
+msgid "The Primary interface is used for constructing the FQDN of the host."
 msgstr ""
 
-msgid "The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"
+msgid "The Provisioning interface is used for TFTP configuration for PXE boot based on this interface MAC address."
 msgstr ""
 
 msgid ""
 "The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>,\n"
 "            <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgstr ""
+
+msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
+msgstr ""
+
+msgid "The class could not be saved because of an error in one of the class parameters."
 msgstr ""
 
 msgid "The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -m"
@@ -7545,6 +7926,9 @@ msgid "The following table and example snippet shows global methods, variables a
 msgstr ""
 
 msgid "The full DNS domain name"
+msgstr ""
+
+msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
 msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
@@ -7610,6 +7994,9 @@ msgstr ""
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr "Valda värdar kommer genomföra en byggoperation vid nästa omstart"
 
+msgid "The services to be configured are determined by the subnet and domain that are selected for this interface. If you want to manage<br/> only a subset of these services, change the %{subnet} and %{domain} proxies configuration. When a proxy is set to 'None', the corresponding"
+msgstr ""
+
 msgid "The snippet '%{name}' threw an error: %{exc}"
 msgstr ""
 
@@ -7623,6 +8010,9 @@ msgid "The virtual machine is being deleted."
 msgstr ""
 
 msgid "There are migrations pending in the system."
+msgstr ""
+
+msgid "There are no changes"
 msgstr ""
 
 msgid "There are no puppet environments set up on this puppet master. Please check the puppet master configuration."
@@ -7645,7 +8035,13 @@ msgstr ""
 msgid "There is no proxy with BMC feature set up. Please register a smart proxy with this feature."
 msgstr ""
 
+msgid "There may be more information in the server's logs."
+msgstr ""
+
 msgid "There was an error creating the PXE file: %s"
+msgstr ""
+
+msgid "There was an error during rendering, return to the Code tab to edit the template."
 msgstr ""
 
 msgid "There was an error listing %{listing}: %{errors}"
@@ -7687,6 +8083,9 @@ msgstr ""
 msgid "This host's stored facts and reports will be deleted too."
 msgstr ""
 
+msgid "This interface is also used for network communication during provisioning, e.g. downloading installation packages."
+msgstr ""
+
 msgid "This is a test message to confirm that Foreman's email configuration is working."
 msgstr ""
 
@@ -7703,6 +8102,9 @@ msgid "This is inherited from parent"
 msgstr ""
 
 msgid "This is used by a host"
+msgstr ""
+
+msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
 msgstr ""
 
 msgid "This might take a while, as all hosts, facts and reports will be destroyed as well"
@@ -7730,6 +8132,9 @@ msgid "This template is locked. Please clone it to a new template to customize."
 msgstr ""
 
 msgid "This template is locked. You may only change the                     associations. Please %s it to customize."
+msgstr ""
+
+msgid "This templates requires a host to render but none was specified"
 msgstr ""
 
 msgid "This value is not hidden"
@@ -7766,6 +8171,11 @@ msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt
 msgstr "För att aktivera en leverantör, installera antingen OS-paketet (t.ex. foreman-libvirt) eller aktivera bundlergruppen för utvecklingsuppläggning (t.ex. ovirt)."
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
+msgstr ""
+
+msgid ""
+"To refresh the list of users, click on the tab \"External\n"
+"                groups\" then \"Refresh\"."
 msgstr ""
 
 msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)"
@@ -7891,6 +8301,12 @@ msgstr ""
 msgid "URL must be valid and schema must be one of %s"
 msgstr ""
 
+msgid "URL of the HTTP Proxy"
+msgstr ""
+
+msgid "URL of the proxy including schema (https://proxy.example.com:8080)"
+msgstr ""
+
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr ""
 
@@ -7928,6 +8344,9 @@ msgid "Unable to create realm entry"
 msgstr ""
 
 msgid "Unable to create the default role."
+msgstr ""
+
+msgid "Unable to define volumes:"
 msgstr ""
 
 msgid "Unable to delete DHCP entry for %s"
@@ -8122,6 +8541,12 @@ msgstr ""
 msgid "Unmanage host"
 msgstr "Sluta managera värd"
 
+msgid "Unnamed"
+msgstr ""
+
+msgid "Unregister Host"
+msgstr ""
+
 msgid "Unsupported IPAM mode for %s"
 msgstr ""
 
@@ -8137,7 +8562,16 @@ msgstr "Uppdatera"
 msgid "Update :a_resource"
 msgstr ""
 
+msgid "Update Content Overrides"
+msgstr ""
+
 msgid "Update IP from built request"
+msgstr ""
+
+msgid "Update Sync Plan"
+msgstr ""
+
+msgid "Update Sync Plan Products"
 msgstr ""
 
 msgid "Update a Puppet class"
@@ -8239,6 +8673,9 @@ msgstr ""
 msgid "Update a user group"
 msgstr ""
 
+msgid "Update an HTTP Proxy"
+msgstr ""
+
 msgid "Update an LDAP authentication source"
 msgstr "Uppdatera en LDAP-autentiseringskälla"
 
@@ -8266,7 +8703,16 @@ msgstr ""
 msgid "Update external user group"
 msgstr ""
 
+msgid "Update for host"
+msgstr ""
+
+msgid "Update package"
+msgstr ""
+
 msgid "Update realm entry for %s"
+msgstr ""
+
+msgid "Update release version for host"
 msgstr ""
 
 msgid "Update subnets from facts"
@@ -8299,10 +8745,19 @@ msgstr "Uppdaterade värdar: ändrad värdgrupp"
 msgid "Updated hosts: changed owner"
 msgstr ""
 
+msgid "Upload errata into"
+msgstr ""
+
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
+msgid "Upload into"
+msgstr ""
+
 msgid "Use Gravatar"
+msgstr ""
+
+msgid "Use NIS netgroups instead of posix groups."
 msgstr ""
 
 msgid "Use UUID for certificates"
@@ -8388,7 +8843,13 @@ msgstr "Användarnamn"
 msgid "Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2."
 msgstr ""
 
+msgid "Username to use if authentication is required."
+msgstr ""
+
 msgid "Username to use to authenticate, if required"
+msgstr ""
+
+msgid "Username used to authenticate with the HTTP Proxy"
 msgstr ""
 
 msgid "Users"
@@ -8481,11 +8942,11 @@ msgstr "VM körs ej!"
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr ""
 
+msgid "Valid Host Group and Environment Combinations"
+msgstr ""
+
 msgid "Valid from"
 msgstr "Giltig från"
-
-msgid "Valid host group and environment combinations"
-msgstr "Korrekt värdgrupp och miljökombinationer"
 
 msgid "Validation types"
 msgstr "Valideringstyper"
@@ -8509,8 +8970,8 @@ msgstr ""
 msgid "Variables"
 msgstr ""
 
-msgid "Vendor class"
-msgstr "Leverantörsklass"
+msgid "Vendor Class"
+msgstr ""
 
 msgid "Verify"
 msgstr "Verifiera"
@@ -8527,14 +8988,14 @@ msgstr ""
 msgid "Very Strong"
 msgstr "Väldigt stark"
 
+msgid "View Chart"
+msgstr ""
+
 msgid "View Diff"
 msgstr "Granska Skillnad"
 
 msgid "View in Foreman:"
 msgstr ""
-
-msgid "View last report details"
-msgstr "Granska senaste rapportdetaljerna"
 
 msgid "View list"
 msgstr ""
@@ -8576,6 +9037,9 @@ msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Warning: This combination of loader and OS might not be able to boot."
+msgstr ""
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
@@ -8641,6 +9105,9 @@ msgid "Whether or not the image supports user data"
 msgstr ""
 
 msgid "Whether or not the template is locked for editing"
+msgstr ""
+
+msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
@@ -8709,7 +9176,7 @@ msgstr ""
 msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr ""
 
-msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
 msgstr ""
 
 msgid "You can't assign locations to this resource"
@@ -8718,7 +9185,7 @@ msgstr ""
 msgid "You can't assign organizations to this resource"
 msgstr ""
 
-msgid "You cannot delete this user while logged in as this user."
+msgid "You cannot delete this user while logged in as this user"
 msgstr ""
 
 msgid "You do not have permission to %s this location parameter"
@@ -8728,6 +9195,9 @@ msgid "You do not have permission to %s this organization parameter"
 msgstr "Du har inte rättigheter att %s denna organisationsparameter"
 
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
+msgstr ""
+
+msgid "You don't have permission %{name} with attributes that you have specified or you don't have access to specified %{tax_string}"
 msgstr ""
 
 msgid "You don't seem to have any bookmarks."
@@ -8805,6 +9275,9 @@ msgstr ""
 msgid "Zone"
 msgstr "Zon"
 
+msgid "[empty]"
+msgstr ""
+
 msgid "[encrypted]"
 msgstr ""
 
@@ -8860,6 +9333,9 @@ msgid "can't be blank"
 msgstr ""
 
 msgid "can't be blank unless a custom partition has been defined"
+msgstr ""
+
+msgid "can't be changed once the interface is saved"
 msgstr ""
 
 msgid "can't be updated after host is provisioned"
@@ -8958,8 +9434,8 @@ msgstr "t.ex. admin@internal"
 msgid "e.g. givenName"
 msgstr "t.ex. givenName"
 
-msgid "e.g. http://openstack:5000/v2.0/tokens"
-msgstr "t.ex. http://openstack:5000/v2.0/tokens"
+msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "t.e.x. https://identity.api.rackspacecloud.com/v2.0"
@@ -9075,6 +9551,9 @@ msgstr ""
 msgid "host must have one primary interface"
 msgstr ""
 
+msgid "hostname can contain only lowercase letters, numbers, dashes and dots according to RFC921, RFC952 and RFC1123"
+msgstr ""
+
 msgid "hostname of the host"
 msgstr ""
 
@@ -9165,6 +9644,9 @@ msgstr ""
 msgid "is not a valid MAC address"
 msgstr ""
 
+msgid "is not a valid public ssh key"
+msgstr ""
+
 msgid "is not allowed to change"
 msgstr "tillåts inte att ändras"
 
@@ -9211,8 +9693,7 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
-#. or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -9243,8 +9724,14 @@ msgstr "måste vara boolesk"
 msgid "must be comma separated"
 msgstr ""
 
+msgid "must be in OpenSSH public key format"
+msgstr ""
+
 msgid "must be integer"
 msgstr "måste vara heltal"
+
+msgid "must be of same resource type (%s) - Role (%s)"
+msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
 msgstr ""
@@ -9294,6 +9781,12 @@ msgstr ""
 msgid "no puppet proxy defined - cant continue"
 msgstr "ingen puppetproxy är definierad - kan inte fortsätta"
 
+msgid "no random free IP could be found in our DB, enlarge subnet range"
+msgstr ""
+
+msgid "no storage pool available on hypervisor"
+msgstr ""
+
 msgid "no value"
 msgstr ""
 
@@ -9318,6 +9811,12 @@ msgstr "antal poster per begäran"
 msgid "oVirt/RHEV template to use"
 msgstr ""
 
+msgid "of"
+msgstr ""
+
+msgid "of "
+msgstr ""
+
 msgid "off"
 msgstr "av"
 
@@ -9336,14 +9835,14 @@ msgstr ""
 msgid "optional: the STI type of host to create"
 msgstr ""
 
+msgid "or"
+msgstr ""
+
 msgid "organization"
 msgstr "organisation"
 
 msgid "organizations"
 msgstr "organisationer"
-
-msgid "override"
-msgstr "tvinga"
 
 msgid "paginate results"
 msgstr ""
@@ -9359,6 +9858,9 @@ msgstr "lösenorden matchar inte"
 
 msgid "pending"
 msgstr "kommande"
+
+msgid "per page"
+msgstr ""
 
 msgid "physical"
 msgstr "fysisk"
@@ -9390,13 +9892,13 @@ msgstr ""
 msgid "regexp"
 msgstr ""
 
-msgid "remove"
-msgstr "ta bort"
-
 msgid "remove network interface"
 msgstr "ta bort nätvärkskort"
 
 msgid "remove storage volume"
+msgstr ""
+
+msgid "report already deleted"
 msgstr ""
 
 msgid "required"
@@ -9434,6 +9936,9 @@ msgstr "återkallad"
 
 msgid "select an owner"
 msgstr "välj en ägare"
+
+msgid "service configuration will be skipped."
+msgstr ""
 
 msgid "setting up reporting"
 msgstr "sätter upp rapportering"
@@ -9529,6 +10034,9 @@ msgstr "okänd leverantör"
 msgid "unspecified"
 msgstr "ospecificerad"
 
+msgid "use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa"
+msgstr ""
+
 msgid "used memory"
 msgstr ""
 
@@ -9542,6 +10050,9 @@ msgid "valid"
 msgstr "giltig"
 
 msgid "valid or pending"
+msgstr ""
+
+msgid "view last report details"
 msgstr ""
 
 msgid "virtual"
