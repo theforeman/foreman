@@ -397,6 +397,7 @@ module Foreman::Model
     private
 
     def update_available_operating_systems
+      return false if errors[:url].any?
       ovirt_operating_systems = if client.respond_to?(:operating_systems)
                                   client.operating_systems
                                 elsif rbovirt_client.respond_to?(:operating_systems)
