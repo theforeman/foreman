@@ -363,3 +363,8 @@ attribute75:
   category: Setting::Notification
   default: "http://theforeman.org/feed.xml"
   description: 'Default URL for RSS feed notifications'
+attributes76:
+  name: excluded_facts
+  category: Setting::Provisioning
+  default: "['lo', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"
+  description: 'Ignore fact names that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'

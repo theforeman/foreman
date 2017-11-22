@@ -1,7 +1,7 @@
 class StructuredFactImporter < FactImporter
   def normalize(facts)
     # Remove empty values first, so nil facts added by flatten_composite imply compose
-    facts = facts.select { |k, v| v.present? }
+    facts.keep_if { |k, v| v.present? }
     facts = flatten_composite({}, facts)
 
     original_keys = facts.keys.to_a
@@ -12,12 +12,18 @@ class StructuredFactImporter < FactImporter
     facts
   end
 
-  # expand {'a' => {'b' => 'c'}} to {'a' => nil, 'a::b' => 'c'}
+  # expand {'a' => {'b' => 'c'}} to {'a::b' => 'c'}
   def flatten_composite(memo, facts, prefix = '')
     facts.each do |k, v|
       k = prefix.empty? ? k.to_s : prefix + FactName::SEPARATOR + k.to_s
+
+      # skip fact if it is excluded
+      next if k.match(excluded_facts)
+
       if v.is_a?(Hash)
-        memo[k] = nil
+        # skip recursion if current key is excluded. Example:
+        # given excluded_facts = macvtap.*, and fact hash: interfaces => macvtap01 => ip => 1.2.3.4
+        # do not create nodes that start with: "interfaces::macvtap01"
         flatten_composite(memo, v, k)
       else
         memo[k] = v.to_s
