@@ -27,8 +27,18 @@ class OvirtTest < ActiveSupport::TestCase
     original_oses = record.attrs[:available_operating_systems] = { foo: :bar }
 
     assert_nothing_raised do
-      assert record.send(:update_available_operating_systems), 'before validation filter does not return true which would cancel the callback chain'
+      assert record.send(:update_available_operating_systems), 'after validation filter does not return true which would cancel the callback chain'
     end
+
+    assert_equal original_oses, record.attrs[:available_operating_systems]
+
+    record.url = ''
+    refute record.valid?
+
+    assert_nothing_raised do
+      refute record.send(:update_available_operating_systems), 'after validation filter does not return false which would not cancel the callback chain'
+    end
+
     assert_equal original_oses, record.attrs[:available_operating_systems]
   end
 
