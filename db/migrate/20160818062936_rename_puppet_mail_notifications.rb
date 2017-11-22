@@ -1,4 +1,4 @@
-class RenamePuppetMailNotifications < ActiveRecord::Migration
+class RenamePuppetMailNotifications < ActiveRecord::Migration[4.2]
   # We have to load this class in the migration so that existing mail
   # notifications of 'type=PuppetError' can load
   class ::PuppetError < ConfigManagementError

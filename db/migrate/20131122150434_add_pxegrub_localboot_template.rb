@@ -1,4 +1,4 @@
-class AddPxegrubLocalbootTemplate < ActiveRecord::Migration
+class AddPxegrubLocalbootTemplate < ActiveRecord::Migration[4.2]
   def up
   end
 

@@ -1,4 +1,4 @@
-class ChangePuppetmasterColumn < ActiveRecord::Migration
+class ChangePuppetmasterColumn < ActiveRecord::Migration[4.2]
   def up
     # Hosts
     rename_column :hosts, :puppetmaster, :puppetmaster_name

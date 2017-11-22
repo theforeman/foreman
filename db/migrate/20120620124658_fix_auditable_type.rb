@@ -1,4 +1,4 @@
-class FixAuditableType < ActiveRecord::Migration
+class FixAuditableType < ActiveRecord::Migration[4.2]
   def up
     execute "UPDATE audits SET auditable_type='Host' WHERE auditable_type='Puppet::Rails::Host'"
   end

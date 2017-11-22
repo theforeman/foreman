@@ -1,4 +1,4 @@
-class RemoveSignoSetting < ActiveRecord::Migration
+class RemoveSignoSetting < ActiveRecord::Migration[4.2]
   class FakeSetting < ApplicationRecord
     self.table_name = 'settings'
   end

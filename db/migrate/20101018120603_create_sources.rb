@@ -1,4 +1,4 @@
-class CreateSources < ActiveRecord::Migration
+class CreateSources < ActiveRecord::Migration[4.2]
   def up
     create_table :sources do |t|
       t.text :value

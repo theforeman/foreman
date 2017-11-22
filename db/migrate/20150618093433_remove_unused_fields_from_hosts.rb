@@ -1,4 +1,4 @@
-class RemoveUnusedFieldsFromHosts < ActiveRecord::Migration
+class RemoveUnusedFieldsFromHosts < ActiveRecord::Migration[4.2]
   def up
     remove_index :hosts, :source_file_id
     remove_columns :hosts, :last_freshcheck, :serial, :source_file_id

@@ -1,4 +1,4 @@
-class CreateHosts < ActiveRecord::Migration
+class CreateHosts < ActiveRecord::Migration[4.2]
   def up
     # Copied from the Puppet schema to replace loading their schema directly
     create_table :hosts do |t|

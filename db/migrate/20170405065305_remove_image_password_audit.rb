@@ -1,4 +1,4 @@
-class RemoveImagePasswordAudit < ActiveRecord::Migration
+class RemoveImagePasswordAudit < ActiveRecord::Migration[4.2]
   def up
     Audited::Audit.where(:auditable_type => 'Image').where('audited_changes LIKE ?', '%password%').find_each do |audit|
       if audit.audited_changes.has_key?('password')

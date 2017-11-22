@@ -1,4 +1,4 @@
-class AddEpelSnippets < ActiveRecord::Migration
+class AddEpelSnippets < ActiveRecord::Migration[4.2]
   def up
   end
 

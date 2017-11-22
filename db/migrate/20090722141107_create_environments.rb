@@ -1,4 +1,4 @@
-class CreateEnvironments < ActiveRecord::Migration
+class CreateEnvironments < ActiveRecord::Migration[4.2]
   def up
     create_table :environments do |t|
       t.string :name, :null => false, :limit => 255

@@ -14,7 +14,7 @@ class FakeHost < ApplicationRecord
   end
 end
 
-class CopyUnmanagedHostsToInterfaces < ActiveRecord::Migration
+class CopyUnmanagedHostsToInterfaces < ActiveRecord::Migration[4.2]
   def up
     say "Migrating Unmanaged Host interfaces to standalone Interfaces"
 

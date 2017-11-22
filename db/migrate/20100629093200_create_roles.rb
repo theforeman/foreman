@@ -1,4 +1,4 @@
-class CreateRoles < ActiveRecord::Migration
+class CreateRoles < ActiveRecord::Migration[4.2]
   def up
     add_column :users, :role_id, :integer
     create_table "roles", :force => true do |t|

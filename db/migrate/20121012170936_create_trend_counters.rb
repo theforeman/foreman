@@ -1,4 +1,4 @@
-class CreateTrendCounters < ActiveRecord::Migration
+class CreateTrendCounters < ActiveRecord::Migration[4.2]
   def up
     create_table :trend_counters do |t|
       t.integer :trend_id

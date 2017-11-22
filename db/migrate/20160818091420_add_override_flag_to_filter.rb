@@ -1,4 +1,4 @@
-class AddOverrideFlagToFilter < ActiveRecord::Migration
+class AddOverrideFlagToFilter < ActiveRecord::Migration[4.2]
   class FakeFilter < ApplicationRecord
     self.table_name = 'filters'
   end

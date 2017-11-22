@@ -1,4 +1,4 @@
-class ChangePreseedDefaultPxeGrub2Kind < ActiveRecord::Migration
+class ChangePreseedDefaultPxeGrub2Kind < ActiveRecord::Migration[4.2]
   def update_kind
     kind = TemplateKind.find_by_name(:PXEGrub2)
     tmpl = ProvisioningTemplate.unscoped.find_by_name("Preseed default PXEGrub2")

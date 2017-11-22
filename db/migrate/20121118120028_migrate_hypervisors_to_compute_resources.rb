@@ -1,8 +1,8 @@
-class MigrateHypervisorsToComputeResources < ActiveRecord::Migration
+class MigrateHypervisorsToComputeResources < ActiveRecord::Migration[4.2]
   class Hypervisor < ApplicationRecord; end
 
   def up
-    return unless Hypervisor.table_exists?
+    return unless Hypervisor.data_source_exists?
 
     Hypervisor.all.each do |hypervisor|
       # check if we have the same compute resource already, if we do, skip it.

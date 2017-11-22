@@ -1,4 +1,4 @@
-class CreatePersonalAccessTokens < ActiveRecord::Migration
+class CreatePersonalAccessTokens < ActiveRecord::Migration[4.2]
   def change
     create_table :personal_access_tokens do |t|
       t.string :token, :index => {:unique => true}, :null => false

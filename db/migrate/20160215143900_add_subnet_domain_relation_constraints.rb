@@ -1,4 +1,4 @@
-class AddSubnetDomainRelationConstraints < ActiveRecord::Migration
+class AddSubnetDomainRelationConstraints < ActiveRecord::Migration[4.2]
   def up
     change_column :subnet_domains, :subnet_id, :integer, :null => false
     change_column :subnet_domains, :domain_id, :integer, :null => false

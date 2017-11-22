@@ -1,4 +1,4 @@
-class RemoveDuplicateFactNames < ActiveRecord::Migration
+class RemoveDuplicateFactNames < ActiveRecord::Migration[4.2]
   def up
     unique_names = FactName.group(:name).maximum(:id)
     unique_names.each do |fact_name, fact_name_id|
