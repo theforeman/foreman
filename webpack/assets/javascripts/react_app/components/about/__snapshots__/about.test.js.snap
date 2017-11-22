@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`about page should render 1`] = `
+<TabsWrapper
+  id="about_tabs"
+  tabs={
+    Array [
+      "Smart Proxies",
+      "Available Providers",
+      "Compute Resources",
+      "Plugins",
+    ]
+  }
+>
+  <AboutProxyTable
+    data={
+      Array [
+        Object {
+          "features": "Facts, Logs, DNS, DHCP, and Puppet",
+          "id": Object {
+            "id": 1,
+            "name": "regular",
+          },
+        },
+      ]
+    }
+  />
+  <AboutProviderTable
+    data={
+      Array [
+        Object {
+          "provider": "Libvirt",
+          "status": true,
+        },
+        Object {
+          "provider": "oVirt",
+          "status": true,
+        },
+        Object {
+          "provider": "EC2",
+          "status": true,
+        },
+        Object {
+          "provider": "VMware",
+          "status": true,
+        },
+        Object {
+          "provider": "OpenStack",
+          "status": true,
+        },
+        Object {
+          "provider": "Rackspace",
+          "status": true,
+        },
+        Object {
+          "provider": "Google",
+          "status": true,
+        },
+      ]
+    }
+  />
+  <AboutComputeTable
+    data={
+      Array [
+        Object {
+          "id": Object {
+            "id": 1,
+            "name": "Libvirt",
+          },
+          "type": "Libvirt",
+        },
+        Object {
+          "id": Object {
+            "id": 2,
+            "name": "Ovirt",
+          },
+          "type": "Ovirt",
+        },
+      ]
+    }
+  />
+  <AboutPluginTable
+    data={
+      Array [
+        Object {
+          "author": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ex ea difficultate illae fallaciloquae",
+          "description": "MaaS Discovery Plugin engine for Foreman",
+          "name": "foreman_discovery",
+          "version": "11.0.0",
+        },
+      ]
+    }
+  />
+</TabsWrapper>
+`;

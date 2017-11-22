@@ -11,6 +11,7 @@ var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
 var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
+const { version } = require('../package.json')
 
 module.exports = env => {
   // must match config.webpack.dev_server.port
@@ -142,8 +143,9 @@ module.exports = env => {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(production ? 'production' : 'development'),
-          NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING
-        }
+          NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING,
+        },
+        VERSION: JSON.stringify(version),
       }),
     ]
   };

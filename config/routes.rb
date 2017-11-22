@@ -405,7 +405,7 @@ Foreman::Application.routes.draw do
           post 'instance_type_selected'
           post 'cluster_selected'
           get 'resource_pools'
-          post 'ping'
+          get 'ping'
           put 'associate'
           put 'refresh_cache'
         end

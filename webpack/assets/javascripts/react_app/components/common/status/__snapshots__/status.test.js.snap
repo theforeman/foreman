@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Status should render a message 1`] = `
+<span>
+  message1
+</span>
+`;
+
+exports[`Status status 1 should render error icon 1`] = `
+<div
+  title="Error TCP Connection"
+>
+  <Icon
+    name="error-circle-o"
+    type="pf"
+  />
+</div>
+`;
+
+exports[`Status status 1 should render ok icon 1`] = `
+<div>
+  <Icon
+    name="ok"
+    type="pf"
+  />
+</div>
+`;
+
+exports[`Status status 2 should render error icon 1`] = `
+<div
+  title="Error Type 1"
+>
+  <Icon
+    name="error-circle-o"
+    type="pf"
+  />
+</div>
+`;
+
+exports[`Status status 2 should render ok icon 1`] = `
+<div>
+  <Icon
+    name="ok"
+    type="pf"
+  />
+</div>
+`;
+
+exports[`Status status 2 should render warning icon 1`] = `
+<div
+  title="Warning message"
+>
+  <Icon
+    name="warning-triangle-o"
+    type="pf"
+  />
+</div>
+`;
