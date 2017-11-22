@@ -210,12 +210,14 @@ class Setting < ApplicationRecord
     end
   end
 
-  def self.regexp_expand_wildcard_string(string)
-    "\\A#{Regexp.escape(string).gsub('\*', '.*')}\\Z"
+  def self.regexp_expand_wildcard_string(string, options = {})
+    prefix = options[:prefix] || '\A'
+    suffix = options[:suffix] || '\Z'
+    prefix + Regexp.escape(string).gsub('\*', '.*') + suffix
   end
 
-  def self.convert_array_to_regexp(array)
-    Regexp.new(array.map {|string| regexp_expand_wildcard_string(string) }.join('|'))
+  def self.convert_array_to_regexp(array, regexp_options = {})
+    Regexp.new(array.map {|string| regexp_expand_wildcard_string(string, regexp_options) }.join('|'))
   end
 
   def has_readonly_value?

@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'fact_importer_test_helper'
 
 class FactCleanerTest < ActiveSupport::TestCase
   let(:cleaner) do
@@ -46,6 +47,73 @@ class FactCleanerTest < ActiveSupport::TestCase
     FactoryBot.create(:fact_value, :fact_name => root_6_fact)
     cleaner.clean!
     assert_include remaining_of(root_6_fact), root_6_fact
+  end
+
+  test "it cleans excluded facts" do
+    name_generator_type = Setting[:name_generator_type]
+    host_owner = Setting[:host_owner]
+    Setting.stubs(:[]).with(:excluded_facts).returns(['ignored*', '*bad'])
+    Setting.stubs(:[]).with(:name_generator_type).returns(name_generator_type)
+    Setting.stubs(:[]).with(:host_owner).returns(host_owner)
+    cleaner.stubs(:delete_orphaned_facts).returns(0)
+    good_fact_name = FactoryBot.create(:fact_name, :name => 'good_fact')
+    ignored_fact_name = FactoryBot.create(:fact_name, :name => 'ignored01')
+    bad_fact_name = FactoryBot.create(:fact_name, :name => 'empty_bad')
+    FactoryBot.create(:fact_value, :fact_name => good_fact_name)
+    FactoryBot.create(:fact_value, :fact_name => ignored_fact_name)
+    cleaner.clean!
+    assert_equal 2, cleaner.deleted_count
+    assert_include remaining_of(good_fact_name, ignored_fact_name, bad_fact_name), good_fact_name
+  end
+
+  test 'it cleans ignored flat facts' do
+    [
+      FactsData::FlatFacts,
+      FactsData::RhsmStyleFacts,
+      FactsData::FlatPuppetStyleFacts
+    ].each do |data_class|
+      data = data_class.new
+
+      facts = data.good_facts.merge(data.ignored_facts)
+      fact_records = []
+
+      facts.keys.each do |fact_name|
+        fact_records << FactoryBot.create(:fact_name, :name => fact_name)
+      end
+
+      Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+      cleaner.stubs(:delete_orphaned_facts).returns(0)
+
+      cleaner.clean!
+
+      expected_names = data.good_facts.keys.sort
+      actual_names = remaining_of(*fact_records).order(:name).pluck(:name)
+      assert_equal expected_names, actual_names
+    end
+  end
+
+  test 'it cleans ignored hierarchical facts' do
+    data = FactsData::HierarchicalPuppetStyleFacts.new
+
+    facts_hierarchy = data.good_facts.deep_merge(data.ignored_facts)
+    importer = StructuredFactImporter.new(nil, facts_hierarchy)
+    facts = importer.send(:facts)
+    fact_records = []
+
+    facts.keys.each do |fact_name|
+      fact_records << FactoryBot.create(:fact_name, :name => fact_name)
+    end
+
+    Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+    cleaner.stubs(:delete_orphaned_facts).returns(0)
+
+    cleaner.clean!
+
+    # empty_ancestor can't be removed by the cleaner,
+    # at least without too much code
+    expected_names = (data.flat_result.keys + ['empty_ancestor']).sort
+    actual_names = remaining_of(*fact_records).order(:name).pluck(:name)
+    assert_equal expected_names, actual_names
   end
 
   private

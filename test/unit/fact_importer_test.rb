@@ -55,6 +55,55 @@ class FactImporterTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#normalize' do
+    test 'filters regular facts' do
+      data = FactsData::FlatFacts.new
+      Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+
+      facts = data.good_facts.merge(data.ignored_facts)
+
+      importer = FactImporter.new(nil, facts)
+      actual_facts = importer.send(:facts)
+
+      assert_equal data.good_facts, actual_facts
+    end
+
+    test 'filters a::b facts' do
+      data = FactsData::RhsmStyleFacts.new
+      Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+
+      facts = data.good_facts.merge(data.ignored_facts)
+
+      importer = FactImporter.new(nil, facts)
+      actual_facts = importer.send(:facts)
+
+      assert_equal data.good_facts, actual_facts
+    end
+
+    test 'filters macaddress_virbr0 facts' do
+      data = FactsData::FlatPuppetStyleFacts.new
+      Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+
+      facts = data.good_facts.merge(data.ignored_facts)
+
+      importer = FactImporter.new(nil, facts)
+      actual_facts = importer.send(:facts)
+
+      assert_equal data.good_facts, actual_facts
+    end
+
+    test 'filters default interface facts' do
+      data = FactsData::DefaultInterfacesFacts.new
+
+      facts = data.good_facts.merge(data.ignored_facts)
+
+      importer = FactImporter.new(nil, facts)
+      actual_facts = importer.send(:facts)
+
+      assert_equal data.good_facts, actual_facts
+    end
+  end
+
   describe '#import!' do
     setup do
       FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,

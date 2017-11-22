@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'fact_importer_test_helper'
 
 class StructuredFactImporterTest < ActiveSupport::TestCase
   include FactImporterIsolation
@@ -77,6 +78,18 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
     test 'changes non-string values to strings' do
       importer = StructuredFactImporter.new(nil, :a => 1)
       assert_equal({'a' => '1'}, importer.send(:facts))
+    end
+
+    test 'subtrees excluded properly' do
+      data = FactsData::HierarchicalPuppetStyleFacts.new
+      Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+
+      facts = data.good_facts.deep_merge(data.ignored_facts)
+
+      importer = StructuredFactImporter.new(nil, facts)
+      actual_facts = importer.send(:facts)
+
+      assert_equal data.flat_result, actual_facts
     end
   end
 

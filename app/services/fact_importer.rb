@@ -30,6 +30,16 @@ class FactImporter
     []
   end
 
+  def self.excluded_facts_regex
+    Setting.convert_array_to_regexp(
+      Setting[:excluded_facts],
+      {
+        :prefix => '(\A|.*::|.*_)',
+        :suffix => '(\Z|::.*)'
+      }
+    )
+  end
+
   def initialize(host, facts = {})
     @error    = false
     @host     = host
@@ -170,10 +180,14 @@ class FactImporter
   end
 
   def normalize(facts)
-    # convert all structures to simple strings
-    facts = Hash[facts.map {|k, v| [k.to_s, v.to_s]}]
-    # and remove empty values
-    facts.keep_if { |k, v| v.present? }
+    normalized_facts = {}
+    facts.each do |k, v|
+      key = k.to_s
+      val = v.to_s
+
+      normalized_facts[key] = val unless val.empty? || key.match(excluded_facts)
+    end
+    normalized_facts
   end
 
   def db_facts
@@ -186,5 +200,9 @@ class FactImporter
 
   def save_name_record(name_record)
     name_record.save!(:validate => false)
+  end
+
+  def excluded_facts
+    @excluded_facts ||= FactImporter.excluded_facts_regex
   end
 end
