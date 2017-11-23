@@ -2,7 +2,7 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::ComputeResource
 
-  AJAX_REQUESTS = [:template_selected, :cluster_selected, :resource_pools]
+  AJAX_REQUESTS = [:template_selected, :instance_type_selected, :cluster_selected, :resource_pools]
   before_action :ajax_request, :only => AJAX_REQUESTS
   before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping, :refresh_cache] + AJAX_REQUESTS
 
@@ -118,6 +118,13 @@ class ComputeResourcesController < ApplicationController
     end
   end
 
+  def instance_type_selected
+    compute = @compute_resource.instance_type(params[:instance_type_id])
+    respond_to do |format|
+      format.json { render :json => compute }
+    end
+  end
+
   def cluster_selected
     networks = @compute_resource.networks(:cluster_id => params[:cluster_id])
     respond_to do |format|
@@ -139,7 +146,7 @@ class ComputeResourcesController < ApplicationController
     case params[:action]
       when 'associate'
         'edit'
-      when 'ping', 'template_selected', 'cluster_selected', 'resource_pools', 'refresh_cache'
+      when 'ping', 'template_selected', 'instance_type_selected', 'cluster_selected', 'resource_pools', 'refresh_cache'
         'view'
       else
         super

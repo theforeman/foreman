@@ -15,8 +15,12 @@ export function templateSelected(item) {
       url,
       data: `template_id=${template}`,
       success(result) {
-        $('[id$=_memory]').val(result.memory);
-        $('[id$=_cores]').val(result.cores);
+        // As Instance Type values will take precence over templates values,
+        // we don't update memory/cores values if  instance type is already selected
+        if (!$('#host_compute_attributes_instance_type').val()) {
+          $('[id$=_memory]').val(result.memory);
+          $('[id$=_cores]').val(result.cores);
+        }
         $('#network_interfaces').children('.fields').remove();
         $.each(result.interfaces, function () {
           addNetworkInterface(this);
@@ -29,6 +33,34 @@ export function templateSelected(item) {
 
         if (templateSelector.is(':disabled')) {
           templateSelector.val(result.id).trigger('change');
+        }
+      },
+      complete() {
+        // eslint-disable-next-line no-undef
+        reloadOnAjaxComplete(item);
+      },
+    });
+  }
+}
+
+export function instanceTypeSelected(item) {
+  const instanceType = $(item).val();
+
+  if (!item.disabled) {
+    const url = $(item).attr('data-url');
+
+    showSpinner();
+    $.ajax({
+      type: 'post',
+      url,
+      data: `instance_type_id=${instanceType}`,
+      success(result) {
+        $('[id$=_memory]').val(result.memory);
+        $('[id$=_cores]').val(result.cores);
+        const instanceTypeSelector = $('#host_compute_attributes_instance_type');
+
+        if (instanceTypeSelector.is(':disabled')) {
+          instanceTypeSelector.val(result.id).trigger('change');
         }
       },
       complete() {

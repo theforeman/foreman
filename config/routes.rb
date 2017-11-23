@@ -402,6 +402,7 @@ Foreman::Application.routes.draw do
       resources :compute_resources do
         member do
           post 'template_selected'
+          post 'instance_type_selected'
           post 'cluster_selected'
           get 'resource_pools'
           post 'ping'
