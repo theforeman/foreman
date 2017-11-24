@@ -31,7 +31,7 @@ class LookupKeysController < ApplicationController
 
   def sanitize_attrs
     attrs = resource_params.fetch(:lookup_values_attributes, {})
-    to_delete, rest = attrs.to_h.partition { |_k, v| v["_destroy"] == "1" }.map { |arr| Hash[arr] }
+    to_delete, rest = attrs.partition { |_k, v| v["_destroy"] == "1" }.map { |arr| Hash[arr] }
     to_delete.each do |key, value|
       f_key, _value = rest.find { |_, f_value| f_value['match'] == value['match'] }
       unless f_key.nil?

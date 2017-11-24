@@ -41,7 +41,8 @@ module Foreman
       if top_level_hash == :none
         params.permit(*filter(context))
       else
-        params.permit(top_level_hash => filter(context)).fetch(top_level_hash, {})
+        permitted = params.permit(top_level_hash => filter(context))
+        permitted.to_h.fetch(top_level_hash, {})
       end
     end
 

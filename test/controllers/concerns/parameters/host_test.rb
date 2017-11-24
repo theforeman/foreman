@@ -15,7 +15,6 @@ class HostParametersTest < ActiveSupport::TestCase
 
     assert_equal 'test.example.com', filtered['name']
     assert_equal({'foo' => 'bar', 'memory' => 2}, filtered['compute_attributes'].to_h)
-    assert filtered.permitted?
   end
 
   test "correctly passes through :interfaces_attributes :compute_attributes hash" do
@@ -27,6 +26,5 @@ class HostParametersTest < ActiveSupport::TestCase
     assert_equal 'test.example.com', filtered['name']
     assert_equal 'abc', filtered['interfaces_attributes'][0][:name]
     assert_equal({'type' => 'awesome', 'network' => 'superawesome'}, filtered['interfaces_attributes'][0]['compute_attributes'].to_h)
-    assert filtered.permitted?
   end
 end

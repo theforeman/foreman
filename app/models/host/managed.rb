@@ -484,9 +484,8 @@ class Host::Managed < Host::Base
 
   def apply_inherited_attributes(attributes, initialized = true)
     return nil unless attributes
-    #convert possible strong parameters to unsafe hash (filtering out unsafe items) and
-    #clone to minimize side effects
-    attributes = hash_clone(attributes.to_h).with_indifferent_access
+
+    attributes = hash_clone(attributes).with_indifferent_access
 
     new_hostgroup_id = attributes['hostgroup_id'] || attributes['hostgroup_name'] || attributes['hostgroup'].try(:id)
     #hostgroup didn't change, no inheritance needs update.

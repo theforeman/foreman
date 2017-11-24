@@ -3123,20 +3123,6 @@ class HostTest < ActiveSupport::TestCase
       host = Host.new(:name => "test-host", :hostgroup => hg)
       assert host.environment
     end
-
-    test 'should filter out unpermitted strong parameters' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
-      attributes = ActionController::Parameters.new({ 'unpermitted_attribute' => 1 })
-      actual_attr = host.apply_inherited_attributes(attributes)
-      assert_nil actual_attr['unpermitted_attribute']
-    end
-
-    test 'must not return strong parameters' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
-      attributes = ActionController::Parameters.new
-      actual_attr = host.apply_inherited_attributes(attributes)
-      refute actual_attr.is_a? ActionController::Parameters
-    end
   end
 
   describe 'rendering interface' do
