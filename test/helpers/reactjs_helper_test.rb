@@ -3,8 +3,8 @@ require 'test_helper'
 class ReactjsHelperTest < ActionView::TestCase
   include ReactjsHelper
 
-  def webpack_asset_paths(bundle_name, opts)
-    ["<script src=\"https://foreman.example.com:3808/webpack/#{bundle_name}.js\"></script>"]
+  def javascript_pack_tag(bundle_name, opts)
+    "<script src=\"https://foreman.example.com/public/packs/#{bundle_name}.js\"></script>"
   end
 
   setup do

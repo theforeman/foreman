@@ -1,8 +1,31 @@
 {
-  "presets": ["env", "react"],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": "> 1%",
+          "uglify": true
+        },
+        "useBuiltIns": true
+      }
+    ],
+    "react"
+  ],
   "plugins": [
-    "transform-class-properties",
+    "syntax-dynamic-import",
     "transform-object-rest-spread",
-    "transform-object-assign"
-  ]
+    [
+      "transform-class-properties",
+      {
+        "spec": true
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "presets": ["env", "react"]
+    }
+  }
 }

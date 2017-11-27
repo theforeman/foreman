@@ -79,8 +79,6 @@ Foreman::Application.configure do |app|
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.webpack.dev_server.enabled = false
-
   # Log denied attributes into logger
   config.action_controller.action_on_unpermitted_parameters = :log
 end

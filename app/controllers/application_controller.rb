@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   before_action :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_action :authorize
   before_action :welcome, :only => :index, :unless => :api_request?
-  prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
+  prepend_before_action :allow_webpack, :if => :should_allow_webpack?
   around_action :set_timezone
   layout :display_layout?
   add_flash_types :inline
@@ -399,16 +399,23 @@ class ApplicationController < ActionController::Base
     Foreman::ParameterFilter::Context.new(:ui, controller_name, params[:action])
   end
 
-  def allow_webpack
-    webpack_csp = { script_src: [webpack_server], connect_src: [webpack_server],
-                    style_src: [webpack_server], img_src: [webpack_server] }
+  def should_allow_webpack?
+    Rails.env.development?
+  end
 
+  def allow_webpack
     append_content_security_policy_directives(webpack_csp)
   end
 
-  def webpack_server
-    port = Rails.configuration.webpack.dev_server.port
-    @dev_server ||= "#{request.protocol}#{request.host}:#{port}"
+  def webpack_csp
+    webpack_url = webpack_dev_server_url
+
+    { script_src: [webpack_url], connect_src: [webpack_url],
+      style_src: [webpack_url], img_src: [webpack_url] }
+  end
+
+  def webpack_dev_server_url
+    "#{Webpacker.dev_server.protocol}://#{Webpacker.dev_server.host_with_port}"
   end
 
   class << self

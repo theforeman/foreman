@@ -14,13 +14,13 @@ class MiddlewareIntegrationTest < ActionDispatch::IntegrationTest
 
   context 'webpack dev server is enabled' do
     setup do
-      Rails.configuration.webpack.dev_server.enabled = true
-      @webpack_url = "#{host}:#{Rails.configuration.webpack.dev_server.port}"
-      Webpack::Rails::Manifest.stubs(:asset_paths).returns([])
-    end
+      host_with_port = 'host:port'
+      protocol = 'protocol'
+      @webpack_url = "#{protocol}://#{host_with_port}"
 
-    teardown do
-      Rails.configuration.webpack.dev_server.enabled = false
+      ApplicationController.any_instance.stubs(:should_allow_webpack?).returns(true)
+      Webpacker.dev_server.stubs(:host_with_port).returns(host_with_port)
+      Webpacker.dev_server.stubs(:protocol).returns(protocol)
     end
 
     test 'it is added the to Content-Security-Policy' do

@@ -71,8 +71,7 @@ end
 
 class ActionController::TestCase
   include ::BasicRestResponseTest
-  setup :setup_set_script_name, :set_api_user, :turn_off_login,
-    :disable_webpack, :set_admin
+  setup :setup_set_script_name, :set_api_user, :turn_off_login, :set_admin
 
   def set_admin
     User.current = users(:admin)
@@ -100,12 +99,5 @@ class ActionController::TestCase
     @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(login, password)
     @request.env['CONTENT_TYPE'] = 'application/json'
     @request.env['HTTP_ACCEPT'] = 'application/json'
-  end
-
-  # functional tests will fail if assets are not compiled because page
-  # rendering will try to include the webpack assets path which will throw an
-  # exception.
-  def disable_webpack
-    Webpack::Rails::Manifest.stubs(:asset_paths).returns([])
   end
 end

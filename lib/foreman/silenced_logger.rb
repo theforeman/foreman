@@ -3,6 +3,11 @@
 # assets logging feature.
 module Foreman
   class SilencedLogger < SimpleDelegator
+    # Allow webpack to run logger.tagged
+    def tagged(*tags)
+      yield self
+    end
+
     def silence(new_level = Logger::ERROR, &block)
       old_level = self.level
       begin
