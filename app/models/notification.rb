@@ -40,7 +40,7 @@ class Notification < ApplicationRecord
   def subscriber_ids
     case audience
     when AUDIENCE_GLOBAL
-      User.reorder('').pluck(:id)
+      User.unscoped.reorder('').pluck(:id)
     when AUDIENCE_ADMIN
       User.unscoped.only_admin.except_hidden.reorder('').distinct.pluck(:id)
     else
