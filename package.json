@@ -58,7 +58,6 @@
     "datatables.net-bs": "~1.10.12",
     "diff": "~3.0.0",
     "extract-text-webpack-plugin": "^3.0.0",
-    "fbjs": "0.8.12",
     "ipaddr.js": "~1.2.0",
     "jquery": "~2.2.4",
     "jquery-flot": "~0.8.3",
