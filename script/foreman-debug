@@ -286,6 +286,7 @@ if [ $NOGENERIC -eq 0 ]; then
   add_files /var/log/messages*
   add_files /var/log/audit/audit.log*
   add_files /var/log/syslog*
+  add_cmd "getenforce" "selinux_state"
   add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR | head -n 100" "selinux_first_denials.log"
   add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR || grep AVC /var/log/audit/audit.log" "selinux_denials.log"
   if [ -f /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
