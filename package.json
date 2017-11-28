@@ -79,6 +79,7 @@
     "redux": "^3.6.0",
     "redux-form": "^7.0.3",
     "redux-form-validators": "^2.0.1",
+    "redux-injector": "^0.1.0",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.0.1",
