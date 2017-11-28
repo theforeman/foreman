@@ -27,6 +27,8 @@ export function templateSelected(item) {
         });
         $('#storage_volumes .children_fields >.fields').remove();
         $.each(result.volumes, function () {
+          // Change variable name because 'interface' is a reserved keyword.
+          this.disk_interface = this['interface'];
           addVolume(this);
         });
         const templateSelector = $('#host_compute_attributes_template');
@@ -88,13 +90,15 @@ function addNetworkInterface({ name, network }) {
 // fill in the template volumes.
 // eslint-disable-next-line camelcase
 function addVolume({
-  size_gb, storage_domain, bootable, id,
+  size_gb, storage_domain, bootable, id, disk_interface, wipe_after_delete,
 }) {
   // eslint-disable-next-line no-undef
   const newId = add_child_node($('#storage_volumes .add_nested_fields'));
 
   disableElement($(`[id$=${newId}_size_gb]`).val(size_gb));
   disableElement($(`[id$=${newId}_storage_domain]`).val(storage_domain));
+  disableElement($(`[id$=${newId}_wipe_after_delete]`).val(wipe_after_delete));
+  disableElement($(`[id$=${newId}_interface]`).val(disk_interface));
   disableElement($(`[id$=${newId}_bootable_true]`).attr('checked', bootable));
   if (id) {
     $(`[id$=${newId}_id]`).val(id);
