@@ -54,10 +54,10 @@ class UsersControllerTest < ActionController::TestCase
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    put :update, { :id => user.id, :user => {:login => "johnsmith"} }, set_session_user
+    put :update, { :id => user.id, :user => {:mail => "bar@foo.com"} }, set_session_user
     mod_user = User.unscoped.find_by_id(user.id)
 
-    assert mod_user.login == "johnsmith"
+    assert mod_user.mail == "bar@foo.com"
     assert_redirected_to users_path
   end
 

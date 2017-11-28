@@ -93,7 +93,8 @@ class User < ApplicationRecord
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
            :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
-           :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin
+           :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin,
+           :check_permissions_for_changing_login
   before_validation :verify_current_password, :if => Proc.new {|user| user == User.current},
                     :unless => Proc.new {|user| user.password.empty?}
   before_validation :prepare_password, :normalize_mail
@@ -680,6 +681,16 @@ class User < ApplicationRecord
   def hidden_authsource_restricted
     if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN, ANONYMOUS_CONSOLE_ADMIN].include?(self.login)
       errors.add :auth_source, _("is not permitted")
+    end
+  end
+
+  def check_permissions_for_changing_login
+    if login_changed? && !(self.new_record?)
+        if !(self.internal?)
+          errors.add :login, _("It is not possible to change external users login")
+        elsif !(User.current.can?(:edit_users, self) || ( self.id == User.current.id ))
+          errors.add :login, _("You do not have permission to edit the login")
+        end
     end
   end
 end
