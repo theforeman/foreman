@@ -1,5 +1,5 @@
 function turn_textarea_switch() {
-  $('.editor-container .ace_content').toggleClass('masked-input');
+  $('#common_parameter_value').toggleClass('masked-input');
 }
 
 function hidden_value_control(){

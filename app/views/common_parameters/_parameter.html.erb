@@ -3,6 +3,7 @@
   <td>
     <%= f.text_field(:name,  :class => "form-control", :disabled => !authorized, :placeholder => _("Name")) %>
   </td>
+  <td><%= param_type_selector(f, true) %></td>
   <td>
     <%= hidden_value_field(f, :value, !authorized) %>
   </td>

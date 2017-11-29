@@ -12,7 +12,9 @@ function ignore_checked(item){
   } else {
      current_select.removeAttr('disabled');
   }
-  $(current_select).multiSelect('refresh');
+  if (!$(current_select).hasClass('parameter_type_selection')) {
+    $(current_select).multiSelect('refresh');
+  }
   multiSelectToolTips();
 }
 

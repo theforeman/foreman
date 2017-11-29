@@ -173,9 +173,18 @@ module FormHelper
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
     html_options[:size] = 'col-md-10' if html_options[:multiple]
     field(f, attr, html_options) do
-      addClass html_options, "form-control"
-      f.select attr, array, select_options, html_options
+      form_select_f(f, attr, array, select_options, html_options)
     end
+  end
+
+  def form_select_f(f, attr, array, select_options = {}, html_options = {})
+    addClass html_options, "form-control"
+    f.select attr, array, select_options, html_options
+  end
+
+  def selectable_f_inline(f, attr, array, select_options = {}, html_options = {})
+    html_options[:size] = 'col-md-10' if html_options[:multiple]
+    form_select_f(f, attr, array, select_options, html_options)
   end
 
   def spinner_button_f(f, caption, action, html_options = {})

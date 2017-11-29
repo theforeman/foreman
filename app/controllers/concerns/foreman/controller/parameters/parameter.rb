@@ -17,6 +17,7 @@ module Foreman::Controller::Parameters::Parameter
           :nested,
           :reference_id,
           :value,
+          :parameter_type,
           :nested => true
 
         filter.permit_by_context :id,
