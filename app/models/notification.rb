@@ -66,7 +66,7 @@ class Notification < ApplicationRecord
 
   def set_custom_attributes
     return unless notification_blueprint # let validation catch this.
-    self.actions = UINotifications::URLResolver.new(
+    self.actions ||= UINotifications::URLResolver.new(
       subject,
       notification_blueprint.actions
     ).actions if notification_blueprint.actions.any?
