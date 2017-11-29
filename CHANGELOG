@@ -1,4 +1,28 @@
+2017-11-29	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+	* templates - sync from community-templates
+
+2017-11-21	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #21675 - OpenStack create host tab fails to load
+	* Fixes #21682 - Add Domain to Compute Resource API (OpenStack)
+
+2017-11-21	Anthony Chevalet <achevalet@users.noreply.github.com>
+	* Fixes #12054 - Openstack v3 support
+
+2017-11-14	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #19151 - progress_report_id fix for host edit
+
+2017-11-08	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #21175 - Unable to add AD LDAP Auth Source
+
+2017-11-06	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #21519 - Prevent stored XSS on fact charts
+
+2017-10-25	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #21424 - Pin factory_girl_rails to ~> 4.8.0
+
 2017-10-24	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.16.0-RC2
 	* i18n - extracting new, pulling from tx
 	* Revert "Refs #19050 - Update Rails 5.0 to 5.0.6"
 
