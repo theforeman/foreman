@@ -110,7 +110,7 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :bookmarks, :except => [:show] do
+    resources :bookmarks, :except => [:show, :new, :create] do
       collection do
         get 'auto_complete_search'
       end

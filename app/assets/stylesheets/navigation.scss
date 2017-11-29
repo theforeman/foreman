@@ -23,6 +23,10 @@
       margin-left: 10px;
     }
   }
+
+  .dropdown .caret {
+    margin-left: 4px;
+  }
 }
 
 .navbar-brand {
@@ -41,10 +45,6 @@
       text-decoration: none;
     }
   }
-}
-
-.dropdown .caret {
-  margin-left: 4px;
 }
 
 .notifification-dropdown {

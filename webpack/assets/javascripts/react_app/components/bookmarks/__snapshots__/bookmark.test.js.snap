@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bookmark should create a link to a bookmark 1`] = `
+<Bookmark
+  query="query"
+  text="label"
+>
+  <MenuItem
+    bsClass="dropdown"
+    disabled={false}
+    divider={false}
+    header={false}
+    onClick={[Function]}
+  >
+    <li
+      className=""
+      role="presentation"
+    >
+      <SafeAnchor
+        componentClass="a"
+        onClick={[Function]}
+        role="menuitem"
+        tabIndex="-1"
+      >
+        <a
+          href="#"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="menuitem"
+          tabIndex="-1"
+        >
+          label
+        </a>
+      </SafeAnchor>
+    </li>
+  </MenuItem>
+</Bookmark>
+`;

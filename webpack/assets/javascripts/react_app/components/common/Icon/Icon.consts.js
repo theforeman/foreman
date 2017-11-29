@@ -5,6 +5,7 @@ const infoIcon = 'pficon pficon-info';
 const warningIcon = 'pficon pficon-warning-triangle-o';
 const errorIcon = 'pficon pficon-error-circle-o';
 const closeIcon = 'pficon pficon-close';
+const questionSign = 'glyphicon glyphicon-question-sign';
 
 export default (type) => {
   switch (type) {
@@ -21,6 +22,8 @@ export default (type) => {
       return errorIcon;
     case 'close':
       return closeIcon;
+    case 'question-sign':
+      return questionSign;
     default:
       throw { error: `unknown icon type ${type}` };
   }
