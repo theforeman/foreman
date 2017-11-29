@@ -17,7 +17,7 @@ child :mail_notifications do
   extends "api/v2/mail_notifications/base"
 end
 
-child :roles do
+child @user.roles.givable => :roles do
   extends "api/v2/roles/base"
 end
 
