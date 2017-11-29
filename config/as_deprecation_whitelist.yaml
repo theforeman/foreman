@@ -6,16 +6,6 @@
 - message: Using a dynamic :controller segment in a route is deprecated and will be
     removed in Rails 5.2.
   callstack: config/routes.rb:19:in `block in <top (required)>'
-# Caused by turbolinks (classic) dependency
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: config/environment.rb:5:in `<top (required)>'
-- message: after_filter is deprecated and will be removed in Rails 5.1. Use after_action
-    instead.
-  callstack: config/environment.rb:5:in `<top (required)>'
-- message: before_filter is deprecated and will be removed in Rails 5.1. Use before_action
-    instead.
-  callstack: config/environment.rb:5:in `<top (required)>'
 
 # Not a "true" deprecation, no action required, it's being used correctly.
 - message: "#table_exists? currently checks both tables and views. This behavior is
