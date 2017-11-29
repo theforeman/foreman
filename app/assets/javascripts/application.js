@@ -210,25 +210,6 @@ function template_info(div, url) {
   });
 }
 
-//add bookmark dialog
-$(function() {
-  $('#bookmarks-modal .modal-footer .btn-primary').on('click', function(){
-     $('#bookmarks-modal .modal-body .btn-primary').click();
-  });
-  $("#bookmarks-modal").bind('shown.bs.modal', function () {
-    var query = encodeURI($("#search").val());
-    var url = $("#bookmark").attr('data-url');
-    $("#bookmarks-modal .modal-body").empty();
-    $("#bookmarks-modal .modal-body").append("<span id='loading'>" + __('Loading ...') + "</span>");
-    $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
-                                           function(response, status, xhr) {
-                                             $("#loading").hide();
-                                             $("#bookmarks-modal .modal-body .btn").hide()
-                                           });
-  });
-
-});
-
 function filter_by_level(item){
   var level = $(item).val();
 

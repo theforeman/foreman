@@ -5,3 +5,4 @@ configure({ adapter: new Adapter() });
 
 // Mocking translation function
 global.__ = str => str; // eslint-disable-line
+global.n__ = str => str; // eslint-disable-line

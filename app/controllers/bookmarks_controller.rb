@@ -9,24 +9,7 @@ class BookmarksController < ApplicationController
     @bookmarks = resource_base_search_and_page
   end
 
-  def new
-    @bookmark            = Bookmark.new
-    query                = params[:query].to_s.strip
-    @bookmark.name       = query.split(/\s| = |!|~|>|</)[0]
-    @bookmark.query      = query
-    @bookmark.controller = params[:kontroller]
-  end
-
   def edit
-  end
-
-  def create
-    @bookmark = Bookmark.new(bookmark_params)
-    if @bookmark.save
-      redirect_to send("#{@bookmark.controller}_path"), :notice => _('Bookmark was successfully created')
-    else
-      render :action => "new"
-    end
   end
 
   def update

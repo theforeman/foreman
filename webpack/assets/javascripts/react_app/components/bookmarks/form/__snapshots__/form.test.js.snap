@@ -1,0 +1,1405 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bookmark form should render the entire form 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(ReduxForm)
+    controller="hosts"
+    onCancel={[Function]}
+    url="/api/bookmarks"
+  >
+    <ReduxForm
+      controller="hosts"
+      initialValues={
+        Object {
+          "publik": true,
+          "query": "",
+        }
+      }
+      onCancel={[Function]}
+      submitForm={[Function]}
+      url="/api/bookmarks"
+    >
+      <Connect(Form(BookmarkForm))
+        controller="hosts"
+        destroyOnUnmount={true}
+        enableReinitialize={false}
+        forceUnregisterOnUnmount={false}
+        form="bookmark"
+        getFormState={[Function]}
+        initialValues={
+          Object {
+            "publik": true,
+            "query": "",
+          }
+        }
+        keepDirtyOnReinitialize={false}
+        onCancel={[Function]}
+        persistentSubmitErrors={false}
+        pure={true}
+        shouldAsyncValidate={[Function]}
+        shouldError={[Function]}
+        shouldValidate={[Function]}
+        shouldWarn={[Function]}
+        submitForm={[Function]}
+        touchOnBlur={true}
+        touchOnChange={false}
+        updateUnregisteredFields={false}
+        url="/api/bookmarks"
+      >
+        <Form(BookmarkForm)
+          anyTouched={false}
+          array={
+            Object {
+              "insert": [Function],
+              "move": [Function],
+              "pop": [Function],
+              "push": [Function],
+              "remove": [Function],
+              "removeAll": [Function],
+              "shift": [Function],
+              "splice": [Function],
+              "swap": [Function],
+              "unshift": [Function],
+            }
+          }
+          arrayInsert={[Function]}
+          arrayMove={[Function]}
+          arrayPop={[Function]}
+          arrayPush={[Function]}
+          arrayRemove={[Function]}
+          arrayRemoveAll={[Function]}
+          arrayShift={[Function]}
+          arraySplice={[Function]}
+          arraySwap={[Function]}
+          arrayUnshift={[Function]}
+          asyncValidating={false}
+          autofill={[Function]}
+          blur={[Function]}
+          change={[Function]}
+          clearAsyncError={[Function]}
+          clearFields={[Function]}
+          clearSubmit={[Function]}
+          clearSubmitErrors={[Function]}
+          controller="hosts"
+          destroy={[Function]}
+          destroyOnUnmount={true}
+          dirty={false}
+          dispatch={[Function]}
+          enableReinitialize={false}
+          focus={[Function]}
+          forceUnregisterOnUnmount={false}
+          form="bookmark"
+          getFormState={[Function]}
+          initialValues={
+            Object {
+              "publik": true,
+              "query": "",
+            }
+          }
+          initialize={[Function]}
+          initialized={true}
+          invalid={true}
+          keepDirtyOnReinitialize={false}
+          onCancel={[Function]}
+          persistentSubmitErrors={false}
+          pristine={true}
+          pure={true}
+          registerField={[Function]}
+          registeredFields={
+            Object {
+              "name": Object {
+                "count": 1,
+                "name": "name",
+                "type": "Field",
+              },
+              "publik": Object {
+                "count": 1,
+                "name": "publik",
+                "type": "Field",
+              },
+              "query": Object {
+                "count": 1,
+                "name": "query",
+                "type": "Field",
+              },
+            }
+          }
+          reset={[Function]}
+          setSubmitFailed={[Function]}
+          setSubmitSucceeded={[Function]}
+          shouldAsyncValidate={[Function]}
+          shouldError={[Function]}
+          shouldValidate={[Function]}
+          shouldWarn={[Function]}
+          startAsyncValidation={[Function]}
+          startSubmit={[Function]}
+          stopAsyncValidation={[Function]}
+          stopSubmit={[Function]}
+          submit={[Function]}
+          submitFailed={false}
+          submitForm={[Function]}
+          submitSucceeded={false}
+          submitting={false}
+          syncErrors={
+            Object {
+              "name": "can't be blank",
+              "query": "can't be blank",
+            }
+          }
+          syncWarnings={Object {}}
+          touch={[Function]}
+          touchOnBlur={true}
+          touchOnChange={false}
+          unregisterField={[Function]}
+          untouch={[Function]}
+          updateSyncErrors={[Function]}
+          updateSyncWarnings={[Function]}
+          updateUnregisteredFields={false}
+          url="/api/bookmarks"
+          valid={false}
+          validExceptSubmit={false}
+          values={
+            Object {
+              "publik": true,
+              "query": "",
+            }
+          }
+        >
+          <BookmarkForm
+            anyTouched={false}
+            array={
+              Object {
+                "insert": [Function],
+                "move": [Function],
+                "pop": [Function],
+                "push": [Function],
+                "remove": [Function],
+                "removeAll": [Function],
+                "shift": [Function],
+                "splice": [Function],
+                "swap": [Function],
+                "unshift": [Function],
+              }
+            }
+            asyncValidate={[Function]}
+            asyncValidating={false}
+            autofill={[Function]}
+            blur={[Function]}
+            change={[Function]}
+            clearAsyncError={[Function]}
+            clearFields={[Function]}
+            clearSubmit={[Function]}
+            clearSubmitErrors={[Function]}
+            controller="hosts"
+            destroy={[Function]}
+            dirty={false}
+            dispatch={[Function]}
+            form="bookmark"
+            handleSubmit={[Function]}
+            initialValues={
+              Object {
+                "publik": true,
+                "query": "",
+              }
+            }
+            initialize={[Function]}
+            initialized={true}
+            invalid={true}
+            onCancel={[Function]}
+            pristine={true}
+            pure={true}
+            reset={[Function]}
+            submit={[Function]}
+            submitFailed={false}
+            submitForm={[Function]}
+            submitSucceeded={false}
+            submitting={false}
+            touch={[Function]}
+            untouch={[Function]}
+            url="/api/bookmarks"
+            valid={false}
+          >
+            <Component
+              disabled={false}
+              onCancel={[Function]}
+              onSubmit={[Function]}
+              submitting={false}
+            >
+              <form
+                className="form-horizontal well"
+                onSubmit={[Function]}
+              >
+                <TextField
+                  label="Name"
+                  name="name"
+                  required="true"
+                  type="text"
+                  validate={
+                    Array [
+                      [Function],
+                      [Function],
+                    ]
+                  }
+                >
+                  <Field
+                    className=""
+                    component={[Function]}
+                    label="Name"
+                    name="name"
+                    required="true"
+                    type="text"
+                    validate={
+                      Array [
+                        [Function],
+                        [Function],
+                      ]
+                    }
+                  >
+                    <Connect(ConnectedField)
+                      _reduxForm={
+                        Object {
+                          "anyTouched": false,
+                          "array": Object {
+                            "insert": [Function],
+                            "move": [Function],
+                            "pop": [Function],
+                            "push": [Function],
+                            "remove": [Function],
+                            "removeAll": [Function],
+                            "shift": [Function],
+                            "splice": [Function],
+                            "swap": [Function],
+                            "unshift": [Function],
+                          },
+                          "arrayInsert": [Function],
+                          "arrayMove": [Function],
+                          "arrayPop": [Function],
+                          "arrayPush": [Function],
+                          "arrayRemove": [Function],
+                          "arrayRemoveAll": [Function],
+                          "arrayShift": [Function],
+                          "arraySplice": [Function],
+                          "arraySwap": [Function],
+                          "arrayUnshift": [Function],
+                          "asyncErrors": undefined,
+                          "asyncValidate": [Function],
+                          "asyncValidating": false,
+                          "autofill": [Function],
+                          "blur": [Function],
+                          "change": [Function],
+                          "clearAsyncError": [Function],
+                          "clearFields": [Function],
+                          "clearSubmit": [Function],
+                          "clearSubmitErrors": [Function],
+                          "controller": "hosts",
+                          "destroy": [Function],
+                          "destroyOnUnmount": true,
+                          "dirty": false,
+                          "dispatch": [Function],
+                          "enableReinitialize": false,
+                          "error": undefined,
+                          "focus": [Function],
+                          "forceUnregisterOnUnmount": false,
+                          "form": "bookmark",
+                          "getFormState": [Function],
+                          "getValues": [Function],
+                          "initialValues": Object {
+                            "publik": true,
+                            "query": "",
+                          },
+                          "initialize": [Function],
+                          "initialized": true,
+                          "invalid": true,
+                          "keepDirtyOnReinitialize": false,
+                          "onCancel": [Function],
+                          "persistentSubmitErrors": false,
+                          "pristine": true,
+                          "pure": true,
+                          "register": [Function],
+                          "registerField": [Function],
+                          "registerInnerOnSubmit": [Function],
+                          "registeredFields": Object {
+                            "name": Object {
+                              "count": 1,
+                              "name": "name",
+                              "type": "Field",
+                            },
+                            "publik": Object {
+                              "count": 1,
+                              "name": "publik",
+                              "type": "Field",
+                            },
+                            "query": Object {
+                              "count": 1,
+                              "name": "query",
+                              "type": "Field",
+                            },
+                          },
+                          "reset": [Function],
+                          "sectionPrefix": undefined,
+                          "setSubmitFailed": [Function],
+                          "setSubmitSucceeded": [Function],
+                          "shouldAsyncValidate": [Function],
+                          "shouldError": [Function],
+                          "shouldValidate": [Function],
+                          "shouldWarn": [Function],
+                          "startAsyncValidation": [Function],
+                          "startSubmit": [Function],
+                          "stopAsyncValidation": [Function],
+                          "stopSubmit": [Function],
+                          "submit": [Function],
+                          "submitFailed": false,
+                          "submitForm": [Function],
+                          "submitSucceeded": false,
+                          "submitting": false,
+                          "syncErrors": Object {
+                            "name": "can't be blank",
+                            "query": "can't be blank",
+                          },
+                          "syncWarnings": Object {},
+                          "touch": [Function],
+                          "touchOnBlur": true,
+                          "touchOnChange": false,
+                          "triggerSubmit": undefined,
+                          "unregister": [Function],
+                          "unregisterField": [Function],
+                          "untouch": [Function],
+                          "updateSyncErrors": [Function],
+                          "updateSyncWarnings": [Function],
+                          "updateUnregisteredFields": false,
+                          "url": "/api/bookmarks",
+                          "valid": false,
+                          "validExceptSubmit": false,
+                          "values": Object {
+                            "publik": true,
+                            "query": "",
+                          },
+                          "warning": undefined,
+                        }
+                      }
+                      className=""
+                      component={[Function]}
+                      label="Name"
+                      name="name"
+                      normalize={[Function]}
+                      required="true"
+                      type="text"
+                      validate={
+                        Array [
+                          [Function],
+                          [Function],
+                        ]
+                      }
+                    >
+                      <ConnectedField
+                        _reduxForm={
+                          Object {
+                            "anyTouched": false,
+                            "array": Object {
+                              "insert": [Function],
+                              "move": [Function],
+                              "pop": [Function],
+                              "push": [Function],
+                              "remove": [Function],
+                              "removeAll": [Function],
+                              "shift": [Function],
+                              "splice": [Function],
+                              "swap": [Function],
+                              "unshift": [Function],
+                            },
+                            "arrayInsert": [Function],
+                            "arrayMove": [Function],
+                            "arrayPop": [Function],
+                            "arrayPush": [Function],
+                            "arrayRemove": [Function],
+                            "arrayRemoveAll": [Function],
+                            "arrayShift": [Function],
+                            "arraySplice": [Function],
+                            "arraySwap": [Function],
+                            "arrayUnshift": [Function],
+                            "asyncErrors": undefined,
+                            "asyncValidate": [Function],
+                            "asyncValidating": false,
+                            "autofill": [Function],
+                            "blur": [Function],
+                            "change": [Function],
+                            "clearAsyncError": [Function],
+                            "clearFields": [Function],
+                            "clearSubmit": [Function],
+                            "clearSubmitErrors": [Function],
+                            "controller": "hosts",
+                            "destroy": [Function],
+                            "destroyOnUnmount": true,
+                            "dirty": false,
+                            "dispatch": [Function],
+                            "enableReinitialize": false,
+                            "error": undefined,
+                            "focus": [Function],
+                            "forceUnregisterOnUnmount": false,
+                            "form": "bookmark",
+                            "getFormState": [Function],
+                            "getValues": [Function],
+                            "initialValues": Object {
+                              "publik": true,
+                              "query": "",
+                            },
+                            "initialize": [Function],
+                            "initialized": true,
+                            "invalid": true,
+                            "keepDirtyOnReinitialize": false,
+                            "onCancel": [Function],
+                            "persistentSubmitErrors": false,
+                            "pristine": true,
+                            "pure": true,
+                            "register": [Function],
+                            "registerField": [Function],
+                            "registerInnerOnSubmit": [Function],
+                            "registeredFields": Object {
+                              "name": Object {
+                                "count": 1,
+                                "name": "name",
+                                "type": "Field",
+                              },
+                              "publik": Object {
+                                "count": 1,
+                                "name": "publik",
+                                "type": "Field",
+                              },
+                              "query": Object {
+                                "count": 1,
+                                "name": "query",
+                                "type": "Field",
+                              },
+                            },
+                            "reset": [Function],
+                            "sectionPrefix": undefined,
+                            "setSubmitFailed": [Function],
+                            "setSubmitSucceeded": [Function],
+                            "shouldAsyncValidate": [Function],
+                            "shouldError": [Function],
+                            "shouldValidate": [Function],
+                            "shouldWarn": [Function],
+                            "startAsyncValidation": [Function],
+                            "startSubmit": [Function],
+                            "stopAsyncValidation": [Function],
+                            "stopSubmit": [Function],
+                            "submit": [Function],
+                            "submitFailed": false,
+                            "submitForm": [Function],
+                            "submitSucceeded": false,
+                            "submitting": false,
+                            "syncErrors": Object {
+                              "name": "can't be blank",
+                              "query": "can't be blank",
+                            },
+                            "syncWarnings": Object {},
+                            "touch": [Function],
+                            "touchOnBlur": true,
+                            "touchOnChange": false,
+                            "triggerSubmit": undefined,
+                            "unregister": [Function],
+                            "unregisterField": [Function],
+                            "untouch": [Function],
+                            "updateSyncErrors": [Function],
+                            "updateSyncWarnings": [Function],
+                            "updateUnregisteredFields": false,
+                            "url": "/api/bookmarks",
+                            "valid": false,
+                            "validExceptSubmit": false,
+                            "values": Object {
+                              "publik": true,
+                              "query": "",
+                            },
+                            "warning": undefined,
+                          }
+                        }
+                        asyncValidating={false}
+                        className=""
+                        component={[Function]}
+                        dirty={false}
+                        dispatch={[Function]}
+                        label="Name"
+                        name="name"
+                        normalize={[Function]}
+                        pristine={true}
+                        required="true"
+                        syncError="can't be blank"
+                        type="text"
+                        validate={
+                          Array [
+                            [Function],
+                            [Function],
+                          ]
+                        }
+                      >
+                        <renderField
+                          className=""
+                          input={
+                            Object {
+                              "name": "name",
+                              "onBlur": [Function],
+                              "onChange": [Function],
+                              "onDragStart": [Function],
+                              "onDrop": [Function],
+                              "onFocus": [Function],
+                              "value": "",
+                            }
+                          }
+                          label="Name"
+                          meta={
+                            Object {
+                              "active": false,
+                              "asyncValidating": false,
+                              "autofilled": false,
+                              "dirty": false,
+                              "dispatch": [Function],
+                              "error": "can't be blank",
+                              "form": "bookmark",
+                              "initial": undefined,
+                              "invalid": true,
+                              "pristine": true,
+                              "submitFailed": false,
+                              "submitting": false,
+                              "touched": false,
+                              "valid": false,
+                              "visited": false,
+                              "warning": undefined,
+                            }
+                          }
+                          required="true"
+                          type="text"
+                        >
+                          <CommonForm
+                            className=""
+                            error="can't be blank"
+                            label="Name"
+                            required="true"
+                            touched={false}
+                          >
+                            <div
+                              className="form-group  "
+                            >
+                              <label
+                                className="col-md-2 control-label"
+                              >
+                                Name
+                                 *
+                              </label>
+                              <div
+                                className="col-md-4"
+                              >
+                                <input
+                                  className="form-control"
+                                  name="name"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onDragStart={[Function]}
+                                  onDrop={[Function]}
+                                  onFocus={[Function]}
+                                  type="text"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </CommonForm>
+                        </renderField>
+                      </ConnectedField>
+                    </Connect(ConnectedField)>
+                  </Field>
+                </TextField>
+                <TextField
+                  inputClassName="col-md-8"
+                  label="Query"
+                  name="query"
+                  required="true"
+                  type="textarea"
+                  validate={
+                    Array [
+                      [Function],
+                      [Function],
+                    ]
+                  }
+                >
+                  <Field
+                    className=""
+                    component={[Function]}
+                    inputClassName="col-md-8"
+                    label="Query"
+                    name="query"
+                    required="true"
+                    type="textarea"
+                    validate={
+                      Array [
+                        [Function],
+                        [Function],
+                      ]
+                    }
+                  >
+                    <Connect(ConnectedField)
+                      _reduxForm={
+                        Object {
+                          "anyTouched": false,
+                          "array": Object {
+                            "insert": [Function],
+                            "move": [Function],
+                            "pop": [Function],
+                            "push": [Function],
+                            "remove": [Function],
+                            "removeAll": [Function],
+                            "shift": [Function],
+                            "splice": [Function],
+                            "swap": [Function],
+                            "unshift": [Function],
+                          },
+                          "arrayInsert": [Function],
+                          "arrayMove": [Function],
+                          "arrayPop": [Function],
+                          "arrayPush": [Function],
+                          "arrayRemove": [Function],
+                          "arrayRemoveAll": [Function],
+                          "arrayShift": [Function],
+                          "arraySplice": [Function],
+                          "arraySwap": [Function],
+                          "arrayUnshift": [Function],
+                          "asyncErrors": undefined,
+                          "asyncValidate": [Function],
+                          "asyncValidating": false,
+                          "autofill": [Function],
+                          "blur": [Function],
+                          "change": [Function],
+                          "clearAsyncError": [Function],
+                          "clearFields": [Function],
+                          "clearSubmit": [Function],
+                          "clearSubmitErrors": [Function],
+                          "controller": "hosts",
+                          "destroy": [Function],
+                          "destroyOnUnmount": true,
+                          "dirty": false,
+                          "dispatch": [Function],
+                          "enableReinitialize": false,
+                          "error": undefined,
+                          "focus": [Function],
+                          "forceUnregisterOnUnmount": false,
+                          "form": "bookmark",
+                          "getFormState": [Function],
+                          "getValues": [Function],
+                          "initialValues": Object {
+                            "publik": true,
+                            "query": "",
+                          },
+                          "initialize": [Function],
+                          "initialized": true,
+                          "invalid": true,
+                          "keepDirtyOnReinitialize": false,
+                          "onCancel": [Function],
+                          "persistentSubmitErrors": false,
+                          "pristine": true,
+                          "pure": true,
+                          "register": [Function],
+                          "registerField": [Function],
+                          "registerInnerOnSubmit": [Function],
+                          "registeredFields": Object {
+                            "name": Object {
+                              "count": 1,
+                              "name": "name",
+                              "type": "Field",
+                            },
+                            "publik": Object {
+                              "count": 1,
+                              "name": "publik",
+                              "type": "Field",
+                            },
+                            "query": Object {
+                              "count": 1,
+                              "name": "query",
+                              "type": "Field",
+                            },
+                          },
+                          "reset": [Function],
+                          "sectionPrefix": undefined,
+                          "setSubmitFailed": [Function],
+                          "setSubmitSucceeded": [Function],
+                          "shouldAsyncValidate": [Function],
+                          "shouldError": [Function],
+                          "shouldValidate": [Function],
+                          "shouldWarn": [Function],
+                          "startAsyncValidation": [Function],
+                          "startSubmit": [Function],
+                          "stopAsyncValidation": [Function],
+                          "stopSubmit": [Function],
+                          "submit": [Function],
+                          "submitFailed": false,
+                          "submitForm": [Function],
+                          "submitSucceeded": false,
+                          "submitting": false,
+                          "syncErrors": Object {
+                            "name": "can't be blank",
+                            "query": "can't be blank",
+                          },
+                          "syncWarnings": Object {},
+                          "touch": [Function],
+                          "touchOnBlur": true,
+                          "touchOnChange": false,
+                          "triggerSubmit": undefined,
+                          "unregister": [Function],
+                          "unregisterField": [Function],
+                          "untouch": [Function],
+                          "updateSyncErrors": [Function],
+                          "updateSyncWarnings": [Function],
+                          "updateUnregisteredFields": false,
+                          "url": "/api/bookmarks",
+                          "valid": false,
+                          "validExceptSubmit": false,
+                          "values": Object {
+                            "publik": true,
+                            "query": "",
+                          },
+                          "warning": undefined,
+                        }
+                      }
+                      className=""
+                      component={[Function]}
+                      inputClassName="col-md-8"
+                      label="Query"
+                      name="query"
+                      normalize={[Function]}
+                      required="true"
+                      type="textarea"
+                      validate={
+                        Array [
+                          [Function],
+                          [Function],
+                        ]
+                      }
+                    >
+                      <ConnectedField
+                        _reduxForm={
+                          Object {
+                            "anyTouched": false,
+                            "array": Object {
+                              "insert": [Function],
+                              "move": [Function],
+                              "pop": [Function],
+                              "push": [Function],
+                              "remove": [Function],
+                              "removeAll": [Function],
+                              "shift": [Function],
+                              "splice": [Function],
+                              "swap": [Function],
+                              "unshift": [Function],
+                            },
+                            "arrayInsert": [Function],
+                            "arrayMove": [Function],
+                            "arrayPop": [Function],
+                            "arrayPush": [Function],
+                            "arrayRemove": [Function],
+                            "arrayRemoveAll": [Function],
+                            "arrayShift": [Function],
+                            "arraySplice": [Function],
+                            "arraySwap": [Function],
+                            "arrayUnshift": [Function],
+                            "asyncErrors": undefined,
+                            "asyncValidate": [Function],
+                            "asyncValidating": false,
+                            "autofill": [Function],
+                            "blur": [Function],
+                            "change": [Function],
+                            "clearAsyncError": [Function],
+                            "clearFields": [Function],
+                            "clearSubmit": [Function],
+                            "clearSubmitErrors": [Function],
+                            "controller": "hosts",
+                            "destroy": [Function],
+                            "destroyOnUnmount": true,
+                            "dirty": false,
+                            "dispatch": [Function],
+                            "enableReinitialize": false,
+                            "error": undefined,
+                            "focus": [Function],
+                            "forceUnregisterOnUnmount": false,
+                            "form": "bookmark",
+                            "getFormState": [Function],
+                            "getValues": [Function],
+                            "initialValues": Object {
+                              "publik": true,
+                              "query": "",
+                            },
+                            "initialize": [Function],
+                            "initialized": true,
+                            "invalid": true,
+                            "keepDirtyOnReinitialize": false,
+                            "onCancel": [Function],
+                            "persistentSubmitErrors": false,
+                            "pristine": true,
+                            "pure": true,
+                            "register": [Function],
+                            "registerField": [Function],
+                            "registerInnerOnSubmit": [Function],
+                            "registeredFields": Object {
+                              "name": Object {
+                                "count": 1,
+                                "name": "name",
+                                "type": "Field",
+                              },
+                              "publik": Object {
+                                "count": 1,
+                                "name": "publik",
+                                "type": "Field",
+                              },
+                              "query": Object {
+                                "count": 1,
+                                "name": "query",
+                                "type": "Field",
+                              },
+                            },
+                            "reset": [Function],
+                            "sectionPrefix": undefined,
+                            "setSubmitFailed": [Function],
+                            "setSubmitSucceeded": [Function],
+                            "shouldAsyncValidate": [Function],
+                            "shouldError": [Function],
+                            "shouldValidate": [Function],
+                            "shouldWarn": [Function],
+                            "startAsyncValidation": [Function],
+                            "startSubmit": [Function],
+                            "stopAsyncValidation": [Function],
+                            "stopSubmit": [Function],
+                            "submit": [Function],
+                            "submitFailed": false,
+                            "submitForm": [Function],
+                            "submitSucceeded": false,
+                            "submitting": false,
+                            "syncErrors": Object {
+                              "name": "can't be blank",
+                              "query": "can't be blank",
+                            },
+                            "syncWarnings": Object {},
+                            "touch": [Function],
+                            "touchOnBlur": true,
+                            "touchOnChange": false,
+                            "triggerSubmit": undefined,
+                            "unregister": [Function],
+                            "unregisterField": [Function],
+                            "untouch": [Function],
+                            "updateSyncErrors": [Function],
+                            "updateSyncWarnings": [Function],
+                            "updateUnregisteredFields": false,
+                            "url": "/api/bookmarks",
+                            "valid": false,
+                            "validExceptSubmit": false,
+                            "values": Object {
+                              "publik": true,
+                              "query": "",
+                            },
+                            "warning": undefined,
+                          }
+                        }
+                        asyncValidating={false}
+                        className=""
+                        component={[Function]}
+                        dirty={false}
+                        dispatch={[Function]}
+                        initial=""
+                        inputClassName="col-md-8"
+                        label="Query"
+                        name="query"
+                        normalize={[Function]}
+                        pristine={true}
+                        required="true"
+                        syncError="can't be blank"
+                        type="textarea"
+                        validate={
+                          Array [
+                            [Function],
+                            [Function],
+                          ]
+                        }
+                        value=""
+                      >
+                        <renderField
+                          className=""
+                          input={
+                            Object {
+                              "name": "query",
+                              "onBlur": [Function],
+                              "onChange": [Function],
+                              "onDragStart": [Function],
+                              "onDrop": [Function],
+                              "onFocus": [Function],
+                              "value": "",
+                            }
+                          }
+                          inputClassName="col-md-8"
+                          label="Query"
+                          meta={
+                            Object {
+                              "active": false,
+                              "asyncValidating": false,
+                              "autofilled": false,
+                              "dirty": false,
+                              "dispatch": [Function],
+                              "error": "can't be blank",
+                              "form": "bookmark",
+                              "initial": "",
+                              "invalid": true,
+                              "pristine": true,
+                              "submitFailed": false,
+                              "submitting": false,
+                              "touched": false,
+                              "valid": false,
+                              "visited": false,
+                              "warning": undefined,
+                            }
+                          }
+                          required="true"
+                          type="textarea"
+                        >
+                          <CommonForm
+                            className=""
+                            error="can't be blank"
+                            inputClassName="col-md-8"
+                            label="Query"
+                            required="true"
+                            touched={false}
+                          >
+                            <div
+                              className="form-group  "
+                            >
+                              <label
+                                className="col-md-2 control-label"
+                              >
+                                Query
+                                 *
+                              </label>
+                              <div
+                                className="col-md-8"
+                              >
+                                <textarea
+                                  className="form-control"
+                                  name="query"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onDragStart={[Function]}
+                                  onDrop={[Function]}
+                                  onFocus={[Function]}
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </CommonForm>
+                        </renderField>
+                      </ConnectedField>
+                    </Connect(ConnectedField)>
+                  </Field>
+                </TextField>
+                <TextField
+                  label="Public"
+                  name="publik"
+                  type="checkbox"
+                >
+                  <Field
+                    className=""
+                    component={[Function]}
+                    label="Public"
+                    name="publik"
+                    type="checkbox"
+                  >
+                    <Connect(ConnectedField)
+                      _reduxForm={
+                        Object {
+                          "anyTouched": false,
+                          "array": Object {
+                            "insert": [Function],
+                            "move": [Function],
+                            "pop": [Function],
+                            "push": [Function],
+                            "remove": [Function],
+                            "removeAll": [Function],
+                            "shift": [Function],
+                            "splice": [Function],
+                            "swap": [Function],
+                            "unshift": [Function],
+                          },
+                          "arrayInsert": [Function],
+                          "arrayMove": [Function],
+                          "arrayPop": [Function],
+                          "arrayPush": [Function],
+                          "arrayRemove": [Function],
+                          "arrayRemoveAll": [Function],
+                          "arrayShift": [Function],
+                          "arraySplice": [Function],
+                          "arraySwap": [Function],
+                          "arrayUnshift": [Function],
+                          "asyncErrors": undefined,
+                          "asyncValidate": [Function],
+                          "asyncValidating": false,
+                          "autofill": [Function],
+                          "blur": [Function],
+                          "change": [Function],
+                          "clearAsyncError": [Function],
+                          "clearFields": [Function],
+                          "clearSubmit": [Function],
+                          "clearSubmitErrors": [Function],
+                          "controller": "hosts",
+                          "destroy": [Function],
+                          "destroyOnUnmount": true,
+                          "dirty": false,
+                          "dispatch": [Function],
+                          "enableReinitialize": false,
+                          "error": undefined,
+                          "focus": [Function],
+                          "forceUnregisterOnUnmount": false,
+                          "form": "bookmark",
+                          "getFormState": [Function],
+                          "getValues": [Function],
+                          "initialValues": Object {
+                            "publik": true,
+                            "query": "",
+                          },
+                          "initialize": [Function],
+                          "initialized": true,
+                          "invalid": true,
+                          "keepDirtyOnReinitialize": false,
+                          "onCancel": [Function],
+                          "persistentSubmitErrors": false,
+                          "pristine": true,
+                          "pure": true,
+                          "register": [Function],
+                          "registerField": [Function],
+                          "registerInnerOnSubmit": [Function],
+                          "registeredFields": Object {
+                            "name": Object {
+                              "count": 1,
+                              "name": "name",
+                              "type": "Field",
+                            },
+                            "publik": Object {
+                              "count": 1,
+                              "name": "publik",
+                              "type": "Field",
+                            },
+                            "query": Object {
+                              "count": 1,
+                              "name": "query",
+                              "type": "Field",
+                            },
+                          },
+                          "reset": [Function],
+                          "sectionPrefix": undefined,
+                          "setSubmitFailed": [Function],
+                          "setSubmitSucceeded": [Function],
+                          "shouldAsyncValidate": [Function],
+                          "shouldError": [Function],
+                          "shouldValidate": [Function],
+                          "shouldWarn": [Function],
+                          "startAsyncValidation": [Function],
+                          "startSubmit": [Function],
+                          "stopAsyncValidation": [Function],
+                          "stopSubmit": [Function],
+                          "submit": [Function],
+                          "submitFailed": false,
+                          "submitForm": [Function],
+                          "submitSucceeded": false,
+                          "submitting": false,
+                          "syncErrors": Object {
+                            "name": "can't be blank",
+                            "query": "can't be blank",
+                          },
+                          "syncWarnings": Object {},
+                          "touch": [Function],
+                          "touchOnBlur": true,
+                          "touchOnChange": false,
+                          "triggerSubmit": undefined,
+                          "unregister": [Function],
+                          "unregisterField": [Function],
+                          "untouch": [Function],
+                          "updateSyncErrors": [Function],
+                          "updateSyncWarnings": [Function],
+                          "updateUnregisteredFields": false,
+                          "url": "/api/bookmarks",
+                          "valid": false,
+                          "validExceptSubmit": false,
+                          "values": Object {
+                            "publik": true,
+                            "query": "",
+                          },
+                          "warning": undefined,
+                        }
+                      }
+                      className=""
+                      component={[Function]}
+                      label="Public"
+                      name="publik"
+                      normalize={[Function]}
+                      type="checkbox"
+                    >
+                      <ConnectedField
+                        _reduxForm={
+                          Object {
+                            "anyTouched": false,
+                            "array": Object {
+                              "insert": [Function],
+                              "move": [Function],
+                              "pop": [Function],
+                              "push": [Function],
+                              "remove": [Function],
+                              "removeAll": [Function],
+                              "shift": [Function],
+                              "splice": [Function],
+                              "swap": [Function],
+                              "unshift": [Function],
+                            },
+                            "arrayInsert": [Function],
+                            "arrayMove": [Function],
+                            "arrayPop": [Function],
+                            "arrayPush": [Function],
+                            "arrayRemove": [Function],
+                            "arrayRemoveAll": [Function],
+                            "arrayShift": [Function],
+                            "arraySplice": [Function],
+                            "arraySwap": [Function],
+                            "arrayUnshift": [Function],
+                            "asyncErrors": undefined,
+                            "asyncValidate": [Function],
+                            "asyncValidating": false,
+                            "autofill": [Function],
+                            "blur": [Function],
+                            "change": [Function],
+                            "clearAsyncError": [Function],
+                            "clearFields": [Function],
+                            "clearSubmit": [Function],
+                            "clearSubmitErrors": [Function],
+                            "controller": "hosts",
+                            "destroy": [Function],
+                            "destroyOnUnmount": true,
+                            "dirty": false,
+                            "dispatch": [Function],
+                            "enableReinitialize": false,
+                            "error": undefined,
+                            "focus": [Function],
+                            "forceUnregisterOnUnmount": false,
+                            "form": "bookmark",
+                            "getFormState": [Function],
+                            "getValues": [Function],
+                            "initialValues": Object {
+                              "publik": true,
+                              "query": "",
+                            },
+                            "initialize": [Function],
+                            "initialized": true,
+                            "invalid": true,
+                            "keepDirtyOnReinitialize": false,
+                            "onCancel": [Function],
+                            "persistentSubmitErrors": false,
+                            "pristine": true,
+                            "pure": true,
+                            "register": [Function],
+                            "registerField": [Function],
+                            "registerInnerOnSubmit": [Function],
+                            "registeredFields": Object {
+                              "name": Object {
+                                "count": 1,
+                                "name": "name",
+                                "type": "Field",
+                              },
+                              "publik": Object {
+                                "count": 1,
+                                "name": "publik",
+                                "type": "Field",
+                              },
+                              "query": Object {
+                                "count": 1,
+                                "name": "query",
+                                "type": "Field",
+                              },
+                            },
+                            "reset": [Function],
+                            "sectionPrefix": undefined,
+                            "setSubmitFailed": [Function],
+                            "setSubmitSucceeded": [Function],
+                            "shouldAsyncValidate": [Function],
+                            "shouldError": [Function],
+                            "shouldValidate": [Function],
+                            "shouldWarn": [Function],
+                            "startAsyncValidation": [Function],
+                            "startSubmit": [Function],
+                            "stopAsyncValidation": [Function],
+                            "stopSubmit": [Function],
+                            "submit": [Function],
+                            "submitFailed": false,
+                            "submitForm": [Function],
+                            "submitSucceeded": false,
+                            "submitting": false,
+                            "syncErrors": Object {
+                              "name": "can't be blank",
+                              "query": "can't be blank",
+                            },
+                            "syncWarnings": Object {},
+                            "touch": [Function],
+                            "touchOnBlur": true,
+                            "touchOnChange": false,
+                            "triggerSubmit": undefined,
+                            "unregister": [Function],
+                            "unregisterField": [Function],
+                            "untouch": [Function],
+                            "updateSyncErrors": [Function],
+                            "updateSyncWarnings": [Function],
+                            "updateUnregisteredFields": false,
+                            "url": "/api/bookmarks",
+                            "valid": false,
+                            "validExceptSubmit": false,
+                            "values": Object {
+                              "publik": true,
+                              "query": "",
+                            },
+                            "warning": undefined,
+                          }
+                        }
+                        asyncValidating={false}
+                        className=""
+                        component={[Function]}
+                        dirty={false}
+                        dispatch={[Function]}
+                        initial={true}
+                        label="Public"
+                        name="publik"
+                        normalize={[Function]}
+                        pristine={true}
+                        type="checkbox"
+                        value={true}
+                      >
+                        <renderField
+                          className=""
+                          input={
+                            Object {
+                              "checked": true,
+                              "name": "publik",
+                              "onBlur": [Function],
+                              "onChange": [Function],
+                              "onDragStart": [Function],
+                              "onDrop": [Function],
+                              "onFocus": [Function],
+                              "value": true,
+                            }
+                          }
+                          label="Public"
+                          meta={
+                            Object {
+                              "active": false,
+                              "asyncValidating": false,
+                              "autofilled": false,
+                              "dirty": false,
+                              "dispatch": [Function],
+                              "error": undefined,
+                              "form": "bookmark",
+                              "initial": true,
+                              "invalid": false,
+                              "pristine": true,
+                              "submitFailed": false,
+                              "submitting": false,
+                              "touched": false,
+                              "valid": true,
+                              "visited": false,
+                              "warning": undefined,
+                            }
+                          }
+                          type="checkbox"
+                        >
+                          <CommonForm
+                            className=""
+                            label="Public"
+                            touched={false}
+                          >
+                            <div
+                              className="form-group  "
+                            >
+                              <label
+                                className="col-md-2 control-label"
+                              >
+                                Public
+                              </label>
+                              <div
+                                className="col-md-4"
+                              >
+                                <input
+                                  checked={true}
+                                  className=""
+                                  name="publik"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onDragStart={[Function]}
+                                  onDrop={[Function]}
+                                  onFocus={[Function]}
+                                  type="checkbox"
+                                  value={true}
+                                />
+                              </div>
+                            </div>
+                          </CommonForm>
+                        </renderField>
+                      </ConnectedField>
+                    </Connect(ConnectedField)>
+                  </Field>
+                </TextField>
+                <Component
+                  disabled={false}
+                  onCancel={[Function]}
+                  submitting={false}
+                >
+                  <div
+                    className="clearfix"
+                  >
+                    <div
+                      className="form-actions"
+                    >
+                      <Component
+                        className="btn-primary"
+                        disabled={false}
+                        type="submit"
+                      >
+                        <button
+                          className="btn btn-primary"
+                          disabled={false}
+                          type="submit"
+                        >
+                           
+                          Submit
+                        </button>
+                      </Component>
+                       
+                      <Component
+                        className="btn-default"
+                        disabled={false}
+                        onClick={[Function]}
+                      >
+                        <button
+                          className="btn btn-default"
+                          disabled={false}
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          Cancel
+                        </button>
+                      </Component>
+                    </div>
+                  </div>
+                </Component>
+              </form>
+            </Component>
+          </BookmarkForm>
+        </Form(BookmarkForm)>
+      </Connect(Form(BookmarkForm))>
+    </ReduxForm>
+  </Connect(ReduxForm)>
+</Provider>
+`;

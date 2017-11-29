@@ -30,4 +30,9 @@ describe('common Form', () => {
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
+  it('should accept customized input class', () => {
+    const wrapper = shallow(<CommonForm name="name" inputClassName="col-md-10" label="Name" />);
+
+    expect(wrapper.find('.col-md-10').exists()).toBe(true);
+  });
 });
