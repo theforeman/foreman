@@ -2272,6 +2272,9 @@ msgstr "DNS domain"
 msgid "Domain IDs"
 msgstr ""
 
+msgid "Domain for V3 authentication"
+msgstr ""
+
 msgid "Domains"
 msgstr ""
 
@@ -9104,7 +9107,7 @@ msgstr ""
 msgid "e.g. givenName"
 msgstr ""
 
-msgid "e.g. http://openstack:5000/v2.0/tokens"
+msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"

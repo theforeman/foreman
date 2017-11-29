@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 16:34+0200\n"
-"PO-Revision-Date: 2017-10-24 16:34+0200\n"
+"POT-Creation-Date: 2017-11-29 08:03+0100\n"
+"PO-Revision-Date: 2017-11-29 08:03+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -433,7 +433,7 @@ msgid ""
 msgstr ""
 
 #: ../app/controllers/api/v1/compute_resources_controller.rb:38
-#: ../app/controllers/api/v2/compute_resources_controller.rb:42
+#: ../app/controllers/api/v2/compute_resources_controller.rb:43
 msgid "for Libvirt and VMware only"
 msgstr ""
 
@@ -754,99 +754,100 @@ msgid "for EC2 only"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:40
+#: ../app/controllers/api/v2/compute_resources_controller.rb:41
 msgid "for OpenStack only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:41
+#: ../app/controllers/api/v2/compute_resources_controller.rb:42
 msgid "for VMware"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:43
+#: ../app/controllers/api/v2/compute_resources_controller.rb:44
 msgid "for Libvirt only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:44
+#: ../app/controllers/api/v2/compute_resources_controller.rb:45
 msgid "enable caching, for VMware only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:49
+#: ../app/controllers/api/v2/compute_resources_controller.rb:50
 msgid "Create a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:57
+#: ../app/controllers/api/v2/compute_resources_controller.rb:58
 msgid "Update a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:65
+#: ../app/controllers/api/v2/compute_resources_controller.rb:66
 msgid "Delete a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:72
+#: ../app/controllers/api/v2/compute_resources_controller.rb:73
 msgid "List available images for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:78
+#: ../app/controllers/api/v2/compute_resources_controller.rb:79
 msgid "List available clusters for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:85
+#: ../app/controllers/api/v2/compute_resources_controller.rb:86
 msgid "List available flavors for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:92
+#: ../app/controllers/api/v2/compute_resources_controller.rb:93
 msgid "List available folders for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:99
+#: ../app/controllers/api/v2/compute_resources_controller.rb:100
 msgid "List available zone for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:106
+#: ../app/controllers/api/v2/compute_resources_controller.rb:107
 msgid "List available networks for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:107
+#: ../app/controllers/api/v2/compute_resources_controller.rb:108
 msgid "List available networks for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:115
+#: ../app/controllers/api/v2/compute_resources_controller.rb:116
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:123
+#: ../app/controllers/api/v2/compute_resources_controller.rb:124
 msgid "List storage domains for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:124
+#: ../app/controllers/api/v2/compute_resources_controller.rb:125
 msgid "List attributes for a given storage domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:132
+#: ../app/controllers/api/v2/compute_resources_controller.rb:133
 msgid "List storage pods for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:133
+#: ../app/controllers/api/v2/compute_resources_controller.rb:134
 msgid "List attributes for a given storage pod"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:141
+#: ../app/controllers/api/v2/compute_resources_controller.rb:142
 msgid "List available security groups for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:148
+#: ../app/controllers/api/v2/compute_resources_controller.rb:149
 msgid "Associate VMs to Hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:166
+#: ../app/controllers/api/v2/compute_resources_controller.rb:167
 msgid "Refresh Compute Resource Cache"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:170
+#: ../app/controllers/api/v2/compute_resources_controller.rb:171
 #: ../app/controllers/compute_resources_controller.rb:79
 msgid "Successfully refreshed the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:172
+#: ../app/controllers/api/v2/compute_resources_controller.rb:173
 #: ../app/controllers/compute_resources_controller.rb:84
 msgid "Failed to refresh the cache."
 msgstr ""
@@ -5346,7 +5347,7 @@ msgstr ""
 msgid "Unable to connect to LDAP server"
 msgstr ""
 
-#: ../app/models/auth_sources/auth_source_ldap.rb:221
+#: ../app/models/auth_sources/auth_source_ldap.rb:222
 msgid "invalid LDAP filter syntax"
 msgstr ""
 
@@ -5418,15 +5419,15 @@ msgid ""
 "e size in gigabytes."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:104
+#: ../app/models/compute_resources/foreman/model/openstack.rb:113
 msgid "No matching server groups found"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:109
+#: ../app/models/compute_resources/foreman/model/openstack.rb:118
 msgid "Hint data is missing"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:145
+#: ../app/models/compute_resources/foreman/model/openstack.rb:154
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
@@ -5973,19 +5974,19 @@ msgstr ""
 msgid "is locked for user modifications."
 msgstr ""
 
-#: ../app/models/host/base.rb:477
+#: ../app/models/host/base.rb:481
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:483
+#: ../app/models/host/base.rb:487
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:502
+#: ../app/models/host/base.rb:506
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:508
+#: ../app/models/host/base.rb:512
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
@@ -9053,20 +9054,24 @@ msgid "Set a randomly generated password on the display connection"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_openstack.html.erb:1
-msgid "e.g. http://openstack:5000/v2.0/tokens"
+msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_openstack.html.erb:6
+#: ../app/views/compute_resources/form/_openstack.html.erb:4
+msgid "Domain for V3 authentication"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_openstack.html.erb:7
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:13
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:5
 msgid "Tenant"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_openstack.html.erb:7
+#: ../app/views/compute_resources/form/_openstack.html.erb:8
 msgid "Load Tenants"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_openstack.html.erb:8
+#: ../app/views/compute_resources/form/_openstack.html.erb:9
 msgid "Allow external network as main network"
 msgstr ""
 
