@@ -68,7 +68,7 @@ module UINotifications
     end
 
     def notification_already_exists?(item)
-      !!Notification.unscoped.find_by_message(item.summary)
+      !!Notification.unscoped.find_by_message(item.title)
     end
   end
 end
