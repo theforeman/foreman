@@ -4,6 +4,7 @@ class TaxonomyTest < ActiveSupport::TestCase
   def setup
     SETTINGS.stubs(:[]).with(:organizations_enabled).returns(true)
     SETTINGS.stubs(:[]).with(:locations_enabled).returns(false)
+    SETTINGS.stubs(:[]).with(:unattended).returns(false)
   end
 
   should validate_presence_of(:name)
@@ -80,5 +81,15 @@ class TaxonomyTest < ActiveSupport::TestCase
       assert_equal org1, Organization.expand(org1)
       assert_equal [org1, org2], Organization.expand([org1, org2])
     end
+  end
+
+  test "taxonomy cannot be saved with orphans" do
+    location = Location.create :name => "Velky Tynec"
+    organization = Organization.create :name => "Olomouc"
+    FactoryBot.create(:host, :organization => organization, :location => location)
+    organization.save
+    assert_match /expecting locations/, organization.errors.messages[:locations].first
+    location.save
+    assert_match /expecting organizations/, location.errors.messages[:organizations].first
   end
 end

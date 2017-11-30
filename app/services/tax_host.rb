@@ -130,7 +130,7 @@ class TaxHost
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?
         found_orphan = true
-        taxonomy.errors.add(taxable_type.tableize, _("you cannot remove %s that are used by hosts or inherited.") % taxable_type.tableize.humanize.downcase)
+        taxonomy.errors.add(taxable_type.tableize, _("expecting %s used by hosts or inherited (check mismatches report).") % _(taxable_type.tableize.humanize.downcase))
       end
     end
     !found_orphan
