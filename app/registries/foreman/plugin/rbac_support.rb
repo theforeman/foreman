@@ -5,7 +5,6 @@ module Foreman
       AUTO_EXTENDED_ROLES = [ Role::VIEWER, Role::MANAGER, Role::ORG_ADMIN ]
 
       def add_all_permissions_to_default_roles(all_permissions)
-        return if Foreman.in_rake?('db:migrate')
         view_permissions = all_permissions.where("name LIKE :name", :name => "view_%")
         org_admin_permissions = all_permissions.where('resource_type <> :resource_type OR resource_type IS NULL', { :resource_type => "Organization" })
         Role.transaction do
