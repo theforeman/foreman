@@ -40,6 +40,10 @@ module UINotifications
         Notification.expects(:create).once
         @notifications_service.deliver!
       end
+
+      test 'expect request should include a user agent' do
+        assert @notifications_service.send(:rss_user_agent) =~ /Foreman/
+      end
     end
   end
 end
