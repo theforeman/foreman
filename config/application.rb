@@ -279,7 +279,7 @@ module Foreman
       dynflow.eager_load_actions!
       dynflow.config.increase_db_pool_size
 
-      unless dynflow.config.lazy_initialization
+      unless Rails.env.production?
         if defined?(PhusionPassenger)
           PhusionPassenger.on_event(:starting_worker_process) do |forked|
             dynflow.initialize! if forked
