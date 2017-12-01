@@ -21,10 +21,13 @@ module AccessPermissionsTestBase
           controller = "#{r.defaults[:controller]}_controller".classify.constantize
           filters    = controller.send(:_process_action_callbacks)
 
-          # Pass if the controller deliberately only permit admins (e.g. SettingsController)
-          if filters.select { |f| f.filter == :require_admin }.empty?
-            assert_not_equal [], Foreman::AccessControl.permissions.select { |p| p.actions.include? path }
-          end
+          # Pass if the controller only permit admins (e.g. SettingsController)
+          next if filters.any? { |f| f.filter == :require_admin }
+
+          # Pass if the controller deliberately skips login requirement
+          next if controller < ApplicationController && filters.select { |f| f.filter == :require_login }.empty?
+
+          assert_not_empty Foreman::AccessControl.permissions.select { |p| p.actions.include? path }
         end
       end
     end
