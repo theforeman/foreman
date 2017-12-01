@@ -15,4 +15,5 @@ group :development do
   gem 'spring', '>= 1.0', '< 3'
   gem 'benchmark-ips'
   gem 'foreman'
+  gem('bootsnap', :require => false)
 end
