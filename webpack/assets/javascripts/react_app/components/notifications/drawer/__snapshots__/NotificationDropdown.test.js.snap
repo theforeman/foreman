@@ -77,9 +77,19 @@ exports[`Notification dropdown Renders links provided 1`] = `
                   role="button"
                   type="button"
                 >
-                  <span
-                    className="fa fa-ellipsis-v"
-                  />
+                  <Icon
+                    name="ellipsis-v"
+                    type="fa"
+                  >
+                    <FontAwesome
+                      name="ellipsis-v"
+                    >
+                      <span
+                        aria-hidden={true}
+                        className="fa fa-ellipsis-v"
+                      />
+                    </FontAwesome>
+                  </Icon>
                 </button>
               </Button>
             </DropdownToggle>
