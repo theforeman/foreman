@@ -74,7 +74,6 @@
     "react-bootstrap": "^0.31.0",
     "react-dom": "^16.0.0",
     "react-numeric-input": "^2.0.7",
-    "react-onclickoutside": "^6.6.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-form": "^7.0.3",

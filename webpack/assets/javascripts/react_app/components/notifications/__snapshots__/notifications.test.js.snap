@@ -1,24 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`notifications empty state 1`] = `
-<OnClickOutside(notificationContainer)
-  eventTypes={
-    Array [
-      "mousedown",
-      "touchstart",
-    ]
-  }
-  excludeScrollbar={false}
+<notificationContainer
   expandGroup={[Function]}
   isReady={false}
   notifications={Object {}}
   onClickedLink={[Function]}
   onMarkAsRead={[Function]}
   onMarkGroupAsRead={[Function]}
-  outsideClickIgnoreClass="ignore-react-onclickoutside"
-  preventDefault={false}
   startNotificationsPolling={[Function]}
-  stopPropagation={false}
   store={
     Object {
       "clearActions": [Function],
@@ -59,7 +49,7 @@ exports[`notifications should close the notification box when click outside of t
   <div
     className="something-outside"
   />
-  <Connect(OnClickOutside(notificationContainer))
+  <Connect(notificationContainer)
     data={
       Object {
         "url": "/notification_recipients",
@@ -74,761 +64,6 @@ exports[`notifications should close the notification box when click outside of t
         Symbol(observable): [Function],
       }
     }
-  >
-    <OnClickOutside(notificationContainer)
-      data={
-        Object {
-          "url": "/notification_recipients",
-        }
-      }
-      eventTypes={
-        Array [
-          "mousedown",
-          "touchstart",
-        ]
-      }
-      excludeScrollbar={false}
-      expandGroup={[Function]}
-      expandedGroup={null}
-      hasUnreadMessages={true}
-      isDrawerOpen={true}
-      isPolling={true}
-      isReady={true}
-      notifications={
-        Object {
-          "React devs": Array [
-            Object {
-              "actions": Object {},
-              "created_at": "2017-02-23T05:00:28.715Z",
-              "group": "React devs",
-              "id": 1,
-              "level": "info",
-              "seen": true,
-              "text": null,
-            },
-            Object {
-              "actions": Object {},
-              "created_at": "2017-02-23T05:00:28.715Z",
-              "group": "React devs",
-              "id": 2,
-              "level": "info",
-              "seen": false,
-              "text": null,
-            },
-          ],
-        }
-      }
-      onClickedLink={[Function]}
-      onMarkAsRead={[Function]}
-      onMarkGroupAsRead={[Function]}
-      outsideClickIgnoreClass="ignore-react-onclickoutside"
-      preventDefault={false}
-      startNotificationsPolling={[Function]}
-      stopPropagation={false}
-      store={
-        Object {
-          "dispatch": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-          Symbol(observable): [Function],
-        }
-      }
-      storeSubscription={
-        Subscription {
-          "listeners": Object {
-            "clear": [Function],
-            "get": [Function],
-            "notify": [Function],
-            "subscribe": [Function],
-          },
-          "onStateChange": [Function],
-          "parentSub": undefined,
-          "store": Object {
-            "dispatch": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-            Symbol(observable): [Function],
-          },
-          "unsubscribe": [Function],
-        }
-      }
-      toggleDrawer={[Function]}
-    >
-      <notificationContainer
-        data={
-          Object {
-            "url": "/notification_recipients",
-          }
-        }
-        disableOnClickOutside={[Function]}
-        enableOnClickOutside={[Function]}
-        eventTypes={
-          Array [
-            "mousedown",
-            "touchstart",
-          ]
-        }
-        expandGroup={[Function]}
-        expandedGroup={null}
-        hasUnreadMessages={true}
-        isDrawerOpen={true}
-        isPolling={true}
-        isReady={true}
-        notifications={
-          Object {
-            "React devs": Array [
-              Object {
-                "actions": Object {},
-                "created_at": "2017-02-23T05:00:28.715Z",
-                "group": "React devs",
-                "id": 1,
-                "level": "info",
-                "seen": true,
-                "text": null,
-              },
-              Object {
-                "actions": Object {},
-                "created_at": "2017-02-23T05:00:28.715Z",
-                "group": "React devs",
-                "id": 2,
-                "level": "info",
-                "seen": false,
-                "text": null,
-              },
-            ],
-          }
-        }
-        onClickedLink={[Function]}
-        onMarkAsRead={[Function]}
-        onMarkGroupAsRead={[Function]}
-        outsideClickIgnoreClass="ignore-react-onclickoutside"
-        preventDefault={false}
-        startNotificationsPolling={[Function]}
-        stopPropagation={false}
-        store={
-          Object {
-            "dispatch": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-            Symbol(observable): [Function],
-          }
-        }
-        storeSubscription={
-          Subscription {
-            "listeners": Object {
-              "clear": [Function],
-              "get": [Function],
-              "notify": [Function],
-              "subscribe": [Function],
-            },
-            "onStateChange": [Function],
-            "parentSub": undefined,
-            "store": Object {
-              "dispatch": [Function],
-              "getState": [Function],
-              "replaceReducer": [Function],
-              "subscribe": [Function],
-              Symbol(observable): [Function],
-            },
-            "unsubscribe": [Function],
-          }
-        }
-        toggleDrawer={[Function]}
-      >
-        <div
-          id="notifications_container"
-        >
-          <Component
-            hasUnreadMessages={true}
-            onClick={[Function]}
-          >
-            <OverlayTrigger
-              defaultOverlayShown={false}
-              id="notifications-toggle-icon"
-              overlay={
-                <Tooltip
-                  bsClass="tooltip"
-                  id="tooltip"
-                  placement="right"
-                >
-                  Notifications
-                </Tooltip>
-              }
-              placement="bottom"
-              trigger={
-                Array [
-                  "hover",
-                  "focus",
-                ]
-              }
-            >
-              <span
-                aria-describedby="tooltip"
-                className="fa fa-bell"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              />
-            </OverlayTrigger>
-          </Component>
-          <Component
-            expandedGroup={null}
-            notificationGroups={
-              Object {
-                "React devs": Array [
-                  Object {
-                    "actions": Object {},
-                    "created_at": "2017-02-23T05:00:28.715Z",
-                    "group": "React devs",
-                    "id": 1,
-                    "level": "info",
-                    "seen": true,
-                    "text": null,
-                  },
-                  Object {
-                    "actions": Object {},
-                    "created_at": "2017-02-23T05:00:28.715Z",
-                    "group": "React devs",
-                    "id": 2,
-                    "level": "info",
-                    "seen": false,
-                    "text": null,
-                  },
-                ],
-              }
-            }
-            onClickedLink={[Function]}
-            onExpandGroup={[Function]}
-            onMarkAsRead={[Function]}
-            onMarkGroupAsRead={[Function]}
-            toggleDrawer={[Function]}
-          >
-            <div
-              className="drawer-pf drawer-pf-notifications-non-clickable"
-            >
-              <div
-                className="drawer-pf-title"
-              >
-                <a
-                  className="drawer-pf-close pficon pficon-close"
-                  onClick={[Function]}
-                />
-                <h3
-                  className="text-center"
-                >
-                  Notifications
-                </h3>
-              </div>
-              <div
-                className="panel-group"
-                id="notification-drawer-accordion"
-              >
-                <Component
-                  group="React devs"
-                  isExpanded={false}
-                  key="React devs"
-                  notifications={
-                    Array [
-                      Object {
-                        "actions": Object {},
-                        "created_at": "2017-02-23T05:00:28.715Z",
-                        "group": "React devs",
-                        "id": 1,
-                        "level": "info",
-                        "seen": true,
-                        "text": null,
-                      },
-                      Object {
-                        "actions": Object {},
-                        "created_at": "2017-02-23T05:00:28.715Z",
-                        "group": "React devs",
-                        "id": 2,
-                        "level": "info",
-                        "seen": false,
-                        "text": null,
-                      },
-                    ]
-                  }
-                  onClickedLink={[Function]}
-                  onExpand={[Function]}
-                  onMarkAsRead={[Function]}
-                  onMarkGroupAsRead={[Function]}
-                >
-                  <div
-                    className="panel panel-default "
-                  >
-                    <div
-                      className="panel-heading"
-                      onClick={[Function]}
-                    >
-                      <h4
-                        className="panel-title"
-                      >
-                        <a
-                          className="collapsed"
-                        >
-                          React devs
-                        </a>
-                      </h4>
-                      <span
-                        className="panel-counter"
-                      >
-                        1 New Event
-                      </span>
-                    </div>
-                  </div>
-                </Component>
-              </div>
-            </div>
-          </Component>
-        </div>
-      </notificationContainer>
-    </OnClickOutside(notificationContainer)>
-  </Connect(OnClickOutside(notificationContainer))>
-</div>
-`;
-
-exports[`notifications should close the notification box when click outside of the box 2`] = `
-<div>
-  <div
-    className="something-outside"
-  />
-  <Connect(OnClickOutside(notificationContainer))
-    data={
-      Object {
-        "url": "/notification_recipients",
-      }
-    }
-    store={
-      Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      }
-    }
-  >
-    <OnClickOutside(notificationContainer)
-      data={
-        Object {
-          "url": "/notification_recipients",
-        }
-      }
-      eventTypes={
-        Array [
-          "mousedown",
-          "touchstart",
-        ]
-      }
-      excludeScrollbar={false}
-      expandGroup={[Function]}
-      expandedGroup={null}
-      hasUnreadMessages={true}
-      isDrawerOpen={true}
-      isPolling={true}
-      isReady={true}
-      notifications={
-        Object {
-          "React devs": Array [
-            Object {
-              "actions": Object {},
-              "created_at": "2017-02-23T05:00:28.715Z",
-              "group": "React devs",
-              "id": 1,
-              "level": "info",
-              "seen": true,
-              "text": null,
-            },
-            Object {
-              "actions": Object {},
-              "created_at": "2017-02-23T05:00:28.715Z",
-              "group": "React devs",
-              "id": 2,
-              "level": "info",
-              "seen": false,
-              "text": null,
-            },
-          ],
-        }
-      }
-      onClickedLink={[Function]}
-      onMarkAsRead={[Function]}
-      onMarkGroupAsRead={[Function]}
-      outsideClickIgnoreClass="ignore-react-onclickoutside"
-      preventDefault={false}
-      startNotificationsPolling={[Function]}
-      stopPropagation={false}
-      store={
-        Object {
-          "dispatch": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-          Symbol(observable): [Function],
-        }
-      }
-      storeSubscription={
-        Subscription {
-          "listeners": Object {
-            "clear": [Function],
-            "get": [Function],
-            "notify": [Function],
-            "subscribe": [Function],
-          },
-          "onStateChange": [Function],
-          "parentSub": undefined,
-          "store": Object {
-            "dispatch": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-            Symbol(observable): [Function],
-          },
-          "unsubscribe": [Function],
-        }
-      }
-      toggleDrawer={[Function]}
-    >
-      <notificationContainer
-        data={
-          Object {
-            "url": "/notification_recipients",
-          }
-        }
-        disableOnClickOutside={[Function]}
-        enableOnClickOutside={[Function]}
-        eventTypes={
-          Array [
-            "mousedown",
-            "touchstart",
-          ]
-        }
-        expandGroup={[Function]}
-        expandedGroup={null}
-        hasUnreadMessages={true}
-        isDrawerOpen={true}
-        isPolling={true}
-        isReady={true}
-        notifications={
-          Object {
-            "React devs": Array [
-              Object {
-                "actions": Object {},
-                "created_at": "2017-02-23T05:00:28.715Z",
-                "group": "React devs",
-                "id": 1,
-                "level": "info",
-                "seen": true,
-                "text": null,
-              },
-              Object {
-                "actions": Object {},
-                "created_at": "2017-02-23T05:00:28.715Z",
-                "group": "React devs",
-                "id": 2,
-                "level": "info",
-                "seen": false,
-                "text": null,
-              },
-            ],
-          }
-        }
-        onClickedLink={[Function]}
-        onMarkAsRead={[Function]}
-        onMarkGroupAsRead={[Function]}
-        outsideClickIgnoreClass="ignore-react-onclickoutside"
-        preventDefault={false}
-        startNotificationsPolling={[Function]}
-        stopPropagation={false}
-        store={
-          Object {
-            "dispatch": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-            Symbol(observable): [Function],
-          }
-        }
-        storeSubscription={
-          Subscription {
-            "listeners": Object {
-              "clear": [Function],
-              "get": [Function],
-              "notify": [Function],
-              "subscribe": [Function],
-            },
-            "onStateChange": [Function],
-            "parentSub": undefined,
-            "store": Object {
-              "dispatch": [Function],
-              "getState": [Function],
-              "replaceReducer": [Function],
-              "subscribe": [Function],
-              Symbol(observable): [Function],
-            },
-            "unsubscribe": [Function],
-          }
-        }
-        toggleDrawer={[Function]}
-      >
-        <div
-          id="notifications_container"
-        >
-          <Component
-            hasUnreadMessages={true}
-            onClick={[Function]}
-          >
-            <OverlayTrigger
-              defaultOverlayShown={false}
-              id="notifications-toggle-icon"
-              overlay={
-                <Tooltip
-                  bsClass="tooltip"
-                  id="tooltip"
-                  placement="right"
-                >
-                  Notifications
-                </Tooltip>
-              }
-              placement="bottom"
-              trigger={
-                Array [
-                  "hover",
-                  "focus",
-                ]
-              }
-            >
-              <span
-                aria-describedby="tooltip"
-                className="fa fa-bell"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              />
-            </OverlayTrigger>
-          </Component>
-          <Component
-            expandedGroup={null}
-            notificationGroups={
-              Object {
-                "React devs": Array [
-                  Object {
-                    "actions": Object {},
-                    "created_at": "2017-02-23T05:00:28.715Z",
-                    "group": "React devs",
-                    "id": 1,
-                    "level": "info",
-                    "seen": true,
-                    "text": null,
-                  },
-                  Object {
-                    "actions": Object {},
-                    "created_at": "2017-02-23T05:00:28.715Z",
-                    "group": "React devs",
-                    "id": 2,
-                    "level": "info",
-                    "seen": false,
-                    "text": null,
-                  },
-                ],
-              }
-            }
-            onClickedLink={[Function]}
-            onExpandGroup={[Function]}
-            onMarkAsRead={[Function]}
-            onMarkGroupAsRead={[Function]}
-            toggleDrawer={[Function]}
-          >
-            <div
-              className="drawer-pf drawer-pf-notifications-non-clickable"
-            >
-              <div
-                className="drawer-pf-title"
-              >
-                <a
-                  className="drawer-pf-close pficon pficon-close"
-                  onClick={[Function]}
-                />
-                <h3
-                  className="text-center"
-                >
-                  Notifications
-                </h3>
-              </div>
-              <div
-                className="panel-group"
-                id="notification-drawer-accordion"
-              >
-                <Component
-                  group="React devs"
-                  isExpanded={false}
-                  key="React devs"
-                  notifications={
-                    Array [
-                      Object {
-                        "actions": Object {},
-                        "created_at": "2017-02-23T05:00:28.715Z",
-                        "group": "React devs",
-                        "id": 1,
-                        "level": "info",
-                        "seen": true,
-                        "text": null,
-                      },
-                      Object {
-                        "actions": Object {},
-                        "created_at": "2017-02-23T05:00:28.715Z",
-                        "group": "React devs",
-                        "id": 2,
-                        "level": "info",
-                        "seen": false,
-                        "text": null,
-                      },
-                    ]
-                  }
-                  onClickedLink={[Function]}
-                  onExpand={[Function]}
-                  onMarkAsRead={[Function]}
-                  onMarkGroupAsRead={[Function]}
-                >
-                  <div
-                    className="panel panel-default "
-                  >
-                    <div
-                      className="panel-heading"
-                      onClick={[Function]}
-                    >
-                      <h4
-                        className="panel-title"
-                      >
-                        <a
-                          className="collapsed"
-                        >
-                          React devs
-                        </a>
-                      </h4>
-                      <span
-                        className="panel-counter"
-                      >
-                        1 New Event
-                      </span>
-                    </div>
-                  </div>
-                </Component>
-              </div>
-            </div>
-          </Component>
-        </div>
-      </notificationContainer>
-    </OnClickOutside(notificationContainer)>
-  </Connect(OnClickOutside(notificationContainer))>
-</div>
-`;
-
-exports[`notifications should close the notification box when click the close button 1`] = `
-<Connect(OnClickOutside(notificationContainer))
-  data={
-    Object {
-      "url": "/notification_recipients",
-    }
-  }
-  store={
-    Object {
-      "dispatch": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-      Symbol(observable): [Function],
-    }
-  }
->
-  <OnClickOutside(notificationContainer)
-    data={
-      Object {
-        "url": "/notification_recipients",
-      }
-    }
-    eventTypes={
-      Array [
-        "mousedown",
-        "touchstart",
-      ]
-    }
-    excludeScrollbar={false}
-    expandGroup={[Function]}
-    expandedGroup={null}
-    hasUnreadMessages={true}
-    isDrawerOpen={true}
-    isPolling={true}
-    isReady={true}
-    notifications={
-      Object {
-        "React devs": Array [
-          Object {
-            "actions": Object {},
-            "created_at": "2017-02-23T05:00:28.715Z",
-            "group": "React devs",
-            "id": 1,
-            "level": "info",
-            "seen": true,
-            "text": null,
-          },
-          Object {
-            "actions": Object {},
-            "created_at": "2017-02-23T05:00:28.715Z",
-            "group": "React devs",
-            "id": 2,
-            "level": "info",
-            "seen": false,
-            "text": null,
-          },
-        ],
-      }
-    }
-    onClickedLink={[Function]}
-    onMarkAsRead={[Function]}
-    onMarkGroupAsRead={[Function]}
-    outsideClickIgnoreClass="ignore-react-onclickoutside"
-    preventDefault={false}
-    startNotificationsPolling={[Function]}
-    stopPropagation={false}
-    store={
-      Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      }
-    }
-    storeSubscription={
-      Subscription {
-        "listeners": Object {
-          "clear": [Function],
-          "get": [Function],
-          "notify": [Function],
-          "subscribe": [Function],
-        },
-        "onStateChange": [Function],
-        "parentSub": undefined,
-        "store": Object {
-          "dispatch": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-          Symbol(observable): [Function],
-        },
-        "unsubscribe": [Function],
-      }
-    }
-    toggleDrawer={[Function]}
   >
     <notificationContainer
       data={
@@ -836,14 +71,6 @@ exports[`notifications should close the notification box when click the close bu
           "url": "/notification_recipients",
         }
       }
-      disableOnClickOutside={[Function]}
-      enableOnClickOutside={[Function]}
-      eventTypes={
-        Array [
-          "mousedown",
-          "touchstart",
-        ]
-      }
       expandGroup={[Function]}
       expandedGroup={null}
       hasUnreadMessages={true}
@@ -877,10 +104,7 @@ exports[`notifications should close the notification box when click the close bu
       onClickedLink={[Function]}
       onMarkAsRead={[Function]}
       onMarkGroupAsRead={[Function]}
-      outsideClickIgnoreClass="ignore-react-onclickoutside"
-      preventDefault={false}
       startNotificationsPolling={[Function]}
-      stopPropagation={false}
       store={
         Object {
           "dispatch": [Function],
@@ -1062,77 +286,21 @@ exports[`notifications should close the notification box when click the close bu
         </Component>
       </div>
     </notificationContainer>
-  </OnClickOutside(notificationContainer)>
-</Connect(OnClickOutside(notificationContainer))>
+  </Connect(notificationContainer)>
+</div>
 `;
 
-exports[`notifications should close the notification box when click the close button 2`] = `
-<Connect(OnClickOutside(notificationContainer))
-  data={
-    Object {
-      "url": "/notification_recipients",
-    }
-  }
-  store={
-    Object {
-      "dispatch": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-      Symbol(observable): [Function],
-    }
-  }
->
-  <OnClickOutside(notificationContainer)
+exports[`notifications should close the notification box when click outside of the box 2`] = `
+<div>
+  <div
+    className="something-outside"
+  />
+  <Connect(notificationContainer)
     data={
       Object {
         "url": "/notification_recipients",
       }
     }
-    eventTypes={
-      Array [
-        "mousedown",
-        "touchstart",
-      ]
-    }
-    excludeScrollbar={false}
-    expandGroup={[Function]}
-    expandedGroup={null}
-    hasUnreadMessages={true}
-    isDrawerOpen={false}
-    isPolling={true}
-    isReady={true}
-    notifications={
-      Object {
-        "React devs": Array [
-          Object {
-            "actions": Object {},
-            "created_at": "2017-02-23T05:00:28.715Z",
-            "group": "React devs",
-            "id": 1,
-            "level": "info",
-            "seen": true,
-            "text": null,
-          },
-          Object {
-            "actions": Object {},
-            "created_at": "2017-02-23T05:00:28.715Z",
-            "group": "React devs",
-            "id": 2,
-            "level": "info",
-            "seen": false,
-            "text": null,
-          },
-        ],
-      }
-    }
-    onClickedLink={[Function]}
-    onMarkAsRead={[Function]}
-    onMarkGroupAsRead={[Function]}
-    outsideClickIgnoreClass="ignore-react-onclickoutside"
-    preventDefault={false}
-    startNotificationsPolling={[Function]}
-    stopPropagation={false}
     store={
       Object {
         "dispatch": [Function],
@@ -1142,27 +310,6 @@ exports[`notifications should close the notification box when click the close bu
         Symbol(observable): [Function],
       }
     }
-    storeSubscription={
-      Subscription {
-        "listeners": Object {
-          "clear": [Function],
-          "get": [Function],
-          "notify": [Function],
-          "subscribe": [Function],
-        },
-        "onStateChange": [Function],
-        "parentSub": undefined,
-        "store": Object {
-          "dispatch": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-          Symbol(observable): [Function],
-        },
-        "unsubscribe": [Function],
-      }
-    }
-    toggleDrawer={[Function]}
   >
     <notificationContainer
       data={
@@ -1170,18 +317,10 @@ exports[`notifications should close the notification box when click the close bu
           "url": "/notification_recipients",
         }
       }
-      disableOnClickOutside={[Function]}
-      enableOnClickOutside={[Function]}
-      eventTypes={
-        Array [
-          "mousedown",
-          "touchstart",
-        ]
-      }
       expandGroup={[Function]}
       expandedGroup={null}
       hasUnreadMessages={true}
-      isDrawerOpen={false}
+      isDrawerOpen={true}
       isPolling={true}
       isReady={true}
       notifications={
@@ -1211,10 +350,7 @@ exports[`notifications should close the notification box when click the close bu
       onClickedLink={[Function]}
       onMarkAsRead={[Function]}
       onMarkGroupAsRead={[Function]}
-      outsideClickIgnoreClass="ignore-react-onclickoutside"
-      preventDefault={false}
       startNotificationsPolling={[Function]}
-      stopPropagation={false}
       store={
         Object {
           "dispatch": [Function],
@@ -1284,21 +420,496 @@ exports[`notifications should close the notification box when click the close bu
             />
           </OverlayTrigger>
         </Component>
+        <Component
+          expandedGroup={null}
+          notificationGroups={
+            Object {
+              "React devs": Array [
+                Object {
+                  "actions": Object {},
+                  "created_at": "2017-02-23T05:00:28.715Z",
+                  "group": "React devs",
+                  "id": 1,
+                  "level": "info",
+                  "seen": true,
+                  "text": null,
+                },
+                Object {
+                  "actions": Object {},
+                  "created_at": "2017-02-23T05:00:28.715Z",
+                  "group": "React devs",
+                  "id": 2,
+                  "level": "info",
+                  "seen": false,
+                  "text": null,
+                },
+              ],
+            }
+          }
+          onClickedLink={[Function]}
+          onExpandGroup={[Function]}
+          onMarkAsRead={[Function]}
+          onMarkGroupAsRead={[Function]}
+          toggleDrawer={[Function]}
+        >
+          <div
+            className="drawer-pf drawer-pf-notifications-non-clickable"
+          >
+            <div
+              className="drawer-pf-title"
+            >
+              <a
+                className="drawer-pf-close pficon pficon-close"
+                onClick={[Function]}
+              />
+              <h3
+                className="text-center"
+              >
+                Notifications
+              </h3>
+            </div>
+            <div
+              className="panel-group"
+              id="notification-drawer-accordion"
+            >
+              <Component
+                group="React devs"
+                isExpanded={false}
+                key="React devs"
+                notifications={
+                  Array [
+                    Object {
+                      "actions": Object {},
+                      "created_at": "2017-02-23T05:00:28.715Z",
+                      "group": "React devs",
+                      "id": 1,
+                      "level": "info",
+                      "seen": true,
+                      "text": null,
+                    },
+                    Object {
+                      "actions": Object {},
+                      "created_at": "2017-02-23T05:00:28.715Z",
+                      "group": "React devs",
+                      "id": 2,
+                      "level": "info",
+                      "seen": false,
+                      "text": null,
+                    },
+                  ]
+                }
+                onClickedLink={[Function]}
+                onExpand={[Function]}
+                onMarkAsRead={[Function]}
+                onMarkGroupAsRead={[Function]}
+              >
+                <div
+                  className="panel panel-default "
+                >
+                  <div
+                    className="panel-heading"
+                    onClick={[Function]}
+                  >
+                    <h4
+                      className="panel-title"
+                    >
+                      <a
+                        className="collapsed"
+                      >
+                        React devs
+                      </a>
+                    </h4>
+                    <span
+                      className="panel-counter"
+                    >
+                      1 New Event
+                    </span>
+                  </div>
+                </div>
+              </Component>
+            </div>
+          </div>
+        </Component>
       </div>
     </notificationContainer>
-  </OnClickOutside(notificationContainer)>
-</Connect(OnClickOutside(notificationContainer))>
+  </Connect(notificationContainer)>
+</div>
+`;
+
+exports[`notifications should close the notification box when click the close button 1`] = `
+<Connect(notificationContainer)
+  data={
+    Object {
+      "url": "/notification_recipients",
+    }
+  }
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <notificationContainer
+    data={
+      Object {
+        "url": "/notification_recipients",
+      }
+    }
+    expandGroup={[Function]}
+    expandedGroup={null}
+    hasUnreadMessages={true}
+    isDrawerOpen={true}
+    isPolling={true}
+    isReady={true}
+    notifications={
+      Object {
+        "React devs": Array [
+          Object {
+            "actions": Object {},
+            "created_at": "2017-02-23T05:00:28.715Z",
+            "group": "React devs",
+            "id": 1,
+            "level": "info",
+            "seen": true,
+            "text": null,
+          },
+          Object {
+            "actions": Object {},
+            "created_at": "2017-02-23T05:00:28.715Z",
+            "group": "React devs",
+            "id": 2,
+            "level": "info",
+            "seen": false,
+            "text": null,
+          },
+        ],
+      }
+    }
+    onClickedLink={[Function]}
+    onMarkAsRead={[Function]}
+    onMarkGroupAsRead={[Function]}
+    startNotificationsPolling={[Function]}
+    store={
+      Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      }
+    }
+    storeSubscription={
+      Subscription {
+        "listeners": Object {
+          "clear": [Function],
+          "get": [Function],
+          "notify": [Function],
+          "subscribe": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": [Function],
+      }
+    }
+    toggleDrawer={[Function]}
+  >
+    <div
+      id="notifications_container"
+    >
+      <Component
+        hasUnreadMessages={true}
+        onClick={[Function]}
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          id="notifications-toggle-icon"
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="tooltip"
+              placement="right"
+            >
+              Notifications
+            </Tooltip>
+          }
+          placement="bottom"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <span
+            aria-describedby="tooltip"
+            className="fa fa-bell"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          />
+        </OverlayTrigger>
+      </Component>
+      <Component
+        expandedGroup={null}
+        notificationGroups={
+          Object {
+            "React devs": Array [
+              Object {
+                "actions": Object {},
+                "created_at": "2017-02-23T05:00:28.715Z",
+                "group": "React devs",
+                "id": 1,
+                "level": "info",
+                "seen": true,
+                "text": null,
+              },
+              Object {
+                "actions": Object {},
+                "created_at": "2017-02-23T05:00:28.715Z",
+                "group": "React devs",
+                "id": 2,
+                "level": "info",
+                "seen": false,
+                "text": null,
+              },
+            ],
+          }
+        }
+        onClickedLink={[Function]}
+        onExpandGroup={[Function]}
+        onMarkAsRead={[Function]}
+        onMarkGroupAsRead={[Function]}
+        toggleDrawer={[Function]}
+      >
+        <div
+          className="drawer-pf drawer-pf-notifications-non-clickable"
+        >
+          <div
+            className="drawer-pf-title"
+          >
+            <a
+              className="drawer-pf-close pficon pficon-close"
+              onClick={[Function]}
+            />
+            <h3
+              className="text-center"
+            >
+              Notifications
+            </h3>
+          </div>
+          <div
+            className="panel-group"
+            id="notification-drawer-accordion"
+          >
+            <Component
+              group="React devs"
+              isExpanded={false}
+              key="React devs"
+              notifications={
+                Array [
+                  Object {
+                    "actions": Object {},
+                    "created_at": "2017-02-23T05:00:28.715Z",
+                    "group": "React devs",
+                    "id": 1,
+                    "level": "info",
+                    "seen": true,
+                    "text": null,
+                  },
+                  Object {
+                    "actions": Object {},
+                    "created_at": "2017-02-23T05:00:28.715Z",
+                    "group": "React devs",
+                    "id": 2,
+                    "level": "info",
+                    "seen": false,
+                    "text": null,
+                  },
+                ]
+              }
+              onClickedLink={[Function]}
+              onExpand={[Function]}
+              onMarkAsRead={[Function]}
+              onMarkGroupAsRead={[Function]}
+            >
+              <div
+                className="panel panel-default "
+              >
+                <div
+                  className="panel-heading"
+                  onClick={[Function]}
+                >
+                  <h4
+                    className="panel-title"
+                  >
+                    <a
+                      className="collapsed"
+                    >
+                      React devs
+                    </a>
+                  </h4>
+                  <span
+                    className="panel-counter"
+                  >
+                    1 New Event
+                  </span>
+                </div>
+              </div>
+            </Component>
+          </div>
+        </div>
+      </Component>
+    </div>
+  </notificationContainer>
+</Connect(notificationContainer)>
+`;
+
+exports[`notifications should close the notification box when click the close button 2`] = `
+<Connect(notificationContainer)
+  data={
+    Object {
+      "url": "/notification_recipients",
+    }
+  }
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <notificationContainer
+    data={
+      Object {
+        "url": "/notification_recipients",
+      }
+    }
+    expandGroup={[Function]}
+    expandedGroup={null}
+    hasUnreadMessages={true}
+    isDrawerOpen={false}
+    isPolling={true}
+    isReady={true}
+    notifications={
+      Object {
+        "React devs": Array [
+          Object {
+            "actions": Object {},
+            "created_at": "2017-02-23T05:00:28.715Z",
+            "group": "React devs",
+            "id": 1,
+            "level": "info",
+            "seen": true,
+            "text": null,
+          },
+          Object {
+            "actions": Object {},
+            "created_at": "2017-02-23T05:00:28.715Z",
+            "group": "React devs",
+            "id": 2,
+            "level": "info",
+            "seen": false,
+            "text": null,
+          },
+        ],
+      }
+    }
+    onClickedLink={[Function]}
+    onMarkAsRead={[Function]}
+    onMarkGroupAsRead={[Function]}
+    startNotificationsPolling={[Function]}
+    store={
+      Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      }
+    }
+    storeSubscription={
+      Subscription {
+        "listeners": Object {
+          "clear": [Function],
+          "get": [Function],
+          "notify": [Function],
+          "subscribe": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+        "unsubscribe": [Function],
+      }
+    }
+    toggleDrawer={[Function]}
+  >
+    <div
+      id="notifications_container"
+    >
+      <Component
+        hasUnreadMessages={true}
+        onClick={[Function]}
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          id="notifications-toggle-icon"
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="tooltip"
+              placement="right"
+            >
+              Notifications
+            </Tooltip>
+          }
+          placement="bottom"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <span
+            aria-describedby="tooltip"
+            className="fa fa-bell"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          />
+        </OverlayTrigger>
+      </Component>
+    </div>
+  </notificationContainer>
+</Connect(notificationContainer)>
 `;
 
 exports[`notifications should render empty html for state before notifications 1`] = `
-<OnClickOutside(notificationContainer)
-  eventTypes={
-    Array [
-      "mousedown",
-      "touchstart",
-    ]
-  }
-  excludeScrollbar={false}
+<notificationContainer
   expandGroup={[Function]}
   expandedGroup="React devs2"
   isDrawerOpen={true}
@@ -1307,10 +918,7 @@ exports[`notifications should render empty html for state before notifications 1
   onClickedLink={[Function]}
   onMarkAsRead={[Function]}
   onMarkGroupAsRead={[Function]}
-  outsideClickIgnoreClass="ignore-react-onclickoutside"
-  preventDefault={false}
   startNotificationsPolling={[Function]}
-  stopPropagation={false}
   store={
     Object {
       "clearActions": [Function],
@@ -1347,14 +955,7 @@ exports[`notifications should render empty html for state before notifications 1
 `;
 
 exports[`notifications should render full html on a state with notifications 1`] = `
-<OnClickOutside(notificationContainer)
-  eventTypes={
-    Array [
-      "mousedown",
-      "touchstart",
-    ]
-  }
-  excludeScrollbar={false}
+<notificationContainer
   expandGroup={[Function]}
   expandedGroup="React devs2"
   hasUnreadMessages={true}
@@ -1396,10 +997,7 @@ exports[`notifications should render full html on a state with notifications 1`]
   onClickedLink={[Function]}
   onMarkAsRead={[Function]}
   onMarkGroupAsRead={[Function]}
-  outsideClickIgnoreClass="ignore-react-onclickoutside"
-  preventDefault={false}
   startNotificationsPolling={[Function]}
-  stopPropagation={false}
   store={
     Object {
       "clearActions": [Function],

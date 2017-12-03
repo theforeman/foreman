@@ -1,8 +1,8 @@
 import { groupBy, isUndefined } from 'lodash';
-import onClickOutside from 'react-onclickoutside';
 import { connect } from 'react-redux';
 import React from 'react';
 
+import helpers from '../../common/helpers';
 import * as NotificationActions from '../../redux/actions/notifications';
 
 import './notifications.scss';
@@ -10,21 +10,66 @@ import ToggleIcon from './toggleIcon/';
 import Drawer from './drawer/';
 
 class notificationContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    helpers.bindMethods(this, [
+      'attachContainerRef', 'handleToggleClick', 'handleDocumentClick',
+    ]);
+  }
+
   componentDidMount() {
     const { startNotificationsPolling, data: { url } } = this.props;
 
     startNotificationsPolling(url);
+
+    this.updateDocumentClickListenerAfterMount();
   }
 
-  handleClickOutside() {
-    const {
-      isDrawerOpen,
-      isReady,
-      toggleDrawer,
-    } = this.props;
+  componentWillUnmount() {
+    this.unassignDocumentClickHandler();
+  }
 
-    if (isReady && isDrawerOpen) {
+  assignDocumentClickHandler() {
+    document.addEventListener('click', this.handleDocumentClick, true);
+  }
+
+  unassignDocumentClickHandler() {
+    document.removeEventListener('click', this.handleDocumentClick, true);
+  }
+
+  attachContainerRef(ref) {
+    this.containerRef = ref;
+  }
+
+  handleDocumentClick(e) {
+    // handle toggle drawer if clicked outside the drawer
+    if (!this.containerRef.contains(e.target)) {
+      this.handleToggleClick();
+    }
+  }
+
+  handleToggleClick() {
+    const { isReady, toggleDrawer } = this.props;
+
+    if (isReady) {
+      this.updateDocumentClickListenerBeforeToggle();
+
       toggleDrawer();
+    }
+  }
+
+  updateDocumentClickListenerAfterMount() {
+    if (this.props.isDrawerOpen) {
+      this.assignDocumentClickHandler()();
+    }
+  }
+
+  updateDocumentClickListenerBeforeToggle() {
+    if (this.props.isDrawerOpen) {
+      this.unassignDocumentClickHandler();
+    } else {
+      this.assignDocumentClickHandler();
     }
   }
 
@@ -32,7 +77,6 @@ class notificationContainer extends React.Component {
     const {
       notifications,
       isDrawerOpen,
-      toggleDrawer,
       expandGroup,
       expandedGroup,
       onMarkAsRead,
@@ -43,10 +87,10 @@ class notificationContainer extends React.Component {
     } = this.props;
 
     return (
-      <div id="notifications_container">
+      <div id="notifications_container" ref={this.attachContainerRef}>
         <ToggleIcon
           hasUnreadMessages={hasUnreadMessages}
-          onClick={toggleDrawer}
+          onClick={this.handleToggleClick}
         />
         {isReady &&
           isDrawerOpen &&
@@ -57,7 +101,7 @@ class notificationContainer extends React.Component {
             onMarkGroupAsRead={onMarkGroupAsRead}
             expandedGroup={expandedGroup}
             notificationGroups={notifications}
-            toggleDrawer={toggleDrawer}
+            toggleDrawer={this.handleToggleClick}
           />}
       </div>
     );
@@ -83,4 +127,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, NotificationActions)(onClickOutside(notificationContainer));
+export default connect(mapStateToProps, NotificationActions)(notificationContainer);
