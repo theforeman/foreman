@@ -117,6 +117,7 @@ module Foreman #:nodoc:
       @smart_proxies = {}
       @controller_action_scopes = {}
       @dashboard_widgets = []
+      @rabl_template_extensions = {}
     end
 
     def after_initialize
@@ -409,6 +410,23 @@ module Foreman #:nodoc:
 
     def action_scopes_hash_for(controller_class)
       @controller_action_scopes[controller_class.name] || {}
+    end
+
+    # Extends a rabl template by "including" another template
+    #
+    # Usage:
+    # extend_rabl_template 'api/v2/hosts/main', 'api/v2/hosts/expiration'
+    #
+    # This will call 'extends api/v2/hosts/expiration' inside
+    # the template 'api/v2/hosts/main'
+    #
+    def extend_rabl_template(virtual_path, template)
+      @rabl_template_extensions[virtual_path] ||= []
+      @rabl_template_extensions[virtual_path] << template
+    end
+
+    def rabl_template_extensions(virtual_path)
+      @rabl_template_extensions.fetch(virtual_path, [])
     end
 
     private

@@ -479,6 +479,14 @@ class PluginTest < ActiveSupport::TestCase
     assert_includes Dashboard::Manager.default_widgets, widget_params
   end
 
+  def test_extend_rabl_template
+    Foreman::Plugin.register :test_extend_rabl_template do
+      extend_rabl_template 'api/v2/hosts/main', 'api/v2/hosts/expiration'
+    end
+    templates = Foreman::Plugin.find(:test_extend_rabl_template).rabl_template_extensions('api/v2/hosts/main')
+    assert_equal ['api/v2/hosts/expiration'], templates
+  end
+
   context "adding permissions" do
     teardown do
       permission = Foreman::AccessControl.permission(:test_permission)
