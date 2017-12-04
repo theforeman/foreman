@@ -220,8 +220,8 @@ function validatorTypeSelected(item){
   validator_rule_field.attr('disabled', validatorType == "" ? 'disabled' : null);
 }
 
-const KEY_DELM = ",";
-const EQ_DELM  = "=";
+var KEY_DELM = ",";
+var EQ_DELM  = "=";
 
 function match_to_key_value(match){
   var regex = new RegExp('[' + KEY_DELM + EQ_DELM + ']');
