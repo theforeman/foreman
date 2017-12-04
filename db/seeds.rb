@@ -12,11 +12,6 @@ def format_errors(model = nil)
   model.errors.full_messages.join(';')
 end
 
-def audit_modified?(type, name, attributes = {})
-  Foreman::Deprecation.deprecation_warning('1.17', "This method will be removed, use SeedHelper.audit_modified? instead.")
-  SeedHelper.audit_modified? type, name, attributes
-end
-
 # now we load all seed files
 foreman_seeds = Dir.glob(Rails.root + 'db/seeds.d/*.rb')
 

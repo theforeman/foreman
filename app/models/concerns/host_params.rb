@@ -9,7 +9,6 @@ module HostParams
     attr_reader :cached_host_params
 
     def params
-      Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param') unless caller.first =~ /renderer\.rb.*host_param/
       host_params.update(HostInfoProviders::PuppetInfo.new(self).smart_variables)
     end
 
