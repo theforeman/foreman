@@ -600,4 +600,14 @@ class SettingTest < ActiveSupport::TestCase
     refute_empty sorted_list
     assert sorted_list.keys.exclude?(sticky_setting)
   end
+
+  test 'full_name_with_default should include default value' do
+    setting = FactoryBot.build(:setting, :name => 'foo', :value => 'baz', :default => 'boo', :description => 'test foo', :full_name => 'Foo Name')
+    assert_equal('Foo Name (Default: boo)', setting.full_name_with_default)
+  end
+
+  test 'full_name_with_default without default value' do
+    setting = FactoryBot.build(:setting, :name => 'foo', :default => '', :description => 'test foo', :full_name => 'Foo Name')
+    assert_equal('Foo Name (Default: )', setting.full_name_with_default)
+  end
 end

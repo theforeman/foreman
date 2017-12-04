@@ -7,7 +7,7 @@ class SettingsHelperTest < ActionView::TestCase
     options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new {{:a => "a", :b => "b"}} })
     setting = Setting.create(options)
     assert_equal self.send("#{setting.name}_collection"), { :a => "a", :b => "b" }
-    self.expects(:edit_select).with(setting, :value, :title => setting.full_name, :select_values => { :a => "a", :b => "b" })
+    self.expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :a => "a", :b => "b" })
     value(setting)
   end
 
@@ -25,7 +25,7 @@ class SettingsHelperTest < ActionView::TestCase
     FactoryBot.create(:hostgroup, :root_pass => '12345678')
     setting = Setting.create(options)
     assert_equal self.send("#{setting.name}_collection"), { :size => expected_hostgroup_count }
-    self.expects(:edit_select).with(setting, :value, :title => setting.full_name, :select_values => { :size => expected_hostgroup_count })
+    self.expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :size => expected_hostgroup_count })
     value(setting)
   end
 end
