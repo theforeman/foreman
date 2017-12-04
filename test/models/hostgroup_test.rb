@@ -460,62 +460,6 @@ class HostgroupTest < ActiveSupport::TestCase
     end
   end
 
-  describe '#param_true?' do
-    test 'returns false for unknown parameter' do
-      Foreman::Cast.expects(:to_bool).never
-      refute FactoryBot.build(:hostgroup).param_true?('unknown')
-    end
-
-    test 'returns false for parameter with false-like value' do
-      Foreman::Cast.expects(:to_bool).with('0').returns(false)
-      group = FactoryBot.create(:hostgroup)
-      FactoryBot.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '0')
-      refute group.reload.param_true?('group_param')
-    end
-
-    test 'returns true for parameter with true-like value' do
-      Foreman::Cast.expects(:to_bool).with('1').returns(true)
-      group = FactoryBot.create(:hostgroup)
-      FactoryBot.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '1')
-      assert group.reload.param_true?('group_param')
-    end
-
-    test 'uses inherited parameters' do
-      Foreman::Cast.expects(:to_bool).with('1').returns(true)
-      group = FactoryBot.create(:hostgroup, :with_parent)
-      FactoryBot.create(:hostgroup_parameter, :hostgroup => group.parent, :name => 'group_param', :value => '1')
-      assert group.reload.param_true?('group_param')
-    end
-  end
-
-  describe '#param_false?' do
-    test 'returns false for unknown parameter' do
-      Foreman::Cast.expects(:to_bool).never
-      refute FactoryBot.build(:hostgroup).param_false?('unknown')
-    end
-
-    test 'returns true for parameter with false-like value' do
-      Foreman::Cast.expects(:to_bool).with('0').returns(false)
-      group = FactoryBot.create(:hostgroup)
-      FactoryBot.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '0')
-      assert group.reload.param_false?('group_param')
-    end
-
-    test 'returns false for parameter with true-like value' do
-      Foreman::Cast.expects(:to_bool).with('1').returns(true)
-      group = FactoryBot.create(:hostgroup)
-      FactoryBot.create(:hostgroup_parameter, :hostgroup => group, :name => 'group_param', :value => '1')
-      refute group.reload.param_false?('group_param')
-    end
-
-    test 'uses inherited parameters' do
-      Foreman::Cast.expects(:to_bool).with('0').returns(false)
-      group = FactoryBot.create(:hostgroup, :with_parent)
-      FactoryBot.create(:hostgroup_parameter, :hostgroup => group.parent, :name => 'group_param', :value => '0')
-      assert group.reload.param_false?('group_param')
-    end
-  end
-
   test '#children_hosts_count' do
     group = FactoryBot.create(:hostgroup, :with_parent, :with_os, :with_domain)
     FactoryBot.create_list(:host, 3, :managed, :hostgroup => group)

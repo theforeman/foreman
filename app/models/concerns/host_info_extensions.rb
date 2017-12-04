@@ -22,11 +22,6 @@ module HostInfoExtensions
 
   # This is the base method that gathers information from all providers.
   def info
-    renderer_regex = /renderer\.rb.*host_enc/
-    unless caller.first.match(renderer_regex) || caller[1].match(renderer_regex)
-      Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_enc')
-    end
-
     info_hash = {}
 
     HostInfo.providers.each do |provider_class|
