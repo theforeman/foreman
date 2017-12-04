@@ -28,4 +28,18 @@ class UserIntegrationTest < ActionDispatch::IntegrationTest
       assert_current_path root_path
     end
   end
+
+  test "create new user" do
+    visit users_path
+    click_link "Create User"
+    assert fill_in "user_login", :with => "new_user"
+    assert find("#user_auth_source_id").select("INTERNAL")
+    assert click_button("Submit")
+    assert page.has_content?("can't be blank")
+    assert fill_in "user_password", :with => "123456"
+    assert fill_in "user_password_confirmation", :with => "123456"
+    assert click_button("Submit")
+    visit users_path
+    assert click_link "new_user"
+  end
 end
