@@ -52,6 +52,15 @@ d-i partman-auto-lvm/new_vg_name string <%= vg_name %>
 <% end -%>
 <% end -%>
 
+<% if host_param_true?('partitioning-allow-noswap') -%>
+d-i partman-basicfilesystems/no_swap boolean false
+<% end -%>
+
+<% if host_param('partitioning-disk-label') -%>
+d-i partman-partitioning/choose_label string <%= host_param('partitioning-disk-label') %>
+d-i partman-partitioning/default_label string <%= host_param('partitioning-disk-label') %>
+<% end -%>
+
 # You can choose one of the three predefined partitioning recipes:
 # - atomic: all files in one partition
 # - home:   separate /home partition
