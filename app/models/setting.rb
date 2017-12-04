@@ -285,6 +285,10 @@ class Setting < ApplicationRecord
 
   # End methods for loading default settings
 
+  def full_name_with_default
+    "#{full_name} (Default: #{default})"
+  end
+
   private
 
   def validate_host_owner
