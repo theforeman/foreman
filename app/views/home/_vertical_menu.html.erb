@@ -7,7 +7,7 @@
 
   <div class="nav-item-pf-header">
   <a class="secondary-collapse-toggle-pf", data-toggle="collapse-secondary-nav" ></a>
-    <%= content_tag :span, _(menu_title) %>
+    <%= content_tag :span, menu_title %>
   </div>
     <ul class="list-group">
       <% authorized_menu_actions(menu_items).each do |item| %>
