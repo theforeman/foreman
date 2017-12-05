@@ -39,7 +39,7 @@ describe('checkForUnavailablePuppetclasses', () => {
     $('#selected_classes').append('<li class="unavailable">Unavailable Class</li>');
 
     checkForUnavailablePuppetclasses();
-    expect($('#puppetclasses_unavailable_warning').size()).toBe(1);
+    expect($('#puppetclasses_unavailable_warning').length).toBe(1);
   });
 
   it('does not add a warning if no unavailable classes are found', () => {
@@ -50,14 +50,14 @@ describe('checkForUnavailablePuppetclasses', () => {
     expect($('#hostgroup .help-block')
       .first()
       .children()
-      .size()).toBe(0);
+      .length).toBe(0);
   });
 
   it('adds a warning sign to the tab if unavailable classes are found', () => {
     $('#selected_classes').append('<li class="unavailable">Unavailable Class</li>');
     checkForUnavailablePuppetclasses();
     setTimeout(() => {
-      expect($('a .pficon').size()).toBe(1);
+      expect($('a .pficon').length).toBe(1);
     }, 100);
   });
 });

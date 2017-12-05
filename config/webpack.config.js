@@ -55,6 +55,10 @@ var config = {
   module: {
     rules: [
       {
+          test: require.resolve("jquery-migrate"),
+          use: "imports-loader?define=>false"
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',

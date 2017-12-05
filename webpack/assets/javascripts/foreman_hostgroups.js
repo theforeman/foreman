@@ -10,7 +10,7 @@ export function checkForUnavailablePuppetclasses() {
       ${warningMessage}
     </span>`;
 
-  if (unavailableClasses.size() > 0) {
+  if (unavailableClasses.length > 0) {
     tab.prepend('<span class="pficon pficon-warning-triangle-o"></span> ');
     puppetKlassesTab.prepend(warning);
   } else {
@@ -18,4 +18,3 @@ export function checkForUnavailablePuppetclasses() {
     tab.find('.pficon-warning-triangle-o').remove();
   }
 }
-
