@@ -47,13 +47,13 @@
 
       <div id="override_taxonomy_form" class="<%= f.object.allows_taxonomies_filtering? && Taxonomy.enabled_taxonomies.any? ? '' : 'hidden' %>">
         <%= checkbox_f f, :override?,
-                       :label_help => (_("Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again.") % { :orgs_and_locs => org_loc_string('and') }).html_safe,
+                       :label_help => (_("Filters inherit %{orgs_and_locs} associated with the role by default. If override field is enabled, <br> the filter can override the set of its %{orgs_and_locs}. Later role changes will not affect such filter.<br> After disabling the override field, the role %{orgs_and_locs} apply again.") % { :orgs_and_locs => org_loc_string('and') }).html_safe,
                        :id => 'override_taxonomy_checkbox' %>
       </div>
 
       <div id="granular_form" style="<%= f.object.granular? ? '' : 'display:none' %>">
         <%= checkbox_f f, :unlimited?,
-                       :label_help => (_("By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly.") % org_loc_string('or')).html_safe %>
+                       :label_help => (_("If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with %s, the filters are not considered unlimited</br> as they are scoped accordingly.") % org_loc_string('or')).html_safe %>
 
 
         <%= autocomplete_f f, :search,
