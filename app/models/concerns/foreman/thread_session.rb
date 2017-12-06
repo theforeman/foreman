@@ -70,10 +70,16 @@ module Foreman
           end
 
           if o.is_a?(User)
-            Rails.logger.info "Current user: #{o.login} (#{o.admin? ? 'administrator' : 'regular user'})"
+            user = o.login
+            type = o.admin? ? 'admin' : 'regular'
+            if o.hidden?
+              Rails.logger.debug("Current user set to #{user} (#{type})")
+            else
+              Rails.logger.info("Current user set to #{user} (#{type})")
+            end
           end
-          Rails.logger.debug "Setting current user thread-local variable to " + (o.is_a?(User) ? o.login : 'nil')
-          ::Logging.mdc['user_login'] = o.try(:login)
+          ::Logging.mdc['user_login'] = o&.login
+          ::Logging.mdc['user_admin'] = o&.admin? || false
           Thread.current[:user] = o
         end
 
@@ -116,7 +122,7 @@ module Foreman
             raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
           end
 
-          Rails.logger.debug "Setting current organization thread-local variable to #{organization || 'none'}"
+          Rails.logger.debug "Current organization set to #{organization || 'none'}"
           org_id = organization.try(:id)
           ::Logging.mdc['org_id'] = org_id if org_id
           Thread.current[:organization] = organization
@@ -153,7 +159,7 @@ module Foreman
             raise(ArgumentError, "Unable to set current location, expected class '#{self}'. got #{location.inspect}")
           end
 
-          Rails.logger.debug "Setting current location thread-local variable to #{location || 'none'}"
+          Rails.logger.debug "Current location set to #{location || 'none'}"
           loc_id = location.try(:id)
           ::Logging.mdc['loc_id'] = loc_id if loc_id
           Thread.current[:location] = location
