@@ -460,8 +460,9 @@ module ApplicationHelper
     update_url = options[:update_url] || url_for(object)
     type       = options[:type]
     title      = options[:title]
+    select_values     = [true, false].include?(value) ? [_('Yes'), _('No')] : options[:select_values]
 
-    editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => options[:select_values],:url => update_url}.compact)
+    editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => select_values, :url => update_url}.compact)
   end
 
   def documentation_url(section = "", options = {})
