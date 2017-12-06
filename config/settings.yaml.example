@@ -45,7 +45,9 @@
 #    :type: syslog
 
 # Individual logging types can be toggled on/off here
-#:loggers:
+:loggers:
+  :notifications:
+    :enabled: false
 #  :app:
 #    :enabled: true
 #  :audit:
@@ -60,7 +62,6 @@
 #    :enabled: false
 #  :templates:
 #    :enabled: true
-#  :notifications:
 #  :background:
 #    :enabled: true
 #  :dynflow:
