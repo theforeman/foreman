@@ -66,8 +66,6 @@ Foreman::Application.configure do
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random
 
-  config.webpack.dev_server.enabled = false
-
   # Whitelist all plugin engines by default from raising errors on deprecation warnings for
   # compatibility, allow them to override it by adding an ASDT configuration file.
   config.after_initialize do

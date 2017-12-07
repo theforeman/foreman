@@ -47,3 +47,5 @@ public/webpack
 package-lock.json
 npm-debug.log
 .vscode
+/public/packs
+/public/packs-test

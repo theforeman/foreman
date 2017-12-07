@@ -3,7 +3,7 @@ begin
 
   namespace :jenkins do
     task :unit => ['jenkins:setup:minitest', 'rake:test:units', 'rake:test:functionals']
-    task :integration => ['webpack:compile', 'jenkins:setup:minitest', 'rake:test:integration']
+    task :integration => ['webpacker:compile', 'jenkins:setup:minitest', 'rake:test:integration']
     task :functionals => ["jenkins:setup:minitest", 'rake:test:functionals']
     task :units => ["jenkins:setup:minitest", 'rake:test:units']
 
