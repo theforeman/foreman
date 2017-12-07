@@ -326,7 +326,7 @@ module ApplicationHelper
     # the no-buttons code is needed for users with less permissions
     args = args.flatten.select(&:present?)
     return if args.blank?
-    button_classes = %w(btn btn-default)
+    button_classes = %w(btn btn-default btn-action)
     button_classes << 'btn-primary' if options[:primary]
 
     content_tag(:div, options.merge(:class=>'btn-group')) do
