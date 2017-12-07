@@ -371,21 +371,9 @@ module ApplicationHelper
   def avatar_image_tag(user, html_options = {})
     if user.avatar_hash.present?
       image_tag("avatars/#{user.avatar_hash}.jpg", html_options)
-    elsif Setting[:use_gravatar] && user.mail.present?
-      image_tag(gravatar_image(user.mail),
-                html_options.merge!(gravatar_html_options))
     else
       icon_text("user #{html_options[:class]}", "", :kind => "fa")
     end
-  end
-
-  def gravatar_image(email)
-    "#{request.protocol}secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?d=mm&s=30"
-  end
-
-  def gravatar_html_options
-    { :onerror => "$(this).addClass('fa fa-user')",
-      :alt     => '' }
   end
 
   def readonly_field(object, property, options = {})
