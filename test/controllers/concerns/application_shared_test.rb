@@ -17,8 +17,12 @@ class DummyController
     true
   end
 
+  def session
+    @session ||= {}
+  end
+
   def request
-    @request ||= Struct.new(:session).new(:session => {})
+    @request ||= Struct.new(:session).new(:session => session)
   end
 
   include ApplicationShared

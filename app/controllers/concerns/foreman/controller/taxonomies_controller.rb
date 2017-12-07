@@ -108,7 +108,8 @@ module Foreman::Controller::TaxonomiesController
 
   def clear_current_taxonomy_from_session
     taxonomy_class.current = nil
-    session[taxonomy_id] = nil
+    # session can't store nil, so we use empty string to represent any context
+    session[taxonomy_id] = ''
     TopbarSweeper.expire_cache
   end
 
