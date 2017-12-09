@@ -9,9 +9,13 @@ export const timezone = document.getElementsByTagName('html')[0]
   .getAttribute('data-timezone') || 'UTC';
 
 /* eslint-disable global-require, import/no-dynamic-require */
+async function fetchIntl(intlLocale) {
+  global.Intl = await import(/* webpackChunkName: "intl-fallback", webpackMode: "lazy" */ 'intl');
+  await import(/* webpackChunkName: "intl-fallback", webpackMode: "lazy" */ `intl/locale-data/jsonp/${intlLocale}`);
+}
+
 if (!global.Intl) {
-  global.Intl = require('intl');
-  require(`intl/locale-data/jsonp/${locale}`);
+  fetchIntl(locale);
 }
 addLocaleData(require(`react-intl/locale-data/${locale}`));
 /* eslint-enable global-require, import/no-dynamic-require */
