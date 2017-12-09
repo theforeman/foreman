@@ -11,6 +11,118 @@
 - message: "#table_exists? currently checks both tables and views. This behavior is
     deprecated and will be changed with Rails 5.1 to only check tables. Use #data_source_exists?
     instead."
+
 # Used by BookmarkControllerValidator and inside shoulda-matchers
 - message: "#tables currently returns both tables and views. This behavior is deprecated
     and will be changed with Rails 5.1 to only return tables. Use #data_sources instead."
+
+# The old exception needs to be removed, once Rails removes it, the new one was already added
+- message: ActionDispatch::ParamsParser::ParseError is deprecated! Use ActionDispatch::Http::Parameters::ParseError
+    instead.
+  callstack: lib/middleware/catch_json_parse_errors.rb:9:in `rescue in call'
+
+- message: The behavior of `attribute_change` inside of after callbacks will be changing
+    in the next version of Rails. The new return value will reflect the behavior of
+    calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/authorizable.rb:8:in `check_permissions_after_save'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/encryptable.rb:41:in `block in encrypt_setters'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:101:in `update_matchers'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:11:in `block (2 levels)
+    in <module:NestedAncestryCommon>'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:87:in `set_other_titles'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/nic/interface.rb:60:in `fqdn_changed?'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/nic/interface.rb:64:in `fqdn_was'
+- message: The behavior of `attribute_was` inside of after callbacks will be changing
+    in the next version of Rails. The new return value will reflect the behavior of
+    calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `attribute_before_last_save` instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:101:in `update_matchers'
+- message: The behavior of `attribute_was` inside of after callbacks will be changing
+    in the next version of Rails. The new return value will reflect the behavior of
+    calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `attribute_before_last_save` instead.
+  callstack: app/models/nic/interface.rb:64:in `fqdn_was'
+- message: The behavior of `changed_attributes` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
+    instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:101:in `update_matchers'
+- message: The behavior of `changed_attributes` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
+    instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:87:in `set_other_titles'
+- message: The behavior of `changed_attributes` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
+    instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `changed_attributes` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
+    instead.
+  callstack: app/models/nic/interface.rb:65:in `fqdn_was'
+- message: The behavior of `changed` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes.keys` instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:87:in `set_other_titles'
+- message: The behavior of `changed` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes.keys` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `changes` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: password_changed is not an attribute known to Active Record. This behavior
+    is deprecated and will be removed in the next version of Rails. If you'd like
+    password_changed to be managed by Active Record, add `attribute :password_changed
+    to your class.
+  callstack: app/models/image.rb:31:in `set_password_changed'
+- message: password_changed is not an attribute known to Active Record. This behavior
+    is deprecated and will be removed in the next version of Rails. If you'd like
+    password_changed to be managed by Active Record, add `attribute :password_changed
+    to your class.
+  callstack: app/models/user.rb:527:in `set_password_changed'
