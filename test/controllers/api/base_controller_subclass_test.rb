@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'minitest/autorun'
 
 class Api::TestableController < Api::V2::BaseController
   before_action :find_required_nested_object, :only => [:required_nested_values, :nested_values]
@@ -29,14 +30,37 @@ class Api::TestableController < Api::V2::BaseController
   def authorized
     true
   end
+
+  def action_permission
+    case params[:action]
+    when 'nested_values', 'required_nested_values', 'optional_nested_values', 'raise_error', 'authorized'
+      :view
+    else
+      super
+    end
+  end
 end
 
 class Testable < ApplicationRecord
+  include Authorizable
   belongs_to :domain
+  belongs_to :foo
+end
+
+class Foo < ApplicationRecord
+  has_many :testables
 end
 
 class Api::TestableControllerTest < ActionController::TestCase
   tests Api::TestableController
+
+  ActiveRecord::Migration.create_table(:testables) { |t| t.integer :foo_id }
+  ActiveRecord::Migration.create_table(:foos)
+
+  Minitest.after_run do
+    ActiveRecord::Migration.drop_table(:testables)
+    ActiveRecord::Migration.drop_table(:foos)
+  end
 
   context "api base headers" do
     test "should contain version in headers" do
@@ -245,6 +269,19 @@ class Api::TestableControllerTest < ActionController::TestCase
       assert_equal @response.status, 200
     end
 
+    context 'resouce scoping' do
+      setup do
+        @foo = Foo.create
+        @testable = Testable.create(:foo_id => @foo.id)
+      end
+
+      it 'should return nested resource' do
+        get :nested_values, params: { :foo_id => @foo.id, :id => @testable.id }
+        assert_equal @testable, @controller.instance_variable_get('@testable')
+        assert_equal @foo, @controller.instance_variable_get('@nested_obj')
+      end
+    end
+
     context 'nested resource permissions' do
       setup do
         @child_associacion = mock('child_associacion')
@@ -252,40 +289,11 @@ class Api::TestableControllerTest < ActionController::TestCase
         @testable_scope2 = mock('testable_scope2')
         @testable_obj = mock('testable1')
         @testable_scope2.stubs(:merge).returns(@testable_scope1)
+        @testable_scope2.stubs(:ids).returns([])
         @child_associacion.stubs(:merge).returns(@testable_scope1)
         @testable_scope1.stubs(:readonly).returns(@testable_scope1)
+        @testable_scope1.stubs(:ids).returns([1])
         Testable.stubs(:joins).returns(@child_associacion)
-      end
-
-      context 'resouce scope mocks' do
-        setup do
-          @testable_scope1.expects(:find).with('1').returns(@testable_obj)
-          @testable_scope1.expects(:empty?).returns(false)
-          @testable_scope1.expects(:to_a).returns([@testable_obj])
-        end
-
-        it 'should return nested resource for unauthorized resource' do
-          Testable.stubs(:where).returns(@testable_scope2)
-          Testable.stubs(:scoped).returns(@testable_scope2)
-
-          get :nested_values, params: { :domain_id => 1, :id => 1 }
-
-          assert_equal @testable_obj, @controller.instance_variable_get('@testable')
-          assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
-        end
-
-        it 'should return nested resource scope for authorized resource' do
-          child_auth_scope = mock('child_auth_scope')
-
-          Testable.stubs(:authorized).returns(child_auth_scope)
-          child_auth_scope.stubs(:where).returns(@testable_scope2)
-          child_auth_scope.stubs(:scoped).returns(@testable_scope2)
-
-          get :nested_values, params: { :domain_id => 1, :id => 1 }
-
-          assert_equal @testable_obj, @controller.instance_variable_get('@testable')
-          assert_equal @nested_obj, @controller.instance_variable_get('@nested_obj')
-        end
       end
 
       context 'check authorized for nested resources' do

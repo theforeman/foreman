@@ -56,8 +56,7 @@ module Api
 
     # overwrites resource_scope in FindCommon to consider nested objects
     def resource_scope(options = {})
-      child_scope = super(options)
-      child_scope.merge(parent_scope).readonly(false)
+      resource_class.where(:id => (super(options).ids & parent_scope.ids).uniq)
     end
 
     def parent_scope
