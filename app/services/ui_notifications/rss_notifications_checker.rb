@@ -43,20 +43,13 @@ module UINotifications
         if notification_already_exists?(item)
           next unless @force_repost
         end
-        Notification.create(
+        action_builder = ActionsBuilder.new.push(item.link, _('Open'), true)
+        Notification.create!(
           :initiator => User.anonymous_admin,
           :audience => @audience,
           :message => item.title,
           :notification_blueprint => blueprint,
-          :actions => {
-            :links => [
-              {
-                :href => item.link,
-                :title => _('Open'),
-                :external => true
-              }
-            ]
-          }
+          :actions => action_builder.build
         )
       end
     end
