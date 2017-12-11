@@ -75,11 +75,11 @@ module UINotifications
 
     def load_rss_feed
       uri = URI.parse(@url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == 'https'
-      request = Net::HTTP::Get.new(uri.request_uri)
-      request.initialize_http_header({"User-Agent" => rss_user_agent})
-      http.request(request).body
+      Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+        request = Net::HTTP::Get.new(uri.request_uri)
+        request.initialize_http_header({"User-Agent" => rss_user_agent})
+        http.request(request).body
+      end
     end
 
     def rss_user_agent
