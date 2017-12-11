@@ -172,4 +172,17 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 1, subnet.parameters.count
   end
+
+  test "should return subnets when searching by location as non-admin user" do
+    org = FactoryBot.create(:organization)
+    loc = FactoryBot.create(:location)
+    FactoryBot.create(:subnet_ipv4, :organizations => [org], :locations => [loc])
+    user = FactoryBot.create(:user, :organizations => [org], :locations => [loc], :default_organization_id => org.id,
+                             :default_location_id => loc.id, :roles => [roles(:manager)])
+    as_user user do
+      get :index, params: { :location_id => loc.id }
+    end
+
+    assert_response :success
+  end
 end
