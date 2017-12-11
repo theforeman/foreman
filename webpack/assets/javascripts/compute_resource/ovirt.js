@@ -18,7 +18,7 @@ export function templateSelected(item) {
         // As Instance Type values will take precence over templates values,
         // we don't update memory/cores values if  instance type is already selected
         if (!$('#host_compute_attributes_instance_type').val()) {
-          $('[id$=_memory]').val(result.memory);
+          $('[id$=_memory]').val(result.memory).trigger('change');
           $('[id$=_cores]').val(result.cores);
         }
         $('#network_interfaces').children('.fields').remove();
@@ -57,7 +57,7 @@ export function instanceTypeSelected(item) {
       url,
       data: `instance_type_id=${instanceType}`,
       success(result) {
-        $('[id$=_memory]').val(result.memory);
+        $('[id$=_memory]').val(result.memory).trigger('change');
         $('[id$=_cores]').val(result.cores);
         const instanceTypeSelector = $('#host_compute_attributes_instance_type');
 

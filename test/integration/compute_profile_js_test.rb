@@ -29,4 +29,20 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     # two pane should close on save
     assert page.has_no_selector?('div.two-pane-right')
   end
+
+  test "create compute profile" do
+    visit compute_profiles_path()
+    click_on("Create Compute Profile")
+    fill_in('compute_profile_name', :with => 'test')
+    click_on("Submit")
+    assert click_link(compute_resources(:ovirt).to_s)
+    selected_profile = find("#s2id_compute_attribute_compute_profile_id .select2-chosen").text
+    assert select2('hwp_small', :from => 'compute_attribute_vm_attrs_template')
+    wait_for_ajax
+    assert click_button("Submit")
+    visit compute_profile_path(selected_profile)
+    assert click_link(compute_resources(:ovirt).to_s)
+    assert_equal  "512 MB", find_field('compute_attribute_vm_attrs_memory').value
+    assert_equal  "1", find_field('compute_attribute_vm_attrs_cores').value
+  end
 end
