@@ -389,6 +389,45 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup.to_param
   end
 
+  test 'with both subnet and subnet6 should be valid if VLAN ID is consistent between subnets' do
+    domain = FactoryBot.create(:domain)
+    subnet = FactoryBot.create(:subnet_ipv4, :domains => [domain], :vlanid => 14)
+    subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :vlanid => 14)
+    hostgroup = FactoryBot.build(:hostgroup, :subnet => subnet, :subnet6 => subnet6)
+    assert_valid hostgroup
+  end
+
+  test 'with both subnet and subnet6 should not be valid if VLAN ID mismatch between subnets' do
+    domain = FactoryBot.create(:domain)
+    subnet = FactoryBot.create(:subnet_ipv4, :domains => [domain], :vlanid => 3)
+    subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :vlanid => 4)
+    hostgroup = FactoryBot.build(:hostgroup, :subnet => subnet, :subnet6 => subnet6)
+    refute_valid hostgroup
+    assert_includes hostgroup.errors.keys, :subnet_id
+
+    subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :vlanid => nil)
+    hostgroup = FactoryBot.build(:hostgroup, :subnet => subnet, :subnet6 => subnet6)
+    refute_valid hostgroup
+    assert_includes hostgroup.errors.keys, :subnet_id
+  end
+
+  test 'with both subnet and subnet6 should be valid if MTU is consistent between subnets' do
+    domain = FactoryBot.create(:domain)
+    subnet = FactoryBot.create(:subnet_ipv4, :domains => [domain], :mtu => 1496)
+    subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :mtu => 1496)
+    hostgroup = FactoryBot.build(:hostgroup, :subnet => subnet, :subnet6 => subnet6)
+    assert_valid hostgroup
+  end
+
+  test 'with both subnet and subnet6 should not be valid if MTU mismatch between subnets' do
+    domain = FactoryBot.create(:domain)
+    subnet = FactoryBot.create(:subnet_ipv4, :domains => [domain], :mtu => 1496)
+    subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :mtu => 1500)
+    hostgroup = FactoryBot.build(:hostgroup, :subnet => subnet, :subnet6 => subnet6)
+    refute_valid hostgroup
+    assert_includes hostgroup.errors.keys, :subnet_id
+  end
+
   context "#clone" do
     let(:group) {FactoryBot.create(:hostgroup, :name => 'a')}
 

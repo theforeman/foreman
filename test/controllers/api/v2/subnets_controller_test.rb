@@ -74,6 +74,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
   test "delete destroys subnet not in use" do
     subnet = Subnet.first
     subnet.hosts.clear
+    subnet.hostgroups.clear
     subnet.interfaces.clear
     subnet.domains.clear
     as_admin { delete :destroy, params: { :id => subnet.id } }

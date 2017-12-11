@@ -39,7 +39,7 @@ parent:
   puppet_proxy: puppetmaster
   puppet_ca_proxy: puppetmaster
   domain: mydomain
-  subnet: three
+  subnet: five
   subnet6: six
   compute_profile: one
   id: 1
