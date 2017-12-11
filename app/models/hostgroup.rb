@@ -12,6 +12,7 @@ class Hostgroup < ApplicationRecord
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
 
   validate :validate_subnet_types
+  validates_with SubnetsConsistencyValidator
 
   include ScopedSearchExtensions
   include SelectiveClone

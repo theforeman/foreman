@@ -36,6 +36,7 @@ module Nic
     validates :ip6, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip6_validation? }
 
     validate :validate_subnet_types
+    validates_with SubnetsConsistencyValidator
     validate :validate_updating_types
 
     # Validate that subnet's taxonomies are defined for nic's host
