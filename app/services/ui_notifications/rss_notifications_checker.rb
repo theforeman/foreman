@@ -38,7 +38,9 @@ module UINotifications
       # This is a noop every time rss_enable=false, the moment it
       # gets enabled, notifications for RSS feeds are created again
       return true unless Setting[:rss_enable]
-      feed = RSS::Parser.parse(load_rss_feed, false)
+      rss_feed = load_rss_feed
+      return true if rss_feed.nil?
+      feed = RSS::Parser.parse(rss_feed, false)
       feed.items[0, @latest_posts].each do |feed_item|
         item = Item.new(feed_item)
         blueprint = rss_notification_blueprint
@@ -78,8 +80,17 @@ module UINotifications
       Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri.request_uri)
         request.initialize_http_header({"User-Agent" => rss_user_agent})
-        http.request(request).body
+        result = http.request(request)
+        if result.code.start_with?('2')
+          result.body
+        else
+          Foreman::Logging.logger('notifications').warn "Fetching RSS failed with code #{result.code}"
+          nil
+        end
       end
+    rescue => e
+      Foreman::Logging.exception "Fetching RSS failed", e, :logger => 'notifications'
+      nil
     end
 
     def rss_user_agent
