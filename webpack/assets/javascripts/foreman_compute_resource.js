@@ -18,13 +18,14 @@ export default {
 
 // AJAX load vm listing
 $(() => {
-  $('#vms, #images_list, #key_pairs_list').filter('[data-url]').each(() => {
-    const url = $(this).attr('data-url');
+  $('#vms, #images_list, #key_pairs_list').filter('[data-url]').each((i, el) => {
+    const tab = $(el);
+    const url = tab.attr('data-url');
 
-    $(this).load(`${url} table`, (response, status, xhr) => {
+    tab.load(`${url} table`, (response, status, xhr) => {
       if (status === 'error') {
         // eslint-disable-next-line function-paren-newline
-        $(this).html(
+        tab.html(
           // eslint-disable-next-line no-undef
           Jed.sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
             status: xhr.status,
