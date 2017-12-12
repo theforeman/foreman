@@ -23,6 +23,7 @@ module ApplicationShared
   end
 
   def set_taxonomy
+    TopbarSweeper.expire_cache
     user = User.current
     return if user.nil?
 
