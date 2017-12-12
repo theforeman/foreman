@@ -80,7 +80,7 @@ module Classification
     end
 
     def fact_value(fact_name)
-      FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
+      FactValue.where(:host_id => host.id, :fact_name_id => fact_name.id).first.value
     end
 
     def path_elements(path = nil)
