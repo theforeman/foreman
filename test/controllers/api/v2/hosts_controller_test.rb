@@ -31,12 +31,21 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     }
   end
 
+  def valid_compute_attrs
+    {
+      :compute_attributes => {
+        :cpus => 4,
+        :memory => 1024
+      }
+    }
+  end
+
   def valid_attrs
     net_attrs = {
       :ip  => '10.0.0.20',
       :mac => '52:53:00:1e:85:93'
     }
-    basic_attrs.merge(net_attrs)
+    basic_attrs.merge(net_attrs).merge(valid_compute_attrs)
   end
 
   def valid_attrs_with_root(extra_attrs = {})
@@ -255,7 +264,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     disable_orchestration
 
     compute_attrs = compute_attributes(:with_interfaces)
-    post :create, params: { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes =>  nics_attrs) }
+    post :create, params: { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes => nics_attrs) }
     assert_response :created
 
     as_admin do
@@ -289,6 +298,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     put :update, params: { :id => @host.to_param, :host => valid_attrs }
   end
 
+  test "update applies attribute modifiers on the host when compute profile is changed" do
+    disable_orchestration
+    expect_attribute_modifier(ComputeAttributeMerge, [])
+    expect_attribute_modifier(InterfaceMerge, [{:merge_compute_attributes => true}])
+
+    compute_attrs = compute_attributes(:with_interfaces)
+    put :update, params: { :id => @host.to_param, :host => basic_attrs_with_profile(compute_attrs) }
+  end
+
   test "should update host" do
     put :update, params: { :id => @host.to_param, :host => valid_attrs }
     assert_response :success
@@ -298,6 +316,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     @host = FactoryBot.create(:host, basic_attrs_with_hg)
     put :update, params: { :id => @host.to_param, :hostgroup_id => Hostgroup.last.id }
     assert_response :success
+  end
+
+  test 'does not set compute profile when updating arbitrary field' do
+    Host.any_instance.expects(:apply_compute_profile).never
+    put :update, params: { :id => @host.to_param, :host => { :comment => 'This is a comment' } }
   end
 
   test "updating interface type isn't allowed" do
