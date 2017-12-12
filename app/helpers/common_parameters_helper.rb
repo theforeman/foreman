@@ -49,7 +49,7 @@ module CommonParametersHelper
     lookup_key = options[:lookup_key]
 
     option_hash = { :rows => 1,
-                    :class => 'form-control no-stretch',
+                    :class => 'form-control no-stretch jquery-select2',
                     :'data-property' => 'value',
                     :'data-hidden-value' => LookupKey.hidden_value,
                     :'data-inherited-value' => options[:inherited_value],

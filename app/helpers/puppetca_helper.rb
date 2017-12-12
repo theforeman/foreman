@@ -8,6 +8,6 @@ module PuppetcaHelper
     select_tag "Filter", options_for_select([[_('valid or pending'), _('valid')+'|'+_('pending')]] +
                                             STATES.map{|s| _(s)} +
                                             [[_('all'),'']]),
-               :class => "datatable-filter", :id => "puppetca-filter"
+               :class => "datatable-filter jquery-select2", :id => "puppetca-filter"
   end
 end

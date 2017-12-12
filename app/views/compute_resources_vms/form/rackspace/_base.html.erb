@@ -1,4 +1,4 @@
-<%= select_f f, :flavor_id, compute_resource.flavors, :id, :name, {}, {:label => _('Flavor'), :label_size => "col-md-2", :class => 'without_select2'} %>
+<%= select_f f, :flavor_id, compute_resource.flavors, :id, :name, {}, {:label => _('Flavor'), :label_size => "col-md-2", :disable_select2 => true} %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
@@ -6,5 +6,5 @@
 
 <div id='image_selection'>
   <%= select_f f, :image_id, images, :uuid, :name, {:include_blank => (images.empty? || images.size == 1) ? false : _('Please Select an Image')},
-               {:disabled => images.empty?, :label => _('Image'), :label_size => "col-md-2", :class => 'without_select2'} %>
+               {:disabled => images.empty?, :label => _('Image'), :label_size => "col-md-2", :disable_select2 => true} %>
 </div>
