@@ -20,4 +20,14 @@ class EnvironmentTest < ActiveSupport::TestCase
   test 'should create environment with the name "new"' do
     assert FactoryBot.build(:environment, :name => 'new').valid?
   end
+
+  context 'audited' do
+    test 'on creation on of a new environment' do
+      environment = FactoryBot.build(:environment, :with_auditing)
+
+      assert_difference 'environment.audits.count' do
+        environment.save!
+      end
+    end
+  end
 end
