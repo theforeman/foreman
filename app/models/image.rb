@@ -12,7 +12,8 @@ class Image < ApplicationRecord
   before_validation :set_password_changed, :if => Proc.new { |audit| audit.password_changed? }
 
   validates_lengths_from_database
-  validates :username, :name, :operatingsystem_id, :compute_resource_id, :architecture_id, :presence => true
+  validates :username, :operatingsystem_id, :compute_resource_id, :architecture_id, :presence => true
+  validates :name, :presence => true, :uniqueness => {:scope => [:compute_resource_id, :operatingsystem_id]}
   validates :uuid, :presence => true, :uniqueness => {:scope => :compute_resource_id}
   validate :uuid_exists?
 

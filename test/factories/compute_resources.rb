@@ -65,9 +65,9 @@ FactoryBot.define do
 
   factory :image do
     sequence(:name) { |n| "image#{n}" }
-    uuid Foreman.uuid
+    uuid { Foreman.uuid }
     username 'root'
-    compute_resource
+    association :compute_resource, factory: :libvirt_cr
     operatingsystem
     architecture
   end
