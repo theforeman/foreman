@@ -17,6 +17,7 @@ module UINotifications
         rss_item_1 = mock()
         rss_item_1.stubs(:title).returns('hello')
 
+        @notifications_service.stubs(:load_rss_feed).returns('something')
         feed = OpenStruct.new(:items => [rss_item_1])
         RSS::Parser.expects(:parse).returns(feed)
         Notification.expects(:create).never
@@ -35,10 +36,15 @@ module UINotifications
         rss_item_2 = mock()
         rss_item_2.stubs(:title).returns('world')
         rss_item_2.stubs(:link).returns('http://world.com')
+        @notifications_service.stubs(:load_rss_feed).returns('something')
         feed = OpenStruct.new(:items => [rss_item_1, rss_item_2])
         RSS::Parser.expects(:parse).returns(feed)
         Notification.expects(:create).once
         @notifications_service.deliver!
+      end
+
+      test 'expect request should include a user agent' do
+        assert @notifications_service.send(:rss_user_agent) =~ /Foreman/
       end
     end
   end
