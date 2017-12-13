@@ -78,12 +78,10 @@ module ApplicationShared
     taxonomy.classify.constantize.send 'current=', determined_taxonomy
   end
 
-  def store_default_taxonomies(user)
-    ['location', 'organization'].each do |taxonomy|
-      default_taxonomy = find_default_taxonomy(user, taxonomy)
-      set_current_taxonomy(taxonomy, default_taxonomy)
-      store_taxonomy(taxonomy, default_taxonomy)
-    end
+  def store_default_taxonomy(user, taxonomy)
+    default_taxonomy = find_default_taxonomy(user, taxonomy)
+    set_current_taxonomy(taxonomy, default_taxonomy)
+    store_taxonomy(taxonomy, default_taxonomy)
   end
 
   # we want to be explicit to keep this readable

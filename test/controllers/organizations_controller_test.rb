@@ -67,7 +67,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should clear the session if the user deleted their current organization" do
+  test "should clear the session if the user deleted their current organization and set any" do
     as_admin do
       organization = Organization.create!(:name => "random-house")
       Organization.current = organization
@@ -76,7 +76,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     end
 
     assert_nil Organization.current
-    assert_nil session[:organization_id]
+    assert_equal '', session[:organization_id]
   end
 
   test "should save organization on session expiry" do
@@ -190,11 +190,11 @@ class OrganizationsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should clear out Organization.current" do
+  test "should clear out Organization.current to any" do
     @request.env['HTTP_REFERER'] = root_url
     get :clear, session: set_session_user
     assert_nil Organization.current
-    assert_nil session[:organization_id]
+    assert_equal '', session[:organization_id]
     assert_redirected_to root_url
   end
 

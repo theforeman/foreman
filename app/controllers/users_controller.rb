@@ -158,7 +158,8 @@ class UsersController < ApplicationController
     session[:user]         = user.id
     uri                    = session.to_hash.with_indifferent_access[:original_uri]
     session[:original_uri] = nil
-    store_default_taxonomies(user)
+    store_default_taxonomy(user, 'organization') unless session.has_key?(:organization_id)
+    store_default_taxonomy(user, 'location') unless session.has_key?(:location_id)
     TopbarSweeper.expire_cache
     user.post_successful_login
     redirect_to (uri || hosts_path)
