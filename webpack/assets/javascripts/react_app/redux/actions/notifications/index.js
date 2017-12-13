@@ -19,25 +19,25 @@ const getNotifications = url => (dispatch) => {
 
   if (isDocumentVisible) {
     API.get(url)
-      .done(onGetNotificationsSuccess)
-      .fail(onGetNotificationsFailed)
-      .always(triggerPolling);
+      .then(onGetNotificationsSuccess)
+      .catch(onGetNotificationsFailed)
+      .then(triggerPolling);
   } else {
     // document is not visible, keep polling without api call
     triggerPolling();
   }
 
-  function onGetNotificationsSuccess(response) {
+  function onGetNotificationsSuccess({ data }) {
     dispatch({
       type: NOTIFICATIONS_GET_NOTIFICATIONS,
       payload: {
-        notifications: response.notifications,
+        notifications: data.notifications,
       },
     });
   }
 
   function onGetNotificationsFailed(error) {
-    if (error.status === 401) {
+    if (error.response.status === 401) {
       window.location.replace('/users/login');
     }
   }
@@ -67,7 +67,9 @@ export const onMarkAsRead = (group, id) => (dispatch) => {
       id,
     },
   });
-  API.markNotificationAsRead(id);
+  const url = `/notification_recipients/${id}`;
+  const data = { seen: true };
+  API.put(url, data);
 };
 
 export const onMarkGroupAsRead = group => (dispatch) => {
@@ -77,7 +79,8 @@ export const onMarkGroupAsRead = group => (dispatch) => {
       group,
     },
   });
-  API.markGroupNotificationAsRead(group);
+  const url = `/notification_recipients/group/${group}`;
+  API.put(url);
 };
 
 export const expandGroup = group => (dispatch, getState) => {

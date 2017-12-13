@@ -5,14 +5,18 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import BookmarksContainer from './';
+import API from '../../API';
 import {
   initialState,
   afterSuccess,
   afterSuccessNoResults,
   afterRequest,
   afterError,
+  bookmarks,
 } from './bookmarks.fixtures';
 
+jest.mock('../../API');
+API.get = jest.fn(() => Promise.resolve({ results: bookmarks }));
 const mockStore = configureMockStore([thunk]);
 
 function setup() {

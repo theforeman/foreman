@@ -5,6 +5,10 @@ import { Provider } from 'react-redux';
 import BookmarkForm from './';
 import { generateStore } from '../../../redux';
 import * as FormActions from '../../../redux/actions/common/forms';
+import API from '../../../API';
+
+jest.mock('../../../API');
+API.post = jest.fn(() => Promise.resolve({ id: 1 }));
 
 function setup() {
   const props = {

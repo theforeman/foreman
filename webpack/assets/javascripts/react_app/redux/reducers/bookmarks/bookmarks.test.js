@@ -47,7 +47,7 @@ describe('bookmark reducers', () => {
       type: types.BOOKMARK_FORM_SUBMITTED,
       payload: {
         item: 'Bookmark',
-        body: {
+        data: {
           name: '0test-me',
           controller: 'hosts',
           query: 'mac~aabbccd',
