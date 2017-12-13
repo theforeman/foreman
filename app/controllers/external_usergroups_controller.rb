@@ -7,7 +7,9 @@ class ExternalUsergroupsController < ApplicationController
     if @external_usergroup.refresh
       notice _("External user group %{name} refreshed") % { :name => @external_usergroup.name }
     else
-      warning _("External user group %{name} could not be refreshed") % { :name => @external_usergroup.name }
+      message = _("External user group %{name} could not be refreshed.") % { :name => @external_usergroup.name }
+      message += ' ' + @external_usergroup.errors.full_messages.join('. ') if @external_usergroup.errors.present?
+      warning message
     end
   rescue => e
     external_usergroups_error(@external_usergroup, e)

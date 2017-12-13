@@ -8,6 +8,7 @@ class Usergroup < ApplicationRecord
   include UserUsergroupCommon
 
   validates_lengths_from_database
+  validates_associated :external_usergroups
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
 
   has_many :user_roles, :dependent => :destroy, :as => :owner
