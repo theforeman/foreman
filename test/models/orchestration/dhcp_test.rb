@@ -194,12 +194,20 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "new host should create a dhcp reservation" do
-    h = FactoryBot.build(:host, :with_dhcp_orchestration)
+    h = FactoryBot.build(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:ff")
     assert h.new_record?
-
     assert h.valid?
-    assert_equal h.queue.items.count {|x| x.action.last == :set_dhcp }, 1
-    assert h.queue.items.select {|x| x.action.last == :del_dhcp }.empty?
+    assert_equal ["dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
+    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
+  end
+
+  test "new host with multiple validations should create a single dhcp reservation" do
+    h = FactoryBot.build(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:ff")
+    assert h.new_record?
+    assert h.valid?
+    assert h.valid?
+    assert_equal ["dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
+    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
   end
 
   test "queue_dhcp doesn't fail when mac address is blank but provided by compute resource" do
@@ -215,91 +223,84 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "new host should create a BMC dhcp reservation" do
     h = as_admin do
-      FactoryBot.build(:host, :with_dhcp_orchestration, :name => 'dummy-123')
+      FactoryBot.build(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1", :name => 'dummy-123')
     end
     assert h.new_record?
-    h.interfaces_attributes = [{ :name => "dummy-bmc", :ip => h.ip.succ, :mac => "aa:bb:cd:cd:ee:ff",
+    h.interfaces_attributes = [{ :name => "dummy-bmc", :ip => h.ip.succ, :mac => "aa:bb:cd:cd:ee:ee",
                                  :subnet_id => h.subnet_id, :provider => 'IPMI', :type => 'Nic::BMC', :domain_id => h.domain_id}]
     assert h.valid?
-
-    bmc = h.interfaces.detect { |i| i.name =~ /^dummy-bmc/ }
-
-    primary_interface_tasks = h.queue.items.select { |t| t.action.first == h.primary_interface }
-    interface_tasks = h.queue.items.select { |t| t.action.first == bmc }
-
-    assert_equal 1, primary_interface_tasks.count { |t| t.action.last == :set_dhcp }
-    assert_empty primary_interface_tasks.select { |t| t.action.last == :del_dhcp }
-    assert_equal 1, interface_tasks.count { |t| t.action.last == :set_dhcp }
-    assert_empty interface_tasks.select { |t| t.action.last == :del_dhcp }
+    assert_equal ["dhcp_create_aa:bb:cc:dd:ee:f1", "dhcp_create_aa:bb:cd:cd:ee:ee"], h.queue.task_ids
+    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:f1").action.last
+    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cd:cd:ee:ee").action.last
   end
 
   test "when an existing host changes its ip address, its dhcp records should be updated" do
     h = as_admin do
-      FactoryBot.create(:host, :with_dhcp_orchestration)
+      FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:ff")
     end
     h.ip = h.ip.succ
     assert h.valid?
-    # 1st is creation from factory, 2nd is triggered by h.valid?
-    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
-    # and also one deletion (of original creation)
-    assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
+    assert_equal ["dhcp_remove_aa:bb:cc:dd:ee:ff", "dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
+    assert_equal :del_dhcp, h.queue.find_by_id("dhcp_remove_aa:bb:cc:dd:ee:ff").action.last
+    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
   end
 
   test "when an existing host change its bmc ip address, its dhcp records should be updated" do
     h = nil
     as_admin do
-      h = FactoryBot.create(:host, :with_dhcp_orchestration)
+      h = FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:ff")
       Nic::BMC.create!(:host_id => h.id, :mac => "da:aa:aa:ab:db:bb", :domain_id => h.domain_id,
                        :ip => h.ip.succ, :subnet_id => h.subnet_id, :name => "bmc-#{h}", :provider => 'IPMI')
     end
     h.reload
     bmc = h.interfaces.bmc.first
-    bmc.ip = bmc.ip.succ
+    old_ip = bmc.ip
+    new_ip = bmc.ip = bmc.ip.succ
     assert bmc.valid?
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc, :set_dhcp ] }
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
+    assert_equal ["dhcp_remove_da:aa:aa:ab:db:bb", "dhcp_create_da:aa:aa:ab:db:bb", "dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
+    assert_equal :del_dhcp, h.queue.find_by_id("dhcp_remove_da:aa:aa:ab:db:bb").action.last
+    assert_equal old_ip, h.queue.find_by_id("dhcp_remove_da:aa:aa:ab:db:bb").action.first.ip
+    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_da:aa:aa:ab:db:bb").action.last
+    assert_equal new_ip, h.queue.find_by_id("dhcp_create_da:aa:aa:ab:db:bb").action.first.ip
   end
 
   test "when an existing host changes its mac address, its dhcp records should be updated" do
     h = as_admin do
-      FactoryBot.create(:host, :with_dhcp_orchestration)
+      FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
     end
     h.mac = next_mac(h.mac)
     assert h.valid?
-    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
-    assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
+    # order is wrong due to priorities (5, 9, 10) - create should be processed first, then update
+    assert_equal ["dhcp_remove_aa:bb:cc:dd:ee:f1", "dhcp_create_aa:bb:cc:dd:ee:f2", "dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
   end
 
   test "when an existing host triggers a 'rebuild', its dhcp records should be updated if no dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(false)
     h = as_admin do
-      FactoryBot.create(:host, :with_dhcp_orchestration)
+      FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
     end
 
     h.build = true
-
     assert h.valid?, h.errors.messages.to_s
-    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
-    assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
+    assert_equal ["dhcp_remove_aa:bb:cc:dd:ee:f1", "dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
   end
 
   test "when an existing host trigger a 'rebuild', its dhcp records should not be updated if valid dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(true)
     h = as_admin do
-      FactoryBot.create(:host, :with_dhcp_orchestration)
+      FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
     end
 
     h.build = true
-
-    assert h.valid?, h.errors.messages.to_s
-    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
-    assert_equal 0, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
+    assert h.valid?
+    assert h.errors.empty?
+    assert_equal ["dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
   end
 
   test "when an existing host change its bmc mac address, its dhcp record should be updated" do
     h = nil
     as_admin do
-      h = FactoryBot.create(:host, :with_dhcp_orchestration)
+      h = FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
       Nic::BMC.create! :host => h, :mac => "aa:aa:aa:ab:bd:bb", :ip => h.ip.succ, :domain => h.domain,
                        :subnet => h.subnet, :name => "bmc1-#{h}", :provider => 'IPMI'
     end
@@ -308,8 +309,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc,     :set_dhcp ] }
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
+    assert_equal ["dhcp_remove_aa:aa:aa:ab:bd:bb", "dhcp_create_aa:aa:aa:ab:bd:bc"], h.queue.task_ids
   end
 
   test "when an existing host change multiple attributes, both his dhcp and bmc dhcp records should be updated" do
@@ -326,10 +326,10 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
-    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
-    assert_equal 1, h.queue.items.count {|x| x.action.last == :del_dhcp }
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc,     :set_dhcp ] }
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
+    assert_equal 2, h.queue.items.count {|x| x.action == [h.primary_interface, :set_dhcp]}
+    assert_equal 1, h.queue.items.count {|x| x.action.last == :del_dhcp}
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [bmc, :set_dhcp]}
+    assert_equal 1, bmc.queue.items.count {|x| x.action == [bmc.old, :del_dhcp]}
   end
 
   test "new host with dhcp and no operating system should show correct validation on save" do
