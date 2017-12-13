@@ -1,37 +1,51 @@
-import $ from 'jquery';
+import axios from 'axios';
+
+const getcsrfToken = () => {
+  const token = document.querySelector('meta[name="csrf-token"]');
+
+  return token ? token.content : '';
+};
+
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common['X-CSRF-Token'] = getcsrfToken();
 
 export default {
-  get(url) {
-    $.ajaxPrefilter((options, originalOptions, jqXHR) => {
-      // eslint-disable-next-line no-param-reassign
-      jqXHR.originalRequestOptions = originalOptions;
-    });
-    return $.getJSON(url);
-  },
-  markNotificationAsRead(id) {
-    const data = JSON.stringify({ seen: true });
-
-    $.ajax({
-      url: `/notification_recipients/${id}`,
-      contentType: 'application/json',
-      type: 'put',
-      dataType: 'json',
-      data,
-      error(jqXHR, textStatus, errorThrown) {
-        /* eslint-disable no-console */
-        console.log(jqXHR);
-      },
+  get(url, headers = {}, params = {}) {
+    return axios.get(url, {
+      headers,
+      params,
     });
   },
-  markGroupNotificationAsRead(group) {
-    $.ajax({
-      url: `/notification_recipients/group/${group}`,
-      contentType: 'application/json',
-      type: 'PUT',
-      error(jqXHR, textStatus, errorThrown) {
-        /* eslint-disable no-console */
-        console.log(jqXHR);
+  put(url, data = {}, headers = {}) {
+    return axios.put(
+      url, data,
+      {
+        headers,
       },
-    });
+    );
+  },
+  post(url, data = {}, headers = {}) {
+    return axios.post(
+      url, data,
+      {
+        headers,
+      },
+    );
+  },
+  delete(url, headers = {}) {
+    return axios.delete(
+      url,
+      {
+        headers,
+      },
+    );
+  },
+  patch(url, data = {}, headers = {}) {
+    return axios.patch(
+      url, data,
+      {
+        headers,
+      },
+    );
   },
 };

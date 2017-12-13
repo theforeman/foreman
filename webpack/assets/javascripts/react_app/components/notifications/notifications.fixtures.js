@@ -83,11 +83,11 @@ export const stateWithUnreadNotifications = immutable({
   },
 });
 
-export const serverResponse = `{ "notifications":[
+export const serverResponse = `{"data": { "notifications":[
   {"id":1,"seen":true,"level":"info","text":null,"created_at":"2017-02-23T05:00:28.715Z",
   "group":"React devs","actions":{}},
   {"id":2,"seen":false,"level":"info","text":null,"created_at":"2017-02-23T05:00:28.715Z",
-  "group":"React devs","actions":{}}]}`;
+  "group":"React devs","actions":{}}]}}`;
 
 export const emptyHtml =
   '<div id="notifications_container">' +

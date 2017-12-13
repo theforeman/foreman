@@ -39,8 +39,8 @@ export default (state = initialState, action) => {
     case BOOKMARK_FORM_SUBMITTED:
       return state
         .setIn(
-          [payload.body.controller, 'results'],
-          [...state[payload.body.controller].results, payload.body].sort(sortByName),
+          [payload.data.controller, 'results'],
+          [...state[payload.data.controller].results, payload.data].sort(sortByName),
         )
         .set('showModal', false);
     case BOOKMARKS_MODAL_CLOSED:

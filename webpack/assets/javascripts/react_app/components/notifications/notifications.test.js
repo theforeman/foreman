@@ -1,10 +1,8 @@
 import toJson from 'enzyme-to-json';
 import { shallow, mount } from 'enzyme';
-import $ from 'jquery';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import { generateStore } from '../../redux';
 import API from '../../API';
 
@@ -19,22 +17,20 @@ import {
 
 import Notifications from './';
 
-jest.unmock('jquery');
+jest.mock('../../API');
 const mockStore = configureMockStore([thunk]);
-
-let failResponse = { status: 200 };
+let failResponse = { response: { status: 200 } };
 
 function mockjqXHR() {
   return {
-    done: (callback) => {
+    then: (callback) => {
       callback(JSON.parse(serverResponse));
       return mockjqXHR();
     },
-    fail: (failCallback) => {
+    catch: (failCallback) => {
       failCallback(failResponse);
       return mockjqXHR();
     },
-    always: () => mockjqXHR(),
   };
 }
 
@@ -45,8 +41,7 @@ describe('notifications', () => {
         activateTooltips: () => {},
       },
     };
-
-    $.getJSON = mockjqXHR;
+    API.get = mockjqXHR;
   });
 
   it('empty state', () => {
@@ -88,7 +83,6 @@ describe('notifications', () => {
 
   it('full flow', () => {
     const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
-
     wrapper.find('.fa-bell').simulate('click');
     expect(wrapper.find('.panel-group').length).toEqual(1);
     wrapper.find('.panel-group .panel-heading').simulate('click');
@@ -100,7 +94,6 @@ describe('notifications', () => {
   it('mark group as read flow', () => {
     const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
     const matcher = '.drawer-pf-action a.btn-link';
-
     wrapper.find('.fa-bell').simulate('click');
     wrapper.find('.panel-group .panel-heading').simulate('click');
     expect(wrapper.find(matcher).length).toBe(1);
@@ -111,7 +104,7 @@ describe('notifications', () => {
 
   it('should redirect to login when 401', () => {
     window.location.replace = jest.fn();
-    failResponse = { status: 401 };
+    failResponse = { response: { status: 401 } };
 
     mount(<Notifications data={componentMountData} store={generateStore()} />);
     expect(global.location.replace).toBeCalled();
@@ -133,7 +126,6 @@ describe('notifications', () => {
 
     wrapper.find('.fa-bell').simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
-
     wrapper.find(closeButtonSelector).simulate('click');
     expect(toJson(wrapper)).toMatchSnapshot();
   });

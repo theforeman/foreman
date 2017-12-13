@@ -9,7 +9,12 @@ export const initialState = immutable({
   },
 });
 
-export const requestData = { url: '/api/bookmarks', controller: 'hosts' };
+export const requestData = {
+  url: '/api/bookmarks',
+  searchRegex: /\/api\/bookmarks\?search=.{13}hosts/,
+  controller: 'hosts',
+  response: { results: bookmarks },
+};
 
 const requestAction = {
   type: types.BOOKMARKS_REQUEST,
@@ -19,7 +24,10 @@ const requestAction = {
 export const onFailureActions = [
   requestAction,
   {
-    payload: { error: {}, item: { controller: 'hosts' } },
+    payload: {
+      error: new Error('Request failed with status code 422'),
+      item: { controller: 'hosts' },
+    },
     type: types.BOOKMARKS_FAILURE,
   },
 ];
