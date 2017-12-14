@@ -240,7 +240,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h.ip = h.ip.succ
     assert h.valid?
     # 1st is creation from factory, 2nd is triggered by h.valid?
-    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
     # and also one deletion (of original creation)
     assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
@@ -266,7 +266,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
     h.mac = next_mac(h.mac)
     assert h.valid?
-    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
     assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
@@ -279,7 +279,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h.build = true
 
     assert h.valid?, h.errors.messages.to_s
-    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
     assert_equal 1, h.primary_interface.queue.items.count {|x| x.action.last == :del_dhcp }
   end
 
@@ -326,7 +326,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
-    assert_equal 2, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
+    assert_equal 1, h.queue.items.count {|x| x.action == [ h.primary_interface, :set_dhcp ] }
     assert_equal 1, h.queue.items.count {|x| x.action.last == :del_dhcp }
     assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc,     :set_dhcp ] }
     assert_equal 1, bmc.queue.items.count {|x| x.action == [ bmc.old, :del_dhcp ] }
