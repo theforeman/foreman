@@ -12,7 +12,7 @@ module Foreman
       def after_initialize
         super
         precompile_assets(*assets_from_settings(id))
-        precompile_assets(*assets_from_settings(id.to_s.gsub('-', '_').to_sym))
+        precompile_assets(*assets_from_settings(id.to_s.tr('-', '_').to_sym))
         precompile_assets(*find_assets(path)) if @automatic_assets
         register_assets
       end
@@ -41,7 +41,7 @@ module Foreman
         # automatically detect and include them. Requires manual configuration
         # to use this unsupported layout.
         new_assets, outside_prefix = new_assets.partition do |p|
-          p.start_with?("#{id}/") || p.start_with?("#{id.to_s.gsub('-', '_')}/")
+          p.start_with?("#{id}/") || p.start_with?("#{id.to_s.tr('-', '_')}/")
         end
 
         if outside_prefix.present?

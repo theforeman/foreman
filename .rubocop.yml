@@ -42,6 +42,9 @@ Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
 
+Performance/Casecmp:
+  Enabled: false
+
 Performance/FixedSize:
   Exclude:
     - 'test/**/*'
