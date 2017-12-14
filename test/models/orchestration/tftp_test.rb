@@ -194,7 +194,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
     Setting[:unattended_url] = "http://ahost.com:3000"
 
-    template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
+    template = h.send(:generate_pxe_template, :PXELinux).to_s.tr! '~', "\n"
     expected = <<-EXPECTED
 default linux
 label linux
@@ -211,7 +211,7 @@ EXPECTED
     as_admin { h.update_attribute :operatingsystem, operatingsystems(:centos5_3) }
     assert !h.build
 
-    template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
+    template = h.send(:generate_pxe_template, :PXELinux).to_s.tr! '~', "\n"
     expected = <<-EXPECTED
 DEFAULT menu
 PROMPT 0
@@ -337,7 +337,7 @@ EXPECTED
     h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
     h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
 
-    template = h.send(:generate_pxe_template, :PXELinux).to_s.gsub! '~', "\n"
+    template = h.send(:generate_pxe_template, :PXELinux).to_s.tr! '~', "\n"
     expected = <<-EXPECTED
 DEFAULT linux
 LABEL linux

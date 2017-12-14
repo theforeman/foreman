@@ -50,7 +50,7 @@ class Redhat < Operatingsystem
 
   def pxe_kernel_options(params)
     options = super
-    options << "modprobe.blacklist=#{params['blacklist'].gsub(' ', '')}" if params['blacklist']
+    options << "modprobe.blacklist=#{params['blacklist'].delete(' ')}" if params['blacklist']
     options
   end
 end

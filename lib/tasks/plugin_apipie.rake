@@ -5,7 +5,7 @@ task 'plugin:apipie:cache', :engine do |t, args|
     # the need of a database being setup
     Rails.application.initialize!
 
-    path_name = args[:engine].gsub('-', '_')
+    path_name = args[:engine].tr('-', '_')
     @engine = "#{path_name.camelize}::Engine".constantize
     @engine_root = @engine.root
 

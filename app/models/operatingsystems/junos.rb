@@ -29,7 +29,7 @@ class Junos < Operatingsystem
   end
 
   def boot_filename(host = nil)
-    "ztp.cfg/"+host.mac.gsub(/:/,"").upcase
+    "ztp.cfg/"+host.mac.delete(':').upcase
   end
 
   def kernel(arch)
