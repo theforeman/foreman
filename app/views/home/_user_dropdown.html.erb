@@ -13,4 +13,4 @@
   </ul>
 </li>
 
-<%= mount_react_component('NotificationContainer','#notifications_container',{:url => notification_recipients_path(:organization_id => Organization.current.try(:id), :location_id => Location.current.try(:id))}.to_json) %>
+<%= mount_react_component('NotificationContainer','#notifications_container',{:url => notification_recipients_path}.to_json) %>
