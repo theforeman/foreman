@@ -53,7 +53,6 @@ module Orchestration::SSHProvision
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
     end
     self.client = Foreman::Provision::SSH.new provision_ip, image.username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
-
   rescue => e
     failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
   end
@@ -95,7 +94,6 @@ module Orchestration::SSHProvision
       end
       raise ::Foreman::Exception.new(N_("Provision script had a non zero exit"))
     end
-
   rescue => e
     failure _("Failed to launch script on %{name}: %{e}") % { :name => name, :e => e }, e
   end

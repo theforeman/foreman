@@ -55,7 +55,6 @@ module Foreman::Model
       else
         false
       end
-
     rescue Foreman::FingerprintException
       logger.info "Unable to verify OS capabilities, SSL certificate verification failed"
       false

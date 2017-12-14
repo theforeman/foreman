@@ -25,6 +25,7 @@ class NotificationRecipient < ApplicationRecord
     return true unless SETTINGS[:login]
     User.current.id == user_id
   end
+
   private
 
   def delete_user_cache

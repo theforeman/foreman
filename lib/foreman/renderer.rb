@@ -97,7 +97,6 @@ module Foreman
         scope_variables.each { |k,v| instance_variable_set "@#{k}", kept_variables[k] }
         result
       end
-
     rescue ::Racc::ParseError, ::SyntaxError => e
       # Racc::ParseError is raised in safe mode, SyntaxError in unsafe mode
       new_e = Foreman::Renderer::SyntaxError.new(N_("Syntax error occurred while parsing the template %{template_name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"), :template_name => template_name, :message => e.message)

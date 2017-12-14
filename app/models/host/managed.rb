@@ -753,6 +753,7 @@ class Host::Managed < Host::Base
   def build_status_label(options = {})
     @build_status_label ||= get_status(HostStatus::BuildStatus).to_label(options)
   end
+
   # rebuilds orchestration configuration for a host
   # takes all the methods from Orchestration modules that are registered for configuration rebuild
   # arguments:

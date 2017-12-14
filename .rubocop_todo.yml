@@ -64,22 +64,6 @@ Layout/DotPosition:
 Layout/EmptyLineAfterMagicComment:
   Enabled: false
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
-Layout/EmptyLineBetweenDefs:
-  Enabled: false
-
-# Offense count: 7
-# Cop supports --auto-correct.
-Layout/EmptyLinesAroundAccessModifier:
-  Enabled: false
-
-# Offense count: 7
-# Cop supports --auto-correct.
-Layout/EmptyLinesAroundExceptionHandlingKeywords:
-  Enabled: false
-
 # Offense count: 34
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
