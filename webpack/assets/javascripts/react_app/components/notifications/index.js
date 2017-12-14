@@ -43,7 +43,7 @@ class notificationContainer extends React.Component {
     } = this.props;
 
     return (
-      <div id="notifications_container">
+      <div>
         <ToggleIcon
           hasUnreadMessages={hasUnreadMessages}
           onClick={toggleDrawer}
