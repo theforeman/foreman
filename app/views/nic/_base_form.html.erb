@@ -23,9 +23,9 @@
               :class => :interface_name,
               :size => "col-md-8", :label_size => "col-md-3" %>
 <% if SETTINGS[:unattended] %>
-  <%= select_f f, :domain_id, accessible_resource(f.object, :domain), :id, :to_label,
-               { :include_blank => accessible_resource(f.object, :domain).any? ? true : _("No domains")},
-               { :disabled => accessible_resource(f.object, :domain).empty? ? true : false,
+  <%= select_f f, :domain_id, accessible_resource_for_select(f.object, :domain), :first, :last,
+               { :include_blank => accessible_resource_for_select(f.object, :domain).any? ? true : _("No domains")},
+               { :disabled => accessible_resource_for_select(f.object, :domain).empty? ? true : false,
                  :help_inline => :indicator,
                  :class => 'interface_domain', :'data-url' => domain_selected_hosts_path,
                  :size => "col-md-8", :label_size => "col-md-3" } %>

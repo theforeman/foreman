@@ -40,7 +40,7 @@
 
     <div class="tab-pane" id="network">
       <fieldset>
-        <%= select_f f, :domain_id, accessible_resource(@hostgroup, :domain), :id, :to_label, {:include_blank => blank_or_inherit_f(f, :domain)},
+        <%= select_f f, :domain_id, accessible_resource_for_select(@hostgroup, :domain), :first, :last, {:include_blank => blank_or_inherit_f(f, :domain)},
           {:help_inline => :indicator, :label => _("Domain"),
            :onchange => 'interface_domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
         <%= select_f f, :subnet_id, domain_subnets(:"Subnet::Ipv4"), :id, :to_label,
@@ -55,7 +55,7 @@
                      { :disabled => domain_subnets(:"Subnet::Ipv6").empty?,
                        :label    => _("IPv6 Subnet"),
                        :help_inline => :indicator } %>
-        <%= select_f f, :realm_id, accessible_resource(@hostgroup, :realms), :id, :to_label,
+        <%= select_f f, :realm_id, accessible_resource_for_select(@hostgroup, :realms), :first, :last,
                         {:include_blank => blank_or_inherit_f(f, :realm)}, {:label => _("Realm")} %>
       </fieldset>
     </div>

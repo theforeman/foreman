@@ -1,5 +1,5 @@
 <%= fields_for item do |f| %>
-  <%= select_f f, :operatingsystem_id, arch_oss, :id, :to_label,
+  <%= select_f f, :operatingsystem_id, arch_oss, :first, :last,
     {:selected => item.operatingsystem_id, :include_blank => blank_or_inherit_f(f, :operatingsystem)},
     { :label => _("Operating system"),
       :disabled => arch_oss.empty? ? true : false,

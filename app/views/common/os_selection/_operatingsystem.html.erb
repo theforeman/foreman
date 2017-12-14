@@ -1,11 +1,11 @@
 <%= fields_for item do |f| %>
-  <%= select_f f, :medium_id, os_media, :id, :to_label,
+  <%= select_f f, :medium_id, os_media, :first, :last,
     {:include_blank => blank_or_inherit_f(f, :medium), :selected => item.medium_id},
     {:label => _("Media"), :disabled => os_media.empty?,
      :help_inline => :indicator, :onchange => 'medium_selected(this);', :'data-url' => method_path('medium_selected'),
      :'data-type' => controller_name.singularize, :required => true }
   %>
-  <%= select_f f, :ptable_id, os_ptable, :id, :to_label,
+  <%= select_f f, :ptable_id, os_ptable, :first, :last,
     {:include_blank => blank_or_inherit_f(f, :ptable), :selected => item.ptable_id},
     {:label => _("Partition Table"), :disabled => os_ptable.empty?, :required => true}
   %>

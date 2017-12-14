@@ -2,19 +2,20 @@ module HostsAndHostgroupsHelper
   include AncestryHelper
 
   def domain_subnets(type)
-    accessible_related_resource(@domain, :subnets, :where => {:type => type})
+    # TODO: fix label
+    accessible_related_resource_for_select(@domain, :subnets, :where => {:type => type})
   end
 
   def arch_oss
-    accessible_related_resource(@architecture, :operatingsystems, order: :title)
+    accessible_related_resource_for_select(@architecture, :operatingsystems, order: :title)
   end
 
   def os_media
-    accessible_related_resource(@operatingsystem, :media)
+    accessible_related_resource_for_select(@operatingsystem, :media)
   end
 
   def os_ptable
-    accessible_related_resource(@operatingsystem, :ptables)
+    accessible_related_resource_for_select(@operatingsystem, :ptables)
   end
 
   def visible_compute_profiles(obj)
@@ -27,11 +28,11 @@ module HostsAndHostgroupsHelper
     # Don't show this if we have no Realms, otherwise always include blank
     # so the user can choose not to use a Realm on this host
     return unless (SETTINGS[:unattended] == true) && @host.managed
-    realms = accessible_resource(f.object, :realm)
+    realms = accessible_resource_for_select(f.object, :realm)
     return unless realms.present?
     select_f(f, :realm_id,
                 realms,
-                :id, :to_label,
+                :first, :last,
                 { :include_blank => true,
                   :disable_button => can_override ? _(INHERIT_TEXT) : nil,
                   :disable_button_enabled => override && !explicit_value?(:realm_id),

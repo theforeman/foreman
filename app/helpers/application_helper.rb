@@ -534,11 +534,24 @@ module ApplicationHelper
   end
 
   def accessible_resource(obj, resource, order = :name, association: resource)
-    list = accessible_resource_records(resource, order).to_a
+    klass = resource.to_s.classify.constantize
+
+    list = klass.unscoped.authorized
+
+    list = list.with_taxonomy_scope_override(@location, @organization) if klass.include? Taxonomix
+
     # we need to allow the current value even if it was filtered
-    current = obj.public_send(association) if obj.respond_to?(association)
-    list |= [current] if current.present?
-    list
+    if obj.respond_to?(association)
+      current = obj.public_send(association)
+      # match the unscope and readonly values from the left query
+      list = list.or(klass.unscoped.unscope(list.unscope_values).readonly(list.readonly_value).where(:id => current.id)) if current.present?
+    end
+
+    list.reorder(order)
+  end
+
+  def accessible_resource_for_select(obj, resource, order = :name, association: resource)
+    accessible_resource(obj, resource, order, association: association).pluck(:id, :name)
   end
 
   def accessible_related_resource(obj, relation, order: :name, where: nil)
@@ -546,6 +559,11 @@ module ApplicationHelper
     related = obj.public_send(relation)
     related = related.with_taxonomy_scope_override(@location, @organization) if obj.class.reflect_on_association(relation).klass.include?(Taxonomix)
     related.authorized.where(where).reorder(order)
+  end
+
+  def accessible_related_resource_for_select(obj, relation, order: :name, where: nil)
+    return [] if obj.blank?
+    accessible_related_resource(obj, relation, order: order, where: where).pluck(:id, :name)
   end
 
   def explicit_value?(field)
