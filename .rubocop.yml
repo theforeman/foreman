@@ -18,6 +18,10 @@ Rails:
 Style/ClassCheck:
   Enabled: false
 
+# Don't enforce certain methods, e.g. detect over find
+Style/CollectionMethods:
+  Enabled: false
+
 # Don't enforce documentation
 Style/Documentation:
   Enabled: false
