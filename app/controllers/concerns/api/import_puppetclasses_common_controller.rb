@@ -64,7 +64,6 @@ module Api::ImportPuppetclassesCommonController
           @changed[kind].slice!(@environment.name) unless @changed[kind].empty?
         end
       end
-
     rescue => e
       if e.message =~ /puppet feature/i
         msg = _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')

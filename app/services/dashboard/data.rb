@@ -35,6 +35,7 @@ class Dashboard::Data
   end
 
   private
+
   def fetch_data
     @report.update(
       {  :total_hosts               => hosts.size,

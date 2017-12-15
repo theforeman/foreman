@@ -6,6 +6,7 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
 
     class << self
       def belongs_to(name, options = {}); end
+
       def validates(name, options = {}); end
     end
 

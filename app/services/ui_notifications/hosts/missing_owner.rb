@@ -2,6 +2,7 @@ module UINotifications
   module Hosts
     class MissingOwner < UINotifications::Base
       private
+
       def create
         add_notification if update_notifications.zero?
       end

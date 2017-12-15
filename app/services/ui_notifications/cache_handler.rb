@@ -27,6 +27,7 @@ module UINotifications
     end
 
     private
+
     def logger
       @logger ||= Foreman::Logging.logger('notifications')
     end

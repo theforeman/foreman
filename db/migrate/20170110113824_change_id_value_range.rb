@@ -6,6 +6,7 @@ class ChangeIdValueRange < ActiveRecord::Migration[4.2]
       change_column :fact_values, :id, :bigint
     end
   end
+
   def self.down
     if ['mysql', 'mysql2', 'postgresql'].include? ActiveRecord::Base.connection.instance_values['config'][:adapter]
       change_column :logs, :id, :int

@@ -9,7 +9,6 @@ module Foreman::Controller::Environments
       opts[:env] = params[:env] unless params[:env].blank?
       @importer = PuppetClassImporter.new(opts)
       @changed  = @importer.changes
-
     rescue => e
       if e.message =~ /puppet feature/i
         error _("No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature")

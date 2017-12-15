@@ -16,6 +16,7 @@ class UINotificationsHostsMissingOwnerTest < ActiveSupport::TestCase
       UINotifications::Hosts::MissingOwner.deliver!(host)
     end
   end
+
   private
 
   def host
