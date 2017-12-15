@@ -278,6 +278,11 @@ module Api
 
     def not_found_if_nested_id_exists
       allowed_nested_id.each do |obj_id|
+        # this method does not reliably work when you have multiple parameters and some of them can be nil
+        # find_nested_object in such case returns nil (since org and loc can be nil for any context),
+        # but it detects other paramter which can have value set
+        # therefore we always skip these
+        next if [ 'organization_id', 'location_id' ].include?(obj_id)
         if params[obj_id].present?
           not_found _("%{resource_name} not found by id '%{id}'") % { :resource_name => obj_id.humanize, :id => params[obj_id] }
           return
