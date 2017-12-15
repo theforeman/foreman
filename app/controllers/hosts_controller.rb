@@ -203,7 +203,7 @@ class HostsController < ApplicationController
       respond_to do |format|
         # don't break lines in yaml to support Ruby < 1.9.3
         host_info_yaml = @host.info.to_yaml(:line_width => -1)
-        format.html { render :plain => "<pre>#{ERB::Util.html_escape(host_info_yaml)}</pre>" }
+        format.html { render :html => "<pre>#{ERB::Util.html_escape(host_info_yaml)}</pre>".html_safe }
         format.yml { render :plain => host_info_yaml }
       end
     rescue => e
