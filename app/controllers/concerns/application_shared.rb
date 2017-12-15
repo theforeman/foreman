@@ -109,7 +109,7 @@ module ApplicationShared
         not_found _("%{taxonomy} stored in session with id %{id} not found") % { :taxonomy => taxonomy.capitalize, :id => params["#{taxonomy}_id"] }
         return false
       else
-        warning _("%s you had selected as your context has been deleted") % taxonomy.capitalize unless api_request?
+        warning _("%s you had selected as your context has been deleted") % taxonomy.capitalize
       end
       session.delete("#{taxonomy}_id")
       determined_taxonomy = find_default_taxonomy(user, taxonomy)
