@@ -6,7 +6,7 @@ class RolesList
       {
         Role::MANAGER => { :permissions => base_manage_permissions + view_permissions + manage_organizations_permissions,
                            :description => 'Role granting all available permissions. With this role, user is able to do everything that admin can except for changing settings.' },
-        Role::ORG_ADMIN => { :permissions => base_manage_permissions + view_permissions - [:view_organizations],
+        Role::ORG_ADMIN => { :permissions => base_manage_permissions + view_permissions,
                              :description => 'Role granting all permissions except for managing organizations. It can be used to delegate administration of specific organization to a user. In order to create such role, clone this role and assign desired organizations' },
         'Edit partition tables' => { :permissions => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables], :description => 'Role granting permissions required for managin partition tables' },
         'View hosts' => { :permissions => [:view_hosts],
@@ -48,12 +48,19 @@ class RolesList
     end
 
     def base_manage_permissions
-      PermissionsList.permissions.reject { |resource, name| name.start_with?('view_') }.map { |p| p.last.to_sym } - manage_organizations_permissions
+      PermissionsList.permissions.reject { |resource, name| name.start_with?('view_') }.map { |p| p.last.to_sym } - manage_organizations_permissions - role_managements_permissions
     end
 
     def manage_organizations_permissions
       [
-        :create_organizations, :edit_organizations, :destroy_organizations, :assign_organizations
+        :create_organizations, :destroy_organizations
+      ]
+    end
+
+    def role_managements_permissions
+      [
+        :create_roles, :edit_roles, :destroy_roles,
+        :create_filters, :edit_filters, :destroy_filters,
       ]
     end
 

@@ -166,6 +166,12 @@ class ActionDispatch::IntegrationTest
     assert notification_messages['warning'].include?(message)
   end
 
+  def assert_form_tab(label)
+    within(%(label[for="#{label.singularize.underscore}_ids"])) do
+      assert page.has_content?(label)
+    end
+  end
+
   def notification_messages
     Hash[JSON.parse(page.find(:css, "div#notifications")['data-flash'])]
   end
