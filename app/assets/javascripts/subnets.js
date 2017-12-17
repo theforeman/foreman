@@ -76,15 +76,14 @@ function subnetCidrChanged(field) {
     setError(field, __("can't be blank"));
     return;
   }
+  var mask= '';
   if($('input[id^=subnet_type_]:checked').val() === 'Subnet::Ipv4') {
     if(!isInt(cidr) || (isInt(cidr) && (cidr < 1 || cidr > 32))) {
-      var mask = '';
       setError(field, __('is invalid'));
     } else {
-      var mask = cidrToNetmask(cidr);
+      mask = cidrToNetmask(cidr);
     }
   } else {
-    var mask = '';
     if(!isInt(cidr) || (isInt(cidr) && (cidr < 1 || cidr > 128))) {
       setError(field, __('is invalid'));
     }

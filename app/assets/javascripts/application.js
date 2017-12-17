@@ -19,6 +19,8 @@
 //= require editable/rails
 //= require compute_resource
 
+/** global: tfm */
+
 $(document).on("page:fetch", function() {
   tfm.tools.showSpinner();
   tfm.nav.activate();
@@ -32,7 +34,12 @@ $(function() {
 });
 
 function onContentLoad(){
-  uninitialized_autocompletes = $.grep($('.autocomplete-input'), function(i){ return !$(i).next().hasClass('autocomplete-clear'); });
+  var uninitialized_autocompletes = $.grep($('.autocomplete-input'), function(i) {
+    return !$(i)
+      .next()
+      .hasClass('autocomplete-clear');
+  });
+
   if (uninitialized_autocompletes.length > 0) {
     $.each(uninitialized_autocompletes, function(i, input) {$(input).scopedSearch({'delay': 250})});
     $('.ui-helper-hidden-accessible').remove();
@@ -97,7 +104,7 @@ function onContentLoad(){
   $('.full-value').SelectOnClick();
   activate_select2(':root');
 
-  $('input.remove_form_templates').closest('form').submit(function(event) {
+  $('input.remove_form_templates').closest('form').submit(function() {
     $(this).find('.form_template').remove()
   })
 }
@@ -171,9 +178,9 @@ $(document).ready(function() {
 
 
 function toggleCheckboxesBySelector(selector) {
-  boxes = $(selector);
+  var boxes = $(selector);
   var all_checked = true;
-  for (i = 0; i < boxes.length; i++) { if (!boxes[i].checked) { all_checked = false; } }
+  for (var i = 0; i < boxes.length; i++) { if (!boxes[i].checked) { all_checked = false; } }
   for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
 }
 
@@ -189,19 +196,19 @@ function toggleRowGroup(el) {
 
 function template_info(div, url) {
   // Ignore method as PUT redirects to host page if used on update
-  form = $("form :input[name!='_method']").serialize();
-  build = $('input:radio[name$="[provision_method]"]:checked').val();
+  var form = $("form :input[name!='_method']").serialize();
+  var build = $('input:radio[name$="[provision_method]"]:checked').val();
   $(div).html(spinner_placeholder());
   // Use a post to avoid request URI too large issues with big forms
   $.ajax({
     type: "POST",
     url: url + ((url.indexOf('?') == -1) ? '?' : '&') + "provisioning=" + build,
     data: form,
-    success: function(response, status, xhr) {
+    success: function(response) {
       $(div).html(response);
       activate_select2(div);
     },
-    error: function(jqXHR, textStatus, errorThrown) {
+    error: function() {
       $(div).html('<div class="alert alert-warning alert-dismissable">' +
           tfm.tools.iconText("warning-triangle-o", "", "pficon") +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
@@ -221,47 +228,13 @@ $(function() {
     $("#bookmarks-modal .modal-body").empty();
     $("#bookmarks-modal .modal-body").append("<span id='loading'>" + __('Loading ...') + "</span>");
     $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
-                                           function(response, status, xhr) {
+                                           function() {
                                              $("#loading").hide();
                                              $("#bookmarks-modal .modal-body .btn").hide()
                                            });
   });
 
 });
-
-function filter_by_level(item){
-  var level = $(item).val();
-
-  // Note that class names don't map to log level names (label-info == notice)
-  if(level == 'info'){
-    $('.label-info.result-filter-tag, ' +
-       '.label-default.result-filter-tag, ' +
-       '.label-warning.result-filter-tag, ' +
-       '.label-danger.result-filter-tag, ' +
-       '.label-success.result-filter-tag').closest('tr').show();
-  }
-  if(level == 'notice'){
-    $('.label-info.result-filter-tag, .label-warning.result-filter-tag, .label-danger.result-filter-tag').closest('tr').show();
-    $('.label-default.result-filter-tag, .label-success.result-filter-tag').closest('tr').hide();
-  }
-  if(level == 'warning'){
-    $('.label-warning.result-filter-tag, .label-danger.result-filter-tag').closest('tr').show();
-    $('.label-info.result-filter-tag, .label-default.result-filter-tag, .label-success.result-filter-tag').closest('tr').hide();
-  }
-  if(level == 'error'){
-    $('.label-danger.result-filter-tag').closest('tr').show();
-    $('.label-info.result-filter-tag, ' +
-      '.label-default.result-filter-tag, ' +
-      '.label-warning.result-filter-tag, ' +
-      '.label-success.result-filter-tag').closest('tr').hide();
-  }
-  if($("#report_log tr:visible ").length ==1 || $("#report_log tr:visible ").length ==2 && $('#ntsh:visible').length > 0 ){
-    $('#ntsh').show();
-  }
-  else{
-    $('#ntsh').hide();
-  }
-}
 
 function auth_source_selected(){
   var auth_source_id = $('#user_auth_source_id').val();
@@ -281,24 +254,26 @@ function show_release(element){
   }
 }
 // return a hash with values of all attributes
-function attribute_hash(attributes){
+function attribute_hash(attributes) {
   var attrs = {};
-  for (i=0;i < attributes.length; i++) {
-    var attr = $('*[id$='+attributes[i]+']');
+  for (var i = 0; i < attributes.length; i++) {
+    var attr = $('*[id$=' + attributes[i] + ']');
     if (attr.length > 0) {
-      if(attr.attr("type")=="checkbox"){
+      if (attr.attr('type') == 'checkbox') {
         attrs[attributes[i]] = [];
-        $("*[id*="+attributes[i]+"]:checked").each(function(index,item){
+        $('*[id*=' + attributes[i] + ']:checked').each(function(index, item) {
           attrs[attributes[i]].push($(item).val());
-        })
+        });
       } else {
         if (attr.length > 1) {
           // select2 adds a div, so now we have a select && div
-          attrs[attributes[i]] = $($.grep(attr, function(a) {
-            return $(a).is("select");
-          })).val();
-        } else {
-          if (attr.val() != null) attrs[attributes[i]] = attr.val();
+          attrs[attributes[i]] = $(
+            $.grep(attr, function(a) {
+              return $(a).is('select');
+            }),
+          ).val();
+        } elsif (attr.val() != null) {
+          attrs[attributes[i]] = attr.val();
         }
       }
     }
@@ -319,54 +294,32 @@ $(function() {
   });
 });
 
-function update_puppetclasses(element) {
-  var host_id = $("form").data('id');
-  var url = $(element).attr('data-url');
-  var data = serializeForm().replace('method=patch', 'method=post');
-
-  if (element.value == '') return;
-  if (url.match('hostgroups')) {
-    data = data + '&hostgroup_id=' + host_id
-  } else {
-    data = data + '&host_id=' + host_id
-  }
-
-  tfm.tools.showSpinner();
-  $.ajax({
-    type: 'post',
-    url:  url,
-    data: data,
-    success: function(request) {
-      $('#puppet_klasses').html(request);
-      reload_puppetclass_params();
-      tfm.tools.activateTooltips();
-      tfm.hostgroups.checkForUnavailablePuppetclasses();
-    },
-    complete: function() {
-      reloadOnAjaxComplete(element);
-    }
-  })
-}
-
 // generates an absolute, needed in case of running Foreman from a subpath
 function foreman_url(path) {
   return URL_PREFIX + path;
 }
 
-function spinner_placeholder(text){
-  if (text == undefined) text = "";
-  return "<div class='spinner-placeholder'><p class='spinner-label'>" + text + "</p><div id='Loading' class='spinner spinner-md spinner-inline'> </div></div>";
+function spinner_placeholder(text) {
+  if (text == undefined) {
+    text = '';
+  }
+  return (
+    "<div class='spinner-placeholder'><p class='spinner-label'>" +
+    text +
+    "</p><div id='Loading' class='spinner spinner-md spinner-inline'> </div></div>"
+  );
 }
 
 function typeToIcon(type) {
-  switch(type)
-  {
-  case 'success':
-    return tfm.tools.iconText("ok", __('Success') + ": ", "pficon")
-  case 'warning':
-    return tfm.tools.iconText("warning-triangle-o", __('Warning') + ": ", "pficon")
-  case 'danger':
-    return tfm.tools.iconText("error-circle-o", __('Error') + ": ", "pficon")
+  switch (type) {
+    case 'success':
+      return tfm.tools.iconText('ok', __('Success') + ': ', 'pficon');
+    case 'warning':
+      return tfm.tools.iconText('warning-triangle-o', __('Warning') + ': ', 'pficon');
+    case 'danger':
+      return tfm.tools.iconText('error-circle-o', __('Error') + ': ', 'pficon');
+    default:
+      return undefined;
   }
 }
 
@@ -401,19 +354,18 @@ function setPowerState(item, status){
 }
 
 function toggle_input_group(item) {
-  item =  $(item);
+  item = $(item);
   var formControl = item.closest('.input-group').find('.form-control');
-  if ($(formControl).is(':disabled') ) {
+  if ($(formControl).is(':disabled')) {
     $(formControl).prop('disabled', false);
-    $(formControl).attr("placeholder", "");
+    $(formControl).attr('placeholder', '');
     $(item).blur();
-  }
-  else
+  } else {
     $(formControl).prop('disabled', true);
+  }
 }
-
-function reloadOnAjaxComplete(element) {
-  tfm.tools.hideSpinner()
+function reloadOnAjaxComplete() {
+  tfm.tools.hideSpinner();
   tfm.tools.activateTooltips();
   activate_select2(':root');
 }

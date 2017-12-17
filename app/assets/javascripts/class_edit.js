@@ -1,3 +1,6 @@
+/** global: tfm */
+/** global: Jed */
+
 function filter_puppet_classes(item){
   var term = $(item).val().trim();
   var class_elems = $('.available_classes').find('.puppetclass_group, .puppetclass');
@@ -35,7 +38,6 @@ function add_puppet_class(item){
 
 function add_group_puppet_class(item){
   var id = $(item).attr('data-class-id');
-  var type = $(item).attr('data-type');
   $(item).tooltip('hide');
   var content = $(item).closest('li').clone();
   content.attr('id', 'selected_puppetclass_'+ id);
@@ -68,7 +70,9 @@ function remove_puppet_class(item){
   $('#puppetclass_' + id + '_params_loading').remove();
   $('[id^="puppetclass_' + id + '_params\\["]').remove();
   $('#params-tab').removeClass("tab-error");
-  if ($("#params").find('.form-group.error').length > 0) $('#params-tab').addClass('tab-error');
+  if ($("#params").find('.form-group.error').length > 0) {
+    $('#params-tab').addClass('tab-error');
+  }
 
   return false;
 }
@@ -142,4 +146,35 @@ function removeIconIfEmpty(element, ul_id) {
   if ($(ul_id).children(':visible').length == 0) {
     element.find('i').hide();
   }
+}
+
+function update_puppetclasses(element) {
+  var host_id = $('form').data('id');
+  var url = $(element).attr('data-url');
+  var data = serializeForm().replace('method=patch', 'method=post');
+
+  if (element.value == '') {
+    return;
+  }
+  if (url.match('hostgroups')) {
+    data = data + '&hostgroup_id=' + host_id;
+  } else {
+    data = data + '&host_id=' + host_id;
+  }
+
+  tfm.tools.showSpinner();
+  $.ajax({
+    type: 'post',
+    url: url,
+    data: data,
+    success: function(request) {
+      $('#puppet_klasses').html(request);
+      reload_puppetclass_params();
+      tfm.tools.activateTooltips();
+      tfm.hostgroups.checkForUnavailablePuppetclasses();
+    },
+    complete: function() {
+      reloadOnAjaxComplete(element);
+    },
+  });
 }
