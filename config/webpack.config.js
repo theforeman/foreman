@@ -2,6 +2,7 @@
 'use strict';
 
 var path = require('path');
+var fs = require('fs');
 var webpack = require('webpack');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -22,6 +23,11 @@ var resolveModules = [  path.join(__dirname, '..', 'webpack'),
                         path.join(__dirname, '..', 'node_modules'),
                         'node_modules/',
                      ].concat(pluginUtils.pluginNodeModules(plugins));
+
+// Detect supported locales from folders in ./locale/
+const localeDir = path.join(__dirname, '..', 'locale')
+const localeSubdirs = [ ...new Set(fs.readdirSync(localeDir).filter(f => fs.statSync(path.join(localeDir, f)).isDirectory())) ];
+const supportedLocales = localeSubdirs.map(d => d.split('_')[0]).join('|')
 
 var config = {
   entry: Object.assign(
@@ -66,7 +72,8 @@ var config = {
           'plugins': [
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-class-properties'),
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
-            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign')
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign'),
+            path.join(__dirname, '..', 'node_modules/babel-plugin-syntax-dynamic-import')
           ]
         }
       },
@@ -117,8 +124,17 @@ var config = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
-    })
-
+    }),
+    // limit locales from intl only to supported ones
+    new webpack.ContextReplacementPlugin(
+      /intl\/locale-data\/jsonp/,
+      new RegExp(`/(${supportedLocales})$`)
+    ),
+    // limit locales from react-intl only to supported ones
+    new webpack.ContextReplacementPlugin(
+      /react-intl\/locale-data/,
+      new RegExp(`/(${supportedLocales})$`)
+    )
   ]
 };
 
