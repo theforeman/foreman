@@ -32,6 +32,9 @@ gem 'rails-i18n', '~> 5.0.0'
 gem 'turbolinks', '>= 2.5.4', '< 3'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '1.45.0'
+# lib/foreman/http_proxy/excon_connection_extension.rb is not compatible
+# with excon 0.60, see https://projects.theforeman.org/issues/21997
+gem 'excon', '~> 0.58', '< 0.60'
 gem 'net-scp'
 gem 'net-ssh'
 gem 'net-ldap', '>= 0.8.0'
