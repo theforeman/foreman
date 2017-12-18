@@ -15,8 +15,9 @@
         <% when Menu::Item %>
           <%= menu_secondary_item item %>
         <% when Menu::Divider %>
-          <%= content_tag(:div, "", :class => "divider") %>
-          <%= content_tag(:span, _(item.caption), :class => "nav-item-pf-header") if item.caption %>
+          <%= content_tag(:li, :class => "list-group-item") do %>
+            <%= content_tag(:span, _(item.caption), :class => "vertical-sub-header") if item.caption %></a>
+          <% end %>
         <% when Menu::Toggle %>
           <%= content_tag :li, :class => "dropdown-submenu" do %>
             <%= link_to(_(item.caption), "#", :class => "dropdown-toggle", :"data-toggle" => "dropdown") %>
