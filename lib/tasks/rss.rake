@@ -35,7 +35,7 @@ END_DESC
       :url => ENV['FOREMAN_RSS_URL'],
       :latest_posts => ENV['FOREMAN_RSS_LATEST_POSTS'],
       :audience => ENV['FOREMAN_RSS_AUDIENCE'],
-      :force_repost => ENV['FOREMAN_RSS_FORCE_REPOST'] == 'true',
+      :force_repost => ENV['FOREMAN_RSS_FORCE_REPOST'] == 'true'
     )
     rss_checker.deliver!
   end
