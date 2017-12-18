@@ -28,7 +28,7 @@ export function templateSelected(item) {
         $('#storage_volumes .children_fields >.fields').remove();
         $.each(result.volumes, function () {
           // Change variable name because 'interface' is a reserved keyword.
-          this.disk_interface = this.interface;
+          this.disk_interface = this['interface'];
           addVolume(this);
         });
         const templateSelector = $('#host_compute_attributes_template');

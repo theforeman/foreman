@@ -19,8 +19,6 @@ require('./bundle_select2');
 require('./bundle_datatables');
 
 import compute from './foreman_compute_resource';
-import componentRegistry from './react_app/components/componentRegistry';
-import { locale, timezone } from './react_app/common/i18n';
 
 window.tfm = Object.assign(window.tfm || {}, {
   tools: require('./foreman_tools'),
@@ -37,9 +35,4 @@ window.tfm = Object.assign(window.tfm || {}, {
   editor: require('./foreman_editor'),
   nav: require('./foreman_navigation'),
   medium: require('./foreman_medium'),
-  componentRegistry,
-  i18n: {
-    locale,
-    timezone,
-  },
 });
