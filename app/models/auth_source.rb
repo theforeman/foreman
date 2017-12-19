@@ -17,6 +17,19 @@
 
 class AuthSource < ApplicationRecord
   include Authorizable
+
+  has_many Taxonomix::TAXONOMY_JOIN_TABLE, :dependent => :destroy, :as => :taxable
+  has_many :locations, -> { where(:type => 'Location') },
+           :through => Taxonomix::TAXONOMY_JOIN_TABLE, :source => :taxonomy,
+           :validate => false
+  has_many :organizations, -> { where(:type => 'Organization') },
+           :through => Taxonomix::TAXONOMY_JOIN_TABLE, :source => :taxonomy,
+           :validate => false
+  scoped_search :relation => :locations, :on => :name, :rename => :location, :complete_value => true, :only_explicit => true
+  scoped_search :relation => :locations, :on => :id, :rename => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+  scoped_search :relation => :organizations, :on => :name, :rename => :organization, :complete_value => true, :only_explicit => true
+  scoped_search :relation => :organizations, :on => :id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+
   scoped_search :on => :name, :complete_value => :true
 
   audited
@@ -28,8 +41,8 @@ class AuthSource < ApplicationRecord
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
 
-  scope :non_internal, -> { where("type NOT IN (?)", ['AuthSourceInternal', 'AuthSourceHidden']) }
-  scope :except_hidden, -> { where('type <> ?', 'AuthSourceHidden') }
+  scope :non_internal, -> { where("auth_sources.type NOT IN (?)", ['AuthSourceInternal', 'AuthSourceHidden']) }
+  scope :except_hidden, -> { where('auth_sources.type <> ?', 'AuthSourceHidden') }
 
   def authenticate(login, password)
   end
