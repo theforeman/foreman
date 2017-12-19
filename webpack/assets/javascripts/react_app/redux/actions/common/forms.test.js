@@ -39,7 +39,7 @@ describe('form actions', () => {
 
     const store = mockStore({ resources: [] });
 
-    store
+    return store
       .dispatch(submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' }))
       .then(() => {
         throw new Error('Should not hit this then block - test was set up incorrectly');
@@ -55,7 +55,7 @@ describe('form actions', () => {
 
     const store = mockStore({ resources: [] });
 
-    store
+    return store
       .dispatch(submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' }))
       .then(() => {
         throw new Error('Should not hit this then block - test was set up incorrectly');
@@ -72,7 +72,7 @@ describe('form actions', () => {
 
     const store = mockStore({ resources: [] });
 
-    store
+    return store
       .dispatch(submitForm({ values: { a: 1 }, url: 'http://localhost/api/resource', item: 'Resource' }))
       .then(() => {
         throw new Error('Should not hit this then block - test was set up incorrectly');
