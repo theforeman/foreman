@@ -149,10 +149,10 @@ module Orchestration::DHCP
   def queue_dhcp_update
     return unless dhcp_update_required?
     logger.debug("Detected a changed required for DHCP record")
-    queue.create(:name => _("Remove DHCP Settings for %s") % old, :priority => 5,
-                 :action => [old, :del_dhcp]) if old.dhcp?
-    queue.create(:name   => _("Create DHCP Settings for %s") % self, :priority => 9,
-                 :action => [self, :set_dhcp]) if dhcp?
+    remove_name = _("Remove DHCP Settings for %s") % old
+    create_name = _("Create DHCP Settings for %s") % self
+    queue.create(:name => remove_name, :priority => 5, :action => [old, :del_dhcp]) if old.dhcp? && queue.items.select{|t| t.name == remove_name}.empty?
+    queue.create(:name => create_name, :priority => 9, :action => [self, :set_dhcp]) if dhcp? && queue.items.select{|t| t.name == create_name}.empty?
   end
 
   # do we need to update our dhcp reservations
