@@ -22,7 +22,7 @@ class UsergroupsController < ApplicationController
       process_error
     end
   rescue => e
-    external_usergroups_error(e)
+    external_usergroups_error(@usergroup, e)
     process_error
   end
 

@@ -6,10 +6,12 @@ class ExternalUsergroupsController < ApplicationController
   def refresh
     if @external_usergroup.refresh
       notice _("External user group %{name} refreshed") % { :name => @external_usergroup.name }
+      redirect_to usergroups_path
     else
       message = _("External user group %{name} could not be refreshed.") % { :name => @external_usergroup.name }
       message += ' ' + @external_usergroup.errors.full_messages.join('. ') if @external_usergroup.errors.present?
       warning message
+      process_error :redirect => edit_usergroup_url(@external_usergroup.usergroup)
     end
   rescue => e
     external_usergroups_error(@external_usergroup, e)
