@@ -377,8 +377,14 @@ a.btn-info span {
   }
 }
 
-.container-pf-nav-pf-vertical.hide-nav-pf {
-  display: none !important;
+span.btn-action a {
+  display: block;
+  margin: -2px -6px;
+  padding: 2px 6px;
+}
+
+span.btn-action.btn-primary a {
+  color: #fff;
 }
 
 .vertical-sub-header {
