@@ -1364,7 +1364,8 @@ class HostTest < ActiveSupport::TestCase
         { :name => "dummy-bootable2", :ip => "2.3.4.103",
           :mac => "aa:bb:cd:cd:ee:ff", :subnet_id => host.subnet_id,
           :type => 'Nic::Managed', :domain_id => host.domain_id,
-          :provision => true } ]
+          :provision => true }
+      ]
       refute host.valid?
       assert_equal ['host already has provision interface'], host.errors['interfaces.provision']
       assert_equal 1, host.interfaces.count

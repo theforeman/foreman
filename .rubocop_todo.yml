@@ -78,13 +78,6 @@ Layout/IndentHeredoc:
 Layout/LeadingCommentSpace:
   Enabled: false
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: symmetrical, new_line, same_line
-Layout/MultilineArrayBraceLayout:
-  Enabled: false
-
 # Offense count: 181
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -246,7 +239,7 @@ Metrics/AbcSize:
 # Offense count: 303
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
-  Max: 1329
+  Max: 1330
 
 # Offense count: 12
 # Configuration parameters: CountBlocks.
@@ -256,7 +249,7 @@ Metrics/BlockNesting:
 # Offense count: 54
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 760
+  Max: 763
 
 # Offense count: 148
 Metrics/CyclomaticComplexity:

@@ -251,8 +251,10 @@ module HostsHelper
   def overview_fields(host)
     global_status = host.build_global_status
     fields = [
-      [_("Status"), content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
-                    content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
+      [
+        _("Status"),
+        content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
+          content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
       ]
     ]
     fields += host_detailed_status_list(host)
@@ -384,7 +386,8 @@ module HostsHelper
   end
 
   def show_appropriate_host_buttons(host)
-    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
+    [
+      link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
       (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default') if host.fact_values.any?),
       (link_to_if_authorized(_("Reports"), hash_for_host_config_reports_path(:host_id => host), :title => _("Browse host config management reports"), :class => 'btn btn-default') if host.reports.any?),
       (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
