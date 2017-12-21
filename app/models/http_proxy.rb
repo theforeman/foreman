@@ -3,6 +3,8 @@ class HttpProxy < ApplicationRecord
   include Taxonomix
   include Encryptable
 
+  audited
+
   extend FriendlyId
 
   encrypts :password
