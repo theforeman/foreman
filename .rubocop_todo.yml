@@ -83,12 +83,6 @@ Layout/FirstParameterIndentation:
 Layout/IndentArray:
   EnforcedStyle: consistent
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: IndentationWidth.
-Layout/IndentAssignment:
-  Enabled: false
-
 # Offense count: 31
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
