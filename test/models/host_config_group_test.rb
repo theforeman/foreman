@@ -7,13 +7,13 @@ class HostConfigGroupTest < ActiveSupport::TestCase
 
   test 'relationship host.group_puppetclasses' do
     host = FactoryBot.create(:host, :config_groups => [
-      FactoryBot.create(:config_group, :puppetclasses => [
-        puppetclasses(:five),
-        puppetclasses(:six),
-        puppetclasses(:seven),
-        puppetclasses(:eight)
-      ])
-    ])
+                               FactoryBot.create(:config_group, :puppetclasses => [
+                                                   puppetclasses(:five),
+                                                   puppetclasses(:six),
+                                                   puppetclasses(:seven),
+                                                   puppetclasses(:eight)
+                                                 ])
+                             ])
     assert_equal 4, host.group_puppetclasses.count
     assert_equal ['auth', 'chkmk', "nagios", 'pam'].sort, host.group_puppetclasses.pluck(:name).sort
   end
