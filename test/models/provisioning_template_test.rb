@@ -222,9 +222,9 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
 
     test "#metadata should include OSes and kind" do
       template = FactoryBot.build(:provisioning_template, :operatingsystems => [
-        FactoryBot.create(:operatingsystem, :name => 'CentOS'),
-        FactoryBot.create(:operatingsystem, :name => 'CentOS'),
-        FactoryBot.create(:operatingsystem, :name => 'Fedora')])
+                                    FactoryBot.create(:operatingsystem, :name => 'CentOS'),
+                                    FactoryBot.create(:operatingsystem, :name => 'CentOS'),
+                                    FactoryBot.create(:operatingsystem, :name => 'Fedora')])
 
       lines = template.metadata.split("\n")
       assert_includes lines, '- CentOS'
