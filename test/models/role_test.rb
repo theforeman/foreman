@@ -1,4 +1,3 @@
-# encoding: utf-8
 # redMine - project management software
 # Copyright (C) 2006-2008  Jean-Philippe Lang
 #
