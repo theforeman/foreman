@@ -132,13 +132,13 @@ module FormHelper
 
       if disable_button
         button_part =
-            content_tag :span, class: 'input-group-btn' do
-              content_tag(:button, disable_button, :type => 'button', :href => '#',
-                          :name => 'is_overridden_btn',
-                          :onclick => "disableButtonToggle(this)",
-                          :class => 'btn btn-default btn-can-disable' + (disable_button_enabled ? ' active' : ''),
-                          :data => { :toggle => 'button', :explicit => user_set })
-            end
+          content_tag :span, class: 'input-group-btn' do
+            content_tag(:button, disable_button, :type => 'button', :href => '#',
+                        :name => 'is_overridden_btn',
+                        :onclick => "disableButtonToggle(this)",
+                        :class => 'btn btn-default btn-can-disable' + (disable_button_enabled ? ' active' : ''),
+                        :data => { :toggle => 'button', :explicit => user_set })
+          end
 
         input_group collection_select, button_part
       else
