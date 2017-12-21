@@ -2,7 +2,7 @@ module IPAM
   # Internal DB IPAM returning all IPs in random order to minimize race conditions
   class RandomDb < Base
     def generator
-       @generator ||= Random.new(mac ? mac.delete(':').to_i(16) : Random.new_seed)
+      @generator ||= Random.new(mac ? mac.delete(':').to_i(16) : Random.new_seed)
     end
 
     def random_ip

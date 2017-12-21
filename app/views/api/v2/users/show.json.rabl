@@ -24,7 +24,7 @@ end
 child :usergroups do
   extends "api/v2/usergroups/base"
   child :roles do
-      extends "api/v2/roles/base"
+    extends "api/v2/roles/base"
   end
 end
 

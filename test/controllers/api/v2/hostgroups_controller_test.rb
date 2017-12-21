@@ -126,11 +126,11 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     end
 
     test "should show a group parameter as unhidden when show_hidden_parameters is true" do
-       hostgroup = FactoryBot.create(:hostgroup)
-       hostgroup.group_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
-       get :show, params: { :id => hostgroup.id, :show_hidden_parameters => 'true' }
-       show_response = ActiveSupport::JSON.decode(@response.body)
-       assert_equal 'bar', show_response['parameters'].first['value']
+      hostgroup = FactoryBot.create(:hostgroup)
+      hostgroup.group_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
+      get :show, params: { :id => hostgroup.id, :show_hidden_parameters => 'true' }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 'bar', show_response['parameters'].first['value']
     end
   end
 

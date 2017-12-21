@@ -73,8 +73,8 @@ class LookupValue < ApplicationRecord
     return if !self.value.is_a?(String) || value.contains_erb?
     Foreman::Parameters::Caster.new(self, :attribute_name => :value, :to => lookup_key.key_type).cast!
   rescue StandardError, SyntaxError => e
-      Foreman::Logging.exception("Error while parsing #{lookup_key}", e)
-      errors.add(:value, _("is invalid %s") % lookup_key.key_type)
+    Foreman::Logging.exception("Error while parsing #{lookup_key}", e)
+    errors.add(:value, _("is invalid %s") % lookup_key.key_type)
   end
 
   def ensure_fqdn_exists
