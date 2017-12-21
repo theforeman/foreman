@@ -47,7 +47,7 @@ namespace :puppet do
   namespace :import do
     desc "
     Update puppet environments and classes. Optional batch flag triggers run with no prompting\nUse proxy=<proxy name> to import from or get the first one by default"
-    task :puppet_classes,  [:batch, :envname] => :environment do | t, args |
+    task :puppet_classes,  [:batch, :envname] => :environment do |t, args|
       User.as_anonymous_admin do
         args.batch = args.batch == "true"
         proxies = SmartProxy.with_features("Puppet")
@@ -135,7 +135,7 @@ namespace :puppet do
     end
 
     desc "Imports only the puppet environments from SmartProxy source."
-    task :environments_only, [:batch] => :environment do | t, args |
+    task :environments_only, [:batch] => :environment do |t, args|
       User.as_anonymous_admin do
         args.batch = args.batch == "true"
         puts " ================================================================ "
