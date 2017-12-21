@@ -5,7 +5,13 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import BookmarksContainer from './';
-import { initialState, afterSuccess } from './bookmarks.fixtures';
+import {
+  initialState,
+  afterSuccess,
+  afterSuccessNoResults,
+  afterRequest,
+  afterError,
+} from './bookmarks.fixtures';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -31,6 +37,30 @@ function setup() {
 describe('bookmarks', () => {
   it('empty state', () => {
     const { wrapper } = setup();
+
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
+
+  it('should show loading spinner when loading bookmarks', () => {
+    const wrapper = mount(<Provider store={mockStore(afterRequest)}>
+        <BookmarksContainer {...setup().props} />
+      </Provider>);
+
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
+
+  it('should show an error message if loading failed', () => {
+    const wrapper = mount(<Provider store={mockStore(afterError)}>
+        <BookmarksContainer {...setup().props} />
+      </Provider>);
+
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
+
+  it('should show no bookmarks if server did not respond with any', () => {
+    const wrapper = mount(<Provider store={mockStore(afterSuccessNoResults)}>
+        <BookmarksContainer {...setup().props} />
+      </Provider>);
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });

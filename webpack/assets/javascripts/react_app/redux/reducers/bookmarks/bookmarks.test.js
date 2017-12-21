@@ -4,6 +4,7 @@ import {
   initialState,
   afterRequest,
   afterSuccess,
+  afterError,
   bookmarks,
   afterModalOpen,
 } from './bookmarks.fixtures';
@@ -23,6 +24,12 @@ describe('bookmark reducers', () => {
       type: types.BOOKMARKS_SUCCESS,
       payload: { controller: 'hosts', results: bookmarks },
     })).toEqual(afterSuccess);
+  });
+  it('should set error state on BOOKMARKS_FAILURE action', () => {
+    expect(reducer(afterRequest, {
+      type: types.BOOKMARKS_FAILURE,
+      payload: { item: { controller: 'hosts' }, error: 'Oops' },
+    })).toEqual(afterError);
   });
   it('should set form query on BOOKMARKS_MODAL_OPENED', () => {
     expect(reducer(afterSuccess, {
