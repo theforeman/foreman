@@ -9,7 +9,7 @@ class FactsController < ApplicationController
     @fact = FactName.find(params[:id])
     begin
       data = {:name => CGI.escapeHTML(@fact.name),
-              :values => FactValue.count_each(@fact.name).to_a.each{|v|v[:label]=CGI.escapeHTML(v[:label])}}
+              :values => FactValue.count_each(@fact.name).to_a.each{|v| v[:label]=CGI.escapeHTML(v[:label])}}
     rescue
       data = @fact
     end

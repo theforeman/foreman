@@ -123,13 +123,6 @@ Layout/MultilineOperationIndentation:
 Layout/SpaceAfterComma:
   Enabled: false
 
-# Offense count: 10
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleInsidePipes.
-# SupportedStylesInsidePipes: space, no_space
-Layout/SpaceAroundBlockParameters:
-  Enabled: false
-
 # Offense count: 904
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment.

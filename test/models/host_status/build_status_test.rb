@@ -12,10 +12,12 @@ class BuildStatusTest < ActiveSupport::TestCase
   end
 
   # waiting_for_build?, token_expired?, expectation
-  [ [true,  false, 'Pending installation'],
+  [
+    [true,  false, 'Pending installation'],
     [true,  true,  'Token expired'],
     [false, true,  'Installed'],
-    [false, false, 'Installed'] ].each do | waiting_for_build, token_expired, expectation |
+    [false, false, 'Installed']
+  ].each do |waiting_for_build, token_expired, expectation|
     test "#to_label reflects waiting_for_build? = #{waiting_for_build} and token_expired? = #{token_expired}" do
       @status.stub(:waiting_for_build?, waiting_for_build) do
         @status.stub(:token_expired?, token_expired) do
