@@ -835,18 +835,18 @@ class UserTest < ActiveSupport::TestCase
     assert_empty u.cached_usergroups
   end
 
-#  Uncomment after users get access to children taxonomies of their current taxonomies.
-#
-#  test 'default taxonomy inclusion validator takes into account inheritance' do
-#    inherited_location     = Location.create(:parent => Location.first, :name => 'inherited_loc')
-#    inherited_organization = Organization.create(:parent => Organization.first, :name => 'inherited_org')
-#    users(:one).update_attribute(:locations, [Location.first])
-#    users(:one).update_attribute(:organizations, [Organization.first])
-#    users(:one).default_location     = Location.find_by_name('inherited_loc')
-#    users(:one).default_organization = Organization.find_by_name('inherited_org')
-#
-#    assert users(:one).valid?
-#  end
+  #  Uncomment after users get access to children taxonomies of their current taxonomies.
+  #
+  #  test 'default taxonomy inclusion validator takes into account inheritance' do
+  #    inherited_location     = Location.create(:parent => Location.first, :name => 'inherited_loc')
+  #    inherited_organization = Organization.create(:parent => Organization.first, :name => 'inherited_org')
+  #    users(:one).update_attribute(:locations, [Location.first])
+  #    users(:one).update_attribute(:organizations, [Organization.first])
+  #    users(:one).default_location     = Location.find_by_name('inherited_loc')
+  #    users(:one).default_organization = Organization.find_by_name('inherited_org')
+  #
+  #    assert users(:one).valid?
+  #  end
 
   test "#matching_password? succeeds if password matches" do
     u = FactoryBot.build(:user)

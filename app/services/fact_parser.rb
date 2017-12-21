@@ -180,7 +180,7 @@ class FactParser
     interfaces.map(&:downcase)
   end
 
-# creating if iface_facts[:link] == 'true' && Net::Validations.normalize_mac(iface_facts[:macaddress]) != @host.mac
+  # creating if iface_facts[:link] == 'true' && Net::Validations.normalize_mac(iface_facts[:macaddress]) != @host.mac
 
   def not_implemented_error(method)
     "#{method} fact parsing not implemented in #{self.class}"

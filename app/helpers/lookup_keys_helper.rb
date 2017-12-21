@@ -23,7 +23,7 @@ module LookupKeysHelper
     elsif f.object.puppet? && f.object.param_class
       text_f(f, :puppetclass_id, :label => _('Puppet Class'), :value => f.object.param_class, :disabled => true)
     else # new smart-var with no particular context
-         # Give a select for choosing the parent puppetclass
+      # Give a select for choosing the parent puppetclass
       puppetclasses = accessible_resource(f.object, :puppetclass)
       select_f(f, :puppetclass_id, puppetclasses, :id, :to_label, { :include_blank => true }, {:label => _("Puppet class")})
     end unless @puppetclass # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context

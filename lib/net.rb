@@ -18,7 +18,7 @@ module Net
       to_s
     end
 
-     # Do we have conflicting entries?
+    # Do we have conflicting entries?
     def conflicting?
       !conflicts.empty?
     end
