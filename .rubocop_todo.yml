@@ -161,11 +161,6 @@ Layout/SpaceInsideBlockBraces:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
-# Offense count: 7
-# Cop supports --auto-correct.
-Layout/SpaceInsideParens:
-  Enabled: false
-
 # Offense count: 26
 # Cop supports --auto-correct.
 Layout/SpaceInsidePercentLiteralDelimiters:

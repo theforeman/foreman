@@ -688,7 +688,7 @@ class User < ApplicationRecord
     if login_changed? && !(self.new_record?)
       if !(self.internal?)
         errors.add :login, _("It is not possible to change external users login")
-      elsif !(User.current.can?(:edit_users, self) || ( self.id == User.current.id ))
+      elsif !(User.current.can?(:edit_users, self) || (self.id == User.current.id))
         errors.add :login, _("You do not have permission to edit the login")
       end
     end

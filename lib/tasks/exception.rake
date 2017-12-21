@@ -12,7 +12,7 @@ namespace :exception do
     regexp = /raise.*(#{exceptions.join('|')})(\.new)?.*N_\(?(["'])([^\3]+?)\3\)?\)?/
     Dir['app/**/*rb', 'lib/**/*rb'].each do |path|
       File.open(path) do |f|
-        f.grep( /#{regexp}/ ) do |line|
+        f.grep(/#{regexp}/) do |line|
           code = ::Foreman::Exception.calculate_error_code $1, $4
           result[code] = $4
         end
