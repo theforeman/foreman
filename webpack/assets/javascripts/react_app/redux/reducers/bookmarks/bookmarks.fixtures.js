@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import Immutable from 'seamless-immutable';
+import { STATUS } from '../../../constants';
 
 export const initialState = Immutable({
   showModal: false,
@@ -7,7 +8,7 @@ export const initialState = Immutable({
 
 export const afterRequest = Immutable({
   ...initialState,
-  hosts: { errors: null, results: [] },
+  hosts: { errors: null, results: [], status: STATUS.PENDING },
 });
 
 export const bookmarks = [
@@ -249,9 +250,13 @@ export const bookmarks = [
 
 export const afterSuccess = Immutable({
   ...initialState,
-  hosts: { errors: null, results: bookmarks },
+  hosts: { errors: null, results: bookmarks, status: STATUS.RESOLVED },
 });
 
+export const afterError = Immutable({
+  ...initialState,
+  hosts: { errors: 'Oops', results: [], status: STATUS.ERROR },
+});
 export const afterModalOpen = Immutable({
   ...afterSuccess,
   showModal: true,

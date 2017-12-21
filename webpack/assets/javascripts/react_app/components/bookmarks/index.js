@@ -1,22 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, MenuItem } from 'patternfly-react';
+import { Dropdown, MenuItem, Spinner } from 'patternfly-react';
 import SearchModal from './SearchModal';
 import Bookmark from './Bookmark';
-import Loader from '../common/Loader';
 import * as BookmarkActions from '../../redux/actions/bookmarks';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
-
-const getLoadingStatus = (errors, data) => {
-  if (data.length > 0) {
-    return STATUS.RESOLVED;
-  }
-  if (errors) {
-    return STATUS.ERROR;
-  }
-  return STATUS.PENDING;
-};
 
 class BookmarkContainer extends React.Component {
   componentDidMount() {
@@ -35,7 +24,14 @@ class BookmarkContainer extends React.Component {
 
   render() {
     const {
-      controller, url, showModal, modalClosed, canCreate, bookmarks, errors,
+      controller,
+      url,
+      showModal,
+      modalClosed,
+      canCreate,
+      bookmarks,
+      errors,
+      status,
     } = this.props;
 
     return showModal ? (
@@ -45,12 +41,17 @@ class BookmarkContainer extends React.Component {
         <Dropdown.Toggle />
         <Dropdown.Menu>
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
-          {getLoadingStatus(errors, bookmarks) === STATUS.PENDING && (
-            <Loader spinnerSize="xs" status={STATUS.PENDING} />
+          {status === STATUS.PENDING && (
+            <li className='loader-root'>
+              <Spinner size="xs" loading/>
+            </li>
           )}
-          {getLoadingStatus(errors, bookmarks) === STATUS.RESOLVED &&
-            bookmarks.map(({ name, query }) => <Bookmark key={name} text={name} query={query} />)}
-          {getLoadingStatus(errors, bookmarks) === STATUS.ERROR &&
+          {status === STATUS.RESOLVED &&
+            ((bookmarks.length > 0 &&
+              bookmarks.map(({ name, query }) => (
+                <Bookmark key={name} text={name} query={query} />
+              ))) || <MenuItem disabled> {__('None found')}</MenuItem>)}
+          {status === STATUS.ERROR &&
             // eslint-disable-next-line no-undef
             Jed.sprintf(__('Failed to load bookmarks: %s'), errors)}
           <MenuItem divider={true} />
@@ -69,6 +70,7 @@ class BookmarkContainer extends React.Component {
 const mapStateToProps = ({ bookmarks }, { data: { controller } }) => ({
   errors: bookmarks[controller] && bookmarks[controller].errors,
   bookmarks: (bookmarks[controller] && bookmarks[controller].results) || [],
+  status: bookmarks[controller] && bookmarks[controller].status,
   showModal: bookmarks.showModal,
 });
 

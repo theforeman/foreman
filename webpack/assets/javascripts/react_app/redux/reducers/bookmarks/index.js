@@ -7,6 +7,7 @@ import {
   BOOKMARKS_MODAL_CLOSED,
   BOOKMARK_FORM_SUBMITTED,
 } from '../../consts';
+import { STATUS } from '../../../constants';
 
 const initialState = Immutable({
   showModal: false,
@@ -28,9 +29,11 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case BOOKMARKS_REQUEST:
-      return state.set(payload.controller, { results: [], errors: null });
+      return state.set(payload.controller, { results: [], errors: null, status: STATUS.PENDING });
     case BOOKMARKS_SUCCESS:
-      return state.setIn([payload.controller, 'results'], payload.results);
+      return state
+        .setIn([payload.controller, 'results'], payload.results)
+        .setIn([payload.controller, 'status'], STATUS.RESOLVED);
     case BOOKMARKS_MODAL_OPENED:
       return state.set('currentQuery', payload.query).set('showModal', true);
     case BOOKMARK_FORM_SUBMITTED:
@@ -43,7 +46,9 @@ export default (state = initialState, action) => {
     case BOOKMARKS_MODAL_CLOSED:
       return state.set('showModal', false);
     case BOOKMARKS_FAILURE:
-      return state.setIn([payload.controller, 'errors'], payload.error);
+      return state
+        .setIn([payload.item.controller, 'errors'], payload.error)
+        .setIn([payload.item.controller, 'status'], STATUS.ERROR);
     default:
       return state;
   }
