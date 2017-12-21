@@ -173,13 +173,6 @@ Layout/SpaceInsidePercentLiteralDelimiters:
 Layout/SpaceInsideReferenceBrackets:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, no_space
-Layout/SpaceInsideStringInterpolation:
-  Enabled: false
-
 # Offense count: 56
 Lint/AmbiguousBlockAssociation:
   Enabled: false
