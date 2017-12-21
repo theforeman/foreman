@@ -1,4 +1,3 @@
-# encoding: utf-8
 FactoryBot.define do
   factory :usergroup do
     sequence(:name) {|n| "usergroup#{n}" }

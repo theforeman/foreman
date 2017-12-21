@@ -48,11 +48,6 @@ Layout/ClosingParenthesisIndentation:
 Layout/DotPosition:
   Enabled: false
 
-# Offense count: 13
-# Cop supports --auto-correct.
-Layout/EmptyLineAfterMagicComment:
-  Enabled: false
-
 # Offense count: 8
 # Cop supports --auto-correct.
 Layout/EmptyLinesAroundArguments:
