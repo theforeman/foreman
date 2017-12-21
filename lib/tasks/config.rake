@@ -67,7 +67,7 @@ BANNER
       parser.parse!(args)
 
       if @key && @key_values.any?
-        puts "Missing value for key '#{ @key }'"
+        puts "Missing value for key '#{@key}'"
         exit 2
       end
 
