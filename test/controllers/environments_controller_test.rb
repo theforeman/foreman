@@ -86,8 +86,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
   test "should handle disk environment containing additional classes" do
     setup_import_classes
     Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
-#    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
-#    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
+    #    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
+    #    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
     assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_new_env1'

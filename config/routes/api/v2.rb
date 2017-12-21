@@ -384,7 +384,7 @@ Foreman::Application.routes.draw do
             end
           end
 
-           # scoped by location AND organization
+          # scoped by location AND organization
           resources :organizations, :except => [:new, :edit] do
             resources :domains, :only => [:index, :show]
             resources :realms, :only => [:index, :show]

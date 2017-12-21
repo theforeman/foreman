@@ -740,7 +740,7 @@ class HostsController < ApplicationController
   end
 
   def find_multiple
-  # Lets search by name or id and make sure one of them exists first
+    # Lets search by name or id and make sure one of them exists first
     if params.key?(:host_names) || params.key?(:host_ids) || multiple_with_filter?
       @hosts = resource_base.search_for(params[:search]) if multiple_with_filter?
       @hosts ||= resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names])

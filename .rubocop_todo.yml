@@ -41,11 +41,6 @@ Layout/CaseIndentation:
 Layout/ClosingParenthesisIndentation:
   Enabled: false
 
-# Offense count: 13
-# Cop supports --auto-correct.
-Layout/CommentIndentation:
-  Enabled: false
-
 # Offense count: 188
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

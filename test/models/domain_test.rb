@@ -131,12 +131,12 @@ class DomainTest < ActiveSupport::TestCase
     end
   end
 
-#I must find out how to create a fact_name inside of fact_value
+  #I must find out how to create a fact_name inside of fact_value
 
-#  test "should counts how many times a fact value exists in this domain" do
-#    host = create_a_host
-#    host.fact_values = FactValue.create(:fact_name)
-#  end
+  #  test "should counts how many times a fact value exists in this domain" do
+  #    host = create_a_host
+  #    host.fact_values = FactValue.create(:fact_name)
+  #  end
 
   def create_a_host
     FactoryBot.create(:host, :domain => FactoryBot.build(:domain))

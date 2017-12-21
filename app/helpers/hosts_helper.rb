@@ -408,7 +408,7 @@ module HostsHelper
     end)
   end
 
-# helper method to provide data attribute if subnets has ipam enabled / disabled
+  # helper method to provide data attribute if subnets has ipam enabled / disabled
   def subnets_ipam_data(field)
     data = {}
     domain_subnets(field).each do |subnet|
