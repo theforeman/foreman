@@ -314,11 +314,11 @@ class ComputeResource < ApplicationRecord
     self.attrs[:setpw] = nil
   end
 
-  # this method is overwritten for Libvirt
+  # this method is overwritten for Libvirt & VMWare
   def display_type=(_)
   end
 
-  # this method is overwritten for Libvirt
+  # this method is overwritten for Libvirt & VMWare
   def display_type
     nil
   end

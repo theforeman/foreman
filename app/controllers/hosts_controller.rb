@@ -10,6 +10,7 @@ class HostsController < ApplicationController
   include Foreman::Controller::Puppet::HostsControllerExtensions
   include Foreman::Controller::CsvResponder
   include Foreman::Controller::NormalizeScsiAttributes
+  include Foreman::Controller::ConsoleCommon
 
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
   AJAX_REQUESTS=%w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
@@ -342,15 +343,7 @@ class HostsController < ApplicationController
   def console
     return unless @host.compute_resource
     @console = @host.compute_resource.console @host.uuid
-    @encrypt = Setting[:websockets_encrypt]
-    render case @console[:type]
-             when 'spice'
-               "hosts/console/spice"
-             when 'vnc'
-               "hosts/console/vnc"
-             else
-               "hosts/console/log"
-           end
+    super
   rescue => e
     Foreman::Logging.exception("Failed to set console", e)
     process_error :redirect => :back, :error_msg => _("Failed to set console: %s") % (e)

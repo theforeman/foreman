@@ -349,4 +349,26 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       assert_equal expected_attrs, attrs
     end
   end
+
+  describe '#display_type' do
+    let(:cr) { FactoryBot.build(:vmware_cr) }
+
+    test "default display type is 'vmrc'" do
+      assert_nil cr.attrs[:display]
+      assert_equal 'vmrc', cr.display_type
+    end
+
+    test "display type can be set" do
+      expected = 'vnc'
+      cr.display_type = 'VNC'
+      assert_equal expected, cr.attrs[:display]
+      assert_equal expected, cr.display_type
+      assert cr.valid?
+    end
+
+    test "don't allow wrong display type to be set" do
+      cr.display_type = 'spice'
+      refute cr.valid?
+    end
+  end
 end

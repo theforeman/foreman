@@ -2,6 +2,7 @@ class ComputeResourcesVmsController < ApplicationController
   include Foreman::Controller::ComputeResourcesCommon
   include ::Foreman::Controller::ActionPermissionDsl
   include ::Foreman::Controller::HostFormCommon
+  include Foreman::Controller::ConsoleCommon
 
   before_action :find_compute_resource
   before_action :find_vm, :only => [:import, :associate, :show, :console, :pause, :power]
@@ -84,15 +85,7 @@ class ComputeResourcesVmsController < ApplicationController
 
   def console
     @console = @compute_resource.console @vm.identity
-    @encrypt = Setting[:websockets_encrypt]
-    render case @console[:type]
-           when 'spice'
-             "hosts/console/spice"
-           when 'vnc'
-             "hosts/console/vnc"
-           else
-             "hosts/console/log"
-           end
+    super
   rescue => e
     process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => (_("Failed to set console: %s") % e), :object => @vm
   end
