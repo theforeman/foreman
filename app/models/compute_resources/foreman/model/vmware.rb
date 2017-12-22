@@ -7,6 +7,10 @@ module Foreman::Model
     include ComputeResourceCaching
 
     validates :user, :password, :server, :datacenter, :presence => true
+    validates :display_type, :inclusion => {
+      :in => Proc.new { |cr| cr.class.supported_display_types.keys },
+      :message => N_('not supported by this compute resource')
+    }
 
     before_create :update_public_key
 
@@ -19,6 +23,13 @@ module Foreman::Model
 
     def self.model_name
       ComputeResource.model_name
+    end
+
+    def self.supported_display_types
+      {
+        'vnc' => _('VNC'),
+        'vmrc' => _('VMRC')
+      }
     end
 
     def user_data_supported?
@@ -501,12 +512,28 @@ module Foreman::Model
 
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
-      raise "VM is not running!" unless vm.ready?
-      #TOOD port, password
-      #NOTE this requires the following port to be open on your ESXi FW
+      raise Foreman::Exception, N_('The console is not available because the VM is not powered on') unless vm.ready?
+
+      case display_type
+      when 'vmrc'
+        vmrc_console(vm)
+      else
+        vnc_console(vm)
+      end
+    end
+
+    def vnc_console(vm)
       values = { :port => unused_vnc_port(vm.hypervisor), :password => random_password, :enabled => true }
       vm.config_vnc(values)
       WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
+    end
+
+    def vmrc_console(vm)
+      {
+        :name => vm.name,
+        :console_url => build_vmrc_uri(server, vm.mo_ref, client.connection.serviceContent.sessionManager.AcquireCloneTicket),
+        :type => 'vmrc'
+      }
     end
 
     def new_interface(attr = { })
@@ -535,6 +562,18 @@ module Foreman::Model
 
     def associated_host(vm)
       associate_by("mac", vm.interfaces.map(&:mac))
+    end
+
+    def display_type
+      attrs[:display] || 'vmrc'
+    end
+
+    def display_type=(type)
+      attrs[:display] = type.downcase
+    end
+
+    def humanized_display_type
+      self.class.supported_display_types[display_type]
     end
 
     def self.provider_friendly_name
@@ -622,6 +661,17 @@ module Foreman::Model
       volumes = vm.volumes || []
       vm_attrs[:volumes_attributes] = Hash[volumes.each_with_index.map { |volume, idx| [idx.to_s, volume.attributes.merge(:size_gb => volume.size_gb)] }]
       vm_attrs
+    end
+
+    def build_vmrc_uri(host, vmid, ticket)
+      uri = URI::Generic.build(:scheme   => 'vmrc',
+                               :userinfo => "clone:#{ticket}",
+                               :host     => host,
+                               :port     => 443,
+                               :path     => '/',
+                               :query    => "moid=#{vmid}").to_s
+      # VMRC doesn't like brackets around IPv6 addresses
+      uri.sub(/(.*)\[/, '\1').sub(/(.*)\]/, '\1')
     end
   end
 end
