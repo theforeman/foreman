@@ -629,11 +629,6 @@ Style/MutableConstant:
 Style/NegatedIf:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/NestedModifier:
-  Enabled: false
-
 # Offense count: 12
 # Cop supports --auto-correct.
 # Configuration parameters: Whitelist.
