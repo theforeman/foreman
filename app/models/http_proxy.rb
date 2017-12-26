@@ -15,7 +15,7 @@ class HttpProxy < ApplicationRecord
   validates :name, :presence => true
 
   validates :url, :presence => true
-  validates :url, :format => URI::regexp(["http", "https"])
+  validates :url, :format => URI.regexp(["http", "https"])
 
   scoped_search :on => :name
   scoped_search :on => :url
