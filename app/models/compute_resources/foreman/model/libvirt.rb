@@ -4,7 +4,7 @@ module Foreman::Model
 
     ALLOWED_DISPLAY_TYPES = %w(vnc spice)
 
-    validates :url, :format => { :with => URI.regexp }, :presence => true
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :display_type, :inclusion => { :in => ALLOWED_DISPLAY_TYPES }
 
     def self.available?

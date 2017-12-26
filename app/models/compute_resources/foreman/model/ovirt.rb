@@ -3,7 +3,7 @@ require 'uri'
 
 module Foreman::Model
   class Ovirt < ComputeResource
-    validates :url, :format => { :with => URI.regexp }, :presence => true,
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true,
               :url_schema => ['http', 'https']
     validates :user, :password, :presence => true
     before_create :update_public_key
