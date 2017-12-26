@@ -6,6 +6,7 @@ var webpack = require('webpack');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
 
 // must match config.webpack.dev_server.port
@@ -66,7 +67,8 @@ var config = {
           'plugins': [
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-class-properties'),
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
-            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign')
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign'),
+            path.join(__dirname, '..', 'node_modules/babel-plugin-lodash')
           ]
         }
       },
@@ -92,6 +94,7 @@ var config = {
   },
 
   plugins: [
+    new LodashModuleReplacementPlugin({ paths: true, collections: true }),
     // must match config.webpack.manifest_filename
     new StatsWriterPlugin({
       filename: 'manifest.json',

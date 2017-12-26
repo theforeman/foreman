@@ -70,7 +70,7 @@ const mapStateToProps = (state) => {
   return {
     isDrawerOpen,
     isPolling,
-    notifications: groupBy(notifications, 'group'),
+    notifications: groupBy(notifications, n => n.group),
     expandedGroup,
     isReady: !!notifications,
     hasUnreadMessages,
