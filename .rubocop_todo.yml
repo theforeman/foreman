@@ -524,11 +524,6 @@ Style/EachWithObject:
 Style/EmptyMethod:
   Enabled: false
 
-# Offense count: 13
-# Cop supports --auto-correct.
-Style/Encoding:
-  Enabled: false
-
 # Offense count: 1
 Style/EvalWithLocation:
   Enabled: false
