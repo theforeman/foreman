@@ -14,7 +14,11 @@ $(document).on('ContentLoad', function() {
 $(window).on('hashchange', setTab); //so buttons that link to an anchor can open that tab
 
 function setItemStatus(item, response) {
-  if(response.success) {
+  if(response.success && response.message && response.message.warning) {
+    item.attr('title', response.message.warning.message);
+    item.addClass('text-warning');
+    item.html(tfm.tools.iconText('warning-triangle-o', "", "pficon"));
+  } else if(response.success) {
     item.attr('title', __('Active'));
     item.addClass('text-success');
     item.html(tfm.tools.iconText('ok', "", "pficon"));

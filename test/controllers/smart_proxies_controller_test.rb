@@ -115,6 +115,24 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert_match(/Exception message/, show_response['message'])
   end
 
+  test "smart proxy version mismatched" do
+    expected_response = {'version' => '1.11', 'modules' => {'dns' => '1.11'}}
+    ProxyStatus::Version.any_instance.stubs(:version).returns(expected_response)
+    get :ping, params: { :id => smart_proxies(:one).to_param }, session: set_session_user
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_match(/versions do not match/, show_response['message']['warning']['message'])
+  end
+
+  test "smart proxy version with different tags matched" do
+    expected_response = {'version' => "#{Foreman::Version.new.notag}-testtag", 'modules' => {'dns' => '1.11'}}
+    ProxyStatus::Version.any_instance.stubs(:version).returns(expected_response)
+    get :ping, params: { :id => smart_proxies(:one).to_param }, session: set_session_user
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_nil show_response['message']['warning']
+  end
+
   test '#show' do
     proxy = smart_proxies(:one)
     get :show, params: { :id => proxy.id }, session: set_session_user
