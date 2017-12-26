@@ -223,11 +223,6 @@ Lint/UnusedMethodArgument:
 Lint/UriEscapeUnescape:
   Enabled: false
 
-# Offense count: 4
-# Cop supports --auto-correct.
-Lint/UriRegexp:
-  Enabled: false
-
 # Offense count: 2
 Lint/Void:
   Enabled: false

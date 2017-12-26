@@ -5,7 +5,7 @@ module Foreman::Model
     delegate :flavors, :to => :client
     delegate :security_groups, :to => :client
 
-    validates :url, :format => { :with => URI.regexp }, :presence => true
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }
     validates :domain, :format => { :with => /\A\S+\z/ }, :allow_blank => true
