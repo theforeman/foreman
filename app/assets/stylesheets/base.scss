@@ -655,3 +655,9 @@ code.transparent {
   padding: 0;
   margin-bottom: 0;
 }
+
+.scrollable-dropdown {
+  max-height: 400px;
+  overflow-y: auto;
+  max-width: 175px;
+}
