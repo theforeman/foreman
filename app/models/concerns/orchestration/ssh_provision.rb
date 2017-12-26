@@ -102,7 +102,7 @@ module Orchestration::SSHProvision
 
   def validate_ssh_provisioning
     return unless ssh_provision?
-    return if Rails.env == "test"
+    return if Rails.env.test?
     status = true
     begin
       template = provisioning_template(:kind => "finish")

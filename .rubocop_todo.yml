@@ -352,11 +352,6 @@ Rails/Date:
 Rails/DynamicFindBy:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Rails/EnvironmentComparison:
-  Enabled: false
-
 # Offense count: 24
 Rails/FilePath:
   Enabled: false
