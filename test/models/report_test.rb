@@ -128,4 +128,5 @@ class ReportTest < ActiveSupport::TestCase
   end
 end
 
-class TestReport < Report; end
+class TestReport < Report
+end
