@@ -327,10 +327,6 @@ Naming/PredicateName:
 Naming/VariableNumber:
   Enabled: false
 
-# Offense count: 3
-Performance/Caller:
-  Enabled: false
-
 # Offense count: 30
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect.
