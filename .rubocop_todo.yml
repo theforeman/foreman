@@ -813,11 +813,6 @@ Style/TernaryParentheses:
 Style/TrailingCommaInLiteral:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/TrailingMethodEndStatement:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, IgnoreClassMethods, Whitelist.
