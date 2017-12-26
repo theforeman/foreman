@@ -43,7 +43,9 @@ class OrchestrationTest < ActiveSupport::TestCase
 
       protected
 
-      def setTest; true; end
+      def setTest
+        true
+      end
     end
     h = Host::Test1.new
     assert h.test_execute(:setTest)
@@ -101,7 +103,9 @@ class OrchestrationTest < ActiveSupport::TestCase
 
       protected
 
-      def setTest(param); "got #{param}"; end
+      def setTest(param)
+        "got #{param}"
+      end
     end
     h = Host::Test.new
     h.expects(:setTest).with('abc').returns(true)

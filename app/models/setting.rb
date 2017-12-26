@@ -80,7 +80,10 @@ class Setting < ApplicationRecord
     (where(:category => sticky_setting) + where.not(:category => sticky_setting)).group_by(&:category)
   end
 
-  def self.per_page; 20 end # can't use our own settings
+  # can't use our own settings
+  def self.per_page
+    20
+  end
 
   def self.humanized_category
     nil
