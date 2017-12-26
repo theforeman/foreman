@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, MenuItem, Spinner } from 'patternfly-react';
+import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
 import SearchModal from './SearchModal';
 import Bookmark from './Bookmark';
 import * as BookmarkActions from '../../redux/actions/bookmarks';
@@ -53,7 +54,11 @@ class BookmarkContainer extends React.Component {
               ))) || <MenuItem disabled> {__('None found')}</MenuItem>)}
           {status === STATUS.ERROR &&
             // eslint-disable-next-line no-undef
-            Jed.sprintf(__('Failed to load bookmarks: %s'), errors)}
+            <MenuItem key="bookmarks-errors">
+              <EllipisWithTooltip>
+                {window.Jed.sprintf(__('Failed to load bookmarks: %s'), errors)}
+              </EllipisWithTooltip>
+            </MenuItem>}
           <MenuItem divider={true} />
           {canCreate && (
             <MenuItem key="newBookmark" id="newBookmark" onClick={this.onClick.bind(this)}>

@@ -426,7 +426,14 @@ exports[`bookmarks should include existing bookmarks for the current controller 
                               role="menuitem"
                               tabIndex="-1"
                             >
-                              1111
+                              <EllipisWithTooltip>
+                                <div
+                                  className="ellipsis"
+                                  onMouseEnter={[Function]}
+                                >
+                                  1111
+                                </div>
+                              </EllipisWithTooltip>
                             </a>
                           </SafeAnchor>
                         </li>
@@ -463,7 +470,14 @@ exports[`bookmarks should include existing bookmarks for the current controller 
                               role="menuitem"
                               tabIndex="-1"
                             >
-                              1122
+                              <EllipisWithTooltip>
+                                <div
+                                  className="ellipsis"
+                                  onMouseEnter={[Function]}
+                                >
+                                  1122
+                                </div>
+                              </EllipisWithTooltip>
                             </a>
                           </SafeAnchor>
                         </li>
@@ -765,7 +779,14 @@ exports[`bookmarks should not allow creating a new bookmark for users who dont h
                               role="menuitem"
                               tabIndex="-1"
                             >
-                              1111
+                              <EllipisWithTooltip>
+                                <div
+                                  className="ellipsis"
+                                  onMouseEnter={[Function]}
+                                >
+                                  1111
+                                </div>
+                              </EllipisWithTooltip>
                             </a>
                           </SafeAnchor>
                         </li>
@@ -802,7 +823,14 @@ exports[`bookmarks should not allow creating a new bookmark for users who dont h
                               role="menuitem"
                               tabIndex="-1"
                             >
-                              1122
+                              <EllipisWithTooltip>
+                                <div
+                                  className="ellipsis"
+                                  onMouseEnter={[Function]}
+                                >
+                                  1122
+                                </div>
+                              </EllipisWithTooltip>
                             </a>
                           </SafeAnchor>
                         </li>
@@ -1051,7 +1079,45 @@ exports[`bookmarks should show an error message if loading failed 1`] = `
                         Saved Bookmarks
                       </li>
                     </MenuItem>
-                    Failed to load bookmarks: %s
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      key=".$bookmarks-errors"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <EllipisWithTooltip>
+                              <div
+                                className="ellipsis"
+                                onMouseEnter={[Function]}
+                              >
+                                Failed to load bookmarks: %s
+                              </div>
+                            </EllipisWithTooltip>
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
                     <MenuItem
                       bsClass="dropdown"
                       disabled={false}
