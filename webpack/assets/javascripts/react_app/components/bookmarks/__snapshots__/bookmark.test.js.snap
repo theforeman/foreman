@@ -29,7 +29,14 @@ exports[`bookmark should create a link to a bookmark 1`] = `
           role="menuitem"
           tabIndex="-1"
         >
-          label
+          <EllipisWithTooltip>
+            <div
+              className="ellipsis"
+              onMouseEnter={[Function]}
+            >
+              label
+            </div>
+          </EllipisWithTooltip>
         </a>
       </SafeAnchor>
     </li>
