@@ -165,7 +165,7 @@ class Hostgroup < ApplicationRecord
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.where(nil).each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.where(nil).find_each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group
@@ -223,7 +223,7 @@ class Hostgroup < ApplicationRecord
   def recreate_hosts_config(only = nil, children_hosts = false)
     result = {}
 
-    Host::Managed.authorized.where(:hostgroup => (children_hosts ? subtree_ids : self.id)).each do |host|
+    Host::Managed.authorized.where(:hostgroup => (children_hosts ? subtree_ids : self.id)).find_each do |host|
       result[host.name] = host.recreate_config(only)
     end
     result

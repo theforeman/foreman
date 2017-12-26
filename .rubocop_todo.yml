@@ -372,13 +372,6 @@ Rails/FilePath:
 Rails/FindBy:
   Enabled: false
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/FindEach:
-  Enabled: false
-
 # Offense count: 14
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
