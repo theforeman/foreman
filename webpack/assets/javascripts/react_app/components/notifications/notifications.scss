@@ -1,7 +1,3 @@
-// this variable should be removed and get loaded from patternfly
-// when we will update patternfly to be apart of webpack
-$color-pf-blue-400: #0088ce;
-
 #notifications_container {
   position: static;
   margin-top: -1px;
@@ -38,21 +34,6 @@ $color-pf-blue-400: #0088ce;
     .drawer-pf-title,
     .panel-group {
       position: static;
-    }
-
-    .drawer-pf-close,
-    .drawer-pf-toggle-expand {
-      color: inherit;
-      cursor: pointer;
-      line-height: inherit;
-      padding: 2px 10px;
-      position: absolute;
-
-      &:hover,
-      &:focus {
-        color: $color-pf-blue-400;
-        text-decoration: none;
-      }
     }
 
     .drawer-pf-close {

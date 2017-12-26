@@ -1,8 +1,3 @@
-@import "colors";
-
-$navbar-default-bg: $primary_color;
-$pf-blue-500: #00659c;
-
 .control-label {
   text-align: left;
   padding-left: 0;
@@ -249,7 +244,7 @@ div.form-group .glyphicon-info-sign {
 }
 
 form .pficon-info {
-  color: $pf-blue-500;
+  color: $color-pf-blue-500;
 }
 
 form .fa-info-circle {
