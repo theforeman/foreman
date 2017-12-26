@@ -38,7 +38,7 @@ class Setting::Email < Setting
 
   def self.delivery_settings
     options = {}
-    self.all.each do |setting|
+    self.all.find_each do |setting|
       extracted = {:smtp => extract_prefix(setting.name, 'smtp'), :sendmail => extract_prefix(setting.name, 'sendmail')}
       ["smtp", "sendmail"].each do |method|
         if Setting[:delivery_method].to_s == method && setting.name.start_with?(method) && setting.value.to_s.present?

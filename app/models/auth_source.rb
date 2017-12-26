@@ -68,7 +68,7 @@ class AuthSource < ApplicationRecord
   # Try to authenticate a user not yet registered against available sources
   # Returns : user's attributes OR nil
   def self.authenticate(login, password)
-    AuthSource.where(:onthefly_register => true).each do |source|
+    AuthSource.where(:onthefly_register => true).find_each do |source|
       logger.debug "Authenticating '#{login}' against '#{source}'"
       begin
         if (attrs = source.authenticate(login, password))

@@ -128,7 +128,7 @@ class Taxonomy < ApplicationRecord
   end
 
   def self.all_import_missing_ids
-    all.each do |taxonomy|
+    all.find_each do |taxonomy|
       taxonomy.import_missing_ids
     end
   end
