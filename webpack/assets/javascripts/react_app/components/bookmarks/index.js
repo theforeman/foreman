@@ -1,21 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dropdown, MenuItem, Spinner } from 'patternfly-react';
 import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
+import { Dropdown, MenuItem, Spinner, Icon } from 'patternfly-react';
 import SearchModal from './SearchModal';
 import Bookmark from './Bookmark';
 import * as BookmarkActions from '../../redux/actions/bookmarks';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
+import helpers from '../../common/helpers';
 
 class BookmarkContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    helpers.bindMethods(this, ['handleNewBookmarkClick']);
+  }
+
   componentDidMount() {
     const { url, controller, getBookmarks } = this.props;
 
     getBookmarks(url, controller);
   }
 
-  onClick() {
+  handleNewBookmarkClick() {
     if (this.props.showModal) {
       this.props.modalClosed();
     } else {
@@ -33,14 +39,24 @@ class BookmarkContainer extends React.Component {
       bookmarks,
       errors,
       status,
+      documentationUrl,
     } = this.props;
 
     return showModal ? (
       <SearchModal show={showModal} controller={controller} url={url} onHide={modalClosed} />
     ) : (
       <Dropdown pullRight id={controller}>
-        <Dropdown.Toggle />
-        <Dropdown.Menu>
+        <Dropdown.Toggle title={__('Bookmarks')}>
+          <Icon type='fa' name='bookmark' />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="scrollable-dropdown">
+          {canCreate && (
+           <MenuItem key="newBookmark" id="newBookmark" onClick={this.handleNewBookmarkClick}>
+              {__('Bookmark this search')}
+            </MenuItem>
+          )}
+          <DocumentationUrl id="bookmarkDocumentation" href={documentationUrl} />
+          <MenuItem divider={true} />
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
           {status === STATUS.PENDING && (
             <li className='loader-root'>
@@ -53,19 +69,11 @@ class BookmarkContainer extends React.Component {
                 <Bookmark key={name} text={name} query={query} />
               ))) || <MenuItem disabled> {__('None found')}</MenuItem>)}
           {status === STATUS.ERROR &&
-            // eslint-disable-next-line no-undef
             <MenuItem key="bookmarks-errors">
               <EllipisWithTooltip>
                 {window.Jed.sprintf(__('Failed to load bookmarks: %s'), errors)}
               </EllipisWithTooltip>
             </MenuItem>}
-          <MenuItem divider={true} />
-          {canCreate && (
-            <MenuItem key="newBookmark" id="newBookmark" onClick={this.onClick.bind(this)}>
-              {__('Bookmark this search')}
-            </MenuItem>
-          )}
-          <DocumentationUrl id="bookmarkDocumentation" href={this.props.documentationUrl} />
         </Dropdown.Menu>
       </Dropdown>
     );

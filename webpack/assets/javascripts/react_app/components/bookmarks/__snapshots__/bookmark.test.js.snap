@@ -31,8 +31,16 @@ exports[`bookmark should create a link to a bookmark 1`] = `
         >
           <EllipisWithTooltip>
             <div
-              className="ellipsis"
               onMouseEnter={[Function]}
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "overflowWrap": "break-word",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "wordBreak": "break-all",
+                }
+              }
             >
               label
             </div>
