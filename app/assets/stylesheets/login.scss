@@ -31,24 +31,3 @@
     }
   }
 }
-
-// This fix the transparent background issue in patternfly
-// When patternfly-sass will fix this issue we should remove this code
-// https://github.com/patternfly/patternfly/issues/804
-.login-pf .login-page .container {
-  .alert-success {
-    @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
-  }
-
-  .alert-info {
-    @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
-  }
-
-  .alert-warning {
-    @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
-  }
-
-  .alert-danger {
-    @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
-  }
-}
