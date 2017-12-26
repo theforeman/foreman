@@ -8,7 +8,6 @@ import 'babel-polyfill';
 
 require('expose-loader?$!expose-loader?jQuery!jquery');
 require('jquery-ujs');
-require('expose-loader?_!lodash');
 require('expose-loader?jstz!jstz');
 require('expose-loader?ipaddr!ipaddr.js');
 require('jquery.cookie');
@@ -17,6 +16,7 @@ require('./bundle_flot');
 require('./bundle_multiselect');
 require('./bundle_select2');
 require('./bundle_datatables');
+require('./bundle_lodash');
 
 import compute from './foreman_compute_resource';
 
