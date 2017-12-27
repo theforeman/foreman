@@ -61,7 +61,7 @@ END_DESC
     cmd += " -p#{config['password']} " if config['password'].present?
     cmd += " -h #{config['host']} "    if config['host'].present?
     cmd += " -P #{config['port']} "    if config['port'].present?
-    cmd += " #{tables.join(" ")} " unless tables.blank?
+    cmd += " #{tables.join(' ')} " unless tables.blank?
     cmd += " > #{name}"
     system(cmd)
   end
