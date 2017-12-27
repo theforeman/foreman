@@ -20,7 +20,7 @@ namespace :puppet do
           if host.populate_fields_from_facts
             counter += 1
           else
-            $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(", ")}"
+            $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(', ')}"
           end
         end
       end
@@ -59,7 +59,7 @@ namespace :puppet do
         if ENV["proxy"]
           proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
           unless proxy.is_a?(SmartProxy)
-            puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+            puts "Smart Proxies #{ENV['proxy']} was not found, aborting"
             exit 1
           end
         end
@@ -139,7 +139,7 @@ namespace :puppet do
       User.as_anonymous_admin do
         args.batch = args.batch == "true"
         puts " ================================================================ "
-        puts "Import starts: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+        puts "Import starts: #{Time.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
 
         proxies = SmartProxy.with_features("Puppet")
         if proxies.empty?
@@ -149,7 +149,7 @@ namespace :puppet do
         if ENV["proxy"]
           proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
           unless proxy.is_a?(SmartProxy)
-            puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+            puts "Smart Proxies #{ENV['proxy']} was not found, aborting"
             exit 1
           end
         end
@@ -170,7 +170,7 @@ namespace :puppet do
           puts "Please fix these issues and try again"
           exit 1
         end
-        puts "Import ends: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+        puts "Import ends: #{Time.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
         puts " ================================================================ "
       end
     end
