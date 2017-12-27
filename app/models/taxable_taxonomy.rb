@@ -8,7 +8,7 @@ class TaxableTaxonomy < ApplicationRecord
     if types.empty?
       {}
     else
-      where(["taxable_taxonomies.taxable_type NOT IN (?)",types])
+      where.not(taxable_type: types)
     end
   }
 
