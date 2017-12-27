@@ -15,7 +15,7 @@ class CleanExpiredTest < ActiveSupport::TestCase
 
   test "clean with a given time should remove all expired notification until this time" do
     blueprint = create_blueprint(-5.minutes, false)
-    blueprint2 = create_blueprint(-1.minutes, false)
+    blueprint2 = create_blueprint(-1.minute, false)
     create_notification(blueprint)
     create_notification(blueprint2)
     assert_equal 2, Notification.all.length
@@ -70,7 +70,7 @@ class CleanExpiredTest < ActiveSupport::TestCase
 
   test "clean with a given time should raise an error if time is in the future" do
     blueprint = create_blueprint(-5.minutes, false)
-    blueprint2 = create_blueprint(-1.minutes, false)
+    blueprint2 = create_blueprint(-1.minute, false)
     create_notification(blueprint)
     create_notification(blueprint2)
     time = Time.zone.now + 3.minutes

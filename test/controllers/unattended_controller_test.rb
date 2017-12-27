@@ -189,7 +189,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   test "should accept built notifications_with_expired_token" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
-    @ub_host.create_token(:value => "expired_token", :expires => Time.now.utc - 1.minutes)
+    @ub_host.create_token(:value => "expired_token", :expires => Time.now.utc - 1.minute)
     get :built,  params: {'token' => @ub_host.token.value }
     assert_response :created
     host = Nic::Base.primary.find_by_ip(@ub_host.ip)

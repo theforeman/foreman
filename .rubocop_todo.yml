@@ -392,11 +392,6 @@ Rails/Output:
 Rails/OutputSafety:
   Enabled: false
 
-# Offense count: 12
-# Cop supports --auto-correct.
-Rails/PluralizationGrammar:
-  Enabled: false
-
 # Offense count: 26
 # Cop supports --auto-correct.
 Rails/Presence:

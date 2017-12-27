@@ -34,7 +34,7 @@ class UINotificationsCacheHandlerTest < ActiveSupport::TestCase
       user_id: user.id
     )
     expiry = UINotifications::CacheHandler.new(user.id).send(:cache_expiry)
-    assert (3.hour - expiry < 1000) # time difference is less than a second
+    assert (3.hours - expiry < 1000) # time difference is less than a second
   end
 
   test 'should use be able to clear cache if it exists' do
