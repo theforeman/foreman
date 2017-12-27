@@ -77,8 +77,8 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
     test 'exceptions are not obscured' do
       vm = mock('vm')
       cr.expects(:new_vm).returns(vm)
-      cr.expects(:create_volumes).raises(Fog::Errors::Error.new 'create_error')
-      cr.expects(:destroy_vm).raises(Fog::Errors::Error.new 'destroy_error')
+      cr.expects(:create_volumes).raises(Fog::Errors::Error.new('create_error'))
+      cr.expects(:destroy_vm).raises(Fog::Errors::Error.new('destroy_error'))
       vm.stubs(:id).returns(1)
       vm.stubs(:name).returns(nil)
       vm.stubs(:volumes).returns(nil)
