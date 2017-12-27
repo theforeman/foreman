@@ -7,7 +7,7 @@
   <p><%= _('To launch the VMRC console, you need the VMRC software installed.') %></p>
   <p><%= link_to(_('Download VMRC'), 'https://www.vmware.com/go/download-vmrc', :target => '_blank', :rel => 'noopener noreferrer') %></p>
   <div class="blank-slate-pf-main-action">
-    <%= link_to(_('Launch Console'), @console[:console_url], :class => 'btn btn-primary btn-lg') %>
+    <%= link_to(_('Launch Console'), @console[:console_url], :class => 'btn btn-primary btn-lg', :onclick => "$(this).attr('disabled', 'disabled');") %>
     <% if @host %>
       <%= link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _('Back to host'), :class => 'btn btn-default btn-lg') %>
     <% end %>
