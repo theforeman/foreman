@@ -7,7 +7,7 @@ module TestExtension
 end
 
 class FacetConfigurationTest < ActiveSupport::TestCase
-  class TestClass < HostFacets::Base
+  class TestFacet < HostFacets::Base
   end
   module TestHelper
   end
@@ -15,7 +15,6 @@ class FacetConfigurationTest < ActiveSupport::TestCase
   teardown do
     Host::Managed.cloned_parameters[:include].delete(:test_model)
     Host::Managed.cloned_parameters[:include].delete(:test_facet)
-    Host::Managed.cloned_parameters[:include].delete(:test_class)
     Host::Managed.cloned_parameters[:include].delete(:facet_name)
   end
 
@@ -24,14 +23,14 @@ class FacetConfigurationTest < ActiveSupport::TestCase
     Facets.stubs(:configuration).returns(config)
 
     assert_difference('Facets.registered_facets.count', 1) do
-      Facets.register TestClass
+      Facets.register TestFacet
     end
   end
 
   test 'gives readonly access to the registry' do
     config = {}
     Facets.stubs(:configuration).returns(config)
-    Facets.register TestClass, :test_facet
+    Facets.register TestFacet, :test_facet
     assert_difference('Facets.registered_facets.count', 0) do
       Facets.registered_facets.delete(:test_facet)
     end
@@ -41,16 +40,16 @@ class FacetConfigurationTest < ActiveSupport::TestCase
     test 'defaults initialization' do
       config = {}
       Facets.stubs(:configuration).returns(config)
-      Facets.register TestClass
-      facet_configuration = Facets.registered_facets[:test_class]
-      assert_equal :test_class, facet_configuration.name
-      assert_equal TestClass, facet_configuration.model
+      Facets.register TestFacet
+      facet_configuration = Facets.registered_facets[:test_facet]
+      assert_equal :test_facet, facet_configuration.name
+      assert_equal TestFacet, facet_configuration.model
     end
 
     test 'extended initialization' do
       config = {}
       Facets.stubs(:configuration).returns(config)
-      Facets.register TestClass, :test_model do
+      Facets.register TestFacet, :test_model do
         add_helper TestHelper
         extend_model TestExtension
         add_tabs(:a => 'tab_view')
@@ -60,7 +59,7 @@ class FacetConfigurationTest < ActiveSupport::TestCase
       end
       facet_configuration = Facets.registered_facets[:test_model]
       assert_equal :test_model, facet_configuration.name
-      assert_equal TestClass, facet_configuration.model
+      assert_equal TestFacet, facet_configuration.model
       assert_equal TestHelper, facet_configuration.helper
       assert_equal TestExtension, facet_configuration.extension
       assert_equal 'single_view', facet_configuration.api_single_view
