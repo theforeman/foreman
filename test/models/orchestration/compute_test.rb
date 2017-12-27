@@ -11,7 +11,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     test "are set for CR providing MAC" do
       @host.expects(:match_macs_to_nics).returns(true)
       @cr.stubs(:provided_attributes).returns({:mac => :mac})
-      assert(@host.send :setComputeDetails)
+      assert(@host.send(:setComputeDetails))
     end
 
     test "are set for CR providing IP" do
@@ -61,7 +61,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       @host.vm.expects(:attr).returns(a_value)
       @host.expects(:attr=).returns(a_value)
       @host.expects(:validate_foreman_attr).returns(true)
-      assert(@host.send :setComputeDetails)
+      assert(@host.send(:setComputeDetails))
     end
   end
 

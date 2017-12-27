@@ -289,7 +289,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
       # Hosts are added to cookie
       host_ids_on_cookie = JSON.parse(CGI.unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
-      assert(host_ids_on_cookie.include? @host.id)
+      assert(host_ids_on_cookie.include?(@host.id))
 
       # Open modal box
       within('#submit_multiple') do
