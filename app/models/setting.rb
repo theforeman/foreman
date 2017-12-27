@@ -235,7 +235,7 @@ class Setting < ApplicationRecord
       to_update[:value] = readonly_value(s.name.to_sym) if s.has_readonly_value?
       s.update_attributes(to_update)
       s.update_column :category, opts[:category] if s.category != opts[:category]
-      s.update_column :full_name, opts[:full_name] if !column_check([:full_name]).empty?
+      s.update_column :full_name, opts[:full_name] unless column_check([:full_name]).empty?
       raw_value = s.read_attribute(:value)
       if s.is_encryptable?(raw_value) && attrs.include?(:encrypted) && opts[:encrypted]
         s.update_column :value, s.encrypt_field(raw_value)

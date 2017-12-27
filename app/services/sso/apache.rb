@@ -76,7 +76,7 @@ module SSO
     def convert_encoding(value)
       if value.respond_to?(:force_encoding)
         value.force_encoding(Encoding::UTF_8)
-        if !value.valid_encoding?
+        unless value.valid_encoding?
           value.encode(Encoding::UTF_8, Encoding::ISO_8859_1, { :invalid => :replace, :replace => '-' }).force_encoding(Encoding::UTF_8)
         end
       else

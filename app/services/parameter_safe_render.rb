@@ -14,7 +14,7 @@ class ParameterSafeRender
   private
 
   def render_object(object)
-    return object if (!Setting[:interpolate_erb_in_parameters])
+    return object unless (Setting[:interpolate_erb_in_parameters])
 
     # recurse over object types until we're dealing with a String
     case object
