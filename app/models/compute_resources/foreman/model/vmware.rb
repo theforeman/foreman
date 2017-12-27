@@ -501,7 +501,7 @@ module Foreman::Model
         "boot_order" => [:disk],
       }
 
-      opts['transform'] = args[:volumes].first[:thin] == 'true' ? 'sparse' : 'flat' unless args[:volumes].empty?
+      opts['transform'] = (args[:volumes].first[:thin] == 'true') ? 'sparse' : 'flat' unless args[:volumes].empty?
 
       vm_model = new_vm(raw_args)
       opts['interfaces'] = vm_model.interfaces

@@ -285,7 +285,7 @@ module Foreman #:nodoc:
       migration_names = pending_migrations.take(5).map(&:name).join(', ')
       Rails.logger.debug(
         "There are #{pending_migrations.size} pending migrations: "\
-        "#{migration_names}#{pending_migrations.size > 5 ? '...' : ''}")
+        "#{migration_names}#{(pending_migrations.size > 5) ? '...' : ''}")
       true
     end
 

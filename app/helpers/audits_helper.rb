@@ -13,7 +13,7 @@ module AuditsHelper
       when /.*_id$/
         label = name.classify.gsub('Id','').constantize.find(change).to_label
       else
-        label = change.to_s == AuditExtensions::REDACTED ? _(change.to_s) : change.to_s
+        label = (change.to_s == AuditExtensions::REDACTED) ? _(change.to_s) : change.to_s
     end
     label = _('[empty]') unless label.present?
     if truncate
@@ -68,7 +68,7 @@ module AuditsHelper
       end
     elsif !main_object? audit
       ["#{audit_action_name(audit).humanize} #{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}
-       #{audit_action_name(audit)=='removed' ? 'from' : 'to'} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1])}"]
+       #{(audit_action_name(audit)=='removed') ? 'from' : 'to'} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1])}"]
     else
       []
     end
@@ -84,7 +84,7 @@ module AuditsHelper
   end
 
   def audit_action_name(audit)
-    return audit.action == 'destroy' ? 'destroyed' : "#{audit.action}d" if main_object? audit
+    return (audit.action == 'destroy') ? 'destroyed' : "#{audit.action}d" if main_object? audit
 
     case audit.action
       when 'create'

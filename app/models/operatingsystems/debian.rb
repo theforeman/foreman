@@ -48,6 +48,6 @@ class Debian < Operatingsystem
 
   # tries to guess if this an ubuntu or a debian os
   def guess_os
-    name =~ /ubuntu/i ? "ubuntu" : "debian"
+    (name =~ /ubuntu/i) ? "ubuntu" : "debian"
   end
 end

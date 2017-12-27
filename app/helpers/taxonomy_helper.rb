@@ -32,7 +32,7 @@ module TaxonomyHelper
       content = nil
       args.each do |arg|
         step_content = content_tag(:li,(content_tag(:span,step,:class=>"badge" +" #{'badge-inverse' if step==current}")+arg).html_safe, :class=>('active' if step==current).to_s)
-        step == 1 ? content = step_content : content += step_content
+        (step == 1) ? content = step_content : content += step_content
         step += 1
       end
       content

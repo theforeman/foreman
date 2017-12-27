@@ -47,7 +47,7 @@ class Foreman::Provision::SSH
   end
 
   def command_prefix
-    username == "root" ? "" : "sudo "
+    (username == "root") ? "" : "sudo "
   end
 
   def command

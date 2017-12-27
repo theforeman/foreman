@@ -173,7 +173,7 @@ module Nic
 
     def compute_provides_ip?(field)
       return false unless managed? && host_managed? && primary?
-      subnet_field = field == :ip6 ? :subnet6 : :subnet
+      subnet_field = (field == :ip6) ? :subnet6 : :subnet
       host.compute_provides?(field) || host.compute_provides?(:mac) && mac_based_ipam?(subnet_field)
     end
 

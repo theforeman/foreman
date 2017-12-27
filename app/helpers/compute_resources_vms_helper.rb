@@ -36,7 +36,7 @@ module ComputeResourcesVmsHelper
         when nil
           _("N/A")
         else
-          method == :memory ? number_to_human_size(value) : value.to_s
+          (method == :memory) ? number_to_human_size(value) : value.to_s
         end
       end
       result
