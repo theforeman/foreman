@@ -93,7 +93,7 @@ module FormHelper
 
   def line_count(f, attr)
     rows = f.object.try(attr).to_s.lines.count rescue 1
-    rows == 0 ? 1 : rows
+    (rows == 0) ? 1 : rows
   end
 
   def radio_button_f(f, attr, options = {})

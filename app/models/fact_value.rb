@@ -41,8 +41,8 @@ class FactValue < ApplicationRecord
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
 
   def self.search_by_host_or_hostgroup(key, operator, value)
-    host_or_hg = key == 'host.hostgroup' ? 'hostgroup' : 'host'
-    search_term = value =~ /\A\d+\Z/ ? 'id' : 'name'
+    host_or_hg = (key == 'host.hostgroup') ? 'hostgroup' : 'host'
+    search_term = (value =~ /\A\d+\Z/) ? 'id' : 'name'
     conditions = sanitize_sql_for_conditions(["#{host_or_hg.pluralize}.#{search_term} #{operator} ?", value_to_sql(operator, value)])
     { :joins => host_or_hg.to_sym, :conditions => conditions }
   end

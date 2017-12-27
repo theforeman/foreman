@@ -113,7 +113,7 @@ module DashboardHelper
   def auto_refresh_button(options = {})
     on = options[:defaults_to] ? "on" : "off"
     if params[:auto_refresh].present?
-      on = params[:auto_refresh] == "0" ? "off" : "on"
+      on = (params[:auto_refresh] == "0") ? "off" : "on"
     end
     if on == "on"
       tooltip = _("Auto refresh on")
@@ -121,7 +121,7 @@ module DashboardHelper
       tooltip = _("Auto refresh off")
     end
     link_to(icon_text("refresh"),
-            {:auto_refresh => (on == "on" ? "0" : "1")},
+            {:auto_refresh => ((on == "on") ? "0" : "1")},
             { :'data-original-title' => tooltip, :rel => 'twipsy', :class => "#{on} auto-refresh btn btn-group btn-default"})
   end
 end

@@ -437,11 +437,11 @@ module Foreman::Model
     end
 
     def os_name_mapping(host)
-      host.operatingsystem.name =~ /redhat|centos/i ? 'rhel': host.operatingsystem.name.downcase
+      (host.operatingsystem.name =~ /redhat|centos/i) ? 'rhel': host.operatingsystem.name.downcase
     end
 
     def arch_name_mapping(host)
-      host.architecture.name == 'x86_64' ? 'x64' : host.architecture.name.downcase if host.architecture
+      (host.architecture.name == 'x86_64') ? 'x64' : host.architecture.name.downcase if host.architecture
     end
 
     def default_iface_name(interfaces)

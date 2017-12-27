@@ -29,7 +29,7 @@ class SeedHelper
       audits.select do |audit|
         attributes.all? do |attribute, value|
           changed_attribute = audit.audited_changes[attribute]
-          audit.action == 'update' ? changed_attribute.first == value : changed_attribute == value
+          (audit.action == 'update') ? changed_attribute.first == value : changed_attribute == value
         end
       end
     end

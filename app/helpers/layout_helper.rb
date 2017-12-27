@@ -101,7 +101,7 @@ module LayoutHelper
   def trunc_with_tooltip(text, length = 32, tooltip_text = "", shorten = true)
     text = text.to_s.empty? ? tooltip_text.to_s : text.to_s
     tooltip_text = tooltip_text.to_s.empty? ? text : tooltip_text.to_s
-    options = shorten && (text.size < length) ? {} : { :'data-original-title' => tooltip_text, :rel => 'twipsy' }
+    options = (shorten && (text.size < length)) ? {} : { :'data-original-title' => tooltip_text, :rel => 'twipsy' }
     if shorten
       content_tag(:span, truncate(text, :length => length), options).html_safe
     else

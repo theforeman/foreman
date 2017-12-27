@@ -13,7 +13,7 @@ module ApplicationHelper
         begin
           path = URI.split(url_for(options) || html_options['href'])[5].split(/\//).select {|x| !x.empty?}
           if !path.empty?
-            max = path.size <= 3 ? path.size : 3
+            max = (path.size <= 3) ? path.size : 3
             id = path.last(max).join('_')
           else
             id = 'not_defined'
@@ -75,7 +75,7 @@ module ApplicationHelper
   end
 
   def date_time_relative_value(time)
-    (time > Time.now.utc ? _('in %s') : _('%s ago')) % time_ago_in_words(time)
+    ((time > Time.now.utc) ? _('in %s') : _('%s ago')) % time_ago_in_words(time)
   end
 
   protected
@@ -267,7 +267,7 @@ module ApplicationHelper
   def flot_pie_chart(name, title, data, options = {})
     data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if data.is_a?(Hash)
     data.map{|element| element[:label] = truncate(element[:label],:length => 16)}
-    header = content_tag(:h4,(options[:show_title]) ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
+    header = content_tag(:h4,options[:show_title] ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
     link_to_function(header, "expand_chart(this)")+
         content_tag(:div, nil,
                     { :id    => name,

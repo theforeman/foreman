@@ -264,7 +264,7 @@ class Host::Managed < Host::Base
 
   #retuns fqdn of host puppetmaster
   def pm_fqdn
-    puppetmaster == "puppet" ? "puppet.#{domain.name}" : (puppetmaster).to_s
+    (puppetmaster == "puppet") ? "puppet.#{domain.name}" : (puppetmaster).to_s
   end
 
   # Cleans Certificate and enable Autosign

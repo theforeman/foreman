@@ -76,7 +76,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
         post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value => override_value }
       end
       response = ActiveSupport::JSON.decode(@response.body)
-      param_not_posted = override_value.keys.first.to_s == 'match' ? 'Value' : 'Match' # The opposite of override_value is missing
+      param_not_posted = (override_value.keys.first.to_s == 'match') ? 'Value' : 'Match' # The opposite of override_value is missing
       assert_match /Validation failed: #{param_not_posted} can't be blank/, response['error']['message']
       assert_response :error
     end
