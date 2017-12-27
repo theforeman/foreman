@@ -14,7 +14,7 @@ class TokenTest < ActiveSupport::TestCase
 
   test "a host can delete its token" do
     h = FactoryBot.create(:host)
-    h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minutes)
+    h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minute)
     assert_instance_of Token, h.token
     h.token=nil
     assert Token.where(:value => "aaaaaa", :host_id => h.id).empty?
@@ -23,8 +23,8 @@ class TokenTest < ActiveSupport::TestCase
   test "a host cannot delete tokens for other hosts" do
     h1 = FactoryBot.create(:host)
     h2 = FactoryBot.create(:host)
-    h1.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minutes)
-    h2.create_token(:value => "bbbbbb", :expires => Time.now.utc + 1.minutes)
+    h1.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minute)
+    h2.create_token(:value => "bbbbbb", :expires => Time.now.utc + 1.minute)
     assert_equal Token.all.size, 2
     h1.token=nil
     assert_equal Token.all.size, 1
@@ -33,8 +33,8 @@ class TokenTest < ActiveSupport::TestCase
   test "not all expired tokens should be removed" do
     h1 = FactoryBot.create(:host)
     h2 = FactoryBot.create(:host)
-    h1.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minutes)
-    h2.create_token(:value => "bbbbbb", :expires => Time.now.utc - 1.minutes)
+    h1.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minute)
+    h2.create_token(:value => "bbbbbb", :expires => Time.now.utc - 1.minute)
     assert_equal 2, Token.count
     h1.expire_token
     assert_equal 1, Token.count

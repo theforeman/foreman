@@ -1769,13 +1769,13 @@ class HostTest < ActiveSupport::TestCase
 
       test "a token can be matched to a host" do
         h = FactoryBot.create(:host, :managed)
-        h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minutes)
+        h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minute)
         assert_equal h, Host.for_token("aaaaaa").first
       end
 
       test "a token cannot be matched to a host when expired" do
         h = FactoryBot.create(:host, :managed)
-        h.create_token(:value => "aaaaaa", :expires => 1.minutes.ago)
+        h.create_token(:value => "aaaaaa", :expires => 1.minute.ago)
         refute Host.for_token("aaaaaa").first
       end
 
