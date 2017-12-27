@@ -1,6 +1,6 @@
 desc "Send patch information to the foreman-dev list"
 task :mail_patches do
-  if !Dir.glob("00*.patch").empty?
+  unless Dir.glob("00*.patch").empty?
     raise "Patches already exist matching '00*.patch'; clean up first"
   end
 

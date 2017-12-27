@@ -23,7 +23,7 @@ module HomeHelper
           item
         end
       when Menu::Toggle
-        if !item.authorized_children.empty?
+        unless item.authorized_children.empty?
           last_shown_item_was_divider = false
           item
         end
@@ -37,7 +37,7 @@ module HomeHelper
 
   def menu_item_tag(item)
     html_options = {:id => "menu_item_#{item.name}"}
-    html_options['data-no-turbolink'] = true if !item.turbolinks
+    html_options['data-no-turbolink'] = true unless item.turbolinks
 
     content_tag(:li,
                 link_to(_(item.caption), item.url, item.html_options.merge(html_options)),
@@ -46,7 +46,7 @@ module HomeHelper
 
   def menu_secondary_item(item)
     html_options = {:id => "menu_item_#{item.name}"}
-    html_options['data-no-turbolink'] = true if !item.turbolinks
+    html_options['data-no-turbolink'] = true unless item.turbolinks
 
     content_tag(:li,
                 link_to(content_tag(:span, _(item.caption), :class => "list-group-item-value").html_safe, item.url, item.html_options.merge(html_options)),
