@@ -108,7 +108,7 @@ module Foreman::Model
 
     private
 
-    def subnet_implies_is_vpc? args
+    def subnet_implies_is_vpc?(args)
       args[:subnet_id].present?
     end
 

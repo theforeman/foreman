@@ -114,7 +114,7 @@ module Net
     end
 
     # return the most efficient form of a v6 address
-    def self.normalize_ip6 ip
+    def self.normalize_ip6(ip)
       return ip unless ip.present?
       IPAddr.new(ip, Socket::AF_INET6).to_s rescue ip
     end

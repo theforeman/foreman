@@ -40,7 +40,7 @@ module Api
         %w(smart_proxy_id)
       end
 
-      def handle_proxy_error exception
+      def handle_proxy_error(exception)
         render :status => 500, :json => { error: exception.message }
       end
     end

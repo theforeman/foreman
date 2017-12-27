@@ -1,6 +1,6 @@
 module ProxyAPI
   class Template < ProxyAPI::Resource
-    def initialize args
+    def initialize(args)
       @url = args[:url] + "/unattended"
       super args
     end
