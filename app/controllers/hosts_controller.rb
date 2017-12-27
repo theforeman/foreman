@@ -797,7 +797,7 @@ class HostsController < ApplicationController
         !PowerManager::REAL_ACTIONS.include?(action)
       error _('No or invalid power state selected!')
       redirect_to(select_multiple_power_state_hosts_path)
-      return false
+      false
     end
   end
 

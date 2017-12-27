@@ -248,7 +248,7 @@ class Taxonomy < ApplicationRecord
   def parent_id_does_not_escalate
     unless User.current.can?("edit_#{self.class.to_s.underscore.pluralize}", self.parent)
       errors.add :parent_id, _("Missing a permission to edit parent %s") % self.class.to_s
-      return false
+      false
     end
   end
 end

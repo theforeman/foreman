@@ -697,12 +697,6 @@ Style/RandomWithOffset:
 Style/RedundantParentheses:
   Enabled: false
 
-# Offense count: 12
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Enabled: false
-
 # Offense count: 617
 # Cop supports --auto-correct.
 Style/RedundantSelf:
