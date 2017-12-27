@@ -41,7 +41,7 @@ module Nic
       return self.tag unless self.tag.blank?
       return self.subnet.vlanid if self.subnet && self.subnet.vlanid.present?
       return self.subnet6.vlanid if self.subnet6 && self.subnet6.vlanid.present?
-      return ''
+      ''
     end
 
     def bridge?

@@ -138,7 +138,7 @@ module Foreman
       if Template.where(:name => file, :snippet => true).empty?
         render :partial => "unattended/snippets/#{file}"
       else
-        return snippet(file.gsub(/^_/, ""), options)
+        snippet(file.gsub(/^_/, ""), options)
       end
     end
 

@@ -191,7 +191,7 @@ module Api
     def require_admin
       unless is_admin?
         render_error('access_denied', :status => :unauthorized, :locals => { :details => _('Admin permissions required') })
-        return false
+        false
       end
     end
 

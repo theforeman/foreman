@@ -12,7 +12,7 @@ module Foreman
         when "list", "array"
           validate_list
         else
-          return true
+          true
         end
       end
 
