@@ -33,7 +33,7 @@ namespace :models  do
   end
 end
 
-def consolidate mappings, dryrun
+def consolidate(mappings, dryrun)
   mapped = []
   for mapping in  mappings
     unless (rex = mapping.delete("rex"))

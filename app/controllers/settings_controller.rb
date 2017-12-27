@@ -25,7 +25,7 @@ class SettingsController < ApplicationController
     end
   end
 
-  def xeditable? object = nil, permission = nil
+  def xeditable?(object = nil, permission = nil)
     #The current user is required to be admin
     current_user.admin?
   end

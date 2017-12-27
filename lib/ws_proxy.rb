@@ -23,7 +23,7 @@ class WsProxy
     proxy.start_proxy
   end
 
-  def free_port? port
+  def free_port?(port)
     socket = Socket.new :INET, :STREAM
     socket.bind(Socket.pack_sockaddr_in(port, '127.0.0.1'))
     return true

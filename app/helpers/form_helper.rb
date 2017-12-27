@@ -316,7 +316,7 @@ module FormHelper
     end
   end
 
-  def add_label options, f, attr
+  def add_label(options, f, attr)
     return ''.html_safe if options[:label] == :none
 
     label_size = options.delete(:label_size) || "col-md-2"
@@ -333,7 +333,7 @@ module FormHelper
     label
   end
 
-  def check_required options, f, attr
+  def check_required(options, f, attr)
     required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
     return ' *'.html_safe if required.nil? ? is_required?(f, attr) : required
   end
