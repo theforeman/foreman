@@ -17,7 +17,7 @@ namespace :locale do
     File.rename "#{filename}.rb", "#{filename}.tmp"
     File.open("#{filename}.rb", "w") do |output|
       IO.foreach("#{filename}.tmp") do |line|
-        if not line =~ /^\s*#/ and not line =~ ignored
+        if (not line =~ /^\s*#/) && (not line =~ ignored)
           output.puts '# TRANSLATORS: "Table name" or "Table name|Column name" for error messages'
           output.puts line
         end
