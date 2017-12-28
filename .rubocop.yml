@@ -62,3 +62,6 @@ Rails/Blank:
 #Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
 Style/WordArray:
   Enabled: false
+
+Style/AndOr:
+  EnforcedStyle: conditionals

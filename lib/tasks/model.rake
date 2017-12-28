@@ -40,7 +40,7 @@ def consolidate mappings, dryrun
       puts "No regular expression found for #{mapping["name"]}"
       next
     end
-    unless mapping.has_key?("name") and mapping.has_key?("vendor_class") and mapping.has_key?("info") and mapping.has_key?("hardware_model")
+    unless mapping.has_key?("name") && mapping.has_key?("vendor_class") && mapping.has_key?("info") && mapping.has_key?("hardware_model")
       puts "There is a problem with the entry with regular expression #{rex}"
       next
     end
