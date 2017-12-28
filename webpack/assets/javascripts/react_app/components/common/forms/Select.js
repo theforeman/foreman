@@ -7,7 +7,9 @@ import CommonForm from './CommonForm';
 class Select extends React.Component {
   componentDidMount() {
     if ($.fn.select2) {
-      $(this.refs.select).select2().on('change', this.props.onChange);
+      $(this.refs.select)
+        .select2()
+        .on('change', this.props.onChange);
     }
   }
 

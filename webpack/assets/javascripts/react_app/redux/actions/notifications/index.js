@@ -1,5 +1,3 @@
-import { isNil } from 'lodash';
-
 import {
   NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,
@@ -8,20 +6,16 @@ import {
   NOTIFICATIONS_MARK_GROUP_AS_READ,
   NOTIFICATIONS_POLLING_STARTED,
 } from '../../consts';
-import {
-  notificationsDrawer as sessionStorage,
-} from '../../../common/sessionStorage';
+import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
 import API from '../../../API';
 
 const defaultNotificationsPollingInterval = 10000;
-const notificationsInterval = isNil(process.env.NOTIFICATIONS_POLLING) ?
-  defaultNotificationsPollingInterval :
-  process.env.NOTIFICATIONS_POLLING;
+const notificationsInterval =
+  process.env.NOTIFICATIONS_POLLING || defaultNotificationsPollingInterval;
 
 const getNotifications = url => (dispatch) => {
   const isDocumentVisible =
-    document.visibilityState === 'visible' ||
-    document.visibilityState === 'prerender';
+    document.visibilityState === 'visible' || document.visibilityState === 'prerender';
 
   if (isDocumentVisible) {
     API.get(url)

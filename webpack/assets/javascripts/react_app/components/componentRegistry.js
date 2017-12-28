@@ -1,5 +1,3 @@
-import forEach from 'lodash/forEach';
-import map from 'lodash/map';
 import React from 'react';
 
 import PieChart from './common/charts/PieChart/';
@@ -28,7 +26,7 @@ const componentRegistry = {
   },
 
   registerMultiple(componentObjs) {
-    return forEach(componentObjs, obj => this.register(obj));
+    return Object.values(componentObjs).forEach(obj => this.register(obj));
   },
 
   getComponent(name) {
@@ -36,7 +34,7 @@ const componentRegistry = {
   },
 
   registeredComponents() {
-    return map(this.registry, (value, key) => key).join(', ');
+    return Object.keys(this.registry).join(', ');
   },
 
   markup(name, data, store) {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { uniq, set } from 'lodash';
 
 const pluginEditAttributes = {
   architecture: [],
@@ -10,7 +10,7 @@ const pluginEditAttributes = {
 export function registerPluginAttributes(componentType, attributes) {
   if (pluginEditAttributes[componentType] !== undefined) {
     const combinedAttributes = pluginEditAttributes[componentType].concat(attributes);
-    pluginEditAttributes[componentType] = _.uniq(combinedAttributes);
+    pluginEditAttributes[componentType] = uniq(combinedAttributes);
   }
 }
 
@@ -29,7 +29,7 @@ export function getAttributesToPost(componentType) {
   if (pluginEditAttributes[componentType] !== undefined) {
     attrsToPost = attrsToPost.concat(pluginEditAttributes[componentType]);
   }
-  return _.uniq(attrsToPost);
+  return uniq(attrsToPost);
 }
 
 class PXECompatibilityCheck {
@@ -64,7 +64,7 @@ export const pxeCompatibility = {};
 
 // Ubuntu 10.x or older and Grub1
 // Ubuntu 11.x or newer and Grub2
-_.set(
+set(
   pxeCompatibility,
   'ubuntu',
   new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
@@ -79,7 +79,7 @@ _.set(
 
 // RHEL 6.x and Grub1
 // RHEL 7.x and Grub2
-_.set(
+set(
   pxeCompatibility,
   'rhel',
   new PXECompatibilityCheck(
@@ -97,7 +97,7 @@ _.set(
 
 // Debian 2-6 and Grub1
 // Debian 7+ and Grub2
-_.set(
+set(
   pxeCompatibility,
   'debian',
   new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
@@ -118,7 +118,7 @@ export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
 
   // eslint-disable-next-line no-param-reassign
   osTitle = osTitle.toLowerCase();
-  _.forEach(_.values(pxeCompatibility), (check) => {
+  Object.values(pxeCompatibility).forEach((check) => {
     const compatibleCheck = check.isCompatible(osTitle, pxeLoader);
 
     if (compatibleCheck != null) {

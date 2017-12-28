@@ -8,7 +8,7 @@ exports[`bookmark form should render the entire form 1`] = `
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(observable): [Function],
+      Symbol(Symbol.observable): [Function],
     }
   }
 >
