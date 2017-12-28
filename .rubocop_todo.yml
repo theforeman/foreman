@@ -547,12 +547,6 @@ Style/IfUnlessModifier:
 Style/IfUnlessModifierOfIfUnless:
   Enabled: false
 
-# Offense count: 19
-# Cop supports --auto-correct.
-# Configuration parameters: InverseMethods, InverseBlocks.
-Style/InverseMethods:
-  Enabled: false
-
 # Offense count: 44
 # Cop supports --auto-correct.
 Style/LineEndConcatenation:
