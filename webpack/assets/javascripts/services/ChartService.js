@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { round } from 'lodash';
 import uuidV1 from 'uuid/v1';
 import { donutChartConfig, donutLargeChartConfig } from './ChartService.consts';
 
@@ -85,7 +85,7 @@ export const getLargePieChartConfig = ({ data, onclick, id = uuidV1() }) =>
   });
 
 function getTotal(columns) {
-  return _.reduce(columns, (sum, item) => sum + item[1], 0);
+  return columns.reduce((sum, item) => sum + item[1], 0);
 }
 
 function getMax(columns) {
@@ -99,7 +99,7 @@ export const setTitle = (config) => {
 
   if (total) {
     const start = 100 * max[1];
-    const title = `${_.round(start / total, 1).toString()}%`;
+    const title = `${round(start / total, 1).toString()}%`;
 
     window.patternfly.pfSetDonutChartTitle(config.bindto, title, data.names[max[0]]);
   }

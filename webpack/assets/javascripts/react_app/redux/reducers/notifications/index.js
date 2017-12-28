@@ -1,4 +1,3 @@
-import { some } from 'lodash';
 import Immutable from 'seamless-immutable';
 
 import {
@@ -19,7 +18,7 @@ const initialState = Immutable({
 });
 
 const hasUnreadMessages = (notifications) => {
-  const result = some(notifications, n => !n.seen);
+  const result = Object.values(notifications).some(n => !n.seen);
 
   // store indicator in sessionStorage.
   // TODO: consider moving this either to a reselect
@@ -44,16 +43,16 @@ export default (state = initialState, action) => {
     case NOTIFICATIONS_SET_EXPANDED_GROUP:
       return state.set('expandedGroup', payload.group);
     case NOTIFICATIONS_MARK_AS_READ: {
-      const notifications = state.notifications.map(n => (
-        n.id === payload.id ? Object.assign({}, n, { seen: true }) : n));
+      const notifications = state.notifications.map(n =>
+        (n.id === payload.id ? { ...n, seen: true } : n));
 
       return state
         .set('notifications', notifications)
         .set('hasUnreadMessages', hasUnreadMessages(notifications));
     }
     case NOTIFICATIONS_MARK_GROUP_AS_READ: {
-      const notifications = state.notifications.map(n => (
-        n.group === payload.group ? Object.assign({}, n, { seen: true }) : n));
+      const notifications = state.notifications.map(n =>
+        (n.group === payload.group ? { ...n, seen: true } : n));
 
       return state
         .set('notifications', notifications)

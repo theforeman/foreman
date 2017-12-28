@@ -67,7 +67,7 @@ exports[`notifications should close the notification box when click the close bu
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(observable): [Function],
+      Symbol(Symbol.observable): [Function],
     }
   }
 >
@@ -127,7 +127,7 @@ exports[`notifications should close the notification box when click the close bu
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
-        Symbol(observable): [Function],
+        Symbol(Symbol.observable): [Function],
       }
     }
     storeSubscription={
@@ -145,7 +145,7 @@ exports[`notifications should close the notification box when click the close bu
           "getState": [Function],
           "replaceReducer": [Function],
           "subscribe": [Function],
-          Symbol(observable): [Function],
+          Symbol(Symbol.observable): [Function],
         },
         "unsubscribe": [Function],
       }
@@ -209,7 +209,7 @@ exports[`notifications should close the notification box when click the close bu
           "getState": [Function],
           "replaceReducer": [Function],
           "subscribe": [Function],
-          Symbol(observable): [Function],
+          Symbol(Symbol.observable): [Function],
         }
       }
       storeSubscription={
@@ -227,7 +227,7 @@ exports[`notifications should close the notification box when click the close bu
             "getState": [Function],
             "replaceReducer": [Function],
             "subscribe": [Function],
-            Symbol(observable): [Function],
+            Symbol(Symbol.observable): [Function],
           },
           "unsubscribe": [Function],
         }
@@ -399,7 +399,7 @@ exports[`notifications should close the notification box when click the close bu
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(observable): [Function],
+      Symbol(Symbol.observable): [Function],
     }
   }
 >
@@ -459,7 +459,7 @@ exports[`notifications should close the notification box when click the close bu
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
-        Symbol(observable): [Function],
+        Symbol(Symbol.observable): [Function],
       }
     }
     storeSubscription={
@@ -477,7 +477,7 @@ exports[`notifications should close the notification box when click the close bu
           "getState": [Function],
           "replaceReducer": [Function],
           "subscribe": [Function],
-          Symbol(observable): [Function],
+          Symbol(Symbol.observable): [Function],
         },
         "unsubscribe": [Function],
       }
@@ -541,7 +541,7 @@ exports[`notifications should close the notification box when click the close bu
           "getState": [Function],
           "replaceReducer": [Function],
           "subscribe": [Function],
-          Symbol(observable): [Function],
+          Symbol(Symbol.observable): [Function],
         }
       }
       storeSubscription={
@@ -559,7 +559,7 @@ exports[`notifications should close the notification box when click the close bu
             "getState": [Function],
             "replaceReducer": [Function],
             "subscribe": [Function],
-            Symbol(observable): [Function],
+            Symbol(Symbol.observable): [Function],
           },
           "unsubscribe": [Function],
         }

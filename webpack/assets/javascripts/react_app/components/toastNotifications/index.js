@@ -1,4 +1,3 @@
-import { map } from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
@@ -12,7 +11,7 @@ class ToastsList extends Component {
 
     return (
       <div className="toast-notifications-list-pf">
-        {map(messages, (toast, key) => (
+        {Object.entries(messages).map(([key, toast]) => (
           <Toast {...toast} key={key} dismiss={deleteToast.bind(this, toast.key)} />
         ))}
       </div>

@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import ChartBox from './ChartBox';
 import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
 import './StatisticsChartsListStyles.scss';
-
 
 const getStatusFromChart = (chart) => {
   if (chart.data) {
@@ -27,7 +25,7 @@ class StatisticsChartsList extends React.Component {
   }
 
   render() {
-    const charts = _.map(this.props.charts, chart => (
+    const charts = Object.values(this.props.charts).map(chart => (
       <ChartBox
         key={chart.id}
         chart={chart}
@@ -41,11 +39,7 @@ class StatisticsChartsList extends React.Component {
       />
     ));
 
-    return (
-      <div className="statistics-charts-list-root">
-        {this.props.charts && charts}
-      </div>
-    );
+    return <div className="statistics-charts-list-root">{this.props.charts && charts}</div>;
   }
 }
 

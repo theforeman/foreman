@@ -1,4 +1,4 @@
-import { groupBy, isUndefined } from 'lodash';
+import { groupBy } from 'lodash';
 import onClickOutside from 'react-onclickoutside';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -17,11 +17,7 @@ class notificationContainer extends React.Component {
   }
 
   handleClickOutside() {
-    const {
-      isDrawerOpen,
-      isReady,
-      toggleDrawer,
-    } = this.props;
+    const { isDrawerOpen, isReady, toggleDrawer } = this.props;
 
     if (isReady && isDrawerOpen) {
       toggleDrawer();
@@ -44,21 +40,19 @@ class notificationContainer extends React.Component {
 
     return (
       <div>
-        <ToggleIcon
-          hasUnreadMessages={hasUnreadMessages}
-          onClick={toggleDrawer}
-        />
+        <ToggleIcon hasUnreadMessages={hasUnreadMessages} onClick={toggleDrawer} />
         {isReady &&
-          isDrawerOpen &&
-          <Drawer
-            onExpandGroup={expandGroup}
-            onClickedLink={onClickedLink}
-            onMarkAsRead={onMarkAsRead}
-            onMarkGroupAsRead={onMarkGroupAsRead}
-            expandedGroup={expandedGroup}
-            notificationGroups={notifications}
-            toggleDrawer={toggleDrawer}
-          />}
+          isDrawerOpen && (
+            <Drawer
+              onExpandGroup={expandGroup}
+              onClickedLink={onClickedLink}
+              onMarkAsRead={onMarkAsRead}
+              onMarkGroupAsRead={onMarkGroupAsRead}
+              expandedGroup={expandedGroup}
+              notificationGroups={notifications}
+              toggleDrawer={toggleDrawer}
+            />
+          )}
       </div>
     );
   }
@@ -78,7 +72,7 @@ const mapStateToProps = (state) => {
     isPolling,
     notifications: groupBy(notifications, 'group'),
     expandedGroup,
-    isReady: !isUndefined(notifications),
+    isReady: !!notifications,
     hasUnreadMessages,
   };
 };
