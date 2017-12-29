@@ -46,26 +46,31 @@ module Orchestration::Realm
   private
 
   def queue_realm
-    return log_orchestration_errors unless realm? && errors.empty?
+    return log_orchestration_errors unless (realm? || old&.realm?) && errors.empty?
     new_record? ? queue_realm_create : queue_realm_update
   end
 
   def queue_realm_create
-    queue.create(:name => _("Create realm entry for %s") % self, :priority => 50,
+    queue.create(:name => _('Create realm entry for %s') % self, :priority => 50,
                  :action => [self, :set_realm])
   end
 
   def queue_realm_update
-    # Update if the hostgroup is changed or if the realm is changed
-    if self.hostgroup_id_changed? || self.realm_id_changed?
-      queue.create(:name => _("Update realm entry for %s") % self, :priority => 50,
-                   :action => [self, :update_realm])
+    # Remove old entry from realm
+    queue.create(:name => _('Delete realm entry for %s') % self, :priority => 49,
+                 :action => [old, :del_realm]) if old.realm? && realm_id_changed?
+    return unless realm?
+    if realm_id_changed?
+      queue_realm_create
+      return
     end
+    queue.create(:name => _('Update realm entry for %s') % self, :priority => 50,
+                 :action => [self, :update_realm]) if hostgroup_id_changed?
   end
 
   def queue_realm_destroy
     return unless realm? && errors.empty?
-    queue.create(:name => _("Delete realm entry for %s") % self, :priority => 50,
+    queue.create(:name => _('Delete realm entry for %s') % self, :priority => 50,
                  :action => [self, :del_realm])
   end
 end
