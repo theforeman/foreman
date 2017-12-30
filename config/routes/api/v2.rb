@@ -46,6 +46,7 @@ Foreman::Application.routes.draw do
         collection do
           post 'build_pxe_default'
           get 'revision'
+          post :import
         end
         resources :template_combinations, :only => [:index, :create, :update, :show]
         resources :operatingsystems, :except => [:new, :edit]
@@ -156,6 +157,7 @@ Foreman::Application.routes.draw do
         end
         collection do
           get 'revision'
+          post :import
         end
 
         resources :operatingsystems, :except => [:new, :edit]

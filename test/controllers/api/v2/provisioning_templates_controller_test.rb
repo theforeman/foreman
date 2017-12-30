@@ -108,4 +108,11 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     get :index, params: { :operatingsystem_id => operatingsystems(:centos5_3).fullname }
     assert_response :success
   end
+
+  test "should import provisioning template" do
+    snippet = FactoryBot.create(:provisioning_template, :snippet)
+    post :import, params: { :provisioning_template => { :name => snippet.name, :template => "<%#\nsnippet: true\n-%>\nbbbb"} }
+    assert_response :success
+    assert_match 'bbbb', ProvisioningTemplate.unscoped.find_by_name(snippet.name).template
+  end
 end

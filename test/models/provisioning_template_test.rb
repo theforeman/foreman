@@ -235,4 +235,40 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
       assert_includes lines, "name: #{template.name}"
     end
   end
+
+  context 'importing' do
+    describe '#import_custom_data' do
+      setup do
+        @template = ProvisioningTemplate.new
+        @template.stubs(:import_oses)
+      end
+
+      test 'it sets kind to nil if snippet is being imported' do
+        @template.instance_variable_set '@importing_metadata', { 'kind' => 'some' }
+        @template.snippet = true
+        @template.send :import_custom_data, { :associate => 'always' }
+        assert_nil @template.template_kind
+      end
+
+      test 'it skips kind selection if it is missing in metadata' do
+        @template.instance_variable_set '@importing_metadata', { }
+        @template.send :import_custom_data, { :associate => 'always' }
+        assert_nil @template.template_kind
+      end
+
+      test 'it sets the kind based on metadata' do
+        kind = FactoryBot.create(:template_kind)
+        @template.instance_variable_set '@importing_metadata', { 'kind' => kind.name }
+        @template.send :import_custom_data, { :associate => 'always' }
+        assert_equal kind, @template.template_kind
+      end
+
+      test 'it errors out if invalid/unknown kind was specified' do
+        @template.instance_variable_set '@importing_metadata', { 'kind' => 'not existing kind name' }
+        @template.send :import_custom_data, { :associate => 'always' }
+        assert_nil @template.template_kind
+        assert_includes @template.errors.keys, :template_kind_id
+      end
+    end
+  end
 end

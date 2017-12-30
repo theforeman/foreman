@@ -73,7 +73,98 @@ class Template < ApplicationRecord
     self
   end
 
+  # Set attributes based on template +text and metadata found in this +text
+  # the metadata parsing can be adjusted using +options
+  def import_without_save(text, options = {})
+    self.template = text
+    @importing_metadata = self.class.parse_metadata(text)
+    Foreman::Logging.logger('app').debug "setting attributes for #{self.name} with id: #{self.id || 'N/A'}"
+    self.snippet = !!@importing_metadata[:snippet]
+
+    import_locations(options)
+    import_organizations(options)
+    import_custom_data(options)
+
+    self
+  end
+
+  # Set template attributes
+  #
+  # based on +name it either finds existing template or builds a new one
+  # then it applies changes to it and return this object, note no changes were saved at this point
+  def self.import_without_save(name, text, options = {})
+    template = self.unscoped.find_or_initialize_by(:name => name)
+    Foreman::Logging.logger('app').debug "#{template.new_record? ? 'building new' : 'updating existing'} template"
+    template.import_without_save(text, options)
+  end
+
+  # Pull out the first erb comment only - /m is for a multiline regex
+  def self.parse_metadata(text)
+    extracted = text.match(/<%\#[\t a-z0-9=:]*(.+?).-?%>/m)
+    extracted.nil? ? {} : YAML.load(extracted[1]).with_indifferent_access
+  rescue RuntimeError => e
+    Foreman::Logging.exception('invalid metadata', e)
+    {}
+  end
+
+  # Updates template metadata and save! it
+  #
+  # options can contain following keys
+  #   :force - set to true if you want to bypass locked templates
+  #   :associate - either 'new', 'always' or 'never', determines when the template should associate objects based on metadata
+  def self.import!(name, text, options = {})
+    template = import_without_save(name, text, options)
+    if options[:force]
+      template.ignore_locking { template.save! }
+    else
+      template.save!
+    end
+    template
+  end
+
   private
+
+  # This method can be overridden in Template children classes to import additional attributes
+  # specific to their type
+  #
+  # it can rely on self.template being updated and @importing_metadata to be populated with parsed
+  # metadata
+  def import_custom_data(_options)
+  end
+
+  # Sets operatingsystem_ids of a template, it's used by provisioning template and ptable, which
+  # is why it lives here. Note that it's still considered as custom since other template types
+  # don't have relation to operating systems.
+  def import_oses(options)
+    if @importing_metadata.key?('oses') && associate_metadata_on_import?(options)
+      oses = Operatingsystem.authorized(:view_operatingsystems).all.select do |existing_os|
+        @importing_metadata['oses'].any? {|imported_os| existing_os.to_label =~ /\A#{imported_os}/}
+      end
+      self.operatingsystem_ids = oses.map(&:id)
+    end
+  end
+
+  def import_organizations(options)
+    if @importing_metadata.key?('organizations') && associate_metadata_on_import?(options)
+      organizations = User.current.my_organizations.where(:name => @importing_metadata['organizations'])
+      self.organization_ids = organizations.map(&:id)
+    else
+      self.organization_ids << Organization.current.id if Organization.current && !self.organization_ids.include?(Organization.current.id)
+    end
+  end
+
+  def import_locations(options)
+    if @importing_metadata.key?('locations') && associate_metadata_on_import?(options)
+      locations = User.current.my_locations.where(:name => @importing_metadata['locations'])
+      self.location_ids = locations.map(&:id)
+    else
+      self.location_ids << Location.current.id if Location.current && !self.location_ids.include?(Location.current.id)
+    end
+  end
+
+  def associate_metadata_on_import?(options)
+    (options[:associate] == 'new' && self.new_record?) || (options[:associate] == 'always')
+  end
 
   def allowed_changes
     @allowed_changes ||= %w(locked default)

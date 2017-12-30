@@ -8,6 +8,7 @@ class Ptable < Template
   friendly_id :name
   include Parameterizable::ByIdName
   include ValidateOsFamily
+  include DirtyAssociations
 
   class << self
     # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
@@ -44,6 +45,8 @@ class Ptable < Template
 
   attr_exportable :os_family
 
+  dirty_has_many_associations :operatingsystems
+
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {
@@ -62,5 +65,13 @@ class Ptable < Template
 
   def taxonomy_foreign_conditions
     { :ptable_id => id }
+  end
+
+  private
+
+  def import_custom_data(options)
+    import_oses(options)
+
+    self.os_family = self.operatingsystems.first.family if self.operatingsystem_ids.present?
   end
 end
