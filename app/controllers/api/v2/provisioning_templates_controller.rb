@@ -55,6 +55,25 @@ module Api
         process_response @provisioning_template.save
       end
 
+      api :POST, "/provisioning_templates/import", N_("Import a provisioning template")
+      param :provisioning_template, Hash, :required => true, :action_aware => true do
+        param :name, String, :required => true, :desc => N_("template name")
+        param :template, String, :required => true, :desc => N_("template contents including metadata")
+      end
+      param :options, Hash, :required => false do
+        param :force, :bool, :allow_nil => true, :desc => N_('use if you want update locked templates')
+        param :associate, ['new', 'always', 'never'], :allow_nil => true, :desc => N_('determines when the template should associate objects based on metadata, new means only when new template is being created, always means both for new and existing template which is only being updated, never ignores metadata')
+      end
+
+      def import
+        options = params.permit(:options => {}).try(:[], :options) || {}
+        template_params = params.require(:provisioning_template).permit(:name, :template)
+        name = template_params[:name]
+        text = template_params[:template]
+        @provisioning_template = ProvisioningTemplate.import!(name, text, options)
+        process_response @provisioning_template
+      end
+
       api :PUT, "/provisioning_templates/:id", N_("Update a provisioning template")
       param :id, :identifier, :required => true
       param_group :provisioning_template
@@ -133,7 +152,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'clone'
+          when 'clone', 'import'
             'create'
           when 'export'
             'view'
