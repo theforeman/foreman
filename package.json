@@ -105,7 +105,9 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "webpack/**/*.js",
-      "!webpack/**/bundle*"
+      "!webpack/**/bundle*",
+      "!webpack/stories/**",
+      "!webpack/**/*stories.js"
     ],
     "coverageReporters": [
       "lcov"
