@@ -6,9 +6,20 @@ class SubnetTest < ActiveSupport::TestCase
   should_not validate_uniqueness_of(:network)
   should_not allow_value("asf:fwe6::we6s:q1").for(:network)
   should_not allow_value("asf:fwe6::we6s:q1").for(:mask)
+  should allow_values(10, 100, '200', nil, '').for(:vlanid)
+  should_not allow_value('Bär', -12, 4096).for(:vlanid)
   should belong_to(:tftp)
   should belong_to(:dns)
   should belong_to(:dhcp)
+
+  test 'should sort by vlanid as number' do
+    # ensure we have subnets that would be incorrectly sorted in text sort
+    FactoryBot.create(:subnet_ipv4, vlanid: 3)
+    FactoryBot.create(:subnet_ipv4, vlanid: 33)
+    FactoryBot.create(:subnet_ipv4, vlanid: 4)
+    vlanids = Subnet.all.pluck(:vlanid).reject(&:nil?)
+    assert_equal vlanids, vlanids.map(&:to_i).sort
+  end
 
   test 'should be cast to Subnet::Ipv4 if no type is set' do
     subnet = Subnet.new

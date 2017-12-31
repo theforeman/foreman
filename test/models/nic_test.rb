@@ -92,7 +92,7 @@ class NicTest < ActiveSupport::TestCase
     assert_equal subnet.network, interface.network
     assert_equal subnet6.network, interface.network6
     assert_equal subnet.vlanid, interface.vlanid
-    assert_equal '42', interface.vlanid
+    assert_equal 42, interface.vlanid
   end
 
   test "should delegate subnet6 attributes if subnet is nil" do
@@ -109,7 +109,7 @@ class NicTest < ActiveSupport::TestCase
                                   :domain => domain)
     assert_equal subnet6.vlanid, interface.vlanid
     assert_equal subnet6.network, interface.network6
-    assert_equal '44', interface.vlanid
+    assert_equal 44, interface.vlanid
   end
 
   test "should reject subnet with mismatched taxonomy in host" do
