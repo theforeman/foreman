@@ -1,4 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+---
 config_summary:
   name: config_summary
   description: config summary
@@ -29,8 +29,8 @@ host_built:
   subscription_type: alert
 
 tester:
-    name: tester
-    description: Test email configurations
-    mailer: UserMailer
-    method: tester
-    subscriptable: false
+  name: tester
+  description: Test email configurations
+  mailer: UserMailer
+  method: tester
+  subscriptable: false

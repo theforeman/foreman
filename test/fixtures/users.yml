@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 anonymous:
   login: <%= User::ANONYMOUS_ADMIN %>
   lower_login: <%= User::ANONYMOUS_ADMIN.downcase %>
