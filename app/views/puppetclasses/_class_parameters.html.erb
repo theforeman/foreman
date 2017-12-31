@@ -18,6 +18,9 @@
     <td class="ellipsis param_name">
       <%= lookup_key.key %>
     </td>
+    <td class="ellipsis">
+      <%= (lookup_key.is_a? PuppetclassLookupKey) ? _("Smart Parameter"): _("Smart Variables")%>
+    </td>
     <td <%= "class=has-error" if error.present? %>>
       <div class="input-group">
         <%= lookup_key_with_diagnostic(obj, lookup_key, lookup_value) %>
