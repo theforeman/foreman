@@ -354,20 +354,21 @@ module Foreman::Model
     def client
       return @client if @client
       client = ::Fog::Compute.new(
-          :provider         => "ovirt",
-          :ovirt_username   => user,
-          :ovirt_password   => password,
-          :ovirt_url        => url,
-          :ovirt_datacenter => uuid,
-          :ovirt_ca_cert_store => ca_cert_store(public_key)
+        :provider         => "ovirt",
+        :ovirt_username   => user,
+        :ovirt_password   => password,
+        :ovirt_url        => url,
+        :ovirt_datacenter => uuid,
+        :ovirt_ca_cert_store => ca_cert_store(public_key)
       )
       client.datacenters
       @client = client
     rescue => e
       if e.message =~ /SSL_connect.*certificate verify failed/
         raise Foreman::FingerprintException.new(
-                  N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
-                  ca_cert)
+          N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
+          ca_cert
+        )
       else
         raise e
       end

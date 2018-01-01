@@ -71,3 +71,6 @@ Style/TernaryParentheses:
 
 Style/InverseMethods:
   Enabled: false
+
+Layout/FirstParameterIndentation:
+  EnforcedStyle: consistent

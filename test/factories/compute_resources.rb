@@ -75,10 +75,11 @@ FactoryBot.define do
   factory :compute_attribute do
     sequence(:name) { |n| "attributes#{n}" }
     vm_attrs(
-    {
-      :flavor_id => 'm1.small',
-      :availability_zone => 'eu-west-1a'
-    })
+      {
+        :flavor_id => 'm1.small',
+        :availability_zone => 'eu-west-1a'
+      }
+    )
     before(:create) { |attr| attr.stubs(:pretty_vm_attrs).returns('m1.small VM') }
   end
 
@@ -93,7 +94,8 @@ FactoryBot.define do
       after(:create) do |compute_profile, evaluator|
         compute_profile.compute_attributes << FactoryBot.create(:compute_attribute,
           :compute_resource => evaluator.compute_resource,
-          :compute_profile => compute_profile)
+          :compute_profile => compute_profile
+        )
       end
     end
   end

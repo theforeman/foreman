@@ -159,12 +159,16 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test '#log_pane' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
-    {
-      'logs' => [{
-        "timestamp" => 1453890750.9860077,
-        "level" => "DEBUG",
-        "message" => "A debug message"
-      }]})
+      {
+        'logs' => [
+          {
+            "timestamp" => 1453890750.9860077,
+            "level"     => "DEBUG",
+            "message"   => "A debug message"
+          }
+        ]
+      }
+    )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     get :log_pane, params: { :id => proxy.id }, session: set_session_user, xhr: true
     assert_response :success
@@ -175,12 +179,16 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test '#expire_logs' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
-    {
-      'logs' => [{
-        "timestamp" => 1453890750.9860077,
-        "level" => "DEBUG",
-        "message" => "A debug message"
-      }]})
+      {
+        'logs' => [
+          {
+            "timestamp" => 1453890750.9860077,
+            "level"     => "DEBUG",
+            "message"   => "A debug message"
+          }
+        ]
+      }
+    )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     SmartProxy.any_instance.expects(:expired_logs=).with('42').returns('42')
     get :expire_logs, params: { :id => proxy.id, :from => 42 }, session: set_session_user, xhr: true
@@ -192,11 +200,14 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test '#failed_modules' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
-    {
-      'info' => {
-        "failed_modules" => {
-          "BMC" => "Initialization error"
-        }}})
+      {
+        'info' => {
+          "failed_modules" => {
+            "BMC" => "Initialization error"
+          }
+        }
+      }
+    )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     get :failed_modules, params: { :id => proxy.id }, session: set_session_user, xhr: true
     assert_response :success
@@ -207,16 +218,18 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test '#errors_card' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
-    {
-      "info" => {
-        "failed_modules" => {}
-      },
-      "logs" => [
-        { "timestamp" => 1000, "level" => "INFO", "message" => "Message" },
-        { "timestamp" => 1001, "level" => "INFO", "message" => "Message" },
-        { "timestamp" => 1002, "level" => "ERROR", "message" => "Message" },
-        { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" }
-      ]})
+      {
+        "info" => {
+          "failed_modules" => {}
+        },
+        "logs" => [
+          { "timestamp" => 1000, "level" => "INFO", "message" => "Message" },
+          { "timestamp" => 1001, "level" => "INFO", "message" => "Message" },
+          { "timestamp" => 1002, "level" => "ERROR", "message" => "Message" },
+          { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" }
+        ]
+      }
+    )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     get :errors_card, params: { :id => proxy.id }, session: set_session_user, xhr: true
     assert_response :success
@@ -228,11 +241,13 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test '#errors_card_empty' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
-    {
-      "info" => {
-        "failed_modules" => {}
-      },
-      "logs" => []})
+      {
+        "info" => {
+          "failed_modules" => {}
+        },
+        "logs" => []
+      }
+    )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     get :errors_card, params: { :id => proxy.id }, session: set_session_user, xhr: true
     assert_response :success
@@ -246,14 +261,16 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test '#modules_card' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
-    {
-      "info" => {
-        "failed_modules" => {
-          "BMC" => "Message",
-          "Puppet" => "Another message"
-        }
-      },
-      "logs" => []})
+      {
+        "info" => {
+          "failed_modules" => {
+            "BMC" => "Message",
+            "Puppet" => "Another message"
+          }
+        },
+        "logs" => []
+      }
+    )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     get :modules_card, params: { :id => proxy.id }, session: set_session_user, xhr: true
     assert_response :success
@@ -265,11 +282,13 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test '#modules_card_empty' do
     proxy = smart_proxies(:logs)
     fake_data = ::SmartProxies::LogBuffer.new(
-    {
-      "info" => {
-        "failed_modules" => {}
-      },
-      "logs" => []})
+      {
+        "info" => {
+          "failed_modules" => {}
+        },
+        "logs" => []
+      }
+    )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
     get :modules_card, params: { :id => proxy.id }, session: set_session_user, xhr: true
     assert_response :success

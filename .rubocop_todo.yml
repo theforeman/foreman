@@ -59,13 +59,6 @@ Layout/EmptyLinesAroundArguments:
 Layout/ExtraSpacing:
   Enabled: false
 
-# Offense count: 21
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: consistent, special_for_inner_method_call, special_for_inner_method_call_in_parentheses
-Layout/FirstParameterIndentation:
-  Enabled: false
-
 # Offense count: 31
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

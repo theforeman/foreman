@@ -332,7 +332,7 @@ module HostsHelper
       ),
       if host.supports_power?
         button_group(
-            link_to(_("Loading power state ..."), '#', :disabled => true, :class => 'btn btn-default', :id => :loading_power_state)
+          link_to(_("Loading power state ..."), '#', :disabled => true, :class => 'btn btn-default', :id => :loading_power_state)
         )
       end,
       button_group(

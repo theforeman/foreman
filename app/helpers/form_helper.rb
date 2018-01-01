@@ -203,9 +203,9 @@ module FormHelper
       auto_complete_search(attr,
                            f.object.send(attr).try(:squeeze, " "),
                            options.merge(
-                               :placeholder => _("Filter") + ' ...',
-                               :path        => path,
-                               :name        => "#{f.object_name}[#{attr}]"
+                             :placeholder => _("Filter") + ' ...',
+                             :path        => path,
+                             :name        => "#{f.object_name}[#{attr}]"
                            )
       ).html_safe
     end
