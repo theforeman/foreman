@@ -429,22 +429,22 @@ class NicTest < ActiveSupport::TestCase
       assert_nil Nic::Base.type_by_name("DisallowedTestNic")
     end
 
-    test 'fqdn_changed? should be true if name changes' do
-      @nic.stubs(:name_changed?).returns(true)
-      @nic.stubs(:domain_id_changed?).returns(false)
-      assert @nic.fqdn_changed?
+    test 'saved_change_to_fqdn? should be true if name changes' do
+      @nic.stubs(:saved_change_to_name?).returns(true)
+      @nic.stubs(:saved_change_to_domain_id?).returns(false)
+      assert @nic.saved_change_to_fqdn?
     end
 
-    test 'fqdn_changed? should be true if domain changes' do
-      @nic.stubs(:name_changed?).returns(false)
-      @nic.stubs(:domain_id_changed?).returns(true)
-      assert @nic.fqdn_changed?
+    test 'saved_change_to_fqdn? should be true if domain changes' do
+      @nic.stubs(:saved_change_to_name?).returns(false)
+      @nic.stubs(:saved_change_to_domain_id?).returns(true)
+      assert @nic.saved_change_to_fqdn?
     end
 
-    test 'fqdn_changed? should be true if name and domain change' do
-      @nic.stubs(:name_changed?).returns(true)
-      @nic.stubs(:domain_id_changed?).returns(true)
-      assert @nic.fqdn_changed?
+    test 'saved_change_to_fqdn? should be true if name and domain change' do
+      @nic.stubs(:saved_change_to_name?).returns(true)
+      @nic.stubs(:saved_change_to_domain_id?).returns(true)
+      assert @nic.saved_change_to_fqdn?
     end
   end
 

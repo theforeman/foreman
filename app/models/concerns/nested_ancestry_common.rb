@@ -8,7 +8,7 @@ module NestedAncestryCommon
 
     before_validation :set_title
     after_save :set_other_titles, :on => [:update, :destroy]
-    after_save :update_matchers, :on => :update, :if => Proc.new { |obj| obj.title_changed? }
+    after_save :update_matchers, :on => :update, :if => Proc.new { |obj| obj.saved_change_to_title? }
 
     validate :title_and_lookup_key_length
 
@@ -84,7 +84,7 @@ module NestedAncestryCommon
   end
 
   def set_other_titles
-    if name_changed? || ancestry_changed?
+    if saved_change_to_name? || saved_change_to_ancestry?
       self.class.where('ancestry IS NOT NULL').find_each do |obj|
         if obj.path_ids.include?(self.id)
           obj.update_attributes(:title => obj.get_title)
@@ -98,7 +98,7 @@ module NestedAncestryCommon
   end
 
   def update_matchers
-    lookup_values = LookupValue.where(:match => "#{obj_type}=#{title_was}")
+    lookup_values = LookupValue.where(:match => "#{obj_type}=#{title_before_last_save}")
     lookup_values.update_all(:match => "#{obj_type}=#{title}")
   end
 
