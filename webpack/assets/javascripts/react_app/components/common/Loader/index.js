@@ -1,7 +1,7 @@
 import React from 'react';
-import { STATUS } from '../../constants';
-import MessageBox from './MessageBox';
-import './LoaderStyles.css';
+import { STATUS } from '../../../constants';
+import MessageBox from '../MessageBox';
+import './Loader.css';
 
 const _simpleLoader = spinnerSize => (
   <div className="loader-root">
