@@ -56,14 +56,14 @@ module Nic
       self.virtual? && self.identifier.present? && self.identifier.include?(':')
     end
 
-    def fqdn_changed?
-      name_changed? || domain_id_changed?
+    def saved_change_to_fqdn?
+      saved_change_to_name? || saved_change_to_domain_id?
     end
 
-    def fqdn_was
-      domain_was = Domain.find(domain_id_was) unless domain_id_was.blank?
-      return name_was if name_was.blank? || domain_was.blank?
-      name_was.include?('.') ? name_was : "#{name_was}.#{domain_was}"
+    def fqdn_before_last_save
+      domain_before_last_save = Domain.find(domain_id_before_last_save) unless domain_id_before_last_save.blank?
+      return name_before_last_save if name_before_last_save.blank? || domain_before_last_save.blank?
+      name_before_last_save.include?('.') ? name_before_last_save : "#{name_before_last_save}.#{domain_before_last_save}"
     end
 
     protected
