@@ -95,8 +95,8 @@ class CleanExpiredTest < ActiveSupport::TestCase
 
   def create_blueprint(expired_time, validate = true)
     blueprint = FactoryBot.build(
-        :notification_blueprint,
-        :expires_in => expired_time
+      :notification_blueprint,
+      :expires_in => expired_time
     )
     blueprint.save(:validate => validate)
     blueprint
