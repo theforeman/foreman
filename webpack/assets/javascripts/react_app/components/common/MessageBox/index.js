@@ -3,7 +3,7 @@
 // temporary component
 // will be replaced by patternfly markup when available
 import React from 'react';
-import './MessageBoxStyles.css';
+import './MessageBox.css';
 
 const MessageBox = ({ msg, icontype }) =>
   (
