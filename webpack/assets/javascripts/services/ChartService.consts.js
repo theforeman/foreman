@@ -1,6 +1,7 @@
 const enums = {
   SIZE: {
     LARGE: { height: 500 },
+    REGULAR: { width: 240, height: 240 },
   },
   WIDTH: {
     SMALL: 15,
@@ -14,8 +15,10 @@ export const donutChartConfig = {
     label: { show: false },
   },
   data: {
-    type: 'donut',
     columns: [],
+  },
+  color: {
+    pattern: ['#0088ce', '#cc0000', '#ec7a08', '#3f9c35', '#005c66', 'f9d67a'],
   },
   tooltip: {
     show: true,
@@ -27,11 +30,13 @@ export const donutChartConfig = {
     right: 0,
     bottom: 0,
   },
+  size: enums.SIZE.REGULAR,
 };
 
 export const donutLargeChartConfig = {
   ...donutChartConfig,
   size: enums.SIZE.LARGE,
+  legend: { show: true, position: 'bottom' },
   donut: {
     ...donutChartConfig.donut,
     width: enums.WIDTH.LARGE,

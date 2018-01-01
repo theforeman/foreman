@@ -1,286 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChartBox error 1`] = `
-<ChartBox
-  chart={
-    Object {
-      "id": "2",
-    }
+<Panel
+  bsClass="panel"
+  bsStyle="default"
+  className="chart-box"
+  defaultExpanded={false}
+  header={
+    <h3>
+      some title
+    </h3>
   }
-  errorText="some error"
-  id="2"
-  noDataMsg="no data"
-  status="ERROR"
+  key="2"
 >
-  <Panel
-    bsClass="panel"
-    bsStyle="default"
-    className="chart-box"
-    defaultExpanded={false}
-    header={
-      <h3
-        data-placement="top"
-        data-toggle="tooltip"
-        onClick={[Function]}
-        title={undefined}
-      />
-    }
-    key="2"
+  <Loader
+    status="PENDING"
   >
-    <div
-      className="chart-box panel panel-default"
-    >
-      <div
-        className="panel-heading"
-      >
-        <h3
-          className="panel-title"
-          data-placement="top"
-          data-toggle="tooltip"
-          onClick={[Function]}
-        />
-      </div>
-      <div
-        className="panel-body"
-        key="0"
-      >
-        <Loader
-          key=".0"
-          status="ERROR"
-        >
-          <div
-            className="loader-root"
-          >
-            <MessageBox
-              icontype="error-circle-o"
-              key="2-error"
-              msg="some error"
-            >
-              <div
-                className="message-box-root"
-              >
-                <div
-                  className="pficon pficon-error-circle-o message-box-content message-box-icon"
-                />
-                <div
-                  className="message-box-content message-box-message"
-                >
-                  some error
-                </div>
-              </div>
-            </MessageBox>
-          </div>
-        </Loader>
-        <ChartModal
-          chart={
-            Object {
-              "id": "2",
-            }
-          }
-          config={Object {}}
-          errorText="some error"
-          id="2"
-          key=".1"
-          noDataMsg="no data"
-          onHide={[Function]}
-          show={false}
-          status="ERROR"
-        >
-          <Modal
-            animation={true}
-            autoFocus={true}
-            backdrop={true}
-            bsClass="modal"
-            dialogComponentClass={[Function]}
-            enforceFocus={true}
-            keyboard={true}
-            manager={
-              ModalManager {
-                "add": [Function],
-                "containers": Array [],
-                "data": Array [],
-                "handleContainerOverflow": true,
-                "hideSiblingNodes": true,
-                "isTopModal": [Function],
-                "modals": Array [],
-                "remove": [Function],
-              }
-            }
-            onEnter={[Function]}
-            onHide={[Function]}
-            renderBackdrop={[Function]}
-            restoreFocus={true}
-            show={false}
-          >
-            <Modal
-              autoFocus={true}
-              backdrop={true}
-              backdropClassName="modal-backdrop"
-              backdropTransitionTimeout={150}
-              containerClassName="modal-open"
-              dialogTransitionTimeout={300}
-              enforceFocus={true}
-              keyboard={true}
-              manager={
-                ModalManager {
-                  "add": [Function],
-                  "containers": Array [],
-                  "data": Array [],
-                  "handleContainerOverflow": true,
-                  "hideSiblingNodes": true,
-                  "isTopModal": [Function],
-                  "modals": Array [],
-                  "remove": [Function],
-                }
-              }
-              onEnter={[Function]}
-              onEntering={[Function]}
-              onExited={[Function]}
-              onHide={[Function]}
-              renderBackdrop={[Function]}
-              restoreFocus={true}
-              show={false}
-              transition={[Function]}
-            />
-          </Modal>
-        </ChartModal>
-      </div>
-    </div>
-  </Panel>
-</ChartBox>
+    <DonutChart
+      data={null}
+      key="2-chart"
+      onclick={[Function]}
+    />
+    <MessageBox
+      icontype="error-circle-o"
+      key="2-error"
+      msg="some error"
+    />
+  </Loader>
+</Panel>
 `;
 
 exports[`ChartBox pending 1`] = `
-<ChartBox
-  chart={
-    Object {
-      "id": "2",
-    }
+<Panel
+  bsClass="panel"
+  bsStyle="default"
+  className="chart-box"
+  defaultExpanded={false}
+  header={
+    <h3>
+      some title
+    </h3>
   }
-  errorText="some error"
-  id="2"
-  noDataMsg="no data"
-  status="PENDING"
+  key="2"
 >
-  <Panel
-    bsClass="panel"
-    bsStyle="default"
-    className="chart-box"
-    defaultExpanded={false}
-    header={
-      <h3
-        data-placement="top"
-        data-toggle="tooltip"
-        onClick={[Function]}
-        title={undefined}
-      />
-    }
-    key="2"
+  <Loader
+    status="PENDING"
   >
-    <div
-      className="chart-box panel panel-default"
+    <DonutChart
+      data={null}
+      key="2-chart"
+      onclick={[Function]}
+    />
+    <MessageBox
+      icontype="error-circle-o"
+      key="2-error"
+      msg="some error"
+    />
+  </Loader>
+</Panel>
+`;
+
+exports[`ChartBox resolved 1`] = `
+<Panel
+  bsClass="panel"
+  bsStyle="default"
+  className="chart-box"
+  defaultExpanded={false}
+  header={
+    <h3
+      className="pointer"
+      data-placement="top"
+      data-toggle="tooltip"
+      onClick={[Function]}
+      title="sone tooltip"
     >
-      <div
-        className="panel-heading"
-      >
-        <h3
-          className="panel-title"
-          data-placement="top"
-          data-toggle="tooltip"
-          onClick={[Function]}
-        />
-      </div>
-      <div
-        className="panel-body"
-        key="0"
-      >
-        <Loader
-          key=".0"
-          status="PENDING"
-        >
-          <div
-            className="loader-root"
-          >
-            <div
-              className="spinner spinner-lg"
-            />
-          </div>
-        </Loader>
-        <ChartModal
-          chart={
-            Object {
-              "id": "2",
-            }
-          }
-          config={Object {}}
-          errorText="some error"
-          id="2"
-          key=".1"
-          noDataMsg="no data"
-          onHide={[Function]}
-          show={false}
-          status="PENDING"
-        >
-          <Modal
-            animation={true}
-            autoFocus={true}
-            backdrop={true}
-            bsClass="modal"
-            dialogComponentClass={[Function]}
-            enforceFocus={true}
-            keyboard={true}
-            manager={
-              ModalManager {
-                "add": [Function],
-                "containers": Array [],
-                "data": Array [],
-                "handleContainerOverflow": true,
-                "hideSiblingNodes": true,
-                "isTopModal": [Function],
-                "modals": Array [],
-                "remove": [Function],
-              }
-            }
-            onEnter={[Function]}
-            onHide={[Function]}
-            renderBackdrop={[Function]}
-            restoreFocus={true}
-            show={false}
-          >
-            <Modal
-              autoFocus={true}
-              backdrop={true}
-              backdropClassName="modal-backdrop"
-              backdropTransitionTimeout={150}
-              containerClassName="modal-open"
-              dialogTransitionTimeout={300}
-              enforceFocus={true}
-              keyboard={true}
-              manager={
-                ModalManager {
-                  "add": [Function],
-                  "containers": Array [],
-                  "data": Array [],
-                  "handleContainerOverflow": true,
-                  "hideSiblingNodes": true,
-                  "isTopModal": [Function],
-                  "modals": Array [],
-                  "remove": [Function],
-                }
-              }
-              onEnter={[Function]}
-              onEntering={[Function]}
-              onExited={[Function]}
-              onHide={[Function]}
-              renderBackdrop={[Function]}
-              restoreFocus={true}
-              show={false}
-              transition={[Function]}
-            />
-          </Modal>
-        </ChartModal>
-      </div>
-    </div>
-  </Panel>
-</ChartBox>
+      some title
+    </h3>
+  }
+  key="2"
+>
+  <Loader
+    status="PENDING"
+  >
+    <DonutChart
+      data={
+        Array [
+          Array [
+            1,
+            2,
+          ],
+        ]
+      }
+      key="2-chart"
+      onclick={[Function]}
+    />
+    <MessageBox
+      icontype="error-circle-o"
+      key="2-error"
+      msg="some error"
+    />
+  </Loader>
+</Panel>
 `;

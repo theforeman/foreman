@@ -28,6 +28,7 @@ class StatisticsChartsList extends React.Component {
     const charts = Object.values(this.props.charts).map(chart => (
       <ChartBox
         key={chart.id}
+        type={'donut'}
         chart={chart}
         noDataMsg={__('No data available')}
         tip={__('Expand the chart')}

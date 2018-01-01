@@ -3,7 +3,7 @@
 </h4>
 <div id="host_configuration_chart">
 </div>
-<%= mount_react_component('PieChart', '#host_configuration_chart', get_overview_json(@data.report))%>
+<%= mount_react_component('DonutChart', '#host_configuration_chart', get_overview_json(@data.report))%>
 <ul class="ui-helper-hidden">
   <%= render "dashboard/status_links" %>
 </ul>

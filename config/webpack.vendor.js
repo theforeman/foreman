@@ -58,7 +58,6 @@ module.exports = [
   /**
    * Other packages
    */
-  'c3',
   'diff',
   'ipaddr.js',
   'jstz',

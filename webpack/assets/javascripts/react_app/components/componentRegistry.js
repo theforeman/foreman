@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PieChart from './common/charts/PieChart/';
+import DonutChart from './common/charts/DonutChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
@@ -56,7 +56,7 @@ const componentRegistry = {
 
 const coreComponets = [
   { name: 'BookmarkContainer', type: BookmarkContainer },
-  { name: 'PieChart', type: PieChart },
+  { name: 'DonutChart', type: DonutChart },
   { name: 'StatisticsChartsList', type: StatisticsChartsList },
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },
