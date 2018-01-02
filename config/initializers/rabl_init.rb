@@ -70,6 +70,7 @@ module Foreman
   end
 end
 Rabl::Engine.send(:prepend, Foreman::RablEngineExt)
+Rabl.register!
 ActionView::Template::Handlers::Rabl.singleton_class.send(:prepend, Foreman::RablTemplateHandlerExt)
 
 Rabl.configure do |config|
