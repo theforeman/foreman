@@ -1,6 +1,8 @@
 <%#
 kind: snippet
 name: epel
+model: ProvisioningTemplate
+snippet: true
 -%>
 <%
 repo_base  = host_param('epel-repo-base') ? host_param('epel-repo-base') : 'https://dl.fedoraproject.org/pub/epel'

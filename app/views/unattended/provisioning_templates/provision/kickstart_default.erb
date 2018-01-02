@@ -1,6 +1,7 @@
 <%#
 kind: provision
 name: Kickstart default
+model: ProvisioningTemplate
 oses:
 - CentOS
 - Fedora
@@ -156,7 +157,7 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 <%= snippet 'epel' -%>
 <% end -%>
 
-<% if @host.info['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
