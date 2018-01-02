@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   provisioning_template: mystring
   template_kind: ipxe
@@ -12,7 +11,7 @@ two:
 
 three:
   provisioning_template: myscript
-  template_kind:  script
+  template_kind: script
   operatingsystem: redhat
 
 four:
