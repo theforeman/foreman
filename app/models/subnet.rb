@@ -223,6 +223,10 @@ class Subnet < ApplicationRecord
     super({:methods => [:to_label, :type]}.merge(options))
   end
 
+  def hosts_count
+    hosts.authorized(:view_hosts).size
+  end
+
   private
 
   def validate_ranges
