@@ -7,10 +7,10 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'OpenSuse 11.4' } }.
   each do |os, config|
     test "os label for #{os}" do
-      stub_os = FactoryBot.build(config['os'],
+      stub_os = FactoryBot.build_stubbed(config['os'],
                                   :architectures => [architectures((config['arch']))],
                                   :ptables => [FactoryBot.create(:ptable)],
-                                  :media => [FactoryBot.build(:medium)])
+                                  :media => [FactoryBot.build_stubbed(:medium)])
       assert_equal(config['expected'], stub_os.to_label)
     end
   end
@@ -21,10 +21,10 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'boot/$arch/loader' } }.
   each do |os, config|
     test "pxedir  for #{os}" do
-      stub_os = FactoryBot.build(config['os'],
+      stub_os = FactoryBot.build_stubbed(config['os'],
                              :architectures => [architectures((config['arch']))],
                              :ptables => [FactoryBot.create(:ptable)],
-                             :media => [FactoryBot.build(:medium)])
+                             :media => [FactoryBot.build_stubbed(:medium)])
 
       assert_equal(config['expected'], stub_os.pxedir)
     end
@@ -37,11 +37,11 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "kernel location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
-      host = FactoryBot.build(:host,
-                               :operatingsystem => FactoryBot.build(config['os'],
+      host = FactoryBot.build_stubbed(:host,
+                               :operatingsystem => FactoryBot.build_stubbed(config['os'],
                                                                      :architectures => [arch],
                                                                      :ptables => [FactoryBot.create(:ptable)],
-                                                                     :media => [FactoryBot.build(:medium)]),
+                                                                     :media => [FactoryBot.build_stubbed(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.kernel(host.arch))
     end
@@ -54,11 +54,11 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "initrd location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
-      host = FactoryBot.build(:host,
-                               :operatingsystem => FactoryBot.build(config['os'],
+      host = FactoryBot.build_stubbed(:host,
+                               :operatingsystem => FactoryBot.build_stubbed(config['os'],
                                                                      :architectures => [arch],
                                                                      :ptables => [FactoryBot.create(:ptable)],
-                                                                     :media => [FactoryBot.build(:medium)]),
+                                                                     :media => [FactoryBot.build_stubbed(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.initrd(host.arch))
     end
@@ -71,11 +71,11 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "pxe prefix for #{os}" do
       arch = architectures(config['arch'])
-      host = FactoryBot.build(:host,
-                               :operatingsystem => FactoryBot.build(config['os'],
+      host = FactoryBot.build_stubbed(:host,
+                               :operatingsystem => FactoryBot.build_stubbed(config['os'],
                                                                      :architectures => [arch],
                                                                      :ptables => [FactoryBot.create(:ptable)],
-                                                                     :media => [FactoryBot.build(:medium)]),
+                                                                     :media => [FactoryBot.build_stubbed(:medium)]),
                                :architecture => arch)
       assert_equal(config['expected'], host.operatingsystem.pxe_prefix(host.arch))
     end

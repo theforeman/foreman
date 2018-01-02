@@ -17,7 +17,7 @@ class UINotificationsHostsTest < ActiveSupport::TestCase
   end
 
   test 'notification audience should be SUBJECT if owner is present' do
-    host.owner = FactoryBot.build(:user)
+    host.owner = FactoryBot.build_stubbed(:user)
     assert_equal 'subject', audience
   end
 
@@ -52,7 +52,7 @@ class UINotificationsHostsTest < ActiveSupport::TestCase
   private
 
   def host
-    @host ||= FactoryBot.build(:host, :managed)
+    @host ||= FactoryBot.build_stubbed(:host, :managed)
   end
 
   def base

@@ -221,7 +221,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     end
 
     test "#metadata should include OSes and kind" do
-      template = FactoryBot.build(:provisioning_template, :operatingsystems => [
+      template = FactoryBot.build_stubbed(:provisioning_template, :operatingsystems => [
                                     FactoryBot.create(:operatingsystem, :name => 'CentOS'),
                                     FactoryBot.create(:operatingsystem, :name => 'CentOS'),
                                     FactoryBot.create(:operatingsystem, :name => 'Fedora')

@@ -42,7 +42,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test 'bmc_should_have_valid_dhcp_record' do
     h = FactoryBot.create(:host, :with_dhcp_orchestration)
-    b = FactoryBot.build(:nic_bmc, :ip => '10.0.0.10', :name => 'bmc')
+    b = FactoryBot.build_stubbed(:nic_bmc, :ip => '10.0.0.10', :name => 'bmc')
     b.host   = h
     b.domain = domains(:mydomain)
     b.subnet = subnets(:five)
@@ -52,16 +52,16 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test 'static boot mode still enables dhcp orchestration' do
-    h = FactoryBot.build(:host, :with_dhcp_orchestration)
-    i = FactoryBot.build(:nic_managed, :ip => '10.0.0.10', :name => 'eth0:0')
+    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration)
+    i = FactoryBot.build_stubbed(:nic_managed, :ip => '10.0.0.10', :name => 'eth0:0')
     i.host   = h
     i.domain = domains(:mydomain)
-    i.subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :boot_mode => 'Static', :ipam => 'Internal DB')
+    i.subnet = FactoryBot.build_stubbed(:subnet_ipv4, :dhcp, :boot_mode => 'Static', :ipam => 'Internal DB')
     assert i.dhcp?
   end
 
   test "DHCP record contains jumpstart attributes" do
-    h = FactoryBot.build(:host, :with_dhcp_orchestration,
+    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration,
                           :model => FactoryBot.create(:model, :vendor_class => 'Sun-Fire-V210'))
     h.expects(:jumpstart?).at_least_once.returns(true)
     h.os.expects(:jumpstart_params).at_least_once.with(h, h.model.vendor_class).returns(:vendor => '<Sun-Fire-V210>')
@@ -203,9 +203,9 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "queue_dhcp doesn't fail when mac address is blank but provided by compute resource" do
-    cr = FactoryBot.build(:libvirt_cr)
+    cr = FactoryBot.build_stubbed(:libvirt_cr)
     cr.stubs(:provided_attributes).returns({:mac => :mac})
-    host = FactoryBot.build(:host, :with_dhcp_orchestration, :compute_resource => cr)
+    host = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration, :compute_resource => cr)
     interface = host.interfaces.first
     interface.mac = nil
     interface.stubs(:dhcp? => true, :overwrite? => true)
@@ -333,7 +333,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "new host with dhcp and no operating system should show correct validation on save" do
-    h = FactoryBot.build(:host, :with_dhcp_orchestration, :operatingsystem => nil)
+    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration, :operatingsystem => nil)
 
     # If there was an exception due to accessing operating_system.boot_filename when operating_system is nil
     # this line would cause an error in the test
@@ -349,7 +349,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "should skip dhcp rebuild" do
-    nic = FactoryBot.build(:nic_managed)
+    nic = FactoryBot.build_stubbed(:nic_managed)
     nic.expects(:set_dhcp).never
     assert nic.rebuild_dhcp
   end
@@ -362,12 +362,12 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "dhcp_records should return nil for invalid mac" do
-    host = FactoryBot.build(:host, :with_dhcp_orchestration, :interfaces => [FactoryBot.build(:nic_primary_and_provision, :mac => "aaaaaa")])
+    host = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration, :interfaces => [FactoryBot.build_stubbed(:nic_primary_and_provision, :mac => "aaaaaa")])
     assert_nil host.dhcp_records.first
   end
 
   context '#boot_server' do
-    let(:host) { FactoryBot.build(:host, :managed, :with_tftp_orchestration) }
+    let(:host) { FactoryBot.build_stubbed(:host, :managed, :with_tftp_orchestration) }
     let(:nic) { host.provision_interface }
 
     test 'should use boot server provided by proxy' do

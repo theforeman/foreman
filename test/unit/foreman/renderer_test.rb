@@ -30,17 +30,17 @@ class RendererTest < ActiveSupport::TestCase
 
   describe "preseed_attributes" do
     test "do not set @preseed_server and @preseed_path if @host does not have medium and os" do
-      @renderer.host = FactoryBot.build(:host)
+      @renderer.host = FactoryBot.build_stubbed(:host)
       @renderer.send :preseed_attributes
       assert_nil @renderer.instance_variable_get('@preseed_path')
       assert_nil @renderer.instance_variable_get('@preseed_server')
     end
 
     test "set @preseed_server and @preseed_path if @host has medium and os" do
-      host = FactoryBot.build(:host, :managed)
-      architecture = FactoryBot.build(:architecture)
-      medium = FactoryBot.build(:medium, :path => 'http://my-example.com/my_path')
-      os = FactoryBot.build(:debian7_0, :media => [ medium ])
+      host = FactoryBot.build_stubbed(:host, :managed)
+      architecture = FactoryBot.build_stubbed(:architecture)
+      medium = FactoryBot.build_stubbed(:medium, :path => 'http://my-example.com/my_path')
+      os = FactoryBot.build_stubbed(:debian7_0, :media => [ medium ])
       host.architecture = architecture
       host.operatingsystem = os
       host.medium = medium
@@ -53,7 +53,7 @@ class RendererTest < ActiveSupport::TestCase
 
   describe "yast_attributes" do
     test "does not fail if @host does not have medium" do
-      @renderer.host = FactoryBot.build(:host)
+      @renderer.host = FactoryBot.build_stubbed(:host)
       @renderer.send :yast_attributes
       assert_nil @renderer.instance_variable_get('@mediapath')
     end
@@ -92,12 +92,12 @@ class RendererTest < ActiveSupport::TestCase
   end
 
   test "pxe_kernel_options are not set when no OS is set" do
-    @renderer.host = FactoryBot.build(:host)
+    @renderer.host = FactoryBot.build_stubbed(:host)
     assert_equal '', @renderer.pxe_kernel_options
   end
 
   test "pxe_kernel_options returns blacklist option for Red Hat" do
-    host = FactoryBot.build(:host, :operatingsystem => Operatingsystem.find_by_name('Redhat'))
+    host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by_name('Redhat'))
     host.params['blacklist'] = 'dirty_driver, badbad_driver'
     @renderer.host = host
     assert_equal 'modprobe.blacklist=dirty_driver,badbad_driver', @renderer.pxe_kernel_options
@@ -231,7 +231,7 @@ EOS
 
     test "#{renderer_name} should render a templates_used" do
       send "setup_#{renderer_name}"
-      @renderer.host = FactoryBot.build(
+      @renderer.host = FactoryBot.build_stubbed(
         :host,
         :operatingsystem => operatingsystems(:redhat)
       )

@@ -8,7 +8,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   should allow_values('vcenter.example.com', 'vcenter').for(:server)
 
   test 'error message is added for server attribute' do
-    vmware_cr = FactoryBot.build(:vmware_cr, :server => nil)
+    vmware_cr = FactoryBot.build_stubbed(:vmware_cr, :server => nil)
     vmware_cr.validate
     assert_includes vmware_cr.errors.full_messages, "Server can't be blank"
   end
@@ -33,7 +33,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     mock_vm.expects(:save).returns(mock_vm)
     mock_vm.expects(:firmware).returns('biod')
 
-    cr = FactoryBot.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     cr.expects(:parse_networks).with(attrs_in).returns(attrs_parsed)
     cr.expects(:new_vm).with(attrs_parsed).returns(mock_vm)
     cr.expects(:test_connection)
@@ -51,7 +51,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     mock_client = mock('client')
     mock_client.expects(:servers).returns(mock_servers)
 
-    cr = FactoryBot.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     cr.expects(:parse_args).with(attrs_in).returns(attrs_parsed)
     cr.expects(:vm_instance_defaults).returns(HashWithIndifferentAccess.new(:name => 'test', :cpus => '2', :interfaces => [mock('iface')], :volumes => [mock('vol')]))
     cr.expects(:client).returns(mock_client)
@@ -60,7 +60,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
   describe "#create_vm" do
     setup do
-      @cr = FactoryBot.build(:vmware_cr)
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
       @cr.stubs(:test_connection)
     end
     test "calls clone_vm when image provisioning with symbol key and provision_method image" do
@@ -128,7 +128,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     )
 
     mock_vm = mock('vm')
-    cr = FactoryBot.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     cr.expects(:parse_networks).with(attrs_in).returns(attrs_parsed)
     cr.expects(:clone_vm).with(attrs_parsed).returns(mock_vm)
     cr.expects(:test_connection)
@@ -137,7 +137,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
   describe "#parse_args" do
     setup do
-      @cr = FactoryBot.build(:vmware_cr)
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
     end
 
     test "converts empty hash" do
@@ -210,7 +210,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @mock_network.stubs('id').returns('network-17')
       @mock_network.stubs('name').returns('Test network')
       @mock_network.stubs('virtualswitch').returns(nil)
-      @cr = FactoryBot.build(:vmware_cr)
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
       @cr.stubs(:networks).returns([@mock_network])
     end
 
@@ -239,7 +239,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
   test "#associated_host matches primary NIC" do
     host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
-    cr = FactoryBot.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     iface = mock('iface1', :mac => 'ca:d0:e6:32:16:97')
     vm = mock('vm', :interfaces => [iface])
     assert_equal host, as_admin { cr.associated_host(vm) }
@@ -249,7 +249,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:98')
     Nic::Base.create! :mac => "ca:d0:e6:32:16:99", :host => host
     host.reload
-    cr = FactoryBot.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     iface1 = mock('iface1', :mac => 'ca:d0:e6:32:16:98')
     iface2 = mock('iface1', :mac => 'ca:d0:e6:32:16:99')
     vm = mock('vm', :interfaces => [iface1, iface2])
@@ -351,7 +351,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   end
 
   describe '#display_type' do
-    let(:cr) { FactoryBot.build(:vmware_cr) }
+    let(:cr) { FactoryBot.build_stubbed(:vmware_cr) }
 
     test "default display type is 'vmrc'" do
       assert_nil cr.attrs[:display]

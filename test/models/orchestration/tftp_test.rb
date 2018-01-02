@@ -31,7 +31,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv4 tftp' do
     setup do
-      @host = FactoryBot.build(:host, :managed, :with_tftp_orchestration, :build => true)
+      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_orchestration, :build => true)
     end
 
     test 'should have tftp' do
@@ -65,7 +65,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv6 tftp' do
     setup do
-      @host = FactoryBot.build(:host, :managed, :with_tftp_v6_orchestration, :build => true)
+      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_v6_orchestration, :build => true)
     end
 
     test "should have ipv6 tftp" do
@@ -93,7 +93,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv4 and ipv6 tftp' do
     setup do
-      @host = FactoryBot.build(:host, :managed, :with_tftp_dual_stack_orchestration, :build => true)
+      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_dual_stack_orchestration, :build => true)
     end
 
     test "host should have ipv4 and ipv6 tftp" do
@@ -136,7 +136,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
                           :identifier => 'bond0',
                           :attached_devices => ['eth0', 'eth1'],
                           :provision => true,
-                          :domain => FactoryBot.build(:domain),
+                          :domain => FactoryBot.build_stubbed(:domain),
                           :subnet => subnet,
                           :mac => nil,
                           :ip => subnet.network.sub(/0\Z/, '2')),
@@ -187,7 +187,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   test "generate_pxe_template_for_pxelinux_build" do
     return unless unattended?
-    h = FactoryBot.build(:host, :managed, :build => true,
+    h = FactoryBot.build_stubbed(:host, :managed, :build => true,
                           :operatingsystem => operatingsystems(:redhat),
                           :architecture => architectures(:x86_64))
     h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
@@ -323,14 +323,14 @@ EXPECTED
   end
 
   test "should_skip_rebuild_tftp" do
-    nic = FactoryBot.build(:nic_managed)
+    nic = FactoryBot.build_stubbed(:nic_managed)
     nic.expects(:setTFTP).never
     assert nic.rebuild_tftp
   end
 
   test "generate_pxelinux_template_for_suse_build" do
     return unless unattended?
-    h = FactoryBot.build(:host, :managed, :build => true,
+    h = FactoryBot.build_stubbed(:host, :managed, :build => true,
                           :operatingsystem => operatingsystems(:opensuse),
                           :architecture => architectures(:x86_64))
     Setting[:unattended_url] = "http://ahost.com:3000"

@@ -21,7 +21,7 @@ class BookmarkTest < ActiveSupport::TestCase
   test "my bookmarks should be able to create two bookmarks with same name under different controllers" do
     assert_difference 'Bookmark.count',1 do
       FactoryBot.create(:bookmark, :name => 'private', :controller => "users")
-      bookmark = FactoryBot.build(:bookmark, :name => 'private', :controller => "hosts")
+      bookmark = FactoryBot.build_stubbed(:bookmark, :name => 'private', :controller => "hosts")
       assert_valid bookmark
     end
   end
@@ -38,9 +38,9 @@ class BookmarkTest < ActiveSupport::TestCase
     FactoryBot.create(:permission, :resource_type => 'MyPlugin', :name => 'view_my_plugins')
     Permission.reset_resources
     BookmarkControllerValidator.reset_controllers_list
-    b = FactoryBot.build(:bookmark, :name => 'STI controller', :controller => 'provisioning_templates', :query => 'foo=bar', :public => true)
+    b = FactoryBot.build_stubbed(:bookmark, :name => 'STI controller', :controller => 'provisioning_templates', :query => 'foo=bar', :public => true)
     assert(b.valid?, 'STI controller bookmark should be valid')
-    b = FactoryBot.build(:bookmark, :name => 'My plugin controller', :controller => 'my_plugins', :query => 'foo=bar', :public => true)
+    b = FactoryBot.build_stubbed(:bookmark, :name => 'My plugin controller', :controller => 'my_plugins', :query => 'foo=bar', :public => true)
     assert(b.valid?, 'plugin controller bookmark should be valid')
   end
 

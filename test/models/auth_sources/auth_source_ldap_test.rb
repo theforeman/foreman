@@ -123,58 +123,58 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   test 'update_usergroups is no-op with $login service account' do
-    ldap = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    ldap = FactoryBot.build_stubbed(:auth_source_ldap, :account => 'DOMAIN/$login')
     User.any_instance.expects(:external_usergroups).never
     ExternalUsergroup.any_instance.expects(:refresh).never
     ldap.send(:update_usergroups, 'test')
   end
 
   test 'update_usergroups is no-op with usergroup_sync=false' do
-    ldap = FactoryBot.build(:auth_source_ldap, :usergroup_sync => false)
+    ldap = FactoryBot.build_stubbed(:auth_source_ldap, :usergroup_sync => false)
     User.any_instance.expects(:external_usergroups).never
     ExternalUsergroup.any_instance.expects(:refresh).never
     ldap.send(:update_usergroups, 'test')
   end
 
   test '#to_config with dedicated service account returns hash' do
-    conf = FactoryBot.build(:auth_source_ldap, :service_account).to_config
+    conf = FactoryBot.build_stubbed(:auth_source_ldap, :service_account).to_config
     assert_kind_of Hash, conf
     refute conf[:anon_queries]
   end
 
   test '#to_config with $login service account and no username fails' do
-    ldap = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    ldap = FactoryBot.build_stubbed(:auth_source_ldap, :account => 'DOMAIN/$login')
     assert_raise(Foreman::Exception) { ldap.to_config }
   end
 
   test '#to_config with $login service account and username returns hash with service user' do
-    conf = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login').to_config('user', 'pass')
+    conf = FactoryBot.build_stubbed(:auth_source_ldap, :account => 'DOMAIN/$login').to_config('user', 'pass')
     assert_kind_of Hash, conf
     refute conf[:anon_queries]
     assert_equal 'DOMAIN/user', conf[:service_user]
   end
 
   test '#to_config with no service account returns hash with anonymous queries' do
-    conf = FactoryBot.build(:auth_source_ldap).to_config('user', 'pass')
+    conf = FactoryBot.build_stubbed(:auth_source_ldap).to_config('user', 'pass')
     assert_kind_of Hash, conf
     assert conf[:anon_queries]
   end
 
   test '#to_config keeps encryption nil if tls is not used' do
     AuthSourceLdap.any_instance.stubs(:tls => false)
-    conf = FactoryBot.build(:auth_source_ldap).to_config('user', 'pass')
+    conf = FactoryBot.build_stubbed(:auth_source_ldap).to_config('user', 'pass')
     assert_nil conf[:encryption]
   end
 
   test '#to_config enforces verify_mode peer for tls' do
     AuthSourceLdap.any_instance.stubs(:tls => true)
-    conf = FactoryBot.build(:auth_source_ldap).to_config('user', 'pass')
+    conf = FactoryBot.build_stubbed(:auth_source_ldap).to_config('user', 'pass')
     assert_kind_of Hash, conf[:encryption]
     assert_equal OpenSSL::SSL::VERIFY_PEER, conf[:encryption][:tls_options][:verify_mode]
   end
 
   test '#ldap_con does not cache connections with user auth' do
-    ldap = FactoryBot.build(:auth_source_ldap, :account => 'DOMAIN/$login')
+    ldap = FactoryBot.build_stubbed(:auth_source_ldap, :account => 'DOMAIN/$login')
     refute_equal ldap.ldap_con('user', 'pass'), ldap.ldap_con('user', 'pass')
   end
 

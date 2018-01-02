@@ -26,13 +26,13 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
   end
 
   test "cidr setter should set the mask" do
-    @subnet = FactoryBot.build(:subnet_ipv4)
+    @subnet = FactoryBot.build_stubbed(:subnet_ipv4)
     @subnet.cidr = 24
     assert_equal '255.255.255.0', @subnet.mask
   end
 
   test "cidr setter should not raise exception for invalid value" do
-    @subnet = FactoryBot.build(:subnet_ipv4)
+    @subnet = FactoryBot.build_stubbed(:subnet_ipv4)
     @subnet.cidr = 'green'
   end
 
@@ -102,7 +102,7 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
   end
 
   test "#unused_ip does not suggest IP if mode is set to none" do
-    subnet = FactoryBot.build(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
+    subnet = FactoryBot.build_stubbed(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
     subnet.stubs(:dhcp? => false, :ipam => IPAM::MODES[:none])
     assert_nil subnet.unused_ip.suggest_ip
   end

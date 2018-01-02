@@ -27,7 +27,7 @@ class UserTest < ActiveSupport::TestCase
   should have_many(:ssh_keys).dependent(:destroy)
 
   test "mail address is optional on creation" do
-    assert_valid FactoryBot.build(:user, :mail => nil)
+    assert_valid FactoryBot.build_stubbed(:user, :mail => nil)
   end
 
   test "mail is optional if mail is currently nil" do
@@ -59,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'login should also be unique across usergroups' do
     Usergroup.expects(:where).with(:name => 'foo').returns(['fakeuser'])
-    u = FactoryBot.build(:user, :auth_source => auth_sources(:one),
+    u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:one),
                           :login => "foo", :mail  => "foo@bar.com")
     refute u.valid?
   end
@@ -523,22 +523,22 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "admin? detection for user admin flag" do
-    admin = FactoryBot.build(:user, :admin => true)
+    admin = FactoryBot.build_stubbed(:user, :admin => true)
     assert admin.admin?, 'user admin flag was missed'
   end
 
   test "admin? detection for group admin flag" do
-    admin = FactoryBot.build(:user)
-    g1 = FactoryBot.build(:usergroup)
-    g2 = FactoryBot.build(:usergroup, :admin => true)
+    admin = FactoryBot.build_stubbed(:user)
+    g1 = FactoryBot.build_stubbed(:usergroup)
+    g2 = FactoryBot.build_stubbed(:usergroup, :admin => true)
     admin.cached_usergroups = [g1, g2]
     assert admin.admin?, 'group admin flag was missed'
   end
 
   test "admin? is false if no flag is enabled" do
-    admin = FactoryBot.build(:user)
-    g1 = FactoryBot.build(:usergroup)
-    g2 = FactoryBot.build(:usergroup)
+    admin = FactoryBot.build_stubbed(:user)
+    g1 = FactoryBot.build_stubbed(:usergroup)
+    g2 = FactoryBot.build_stubbed(:usergroup)
     admin.cached_usergroups = [g1, g2]
     refute admin.admin?
   end
@@ -763,13 +763,13 @@ class UserTest < ActiveSupport::TestCase
 
   test "#can? for admin" do
     Authorizer.any_instance.stubs(:can?).returns(false)
-    u = FactoryBot.build(:user, :admin => true)
+    u = FactoryBot.build_stubbed(:user, :admin => true)
     assert u.can?(:view_hosts_or_whatever_you_ask)
   end
 
   test "#can? for not admin" do
     Authorizer.any_instance.stubs(:can?).returns('authorizer was asked')
-    u = FactoryBot.build(:user)
+    u = FactoryBot.build_stubbed(:user)
     assert_equal 'authorizer was asked', u.can?(:view_hosts_or_whatever_you_ask)
   end
 
@@ -848,13 +848,13 @@ class UserTest < ActiveSupport::TestCase
   #  end
 
   test "#matching_password? succeeds if password matches" do
-    u = FactoryBot.build(:user)
+    u = FactoryBot.build_stubbed(:user)
     assert_valid u
     assert u.matching_password?('password')
   end
 
   test "#matching_password? fails if password does not match" do
-    u = FactoryBot.build(:user)
+    u = FactoryBot.build_stubbed(:user)
     assert_valid u
     refute u.matching_password?('wrong password')
   end
@@ -871,7 +871,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#hidden? for ordinary user" do
-    refute FactoryBot.build(:user).hidden?
+    refute FactoryBot.build_stubbed(:user).hidden?
   end
 
   test "should not be able to use hidden auth source on other users" do

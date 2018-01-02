@@ -3,7 +3,7 @@ require 'test_helper'
 class IPAMTest < ActiveSupport::TestCase
   context 'dhcp' do
     test "should find unused IP on proxy if proxy is set" do
-      subnet = FactoryBot.build(:subnet_ipv4, :ipam_dhcp, :name => 'my_subnet', :network => '192.168.1.0')
+      subnet = FactoryBot.build_stubbed(:subnet_ipv4, :ipam_dhcp, :name => 'my_subnet', :network => '192.168.1.0')
       subnet.stubs(:dhcp? => true)
       subnet.stubs(:dhcp => mock('attribute', :url => 'proxy.example.com'))
       fake_proxy = mock("dhcp_proxy")
@@ -103,7 +103,7 @@ class IPAMTest < ActiveSupport::TestCase
 
   context 'EUI-64 IPAM' do
     test "should calculate unused IP via eui-64" do
-      subnet = FactoryBot.build(:subnet_ipv6,
+      subnet = FactoryBot.build_stubbed(:subnet_ipv6,
                                  :network => '2001:db8::',
                                  :mask => 'ffff:ffff:ffff:ffff::',
                                  :ipam => IPAM::MODES[:eui64])
@@ -112,7 +112,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test 'should not suggest an ip if given mac is invalid' do
-      subnet = FactoryBot.build(:subnet_ipv6, :network => '2001:db8::')
+      subnet = FactoryBot.build_stubbed(:subnet_ipv6, :network => '2001:db8::')
       ipam = IPAM::Eui64.new(:subnet => subnet, :mac => 'invalid')
       assert_nil ipam.suggest_ip
       refute_empty ipam.errors
@@ -120,7 +120,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test 'should not suggest an ip if prefix length is not suitable' do
-      subnet = FactoryBot.build(:subnet_ipv6, :network => '2001:db8::', :cidr => 70)
+      subnet = FactoryBot.build_stubbed(:subnet_ipv6, :network => '2001:db8::', :cidr => 70)
       ipam = IPAM::Eui64.new(:subnet => subnet, :mac => '00:11:22:33:44:55')
       assert_nil ipam.suggest_ip
       refute_empty ipam.errors

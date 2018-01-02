@@ -6,12 +6,12 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "usergroups should be creatable" do
-    assert FactoryBot.build(:usergroup).valid?
+    assert FactoryBot.build_stubbed(:usergroup).valid?
   end
 
   test "name is unique across user as well as usergroup" do
     User.expects(:where).with(:login => 'usergroup1').returns(['fakeuser'])
-    usergroup = FactoryBot.build(:usergroup, :name => 'usergroup1')
+    usergroup = FactoryBot.build_stubbed(:usergroup, :name => 'usergroup1')
     refute usergroup.valid?
   end
 

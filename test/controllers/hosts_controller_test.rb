@@ -1373,7 +1373,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test '#process_hostgroup changes compute attributes' do
       group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
-      host = FactoryBot.build(:host, :managed, :on_compute_resource)
+      host = FactoryBot.build_stubbed(:host, :managed, :on_compute_resource)
       #remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1
@@ -1396,7 +1396,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test '#process_hostgroup does not change compute attributes if compute profile selected manually' do
       group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
-      host = FactoryBot.build(:host, :managed, :on_compute_resource)
+      host = FactoryBot.build_stubbed(:host, :managed, :on_compute_resource)
       #remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1

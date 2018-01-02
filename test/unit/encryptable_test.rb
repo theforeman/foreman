@@ -28,13 +28,13 @@ class EncryptableTest < ActiveSupport::TestCase
   end
 
   test "is_encryptable? is false when key is empty" do
-    cr = FactoryBot.build(:ec2_cr)
+    cr = FactoryBot.build_stubbed(:ec2_cr)
     cr.stubs(:encryption_key).returns(nil)
     refute cr.is_encryptable?('foo')
   end
 
   test "is_decryptable? is false when key is empty" do
-    cr = FactoryBot.build(:ec2_cr)
+    cr = FactoryBot.build_stubbed(:ec2_cr)
     cr.stubs(:encryption_key).returns(nil)
     refute cr.is_decryptable?('encrypted-WkQyR0xMVXZCT2hRTmVGaTNIWlY3RkoxM1M4')
   end
@@ -82,7 +82,7 @@ class EncryptableTest < ActiveSupport::TestCase
   end
 
   test "does not decrypt if string is not decryptable and returns database value" do
-    compute_resource = stub_encryption_key(FactoryBot.build(:compute_resource, password: '1234567'))
+    compute_resource = stub_encryption_key(FactoryBot.build_stubbed(:compute_resource, password: '1234567'))
     orig_pass = compute_resource.password
     orig_pass_in_db = compute_resource.password_in_db
     refute compute_resource.is_decryptable?(orig_pass_in_db)
@@ -129,7 +129,7 @@ class EncryptableTest < ActiveSupport::TestCase
 
   test "decrypt unsuccessfully logs error once" do
     EncryptValue.reset_warnings
-    compute_resource = stub_encryption_key(FactoryBot.build(:ec2_cr, password: 'encrypted-invalid'))
+    compute_resource = stub_encryption_key(FactoryBot.build_stubbed(:ec2_cr, password: 'encrypted-invalid'))
     compute_resource.expects(:puts_and_logs).once
     decrypted_str = compute_resource.password
     assert_equal 'encrypted-invalid', decrypted_str

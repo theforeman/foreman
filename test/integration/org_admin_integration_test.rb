@@ -57,7 +57,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_content? @loc3.name
       end
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
       location_selector = page.find('select#domain_location_ids')
       location_selector.select @loc1.name
@@ -78,7 +78,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
       login_user(@user.login, 'changeme')
       visit new_domain_path
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
       organization_selector = page.find('select#domain_organization_ids')
       organization_selector.unselect @org1.name
@@ -97,7 +97,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
       login_user(@user.login, 'changeme')
       visit new_domain_path
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
       organization_selector = page.find('select#domain_organization_ids')
       organization_selector.unselect @org1.name
@@ -150,7 +150,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_content? @loc3.name
       end
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
       organization_selector = page.find('select#domain_organization_ids')
       organization_selector.select @org1.name
@@ -192,7 +192,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
       login_user(@user.login, 'changeme')
       visit new_domain_path
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
 
       location_selector = page.find('select#domain_location_ids')
@@ -242,7 +242,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_content? @loc3.name
       end
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
       organization_selector = page.find('select#domain_organization_ids')
       organization_selector.select @org1.name
@@ -323,7 +323,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_content? @loc3.name
       end
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
 
       location_selector = page.find('select#domain_location_ids')
@@ -396,7 +396,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_content? @org2.name
       end
 
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
 
       location_selector = page.find('select#domain_location_ids')

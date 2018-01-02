@@ -216,7 +216,7 @@ class LookupValueTest < ActiveSupport::TestCase
   test "shouldn't save with empty boolean matcher for smart class parameter" do
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :key_type => 'boolean', :override => true,
                                     :default_value => "true", :description => 'description')
-    lookup_value = FactoryBot.build(:lookup_value, :lookup_key => lookup_key, :match => "os=fake", :value => '')
+    lookup_value = FactoryBot.build_stubbed(:lookup_value, :lookup_key => lookup_key, :match => "os=fake", :value => '')
     refute lookup_value.valid?
   end
 

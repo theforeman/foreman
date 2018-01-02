@@ -7,11 +7,11 @@ class BridgeTest < ActiveSupport::TestCase
 
   test 'is always virtual' do
     host = FactoryBot.create(:host)
-    bridge = FactoryBot.build(:nic_bridge, :host => host)
+    bridge = FactoryBot.build_stubbed(:nic_bridge, :host => host)
     assert bridge.virtual
     assert_valid bridge
 
-    bridge = FactoryBot.build(:nic_bridge, :virtual => false, :host => host)
+    bridge = FactoryBot.build_stubbed(:nic_bridge, :virtual => false, :host => host)
     assert bridge.virtual
   end
 

@@ -72,13 +72,13 @@ class ManagedTest < ActiveSupport::TestCase
   end
 
   test "#inheriting_mac respects interface mac" do
-    h = FactoryBot.build(:host, :managed)
+    h = FactoryBot.build_stubbed(:host, :managed)
     h.primary_interface.mac = '11:22:33:44:55:66'
     assert_equal '11:22:33:44:55:66', h.primary_interface.inheriting_mac
   end
 
   test "#inheriting_mac respects interface mac even if attached_to is specified" do
-    h = FactoryBot.build(:host, :managed)
+    h = FactoryBot.build_stubbed(:host, :managed)
     h.primary_interface.mac = '11:22:33:44:55:66'
     h.primary_interface.identifier = 'eth0'
     n = h.interfaces.build :mac => '66:55:44:33:22:11', :attached_to => 'eth0'
@@ -86,7 +86,7 @@ class ManagedTest < ActiveSupport::TestCase
   end
 
   test "#inheriting_mac inherits mac if own mac is nil" do
-    h = FactoryBot.build(:host, :managed)
+    h = FactoryBot.build_stubbed(:host, :managed)
     h.primary_interface.mac = '11:22:33:44:55:66'
     h.primary_interface.identifier = 'eth0'
     n = h.interfaces.build :mac => nil, :attached_to => 'eth0'
@@ -94,7 +94,7 @@ class ManagedTest < ActiveSupport::TestCase
   end
 
   test "#inheriting_mac inherits mac if own mac is empty" do
-    h = FactoryBot.build(:host, :managed)
+    h = FactoryBot.build_stubbed(:host, :managed)
     h.primary_interface.mac = '11:22:33:44:55:66'
     h.primary_interface.identifier = 'eth0'
     n = h.interfaces.build :mac => '', :attached_to => 'eth0'
@@ -107,7 +107,7 @@ class ManagedTest < ActiveSupport::TestCase
     end
 
     test "host is invalid if two interfaces has same DNS name and domain" do
-      h = FactoryBot.build(:host, :managed)
+      h = FactoryBot.build_stubbed(:host, :managed)
       i1 = h.interfaces.build(:name => 'test')
       i2 = h.interfaces.build(:name => 'test')
       i1.domain_id = @domain.id
@@ -117,7 +117,7 @@ class ManagedTest < ActiveSupport::TestCase
     end
 
     test "host is valid if two interfaces has different DNS name and same domain" do
-      h = FactoryBot.build(:host, :managed)
+      h = FactoryBot.build_stubbed(:host, :managed)
       i1 = h.interfaces.build(:name => 'test2')
       i2 = h.interfaces.build(:name => 'test')
       i1.domain_id = @domain.id
@@ -127,7 +127,7 @@ class ManagedTest < ActiveSupport::TestCase
     end
 
     test "host is valid if interfaces have blank name" do
-      h = FactoryBot.build(:host, :managed)
+      h = FactoryBot.build_stubbed(:host, :managed)
       h.interfaces.build(:name => '')
       h.interfaces.build(:name => '')
       h.valid? # trigger validation
@@ -135,7 +135,7 @@ class ManagedTest < ActiveSupport::TestCase
     end
 
     test "host is valid if two interfaces has same DNS name and different domain" do
-      h = FactoryBot.build(:host, :managed)
+      h = FactoryBot.build_stubbed(:host, :managed)
       domain2 = FactoryBot.create(:domain)
       i1 = h.interfaces.build(:name => 'test')
       i2 = h.interfaces.build(:name => 'test')

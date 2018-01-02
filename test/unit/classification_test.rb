@@ -67,7 +67,7 @@ class ClassificationTest < ActiveSupport::TestCase
     env = FactoryBot.create(:environment)
     pc = FactoryBot.create(:puppetclass, :environments => [env])
     lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
-    host = FactoryBot.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
     Classification::MatchesGenerator.any_instance.expects(:attr_to_value).with('comment').returns('override')
 
     assert_equal(
@@ -97,7 +97,7 @@ class ClassificationTest < ActiveSupport::TestCase
                                    :puppetclass => pc, :key_type => 'json', :default_value => '',
                                    :overrides => {"comment=override" => '{"a": "b"}'})
 
-    host = FactoryBot.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
 
     Classification::MatchesGenerator.any_instance.expects(:attr_to_value).twice.with('comment').returns('override')
     values_hash = Classification::ValuesHashQuery.values_hash(host, LookupKey.where(:id => [json_lkey, yaml_lkey]))
@@ -114,7 +114,7 @@ class ClassificationTest < ActiveSupport::TestCase
                                    :puppetclass => pc, :key_type => 'yaml', :default_value => 'a: b')
     json_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'json', :default_value => '{"a": "b"}')
-    host = FactoryBot.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
     classparam = Classification::ClassificationResult.new(host, {})
 
     yaml_value = classparam[yaml_lkey]
@@ -740,7 +740,7 @@ class ClassificationTest < ActiveSupport::TestCase
     lv = FactoryBot.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{hostgroup},organization=#{taxonomies(:organization1)}")
     FactoryBot.create(:lookup_value, :lookup_key_id => key.id, :match => "location=#{taxonomies(:location1)}")
 
-    host = FactoryBot.build(:host, :environment => environments(:production),
+    host = FactoryBot.build_stubbed(:host, :environment => environments(:production),
       :location => taxonomies(:location1), :organization => taxonomies(:organization1), :hostgroup => hostgroup)
 
     enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters

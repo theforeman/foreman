@@ -38,7 +38,7 @@ class FormHelperTest < ActionView::TestCase
     context 'form object is host' do
       test "returns true" do
         hostgroup = hostgroups(:inherited)
-        host = FactoryBot.build(:host, :managed, hostgroup_id: hostgroup.id)
+        host = FactoryBot.build_stubbed(:host, :managed, hostgroup_id: hostgroup.id)
         f = ActionView::Helpers::FormBuilder.new(:host, host, nil, {})
         attr = :pxe_loader
         assert blank_or_inherit_f(f, attr)
@@ -83,7 +83,7 @@ class FormHelperTest < ActionView::TestCase
   end
 
   test 'multiple_checkboxes produces right output for taxonomy relations' do
-    user = FactoryBot.build(:user,
+    user = FactoryBot.build_stubbed(:user,
                              :organizations => [taxonomies(:organization1)])
     form_for Filter.new do |f|
       assert_match(/input name=\"filter\[organization_ids\]\[\].*/,

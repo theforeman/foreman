@@ -478,7 +478,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test 'should be invalid when subnet types are wrong' do
-    hostgroup = FactoryBot.build(:hostgroup)
+    hostgroup = FactoryBot.build_stubbed(:hostgroup)
     subnetv4 = Subnet::Ipv4.new
     subnetv6 = Subnet::Ipv6.new
 

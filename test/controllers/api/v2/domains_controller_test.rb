@@ -104,7 +104,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "admin should be able to create domain in any context" do
-    domain = FactoryBot.build(:domain)
+    domain = FactoryBot.build_stubbed(:domain)
     post :create, params: { :domain => { :name => domain.name } }
     assert_response :success
     domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -113,7 +113,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
   end
 
   test "admin should be able to create domain in any context even if they have default context set but they explicitly override it" do
-    domain = FactoryBot.build(:domain)
+    domain = FactoryBot.build_stubbed(:domain)
     User.current.default_organization = taxonomies(:organization1)
     User.current.save
     post :create, params: { :organization_id => nil, :domain => { :name => domain.name } }
@@ -251,7 +251,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test 'user can create domains in specific organization of his but the current context must be specified' do
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :organization_id => @org1.id, :location_id => @loc1.id, :domain => { :name => domain.name, :organization_ids => [@org1.id], :location_ids => [@loc1.id] } }
       end
@@ -262,7 +262,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test 'user does not have to specify taxonomy if he is assigned to only one, it is selected automatically' do
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
       end
@@ -273,7 +273,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test 'user can not create domain in taxonomy she does not belong to' do
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :domain => { :name => domain.name, :organization_ids => [@org3.id] } }
       end
@@ -283,7 +283,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test 'user can create domain in current context thanks to the fact organization_ids defaults to organization_id' do
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name } }
       end
@@ -294,7 +294,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test 'user can create domain in different organization than he set as a current organization' do
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org1.id, @org2.id] } }
       end
@@ -305,7 +305,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test 'user can create domain but current context is always preselected as organization_ids' do
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
       end
@@ -317,7 +317,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     end
 
     test 'user can not create resource in any context but they can use it to reset default value of organization_ids' do
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :organization_id => nil, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
       end
@@ -329,7 +329,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
 
     test 'user can not create resource without specifying organization explicitly' do
       # this would only work if user had default organization set, covered by test below
-      domain = FactoryBot.build(:domain)
+      domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
         post :create, params: { :domain => { :name => domain.name } }
       end
@@ -380,7 +380,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       end
 
       test 'user can still create domains in specific organization even if it is default one' do
-        domain = FactoryBot.build(:domain)
+        domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
           post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org1.id] } }
         end
@@ -390,7 +390,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       end
 
       test 'user can create domain in other than default organization' do
-        domain = FactoryBot.build(:domain)
+        domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
           post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
         end
@@ -401,7 +401,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
 
       test 'user can create domain in other than default organization without need to specify organization_ids' do
         # preselected value is the currect context which overrides the default
-        domain = FactoryBot.build(:domain)
+        domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
           post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name } }
         end
@@ -411,7 +411,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       end
 
       test 'user can create domain in default organization without need of specifying any organization' do
-        domain = FactoryBot.build(:domain)
+        domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
           post :create, params: { :domain => { :name => domain.name } }
         end
@@ -422,7 +422,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
 
       test 'user can create domain in other than default organization without need to specify current context, default becomes preselected value' do
         # preselected value is the currect context which overrides the default
-        domain = FactoryBot.build(:domain)
+        domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
           post :create, params: { :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
         end

@@ -236,7 +236,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#build_scoped_search_condition(filters) for one filter" do
     auth    = Authorizer.new(FactoryBot.create(:user))
-    filters = [FactoryBot.build(:filter, :on_name_all)]
+    filters = [FactoryBot.build_stubbed(:filter, :on_name_all)]
     result  = auth.build_scoped_search_condition(filters)
 
     assert_equal '(name ~ *)', result
@@ -244,7 +244,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#build_scoped_search_condition(filters) for more filters" do
     auth    = Authorizer.new(FactoryBot.create(:user))
-    filters = [FactoryBot.build(:filter, :on_name_all), FactoryBot.build(:filter, :on_name_starting_with_a)]
+    filters = [FactoryBot.build_stubbed(:filter, :on_name_all), FactoryBot.build_stubbed(:filter, :on_name_starting_with_a)]
     result  = auth.build_scoped_search_condition(filters)
 
     assert_equal '(name ~ *) OR (name ~ a*)', result
@@ -252,7 +252,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#build_scoped_search_condition(filters) for unlimited filter" do
     auth    = Authorizer.new(FactoryBot.create(:user))
-    filters = [FactoryBot.build(:filter)]
+    filters = [FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
 
     assert_equal '(1=1)', result
@@ -260,7 +260,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#build_scoped_search_condition(filters) for limited and unlimited filter" do
     auth    = Authorizer.new(FactoryBot.create(:user))
-    filters = [FactoryBot.build(:filter, :on_name_all), FactoryBot.build(:filter)]
+    filters = [FactoryBot.build_stubbed(:filter, :on_name_all), FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
 
     assert_equal '(name ~ *) OR (1=1)', result
@@ -268,7 +268,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#build_scoped_search_condition(filters) for empty filter" do
     auth    = Authorizer.new(FactoryBot.create(:user))
-    filters = [FactoryBot.build(:filter, :search => '')]
+    filters = [FactoryBot.build_stubbed(:filter, :search => '')]
     result  = auth.build_scoped_search_condition(filters)
 
     assert_equal '(1=1)', result
