@@ -2,6 +2,7 @@ require 'test_helper'
 require 'fact_importer_test_helper'
 
 class FactCleanerTest < ActiveSupport::TestCase
+  let(:null_store) { ActiveSupport::Cache.lookup_store(:null_store) }
   let(:cleaner) do
     FactCleaner.new
   end
@@ -50,11 +51,8 @@ class FactCleanerTest < ActiveSupport::TestCase
   end
 
   test "it cleans excluded facts" do
-    name_generator_type = Setting[:name_generator_type]
-    host_owner = Setting[:host_owner]
-    Setting.stubs(:[]).with(:excluded_facts).returns(['ignored*', '*bad'])
-    Setting.stubs(:[]).with(:name_generator_type).returns(name_generator_type)
-    Setting.stubs(:[]).with(:host_owner).returns(host_owner)
+    Setting.stubs(:cache).returns(null_store)
+    Setting[:excluded_facts] = ['ignored*', '*bad']
     cleaner.stubs(:delete_orphaned_facts).returns(0)
     good_fact_name = FactoryBot.create(:fact_name, :name => 'good_fact')
     ignored_fact_name = FactoryBot.create(:fact_name, :name => 'ignored01')
@@ -67,6 +65,7 @@ class FactCleanerTest < ActiveSupport::TestCase
   end
 
   test 'it cleans ignored flat facts' do
+    Setting.stubs(:cache).returns(null_store)
     [
       FactsData::FlatFacts,
       FactsData::RhsmStyleFacts,
@@ -81,7 +80,7 @@ class FactCleanerTest < ActiveSupport::TestCase
         fact_records << FactoryBot.create(:fact_name, :name => fact_name)
       end
 
-      Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+      Setting[:excluded_facts] = data.filter
       cleaner.stubs(:delete_orphaned_facts).returns(0)
 
       cleaner.clean!
@@ -93,6 +92,7 @@ class FactCleanerTest < ActiveSupport::TestCase
   end
 
   test 'it cleans ignored hierarchical facts' do
+    Setting.stubs(:cache).returns(null_store)
     data = FactsData::HierarchicalPuppetStyleFacts.new
 
     facts_hierarchy = data.good_facts.deep_merge(data.ignored_facts)
@@ -104,7 +104,7 @@ class FactCleanerTest < ActiveSupport::TestCase
       fact_records << FactoryBot.create(:fact_name, :name => fact_name)
     end
 
-    Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+    Setting[:excluded_facts] = data.filter
     cleaner.stubs(:delete_orphaned_facts).returns(0)
 
     cleaner.clean!
