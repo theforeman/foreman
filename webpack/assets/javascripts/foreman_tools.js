@@ -52,7 +52,7 @@ export function activateTooltips(elParam = 'body') {
   el
     .find('*[title]')
     .not('*[rel]')
-    .tooltip({ container: 'body' });
+    .tooltip({ container: 'body', trigger: 'hover' });
   $(document).on('page:restore', () => {
     $('.tooltip.in').remove();
   });
