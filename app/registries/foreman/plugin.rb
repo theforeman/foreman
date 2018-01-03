@@ -271,7 +271,7 @@ module Foreman #:nodoc:
     # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
     # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
     def add_all_permissions_to_default_roles
-      return if Foreman.in_rake?('db:migrate')
+      return if Foreman.in_rake?('db:migrate') || !permission_table_exists?
       Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
     end
 
@@ -430,6 +430,12 @@ module Foreman #:nodoc:
     end
 
     private
+
+    def permission_table_exists?
+      exists = Permission.connection.table_exists?(Permission.table_name)
+      Rails.logger.debug("Not adding permissions from plugin #{@id} to default roles - permissions table not found") if !exists && !Rails.env.test?
+      exists
+    end
 
     def extend_template_helpers_by_module(mod)
       mod = mod.constantize
