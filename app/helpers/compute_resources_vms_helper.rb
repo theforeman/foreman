@@ -241,8 +241,9 @@ module ComputeResourcesVmsHelper
 
   def new_vm?(host)
     return true unless host.present?
-    return true unless host.compute_object.present?
-    !host.compute_object.persisted?
+    compute_object = host.compute_object
+    return true unless compute_object.present?
+    !compute_object.persisted?
   end
 
   def vm_host_action(vm)
