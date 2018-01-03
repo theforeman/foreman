@@ -75,7 +75,7 @@
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0",
-    "react-ellipsis-with-tooltip": "^1.0.3",
+    "react-ellipsis-with-tooltip": "^1.0.6",
     "react-numeric-input": "^2.0.7",
     "react-onclickoutside": "^6.6.2",
     "react-redux": "^5.0.2",
