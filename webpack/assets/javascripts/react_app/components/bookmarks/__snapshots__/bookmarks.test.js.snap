@@ -428,8 +428,16 @@ exports[`bookmarks should include existing bookmarks for the current controller 
                             >
                               <EllipisWithTooltip>
                                 <div
-                                  className="ellipsis"
                                   onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
                                 >
                                   1111
                                 </div>
@@ -472,8 +480,16 @@ exports[`bookmarks should include existing bookmarks for the current controller 
                             >
                               <EllipisWithTooltip>
                                 <div
-                                  className="ellipsis"
                                   onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
                                 >
                                   1122
                                 </div>
@@ -781,8 +797,16 @@ exports[`bookmarks should not allow creating a new bookmark for users who dont h
                             >
                               <EllipisWithTooltip>
                                 <div
-                                  className="ellipsis"
                                   onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
                                 >
                                   1111
                                 </div>
@@ -825,8 +849,16 @@ exports[`bookmarks should not allow creating a new bookmark for users who dont h
                             >
                               <EllipisWithTooltip>
                                 <div
-                                  className="ellipsis"
                                   onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
                                 >
                                   1122
                                 </div>
@@ -1108,8 +1140,16 @@ exports[`bookmarks should show an error message if loading failed 1`] = `
                           >
                             <EllipisWithTooltip>
                               <div
-                                className="ellipsis"
                                 onMouseEnter={[Function]}
+                                style={
+                                  Object {
+                                    "overflow": "hidden",
+                                    "overflowWrap": "break-word",
+                                    "textOverflow": "ellipsis",
+                                    "whiteSpace": "nowrap",
+                                    "wordBreak": "break-all",
+                                  }
+                                }
                               >
                                 Failed to load bookmarks: %s
                               </div>
