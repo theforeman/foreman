@@ -53,8 +53,11 @@
             :help_inline => :indicator } %>
 
         <%= select_f f, :compute_resource_id, accessible_resource(@host, :compute_resource), :id, :to_label,
-          { :include_blank => _('Bare Metal') },
-          {:label => _('Deploy On'), :disabled => (!@host.new_record? || @host.uuid.present?), :'data-url' => compute_resource_selected_hosts_path,
+          { :include_blank => _('Bare Metal'),
+            :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
+            :disable_button_enabled => inherited_by_default?(:compute_resource_id, @host),
+            :user_set => user_set?(:compute_resource_id) },
+          { :label => _('Deploy On'), :disabled => (!@host.new_record? || @host.uuid.present?), :'data-url' => compute_resource_selected_hosts_path,
             :onchange => 'computeResourceSelected(this);',
             :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
 
