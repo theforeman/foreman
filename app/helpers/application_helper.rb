@@ -491,13 +491,16 @@ module ApplicationHelper
   end
 
   def hosts_count(resource_name = controller.resource_name)
-    # If we are on /organizations or /locations, this allows to display the
-    # count for hosts not in the current organization & location.
     hosts_scope = Host::Managed.reorder('')
-    if ['organization', 'location'].include? resource_name
+    case resource_name
+    when 'organization', 'location'
+      # If we are on /organizations or /locations, this allows to display the
+      # count for hosts not in the current organization & location.
       hosts_scope = hosts_scope.unscoped
+    when 'subnet'
+      hosts_scope = hosts_scope.joins(:primary_interface)
     end
-    @hosts_count ||= hosts_scope.authorized.group("#{resource_name}_id").count
+    @hosts_count ||= hosts_scope.authorized.group(:"#{resource_name}_id").count
   end
 
   def webpack_dev_server
