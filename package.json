@@ -31,6 +31,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
     "expose-loader": "~0.6.0",
+    "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.9.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-cli": "^20.0.0",
@@ -38,6 +39,7 @@
     "lodash-webpack-plugin": "^0.11.4",
     "nock": "^9.0.14",
     "node-sass": "^4.5.0",
+    "raf": "^3.4.0",
     "react-test-renderer": "^16.2.0",
     "redux-mock-store": "^1.2.2",
     "sass-loader": "~6.0.6",
@@ -46,7 +48,8 @@
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.7",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.5.1"
+    "webpack-dev-server": "^2.5.1",
+    "webpack-stats-plugin": "^0.1.5"
   },
   "optionalDependencies": {
     "phantomjs-prebuilt": "^2.1.0"
@@ -58,7 +61,6 @@
     "datatables.net": "~1.10.12",
     "datatables.net-bs": "~1.10.12",
     "diff": "~3.0.0",
-    "extract-text-webpack-plugin": "^3.0.0",
     "ipaddr.js": "~1.2.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "~2.2.4",
@@ -71,7 +73,6 @@
     "patternfly": "^3.31.2",
     "patternfly-react": "^0.22.1",
     "prop-types": "^15.6.0",
-    "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0",
@@ -87,8 +88,7 @@
     "seamless-immutable": "^7.0.1",
     "select2": "~3.5.2-browserify",
     "urijs": "^1.18.10",
-    "uuid": "^3.0.1",
-    "webpack-stats-plugin": "^0.1.5"
+    "uuid": "^3.0.1"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/ || exit 0",
