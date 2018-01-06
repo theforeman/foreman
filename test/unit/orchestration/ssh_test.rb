@@ -7,7 +7,7 @@ class SshOrchestrationTest < ActiveSupport::TestCase
     Setting[:clean_up_failed_deployment] = true
     ssh = mock('ssh client')
     ssh.expects(:deploy!).returns(false)
-    host = FactoryBot.create(:host, :managed)
+    host = FactoryBot.build(:host, :managed)
     host.expects(:client).returns(ssh)
     host.send(:setSSHProvision)
     refute Host::Managed.find_by_id(host.id)

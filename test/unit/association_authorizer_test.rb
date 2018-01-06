@@ -8,7 +8,7 @@ class AssociationAuthorizerTest < ActiveSupport::TestCase
   end
 
   test "user with permissions can view host" do
-    role = FactoryBot.create(:role, :name => 'can_view_host')
+    role = FactoryBot.build(:role, :name => 'can_view_host')
     role.add_permissions!(['view_hosts'])
     @user.update_attribute :roles, [role]
 

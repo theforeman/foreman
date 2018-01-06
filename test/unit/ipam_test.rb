@@ -16,7 +16,7 @@ class IPAMTest < ActiveSupport::TestCase
 
   context 'internal db' do
     test "should find unused IPv4" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.2.0',
         :ipam => IPAM::MODES[:db])
@@ -25,7 +25,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should find unused IPv6" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv6, :name => 'my_subnet',
         :network => '2001:db8::',
         :ipam => IPAM::MODES[:db])
@@ -34,7 +34,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should respect subnet from and to if it's set" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.2.0',
         :from => '192.168.2.10',
@@ -47,7 +47,7 @@ class IPAMTest < ActiveSupport::TestCase
 
   context 'random db' do
     test "should find unused IPv4" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '10.0.0.0',
         :mask => '255.0.0.0',
@@ -57,7 +57,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should return IPv4 based on MAC if provided" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '10.0.0.0',
         :mask => '255.0.0.0',
@@ -68,7 +68,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should find the only possible IPv4" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.11.0',
         :from => '192.168.11.5',
@@ -79,7 +79,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should find the only possible IPv4 with excluded IPs" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '192.168.11.0',
         :from => '192.168.11.5',
@@ -90,7 +90,7 @@ class IPAMTest < ActiveSupport::TestCase
     end
 
     test "should stop trying to find random IPv4 after reasonable time" do
-      subnet = FactoryBot.create(
+      subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '10.0.0.0',
         :mask => '255.0.0.0',

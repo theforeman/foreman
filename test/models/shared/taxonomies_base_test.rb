@@ -61,10 +61,10 @@ module TaxonomiesBaseTest
 
     test 'it should return array of used ids by hosts' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
-      subnet = FactoryBot.create(:subnet_ipv4,
+      subnet = FactoryBot.build(:subnet_ipv4,
                                   :"#{opposite_taxonomy}_ids" => [],
                                   :"#{taxonomy_name.pluralize}" => [taxonomy])
-      domain = FactoryBot.create(:domain)
+      domain = FactoryBot.build(:domain)
       FactoryBot.create(:host,
                          :compute_resource => compute_resources(:one),
                          :domain           => domain,
@@ -232,7 +232,7 @@ module TaxonomiesBaseTest
     test ".my_taxonomies returns user's associated taxonomies and children" do
       tax1 = FactoryBot.create(:"#{taxonomy_name}")
       tax2 = FactoryBot.create(:"#{taxonomy_name}", :parent => tax1)
-      user = FactoryBot.create(:user, :"#{taxonomy_name.pluralize}" => [tax1])
+      user = FactoryBot.build(:user, :"#{taxonomy_name.pluralize}" => [tax1])
       as_user(user) do
         assert_equal [tax1.id, tax2.id].sort,
           taxonomy_class.public_send(:"my_#{taxonomy_name.pluralize}").pluck(:id).sort
@@ -278,7 +278,7 @@ module TaxonomiesBaseTest
       parent.update_attribute(:smart_proxies,[smart_proxies(:puppetmaster),smart_proxies(:realm)])
 
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent.id
-      FactoryBot.create(:host,
+      FactoryBot.build(:host,
                          :compute_resource => compute_resources(:one),
                          :domain           => domain1,
                          :environment      => environments(:production),
@@ -290,10 +290,10 @@ module TaxonomiesBaseTest
                          :puppet_proxy     => smart_proxies(:puppetmaster),
                          :realm            => realms(:myrealm),
                          :subnet           => subnet)
-      FactoryBot.create(:host,
+      FactoryBot.build(:host,
                          :"#{taxonomy_name}" => parent,
                          :domain           => domain2)
-      FactoryBot.create(:os_default_template,
+      FactoryBot.build(:os_default_template,
                          :provisioning_template  => templates(:mystring2),
                          :operatingsystem  => operatingsystems(:centos5_3),
                          :template_kind    => TemplateKind.find_by_name('provision'))

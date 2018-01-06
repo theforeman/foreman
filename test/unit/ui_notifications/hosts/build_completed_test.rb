@@ -22,7 +22,7 @@ class UINotificationsHostsBuildCompletedTest < ActiveSupport::TestCase
   private
 
   def host
-    @host ||= FactoryBot.create(:host, :managed)
+    @host ||= FactoryBot.build(:host, :managed)
   end
 
   def blueprint

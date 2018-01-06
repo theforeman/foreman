@@ -37,7 +37,7 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
 
     test "should render template_url with templates proxy" do
       template_server_from_proxy = 'https://someproxy:8443'
-      proxy = FactoryBot.create(:template_smart_proxy)
+      proxy = FactoryBot.build(:template_smart_proxy)
       ProxyAPI::Template.any_instance.stubs(:template_url).returns(template_server_from_proxy)
       host.subnet.tftp = proxy
       renderer.host = host

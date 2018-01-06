@@ -21,7 +21,7 @@ class UINotificationsCacheHandlerTest < ActiveSupport::TestCase
 
   test 'should calculate cache expiry time based on the notification expiry' do
     user = User.first
-    blueprint = FactoryBot.create(:notification_blueprint,
+    blueprint = FactoryBot.build(:notification_blueprint,
       expires_in: 3.hours,
       message: 'this test just executed successfully'
     )
@@ -29,7 +29,7 @@ class UINotificationsCacheHandlerTest < ActiveSupport::TestCase
       notification_blueprint: blueprint,
       audience: 'global'
     )
-    FactoryBot.create(:notification_recipient,
+    FactoryBot.build(:notification_recipient,
       notification: notification,
       user_id: user.id
     )

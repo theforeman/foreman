@@ -308,22 +308,22 @@ EOS
   end
 
   test 'should render puppetclasses using host_puppetclasses helper' do
-    @renderer.host = FactoryBot.create(:host, :with_puppetclass)
+    @renderer.host = FactoryBot.build(:host, :with_puppetclass)
     assert @renderer.host_puppet_classes
   end
 
   test 'should render host param using "host_param" helper' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert @renderer.host_param('test').present?
   end
 
   test 'should render host param using "host_param" helper for not existing parameter' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert_nil @renderer.host_param('not_existing_param')
   end
 
   test 'should render host param using "host_param" helper for not existing parameter using default value' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert_equal 42, @renderer.host_param('not_existing_param', 42)
   end
 
@@ -335,7 +335,7 @@ EOS
   end
 
   test 'should raise rendering exception if host_param! is used for not existing param' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert_raises(Foreman::Renderer::HostParamUndefined) do
       @renderer.host_param!('not_existing_param')
     end
@@ -355,7 +355,7 @@ EOS
 
   context 'subnet helpers' do
     setup do
-      @renderer.host = FactoryBot.create(:host, :with_puppet)
+      @renderer.host = FactoryBot.build(:host, :with_puppet)
       subnets(:one).subnet_parameters.create(name: 'myparam', value: 'myvalue')
     end
 
@@ -389,18 +389,18 @@ EOS
   end
 
   test 'should have host_enc helper' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert @renderer.host_enc
   end
 
   test "should find path in host_enc" do
-    host = FactoryBot.create(:host, :with_puppet)
+    host = FactoryBot.build(:host, :with_puppet)
     @renderer.host = host
     assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster')
   end
 
   test "should raise rendering exception if no such parameter exists while rendering host_enc" do
-    host = FactoryBot.create(:host, :with_puppet)
+    host = FactoryBot.build(:host, :with_puppet)
     @renderer.host = host
     assert_raises(Foreman::Renderer::HostENCParamUndefined) do
       assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster_that_does_not_exist')

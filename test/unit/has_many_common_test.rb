@@ -50,12 +50,12 @@ class HasManyCommonTest < ActiveSupport::TestCase
   #
   # Test default AR extenstion *_name where method is :name by default
   test "should return domain name using method #domain_name" do
-    host = FactoryBot.build_stubbed(:host, :domain => FactoryBot.create(:domain, :name => "common.net"))
+    host = FactoryBot.build_stubbed(:host, :domain => FactoryBot.build(:domain, :name => "common.net"))
     assert_equal "common.net", host.domain_name
   end
 
   test "should update domain_id by passing existing domain name" do
-    host = FactoryBot.build(:host, :domain => FactoryBot.create(:domain, :name => "common.net"))
+    host = FactoryBot.build(:host, :domain => FactoryBot.build(:domain, :name => "common.net"))
     orig_id = host.domain_id
     host.domain_name = "yourdomain.net"
     host.save!

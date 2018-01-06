@@ -8,20 +8,20 @@ class FactCleanerTest < ActiveSupport::TestCase
   end
 
   test "it cleans orhpaned root leaves" do
-    root_1_fact = FactoryBot.create(:fact_name)
+    root_1_fact = FactoryBot.build(:fact_name)
     cleaner.clean!
     assert_not_include remaining_of(root_1_fact), root_1_fact
   end
 
   test "it cleans root composes without any leaves" do
-    root_2_fact = FactoryBot.create(:fact_name, :compose => true)
+    root_2_fact = FactoryBot.build(:fact_name, :compose => true)
     cleaner.clean!
     assert_not_include remaining_of(root_2_fact), root_2_fact
   end
 
   test "it cleans composes and it's leaves composes if there are no values for them" do
-    root_3_fact = FactoryBot.create(:fact_name, :compose => true)
-    root_3_child_fact = FactoryBot.create(:fact_name, :parent_id => root_3_fact.id)
+    root_3_fact = FactoryBot.build(:fact_name, :compose => true)
+    root_3_child_fact = FactoryBot.build(:fact_name, :parent_id => root_3_fact.id)
     cleaner.clean!
     remaining = remaining_of(root_3_fact, root_3_child_fact)
     assert_not_include remaining, root_3_fact

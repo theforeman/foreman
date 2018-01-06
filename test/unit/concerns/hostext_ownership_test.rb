@@ -68,7 +68,7 @@ class HostextOwnershipTest < ActiveSupport::TestCase
   test "search by user returns only the relevant hosts" do
     host = nil
     as_user :one do
-      host = FactoryBot.create(:host)
+      host = FactoryBot.build(:host)
     end
     refute_equal User.current, host.owner
     results = Host.search_for("owner = " + User.current.login)

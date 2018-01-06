@@ -24,7 +24,7 @@ class ReportImporterTest < ActiveSupport::TestCase
     setup do
       @user = as_admin { FactoryBot.create(:user, :admin, :with_mail) }
       @user.mail_notifications << ConfigManagementError.first
-      @host = FactoryBot.create(:host)
+      @host = FactoryBot.build(:host)
     end
 
     test "when a user is subscribed to all hosts notification,  a mail should be sent on error" do
@@ -73,7 +73,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'when a host has no owner, no mail should be sent on error' do
-    host = FactoryBot.create(:host, :owner => nil)
+    host = FactoryBot.build(:host, :owner => nil)
     report = read_json_fixture('reports/errors.json')
     report["host"] = host.name
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
@@ -116,7 +116,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'it should refresh all statuses' do
-    host = FactoryBot.create(:host)
+    host = FactoryBot.build(:host)
     report = read_json_fixture('reports/applied.json')
     report["host"] = host.name
     reporter = TestReportImporter.new(report)
@@ -125,7 +125,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   test 'it should refresh zero statuses' do
-    host = FactoryBot.create(:host)
+    host = FactoryBot.build(:host)
     report = read_json_fixture('reports/applied.json')
     report["host"] = host.name
     reporter = TestNoStatusUpdateReportImporter.new(report)
