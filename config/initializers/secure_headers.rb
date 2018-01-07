@@ -1,5 +1,9 @@
 ::SecureHeaders::Configuration.default do |config|
-  config.hsts = "max-age=#{20.years.to_i}; includeSubdomains"
+  if SETTINGS[:hsts_enabled]
+    config.hsts = "max-age=#{20.years.to_i}; includeSubdomains"
+  else
+    config.hsts = "max-age=0; includeSubdomains"
+  end
   config.csp = {
     :default_src => ["'self'"],
     :child_src   => ["'self'"],
