@@ -26,6 +26,11 @@
 # errors in your browser
 :webpack_dev_server_https: false
 
+# If you wish to allow browsers access to http resources after accessing the
+# server, you will need to disable HSTS headers. This has security implications
+# so only change this if you know what you're doing.
+:hsts_enabled: true
+
 # Ruby on Rails version
 # Defaults to 5.1
 #:rails: 5.1
