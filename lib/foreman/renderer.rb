@@ -43,7 +43,7 @@ module Foreman
 
     def host_param(param_name, default = nil)
       check_host
-      @host.params[param_name] || default
+      @host.host_param(param_name) || default
     end
 
     def host_param!(param_name)

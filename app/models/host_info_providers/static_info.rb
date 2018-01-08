@@ -14,7 +14,7 @@ module HostInfoProviders
       add_unattended_params param
 
       # Parse ERB values contained in the parameters
-      param = SafeRender.new(:variables => { :host => self }).parse(param)
+      param = ParameterSafeRender.new(self).render(param)
 
       { 'parameters' => param }
     end

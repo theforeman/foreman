@@ -9,7 +9,7 @@ module Classification
     def initialize(raw_hash, host)
       @host = host
       @raw = raw_hash
-      @safe_render = SafeRender.new(:variables => {:host => host})
+      @safe_render = ParameterSafeRender.new(host)
     end
 
     # Returns an object stored inside the LookupValue object, including running all
@@ -21,7 +21,7 @@ module Classification
 
       return nil if value[:managed]
       needs_late_validation = value[:value].contains_erb?
-      value = @safe_render.parse(value[:value])
+      value = @safe_render.render(value[:value])
       value = type_cast(key, value)
       validate_lookup_value(key, value) if needs_late_validation
       value
