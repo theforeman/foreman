@@ -86,8 +86,16 @@ var config = {
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
-          fallback: 'style-loader', // The backup style loader
-          use: 'css-loader?sourceMap!sass-loader?sourceMap'
+          fallback: 'style-loader',
+          use: [
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                includePaths: [path.resolve(__dirname, '..', 'node_modules')]
+              }
+            }
+          ]
         })
       }
     ]
