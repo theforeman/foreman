@@ -4,20 +4,37 @@ class ImageTest < ActiveSupport::TestCase
   should have_many(:hosts).dependent(:nullify)
 
   test "image is invalid if uuid invalid" do
-    resource = compute_resources(:one)
-    image = resource.images.build(:name => "foo", :uuid => "bar")
+    image = FactoryBot.build(:image, :uuid => "bar")
     ComputeResource.any_instance.stubs(:image_exists?).returns(false)
     image.valid? #trigger validations
     assert image.errors.messages.keys.include?(:uuid)
   end
 
+  test "image name is unique per resource and os" do
+    image1 = FactoryBot.create(:image)
+    image2 = FactoryBot.build(:image, name: image1.name)
+    assert image2.valid?
+    image2.compute_resource = image1.compute_resource
+    assert image2.valid?
+    image2.operatingsystem = image1.operatingsystem
+    refute image2.valid?
+  end
+
+  test "image uuid is unique per compute_resource" do
+    image1 = FactoryBot.create(:image)
+    image2 = FactoryBot.build(:image, uuid: image1.uuid)
+    assert image2.valid?
+    image2.compute_resource = image1.compute_resource
+    refute image2.valid?
+  end
+
   test "image scoped search for compute_resource works" do
-    resource = compute_resources(:one)
-    assert_includes Image.search_for("compute_resource = #{resource.name}"), images(:one)
+    image = FactoryBot.create(:image)
+    assert_includes Image.search_for("compute_resource = #{image.compute_resource.name}"), image
   end
 
   context "audits for password change" do
-    let(:protected_image) { FactoryBot.build(:image, :compute_resource => FactoryBot.create(:compute_resource, :libvirt)) }
+    let(:protected_image) { FactoryBot.build(:image) }
 
     test "audit of password change should be saved only once, second time audited changes should not contain password_changed" do
       as_admin do
