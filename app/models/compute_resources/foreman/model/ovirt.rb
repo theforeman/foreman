@@ -193,6 +193,12 @@ module Foreman::Model
       client.datacenters(options).map { |dc| [dc[:name], dc[:id]] }
     end
 
+    def get_datacenter_uuid(name)
+      datacenter_uuid = datacenters.select{|dc| dc[0] == name}
+      raise ::Foreman::Exception.new(N_('Datacenter was not found')) if datacenter_uuid.empty?
+      datacenter_uuid.first[1]
+    end
+
     def editable_network_interfaces?
       # we can't decide whether the networks are available when we
       # don't know the cluster_id, assuming it's possible

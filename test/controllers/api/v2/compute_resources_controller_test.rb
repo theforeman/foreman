@@ -150,6 +150,28 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert !available_storage_domains.empty?
   end
 
+  test "should create with datacenter name" do
+    Foreman::Model::Ovirt.any_instance.stubs(:datacenters).returns([["test", Foreman.uuid]])
+    Foreman::Model::Ovirt.any_instance.stubs(:test_connection).returns(true)
+
+    attrs = { :name => 'Ovirt-create-test', :url => 'https://myovirt/api', :provider => 'ovirt', :datacenter => 'test', :user => 'user@example.com', :password => 'secret' }
+    post :create, params: { :compute_resource => attrs }
+    assert_response :created
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert Foreman.is_uuid?(show_response["datacenter"])
+  end
+
+  test "should create with datacenter uuid" do
+    datacenter_uuid = Foreman.uuid
+    Foreman::Model::Ovirt.any_instance.stubs(:datacenters).returns([["test", datacenter_uuid]])
+
+    attrs = { :name => 'Ovirt-create-test', :url => 'https://myovirt/api', :provider => 'ovirt', :datacenter => datacenter_uuid, :user => 'user@example.com', :password => 'secret' }
+    post :create, params: { :compute_resource => attrs }
+    assert_response :created
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert Foreman.is_uuid?(show_response["datacenter"])
+  end
+
   context 'cache refreshing' do
     test 'should refresh cache if supported' do
       put :refresh_cache, params: { :id => compute_resources(:vmware).to_param }

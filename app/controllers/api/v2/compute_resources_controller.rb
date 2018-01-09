@@ -54,6 +54,13 @@ module Api
 
       def create
         @compute_resource = ComputeResource.new_provider(compute_resource_params)
+
+        datacenter = compute_resource_params[:datacenter]
+
+        if @compute_resource.respond_to?(:get_datacenter_uuid) && datacenter.present? && !Foreman.is_uuid?(datacenter)
+          @compute_resource.test_connection
+          @compute_resource.datacenter = @compute_resource.get_datacenter_uuid(datacenter)
+        end
         process_response @compute_resource.save
       end
 
