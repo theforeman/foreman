@@ -106,7 +106,7 @@ Foreman::Application.routes.draw do
         resources :facts, :only => :index, :controller => :fact_values
         resources :puppetclasses, :only => :index
 
-        get 'parent_facts/:parent_fact/facts', :to => 'fact_values#index', :as => 'parent_fact_facts'
+        get 'parent_facts/:parent_fact/facts', :to => 'fact_values#index', :as => 'parent_fact_facts', :parent_fact => /[\w.:_-]+/
       end
     end
 
