@@ -8,7 +8,7 @@ class ImagesController < ApplicationController
     # Listing images in /hosts/new consumes this method as JSON
     @images = resource_base.where(:compute_resource_id => @compute_resource.id).includes(:operatingsystem)
     respond_to do |format|
-      format.html { render :partial => 'images/list' }
+      format.html { params[:partial] ? render(:partial => 'images/list') : render(:index) }
       format.json { render :json => @images.where(:operatingsystem_id => params[:operatingsystem_id], :architecture_id => params[:architecture_id]).order(:name) }
     end
   end

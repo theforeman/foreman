@@ -5,6 +5,7 @@ class AuditsController < ApplicationController
 
   def index
     @audits = resource_base_search_and_page.with_taxonomy_scope.preload(:user)
+    @host = resource_finder(Host.authorized(:view_hosts), params[:host_id]) if params[:host_id]
   end
 
   def show

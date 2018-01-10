@@ -7,6 +7,7 @@ class ConfigReportsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
+        @host = resource_finder(Host.authorized(:view_hosts), params[:host_id]) if params[:host_id]
         @config_reports = resource_base_search_and_page(:host)
         render :index
       end

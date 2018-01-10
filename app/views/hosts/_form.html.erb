@@ -9,7 +9,7 @@
     <%= base_errors_for @host %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab"><%= _('Host') %></a></li>
+      <li class="active"><a href="#primary" id='host_tab' data-toggle="tab"><%= _('Host') %></a></li>
 
       <% if SETTINGS[:unattended] and @host.managed %>
         <% if authorized_for(:controller => "Compute::Resources::Vms", :action => :create) %>
