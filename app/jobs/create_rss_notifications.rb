@@ -5,7 +5,7 @@ class CreateRssNotifications < ApplicationJob
 
   def perform(options = {})
     # Defaults to theforeman.org blog RSS
-    UINotifications::RssNotificationsChecker.new(options).deliver!
+    UINotifications::RssNotificationsChecker.new(options || {}).deliver!
   end
 
   rescue_from(StandardError) do |error|
