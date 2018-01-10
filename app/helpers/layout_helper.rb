@@ -16,6 +16,21 @@ module LayoutHelper
     content_for(:search_bar) { elements.join(" ").html_safe }
   end
 
+  def mount_breadcrumbs(&block)
+    index_page = {caption: _(controller_name.humanize), url: try("#{controller_name}_path")}
+    default_menu = [(index_page unless action_name == 'index'),
+                    {caption: @page_header, url: '#' }].compact unless block_given?
+
+    mount_react_component("Breadcrumb", "#breadcrumb",
+      { menu: default_menu || yield }.to_json)
+  end
+
+  def breadcrumbs(&block)
+    content_for(:breadcrumbs) do
+      mount_breadcrumbs(&block)
+    end
+  end
+
   def stylesheet(*args)
     content_for(:stylesheets) { stylesheet_link_tag(*args.push("data-turbolinks-track" => true)) }
   end

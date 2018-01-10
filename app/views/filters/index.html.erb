@@ -1,5 +1,10 @@
 <% if @role
-     title _("Filters for role %s") % @role.to_s
+     breadcrumbs do
+       [
+         {caption: _("Roles"), url: (url_for(roles_path) if authorized_for(hash_for_roles_path))},
+         {caption: _("%s filters") % @role.to_s}
+       ]
+     end
    else
      title _("Filters")
    end %>

@@ -48,7 +48,7 @@
   <% if @compute_resource.capabilities.include?(:image) %>
     <div id="images" class="tab-pane">
       <%= title_actions(new_link(_("Create Image"), { :compute_resource_id => @compute_resource.id, :controller => :images }, { :data=>{:target=>"full-page"} })) %>
-      <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource) %>>
+      <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource, { :partial => true }) %>>
         <%= spinner(_('Loading images information ...')) %>
       </div>
     </div>
