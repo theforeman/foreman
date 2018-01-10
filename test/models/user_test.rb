@@ -319,66 +319,29 @@ class UserTest < ActiveSupport::TestCase
   end
 
   context "audits for password change" do
-    def setup_user_for_audits
-      user = FactoryBot.create(:user)
-      User.find_by_id(user.id) #to clear the value of user.password
+    setup do
+      @user = User.find_by_id(FactoryBot.create(:user)) #to clear the value of user.password
     end
 
-    test "audit of password change should be saved only once, second time audited changes should not contain password_changed" do
-      user = setup_user_for_audits
+    test "audit of password change should be saved redacted" do
       as_admin do
-        user.password = "newpassword"
-        assert_valid user
-        assert user.password_changed_changed?
-        assert user.password_changed
-        assert_includes user.changed, "password_changed"
-        assert user.save
-        assert_includes Audit.last.audited_changes, "password_changed"
-        #testing after_save
-        refute user.password_changed_changed?
-        refute user.password_changed
-        refute_includes user.changed, "password_changed"
-      end
-    end
-
-    test "audit of password change should be saved" do
-      user = setup_user_for_audits
-      as_admin do
-        user.password = "newpassword"
-        assert_valid user
-        assert user.password_changed_changed?
-        assert user.password_changed
-        assert_includes user.changed, "password_changed"
-        assert user.save
-        assert_includes Audit.last.audited_changes, "password_changed"
+        @user.password = "newpassword"
+        assert_valid @user
+        assert @user.password_changed?
+        assert @user.save
+        assert_includes Audit.last.audited_changes, "password"
+        assert_equal Audit.last.audited_changes["password"], ["[redacted]", "[redacted]"]
       end
     end
 
     test "audit of password change should not be saved - due to no password change" do
-      user = setup_user_for_audits
       as_admin do
-        user.firstname = "Johnny"
-        assert_valid user
-        refute user.password_changed_changed?
-        refute user.password_changed
-        refute_includes user.changed, "password_changed"
-        assert user.save
-        refute_includes Audit.last.audited_changes, "password_changed"
-      end
-    end
-
-    test "audit of name change sholud contain only firstname and not password_changed" do
-      user = setup_user_for_audits
-      as_admin do
-        user.firstname = "Johnny"
-        assert_valid user
-        assert_includes user.changed, "firstname"
-        refute user.password_changed_changed?
-        refute user.password_changed
-        refute_includes user.changed, "password_changed"
-        assert user.save
+        @user.firstname = "Johnny"
+        assert_valid @user
+        refute @user.password_changed?
+        assert @user.save
         assert_includes Audit.last.audited_changes, "firstname"
-        refute_includes Audit.last.audited_changes, "password_changed"
+        refute_includes Audit.last.audited_changes, "password"
       end
     end
   end

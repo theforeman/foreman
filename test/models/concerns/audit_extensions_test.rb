@@ -33,7 +33,7 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       assert setting.save
     end
     a = Audit.where(auditable_type: 'Setting')
-    assert_equal "[encrypted]", a.last.audited_changes["value"][1]
+    assert_equal "[redacted]", a.last.audited_changes["value"][1]
   end
 
   test "search for type=lookupvalue in audit" do
