@@ -37,8 +37,9 @@ kind: snippet
 <%-   next if !interface.managed? || (interface.subnet.nil? && interface.subnet6.nil?) -%>
 <%-   next if bonded_interfaces.include?(interface.identifier) -%>
 
+<%-   interface_identifier = @host.bond_interfaces.map { |i| i.identifier }.include?(interface.attached_to) ? interface.identifier : nil %>
 <%=   "# #{interface.identifier} interface" %>
-<%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :interface => interface }) -%>
+<%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :interface => interface, :identifier => interface_identifier }) -%>
 <%-   ifcfg = snippet('kickstart_ifcfg_generic_interface', :variables => {
                         :interface => interface,
                         :subnet => interface.subnet,
