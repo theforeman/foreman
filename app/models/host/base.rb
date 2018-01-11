@@ -416,7 +416,33 @@ module Host
       end
     end
 
+    def update_bonds(iface, name, attributes)
+      bond_interfaces.each do |bond|
+        next unless bond.children_mac_addresses.include?(attributes['macaddress'])
+        next if bond.attached_devices_identifiers.include? name
+        update_bond bond, iface, name
+      end
+    end
+
+    def update_bond(bond, iface, name)
+      if iface && iface.identifier
+        bond.remove_device(iface.identifier)
+        bond.add_device(name)
+        logger.debug "Updating bond #{bond.identifier}, id #{bond.id}: removing #{iface.identifier}, adding #{name} to attached interfaces"
+        save_updated_bond bond
+      end
+    end
+
+    def save_updated_bond(bond)
+      bond.save!
+    rescue StandardError => e
+      logger.warn "Saving #{bond.identifier} NIC for host #{self.name} failed, skipping because #{e.message}:"
+      bond.errors.full_messages.each { |e| logger.warn " #{e}" }
+    end
+
     def set_interface(attributes, name, iface)
+      # update bond.attached_interfaces when interface is in the list and identifier has changed
+      update_bonds(iface, name, attributes) if iface.identifier != name && !iface.virtual? && iface.persisted?
       attributes = attributes.clone
       iface.mac = attributes.delete(:macaddress)
       iface.ip = attributes.delete(:ipaddress)
