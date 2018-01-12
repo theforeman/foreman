@@ -66,10 +66,14 @@ class Notification < ApplicationRecord
 
   def set_custom_attributes
     return unless notification_blueprint # let validation catch this.
-    self.actions = UINotifications::URLResolver.new(
-      subject,
-      notification_blueprint.actions
-    ).actions if notification_blueprint.actions.any? && self.actions.blank?
+
+    if notification_blueprint.actions.any? && self.actions.blank?
+      self.actions = UINotifications::URLResolver.new(
+        subject,
+        notification_blueprint.actions
+      ).actions
+    end
+
     # copy notification message in case we didn't create a custom one.
     self.message ||= UINotifications::StringParser.new(
       notification_blueprint.message,
