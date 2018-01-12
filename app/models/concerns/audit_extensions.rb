@@ -2,6 +2,8 @@
 module AuditExtensions
   extend ActiveSupport::Concern
 
+  REDACTED = N_('[redacted]')
+
   included do
     def self.auditable_type_complete_values
       @auditable_type_complete_values ||= {
@@ -73,6 +75,7 @@ module AuditExtensions
 
     before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name
     before_save :filter_encrypted, :if => Proc.new {|audit| audit.audited_changes.present?}
+    before_save :filter_passwords, :if => Proc.new {|audit| audit.audited_changes.try(:has_key?, 'password')}
 
     include Authorizable
 
@@ -94,10 +97,18 @@ module AuditExtensions
     self.audited_changes.each do |name,change|
       next if change.nil? || change.to_s.empty?
       if change.is_a? Array
-        change.map! {|c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? N_("[encrypted]") : c}
+        change.map! {|c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? REDACTED : c}
       else
-        audited_changes[name] = N_("[encrypted]") if change.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX)
+        audited_changes[name] = REDACTED if change.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX)
       end
+    end
+  end
+
+  def filter_passwords
+    if action == 'update'
+      audited_changes['password'] = [REDACTED, REDACTED]
+    else
+      audited_changes['password'] = REDACTED
     end
   end
 
