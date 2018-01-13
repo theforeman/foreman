@@ -16,4 +16,7 @@ group :test do
   gem 'shoulda-matchers', '~> 3.0'
   gem 'shoulda-context', '~> 1.2'
   gem 'as_deprecation_tracker', '~> 1.4'
+  if RUBY_VERSION < '2.2'
+    gem 'xpath', '< 3'
+  end
 end
