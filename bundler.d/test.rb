@@ -21,4 +21,7 @@ group :test do
   when '5.0'
     gem 'rails-controller-testing', '~> 1.0'
   end
+  if RUBY_VERSION < '2.2'
+    gem 'xpath', '< 3'
+  end
 end
