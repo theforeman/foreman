@@ -229,7 +229,7 @@ class FactParserTest < ActiveSupport::TestCase
 
   context "parser tests involving hosts" do
     setup do
-      @host = FactoryBot.build(:host)
+      @host = FactoryBot.build_stubbed(:host)
     end
 
     test "#suggested_primary_interface detects primary interface using DNS" do

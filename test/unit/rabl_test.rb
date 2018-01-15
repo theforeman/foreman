@@ -3,7 +3,7 @@ require 'ostruct'
 
 class RablTest < ActiveSupport::TestCase
   test 'render of single template' do
-    @media = FactoryBot.build(:medium)
+    @media = FactoryBot.build_stubbed(:medium)
     rendered = Rabl.render(@media,
                            'api/v2/media/show',
                            :format => :json,
@@ -38,7 +38,7 @@ class RablTest < ActiveSupport::TestCase
       Foreman::Plugin.register :test_extend_rabl_template do
         extend_rabl_template 'api/v2/test/one', 'api/v2/test/two'
       end
-      @media = FactoryBot.build(:medium)
+      @media = FactoryBot.build_stubbed(:medium)
       rendered = Rabl.render(@media,
                              'api/v2/test/one',
                              :format => :json,

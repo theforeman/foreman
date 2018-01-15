@@ -207,7 +207,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should create os with two different parameters" do
     pid = Time.now.to_i
-    operatingsystem = FactoryBot.build(:operatingsystem, :os_parameters_attributes =>
+    operatingsystem = FactoryBot.build_stubbed(:operatingsystem, :os_parameters_attributes =>
         {pid += 1=>{"name"=>"a", "value"=>"1"},
          pid +  1=>{"name"=>"b", "value"=>"1"}})
     assert_valid operatingsystem
@@ -215,7 +215,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should not create os with two new parameters with the same name" do
     pid = Time.now.to_i
-    operatingsystem = FactoryBot.build(:operatingsystem, :os_parameters_attributes =>
+    operatingsystem = FactoryBot.build_stubbed(:operatingsystem, :os_parameters_attributes =>
         {pid += 1=>{"name"=>"a", "value"=>"1"},
          pid += 1=>{"name"=>"a", "value"=>"2"},
          pid +  1=>{"name"=>"b", "value"=>"1"}})
@@ -234,7 +234,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should not create os with an invalid parameter - no name" do
     pid = Time.now.to_i
-    operatingsystem = FactoryBot.build(:operatingsystem, :os_parameters_attributes =>
+    operatingsystem = FactoryBot.build_stubbed(:operatingsystem, :os_parameters_attributes =>
         {pid += 1=>{"value"=>"1"},
          pid += 1=>{"name"=>"a", "value"=>"2"},
          pid +  1=>{"name"=>"b", "value"=>"1"}})
@@ -301,13 +301,13 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test 'name can include utf-8 and non-alpha numeric chars' do
-    operatingsystem = FactoryBot.build(:operatingsystem, :name => '<applet>מערכתההפעלהשלי', :major => 4)
+    operatingsystem = FactoryBot.build_stubbed(:operatingsystem, :name => '<applet>מערכתההפעלהשלי', :major => 4)
     assert operatingsystem.valid?
     assert_equal("#{operatingsystem.id}-applet-מערכתההפעלהשלי 4", operatingsystem.to_param)
   end
 
   test 'interpolated $version does not include dots if only major is specified' do
-    operatingsystem = FactoryBot.build(:operatingsystem, :name => 'foo', :major => '4')
+    operatingsystem = FactoryBot.build_stubbed(:operatingsystem, :name => 'foo', :major => '4')
     result_path = operatingsystem.interpolate_medium_vars('http://foo.org/$version',
                                                           'x64', operatingsystem)
     assert result_path, 'http://foo.org/4'

@@ -148,7 +148,7 @@ class DomainTest < ActiveSupport::TestCase
   end
 
   test "should query remote nameservers from domain SOA" do
-    domain = FactoryBot.build(:domain)
+    domain = FactoryBot.build_stubbed(:domain)
 
     ns = mock
     ns.expects(:mname).returns('10.1.1.1')

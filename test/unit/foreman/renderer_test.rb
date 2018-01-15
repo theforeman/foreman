@@ -30,17 +30,17 @@ class RendererTest < ActiveSupport::TestCase
 
   describe "preseed_attributes" do
     test "do not set @preseed_server and @preseed_path if @host does not have medium and os" do
-      @renderer.host = FactoryBot.build(:host)
+      @renderer.host = FactoryBot.build_stubbed(:host)
       @renderer.send :preseed_attributes
       assert_nil @renderer.instance_variable_get('@preseed_path')
       assert_nil @renderer.instance_variable_get('@preseed_server')
     end
 
     test "set @preseed_server and @preseed_path if @host has medium and os" do
-      host = FactoryBot.build(:host, :managed)
-      architecture = FactoryBot.build(:architecture)
-      medium = FactoryBot.build(:medium, :path => 'http://my-example.com/my_path')
-      os = FactoryBot.build(:debian7_0, :media => [ medium ])
+      host = FactoryBot.build_stubbed(:host, :managed)
+      architecture = FactoryBot.build_stubbed(:architecture)
+      medium = FactoryBot.build_stubbed(:medium, :path => 'http://my-example.com/my_path')
+      os = FactoryBot.build_stubbed(:debian7_0, :media => [ medium ])
       host.architecture = architecture
       host.operatingsystem = os
       host.medium = medium
@@ -53,7 +53,7 @@ class RendererTest < ActiveSupport::TestCase
 
   describe "yast_attributes" do
     test "does not fail if @host does not have medium" do
-      @renderer.host = FactoryBot.build(:host)
+      @renderer.host = FactoryBot.build_stubbed(:host)
       @renderer.send :yast_attributes
       assert_nil @renderer.instance_variable_get('@mediapath')
     end
@@ -92,12 +92,12 @@ class RendererTest < ActiveSupport::TestCase
   end
 
   test "pxe_kernel_options are not set when no OS is set" do
-    @renderer.host = FactoryBot.build(:host)
+    @renderer.host = FactoryBot.build_stubbed(:host)
     assert_equal '', @renderer.pxe_kernel_options
   end
 
   test "pxe_kernel_options returns blacklist option for Red Hat" do
-    host = FactoryBot.build(:host, :operatingsystem => Operatingsystem.find_by_name('Redhat'))
+    host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by_name('Redhat'))
     host.params['blacklist'] = 'dirty_driver, badbad_driver'
     @renderer.host = host
     assert_equal 'modprobe.blacklist=dirty_driver,badbad_driver', @renderer.pxe_kernel_options
@@ -231,7 +231,7 @@ EOS
 
     test "#{renderer_name} should render a templates_used" do
       send "setup_#{renderer_name}"
-      @renderer.host = FactoryBot.build(
+      @renderer.host = FactoryBot.build_stubbed(
         :host,
         :operatingsystem => operatingsystems(:redhat)
       )
@@ -308,22 +308,22 @@ EOS
   end
 
   test 'should render puppetclasses using host_puppetclasses helper' do
-    @renderer.host = FactoryBot.create(:host, :with_puppetclass)
+    @renderer.host = FactoryBot.build(:host, :with_puppetclass)
     assert @renderer.host_puppet_classes
   end
 
   test 'should render host param using "host_param" helper' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert @renderer.host_param('test').present?
   end
 
   test 'should render host param using "host_param" helper for not existing parameter' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert_nil @renderer.host_param('not_existing_param')
   end
 
   test 'should render host param using "host_param" helper for not existing parameter using default value' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert_equal 42, @renderer.host_param('not_existing_param', 42)
   end
 
@@ -335,7 +335,7 @@ EOS
   end
 
   test 'should raise rendering exception if host_param! is used for not existing param' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert_raises(Foreman::Renderer::HostParamUndefined) do
       @renderer.host_param!('not_existing_param')
     end
@@ -355,7 +355,7 @@ EOS
 
   context 'subnet helpers' do
     setup do
-      @renderer.host = FactoryBot.create(:host, :with_puppet)
+      @renderer.host = FactoryBot.build(:host, :with_puppet)
       subnets(:one).subnet_parameters.create(name: 'myparam', value: 'myvalue')
     end
 
@@ -389,18 +389,18 @@ EOS
   end
 
   test 'should have host_enc helper' do
-    @renderer.host = FactoryBot.create(:host, :with_puppet)
+    @renderer.host = FactoryBot.build(:host, :with_puppet)
     assert @renderer.host_enc
   end
 
   test "should find path in host_enc" do
-    host = FactoryBot.create(:host, :with_puppet)
+    host = FactoryBot.build(:host, :with_puppet)
     @renderer.host = host
     assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster')
   end
 
   test "should raise rendering exception if no such parameter exists while rendering host_enc" do
-    host = FactoryBot.create(:host, :with_puppet)
+    host = FactoryBot.build(:host, :with_puppet)
     @renderer.host = host
     assert_raises(Foreman::Renderer::HostENCParamUndefined) do
       assert_equal host.puppetmaster, @renderer.host_enc('parameters', 'puppetmaster_that_does_not_exist')

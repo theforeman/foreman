@@ -180,9 +180,9 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
   end
 
   test "should save parameter when importing with a different default_value" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :environments => [env])
-    lk = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :default_value => 'first', :puppetclass => pc)
+    env = FactoryBot.build(:environment)
+    pc = FactoryBot.build(:puppetclass, :environments => [env])
+    lk = FactoryBot.build(:puppetclass_lookup_key, :as_smart_class_param, :default_value => 'first', :puppetclass => pc)
 
     updated = get_an_instance.send(:update_classes_in_foreman, env.name,
                                   {pc.name => {'updated' => [lk.key]}})
@@ -238,15 +238,15 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
   end
 
   test "should detect correct environments for import" do
-    org_a = FactoryBot.create(:organization, :name => "OrgA")
-    loc_a = FactoryBot.create(:location, :name => "LocA")
-    org_b = FactoryBot.create(:organization, :name => "OrgB")
-    loc_b = FactoryBot.create(:location, :name => "LocB")
+    org_a = FactoryBot.build(:organization, :name => "OrgA")
+    loc_a = FactoryBot.build(:location, :name => "LocA")
+    org_b = FactoryBot.build(:organization, :name => "OrgB")
+    loc_b = FactoryBot.build(:location, :name => "LocB")
     b_role = roles(:manager).clone :name => 'b_role'
     b_role.add_permissions! [:destroy_external_parameters, :edit_external_parameters, :create_external_parameters, :view_external_parameters]
     a_user = FactoryBot.create(:user, :organizations => [org_a], :locations => [loc_a], :roles => [roles(:manager)], :login => 'a_user')
     b_user = FactoryBot.create(:user, :organizations => [org_b], :locations => [loc_b], :roles => [b_role], :login => 'b_user')
-    proxy = FactoryBot.create(:puppet_smart_proxy, :organizations => [org_a, org_b], :locations => [loc_a, loc_b])
+    proxy = FactoryBot.build(:puppet_smart_proxy, :organizations => [org_a, org_b], :locations => [loc_a, loc_b])
     importer = PuppetClassImporter.new(:url => proxy.url)
     FactoryBot.create(:environment, :name => "env_a", :organizations => [org_a], :locations => [loc_a])
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(['env_a', 'b_env_new'])

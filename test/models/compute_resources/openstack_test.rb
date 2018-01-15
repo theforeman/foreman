@@ -14,7 +14,7 @@ module Foreman
       should validate_presence_of(:password)
 
       setup do
-        @compute_resource = FactoryBot.build(:openstack_cr)
+        @compute_resource = FactoryBot.build_stubbed(:openstack_cr)
       end
 
       teardown do

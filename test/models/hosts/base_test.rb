@@ -65,7 +65,7 @@ module Host
       refute host.valid?
       assert_includes host.errors.keys, :interfaces
 
-      host.interfaces = [ FactoryBot.build(:nic_managed, :primary => true, :host => host,
+      host.interfaces = [ FactoryBot.build_stubbed(:nic_managed, :primary => true, :host => host,
                                             :domain => FactoryBot.create(:domain)) ]
       assert host.valid?
     end

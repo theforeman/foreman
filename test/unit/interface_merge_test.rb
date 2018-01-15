@@ -18,7 +18,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it doesn't change interfaces when the attributes are nil" do
     interfaces = [
-      FactoryBot.build(:nic_managed, :identifier => 'eth0')
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0')
     ]
     @merge.run(stub(:interfaces => interfaces), nil)
 
@@ -29,9 +29,9 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it merges compute attributes with existing NICs" do
     interfaces = [
-      FactoryBot.build(:nic_managed, :identifier => 'eth0'),
-      FactoryBot.build(:nic_managed, :identifier => 'eth1'),
-      FactoryBot.build(:nic_managed, :identifier => 'eth2')
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0'),
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth1'),
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth2')
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -48,7 +48,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it overwrites NIC compute attributes from the profile by default" do
     interfaces = [
-      FactoryBot.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -59,7 +59,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
   test "it does not overwrite NIC compute attributes already set with :merge_compute_attributes" do
     @merge = InterfaceMerge.new(:merge_compute_attributes => true)
     interfaces = [
-      FactoryBot.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -78,7 +78,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it creates additional NICs" do
     interfaces = [
-      FactoryBot.build(:nic_managed, :identifier => 'eth0')
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0')
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 

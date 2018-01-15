@@ -10,13 +10,13 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
   should belong_to(:dhcp)
 
   test "cidr setter should set the mask" do
-    @subnet = FactoryBot.build(:subnet_ipv6)
+    @subnet = FactoryBot.build_stubbed(:subnet_ipv6)
     @subnet.cidr = 64
     assert_equal 'ffff:ffff:ffff:ffff::', @subnet.mask
   end
 
   test "when to_label is applied should show the domain, the mask and network" do
-    subnet = FactoryBot.build(:subnet_ipv6, :network => '2001:db8::', :name => 'subnet')
+    subnet = FactoryBot.build_stubbed(:subnet_ipv6, :network => '2001:db8::', :name => 'subnet')
     assert_equal "subnet (2001:db8::/64)", subnet.to_label
   end
 
@@ -26,7 +26,7 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
   end
 
   test "from cant be bigger than to range" do
-    s = FactoryBot.build(:subnet_ipv6)
+    s = FactoryBot.build_stubbed(:subnet_ipv6)
     s.to = get_ip(s, 10)
     s.from = get_ip(s, 17)
     refute s.valid?
@@ -40,14 +40,14 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
   end
 
   test "should not be able to save ranges if they dont belong to the subnet" do
-    s = FactoryBot.build(:subnet_ipv6, :network => '2001:db8:1::')
+    s = FactoryBot.build_stubbed(:subnet_ipv6, :network => '2001:db8:1::')
     s.from = '2001:db8:2::1'
     s.to = '2001:db8:2::2'
     refute s.valid?
   end
 
   test "should not be able to save ranges if one of them is missing" do
-    s = FactoryBot.build(:subnet_ipv6)
+    s = FactoryBot.build_stubbed(:subnet_ipv6)
     s.from = get_ip(s, 10)
     refute s.valid?
     s.to = get_ip(s, 17)
@@ -55,7 +55,7 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
   end
 
   test "should not be able to save ranges if one of them is invalid" do
-    s = FactoryBot.build(:subnet_ipv6)
+    s = FactoryBot.build_stubbed(:subnet_ipv6)
     s.from = get_ip(s, 10).gsub(/:[^:]*:/, ':xyz:')
     s.to = get_ip(s, 17)
     refute s.valid?

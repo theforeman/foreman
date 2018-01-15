@@ -364,7 +364,7 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_add_template_label
-    kind = FactoryBot.build(:template_kind)
+    kind = FactoryBot.build_stubbed(:template_kind)
     Foreman::Plugin.register :test_template_kind do
       name 'Test template kind'
       template_labels kind.name => 'Test plugin template kind'

@@ -10,8 +10,8 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   test "should return list of interfaces" do
     assert importer.interfaces.present?
-    assert_not_nil importer.suggested_primary_interface(FactoryBot.create(:host))
-    assert importer.interfaces.keys.include?(importer.suggested_primary_interface(FactoryBot.create(:host)).first)
+    assert_not_nil importer.suggested_primary_interface(FactoryBot.build(:host))
+    assert importer.interfaces.keys.include?(importer.suggested_primary_interface(FactoryBot.build(:host)).first)
   end
 
   test "should parse virtual interfaces as vlan interfaces" do
@@ -120,7 +120,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     end
 
     test 'should accept y.z minor version' do
-      FactoryBot.create(:operatingsystem, name: "CentOS",
+      FactoryBot.build(:operatingsystem, name: "CentOS",
                                            major: "7",
                                            minor: "2.1511",
                                            description: "CentOS Linux 7.2.1511")
@@ -164,13 +164,13 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   end
 
   test "#get_interfaces" do
-    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    host = FactoryBot.build(:host, :hostgroup => FactoryBot.build(:hostgroup))
     parser = get_parser(host.facts_hash)
 
     assert_empty parser.send(:get_interfaces)
 
-    interfaces = FactoryBot.create(:fact_value,
-                                    :fact_name => FactoryBot.create(:fact_name, :name => 'interfaces'),
+    interfaces = FactoryBot.build(:fact_value,
+                                    :fact_name => FactoryBot.build(:fact_name, :name => 'interfaces'),
                                     :host => host,
                                     :value => '')
     parser = get_parser(host.facts_hash)
@@ -184,7 +184,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   end
 
   test "#get_facts_for_interface(interface)" do
-    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    host = FactoryBot.build(:host, :hostgroup => FactoryBot.build(:hostgroup))
     FactoryBot.create(:fact_value,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'link_eth0'),
                        :host => host,
@@ -227,7 +227,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   end
 
   test "#ipmi_interface" do
-    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    host = FactoryBot.build(:host, :hostgroup => FactoryBot.build(:hostgroup))
     parser = get_parser(host.facts_hash)
 
     result = parser.ipmi_interface

@@ -138,7 +138,7 @@ class SubnetsControllerTest < ActionController::TestCase
     end
 
     test 'renders import page with results' do
-      Subnet::Ipv4.expects(:import).returns([FactoryBot.build(:subnet_ipv4)])
+      Subnet::Ipv4.expects(:import).returns([FactoryBot.build_stubbed(:subnet_ipv4)])
       get :import, params: { :subnet_id => setup_subnet,
                              :smart_proxy_id => 'foo' }, session: set_session_user
       assert_response :success
@@ -148,7 +148,7 @@ class SubnetsControllerTest < ActionController::TestCase
   end
 
   test 'create_multiple filters parameters when given a list of subnets' do
-    sample_subnet = FactoryBot.build(:subnet_ipv4)
+    sample_subnet = FactoryBot.build_stubbed(:subnet_ipv4)
     subnet_hash = { :name => sample_subnet.name,
                     :type => sample_subnet.type,
                     :network => sample_subnet.network,

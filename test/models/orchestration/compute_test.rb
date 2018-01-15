@@ -3,8 +3,8 @@ require 'test_helper'
 class ComputeOrchestrationTest < ActiveSupport::TestCase
   describe 'compute details' do
     setup do
-      @cr = FactoryBot.build(:libvirt_cr)
-      @host = FactoryBot.build(:host, :compute_resource => @cr)
+      @cr = FactoryBot.build_stubbed(:libvirt_cr)
+      @host = FactoryBot.build_stubbed(:host, :compute_resource => @cr)
       @host.vm = mock("vm")
     end
 
@@ -66,17 +66,17 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "if MAC is changed, dhcp_record cache is dropped" do
-    cr = FactoryBot.build(:libvirt_cr)
+    cr = FactoryBot.build_stubbed(:libvirt_cr)
     cr.stubs(:provided_attributes).returns({:mac => :mac})
-    host = FactoryBot.build(:host, :managed, :compute_resource => cr)
+    host = FactoryBot.build_stubbed(:host, :managed, :compute_resource => cr)
     host.vm = mock("vm")
     fog_nic = OpenStruct.new(:mac => '00:00:00:00:01')
     host.vm.expects(:interfaces).returns([fog_nic])
     host.vm.expects(:select_nic).returns(fog_nic)
     host.primary_interface.name = 'something'
     host.primary_interface.mac = '00:00:00:00:00:02'
-    host.primary_interface.subnet = FactoryBot.build(:subnet, :dhcp, :network => '255.255.255.0')
-    host.operatingsystem = FactoryBot.build(:operatingsystem)
+    host.primary_interface.subnet = FactoryBot.build_stubbed(:subnet, :dhcp, :network => '255.255.255.0')
+    host.operatingsystem = FactoryBot.build_stubbed(:operatingsystem)
 
     refute_nil host.primary_interface.dhcp_records
     original = host.primary_interface.dhcp_records.map(&:object_id)
@@ -88,7 +88,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   test "a helpful error message shows up if no user_data is provided and it's necessary" do
     image = images(:one)
-    host = FactoryBot.build(:host, :operatingsystem => image.operatingsystem, :image => image,
+    host = FactoryBot.build_stubbed(:host, :operatingsystem => image.operatingsystem, :image => image,
                                     :compute_resource => image.compute_resource)
     host.send(:setUserData)
     assert host.errors.full_messages.first =~ /associate it/
@@ -96,7 +96,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   test "rolling back userdata after it is set, deletes the attribute" do
     image = images(:one)
-    host = FactoryBot.build(:host, :operatingsystem => image.operatingsystem, :image => image,
+    host = FactoryBot.build_stubbed(:host, :operatingsystem => image.operatingsystem, :image => image,
                              :compute_resource => image.compute_resource)
     prov_temp = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.create(:name =>"user_data"))
     host.stubs(:provisioning_template).returns(prov_temp)
@@ -132,10 +132,10 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   describe "error message for NICs that can't be matched with those on virtual machine" do
     def host_for_nic_orchestration(nic)
-      cr = FactoryBot.build(:vmware_cr)
+      cr = FactoryBot.build_stubbed(:vmware_cr)
       cr.stubs(:provided_attributes).returns({:mac => :mac})
 
-      host = FactoryBot.build(:host, :interfaces => [nic], :compute_resource => cr)
+      host = FactoryBot.build_stubbed(:host, :interfaces => [nic], :compute_resource => cr)
       host.vm = mock("vm")
       host.vm.stubs(:interfaces).returns([])
       host.vm.stubs(:select_nic).returns(nil)
@@ -147,28 +147,28 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     end
 
     test "it adds message with NIC identifier" do
-      nic = FactoryBot.build(:nic_primary_and_provision, :name => 'test')
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => 'test')
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.identifier), host.errors.full_messages.first
     end
 
     test "it adds message with NIC ip" do
-      nic = FactoryBot.build(:nic_primary_and_provision, :name => 'test', :identifier => '')
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => 'test', :identifier => '')
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.ip), host.errors.full_messages.first
     end
 
     test "it adds message with NIC name" do
-      nic = FactoryBot.build(:nic_primary_and_provision, :name => 'test', :identifier => nil, :ip => '')
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => 'test', :identifier => nil, :ip => '')
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.name), host.errors.full_messages.first
     end
 
     test "it adds message with NIC type" do
-      nic = FactoryBot.build(:nic_primary_and_provision, :name => '', :identifier => nil, :ip => nil)
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => '', :identifier => nil, :ip => nil)
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.type), host.errors.full_messages.first
@@ -177,7 +177,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     describe "validate compute provisioning" do
       setup do
         @image = images(:one)
-        @host = FactoryBot.build(:host, :operatingsystem => @image.operatingsystem, :image => @image,
+        @host = FactoryBot.build_stubbed(:host, :operatingsystem => @image.operatingsystem, :image => @image,
                                   :compute_resource => @image.compute_resource)
       end
 

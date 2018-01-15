@@ -351,7 +351,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#configuration? returns true when host has puppetmaster" do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     refute host.configuration?
 
     proxy = FactoryBot.create(:smart_proxy)
@@ -605,7 +605,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'host #refresh_global_status defaults to OK' do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     assert_empty host.host_statuses
     host.refresh_global_status
     assert_equal HostStatus::Global::OK, host.global_status
@@ -623,7 +623,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'host #get_status(type) only builds a new status once' do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     status1 = host.get_status(HostStatus::BuildStatus)
     assert status1.new_record?
     status2 = host.get_status(HostStatus::BuildStatus)
@@ -666,7 +666,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'build status is updated on host validation' do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     host.build = false
     host.valid?
     original_status = host.get_status(HostStatus::BuildStatus).to_status
@@ -1137,13 +1137,13 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "when saving a host, do not require a puppet environment" do
-      h = FactoryBot.build(:host, :environment => environments(:production), :puppet_proxy => nil)
+      h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => nil)
       h.environment = nil
       assert h.valid?
     end
 
     test "when saving a host, require puppet environment if puppet master is set" do
-      h = FactoryBot.build(:host, :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster))
+      h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster))
       h.environment = nil
       refute h.valid?
     end
@@ -1164,7 +1164,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "should not allow build mode for unmanaged hosts" do
-      h = FactoryBot.build(:host)
+      h = FactoryBot.build_stubbed(:host)
       assert h.valid?
       h.build = true
       refute h.valid?
@@ -1735,7 +1735,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "host can't have more interfaces with the same identifier" do
-      host = FactoryBot.build(:host, :managed)
+      host = FactoryBot.build_stubbed(:host, :managed)
       host.primary_interface.identifier = 'eth0'
       nic = host.interfaces.build(:identifier => 'eth0')
       refute host.valid?
@@ -2124,14 +2124,14 @@ class HostTest < ActiveSupport::TestCase
 
     # Ip validations
     test "unmanaged hosts don't require an IPv4 or IPv6" do
-      host = FactoryBot.build(:host)
+      host = FactoryBot.build_stubbed(:host)
       refute host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "CRs without IP attribute don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the CR
-      host = FactoryBot.build(:host, :managed,
+      host = FactoryBot.build_stubbed(:host, :managed,
                           :compute_resource => compute_resources(:one),
                           :compute_attributes => {:fake => "data"})
       refute host.require_ip4_validation?
@@ -2140,7 +2140,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "CRs with IP attribute and a DNS-enabled domain do not require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the CR
-      host = FactoryBot.build(:host, :managed, :domain => domains(:mydomain),
+      host = FactoryBot.build_stubbed(:host, :managed, :domain => domains(:mydomain),
                           :compute_resource => compute_resources(:openstack),
                           :compute_attributes => {:fake => "data"})
       refute host.require_ip4_validation?
@@ -2156,21 +2156,21 @@ class HostTest < ActiveSupport::TestCase
 
     test "hosts with a DNS-enabled Domain without IPv4 do require an IPv6 address" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the domain
-      host = FactoryBot.build(:host, :managed, :with_ipv6, :domain => domains(:mydomain))
+      host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6, :domain => domains(:mydomain))
       refute host.require_ip4_validation?
       assert host.require_ip6_validation?
     end
 
     test "hosts without a DNS-enabled Domain don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the domain
-      host = FactoryBot.build(:host, :managed, :domain => domains(:useless))
+      host = FactoryBot.build_stubbed(:host, :managed, :domain => domains(:useless))
       refute host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts with a DNS-enabled Subnet do require an IPv4 address" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      host = FactoryBot.build(:host, :managed, :subnet => FactoryBot.build(:subnet_ipv4, :dns))
+      host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dns))
       assert host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
@@ -2181,7 +2181,7 @@ class HostTest < ActiveSupport::TestCase
                                  :features => [FactoryBot.create(:feature, :dns)])
       domain = FactoryBot.create(:domain,
                                   :dns => proxy)
-      host = FactoryBot.build(:host,
+      host = FactoryBot.build_stubbed(:host,
                                :managed,
                                :on_compute_resource,
                                :with_compute_profile,
@@ -2194,31 +2194,31 @@ class HostTest < ActiveSupport::TestCase
 
     test "hosts with a DHCP-enabled Subnet do require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      host = FactoryBot.build(:host, :managed, :subnet => FactoryBot.build(:subnet_ipv4, :dhcp))
+      host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp))
       assert host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts without a DNS/DHCP-enabled Subnet don't require an IP" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      host = FactoryBot.build(:host, :managed, :subnet => FactoryBot.build(:subnet_ipv4, :dhcp => nil, :dns => nil))
+      host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil))
       refute host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts with a DNS-enabled IPv6 Subnet require an IPv6 but don't require an IPv4 address" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      host = FactoryBot.build(:host, :managed,
-                               :subnet => FactoryBot.build(:subnet_ipv4, :dhcp => nil, :dns => nil),
-                               :subnet6 => FactoryBot.build(:subnet_ipv6, :dns))
+      host = FactoryBot.build_stubbed(:host, :managed,
+                               :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil),
+                               :subnet6 => FactoryBot.build_stubbed(:subnet_ipv6, :dns))
       refute host.require_ip4_validation?
       assert host.require_ip6_validation?
     end
 
     test "hosts with a DNS-enabled IPv6 Subnet, the mac provided by a CR and a mac based IPAM require neither a IPv6 nor a IPv4 address" do
       Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
-      subnet6 = FactoryBot.build(:subnet_ipv6, :dns, :ipam => IPAM::MODES[:eui64])
-      host = FactoryBot.build(:host,
+      subnet6 = FactoryBot.build_stubbed(:subnet_ipv6, :dns, :ipam => IPAM::MODES[:eui64])
+      host = FactoryBot.build_stubbed(:host,
                                :on_compute_resource,
                                :with_compute_profile,
                                :with_ipv6_dns_orchestration,
@@ -2233,13 +2233,13 @@ class HostTest < ActiveSupport::TestCase
 
     test "with tokens enabled hosts don't require an IPv4 or IPv6 address" do
       Setting[:token_duration] = 30
-      host = FactoryBot.build(:host, :managed)
+      host = FactoryBot.build_stubbed(:host, :managed)
       refute host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "with tokens disabled PXE build hosts do require an IPv4 address" do
-      host = FactoryBot.build(:host, :managed)
+      host = FactoryBot.build_stubbed(:host, :managed)
       host.expects(:pxe_build?).twice.returns(true)
       host.stubs(:image_build?).returns(false)
       assert host.require_ip4_validation?
@@ -2247,7 +2247,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "with tokens disabled PXE build IPv6 hosts do not require an IPv4 but a IPv6 address" do
-      host = FactoryBot.build(:host, :managed, :with_ipv6)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6)
       host.expects(:pxe_build?).twice.returns(true)
       host.stubs(:image_build?).returns(false)
       refute host.require_ip4_validation?
@@ -2255,7 +2255,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "tokens disabled doesn't require an IPv4 or IPv6 address for image hosts" do
-      host = FactoryBot.build(:host, :managed)
+      host = FactoryBot.build_stubbed(:host, :managed)
       host.expects(:pxe_build?).twice.returns(false)
       host.expects(:image_build?).twice.returns(true)
       image = stub()
@@ -2266,7 +2266,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "tokens disabled requires an IPv4 address for image hosts with user data" do
-      host = FactoryBot.build(:host, :managed)
+      host = FactoryBot.build_stubbed(:host, :managed)
       host.expects(:pxe_build?).twice.returns(false)
       host.expects(:image_build?).twice.returns(true)
       image = stub()
@@ -2277,7 +2277,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "tokens disabled requires only an IPv6 address for image hosts with user data and IPv6 address" do
-      host = FactoryBot.build(:host, :managed, :with_ipv6)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6)
       host.expects(:pxe_build?).twice.returns(false)
       host.expects(:image_build?).twice.returns(true)
       image = stub()
@@ -2335,7 +2335,7 @@ class HostTest < ActiveSupport::TestCase
     org1 = FactoryBot.create(:organization)
     loc1 = FactoryBot.create(:location)
     user = FactoryBot.create(:user, :organizations => [], :locations => [])
-    host = FactoryBot.build(:host, :organization => org1, :location => loc1, :owner => user)
+    host = FactoryBot.build_stubbed(:host, :organization => org1, :location => loc1, :owner => user)
 
     original_loc, SETTINGS[:locations_enabled] = SETTINGS[:locations_enabled], true
     original_org, SETTINGS[:organizations_enabled] = SETTINGS[:organizations_enabled], true
@@ -2550,7 +2550,7 @@ class HostTest < ActiveSupport::TestCase
     Setting[:Parametrized_Classes_in_ENC] = false
     myclass = mock('myclass')
     myclass.expects(:name).returns('myclass')
-    host = FactoryBot.build(:host, :with_environment)
+    host = FactoryBot.build_stubbed(:host, :with_environment)
     host.expects(:all_puppetclasses).returns([myclass])
     enc = host.info
     assert_kind_of Hash, enc
@@ -2558,14 +2558,14 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#info ENC YAML omits environment if not set" do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     host.environment = nil
     enc = host.info
     refute_includes enc.keys, 'environment'
   end
 
   test '#info ENC YAML contains domain name and description' do
-    host = FactoryBot.build(:host, :domain => FactoryBot.build(:domain, :name => 'example.tst', :fullname => 'custom text'))
+    host = FactoryBot.build_stubbed(:host, :domain => FactoryBot.build_stubbed(:domain, :name => 'example.tst', :fullname => 'custom text'))
     enc = host.info
     assert_equal 'example.tst', enc['parameters']['domainname']
     assert_equal 'custom text', enc['parameters']['foreman_domain_description']
@@ -2581,7 +2581,7 @@ class HostTest < ActiveSupport::TestCase
   test "#info ENC YAML uses Classification::ClassParam for parameterized output" do
     Setting[:Parametrized_Classes_in_ENC] = true
     Setting[:Enable_Smart_Variables_in_ENC] = true
-    host = FactoryBot.build(:host, :with_environment)
+    host = FactoryBot.build_stubbed(:host, :with_environment)
     classes = {'myclass' => {'myparam' => 'myvalue'}}
     HostInfoProviders::PuppetInfo.any_instance.expects(:puppetclass_parameters).returns(classes)
     enc = host.info
@@ -2604,7 +2604,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#info ENC YAML contains config_groups" do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     host.config_groups = [config_groups(:one)]
     enc = host.info
     assert_includes(enc['parameters'].keys, 'foreman_config_groups')
@@ -2612,7 +2612,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#info ENC YAML contains parent hostgroup config_groups" do
-    host = FactoryBot.build(:host, :with_hostgroup)
+    host = FactoryBot.build_stubbed(:host, :with_hostgroup)
     hostgroup = host.hostgroup
     host.config_groups = [config_groups(:one)]
     hostgroup.config_groups = [config_groups(:two)]
@@ -2875,7 +2875,7 @@ class HostTest < ActiveSupport::TestCase
     refute_nil host.provision_interface
     primary = host.primary_interface
 
-    nic = FactoryBot.build(:nic_managed, :host => host, :mac => '00:00:00:AA:BB:CC', :ip => '192.168.0.1',
+    nic = FactoryBot.build_stubbed(:nic_managed, :host => host, :mac => '00:00:00:AA:BB:CC', :ip => '192.168.0.1',
                             :name => 'host2', :domain => host.domain)
     nic.primary = true
     nic.provision = true
@@ -2941,7 +2941,7 @@ class HostTest < ActiveSupport::TestCase
     context 'false' do
       [:false, 'false', false].each do |v|
         test "when setting to #{v.inspect}" do
-          refute FactoryBot.build(:host, :overwrite => v).overwrite?
+          refute FactoryBot.build_stubbed(:host, :overwrite => v).overwrite?
         end
       end
     end
@@ -2949,7 +2949,7 @@ class HostTest < ActiveSupport::TestCase
     context 'true' do
       [:true, 'true', true].each do |v|
         test "when setting to #{v.inspect}" do
-          assert FactoryBot.build(:host, :overwrite => v).overwrite?
+          assert FactoryBot.build_stubbed(:host, :overwrite => v).overwrite?
         end
       end
     end
@@ -2978,7 +2978,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'lookup_value_match returns host name instead of fqdn when there is no primary interface' do
-    host = FactoryBot.build(:host, :managed)
+    host = FactoryBot.build_stubbed(:host, :managed)
     host_name = host.name
     host.interfaces.delete_all
     assert_nil host.primary_interface
@@ -2986,7 +2986,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'check operatingsystem and architecture association' do
-    host = FactoryBot.build(:host, :interfaces => [FactoryBot.build(:nic_primary_and_provision)])
+    host = FactoryBot.build_stubbed(:host, :interfaces => [FactoryBot.build_stubbed(:nic_primary_and_provision)])
     assert_nil Operatingsystem.find_by_name('RedHat-test'), "operatingsystem already exist"
     host.populate_fields_from_facts(
       mock_parser(:architecture => "x86_64", :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2'),
@@ -3034,7 +3034,7 @@ class HostTest < ActiveSupport::TestCase
 
   describe '#apply_inherited_attributes' do
     test 'should be no-op if no hostgroup selected' do
-      host = FactoryBot.build(:host, :managed)
+      host = FactoryBot.build_stubbed(:host, :managed)
       attributes = { 'environment_id' => 1 }
 
       actual_attr = host.apply_inherited_attributes(attributes)
@@ -3043,7 +3043,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should take new hostgroup if hostgroup_id present' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
       new_environment = FactoryBot.create(:environment)
       new_hostgroup = FactoryBot.create(:hostgroup, :environment => new_environment)
       assert_not_equal new_environment.id, host.hostgroup.environment.try(:id)
@@ -3055,7 +3055,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should take new hostgroup if hostgroup_name present' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
       new_environment = FactoryBot.create(:environment)
       new_hostgroup = FactoryBot.create(:hostgroup, :environment => new_environment)
       assert_not_equal new_environment.id, host.hostgroup.environment.try(:id)
@@ -3068,7 +3068,7 @@ class HostTest < ActiveSupport::TestCase
 
     test 'should take old hostgroup if hostgroup not updated' do
       environment = FactoryBot.create(:environment)
-      host = FactoryBot.build(:host, :managed, :with_hostgroup, :environment => environment)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup, :environment => environment)
       Hostgroup.expects(:find).never
 
       attributes = { 'hostgroup_id' => host.hostgroup.id }
@@ -3078,7 +3078,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should accept non-existing hostgroup' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
       hostgroup_friendly_scope = stub
       hostgroup_friendly_scope.stubs(:find).with(1111).returns(nil)
       Hostgroup.stubs(:friendly).returns(hostgroup_friendly_scope)
@@ -3090,7 +3090,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should not touch attribute set explicitly' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
 
       attributes = { 'hostgroup_id' => host.hostgroup.id, 'environment_id' => 1111 }
       actual_attr = host.apply_inherited_attributes(attributes)
@@ -3099,7 +3099,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should inherit attribute value, if not set explicitly' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
       environment = FactoryBot.create(:environment)
       host.hostgroup.environment = environment
       host.hostgroup.save!
@@ -3111,7 +3111,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should not touch non-inherited attributes' do
-      host = FactoryBot.build(:host, :managed, :with_hostgroup)
+      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
 
       attributes = { 'hostgroup_id' => host.hostgroup.id, 'zzz_id' => 1111 }
       actual_attr = host.apply_inherited_attributes(attributes)
@@ -3127,7 +3127,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   describe 'rendering interface' do
-    let(:host) { FactoryBot.build(:host, :managed) }
+    let(:host) { FactoryBot.build_stubbed(:host, :managed) }
 
     test "#multiboot" do
       host.respond_to?(:multiboot)
@@ -3172,7 +3172,7 @@ class HostTest < ActiveSupport::TestCase
 
   context "recreating host config" do
     setup do
-      @nic = FactoryBot.build(:nic_primary_and_provision)
+      @nic = FactoryBot.build_stubbed(:nic_primary_and_provision)
       @nic.expects(:rebuild_tftp).returns(true)
       @nic.expects(:rebuild_dns).returns(true)
       @nic.expects(:rebuild_dhcp).returns(true)
@@ -3181,7 +3181,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "recreate config with success - only empty" do
       Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_test => "TEST")
-      host = FactoryBot.build(:host, :interfaces => [@nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [@nic])
       host.expects(:rebuild_test).returns(true)
       result = host.recreate_config([])
       assert result["DHCP"]
@@ -3192,7 +3192,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "recreate config with success - only all values" do
       Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_test => "TEST")
-      host = FactoryBot.build(:host, :interfaces => [@nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [@nic])
       host.expects(:rebuild_test).returns(true)
       result = host.recreate_config(Nic::Managed.rebuild_methods.keys + Host::Managed.rebuild_methods.keys)
       assert result["DHCP"]
@@ -3203,7 +3203,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "recreate config with success" do
       Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_test => "TEST")
-      host = FactoryBot.build(:host, :interfaces => [@nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [@nic])
       host.expects(:rebuild_test).returns(true)
       result = host.recreate_config
       assert result["DHCP"]
@@ -3214,20 +3214,20 @@ class HostTest < ActiveSupport::TestCase
 
     test "recreate config with clashing methods" do
       Host::Managed.expects(:rebuild_methods_for).returns(:rebuild_dns => "DNS")
-      host = FactoryBot.build(:host, :interfaces => [@nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [@nic])
       assert_raises(Foreman::Exception) { host.recreate_config }
     end
 
     context "recreate with multiple nics and failures" do
       setup do
-        @nic2 = FactoryBot.build(:nic_managed)
+        @nic2 = FactoryBot.build_stubbed(:nic_managed)
         @nic2.expects(:rebuild_tftp).returns(false)
         @nic2.expects(:rebuild_dns).returns(false)
         @nic2.expects(:rebuild_dhcp).returns(false)
       end
 
       test "second is a failure" do
-        host = FactoryBot.build(:host, :interfaces => [@nic, @nic2])
+        host = FactoryBot.build_stubbed(:host, :interfaces => [@nic, @nic2])
         result = host.recreate_config
         refute result["DHCP"]
         refute result["DNS"]
@@ -3235,7 +3235,7 @@ class HostTest < ActiveSupport::TestCase
       end
 
       test "first is a failure" do
-        host = FactoryBot.build(:host, :interfaces => [@nic2, @nic])
+        host = FactoryBot.build_stubbed(:host, :interfaces => [@nic2, @nic])
         result = host.recreate_config
         refute result["DHCP"]
         refute result["DNS"]
@@ -3244,11 +3244,11 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "recreate with multiple nics, all are success" do
-      nic = FactoryBot.build(:nic_managed)
+      nic = FactoryBot.build_stubbed(:nic_managed)
       nic.expects(:rebuild_tftp).returns(true)
       nic.expects(:rebuild_dns).returns(true)
       nic.expects(:rebuild_dhcp).returns(true)
-      host = FactoryBot.build(:host, :interfaces => [@nic, nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [@nic, nic])
       result = host.recreate_config
       assert result["DHCP"]
       assert result["DNS"]
@@ -3258,7 +3258,7 @@ class HostTest < ActiveSupport::TestCase
 
   context "recreating host TFTP config" do
     setup do
-      @nic = FactoryBot.build(:nic_primary_and_provision)
+      @nic = FactoryBot.build_stubbed(:nic_primary_and_provision)
       @nic.expects(:rebuild_tftp).returns(true)
       @nic.expects(:rebuild_dns).never
       @nic.expects(:rebuild_dhcp).never
@@ -3267,7 +3267,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "recreate TFTP config with success" do
       Host::Managed.expects(:rebuild_methods_for).returns({})
-      host = FactoryBot.build(:host, :interfaces => [@nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [@nic])
       host.expects(:rebuild_test).never
       result = host.recreate_config(['TFTP'])
       refute result["DHCP"]
@@ -3354,7 +3354,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'hardware_model_name= sets model_id by name' do
     model = FactoryBot.create(:model)
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     Foreman::Deprecation.expects(:deprecation_warning).never
     host.hardware_model_name = model.name
     assert_equal model.id, host.model_id
@@ -3367,7 +3367,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'hardware_model_id= is aliased to model_id' do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     Foreman::Deprecation.expects(:deprecation_warning).never
     host.hardware_model_id = 42
     assert_equal 42, host.model_id
@@ -3441,7 +3441,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'modificator gets nil when the compute_resource does not exist' do
-      host = FactoryBot.build(:host)
+      host = FactoryBot.build_stubbed(:host)
 
       modificator = stub
       modificator.expects(:run).with(host, nil)
@@ -3450,7 +3450,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'modificator gets nil when the compute_profile does not exist' do
-      host = FactoryBot.build(:host, :on_compute_resource)
+      host = FactoryBot.build_stubbed(:host, :on_compute_resource)
 
       modificator = stub
       modificator.expects(:run).with(host, nil)
@@ -3487,7 +3487,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryBot.build(:host, :with_subnet, :with_realm,
                                :puppet_proxy_id => 1,
                                :puppet_ca_proxy_id => 1)
-      host.realm = FactoryBot.build(:realm, :realm_proxy_id => 1)
+      host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
       host.subnet.tftp_id = 2
       host.subnet.dhcp_id = 3
       host.subnet.dns_id = 4
@@ -3497,14 +3497,14 @@ class HostTest < ActiveSupport::TestCase
     context 'from hostgroup' do
       setup do
         @hostgroup = FactoryBot.create(:hostgroup, :with_puppet_orchestration)
-        @host = FactoryBot.build(:host)
+        @host = FactoryBot.build_stubbed(:host)
         @host.hostgroup = @hostgroup
         @host.send(:assign_hostgroup_attributes,
                    [:puppet_ca_proxy_id, :puppet_proxy_id])
       end
 
       test 'returns IDs for proxies used by services inherited from hostgroup' do
-        @host.realm = FactoryBot.build(:realm, :realm_proxy_id => 1)
+        @host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
         assert_equal [@hostgroup.puppet_ca_proxy_id,
                       @hostgroup.puppet_proxy_id,
                       @host.realm.realm_proxy_id].sort,
@@ -3512,7 +3512,7 @@ class HostTest < ActiveSupport::TestCase
       end
 
       test 'does not return IDs for services not inherited from the hostgroup' do
-        @host.realm = FactoryBot.build(:realm, :realm_proxy_id => 1)
+        @host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
         @host.puppet_proxy_id = nil
         assert_equal [@hostgroup.puppet_ca_proxy_id,
                       @host.realm.realm_proxy_id].sort,
@@ -3543,17 +3543,17 @@ class HostTest < ActiveSupport::TestCase
 
   describe '#firmware_type' do
     test 'should be :none for host with none loader' do
-      host = FactoryBot.build(:host, :managed, :pxe_loader => "None")
+      host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "None")
       assert_equal :none, host.firmware_type
     end
 
     test 'should be :bios for host with bios loader' do
-      host = FactoryBot.build(:host, :managed, :pxe_loader => "PXELinux BIOS")
+      host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "PXELinux BIOS")
       assert_equal :bios, host.firmware_type
     end
 
     test 'should be :uefi for host with uefi loader' do
-      host = FactoryBot.build(:host, :managed, :pxe_loader => "Grub2 UEFI")
+      host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "Grub2 UEFI")
       assert_equal :uefi, host.firmware_type
     end
   end
@@ -3561,7 +3561,7 @@ class HostTest < ActiveSupport::TestCase
   describe '#templates_used' do
     test 'returns all templates used on a given host' do
       os = operatingsystems(:redhat)
-      host = FactoryBot.build(:host, :managed, :operatingsystem => os)
+      host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => os)
       host.templates_used.each do |template_kind, template_name|
         template = os.provisioning_templates.find_by_name(template_name).name
         assert_equal template, host.templates_used[template_kind]
@@ -3571,14 +3571,14 @@ class HostTest < ActiveSupport::TestCase
 
   describe 'HostParams module' do
     test 'shows global params' do
-      host = FactoryBot.build(:host)
+      host = FactoryBot.build_stubbed(:host)
       FactoryBot.create(:common_parameter, :name => 'test_param1', :value => 'test_value1')
 
       assert_equal 'test_value1', host.host_params['test_param1']
     end
 
     test 'renders global params if template specified' do
-      host = FactoryBot.build(:host)
+      host = FactoryBot.build_stubbed(:host)
       FactoryBot.create(:common_parameter, :name => 'test_param1', :value => '<%= "test_value1-#{@host.name}" %>')
 
       assert_equal "test_value1-#{host.name}", host.host_params['test_param1']

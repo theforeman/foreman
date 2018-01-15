@@ -50,12 +50,12 @@ class HasManyCommonTest < ActiveSupport::TestCase
   #
   # Test default AR extenstion *_name where method is :name by default
   test "should return domain name using method #domain_name" do
-    host = FactoryBot.build(:host, :domain => FactoryBot.create(:domain, :name => "common.net"))
+    host = FactoryBot.build_stubbed(:host, :domain => FactoryBot.build(:domain, :name => "common.net"))
     assert_equal "common.net", host.domain_name
   end
 
   test "should update domain_id by passing existing domain name" do
-    host = FactoryBot.build(:host, :domain => FactoryBot.create(:domain, :name => "common.net"))
+    host = FactoryBot.build(:host, :domain => FactoryBot.build(:domain, :name => "common.net"))
     orig_id = host.domain_id
     host.domain_name = "yourdomain.net"
     host.save!
@@ -84,7 +84,7 @@ class HasManyCommonTest < ActiveSupport::TestCase
   end
 
   test "should raise not found error if hostgroup name does not exist" do
-    host = FactoryBot.build(:host)
+    host = FactoryBot.build_stubbed(:host)
     assert_raise Foreman::AssociationNotFound do
       host.hostgroup_name = "No such HG"
     end
@@ -98,6 +98,6 @@ class HasManyCommonTest < ActiveSupport::TestCase
     Host::Managed.class_eval do
       belongs_to :fake_model, :class_name => '::FakePlugin::FakeModel'
     end
-    assert_equal FactoryBot.build(:host).assoc_klass(:fake_model), FakePlugin::FakeModel
+    assert_equal FactoryBot.build_stubbed(:host).assoc_klass(:fake_model), FakePlugin::FakeModel
   end
 end

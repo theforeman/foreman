@@ -220,13 +220,13 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   test "#associate_by returns host by MAC attribute" do
     host = FactoryBot.create(:host, :mac => '00:22:33:44:55:1a')
-    cr = FactoryBot.build(:compute_resource)
+    cr = FactoryBot.build_stubbed(:compute_resource)
     assert_equal host, as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }
   end
 
   test "#associated_by returns read/write host" do
     FactoryBot.create(:host, :mac => '00:22:33:44:55:1a')
-    cr = FactoryBot.build(:compute_resource)
+    cr = FactoryBot.build_stubbed(:compute_resource)
     refute as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }.readonly?
   end
 
@@ -333,7 +333,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
 
     test "compute resource name can have spaces" do
-      cr = FactoryBot.build(:compute_resource, :ec2, name: 'My Compute Resource')
+      cr = FactoryBot.build_stubbed(:compute_resource, :ec2, name: 'My Compute Resource')
       assert(cr.valid?, 'ComputeResource can have spaces in name')
     end
   end
@@ -344,11 +344,11 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
 
     test "only physical interfaces are added to the compute attributes" do
-      physical_nic = FactoryBot.build(:nic_base, :virtual => false,
+      physical_nic = FactoryBot.build_stubbed(:nic_base, :virtual => false,
                                        :compute_attributes => { :id => '1', :virtual => false })
-      virtual_nic = FactoryBot.build(:nic_base, :virtual => true,
+      virtual_nic = FactoryBot.build_stubbed(:nic_base, :virtual => true,
                                        :compute_attributes => { :id => '2', :virtual => true })
-      host = FactoryBot.build(:host, :interfaces => [physical_nic, virtual_nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [physical_nic, virtual_nic])
       nic_attributes = @cr.host_interfaces_attrs(host).values.select(&:present?)
       assert_equal '1', nic_attributes.first[:id]
     end

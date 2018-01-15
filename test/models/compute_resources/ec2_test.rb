@@ -13,7 +13,7 @@ module Foreman
 
       test "#associated_host matches any NIC" do
         host = FactoryBot.create(:host, :ip => '10.0.0.154')
-        cr = FactoryBot.build(:ec2_cr)
+        cr = FactoryBot.build_stubbed(:ec2_cr)
         iface = mock('iface1', :public_ip_address => '10.0.0.154', :private_ip_address => "10.1.1.1")
         assert_equal host, as_admin { cr.associated_host(iface) }
       end

@@ -294,10 +294,10 @@ class HostsControllerTest < ActionController::TestCase
     setup_user operation, 'hosts', filter, &block
 
     as_admin do
-      @host1           = FactoryBot.create(:host)
+      @host1           = FactoryBot.build(:host)
       @host1.owner     = users(:admin)
       @host1.save!
-      @host2           = FactoryBot.create(:host)
+      @host2           = FactoryBot.build(:host)
       @host2.owner     = users(:admin)
       @host2.save!
     end
@@ -577,7 +577,7 @@ class HostsControllerTest < ActionController::TestCase
     test "should change the puppet proxy" do
       @request.env['HTTP_REFERER'] = hosts_path
 
-      proxy = as_admin { FactoryBot.create(:puppet_smart_proxy) }
+      proxy = as_admin { FactoryBot.build(:puppet_smart_proxy) }
 
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => proxy.id } }
@@ -674,7 +674,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "parameter details should be html escaped" do
-    hg = FactoryBot.create(:hostgroup, :name => "<script>alert('hacked')</script>")
+    hg = FactoryBot.build(:hostgroup, :name => "<script>alert('hacked')</script>")
     host = FactoryBot.create(:host, :with_puppetclass, :hostgroup => hg)
     FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'string',
@@ -1275,7 +1275,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test 'returns templates with interfaces' do
-      nic=FactoryBot.create(:nic_managed, :host => @host)
+      nic=FactoryBot.build(:nic_managed, :host => @host)
       @attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
       put :template_used, params: {:provisioning => 'build', :host => @attrs, :id => @host.id }, session: set_session_user, xhr: true
       assert_response :success
@@ -1373,7 +1373,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test '#process_hostgroup changes compute attributes' do
       group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
-      host = FactoryBot.build(:host, :managed, :on_compute_resource)
+      host = FactoryBot.build_stubbed(:host, :managed, :on_compute_resource)
       #remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1
@@ -1396,7 +1396,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test '#process_hostgroup does not change compute attributes if compute profile selected manually' do
       group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
-      host = FactoryBot.build(:host, :managed, :on_compute_resource)
+      host = FactoryBot.build_stubbed(:host, :managed, :on_compute_resource)
       #remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1
@@ -1433,7 +1433,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test '#compute_resource_selected renders compute tab with hostgroup\'s compute profile' do
-      group = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
+      group = FactoryBot.build(:hostgroup, :compute_profile => compute_profiles(:two))
       get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
@@ -1442,7 +1442,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test '#compute_resource_selected renders compute tab with hostgroup parent\'s compute profile' do
       parent = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
-      group = FactoryBot.create(:hostgroup, :parent => parent)
+      group = FactoryBot.build(:hostgroup, :parent => parent)
       get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'

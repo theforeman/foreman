@@ -2,7 +2,7 @@ require 'test_helper'
 
 class DashboardTest < ActiveSupport::TestCase
   setup do
-    @env = FactoryBot.create(:environment)
+    @env = FactoryBot.build(:environment)
     @host = FactoryBot.create(:host, :with_reports, :environment => @env)
   end
 

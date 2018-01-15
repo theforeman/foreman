@@ -23,7 +23,7 @@ class HostTokenTest < ActiveSupport::TestCase
       Setting[:token_duration] = 30
       org = FactoryBot.create :organization
       loc = FactoryBot.create :location
-      template = FactoryBot.create :provisioning_template,
+      template = FactoryBot.build :provisioning_template,
                                     :template_kind_name => 'PXELinux',
                                     :template => "<%= foreman_url('provision') %>",
                                     :organizations => [org], :locations => [loc]

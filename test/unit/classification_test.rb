@@ -2,7 +2,7 @@ require "test_helper"
 
 class ClassificationTest < ActiveSupport::TestCase
   def setup
-    @host = FactoryBot.create(:host,
+    @host = FactoryBot.build(:host,
                               :location => taxonomies(:location1),
                               :organization => taxonomies(:organization1),
                               :operatingsystem => operatingsystems(:redhat),
@@ -34,8 +34,8 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return hash of class to nil for classes without parameters" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :environments => [env])
+    env = FactoryBot.build(:environment)
+    pc = FactoryBot.build(:puppetclass, :environments => [env])
     assert_equal({pc.name => nil}, get_classparam(env, pc).puppetclass_parameters)
   end
 
@@ -67,7 +67,7 @@ class ClassificationTest < ActiveSupport::TestCase
     env = FactoryBot.create(:environment)
     pc = FactoryBot.create(:puppetclass, :environments => [env])
     lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
-    host = FactoryBot.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
     Classification::MatchesGenerator.any_instance.expects(:attr_to_value).with('comment').returns('override')
 
     assert_equal(
@@ -88,8 +88,8 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#values_hash should treat yaml and json parameters as string" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :environments => [env])
+    env = FactoryBot.build(:environment)
+    pc = FactoryBot.build(:puppetclass, :environments => [env])
     yaml_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                               :puppetclass => pc, :key_type => 'yaml', :default_value => '',
                               :overrides => {"comment=override" => 'a: b'})
@@ -97,7 +97,7 @@ class ClassificationTest < ActiveSupport::TestCase
                                    :puppetclass => pc, :key_type => 'json', :default_value => '',
                                    :overrides => {"comment=override" => '{"a": "b"}'})
 
-    host = FactoryBot.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
 
     Classification::MatchesGenerator.any_instance.expects(:attr_to_value).twice.with('comment').returns('override')
     values_hash = Classification::ValuesHashQuery.values_hash(host, LookupKey.where(:id => [json_lkey, yaml_lkey]))
@@ -108,13 +108,13 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "ClassificationResult should correctly typecast JSON and YAML default values" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :environments => [env])
+    env = FactoryBot.build(:environment)
+    pc = FactoryBot.build(:puppetclass, :environments => [env])
     yaml_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'yaml', :default_value => 'a: b')
     json_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'json', :default_value => '{"a": "b"}')
-    host = FactoryBot.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
     classparam = Classification::ClassificationResult.new(host, {})
 
     yaml_value = classparam[yaml_lkey]
@@ -541,7 +541,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.create(:setting,
+    FactoryBot.build(:setting,
                        :name => 'host_group_matchers_inheritance',
                        :value => true)
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
@@ -552,7 +552,7 @@ class ClassificationTest < ActiveSupport::TestCase
     parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
-    child_hostgroup = FactoryBot.create(:hostgroup, :parent => parent_hostgroup)
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
 
     host = FactoryBot.create(:host, :environment => environments(:production), :organization => taxonomies(:organization1),
       :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
@@ -583,7 +583,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.create(:setting,
+    FactoryBot.build(:setting,
                        :name => 'host_group_matchers_inheritance',
                        :value => true)
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
@@ -594,7 +594,7 @@ class ClassificationTest < ActiveSupport::TestCase
     parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
-    child_hostgroup = FactoryBot.create(:hostgroup, :parent => parent_hostgroup)
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
 
     host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
 
@@ -656,7 +656,7 @@ class ClassificationTest < ActiveSupport::TestCase
     parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
-    child_hostgroup = FactoryBot.create(:hostgroup, :parent => parent_hostgroup)
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
 
     host = FactoryBot.create(:host, :environment => environments(:production),
       :location => taxonomies(:location1), :organization => taxonomies(:organization1),
@@ -724,7 +724,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'enc should return correct values for multi-key matchers' do
-    hostgroup = FactoryBot.create(:hostgroup)
+    hostgroup = FactoryBot.build(:hostgroup)
 
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_omit,
                              :override => true, :key_type => 'string', :merge_overrides => false,
@@ -736,11 +736,11 @@ class ClassificationTest < ActiveSupport::TestCase
                                           :environment => environments(:production))
     hostgroup.update_attributes(:parent => parent_hostgroup)
 
-    FactoryBot.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}")
+    FactoryBot.build(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}")
     lv = FactoryBot.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{hostgroup},organization=#{taxonomies(:organization1)}")
-    FactoryBot.create(:lookup_value, :lookup_key_id => key.id, :match => "location=#{taxonomies(:location1)}")
+    FactoryBot.build(:lookup_value, :lookup_key_id => key.id, :match => "location=#{taxonomies(:location1)}")
 
-    host = FactoryBot.build(:host, :environment => environments(:production),
+    host = FactoryBot.build_stubbed(:host, :environment => environments(:production),
       :location => taxonomies(:location1), :organization => taxonomies(:organization1), :hostgroup => hostgroup)
 
     enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters

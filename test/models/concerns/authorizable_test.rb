@@ -34,7 +34,7 @@ class AuthorizableTest < ActiveSupport::TestCase
   end
 
   test "#permission_name" do
-    domain = FactoryBot.build(:domain)
+    domain = FactoryBot.build_stubbed(:domain)
     assert_equal 'create_domains', domain.permission_name('create')
     assert_nil domain.permission_name('does_not_exist')
   end

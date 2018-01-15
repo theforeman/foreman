@@ -6,7 +6,7 @@ class TemplateKindTest < ActiveSupport::TestCase
   end
 
   test '#to_s returns English string from plugin registration' do
-    kind = FactoryBot.build(:template_kind)
+    kind = FactoryBot.build_stubbed(:template_kind)
     mock_plugin = mock('plugin')
     mock_plugin.expects(:get_template_labels).at_least_once.returns({kind.name => 'Plugin kind'})
     Foreman::Plugin.expects(:all).at_least_once.returns([mock_plugin])
@@ -14,7 +14,7 @@ class TemplateKindTest < ActiveSupport::TestCase
   end
 
   test '#to_s returns name for unknown kinds' do
-    kind = FactoryBot.build(:template_kind)
+    kind = FactoryBot.build_stubbed(:template_kind)
     assert_equal kind.name, kind.to_s
   end
 end

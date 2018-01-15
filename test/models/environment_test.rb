@@ -18,7 +18,7 @@ class EnvironmentTest < ActiveSupport::TestCase
   end
 
   test 'should create environment with the name "new"' do
-    assert FactoryBot.build(:environment, :name => 'new').valid?
+    assert FactoryBot.build_stubbed(:environment, :name => 'new').valid?
   end
 
   context 'audited' do

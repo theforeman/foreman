@@ -8,7 +8,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
 
   test "#associated_host matches any NIC" do
     host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
-    cr = FactoryBot.build(:libvirt_cr)
+    cr = FactoryBot.build_stubbed(:libvirt_cr)
     iface = mock('iface1', :mac => 'ca:d0:e6:32:16:97')
     assert_equal host, as_admin { cr.associated_host(iface) }
   end
@@ -30,7 +30,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
       vm = mock()
       vm.stubs(:attributes).returns({ :memory_size => 6 })
 
-      cr = FactoryBot.build(:libvirt_cr)
+      cr = FactoryBot.build_stubbed(:libvirt_cr)
       cr.stubs(:find_vm_by_uuid).returns(vm)
 
       attrs = cr.vm_compute_attributes_for('abc')
@@ -41,7 +41,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
       vm = mock()
       vm.stubs(:attributes).returns({})
 
-      cr = FactoryBot.build(:libvirt_cr)
+      cr = FactoryBot.build_stubbed(:libvirt_cr)
       cr.stubs(:find_vm_by_uuid).returns(vm)
 
       attrs = cr.vm_compute_attributes_for('abc')
@@ -50,7 +50,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
   end
 
   describe '#display_type' do
-    let(:cr) { FactoryBot.build(:libvirt_cr) }
+    let(:cr) { FactoryBot.build_stubbed(:libvirt_cr) }
 
     test "default display type is 'vnc'" do
       assert_nil cr.attrs[:display]
@@ -72,7 +72,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
   end
 
   describe '#create_vm' do
-    let(:cr) { FactoryBot.build(:libvirt_cr) }
+    let(:cr) { FactoryBot.build_stubbed(:libvirt_cr) }
 
     test 'exceptions are not obscured' do
       vm = mock('vm')
@@ -92,7 +92,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
   end
 
   describe '#new_volume' do
-    let(:cr) { FactoryBot.build(:libvirt_cr) }
+    let(:cr) { FactoryBot.build_stubbed(:libvirt_cr) }
 
     test 'new_volume_errors reports error for empty storage pool' do
       cr.stubs(:storage_pools).returns([]) do

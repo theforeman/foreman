@@ -12,12 +12,12 @@ class UINotificationsHostsTest < ActiveSupport::TestCase
     end
 
     def blueprint
-      @blueprint ||= FactoryBot.create(:notification_blueprint)
+      @blueprint ||= FactoryBot.build(:notification_blueprint)
     end
   end
 
   test 'notification audience should be SUBJECT if owner is present' do
-    host.owner = FactoryBot.build(:user)
+    host.owner = FactoryBot.build_stubbed(:user)
     assert_equal 'subject', audience
   end
 
@@ -33,7 +33,7 @@ class UINotificationsHostsTest < ActiveSupport::TestCase
 
   describe 'deliver notification to host owner' do
     test 'owner is single user' do
-      host.owner = FactoryBot.create(:user)
+      host.owner = FactoryBot.build(:user)
       assert_difference("NotificationRecipient.all.count", 1) do
         assert TestNotification.new(host).deliver!
       end
@@ -41,7 +41,7 @@ class UINotificationsHostsTest < ActiveSupport::TestCase
 
     test 'owner is usergroup' do
       group = FactoryBot.create(:usergroup)
-      group.users = FactoryBot.create_list(:user, 5)
+      group.users = FactoryBot.build_list(:user, 5)
       host.owner = group
       assert_difference("NotificationRecipient.all.count", 5) do
         assert TestNotification.new(host).deliver!
@@ -52,7 +52,7 @@ class UINotificationsHostsTest < ActiveSupport::TestCase
   private
 
   def host
-    @host ||= FactoryBot.build(:host, :managed)
+    @host ||= FactoryBot.build_stubbed(:host, :managed)
   end
 
   def base

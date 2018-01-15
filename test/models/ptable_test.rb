@@ -79,7 +79,7 @@ class PtableTest < ActiveSupport::TestCase
   end
 
   test "#metadata should include OS family" do
-    ptable = FactoryBot.build(:ptable)
+    ptable = FactoryBot.build_stubbed(:ptable)
 
     lines = ptable.metadata.split("\n")
     assert_includes lines, "os_family: #{ptable.os_family}"

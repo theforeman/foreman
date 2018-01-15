@@ -36,15 +36,15 @@ class TaxonomyTest < ActiveSupport::TestCase
   end
 
   test 'expand return the specified taxonomy for admin' do
-    org = FactoryBot.build(:organization)
+    org = FactoryBot.build_stubbed(:organization)
     as_admin do
       assert_equal org, Taxonomy.expand(org)
     end
   end
 
   test 'does not expand if no user set' do
-    org1 = FactoryBot.build(:organization)
-    org2 = FactoryBot.build(:organization)
+    org1 = FactoryBot.build_stubbed(:organization)
+    org2 = FactoryBot.build_stubbed(:organization)
     assert_nil Taxonomy.expand(nil)
     assert_equal [], Taxonomy.expand([])
     assert_equal org1, Taxonomy.expand(org1)

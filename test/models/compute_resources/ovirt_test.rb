@@ -12,7 +12,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
   test "#associated_host matches any NIC" do
     host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
-    cr = FactoryBot.build(:ovirt_cr)
+    cr = FactoryBot.build_stubbed(:ovirt_cr)
     iface1 = mock('iface1', :mac => '36:48:c5:c9:86:f2')
     iface2 = mock('iface2', :mac => 'ca:d0:e6:32:16:97')
     vm = mock('vm', :interfaces => [iface1, iface2])

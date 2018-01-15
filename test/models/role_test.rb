@@ -208,15 +208,15 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   describe ".permissions=" do
-    let(:role) { FactoryBot.build(:role) }
+    let(:role) { FactoryBot.build_stubbed(:role) }
 
     it 'accepts not unique list of permissions' do
       role.expects(:add_permissions).once.with(['a','b'])
       role.permissions = [
-        FactoryBot.build(:permission, :name => 'a'),
-        FactoryBot.build(:permission, :name => 'b'),
-        FactoryBot.build(:permission, :name => 'a'),
-        FactoryBot.build(:permission, :name => 'b')
+        FactoryBot.build_stubbed(:permission, :name => 'a'),
+        FactoryBot.build_stubbed(:permission, :name => 'b'),
+        FactoryBot.build_stubbed(:permission, :name => 'a'),
+        FactoryBot.build_stubbed(:permission, :name => 'b')
       ]
     end
   end
@@ -225,7 +225,7 @@ class RoleTest < ActiveSupport::TestCase
     setup do
       @permission1 = FactoryBot.create(:permission, :name => 'permission1')
       @permission2 = FactoryBot.create(:permission, :architecture, :name => 'permission2')
-      @role = FactoryBot.build(:role, :permissions => [])
+      @role = FactoryBot.build_stubbed(:role, :permissions => [])
     end
 
     it 'should fetch the appropriate permissions' do

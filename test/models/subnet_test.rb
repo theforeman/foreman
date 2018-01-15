@@ -55,7 +55,7 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "the name should be unique in the domain scope" do
     first = FactoryBot.create(:subnet_ipv6, :with_domains)
-    subnet = FactoryBot.build(:subnet_ipv6, :name => first.name, :domains => first.domains)
+    subnet = FactoryBot.build_stubbed(:subnet_ipv6, :name => first.name, :domains => first.domains)
     refute subnet.valid?
   end
 

@@ -5,7 +5,7 @@ class NicTest < ActiveSupport::TestCase
     disable_orchestration
     User.current = users :admin
 
-    @nic = FactoryBot.build(:nic_managed, :host => FactoryBot.build(:host, :managed => true))
+    @nic = FactoryBot.build_stubbed(:nic_managed, :host => FactoryBot.build_stubbed(:host, :managed => true))
   end
 
   def teardown
@@ -66,7 +66,7 @@ class NicTest < ActiveSupport::TestCase
   test "managed nic should generate progress report uuid" do
     uuid = '710d4a8f-b1b6-47f5-9ef5-5892a19dabcd'
     Foreman.stubs(:uuid).returns(uuid)
-    nic = FactoryBot.build(:nic_managed)
+    nic = FactoryBot.build_stubbed(:nic_managed)
     assert_equal uuid, nic.progress_report_id
   end
 
@@ -81,7 +81,7 @@ class NicTest < ActiveSupport::TestCase
     subnet = subnets(:two)
     subnet6 = subnets(:seven)
     domain = (subnet.domains.any? ? subnet.domains : subnet.domains << Domain.first).first
-    interface = FactoryBot.build(:nic_managed,
+    interface = FactoryBot.build_stubbed(:nic_managed,
                                   :ip => "3.3.4.127",
                                   :mac => "cabbccddeeff",
                                   :host => FactoryBot.create(:host),
@@ -99,7 +99,7 @@ class NicTest < ActiveSupport::TestCase
     subnet = nil
     subnet6 = subnets(:seven)
     domain = (subnet6.domains.any? ? subnet6.domains : subnet6.domains << Domain.first).first
-    interface = FactoryBot.build(:nic_managed,
+    interface = FactoryBot.build_stubbed(:nic_managed,
                                   :ip => "3.3.4.127",
                                   :mac => "cabbccddeeff",
                                   :host => FactoryBot.create(:host),
@@ -142,10 +142,10 @@ class NicTest < ActiveSupport::TestCase
 
   test "should ignore subnet with mismatched taxonomy in host when settings disabled" do
     disable_taxonomies do
-      orgs = FactoryBot.build_pair(:organization)
-      locs = FactoryBot.build_pair(:location)
-      subn = FactoryBot.build(:subnet_ipv4, :locations => [locs.first], :organizations => [orgs.first])
-      host = FactoryBot.build(:host, :location => locs.last, :organization => orgs.last)
+      orgs = FactoryBot.build_stubbed_pair(:organization)
+      locs = FactoryBot.build_stubbed_pair(:location)
+      subn = FactoryBot.build_stubbed(:subnet_ipv4, :locations => [locs.first], :organizations => [orgs.first])
+      host = FactoryBot.build_stubbed(:host, :location => locs.last, :organization => orgs.last)
       nic = Nic::Base.new :mac => "cabbccddeeff", :host => host
       nic.subnet = subn
       assert_valid nic
@@ -203,7 +203,7 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "#alias? detects alias based on virtual and identifier attributes" do
-    nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0')
+    nic = FactoryBot.build_stubbed(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0')
     refute nic.alias?
 
     nic.identifier = 'eth0:0'
@@ -214,9 +214,9 @@ class NicTest < ActiveSupport::TestCase
   end
 
   test "Alias subnet can only use static boot mode if it's managed" do
-    nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0:0')
-    nic.host = FactoryBot.build(:host)
-    nic.subnet = FactoryBot.build(:subnet_ipv4, :boot_mode => Subnet::BOOT_MODES[:dhcp])
+    nic = FactoryBot.build_stubbed(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => 'eth0:0')
+    nic.host = FactoryBot.build_stubbed(:host)
+    nic.subnet = FactoryBot.build_stubbed(:subnet_ipv4, :boot_mode => Subnet::BOOT_MODES[:dhcp])
     refute nic.valid?
     assert_includes nic.errors.keys, :subnet_id
 
@@ -250,12 +250,12 @@ class NicTest < ActiveSupport::TestCase
 
   context 'physical?' do
     test 'returns true for a physical interface' do
-      nic = FactoryBot.build(:nic_managed, :virtual => false)
+      nic = FactoryBot.build_stubbed(:nic_managed, :virtual => false)
       assert nic.physical?
     end
 
     test 'returns false for a virtual interface' do
-      nic = FactoryBot.build(:nic_managed, :virtual => true)
+      nic = FactoryBot.build_stubbed(:nic_managed, :virtual => true)
       refute nic.physical?
     end
   end

@@ -12,21 +12,21 @@ class Nic::BaseTest < ActiveSupport::TestCase
     for(:mac)
 
   test '#host_managed? returns false if interface does not have a host' do
-    nic = FactoryBot.build(:nic_base)
+    nic = FactoryBot.build_stubbed(:nic_base)
     nic.host = nil
     refute nic.host_managed?
   end
 
   test '#host_managed? returns false if associated host is unmanaged' do
-    nic = FactoryBot.build(:nic_base)
-    nic.host = FactoryBot.build(:host)
+    nic = FactoryBot.build_stubbed(:nic_base)
+    nic.host = FactoryBot.build_stubbed(:host)
     nic.host.managed = false
     refute nic.host_managed?
   end
 
   test '#host_managed? returns false in non-unattended mode' do
-    nic = FactoryBot.build(:nic_base)
-    nic.host = FactoryBot.build(:host)
+    nic = FactoryBot.build_stubbed(:nic_base)
+    nic.host = FactoryBot.build_stubbed(:host)
     nic.host.managed = true
     original, SETTINGS[:unattended] = SETTINGS[:unattended], false
     refute nic.host_managed?
@@ -34,8 +34,8 @@ class Nic::BaseTest < ActiveSupport::TestCase
   end
 
   test '#host_managed? return true if associated host is managed in unattended mode' do
-    nic = FactoryBot.build(:nic_base)
-    nic.host = FactoryBot.build(:host)
+    nic = FactoryBot.build_stubbed(:nic_base)
+    nic.host = FactoryBot.build_stubbed(:host)
     nic.host.managed = true
     original, SETTINGS[:unattended] = SETTINGS[:unattended], true
     assert nic.host_managed?
@@ -43,13 +43,13 @@ class Nic::BaseTest < ActiveSupport::TestCase
   end
 
   test 'nic requires a host' do
-    nic = FactoryBot.build(:nic_base)
+    nic = FactoryBot.build_stubbed(:nic_base)
     refute nic.valid?, "Can't be valid without a host: #{nic.errors.messages}"
     assert_includes nic.errors.keys, :host
   end
 
   test 'nic is invalid when subnet types are wrong' do
-    nic = FactoryBot.build(:nic_base)
+    nic = FactoryBot.build_stubbed(:nic_base)
     subnetv4 = Subnet::Ipv4.new
     subnetv6 = Subnet::Ipv6.new
 
@@ -62,8 +62,8 @@ class Nic::BaseTest < ActiveSupport::TestCase
   end
 
   context '#matches_subnet?' do
-    let(:subnet) { FactoryBot.build(:subnet_ipv4, :network => '10.10.10.0') }
-    let(:nic) { FactoryBot.build(:nic_base, :ip => '10.10.10.1', :subnet => subnet) }
+    let(:subnet) { FactoryBot.build_stubbed(:subnet_ipv4, :network => '10.10.10.0') }
+    let(:nic) { FactoryBot.build_stubbed(:nic_base, :ip => '10.10.10.1', :subnet => subnet) }
 
     test 'is true when subnet contains ip' do
       assert nic.matches_subnet?(:ip, :subnet)
@@ -172,8 +172,8 @@ class Nic::BaseTest < ActiveSupport::TestCase
   end
 
   describe 'normalization' do
-    let(:host) { FactoryBot.build(:host) }
-    let(:nic) { FactoryBot.build(:nic_base, :host => host) }
+    let(:host) { FactoryBot.build_stubbed(:host) }
+    let(:nic) { FactoryBot.build_stubbed(:nic_base, :host => host) }
 
     test 'it normalizes ipv4 address' do
       nic.ip = '001.001.001.001'
@@ -193,7 +193,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
   end
 
   test '#children_mac_addresses defaults to empty array' do
-    nic = FactoryBot.build(:nic_base)
+    nic = FactoryBot.build_stubbed(:nic_base)
     assert_equal [], nic.children_mac_addresses
   end
 end

@@ -118,7 +118,7 @@ class FacetTest < ActiveSupport::TestCase
     end
 
     test 'facets are updated without specifying id explicitly' do
-      saved_host = FactoryBot.create(:host)
+      saved_host = FactoryBot.build(:host)
       saved_host.build_test_facet
       saved_host.save!
       saved_host.attributes = {'test_facet_attributes' => { 'my_attribute' => 'my_value'}}

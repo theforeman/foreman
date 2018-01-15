@@ -131,7 +131,7 @@ class ActiveSupport::TestCase
     @one = users(user)
     as_admin do
       permission = Permission.find_by_name("#{operation}_#{type}") ||
-        FactoryBot.create(:permission, :name => "#{operation}_#{type}")
+        FactoryBot.build(:permission, :name => "#{operation}_#{type}")
       filter = FactoryBot.build(:filter, :search => search)
       filter.permissions = [ permission ]
       role = Role.where(:name => "#{operation}_#{type}").first_or_create

@@ -91,7 +91,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     end
 
     test 'dns record should be nil for invalid ip' do
-      @host.interfaces = [FactoryBot.build(:nic_primary_and_provision, :ip => "aaaaaaa")]
+      @host.interfaces = [FactoryBot.build_stubbed(:nic_primary_and_provision, :ip => "aaaaaaa")]
       assert_nil @host.dns_record(:a)
       assert_nil @host.dns_record(:ptr4)
     end
