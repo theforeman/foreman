@@ -8,6 +8,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
+var vendorEntry = require('./webpack.vendor');
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
@@ -16,6 +17,8 @@ var devServerPort = 3808;
 var production =
   process.env.RAILS_ENV === 'production' ||
   process.env.NODE_ENV === 'production';
+
+var bundleEntry = path.join(__dirname, '..', 'webpack/assets/javascripts/bundle.js');
 
 var plugins = pluginUtils.getPluginDirs();
 
@@ -27,7 +30,8 @@ var resolveModules = [  path.join(__dirname, '..', 'webpack'),
 var config = {
   entry: Object.assign(
     {
-      bundle: './webpack/assets/javascripts/bundle.js'
+      bundle: bundleEntry,
+      vendor: vendorEntry,
     },
     plugins.entries
   ),
@@ -119,9 +123,9 @@ var config = {
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
+      name: 'vendor',
+      minChunks: Infinity,
     })
-
   ]
 };
 
