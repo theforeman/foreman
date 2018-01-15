@@ -8,5 +8,5 @@
   end
 
   # Only create notifications if there isn't a scheduled job
-  CreateRssNotifications.perform_later unless scheduled_job.present?
+  CreateRssNotifications.perform_later if !Rails.env.test? && scheduled_job.blank?
 end
