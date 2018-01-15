@@ -36,6 +36,16 @@ class ComputeResourcesController < ApplicationController
       @compute_resource.valid?
       process_error
     end
+  rescue OVIRT::OvirtException => e
+    Foreman::Logging.exception("Error while creating ovirt resource", e)
+    process_error(
+      error_msg: _('Error while trying to create resource: %s') % e.message
+    )
+  rescue Fog::Errors::Error => e
+    Foreman::Logging.exception("Error while creating a resource", e)
+    process_error(
+      error_msg: _('Error while trying to create resource: %s') % e.message
+    )
   end
 
   def edit
@@ -70,6 +80,16 @@ class ComputeResourcesController < ApplicationController
     else
       process_error
     end
+  rescue OVIRT::OvirtException => e
+    Foreman::Logging.exception("Error while updating ovirt resource", e)
+    process_error(
+      error_msg: _('Error while trying to update resource: %s') % e.message
+    )
+  rescue Fog::Errors::Error => e
+    Foreman::Logging.exception("Error while updating resource", e)
+    process_error(
+      error_msg: _('Error while trying to update resource: %s') % e.message
+    )
   end
 
   def destroy

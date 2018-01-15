@@ -157,7 +157,7 @@ module Foreman::Model
         when /404/
           errors[:url] << e.message
         when /302/
-          errors[:url] << 'HTTPS URL is required for API access'
+          errors[:url] << _('HTTPS URL is required for API access')
         when /401/
           errors[:user] << e.message
         else
