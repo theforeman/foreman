@@ -81,9 +81,6 @@ export function testConnection(item) {
 
       $('#compute_connection').html(res.find('#compute_connection'));
       $('#compute_connection').prepend(res.find('.alert'));
-      if (!$('#compute_resource_provider').prop('disabled')) {
-        $('#compute_resource_password').prop('disabled', false);
-      }
       if (
         $('.alert-danger', result).length === 0 &&
         $('#compute_connection .has-error', result).length === 0
@@ -100,6 +97,7 @@ export function testConnection(item) {
     complete(result) {
       // we need to restore the password field as it is not sent back from the server.
       $('input#compute_resource_password').val(password);
+      $('#compute_resource_password').prop('disabled', false);
       $('#test_connection_indicator').hide();
       // eslint-disable-next-line no-undef
       reloadOnAjaxComplete('#test_connection_indicator');
