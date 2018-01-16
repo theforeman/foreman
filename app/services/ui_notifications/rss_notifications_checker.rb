@@ -27,7 +27,7 @@ module UINotifications
       end
     end
 
-    def initialize(options = [])
+    def initialize(options = {})
       @url = options[:url] || Setting[:rss_url]
       @latest_posts = options[:latest_posts] || 3
       @force_repost = options[:force_repost] || false
