@@ -1,6 +1,6 @@
 class CreateRssNotifications < ApplicationJob
   after_perform do |job|
-    self.class.set(:wait => 12.hours).perform_later(job.arguments.first)
+    self.class.set(:wait => 12.hours).perform_later(*job.arguments)
   end
 
   def perform(options = {})
