@@ -4,17 +4,20 @@ exports[`Form should accept base error title 1`] = `
 <form
   className="form-horizontal well"
 >
-  <Component
+  <Alert
     className="base in fade"
-    title="Oops"
     type="danger"
   >
-    <li
-      key="0"
+    <AlertBody
+      title="Oops"
     >
-      invalid something
-    </li>
-  </Component>
+      <li
+        key="0"
+      >
+        invalid something
+      </li>
+    </AlertBody>
+  </Alert>
   <Component
     disabled={false}
     submitting={false}
@@ -26,22 +29,25 @@ exports[`Form should display multiple base errors 1`] = `
 <form
   className="form-horizontal well"
 >
-  <Component
+  <Alert
     className="base in fade"
-    title="Unable to save"
     type="danger"
   >
-    <li
-      key="0"
+    <AlertBody
+      title="Unable to save"
     >
-      invalid something
-    </li>
-    <li
-      key="1"
-    >
-      error too
-    </li>
-  </Component>
+      <li
+        key="0"
+      >
+        invalid something
+      </li>
+      <li
+        key="1"
+      >
+        error too
+      </li>
+    </AlertBody>
+  </Alert>
   <Component
     disabled={false}
     submitting={false}
@@ -53,17 +59,20 @@ exports[`Form should display one base error 1`] = `
 <form
   className="form-horizontal well"
 >
-  <Component
+  <Alert
     className="base in fade"
-    title="Unable to save"
     type="danger"
   >
-    <li
-      key="0"
+    <AlertBody
+      title="Unable to save"
     >
-      invalid something
-    </li>
-  </Component>
+      <li
+        key="0"
+      >
+        invalid something
+      </li>
+    </AlertBody>
+  </Alert>
   <Component
     disabled={false}
     submitting={false}

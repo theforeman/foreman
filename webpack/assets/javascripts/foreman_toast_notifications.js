@@ -4,40 +4,56 @@ import store from '../javascripts/react_app/redux';
 
 import * as ToastActions from './react_app/redux/actions/toasts';
 
-const isSticky = type => ['notice', 'success', 'info'].indexOf(type) === -1;
+const isStickyType = type => !['success', 'info'].includes(type);
 
-export function notify({
-  message, type, link, sticky = isSticky(type),
-}) {
+/**
+ * Notify the user with a toast-notification
+ */
+export const notify = ({
+  message, type, link, sticky = isStickyType(type),
+}) =>
   store.dispatch(ToastActions.addToast({
-    message,
     type,
+    message,
     sticky,
     link,
   }));
-}
 
-export function clear() {
-  store.dispatch(ToastActions.clearToasts());
-}
+/**
+ * Clear all toast notifications
+ */
+export const clear = () => store.dispatch(ToastActions.clearToasts());
 
-function importFlashMessagesFromRails() {
-  const notifications = $('#notifications');
+const railsNotificationToToastNotification = ({ link, type, message }) => {
+  const toast = { type, message };
 
-  if (notifications.length === 0 ||
-    !notifications.data('flash')) { return; }
+  if (link) {
+    toast.link = { href: link.href, children: link.text };
+  }
 
-  notifications.data('flash').forEach(([type, message]) => {
-    notify({ message, type });
-  });
+  return toast;
+};
+
+const importToastNotificationsFromRails = () => {
+  const toastNotificationsContainer = $('#toast-notifications-container');
+  if (toastNotificationsContainer.length === 0) return;
+
+  const notifications = toastNotificationsContainer.data('notifications');
+  if (!notifications) return;
+
+  // notify each rails notification
+  notifications
+    .map(railsNotification => railsNotificationToToastNotification(railsNotification))
+    .forEach(toastNotification => notify(toastNotification));
+
   // remove both jquery cache and dom entry to avoid ajax ContentLoad events
-  // reloading our notifications
-  notifications.attr('data-flash', '').removeData();
-}
+  // reloading our toast notifications
+  toastNotificationsContainer.attr('data-notifications', '').removeData();
+};
 
-// load notifications from Rails on ContentLoad
+// load toast notifications from Rails on ContentLoad
 // to accommodate rails flash syntax
 $(document).on('ContentLoad', () => {
   clear();
-  importFlashMessagesFromRails();
+  importToastNotificationsFromRails();
 });

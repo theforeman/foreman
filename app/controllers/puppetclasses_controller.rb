@@ -38,9 +38,9 @@ class PuppetclassesController < ApplicationController
         class_param.update_attribute(:override, params[:enable])
       end
       if [true, :true, 'true'].include?(params[:enable])
-        notice _("Successfully overridden all parameters of Puppet class %s") % @puppetclass.name
+        success _("Successfully overridden all parameters of Puppet class %s") % @puppetclass.name
       else
-        notice _("Successfully reset all parameters of Puppet class %s to their default values") % @puppetclass.name
+        success _("Successfully reset all parameters of Puppet class %s to their default values") % @puppetclass.name
       end
     else
       error _("No parameters to override for Puppet class %s") % @puppetclass.name

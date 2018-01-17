@@ -43,7 +43,7 @@ class HostgroupsController < ApplicationController
     load_vars_for_ajax
     new.valid?
     @hostgroup = new
-    notice _("The following fields would need reviewing")
+    info _("The following fields would need reviewing")
     render :action => :new
   end
 

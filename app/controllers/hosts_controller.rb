@@ -217,7 +217,7 @@ class HostsController < ApplicationController
   def puppetrun
     return deny_access unless Setting[:puppetrun]
     if @host.puppetrun!
-      notice _("Successfully executed, check log files for more details")
+      success _("Successfully executed, check log files for more details")
     else
       error @host.errors[:base].to_sentence
     end
@@ -387,7 +387,7 @@ class HostsController < ApplicationController
 
   def update_multiple_parameters
     if params[:name].empty?
-      notice _("No parameters were allocated to the selected hosts, can't mass assign")
+      warning _("No parameters were allocated to the selected hosts, can't mass assign")
       redirect_to hosts_path
       return
     end
@@ -407,11 +407,11 @@ class HostsController < ApplicationController
       end
     end
     if @skipped_parameters.empty?
-      notice _('Updated all hosts!')
+      success _('Updated all hosts!')
       redirect_to(hosts_path)
       return
     else
-      notice _("%s Parameters updated, see below for more information") % (counter)
+      success _("%s Parameters updated, see below for more information") % (counter)
     end
   end
 
@@ -432,7 +432,7 @@ class HostsController < ApplicationController
       host.save(:validate => false)
     end
 
-    notice _('Updated hosts: changed host group')
+    success _('Updated hosts: changed host group')
     # We prefer to go back as this does not lose the current search
     redirect_back_or_to hosts_path
   end
@@ -454,7 +454,7 @@ class HostsController < ApplicationController
       host.save(:validate => false)
     end
 
-    notice _('Updated hosts: changed owner')
+    success _('Updated hosts: changed owner')
     redirect_back_or_to hosts_path
   end
 
@@ -472,7 +472,7 @@ class HostsController < ApplicationController
       end
     end
 
-    notice _('The power state of the selected hosts will be set to %s') % _(action)
+    success _('The power state of the selected hosts will be set to %s') % _(action)
     redirect_back_or_to hosts_path
   end
 
@@ -505,7 +505,7 @@ class HostsController < ApplicationController
     end
 
     if message.blank?
-      notice _('Configuration successfully rebuilt')
+      success _('Configuration successfully rebuilt')
     else
       error message
     end
@@ -531,9 +531,9 @@ class HostsController < ApplicationController
 
     if missed_hosts.empty?
       if reboot
-        notice _("The selected hosts were enabled for reboot and rebuild")
+        success _("The selected hosts were enabled for reboot and rebuild")
       else
-        notice _("The selected hosts will execute a build operation on next reboot")
+        success _("The selected hosts will execute a build operation on next reboot")
       end
     else
       error _("The following hosts failed the build operation: %s") % missed_hosts.map(&:name).to_sentence
@@ -545,7 +545,7 @@ class HostsController < ApplicationController
     # keep all the ones that were not deleted for notification.
     missed_hosts = @hosts.select {|host| !host.destroy}
     if missed_hosts.empty?
-      notice _("Destroyed selected hosts")
+      success _("Destroyed selected hosts")
     else
       error _("The following hosts were not deleted: %s") % missed_hosts.map(&:name).to_sentence
     end
@@ -575,7 +575,7 @@ class HostsController < ApplicationController
     @hosts.each do |host|
       host.disassociate!
     end
-    notice _('Updated hosts: Disassociated from VM')
+    success _('Updated hosts: Disassociated from VM')
     redirect_back_or_to hosts_path
   end
 
@@ -766,7 +766,7 @@ class HostsController < ApplicationController
     action = mode ? "enabled" : "disabled"
 
     if missed_hosts.empty?
-      notice _("%s selected hosts") % (action.capitalize)
+      success _("%s selected hosts") % (action.capitalize)
     else
       error _("The following hosts were not %{action}: %{missed_hosts}") % { :action => action, :missed_hosts => missed_hosts.map(&:name).to_sentence }
     end
@@ -846,9 +846,9 @@ class HostsController < ApplicationController
 
     if failed_hosts.empty?
       if proxy
-        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
+        success _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
       else
-        notice _('The %{proxy_type} proxy of the selected hosts was cleared') % {:proxy_type => proxy_type}
+        success _('The %{proxy_type} proxy of the selected hosts was cleared') % {:proxy_type => proxy_type}
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",

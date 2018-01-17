@@ -1,21 +1,28 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-
+import { ToastNotificationList, ToastNotification, TimedToastNotification } from 'patternfly-react';
+import AlertBody from '../common/Alert/AlertBody';
 import * as ToastActions from '../../redux/actions/toasts';
-
-import Toast from './toastListitem/';
 
 class ToastsList extends Component {
   render() {
     const { messages, deleteToast } = this.props;
 
-    return (
-      <div className="toast-notifications-list-pf">
-        {Object.entries(messages).map(([key, toast]) => (
-          <Toast {...toast} key={key} dismiss={deleteToast.bind(this, toast.key)} />
-        ))}
-      </div>
-    );
+    const toastsList = Object.entries(messages)
+      .map(([key, message]) => ({ key, ...message }))
+      .map(({
+        key, link, message, sticky = false, ...toastProps
+      }) => {
+        const ToastComponent = sticky ? ToastNotification : TimedToastNotification;
+
+        return (
+          <ToastComponent key={key} onDismiss={() => deleteToast(key)} {...toastProps}>
+            <AlertBody link={link} message={message} />
+          </ToastComponent>
+        );
+      });
+
+    return <ToastNotificationList>{toastsList}</ToastNotificationList>;
   }
 }
 

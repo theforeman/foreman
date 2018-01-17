@@ -51,7 +51,8 @@ class UsersController < ApplicationController
   def destroy
     @user = find_resource(:destroy_users)
     if @user == User.current
-      warning _("You cannot delete this user while logged in as this user")
+      warning_link = { text: _("Logout"), href: logout_users_url }
+      warning _("You cannot delete this user while logged in as this user"), { :link => warning_link }
       redirect_back(fallback_location: users_path)
       return
     end
@@ -122,7 +123,7 @@ class UsersController < ApplicationController
     TopbarSweeper.expire_cache
     sso_logout_path = get_sso_method.try(:logout_url)
     session[:user] = @user = User.current = nil
-    if flash[:notice] || flash[:error]
+    if flash[:success] || flash[:info] || flash[:error]
       flash.keep
     else
       session.clear

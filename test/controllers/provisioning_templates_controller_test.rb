@@ -133,7 +133,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     test "build menu" do
       ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true).times(3)
       get :build_pxe_default, session: set_session_user
-      assert flash[:notice].present?
+      assert flash[:success].present?
       assert flash[:error].empty?
       assert_redirected_to provisioning_templates_path
     end

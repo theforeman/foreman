@@ -5,7 +5,7 @@ class ExternalUsergroupsController < ApplicationController
 
   def refresh
     if @external_usergroup.refresh
-      notice _("External user group %{name} refreshed") % { :name => @external_usergroup.name }
+      success _("External user group %{name} refreshed") % { :name => @external_usergroup.name }
       redirect_to usergroups_path
     else
       message = _("External user group %{name} could not be refreshed.") % { :name => @external_usergroup.name }

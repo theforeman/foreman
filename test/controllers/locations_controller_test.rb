@@ -51,7 +51,7 @@ class LocationsControllerTest < ActionController::TestCase
 
       assert_difference('Location.count', -1) do
         delete :destroy, params: { :id => location }, session: set_session_user
-        assert_match /Successfully deleted/, flash[:notice]
+        assert_match /Successfully deleted/, flash[:success]
       end
     end
   end
@@ -95,7 +95,7 @@ class LocationsControllerTest < ActionController::TestCase
       post :assign_all_hosts, params: { :id => location.id }, session: set_session_user
     end
     assert_redirected_to :controller => :locations, :action => :index
-    assert_equal flash[:notice], "All hosts previously with no location are now assigned to Location 1"
+    assert_equal flash[:success], "All hosts previously with no location are now assigned to Location 1"
   end
 
   test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
@@ -126,7 +126,7 @@ class LocationsControllerTest < ActionController::TestCase
                                           }, session: set_session_user
     end
     assert_redirected_to :controller => :locations, :action => :index
-    assert_equal flash[:notice], "Selected hosts are now assigned to Location 1"
+    assert_equal flash[:success], "Selected hosts are now assigned to Location 1"
   end
 
   # Mismatches
@@ -141,7 +141,7 @@ class LocationsControllerTest < ActionController::TestCase
   test "button Fix All Mismatches should work" do
     post :import_mismatches, session: set_session_user
     assert_redirected_to :controller => :locations, :action => :index
-    assert_equal flash[:notice], "All mismatches between hosts and locations/organizations have been fixed"
+    assert_equal flash[:success], "All mismatches between hosts and locations/organizations have been fixed"
     # check that there are no mismatches
     get :mismatches, session: set_session_user
     assert_match "No hosts are mismatched", @response.body

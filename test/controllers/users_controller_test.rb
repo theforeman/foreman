@@ -179,7 +179,8 @@ class UsersControllerTest < ActionController::TestCase
     delete :destroy, params: { :id => user.id }, session: set_session_user.merge(:user => user.id)
     assert_redirected_to users_url
     assert User.unscoped.exists?(user.id)
-    assert_equal @request.flash[:warning], 'You cannot delete this user while logged in as this user'
+    assert_equal @request.flash[:warning][:message], 'You cannot delete this user while logged in as this user'
+    assert_equal @request.flash[:warning][:link], { text: _("Logout"), href: logout_users_url }
   end
 
   test 'user with viewer rights should fail to edit a user' do

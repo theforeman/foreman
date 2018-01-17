@@ -163,7 +163,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_warning(message)
-    assert notification_messages['warning'].include?(message)
+    assert warning_notificication_messages.include?(message)
   end
 
   def assert_form_tab(label)
@@ -172,8 +172,16 @@ class ActionDispatch::IntegrationTest
     end
   end
 
-  def notification_messages
-    Hash[JSON.parse(page.find(:css, "div#notifications")['data-flash'])]
+  def warning_notificication_messages
+    warning_notificications_data.map { |n| n['message'] }
+  end
+
+  def warning_notificications_data
+    notifications_data.select { |n| n['type'] == "warning" }
+  end
+
+  def notifications_data
+    JSON.parse(page.find(:css, "div#toast-notifications-container")['data-notifications']).map { |n| Hash[n]}
   end
 
   setup :start_database_cleaner, :login_admin

@@ -1,7 +1,7 @@
 import React from 'react';
+import { Alert } from 'patternfly-react';
 
-import Alert from '../Alert';
-
+import AlertBody from '../Alert/AlertBody';
 import Actions from './Actions';
 
 export default ({
@@ -17,8 +17,8 @@ export default ({
 }) => (
   <form className={className} onSubmit={onSubmit}>
     {error && (
-      <Alert className="base in fade" type="danger" title={errorTitle}>
-        {error.map((e, idx) => <li key={idx}>{e}</li>)}
+      <Alert className="base in fade" type="danger">
+        <AlertBody title={errorTitle}>{error.map((e, idx) => <li key={idx}>{e}</li>)}</AlertBody>
       </Alert>
     )}
     {children}

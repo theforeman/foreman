@@ -116,7 +116,7 @@ class ComputeResourcesVmsController < ApplicationController
   def run_vm_action(action)
     if @vm.send(action)
       @vm.reload
-      notice _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
+      success _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
     else
       error _("failed to %{action} %{vm}") % {:action => _(action), :vm => @vm}
     end

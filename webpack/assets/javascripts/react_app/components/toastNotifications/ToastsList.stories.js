@@ -1,0 +1,99 @@
+import React from 'react';
+import { Provider } from 'react-redux';
+import { storiesOf } from '@storybook/react';
+import { Alert } from 'patternfly-react';
+import {
+  Form,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Checkbox,
+  Button,
+  Grid,
+  Col,
+  Row,
+} from 'react-bootstrap';
+import store from '../../redux';
+import { addToast } from '../../redux/actions/toasts';
+import ToastsList from './index';
+
+storiesOf('Toast Notifications', module).add('Toaster', () => {
+  const inputRefs = {};
+
+  const dispatchAddToast = () => {
+    const toast = {
+      message: inputRefs.message.value,
+      type: inputRefs.type.value,
+      sticky: inputRefs.sticky.checked,
+      timerdelay: Number(inputRefs.timerdelay.value),
+    };
+
+    if (inputRefs.showLink.checked) {
+      toast.link = {
+        href: inputRefs.linkUrl.value,
+        children: inputRefs.linkText.value,
+      };
+    }
+
+    store.dispatch(addToast(toast));
+  };
+
+  const setRef = key => (ref) => {
+    inputRefs[key] = ref;
+  };
+
+  const FormField = ({ id, label, children }) => (
+    <FormGroup controlId={id}>
+      <Col componentClass={ControlLabel} sm={3}>
+        {label}
+      </Col>
+      <Col sm={9}>{React.cloneElement(children, { inputRef: setRef(id) })}</Col>
+    </FormGroup>
+  );
+
+  const toastCreatorForm = (
+    <Form horizontal>
+      <FormField id="message" label="Message">
+        <FormControl type="text" />
+      </FormField>
+      <FormField id="type" label="Type">
+        <FormControl componentClass="select" type="text">
+          {Alert.ALERT_TYPES.map(type => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </FormControl>
+      </FormField>
+      <FormField id="timerdelay" label="Timer Delay (ms)">
+        <FormControl defaultValue={8000} type="number" />
+      </FormField>
+      <FormField id="sticky">
+        <Checkbox>Sticky</Checkbox>
+      </FormField>
+      <FormField id="showLink">
+        <Checkbox>Show Link</Checkbox>
+      </FormField>
+      <FormField id="linkText" label="Link Text">
+        <FormControl type="text" />
+      </FormField>
+      <FormField id="linkUrl" label="Link URL">
+        <FormControl type="url" />
+      </FormField>
+      <Row>
+        <Col sm={9} smOffset={3}>
+          <Button onClick={() => dispatchAddToast()}>Create Toast</Button>
+        </Col>
+      </Row>
+    </Form>
+  );
+
+  return (
+    <Provider store={store}>
+      <Grid style={{ paddingTop: '20px' }}>
+        {toastCreatorForm}
+        <ToastsList />
+      </Grid>
+    </Provider>
+  );
+});
