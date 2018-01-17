@@ -1,0 +1,7 @@
+<div class='col-md-offset-4 col-md-4'>
+  <%= alert :header => (n_("Invalid parameter: %s", "Invalid parameters: %s", exception.params.length) % exception.params.to_sentence),
+    :text => _('Please verify that the parameter name is valid and the values are the correct type.'),
+    :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
+    :class => 'alert-warning',
+    :close => false %>
+</div>

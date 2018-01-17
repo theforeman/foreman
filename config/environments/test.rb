@@ -54,9 +54,6 @@ Foreman::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  # Raise exception on mass assignment of unfiltered parameters
-  config.action_controller.action_on_unpermitted_parameters = :strict
-
   # Use separate cache stores for parallel_tests
   config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
 

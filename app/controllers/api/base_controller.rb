@@ -44,6 +44,13 @@ module Api
       not_found error.message
     end
 
+    rescue_from ActionController::UnpermittedParameters do |error|
+      logger.info "#{error.message} (#{error.class})"
+      message = n_("Invalid parameter: %s. ", "Invalid parameters: %s. ", error.params.length) % error.params.to_sentence
+      message << _('Please verify that the parameter name is valid and the values are the correct type.')
+      render_error 'param_error', :status => :bad_request, :locals => { :exception => error, :message => message }
+    end
+
     rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
     def get_resource(message = "Couldn't find resource")

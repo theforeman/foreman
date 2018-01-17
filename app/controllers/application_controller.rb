@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ProxyAPI::ProxyException, :with => :smart_proxy_exception
+  rescue_from ActionController::UnpermittedParameters, :with => :invalid_parameter
   rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
   # standard layout to all controllers
@@ -120,6 +121,14 @@ class ApplicationController < ActionController::Base
     else
       process_error(:render => { :plain => exception.message },
                     :error_msg => exception.message)
+    end
+  end
+
+  def invalid_parameter(exception = nil)
+    logger.debug "Strong parameters filtered parameters: #{exception.params}" if exception
+    respond_to do |format|
+      format.html { render "common/400", :status => :bad_request, :locals => { :exception => exception } }
+      format.any { head :bad_request }
     end
   end
 

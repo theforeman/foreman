@@ -38,9 +38,6 @@ Foreman::Application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  # Raise exception on mass assignment of unfiltered parameters
-  config.action_controller.action_on_unpermitted_parameters = :strict
-
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true

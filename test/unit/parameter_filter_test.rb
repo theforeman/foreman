@@ -11,31 +11,41 @@ class ParameterFilterTest < ActiveSupport::TestCase
 
   test "permitting second-level attributes via permit(Symbol)" do
     filter.permit(:test)
-    assert_equal({'test' => 'a'}, filter.filter_params(params(:example => {:test => 'a', :denied => 'b'}), ui_context).to_h)
+    assert_equal({'test' => 'a'}, filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
+  end
+
+  test "block second-level attributes" do
+    filter.permit(:test)
+    assert_raises ActionController::UnpermittedParameters do
+      filter.filter_params(params(:example => {:test => 'a', :denied => 'b'}), ui_context)
+    end
   end
 
   test "permitting second-level attributes via block" do
     filter.permit { |ctx| ctx.permit(:test) }
-    assert_equal({'test' => 'a'}, filter.filter_params(params(:example => {:test => 'a', :denied => 'b'}), ui_context).to_h)
+    assert_equal({'test' => 'a'}, filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
   end
 
   test "block contains controller/action names" do
     filter.permit do |ctx|
       ctx.controller_name == 'examples' || raise('controller is not "examples"')
       ctx.action == 'create' || raise('action is not "create"')
+      ctx.permit(:test)
     end
     filter.filter_params(params(:example => {:test => 'a'}), ui_context)
   end
 
   test "permitting second-level arrays via permit(Symbol => Array)" do
     filter.permit(:test => [])
-    assert_equal({}, filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
+    assert_raises ActionController::UnpermittedParameters do
+      filter.filter_params(params(:example => {:test => 'a'}), ui_context)
+    end
     assert_equal({'test' => ['a']}, filter.filter_params(params(:example => {:test => ['a']}), ui_context).to_h)
   end
 
   test "permitting third-level attributes via permit(Symbol => Array[Symbol])" do
     filter.permit(:test => [:inner])
-    assert_equal({'test' => {'inner' => 'a'}}, filter.filter_params(params(:example => {:test => {:inner => 'a', :denied => 'b'}}), ui_context).to_h)
+    assert_equal({'test' => {'inner' => 'a'}}, filter.filter_params(params(:example => {:test => {:inner => 'a'}}), ui_context).to_h)
   end
 
   test "constructs permit() args for second-level attribute" do
@@ -45,7 +55,9 @@ class ParameterFilterTest < ActiveSupport::TestCase
 
   test "blocks second-level attributes for UI when :ui => false" do
     filter.permit_by_context(:test, :ui => false)
-    assert_equal({}, filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
+    assert_raises ActionController::UnpermittedParameters do
+      filter.filter_params(params(:example => {:test => 'a'}), ui_context)
+    end
   end
 
   test "#permit_by_context raises error for unknown context types" do
@@ -76,14 +88,22 @@ class ParameterFilterTest < ActiveSupport::TestCase
       filter2.permit_by_context(:inner, :nested => true)
       filter2.permit(:ui_only)
       filter.permit(:test, :nested => [filter2])
-      assert_equal({'test' => 'a', 'nested' => [{'inner' => 'b'}]}, filter.filter_params(params(:example => {:test => 'a', :nested => [{:inner => 'b', :ui_only => 'b'}]}), ui_context).to_h)
-      assert_equal({'test' => 'a', 'nested' => {'123' => {'inner' => 'b'}}}, filter.filter_params(params(:example => {:test => 'a', :nested => {'123' => {:inner => 'b', :ui_only => 'b'}}}), ui_context).to_h)
+      assert_equal({'test' => 'a', 'nested' => [{'inner' => 'b'}]}, filter.filter_params(params(:example => {:test => 'a', :nested => [{:inner => 'b'}]}), ui_context).to_h)
+      assert_equal({'test' => 'a', 'nested' => {'123' => {'inner' => 'b'}}}, filter.filter_params(params(:example => {:test => 'a', :nested => {'123' => {:inner => 'b'}}}), ui_context).to_h)
+
+      assert_raises ActionController::UnpermittedParameters do
+        filter.filter_params(params(:example => {:test => 'a', :nested => {'123' => {:inner => 'b', :ui_only => 'b'}}}), ui_context)
+      end
+      assert_raises ActionController::UnpermittedParameters do
+        filter.filter_params(params(:example => {:test => 'a', :nested => [{:inner => 'b', :ui_only => 'b'}]}), ui_context)
+      end
     end
 
     test "second filter block has access to original controller/action" do
       filter2.permit do |ctx|
         ctx.controller_name == 'examples' || raise('controller is not "examples"')
         ctx.action == 'create' || raise('action is not "create"')
+        ctx.permit(:inner)
       end
       filter.permit(:test, :nested => [filter2])
       filter.filter_params(params(:example => {:test => 'a', :nested => [{:inner => 'b'}]}), ui_context)
@@ -95,7 +115,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
       plugin = mock('plugin')
       plugin.expects(:parameter_filters).with(klass).returns([[:plugin_ext, :another]])
       Foreman::Plugin.expects(:all).returns([plugin])
-      assert_equal({'plugin_ext' => 'b'}, filter.filter_params(params(:example => {:test => 'a', :plugin_ext => 'b'}), ui_context).to_h)
+      assert_equal({'plugin_ext' => 'b'}, filter.filter_params(params(:example => {:plugin_ext => 'b'}), ui_context).to_h)
     end
 
     test "permits plugin-added attributes from blocks" do
@@ -103,7 +123,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
       rule = [Proc.new { |ctx| ctx.permit(:plugin_ext) }]
       plugin.expects(:parameter_filters).with(klass).returns([rule])
       Foreman::Plugin.expects(:all).returns([plugin])
-      assert_equal({'plugin_ext' => 'b'}, filter.filter_params(params(:example => {:test => 'a', :plugin_ext => 'b'}), ui_context).to_h)
+      assert_equal({'plugin_ext' => 'b'}, filter.filter_params(params(:example => {:plugin_ext => 'b'}), ui_context).to_h)
       refute_empty(rule)
     end
   end
@@ -111,14 +131,28 @@ class ParameterFilterTest < ActiveSupport::TestCase
   context "with top_level_hash" do
     test "applies filters without top-level hash" do
       filter.permit(:test)
-      assert_equal({'test' => 'a'}, filter.filter_params(params(:changed => {:test => 'a', :denied => 'b'}), ui_context, :changed).to_h)
+      assert_equal({'test' => 'a'}, filter.filter_params(params(:changed => {:test => 'a'}), ui_context, :changed).to_h)
+    end
+
+    test "block params without top-level hash" do
+      filter.permit(:test)
+      assert_raises ActionController::UnpermittedParameters do
+        filter.filter_params(params(:changed => {:test => 'a', :denied => 'b'}), ui_context, :changed)
+      end
     end
   end
 
   context "with top_level_hash => :none" do
     test "applies filters without top-level hash" do
       filter.permit(:test)
-      assert_equal({'test' => 'a'}, filter.filter_params(params(:test => 'a', :denied => 'b'), ui_context, :none).to_h)
+      assert_equal({'test' => 'a'}, filter.filter_params(params(:test => 'a'), ui_context, :none).to_h)
+    end
+
+    test "block params without top-level hash" do
+      filter.permit(:test)
+      assert_raises ActionController::UnpermittedParameters do
+        filter.filter_params(params(:test => 'a', :denied => 'b'), ui_context, :none)
+      end
     end
   end
 

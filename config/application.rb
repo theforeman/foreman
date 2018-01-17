@@ -136,7 +136,10 @@ module Foreman
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
-    # Don't raise exception for common parameters
+    # Raise exception on mass assignment of unfiltered parameters
+    config.action_controller.action_on_unpermitted_parameters = :raise
+
+    # Don't raise exception for common parameters (despite the name, they aren't permitted)
     config.action_controller.always_permitted_parameters = %w(
       controller action format locale utf8 _method authenticity_token commit redirect
       page per_page paginate search order sort sort_by sort_order
