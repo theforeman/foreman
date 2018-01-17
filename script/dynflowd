@@ -64,8 +64,10 @@ end
 if $PROGRAM_NAME == __FILE__
   parser = ArgvParser.new(ARGV, $PROGRAM_NAME)
 
-  app_file = File.expand_path('./config/application', parser.options[:rails_root])
-  require app_file
+  Dir.chdir(parser.options[:rails_root]) do
+    app_file = File.expand_path('./config/application', parser.options[:rails_root])
+    require app_file
 
-  Dynflow::Rails::Daemon.new.run_background(parser.command, parser.options)
+    Dynflow::Rails::Daemon.new.run_background(parser.command, parser.options)
+  end
 end
