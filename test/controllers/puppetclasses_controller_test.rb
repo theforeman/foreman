@@ -193,7 +193,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     refute pc.class_params.first.override
     post :override, params: { :id => pc.to_param, :enable => 'true' }, session: set_session_user
     assert pc.class_params.reload.first.override
-    assert_match /overridden all parameters/, flash[:notice]
+    assert_match /overridden all parameters/, flash[:success]
     assert_redirected_to puppetclasses_url
   end
 
@@ -203,7 +203,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     pc.class_params.first.update_attributes(:override => true)
     post :override, params: { :id => pc.to_param, :enable => 'false' }, session: set_session_user
     refute pc.class_params.reload.first.override
-    assert_match /reset all parameters/, flash[:notice]
+    assert_match /reset all parameters/, flash[:success]
     assert_redirected_to puppetclasses_url
   end
 
@@ -222,7 +222,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
     setup_user "edit", "puppetclasses"
     refute pc.class_params.first.override
     post :override, params: { :id => pc.to_param, :enable => 'true' }, session: set_session_user.merge(:user => users(:one).id)
-    assert_match /overridden all parameters/, flash[:notice]
+    assert_match /overridden all parameters/, flash[:success]
     assert_redirected_to puppetclasses_url
   end
 

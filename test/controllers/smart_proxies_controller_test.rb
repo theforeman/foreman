@@ -61,7 +61,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
     SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_redirected_to smart_proxies_url
-    assert_equal "No changes found when refreshing features from DHCP Proxy.", flash[:notice]
+    assert_equal "No changes found when refreshing features from DHCP Proxy.", flash[:success]
   end
 
   def test_refresh_change
@@ -70,7 +70,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
     SmartProxy.any_instance.stubs(:features).returns([features(:dns)]).then.returns([features(:dns), features(:tftp)])
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_redirected_to smart_proxies_url
-    assert_equal "Successfully refreshed features from DHCP Proxy.", flash[:notice]
+    assert_equal "Successfully refreshed features from DHCP Proxy.", flash[:success]
   end
 
   def test_refresh_fail

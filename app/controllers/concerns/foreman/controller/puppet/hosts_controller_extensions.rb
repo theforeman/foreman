@@ -52,7 +52,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   def update_multiple_puppetrun
     return deny_access unless Setting[:puppetrun]
     if @hosts.map(&:puppetrun!).uniq == [true]
-      notice _("Successfully executed, check reports and/or log files for more details")
+      success _("Successfully executed, check reports and/or log files for more details")
     else
       error _("Some or all hosts execution failed, Please check log files for more information")
     end
@@ -78,7 +78,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
       host.save(:validate => false)
     end
 
-    notice _('Updated hosts: changed environment')
+    success _('Updated hosts: changed environment')
     redirect_back_or_to hosts_path
   end
 
@@ -150,9 +150,9 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
     if failed_hosts.empty?
       if proxy
-        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
+        success _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
       else
-        notice _('The %{proxy_type} proxy of the selected hosts was cleared.') % {:proxy_type => proxy_type}
+        success _('The %{proxy_type} proxy of the selected hosts was cleared.') % {:proxy_type => proxy_type}
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
@@ -165,9 +165,9 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   def handle_proxy_messages(errors, proxy, proxy_type)
     if errors.empty?
       if proxy
-        notice _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}.') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
+        success _('The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}.') % {:proxy_name => proxy.name, :proxy_type => proxy_type}
       else
-        notice _('The %{proxy_type} proxy of the selected hosts was cleared.') % {:proxy_type => proxy_type}
+        success _('The %{proxy_type} proxy of the selected hosts was cleared.') % {:proxy_type => proxy_type}
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",

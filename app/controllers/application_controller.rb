@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include ApplicationShared
 
+  include Foreman::Controller::Flash
+
   force_ssl :if => :require_ssl?
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
@@ -22,7 +24,6 @@ class ApplicationController < ActionController::Base
   prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
   around_action :set_timezone
   layout :display_layout?
-  add_flash_types :inline
 
   attr_reader :original_search_parameter
 
@@ -161,44 +162,6 @@ class ApplicationController < ActionController::Base
                        end
   end
 
-  def notice(message, now = false)
-    flash_message(:notice, message, now)
-  end
-
-  def error(message, now = false)
-    flash_message(:error, message, now)
-  end
-
-  def warning(message, now = false)
-    flash_message(:warning, message, now)
-  end
-
-  def inline_error(message)
-    inline_flash_message(:error, message)
-  end
-
-  def inline_success(message)
-    inline_flash_message(:success, message)
-  end
-
-  def inline_warning(message)
-    inline_flash_message(:warning, message)
-  end
-
-  def inline_flash_message(type, message)
-    flash[:inline] ||= {}
-    flash[:inline][type] = CGI.escapeHTML(message)
-  end
-
-  def flash_message(type, message, now = false)
-    message = CGI.escapeHTML(message)
-    if now
-      flash.now[type] = message
-    else
-      flash[type] = message
-    end
-  end
-
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
   # it automatically updates the search text box with the relevant relationship
   # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
@@ -302,7 +265,7 @@ class ApplicationController < ActionController::Base
     end
     hash[:success_redirect] ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
-    notice hash[:success_msg]
+    success hash[:success_msg]
     if hash[:success_redirect] == :back
       redirect_back(fallback_location: saved_redirect_url_or(send("#{controller_name}_url")))
     else
@@ -365,9 +328,9 @@ class ApplicationController < ActionController::Base
 
     if User.current && User.current.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?
-        redirect_to main_app.locations_path, :notice => _("You must create at least one location before continuing.")
+        redirect_to main_app.locations_path, :info => _("You must create at least one location before continuing.")
       elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
-        redirect_to main_app.organizations_path, :notice => _("You must create at least one organization before continuing.")
+        redirect_to main_app.organizations_path, :info => _("You must create at least one organization before continuing.")
       end
     end
   end

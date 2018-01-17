@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DummyController
+class DummyController < ActionController::Base
   cattr_accessor :callbacks
   attr_accessor :organization, :location, :params
 

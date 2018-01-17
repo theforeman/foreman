@@ -98,7 +98,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, session: set_session_user
     assert_redirected_to environments_url
-    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
+    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
     assert_equal ["a", "b", "c"],
       Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
   end
@@ -119,7 +119,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, session: set_session_user
     assert_redirected_to environments_url
-    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
+    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
     envs = Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
     assert_equal ["a", "b", "c"], envs
   end
@@ -138,7 +138,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
         }
       }, session: set_session_user
     assert_redirected_to environments_url
-    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:notice]
+    assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
     assert_equal [], Environment.unscoped.find_by_name("env3").puppetclasses.map(&:name).sort
   end
 
@@ -179,7 +179,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     PuppetClassImporter.any_instance.stubs(:ignored_environments).returns(["env1","env2","env3"])
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
 
-    assert_equal "No changes to your environments detected\nIgnored environments: env1, env2, and env3", flash[:notice]
+    assert_equal "No changes to your environments detected\nIgnored environments: env1, env2, and env3", flash[:info]
   end
 
   test "should obey puppet class filters in config/ignored_environments.yml" do
@@ -191,7 +191,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     PuppetClassImporter.any_instance.stubs(:ignored_classes).returns([/^a$/])
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
 
-    assert_equal "No changes to your environments detected\nIgnored classes in the environments: env1 and env2", flash[:notice]
+    assert_equal "No changes to your environments detected\nIgnored classes in the environments: env1 and env2", flash[:info]
   end
 
   test 'it adds a warning when boolean keys are found' do

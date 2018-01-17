@@ -211,8 +211,8 @@ class HostsControllerTest < ActionController::TestCase
       put :setBuild, params: { :id => @host.name }, session: set_session_user
       assert_response :found
       assert_redirected_to hosts_path
-      assert_not_nil flash[:notice]
-      assert flash[:notice] == "Enabled #{@host} for rebuild on next boot"
+      assert_not_nil flash[:success]
+      assert flash[:success] == "Enabled #{@host} for rebuild on next boot"
     end
 
     test 'and reboot was requested, the flash should inform it' do
@@ -228,8 +228,8 @@ class HostsControllerTest < ActionController::TestCase
       put :setBuild, params: { :id => @host.name, :host => {:build => '1'} }, session: set_session_user
       assert_response :found
       assert_redirected_to hosts_path
-      assert_not_nil flash[:notice]
-      assert_equal(flash[:notice], "Enabled #{@host} for reboot and rebuild")
+      assert_not_nil flash[:success]
+      assert_equal(flash[:success], "Enabled #{@host} for reboot and rebuild")
     end
 
     test 'and reboot requested and reboot failed, the flash should inform it' do
@@ -245,8 +245,8 @@ class HostsControllerTest < ActionController::TestCase
       @host.power.reset
       assert_response :found
       assert_redirected_to hosts_path
-      assert_not_nil flash[:notice]
-      assert_equal(flash[:notice], "Enabled #{@host} for rebuild on next boot, but failed to power cycle the host")
+      assert_not_nil flash[:success]
+      assert_equal(flash[:success], "Enabled #{@host} for rebuild on next boot, but failed to power cycle the host")
     end
 
     test 'and reboot requested and reboot raised exception, the flash should inform it' do
@@ -257,8 +257,8 @@ class HostsControllerTest < ActionController::TestCase
       end
       assert_response :found
       assert_redirected_to hosts_path
-      assert_not_nil flash[:notice]
-      assert_equal(flash[:notice], "Enabled #{@host} for rebuild on next boot")
+      assert_not_nil flash[:success]
+      assert_equal(flash[:success], "Enabled #{@host} for rebuild on next boot")
     end
   end
 
@@ -456,7 +456,7 @@ class HostsControllerTest < ActionController::TestCase
       assert_equal environments(:global_puppetmaster), @host1.reload.environment
       assert_equal environments(:global_puppetmaster), @host2.reload.environment
     end
-    assert_equal "Updated hosts: changed environment", flash[:notice]
+    assert_equal "Updated hosts: changed environment", flash[:success]
   end
 
   test "should inherit the hostgroup environment if *inherit from hostgroup* selected" do
@@ -818,11 +818,11 @@ class HostsControllerTest < ActionController::TestCase
       assert Host.find(@host2.id).enabled
     end
 
-    def multiple_hosts_submit_request(method, ids, notice, params = {})
+    def multiple_hosts_submit_request(method, ids, success, params = {})
       post :"submit_multiple_#{method}", params: params.merge({:host_ids => ids}), session: set_session_user
       assert_response :found
       assert_redirected_to hosts_path
-      assert_equal notice, flash[:notice]
+      assert_equal success, flash[:success]
     end
   end
 
@@ -832,7 +832,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_empty @host.errors
     put :toggle_manage, params: { :id => @host.name }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
-    assert flash[:notice] == _("Foreman now manages the build cycle for %s") %(@host.name)
+    assert flash[:success] == _("Foreman now manages the build cycle for %s") %(@host.name)
   end
 
   def test_unset_manage
@@ -841,7 +841,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_empty @host.errors
     put :toggle_manage, params: { :id => @host.name }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
-    assert flash[:notice] == _("Foreman now no longer manages the build cycle for %s") %(@host.name)
+    assert flash[:success] == _("Foreman now no longer manages the build cycle for %s") %(@host.name)
   end
 
   test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to get externalNodes' do
@@ -1041,7 +1041,7 @@ class HostsControllerTest < ActionController::TestCase
       }, session: set_session_user
     end
     assert_redirected_to :controller => :hosts, :action => :index
-    assert_equal "Updated hosts: Changed Location", flash[:notice]
+    assert_equal "Updated hosts: Changed Location", flash[:success]
   end
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
@@ -1099,7 +1099,7 @@ class HostsControllerTest < ActionController::TestCase
       :host_ids => Host.pluck('hosts.id')
     }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
-    assert_equal "Updated hosts: Changed Organization", flash[:notice]
+    assert_equal "Updated hosts: Changed Organization", flash[:success]
   end
   test "update multiple organization updates organization of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
@@ -1239,7 +1239,7 @@ class HostsControllerTest < ActionController::TestCase
     host = FactoryBot.create(:host, :on_compute_resource)
     post :update_multiple_disassociate, params: { :host_ids => [host.id], :host_names => [host.name] }, session: set_session_user
     assert_response :redirect, hosts_path
-    assert_not_nil flash[:notice]
+    assert_not_nil flash[:success]
     host.reload
     refute host.uuid
     refute host.compute_resource_id
@@ -1331,7 +1331,7 @@ class HostsControllerTest < ActionController::TestCase
 
       assert_response :found
       assert_redirected_to hosts_path
-      assert_not_nil flash[:notice]
+      assert_not_nil flash[:success]
     end
 
     def test_submit_multiple_rebuild_config_pessimistic
@@ -1529,7 +1529,7 @@ class HostsControllerTest < ActionController::TestCase
       Host::Managed.any_instance.expects(:ipmi_boot).with('bios').returns(true)
       put :ipmi_boot, params: { :id => @host.id, :ipmi_device => 'bios' },
         session: set_session_user.merge(:user => @one.id)
-      assert_match(/#{@host.name} now boots from BIOS/, flash[:notice])
+      assert_match(/#{@host.name} now boots from BIOS/, flash[:success])
       assert_redirected_to host_path(@host.id)
     end
   end

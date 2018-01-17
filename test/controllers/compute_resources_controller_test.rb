@@ -206,7 +206,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
       @compute_resource = compute_resources(:vmware)
       put :refresh_cache, params: { :id => @compute_resource.to_param }, session: set_session_user
       assert_redirected_to compute_resource_url(@compute_resource)
-      assert_match /Successfully refreshed the cache/, flash[:notice]
+      assert_match /Successfully refreshed the cache/, flash[:success]
     end
 
     test 'should not refresh the cache if unsupported' do
