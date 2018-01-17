@@ -71,14 +71,20 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
   end
 
   test 'taxonomies can be set' do
-    put :update, params: { :id => auth_sources(:one).to_param,
-                           :organization_names => [taxonomies(:organization1).name],
-                           :location_ids => [taxonomies(:location1).id] }
+    auth_source = FactoryBot.create(:auth_source_ldap)
+    assert_empty auth_source.organizations
+    assert_empty auth_source.locations
+    org = FactoryBot.create(:organization)
+    loc = FactoryBot.create(:location)
+    put :update, params: { :id => auth_source.to_param,
+                           :organization_names => [org.name],
+                           :location_ids => [loc.id]
+                         }
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_response :success
-    assert_equal taxonomies(:location1).id,
-      show_response['locations'].first['id']
-    assert_equal taxonomies(:organization1).id,
-      show_response['organizations'].first['id']
+    assert_equal loc.id, show_response['locations'].first['id']
+    assert_equal org.id, show_response['organizations'].first['id']
+    assert_equal [org], auth_source.organizations
+    assert_equal [loc], auth_source.locations
   end
 end

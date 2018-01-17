@@ -81,6 +81,7 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     as_admin do
       put :update, params: { :commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:name => auth_source_ldap.name} }, session: set_session_user
     end
+    assert_response :redirect
     auth_source_ldap = AuthSourceLdap.unscoped.find(auth_source_ldap.id)
     assert_equal old_pass, auth_source_ldap.account_password
   end
@@ -90,6 +91,7 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     as_admin do
       put :update, params: { :commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:account_password => '', :name => auth_source_ldap.name} }, session: set_session_user
     end
+    assert_response :redirect
     auth_source_ldap = AuthSourceLdap.find(auth_source_ldap.id)
     assert_empty auth_source_ldap.account_password
   end

@@ -18,7 +18,9 @@ class UserParametersTest < ActiveSupport::TestCase
     test "blocks :admin if current user is not an admin" do
       params = ActionController::Parameters.new(:user => {:admin => true})
       as_user(FactoryBot.create(:user)) do
-        refute_includes self.class.user_params_filter.filter_params(params, context), 'admin'
+        assert_raises ActionController::UnpermittedParameters do
+          self.class.user_params_filter.filter_params(params, context)
+        end
       end
     end
 
@@ -37,7 +39,9 @@ class UserParametersTest < ActiveSupport::TestCase
     test "blocks role attributes" do
       params = ActionController::Parameters.new(:user => {:roles => ['a'], :role_ids => [1], :role_names => ['a']})
       as_user(FactoryBot.create(:user)) do
-        assert_empty self.class.user_params_filter.filter_params(params, context)
+        assert_raises ActionController::UnpermittedParameters do
+          self.class.user_params_filter.filter_params(params, context)
+        end
       end
     end
   end

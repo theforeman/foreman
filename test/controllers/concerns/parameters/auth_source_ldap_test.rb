@@ -7,6 +7,8 @@ class AuthSourceLdapParametersTest < ActiveSupport::TestCase
 
   test "filters STI :type field" do
     params = ActionController::Parameters.new(:auth_source_ldap => {:type => AuthSourceHidden.name})
-    refute_includes self.class.auth_source_ldap_params_filter.filter_params(params, context), 'type'
+    assert_raises ActionController::UnpermittedParameters do
+      self.class.auth_source_ldap_params_filter.filter_params(params, context)
+    end
   end
 end

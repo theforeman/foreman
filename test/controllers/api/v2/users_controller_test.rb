@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V2::UsersControllerTest < ActionController::TestCase
   def valid_attrs
     { :mail => 'john@example.com',
-      :auth_source_id => auth_sources(:internal), :password => '123456' }
+      :password => '123456' }
   end
 
   def min_valid_attrs
@@ -72,7 +72,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
 
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-    put :update, params: { :id => user.id, :user => valid_attrs }
+    put :update, params: { :id => user.id, :user => valid_attrs.merge(:auth_source_id => auth_sources(:internal).id)}
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
