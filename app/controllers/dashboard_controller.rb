@@ -74,7 +74,8 @@ class DashboardController < ApplicationController
   private
 
   def init_widget_data
-    @data = Dashboard::Data.new(params[:search])
+    find_resource unless @widget
+    @data = Dashboard::Data.new(params[:search], @widget.data[:settings])
   end
 
   def resource_name

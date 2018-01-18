@@ -7,13 +7,14 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
 
   def setup
     Dashboard::Manager.reset_user_to_default(users(:admin))
+    Setting[:outofsync_interval] = 35
   end
 
   def assert_dashboard_link(text)
     visit dashboard_path
     wait_for_ajax
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"
-    within "li[data-name='Host Configuration Status']" do
+    within "li[data-name='Host Configuration Status for All']" do
       click_link(text)
     end
     assert_current_path hosts_path, :only_path => true
@@ -35,7 +36,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
   end
 
   test "dashboard link good host reports" do
-    assert_dashboard_link 'Good host reports in the last 35 minutes'
+    assert_dashboard_link "Good host reports in the last 35 minutes"
   end
 
   test "dashboard link hosts that had pending changes" do

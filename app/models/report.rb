@@ -86,4 +86,8 @@ class Report < ApplicationRecord
   def no_report
     false
   end
+
+  def self.origins
+    Foreman::Plugin.report_origin_registry.all_origins
+  end
 end

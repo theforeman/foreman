@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class DashboardControllerTest < ActionController::TestCase
+  let(:any_default_widget) { Dashboard::Manager.default_widgets.sample }
+
   test 'should get index' do
     get :index, session: set_session_user
     assert_response :success
@@ -13,7 +15,8 @@ class DashboardControllerTest < ActionController::TestCase
 
   test 'create adds widget to user if widget is valid' do
     assert_difference('users(:admin).widgets.count', 1) do
-      post :create, params: { :name => 'Host Configuration Status' }, session: set_session_user
+      post :create, params: { :name => any_default_widget[:name] },
+                    session: set_session_user
     end
     assert_response :success
   end

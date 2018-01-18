@@ -22,12 +22,15 @@ module DashboardHelper
   end
 
   def removed_widgets
-    Dashboard::Manager.default_widgets - User.current.widgets.map(&:to_hash)
+    user_widgets = User.current.widgets.pluck(:name)
+    Dashboard::Manager.default_widgets.reject do |widget|
+      user_widgets.include?(widget[:name])
+    end
   end
 
   def widgets_to_add
     return link_to(_('Nothing to add'), '#') unless removed_widgets.present?
-    removed_widgets.each do |removed_widget|
+    removed_widgets.sort_by {|w| w[:name] }.each do |removed_widget|
       concat(link_to_function(_(removed_widget[:name]),
                               "add_widget('#{removed_widget[:name]}')"))
     end
@@ -38,13 +41,14 @@ module DashboardHelper
                  :sizex => widget.sizex, :sizey =>  widget.sizey } }
   end
 
-  def count_reports(hosts)
+  def count_reports(hosts, options = {})
     data = []
-    interval = Setting[:puppet_interval] / 10
-    start = Time.zone.now - Setting[:puppet_interval].minutes
+    interval_setting = report_origin_interval_setting(options[:origin])
+    interval = interval_setting / 10
+    start = Time.zone.now - interval_setting.minutes
     (0..9).each do |i|
       t = start + (interval.minutes * i)
-      data << [Setting[:puppet_interval] - i*interval, hosts.run_distribution(t, t + interval.minutes).count]
+      data << [interval_setting - i*interval, hosts.run_distribution(t, t + interval.minutes).count]
     end
     data
   end
@@ -62,7 +66,7 @@ module DashboardHelper
   end
 
   def render_run_distribution(hosts, options = {})
-    data = count_reports(hosts)
+    data = count_reports(hosts, options)
     flot_bar_chart("run_distribution", _("Minutes Ago"), _("Number Of Clients"), data, options)
   end
 
@@ -123,5 +127,26 @@ module DashboardHelper
     link_to(icon_text("refresh"),
             {:auto_refresh => ((on == "on") ? "0" : "1")},
             { :'data-original-title' => tooltip, :rel => 'twipsy', :class => "#{on} auto-refresh btn btn-group btn-default"})
+  end
+
+  def widget_class_name(widget)
+    settings = widget.data[:settings]
+    if settings && settings[:class_name]
+      settings[:class_name]
+    else
+      widget.name
+    end
+  end
+
+  def search_filter_with_origin(filter, origin)
+    origin ? "origin = #{origin} and #{filter}" : filter
+  end
+
+  def report_origin_interval_setting(origin)
+    if origin && origin != 'All'
+      interval_setting = Setting[:"#{origin.downcase}_interval"]
+    end
+    interval_setting ||= Setting[:outofsync_interval]
+    interval_setting.to_i
   end
 end
