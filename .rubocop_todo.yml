@@ -183,11 +183,6 @@ Lint/HandleExceptions:
 Lint/InterpolationCheck:
   Enabled: false
 
-# Offense count: 1
-# Configuration parameters: MaximumRangeSize.
-Lint/MissingCopEnableDirective:
-  Enabled: false
-
 # Offense count: 7
 Lint/NonLocalExitFromIterator:
   Enabled: false

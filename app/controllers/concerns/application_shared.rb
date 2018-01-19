@@ -85,7 +85,6 @@ module ApplicationShared
   end
 
   # we want to be explicit to keep this readable
-  # rubocop:disable Style/EmptyElse
   def find_default_taxonomy(user, taxonomy)
     default_taxonomy = user.send "default_#{taxonomy}"
     available = user.send("my_#{taxonomy.pluralize}")
@@ -94,10 +93,12 @@ module ApplicationShared
       default_taxonomy
     elsif available.count == 1 && !user.admin?
       available.first
+    # rubocop:disable Style/EmptyElse
     else
       # no available default taxonomy and user is either admin or user with more taxonomies, nil represents "Any Context"
       nil
     end
+    # rubocop:enable Style/EmptyElse
   end
 
   def find_session_taxonomy(taxonomy, user)
