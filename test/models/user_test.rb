@@ -902,10 +902,12 @@ class UserTest < ActiveSupport::TestCase
     refute user.valid?
   end
 
-  test 'timezone can be blank' do
+  test 'empty timezone is normalized to nil' do
     user = users(:one)
     user.timezone = ''
     assert user.valid?
+    user.save
+    user.timezone.must_be_nil
   end
 
   test "changing user password as admin without setting current password" do
