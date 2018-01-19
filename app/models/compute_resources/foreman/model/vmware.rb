@@ -629,7 +629,7 @@ module Foreman::Model
 
     def unused_vnc_port(ip)
       10.times do
-        port   = 5901 + rand(64)
+        port   = rand(5901..5964)
         unused = (TCPSocket.connect(ip, port).close rescue true)
         return port if unused
       end
