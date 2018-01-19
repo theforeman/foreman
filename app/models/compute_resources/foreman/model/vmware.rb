@@ -621,7 +621,7 @@ module Foreman::Model
     rescue => e
       if e.message =~ /The remote system presented a public key with hash (\w+) but we're expecting a hash of/
         raise Foreman::FingerprintException.new(
-          N_("The remote system presented a public key with hash %s but we're expecting a different hash. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"), $1)
+          N_("The remote system presented a public key with hash %s but we're expecting a different hash. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"), Regexp.last_match(1))
       else
         raise e
       end

@@ -13,8 +13,8 @@ namespace :exception do
     Dir['app/**/*rb', 'lib/**/*rb'].each do |path|
       File.open(path) do |f|
         f.grep(/#{regexp}/) do |line|
-          code = ::Foreman::Exception.calculate_error_code $1, $4
-          result[code] = $4
+          code = ::Foreman::Exception.calculate_error_code Regexp.last_match(1), Regexp.last_match(4)
+          result[code] = Regexp.last_match(4)
         end
       end
     end

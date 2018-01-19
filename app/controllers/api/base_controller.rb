@@ -241,7 +241,7 @@ module Api
       params.keys.each do |param|
         if param =~ /(\w+)_id$/
           unless params[param].blank?
-            query = " #{$1} = #{params[param]}"
+            query = " #{Regexp.last_match(1)} = #{params[param]}"
             params[:search] += query unless params[:search].include? query
           end
         end

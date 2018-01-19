@@ -610,11 +610,6 @@ Style/ParenthesesAroundCondition:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
-# Offense count: 16
-# Cop supports --auto-correct.
-Style/PerlBackrefs:
-  Enabled: false
-
 # Offense count: 57
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

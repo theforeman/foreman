@@ -85,7 +85,7 @@ module Foreman::Controller::SmartProxyAuth
               request_hosts << certificate.subject
             end
           else
-            request_hosts << $1 if $1
+            request_hosts << Regexp.last_match(1) if Regexp.last_match(1)
           end
         else
           logger.warn "SSL cert has not been verified (#{verify}) - request from #{request.ip}, #{dn}"
