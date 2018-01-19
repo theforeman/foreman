@@ -8,7 +8,7 @@ class ComputeResourcesController < ApplicationController
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
-    type = (e.to_s =~ /failed to locate the subclass: '((\w|::)+)'/) ? $1 : 'STI-Type'
+    type = (e.to_s =~ /failed to locate the subclass: '((\w|::)+)'/) ? Regexp.last_match(1) : 'STI-Type'
     render :plain => (e.to_s+"<br><b>run ComputeResource.where(:type=>'#{type}').delete_all to recover.</b>").html_safe, :status=> :internal_server_error
   end
 

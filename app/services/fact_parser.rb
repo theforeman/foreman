@@ -126,10 +126,10 @@ class FactParser
   def set_additional_attributes(attributes, name)
     if name =~ VIRTUAL_NAMES
       attributes[:virtual] = true
-      if $1.nil? && name =~ BRIDGES
+      if Regexp.last_match(1).nil? && name =~ BRIDGES
         attributes[:bridge] = true
       else
-        attributes[:attached_to] = $1
+        attributes[:attached_to] = Regexp.last_match(1)
 
         if @facts[:vlans].present?
           vlans = @facts[:vlans].split(',')
