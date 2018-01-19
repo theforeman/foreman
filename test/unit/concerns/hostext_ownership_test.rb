@@ -12,7 +12,9 @@ class HostextOwnershipTest < ActiveSupport::TestCase
                       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
                       :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
                       :owner_type => "UserGr(up" # should be Usergroup
-      refute host.valid?
+      assert_raises ArgumentError do
+        host.valid?
+      end
     end
 
     test "should save if owner_type is User or Usergroup" do
