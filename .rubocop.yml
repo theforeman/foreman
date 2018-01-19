@@ -74,3 +74,6 @@ Style/InverseMethods:
 
 Layout/FirstParameterIndentation:
   EnforcedStyle: consistent
+
+Bundler/OrderedGems:
+  Enabled: false
