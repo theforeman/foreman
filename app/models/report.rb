@@ -28,6 +28,7 @@ class Report < ApplicationRecord
 
       scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc, :rename => :reported, :only_explicit => true
       scoped_search :on => :host_id,     :complete_value => false, :only_explicit => true
+      scoped_search :on => :origin
     end
     super
   end

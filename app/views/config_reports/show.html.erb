@@ -12,7 +12,7 @@
 
 <% content_for(:search_bar) {logs_show} %>
 
-<%= render 'output', :logs => @config_report.logs%>
+<%= render report_origin_output_partial(@config_report.origin), :logs => @config_report.logs %>
 <%= render 'metrics', :status => @config_report.status, :metrics => @config_report.metrics["time"] if @config_report.metrics["time"] %>
 
 <%= title_actions link_to(_('Back'), :back, :class => 'btn btn-default'),

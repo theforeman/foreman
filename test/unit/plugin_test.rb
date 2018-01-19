@@ -567,4 +567,29 @@ class PluginTest < ActiveSupport::TestCase
       assert_equal "My Tab", ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).first.name
     end
   end
+
+  describe 'Report scanner' do
+    subject { Foreman::Plugin.register('test') {} }
+    let(:report_scanner) { stub_everything('Object') }
+
+    describe '.register_report_scanner' do
+      it 'adds a class to report_scanner' do
+        refute subject.class.registered_report_scanners.include? report_scanner
+        subject.register_report_scanner report_scanner
+        assert subject.class.registered_report_scanners.include? report_scanner
+      end
+    end
+
+    describe '.unregister_report_scanner' do
+      before do
+        subject.register_report_scanner report_scanner
+      end
+
+      it 'removes a class to report_scanner' do
+        assert subject.class.registered_report_scanners.include? report_scanner
+        subject.unregister_report_scanner report_scanner
+        refute subject.class.registered_report_scanners.include? report_scanner
+      end
+    end
+  end
 end
