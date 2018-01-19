@@ -98,6 +98,7 @@ class User < ApplicationRecord
                     :unless => Proc.new {|user| user.password.empty?}
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
+  before_save       :normalize_timezone
 
   after_create :welcome_mail
   after_create :set_default_widgets
@@ -552,6 +553,10 @@ class User < ApplicationRecord
 
   def normalize_locale
     self.locale = nil if self.respond_to?(:locale) && locale.empty?
+  end
+
+  def normalize_timezone
+    self.timezone = nil if timezone.blank?
   end
 
   def normalize_mail
