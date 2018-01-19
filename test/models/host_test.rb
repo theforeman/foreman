@@ -3579,7 +3579,9 @@ class HostTest < ActiveSupport::TestCase
 
     test 'renders global params if template specified' do
       host = FactoryBot.build_stubbed(:host)
+      # rubocop:disable Lint/InterpolationCheck
       FactoryBot.create(:common_parameter, :name => 'test_param1', :value => '<%= "test_value1-#{@host.name}" %>')
+      # rubocop:enable Lint/InterpolationCheck
 
       assert_equal "test_value1-#{host.name}", host.host_params['test_param1']
     end

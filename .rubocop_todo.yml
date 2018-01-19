@@ -179,10 +179,6 @@ Lint/DuplicateMethods:
 Lint/HandleExceptions:
   Enabled: false
 
-# Offense count: 1
-Lint/InterpolationCheck:
-  Enabled: false
-
 # Offense count: 7
 Lint/NonLocalExitFromIterator:
   Enabled: false
