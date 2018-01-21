@@ -146,7 +146,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   end
 
   test "architecture_selected should not fail when no architecture selected" do
-    post :architecture_selected, params: { :id => hostgroups(:common), :hostgroup => {}, :architecture_id => nil }, session: set_session_user
+    post :architecture_selected, params: { :id => hostgroups(:common), :hostgroup => { :architecture_id => nil }}, session: set_session_user
     assert_response :success
     assert_template :partial => "common/os_selection/_architecture"
   end

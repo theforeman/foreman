@@ -723,7 +723,7 @@ class HostsControllerTest < ActionController::TestCase
     one = users(:one)
     one.roles << [roles(:manager)]
     FactName.create :name =>"architecture"
-    get :disabled, params: { :user => one.id }, session: set_session_user
+    get :disabled, session: set_session_user(one)
     assert_response :success
   end
 

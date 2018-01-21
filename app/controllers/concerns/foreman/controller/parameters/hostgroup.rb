@@ -37,7 +37,7 @@ module Foreman::Controller::Parameters::Hostgroup
     end
   end
 
-  def hostgroup_params
-    self.class.hostgroup_params_filter.filter_params(params, parameter_filter_context)
+  def hostgroup_params(top_level_hash = controller_name.singularize)
+    self.class.hostgroup_params_filter.filter_params(params, parameter_filter_context, top_level_hash)
   end
 end

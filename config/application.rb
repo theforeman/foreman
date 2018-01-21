@@ -140,7 +140,7 @@ module Foreman
     config.action_controller.always_permitted_parameters = %w(
       controller action format locale utf8 _method authenticity_token commit redirect
       page per_page paginate search order sort sort_by sort_order
-      _ie_support fakepassword apiv id organization_id location_id user_id
+      _ _ie_support fakepassword apiv id organization_id location_id user_id
     )
 
     # Use SQL instead of Active Record's schema dumper when creating the database.

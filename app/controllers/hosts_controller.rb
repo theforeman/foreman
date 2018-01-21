@@ -175,8 +175,9 @@ class HostsController < ApplicationController
   end
 
   def current_parameters
+    host = refresh_host
     Taxonomy.as_taxonomy @organization, @location do
-      render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => refresh_host.inherited_params_hash, :parameters => refresh_host.host_parameters}
+      render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => host.inherited_params_hash, :parameters => host.host_parameters}
     end
   end
 
@@ -628,8 +629,9 @@ class HostsController < ApplicationController
   # renders only resulting templates set so the rest of form is unaffected
   def template_used
     host = params[:id] ? Host::Base.readonly.find(params[:id]) : Host.new
+    kind = params.delete(:provisioning)
     host.attributes = host_attributes_for_templates(host)
-    templates = host.available_template_kinds(params[:provisioning])
+    templates = host.available_template_kinds(kind)
     return not_found if templates.empty?
     render :partial => 'provisioning', :locals => { :templates => templates }
   end
@@ -673,7 +675,7 @@ class HostsController < ApplicationController
   define_action_permission ['multiple_destroy', 'submit_multiple_destroy'], :destroy
 
   def refresh_host
-    @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params['host_id'])
+    @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params.delete(:host_id))
     @host ||= Host.new(host_params)
 
     unless @host.is_a?(Host::Managed)
