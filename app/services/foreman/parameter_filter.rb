@@ -41,7 +41,12 @@ module Foreman
       if top_level_hash == :none
         params.permit(*filter(context))
       else
-        permitted = params.permit(top_level_hash => filter(context))
+        if context.api? # allow both wrapped and unwrapped
+          allow = [*filter(context), top_level_hash => filter(context)]
+        else
+          allow = {top_level_hash => filter(context)}
+        end
+        permitted = params.permit(allow)
         permitted.to_h.fetch(top_level_hash, {})
       end
     end
