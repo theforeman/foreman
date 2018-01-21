@@ -80,7 +80,7 @@
     "react-onclickoutside": "^6.6.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
-    "redux-form": "^7.2.0",
+    "redux-form": "7.2.0",
     "redux-form-validators": "^2.1.2",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
