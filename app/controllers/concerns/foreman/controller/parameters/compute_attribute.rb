@@ -13,7 +13,7 @@ module Foreman::Controller::Parameters::ComputeAttribute
   end
 
   def compute_attribute_params
-    self.class.compute_attribute_params_filter.filter_params(params, parameter_filter_context)
+    self.class.compute_attribute_params_filter.filter_params(params.except(:compute_profile_id, :compute_resource_id), parameter_filter_context)
   end
 
   def normalized_compute_attribute_params

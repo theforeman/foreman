@@ -24,7 +24,7 @@ module Foreman::Controller::Parameters::NicBase
         :username,
         :virtual,
         {:attached_devices => []},
-        {:compute_attributes => [:bridge, :from_profile, :model, :network, :type, :name]},
+        {:compute_attributes => {}},
         :nested => true
 
       filter.permit_by_context :id,

@@ -4,7 +4,7 @@ module Foreman::Controller::Parameters::PersonalAccessToken
   class_methods do
     def personal_access_token_params_filter
       Foreman::ParameterFilter.new(::PersonalAccessToken).tap do |filter|
-        filter.permit :name, :expires_at
+        filter.permit :name, :expires_at, :user_id
       end
     end
   end
