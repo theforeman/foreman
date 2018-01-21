@@ -4,6 +4,14 @@ module Foreman::Controller::Parameters::Parameter
   class_methods do
     def parameter_params_filter(type)
       Foreman::ParameterFilter.new(type).tap do |filter|
+        filter.permit :host_id,
+          :hostgroup_id,
+          :domain_id,
+          :operatingsystem_id,
+          :location_id,
+          :organization_id,
+          :subnet_id
+
         filter.permit_by_context :hidden_value,
           :name,
           :nested,

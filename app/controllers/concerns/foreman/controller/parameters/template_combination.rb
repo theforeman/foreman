@@ -4,7 +4,8 @@ module Foreman::Controller::Parameters::TemplateCombination
   class_methods do
     def template_combination_params_filter
       Foreman::ParameterFilter.new(::TemplateCombination).tap do |filter|
-        filter.permit_by_context :environment_id, :environment_name, :environment,
+        filter.permit_by_context :config_template_id, :provisioning_template_id,
+          :environment_id, :environment_name, :environment,
           :hostgroup_id, :hostgroup_name, :hostgroup,
           :nested => true
 

@@ -4,8 +4,6 @@ module Api
       include Foreman::Controller::Parameters::PersonalAccessToken
       include Foreman::Controller::UserAware
 
-      wrap_parameters :personal_access_token, :include => personal_access_token_params_filter.accessible_attributes(parameter_filter_context)
-
       before_action :find_resource, :only => %w{show destroy}
 
       api :GET, "/users/:user_id/personal_access_tokens", N_("List all Personal Access Tokens for a user")
