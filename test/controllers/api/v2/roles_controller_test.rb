@@ -42,7 +42,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_name = "New Manager"
     manager = Role.find_by :name => "Manager"
     perm_count = manager.permissions.count
-    post :clone, params: { :name => "New Manager", :id => manager.id }
+    post :clone, params: { :name => new_name, :id => manager.id }
     assert_response :success
     r = Role.find_by :name => new_name
     assert_equal perm_count, r.permissions.count
@@ -72,7 +72,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_desc = "updated description"
     new_role = { :description => new_desc, :location_ids => [new_loc.id], :organization_ids => [new_org.id], :name => new_name }
     role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
-    post :clone, params: { :new_name => new_name,
+    post :clone, params: { :name => new_name,
                            :id => role.id,
                            :role => new_role }
     assert_response :success
@@ -92,7 +92,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     new_desc = "updated description"
     new_role = { :description => new_desc, :organization_ids => [new_org.id], :name => new_name }
     role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
-    post :clone, params: { :new_name => new_name,
+    post :clone, params: { :name => new_name,
                            :id => role.id,
                            :role => new_role }
     assert_response :success
@@ -110,7 +110,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     desc = "default description"
     new_role = { :location_ids => [], :organization_ids => [], :name => new_name }
     role = FactoryBot.create(:role, :name => "Test Role", :locations => [loc], :organizations => [org], :description => desc)
-    post :clone, params: { :new_name => new_name,
+    post :clone, params: { :name => new_name,
                            :id => role.id,
                            :role => new_role }
     assert_response :success

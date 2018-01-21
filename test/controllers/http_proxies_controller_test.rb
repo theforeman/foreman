@@ -26,7 +26,7 @@ class HttpProxiesControllerTest < ActionController::TestCase
 
   def test_create
     name = 'http_proxy_is_smart'
-    post :create, params: { :http_proxy => { :name => name, :url => 'http://what????', :port => 5000 } }, session: set_session_user
+    post :create, params: { :http_proxy => { :name => name, :url => 'http://what????:5000' } }, session: set_session_user
 
     assert_response :found
     assert HttpProxy.find_by(:name => name)

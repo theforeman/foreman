@@ -4,8 +4,6 @@ module Api
       include Foreman::Controller::Parameters::SshKey
       include Foreman::Controller::UserAware
 
-      wrap_parameters :ssh_key, :include => ssh_key_params_filter.accessible_attributes(parameter_filter_context)
-
       before_action :find_resource, :only => %w{show destroy}
 
       api :GET, "/users/:user_id/ssh_keys", N_("List all SSH keys for a user")

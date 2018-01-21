@@ -4,7 +4,7 @@ module Foreman::Controller::Parameters::SshKey
   class_methods do
     def ssh_key_params_filter
       Foreman::ParameterFilter.new(::SshKey).tap do |filter|
-        filter.permit :key, :name
+        filter.permit :key, :name, :user_id
       end
     end
   end

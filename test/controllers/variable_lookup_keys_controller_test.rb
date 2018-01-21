@@ -35,7 +35,7 @@ class VariableLookupKeysControllerTest < ActionController::TestCase
   test "should create variable_lookup_keys" do
     puppetclass = FactoryBot.create(:puppetclass)
     assert_difference('VariableLookupKey.count', 1) do
-      post :create, params: { :variable_lookup_key => { :key => "dummy", :type => "string", :default_value => 'test', :puppetclass_id => puppetclass.id } }, session: set_session_user
+      post :create, params: { :variable_lookup_key => { :key => "dummy", :key_type => "string", :default_value => 'test', :puppetclass_id => puppetclass.id } }, session: set_session_user
     end
     assert_redirected_to variable_lookup_keys_path
   end

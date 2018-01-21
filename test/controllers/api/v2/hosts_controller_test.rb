@@ -313,9 +313,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update hostgroup_id of host" do
-    @host = FactoryBot.create(:host, basic_attrs_with_hg)
-    put :update, params: { :id => @host.to_param, :hostgroup_id => Hostgroup.last.id }
+    host = FactoryBot.create(:host, basic_attrs_with_hg)
+    hg = FactoryBot.create(:hostgroup, :with_environment)
+    put :update, params: { :id => host.to_param, :host => { :hostgroup_id => hg.id }}
     assert_response :success
+    host.reload
+    assert_equal host.hostgroup_id, hg.id
   end
 
   test 'does not set compute profile when updating arbitrary field' do

@@ -358,6 +358,43 @@ class HostJSTest < IntegrationTestWithJavascript
       assert_equal env1.name, host.environment.name
     end
 
+    test 'user without edit_params permission can save host with params' do
+      host = FactoryBot.create(:host, :with_puppetclass)
+      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+                         :with_override, :key_type => 'string',
+                         :default_value => 'string1', :path => "fqdn\ncomment",
+                         :puppetclass => host.puppetclasses.first,
+                         :overrides => { host.lookup_value_matcher => 'string2' })
+      user = FactoryBot.create(:user, :with_mail)
+      user.update_attribute(:roles, roles(:viewer, :edit_hosts))
+      refute user.can? 'edit_params'
+      set_request_user(user)
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert class_params.find('textarea').disabled?
+      assert_equal 2, class_params.all('input:disabled', :visible => :all).count
+      assert_equal 0, class_params.all('input\:not[disabled]', :visible => :all).count
+      click_button('Submit')
+      assert page.has_link?('Edit')
+    end
+
+    test 'shows errors on invalid lookup values' do
+      host = FactoryBot.create(:host, :with_puppetclass)
+      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+                                      :key_type => 'real', :default_value => true, :path => "fqdn\ncomment",
+                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
+
+      visit edit_host_path(host)
+      assert page.has_link?('Parameters', :href => '#params')
+      click_link 'Parameters'
+      assert page.has_no_selector?('#params td.has-error')
+
+      fill_in "host_lookup_values_attributes_#{lookup_key.id}_value", :with => 'invalid'
+      click_button('Submit')
+      assert page.has_selector?('#params td.has-error')
+    end
+
     test 'choosing a hostgroup does not override other host attributes' do
       original_hostgroup = FactoryBot.
         create(:hostgroup, :environment => FactoryBot.create(:environment),
