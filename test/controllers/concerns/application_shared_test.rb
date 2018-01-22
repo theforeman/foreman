@@ -56,25 +56,5 @@ class ApplicationSharedTest < ActiveSupport::TestCase
       assert_nil Organization.current
       assert_nil Location.current
     end
-
-    test "set_taxonomy respects user association to orgs and locs, sets nil on unknown organizations and defaults to the only location of user" do
-      Location.stubs(:my_locations => Location.where(:id => taxonomies(:location1).id))
-      Organization.stubs(:my_organizations => Organization.where(:id => nil))
-      as_user :one do
-        @dummy.set_taxonomy
-      end
-      assert_nil Organization.current
-      assert_equal taxonomies(:location1), Location.current
-    end
-
-    test "set_taxonomy respects user association to orgs and locs, sets both if allowed" do
-      Location.stubs(:my_locations => Location.where(:id => taxonomies(:location1).id))
-      Organization.stubs(:my_organizations => Organization.where(:id => taxonomies(:organization1).id))
-      as_user :one do
-        @dummy.set_taxonomy
-      end
-      assert_equal taxonomies(:organization1), Organization.current
-      assert_equal taxonomies(:location1), Location.current
-    end
   end
 end
