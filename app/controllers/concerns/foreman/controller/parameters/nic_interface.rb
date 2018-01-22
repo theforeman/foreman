@@ -1,6 +1,5 @@
 module Foreman::Controller::Parameters::NicInterface
   extend ActiveSupport::Concern
-  include Foreman::Controller::Parameters::KeepParam
   include Foreman::Controller::Parameters::NicBase
 
   class_methods do
@@ -17,8 +16,6 @@ module Foreman::Controller::Parameters::NicInterface
   end
 
   def nic_interface_params
-    keep_param(params, controller_name.singularize, :compute_attributes) do
-      self.class.nic_interface_params_filter.filter_params(params, parameter_filter_context)
-    end
+    self.class.nic_interface_params_filter.filter_params(params, parameter_filter_context)
   end
 end
