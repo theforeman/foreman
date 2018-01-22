@@ -6,8 +6,7 @@ module Foreman::Model
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true,
               :url_schema => ['http', 'https']
     validates :user, :password, :presence => true
-    before_create :update_public_key
-    after_validation :update_available_operating_systems unless Rails.env.test?
+    after_validation :connect, :update_available_operating_systems unless Rails.env.test?
 
     alias_attribute :datacenter, :uuid
 
@@ -145,10 +144,14 @@ module Foreman::Model
 
     def test_connection(options = {})
       super
-      if errors[:url].empty? && errors[:username].empty? && errors[:password].empty?
-        update_public_key options
-        datacenters && test_https_required
-      end
+      connect(options)
+    end
+
+    def connect(options = {})
+      return unless connection_properties_valid?
+
+      update_public_key options
+      datacenters && test_https_required
     rescue => e
       case e.message
         when /404/
@@ -160,6 +163,10 @@ module Foreman::Model
         else
           errors[:base] << e.message
       end
+    end
+
+    def connection_properties_valid?
+      errors[:url].empty? && errors[:username].empty? && errors[:password].empty?
     end
 
     def datacenters(options = {})
@@ -434,7 +441,7 @@ module Foreman::Model
     private
 
     def update_available_operating_systems
-      return false if errors[:url].any?
+      return false if errors.any?
       ovirt_operating_systems = client.operating_systems if client.respond_to?(:operating_systems)
 
       attrs[:available_operating_systems] = ovirt_operating_systems.map do |os|
