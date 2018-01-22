@@ -18,6 +18,7 @@ class Setting < ApplicationRecord
   IP_ATTRS = %w{ libvirt_default_console_address }
   REGEXP_ATTRS = %w{ remote_addr }
   EMAIL_ATTRS = %w{ administrator email_reply_address }
+  NOT_STRIPPED = %w{}
 
   class ValueValidator < ActiveModel::Validator
     def validate(record)
@@ -174,7 +175,7 @@ class Setting < ApplicationRecord
 
     when "string", nil
       #string is taken as default setting type for parsing
-      self.value = val.to_s.strip
+      self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
 
     when "hash"
       raise Foreman::Exception, "parsing hash from string is not supported"
