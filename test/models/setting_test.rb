@@ -16,6 +16,21 @@ class SettingTest < ActiveSupport::TestCase
     assert_nil Setting["no_such_thing"]
   end
 
+  setup do
+    Setting::NOT_STRIPPED << 'not_stripped_test'
+  end
+
+  teardown do
+    Setting::NOT_STRIPPED.delete 'not_stripped_test'
+  end
+
+  test 'should not strip setting value when parsing if we do not want to' do
+    setting = Setting.create(:name => 'not_stripped_test', :value => 'whatever', :setting_type => 'string')
+    trailing_space_val = 'Local '
+    setting.parse_string_value(trailing_space_val)
+    assert_equal setting.value, trailing_space_val
+  end
+
   test "encrypted value is saved encrypted when created" do
     setting = Setting.create(:name => "foo", :value => 5, :default => 5, :description => "test foo", :encrypted => true)
     setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
