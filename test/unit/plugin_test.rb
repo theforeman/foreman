@@ -531,22 +531,6 @@ class PluginTest < ActiveSupport::TestCase
       assert_include Rails.application.config.assets.precompile, 'test_assets_example.js'
     end
 
-    def test_assets_from_settings
-      SETTINGS[:test_assets_from_settings] = { assets: { precompile: [ 'test_assets_example' ] } }
-      Foreman::Deprecation.expects(:deprecation_warning)
-      plugin = Foreman::Plugin.register(:test_assets_from_settings) {}
-      assert_equal ['test_assets_example'], plugin.assets
-      assert_include Rails.application.config.assets.precompile, 'test_assets_example'
-    end
-
-    def test_assets_from_settings_hyphen
-      SETTINGS[:test_assets_from_settings_hyphen] = { assets: { precompile: [ 'test_assets_example' ] } }
-      Foreman::Deprecation.expects(:deprecation_warning)
-      plugin = Foreman::Plugin.register(:'test-assets-from-settings-hyphen') {}
-      assert_equal ['test_assets_example'], plugin.assets
-      assert_include Rails.application.config.assets.precompile, 'test_assets_example'
-    end
-
     def test_assets_from_root
       Dir.mktmpdir do |root|
         FileUtils.mkdir_p File.join(root, 'app', 'assets', 'javascripts', 'test_assets_from_root')

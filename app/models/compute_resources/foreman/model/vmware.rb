@@ -402,14 +402,6 @@ module Foreman::Model
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
-      # Backwards compatibility for e.g. API requests.
-      # User can set the scsi_controller_type attribute
-      # to define a single scsi controller by that type
-      if args[:scsi_controller_type].present?
-        Foreman::Deprecation.deprecation_warning("1.18", _("SCSI controller type is deprecated. Please change to scsi_controllers"))
-        args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
-      end
-
       add_cdrom = args.delete(:add_cdrom)
       args[:cdroms] = [new_cdrom] if add_cdrom == '1'
 
