@@ -163,13 +163,6 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
-    test "converts scsi_controller_type to hash" do
-      Foreman::Deprecation.expects(:deprecation_warning).once
-      attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "scsi_controller_type"=>"ParaVirtualSCSIController", "interfaces_attributes"=>{}, "volumes_attributes"=>{})
-      attrs_out = {:cpus=>"1", :interfaces=>[], :volumes=>[], :scsi_controller=>{:type=>"ParaVirtualSCSIController"}}
-      assert_equal attrs_out, @cr.parse_args(attrs_in)
-    end
-
     context 'firmware' do
       test 'chooses BIOS firmware when firmware type is None and firmware is automatic' do
         attrs_in = HashWithIndifferentAccess.new(:firmware_type => :none, 'firmware' => 'automatic')

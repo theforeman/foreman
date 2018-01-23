@@ -11,8 +11,6 @@ module Foreman
 
       def after_initialize
         super
-        precompile_assets(*assets_from_settings(id))
-        precompile_assets(*assets_from_settings(id.to_s.tr('-', '_').to_sym))
         precompile_assets(*find_assets(path)) if @automatic_assets
         register_assets
       end
@@ -49,18 +47,6 @@ module Foreman
         end
 
         new_assets
-      end
-
-      # Call any initializers that configure SETTINGS for the plugin:assets:precompile
-      # rake task and migrate the data.
-      def assets_from_settings(id)
-        Rails.application.initializers.detect { |i| i.name.to_s == "#{id}.configure_assets" }.try!(:run)
-        assets = SETTINGS[id].try!(:[], :assets).try!(:[], :precompile)
-        if assets
-          Foreman::Deprecation.deprecation_warning('1.18', "Plugin #{id} must register assets via precompile_assets, not SETTINGS[:#{id}]")
-          SETTINGS[id].delete(:assets)
-        end
-        assets
       end
 
       def register_assets
