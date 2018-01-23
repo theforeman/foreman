@@ -18,7 +18,7 @@ const submit = ({ name, query, publik }, dispatch, props) => {
   return submitForm({ url, values, item: 'Bookmark' });
 };
 
-class BookmarkForm extends React.Component {
+export class BookmarkForm extends React.Component {
   render() {
     const {
       handleSubmit, submitting, error, onCancel,
