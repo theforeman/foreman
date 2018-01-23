@@ -25,7 +25,7 @@ class FactValuesController < ApplicationController
 
   def find_facts
     @parent = FactName.where(:name => params[:parent_fact]).first
-    values = resource_base_search_and_page.my_facts.no_timestamp_facts
+    values = resource_base_with_search.my_facts.no_timestamp_facts
 
     @fact_values = if @parent
                      values.with_fact_parent_id(@parent)
