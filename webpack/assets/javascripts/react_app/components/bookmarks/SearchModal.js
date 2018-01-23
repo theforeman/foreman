@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'patternfly-react';
-import BookmarkForm from './form';
+import BookmarkFormContainer from './form';
 
 export default ({
   show = true,
@@ -15,7 +15,7 @@ export default ({
       <Modal.Title>{title}</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      <BookmarkForm controller={controller} url={url} onCancel={onHide} />
+      <BookmarkFormContainer controller={controller} url={url} onCancel={onHide} />
     </Modal.Body>
   </Modal>
 );
