@@ -570,6 +570,6 @@ module ApplicationHelper
   end
 
   def current_url_params(permitted: [])
-    params.permit(permitted + [:locale, :search, :per_page])
+    params.slice(*permitted.concat([:locale, :search, :per_page])).permit!
   end
 end

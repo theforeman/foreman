@@ -33,8 +33,6 @@
       <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
                            f.object.permissions.map(&:id), :label => _("Permission"), :required => true %>
 
-      <%= hidden_field_tag :role_id, @role.try(:id) %>
-
       <div class="clearfix">
         <div class="controls" id="granular_warning" style="<%= f.object.granular? ? 'display:none' : '' %>">
           <div class="col-md-2"></div>
