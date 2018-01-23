@@ -9,7 +9,7 @@
   <div class="col-md-4 classes">
     <h3><%= _('Included Classes') %></h3>
 
-    <%= hidden_field_tag "#{type}[puppetclass_ids][]" %>
+    <%= hidden_field_tag "#{obj_type(obj)}[puppetclass_ids][]" %>
 
     <ul id="selected_classes">
       <% if authorized_for(:controller => :host_editing, :action => :edit_classes) %>
