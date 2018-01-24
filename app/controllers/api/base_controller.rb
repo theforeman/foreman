@@ -8,7 +8,8 @@ module Api
     force_ssl :if => :require_ssl?
     skip_before_action :verify_authenticity_token, :unless => :protect_api_from_forgery?
 
-    before_action :set_default_response_format, :authorize, :set_taxonomy, :add_version_header, :set_gettext_locale
+    before_action :set_default_response_format, :authorize, :set_taxonomy
+    before_action :add_version_header, :add_taxonomies_header, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
 
@@ -231,6 +232,17 @@ module Api
     def add_version_header
       response.headers["Foreman_version"]= SETTINGS[:version].full
       response.headers["Foreman_api_version"]= api_version
+    end
+
+    def add_taxonomies_header
+      if SETTINGS[:organizations_enabled]
+        current_org = "#{Organization.current.id}; #{Organization.current.name}" if Organization.current
+        response.headers["Current_organization"] = current_org || '; ANY'
+      end
+      if SETTINGS[:locations_enabled]
+        current_loc = "#{Location.current.id}; #{Location.current.name}" if Location.current
+        response.headers["Current_location"] = current_loc || '; ANY'
+      end
     end
 
     # this method is used with nested resources, where obj_id is passed into the parameters hash.
