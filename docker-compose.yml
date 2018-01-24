@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    build: .
+    image: foreman
+    working_dir: /app
+    # Repeat the bundle install, it's faster though we have them already fetched. 
+    # This is because we lost the Gemfile.lock through mounting the app volume.
+    command: 'sh -c  "bundle install && yarn install && npm rebuild node-sass && rm -f /app/tmp/pids/server.pid && bin/rails db:migrate && ./script/foreman-start-dev"'
+    ports:
+     - "3000:3000"
+    # see https://stackoverflow.com/questions/30043872/
+    volumes:
+      - ./:/app
+      - /app/node_modules
