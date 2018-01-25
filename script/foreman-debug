@@ -348,7 +348,6 @@ add_files /etc/{sysconfig,default}/foreman
 add_files /etc/{sysconfig,default}/libvirt*
 add_files /etc/sysconfig/pgsql
 add_files /var/lib/pgsql/data/pg_log/*
-add_cmd "foreman-rake plugin:list" "plugin_list"
 add_cmd "passenger-status --show=pool" "passenger_status_pool"
 add_cmd "passenger-status --show=requests" "passenger_status_requests"
 add_cmd "passenger-status --show=backtraces" "passenger_status_backtraces"
