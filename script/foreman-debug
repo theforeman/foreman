@@ -19,9 +19,9 @@ This program can be used on Foreman instances, Smart Proxy instances or
 backend services separately.
 
 OPTIONS:
-  -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
+  -d DIR  Directory to place the tarball in (default /var/tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
-  -a      Do not generate a tarball from the resulting directory
+  -a      Keep directory and do not generate a compressed tarball
   -s SIZE Maximum log set size in MB (current+rotated files, defaults to 10 MB)
   -j PRG  Filter with provided program when creating a tarball
   -p      Additionally print password patterns being filtered out
@@ -246,13 +246,28 @@ else
 fi
 printv "Determined $OS distribution"
 
+clean_temp() {
+  # prevent from removing anything user-defined
+  if [[ "$NOTAR" -eq 0 && "$DIR" == /var/tmp* ]]; then
+    printv "Cleaning $DIR"
+    rm -rf "$DIR"
+  fi
+  printv "Cleaning $TMPDIR"
+  rm -rf "$TMPDIR"
+}
+
+install_clean_trap() {
+  trap clean_temp EXIT
+}
+
 if [ -z "$DIR" ]; then
-  DIR=$(mktemp -d foreman-debug-XXXXX -p /tmp)
-  [ "$NOTAR" -eq 0 ] && trap "rm -rf $DIR" EXIT
+  DIR=$(mktemp -d foreman-debug-XXXXX -p /var/tmp)
 else
   [ ! -d "$DIR" ] && mkdir -p "$DIR"
 fi
-printv "Directory $DIR created"
+export TMPDIR=$(mktemp -d foreman-debug-auxtmp-XXXXX -p /var/tmp)
+install_clean_trap
+printv "Created $DIR and $TMPDIR"
 
 TARBALL="$DIR.tar$EXTENSION"
 
@@ -291,6 +306,7 @@ if [ $NOGENERIC -eq 0 ]; then
   add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR || grep AVC /var/log/audit/audit.log" "selinux_denials.log"
   if [ -f /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
     add_cmd "sepolgen-ifgen &>/dev/null && audit2allow -Ra || audit2allow -a" "selinux_audit2allow"
+    add_cmd "audit2allow -Ra || audit2allow -a" "selinux_audit2allow"
     add_cmd "semodule -l" "selinux_modules"
     add_cmd "semanage boolean -l" "selinux_booleans"
     add_cmd "semanage fcontext -l" "selinux_fcontext"
@@ -360,6 +376,8 @@ if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
     if [ -x "$extension" ]; then
       printv "Processing extension $extension"
       source "$extension" 2>/dev/null
+      # install cleanup trap again just in case it got overwritten
+      install_clean_trap
     fi
   done
 fi
