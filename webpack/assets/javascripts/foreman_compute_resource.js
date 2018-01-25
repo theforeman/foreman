@@ -17,25 +17,28 @@ export default {
 // Common functions used by one or more Compute Resource
 
 // AJAX load vm listing
-$(() => {
-  $('#vms, #images_list, #key_pairs_list').filter('[data-url]').each((i, el) => {
-    const tab = $(el);
-    const url = tab.attr('data-url');
 
-    tab.load(`${url} table`, (response, status, xhr) => {
-      if (status === 'error') {
-        // eslint-disable-next-line function-paren-newline
-        tab.html(
-          // eslint-disable-next-line no-undef
-          Jed.sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
-            status: xhr.status,
-            statusText: xhr.statusText,
-          }));
-      } else {
-        activateDatatables();
-      }
+$(document).on('ContentLoad', () => {
+  $('#vms, #images_list, #key_pairs_list')
+    .filter('[data-url]')
+    .each((i, el) => {
+      const tab = $(el);
+      const url = tab.attr('data-url');
+
+      tab.load(`${url} table`, (response, status, xhr) => {
+        if (status === 'error') {
+          // eslint-disable-next-line function-paren-newline
+          tab.html(
+            // eslint-disable-next-line no-undef
+            Jed.sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
+              status: xhr.status,
+              statusText: xhr.statusText,
+            }));
+        } else {
+          activateDatatables();
+        }
+      });
     });
-  });
 });
 
 // eslint-disable-next-line max-statements
@@ -106,10 +109,14 @@ export function testConnection(item) {
 }
 
 export function capacityEdit(element) {
-  const buttons = $(element).closest('.fields').find('button[name=allocation_radio_btn].btn.active');
+  const buttons = $(element)
+    .closest('.fields')
+    .find('button[name=allocation_radio_btn].btn.active');
 
   if (buttons.length > 0 && $(buttons[0]).text() === 'Full') {
-    const allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+    const allocation = $(element)
+      .closest('.fields')
+      .find('[id$=allocation]')[0];
 
     allocation.value = element.value;
   }
