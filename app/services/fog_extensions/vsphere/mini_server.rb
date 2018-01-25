@@ -20,6 +20,8 @@ module FogExtensions
       def to_s
         name
       end
+
+      alias :id :identity
     end
   end
 end

@@ -3,10 +3,11 @@ require 'fog_extensions/vsphere/mini_server'
 module FogExtensions
   module Vsphere
     class MiniServers
-      def initialize(client, dc)
+      def initialize(client, dc, templates: false)
         @client     = client
         @dc         = client.send(:find_datacenters, dc).first
         @connection = client.send(:connection)
+        @templates  = templates
       end
 
       def all(filters = { })
@@ -18,7 +19,7 @@ module FogExtensions
 
         folder_inventory = generate_folder_inventory(folders)
 
-        vms = results.select { |result| result.obj.is_a?(RbVmomi::VIM::VirtualMachine) && !result['config.template'] }
+        vms = results.select { |result| result.obj.is_a?(RbVmomi::VIM::VirtualMachine) && result['config.template'] == templates }
 
         vms.map do |vm|
           attrs = attribute_mapping.map do |key, value|
@@ -96,7 +97,7 @@ module FogExtensions
         }
       end
 
-      attr_reader :client, :connection, :dc
+      attr_reader :client, :connection, :dc, :templates
     end
   end
 end
