@@ -55,6 +55,10 @@ module Foreman::Model
       end
     end
 
+    def available_images
+      FogExtensions::Vsphere::MiniServers.new(client, datacenter, templates: true).all
+    end
+
     def provided_attributes
       super.merge({ :mac => :mac })
     end
