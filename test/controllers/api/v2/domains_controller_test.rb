@@ -264,7 +264,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     test 'user does not have to specify taxonomy if he is assigned to only one, it is selected automatically' do
       domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
-        post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
+        post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :organization_ids => [@org2.id], :location_ids => [@loc1.id] } }
       end
       assert_response :success
       domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -285,7 +285,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     test 'user can create domain in current context thanks to the fact organization_ids defaults to organization_id' do
       domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
-        post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name } }
+        post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :location_ids => [@loc1.id] } }
       end
       assert_response :success
       domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -296,7 +296,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     test 'user can create domain in different organization than he set as a current organization' do
       domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
-        post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org1.id, @org2.id] } }
+        post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org1.id, @org2.id], :location_ids => [@loc1.id] } }
       end
       assert_response :success
       domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -307,7 +307,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     test 'user can create domain but current context is always preselected as organization_ids' do
       domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
-        post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
+        post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org2.id], :location_ids => [@loc1.id] } }
       end
       assert_response :success
       domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -319,7 +319,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     test 'user can not create resource in any context but they can use it to reset default value of organization_ids' do
       domain = FactoryBot.build_stubbed(:domain)
       as_user @user do
-        post :create, params: { :organization_id => nil, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
+        post :create, params: { :organization_id => nil, :domain => { :name => domain.name, :organization_ids => [@org2.id], :location_ids => [@loc1.id] } }
       end
       assert_response :success
       domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -382,7 +382,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       test 'user can still create domains in specific organization even if it is default one' do
         domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
-          post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org1.id] } }
+          post :create, params: { :organization_id => @org1.id, :domain => { :name => domain.name, :organization_ids => [@org1.id], :location_ids => [@loc1.id] } }
         end
         assert_response :success
         domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -392,7 +392,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       test 'user can create domain in other than default organization' do
         domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
-          post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
+          post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :organization_ids => [@org2.id], :location_ids => [@loc1.id] } }
         end
         assert_response :success
         domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
@@ -403,32 +403,10 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
         # preselected value is the currect context which overrides the default
         domain = FactoryBot.build_stubbed(:domain)
         as_user @user do
-          post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name } }
+          post :create, params: { :organization_id => @org2.id, :domain => { :name => domain.name, :location_ids => [@loc1.id] } }
         end
         assert_response :success
         domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
-        assert_includes domain.organization_ids, @org2.id
-      end
-
-      test 'user can create domain in default organization without need of specifying any organization' do
-        domain = FactoryBot.build_stubbed(:domain)
-        as_user @user do
-          post :create, params: { :domain => { :name => domain.name } }
-        end
-        assert_response :success
-        domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
-        assert_includes domain.organization_ids, @org1.id
-      end
-
-      test 'user can create domain in other than default organization without need to specify current context, default becomes preselected value' do
-        # preselected value is the currect context which overrides the default
-        domain = FactoryBot.build_stubbed(:domain)
-        as_user @user do
-          post :create, params: { :domain => { :name => domain.name, :organization_ids => [@org2.id] } }
-        end
-        assert_response :success
-        domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
-        assert_includes domain.organization_ids, @org1.id
         assert_includes domain.organization_ids, @org2.id
       end
     end
