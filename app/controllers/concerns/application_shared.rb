@@ -46,14 +46,14 @@ module ApplicationShared
               return false
             end
           end
-        elsif session.has_key?("#{taxonomy}_id") # session with taxonomy explicitly set to id or nil (any contexxt)
+        elsif session.has_key?("#{taxonomy}_id") # session with taxonomy explicitly set to id or nil (any context)
           if session["#{taxonomy}_id"].present?
             determined_taxonomy = find_session_taxonomy(taxonomy, user) # specific id
           else
             determined_taxonomy = nil # explicitly set any context
           end
-        else # user who didn't specify explicit context and does not have anything in session
-          determined_taxonomy = find_default_taxonomy(user, taxonomy)
+        else
+          determined_taxonomy = nil
         end
       else # UI request
         if session["#{taxonomy}_id"].present?
