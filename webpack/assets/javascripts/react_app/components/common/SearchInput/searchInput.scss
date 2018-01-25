@@ -1,4 +1,4 @@
-@import '../../../common/colors';
+@import 'variables';
 
 .input-search {
   position: relative;
@@ -9,7 +9,7 @@
   }
 
   .fa-search {
-    color: $pf-blue-400;
+    color: $color-pf-blue-400;
     position: absolute;
     top: 6px;
     left: 8px;

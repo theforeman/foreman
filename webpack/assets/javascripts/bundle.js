@@ -6,17 +6,19 @@
 /* eslint-disable import/first */
 import 'babel-polyfill';
 
-require('expose-loader?$!expose-loader?jQuery!jquery');
-require('jquery-ujs');
-require('expose-loader?jstz!jstz');
-require('expose-loader?ipaddr!ipaddr.js');
-require('jquery.cookie');
-require('expose-loader?JsDiff!diff');
-require('./bundle_flot');
-require('./bundle_multiselect');
-require('./bundle_select2');
-require('./bundle_datatables');
-require('./bundle_lodash');
+import 'expose-loader?$!expose-loader?jQuery!jquery';
+import 'jquery-ujs';
+import 'expose-loader?jstz!jstz';
+import 'expose-loader?ipaddr!ipaddr.js';
+import 'jquery.cookie';
+import 'expose-loader?JsDiff!diff';
+import './bundle_flot';
+import './bundle_multiselect';
+import './bundle_select2';
+import './bundle_lodash';
+import './bundle_datatables';
+
+import '../stylesheets/application.scss';
 
 import compute from './foreman_compute_resource';
 

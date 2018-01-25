@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Overpass';
-  src: local("Overpass"), font-url('overpass_regular-web.woff') format("woff");
+  src: local("Overpass"), url('#{$tfm-local-font-path}/overpass_regular-web.woff') format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -10,14 +10,14 @@
   src:
     local("Overpass Bold"),
     local("OverpassBold"),
-    font-url('overpass_bold-web.woff') format("woff");
+    url('#{$tfm-local-font-path}/overpass_bold-web.woff') format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'AllBullets';
-  src: local("AllBullets"), font-url('AllBullets.woff') format("woff");
+  src: local("AllBullets"), url('#{$tfm-local-font-path}/AllBullets.woff') format("woff");
   font-weight: normal;
   font-style: normal;
 }

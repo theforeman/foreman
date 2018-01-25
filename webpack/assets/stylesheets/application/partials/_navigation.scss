@@ -13,12 +13,11 @@
 
   .active > a,
   .open > a {
-    background: linear-gradient(to bottom, $hover_gradient_start, $hover_gradient_end);
+    background: linear-gradient(to bottom, $tfm-navbar-hover-gradient-start, $tfm-navbar-hover-gradient-end);
   }
 
   .org-switcher > a {
     font-size: 14px;
-    //border-right: solid 1px $border_color;
     .caret {
       margin-left: 10px;
     }
@@ -35,13 +34,13 @@
   height: inherit;
 
   a {
-    color: white;
+    color: $tfm-navbar-brand-color;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 20px;
 
     &:hover {
-      color: white;
+      color: $tfm-navbar-brand-hover-color;
       text-decoration: none;
     }
   }
@@ -63,7 +62,7 @@
 }
 
 .navbar-pf-vertical {
-  background: image-url('navbar.png');
+  background: url('#{$tfm-local-img-path}/navbar.png');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;

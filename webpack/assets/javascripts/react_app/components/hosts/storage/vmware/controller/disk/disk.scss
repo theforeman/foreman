@@ -1,4 +1,4 @@
-@import '../../../../../../common/colors';
+@import 'variables';
 
 .disks-container {
   padding: 0 150px;
@@ -10,7 +10,7 @@
     padding: 20px 0;
     margin-top: 20px;
     flex-direction: column;
-    border-top: 1px solid $pf-black-200;
+    border-top: 1px solid $color-pf-black-200;
 
     .close {
       background-color: red;

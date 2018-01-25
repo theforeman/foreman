@@ -26,6 +26,8 @@ module.exports = [
    */
   'jquery',
   'jquery.cookie',
+  'jquery-ui/autocomplete',
+  'jquery-ui/spinner',
   'select2',
   'multiselect',
   'jquery-ujs',
@@ -59,6 +61,9 @@ module.exports = [
   /**
    * Other packages
    */
+  'patternfly/node_modules/bootstrap',
+  'patternfly/dist/js/patternfly',
+  'c3',
   'diff',
   'ipaddr.js',
   'jstz',

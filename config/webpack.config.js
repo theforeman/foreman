@@ -104,14 +104,33 @@ module.exports = env => {
           })
         },
         {
-          test: /(\.png|\.gif)$/,
-          use: 'url-loader?limit=32767'
+          test: /(\.png|\.gif|\.jpg|\.svg|\.eot|\.woff|\.woff2|\.ttf)$/,
+          loader: 'url-loader',
+          options: { limit: 32767 }
         },
         {
           test: /\.scss$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader', // The backup style loader
-            use: production ? 'css-loader!sass-loader' : 'css-loader?sourceMap!sass-loader?sourceMap'
+            use: [{
+              loader: 'css-loader',
+              options: { sourceMap: true },
+            }, {
+              // solve the relative image urls inside jquery-ui
+              loader: 'resolve-url-loader',
+            }, {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+                includePaths: [
+                  // allow scss files to import variables and mixins without full relative path
+                  path.join(__dirname, '..', 'webpack/assets/stylesheets/application'),
+                  // allow patternfly to import bootstrap and fontawesome
+                  path.join(__dirname, '..', 'node_modules/patternfly/node_modules/bootstrap-sass/assets/stylesheets'),
+                  path.join(__dirname, '..', 'node_modules/patternfly/node_modules/font-awesome-sass/assets/stylesheets'),
+                ],
+              },
+            }]
           })
         }
       ]

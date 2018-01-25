@@ -1,10 +1,14 @@
-@import '../../../common/colors';
+@import 'variables';
+
+$tfm-breadcrumb-switcher-popover-max-height: 300px !default;
+$tfm-breadcrumb-switcher-popover-max-width: 200px !default;
+$tfm-breadcrumb-switcher-popover-min-width: 200px !default;
 
 .popover-content {
-  max-height: $switcher-max-height;
+  max-height: $tfm-breadcrumb-switcher-popover-max-height;
   overflow-y: auto;
-  max-width: $switcher-max-width;
-  min-width: $switcher-max-width;
+  max-width: $tfm-breadcrumb-switcher-popover-max-width;
+  min-width: $tfm-breadcrumb-switcher-popover-max-width;
 
   .fa-spinner {
     margin-top: 12px;

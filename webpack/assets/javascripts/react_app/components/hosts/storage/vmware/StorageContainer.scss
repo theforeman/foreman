@@ -1,4 +1,4 @@
-@import '../../../../common/colors';
+@import 'variables';
 
 .vmware-storage-container {
   display: flex;
@@ -7,7 +7,7 @@
   .storage-header {
     padding: 10px 0;
     margin-bottom: 10px;
-    border-bottom: 1px solid $pf-black-200;
+    border-bottom: 1px solid $color-pf-black-200;
 
     .storage-title {
       font-size: 18px;

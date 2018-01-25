@@ -1,0 +1,21 @@
+$patternfly-dist-path: '~patternfly/dist';
+
+$font-path:       '#{$patternfly-dist-path}/fonts/';
+$img-path:        '#{$patternfly-dist-path}/img/';
+$icon-font-path:  '#{$patternfly-dist-path}/fonts/';
+
+// pf
+$dropdown-link-color: #333;
+$dropdown-link-active-color: $color-pf-white;
+$dropdown-link-hover-color: $color-pf-white;
+$dropdown-link-hover-bg: $color-pf-blue-400;
+
+$nav-pf-vertical-active-icon-color: $color-pf-white;
+$nav-pf-vertical-active-bg-color: #026991;
+$nav-pf-vertical-secondary-active-bg-color: #024d6c;
+$nav-pf-vertical-icon-color: #c7c7c7;
+$nav-pf-vertical-secondary-indicator-color: #d1d1d1;
+$nav-pf-vertical-bg-color: #024d6c;
+
+$login-bg-color: $tfm-brand-primary-color;
+$login-container-bg-color-rgba: rgba(0, 0, 0, 0.3);

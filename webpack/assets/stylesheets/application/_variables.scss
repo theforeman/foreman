@@ -1,0 +1,15 @@
+/*
+  Import vendor color-variables
+ */
+@import 'vendor/color-variables';
+
+/*
+  Import application variables
+ */
+@import 'variables/theforeman';
+@import 'variables/patternfly';
+
+/*
+  Import vendor variables
+ */
+@import 'vendor/variables';

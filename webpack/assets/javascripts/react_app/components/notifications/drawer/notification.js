@@ -2,7 +2,6 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React from 'react';
 
 import Icon from '../../common/Icon';
-import '../../../common/commonStyles.css';
 
 import NotificationDropdown from './NotificationDropdown';
 

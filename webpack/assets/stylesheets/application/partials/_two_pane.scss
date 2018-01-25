@@ -1,9 +1,7 @@
-@import "colors";
-
 .table-two-pane {
   tbody tr {
     td.active {
-      background-color: $primary_gradient_start;
+      background-color: $tfm-color-1;
 
       a {
         color: #fff;
@@ -24,7 +22,7 @@
     margin-bottom: 0;
     margin-left: -41px;
     background-color: #fff;
-    border: 1px solid $primary_gradient_start;
+    border: 1px solid $tfm-color-1;
     border-radius: 0;
     box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.2);
   }

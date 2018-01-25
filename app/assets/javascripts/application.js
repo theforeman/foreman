@@ -1,11 +1,7 @@
 //= require jquery.turbolinks
 //= require turbolinks
 //= require i18n
-//= require jquery.ui.autocomplete
-//= require jquery.ui.spinner
 //= require scoped_search
-//= require bootstrap
-//= require patternfly
 //= require two-pane
 //= require vendor
 //= require jquery.extentions

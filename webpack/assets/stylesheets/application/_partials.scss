@@ -1,0 +1,26 @@
+/*
+  Import partials
+  TODO:
+    Migrate partials to a domain level next to the js files
+    Partials should get imported from the js files
+ */
+@import 'partials/base';
+@import 'partials/charts';
+@import 'partials/dashboard';
+@import 'partials/data-tables';
+@import 'partials/editor';
+@import 'partials/gridster';
+@import 'partials/hosts';
+@import 'partials/jquery.ui.spinner_custom';
+@import 'partials/login';
+@import 'partials/multi-select-overrides';
+@import 'partials/navigation';
+@import 'partials/password_strength';
+@import 'partials/patternfly_and_overrides';
+@import 'partials/puppetclasses';
+@import 'partials/smart_proxy';
+@import 'partials/status-colors';
+@import 'partials/two_pane';
+@import 'partials/typography';
+@import 'partials/users';
+@import 'partials/wizard';
