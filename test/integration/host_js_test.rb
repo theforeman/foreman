@@ -6,6 +6,12 @@ class HostJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   HostJSTest::edit page.test_0003_correctly override global params
   #   HostJSTest::create new host page.test_0003_saves correct values for inherited fields without hostgroup
+  #   HostJSTest::NIC modal window::adding interfaces.test_0006_selecting type updates interface fields
+  #   HostJSTest::NIC modal window::adding interfaces.test_0002_ok button adds new interface
+  #   HostJSTest::NIC modal window::adding interfaces.test_0003_setting primary updates host name
+  #   HostJSTest::NIC modal window::adding interfaces.test_0005_selecting domain updates puppetclass parameters
+  #   HostJSTest::NIC modal window::adding interfaces.test_0004_selecting domain updates subnet list
+  #   HostJSTest::NIC modal window::adding interfaces.test_0001_click on add opens modal
   extend Minitest::OptionalRetry
 
   include HostFinders
