@@ -110,3 +110,14 @@ class ActionController::TestCase
     Webpack::Rails::Manifest.stubs(:asset_paths).returns([])
   end
 end
+
+def clear_plugins
+  @klass = Foreman::Plugin
+  @plugins_backup = @klass.registered_plugins
+  @klass.clear
+end
+
+def restore_plugins
+  @klass.clear
+  @klass.instance_variable_set('@registered_plugins', @plugins_backup)
+end
