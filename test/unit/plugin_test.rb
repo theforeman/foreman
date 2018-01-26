@@ -42,15 +42,8 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
-  def setup
-    @klass = Foreman::Plugin
-    # In case some real plugins are installed
-    @klass.clear
-  end
-
-  def teardown
-    @klass.clear
-  end
+  setup :clear_plugins
+  teardown :restore_plugins
 
   def test_register
     @klass.register :foo do

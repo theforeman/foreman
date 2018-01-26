@@ -17,13 +17,8 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
     include BelongsToProxies
   end
 
-  setup do
-    Foreman::Plugin.clear
-  end
-
-  teardown do
-    Foreman::Plugin.clear
-  end
+  setup :clear_plugins
+  teardown :restore_plugins
 
   test '#registered_smart_proxies has default value' do
     assert_equal({}, EmptySampleModel.registered_smart_proxies)
