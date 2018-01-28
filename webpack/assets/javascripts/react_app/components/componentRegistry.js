@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PieChart from './common/charts/PieChart/';
+import AutoComplete from './common/AutoComplete/';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
@@ -62,6 +63,7 @@ const coreComponets = [
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList, data: false },
   { name: 'StorageContainer', type: StorageContainer },
+  { name: 'AutoComplete', type: AutoComplete },
 ];
 
 componentRegistry.registerMultiple(coreComponets);
