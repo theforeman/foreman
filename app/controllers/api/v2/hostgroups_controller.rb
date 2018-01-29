@@ -42,6 +42,7 @@ module Api
           param :parent_id, :number, :desc => N_('Parent ID of the host group')
           param :environment_id, :number, :desc => N_('Environment ID')
           param :compute_profile_id, :number, :desc => N_('Compute profile ID')
+          param :compute_resource_id, :number, :desc => N_('Compute resource ID')
           param :operatingsystem_id, :number, :desc => N_('Operating system ID')
           param :architecture_id, :number, :desc => N_('Architecture ID')
           param :pxe_loader, Operatingsystem.all_loaders, :desc => N_("DHCP filename option (Grub2/PXELinux by default)")
