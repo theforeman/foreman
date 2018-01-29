@@ -34,6 +34,8 @@ module OperatingsystemsHelper
                "OracleLinux"
              when /CoreOS/i
                "CoreOS"
+             when /RancherOS/i
+               "RancherOS"
              when /NXOS/i
                "NXOS"
              when /XenServer/i
