@@ -27,6 +27,7 @@ Solaris and Debian media may also use $release.
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Medium)
 
       def index
         @media = resource_scope_for_index

@@ -30,6 +30,7 @@ module Api
         param :value, String, :desc => N_("Parameter value"), :required => true
       end
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Operatingsystem)
 
       def index
         @operatingsystems = resource_scope_for_index

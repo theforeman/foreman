@@ -10,6 +10,7 @@ module Api
       param_group :search_and_pagination, ::Api::V2::BaseController
       param :resource_type, String
       param :name, String
+      add_scoped_search_description_for(Permission)
 
       def index
         type = params[:resource_type].blank? ? nil : params[:resource_type]

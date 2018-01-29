@@ -6,6 +6,7 @@ module Api
       api :GET, "/fact_values/", N_("List all fact values")
       api :GET, "/hosts/:host_id/facts/", N_("List all fact values of a given host")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(FactValue)
 
       def index
         values = FactValue.

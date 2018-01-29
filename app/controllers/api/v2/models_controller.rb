@@ -7,6 +7,7 @@ module Api
 
       api :GET, "/models/", N_("List all hardware models")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Model)
 
       def index
         @models = resource_scope_for_index

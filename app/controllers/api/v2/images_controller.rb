@@ -13,6 +13,7 @@ module Api
       param :architecture_id, String, :desc => N_("ID of architecture")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Image)
 
       def index
         @images = resource_scope_for_index

@@ -11,6 +11,7 @@ module Api
 
       api :GET, "/config_reports/", N_("List all reports")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ConfigReport)
 
       def index
         @config_reports = resource_scope_for_index.my_reports

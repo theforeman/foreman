@@ -6,6 +6,7 @@ module Api
 
       api :GET, "/settings/", N_("List all settings")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Setting)
 
       def index
         @settings = resource_scope().live_descendants.search_for(*search_options).paginate(paginate_options)

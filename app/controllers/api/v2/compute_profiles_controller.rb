@@ -7,6 +7,7 @@ module Api
 
       api :GET, "/compute_profiles", N_("List of compute profiles")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ComputeProfile)
 
       def index
         @compute_profiles = resource_scope_for_index

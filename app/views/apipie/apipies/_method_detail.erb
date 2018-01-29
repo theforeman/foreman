@@ -1,0 +1,39 @@
+<%= raw method[:full_description] %>
+
+<% unless method[:formats].blank? %>
+  <%= heading(t('apipie.supported_formats'), h_level) %>
+  <%= method[:formats].join(', ') %>
+<% end %>
+
+<% unless method[:errors].blank? %>
+  <%= heading(t('apipie.errors'), h_level) %>
+  <%= render(:partial => "errors", :locals => {:errors => method[:errors]}) %>
+<% end %>
+
+<% unless method[:examples].blank? %>
+  <%= heading(t('apipie.examples'), h_level) %>
+  <% method[:examples].each do |example| %>
+    <pre class="prettyprint"><%= example %></pre>
+  <% end %>
+<% end %>
+
+<% unless method[:params].blank? %>
+  <%= heading(t('apipie.params'), h_level) %>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th><%= t('apipie.param_name') %></th>
+        <th><%= t('apipie.description') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(:partial => "params", :locals => {:params => method[:params]}) %>
+    </tbody>
+  </table>
+<% end %>
+
+<% unless method[:metadata].blank? %>
+  <%= render(:partial => "metadata", :locals => {:meta => method[:metadata], :h_level => h_level}) %>
+<% end %>
+
+<%= render(:partial => "headers", :locals => {:headers => method[:headers], :h_level => h_level }) %>
