@@ -190,10 +190,24 @@ class UnattendedControllerTest < ActionController::TestCase
   test "should accept built notifications_with_expired_token" do
     @request.env["REMOTE_ADDR"] = @ub_host.ip
     @ub_host.create_token(:value => "expired_token", :expires => Time.now.utc - 1.minute)
-    get :built,  params: {'token' => @ub_host.token.value }
+    get :built, params: {'token' => @ub_host.token.value }
     assert_response :created
     host = Nic::Base.primary.find_by_ip(@ub_host.ip)
     assert_equal host.build,false
+  end
+
+  test "should not render a template when token is expired" do
+    Setting[:token_duration] = 30
+    @request.env["REMOTE_ADDR"] = @ub_host.ip
+    @ub_host.create_token(:value => "expired_token", :expires => Time.now.utc - 1.minute)
+    get :host_template, params: { :kind => 'provision'}
+    assert_response :precondition_failed
+  end
+
+  test "should not find host by ip if token is present" do
+    @request.env["REMOTE_ADDR"] = @ub_host.ip
+    get :host_template, params: { :kind => 'provision', :token => 'invalid' }
+    assert_response :not_found
   end
 
   test "should not provide unattened files to hosts which are not in built state" do
