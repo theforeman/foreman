@@ -44,23 +44,17 @@ end
 class Testable < ApplicationRecord
   include Authorizable
   belongs_to :domain
-  belongs_to :foo
+  belongs_to :foo, :foreign_key => 'role_id'
+  self.table_name = 'filters'
 end
 
 class Foo < ApplicationRecord
+  self.table_name = 'roles'
   has_many :testables
 end
 
 class Api::TestableControllerTest < ActionController::TestCase
   tests Api::TestableController
-
-  ActiveRecord::Migration.create_table(:testables) { |t| t.integer :foo_id }
-  ActiveRecord::Migration.create_table(:foos)
-
-  Minitest.after_run do
-    ActiveRecord::Migration.drop_table(:testables)
-    ActiveRecord::Migration.drop_table(:foos)
-  end
 
   context "api base headers" do
     test "should contain version in headers" do
@@ -272,7 +266,7 @@ class Api::TestableControllerTest < ActionController::TestCase
     context 'resouce scoping' do
       setup do
         @foo = Foo.create
-        @testable = Testable.create(:foo_id => @foo.id)
+        @testable = Testable.create(:foo => @foo)
       end
 
       it 'should return nested resource' do
