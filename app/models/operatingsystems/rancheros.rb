@@ -6,7 +6,7 @@ class Rancheros < Operatingsystem
   end
 
   def mediumpath(host)
-   ''
+    ''
   end
 
   def url_for_boot(file)
