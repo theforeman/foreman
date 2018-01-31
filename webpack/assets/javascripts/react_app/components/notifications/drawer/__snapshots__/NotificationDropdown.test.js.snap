@@ -14,11 +14,14 @@ exports[`Notification dropdown Renders links provided 1`] = `
   onClickedLink={[Function]}
 >
   <DropdownKebab
+    componentClass={[Function]}
     id={6}
     pullRight={true}
+    toggleStyle="link"
   >
     <Uncontrolled(Dropdown)
       className="dropdown-kebab-pf"
+      componentClass={[Function]}
       id={6}
       pullRight={true}
     >
