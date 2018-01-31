@@ -31,7 +31,7 @@ module Api
       def show
       end
 
-      api :GET, "/permissions/resource_types/", N_("List available resource types.")
+      api :GET, "/permissions/resource_types/", N_("List available resource types")
       def resource_types
         @resource_types = Permission.resources
         @total = @resource_types.size
