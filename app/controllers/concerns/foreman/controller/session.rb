@@ -37,7 +37,7 @@ module Foreman::Controller::Session
     else
       sso = get_sso_method
       if sso.nil? || !sso.support_expiration?
-        warning _("Your session has expired, please login again")
+        inline_warning _("Your session has expired, please login again")
         redirect_to main_app.login_users_path
       else
         redirect_to sso.expiration_url
