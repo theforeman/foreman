@@ -195,6 +195,9 @@ class Host::Managed < Host::Base
 
   scope :with_compute_resource, -> { where.not(:compute_resource_id => nil, :uuid => nil) }
 
+  scope :in_build_mode, -> { where(build: true) }
+  scope :with_build_errors, -> { where.not(build_errors: nil) }
+
   # some shortcuts
   alias_attribute :arch, :architecture
 
