@@ -251,7 +251,7 @@ module HostsHelper
   end
 
   def build_duration(host)
-    return _("N/A") if host.initiated_at.nil? && host.installed_at.nil?
+    return _('N/A') if host.initiated_at.nil? || host.installed_at.nil?
     if host.installed_at.nil?
       time_ago_in_words(host.initiated_at, include_seconds: true) + " (in progress)"
     else

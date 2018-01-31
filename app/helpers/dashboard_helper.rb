@@ -159,6 +159,26 @@ module DashboardHelper
     setting.nil? ? true : !setting
   end
 
+  def host_build_status_icon(host)
+    if host.token_expired?
+      icon = 'hourglass-o'
+      icon_kind = 'fa'
+      icon_class = 'text-danger'
+      label = _('Token expired')
+    elsif host.build_errors.present?
+      icon = 'error-circle-o'
+      icon_kind = 'pficon'
+      icon_class = ''
+      label = _('Build errors')
+    else
+      icon = 'in-progress'
+      icon_kind = 'pficon'
+      icon_class = ''
+      label = _('Build in progress')
+    end
+    icon_text(icon, '', kind: icon_kind, title: label, class: icon_class)
+  end
+
   private
 
   def origin_setting(origin, name)
