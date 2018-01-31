@@ -78,7 +78,7 @@ class LocationsControllerTest < ActionController::TestCase
 
     # session is reset, redirected to login, but org id remains
     assert_redirected_to "/users/login"
-    assert_match /Your session has expired, please login again/, flash[:warning]
+    assert_match /Your session has expired, please login again/, flash[:inline][:warning]
     assert_equal session[:location_id], taxonomies(:location1).id
   end
 
