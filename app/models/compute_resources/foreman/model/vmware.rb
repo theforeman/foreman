@@ -502,7 +502,9 @@ module Foreman::Model
       vm_model = new_vm(raw_args)
       opts['interfaces'] = vm_model.interfaces
       opts['volumes'] = vm_model.volumes
-      opts["customization_spec"] = client.cloudinit_to_customspec(args[:user_data]) if args[:user_data]
+      if args[:user_data] && valid_cloudinit_for_customspec?(args[:user_data])
+        opts["customization_spec"] = client.cloudinit_to_customspec(args[:user_data])
+      end
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])
     end
 
@@ -668,6 +670,16 @@ module Foreman::Model
                                :query    => "moid=#{vmid}").to_s
       # VMRC doesn't like brackets around IPv6 addresses
       uri.sub(/(.*)\[/, '\1').sub(/(.*)\]/, '\1')
+    end
+
+    def valid_cloudinit_for_customspec?(cloudinit)
+      parsed = YAML.load(cloudinit)
+      return false if parsed.nil?
+      return true if parsed.is_a?(Hash)
+      raise Foreman::Exception.new('The user-data template must be a hash in YAML format for VM customization to work.')
+    rescue Psych::SyntaxError => e
+      Foreman::Logging.exception('Failed to parse user-data template', e)
+      raise Foreman::Exception.new('The user-data template must be valid YAML for VM customization to work.')
     end
   end
 end

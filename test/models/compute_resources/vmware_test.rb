@@ -364,4 +364,58 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       refute cr.valid?
     end
   end
+
+  describe '#clone_vm' do
+    setup { Fog.mock! }
+    teardown { Fog.unmock! }
+    let(:cr) { FactoryBot.build_stubbed(:vmware_cr) }
+    let(:default_args) do
+      {
+        name: 'test',
+        cpus: '1',
+        interfaces: [
+          { type: 'VirtualVmxnet3', :network => 'network-17'}
+        ],
+        volumes: [
+          { :size_gb => '1'}
+        ]
+      }
+    end
+
+    test 'raises an error when user_data is not valid yaml' do
+      args = default_args.merge(
+        user_data: "Totally invalid yaml.\t"
+      )
+      assert_raises Foreman::Exception do
+        cr.clone_vm(args)
+      end
+    end
+
+    test 'raises an error when parsed user_data is not a valid hash' do
+      args = default_args.merge(
+        user_data: '--- true'
+      )
+      assert_raises Foreman::Exception do
+        cr.clone_vm(args)
+      end
+    end
+
+    test 'ignores customspec when user_data is nil' do
+      args = default_args.merge(
+        user_data: '---'
+      )
+      cr.send(:client).expects(:cloudinit_to_customspec).never
+      cr.send(:client).stubs(:vm_clone).returns({'new_vm' => {'id' => 123}})
+      cr.clone_vm(args)
+    end
+
+    test 'passes customspec when user_data is a valid yaml hash' do
+      args = default_args.merge(
+        user_data: "---\n{}"
+      )
+      Fog::Compute::Vsphere::Real.any_instance.expects(:cloudinit_to_customspec).never
+      cr.send(:client).stubs(:vm_clone).returns({'new_vm' => {'id' => 123}})
+      cr.clone_vm(args)
+    end
+  end
 end
