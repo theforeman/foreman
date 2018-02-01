@@ -228,6 +228,7 @@ class PluginTest < ActiveSupport::TestCase
     refute Foreman::Renderer.public_instance_methods.include?(:my_helper)
     refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
     refute ::TemplatesController.public_instance_methods.include?(:my_helper)
+    refute ::UnattendedController.public_instance_methods.include?(:my_helper)
 
     @klass.register(:foo) do
       extend_template_helpers(MyMod)
@@ -241,6 +242,8 @@ class PluginTest < ActiveSupport::TestCase
     refute_includes Foreman::Renderer::ALLOWED_HELPERS, :private_helper
     assert ::TemplatesController.public_instance_methods.include?(:my_helper)
     refute ::TemplatesController.public_instance_methods.include?(:private_helper)
+    assert ::UnattendedController.public_instance_methods.include?(:my_helper)
+    refute ::UnattendedController.public_instance_methods.include?(:private_helper)
   ensure
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
