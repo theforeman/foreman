@@ -440,7 +440,7 @@ module Foreman #:nodoc:
     def extend_template_helpers_by_module(mod)
       mod = mod.constantize
 
-      (TemplatesController.descendants + [ TemplatesController, UnattendedHelper ]).each do |klass|
+      (TemplatesController.descendants + [TemplatesController, UnattendedController, UnattendedHelper]).each do |klass|
         klass.send(:include, mod)
       end
       allowed_template_helpers(*(mod.public_instance_methods - Module.public_instance_methods))
