@@ -4,6 +4,7 @@ node_js:
   - '6' # previous LTS
   - '8' # current LTS
 before_install:
+  - sudo apt-get install -y libsystemd-journal-dev
   - cp config/settings.yaml.example config/settings.yaml
   - bundle install --without console development ec2 fog gce jsonp libvirt mysql2 openid openstack ovirt postgresql rackspace sqlite test vmware
 script: ./script/travis_run_js_tests.sh

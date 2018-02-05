@@ -59,8 +59,7 @@ require_dependency File.expand_path('../../lib/core_extensions', __FILE__)
 require_dependency File.expand_path('../../lib/foreman/logging', __FILE__)
 require_dependency File.expand_path('../../lib/foreman/http_proxy', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
-require_dependency File.expand_path('../../lib/middleware/tagged_logging', __FILE__)
-require_dependency File.expand_path('../../lib/middleware/session_safe_logging', __FILE__)
+require_dependency File.expand_path('../../lib/middleware/logging_context', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/telemetry', __FILE__)
 
 if SETTINGS[:support_jsonp]
@@ -180,9 +179,8 @@ module Foreman
     # Catching Invalid JSON Parse Errors with Rack Middleware
     config.middleware.use Middleware::CatchJsonParseErrors
 
-    # Record request ID in logging MDC storage
-    config.middleware.insert_before Rails::Rack::Logger, Middleware::TaggedLogging
-    config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Middleware::SessionSafeLogging
+    # Record request and session tokens in logging MDC
+    config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Middleware::LoggingContext
 
     # Add apidoc hash in headers for smarter caching
     config.middleware.use Apipie::Middleware::ChecksumInHeaders
@@ -213,7 +211,9 @@ module Foreman
       :templates => {:enabled => true},
       :notifications => {:enabled => true},
       :background => {:enabled => true},
-      :dynflow => {:enabled => true}
+      :dynflow => {:enabled => true},
+      :telemetry => {:enabled => false},
+      :blob => {:enabled => true}
     ))
 
     config.logger = Foreman::Logging.logger('app')
