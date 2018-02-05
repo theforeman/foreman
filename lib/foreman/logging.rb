@@ -60,6 +60,14 @@ module Foreman
       ::Logging::LEVELS.find { |n,i| i == level_int }.first
     end
 
+    # Structured fields to log in addition to log messages. Every log line created within given block is enriched with these fields.
+    # Fields appear in joruand and/or JSON output (hash named 'ndc').
+    def with_fields(fields = {})
+      ::Logging.ndc.push(fields) do
+        yield
+      end
+    end
+
     # Standard way for logging exceptions to get the most data in the log.
     # The behaviour can be influenced by this options:
     #   * :logger - the name of the logger to put the exception in ('app' by default)
@@ -71,9 +79,29 @@ module Foreman
       unless ::Logging::LEVELS.keys.include?(level.to_s)
         raise "Unexpected log level #{level}, expected one of #{::Logging::LEVELS.keys}"
       end
-      self.logger(logger_name).public_send(level) do
-        ([context_message, "#{exception.class}: #{exception.message}"] + exception.backtrace).join("\n")
+      # send class, message and stack as structured fields in addition to message string
+      backtrace = exception.backtrace ? exception.backtrace : []
+      extra_fields = {
+        exception_class: exception.class.name,
+        exception_message: exception.message,
+        exception_backtrace: backtrace
+      }
+      extra_fields[:foreman_code] = exception.code if exception.respond_to?(:code)
+      with_fields(extra_fields) do
+        self.logger(logger_name).public_send(level) do
+          ([context_message, "#{exception.class}: #{exception.message}"] + backtrace).join("\n")
+        end
       end
+    end
+
+    def blob(message, contents, extra_fields = {})
+      logger_name = extra_fields[:logger] || 'blob'
+      with_fields(extra_fields) do
+        self.logger(logger_name).info do
+          message + "\n" + contents
+        end
+      end
+      contents
     end
 
     private
@@ -119,18 +147,19 @@ module Foreman
       return unless @config[:console_inline]
 
       ::Logging.logger.root.add_appenders(
-        ::Logging.appenders.stdout(:layout => build_layout(@config[:pattern], @config[:colorize]))
+        ::Logging.appenders.stdout(:layout => build_layout)
       )
     end
 
-    # currently we support two types of appenders, rolling file and syslog
-    # note that syslog ignores pattern and logs only messages
     def build_root_appender(options)
       name = "foreman"
+      options[:facility] = self.class.const_get("::Syslog::Constants::#{options[:facility] || :LOG_LOCAL6}")
 
       case @config[:type]
       when 'syslog'
         build_syslog_appender(name, options)
+      when 'journal', 'journald'
+        build_journald_appender(name, options)
       when 'file'
         build_file_appender(name, options)
       else
@@ -139,7 +168,11 @@ module Foreman
     end
 
     def build_syslog_appender(name, options)
-      ::Logging.appenders.syslog(name, options.reverse_merge(:facility => ::Syslog::Constants::LOG_DAEMON))
+      ::Logging.appenders.syslog(name, options.reverse_merge(:layout => build_layout(false)))
+    end
+
+    def build_journald_appender(name, options)
+      ::Logging.appenders.journald(name, options.reverse_merge(:logger_name => :foreman_logger, :layout => build_layout(false)))
     end
 
     def build_file_appender(name, options)
@@ -148,8 +181,9 @@ module Foreman
       begin
         ::Logging.appenders.file(
           name,
-          options.reverse_merge(:filename => log_filename,
-                                :layout   => build_layout(@config[:pattern], @config[:colorize]))
+          options.reverse_merge(
+            :filename => log_filename,
+            :layout => build_layout)
         )
       rescue ArgumentError
         warn "Log file #{log_filename} cannot be opened. Falling back to STDOUT"
@@ -157,9 +191,19 @@ module Foreman
       end
     end
 
-    def build_layout(pattern, colorize)
-      pattern += "  Log trace: %F:%L method: %M\n" if @config[:log_trace]
-      MultilinePatternLayout.new(:pattern => pattern, :color_scheme => colorize ? 'bright' : nil)
+    def build_layout(enable_colors = true)
+      pattern, colorize = @config[:pattern], @config[:colorize]
+      pattern = @config[:sys_pattern] if @config[:type] =~ /^(journald?|syslog)$/i
+      colorize = nil unless enable_colors
+      case @config[:layout]
+      when 'json'
+        ::Logging::Layouts::Parseable.json(:items => @config[:json_items])
+      when 'pattern'
+        ::Logging::Layouts.pattern(:pattern => pattern, :color_scheme => colorize ? 'bright' : nil)
+      when 'multiline_pattern'
+        pattern += "  Log trace: %F:%L method: %M\n" if @config[:log_trace]
+        MultilinePatternLayout.new(:pattern => pattern, :color_scheme => colorize ? 'bright' : nil)
+      end
     end
 
     def configure_color_scheme

@@ -243,7 +243,15 @@ module Foreman
       raise ::Foreman::Exception.new(N_("Template '%s' is either missing or has an invalid organization or location"), @template_name) if template.nil?
       content = template.respond_to?(:template) ? template.template : template
       allowed_variables = allowed_variables_mapping(ALLOWED_VARIABLES)
-      render_safe content, ALLOWED_HELPERS, allowed_variables, scope_variables
+      result = render_safe content, ALLOWED_HELPERS, allowed_variables, scope_variables
+      digest = Digest::SHA256.hexdigest(result)
+      Foreman::Logging.blob("Unattended render of '#{@template_name}' = '#{digest}'", result,
+        template_digest: digest,
+        template_name: @template_name,
+        template_context: self.class.name,
+        template_host_name: @host.try(:name),
+        template_host_id: @host.try(:id))
+      result
     end
 
     def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})

@@ -43,11 +43,32 @@
 
 # Log settings for the current environment can be adjusted by adding them
 # here. It is also possible to override settings per environment. See
-# logging.yaml for more details and examples.
+# logging.yaml for more details and examples. Some recommended configurations:
+
+# Log to production.log via file appender and multi-line friendly pattern
 #:logging:
-#  :level: debug
+#  :level: info
+#  :production:
+#    :type: file
+#    :layout: multiline_pattern
+
+# Log to syslog in JSON format for integrating with 3rd parties (ELK)
+#:logging:
+#  :level: info
 #  :production:
 #    :type: syslog
+#    :layout: json
+
+# Send logs to system journal with structured data with simple text pattern
+#:logging:
+#  :level: info
+#  :production:
+#    :type: journald
+#    :layout: pattern
+
+# Temporary increase level to debug for troubleshooting
+#:logging:
+#  :level: debug
 
 # Individual logging types can be toggled on/off here
 #:loggers:
@@ -71,6 +92,8 @@
 #  :dynflow:
 #    :enabled: true
 #  :telemetry:
+#    :enabled: true
+#  :blob:
 #    :enabled: true
 
 # Foreman telemetry has three destinations: prometheus, statsd and rails log.
