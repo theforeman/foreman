@@ -108,6 +108,9 @@
   "jest": {
     "automock": true,
     "verbose": true,
+    "testMatch": [
+      "**/*.test.js"
+    ],
     "collectCoverage": true,
     "collectCoverageFrom": [
       "webpack/**/*.js",

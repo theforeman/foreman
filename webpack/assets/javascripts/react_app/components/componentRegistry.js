@@ -7,7 +7,7 @@ import NotificationContainer from './notifications/';
 import ToastsList from './toastNotifications/';
 import StorageContainer from './hosts/storage/vmware/';
 import BookmarkContainer from './bookmarks';
-import PasswordStrength from './user/passwordStrength/';
+import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 
 const componentRegistry = {
