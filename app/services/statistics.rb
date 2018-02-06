@@ -4,7 +4,7 @@ module Statistics
       CountHosts.new(:count_by => :operatingsystem, :title => ("OS Distribution"), :search =>"os_title=~VAL~", :organization_id => org_id, :location_id => loc_id),
       CountHosts.new(:count_by => :architecture, :title => _("Architecture Distribution"), :search => "facts.architecture=~VAL~", :organization_id => org_id, :location_id => loc_id),
       CountHosts.new(:count_by => :environment, :title => _("Environment Distribution"), :search => "environment=~VAL~", :organization_id => org_id, :location_id => loc_id),
-      CountHosts.new(:count_by => :hostgroup, :title => _("Host Group Distribution"), :search => "hostgroup=~VAL~", :organization_id => org_id, :location_id => loc_id),
+      CountHosts.new(:count_by => :hostgroup, :title => _("Host Group Distribution"), :search => "hostgroup_title=~VAL~", :organization_id => org_id, :location_id => loc_id),
       CountHosts.new(:count_by => :compute_resource, :title => _("Compute Resource Distribution"), :search => "compute_resource=~VAL~", :organization_id => org_id, :location_id => loc_id),
       CountFacts.new(:count_by => :processorcount, :unit => Nn_('%s core', '%s cores'), :title => _("Number of CPUs"), :search => "facts.processorcount=~VAL1~", :organization_id => org_id, :location_id => loc_id),
       CountFacts.new(:count_by => :manufacturer, :title => _("Hardware"), :search => "facts.manufacturer~~VAL~", :organization_id => org_id, :location_id => loc_id),
