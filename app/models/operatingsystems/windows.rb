@@ -9,8 +9,8 @@ class Windows < Operatingsystem
     "waik"
   end
 
-  def pxe_prefix(arch)
-    "boot/windows-#{arch}/".tr(" ", "-")
+  def pxe_prefix(arch, host)
+    "boot/windows-#{arch}-#{medium_digest(host)}/".tr(" ","-")
   end
 
   def bootfile(arch, type)

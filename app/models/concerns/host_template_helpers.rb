@@ -15,11 +15,11 @@ module HostTemplateHelpers
   end
 
   def multiboot
-    operatingsystem.pxe_prefix(architecture) + "-multiboot"
+    operatingsystem.pxe_prefix(architecture, @host) + "-multiboot"
   end
 
   def miniroot
-    operatingsystem.initrd(architecture)
+    operatingsystem.initrd(architecture, @host)
   end
 
   attr_writer(:url_options)
