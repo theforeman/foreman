@@ -155,11 +155,6 @@ Lint/AmbiguousBlockAssociation:
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
-# Offense count: 2
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Enabled: false
-
 # Offense count: 89
 Lint/BooleanSymbol:
   Enabled: false
