@@ -77,6 +77,32 @@ class Foreman::Provision::SSH
         Timeout.timeout(8) do
           ssh.run('pwd')
         end
+      rescue Errno::ECONNREFUSED
+        logger.debug "Connection refused for #{address}, retrying"
+        sleep(2)
+        retry
+      rescue Errno::EHOSTUNREACH
+        logger.debug "Host unreachable for #{address}, retrying"
+        sleep(2)
+        retry
+      rescue Net::SSH::Disconnect
+        logger.debug "Host dropping connections for #{address}, retrying"
+        sleep(2)
+        retry
+      rescue Net::SSH::ConnectionTimeout
+        logger.debug "Host timed out for #{address}, retrying"
+        sleep(2)
+        retry
+      rescue Net::SSH::AuthenticationFailed
+        logger.debug "Auth failed for #{username} at #{address}, retrying"
+        sleep(2)
+        retry
+      rescue Timeout::Error
+        retry
+      rescue IOError
+        logger.debug "net-ssh threw an IOError, retrying"
+        sleep(2)
+        retry
       rescue => e
         logger.info "An error occured while connecting before timeout occured \"#{e.inspect}\", retrying"
         logger.debug "Full stacktrace of exception: \n  #{e.backtrace.join("\n  ")}"
