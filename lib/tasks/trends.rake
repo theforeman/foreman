@@ -19,9 +19,9 @@ namespace :trends do
       next if current_interval.nil?
 
       current_interval.interval_start = current_interval.created_at
-      while next_interval = TrendCounter.where(trend_id: trend_id)
-                                        .where("created_at > ? and count <> ?", current_interval.created_at, current_interval.count)
-                                        .order(:created_at).first
+      while (next_interval = TrendCounter.where(trend_id: trend_id)
+                                         .where("created_at > ? and count <> ?", current_interval.created_at, current_interval.count)
+                                         .order(:created_at).first)
         current_interval.interval_end = next_interval.created_at
         current_interval.save!
         current_interval = next_interval

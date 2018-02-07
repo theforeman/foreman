@@ -51,7 +51,7 @@ class SeedHelper
     def create_role(role_name, options, builtin, check_audit = true)
       description = options[:description]
 
-      if existing = Role.find_by_name(role_name)
+      if (existing = Role.find_by_name(role_name))
         if existing.description != description
           existing.update_attribute :description, description
         end
