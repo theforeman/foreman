@@ -198,10 +198,10 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     expected = <<-EXPECTED
 default linux
 label linux
-kernel boot/Redhat-6.1-x86_64-vmlinuz
-append initrd=boot/Redhat-6.1-x86_64-initrd.img ks=http://ahost.com:3000/unattended/kickstart ksdevice=bootif network kssendmac
+kernel boot/Redhat-6.1-x86_64-7a166fa29c0319903fb4a3d40be16c3785f27a96-vmlinuz
+append initrd=boot/Redhat-6.1-x86_64-7a166fa29c0319903fb4a3d40be16c3785f27a96-initrd.img ks=http://ahost.com:3000/unattended/kickstart ksdevice=bootif network kssendmac
 EXPECTED
-    assert_equal template, expected.strip
+    assert_equal expected.strip, template
     assert h.build
   end
 
@@ -341,10 +341,10 @@ EXPECTED
     expected = <<-EXPECTED
 DEFAULT linux
 LABEL linux
-KERNEL boot/OpenSuse-12.3-x86_64-linux
-APPEND initrd=boot/OpenSuse-12.3-x86_64-initrd ramdisk_size=65536 install=http://download.opensuse.org/distribution/12.3/repo/oss autoyast=http://ahost.com:3000/unattended/provision textmode=1
+KERNEL boot/OpenSuse-12.3-x86_64-eaf117e51697908ee13fe86912fa81ad16c21a6b-linux
+APPEND initrd=boot/OpenSuse-12.3-x86_64-eaf117e51697908ee13fe86912fa81ad16c21a6b-initrd ramdisk_size=65536 install=http://download.opensuse.org/distribution/12.3/repo/oss autoyast=http://ahost.com:3000/unattended/provision textmode=1
 EXPECTED
-    assert_equal template, expected.strip
+    assert_equal expected.strip, template
     assert h.build
   end
 end

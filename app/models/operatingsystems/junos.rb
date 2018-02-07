@@ -32,11 +32,11 @@ class Junos < Operatingsystem
     "ztp.cfg/" + host.mac.delete(':').upcase
   end
 
-  def kernel(arch)
+  def kernel(arch, _host)
     "memdisk"
   end
 
-  def initrd(arch)
+  def initrd(arch, _host)
     "none"
   end
 

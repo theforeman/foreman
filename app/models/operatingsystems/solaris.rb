@@ -6,7 +6,7 @@ class Solaris < Operatingsystem
   end
 
   # sets the prefix for the tftp files based on the OS
-  def pxe_prefix(architecture = nil)
+  def pxe_prefix(_architecture, _host)
     "boot/#{file_prefix}"
   end
 

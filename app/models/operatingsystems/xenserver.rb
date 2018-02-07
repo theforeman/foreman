@@ -14,8 +14,8 @@ class Xenserver < Operatingsystem
     ""
   end
 
-  def xen(arch)
-    bootfile(arch, :xen)
+  def xen(arch, host)
+    bootfile(arch,:xen, host)
   end
 
   def url_for_boot(file)
@@ -26,8 +26,8 @@ class Xenserver < Operatingsystem
     "XenServer"
   end
 
-  def bootfile(arch, type)
-    pxe_prefix(arch) + "-" + PXEFILES[type.to_sym].split("/")[-1]
+  def bootfile(arch, type, host)
+    pxe_prefix(arch, host) + "-" + PXEFILES[type.to_sym].split("/")[-1]
   end
 
   def boot_files_uri(medium, architecture, host = nil)

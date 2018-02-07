@@ -23,11 +23,11 @@ class Freebsd < Operatingsystem
     pxedir + "/" + PXEFILES[file]
   end
 
-  def kernel(arch)
+  def kernel(arch, _host)
     "memdisk"
   end
 
-  def initrd(arch)
+  def initrd(arch, _host)
     "boot/FreeBSD-#{arch}-#{release}-mfs.img"
   end
 

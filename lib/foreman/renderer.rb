@@ -374,12 +374,12 @@ module Foreman
 
     def xenserver_attributes
       @mediapath = @host.operatingsystem.mediumpath @host
-      @xen = @host.operatingsystem.xen @host.arch
+      @xen = @host.operatingsystem.xen(@host.arch, @host)
     end
 
     def pxe_config
-      @kernel = @host.operatingsystem.kernel @host.arch
-      @initrd = @host.operatingsystem.initrd @host.arch
+      @kernel = @host.operatingsystem.kernel(@host.arch, @host)
+      @initrd = @host.operatingsystem.initrd(@host.arch, @host)
     end
 
     def validate_subnet(subnet)

@@ -56,15 +56,15 @@ module Orchestration::TFTP
   def generate_pxe_template(kind)
     # this is the only place we generate a template not via a web request
     # therefore some workaround is required to "render" the template.
-    @kernel = host.operatingsystem.kernel(host.arch)
-    @initrd = host.operatingsystem.initrd(host.arch)
+    @kernel = host.operatingsystem.kernel(host.arch, host)
+    @initrd = host.operatingsystem.initrd(host.arch, host)
     if host.operatingsystem.respond_to?(:mediumpath)
       @mediapath = host.operatingsystem.mediumpath(host)
     end
 
     # Xen requires additional boot files.
     if host.operatingsystem.respond_to?(:xen)
-      @xen = host.operatingsystem.xen(host.arch)
+      @xen = host.operatingsystem.xen(host.arch, host)
     end
 
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.

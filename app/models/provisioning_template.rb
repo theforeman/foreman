@@ -210,8 +210,8 @@ class ProvisioningTemplate < Template
           combos << {
             :hostgroup => hostgroup,
             :template => template,
-            :kernel => hostgroup.operatingsystem.kernel(hostgroup.architecture),
-            :initrd => hostgroup.operatingsystem.initrd(hostgroup.architecture),
+            :kernel => hostgroup.operatingsystem.kernel(hostgroup.architecture, nil),
+            :initrd => hostgroup.operatingsystem.initrd(hostgroup.architecture, nil),
             :pxe_type => hostgroup.operatingsystem.pxe_type
           }
         end

@@ -27,11 +27,11 @@ class NXOS < Operatingsystem
     "poap.cfg/" + host.mac.delete(':').upcase
   end
 
-  def kernel(arch)
+  def kernel(arch, _host)
     "none"
   end
 
-  def initrd(arch)
+  def initrd(arch, _host)
     "none"
   end
 
