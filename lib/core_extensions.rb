@@ -31,10 +31,9 @@ class ActiveRecord::Base
 
   # ActiveRecord Callback class
   class EnsureNotUsedBy
-    attr_reader :klasses, :logger
+    attr_reader :klasses
     def initialize(*attribute)
       @klasses = attribute
-      @logger  = Rails.logger
     end
 
     def before_destroy(record)
@@ -54,7 +53,7 @@ class ActiveRecord::Base
         end
       end
       if record.errors.present?
-        logger.error "You may not destroy #{record.to_label} as it is in use!"
+        Rails.logger.error "You may not destroy #{record.to_label} as it is in use!"
         throw :abort
       end
     end

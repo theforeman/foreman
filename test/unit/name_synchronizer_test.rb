@@ -37,8 +37,8 @@ class NameSynchronizerName < ActiveSupport::TestCase
     test "#sync_name synchronizes name based on interface" do
       refute_equal @host.name, @host.primary_interface.shortname
       @hsync.sync_name
-      assert_equal @host.name, @host.primary_interface.shortname
-      assert @host.name.blank?
+      assert_nil @host.name
+      assert_nil @host.primary_interface.shortname
     end
   end
 
