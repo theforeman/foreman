@@ -16,7 +16,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
     within "li[data-name='Host Configuration Status']" do
       click_link(text)
     end
-    assert_current_path hosts_path, :only_path => true
+    assert_current_path hosts_path
     assert_match(/search=/, current_url)
   end
 
