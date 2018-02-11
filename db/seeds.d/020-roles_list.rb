@@ -8,7 +8,7 @@ class RolesList
                            :description => 'Role granting all available permissions. With this role, user is able to do everything that admin can except for changing settings.' },
         Role::ORG_ADMIN => { :permissions => base_manage_permissions + view_permissions,
                              :description => 'Role granting all permissions except for managing organizations. It can be used to delegate administration of specific organization to a user. In order to create such role, clone this role and assign desired organizations' },
-        'Edit partition tables' => { :permissions => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables], :description => 'Role granting permissions required for managin partition tables' },
+        'Edit partition tables' => { :permissions => [:view_ptables, :create_ptables, :edit_ptables, :destroy_ptables], :description => 'Role granting permissions required for managing partition tables' },
         'View hosts' => { :permissions => [:view_hosts],
                           :description => 'Role granting permission only to view hosts' },
         'Edit hosts' => { :permissions => [:view_hosts, :edit_hosts, :create_hosts, :destroy_hosts, :build_hosts],
@@ -29,7 +29,10 @@ class RolesList
                                              :view_params, :view_ssh_keys, :view_personal_access_tokens],
                             :description => 'Role granting mostly view permissions but also permissions required for managing hosts in the infrastructure. Users with this role can update puppet parameters, create and edit hosts, manage installation media, subnets, usergroups and edit existing users.' },
         'Bookmarks manager' => { :permissions => [:view_bookmarks, :create_bookmarks, :edit_bookmarks, :destroy_bookmarks],
-                                 :description => 'Role granting permissions for managing search bookmarks. Usually useful in combination with Viewer role. This role also grants the permission to update all public bookmarks.' }
+                                 :description => 'Role granting permissions for managing search bookmarks. Usually useful in combination with Viewer role. This role also grants the permission to update all public bookmarks.' },
+        'Auditor' => { :permissions => [:view_audit_logs],
+                       :description => 'Role granting permission to view only the Audit log and nothing else.'
+        }
       }
     end
 
