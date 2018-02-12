@@ -1849,6 +1849,13 @@ class HostTest < ActiveSupport::TestCase
       assert_equal ["Common", "Common/db"].sort, hosts.map { |h| h.hostgroup.title }.sort
     end
 
+    test "search hosts by non-existing parent hostgroup returns no results" do
+      FactoryBot.create(:host, :with_hostgroup)
+      refute_equal Host::Managed.count, 0
+      hosts = Host::Managed.search_for("parent_hostgroup = Nosuchgroup")
+      assert_equal hosts.count, 0
+    end
+
     test "can search hosts by numeric and string facts" do
       host = FactoryBot.create(:host, :hostname => 'num001.example.com')
       host.import_facts({:architecture => "x86_64", :interfaces => 'eth0', :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2',:memory_mb => "64498",:custom_fact => "find_me"})

@@ -134,8 +134,8 @@ module Hostext
         conditions = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
         # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
         hostgroup     = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).first
-        hostgroup_ids = hostgroup.subtree_ids
-        if hostgroup_ids.any?
+        if hostgroup.present?
+          hostgroup_ids = hostgroup.subtree_ids
           opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
         else
           opts = "hosts.id < 0"
