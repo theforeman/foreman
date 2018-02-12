@@ -102,7 +102,7 @@ module Api
           end
           param :build, :bool
           param :enabled, :bool, :desc => N_("Include this host within Foreman reporting")
-          param :provision_method, String, :desc => N_("The method used to provision the host. Possible provision_methods may be %{provision_methods}") # values are defined in apipie initializer
+          param :provision_method, Host::Managed.provision_methods.keys, :desc => N_("The method used to provision the host.")
           param :managed, :bool, :desc => N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
           param :progress_report_id, String, :desc => N_("UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks")
           param :comment, String, :desc => N_("Additional information about this host")
