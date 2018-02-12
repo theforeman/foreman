@@ -40,7 +40,11 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
     # Content Security Policy report forwarding endpoint - noop if not configured.
     # See https://github.com/twitter/secureheaders/issues/113
-    "content_security_policy/scribe"
+    "content_security_policy/scribe",
+
+    #table preferences. No special permissions comes with user
+    "api/v2/table_preferences/index", "api/v2/table_preferences/show", "api/v2/table_preferences/create",
+    "api/v2/table_preferences/update", "api/v2/table_preferences/destroy",
   ]
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]
