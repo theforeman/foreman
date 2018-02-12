@@ -264,6 +264,7 @@ Foreman::Application.routes.draw do
           resources :usergroups, :except => [:new, :edit]
           resources :ssh_keys, :only => [:index, :show, :create, :destroy]
           resources :personal_access_tokens, :only => [:index, :show, :create, :destroy]
+          resources :table_preferences, :only => [:index, :create, :destroy, :show, :update]
         end
       end
 
