@@ -57,4 +57,93 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     end
     assert Audit.last.audited_changes.to_s.bytesize > 66000
   end
+
+  context "with multiple taxonomies" do
+    def setup
+      @loc = taxonomies(:location1)
+      @org = taxonomies(:organization1)
+    end
+
+    test 'records on create' do
+      domain = FactoryBot.create(:domain, :with_auditing, :locations => [@loc], :organizations => [@org])
+      audit = domain.audits.last
+      assert_equal 'create', audit.action
+      assert_equal [@loc.id], audit.location_ids
+      assert_equal [@org.id], audit.organization_ids
+    end
+
+    test 'records on update' do
+      domain = FactoryBot.create(:domain, :with_auditing, :locations => [], :organizations => [])
+      audit = domain.audits.last
+      assert_equal 'create', audit.action
+      assert_equal [], audit.location_ids
+      assert_equal [], audit.organization_ids
+
+      domain.name = 'blablabla' #needed for a new audit to be generated
+      domain.locations = [@loc]
+      domain.organizations = [@org]
+      domain.save!
+      audit = domain.audits.last
+      assert_equal 'update', audit.action
+      assert_equal [@loc.id], audit.location_ids
+      assert_equal [@org.id], audit.organization_ids
+    end
+
+    test 'records on destroy' do
+      domain = FactoryBot.create(:domain, :with_auditing, :locations => [@loc], :organizations => [@org])
+      domain.destroy
+      audit = domain.audits.last
+      assert_equal 'destroy', audit.action
+      assert_equal [@loc.id], audit.location_ids
+      assert_equal [@org.id], audit.organization_ids
+    end
+  end
+
+  context "with single taxonomy" do
+    def setup
+      @loc = taxonomies(:location1)
+      @org = taxonomies(:organization1)
+    end
+
+    test 'records on create' do
+      host = FactoryBot.create(:host, :with_auditing, :location => @loc, :organization => @org)
+      audit = host.audits.last
+      assert_equal 'create', audit.action
+      assert_equal [@loc.id], audit.location_ids
+      assert_equal [@org.id], audit.organization_ids
+    end
+
+    test 'records on update' do
+      host = FactoryBot.create(:host, :with_auditing, :location => nil, :organization => nil)
+      audit = host.audits.last
+      assert_equal 'create', audit.action
+      assert_equal [], audit.location_ids
+      assert_equal [], audit.organization_ids
+
+      host.location_id = @loc.id
+      host.organization_id = @org.id
+      host.save!
+      audit = host.audits.last
+      assert_equal 'update', audit.action
+      assert_equal [@loc.id], audit.location_ids
+      assert_equal [@org.id], audit.organization_ids
+
+      host.location_id = taxonomies(:location2).id
+      host.organization_id = taxonomies(:organization2).id
+      host.save!
+      audit = host.audits.last
+      assert_equal 'update', audit.action
+      assert_equal [@loc.id, taxonomies(:location2).id], audit.location_ids
+      assert_equal [@org.id, taxonomies(:organization2).id], audit.organization_ids
+    end
+
+    test 'records on destroy' do
+      host = FactoryBot.create(:host, :with_auditing, :location => @loc, :organization => @org)
+      host.destroy
+      audit = host.audits.last
+      assert_equal 'destroy', audit.action
+      assert_equal [@loc.id], audit.location_ids
+      assert_equal [@org.id], audit.organization_ids
+    end
+  end
 end
