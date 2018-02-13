@@ -10,6 +10,19 @@ class CsvExporterTest < ActiveSupport::TestCase
     end
   end
 
+  # Can't do this at the moment, since nil limit doesn't play well with will_paginate
+  # test 'ignore pagination' do
+  #   FactoryBot.create_list(:domain, 10)
+  #   result = CsvExporter.export(Domain.all.paginate(per_page: 5, page:1), [:id])
+  #   assert result.count > 5
+  # end
+
+  test 'ignore limit' do
+    FactoryBot.create_list(:domain, 10)
+    result = CsvExporter.export(Domain.all.limit(5), [:id])
+    assert result.count > 5
+  end
+
   test 'handles empty results correctly' do
     result = CsvExporter.export(Host::Managed.where(:name => 'no-such-host'), [:id, :name])
     assert_equal "Id,Name\n", result.next
