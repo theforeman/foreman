@@ -3,9 +3,7 @@
 <!---
 
 Thank you for contributing to The Foreman, please read the
-[following guide](https://www.theforeman.org/contribute.html)
-
-- in short:
+[following guide](https://www.theforeman.org/contribute.html), in short:
 
 * [Create an issue](https://projects.theforeman.org/projects/foreman/issues)
 * Reference the issue via `Fixes #1234` or `Refs #1234` in the commit message
