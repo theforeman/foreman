@@ -9,13 +9,13 @@ class HostgroupsController < ApplicationController
   before_action :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
-    @hostgroups = resource_base_search_and_page
     respond_to do |format|
       format.html do
+        @hostgroups = resource_base_search_and_page
         render :index
       end
       format.csv do
-        csv_response(@hostgroups)
+        csv_response(resource_base_with_search)
       end
     end
   end

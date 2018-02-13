@@ -12,7 +12,7 @@ module CsvExporter
       csv << CSV.generate_line(header)
       cols = columns.map { |c| c.to_s.split('.').map(&:to_sym) }
       resources.uncached do
-        resources.reorder(nil).find_each do |obj|
+        resources.reorder(nil).limit(nil).find_each do |obj|
           csv << CSV.generate_line(cols.map { |c| c.inject(obj, :try) })
         end
       end
