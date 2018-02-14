@@ -8,9 +8,8 @@
 #
 module Foreman
   class SilencedLogger < SimpleDelegator
-    def initialize(obj)
-      ::Logging::LEVELS.each do |name, num|
-        instance_eval <<-EOT, __FILE__, __LINE__ + 1
+    ::Logging::LEVELS.each do |name, num|
+      class_eval <<-EOT, __FILE__, __LINE__ + 1
         def #{name.downcase}?
           #{num} >= local_level
         end
@@ -18,10 +17,7 @@ module Foreman
         def #{name.downcase}(*args)
           super(*args) if #{num} >= local_level
         end
-        EOT
-      end
-
-      super(obj)
+      EOT
     end
 
     def level_key
