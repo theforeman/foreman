@@ -81,4 +81,14 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 1, organization.reload.organization_parameters.count
   end
+
+  test "should not update invalid organization" do
+    put :update, params: { :id => Organization.first.id, :organization => { :name => "" } }
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create invalid organization" do
+    post :create, params: { :organization => { :name => "" } }
+    assert_response :unprocessable_entity
+  end
 end
