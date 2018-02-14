@@ -114,7 +114,7 @@ describe('updateTableTest', () => {
 <table></table>
 <form onsubmit="return tfm.tools.updateTable(this);" class="content-view-pf-pagination table-view-pf-pagination paginate" id="pagination" data-count="7" data-per-page="7">
   <div class="form-group">
-    <select name="per_page" id="per_page" label="per page" onchange="tfm.tools.updateTable(this)" class="pagination-pf-pagesize without_select2 per-page"><option selected="selected" value="5">5</option>
+    <select name="per_page" id="per_page" label="per page" onchange="tfm.tools.updateTable(this)" class="pagination-pf-pagesize per-page"><option selected="selected" value="5">5</option>
 <option value="10">10</option>
 <option value="15">15</option>
 <option value="20">20</option>

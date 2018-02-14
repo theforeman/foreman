@@ -67,10 +67,8 @@ module FormHelper
     end
     authorized = AssociationAuthorizer.authorized_associations(associations.reorder(nil), klass).all
 
-    # select2.js breaks the multiselects disabled items location
-    # http://projects.theforeman.org/issues/12028
     html_options["class"] ||= ""
-    html_options["class"] += " without_select2"
+    html_options["class"] += " jquery-multiselect"
     html_options["class"].strip!
 
     unauthorized = selected_ids.blank? ? [] : selected_ids - authorized.map(&:id)
@@ -125,6 +123,13 @@ module FormHelper
     html_options[:disabled] = true if disable_button_enabled
 
     html_options[:size] = 'col-md-10' if html_options[:multiple]
+
+    unless html_options[:disable_select2]
+      html_options["class"] ||= ""
+      html_options["class"] += " jquery-select2"
+      html_options["class"].strip!
+    end
+
     field(f, attr, html_options) do
       addClass html_options, "form-control"
 
@@ -172,6 +177,13 @@ module FormHelper
 
   def selectable_f(f, attr, array, select_options = {}, html_options = {})
     html_options[:size] = 'col-md-10' if html_options[:multiple]
+
+    unless html_options[:disable_select2]
+      html_options["class"] ||= ""
+      html_options["class"] += " jquery-select2"
+      html_options["class"].strip!
+    end
+
     field(f, attr, html_options) do
       addClass html_options, "form-control"
       f.select attr, array, select_options, html_options

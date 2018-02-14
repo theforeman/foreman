@@ -92,6 +92,6 @@ module SmartProxiesHelper
       [[_('All'), '']] +
       [[_('ERROR or FATAL'), 'ERROR|FATAL']] +
       [[_('WARNING'), 'WARN']] +
-      [[_('INFO or DEBUG'), 'INFO|DEBUG']]), :class => "datatable-filter", :id => "logs-filter"
+      [[_('INFO or DEBUG'), 'INFO|DEBUG']]), :class => "datatable-filter jquery-select2", :id => "logs-filter"
   end
 end

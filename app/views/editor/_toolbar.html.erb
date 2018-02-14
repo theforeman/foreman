@@ -39,11 +39,11 @@
 
     <ul class="nav navbar-nav navbar-right navbar-editor">
       <li>
-        <%= select_tag('mode', content_tag(:optgroup, options_for_select(['text', 'json', 'ruby', 'erb', 'sh', 'javascript', 'xml', 'yaml']), :label => _('Syntax Highlighting')), :class => 'form-control input-sm without_select2') %>
+        <%= select_tag('mode', content_tag(:optgroup, options_for_select(['text', 'json', 'ruby', 'erb', 'sh', 'javascript', 'xml', 'yaml']), :label => _('Syntax Highlighting')), :class => 'form-control input-sm') %>
       </li>
 
       <li>
-        <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm without_select2') %>
+        <%= select_tag('keybinding', content_tag(:optgroup, options_for_select([_('Default'), 'Vim', 'Emacs']), :label => _('Key Binding')), :class => 'form-control input-sm') %>
       </li>
     </ul>
 

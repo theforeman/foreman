@@ -38,7 +38,7 @@
             <div class='input-group'>
               <span class="input-group-addon">@</span>
               <%= select_tag "environment_filter", options_from_collection_for_select(@puppetclass.environments, "id", "name"),
-                             :prompt => _("All environments - (not filtered)"),:class=>'form-control', :onchange=>'filterByEnvironment(this)'%>
+                             :prompt => _("All environments - (not filtered)"),:class=>'form-control jquery-select2', :onchange=>'filterByEnvironment(this)'%>
             </div>
           </div>
           <div class='col-md-6 text-right'>

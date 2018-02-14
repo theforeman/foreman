@@ -24,7 +24,8 @@ images = possible_images(compute_resource, arch, os)
         :security_groups => vpc_sg_hash,
         :subnets => subnet_vpc_hash
       },
-      :class => 'security_group_ids without_select2'
+      :disable_select2 => true,
+      :class => 'security_group_ids'
     }
   %>
 <% end %>
