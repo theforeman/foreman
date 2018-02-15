@@ -10,7 +10,7 @@ group :development do
 
   gem 'pry'
 
-  gem 'bullet'
+  gem 'bullet', '>= 5.7.3'
   gem "parallel_tests"
   gem 'spring', '>= 1.0', '< 3'
   gem 'benchmark-ips'
