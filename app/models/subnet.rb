@@ -57,6 +57,12 @@ class Subnet < ApplicationRecord
     :api_description => N_('DNS Proxy ID to use within this subnet'),
     :description => N_('DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy')
 
+  belongs_to_proxy :template,
+    :feature => N_('Templates'),
+    :label => N_('Template Proxy'),
+    :api_description => N_('Template HTTP(S) Proxy ID to use within this subnet'),
+    :description => N_('Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks')
+
   has_many :hostgroups
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :subnet
   has_many :domains, :through => :subnet_domains
@@ -165,6 +171,14 @@ class Subnet < ApplicationRecord
 
   def dns_proxy(attrs = {})
     @dns_proxy ||= ProxyAPI::DNS.new({:url => dns.url}.merge(attrs)) if dns?
+  end
+
+  def template?
+    !!(template && template.url)
+  end
+
+  def template_proxy(attrs = {})
+    @template_proxy ||= ProxyAPI::Template.new({:url => template.url}.merge(attrs)) if template?
   end
 
   def ipam?

@@ -21,6 +21,10 @@ FactoryBot.define do
       association :dns, :factory => :dns_smart_proxy
     end
 
+    trait :template do
+      association :template, :factory => :template_smart_proxy
+    end
+
     trait :with_domains do
       transient do
         domains_count 2

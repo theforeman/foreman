@@ -28,7 +28,7 @@ class UnattendedControllerTest < ActionController::TestCase
                                     :organization => @org,
                                     :location => @loc
                                    )
-      @host_with_template_subnet = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :with_tftp_subnet, :build => true,
+      @host_with_template_subnet = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :with_templates_subnet, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
                                     :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
@@ -429,7 +429,7 @@ class UnattendedControllerTest < ActionController::TestCase
     @request.env["REMOTE_ADDR"] = '127.0.0.1'
     @host_with_template_subnet.create_token(:value => "aaaaae", :expires => Time.now.utc + 5.minutes)
     get :host_template, params: { :kind => 'provision', 'token' => @host_with_template_subnet.token.value }
-    assert_includes @response.body, "#{@host_with_template_subnet.subnet.tftp.url}/unattended/finish?token=aaaaae"
+    assert_includes @response.body, "#{@host_with_template_subnet.subnet.template.url}/unattended/finish?token=aaaaae"
   end
 
   # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?

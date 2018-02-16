@@ -39,7 +39,7 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
       template_server_from_proxy = 'https://someproxy:8443'
       proxy = FactoryBot.build(:template_smart_proxy)
       ProxyAPI::Template.any_instance.stubs(:template_url).returns(template_server_from_proxy)
-      host.subnet.tftp = proxy
+      host.subnet.template = proxy
       renderer.host = host
       assert_equal "#{template_server_from_proxy}/unattended/#{action}?token=#{token}", renderer.foreman_url(action)
     end
