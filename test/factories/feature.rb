@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :feature do
-    factory :template_feature do
+    factory :templates do
       name 'Templates'
     end
 

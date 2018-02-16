@@ -80,11 +80,10 @@ class RendererTest < ActiveSupport::TestCase
   end
 
   test "foreman_url should respect proxy with Templates feature" do
-    host = FactoryBot.build(:host, :with_separate_provision_interface)
-    template_proxy_url = SmartProxy.with_features("Templates").first.url
-    ProxyAPI::Template.any_instance.stubs(:template_url).returns(template_proxy_url)
+    host = FactoryBot.build(:host, :with_separate_provision_interface, :with_dhcp_orchestration)
+    host.provision_interface.subnet.template = FactoryBot.build(:template_smart_proxy)
     @renderer.host = host
-    assert_match(host.provision_interface.subnet.tftp.url, @renderer.foreman_url)
+    assert_match(host.provision_interface.subnet.template.url, @renderer.foreman_url)
   end
 
   test "foreman_url should run with @host as nil" do

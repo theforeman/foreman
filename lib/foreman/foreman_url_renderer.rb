@@ -16,12 +16,12 @@ module Foreman
 
       host = @host
       host = self if @host.nil? && self.class < Host::Base
-      proxy = host.try(:provision_interface).try(:subnet).try(:tftp)
+      template_proxy = host.try(:provision_interface).try(:subnet).try(:template_proxy)
 
-      # use template_url from the request if set, but otherwise look for a Template
+      # Use template_url from the request if set, but otherwise look for a Template
       # feature proxy, as PXE templates are written without an incoming request.
       url = @template_url
-      url ||= foreman_url_from_templates_proxy(proxy) if proxy.present? && proxy.has_feature?('Templates')
+      url ||= foreman_url_from_templates_proxy(template_proxy) if template_proxy.present?
 
       url_options = foreman_url_options_from_url(url) if url.present?
 

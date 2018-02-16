@@ -368,6 +368,10 @@ FactoryBot.define do
       subnet { FactoryBot.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]) }
     end
 
+    trait :with_templates_subnet do
+      subnet { FactoryBot.build(:subnet_ipv4, :template, locations: [location], organizations: [organization]) }
+    end
+
     trait :with_separate_provision_interface do
       interfaces do
         [FactoryBot.build(:nic_managed,
