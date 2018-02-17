@@ -316,8 +316,8 @@ module Foreman #:nodoc:
     end
 
     def pending_migrations
-      migration_paths = ActiveRecord::Migrator.migrations(
-        ActiveRecord::Migrator.migrations_paths)
+      migration_paths = ActiveRecord::MigrationContext.new(
+        ActiveRecord::Migrator.migrations_paths).migrations
       pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).
         pending_migrations
 

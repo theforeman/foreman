@@ -3,7 +3,7 @@ class ChangeLabelToTitle < ActiveRecord::Migration[4.2]
     rename_column :hostgroups, :label, :title
 
     # migration 20131120225132 is run by the katello plugin that adds 'label' to taxonomies
-    if ActiveRecord::Migrator.get_all_versions.include?(20131120225132)
+    if ActiveRecord::Base.connection.migration_context.get_all_versions.include?(20131120225132)
       add_column :taxonomies, :title, :string, :limit => 255
     else
       rename_column :taxonomies, :label, :title

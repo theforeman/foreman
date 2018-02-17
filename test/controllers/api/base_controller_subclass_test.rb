@@ -366,12 +366,12 @@ class Api::TestableControllerTest < ActionController::TestCase
   context 'migration checker' do
     teardown do
       Foreman::Controller::MigrationChecker.instance_variable_set('@needs_migration', nil)
-      ActiveRecord::Migrator.unstub(:needs_migration?)
+      ActiveRecord::MigrationContext.any_instance.unstub(:needs_migration?)
     end
 
     it 'fails when pending migrations' do
       Foreman::Controller::MigrationChecker.instance_variable_set('@needs_migration', nil)
-      ActiveRecord::Migrator.stubs(:needs_migration?).returns(true)
+      ActiveRecord::MigrationContext.any_instance.stubs(:needs_migration?).returns(true)
       get :index
       assert_response :service_unavailable
     end
