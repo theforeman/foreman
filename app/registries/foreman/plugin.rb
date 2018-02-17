@@ -325,8 +325,8 @@ module Foreman #:nodoc:
 
     def pending_migrations
       return true if Foreman.in_setup_db_rake?
-      migration_paths = ActiveRecord::Migrator.migrations(
-        ActiveRecord::Migrator.migrations_paths)
+      migration_paths = ActiveRecord::MigrationContext.new(
+        ActiveRecord::Migrator.migrations_paths).migrations
       pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).
         pending_migrations
 
