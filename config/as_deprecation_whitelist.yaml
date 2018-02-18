@@ -16,11 +16,6 @@
 - message: "#tables currently returns both tables and views. This behavior is deprecated
     and will be changed with Rails 5.1 to only return tables. Use #data_sources instead."
 
-# The old exception needs to be removed, once Rails removes it, the new one was already added
-- message: ActionDispatch::ParamsParser::ParseError is deprecated! Use ActionDispatch::Http::Parameters::ParseError
-    instead.
-  callstack: lib/middleware/catch_json_parse_errors.rb:9:in `rescue in call'
-
 - message: The behavior of `attribute_change` inside of after callbacks will be changing
     in the next version of Rails. The new return value will reflect the behavior of
     calling the method after `save` returned (e.g. the opposite of what it returns
