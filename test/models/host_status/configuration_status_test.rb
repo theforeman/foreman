@@ -115,4 +115,11 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     assert_equal '6 & 63', HostStatus::ConfigurationStatus.bit_mask('restarted')
     assert_equal '12 & 63', HostStatus::ConfigurationStatus.bit_mask('failed')
   end
+
+  test 'host search by status works' do
+    @status.save
+    assert_equal [@host], Host.search_for('status.applied = 0')
+    assert_equal [@host], Host.search_for('status.applied = false')
+    assert_equal [], Host.search_for('status.applied = 1')
+  end
 end
