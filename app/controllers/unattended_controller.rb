@@ -249,7 +249,7 @@ class UnattendedController < ApplicationController
     end
 
     begin
-      render :plain => unattended_render(@unsafe_template_content, @template_name)
+      render :inline => "<%= unattended_render(@unsafe_template_content, @template_name).html_safe %>"
     rescue => error
       msg = _("There was an error rendering the %s template: ") % (@template_name)
       Foreman::Logging.exception(msg, error)
