@@ -123,7 +123,7 @@ module BasicRestResponseTest
     model = @controller.controller_name.singularize
     case model
       when "trend"
-        :trend_os
+        :fact_trend
       when "subnet"
         :subnet_ipv4
       else
