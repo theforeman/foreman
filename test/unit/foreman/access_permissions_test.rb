@@ -44,7 +44,13 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
     # table preferences. No special permissions comes with user
     "api/v2/table_preferences/index", "api/v2/table_preferences/show", "api/v2/table_preferences/create",
-    "api/v2/table_preferences/update", "api/v2/table_preferences/destroy"
+    "api/v2/table_preferences/update", "api/v2/table_preferences/destroy",
+
+    # skip Active Storage controllers
+    # https://github.com/rails/rails/issues/31228
+    "active_storage/blobs/show", "active_storage/direct_uploads/create", "active_storage/disk/show",
+    "active_storage/disk/update", "active_storage/previews/show", "active_storage/representations/show",
+    "active_storage/variants/show"
   ]
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]
