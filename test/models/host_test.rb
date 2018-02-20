@@ -678,45 +678,42 @@ class HostTest < ActiveSupport::TestCase
     refute_equal original_status, new_status
   end
 
-  test "assign a host to a location" do
-    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    location = Location.create :name => "New York"
+  context 'host assigned to location and organization' do
+    setup do
+      @host = FactoryBot.create(:host, :managed => false)
+      @location = Location.create :name => "New York"
+      @organization = Organization.create :name => "Hosting client 1"
+    end
 
-    host.location_id = location.id
-    assert host.save!
-  end
+    test "assign a host to a location" do
+      @host.location_id = @location.id
+      assert @host.save!
+    end
 
-  test "update a host's location" do
-    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    original_location = Location.create :name => "New York"
+    test "update a host's location" do
+      original_location = @location
 
-    host.location_id = original_location.id
-    assert host.save!
-    assert host.location_id = original_location.id
+      @host.location_id = original_location.id
+      assert @host.save!
+      assert_equal @host.location_id, original_location.id
 
-    new_location = Location.create :name => "Los Angeles"
-    host.location_id = new_location.id
-    assert host.save!
-    assert host.location_id = new_location.id
-  end
+      new_location = Location.create :name => "Los Angeles"
+      @host.location_id = new_location.id
+      assert @host.save!
+      assert_equal @host.location_id, new_location.id
+    end
 
-  test "assign a host to an organization" do
-    host = Host.create :name => "host 1", :mac => "aabbecddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    organization = Organization.create :name => "Hosting client 1"
+    test "assign a host to an organization" do
+      @host.organization_id = @organization.id
+      assert @host.save!
+    end
 
-    host.organization_id = organization.id
-    assert host.save!
-  end
+    test "assign a host to both a location and an organization" do
+      @host.location_id = @location.id
+      @host.organization_id = @organization.id
 
-  test "assign a host to both a location and an organization" do
-    host = Host.create :name => "host 1", :mac => "aabbccddeeff", :ip => "5.5.5.5", :hostgroup => hostgroups(:common), :managed => false
-    location = Location.create :name => "Tel Aviv"
-    organization = Organization.create :name => "Hosting client 1"
-
-    host.location_id = location.id
-    host.organization_id = organization.id
-
-    assert host.save!
+      assert @host.save!
+    end
   end
 
   test 'host can be searched in multiple taxonomies' do
