@@ -36,7 +36,11 @@ This template accepts the following parameters:
   section_end = os_major <= 5 ? '' : '%end'
 %>
 install
-<%= @mediapath %><%= proxy_string %>
+<% if host_param('live_img') %>
+  live_img --url=<%= host_param('live_img') %> <% if proxy_string %> --proxy=<%= proxy_string %><% end %>
+<% else %>
+  <%= @mediapath %><%= proxy_string %>
+<% end %>
 lang <%= host_param('lang') || 'en_US.UTF-8' %>
 selinux --<%= host_param('selinux-mode') || host_param('selinux') || 'enforcing' %>
 keyboard <%= host_param('keyboard') || 'us' %>
