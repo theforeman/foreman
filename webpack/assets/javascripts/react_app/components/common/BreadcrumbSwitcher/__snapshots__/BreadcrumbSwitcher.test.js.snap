@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render resource switcher displays this is some text 1`] = `
+<ButtonToolbar
+  bsClass="btn-toolbar"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Popover
+        bsClass="popover"
+        id="popover-contained"
+        placement="right"
+      >
+        <ListGroup
+          bsClass="list-group"
+          className="scrollable-list"
+        >
+          <ListGroupItem
+            bsClass="list-group-item"
+            className="no-border"
+            href="#"
+            listItem={false}
+            onClick={undefined}
+          >
+            <EllipisWithTooltip>
+              Host 1
+            </EllipisWithTooltip>
+          </ListGroupItem>
+          <ListGroupItem
+            bsClass="list-group-item"
+            className="no-border"
+            href="#"
+            listItem={false}
+            onClick={undefined}
+          >
+            <EllipisWithTooltip>
+              Host 2
+            </EllipisWithTooltip>
+          </ListGroupItem>
+          <ListGroupItem
+            bsClass="list-group-item"
+            className="no-border"
+            href="#"
+            listItem={false}
+            onClick={undefined}
+          >
+            <EllipisWithTooltip>
+              Host 3 with a very long name
+            </EllipisWithTooltip>
+          </ListGroupItem>
+          <ListGroupItem
+            bsClass="list-group-item"
+            className="no-border"
+            href={undefined}
+            listItem={false}
+            onClick={[Function]}
+          >
+            <EllipisWithTooltip>
+              Host 4
+            </EllipisWithTooltip>
+          </ListGroupItem>
+          <ListGroupItem
+            bsClass="list-group-item"
+            className="no-border"
+            href="#"
+            listItem={false}
+            onClick={undefined}
+          >
+            <EllipisWithTooltip>
+              Host 5
+            </EllipisWithTooltip>
+          </ListGroupItem>
+        </ListGroup>
+      </Popover>
+    }
+    placement="bottom"
+    rootClose={true}
+    trigger="click"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+    >
+      <Icon
+        name="exchange"
+        type="fa"
+      />
+    </Button>
+  </OverlayTrigger>
+</ButtonToolbar>
+`;
