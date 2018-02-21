@@ -53,9 +53,9 @@ class Hostgroup < ApplicationRecord
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
-  scoped_search :relation => :hosts, :on => :name, :complete_value => :true, :rename => "host"
+  scoped_search :relation => :hosts, :on => :name, :complete_value => :true, :rename => "host", :only_explicit => true
   scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ ']
-  scoped_search :relation => :environment, :on => :name, :complete_value => :true, :rename => :environment
+  scoped_search :relation => :environment, :on => :name, :complete_value => :true, :rename => :environment, :only_explicit => true
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   # for legacy purposes, keep search on :label
   scoped_search :on => :title, :complete_value => true, :rename => :label
@@ -71,15 +71,15 @@ class Hostgroup < ApplicationRecord
   end
 
   if SETTINGS[:unattended]
-    scoped_search :relation => :architecture,     :on => :name,        :complete_value => true,  :rename => :architecture
-    scoped_search :relation => :operatingsystem,  :on => :name,        :complete_value => true,  :rename => :os
-    scoped_search :relation => :operatingsystem,  :on => :description, :complete_value => true,  :rename => :os_description
-    scoped_search :relation => :operatingsystem,  :on => :title,       :complete_value => true,  :rename => :os_title
-    scoped_search :relation => :operatingsystem,  :on => :major,       :complete_value => true,  :rename => :os_major
-    scoped_search :relation => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor
+    scoped_search :relation => :architecture,     :on => :name,        :complete_value => true,  :rename => :architecture, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :name,        :complete_value => true,  :rename => :os, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :description, :complete_value => true,  :rename => :os_description, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :title,       :complete_value => true,  :rename => :os_title, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :major,       :complete_value => true,  :rename => :os_major, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor, :only_explicit => true
     scoped_search :relation => :operatingsystem,  :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-    scoped_search :relation => :medium,           :on => :name,        :complete_value => true, :rename => "medium"
-    scoped_search :relation => :provisioning_templates, :on => :name,  :complete_value => true, :rename => "template"
+    scoped_search :relation => :medium,           :on => :name,        :complete_value => true, :rename => "medium", :only_explicit => true
+    scoped_search :relation => :provisioning_templates, :on => :name,  :complete_value => true, :rename => "template", :only_explicit => true
   end
 
   # returns reports for hosts in the User's filter set
