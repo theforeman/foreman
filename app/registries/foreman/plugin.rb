@@ -258,7 +258,11 @@ module Foreman #:nodoc:
     def role(name, permissions)
       default_roles[name] = permissions
       return false if pending_migrations || Rails.env.test? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
-      Plugin::RoleLock.new(self.id).register_role name, permissions, rbac_registry
+      Role.without_auditing do
+        Filter.without_auditing do
+          Plugin::RoleLock.new(self.id).register_role name, permissions, rbac_registry
+        end
+      end
     rescue PermissionMissingException => e
       Rails.logger.warn(_("Could not create role '%{name}': %{message}") % {:name => name, :message => e.message})
       return false if Foreman.in_rake?
@@ -270,21 +274,33 @@ module Foreman #:nodoc:
     # Usage:
     # add_resource_permissions_to_default_roles ['MyPlugin::FirstResource', 'MyPlugin::SecondResource'], :except => [:skip_this_permission]
     def add_resource_permissions_to_default_roles(resources, opts = {})
-      Plugin::RbacSupport.new.add_resource_permissions_to_default_roles resources, opts
+      Role.without_auditing do
+        Filter.without_auditing do
+          Plugin::RbacSupport.new.add_resource_permissions_to_default_roles resources, opts
+        end
+      end
     end
 
     # Add plugin permissions to Manager and Viewer roles. Use this for permissions without resource_type or to handle special cases
     # Usage:
     # add_permissions_to_default_roles 'Role Name' => [:first_permission, :second_permission]
     def add_permissions_to_default_roles(args)
-      Plugin::RbacSupport.new.add_permissions_to_default_roles args
+      Role.without_auditing do
+        Filter.without_auditing do
+          Plugin::RbacSupport.new.add_permissions_to_default_roles args
+        end
+      end
     end
 
     # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
     # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
     def add_all_permissions_to_default_roles
       return if Foreman.in_rake?('db:migrate') || !permission_table_exists?
-      Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
+      Role.without_auditing do
+        Filter.without_auditing do
+          Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
+        end
+      end
     end
 
     def pending_migrations
