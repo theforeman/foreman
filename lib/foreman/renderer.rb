@@ -8,22 +8,66 @@ module Foreman
     class HostUnknown < RenderingError; end
     class HostParamUndefined < RenderingError; end
     class HostENCParamUndefined < RenderingError; end
+    class FilteredGlobalSettingAccessed < RenderingError; end
 
     include ::Foreman::ForemanUrlRenderer
 
-    ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
-                                  :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup,
-                                  :pxe_kernel_options, :save_to_file, :subnet_param, :subnet_has_param? ]
-    ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
-                               :media_path, :match,
-                               :host_param_true?, :host_param_false?,
-                               :host_param, :host_param!, :host_puppet_classes, :host_enc ]
+    ALLOWED_GENERIC_HELPERS ||= [
+      :foreman_url,
+      :snippet, :snippets,
+      :snippet_if_exists,
+      :indent,
+      :foreman_server_fqdn, :foreman_server_url,
+      :log_debug, :log_info, :log_warn, :log_error, :log_fatal,
+      :template_name,
+      :dns_lookup,
+      :pxe_kernel_options,
+      :save_to_file,
+      :subnet_param, :subnet_has_param?,
+      :global_setting
+    ]
+    ALLOWED_HOST_HELPERS ||= [
+      :grub_pass,
+      :ks_console,
+      :root_pass,
+      :media_path,
+      :match,
+      :host_param_true?, :host_param_false?,
+      :host_param, :host_param!,
+      :host_puppet_classes,
+      :host_enc,
+    ]
 
     ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
 
     ALLOWED_VARIABLES ||= [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                             :repos, :dynamic, :kernel, :initrd, :xen,
                             :preseed_server, :preseed_path, :provisioning_type, :template_name ]
+
+    ALLOWED_GLOBAL_SETTINGS ||= [
+      :administrator,
+      :proxy_request_timeout,
+      :http_proxy,
+      :http_proxy_except_list,
+      :email_reply_address,
+      :safemode_render,
+      :manage_puppetca,
+      :ignored_interface_identifiers,
+      :remote_addr,
+      :token_duration,
+      :dns_conflict_timeout,
+      :name_generator_type,
+      :default_pxe_item_global,
+      :default_pxe_item_local,
+      :puppet_interval,
+      :outofsync_interval,
+      :default_puppet_environment,
+      :modulepath,
+      :puppetrun,
+      :puppet_server,
+      :legacy_puppet_hostname,
+      :update_ip_from_built_request,
+    ]
 
     def template_logger
       @template_logger ||= Foreman::Logging.logger('templates')
@@ -230,6 +274,12 @@ module Foreman
       # and is needed to direct the host to the correct url. without it, we increase
       # latency by requesting the correct url directly from the proxy.
       @template_url = params['url']
+    end
+
+    def global_setting(name, blank_default = nil)
+      raise(FilteredGlobalSettingAccessed, _('Global setting "%s" is not accessible in safe-mode') % name) if Setting[:safemode_render] && !ALLOWED_GLOBAL_SETTINGS.include?(name.to_sym)
+      setting = Setting.find_by_name(name.to_sym)
+      (setting.settings_type != "boolean" && setting.value.blank?) ? blank_default : setting.value
     end
 
     private
