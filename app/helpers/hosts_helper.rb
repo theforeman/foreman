@@ -51,11 +51,12 @@ module HostsHelper
   def host_taxonomy_select(f, taxonomy)
     taxonomy_id = "#{taxonomy.to_s.downcase}_id"
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
+    label = @host.new_record? ? _(taxonomy.to_s) : _("#{taxonomy} can be set on the All Hosts page")
     select_opts = { :include_blank => !@host.managed? || @host.send(taxonomy_id).nil?,
                     :selected => selected_taxonomy }
     html_opts = { :disabled => !@host.new_record?,
                   :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
-                  :label => _(taxonomy.to_s),
+                  :label => label,
                   :'data-host-id' => @host.id,
                   :'data-url' => process_taxonomy_hosts_path,
                   :help_inline => :indicator,
