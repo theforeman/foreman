@@ -1,163 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Notification dropdown Renders links provided 1`] = `
-<NotificationDropdown
+<DropdownKebab
+  className=""
+  componentClass={[Function]}
   id={6}
-  links={
-    Array [
-      Object {
-        "href": "https://theforeman.org/blog",
-        "title": "Link to blog",
-      },
-    ]
-  }
-  onClickedLink={[Function]}
+  pullRight={true}
+  toggleStyle="link"
 >
-  <DropdownKebab
-    componentClass={[Function]}
-    id={6}
-    pullRight={true}
-    toggleStyle="link"
+  <MenuItem
+    bsClass="dropdown"
+    disabled={false}
+    divider={false}
+    header={false}
+    id="notification-kebab-0"
+    key="0"
+    onClick={[Function]}
   >
-    <Uncontrolled(Dropdown)
-      className="dropdown-kebab-pf"
-      componentClass={[Function]}
-      id={6}
-      pullRight={true}
-    >
-      <Dropdown
-        bsClass="dropdown"
-        className="dropdown-kebab-pf"
-        componentClass={[Function]}
-        id={6}
-        onToggle={[Function]}
-        pullRight={true}
-      >
-        <ButtonGroup
-          block={false}
-          bsClass="btn-group"
-          className="dropdown-kebab-pf dropdown"
-          justified={false}
-          vertical={false}
-        >
-          <div
-            className="dropdown-kebab-pf dropdown btn-group"
-          >
-            <DropdownToggle
-              bsClass="dropdown-toggle"
-              bsRole="toggle"
-              bsStyle="link"
-              id={6}
-              key=".0"
-              noCaret={true}
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              open={false}
-              useAnchor={false}
-            >
-              <Button
-                active={false}
-                aria-expanded={false}
-                aria-haspopup={true}
-                block={false}
-                bsClass="btn"
-                bsStyle="link"
-                className="dropdown-toggle"
-                disabled={false}
-                id={6}
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                role="button"
-              >
-                <button
-                  aria-expanded={false}
-                  aria-haspopup={true}
-                  className="dropdown-toggle btn btn-link"
-                  disabled={false}
-                  id={6}
-                  onClick={[Function]}
-                  onKeyDown={[Function]}
-                  role="button"
-                  type="button"
-                >
-                  <Icon
-                    name="ellipsis-v"
-                    type="fa"
-                  >
-                    <FontAwesome
-                      name="ellipsis-v"
-                    >
-                      <span
-                        aria-hidden={true}
-                        className="fa fa-ellipsis-v"
-                      />
-                    </FontAwesome>
-                  </Icon>
-                </button>
-              </Button>
-            </DropdownToggle>
-            <DropdownMenu
-              bsClass="dropdown-menu"
-              bsRole="menu"
-              key=".1"
-              labelledBy={6}
-              onClose={[Function]}
-              onSelect={[Function]}
-              pullRight={true}
-            >
-              <RootCloseWrapper
-                disabled={true}
-                event="click"
-                onRootClose={[Function]}
-              >
-                <ul
-                  aria-labelledby={6}
-                  className="dropdown-menu dropdown-menu-right"
-                  role="menu"
-                >
-                  <MenuItem
-                    bsClass="dropdown"
-                    disabled={false}
-                    divider={false}
-                    header={false}
-                    id="notification-kebab-0"
-                    key=".$0"
-                    onClick={[Function]}
-                    onKeyDown={[Function]}
-                    onSelect={[Function]}
-                  >
-                    <li
-                      className=""
-                      role="presentation"
-                    >
-                      <SafeAnchor
-                        componentClass="a"
-                        id="notification-kebab-0"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="menuitem"
-                        tabIndex="-1"
-                      >
-                        <a
-                          href="#"
-                          id="notification-kebab-0"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                          role="menuitem"
-                          tabIndex="-1"
-                        >
-                          Link to blog
-                        </a>
-                      </SafeAnchor>
-                    </li>
-                  </MenuItem>
-                </ul>
-              </RootCloseWrapper>
-            </DropdownMenu>
-          </div>
-        </ButtonGroup>
-      </Dropdown>
-    </Uncontrolled(Dropdown)>
-  </DropdownKebab>
-</NotificationDropdown>
+    Link to blog
+  </MenuItem>
+</DropdownKebab>
 `;
