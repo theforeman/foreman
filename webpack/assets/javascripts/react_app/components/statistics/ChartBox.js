@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
 import { Modal } from 'patternfly-react';
+import { isEqual } from 'lodash';
 import helpers from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
-import {
-  navigateToSearch,
-} from '../../../services/ChartService';
+import { navigateToSearch } from '../../../services/ChartService';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
 
@@ -15,6 +14,12 @@ class ChartBox extends React.Component {
     super(props);
     this.state = { showModal: false };
     helpers.bindMethods(this, ['onClick', 'closeModal', 'openModal']);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !isEqual(this.props.chart, nextProps.chart) ||
+      !isEqual(this.state, nextState)
+    );
   }
 
   onClick() {
@@ -37,13 +42,15 @@ class ChartBox extends React.Component {
     const Chart = components[type];
     const dataFiltered = chart.data && chart.data.filter(arr => arr[1] !== 0);
     const hasChartData = dataFiltered && dataFiltered.length > 0;
-    const tooltip = hasChartData ? {
-      onClick: this.onClick,
-      title: this.props.tip,
-      'data-toggle': 'tooltip',
-      'data-placement': 'top',
-      className: 'pointer',
-    } : {};
+    const tooltip = hasChartData
+      ? {
+        onClick: this.onClick,
+        title: this.props.tip,
+        'data-toggle': 'tooltip',
+        'data-placement': 'top',
+        className: 'pointer',
+      }
+      : {};
     const handleChartClick =
       chart.search && chart.search.match(/=$/)
         ? null
@@ -63,20 +70,25 @@ class ChartBox extends React.Component {
     );
     const boxHeader = <h3 {...tooltip}>{this.props.title}</h3>;
 
-    return <Panel className="chart-box" header={boxHeader} key={this.props.chart.id}>
-        <Loader status={this.props.status}>
-          {[panelChart, error]}
-        </Loader>
-        {this.state.showModal &&
-        <Modal show={this.state.showModal} enforceFocus onHide={this.closeModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>{this.props.title}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Chart {...chartProps} config="large" />;
-          </Modal.Body>
-        </Modal>}
-      </Panel>;
+    return (
+      <Panel className="chart-box" header={boxHeader} key={this.props.chart.id}>
+        <Loader status={this.props.status}>{[panelChart, error]}</Loader>
+        {this.state.showModal && (
+          <Modal
+            show={this.state.showModal}
+            enforceFocus
+            onHide={this.closeModal}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{this.props.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Chart {...chartProps} config="large" />;
+            </Modal.Body>
+          </Modal>
+        )}
+      </Panel>
+    );
   }
 }
 

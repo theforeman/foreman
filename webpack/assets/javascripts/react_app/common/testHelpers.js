@@ -21,3 +21,12 @@ export default {
     };
   },
 };
+
+// a helper method for invoking a class method (for unit tests)
+// obj = a class
+// func = a tested function
+// objThis = an object's this
+// arg = function args
+
+export const classFunctionUnitTest = (obj, func, objThis, args) =>
+  obj.prototype[func].apply(objThis, args);
