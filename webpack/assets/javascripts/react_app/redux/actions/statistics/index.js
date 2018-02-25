@@ -14,4 +14,3 @@ export const getStatisticsData = charts => dispatch =>
     url: chart.url,
     item: chart,
   })));
-

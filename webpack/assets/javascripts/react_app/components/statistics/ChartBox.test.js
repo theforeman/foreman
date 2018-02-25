@@ -2,6 +2,7 @@ import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
 import React from 'react';
 import ChartBox from './ChartBox';
+import { classFunctionUnitTest } from '../../common/testHelpers';
 
 jest.unmock('../../../services/ChartService');
 jest.unmock('./ChartBox');
@@ -47,5 +48,35 @@ describe('ChartBox', () => {
     expect(box.find('Modal').length).toBe(0);
     box.setState({ showModal: true });
     expect(box.find('Modal').length).toBe(1);
+  });
+  it('shouldComponentUpdate should be called', () => {
+    const shouldUpdateSpy = jest.spyOn(ChartBox.prototype, 'shouldComponentUpdate');
+    const box = shallow(<ChartBox
+      id='4'
+      type="donut"
+      chart={{ id: '4', data: undefined }}
+      status="PENDING"
+    />);
+    box.setProps({ status: 'PENDING' });
+    expect(shouldUpdateSpy).toHaveBeenCalled();
+  });
+  it('shouldComponentUpdate', () => {
+    const objThis = {
+      state: { showModal: false },
+      props: { chart: { data: [1, 2] } },
+    };
+
+    expect(classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
+      { chart: { data: [1, 2] } },
+      { showModal: false },
+    ])).toBe(false);
+    expect(classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
+      { chart: { data: [1, 1] } },
+      { showModal: false },
+    ])).toBe(true);
+    expect(classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
+      { chart: { data: [1, 2] } },
+      { showModal: true },
+    ])).toBe(true);
   });
 });
