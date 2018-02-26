@@ -65,10 +65,11 @@ Plugins are tools to extend and modify the functionality of Foreman. They are im
 
 The [plugins page](https://theforeman.org/plugins/) lists all available plugins and has more information about how to install and develop them.
 
-# How to contribute?
+# How to contribute? [![Open Source Helpers](https://www.codetriage.com/theforeman/foreman/badges/users.svg)](https://www.codetriage.com/theforeman/foreman)
 Generally, follow the [Foreman guidelines](https://theforeman.org/contribute.html). For code-related contributions, fork this project and send a pull request with all changes. Some things to keep in mind:
 * [Follow the rules](https://theforeman.org/contribute.html#SubmitPatches) about commit message style and create a Redmine issue. Doing this right will help reviewers to get your contribution merged faster.
 * We have a [development handbook](https://theforeman.org/handbook.html) to help developers understand how Foreman developers code.
+* In addition to contributing code, you can help to triage issues. One easy way to get started is to [subscribe to theforeman/foreman on CodeTriage](https://www.codetriage.com/theforeman/foreman).
 * [Rubocop](https://github.com/bbatsov/rubocop) will analyze your code, you can run it locally with `rake rubocop`.
 * All of our pull requests run the full test suite in our [Jenkins CI system](http://ci.theforeman.org/). Please include tests in your pull requests for any additions or changes in functionality
 
