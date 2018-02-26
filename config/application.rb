@@ -61,6 +61,7 @@ require_dependency File.expand_path('../../lib/foreman/http_proxy', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/tagged_logging', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/session_safe_logging', __FILE__)
+require_dependency File.expand_path('../../lib/middleware/telemetry', __FILE__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
@@ -158,6 +159,15 @@ module Foreman
       nil
     end
 
+    if SETTINGS[:telemetry].try(:fetch, :prometheus).try(:fetch, :enabled)
+      begin
+        require 'prometheus/middleware/exporter'
+        config.middleware.use Prometheus::Middleware::Exporter
+      rescue LoadError
+        # bundler group 'telemetry' was disabled
+      end
+    end
+
     # Enable the asset pipeline
     config.assets.enabled = true
 
@@ -176,6 +186,9 @@ module Foreman
 
     # Add apidoc hash in headers for smarter caching
     config.middleware.use Apipie::Middleware::ChecksumInHeaders
+
+    # Add telemetry
+    config.middleware.use Middleware::Telemetry
 
     # New config option to opt out of params "deep munging" that was used to address security vulnerability CVE-2013-0155.
     config.action_dispatch.perform_deep_munge = false
