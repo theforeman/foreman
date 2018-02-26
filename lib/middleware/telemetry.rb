@@ -1,5 +1,5 @@
-module Foreman
-  class TelemetryRack
+module Middleware
+  class Telemetry
     def initialize(app)
       @app = app
     end
