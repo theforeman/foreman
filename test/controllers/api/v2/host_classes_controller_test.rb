@@ -26,4 +26,9 @@ class Api::V2::HostClassesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "should not add a puppetclass that does not exist to a host" do
+    post :create, params: { :host_id => @host.to_param, :puppetclass_id => "invalid_id" }
+    assert_response :not_found
+  end
 end
