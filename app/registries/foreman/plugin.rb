@@ -21,6 +21,7 @@ require_dependency 'foreman/plugin/rbac_support'
 require_dependency 'foreman/plugin/report_scanner_registry'
 require_dependency 'foreman/plugin/report_origin_registry'
 require_dependency 'foreman/plugin/medium_providers_registry'
+require_dependency 'foreman/plugin/fact_importer_registry'
 
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
@@ -39,6 +40,7 @@ module Foreman #:nodoc:
   class Plugin
     @registered_plugins = {}
     @tests_to_skip = {}
+    @fact_importer_registry = Plugin::FactImporterRegistry.new
     @report_scanner_registry = Plugin::ReportScannerRegistry.new
     @report_origin_registry = Plugin::ReportOriginRegistry.new
     @medium_providers = Plugin::MediumProvidersRegistry.new
@@ -48,7 +50,7 @@ module Foreman #:nodoc:
       attr_reader   :registered_plugins
       attr_accessor :tests_to_skip, :report_scanner_registry,
         :report_origin_registry, :medium_providers,
-        :graphql_types_registry
+        :graphql_types_registry, :fact_importer_registry
       private :new
 
       def def_field(*names)
@@ -151,6 +153,10 @@ module Foreman #:nodoc:
       @renderer_variable_loaders = []
       @ping_extension = nil
       @status_extension = nil
+    end
+
+    def fact_importer_registry
+      self.class.fact_importer_registry
     end
 
     def report_scanner_registry

@@ -142,10 +142,10 @@ module Host
       facts[:domain] = facts[:domain].downcase if facts[:domain].present?
 
       type = facts.delete(:_type)
-      importer = FactImporter.importer_for(type).new(self, facts)
+      facts_importer = Foreman::Plugin.fact_importer_registry.get(type).new(self, facts)
       telemetry_observe_histogram(:importer_facts_import_duration, facts.size, type: type)
       telemetry_duration_histogram(:importer_facts_import_duration, 1000, type: type) do
-        importer.import!
+        facts_importer.import!
       end
 
       save(:validate => false)

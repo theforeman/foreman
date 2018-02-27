@@ -5,21 +5,23 @@ class FactImporter
   attr_reader :counters
 
   def self.importer_for(type)
-    importers[type.to_s]
+    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#get or Foreman::Plugin.importer_registry.get methods instead of FactImporter.importer_for')
+    Foreman::Plugin.fact_importer_registry.get(type)
   end
 
   def self.importers
-    @importers ||= {}.with_indifferent_access
+    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#importers or Foreman::Plugin.importer_registry.importers method instead of FactImporter.importers')
+    Foreman::Plugin.fact_importer_registry.importers
   end
 
   def self.register_fact_importer(key, klass, default = false)
-    importers.default = klass if default
-
-    importers[key.to_sym] = klass
+    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#register or Foreman::Plugin.importer_registry.register method instead of FactImporter.register_fact_importer')
+    Foreman::Plugin.fact_importer_registry.register(key, klass, default)
   end
 
   def self.fact_features
-    importers.map { |_type, importer| importer.authorized_smart_proxy_features }.compact.flatten.uniq
+    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#fact_features or Foreman::Plugin.importer_registry.fact_features method instead of FactImporter.fact_features')
+    Foreman::Plugin.fact_importer_registry.fact_features
   end
 
   def self.support_background
