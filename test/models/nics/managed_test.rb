@@ -71,6 +71,19 @@ class ManagedTest < ActiveSupport::TestCase
     assert_equal new_domain, nic.domain
   end
 
+  test "#normalize_hostname does not update domain if domain does not match current taxonomies" do
+    domain = FactoryBot.create(:domain)
+    nic = setup_primary_nic_with_name(" Host.#{domain.name}", :domain => domain)
+    nic.save!
+    Location.current = taxonomies(:location2)
+    User.as('one') do
+      nic = Nic::Managed.find(nic.id) #load object to prevent cached association
+      nic.send(:normalize_name)
+      Location.current = nil
+      assert_equal domain.id, nic.domain_id
+    end
+  end
+
   test "#inheriting_mac respects interface mac" do
     h = FactoryBot.build(:host, :managed)
     h.primary_interface.mac = '11:22:33:44:55:66'
