@@ -12,7 +12,7 @@ Pagelets::Manager.with_key "hosts/_form" do |mgr|
     :priority => 100
 end
 
-FactImporter.register_fact_importer :puppet, PuppetFactImporter, true
+Foreman::Plugin.fact_importer_registry.register(:puppet, PuppetFactImporter, true)
 FactParser.register_fact_parser :puppet, PuppetFactParser, true
 
 # The module should be included after the class is constructed,
