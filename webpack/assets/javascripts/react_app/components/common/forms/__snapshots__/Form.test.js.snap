@@ -6,6 +6,7 @@ exports[`Form should accept base error title 1`] = `
 >
   <Alert
     className="base in fade"
+    onDismiss={null}
     type="danger"
   >
     <AlertBody
@@ -31,6 +32,7 @@ exports[`Form should display multiple base errors 1`] = `
 >
   <Alert
     className="base in fade"
+    onDismiss={null}
     type="danger"
   >
     <AlertBody
@@ -61,6 +63,7 @@ exports[`Form should display one base error 1`] = `
 >
   <Alert
     className="base in fade"
+    onDismiss={null}
     type="danger"
   >
     <AlertBody
