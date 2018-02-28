@@ -142,7 +142,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
 
   def test_trusted_puppet_master_hosts_by_ip_match
     @request.env['REMOTE_ADDR'] = '127.0.0.2'
-    Setting[:trusted_puppetmaster_hosts] = ['127.0.0.2']
+    Setting[:trusted_hosts] = ['127.0.0.2']
     assert @controller.send(:auth_smart_proxy)
   end
 

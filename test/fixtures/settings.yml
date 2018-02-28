@@ -152,7 +152,7 @@ attribute31:
   default: "SSL_CLIENT_CERT"
   description: "Environment variable containing a client SSL certificate"
 attribute32:
-  name: trusted_puppetmaster_hosts
+  name: trusted_hosts
   category: Setting::Auth
   default: []
   description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"

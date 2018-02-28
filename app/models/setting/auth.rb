@@ -14,7 +14,7 @@ class Setting::Auth < Setting
       self.set('oauth_map_users', N_("Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."), true, N_('OAuth map users')),
       self.set('restrict_registered_smart_proxies', N_('Only known Smart Proxies may access features that use Smart Proxy authentication'), true, N_('Restrict registered smart proxies')),
       self.set('require_ssl_smart_proxies', N_('Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)'), true, N_('Require SSL for smart proxies')),
-      self.set('trusted_puppetmaster_hosts', N_('Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output'), [], N_('Trusted puppetmaster hosts')),
+      self.set('trusted_hosts', N_('Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output'), [], N_('Trusted hosts')),
       self.set('ssl_certificate', N_("SSL Certificate path that Foreman would use to communicate with its proxies"), ssl_cert, N_('SSL certificate')),
       self.set('ssl_ca_file', N_("SSL CA file that Foreman will use to communicate with its proxies"), ssl_ca_file, N_('SSL CA file')),
       self.set('ssl_priv_key', N_("SSL Private Key file that Foreman will use to communicate with its proxies"), ssl_priv_key, N_('SSL private key')),

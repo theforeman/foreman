@@ -891,7 +891,7 @@ class HostsControllerTest < ActionController::TestCase
     User.current = nil
     Setting[:restrict_registered_smart_proxies] = true
     Setting[:require_ssl_smart_proxies] = true
-    Setting[:trusted_puppetmaster_hosts] = ['else.where']
+    Setting[:trusted_hosts] = ['else.where']
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
@@ -905,7 +905,7 @@ class HostsControllerTest < ActionController::TestCase
     User.current = nil
     Setting[:restrict_registered_smart_proxies] = true
     Setting[:require_ssl_smart_proxies] = true
-    Setting[:trusted_puppetmaster_hosts] = ['foreman.example']
+    Setting[:trusted_hosts] = ['foreman.example']
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = 'CN=foreman.example,OU=PUPPET,O=FOREMAN,ST=North Carolina,C=US'
@@ -919,7 +919,7 @@ class HostsControllerTest < ActionController::TestCase
     User.current = nil
     Setting[:restrict_registered_smart_proxies] = true
     Setting[:require_ssl_smart_proxies] = true
-    Setting[:trusted_puppetmaster_hosts] = ['foreman.linux.lab.local']
+    Setting[:trusted_hosts] = ['foreman.linux.lab.local']
 
     @request.env['HTTPS'] = 'on'
     @request.env['SSL_CLIENT_S_DN'] = '/C=US/ST=NC/L=City/O=Example/OU=IT/CN=foreman.linux.lab.local/emailAddress=user@example.com'

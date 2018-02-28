@@ -10,9 +10,9 @@ class Setting < ApplicationRecord
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category full_name }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend outofsync_interval }
-  BLANK_ATTRS = %w{ host_owner trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text
+  BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text
                     smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list}
-  ARRAY_HOSTNAMES = %w{ trusted_puppetmaster_hosts }
+  ARRAY_HOSTNAMES = %w{ trusted_hosts }
   URI_ATTRS = %w{ foreman_url unattended_url }
   URI_BLANK_ATTRS = %w{ login_delegation_logout_url }
   IP_ATTRS = %w{ libvirt_default_console_address }
@@ -92,6 +92,7 @@ class Setting < ApplicationRecord
 
   def self.[](name)
     name = name.to_s
+    name = deprecation_check(name)
     cache_value = Setting.cache.read(name)
     if cache_value.nil?
       value = where(:name => name).first.try(:value)
@@ -104,9 +105,19 @@ class Setting < ApplicationRecord
 
   def self.[]=(name, value)
     name   = name.to_s
+    name   = deprecation_check(name)
     record = where(:name => name).first_or_create
     record.value = value
     record.save!
+  end
+
+  def self.deprecation_check(name)
+    return name unless name == 'trusted_puppetmaster_hosts'
+    Foreman::Deprecation.deprecation_warning(
+      '1.19',
+      'trusted_puppetmaster_hosts is deprecated, please use trusted_hosts'
+    )
+    'trusted_hosts'
   end
 
   def value=(v)
