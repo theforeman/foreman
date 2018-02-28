@@ -31,12 +31,6 @@ exports[`renders DonutChart render donut chart 1`] = `
           1,
         ],
       ],
-      "names": Object {
-        "Centos 7": "Centos 7",
-        "Debian 8": "Debian 8",
-        "Fedora 21": "Fedora 21",
-        "Ubuntu 14.04": "Ubuntu 14.04",
-      },
     }
   }
   donut={
@@ -81,6 +75,7 @@ exports[`renders DonutChart render donut chart 1`] = `
     }
   }
   type="donut"
+  unloadBeforeLoad={false}
 />
 `;
 

@@ -6,59 +6,41 @@ const sizeConfig = {
   large: donutLargeChartConfig,
 };
 
-function getChartConfig({
-  data, config, onclick, id = uuidV1(),
-}) {
-  if (!data) {
-    return {};
+const doDataExist = (data) => {
+  if (!data || data.length === 0) {
+    return false;
   }
+  return data.reduce((curr, next) => {
+    const value = next[1];
+
+    return value !== 0 ? true : curr;
+  }, false);
+};
+const getColors = data =>
+  data.reduce((curr, next) => {
+    const key = next[0];
+    const color = next[2];
+
+    return color ? { ...curr, [key]: color } : curr;
+  }, {});
+
+const getChartConfig = ({
+  data, config, onclick, id = uuidV1(),
+}) => {
   const chartConfigForType = sizeConfig[config];
-  const nonEmptyData = data.filter((d) => {
-    const amount = d[1];
-
-    return amount !== 0;
-  });
-
-  const chartData = nonEmptyData.reduce(
-    (curr, next) => {
-      const key = next[0];
-      const color = next[2];
-
-      const names = {
-        ...curr.names,
-        [key]: key,
-      };
-
-      const retVal = {
-        ...curr,
-        names,
-      };
-
-      if (color) {
-        return Object.assign({}, retVal, {
-          colors: {
-            ...(retVal.colors || {}),
-            [key]: color,
-          },
-        });
-      }
-
-      return retVal;
-    },
-    {
-      ...chartConfigForType.data,
-      columns: nonEmptyData,
-      names: {},
-      onclick,
-    },
-  );
+  const colors = getColors(data);
+  const colorsSize = Object.keys(colors).length;
 
   return {
     ...chartConfigForType,
-    data: chartData,
     id,
+    data: {
+      columns: doDataExist(data) ? data : [],
+      onclick,
+      ...(colorsSize > 0 ? { colors } : {}),
+    },
   };
-}
+};
 
 export const getDonutChartConfig = ({
   data, config, onclick, id = uuidV1(),
@@ -69,7 +51,6 @@ export const getDonutChartConfig = ({
     onclick,
     id,
   });
-
 
 export const navigateToSearch = (url, data) => {
   let val = data.id;

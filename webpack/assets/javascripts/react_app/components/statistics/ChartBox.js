@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
-import Immutable from 'seamless-immutable';
 import { Modal } from 'patternfly-react';
 import helpers from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
@@ -50,7 +49,7 @@ class ChartBox extends React.Component {
         ? null
         : navigateToSearch.bind(null, chart.search);
     const chartProps = {
-      data: chart.data ? Immutable.asMutable(chart.data) : null,
+      data: chart.data ? chart.data : undefined,
       key: `${this.props.chart.id}-chart`,
       onclick: handleChartClick,
     };
