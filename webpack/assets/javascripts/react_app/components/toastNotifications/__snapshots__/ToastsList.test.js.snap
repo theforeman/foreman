@@ -50,11 +50,18 @@ exports[`ToastList should render with emptyState 1`] = `
       }
     }
   >
-    <ToastNotificationList>
+    <ToastNotificationList
+      className=""
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+    >
       <div
         className="toast-notifications-list-pf"
+        onFocus={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
       />
     </ToastNotificationList>
   </ToastsList>
@@ -134,13 +141,21 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
       }
     }
   >
-    <ToastNotificationList>
+    <ToastNotificationList
+      className=""
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+    >
       <div
         className="toast-notifications-list-pf"
+        onFocus={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
       >
         <TimedToastNotification
+          className=""
           key=".$1"
           onDismiss={[Function]}
           paused={false}
@@ -148,6 +163,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
           type="success"
         >
           <ToastNotification
+            className=""
             onDismiss={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -166,47 +182,43 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
                 onMouseLeave={[Function]}
               >
                 <Button
+                  active={false}
                   aria-hidden="true"
+                  block={false}
                   bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  <Button
-                    active={false}
+                  <button
                     aria-hidden="true"
-                    block={false}
-                    bsClass="close"
-                    bsStyle="default"
+                    className="close close-default"
                     disabled={false}
                     onClick={[Function]}
+                    type="button"
                   >
-                    <button
-                      aria-hidden="true"
-                      className="close close-default"
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
+                    <Icon
+                      name="close"
+                      type="pf"
                     >
-                      <Icon
+                      <PatternflyIcon
+                        className=""
                         name="close"
-                        type="pf"
                       >
-                        <PatternflyIcon
-                          name="close"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="pficon pficon-close"
-                          />
-                        </PatternflyIcon>
-                      </Icon>
-                    </button>
-                  </Button>
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
                 </Button>
                 <Icon
                   name="ok"
                   type="pf"
                 >
                   <PatternflyIcon
+                    className=""
                     name="ok"
                   >
                     <span
@@ -233,6 +245,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
           </ToastNotification>
         </TimedToastNotification>
         <TimedToastNotification
+          className=""
           key=".$2"
           onDismiss={[Function]}
           paused={false}
@@ -240,6 +253,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
           type="warning"
         >
           <ToastNotification
+            className=""
             onDismiss={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -258,47 +272,43 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
                 onMouseLeave={[Function]}
               >
                 <Button
+                  active={false}
                   aria-hidden="true"
+                  block={false}
                   bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  <Button
-                    active={false}
+                  <button
                     aria-hidden="true"
-                    block={false}
-                    bsClass="close"
-                    bsStyle="default"
+                    className="close close-default"
                     disabled={false}
                     onClick={[Function]}
+                    type="button"
                   >
-                    <button
-                      aria-hidden="true"
-                      className="close close-default"
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
+                    <Icon
+                      name="close"
+                      type="pf"
                     >
-                      <Icon
+                      <PatternflyIcon
+                        className=""
                         name="close"
-                        type="pf"
                       >
-                        <PatternflyIcon
-                          name="close"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="pficon pficon-close"
-                          />
-                        </PatternflyIcon>
-                      </Icon>
-                    </button>
-                  </Button>
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
                 </Button>
                 <Icon
                   name="warning-triangle-o"
                   type="pf"
                 >
                   <PatternflyIcon
+                    className=""
                     name="warning-triangle-o"
                   >
                     <span
@@ -344,6 +354,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
           </ToastNotification>
         </TimedToastNotification>
         <TimedToastNotification
+          className=""
           key=".$3"
           onDismiss={[Function]}
           paused={false}
@@ -351,6 +362,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
           type="error"
         >
           <ToastNotification
+            className=""
             onDismiss={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -369,47 +381,43 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
                 onMouseLeave={[Function]}
               >
                 <Button
+                  active={false}
                   aria-hidden="true"
+                  block={false}
                   bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  <Button
-                    active={false}
+                  <button
                     aria-hidden="true"
-                    block={false}
-                    bsClass="close"
-                    bsStyle="default"
+                    className="close close-default"
                     disabled={false}
                     onClick={[Function]}
+                    type="button"
                   >
-                    <button
-                      aria-hidden="true"
-                      className="close close-default"
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
+                    <Icon
+                      name="close"
+                      type="pf"
                     >
-                      <Icon
+                      <PatternflyIcon
+                        className=""
                         name="close"
-                        type="pf"
                       >
-                        <PatternflyIcon
-                          name="close"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="pficon pficon-close"
-                          />
-                        </PatternflyIcon>
-                      </Icon>
-                    </button>
-                  </Button>
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
                 </Button>
                 <Icon
                   name="error-circle-o"
                   type="pf"
                 >
                   <PatternflyIcon
+                    className=""
                     name="error-circle-o"
                   >
                     <span
@@ -517,13 +525,21 @@ exports[`ToastList should render with singleMessageState 1`] = `
       }
     }
   >
-    <ToastNotificationList>
+    <ToastNotificationList
+      className=""
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+    >
       <div
         className="toast-notifications-list-pf"
+        onFocus={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
       >
         <TimedToastNotification
+          className=""
           key=".$1"
           onDismiss={[Function]}
           paused={false}
@@ -531,6 +547,7 @@ exports[`ToastList should render with singleMessageState 1`] = `
           type="success"
         >
           <ToastNotification
+            className=""
             onDismiss={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -549,47 +566,43 @@ exports[`ToastList should render with singleMessageState 1`] = `
                 onMouseLeave={[Function]}
               >
                 <Button
+                  active={false}
                   aria-hidden="true"
+                  block={false}
                   bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  <Button
-                    active={false}
+                  <button
                     aria-hidden="true"
-                    block={false}
-                    bsClass="close"
-                    bsStyle="default"
+                    className="close close-default"
                     disabled={false}
                     onClick={[Function]}
+                    type="button"
                   >
-                    <button
-                      aria-hidden="true"
-                      className="close close-default"
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
+                    <Icon
+                      name="close"
+                      type="pf"
                     >
-                      <Icon
+                      <PatternflyIcon
+                        className=""
                         name="close"
-                        type="pf"
                       >
-                        <PatternflyIcon
-                          name="close"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="pficon pficon-close"
-                          />
-                        </PatternflyIcon>
-                      </Icon>
-                    </button>
-                  </Button>
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
                 </Button>
                 <Icon
                   name="ok"
                   type="pf"
                 >
                   <PatternflyIcon
+                    className=""
                     name="ok"
                   >
                     <span
@@ -682,13 +695,21 @@ exports[`ToastList should render with singleMessageWithLinkState 1`] = `
       }
     }
   >
-    <ToastNotificationList>
+    <ToastNotificationList
+      className=""
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+    >
       <div
         className="toast-notifications-list-pf"
+        onFocus={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
+        onMouseOver={[Function]}
       >
         <TimedToastNotification
+          className=""
           key=".$1"
           onDismiss={[Function]}
           paused={false}
@@ -696,6 +717,7 @@ exports[`ToastList should render with singleMessageWithLinkState 1`] = `
           type="success"
         >
           <ToastNotification
+            className=""
             onDismiss={[Function]}
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
@@ -714,47 +736,43 @@ exports[`ToastList should render with singleMessageWithLinkState 1`] = `
                 onMouseLeave={[Function]}
               >
                 <Button
+                  active={false}
                   aria-hidden="true"
+                  block={false}
                   bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
                   onClick={[Function]}
                 >
-                  <Button
-                    active={false}
+                  <button
                     aria-hidden="true"
-                    block={false}
-                    bsClass="close"
-                    bsStyle="default"
+                    className="close close-default"
                     disabled={false}
                     onClick={[Function]}
+                    type="button"
                   >
-                    <button
-                      aria-hidden="true"
-                      className="close close-default"
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
+                    <Icon
+                      name="close"
+                      type="pf"
                     >
-                      <Icon
+                      <PatternflyIcon
+                        className=""
                         name="close"
-                        type="pf"
                       >
-                        <PatternflyIcon
-                          name="close"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="pficon pficon-close"
-                          />
-                        </PatternflyIcon>
-                      </Icon>
-                    </button>
-                  </Button>
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
                 </Button>
                 <Icon
                   name="ok"
                   type="pf"
                 >
                   <PatternflyIcon
+                    className=""
                     name="ok"
                   >
                     <span
