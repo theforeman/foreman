@@ -17,7 +17,6 @@ exports[`ChartBox error 1`] = `
     status="PENDING"
   >
     <DonutChart
-      data={null}
       key="2-chart"
       onclick={[Function]}
     />
@@ -47,7 +46,6 @@ exports[`ChartBox pending 1`] = `
     status="PENDING"
   >
     <DonutChart
-      data={null}
       key="2-chart"
       onclick={[Function]}
     />

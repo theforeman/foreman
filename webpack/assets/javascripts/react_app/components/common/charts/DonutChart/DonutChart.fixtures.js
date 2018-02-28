@@ -9,12 +9,6 @@ export const mockStoryData = {
   },
   data: {
     columns: [['Fedora 21', 3], ['Ubuntu 14.04', 4], ['Centos 7', 2], ['Debian 8', 1]],
-    names: {
-      'Fedora 21': 'Fedora 21',
-      'Ubuntu 14.04': 'Ubuntu 14.04',
-      'Centos 7': 'Centos 7',
-      'Debian 8': 'Debian 8',
-    },
   },
   tooltip: {
     show: true,
@@ -45,3 +39,17 @@ export const emptyData = {
   },
   noDataMsg: 'No data available',
 };
+
+export const zeroedData = [
+  ['Fedora 21', 0],
+  ['Ubuntu 14.04', 0],
+  ['Centos 7', 0],
+  ['Debian 8', 0],
+];
+
+export const mixedData = [
+  ['Fedora 21', 3],
+  ['Ubuntu 14.04', 2],
+  ['Centos 7', 0],
+  ['Debian 8', 0],
+];
