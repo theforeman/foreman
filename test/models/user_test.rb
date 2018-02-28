@@ -1082,4 +1082,49 @@ class UserTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context 'audit user roles' do
+    setup do
+      @user = FactoryBot.create(:user, :with_auditing)
+      @role = FactoryBot.create(:role)
+    end
+
+    test 'should audit when a role is assigned to a user' do
+      @user.role_ids = [@role.id]
+      @user.save
+
+      recent_audit = @user.audits.last
+      audited_changes = recent_audit.audited_changes[:roles]
+
+      assert audited_changes, 'No audits found for user-roles'
+      assert_empty audited_changes.first
+      assert_equal @role.name, audited_changes.last
+    end
+
+    test 'should audit when a role is removed/de-assigned from a user' do
+      @user.role_ids = [@role.id]
+      @user.save
+      @user.role_ids = []
+      @user.save
+
+      recent_audit = @user.audits.last
+      audited_changes = recent_audit.audited_changes[:roles]
+
+      assert audited_changes, 'No audits found for user-roles'
+      assert_equal [@role.name, Role.default].join(', '), audited_changes.first
+      assert_empty audited_changes.last
+    end
+
+    test 'audit of other properties are not impacted' do
+      @user.firstname = 'Bob'
+      @user.description = 'The auditor'
+      @user.save
+
+      recent_audit = @user.audits.last
+
+      assert recent_audit.audited_changes[:firstname]
+      assert recent_audit.audited_changes[:description]
+      assert_nil recent_audit.audited_changes[:roles]
+    end
+  end
 end

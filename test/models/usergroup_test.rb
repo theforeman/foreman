@@ -268,4 +268,88 @@ class UsergroupTest < ActiveSupport::TestCase
     groups = Usergroup.search_for("role = #{role.name}")
     assert (groups.include? usergroup)
   end
+
+  context 'audit usergroup' do
+    setup do
+      @usergroup = FactoryBot.create(:usergroup, :with_auditing)
+    end
+
+    context 'child usergroups' do
+      setup do
+        @child_usergroup = FactoryBot.create(:usergroup)
+        @usergroup.usergroup_ids = [@child_usergroup.id]
+        @usergroup.save
+      end
+
+      test 'should audit when a child-usergroup is assigned to a parent-usergroup' do
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:usergroups]
+        assert audited_changes, 'No audits found for usergroups'
+        assert_empty audited_changes.first
+        assert_equal @child_usergroup.name, audited_changes.last
+      end
+
+      test 'should audit when a child-usergroup is removed/de-assigned from a parent-usergroup' do
+        @usergroup.usergroup_ids = []
+        @usergroup.save
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:usergroups]
+        assert audited_changes, 'No audits found for usergroups'
+        assert_equal @child_usergroup.name, audited_changes.first
+        assert_empty audited_changes.last
+      end
+    end
+
+    context 'roles' do
+      setup do
+        @role = FactoryBot.create(:role)
+        @usergroup.role_ids = [@role.id]
+        @usergroup.save
+      end
+
+      test 'should audit when a role is assigned to a usergroup' do
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:roles]
+        assert audited_changes, 'No audits found for user-roles'
+        assert_empty audited_changes.first
+        assert_equal @role.name, audited_changes.last
+      end
+
+      test 'should audit when a role is removed/de-assigned from a usergroup' do
+        @usergroup.role_ids = []
+        @usergroup.save
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:roles]
+        assert audited_changes, 'No audits found for usergroup-roles'
+        assert_equal @role.name, audited_changes.first
+        assert_empty audited_changes.last
+      end
+    end
+
+    context 'users' do
+      setup do
+        @user = users :one #FactoryBot.create(:user)
+        @usergroup.user_ids = [@user.id]
+        @usergroup.save
+      end
+
+      test 'should audit when a user is assigned to a usergroup' do
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:users]
+        assert audited_changes, 'No audits found for users'
+        assert_empty audited_changes.first
+        assert_equal @user.name, audited_changes.last
+      end
+
+      test 'should audit when a user is removed/de-assigned from a usergroup' do
+        @usergroup.user_ids = []
+        @usergroup.save
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:users]
+        assert audited_changes, 'No audits found for users'
+        assert_equal @user.name, audited_changes.first
+        assert_empty audited_changes.last
+      end
+    end
+  end
 end

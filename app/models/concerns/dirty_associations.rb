@@ -57,6 +57,10 @@ module DirtyAssociations
               value
             end
           end
+
+          define_method "#{association_ids}_change" do
+            [self.send("#{association_ids}_was"), self.send(association_ids)]
+          end
         end
       end
       self.prepend(extension)
