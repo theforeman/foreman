@@ -301,14 +301,14 @@ class SettingTest < ActiveSupport::TestCase
     check_zero_value_not_allowed_for 'puppet_interval'
   end
 
-  test "trusted_puppetmaster_hosts can be empty array" do
-    check_empty_array_allowed_for "trusted_puppetmaster_hosts"
+  test "trusted_hosts can be empty array" do
+    check_empty_array_allowed_for "trusted_hosts"
   end
 
-  test "trusted_puppetmaster_hosts must have comma separated values" do
-    attrs = { :name => "trusted_puppetmaster_hosts", :default => [], :description => "desc" }
+  test "trusted_hosts must have comma separated values" do
+    attrs = { :name => "trusted_hosts", :default => [], :description => "desc" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("trusted_puppetmaster_hosts")
+    setting = Setting.find_by_name("trusted_hosts")
     setting.value = ["localhost", "remotehost"]
     assert setting.save
     setting.value = ["localhost remotehost"]
