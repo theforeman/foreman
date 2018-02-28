@@ -53,7 +53,7 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
           Sprockets::ScssProcessor.new(
             importer: Sass::Rails::SassImporter,
             sass_config: app.config.sass)
-        env.js_compressor = :uglifier
+        env.js_compressor = Uglifier.new(harmony: true)
         env.css_compressor = :sass
         env.cache = nil
 
