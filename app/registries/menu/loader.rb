@@ -25,10 +25,10 @@ module Menu
         menu.sub_menu :administer_menu,  :caption => N_('Administer'), :icon => 'fa fa-cog' do
           menu.item :locations,          :caption => N_('Locations') if SETTINGS[:locations_enabled]
           menu.item :organizations,      :caption => N_('Organizations') if SETTINGS[:organizations_enabled]
-          menu.item :auth_source_ldaps,  :caption => N_('LDAP Authentication')
-          menu.item :users,              :caption => N_('Users')
-          menu.item :usergroups,         :caption => N_('User Groups')
-          menu.item :roles,              :caption => N_('Roles')
+          menu.item :auth_sources,     :caption => N_('Authentication sources')
+          menu.item :users,            :caption => N_('Users')
+          menu.item :usergroups,       :caption => N_('User Groups')
+          menu.item :roles,            :caption => N_('Roles')
           menu.item :bookmarks,          :caption => N_('Bookmarks')
           menu.item :settings,           :caption => N_('Settings')
           menu.item :about_index,        :caption => N_('About')
