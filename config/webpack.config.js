@@ -3,6 +3,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
@@ -132,8 +133,10 @@ var config = {
 if (production) {
   config.plugins.push(
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: { warnings: false },
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: { warnings: false },
+      },
       sourceMap: false
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
