@@ -22,7 +22,9 @@ namespace :pkg do
     File.exist?('pkg') || FileUtils.mkdir('pkg')
     ref = ENV['ref'] || 'HEAD'
     version = `git show #{ref}:VERSION`.chomp.chomp('-develop')
+    filename = "pkg/foreman-#{version}.tar.bz2"
     raise "can't find VERSION from #{ref}" if version.empty?
-    `git archive --prefix=foreman-#{version}/ #{ref} | bzip2 -9 > pkg/foreman-#{version}.tar.bz2`
+    `git archive --prefix=foreman-#{version}/ #{ref} | bzip2 -9 > #{filename}`
+    puts filename
   end
 end
