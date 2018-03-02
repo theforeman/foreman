@@ -113,3 +113,35 @@ class IdentifierDottableValidator < Apipie::Validator::BaseValidator
         "dot(.), space, underscore(_), hypen(-) with no leading or trailing space."
   end
 end
+
+# Allows to enumerate multiple types that a parameter accepts.
+class AnyTypeValidator < Apipie::Validator::BaseValidator
+  def initialize(param_description, argument, options = {})
+    super(param_description)
+    @allowed_types = options[:of] || []
+  end
+
+  def validate(value)
+    # The validator has rather informative value, skip the real validation
+    true
+  end
+
+  def self.build(param_description, argument, options, block)
+    if argument == :any_type
+      self.new(param_description, argument, options)
+    end
+  end
+
+  def description
+    if @allowed_types.empty?
+      'Can be any type'
+    else
+      types = @allowed_types.map { |type| "<code>#{type}</code>" }.join(', ')
+      'Must be one of types: %s' % types
+    end
+  end
+
+  def expected_type
+    :any_type
+  end
+end

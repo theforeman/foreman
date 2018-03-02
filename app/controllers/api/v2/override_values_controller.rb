@@ -37,7 +37,7 @@ module Api
       def_param_group :override_value do
         param :override_value, Hash, :required => true, :action_aware => true do
           param :match, String, :required => true, :desc => N_("Override match")
-          param :value, LookupKey::KEY_TYPES, :required => false, :desc => N_("Override value, required if omit is false")
+          param :value, :any_type, :of => LookupKey::KEY_TYPES, :required => false, :desc => N_("Override value, required if omit is false")
           param :use_puppet_default, :bool, :required => false, :desc => N_("Deprecated, please use omit")
           param :omit, :bool, :required => false, :desc => N_("Foreman will not send this parameter in classification output, replaces use_puppet_default")
         end

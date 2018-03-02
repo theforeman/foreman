@@ -37,7 +37,7 @@ module Api
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
       param :environment_id, String, :desc => N_("ID of environment")
-      param :include, Array, :in => ['parameters', 'all_parameters'], :desc => N_("Array of extra information types to include")
+      param :include, ['parameters', 'all_parameters'], :desc => N_("Array of extra information types to include")
       param_group :search_and_pagination, ::Api::V2::BaseController
       add_scoped_search_description_for(Host)
 
