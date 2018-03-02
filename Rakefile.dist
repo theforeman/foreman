@@ -1,4 +1,5 @@
 require 'rake/clean'
+load File.join(__dir__, 'lib', 'tasks', 'pkg.rake')
 
 BUILDDIR = File.expand_path(ENV['BUILDDIR'] || '_build')
 PREFIX = ENV['PREFIX'] || '/usr/local'
