@@ -52,6 +52,11 @@ class UnattendedControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get a kickstart if MAC is provided" do
+    get :host_template, params: { :kind => 'provision', :mac => @rh_host.mac }
+    assert_response :success
+  end
+
   test "should get a kickstart even if we are behind a loadbalancer" do
     @request.env["HTTP_X_FORWARDED_FOR"] = @rh_host.ip
     @request.env["REMOTE_ADDR"] = "127.0.0.1"
