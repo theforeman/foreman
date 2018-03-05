@@ -15,8 +15,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
   MAY_SKIP_REQUIRE_LOGIN = [
     "users/login", "users/logout", "users/extlogin", "users/extlogout", "home/status", "notices/destroy",
 
-    # unattended built action is not for interactive use
-    "unattended/built",
+    # unattended built and failed action is not for interactive use
+    "unattended/built", "unattended/failed",
 
     # puppetmaster interfaces
     "fact_values/create", "reports/create",

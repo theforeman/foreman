@@ -6,10 +6,13 @@ class UnattendedController < ApplicationController
   # We dont require any of these methods for provisioning
   skip_before_action :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize, :unless => Proc.new { preview? }
 
+  # Allow HTTP POST methods without CSRF
+  skip_before_action :verify_authenticity_token
+
   before_action :set_admin_user, :unless => Proc.new { preview? }
   # We want to find out our requesting host
-  before_action :get_host_details, :except => [:hostgroup_template, :built]
-  before_action :get_built_host_details, :only => :built
+  before_action :get_host_details, :except => [:hostgroup_template, :built, :failed]
+  before_action :get_built_host_details, :only => [:built, :failed]
   before_action :allowed_to_install?, :except => :hostgroup_template
   before_action :handle_ca, :if => Proc.new { params[:kind] == 'provision' }
   before_action :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
@@ -18,10 +21,24 @@ class UnattendedController < ApplicationController
   # all of our requests should be returned in text/plain
   after_action :set_content_type
 
-  # this actions is called by each operatingsystem post/finish script - it notify us that the OS installation is done.
+  # maximum size of built/failed request body accepted to prevent DoS (in bytes)
+  MAX_BUILT_BODY = 65535
+
   def built
-    logger.info "#{controller_name}: #{@host.name} is Built!"
+    logger.info "#{controller_name}: #{@host.name} is built!"
+    # clear possible previous errors
+    @host.build_errors = nil
     update_ip if Setting[:update_ip_from_built_request]
+    head(@host.built ? :created : :conflict)
+  end
+
+  def failed
+    return if preview? || !@host.build
+    logger.warn "#{controller_name}: #{@host.name} build failed!"
+    @host.build_errors = request.body.read(MAX_BUILT_BODY)
+    body_length = @host.build_errors.try(:size) || 0
+    @host.build_errors += "\n\nOutput trimmed\n" if body_length >= MAX_BUILT_BODY
+    logger.warn { "Log lines from the OS installer:\n#{@host.build_errors}" }
     head(@host.built ? :created : :conflict)
   end
 

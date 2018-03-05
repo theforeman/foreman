@@ -250,6 +250,15 @@ module HostsHelper
     (SETTINGS[:unattended] && host.managed?) ? host.shortname : host.name
   end
 
+  def build_duration(host)
+    return _("N/A") if host.initiated_at.nil? && host.installed_at.nil?
+    if host.installed_at.nil?
+      time_ago_in_words(host.initiated_at, include_seconds: true) + " (in progress)"
+    else
+      distance_of_time_in_words(host.initiated_at, host.installed_at, include_seconds: true)
+    end
+  end
+
   def overview_fields(host)
     global_status = host.build_global_status
     fields = [
@@ -260,6 +269,9 @@ module HostsHelper
       ]
     ]
     fields += host_detailed_status_list(host)
+    fields += [[_("Build duration"), build_duration(host)]]
+    fields += [[_("Build errors"), link_to("Logs from OS installer", build_errors_host_path(:id => host.id))]] if host.build_errors.present?
+    fields += [[_("Token"), host.token || _("N/A")]] if User.current.admin?
     fields += [[_("Domain"), link_to(host.domain, hosts_path(:search => %{domain = "#{host.domain}"}))]] if host.domain.present?
     fields += [[_("Realm"), link_to(host.realm, hosts_path(:search => %{realm = "#{host.realm}"}))]] if host.realm.present?
     fields += [[_("IP Address"), host.ip]] if host.ip.present?
