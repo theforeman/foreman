@@ -47,7 +47,7 @@ module Foreman
         after = GC.stat
         GC_METRICS.each do |ruby_key, metric_name|
           increment_counter(metric_name, after[ruby_key] - before[ruby_key], :controller => controller, :action => action) if after.include?(ruby_key)
-        end
+        end if before
       end if enabled?
 
       ActiveSupport::Notifications.subscribe(/instantiation.active_record/) do |*args|
