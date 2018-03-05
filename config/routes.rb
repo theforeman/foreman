@@ -23,6 +23,7 @@ Foreman::Application.routes.draw do
         get 'review_before_build'
         put 'setBuild'
         get 'cancelBuild'
+        get 'build_errors'
         get 'puppetrun'
         get 'pxe_config'
         put 'toggle_manage'
@@ -463,8 +464,11 @@ Foreman::Application.routes.draw do
   # get only for alterator unattended scripts
   get 'unattended/provision/:metadata', :controller => 'unattended', :action => 'host_template', :format => 'text',
     :constraints => { :metadata => /(autoinstall\.scm|vm-profile\.scm|pkg-groups\.tar)/ }
-  # get for end of build action
+  # built call can be done both via GET (for backward compatibility) and POST
   get 'unattended/built/(:id(:format))', :controller => 'unattended', :action => 'built', :format => 'text'
+  post 'unattended/built/(:id(:format))', :controller => 'unattended', :action => 'built', :format => 'text'
+  # failed call only via POST
+  post 'unattended/failed/(:id(:format))', :controller => 'unattended', :action => 'failed', :format => 'text'
   # get for all unattended scripts
   get 'unattended/(:kind/(:id(:format)))', :controller => 'unattended', :action => 'host_template', :format => 'text'
 

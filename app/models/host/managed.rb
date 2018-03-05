@@ -281,6 +281,7 @@ class Host::Managed < Host::Base
     return unless respond_to?(:old) && old && build? && !old.build?
     clear_facts
     clear_reports
+    self.build_errors = nil
   end
 
   # Called from the host build post install process to indicate that the base build has completed
@@ -424,7 +425,8 @@ class Host::Managed < Host::Base
   # Any facts are discarded
   def setBuild
     self.build = true
-    self.save
+    self.initiated_at = Time.now.utc
+    logger.warn("Set build failed: #{errors.inspect}") unless self.save
     errors.empty?
   end
 

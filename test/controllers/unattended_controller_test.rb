@@ -288,12 +288,37 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    test "should accept built notifications" do
+    test "should accept built notifications via legacy GET method" do
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       get :built
       assert_response :created
-      host = Nic::Base.primary.find_by_ip(@ub_host.ip)
-      assert_equal host.build, false
+      nic = Nic::Base.primary.find_by_ip(@ub_host.ip)
+      refute nic.build
+    end
+
+    test "should accept built notifications" do
+      @request.env["REMOTE_ADDR"] = @ub_host.ip
+      post :built
+      assert_response :created
+      nic = Nic::Base.primary.find_by_ip(@ub_host.ip)
+      refute nic.build
+    end
+
+    test "should accept failed notifications" do
+      @request.env["REMOTE_ADDR"] = @ub_host.ip
+      post :failed
+      assert_response :created
+      nic = Nic::Base.primary.find_by_ip(@ub_host.ip)
+      refute nic.build
+    end
+
+    test "should accept failed notifications with large body" do
+      @request.env["REMOTE_ADDR"] = @ub_host.ip
+      post :failed, body: (' ' * 65537)
+      assert_response :created
+      host = Nic::Base.primary.find_by_ip(@ub_host.ip).host
+      refute host.build
+      assert_match(/Output trimmed/, host.build_errors)
     end
 
     test "should accept built notifications_with_expired_token" do
