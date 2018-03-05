@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-10-17 23:44+0000\n"
+"PO-Revision-Date: 2017-12-25 01:47+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
@@ -24,15 +24,6 @@ msgid " Remove"
 msgstr " Remove"
 
 msgid " in the provisioning template."
-msgstr ""
-
-msgid "\"Any #{tax.humanize}\""
-msgstr ""
-
-msgid "\"Error during LDAP connection #{name} using login #{login}: #{e}\""
-msgstr ""
-
-msgid "\"Unable to submit role: Problem with associated filter #{f.errors}\""
 msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
@@ -166,6 +157,9 @@ msgstr ""
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
+msgid "%{full_name} (Default: %{default})"
+msgstr ""
+
 msgid "%{host} is about to %{action}"
 msgstr ""
 
@@ -226,6 +220,9 @@ msgid "%{taxonomy_type} %{taxonomy_name} has %{count} host that will need to be 
 msgid_plural "%{taxonomy_type} %{taxonomy_name} has %{count} hosts that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "%{taxonomy} stored in session with id %{id} not found"
+msgstr ""
 
 msgid "%{taxonomy} with id %{id} not found"
 msgstr ""
@@ -426,9 +423,6 @@ msgid "Active key"
 msgstr ""
 
 msgid "Add Autosign entry"
-msgstr ""
-
-msgid "Add Bookmark"
 msgstr ""
 
 msgid "Add Combination"
@@ -654,6 +648,9 @@ msgid "Annotation notes"
 msgstr ""
 
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
+msgstr ""
+
+msgid "Any #{tax.humanize}"
 msgstr ""
 
 msgid "Any Location"
@@ -1052,9 +1049,6 @@ msgstr ""
 msgid "Bookmark this search"
 msgstr ""
 
-msgid "Bookmark was successfully created"
-msgstr ""
-
 msgid "Bookmark was successfully updated"
 msgstr ""
 
@@ -1127,9 +1121,6 @@ msgid "Build from OS image"
 msgstr ""
 
 msgid "By default we map user groups to standard LDAP Group objects. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups. Enable this checkbox if using Netgroups is preferred instead of standard groups."
-msgstr ""
-
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
 msgstr ""
 
 msgid "CA Certificate Expiry Date"
@@ -2273,7 +2264,7 @@ msgid "Diff View"
 msgstr ""
 
 msgid "Disable"
-msgstr ""
+msgstr "Disable"
 
 msgid "Disable Notifications"
 msgstr ""
@@ -2306,6 +2297,9 @@ msgid "Disk"
 msgstr ""
 
 msgid "Disk Mode"
+msgstr ""
+
+msgid "Disk interface"
 msgstr ""
 
 msgid "Disk name"
@@ -2379,6 +2373,9 @@ msgid "Domain|Name"
 msgstr "DNS domain"
 
 msgid "Download"
+msgstr ""
+
+msgid "Download VMRC"
 msgstr ""
 
 msgid "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
@@ -2529,7 +2526,7 @@ msgid "Empty environment"
 msgstr ""
 
 msgid "Enable"
-msgstr ""
+msgstr "Enable"
 
 msgid "Enable Caching"
 msgstr ""
@@ -2543,7 +2540,13 @@ msgstr ""
 msgid "Enable certificate generation for %s"
 msgstr ""
 
+msgid "Enable host orchestration on puppet fact import. This could cause serious performance issues as the number of hosts increase"
+msgstr ""
+
 msgid "Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"
+msgstr ""
+
+msgid "Enable orchestration on puppet fact import"
 msgstr ""
 
 msgid "Enable puppetrun support"
@@ -2640,6 +2643,9 @@ msgstr ""
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr ""
 
+msgid "Error during LDAP connection #{name} using login #{login}: #{e}"
+msgstr ""
+
 msgid "Error generating IP: %s"
 msgstr ""
 
@@ -2700,6 +2706,12 @@ msgstr ""
 msgid "Examples"
 msgstr ""
 
+msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
+msgstr ""
+
+msgid "Exclude pattern for facts stored in foreman"
+msgstr ""
+
 msgid "Exit Full Screen"
 msgstr "Exit Full Screen"
 
@@ -2745,7 +2757,7 @@ msgstr ""
 msgid "External user group"
 msgstr ""
 
-msgid "External user group %{name} could not be refreshed"
+msgid "External user group %{name} could not be refreshed."
 msgstr ""
 
 msgid "External user group %{name} refreshed"
@@ -2909,6 +2921,9 @@ msgstr "Failed to initialise the realm proxy: %s"
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr ""
 
+msgid "Failed to load bookmarks: %s"
+msgstr ""
+
 msgid "Failed to load chart"
 msgstr "Failed to load chart"
 
@@ -3010,6 +3025,9 @@ msgstr "Name"
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
+msgid "Fetch pxe files"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr ""
@@ -3038,7 +3056,7 @@ msgstr ""
 msgid "Filters for role %s"
 msgstr ""
 
-msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgid "Filters inherit %{orgs_and_locs} associated with the role by default. If override field is enabled, <br> the filter can override the set of its %{orgs_and_locs}. Later role changes will not affect such filter.<br> After disabling the override field, the role %{orgs_and_locs} apply again."
 msgstr ""
 
 msgid "Filters overriding has been disabled"
@@ -3952,6 +3970,9 @@ msgstr ""
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr ""
 
+msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with %s, the filters are not considered unlimited</br> as they are scoped accordingly."
+msgstr ""
+
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr ""
 
@@ -4160,6 +4181,9 @@ msgstr ""
 msgid "Installed"
 msgstr ""
 
+msgid "Instance type"
+msgstr ""
+
 msgid "Interface"
 msgstr ""
 
@@ -4247,6 +4271,9 @@ msgstr ""
 msgid "It is not possible to assign provisioning templates at this stage."
 msgstr ""
 
+msgid "It is not possible to change external users login"
+msgstr ""
+
 msgid "It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead."
 msgstr ""
 
@@ -4329,8 +4356,11 @@ msgstr ""
 msgid "Latest Events"
 msgstr ""
 
-msgid "Learn more about this in the documentation."
+msgid "Launch Console"
 msgstr ""
+
+msgid "Learn more about this in the documentation."
+msgstr "Learn more about this in the documentation."
 
 msgid "Legacy Puppet hostname"
 msgstr ""
@@ -4749,9 +4779,6 @@ msgstr ""
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading ..."
-msgstr "Loading ..."
-
 msgid "Loading BMC information ..."
 msgstr ""
 
@@ -5098,6 +5125,9 @@ msgstr ""
 msgid "Mismatches Report"
 msgstr ""
 
+msgid "Missing a permission to edit parent %s"
+msgstr ""
+
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
@@ -5328,6 +5358,9 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Virtual"
+msgstr ""
+
+msgid "No"
 msgstr ""
 
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
@@ -5683,6 +5716,9 @@ msgstr ""
 msgid "Oops, we're sorry but something went wrong"
 msgstr ""
 
+msgid "Open"
+msgstr ""
+
 msgid "Open Spice in a new window"
 msgstr ""
 
@@ -5878,7 +5914,7 @@ msgid "Owned By"
 msgstr ""
 
 msgid "Owner"
-msgstr ""
+msgstr "Owner"
 
 msgid "Owner changed to %s"
 msgstr ""
@@ -6419,6 +6455,9 @@ msgstr "Class name"
 msgid "Puppetrun"
 msgstr ""
 
+msgid "Query"
+msgstr ""
+
 msgid "Query instance details for %s"
 msgstr ""
 
@@ -6433,6 +6472,12 @@ msgstr ""
 
 msgid "REPLACE organizations with given ids."
 msgstr "REPLACE organisations with given ids."
+
+msgid "RSS URL"
+msgstr ""
+
+msgid "RSS enable"
+msgstr ""
 
 msgid "Random DB"
 msgstr ""
@@ -6544,6 +6589,9 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Remote action:"
+msgstr ""
 
 msgid "Remote address"
 msgstr ""
@@ -6902,6 +6950,9 @@ msgstr ""
 msgid "Save something and try again"
 msgstr ""
 
+msgid "Saved Bookmarks"
+msgstr ""
+
 msgid "Scheduler hint filter"
 msgstr ""
 
@@ -6981,6 +7032,9 @@ msgid "Select host groups"
 msgstr ""
 
 msgid "Select hosts to assign to %s"
+msgstr ""
+
+msgid "Select instance type"
 msgstr ""
 
 msgid "Select locations"
@@ -7076,6 +7130,9 @@ msgid "Services"
 msgstr ""
 
 msgid "Set IP addresses for %s"
+msgstr ""
+
+msgid "Set a randomly generated password on the VNC display connection"
 msgstr ""
 
 msgid "Set a randomly generated password on the display connection"
@@ -7379,6 +7436,9 @@ msgstr ""
 msgid "Smart Class Parameters"
 msgstr ""
 
+msgid "Smart Parameter"
+msgstr ""
+
 msgid "Smart Proxies"
 msgstr ""
 
@@ -7476,7 +7536,7 @@ msgid "Starting IP Address for IP auto suggestion"
 msgstr ""
 
 msgid "State"
-msgstr ""
+msgstr "State"
 
 msgid "Static"
 msgstr ""
@@ -7880,6 +7940,9 @@ msgstr ""
 msgid "The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,"
 msgstr "The class of the machine as reported by the OpenBoot PROM. This is primarily used by Solaris SPARC builds and can be left blank for other architectures. The value can be determined on Solaris via `uname -i|cut -f2 -d`."
 
+msgid "The console is not available because the VM is not powered on"
+msgstr ""
+
 msgid "The default administrator email address"
 msgstr ""
 
@@ -8039,7 +8102,7 @@ msgid "There was an error creating the PXE file: %s"
 msgstr ""
 
 msgid "There was an error during rendering, return to the Code tab to edit the template."
-msgstr ""
+msgstr "There was an error during rendering, return to the Code tab to edit the template."
 
 msgid "There was an error listing %{listing}: %{errors}"
 msgstr ""
@@ -8128,8 +8191,10 @@ msgstr ""
 msgid "This template is locked. Please clone it to a new template to customize."
 msgstr "This template is locked. Please clone it to a new template to customise."
 
-msgid "This template is locked. You may only change the                     associations. Please %s it to customize."
-msgstr "This template is locked. You may only change the                     associations. Please %s it to customise."
+msgid ""
+"This template is locked. You may only change the\\\n"
+"                     associations. Please %s it to customize."
+msgstr ""
 
 msgid "This templates requires a host to render but none was specified"
 msgstr ""
@@ -8170,6 +8235,9 @@ msgstr ""
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr ""
 
+msgid "To launch the VMRC console, you need the VMRC software installed."
+msgstr ""
+
 msgid ""
 "To refresh the list of users, click on the tab \"External\n"
 "                groups\" then \"Refresh\"."
@@ -8201,6 +8269,9 @@ msgstr "Expires"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Token|Value"
 msgstr "Value"
+
+msgid "Too many tries, please try again in a few minutes."
+msgstr ""
 
 msgid "Total"
 msgstr ""
@@ -8256,9 +8327,6 @@ msgstr "Trend type"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr ""
 
-msgid "Troubleshooting"
-msgstr ""
-
 msgid "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
 msgstr ""
 
@@ -8302,6 +8370,9 @@ msgid "URL of the HTTP Proxy"
 msgstr ""
 
 msgid "URL of the proxy including schema (https://proxy.example.com:8080)"
+msgstr ""
+
+msgid "URL to fetch RSS notifications from"
 msgstr ""
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
@@ -8476,6 +8547,9 @@ msgid "Unable to set TFTP boot entry for %s"
 msgstr ""
 
 msgid "Unable to sign PuppetCA certificate for %s"
+msgstr ""
+
+msgid "Unable to submit role: Problem with associated filter #{f.errors}"
 msgstr ""
 
 msgid "Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing"
@@ -8936,6 +9010,21 @@ msgstr ""
 msgid "VM is not running!"
 msgstr ""
 
+msgid "VMRC"
+msgstr ""
+
+msgid "VMRC Console"
+msgstr ""
+
+msgid "VNC"
+msgstr ""
+
+msgid "VNC Console Passwords"
+msgstr ""
+
+msgid "VNC consoles are unsupported on VMware ESXi 6.5 and later."
+msgstr ""
+
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr ""
 
@@ -9071,13 +9160,19 @@ msgstr ""
 msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
 msgstr ""
 
-msgid "When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:"
+msgid ""
+"When a Host requests a template (e.g. during provisioning), Foreman \\\n"
+"will select the best match from the available templates of that type, in the \\\n"
+"following order:"
 msgstr ""
 
 msgid "When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
 msgstr ""
 
-msgid "When editing a template, you must assign a list of operating systems which this template can be used with. Optionally, you can restrict a template to a list of host groups and/or environments."
+msgid ""
+"When editing a template, you must assign a list \\\n"
+"of operating systems which this template can be used with. Optionally, you can \\\n"
+"restrict a template to a list of host groups and/or environments."
 msgstr ""
 
 msgid "When enabled the parameter is hidden in the UI"
@@ -9113,6 +9208,9 @@ msgstr ""
 msgid "Whether the smart class parameter value is managed by Foreman"
 msgstr ""
 
+msgid "Whether to get RSS notifications or not"
+msgstr ""
+
 msgid "Which is an offset of <b>%s</b>"
 msgstr ""
 
@@ -9126,6 +9224,9 @@ msgid "Widget removed from dashboard."
 msgstr "Widget removed from dashboard."
 
 msgid "Wiki"
+msgstr ""
+
+msgid "Wipe disk after delete"
 msgstr ""
 
 msgid "With user groups, you can group your users and assign them roles on a group basis."
@@ -9190,6 +9291,9 @@ msgstr ""
 
 msgid "You do not have permission to %s this organization parameter"
 msgstr "You do not have permission to %s this organisation parameter"
+
+msgid "You do not have permission to edit the login"
+msgstr ""
 
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr ""
@@ -9462,6 +9566,9 @@ msgid "enable caching, for VMware only"
 msgstr ""
 
 msgid "environment id"
+msgstr ""
+
+msgid "expecting %s used by hosts or inherited (check mismatches report)."
 msgstr ""
 
 msgid "failed to %{action} %{vm}"
@@ -9799,11 +9906,17 @@ msgstr ""
 msgid "not required if using a subnet with DHCP proxy"
 msgstr "not required if using a subnet with DHCP proxy"
 
+msgid "not supported by this compute resource"
+msgstr ""
+
 msgid "not supported by this protocol"
 msgstr ""
 
 msgid "number of entries per request"
 msgstr "number of entries per request"
+
+msgid "oVirt/RHEV instance type"
+msgstr ""
 
 msgid "oVirt/RHEV template to use"
 msgstr ""
@@ -10065,7 +10178,4 @@ msgid "you can't assign some of roles you selected"
 msgstr ""
 
 msgid "you can't change administrator flag"
-msgstr ""
-
-msgid "you cannot remove %s that are used by hosts or inherited."
 msgstr ""
