@@ -26,7 +26,7 @@ module FogExtensions
             [key, vm[value]]
           end.to_h
 
-          attrs['path'] = folder_inventory[vm['parent']._ref][:path]
+          attrs[:path] = folder_inventory[vm['parent']._ref][:path]
 
           MiniServer.new(attrs)
         end
@@ -36,7 +36,7 @@ module FogExtensions
 
       def generate_folder_inventory(folders)
         folder_inventory = folders.each_with_object({}) do |folder, inventory|
-          parent = if folder['parent'] == dc.vmFolder
+          parent = if folder['parent'] == dc
                      nil
                    else
                      folder['parent']._ref
@@ -65,7 +65,7 @@ module FogExtensions
         RbVmomi::VIM.PropertyFilterSpec(
           :objectSet => [
             :obj => dc.vmFolder,
-            :skip => true,
+            :skip => false,
             :selectSet => [
               RbVmomi::VIM.TraversalSpec(
                 :name => 'tsFolder',
