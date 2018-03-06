@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'rfauxfactory'
 
 class Api::V2::LocationsControllerTest < ActionController::TestCase
   def setup
@@ -334,5 +335,69 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     put :update, params: { :id => location.id, :location => { :location_parameters_attributes => [{ :name => param_1[:name], :value => "new_value" }] } }
     assert_response :success
     assert_equal 1, location.reload.location_parameters.count
+  end
+
+  test "should create with comma separated name" do
+    name = "%s, %s" % [RFauxFactory.gen_alpha, RFauxFactory.gen_alpha]
+    post :create, params: { :location => { :name => name } }
+    assert_response :success
+    show_response = JSON.parse(@response.body)
+    assert !show_response.empty?
+  end
+
+  test "should create with description" do
+    post :create, params: { :location => { :name => RFauxFactory.gen_alpha,  :description => RFauxFactory.gen_alpha } }
+    assert_response :success
+    show_response = JSON.parse(@response.body)
+    assert !show_response.empty?
+  end
+
+  test "should delete location" do
+    location = FactoryBot.create(:location)
+    delete :destroy, params: { :id => location.id }
+    assert_response :success
+    assert_nil Location.find_by_id(location.id)
+  end
+
+  test "should not create with same name" do
+    # test-id: bc09acb3-9ecf-4d23-b3ef-94f24e16e6db
+    name = RFauxFactory.gen_alphanumeric
+    post :create, params: { :location => { :name => name } }
+    assert_response :success
+    post :create, params: { :location => { :name => name } }
+    assert_response :unprocessable_entity
+    assert_includes(JSON.parse(response.body)["error"]["full_messages"], "Name has already been taken")
+  end
+
+  test "should not create with non existing domain" do
+    # test-id: 5449532d-7959-4547-ba05-9e194eea495d
+    domain = rand(10000..99999)
+    post :create, params: { :location => { :domain_ids => [domain] } }
+    assert_response 404
+  end
+
+  test "should update with valid name" do
+    location = FactoryBot.create(:location)
+    new_location_name = RFauxFactory.gen_alphanumeric
+    post :update, params: {:id => location.id, :location => {:name => new_location_name} }, session: set_session_user
+    updated_location = Location.find_by_id(location.id)
+    assert_equal new_location_name, updated_location.name
+  end
+
+  test "should update with valid description" do
+    location = FactoryBot.create(:location)
+    description = RFauxFactory.gen_alphanumeric
+    post :update, params: {:id => location.id, :location => {:description => description} }, session: set_session_user
+    updated_location = Location.find_by_id(location.id)
+    assert_equal description, updated_location.description
+  end
+
+  test "should not update with invalid name" do
+    location = FactoryBot.create(:location)
+    post :update, params: {:id => location.id, :location => {:name => ''} }, session: set_session_user
+    updated_location = Location.find_by_id(location.id)
+    assert_response :unprocessable_entity
+    assert_include @response.body, "Name can't be blank"
+    assert_equal location.name, updated_location.name
   end
 end
