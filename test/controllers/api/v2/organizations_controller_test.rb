@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'rfauxfactory'
 
 class Api::V2::OrganizationsControllerTest < ActionController::TestCase
   test "should get index" do
@@ -90,5 +91,78 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
   test "should not create invalid organization" do
     post :create, params: { :organization => { :name => "" } }
     assert_response :unprocessable_entity
+  end
+
+  test "should not create with content type text plain" do
+    assert_raises_with_message(RuntimeError, 'Unknown Content-Type') do
+      post :create, params: { :organization => {:name => "foo organization"} }, as: 'text/plain'
+    end
+  end
+
+  test "create with name" do
+    name = RFauxFactory.gen_alpha
+    post :create, params: { :organization => {:name => name} }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('name')
+    assert_equal response['name'], name
+  end
+
+  test "create with name and description" do
+    name = RFauxFactory.gen_alpha
+    post :create, params: {:organization => { :name => name, :description => name } }
+    assert_response :success
+    result = JSON.parse(@response.body)
+    assert_equal result["name"], name
+    assert_equal result["description"], name
+  end
+
+  test "should not create with same name" do
+    name = Organization.first.name
+    post :create, params: { :organization => { :name => name} }
+    assert_response :unprocessable_entity
+    assert_include @response.body, "Name has already been taken"
+  end
+
+  test "search organization" do
+    organization = Organization.first
+    get :index, params: { :search =>  "name = \"#{organization.name}\"",  :format => 'json' }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert_equal response['results'].length, 1
+    assert_equal response['results'][0]['name'], organization.name
+    assert_equal response['results'][0]['id'], organization.id
+  end
+
+  test "update name" do
+    name = RFauxFactory.gen_alpha
+    new_name = RFauxFactory.gen_alpha 20
+    organization = FactoryBot.create(:organization, :name => name)
+    post :update, params: { :id => organization.id, :organization => { :name => new_name} }
+    assert_response :success
+    organization.reload
+    assert_equal organization.name, new_name
+  end
+
+  test "update description" do
+    organization = Organization.first
+    new_description = RFauxFactory.gen_alpha
+    post :update, params: { :id => organization.id, :organization => { :description => new_description} }
+    assert_response :success
+    organization.reload
+    assert_equal organization.description, new_description
+  end
+
+  test "update name and description" do
+    name = RFauxFactory.gen_alpha
+    description = RFauxFactory.gen_alpha
+    organization = FactoryBot.create(:organization, :name => name, :description => description)
+    new_name = RFauxFactory.gen_alpha
+    new_description = RFauxFactory.gen_alpha
+    post :update, params: { :id => organization.id, :organization => { :name => new_name, :description => new_description} }
+    assert_response :success
+    organization.reload
+    assert_equal organization.name, new_name
+    assert_equal organization.description, new_description
   end
 end
