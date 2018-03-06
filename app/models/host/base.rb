@@ -6,6 +6,7 @@ module Host
     include DestroyFlag
     include InterfaceCloning
     include Hostext::Ownership
+    include Foreman::TelemetryHelper
 
     self.table_name = :hosts
     extend FriendlyId
@@ -138,7 +139,10 @@ module Host
 
       type = facts.delete(:_type)
       importer = FactImporter.importer_for(type).new(self, facts)
-      importer.import!
+      telemetry_observe_histogram(:importer_facts_import_duration, facts.size, type: type)
+      telemetry_duration_histogram(:importer_facts_import_duration, 1000, type: type) do
+        importer.import!
+      end
 
       save(:validate => false)
 
@@ -153,7 +157,9 @@ module Host
       unless build?
         parser = FactParser.parser_for(type).new(facts)
 
-        populate_fields_from_facts(parser, type, source_proxy)
+        telemetry_duration_histogram(:importer_facts_import_duration, 1000, type: type) do
+          populate_fields_from_facts(parser, type, source_proxy)
+        end
       end
 
       set_taxonomies(facts)
@@ -195,10 +201,11 @@ module Host
         self.primary_interface.save!
       end
 
+      changed_count = 0
       parser.interfaces.each do |name, attributes|
         iface = get_interface_scope(name, attributes).try(:first) || interface_class(name).new(:managed => false)
         # create or update existing interface
-        set_interface(attributes, name, iface)
+        changed_count += 1 if set_interface(attributes, name, iface)
       end
 
       ipmi = parser.ipmi_interface
@@ -206,8 +213,9 @@ module Host
         existing = self.interfaces.where(:mac => ipmi[:macaddress], :type => Nic::BMC.name).first
         iface = existing || Nic::BMC.new(:managed => false)
         iface.provider ||= 'IPMI'
-        set_interface(ipmi, 'ipmi', iface)
+        changed_count += 1 if set_interface(ipmi, 'ipmi', iface)
       end
+      telemetry_increment_counter(:importer_facts_count_interfaces, changed_count, type: parser.class_name_humanized)
 
       self.interfaces.reload
     end

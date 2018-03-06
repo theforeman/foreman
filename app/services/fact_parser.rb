@@ -96,6 +96,10 @@ class FactParser
     support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning']
   end
 
+  def class_name_humanized
+    @class_name_humanized ||= self.class.name.demodulize.underscore
+  end
+
   private
 
   def find_interface_by_name(host_name)
