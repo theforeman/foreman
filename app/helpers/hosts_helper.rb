@@ -407,7 +407,8 @@ module HostsHelper
           :name => 'allocation_radio_btn',
           :class => (label == active) ? 'btn btn-default active' : 'btn btn-default',
           :onclick => "tfm.computeResource.libvirt.allocationSwitcher(this, '#{label}');",
-          :data => { :toggle => 'button' }
+          :data => { :toggle => 'button' },
+          :id => (label == 'Full') ? 'btnAllocationFull' : nil
       end.join(' ').html_safe
     end)
   end

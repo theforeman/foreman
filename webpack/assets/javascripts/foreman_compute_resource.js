@@ -113,7 +113,7 @@ export function capacityEdit(element) {
     .closest('.fields')
     .find('button[name=allocation_radio_btn].btn.active');
 
-  if (buttons.length > 0 && $(buttons[0]).text() === 'Full') {
+  if (buttons.length > 0 && buttons[0].id === 'btnAllocationFull') {
     const allocation = $(element)
       .closest('.fields')
       .find('[id$=allocation]')[0];
