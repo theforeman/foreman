@@ -342,7 +342,7 @@ class HostTest < ActiveSupport::TestCase
         :virtual => false
       }
     }.with_indifferent_access
-    parser = stub(:interfaces => interfaces, :ipmi_interface => {}, :suggested_primary_interface => interfaces.to_a.last)
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => interfaces, :ipmi_interface => {}, :suggested_primary_interface => interfaces.to_a.last)
 
     host.set_interfaces(parser)
 
@@ -1370,7 +1370,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "#set_interfaces handles no interfaces" do
       host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
-      parser = stub(:ipmi_interface => {}, :interfaces => {}, :suggested_primary_interface => [ nil, nil ])
+      parser = stub(:class_name_humanized => 'TestParser', :ipmi_interface => {}, :interfaces => {}, :suggested_primary_interface => [nil, nil])
       host.set_interfaces(parser)
       assert host.primary_interface
       assert_empty host.primary_interface.mac
@@ -1534,7 +1534,7 @@ class HostTest < ActiveSupport::TestCase
       hash = { :bond0 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => true},
                :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
       }.with_indifferent_access
-      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       bond0 = FactoryBot.create(:nic_bond, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'bond0', :attached_to => '')
 
       host.set_interfaces(parser)
@@ -1561,7 +1561,7 @@ class HostTest < ActiveSupport::TestCase
       hash = { :bond0 => {:macaddress => 'aa:bb:cc:44:55:66', :ipaddress => '10.10.0.3', :virtual => true},
                :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
       }.with_indifferent_access
-      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       bond0 = FactoryBot.create(:nic_bond, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'bond0')
 
       host.set_interfaces(parser)
@@ -1578,7 +1578,7 @@ class HostTest < ActiveSupport::TestCase
       hash = { :br0 => {:macaddress => 'aa:bb:cc:44:55:66', :ipaddress => '10.10.0.3', :virtual => true},
                :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
       }.with_indifferent_access
-      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       br0 = FactoryBot.create(:nic_bridge, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'br0')
 
       host.set_interfaces(parser)
@@ -1595,7 +1595,7 @@ class HostTest < ActiveSupport::TestCase
       hash = { :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
                :eth4 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false}
       }.with_indifferent_access
-      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
       physical4 = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
       physical5 = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'eth5')
       virtual4 = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.10', :identifier => 'eth4.1', :attached_to => 'eth4')
@@ -1621,7 +1621,7 @@ class HostTest < ActiveSupport::TestCase
       hash = { :em1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
                :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.42', :virtual => true, :attached_to => nil}
       }.with_indifferent_access
-      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
 
       host.set_interfaces(parser)
       virtual.reload
@@ -1635,7 +1635,7 @@ class HostTest < ActiveSupport::TestCase
                :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false },
                :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false }
       }.with_indifferent_access
-      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
       host.set_interfaces(parser)
       host.reload
@@ -1660,7 +1660,7 @@ class HostTest < ActiveSupport::TestCase
                                  )
         hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
         }.with_indifferent_access
-        parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+        parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
 
         assert_no_difference 'Nic::Base.count' do
           host.set_interfaces(parser)
@@ -1680,7 +1680,7 @@ class HostTest < ActiveSupport::TestCase
                                  )
         hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
         }.with_indifferent_access
-        parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+        parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
 
         assert_no_difference 'Nic::Base.count' do
           host.set_interfaces(parser)
@@ -1702,7 +1702,7 @@ class HostTest < ActiveSupport::TestCase
                                  )
         hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false}
         }.with_indifferent_access
-        parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+        parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
 
         assert_no_difference 'Nic::Base.count' do
           host.set_interfaces(parser)
@@ -1720,7 +1720,7 @@ class HostTest < ActiveSupport::TestCase
         :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '', :virtual => false},
         :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true}
       }.with_indifferent_access
-      parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
       host.set_interfaces(parser)
       host.reload
@@ -3597,7 +3597,7 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
     hash = { (nic_attributes.delete(:identifier) || :eth0) => nic_attributes
     }.with_indifferent_access
-    parser = stub(:interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
     [host, parser]
   end
 
@@ -3605,11 +3605,13 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
     hash = ipmi_attributes.with_indifferent_access
     primary = host.primary_interface
-    parser = stub(:ipmi_interface => hash, :interfaces => {}, :suggested_primary_interface => [ primary.identifier, {:macaddress => primary.mac, :ipaddress => primary.ip} ])
+    parser = stub(:class_name_humanized => 'TestParser', :ipmi_interface => hash, :interfaces => {}, :suggested_primary_interface => [primary.identifier, {:macaddress => primary.mac, :ipaddress => primary.ip}])
     [host, parser]
   end
 
   def mock_parser(properties)
-    PuppetFactParser.new(properties)
+    parser = PuppetFactParser.new(properties)
+    parser.stubs(:class_name_humanized).returns('TestParser')
+    parser
   end
 end

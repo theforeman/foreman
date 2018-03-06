@@ -1,4 +1,6 @@
 class FactImporter
+  include Foreman::TelemetryHelper
+
   delegate :logger, :to => :Rails
   attr_reader :counters
 
@@ -61,6 +63,9 @@ class FactImporter
 
     report_error(@error) if @error
     logger.info("Import facts for '#{host}' completed. Added: #{counters[:added]}, Updated: #{counters[:updated]}, Deleted #{counters[:deleted]} facts")
+    telemetry_increment_counter(:importer_facts_count_processed, counters[:added], type: fact_name_class_humanized, action: :added)
+    telemetry_increment_counter(:importer_facts_count_processed, counters[:updated], type: fact_name_class_humanized, action: :updated)
+    telemetry_increment_counter(:importer_facts_count_processed, counters[:deleted], type: fact_name_class_humanized, action: :deleted)
   end
 
   def report_error(error)
@@ -71,6 +76,10 @@ class FactImporter
   # to be defined in children
   def fact_name_class
     raise NotImplementedError
+  end
+
+  def fact_name_class_humanized
+    @class_humanized ||= fact_name_class.name.demodulize.underscore
   end
 
   private
@@ -131,15 +140,13 @@ class FactImporter
   end
 
   def delete_removed_facts
-    ActiveSupport::Notifications.instrument "fact_importer_deleted.foreman", :host_id => host.id, :host_name => host.name, :facts => facts, :deleted => [] do |payload|
-      delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class_name).where.not(:fact_name => fact_names.values)
-      if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-        # MySQL does not handle delete with inner query correctly (slow) so we will do two queries on purpose
-        payload[:count] = @counters[:deleted] = FactValue.where(:id => delete_query.pluck(:id)).delete_all
-      else
-        # deletes all facts using a single SQL query with inner query otherwise
-        payload[:count] = @counters[:deleted] = delete_query.delete_all
-      end
+    delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class_name).where.not(:fact_name => fact_names.values)
+    if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
+      # MySQL does not handle delete with inner query correctly (slow) so we will do two queries on purpose
+      @counters[:deleted] = FactValue.where(:id => delete_query.pluck(:id)).delete_all
+    else
+      # deletes all facts using a single SQL query with inner query otherwise
+      @counters[:deleted] = delete_query.delete_all
     end
   end
 
@@ -154,29 +161,23 @@ class FactImporter
   end
 
   def add_new_facts
-    ActiveSupport::Notifications.instrument "fact_importer_added.foreman", :host_id => host.id, :host_name => host.name, :facts => facts do |payload|
-      facts_to_create = facts.keys - db_facts.pluck(:fact_name_id).map { |name_id| fact_names_by_id[name_id].name }
-      facts_to_create.each { |f| add_new_fact(f) }
-      payload[:added] = facts_to_create
-      payload[:count] = @counters[:added] = facts_to_create.size
-    end
+    facts_to_create = facts.keys - db_facts.pluck(:fact_name_id).map { |name_id| fact_names_by_id[name_id].name }
+    facts_to_create.each { |f| add_new_fact(f) }
+    @counters[:added] = facts_to_create.size
   end
 
   def update_facts
-    ActiveSupport::Notifications.instrument "fact_importer_updated.foreman", :host_id => host.id, :host_name => host.name, :facts => facts do |payload|
-      time = Time.now.utc
-      updated = []
-      db_facts.find_each do |record|
-        new_value = facts[record.name]
-        if record.value != new_value
-          # skip callbacks/validations
-          record.update_columns(:value => new_value, :updated_at => time)
-          updated << record.name
-        end
+    time = Time.now.utc
+    updated = []
+    db_facts.find_each do |record|
+      new_value = facts[record.name]
+      if record.value != new_value
+        # skip callbacks/validations
+        record.update_columns(:value => new_value, :updated_at => time)
+        updated << record.name
       end
-      payload[:updated] = updated
-      payload[:count] = @counters[:updated] = updated.size
     end
+    @counters[:updated] = updated.size
   end
 
   def normalize(facts)
