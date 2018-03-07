@@ -11,7 +11,6 @@ class User < ApplicationRecord
   include UserUsergroupCommon
   include Exportable
   include TopbarCacheExpiry
-  audited :except => [:last_login_on, :password_hash, :password_salt, :password_confirmation]
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
@@ -121,6 +120,9 @@ class User < ApplicationRecord
   }
 
   dirty_has_many_associations :roles
+
+  audited :except => [:last_login_on, :password_hash, :password_salt, :password_confirmation],
+          :associations => :roles
 
   attr_exportable :firstname, :lastname, :mail, :description, :fullname, :name => ->(user) { user.login }, :ssh_authorized_keys => ->(user) { user.ssh_keys.map(&:to_export_hash) }
 
