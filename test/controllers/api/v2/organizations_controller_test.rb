@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'rfauxfactory'
 
 class Api::V2::OrganizationsControllerTest < ActionController::TestCase
   test "should get index" do
@@ -102,7 +101,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
   test "create with name" do
     name = RFauxFactory.gen_alpha
     post :create, params: { :organization => {:name => name} }
-    assert_response :success
+    assert_response :success,"creation with name: #{name} failed with code: #{@response.code}"
     response = JSON.parse(@response.body)
     assert response.key?('name')
     assert_equal response['name'], name
@@ -110,11 +109,12 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
 
   test "create with name and description" do
     name = RFauxFactory.gen_alpha
-    post :create, params: {:organization => { :name => name, :description => name } }
-    assert_response :success
+    description = RFauxFactory.gen_utf8 1024
+    post :create, params: {:organization => { :name => name, :description => description } }
+    assert_response :success, "creation with name: '#{name}' and description: '#{description}' failed with code: #{@response.code}"
     result = JSON.parse(@response.body)
     assert_equal result["name"], name
-    assert_equal result["description"], name
+    assert_equal result["description"], description
   end
 
   test "should not create with same name" do
@@ -127,7 +127,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
   test "search organization" do
     organization = Organization.first
     get :index, params: { :search =>  "name = \"#{organization.name}\"",  :format => 'json' }
-    assert_response :success
+    assert_response :success,"search organization name: '#{organization.name}' failed with code: #{@response.code}"
     response = JSON.parse(@response.body)
     assert_equal response['results'].length, 1
     assert_equal response['results'][0]['name'], organization.name
@@ -135,32 +135,29 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "update name" do
-    name = RFauxFactory.gen_alpha
     new_name = RFauxFactory.gen_alpha 20
-    organization = FactoryBot.create(:organization, :name => name)
+    organization = FactoryBot.create(:organization)
     post :update, params: { :id => organization.id, :organization => { :name => new_name} }
-    assert_response :success
+    assert_response :success,"update with name: '#{new_name}' failed with code: #{@response.code}"
     organization.reload
     assert_equal organization.name, new_name
   end
 
   test "update description" do
     organization = Organization.first
-    new_description = RFauxFactory.gen_alpha
+    new_description = RFauxFactory.gen_utf8 1024
     post :update, params: { :id => organization.id, :organization => { :description => new_description} }
-    assert_response :success
+    assert_response :success,"update with description: '#{new_description}' failed with code: #{@response.code}"
     organization.reload
     assert_equal organization.description, new_description
   end
 
   test "update name and description" do
-    name = RFauxFactory.gen_alpha
-    description = RFauxFactory.gen_alpha
-    organization = FactoryBot.create(:organization, :name => name, :description => description)
+    organization = FactoryBot.create(:organization)
     new_name = RFauxFactory.gen_alpha
     new_description = RFauxFactory.gen_alpha
     post :update, params: { :id => organization.id, :organization => { :name => new_name, :description => new_description} }
-    assert_response :success
+    assert_response :success, "update with name: '#{new_name}', description: '#{new_description}' failed with code: #{@response.code}"
     organization.reload
     assert_equal organization.name, new_name
     assert_equal organization.description, new_description

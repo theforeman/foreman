@@ -1,6 +1,5 @@
 require 'test_helper'
 require 'models/shared/taxonomies_base_test'
-require 'rfauxfactory'
 
 class OrganizationTest < ActiveSupport::TestCase
   include TaxonomiesBaseTest
@@ -30,26 +29,26 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test "create with multi names" do
     valid_org_name_list.each do |name|
-      organization = FactoryBot.create(:organization, :name => name)
-      organization.reload
+      organization = FactoryBot.build(:organization, :name => name)
+      assert organization.valid?, "Validation failed for create with valid name: '#{name}' length: #{name.length})"
       assert_equal organization.name, name
     end
   end
 
   test "should not create with invalid names" do
     invalid_org_name_list.each do |name|
-      organization = Organization.new(:name => name)
-      refute organization.valid?
+      organization = FactoryBot.build(:organization, :name => name)
+      refute organization.valid?, "Validation succeeded for create with invalid name: '#{name}' length: #{name.length})"
       assert_includes organization.errors.keys, :name
     end
   end
 
-  test "create with multi name and description" do
-    valid_org_name_list.each do |name|
-      organization = FactoryBot.create(:organization, :name => name, :description => name)
-      organization.reload
-      assert_equal organization.name, name
-      assert_equal organization.description, name
+  test "update with multi names" do
+    organization = FactoryBot.create(:organization)
+    valid_org_name_list.each do |new_name|
+      organization.name =  new_name
+      assert organization.valid?, "Validation failed for update with valid name: '#{new_name}' length: #{new_name.length})"
+      assert_equal organization.name, new_name
     end
   end
 
@@ -57,7 +56,7 @@ class OrganizationTest < ActiveSupport::TestCase
     organization = Organization.first
     invalid_org_name_list.each do |name|
       organization.name = name
-      refute organization.valid?
+      refute organization.valid?, "Validation succeeded for update with invalid name: '#{name}' length: #{name.length})"
       assert_includes organization.errors.keys, :name
     end
   end
