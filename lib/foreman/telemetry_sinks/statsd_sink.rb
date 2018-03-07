@@ -1,8 +1,7 @@
-require 'statsd-instrument'
-
 module Foreman::TelemetrySinks
   class StatsdSink
     def initialize(opts = {})
+      require 'statsd-instrument'
       @instances = {}
       host = opts[:host] || '127.0.0.1:8125'
       protocol = opts[:protocol].try(:to_sym) || :statsite
