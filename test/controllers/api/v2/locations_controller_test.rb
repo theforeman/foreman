@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'rfauxfactory'
 
 class Api::V2::LocationsControllerTest < ActionController::TestCase
   def setup
@@ -338,29 +337,23 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should create with comma separated name" do
-    name = "%s, %s" % [RFauxFactory.gen_alpha, RFauxFactory.gen_alpha]
+    name = "#{RFauxFactory.gen_alpha}, #{RFauxFactory.gen_alpha}"
     post :create, params: { :location => { :name => name } }
-    assert_response :success
+    assert_response :success, "creation with name #{name} failed with code #{response.code}"
     show_response = JSON.parse(@response.body)
-    assert !show_response.empty?
+    refute_empty show_response
   end
 
   test "should create with description" do
-    post :create, params: { :location => { :name => RFauxFactory.gen_alpha,  :description => RFauxFactory.gen_alpha } }
-    assert_response :success
+    name = RFauxFactory.gen_alpha
+    description = RFauxFactory.gen_alpha
+    post :create, params: { :location => { :name => name, :description => description } }
+    assert_response :success, "creation with name #{name} and description #{description} failed with code #{response.code}"
     show_response = JSON.parse(@response.body)
-    assert !show_response.empty?
-  end
-
-  test "should delete location" do
-    location = FactoryBot.create(:location)
-    delete :destroy, params: { :id => location.id }
-    assert_response :success
-    assert_nil Location.find_by_id(location.id)
+    refute_empty show_response
   end
 
   test "should not create with same name" do
-    # test-id: bc09acb3-9ecf-4d23-b3ef-94f24e16e6db
     name = RFauxFactory.gen_alphanumeric
     post :create, params: { :location => { :name => name } }
     assert_response :success
@@ -370,9 +363,10 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should not create with non existing domain" do
-    # test-id: 5449532d-7959-4547-ba05-9e194eea495d
-    domain = rand(10000..99999)
-    post :create, params: { :location => { :domain_ids => [domain] } }
+    domain = FactoryBot.create(:domain)
+    deleted_id = domain.id
+    domain.destroy
+    post :create, params: { :location => { :domain_ids => [deleted_id] } }
     assert_response 404
   end
 
@@ -386,7 +380,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should update with valid description" do
     location = FactoryBot.create(:location)
-    description = RFauxFactory.gen_alphanumeric
+    description = RFauxFactory.gen_utf8(300)
     post :update, params: {:id => location.id, :location => {:description => description} }, session: set_session_user
     updated_location = Location.find_by_id(location.id)
     assert_equal description, updated_location.description
