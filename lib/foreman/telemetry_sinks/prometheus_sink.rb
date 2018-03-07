@@ -1,8 +1,7 @@
-require 'prometheus/client'
-
 module Foreman::TelemetrySinks
   class PrometheusSink
     def initialize(opts = {})
+      require 'prometheus/client'
       @prom = ::Prometheus::Client.registry
     end
 
