@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageTitle should render a page title 1`] = `
+<div
+  className="row form-group"
+>
+  <h1
+    className="col-md-8"
+  >
+    Penguins
+  </h1>
+</div>
+`;
