@@ -1,3 +1,39 @@
+2018-03-08	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #22676 - domain checking should ignore scoping
+
+2018-03-06	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #22711 - add uglifyjs-webpack-plugin to package.json
+
+2018-03-06	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22711 - fix uglifyjs-webpack plugin
+
+2018-03-06	Ondrej Prazak <oprazak@redhat.com>
+	* Sync from community-templates for 1.17-RC2
+
+2018-03-05	vagrant <vagrant@foreman-devel.example.com>
+	* i18n - extracting new, pulling from tx
+
+2018-02-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22489 - move the notification base class
+
+2018-02-19	Ivan Nečas <inecas@redhat.com>
+	* Refs #22354 - Don't instance_eval at every instance creation
+
+2018-02-19	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #22354 - Make SilencedLogger thread safe
+
+2018-02-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #22616 - Allow searching hosts by status as integer
+
+2018-02-13	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #22379 - Remove pagination from csv export (#5204)
+
+2018-01-31	Sebastian Gräßl <mail@bastilian.me>
+	* Refs #20800 - Move session timed out warning inline
+
+2018-01-30	Marek Hulan <mhulan@redhat.com>
+	* Release 1.17.0-RC1
+
 2018-01-29	Eric D Helms <eric.d.helms@gmail.com>
 	* Fixes #22359 - Don't rely on default taxonomy in API for any user (#5202)
 
