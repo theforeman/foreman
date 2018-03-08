@@ -383,4 +383,12 @@ class ComputeResourceTest < ActiveSupport::TestCase
       refute cr.capable?(:build)
     end
   end
+
+  test "returns nested_attribute_for ActionController::Parameters" do
+    cr = compute_resources(:mycompute)
+    hash = {:disk => "test"}
+    volume_attributes = ActionController::Parameters.new("1520857914238" => ActionController::Parameters.new(hash))
+    volumes = cr.send(:nested_attributes_for, :volumes, volume_attributes.permit("1520857914238" => {}))
+    assert_equal hash,volumes[0]
+  end
 end

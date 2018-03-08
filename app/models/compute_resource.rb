@@ -382,6 +382,8 @@ class ComputeResource < ApplicationRecord
 
   def nested_attributes_for(type, opts)
     return [] unless opts
+    opts = opts.to_hash if opts.class == ActionController::Parameters
+
     opts = opts.dup #duplicate to prevent changing the origin opts.
     opts.delete("new_#{type}") || opts.delete("new_#{type}".to_sym) # delete template
     # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
