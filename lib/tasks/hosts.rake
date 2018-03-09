@@ -38,7 +38,7 @@ namespace :hosts do
 
     def out_of_sync_interval
       return ENV['OUTOFSYNC_INTERVAL'] if ENV['OUTOFSYNC_INTERVAL'].present?
-      2 * (Setting[:puppet_interval] + Setting[:outofsync_interval])
+      2 * (Setting[:outofsync_interval])
     end
 
     pingable = []

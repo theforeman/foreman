@@ -580,23 +580,23 @@ class HostsController < ApplicationController
   end
 
   def errors
-    merge_search_filter("last_report > \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0)")
+    merge_search_filter("#{origin_intervals_query('>').join(' or ')} and (status.failed > 0 or status.failed_restarts > 0)")
     index _("Hosts with errors")
   end
 
   def active
-    merge_search_filter("last_report > \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and (status.applied > 0 or status.restarted > 0)")
+    merge_search_filter("#{origin_intervals_query('>').join(' or ')} and (status.applied > 0 or status.restarted > 0)")
     index _("Active Hosts")
   end
 
   def pending
-    merge_search_filter("last_report > \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and (status.pending > 0)")
+    merge_search_filter("#{origin_intervals_query('>').join(' or ')} and (status.pending > 0)")
     index _("Pending Hosts")
   end
 
   def out_of_sync
-    merge_search_filter("last_report < \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and status.enabled = true")
-    index _("Hosts which didn't run puppet in the last %s") % (view_context.time_ago_in_words((Setting[:puppet_interval]+Setting[:outofsync_interval]).minutes.ago))
+    merge_search_filter("#{origin_intervals_query('<').join(' or ')} and status.enabled = true")
+    index _("Hosts which didn't report in the last %s") % (reported_origin_interval_settings.map { |origin, interval| "#{interval} minutes for #{origin}" }.join(' or '))
   end
 
   def disabled
@@ -906,5 +906,17 @@ class HostsController < ApplicationController
     if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
       normalize_scsi_attributes(host_params["compute_attributes"])
     end
+  end
+
+  def origin_intervals_query(compare_with)
+    reported_origin_interval_settings.map do |origin, interval|
+      "(origin = #{origin} and last_report #{compare_with}  \"#{interval + Setting[:outofsync_interval]} minutes ago\")"
+    end
+  end
+
+  def reported_origin_interval_settings
+    Hash[Report.origins.map do |origin|
+      [origin, Setting[:"#{origin.downcase}_interval"].to_i]
+    end]
   end
 end

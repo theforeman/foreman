@@ -13,6 +13,7 @@ class Host::Managed < Host::Base
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_one :last_report_object, -> { order("#{Report.table_name}.id DESC") }, :foreign_key => :host_id, :class_name => 'ConfigReport'
+  has_many :all_reports, :foreign_key => :host_id
 
   belongs_to :image
   has_many :host_statuses, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host, :dependent => :destroy
@@ -77,8 +78,36 @@ class Host::Managed < Host::Base
       :ssh_authorized_keys, :pxe_loader
   end
 
-  scope :recent,      ->(*args) { where(["#{Host.table_name}.last_report > ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago)]) }
-  scope :out_of_sync, ->(*args) { where(["#{Host.table_name}.last_report < ? and hosts.enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]) }
+  scope :recent, lambda { |interval = Setting[:outofsync_interval]|
+    with_last_report_within(interval.to_i.minutes)
+  }
+
+  scope :out_of_sync, lambda { |interval = Setting[:outofsync_interval]|
+    not_disabled.with_last_report_exceeded(interval.to_i.minutes)
+  }
+
+  scope :out_of_sync_for, lambda { |report_origin|
+    interval = Setting[:"#{report_origin.downcase}_interval"] || Setting[:outofsync_interval]
+    with_last_report_exceeded(interval.to_i.minutes)
+      .not_disabled
+      .with_last_report_origin(report_origin)
+  }
+
+  scope :not_disabled, lambda {
+    where(["#{Host.table_name}.enabled != ?", false])
+  }
+
+  scope :with_last_report_within, lambda { |minutes|
+    where(["#{Host.table_name}.last_report > ?", minutes.ago])
+  }
+
+  scope :with_last_report_exceeded, lambda { |minutes|
+    where(["#{Host.table_name}.last_report < ?", minutes.ago])
+  }
+
+  scope :with_last_report_origin, lambda { |origin|
+    includes(:last_report_object).where(reports: { origin: origin })
+  }
 
   scope :with_status, lambda { |status_type|
     eager_load(:host_statuses).where("host_status.type = '#{status_type}'")
@@ -143,6 +172,10 @@ class Host::Managed < Host::Base
     else
       joins("INNER JOIN reports ON reports.host_id = hosts.id").where("reports.reported_at BETWEEN ? AND ?", fromtime, totime)
     end
+  }
+
+  scope :with_any_reports_between, lambda { |from, to|
+    joins(:all_reports).where("reports.reported_at BETWEEN ? AND ?", from, to)
   }
 
   scope :for_vm, ->(cr,vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity).map(&:to_s)) }
@@ -327,7 +360,11 @@ class Host::Managed < Host::Base
   end
 
   def no_report
-    last_report.nil? || last_report < Time.now.utc - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes && enabled?
+    last_report.nil? || last_report < Time.now.utc - origin_interval.minutes && enabled?
+  end
+
+  def origin_interval
+    Setting[:"#{last_report.origin.downcase}_interval"] || 0
   end
 
   def disabled?

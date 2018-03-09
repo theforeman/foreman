@@ -8,9 +8,10 @@ module Dashboard
       def add_widget_to_user(user, widget_params)
         raise ::Foreman::Exception.new(N_("Unallowed template for dashboard widget: %s"), widget_params[:template]) unless template_allowed?(widget_params[:template])
 
-        widget = user.widgets.build(widget_params.except(:name, :template))
+        widget = user.widgets.build(widget_params.except(:name, :template, :settings))
         widget.name = widget_params[:name]
         widget.template = widget_params[:template]
+        widget.data = { :settings => widget_params[:settings] } if widget_params[:settings]
         widget.save!
         widget
       end
@@ -30,12 +31,49 @@ module Dashboard
 
       def builtin_widgets
         [
-          {template: 'status_widget',       sizex: 8, sizey: 1, name: N_('Host Configuration Status')},
-          {template: 'status_chart_widget', sizex: 4, sizey: 1, name: N_('Host Configuration Chart')},
-          {template: 'reports_widget',      sizex: 6, sizey: 1, name: N_('Latest Events')},
-          {template: 'distribution_widget', sizex: 6, sizey: 1, name: N_('Run Distribution Chart')},
-          {template: 'new_hosts_widget',    sizex: 8, sizey: 1, name: N_('New Hosts')}
-        ]
+          (registered_report_orgins + ['All']).sort.flat_map do |origin|
+            [
+              {
+                template: 'status_widget',
+                sizex: 8,
+                sizey: 1,
+                name: N_('Host Configuration Status for %s') % origin,
+                settings: {
+                  origin: origin,
+                  class_name: 'host-configuration-status'
+                }
+              },
+              {
+                template: 'status_chart_widget',
+                sizex: 4,
+                sizey: 1,
+                name: N_('Host Configuration Chart for %s') % origin,
+                settings: {
+                  origin: origin,
+                  class_name: 'host-configuration-chart'
+                }
+              }
+            ]
+          end,
+          registered_report_orgins.flat_map do |origin|
+            {
+              template: 'distribution_widget',
+              sizex: 6,
+              sizey: 1,
+              name: N_('Run Distribution Chart for %s') % origin,
+              settings: {
+                origin: origin,
+                class_name: 'run-distribution-chart'
+              }
+            }
+          end,
+          {template: 'reports_widget', sizex: 6, sizey: 1, name: N_('Latest Events')},
+          {template: 'new_hosts_widget', sizex: 8, sizey: 1, name: N_('New Hosts')}
+        ].flatten.sort_by {|widget| widget['name'] }
+      end
+
+      def registered_report_orgins
+        Foreman::Plugin.report_origin_registry.origins_for('ConfigReport')
       end
 
       def template_allowed?(template)

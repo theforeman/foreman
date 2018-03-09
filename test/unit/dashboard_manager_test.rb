@@ -31,8 +31,9 @@ class DashboardManagerTest < ActiveSupport::TestCase
   end
 
   test '.default_widgets returns built-in widgets' do
+    Dashboard::Manager.stubs(:registered_report_orgins).returns(['Puppet'])
     Foreman::Plugin.expects(:all).returns([])
-    assert_equal 5, Dashboard::Manager.default_widgets.count
+    assert_equal 7, Dashboard::Manager.default_widgets.count
   end
 
   test '.default_widgets adds plugin widgets' do
@@ -46,7 +47,7 @@ class DashboardManagerTest < ActiveSupport::TestCase
   end
 
   test '.find_default_widget_by_name returns built-in widget' do
-    assert_equal ['status_chart_widget'], Dashboard::Manager.find_default_widget_by_name('Host Configuration Chart').map { |w| w[:template] }
+    assert_equal ['status_chart_widget'], Dashboard::Manager.find_default_widget_by_name('Host Configuration Chart for All').map { |w| w[:template] }
   end
 
   test '.find_default_widget_by_name returns plugin widget' do
@@ -63,9 +64,9 @@ class DashboardManagerTest < ActiveSupport::TestCase
     user.widgets = [user.widgets.first]
 
     Foreman::Plugin.expects(:all).at_least_once.returns([])
-    assert_difference('user.widgets.size', 4) do
-      Dashboard::Manager.reset_user_to_default(user)
-      user.widgets.reload
-    end
+    Dashboard::Manager.reset_user_to_default(user)
+    user.widgets.reload
+    assert_equal Dashboard::Manager.default_widgets.count,
+                 user.widgets.count
   end
 end

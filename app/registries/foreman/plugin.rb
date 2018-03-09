@@ -19,6 +19,7 @@ require_dependency 'foreman/plugin/logging'
 require_dependency 'foreman/plugin/rbac_registry'
 require_dependency 'foreman/plugin/rbac_support'
 require_dependency 'foreman/plugin/report_scanner_registry'
+require_dependency 'foreman/plugin/report_origin_registry'
 
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
@@ -38,10 +39,12 @@ module Foreman #:nodoc:
     @registered_plugins = {}
     @tests_to_skip = {}
     @report_scanner_registry = Plugin::ReportScannerRegistry.new
+    @report_origin_registry = Plugin::ReportOriginRegistry.new
 
     class << self
       attr_reader   :registered_plugins
-      attr_accessor :tests_to_skip, :report_scanner_registry
+      attr_accessor :tests_to_skip, :report_scanner_registry,
+                    :report_origin_registry
       private :new
       include Foreman::WebpackAssets
 
@@ -112,6 +115,7 @@ module Foreman #:nodoc:
     # Foreman::Plugin.find('my_plugin').registered_roles
     delegate :registered_roles, :registered_permissions, :default_roles, :permissions, :permission_names, :to => :rbac_registry
     delegate :register_report_scanner, :unregister_report_scanner, :to => :report_scanner_registry
+    delegate :register_report_origin, :to => :report_origin_registry
 
     def initialize(id)
       @id = id.to_sym
@@ -130,6 +134,10 @@ module Foreman #:nodoc:
 
     def report_scanner_registry
       self.class.report_scanner_registry
+    end
+
+    def report_origin_registry
+      self.class.report_origin_registry
     end
 
     def after_initialize

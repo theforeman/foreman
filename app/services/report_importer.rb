@@ -46,7 +46,6 @@ class ReportImporter
 
   def scan
     logger.info "Scanning report with: #{report_scanners.join(', ')}"
-    logger.info logs.inspect
     report_scanners.each do |scanner|
       break if scanner.scan(report, logs)
     end
