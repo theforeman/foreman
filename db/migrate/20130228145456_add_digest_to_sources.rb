@@ -5,7 +5,7 @@ class AddDigestToSources < ActiveRecord::Migration[4.2]
     else
       remove_index(:sources, :value) if index_exists?(:sources, :value)
     end
-    add_column :sources, :digest, :string, :limit => 255
+    add_column :sources, :digest, :string, :limit => 40
     Source.find_each {|m| m.update_attribute(:digest, Digest::SHA1.hexdigest(m.value)) }
     add_index :sources, :digest
   end
