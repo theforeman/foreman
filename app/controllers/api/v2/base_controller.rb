@@ -31,6 +31,14 @@ module Api
         param :organization_id, Integer, :required => false, :desc => N_("Scope by organizations") if SETTINGS[:organizations_enabled]
       end
 
+      def_param_group :template_import_options do
+        param :options, Hash, :required => false do
+          param :force, :bool, :allow_nil => true, :desc => N_('use if you want update locked templates')
+          param :associate, ['new', 'always', 'never'], :allow_nil => true, :desc => N_('determines when the template should associate objects based on metadata, new means only when new template is being created, always means both for new and existing template which is only being updated, never ignores metadata')
+          param :lock, :bool, :allow_nil => true, :desc => N_('lock imported templates (false by default)')
+        end
+      end
+
       before_action :setup_has_many_params, :only => [:create, :update]
       before_action :check_content_type
       # ensure include_root_in_json = false for V2 only

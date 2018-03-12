@@ -80,6 +80,7 @@ class Template < ApplicationRecord
     @importing_metadata = self.class.parse_metadata(text)
     Foreman::Logging.logger('app').debug "setting attributes for #{self.name} with id: #{self.id || 'N/A'}"
     self.snippet = !!@importing_metadata[:snippet]
+    self.locked = options[:lock] unless options[:lock].nil?
 
     import_locations(options)
     import_organizations(options)
@@ -112,6 +113,7 @@ class Template < ApplicationRecord
   # options can contain following keys
   #   :force - set to true if you want to bypass locked templates
   #   :associate - either 'new', 'always' or 'never', determines when the template should associate objects based on metadata
+  #   :lock - lock imported templates (false by default)
   def self.import!(name, text, options = {})
     template = import_without_save(name, text, options)
     if options[:force]
@@ -190,7 +192,10 @@ class Template < ApplicationRecord
       end
     end
 
-    if  !self.modify_locked && !actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty?
+    # API request can be changing the locked content (not allowed_changes) but the locked attribute at the same
+    # time, so if changes include locked attribute (template is being locked or unlocked), we skip the lock error
+    if !self.modify_locked && !actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty? &&
+        !changes.include?('locked')
       errors.add(:base, _("This template is locked. Please clone it to a new template to customize."))
     end
   end
