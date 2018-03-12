@@ -221,6 +221,36 @@ EOS
         refute @template.snippet, 'template was not marked as a snippet'
       end
 
+      test 'keeps locked unchanged if lock option was not set' do
+        text = @template.template
+        @template = Template.new :locked => true
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        @template.import_without_save(text)
+        assert @template.locked
+      end
+
+      test 'keeps locks the template if lock is set to true' do
+        text = @template.template
+        @template = Template.new
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        @template.import_without_save(text, :lock => true)
+        assert @template.locked
+      end
+
+      test 'unlocks the template if lock is set to false' do
+        text = @template.template
+        @template = Template.new :locked => true
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        @template.import_without_save(text, :lock => false)
+        refute @template.locked
+      end
+
       test 'does not save the template' do
         assert @template.new_record?
       end

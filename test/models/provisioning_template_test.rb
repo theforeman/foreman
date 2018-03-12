@@ -118,6 +118,20 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     refute clone.locked
   end
 
+  test "locked template can be modified if it's being unlocked at the same time" do
+    tmplt = templates(:locked)
+    tmplt.template = 'new_content'
+    tmplt.locked = false
+    assert tmplt.valid?
+  end
+
+  test "unlocked template can be modified if it's being locked at the same time" do
+    tmplt = templates(:mystring)
+    tmplt.template = 'new_content'
+    tmplt.locked = true
+    assert tmplt.valid?
+  end
+
   test "should change a locked template while in rake" do
     Foreman.stubs(:in_rake?).returns(true)
     tmplt = templates(:locked)
