@@ -5,7 +5,7 @@ class AddDigestToMessages < ActiveRecord::Migration[4.2]
     else
       remove_index(:messages, :value) if index_exists?(:messages, :value)
     end
-    add_column :messages, :digest, :string, :limit => 255
+    add_column :messages, :digest, :string, :limit => 40
     Message.find_each {|m| m.update_attribute(:digest, Digest::SHA1.hexdigest(m.value)) }
     add_index :messages, :digest
   end
