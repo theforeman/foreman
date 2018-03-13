@@ -3,7 +3,6 @@ require 'integration_test_helper'
 class ComputeProfileJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   ComputeProfileJSTest.test_0001_edit compute attribute page
-  extend MiniTest::OptionalRetry
 
   setup do
     Fog.mock!

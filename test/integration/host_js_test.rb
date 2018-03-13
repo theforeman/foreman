@@ -12,7 +12,6 @@ class HostJSTest < IntegrationTestWithJavascript
   #   HostJSTest::NIC modal window::adding interfaces.test_0005_selecting domain updates puppetclass parameters
   #   HostJSTest::NIC modal window::adding interfaces.test_0004_selecting domain updates subnet list
   #   HostJSTest::NIC modal window::adding interfaces.test_0001_click on add opens modal
-  extend Minitest::OptionalRetry
 
   include HostFinders
   include HostOrchestrationStubs

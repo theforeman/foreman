@@ -3,7 +3,6 @@ require 'integration_test_helper'
 class VariableLookupKeyJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   VariableLookupKeyJSTest.test_0001_does not turn empty boolean value to false
-  extend Minitest::OptionalRetry
 
   test "does not turn empty boolean value to false" do
     visit variable_lookup_keys_path

@@ -3,7 +3,6 @@ require 'integration_test_helper'
 class HostgroupJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   HostgroupJSTest.test_0001_submit updates taxonomy
-  extend Minitest::OptionalRetry
 
   test 'creates a hostgroup with provisioning data' do
     env = FactoryBot.create(:environment)

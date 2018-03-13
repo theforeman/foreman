@@ -8,7 +8,12 @@ require 'capybara/poltergeist'
 require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
-require 'minitest-optional_retry'
+require 'minitest/retry'
+Minitest::Retry.use!
+
+Minitest::Retry.on_consistent_failure do |klass, test_name|
+  Rails.logger.error("DO NOT IGNORE - Consistent failure - #{klass} #{test_name}")
+end
 
 Capybara.register_driver :poltergeist do |app|
   opts = {
