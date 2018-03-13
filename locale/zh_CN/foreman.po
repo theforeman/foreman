@@ -7069,7 +7069,7 @@ msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
 msgstr[0] ""
 "选择这个主机\n"
-"选择所有 <b> %{total} </b> 主机\n"
+"选择所有 <b> %{total} </b> 主机"
 
 msgid "Select this since it belongs to a host"
 msgstr "选择这个因为它属于主机"
