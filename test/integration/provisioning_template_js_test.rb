@@ -4,7 +4,6 @@ class ProvisioningTemplateJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   ProvisioningTemplateJSTest.test_0001_edit template page
   #   ProvisioningTemplateJSTest.test_0002_edit snippet page
-  extend Minitest::OptionalRetry
 
   test "edit template page" do
     template = FactoryBot.create(:provisioning_template)

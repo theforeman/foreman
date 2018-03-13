@@ -3,7 +3,6 @@ require 'integration_test_helper'
 class AuditJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   # AuditJSTest.test_0001_show audit with diff
-  extend Minitest::OptionalRetry
 
   test "show audit with diff" do
     audit = FactoryBot.create(:audit, :with_diff)

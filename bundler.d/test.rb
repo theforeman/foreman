@@ -2,7 +2,7 @@ group :test do
   gem 'mocha', '~> 1.1'
   gem 'single_test', '~> 0.6'
   gem 'minitest', '~> 5.1', '< 5.11'
-  gem 'minitest-optional_retry', '~> 0.0', :require => false
+  gem 'minitest-retry', '~> 0.0', :require => false
   gem 'minitest-spec-rails', '~> 5.3'
   gem 'ci_reporter_minitest', :require => false
   gem 'capybara', '~> 2.5', :require => false
