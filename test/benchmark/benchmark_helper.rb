@@ -3,8 +3,8 @@ require 'benchmark/ips'
 require File.expand_path('../../../config/environment', __FILE__)
 
 unless Rails.env.production? && !Rails.configuration.database_configuration["production"]["migrate"]
-  puts "Rais must be in production and database must have migrations turned off!"
-  puts "Please add similar configuration to your config/database.yaml:"
+  puts "Rails must be in production (set RAILS_ENV) and database must have migrations turned off!"
+  puts "Please add similar configuration to your config/database.yml:"
   puts <<EOS
 production:
   adapter: sqlite3
