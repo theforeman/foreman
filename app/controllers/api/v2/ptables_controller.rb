@@ -2,6 +2,7 @@ module Api
   module V2
     class PtablesController < V2::BaseController
       include Foreman::Controller::Parameters::Ptable
+      include Foreman::Controller::TemplateImport
 
       wrap_parameters :ptable, :include => ptable_params_filter.accessible_attributes(parameter_filter_context)
 
@@ -54,15 +55,12 @@ module Api
       param :ptable, Hash, :required => true, :action_aware => true do
         param :name, String, :required => true, :desc => N_("template name")
         param :template, String, :required => true, :desc => N_("template contents including metadata")
+        param_group :taxonomies, ::Api::V2::BaseController
       end
       param_group :template_import_options, ::Api::V2::BaseController
 
       def import
-        options = params.permit(:options => {}).try(:[], :options) || {}
-        template_params = params.require(:ptable).permit(:name, :template)
-        name = template_params[:name]
-        text = template_params[:template]
-        @ptable = Ptable.import!(name, text, options)
+        @ptable = Ptable.import!(*import_attrs_for(:ptable))
         process_response @ptable
       end
 

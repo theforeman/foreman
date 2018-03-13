@@ -115,4 +115,25 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_response :success
     assert_match 'bbbb', ProvisioningTemplate.unscoped.find_by_name(snippet.name).template
   end
+
+  test "should override taxonomies when importing a template" do
+    org = FactoryBot.create(:organization)
+    loc = FactoryBot.create(:location)
+    name = "taxonomy override test name"
+    template = "<%#\nkind: PXELinux\nname: #{name}\nmodel: ProvisioningTemplate\norganizations:\n - #{org.name}\nlocations:\n - #{loc.name}\n%>\ntest"
+    changed_org = FactoryBot.create(:organization)
+    changed_loc = FactoryBot.create(:location)
+    post :import, params: { :provisioning_template => { :name => name,
+                                                        :template => template,
+                                                        :organization_ids => [changed_org.id],
+                                                        :location_ids => [changed_loc.id] },
+                            :options => { :associate => 'new' } }
+    assert_response :success
+    imported = Template.find_by :name => name
+    assert_equal 1, imported.organizations.count
+    assert_equal changed_org, imported.organizations.first
+
+    assert_equal 1, imported.locations.count
+    assert_equal changed_loc, imported.locations.first
+  end
 end

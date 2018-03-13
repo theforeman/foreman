@@ -82,8 +82,7 @@ class Template < ApplicationRecord
     self.snippet = !!@importing_metadata[:snippet]
     self.locked = options[:lock] unless options[:lock].nil?
 
-    import_locations(options)
-    import_organizations(options)
+    import_taxonomies(options)
     import_custom_data(options)
 
     self
@@ -143,6 +142,20 @@ class Template < ApplicationRecord
         @importing_metadata['oses'].any? {|imported_os| existing_os.to_label =~ /\A#{imported_os}/}
       end
       self.operatingsystem_ids = oses.map(&:id)
+    end
+  end
+
+  def import_taxonomies(options)
+    process_taxonomies options, :organization
+    process_taxonomies options, :location
+  end
+
+  def process_taxonomies(options, taxonomy)
+    tax_options = options["#{taxonomy}_params".to_sym]
+    if tax_options.empty?
+      send("import_#{taxonomy.to_s.pluralize}", options)
+    else
+      self.attributes = tax_options
     end
   end
 
