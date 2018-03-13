@@ -5,7 +5,6 @@ module Foreman
         super
         self.pool_size = SETTINGS.fetch(:dynflow, {})
                                  .fetch(:pool_size, pool_size)
-        self.db_pool_size = pool_size + 5
       end
 
       # Action related info such as exceptions raised inside the actions' methods

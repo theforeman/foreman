@@ -50,7 +50,7 @@ gem 'deacon', '~> 1.0'
 gem 'webpack-rails', '~> 0.9.8'
 gem 'mail', '~> 2.7'
 gem 'sshkey', '~> 1.9'
-gem 'dynflow', '>= 0.8.29', '< 1.0.0'
+gem 'dynflow', '>= 1.0.0', '< 2.0.0'
 gem 'daemons'
 gem 'get_process_mem'
 
