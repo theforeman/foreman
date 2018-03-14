@@ -640,7 +640,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :memory_mb  => 768,
+        :memory_mb  => 2048,
         :interfaces => [new_interface],
         :volumes    => [new_volume],
         :scsi_controllers => [{ :type => scsi_controller_default_type }],
