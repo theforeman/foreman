@@ -215,7 +215,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :memory     => 768.megabytes,
+        :memory     => 2048.megabytes,
         :nics       => [new_nic],
         :volumes    => [new_volume].compact,
         :display    => { :type     => display_type,
