@@ -50,12 +50,25 @@ module AuditAssociations
 
       def audited(options = {})
         if options[:associations].present?
-          include DirtyAssociations
-
-          dirty_has_many_associations(*(Array(options[:associations])))
+          configure_dirty_associations(Array(options[:associations]))
         end
 
         super
+      end
+
+      def audit_associations(*associations)
+        new_associations = Array(associations)
+        if self.respond_to?(:audited_options)
+          configure_dirty_associations(new_associations)
+          self.audited_options[:associations] = Array(self.audited_options[:associations]) | new_associations
+        else
+          logger.warn "ignoring associations #{new_associations.join(', ')} audit definition for #{self}, the resource is not audited"
+        end
+      end
+
+      def configure_dirty_associations(associations)
+        include DirtyAssociations unless included_modules.include?(DirtyAssociations)
+        dirty_has_many_associations(*associations)
       end
     end
   end
