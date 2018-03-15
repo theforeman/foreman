@@ -109,7 +109,12 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
 
   test "create with name and description" do
     name = RFauxFactory.gen_alpha
-    description = RFauxFactory.gen_utf8 1024
+    if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
+      # UTF is known to be problematic on MySQL < 5.7
+      description = RFauxFactory.gen_alpha(1024)
+    else
+      description = RFauxFactory.gen_utf8(1024)
+    end
     post :create, params: {:organization => { :name => name, :description => description } }
     assert_response :success, "creation with name: '#{name}' and description: '#{description}' failed with code: #{@response.code}"
     result = JSON.parse(@response.body)
@@ -145,7 +150,12 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
 
   test "update description" do
     organization = Organization.first
-    new_description = RFauxFactory.gen_utf8 1024
+    if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
+      # UTF is known to be problematic on MySQL < 5.7
+      new_description = RFauxFactory.gen_alpha(1024)
+    else
+      new_description = RFauxFactory.gen_utf8(1024)
+    end
     post :update, params: { :id => organization.id, :organization => { :description => new_description} }
     assert_response :success,"update with description: '#{new_description}' failed with code: #{@response.code}"
     organization.reload
