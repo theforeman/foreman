@@ -27,6 +27,9 @@ describe('activateDatatables', () => {
       serverSide: true,
       ordering: false,
       ajax: $('[data-table=server]').data('source'),
+      language: {
+        searchPlaceholder: 'Filter...',
+      },
       dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>",
     });
   });

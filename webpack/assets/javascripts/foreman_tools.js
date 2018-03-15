@@ -22,6 +22,9 @@ export function activateDatatables() {
   $('[data-table=inline]')
     .not('.dataTable')
     .DataTable({
+      language: {
+        searchPlaceholder: __('Filter...'),
+      },
       dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
     });
 
@@ -31,6 +34,9 @@ export function activateDatatables() {
       const url = el.getAttribute('data-source');
 
       $(el).DataTable({
+        language: {
+          searchPlaceholder: __('Filter...'),
+        },
         processing: true,
         serverSide: true,
         ordering: false,
