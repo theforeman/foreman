@@ -530,4 +530,8 @@ Foreman::Application.routes.draw do
       put 'group/:group' => 'notification_recipients#update_group_as_read'
     end
   end
+
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql'
+  end
 end

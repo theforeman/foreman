@@ -53,6 +53,11 @@ gem 'sshkey', '~> 1.9'
 gem 'dynflow', '>= 0.8.29', '< 1.0.0'
 gem 'daemons'
 gem 'get_process_mem'
+gem 'graphql', '~> 1.7.8'
+gem 'graphql-activerecord'
+gem 'graphql-batch'
+gem 'jwt', '~> 2.1.0'
+gem 'rack-cors', '~> 1.0.2'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))

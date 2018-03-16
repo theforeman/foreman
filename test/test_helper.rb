@@ -131,6 +131,30 @@ class ActionController::TestCase
   def disable_webpack
     Webpack::Rails::Manifest.stubs(:asset_paths).returns([])
   end
+
+  def json_response
+    ActiveSupport::JSON.decode(response.body)
+  end
+
+  def json_data(key)
+    data = json_response.fetch('data', {})
+    data.fetch(key, {})
+  end
+
+  def json_errors
+    json_response.fetch('errors', [])
+  end
+
+  def json_error_messages
+    json_errors.map { |e| e.fetch('message') }
+  end
+
+  def setup_jwt_authorized_user
+    user = FactoryBot.create(:user, :admin, :with_jwt_secret)
+    jwt_token = JwtToken.encode(user, user.jwt_secret.token)
+    request.headers['Authorization'] = jwt_token.to_s
+    user
+  end
 end
 
 def clear_plugins

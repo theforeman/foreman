@@ -89,6 +89,7 @@ module Foreman
     config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/services"]
     config.autoload_paths += Dir["#{config.root}/app/mailers"]
+    config.autoload_paths += Dir[ Rails.root.join('app', 'graphql') ]
 
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)

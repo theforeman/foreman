@@ -40,6 +40,10 @@ FactoryBot.define do
     trait :with_usergroup do
       usergroups { [FactoryBot.create(:usergroup)] }
     end
+
+    trait :with_jwt_secret do
+      after(:create) { |user| FactoryBot.create(:jwt_secret, user: user) }
+    end
   end
 
   factory :permission do
@@ -115,5 +119,9 @@ FactoryBot.define do
   factory :widget do
     sequence(:name) {|n| "Status Table #{n}" }
     template 'status_widget'
+  end
+
+  factory :jwt_secret do
+    token { SecureRandom.base64 }
   end
 end
