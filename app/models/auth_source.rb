@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AuthSource < ApplicationRecord
+  audited
   include Authorizable
   scoped_search :on => :name, :complete_value => :true
 
@@ -34,7 +35,9 @@ class AuthSource < ApplicationRecord
 
   scoped_search :on => :name, :complete_value => :true
 
-  audited
+  # audited gem uses class variable for audied_options so once child class define auditing of these associations
+  # other auth sources definitions start failing, since organization_ids_changed? method is undefined there
+  audit_associations :organizations, :locations
 
   validates_lengths_from_database :except => [:name, :account_password, :host, :attr_login, :attr_firstname, :attr_lastname, :attr_mail]
   before_destroy EnsureNotUsedBy.new(:users)

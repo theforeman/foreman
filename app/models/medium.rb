@@ -1,11 +1,11 @@
 class Medium < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Taxonomix
   include ValidateOsFamily
   include Parameterizable::ByIdName
-  audited
 
   validates_lengths_from_database
 

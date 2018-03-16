@@ -2,6 +2,7 @@ require 'ostruct'
 require 'uri'
 
 class Operatingsystem < ApplicationRecord
+  audited
   include Authorizable
   include ValidateOsFamily
   include PxeLoaderSupport
@@ -40,7 +41,6 @@ class Operatingsystem < ApplicationRecord
 
   before_save :set_family
 
-  audited
   default_scope -> { order(:title) }
 
   scoped_search :on => :name,        :complete_value => :true

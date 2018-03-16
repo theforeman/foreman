@@ -1,7 +1,7 @@
 class ConfigGroupClass < ApplicationRecord
-  include Authorizable
-
   audited :associated_with => :config_group
+
+  include Authorizable
 
   belongs_to :puppetclass
   belongs_to :config_group

@@ -1,10 +1,9 @@
 class PersonalAccessToken < ApplicationRecord
+  audited :except => [:token], :associated_with => :user
   include Authorizable
   include Expirable
 
   belongs_to :user
-
-  audited :except => [:token], :associated_with => :user
 
   scoped_search :on => :name
   scoped_search :on => :user_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER

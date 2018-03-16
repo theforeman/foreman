@@ -1,4 +1,5 @@
 class Hostgroup < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :title

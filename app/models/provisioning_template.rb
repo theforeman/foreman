@@ -1,4 +1,7 @@
 class ProvisioningTemplate < Template
+  audited
+  has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
+
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -13,9 +16,6 @@ class ProvisioningTemplate < Template
     end
   end
   self.table_name = 'templates'
-
-  audited
-  has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
 
   validates :name, :uniqueness => true
   validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
