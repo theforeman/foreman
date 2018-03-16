@@ -35,4 +35,36 @@ class ComputeProfileTest < ActiveSupport::TestCase
       assert compute_attributes(:three).compute_profile.destroy
     end
   end
+
+  test 'should create with multiple valid names' do
+    valid_name_list.each do |name|
+      compute_profile = FactoryBot.build(:compute_profile, :name => name)
+      assert compute_profile.valid?, "Can't create compute profile with valid name #{name}"
+    end
+  end
+
+  test 'should not create with multiple invalid names' do
+    invalid_name_list.each do |name|
+      compute_profile = FactoryBot.build(:compute_profile, :name => name)
+      refute compute_profile.valid?, "Can create compute profile with invalid name #{name}"
+      assert_includes compute_profile.errors.keys, :name
+    end
+  end
+
+  test 'should update with multiple valid names' do
+    compute_profile = FactoryBot.create(:compute_profile)
+    valid_name_list.each do |name|
+      compute_profile.name = name
+      assert compute_profile.valid?, "Can't update compute profile with valid name #{name}"
+    end
+  end
+
+  test 'should not update with multiple invalid names' do
+    compute_profile = FactoryBot.create(:compute_profile)
+    invalid_name_list.each do |name|
+      compute_profile.name = name
+      refute compute_profile.valid?, "Can update compute profile with invalid name #{name}"
+      assert_includes compute_profile.errors.keys, :name
+    end
+  end
 end
