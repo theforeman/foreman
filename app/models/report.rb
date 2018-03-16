@@ -26,7 +26,7 @@ class Report < ApplicationRecord
       scoped_search :relation => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_fullname
       scoped_search :relation => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_title
 
-      scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc, :rename => :reported, :only_explicit => true
+      scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc, :rename => :reported, :only_explicit => true, :aliases => [:last_report]
       scoped_search :on => :host_id,     :complete_value => false, :only_explicit => true
       scoped_search :on => :origin
     end
