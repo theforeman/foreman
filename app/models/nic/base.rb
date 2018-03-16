@@ -2,6 +2,7 @@
 # This class is the both parent
 module Nic
   class Base < ApplicationRecord
+    audited associated_with: :host
     prepend Foreman::STI
     include Encryptable
     encrypts :password
@@ -61,8 +62,6 @@ module Nic
     belongs_to :domain
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
-
-    audited associated_with: :host
 
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash

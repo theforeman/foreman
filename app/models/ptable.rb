@@ -3,6 +3,9 @@
 # A host object may contain a reference to one of these ptables or, alternatively, it may contain a
 # modified version of one of these in textual form
 class Ptable < Template
+  audited
+  has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
+
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -18,9 +21,6 @@ class Ptable < Template
     end
   end
   self.table_name = 'templates'
-
-  audited
-  has_many :audits, :as => :auditable, :class_name => Audited.audit_class.name
 
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many_hosts

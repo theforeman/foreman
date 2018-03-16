@@ -1,4 +1,5 @@
 class Realm < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -8,7 +9,6 @@ class Realm < ApplicationRecord
   TYPES = ["FreeIPA", "Active Directory"]
 
   validates_lengths_from_database
-  audited
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
   belongs_to_proxy :realm_proxy,

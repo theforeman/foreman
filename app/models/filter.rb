@@ -1,4 +1,6 @@
 class Filter < ApplicationRecord
+  audited :associated_with => :role
+
   include Taxonomix
   include Authorizable
   include TopbarCacheExpiry
@@ -36,7 +38,6 @@ class Filter < ApplicationRecord
     end
   end
 
-  audited :associated_with => :role
   belongs_to :role
   has_many :filterings, :autosave => true, :dependent => :destroy
   has_many :permissions, :through => :filterings

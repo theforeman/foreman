@@ -1,6 +1,7 @@
 require 'ipaddr'
 
 class Subnet < ApplicationRecord
+  audited
   IP_FIELDS = [:network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to]
   REQUIRED_IP_FIELDS = [:network, :mask]
   SUBNET_TYPES = {:'Subnet::Ipv4' => N_('IPv4'), :'Subnet::Ipv6' => N_('IPv6')}
@@ -33,7 +34,6 @@ class Subnet < ApplicationRecord
     super
   end
 
-  audited
 
   validates_lengths_from_database :except => [:gateway]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)

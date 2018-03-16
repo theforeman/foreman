@@ -1,6 +1,8 @@
 require 'digest/sha1'
 
 class User < ApplicationRecord
+  audited :except => [:last_login_on, :password_hash, :password_salt, :password_confirmation],
+          :associations => :roles
   include Authorizable
   extend FriendlyId
   friendly_id :login
@@ -121,8 +123,6 @@ class User < ApplicationRecord
 
   dirty_has_many_associations :roles
 
-  audited :except => [:last_login_on, :password_hash, :password_salt, :password_confirmation],
-          :associations => :roles
 
   attr_exportable :firstname, :lastname, :mail, :description, :fullname, :name => ->(user) { user.login }, :ssh_authorized_keys => ->(user) { user.ssh_keys.map(&:to_export_hash) }
 

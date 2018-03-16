@@ -1,9 +1,9 @@
 class HttpProxy < ApplicationRecord
+  audited
   include Authorizable
   include Taxonomix
   include Encryptable
 
-  audited
 
   extend FriendlyId
 

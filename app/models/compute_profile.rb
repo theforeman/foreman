@@ -1,4 +1,5 @@
 class ComputeProfile < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -6,7 +7,6 @@ class ComputeProfile < ApplicationRecord
 
   validates_lengths_from_database
 
-  audited
   has_associated_audits
 
   before_destroy EnsureNotUsedBy.new(:hostgroups)

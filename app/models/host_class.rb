@@ -1,8 +1,8 @@
 class HostClass < ApplicationRecord
+  audited :associated_with => :host
   include Authorizable
 
   validates_lengths_from_database
-  audited :associated_with => :host
   belongs_to_host
   belongs_to :puppetclass
 

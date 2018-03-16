@@ -1,7 +1,7 @@
 class HostgroupClass < ApplicationRecord
+  audited :associated_with => :hostgroup
   include Authorizable
 
-  audited :associated_with => :hostgroup
   belongs_to :hostgroup
   belongs_to :puppetclass
 

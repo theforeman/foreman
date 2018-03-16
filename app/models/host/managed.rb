@@ -1,4 +1,11 @@
 class Host::Managed < Host::Base
+  # audit the changes to this model
+  audited :except => [:last_report, :last_compile, :lookup_value_matcher]
+  has_associated_audits
+  #redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
+  has_many :audits, -> { where(:auditable_type => 'Host::Base') }, :foreign_key => :auditable_id,
+           :class_name => 'Audited::Audit'
+
   include Hostext::PowerInterface
   include Hostext::Search
   include Hostext::SmartProxy
@@ -181,13 +188,6 @@ class Host::Managed < Host::Base
   scope :for_vm, ->(cr,vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity).map(&:to_s)) }
 
   scope :with_compute_resource, -> { where.not(:compute_resource_id => nil, :uuid => nil) }
-
-  # audit the changes to this model
-  audited :except => [:last_report, :last_compile, :lookup_value_matcher]
-  has_associated_audits
-  #redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
-  has_many :audits, -> { where(:auditable_type => 'Host::Base') }, :foreign_key => :auditable_id,
-    :class_name => 'Audited::Audit'
 
   # some shortcuts
   alias_attribute :arch, :architecture

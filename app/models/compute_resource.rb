@@ -1,4 +1,5 @@
 class ComputeResource < ApplicationRecord
+  audited :except => [:password, :attrs]
   include Taxonomix
   include Encryptable
   include Authorizable
@@ -7,7 +8,6 @@ class ComputeResource < ApplicationRecord
 
   validates_lengths_from_database
 
-  audited :except => [:password, :attrs]
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   belongs_to :http_proxy

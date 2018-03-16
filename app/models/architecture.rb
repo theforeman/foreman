@@ -1,4 +1,5 @@
 class Architecture < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -12,7 +13,6 @@ class Architecture < ApplicationRecord
   has_many :images, :dependent => :destroy
   has_and_belongs_to_many :operatingsystems
   validates :name, :presence => true, :uniqueness => true, :no_whitespace => true
-  audited
 
   scoped_search :on => :name, :complete_value => :true
 

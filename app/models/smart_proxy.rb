@@ -1,10 +1,10 @@
 class SmartProxy < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Taxonomix
   include Parameterizable::ByIdName
-  audited
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, [:puppet_ca_hosts, :hosts], [:puppet_ca_hostgroups, :hostgroups], :realms)

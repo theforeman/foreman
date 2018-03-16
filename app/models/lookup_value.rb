@@ -1,10 +1,10 @@
 class LookupValue < ApplicationRecord
+  audited :associated_with => :lookup_key
   include Authorizable
   include PuppetLookupValueExtensions
   include HiddenValue
 
   validates_lengths_from_database
-  audited :associated_with => :lookup_key
   delegate :hidden_value?, :editable_by_user?, :to => :lookup_key, :allow_nil => true
 
   belongs_to :lookup_key

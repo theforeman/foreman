@@ -19,6 +19,7 @@ module Taxonomix
     scoped_search :relation => :organizations, :on => :id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
     dirty_has_many_associations :organizations, :locations
+    audit_associations :organizations, :locations
 
     validate :ensure_taxonomies_not_escalated, :if => Proc.new { User.current.nil? || !User.current.admin? }
   end

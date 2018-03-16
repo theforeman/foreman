@@ -1,6 +1,7 @@
 require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -10,7 +11,6 @@ class Domain < ApplicationRecord
   include BelongsToProxies
   include ParameterAttributes
 
-  audited
   validates_lengths_from_database
   has_many :hostgroups
   #order matters! see https://github.com/rails/rails/issues/670

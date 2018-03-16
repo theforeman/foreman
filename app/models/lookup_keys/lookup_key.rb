@@ -1,4 +1,5 @@
 class LookupKey < ApplicationRecord
+  audited :associated_with => :audit_class
   include Authorizable
   include HiddenValue
   include Classification
@@ -10,7 +11,6 @@ class LookupKey < ApplicationRecord
   EQ_DELM  = "="
   VALUE_REGEX =/\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
 
-  audited :associated_with => :audit_class
   validates_lengths_from_database
 
   serialize :default_value

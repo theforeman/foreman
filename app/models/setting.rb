@@ -1,6 +1,7 @@
 require 'resolv'
 
 class Setting < ApplicationRecord
+  audited :except => [:name, :description, :category, :settings_type, :full_name, :encrypted], :on => [:update]
   extend FriendlyId
   friendly_id :name
   include ActiveModel::Validations
@@ -28,7 +29,6 @@ class Setting < ApplicationRecord
 
   validates_lengths_from_database
   # audit the changes to this model
-  audited :except => [:name, :description, :category, :settings_type, :full_name, :encrypted], :on => [:update]
 
   validates :name, :presence => true, :uniqueness => true
   validates :description, :presence => true

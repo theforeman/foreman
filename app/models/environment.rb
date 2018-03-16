@@ -1,11 +1,11 @@
 class Environment < ApplicationRecord
+  audited
   extend FriendlyId
   friendly_id :name, :reserved_words => []
   include Taxonomix
   include Authorizable
   include Parameterizable::ByName
 
-  audited
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 

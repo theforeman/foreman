@@ -1,10 +1,10 @@
 class Model < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
 
-  audited
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many_hosts
