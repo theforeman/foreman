@@ -142,17 +142,14 @@ module Orchestration::DHCP
 
   def queue_dhcp_create
     logger.debug "Scheduling new DHCP reservations for #{self}"
-    queue.create(:name   => _("Create DHCP Settings for %s") % self, :priority => 10,
-                 :action => [self, :set_dhcp]) if dhcp?
+    queue.create(id: "dhcp_create_#{self.mac}", name: _("Create DHCP Settings for %s") % self, priority: 10, action: [self, :set_dhcp]) if dhcp?
   end
 
   def queue_dhcp_update
     return unless dhcp_update_required?
     logger.debug("Detected a changed required for DHCP record")
-    remove_name = _("Remove DHCP Settings for %s") % old
-    create_name = _("Create DHCP Settings for %s") % self
-    queue.create(:name => remove_name, :priority => 5, :action => [old, :del_dhcp]) if old.dhcp? && queue.items.select{|t| t.name == remove_name}.empty?
-    queue.create(:name => create_name, :priority => 9, :action => [self, :set_dhcp]) if dhcp? && queue.items.select{|t| t.name == create_name}.empty?
+    queue.create(id: "dhcp_remove_#{old.mac}", name: _("Remove DHCP Settings for %s") % old, priority: 5, action: [old, :del_dhcp]) if old.dhcp?
+    queue.create(id: "dhcp_create_#{self.mac}", name: _("Create DHCP Settings for %s") % self, priority: 9, action: [self, :set_dhcp]) if dhcp?
   end
 
   # do we need to update our dhcp reservations
@@ -177,8 +174,7 @@ module Orchestration::DHCP
 
   def queue_dhcp_destroy
     return unless dhcp? && errors.empty?
-    queue.create(:name   => _("Remove DHCP Settings for %s") % self, :priority => 5,
-                 :action => [self, :del_dhcp])
+    queue.create(id: "dhcp_remove_#{self.mac}", name: _("Remove DHCP Settings for %s") % self, priority: 5, action: [self, :del_dhcp])
     true
   end
 
@@ -186,8 +182,7 @@ module Orchestration::DHCP
     return if !dhcp? || !overwrite?
 
     logger.debug "Scheduling DHCP conflicts removal"
-    queue.create(:name   => _("DHCP conflicts removal for %s") % self, :priority => 5,
-                 :action => [self, :del_dhcp_conflicts])
+    queue.create(id: "dhcp_conflicts_remove_#{self.mac}", name: _("DHCP conflicts removal for %s") % self, priority: 5, action: [self, :del_dhcp_conflicts])
   end
 
   def dhcp_conflict_detected?
