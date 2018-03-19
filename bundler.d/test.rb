@@ -16,4 +16,5 @@ group :test do
   gem 'shoulda-context', '~> 1.2'
   gem 'as_deprecation_tracker', '~> 1.4'
   gem 'rails-controller-testing', '~> 1.0'
+  gem 'rfauxfactory', '~> 0.1'
 end
