@@ -14,13 +14,16 @@ module AuditAssociations
 
     private
 
+    def find_association_class(name)
+      self.class.reflect_on_association(name).class_name.constantize
+    end
+
     def associated_changes
       associations = Array.wrap(audited_options[:associations])
       associations.inject({}) do |changes_hash, association_name|
         association_ids = "#{association_name.to_s.singularize}_ids"
-
         if send("#{association_ids}_changed?")
-          association_class = self.class.reflect_on_association(association_name).class_name.constantize
+          association_class = find_association_class(association_name)
           change = send("#{association_ids}_change")
           change_ids = change.flatten.uniq
 
