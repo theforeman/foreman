@@ -13,7 +13,7 @@
     <% end %>
     <tfoot>
       <th><%= _("Total") %></th>
-      <th><%= envs.values.reduce(&:+) %></th>
+      <th><%= envs.values.reduce(0) {|memo, current| current.kind_of?(Integer) ? memo + current : memo} %></th>
     </tfoot>
   </tbody>
 </table>

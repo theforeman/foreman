@@ -11,6 +11,12 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to get environments from Puppet"))
     end
 
+    def environment_details
+      parse(get("environment_details"))
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to get classes from Puppet for %s"), env)
+    end
+
     def environment(env)
       parse(get("environments/#{env}"))
     rescue => e
@@ -27,10 +33,9 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to get classes from Puppet for %s"), env)
     end
 
-    def class_count(env)
+    def get_class_count(env)
       return if env.blank?
-      pcs = parse(get("environments/#{env}/classes"))
-      pcs.length
+      parse(get("environments/#{env}/classes_counter"))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to get classes from Puppet for %s"), env)
     end
