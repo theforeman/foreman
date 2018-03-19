@@ -12,7 +12,7 @@
                           link_to("templates", provisioning_templates_path)).html_safe) %>
     <% end %>
 
-    <%= f.fields_for :os_default_templates do |builder| %>
+    <%= f.fields_for :os_default_templates, f.object.os_default_templates.sort_by{ |t| t.template_kind.to_s.downcase } do |builder| %>
       <%= render 'templates', :f => builder %>
     <% end %>
   <% end %>
