@@ -7,7 +7,8 @@ class ArchitectureTest < ActiveSupport::TestCase
 
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
-  should_not allow_value('  ').for(:name)
+  should allow_values(*valid_name_list).for(:name)
+  should_not allow_values(*invalid_name_list).for(:name)
 
   test "to_s retrieves name" do
     architecture = Architecture.new :name => "i386"
@@ -75,27 +76,11 @@ class ArchitectureTest < ActiveSupport::TestCase
     assert_equal "etc-shadow", architecture.bootfilename_efi
   end
 
-  test "create with multi names" do
-    valid_name_list.each do |name|
-      architecture = FactoryBot.build(:architecture, :name => name)
-      assert architecture.valid?, "Validation failed for create with valid name: '#{name}' length: #{name.length})"
-      assert_equal architecture.name, name
-    end
-  end
-
-  test "should not create with invalid names" do
-    invalid_name_list.each do |name|
-      architecture = FactoryBot.build(:architecture, :name => name)
-      refute architecture.valid?, "Validation succeeded for create with invalid name: '#{name}' length: #{name.length})"
-      assert_includes architecture.errors.keys, :name
-    end
-  end
-
   test "update with multi names" do
     architecture = FactoryBot.create(:architecture)
     valid_name_list.each do |new_name|
       architecture.name =  new_name
-      assert architecture.valid?, "Validation failed for update with valid name: '#{new_name}' length: #{new_name.length})"
+      assert_valid architecture
       assert_equal architecture.name, new_name
     end
   end
@@ -104,7 +89,7 @@ class ArchitectureTest < ActiveSupport::TestCase
     architecture = Architecture.first
     invalid_name_list.each do |name|
       architecture.name = name
-      refute architecture.valid?, "Validation succeeded for update with invalid name: '#{name}' length: #{name.length})"
+      refute_valid architecture
       assert_includes architecture.errors.keys, :name
     end
   end

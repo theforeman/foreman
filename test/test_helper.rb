@@ -32,6 +32,27 @@ if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
   ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
 end
 
+# List of valid record name field.
+def valid_name_list
+  [
+    RFauxFactory.gen_alpha(1),
+    RFauxFactory.gen_alpha(255),
+    *RFauxFactory.gen_strings(1..255, exclude: [:html]).values,
+    RFauxFactory.gen_html(rand((1..230)))
+  ]
+end
+
+# List of invalid record name field .
+def invalid_name_list
+  [
+    '',
+    ' ',
+    '  ',
+    "\t",
+    *RFauxFactory.gen_strings(256).values
+  ]
+end
+
 module TestCaseRailsLoggerExtensions
   def before_setup
     super
@@ -60,26 +81,6 @@ end
 
 class ActiveSupport::TestCase
   prepend TestCaseRailsLoggerExtensions
-
-  # List of valid record name field.
-  def valid_name_list
-    [
-      RFauxFactory.gen_alpha(1),
-      RFauxFactory.gen_alpha(255),
-      *RFauxFactory.gen_strings(1..255, exclude: [:html]).values,
-      RFauxFactory.gen_html(rand((1..230)))
-    ]
-  end
-
-  # List of invalid record name field .
-  def invalid_name_list
-    [
-      '',
-      ' ',
-      "\t",
-      *RFauxFactory.gen_strings(256).values
-    ]
-  end
 end
 
 class ActionView::TestCase
