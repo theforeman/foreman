@@ -154,8 +154,8 @@ class Taxonomy < ApplicationRecord
     new
   end
 
-  # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organizations_ids since these aren't ignored
-  (TaxHost::HASH_KEYS - [:location_ids, :organizations_ids]).each do |key|
+  # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organization_ids since these aren't ignored
+  (TaxHost::HASH_KEYS - [:location_ids, :organization_ids]).each do |key|
     # def domain_ids
     #  if ignore?("Domain")
     #   Domain.pluck(:id)

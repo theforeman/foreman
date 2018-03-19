@@ -13,7 +13,7 @@ else
 end
 
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
-gem 'audited', '~> 4.6'
+gem 'audited', '~> 4.7'
 gem 'will_paginate', '~> 3.0'
 gem 'ancestry', '>= 2.0', '< 4'
 gem 'scoped_search', '>= 4.1.2', '< 5'

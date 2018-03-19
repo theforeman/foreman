@@ -204,11 +204,12 @@ class SettingTest < ActiveSupport::TestCase
     setting_name = "foo_#{rand(1000000)}"
     Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
 
-    SETTINGS.stubs(:key?).with(setting_name.to_sym).returns(true)
-    SETTINGS.stubs(:[]).with(setting_name.to_sym).returns("no-bar")
+    SETTINGS[setting_name.to_sym] = "no-bar"
 
     persisted = Setting.create!(:name => setting_name, :description => "foo", :default => "default")
     assert_equal "no-bar", persisted.value
+  ensure
+    SETTINGS.delete(setting_name.to_sym)
   end
 
   def test_first_or_create_works
