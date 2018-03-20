@@ -83,10 +83,9 @@ class HostgroupsController < ApplicationController
   end
 
   def puppetclass_parameters
-    @obj = params[:hostgroup][:id].empty? ? Hostgroup.new(hostgroup_params) : Hostgroup.find(params[:hostgroup_id])
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "puppetclasses/classes_parameters",
-             :locals => { :obj => @obj }
+             :locals => { :obj => refresh_hostgroup }
     end
   end
 
@@ -94,7 +93,7 @@ class HostgroupsController < ApplicationController
     env_id = params[:environment_id] || params[:hostgroup][:environment_id]
     return not_found if env_id.to_i > 0 && !(@environment = Environment.find(env_id))
 
-    @hostgroup ||= Hostgroup.new
+    refresh_hostgroup
     @hostgroup.environment = @environment if @environment
 
     @hostgroup.puppetclasses = Puppetclass.where(:id => params[:hostgroup][:puppetclass_ids])
@@ -104,7 +103,7 @@ class HostgroupsController < ApplicationController
 
   def process_hostgroup
     define_parent
-    define_hostgroup
+    refresh_hostgroup
     inherit_parent_attributes
     load_vars_for_ajax
     reset_explicit_attributes
@@ -150,13 +149,16 @@ class HostgroupsController < ApplicationController
     end
   end
 
-  def define_hostgroup
+  def refresh_hostgroup
     if params[:hostgroup][:id].present?
       @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params[:hostgroup][:id])
       @hostgroup.attributes = hostgroup_params
     else
       @hostgroup = Hostgroup.new(hostgroup_params)
     end
+
+    @hostgroup.lookup_values.each(&:validate_value)
+    @hostgroup
   end
 
   def inherit_parent_attributes

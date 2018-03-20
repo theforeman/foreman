@@ -161,14 +161,14 @@ class HostsController < ApplicationController
 
   def scheduler_hint_selected
     return not_found unless (params[:host])
-    @host = Host.new(host_params)
+    refresh_host
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "compute_resources_vms/form/scheduler_hint_filters"
     end
   end
 
   def interfaces
-    @host = Host.new host_params
+    refresh_host
     @host.apply_compute_profile(InterfaceMerge.new)
 
     render :partial => "interfaces_tab"
@@ -177,12 +177,6 @@ class HostsController < ApplicationController
   def current_parameters
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "common_parameters/inherited_parameters", :locals => {:inherited_parameters => refresh_host.inherited_params_hash, :parameters => refresh_host.host_parameters}
-    end
-  end
-
-  def puppetclass_parameters
-    Taxonomy.as_taxonomy @organization, @location do
-      render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host}
     end
   end
 
@@ -607,15 +601,9 @@ class HostsController < ApplicationController
   def process_hostgroup
     @hostgroup = Hostgroup.find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
+    refresh_host
+    @host.attributes = host.apply_inherited_attributes(host_params) unless @host.new_record?
 
-    @host = if params[:host][:id]
-              host = Host::Base.authorized(:view_hosts).find(params[:host][:id])
-              host = host.becomes Host::Managed
-              host.attributes = host.apply_inherited_attributes(host_params)
-              host
-            else
-              Host.new(host_params)
-            end
     @host.set_hostgroup_defaults true
     @host.set_compute_attributes unless params[:host][:compute_profile_id]
     set_class_variables(@host)
@@ -624,7 +612,7 @@ class HostsController < ApplicationController
 
   def process_taxonomy
     return head(:not_found) unless @location || @organization
-    @host = Host.new(host_params)
+    refresh_host
     # revert compute resource to "Bare Metal" (nil) if selected
     # compute resource is not included taxonomy
     Taxonomy.as_taxonomy @organization, @location do
@@ -686,16 +674,15 @@ class HostsController < ApplicationController
 
   def refresh_host
     @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params['host_id'])
-    if @host
-      unless @host.is_a?(Host::Managed)
-        @host      = @host.becomes(Host::Managed)
-        @host.type = "Host::Managed"
-      end
-      @host.attributes = host_params
-    else
-      @host ||= Host::Managed.new(host_params)
-    end
+    @host ||= Host.new(host_params)
 
+    unless @host.is_a?(Host::Managed)
+      @host      = @host.becomes(Host::Managed)
+      @host.type = "Host::Managed"
+    end
+    @host.attributes = host_params unless @host.new_record?
+
+    @host.lookup_values.each(&:validate_value)
     @host
   end
 

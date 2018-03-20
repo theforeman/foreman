@@ -1604,6 +1604,31 @@ class HostsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template :partial => 'puppetclasses/_class_selection'
     end
+
+    test 'should not escape lookup values on environment change' do
+      host = FactoryBot.create(:host, :with_environment, :with_puppetclass)
+
+      host.environment.locations = [host.location]
+      host.environment.organizations = [host.organization]
+
+      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array',
+                                     :default_value => ['a','b'], :override => true, :puppetclass => host.puppetclasses.first)
+      lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "fqdn=#{host.fqdn}", :value => ["c", "d"])
+
+      # sending exactly what the host form would send which is lookup_value.value_before_type_cast
+      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" =>  lookup_key.id, "_destroy" => false}}}
+
+      params = {
+        host_id: host.id,
+        host: host.attributes.merge(lk)
+      }
+
+      # environment change calls puppetclass_parameters which caused the extra escaping
+      post :puppetclass_parameters, params: params, session: set_session_user, xhr: true
+
+      # if this was escaped during refresh_host the value in response.body after unescapeHTML would include "[\\\"c\\\",\\\"d\\\"]"
+      assert_includes CGI.unescapeHTML(response.body), "[\"c\",\"d\"]"
+    end
   end
 
   context '#preview_host_collection' do
