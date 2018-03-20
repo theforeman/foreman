@@ -1,4 +1,6 @@
 class AuthSourceExternal < AuthSource
+  include Taxonomix
+
   def authenticate(login, password); end
 
   def auth_method_name
