@@ -335,4 +335,65 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 1, location.reload.location_parameters.count
   end
+
+  test "should create with comma separated name" do
+    name = "#{RFauxFactory.gen_alpha}, #{RFauxFactory.gen_alpha}"
+    post :create, params: { :location => { :name => name } }
+    assert_response :success, "creation with name #{name} failed with code #{response.code}"
+    assert_equal JSON.parse(@response.body)['name'], name, "Can't create location with valid name #{name}"
+  end
+
+  test "should create with description" do
+    name = RFauxFactory.gen_alpha
+    description = RFauxFactory.gen_alpha
+    post :create, params: { :location => { :name => name, :description => description } }
+    assert_response :success, "creation with name #{name} and description #{description} failed with code #{response.code}"
+    assert_equal JSON.parse(@response.body)['description'], description, "Can't create location with valid description #{description}"
+  end
+
+  test "should not create with same name" do
+    name = RFauxFactory.gen_alphanumeric
+    FactoryBot.create(:location, :name => name)
+    post :create, params: { :location => { :name => name } }
+    assert_response :unprocessable_entity
+    assert_includes(JSON.parse(response.body)["error"]["full_messages"], "Name has already been taken")
+  end
+
+  test "should not create with non existing domain" do
+    domain = FactoryBot.create(:domain)
+    deleted_id = domain.id
+    domain.destroy
+    post :create, params: { :location => { :domain_ids => [deleted_id] } }
+    assert_response 404
+  end
+
+  test "should update with valid name" do
+    location = FactoryBot.create(:location)
+    new_location_name = RFauxFactory.gen_alphanumeric
+    post :update, params: {:id => location.id, :location => {:name => new_location_name} }, session: set_session_user
+    updated_location = Location.find_by_id(location.id)
+    assert_equal new_location_name, updated_location.name
+  end
+
+  test "should update with valid description" do
+    location = FactoryBot.create(:location)
+    if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
+      # UTF is known to be problematic on MySQL < 5.7
+      description = RFauxFactory.gen_alpha(300)
+    else
+      description = RFauxFactory.gen_utf8(300)
+    end
+    post :update, params: {:id => location.id, :location => {:description => description} }, session: set_session_user
+    updated_location = Location.find_by_id(location.id)
+    assert_equal description, updated_location.description
+  end
+
+  test "should not update with invalid name" do
+    location = FactoryBot.create(:location)
+    post :update, params: {:id => location.id, :location => {:name => ''} }, session: set_session_user
+    updated_location = Location.find_by_id(location.id)
+    assert_response :unprocessable_entity
+    assert_include @response.body, "Name can't be blank"
+    assert_equal location.name, updated_location.name
+  end
 end
