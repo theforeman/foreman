@@ -56,10 +56,16 @@
 #     [%L] line number where the logging request was issued
 #     [%M] method name where the logging request was issued
 #     [%X{request}] request-ID set in HTTP headers, or random UUID
-#     [%X{session}] random ID assigned per session, not available early on during
-#                   request logging, but prevents disclosure of the session ID
-#     [%X{string}] variable set via MDC (::Logging.mdc['string'])
-#     [%x{string}] variable set via NDC (::Logging.ndc['string'])
+#     [%X{session}] random ID assigned per session
+#     [%X{user_login}] currently logged user if present
+#     [%X{org_id}] current organization id if available
+#     [%X{loc_id}] current location id if available
+#     [%X{remote_ip}] remote IP
+#     [%x{exception_class}] exception info (only for exception entries)
+#     [%x{exception_message}] exception info (only for exception entries)
+#     [%x{exception_backtrace}] exception info (only for exception entries)
+#     [%X{string}] generic field set via MDC (::Logging.mdc['string'])
+#     [%x{string}] generic field set via NDC (::Logging.ndc['string'])
 #
 # :sys_pattern:
 #   Logger line pattern for system log/journal. See :pattern for more info.
