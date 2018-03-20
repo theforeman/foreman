@@ -340,8 +340,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     name = "#{RFauxFactory.gen_alpha}, #{RFauxFactory.gen_alpha}"
     post :create, params: { :location => { :name => name } }
     assert_response :success, "creation with name #{name} failed with code #{response.code}"
-    show_response = JSON.parse(@response.body)
-    refute_empty show_response
+    assert_equal JSON.parse(@response.body)['name'], name, "Can't create location with valid name #{name}"
   end
 
   test "should create with description" do
@@ -349,14 +348,12 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     description = RFauxFactory.gen_alpha
     post :create, params: { :location => { :name => name, :description => description } }
     assert_response :success, "creation with name #{name} and description #{description} failed with code #{response.code}"
-    show_response = JSON.parse(@response.body)
-    refute_empty show_response
+    assert_equal JSON.parse(@response.body)['description'], description, "Can't create location with valid description #{description}"
   end
 
   test "should not create with same name" do
     name = RFauxFactory.gen_alphanumeric
-    post :create, params: { :location => { :name => name } }
-    assert_response :success
+    FactoryBot.create(:location, :name => name)
     post :create, params: { :location => { :name => name } }
     assert_response :unprocessable_entity
     assert_includes(JSON.parse(response.body)["error"]["full_messages"], "Name has already been taken")

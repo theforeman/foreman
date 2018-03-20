@@ -34,6 +34,7 @@ class LocationTest < ActiveSupport::TestCase
     invalid_loc_name_list.each do |name|
       location = FactoryBot.build(:location, :name => name)
       refute location.valid?, "Can create location with invalid name #{name}"
+      assert_includes location.errors.keys, :name
     end
   end
 
@@ -42,7 +43,6 @@ class LocationTest < ActiveSupport::TestCase
     valid_loc_name_list.each do |name|
       location.name = name
       assert location.valid?, "Can't update location with valid name #{name}"
-      assert_equal location.name, name
     end
   end
 
@@ -51,7 +51,6 @@ class LocationTest < ActiveSupport::TestCase
     RFauxFactory.gen_strings(300).values.each do |description|
       location.description = description
       assert location.valid?, "Can't update location with valid description #{description}"
-      assert_equal location.description, description
     end
   end
 
