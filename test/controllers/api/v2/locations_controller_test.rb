@@ -377,7 +377,12 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should update with valid description" do
     location = FactoryBot.create(:location)
-    description = RFauxFactory.gen_utf8(300)
+    if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
+      # UTF is known to be problematic on MySQL < 5.7
+      description = RFauxFactory.gen_alpha(300)
+    else
+      description = RFauxFactory.gen_utf8(300)
+    end
     post :update, params: {:id => location.id, :location => {:description => description} }, session: set_session_user
     updated_location = Location.find_by_id(location.id)
     assert_equal description, updated_location.description
