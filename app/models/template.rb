@@ -101,7 +101,7 @@ class Template < ApplicationRecord
   # Pull out the first erb comment only - /m is for a multiline regex
   def self.parse_metadata(text)
     extracted = text.match(/<%\#[\t a-z0-9=:]*(.+?).-?%>/m)
-    extracted.nil? ? {} : YAML.load(extracted[1]).with_indifferent_access
+    extracted.nil? ? {} : YAML.safe_load(extracted[1]).with_indifferent_access
   rescue RuntimeError => e
     Foreman::Logging.exception('invalid metadata', e)
     {}
