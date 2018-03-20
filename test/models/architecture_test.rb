@@ -79,7 +79,7 @@ class ArchitectureTest < ActiveSupport::TestCase
   test "update with multi names" do
     architecture = FactoryBot.create(:architecture)
     valid_name_list.each do |new_name|
-      architecture.name =  new_name
+      architecture.name = new_name
       assert_valid architecture
       assert_equal architecture.name, new_name
     end
