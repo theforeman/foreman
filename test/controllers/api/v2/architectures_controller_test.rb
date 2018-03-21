@@ -33,9 +33,25 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should not create architecture with invalid name" do
+    assert_difference('Architecture.count', 0) do
+      post :create, params: { :architecture => {:name => ''}}
+    end
+    assert_response :unprocessable_entity
+  end
+
   test "should update architecture" do
     put :update, params: { :id => architectures(:x86_64).to_param, :architecture => {:name => 'newx86_64'} }
     assert_response :success
+  end
+
+  test "should not update architecture with invalid name" do
+    arch = Architecture.first
+    arch_name = arch.name
+    put :update, params: { :id => arch.id, :architecture => {:name => ''} }
+    assert_response :unprocessable_entity
+    arch.reload
+    assert_equal arch.name, arch_name
   end
 
   test "should destroy architecture" do
