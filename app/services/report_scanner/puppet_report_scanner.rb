@@ -2,7 +2,7 @@ module Foreman
   class PuppetReportScanner
     class << self
       def scan(report, logs)
-        if is_puppet = puppet_report?(logs)
+        if (is_puppet = puppet_report?(logs))
           report.origin = 'Puppet'
         end
         is_puppet
