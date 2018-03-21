@@ -7,33 +7,40 @@ module Foreman
         @plugin_id = plugin_id
       end
 
-      def register_role(name, permissions, role_registry)
+      def register_role(name, permissions, role_registry, description = '')
         User.as_anonymous_admin do
           Role.transaction do
-            role = process_role name, permissions
+            role = process_role name, permissions, description
             role_registry.role_ids << role.id
           end
         end
       end
 
-      def process_role(name, permissions)
+      def process_role(name, permissions, description = '')
         role = Role.find_by :name => name
-        if role&.origin && role.permission_diff(permissions).present?
-          return update_plugin_role_permissions role, permissions
+        if role
+          role.update_attribute(:description, description) if role.description != description
+
+          if role&.origin && role.permission_diff(permissions).present?
+            return update_plugin_role_permissions role, permissions
+          end
+
+          if role&.permission_diff(permissions)&.empty?
+            role.update_attribute :origin, @plugin_id if role.origin.empty?
+            return role
+          end
+
         end
-        if role&.permission_diff(permissions)&.empty?
-          role.update_attribute :origin, @plugin_id if role.origin.empty?
-          return role
-        end
+
         Role.without_auditing do
           rename_existing role, name if role
-          create_plugin_role name, permissions
+          create_plugin_role name, permissions, description
         end
       end
 
-      def create_plugin_role(name, permissions)
+      def create_plugin_role(name, permissions, description = '')
         Role.ignore_locking do
-          role = Role.create! :name => name, :origin => @plugin_id
+          role = Role.create! :name => name, :origin => @plugin_id, :description => description
           role.add_permissions!(permissions)
           role
         end
