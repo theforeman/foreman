@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import UUID from 'uuid/v1';
 import { Icon, OverlayTrigger, Tooltip } from 'patternfly-react';
 import { noop } from '../../../common/helpers';
+import { translate as __ } from '../../../common/I18n';
 
 const AutoCompleteClearButton = ({ onClear, tooltipID }) => {
   const tooltip = <Tooltip id={tooltipID}>{__('Clear')}</Tooltip>;

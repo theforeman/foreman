@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
 import { noop } from '../../../common/helpers';
+import { translate as __ } from '../../../common/I18n';
 
 const TaxonomyDropdown = ({
   taxonomyType,

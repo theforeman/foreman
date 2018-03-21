@@ -49,11 +49,11 @@ describe('PasswordStrength integration test', () => {
     });
 
     setInputValue(passwordConfirmationInput, passwords.strong.password);
-    expect(component.find(`CommonForm[label="${__('Verify')}"] .help-block`).length).toBe(1);
+    expect(component.find(`CommonForm[label="${'Verify'}"] .help-block`).length).toBe(1);
     integrationTestHelper.takeStoreAndLastActionSnapshot('unmached password confirmation');
 
     setInputValue(passwordConfirmationInput, passwords.veryStrong.password);
-    expect(component.find(`CommonForm[label="${__('Verify')}"] .help-block`).length).toBe(0);
+    expect(component.find(`CommonForm[label="${'Verify'}"] .help-block`).length).toBe(0);
     integrationTestHelper.takeStoreAndLastActionSnapshot('mached password confirmation');
   });
 });

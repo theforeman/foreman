@@ -15,12 +15,6 @@
     <%= yield(:stylesheets) %>
 
     <%= csrf_meta_tags %>
-    <%= javascript_include_tag *webpack_asset_paths('vendor', :extension => 'js'), "data-turbolinks-track" => true %>
-    <%= javascript_include_tag *webpack_asset_paths('bundle', :extension => 'js'), "data-turbolinks-track" => true %>
-    <%= javascript_include_tag "locale/#{FastGettext.locale}/app", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
-    <%= webpack_dev_server %>
-    <%= yield(:javascripts) %>
 
     <script type="text/javascript">
       var URL_PREFIX = '<%= request.script_name %>';
@@ -34,7 +28,15 @@
       <% if SETTINGS[:mark_translated] && !Rails.env.test? %>
         var I18N_MARK = true;
       <% end %>
+    </script>
+    <%= javascript_include_tag "locale/#{FastGettext.locale}/app", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag *webpack_asset_paths('vendor', :extension => 'js'), "data-turbolinks-track" => true %>
+    <%= javascript_include_tag *webpack_asset_paths('bundle', :extension => 'js'), "data-turbolinks-track" => true %>
+    <%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
+    <%= webpack_dev_server %>
+    <%= yield(:javascripts) %>
 
+    <script type="text/javascript">
       <%= yield(:inline_javascripts) %>
     </script>
 

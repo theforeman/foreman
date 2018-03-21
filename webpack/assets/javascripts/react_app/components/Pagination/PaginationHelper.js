@@ -1,4 +1,5 @@
 import URI from 'urijs';
+import { translate as __ } from '../../common/I18n';
 
 export const getURI = () => new URI(window.location.href);
 

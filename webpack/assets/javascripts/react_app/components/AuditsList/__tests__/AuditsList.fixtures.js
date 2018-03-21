@@ -1,3 +1,5 @@
+import { translate as __ } from '../../../common/I18n';
+
 export const searchLinkProp = {
   textValue: 'testUser',
   url: '/audits?search=type+%3D+user+and+auditable_id+%3D+1',

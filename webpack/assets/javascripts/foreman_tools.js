@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import URI from 'urijs';
+import { translate as __ } from './react_app/common/I18n';
 
 import { showLoading, hideLoading } from './foreman_navigation';
 
@@ -124,4 +125,15 @@ export function updateTable(element) {
   /* eslint-disable no-undef */
   Turbolinks.visit(uri.toString());
   return false;
+}
+
+export function deprecateObjectProperty(obj, oldProp, newProp, version = '1.20') {
+  const oldPropPointer = obj[oldProp];
+
+  Object.defineProperty(obj, oldProp, {
+    get: () => {
+      deprecate(oldProp, newProp, version);
+      return oldPropPointer;
+    },
+  });
 }

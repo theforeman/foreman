@@ -3,6 +3,7 @@ import { Alert } from 'patternfly-react';
 
 import AlertBody from '../Alert/AlertBody';
 import Actions from './Actions';
+import { translate as __ } from '../../../../react_app/common/I18n';
 
 export default ({
   className = 'form-horizontal well',

@@ -2,6 +2,7 @@ import React from 'react';
 import { DonutChart as PfDonutChart } from 'patternfly-react';
 import { getDonutChartConfig } from '../../../../../services/ChartService';
 import MessageBox from '../../MessageBox';
+import { translate as __ } from '../../../../../react_app/common/I18n';
 
 const DonutChart = ({
   data,

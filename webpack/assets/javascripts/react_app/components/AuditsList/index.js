@@ -6,6 +6,7 @@ import ShowOrgsLocs from './ShowOrgsLocs';
 import ActionLinks from './ActionLinks';
 import ExpansiveView from './ExpansiveView';
 import UserDetails from './UserDetails';
+import { translate as __ } from '../../common/I18n';
 import './audit.scss';
 
 const isAuditLogin = (auditedChanges) => {

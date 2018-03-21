@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col } from 'patternfly-react';
 import ShowTaxonomyInline from './ShowTaxonomyInline';
+import { translate as __ } from '../../common/I18n';
 
 const ShowOrgsLocs = ({
   isOrgEnabled = false,

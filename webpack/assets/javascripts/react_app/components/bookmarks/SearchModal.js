@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from 'patternfly-react';
 import BookmarkForm from './form';
+import { translate as __ } from '../../../react_app/common/I18n';
 
 export default ({
   show = true,

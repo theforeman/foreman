@@ -8,7 +8,7 @@ import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
 import { STATUS } from '../../constants';
 import * as FactChartActions from '../../redux/actions/factCharts/';
-
+import { sprintf, ngettext as n__, translate as __ } from '../../../react_app/common/I18n';
 import { navigateToSearch } from '../../../services/ChartService';
 
 class FactChart extends React.Component {
@@ -73,12 +73,10 @@ class FactChart extends React.Component {
             <Modal.Header closeButton>
               <Modal.Title>
                 <b>
-                  {// eslint-disable-next-line no-undef
-                  Jed.sprintf(__('Fact distribution chart - %s '), title)}
+                  {sprintf(__('Fact distribution chart - %s '), title)}
                 </b>
                 <small>
-                  {// eslint-disable-next-line no-undef
-                  Jed.sprintf(
+                  {sprintf(
                     n__('(%s host)', '(%s hosts)', factChart.hostsCount),
                     factChart.hostsCount,
                   )}

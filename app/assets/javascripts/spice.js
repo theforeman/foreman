@@ -30,7 +30,7 @@ function spice_error(e) {
 }
 
 function spice_success(m) {
-  $('#spice-status').text(Jed.sprintf(__('Connected (unencrypted) to: %s'), $('#spice-status').attr('data-host')))
+  $('#spice-status').text(tfm.i18n.sprintf(__('Connected (unencrypted) to: %s'), $('#spice-status').attr('data-host')))
   $('#spice-status').addClass('label-success');
 }
 

@@ -22,7 +22,7 @@ export const initController = (config, controllers, volumes) => ({
   payload: {
     config,
     controllers: controllers || defaultControllerAttributes,
-    volumes: volumes || getDefaultDiskAttributes(),
+    volumes: volumes || getDefaultDiskAttributes,
   },
 });
 
@@ -30,7 +30,7 @@ export const addController = data => ({
   type: STORAGE_VMWARE_ADD_CONTROLLER,
   payload: {
     controller: defaultControllerAttributes,
-    volume: getDefaultDiskAttributes(),
+    volume: getDefaultDiskAttributes,
   },
 });
 
@@ -58,6 +58,6 @@ export const addDisk = controllerKey => ({
   type: STORAGE_VMWARE_ADD_DISK,
   payload: {
     controllerKey,
-    data: getDefaultDiskAttributes(),
+    data: getDefaultDiskAttributes,
   },
 });

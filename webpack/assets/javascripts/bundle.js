@@ -20,6 +20,7 @@ require('./bundle_lodash');
 require('./bundle_novnc');
 
 import compute from './foreman_compute_resource';
+import i18n from './react_app/common/I18n';
 
 window.tfm = Object.assign(window.tfm || {}, {
   authSource: require('./foreman_auth_source'),
@@ -39,4 +40,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   medium: require('./foreman_medium'),
   templateInputs: require('./foreman_template_inputs'),
   advancedFields: require('./foreman_advanced_fields'),
+  i18n,
 });

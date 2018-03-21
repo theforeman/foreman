@@ -313,7 +313,7 @@ function get_pie_chart(div, url) {
           hostsCount += this.data;
         });
         expanded_pie(target, data.values);
-        $('.modal-title').empty().append( __('Fact distribution chart') + ' - <b>' + _.escape(data.name) + ' </b><small> ('+ Jed.sprintf(n__("%s host", "%s hosts", hostsCount), hostsCount) +')</small>');
+        $('.modal-title').empty().append( __('Fact distribution chart') + ' - <b>' + _.escape(data.name) + ' </b><small> ('+ tfm.i18n.sprintf(n__("%s host", "%s hosts", hostsCount), hostsCount) +')</small>');
         target.attr('data-url', foreman_url("/hosts?search=facts." + data.name + "~~VAL1~"));
       });
     });
