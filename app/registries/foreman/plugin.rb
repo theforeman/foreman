@@ -267,12 +267,12 @@ module Foreman #:nodoc:
     end
 
     # Add a new role if it doesn't exist
-    def role(name, permissions)
+    def role(name, permissions, description = '')
       default_roles[name] = permissions
       return false if pending_migrations || Rails.env.test? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
       Role.without_auditing do
         Filter.without_auditing do
-          Plugin::RoleLock.new(self.id).register_role name, permissions, rbac_registry
+          Plugin::RoleLock.new(self.id).register_role name, permissions, rbac_registry, description
         end
       end
     rescue PermissionMissingException => e
