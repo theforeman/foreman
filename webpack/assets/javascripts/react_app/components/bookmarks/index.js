@@ -8,6 +8,7 @@ import * as BookmarkActions from '../../redux/actions/bookmarks';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
 import { bindMethods } from '../../common/helpers';
+import { sprintf, translate as __ } from '../../../react_app/common/I18n';
 
 class BookmarkContainer extends React.Component {
   constructor(props) {
@@ -73,7 +74,7 @@ class BookmarkContainer extends React.Component {
           {status === STATUS.ERROR && (
             <MenuItem key="bookmarks-errors">
               <EllipisWithTooltip>
-                {window.Jed.sprintf(__('Failed to load bookmarks: %s'), errors)}
+                {sprintf('Failed to load bookmarks: %s', errors)}
               </EllipisWithTooltip>
             </MenuItem>
           )}

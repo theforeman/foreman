@@ -4,6 +4,7 @@ import PrimaryActionButton from './EmptyStatePrimaryActionButton';
 import SecondaryActionButtons from './EmptyStateSecondaryActionButtons';
 import { defaultEmptyStatePropTypes } from './EmptyStatePropTypes';
 import { DocumentLinkContent } from '../DocumentationLink';
+import { translate as __ } from '../../../common/I18n';
 
 const documentationBlock = ({
   url,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'patternfly-react';
 import { simpleLoader } from '../Loader';
+import { translate as __ } from '../../../../react_app/common/I18n';
 
 export default ({ onCancel, disabled = false, submitting = false }) => (
   <div className="clearfix">

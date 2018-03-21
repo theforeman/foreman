@@ -1,6 +1,7 @@
 import React from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { Icon } from 'patternfly-react';
+import { translate as __ } from '../../../../react_app/common/I18n';
 import './searchInput.scss';
 
 class SearchInput extends React.Component {

@@ -10,6 +10,7 @@ import AutoCompleteAux from './components/AutoCompleteAux';
 import AutoCompleteFocusShortcut from './components/AutoCompleteFocusShortcut';
 import { STATUS } from '../../constants';
 import { TRIGGERS, KEYCODES } from './AutoCompleteConstants';
+import { translate as __ } from '../../common/I18n';
 import './auto-complete.scss';
 
 class AutoComplete extends React.Component {

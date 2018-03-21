@@ -2,6 +2,7 @@
 import { SubmissionError } from 'redux-form';
 import API from '../../../API';
 import { addToast } from '../toasts';
+import { sprintf, translate as __ } from '../../../../react_app/common/I18n';
 
 const fieldErrors = ({ error }) => {
   const { errors } = error;
@@ -46,7 +47,7 @@ export const submitForm = ({
         dispatch(addToast({
           type: 'success',
           // eslint-disable-next-line no-undef
-          message: message || Jed.sprintf('%s was successfully created.', __(item)),
+          message: message || sprintf('%s was successfully created.', __(item)),
         }));
       })
       .catch(onError);

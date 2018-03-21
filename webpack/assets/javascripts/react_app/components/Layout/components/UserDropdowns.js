@@ -4,6 +4,7 @@ import { Dropdown, VerticalNav, Icon, MenuItem } from 'patternfly-react';
 import NotificationContainer from '../../notifications';
 import NavDropdown from './NavDropdown';
 import NavItem from './NavItem';
+import { translate as __ } from '../../../common/I18n';
 
 const UserDropdowns = ({
   activeKey,

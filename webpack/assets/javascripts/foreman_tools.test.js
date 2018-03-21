@@ -181,4 +181,13 @@ describe('updateTableTest', () => {
       return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=&per_page=${PerPage}`);
     });
   });
+
+  it('deprecateObjectProperty should depracte an object property', () => {
+    const obj = { deprecated: jest.fn() };
+    console.warn = jest.fn();
+
+    tools.deprecateObjectProperty(obj, 'deprecated', 'tfm.obj', '1.42');
+    obj.deprecated();
+    expect(console.warn).toHaveBeenCalledWith('DEPRECATION WARNING: you are using deprecated deprecated, it will be removed in Foreman 1.42. Use tfm.obj instead.');
+  });
 });

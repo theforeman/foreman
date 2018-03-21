@@ -4,6 +4,7 @@ import React from 'react';
 import Select from '../../../../common/forms/Select';
 
 import Disk from './disk';
+import { translate as __ } from '../../../../../../react_app/common/I18n';
 import './controller.scss';
 
 const Controller = ({

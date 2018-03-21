@@ -15,7 +15,7 @@ function update_nics(success_callback) {
     data: data,
     complete: function(){},
     error: function(jqXHR, status, error){
-      $('#network').html(Jed.sprintf(__("Error loading interfaces information: %s"), error));
+      $('#network').html(tfm.i18n.sprintf(__("Error loading interfaces information: %s"), error));
       $('#network_tab a').addClass('tab-error');
     },
     success: function(result){
@@ -740,7 +740,7 @@ function interface_subnet_selected(element, ip_field, skip_mac) {
       }
     },
     error: function(request, status, error) {
-      setError(interface_ip, Jed.sprintf(__("Error generating IP: %s"), error));
+      setError(interface_ip, tfm.i18n.sprintf(__("Error generating IP: %s"), error));
     },
     complete: function () {
       tfm.tools.hideSpinner();

@@ -3,8 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { groupBy } from 'lodash';
 import { NotificationDrawerWrapper } from 'patternfly-react';
-
+import { translate as __ } from '../../../react_app/common/I18n';
 import * as NotificationActions from '../../redux/actions/notifications';
+
 import './notifications.scss';
 import ToggleIcon from './toggleIcon';
 

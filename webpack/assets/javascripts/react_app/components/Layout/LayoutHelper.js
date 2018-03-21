@@ -3,6 +3,7 @@ import {
   changeOrganization,
   changeLocation,
 } from '../../../foreman_navigation';
+import { translate as __ } from '../../common/I18n';
 
 export const getCurrentPath = () => window.location.pathname;
 

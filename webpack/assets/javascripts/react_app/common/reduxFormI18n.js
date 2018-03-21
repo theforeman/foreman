@@ -1,4 +1,5 @@
 import Validators from 'redux-form-validators';
+import { sprintf, translate as __ } from '../../react_app/common/I18n';
 
 Validators.formatMessage = (props) => {
   // reusing existing form strings.
@@ -9,7 +10,7 @@ Validators.formatMessage = (props) => {
   const msg = validations[props.id.replace('form.errors.', '')] || props.defaultMessage;
   if (props.values) {
     // eslint-disable-next-line no-undef
-    return Jed.sprintf(__(msg), props.values.count);
+    return sprintf(msg, props.values.count);
   }
   return __(msg);
 };

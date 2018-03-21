@@ -16,6 +16,7 @@ import 'brace/theme/clouds';
 import 'brace/keybinding/vim';
 import 'brace/keybinding/emacs';
 import 'brace/ext/searchbox';
+import { sprintf, translate as __ } from './react_app/common/I18n';
 
 import { initTypeAheadSelect } from './foreman_tools';
 
@@ -311,7 +312,7 @@ export function revertTemplate(item) {
         .find('h6 span')
         .attr('data-original-title');
 
-      $('#provisioning_template_audit_comment').text(Jed.sprintf(__('Revert to revision from: %s'), time));
+      $('#provisioning_template_audit_comment').text(sprintf(__('Revert to revision from: %s'), time));
     },
   });
 }

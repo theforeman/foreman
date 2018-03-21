@@ -6,6 +6,7 @@ import ChartBox from './ChartBox';
 import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
 import './StatisticsChartsListStyles.scss';
+import { translate as __ } from '../../../react_app/common/I18n';
 
 const getStatusFromChart = (chart) => {
   if (chart.data) {

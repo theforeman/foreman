@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { translate as __ } from './react_app/common/I18n';
 
 export function checkForUnavailablePuppetclasses() {
   const unavailableClasses = $('#puppet_klasses #selected_classes .unavailable');

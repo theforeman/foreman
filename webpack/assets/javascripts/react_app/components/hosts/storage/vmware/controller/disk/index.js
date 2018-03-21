@@ -4,7 +4,7 @@ import { Button } from 'patternfly-react';
 import Select from '../../../../../common/forms/Select';
 import Checkbox from '../../../../../common/forms/Checkbox';
 import NumericInput from '../../../../../common/forms/NumericInput';
-
+import { translate as __ } from '../../../../../../../react_app/common/I18n';
 import './disk.scss';
 
 const Disk = ({

@@ -1,3 +1,5 @@
+import { translate as __ } from '../../common/I18n';
+
 export const passwords = {
   username: { password: 'my-user-name', expected: __('Weak') },
   email: { password: 'my-user@email.com', expected: __('Weak') },

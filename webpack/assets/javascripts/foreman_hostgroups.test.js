@@ -6,13 +6,6 @@ jest.unmock('./foreman_hostgroups');
 
 describe('checkForUnavailablePuppetclasses', () => {
   beforeEach(() => {
-    window.Jed = {
-      sprintf(input) {
-        return input;
-      },
-    };
-    window.__ = input => input;
-
     document.body.innerHTML = `<div>
         <ul class="nav-tabs">
           <li><a href="#puppet_klasses" data-toggle="tab">Puppet Classes</a></li>

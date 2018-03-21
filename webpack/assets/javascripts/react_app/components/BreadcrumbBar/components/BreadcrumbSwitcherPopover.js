@@ -5,6 +5,7 @@ import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import SearchInput from '../../common/SearchInput';
 import SubstringWrapper from '../../common/SubstringWrapper';
 import { noop } from '../../../common/helpers';
+import { translate as __ } from '../../../../react_app/common/I18n';
 import './BreadcrumbSwitcherPopover.scss';
 
 const BreadcrumbSwitcherPopover = ({

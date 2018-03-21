@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { renderTemplatesDiff } from '../../../foreman_editor';
+import { translate as __ } from '../../common/I18n';
 
 const renderListItems = items =>
   items &&

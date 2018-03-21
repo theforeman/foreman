@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Col, Icon } from 'patternfly-react';
+import { translate as __ } from '../../../common/I18n';
 
 const SearchButton = ({ className, ...props }) => (
   <Button {...props} className={`autocomplete-search-btn ${className}`}>

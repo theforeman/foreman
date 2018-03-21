@@ -2,6 +2,7 @@
 import $ from 'jquery';
 import { activateDatatables } from './foreman_tools';
 import { notify } from './foreman_toast_notifications';
+import { sprintf, translate as __ } from './react_app/common/I18n';
 
 export default {
   ec2: require('./compute_resource/ec2'),
@@ -30,7 +31,7 @@ $(document).on('ContentLoad', () => {
           // eslint-disable-next-line function-paren-newline
           tab.html(
             // eslint-disable-next-line no-undef
-            Jed.sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
+            sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
               status: xhr.status,
               statusText: xhr.statusText,
             }));

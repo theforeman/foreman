@@ -286,7 +286,7 @@ function nic_info(form) {
     // common virtual
     var attached = form.find('.attached').val();
     if (attached != "")
-      info = Jed.sprintf(__("virtual attached to %s"), attached);
+      info = tfm.i18n.sprintf(__("virtual attached to %s"), attached);
     else
       info = __("virtual");
 

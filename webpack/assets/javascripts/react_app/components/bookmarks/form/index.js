@@ -5,6 +5,7 @@ import { required, length } from 'redux-form-validators';
 import Form from '../../common/forms/Form';
 import TextField from '../../common/forms/TextField';
 import * as FormActions from '../../../redux/actions/common/forms';
+import { translate as __ } from '../../../../react_app/common/I18n';
 
 const submit = ({ name, query, publik }, dispatch, props) => {
   const { submitForm, url, controller } = props;

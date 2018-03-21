@@ -2,6 +2,7 @@ import toJson from 'enzyme-to-json';
 import { shallowRenderComponentWithFixtures } from '../../../common/testHelpers';
 import ShowTaxonomyInline from '../ShowTaxonomyInline';
 import { TaxonomyProps } from './AuditsList.fixtures';
+import { translate as __ } from '../../../common/I18n';
 
 const OrgsFixtures = {
   'render organizations': {

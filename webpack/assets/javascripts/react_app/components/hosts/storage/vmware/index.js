@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Controller from './controller/';
 import * as VmWareActions from '../../../../redux/actions/hosts/storage/vmware';
 import { MaxDisksPerController } from './StorageContainer.consts';
+import { translate as __ } from '../../../../../react_app/common/I18n';
 import './StorageContainer.scss';
 
 const filterKeyFromVolume = (volume) => {
