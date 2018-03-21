@@ -20,6 +20,7 @@ bundler.d/*.local.rb
 *.pyc
 public/apipie-cache
 public/assets
+public/webmks
 .DS_Store
 foreman_client
 doc/
