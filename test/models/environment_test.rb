@@ -7,6 +7,30 @@ class EnvironmentTest < ActiveSupport::TestCase
   should have_many(:puppetclasses).through(:environment_classes)
   should have_many(:trends).class_name('ForemanTrend')
 
+  # List of valid environment names.
+  def valid_env_name_list
+    [
+      RFauxFactory.gen_alphanumeric(1),
+      RFauxFactory.gen_alphanumeric(255),
+      RFauxFactory.gen_alphanumeric(rand(1..254)),
+      RFauxFactory.gen_alpha(rand(1..254)),
+      RFauxFactory.gen_numeric_string(rand(1..254))
+    ]
+  end
+
+  # List of invalid environment names.
+  def invalid_env_name_list
+    [
+      RFauxFactory.gen_cjk,
+      RFauxFactory.gen_latin1,
+      RFauxFactory.gen_utf8,
+      RFauxFactory.gen_alpha(256),
+      RFauxFactory.gen_numeric_string(256),
+      RFauxFactory.gen_alphanumeric(256),
+      RFauxFactory.gen_html(249),
+    ]
+  end
+
   test "to_label should print name" do
     env = Environment.new :name => "foo"
     assert_equal env.to_label, env.name
@@ -19,6 +43,38 @@ class EnvironmentTest < ActiveSupport::TestCase
 
   test 'should create environment with the name "new"' do
     assert FactoryBot.build_stubbed(:environment, :name => 'new').valid?
+  end
+
+  test 'should create with multiple valid names' do
+    valid_env_name_list.each do |name|
+      env = FactoryBot.build(:environment, :name => name)
+      assert env.valid?, "Can't create environment with valid name #{name}"
+    end
+  end
+
+  test 'should not create with multiple invalid names' do
+    invalid_env_name_list.each do |name|
+      env = FactoryBot.build(:environment, :name => name)
+      refute env.valid?, "Can create environment with invalid name #{name}"
+      assert_includes env.errors.keys, :name
+    end
+  end
+
+  test 'should update with multiple valid names' do
+    env = FactoryBot.create(:environment)
+    valid_env_name_list.each do |name|
+      env.name = name
+      assert env.valid?, "Can't update environment with valid name #{name}"
+    end
+  end
+
+  test 'should not update with multiple invalid names' do
+    env = FactoryBot.create(:environment)
+    invalid_env_name_list.each do |name|
+      env.name = name
+      refute env.valid?, "Can update environment with invalid name #{name}"
+      assert_includes env.errors.keys, :name
+    end
   end
 
   context 'audited' do
