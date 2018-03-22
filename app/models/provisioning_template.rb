@@ -38,6 +38,8 @@ class ProvisioningTemplate < Template
   scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
   scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
   scoped_search :on => :template
+  scoped_search :on => :vendor, :only_explicit => true, :complete_value => true
+  scoped_search :on => :default, :only_explicit => true, :complete_value => {:true => true, :false => false}
 
   scoped_search :relation => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
   scoped_search :relation => :environments,     :on => :name, :rename => :environment,     :complete_value => true
