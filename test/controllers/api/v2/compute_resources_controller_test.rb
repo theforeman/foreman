@@ -314,4 +314,166 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     cr.reload
     assert_nil cr.attrs[:display]
   end
+
+  test "should update libvirt compute resource with valid name" do
+    name = RFauxFactory.gen_alpha
+    put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:name => name } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['name'], name, "Can't update libvirt compute resource with valid name #{name}"
+  end
+
+  test "should update libvirt compute resource with vnc display type" do
+    display_type = "vnc"
+    put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:display_type => display_type } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['display_type'], display_type, "Can't update libvirt compute resource with valid display type #{display_type}"
+  end
+
+  test "should update libvirt compute resource with spice display type" do
+    display_type = "spice"
+    put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:display_type => display_type } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['display_type'], display_type, "Can't update libvirt compute resource with valid display type #{display_type}"
+  end
+
+  test "should update libvirt compute resource with valid url" do
+    new_url = "qemu+tcp://localhost:16509/system"
+    put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:url => new_url } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['url'], new_url, "Can't update libvirt compute resource with valid url #{new_url}"
+  end
+
+  test "should update libvirt compute resource with loc" do
+    new_location = Location.second
+    put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:location_ids => [new_location.id] } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert_equal response['locations'].length, 1
+    assert_equal response['locations'][0]['id'], new_location.id, "Can't update libvirt compute resource with loc #{new_location}"
+  end
+
+  test "should update libvirt compute resource with org" do
+    new_organization = Organization.second
+    put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:organization_ids => [new_organization.id] } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert_equal response['organizations'].length, 1
+    assert_equal response['organizations'][0]['id'], new_organization.id, "Can't update libvirt compute resource with org #{new_organization}"
+  end
+
+  test "should update libvirt compute resource with orgs" do
+    new_organizations = [Organization.first, Organization.second, Organization.third]
+    put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:organization_ids => new_organizations.map { |org| org.id } } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['organizations'].map { |org| org['name'] }.sort, new_organizations.map { |org| org.name }, "Can't update libvirt compute resource with orgs #{new_organizations}"
+  end
+
+  test "should not create with same name" do
+    post :create, params: { :compute_resource => { :name => compute_resources(:mycompute).name, :provider => 'libvirt' } }
+    assert_response :unprocessable_entity, "Can create libvirt compute resource with the name of already existing resource"
+  end
+
+  test "should not update with already taken name" do
+    compute_resource = FactoryBot.create(:libvirt_cr)
+    put :update, params: { :id => compute_resource.id, :compute_resource => { :name => compute_resources(:mycompute).name } }
+    assert_response :unprocessable_entity, "Can update libvirt compute resource with the name of already existing resource"
+  end
+
+  test "should not update with empty name" do
+    url = ""
+    compute_resource = FactoryBot.create(:libvirt_cr)
+    put :update, params: { :id => compute_resource.id, :compute_resource => { :url => url } }
+    assert_response :unprocessable_entity, "Can create libvirt compute resource with empty name"
+  end
+
+  test "should not update with invalid name" do
+    url = RFauxFactory.gen_alpha
+    compute_resource = FactoryBot.create(:libvirt_cr)
+    put :update, params: { :id => compute_resource.id, :compute_resource => { :url => url } }
+    assert_response :unprocessable_entity, "Can create libvirt compute resource with invalid name"
+  end
+
+  context 'libvirt' do
+    setup do
+      @organization = Organization.first
+      @location = Location.first
+      @valid_libvirt_attrs = { :name => 'libvirt_compute', :provider => 'libvirt', :url => 'qemu+ssh://root@libvirt.example.com/system' }
+      @valid_libvirt_with_org_loc = { :name => 'libvirt_compute', :provider => 'libvirt', :organization_ids => [@organization.id], :location_ids => [@location.id], :url => 'qemu+ssh://root@libvirt.example.com/system' }
+    end
+
+    test "should create libvirt compute resource with valid name" do
+      name = @valid_libvirt_with_org_loc[:name]
+      post :create, params: { :compute_resource => @valid_libvirt_with_org_loc }
+      assert_response :created
+      assert_equal JSON.parse(@response.body)['name'], name, "Can't create libvirt compute resource with valid name #{name}"
+    end
+
+    test "should create libvirt compute resource with valid description" do
+      description = RFauxFactory.gen_alpha
+      libvirt_with_description = @valid_libvirt_with_org_loc.clone.update(:description => description)
+      post :create, params: { :compute_resource => libvirt_with_description }
+      assert_response :created
+      assert_equal JSON.parse(@response.body)['description'], description, "Can't create libvirt compute resource with valid description #{description}"
+    end
+
+    test "should create libvirt compute resource with spice display_type" do
+      display_type = 'spice'
+      libvirt_spice_display_type = @valid_libvirt_with_org_loc.clone.update(:display_type => display_type)
+      post :create, params: { :compute_resource => libvirt_spice_display_type }
+      assert_response :created
+      assert_equal JSON.parse(@response.body)['display_type'], display_type, "Can't create libvirt compute resource with valid display_type #{display_type}"
+    end
+
+    test "should create libvirt compute resource with spice display_type" do
+      display_type = 'vnc'
+      libvirt_vnc_display_type = @valid_libvirt_with_org_loc.clone.update(:display_type => display_type)
+      post :create, params: { :compute_resource => libvirt_vnc_display_type }
+      assert_response :created
+      assert_equal JSON.parse(@response.body)['display_type'], display_type, "Can't create libvirt compute resource with valid display_type #{display_type}"
+    end
+
+    test "should create libvirt compute resource with locs" do
+      locs = Array.new(3){FactoryBot.create(:location, :organization_ids => [@organization.id])}
+      libvirt_with_locs = @valid_libvirt_with_org_loc.clone.update(:location_ids => locs.map { |loc| loc.id })
+      post :create, params: { :compute_resource => libvirt_with_locs }
+      assert_response :created
+      assert_equal JSON.parse(@response.body)['locations'].map { |loc| loc['name'] }, locs.map { |loc| loc.name }, "Can't create libvirt compute resource with locs #{locs}"
+    end
+
+    test "should create libvirt compute resource with orgs" do
+      orgs = [Organization.first, Organization.second, Organization.third]
+      libvirt_with_orgs = @valid_libvirt_attrs.clone.update(:organization_ids => orgs.map { |org| org.id })
+      post :create, params: { :compute_resource => libvirt_with_orgs }
+      assert_response :created
+      assert_equal JSON.parse(@response.body)['organizations'].map { |org| org['name'] }, orgs.map { |org| org.name }, "Can't create libvirt compute resource with orgs #{orgs}"
+    end
+
+    test "should update libvirt compute resource with locs" do
+      new_locations = Array.new(3){FactoryBot.create(:location, :organization_ids => [@organization.id])}
+      put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:location_ids => new_locations.map { |loc| loc.id } } }
+      assert_response :success
+      assert_equal JSON.parse(@response.body)['locations'].map { |loc| loc['name'] }, new_locations.map { |loc| loc.name }, "Can't update libvirt compute resource with locs #{new_locations}"
+    end
+
+    test "should not create libvirt compute resource with invalid name" do
+      name = ""
+      libvirt_with_invalid_name = @valid_libvirt_with_org_loc.clone.update(:name => name)
+      post :create, params: { :compute_resource => libvirt_with_invalid_name }
+      assert_response :unprocessable_entity, "Can create libvirt compute resource with invalid name #{name}"
+    end
+
+    test "should not create with empty url" do
+      url = ""
+      libvirt_with_invalid_url = @valid_libvirt_with_org_loc.clone.update(:url => url)
+      post :create, params: { :compute_resource => libvirt_with_invalid_url }
+      assert_response :unprocessable_entity, "Can create libvirt compute resource with empty url"
+    end
+
+    test "should not create with invalid url" do
+      url = RFauxFactory.gen_alpha
+      libvirt_with_invalid_url = @valid_libvirt_with_org_loc.clone.update(:url => url)
+      post :create, params: { :compute_resource => libvirt_with_invalid_url }
+      assert_response :unprocessable_entity, "Can create libvirt compute resource with invalid name"
+    end
+  end
 end
