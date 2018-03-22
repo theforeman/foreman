@@ -34,7 +34,6 @@ class Subnet < ApplicationRecord
     super
   end
 
-
   validates_lengths_from_database :except => [:gateway]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
 

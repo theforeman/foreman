@@ -123,7 +123,6 @@ class User < ApplicationRecord
 
   dirty_has_many_associations :roles
 
-
   attr_exportable :firstname, :lastname, :mail, :description, :fullname, :name => ->(user) { user.login }, :ssh_authorized_keys => ->(user) { user.ssh_keys.map(&:to_export_hash) }
 
   class Jail < ::Safemode::Jail

@@ -2,7 +2,6 @@ class Image < ApplicationRecord
   audited
   include Authorizable
 
-
   belongs_to :operatingsystem
   belongs_to :compute_resource
   belongs_to :architecture
