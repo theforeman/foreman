@@ -23,6 +23,186 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:operatingsystem)
   end
 
+  test "should create os with name and major version only" do
+    os_params = minimum_required_os_params
+    assert_difference('Operatingsystem.count') do
+      post :create, params: { :operatingsystem =>  os_params}
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('name')
+    assert response.key?('major')
+    assert_equal response['name'], os_params[:name]
+    assert_equal response['major'], os_params[:major]
+  end
+
+  test "should create os with family" do
+    os_params = minimum_required_os_params.merge(:family => 'Redhat')
+    assert_difference('Operatingsystem.count') do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('family')
+    assert_equal response['family'], os_params[:family]
+  end
+
+  test "should create os with description" do
+    if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
+      # UTF is known to be problematic on MySQL < 5.7
+      description = RFauxFactory.gen_alpha(255)
+    else
+      description = RFauxFactory.gen_utf8(255)
+    end
+    os_params = minimum_required_os_params.merge(:description => description)
+    assert_difference('Operatingsystem.count') do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('description')
+    assert_equal response['description'], description
+  end
+
+  test "should create with password hash" do
+    os_params = minimum_required_os_params.merge(:password_hash => 'SHA512')
+    assert_difference('Operatingsystem.count') do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('password_hash')
+    assert_equal response['password_hash'], os_params[:password_hash]
+  end
+
+  test "should not create os with invalid name" do
+    os_params = minimum_required_os_params.merge(:name => '')
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create os with invalid family" do
+    os_params = minimum_required_os_params.merge(:family => 'NON_EXISTENT_OS')
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create os with too long description" do
+    os_params = minimum_required_os_params.merge(:description => RFauxFactory.gen_alpha(256))
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create os with invalid major version" do
+    os_params = minimum_required_os_params.merge(:major => '')
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create os with invalid minor version" do
+    os_params = minimum_required_os_params.merge(:minor => '-5')
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create os with invalid password_hash" do
+    os_params = minimum_required_os_params.merge(:password_hash => 'INVALID_HASH')
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => os_params }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create os with same name major and minor" do
+    os = operatingsystems(:redhat)
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => { :name => os.name, :major => os.major, :minor => os.minor } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create os with same name and major version only" do
+    os = FactoryBot.create(:operatingsystem, minimum_required_os_params)
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => { :name => os.name, :major => os.major } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not update os with invalid name" do
+    os = operatingsystems(:redhat)
+    put :update, params: { :id => os.id, :operatingsystem => { :name => '' } }
+    assert_response :unprocessable_entity
+  end
+
+  test "should update os description" do
+    os = operatingsystems(:redhat)
+    new_description = 'rhel new description'
+    put :update, params: { :id => os.id, :operatingsystem => { :description => new_description } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('description')
+    assert_equal response['description'], new_description
+  end
+
+  test "should update os minor version" do
+    os = operatingsystems(:redhat)
+    new_minor = '2'
+    put :update, params: { :id => os.id, :operatingsystem => { :minor => new_minor } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('minor')
+    assert_equal response['minor'], new_minor
+  end
+
+  test "should not update os with invalid minor version" do
+    os = operatingsystems(:redhat)
+    put :update, params: { :id => os.id, :operatingsystem => { :minor => '-30' } }
+    assert_response :unprocessable_entity
+  end
+
+  test "should update os major version" do
+    os = operatingsystems(:redhat)
+    new_major = '7'
+    put :update, params: { :id => os.id, :operatingsystem => { :major => new_major } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('major')
+    assert_equal response['major'], new_major
+  end
+
+  test "should not update os with invalid major version" do
+    os = operatingsystems(:redhat)
+    put :update, params: { :id => os.id, :operatingsystem => { :major => '-1' } }
+    assert_response :unprocessable_entity
+  end
+
+  test "should update os family" do
+    os = operatingsystems(:redhat)
+    new_family = 'Coreos'
+    put :update, params: { :id => os.id, :operatingsystem => { :family => new_family } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('family')
+    assert_equal response['family'], new_family
+  end
+
+  test "should not update os with invalid family" do
+    os = operatingsystems(:redhat)
+    put :update, params: { :id => os.id, :operatingsystem => { :family => 'INVALID_FAMILY' } }
+    assert_response :unprocessable_entity
+  end
+
   test "should create os with os parameters" do
     os_with_params = os_params.merge(:os_parameters_attributes => {'0'=>{:name => "foo", :value => "bar"}})
     assert_difference('OsParameter.count') do
@@ -166,6 +346,13 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
       :name  => "awsome_os",
       :major => "1",
       :minor => "2"
+    }
+  end
+
+  def minimum_required_os_params
+    {
+      :name  => RFauxFactory.gen_alpha,
+      :major => RFauxFactory.gen_numeric_string(rand(1..5))
     }
   end
 end
