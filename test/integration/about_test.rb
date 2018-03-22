@@ -3,7 +3,6 @@ require 'integration_test_helper'
 class AboutIntegrationTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   AboutIntegrationTest.test_0002_about page proxies should have version
-  extend Minitest::OptionalRetry
 
   setup do
     ComputeResource.any_instance.expects(:ping).at_least_once.returns([])

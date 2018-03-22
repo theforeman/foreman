@@ -1,5 +1,6 @@
 # config/initializers/will_paginate.rb
 require 'will_paginate/array'
+require 'will_paginate/view_helpers/action_view'
 
 module WillPaginate
   module ActionView
@@ -30,11 +31,11 @@ module WillPaginate
       end
 
       def first_page
-        previous_or_next_page(current_page == 1 ? nil : 1, @options[:first_label], 'first_page')
+        previous_or_next_page((current_page == 1) ? nil : 1, @options[:first_label], 'first_page')
       end
 
       def last_page
-        previous_or_next_page(current_page == total_pages ? nil : total_pages, @options[:last_label], 'last_page')
+        previous_or_next_page((current_page == total_pages) ? nil : total_pages, @options[:last_label], 'last_page')
       end
 
       def previous_or_next_page(page, text, classname)

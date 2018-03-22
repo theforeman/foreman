@@ -1,11 +1,12 @@
 <%#
 kind: PXELinux
 name: AutoYaST default PXELinux
+model: ProvisioningTemplate
 oses:
 - SLES
 - OpenSUSE
 %>
-<% http_proxy_string = @host.params['http-proxy'] ? "proxy=http://" + @host.params['http-proxy'] + ":" + @host.params['http-proxy-port'] : '' -%>
+<% http_proxy_string = host_param('http-proxy') ? "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') : '' -%>
 
 DEFAULT linux
 

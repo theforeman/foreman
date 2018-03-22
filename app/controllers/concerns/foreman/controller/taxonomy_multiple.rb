@@ -50,7 +50,7 @@ module Foreman::Controller::TaxonomyMultiple
         return
       end
     end
-    notice "Updated hosts: Changed #{type.to_s.classify}"
+    success "Updated hosts: Changed #{type.to_s.classify}"
     redirect_back_or_to hosts_path
   end
 end

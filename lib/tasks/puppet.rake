@@ -20,7 +20,7 @@ namespace :puppet do
           if host.populate_fields_from_facts
             counter += 1
           else
-            $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(", ")}"
+            $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(', ')}"
           end
         end
       end
@@ -36,7 +36,7 @@ namespace :puppet do
         name = yaml.match(/.*\/(.*).yaml/)[1]
         puts "Importing #{name}"
         puppet_facts = File.read(yaml)
-        facts_stripped_of_class_names = YAML::load(puppet_facts.gsub(/\!ruby\/object.*$/,''))
+        facts_stripped_of_class_names = YAML.load(puppet_facts.gsub(/\!ruby\/object.*$/,''))
         User.as_anonymous_admin do
           host = Host::Managed.import_host(facts_stripped_of_class_names['name'], 'puppet')
           host.import_facts(facts_stripped_of_class_names['values'].with_indifferent_access)
@@ -47,7 +47,7 @@ namespace :puppet do
   namespace :import do
     desc "
     Update puppet environments and classes. Optional batch flag triggers run with no prompting\nUse proxy=<proxy name> to import from or get the first one by default"
-    task :puppet_classes,  [:batch, :envname] => :environment do | t, args |
+    task :puppet_classes,  [:batch, :envname] => :environment do |t, args|
       User.as_anonymous_admin do
         args.batch = args.batch == "true"
         proxies = SmartProxy.with_features("Puppet")
@@ -59,7 +59,7 @@ namespace :puppet do
         if ENV["proxy"]
           proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
           unless proxy.is_a?(SmartProxy)
-            puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+            puts "Smart Proxies #{ENV['proxy']} was not found, aborting"
             exit 1
           end
         end
@@ -136,11 +136,11 @@ namespace :puppet do
     end
 
     desc "Imports only the puppet environments from SmartProxy source."
-    task :environments_only, [:batch] => :environment do | t, args |
+    task :environments_only, [:batch] => :environment do |t, args|
       User.as_anonymous_admin do
         args.batch = args.batch == "true"
         puts " ================================================================ "
-        puts "Import starts: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+        puts "Import starts: #{Time.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
 
         proxies = SmartProxy.with_features("Puppet")
         if proxies.empty?
@@ -150,7 +150,7 @@ namespace :puppet do
         if ENV["proxy"]
           proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
           unless proxy.is_a?(SmartProxy)
-            puts "Smart Proxies #{ENV["proxy"]} was not found, aborting"
+            puts "Smart Proxies #{ENV['proxy']} was not found, aborting"
             exit 1
           end
         end
@@ -171,7 +171,7 @@ namespace :puppet do
           puts "Please fix these issues and try again"
           exit 1
         end
-        puts "Import ends: #{Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")}"
+        puts "Import ends: #{Time.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
         puts " ================================================================ "
       end
     end
@@ -199,7 +199,7 @@ namespace :puppet do
 
         Host.find_each do |host|
           $stdout.print "processing #{host.name} "
-          nodeinfo = YAML::load `#{script} #{host.name}`
+          nodeinfo = YAML.load `#{script} #{host.name}`
           if nodeinfo.is_a?(Hash)
             $stdout.puts "DONE" if host.importNode nodeinfo
           else

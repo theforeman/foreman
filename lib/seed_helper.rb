@@ -29,7 +29,7 @@ class SeedHelper
       audits.select do |audit|
         attributes.all? do |attribute, value|
           changed_attribute = audit.audited_changes[attribute]
-          audit.action == 'update' ? changed_attribute.first == value : changed_attribute == value
+          (audit.action == 'update') ? changed_attribute.first == value : changed_attribute == value
         end
       end
     end
@@ -51,10 +51,17 @@ class SeedHelper
     def create_role(role_name, options, builtin, check_audit = true)
       description = options[:description]
 
-      if existing = Role.find_by_name(role_name)
+      if (existing = Role.find_by_name(role_name))
         if existing.description != description
           existing.update_attribute :description, description
         end
+
+        # to allow create roles without updating permission
+        # the only usage we're aware of is in migration that cleans up custom roles in
+        # 20170221195674_tidy_current_roles because permissions are not present yet at this time
+        update_permissions = options[:update_permissions].nil? || options[:update_permissions]
+        update_role_permissions(existing, options) if update_permissions
+
         return
       end
 
@@ -68,6 +75,23 @@ class SeedHelper
       role.save!
       permissions = Permission.where(:name => options[:permissions])
       create_filters(role, permissions)
+    end
+
+    def update_role_permissions(role, options)
+      desired_permissions = options[:permissions].map(&:to_s)
+      existing_permissions = role.permissions.where(:name => PermissionsList.permissions.map(&:last)).pluck(:name)
+
+      role.ignore_locking do
+        missing_permissions = desired_permissions - existing_permissions
+        if missing_permissions.present?
+          role.add_permissions(missing_permissions, :save! => true)
+        end
+
+        extra_permissions = existing_permissions - desired_permissions
+        if extra_permissions.present?
+          role.remove_permissions!(extra_permissions)
+        end
+      end
     end
   end
 end

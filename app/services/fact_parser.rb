@@ -96,6 +96,10 @@ class FactParser
     support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning']
   end
 
+  def class_name_humanized
+    @class_name_humanized ||= self.class.name.demodulize.underscore
+  end
+
   private
 
   def find_interface_by_name(host_name)
@@ -126,10 +130,10 @@ class FactParser
   def set_additional_attributes(attributes, name)
     if name =~ VIRTUAL_NAMES
       attributes[:virtual] = true
-      if $1.nil? && name =~ BRIDGES
+      if Regexp.last_match(1).nil? && name =~ BRIDGES
         attributes[:bridge] = true
       else
-        attributes[:attached_to] = $1
+        attributes[:attached_to] = Regexp.last_match(1)
 
         if @facts[:vlans].present?
           vlans = @facts[:vlans].split(',')
@@ -180,7 +184,7 @@ class FactParser
     interfaces.map(&:downcase)
   end
 
-# creating if iface_facts[:link] == 'true' && Net::Validations.normalize_mac(iface_facts[:macaddress]) != @host.mac
+  # creating if iface_facts[:link] == 'true' && Net::Validations.normalize_mac(iface_facts[:macaddress]) != @host.mac
 
   def not_implemented_error(method)
     "#{method} fact parsing not implemented in #{self.class}"

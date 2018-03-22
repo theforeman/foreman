@@ -2,7 +2,6 @@ class Setting::Puppet < Setting
   def self.default_settings
     [
       self.set('puppet_interval', N_("Puppet interval in minutes"), 30, N_('Puppet interval')),
-      self.set('outofsync_interval', N_("Duration in minutes after the Puppet interval for servers to be classed as out of sync."), 5, N_('Out of sync interval')),
       self.set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => Proc.new {Hash[Environment.all.map{|env| [env[:name], env[:name]]}]} }),
       self.set('modulepath',N_("Foreman will set this as the default Puppet module path if it cannot auto detect one"), "/etc/puppet/modules", N_('Module path')),
       self.set('puppetrun', N_("Enable puppetrun support"), false, N_('Puppetrun')),

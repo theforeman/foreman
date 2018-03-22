@@ -16,6 +16,21 @@ class SettingTest < ActiveSupport::TestCase
     assert_nil Setting["no_such_thing"]
   end
 
+  setup do
+    Setting::NOT_STRIPPED << 'not_stripped_test'
+  end
+
+  teardown do
+    Setting::NOT_STRIPPED.delete 'not_stripped_test'
+  end
+
+  test 'should not strip setting value when parsing if we do not want to' do
+    setting = Setting.create(:name => 'not_stripped_test', :value => 'whatever', :setting_type => 'string')
+    trailing_space_val = 'Local '
+    setting.parse_string_value(trailing_space_val)
+    assert_equal setting.value, trailing_space_val
+  end
+
   test "encrypted value is saved encrypted when created" do
     setting = Setting.create(:name => "foo", :value => 5, :default => 5, :description => "test foo", :encrypted => true)
     setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
@@ -189,11 +204,12 @@ class SettingTest < ActiveSupport::TestCase
     setting_name = "foo_#{rand(1000000)}"
     Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
 
-    SETTINGS.stubs(:key?).with(setting_name.to_sym).returns(true)
-    SETTINGS.stubs(:[]).with(setting_name.to_sym).returns("no-bar")
+    SETTINGS[setting_name.to_sym] = "no-bar"
 
     persisted = Setting.create!(:name => setting_name, :description => "foo", :default => "default")
     assert_equal "no-bar", persisted.value
+  ensure
+    SETTINGS.delete(setting_name.to_sym)
   end
 
   def test_first_or_create_works
@@ -286,14 +302,14 @@ class SettingTest < ActiveSupport::TestCase
     check_zero_value_not_allowed_for 'puppet_interval'
   end
 
-  test "trusted_puppetmaster_hosts can be empty array" do
-    check_empty_array_allowed_for "trusted_puppetmaster_hosts"
+  test "trusted_hosts can be empty array" do
+    check_empty_array_allowed_for "trusted_hosts"
   end
 
-  test "trusted_puppetmaster_hosts must have comma separated values" do
-    attrs = { :name => "trusted_puppetmaster_hosts", :default => [], :description => "desc" }
+  test "trusted_hosts must have comma separated values" do
+    attrs = { :name => "trusted_hosts", :default => [], :description => "desc" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("trusted_puppetmaster_hosts")
+    setting = Setting.find_by_name("trusted_hosts")
     setting.value = ["localhost", "remotehost"]
     assert setting.save
     setting.value = ["localhost remotehost"]
@@ -599,5 +615,15 @@ class SettingTest < ActiveSupport::TestCase
     sorted_list = Setting.where.not(:category => sticky_setting).stick_general_first
     refute_empty sorted_list
     assert sorted_list.keys.exclude?(sticky_setting)
+  end
+
+  test 'full_name_with_default should include default value' do
+    setting = FactoryBot.build_stubbed(:setting, :name => 'foo', :value => 'baz', :default => 'boo', :description => 'test foo', :full_name => 'Foo Name')
+    assert_equal('Foo Name (Default: boo)', setting.full_name_with_default)
+  end
+
+  test 'full_name_with_default without default value' do
+    setting = FactoryBot.build_stubbed(:setting, :name => 'foo', :default => '', :description => 'test foo', :full_name => 'Foo Name')
+    assert_equal('Foo Name (Default: )', setting.full_name_with_default)
   end
 end

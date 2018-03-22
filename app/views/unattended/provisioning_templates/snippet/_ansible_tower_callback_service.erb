@@ -1,0 +1,18 @@
+<%#
+kind: snippet
+name: ansible_tower_callback_service
+model: ProvisioningTemplate
+snippet: true
+-%>
+[Unit]
+Description=Provisioning callback to Ansible Tower
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl -k -s --data "host_config_key=<%= host_param('ansible_host_config_key') -%>" https://<%= host_param('ansible_tower_fqdn') -%>/api/v2/job_templates/<%= host_param('ansible_job_template_id') -%>/callback/
+ExecStartPost=/usr/bin/systemctl disable ansible-callback
+
+[Install]
+WantedBy=multi-user.target

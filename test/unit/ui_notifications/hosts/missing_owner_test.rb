@@ -16,10 +16,11 @@ class UINotificationsHostsMissingOwnerTest < ActiveSupport::TestCase
       UINotifications::Hosts::MissingOwner.deliver!(host)
     end
   end
+
   private
 
   def host
-    @host ||= FactoryGirl.create(:host, :managed)
+    @host ||= FactoryBot.build(:host, :managed)
   end
 
   def blueprint

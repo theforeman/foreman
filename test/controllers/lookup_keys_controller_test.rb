@@ -22,7 +22,7 @@ class LookupKeysControllerTest < ActionController::TestCase
 
     assert_equal @key.override_values.count, 0
     params = @base.merge(:lookup_values_attributes => @create)
-    patch :update, {:id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params}, set_session_user
+    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
     assert_redirected_to puppetclass_lookup_keys_path
 
     assert_equal @key.reload.override_values.count, 1
@@ -33,14 +33,14 @@ class LookupKeysControllerTest < ActionController::TestCase
 
   test 'patch delete' do
     params = @base.merge(:lookup_values_attributes => @delete)
-    patch :update, {:id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params}, set_session_user
+    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
     assert_redirected_to puppetclass_lookup_keys_path
     assert_equal 0, @key.reload.override_values.count
   end
 
   test 'patch add and delete' do
     params = @base.merge(:lookup_values_attributes => @create.merge(@delete))
-    patch :update, {:id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params}, set_session_user
+    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
     assert_redirected_to puppetclass_lookup_keys_path
     assert_equal @key.reload.override_values.count, 1
     updated = @key.override_values.first
@@ -51,7 +51,7 @@ class LookupKeysControllerTest < ActionController::TestCase
   test 'patch conflicting' do
     create = {'1462788609699' => @create.values.first }
     params = @base.merge(:lookup_values_attributes => @create.merge(@delete.merge(create)))
-    patch :update, {:id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params}, set_session_user
+    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
     assert_response :success
     assert_equal 1, @key.reload.override_values.count
     assert_equal @value.value, @key.override_values.first.value

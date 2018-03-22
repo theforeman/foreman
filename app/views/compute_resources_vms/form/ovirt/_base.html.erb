@@ -8,6 +8,7 @@
                :help_inline => :indicator,
                :label      => _('Cluster'), :label_size => "col-md-2" } %>
 <%= f.hidden_field :cluster if !new_vm %>
+
 <%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Select template")},
              { :disabled    => !new_vm, :'data-url' => template_selected_compute_resource_path(compute_resource),
                :onchange    => 'tfm.computeResource.ovirt.templateSelected(this);',
@@ -15,6 +16,14 @@
                :help_block  => _("oVirt/RHEV template to use"),
                :label       => _('Template'), :label_size => "col-md-2" } %>
 <%= f.hidden_field :template if !new_vm %>
+
+<%= select_f f, :instance_type, compute_resource.instance_types, :id, :name, {:include_blank => _("Select instance type")},
+             { :disabled    => !new_vm, :'data-url' => instance_type_selected_compute_resource_path(compute_resource),
+               :onchange    => 'tfm.computeResource.ovirt.instanceTypeSelected(this);',
+               :help_inline => :indicator,
+               :help_block  => _("oVirt/RHEV instance type"),
+               :label       => _('Instance type'), :label_size => "col-md-2" } %>
+<%= f.hidden_field :instance_type if !new_vm %>
 
 <% selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster] %>
 

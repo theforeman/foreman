@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include ApplicationShared
 
+  include Foreman::Controller::Flash
+
   force_ssl :if => :require_ssl?
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
@@ -22,7 +24,6 @@ class ApplicationController < ActionController::Base
   prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
   around_action :set_timezone
   layout :display_layout?
-  add_flash_types :inline
 
   attr_reader :original_search_parameter
 
@@ -161,35 +162,6 @@ class ApplicationController < ActionController::Base
                        end
   end
 
-  def notice(message, now = false)
-    flash_message(:notice, message, now)
-  end
-
-  def error(message, now = false)
-    flash_message(:error, message, now)
-  end
-
-  def inline_error(message, now = false)
-    flash[:inline] = { :error => CGI.escapeHTML(message) }
-  end
-
-  def inline_success(message, now = false)
-    flash[:inline] = { :success => CGI.escapeHTML(message) }
-  end
-
-  def warning(message, now = false)
-    flash_message(:warning, message, now)
-  end
-
-  def flash_message(type, message, now = false)
-    message = CGI.escapeHTML(message)
-    if now
-      flash.now[type] = message
-    else
-      flash[type] = message
-    end
-  end
-
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
   # it automatically updates the search text box with the relevant relationship
   # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
@@ -199,7 +171,7 @@ class ApplicationController < ActionController::Base
     params.keys.each do |param|
       if param =~ /(\w+)_id$/
         unless params[param].blank?
-          query = "#{$1} = #{params[param]}"
+          query = "#{Regexp.last_match(1)} = #{params[param]}"
           params[:search] += query unless params[:search].include? query
         end
       end
@@ -293,8 +265,12 @@ class ApplicationController < ActionController::Base
     end
     hash[:success_redirect] ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
-    notice hash[:success_msg]
-    redirect_to hash[:success_redirect]
+    success hash[:success_msg]
+    if hash[:success_redirect] == :back
+      redirect_back(fallback_location: saved_redirect_url_or(send("#{controller_name}_url")))
+    else
+      redirect_to hash[:success_redirect]
+    end
   end
 
   def process_error(hash = {})
@@ -316,7 +292,11 @@ class ApplicationController < ActionController::Base
       render hash[:render]
     elsif hash[:redirect]
       error(hash[:error_msg]) unless hash[:error_msg].empty?
-      redirect_to hash[:redirect]
+      if hash[:redirect] == :back
+        redirect_back(fallback_location: send("#{controller_name}_url"))
+      else
+        redirect_to hash[:redirect]
+      end
     end
   end
 
@@ -331,7 +311,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_to(url)
-    redirect_to request.referer.empty? ? url : :back
+    redirect_back(fallback_location: url)
   end
 
   def saved_redirect_url_or(default)
@@ -343,38 +323,14 @@ class ApplicationController < ActionController::Base
     render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
   end
 
-  def set_taxonomy
-    return if User.current.nil?
-
-    if SETTINGS[:organizations_enabled]
-      orgs = Organization.my_organizations
-      Organization.current = if orgs.count == 1 && !User.current.admin?
-                               orgs.first
-                             elsif session[:organization_id]
-                               orgs.find_by_id(session[:organization_id])
-                             end
-      warning _("Organization you had selected as your context has been deleted") if (session[:organization_id] && Organization.current.nil?)
-    end
-
-    if SETTINGS[:locations_enabled]
-      locations = Location.my_locations
-      Location.current = if locations.count == 1 && !User.current.admin?
-                           locations.first
-                         elsif session[:location_id]
-                           locations.find_by_id(session[:location_id])
-                         end
-      warning _("Location you had selected as your context has been deleted") if (session[:location_id] && Location.current.nil?)
-    end
-  end
-
   def check_empty_taxonomy
     return if ["locations","organizations"].include?(controller_name)
 
     if User.current && User.current.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?
-        redirect_to main_app.locations_path, :notice => _("You must create at least one location before continuing.")
+        redirect_to main_app.locations_path, :info => _("You must create at least one location before continuing.")
       elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
-        redirect_to main_app.organizations_path, :notice => _("You must create at least one organization before continuing.")
+        redirect_to main_app.organizations_path, :info => _("You must create at least one organization before continuing.")
       end
     end
   end

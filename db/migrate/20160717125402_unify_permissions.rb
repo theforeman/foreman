@@ -1,4 +1,4 @@
-class UnifyPermissions < ActiveRecord::Migration
+class UnifyPermissions < ActiveRecord::Migration[4.2]
   def up
     names = Permission.group(:name).having("count(*) > 1").pluck(:name)
     names.each do |name|

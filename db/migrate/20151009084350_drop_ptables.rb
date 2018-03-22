@@ -1,4 +1,4 @@
-class DropPtables < ActiveRecord::Migration
+class DropPtables < ActiveRecord::Migration[4.2]
   def up
     drop_table :ptables
   end

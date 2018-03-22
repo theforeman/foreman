@@ -67,7 +67,7 @@ below"
 
     test "metadata are detected by name attribute on any comment line" do
       lines = @template.template.lines
-      @template.template = [ lines[0], 'another: comment', lines[1..-1] ].flatten.join("\n")
+      @template.template = [lines[0], 'another: comment', lines[1..-1]].flatten.join("\n")
       without = @template.template_without_metadata
       refute_includes without, 'name: basic'
     end
@@ -113,6 +113,292 @@ data"
       @template.template = "<?xml ...>\n" + @template.template
       @template.stub(:metadata, "METADATA") do
         assert_equal "<?xml ...>\nMETADATA\ndata", @template.to_erb
+      end
+    end
+  end
+
+  context "importing" do
+    setup do
+      @snippet_text = <<EOS
+<%#
+kind: snippet
+name: epel
+model: ProvisioningTemplate
+snippet: true
+-%>
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+EOS
+      @template = Template.new
+    end
+
+    describe '.import_without_save' do
+      test 'it does match existing template by name' do
+        existing = FactoryBot.create(:ptable)
+        assert_equal existing.id, Template.import_without_save(existing.name, @snippet_text).id
+      end
+
+      test 'it builds a new object if there is no template with such name and it initializes the name attribute' do
+        template = Template.import_without_save('absolutely_new_template_snippet', @snippet_text)
+        assert template.new_record?
+        assert_equal 'absolutely_new_template_snippet', template.name
+        assert_kind_of Template, template
+        assert template.snippet
+      end
+
+      test 'it searches templates regardless of current scope, validations prevent permission exceeding' do
+        existing = FactoryBot.create(:ptable, :name => 'epel', :organization_ids => [taxonomies(:organization2).id])
+        in_taxonomy(taxonomies(:organization1)) do
+          assert_equal existing.id, Template.import_without_save(existing.name, @snippet_text).id
+        end
+      end
+    end
+
+    describe '.parse_metadata' do
+      test 'parses yaml from first comment' do
+        result = Template.parse_metadata(@snippet_text)
+        assert_equal 'snippet', result[:kind]
+        assert_equal 'snippet', result['kind']
+        assert_equal true, result['snippet']
+      end
+
+      test 'it ignores other erb tags' do
+        assert_nothing_raised do
+          assert_equal({}, Template.parse_metadata('<% puts 1 %>'))
+        end
+      end
+
+      test 'it does not fail on invalid metadata, it just silently ignores them' do
+        assert_nothing_raised do
+          assert_equal({}, Template.parse_metadata("<%#\n: %>"))
+        end
+      end
+    end
+
+    describe '.import!' do
+      test 'by default it does not ignore locking' do
+        template = Minitest::Mock.new
+        template.expect(:save!, true)
+        Template.expects(:import_without_save => template)
+        Template.import!('test', '')
+        template.verify
+      end
+
+      test 'locking can be overriden by force option' do
+        template = Minitest::Mock.new
+        template.expect(:ignore_locking, true)
+        Template.expects(:import_without_save => template)
+        Template.import!('test', '', :force => true)
+        template.verify
+      end
+    end
+
+    describe "#import_without_save" do
+      setup do
+        @template.import_without_save(@snippet_text)
+      end
+
+      test 'it parses metadata' do
+        metadata = @template.instance_variable_get('@importing_metadata')
+        metadata_keys = metadata.keys
+        assert_includes metadata_keys, 'kind'
+        assert_includes metadata_keys, 'name'
+        assert_includes metadata_keys, 'model'
+        assert_includes metadata_keys, 'snippet'
+        assert_not_includes metadata_keys, 'description'
+      end
+
+      test 'it sets the snippet flag' do
+        assert @template.snippet, 'template was not marked as a snippet'
+      end
+
+      test 'snippet flag defaults to false' do
+        text = @template.template.sub /snippet: true\n/, ''
+        @template = Template.new
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        assert_kind_of @template.class, @template.import_without_save(text)
+        refute @template.snippet, 'template was not marked as a snippet'
+      end
+
+      test 'keeps locked unchanged if lock option was not set' do
+        text = @template.template
+        @template = Template.new :locked => true
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        @template.import_without_save(text)
+        assert @template.locked
+      end
+
+      test 'keeps locks the template if lock is set to true' do
+        text = @template.template
+        @template = Template.new
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        @template.import_without_save(text, :lock => true)
+        assert @template.locked
+      end
+
+      test 'unlocks the template if lock is set to false' do
+        text = @template.template
+        @template = Template.new :locked => true
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        @template.import_without_save(text, :lock => false)
+        refute @template.locked
+      end
+
+      test 'does not save the template' do
+        assert @template.new_record?
+      end
+    end
+
+    describe '#associate_metadata_on_import?' do
+      setup do
+        @new_template = Template.new
+        @existing = FactoryBot.create(:provisioning_template)
+      end
+
+      test 'it return true for when associate options is always' do
+        assert @new_template.send(:associate_metadata_on_import?, :associate => 'always')
+        assert @existing.send(:associate_metadata_on_import?, :associate => 'always')
+      end
+
+      test 'it returns true when associate options is new and object is new record' do
+        assert @new_template.send(:associate_metadata_on_import?, :associate => 'new')
+        refute @existing.send(:associate_metadata_on_import?, :associate => 'new')
+      end
+
+      test 'it returns true when associate options is new and object is never or not specified' do
+        refute @new_template.send(:associate_metadata_on_import?, :associate => 'never')
+        refute @existing.send(:associate_metadata_on_import?, :associate => 'never')
+        refute @new_template.send(:associate_metadata_on_import?, {})
+        refute @existing.send(:associate_metadata_on_import?, {})
+      end
+    end
+
+    describe '#import_organizations' do
+      setup do
+        @template = ProvisioningTemplate.new
+        @org1 = FactoryBot.create(:organization)
+        @org2 = FactoryBot.create(:organization)
+        @org3 = FactoryBot.create(:organization)
+      end
+
+      test 'it ignores organizations if none was set in metadata and sets current organization' do
+        @template.instance_variable_set '@importing_metadata', {}
+        in_taxonomy(@org1) do
+          @template.send(:import_organizations, :associate => 'always')
+        end
+        assert_equal [@org1.id], @template.organization_ids
+      end
+
+      test 'it associates organizations with matching prefix' do
+        @template.instance_variable_set '@importing_metadata', { 'organizations' => [@org1.name, @org2.name] }
+        @template.send(:import_organizations, :associate => 'always')
+        assert_includes @template.organization_ids, @org1.id
+        assert_includes @template.organization_ids, @org2.id
+        refute_includes @template.organization_ids, @org3.id
+      end
+
+      test 'unknown organizations are ignored' do
+        @template.instance_variable_set '@importing_metadata', { 'organizations' => ['not_available'] }
+        assert_nothing_raised { @template.send(:import_oses, :associate => 'always') }
+      end
+
+      test 'associated organizations are authorized for current user' do
+        @template.instance_variable_set '@importing_metadata', { 'organizations' => [@org1.name, @org2.name, @org3.name] }
+        user = FactoryBot.create(:user, :organization_ids => [@org2.id], :location_ids => [taxonomies(:location1).id])
+        setup_user 'view', 'organizations', "name = #{@org2}", user
+        as_user user do
+          @template.send(:import_organizations, :associate => 'always')
+        end
+        refute_includes @template.organization_ids, @org1.id
+        assert_includes @template.organization_ids, @org2.id
+        refute_includes @template.organization_ids, @org3.id
+      end
+    end
+
+    describe '#import_locations' do
+      setup do
+        @template = ProvisioningTemplate.new
+        @loc1 = FactoryBot.create(:location)
+        @loc2 = FactoryBot.create(:location)
+        @loc3 = FactoryBot.create(:location)
+      end
+
+      test 'it ignores locations if none was set in metadata and sets current location' do
+        @template.instance_variable_set '@importing_metadata', {}
+        in_taxonomy(@loc1) do
+          @template.send(:import_locations, :associate => 'always')
+        end
+        assert_equal [@loc1.id], @template.location_ids
+      end
+
+      test 'it associates locations with matching prefix' do
+        @template.instance_variable_set '@importing_metadata', { 'locations' => [@loc1.name, @loc2.name] }
+        @template.send(:import_locations, :associate => 'always')
+        assert_includes @template.location_ids, @loc1.id
+        assert_includes @template.location_ids, @loc2.id
+        refute_includes @template.location_ids, @loc3.id
+      end
+
+      test 'unknown locations are ignored' do
+        @template.instance_variable_set '@importing_metadata', { 'locations' => ['not_available'] }
+        assert_nothing_raised { @template.send(:import_oses, :associate => 'always') }
+      end
+
+      test 'associated locations are authorized for current user' do
+        @template.instance_variable_set '@importing_metadata', { 'locations' => [@loc1.name, @loc2.name, @loc3.name] }
+        user = FactoryBot.create(:user, :location_ids => [@loc2.id], :organization_ids => [taxonomies(:organization1).id])
+        setup_user 'view', 'locations', "name = #{@loc2}", user
+        as_user user do
+          @template.send(:import_locations, :associate => 'always')
+        end
+        refute_includes @template.location_ids, @loc1.id
+        assert_includes @template.location_ids, @loc2.id
+        refute_includes @template.location_ids, @loc3.id
+      end
+    end
+
+    describe '#import_oses' do
+      setup do
+        @template = ProvisioningTemplate.new
+        @os1 = FactoryBot.create(:operatingsystem, :name => 'my_new_os_1')
+        @os2 = FactoryBot.create(:operatingsystem, :name => 'my_new_os_2')
+        @os3 = FactoryBot.create(:operatingsystem, :name => 'net_new_os')
+      end
+
+      test 'it ignores oses if none was set in metadata' do
+        @template.instance_variable_set '@importing_metadata', {}
+        assert_nil @template.send(:import_oses, :associate => 'always')
+      end
+
+      test 'it associates operating systems with matching prefix' do
+        @template.instance_variable_set '@importing_metadata', { 'oses' => ['my_new_os'] }
+        @template.send(:import_oses, :associate => 'always')
+        assert_includes @template.operatingsystem_ids, @os1.id
+        assert_includes @template.operatingsystem_ids, @os2.id
+        refute_includes @template.operatingsystem_ids, @os3.id
+      end
+
+      test 'unknown oses are ignored' do
+        @template.instance_variable_set '@importing_metadata', { 'oses' => ['not_available'] }
+        assert_nothing_raised { @template.send(:import_oses, :associate => 'always') }
+      end
+
+      test 'associated operating systems are authorized for viewing' do
+        @template.instance_variable_set '@importing_metadata', { 'oses' => ['my_new_os'] }
+        user = FactoryBot.create(:user, :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        setup_user 'view', 'operatingsystems', "name = #{@os1}", user
+        as_user user do
+          @template.send(:import_oses, :associate => 'always')
+        end
+        assert_includes @template.operatingsystem_ids, @os1.id
+        refute_includes @template.operatingsystem_ids, @os2.id
       end
     end
   end

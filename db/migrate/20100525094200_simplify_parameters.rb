@@ -1,4 +1,4 @@
-class SimplifyParameters < ActiveRecord::Migration
+class SimplifyParameters < ActiveRecord::Migration[4.2]
   def up
     remove_index  :parameters, [:host_id,      :type] if index_exists? :parameters, :host_id
     remove_index  :parameters, [:hostgroup_id, :type] if index_exists? :parameters, :hostgroup_id

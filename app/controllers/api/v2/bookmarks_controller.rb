@@ -8,6 +8,7 @@ module Api
 
       api :GET, "/bookmarks/", N_("List all bookmarks")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Bookmark)
 
       def index
         @bookmarks = resource_scope_for_index

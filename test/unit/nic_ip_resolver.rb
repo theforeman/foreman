@@ -2,7 +2,7 @@ require 'test_helper'
 
 class NicIpResolverTest < ActiveSupport::TestCase
   describe '#to_ip_address' do
-    let(:host) { FactoryGirl.build(:host) }
+    let(:host) { FactoryBot.build_stubbed(:host) }
     let(:nic) { host.provision_interface }
     let(:resolver) { NicIpResolver.new(:nic => nic) }
 
@@ -19,7 +19,7 @@ class NicIpResolverTest < ActiveSupport::TestCase
     end
 
     test 'call host domain resolver if there is no PTR4 record' do
-      host.domain = FactoryGirl.build(:domain)
+      host.domain = FactoryBot.build_stubbed(:domain)
       host.domain.expects(:nameservers).returns('8.8.8.8')
       Resolv::DNS.any_instance.expects(:getaddress).with('foo')
         .returns('127.0.0.1')

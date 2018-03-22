@@ -1,7 +1,3 @@
-@import "colors";
-
-$navbar-default-bg: $primary_color;
-
 .control-label {
   text-align: left;
   padding-left: 0;
@@ -247,7 +243,11 @@ div.form-group .glyphicon-info-sign {
   color: black;
 }
 
-div.form-group .pficon-info {
+form .pficon-info {
+  color: $color-pf-blue-500;
+}
+
+form .fa-info-circle {
   color: black;
 }
 
@@ -364,4 +364,29 @@ a.btn-info span {
 
 #history a .glyphicon {
   color: #4d5258;
+}
+
+.navbar-pf-vertical {
+  .drawer-pf {
+    height: auto;
+  }
+}
+
+span.btn-action a {
+  display: block;
+  margin: -2px -6px;
+  padding: 2px 6px;
+}
+
+span.btn-action.btn-primary a {
+  color: #fff;
+}
+
+.vertical-sub-header {
+  line-height: 25px;
+  font-size: 12px;
+  margin-left: 20px;
+  padding: 4px 0 2px;
+  font-weight: bold;
+  color: #fff;
 }

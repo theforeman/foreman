@@ -58,7 +58,7 @@ class PtableTest < ActiveSupport::TestCase
     partition_table = Ptable.new :name => "Ubuntu default", :layout => "some layout"
     assert partition_table.save
 
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     host.ptable = partition_table
     host.save(:validate => false)
 
@@ -79,10 +79,24 @@ class PtableTest < ActiveSupport::TestCase
   end
 
   test "#metadata should include OS family" do
-    ptable = FactoryGirl.build(:ptable)
+    ptable = FactoryBot.build_stubbed(:ptable)
 
     lines = ptable.metadata.split("\n")
     assert_includes lines, "os_family: #{ptable.os_family}"
     assert_includes lines, "name: #{ptable.name}"
+  end
+
+  context 'importing' do
+    describe '#import_custom_data' do
+      test 'it sets the family based on assigned oses' do
+        template = Ptable.new
+        os1 = FactoryBot.create(:debian7_0)
+        os2 = FactoryBot.create(:suse)
+        template.operatingsystem_ids = [os1.id, os2.id]
+        template.stubs :import_oses => true
+        template.send(:import_custom_data, {})
+        assert_equal 'Debian', template.os_family
+      end
+    end
   end
 end

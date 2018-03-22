@@ -5,12 +5,14 @@
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn btn-default"),
-                     link_to(_("Troubleshooting"), "http://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#7.1NoVNC",
-                       :id => "troubleshootingButton", :class => "btn btn-default", :target => "_blank"),
                      if @host
                        link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')
                      end
-        ) ) %>
+        ),
+        documentation_button("7.1NoVNC",
+          {:id => "troubleshootingButton", :class => "btn btn-default"}
+        )
+ ) %>
 <p class="toggle-hidden-value"><%= _('Password:') %> <a href="#" class="toggle-hidden-value"><%=icon_text("plus")%></a><span><%= @console[:password] %></span></p>
 <div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>' data-encrypt='<%= @encrypt %>'>
 

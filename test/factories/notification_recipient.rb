@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :notification_recipient do
     notification
     user

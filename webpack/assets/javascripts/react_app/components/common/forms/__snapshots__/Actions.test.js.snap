@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`actions buttons could be disabled 1`] = `
+<div
+  className="clearfix"
+>
+  <div
+    className="form-actions"
+  >
+    <Component
+      className="btn-primary"
+      disabled={true}
+      type="submit"
+    >
+       
+      Submit
+    </Component>
+     
+    <Component
+      className="btn-default"
+      disabled={true}
+    >
+      Cancel
+    </Component>
+  </div>
+</div>
+`;
+
+exports[`actions should include a cancel / submit buttons 1`] = `
+<div
+  className="clearfix"
+>
+  <div
+    className="form-actions"
+  >
+    <Component
+      className="btn-primary"
+      disabled={false}
+      type="submit"
+    >
+       
+      Submit
+    </Component>
+     
+    <Component
+      className="btn-default"
+      disabled={false}
+    >
+      Cancel
+    </Component>
+  </div>
+</div>
+`;
+
+exports[`actions should show a spinner when submitting 1`] = `
+<div
+  className="clearfix"
+>
+  <div
+    className="form-actions"
+  >
+    <Component
+      className="btn-primary"
+      disabled={true}
+      type="submit"
+    >
+       
+      Submit
+      <span
+        className="fr"
+      >
+        <div
+          className="loader-root"
+        >
+          <div
+            className="spinner spinner-sm"
+          />
+        </div>
+      </span>
+    </Component>
+     
+    <Component
+      className="btn-default"
+      disabled={false}
+    >
+      Cancel
+    </Component>
+  </div>
+</div>
+`;

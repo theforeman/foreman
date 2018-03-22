@@ -8,14 +8,14 @@ class UINotificationsTest < ActiveSupport::TestCase
   end
 
   test 'should parse a dynamic url for a given subject' do
-    subject = FactoryGirl.create(:host)
+    subject = FactoryBot.build(:host)
     actions = {links: [ {path_method: :host_path, title: 'link_to_host'}] }
     resolver = UINotifications::URLResolver.new(subject, actions)
     assert_equal resolver.actions, {links: [{href: "/hosts/#{subject}", title: 'link_to_host'}]}
   end
 
   test 'should parse a url title for a given subject' do
-    subject = FactoryGirl.create(:host)
+    subject = FactoryBot.build(:host)
     actions = {links: [ {path_method: :edit_host_path, title: "edit %{subject}"}] }
     resolver = UINotifications::URLResolver.new(subject, actions)
     assert_equal resolver.actions, {links: [{href: "/hosts/#{subject}/edit", title: "edit #{subject}"}]}

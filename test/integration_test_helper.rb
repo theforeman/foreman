@@ -3,12 +3,17 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha/mini_test'
 require 'capybara/rails'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'capybara/poltergeist'
 require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
-require 'minitest-optional_retry'
+require 'minitest/retry'
+Minitest::Retry.use!
+
+Minitest::Retry.on_consistent_failure do |klass, test_name|
+  Rails.logger.error("DO NOT IGNORE - Consistent failure - #{klass} #{test_name}")
+end
 
 Capybara.register_driver :poltergeist do |app|
   opts = {
@@ -32,7 +37,7 @@ class ActionDispatch::IntegrationTest
   include ShowMeTheCookies
 
   # Stop ActiveRecord from wrapping tests in transactions
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   def assert_index_page(index_path,title_text,new_link_text = nil,has_search = true,has_pagination = true)
     visit index_path
@@ -93,6 +98,95 @@ class ActionDispatch::IntegrationTest
     Timeout.timeout(Capybara.default_max_wait_time) do
       loop until page.evaluate_script('jQuery.active').zero?
     end
+  end
+
+  def login_user(username, password)
+    logout_admin
+    visit "/"
+    fill_in "login_login", :with => username
+    fill_in "login_password", :with => password
+    click_button "Log In"
+    assert_current_path root_path
+  end
+
+  def set_empty_default_context(user)
+    user.update_attribute :default_organization_id, nil
+    user.update_attribute :default_location_id, nil
+  end
+
+  def set_default_context(user, org, loc)
+    user.update_attribute :default_organization_id, org.try(:id)
+    user.update_attribute :default_location_id, loc.try(:id)
+  end
+
+  def assert_available_location(location)
+    within('li#location-dropdown ul') do
+      assert page.has_link?(location)
+    end
+  end
+
+  def refute_available_location(location)
+    within('li#location-dropdown ul') do
+      assert page.has_no_link?(location)
+    end
+  end
+
+  def assert_available_organization(organization)
+    within('li#organization-dropdown ul') do
+      assert page.has_link?(organization)
+    end
+  end
+
+  def refute_available_organization(organization)
+    within('li#location-dropdown ul') do
+      assert page.has_no_link?(organization)
+    end
+  end
+
+  def assert_current_organization(organization)
+    within('li#organization-dropdown > a') do
+      assert page.has_content?(organization)
+    end
+  end
+
+  def assert_current_location(location)
+    within('li#location-dropdown > a') do
+      assert page.has_content?(location)
+    end
+  end
+
+  def select_organization(organization)
+    within('li#organization-dropdown ul') do
+      click_link organization
+    end
+  end
+
+  def select_location(location)
+    within('li#location-dropdown ul') do
+      click_link location
+    end
+  end
+
+  def assert_warning(message)
+    assert warning_notificication_messages.include?(message)
+  end
+
+  def assert_form_tab(label)
+    within(%(label[for="#{label.singularize.underscore}_ids"])) do
+      assert page.has_content?(label)
+    end
+  end
+
+  def warning_notificication_messages
+    warning_notificications_data.map { |n| n['message'] }
+  end
+
+  def warning_notificications_data
+    notifications_data.select { |n| n['type'] == "warning" }
+  end
+
+  def notifications_data
+    JSON.parse(page.find(:css, "div#toast-notifications-container")['data-notifications']).map { |n| Hash[n]}
   end
 
   setup :start_database_cleaner, :login_admin

@@ -4,7 +4,6 @@ module Api
   module V2
     class InterfacesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::NicInterface
 
       before_action :find_required_nested_object, :only => [:index, :show, :create, :destroy]

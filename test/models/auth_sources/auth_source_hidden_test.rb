@@ -6,7 +6,7 @@ class AuthSourceHiddenTest < ActiveSupport::TestCase
   end
 
   test "#authenticate returns nil for known user" do
-    u = FactoryGirl.create(:user)
+    u = FactoryBot.create(:user)
     refute AuthSourceHidden.new.authenticate(u.login, 'password')
   end
 

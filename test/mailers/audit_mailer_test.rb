@@ -5,10 +5,10 @@ class AuditMailerTest <ActionMailer::TestCase
   def setup
     disable_orchestration
     # Add 'update' action to audits
-    @audit = FactoryGirl.create(:audit)
+    @audit = FactoryBot.create(:audit)
     as_admin do
       # Add 'create' action to audits
-      @host = FactoryGirl.create(:host)
+      @host = FactoryBot.create(:host)
     end
     @options = {}
     @options[:env] = @env
@@ -36,7 +36,7 @@ class AuditMailerTest <ActionMailer::TestCase
   test 'Audit mail should display total count of audits' do
     @options[:time] = '1973-01-13 00:12'
     count = Audit.all.count
-    number_of = Setting[:entries_per_page] > count ? count : Setting[:entries_per_page]
+    number_of = (Setting[:entries_per_page] > count) ? count : Setting[:entries_per_page]
     assert_includes(AuditMailer.summary(@options).deliver_now.body.parts.first.body, "Displaying #{number_of} of #{count} audits")
   end
 

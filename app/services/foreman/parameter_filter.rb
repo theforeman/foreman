@@ -16,7 +16,7 @@ module Foreman
       Foreman::Plugin.all.each do |plugin|
         plugin.parameter_filters(resource_class).each do |filter|
           if filter.last.is_a?(Proc)
-            filter_block = filter.pop
+            *filter, filter_block = filter
             permit(*filter, &filter_block)
           else
             permit(*filter)
@@ -41,7 +41,8 @@ module Foreman
       if top_level_hash == :none
         params.permit(*filter(context))
       else
-        params.permit(top_level_hash => filter(context)).fetch(top_level_hash, {})
+        permitted = params.permit(top_level_hash => filter(context))
+        permitted.to_h.fetch(top_level_hash, {})
       end
     end
 

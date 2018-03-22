@@ -21,6 +21,6 @@ class StatisticsController < ApplicationController
   end
 
   def charts
-    ::Statistics.charts
+    ::Statistics.charts(Organization.current.try(:id), Location.current.try(:id))
   end
 end

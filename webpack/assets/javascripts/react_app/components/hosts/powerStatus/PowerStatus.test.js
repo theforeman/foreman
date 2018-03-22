@@ -1,17 +1,14 @@
-// Configure Enzyme
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
-configure({ adapter: new Adapter() });
+import toJson from 'enzyme-to-json';
+import { shallow } from 'enzyme';
+import React from 'react';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+import { pendingState, errorState, resolvedState } from './PowerStatus.fixtures';
+import PowerStatus from './';
 
 jest.unmock('./');
 
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import PowerStatus from './';
-import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
-import { pendingState, errorState, resolvedState } from './PowerStatus.fixtures';
 const mockStore = configureMockStore([thunk]);
 
 describe('PowerStatus', () => {

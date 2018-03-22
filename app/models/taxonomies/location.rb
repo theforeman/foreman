@@ -4,7 +4,7 @@ class Location < Taxonomy
   include Foreman::ThreadSession::LocationModel
   include Parameterizable::ByIdName
 
-  has_and_belongs_to_many :organizations, :join_table => 'locations_organizations'
+  has_and_belongs_to_many :organizations, :join_table => 'locations_organizations', :validate => false
   has_many_hosts :dependent => :nullify
   before_destroy EnsureNotUsedBy.new(:hosts)
 
@@ -14,6 +14,8 @@ class Location < Taxonomy
   include ParameterValidators
 
   scope :completer_scope, ->(opts) { my_locations }
+
+  scoped_search :on => :id, :validator => ScopedSearch::Validators::INTEGER, :rename => 'location_id', :only_explicit => true
 
   scope :my_locations, lambda { |user = User.current|
     conditions = user.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.location_and_child_ids])

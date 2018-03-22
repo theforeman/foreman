@@ -1,4 +1,4 @@
-class ChangeFamilyInOs < ActiveRecord::Migration
+class ChangeFamilyInOs < ActiveRecord::Migration[4.2]
   class Operatingsystem < ApplicationRecord; end
 
   def up

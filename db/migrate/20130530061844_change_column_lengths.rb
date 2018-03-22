@@ -1,4 +1,4 @@
-class ChangeColumnLengths < ActiveRecord::Migration
+class ChangeColumnLengths < ActiveRecord::Migration[4.2]
   def up
     change_column :media, :name, :string, :null => false, :default => '', :limit => 255
     change_column :media, :media_path, :string, :limit => 255

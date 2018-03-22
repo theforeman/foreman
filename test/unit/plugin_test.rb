@@ -42,15 +42,8 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
-  def setup
-    @klass = Foreman::Plugin
-    # In case some real plugins are installed
-    @klass.clear
-  end
-
-  def teardown
-    @klass.clear
-  end
+  setup :clear_plugins
+  teardown :restore_plugins
 
   def test_register
     @klass.register :foo do
@@ -213,28 +206,47 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
-  def test_register_allowed_template_helpers_and_variables
+  def test_register_allowed_template_helpers
     refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
-    refute_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
-
     @klass.register :foo do
       allowed_template_helpers :my_helper
+    end
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
+  ensure
+    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
+  end
+
+  def test_register_allowed_template_variables
+    refute_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+    @klass.register :foo do
       allowed_template_variables :my_variable
     end
     # simulate application start
     @klass.find(:foo).to_prepare_callbacks.each(&:call)
-
-    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
     assert_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
   ensure
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
+    Foreman::Renderer::ALLOWED_VARIABLES.delete(:my_variable)
+  end
+
+  def test_register_allowed_global_settings
+    refute_includes Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS, :my_global_setting
+    @klass.register :foo do
+      allowed_template_global_settings :my_global_setting
+    end
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    assert_includes Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS, :my_global_setting
+  ensure
+    Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS.delete(:my_global_setting)
   end
 
   def test_extend_rendering_helpers
     refute Foreman::Renderer.public_instance_methods.include?(:my_helper)
     refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
     refute ::TemplatesController.public_instance_methods.include?(:my_helper)
+    refute ::UnattendedController.public_instance_methods.include?(:my_helper)
 
     @klass.register(:foo) do
       extend_template_helpers(MyMod)
@@ -248,6 +260,8 @@ class PluginTest < ActiveSupport::TestCase
     refute_includes Foreman::Renderer::ALLOWED_HELPERS, :private_helper
     assert ::TemplatesController.public_instance_methods.include?(:my_helper)
     refute ::TemplatesController.public_instance_methods.include?(:private_helper)
+    assert ::UnattendedController.public_instance_methods.include?(:my_helper)
+    refute ::UnattendedController.public_instance_methods.include?(:private_helper)
   ensure
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
     Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
@@ -364,7 +378,7 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_add_template_label
-    kind = FactoryGirl.build(:template_kind)
+    kind = FactoryBot.build_stubbed(:template_kind)
     Foreman::Plugin.register :test_template_kind do
       name 'Test template kind'
       template_labels kind.name => 'Test plugin template kind'
@@ -479,6 +493,14 @@ class PluginTest < ActiveSupport::TestCase
     assert_includes Dashboard::Manager.default_widgets, widget_params
   end
 
+  def test_extend_rabl_template
+    Foreman::Plugin.register :test_extend_rabl_template do
+      extend_rabl_template 'api/v2/hosts/main', 'api/v2/hosts/expiration'
+    end
+    templates = Foreman::Plugin.find(:test_extend_rabl_template).rabl_template_extensions('api/v2/hosts/main')
+    assert_equal ['api/v2/hosts/expiration'], templates
+  end
+
   context "adding permissions" do
     teardown do
       permission = Foreman::AccessControl.permission(:test_permission)
@@ -523,22 +545,6 @@ class PluginTest < ActiveSupport::TestCase
       assert_include Rails.application.config.assets.precompile, 'test_assets_example.js'
     end
 
-    def test_assets_from_settings
-      SETTINGS[:test_assets_from_settings] = { assets: { precompile: [ 'test_assets_example' ] } }
-      Foreman::Deprecation.expects(:deprecation_warning)
-      plugin = Foreman::Plugin.register(:test_assets_from_settings) {}
-      assert_equal ['test_assets_example'], plugin.assets
-      assert_include Rails.application.config.assets.precompile, 'test_assets_example'
-    end
-
-    def test_assets_from_settings_hyphen
-      SETTINGS[:test_assets_from_settings_hyphen] = { assets: { precompile: [ 'test_assets_example' ] } }
-      Foreman::Deprecation.expects(:deprecation_warning)
-      plugin = Foreman::Plugin.register(:'test-assets-from-settings-hyphen') {}
-      assert_equal ['test_assets_example'], plugin.assets
-      assert_include Rails.application.config.assets.precompile, 'test_assets_example'
-    end
-
     def test_assets_from_root
       Dir.mktmpdir do |root|
         FileUtils.mkdir_p File.join(root, 'app', 'assets', 'javascripts', 'test_assets_from_root')
@@ -580,6 +586,31 @@ class PluginTest < ActiveSupport::TestCase
 
       assert_equal 1, ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).count
       assert_equal "My Tab", ::Pagelets::Manager.pagelets_at("tests/show", :main_tabs).first.name
+    end
+  end
+
+  describe 'Report scanner' do
+    subject { Foreman::Plugin.register('test') {} }
+    let(:report_scanner) { stub_everything('Object') }
+
+    describe '.register_report_scanner' do
+      it 'adds a class to report_scanner' do
+        refute subject.class.registered_report_scanners.include? report_scanner
+        subject.register_report_scanner report_scanner
+        assert subject.class.registered_report_scanners.include? report_scanner
+      end
+    end
+
+    describe '.unregister_report_scanner' do
+      before do
+        subject.register_report_scanner report_scanner
+      end
+
+      it 'removes a class to report_scanner' do
+        assert subject.class.registered_report_scanners.include? report_scanner
+        subject.unregister_report_scanner report_scanner
+        refute subject.class.registered_report_scanners.include? report_scanner
+      end
     end
   end
 end

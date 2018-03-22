@@ -3,7 +3,7 @@ require 'test_helper'
 class SmartProxyTest < ActiveSupport::TestCase
   context 'url validations' do
     setup do
-      @proxy = FactoryGirl.
+      @proxy = FactoryBot.
         build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
     end
 
@@ -18,7 +18,7 @@ class SmartProxyTest < ActiveSupport::TestCase
 
   test "should not include trailing slash" do
     ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
-    @proxy = FactoryGirl.build(:smart_proxy)
+    @proxy = FactoryBot.build(:smart_proxy)
     @proxy.url = 'http://some.proxy:4568/'
     as_admin { assert @proxy.save }
     assert_equal @proxy.url, "http://some.proxy:4568"
@@ -26,7 +26,7 @@ class SmartProxyTest < ActiveSupport::TestCase
 
   context 'legacy puppet hostname' do
     setup do
-      @proxy = FactoryGirl.build_stubbed(:smart_proxy)
+      @proxy = FactoryBot.build_stubbed(:smart_proxy)
       @proxy.url = "http://puppet.example.com:4568"
     end
 
@@ -42,14 +42,14 @@ class SmartProxyTest < ActiveSupport::TestCase
   end
 
   test "proxy should respond correctly to has_feature? method" do
-    proxy = FactoryGirl.build_stubbed(:template_smart_proxy)
+    proxy = FactoryBot.build_stubbed(:template_smart_proxy)
     assert proxy.has_feature?('Templates')
     refute proxy.has_feature?('Puppet CA')
   end
 
   # test taxonomix methods
   test "should get used location ids for host" do
-    FactoryGirl.create(:host, :with_environment, :puppet_proxy => smart_proxies(:puppetmaster),
+    FactoryBot.create(:host, :with_environment, :puppet_proxy => smart_proxies(:puppetmaster),
                        :location => taxonomies(:location1))
     assert_equal ["Puppet", "Puppet CA"], smart_proxies(:puppetmaster).features.pluck(:name).sort
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_location_ids
@@ -68,15 +68,15 @@ class SmartProxyTest < ActiveSupport::TestCase
   end
 
   test "can count connected hosts" do
-    proxy = FactoryGirl.create(:puppet_smart_proxy)
-    FactoryGirl.create(:host, :with_environment, :puppet_proxy => proxy)
+    proxy = FactoryBot.create(:puppet_smart_proxy)
+    FactoryBot.create(:host, :with_environment, :puppet_proxy => proxy)
     as_admin do
       assert_equal 1, proxy.hosts_count
     end
   end
 
   test "should be saved if features exist" do
-    proxy = FactoryGirl.build(:smart_proxy)
+    proxy = FactoryBot.build(:smart_proxy)
     ProxyAPI::Features.any_instance.stubs(:features =>["tftp"])
     assert proxy.save
     assert_include(proxy.features, features(:tftp))

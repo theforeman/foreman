@@ -1,4 +1,4 @@
-class DropDefaultTypeInTemplates < ActiveRecord::Migration
+class DropDefaultTypeInTemplates < ActiveRecord::Migration[4.2]
   def up
     change_column :templates, :type, :string, :default => nil
   end

@@ -1,0 +1,18 @@
+<table class='table'>
+  <thead>
+    <tr>
+      <th width="20%"><%= _('Field name') %></th>
+      <th width="20%"><%= _('Type') %></th>
+      <th width="60%"><%= _('Possible values') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% search.each do |field| %>
+    <tr>
+      <td><%= field[:name] %></td>
+      <td><%= field[:type] %></td>
+      <td><%= (field[:values] || []).join(', ') %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

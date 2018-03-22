@@ -130,7 +130,7 @@ class TaxHost
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?
         found_orphan = true
-        taxonomy.errors.add(taxable_type.tableize, _("you cannot remove %s that are used by hosts or inherited.") % taxable_type.tableize.humanize.downcase)
+        taxonomy.errors.add(taxable_type.tableize, _("expecting %s used by hosts or inherited (check mismatches report).") % _(taxable_type.tableize.humanize.downcase))
       end
     end
     !found_orphan
@@ -197,7 +197,7 @@ class TaxHost
   end
 
   def union_deep_hashes(h1, h2)
-    h1.merge!(h2) {|k, v1, v2| v1.is_a?(Array) && v2.is_a?(Array) ? v1 | v2 : v1 }
+    h1.merge!(h2) {|k, v1, v2| (v1.is_a?(Array) && v2.is_a?(Array)) ? v1 | v2 : v1 }
   end
 
   def substract_deep_hashes(h1, h2)

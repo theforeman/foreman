@@ -14,13 +14,13 @@ class AuthSourceInternalTest < ActiveSupport::TestCase
   end
 
   test "#authenticate returns nil when User#matching_password? fails" do
-    u = FactoryGirl.create(:user)
+    u = FactoryBot.create(:user)
     User.any_instance.expects(:matching_password?).with('password').returns(false)
     refute AuthSourceInternal.new.authenticate(u.login, 'password')
   end
 
   test "#authenticate returns true when User#matching_password? succeeds" do
-    u = FactoryGirl.create(:user)
+    u = FactoryBot.create(:user)
     User.any_instance.expects(:matching_password?).with('password').returns(true)
     assert AuthSourceInternal.new.authenticate(u.login, 'password')
   end

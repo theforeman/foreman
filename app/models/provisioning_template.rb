@@ -3,6 +3,7 @@ class ProvisioningTemplate < Template
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
+  include DirtyAssociations
 
   class << self
     # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
@@ -45,6 +46,8 @@ class ProvisioningTemplate < Template
 
   attr_exportable :kind => Proc.new { |template| template.template_kind.try(:name) },
                   :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq }
+
+  dirty_has_many_associations :template_combinations, :os_default_templates, :operatingsystems
 
   # Override method in Taxonomix as Template is not used attached to a Host,
   # and matching a Host does not prevent removing a template from its taxonomy.
@@ -219,6 +222,20 @@ class ProvisioningTemplate < Template
   end
 
   private
+
+  def import_custom_data(options)
+    self.template_kind = nil if self.snippet
+
+    if @importing_metadata.key?('kind') && !self.snippet && associate_metadata_on_import?(options)
+      kind = TemplateKind.find_by_name @importing_metadata['kind']
+      if kind.nil?
+        errors.add :template_kind_id, _('specified template "%s" kind was not found') % @importing_metadata['kind']
+        return
+      end
+      self.template_kind = kind
+    end
+    import_oses(options)
+  end
 
   def allowed_changes
     super + %w(template_combinations template_associations)

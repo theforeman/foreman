@@ -32,7 +32,7 @@ class SmartProxiesController < ApplicationController
   def refresh
     old_features = @smart_proxy.features.to_a
     if @smart_proxy.refresh.blank? && @smart_proxy.save
-      msg = @smart_proxy.features.to_a == old_features ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
+      msg = (@smart_proxy.features.to_a == old_features) ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
       process_success :object => @smart_proxy, :success_msg => msg % @smart_proxy.name
     else
       process_error :object => @smart_proxy
@@ -41,7 +41,9 @@ class SmartProxiesController < ApplicationController
 
   def ping
     requested_data do
-      @proxy_status[:version].version
+      versions_hash = @proxy_status[:version].version
+      versions_hash[:warning] = version_mismatch_warning(versions_hash) if versions_mismatched?(versions_hash)
+      versions_hash
     end
   end
 
@@ -158,5 +160,22 @@ class SmartProxiesController < ApplicationController
     base = base.eager_load(:locations) if SETTINGS[:locations_enabled]
     base = base.eager_load(:organizations) if SETTINGS[:organizations_enabled]
     base
+  end
+
+  def versions_mismatched?(proxy_versions_hash)
+    # we expect here the result of /versions proxy API call.
+    # It's structure is similar to: {:version => Proxy::VERSION, :modules => modules}.to_json
+    foreman_version = Foreman::Version.new.notag
+    proxy_version = Foreman::Version.new(proxy_versions_hash['version']).notag
+
+    foreman_version != proxy_version
+  end
+
+  def version_mismatch_warning(proxy_versions_hash)
+    foreman_version = Foreman::Version.new.notag
+
+    {
+      :message => _('Core and proxy versions do not match. foreman: %s, foreman-proxy: %s') % [foreman_version, proxy_versions_hash['version']]
+    }
   end
 end

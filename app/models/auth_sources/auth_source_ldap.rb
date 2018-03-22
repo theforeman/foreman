@@ -53,7 +53,7 @@ class AuthSourceLdap < AuthSource
   # Loads the LDAP info for a user and authenticates the user with their password
   # Returns : Array of Strings.
   #           Either the users's DN or the user's full details OR nil
-  def authenticate(login, password)
+  def authenticate(login = account, password = account_password)
     return if login.blank? || password.blank?
 
     logger.debug "LDAP auth with user #{login} against #{self}"
@@ -106,6 +106,10 @@ class AuthSourceLdap < AuthSource
     else
       @ldap_con ||= LdapFluff.new(self.to_config)
     end
+  rescue Net::LDAP::Error => e
+    message = _("Error during LDAP connection #{name} using login #{login}: #{e}")
+    Foreman::Logging.exception(message, e, :level => :warn)
+    errors.add(:base, message)
   end
 
   def update_usergroups(login)
@@ -135,6 +139,10 @@ class AuthSourceLdap < AuthSource
     end
   end
 
+  def valid_user?(name)
+    name.present? && ldap_con.valid_user?(name)
+  end
+
   def valid_group?(name)
     return false unless name.present?
     ldap_con.valid_group?(name)
@@ -152,7 +160,7 @@ class AuthSourceLdap < AuthSource
       end
       result[:success] = true
       result[:message] = _("Test connection to LDAP server was successful.")
-    rescue StandardError => exception
+    rescue => exception
       raise ::Foreman::WrappedException.new exception, N_("Unable to connect to LDAP server")
     end
     result

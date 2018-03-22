@@ -1,0 +1,12 @@
+<% content_for(:title, _("Compute Profiles")) %>
+<div class="blank-slate-pf">
+  <div class="blank-slate-pf-icon">
+    <%= icon_text("list-alt", "", :kind => "fa") %>
+  </div>
+  <h1><%= _('Compute Profiles') %></h1>
+  <p><%= _("A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation.") %></p>
+  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("5.2.2UsingComputeProfiles")%></p>
+  <div class="blank-slate-pf-main-action">
+    <%= new_link(_("Create Compute Profile"), :class => 'btn-lg') %>
+  </div>
+</div>

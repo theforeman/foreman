@@ -9,19 +9,20 @@ module Menu
     def self.load
       Manager.map :header_menu
 
-      Manager.map :user_menu do |menu|
-        menu.item :my_account,
-                  :caption => N_('My Account'),
-                  :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
-        menu.divider
-        menu.item :logout,
-                  :caption => N_('Log Out'),
-                  :html => {:method => :post},
-                  :url_hash => {:controller => '/users', :action => 'logout'}
+      Manager.map :side_menu do |menu|
+        menu.sub_menu :user_menu, :caption => N_('User'), :icon => 'fa fa-user' do
+          menu.item :my_account,
+                    :caption => N_('My Account'),
+                    :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
+          menu.divider
+          menu.item :logout,
+                    :caption => N_('Log Out'),
+                    :html => {:method => :post},
+                    :url_hash => {:controller => '/users', :action => 'logout'}
+        end
       end
-
       Manager.map :admin_menu do |menu|
-        menu.sub_menu :administer_menu,  :caption => N_('Administer') do
+        menu.sub_menu :administer_menu,  :caption => N_('Administer'), :icon => 'fa fa-cog' do
           menu.item :locations,          :caption => N_('Locations') if SETTINGS[:locations_enabled]
           menu.item :organizations,      :caption => N_('Organizations') if SETTINGS[:organizations_enabled]
           menu.divider
@@ -39,7 +40,7 @@ module Menu
       end
 
       Manager.map :top_menu do |menu|
-        menu.sub_menu :monitor_menu,    :caption => N_('Monitor') do
+        menu.sub_menu :monitor_menu,    :caption => N_('Monitor'), :icon => 'fa fa-tachometer' do
           menu.item :dashboard,         :caption => N_('Dashboard')
           menu.item :fact_values,       :caption => N_('Facts')
           menu.item :statistics,        :caption => N_('Statistics')
@@ -51,7 +52,7 @@ module Menu
           menu.divider
         end
 
-        menu.sub_menu :hosts_menu,      :caption => N_('Hosts') do
+        menu.sub_menu :hosts_menu,      :caption => N_('Hosts'), :icon => 'fa fa-server' do
           menu.item :hosts,             :caption => N_('All Hosts')
           menu.item :newhost,           :caption => N_('Create Host'),
                     :url_hash => {:controller => '/hosts', :action => 'new'}
@@ -69,7 +70,7 @@ module Menu
           end
         end
 
-        menu.sub_menu :configure_menu,  :caption => N_('Configure') do
+        menu.sub_menu :configure_menu,  :caption => N_('Configure'), :icon => 'fa fa-wrench' do
           menu.item :hostgroups,        :caption => N_('Host Groups')
           menu.item :common_parameters, :caption => N_('Global Parameters')
           menu.divider                  :caption => N_('Puppet')
@@ -80,16 +81,21 @@ module Menu
           menu.item :puppetclass_lookup_keys, :caption => N_('Smart Class Parameters')
         end
 
-        menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure') do
+        menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure'), :icon => 'pficon pficon-network' do
           menu.item :smart_proxies, :caption => N_('Smart Proxies')
           if SETTINGS[:unattended]
             menu.item :compute_resources, :caption => N_('Compute Resources')
             menu.item :compute_profiles,  :caption => N_('Compute Profiles')
             menu.item :subnets,           :caption => N_('Subnets')
             menu.item :domains,           :caption => N_('Domains')
+            menu.item :http_proxies,      :caption => N_('HTTP Proxies')
             menu.item :realms,            :caption => N_('Realms')
           end
         end
+      end
+
+      Manager.map :labs_menu do |menu|
+        menu.sub_menu :lab_features_menu, :caption => N_('Lab Features'), :icon => 'fa fa-flask'
       end
     end
   end

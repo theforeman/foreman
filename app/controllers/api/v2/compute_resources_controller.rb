@@ -2,7 +2,6 @@ module Api
   module V2
     class ComputeResourcesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::ComputeResource
 
       wrap_parameters ComputeResource, :include => compute_resource_params_filter.accessible_attributes(parameter_filter_context)
@@ -15,6 +14,7 @@ module Api
       api :GET, "/compute_resources/", N_("List all compute resources")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ComputeResource)
 
       def index
         @compute_resources = resource_scope_for_index
@@ -38,6 +38,7 @@ module Api
           param :datacenter, String, :desc => N_("for oVirt, VMware Datacenter")
           param :region, String, :desc => N_("for EC2 only")
           param :tenant, String, :desc => N_("for OpenStack only")
+          param :domain, String, :desc => N_("for OpenStack only")
           param :server, String, :desc => N_("for VMware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
           param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt only')
@@ -148,19 +149,14 @@ module Api
       api :PUT, "/compute_resources/:id/associate/", N_("Associate VMs to Hosts")
       param :id, :identifier, :required => true
       def associate
-        @hosts = []
-        if @compute_resource.respond_to?(:associated_host)
-          @compute_resource.vms(:eager_loading => true).each do |vm|
-            if Host.for_vm(@compute_resource, vm).empty?
-              host = @compute_resource.associated_host(vm)
-              if host.present?
-                host.associate!(@compute_resource, vm)
-                @hosts << host
-              end
-            end
-          end
+        if @compute_resource.supports_host_association?
+          associator = ComputeResourceHostAssociator.new(@compute_resource)
+          associator.associate_hosts
+          @hosts = associator.hosts
+          render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
+        else
+          render_message(_('Associating VMs is not supported for this compute resource'), :status => :unprocessable_entity)
         end
-        render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
       end
 
       api :PUT, "/compute_resources/:id/refresh_cache/", N_("Refresh Compute Resource Cache")

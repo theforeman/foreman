@@ -6,8 +6,21 @@ class CsvExporterTest < ActiveSupport::TestCase
     assert_equal "Id\n", result.next
     assert_equal result.count, Host::Managed.count+1
     assert_difference('CsvExporter.export(Host::Managed, [:id]).count') do
-      FactoryGirl.create(:host)
+      FactoryBot.create(:host)
     end
+  end
+
+  # Can't do this at the moment, since nil limit doesn't play well with will_paginate
+  # test 'ignore pagination' do
+  #   FactoryBot.create_list(:domain, 10)
+  #   result = CsvExporter.export(Domain.all.paginate(per_page: 5, page:1), [:id])
+  #   assert result.count > 5
+  # end
+
+  test 'ignore limit' do
+    FactoryBot.create_list(:domain, 10)
+    result = CsvExporter.export(Domain.all.limit(5), [:id])
+    assert result.count > 5
   end
 
   test 'handles empty results correctly' do
@@ -31,7 +44,7 @@ class CsvExporterTest < ActiveSupport::TestCase
   end
 
   test 'calls nested methods on records' do
-    host = FactoryGirl.create(:host)
+    host = FactoryBot.create(:host)
     result = CsvExporter.export(Host::Managed, [:name, 'location.name'])
     assert_equal "Name,Location.Name\n", result.next
     assert_equal "#{host.name},#{host.location.name}\n", result.next

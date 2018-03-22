@@ -15,7 +15,7 @@ class Notification < ApplicationRecord
   belongs_to :notification_blueprint
   belongs_to :initiator, :class_name => 'User', :foreign_key => 'user_id'
   belongs_to :subject, :polymorphic => true
-  has_many :notification_recipients, :dependent => :delete_all
+  has_many :notification_recipients, :dependent => :destroy
   has_many :recipients, :class_name => 'User', :through => :notification_recipients, :source => :user
   store :actions, :accessors => [:links], :coder => JSON
 
@@ -40,7 +40,7 @@ class Notification < ApplicationRecord
   def subscriber_ids
     case audience
     when AUDIENCE_GLOBAL
-      User.reorder('').pluck(:id)
+      User.unscoped.reorder('').pluck(:id)
     when AUDIENCE_ADMIN
       User.unscoped.only_admin.except_hidden.reorder('').distinct.pluck(:id)
     else
@@ -66,10 +66,14 @@ class Notification < ApplicationRecord
 
   def set_custom_attributes
     return unless notification_blueprint # let validation catch this.
-    self.actions = UINotifications::URLResolver.new(
-      subject,
-      notification_blueprint.actions
-    ).actions if notification_blueprint.actions.any?
+
+    if notification_blueprint.actions.any? && self.actions.blank?
+      self.actions = UINotifications::URLResolver.new(
+        subject,
+        notification_blueprint.actions
+      ).actions
+    end
+
     # copy notification message in case we didn't create a custom one.
     self.message ||= UINotifications::StringParser.new(
       notification_blueprint.message,

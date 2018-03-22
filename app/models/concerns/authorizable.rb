@@ -5,7 +5,7 @@ module Authorizable
     return true if Thread.current[:ignore_permission_check]
 
     authorizer = Authorizer.new(User.current)
-    creation = self.id_changed?
+    creation = self.saved_change_to_id?
     name = permission_name(creation ? :create : :edit)
 
     Foreman::Logging.logger('permissions').debug { "verifying the transaction by permission #{name} for class #{self.class}" }

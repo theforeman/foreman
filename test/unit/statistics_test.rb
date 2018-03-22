@@ -6,13 +6,27 @@ class StatisticsTest < ActiveSupport::TestCase
   end
 
   test 'it should return list of statistics objects' do
-    assert Statistics.charts
+    refute_empty Statistics.charts(nil, nil)
   end
 
   test 'it should include an Operating System stat' do
-    os = Statistics.charts.detect {|s| s.id == 'operatingsystem'}
+    os = Statistics.charts(nil, nil).detect {|s| s.id == 'operatingsystem'}
     assert_equal "operatingsystem", os.id
-    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"statistics/operatingsystem", :search=>"/hosts?search=os_title=~VAL~" }
+    data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem", :search => "/hosts?search=os_title=~VAL~" }
+    assert_equal data, os.metadata
+  end
+
+  test 'it should set taxonomies as API paramaters according to current context' do
+    os = Statistics.charts(taxonomies(:empty_organization).id, nil).detect {|s| s.id == 'operatingsystem'}
+    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"/statistics/operatingsystem?organization_id=#{taxonomies(:empty_organization).id}", :search=>"/hosts?search=os_title=~VAL~" }
+    assert_equal data, os.metadata
+
+    os = Statistics.charts(nil, taxonomies(:location1).id).detect {|s| s.id == 'operatingsystem'}
+    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}", :search=>"/hosts?search=os_title=~VAL~" }
+    assert_equal data, os.metadata
+
+    os = Statistics.charts(taxonomies(:empty_organization).id, taxonomies(:location1).id).detect {|s| s.id == 'operatingsystem'}
+    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}&organization_id=#{taxonomies(:empty_organization).id}", :search=>"/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
   end
 
@@ -20,7 +34,7 @@ class StatisticsTest < ActiveSupport::TestCase
     stat = Statistics::Base.new(:count_by => :hostgroup)
     assert_equal :hostgroup, stat.count_by
     assert_equal 'hostgroup', stat.id
-    assert_equal 'statistics/hostgroup', stat.url
+    assert_equal '/statistics/hostgroup', stat.url
     assert_raise(NotImplementedError) { stat.calculate }
   end
 
@@ -46,7 +60,7 @@ class StatisticsTest < ActiveSupport::TestCase
 
   test 'it should initialize a puppet class counter statistics object' do
     stat = Statistics::CountPuppetClasses.new(:id => :classes)
-    assert_equal 'statistics/classes',stat.url
+    assert_equal '/statistics/classes', stat.url
     assert_kind_of Array, stat.calculate
   end
 

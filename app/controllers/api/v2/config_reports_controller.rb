@@ -11,6 +11,7 @@ module Api
 
       api :GET, "/config_reports/", N_("List all reports")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ConfigReport)
 
       def index
         @config_reports = resource_scope_for_index.my_reports
@@ -37,7 +38,7 @@ module Api
       param_group :config_report, :as => :create
 
       def create
-        @config_report = ConfigReport.import(params[:config_report], detected_proxy.try(:id))
+        @config_report = ConfigReport.import(params.to_unsafe_h[:config_report], detected_proxy.try(:id))
         process_response @config_report.errors.empty?
       rescue ::Foreman::Exception => e
         render_message(e.to_s, :status => :unprocessable_entity)

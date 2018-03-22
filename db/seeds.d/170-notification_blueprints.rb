@@ -32,6 +32,20 @@ blueprints = [
         title: N_('Update host')
       ]
     }
+  },
+  {
+    group: _('Community'),
+    name: 'rss_post',
+    level: 'info',
+    message: _('RSS post message goes here'),
+    actions:
+    {
+      links:
+      [
+        title: _('URL'),
+        external: true,
+      ]
+    }
   }
 ]
 

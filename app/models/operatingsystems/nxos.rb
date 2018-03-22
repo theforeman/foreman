@@ -24,7 +24,7 @@ class NXOS < Operatingsystem
   end
 
   def boot_filename(host = nil)
-    "poap.cfg/"+host.mac.gsub(/:/,"").upcase
+    "poap.cfg/"+host.mac.delete(':').upcase
   end
 
   def kernel(arch)

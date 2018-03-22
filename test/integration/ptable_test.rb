@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class PtableIntegrationTest < ActionDispatch::IntegrationTest
   setup do
-    @ptable = FactoryGirl.create(:ptable, :ubuntu, :name => 'ubuntu default')
+    @ptable = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default')
   end
 
   test "index page" do

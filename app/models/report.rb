@@ -26,7 +26,9 @@ class Report < ApplicationRecord
       scoped_search :relation => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_fullname
       scoped_search :relation => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_title
 
-      scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc, :rename => :reported, :only_explicit => true
+      scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc, :rename => :reported, :only_explicit => true, :aliases => [:last_report]
+      scoped_search :on => :host_id,     :complete_value => false, :only_explicit => true
+      scoped_search :on => :origin
     end
     super
   end
@@ -83,5 +85,9 @@ class Report < ApplicationRecord
   # represent if we have a report --> used to ensure consistency across host report state the report itself
   def no_report
     false
+  end
+
+  def self.origins
+    Foreman::Plugin.report_origin_registry.all_origins
   end
 end

@@ -1,4 +1,4 @@
-class CreateLookupValues < ActiveRecord::Migration
+class CreateLookupValues < ActiveRecord::Migration[4.2]
   def up
     create_table :lookup_values do |t|
       t.string :priority, :limit => 255

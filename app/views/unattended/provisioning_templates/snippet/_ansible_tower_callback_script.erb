@@ -1,0 +1,11 @@
+<%#
+kind: snippet
+name: ansible_tower_callback_script
+model: ProvisioningTemplate
+snippet: true
+-%>
+#!/bin/sh
+
+echo "Calling Ansible AWX/Tower provisioning callback..."
+/usr/bin/curl -v -k -s --data "host_config_key=<%= host_param('ansible_host_config_key') %>" https://<%= host_param('ansible_tower_fqdn') %>/api/v2/job_templates/<%= host_param('ansible_job_template_id') %>/callback/
+echo "DONE"

@@ -2,15 +2,7 @@ class TaxableTaxonomy < ApplicationRecord
   belongs_to :taxonomy
   belongs_to :taxable, :polymorphic => true
 
-  validates :taxonomy_id, :uniqueness => {:scope => [:taxable_id, :taxable_type]}
-
-  scope :without, lambda{ |types|
-    if types.empty?
-      {}
-    else
-      where(["taxable_taxonomies.taxable_type NOT IN (?)",types])
-    end
-  }
+  validates :taxonomy_id, :uniqueness => { :scope => [:taxable_id, :taxable_type] }
 
   # Always store the base type when associated to an STI class as the has_many scope on the target
   # class will always default to searching for its base_class.

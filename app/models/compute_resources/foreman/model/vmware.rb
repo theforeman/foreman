@@ -7,6 +7,10 @@ module Foreman::Model
     include ComputeResourceCaching
 
     validates :user, :password, :server, :datacenter, :presence => true
+    validates :display_type, :inclusion => {
+      :in => Proc.new { |cr| cr.class.supported_display_types.keys },
+      :message => N_('not supported by this compute resource')
+    }
 
     before_create :update_public_key
 
@@ -19,6 +23,13 @@ module Foreman::Model
 
     def self.model_name
       ComputeResource.model_name
+    end
+
+    def self.supported_display_types
+      {
+        'vnc' => _('VNC'),
+        'vmrc' => _('VMRC')
+      }
     end
 
     def user_data_supported?
@@ -42,6 +53,10 @@ module Foreman::Model
         #and minimize the amount of time required (as we don't require all attributes by default when listing)
         FogExtensions::Vsphere::MiniServers.new(client, datacenter)
       end
+    end
+
+    def available_images
+      FogExtensions::Vsphere::MiniServers.new(client, datacenter, templates: true).all
     end
 
     def provided_attributes
@@ -387,14 +402,6 @@ module Foreman::Model
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
-      # Backwards compatibility for e.g. API requests.
-      # User can set the scsi_controller_type attribute
-      # to define a single scsi controller by that type
-      if args[:scsi_controller_type].present?
-        Foreman::Deprecation.deprecation_warning("1.18", _("SCSI controller type is deprecated. Please change to scsi_controllers"))
-        args[:scsi_controller] = {:type => args.delete(:scsi_controller_type)}
-      end
-
       add_cdrom = args.delete(:add_cdrom)
       args[:cdroms] = [new_cdrom] if add_cdrom == '1'
 
@@ -490,23 +497,41 @@ module Foreman::Model
         "boot_order" => [:disk],
       }
 
-      opts['transform'] = args[:volumes].first[:thin] == 'true' ? 'sparse' : 'flat' unless args[:volumes].empty?
+      opts['transform'] = (args[:volumes].first[:thin] == 'true') ? 'sparse' : 'flat' unless args[:volumes].empty?
 
       vm_model = new_vm(raw_args)
       opts['interfaces'] = vm_model.interfaces
       opts['volumes'] = vm_model.volumes
-      opts["customization_spec"] = client.cloudinit_to_customspec(args[:user_data]) if args[:user_data]
+      if args[:user_data] && valid_cloudinit_for_customspec?(args[:user_data])
+        opts["customization_spec"] = client.cloudinit_to_customspec(args[:user_data])
+      end
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])
     end
 
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
-      raise "VM is not running!" unless vm.ready?
-      #TOOD port, password
-      #NOTE this requires the following port to be open on your ESXi FW
+      raise Foreman::Exception, N_('The console is not available because the VM is not powered on') unless vm.ready?
+
+      case display_type
+      when 'vmrc'
+        vmrc_console(vm)
+      else
+        vnc_console(vm)
+      end
+    end
+
+    def vnc_console(vm)
       values = { :port => unused_vnc_port(vm.hypervisor), :password => random_password, :enabled => true }
       vm.config_vnc(values)
       WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
+    end
+
+    def vmrc_console(vm)
+      {
+        :name => vm.name,
+        :console_url => build_vmrc_uri(server, vm.mo_ref, client.connection.serviceContent.sessionManager.AcquireCloneTicket),
+        :type => 'vmrc'
+      }
     end
 
     def new_interface(attr = { })
@@ -535,6 +560,18 @@ module Foreman::Model
 
     def associated_host(vm)
       associate_by("mac", vm.interfaces.map(&:mac))
+    end
+
+    def display_type
+      attrs[:display] || 'vmrc'
+    end
+
+    def display_type=(type)
+      attrs[:display] = type.downcase
+    end
+
+    def humanized_display_type
+      self.class.supported_display_types[display_type]
     end
 
     def self.provider_friendly_name
@@ -586,7 +623,7 @@ module Foreman::Model
     rescue => e
       if e.message =~ /The remote system presented a public key with hash (\w+) but we're expecting a hash of/
         raise Foreman::FingerprintException.new(
-          N_("The remote system presented a public key with hash %s but we're expecting a different hash. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"), $1)
+          N_("The remote system presented a public key with hash %s but we're expecting a different hash. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"), Regexp.last_match(1))
       else
         raise e
       end
@@ -594,7 +631,7 @@ module Foreman::Model
 
     def unused_vnc_port(ip)
       10.times do
-        port   = 5901 + rand(64)
+        port   = rand(5901..5964)
         unused = (TCPSocket.connect(ip, port).close rescue true)
         return port if unused
       end
@@ -603,7 +640,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :memory_mb  => 768,
+        :memory_mb  => 2048,
         :interfaces => [new_interface],
         :volumes    => [new_volume],
         :scsi_controllers => [{ :type => scsi_controller_default_type }],
@@ -622,6 +659,27 @@ module Foreman::Model
       volumes = vm.volumes || []
       vm_attrs[:volumes_attributes] = Hash[volumes.each_with_index.map { |volume, idx| [idx.to_s, volume.attributes.merge(:size_gb => volume.size_gb)] }]
       vm_attrs
+    end
+
+    def build_vmrc_uri(host, vmid, ticket)
+      uri = URI::Generic.build(:scheme   => 'vmrc',
+                               :userinfo => "clone:#{ticket}",
+                               :host     => host,
+                               :port     => 443,
+                               :path     => '/',
+                               :query    => "moid=#{vmid}").to_s
+      # VMRC doesn't like brackets around IPv6 addresses
+      uri.sub(/(.*)\[/, '\1').sub(/(.*)\]/, '\1')
+    end
+
+    def valid_cloudinit_for_customspec?(cloudinit)
+      parsed = YAML.load(cloudinit)
+      return false if parsed.nil?
+      return true if parsed.is_a?(Hash)
+      raise Foreman::Exception.new('The user-data template must be a hash in YAML format for VM customization to work.')
+    rescue Psych::SyntaxError => e
+      Foreman::Logging.exception('Failed to parse user-data template', e)
+      raise Foreman::Exception.new('The user-data template must be valid YAML for VM customization to work.')
     end
   end
 end

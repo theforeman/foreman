@@ -3,8 +3,8 @@ require 'test_helper'
 class PxeLoaderSuggestionTest < ActiveSupport::TestCase
   context 'host' do
     def setup
-      @host = FactoryGirl.create(:host)
-      @os = FactoryGirl.create(:operatingsystem)
+      @host = FactoryBot.create(:host)
+      @os = FactoryBot.create(:operatingsystem)
       Operatingsystem.any_instance.stubs(:preferred_loader).returns('PXELinux UEFI')
     end
 
@@ -22,8 +22,8 @@ class PxeLoaderSuggestionTest < ActiveSupport::TestCase
 
   context 'hostgroup' do
     def setup
-      @hostgroup = FactoryGirl.create(:hostgroup)
-      @os = FactoryGirl.create(:operatingsystem)
+      @hostgroup = FactoryBot.create(:hostgroup)
+      @os = FactoryBot.create(:operatingsystem)
       Operatingsystem.any_instance.stubs(:preferred_loader).returns('PXELinux UEFI')
     end
 
@@ -39,7 +39,7 @@ class PxeLoaderSuggestionTest < ActiveSupport::TestCase
     end
 
     test 'hostgroup suggests default PXEloader for Parent OS' do
-      parent = FactoryGirl.create(:hostgroup, :operatingsystem => @os)
+      parent = FactoryBot.create(:hostgroup, :operatingsystem => @os)
       @hostgroup.update_attribute(:parent_id, parent.id)
       @hostgroup.suggest_default_pxe_loader
       assert_equal 'PXELinux UEFI', @hostgroup.pxe_loader

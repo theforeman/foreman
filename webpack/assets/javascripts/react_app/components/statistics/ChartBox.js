@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Panel } from 'react-bootstrap';
+import { Modal } from 'patternfly-react';
 import helpers from '../../common/helpers';
-import PieChart from '../common/charts/PieChart/';
+import DonutChart from '../common/charts/DonutChart';
 import {
-  getLargePieChartConfig,
-  navigateToSearch
+  navigateToSearch,
 } from '../../../services/ChartService';
-import ChartModal from './ChartModal';
 import Loader from '../common/Loader';
-import Panel from '../common/Panel/Panel';
-import PanelHeading from '../common/Panel/PanelHeading';
-import PanelTitle from '../common/Panel/PanelTitle';
-import PanelBody from '../common/Panel/PanelBody';
-import './StatisticsChartsListStyles.css';
 import MessageBox from '../common/MessageBox';
 
 class ChartBox extends React.Component {
@@ -35,71 +30,65 @@ class ChartBox extends React.Component {
   }
 
   render() {
-    const { chart } = this.props;
-
-    const modalConfig = getLargePieChartConfig({
-      data: this.props.chart.data,
-      id: chart.id + 'Modal'
-    });
-
-    const tooltip = {
+    const { chart, type } = this.props;
+    const components = {
+      donut: DonutChart,
+    };
+    const Chart = components[type];
+    const dataFiltered = chart.data && chart.data.filter(arr => arr[1] !== 0);
+    const hasChartData = dataFiltered && dataFiltered.length > 0;
+    const tooltip = hasChartData ? {
       onClick: this.onClick,
       title: this.props.tip,
       'data-toggle': 'tooltip',
-      'data-placement': 'top'
+      'data-placement': 'top',
+      className: 'pointer',
+    } : {};
+    const handleChartClick =
+      chart.search && chart.search.match(/=$/)
+        ? null
+        : navigateToSearch.bind(null, chart.search);
+    const chartProps = {
+      data: chart.data ? chart.data : undefined,
+      key: `${this.props.chart.id}-chart`,
+      onclick: handleChartClick,
     };
-    const onclickChartClicked = chart.search && chart.search.match(/=$/) ?
-      null :
-      navigateToSearch.bind(null, chart.search);
-
-    const _chart = (
-      <PieChart
-        key={this.props.chart.id + '-chart'}
-        data={this.props.chart.data}
-        onclick={onclickChartClicked}
-      />
-    );
-
+    const panelChart = <Chart {...chartProps} />;
     const error = (
       <MessageBox
         msg={this.props.errorText}
-        key={this.props.chart.id + '-error'}
+        key={`${this.props.chart.id}-error`}
         icontype="error-circle-o"
       />
     );
+    const boxHeader = <h3 {...tooltip}>{this.props.title}</h3>;
 
-    return (
-      <Panel className="statistics-charts-list-panel" key={this.props.chart.id}>
-        <PanelHeading {...tooltip} className="statistics-charts-list-heading">
-          <PanelTitle text={this.props.title} />
-        </PanelHeading>
-
-        <PanelBody className="statistics-charts-list-body">
-          <Loader status={this.props.status}>
-            {[_chart, error]}
-          </Loader>
-
-          <ChartModal
-            {...this.props}
-            show={this.state.showModal}
-            onHide={this.closeModal}
-            onEnter={this.onEnter}
-            config={modalConfig}
-            title={this.props.title}
-          />
-        </PanelBody>
-      </Panel>
-    );
+    return <Panel className="chart-box" header={boxHeader} key={this.props.chart.id}>
+        <Loader status={this.props.status}>
+          {[panelChart, error]}
+        </Loader>
+        {this.state.showModal &&
+        <Modal show={this.state.showModal} enforceFocus onHide={this.closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.props.title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Chart {...chartProps} config="large" />;
+          </Modal.Body>
+        </Modal>}
+      </Panel>;
   }
 }
 
-ChartBox.PropTypes = {
+ChartBox.propTypes = {
   status: PropTypes.string.isRequired,
   config: PropTypes.object,
-  modalConfig: PropTypes.object,
   id: PropTypes.string.isRequired,
   noDataMsg: PropTypes.string,
-  errorText: PropTypes.string
+  errorText: PropTypes.string,
+  type: PropTypes.oneOf(['donut']),
+  chart: PropTypes.object,
+  tip: PropTypes.string,
 };
 
 export default ChartBox;

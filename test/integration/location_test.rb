@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class LocationIntegrationTest < ActionDispatch::IntegrationTest
   def setup
-    FactoryGirl.create(:host, :location => nil)
+    FactoryBot.create(:host, :location => nil)
   end
 
   test "index page" do

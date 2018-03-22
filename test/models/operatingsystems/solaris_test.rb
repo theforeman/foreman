@@ -4,8 +4,8 @@ class SolarisTest < ActiveSupport::TestCase
   setup { disable_orchestration }
 
   test "jumpstart parameter generation" do
-    h = FactoryGirl.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
-          :interfaces => [ FactoryGirl.build(:nic_primary_and_provision,
+    h = FactoryBot.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
+          :interfaces => [ FactoryBot.build(:nic_primary_and_provision,
                                              :ip => '2.3.4.10') ],
           :architecture => architectures(:sparc),
           :operatingsystem => operatingsystems(:solaris10),
@@ -14,7 +14,7 @@ class SolarisTest < ActiveSupport::TestCase
           :model => models(:V210),
           :medium => media(:solaris10),
           :puppet_proxy => smart_proxies(:puppetmaster),
-          :ptable => FactoryGirl.create(:ptable, :operatingsystem_ids => [operatingsystems(:solaris10).id])
+          :ptable => FactoryBot.create(:ptable, :operatingsystem_ids => [operatingsystems(:solaris10).id])
         )
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01.yourdomain.net").returns("2.3.4.5").once

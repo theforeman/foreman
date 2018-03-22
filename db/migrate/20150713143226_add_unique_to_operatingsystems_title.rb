@@ -1,4 +1,4 @@
-class AddUniqueToOperatingsystemsTitle < ActiveRecord::Migration
+class AddUniqueToOperatingsystemsTitle < ActiveRecord::Migration[4.2]
   def up
     dups = Operatingsystem.all.group_by(&:fullname).values.keep_if { |ary| ary.length > 1}
     dups.each do |systems|

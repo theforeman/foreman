@@ -13,7 +13,7 @@ module ApplicationHelper
         begin
           path = URI.split(url_for(options) || html_options['href'])[5].split(/\//).select {|x| !x.empty?}
           if !path.empty?
-            max = path.size <= 3 ? path.size : 3
+            max = (path.size <= 3) ? path.size : 3
             id = path.last(max).join('_')
           else
             id = 'not_defined'
@@ -53,6 +53,7 @@ module ApplicationHelper
   # example of short is Aug 31, 12:52
   def date_time_absolute(time, format = :short)
     raise ArgumentError, "unsupported format '#{format}', use :long or :short" unless %w(long short).include?(format.to_s)
+    return _('N/A') if time.nil?
 
     content_tag :span, :title => date_time_relative_value(time) do
       date_time_absolute_value(time, format)
@@ -62,6 +63,8 @@ module ApplicationHelper
   # this helper should be used to print date time in relative form, e.g. "10 days ago",
   # it will also define a title with absolute time information
   def date_time_relative(time)
+    return _('N/A') if time.nil?
+
     content_tag :span, :title => date_time_absolute_value(time, :long) do
       date_time_relative_value(time)
     end
@@ -72,7 +75,7 @@ module ApplicationHelper
   end
 
   def date_time_relative_value(time)
-    (time > Time.now.utc ? _('in %s') : _('%s ago')) % time_ago_in_words(time)
+    ((time > Time.now.utc) ? _('in %s') : _('%s ago')) % time_ago_in_words(time)
   end
 
   protected
@@ -264,7 +267,7 @@ module ApplicationHelper
   def flot_pie_chart(name, title, data, options = {})
     data = data.map { |k,v| {:label=>k.to_s.humanize, :data=>v} } if data.is_a?(Hash)
     data.map{|element| element[:label] = truncate(element[:label],:length => 16)}
-    header = content_tag(:h4,(options[:show_title]) ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
+    header = content_tag(:h4,options[:show_title] ? title : '', :class=>'ca pie-title', :'data-original-title'=>_("Expand the chart"), :rel=>'twipsy')
     link_to_function(header, "expand_chart(this)")+
         content_tag(:div, nil,
                     { :id    => name,
@@ -323,7 +326,7 @@ module ApplicationHelper
     # the no-buttons code is needed for users with less permissions
     args = args.flatten.select(&:present?)
     return if args.blank?
-    button_classes = %w(btn btn-default)
+    button_classes = %w(btn btn-default btn-action)
     button_classes << 'btn-primary' if options[:primary]
 
     content_tag(:div, options.merge(:class=>'btn-group')) do
@@ -368,21 +371,9 @@ module ApplicationHelper
   def avatar_image_tag(user, html_options = {})
     if user.avatar_hash.present?
       image_tag("avatars/#{user.avatar_hash}.jpg", html_options)
-    elsif Setting[:use_gravatar] && user.mail.present?
-      image_tag(gravatar_image(user.mail),
-                html_options.merge!(gravatar_html_options))
     else
-      image_tag('user.jpg', html_options)
+      icon_text("user #{html_options[:class]}", "", :kind => "fa")
     end
-  end
-
-  def gravatar_image(email)
-    "#{request.protocol}secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?d=mm&s=30"
-  end
-
-  def gravatar_html_options
-    { :onerror => "this.src='#{path_to_image('user.jpg')}'",
-      :alt     => _('Change your avatar at gravatar.com') }
   end
 
   def readonly_field(object, property, options = {})
@@ -457,8 +448,9 @@ module ApplicationHelper
     update_url = options[:update_url] || url_for(object)
     type       = options[:type]
     title      = options[:title]
+    select_values     = [true, false].include?(value) ? [_('Yes'), _('No')] : options[:select_values]
 
-    editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => options[:select_values],:url => update_url}.compact)
+    editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => select_values, :url => update_url}.compact)
   end
 
   def documentation_url(section = "", options = {})
@@ -499,13 +491,16 @@ module ApplicationHelper
   end
 
   def hosts_count(resource_name = controller.resource_name)
-    # If we are on /organizations or /locations, this allows to display the
-    # count for hosts not in the current organization & location.
     hosts_scope = Host::Managed.reorder('')
-    if ['organization', 'location'].include? resource_name
+    case resource_name
+    when 'organization', 'location'
+      # If we are on /organizations or /locations, this allows to display the
+      # count for hosts not in the current organization & location.
       hosts_scope = hosts_scope.unscoped
+    when 'subnet'
+      hosts_scope = hosts_scope.joins(:primary_interface)
     end
-    @hosts_count ||= hosts_scope.authorized.group("#{resource_name}_id").count
+    @hosts_count ||= hosts_scope.authorized.group(:"#{resource_name}_id").count
   end
 
   def webpack_dev_server
@@ -551,13 +546,18 @@ module ApplicationHelper
   end
 
   def notifications
-    content_tag :div, :id => 'notifications', :'data-flash' => flash_notifiations.to_json.html_safe do
-      mount_react_component('ToastNotifications', '#notifications')
+    content_tag :div, id: 'toast-notifications-container',
+                      'data-notifications': toast_notifiations_data.to_json.html_safe do
+      mount_react_component('ToastNotifications', '#toast-notifications-container')
     end
   end
 
-  def flash_notifiations
-    flash.select { |key, _| key != 'inline' }
+  def toast_notifiations_data
+    selected_toast_notifiations =  flash.select { |key, _| key != 'inline' }
+
+    selected_toast_notifiations.map do |type, notification|
+      notification.is_a?(Hash) ? notification : { :type => type, :message => notification }
+    end
   end
 
   def flash_inline

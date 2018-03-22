@@ -138,17 +138,6 @@ select {
   padding: initial;
 }
 
-.inputs-list {
-  display: inline;
-  list-style: none;
-  margin-bottom: 18px;
-  margin-left: 0;
-}
-
-.collapse .inputs-list li {
-  margin-left: 20px;
-}
-
 .delete {
   color: #b94a48 !important;
   cursor: pointer;
@@ -318,9 +307,9 @@ table {
 }
 
 .exit-fullscreen {
-  position: absolute;
-  right: 30px;
-  top: 30px;
+  position: fixed;
+  right: 20px;
+  top: 80px;
 }
 
 .config_group,
@@ -483,9 +472,9 @@ table {
 }
 
 .fullscreen {
-  height: 100vh !important;
-  position: fixed !important;
-  width: 100vw !important;
+  height: 90vh !important;
+  width: 100%;
+  margin-top: 20px;
   font-family: monospace;
 }
 
@@ -561,7 +550,7 @@ table {
   div {
     height: 20px;
     margin-left: 15px;
-    margin-top: 2px;
+    margin-top: 15px;
     width: 20px;
   }
 }
@@ -665,4 +654,10 @@ code.transparent {
 .factsTable .breadcrumb {
   padding: 0;
   margin-bottom: 0;
+}
+
+.scrollable-dropdown {
+  max-height: 400px;
+  overflow-y: auto;
+  max-width: 175px;
 }

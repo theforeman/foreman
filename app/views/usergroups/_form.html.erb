@@ -9,9 +9,22 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
+      <% if @usergroup.external_usergroups.any? %>
+        <h5>
+          <%= _('Only internal (non-LDAP) users can be added manually. LDAP users
+                are automatically synced from the External Groups list.') %>
+        </h5>
+        <h5>
+          <%= _('To refresh the list of users, click on the tab "External
+                groups" then "Refresh".') %>
+        </h5>
+        <hr>
+      <% end %>
       <%= text_f f, :name %>
-      <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
-      <%= multiple_checkboxes f, :users, @usergroup, User.except_hidden, :label => _("Users"), :object_label_method => :select_title %>
+      <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup,
+        { :label => _("User Groups") } %>
+      <%= multiple_checkboxes f, :users, @usergroup, User.except_hidden,
+        :label => _("Users"), :object_label_method => :select_title %>
     </div>
     <div class="tab-pane" id="roles">
       <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>

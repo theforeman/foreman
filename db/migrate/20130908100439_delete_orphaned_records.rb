@@ -1,4 +1,4 @@
-class DeleteOrphanedRecords < ActiveRecord::Migration
+class DeleteOrphanedRecords < ActiveRecord::Migration[4.2]
   class FakeConfigTemplate < ApplicationRecord
     self.table_name = 'config_templates'
   end

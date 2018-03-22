@@ -1,5 +1,6 @@
 module Orchestration::Puppetca
   extend ActiveSupport::Concern
+  include Orchestration::Common
 
   included do
     attr_reader :puppetca
@@ -43,7 +44,7 @@ module Orchestration::Puppetca
   private
 
   def queue_puppetca
-    return unless puppetca? && errors.empty?
+    return log_orchestration_errors unless puppetca? && errors.empty?
     return unless Setting[:manage_puppetca]
     new_record? ? queue_puppetca_create : queue_puppetca_update
   end

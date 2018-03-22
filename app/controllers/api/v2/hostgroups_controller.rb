@@ -2,7 +2,6 @@ module Api
   module V2
     class HostgroupsController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Hostgroup
       include ParameterAttributes
 
@@ -18,6 +17,7 @@ module Api
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
       param :include, Array, :in => ['parameters'], :desc => N_("Array of extra information types to include")
+      add_scoped_search_description_for(Hostgroup)
 
       def index
         @hostgroups = resource_scope_for_index
@@ -42,6 +42,7 @@ module Api
           param :parent_id, :number, :desc => N_('Parent ID of the host group')
           param :environment_id, :number, :desc => N_('Environment ID')
           param :compute_profile_id, :number, :desc => N_('Compute profile ID')
+          param :compute_resource_id, :number, :desc => N_('Compute resource ID')
           param :operatingsystem_id, :number, :desc => N_('Operating system ID')
           param :architecture_id, :number, :desc => N_('Architecture ID')
           param :pxe_loader, Operatingsystem.all_loaders, :desc => N_("DHCP filename option (Grub2/PXELinux by default)")

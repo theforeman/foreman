@@ -10,7 +10,14 @@ class NotificationRecipientTest < ActiveSupport::TestCase
   end
 
   test "should return unseen notifications" do
-    id = FactoryGirl.create(:notification_recipient).id
+    id = FactoryBot.create(:notification_recipient).id
     assert NotificationRecipient.unseen.pluck(:id).include?(id)
+  end
+
+  test "destroying triggers clearing user cache" do
+    recipient = FactoryBot.create(:notification_recipient)
+    UINotifications::CacheHandler.any_instance
+                                 .expects(:clear)
+    recipient.destroy
   end
 end

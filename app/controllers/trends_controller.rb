@@ -17,7 +17,7 @@ class TrendsController < ApplicationController
 
   def create
     params[:trend] ||= { }
-    @trend         = params[:trend][:trendable_type] == 'FactName' ? FactTrend.new(trend_params) : ForemanTrend.new(trend_params)
+    @trend         = (params[:trend][:trendable_type] == 'FactName') ? FactTrend.new(trend_params) : ForemanTrend.new(trend_params)
     if @trend.save
       process_success
     else

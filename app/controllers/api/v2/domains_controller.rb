@@ -2,7 +2,6 @@ module Api
   module V2
     class DomainsController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Domain
       include ParameterAttributes
 
@@ -28,6 +27,7 @@ module Api
       param :subnet_id, String, :desc => N_("ID of subnet")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Domain)
 
       def index
         @domains = resource_scope_for_index

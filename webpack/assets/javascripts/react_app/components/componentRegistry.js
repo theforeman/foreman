@@ -1,17 +1,20 @@
 import React from 'react';
-import PieChart from './common/charts/PieChart/';
+
+import DonutChart from './common/charts/DonutChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
 import ToastsList from './toastNotifications/';
 import StorageContainer from './hosts/storage/vmware/';
-import forEach from 'lodash/forEach';
-import map from 'lodash/map';
+import BookmarkContainer from './bookmarks';
+import PasswordStrength from './user/passwordStrength/';
 
 const componentRegistry = {
   registry: {},
 
-  register({ name = null, type = null, store = true, data = true }) {
+  register({
+    name = null, type = null, store = true, data = true,
+  }) {
     if (!name || !type) {
       throw new Error('Component name or type is missing');
     }
@@ -24,9 +27,7 @@ const componentRegistry = {
   },
 
   registerMultiple(componentObjs) {
-    return forEach(componentObjs, (obj) => {
-      return this.register(obj);
-    });
+    return Object.values(componentObjs).forEach(obj => this.register(obj));
   },
 
   getComponent(name) {
@@ -34,9 +35,7 @@ const componentRegistry = {
   },
 
   registeredComponents() {
-    return map(this.registry, (value, key) => {
-      return key;
-    }).join(', ');
+    return Object.keys(this.registry).join(', ');
   },
 
   markup(name, data, store) {
@@ -47,18 +46,24 @@ const componentRegistry = {
     }
     const ComponentName = currentComponent.type;
 
-    return (<ComponentName data={ currentComponent.data ? data : undefined }
-                           store={ currentComponent.store ? store : undefined } />);
-  }
+    return (
+      <ComponentName
+        data={currentComponent.data ? data : undefined}
+        store={currentComponent.store ? store : undefined}
+      />
+    );
+  },
 };
 
 const coreComponets = [
-  { name: 'PieChart', type: PieChart },
+  { name: 'BookmarkContainer', type: BookmarkContainer },
+  { name: 'DonutChart', type: DonutChart },
   { name: 'StatisticsChartsList', type: StatisticsChartsList },
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList, data: false },
-  { name: 'StorageContainer', type: StorageContainer }
+  { name: 'StorageContainer', type: StorageContainer },
+  { name: 'PasswordStrength', type: PasswordStrength },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

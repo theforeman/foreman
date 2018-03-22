@@ -9,6 +9,7 @@ module Foreman::Controller::CsvResponder
   end
 
   private
+
   def csv_columns
     resource_class.column_names - ['created_at', 'updated_at']
   end

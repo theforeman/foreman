@@ -3,24 +3,29 @@ module Api
     class HostsController < V2::BaseController
       include Api::Version2
       include Api::CompatibilityChecker
-      include Api::TaxonomyScope
       include ScopesPerAction
       include Foreman::Controller::SmartProxyAuth
       include Foreman::Controller::Parameters::Host
       include ParameterAttributes
 
       wrap_parameters :host, :include => host_params_filter.accessible_attributes(parameter_filter_context) + ['compute_attributes']
+      include HostsControllerExtension
 
       before_action :check_create_host_nested, :only => [:create, :update]
 
       before_action :find_optional_nested_object, :except => [:facts]
       before_action :find_resource, :except => [:index, :create, :facts]
-      before_action :permissions_check, :only => %w{power boot puppetrun}
+      check_permissions_for %w{power boot}
       before_action :process_parameter_attributes, :only => %w{update}
 
       add_smart_proxy_filters :facts, :features => Proc.new { FactImporter.fact_features }
 
-      add_scope_for(:index) { |base_scope| base_scope.preload([:host_statuses, :compute_resource, :hostgroup, :operatingsystem, :interfaces, :token, :owner]) }
+      add_scope_for(:index) do |base_scope|
+        base_scope.preload([:host_statuses, :compute_resource, :hostgroup, :operatingsystem,
+                            :interfaces, :token, :owner, :model, :environment, :location,
+                            :organization, :image, :compute_profile, :realm, :architecture,
+                            :ptable, :medium, :puppet_proxy, :puppet_ca_proxy])
+      end
 
       api :GET, "/hosts/", N_("List all hosts")
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
@@ -32,8 +37,9 @@ module Api
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
       param :environment_id, String, :desc => N_("ID of environment")
-      param :include, Array, :in => ['parameters', 'all_parameters'], :desc => N_("Array of extra information types to include")
+      param :include, ['parameters', 'all_parameters'], :desc => N_("Array of extra information types to include")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Host)
 
       def index
         @hosts = action_scope_for(:index, resource_scope_for_index)
@@ -96,7 +102,7 @@ module Api
           end
           param :build, :bool
           param :enabled, :bool, :desc => N_("Include this host within Foreman reporting")
-          param :provision_method, String, :desc => N_("The method used to provision the host. Possible provision_methods may be %{provision_methods}") # values are defined in apipie initializer
+          param :provision_method, Host::Managed.provision_methods.keys, :desc => N_("The method used to provision the host.")
           param :managed, :bool, :desc => N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
           param :progress_report_id, String, :desc => N_("UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks")
           param :comment, String, :desc => N_("Additional information about this host")
@@ -149,7 +155,7 @@ module Api
         @all_parameters = true
 
         @host.attributes = host_attributes(host_params, @host)
-        apply_compute_profile(@host)
+        apply_compute_profile(@host) if (params[:host] && params[:host][:compute_attributes].present?) || @host.compute_profile_id_changed?
 
         process_response @host.save
       rescue InterfaceTypeMapper::UnknownTypeExeption => e
@@ -229,14 +235,6 @@ Return the host's compute attributes that can be used to create a clone of this 
           end
         end
         render :json => safe_attrs
-      end
-
-      api :PUT, "/hosts/:id/puppetrun", N_("Force a Puppet agent run on the host")
-      param :id, :identifier_dottable, :required => true
-
-      def puppetrun
-        return deny_access unless Setting[:puppetrun]
-        process_response @host.puppetrun!
       end
 
       api :PUT, "/hosts/:id/disassociate", N_("Disassociate the host from a VM")
@@ -349,8 +347,6 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       def action_permission
         case params[:action]
-          when 'puppetrun'
-            :puppetrun
           when 'power'
             :power
           when 'boot'
@@ -400,7 +396,11 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       def resource_class_join(association, scope)
         resource_class_join = resource_class.joins(association.name)
-        resource_class_join.merge(scope).present? ? resource_class_join.merge(scope) : resource_class_join
+        if action_name == 'update' && resource_class_join.merge(scope).blank?
+          resource_class_join
+        else
+          resource_class.joins(association.name).merge(scope)
+        end
       end
 
       def import_host

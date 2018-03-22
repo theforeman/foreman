@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UsergroupsControllerTest < ActionController::TestCase
   setup do
-    as_admin { FactoryGirl.create(:usergroup) }
+    as_admin { FactoryBot.create(:usergroup) }
     @model = Usergroup.first
   end
 
@@ -14,31 +14,31 @@ class UsergroupsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     Usergroup.any_instance.stubs(:valid?).returns(false)
-    post :create, {:usergroup => { :name => nil }}, set_session_user
+    post :create, params: { :usergroup => { :name => nil } }, session: set_session_user
     assert_template 'new'
   end
 
   def test_create_valid
     Usergroup.any_instance.stubs(:valid?).returns(true)
-    post :create, { :usergroup => { :name => 'Managing users' }}, set_session_user
+    post :create, params: { :usergroup => { :name => 'Managing users' } }, session: set_session_user
     assert_redirected_to usergroups_url
   end
 
   def test_update_invalid
     Usergroup.any_instance.stubs(:valid?).returns(false)
-    put :update, {:id => Usergroup.first, :usergroup => {:user_ids => ["",""], :usergroup_ids => ["",""]} }, set_session_user
+    put :update, params: { :id => Usergroup.first, :usergroup => {:user_ids => ["",""], :usergroup_ids => ["",""]} }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Usergroup.any_instance.stubs(:valid?).returns(true)
-    put :update, {:id => Usergroup.first, :usergroup => {:user_ids => ["",""], :usergroup_ids => ["",""]} }, set_session_user
+    put :update, params: { :id => Usergroup.first, :usergroup => {:user_ids => ["",""], :usergroup_ids => ["",""]} }, session: set_session_user
     assert_redirected_to usergroups_url
   end
 
   def test_destroy
     usergroup = Usergroup.first
-    delete :destroy, {:id => usergroup}, set_session_user
+    delete :destroy, params: { :id => usergroup }, session: set_session_user
     assert_redirected_to usergroups_url
     assert !Usergroup.exists?(usergroup.id)
   end
@@ -50,40 +50,61 @@ class UsergroupsControllerTest < ActionController::TestCase
 
   test 'user with viewer rights should fail to edit a usergroup' do
     setup_user
-    get :edit, {:id => Usergroup.first.id}, set_session_user.merge(:user => users(:one).id)
+    get :edit, params: { :id => Usergroup.first.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
   end
 
   test 'user with viewer rights should succeed in viewing usergroups' do
     setup_user
-    get :index, {}, set_session_user
+    get :index, session: set_session_user
     assert_response :success
   end
 
   test "changes should expire topbar cache" do
-    user1 = FactoryGirl.create(:user, :with_mail)
-    user2 = FactoryGirl.create(:user, :with_mail)
-    usergroup = FactoryGirl.create(:usergroup, :users => [user1, user2])
+    user1 = FactoryBot.create(:user, :with_mail)
+    user2 = FactoryBot.create(:user, :with_mail)
+    usergroup = FactoryBot.create(:usergroup, :users => [user1, user2])
     User.any_instance.expects(:expire_topbar_cache).twice
-    put :update, { :id => usergroup.id, :usergroup => {:admin => true }}, set_session_user
+    put :update, params: { :id => usergroup.id, :usergroup => {:admin => true } }, session: set_session_user
   end
 
-  test 'external user group is refreshed even when destroyed' do
-    AuthSourceLdap.any_instance.stubs(:valid_group? => true)
-    external = FactoryGirl.create(:external_usergroup)
-    ExternalUsergroup.any_instance.expects(:refresh).returns(true)
+  context "external user groups" do
+    test 'a suggestion is shown if the LDAP source is not reachable' do
+      AuthSourceLdap.any_instance.stubs(:valid_group? => true)
+      external = FactoryBot.create(:external_usergroup)
+      ExternalUsergroup.any_instance.expects(:refresh).
+        raises(Net::LDAP::Error.new('foo'))
+      put :update, params: { :id => external.usergroup_id, :usergroup => {
+        :external_usergroups_attributes => {
+          '0' => {
+            'name' => external.name,
+            'auth_source_id' => external.auth_source_id,
+            'id' => external.id
+          }
+        }
+      }}, session: set_session_user
 
-    put :update, { :id => external.usergroup_id, :usergroup => { :external_usergroups_attributes => {
-      '0' => {'_destroy' => '1', 'name' => external.name, 'auth_source_id' => external.auth_source_id, 'id' => external.id}
-    }}}, set_session_user
-    assert_response :redirect
+      assert_match(/.*refresh.*external.*verify.*reachable.*/, response.body)
+      assert_template 'edit'
+    end
+
+    test 'are refreshed even when destroyed' do
+      AuthSourceLdap.any_instance.stubs(:valid_group? => true)
+      external = FactoryBot.create(:external_usergroup)
+      ExternalUsergroup.any_instance.expects(:refresh).returns(true)
+
+      put :update, params: { :id => external.usergroup_id, :usergroup => { :external_usergroups_attributes => {
+        '0' => {'_destroy' => '1', 'name' => external.name, 'auth_source_id' => external.auth_source_id, 'id' => external.id}
+      }}}, session: set_session_user
+      assert_response :redirect
+    end
   end
 
   test 'index supports search' do
-    FactoryGirl.create(:usergroup, :name => 'aaa')
-    FactoryGirl.create(:usergroup, :name => 'bbb')
+    FactoryBot.create(:usergroup, :name => 'aaa')
+    FactoryBot.create(:usergroup, :name => 'bbb')
 
-    get :index, {:search => 'aaa'}, set_session_user
+    get :index, params: { :search => 'aaa' }, session: set_session_user
 
     assert_response :success
 

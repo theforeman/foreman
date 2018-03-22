@@ -2,13 +2,13 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::ComputeResource
 
-  AJAX_REQUESTS = [:template_selected, :cluster_selected, :resource_pools]
+  AJAX_REQUESTS = [:template_selected, :instance_type_selected, :cluster_selected, :resource_pools]
   before_action :ajax_request, :only => AJAX_REQUESTS
   before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping, :refresh_cache] + AJAX_REQUESTS
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
-    type = (e.to_s =~ /failed to locate the subclass: '((\w|::)+)'/) ? $1 : 'STI-Type'
+    type = (e.to_s =~ /failed to locate the subclass: '((\w|::)+)'/) ? Regexp.last_match(1) : 'STI-Type'
     render :plain => (e.to_s+"<br><b>run ComputeResource.where(:type=>'#{type}').delete_all to recover.</b>").html_safe, :status=> :internal_server_error
   end
 
@@ -36,25 +36,42 @@ class ComputeResourcesController < ApplicationController
       @compute_resource.valid?
       process_error
     end
+  rescue OVIRT::OvirtException => e
+    Foreman::Logging.exception("Error while creating ovirt resource", e)
+    process_error(
+      error_msg: _('Error while trying to create resource: %s') % e.message
+    )
+  rescue Fog::Errors::Error => e
+    Foreman::Logging.exception("Error while creating a resource", e)
+    process_error(
+      error_msg: _('Error while trying to create resource: %s') % e.message
+    )
   end
 
   def edit
   end
 
   def associate
-    count = 0
-    if @compute_resource.respond_to?(:associated_host)
-      @compute_resource.vms(:eager_loading => true).each do |vm|
-        if Host.for_vm(@compute_resource, vm).empty?
-          host = @compute_resource.associated_host(vm)
-          if host.present?
-            host.associate!(@compute_resource, vm)
-            count += 1
-          end
-        end
+    if @compute_resource.supports_host_association?
+      associator = ComputeResourceHostAssociator.new(@compute_resource)
+      associator.associate_hosts
+      messages = []
+      if associator.hosts.empty?
+        messages << _('No VMs matched any host.')
+      else
+        messages << n_('%s VM was associated to a host.', '%s VMs were each associated to hosts.', associator.hosts.count) % associator.hosts.count
       end
+      if associator.fail_count > 0
+        messages << n_('%s VM failed while processing: check logs for more details.',
+                       '%s VMs failed while processing: check logs for more details.',
+                       associator.fail_count) % associator.fail_count
+        process_error(:error_msg => messages.join(' '))
+      else
+        process_success(:success_msg => messages.join(' '))
+      end
+    else
+      process_error(:error_msg => 'Associating VMs is not supported for this compute resource.')
     end
-    process_success(:success_msg => n_("%s VM associated to a host", "%s VMs associated to hosts", count) % count)
   end
 
   def update
@@ -63,6 +80,16 @@ class ComputeResourcesController < ApplicationController
     else
       process_error
     end
+  rescue OVIRT::OvirtException => e
+    Foreman::Logging.exception("Error while updating ovirt resource", e)
+    process_error(
+      error_msg: _('Error while trying to update resource: %s') % e.message
+    )
+  rescue Fog::Errors::Error => e
+    Foreman::Logging.exception("Error while updating resource", e)
+    process_error(
+      error_msg: _('Error while trying to update resource: %s') % e.message
+    )
   end
 
   def destroy
@@ -118,6 +145,13 @@ class ComputeResourcesController < ApplicationController
     end
   end
 
+  def instance_type_selected
+    compute = @compute_resource.instance_type(params[:instance_type_id])
+    respond_to do |format|
+      format.json { render :json => compute }
+    end
+  end
+
   def cluster_selected
     networks = @compute_resource.networks(:cluster_id => params[:cluster_id])
     respond_to do |format|
@@ -139,7 +173,7 @@ class ComputeResourcesController < ApplicationController
     case params[:action]
       when 'associate'
         'edit'
-      when 'ping', 'template_selected', 'cluster_selected', 'resource_pools', 'refresh_cache'
+      when 'ping', 'template_selected', 'instance_type_selected', 'cluster_selected', 'resource_pools', 'refresh_cache'
         'view'
       else
         super

@@ -1,6 +1,6 @@
 #notifications_container {
   position: static;
-  margin-top: 2px;
+  margin-top: -1px;
 
   .fa-bell,
   .fa-bell-o {
@@ -26,7 +26,6 @@
   }
 
   .drawer-pf {
-    top: 25px;
     max-height: 600px;
     overflow: hidden;
     display: flex;
@@ -35,6 +34,14 @@
     .drawer-pf-title,
     .panel-group {
       position: static;
+    }
+
+    .drawer-pf-close {
+      right: 0;
+    }
+
+    .drawer-pf-toggle-expand {
+      left: 0;
     }
 
     .panel-group {

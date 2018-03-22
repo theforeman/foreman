@@ -1,9 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
+---
 two:
   taxonomy: location1
   taxable: one
@@ -193,3 +188,8 @@ auth_source_ldap_one_loc:
   taxonomy: location1
   taxable: one
   taxable_type: "AuthSource"
+
+puppetmaster_organization2:
+  taxonomy: organization2
+  taxable: puppetmaster
+  taxable_type: "SmartProxy"

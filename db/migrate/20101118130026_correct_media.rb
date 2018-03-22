@@ -1,4 +1,4 @@
-class CorrectMedia < ActiveRecord::Migration
+class CorrectMedia < ActiveRecord::Migration[4.2]
   def up
     if table_exists? :medias
       if table_exists? :medias_operatingsystems

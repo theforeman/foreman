@@ -8,7 +8,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   should allow_values('vcenter.example.com', 'vcenter').for(:server)
 
   test 'error message is added for server attribute' do
-    vmware_cr = FactoryGirl.build(:vmware_cr, :server => nil)
+    vmware_cr = FactoryBot.build_stubbed(:vmware_cr, :server => nil)
     vmware_cr.validate
     assert_includes vmware_cr.errors.full_messages, "Server can't be blank"
   end
@@ -33,7 +33,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     mock_vm.expects(:save).returns(mock_vm)
     mock_vm.expects(:firmware).returns('biod')
 
-    cr = FactoryGirl.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     cr.expects(:parse_networks).with(attrs_in).returns(attrs_parsed)
     cr.expects(:new_vm).with(attrs_parsed).returns(mock_vm)
     cr.expects(:test_connection)
@@ -51,7 +51,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     mock_client = mock('client')
     mock_client.expects(:servers).returns(mock_servers)
 
-    cr = FactoryGirl.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     cr.expects(:parse_args).with(attrs_in).returns(attrs_parsed)
     cr.expects(:vm_instance_defaults).returns(HashWithIndifferentAccess.new(:name => 'test', :cpus => '2', :interfaces => [mock('iface')], :volumes => [mock('vol')]))
     cr.expects(:client).returns(mock_client)
@@ -60,7 +60,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
   describe "#create_vm" do
     setup do
-      @cr = FactoryGirl.build(:vmware_cr)
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
       @cr.stubs(:test_connection)
     end
     test "calls clone_vm when image provisioning with symbol key and provision_method image" do
@@ -128,7 +128,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     )
 
     mock_vm = mock('vm')
-    cr = FactoryGirl.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     cr.expects(:parse_networks).with(attrs_in).returns(attrs_parsed)
     cr.expects(:clone_vm).with(attrs_parsed).returns(mock_vm)
     cr.expects(:test_connection)
@@ -137,7 +137,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
   describe "#parse_args" do
     setup do
-      @cr = FactoryGirl.build(:vmware_cr)
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
     end
 
     test "converts empty hash" do
@@ -160,13 +160,6 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     test "is setting hardware_version, when it's set to a non-Default value" do
       attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "hardware_version"=>"vmx-08", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
       attrs_out = {:cpus=>"1", :hardware_version=>"vmx-08", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"network-17", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}]}
-      assert_equal attrs_out, @cr.parse_args(attrs_in)
-    end
-
-    test "converts scsi_controller_type to hash" do
-      Foreman::Deprecation.expects(:deprecation_warning).once
-      attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "scsi_controller_type"=>"ParaVirtualSCSIController", "interfaces_attributes"=>{}, "volumes_attributes"=>{})
-      attrs_out = {:cpus=>"1", :interfaces=>[], :volumes=>[], :scsi_controller=>{:type=>"ParaVirtualSCSIController"}}
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
@@ -210,7 +203,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @mock_network.stubs('id').returns('network-17')
       @mock_network.stubs('name').returns('Test network')
       @mock_network.stubs('virtualswitch').returns(nil)
-      @cr = FactoryGirl.build(:vmware_cr)
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
       @cr.stubs(:networks).returns([@mock_network])
     end
 
@@ -238,18 +231,18 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   end
 
   test "#associated_host matches primary NIC" do
-    host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:97')
-    cr = FactoryGirl.build(:vmware_cr)
+    host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     iface = mock('iface1', :mac => 'ca:d0:e6:32:16:97')
     vm = mock('vm', :interfaces => [iface])
     assert_equal host, as_admin { cr.associated_host(vm) }
   end
 
   test "#associated_host matches any NIC" do
-    host = FactoryGirl.create(:host, :mac => 'ca:d0:e6:32:16:98')
+    host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:98')
     Nic::Base.create! :mac => "ca:d0:e6:32:16:99", :host => host
     host.reload
-    cr = FactoryGirl.build(:vmware_cr)
+    cr = FactoryBot.build_stubbed(:vmware_cr)
     iface1 = mock('iface1', :mac => 'ca:d0:e6:32:16:98')
     iface2 = mock('iface1', :mac => 'ca:d0:e6:32:16:99')
     vm = mock('vm', :interfaces => [iface1, iface2])
@@ -347,6 +340,82 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       attrs = @cr.vm_compute_attributes_for('abc')
 
       assert_equal expected_attrs, attrs
+    end
+  end
+
+  describe '#display_type' do
+    let(:cr) { FactoryBot.build_stubbed(:vmware_cr) }
+
+    test "default display type is 'vmrc'" do
+      assert_nil cr.attrs[:display]
+      assert_equal 'vmrc', cr.display_type
+    end
+
+    test "display type can be set" do
+      expected = 'vnc'
+      cr.display_type = 'VNC'
+      assert_equal expected, cr.attrs[:display]
+      assert_equal expected, cr.display_type
+      assert cr.valid?
+    end
+
+    test "don't allow wrong display type to be set" do
+      cr.display_type = 'spice'
+      refute cr.valid?
+    end
+  end
+
+  describe '#clone_vm' do
+    setup { Fog.mock! }
+    teardown { Fog.unmock! }
+    let(:cr) { FactoryBot.build_stubbed(:vmware_cr) }
+    let(:default_args) do
+      {
+        name: 'test',
+        cpus: '1',
+        interfaces: [
+          { type: 'VirtualVmxnet3', :network => 'network-17'}
+        ],
+        volumes: [
+          { :size_gb => '1'}
+        ]
+      }
+    end
+
+    test 'raises an error when user_data is not valid yaml' do
+      args = default_args.merge(
+        user_data: "Totally invalid yaml.\t"
+      )
+      assert_raises Foreman::Exception do
+        cr.clone_vm(args)
+      end
+    end
+
+    test 'raises an error when parsed user_data is not a valid hash' do
+      args = default_args.merge(
+        user_data: '--- true'
+      )
+      assert_raises Foreman::Exception do
+        cr.clone_vm(args)
+      end
+    end
+
+    test 'ignores customspec when user_data is nil' do
+      args = default_args.merge(
+        user_data: '---'
+      )
+      cr.send(:client).expects(:cloudinit_to_customspec).never
+      cr.send(:client).stubs(:vm_clone).returns({'new_vm' => {'id' => 123}})
+      cr.clone_vm(args)
+    end
+
+    test 'passes customspec when user_data is a valid yaml hash' do
+      args = default_args.merge(
+        user_data: "---\n{}"
+      )
+      Fog::Compute::Vsphere::Real.any_instance.expects(:cloudinit_to_customspec).never
+      cr.send(:client).stubs(:vm_clone).returns({'new_vm' => {'id' => 123}})
+      cr.clone_vm(args)
     end
   end
 end

@@ -108,7 +108,8 @@ module Foreman::Controller::TaxonomiesController
 
   def clear_current_taxonomy_from_session
     taxonomy_class.current = nil
-    session[taxonomy_id] = nil
+    # session can't store nil, so we use empty string to represent any context
+    session[taxonomy_id] = ''
     TopbarSweeper.expire_cache
   end
 
@@ -123,10 +124,10 @@ module Foreman::Controller::TaxonomiesController
     @taxonomy = Taxonomy.find_by_id(params[:id])
     if @taxonomy
       @mismatches = @taxonomy.import_missing_ids
-      redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :notice => _("All mismatches between hosts and %s have been fixed") % CGI.escapeHTML(@taxonomy.name)
+      redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :success => _("All mismatches between hosts and %s have been fixed") % CGI.escapeHTML(@taxonomy.name)
     else
       Taxonomy.all_import_missing_ids
-      redirect_to send("#{taxonomies_plural}_path"), :notice => _("All mismatches between hosts and locations/organizations have been fixed")
+      redirect_to send("#{taxonomies_plural}_path"), :success => _("All mismatches between hosts and locations/organizations have been fixed")
     end
   end
 
@@ -139,14 +140,14 @@ module Foreman::Controller::TaxonomiesController
   def assign_all_hosts
     hosts_scope_without_taxonomy.update_all(taxonomy_id => @taxonomy.id)
     @taxonomy.import_missing_ids
-    redirect_to send("#{taxonomies_plural}_path"), :notice => _("All hosts previously with no %{single} are now assigned to %{name}") % { :single => taxonomy_single, :name => CGI.escapeHTML(@taxonomy.name) }
+    redirect_to send("#{taxonomies_plural}_path"), :success => _("All hosts previously with no %{single} are now assigned to %{name}") % { :single => taxonomy_single, :name => CGI.escapeHTML(@taxonomy.name) }
   end
 
   def assign_selected_hosts
     host_ids = params[taxonomy_single.to_sym][:host_ids] - ["0"]
     @hosts = hosts_scope_without_taxonomy.where(:id => host_ids).update_all(taxonomy_id => @taxonomy.id)
     @taxonomy.import_missing_ids
-    redirect_to send("#{taxonomies_plural}_path"), :notice => _("Selected hosts are now assigned to %s") % CGI.escapeHTML(@taxonomy.name)
+    redirect_to send("#{taxonomies_plural}_path"), :success => _("Selected hosts are now assigned to %s") % CGI.escapeHTML(@taxonomy.name)
   end
 
   def parent_taxonomy_selected

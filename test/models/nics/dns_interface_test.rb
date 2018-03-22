@@ -7,7 +7,7 @@ class NicDnsInterfaceTest < ActiveSupport::TestCase
 
   context '#dns_record' do
     setup do
-      @nic = FactoryGirl.build(:nic_managed)
+      @nic = FactoryBot.build_stubbed(:nic_managed)
     end
 
     test 'should raise error on invalid type' do

@@ -8,6 +8,7 @@ module Api
 
       api :GET, "/usergroups/", N_("List all user groups")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Usergroup)
 
       def index
         @usergroups = resource_scope_for_index
@@ -38,6 +39,13 @@ module Api
       end
 
       api :PUT, "/usergroups/:id/", N_("Update a user group")
+      description <<-DOC
+        User groups linked to external groups (LDAP) are automatically synced
+        with these groups on update. Remember this synchronization will remove
+        any LDAP users manually added to the Foreman user group. Only LDAP
+        users in the external groups will remain. Internal users can be added
+        or removed freely.
+      DOC
       param :id, String, :required => true
       param_group :usergroup
 

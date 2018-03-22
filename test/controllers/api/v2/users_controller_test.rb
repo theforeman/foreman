@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::UsersControllerTest < ActionController::TestCase
   def valid_attrs
-    { :login => "johnsmith", :mail => 'john@example.com',
+    { :mail => 'john@example.com',
       :auth_source_id => auth_sources(:internal), :password => '123456' }
   end
 
@@ -11,24 +11,24 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
   end
 
   test "should handle taxonomy with wrong id" do
-    get :index, { :location_id => taxonomies(:location1).id, :organization_id => 'missing' }
+    get :index, params: { :location_id => taxonomies(:location1).id, :organization_id => 'missing' }
     assert_response :not_found
   end
 
   test "should show individual record by ID" do
-    get :show, { :id => users(:one).id }
+    get :show, params: { :id => users(:one).id }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not show_response.empty?
   end
 
   test "should show individual record by login name" do
-    get :show, { :id => users(:one).login }
+    get :show, params: { :id => users(:one).login }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not show_response.empty?
@@ -37,7 +37,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   test "shows default taxonomies on show response" do
     users(:one).update_attribute :locations, [taxonomies(:location1)]
     users(:one).update_attribute :default_location, taxonomies(:location1)
-    get :show, { :id => users(:one).id }
+    get :show, params: { :id => users(:one).id }
     show_response = ActiveSupport::JSON.decode(@response.body)
 
     assert_equal taxonomies(:location1).id, show_response['default_location']['id']
@@ -46,28 +46,28 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
 
   test "effective_admin is true if group admin is enabled" do
     user = users(:one)
-    get :show, { :id => user.id }
+    get :show, params: { :id => user.id }
     response = ActiveSupport::JSON.decode(@response.body)
     refute response["effective_admin"]
 
-    as_admin { FactoryGirl.create(:usergroup, :admin => true, :users => [user]) }
-    get :show, { :id => user.id }
+    as_admin { FactoryBot.create(:usergroup, :admin => true, :users => [user]) }
+    get :show, params: { :id => user.id }
     response = ActiveSupport::JSON.decode(@response.body)
     assert response["effective_admin"]
   end
 
   test "should update user" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
-    put :update, { :id => user.id, :user => valid_attrs }
+    put :update, params: { :id => user.id, :user => valid_attrs }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
-    assert mod_user.login == "johnsmith"
+    assert mod_user.mail == "john@example.com"
   end
 
   test "should update admin flag" do
     user = users(:one)
-    put :update, { :id => user.id, :user => { :admin => true } }
+    put :update, params: { :id => user.id, :user => { :admin => true } }
 
     assert_response :success
     assert User.unscoped.find_by_id(user.id).admin?
@@ -78,7 +78,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
 
     assert user.roles =([roles(:default_role)])
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+    put :update, params: { :id => user.id, :user => { :mail => "bar@foo.com" } }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -91,7 +91,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
+    put :update, params: { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -103,7 +103,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     user.password = "changeme"
     assert user.save
 
-    put :update, { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
+    put :update, params: { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
     assert_response :unprocessable_entity
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -113,7 +113,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   test "should delete different user" do
     user = users(:one)
 
-    delete :destroy, { :id => user.id }
+    delete :destroy, params: { :id => user.id }
     assert_response :success
 
     refute User.unscoped.exists?(user.id)
@@ -124,7 +124,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     user.update_attribute :admin, true
 
     as_user :one do
-      delete :destroy, { :id => user.id }
+      delete :destroy, params: { :id => user.id }
       assert_response :forbidden
 
       response = ActiveSupport::JSON.decode(@response.body)
@@ -146,7 +146,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
       user.save
     end
     as_user :one do
-      put :update, { :id => user.id, :user => { :login => "johnsmith" } }
+      put :update, params: { :id => user.id, :user => { :login => "johnsmith" } }
       assert_response :forbidden
     end
   end
@@ -164,7 +164,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     user.update_attribute :admin, true
 
     as_user :one do
-      post :create, { :user => {
+      post :create, params: { :user => {
         :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
       }
       assert_response :created
@@ -173,26 +173,26 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   end
 
   test "#index should not show hidden users" do
-    get :index, { :search => "login == #{users(:anonymous).login}" }
+    get :index, params: { :search => "login == #{users(:anonymous).login}" }
     results = ActiveSupport::JSON.decode(@response.body)
     assert results['results'].empty?, results.inspect
   end
 
   test "#find_resource should not return hidden users" do
-    get :show, { :id => users(:anonymous).id }
+    get :show, params: { :id => users(:anonymous).id }
     assert_response :not_found
   end
 
   test "#show should not allow displaying other users without proper permission" do
     as_user :two do
-      get :show, { :id => users(:one).id }
+      get :show, params: { :id => users(:one).id }
     end
     assert_response :forbidden
   end
 
   test "#show should allow displaying myself without any special permissions" do
     as_user :two do
-      get :show, { :id => users(:two).id }
+      get :show, params: { :id => users(:two).id }
     end
     assert_response :success
   end
@@ -200,7 +200,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   test "#update should not update other users without proper permission" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user :two do
-      put :update, { :id => user.id, :user => valid_attrs }
+      put :update, params: { :id => user.id, :user => valid_attrs }
     end
     assert_response :forbidden
   end
@@ -208,7 +208,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   test "#update should allow updating myself without any special permissions with changing password" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :password => '123'
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs.merge(:current_password => '123') }
+      put :update, params: { :id => user.id, :user => valid_attrs.merge(:current_password => '123') }
     end
     assert_response :success
     user.reload
@@ -218,7 +218,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   test "#update should allow updating myself without any special permissions without changing password" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs.except(:password) }
+      put :update, params: { :id => user.id, :user => valid_attrs.except(:password) }
     end
     assert_response :success
   end
@@ -227,7 +227,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :password => '123'
 
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs.merge(:current_password => '123') }
+      put :update, params: { :id => user.id, :user => valid_attrs.merge(:current_password => '123') }
     end
     assert_equal user, assigns(:user)
     refute_equal user.object_id, assigns(:user).object_id
@@ -239,7 +239,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   test '#update should not be editing User.current without changing password' do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     as_user user do
-      put :update, { :id => user.id, :user => valid_attrs.except(:password) }
+      put :update, params: { :id => user.id, :user => valid_attrs.except(:password) }
     end
     assert_equal user, assigns(:user)
     refute_equal user.object_id, assigns(:user).object_id

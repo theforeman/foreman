@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   name: CentOS 5.4
   path: http://mirror.centos.org/centos/6.0/os/$arch

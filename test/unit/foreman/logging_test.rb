@@ -33,9 +33,46 @@ class ForemanLoggingTest < ActiveSupport::TestCase
     logger = Foreman::Logging.logger('test_logger')
     appender = ::Logging::Appenders.string_io('buffer')
     logger.appenders = [appender]
-    logger.silence { |log| log.warn("Should not be logged") }
-    assert_equal [], appender.readlines
+    logger.silence do |log|
+      log.debug("Must not be logged")
+      assert_equal 3, log.local_level
+      assert_equal 0, log.level
+      assert_equal [], appender.readlines
+    end
     assert_equal 0, logger.level
+  end
+
+  def test_logger_supports_silence_logger
+    Foreman::Logging.add_logger('test_logger', {:enabled => true, :level => :debug})
+    logger = Foreman::Logging.logger('test_logger')
+    appender = ::Logging::Appenders.string_io('buffer')
+    logger.appenders = [appender]
+    logger.silence_logger do |log|
+      log.warn("Must not be logged as well")
+      assert_equal [], appender.readlines
+    end
+  end
+
+  def test_logger_supports_silence_positive_error
+    Foreman::Logging.add_logger('test_logger', {:enabled => true, :level => :debug})
+    logger = Foreman::Logging.logger('test_logger')
+    appender = ::Logging::Appenders.string_io('buffer')
+    logger.appenders = [appender]
+    logger.silence(::Logger::ERROR) do |log|
+      log.error("Must be logged")
+      assert_match(/Must be logged/, appender.readlines.first)
+    end
+  end
+
+  def test_logger_supports_silence_positive_info
+    Foreman::Logging.add_logger('test_logger', {:enabled => true, :level => :debug})
+    logger = Foreman::Logging.logger('test_logger')
+    appender = ::Logging::Appenders.string_io('buffer')
+    logger.appenders = [appender]
+    logger.silence(::Logger::INFO) do |log|
+      log.error("Must be logged")
+      assert_match(/Must be logged/, appender.readlines.first)
+    end
   end
 
   def test_error_config_missing

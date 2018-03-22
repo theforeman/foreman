@@ -2,6 +2,7 @@
 
 [![Build Status](http://ci.theforeman.org/buildStatus/icon?job=test_develop)](http://ci.theforeman.org/job/test_develop/)
 [![Code Climate](https://codeclimate.com/github/theforeman/foreman/badges/gpa.svg)](https://codeclimate.com/github/theforeman/foreman)
+[![Coverage Status](https://coveralls.io/repos/github/theforeman/foreman/badge.svg?branch=develop)](https://coveralls.io/github/theforeman/foreman?branch=develop)
 [![Issue Stats](http://issuestats.com/github/theforeman/foreman/badge/pr)](http://issuestats.com/github/theforeman/foreman)
 [![Support IRC channel](https://kiwiirc.com/buttons/irc.freenode.net/theforeman.png)](https://kiwiirc.com/client/irc.freenode.net/?#theforeman)
 

@@ -38,7 +38,7 @@ namespace :hosts do
 
     def out_of_sync_interval
       return ENV['OUTOFSYNC_INTERVAL'] if ENV['OUTOFSYNC_INTERVAL'].present?
-      2 * (Setting[:puppet_interval] + Setting[:outofsync_interval])
+      2 * (Setting[:outofsync_interval])
     end
 
     pingable = []
@@ -59,13 +59,13 @@ namespace :hosts do
         all_host_ips = host.interfaces.pluck(:ip)
         puts "Conflict IP address for #{host.name}" unless all_host_ips.include? ip
         begin
-        if Net::Ping::External.new(host.ip).ping
-          print "."
-          pingable << host
-        else
-          print "x"
-          offline << host
-        end
+          if Net::Ping::External.new(host.ip).ping
+            print "."
+            pingable << host
+          else
+            print "x"
+            offline << host
+          end
         rescue => e
           Rails.logger.warn "Could not ping host #{host.name} due to an exception: #{e} - skipping"
         end

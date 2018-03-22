@@ -1,0 +1,10 @@
+<% if meta[:search] %>
+  <%= heading(_('Search fields'), h_level) %>
+  <%= render(:partial => "scoped_search", :locals => { :search => meta[:search] } ) %>
+<% end %>
+
+<% other_meta = meta.except(:search) %>
+<% unless other_meta.blank? %>
+  <%= heading(t('apipie.metadata'), h_level) %>
+  <pre class="prettyprint lang-yaml"><%= other_meta.to_yaml.gsub(/---\n/, "") %></pre>
+<% end %>

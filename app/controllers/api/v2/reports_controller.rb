@@ -37,7 +37,7 @@ module Api
       param_group :report, :as => :create
 
       def create
-        @report = resource_class.import(params[:report], detected_proxy.try(:id))
+        @report = resource_class.import(params.to_unsafe_h[:report], detected_proxy.try(:id))
         process_response @report.errors.empty?
       rescue ::Foreman::Exception => e
         render_message(e.to_s, :status => :unprocessable_entity)

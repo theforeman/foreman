@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :domain_parameter, :parent => :parameter, :class => DomainParameter do
     type 'DomainParameter'
   end
@@ -11,7 +11,7 @@ FactoryGirl.define do
 
     trait :with_parameter do
       after(:create) do |domain,evaluator|
-        FactoryGirl.create(:domain_parameter, :domain => domain)
+        FactoryBot.create(:domain_parameter, :domain => domain)
       end
     end
   end

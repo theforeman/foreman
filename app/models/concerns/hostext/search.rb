@@ -8,6 +8,7 @@ module Hostext
 
       has_many :search_parameters, :class_name => 'Parameter', :foreign_key => :reference_id
       belongs_to :search_users, :class_name => 'User', :foreign_key => :owner_id
+      belongs_to :usergroups, :class_name => 'Usergroup', :foreign_key => :owner_id
 
       scoped_search :on => :name,          :complete_value => true, :default_order => true
       scoped_search :on => :last_report,   :complete_value => true, :only_explicit => true
@@ -17,7 +18,9 @@ module Hostext
       scoped_search :on => :owner_type,    :complete_value => true, :only_explicit => true
       scoped_search :on => :owner_id,      :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
-      scoped_search :relation => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM*4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}
+      scoped_search :relation => :last_report_object, :on => :origin
+
+      scoped_search :relation => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM*4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}, :only_explicit => true
       scoped_search_status "applied",         :relation => :configuration_status_object, :on => :status, :rename => :'status.applied'
       scoped_search_status "restarted",       :relation => :configuration_status_object, :on => :status, :rename => :'status.restarted'
       scoped_search_status "failed",          :relation => :configuration_status_object, :on => :status, :rename => :'status.failed'
@@ -25,13 +28,13 @@ module Hostext
       scoped_search_status "skipped",         :relation => :configuration_status_object, :on => :status, :rename => :'status.skipped'
       scoped_search_status "pending",         :relation => :configuration_status_object, :on => :status, :rename => :'status.pending'
 
-      scoped_search :on => :global_status, :complete_value => { :ok => HostStatus::Global::OK, :warning => HostStatus::Global::WARN, :error => HostStatus::Global::ERROR }
+      scoped_search :on => :global_status, :complete_value => { :ok => HostStatus::Global::OK, :warning => HostStatus::Global::WARN, :error => HostStatus::Global::ERROR }, :only_explicit => true
 
       scoped_search :relation => :model,       :on => :name,    :complete_value => true,  :rename => :model
       scoped_search :relation => :hostgroup,   :on => :name,    :complete_value => true,  :rename => :hostgroup
       scoped_search :relation => :hostgroup,   :on => :name,    :complete_enabled => false, :rename => :hostgroup_name, :only_explicit => true
       scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
-      scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title
+      scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title, :only_explicit => true
       scoped_search :relation => :hostgroup,   :on => :id,      :complete_enabled => false, :rename => :hostgroup_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
       scoped_search :relation => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
@@ -51,20 +54,20 @@ module Hostext
       scoped_search :relation => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
       scoped_search :relation => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
       scoped_search :relation => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
-      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
-      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
-      scoped_search :relation => :operatingsystem, :on => :id,          :complete_enabled => false,:rename => :os_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major, :only_explicit => true
+      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor, :only_explicit => true
+      scoped_search :relation => :operatingsystem, :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
       scoped_search :relation => :primary_interface, :on => :ip, :complete_value => true
-      scoped_search :relation => :interfaces, :on => :ip, :complete_value => true, :rename => :has_ip
-      scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac
+      scoped_search :relation => :interfaces, :on => :ip, :complete_value => true, :rename => :has_ip, :only_explicit => true
+      scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
       scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :relation => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
       scoped_search :relation => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
       if SETTINGS[:locations_enabled]
-        scoped_search :relation => :location, :on => :title, :rename => :location, :complete_value => true
+        scoped_search :relation => :location, :on => :title, :rename => :location, :complete_value => true, :only_explicit => true
         scoped_search :on => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       end
       if SETTINGS[:organizations_enabled]
@@ -83,12 +86,6 @@ module Hostext
         scoped_search :on => :installed_at,                               :complete_value => true, :only_explicit => true
 
         scoped_search :relation => :provision_interface, :on => :mac, :complete_value => true
-        scoped_search :relation => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
-        scoped_search :relation => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
-        scoped_search :relation => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
-        scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major
-        scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor
-        scoped_search :relation => :operatingsystem, :on => :id,          :complete_value => false,:rename => :os_id, :complete_enabled => false, :validator => ScopedSearch::Validators::INTEGER
       end
 
       if SETTINGS[:login]
@@ -96,6 +93,7 @@ module Hostext
         scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname',:operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
+        scoped_search :relation => :usergroups,   :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name', :aliases => [:usergroup]
       end
 
       cattr_accessor :fact_values_table_counter
@@ -140,8 +138,8 @@ module Hostext
         conditions = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
         # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
         hostgroup     = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).first
-        hostgroup_ids = hostgroup.subtree_ids
-        if hostgroup_ids.any?
+        if hostgroup.present?
+          hostgroup_ids = hostgroup.subtree_ids
           opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
         else
           opts = "hosts.id < 0"

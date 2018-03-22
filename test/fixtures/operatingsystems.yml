@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 centos5_3:
   name: centos
   major: 5

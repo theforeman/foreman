@@ -59,8 +59,8 @@ require_dependency File.expand_path('../../lib/core_extensions', __FILE__)
 require_dependency File.expand_path('../../lib/foreman/logging', __FILE__)
 require_dependency File.expand_path('../../lib/foreman/http_proxy', __FILE__)
 require_dependency File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
-require_dependency File.expand_path('../../lib/middleware/tagged_logging', __FILE__)
-require_dependency File.expand_path('../../lib/middleware/session_safe_logging', __FILE__)
+require_dependency File.expand_path('../../lib/middleware/logging_context', __FILE__)
+require_dependency File.expand_path('../../lib/middleware/telemetry', __FILE__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
@@ -158,8 +158,14 @@ module Foreman
       nil
     end
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    if SETTINGS[:telemetry].try(:fetch, :prometheus).try(:fetch, :enabled)
+      begin
+        require 'prometheus/middleware/exporter'
+        config.middleware.use Prometheus::Middleware::Exporter
+      rescue LoadError
+        # bundler group 'telemetry' was disabled
+      end
+    end
 
     # Enable the asset pipeline
     config.assets.enabled = true
@@ -171,18 +177,16 @@ module Foreman
     config.assets.quiet = true
 
     # Catching Invalid JSON Parse Errors with Rack Middleware
-    if Rails::VERSION::MAJOR == 4
-      config.middleware.insert_before ActionDispatch::ParamsParser, Middleware::CatchJsonParseErrors
-    else
-      config.middleware.use Middleware::CatchJsonParseErrors
-    end
+    config.middleware.use Middleware::CatchJsonParseErrors
 
-    # Record request ID in logging MDC storage
-    config.middleware.insert_before Rails::Rack::Logger, Middleware::TaggedLogging
-    config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Middleware::SessionSafeLogging
+    # Record request and session tokens in logging MDC
+    config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Middleware::LoggingContext
 
     # Add apidoc hash in headers for smarter caching
     config.middleware.use Apipie::Middleware::ChecksumInHeaders
+
+    # Add telemetry
+    config.middleware.use Middleware::Telemetry
 
     # New config option to opt out of params "deep munging" that was used to address security vulnerability CVE-2013-0155.
     config.action_dispatch.perform_deep_munge = false
@@ -207,7 +211,9 @@ module Foreman
       :templates => {:enabled => true},
       :notifications => {:enabled => true},
       :background => {:enabled => true},
-      :dynflow => {:enabled => true}
+      :dynflow => {:enabled => true},
+      :telemetry => {:enabled => false},
+      :blob => {:enabled => true}
     ))
 
     config.logger = Foreman::Logging.logger('app')
@@ -215,7 +221,7 @@ module Foreman
     config.log_level = Foreman::Logging.logger_level('app').to_sym
     config.active_record.logger = Foreman::Logging.logger('sql')
 
-    if config.serve_static_files
+    if config.public_file_server.enabled
       ::Rails::Engine.subclasses.map(&:instance).each do |engine|
         if File.exist?("#{engine.root}/public/assets")
           config.middleware.use ::ActionDispatch::Static, "#{engine.root}/public"
@@ -247,10 +253,31 @@ module Foreman
         if defined?(ForemanTasks)
           ForemanTasks.dynflow
         else
-          ::Dynflow::Rails.new(nil, Foreman::Dynflow::Configuration.new)
+          ::Dynflow::Rails.new(nil, ::Foreman::Dynflow::Configuration.new)
         end
       @dynflow.require!
       @dynflow
+    end
+
+    # We need to mount the sprockets engine before we use the routes_reloader
+    initializer(:mount_sprocket_env, :before => :sooner_routes_load) do
+      if config.assets.compile
+        app = Rails.application
+        if Sprockets::Railtie.instance.respond_to?(:build_environment)
+          app.assets = Sprockets::Railtie.instance.build_environment(app, true)
+        end
+        routes.prepend do
+          mount app.assets => app.config.assets.prefix
+        end
+      end
+    end
+
+    # We use the routes_reloader before the to_prepare and eager_load callbacks
+    # to make the routes load sooner than the controllers. Otherwise, the definition
+    # of named routes helpers in the module significantly slows down the startup
+    # of the application. Switching the order helps a lot.
+    initializer(:sooner_routes_load, :before => :run_prepare_callbacks) do
+      routes_reloader.execute_if_updated
     end
 
     config.after_initialize do

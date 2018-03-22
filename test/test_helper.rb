@@ -5,10 +5,12 @@ require 'minitest/mock'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha/mini_test'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'controllers/shared/basic_rest_response_test'
 require 'facet_test_helper'
 require 'active_support_test_case_helper'
+require 'fact_importer_test_helper'
+require 'rfauxfactory'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -30,6 +32,27 @@ if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
   ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
 end
 
+# List of valid record name field.
+def valid_name_list
+  [
+    RFauxFactory.gen_alpha(1),
+    RFauxFactory.gen_alpha(255),
+    *RFauxFactory.gen_strings(1..255, exclude: [:html]).values,
+    RFauxFactory.gen_html(rand((1..230)))
+  ]
+end
+
+# List of invalid record name field .
+def invalid_name_list
+  [
+    '',
+    ' ',
+    '  ',
+    "\t",
+    *RFauxFactory.gen_strings(256).values
+  ]
+end
+
 module TestCaseRailsLoggerExtensions
   def before_setup
     super
@@ -44,7 +67,7 @@ module TestCaseRailsLoggerExtensions
   def after_teardown
     Rails.logger = @_ext_old_logger if @_ext_old_logger
     ActiveRecord::Base.logger = @_ext_old_ar_logger if @_ext_old_ar_logger
-    if !self.passed?
+    if error?
       @_ext_current_buffer.close_write
       STDOUT << "\n\nRails logs for #{self.name} FAILURE:\n"
       STDOUT << @_ext_current_buffer.string
@@ -108,4 +131,15 @@ class ActionController::TestCase
   def disable_webpack
     Webpack::Rails::Manifest.stubs(:asset_paths).returns([])
   end
+end
+
+def clear_plugins
+  @klass = Foreman::Plugin
+  @plugins_backup = @klass.registered_plugins
+  @klass.clear
+end
+
+def restore_plugins
+  @klass.clear
+  @klass.instance_variable_set('@registered_plugins', @plugins_backup)
 end

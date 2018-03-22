@@ -51,15 +51,17 @@ module HostsHelper
   def host_taxonomy_select(f, taxonomy)
     taxonomy_id = "#{taxonomy.to_s.downcase}_id"
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
+    label = _(taxonomy.to_s)
     select_opts = { :include_blank => !@host.managed? || @host.send(taxonomy_id).nil?,
                     :selected => selected_taxonomy }
     html_opts = { :disabled => !@host.new_record?,
                   :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
-                  :label => _(taxonomy.to_s),
+                  :label => label,
                   :'data-host-id' => @host.id,
                   :'data-url' => process_taxonomy_hosts_path,
                   :help_inline => :indicator,
                   :required => true }
+    html_opts[:label_help] = _("#{taxonomy} can be changed using bulk action on the All Hosts page") unless @host.new_record?
 
     select_f f, taxonomy_id.to_sym, taxonomy.send("my_#{taxonomy.to_s.downcase.pluralize}"), :id, :to_label,
             select_opts, html_opts
@@ -177,7 +179,7 @@ module HostsHelper
     select_action_button(_("Select Action"), {:id => 'submit_multiple'},
       multiple_actions.map do |action|
         # If the action array has 3 entries, the third one is whether to use a modal dialog or not
-        modal = action.size == 3 ? action[3] : true
+        modal = (action.size == 3) ? action[3] : true
         if modal
           link_to_function(action[0], "build_modal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
         else
@@ -251,8 +253,10 @@ module HostsHelper
   def overview_fields(host)
     global_status = host.build_global_status
     fields = [
-      [_("Status"), content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
-                    content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
+      [
+        _("Status"),
+        content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
+          content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
       ]
     ]
     fields += host_detailed_status_list(host)
@@ -330,7 +334,7 @@ module HostsHelper
       ),
       if host.supports_power?
         button_group(
-            link_to(_("Loading power state ..."), '#', :disabled => true, :class => 'btn btn-default', :id => :loading_power_state)
+          link_to(_("Loading power state ..."), '#', :disabled => true, :class => 'btn btn-default', :id => :loading_power_state)
         )
       end,
       button_group(
@@ -384,7 +388,8 @@ module HostsHelper
   end
 
   def show_appropriate_host_buttons(host)
-    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
+    [
+      link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
       (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default') if host.fact_values.any?),
       (link_to_if_authorized(_("Reports"), hash_for_host_config_reports_path(:host_id => host), :title => _("Browse host config management reports"), :class => 'btn btn-default') if host.reports.any?),
       (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
@@ -403,12 +408,13 @@ module HostsHelper
           :name => 'allocation_radio_btn',
           :class => (label == active) ? 'btn btn-default active' : 'btn btn-default',
           :onclick => "tfm.computeResource.libvirt.allocationSwitcher(this, '#{label}');",
-          :data => { :toggle => 'button' }
+          :data => { :toggle => 'button' },
+          :id => (label == 'Full') ? 'btnAllocationFull' : nil
       end.join(' ').html_safe
     end)
   end
 
-# helper method to provide data attribute if subnets has ipam enabled / disabled
+  # helper method to provide data attribute if subnets has ipam enabled / disabled
   def subnets_ipam_data(field)
     data = {}
     domain_subnets(field).each do |subnet|

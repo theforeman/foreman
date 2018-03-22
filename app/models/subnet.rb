@@ -57,6 +57,12 @@ class Subnet < ApplicationRecord
     :api_description => N_('DNS Proxy ID to use within this subnet'),
     :description => N_('DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy')
 
+  belongs_to_proxy :template,
+    :feature => N_('Templates'),
+    :label => N_('Template Proxy'),
+    :api_description => N_('Template HTTP(S) Proxy ID to use within this subnet'),
+    :description => N_('Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks')
+
   has_many :hostgroups
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :subnet
   has_many :domains, :through => :subnet_domains
@@ -69,6 +75,7 @@ class Subnet < ApplicationRecord
   validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.supported_ipam_modes.map {|m| IPAM::MODES[m]} }, :message => N_('not supported by this protocol')}
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name, :length => {:maximum => 255}, :uniqueness => true
+  validates :vlanid, numericality: { :only_integer => true, :greater_than_or_equal_to => 0, :less_than => 4096}, :allow_blank => true
 
   before_validation :normalize_addresses
   validate :ensure_ip_addrs_valid
@@ -78,7 +85,7 @@ class Subnet < ApplicationRecord
 
   default_scope lambda {
     with_taxonomy_scope do
-      order('vlanid')
+      order(:vlanid)
     end
   }
 
@@ -114,17 +121,6 @@ class Subnet < ApplicationRecord
 
   def network_type=(value)
     self[:type] = SUBNET_TYPES.key(value)
-  end
-
-  # Subnets are sorted on their priority value
-  # [+other+] : Subnet object with which to compare ourself
-  # +returns+ : Subnet object with higher precedence
-  def <=>(other)
-    if self.vlanid.present? && other.vlanid.present?
-      self.vlanid <=> other.vlanid
-    else
-      return -1
-    end
   end
 
   # Indicates whether the IP is within this subnet
@@ -175,6 +171,14 @@ class Subnet < ApplicationRecord
 
   def dns_proxy(attrs = {})
     @dns_proxy ||= ProxyAPI::DNS.new({:url => dns.url}.merge(attrs)) if dns?
+  end
+
+  def template?
+    !!(template && template.url)
+  end
+
+  def template_proxy(attrs = {})
+    @template_proxy ||= ProxyAPI::Template.new({:url => template.url}.merge(attrs)) if template?
   end
 
   def ipam?

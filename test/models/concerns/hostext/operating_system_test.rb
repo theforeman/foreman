@@ -28,20 +28,20 @@ module Hostext
       end
 
       test "available_template_kinds finds templates for a PXE host" do
-        os_dt = FactoryGirl.create(:os_default_template,
+        os_dt = FactoryBot.create(:os_default_template,
                                    :template_kind=> TemplateKind.friendly.find('finish'))
-        host  = FactoryGirl.create(:host, :operatingsystem => os_dt.operatingsystem)
+        host  = FactoryBot.create(:host, :operatingsystem => os_dt.operatingsystem)
 
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('build')
       end
 
       test "available_template_kinds finds templates for an image host" do
         Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
-        os_dt = FactoryGirl.create(:os_default_template,
+        os_dt = FactoryBot.create(:os_default_template,
                                    :template_kind=> TemplateKind.friendly.find('finish'))
-        host  = FactoryGirl.create(:host, :on_compute_resource,
+        host  = FactoryBot.create(:host, :on_compute_resource,
                                    :operatingsystem => os_dt.operatingsystem)
-        FactoryGirl.create(:image, :uuid => 'abcde',
+        FactoryBot.create(:image, :uuid => 'abcde',
                            :compute_resource => host.compute_resource)
         host.compute_attributes = {:image_id => 'abcde'}
 
@@ -57,9 +57,9 @@ module Hostext
     end
 
     test '#jumpstart? should return true for Solaris and SPARC hosts' do
-      host = FactoryGirl.create(:host,
-                                :operatingsystem => FactoryGirl.create(:solaris),
-                                :architecture => FactoryGirl.create(:architecture, :name => 'SPARC-T2'))
+      host = FactoryBot.create(:host,
+                                :operatingsystem => FactoryBot.create(:solaris),
+                                :architecture => FactoryBot.create(:architecture, :name => 'SPARC-T2'))
       assert host.jumpstart?
     end
   end

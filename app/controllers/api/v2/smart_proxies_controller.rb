@@ -2,7 +2,6 @@ module Api
   module V2
     class SmartProxiesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
       include Foreman::Controller::Parameters::SmartProxy
 
@@ -11,6 +10,7 @@ module Api
       api :GET, "/smart_proxies/", N_("List all smart proxies")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(SmartProxy)
 
       def index
         @smart_proxies = resource_scope_for_index.includes(:features)

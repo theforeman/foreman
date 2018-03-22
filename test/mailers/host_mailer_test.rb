@@ -4,7 +4,7 @@ class HostMailerTest < ActionMailer::TestCase
   def setup
     disable_orchestration
     @env = environments(:production)
-    @host = FactoryGirl.create(:host, :environment => @env)
+    @host = FactoryBot.create(:host, :environment => @env)
     as_admin do
       @host.last_report = Time.at(0).utc
       @host.save(:validate => false)
@@ -48,8 +48,8 @@ class HostMailerTest < ActionMailer::TestCase
   end
 
   test 'error_state sends mail with correct headers' do
-    report = FactoryGirl.create(:report)
-    user = FactoryGirl.create(:user, :with_mail)
+    report = FactoryBot.create(:report)
+    user = FactoryBot.create(:user, :with_mail)
     mail = HostMailer.error_state(report, :user => user).deliver_now
     assert_includes mail.from, Setting["email_reply_address"]
     assert_includes mail.to, user.mail

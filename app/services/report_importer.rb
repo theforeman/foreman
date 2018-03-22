@@ -1,6 +1,6 @@
 class ReportImporter
   delegate :logger, :to => :Rails
-  attr_reader :report
+  attr_reader :report, :report_scanners
 
   # When writing your own Report importer, provide feature(s) of authorized Smart Proxies
   def self.authorized_smart_proxy_features
@@ -42,6 +42,14 @@ class ReportImporter
       refreshed_time = Time.now
       logger.info("Imported report for #{name} in #{(imported_time - start_time).round(2)} seconds, status refreshed in #{(refreshed_time - imported_time).round(2)} seconds")
     end
+  end
+
+  def scan
+    logger.info "Scanning report with: #{report_scanners.join(', ')}"
+    report_scanners.each do |scanner|
+      break if scanner.scan(report, logs)
+    end
+    logger.debug "Changes after scanning: #{report.changes.inspect}"
   end
 
   private
@@ -130,10 +138,17 @@ class ReportImporter
     host.save(:validate => false)
 
     status = report_status
-
     # and save our report
     @report = report_name_class.new(:host => host, :reported_at => time, :status => status, :metrics => raw['metrics'])
+
+    # Run report scanner
+    scan
+
     @report.save
     @report
+  end
+
+  def report_scanners
+    Foreman::Plugin.report_scanner_registry.report_scanners
   end
 end

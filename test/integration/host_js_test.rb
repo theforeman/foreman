@@ -6,7 +6,12 @@ class HostJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   HostJSTest::edit page.test_0003_correctly override global params
   #   HostJSTest::create new host page.test_0003_saves correct values for inherited fields without hostgroup
-  extend Minitest::OptionalRetry
+  #   HostJSTest::NIC modal window::adding interfaces.test_0006_selecting type updates interface fields
+  #   HostJSTest::NIC modal window::adding interfaces.test_0002_ok button adds new interface
+  #   HostJSTest::NIC modal window::adding interfaces.test_0003_setting primary updates host name
+  #   HostJSTest::NIC modal window::adding interfaces.test_0005_selecting domain updates puppetclass parameters
+  #   HostJSTest::NIC modal window::adding interfaces.test_0004_selecting domain updates subnet list
+  #   HostJSTest::NIC modal window::adding interfaces.test_0001_click on add opens modal
 
   include HostFinders
   include HostOrchestrationStubs
@@ -14,7 +19,7 @@ class HostJSTest < IntegrationTestWithJavascript
   before do
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
-    as_admin { @host = FactoryGirl.create(:host, :with_puppet, :managed) }
+    as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
   end
 
   after do
@@ -22,10 +27,42 @@ class HostJSTest < IntegrationTestWithJavascript
     SETTINGS[:organizations_enabled] = true
   end
 
+  describe 'multiple hosts selection' do
+    setup do
+      @entries = Setting[:entries_per_page]
+      FactoryBot.create_list(:host, 2)
+    end
+
+    teardown do
+      Setting[:entries_per_page] = @entries
+    end
+
+    test 'hosts counter should refer to per_page value first (max prespective)' do
+      Setting[:entries_per_page] = 2
+      visit hosts_path(per_page: 3)
+      check 'check_all'
+      assert page.has_text?(:all, "All 3 hosts on this page are selected")
+    end
+
+    test 'hosts counter should refer to per_page value first (min prespective)' do
+      Setting[:entries_per_page] = 3
+      visit hosts_path(per_page: 2)
+      check 'check_all'
+      assert page.has_text?(:all, "All 2 hosts on this page are selected")
+    end
+
+    test 'hosts counter should refer to setting- entries_per_page when there is no per_page value' do
+      Setting[:entries_per_page] = 3
+      visit hosts_path()
+      check 'check_all'
+      assert page.has_text?(:all, "All 3 hosts on this page are selected")
+    end
+  end
+
   describe 'edit page' do
     test 'class parameters and overrides are displayed correctly for strings' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                       :key_type => 'string', :default_value => true, :path => "fqdn",
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
       visit edit_host_path(host)
@@ -55,8 +92,8 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'can override puppetclass lookup values' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                       :key_type => 'string', :default_value => "true", :path => "fqdn",
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => "false"})
 
@@ -82,7 +119,7 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'correctly override global params' do
-      host = FactoryGirl.create(:host)
+      host = FactoryBot.create(:host)
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -124,10 +161,10 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'choosing a hostgroup overrides other host attributes' do
-      original_hostgroup = FactoryGirl.
-        create(:hostgroup, :environment => FactoryGirl.create(:environment))
-      overridden_hostgroup = FactoryGirl.
-        create(:hostgroup, :environment => FactoryGirl.create(:environment))
+      original_hostgroup = FactoryBot.
+        create(:hostgroup, :environment => FactoryBot.create(:environment))
+      overridden_hostgroup = FactoryBot.
+        create(:hostgroup, :environment => FactoryBot.create(:environment))
 
       visit new_host_path
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
@@ -142,8 +179,8 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'saves correct values for inherited fields without hostgroup' do
-      env = FactoryGirl.create(:environment)
-      os = FactoryGirl.create(:ubuntu14_10, :with_associations)
+      env = FactoryBot.create(:environment)
+      os = FactoryBot.create(:ubuntu14_10, :with_associations)
       Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
       visit new_host_path
 
@@ -180,10 +217,10 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'sets fields to "inherit" when hostgroup is selected' do
-      env1 = FactoryGirl.create(:environment)
-      env2 = FactoryGirl.create(:environment)
-      hg = FactoryGirl.create(:hostgroup, :environment => env2)
-      os = FactoryGirl.create(:ubuntu14_10, :with_associations)
+      env1 = FactoryBot.create(:environment)
+      env2 = FactoryBot.create(:environment)
+      hg = FactoryBot.create(:hostgroup, :environment => env2)
+      os = FactoryBot.create(:ubuntu14_10, :with_associations)
       disable_orchestration
       visit new_host_path
 
@@ -226,7 +263,7 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'setting host group updates parameters tab' do
-      hostgroup = FactoryGirl.create(:hostgroup, :with_parameter)
+      hostgroup = FactoryBot.create(:hostgroup, :with_parameter)
       visit new_host_path
       select2(hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
@@ -237,22 +274,22 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'new parameters can be edited and removed' do
-      role = FactoryGirl.create(:role)
-      user = FactoryGirl.create(:user, :with_mail)
+      role = FactoryBot.create(:role)
+      user = FactoryBot.create(:user, :with_mail)
       user.roles << role
-      FactoryGirl.create(:filter,
+      FactoryBot.create(:filter,
                          :permissions => Permission.where(:name => ['create_hosts']),
                          :role => role)
-      FactoryGirl.create(:filter,
+      FactoryBot.create(:filter,
                          :permissions => Permission.where(:name => ['create_params', 'view_params']),
                          :role => role)
 
-      FactoryGirl.create(:common_parameter, :name => "a_parameter")
+      FactoryBot.create(:common_parameter, :name => "a_parameter")
 
       set_request_user(user)
 
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                          :key_type => 'string', :default_value => true, :path => "fqdn",
                          :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
@@ -289,7 +326,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
       # Hosts are added to cookie
       host_ids_on_cookie = JSON.parse(CGI.unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
-      assert(host_ids_on_cookie.include? @host.id)
+      assert(host_ids_on_cookie.include?(@host.id))
 
       # Open modal box
       within('#submit_multiple') do
@@ -307,10 +344,10 @@ class HostJSTest < IntegrationTestWithJavascript
 
   describe 'edit page' do
     test 'fields are not inherited on edit' do
-      env1 = FactoryGirl.create(:environment)
-      env2 = FactoryGirl.create(:environment)
-      hg = FactoryGirl.create(:hostgroup, :environment => env2)
-      host = FactoryGirl.create(:host, :with_puppet, :hostgroup => hg)
+      env1 = FactoryBot.create(:environment)
+      env2 = FactoryBot.create(:environment)
+      hg = FactoryBot.create(:hostgroup, :environment => env2)
+      host = FactoryBot.create(:host, :with_puppet, :hostgroup => hg)
       visit edit_host_path(host)
 
       select2 env1.name, :from => 'host_environment_id'
@@ -322,17 +359,17 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'choosing a hostgroup does not override other host attributes' do
-      original_hostgroup = FactoryGirl.
-        create(:hostgroup, :environment => FactoryGirl.create(:environment),
-                           :puppet_proxy => FactoryGirl.create(:puppet_smart_proxy))
+      original_hostgroup = FactoryBot.
+        create(:hostgroup, :environment => FactoryBot.create(:environment),
+                           :puppet_proxy => FactoryBot.create(:puppet_smart_proxy))
 
       # Make host inherit hostgroup environment
       @host.attributes = @host.apply_inherited_attributes(
         'hostgroup_id' => original_hostgroup.id)
       @host.save
 
-      overridden_hostgroup = FactoryGirl.
-        create(:hostgroup, :environment => FactoryGirl.create(:environment))
+      overridden_hostgroup = FactoryBot.
+        create(:hostgroup, :environment => FactoryBot.create(:environment))
 
       visit edit_host_path(@host)
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
@@ -352,8 +389,8 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'class parameters and overrides are displayed correctly for booleans' do
-      host = FactoryGirl.create(:host, :with_puppetclass)
-      lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+      host = FactoryBot.create(:host, :with_puppetclass)
+      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                       :key_type => 'boolean', :default_value => 'false', :path => "fqdn",
                                       :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'false'})
       visit edit_host_path(host)
@@ -372,8 +409,8 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'changing host group updates parameters tab' do
-      hostgroup1, hostgroup2 = FactoryGirl.create_pair(:hostgroup, :with_parameter)
-      host = FactoryGirl.create(:host, :hostgroup => hostgroup1)
+      hostgroup1, hostgroup2 = FactoryBot.create_pair(:hostgroup, :with_parameter)
+      host = FactoryBot.create(:host, :hostgroup => hostgroup1)
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -500,11 +537,11 @@ class HostJSTest < IntegrationTestWithJavascript
 
       test "selecting domain updates puppetclass parameters" do
         disable_orchestration
-        domain = FactoryGirl.create(:domain)
+        domain = FactoryBot.create(:domain)
 
-        host = FactoryGirl.create(:host, :with_puppetclass)
+        host = FactoryBot.create(:host, :with_puppetclass)
 
-        lookup_key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ndomain\ncomment",
+        lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ndomain\ncomment",
                                         :puppetclass => host.puppetclasses.first, :default_value => 'default')
         LookupValue.create(:value => 'domain', :match => "domain=#{domain.name}", :lookup_key_id => lookup_key.id)
 
@@ -580,8 +617,8 @@ class HostJSTest < IntegrationTestWithJavascript
   describe 'Puppet Classes tab' do
     context 'has inherited Puppetclasses' do
       setup do
-        @hostgroup = FactoryGirl.create(:hostgroup, :with_puppetclass)
-        @host = FactoryGirl.create(:host, hostgroup: @hostgroup, environment: @hostgroup.environment)
+        @hostgroup = FactoryBot.create(:hostgroup, :with_puppetclass)
+        @host = FactoryBot.create(:host, hostgroup: @hostgroup, environment: @hostgroup.environment)
 
         visit edit_host_path(@host)
         page.find(:link, 'Puppet Classes', href: '#puppet_klasses').click

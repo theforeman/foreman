@@ -3,12 +3,12 @@ module Foreman::Model
     include KeyPairComputeResource
     attr_accessor :tenant, :scheduler_hint_value
     delegate :flavors, :to => :client
-    delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
 
-    validates :url, :format => { :with => URI.regexp }, :presence => true
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }
+    validates :domain, :format => { :with => /\A\S+\z/ }, :allow_blank => true
 
     alias_method :available_flavors, :flavors
 
@@ -40,6 +40,15 @@ module Foreman::Model
 
     def tenant=(name)
       attrs[:tenant] = name
+    end
+
+    def tenants
+      if url =~ /\/v3\/auth\/tokens/
+        user_id       = identity_client.current_user_id
+        identity_client.list_user_projects(user_id).body["projects"].map { |p| Fog::Identity::OpenStack::V3::Project.new(p) }
+      else
+        client.tenants
+      end
     end
 
     def allow_external_network
@@ -186,12 +195,22 @@ module Foreman::Model
     private
 
     def fog_credentials
-      { :provider => :openstack,
+      { :provider           => :openstack,
         :openstack_api_key  => password,
         :openstack_username => user,
         :openstack_auth_url => url,
         :openstack_tenant   => tenant,
-        :openstack_identity_endpoint => url }
+        :openstack_identity_endpoint => url,
+        :openstack_user_domain       => domain,
+        :openstack_endpoint_type     => "publicURL"
+      }.tap do |h|
+        h.merge!(:openstack_domain_name  => domain,
+                 :openstack_project_name => tenant) if tenant
+      end
+    end
+
+    def identity_client
+      @identity_client ||= ::Fog::Identity.new(fog_credentials.except!(:openstack_identity_endpoint))
     end
 
     def client
@@ -209,7 +228,7 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      super.merge(:key_name => key_pair.name)
+      super.merge(:key_name => key_pair.name, :metadata => {})
     end
 
     def assign_floating_ip(address, vm)

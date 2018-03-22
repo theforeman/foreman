@@ -1,4 +1,3 @@
-# encoding: utf-8
 # redMine - project management software
 # Copyright (C) 2006-2008  Jean-Philippe Lang
 #
@@ -38,7 +37,7 @@ class RoleTest < ActiveSupport::TestCase
 
   it "should delete role who has users" do
     role = Role.create(:name => 'First')
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     role.users = [user]
     assert_difference('Role.count', -1) do
       role.destroy
@@ -95,7 +94,7 @@ class RoleTest < ActiveSupport::TestCase
     end
 
     it "should be givable even when locked" do
-      user = FactoryGirl.create(:user)
+      user = FactoryBot.create(:user)
       role = roles(:viewer)
       assert role.locked?
       user.roles << role
@@ -114,7 +113,7 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   describe "Cloning" do
-    let(:role) { FactoryGirl.create(:role) }
+    let(:role) { FactoryBot.create(:role) }
     let(:cloned_role) do
       cloned_role = role.clone
       cloned_role.name = "Clone of #{role.name}"
@@ -127,7 +126,7 @@ class RoleTest < ActiveSupport::TestCase
     end
 
     it "allows me to find all roles that were cloned from origin" do
-      another_role = FactoryGirl.create(:role)
+      another_role = FactoryBot.create(:role)
       cloned_role # enforce lazy let to create the cloned role and role
       clones = role.cloned_roles
       assert_include clones, cloned_role
@@ -209,24 +208,28 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   describe ".permissions=" do
-    let(:role) { FactoryGirl.build(:role) }
+    let(:role) { FactoryBot.build_stubbed(:role) }
 
     it 'accepts not unique list of permissions' do
       role.expects(:add_permissions).once.with(['a','b'])
       role.permissions = [
-        FactoryGirl.build(:permission, :name => 'a'),
-        FactoryGirl.build(:permission, :name => 'b'),
-        FactoryGirl.build(:permission, :name => 'a'),
-        FactoryGirl.build(:permission, :name => 'b')
+        FactoryBot.build_stubbed(:permission, :name => 'a'),
+        FactoryBot.build_stubbed(:permission, :name => 'b'),
+        FactoryBot.build_stubbed(:permission, :name => 'a'),
+        FactoryBot.build_stubbed(:permission, :name => 'b')
       ]
     end
   end
 
   describe "#add_permissions" do
     setup do
-      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
-      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
-      @role = FactoryGirl.build(:role, :permissions => [])
+      @permission1 = FactoryBot.create(:permission, :name => 'permission1')
+      @permission2 = FactoryBot.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryBot.build_stubbed(:role, :permissions => [])
+    end
+
+    it 'should fetch the appropriate permissions' do
+      assert_equal 2, @role.send(:permission_records, [[@permission1.name, @permission2.name]]).size
     end
 
     it "should build filters with assigned permission" do
@@ -264,9 +267,9 @@ class RoleTest < ActiveSupport::TestCase
 
   describe "#add_permissions!" do
     setup do
-      @permission1 = FactoryGirl.create(:permission, :name => 'permission1')
-      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
-      @role = FactoryGirl.build(:role, :permissions => [])
+      @permission1 = FactoryBot.create(:permission, :name => 'permission1')
+      @permission2 = FactoryBot.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryBot.build(:role, :permissions => [])
     end
 
     it "persists built permissions" do
@@ -329,12 +332,12 @@ class RoleTest < ActiveSupport::TestCase
 
   context 'having role with filters' do
     setup do
-      @permission1 = FactoryGirl.create(:permission, :domain, :name => 'permission1')
-      @permission2 = FactoryGirl.create(:permission, :architecture, :name => 'permission2')
-      @role = FactoryGirl.build(:role, :permissions => [])
+      @permission1 = FactoryBot.create(:permission, :domain, :name => 'permission1')
+      @permission2 = FactoryBot.create(:permission, :architecture, :name => 'permission2')
+      @role = FactoryBot.build(:role, :permissions => [])
       @role.add_permissions! [@permission1.name, @permission2.name]
-      @org1 = FactoryGirl.create(:organization)
-      @org2 = FactoryGirl.create(:organization)
+      @org1 = FactoryBot.create(:organization)
+      @org2 = FactoryBot.create(:organization)
       @role.filters.reload
       @filter_with_org = @role.filters.detect { |f| f.allows_organization_filtering? }
       @filter_without_org = @role.filters.detect { |f| !f.allows_organization_filtering? }
@@ -370,7 +373,7 @@ class RoleTest < ActiveSupport::TestCase
       end
 
       it 'should rollback when invalid filter was saved' do
-        role = FactoryGirl.build(:role)
+        role = FactoryBot.build(:role)
         role.add_permissions! :view_domains
         invalid_filter = role.filters.first
         invalid_filter.permissions << Permission.where(:name => 'view_subnets')
@@ -412,9 +415,9 @@ class RoleTest < ActiveSupport::TestCase
 
     describe '#search_by_permission' do
       setup do
-        @domain_permission = FactoryGirl.create(:permission, :domain, :name => 'view_test_domain')
-        @arch_permission = FactoryGirl.create(:permission, :architecture, :name => 'view_test_arch')
-        @role = FactoryGirl.build(:role, :permissions => [])
+        @domain_permission = FactoryBot.create(:permission, :domain, :name => 'view_test_domain')
+        @arch_permission = FactoryBot.create(:permission, :architecture, :name => 'view_test_arch')
+        @role = FactoryBot.build(:role, :permissions => [])
         @role.add_permissions! [@domain_permission.name, @arch_permission.name]
       end
 

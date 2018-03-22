@@ -2,7 +2,7 @@ require "test_helper"
 
 class ClassificationTest < ActiveSupport::TestCase
   def setup
-    @host = FactoryGirl.create(:host,
+    @host = FactoryBot.build(:host,
                               :location => taxonomies(:location1),
                               :organization => taxonomies(:organization1),
                               :operatingsystem => operatingsystems(:redhat),
@@ -34,29 +34,29 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return hash of class to nil for classes without parameters" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :environments => [env])
+    env = FactoryBot.build(:environment)
+    pc = FactoryBot.build(:puppetclass, :environments => [env])
     assert_equal({pc.name => nil}, get_classparam(env, pc).puppetclass_parameters)
   end
 
   test "#enc should not return class parameters where override is false" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :with_parameters, :environments => [env])
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     refute pc.class_params.first.override
     assert_equal({pc.name => nil}, get_classparam(env, pc).puppetclass_parameters)
   end
 
   test "#enc should return default value of class parameters without lookup_values" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => pc, :override => true, :default_value => 'test')
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :environments => [env])
+    lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => pc, :override => true, :default_value => 'test')
     assert_equal({pc.name => {lkey.key => lkey.default_value}}, get_classparam(env, pc).puppetclass_parameters)
   end
 
   test "#enc should return override value of class parameters" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :environments => [env])
+    lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
     classparam = get_classparam(env, pc)
     host = classparam.send(:host)
     host.expects(:comment).returns('override')
@@ -64,10 +64,10 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#values_hash should contain element's name" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
-    host = FactoryGirl.build(:host, :environment => env, :puppetclasses => [pc])
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :environments => [env])
+    lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
     Classification::MatchesGenerator.any_instance.expects(:attr_to_value).with('comment').returns('override')
 
     assert_equal(
@@ -88,16 +88,16 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#values_hash should treat yaml and json parameters as string" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    yaml_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+    env = FactoryBot.build(:environment)
+    pc = FactoryBot.build(:puppetclass, :environments => [env])
+    yaml_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                               :puppetclass => pc, :key_type => 'yaml', :default_value => '',
                               :overrides => {"comment=override" => 'a: b'})
-    json_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
+    json_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
                                    :puppetclass => pc, :key_type => 'json', :default_value => '',
                                    :overrides => {"comment=override" => '{"a": "b"}'})
 
-    host = FactoryGirl.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
 
     Classification::MatchesGenerator.any_instance.expects(:attr_to_value).twice.with('comment').returns('override')
     values_hash = Classification::ValuesHashQuery.values_hash(host, LookupKey.where(:id => [json_lkey, yaml_lkey]))
@@ -108,13 +108,13 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "ClassificationResult should correctly typecast JSON and YAML default values" do
-    env = FactoryGirl.create(:environment)
-    pc = FactoryGirl.create(:puppetclass, :environments => [env])
-    yaml_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
+    env = FactoryBot.build(:environment)
+    pc = FactoryBot.build(:puppetclass, :environments => [env])
+    yaml_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'yaml', :default_value => 'a: b')
-    json_lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
+    json_lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true,
                                    :puppetclass => pc, :key_type => 'json', :default_value => '{"a": "b"}')
-    host = FactoryGirl.build(:host, :environment => env, :puppetclasses => [pc])
+    host = FactoryBot.build_stubbed(:host, :environment => env, :puppetclasses => [pc])
     classparam = Classification::ClassificationResult.new(host, {})
 
     yaml_value = classparam[yaml_lkey]
@@ -125,7 +125,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of array with avoid_duplicates should return lookup_value array without duplicates' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
                              :puppetclass => puppetclasses(:one))
@@ -150,7 +150,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of array without avoid_duplicates should return lookup_value array with duplicates' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :default_value => [], :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -176,7 +176,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of hash with merge_overrides should return lookup_value hash with array of elements' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -202,7 +202,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of hash with merge_overrides should return lookup_value hash with one element' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -227,7 +227,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of hash with merge_overrides and priority should obey priority' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -260,7 +260,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of hash with merge_overrides and priority should return lookup_value hash with array of elements' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -292,7 +292,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter with omit on specific matcher does not send a value to puppet' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'string',
                              :default_value => "123", :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -309,7 +309,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart variable of array with avoid_duplicates should return lookup_value array without duplicates' do
-    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'array', :merge_overrides => true,
+    key = FactoryBot.create(:variable_lookup_key, :key_type => 'array', :merge_overrides => true,
                              :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
                              :puppetclass => puppetclasses(:one))
 
@@ -331,7 +331,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart variable of array without avoid_duplicates should return lookup_value array with duplicates' do
-    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'array', :merge_overrides => true,
+    key = FactoryBot.create(:variable_lookup_key, :key_type => 'array', :merge_overrides => true,
                              :default_value => [], :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
 
@@ -354,7 +354,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart variable of hash in hash with merge_overrides should return lookup_value hash with array of elements' do
-    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
+    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
 
@@ -377,7 +377,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart variable of hash with merge_overrides and priority should obey priority' do
-    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
+    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
@@ -406,7 +406,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart variable of hash with merge_overrides and priority should return lookup_value hash with array of elements' do
-    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
+    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
@@ -430,7 +430,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart variable of hash without merge_default should not merge with default value' do
-    key = FactoryGirl.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
+    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {:default => 'example'}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
@@ -448,7 +448,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter of hash with merge_overrides and merge_default should return merge all values' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'hash', :merge_overrides => true, :merge_default => true,
                              :default_value => { :default => 'default' }, :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -472,7 +472,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should not return class parameters when default value should use puppet default" do
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
+    lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
                               :puppetclass => puppetclasses(:one))
 
     enc = HostInfoProviders::PuppetInfo.new(@host).puppetclass_parameters
@@ -480,7 +480,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should not return class parameters when lookup_value should use puppet default" do
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
+    lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
                               :puppetclass => puppetclasses(:one), :path => "location\ncomment")
     as_admin do
       LookupValue.create! :lookup_key_id => lkey.id,
@@ -495,7 +495,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return class parameters when default value and lookup_values should not use puppet default" do
-    lkey = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :omit => false,
+    lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :omit => false,
                               :puppetclass => puppetclasses(:one), :path => "location\ncomment")
     lvalue = as_admin do
       LookupValue.create! :lookup_key_id => lkey.id,
@@ -510,7 +510,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should not return class parameters when merged lookup_values and default are all using puppet default" do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'hash', :merge_overrides => true,
                              :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -541,20 +541,20 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryGirl.create(:setting,
+    FactoryBot.build(:setting,
                        :name => 'host_group_matchers_inheritance',
                        :value => true)
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
                              :puppetclass => puppetclasses(:two))
 
-    parent_hostgroup = FactoryGirl.create(:hostgroup,
+    parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
-    child_hostgroup = FactoryGirl.create(:hostgroup, :parent => parent_hostgroup)
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
 
-    host = FactoryGirl.create(:host, :environment => environments(:production), :organization => taxonomies(:organization1),
+    host = FactoryBot.create(:host, :environment => environments(:production), :organization => taxonomies(:organization1),
       :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
 
     as_admin do
@@ -583,20 +583,20 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryGirl.create(:setting,
+    FactoryBot.build(:setting,
                        :name => 'host_group_matchers_inheritance',
                        :value => true)
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
                              :puppetclass => puppetclasses(:two))
 
-    parent_hostgroup = FactoryGirl.create(:hostgroup,
+    parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
-    child_hostgroup = FactoryGirl.create(:hostgroup, :parent => parent_hostgroup)
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
 
-    host = FactoryGirl.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
+    host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
@@ -624,7 +624,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'enc should return correct values for multi-key matchers' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'string', :default_value => '',
                              :path => "organization\norganization,location\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -648,17 +648,17 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'enc should return correct values for multi-key matchers' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "hostgroup,organization\nlocation",
                              :puppetclass => puppetclasses(:two))
 
-    parent_hostgroup = FactoryGirl.create(:hostgroup,
+    parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
-    child_hostgroup = FactoryGirl.create(:hostgroup, :parent => parent_hostgroup)
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
 
-    host = FactoryGirl.create(:host, :environment => environments(:production),
+    host = FactoryBot.create(:host, :environment => environments(:production),
       :location => taxonomies(:location1), :organization => taxonomies(:organization1),
       :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
 
@@ -688,7 +688,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter should accept string with erb for arrays and evaluate it properly' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'array', :merge_overrides => false,
                              :default_value => '<%= [1,2] %>', :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
@@ -724,23 +724,23 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'enc should return correct values for multi-key matchers' do
-    hostgroup = FactoryGirl.create(:hostgroup)
+    hostgroup = FactoryBot.build(:hostgroup)
 
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param, :with_omit,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_omit,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "hostgroup,organization\nlocation",
                              :puppetclass => puppetclasses(:two))
 
-    parent_hostgroup = FactoryGirl.create(:hostgroup,
+    parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
     hostgroup.update_attributes(:parent => parent_hostgroup)
 
-    FactoryGirl.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}")
-    lv = FactoryGirl.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{hostgroup},organization=#{taxonomies(:organization1)}")
-    FactoryGirl.create(:lookup_value, :lookup_key_id => key.id, :match => "location=#{taxonomies(:location1)}")
+    FactoryBot.build(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}")
+    lv = FactoryBot.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{hostgroup},organization=#{taxonomies(:organization1)}")
+    FactoryBot.build(:lookup_value, :lookup_key_id => key.id, :match => "location=#{taxonomies(:location1)}")
 
-    host = FactoryGirl.build(:host, :environment => environments(:production),
+    host = FactoryBot.build_stubbed(:host, :environment => environments(:production),
       :location => taxonomies(:location1), :organization => taxonomies(:organization1), :hostgroup => hostgroup)
 
     enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
@@ -749,7 +749,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'smart class parameter with erb values is validated after erb is evaluated' do
-    key = FactoryGirl.create(:puppetclass_lookup_key, :as_smart_class_param,
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :default_value => '<%= "a" %>', :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one),
@@ -777,7 +777,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test 'type cast allows nil values' do
-    key = FactoryGirl.create(:lookup_key)
+    key = FactoryBot.create(:lookup_key)
     assert_nothing_raised do
       Classification::ClassificationResult.new(nil, {}).send(:type_cast, key, nil)
     end

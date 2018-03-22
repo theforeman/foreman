@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notification dropdown Renders links provided 1`] = `
+<DropdownKebab
+  className=""
+  componentClass={[Function]}
+  id={6}
+  pullRight={true}
+  toggleStyle="link"
+>
+  <MenuItem
+    bsClass="dropdown"
+    disabled={false}
+    divider={false}
+    header={false}
+    id="notification-kebab-0"
+    key="0"
+    onClick={[Function]}
+  >
+    Link to blog
+  </MenuItem>
+</DropdownKebab>
+`;

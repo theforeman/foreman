@@ -106,11 +106,11 @@ Foreman::Application.routes.draw do
         resources :facts, :only => :index, :controller => :fact_values
         resources :puppetclasses, :only => :index
 
-        get 'parent_facts/:parent_fact/facts', :to => 'fact_values#index', :as => 'parent_fact_facts'
+        get 'parent_facts/:parent_fact/facts', :to => 'fact_values#index', :as => 'parent_fact_facts', :parent_fact => /[\w.:_-]+/
       end
     end
 
-    resources :bookmarks, :except => [:show] do
+    resources :bookmarks, :except => [:show, :new, :create] do
       collection do
         get 'auto_complete_search'
       end
@@ -248,6 +248,13 @@ Foreman::Application.routes.draw do
     end
     collection do
       get 'auto_complete_search'
+    end
+  end
+
+  resources :http_proxies, :controller => 'http_proxies' do
+    collection do
+      get 'auto_complete_search'
+      put 'test_connection'
     end
   end
 
@@ -395,6 +402,7 @@ Foreman::Application.routes.draw do
       resources :compute_resources do
         member do
           post 'template_selected'
+          post 'instance_type_selected'
           post 'cluster_selected'
           get 'resource_pools'
           post 'ping'

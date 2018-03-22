@@ -35,7 +35,6 @@ class ProvisioningTemplatesList
         { :name => "Junos default ZTP config", :source => 'ZTP/junos_default_ztp_config.erb', :template_kind => kinds[:ZTP], :operatingsystems => os_junos },
         { :name => "Junos default finish", :source => 'finish/junos_default_finish.erb', :template_kind => kinds[:finish], :operatingsystems => os_junos },
         { :name => 'Kickstart default', :source => 'provision/kickstart_default.erb', :template_kind => kinds[:provision] },
-        { :name => 'Kickstart RHEL default', :source => 'provision/kickstart_rhel_default.erb', :template_kind => kinds[:provision] },
         { :name => 'Kickstart default finish', :source => 'finish/kickstart_default_finish.erb', :template_kind => kinds[:finish] },
         { :name => 'Kickstart default PXELinux', :source => 'PXELinux/kickstart_default_pxelinux.erb', :template_kind => kinds[:PXELinux] },
         { :name => 'Kickstart default PXEGrub', :source => 'PXEGrub/kickstart_default_pxegrub.erb', :template_kind => kinds[:PXEGrub] },
@@ -56,6 +55,9 @@ class ProvisioningTemplatesList
         { :name => 'XenServer default PXELinux', :source => 'PXELinux/xenserver_default_pxelinux.erb', :template_kind => kinds[:PXELinux] },
         # snippets
         { :name => 'alterator_pkglist', :source => 'snippet/_alterator_pkglist.erb', :snippet => true },
+        { :name => 'ansible_provisioning_callback', :source => 'snippet/_ansible_provisioning_callback.erb', :snippet => true },
+        { :name => 'ansible_tower_callback_script', :source => 'snippet/_ansible_tower_callback_script.erb', :snippet => true },
+        { :name => 'ansible_tower_callback_service', :source => 'snippet/_ansible_tower_callback_service.erb', :snippet => true },
         { :name => 'bmc_nic_setup', :source => 'snippet/_bmc_nic_setup.erb', :snippet => true },
         { :name => 'chef_client', :source => 'snippet/_chef_client.erb', :snippet => true },
         { :name => 'coreos_cloudconfig', :source => 'snippet/_coreos_cloudconfig.erb', :snippet => true },

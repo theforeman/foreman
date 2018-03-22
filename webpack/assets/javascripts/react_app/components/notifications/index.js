@@ -1,16 +1,27 @@
-import React from 'react';
+import { groupBy } from 'lodash';
+import onClickOutside from 'react-onclickoutside';
 import { connect } from 'react-redux';
+import React from 'react';
+
 import * as NotificationActions from '../../redux/actions/notifications';
+
 import './notifications.scss';
 import ToggleIcon from './toggleIcon/';
 import Drawer from './drawer/';
-import { groupBy, isUndefined } from 'lodash';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
     const { startNotificationsPolling, data: { url } } = this.props;
 
     startNotificationsPolling(url);
+  }
+
+  handleClickOutside() {
+    const { isDrawerOpen, isReady, toggleDrawer } = this.props;
+
+    if (isReady && isDrawerOpen) {
+      toggleDrawer();
+    }
   }
 
   render() {
@@ -24,49 +35,46 @@ class notificationContainer extends React.Component {
       onMarkGroupAsRead,
       hasUnreadMessages,
       isReady,
-      onClickedLink
+      onClickedLink,
     } = this.props;
 
     return (
-      <div id="notifications_container">
-        <ToggleIcon
-          hasUnreadMessages={hasUnreadMessages}
-          onClick={toggleDrawer}
-        />
+      <div>
+        <ToggleIcon hasUnreadMessages={hasUnreadMessages} onClick={toggleDrawer} />
         {isReady &&
-          isDrawerOpen &&
-          <Drawer
-            onExpandGroup={expandGroup}
-            onClickedLink={onClickedLink}
-            onMarkAsRead={onMarkAsRead}
-            onMarkGroupAsRead={onMarkGroupAsRead}
-            expandedGroup={expandedGroup}
-            notificationGroups={notifications}
-          />}
+          isDrawerOpen && (
+            <Drawer
+              onExpandGroup={expandGroup}
+              onClickedLink={onClickedLink}
+              onMarkAsRead={onMarkAsRead}
+              onMarkGroupAsRead={onMarkGroupAsRead}
+              expandedGroup={expandedGroup}
+              notificationGroups={notifications}
+              toggleDrawer={toggleDrawer}
+            />
+          )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     notifications,
     isDrawerOpen,
     expandedGroup,
     isPolling,
-    hasUnreadMessages
+    hasUnreadMessages,
   } = state.notifications;
 
   return {
     isDrawerOpen,
     isPolling,
-    notifications: groupBy(notifications, 'group'),
+    notifications: groupBy(notifications, n => n.group),
     expandedGroup,
-    isReady: !isUndefined(notifications),
-    hasUnreadMessages
+    isReady: !!notifications,
+    hasUnreadMessages,
   };
 };
 
-export default connect(mapStateToProps, NotificationActions)(
-  notificationContainer
-);
+export default connect(mapStateToProps, NotificationActions)(onClickOutside(notificationContainer));

@@ -128,11 +128,11 @@ class ActiveSupport::TestCase
 
   # if a method receieves a block it will be yielded just before user save
   def setup_user(operation, type = "", search = nil, user = :one)
-    @one = users(user)
+    @one = user.is_a?(User) ? user : users(user)
     as_admin do
       permission = Permission.find_by_name("#{operation}_#{type}") ||
-        FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
-      filter = FactoryGirl.build(:filter, :search => search)
+        FactoryBot.build(:permission, :name => "#{operation}_#{type}")
+      filter = FactoryBot.build(:filter, :search => search)
       filter.permissions = [ permission ]
       role = Role.where(:name => "#{operation}_#{type}").first_or_create
       role.filters = [ filter ]

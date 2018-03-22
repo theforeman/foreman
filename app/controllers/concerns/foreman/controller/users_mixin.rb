@@ -27,17 +27,4 @@ module Foreman::Controller::UsersMixin
     sub_hg = Hostgroup.where(:id => hostgroup_ids).map(&:subtree).flatten.reject { |hg| hg.user_ids.include?(@user.id) }
     sub_hg.each { |hg| hg.users << @user }
   end
-
-  def set_current_taxonomies(user, options = {})
-    session ||= options.fetch(:session, {})
-    ['location', 'organization'].each do |taxonomy|
-      default_taxonomy = user.send "default_#{taxonomy}"
-      if default_taxonomy.present?
-        taxonomy.classify.constantize.send 'current=', default_taxonomy
-        session["#{taxonomy}_id"] = default_taxonomy.id
-      end
-    end
-  end
-
-  module_function :set_current_taxonomies
 end

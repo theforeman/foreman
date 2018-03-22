@@ -105,7 +105,7 @@ module Api::V2::TaxonomiesController
     if params[taxonomy_single].try(:[], :select_all_types)
       params[taxonomy_single][:ignore_types] = params[taxonomy_single][:select_all_types]
       params[taxonomy_single]                = params[taxonomy_single].reject { |k, v| k == "select_all_types" }
-      return params[taxonomy_single]
+      params[taxonomy_single]
     end
   end
 

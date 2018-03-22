@@ -10,14 +10,15 @@ class Setting < ApplicationRecord
   TYPES= %w{ integer boolean hash array string }
   FROZEN_ATTRS = %w{ name category full_name }
   NONZERO_ATTRS = %w{ puppet_interval idle_timeout entries_per_page max_trend outofsync_interval }
-  BLANK_ATTRS = %w{ host_owner trusted_puppetmaster_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text
+  BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text
                     smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list}
-  ARRAY_HOSTNAMES = %w{ trusted_puppetmaster_hosts }
+  ARRAY_HOSTNAMES = %w{ trusted_hosts }
   URI_ATTRS = %w{ foreman_url unattended_url }
   URI_BLANK_ATTRS = %w{ login_delegation_logout_url }
   IP_ATTRS = %w{ libvirt_default_console_address }
   REGEXP_ATTRS = %w{ remote_addr }
   EMAIL_ATTRS = %w{ administrator email_reply_address }
+  NOT_STRIPPED = %w{}
 
   class ValueValidator < ActiveModel::Validator
     def validate(record)
@@ -80,7 +81,10 @@ class Setting < ApplicationRecord
     (where(:category => sticky_setting) + where.not(:category => sticky_setting)).group_by(&:category)
   end
 
-  def self.per_page; 20 end # can't use our own settings
+  # can't use our own settings
+  def self.per_page
+    20
+  end
 
   def self.humanized_category
     nil
@@ -88,6 +92,7 @@ class Setting < ApplicationRecord
 
   def self.[](name)
     name = name.to_s
+    name = deprecation_check(name)
     cache_value = Setting.cache.read(name)
     if cache_value.nil?
       value = where(:name => name).first.try(:value)
@@ -100,9 +105,19 @@ class Setting < ApplicationRecord
 
   def self.[]=(name, value)
     name   = name.to_s
+    name   = deprecation_check(name)
     record = where(:name => name).first_or_create
     record.value = value
     record.save!
+  end
+
+  def self.deprecation_check(name)
+    return name unless name == 'trusted_puppetmaster_hosts'
+    Foreman::Deprecation.deprecation_warning(
+      '1.19',
+      'trusted_puppetmaster_hosts is deprecated, please use trusted_hosts'
+    )
+    'trusted_hosts'
   end
 
   def value=(v)
@@ -171,7 +186,7 @@ class Setting < ApplicationRecord
 
     when "string", nil
       #string is taken as default setting type for parsing
-      self.value = val.to_s.strip
+      self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
 
     when "hash"
       raise Foreman::Exception, "parsing hash from string is not supported"
@@ -207,12 +222,14 @@ class Setting < ApplicationRecord
     end
   end
 
-  def self.regexp_expand_wildcard_string(string)
-    "\\A#{Regexp.escape(string).gsub('\*', '.*')}\\Z"
+  def self.regexp_expand_wildcard_string(string, options = {})
+    prefix = options[:prefix] || '\A'
+    suffix = options[:suffix] || '\Z'
+    prefix + Regexp.escape(string).gsub('\*', '.*') + suffix
   end
 
-  def self.convert_array_to_regexp(array)
-    Regexp.new(array.map {|string| regexp_expand_wildcard_string(string) }.join('|'))
+  def self.convert_array_to_regexp(array, regexp_options = {})
+    Regexp.new(array.map {|string| regexp_expand_wildcard_string(string, regexp_options) }.join('|'))
   end
 
   def has_readonly_value?
@@ -230,7 +247,7 @@ class Setting < ApplicationRecord
       to_update[:value] = readonly_value(s.name.to_sym) if s.has_readonly_value?
       s.update_attributes(to_update)
       s.update_column :category, opts[:category] if s.category != opts[:category]
-      s.update_column :full_name, opts[:full_name] if !column_check([:full_name]).empty?
+      s.update_column :full_name, opts[:full_name] unless column_check([:full_name]).empty?
       raw_value = s.read_attribute(:value)
       if s.is_encryptable?(raw_value) && attrs.include?(:encrypted) && opts[:encrypted]
         s.update_column :value, s.encrypt_field(raw_value)
@@ -284,6 +301,10 @@ class Setting < ApplicationRecord
   end
 
   # End methods for loading default settings
+
+  def full_name_with_default
+    _("%{full_name} (Default: %{default})") % {full_name: _(full_name), default: default}
+  end
 
   private
 

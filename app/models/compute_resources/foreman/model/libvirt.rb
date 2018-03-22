@@ -4,7 +4,7 @@ module Foreman::Model
 
     ALLOWED_DISPLAY_TYPES = %w(vnc spice)
 
-    validates :url, :format => { :with => URI.regexp }, :presence => true
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :display_type, :inclusion => { :in => ALLOWED_DISPLAY_TYPES }
 
     def self.available?
@@ -215,7 +215,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :memory     => 768.megabytes,
+        :memory     => 2048.megabytes,
         :nics       => [new_nic],
         :volumes    => [new_volume].compact,
         :display    => { :type     => display_type,

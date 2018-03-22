@@ -4,6 +4,8 @@ class Model < ApplicationRecord
   friendly_id :name
   include Parameterizable::ByIdName
 
+  audited
+
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many_hosts
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"

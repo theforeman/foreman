@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ConfigurationStatusTest < ActiveSupport::TestCase
   def setup
-    @host = FactoryGirl.create(:host)
+    @host = FactoryBot.create(:host)
     @report = @host.reports.build
     @report.status = {"applied" => 92, "restarted" => 300, "failed" => 4, "failed_restarts" => 12, "skipped" => 3, "pending" => 0}
     @report.reported_at = '2015-01-01 00:00:00'
@@ -114,5 +114,12 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     assert_equal '0 & 63', HostStatus::ConfigurationStatus.bit_mask('applied')
     assert_equal '6 & 63', HostStatus::ConfigurationStatus.bit_mask('restarted')
     assert_equal '12 & 63', HostStatus::ConfigurationStatus.bit_mask('failed')
+  end
+
+  test 'host search by status works' do
+    @status.save
+    assert_equal [@host], Host.search_for('status.applied = 0')
+    assert_equal [@host], Host.search_for('status.applied = false')
+    assert_equal [], Host.search_for('status.applied = 1')
   end
 end

@@ -1,4 +1,4 @@
-class CreateNotificationRecipients < ActiveRecord::Migration
+class CreateNotificationRecipients < ActiveRecord::Migration[4.2]
   def change
     create_table :notification_recipients do |t|
       t.references :notification, index: true, foreign_key: true

@@ -26,6 +26,7 @@ module HostCommon
     belongs_to :ptable
     belongs_to :realm
     belongs_to :compute_profile
+    belongs_to :compute_resource
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
     has_many :host_config_groups, :as => :host
@@ -151,16 +152,6 @@ module HostCommon
         self.grub_pass = PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
       end
     end
-  end
-
-  def param_true?(name)
-    Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param_true?')
-    params.has_key?(name) && Foreman::Cast.to_bool(params[name])
-  end
-
-  def param_false?(name)
-    Foreman::Deprecation.renderer_deprecation('1.17', __method__, 'host_param_false?')
-    params.has_key?(name) && Foreman::Cast.to_bool(params[name]) == false
   end
 
   def cg_class_ids

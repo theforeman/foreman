@@ -3,15 +3,15 @@ require 'test_helper'
 class ComputeOrchestrationTest < ActiveSupport::TestCase
   describe 'compute details' do
     setup do
-      @cr = FactoryGirl.build(:libvirt_cr)
-      @host = FactoryGirl.build(:host, :compute_resource => @cr)
+      @cr = FactoryBot.build_stubbed(:libvirt_cr)
+      @host = FactoryBot.build_stubbed(:host, :compute_resource => @cr)
       @host.vm = mock("vm")
     end
 
     test "are set for CR providing MAC" do
       @host.expects(:match_macs_to_nics).returns(true)
       @cr.stubs(:provided_attributes).returns({:mac => :mac})
-      assert(@host.send :setComputeDetails)
+      assert(@host.send(:setComputeDetails))
     end
 
     test "are set for CR providing IP" do
@@ -43,7 +43,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
     test "are set for CR returning a blank value for ip6 while claiming to provide ip4 + ip6" do
       # Create a host with ip6 = nil to test that validate_foreman_attr does not detect a duplicate ip
-      FactoryGirl.create(:host)
+      FactoryBot.create(:host)
 
       an_ip = '1.2.3.4'
       @cr.stubs(:provided_attributes).returns({:ip => :ip, :ip6 => :ip6})
@@ -61,22 +61,22 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       @host.vm.expects(:attr).returns(a_value)
       @host.expects(:attr=).returns(a_value)
       @host.expects(:validate_foreman_attr).returns(true)
-      assert(@host.send :setComputeDetails)
+      assert(@host.send(:setComputeDetails))
     end
   end
 
   test "if MAC is changed, dhcp_record cache is dropped" do
-    cr = FactoryGirl.build(:libvirt_cr)
+    cr = FactoryBot.build_stubbed(:libvirt_cr)
     cr.stubs(:provided_attributes).returns({:mac => :mac})
-    host = FactoryGirl.build(:host, :managed, :compute_resource => cr)
+    host = FactoryBot.build_stubbed(:host, :managed, :compute_resource => cr)
     host.vm = mock("vm")
     fog_nic = OpenStruct.new(:mac => '00:00:00:00:01')
     host.vm.expects(:interfaces).returns([fog_nic])
     host.vm.expects(:select_nic).returns(fog_nic)
     host.primary_interface.name = 'something'
     host.primary_interface.mac = '00:00:00:00:00:02'
-    host.primary_interface.subnet = FactoryGirl.build(:subnet, :dhcp, :network => '255.255.255.0')
-    host.operatingsystem = FactoryGirl.build(:operatingsystem)
+    host.primary_interface.subnet = FactoryBot.build_stubbed(:subnet, :dhcp, :network => '255.255.255.0')
+    host.operatingsystem = FactoryBot.build_stubbed(:operatingsystem)
 
     refute_nil host.primary_interface.dhcp_records
     original = host.primary_interface.dhcp_records.map(&:object_id)
@@ -88,7 +88,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   test "a helpful error message shows up if no user_data is provided and it's necessary" do
     image = images(:one)
-    host = FactoryGirl.build(:host, :operatingsystem => image.operatingsystem, :image => image,
+    host = FactoryBot.build_stubbed(:host, :operatingsystem => image.operatingsystem, :image => image,
                                     :compute_resource => image.compute_resource)
     host.send(:setUserData)
     assert host.errors.full_messages.first =~ /associate it/
@@ -96,9 +96,9 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   test "rolling back userdata after it is set, deletes the attribute" do
     image = images(:one)
-    host = FactoryGirl.build(:host, :operatingsystem => image.operatingsystem, :image => image,
+    host = FactoryBot.build_stubbed(:host, :operatingsystem => image.operatingsystem, :image => image,
                              :compute_resource => image.compute_resource)
-    prov_temp = FactoryGirl.create(:provisioning_template, :template_kind => TemplateKind.create(:name =>"user_data"))
+    prov_temp = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.create(:name =>"user_data"))
     host.stubs(:provisioning_template).returns(prov_temp)
     attrs = {}
     host.stubs(:compute_attributes).returns(attrs)
@@ -110,12 +110,12 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   describe 'only physical interfaces are matched' do
     setup do
-      @cr = FactoryGirl.build(:libvirt_cr)
+      @cr = FactoryBot.build(:libvirt_cr)
       @cr.stubs(:provided_attributes).returns({:mac => :mac})
-      @physical = FactoryGirl.build(:nic_base, :virtual => false)
-      @virtual = FactoryGirl.build(:nic_base, :virtual => true)
+      @physical = FactoryBot.build(:nic_base, :virtual => false)
+      @virtual = FactoryBot.build(:nic_base, :virtual => true)
 
-      @host = FactoryGirl.build(:host,
+      @host = FactoryBot.build(:host,
                                 :compute_resource => @cr)
       @host.interfaces = [ @virtual, @physical ]
       @host.vm = mock("vm")
@@ -132,10 +132,10 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   describe "error message for NICs that can't be matched with those on virtual machine" do
     def host_for_nic_orchestration(nic)
-      cr = FactoryGirl.build(:vmware_cr)
+      cr = FactoryBot.build_stubbed(:vmware_cr)
       cr.stubs(:provided_attributes).returns({:mac => :mac})
 
-      host = FactoryGirl.build(:host, :interfaces => [nic], :compute_resource => cr)
+      host = FactoryBot.build_stubbed(:host, :interfaces => [nic], :compute_resource => cr)
       host.vm = mock("vm")
       host.vm.stubs(:interfaces).returns([])
       host.vm.stubs(:select_nic).returns(nil)
@@ -147,28 +147,28 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     end
 
     test "it adds message with NIC identifier" do
-      nic = FactoryGirl.build(:nic_primary_and_provision, :name => 'test')
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => 'test')
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.identifier), host.errors.full_messages.first
     end
 
     test "it adds message with NIC ip" do
-      nic = FactoryGirl.build(:nic_primary_and_provision, :name => 'test', :identifier => '')
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => 'test', :identifier => '')
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.ip), host.errors.full_messages.first
     end
 
     test "it adds message with NIC name" do
-      nic = FactoryGirl.build(:nic_primary_and_provision, :name => 'test', :identifier => nil, :ip => '')
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => 'test', :identifier => nil, :ip => '')
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.name), host.errors.full_messages.first
     end
 
     test "it adds message with NIC type" do
-      nic = FactoryGirl.build(:nic_primary_and_provision, :name => '', :identifier => nil, :ip => nil)
+      nic = FactoryBot.build_stubbed(:nic_primary_and_provision, :name => '', :identifier => nil, :ip => nil)
       host = host_for_nic_orchestration(nic)
       host.send(:setComputeDetails)
       assert_equal expected_message(nic.type), host.errors.full_messages.first
@@ -177,7 +177,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     describe "validate compute provisioning" do
       setup do
         @image = images(:one)
-        @host = FactoryGirl.build(:host, :operatingsystem => @image.operatingsystem, :image => @image,
+        @host = FactoryBot.build_stubbed(:host, :operatingsystem => @image.operatingsystem, :image => @image,
                                   :compute_resource => @image.compute_resource)
       end
 
@@ -202,7 +202,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
   describe 'host on compute resource' do
     let(:host) do
-      FactoryGirl.build(:host,
+      FactoryBot.build(:host,
                         :managed,
                         :on_compute_resource,
                         :with_compute_profile)
@@ -219,20 +219,20 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
   end
 
   describe 'setting eui-64 ip address based on mac provided by compute resource' do
-    let(:tax_organization) { FactoryGirl.create(:organization) }
-    let(:tax_location) { FactoryGirl.create(:location) }
+    let(:tax_organization) { FactoryBot.create(:organization) }
+    let(:tax_location) { FactoryBot.create(:location) }
     let(:subnet6) do
-      FactoryGirl.build(:subnet_ipv6,
+      FactoryBot.build(:subnet_ipv6,
                         :network => '2001:db8::',
                         :mask => 'ffff:ffff:ffff:ffff::',
-                        :dns => FactoryGirl.create(:dns_smart_proxy),
+                        :dns => FactoryBot.create(:dns_smart_proxy),
                         :organizations => [tax_organization],
                         :locations => [tax_location],
                         :ipam => IPAM::MODES[:eui64])
     end
 
     let(:host) do
-      FactoryGirl.build(:host,
+      FactoryBot.build(:host,
                         :managed,
                         :on_compute_resource,
                         :with_compute_profile,

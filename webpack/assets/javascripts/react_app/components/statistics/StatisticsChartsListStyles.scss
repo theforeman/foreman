@@ -1,0 +1,27 @@
+.statistics-charts-list-root {
+  display: flex;
+  flex-wrap: wrap;
+
+  .chart-box {
+    height: 312px;
+    width: 280px;
+    margin-left: 20px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-height: 312px;
+
+    .panel-heading {
+      -ms-flex: 0 0 30px;
+      flex: 0 0 30px;
+    }
+
+    .panel-body {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex: 1;
+      flex: 1;
+    }
+  }
+}

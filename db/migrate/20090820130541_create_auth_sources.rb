@@ -1,4 +1,4 @@
-class CreateAuthSources < ActiveRecord::Migration
+class CreateAuthSources < ActiveRecord::Migration[4.2]
   def up
     create_table :auth_sources do |t|
       t.string  "type",              :limit => 30, :default => "",    :null => false

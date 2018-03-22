@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :subnet_parameter, :parent => :parameter, :class => SubnetParameter do
     type 'SubnetParameter'
   end
@@ -21,13 +21,17 @@ FactoryGirl.define do
       association :dns, :factory => :dns_smart_proxy
     end
 
+    trait :template do
+      association :template, :factory => :template_smart_proxy
+    end
+
     trait :with_domains do
       transient do
         domains_count 2
       end
 
       after(:create) do |subnet, evaluator|
-        FactoryGirl.create_list(:domain, evaluator.domains_count, :subnets => [subnet])
+        FactoryBot.create_list(:domain, evaluator.domains_count, :subnets => [subnet])
       end
     end
 
@@ -36,8 +40,8 @@ FactoryGirl.define do
     end
 
     trait :with_taxonomies do
-      locations { [FactoryGirl.create(:location)] }
-      organizations { [FactoryGirl.create(:organization)] }
+      locations { [FactoryBot.create(:location)] }
+      organizations { [FactoryBot.create(:organization)] }
     end
 
     factory :subnet_ipv4, :class => Subnet::Ipv4 do
@@ -52,7 +56,7 @@ FactoryGirl.define do
 
       trait :with_parameter do
         after(:create) do |subnet,evaluator|
-          FactoryGirl.create(:subnet_parameter, :subnet => subnet)
+          FactoryBot.create(:subnet_parameter, :subnet => subnet)
         end
       end
     end

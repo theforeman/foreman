@@ -40,7 +40,7 @@ class Hostgroup < ApplicationRecord
   alias_attribute :os, :operatingsystem
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
-  nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id,
+  nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
                        :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader
 
   # with proc support, default_scope can no longer be chained
@@ -53,9 +53,9 @@ class Hostgroup < ApplicationRecord
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :group_parameters,    :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
-  scoped_search :relation => :hosts, :on => :name, :complete_value => :true, :rename => "host"
+  scoped_search :relation => :hosts, :on => :name, :complete_value => :true, :rename => "host", :only_explicit => true
   scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ ']
-  scoped_search :relation => :environment, :on => :name, :complete_value => :true, :rename => :environment
+  scoped_search :relation => :environment, :on => :name, :complete_value => :true, :rename => :environment, :only_explicit => true
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   # for legacy purposes, keep search on :label
   scoped_search :on => :title, :complete_value => true, :rename => :label
@@ -71,15 +71,15 @@ class Hostgroup < ApplicationRecord
   end
 
   if SETTINGS[:unattended]
-    scoped_search :relation => :architecture,     :on => :name,        :complete_value => true,  :rename => :architecture
-    scoped_search :relation => :operatingsystem,  :on => :name,        :complete_value => true,  :rename => :os
-    scoped_search :relation => :operatingsystem,  :on => :description, :complete_value => true,  :rename => :os_description
-    scoped_search :relation => :operatingsystem,  :on => :title,       :complete_value => true,  :rename => :os_title
-    scoped_search :relation => :operatingsystem,  :on => :major,       :complete_value => true,  :rename => :os_major
-    scoped_search :relation => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor
+    scoped_search :relation => :architecture,     :on => :name,        :complete_value => true,  :rename => :architecture, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :name,        :complete_value => true,  :rename => :os, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :description, :complete_value => true,  :rename => :os_description, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :title,       :complete_value => true,  :rename => :os_title, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :major,       :complete_value => true,  :rename => :os_major, :only_explicit => true
+    scoped_search :relation => :operatingsystem,  :on => :minor,       :complete_value => true,  :rename => :os_minor, :only_explicit => true
     scoped_search :relation => :operatingsystem,  :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-    scoped_search :relation => :medium,           :on => :name,        :complete_value => true, :rename => "medium"
-    scoped_search :relation => :provisioning_templates, :on => :name,  :complete_value => true, :rename => "template"
+    scoped_search :relation => :medium,           :on => :name,        :complete_value => true, :rename => "medium", :only_explicit => true
+    scoped_search :relation => :provisioning_templates, :on => :name,  :complete_value => true, :rename => "template", :only_explicit => true
   end
 
   # returns reports for hosts in the User's filter set
@@ -96,8 +96,8 @@ class Hostgroup < ApplicationRecord
 
   class Jail < Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
-      :environment, :ptable, :url_for_boot, :params, :puppetproxy, :param_true?,
-      :param_false?, :puppet_ca_server, :indent, :os, :arch, :domain, :subnet,
+      :environment, :ptable, :url_for_boot, :params, :puppetproxy,
+      :puppet_ca_server, :indent, :os, :arch, :domain, :subnet,
       :subnet6, :realm, :root_pass, :description, :pxe_loader
   end
 
@@ -165,7 +165,7 @@ class Hostgroup < ApplicationRecord
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.where(nil).each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.where(nil).find_each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
     # read group parameters only if a host belongs to a group
@@ -223,7 +223,7 @@ class Hostgroup < ApplicationRecord
   def recreate_hosts_config(only = nil, children_hosts = false)
     result = {}
 
-    Host::Managed.authorized.where(:hostgroup => (children_hosts ? subtree_ids : self.id)).each do |host|
+    Host::Managed.authorized.where(:hostgroup => (children_hosts ? subtree_ids : self.id)).find_each do |host|
       result[host.name] = host.recreate_config(only)
     end
     result

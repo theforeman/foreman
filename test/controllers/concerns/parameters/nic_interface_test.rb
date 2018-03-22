@@ -14,7 +14,6 @@ class NicInterfaceParametersTest < ActiveSupport::TestCase
 
     assert_equal 'test.example.com', filtered['name']
     assert_equal({'foo' => 'bar', 'memory' => 2}, filtered['compute_attributes'].to_h)
-    assert filtered.permitted?
   end
 
   ['eth0,eth1', ['eth0', 'eth1']].each do |input|
@@ -26,7 +25,6 @@ class NicInterfaceParametersTest < ActiveSupport::TestCase
 
       assert_equal 'test.example.com', filtered['name']
       assert_equal input, filtered['attached_devices']
-      assert filtered.permitted?
     end
   end
 end

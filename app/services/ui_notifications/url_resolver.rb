@@ -26,27 +26,27 @@ module UINotifications
 
     attr_reader :subject, :raw_actions
 
-    def parse_link path_method, title
+    def parse_link(path_method, title)
       {
         href: path_for(path_method),
         title: StringParser.new(title, {subject: subject}).to_s
       }
     end
 
-    def validate_title link
+    def validate_title(link)
       if link[:title].blank?
         raise(Foreman::Exception, "Invalid link, must contain :title")
       end
     end
 
-    def validate_link link
+    def validate_link(link)
       path_method = link[:path_method]
       unless path_method.to_s =~ /_path$/
         raise(Foreman::Exception, "Invalid path_method #{path_method}, must end with _path")
       end
     end
 
-    def path_for path_method
+    def path_for(path_method)
       if collection_path?(path_method)
         public_send(path_method)
       else
@@ -54,7 +54,7 @@ module UINotifications
       end
     end
 
-    def collection_path? path
+    def collection_path?(path)
       path.to_s.sub(/_path$/,'').ends_with?('s')
     end
   end

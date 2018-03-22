@@ -10,6 +10,7 @@
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <% end %>
     <li><a href="#params" id='params-tab' data-url='' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <%= render_tab_header_for(:main_tabs, :subject => @hostgroup) %>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
     <% end %>
@@ -27,10 +28,17 @@
       <%= text_f f, :name %>
       <%= textarea_f f, :description, :rows => :auto %>
       <%= hostgroup_puppet_environment_field f %>
+
+      <%= select_f f, :compute_resource_id, accessible_resource(@hostgroup, :compute_resource), :id, :to_label,
+          { :include_blank => blank_or_inherit_f(f, :compute_resource, blank_value: _('Bare Metal')) },
+          { :label => _('Deploy on'),
+            :help_inline => :indicator } if SETTINGS[:unattended] %>
+
       <%= select_f(f, :compute_profile_id, visible_compute_profiles(@hostgroup), :id, :name,
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
                        { :label => _("Compute profile") }
                   ) if visible_compute_profiles(@hostgroup).any? %>
+      <%= render_pagelets_for(:main_tab_fields, :hostgroup => @hostgroup, :form => f) %>
       <%= smart_proxy_fields f %>
     </div>
 
@@ -83,6 +91,8 @@
         </fieldset>
       <% end %>
     </div>
+
+    <%= render_tab_content_for(:main_tabs, :subject => @hostgroup) %>
 
     <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>
   </div>

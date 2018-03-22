@@ -1,4 +1,4 @@
-class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
+class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration[4.2]
   def up
     add_column :audits, :auditable_name, :string, :limit => 255 unless column_exists? :audits, :auditable_name
     add_column :audits, :associated_name, :string, :limit => 255 unless column_exists? :audits, :associated_name
@@ -14,9 +14,9 @@ class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration
         attr[:associated_name]= associated_name if associated_name
         if audit.username.empty? && audit.user
           username = audit.user.to_label rescue nil
-          attr[:username] = username if !username.empty?
+          attr[:username] = username unless username.empty?
         end
-        audit.update_multiple_attribute(attr) if !attr.empty?
+        audit.update_multiple_attribute(attr) unless attr.empty?
       end
     end
   end

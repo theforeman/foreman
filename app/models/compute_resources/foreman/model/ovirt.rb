@@ -3,15 +3,14 @@ require 'uri'
 
 module Foreman::Model
   class Ovirt < ComputeResource
-    validates :url, :format => { :with => URI.regexp }, :presence => true,
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true,
               :url_schema => ['http', 'https']
     validates :user, :password, :presence => true
-    before_create :update_public_key
-    after_validation :update_available_operating_systems unless Rails.env.test?
+    after_validation :connect, :update_available_operating_systems unless Rails.env.test?
 
     alias_attribute :datacenter, :uuid
 
-    delegate :clusters, :quotas, :templates, :to => :client
+    delegate :clusters, :quotas, :templates, :instance_types, :to => :client
 
     def self.available?
       Fog::Compute.providers.include?(:ovirt)
@@ -46,7 +45,7 @@ module Foreman::Model
     end
 
     def supports_operating_systems?
-      if (client.respond_to?(:operating_systems) || rbovirt_client.respond_to?(:operating_systems))
+      if client.respond_to?(:operating_systems)
         unless self.attrs.key?(:available_operating_systems)
           update_available_operating_systems
           save
@@ -55,7 +54,6 @@ module Foreman::Model
       else
         false
       end
-
     rescue Foreman::FingerprintException
       logger.info "Unable to verify OS capabilities, SSL certificate verification failed"
       false
@@ -126,6 +124,10 @@ module Foreman::Model
       compute
     end
 
+    def instance_type(id)
+      client.instance_types.get(id) || raise(ActiveRecord::RecordNotFound)
+    end
+
     # Check if HTTPS is mandatory, since rest_client will fail with a POST
     def test_https_required
       RestClient.post url, {} if URI(url).scheme == 'http'
@@ -142,21 +144,29 @@ module Foreman::Model
 
     def test_connection(options = {})
       super
-      if errors[:url].empty? && errors[:username].empty? && errors[:password].empty?
-        update_public_key options
-        datacenters && test_https_required
-      end
+      connect(options)
+    end
+
+    def connect(options = {})
+      return unless connection_properties_valid?
+
+      update_public_key options
+      datacenters && test_https_required
     rescue => e
       case e.message
         when /404/
           errors[:url] << e.message
         when /302/
-          errors[:url] << 'HTTPS URL is required for API access'
+          errors[:url] << _('HTTPS URL is required for API access')
         when /401/
           errors[:user] << e.message
         else
           errors[:base] << e.message
       end
+    end
+
+    def connection_properties_valid?
+      errors[:url].empty? && errors[:username].empty? && errors[:password].empty?
     end
 
     def datacenters(options = {})
@@ -209,12 +219,35 @@ module Foreman::Model
       find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data)
     end
 
+    def sanitize_inherited_vm_attributes(args)
+      # Cleanup memory an cores values if template and/or instance type provided when VM values are
+      # * Blank values for these attributes, because oVirt will fail if empty values are present in VM definition
+      # * Provided but identical to values present in the template or instance type
+      # Instance type values take precedence on templates values
+      unless args[:template].blank?
+        template = template(args[:template])
+        cores = template.cores.to_i unless template.cores.blank?
+        memory = template.memory.to_i unless template.memory.blank?
+      end
+      unless args[:instance_type].blank?
+        instance_type = instance_type(args[:instance_type])
+        cores = instance_type.cores.to_i unless instance_type.cores.blank?
+        memory = instance_type.memory.to_i unless instance_type.memory.blank?
+      end
+      args.delete(:cores) if (args[:cores].blank? && cores) || (args[:cores].to_i == cores)
+      args.delete(:memory) if (args[:memory].blank? && memory) || (args[:memory].to_i == memory)
+    end
+
     def create_vm(args = {})
       args[:comment] = args[:user_data] if args[:user_data]
-      if (image_id = args[:image_id])
-        args[:template] = image_id
-      end
+      args[:template] = args[:image_id] if args[:image_id]
+
+      sanitize_inherited_vm_attributes(args)
+
+      preallocate_disks(args) if args[:volumes_attributes].present?
+
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
+
       begin
         create_interfaces(vm, args[:interfaces_attributes])
         create_volumes(vm, args[:volumes_attributes])
@@ -223,6 +256,16 @@ module Foreman::Model
         raise e
       end
       vm
+    end
+
+    def preallocate_disks(args)
+      change_allocation_volumes = args[:volumes_attributes].values.select{ |x| x[:preallocate] == '1' }
+      if args[:template].present? && change_allocation_volumes.present?
+        disks = change_allocation_volumes.map do |volume|
+          { :id => volume[:id], :sparse => 'false', :format => 'raw', :storagedomain => volume[:storage_domain] }
+        end
+        args.merge!(:clone => true, :disks => disks)
+      end
     end
 
     def new_vm(attr = {})
@@ -332,20 +375,21 @@ module Foreman::Model
     def client
       return @client if @client
       client = ::Fog::Compute.new(
-          :provider         => "ovirt",
-          :ovirt_username   => user,
-          :ovirt_password   => password,
-          :ovirt_url        => url,
-          :ovirt_datacenter => uuid,
-          :ovirt_ca_cert_store => ca_cert_store(public_key)
+        :provider         => "ovirt",
+        :ovirt_username   => user,
+        :ovirt_password   => password,
+        :ovirt_url        => url,
+        :ovirt_datacenter => uuid,
+        :ovirt_ca_cert_store => ca_cert_store(public_key)
       )
       client.datacenters
       @client = client
     rescue => e
       if e.message =~ /SSL_connect.*certificate verify failed/
         raise Foreman::FingerprintException.new(
-                  N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
-                  ca_cert)
+          N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
+          ca_cert
+        )
       else
         raise e
       end
@@ -397,11 +441,9 @@ module Foreman::Model
     private
 
     def update_available_operating_systems
-      ovirt_operating_systems = if client.respond_to?(:operating_systems)
-                                  client.operating_systems
-                                elsif rbovirt_client.respond_to?(:operating_systems)
-                                  rbovirt_client.operating_systems
-                                end
+      return false if errors.any?
+      ovirt_operating_systems = client.operating_systems if client.respond_to?(:operating_systems)
+
       attrs[:available_operating_systems] = ovirt_operating_systems.map do |os|
         { :id => os.id, :name => os.name, :href => os.href }
       end
@@ -417,11 +459,11 @@ module Foreman::Model
     end
 
     def os_name_mapping(host)
-      host.operatingsystem.name =~ /redhat|centos/i ? 'rhel': host.operatingsystem.name.downcase
+      (host.operatingsystem.name =~ /redhat|centos/i) ? 'rhel': host.operatingsystem.name.downcase
     end
 
     def arch_name_mapping(host)
-      host.architecture.name == 'x86_64' ? 'x64' : host.architecture.name.downcase if host.architecture
+      (host.architecture.name == 'x86_64') ? 'x64' : host.architecture.name.downcase if host.architecture
     end
 
     def default_iface_name(interfaces)
@@ -483,11 +525,6 @@ module Foreman::Model
         vm.destroy_volume(:id => volume[:id], :blocking => api_version.to_f < 3.1) if volume[:_delete] == '1' && volume[:id].present?
         vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
-    end
-
-    def rbovirt_client
-      # to access the data directly from the rbovirt when something is not exposed via fog
-      client.send(:client)
     end
   end
 end

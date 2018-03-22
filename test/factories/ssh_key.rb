@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :ssh_key do
     sequence(:name) {|n| "user#{n}@example.com" }
     sequence(:key) do |n|

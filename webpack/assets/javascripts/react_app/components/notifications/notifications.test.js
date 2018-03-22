@@ -1,57 +1,47 @@
-// Configure Enzyme
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
-configure({ adapter: new Adapter() });
-
-import React from 'react';
-import {shallow, mount} from 'enzyme';
 import toJson from 'enzyme-to-json';
-import Notifications from './';
-import thunk from 'redux-thunk';
+import { shallow, mount } from 'enzyme';
+import React from 'react';
 import configureMockStore from 'redux-mock-store';
-import {getStore} from '../../redux';
+import thunk from 'redux-thunk';
+import { generateStore } from '../../redux';
+import API from '../../API';
+
 import {
   emptyState,
   componentMountData,
   stateWithoutNotifications,
   stateWithNotifications,
   stateWithUnreadNotifications,
-  serverResponse
+  serverResponse,
 } from './notifications.fixtures';
-import API from '../../API';
-jest.unmock('jquery');
-const mockStore = configureMockStore([thunk]);
 
-let failResponse = { status: 200 };
+import Notifications from './';
+
+jest.mock('../../API');
+const mockStore = configureMockStore([thunk]);
+let failResponse = { response: { status: 200 } };
 
 function mockjqXHR() {
   return {
-    done: (callback) => {
+    then: (callback) => {
       callback(JSON.parse(serverResponse));
       return mockjqXHR();
     },
-    fail: (failCallback) => {
+    catch: (failCallback) => {
       failCallback(failResponse);
       return mockjqXHR();
     },
-    always: () => {
-      return mockjqXHR();
-    }
   };
 }
 
 describe('notifications', () => {
-  const $ = require('jquery');
-
   beforeEach(() => {
-    global.__ = str => str;
     global.tfm = {
       tools: {
-        activateTooltips: () => {}
-      }
+        activateTooltips: () => {},
+      },
     };
-
-    $.getJSON = mockjqXHR;
+    API.get = mockjqXHR;
   });
 
   it('empty state', () => {
@@ -84,9 +74,15 @@ describe('notifications', () => {
     expect(box.render().find('.fa-bell').length).toBe(1);
   });
 
-  it('full flow', () => {
-    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
+  it('should render a dropdown kebab when links are provided', () => {
+    const store = mockStore(stateWithUnreadNotifications);
+    const wrapper = shallow(<Notifications store={store} />);
 
+    expect(wrapper.render().find('.dropdown-toggle').length).toBe(1);
+  });
+
+  it('full flow', () => {
+    const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
     wrapper.find('.fa-bell').simulate('click');
     expect(wrapper.find('.panel-group').length).toEqual(1);
     wrapper.find('.panel-group .panel-heading').simulate('click');
@@ -96,9 +92,8 @@ describe('notifications', () => {
   });
 
   it('mark group as read flow', () => {
-    const wrapper = mount(<Notifications data={componentMountData} store={getStore()} />);
+    const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
     const matcher = '.drawer-pf-action a.btn-link';
-
     wrapper.find('.fa-bell').simulate('click');
     wrapper.find('.panel-group .panel-heading').simulate('click');
     expect(wrapper.find(matcher).length).toBe(1);
@@ -109,19 +104,29 @@ describe('notifications', () => {
 
   it('should redirect to login when 401', () => {
     window.location.replace = jest.fn();
-    failResponse = {status: 401};
+    failResponse = { response: { status: 401 } };
 
-    mount(<Notifications data={componentMountData} store={getStore()} />);
+    mount(<Notifications data={componentMountData} store={generateStore()} />);
     expect(global.location.replace).toBeCalled();
   });
 
   it('should avoid multiple polling on re-mount', () => {
-    const store = getStore();
+    const store = generateStore();
     const spy = jest.spyOn(API, 'get');
 
     mount(<Notifications data={componentMountData} store={store} />);
     mount(<Notifications data={componentMountData} store={store} />);
 
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should close the notification box when click the close button', () => {
+    const wrapper = mount(<Notifications data={componentMountData} store={generateStore()} />);
+    const closeButtonSelector = '.drawer-pf .drawer-pf-title a.drawer-pf-close';
+
+    wrapper.find('.fa-bell').simulate('click');
+    expect(toJson(wrapper)).toMatchSnapshot();
+    wrapper.find(closeButtonSelector).simulate('click');
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 });

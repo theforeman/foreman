@@ -15,6 +15,7 @@ module Api
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Ptable)
 
       def index
         @ptables = resource_scope_for_index
@@ -47,6 +48,22 @@ module Api
       def create
         @ptable = Ptable.new(ptable_params)
         process_response @ptable.save
+      end
+
+      api :POST, "/ptables/import", N_("Import a provisioning template")
+      param :ptable, Hash, :required => true, :action_aware => true do
+        param :name, String, :required => true, :desc => N_("template name")
+        param :template, String, :required => true, :desc => N_("template contents including metadata")
+      end
+      param_group :template_import_options, ::Api::V2::BaseController
+
+      def import
+        options = params.permit(:options => {}).try(:[], :options) || {}
+        template_params = params.require(:ptable).permit(:name, :template)
+        name = template_params[:name]
+        text = template_params[:template]
+        @ptable = Ptable.import!(name, text, options)
+        process_response @ptable
       end
 
       api :GET, "/ptables/revision"
@@ -111,7 +128,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'clone'
+          when 'clone', 'import'
             'create'
           when 'export'
             'view'

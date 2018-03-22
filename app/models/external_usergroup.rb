@@ -10,19 +10,24 @@ class ExternalUsergroup < ApplicationRecord
   validates :name, :auth_source, :usergroup, :presence => true
   validate :hidden_authsource_restricted
   validate :in_auth_source?, :if => Proc.new { |eu| eu.auth_source.respond_to?(:valid_group?) }
+  validate :domain_users_forbidden
 
   def refresh
     return false unless auth_source.respond_to?(:users_in_group)
 
     current_users = usergroup.users.map(&:login)
+    internal_users = usergroup.users.
+      where(:auth_source => AuthSourceInternal.first).map(&:login)
     my_users = users
+    return false unless my_users
+
     all_other_users = (usergroup.external_usergroups - [self]).map(&:users)
     all_users = (all_other_users + my_users).flatten.uniq
 
     # We need to make sure when we refresh a external_usergroup
     # other external_usergroup users remain in. Otherwise refreshing
     # a external user group with no users in will empty the user group.
-    old_users = current_users - all_users
+    old_users = current_users - all_users - internal_users
     new_users = my_users - current_users
 
     usergroup.remove_users(old_users)
@@ -32,6 +37,9 @@ class ExternalUsergroup < ApplicationRecord
 
   def users
     auth_source.users_in_group(name)
+  rescue Net::LDAP::Error, Net::LDAP::LdapError => e
+    errors.add :auth_source_id, _("LDAP error - %{message}") % { :message => e.message }
+    return false
   end
 
   private
@@ -45,6 +53,18 @@ class ExternalUsergroup < ApplicationRecord
   def hidden_authsource_restricted
     if auth_source_id_changed? && auth_source.is_a?(AuthSourceHidden)
       errors.add :auth_source, _("is not permitted")
+    end
+  end
+
+  def domain_users_forbidden
+    if auth_source.server_type == 'active_directory' &&
+       name.downcase == 'domain users'
+      errors.add(
+        :name,
+        _("Domain Users is a special group in AD. Unfortunately, we cannot "\
+          "obtain membership information from a LDAP search and therefore "\
+          "sync it.")
+      )
     end
   end
 end

@@ -74,6 +74,8 @@ module Foreman::Model
       errors[:user].empty? && errors[:password].empty? && regions
     rescue Fog::Compute::AWS::Error => e
       errors[:base] << e.message
+    rescue Excon::Error::Socket => e
+      errors[:base] << e.message
     end
 
     def console(uuid)
@@ -106,12 +108,12 @@ module Foreman::Model
 
     private
 
-    def subnet_implies_is_vpc? args
+    def subnet_implies_is_vpc?(args)
       args[:subnet_id].present?
     end
 
     def client
-      @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region)
+      @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region, :connection_options => connection_options)
     end
 
     def vm_instance_defaults

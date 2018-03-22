@@ -2,12 +2,13 @@ module Api
   #TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
     include ApplicationShared
+    include Foreman::Controller::BruteforceProtection
 
     protect_from_forgery
     force_ssl :if => :require_ssl?
     skip_before_action :verify_authenticity_token, :unless => :protect_api_from_forgery?
 
-    before_action :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
+    before_action :set_default_response_format, :authorize, :set_taxonomy, :add_version_header, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
 
@@ -55,8 +56,7 @@ module Api
 
     # overwrites resource_scope in FindCommon to consider nested objects
     def resource_scope(options = {})
-      child_scope = super(options)
-      child_scope.merge(parent_scope).readonly(false)
+      resource_class.where(:id => (super(options).ids & parent_scope.ids).uniq)
     end
 
     def parent_scope
@@ -167,7 +167,14 @@ module Api
     end
 
     def authorize
+      if bruteforce_attempt?
+        log_bruteforce
+        render_error('unauthorized', :status => :unauthorized)
+        return false
+      end
+
       unless authenticate
+        count_login_failure
         render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => @available_sso.try(:user) })
         return false
       end
@@ -183,7 +190,7 @@ module Api
     def require_admin
       unless is_admin?
         render_error('access_denied', :status => :unauthorized, :locals => { :details => _('Admin permissions required') })
-        return false
+        false
       end
     end
 
@@ -233,7 +240,7 @@ module Api
       params.keys.each do |param|
         if param =~ /(\w+)_id$/
           unless params[param].blank?
-            query = " #{$1} = #{params[param]}"
+            query = " #{Regexp.last_match(1)} = #{params[param]}"
             params[:search] += query unless params[:search].include? query
           end
         end
@@ -270,8 +277,14 @@ module Api
 
     def not_found_if_nested_id_exists
       allowed_nested_id.each do |obj_id|
+        # this method does not reliably work when you have multiple parameters and some of them can be nil
+        # find_nested_object in such case returns nil (since org and loc can be nil for any context),
+        # but it detects other paramter which can have value set
+        # therefore we always skip these
+        next if [ 'organization_id', 'location_id' ].include?(obj_id)
         if params[obj_id].present?
           not_found _("%{resource_name} not found by id '%{id}'") % { :resource_name => obj_id.humanize, :id => params[obj_id] }
+          return
         end
       end
     end
@@ -298,6 +311,7 @@ module Api
     def allowed_nested_id
       []
     end
+
     # will be overwritten by each controller. initialize as empty array to prevent handling nil variable
     def skip_nested_id
       []
@@ -338,6 +352,13 @@ module Api
       end
 
       return nil if parent_name.nil? || parent_class.nil?
+      # for admin we don't want to add any context condition, that would fail for hosts since we'd add join to
+      # taxonomy table without any condition, inner join would return no host in this case
+      return nil if User.current.admin? && [ Organization, Location ].include?(parent_class) && parent_id.blank?
+      # for taxonomies, nil is valid value which indicates, we need to search in Users all taxonomies
+      return [parent_name, User.current.my_organizations] if parent_class == Organization && parent_id.blank?
+      return [parent_name, User.current.my_locations] if parent_class == Location && parent_id.blank?
+
       parent_scope = scope_for(parent_class, :permission => "#{parent_permission(action_permission)}_#{parent_name.pluralize}")
       parent_scope = select_by_resource_id_scope(parent_scope, parent_class, parent_id)
       [parent_name, parent_scope]
@@ -397,6 +418,23 @@ module Api
     class << self
       def parameter_filter_context
         Foreman::ParameterFilter::Context.new(:api, controller_name, nil)
+      end
+
+      protected
+
+      def add_scoped_search_description_for(resource)
+        search_fields = resource.scoped_search_definition.fields.map do |k,f|
+          info = { :name => k.to_s }
+          if f.complete_value.is_a?(Hash)
+            info[:values] = f.complete_value.keys
+          else
+            # type is unknown for fields that are delegated to external methods
+            # 'string' is a good guess in such cases
+            info[:type] = f.ext_method.nil? ? f.type.to_s : 'string' rescue ''
+          end
+          info
+        end
+        meta :search => search_fields.sort_by { |info| info[:name] }
       end
     end
   end

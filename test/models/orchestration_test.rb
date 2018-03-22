@@ -30,8 +30,8 @@ class OrchestrationTest < ActiveSupport::TestCase
   end
 
   setup do
-    @host = FactoryGirl.create(:host)
-    @nic = FactoryGirl.create(:nic_managed, :host => @host, :ip => '192.168.0.2')
+    @host = FactoryBot.create(:host)
+    @nic = FactoryBot.create(:nic_managed, :host => @host, :ip => '192.168.0.2')
   end
 
   test "test host can call protected queue methods" do
@@ -43,7 +43,9 @@ class OrchestrationTest < ActiveSupport::TestCase
 
       protected
 
-      def setTest; true; end
+      def setTest
+        true
+      end
     end
     h = Host::Test1.new
     assert h.test_execute(:setTest)
@@ -101,7 +103,9 @@ class OrchestrationTest < ActiveSupport::TestCase
 
       protected
 
-      def setTest(param); "got #{param}"; end
+      def setTest(param)
+        "got #{param}"
+      end
     end
     h = Host::Test.new
     h.expects(:setTest).with('abc').returns(true)
@@ -128,7 +132,7 @@ class OrchestrationTest < ActiveSupport::TestCase
 
   test "orchestration can clone object with belongs_to associations by updating association id" do
     # in rails 2 we had to reload associations, this tests prevents regressions after we dropped it in rails 3
-    @host2 = FactoryGirl.create(:host)
+    @host2 = FactoryBot.create(:host)
     @nic.host_id = @host2.id
     clone = @nic.send(:setup_object_clone, @nic)
     refute_equal @nic.object_id, clone.object_id
@@ -145,7 +149,7 @@ class OrchestrationTest < ActiveSupport::TestCase
 
   context "when registering orchestration rebuild methods" do
     setup do
-      @klass = Class.new(ActiveRecord::Base) do
+      @klass = Class.new(ApplicationRecord) do
         include Orchestration
         include Orchestration::TestModule
       end

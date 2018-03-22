@@ -56,7 +56,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
     CertificateExtract.expects(:new).never
 
-    proxy = FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    proxy = FactoryBot.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
     assert @controller.send(:auth_smart_proxy)
     assert_equal proxy, @controller.detected_proxy
   end
@@ -68,7 +68,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = '/C=CZ/ST=Czech Republic/L=Brno/O=Ares/CN=*.example.com,DN=example,DN=com'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
 
-    proxy = FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    proxy = FactoryBot.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
     assert @controller.send(:auth_smart_proxy)
     assert_equal proxy, @controller.detected_proxy
   end
@@ -80,7 +80,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = '/C=CZ/ST=Czech Republic/L=Brno/O=Ares/CN=*.example.org,DN=example,DN=com'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
 
-    FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    FactoryBot.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
     refute @controller.send(:auth_smart_proxy)
   end
 
@@ -91,7 +91,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = 'CN=*.*.com'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
 
-    FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    FactoryBot.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
     refute @controller.send(:auth_smart_proxy)
   end
 
@@ -102,7 +102,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     @request.env['SSL_CLIENT_S_DN'] = 'CN=*.example.com'
     @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
 
-    FactoryGirl.create(:smart_proxy, :url => 'https://proxyXexampleXcom:8443')
+    FactoryBot.create(:smart_proxy, :url => 'https://proxyXexampleXcom:8443')
     refute @controller.send(:auth_smart_proxy)
   end
 
@@ -118,7 +118,7 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     mock_cert.expects(:subject_alternative_names).at_least_once.returns([])
     CertificateExtract.expects(:new).with('raw certificate').returns(mock_cert)
 
-    proxy = FactoryGirl.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    proxy = FactoryBot.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
     assert @controller.send(:auth_smart_proxy)
     assert_equal proxy, @controller.detected_proxy
   end
@@ -135,14 +135,14 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     mock_cert.expects(:subject_alternative_names).at_least_once.returns(['san1.example.com', 'san2.example.com'])
     CertificateExtract.expects(:new).with('raw certificate').returns(mock_cert)
 
-    proxy = FactoryGirl.create(:smart_proxy, :url => 'https://san2.example.com:8443')
+    proxy = FactoryBot.create(:smart_proxy, :url => 'https://san2.example.com:8443')
     assert @controller.send(:auth_smart_proxy)
     assert_equal proxy, @controller.detected_proxy
   end
 
   def test_trusted_puppet_master_hosts_by_ip_match
     @request.env['REMOTE_ADDR'] = '127.0.0.2'
-    Setting[:trusted_puppetmaster_hosts] = ['127.0.0.2']
+    Setting[:trusted_hosts] = ['127.0.0.2']
     assert @controller.send(:auth_smart_proxy)
   end
 
@@ -175,7 +175,7 @@ class SmartProxyAuthWebUITest < ActionController::TestCase
     @controller.stubs(:auth_smart_proxy).returns(false)
     @controller.stubs(:require_login).returns(false)
 
-    get :externalNodes, :id => 123
+    get :externalNodes, params: { :id => 123 }
 
     assert_response :forbidden
     assert_template "common/403"

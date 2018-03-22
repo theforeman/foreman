@@ -9,7 +9,6 @@ module Foreman::Controller::Environments
       opts[:env] = params[:env] unless params[:env].blank?
       @importer = PuppetClassImporter.new(opts)
       @changed  = @importer.changes
-
     rescue => e
       if e.message =~ /puppet feature/i
         error _("No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature")
@@ -26,20 +25,20 @@ module Foreman::Controller::Environments
     if !@changed["new"].empty? || !@changed["obsolete"].empty? || !@changed["updated"].empty?
       render "common/_puppetclasses_or_envs_changed"
     else
-      notice_message = _("No changes to your environments detected")
+      info_message = _("No changes to your environments detected")
 
       if @changed['ignored'].present?
-        list_ignored(notice_message, @changed['ignored'])
+        list_ignored(info_message, @changed['ignored'])
       end
 
-      notice(notice_message)
+      info info_message
       redirect_to :controller => controller_path
     end
   end
 
   def obsolete_and_new
     if (errors = ::PuppetClassImporter.new.obsolete_and_new(params[:changed])).empty?
-      notice _("Successfully updated environments and Puppet classes from the on-disk Puppet installation")
+      success _("Successfully updated environments and Puppet classes from the on-disk Puppet installation")
     else
       error _("Failed to update environments and Puppet classes from the on-disk Puppet installation: %s") % errors.to_sentence
     end
@@ -48,14 +47,14 @@ module Foreman::Controller::Environments
 
   private
 
-  def list_ignored(notice, ignored)
+  def list_ignored(info_message, ignored)
     environments = ignored.select { |_, values| values.first == '_ignored_' }
     if environments.any?
-      ignore_notice = _("Ignored environments: %s") % environments.keys.to_sentence
+      ignore_info = _("Ignored environments: %s") % environments.keys.to_sentence
     else
-      ignore_notice = _("Ignored classes in the environments: %s") % ignored.keys.to_sentence
+      ignore_info = _("Ignored classes in the environments: %s") % ignored.keys.to_sentence
     end
 
-    notice << "\n" + ignore_notice
+    info_message << "\n" + ignore_info
   end
 end

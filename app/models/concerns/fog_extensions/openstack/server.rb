@@ -1,13 +1,9 @@
 module FogExtensions
   module Openstack
     module Server
-      def self.prepended(base)
-        class << base
-          attr_reader :nics
-          attr_accessor :boot_from_volume, :size_gb, :scheduler_hint_filter
-          attr_writer :security_group, :network # floating IP
-        end
-      end
+      attr_reader :nics
+      attr_writer :security_group, :network # floating IP
+      attr_accessor :boot_from_volume, :size_gb, :scheduler_hint_filter
 
       def to_s
         name
@@ -48,11 +44,11 @@ module FogExtensions
       end
 
       def boot_from_volume
-        attr[:boot_from_volume]
+        attributes[:boot_from_volume]
       end
 
       def size_gb
-        attr[:size_gb]
+        attributes[:size_gb]
       end
 
       def network

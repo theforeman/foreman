@@ -1,9 +1,12 @@
 require 'test_helper'
+require 'fact_importer_test_helper'
 
 class StructuredFactImporterTest < ActiveSupport::TestCase
+  include FactImporterIsolation
+
   attr_reader :importer
 
-  let(:host) { FactoryGirl.create(:host) }
+  let(:host) { FactoryBot.create(:host) }
 
   describe '#import!' do
     test 'hash facts are imported' do
@@ -76,11 +79,24 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
       importer = StructuredFactImporter.new(nil, :a => 1)
       assert_equal({'a' => '1'}, importer.send(:facts))
     end
+
+    test 'subtrees excluded properly' do
+      data = FactsData::HierarchicalPuppetStyleFacts.new
+      Setting.stubs(:[]).with(:excluded_facts).returns(data.filter)
+
+      facts = data.good_facts.deep_merge(data.ignored_facts)
+
+      importer = StructuredFactImporter.new(nil, facts)
+      actual_facts = importer.send(:facts)
+
+      assert_equal data.flat_result, actual_facts
+    end
   end
 
   def import(facts)
     @importer = StructuredFactImporter.new(host, facts)
     @importer.stubs(:fact_name_class).returns(FactName)
+    allow_transactions_for @importer
     @importer.import!
   end
 

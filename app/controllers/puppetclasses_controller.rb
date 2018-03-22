@@ -38,9 +38,9 @@ class PuppetclassesController < ApplicationController
         class_param.update_attribute(:override, params[:enable])
       end
       if [true, :true, 'true'].include?(params[:enable])
-        notice _("Successfully overridden all parameters of Puppet class %s") % @puppetclass.name
+        success _("Successfully overridden all parameters of Puppet class %s") % @puppetclass.name
       else
-        notice _("Successfully reset all parameters of Puppet class %s to their default values") % @puppetclass.name
+        success _("Successfully reset all parameters of Puppet class %s to their default values") % @puppetclass.name
       end
     else
       error _("No parameters to override for Puppet class %s") % @puppetclass.name
@@ -59,8 +59,8 @@ class PuppetclassesController < ApplicationController
   private
 
   def get_host_or_hostgroup
-    # params['host_id'] = 'null' if NEW since hosts/form and hostgroups/form has data-id="null"
-    if params['host_id'] == 'null'
+    # params['host_id'] = 'undefined' if NEW since hosts/form and hostgroups/form has no data-id
+    if params['host_id'] == 'undefined'
       @obj = Host::Managed.new(host_params('host')) if params['host']
       @obj ||= Hostgroup.new(hostgroup_params) if params['hostgroup']
     else

@@ -7,7 +7,7 @@ class NotificationRecipient < ApplicationRecord
   validates :user, :presence => true
 
   scope :unseen, -> { where(:seen => false) }
-  after_save :delete_user_cache
+  after_commit :delete_user_cache
 
   def payload
     {
@@ -25,6 +25,7 @@ class NotificationRecipient < ApplicationRecord
     return true unless SETTINGS[:login]
     User.current.id == user_id
   end
+
   private
 
   def delete_user_cache

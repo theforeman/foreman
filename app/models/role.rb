@@ -161,6 +161,7 @@ class Role < ApplicationRecord
         filtering = filter.filterings.build
         filtering.filter = filter
         filtering.permission = permission
+        filtering.save! if options[:save!]
       end
     end
   end
@@ -271,7 +272,7 @@ class Role < ApplicationRecord
   private
 
   def sync_inheriting_filters
-    self.filters.where(:override => false).each do |f|
+    self.filters.where(:override => false).find_each do |f|
       unless f.save
         errors.add :base, N_('One or more of the associated filters are invalid which prevented the role to be saved')
         raise ActiveRecord::Rollback, N_("Unable to submit role: Problem with associated filter #{f.errors}")
@@ -288,8 +289,10 @@ class Role < ApplicationRecord
   end
 
   def check_deletable
-    errors.add(:base, _("Cannot delete built-in role")) if builtin?
-    errors.empty?
+    if builtin?
+      errors.add(:base, _("Cannot delete built-in role"))
+      throw :abort
+    end
   end
 
   def not_locked
@@ -322,8 +325,9 @@ class Role < ApplicationRecord
   end
 
   def permission_records(permissions)
-    collection = Permission.where(:name => permissions).all
-    raise ::Foreman::PermissionMissingException.new(N_('some permissions were not found')) if collection.size != permissions.size
+    perms = permissions.flatten
+    collection = Permission.where(:name => perms).all
+    raise ::Foreman::PermissionMissingException.new(N_('some permissions were not found')) if collection.size != perms.size
     collection
   end
 end

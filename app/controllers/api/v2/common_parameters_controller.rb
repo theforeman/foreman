@@ -5,9 +5,10 @@ module Api
 
       before_action :find_resource, :only => %w{show update destroy}
 
-      api :GET, "/common_parameters/", N_("List all global parameters.")
+      api :GET, "/common_parameters/", N_("List all global parameters")
       param :show_hidden, :bool, :desc => N_("Display hidden values")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Parameter)
 
       def index
         @common_parameters = resource_scope_for_index(:permission => :view_params)

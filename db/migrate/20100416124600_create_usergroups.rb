@@ -1,4 +1,4 @@
-class CreateUsergroups < ActiveRecord::Migration
+class CreateUsergroups < ActiveRecord::Migration[4.2]
   def up
     create_table :usergroups do |t|
       t.string :name, :limit => 255

@@ -1,4 +1,4 @@
-class CleanupUsersProperties < ActiveRecord::Migration
+class CleanupUsersProperties < ActiveRecord::Migration[4.2]
   def up
     remove_column :users, :domains_andor           if column_exists? :users, :domains_andor
     remove_column :users, :hostgroups_andor        if column_exists? :users, :hostgroups_andor

@@ -29,7 +29,7 @@ class RoleLockTest < ActiveSupport::TestCase
     prefix = "Customized"
     new_name = "#{prefix} #{original_name} 1"
     taken_name = "#{prefix} #{original_name}"
-    FactoryGirl.create(:role, :name => taken_name)
+    FactoryBot.create(:role, :name => taken_name)
     refute find_role(new_name)
     @role_lock.rename_existing role, original_name
     assert find_role(new_name)

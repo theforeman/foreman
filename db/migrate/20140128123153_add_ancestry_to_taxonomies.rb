@@ -1,4 +1,4 @@
-class AddAncestryToTaxonomies < ActiveRecord::Migration
+class AddAncestryToTaxonomies < ActiveRecord::Migration[4.2]
   def up
     add_column :taxonomies, :ancestry, :string, :limit => 255
     add_index :taxonomies, :ancestry

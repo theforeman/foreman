@@ -1,4 +1,4 @@
-class CreateComputeResources < ActiveRecord::Migration
+class CreateComputeResources < ActiveRecord::Migration[4.2]
   def up
     create_table :compute_resources do |t|
       t.string :name, :limit => 255

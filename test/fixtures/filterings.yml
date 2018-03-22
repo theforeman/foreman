@@ -1,3 +1,4 @@
+---
 manager_1_0:
   filter: manager_1
   permission: view_architectures

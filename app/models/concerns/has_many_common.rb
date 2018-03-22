@@ -65,7 +65,7 @@ module HasManyCommon
 
       # GETTER _names method
       define_method "#{assoc}_names" do
-        assoc_klass(association).where(:id => send("#{assoc}_ids")).map { |res| res.name_method }
+        self.send(association).map(&:name_method)
       end
     end
 
@@ -90,8 +90,7 @@ module HasManyCommon
 
       # GETTER _name method
       define_method assoc_name do
-        assoc_id = self.send("#{assoc}_id")
-        assoc_klass(association).find_by_id(assoc_id).try(:name_method)
+        self.send(association).try(:name_method)
       end
     end
   end

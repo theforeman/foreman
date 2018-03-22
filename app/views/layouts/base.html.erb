@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" class="no-js">
+<html lang="<%= I18n.locale %>" class="<%= User.current ? "layout-pf layout-pf-fixed" : "login-pf no-js"%>">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -45,9 +45,16 @@
     <!--[if lte IE 9]>
       <%= _('You are using an unsupported browser.') %>
     <![endif]-->
-    <%= render "home/topbar" if User.current %>
-
-    <%= yield(:content) %>
-
+    <% if User.current %>
+      <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
+        <%= render "home/topbar" %>
+        <%= render "home/navbar" %>
+      <% end %>
+      <div class="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary">
+        <%= yield(:content) %>
+      </div>
+    <% else %>
+      <%= yield(:content) %>
+    <% end %>
   </body>
 </html>

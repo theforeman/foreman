@@ -3,10 +3,13 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
-var plugins = require('../script/plugin_webpack_directories');
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+var pluginUtils = require('../script/plugin_webpack_directories');
+var vendorEntry = require('./webpack.vendor');
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
@@ -16,21 +19,20 @@ var production =
   process.env.RAILS_ENV === 'production' ||
   process.env.NODE_ENV === 'production';
 
-// Create aliases for plugins so that their components are easily accessible.
-// Each alias points to /$path_to_plugin/webpack
-var aliasPlugins  = function (pluginEntries) {
-  var aliases = {};
-  Object.keys(pluginEntries).forEach(function(key) {
-    var pathSplit = pluginEntries[key].split('/');
-    aliases[key] = pathSplit.slice(0, pathSplit.length - 1).join('/');
-  });
-  return aliases;
-}
+var bundleEntry = path.join(__dirname, '..', 'webpack/assets/javascripts/bundle.js');
+
+var plugins = pluginUtils.getPluginDirs();
+
+var resolveModules = [  path.join(__dirname, '..', 'webpack'),
+                        path.join(__dirname, '..', 'node_modules'),
+                        'node_modules/',
+                     ].concat(pluginUtils.pluginNodeModules(plugins));
 
 var config = {
   entry: Object.assign(
     {
-      bundle: './webpack/assets/javascripts/bundle.js'
+      bundle: bundleEntry,
+      vendor: vendorEntry,
     },
     plugins.entries
   ),
@@ -46,16 +48,13 @@ var config = {
   },
 
   resolve: {
-    modules: [
-      path.join(__dirname, '..', 'webpack'),
-      path.join(__dirname, '..', 'node_modules')
-    ],
+    modules: resolveModules,
     alias: Object.assign({
       foremanReact:
         path.join(__dirname,
-           '../webpack/assets/javascripts/react_app')
-    },
-    aliasPlugins(plugins['entries'])
+           '../webpack/assets/javascripts/react_app'),
+      },
+      pluginUtils.aliasPlugins(plugins['entries'])
     )
   },
 
@@ -68,11 +67,13 @@ var config = {
         options: {
           'presets': [
             path.join(__dirname, '..', 'node_modules/babel-preset-react'),
-            path.join(__dirname, '..', 'node_modules/babel-preset-es2015')
+            path.join(__dirname, '..', 'node_modules/babel-preset-env')
           ],
           'plugins': [
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-class-properties'),
             path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
-            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign')
+            path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign'),
+            path.join(__dirname, '..', 'node_modules/babel-plugin-lodash')
           ]
         }
       },
@@ -98,6 +99,7 @@ var config = {
   },
 
   plugins: [
+    new LodashModuleReplacementPlugin({ paths: true, collections: true }),
     // must match config.webpack.manifest_filename
     new StatsWriterPlugin({
       filename: 'manifest.json',
@@ -122,17 +124,19 @@ var config = {
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
+      name: 'vendor',
+      minChunks: Infinity,
     })
-
   ]
 };
 
 if (production) {
   config.plugins.push(
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: { warnings: false },
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: { warnings: false },
+      },
       sourceMap: false
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),

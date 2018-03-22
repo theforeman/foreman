@@ -6,7 +6,6 @@
 //= require scoped_search
 //= require bootstrap
 //= require patternfly
-//= require topbar
 //= require two-pane
 //= require vendor
 //= require jquery.extentions
@@ -18,13 +17,19 @@
 //= require lookup_keys
 //= require editable/bootstrap-editable
 //= require editable/rails
-//= require compute_resource
 
-$(document).on("page:fetch", tfm.tools.showSpinner)
+$(document).on("page:fetch", function() {
+  tfm.tools.showSpinner();
+  tfm.nav.activate();
+});
 
 $(document).on("page:change", tfm.tools.hideSpinner)
 
 $(function() {
+  // turbolinks classic cached pages have an issue with react integration
+  // https://github.com/reactjs/react-rails/blob/18a4f5b4c44ab58ad0dd77c5e9315e3cb0edba1f/react_ujs/src/events/turbolinksClassicDeprecated.js#L4
+  Turbolinks.pagesCached(0);
+  tfm.nav.init();
   $(document).trigger('ContentLoad');
 });
 
@@ -206,25 +211,6 @@ function template_info(div, url) {
     }
   });
 }
-
-//add bookmark dialog
-$(function() {
-  $('#bookmarks-modal .modal-footer .btn-primary').on('click', function(){
-     $('#bookmarks-modal .modal-body .btn-primary').click();
-  });
-  $("#bookmarks-modal").bind('shown.bs.modal', function () {
-    var query = encodeURI($("#search").val());
-    var url = $("#bookmark").attr('data-url');
-    $("#bookmarks-modal .modal-body").empty();
-    $("#bookmarks-modal .modal-body").append("<span id='loading'>" + __('Loading ...') + "</span>");
-    $("#bookmarks-modal .modal-body").load(url + '&query=' + query + ' form',
-                                           function(response, status, xhr) {
-                                             $("#loading").hide();
-                                             $("#bookmarks-modal .modal-body .btn").hide()
-                                           });
-  });
-
-});
 
 function filter_by_level(item){
   var level = $(item).val();
@@ -413,19 +399,19 @@ function reloadOnAjaxComplete(element) {
   tfm.tools.hideSpinner()
   tfm.tools.activateTooltips();
   activate_select2(':root');
+  tfm.numFields.initAll()
 }
 
 function set_fullscreen(element){
   var exit_button = $('<div class="exit-fullscreen"><a class="btn btn-default btn-lg" href="#" onclick="exit_fullscreen(); return false;" title="'+
-    __('Exit Full Screen')+'">' + tfm.tools.iconText('expand','','fa') + '</a></div>');
+    __('Exit Full Screen')+'">' + tfm.tools.iconText('compress','','fa') + '</a></div>');
   element.before("<span id='fullscreen-placeholder'></span>")
          .data('position', $(window).scrollTop())
          .addClass('fullscreen')
-         .appendTo($('body'))
+         .appendTo($('.container-pf-nav-pf-vertical'))
          .resize()
          .after(exit_button);
   $('#content').addClass('hidden');
-  $('.navbar').addClass('hidden');
   $(document).on('keyup', function(e) {
     if (e.keyCode == 27) {    // esc
       exit_fullscreen();
@@ -436,7 +422,6 @@ function set_fullscreen(element){
 function exit_fullscreen(){
   var element = $('.fullscreen');
   $('#content').removeClass('hidden');
-  $('.navbar').removeClass('hidden');
   element.removeClass('fullscreen')
          .insertAfter('#fullscreen-placeholder')
          .resize();

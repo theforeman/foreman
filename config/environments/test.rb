@@ -18,8 +18,8 @@ Foreman::Application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_files   = true
-  config.static_cache_control = 'public, max-age=3600'
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = {'Cache-Control' => 'public, max-age=3600'}
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -73,7 +73,7 @@ Foreman::Application.configure do
   config.after_initialize do
     Foreman::Plugin.all.each do |plugin|
       unless File.exist?(File.join(plugin.path, 'config', 'as_deprecation_whitelist.yaml'))
-        ASDeprecationTracker.whitelist.add(engine: plugin.id.to_s.gsub('-', '_'))
+        ASDeprecationTracker.whitelist.add(engine: plugin.id.to_s.tr('-', '_'))
       end
     end
     ASDeprecationTracker.resume!

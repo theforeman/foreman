@@ -14,6 +14,7 @@ SETTINGS[:puppetvardir]  ||= '/var/lib/puppet'
 SETTINGS[:puppetssldir]  ||= "#{SETTINGS[:puppetvardir]}/ssl"
 SETTINGS[:rails] = '%.1f' % SETTINGS[:rails] if SETTINGS[:rails].is_a?(Float) # unquoted YAML value
 SETTINGS[:domain] ||= Facter.value(:domain) || Facter.value(:hostname)
+SETTINGS[:hsts_enabled] = true unless SETTINGS.has_key?(:hsts_enabled)
 
 # Load plugin config, if any
 Dir["#{root}/config/settings.plugins.d/*.yaml"].each do |f|

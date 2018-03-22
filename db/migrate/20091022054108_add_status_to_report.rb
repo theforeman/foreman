@@ -1,4 +1,4 @@
-class AddStatusToReport < ActiveRecord::Migration
+class AddStatusToReport < ActiveRecord::Migration[4.2]
   def up
     add_column :reports, :status, :integer
     add_index :reports, :status

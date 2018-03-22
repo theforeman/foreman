@@ -78,16 +78,28 @@ class UnattendedController < ApplicationController
   # if the host was found than its record will be in @host
   # if the host doesn't exists, it will return 404 and the requested method will not be reached.
   def get_host_details
-    @host = find_host_by_spoof || find_host_by_token || find_host_by_ip_or_mac
-    verify_found_host(@host)
+    @host = find_host_by_spoof || find_host_by_token
+    @host ||= find_host_by_ip_or_mac unless token_from_params.present?
+    verify_valid_host_token
+    verify_found_host
   end
 
   def get_built_host_details
-    @host = find_host_by_spoof || find_built_host_by_token || find_host_by_ip_or_mac
-    verify_found_host(@host)
+    @host = find_host_by_spoof || find_built_host_by_token
+    @host ||= find_host_by_ip_or_mac unless token_from_params.present?
+    verify_found_host
   end
 
-  def verify_found_host(a_host)
+  def verify_valid_host_token
+    return unless @host && @host.token_expired?
+    render_custom_error(
+      :precondition_failed,
+      N_('%{controller}: provisioning token for host %{host} expired'),
+      { :controller => controller_name, :host => @host.name }
+    )
+  end
+
+  def verify_found_host
     logger.debug "Found #{@host}" unless host_not_found?(@host) || host_os_is_missing?(@host) || host_os_family_is_missing?(@host)
   end
 
@@ -132,7 +144,7 @@ class UnattendedController < ApplicationController
   end
 
   def token_from_params
-    token = params.delete('token')
+    token = params[:token]
     return nil if token.blank?
     # Quirk: ZTP requires the .slax suffix
     if (result = token.match(/^([a-z0-9-]+)(.slax)$/i))
@@ -161,6 +173,11 @@ class UnattendedController < ApplicationController
         mac_list = []
       end
     end
+
+    if params.key?(:mac)
+      mac_list << params[:mac]
+    end
+
     # we try to match first based on the MAC, falling back to the IP
     # host is readonly because of association so we reload it if we find it
     host = Host.joins(:provision_interface).where(mac_list.empty? ? {:nics => {:ip => ip}} : ["lower(nics.mac) IN (?)", mac_list]).first

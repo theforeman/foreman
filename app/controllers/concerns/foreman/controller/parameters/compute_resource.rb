@@ -12,6 +12,7 @@ module Foreman::Controller::Parameters::ComputeResource
           :provider,
           :set_console_password,
           :url,
+          :http_proxy_id,
           :user
 
         # ec2
@@ -32,7 +33,8 @@ module Foreman::Controller::Parameters::ComputeResource
         # openstack
         filter.permit :allow_external_network,
           :key_pair,
-          :tenant
+          :tenant,
+          :domain
 
         # ovirt
         filter.permit :datacenter,

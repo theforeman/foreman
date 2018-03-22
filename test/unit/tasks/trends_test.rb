@@ -12,7 +12,7 @@ class TrendsTest < ActiveSupport::TestCase
   end
 
   test 'trends:reduce reduces single trend' do
-    trend = FactoryGirl.create(:trend_os)
+    trend = FactoryBot.build(:trend_os)
     point_dates = create_trend_line(trend, [1,1,1,1,1,1])
 
     Rake.application.invoke_task 'trends:reduce'
@@ -28,8 +28,8 @@ class TrendsTest < ActiveSupport::TestCase
   end
 
   test 'trends:reduce does not iterfere between two trend ids' do
-    trend1 = FactoryGirl.create(:trend_os)
-    trend2 = FactoryGirl.create(:trend_os)
+    trend1 = FactoryBot.build(:trend_os)
+    trend2 = FactoryBot.build(:trend_os)
     create_trend_line(trend1, [1,1,1,1,1,1])
     create_trend_line(trend2, [2,2,2,2,2,2])
 
@@ -50,8 +50,8 @@ class TrendsTest < ActiveSupport::TestCase
   end
 
   test 'trends:reduce crossing graphs' do
-    new_os_trend = FactoryGirl.create(:trend_os)
-    old_os_trend = FactoryGirl.create(:trend_os)
+    new_os_trend = FactoryBot.build(:trend_os)
+    old_os_trend = FactoryBot.build(:trend_os)
     new_os_point_dates = create_trend_line(new_os_trend, [1,1,1,2,2,2,3,3,3])
     create_trend_line(old_os_trend, [3,3,3,2,2,2,1,1,1])
     interval_starts = [new_os_point_dates[0], new_os_point_dates[3], new_os_point_dates[6]]
@@ -83,8 +83,8 @@ class TrendsTest < ActiveSupport::TestCase
   end
 
   test 'trends:reduce mirrored saw graphs' do
-    new_os_trend = FactoryGirl.create(:trend_os)
-    old_os_trend = FactoryGirl.create(:trend_os)
+    new_os_trend = FactoryBot.build(:trend_os)
+    old_os_trend = FactoryBot.build(:trend_os)
     new_os_point_dates = create_trend_line(new_os_trend, [1,1,1,2,2,2,1,1,1,2,2,2])
     create_trend_line(old_os_trend, [3,3,3,2,2,2,3,3,3,2,2,2])
     interval_starts = [new_os_point_dates[0], new_os_point_dates[3], new_os_point_dates[6], new_os_point_dates[9]]
@@ -118,7 +118,7 @@ class TrendsTest < ActiveSupport::TestCase
   end
 
   test 'trends:reduce can rerun with additional datapoint with the same value' do
-    os_trend = FactoryGirl.create(:trend_os)
+    os_trend = FactoryBot.build(:trend_os)
     os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,1])
     Rake.application.invoke_task 'trends:reduce'
 
@@ -126,7 +126,7 @@ class TrendsTest < ActiveSupport::TestCase
     assert_equal 1, interval.length
     interval = interval.first
 
-    FactoryGirl.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 1)
+    FactoryBot.build(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 1)
 
     Rake::Task['trends:reduce'].reenable
     Rake.application.invoke_task 'trends:reduce'
@@ -139,14 +139,14 @@ class TrendsTest < ActiveSupport::TestCase
   end
 
   test 'trends:reduce can rerun with additional datapoint with different value in open interval' do
-    os_trend = FactoryGirl.create(:trend_os)
+    os_trend = FactoryBot.build(:trend_os)
     os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,1])
     Rake.application.invoke_task 'trends:reduce'
 
     interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
     assert_equal 1, interval.length
 
-    FactoryGirl.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 2)
+    FactoryBot.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 2)
 
     Rake::Task['trends:reduce'].reenable
     Rake.application.invoke_task 'trends:reduce'
@@ -163,14 +163,14 @@ class TrendsTest < ActiveSupport::TestCase
   end
 
   test 'trends:reduce can rerun with additional datapoint with different value in closed interval' do
-    os_trend = FactoryGirl.create(:trend_os)
+    os_trend = FactoryBot.build(:trend_os)
     os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,2])
     Rake.application.invoke_task 'trends:reduce'
 
     interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
     assert_equal 2, interval.length
 
-    FactoryGirl.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 3)
+    FactoryBot.create(:trend_counter, :trend => os_trend, :created_at => os_point_dates[3], :updated_at => os_point_dates[3], :count => 3)
 
     Rake::Task['trends:reduce'].reenable
     Rake.application.invoke_task 'trends:reduce'
@@ -196,7 +196,7 @@ class TrendsTest < ActiveSupport::TestCase
     point_date = Time.now.utc.beginning_of_day
     values_line.each do |value|
       point_dates << point_date
-      FactoryGirl.create(:trend_counter, :trend => trend, :created_at => point_date, :updated_at => point_date, :count => value)
+      FactoryBot.create(:trend_counter, :trend => trend, :created_at => point_date, :updated_at => point_date, :count => value)
       point_date += 10.minutes
     end
 

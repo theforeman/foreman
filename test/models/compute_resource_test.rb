@@ -174,7 +174,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   # test taxonomix methods
   test "should get used location ids for host" do
-    FactoryGirl.create(:host, :compute_resource => compute_resources(:one),
+    FactoryBot.create(:host, :compute_resource => compute_resources(:one),
                        :location => taxonomies(:location1))
     assert_equal [taxonomies(:location1).id], compute_resources(:one).used_location_ids
   end
@@ -219,19 +219,19 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "#associate_by returns host by MAC attribute" do
-    host = FactoryGirl.create(:host, :mac => '00:22:33:44:55:1a')
-    cr = FactoryGirl.build(:compute_resource)
+    host = FactoryBot.create(:host, :mac => '00:22:33:44:55:1a')
+    cr = FactoryBot.build_stubbed(:compute_resource)
     assert_equal host, as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }
   end
 
   test "#associated_by returns read/write host" do
-    FactoryGirl.create(:host, :mac => '00:22:33:44:55:1a')
-    cr = FactoryGirl.build(:compute_resource)
+    FactoryBot.create(:host, :mac => '00:22:33:44:55:1a')
+    cr = FactoryBot.build_stubbed(:compute_resource)
     refute as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }.readonly?
   end
 
   test "url has trailing slash removed on save" do
-    cr = FactoryGirl.build(:ec2_cr, url: 'http://example.com/')
+    cr = FactoryBot.build(:ec2_cr, url: 'http://example.com/')
     cr.save!
     assert_equal 'http://example.com', cr.url
   end
@@ -333,7 +333,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
 
     test "compute resource name can have spaces" do
-      cr = FactoryGirl.build(:compute_resource, :ec2, name: 'My Compute Resource')
+      cr = FactoryBot.build_stubbed(:compute_resource, :ec2, name: 'My Compute Resource')
       assert(cr.valid?, 'ComputeResource can have spaces in name')
     end
   end
@@ -344,11 +344,11 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
 
     test "only physical interfaces are added to the compute attributes" do
-      physical_nic = FactoryGirl.build(:nic_base, :virtual => false,
+      physical_nic = FactoryBot.build_stubbed(:nic_base, :virtual => false,
                                        :compute_attributes => { :id => '1', :virtual => false })
-      virtual_nic = FactoryGirl.build(:nic_base, :virtual => true,
+      virtual_nic = FactoryBot.build_stubbed(:nic_base, :virtual => true,
                                        :compute_attributes => { :id => '2', :virtual => true })
-      host = FactoryGirl.build(:host, :interfaces => [physical_nic, virtual_nic])
+      host = FactoryBot.build_stubbed(:host, :interfaces => [physical_nic, virtual_nic])
       nic_attributes = @cr.host_interfaces_attrs(host).values.select(&:present?)
       assert_equal '1', nic_attributes.first[:id]
     end
@@ -382,5 +382,13 @@ class ComputeResourceTest < ActiveSupport::TestCase
     cr.stubs(:capabilities).returns([:new_volume]) do
       refute cr.capable?(:build)
     end
+  end
+
+  test "returns nested_attribute_for ActionController::Parameters" do
+    cr = compute_resources(:mycompute)
+    hash = {:disk => "test"}
+    volume_attributes = ActionController::Parameters.new("1520857914238" => ActionController::Parameters.new(hash))
+    volumes = cr.send(:nested_attributes_for, :volumes, volume_attributes.permit("1520857914238" => {}))
+    assert_equal hash,volumes[0]
   end
 end

@@ -3,7 +3,8 @@ inherit_from:
   - .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.0
+  TargetRubyVersion: 2.2
+  TargetRailsVersion: 5.1
   Include:
     - 'app/views/api/**/*.rabl'
   Exclude:
@@ -16,6 +17,10 @@ Rails:
 
 # Don't prefer is_a? over kind_of?
 Style/ClassCheck:
+  Enabled: false
+
+# Don't enforce certain methods, e.g. detect over find
+Style/CollectionMethods:
   Enabled: false
 
 # Don't enforce documentation
@@ -38,6 +43,9 @@ Metrics/ClassLength:
   Exclude:
     - 'test/**/*'
 
+Performance/Casecmp:
+  Enabled: false
+
 Performance/FixedSize:
   Exclude:
     - 'test/**/*'
@@ -53,4 +61,19 @@ Rails/Blank:
 
 #Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
 Style/WordArray:
+  Enabled: false
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
+
+Style/InverseMethods:
+  Enabled: false
+
+Layout/FirstParameterIndentation:
+  EnforcedStyle: consistent
+
+Bundler/OrderedGems:
   Enabled: false

@@ -9,6 +9,7 @@ module Api
 
       api :GET, "/config_groups", N_("List of config groups")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ConfigGroup)
 
       def index
         @config_groups = resource_scope_for_index

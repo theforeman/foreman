@@ -73,6 +73,7 @@ module Foreman
             Rails.logger.info "Current user: #{o.login} (#{o.admin? ? 'administrator' : 'regular user'})"
           end
           Rails.logger.debug "Setting current user thread-local variable to " + (o.is_a?(User) ? o.login : 'nil')
+          ::Logging.mdc['user_login'] = o.try(:login)
           Thread.current[:user] = o
         end
 
@@ -116,6 +117,8 @@ module Foreman
           end
 
           Rails.logger.debug "Setting current organization thread-local variable to #{organization || 'none'}"
+          org_id = organization.try(:id)
+          ::Logging.mdc['org_id'] = org_id if org_id
           Thread.current[:organization] = organization
         end
 
@@ -151,6 +154,8 @@ module Foreman
           end
 
           Rails.logger.debug "Setting current location thread-local variable to #{location || 'none'}"
+          loc_id = location.try(:id)
+          ::Logging.mdc['loc_id'] = loc_id if loc_id
           Thread.current[:location] = location
         end
 

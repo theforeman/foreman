@@ -15,6 +15,20 @@ module Hostext
       validate :owner_taxonomies_match, :if => Proc.new { |host| host.owner.is_a?(User) }
     end
 
+    def owner
+      case owner_type
+        when 'User'
+          User.unscoped { super }
+        when 'Usergroup'
+          Usergroup.unscoped { super }
+        when nil, ''
+          # not set yet, usually the case for new records
+          nil
+        else
+          raise ArgumentError, "Unknown member type #{owner_type}"
+      end
+    end
+
     # method to return the correct owner list for host edit owner select dropbox
     def is_owned_by
       owner.id_and_type if owner

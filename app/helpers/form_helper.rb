@@ -75,7 +75,8 @@ module FormHelper
 
     unauthorized = selected_ids.blank? ? [] : selected_ids - authorized.map(&:id)
     field(f, attr, options) do
-      attr_ids = (attr.to_s.singularize+"_ids").to_sym
+      attr_ids = attr.to_s
+      attr_ids = (attr_ids.singularize + '_ids').to_sym unless attr_ids.end_with?('_ids')
       hidden_fields = ''
       html_options["data-useds"] ||= "[]"
       JSON.parse(html_options["data-useds"]).each do |disabled_value|
@@ -92,7 +93,7 @@ module FormHelper
 
   def line_count(f, attr)
     rows = f.object.try(attr).to_s.lines.count rescue 1
-    rows == 0 ? 1 : rows
+    (rows == 0) ? 1 : rows
   end
 
   def radio_button_f(f, attr, options = {})
@@ -131,13 +132,13 @@ module FormHelper
 
       if disable_button
         button_part =
-            content_tag :span, class: 'input-group-btn' do
-              content_tag(:button, disable_button, :type => 'button', :href => '#',
-                          :name => 'is_overridden_btn',
-                          :onclick => "disableButtonToggle(this)",
-                          :class => 'btn btn-default btn-can-disable' + (disable_button_enabled ? ' active' : ''),
-                          :data => { :toggle => 'button', :explicit => user_set })
-            end
+          content_tag :span, class: 'input-group-btn' do
+            content_tag(:button, disable_button, :type => 'button', :href => '#',
+                        :name => 'is_overridden_btn',
+                        :onclick => "disableButtonToggle(this)",
+                        :class => 'btn btn-default btn-can-disable' + (disable_button_enabled ? ' active' : ''),
+                        :data => { :toggle => 'button', :explicit => user_set })
+          end
 
         input_group collection_select, button_part
       else
@@ -186,8 +187,13 @@ module FormHelper
   end
 
   def file_field_f(f, attr, options = {})
+    if options[:file_name]
+      html =  content_tag(:b) {options.delete(:file_name)}
+      html += content_tag(:hr)
+      html += content_tag(:div, :style=>"margin-bottom: 10px") {_("Choose a new file:")}
+    end
     field(f, attr, options) do
-      f.file_field attr, options
+      (html ? html: " ") + (f.file_field attr, options)
     end
   end
 
@@ -197,9 +203,9 @@ module FormHelper
       auto_complete_search(attr,
                            f.object.send(attr).try(:squeeze, " "),
                            options.merge(
-                               :placeholder => _("Filter") + ' ...',
-                               :path        => path,
-                               :name        => "#{f.object_name}[#{attr}]"
+                             :placeholder => _("Filter") + ' ...',
+                             :path        => path,
+                             :name        => "#{f.object_name}[#{attr}]"
                            )
       ).html_safe
     end
@@ -253,7 +259,7 @@ module FormHelper
       content_tag(:div, :class => "form-actions") do
         text    = overwrite ? _("Overwrite") : _("Submit")
         options = options_for_submit_or_cancel(f, overwrite, args)
-        link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default") + " " + f.submit(text, options)
+        f.submit(text, options) + " " + link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default")
       end
     end + ie_multipart_fix
   end
@@ -310,14 +316,14 @@ module FormHelper
     end
   end
 
-  def add_label options, f, attr
+  def add_label(options, f, attr)
     return ''.html_safe if options[:label] == :none
 
     label_size = options.delete(:label_size) || "col-md-2"
     required_mark = check_required(options, f, attr)
     label = ''.html_safe + options.delete(:label)
     if label.empty? && f.try(:object) && ((clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name))
-      label = s_(clazz.gettext_translation_for_attribute_name attr).html_safe
+      label = s_(clazz.gettext_translation_for_attribute_name(attr)).titleize.html_safe
     end
 
     if options[:label_help].present?
@@ -327,16 +333,16 @@ module FormHelper
     label
   end
 
-  def check_required options, f, attr
+  def check_required(options, f, attr)
     required = options.delete(:required) # we don't want to use html5 required attr so we delete the option
     return ' *'.html_safe if required.nil? ? is_required?(f, attr) : required
   end
 
-  def blank_or_inherit_f(f, attr)
+  def blank_or_inherit_f(f, attr, blank_value: _("no value"))
     return true unless f.object.respond_to?(:parent_id) && f.object.parent_id
     inherited_value   = f.object.send(attr)
     inherited_value   = inherited_value.name_method if inherited_value.present? && inherited_value.respond_to?(:name_method)
-    inherited_value ||= _("no value")
+    inherited_value ||= blank_value
     _("Inherit parent (%s)") % inherited_value
   end
 

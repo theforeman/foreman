@@ -1,4 +1,4 @@
-class AddAutoIncrementToBigintIds < ActiveRecord::Migration
+class AddAutoIncrementToBigintIds < ActiveRecord::Migration[4.2]
   def self.up
     if ['mysql', 'mysql2'].include? ActiveRecord::Base.connection.instance_values['config'][:adapter]
       change_column :logs, :id, 'SERIAL'
@@ -6,6 +6,7 @@ class AddAutoIncrementToBigintIds < ActiveRecord::Migration
       change_column :fact_values, :id, 'SERIAL'
     end
   end
+
   def self.down
     if ['mysql', 'mysql2'].include? ActiveRecord::Base.connection.instance_values['config'][:adapter]
       change_column :logs, :id, :bigint

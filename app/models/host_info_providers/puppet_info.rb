@@ -5,7 +5,7 @@ module HostInfoProviders
       param = puppet_static_info
 
       # Parse ERB values contained in the parameters
-      param = SafeRender.new(:variables => { :host => host }).parse(param)
+      param = ParameterSafeRender.new(host).render(param)
 
       info_hash = {}
       info_hash['classes'] = classes_info_hash

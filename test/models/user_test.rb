@@ -1,4 +1,3 @@
-# encoding: UTF-8
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
@@ -28,23 +27,23 @@ class UserTest < ActiveSupport::TestCase
   should have_many(:ssh_keys).dependent(:destroy)
 
   test "mail address is optional on creation" do
-    assert_valid FactoryGirl.build(:user, :mail => nil)
+    assert_valid FactoryBot.build_stubbed(:user, :mail => nil)
   end
 
   test "mail is optional if mail is currently nil" do
-    u = FactoryGirl.create(:user, :mail => nil)
+    u = FactoryBot.create(:user, :mail => nil)
     u.firstname = 'Bob'
     assert_valid u
   end
 
   test "mail is require when mail isn't currently nil" do
-    u = FactoryGirl.create(:user, :mail => "foo@bar.com")
+    u = FactoryBot.create(:user, :mail => "foo@bar.com")
     u.mail = nil
     refute_valid u, :mail
   end
 
   test "mail is required for own user" do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     user.password = nil
     # refute_valid user can check only one field and due to we need to set password to nil after adding current_password field to verify password change
     as_user user do
@@ -60,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'login should also be unique across usergroups' do
     Usergroup.expects(:where).with(:name => 'foo').returns(['fakeuser'])
-    u = FactoryGirl.build(:user, :auth_source => auth_sources(:one),
+    u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:one),
                           :login => "foo", :mail  => "foo@bar.com")
     refute u.valid?
   end
@@ -117,13 +116,13 @@ class UserTest < ActiveSupport::TestCase
     end
 
     test ".try_to_login and failing AuthSource should return nil" do
-      u = FactoryGirl.create(:user)
+      u = FactoryBot.create(:user)
       AuthSourceInternal.any_instance.expects(:authenticate).with(u.login, 'password').returns(nil)
       refute User.try_to_login(u.login, 'password')
     end
 
     test ".try_to_login should return user on successful login" do
-      u = FactoryGirl.create(:user)
+      u = FactoryBot.create(:user)
       assert_equal u, User.try_to_login(u.login, 'password')
     end
 
@@ -320,66 +319,29 @@ class UserTest < ActiveSupport::TestCase
   end
 
   context "audits for password change" do
-    def setup_user_for_audits
-      user = FactoryGirl.create(:user)
-      User.find_by_id(user.id) #to clear the value of user.password
+    setup do
+      @user = User.find_by_id(FactoryBot.create(:user)) #to clear the value of user.password
     end
 
-    test "audit of password change should be saved only once, second time audited changes should not contain password_changed" do
-      user = setup_user_for_audits
+    test "audit of password change should be saved redacted" do
       as_admin do
-        user.password = "newpassword"
-        assert_valid user
-        assert user.password_changed_changed?
-        assert user.password_changed
-        assert_includes user.changed, "password_changed"
-        assert user.save
-        assert_includes Audit.last.audited_changes, "password_changed"
-        #testing after_save
-        refute user.password_changed_changed?
-        refute user.password_changed
-        refute_includes user.changed, "password_changed"
-      end
-    end
-
-    test "audit of password change should be saved" do
-      user = setup_user_for_audits
-      as_admin do
-        user.password = "newpassword"
-        assert_valid user
-        assert user.password_changed_changed?
-        assert user.password_changed
-        assert_includes user.changed, "password_changed"
-        assert user.save
-        assert_includes Audit.last.audited_changes, "password_changed"
+        @user.password = "newpassword"
+        assert_valid @user
+        assert @user.password_changed?
+        assert @user.save
+        assert_includes Audit.last.audited_changes, "password"
+        assert_equal Audit.last.audited_changes["password"], ["[redacted]", "[redacted]"]
       end
     end
 
     test "audit of password change should not be saved - due to no password change" do
-      user = setup_user_for_audits
       as_admin do
-        user.firstname = "Johnny"
-        assert_valid user
-        refute user.password_changed_changed?
-        refute user.password_changed
-        refute_includes user.changed, "password_changed"
-        assert user.save
-        refute_includes Audit.last.audited_changes, "password_changed"
-      end
-    end
-
-    test "audit of name change sholud contain only firstname and not password_changed" do
-      user = setup_user_for_audits
-      as_admin do
-        user.firstname = "Johnny"
-        assert_valid user
-        assert_includes user.changed, "firstname"
-        refute user.password_changed_changed?
-        refute user.password_changed
-        refute_includes user.changed, "password_changed"
-        assert user.save
+        @user.firstname = "Johnny"
+        assert_valid @user
+        refute @user.password_changed?
+        assert @user.save
         assert_includes Audit.last.audited_changes, "firstname"
-        refute_includes Audit.last.audited_changes, "password_changed"
+        refute_includes Audit.last.audited_changes, "password"
       end
     end
   end
@@ -401,7 +363,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should be able to remove the admin flag when another admin exists" do
-    u = FactoryGirl.create(:user, :with_mail, :admin => true)
+    u = FactoryBot.create(:user, :with_mail, :admin => true)
     u.admin = false
     assert_valid u
   end
@@ -524,31 +486,31 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "admin? detection for user admin flag" do
-    admin = FactoryGirl.build(:user, :admin => true)
+    admin = FactoryBot.build_stubbed(:user, :admin => true)
     assert admin.admin?, 'user admin flag was missed'
   end
 
   test "admin? detection for group admin flag" do
-    admin = FactoryGirl.build(:user)
-    g1 = FactoryGirl.build(:usergroup)
-    g2 = FactoryGirl.build(:usergroup, :admin => true)
+    admin = FactoryBot.build_stubbed(:user)
+    g1 = FactoryBot.build_stubbed(:usergroup)
+    g2 = FactoryBot.build_stubbed(:usergroup, :admin => true)
     admin.cached_usergroups = [g1, g2]
     assert admin.admin?, 'group admin flag was missed'
   end
 
   test "admin? is false if no flag is enabled" do
-    admin = FactoryGirl.build(:user)
-    g1 = FactoryGirl.build(:usergroup)
-    g2 = FactoryGirl.build(:usergroup)
+    admin = FactoryBot.build_stubbed(:user)
+    g1 = FactoryBot.build_stubbed(:usergroup)
+    g2 = FactoryBot.build_stubbed(:usergroup)
     admin.cached_usergroups = [g1, g2]
     refute admin.admin?
   end
 
   test "admin can assign arbitrary taxonomies" do
     as_admin do
-      user = FactoryGirl.build(:user)
-      org1 = FactoryGirl.create(:organization)
-      org2 = FactoryGirl.create(:organization)
+      user = FactoryBot.build(:user)
+      org1 = FactoryBot.create(:organization)
+      org2 = FactoryBot.create(:organization)
       user.organization_ids = [org1.id, org2.id]
       assert user.save
     end
@@ -556,12 +518,12 @@ class UserTest < ActiveSupport::TestCase
 
   test "user can set only subset of his taxonomies" do
     # superset, one of two, another of two, both
-    org1 = FactoryGirl.create(:organization)
-    org2 = FactoryGirl.create(:organization)
-    org3 = FactoryGirl.create(:organization)
-    loc1 = FactoryGirl.create(:location)
+    org1 = FactoryBot.create(:organization)
+    org2 = FactoryBot.create(:organization)
+    org3 = FactoryBot.create(:organization)
+    loc1 = FactoryBot.create(:location)
 
-    user = FactoryGirl.build(:user)
+    user = FactoryBot.build(:user)
     user.organizations = [org1, org2]
     user.locations = [loc1]
     user.roles << Role.find_by_name('Manager')
@@ -571,25 +533,25 @@ class UserTest < ActiveSupport::TestCase
 
     as_user user do
       # org subset
-      new_user = FactoryGirl.build(:user)
+      new_user = FactoryBot.build(:user)
       new_user.organization_ids = [org1.id]
       new_user.location_ids = [loc1.id]
       assert new_user.save
 
       # org subset
-      new_user = FactoryGirl.build(:user)
+      new_user = FactoryBot.build(:user)
       new_user.organization_ids = [org2.id]
       new_user.location_ids = [loc1.id]
       assert new_user.save
 
       # org same set
-      new_user = FactoryGirl.build(:user)
+      new_user = FactoryBot.build(:user)
       new_user.organization_ids = [org1.id, org2.id]
       new_user.location_ids = [loc1.id]
       assert new_user.save
 
       # org superset
-      new_user = FactoryGirl.build(:user)
+      new_user = FactoryBot.build(:user)
       new_user.organization_ids = [org1.id, org3.id]
       new_user.location_ids = [loc1.id]
       refute new_user.save
@@ -598,12 +560,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user can't set empty taxonomies set if he's assigned to some" do
-    org1 = FactoryGirl.create(:organization)
-    user = FactoryGirl.create(:user, :organizations => [org1], :locations => [])
+    org1 = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :organizations => [org1], :locations => [])
 
     as_user(user) do
       # empty set
-      new_user = FactoryGirl.build(:user, :organizations => [], :locations => [])
+      new_user = FactoryBot.build(:user, :organizations => [], :locations => [])
       refute new_user.valid?
       assert_not_empty new_user.errors[:organization_ids]
       assert_empty new_user.errors[:location_ids]
@@ -666,9 +628,9 @@ class UserTest < ActiveSupport::TestCase
 
       context 'with external user groups' do
         setup do
-          @user      = FactoryGirl.create(:user,               :auth_source => @apache_source)
-          @external  = FactoryGirl.create(:external_usergroup, :auth_source => @apache_source)
-          @usergroup = FactoryGirl.create(:usergroup)
+          @user      = FactoryBot.create(:user,               :auth_source => @apache_source)
+          @external  = FactoryBot.create(:external_usergroup, :auth_source => @apache_source)
+          @usergroup = FactoryBot.create(:usergroup)
         end
 
         test "existing user groups that are assigned" do
@@ -764,13 +726,13 @@ class UserTest < ActiveSupport::TestCase
 
   test "#can? for admin" do
     Authorizer.any_instance.stubs(:can?).returns(false)
-    u = FactoryGirl.build(:user, :admin => true)
+    u = FactoryBot.build_stubbed(:user, :admin => true)
     assert u.can?(:view_hosts_or_whatever_you_ask)
   end
 
   test "#can? for not admin" do
     Authorizer.any_instance.stubs(:can?).returns('authorizer was asked')
-    u = FactoryGirl.build(:user)
+    u = FactoryBot.build_stubbed(:user)
     assert_equal 'authorizer was asked', u.can?(:view_hosts_or_whatever_you_ask)
   end
 
@@ -813,9 +775,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "chaging hostgroup should update cache" do
-    u = FactoryGirl.create(:user)
-    g1 = FactoryGirl.create(:usergroup)
-    g2 = FactoryGirl.create(:usergroup)
+    u = FactoryBot.create(:user)
+    g1 = FactoryBot.create(:usergroup)
+    g2 = FactoryBot.create(:usergroup)
     assert_empty u.usergroups
     assert_empty u.cached_usergroups
     u.usergroups = [g1, g2]
@@ -835,27 +797,27 @@ class UserTest < ActiveSupport::TestCase
     assert_empty u.cached_usergroups
   end
 
-#  Uncomment after users get access to children taxonomies of their current taxonomies.
-#
-#  test 'default taxonomy inclusion validator takes into account inheritance' do
-#    inherited_location     = Location.create(:parent => Location.first, :name => 'inherited_loc')
-#    inherited_organization = Organization.create(:parent => Organization.first, :name => 'inherited_org')
-#    users(:one).update_attribute(:locations, [Location.first])
-#    users(:one).update_attribute(:organizations, [Organization.first])
-#    users(:one).default_location     = Location.find_by_name('inherited_loc')
-#    users(:one).default_organization = Organization.find_by_name('inherited_org')
-#
-#    assert users(:one).valid?
-#  end
+  #  Uncomment after users get access to children taxonomies of their current taxonomies.
+  #
+  #  test 'default taxonomy inclusion validator takes into account inheritance' do
+  #    inherited_location     = Location.create(:parent => Location.first, :name => 'inherited_loc')
+  #    inherited_organization = Organization.create(:parent => Organization.first, :name => 'inherited_org')
+  #    users(:one).update_attribute(:locations, [Location.first])
+  #    users(:one).update_attribute(:organizations, [Organization.first])
+  #    users(:one).default_location     = Location.find_by_name('inherited_loc')
+  #    users(:one).default_organization = Organization.find_by_name('inherited_org')
+  #
+  #    assert users(:one).valid?
+  #  end
 
   test "#matching_password? succeeds if password matches" do
-    u = FactoryGirl.build(:user)
+    u = FactoryBot.build_stubbed(:user)
     assert_valid u
     assert u.matching_password?('password')
   end
 
   test "#matching_password? fails if password does not match" do
-    u = FactoryGirl.build(:user)
+    u = FactoryBot.build_stubbed(:user)
     assert_valid u
     refute u.matching_password?('wrong password')
   end
@@ -872,11 +834,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#hidden? for ordinary user" do
-    refute FactoryGirl.build(:user).hidden?
+    refute FactoryBot.build_stubbed(:user).hidden?
   end
 
   test "should not be able to use hidden auth source on other users" do
-    u = FactoryGirl.build(:user, :auth_source => AuthSourceHidden.first)
+    u = FactoryBot.build(:user, :auth_source => AuthSourceHidden.first)
     refute_valid u, :auth_source, /permitted/
   end
 
@@ -922,7 +884,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'can search users by usergroup' do
-    user = FactoryGirl.create(:user, :with_usergroup)
+    user = FactoryBot.create(:user, :with_usergroup)
     assert_equal [user], User.search_for("usergroup = #{user.usergroups.first.name}")
   end
 
@@ -940,14 +902,16 @@ class UserTest < ActiveSupport::TestCase
     refute user.valid?
   end
 
-  test 'timezone can be blank' do
+  test 'empty timezone is normalized to nil' do
     user = users(:one)
     user.timezone = ''
     assert user.valid?
+    user.save
+    user.timezone.must_be_nil
   end
 
   test "changing user password as admin without setting current password" do
-    user = FactoryGirl.create(:user, :mail => "foo@bar.com")
+    user = FactoryBot.create(:user, :mail => "foo@bar.com")
     as_admin do
       user.password = "newpassword"
       assert user.save
@@ -955,7 +919,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "changing user's own password with incorrect current password" do
-    user = FactoryGirl.create(:user, :mail => "foo@bar.com")
+    user = FactoryBot.create(:user, :mail => "foo@bar.com")
     as_user user do
       user.current_password = "hatatitla"
       user.password = "newpassword"
@@ -965,7 +929,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "changing user's own password with correct current password" do
-    user = FactoryGirl.create(:user, :password => "password", :mail => "foo@bar.com")
+    user = FactoryBot.create(:user, :password => "password", :mail => "foo@bar.com")
     as_user user do
       user.current_password = "password"
       user.password = "newpassword"
@@ -1002,7 +966,7 @@ class UserTest < ActiveSupport::TestCase
       SETTINGS[:locations_enabled] = false
       SETTINGS[:organizations_enabled] = true
       Taxonomy.expects(:locations_enabled).returns(false).at_least_once
-      FactoryGirl.create(:environment, :name => 'test_env_org1',
+      FactoryBot.create(:environment, :name => 'test_env_org1',
                          :organizations => [users(:one).organizations.first])
       setup_user 'view', 'environments', 'name = test_env_org1'
       assert_equal ['test_env_org1'], users(:one).visible_environments
@@ -1011,7 +975,7 @@ class UserTest < ActiveSupport::TestCase
     test 'should show the list of environments visible when only locs are enabled' do
       SETTINGS[:locations_enabled] = true
       SETTINGS[:organizations_enabled] = false
-      FactoryGirl.create(:environment, :name => 'test_env_loc1',
+      FactoryBot.create(:environment, :name => 'test_env_loc1',
                          :locations => [users(:one).locations.first])
       setup_user 'view', 'environments', 'name = test_env_loc1'
       assert_equal ['test_env_loc1'], users(:one).visible_environments
@@ -1023,7 +987,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     test 'should show the list of environments visible when both orgs/locs are enabled as inherited admin user' do
-      User.current = FactoryGirl.create(:user, usergroups: [FactoryGirl.create(:usergroup, admin: true)]).reload
+      User.current = FactoryBot.create(:user, usergroups: [FactoryBot.create(:usergroup, admin: true)]).reload
       assert_equal ['production', 'global_puppetmaster', 'testing'].sort, User.current.visible_environments.sort
     end
 
@@ -1031,6 +995,136 @@ class UserTest < ActiveSupport::TestCase
       # Non-admin user only sees environments in a taxonomy at least
       setup_user 'view', 'environments'
       assert_equal ['production'], User.current.visible_environments
+    end
+  end
+
+  context 'personal access token auth' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:token) { FactoryBot.create(:personal_access_token, :user => user) }
+    let(:token_value) do
+      token_value = token.generate_token
+      token.save
+      token_value
+    end
+    let(:expired_token) { FactoryBot.create(:personal_access_token, :user => user, :expires_at => 4.weeks.ago) }
+    let(:expired_token_value) do
+      token_value = expired_token.generate_token
+      expired_token.save
+      token_value
+    end
+
+    context 'api login' do
+      test 'user can api login via personal access token' do
+        assert_nil token.last_used_at
+        assert_equal user, User.try_to_login(user.login, token_value, true)
+        assert_not_nil token.reload.last_used_at
+      end
+
+      test 'user can not api login with expired personal access token' do
+        assert_nil User.try_to_login(user.login, expired_token_value, true)
+      end
+
+      test 'token is validated' do
+        token
+        assert_nil User.try_to_login(user.login, 'invalid', true)
+      end
+    end
+
+    context 'ui login' do
+      test 'user can not ui login via personal access token' do
+        assert_nil User.try_to_login(user.login, token_value, false)
+      end
+    end
+  end
+
+  context 'update login' do
+    let(:auth_source_ldap) { FactoryBot.create(:auth_source_ldap) }
+    let (:user_login) { FactoryBot.create(:user, :locations => [Location.first], :organizations => [Organization.first])}
+    let (:external_user) { FactoryBot.create(:user, :auth_source => auth_source_ldap, :locations => user_login.locations, :organizations => user_login.organizations)}
+    let (:external_user_manager) { FactoryBot.create(:user, :auth_source => auth_source_ldap, :locations => user_login.locations, :organizations => user_login.organizations, :roles => [roles(:manager)]) }
+    let (:internal_user) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :mail => "foo@bar.com",  :current_password => "password")}
+    let (:internal_user_manager) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :roles => [roles(:manager)])}
+
+    test 'Internal user can update his own login' do
+      as_user internal_user do
+        internal_user.login = "dummy2"
+        internal_user.valid?
+        assert internal_user.save
+      end
+    end
+
+    test 'Internal user with permission can edit other users login' do
+      as_user internal_user_manager do
+        user_login.login = "dummy2"
+        assert user_login.valid?
+        assert user_login.save
+      end
+    end
+
+    test 'Internal user without permission can not edit other user login' do
+      as_user internal_user do
+        user_login.login = "dummy3"
+        assert_not user_login.save
+      end
+    end
+
+    test 'External user can not edit his own login' do
+      as_user external_user do
+        external_user.login = "dummy4"
+        assert_not external_user.save
+      end
+    end
+
+    test 'External user login can not be changed' do
+      as_user external_user_manager do
+        external_user.login = "dummy5"
+        assert_not external_user.save
+      end
+    end
+  end
+
+  context 'audit user roles' do
+    setup do
+      @user = FactoryBot.create(:user, :with_auditing)
+      @role = FactoryBot.create(:role)
+    end
+
+    test 'should audit when a role is assigned to a user' do
+      @user.role_ids = [@role.id]
+      @user.save
+
+      recent_audit = @user.audits.last
+      audited_changes = recent_audit.audited_changes[:roles]
+
+      assert audited_changes, 'No audits found for user-roles'
+      assert_empty audited_changes.first
+      assert_equal @role.name, audited_changes.last
+    end
+
+    test 'should audit when a role is removed/de-assigned from a user' do
+      @user.role_ids = [@role.id]
+      @user.save
+      @user.role_ids = []
+      @user.save
+
+      recent_audit = @user.audits.last
+      audited_changes = recent_audit.audited_changes[:roles]
+
+      assert audited_changes, 'No audits found for user-roles'
+      assert_equal [@role.name, Role.default].join(', '), audited_changes.first
+      assert_empty audited_changes.last
+    end
+
+    test 'audit of other properties are not impacted' do
+      @user.firstname = 'Bob'
+      @user.description = 'The auditor'
+      @user.save
+
+      recent_audit = @user.audits.last
+
+      assert recent_audit.audited_changes[:firstname]
+      assert recent_audit.audited_changes[:description]
+      assert_nil recent_audit.audited_changes[:roles]
     end
   end
 end

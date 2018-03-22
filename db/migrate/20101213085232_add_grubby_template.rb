@@ -1,4 +1,4 @@
-class AddGrubbyTemplate < ActiveRecord::Migration
+class AddGrubbyTemplate < ActiveRecord::Migration[4.2]
   def up
   end
 

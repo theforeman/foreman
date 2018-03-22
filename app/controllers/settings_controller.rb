@@ -6,7 +6,7 @@ class SettingsController < ApplicationController
 
   #This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
-    type = (e.to_s =~ /\'(Setting::.*)\'\./) ? $1 : 'STI-Type'
+    type = (e.to_s =~ /\'(Setting::.*)\'\./) ? Regexp.last_match(1) : 'STI-Type'
     render :plain => (e.to_s+"<br><b>run Setting.where(:category=>'#{type}').delete_all to recover.</b>").html_safe, :status=> :internal_server_error
   end
 
@@ -25,7 +25,7 @@ class SettingsController < ApplicationController
     end
   end
 
-  def xeditable? object = nil, permission = nil
+  def xeditable?(object = nil, permission = nil)
     #The current user is required to be admin
     current_user.admin?
   end

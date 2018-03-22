@@ -1,4 +1,4 @@
-class CreateNotifications < ActiveRecord::Migration
+class CreateNotifications < ActiveRecord::Migration[4.2]
   def change
     create_table :notifications do |t|
       t.references :notification_blueprint, index: true, foreign_key: true, null: false

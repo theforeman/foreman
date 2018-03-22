@@ -17,14 +17,14 @@ child :mail_notifications do
   extends "api/v2/mail_notifications/base"
 end
 
-child :roles do
+child @user.roles.givable => :roles do
   extends "api/v2/roles/base"
 end
 
 child :usergroups do
   extends "api/v2/usergroups/base"
   child :roles do
-      extends "api/v2/roles/base"
+    extends "api/v2/roles/base"
   end
 end
 

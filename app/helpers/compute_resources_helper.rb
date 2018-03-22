@@ -105,4 +105,11 @@ module ComputeResourcesHelper
   def load_datacenters_button_f(f, success)
     load_button_f(f, success, _("Load Datacenters"))
   end
+
+  def http_proxy_field(f)
+    select_f(f, :http_proxy_id, HttpProxy.all, :id, :name,
+                           {:include_blank => true },
+                           { :label => _("HTTP Proxy") }
+                      )
+  end
 end

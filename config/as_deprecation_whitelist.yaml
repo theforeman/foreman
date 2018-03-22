@@ -3,45 +3,52 @@
 # http://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.
+  callstack:
+- message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
+    more about this new config option.
+  callstack: test/test_helper.rb:36:in `before_setup'
+
 - message: Using a dynamic :controller segment in a route is deprecated and will be
     removed in Rails 5.2.
-  callstack: config/routes.rb:19:in `block in <top (required)>'
-# Caused by turbolinks (classic) dependency
-- message: alias_method_chain is deprecated. Please, use Module#prepend instead. From
-    module, you can access the original method using super.
-  callstack: config/environment.rb:5:in `<top (required)>'
-- message: after_filter is deprecated and will be removed in Rails 5.1. Use after_action
-    instead.
-  callstack: config/environment.rb:5:in `<top (required)>'
-- message: before_filter is deprecated and will be removed in Rails 5.1. Use before_action
-    instead.
-  callstack: config/environment.rb:5:in `<top (required)>'
+  callstack: config/routes.rb:17:in `block in <top (required)>'
 
 # Not a "true" deprecation, no action required, it's being used correctly.
 - message: "#table_exists? currently checks both tables and views. This behavior is
     deprecated and will be changed with Rails 5.1 to only check tables. Use #data_source_exists?
     instead."
+
 # Used by BookmarkControllerValidator and inside shoulda-matchers
 - message: "#tables currently returns both tables and views. This behavior is deprecated
     and will be changed with Rails 5.1 to only return tables. Use #data_sources instead."
 
-# Incompatible with Rails 4.2
-- message: |-
-    DEPRECATION WARNING: Using positional arguments in functional tests has been deprecated,
-    in favor of keyword arguments, and will be removed in Rails 5.1.
-- message: |-
-    DEPRECATION WARNING: `xhr` and `xml_http_request` are deprecated and will be removed in Rails 5.1.
-    Switch to e.g. `post :create, params: { comment: { body: 'Honey bunny' } }, xhr: true`.
-- message: use_transactional_fixtures= is deprecated and will be removed from Rails
-    5.1 (use use_transactional_tests= instead)
-- message: 'Passing the separator argument as a positional parameter is deprecated
-    and will soon be removed. Use `separator: ''_''` instead.'
-  callstack: app/views/smart_proxies/show.html.erb:110
-- message: Returning `false` in Active Record and Active Model callbacks will not
-    implicitly halt a callback chain in Rails 5.1. To explicitly halt the callback
-    chain, please use `throw :abort` instead.
-- message: "`redirect_to :back` is deprecated and will be removed from Rails 5.1.
-    Please use `redirect_back(fallback_location: fallback_location)` where `fallback_location`
-    represents the location to use if the request has no HTTP referer information."
-- message: |-
-    DEPRECATION WARNING: Directly inheriting from ActiveRecord::Migration is deprecated. Please specify the Rails release the migration was written for:
+- message: The behavior of `attribute_change` inside of after callbacks will be changing
+    in the next version of Rails. The new return value will reflect the behavior of
+    calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/encryptable.rb:41:in `block in encrypt_setters'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `changed_attributes` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
+    instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `changed` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes.keys` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `changes` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes` instead.
+  callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'

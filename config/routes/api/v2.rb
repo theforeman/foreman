@@ -2,7 +2,7 @@
 Foreman::Application.routes.draw do
   namespace :api, :defaults => {:format => 'json'} do
     # new v2 routes that point to v2
-    scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v1|v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
+    scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
       resources :architectures, :except => [:new, :edit] do
         constraints(:id => /[^\/]+/) do
           resources :hosts, :except => [:new, :edit]
@@ -14,7 +14,23 @@ Foreman::Application.routes.draw do
 
       resources :audits, :only => [:index, :show]
 
+      resources :auth_sources, :only => [:index, :show] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+      end
+
+      resources :auth_source_externals, :only => [:index, :show, :update] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :external_usergroups, :except => [:new, :edit, :destroy]
+        resources :users, :except => [:new, :edit, :destroy]
+      end
+
+      resources :auth_source_internals, :only => [:index, :show]
+
       resources :auth_source_ldaps, :except => [:new, :edit] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         resources :users, :except => [:new, :edit]
         resources :external_usergroups, :except => [:new, :edit]
       end
@@ -46,6 +62,7 @@ Foreman::Application.routes.draw do
         collection do
           post 'build_pxe_default'
           get 'revision'
+          post :import
         end
         resources :template_combinations, :only => [:index, :create, :update, :show]
         resources :operatingsystems, :except => [:new, :edit]
@@ -156,6 +173,7 @@ Foreman::Application.routes.draw do
         end
         collection do
           get 'revision'
+          post :import
         end
 
         resources :operatingsystems, :except => [:new, :edit]
@@ -211,6 +229,8 @@ Foreman::Application.routes.draw do
 
       resources :config_reports, :only => [:create]
 
+      resources :http_proxies, :except => [:new, :edit]
+
       resources :subnets, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
@@ -243,6 +263,7 @@ Foreman::Application.routes.draw do
           resources :roles, :except => [:new, :edit]
           resources :usergroups, :except => [:new, :edit]
           resources :ssh_keys, :only => [:index, :show, :create, :destroy]
+          resources :personal_access_tokens, :only => [:index, :show, :create, :destroy]
         end
       end
 
@@ -327,7 +348,6 @@ Foreman::Application.routes.draw do
           get 'status/:type', :on => :member, :action => :get_status
           get :vm_compute_attributes, :on => :member
           get 'template/:kind', :on => :member, :action => :template
-          put :puppetrun, :on => :member
           put :disassociate, :on => :member
           put :boot, :on => :member
           put :power, :on => :member
@@ -362,6 +382,9 @@ Foreman::Application.routes.draw do
       if SETTINGS[:locations_enabled]
         resources :locations, :except => [:new, :edit] do
           # scoped by location
+          resources :auth_sources, :only => [:index, :show]
+          resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_externals, :only => [:index, :show]
           resources :domains, :only => [:index, :show]
           resources :realms, :only => [:index, :show]
           resources :subnets, :only => [:index, :show]
@@ -382,8 +405,11 @@ Foreman::Application.routes.draw do
             end
           end
 
-           # scoped by location AND organization
+          # scoped by location AND organization
           resources :organizations, :except => [:new, :edit] do
+            resources :auth_sources, :only => [:index, :show]
+            resources :auth_source_ldaps, :only => [:index, :show]
+            resources :auth_source_externals, :only => [:index, :show]
             resources :domains, :only => [:index, :show]
             resources :realms, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]
@@ -405,6 +431,9 @@ Foreman::Application.routes.draw do
       if SETTINGS[:organizations_enabled]
         resources :organizations, :except => [:new, :edit] do
           # scoped by organization
+          resources :auth_sources, :only => [:index, :show]
+          resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_externals, :only => [:index, :show]
           resources :domains, :only => [:index, :show]
           resources :realms, :only => [:index, :show]
           resources :subnets, :only => [:index, :show]
@@ -427,6 +456,9 @@ Foreman::Application.routes.draw do
 
           # scoped by location AND organization
           resources :locations, :except => [:new, :edit] do
+            resources :auth_sources, :only => [:index, :show]
+            resources :auth_source_ldaps, :only => [:index, :show]
+            resources :auth_source_externals, :only => [:index, :show]
             resources :domains, :only => [:index, :show]
             resources :realms, :only => [:index, :show]
             resources :subnets, :only => [:index, :show]

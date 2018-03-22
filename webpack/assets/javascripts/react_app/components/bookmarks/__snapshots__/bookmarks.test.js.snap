@@ -1,0 +1,1909 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bookmarks empty state 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(BookmarkContainer)
+    data={
+      Object {
+        "canCreate": true,
+        "controller": "hosts",
+        "url": "/api/bookmarks",
+      }
+    }
+  >
+    <BookmarkContainer
+      bookmarks={Array []}
+      canCreate={true}
+      controller="hosts"
+      getBookmarks={[Function]}
+      modalClosed={[Function]}
+      modalOpened={[Function]}
+      showModal={false}
+      url="/api/bookmarks"
+    >
+      <Uncontrolled(Dropdown)
+        id="hosts"
+        pullRight={true}
+      >
+        <Dropdown
+          bsClass="dropdown"
+          componentClass={[Function]}
+          id="hosts"
+          onToggle={[Function]}
+          pullRight={true}
+        >
+          <ButtonGroup
+            block={false}
+            bsClass="btn-group"
+            className="dropdown"
+            justified={false}
+            vertical={false}
+          >
+            <div
+              className="dropdown btn-group"
+            >
+              <DropdownToggle
+                bsClass="dropdown-toggle"
+                bsRole="toggle"
+                id="hosts"
+                key=".0"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                open={false}
+                title="Bookmarks"
+                useAnchor={false}
+              >
+                <Button
+                  active={false}
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="default"
+                  className="dropdown-toggle"
+                  disabled={false}
+                  id="hosts"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  title="Bookmarks"
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-default"
+                    disabled={false}
+                    id="hosts"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    title="Bookmarks"
+                    type="button"
+                  >
+                    <Icon
+                      name="bookmark"
+                      type="fa"
+                    >
+                      <FontAwesome
+                        name="bookmark"
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="fa fa-bookmark"
+                        />
+                      </FontAwesome>
+                    </Icon>
+                     
+                    <span
+                      className="caret"
+                    />
+                  </button>
+                </Button>
+              </DropdownToggle>
+              <DropdownMenu
+                bsClass="dropdown-menu"
+                bsRole="menu"
+                className="scrollable-dropdown"
+                key=".1"
+                labelledBy="hosts"
+                onClose={[Function]}
+                onSelect={[Function]}
+                pullRight={true}
+              >
+                <RootCloseWrapper
+                  disabled={true}
+                  event="click"
+                  onRootClose={[Function]}
+                >
+                  <ul
+                    aria-labelledby="hosts"
+                    className="scrollable-dropdown dropdown-menu dropdown-menu-right"
+                    role="menu"
+                  >
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      id="newBookmark"
+                      key=".$newBookmark"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          id="newBookmark"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            id="newBookmark"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            Bookmark this search
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                    <Component
+                      id="bookmarkDocumentation"
+                      key=".1"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        id="bookmarkDocumentation"
+                        key="documentationUrl"
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            id="bookmarkDocumentation"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              id="bookmarkDocumentation"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <Component
+                                className="icon-black"
+                                type="question-sign"
+                              >
+                                <span
+                                  className="glyphicon glyphicon-question-sign icon-black"
+                                />
+                              </Component>
+                               Documentation
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Component>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={true}
+                      header={false}
+                      key=".2"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="divider"
+                        onKeyDown={[Function]}
+                        role="separator"
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={true}
+                      key=".3"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="dropdown-header"
+                        onKeyDown={[Function]}
+                        role="heading"
+                      >
+                        Saved Bookmarks
+                      </li>
+                    </MenuItem>
+                  </ul>
+                </RootCloseWrapper>
+              </DropdownMenu>
+            </div>
+          </ButtonGroup>
+        </Dropdown>
+      </Uncontrolled(Dropdown)>
+    </BookmarkContainer>
+  </Connect(BookmarkContainer)>
+</Provider>
+`;
+
+exports[`bookmarks should include existing bookmarks for the current controller 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(BookmarkContainer)
+    data={
+      Object {
+        "canCreate": true,
+        "controller": "hosts",
+        "url": "/api/bookmarks",
+      }
+    }
+  >
+    <BookmarkContainer
+      bookmarks={
+        Array [
+          Object {
+            "controller": "hosts",
+            "id": 52,
+            "name": "1111",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+          Object {
+            "controller": "hosts",
+            "id": 54,
+            "name": "1122",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+        ]
+      }
+      canCreate={true}
+      controller="hosts"
+      errors={null}
+      getBookmarks={[Function]}
+      modalClosed={[Function]}
+      modalOpened={[Function]}
+      status="RESOLVED"
+      url="/api/bookmarks"
+    >
+      <Uncontrolled(Dropdown)
+        id="hosts"
+        pullRight={true}
+      >
+        <Dropdown
+          bsClass="dropdown"
+          componentClass={[Function]}
+          id="hosts"
+          onToggle={[Function]}
+          pullRight={true}
+        >
+          <ButtonGroup
+            block={false}
+            bsClass="btn-group"
+            className="dropdown"
+            justified={false}
+            vertical={false}
+          >
+            <div
+              className="dropdown btn-group"
+            >
+              <DropdownToggle
+                bsClass="dropdown-toggle"
+                bsRole="toggle"
+                id="hosts"
+                key=".0"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                open={false}
+                title="Bookmarks"
+                useAnchor={false}
+              >
+                <Button
+                  active={false}
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="default"
+                  className="dropdown-toggle"
+                  disabled={false}
+                  id="hosts"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  title="Bookmarks"
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-default"
+                    disabled={false}
+                    id="hosts"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    title="Bookmarks"
+                    type="button"
+                  >
+                    <Icon
+                      name="bookmark"
+                      type="fa"
+                    >
+                      <FontAwesome
+                        name="bookmark"
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="fa fa-bookmark"
+                        />
+                      </FontAwesome>
+                    </Icon>
+                     
+                    <span
+                      className="caret"
+                    />
+                  </button>
+                </Button>
+              </DropdownToggle>
+              <DropdownMenu
+                bsClass="dropdown-menu"
+                bsRole="menu"
+                className="scrollable-dropdown"
+                key=".1"
+                labelledBy="hosts"
+                onClose={[Function]}
+                onSelect={[Function]}
+                pullRight={true}
+              >
+                <RootCloseWrapper
+                  disabled={true}
+                  event="click"
+                  onRootClose={[Function]}
+                >
+                  <ul
+                    aria-labelledby="hosts"
+                    className="scrollable-dropdown dropdown-menu dropdown-menu-right"
+                    role="menu"
+                  >
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      id="newBookmark"
+                      key=".$newBookmark"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          id="newBookmark"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            id="newBookmark"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            Bookmark this search
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                    <Component
+                      id="bookmarkDocumentation"
+                      key=".1"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        id="bookmarkDocumentation"
+                        key="documentationUrl"
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            id="bookmarkDocumentation"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              id="bookmarkDocumentation"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <Component
+                                className="icon-black"
+                                type="question-sign"
+                              >
+                                <span
+                                  className="glyphicon glyphicon-question-sign icon-black"
+                                />
+                              </Component>
+                               Documentation
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Component>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={true}
+                      header={false}
+                      key=".2"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="divider"
+                        onKeyDown={[Function]}
+                        role="separator"
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={true}
+                      key=".3"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="dropdown-header"
+                        onKeyDown={[Function]}
+                        role="heading"
+                      >
+                        Saved Bookmarks
+                      </li>
+                    </MenuItem>
+                    <Bookmark
+                      key=".5:$1111"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                      query="abc"
+                      text="1111"
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <EllipisWithTooltip>
+                                <div
+                                  onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
+                                >
+                                  1111
+                                </div>
+                              </EllipisWithTooltip>
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Bookmark>
+                    <Bookmark
+                      key=".5:$1122"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                      query="abc"
+                      text="1122"
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <EllipisWithTooltip>
+                                <div
+                                  onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
+                                >
+                                  1122
+                                </div>
+                              </EllipisWithTooltip>
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Bookmark>
+                  </ul>
+                </RootCloseWrapper>
+              </DropdownMenu>
+            </div>
+          </ButtonGroup>
+        </Dropdown>
+      </Uncontrolled(Dropdown)>
+    </BookmarkContainer>
+  </Connect(BookmarkContainer)>
+</Provider>
+`;
+
+exports[`bookmarks should not allow creating a new bookmark for users who dont have permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(BookmarkContainer)
+    canCreate={false}
+    data={
+      Object {
+        "canCreate": true,
+        "controller": "hosts",
+        "url": "/api/bookmarks",
+      }
+    }
+  >
+    <BookmarkContainer
+      bookmarks={
+        Array [
+          Object {
+            "controller": "hosts",
+            "id": 52,
+            "name": "1111",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+          Object {
+            "controller": "hosts",
+            "id": 54,
+            "name": "1122",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+        ]
+      }
+      canCreate={true}
+      controller="hosts"
+      errors={null}
+      getBookmarks={[Function]}
+      modalClosed={[Function]}
+      modalOpened={[Function]}
+      status="RESOLVED"
+      url="/api/bookmarks"
+    >
+      <Uncontrolled(Dropdown)
+        id="hosts"
+        pullRight={true}
+      >
+        <Dropdown
+          bsClass="dropdown"
+          componentClass={[Function]}
+          id="hosts"
+          onToggle={[Function]}
+          pullRight={true}
+        >
+          <ButtonGroup
+            block={false}
+            bsClass="btn-group"
+            className="dropdown"
+            justified={false}
+            vertical={false}
+          >
+            <div
+              className="dropdown btn-group"
+            >
+              <DropdownToggle
+                bsClass="dropdown-toggle"
+                bsRole="toggle"
+                id="hosts"
+                key=".0"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                open={false}
+                title="Bookmarks"
+                useAnchor={false}
+              >
+                <Button
+                  active={false}
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="default"
+                  className="dropdown-toggle"
+                  disabled={false}
+                  id="hosts"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  title="Bookmarks"
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-default"
+                    disabled={false}
+                    id="hosts"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    title="Bookmarks"
+                    type="button"
+                  >
+                    <Icon
+                      name="bookmark"
+                      type="fa"
+                    >
+                      <FontAwesome
+                        name="bookmark"
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="fa fa-bookmark"
+                        />
+                      </FontAwesome>
+                    </Icon>
+                     
+                    <span
+                      className="caret"
+                    />
+                  </button>
+                </Button>
+              </DropdownToggle>
+              <DropdownMenu
+                bsClass="dropdown-menu"
+                bsRole="menu"
+                className="scrollable-dropdown"
+                key=".1"
+                labelledBy="hosts"
+                onClose={[Function]}
+                onSelect={[Function]}
+                pullRight={true}
+              >
+                <RootCloseWrapper
+                  disabled={true}
+                  event="click"
+                  onRootClose={[Function]}
+                >
+                  <ul
+                    aria-labelledby="hosts"
+                    className="scrollable-dropdown dropdown-menu dropdown-menu-right"
+                    role="menu"
+                  >
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      id="newBookmark"
+                      key=".$newBookmark"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          id="newBookmark"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            id="newBookmark"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            Bookmark this search
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                    <Component
+                      id="bookmarkDocumentation"
+                      key=".1"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        id="bookmarkDocumentation"
+                        key="documentationUrl"
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            id="bookmarkDocumentation"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              id="bookmarkDocumentation"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <Component
+                                className="icon-black"
+                                type="question-sign"
+                              >
+                                <span
+                                  className="glyphicon glyphicon-question-sign icon-black"
+                                />
+                              </Component>
+                               Documentation
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Component>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={true}
+                      header={false}
+                      key=".2"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="divider"
+                        onKeyDown={[Function]}
+                        role="separator"
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={true}
+                      key=".3"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="dropdown-header"
+                        onKeyDown={[Function]}
+                        role="heading"
+                      >
+                        Saved Bookmarks
+                      </li>
+                    </MenuItem>
+                    <Bookmark
+                      key=".5:$1111"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                      query="abc"
+                      text="1111"
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <EllipisWithTooltip>
+                                <div
+                                  onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
+                                >
+                                  1111
+                                </div>
+                              </EllipisWithTooltip>
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Bookmark>
+                    <Bookmark
+                      key=".5:$1122"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                      query="abc"
+                      text="1122"
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <EllipisWithTooltip>
+                                <div
+                                  onMouseEnter={[Function]}
+                                  style={
+                                    Object {
+                                      "overflow": "hidden",
+                                      "overflowWrap": "break-word",
+                                      "textOverflow": "ellipsis",
+                                      "whiteSpace": "nowrap",
+                                      "wordBreak": "break-all",
+                                    }
+                                  }
+                                >
+                                  1122
+                                </div>
+                              </EllipisWithTooltip>
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Bookmark>
+                  </ul>
+                </RootCloseWrapper>
+              </DropdownMenu>
+            </div>
+          </ButtonGroup>
+        </Dropdown>
+      </Uncontrolled(Dropdown)>
+    </BookmarkContainer>
+  </Connect(BookmarkContainer)>
+</Provider>
+`;
+
+exports[`bookmarks should show an error message if loading failed 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(BookmarkContainer)
+    data={
+      Object {
+        "canCreate": true,
+        "controller": "hosts",
+        "url": "/api/bookmarks",
+      }
+    }
+  >
+    <BookmarkContainer
+      bookmarks={Array []}
+      canCreate={true}
+      controller="hosts"
+      errors="Oops"
+      getBookmarks={[Function]}
+      modalClosed={[Function]}
+      modalOpened={[Function]}
+      status="ERROR"
+      url="/api/bookmarks"
+    >
+      <Uncontrolled(Dropdown)
+        id="hosts"
+        pullRight={true}
+      >
+        <Dropdown
+          bsClass="dropdown"
+          componentClass={[Function]}
+          id="hosts"
+          onToggle={[Function]}
+          pullRight={true}
+        >
+          <ButtonGroup
+            block={false}
+            bsClass="btn-group"
+            className="dropdown"
+            justified={false}
+            vertical={false}
+          >
+            <div
+              className="dropdown btn-group"
+            >
+              <DropdownToggle
+                bsClass="dropdown-toggle"
+                bsRole="toggle"
+                id="hosts"
+                key=".0"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                open={false}
+                title="Bookmarks"
+                useAnchor={false}
+              >
+                <Button
+                  active={false}
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="default"
+                  className="dropdown-toggle"
+                  disabled={false}
+                  id="hosts"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  title="Bookmarks"
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-default"
+                    disabled={false}
+                    id="hosts"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    title="Bookmarks"
+                    type="button"
+                  >
+                    <Icon
+                      name="bookmark"
+                      type="fa"
+                    >
+                      <FontAwesome
+                        name="bookmark"
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="fa fa-bookmark"
+                        />
+                      </FontAwesome>
+                    </Icon>
+                     
+                    <span
+                      className="caret"
+                    />
+                  </button>
+                </Button>
+              </DropdownToggle>
+              <DropdownMenu
+                bsClass="dropdown-menu"
+                bsRole="menu"
+                className="scrollable-dropdown"
+                key=".1"
+                labelledBy="hosts"
+                onClose={[Function]}
+                onSelect={[Function]}
+                pullRight={true}
+              >
+                <RootCloseWrapper
+                  disabled={true}
+                  event="click"
+                  onRootClose={[Function]}
+                >
+                  <ul
+                    aria-labelledby="hosts"
+                    className="scrollable-dropdown dropdown-menu dropdown-menu-right"
+                    role="menu"
+                  >
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      id="newBookmark"
+                      key=".$newBookmark"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          id="newBookmark"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            id="newBookmark"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            Bookmark this search
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                    <Component
+                      id="bookmarkDocumentation"
+                      key=".1"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        id="bookmarkDocumentation"
+                        key="documentationUrl"
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            id="bookmarkDocumentation"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              id="bookmarkDocumentation"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <Component
+                                className="icon-black"
+                                type="question-sign"
+                              >
+                                <span
+                                  className="glyphicon glyphicon-question-sign icon-black"
+                                />
+                              </Component>
+                               Documentation
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Component>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={true}
+                      header={false}
+                      key=".2"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="divider"
+                        onKeyDown={[Function]}
+                        role="separator"
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={true}
+                      key=".3"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="dropdown-header"
+                        onKeyDown={[Function]}
+                        role="heading"
+                      >
+                        Saved Bookmarks
+                      </li>
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      key=".$bookmarks-errors"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <EllipisWithTooltip>
+                              <div
+                                onMouseEnter={[Function]}
+                                style={
+                                  Object {
+                                    "overflow": "hidden",
+                                    "overflowWrap": "break-word",
+                                    "textOverflow": "ellipsis",
+                                    "whiteSpace": "nowrap",
+                                    "wordBreak": "break-all",
+                                  }
+                                }
+                              >
+                                Failed to load bookmarks: %s
+                              </div>
+                            </EllipisWithTooltip>
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                  </ul>
+                </RootCloseWrapper>
+              </DropdownMenu>
+            </div>
+          </ButtonGroup>
+        </Dropdown>
+      </Uncontrolled(Dropdown)>
+    </BookmarkContainer>
+  </Connect(BookmarkContainer)>
+</Provider>
+`;
+
+exports[`bookmarks should show loading spinner when loading bookmarks 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(BookmarkContainer)
+    data={
+      Object {
+        "canCreate": true,
+        "controller": "hosts",
+        "url": "/api/bookmarks",
+      }
+    }
+  >
+    <BookmarkContainer
+      bookmarks={Array []}
+      canCreate={true}
+      controller="hosts"
+      errors={null}
+      getBookmarks={[Function]}
+      modalClosed={[Function]}
+      modalOpened={[Function]}
+      status="PENDING"
+      url="/api/bookmarks"
+    >
+      <Uncontrolled(Dropdown)
+        id="hosts"
+        pullRight={true}
+      >
+        <Dropdown
+          bsClass="dropdown"
+          componentClass={[Function]}
+          id="hosts"
+          onToggle={[Function]}
+          pullRight={true}
+        >
+          <ButtonGroup
+            block={false}
+            bsClass="btn-group"
+            className="dropdown"
+            justified={false}
+            vertical={false}
+          >
+            <div
+              className="dropdown btn-group"
+            >
+              <DropdownToggle
+                bsClass="dropdown-toggle"
+                bsRole="toggle"
+                id="hosts"
+                key=".0"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                open={false}
+                title="Bookmarks"
+                useAnchor={false}
+              >
+                <Button
+                  active={false}
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="default"
+                  className="dropdown-toggle"
+                  disabled={false}
+                  id="hosts"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  title="Bookmarks"
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-default"
+                    disabled={false}
+                    id="hosts"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    title="Bookmarks"
+                    type="button"
+                  >
+                    <Icon
+                      name="bookmark"
+                      type="fa"
+                    >
+                      <FontAwesome
+                        name="bookmark"
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="fa fa-bookmark"
+                        />
+                      </FontAwesome>
+                    </Icon>
+                     
+                    <span
+                      className="caret"
+                    />
+                  </button>
+                </Button>
+              </DropdownToggle>
+              <DropdownMenu
+                bsClass="dropdown-menu"
+                bsRole="menu"
+                className="scrollable-dropdown"
+                key=".1"
+                labelledBy="hosts"
+                onClose={[Function]}
+                onSelect={[Function]}
+                pullRight={true}
+              >
+                <RootCloseWrapper
+                  disabled={true}
+                  event="click"
+                  onRootClose={[Function]}
+                >
+                  <ul
+                    aria-labelledby="hosts"
+                    className="scrollable-dropdown dropdown-menu dropdown-menu-right"
+                    role="menu"
+                  >
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      id="newBookmark"
+                      key=".$newBookmark"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          id="newBookmark"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            id="newBookmark"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            Bookmark this search
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                    <Component
+                      id="bookmarkDocumentation"
+                      key=".1"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        id="bookmarkDocumentation"
+                        key="documentationUrl"
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            id="bookmarkDocumentation"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              id="bookmarkDocumentation"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <Component
+                                className="icon-black"
+                                type="question-sign"
+                              >
+                                <span
+                                  className="glyphicon glyphicon-question-sign icon-black"
+                                />
+                              </Component>
+                               Documentation
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Component>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={true}
+                      header={false}
+                      key=".2"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="divider"
+                        onKeyDown={[Function]}
+                        role="separator"
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={true}
+                      key=".3"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="dropdown-header"
+                        onKeyDown={[Function]}
+                        role="heading"
+                      >
+                        Saved Bookmarks
+                      </li>
+                    </MenuItem>
+                    <li
+                      className="loader-root"
+                      key=".4"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <Spinner
+                        className=""
+                        inline={false}
+                        inverse={false}
+                        loading={true}
+                        size="xs"
+                      >
+                        <div
+                          className="spinner spinner-xs"
+                        />
+                      </Spinner>
+                    </li>
+                  </ul>
+                </RootCloseWrapper>
+              </DropdownMenu>
+            </div>
+          </ButtonGroup>
+        </Dropdown>
+      </Uncontrolled(Dropdown)>
+    </BookmarkContainer>
+  </Connect(BookmarkContainer)>
+</Provider>
+`;
+
+exports[`bookmarks should show no bookmarks if server did not respond with any 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(BookmarkContainer)
+    data={
+      Object {
+        "canCreate": true,
+        "controller": "hosts",
+        "url": "/api/bookmarks",
+      }
+    }
+  >
+    <BookmarkContainer
+      bookmarks={Array []}
+      canCreate={true}
+      controller="hosts"
+      errors={null}
+      getBookmarks={[Function]}
+      modalClosed={[Function]}
+      modalOpened={[Function]}
+      status="RESOLVED"
+      url="/api/bookmarks"
+    >
+      <Uncontrolled(Dropdown)
+        id="hosts"
+        pullRight={true}
+      >
+        <Dropdown
+          bsClass="dropdown"
+          componentClass={[Function]}
+          id="hosts"
+          onToggle={[Function]}
+          pullRight={true}
+        >
+          <ButtonGroup
+            block={false}
+            bsClass="btn-group"
+            className="dropdown"
+            justified={false}
+            vertical={false}
+          >
+            <div
+              className="dropdown btn-group"
+            >
+              <DropdownToggle
+                bsClass="dropdown-toggle"
+                bsRole="toggle"
+                id="hosts"
+                key=".0"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                open={false}
+                title="Bookmarks"
+                useAnchor={false}
+              >
+                <Button
+                  active={false}
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="default"
+                  className="dropdown-toggle"
+                  disabled={false}
+                  id="hosts"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="button"
+                  title="Bookmarks"
+                >
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    className="dropdown-toggle btn btn-default"
+                    disabled={false}
+                    id="hosts"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="button"
+                    title="Bookmarks"
+                    type="button"
+                  >
+                    <Icon
+                      name="bookmark"
+                      type="fa"
+                    >
+                      <FontAwesome
+                        name="bookmark"
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="fa fa-bookmark"
+                        />
+                      </FontAwesome>
+                    </Icon>
+                     
+                    <span
+                      className="caret"
+                    />
+                  </button>
+                </Button>
+              </DropdownToggle>
+              <DropdownMenu
+                bsClass="dropdown-menu"
+                bsRole="menu"
+                className="scrollable-dropdown"
+                key=".1"
+                labelledBy="hosts"
+                onClose={[Function]}
+                onSelect={[Function]}
+                pullRight={true}
+              >
+                <RootCloseWrapper
+                  disabled={true}
+                  event="click"
+                  onRootClose={[Function]}
+                >
+                  <ul
+                    aria-labelledby="hosts"
+                    className="scrollable-dropdown dropdown-menu dropdown-menu-right"
+                    role="menu"
+                  >
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={false}
+                      id="newBookmark"
+                      key=".$newBookmark"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className=""
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          id="newBookmark"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            id="newBookmark"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            Bookmark this search
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                    <Component
+                      id="bookmarkDocumentation"
+                      key=".1"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <MenuItem
+                        bsClass="dropdown"
+                        disabled={false}
+                        divider={false}
+                        header={false}
+                        id="bookmarkDocumentation"
+                        key="documentationUrl"
+                        onClick={[Function]}
+                      >
+                        <li
+                          className=""
+                          role="presentation"
+                        >
+                          <SafeAnchor
+                            componentClass="a"
+                            id="bookmarkDocumentation"
+                            onClick={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                            <a
+                              href="#"
+                              id="bookmarkDocumentation"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="menuitem"
+                              tabIndex="-1"
+                            >
+                              <Component
+                                className="icon-black"
+                                type="question-sign"
+                              >
+                                <span
+                                  className="glyphicon glyphicon-question-sign icon-black"
+                                />
+                              </Component>
+                               Documentation
+                            </a>
+                          </SafeAnchor>
+                        </li>
+                      </MenuItem>
+                    </Component>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={true}
+                      header={false}
+                      key=".2"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="divider"
+                        onKeyDown={[Function]}
+                        role="separator"
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={false}
+                      divider={false}
+                      header={true}
+                      key=".3"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="dropdown-header"
+                        onKeyDown={[Function]}
+                        role="heading"
+                      >
+                        Saved Bookmarks
+                      </li>
+                    </MenuItem>
+                    <MenuItem
+                      bsClass="dropdown"
+                      disabled={true}
+                      divider={false}
+                      header={false}
+                      key=".5"
+                      onKeyDown={[Function]}
+                      onSelect={[Function]}
+                    >
+                      <li
+                        className="disabled"
+                        role="presentation"
+                      >
+                        <SafeAnchor
+                          componentClass="a"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          role="menuitem"
+                          tabIndex="-1"
+                        >
+                          <a
+                            href="#"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="menuitem"
+                            tabIndex="-1"
+                          >
+                             
+                            None found
+                          </a>
+                        </SafeAnchor>
+                      </li>
+                    </MenuItem>
+                  </ul>
+                </RootCloseWrapper>
+              </DropdownMenu>
+            </div>
+          </ButtonGroup>
+        </Dropdown>
+      </Uncontrolled(Dropdown)>
+    </BookmarkContainer>
+  </Connect(BookmarkContainer)>
+</Provider>
+`;

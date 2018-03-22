@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :environment do
     sequence(:name) {|n| "environment#{n}" }
     organizations []
@@ -7,7 +7,7 @@ FactoryGirl.define do
 
   factory :environment_class
 
-  FactoryGirl.define do
+  FactoryBot.define do
     factory :lookup_key, class: 'LookupKey' do
       sequence(:key) { |n| "param#{n}" }
     end
@@ -18,7 +18,7 @@ FactoryGirl.define do
       end
       after(:create) do |lkey, evaluator|
         evaluator.overrides.each do |match, value|
-          FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :omit => false
+          FactoryBot.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match, :omit => false
         end
         lkey.reload
       end
@@ -36,7 +36,7 @@ FactoryGirl.define do
         end
         after(:create) do |lkey, evaluator|
           evaluator.puppetclass.environments.each do |env|
-            FactoryGirl.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
+            FactoryBot.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
           end
         end
       end
@@ -52,7 +52,7 @@ FactoryGirl.define do
       end
       after(:create) do |lkey, evaluator|
         evaluator.overrides.each do |match, value|
-          FactoryGirl.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match
+          FactoryBot.create :lookup_value, :lookup_key_id => lkey.id, :value => value, :match => match
         end
         lkey.reload
       end
@@ -81,7 +81,7 @@ FactoryGirl.define do
     end
     after(:create) do |pc,evaluator|
       evaluator.environments.each do |env|
-        FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id unless env.nil?
+        FactoryBot.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id unless env.nil?
       end
     end
 
@@ -92,8 +92,8 @@ FactoryGirl.define do
       after(:create) do |pc,evaluator|
         evaluator.parameter_count.times do
           evaluator.environments.each do |env|
-            lkey = FactoryGirl.create :puppetclass_lookup_key
-            FactoryGirl.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
+            lkey = FactoryBot.create :puppetclass_lookup_key
+            FactoryBot.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
           end
         end
       end
@@ -107,7 +107,7 @@ FactoryGirl.define do
     end
 
     trait :with_puppetclass do
-      puppetclasses { [ FactoryGirl.create(:puppetclass, :environments => class_environments) ] }
+      puppetclasses { [ FactoryBot.create(:puppetclass, :environments => class_environments) ] }
     end
   end
 end

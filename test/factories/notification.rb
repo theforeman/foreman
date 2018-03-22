@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :notification do
     notification_blueprint
     association :initiator, :factory => :user

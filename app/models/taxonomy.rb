@@ -8,7 +8,10 @@ class Taxonomy < ApplicationRecord
   serialize :ignore_types, Array
 
   belongs_to :user
+
+  before_create :assign_default_templates
   after_create :assign_taxonomy_to_user
+  before_validation :sanitize_ignored_types
 
   has_many :taxable_taxonomies, :dependent => :destroy
   has_many :users, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'User'
@@ -22,13 +25,13 @@ class Taxonomy < ApplicationRecord
   has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
   has_many :environments, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Environment'
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
+  has_many :auth_sources, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'AuthSource'
 
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
-
+  # the condition for parent_id != 0 is required because of our tests, should validate macros fill in attribute with values and it set 0 to this one
+  # which would lead to an error when we ask for parent object
+  validate :parent_id_does_not_escalate, :if => Proc.new { |t| t.ancestry_changed? && t.parent_id != 0 && t.parent.present? }
   validates :name, :presence => true, :uniqueness => {:scope => [:ancestry, :type], :case_sensitive => false}
-
-  before_validation :sanitize_ignored_types
-  after_create :assign_default_templates
 
   def self.inherited(child)
     child.instance_eval do
@@ -126,7 +129,7 @@ class Taxonomy < ApplicationRecord
   end
 
   def self.all_import_missing_ids
-    all.each do |taxonomy|
+    all.find_each do |taxonomy|
       taxonomy.import_missing_ids
     end
   end
@@ -149,11 +152,12 @@ class Taxonomy < ApplicationRecord
     new.realms            = realms
     new.media             = media
     new.hostgroups        = hostgroups
+    new.auth_sources      = auth_sources
     new
   end
 
-  # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organizations_ids since these aren't ignored
-  (TaxHost::HASH_KEYS - [:location_ids, :organizations_ids]).each do |key|
+  # overwrite *_ids since need to check if ignored? - don't overwrite location_ids and organization_ids since these aren't ignored
+  (TaxHost::HASH_KEYS - [:location_ids, :organization_ids]).each do |key|
     # def domain_ids
     #  if ignore?("Domain")
     #   Domain.pluck(:id)
@@ -220,8 +224,8 @@ class Taxonomy < ApplicationRecord
            :to => :tax_host
 
   def assign_default_templates
-    Template.where(:default => true).each do |template|
-      self.send((template.class.to_s.underscore.pluralize).to_s) << template
+    Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
+      self.send("#{association}=", self.send(association) + templates)
     end
   end
 
@@ -241,5 +245,12 @@ class Taxonomy < ApplicationRecord
   def assign_taxonomy_to_user
     return if User.current.nil? || User.current.admin
     TaxableTaxonomy.create(:taxonomy_id => self.id, :taxable_id => User.current.id, :taxable_type => 'User')
+  end
+
+  def parent_id_does_not_escalate
+    unless User.current.can?("edit_#{self.class.to_s.underscore.pluralize}", self.parent)
+      errors.add :parent_id, _("Missing a permission to edit parent %s") % self.class.to_s
+      false
+    end
   end
 end

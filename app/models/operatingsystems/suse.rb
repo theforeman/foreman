@@ -14,6 +14,10 @@ class Suse < Operatingsystem
     "boot/$arch/loader"
   end
 
+  def available_loaders
+    self.class.all_loaders
+  end
+
   def url_for_boot(file)
     pxedir + "/" + PXEFILES[file]
   end

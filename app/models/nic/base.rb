@@ -62,6 +62,8 @@ module Nic
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
 
+    audited associated_with: :host
+
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
@@ -73,6 +75,11 @@ module Nic
             :link, :tag, :domain, :vlanid, :bond_options, :attached_devices, :mode,
             :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
             :children_mac_addresses, :fqdn, :shortname
+    end
+
+    # include STI inheritance column in audits
+    def self.default_ignored_attributes
+      super - [inheritance_column]
     end
 
     def physical?
@@ -166,7 +173,7 @@ module Nic
 
     def compute_provides_ip?(field)
       return false unless managed? && host_managed? && primary?
-      subnet_field = field == :ip6 ? :subnet6 : :subnet
+      subnet_field = (field == :ip6) ? :subnet6 : :subnet
       host.compute_provides?(field) || host.compute_provides?(:mac) && mac_based_ipam?(subnet_field)
     end
 
@@ -190,6 +197,12 @@ module Nic
       return unless send(subnet_field).present?
       ip_value = send(ip_field)
       ip_value.present? && public_send(subnet_field).contains?(ip_value)
+    end
+
+    def to_audit_label
+      return "#{name} (#{identifier})" if name.present? && identifier.present?
+      return "#{mac} (#{identifier})" if mac.present? && identifier.present?
+      [mac, name, identifier, _('Unnamed')].detect(&:present?)
     end
 
     protected
@@ -225,7 +238,7 @@ module Nic
           self.errors.add :provision, _("can't delete provision interface of managed host")
         end
       end
-      !(self.errors[:primary].present? || self.errors[:provision].present?)
+      throw :abort if self.errors[:primary].present? || self.errors[:provision].present?
     end
 
     def exclusive_primary_interface

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :compute_resource do
     sequence(:name) { |n| "compute_resource#{n}" }
     sequence(:url) { |n| "http://#{n}.example.com/" }
@@ -65,9 +65,9 @@ FactoryGirl.define do
 
   factory :image do
     sequence(:name) { |n| "image#{n}" }
-    uuid Foreman.uuid
+    uuid { Foreman.uuid }
     username 'root'
-    compute_resource
+    association :compute_resource, factory: :libvirt_cr
     operatingsystem
     architecture
   end
@@ -75,10 +75,11 @@ FactoryGirl.define do
   factory :compute_attribute do
     sequence(:name) { |n| "attributes#{n}" }
     vm_attrs(
-    {
-      :flavor_id => 'm1.small',
-      :availability_zone => 'eu-west-1a'
-    })
+      {
+        :flavor_id => 'm1.small',
+        :availability_zone => 'eu-west-1a'
+      }
+    )
     before(:create) { |attr| attr.stubs(:pretty_vm_attrs).returns('m1.small VM') }
   end
 
@@ -91,9 +92,10 @@ FactoryGirl.define do
       end
 
       after(:create) do |compute_profile, evaluator|
-        compute_profile.compute_attributes << FactoryGirl.create(:compute_attribute,
+        compute_profile.compute_attributes << FactoryBot.create(:compute_attribute,
           :compute_resource => evaluator.compute_resource,
-          :compute_profile => compute_profile)
+          :compute_profile => compute_profile
+        )
       end
     end
   end

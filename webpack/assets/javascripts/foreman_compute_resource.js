@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import $ from 'jquery';
 import { activateDatatables } from './foreman_tools';
 import { notify } from './foreman_toast_notifications';
@@ -10,30 +11,34 @@ export default {
   vmware: require('./compute_resource/vmware'),
   capacityEdit,
   providerSelected,
-  testConnection
+  testConnection,
 };
 
 // Common functions used by one or more Compute Resource
 
 // AJAX load vm listing
-$(() => {
-  $('#vms, #images_list, #key_pairs_list').filter('[data-url]').each(function () {
-    const url = $(this).attr('data-url');
 
-    $(this).load(`${url} table`, function (response, status, xhr) {
-      if (status === 'error') {
-        $(this).html(
-          // eslint-disable-next-line no-undef
-          Jed.sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
-            status: xhr.status,
-            statusText: xhr.statusText
-          })
-        );
-      } else {
-        activateDatatables();
-      }
+$(document).on('ContentLoad', () => {
+  $('#vms, #images_list, #key_pairs_list')
+    .filter('[data-url]')
+    .each((i, el) => {
+      const tab = $(el);
+      const url = tab.attr('data-url');
+
+      tab.load(`${url} table`, (response, status, xhr) => {
+        if (status === 'error') {
+          // eslint-disable-next-line function-paren-newline
+          tab.html(
+            // eslint-disable-next-line no-undef
+            Jed.sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
+              status: xhr.status,
+              statusText: xhr.statusText,
+            }));
+        } else {
+          activateDatatables();
+        }
+      });
     });
-  });
 });
 
 // eslint-disable-next-line max-statements
@@ -66,7 +71,7 @@ export function testConnection(item) {
     crId = '';
   }
 
-  let password = $('input#compute_resource_password').val();
+  const password = $('input#compute_resource_password').val();
 
   $('.tab-error').removeClass('tab-error');
   $('#test_connection_indicator').show();
@@ -75,13 +80,10 @@ export function testConnection(item) {
     url: $(item).attr('data-url'),
     data: `${$('form').serialize()}&cr_id=${crId}`,
     success(result) {
-      let res = $(`<div>${result}</div>`);
+      const res = $(`<div>${result}</div>`);
 
       $('#compute_connection').html(res.find('#compute_connection'));
       $('#compute_connection').prepend(res.find('.alert'));
-      if (!$('#compute_resource_provider').prop('disabled')) {
-        $('#compute_resource_password').prop('disabled', false);
-      }
       if (
         $('.alert-danger', result).length === 0 &&
         $('#compute_connection .has-error', result).length === 0
@@ -92,24 +94,29 @@ export function testConnection(item) {
     error({ statusText }) {
       notify({
         message: `<p>${__('An error occurred while testing the connection: ')}${statusText}</p>`,
-        type: 'danger'
+        type: 'danger',
       });
     },
     complete(result) {
       // we need to restore the password field as it is not sent back from the server.
       $('input#compute_resource_password').val(password);
+      $('#compute_resource_password').prop('disabled', false);
       $('#test_connection_indicator').hide();
       // eslint-disable-next-line no-undef
       reloadOnAjaxComplete('#test_connection_indicator');
-    }
+    },
   });
 }
 
 export function capacityEdit(element) {
-  let buttons = $(element).closest('.fields').find('button[name=allocation_radio_btn].btn.active');
+  const buttons = $(element)
+    .closest('.fields')
+    .find('button[name=allocation_radio_btn].btn.active');
 
-  if (buttons.length > 0 && $(buttons[0]).text() === 'Full') {
-    let allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+  if (buttons.length > 0 && buttons[0].id === 'btnAllocationFull') {
+    const allocation = $(element)
+      .closest('.fields')
+      .find('[id$=allocation]')[0];
 
     allocation.value = element.value;
   }

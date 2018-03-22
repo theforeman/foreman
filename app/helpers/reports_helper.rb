@@ -44,4 +44,20 @@ module ReportsHelper
              {}, {:class=>"col-md-1 form-control", :onchange =>"filter_by_level(this);"})
     end
   end
+
+  def report_origin_icon(origin)
+    return 'N/A' if origin.blank?
+    origin_icon = self.try("#{origin.downcase}_report_origin_icon".to_sym)
+    image_tag(origin_icon || origin + ".png", :title => _("Reported by %s") % origin)
+  end
+
+  def report_origin_output_partial(origin)
+    return report_default_partial if origin.blank?
+    origin_partial = self.try("#{origin.downcase}_report_origin_partial".to_sym)
+    origin_partial || report_default_partial
+  end
+
+  def report_default_partial
+    'output'.freeze
+  end
 end

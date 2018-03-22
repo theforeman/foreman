@@ -1,3 +1,4 @@
+---
 attributes1:
   name: administrator
   settings_type: string
@@ -151,15 +152,10 @@ attribute31:
   default: "SSL_CLIENT_CERT"
   description: "Environment variable containing a client SSL certificate"
 attribute32:
-  name: trusted_puppetmaster_hosts
+  name: trusted_hosts
   category: Setting::Auth
   default: []
   description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
-attribute33:
-  name: use_gravatar
-  category: Setting::General
-  default: "true"
-  description: "Should Foreman use gravatar to display user icons"
 attribute36:
   name: puppetrun
   category: Setting::Puppet
@@ -353,3 +349,33 @@ attribute73:
   category: Setting::Provisioning
   default: PXELinux default local boot
   description: 'Set up default local boot template for PXELinux'
+attribute74:
+  name: rss_enable
+  category: Setting::Notification
+  default: true
+  description: 'Whether to enable or not RSS feed notifications'
+attribute75:
+  name: rss_url
+  category: Setting::Notification
+  default: "http://theforeman.org/feed.xml"
+  description: 'Default URL for RSS feed notifications'
+attribute76:
+  name: default_pxe_item_global
+  category: Setting::Provisioning
+  default: "local"
+  description: 'Default PXE global template entry'
+attribute77:
+  name: default_pxe_item_local
+  category: Setting::Provisioning
+  default: "local_chain_hd0"
+  description: 'Default PXE local template entry'
+attributes78:
+  name: excluded_facts
+  category: Setting::Provisioning
+  default: "['lo', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"
+  description: 'Ignore fact names that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
+attribute77:
+  name: append_domain_name_for_hosts
+  category: Setting::General
+  default: "true"
+  description: "Should append domain names when new hosts are provisioned"

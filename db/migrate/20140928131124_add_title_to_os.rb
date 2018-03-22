@@ -1,4 +1,4 @@
-class AddTitleToOs < ActiveRecord::Migration
+class AddTitleToOs < ActiveRecord::Migration[4.2]
   def up
     add_column :operatingsystems, :title, :string, :limit => 255
 

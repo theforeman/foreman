@@ -8,22 +8,66 @@ module Foreman
     class HostUnknown < RenderingError; end
     class HostParamUndefined < RenderingError; end
     class HostENCParamUndefined < RenderingError; end
+    class FilteredGlobalSettingAccessed < RenderingError; end
 
     include ::Foreman::ForemanUrlRenderer
 
-    ALLOWED_GENERIC_HELPERS ||= [ :foreman_url, :snippet, :snippets, :snippet_if_exists, :indent, :foreman_server_fqdn,
-                                  :foreman_server_url, :log_debug, :log_info, :log_warn, :log_error, :log_fatal, :template_name, :dns_lookup,
-                                  :pxe_kernel_options, :save_to_file, :subnet_param, :subnet_has_param? ]
-    ALLOWED_HOST_HELPERS ||= [ :grub_pass, :ks_console, :root_pass,
-                               :media_path, :param_true?, :param_false?, :match,
-                               :host_param_true?, :host_param_false?,
-                               :host_param, :host_param!, :host_puppet_classes, :host_enc ]
+    ALLOWED_GENERIC_HELPERS ||= [
+      :foreman_url,
+      :snippet, :snippets,
+      :snippet_if_exists,
+      :indent,
+      :foreman_server_fqdn, :foreman_server_url,
+      :log_debug, :log_info, :log_warn, :log_error, :log_fatal,
+      :template_name,
+      :dns_lookup,
+      :pxe_kernel_options,
+      :save_to_file,
+      :subnet_param, :subnet_has_param?,
+      :global_setting
+    ]
+    ALLOWED_HOST_HELPERS ||= [
+      :grub_pass,
+      :ks_console,
+      :root_pass,
+      :media_path,
+      :match,
+      :host_param_true?, :host_param_false?,
+      :host_param, :host_param!,
+      :host_puppet_classes,
+      :host_enc,
+    ]
 
     ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
 
     ALLOWED_VARIABLES ||= [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                             :repos, :dynamic, :kernel, :initrd, :xen,
                             :preseed_server, :preseed_path, :provisioning_type, :template_name ]
+
+    ALLOWED_GLOBAL_SETTINGS ||= [
+      :administrator,
+      :proxy_request_timeout,
+      :http_proxy,
+      :http_proxy_except_list,
+      :email_reply_address,
+      :safemode_render,
+      :manage_puppetca,
+      :ignored_interface_identifiers,
+      :remote_addr,
+      :token_duration,
+      :dns_conflict_timeout,
+      :name_generator_type,
+      :default_pxe_item_global,
+      :default_pxe_item_local,
+      :puppet_interval,
+      :outofsync_interval,
+      :default_puppet_environment,
+      :modulepath,
+      :puppetrun,
+      :puppet_server,
+      :legacy_puppet_hostname,
+      :update_ip_from_built_request,
+    ]
 
     def template_logger
       @template_logger ||= Foreman::Logging.logger('templates')
@@ -43,7 +87,7 @@ module Foreman
 
     def host_param(param_name, default = nil)
       check_host
-      @host.params[param_name] || default
+      @host.host_param(param_name) || default
     end
 
     def host_param!(param_name)
@@ -97,7 +141,6 @@ module Foreman
         scope_variables.each { |k,v| instance_variable_set "@#{k}", kept_variables[k] }
         result
       end
-
     rescue ::Racc::ParseError, ::SyntaxError => e
       # Racc::ParseError is raised in safe mode, SyntaxError in unsafe mode
       new_e = Foreman::Renderer::SyntaxError.new(N_("Syntax error occurred while parsing the template %{template_name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"), :template_name => template_name, :message => e.message)
@@ -139,7 +182,7 @@ module Foreman
       if Template.where(:name => file, :snippet => true).empty?
         render :partial => "unattended/snippets/#{file}"
       else
-        return snippet(file.gsub(/^_/, ""), options)
+        snippet(file.gsub(/^_/, ""), options)
       end
     end
 
@@ -183,8 +226,8 @@ module Foreman
       resolver = Resolv::DNS.new
       Timeout.timeout(Setting[:dns_conflict_timeout]) do
         begin
-          resolver.getname(IPAddr.new(name_or_ip))
-        rescue IPAddr::Error
+          resolver.getname(name_or_ip)
+        rescue Resolv::ResolvError
           resolver.getaddress(name_or_ip)
         end
       end
@@ -200,7 +243,15 @@ module Foreman
       raise ::Foreman::Exception.new(N_("Template '%s' is either missing or has an invalid organization or location"), @template_name) if template.nil?
       content = template.respond_to?(:template) ? template.template : template
       allowed_variables = allowed_variables_mapping(ALLOWED_VARIABLES)
-      render_safe content, ALLOWED_HELPERS, allowed_variables, scope_variables
+      result = render_safe content, ALLOWED_HELPERS, allowed_variables, scope_variables
+      digest = Digest::SHA256.hexdigest(result)
+      Foreman::Logging.blob("Unattended render of '#{@template_name}' = '#{digest}'", result,
+        template_digest: digest,
+        template_name: @template_name,
+        template_context: self.class.name,
+        template_host_name: @host.try(:name),
+        template_host_id: @host.try(:id))
+      result
     end
 
     def unattended_render_to_temp_file(content, prefix = id.to_s, options = {})
@@ -231,6 +282,12 @@ module Foreman
       # and is needed to direct the host to the correct url. without it, we increase
       # latency by requesting the correct url directly from the proxy.
       @template_url = params['url']
+    end
+
+    def global_setting(name, blank_default = nil)
+      raise(FilteredGlobalSettingAccessed, _('Global setting "%s" is not accessible in safe-mode') % name) if Setting[:safemode_render] && !ALLOWED_GLOBAL_SETTINGS.include?(name.to_sym)
+      setting = Setting.find_by_name(name.to_sym)
+      (setting.settings_type != "boolean" && setting.value.blank?) ? blank_default : setting.value
     end
 
     private

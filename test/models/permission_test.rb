@@ -6,7 +6,7 @@ class PermissionTest < ActiveSupport::TestCase
   end
 
   test ".resources works even for undefined resource types" do
-    FactoryGirl.create :permission, :resource_type => 'SomethingNotExisting'
+    FactoryBot.create :permission, :resource_type => 'SomethingNotExisting'
     Permission.resources.each {|r| assert_not_nil r }
   end
 
@@ -16,7 +16,7 @@ class PermissionTest < ActiveSupport::TestCase
   end
 
   test "can search permissions by name" do
-    permission = FactoryGirl.create :permission, :domain, :name => 'view_all_domains'
+    permission = FactoryBot.create :permission, :domain, :name => 'view_all_domains'
     as_admin do
       permissions = Permission.search_for('name = view_all_domains')
       assert_includes permissions, permission
@@ -24,7 +24,7 @@ class PermissionTest < ActiveSupport::TestCase
   end
 
   test "can search permissions by resource_type" do
-    permission = FactoryGirl.create :permission, :domain, :name => 'view_all_domains'
+    permission = FactoryBot.create :permission, :domain, :name => 'view_all_domains'
     as_admin do
       permissions = Permission.search_for('resource_type = Domain')
       assert_includes permissions, permission

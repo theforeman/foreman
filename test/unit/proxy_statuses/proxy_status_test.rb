@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProxyStatusTest < ActiveSupport::TestCase
   setup do
-    @proxy = FactoryGirl.
+    @proxy = FactoryBot.
       build_stubbed(:template_smart_proxy, :url => 'https://secure.proxy:4568')
   end
 

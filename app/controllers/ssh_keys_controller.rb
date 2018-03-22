@@ -1,6 +1,6 @@
 class SshKeysController < ApplicationController
   include Foreman::Controller::Parameters::SshKey
-  include Foreman::Controller::SshKeysCommon
+  include Foreman::Controller::UserAware
 
   before_action :find_resource, :only => [:destroy]
 

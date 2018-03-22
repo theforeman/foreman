@@ -14,7 +14,7 @@ module Foreman
       should validate_presence_of(:password)
 
       setup do
-        @compute_resource = FactoryGirl.build(:openstack_cr)
+        @compute_resource = FactoryBot.build_stubbed(:openstack_cr)
       end
 
       teardown do
@@ -22,7 +22,7 @@ module Foreman
       end
 
       test "#associated_host matches any NIC" do
-        host = FactoryGirl.create(:host, :ip => '10.0.0.154')
+        host = FactoryBot.create(:host, :ip => '10.0.0.154')
         iface = mock('iface1', :floating_ip_address => '10.0.0.154', :private_ip_address => "10.1.1.1")
         assert_equal host, as_admin { @compute_resource.associated_host(iface) }
       end

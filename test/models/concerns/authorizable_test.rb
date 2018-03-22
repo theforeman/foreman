@@ -3,19 +3,19 @@ require 'test_helper'
 class AuthorizableTest < ActiveSupport::TestCase
   def setup
     User.current = users :admin
-    user_role = FactoryGirl.create(:user_user_role)
+    user_role = FactoryBot.create(:user_user_role)
     @user = user_role.owner
     role = user_role.role
     permission = Permission.find_by_name('create_domains')
-    role.filters << FactoryGirl.create(:filter, :on_name_starting_with_a, :role => role, :permissions => [ permission ])
+    role.filters << FactoryBot.create(:filter, :on_name_starting_with_a, :role => role, :permissions => [ permission ])
   end
 
   test "create permissions respects search conditions of filters" do
     as_user @user do
-      valid = FactoryGirl.build(:domain, :name => 'a.domain.will.save')
+      valid = FactoryBot.build(:domain, :name => 'a.domain.will.save')
       assert valid.save
 
-      invalid = FactoryGirl.build(:domain, :name => 'b.domain.wont.save')
+      invalid = FactoryBot.build(:domain, :name => 'b.domain.wont.save')
       refute invalid.save
       assert_equal 1, invalid.errors.messages.size
       assert_include invalid.errors.messages.keys, :base
@@ -25,7 +25,7 @@ class AuthorizableTest < ActiveSupport::TestCase
   test "rollback orchestration" do
     Domain.stub(:included_modules, [Orchestration]) do
       as_user @user do
-        invalid = FactoryGirl.build(:domain, :name => 'b.domain.wont.save')
+        invalid = FactoryBot.build(:domain, :name => 'b.domain.wont.save')
         invalid.stubs(:queue).returns([])
         invalid.expects(:fail_queue).once
         refute invalid.save
@@ -34,7 +34,7 @@ class AuthorizableTest < ActiveSupport::TestCase
   end
 
   test "#permission_name" do
-    domain = FactoryGirl.build(:domain)
+    domain = FactoryBot.build_stubbed(:domain)
     assert_equal 'create_domains', domain.permission_name('create')
     assert_nil domain.permission_name('does_not_exist')
   end

@@ -4,7 +4,6 @@ class PuppetclassLookupKeyJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   PuppetclassLookupKeyJSTest.test_0001_can hide value when overriden
   #   PuppetclassLookupKeyJSTest.test_0002_uncheck override
-  extend Minitest::OptionalRetry
 
   test 'can hide value when overriden' do
     visit puppetclass_lookup_keys_path

@@ -4,7 +4,7 @@ class AuditsController < ApplicationController
   before_action :setup_search_options, :only => :index
 
   def index
-    Audit.unscoped { @audits = resource_base_search_and_page.includes(:user) }
+    @audits = resource_base_search_and_page.with_taxonomy_scope.preload(:user)
   end
 
   def show

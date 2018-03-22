@@ -20,19 +20,19 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
   should belong_to(:dhcp)
 
   test 'can be created with domains' do
-    subnet = FactoryGirl.build(:subnet_ipv4)
+    subnet = FactoryBot.build(:subnet_ipv4)
     subnet.domain_ids = [ domains(:mydomain).id ]
     assert subnet.save
   end
 
   test "cidr setter should set the mask" do
-    @subnet = FactoryGirl.build(:subnet_ipv4)
+    @subnet = FactoryBot.build_stubbed(:subnet_ipv4)
     @subnet.cidr = 24
     assert_equal '255.255.255.0', @subnet.mask
   end
 
   test "cidr setter should not raise exception for invalid value" do
-    @subnet = FactoryGirl.build(:subnet_ipv4)
+    @subnet = FactoryBot.build_stubbed(:subnet_ipv4)
     @subnet.cidr = 'green'
   end
 
@@ -97,20 +97,20 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
     ipam = mock()
     ipam.expects(:suggest_ip).returns('1.1.1.1')
     IPAM.expects(:new).once.returns(ipam)
-    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12', :ipam => IPAM::MODES[:db])
+    subnet = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12', :ipam => IPAM::MODES[:db])
     assert_equal '1.1.1.1', subnet.unused_ip.suggest_ip
   end
 
   test "#unused_ip does not suggest IP if mode is set to none" do
-    subnet = FactoryGirl.build(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
+    subnet = FactoryBot.build_stubbed(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12')
     subnet.stubs(:dhcp? => false, :ipam => IPAM::MODES[:none])
     assert_nil subnet.unused_ip.suggest_ip
   end
 
   test "#known_ips includes all host and interfaces IPs assigned to this subnet" do
-    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+    subnet = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
                                 :dns_primary => '192.168.2.2', :gateway => '192.168.2.3', :ipam => IPAM::MODES[:db])
-    host = FactoryGirl.create(:host, :subnet => subnet, :ip => '192.168.2.1')
+    host = FactoryBot.create(:host, :subnet => subnet, :ip => '192.168.2.1')
     Nic::Managed.create :mac => "00:00:01:10:00:00", :host => host, :subnet => subnet, :name => "", :ip => '192.168.2.4'
 
     assert_includes subnet.known_ips, '192.168.2.1'
@@ -121,12 +121,12 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
   end
 
   test "#known_ips returns host/interface IPs after creation" do
-    subnet = FactoryGirl.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
+    subnet = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet', :network => '192.168.2.0', :from => '192.168.2.10', :to => '192.168.2.12',
                                 :dns_primary => '192.168.2.2', :gateway => '192.168.2.3', :ipam => IPAM::MODES[:db])
     refute_includes subnet.known_ips, '192.168.2.10'
     refute_includes subnet.known_ips, '192.168.2.11'
 
-    host = FactoryGirl.create(:host, :subnet => subnet, :ip => '192.168.2.10')
+    host = FactoryBot.create(:host, :subnet => subnet, :ip => '192.168.2.10')
     Nic::Managed.create :mac => "00:00:01:10:00:00", :host => host, :subnet => subnet, :name => "", :ip => '192.168.2.11'
 
     assert_includes subnet.known_ips, '192.168.2.10'

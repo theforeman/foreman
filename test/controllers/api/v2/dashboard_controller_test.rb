@@ -2,14 +2,14 @@ require 'test_helper'
 
 class Api::V2::DashboardControllerTest < ActionController::TestCase
   test "should get index with json result" do
-    get :index, { }
+    get :index
     assert_response :success
     dashboard = ActiveSupport::JSON.decode(@response.body)
     assert_operator(dashboard.length, :>, 0)
   end
 
   test "should have glossary" do
-    get :index, { }
+    get :index
     assert_response :success
     dashboard = ActiveSupport::JSON.decode(@response.body)
     assert(dashboard["glossary"], 'Should have glossary')

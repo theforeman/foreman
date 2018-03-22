@@ -11,12 +11,11 @@ end
 module Foreman
   module RablEngineExt
     def api_version
-      respond_to?(:response) ? response.headers["Foreman_api_version"] : '1'
+      respond_to?(:response) ? response.headers["Foreman_api_version"] : '2'
     end
 
     def default_options
-      return {:root => false, :object_root => false} if api_version.to_i > 1
-      {}
+      {:root => false, :object_root => false}
     end
 
     def collection(data, options = default_options)
@@ -30,14 +29,44 @@ module Foreman
     def data_name(data_token)
       # custom object root
       return params['root_name'] if respond_to?(:params) && params['root_name'].present? && !['false', false].include?(params['root_name'])
-      # no object root for v2
-      return nil if !respond_to?(:params) || api_version.to_i > 1 || ['false', false].include?(params['root_name'])
-      # otherwise return super since v1 has object root (config.include_child_root = true)
+    end
+
+    # Lists all extension templates that are defined in plugins
+    def template_extensions_from_plugins
+      return [] unless @_options[:template]
+      Foreman::Plugin.all.flat_map {|plugin| plugin.rabl_template_extensions(@_options[:template]) }
+    end
+
+    # extends the current template with templates defined in plugins
+    def load_extensions_from_plugins
+      template_extensions_from_plugins.each do |extension|
+        extends extension unless @_settings[:extends].map { |e| e[:file] }.include?(extension) || @_options[:template] == extension
+      end
+    end
+
+    def render(*args, &block)
+      load_extensions_from_plugins
       super
+    end
+  end
+
+  module RablTemplateHandlerExt
+    # This extends the rabl code to store the template path
+    # while initializing the engine.
+    # This allows us to find extension template from plugins
+    # that match the template name
+    def call(template)
+      source = template.source
+
+      %{ ::Rabl::Engine.new(#{source.inspect}, :template => '#{template.virtual_path}').
+                                          apply(self, assigns.merge(local_assigns)).
+                                                        render }
     end
   end
 end
 Rabl::Engine.send(:prepend, Foreman::RablEngineExt)
+Rabl.register!
+ActionView::Template::Handlers::Rabl.singleton_class.send(:prepend, Foreman::RablTemplateHandlerExt)
 
 Rabl.configure do |config|
   # Commented as these are defaults

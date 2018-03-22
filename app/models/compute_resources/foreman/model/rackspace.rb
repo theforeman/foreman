@@ -1,6 +1,6 @@
 module Foreman::Model
   class Rackspace < ComputeResource
-    validates :url, :format => { :with => URI.regexp }, :presence => true
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :user, :password, :region, :presence => true
     validate :ensure_valid_region
 

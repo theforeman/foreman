@@ -2,6 +2,7 @@ class ComputeResourcesVmsController < ApplicationController
   include Foreman::Controller::ComputeResourcesCommon
   include ::Foreman::Controller::ActionPermissionDsl
   include ::Foreman::Controller::HostFormCommon
+  include Foreman::Controller::ConsoleCommon
 
   before_action :find_compute_resource
   before_action :find_vm, :only => [:import, :associate, :show, :console, :pause, :power]
@@ -84,15 +85,7 @@ class ComputeResourcesVmsController < ApplicationController
 
   def console
     @console = @compute_resource.console @vm.identity
-    @encrypt = Setting[:websockets_encrypt]
-    render case @console[:type]
-           when 'spice'
-             "hosts/console/spice"
-           when 'vnc'
-             "hosts/console/vnc"
-           else
-             "hosts/console/log"
-           end
+    super
   rescue => e
     process_error :redirect => compute_resource_vm_path(@compute_resource, @vm.identity), :error_msg => (_("Failed to set console: %s") % e), :object => @vm
   end
@@ -123,16 +116,15 @@ class ComputeResourcesVmsController < ApplicationController
   def run_vm_action(action)
     if @vm.send(action)
       @vm.reload
-      notice _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
-      redirect_to compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity)
+      success _("%{vm} is now %{vm_state}") % {:vm => @vm, :vm_state => @vm.state.capitalize}
     else
       error _("failed to %{action} %{vm}") % {:action => _(action), :vm => @vm}
-      redirect_to :back
     end
+    redirect_back(:fallback_location => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
   # This should only rescue Fog::Errors, but Fog returns all kinds of errors...
   rescue => e
     error _("Error - %{message}") % { :message => _(e.message) }
-    redirect_to :back
+    redirect_back(:fallback_location => compute_resource_vm_path(:compute_resource_id => params[:compute_resource_id], :id => @vm.identity))
   end
 
   def load_vms

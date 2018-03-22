@@ -22,10 +22,12 @@ module UINotifications
     end
 
     def clear
+      logger.debug("Clearing Cache: notification, clearing cache for #{cache_key}")
       cache.delete(cache_key)
     end
 
     private
+
     def logger
       @logger ||= Foreman::Logging.logger('notifications')
     end

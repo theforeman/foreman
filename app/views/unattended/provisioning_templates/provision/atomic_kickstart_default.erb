@@ -1,11 +1,12 @@
 <%#
 kind: provision
 name: Atomic Kickstart default
+model: ProvisioningTemplate
 %>
 
-lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
-keyboard <%= @host.params['keyboard'] || 'us' %>
-timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
+lang <%= host_param('lang') || 'en_US.UTF-8' %>
+keyboard <%= host_param('keyboard') || 'us' %>
+timezone --utc <%= host_param('time-zone') || 'UTC' %>
 
 <% subnet = @host.subnet -%>
 <% if subnet.respond_to?(:dhcp_boot_mode?) -%>
@@ -14,7 +15,7 @@ timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
 <% dhcp = !@static -%>
 <% end -%>
 
-network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{[subnet.dns_primary, subnet.dns_secondary].select(&:present?).join(',')}" %> --hostname <%= @host %><%= " --device=#{@host.mac}" -%>
+network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{[subnet.dns_primary, subnet.dns_secondary].select{ |item| item.present? }.join(',')}" %> --hostname <%= @host %><%= " --device=#{@host.mac}" -%>
 
 # Partition table should create /boot and a volume atomicos
 <% if @dynamic -%>
@@ -29,10 +30,10 @@ text
 <% if @host.os.name.match /.*fedora.*/i -%>
 # Use @host.operatingsystem.medium_uri(@host)}/content/repo/ as the URL if you
 # have set up a local installation media for Fedora
-<% fedora_atomic_url = @host.params['atomic_refs_url'] || "https://dl.fedoraproject.org/pub/fedora/linux/atomic/#{@host.os.major}/" %>
+<% fedora_atomic_url = host_param('atomic_refs_url') || "https://dl.fedoraproject.org/pub/fedora/linux/atomic/#{@host.os.major}/" %>
 ostreesetup --nogpg --osname=fedora-atomic --remote=fedora-atomic --url=<%= fedora_atomic_url %> --ref=fedora-atomic/f<%= @host.os.major %>/<%= @host.architecture %>/docker-host
 <% elsif @host.os.name.match /.*centos.*/i -%>
-ostreesetup --nogpg --osname=centos-atomic-host --remote=centos-atomic-host --url=<%= @host.param_true?('atomic-upstream') ? "http://mirror.centos.org/centos/#{@host.os.major}/atomic/#{@host.architecture}/repo/" : @host.operatingsystem.medium_uri(@host) %> --ref=centos-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
+ostreesetup --nogpg --osname=centos-atomic-host --remote=centos-atomic-host --url=<%= host_param_true?('atomic-upstream') ? "http://mirror.centos.org/centos/#{@host.os.major}/atomic/#{@host.architecture}/repo/" : @host.operatingsystem.medium_uri(@host) %> --ref=centos-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
 <% else -%>
 ostreesetup --nogpg --osname=rhel-atomic-host --remote=rhel-atomic-host --url=file:///install/ostree --ref=rhel-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
 <% end -%>

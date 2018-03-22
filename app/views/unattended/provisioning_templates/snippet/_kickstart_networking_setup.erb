@@ -1,11 +1,14 @@
 <%#
 name: kickstart_networking_setup
+model: ProvisioningTemplate
 snippet: true
 model: ProvisioningTemplate
 kind: snippet
 -%>
 <%- bonded_interfaces = [] -%>
+<%- bonding_interfaces = [] -%>
 <%- @host.bond_interfaces.each do |bond| -%>
+<%-   bonding_interfaces.push(bond.identifier) -%>
 <%=   "# #{bond.identifier} interface" %>
 <%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :identifier => bond.identifier }) %>
 <%-   ifcfg = snippet('kickstart_ifcfg_bond_interface', :variables => {
@@ -34,12 +37,14 @@ kind: snippet
 <%-   next if !interface.managed? || (interface.subnet.nil? && interface.subnet6.nil?) -%>
 <%-   next if bonded_interfaces.include?(interface.identifier) -%>
 
+<%-   interface_identifier = @host.bond_interfaces.map { |i| i.identifier }.include?(interface.attached_to) ? interface.identifier : nil %>
 <%=   "# #{interface.identifier} interface" %>
-<%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :interface => interface }) -%>
+<%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :interface => interface, :identifier => interface_identifier }) -%>
 <%-   ifcfg = snippet('kickstart_ifcfg_generic_interface', :variables => {
                         :interface => interface,
                         :subnet => interface.subnet,
                         :subnet6 => interface.subnet6,
+                        :bonding_interfaces => bonding_interfaces,
                         :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode? }) %>
 <%=   save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
 <%- end %>

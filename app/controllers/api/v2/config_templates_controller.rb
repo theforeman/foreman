@@ -2,7 +2,6 @@ module Api
   module V2
     class ConfigTemplatesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
       include Foreman::Controller::Parameters::ProvisioningTemplate
@@ -23,6 +22,7 @@ module Api
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ProvisioningTemplate)
 
       def index
         @config_templates = resource_scope_for_index.includes(:template_kind)

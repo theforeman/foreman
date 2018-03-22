@@ -15,7 +15,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   context 'host without dns' do
     setup do
-      @host = FactoryGirl.build(:host)
+      @host = FactoryBot.build(:host)
     end
 
     test 'host should not have dns' do
@@ -55,7 +55,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv4 dns' do
     setup do
-      @host = FactoryGirl.build(:host, :managed, :with_dns_orchestration)
+      @host = FactoryBot.build(:host, :managed, :with_dns_orchestration)
     end
 
     test 'host should have dns' do
@@ -91,7 +91,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     end
 
     test 'dns record should be nil for invalid ip' do
-      @host.interfaces = [FactoryGirl.build(:nic_primary_and_provision, :ip => "aaaaaaa")]
+      @host.interfaces = [FactoryBot.build_stubbed(:nic_primary_and_provision, :ip => "aaaaaaa")]
       assert_nil @host.dns_record(:a)
       assert_nil @host.dns_record(:ptr4)
     end
@@ -197,7 +197,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv6 dns' do
     setup do
-      @host = FactoryGirl.build(:host, :managed, :with_ipv6_dns_orchestration)
+      @host = FactoryBot.build(:host, :managed, :with_ipv6_dns_orchestration)
     end
 
     test 'host should have dns' do
@@ -279,7 +279,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with dual stack dns' do
     setup do
-      @host = FactoryGirl.build(:host, :managed, :with_dual_stack_dns_orchestration)
+      @host = FactoryBot.build(:host, :managed, :with_dual_stack_dns_orchestration)
     end
 
     test 'host should have dns' do
@@ -373,11 +373,11 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
 
   context 'unmanaged host with ipv4 dns' do
     setup do
-      @host = FactoryGirl.create(:host, :with_dns_orchestration)
+      @host = FactoryBot.create(:host, :with_dns_orchestration)
     end
 
     test 'bmc should have valid dns records' do
-      bmc = FactoryGirl.create(:nic_bmc, :host => @host,
+      bmc = FactoryBot.create(:nic_bmc, :host => @host,
                              :domain => domains(:mydomain),
                              :subnet => subnets(:five),
                              :name => @host.shortname,

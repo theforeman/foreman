@@ -4,7 +4,7 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'ldap2', :host => 'ldap2', :server_type => 'posix' }
 
   test "should get index" do
-    get :index, { }
+    get :index
     assert_response :success
     assert_not_nil assigns(:auth_source_ldaps)
     auth_source_ldaps = ActiveSupport::JSON.decode(@response.body)
@@ -12,7 +12,7 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
   end
 
   test "should show auth_source_ldap" do
-    get :show, { :id => auth_sources(:one).to_param }
+    get :show, params: { :id => auth_sources(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -20,13 +20,13 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
 
   test "should create auth_source_ldap" do
     assert_difference('AuthSourceLdap.unscoped.count', 1) do
-      post :create, { :auth_source_ldap => valid_attrs }
+      post :create, params: { :auth_source_ldap => valid_attrs }
     end
     assert_response :created
   end
 
   test "should update auth_source_ldap" do
-    put :update, { :id => auth_sources(:one).to_param, :auth_source_ldap => valid_attrs }
+    put :update, params: { :id => auth_sources(:one).to_param, :auth_source_ldap => valid_attrs }
     assert_response :success
   end
 
@@ -34,14 +34,14 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
     assert_difference('AuthSourceLdap.unscoped.count', -1) do
       auth = auth_sources(:one)
       User.where(:auth_source_id => auth.id).update_all(:auth_source_id => nil)
-      delete :destroy, { :id => auth.id }
+      delete :destroy, params: { :id => auth.id }
     end
     assert_response :success
   end
 
   test "LDAP testing success" do
     AuthSourceLdap.any_instance.stubs(:test_connection).returns(:message => 'success')
-    put :test, { :id => auth_sources(:one).to_param }
+    put :test, params: { :id => auth_sources(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
@@ -49,7 +49,7 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
 
   test "LDAP testing failed" do
     AuthSourceLdap.any_instance.stubs(:test_connection).raises(Foreman::Exception)
-    put :test, { :id => auth_sources(:one).to_param }
+    put :test, params: { :id => auth_sources(:one).to_param }
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response[:success]
   end
@@ -59,21 +59,21 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
   context '*_authenticators filters' do
     test 'restrict access to authenticators properly' do
       setup_user('view', 'auth_source_ldaps')
-      get :index, { }
+      get :index
       assert_response :forbidden
     end
 
     test 'allow access to auth source LDAP objects' do
       setup_user('view', 'authenticators')
-      get :show, { :id => auth_sources(:one).to_param }
+      get :show, params: { :id => auth_sources(:one).to_param }
       assert_response :success
     end
   end
 
   test 'taxonomies can be set' do
-    put :update, { :id => auth_sources(:one).to_param,
-                   :organization_names => [taxonomies(:organization1).name],
-                   :location_ids => [taxonomies(:location1).id] }
+    put :update, params: { :id => auth_sources(:one).to_param,
+                           :organization_names => [taxonomies(:organization1).name],
+                           :location_ids => [taxonomies(:location1).id] }
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_response :success
     assert_equal taxonomies(:location1).id,

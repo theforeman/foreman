@@ -9,7 +9,7 @@ module Api::ImportPuppetclassesCommonController
 
   extend Apipie::DSL::Concern
 
-  api :POST, "/smart_proxies/:id/import_puppetclasses", N_("Import puppet classes from puppet proxy.")
+  api :POST, "/smart_proxies/:id/import_puppetclasses", N_("Import puppet classes from puppet proxy")
   api :POST, "/smart_proxies/:smart_proxy_id/environments/:id/import_puppetclasses", N_("Import puppet classes from puppet proxy for an environment")
   api :POST, "/environments/:environment_id/smart_proxies/:id/import_puppetclasses", N_("Import puppet classes from puppet proxy for an environment")
   param :id, :identifier, :required => true
@@ -64,7 +64,6 @@ module Api::ImportPuppetclassesCommonController
           @changed[kind].slice!(@environment.name) unless @changed[kind].empty?
         end
       end
-
     rescue => e
       if e.message =~ /puppet feature/i
         msg = _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')

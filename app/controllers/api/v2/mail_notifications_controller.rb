@@ -7,6 +7,7 @@ module Api
 
       api :GET, "/mail_notifications/", N_("List of email notifications")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(MailNotification)
 
       def index
         @mail_notifications = MailNotification.

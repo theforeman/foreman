@@ -19,8 +19,18 @@ class ModelTest < ActiveSupport::TestCase
 
   test "should not be used when destroyed" do
     m = Model.create :name => "m1"
-    FactoryGirl.create(:host, :model => m)
+    FactoryBot.create(:host, :model => m)
     assert_equal 1, m.reload.hosts.size
     assert !m.destroy
+  end
+
+  context 'is audited' do
+    test 'on creation on of a new model' do
+      model = FactoryBot.build(:model, :with_auditing)
+
+      assert_difference 'model.audits.count' do
+        model.save!
+      end
+    end
   end
 end

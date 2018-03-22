@@ -10,6 +10,7 @@ class ComputeResource < ApplicationRecord
   audited :except => [:password, :attrs]
   serialize :attrs, Hash
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+  belongs_to :http_proxy
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates :name, :presence => true, :uniqueness => true
@@ -20,6 +21,7 @@ class ComputeResource < ApplicationRecord
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   before_save :sanitize_url
   has_many_hosts
+  has_many :hostgroups
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
   has_many :compute_attributes, :dependent => :destroy
@@ -120,6 +122,10 @@ class ComputeResource < ApplicationRecord
 
   def to_label
     "#{name} (#{provider_friendly_name})"
+  end
+
+  def connection_options
+    http_proxy ? {:proxy => http_proxy.full_url} : {}
   end
 
   # Override this method to specify provider name
@@ -309,11 +315,11 @@ class ComputeResource < ApplicationRecord
     self.attrs[:setpw] = nil
   end
 
-  # this method is overwritten for Libvirt
+  # this method is overwritten for Libvirt & VMWare
   def display_type=(_)
   end
 
-  # this method is overwritten for Libvirt
+  # this method is overwritten for Libvirt & VMWare
   def display_type
     nil
   end
@@ -355,6 +361,10 @@ class ComputeResource < ApplicationRecord
     true
   end
 
+  def supports_host_association?
+    respond_to?(:associated_host)
+  end
+
   protected
 
   def client
@@ -372,6 +382,8 @@ class ComputeResource < ApplicationRecord
 
   def nested_attributes_for(type, opts)
     return [] unless opts
+    opts = opts.to_hash if opts.class == ActionController::Parameters
+
     opts = opts.dup #duplicate to prevent changing the origin opts.
     opts.delete("new_#{type}") || opts.delete("new_#{type}".to_sym) # delete template
     # convert our options hash into a sorted array (e.g. to preserve nic / disks order)

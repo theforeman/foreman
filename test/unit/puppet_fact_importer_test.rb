@@ -1,13 +1,15 @@
 require 'test_helper'
 
 class PuppetFactImporterTest < ActiveSupport::TestCase
+  include FactImporterIsolation
+
   attr_reader :host, :importer
   setup do
-    @host = FactoryGirl.create(:host)
-    FactoryGirl.create(:fact_value, :value => '2.6.9',:host => @host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'kernelversion'))
-    FactoryGirl.create(:fact_value, :value => '10.0.19.33',:host => @host,
-                       :fact_name => FactoryGirl.create(:fact_name, :name => 'ipaddress'))
+    @host = FactoryBot.create(:host)
+    FactoryBot.build(:fact_value, :value => '2.6.9',:host => @host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
+    FactoryBot.build(:fact_value, :value => '10.0.19.33',:host => @host,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'ipaddress'))
   end
 
   test 'importer imports everything as strings' do
@@ -24,6 +26,7 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
 
   def import(facts)
     @importer = PuppetFactImporter.new(@host, facts)
+    allow_transactions_for @importer
     importer.import!
   end
 

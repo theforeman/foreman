@@ -2,7 +2,6 @@ module Api
   module V2
     class ProvisioningTemplatesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
       include Foreman::Controller::Parameters::ProvisioningTemplate
@@ -21,6 +20,7 @@ module Api
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ProvisioningTemplate)
 
       def index
         @provisioning_templates = resource_scope_for_index.includes(:template_kind)
@@ -53,6 +53,22 @@ module Api
       def create
         @provisioning_template = ProvisioningTemplate.new(provisioning_template_params)
         process_response @provisioning_template.save
+      end
+
+      api :POST, "/provisioning_templates/import", N_("Import a provisioning template")
+      param :provisioning_template, Hash, :required => true, :action_aware => true do
+        param :name, String, :required => true, :desc => N_("template name")
+        param :template, String, :required => true, :desc => N_("template contents including metadata")
+      end
+      param_group :template_import_options, ::Api::V2::BaseController
+
+      def import
+        options = params.permit(:options => {}).try(:[], :options) || {}
+        template_params = params.require(:provisioning_template).permit(:name, :template)
+        name = template_params[:name]
+        text = template_params[:template]
+        @provisioning_template = ProvisioningTemplate.import!(name, text, options)
+        process_response @provisioning_template
       end
 
       api :PUT, "/provisioning_templates/:id", N_("Update a provisioning template")
@@ -133,7 +149,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'clone'
+          when 'clone', 'import'
             'create'
           when 'export'
             'view'

@@ -6,12 +6,12 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "usergroups should be creatable" do
-    assert FactoryGirl.build(:usergroup).valid?
+    assert FactoryBot.build_stubbed(:usergroup).valid?
   end
 
   test "name is unique across user as well as usergroup" do
     User.expects(:where).with(:login => 'usergroup1').returns(['fakeuser'])
-    usergroup = FactoryGirl.build(:usergroup, :name => 'usergroup1')
+    usergroup = FactoryBot.build_stubbed(:usergroup, :name => 'usergroup1')
     refute usergroup.valid?
   end
 
@@ -35,8 +35,8 @@ class UsergroupTest < ActiveSupport::TestCase
 
   def populate_usergroups
     (1..6).each do |number|
-      instance_variable_set("@ug#{number}", FactoryGirl.create(:usergroup, :name=> "ug#{number}"))
-      instance_variable_set("@u#{number}", FactoryGirl.create(:user, :mail => "u#{number}@someware.com",
+      instance_variable_set("@ug#{number}", FactoryBot.create(:usergroup, :name=> "ug#{number}"))
+      instance_variable_set("@u#{number}", FactoryBot.create(:user, :mail => "u#{number}@someware.com",
                                                               :login => "u#{number}"))
     end
 
@@ -53,12 +53,12 @@ class UsergroupTest < ActiveSupport::TestCase
     populate_usergroups
     disable_orchestration
 
-    @h1 = FactoryGirl.create(:host, :owner => @u1)
-    @h2 = FactoryGirl.create(:host, :owner => @ug2)
-    @h3 = FactoryGirl.create(:host, :owner => @u3)
-    @h4 = FactoryGirl.create(:host, :owner => @ug5)
-    @h5 = FactoryGirl.create(:host, :owner => @u2)
-    @h6 = FactoryGirl.create(:host, :owner => @ug3)
+    @h1 = FactoryBot.create(:host, :owner => @u1)
+    @h2 = FactoryBot.create(:host, :owner => @ug2)
+    @h3 = FactoryBot.create(:host, :owner => @u3)
+    @h4 = FactoryBot.create(:host, :owner => @ug5)
+    @h5 = FactoryBot.create(:host, :owner => @u2)
+    @h6 = FactoryBot.create(:host, :owner => @ug3)
 
     assert_equal [@h1], @u1.hosts
     assert_equal [@h2, @h5].sort, @u2.hosts.sort
@@ -81,7 +81,7 @@ class UsergroupTest < ActiveSupport::TestCase
   test "cannot be destroyed when in use by a host" do
     disable_orchestration
     @ug1 = Usergroup.where(:name => "ug1").first_or_create
-    @h1  = FactoryGirl.create(:host)
+    @h1  = FactoryBot.create(:host)
     @h1.update_attributes :owner => @ug1
     @ug1.destroy
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"
@@ -97,11 +97,11 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "removes all cached_user_roles when roles are disassociated" do
-    user         = FactoryGirl.create(:user)
-    record       = FactoryGirl.create(:usergroup)
+    user         = FactoryBot.create(:user)
+    record       = FactoryBot.create(:usergroup)
     record.users = [user]
-    one          = FactoryGirl.create(:role)
-    two          = FactoryGirl.create(:role)
+    one          = FactoryBot.create(:role)
+    two          = FactoryBot.create(:role)
 
     record.roles = [one, two]
     assert_equal 3, user.reload.cached_user_roles.size
@@ -120,7 +120,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test 'add_users is case insensitive and does not add nonexistent users' do
-    usergroup = FactoryGirl.create(:usergroup)
+    usergroup = FactoryBot.create(:usergroup)
     usergroup.send(:add_users, ['OnE', 'TwO', 'tHREE'])
 
     # users 'one' 'two' are defined in fixtures, 'three' is not defined
@@ -128,7 +128,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test 'remove_users removes user list and is case insensitive' do
-    usergroup = FactoryGirl.create(:usergroup)
+    usergroup = FactoryBot.create(:usergroup)
     usergroup.send(:add_users, ['OnE', 'tWo'])
     assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
 
@@ -137,9 +137,9 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "can remove the admin flag from the group when another admin exists" do
-    usergroup = FactoryGirl.create(:usergroup, :admin => true)
-    admin1 = FactoryGirl.create(:user)
-    admin2 = FactoryGirl.create(:user, :admin => true)
+    usergroup = FactoryBot.create(:usergroup, :admin => true)
+    admin1 = FactoryBot.create(:user)
+    admin2 = FactoryBot.create(:user, :admin => true)
     usergroup.users = [admin1]
 
     User.unscoped.except_hidden.only_admin.where('login NOT IN (?)', [admin1.login, admin2.login]).destroy_all
@@ -148,8 +148,8 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "cannot remove the admin flag from the group providing the last admin account(s)" do
-    usergroup = FactoryGirl.create(:usergroup, :admin => true)
-    admin = FactoryGirl.create(:user)
+    usergroup = FactoryBot.create(:usergroup, :admin => true)
+    admin = FactoryBot.create(:user)
     usergroup.users = [admin]
 
     User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
@@ -158,8 +158,8 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "cannot destroy the group providing the last admin accounts" do
-    usergroup = FactoryGirl.create(:usergroup, :admin => true)
-    admin = FactoryGirl.create(:user)
+    usergroup = FactoryBot.create(:usergroup, :admin => true)
+    admin = FactoryBot.create(:user)
     usergroup.users = [admin]
 
     User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
@@ -167,9 +167,9 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "receipients_for provides subscribers of notification recipients" do
-    users = [FactoryGirl.create(:user, :with_mail_notification), FactoryGirl.create(:user)]
+    users = [FactoryBot.create(:user, :with_mail_notification), FactoryBot.create(:user)]
     notification = users[0].mail_notifications.first.name
-    usergroup = FactoryGirl.create(:usergroup)
+    usergroup = FactoryBot.create(:usergroup)
     usergroup.users << users
     recipients = usergroup.recipients_for(notification)
     assert_equal recipients, [users[0]]
@@ -179,8 +179,8 @@ class UsergroupTest < ActiveSupport::TestCase
 
   context 'external usergroups' do
     setup do
-      @usergroup = FactoryGirl.create(:usergroup)
-      @external = @usergroup.external_usergroups.new(:auth_source_id => FactoryGirl.create(:auth_source_ldap).id,
+      @usergroup = FactoryBot.create(:usergroup)
+      @external = @usergroup.external_usergroups.new(:auth_source_id => FactoryBot.create(:auth_source_ldap).id,
                                                      :name           => 'aname')
       LdapFluff.any_instance.stubs(:ldap).returns(Net::LDAP.new)
     end
@@ -228,12 +228,31 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup.external_usergroups.find { |eu| eu.name == 'aname'}.refresh
       assert_includes @usergroup.users, users(:one)
     end
+
+    test 'internal auth source users remain after refresh' do
+      external_user = FactoryBot.create(
+        :user,
+        :auth_source => @external.auth_source,
+        :login => 'external_user'
+        )
+      internal_user = FactoryBot.create(:user)
+      LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
+      @usergroup.users << internal_user
+      @usergroup.users << external_user
+      @usergroup.save
+
+      AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').
+        returns(['external_user'])
+      @usergroup.external_usergroups.detect { |eu| eu.name == 'aname'}.refresh
+      assert_includes @usergroup.users, internal_user
+      assert_includes @usergroup.users, external_user
+    end
   end
 
   test 'can search usergroup by role id' do
     # Setup role and assign to user
     role = Role.where(:name => "foobar").first_or_create
-    usergroup = FactoryGirl.create(:usergroup)
+    usergroup = FactoryBot.create(:usergroup)
     usergroup.role_ids = [role.id]
 
     groups = Usergroup.search_for("role_id = #{role.id}")
@@ -243,10 +262,94 @@ class UsergroupTest < ActiveSupport::TestCase
   test 'can search usergroup by role' do
     # Setup role and assign to user
     role = Role.where(:name => "foobar").first_or_create
-    usergroup = FactoryGirl.create(:usergroup)
+    usergroup = FactoryBot.create(:usergroup)
     usergroup.role_ids = [role.id]
 
     groups = Usergroup.search_for("role = #{role.name}")
     assert (groups.include? usergroup)
+  end
+
+  context 'audit usergroup' do
+    setup do
+      @usergroup = FactoryBot.create(:usergroup, :with_auditing)
+    end
+
+    context 'child usergroups' do
+      setup do
+        @child_usergroup = FactoryBot.create(:usergroup)
+        @usergroup.usergroup_ids = [@child_usergroup.id]
+        @usergroup.save
+      end
+
+      test 'should audit when a child-usergroup is assigned to a parent-usergroup' do
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:usergroups]
+        assert audited_changes, 'No audits found for usergroups'
+        assert_empty audited_changes.first
+        assert_equal @child_usergroup.name, audited_changes.last
+      end
+
+      test 'should audit when a child-usergroup is removed/de-assigned from a parent-usergroup' do
+        @usergroup.usergroup_ids = []
+        @usergroup.save
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:usergroups]
+        assert audited_changes, 'No audits found for usergroups'
+        assert_equal @child_usergroup.name, audited_changes.first
+        assert_empty audited_changes.last
+      end
+    end
+
+    context 'roles' do
+      setup do
+        @role = FactoryBot.create(:role)
+        @usergroup.role_ids = [@role.id]
+        @usergroup.save
+      end
+
+      test 'should audit when a role is assigned to a usergroup' do
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:roles]
+        assert audited_changes, 'No audits found for user-roles'
+        assert_empty audited_changes.first
+        assert_equal @role.name, audited_changes.last
+      end
+
+      test 'should audit when a role is removed/de-assigned from a usergroup' do
+        @usergroup.role_ids = []
+        @usergroup.save
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:roles]
+        assert audited_changes, 'No audits found for usergroup-roles'
+        assert_equal @role.name, audited_changes.first
+        assert_empty audited_changes.last
+      end
+    end
+
+    context 'users' do
+      setup do
+        @user = users :one #FactoryBot.create(:user)
+        @usergroup.user_ids = [@user.id]
+        @usergroup.save
+      end
+
+      test 'should audit when a user is assigned to a usergroup' do
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:users]
+        assert audited_changes, 'No audits found for users'
+        assert_empty audited_changes.first
+        assert_equal @user.name, audited_changes.last
+      end
+
+      test 'should audit when a user is removed/de-assigned from a usergroup' do
+        @usergroup.user_ids = []
+        @usergroup.save
+        recent_audit = @usergroup.audits.last
+        audited_changes = recent_audit.audited_changes[:users]
+        assert audited_changes, 'No audits found for users'
+        assert_equal @user.name, audited_changes.first
+        assert_empty audited_changes.last
+      end
+    end
   end
 end

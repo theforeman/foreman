@@ -1,69 +1,51 @@
-// Configure Enzyme
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
-configure({ adapter: new Adapter() });
-
-jest.unmock('./ChartBox');
-jest.unmock('../../../services/ChartService');
-
-import React from 'react';
-import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
+import { shallow } from 'enzyme';
+import React from 'react';
 import ChartBox from './ChartBox';
-global.patternfly = {
-  pfSetDonutChartTitle: jest.fn()
-};
+
+jest.unmock('../../../services/ChartService');
+jest.unmock('./ChartBox');
 
 describe('ChartBox', () => {
-  let chart, noDataMsg, errorText;
-
-  beforeEach(() => {
-    chart = {
-      id: '2'
-    };
-    noDataMsg = 'no data';
-    errorText = 'some error';
-  });
+  const setup = ({ status, chart = { id: 2 } }) => shallow(<ChartBox
+    type="donut"
+    chart={chart}
+    noDataMsg='no data'
+    status="PENDING"
+    errorText='some error'
+    title='some title'
+    tip='sone tooltip'
+    {...chart}
+  />);
 
   it('pending', () => {
-    const box = mount(
-      <ChartBox
-        chart={chart}
-        noDataMsg={noDataMsg}
-        status={'PENDING'}
-        errorText={errorText}
-        {...chart}
-      />
-    );
+    const box = setup({ status: 'PENDING' });
 
     expect(toJson(box)).toMatchSnapshot();
   });
 
   it('error', () => {
-    const box = mount(
-      <ChartBox
-        chart={chart}
-        noDataMsg={noDataMsg}
-        status={'ERROR'}
-        errorText={errorText}
-        {...chart}
-      />
-    );
+    const box = setup({ status: 'ERROR' });
 
     expect(toJson(box)).toMatchSnapshot();
   });
 
   it('resolved', () => {
-    const box = mount(
-      <ChartBox
-        chart={{ data: [[1, 2]] }}
-        noDataMsg={noDataMsg}
-        status={'RESOLVED'}
-        errorText={errorText}
-        {...chart}
-      />
-    );
+    const box = setup({
+      chart: { id: '2', data: [[1, 2]] },
+      status: 'RESOLVED',
+    });
 
-    expect(box.find('.c3-statistics-pie.small').at(0).length).toBe(1);
+    expect(toJson(box)).toMatchSnapshot();
+  });
+
+  it('render modal', () => {
+    const box = setup({
+      chart: { id: '2', data: [[1, 2]] },
+      status: 'RESOLVED',
+    });
+    expect(box.find('Modal').length).toBe(0);
+    box.setState({ showModal: true });
+    expect(box.find('Modal').length).toBe(1);
   });
 });

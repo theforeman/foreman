@@ -29,15 +29,15 @@ class RolesControllerTest < ActionController::TestCase
   basic_pagination_rendered_test
 
   test 'creates role' do
-    post :create, { :role => {:name => 'test role'}}, set_session_user
+    post :create, params: { :role => {:name => 'test role'} }, session: set_session_user
 
     assert_redirected_to roles_path
     assert Role.find_by_name('test role')
   end
 
   test 'put edit updates role' do
-    role = FactoryGirl.create(:role)
-    put :update, {:id => role.id, :role => {:name => 'masterManager'}}, set_session_user
+    role = FactoryBot.create(:role)
+    put :update, params: { :id => role.id, :role => {:name => 'masterManager'} }, session: set_session_user
 
     assert_redirected_to roles_path
     role.reload
@@ -45,17 +45,17 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   test 'delete destroy removes role' do
-    role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
+    role = FactoryBot.build(:role, :name => 'ToBeDestroyed')
     role.add_permissions! :view_ptables
 
-    delete :destroy, {:id => role}, set_session_user
+    delete :destroy, params: { :id => role }, session: set_session_user
     assert_redirected_to roles_path
     assert_nil Role.find_by_id(role.id)
   end
 
   test 'builtin roles cannot be destroyed' do
     users(:one).roles = [roles(:default_role)] # make user one a manager
-    delete :destroy, {:id => roles(:default_role)}, set_session_user
+    delete :destroy, params: { :id => roles(:default_role) }, session: set_session_user
     assert_redirected_to roles_path
     assert_equal "Cannot delete built-in role", flash[:error]
     assert_not_nil Role.find_by_id(roles(:default_role).id)
@@ -63,11 +63,11 @@ class RolesControllerTest < ActionController::TestCase
 
   context "with taxonomies" do
     before do
-      @permission1 = FactoryGirl.create(:permission, :domain, :name => 'permission1')
-      @role = FactoryGirl.build(:role, :permissions => [])
+      @permission1 = FactoryBot.create(:permission, :domain, :name => 'permission1')
+      @role = FactoryBot.build(:role, :permissions => [])
       @role.add_permissions! [ @permission1.name ]
-      @org1 = FactoryGirl.create(:organization)
-      @org2 = FactoryGirl.create(:organization)
+      @org1 = FactoryBot.create(:organization)
+      @org2 = FactoryBot.create(:organization)
       @role.organizations = [ @org1 ]
     end
 
@@ -76,7 +76,7 @@ class RolesControllerTest < ActionController::TestCase
       @filter_with_org = @role.filters.detect { |f| f.allows_organization_filtering? }
       @filter_with_org.update_attributes :organizations => [ @org1, @org2 ], :override => true
 
-      patch :disable_filters_overriding, { :id => @role.id }, set_session_user
+      patch :disable_filters_overriding, params: { :id => @role.id }, session: set_session_user
       @filter_with_org.reload
 
       assert_response :redirect
@@ -85,7 +85,7 @@ class RolesControllerTest < ActionController::TestCase
     end
 
     test 'update syncs filters taxonomies if configuration changed' do
-      put :update, { :id => @role.id, :role => { :organization_ids => ['', @org2.id.to_s, ''] } }, set_session_user
+      put :update, params: { :id => @role.id, :role => { :organization_ids => ['', @org2.id.to_s, ''] } }, session: set_session_user
       assert_response :redirect
       filter = @role.filters.first
       assert_equal [ @org2 ], filter.organizations.all
@@ -95,7 +95,7 @@ class RolesControllerTest < ActionController::TestCase
       params = { :role => { :name => 'clonedrole', :organization_ids => ['', @org2.id.to_s, ''] },
                  :original_role_id => @role.id,
                  :cloned_role => true }
-      post :create, params, set_session_user
+      post :create, params: params, session: set_session_user
 
       assert_response :redirect
       filter = Role.find_by_name('clonedrole').filters.first
@@ -105,12 +105,12 @@ class RolesControllerTest < ActionController::TestCase
 
   context 'clone' do
     setup do
-      @role = FactoryGirl.build(:role, :name => 'ToBeDestroyed')
+      @role = FactoryBot.build(:role, :name => 'ToBeDestroyed')
       @role.add_permissions! :view_ptables
     end
 
     test 'renders new page with hidden field original_role_id' do
-      get :clone, { :id => @role.id }, set_session_user
+      get :clone, params: { :id => @role.id }, session: set_session_user
       assert_template 'new'
     end
 
@@ -118,7 +118,7 @@ class RolesControllerTest < ActionController::TestCase
       params = { :role => {:name => 'clonedrole'},
                  :original_role_id => @role.id,
                  :cloned_role => true }
-      post :create, params, set_session_user
+      post :create, params: params, session: set_session_user
       assert_redirected_to roles_url
 
       cloned_role = Role.find_by_name('clonedrole')

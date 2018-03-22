@@ -1,4 +1,4 @@
-class CreateRealms < ActiveRecord::Migration
+class CreateRealms < ActiveRecord::Migration[4.2]
   def up
     create_table :realms do |t|
       t.string      :name, :default => "", :null => false, :limit => 255

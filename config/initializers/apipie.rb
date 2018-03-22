@@ -21,7 +21,6 @@ Apipie.configure do |config|
     :providers_requiring_url => -> { ComputeResource.providers_requiring_url },
     :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
     :template_kinds => -> { Rails.cache.fetch("template_kind_names", expires_in: 1.hour) {TemplateKind.pluck(:name).join(", ")} },
-    :provision_methods => -> { Host::Managed.provision_methods.map { |method, friendly_name| "#{method} (#{_(friendly_name)})" }.join(', ') },
     :host_rebuild_steps => -> { Host::Managed.valid_rebuild_only_values.join(', ') }
   }
 
@@ -86,7 +85,7 @@ end
 class IdentifierValidator < Apipie::Validator::BaseValidator
   def validate(value)
     value = value.to_s
-    value =~ /\A[\w| |_|-]*\Z/ && value.strip == value && (1..128).include?(value.length)
+    value =~ /\A[\w| |_|-]*\Z/ && value.strip == value && (1..128).cover?(value.length)
   end
 
   def self.build(param_description, argument, options, block)
@@ -102,7 +101,7 @@ end
 class IdentifierDottableValidator < Apipie::Validator::BaseValidator
   def validate(value)
     value = value.to_s
-    value =~ /\A[\w| |_|-|.]*\Z/ && value.strip == value && (1..128).include?(value.length)
+    value =~ /\A[\w| |_|-|.]*\Z/ && value.strip == value && (1..128).cover?(value.length)
   end
 
   def self.build(param_description, argument, options, block)
@@ -112,5 +111,37 @@ class IdentifierDottableValidator < Apipie::Validator::BaseValidator
   def description
     "Must be an identifier, string from 1 to 128 characters containing only alphanumeric characters, " +
         "dot(.), space, underscore(_), hypen(-) with no leading or trailing space."
+  end
+end
+
+# Allows to enumerate multiple types that a parameter accepts.
+class AnyTypeValidator < Apipie::Validator::BaseValidator
+  def initialize(param_description, argument, options = {})
+    super(param_description)
+    @allowed_types = options[:of] || []
+  end
+
+  def validate(value)
+    # The validator has rather informative value, skip the real validation
+    true
+  end
+
+  def self.build(param_description, argument, options, block)
+    if argument == :any_type
+      self.new(param_description, argument, options)
+    end
+  end
+
+  def description
+    if @allowed_types.empty?
+      'Can be any type'
+    else
+      types = @allowed_types.map { |type| "<code>#{type}</code>" }.join(', ')
+      'Must be one of types: %s' % types
+    end
+  end
+
+  def expected_type
+    :any_type
   end
 end

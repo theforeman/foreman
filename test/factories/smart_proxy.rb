@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :smart_proxy do
     sequence(:name) {|n| "proxy#{n}" }
     sequence(:url) {|n| "https://somewhere#{n}.net:8443" }
@@ -10,7 +10,7 @@ FactoryGirl.define do
     end
 
     factory :template_smart_proxy do
-      features { |sp| [sp.association(:template_feature), sp.association(:tftp_feature) ] }
+      features { |sp| [sp.association(:templates)] }
     end
 
     factory :bmc_smart_proxy do

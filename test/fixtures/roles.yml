@@ -53,7 +53,6 @@ none_compute_resources:
   builtin: "0"
   origin: ""
 
-
 manage_compute_resources:
   name: View compute resources
   id: "11"

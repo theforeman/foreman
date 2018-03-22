@@ -1,7 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   secret: KeyKeyKey_PrivatE_key
   compute_resource_id: one
   name: MyString
-

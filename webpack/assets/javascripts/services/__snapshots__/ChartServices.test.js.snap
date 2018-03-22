@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getDonutChartConfig data should be filtered 1`] = `
+Object {
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "columns": Array [],
+    "onclick": [Function],
+  },
+  "donut": Object {
+    "label": Object {
+      "show": false,
+    },
+    "width": 15,
+  },
+  "id": "some-id",
+  "legend": Object {
+    "show": false,
+  },
+  "padding": Object {
+    "bottom": 0,
+    "left": 0,
+    "right": 0,
+    "top": 0,
+  },
+  "size": Object {
+    "height": 240,
+    "width": 240,
+  },
+  "tooltip": Object {
+    "show": true,
+  },
+}
+`;
+
+exports[`getDonutChartConfig data should not be filtered with large size donut 1`] = `
+Object {
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "columns": Array [
+      Array [
+        "Fedora 21",
+        3,
+      ],
+      Array [
+        "Ubuntu 14.04",
+        2,
+      ],
+      Array [
+        "Centos 7",
+        0,
+      ],
+      Array [
+        "Debian 8",
+        0,
+      ],
+    ],
+    "onclick": [Function],
+  },
+  "donut": Object {
+    "label": Object {
+      "show": false,
+    },
+    "width": 25,
+  },
+  "id": "some-id",
+  "legend": Object {
+    "position": "bottom",
+    "show": true,
+  },
+  "padding": Object {
+    "bottom": 0,
+    "left": 0,
+    "right": 0,
+    "top": 0,
+  },
+  "size": Object {
+    "height": 500,
+  },
+  "tooltip": Object {
+    "show": true,
+  },
+}
+`;
+
+exports[`getDonutChartConfig data should not be filtered with regular size donut  1`] = `
+Object {
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "columns": Array [
+      Array [
+        "Fedora 21",
+        3,
+      ],
+      Array [
+        "Ubuntu 14.04",
+        2,
+      ],
+      Array [
+        "Centos 7",
+        0,
+      ],
+      Array [
+        "Debian 8",
+        0,
+      ],
+    ],
+    "onclick": [Function],
+  },
+  "donut": Object {
+    "label": Object {
+      "show": false,
+    },
+    "width": 15,
+  },
+  "id": "some-id",
+  "legend": Object {
+    "show": false,
+  },
+  "padding": Object {
+    "bottom": 0,
+    "left": 0,
+    "right": 0,
+    "top": 0,
+  },
+  "size": Object {
+    "height": 240,
+    "width": 240,
+  },
+  "tooltip": Object {
+    "show": true,
+  },
+}
+`;

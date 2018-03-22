@@ -2,15 +2,16 @@ module Api
   module V2
     class SshKeysController < V2::BaseController
       include Foreman::Controller::Parameters::SshKey
-      include Foreman::Controller::SshKeysCommon
+      include Foreman::Controller::UserAware
 
       wrap_parameters :ssh_key, :include => ssh_key_params_filter.accessible_attributes(parameter_filter_context)
 
       before_action :find_resource, :only => %w{show destroy}
 
       api :GET, "/users/:user_id/ssh_keys", N_("List all SSH keys for a user")
-      param :user_id, String, :desc => N_("ID of the user")
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(SshKey)
 
       def index
         @ssh_keys = resource_scope_for_index
@@ -18,7 +19,7 @@ module Api
 
       api :GET, "/users/:user_id/ssh_keys/:id/", N_("Show an SSH key from a user")
       param :id, :identifier, :required => true
-      param :user_id, String, :desc => N_("ID of the user")
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
 
       def show
       end

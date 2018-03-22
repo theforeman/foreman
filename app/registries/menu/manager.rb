@@ -80,7 +80,7 @@ module Menu
       end
 
       def sub_menu(name, options = {}, &block)
-        push(Toggle.new(name, options[:caption]), options)
+        push(Toggle.new(name, options[:caption], options[:icon]), options)
         current = @parent
         @parent = name
         self.instance_eval(&block) if block_given?

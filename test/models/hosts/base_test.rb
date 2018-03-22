@@ -2,7 +2,11 @@ require 'test_helper'
 
 module Host
   class BaseTest < ActiveSupport::TestCase
+    include FactImporterIsolation
+
     should validate_presence_of(:name)
+    allow_transactions_for_any_importer
+
     context "with new host" do
       subject { Host::Base.new(:name => 'test') }
       should validate_uniqueness_of(:name).case_insensitive
@@ -17,14 +21,14 @@ module Host
 
     test "should generate a random name" do
       NameGenerator.any_instance.expects(:next_random_name).returns("some-name")
-      host = Host::Base.new(:domain => FactoryGirl.create(:domain, :name => "domain.net"))
+      host = Host::Base.new(:domain => FactoryBot.create(:domain, :name => "domain.net"))
       host.valid?
       assert_equal "some-name.domain.net", host.name
     end
 
     test "should make hostname lowercase" do
       host = Host::Base.new(:name => 'MYHOST',
-                            :domain => FactoryGirl.create(:domain, :name => "mydomainlowercase.net"))
+                            :domain => FactoryBot.create(:domain, :name => "mydomainlowercase.net"))
       host.valid?
       assert_equal "myhost.mydomainlowercase.net", host.name
     end
@@ -61,8 +65,8 @@ module Host
       refute host.valid?
       assert_includes host.errors.keys, :interfaces
 
-      host.interfaces = [ FactoryGirl.build(:nic_managed, :primary => true, :host => host,
-                                            :domain => FactoryGirl.create(:domain)) ]
+      host.interfaces = [ FactoryBot.build_stubbed(:nic_managed, :primary => true, :host => host,
+                                            :domain => FactoryBot.create(:domain)) ]
       assert host.valid?
     end
 
