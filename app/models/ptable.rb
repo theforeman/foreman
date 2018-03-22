@@ -37,6 +37,8 @@ class Ptable < Template
   scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
   scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
   scoped_search :on => :template
+  scoped_search :on => :vendor, :only_explicit => true, :complete_value => true
+  scoped_search :on => :default, :only_explicit => true, :complete_value => {:true => true, :false => false}
 
   scoped_search :on => :template, :complete_value => false, :rename => 'layout'
   scoped_search :on => :os_family, :rename => 'family', :complete_value => :true
