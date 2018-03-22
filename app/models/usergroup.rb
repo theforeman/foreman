@@ -40,7 +40,6 @@ class Usergroup < ApplicationRecord
 
   accepts_nested_attributes_for :external_usergroups, :reject_if => ->(a) { a[:name].blank? }, :allow_destroy => true
 
-
   class Jail < ::Safemode::Jail
     allow :ssh_keys, :all_users, :ssh_authorized_keys
   end
