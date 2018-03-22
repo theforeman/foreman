@@ -13,6 +13,45 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
     assert_equal host, as_admin { cr.associated_host(iface) }
   end
 
+  test 'should create with multiple valid names' do
+    valid_name_list.each do |name|
+      compute_resource = FactoryBot.build(:libvirt_cr, :name => name)
+      assert compute_resource.valid?, "Can't create compute resource with valid name #{name}"
+    end
+  end
+
+  test 'should create with multiple valid descriptions' do
+    valid_name_list.each do |description|
+      compute_resource = FactoryBot.build(:libvirt_cr, :description => description)
+      assert compute_resource.valid?, "Can't create compute resource with valid description #{description}"
+    end
+  end
+
+  test 'should not create with multiple invalid names' do
+    invalid_name_list.each do |name|
+      compute_resource = FactoryBot.build(:libvirt_cr, :name => name)
+      refute compute_resource.valid?, "Can create compute resource with invalid name #{name}"
+      assert_includes compute_resource.errors.keys, :name
+    end
+  end
+
+  test 'should update with multiple valid names' do
+    compute_resource = FactoryBot.create(:libvirt_cr)
+    valid_name_list.each do |name|
+      compute_resource.name = name
+      assert compute_resource.valid?, "Can't update compute resource with valid name #{name}"
+    end
+  end
+
+  test 'should not update with multiple invalid names' do
+    compute_resource = FactoryBot.create(:libvirt_cr)
+    invalid_name_list.each do |name|
+      compute_resource.name = name
+      refute compute_resource.valid?, "Can update compute resource with invalid name #{name}"
+      assert_includes compute_resource.errors.keys, :name
+    end
+  end
+
   describe "find_vm_by_uuid" do
     it "raises RecordNotFound when the vm does not exist" do
       cr = mock_cr_servers(Foreman::Model::Libvirt.new, empty_servers)
