@@ -6,11 +6,9 @@ class MediumTest < ActiveSupport::TestCase
     disable_orchestration
   end
 
-  test "name can't be blank" do
-    medium = Medium.new :name => "   ", :path => "http://www.google.com"
-    assert medium.name.strip.empty?
-    assert !medium.save
-  end
+  should validate_uniqueness_of(:name)
+  should allow_values(*valid_name_list).for(:name)
+  should_not allow_values(*invalid_name_list).for(:name)
 
   test "name strips leading and trailing white spaces" do
     medium = Medium.new :name => "   Archlinux mirror   thing   ", :path => "http://www.google.com"
@@ -19,12 +17,36 @@ class MediumTest < ActiveSupport::TestCase
     refute medium.name.ends_with?(' ')
   end
 
-  test "name must be unique" do
-    medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
-    assert medium.save!
+  test "should create with valid os family" do
+    Operatingsystem.families.each do |family|
+      medium = FactoryBot.build(:medium, :os_family => family)
+      assert medium.valid?, "Can't create medium with valid os family #{family}"
+    end
+  end
 
-    other_medium = Medium.new :name => "Archlinux mirror", :path => "http://www.youtube.com"
-    assert !other_medium.save
+  test 'should update with multiple valid names' do
+    medium = media(:one)
+    valid_name_list.each do |name|
+      medium.name = name
+      assert medium.valid?, "Can't update medium with valid name #{name}"
+    end
+  end
+
+  test 'should update with multiple os families' do
+    medium = media(:one)
+    Operatingsystem.families.each do |family|
+      medium.os_family = family
+      assert medium.valid?, "Can't update medium with valid os family #{family}"
+    end
+  end
+
+  test 'should not update with multiple invalid names' do
+    medium = media(:one)
+    invalid_name_list.each do |name|
+      medium.name = name
+      refute medium.valid?, "Can update medium with invalid name #{name}"
+      assert_includes medium.errors.keys, :name
+    end
   end
 
   context 'path validations' do
