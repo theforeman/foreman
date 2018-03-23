@@ -5,34 +5,15 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
   include ComputeResourceTestHelpers
 
   should validate_presence_of(:url)
+  should allow_values(*valid_name_list).for(:name)
+  should allow_values(*valid_name_list).for(:description)
+  should_not allow_values(*invalid_name_list).for(:name)
 
   test "#associated_host matches any NIC" do
     host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
     cr = FactoryBot.build_stubbed(:libvirt_cr)
     iface = mock('iface1', :mac => 'ca:d0:e6:32:16:97')
     assert_equal host, as_admin { cr.associated_host(iface) }
-  end
-
-  test 'should create with multiple valid names' do
-    valid_name_list.each do |name|
-      compute_resource = FactoryBot.build(:libvirt_cr, :name => name)
-      assert compute_resource.valid?, "Can't create compute resource with valid name #{name}"
-    end
-  end
-
-  test 'should create with multiple valid descriptions' do
-    valid_name_list.each do |description|
-      compute_resource = FactoryBot.build(:libvirt_cr, :description => description)
-      assert compute_resource.valid?, "Can't create compute resource with valid description #{description}"
-    end
-  end
-
-  test 'should not create with multiple invalid names' do
-    invalid_name_list.each do |name|
-      compute_resource = FactoryBot.build(:libvirt_cr, :name => name)
-      refute compute_resource.valid?, "Can create compute resource with invalid name #{name}"
-      assert_includes compute_resource.errors.keys, :name
-    end
   end
 
   test 'should update with multiple valid names' do
