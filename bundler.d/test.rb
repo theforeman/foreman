@@ -1,5 +1,5 @@
 group :test do
-  gem 'mocha', '~> 1.1'
+  gem 'mocha', '~> 1.1', (RUBY_VERSION < '2.3' ? '< 1.4' : '< 2')
   gem 'single_test', '~> 0.6'
   gem 'minitest', '~> 5.1', '< 5.11'
   gem 'minitest-optional_retry', '~> 0.0', :require => false
