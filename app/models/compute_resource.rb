@@ -1,5 +1,5 @@
 class ComputeResource < ApplicationRecord
-  audited :except => [:password, :attrs]
+  audited :except => [:attrs]
   include Taxonomix
   include Encryptable
   include Authorizable
