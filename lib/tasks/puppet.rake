@@ -117,18 +117,18 @@ namespace :puppet do
           rescue => e
             errors = e.message + "\n" + e.backtrace.join("\n")
           end
-          unless args.batch
-            unless errors.empty?
+          if args.batch
+            Rails.logger.warn "Failed to refresh puppet classes: #{errors}"
+          else
+            if errors.empty?
+              puts "Import complete"
+            else
               puts "Problems were detected during the execution phase"
               puts
               puts errors.each { |error| error.gsub(/<br\/>/, "\n") } << "\n"
               puts
               puts "Import failed"
-            else
-              puts "Import complete"
             end
-          else
-            Rails.logger.warn "Failed to refresh puppet classes: #{errors}"
           end
         end
       end
