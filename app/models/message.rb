@@ -8,8 +8,17 @@ class Message < ApplicationRecord
     value
   end
 
+  def self.make_digest(val)
+    # convert from unsinged to signed int64
+    XXhash.xxh64(val) - 9_223_372_036_854_775_808
+  end
+
+  def self.make_digest_legacy(val)
+    Digest::SHA1.hexdigest(val)
+  end
+
   def self.find_or_create(val)
-    digest = Digest::SHA1.hexdigest(val)
+    digest = make_digest(val)
     Message.where(:digest => digest).first || Message.create(:value => val, :digest => digest)
   end
 
