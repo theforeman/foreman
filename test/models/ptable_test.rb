@@ -6,9 +6,13 @@ class PtableTest < ActiveSupport::TestCase
   end
 
   should validate_presence_of(:name)
-  should_not allow_value('  ').for(:name)
   should validate_uniqueness_of(:name)
+  should allow_values(*valid_name_list).for(:name)
+  should_not allow_values(*invalid_name_list).for(:name)
+
   should validate_presence_of(:layout)
+  should allow_values(*valid_name_list).for(:layout)
+  should_not allow_values('', ' ', nil).for(:layout)
 
   test "name strips leading and trailing white spaces" do
     partition_table = Ptable.new :name => "   Archlinux        default  ", :layout => "any layout"

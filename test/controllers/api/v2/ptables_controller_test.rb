@@ -27,6 +27,132 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
       post :create, params: { :ptable => valid_attrs }
     end
     assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('name')
+    assert response.key?('layout')
+    assert_equal response['name'], valid_attrs[:name]
+    assert_equal response['layout'], valid_attrs[:layout]
+  end
+
+  test "create with layout length" do
+    # :BZ: 1270181
+    valid_params = valid_attrs.merge(:layout => RFauxFactory.gen_alpha(5000))
+    assert_difference('Ptable.unscoped.count') do
+      post :create, params: { :ptable => valid_params }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('layout')
+    assert_equal response['layout'], valid_params[:layout]
+  end
+
+  test "create with one character name" do
+    # :BZ: 1229384
+    valid_params = valid_attrs.merge(:name => RFauxFactory.gen_alpha(1))
+    assert_difference('Ptable.unscoped.count') do
+      post :create, params: { :ptable => valid_params }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('name')
+    assert_equal response['name'], valid_params[:name]
+  end
+
+  test "should create ptable with os family" do
+    valid_params = valid_attrs.merge(:os_family => 'Redhat')
+    assert_difference('Ptable.unscoped.count') do
+      post :create, params: { :ptable => valid_params }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('os_family')
+    assert_equal response['os_family'], valid_params[:os_family]
+  end
+
+  test "should create ptable with organization" do
+    organization_id = Organization.first.id
+    assert_difference('Ptable.unscoped.count') do
+      post :create, params: { :ptable => valid_attrs.merge(:organization_ids => [organization_id]) }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('organizations')
+    organization_ids = response['organizations'].map { |org| org['id']}
+    assert_equal organization_ids.length, 1
+    assert_include organization_ids, organization_id
+  end
+
+  test "should update name" do
+    new_name = 'new ptable name'
+    put :update, params: { :id => @ptable.id, :ptable => { :name => new_name } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('name')
+    assert_equal response['name'], new_name
+  end
+
+  test "should update layout" do
+    new_layout = 'new ptable layout'
+    put :update, params: { :id => @ptable.id, :ptable => { :layout => new_layout } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('layout')
+    assert_equal response['layout'], new_layout
+  end
+
+  test "should update os family" do
+    @ptable.os_family = 'Redhat'
+    assert @ptable.save
+    new_os_family = 'Coreos'
+    put :update, params: { :id => @ptable.id, :ptable => { :os_family => new_os_family } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('os_family')
+    assert_equal response['os_family'], new_os_family
+  end
+
+  test "should not create with invalid name" do
+    assert_difference('Ptable.unscoped.count', 0) do
+      post :create, params: { :ptable => valid_attrs.merge(:name => '') }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create with invalid layout" do
+    assert_difference('Ptable.unscoped.count', 0) do
+      post :create, params: { :ptable => valid_attrs.merge(:layout => '') }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not update with invalid name" do
+    put :update, params: { :id => @ptable.id, :ptable => { :name => ''} }
+    assert_response :unprocessable_entity
+  end
+
+  test "should not update with invalid layout" do
+    put :update, params: { :id => @ptable.id, :ptable => { :layout => ''} }
+    assert_response :unprocessable_entity
+  end
+
+  test "search ptable" do
+    get :index, params: { :search =>  @ptable.name,  :format => 'json' }
+    assert_response :success,"search ptable name: '#{@ptable.name}' failed with code: #{@response.code}"
+    response = JSON.parse(@response.body)
+    assert_equal response['results'].length, 1
+    assert_equal response['results'][0]['id'], @ptable.id
+  end
+
+  test "search ptable by name and organization" do
+    # :BZ: 1375788
+    org = Organization.first
+    @ptable.organizations = [org]
+    assert @ptable.save
+    get :index, params: {:search =>  @ptable.name, :organization_id => org.id,  :format => 'json' }
+    assert_response :success,"search ptable by name and organization failed with code: #{@response.code}"
+    response = JSON.parse(@response.body)
+    assert_equal response['results'].length, 1
+    assert_equal response['results'][0]['id'], @ptable.id
   end
 
   test "should created ptable with unwrapped 'layout'" do
