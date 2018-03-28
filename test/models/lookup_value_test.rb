@@ -153,6 +153,36 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal lv.value, "<%= [4,5,6] %>"
   end
 
+  test "should cast and uncast hashes with not only erb" do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => true, :avoid_duplicates => false,
+                            :default_value => "{}", :puppetclass => puppetclasses(:one))
+    lk1 = LookupValue.new(:value => "---\n foo: <%= bar %>", :match => "hostgroup=Common", :lookup_key => key)
+    assert lk1.save!
+    assert lk1.value.is_a? Hash
+    assert_equal lk1.value, {"foo" => "<%= bar %>"}
+  end
+
+  test "should cast and uncast hashes with not only erb even when erb is in first place" do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'hash', :merge_overrides => true, :avoid_duplicates => false,
+                            :default_value => "{}", :puppetclass => puppetclasses(:one))
+    lk1 = LookupValue.new(:value => "---\n <%= foo %>: <%= bar %>", :match => "hostgroup=Common", :lookup_key => key)
+    assert lk1.save!
+    assert lk1.value.is_a? Hash
+    assert_equal lk1.value, {"<%= foo %>" => "<%= bar %>"}
+  end
+
+  test "should cast and uncast arrays with not only erb" do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => false,
+                            :default_value => "[]", :puppetclass => puppetclasses(:one))
+    lk1 = LookupValue.new(:value => "[\"foo\", \"<%= bar %>\"]", :match => "hostgroup=Common", :lookup_key => key)
+    assert lk1.save!
+    assert lk1.value.is_a? Array
+    assert_equal lk1.value, ["foo", "<%= bar %>"]
+  end
+
   test "boolean lookup value should allow for false value" do
     # boolean key
     key = lookup_keys(:three)
