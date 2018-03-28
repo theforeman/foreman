@@ -582,7 +582,7 @@ module Foreman::Model
       vm_attrs = super
       dc_networks = networks
       interfaces = vm.interfaces || []
-      vm_attrs[:interfaces_attributes] = interfaces.each_with_index.inject({}) do |hsh, (interface, index)|
+      vm_attrs[:interfaces_attributes] = interfaces.each_with_index.each_with_object({}) do |(interface, index), hsh|
         network = dc_networks.detect { |n| [n.id, n.name].include?(interface.network) }
         raise Foreman::Exception.new(N_("Could not find network %s on VMWare compute resource"), interface.network) unless network
         interface_attrs = {}
@@ -591,7 +591,6 @@ module Foreman::Model
         interface_attrs[:compute_attributes][:network] = network.name
         interface_attrs[:compute_attributes][:type] = interface.type.to_s.split('::').last
         hsh[index.to_s] = interface_attrs
-        hsh
       end
       vm_attrs[:scsi_controllers] = vm.scsi_controllers.map do |controller|
         controller.attributes

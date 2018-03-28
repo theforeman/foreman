@@ -7,9 +7,8 @@ module AccessPermissionsTestBase
   module ClassMethods
     def check_routes(app_routes, skipped_actions)
       # For each controller action, verify it has a permission that grants access
-      app_routes = app_routes.routes.inject({}) do |routes, r|
+      app_routes = app_routes.routes.each_with_object({}) do |r, routes|
         routes["#{r.defaults[:controller].gsub(/::/, '_').underscore}/#{r.defaults[:action]}"] = r if r.defaults[:controller]
-        routes
       end
 
       app_routes.each do |path, r|
