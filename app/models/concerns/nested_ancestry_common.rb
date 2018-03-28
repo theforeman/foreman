@@ -74,7 +74,7 @@ module NestedAncestryCommon
   end
 
   def nested(attr)
-    self.class.sort_by_ancestry(ancestors.where("#{attr} is not NULL")).last.try(attr) if ancestry.present?
+    self.class.sort_by_ancestry(ancestors.where.not(attr => nil)).last.try(attr) if ancestry.present?
   end
 
   private

@@ -70,8 +70,8 @@ class Report < ApplicationRecord
   def self.expire(conditions = {})
     timerange = conditions[:timerange] || 1.week
     status = conditions[:status]
-    cond = "reports.created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
-    cond += " and reports.status = #{status}" unless status.nil?
+    cond = [["reports.created_at < '?'", Time.now.utc - timerange]]
+    cond << ["reports.status = ?", status] if status.present?
 
     Log.where(:report_id => where(cond)).reorder('').delete_all
     Message.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all

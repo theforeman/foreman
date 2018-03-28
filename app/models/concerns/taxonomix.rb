@@ -139,7 +139,7 @@ module Taxonomix
         # We need to generate the WHERE part of the SQL query as a string,
         # otherwise the default scope would set id on each new instance
         # and the same taxable_id on taxable_taxonomy objects
-        scope.where("#{self.table_name}.id IN (#{cached_ids.join(',')})")
+        scope.where("#{self.table_name}.id" => cached_ids)
       end
     end
   end

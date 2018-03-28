@@ -18,7 +18,7 @@ class EnvironmentClass < ApplicationRecord
 
   scope :used_by_other_environment_classes, lambda{|puppetclass_lookup_key_id, this_environment_class_id|
     where(:puppetclass_lookup_key_id => puppetclass_lookup_key_id).
-      where("id != #{this_environment_class_id}")
+      where.not(:id => this_environment_class_id)
   }
 
   #TODO move these into scopes?

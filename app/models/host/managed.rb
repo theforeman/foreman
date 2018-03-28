@@ -81,7 +81,7 @@ class Host::Managed < Host::Base
   scope :out_of_sync, ->(*args) { where(["#{Host.table_name}.last_report < ? and hosts.enabled != ?", (args.first || (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes.ago), false]) }
 
   scope :with_status, lambda { |status_type|
-    eager_load(:host_statuses).where("host_status.type = '#{status_type}'")
+    eager_load(:host_statuses).where('host_status.type' => status_type)
   }
 
   scope :with_config_status, lambda {
