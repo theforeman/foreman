@@ -17,15 +17,19 @@ class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
   end
 
   test "should create compute profile" do
+    name = '4-Xlarge'
     assert_difference('ComputeProfile.count') do
-      post :create, params: { :compute_profile => {:name => '4-Xlarge'} }
+      post :create, params: { :compute_profile => {:name => name} }
     end
     assert_response :created
+    assert_equal JSON.parse(@response.body)['name'], name, "Can't create compute profile with valid name #{name}"
   end
 
   test "should update compute_profile" do
-    put :update, params: { :id => compute_profiles(:one).to_param, :compute_profile => {:name => 'new name' } }
+    name = 'new name'
+    put :update, params: { :id => compute_profiles(:one).to_param, :compute_profile => {:name => name } }
     assert_response :success
+    assert_equal JSON.parse(@response.body)['name'], name, "Can't update compute profile with valid name #{name}"
   end
 
   test "should destroy compute profile" do
