@@ -20,7 +20,7 @@ module AuditAssociations
 
     def associated_changes
       associations = Array.wrap(audited_options[:associations])
-      associations.inject({}) do |changes_hash, association_name|
+      associations.each_with_object({}) do |association_name, changes_hash|
         association_ids = "#{association_name.to_s.singularize}_ids"
         if send("#{association_ids}_changed?")
           association_class = find_association_class(association_name)
@@ -29,16 +29,12 @@ module AuditAssociations
 
           id_name_map = association_class.where(id: change_ids).inject({}) { |r,p| r.merge(p.id => p.to_label) }
 
-          changes_hash[association_name] = change.inject([]) do |humaized_associations, ids|
-            humaized_associations << ids.inject([]) do |humanized_ids, id|
+          changes_hash[association_name] = change.each_with_object([]) do |ids, humaized_associations|
+            humaized_associations << ids.each_with_object([]) do |id, humanized_ids|
               humanized_ids << id_name_map[id]
-              humanized_ids
             end.join(', ')
-            humaized_associations
           end
         end
-
-        changes_hash
       end
     end
   end

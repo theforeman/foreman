@@ -51,9 +51,8 @@ class ComputeResource < ApplicationRecord
   end
 
   def self.registered_providers
-    Foreman::Plugin.all.map(&:compute_resources).inject({}) do |prov_hash, providers|
+    Foreman::Plugin.all.map(&:compute_resources).each_with_object({}) do |providers, prov_hash|
       providers.each { |provider| prov_hash.update(provider.split('::').last => provider) }
-      prov_hash
     end
   end
 

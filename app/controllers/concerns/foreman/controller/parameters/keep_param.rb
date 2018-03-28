@@ -19,12 +19,11 @@ module Foreman::Controller::Parameters::KeepParam
 
   def detect_old_params(params, top_level_hash, keys)
     # Delete keys being kept from the `params` hash, so the block yielded to filters the others
-    keys.inject({}) do |op,(key,val)|
+    keys.each_with_object({}) do |(key,val),op|
       if params[top_level_hash].try!(:has_key?, key)
         op[key] = params[top_level_hash].delete(key)
         op[key].permit! if op[key].is_a?(ActionController::Parameters)
       end
-      op
     end
   end
 end

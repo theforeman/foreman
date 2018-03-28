@@ -450,11 +450,6 @@ Style/ConditionalAssignment:
 Style/DoubleNegation:
   Enabled: false
 
-# Offense count: 10
-# Cop supports --auto-correct.
-Style/EachWithObject:
-  Enabled: false
-
 # Offense count: 146
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
