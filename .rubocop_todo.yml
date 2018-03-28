@@ -140,13 +140,6 @@ Layout/SpaceInsideHashLiteralBraces:
 Layout/SpaceInsidePercentLiteralDelimiters:
   Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, no_space
-Layout/SpaceInsideReferenceBrackets:
-  Enabled: false
-
 # Offense count: 55
 Lint/AmbiguousBlockAssociation:
   Enabled: false
