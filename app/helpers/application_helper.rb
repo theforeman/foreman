@@ -273,9 +273,9 @@ module ApplicationHelper
                     { :id    => name,
                       :class => 'statistics-pie',
                       :data  => {
-                        :'title'  => title,
-                        :'series' => data,
-                        :'url'    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
+                        :title  => title,
+                        :series => data,
+                        :url    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
                       }
                     }.merge(options))
   end
@@ -289,7 +289,7 @@ module ApplicationHelper
                     :'legend-options' => options.delete(:legend),
                     :'xaxis-label'    => xaxis_label,
                     :'yaxis-label'    => yaxis_label,
-                    :'series'         => data
+                    :series         => data
                   }
                 }.merge(options))
   end
@@ -316,8 +316,8 @@ module ApplicationHelper
                   :data => {
                     :'xaxis-label' => xaxis_label,
                     :'yaxis-label' => yaxis_label,
-                    :'chart'   => data,
-                    :'ticks'   => ticks
+                    :chart   => data,
+                    :ticks   => ticks
                   }
                 }.merge(options))
   end
