@@ -388,7 +388,7 @@ class ComputeResource < ApplicationRecord
     # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
     opts = opts.sort { |l, r| l[0].to_s.sub('new_','').to_i <=> r[0].to_s.sub('new_','').to_i }.map { |e| Hash[e[1]] }
     opts.map do |v|
-      if v[:"_delete"] == '1' && v[:id].blank?
+      if v[:_delete] == '1' && v[:id].blank?
         nil
       else
         v.deep_symbolize_keys # convert to symbols deeper hashes

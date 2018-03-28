@@ -645,11 +645,6 @@ Style/StructInheritance:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-# Offense count: 9
-# Cop supports --auto-correct.
-Style/SymbolLiteral:
-  Enabled: false
-
 # Offense count: 77
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoredMethods.
