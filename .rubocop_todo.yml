@@ -526,13 +526,6 @@ Style/MixinUsage:
 Style/MultilineIfModifier:
   Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: keyword, braces
-Style/MultilineMemoization:
-  Enabled: false
-
 # Offense count: 3
 Style/MultipleComparison:
   Enabled: false
