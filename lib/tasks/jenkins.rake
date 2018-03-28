@@ -20,7 +20,7 @@ begin
         --require rubocop/formatter/checkstyle_formatter \
         --format RuboCop::Formatter::CheckstyleFormatter \
         --no-color --out rubocop.xml")
-      exit($?.exitstatus)
+      exit($CHILD_STATUS.exitstatus)
     end
   end
 rescue LoadError

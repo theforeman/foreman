@@ -9,7 +9,7 @@ namespace :pkg do
     # run 'debuild'
     system 'debuild'
 
-    if $? == 0
+    if $CHILD_STATUS == 0
       # remove 'debian' directory
       FileUtils.rm_r Rake.application.original_dir + '/debian', :force => true
     else
