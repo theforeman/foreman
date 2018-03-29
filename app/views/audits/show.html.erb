@@ -26,6 +26,31 @@
     </div>
     <% end %>
     <div class='tab-pane <%= "active" unless tmplt%>' id="tab1">
+      <div class="row">
+        <h3 class="col-md-12"><%= _("Audit Metadata:") %></h3>
+      </div>
+      <div class="row">
+        <strong class="col-md-2"><%= _("Audit Time:")%></strong>
+        <div class="col-md-10"><%= date_time_absolute(@audit.created_at) %></div>
+      </div>
+      <div class="row">
+        <strong class="col-md-2"><%= _("User Name:")%></strong>
+        <div class="col-md-10"><%= @audit.username %></div>
+      </div>
+      <% if Taxonomy.organizations_enabled %>
+        <div class="row">
+          <strong class="col-md-2"><%= _("Affected Organizations:")%></strong>
+          <div class="col-md-10"><%= @audit.organizations.authorized(:view_organizations).to_sentence %></div>
+        </div>
+      <% end %>
+      <% if Taxonomy.locations_enabled %>
+        <div class="row">
+          <strong class="col-md-2"><%= _("Affected Locations:")%></strong>
+          <div class="col-md-10"><%= @audit.locations.authorized(:view_locations).to_sentence %></div>
+        </div>
+      <% end %>
+      <hr/>
+      <h3><%= _("Changes:") %></h3>
       <table class="<%= table_css_classes %>">
         <% if @audit.audited_changes.key?("template") && @audit.audited_changes.size == 1 %>
           <%= alert :class => 'alert-info', :header => _('There are no changes'), :text => _(' in the provisioning template.') %>
