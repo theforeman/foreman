@@ -11,6 +11,7 @@ class PartitionTablesList
         {:name => 'Jumpstart mirrored', :os_family => 'Solaris', :source => 'jumpstart_mirrored.erb'},
         {:name => 'Junos default fake', :os_family => 'Junos', :source => 'junos_default_fake.erb'},
         {:name => 'Kickstart default', :os_family => 'Redhat', :source => 'kickstart_default.erb'},
+        {:name => 'Kickstart default thin', :os_family => 'Redhat', :source => 'kickstart_default_thin.erb'},
         {:name => 'NX-OS default fake', :os_family => 'NXOS', :source => 'nx-os_default_fake.erb'},
         {:name => 'Preseed default', :os_family => 'Debian', :source => 'preseed_default.erb'},
         {:name => 'Preseed custom LVM', :os_family => 'Debian', :source => 'preseed_default_lvm.erb'},

@@ -35,6 +35,8 @@ class ProvisioningTemplatesList
         { :name => "Junos default ZTP config", :source => 'ZTP/junos_default_ztp_config.erb', :template_kind => kinds[:ZTP], :operatingsystems => os_junos },
         { :name => "Junos default finish", :source => 'finish/junos_default_finish.erb', :template_kind => kinds[:finish], :operatingsystems => os_junos },
         { :name => 'Kickstart default', :source => 'provision/kickstart_default.erb', :template_kind => kinds[:provision] },
+        { :name => 'Kickstart oVirt-RHVH', :source => 'provision/kickstart_ovirt.erb', :template_kind => kinds[:provision] },
+        { :name => 'Kickstart oVirt-RHVH PXELinux', :source => 'PXELinux/kickstart_ovirt_pxelinux.erb', :template_kind => kinds[:PXELinux] },
         { :name => 'Kickstart default finish', :source => 'finish/kickstart_default_finish.erb', :template_kind => kinds[:finish] },
         { :name => 'Kickstart default PXELinux', :source => 'PXELinux/kickstart_default_pxelinux.erb', :template_kind => kinds[:PXELinux] },
         { :name => 'Kickstart default PXEGrub', :source => 'PXEGrub/kickstart_default_pxegrub.erb', :template_kind => kinds[:PXEGrub] },

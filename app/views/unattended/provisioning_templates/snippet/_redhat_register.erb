@@ -3,90 +3,166 @@ kind: snippet
 name: redhat_register
 model: ProvisioningTemplate
 snippet: true
-%>
 # Red Hat Registration Snippet
+#
+# General parameters:
+#
+#   redhat_install_agent = [true|false]         Install the management agent.  For Spacewalk,
+#                                               this is OSAD.  For Katello, this is katello-agent.
+#
+#   activation_key = <key>                      Activation key string, not needed if using
+#                                               subscription-manager with username/password
+#
+#   atomic = [true|false]                       Whether or not this system is Atomic
+#
+# Parameters for use with subscription-manager (Red Hat CDN, Satellite, or Katello)
+#
+#   subscription_manager = 'true'               You're going to use subscription-manager
+#
+#   subscription_manager_username = <username>  Username for subscription-manager
+#
+#   subscription_manager_password = <password>  Password for subscription-manager
+#
+#   subscription_manager_certpkg_url = <url>    Custom certificate package URL
+#
+#   subscription_manager_atomic_url = <url>     Script used for configuring Atomic servers
+#                                               for subscription-manager
+#
+#   subscription_manager_org = <org name>       Organization name, if required
+#
+#   subscription_manager_repos = <repos>        Additional repositories to enable
+#                                               after registration
+#
+#   subscription_manager_pool = <pool>          Specific subscription pool to use
+#
+#   http-proxy = <host>                         Proxy hostname to be used for registration
+#
+#   http-proxy-port = <port>                    Proxy port to be used for registration
+#
+#   http-proxy-user = <user>                    Proxy user to be used for registration
+#
+#   http-proxy-password = <password>            Proxy password to be used for registration
 #
 # Set these parameters if you're using rhnreg_ks:
 #
-#   spacewalk_type = 'site'     (local Spacewalk/Satellite server)
-#                  = 'hosted'   (RHN hosted)
-#   spacewalk_host = <hostname> (hostname of Spacewalk server, optional for
-#                                RHN hosted)
+#   spacewalk_host = <hostname>                 Hostname of Spacewalk server
 #
-# Set these parameters if you're using subscription-manager:
-#
-#   subscription_manager = 'true' (you're going to use subscription-manager)
-#
-#   subscription_manager_username = <username> (if using hosted RHN)
-#
-#   subscription_manager_password = <password> (if using hosted RHN)
-#
-#   subscription_manager_certpkg_url = <url> (url of cert package when using
-#                                             when using foreman with katello
-#                                             for example:
-#                                             http://fqdn/pub
-#                                             /katello-ca-consumer-latest.noarch.rpm)
-#
-#   subscription_manager_host = <hostname> (deprecated for
-#                                           subscription_manager_certpkg_url:
-#                                           hostname of SAM/Katello
-#                                           installation, if using SAM.
-#                                           hostname is used to determine the
-#                                           consumer cert url.)
-#
-#   subscription_manager_org = <org name> (organization name, if using
-#                                          SAM/Katello)
-#
-#   subscription_manager_repos = <repos> (comma separated list of repos (like
-#                                         rhel-6-server-optional-rpms) to
-#                                         enable after registration)
-#
-#   subscription_manager_pool = <pool> (specific pool to be used for
-#                                       registration)
-#
-#   http-proxy = <host> (proxy hostname to be used for registration)
-#
-#   http-proxy-port = <port> (proxy port to be used for registration)
-#
-#   http-proxy-user = <user> (proxy user to be used for registration)
-#
-#   http-proxy-password = <password> (proxy password to be
-#                                           used for registration)
-#
-#
-# Set this parameter regardless of which registration method you're using:
-#
-#   activation_key = <key>      (activation key string, not needed if using
-#                                subscription-manager with hosted RHN)
-#
+%>
 
-<% unless host_param('subscription_manager') %>
-  <% type = host_param('spacewalk_type') || 'hosted' %>
+<%
+  # Katello or subscription-manager:
+  if host_param_true?('subscription_manager') || host_param('kt_activation_keys')
+    registration_type = 'subscription_manager'
+  # Spacewalk:
+  elsif host_param('spacewalk_host')
+    registration_type = 'spacewalk'
+  end if
+%>
+
+<% if registration_type == 'subscription_manager' %>
+  <%
+    atomic = @host.operatingsystem.respond_to?(:atomic) ? @host.operatingsystem.atomic? : host_param_true?('atomic')
+
+    if host_param('kt_activation_keys')
+      subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
+      subscription_manager_atomic_url = subscription_manager_configuration_url(@host, false)
+      subscription_manager_org = @host.rhsm_organization_label
+      activation_key = host_param('kt_activation_keys')
+      redhat_install_agent = true
+    else
+      subscription_manager_certpkg_url = host_param('subscription_manager_certpkg_url')
+      subscription_manager_atomic_url = host_param('subscription_manager_atomic_url')
+      subscription_manager_org = host_param('subscription_manager_org')
+      activation_key = host_param('activation_key')
+      redhat_install_agent = host_param_true?('redhat_install_agent')
+    end
+  %>
+
+  echo ##############################################################
+  echo ################# SUBSCRIPTION MANAGER #######################
+  echo ##############################################################
+  echo
+  echo "Starting the subscription-manager registration process"
+
+  <% if !atomic %>
+    if [ -f /usr/bin/dnf ]; then
+      dnf -y install subscription-manager
+    else
+      yum -t -y install subscription-manager
+    fi
+  <% end %>
+
+  <% if host_param('http-proxy') %>
+    subscription-manager config --server.proxy_hostname='<%= host_param("http-proxy") %>'
+    <% if host_param('http-proxy-user') %>
+      subscription-manager config --server.proxy_user='<%= host_param("http-proxy-user") %>'
+    <% end %>
+    <% if host_param('http-proxy-password') %>
+      subscription-manager config --server.proxy_password='<%= host_param("http-proxy-password") %>'
+    <% end %>
+    <% if host_param('http-proxy-port') %>
+      subscription-manager config --server.proxy_port='<%= host_param("http-proxy-port") %>'
+    <% end %>
+  <% end %>
+
+  <% if atomic %>
+    curl -s <%= subscription_manager_atomic_url %> | IS_ATOMIC=true bash
+  <% elsif subscription_manager_certpkg_url %>
+    rpm -Uvh <%= subscription_manager_certpkg_url %>
+  <% end %>
+
+  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') %>
+    <% if host_param('subscription_manager_pool') %>
+      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
+      subscription-manager attach --pool='<%= host_param('subscription_manager_pool') %>'
+    <% else %>
+      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= @host.params("subscription_manager_password") %>' --auto-attach
+    <% end %>
+
+  <% elsif activation_key %>
+    subscription-manager register --name="<%= @host.name %>" --org='<%= subscription_manager_org %>' --activationkey='<%= activation_key %>'
+  <% else %>
+    echo "No activation key found: Not registering to subscription manager"
+  <% end %>
+
+  <% if host_param('subscription_manager_repos') %>
+    # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
+    subscription-manager repos --list > /dev/null
+    <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(',', ' --enable')}" %>
+  <% end %>
+
+  <% if redhat_install_agent && !atomic %>
+    if [ -f /usr/bin/dnf ]; then
+      dnf -y install katello-agent
+    else
+      yum -t -y install katello-agent
+    fi
+
+    chkconfig goferd on
+  <% end %>
+<% end %>
+
+<% if registration_type == 'spacewalk' %>
+  echo ##############################################################
+  echo ################ SPACEWALK REGISTRATION ######################
+  echo ##############################################################
 
   <% if host_param('activation_key') %>
-    # Discovered Activation Key <%= host_param('activation_key') %>
     rhn_activation_key="<%= host_param('activation_key') -%>"
-
-    <% if type == 'site' -%>
     satellite_hostname="<%= host_param('spacewalk_host') -%>"
     rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
-    <% else -%>
-    satellite_hostname="<%= host_param('spacewalk_host') || 'xmlrpc.rhn.redhat.com' -%>"
-    rhn_cert_file="RHNS-CA-CERT"
-    <% end -%>
 
     echo "Registering to RHN Satellite at [$satellite_hostname]"
     echo "Using Registration Key [$rhn_activation_key]"
 
-    <% if type == 'site' -%>
     # Obtain our RHN Satellite Certificate
     echo "Obtaining RHN SSL certificate"
     curl -o /usr/share/rhn/$rhn_cert_file -k https://$satellite_hostname/pub/$rhn_cert_file
+
     <% if @host.operatingsystem.name == 'SLES' -%>
-    # if SLES then add CA Cert to CA Certs for curl
-    cp /usr/share/rhn/$rhn_cert_file /etc/ssl/certs/
-    ln -s /etc/ssl/certs/$rhn_cert_file /etc/ssl/certs/`openssl x509 -hash -noout -in /etc/ssl/certs/$rhn_cert_file`.0
-    <% end -%>
+      # If SLES then add CA Cert to CA Certs for curl
+      cp /usr/share/rhn/$rhn_cert_file /etc/ssl/certs/
+      ln -s /etc/ssl/certs/$rhn_cert_file /etc/ssl/certs/`openssl x509 -hash -noout -in /etc/ssl/certs/$rhn_cert_file`.0
     <% end -%>
 
     # Update our up2date configuration file
@@ -100,13 +176,11 @@ snippet: true
 
     # Restart messagebus/HAL to try and prevent hardware detection errors in rhnreg_ks
     echo "Restarting services..."
-    <% if @host.operatingsystem.name == 'SLES' -%>
-    <% if @host.operatingsystem.major.to_i < 12 -%>
-    service haldaemon restart
-    <% end -%>
+    <% if @host.operatingsystem.name == 'SLES' && @host.operatingsystem.major.to_i < 12 -%>
+      service haldaemon restart
     <% else -%>
-    service messagebus restart
-    service hald restart
+      service messagebus restart
+      service hald restart
     <% end -%>
 
     # Now, perform our registration
@@ -123,55 +197,15 @@ snippet: true
     else
         echo "registration successful."
     fi
+
+    <% if host_param_true?('redhat_install_agent') %>
+    if [ -f /usr/bin/dnf ]; then
+      dnf -y install osad
+    else
+      yum -t -y install osad
+    fi
+    <% end %>
   <% else %>
-    # Not registering - host.params['activation_key'] not found.
-  <% end %>
-<% else %>
-  echo "Starting the subscription-manager registration process"
-  if [ -f /usr/bin/dnf ]; then
-    dnf -y install subscription-manager <%= @host.operatingsystem.major.to_i >= 6 ? 'yum-config-manager' : '' %>
-  else
-    yum -t -y install subscription-manager <%= @host.operatingsystem.major.to_i >= 6 ? 'yum-config-manager' : '' %>
-  fi
-  <% if @host.operatingsystem.major.to_i >= 6  %>
-    <% ( enabled_repos = "yum-config-manager --enable #{host_param('subscription_manager_repos').gsub(',', ' ')}") if host_param('subscription_manager_repos') %>
-  <% else %>
-    <% ( enabled_repos = "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(',', ' --enable')}") if host_param('subscription_manager_repos') %>
-  <% end %>
-  <% if host_param('http-proxy') %>
-    subscription-manager config --server.proxy_hostname='<%= host_param("http-proxy") %>'
-    <% if host_param('http-proxy-user') %>
-      subscription-manager config --server.proxy_user='<%= host_param("http-proxy-user") %>'
-    <% end %>
-    <% if host_param('http-proxy-password') %>
-      subscription-manager config --server.proxy_password='<%= host_param("http-proxy-password") %>'
-    <% end %>
-    <% if host_param('http-proxy-port') %>
-      subscription-manager config --server.proxy_port="<%= host_param('http-proxy-port') %>"
-    <% end %>
-  <% end %>
-  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') %>
-    <% if host_param('subscription_manager_pool') %>
-      subscription-manager register --name='<%= @host.name %>' --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
-      subscription-manager attach --pool="<%= host_param('subscription_manager_pool') %>"
-    <% else %>
-      subscription-manager register --name='<%= @host.name %>' --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --auto-attach
-    <% end %>
-    # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
-    subscription-manager repos --list > /dev/null
-    <%= enabled_repos if enabled_repos %>
-  <% elsif host_param('activation_key') %>
-    <% if host_param('subscription_manager_certpkg_url') %>
-      rpm -Uvh <%= host_param('subscription_manager_certpkg_url') %>
-    <% elsif host_param('subscription_manager_host') %>
-      rpm -Uvh <%= host_param('subscription_manager_host') %>/pub/candlepin-cert-consumer-latest.noarch.rpm
-    <% end %>
-    subscription-manager register --name="<%= @host.name %>" --org="<%= host_param('subscription_manager_org') %>" --activationkey="<%= host_param('activation_key') %>"
-    # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
-    subscription-manager repos --list > /dev/null
-    <%= enabled_repos if enabled_repos %>
-  <% else %>
-    # Not registering host.params['activation_key'] not found.
+    echo "No activation key found: Not registering"
   <% end %>
 <% end %>
-# End Red Hat Registration Snippet

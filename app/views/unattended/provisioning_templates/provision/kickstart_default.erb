@@ -5,6 +5,7 @@ model: ProvisioningTemplate
 oses:
 - CentOS
 - Fedora
+- RedHat
 %>
 <%#
 This template accepts the following parameters:
@@ -156,6 +157,8 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 <% if rhel_compatible && !host_param_false?('enable-epel') -%>
 <%= snippet 'epel' -%>
 <% end -%>
+
+<%= snippet 'redhat_register' %>
 
 <% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>

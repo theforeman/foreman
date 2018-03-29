@@ -4,8 +4,12 @@ name: PXEGrub global default
 model: ProvisioningTemplate
 %>
 <%# Used to boot unknown hosts, do not associate or change the name. %>
-
-default=0
+<%
+  # Grub1 only supports numeric default statement, this array allows conversion to number
+  items = ["local", "discovery"]
+  default_item = items.index(global_setting("default_pxe_item_global", "local")) || 0
+%>
+default=<%= default_item %>
 timeout=20
 
 <%= snippet "pxegrub_chainload" %>

@@ -48,6 +48,8 @@ yum -y install ntpdate
 <%= snippet 'epel' -%>
 <% end -%>
 
+<%= snippet 'redhat_register' %>
+
 <% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
