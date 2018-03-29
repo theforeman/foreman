@@ -6,6 +6,20 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
       :auth_source_id => auth_sources(:internal), :password => '123456' }
   end
 
+  def min_valid_attrs
+    { :login => "foo", :auth_source_id => auth_sources(:internal).id, :password => '123456' }
+  end
+
+  # List of invalid emails.
+  def invalid_usernames_list
+    [
+      '',
+      "space #{RFauxFactory.gen_alpha}",
+      RFauxFactory.gen_alpha(101),
+      RFauxFactory.gen_html
+    ]
+  end
+
   def setup
     setup_users
   end
@@ -244,5 +258,133 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_equal user, assigns(:user)
     refute_equal user.object_id, assigns(:user).object_id
     assert_response :success
+  end
+
+  test "should not create with invalid email" do
+    mail = 'foreman@'
+    post :create, params: { :user => min_valid_attrs.clone.update(:mail => mail) }
+    assert_response :unprocessable_entity, "Can create user with invalid mail #{mail}"
+  end
+
+  test "should not create with invalid firstname" do
+    firstname = RFauxFactory.gen_alpha(51)
+    post :create, params: { :user => min_valid_attrs.clone.update(:firstname => firstname) }
+    assert_response :unprocessable_entity, "Can create user with invalid firstname #{firstname}"
+  end
+
+  test "should not create with invalid lastname" do
+    lastname = RFauxFactory.gen_alpha(51)
+    post :create, params: { :user => min_valid_attrs.clone.update(:lastname => lastname) }
+    assert_response :unprocessable_entity, "Can create user with invalid lastname #{lastname}"
+  end
+
+  test "should not create with invalid username" do
+    login = ""
+    post :create, params: { :user => min_valid_attrs.clone.update(:login => login) }
+    assert_response :unprocessable_entity, "Can create user with invalid login #{login}"
+  end
+
+  test "should create with valid description" do
+    description = RFauxFactory.gen_alpha
+    post :create, params: { :user => min_valid_attrs.clone.update(:description => description) }
+    assert_response :success, "creation with description #{description} failed with code #{response.code}"
+    assert_equal JSON.parse(@response.body)['description'], description, "Can't create user with valid description #{description}"
+  end
+
+  test "should create with valid email" do
+    mail = "#{RFauxFactory.gen_alpha}@example.com"
+    post :create, params: { :user => min_valid_attrs.clone.update(:mail => mail) }
+    assert_response :success, "creation with mail #{mail} failed with code #{response.code}"
+    assert_equal JSON.parse(@response.body)['mail'], mail, "Can't create user with valid mail #{mail}"
+  end
+
+  test "should create with valid firstname" do
+    firstname = RFauxFactory.gen_alpha
+    post :create, params: { :user => min_valid_attrs.clone.update(:firstname => firstname) }
+    assert_response :success, "creation with firstname #{firstname} failed with code #{response.code}"
+    assert_equal JSON.parse(@response.body)['firstname'], firstname, "Can't create user with valid firstname #{firstname}"
+  end
+
+  test "should create with valid lastname" do
+    lastname = RFauxFactory.gen_alpha
+    post :create, params: { :user => min_valid_attrs.clone.update(:lastname => lastname) }
+    assert_response :success, "creation with lastname #{lastname} failed with code #{response.code}"
+    assert_equal JSON.parse(@response.body)['lastname'], lastname, "Can't create user with valid lastname #{lastname}"
+  end
+
+  test "should create with valid password" do
+    password = RFauxFactory.gen_alpha
+    post :create, params: { :user => min_valid_attrs.clone.update(:password => password) }
+    assert_response :success, "creation with password #{password} failed with code #{response.code}"
+  end
+
+  test "should create with valid username" do
+    login = RFauxFactory.gen_alpha
+    post :create, params: { :user => min_valid_attrs.clone.update(:login => login) }
+    assert_response :success, "creation with login #{login} failed with code #{response.code}"
+    assert_equal JSON.parse(@response.body)['login'], login, "Can't create user with valid login #{login}"
+  end
+
+  test "should update with valid username" do
+    login = RFauxFactory.gen_alpha
+    put :update, params: { :id => users(:apiadmin).id, :user => {:login => login } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['login'], login, "Can't update user with valid login #{login}"
+  end
+
+  test "should update with admin attribute true" do
+    admin = true
+    put :update, params: { :id => users(:one).id, :user => {:admin => admin } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['admin'], admin, "Can't update user with valid admin attribute #{admin}"
+  end
+
+  test "should update with admin attribute false" do
+    admin = false
+    put :update, params: { :id => users(:apiadmin).id, :user => {:admin => admin } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['admin'], admin, "Can't update user with valid admin attribute #{admin}"
+  end
+
+  test "should update with valid description" do
+    description = RFauxFactory.gen_alpha
+    put :update, params: { :id => users(:one).id, :user => {:description => description } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['description'], description, "Can't update user with valid description #{description}"
+  end
+
+  test "should update with valid mail" do
+    mail = "#{RFauxFactory.gen_alpha}@example.com"
+    put :update, params: { :id => users(:one).id, :user => {:mail => mail } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['mail'], mail, "Can't update user with valid mail #{mail}"
+  end
+
+  test "should update with valid firstname" do
+    firstname = RFauxFactory.gen_alpha
+    put :update, params: { :id => users(:one).id, :user => {:firstname => firstname } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['firstname'], firstname, "Can't update user with valid firstname #{firstname}"
+  end
+
+  test "should update with valid firstname" do
+    lastname = RFauxFactory.gen_alpha
+    put :update, params: { :id => users(:one).id, :user => {:lastname => lastname } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['lastname'], lastname, "Can't update user with valid lastname #{lastname}"
+  end
+
+  test "should create with roles" do
+    roles = [Role.find_by_name('Manager'), Role.find_by_name('View hosts')]
+    post :create, params: { :user => min_valid_attrs.clone.update(:role_ids => roles.map { |role| role.id }) }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['roles'].map { |role| role["id"] }, roles.map { |role| role.id }, "Can't create user with valid roles #{roles}"
+  end
+
+  test "should update with roles" do
+    roles = [Role.find_by_name('Manager'), Role.find_by_name('View hosts')]
+    put :update, params: { :id => users(:two).id, :user => {:role_ids => roles.map { |role| role.id } } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['roles'].map { |role| role["id"] }, roles.map { |role| role.id }, "Can't update user with valid roles #{roles}"
   end
 end
