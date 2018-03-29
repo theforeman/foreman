@@ -10,7 +10,7 @@ PROMPT 0
 MENU TITLE PXE Menu
 TIMEOUT 200
 TOTALTIMEOUT 6000
-ONTIMEOUT local
+ONTIMEOUT <%= global_setting("default_pxe_item_global", "local") %>
 
 <%= snippet "pxelinux_chainload" %>
 

@@ -43,6 +43,7 @@ rootpw --iscrypted <%= root_pass %>
 reboot
 
 %post
+<%= snippet 'redhat_register' %>
 <%= snippet('remote_execution_ssh_keys') %>
 (
 # Report success back to Foreman

@@ -15,7 +15,7 @@ Another bug in RHEL 7.4 is affecting $net_default_mac with a trailing slash, in
 the global template we have a regexp module creating corrected variable $mac
 which is used here. See RHBZ#1487107 for more info.
 -%>
-menuentry 'Foreman Discovery Image' {
+menuentry 'Foreman Discovery Image' --id discovery {
   linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-$mac
   initrdefi boot/fdi-image/initrd0.img
 }

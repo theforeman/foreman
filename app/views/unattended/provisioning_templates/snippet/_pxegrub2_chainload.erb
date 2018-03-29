@@ -7,7 +7,7 @@ snippet: true
 <%
   paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "Microsoft", "EFI"]
 -%>
-menuentry "Chainload Grub2 EFI from ESP" {
+menuentry 'Chainload Grub2 EFI from ESP' --id local {
   unset root
   echo Chainloading Grub2 EFI from ESP, available devices:
   ls
@@ -32,7 +32,12 @@ menuentry "Chainload Grub2 EFI from ESP" {
   fi
 }
 
-menuentry "Chainload into BIOS bootloader on first disk" {
+menuentry 'Chainload into BIOS bootloader on first disk' --id local_chain_hd0 {
   set root=(hd0,0)
+  chainloader +1
+}
+
+menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_hd1 {
+  set root=(hd1,0)
   chainloader +1
 }

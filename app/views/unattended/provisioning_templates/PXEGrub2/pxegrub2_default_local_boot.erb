@@ -5,7 +5,7 @@ model: ProvisioningTemplate
 %>
 <%# Used to boot provisioned hosts, do not associate or change the name. %>
 
-set default=0
+set default=<%= global_setting("default_pxe_item_local", "local_chain_hd0") %>
 set timeout=20
 
 <%= snippet "pxegrub2_chainload" %>
