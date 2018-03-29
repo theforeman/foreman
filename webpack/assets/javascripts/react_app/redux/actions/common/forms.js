@@ -33,7 +33,7 @@ const verifyProps = (item, values) => {
 };
 
 export const submitForm = ({
-  item, url, values, method = 'post',
+  item, url, values, message, method = 'post',
 }) => {
   verifyProps(item, values);
   return dispatch =>
@@ -46,7 +46,7 @@ export const submitForm = ({
         dispatch(addToast({
           type: 'success',
           // eslint-disable-next-line no-undef
-          message: Jed.sprintf('%s was successfully created.', __(item)),
+          message: message || Jed.sprintf('%s was successfully created.', __(item)),
         }));
       })
       .catch(onError);
