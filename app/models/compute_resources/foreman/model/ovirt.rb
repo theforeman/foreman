@@ -101,6 +101,21 @@ module Foreman::Model
       16.gigabytes
     end
 
+    def use_v4=(value)
+      value = case value
+              when true, '1'
+                true
+              else
+                false
+              end
+      self.attrs[:ovirt_use_v4] = value
+    end
+
+    def use_v4
+      self.attrs[:ovirt_use_v4] || false
+    end
+    alias_method :use_v4?, :use_v4
+
     def ovirt_quota=(ovirt_quota_id)
       self.attrs[:ovirt_quota_id] = ovirt_quota_id
     end
@@ -380,12 +395,15 @@ module Foreman::Model
         :ovirt_password   => password,
         :ovirt_url        => url,
         :ovirt_datacenter => uuid,
-        :ovirt_ca_cert_store => ca_cert_store(public_key)
+        :ovirt_ca_cert_store => ca_cert_store(public_key),
+        :public_key       => public_key,
+        :api_version      => use_v4? ? 'v4' : 'v3'
       )
       client.datacenters
       @client = client
     rescue => e
-      if e.message =~ /SSL_connect.*certificate verify failed/
+      if e.message =~ /SSL_connect.*certificate verify failed/ ||
+          e.message =~ /Peer certificate cannot be authenticated with given CA certificates/
         raise Foreman::FingerprintException.new(
           N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
           ca_cert

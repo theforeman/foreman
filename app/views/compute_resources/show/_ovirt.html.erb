@@ -6,3 +6,7 @@
   <td><%= _("Operating systems API supported?") %></td>
   <td><%= @compute_resource.supports_operating_systems? ? icon_text("ok", "", :kind => "pficon") : icon_text("error-circle-o", "", :kind => "pficon") %></td>
 </tr>
+<tr>
+  <td><%= _("Use APIv4 (experimental)") %></td>
+  <td><%= @compute_resource.use_v4? ? _('Yes') : _('No') %></td>
+</tr>
