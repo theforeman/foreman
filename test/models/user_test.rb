@@ -1,5 +1,40 @@
 require 'test_helper'
 
+# List of valid emails.
+def valid_emails_list
+  [
+    "#{RFauxFactory.gen_alpha}@example.com",
+    "#{RFauxFactory.gen_alphanumeric}@example.com",
+    "#{RFauxFactory.gen_numeric_string}@example.com",
+    "#{RFauxFactory.gen_alphanumeric}+#{RFauxFactory.gen_alphanumeric}@example.com",
+    "#{RFauxFactory.gen_alphanumeric}.#{RFauxFactory.gen_alphanumeric}@example.com",
+    '"():;"@example.com',
+    '!#$%&*+-/=?^`{|}~@example.com'
+  ]
+end
+
+# List of invalid emails.
+def invalid_emails_list
+  [
+    'foreman@',
+    '@foreman',
+    '@',
+    'Abc.example.com',
+    'A@b@c@example.com',
+    "#{RFauxFactory.gen_alpha 243}@example.com",
+    "#{RFauxFactory.gen_html}@example.com",
+    's p a c e s@example.com'
+  ]
+end
+
+def test_roles
+  [
+    Role.find_by_name('Manager'),
+    Role.find_by_name('View hosts'),
+    Role.find_by_name('Edit hosts')
+  ]
+end
+
 class UserTest < ActiveSupport::TestCase
   def setup
     User.current = users :admin
@@ -18,13 +53,83 @@ class UserTest < ActiveSupport::TestCase
   should validate_length_of(:mail).is_at_most(254)
   # Format
   should allow_value('').for(:mail).on(:create)
+  should allow_value(*valid_emails_list).for(:mail)
   should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:firstname)
+  should allow_value(*RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values).for(:firstname)
   should allow_value('é ô à', "C_r'a-z.y( )<,Na=me;>").for(:lastname)
+  should allow_value(*RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values).for(:lastname)
   should allow_value('A$+#APRocky').for(:login)
+  should allow_value(*valid_name_list).for(:description)
+  should allow_value(*RFauxFactory.gen_strings(1..50, exclude: [:html])).for(:password)
   should_not allow_value('The Riddle?').for(:firstname)
+  should_not allow_value(*RFauxFactory.gen_strings(51)).for(:firstname)
   should_not allow_value("it's the JOKER$$$").for(:lastname)
+  should_not allow_value(*RFauxFactory.gen_strings(51)).for(:lastname)
+  should_not allow_value(*invalid_emails_list).for(:mail)
+  should_not allow_value("space #{RFauxFactory.gen_alpha}").for(:login)
+  should_not allow_value(RFauxFactory.gen_html).for(:login)
   # Associations
   should have_many(:ssh_keys).dependent(:destroy)
+
+  test 'should update with multiple valid descriptions' do
+    user = users(:one)
+    valid_name_list.each do |description|
+      user.description = description
+      assert user.valid?, "Can't update user with valid description #{description}"
+    end
+  end
+
+  test 'should update with multiple valid email' do
+    user = users(:one)
+    valid_emails_list.each do |mail|
+      user.mail = mail
+      assert user.valid?, "Can't update user with valid mail #{mail}"
+    end
+  end
+
+  test 'should update with multiple valid firstname' do
+    user = users(:one)
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |firstname|
+      user.firstname = firstname
+      assert user.valid?, "Can't update user with valid firstname #{firstname}"
+    end
+  end
+
+  test 'should update with multiple valid lastname' do
+    user = users(:one)
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |lastname|
+      user.lastname = lastname
+      assert user.valid?, "Can't update user with valid lastname #{lastname}"
+    end
+  end
+
+  test 'should update with multiple valid username' do
+    user = users(:apiadmin)
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |login|
+      user.login = login
+      assert user.valid?, "Can't update user with valid login #{login}"
+    end
+  end
+
+  test "create user with roles" do
+    (1..test_roles.length).each do |index|
+      chosen_roles = test_roles[0..index-1]
+      user = FactoryBot.create :user, :roles => chosen_roles
+      assert_equal chosen_roles.length + 1, user.roles.length
+      assert_equal chosen_roles.push(Role.find_by_name('Default role')).sort, user.roles.sort
+    end
+  end
+
+  test "update user with roles" do
+    user = FactoryBot.create :user
+    assert_equal 1, user.roles.length
+    (1..test_roles.length).each do |index|
+      chosen_roles = test_roles[0..index-1]
+      user.roles = chosen_roles
+      assert_equal chosen_roles.length, user.roles.length
+      assert_equal chosen_roles, user.roles
+    end
+  end
 
   test "mail address is optional on creation" do
     assert_valid FactoryBot.build_stubbed(:user, :mail => nil)
@@ -60,7 +165,7 @@ class UserTest < ActiveSupport::TestCase
   test 'login should also be unique across usergroups' do
     Usergroup.expects(:where).with(:name => 'foo').returns(['fakeuser'])
     u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:one),
-                          :login => "foo", :mail  => "foo@bar.com")
+                                 :login => "foo", :mail  => "foo@bar.com")
     refute u.valid?
   end
 
@@ -194,9 +299,9 @@ class UserTest < ActiveSupport::TestCase
   test "user with create permissions should be able to create" do
     setup_user "create"
     record = User.new :login => "dummy", :mail => "j@j.com",
-      :auth_source_id => AuthSourceInternal.first.id,
-      :organizations => User.current.organizations,
-      :locations => User.current.locations
+                      :auth_source_id => AuthSourceInternal.first.id,
+                      :organizations => User.current.organizations,
+                      :locations => User.current.locations
     record.password_hash = "asd"
     assert record.save
     assert record.valid?
@@ -235,10 +340,10 @@ class UserTest < ActiveSupport::TestCase
     setup_user "create"
     create_role          = Role.find_by_name 'create_users'
     record               = User.new(:login => "dummy", :mail => "j@j.com",
-      :auth_source_id => AuthSourceInternal.first.id,
-      :role_ids => [create_role.id.to_s],
-      :organizations => User.current.organizations,
-      :locations => User.current.locations)
+                                    :auth_source_id => AuthSourceInternal.first.id,
+                                    :role_ids => [create_role.id.to_s],
+                                    :organizations => User.current.organizations,
+                                    :locations => User.current.locations)
     record.password_hash = "asd"
     assert record.valid?
     assert record.save
@@ -618,7 +723,7 @@ class UserTest < ActiveSupport::TestCase
                                                   :mail => 'foobar@example.com',
                                                   :firstname => 'Foo',
                                                   :lastname => 'Bar'},
-                                                  @apache_source.name)
+                                                 @apache_source.name)
         created_user = User.find_by_login('not_existing_user')
         assert_equal @apache_source.name,  created_user.auth_source.name
         assert_equal 'foobar@example.com', created_user.mail
@@ -657,7 +762,7 @@ class UserTest < ActiveSupport::TestCase
     context 'success' do
       setup do
         AuthSourceLdap.any_instance.expects(:update_usergroups).
-          with('FoOBaR').returns(true)
+            with('FoOBaR').returns(true)
       end
 
       test "enabled on-the-fly registration" do
@@ -677,9 +782,9 @@ class UserTest < ActiveSupport::TestCase
         @ldap_server.locations = [taxonomies(:location1)]
         created_user = User.try_to_auto_create_user('foobar','fakepass')
         assert_equal @ldap_server.organizations.to_a,
-          created_user.organizations.to_a
+                     created_user.organizations.to_a
         assert_equal @ldap_server.locations.to_a,
-          created_user.locations.to_a
+                     created_user.locations.to_a
       end
     end
 
@@ -967,7 +1072,7 @@ class UserTest < ActiveSupport::TestCase
       SETTINGS[:organizations_enabled] = true
       Taxonomy.expects(:locations_enabled).returns(false).at_least_once
       FactoryBot.create(:environment, :name => 'test_env_org1',
-                         :organizations => [users(:one).organizations.first])
+                        :organizations => [users(:one).organizations.first])
       setup_user 'view', 'environments', 'name = test_env_org1'
       assert_equal ['test_env_org1'], users(:one).visible_environments
     end
@@ -976,7 +1081,7 @@ class UserTest < ActiveSupport::TestCase
       SETTINGS[:locations_enabled] = true
       SETTINGS[:organizations_enabled] = false
       FactoryBot.create(:environment, :name => 'test_env_loc1',
-                         :locations => [users(:one).locations.first])
+                        :locations => [users(:one).locations.first])
       setup_user 'view', 'environments', 'name = test_env_loc1'
       assert_equal ['test_env_loc1'], users(:one).visible_environments
     end
