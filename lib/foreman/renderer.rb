@@ -354,6 +354,10 @@ module Foreman
       @mediapath = @host.operatingsystem.mediumpath @host
     end
 
+    def rancheros_attributes
+      @mediapath = @host.operatingsystem.mediumpath @host
+    end
+
     def aif_attributes
       @mediapath = @host.operatingsystem.mediumpath @host
     end
