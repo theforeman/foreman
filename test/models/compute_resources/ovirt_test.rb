@@ -82,4 +82,37 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       refute @compute_resource.supports_operating_systems?
     end
   end
+
+  describe 'APIv4 support' do
+    before do
+      @compute_resource = FactoryBot.build(:ovirt_cr)
+      @client_mock = mock.tap { |m| m.stubs(datacenters: [])}
+    end
+
+    it 'passes api_version properly' do
+      Fog::Compute.expects(:new).with do |options|
+        options[:api_version].must_equal 'v4'
+      end.returns(@client_mock)
+      @compute_resource.use_v4 = true
+      @compute_resource.send(:client)
+    end
+
+    it 'passes api_version v3 by default' do
+      Fog::Compute.expects(:new).with do |options|
+        options[:api_version].must_equal 'v3'
+      end.returns(@client_mock)
+      @compute_resource.send(:client)
+    end
+
+    it 'accepts "1" and true as true values, anything else as false' do
+      @compute_resource.use_v4 = true
+      @compute_resource.use_v4?.must_equal true
+      @compute_resource.use_v4 = false
+      @compute_resource.use_v4?.must_equal false
+      @compute_resource.use_v4 = '1'
+      @compute_resource.use_v4?.must_equal true
+      @compute_resource.use_v4 = '0'
+      @compute_resource.use_v4?.must_equal false
+    end
+  end
 end

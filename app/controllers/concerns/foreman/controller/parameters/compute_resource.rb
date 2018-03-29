@@ -39,6 +39,7 @@ module Foreman::Controller::Parameters::ComputeResource
         # ovirt
         filter.permit :datacenter,
           :ovirt_quota,
+          :use_v4,
           :public_key,
           :uuid
 
