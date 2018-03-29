@@ -3,3 +3,5 @@ export const requestData = {
   url: '/api/resource',
   item: 'Resource',
 };
+
+export const requestDataMsg = Object.assign({}, requestData, { message: 'Customized success!' });

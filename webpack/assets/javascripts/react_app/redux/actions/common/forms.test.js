@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { requestData } from './forms.fixtures';
+import { requestData, requestDataMsg } from './forms.fixtures';
 import * as types from '../../consts';
 import { submitForm } from './forms';
 import { mockRequest, mockReset } from '../../../mockRequests';
@@ -120,6 +120,23 @@ describe('form actions', () => {
         expect(store.getActions()[0]).toEqual(expectedAction);
         // dispatch toast notifications
         expect(store.getActions()[1].type).toEqual(types.TOASTS_ADD);
+      });
+  });
+  it('on success display custom message', () => {
+    const store = mockStore({ resources: [] });
+
+    mockRequest({
+      ...mockRequestData,
+      response: {
+        name: 'random',
+        id: 42,
+      },
+    });
+
+    return store
+      .dispatch(submitForm(requestDataMsg))
+      .then(() => {
+        expect(store.getActions()[1].payload.message.message).toEqual('Customized success!');
       });
   });
 });
