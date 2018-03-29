@@ -123,6 +123,7 @@ class UsersController < ApplicationController
 
     TopbarSweeper.expire_cache
     sso_logout_path = get_sso_method.try(:logout_url)
+    logger.info("User '#{User.unscoped.find_by_id(session[:user]).try(:login) || session[:user]}' logged out")
     session[:user] = @user = User.current = nil
     if flash[:success] || flash[:info] || flash[:error]
       flash.keep
@@ -160,6 +161,7 @@ class UsersController < ApplicationController
   end
 
   def login_user(user)
+    logger.info("User '#{user.login}' logged in from '#{request.ip}'")
     session[:user]         = user.id
     uri                    = session.to_hash.with_indifferent_access[:original_uri]
     session[:original_uri] = nil
