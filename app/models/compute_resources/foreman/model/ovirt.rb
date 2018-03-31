@@ -36,7 +36,7 @@ module Foreman::Model
 
     def find_vm_by_uuid(uuid)
       super
-    rescue OVIRT::OvirtException
+    rescue Fog::Ovirt::Errors::OvirtEngineError
       raise(ActiveRecord::RecordNotFound)
     end
 
@@ -450,7 +450,7 @@ module Foreman::Model
     rescue Foreman::FingerprintException
       logger.info "Unable to verify OS capabilities, SSL certificate verification failed"
       true
-    rescue OVIRT::OvirtException => e
+    rescue Fog::Ovirt::Errors::OvirtEngineError => e
       if e.message =~ /404/
         attrs[:available_operating_systems] ||= :unsupported
       else
