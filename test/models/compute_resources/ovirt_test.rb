@@ -34,16 +34,19 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     end
 
     it "raises RecordNotFound when the compute raises retrieve error" do
-      cr = mock_cr_servers(Foreman::Model::Ovirt.new, servers_raising_exception(OVIRT::OvirtException.new('VM not found')))
+      exception = Fog::Ovirt::Errors::OvirtEngineError.new(StandardError.new('VM not found'))
+      cr = mock_cr_servers(Foreman::Model::Ovirt.new, servers_raising_exception(exception))
       assert_find_by_uuid_raises(ActiveRecord::RecordNotFound, cr)
     end
   end
 
   describe "associating operating system" do
+    require 'fog/ovirt/models/compute/operating_system'
+
     setup do
       operating_systems_xml = Nokogiri::XML(File.read('test/fixtures/ovirt_operating_systems.xml'))
       @ovirt_oses = operating_systems_xml.xpath('/operating_systems/operating_system').map do |os|
-        OVIRT::OperatingSystem.new(self, os)
+        Fog::Compute::Ovirt::OperatingSystem.new({ :id => os[:id], :name => (os/'name').text, :href => os[:href] })
       end
       @os_hashes = @ovirt_oses.map do |ovirt_os|
         { :id => ovirt_os.id, :name => ovirt_os.name, :href => ovirt_os.href }
@@ -74,7 +77,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     end
 
     it 'handles a case when the operating systems endpoint is missing' do
-      client_mock = mock.tap { |m| m.stubs(:operating_systems).raises(OVIRT::OvirtException, '404') }
+      client_mock = mock.tap { |m| m.stubs(:operating_systems).raises(Fog::Ovirt::Errors::OvirtEngineError, StandardError.new('404')) }
       @compute_resource.stubs(:client).returns(client_mock)
       refute @compute_resource.supports_operating_systems?
     end
