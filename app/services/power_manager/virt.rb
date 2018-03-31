@@ -30,7 +30,12 @@ module PowerManager
     end
 
     def default_action(action)
-      vm.send(action)
+      action_status = vm.send(action)
+      # Temporary fix until fog-ovirt is updated
+      if action_status.is_a?(Fog::Compute::Ovirt::Server)
+        return true
+      end
+      action_status
     end
 
     def action_map
