@@ -16,7 +16,7 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     visit compute_profile_path(compute_profiles(:one))
     # amazon123 exists in fixture compute_attributes.yml
     click_link("amazon123 (eu-west-1-EC2)")
-  
+
     assert page.has_selector?('#breadcrumb .active', :text => compute_profiles(:one).name), "#{compute_profiles(:one).name} was expected in the breadcrumb active, but was not found"
     selected_profile = find("#s2id_compute_attribute_compute_profile_id .select2-chosen").text
     assert_equal compute_profiles(:one).name, selected_profile
