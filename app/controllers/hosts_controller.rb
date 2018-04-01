@@ -738,13 +738,13 @@ class HostsController < ApplicationController
       return false
     end
 
-    return @hosts
+    @hosts
   rescue => error
     message = _("Something went wrong while selecting hosts - %s") % error
     error(message)
     Foreman::Logging.exception(message, error)
     redirect_to hosts_path
-    return false
+    false
   end
 
   def toggle_hostmode(mode = true)

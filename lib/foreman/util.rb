@@ -11,10 +11,10 @@ module Foreman
         dest = File.join(dir, bin)
         return dest if FileTest.file?(dest) && FileTest.executable?(dest)
       end
-      return false
+      false
     rescue StandardError => e
       logger.warn e
-      return false
+      false
     end
 
     # Generates a URL-safe token for use with Rails for signing cookies
