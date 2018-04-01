@@ -1,0 +1,11 @@
+@import '../../../common/colors';
+
+.scrollable-list {
+  max-height: $switcher-max-height;
+  overflow-y: auto;
+  max-width: $switcher-max-width;
+}
+
+.no-border {
+  border: none;
+}
