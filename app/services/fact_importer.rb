@@ -201,7 +201,16 @@ class FactImporter
   end
 
   def ensure_no_active_transaction
-    raise 'Fact names should be added outside of global transaction' if ActiveRecord::Base.connection.transaction_open?
+    message = 'Fact names should be added outside of global transaction.'
+    if Rails.env.test?
+      message += <<-TEST_ERROR
+        You are updating facts from a test, you can use allow_transactions_for or
+        allow_transactions_for_any_importer from fact_importer_test_helper.rb if you
+        wish to continue with facts upload. Please be aware that fact uploading in tests
+        could not run in parallel.
+      TEST_ERROR
+    end
+    raise message if ActiveRecord::Base.connection.transaction_open?
   end
 
   def save_name_record(name_record)
