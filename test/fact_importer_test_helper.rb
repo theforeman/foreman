@@ -6,32 +6,16 @@ module FactImporterIsolation
     importer.stubs(:ensure_no_active_transaction).returns(true)
   end
 
+  def allow_transactions_for_any_importer
+    FactImporter.importers.values.each do |importer|
+      allow_transactions_for(importer.any_instance)
+    end
+  end
+
   module ClassMethods
     def allow_transactions_for_any_importer
-      FactImporter.singleton_class.prepend FactImporterFactoryStubber
-
-      FactImporter.register_instance_stubs do |importer_class|
-        importer_class.any_instance.stubs(:ensure_no_active_transaction).returns(true)
-      end
+      setup :allow_transactions_for_any_importer
     end
-  end
-end
-
-module FactImporterFactoryStubber
-  def register_instance_stubs(&block)
-    instance_stubs << block
-  end
-
-  def importer_for(*args)
-    instance = super
-    instance_stubs.each do |stub_block|
-      stub_block.call(instance)
-    end
-    instance
-  end
-
-  def instance_stubs
-    @instance_stubs ||= []
   end
 end
 
