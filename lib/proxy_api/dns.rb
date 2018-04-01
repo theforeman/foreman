@@ -22,7 +22,7 @@ module ProxyAPI
       parse(super(key.to_s))
     rescue RestClient::ResourceNotFound
       # entry doesn't exists anyway
-      return true
+      true
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to delete DNS entry"))
     end

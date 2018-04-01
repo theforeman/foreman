@@ -89,7 +89,7 @@ class Filter < ApplicationRecord
     resource_type.constantize
   rescue NameError => e
     Foreman::Logging.exception("unknown class #{resource_type}, ignoring", e)
-    return nil
+    nil
   end
 
   def unlimited?

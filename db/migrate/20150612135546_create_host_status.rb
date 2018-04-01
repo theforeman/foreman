@@ -69,7 +69,7 @@ class CreateHostStatus < ActiveRecord::Migration[4.2]
   def update_sub_status(status)
     if status.relevant?
       status.refresh!
-      return true
+      true
     end
   rescue => e
     # if the status is not ready to be saved because of missing migration

@@ -39,7 +39,7 @@ class ExternalUsergroup < ApplicationRecord
     auth_source.users_in_group(name)
   rescue Net::LDAP::Error, Net::LDAP::LdapError => e
     errors.add :auth_source_id, _("LDAP error - %{message}") % { :message => e.message }
-    return false
+    false
   end
 
   private
