@@ -192,10 +192,10 @@ class ActionDispatch::IntegrationTest
   setup :start_database_cleaner, :login_admin
 
   teardown do
-    DatabaseCleaner.clean       # Truncate the database
     Capybara.reset_sessions!    # Forget the (simulated) browser state
     Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
     SSO.deregister_method(TestSSO)
+    DatabaseCleaner.clean       # Truncate the database
   end
 
   private
