@@ -6,7 +6,7 @@ namespace :exception do
     exceptions = [
       'Foreman::Exception',
       'WrappedException',
-      'ProxyException',
+      'ProxyException'
     ]
     result = {}
     regexp = /raise.*(#{exceptions.join('|')})(\.new)?.*N_\(?(["'])([^\3]+?)\3\)?\)?/

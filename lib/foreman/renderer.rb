@@ -35,7 +35,7 @@ module Foreman
       :host_param_true?, :host_param_false?,
       :host_param, :host_param!,
       :host_puppet_classes,
-      :host_enc,
+      :host_enc
     ]
 
     ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
@@ -66,7 +66,7 @@ module Foreman
       :puppetrun,
       :puppet_server,
       :legacy_puppet_hostname,
-      :update_ip_from_built_request,
+      :update_ip_from_built_request
     ]
 
     def template_logger

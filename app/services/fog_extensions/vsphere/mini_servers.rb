@@ -73,7 +73,7 @@ module FogExtensions
                 :path => 'childEntity',
                 :skip => false,
                 :selectSet => [
-                  RbVmomi::VIM.SelectionSpec(:name => 'tsFolder'),
+                  RbVmomi::VIM.SelectionSpec(:name => 'tsFolder')
                 ]
               )
             ]

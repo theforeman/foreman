@@ -63,7 +63,7 @@ class RolesList
     def role_managements_permissions
       [
         :create_roles, :edit_roles, :destroy_roles,
-        :create_filters, :edit_filters, :destroy_filters,
+        :create_filters, :edit_filters, :destroy_filters
       ]
     end
 
