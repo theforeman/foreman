@@ -25,9 +25,7 @@ module Foreman
         @permissions += mapper.mapped_permissions
       end
 
-      def permissions
-        @permissions
-      end
+      attr_reader :permissions
 
       def permissions_for_controller_action(controller_action)
         controller_action = path_hash_to_string(controller_action) if controller_action.is_a?(Hash) || controller_action.is_a?(ActionController::Parameters)
