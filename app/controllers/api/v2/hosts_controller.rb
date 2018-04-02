@@ -178,7 +178,7 @@ module Api
 
       api :GET, "/hosts/:id/status", N_("Get configuration status of host")
       param :id, :identifier_dottable, :required => true
-      description <<-eos
+      description <<-EOS
 Return value may either be one of the following:
 
 * Alerts disabled
@@ -188,7 +188,7 @@ Return value may either be one of the following:
 * Active
 * Pending
 * No changes
-      eos
+      EOS
 
       def status
         Foreman::Deprecation.api_deprecation_warning('The /status route is deprecated, please use the new /status/configuration instead')
@@ -197,12 +197,12 @@ Return value may either be one of the following:
 
       api :GET, "/hosts/:id/status/:type", N_("Get status of host")
       param :id, :identifier_dottable, :required => true
-      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(<<-eos
+      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(<<-EOS
 status type, can be one of
 * global
 * configuration
 * build
-eos
+EOS
 )
       description N_('Returns string representing a host status of a given type')
       def get_status
@@ -216,9 +216,9 @@ eos
 
       api :GET, "/hosts/:id/vm_compute_attributes", N_("Get vm attributes of host")
       param :id, :identifier_dottable, :required => true
-      description <<-eos
+      description <<-EOS
 Return the host's compute attributes that can be used to create a clone of this VM
-      eos
+      EOS
 
       def vm_compute_attributes
         render :json => {} unless @host
