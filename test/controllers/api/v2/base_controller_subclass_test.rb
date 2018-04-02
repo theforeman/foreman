@@ -2,11 +2,11 @@ require 'test_helper'
 
 class Api::V2::TestableController < Api::V2::BaseController
   def index
-    render :plain => 'dummy', :status => 200
+    render :plain => 'dummy', :status => :ok
   end
 
   def create
-    render :plain => 'dummy', :status => 200
+    render :plain => 'dummy', :status => :ok
   end
 
   def new
