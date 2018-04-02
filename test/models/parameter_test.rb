@@ -4,6 +4,7 @@ class ParameterTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
   end
+
   test "names may be reused in different parameter groups" do
     host = FactoryBot.create(:host)
     p1 = HostParameter.new :name => "param", :value => "value1", :reference_id => host.id
@@ -93,5 +94,45 @@ EOF
     param = CommonParameter.new(:name => 'multiline', :value => val)
     assert param.save!
     assert_equal param.value, val
+  end
+
+  test "should not create parameter with invalid separators in name" do
+    invalid_name_list.push('name with space').each do |name|
+      parameter = FactoryBot.build(:parameter, :name => name, :subnet => subnets(:five))
+      refute parameter.valid?, "Can create parameter with invalid name #{name}"
+      assert_includes parameter.errors.keys, :name
+    end
+  end
+
+  test "should not update parameter with invalid separators in name" do
+    parameter = parameters(:subnet)
+    invalid_name_list.push('name with space').each do |name|
+      parameter.name = name
+      refute parameter.valid?, "Can update parameter with invalid name #{name}"
+      assert_includes parameter.errors.keys, :name
+    end
+  end
+
+  test "should create subnet parameter with valid names" do
+    RFauxFactory.gen_strings().values.each do |name|
+      parameter = FactoryBot.build(:parameter, :name => name, :value => '123', :subnet => subnets(:five))
+      assert parameter.valid?, "Can't create parameter with valid name #{name}"
+    end
+  end
+
+  test "should create parameter with valid separators in value" do
+    %w(, / - |).each do |separator|
+      value = RFauxFactory.gen_strings().values.join("#{separator} ")
+      parameter = FactoryBot.build(:parameter, :name => "valid_key", :value => value, :subnet => subnets(:five))
+      assert parameter.valid?, "Can't create parameter with valid value #{value}"
+    end
+  end
+
+  test "should create parameter with valid separators in key" do
+    %w(, / - |).each do |separator|
+      name = RFauxFactory.gen_strings().values.join(separator.to_s)
+      parameter = FactoryBot.build(:parameter, :name => name, :value => '123', :subnet => subnets(:five))
+      assert parameter.valid?, "Can't create parameter with valid name #{name}"
+    end
   end
 end
