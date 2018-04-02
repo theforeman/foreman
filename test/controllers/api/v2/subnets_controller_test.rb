@@ -154,13 +154,41 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should update existing subnet parameters" do
+  test "should create with parameter" do
+    param_params = { :name => "foo", :value => "bar" }
+    post :create, params: { :subnet => valid_v4_attrs.clone.update(:subnet_parameters_attributes => [param_params]) }
+    assert_response :success
+    assert_include param_params[:name], JSON.parse(@response.body)["parameters"][0]["name"], "Can't create subnet with valid parameters name #{param_params[:name]}"
+    assert_include param_params[:value], JSON.parse(@response.body)["parameters"][0]["value"], "Can't create subnet with valid parameters value #{param_params[:value]}"
+  end
+
+  test "should create with parameters and valid separator" do
+    param_params = { :name => RFauxFactory.gen_strings().values.join(","), :value => "bar" }
+    post :create, params: { :subnet => valid_v4_attrs.clone.update(:subnet_parameters_attributes => [param_params]) }
+    assert_response :success
+    assert_include param_params[:name], JSON.parse(@response.body)["parameters"][0]["name"], "Can't create subnet with valid parameters name #{param_params[:name]}"
+    assert_include param_params[:value], JSON.parse(@response.body)["parameters"][0]["value"], "Can't create subnet with valid parameters value #{param_params[:value]}"
+  end
+
+  test "should update existing subnet parameters with value" do
     subnet = FactoryBot.create(:subnet_ipv4)
     param_params = { :name => "foo", :value => "bar" }
     subnet.subnet_parameters.create!(param_params)
     put :update, params: { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [{ :name => param_params[:name], :value => "new_value" }] } }
     assert_response :success
     assert param_params[:name], subnet.parameters.first.name
+  end
+
+  test "should update existing subnet parameters with key and value" do
+    subnet = FactoryBot.create(:subnet_ipv4)
+    param_params = { :name => "foo", :value => "bar" }
+    new_param_params = { :name => "new_key", :value => "new_value" }
+    subnet.subnet_parameters.create!(param_params)
+    put :update, params: { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [new_param_params] } }
+    assert_response :success
+    assert new_param_params[:name], subnet.parameters.first.name
+    assert new_param_params[:value], subnet.parameters.first.value
+    assert_equal 1, subnet.parameters.count
   end
 
   test "should delete existing subnet parameters" do
