@@ -7,7 +7,7 @@ module Api
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
 
-      PATH_INFO = <<-eos
+      PATH_INFO = <<-EOS
 The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
 
 for example http://mirror.centos.org/centos/$version/os/$arch
@@ -15,7 +15,7 @@ where $arch will be substituted for the host\'s actual OS architecture and $vers
 will be substituted for the version of the operating system.
 
 Solaris and Debian media may also use $release.
-      eos
+      EOS
 
       # values for FAMILIES are defined in apipie initializer
       OS_FAMILY_INFO = N_("Operating system family, available values: %{operatingsystem_families}")
