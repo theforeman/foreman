@@ -44,7 +44,7 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
     #table preferences. No special permissions comes with user
     "api/v2/table_preferences/index", "api/v2/table_preferences/show", "api/v2/table_preferences/create",
-    "api/v2/table_preferences/update", "api/v2/table_preferences/destroy",
+    "api/v2/table_preferences/update", "api/v2/table_preferences/destroy"
   ]
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]

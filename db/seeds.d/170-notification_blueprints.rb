@@ -43,7 +43,7 @@ blueprints = [
       links:
       [
         title: _('URL'),
-        external: true,
+        external: true
       ]
     }
   }

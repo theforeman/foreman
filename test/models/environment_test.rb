@@ -27,7 +27,7 @@ class EnvironmentTest < ActiveSupport::TestCase
       RFauxFactory.gen_alpha(256),
       RFauxFactory.gen_numeric_string(256),
       RFauxFactory.gen_alphanumeric(256),
-      RFauxFactory.gen_html(249),
+      RFauxFactory.gen_html(249)
     ]
   end
 
