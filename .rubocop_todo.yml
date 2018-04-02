@@ -205,7 +205,7 @@ Metrics/BlockNesting:
 # Offense count: 59
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 753
+  Max: 755
 
 # Offense count: 153
 Metrics/CyclomaticComplexity:
@@ -338,13 +338,6 @@ Rails/HasAndBelongsToMany:
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
 Rails/HasManyOrHasOneDependent:
-  Enabled: false
-
-# Offense count: 9
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: numeric, symbolic
-Rails/HttpStatus:
   Enabled: false
 
 # Offense count: 72

@@ -10,7 +10,7 @@ class ::TestableResourcesController < ::ApplicationController
       raise ProxyAPI::ProxyException.new('url', StandardError.new('noo'),
                                          params[:exception])
     end
-    render :plain => Time.zone.name, :status => 200
+    render :plain => Time.zone.name, :status => :ok
   end
 end
 
@@ -30,7 +30,7 @@ module Testscope
     end
 
     def index
-      render :plain => Time.zone.name, :status => 200
+      render :plain => Time.zone.name, :status => :ok
     end
   end
 
