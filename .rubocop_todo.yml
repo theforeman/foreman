@@ -457,10 +457,6 @@ Style/DoubleNegation:
 Style/EmptyMethod:
   Enabled: false
 
-# Offense count: 1
-Style/EvalWithLocation:
-  Enabled: false
-
 # Offense count: 47
 # Cop supports --auto-correct.
 Style/ExpandPathArguments:
