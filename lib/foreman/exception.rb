@@ -44,9 +44,7 @@ module Foreman
       @wrapped_exception = wrapped_exception
     end
 
-    def wrapped_exception
-      @wrapped_exception
-    end
+    attr_reader :wrapped_exception
 
     def message
       super unless @wrapped_exception.present?
