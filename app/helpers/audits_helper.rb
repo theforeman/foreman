@@ -106,6 +106,26 @@ module AuditsHelper
     date_time_absolute(audit.created_at)
   end
 
+  def audit_affected_locations(audit)
+    base = audit.locations.authorized(:view_locations)
+    return _('N/A') if base.empty?
+
+    authorizer = Authorizer.new(User.current, base)
+    base.map do |location|
+      link_to_if_authorized location.name, hash_for_edit_location_path(location).merge(:auth_object => location, :permission => 'edit_locations', :authorizer => authorizer)
+    end.to_sentence.html_safe
+  end
+
+  def audit_affected_organizations(audit)
+    base = audit.organizations.authorized(:view_organizations)
+    return _('N/A') if base.empty?
+
+    authorizer = Authorizer.new(User.current, base)
+    base.map do |organization|
+      link_to_if_authorized organization.name, hash_for_edit_organization_path(organization).merge(:auth_object => organization, :permission => 'edit_organizations', :authorizer => authorizer)
+    end.to_sentence.html_safe
+  end
+
   def audited_icon(audit)
     style = 'label-info'
     style = case audit.action

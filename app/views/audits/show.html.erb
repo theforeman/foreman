@@ -30,22 +30,22 @@
       </div>
       <div class="row">
         <strong class="col-md-2"><%= _("Audit Time:")%></strong>
-        <div class="col-md-10"><%= date_time_absolute(@audit.created_at) %></div>
+        <div class="col-md-10"><%= audit_time(@audit) %></div>
       </div>
       <div class="row">
         <strong class="col-md-2"><%= _("User Name:")%></strong>
-        <div class="col-md-10"><%= @audit.username %></div>
+        <div class="col-md-10"><%= audit_user(@audit) %></div>
       </div>
       <% if Taxonomy.organizations_enabled %>
         <div class="row">
           <strong class="col-md-2"><%= _("Affected Organizations:")%></strong>
-          <div class="col-md-10"><%= @audit.organizations.authorized(:view_organizations).to_sentence %></div>
+          <div class="col-md-10"><%= audit_affected_organizations(@audit) %></div>
         </div>
       <% end %>
       <% if Taxonomy.locations_enabled %>
         <div class="row">
           <strong class="col-md-2"><%= _("Affected Locations:")%></strong>
-          <div class="col-md-10"><%= @audit.locations.authorized(:view_locations).to_sentence %></div>
+          <div class="col-md-10"><%= audit_affected_locations(@audit) %></div>
         </div>
       <% end %>
       <hr/>
