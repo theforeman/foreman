@@ -143,7 +143,11 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should create subnet parameter with valid separator in value" do
     subnet = subnets(:five)
     name = 'key'
-    value = RFauxFactory.gen_strings.values.join(", ")
+    if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
+      value = RFauxFactory.gen_strings(:exclude => [:utf8]).values.join(", ")
+    else
+      value = RFauxFactory.gen_strings().values.join(", ")
+    end
     assert_difference('subnet.parameters.count') do
       post :create, params: { :subnet_id => subnet.id, :parameter => { :name => name, :value => value } }
     end
