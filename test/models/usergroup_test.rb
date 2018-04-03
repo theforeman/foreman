@@ -22,6 +22,55 @@ class UsergroupTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should have_many(:usergroup_members).dependent(:destroy)
   should have_many(:users).dependent(:destroy)
+  should_not allow_value(*invalid_name_list).for(:name)
+  should allow_value(*valid_name_list).for(:name)
+
+  test 'should not update with multiple invalid names' do
+    usergroup = FactoryBot.create(:usergroup)
+    invalid_name_list.each do |name|
+      usergroup.name = name
+      refute usergroup.valid?, "Can update usergroup with invalid name #{name}"
+      assert_includes usergroup.errors.keys, :name
+    end
+  end
+
+  test 'should update with multiple valid names' do
+    usergroup = FactoryBot.create(:usergroup)
+    valid_name_list.each do |name|
+      usergroup.name = name
+      assert usergroup.valid?, "Can't update usergroup with valid name #{name}"
+    end
+  end
+
+  test 'should create with valid role' do
+    valid_name_list.each do |name|
+      role = FactoryBot.create(:role, :name => name)
+      usergroup = FactoryBot.build(:usergroup, :role_ids => [role.id])
+      assert usergroup.valid?, "Can't create usergroup with valid role #{role}"
+      assert_equal 1, usergroup.roles.length
+      assert_equal name, usergroup.roles.first.name
+    end
+  end
+
+  test 'should create with valid user' do
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |login|
+      user = FactoryBot.create(:user, :login => login)
+      usergroup = FactoryBot.build(:usergroup, :user_ids => [user.id])
+      assert usergroup.valid?, "Can't create usergroup with valid user #{user}"
+      assert_equal 1, usergroup.users.length
+      assert_equal login, usergroup.users.first.name
+    end
+  end
+
+  test 'should create with valid usergroup' do
+    valid_name_list.each do |name|
+      sub_usergroup = FactoryBot.create(:usergroup, :name => name)
+      usergroup = FactoryBot.build(:usergroup, :usergroup_ids => [sub_usergroup.id])
+      assert usergroup.valid?, "Can't create usergroup with valid usergroup #{sub_usergroup}"
+      assert_equal 1, usergroup.usergroups.length
+      assert_equal name, usergroup.usergroups.first.name
+    end
+  end
 
   context 'Jail' do
     test 'should allow methods' do
