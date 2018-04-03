@@ -16,18 +16,15 @@ module LayoutHelper
     content_for(:search_bar) { elements.join(" ").html_safe }
   end
 
-  def mount_breadcrumbs(&block)
-    index_page = {caption: _(controller_name.humanize), url: try("#{controller_name}_path")}
-    default_menu = [(index_page unless action_name == 'index'),
-                    {caption: @page_header, url: '#' }].compact unless block_given?
+  def mount_breadcrumbs(options = {}, &block)
+    options = BreadcrumbsOptions.new(@page_header, controller_name, action_name, block_given? ? yield : options)
 
-    mount_react_component("Breadcrumb", "#breadcrumb",
-      { menu: default_menu || yield }.to_json)
+    mount_react_component("BreadcrumbBar", "#breadcrumb", options.bar_props.to_json)
   end
 
-  def breadcrumbs(&block)
+  def breadcrumbs(options = {}, &block)
     content_for(:breadcrumbs) do
-      mount_breadcrumbs(&block)
+      mount_breadcrumbs(options, &block)
     end
   end
 

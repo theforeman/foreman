@@ -47,6 +47,7 @@ $(document).on('click', ".two-pane-close", function(e) {
 
 // open the new/edit from in the right pane
 function two_pane_open(item){
+  tfm.tools.deprecate('two-pane', 'breadcrumb switcher')
   hide_columns();
 
   disabled_tabs = $('ul.nav-tabs li a').toArray();

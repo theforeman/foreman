@@ -109,6 +109,10 @@ class Hostgroup < ApplicationRecord
     self
   end
 
+  def self.title_name
+    "title".freeze
+  end
+
   def diskLayout
     ptable.layout.tr("\r", '')
   end

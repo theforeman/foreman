@@ -42,10 +42,4 @@ class ComputeProfilesController < ApplicationController
       process_error
     end
   end
-
-  private
-
-  def two_pane?
-    super && params[:action] != 'show'
-  end
 end

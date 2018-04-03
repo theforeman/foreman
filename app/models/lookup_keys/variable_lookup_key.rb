@@ -12,6 +12,10 @@ class VariableLookupKey < LookupKey
     VariableLookupKey.authorized(:edit_external_variables).where(:id => id).exists?
   end
 
+  def self.title_name
+    "variable".freeze
+  end
+
   def audit_class
     puppetclass
   end

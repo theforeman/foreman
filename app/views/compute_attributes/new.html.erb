@@ -1,9 +1,23 @@
-<%= breadcrumbs do
-      [
-        {caption: _("Compute Resources"), url: (url_for(compute_resources_path) if authorized_for(hash_for_compute_resources_path))},
-        {caption: @set.compute_resource.to_label, url: (compute_resource_path(@set.compute_resource) if authorized_for(hash_for_compute_resource_path(@set.compute_resource)))},
-        {caption: _("Compute Profiles"), url: (url_for(compute_profiles_path) if authorized_for(hash_for_compute_profiles_path))},
-        {caption: _('New %s' % @set.compute_profile.to_label)}
-      ]
-    end %>
+<%= breadcrumbs(
+    items:
+    [
+      {
+        caption: _("Compute Resources"),
+        url: (url_for(compute_resources_path) if authorized_for(hash_for_compute_resources_path))
+      },
+      {
+        caption: @set.compute_resource.to_label,
+        url: (compute_resource_path(@set.compute_resource) if authorized_for(hash_for_compute_resource_path(@set.compute_resource)))
+      },
+      {
+        caption: _("Compute Profiles"),
+        url: (url_for(compute_profiles_path) if authorized_for(hash_for_compute_profiles_path))
+      },
+      {
+        caption: _('New %s' % @set.compute_profile.to_label)
+      }
+    ]
+  )
+%>
+
 <%= render 'form' %>

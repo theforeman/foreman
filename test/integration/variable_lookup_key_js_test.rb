@@ -24,7 +24,7 @@ class VariableLookupKeyJSTest < IntegrationTestWithJavascript
     end
 
     wait_for_ajax
-    value_selector = page.first(".lookup_values table tbody tr textarea")
+    value_selector = page.find(".lookup_values table textarea")
     assert_equal "", value_selector.value
   end
 
@@ -44,6 +44,7 @@ class VariableLookupKeyJSTest < IntegrationTestWithJavascript
     visit variable_lookup_keys_path
     first(:link, "Create Smart Variable").click
     fill_in "variable_lookup_key_key", :with => "test"
+    select2 'base', :from => 'variable_lookup_key_puppetclass_id'
     fill_in "variable_lookup_key_default_value", :with => "test"
     assert_submit_button(variable_lookup_keys_path)
     assert page.has_link? 'test'

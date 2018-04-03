@@ -1,4 +1,5 @@
 <% title _("Edit Trend %s") % @trend.to_label %>
+<% breadcrumbs(switchable: false) %>
 <div class="col-md-6">
   <%= form_tag trend_path, :method => :put do %>
     <% if @trend.is_a?(FactTrend) %>

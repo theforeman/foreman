@@ -1,3 +1,5 @@
+export const noop = Function.prototype; // empty function
+
 export default {
   bindMethods(context, methods) {
     methods.forEach((method) => {
@@ -5,5 +7,5 @@ export default {
       context[method] = context[method].bind(context);
     });
   },
-  noop: Function.prototype, // empty function
+  noop,
 };

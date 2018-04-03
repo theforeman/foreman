@@ -26,8 +26,6 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
 
     click_button('Submit')
     assert has_link?("amazon123 (eu-west-1-EC2)")
-    # two pane should close on save
-    assert page.has_no_selector?('div.two-pane-right')
   end
 
   test "create compute profile" do

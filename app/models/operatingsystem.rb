@@ -75,6 +75,10 @@ class Operatingsystem < ApplicationRecord
     allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash
   end
 
+  def self.title_name
+    "title".freeze
+  end
+
   def self.inherited(child)
     child.instance_eval do
       # Ensure all subclasses behave in the same way as the parent, and remain

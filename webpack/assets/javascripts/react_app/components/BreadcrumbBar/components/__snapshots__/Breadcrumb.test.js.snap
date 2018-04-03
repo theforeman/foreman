@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
+<Breadcrumb
+  title={false}
+>
+  <BreadcrumbItem
+    active={false}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "root",
+      }
+    }
+    href="/some-url"
+    key="0"
+  />
+  <BreadcrumbItem
+    active={true}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "child",
+      }
+    }
+    key="1"
+  />
+</Breadcrumb>
+`;
+
+exports[`Breadcrumbs renders h1 title 1`] = `
+<Breadcrumb
+  title={false}
+>
+  <BreadcrumbItem
+    active={true}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "title",
+      }
+    }
+    key="0"
+  />
+</Breadcrumb>
+`;

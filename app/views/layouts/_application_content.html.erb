@@ -1,6 +1,7 @@
 <div id="main">
   <div id="content">
     <%= notifications %>
+      <% unless @welcome %>
         <div id="breadcrumb">
           <% unless @page_header.blank? %>
             <div class="row form-group">
@@ -15,6 +16,7 @@
             <%= mount_breadcrumbs %>
           <% end %>
         </div>
+      <% end %>  
       <div class="row">
         <div class="title_filter <%= searchable? ? " col-md-6 " : "col-md-4 " %>">
           <%= render "common/searchbar" if searchable? %>

@@ -80,6 +80,10 @@ class User < ApplicationRecord
   validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
 
+  def self.title_name
+    "login".freeze
+  end
+
   def self.name_format
     /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
   end

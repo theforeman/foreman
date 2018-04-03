@@ -1,2 +1,17 @@
 <% title(_("Edit Smart Variable")) %>
+<%= breadcrumbs(
+    items:
+    [
+      {
+        caption: _("Smart variables"),
+        url: (url_for(variable_lookup_keys_path) if authorized_for(hash_for_variable_lookup_keys_path))
+      },
+      {
+        caption: _('Edit Smart Variable')
+      }
+    ],
+    resource_url: api_smart_variables_path,
+    switchable: true,
+    switcher_item_url: edit_variable_lookup_key_path(':id')
+) %>
 <%= render 'lookup_keys/edit', :lookup_key => @variable_lookup_key%>

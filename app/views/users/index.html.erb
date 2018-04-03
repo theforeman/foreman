@@ -2,7 +2,7 @@
 
 <% title_actions new_link(_("Create User")) %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
       <th><%= sort :login, :as => s_("User|Login") %></th>
@@ -18,7 +18,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td class="display-two-pane ellipsis"><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized user.login, hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized user.login, hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= user.firstname %></td>
         <td class="ellipsis"><%= user.lastname %></td>
         <td class="ellipsis"><%= user.mail %></td>

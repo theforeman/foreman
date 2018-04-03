@@ -63,6 +63,10 @@ class SshKey < ApplicationRecord
     "#{user_login}@#{URI.parse(Setting[:foreman_url]).host}"
   end
 
+  def self.title_name
+    'login'.freeze
+  end
+
   private
 
   def generate_fingerprint

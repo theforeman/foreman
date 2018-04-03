@@ -179,8 +179,4 @@ class ComputeResourcesController < ApplicationController
         super
     end
   end
-
-  def two_pane?
-    super && params[:action] != 'show'
-  end
 end

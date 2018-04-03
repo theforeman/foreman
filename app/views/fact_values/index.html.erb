@@ -1,13 +1,21 @@
 <%= javascript 'charts' %>
 <%
 if params[:host_id].present?
-  breadcrumbs do
-    [
-     {caption: _("Facts"), url: (url_for(fact_values_path) if authorized_for(hash_for_fact_values_path))},
-     {caption: params[:host_id], url: (host_path(params[:host_id]) if authorized_for(hash_for_host_path(params[:host_id])))},
-     {caption: _('values')}
+  breadcrumbs(
+    items: [
+      {
+        caption: _("Facts"),
+        url: (url_for(fact_values_path) if authorized_for(hash_for_fact_values_path))
+      },
+      {
+        caption: params[:host_id],
+        url: (host_path(params[:host_id]) if authorized_for(hash_for_host_path(params[:host_id])))
+      },
+      {
+        caption: _('values')
+      }
     ]
-  end
+  )
 else
   title(_("Fact Values"))
 end
