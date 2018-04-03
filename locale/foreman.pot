@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-29 08:03+0100\n"
-"PO-Revision-Date: 2017-11-29 08:03+0100\n"
+"POT-Creation-Date: 2018-04-03 13:01+0200\n"
+"PO-Revision-Date: 2018-04-03 13:01+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4884,16 +4884,18 @@ msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:72
 msgid ""
-"When editing a template, you must assign a list of operating systems which thi"
-"s template can be used with. Optionally, you can restrict a template to a list"
-" of host groups and/or environments."
+"When editing a template, you must assign a list \\\n"
+"of operating systems which this template can be used with. Optionally, you can"
+" \\\n"
+"restrict a template to a list of host groups and/or environments."
 msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:75
 msgid ""
-"When a Host requests a template (e.g. during provisioning), Foreman will selec"
-"t the best match from the available templates of that type, in the following o"
-"rder:"
+"When a Host requests a template (e.g. during provisioning), Foreman \\\n"
+"will select the best match from the available templates of that type, in the \\"
+"\n"
+"following order:"
 msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:78
@@ -5242,8 +5244,8 @@ msgstr ""
 
 #: ../app/helpers/templates_helper.rb:42
 msgid ""
-"This template is locked. You may only change the                     associati"
-"ons. Please %s it to customize."
+"This template is locked. You may only change the\\\n"
+"                     associations. Please %s it to customize."
 msgstr ""
 
 #: ../app/helpers/templates_helper.rb:44
@@ -5715,7 +5717,7 @@ msgid "DHCP not supported for this NIC"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/dhcp.rb:145
-#: ../app/models/concerns/orchestration/dhcp.rb:154
+#: ../app/models/concerns/orchestration/dhcp.rb:153
 msgid "Create DHCP Settings for %s"
 msgstr ""
 

@@ -5,12 +5,13 @@
 # Translators:
 # ChrisLee <chris_lee@hiiir.com>, 2013
 # Dominic Cleal <dominic@cleal.org>, 2014
+# Dominic Cleal <dominic@cleal.org>, 2014
 # Isaac Tseng <isaac.kuang@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2017-11-23 23:43+0000\n"
+"PO-Revision-Date: 2018-04-02 23:49+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
@@ -26,13 +27,7 @@ msgstr "移除"
 msgid " in the provisioning template."
 msgstr ""
 
-msgid "\"Any #{tax.humanize}\""
-msgstr ""
-
-msgid "\"Error during LDAP connection #{name} using login #{login}: #{e}\""
-msgstr ""
-
-msgid "\"Unable to submit role: Problem with associated filter #{f.errors}\""
+msgid "#{taxonomy} can be set on the All Hosts page"
 msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
@@ -60,8 +55,13 @@ msgstr "%s 參數已經更新, 請從下方取得更多資訊"
 msgid "%s Template"
 msgstr "%s 範本"
 
-msgid "%s VM associated to a host"
-msgid_plural "%s VMs associated to hosts"
+msgid "%s VM failed while processing: check logs for more details."
+msgid_plural "%s VMs failed while processing: check logs for more details."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s VM was associated to a host."
+msgid_plural "%s VMs were each associated to hosts."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -78,7 +78,8 @@ msgstr[1] ""
 
 msgid "%s day ago"
 msgid_plural "%s days ago"
-msgstr[0] "%s 天前"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%s error message"
 msgid_plural "%s error messages"
@@ -104,11 +105,13 @@ msgstr "%s 不在環境中"
 
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
-msgstr[0] "%s 分鐘前"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%s month ago"
 msgid_plural "%s months ago"
-msgstr[0] "%s 個月前"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%s selected hosts"
 msgstr "%s 選擇的主機"
@@ -120,7 +123,8 @@ msgstr[1] ""
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
-msgstr[0] "%s 週前"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%s widget loading..."
 msgstr ""
@@ -142,6 +146,9 @@ msgstr ""
 msgid "%{controller}: %{host}'s operating system is missing"
 msgstr ""
 
+msgid "%{controller}: provisioning token for host %{host} expired"
+msgstr ""
+
 msgid "%{controller}: unable to find a host that matches the request from %{addr}"
 msgstr ""
 
@@ -161,6 +168,9 @@ msgstr "%{cpus} 個 CPU 和 %{memory} 的記憶體"
 
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr "%{e} 不屬於 %{environment} 環境"
+
+msgid "%{full_name} (Default: %{default})"
+msgstr ""
 
 msgid "%{host} is about to %{action}"
 msgstr "%{host} 正要 %{action}"
@@ -223,6 +233,9 @@ msgid_plural "%{taxonomy_type} %{taxonomy_name} has %{count} hosts that will nee
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%{taxonomy} stored in session with id %{id} not found"
+msgstr ""
+
 msgid "%{taxonomy} with id %{id} not found"
 msgstr ""
 
@@ -283,6 +296,9 @@ msgstr "，相關的日誌項目，亦強烈推薦連接 foreman-debug 輸出。
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr "並未設定 :foreman_url，請在 Foreman Web UI 中配置（管理 -> 設定 -> 一般）"
 
+msgid "<b class='select_count'>0</b> of <b>#{@hosts.total_entries}</b> selected"
+msgstr ""
+
 msgid "<b class='select_count'>0</b> selected"
 msgstr "已選擇了 <b 類別='select_count'>0</b> 個"
 
@@ -324,9 +340,6 @@ msgstr ""
 "     <b>相符項目：</b> %{matcher}<br/>\n"
 "     <b>繼承值：</b> %{inherited_value}"
 
-msgid "<b>Foreman API v1 is deprecated. Please use v2.</b><br>If you still need to use v1, you may do so by either passing 'version=1' in the Accept Header or using api/v1/ in the URL."
-msgstr ""
-
 msgid "<b>Foreman</b> Build Complete"
 msgstr "<b>Foreman</b> 組建完成"
 
@@ -354,6 +367,12 @@ msgstr "<dl><dt>String</dt> <dd>所有輸入皆會被視為字串。</dd><dt>Boo
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr ""
 
+msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
+msgstr ""
+
+msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
+msgstr ""
+
 msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr "主機群組與已繼承的節點宣告在某形式上來講有些相似，主機群組中擁有高階層的類別分組，並且可被視為一個單元來進行命名及處理。它之後也會被視為是一個範本，並在建立新主機時被選擇來確保主機能被配置為您預定義的狀態。"
 
@@ -364,14 +383,8 @@ msgstr ""
 "一個用來代表一或更多個作業系統安裝檔案來源的媒介，並能透過網路存取。\n"
 "  它可能會是一個來自於網路的鏡像，或來自於一或更多 CD/DVD 光碟的複本。"
 
-msgid "A partition table entry represents either"
-msgstr "分割表項目表示了"
-
 msgid "A problem occurred when detecting host type: %s"
 msgstr "刪除主機類型時發生錯誤：%s"
-
-msgid "A script to dynamically calculate the desired sizes. E.G."
-msgstr "用來動態式計算欲使用大小的 script。例如"
 
 msgid "A user group already exists with this name"
 msgstr "此名稱已經存在於使用者群組中"
@@ -387,9 +400,6 @@ msgstr "API 文件"
 
 msgid "About"
 msgstr "相關資訊"
-
-msgid "Abstract async task"
-msgstr "抽象 async task"
 
 msgid "Access Key"
 msgstr "存取授權碼"
@@ -409,9 +419,6 @@ msgstr ""
 msgid "Action"
 msgstr "動作"
 
-msgid "Action with sub plans"
-msgstr "有子計畫的動作"
-
 msgid "Actions"
 msgstr "動作"
 
@@ -429,9 +436,6 @@ msgstr ""
 
 msgid "Add Autosign entry"
 msgstr "新增 Autosign 項目"
-
-msgid "Add Bookmark"
-msgstr "新增書籤"
 
 msgid "Add Combination"
 msgstr ""
@@ -456,9 +460,6 @@ msgstr ""
 
 msgid "Add SSH key"
 msgstr ""
-
-msgid "Add Sync Plan Products"
-msgstr "新增同步計畫產品"
 
 msgid "Add Trend Counter"
 msgstr "新增趨勢計數器"
@@ -643,9 +644,6 @@ msgstr ""
 msgid "An error occurred while testing the connection: "
 msgstr ""
 
-msgid "An explicit layout for the partitions of your hard drive(s). E.G."
-msgstr "硬碟的明確配置。例如"
-
 msgid "An invalid response was received while requesting available features from this proxy"
 msgstr ""
 
@@ -658,11 +656,17 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr "匿名管理使用者 %s 遺失，請執行 foreman-rake db:seed"
 
+msgid "Any #{tax.humanize}"
+msgstr ""
+
 msgid "Any Location"
 msgstr "任何位置"
 
 msgid "Any Organization"
 msgstr "任何組織"
+
+msgid "Append domain names to the host"
+msgstr ""
 
 msgid "Applicable Operating Systems"
 msgstr ""
@@ -686,14 +690,6 @@ msgstr "架構 ID"
 
 msgid "Architectures"
 msgstr "架構"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Architecture|Hostgroups count"
-msgstr "主機群組計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Architecture|Hosts count"
-msgstr "主機計數"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
@@ -788,14 +784,14 @@ msgstr "將 VM 與主機建立關連"
 msgid "Associated Host"
 msgstr ""
 
+msgid "Associating VMs is not supported for this compute resource"
+msgstr ""
+
 msgid "Association"
 msgstr "相聯性"
 
 msgid "At least one volume must be specified for image-based provisioning."
 msgstr "必須指定至少一個卷冊，以進行基於映像檔的佈建。"
-
-msgid "Attach subscriptions"
-msgstr "連接訂閱服務"
 
 msgid "Attempting to construct an operating system image filename but %s cannot be built from an image"
 msgstr "正在嘗試建立一個作業系統映像檔案名稱，不過 %s 無法透過映像檔建立"
@@ -806,6 +802,7 @@ msgstr "屬性對映"
 msgid "Attribute type"
 msgstr "屬性類型"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audit"
 msgstr "稽核"
 
@@ -816,48 +813,52 @@ msgid "Audit summary"
 msgstr "稽核摘要"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Action"
-msgstr "動作"
+msgid "Audited::Audit|Action"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Associated name"
-msgstr "相聯的名稱"
+msgid "Audited::Audit|Associated name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Associated type"
-msgstr "相聯類型"
+msgid "Audited::Audit|Associated type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Auditable name"
-msgstr "可稽核的名稱"
+msgid "Audited::Audit|Auditable name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Auditable type"
-msgstr "可稽核的類型"
+msgid "Audited::Audit|Auditable type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Audited changes"
-msgstr "已稽核的變更"
+msgid "Audited::Audit|Audited changes"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Comment"
-msgstr "備註"
+msgid "Audited::Audit|Comment"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Remote address"
-msgstr "遠端位址"
+msgid "Audited::Audit|Remote address"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|User type"
-msgstr "使用者類型"
+msgid "Audited::Audit|Request uuid"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Username"
-msgstr "使用者名稱"
+msgid "Audited::Audit|User type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Version"
-msgstr "版本"
+msgid "Audited::Audit|Username"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Audited::Audit|Version"
+msgstr ""
 
 msgid "Audits"
 msgstr "稽核"
@@ -933,6 +934,14 @@ msgstr "伺服器類型"
 msgid "AuthSource|Tls"
 msgstr "Tls"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Use netgroups"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Usergroup sync"
+msgstr ""
+
 msgid "Authentication"
 msgstr "身分核證"
 
@@ -957,17 +966,11 @@ msgstr "以 API 調用的 REMOTE_USER 環境變數來允許登錄委派"
 msgid "Authorized by"
 msgstr "授權單位"
 
-msgid "Auto attach subscriptions"
-msgstr "自動連接訂閱"
-
 msgid "Auto refresh off"
 msgstr "關閉自動更新"
 
 msgid "Auto refresh on"
 msgstr "開啟自動更新"
-
-msgid "Auto-attach subscriptions"
-msgstr "自動連接訂閱服務"
 
 msgid "Automate Foreman via a simple and powerful API"
 msgstr ""
@@ -1054,9 +1057,6 @@ msgstr "書籤"
 msgid "Bookmark this search"
 msgstr "將此搜尋加入書籤"
 
-msgid "Bookmark was successfully created"
-msgstr ""
-
 msgid "Bookmark was successfully updated"
 msgstr ""
 
@@ -1129,9 +1129,6 @@ msgid "Build from OS image"
 msgstr "由 OS 映像檔組建"
 
 msgid "By default we map user groups to standard LDAP Group objects. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups. Enable this checkbox if using Netgroups is preferred instead of standard groups."
-msgstr ""
-
-msgid "By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains <br> unlimited (this field is checked) it applies on all resources of the selected type. When a role is associated <br> with some %s filter is not considered unlimited as it's scoped accordingly."
 msgstr ""
 
 msgid "CA Certificate Expiry Date"
@@ -1401,6 +1398,9 @@ msgstr "運算設定檔"
 msgid "Compute resource"
 msgstr "運算設定檔"
 
+msgid "Compute resource ID"
+msgstr ""
+
 msgid "Compute resource IDs"
 msgstr "運算資源 ID"
 
@@ -1424,8 +1424,16 @@ msgid "ComputeResource|Attrs"
 msgstr "屬性"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ComputeResource|Caching enabled"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Description"
 msgstr "描述"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ComputeResource|Domain"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Name"
@@ -1461,18 +1469,6 @@ msgid "Config group"
 msgstr "配置群組"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigGroup|Config group classes count"
-msgstr "配置群組類別計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigGroup|Hostgroups count"
-msgstr "主機群組計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigGroup|Hosts count"
-msgstr "主機計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ConfigGroup|Name"
 msgstr "名稱"
 
@@ -1496,9 +1492,6 @@ msgstr "配置重建成功。"
 
 msgid "Configure"
 msgstr "配置"
-
-msgid "Configure capsule"
-msgstr "配置 capsule"
 
 msgid "Configure instance %s via SSH"
 msgstr "透過 SSH 配置事例 %s"
@@ -1535,6 +1528,9 @@ msgstr ""
 
 msgid "Continue?"
 msgstr "繼續？"
+
+msgid "Core and proxy versions do not match. foreman: %s, foreman-proxy: %s"
+msgstr ""
 
 msgid "Cores"
 msgstr "核心"
@@ -1635,6 +1631,9 @@ msgstr ""
 msgid "Create Global Parameter"
 msgstr ""
 
+msgid "Create Hardware Model"
+msgstr ""
+
 msgid "Create Host"
 msgstr ""
 
@@ -1668,13 +1667,13 @@ msgstr ""
 msgid "Create Organization"
 msgstr "建立組織"
 
-msgid "Create Package Group"
-msgstr ""
-
 msgid "Create Parameter"
 msgstr ""
 
 msgid "Create Partition Table"
+msgstr ""
+
+msgid "Create Provisioning Template"
 msgstr ""
 
 msgid "Create Proxy"
@@ -1857,9 +1856,6 @@ msgstr "報告上傳後，建立新主機"
 msgid "Create realm entry for %s"
 msgstr "為 %s 建立領域項目"
 
-msgid "Create repos"
-msgstr "建立軟體庫"
-
 msgid "Created"
 msgstr "已建立"
 
@@ -1895,9 +1891,6 @@ msgstr "在此子網路中使用的 DHCP 代理伺服器"
 
 msgid "DHCP conflicts removal for %s"
 msgstr "移除了 %s 的 DHCP 衝突"
-
-msgid "DHCP filename option"
-msgstr ""
 
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
@@ -1957,6 +1950,18 @@ msgid "Default"
 msgstr "預設值"
 
 msgid "Default Behavior"
+msgstr ""
+
+msgid "Default PXE (PXELinux, PXEGrub, PXEGrub2) menu item in global template - 'local', 'discovery' or custom"
+msgstr ""
+
+msgid "Default PXE (PXELinux, PXEGrub2) menu item in local template - 'local_chain_hd0', 'local' or custom"
+msgstr ""
+
+msgid "Default PXE global template entry"
+msgstr ""
+
+msgid "Default PXE local template entry"
 msgstr ""
 
 msgid "Default Puppet environment"
@@ -2022,23 +2027,11 @@ msgstr "是否刪除 %s？"
 msgid "Delete :a_resource"
 msgstr "刪除資源(_R)"
 
-msgid "Delete Activation Key"
-msgstr "刪除啟動金鑰"
-
 msgid "Delete Controller"
 msgstr ""
 
 msgid "Delete Hosts"
 msgstr "刪除主機"
-
-msgid "Delete Lifecycle Environment"
-msgstr "刪除生命週期環境"
-
-msgid "Delete Package Group"
-msgstr ""
-
-msgid "Delete Product"
-msgstr "刪除產品"
 
 msgid "Delete PuppetCA autosign entry for %s"
 msgstr ""
@@ -2226,6 +2219,9 @@ msgstr ""
 msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
+msgid "Deploy on"
+msgstr ""
+
 msgid "Deprecated, please use datacenter"
 msgstr ""
 
@@ -2250,9 +2246,6 @@ msgstr "反選全部"
 msgid "Destroy"
 msgstr "銷毀"
 
-msgid "Destroy Content Host"
-msgstr "銷毀內容主機"
-
 msgid "Destroyed selected hosts"
 msgstr "銷毀所有選擇的主機"
 
@@ -2273,9 +2266,6 @@ msgstr "Diff"
 
 msgid "Diff View"
 msgstr "差異視域"
-
-msgid "Disable"
-msgstr "停用"
 
 msgid "Disable Notifications"
 msgstr "停用通知"
@@ -2308,6 +2298,9 @@ msgid "Disk"
 msgstr "磁碟"
 
 msgid "Disk Mode"
+msgstr ""
+
+msgid "Disk interface"
 msgstr ""
 
 msgid "Disk name"
@@ -2369,22 +2362,17 @@ msgid "Domain|Fullname"
 msgstr "完整名稱"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Domain|Hostgroups count"
-msgstr "主機群組計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Domain|Hosts count"
-msgstr "主機計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "名稱"
 
 msgid "Download"
 msgstr "下載"
 
-msgid "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
-msgstr "伺服器被 Puppet 視為未同步之後的間隔時間（分）"
+msgid "Download VMRC"
+msgstr ""
+
+msgid "Duration in minutes after servers are classed as out of sync."
+msgstr ""
 
 msgid "EC2"
 msgstr "EC2"
@@ -2530,9 +2518,6 @@ msgstr "已成功發送電子郵件"
 msgid "Empty environment"
 msgstr "空的環境"
 
-msgid "Enable"
-msgstr "啟用"
-
 msgid "Enable Caching"
 msgstr ""
 
@@ -2545,8 +2530,14 @@ msgstr "啟用所選主機的警示"
 msgid "Enable certificate generation for %s"
 msgstr "啟用 %s 的憑證產生"
 
+msgid "Enable host orchestration on puppet fact import. This could cause serious performance issues as the number of hosts increase"
+msgstr ""
+
 msgid "Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"
 msgstr "若這是個別名或是 VLAN 介面卡的話，將它啟用。請注意別名僅可以用在靜態啟動模式的子網路中"
+
+msgid "Enable orchestration on puppet fact import"
+msgstr ""
 
 msgid "Enable puppetrun support"
 msgstr "啟用 puppetrun 支援"
@@ -2610,19 +2601,8 @@ msgid "Environments"
 msgstr "環境"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment|Hostgroups count"
-msgstr "主機群組計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment|Hosts count"
-msgstr "主機計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
 msgstr "名稱"
-
-msgid "Errata mail"
-msgstr "勘誤郵件"
 
 msgid "Error"
 msgstr "錯誤"
@@ -2641,6 +2621,9 @@ msgstr "連線至 '%{domain}' 網域的 DNS 伺服器：%{servers} 錯誤 - 請�
 
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr "連接至系統的 DNS 伺服器錯誤 - 請檢查 /etc/resolv.conf"
+
+msgid "Error during LDAP connection #{name} using login #{login}: #{e}"
+msgstr ""
 
 msgid "Error generating IP: %s"
 msgstr "轉譯 IP 錯誤：%s"
@@ -2702,6 +2685,12 @@ msgstr ""
 msgid "Examples"
 msgstr "範例"
 
+msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
+msgstr ""
+
+msgid "Exclude pattern for facts stored in foreman"
+msgstr ""
+
 msgid "Exit Full Screen"
 msgstr "退出全螢幕"
 
@@ -2747,8 +2736,8 @@ msgstr "外部IP"
 msgid "External user group"
 msgstr "外部使用者群組"
 
-msgid "External user group %{name} could not be refreshed"
-msgstr "無法刷新外部使用者群組 %{name}"
+msgid "External user group %{name} could not be refreshed."
+msgstr ""
 
 msgid "External user group %{name} refreshed"
 msgstr "已刷新外部使用者群組 %{name}"
@@ -2911,6 +2900,9 @@ msgstr "初始化領域協定失敗：%s"
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr "在 %{name} 上啟用 script 失敗：%{e}"
 
+msgid "Failed to load bookmarks: %s"
+msgstr ""
+
 msgid "Failed to load chart"
 msgstr "載入圖表失敗"
 
@@ -2971,7 +2963,7 @@ msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "更新一個運算 %{compute_resource} instance %{name} 失敗：%{e}"
 
 msgid "Failed to update environments and Puppet classes from the on-disk Puppet installation: %s"
-msgstr "由磁碟上的 Puppet 安裝程序更新環境和 Puppet 類別失敗：%s"
+msgstr ""
 
 msgid "Failed to update the environments and Puppet classes from the on-disk puppet installation: %s"
 msgstr "由磁碟上的 puppet 安裝程序更新環境和 Puppet 類別失敗：%s"
@@ -3012,6 +3004,9 @@ msgstr "名稱"
 msgid "Fetch TFTP boot files for %s"
 msgstr "為 %s 擷取 TFTP 開機檔案"
 
+msgid "Field name"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
 msgstr "篩選器"
@@ -3031,21 +3026,19 @@ msgstr "篩選器類別"
 msgid "Filter overriding has been disabled"
 msgstr ""
 
-msgid "Filtered index content"
-msgstr "已篩選的索引內容"
-
 msgid "Filters"
 msgstr "篩選器"
 
 msgid "Filters for role %s"
 msgstr "為角色 %s 篩選"
 
-msgid "Filters inherit %{orgs_and_locs} from their role by default. If override field is enabled, <br> filter can override the set of its %{orgs_and_locs}. Later role changes will not affect <br> such filter. After disabling override field, role %{orgs_and_locs} apply again."
+msgid "Filters inherit %{orgs_and_locs} associated with the role by default. If override field is enabled, <br> the filter can override the set of its %{orgs_and_locs}. Later role changes will not affect such filter.<br> After disabling the override field, the role %{orgs_and_locs} apply again."
 msgstr ""
 
 msgid "Filters overriding has been disabled"
 msgstr ""
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter|Override"
 msgstr ""
 
@@ -3135,6 +3128,9 @@ msgstr "Foreman URL"
 msgid "Foreman Users"
 msgstr "Foreman 使用者"
 
+msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
+msgstr ""
+
 msgid "Foreman audit summary"
 msgstr "Foreman 稽核摘要"
 
@@ -3182,6 +3178,9 @@ msgstr "Foreman 測試電子郵件"
 
 msgid "Foreman ticketing system"
 msgstr "Foreman 票證系統"
+
+msgid "Foreman will append domain names when new hosts are provisioned"
+msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman 將會在佈建新主機時自動化憑證簽署"
@@ -3239,9 +3238,6 @@ msgstr "Foreman 會將主機的 IP 更新為進行了組建請求的 IP"
 
 msgid "Foreman will use OAuth for API authorization"
 msgstr "Foreman 將會使用 OAuth 來進行 API 認證"
-
-msgid "Foreman will use gravatar to display user icons"
-msgstr "Foreman 將會使用 gravatar 來顯示使用者圖示"
 
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr "Foreman 將會使用隨機的 UUID 來進行憑證簽署，而非透過主機名稱"
@@ -3342,6 +3338,9 @@ msgstr ""
 msgid "Global methods (functions)"
 msgstr ""
 
+msgid "Global setting \"%s\" is not accessible in safe-mode"
+msgstr ""
+
 msgid "Global status changed from %{from} to %{to}"
 msgstr ""
 
@@ -3367,7 +3366,7 @@ msgid "HTTP Proxies"
 msgstr ""
 
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "HTTP 代理"
 
 msgid "HTTP Proxy connection successful."
 msgstr ""
@@ -3389,6 +3388,9 @@ msgstr "硬體型號"
 
 msgid "Hardware Models"
 msgstr "硬體型號"
+
+msgid "Hardware models describe the hardware types of your hosts, including CPU class, vendor class and other notes."
+msgstr ""
 
 msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr "欲使用的雜湊功能。變更會在新主機或是已更新的主機上生效。"
@@ -3429,8 +3431,14 @@ msgstr "主機 %s 不與任何 VM 相聯"
 msgid "Host Configuration Chart"
 msgstr "主機配置圖表"
 
+msgid "Host Configuration Chart for %s"
+msgstr ""
+
 msgid "Host Configuration Status"
 msgstr "主機配置狀態"
+
+msgid "Host Configuration Status for %s"
+msgstr ""
 
 msgid "Host Group / Environment"
 msgstr ""
@@ -3490,6 +3498,10 @@ msgstr ""
 msgid "Host reported time is <em>%s</em>"
 msgstr "主機回報時間為 <em>%s</em>"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Host status/status"
+msgstr ""
+
 msgid "Host times seem to be adrift!"
 msgstr ""
 
@@ -3523,6 +3535,10 @@ msgid "Host::Base|Enabled"
 msgstr "已啟用"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Global status"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Grub pass"
 msgstr "Grub pass"
 
@@ -3535,24 +3551,16 @@ msgid "Host::Base|Installed at"
 msgstr "安裝於"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Ip"
-msgstr "IP"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Last compile"
 msgstr "最後編譯"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Last freshcheck"
-msgstr "最後檢查的日期"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Last report"
 msgstr "最後的回報"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Mac"
-msgstr "MAC"
+msgid "Host::Base|Lookup value matcher"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Managed"
@@ -3571,24 +3579,16 @@ msgid "Host::Base|Owner type"
 msgstr "擁有者類型"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Primary interface"
-msgstr "主要介面卡"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Provision method"
 msgstr "佈建方式"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Puppet status"
-msgstr "Puppet 狀態"
+msgid "Host::Base|Pxe loader"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Root pass"
 msgstr "Root 通行"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Serial"
-msgstr "序列"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Use image"
@@ -3603,12 +3603,24 @@ msgid "HostConfigGroup|Host type"
 msgstr "主機類型"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostStatus::Status|Reported at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostStatus::Status|Status"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "主機群組"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Ancestry"
 msgstr "上階"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Description"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Grub pass"
@@ -3619,8 +3631,16 @@ msgid "Hostgroup|Image file"
 msgstr "映像檔"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Lookup value matcher"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
 msgstr "名稱"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Pxe loader"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
@@ -3692,8 +3712,8 @@ msgstr "停用了 Foreman 報告的主機"
 msgid "Hosts which are not reporting"
 msgstr ""
 
-msgid "Hosts which didn't run puppet in the last %s"
-msgstr "最後 %s 內未執行 puppet 的主機"
+msgid "Hosts which didn't report in the last %s"
+msgstr ""
 
 msgid "Hosts which do not have recent reports from configuration management"
 msgstr ""
@@ -3749,11 +3769,25 @@ msgstr "驗證值的方式"
 msgid "However, if it was deleted externally this page helps you to recreate it"
 msgstr ""
 
-msgid "Hypervisors"
-msgstr "Hypervisor"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Http proxy"
+msgstr ""
 
-msgid "Hypervisors update"
-msgstr "Hypervisor 更新"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Password"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Url"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Username"
+msgstr ""
 
 msgid "ID of LDAP authentication source"
 msgstr "LDAP 認證來源的 ID"
@@ -3957,6 +3991,9 @@ msgstr ""
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr ""
 
+msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with %s, the filters are not considered unlimited</br> as they are scoped accordingly."
+msgstr ""
+
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr "若為真而沒有預設值並且比對器未提供值的話，將會造成錯誤發生。"
 
@@ -4051,10 +4088,10 @@ msgstr "匯入"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr "匯入 Puppet 類別"
-
 msgid "Import VM %s"
+msgstr ""
+
+msgid "Import a provisioning template"
 msgstr ""
 
 msgid "Import classes from %s"
@@ -4063,17 +4100,14 @@ msgstr ""
 msgid "Import environments from %s"
 msgstr ""
 
-msgid "Import facts"
-msgstr "匯入詳情"
-
 msgid "Import of facts failed for host %s"
+msgstr ""
+
+msgid "Import puppet classes from puppet proxy"
 msgstr ""
 
 msgid "Import puppet classes from puppet proxy for an environment"
 msgstr "為環境由 puppet 代理伺服器匯入 puppet 類別"
-
-msgid "Import puppet classes from puppet proxy."
-msgstr "由 puppet 代理伺服器匯入 puppet 類別。"
 
 msgid "Imported IPv4 Subnets"
 msgstr ""
@@ -4108,26 +4142,11 @@ msgstr "密碼錯誤"
 msgid "Incorrect username or password"
 msgstr "使用者名稱或密碼錯誤"
 
-msgid "Incremental Update"
-msgstr "遞增更新"
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr ""
-
 msgid "Independent - Nonpersistent"
 msgstr ""
 
 msgid "Independent - Persistent"
 msgstr ""
-
-msgid "Index content"
-msgstr "索引內容"
-
-msgid "Index errata"
-msgstr "索引勘誤"
-
-msgid "Index package groups"
-msgstr "為套件群組製作索引"
 
 msgid "Infrastructure"
 msgstr "設備"
@@ -4144,18 +4163,6 @@ msgstr "若未設置的話便由子網路 VLAN ID 繼承"
 msgid "Input"
 msgstr "輸入"
 
-msgid "Install Applicable Errata"
-msgstr "安裝可套用的勘誤"
-
-msgid "Install erratum"
-msgstr "安裝勘誤"
-
-msgid "Install package"
-msgstr "安裝套件"
-
-msgid "Install package group"
-msgstr "安裝套件群組"
-
 msgid "Installation Media"
 msgstr "安裝媒介"
 
@@ -4164,6 +4171,9 @@ msgstr "安裝媒介配置"
 
 msgid "Installed"
 msgstr "已安裝"
+
+msgid "Instance type"
+msgstr ""
 
 msgid "Interface"
 msgstr "介面"
@@ -4252,6 +4262,9 @@ msgstr "問題追蹤器"
 msgid "It is not possible to assign provisioning templates at this stage."
 msgstr "在現階段無法指定佈建範本。"
 
+msgid "It is not possible to change external users login"
+msgstr ""
+
 msgid "It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead."
 msgstr "不建議解鎖這個範本，因為它是由 %{vendor} 所提供，可以被覆寫。請考慮完整複製之。"
 
@@ -4266,9 +4279,6 @@ msgstr "此運算資源並不支援 JSON VM 清單。"
 
 msgid "JSON object of the scheduler hint"
 msgstr ""
-
-msgid "Keep selected hosts for a future action"
-msgstr "保持所選主機給將來的動作"
 
 msgid "Key Binding"
 msgstr "金鑰綁定"
@@ -4333,6 +4343,9 @@ msgstr ""
 
 msgid "Latest Events"
 msgstr "最新的事件"
+
+msgid "Launch Console"
+msgstr ""
 
 msgid "Learn more about this in the documentation."
 msgstr "欲知更多，請參閱文件。"
@@ -4430,8 +4443,8 @@ msgstr "列出一部主機的所有詳情值"
 msgid "List all filters"
 msgstr "列出所有篩選器"
 
-msgid "List all global parameters."
-msgstr "列出所有全域參數。"
+msgid "List all global parameters"
+msgstr ""
 
 msgid "List all hardware models"
 msgstr "列出所有硬體型號"
@@ -4604,8 +4617,8 @@ msgstr "列出運算資源的可用網路"
 msgid "List available networks for a compute resource cluster"
 msgstr "列出運算資源叢集的可用網路"
 
-msgid "List available resource types."
-msgstr "列出可用的資源類型"
+msgid "List available resource types"
+msgstr ""
 
 msgid "List available security groups for a compute resource"
 msgstr "列出運算資源的可用安全群組"
@@ -4754,9 +4767,6 @@ msgstr "載入租用戶"
 msgid "Load Zones"
 msgstr ""
 
-msgid "Loading ..."
-msgstr "正在載入..."
-
 msgid "Loading BMC information ..."
 msgstr "正在載入 BMC 資訊..."
 
@@ -4839,7 +4849,7 @@ msgid "Log In"
 msgstr "登入"
 
 msgid "Log Out"
-msgstr ""
+msgstr "登出"
 
 msgid "Log entry details"
 msgstr "日誌條目的詳細資料"
@@ -4886,7 +4896,7 @@ msgid "LookupKey|Description"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Is param"
+msgid "LookupKey|Hidden value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4898,7 +4908,15 @@ msgid "LookupKey|Key type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Merge default"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge overrides"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Omit"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4907,10 +4925,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Puppetclass lookup key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4926,12 +4940,12 @@ msgid "LookupKey|Validator type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Variable lookup values count"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "比對"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Omit"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -4958,7 +4972,43 @@ msgstr "機器類型"
 msgid "Machine type"
 msgstr "機器類型"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr ""
+
 msgid "Mail query"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Queryable"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
 msgstr ""
 
 msgid "Mailing lists"
@@ -5088,6 +5138,9 @@ msgstr "找不到資源 %{resource} 的 %{method} 方式。"
 msgid "Method used to deliver email"
 msgstr ""
 
+msgid "Metric already registered: %s"
+msgstr ""
+
 msgid "Metrics"
 msgstr "計量"
 
@@ -5103,6 +5156,9 @@ msgstr "不相符的項目"
 msgid "Mismatches Report"
 msgstr "不相符的報告"
 
+msgid "Missing a permission to edit parent %s"
+msgstr ""
+
 msgid "Missing one of the required permissions: %s"
 msgstr "找不到所需權限之一：%s"
 
@@ -5116,10 +5172,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
 msgstr "硬體型號"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model|Hosts count"
-msgstr "主機計數"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
@@ -5288,12 +5340,20 @@ msgid "Nic::Base|Bond options"
 msgstr "Bond 選項"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Compute attributes"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Identifier"
 msgstr "辨識子"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip"
 msgstr "IP"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Ip6"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Link"
@@ -5320,8 +5380,16 @@ msgid "Nic::Base|Password"
 msgstr "密碼"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Primary"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Provider"
 msgstr "供應者"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Provision"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Tag"
@@ -5334,6 +5402,9 @@ msgstr "使用者名稱"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Virtual"
 msgstr "虛擬"
+
+msgid "No"
+msgstr ""
 
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
@@ -5355,6 +5426,9 @@ msgstr "沒有 TFTP 功能"
 
 msgid "No TFTP proxies defined, can't continue"
 msgstr "尚未定義 TFTP 協定，無法繼續"
+
+msgid "No VMs matched any host."
+msgstr ""
 
 msgid "No audit changes for this period"
 msgstr "這期間稽核沒有變更"
@@ -5450,6 +5524,12 @@ msgid "No networks found."
 msgstr "找不到網路。"
 
 msgid "No new IPv4 subnets found"
+msgstr ""
+
+msgid "No options available for selected Architecture"
+msgstr ""
+
+msgid "No options available for selected Operating System"
 msgstr ""
 
 msgid "No or invalid power state selected!"
@@ -5563,13 +5643,73 @@ msgstr "注意事項"
 msgid "Notices, warnings and errors"
 msgstr "注意事項、警告和錯誤"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification blueprint"
+msgstr ""
+
 msgid "Notification disabled"
 msgstr "已停用通知"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification recipient"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Actions"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Expires in"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Group"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Level"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Message"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationRecipient|Seen"
+msgstr ""
 
 msgid "Notifications"
 msgstr "通知"
 
 msgid "Notifications can't be assigned to this user."
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Actions"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Audience"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Expired at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Message"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Subject type"
 msgstr ""
 
 msgid "Number Of Clients"
@@ -5688,6 +5828,9 @@ msgstr "抱歉！"
 msgid "Oops, we're sorry but something went wrong"
 msgstr "很抱歉發生了錯誤"
 
+msgid "Open"
+msgstr ""
+
 msgid "Open Spice in a new window"
 msgstr "在新視窗中開啟 Spice"
 
@@ -5737,14 +5880,6 @@ msgstr "作業系統"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Description"
 msgstr "描述"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Operatingsystem|Hostgroups count"
-msgstr "主機群組計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Operatingsystem|Hosts count"
-msgstr "主機計數"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
@@ -5834,6 +5969,9 @@ msgstr "組織"
 msgid "Organizations also work nicely in tandem with %{locations}."
 msgstr "組織也能與此串聯運作 %{locations}。"
 
+msgid "Origin"
+msgstr ""
+
 msgid "Original value info"
 msgstr "原始值資訊"
 
@@ -5856,7 +5994,7 @@ msgid "Overridden"
 msgstr ""
 
 msgid "Override"
-msgstr ""
+msgstr "覆寫"
 
 msgid "Override all parameters"
 msgstr "置換所有參數"
@@ -5915,9 +6053,6 @@ msgstr ""
 msgid "PXELinux template"
 msgstr ""
 
-msgid "Package Profile Update"
-msgstr "套件設定檔更新"
-
 msgid "Param name"
 msgstr "參數名稱"
 
@@ -5936,6 +6071,9 @@ msgstr ""
 
 msgid "Parameter value"
 msgstr "參數值"
+
+msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
+msgstr ""
 
 msgid "Parameterized classes in ENC"
 msgstr "ENC 的參數化類別"
@@ -5987,7 +6125,7 @@ msgid "Parent parameters"
 msgstr "父參數"
 
 msgid "Partition Table"
-msgstr ""
+msgstr "分割表"
 
 msgid "Partition Tables"
 msgstr "分割表"
@@ -5995,14 +6133,17 @@ msgstr "分割表"
 msgid "Partition table ID"
 msgstr "分割表 ID"
 
-msgid "Partition table configuration"
-msgstr "分割表配置"
-
 msgid "Partition template IDs"
 msgstr "分割區範本 ID"
 
+msgid "Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities."
+msgstr ""
+
 msgid "Password"
 msgstr "密碼"
+
+msgid "Password do not match"
+msgstr ""
 
 msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr "Ovirt、EC2、Vmware、Openstack 的密碼。EC2 的祕密金鑰"
@@ -6075,6 +6216,30 @@ msgid "Permits access to BMC interface passwords through ENC YAML output and in 
 msgstr ""
 
 msgid "Persistent"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Personal access token"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Expires at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Last used at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Revoked"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Token"
 msgstr ""
 
 msgid "Photo attribute"
@@ -6152,6 +6317,9 @@ msgstr "外掛"
 msgid "Port to connect to"
 msgstr ""
 
+msgid "Possible values"
+msgstr ""
+
 msgid "Power"
 msgstr "電源"
 
@@ -6218,15 +6386,6 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr "繼續前往編輯"
 
-msgid "Product Create"
-msgstr "產品建立"
-
-msgid "Promote"
-msgstr "Promote"
-
-msgid "Promotion to Environment"
-msgstr ""
-
 msgid "Properties"
 msgstr "屬性"
 
@@ -6263,7 +6422,6 @@ msgstr "佈建設定"
 msgid "Provisioning Templates"
 msgstr "佈建範本"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Provisioning template"
 msgstr "佈建範本"
 
@@ -6273,29 +6431,14 @@ msgstr "佈建範本 ID"
 msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ProvisioningTemplate|Default"
-msgstr "ProvisioningTemplate|Default"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ProvisioningTemplate|Locked"
 msgstr "ProvisioningTemplate|Locked"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ProvisioningTemplate|Name"
 msgstr "ProvisioningTemplate|Name"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ProvisioningTemplate|Snippet"
 msgstr "ProvisioningTemplate|Snippet"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ProvisioningTemplate|Template"
-msgstr "ProvisioningTemplate|Template"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ProvisioningTemplate|Vendor"
-msgstr "ProvisioningTemplate|Vendor"
 
 msgid "Proxied request failed with: %s"
 msgstr ""
@@ -6309,27 +6452,14 @@ msgstr ""
 msgid "Proxy request timeout"
 msgstr "代理請求逾時"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Ptable"
-msgstr "Ptable"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Ptable|Layout"
-msgstr "格式"
-
 msgid "Ptable|Locked"
 msgstr "Ptable|Locked"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Name"
 msgstr "名稱"
 
 msgid "Ptable|OS Family"
 msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Ptable|Os family"
-msgstr "OS 家族"
 
 msgid "Ptable|Snippet"
 msgstr "Ptable|Snippet"
@@ -6339,9 +6469,6 @@ msgstr "公開的"
 
 msgid "Public SSH key"
 msgstr ""
-
-msgid "Publish"
-msgstr "發行"
 
 msgid "Puppet"
 msgstr "Puppet"
@@ -6402,27 +6529,14 @@ msgid "Puppetclass"
 msgstr "Puppetclass"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Global class params count"
-msgstr "全域類別參數計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Hostgroups count"
-msgstr "主機群組計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Hosts count"
-msgstr "主機計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Lookup keys count"
-msgstr "查詢金鑰計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
 msgstr "名稱"
 
 msgid "Puppetrun"
 msgstr "Puppetrun"
+
+msgid "Query"
+msgstr ""
 
 msgid "Query instance details for %s"
 msgstr "查詢 %s 的 instance 詳情"
@@ -6438,6 +6552,12 @@ msgstr "將位置取代為特定 ID"
 
 msgid "REPLACE organizations with given ids."
 msgstr "將組織取代為特定 ID。"
+
+msgid "RSS URL"
+msgstr ""
+
+msgid "RSS enable"
+msgstr ""
 
 msgid "Random DB"
 msgstr ""
@@ -6478,14 +6598,6 @@ msgstr "領域類型，例如 FreeIPA 或是 Active Directory"
 
 msgid "Realms"
 msgstr "領域"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Realm|Hostgroups count"
-msgstr "主機群組計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Realm|Hosts count"
-msgstr "主機計數"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
@@ -6534,11 +6646,8 @@ msgstr "更新智慧型代理伺服器的功能"
 msgid "Region"
 msgstr "區域"
 
-msgid "Register Host"
-msgstr "註冊主機"
-
-msgid "Reindex subscriptions"
-msgstr "重新索引訂閱服務"
+msgid "Remember hosts selection for the next bulk action"
+msgstr ""
 
 msgid "Reminder: <strong> One host is selected </strong>"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
@@ -6554,7 +6663,7 @@ msgid "Remote address"
 msgstr "遠端位址"
 
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 msgid "Remove %s?"
 msgstr "移除 %s？"
@@ -6565,9 +6674,6 @@ msgstr ""
 msgid "Remove Combination"
 msgstr ""
 
-msgid "Remove Content"
-msgstr "移除內容"
-
 msgid "Remove DHCP Settings for %s"
 msgstr "移除 %s 的 DHCP 設定"
 
@@ -6576,12 +6682,6 @@ msgstr ""
 
 msgid "Remove Parameter"
 msgstr "移除參數"
-
-msgid "Remove Version"
-msgstr "移除版本"
-
-msgid "Remove Versions and Associations"
-msgstr "移除版本與相聯項目"
 
 msgid "Remove a Puppet class from host"
 msgstr "從主機移除一個 Puppet 類別"
@@ -6594,18 +6694,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "移除重複的值（只有陣列類型）"
-
-msgid "Remove from Environment"
-msgstr "從環境移除"
-
-msgid "Remove package"
-msgstr "移除套件"
-
-msgid "Remove package group"
-msgstr "移除了套件群組"
-
-msgid "Remove subscriptions"
-msgstr "移除訂閱服務"
 
 msgid "Remove this override"
 msgstr "移除此置換"
@@ -6641,6 +6729,9 @@ msgstr "回報於"
 msgid "Reported at %s "
 msgstr "已回報於 %s"
 
+msgid "Reported by %s"
+msgstr ""
+
 msgid "Reports"
 msgstr "報告"
 
@@ -6649,15 +6740,16 @@ msgid "Report|Metrics"
 msgstr "計量"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Report|Origin"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Reported at"
 msgstr "回報於"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
 msgstr "狀態"
-
-msgid "Republish Version Repositories"
-msgstr ""
 
 msgid "Require SSL for smart proxies"
 msgstr "智慧型代理伺服器需要 SSL"
@@ -6765,6 +6857,7 @@ msgstr ""
 msgid "Role|Builtin"
 msgstr "內建"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role|Description"
 msgstr ""
 
@@ -6776,8 +6869,8 @@ msgid "Role|Name"
 msgstr "名稱"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Role|Permissions"
-msgstr "權限"
+msgid "Role|Origin"
+msgstr ""
 
 msgid "Root Password Hash"
 msgstr ""
@@ -6791,12 +6884,10 @@ msgstr "欲使用的 Root 密碼雜湊功能，MD5、SHA256、SHA512、Base64 �
 msgid "Root password on provisioned hosts"
 msgstr "在已佈建主機上的 root 密碼"
 
-msgid "Run Distribution (last %s minute)"
-msgid_plural "Run Distribution (last %s minutes)"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "Run Distribution Chart"
+msgstr ""
+
+msgid "Run Distribution Chart for %s"
 msgstr ""
 
 msgid "Run Puppet"
@@ -6816,9 +6907,6 @@ msgstr "執行於"
 
 msgid "Runtime"
 msgstr "Runtime"
-
-msgid "SCSI controller type is deprecated. Please change to scsi_controllers"
-msgstr ""
 
 msgid "SMTP"
 msgstr "SMTP"
@@ -6892,9 +6980,6 @@ msgstr ""
 msgid "Safe mode methods and variables"
 msgstr ""
 
-msgid "SafeRender#parse_string was passed a %s instead of a string"
-msgstr "SafeRender#parse_string 被傳送了一個 %s 而非字串"
-
 msgid "Safemode rendering"
 msgstr "安全模式轉譯"
 
@@ -6906,6 +6991,9 @@ msgstr ""
 
 msgid "Save something and try again"
 msgstr "進行儲存並重新嘗試"
+
+msgid "Saved Bookmarks"
+msgstr ""
 
 msgid "Scheduler hint filter"
 msgstr ""
@@ -6921,6 +7009,9 @@ msgstr ""
 
 msgid "Search"
 msgstr "搜尋"
+
+msgid "Search fields"
+msgstr ""
 
 msgid "Secondary DNS Server"
 msgstr ""
@@ -6955,8 +7046,8 @@ msgstr "選擇組織"
 msgid "Select a period"
 msgstr "選擇期間"
 
-msgid "Select all items in this page"
-msgstr "選擇此頁面中的所有項目"
+msgid "Select all items on this page"
+msgstr ""
 
 msgid "Select an owner"
 msgstr ""
@@ -6987,6 +7078,9 @@ msgstr "選擇主機群組"
 
 msgid "Select hosts to assign to %s"
 msgstr "選擇主機群組以指定給 %s"
+
+msgid "Select instance type"
+msgstr ""
 
 msgid "Select locations"
 msgstr "選擇位置"
@@ -7083,6 +7177,9 @@ msgstr "服務"
 msgid "Set IP addresses for %s"
 msgstr ""
 
+msgid "Set a randomly generated password on the VNC display connection"
+msgstr ""
+
 msgid "Set a randomly generated password on the display connection"
 msgstr "在顯示連線上設置一組隨機產生的密碼"
 
@@ -7119,6 +7216,14 @@ msgstr "預設值"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Description"
 msgstr "描述"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Setting|Encrypted"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Setting|Full name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Name"
@@ -7384,6 +7489,9 @@ msgstr "智慧類別參數"
 msgid "Smart Class Parameters"
 msgstr ""
 
+msgid "Smart Parameter"
+msgstr ""
+
 msgid "Smart Proxies"
 msgstr "智慧型代理伺服器"
 
@@ -7396,12 +7504,22 @@ msgstr "智慧代理：%s"
 msgid "Smart Variables"
 msgstr "智慧變數"
 
+msgid "Smart proxies provide a RESTful API to manage subsystems like DNS, DHCP, and TFTP."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
 msgstr "智慧代理"
 
 msgid "Smart proxy IDs"
 msgstr "智慧型代理伺服器的 ID"
+
+msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SmartProxy|Expired logs"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Name"
@@ -7472,6 +7590,26 @@ msgid "Specify additional options to sendmail"
 msgstr ""
 
 msgid "Specify authentication type, if required"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Ssh key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Fingerprint"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Length"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Name"
 msgstr ""
 
 msgid "Start"
@@ -7549,6 +7687,10 @@ msgid "Subnet|Boot mode"
 msgstr "啟動模式"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
 msgstr "DNS 主要"
 
@@ -7605,7 +7747,7 @@ msgid "Success"
 msgstr "成功"
 
 msgid "Success!"
-msgstr ""
+msgstr "成功！"
 
 msgid "Successfully created %s."
 msgstr "已成功建立了 %s。"
@@ -7661,14 +7803,8 @@ msgstr "支援"
 msgid "Supported Formats"
 msgstr "格式"
 
-msgid "Synchronize"
-msgstr "同步"
-
 msgid "Synchronize group from authentication source"
 msgstr "從認證來源同步群組"
-
-msgid "Synchronize smart proxy"
-msgstr ""
 
 msgid "Syntax Highlighting"
 msgstr "語法色彩"
@@ -7714,6 +7850,10 @@ msgid "Taxonomy|Ancestry"
 msgstr "Ancestry"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
 msgstr "Ignore types"
 
@@ -7725,6 +7865,7 @@ msgstr "名稱"
 msgid "Taxonomy|Title"
 msgstr "標題"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template"
 msgstr "範本"
 
@@ -7742,6 +7883,15 @@ msgstr ""
 
 msgid "Template Diff"
 msgstr "範本差異"
+
+msgid "Template HTTP(S) Proxy ID to use within this subnet"
+msgstr ""
+
+msgid "Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks"
+msgstr ""
+
+msgid "Template Proxy"
+msgstr ""
 
 msgid "Template Type"
 msgstr "範本類型"
@@ -7780,6 +7930,34 @@ msgstr "範本"
 
 msgid "Templates resolved for this operating system"
 msgstr "解析給此作業系統的範本"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Default"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Locked"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Os family"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Snippet"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Template"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Vendor"
+msgstr ""
 
 msgid "Tenant"
 msgstr "租用戶"
@@ -7867,6 +8045,9 @@ msgstr ""
 msgid "The Primary interface is used for constructing the FQDN of the host."
 msgstr ""
 
+msgid "The Provision Templates is the core of Foreman’s flexibility to used for provisioning and installation of operating systems. There are several types of template, along with a flexible matching system to deliver different templates to different hosts or host groups."
+msgstr ""
+
 msgid "The Provisioning interface is used for TFTP configuration for PXE boot based on this interface MAC address."
 msgstr ""
 
@@ -7889,11 +8070,11 @@ msgstr "這部機器中所提供的 CPU 類別。這主要會被 Sparc Solaris �
 msgid "The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,"
 msgstr "Open Boot Prom 所回報的機器類別。這主要會被 Sparc Solaris 組建所使用，而其它架構則能保留為空白。這個值能在 Solaris 上透過 uname -i|cut -f2 -d 取得"
 
+msgid "The console is not available because the VM is not powered on"
+msgstr ""
+
 msgid "The default administrator email address"
 msgstr "預設的管理員電子郵件地址"
-
-msgid "The dynamic partitioning style is currently only available for the Red Hat family of operating systems, all others must provide an explicit list of partitions and sizes."
-msgstr "目前僅有 Red Hat 家族的作業系統支援動態磁碟分割，其它所有作業系統則需提供明確的分割區與大小。"
 
 msgid "The file path where your p12 file is located"
 msgstr "您 p12 檔案位於的檔案路徑"
@@ -7940,13 +8121,6 @@ msgstr ""
 msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
 msgstr "當 puppetmaster 編譯主機的配置時，主機群組類別和主機群組變數皆會包含在外部節點資訊中。"
 
-msgid ""
-"The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior\n"
-"  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process."
-msgstr ""
-"一行起始的關鍵字串「<b>#Dynamic</b>」能讓 Foreman 知道這不是個明確的磁碟格式，而必須被視為 shell script，它會在安裝程序\n"
-"  進行前執行並且明確的分割表可在進行組建程序時，從 <b>/tmp/diskpart.cfg</b> 中找到。"
-
 msgid "The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman."
 msgstr ""
 
@@ -7964,8 +8138,8 @@ msgstr ""
 msgid "The marked fields will need reviewing"
 msgstr "標記的欄位需要再次檢查"
 
-msgid "The method used to provision the host. Possible provision_methods may be %{provision_methods}"
-msgstr "佈建主機的方法。可能的 provision_methods 為 %{provision_methods}"
+msgid "The method used to provision the host."
+msgstr ""
 
 msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"
 msgstr "比對器金鑰處理的順序，第一組項目將會優先被處理。<br>您可使用多個屬性來作為比對器金鑰，比方說 <code>host group, environment</code> 的順序將會預期類似 <code>hostgroup = \"web servers\", environment = production</code> 的比對器"
@@ -8141,8 +8315,10 @@ msgstr "此範本已鎖定，因此無法編輯。"
 msgid "This template is locked. Please clone it to a new template to customize."
 msgstr "此範本已鎖定。請將它複製至一個新的範本以自訂化。"
 
-msgid "This template is locked. You may only change the                     associations. Please %s it to customize."
-msgstr "此範本已鎖定。您僅可更改相聯性。請 %s 它以進行自訂化。"
+msgid ""
+"This template is locked. You may only change the\\\n"
+"                     associations. Please %s it to customize."
+msgstr ""
 
 msgid "This templates requires a host to render but none was specified"
 msgstr ""
@@ -8174,8 +8350,8 @@ msgstr "DNS 衝突驗證的逾時值（秒）"
 msgid "Timeout has occurred while communicating with %s"
 msgstr "與 %s 進行通訊時發生了逾時錯誤"
 
-msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes)."
-msgstr "要定義趨勢計數器，請使用「新增趨勢計數器」按鈕。</br>若要開始蒐集趨勢資料，請設置一項 cron job 以在每個 Puppet 間隔（%s 分鐘）之間執行 'foreman-rake trends:counter'。"
+msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
+msgstr ""
 
 msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt)."
 msgstr "若要啟用供應者，請安裝 OS 套件（例如 foreman-libvirt）或是啟用搭配程式群組以進行開發設定（例如 ovirt）。"
@@ -8183,13 +8359,16 @@ msgstr "若要啟用供應者，請安裝 OS 套件（例如 foreman-libvirt）�
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr ""
 
+msgid "To launch the VMRC console, you need the VMRC software installed."
+msgstr ""
+
 msgid ""
 "To refresh the list of users, click on the tab \"External\n"
 "                groups\" then \"Refresh\"."
 msgstr ""
 
-msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)"
-msgstr "若要開始蒐集趨勢資料，請設置一項 cron job 以在每個 Puppet 間隔（%s 分鐘）之間執行 <span 類別='black'>foreman-rake trends:counter</span>"
+msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> at least every %s minutes."
+msgstr ""
 
 msgid "To update the class signature, go to the Puppet Classes page and select \"Import\"."
 msgstr "若要更新類別簽章，請至 Puppet 類別網頁並選擇「匯入」。"
@@ -8214,6 +8393,12 @@ msgstr "過期"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Token|Value"
 msgstr "值"
+
+msgid "Too many tries, please try again in a few minutes."
+msgstr ""
+
+msgid "Too short"
+msgstr ""
 
 msgid "Total"
 msgstr "總數"
@@ -8244,11 +8429,22 @@ msgstr "最後 %s 天的趨勢。"
 msgid "TrendCounter|Count"
 msgstr "計數"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TrendCounter|Interval end"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TrendCounter|Interval start"
+msgstr ""
+
 msgid "Trends"
 msgstr "趨勢"
 
 msgid "Trends for %s"
 msgstr "%s 的趨勢"
+
+msgid "Trends in Foreman allow you to track changes in your infrastructure over time. It allows you to track both Foreman related information and any Puppet facts. The Trend pages give a graph of how the number of hosts with that value have changed over time, and list the current hosts."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Fact name"
@@ -8269,14 +8465,11 @@ msgstr "趨勢類型"
 msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
 msgstr "在節點上啟動 puppetrun；需要先啟用 puppet run"
 
-msgid "Troubleshooting"
-msgstr "疑難排解"
-
 msgid "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
 msgstr "True/False 標記代表主機是否受管理。請注意：這個值也能決定是否需要數個參數"
 
-msgid "Trusted puppetmaster hosts"
-msgstr "受信任的 puppetmaster 主機"
+msgid "Trusted hosts"
+msgstr ""
 
 msgid "Try going to %{href}"
 msgstr "嘗試前往 %{href}"
@@ -8315,6 +8508,9 @@ msgid "URL of the HTTP Proxy"
 msgstr ""
 
 msgid "URL of the proxy including schema (https://proxy.example.com:8080)"
+msgstr ""
+
+msgid "URL to fetch RSS notifications from"
 msgstr ""
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
@@ -8491,6 +8687,9 @@ msgstr "無法為 %s 設置 TFTP 開機項目"
 msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "無法為 %s 簽署 PuppetCA 憑證"
 
+msgid "Unable to submit role: Problem with associated filter #{f.errors}"
+msgstr ""
+
 msgid "Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing"
 msgstr "無法開啟 websockets_encrypt，找不到 websockets_ssl_key 或 websockets_ssl_cert"
 
@@ -8552,10 +8751,7 @@ msgid "Unmanage host"
 msgstr "未受管理的主機"
 
 msgid "Unnamed"
-msgstr ""
-
-msgid "Unregister Host"
-msgstr "取消註冊主機"
+msgstr "未命名"
 
 msgid "Unsupported IPAM mode for %s"
 msgstr ""
@@ -8572,17 +8768,8 @@ msgstr "更新"
 msgid "Update :a_resource"
 msgstr "更新一項資源(_R)"
 
-msgid "Update Content Overrides"
-msgstr ""
-
 msgid "Update IP from built request"
 msgstr "從建立需求更新 IP"
-
-msgid "Update Sync Plan"
-msgstr "更新同步計畫"
-
-msgid "Update Sync Plan Products"
-msgstr "更新同步計劃產品"
 
 msgid "Update a Puppet class"
 msgstr "更新 Puppet 類別"
@@ -8713,17 +8900,8 @@ msgstr "從詳情升級環境"
 msgid "Update external user group"
 msgstr "更新外部使用者群組"
 
-msgid "Update for host"
-msgstr "給主機的更新"
-
-msgid "Update package"
-msgstr "更新套件"
-
 msgid "Update realm entry for %s"
 msgstr "為 %s 更新領域項目"
-
-msgid "Update release version for host"
-msgstr ""
 
 msgid "Update subnets from facts"
 msgstr ""
@@ -8755,17 +8933,8 @@ msgstr "已更新主機：已更改的主機群組"
 msgid "Updated hosts: changed owner"
 msgstr "已更新主機：已更改的擁有者"
 
-msgid "Upload errata into"
-msgstr "上傳勘誤至"
-
 msgid "Upload facts for a host, creating the host if required"
 msgstr "上傳主機的詳情，並視需求建立主機"
-
-msgid "Upload into"
-msgstr "上傳入"
-
-msgid "Use Gravatar"
-msgstr "使用 Gravatar"
 
 msgid "Use NIS netgroups instead of posix groups."
 msgstr ""
@@ -8811,6 +8980,10 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User mail notification"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User role"
 msgstr "使用者角色"
 
@@ -8819,6 +8992,18 @@ msgstr "使用者偏好的位置"
 
 msgid "User's timezone"
 msgstr "使用者的時區"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Interval"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Mail query"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UserRole|Owner type"
@@ -8874,6 +9059,10 @@ msgid "User|Avatar hash"
 msgstr "虛擬人偶雜湊"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
 msgstr "名"
 
@@ -8913,6 +9102,10 @@ msgstr "密碼雜湊"
 msgid "User|Password salt"
 msgstr "密碼 salt"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User|Timezone"
+msgstr ""
+
 msgid "Uses thin provisioning if unchecked"
 msgstr "若未選取的話使用精簡佈建"
 
@@ -8949,6 +9142,21 @@ msgstr "VM 已和 %s 主機相聯"
 msgid "VM is not running!"
 msgstr "VM 沒有在運作！"
 
+msgid "VMRC"
+msgstr ""
+
+msgid "VMRC Console"
+msgstr ""
+
+msgid "VNC"
+msgstr ""
+
+msgid "VNC Console Passwords"
+msgstr ""
+
+msgid "VNC consoles are unsupported on VMware ESXi 6.5 and later."
+msgstr ""
+
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "VNC/SPICE websocket 代理主控台存取加密（需要設定 websockets_ssl_key/cert）"
 
@@ -8973,10 +9181,6 @@ msgstr "當沒有相符的項目時所使用的值。"
 msgid "Variable"
 msgstr "變數"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Variable lookup key"
-msgstr "變數查詢金鑰"
-
 msgid "Variables"
 msgstr "變數"
 
@@ -8995,8 +9199,8 @@ msgstr "版本 %{version}"
 msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
 msgstr ""
 
-msgid "Very Strong"
-msgstr "非常強"
+msgid "Very strong"
+msgstr ""
 
 msgid "View Chart"
 msgstr ""
@@ -9084,13 +9288,19 @@ msgstr "歡迎使用 Foreman"
 msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
 msgstr "您在此使用的任何文字（或是 ERB 範本），皆會被使用來作為您的 OS 磁碟配置選項。若您希望使用分割表選項，請刪除此欄位中的所有文字。"
 
-msgid "When a Host requests a template (e.g. during provisioning), Foreman will select the best match from the available templates of that type, in the following order:"
-msgstr "當一部主機請求範本時（比方說當進行佈建時），Foreman 將會從可用範本中選擇此類型的最佳相符項目，順序如下："
+msgid ""
+"When a Host requests a template (e.g. during provisioning), Foreman \\\n"
+"will select the best match from the available templates of that type, in the \\\n"
+"following order:"
+msgstr ""
 
 msgid "When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
 msgstr "當一個領域被選擇作為主機時，Foreman 會聯絡相關的領域智慧型代理伺服器來為主機建立一個項目，並取得其一次性的註冊密碼。"
 
-msgid "When editing a template, you must assign a list of operating systems which this template can be used with. Optionally, you can restrict a template to a list of host groups and/or environments."
+msgid ""
+"When editing a template, you must assign a list \\\n"
+"of operating systems which this template can be used with. Optionally, you can \\\n"
+"restrict a template to a list of host groups and/or environments."
 msgstr ""
 
 msgid "When enabled the parameter is hidden in the UI"
@@ -9126,8 +9336,15 @@ msgstr "類別參數值是否是由 Foreman 所管理。"
 msgid "Whether the smart class parameter value is managed by Foreman"
 msgstr "智慧 類別 參數值是否是由 Foreman 所管理"
 
+msgid "Whether to get RSS notifications or not"
+msgstr ""
+
 msgid "Which is an offset of <b>%s</b>"
 msgstr "此乃 <b>%s</b> 的位移"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget"
+msgstr ""
 
 msgid "Widget added to dashboard."
 msgstr "小工具已新增至面板。"
@@ -9138,8 +9355,39 @@ msgstr "儲存小工具的位置成功。"
 msgid "Widget removed from dashboard."
 msgstr "已從面板移除小工具。"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Col"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Data"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Row"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Sizex"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Sizey"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Template"
+msgstr ""
+
 msgid "Wiki"
 msgstr "Wiki"
+
+msgid "Wipe disk after delete"
+msgstr ""
 
 msgid "With user groups, you can group your users and assign them roles on a group basis."
 msgstr ""
@@ -9204,6 +9452,9 @@ msgstr "您沒有權限 %s 此位置參數"
 msgid "You do not have permission to %s this organization parameter"
 msgstr "您沒有權限 %s 此組織參數"
 
+msgid "You do not have permission to edit the login"
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "您沒有任何可見的主機。主機可以從 Foreman 新增、佈建，或配置為向 Foreman 報告。"
 
@@ -9224,9 +9475,6 @@ msgstr ""
 
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "您亦可為此媒介建立與一或更多個作業系統之間的相聯性，或之後在 %s 網頁上設定它。"
-
-msgid "You may also associate one or more operating systems with this partition table or alternatively set this up later on the %s page"
-msgstr "您亦可為此分割表建立與一或更多個作業系統之間的相聯性，或之後在 %s 網頁上設定它。"
 
 msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
 msgstr "您可建立代表高層級主機配置的 puppet 類別，例如 <b>host-type-ldap-server</b> 類別，它包含了來自於其它模組的所有必要功能，或是您亦可建立一個名為 <b>host-type-ldap-server</b> 的主機群組，並將必要的類別加入主機群組配置中。"
@@ -9258,24 +9506,6 @@ msgstr "您的 Foreman 使用者帳號已建立："
 msgid "Your host has finished building:"
 msgstr "您的主機已經完成組建："
 
-msgid "Your password is too short"
-msgstr "您的密碼太短"
-
-msgid "Your password should not contain sequences"
-msgstr ""
-
-msgid "Your password should not contain that many repetitions"
-msgstr ""
-
-msgid "Your password should not contain your email"
-msgstr ""
-
-msgid "Your password should not contain your username"
-msgstr ""
-
-msgid "Your password should use characters from different character classes too"
-msgstr ""
-
 msgid "Your session has expired, please login again"
 msgstr "您的 session 時效已超過，請重新登入"
 
@@ -9288,7 +9518,7 @@ msgstr "區域"
 msgid "[empty]"
 msgstr ""
 
-msgid "[encrypted]"
+msgid "[redacted]"
 msgstr ""
 
 msgid "a location"
@@ -9414,6 +9644,9 @@ msgstr "預設組織必須要先是使用者組織"
 msgid "defaults to 389"
 msgstr "預設為 389"
 
+msgid "determines when the template should associate objects based on metadata, new means only when new template is being created, always means both for new and existing template which is only being updated, never ignores metadata"
+msgstr ""
+
 msgid "does not appear to be a valid nfs mount path"
 msgstr "似乎不是個有效的 nfs 掛載路徑"
 
@@ -9476,6 +9709,9 @@ msgstr ""
 
 msgid "environment id"
 msgstr "環境 ID"
+
+msgid "expecting %s used by hosts or inherited (check mismatches report)."
+msgstr ""
 
 msgid "failed to %{action} %{vm}"
 msgstr "%{action} %{vm} 失敗"
@@ -9813,17 +10049,23 @@ msgstr "與程式碼片段不相關"
 msgid "not required if using a subnet with DHCP proxy"
 msgstr "若是使用一個含有 DHCP 協定的子網路則不需要"
 
+msgid "not supported by this compute resource"
+msgstr ""
+
 msgid "not supported by this protocol"
 msgstr ""
 
 msgid "number of entries per request"
 msgstr "每個請求的項目數量"
 
+msgid "oVirt/RHEV instance type"
+msgstr ""
+
 msgid "oVirt/RHEV template to use"
 msgstr "要使用的 oVirt/RHEV 範本"
 
 msgid "of"
-msgstr ""
+msgstr "/"
 
 msgid "of "
 msgstr ""
@@ -9847,7 +10089,7 @@ msgid "optional: the STI type of host to create"
 msgstr "選用性：欲建立之主機的 STI 類型"
 
 msgid "or"
-msgstr ""
+msgstr "或是"
 
 msgid "organization"
 msgstr "組織"
@@ -9860,12 +10102,6 @@ msgstr "編頁結果"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "未定義由字串叵析的設定類型「%s」"
-
-msgid "password match"
-msgstr "密碼相符"
-
-msgid "passwords do not match"
-msgstr "密碼不符"
 
 msgid "pending"
 msgstr "正在處理"
@@ -9978,6 +10214,9 @@ msgstr "排序結果"
 msgid "space separated options, e.g. miimon=100"
 msgstr "以空格隔開的選項，例如 miimon=100"
 
+msgid "specified template \"%s\" kind was not found"
+msgstr ""
+
 msgid "start"
 msgstr "起始"
 
@@ -10012,6 +10251,9 @@ msgstr "子網路開機模式不是 %s"
 
 msgid "sync external user groups on login"
 msgstr "登入時同步外部使用者群組"
+
+msgid "template contents including metadata"
+msgstr ""
 
 msgid "template name"
 msgstr "範本名稱"
@@ -10052,6 +10294,9 @@ msgstr "未指定"
 msgid "use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa"
 msgstr ""
 
+msgid "use if you want update locked templates"
+msgstr ""
+
 msgid "used memory"
 msgstr "已使用的記憶體"
 
@@ -10084,6 +10329,3 @@ msgstr "您無法指定您所選擇的部分角色"
 
 msgid "you can't change administrator flag"
 msgstr "您不可更改管理員旗標"
-
-msgid "you cannot remove %s that are used by hosts or inherited."
-msgstr "您不可移除主機所使用或繼承的 %s。"
