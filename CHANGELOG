@@ -1,4 +1,41 @@
+2018-04-03	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+
+2018-03-29	Ori Rabin <orabin@redhat.com>
+	* Fixes #22546 - Return power action status for ovirt (CVE-2018-1097)
+
+2018-03-29	Martin Povolny <mpovolny@redhat.com>
+	* Fixes #23028 - Properly escape params passed to where (CVE-2018-1096)
+
+2018-03-25	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #23011 - pin mocha on Ruby <2.3
+	* Fixes #23007 - renew certs used in oVirt model test
+
+2018-03-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22875 - Fix digest limits
+
+2018-03-13	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #15954 - pin fog-openstack for Ruby < 2.1
+
+2018-01-14	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #15954 - pin jwt for Ruby < 2.1
+	* Refs #19577 - pin xpath for Ruby < 2.2
+
+2018-01-11	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #22208 - pin audited to 4.5
+
+2018-01-02	Michael Moll <kvedulv@kvedulv.de>
+	* Revert "Refs #22110 - pin minitest gem"
+	* Refs #22110 - pin minitest gem
+
+2017-12-19	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #21424 - Pin factory_girl_rails to ~> 4.8.0
+
+2017-10-11	Daniel Lobato Garcia <me@daniellobato.me>
+	* Add Ansible templates to db/seeds.d/07-data.rb
+
 2017-10-10	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.15.6
 	* i18n - extracting new, pulling from tx
 
 2017-10-10	Lukáš Zapletal <lzap@redhat.com>
