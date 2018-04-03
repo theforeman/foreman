@@ -148,6 +148,8 @@ module AuditExtensions
         self.location_ids = [auditable.location_id, audited_changes['location_id']].flatten.compact.uniq
       elsif auditable.respond_to?(:location_ids)
         self.location_ids = auditable.location_ids
+      elsif auditable.is_a? Location
+        self.location_ids = [auditable_id]
       end
     end
     if SETTINGS[:organizations_enabled]
@@ -155,6 +157,8 @@ module AuditExtensions
         self.organization_ids = [auditable.organization_id, audited_changes['organization_id']].flatten.compact.uniq
       elsif auditable.respond_to?(:organization_ids)
         self.organization_ids = auditable.organization_ids
+      elsif auditable.is_a? Organization
+        self.organization_ids = [auditable_id]
       end
     end
   end
