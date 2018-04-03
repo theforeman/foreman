@@ -1,4 +1,48 @@
+2018-04-04	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.16.1
+
+2018-04-04	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #21857 - don't use ES6 syntax in Rails JS asset
+
+2018-04-04	Robert Flechtner <flechtner@chemmedia.de>
+	* Fixes #21946 - Correctly match fact names in classification
+
+2018-04-03	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+
+2018-03-29	Ori Rabin <orabin@redhat.com>
+	* Fixes #22546 - Return power action status for ovirt (CVE-2018-1097)
+
+2018-03-27	Martin Povolny <mpovolny@redhat.com>
+	* Fixes #23028 - Properly escape params passed to where (CVE-2018-1096) (#5363)
+
+2018-03-25	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #23011 - pin mocha on Ruby <2.3
+	* Fixes #23007 - renew certs used in oVirt model test
+
+2018-03-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22875 - Fix digest limits
+
+2018-03-06	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #22711 - add uglifyjs-webpack-plugin to package.json
+
+2018-03-06	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22711 - fix uglifyjs-webpack plugin
+
+2018-01-14	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #19577 - pin xpath for Ruby < 2.2
+
+2018-01-11	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #22208 - pin audited to 4.5
+
+2018-01-02	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #22110 - pin minitest gem
+
+2017-12-18	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #21120 - DHCP update no longer queued twice
+
 2017-11-29	Daniel Lobato Garcia <me@daniellobato.me>
+	* Release 1.16.0
 	* i18n - extracting new, pulling from tx
 	* templates - sync from community-templates
 
