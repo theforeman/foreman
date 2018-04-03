@@ -21,7 +21,7 @@ var production =
 
 var bundleEntry = path.join(__dirname, '..', 'webpack/assets/javascripts/bundle.js');
 
-var plugins = pluginUtils.getPluginDirs();
+var plugins = pluginUtils.getPluginDirs('pipe');
 
 var resolveModules = [  path.join(__dirname, '..', 'webpack'),
                         path.join(__dirname, '..', 'node_modules'),
