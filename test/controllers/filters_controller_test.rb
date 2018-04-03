@@ -30,7 +30,7 @@ class FiltersControllerTest < ActionController::TestCase
     assert_response :success
     refute_empty assigns(:filters)
     assert_equal Filter.search_for("role = #{role.name}").count, assigns(:filters).count
-    assert_match "{\"menu\":[{\"caption\":\"Roles\",\"url\":\"/roles\"},{\"caption\":\"Manager filters\"}]}))", @response.body
+    assert_match "{\"caption\":\"Roles\",\"url\":\"/roles\"},{\"caption\":\"Manager filters\"}", @response.body
   end
 
   test "should create filter" do

@@ -1,5 +1,6 @@
 <% javascript 'charts', 'hosts' %>
 <% title @host.to_label, icon(@host.operatingsystem) + @host.to_label %>
+<% host_breadcrumb %>
 <%= host_title_actions(@host) %>
 <% content_for(:search_bar) {reports_show} %>
 <div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>

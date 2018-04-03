@@ -61,7 +61,7 @@
     </div>
   <% end %>
   <div id="compute_profiles" class="tab-pane">
-    <table class="<%= table_css_classes 'table-two-pane table-fixed' %>" id="two_pane_content">
+    <table class="<%= table_css_classes 'table-fixed' %>" id="two_pane_content">
       <thead>
         <tr>
           <th class="col-md-8"><%= _("Compute profile") %></th>
@@ -77,7 +77,7 @@
                             new_compute_profile_compute_resource_compute_attribute_path(compute_profile.to_param, @compute_resource.to_param)
                           end %>
           <tr>
-            <td class="display-two-pane ellipsis"><%= link_to(compute_profile.name, which_path) %></td>
+            <td class="ellipsis"><%= link_to(compute_profile.name, which_path) %></td>
             <td>
               <% set = @compute_resource.compute_attributes.where(:compute_profile_id => compute_profile.id).first %>
               <%= set ? set.name : content_tag(:span, _("unspecified"), :class => 'gray') %>

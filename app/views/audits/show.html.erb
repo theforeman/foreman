@@ -1,5 +1,15 @@
-<% title "#{@audit.action.camelize} #{audited_type @audit}: #{audit_title @audit}" %>
-
+<% breadcrumbs(
+     switchable: false,
+     items: [
+       {
+         caption: _("Audits"),
+         url: (url_for(audits_path) if authorized_for(hash_for_hosts_path))
+       },
+       {
+         caption: "#{@audit.action.camelize} #{audited_type @audit}: #{audit_title @audit}"
+       },
+     ]
+) %>
 <%= title_actions link_to_if_authorized(_("Host details"),
                                         hash_for_host_path(:id => @audit.auditable.to_param).merge(:auth_object => @audit.auditable, :auth_action => 'view'),
                                         :title => _("Host details"),

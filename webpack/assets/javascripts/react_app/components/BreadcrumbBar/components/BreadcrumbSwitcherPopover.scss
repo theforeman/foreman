@@ -1,0 +1,30 @@
+@import '../../../common/colors';
+
+.popover-content {
+  max-height: $switcher-max-height;
+  overflow-y: auto;
+  max-width: $switcher-max-width;
+  min-width: $switcher-max-width;
+
+  .breadcrumb-switcher-popover-error {
+    color: #f00;
+  }
+
+  .list-group-item {
+    padding: 5px 3px;
+
+    &:hover {
+      color: #fff;
+      background-color: #39a5dc;
+      border-color: #39a5dc;
+    }
+  }
+
+  .no-border {
+    border: none;
+  }
+}
+
+#breadcrumb-switcher-popover {
+  z-index: 1000 !important;
+}

@@ -8,7 +8,7 @@ import ToastsList from './toastNotifications/';
 import StorageContainer from './hosts/storage/vmware/';
 import BookmarkContainer from './bookmarks';
 import PasswordStrength from './user/passwordStrength/';
-import ForemanBreadcrumb from './Breadcrumb';
+import BreadcrumbBar from './BreadcrumbBar';
 
 const componentRegistry = {
   registry: {},
@@ -65,7 +65,7 @@ const coreComponets = [
   { name: 'ToastNotifications', type: ToastsList, data: false },
   { name: 'StorageContainer', type: StorageContainer },
   { name: 'PasswordStrength', type: PasswordStrength },
-  { name: 'Breadcrumb', type: ForemanBreadcrumb },
+  { name: 'BreadcrumbBar', type: BreadcrumbBar },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

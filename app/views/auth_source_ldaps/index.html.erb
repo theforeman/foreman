@@ -4,7 +4,7 @@
 
 <% title_actions(new_link(_("Create LDAP Source")), documentation_button('4.1.1LDAPAuthentication')) %>
 
-<table class="<%= table_css_classes("table-two-pane table-hover table-fixed") %>">
+<table class="<%= table_css_classes("table-hover table-fixed") %>">
   <thead>
     <tr>
       <th><%= sort :name, :as => s_("AuthSource|Name") %></th>
@@ -17,7 +17,7 @@
   <tbody>
   <% @auth_source_ldaps.each do |auth_source_ldap| %>
     <tr>
-      <td class="display-two-pane"><%=link_to_if_authorized trunc_with_tooltip(auth_source_ldap.name), hash_for_edit_auth_source_ldap_path(:id => auth_source_ldap) %></td>
+      <td class=""><%=link_to_if_authorized trunc_with_tooltip(auth_source_ldap.name), hash_for_edit_auth_source_ldap_path(:id => auth_source_ldap) %></td>
       <td><%=h auth_source_ldap.host %></td>
       <td><%=checked_icon auth_source_ldap.onthefly_register %></td>
       <td><%=checked_icon auth_source_ldap.tls %></td>

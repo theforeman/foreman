@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BreadcrumbSwitcherPopover render loading state 1`] = `
+<Popover
+  bsClass="popover"
+  className="breadcrumb-switcher-popover"
+  id="some-id"
+  placement="right"
+>
+  <div
+    className="breadcrumb-switcher-popover-loading text-center"
+  >
+    <Icon
+      name="spinner"
+      size="lg"
+      spin={true}
+      type="fa"
+    />
+  </div>
+</Popover>
+`;
+
+exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
+<Popover
+  bsClass="popover"
+  className="breadcrumb-switcher-popover"
+  id="some-id"
+  placement="right"
+>
+  <React.Fragment>
+    <ListGroup
+      bsClass="list-group"
+      className="scrollable-list"
+    >
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="1-Host 1"
+        key="1-Host 1"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 1
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="2-Host 2"
+        key="2-Host 2"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 2
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="3-Host 3 with a very long name"
+        key="3-Host 3 with a very long name"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 3 with a very long name
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        id="4-Host 4"
+        key="4-Host 4"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 4
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="5-Host 5"
+        key="5-Host 5"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 5
+        </EllipisWithTooltip>
+      </ListGroupItem>
+    </ListGroup>
+    <Pager
+      baseClassName="content-view-pf-pagination"
+      className="pager-sm"
+      disableNext={true}
+      disablePrevious={true}
+      messages={
+        Object {
+          "nextPage": "Next",
+          "previousPage": "Previous",
+        }
+      }
+      onNextPage={[Function]}
+      onPreviousPage={[Function]}
+    />
+  </React.Fragment>
+</Popover>
+`;
+
+exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
+<Popover
+  bsClass="popover"
+  className="breadcrumb-switcher-popover"
+  id="some-id"
+  placement="right"
+>
+  <React.Fragment>
+    <ListGroup
+      bsClass="list-group"
+      className="scrollable-list"
+    >
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="1-Host 1"
+        key="1-Host 1"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 1
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="2-Host 2"
+        key="2-Host 2"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 2
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="3-Host 3 with a very long name"
+        key="3-Host 3 with a very long name"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 3 with a very long name
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        id="4-Host 4"
+        key="4-Host 4"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 4
+        </EllipisWithTooltip>
+      </ListGroupItem>
+      <ListGroupItem
+        active={false}
+        bsClass="list-group-item"
+        className="no-border"
+        href="#"
+        id="5-Host 5"
+        key="5-Host 5"
+        listItem={false}
+        onClick={[Function]}
+      >
+        <EllipisWithTooltip>
+          Host 5
+        </EllipisWithTooltip>
+      </ListGroupItem>
+    </ListGroup>
+    <Pager
+      baseClassName="content-view-pf-pagination"
+      className="pager-sm"
+      disableNext={false}
+      disablePrevious={false}
+      messages={
+        Object {
+          "nextPage": "Next",
+          "previousPage": "Previous",
+        }
+      }
+      onNextPage={[Function]}
+      onPreviousPage={[Function]}
+    />
+  </React.Fragment>
+</Popover>
+`;

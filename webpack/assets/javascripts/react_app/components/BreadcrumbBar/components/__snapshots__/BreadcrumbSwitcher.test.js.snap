@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BreadcrumbSwitcher rendering render closed 1`] = `
+<div
+  className="breadcrumb-switcher"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <BreadcrumbSwitcherToggler
+    id="switcher"
+    onClick={[Function]}
+  />
+  <Overlay
+    animation={[Function]}
+    onHide={[Function]}
+    placement="bottom"
+    rootClose={true}
+    show={false}
+    target={[Function]}
+  >
+    <BreadcrumbSwitcherPopover
+      currentPage={1}
+      hasError={false}
+      id="breadcrumb-switcher-popover"
+      loading={false}
+      onNextPageClick={[Function]}
+      onPrevPageClick={[Function]}
+      onResourceClick={[Function]}
+      resources={Array []}
+      totalPages={1}
+    />
+  </Overlay>
+</div>
+`;
+
+exports[`BreadcrumbSwitcher rendering render loading state 1`] = `
+<div
+  className="breadcrumb-switcher"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <BreadcrumbSwitcherToggler
+    id="switcher"
+    onClick={[Function]}
+  />
+  <Overlay
+    animation={[Function]}
+    onHide={[Function]}
+    placement="bottom"
+    rootClose={true}
+    show={true}
+    target={[Function]}
+  >
+    <BreadcrumbSwitcherPopover
+      currentPage={1}
+      hasError={false}
+      id="breadcrumb-switcher-popover"
+      loading={false}
+      onNextPageClick={[Function]}
+      onPrevPageClick={[Function]}
+      onResourceClick={[Function]}
+      resources={Array []}
+      totalPages={1}
+    />
+  </Overlay>
+</div>
+`;
+
+exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
+<div
+  className="breadcrumb-switcher"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <BreadcrumbSwitcherToggler
+    id="switcher"
+    onClick={[Function]}
+  />
+  <Overlay
+    animation={[Function]}
+    onHide={[Function]}
+    placement="bottom"
+    rootClose={true}
+    show={true}
+    target={[Function]}
+  >
+    <BreadcrumbSwitcherPopover
+      currentPage={1}
+      hasError={false}
+      id="breadcrumb-switcher-popover"
+      loading={false}
+      onNextPageClick={[Function]}
+      onPrevPageClick={[Function]}
+      onResourceClick={[Function]}
+      resources={
+        Array [
+          Object {
+            "id": "1",
+            "name": "Host 1",
+            "url": "#",
+          },
+          Object {
+            "id": "2",
+            "name": "Host 2",
+            "url": "#",
+          },
+          Object {
+            "id": "3",
+            "name": "Host 3 with a very long name",
+            "url": "#",
+          },
+          Object {
+            "id": "4",
+            "name": "Host 4",
+            "onClick": [Function],
+            "url": undefined,
+          },
+          Object {
+            "id": "5",
+            "name": "Host 5",
+            "onClick": undefined,
+            "url": "#",
+          },
+        ]
+      }
+      totalPages={1}
+    />
+  </Overlay>
+</div>
+`;
+
+exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] = `
+<div
+  className="breadcrumb-switcher"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <BreadcrumbSwitcherToggler
+    id="switcher"
+    onClick={[Function]}
+  />
+  <Overlay
+    animation={[Function]}
+    onHide={[Function]}
+    placement="bottom"
+    rootClose={true}
+    show={true}
+    target={[Function]}
+  >
+    <BreadcrumbSwitcherPopover
+      currentPage={2}
+      hasError={false}
+      id="breadcrumb-switcher-popover"
+      loading={false}
+      onNextPageClick={[Function]}
+      onPrevPageClick={[Function]}
+      onResourceClick={[Function]}
+      resources={
+        Array [
+          Object {
+            "id": "1",
+            "name": "Host 1",
+            "url": "#",
+          },
+          Object {
+            "id": "2",
+            "name": "Host 2",
+            "url": "#",
+          },
+          Object {
+            "id": "3",
+            "name": "Host 3 with a very long name",
+            "url": "#",
+          },
+          Object {
+            "id": "4",
+            "name": "Host 4",
+            "onClick": [Function],
+            "url": undefined,
+          },
+          Object {
+            "id": "5",
+            "name": "Host 5",
+            "onClick": undefined,
+            "url": "#",
+          },
+        ]
+      }
+      totalPages={3}
+    />
+  </Overlay>
+</div>
+`;

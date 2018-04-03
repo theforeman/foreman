@@ -6,6 +6,7 @@ import hosts from './hosts';
 import notifications from './notifications/';
 import toasts from './toasts';
 import passwordStrength from './user/passwordStrength';
+import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBar';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -16,6 +17,7 @@ export function combineReducersAsync(asyncReducers) {
     notifications,
     toasts,
     passwordStrength,
+    ...breadcrumbBarReducers,
     ...asyncReducers,
   });
 }

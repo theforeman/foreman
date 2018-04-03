@@ -1,8 +1,9 @@
 <% title _("Roles") %>
+
 <% title_actions new_link(_("Create Role")),
                  documentation_button('4.1.2RolesandPermissions') %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-2"><%= sort :name, :as => s_("Role|Name") %></th>
@@ -14,7 +15,7 @@
   <tbody>
     <% for role in @roles %>
       <tr>
-        <td class="display-two-pane ellipsis">
+        <td class="ellipsis">
           <%= role_link(role) %>
         </td>
         <td class="ellipsis">

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BreadcrumbSwitcherToggler render a BreadcrumbSwitcherToggler 1`] = `
+<Button
+  active={false}
+  block={false}
+  bsClass="btn"
+  bsStyle="default"
+  disabled={false}
+  onClick={[Function]}
+>
+  <Icon
+    name="exchange"
+    type="fa"
+  />
+</Button>
+`;

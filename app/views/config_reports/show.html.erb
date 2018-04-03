@@ -1,5 +1,6 @@
 <%= javascript 'reports', 'charts' %>
 <% title "#{@config_report.host}"%>
+<% breadcrumbs(switchable: false) %>
 
 <p class='ra'> <%= _("Reported at %s ") % @config_report.reported_at %> </p>
 <% if @offset > 10 %>
