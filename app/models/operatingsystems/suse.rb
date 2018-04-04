@@ -33,6 +33,6 @@ class Suse < Operatingsystem
     s.gsub!(/\(.+?\)/,'')
     s.squeeze! " "
     s.strip!
-    s.blank? ? description : s
+    s.presence || description
   end
 end

@@ -96,7 +96,7 @@ class LookupKey < ApplicationRecord
 
   def path
     path = read_attribute(:path)
-    path.blank? ? array2path(Setting["Default_variables_Lookup_Path"]) : path
+    path.presence || array2path(Setting["Default_variables_Lookup_Path"])
   end
 
   def path=(v)

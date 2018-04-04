@@ -13,8 +13,8 @@ module Api
       add_scoped_search_description_for(Permission)
 
       def index
-        type = params[:resource_type].blank? ? nil : params[:resource_type]
-        name = params[:name].blank? ? nil : params[:name]
+        type = params[:resource_type].presence
+        name = params[:name].presence
         if type
           @permissions = Permission.where(:resource_type => type).paginate(paginate_options)
         elsif name

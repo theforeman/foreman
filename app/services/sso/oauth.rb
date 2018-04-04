@@ -33,7 +33,7 @@ module SSO
     end
 
     def authenticated?
-      self.user = User.current.present? ? User.current : authenticate!
+      self.user = User.current.presence || authenticate!
     end
 
     def current_user

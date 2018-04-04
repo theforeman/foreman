@@ -32,7 +32,7 @@ class ApplicationMailer < ActionMailer::Base
   def set_locale_for(user)
     old_loc = FastGettext.locale
     begin
-      FastGettext.set_locale(user.locale.blank? ? 'en' : user.locale)
+      FastGettext.set_locale(user.locale.presence || 'en')
       yield if block_given?
     ensure
       FastGettext.locale = old_loc if block_given?

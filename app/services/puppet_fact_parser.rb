@@ -139,7 +139,7 @@ class PuppetFactParser < FactParser
   end
 
   def os_name
-    facts[:operatingsystem].blank? ? raise(::Foreman::Exception.new("invalid facts, missing operating system value")) : facts[:operatingsystem]
+    facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
   end
 
   def os_release
