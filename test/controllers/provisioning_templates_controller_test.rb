@@ -182,7 +182,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
 
     # works for given host
     post :preview, params: { :preview_host_id => host.id, :template => '<%= @host.name -%>', :id => template }, session: set_session_user
-    assert_equal (host.hostname).to_s, @response.body
+    assert_equal host.hostname.to_s, @response.body
 
     # without host specified it uses first one
     post :preview, params: { :template => '<%= 1+1 -%>', :id => template }, session: set_session_user

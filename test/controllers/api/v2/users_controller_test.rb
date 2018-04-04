@@ -90,14 +90,14 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   test "should not remove the default role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    assert user.roles =([roles(:default_role)])
+    assert user.roles =[roles(:default_role)]
 
     put :update, params: { :id => user.id, :user => { :mail => "bar@foo.com" } }
     assert_response :success
 
     mod_user = User.unscoped.find_by_id(user.id)
 
-    assert mod_user.roles =([roles(:default_role)])
+    assert mod_user.roles =[roles(:default_role)]
   end
 
   test "should set password" do

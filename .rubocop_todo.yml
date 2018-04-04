@@ -564,11 +564,6 @@ Style/Proc:
 Style/RaiseArgs:
   Enabled: false
 
-# Offense count: 60
-# Cop supports --auto-correct.
-Style/RedundantParentheses:
-  Enabled: false
-
 # Offense count: 648
 # Cop supports --auto-correct.
 Style/RedundantSelf:

@@ -105,7 +105,7 @@ module Foreman::Controller::SmartProxyAuth
 
     hosts = Hash[proxies.map { |p| [URI.parse(p.url).host, p] }]
     allowed_hosts = hosts.keys.push(*Setting[:trusted_hosts])
-    logger.debug { ("Verifying request from #{request_hosts.inspect} against #{allowed_hosts.inspect}") }
+    logger.debug { "Verifying request from #{request_hosts.inspect} against #{allowed_hosts.inspect}" }
 
     if (host = detect_matching_host(allowed_hosts, request_hosts))
       @detected_proxy = hosts[host] if host

@@ -126,10 +126,10 @@ class NicTest < ActiveSupport::TestCase
       subnet6 = subnets(:six)
       host = FactoryBot.build(:host)
 
-      subnet_list = subnet.send((taxonomy.to_s.pluralize).to_s)
+      subnet_list = subnet.send(taxonomy.to_s.pluralize.to_s)
       subnet_list << tax_object1
 
-      subnet6_list = subnet6.send((taxonomy.to_s.pluralize).to_s)
+      subnet6_list = subnet6.send(taxonomy.to_s.pluralize.to_s)
       subnet6_list << tax_object1
 
       host.send("#{taxonomy}=", tax_object2)

@@ -6,7 +6,7 @@ module CommonParametersHelper
   end
 
   def parameters_title
-    _("Parameters that would be associated with hosts in this %s") % (type)
+    _("Parameters that would be associated with hosts in this %s") % type
   end
 
   def parameter_value_field(value)

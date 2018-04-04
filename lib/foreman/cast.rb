@@ -4,8 +4,8 @@ module Foreman
       case value
 
       when String
-        return true if value =~ (/\A(true|t|yes|y|on|1)\z/i)
-        return false if value.blank? || value =~ (/\A(false|f|no|n|off|0)\z/i)
+        return true if value =~ /\A(true|t|yes|y|on|1)\z/i
+        return false if value.blank? || value =~ /\A(false|f|no|n|off|0)\z/i
         nil
 
       when Integer

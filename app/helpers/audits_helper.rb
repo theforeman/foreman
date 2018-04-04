@@ -188,7 +188,7 @@ module AuditsHelper
   end
 
   def audit_details(audit)
-    ("#{audit_user(audit)} #{audit_remote_address audit} #{audit_action_name audit} #{audited_type audit}: #{link_to(audit_title(audit), audit_path(audit))}").html_safe
+    "#{audit_user(audit)} #{audit_remote_address audit} #{audit_action_name audit} #{audited_type audit}: #{link_to(audit_title(audit), audit_path(audit))}".html_safe
   end
 
   private

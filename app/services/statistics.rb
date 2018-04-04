@@ -1,7 +1,7 @@
 module Statistics
   def self.charts(org_id, loc_id)
     charts = [
-      CountHosts.new(:count_by => :operatingsystem, :title => ("OS Distribution"), :search =>"os_title=~VAL~", :organization_id => org_id, :location_id => loc_id),
+      CountHosts.new(:count_by => :operatingsystem, :title => "OS Distribution", :search =>"os_title=~VAL~", :organization_id => org_id, :location_id => loc_id),
       CountHosts.new(:count_by => :architecture, :title => _("Architecture Distribution"), :search => "facts.architecture=~VAL~", :organization_id => org_id, :location_id => loc_id),
       CountHosts.new(:count_by => :environment, :title => _("Environment Distribution"), :search => "environment=~VAL~", :organization_id => org_id, :location_id => loc_id),
       CountHosts.new(:count_by => :hostgroup, :title => _("Host Group Distribution"), :search => "hostgroup_title=~VAL~", :organization_id => org_id, :location_id => loc_id),
