@@ -11,10 +11,10 @@ class ProxyApiResourceTest < ActiveSupport::TestCase
 
   test "connect_params sets x_request_id to logger safe session ID" do
     begin
-      ::Logging.mdc['session_safe'] = 'test'
+      ::Logging.mdc['session'] = 'test'
       assert_equal 'test', ProxyAPI::Resource.new({}).send(:connect_params)[:headers][:x_request_id]
     ensure
-      ::Logging.mdc.delete('session_safe')
+      ::Logging.mdc.delete('session')
     end
   end
 
