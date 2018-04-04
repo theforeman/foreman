@@ -612,7 +612,7 @@ class Host::Managed < Host::Base
 
   # if certname does not exist, use hostname instead
   def certname
-    read_attribute(:certname) || name
+    self[:certname] || name
   end
 
   def capabilities
@@ -633,7 +633,7 @@ class Host::Managed < Host::Base
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    return read_attribute(:root_pass) if read_attribute(:root_pass).present?
+    return self[:root_pass] if self[:root_pass].present?
     return hostgroup.try(:root_pass) if hostgroup.try(:root_pass).present?
     Setting[:root_pass]
   end
@@ -699,15 +699,15 @@ class Host::Managed < Host::Base
 
   # take from hostgroup if compute_profile_id is nil
   def compute_profile_id
-    read_attribute(:compute_profile_id) || hostgroup.try(:compute_profile_id)
+    self[:compute_profile_id] || hostgroup.try(:compute_profile_id)
   end
 
   def provision_method
-    read_attribute(:provision_method) || capabilities.first.to_s
+    self[:provision_method] || capabilities.first.to_s
   end
 
   def explicit_pxe_loader
-    read_attribute(:pxe_loader).presence
+    self[:pxe_loader].presence
   end
 
   def pxe_loader
@@ -881,7 +881,7 @@ class Host::Managed < Host::Base
   end
 
   def set_certname
-    self.certname = Foreman.uuid if read_attribute(:certname).blank? || new_record?
+    self.certname = Foreman.uuid if self[:certname].blank? || new_record?
   end
 
   def provision_method_in_capabilities

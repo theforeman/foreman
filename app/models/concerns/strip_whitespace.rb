@@ -7,7 +7,7 @@ module StripWhitespace
 
   def strip_spaces
     self.changes.each do |column, values|
-      write_attribute(column, read_attribute(column).strip) if (read_attribute(column).is_a?(String) && !skip_strip_attrs.include?(column))
+      self[column] = self[column].strip if (self[column].is_a?(String) && !skip_strip_attrs.include?(column))
     end
   end
 

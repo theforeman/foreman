@@ -14,7 +14,7 @@ class Log < ApplicationRecord
   end
 
   def level=(l)
-    write_attribute(:level_id, LEVELS.index(l))
+    self[:level_id] = LEVELS.index(l)
   end
 
   def level

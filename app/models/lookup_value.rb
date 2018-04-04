@@ -45,7 +45,7 @@ class LookupValue < ApplicationRecord
   end
 
   def value_before_type_cast
-    return read_attribute(:value) if errors[:value].present?
+    return self[:value] if errors[:value].present?
     return self.value if lookup_key.nil? || value.contains_erb?
     lookup_key.value_before_type_cast self.value
   end

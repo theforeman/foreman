@@ -48,13 +48,13 @@ class Report < ApplicationRecord
 
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
-    return {} if read_attribute(:metrics).nil?
-    YAML.load(read_attribute(:metrics)).with_indifferent_access
+    return {} if self[:metrics].nil?
+    YAML.load(self[:metrics]).with_indifferent_access
   end
 
   # serialize metrics as YAML
   def metrics=(m)
-    write_attribute(:metrics, m.to_h.to_yaml) unless m.nil?
+    self[:metrics] = m.to_h.to_yaml unless m.nil?
   end
 
   def to_label
