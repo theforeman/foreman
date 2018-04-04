@@ -254,18 +254,6 @@ module Foreman
     # Use the database for sessions instead of the cookie-based default
     config.session_store :active_record_store, :secure => !!SETTINGS[:require_ssl]
 
-    def dynflow
-      return @dynflow if @dynflow.present?
-      @dynflow =
-        if defined?(ForemanTasks)
-          ForemanTasks.dynflow
-        else
-          ::Dynflow::Rails.new(nil, ::Foreman::Dynflow::Configuration.new)
-        end
-      @dynflow.require!
-      @dynflow
-    end
-
     # We need to mount the sprockets engine before we use the routes_reloader
     initializer(:mount_sprocket_env, :before => :sooner_routes_load) do
       if config.assets.compile
@@ -288,7 +276,23 @@ module Foreman
     end
 
     config.after_initialize do
-      dynflow = Rails.application.dynflow
+      init_dynflow
+      setup_auditing
+    end
+
+    def dynflow
+      return @dynflow if @dynflow.present?
+      @dynflow =
+        if defined?(ForemanTasks)
+          ForemanTasks.dynflow
+        else
+          ::Dynflow::Rails.new(nil, ::Foreman::Dynflow::Configuration.new)
+        end
+      @dynflow.require!
+      @dynflow
+    end
+
+    def init_dynflow
       dynflow.eager_load_actions!
 
       unless dynflow.config.lazy_initialization
@@ -300,6 +304,10 @@ module Foreman
           dynflow.initialize!
         end
       end
+    end
+
+    def setup_auditing
+      Audit.send(:include, AuditSearch)
     end
   end
 
