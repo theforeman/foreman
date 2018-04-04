@@ -95,18 +95,18 @@ class LookupKey < ApplicationRecord
   end
 
   def path
-    path = read_attribute(:path)
+    path = self[:path]
     path.presence || array2path(Setting["Default_variables_Lookup_Path"])
   end
 
   def path=(v)
     return unless v
     using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
-    write_attribute(:path, using_default ? nil : v)
+    self[:path] = using_default ? nil : v
   end
 
   def default_value_before_type_cast
-    return read_attribute(:default_value) if errors[:default_value].present?
+    return self[:default_value] if errors[:default_value].present?
     value_before_type_cast default_value
   end
 

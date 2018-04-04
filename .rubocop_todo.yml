@@ -344,13 +344,6 @@ Rails/Output:
 Rails/OutputSafety:
   Enabled: false
 
-# Offense count: 46
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/ReadWriteAttribute:
-  Enabled: false
-
 # Offense count: 4
 # Configuration parameters: Include.
 # Include: db/migrate/*.rb

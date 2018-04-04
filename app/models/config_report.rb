@@ -43,7 +43,7 @@ class ConfigReport < Report
           else
             raise Foreman::Exception(N_('Unsupported report status format'))
         end
-    write_attribute(:status, s)
+    self[:status] = s
   end
 
   def config_retrieval
@@ -85,6 +85,6 @@ class ConfigReport < Report
   delegate(*METRIC, :to => :calculator)
 
   def calculator
-    ConfigReportStatusCalculator.new(:bit_field => read_attribute(self.class.report_status_column))
+    ConfigReportStatusCalculator.new(:bit_field => self[self.class.report_status_column])
   end
 end

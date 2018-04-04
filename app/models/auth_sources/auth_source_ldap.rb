@@ -170,7 +170,7 @@ class AuthSourceLdap < AuthSource
 
   def strip_ldap_attributes
     [:attr_login, :attr_firstname, :attr_lastname, :attr_mail].each do |attr|
-      write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
+      self[attr] = self[attr].strip unless self[attr].nil?
     end
   end
 

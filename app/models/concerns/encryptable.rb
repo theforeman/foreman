@@ -22,7 +22,7 @@ module Encryptable
     def define_getter_in_db(fields)
       fields.each do |field|
         define_method "#{field}_in_db" do
-          read_attribute(field.to_sym)
+          self[field.to_sym]
         end
       end
     end
@@ -39,7 +39,7 @@ module Encryptable
   def encrypt_setters
     self.encryptable_fields.each do |field|
       if send("#{field}_changed?")
-        self.send("#{field}=", encrypt_field(read_attribute(field.to_sym)))
+        self.send("#{field}=", encrypt_field(self[field.to_sym]))
       end
     end
   end

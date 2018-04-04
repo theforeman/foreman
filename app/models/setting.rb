@@ -125,29 +125,29 @@ class Setting < ApplicationRecord
     # the has_attribute is for enabling DB migrations on older versions
     if has_attribute?(:encrypted) && encrypted
       # Don't re-write the attribute if the current encrypted value is identical to the new one
-      current_value = read_attribute(:value)
+      current_value = self[:value]
       unless is_decryptable?(current_value) && decrypt_field(current_value) == v
-        write_attribute :value, encrypt_field(v)
+        self[:value] = encrypt_field(v)
       end
     else
-      write_attribute :value, v
+      self[:value] = v
     end
   end
 
   def value
-    v = read_attribute(:value)
+    v = self[:value]
     v = decrypt_field(v)
     v.nil? ? default : YAML.load(v)
   end
   alias_method :value_before_type_cast, :value
 
   def default
-    d = read_attribute(:default)
+    d = self[:default]
     d.nil? ? nil : YAML.load(d)
   end
 
   def default=(v)
-    write_attribute :default, v.to_yaml
+    self[:default] = v.to_yaml
   end
   alias_method :default_before_type_cast, :default
 
@@ -343,8 +343,8 @@ class Setting < ApplicationRecord
   end
 
   def clear_value_when_default
-    if read_attribute(:value) == read_attribute(:default)
-      write_attribute(:value, nil)
+    if self[:value] == self[:default]
+      self[:value] = nil
     end
   end
 

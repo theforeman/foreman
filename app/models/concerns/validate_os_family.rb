@@ -11,7 +11,7 @@ module ValidateOsFamily
         :allow_nil => true
 
       define_method "#{family_attr_name}=" do |value|
-        write_attribute(family_attr_name, value.presence)
+        self[family_attr_name] = value.presence
       end
     end
   end

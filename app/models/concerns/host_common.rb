@@ -120,7 +120,7 @@ module HostCommon
     # We only save a value into the image_file field if the value is not the default path, (which was placed in the entry when it was displayed,)
     # and it is not a directory, (ends in /)
     value = ((default_image_file == file) || (file =~ /\/\Z/) || file == "") ? nil : file
-    write_attribute :image_file, value
+    self[:image_file] = value
   end
 
   def image_file
@@ -131,7 +131,7 @@ module HostCommon
     # hosts will always copy and crypt the password from parents when saved, but hostgroups should
     # only crypt if the attribute is stored, else will stay blank and inherit
     unencrypted_pass = if is_a?(Hostgroup)
-                         read_attribute(:root_pass)
+                         self[:root_pass]
                        else
                          root_pass
                        end

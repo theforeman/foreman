@@ -177,14 +177,14 @@ class Hostgroup < ApplicationRecord
 
   # no need to store anything in the db if the password is our default
   def root_pass
-    return read_attribute(:root_pass) if read_attribute(:root_pass).present?
+    return self[:root_pass] if self[:root_pass].present?
     npw = nested_root_pw
     return npw if npw.present?
     Setting[:root_pass]
   end
 
   def explicit_pxe_loader
-    read_attribute(:pxe_loader).presence
+    self[:pxe_loader].presence
   end
 
   def pxe_loader
