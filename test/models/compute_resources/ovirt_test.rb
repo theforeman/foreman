@@ -69,6 +69,12 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       @compute_resource.determine_os_type(@host).must_equal "ubuntu_12_10"
     end
 
+    it 'respects host param ovirt_ostype' do
+      @compute_resource.stubs(:available_operating_systems).returns(@os_hashes)
+      @host.stubs(:params).returns({'ovirt_ostype' => 'some_os'})
+      @compute_resource.determine_os_type(@host).must_equal "some_os"
+    end
+
     it 'caches the operating systems in the compute resource' do
       client_mock = mock.tap { |m| m.stubs(:operating_systems).returns(@ovirt_oses) }
       @compute_resource.stubs(:client).returns(client_mock)
