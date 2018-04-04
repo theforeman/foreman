@@ -14,7 +14,7 @@ module HostStatus
     end
 
     def out_of_sync?
-      if (host && !host.enabled?) || no_reports?
+      if (host && !host.enabled?) || no_reports? || out_of_sync_disabled?
         false
       else
         !reported_at.nil? && reported_at < (Time.now.utc - expected_report_interval)
@@ -127,6 +127,14 @@ module HostStatus
 
     def default_report_interval
       Setting[:outofsync_interval]
+    end
+
+    def out_of_sync_disabled?
+      if last_report.origin
+        Setting[:"#{last_report.origin.downcase}_out_of_sync_disabled"]
+      else
+        false
+      end
     end
   end
 end
