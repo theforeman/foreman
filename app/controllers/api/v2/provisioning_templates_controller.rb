@@ -5,6 +5,7 @@ module Api
       include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
       include Foreman::Controller::Parameters::ProvisioningTemplate
+      include Foreman::Controller::TemplateImport
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone export}
@@ -13,7 +14,7 @@ module Api
       before_action :process_template_kind, :only => [:create, :update]
       before_action :process_operatingsystems, :only => [:create, :update]
 
-      api :GET, "/provisioning_templates/", N_("List provisioning templates")
+      api :GET, "/provisioning_templates/", N_("List provisioning templates") 
       api :GET, "/operatingsystems/:operatingsystem_id/provisioning_templates", N_("List provisioning templates per operating system")
       api :GET, "/locations/:location_id/provisioning_templates/", N_("List provisioning templates per location")
       api :GET, "/organizations/:organization_id/provisioning_templates/", N_("List provisioning templates per organization")
@@ -59,15 +60,12 @@ module Api
       param :provisioning_template, Hash, :required => true, :action_aware => true do
         param :name, String, :required => true, :desc => N_("template name")
         param :template, String, :required => true, :desc => N_("template contents including metadata")
+        param_group :taxonomies, ::Api::V2::BaseController
       end
       param_group :template_import_options, ::Api::V2::BaseController
 
       def import
-        options = params.permit(:options => {}).try(:[], :options) || {}
-        template_params = params.require(:provisioning_template).permit(:name, :template)
-        name = template_params[:name]
-        text = template_params[:template]
-        @provisioning_template = ProvisioningTemplate.import!(name, text, options)
+        @provisioning_template = ProvisioningTemplate.import!(*import_attrs_for(:provisioning_template))
         process_response @provisioning_template
       end
 

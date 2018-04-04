@@ -187,7 +187,7 @@ EOS
         template = Minitest::Mock.new
         template.expect(:ignore_locking, true)
         Template.expects(:import_without_save => template)
-        Template.import!('test', '', :force => true)
+        Template.import!('test', '',  { :force => true })
         template.verify
       end
     end
