@@ -228,7 +228,7 @@ class UnattendedController < ApplicationController
 
     # @host has been changed even if the save fails, so we have to change it back
     old_ip = @host.ip
-    @host.ip = old_ip unless @host.update_attributes({'ip' => ip})
+    @host.ip = old_ip unless @host.update({'ip' => ip})
   end
 
   def ip_from_request_env

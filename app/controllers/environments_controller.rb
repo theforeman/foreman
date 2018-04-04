@@ -26,7 +26,7 @@ class EnvironmentsController < ApplicationController
   end
 
   def update
-    if @environment.update_attributes(environment_params)
+    if @environment.update(environment_params)
       process_success
     else
       process_error

@@ -39,7 +39,7 @@ class PuppetclassTest < ActiveSupport::TestCase
     end
     as_user :one do
       nested_lookup_key_params = {:new_1372154591368 => {:key=>"test_param", :key_type=>"string", :default_value => "7777", :path =>"fqdn\r\nhostgroup\r\nos\r\ndomain"}}
-      assert Puppetclass.first.update_attributes(:lookup_keys_attributes => nested_lookup_key_params)
+      assert Puppetclass.first.update(:lookup_keys_attributes => nested_lookup_key_params)
     end
   end
 
@@ -178,7 +178,7 @@ class PuppetclassTest < ActiveSupport::TestCase
       }
     }
 
-    refute klass.update_attributes(attributes)
+    refute klass.update(attributes)
     assert klass.errors.messages.keys.include?(:"lookup_keys.lookup_values.value")
   end
 

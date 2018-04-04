@@ -62,7 +62,7 @@ class HostgroupsController < ApplicationController
   end
 
   def update
-    if @hostgroup.update_attributes(hostgroup_params)
+    if @hostgroup.update(hostgroup_params)
       process_success :success_redirect => hostgroups_path
     else
       taxonomy_scope

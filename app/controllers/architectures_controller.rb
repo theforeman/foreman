@@ -25,7 +25,7 @@ class ArchitecturesController < ApplicationController
   end
 
   def update
-    if @architecture.update_attributes(architecture_params)
+    if @architecture.update(architecture_params)
       process_success
     else
       process_error

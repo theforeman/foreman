@@ -91,7 +91,7 @@ module Api
       param_group :user_update
 
       def update
-        if @user.update_attributes(user_params)
+        if @user.update(user_params)
           update_sub_hostgroups_owners
 
           process_success

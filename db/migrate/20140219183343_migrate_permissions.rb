@@ -164,7 +164,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       filters[:compute_resources] = search = user.compute_resources.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected                    = clones.map(&:filters).flatten.select { |f| f.resource_type == 'ComputeResource' }
       affected.each do |filter|
-        filter.update_attributes :search => search unless search.blank?
+        filter.update :search => search unless search.blank?
       end
       say "... compute resource filters applied"
 
@@ -176,7 +176,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       filters[:hostgroups] = search = user.hostgroups.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected             = clones.map(&:filters).flatten.select { |f| f.resource_type == 'Hostgroup' }
       affected.each do |filter|
-        filter.update_attributes :search => search unless search.blank?
+        filter.update :search => search unless search.blank?
       end
       say "... hostgroups filters applied"
 
@@ -189,7 +189,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       affected.each do |filter|
         filter.organizations = orgs
         filter.locations = locs
-        filter.update_attributes :search => search unless search.blank?
+        filter.update :search => search unless search.blank?
       end
       say "... all other filters applied"
 

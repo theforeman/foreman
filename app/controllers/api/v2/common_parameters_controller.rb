@@ -42,7 +42,7 @@ module Api
       param_group :common_parameter
 
       def update
-        process_response @common_parameter.update_attributes(parameter_params(::CommonParameter))
+        process_response @common_parameter.update(parameter_params(::CommonParameter))
       end
 
       api :DELETE, "/common_parameters/:id/", N_("Delete a global parameter")

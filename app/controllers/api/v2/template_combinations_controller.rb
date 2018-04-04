@@ -62,7 +62,7 @@ module Api
       param_group :template_combination
 
       def update
-        process_response @template_combination.update_attributes!(template_combination_params)
+        process_response @template_combination.update!(template_combination_params)
       end
 
       api :DELETE, "/template_combinations/:id", N_("Delete a template combination")

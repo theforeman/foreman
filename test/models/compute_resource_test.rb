@@ -50,19 +50,19 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   test "attrs[:setpw] is set to nil if compute resource is not Libvirt or VMWare" do
     cr = compute_resources(:ec2)
-    assert cr.update_attributes(:set_console_password => 1)
+    assert cr.update(:set_console_password => 1)
     assert_nil cr.attrs[:setpw]
   end
 
   test "attrs[:setpw] is set to 1 if compute resource is Libvirt" do
     cr = compute_resources(:mycompute)
-    assert cr.update_attributes(:set_console_password => 1)
+    assert cr.update(:set_console_password => 1)
     assert_equal 1, cr.attrs[:setpw]
   end
 
   test "attrs[:setpw] is set to 0 rather than nil if compute resource is Libvirt" do
     cr = compute_resources(:mycompute)
-    assert cr.update_attributes(:set_console_password => nil)
+    assert cr.update(:set_console_password => nil)
     assert_equal 0, cr.attrs[:setpw]
   end
 

@@ -30,7 +30,7 @@ class FiltersController < ApplicationController
 
   def update
     @filter = resource_base.find(params[:id])
-    if @filter.update_attributes(filter_params)
+    if @filter.update(filter_params)
       process_success :success_redirect => saved_redirect_url_or(filters_path(:role_id => @role))
     else
       process_error

@@ -101,7 +101,7 @@ class HostgroupTest < ActiveSupport::TestCase
     assert hostgroup.save!
 
     # change name of parent
-    assert parent_hostgroup.update_attributes(:name => "new_common")
+    assert parent_hostgroup.update(:name => "new_common")
     # check if hostgroup(:db) label changed
     hostgroup.reload
     assert_equal "new_common/db", hostgroup.title

@@ -45,7 +45,7 @@ module Api
       param_group :filter
 
       def update
-        process_response @filter.update_attributes(filter_params)
+        process_response @filter.update(filter_params)
       end
 
       api :DELETE, "/filters/:id/", N_("Delete a filter")

@@ -46,7 +46,7 @@ module Api
       param_group :external_usergroup
 
       def update
-        process_response @external_usergroup.update_attributes(external_usergroup_params)
+        process_response @external_usergroup.update(external_usergroup_params)
       end
 
       api :PUT, '/usergroups/:usergroup_id/external_usergroups/:id/refresh', N_('Refresh external user group')

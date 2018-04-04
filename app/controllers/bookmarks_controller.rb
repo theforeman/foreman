@@ -13,7 +13,7 @@ class BookmarksController < ApplicationController
   end
 
   def update
-    if @bookmark.update_attributes(bookmark_params)
+    if @bookmark.update(bookmark_params)
       redirect_to(bookmarks_path, :success => _('Bookmark was successfully updated'))
     else
       render :action => "edit"

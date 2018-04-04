@@ -59,7 +59,7 @@ module Api
       param_group :smart_variable
 
       def update
-        @smart_variable.update_attributes!(variable_lookup_key_params)
+        @smart_variable.update!(variable_lookup_key_params)
         render 'api/v2/smart_variables/show'
       end
 

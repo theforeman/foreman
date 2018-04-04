@@ -197,7 +197,7 @@ module TaxonomiesBaseTest
 
     test "it should have its own class as auditable_type" do
       taxonomy = taxonomies(:"#{taxonomy_name}2")
-      assert taxonomy.update_attributes!(:name => 'newname')
+      assert taxonomy.update!(:name => 'newname')
       assert_equal taxonomy_name.classify, Audit.unscoped.last.auditable_type
     end
 

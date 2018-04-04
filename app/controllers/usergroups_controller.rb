@@ -30,7 +30,7 @@ class UsergroupsController < ApplicationController
   end
 
   def update
-    if @usergroup.update_attributes(usergroup_params) &&
+    if @usergroup.update(usergroup_params) &&
         refresh_external_usergroups
       process_success
     else

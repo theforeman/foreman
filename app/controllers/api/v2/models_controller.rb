@@ -41,7 +41,7 @@ module Api
       param_group :model
 
       def update
-        process_response @model.update_attributes(model_params)
+        process_response @model.update(model_params)
       end
 
       api :DELETE, "/models/:id/", N_("Delete a hardware model")

@@ -234,7 +234,7 @@ class User < ApplicationRecord
           if attrs.is_a? Hash
             valid_attrs = attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? }
             logger.debug("Updating user #{user.login} attributes from auth source: #{attrs.keys}")
-            unless user.update_attributes(valid_attrs)
+            unless user.update(valid_attrs)
               logger.warn "Failed to update #{user.login} attributes: #{user.errors.full_messages.join(', ')}"
             end
           end
@@ -280,7 +280,7 @@ class User < ApplicationRecord
         new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups)
 
         new_usergroups += auth_source.external_usergroups.includes(:usergroup).where(:name => external_groups).map(&:usergroup)
-        user.update_attributes(Hash[attrs.select { |k, v| v.present? }])
+        user.update(Hash[attrs.select { |k, v| v.present? }])
         user.usergroups = new_usergroups.uniq
       end
 

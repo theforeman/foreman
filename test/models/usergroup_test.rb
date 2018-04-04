@@ -82,7 +82,7 @@ class UsergroupTest < ActiveSupport::TestCase
     disable_orchestration
     @ug1 = Usergroup.where(:name => "ug1").first_or_create
     @h1  = FactoryBot.create(:host)
-    @h1.update_attributes :owner => @ug1
+    @h1.update :owner => @ug1
     @ug1.destroy
     assert_equal @ug1.errors.full_messages[0], "ug1 is used by #{@h1}"
   end
@@ -106,7 +106,7 @@ class UsergroupTest < ActiveSupport::TestCase
     record.roles = [one, two]
     assert_equal 3, user.reload.cached_user_roles.size
 
-    assert record.update_attributes(:role_ids => [ two.id ])
+    assert record.update(:role_ids => [ two.id ])
     assert_equal 2, user.reload.cached_user_roles.size
 
     record.role_ids = [ ]

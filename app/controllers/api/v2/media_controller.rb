@@ -62,7 +62,7 @@ Solaris and Debian media may also use $release.
       param_group :medium
 
       def update
-        process_response @medium.update_attributes(medium_params)
+        process_response @medium.update(medium_params)
       end
 
       param :id, :identifier, :required => true

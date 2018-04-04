@@ -65,7 +65,7 @@ module Api
       param_group :auth_source_ldap
 
       def update
-        process_response @auth_source_ldap.update_attributes(auth_source_ldap_params)
+        process_response @auth_source_ldap.update(auth_source_ldap_params)
       end
 
       api :PUT, "/auth_source_ldaps/:id/test/", N_("Test LDAP connection")

@@ -21,7 +21,7 @@ class ComputeAttributesController < ApplicationController
 
   def update
     @set = ComputeAttribute.find(params[:id])
-    if @set.update_attributes(normalized_compute_attribute_params)
+    if @set.update(normalized_compute_attribute_params)
       process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
     else
       process_error :object => @set

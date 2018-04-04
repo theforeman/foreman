@@ -25,7 +25,7 @@ class MediaController < ApplicationController
   end
 
   def update
-    if @medium.update_attributes(medium_params)
+    if @medium.update(medium_params)
       process_success
     else
       process_error

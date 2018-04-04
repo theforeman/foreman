@@ -25,7 +25,7 @@ class RealmsController < ApplicationController
   end
 
   def update
-    if @realm.update_attributes(realm_params)
+    if @realm.update(realm_params)
       process_success
     else
       process_error

@@ -14,7 +14,7 @@ module Api
       before_action :process_template_kind, :only => [:create, :update]
       before_action :process_operatingsystems, :only => [:create, :update]
 
-      api :GET, "/provisioning_templates/", N_("List provisioning templates") 
+      api :GET, "/provisioning_templates/", N_("List provisioning templates")
       api :GET, "/operatingsystems/:operatingsystem_id/provisioning_templates", N_("List provisioning templates per operating system")
       api :GET, "/locations/:location_id/provisioning_templates/", N_("List provisioning templates per location")
       api :GET, "/organizations/:organization_id/provisioning_templates/", N_("List provisioning templates per organization")
@@ -74,7 +74,7 @@ module Api
       param_group :provisioning_template
 
       def update
-        process_response @provisioning_template.update_attributes(provisioning_template_params)
+        process_response @provisioning_template.update(provisioning_template_params)
       end
 
       api :GET, "/provisioning_templates/revision"

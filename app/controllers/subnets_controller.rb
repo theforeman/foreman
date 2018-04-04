@@ -25,7 +25,7 @@ class SubnetsController < ApplicationController
   end
 
   def update
-    if @subnet.update_attributes(subnet_params.except(:mask))
+    if @subnet.update(subnet_params.except(:mask))
       process_success success_hash
     else
       process_error

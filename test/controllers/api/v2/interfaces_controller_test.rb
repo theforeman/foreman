@@ -103,7 +103,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     end
 
     test 'user with hostgroup-scoped view_hosts can view its interfaces' do
-      @host.update_attributes(:hostgroup => FactoryBot.create(:hostgroup))
+      @host.update(:hostgroup => FactoryBot.create(:hostgroup))
       setup_user 'view', 'hosts', "hostgroup_title = #{@host.hostgroup.title}"
       get :index, params: { :host_id => @host.name }, session: set_session_user
       assert_response :success

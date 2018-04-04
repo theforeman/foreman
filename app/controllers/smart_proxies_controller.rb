@@ -71,7 +71,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def update
-    if @smart_proxy.update_attributes(smart_proxy_params)
+    if @smart_proxy.update(smart_proxy_params)
       process_success :object => @smart_proxy
     else
       process_error :object => @smart_proxy

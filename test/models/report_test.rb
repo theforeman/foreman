@@ -52,15 +52,15 @@ class ReportTest < ActiveSupport::TestCase
 
       orgs = FactoryBot.create_pair(:organization)
       locs = FactoryBot.create_pair(:location)
-      @target_host.update_attributes(:location => locs.last, :organization => orgs.last)
-      @target_host.hostgroup.update_attributes(:locations => [locs.last], :organizations => [orgs.last])
+      @target_host.update(:location => locs.last, :organization => orgs.last)
+      @target_host.hostgroup.update(:locations => [locs.last], :organizations => [orgs.last])
 
-      user_role.owner.update_attributes(:locations => [locs.first], :organizations => [orgs.first])
+      user_role.owner.update(:locations => [locs.first], :organizations => [orgs.first])
       as_user user_role.owner do
         assert_equal [], Report.my_reports.map(&:id).sort
       end
 
-      user_role.owner.update_attributes(:locations => [locs.last], :organizations => [orgs.last])
+      user_role.owner.update(:locations => [locs.last], :organizations => [orgs.last])
       as_user user_role.owner do
         assert_equal @target_reports.map(&:id).sort, Report.my_reports.map(&:id).sort
       end
@@ -70,7 +70,7 @@ class ReportTest < ActiveSupport::TestCase
       user = FactoryBot.create(:user, :admin)
       orgs = FactoryBot.create_pair(:organization)
       locs = FactoryBot.create_pair(:location)
-      @target_host.update_attributes(:location => locs.last, :organization => orgs.last)
+      @target_host.update(:location => locs.last, :organization => orgs.last)
 
       as_user user do
         in_taxonomy(orgs.first) do

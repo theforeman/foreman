@@ -48,7 +48,7 @@ module Api
       param_group :realm
 
       def update
-        process_response @realm.update_attributes(realm_params)
+        process_response @realm.update(realm_params)
       end
 
       api :DELETE, "/realms/:id/", N_("Delete a realm")

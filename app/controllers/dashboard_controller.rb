@@ -58,7 +58,7 @@ class DashboardController < ApplicationController
     params.fetch(:widgets, []).each do |id, values|
       widget = User.current.widgets.where(:id => id).first
       values = filter.filter_params(values, parameter_filter_context, :none)
-      errors << widget.errors unless widget.update_attributes(values)
+      errors << widget.errors unless widget.update(values)
     end
     respond_to do |format|
       if errors.empty?

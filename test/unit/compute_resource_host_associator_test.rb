@@ -13,7 +13,7 @@ class ComputeResourceHostAssociatorTest < ActiveSupport::TestCase
   let(:host_without_vm) { FactoryBot.build(:host) }
 
   test 'associates vm with a host if they match' do
-    host_with_vm.update_attributes!(:uuid => vm2.identity)
+    host_with_vm.update!(:uuid => vm2.identity)
     compute_resource.expects(:vms).returns(vms)
     compute_resource.stubs(:associated_host).returns(nil)
     compute_resource.expects(:associated_host).with(vm1).returns(host_without_vm)
@@ -26,7 +26,7 @@ class ComputeResourceHostAssociatorTest < ActiveSupport::TestCase
   end
 
   test 'rescues from errors occurred during the associated_host call ===' do
-    host_with_vm.update_attributes!(:uuid => vm2.identity)
+    host_with_vm.update!(:uuid => vm2.identity)
     compute_resource.expects(:vms).returns(vms)
     compute_resource.stubs(:associated_host).raises('Error associating a host')
     compute_resource.expects(:associated_host).with(vm1).returns(host_without_vm)

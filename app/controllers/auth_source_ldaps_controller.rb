@@ -24,7 +24,7 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def update
-    if @auth_source_ldap.update_attributes(auth_source_ldap_params)
+    if @auth_source_ldap.update(auth_source_ldap_params)
       process_success
     else
       process_error

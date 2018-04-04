@@ -128,10 +128,10 @@ class FacetTest < ActiveSupport::TestCase
     test 'facets do not get created for nil attributes and viceversa' do
       saved_host = FactoryBot.build(:host)
 
-      saved_host.update_attributes({'test_facet_attributes' => { 'my_attribute' => nil}})
+      saved_host.update({'test_facet_attributes' => { 'my_attribute' => nil}})
       assert_nil saved_host.test_facet
 
-      saved_host.update_attributes({'test_facet_attributes' => { 'my_attribute' => "val"}})
+      saved_host.update({'test_facet_attributes' => { 'my_attribute' => "val"}})
       assert_not_nil saved_host.test_facet
     end
   end

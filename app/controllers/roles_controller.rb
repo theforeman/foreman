@@ -54,7 +54,7 @@ class RolesController < ApplicationController
   end
 
   def update
-    if @role.update_attributes(role_params)
+    if @role.update(role_params)
       process_success
     else
       process_error

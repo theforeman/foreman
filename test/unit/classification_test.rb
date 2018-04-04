@@ -734,7 +734,7 @@ class ClassificationTest < ActiveSupport::TestCase
     parent_hostgroup = FactoryBot.create(:hostgroup,
                                           :puppetclasses => [puppetclasses(:two)],
                                           :environment => environments(:production))
-    hostgroup.update_attributes(:parent => parent_hostgroup)
+    hostgroup.update(:parent => parent_hostgroup)
 
     FactoryBot.build(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{parent_hostgroup},organization=#{taxonomies(:organization1)}")
     lv = FactoryBot.create(:lookup_value, :lookup_key_id => key.id, :match => "hostgroup=#{hostgroup},organization=#{taxonomies(:organization1)}")

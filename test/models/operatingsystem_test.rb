@@ -72,7 +72,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should set description by setting to_label" do
     os = operatingsystems(:centos5_3)
-    os.update_attributes(:to_label => "CENTOS 5.3")
+    os.update(:to_label => "CENTOS 5.3")
     assert_equal os.description, os.to_label
   end
 
@@ -281,7 +281,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
       @template_kind = FactoryBot.create(:template_kind)
       @provisioning_template = FactoryBot.create(:provisioning_template, :template_kind_id => @template_kind.id)
       @os = operatingsystems(:centos5_3)
-      @os.update_attributes(:os_default_templates_attributes =>
+      @os.update(:os_default_templates_attributes =>
                                [{ :provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id }]
       )
     end
@@ -295,7 +295,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
     test 'should remove os default template' do
       # Association deleted, yet template_kind and provisioning_template not.
       assert_difference('@os.os_default_templates.length', -1) do
-        @os.update_attributes(:os_default_templates_attributes => { :id => @os.os_default_templates.last.id, :_destroy => 1 })
+        @os.update(:os_default_templates_attributes => { :id => @os.os_default_templates.last.id, :_destroy => 1 })
       end
       assert_valid @template_kind
       assert_valid @provisioning_template

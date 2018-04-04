@@ -35,7 +35,7 @@ module Api
       param_group :auth_source_external
 
       def update
-        process_response @auth_source_external.update_attributes(auth_source_external_params)
+        process_response @auth_source_external.update(auth_source_external_params)
       end
 
       private

@@ -74,7 +74,7 @@ module Api
 
       def update
         class_params = puppetclass_params.merge(:smart_class_parameter_ids => @puppetclass.smart_class_parameters.map(&:id))
-        process_response @puppetclass.update_attributes(class_params)
+        process_response @puppetclass.update(class_params)
       end
 
       api :DELETE, "/puppetclasses/:id/", N_("Delete a Puppet class")

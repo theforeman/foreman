@@ -274,8 +274,8 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "template with hostgroup should be rendered even if both have periods in their names" do
-    templates(:mystring).update_attributes(:name => 'My.String')
-    hostgroups(:common).update_attributes(:name => 'Com.mon')
+    templates(:mystring).update(:name => 'My.String')
+    hostgroups(:common).update(:name => 'Com.mon')
     assert_routing '/unattended/template/My.String/Com.mon', {:controller => 'unattended', :action => 'hostgroup_template', :id => "My.String", :hostgroup => "Com.mon", :format => 'text'}
     get :hostgroup_template, params: { :id => "My.String", :hostgroup => "Com.mon" }
     assert_response :success

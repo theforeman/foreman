@@ -31,7 +31,7 @@ class LookupValueTest < ActiveSupport::TestCase
   test "update lookup value by admin" do
     lookup_value = lookup_values(:hostgroupcommon)
     as_admin do
-      assert lookup_value.update_attributes!(:value => "9000")
+      assert lookup_value.update!(:value => "9000")
     end
   end
 
