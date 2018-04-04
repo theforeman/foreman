@@ -61,23 +61,29 @@ module Foreman::Model
 
     def determine_os_type(host)
       return nil unless host
+      return host.params['ovirt_ostype'] if host.params['ovirt_ostype']
       ret = "other_linux"
       return ret unless host.operatingsystem
       os_name = os_name_mapping(host)
       arch_name = arch_name_mapping(host)
 
-      best_match = available_operating_systems.select { |os| os[:name].present? }.max_by do |os|
+      available = available_operating_systems.select { |os| os[:name].present? }
+      best_matches = available.sort_by do |os|
         rating = 0.0
         if os[:name].include?(os_name)
           rating += 100
-          rating += (1.0/os[:name].length) # prefer the shorter names a bit in case we have not found more important some specifics
+          # prefer the shorter names a bit in case we have not found more important some specifics
+          rating += (1.0 / os[:name].length)
+          # bonus for major or major_minor
           rating += 10 if os[:name].include?("#{os_name}_#{host.operatingsystem.major}")
+          rating += 5 if os[:name].include?("#{os_name}_#{host.operatingsystem.major}_#{host.operatingsystem.minor}")
+          # bonus for architecture
           rating += 10 if arch_name && os[:name].include?(arch_name)
         end
         rating
-      end
-
-      best_match[:name] if best_match
+      end.reverse
+      logger.debug { "Available oVirt OS types: #{best_matches.map{|x| x[:name]}.join(',')}" }
+      best_matches.first[:name] if best_matches.first
     end
 
     def available_operating_systems
