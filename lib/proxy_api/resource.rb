@@ -108,7 +108,7 @@ module ProxyAPI
     end
 
     def request_id
-      ::Logging.mdc['session_safe'] || SecureRandom.hex(32)
+      ::Logging.mdc['session'] || SecureRandom.hex(32)
     end
 
     def ssl_auth_params
