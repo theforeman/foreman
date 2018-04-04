@@ -26,6 +26,10 @@
 # errors in your browser
 :webpack_dev_server_https: false
 
+# Assets in development are not bundled/minified
+# Do not set this to false if you plan to edit assets (css, js, etc.)
+:assets_debug: false
+
 # If you wish to allow browsers access to http resources after accessing the
 # server, you will need to disable HSTS headers. This has security implications
 # so only change this if you know what you're doing.
