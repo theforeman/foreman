@@ -67,7 +67,7 @@ class ComputeResourceCache
     start_time = Time.now.utc
     result = compute_resource.instance_eval(&block)
     end_time = Time.now.utc
-    duration = end_time - (start_time).round(4)
+    duration = end_time - start_time.round(4)
     logger.info("Loaded compute resource data for #{key} in #{duration} seconds")
     result
   end

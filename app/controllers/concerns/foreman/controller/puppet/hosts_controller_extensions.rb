@@ -32,7 +32,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     set_class_variables(@host)
     Taxonomy.as_taxonomy @organization, @location do
       if @environment || @hostgroup
-        render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@host)}
+        render :partial => 'puppetclasses/class_selection', :locals => {:obj => @host}
       else
         logger.info "environment_id or hostgroup_id is required to render puppetclasses"
       end
@@ -64,7 +64,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   def update_multiple_environment
     # simple validations
-    if (params[:environment].nil?) || (id=params["environment"]["id"]).nil?
+    if params[:environment].nil? || (id=params["environment"]["id"]).nil?
       error _('No environment selected!')
       redirect_to(select_multiple_environment_hosts_path)
       return
@@ -84,7 +84,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   def environment_from_param
     # simple validations
-    if (params[:environment].nil?) || (id=params["environment"]["id"]).nil?
+    if params[:environment].nil? || (id=params["environment"]["id"]).nil?
       error _('No environment selected!')
       redirect_to(select_multiple_environment_hosts_path)
       return

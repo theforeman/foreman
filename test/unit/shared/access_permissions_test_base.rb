@@ -13,7 +13,7 @@ module AccessPermissionsTestBase
 
       app_routes.each do |path, r|
         # Skip if excluded from this test (e.g. user login)
-        next if (skipped_actions).include? path
+        next if skipped_actions.include? path
 
         test "route #{path} should have a permission that grants access" do
           # Basic check for a filter presence, can't do advanced features (:only, skip_*)

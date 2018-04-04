@@ -2,7 +2,7 @@ class Solaris < Operatingsystem
   PXEFILES = {:initrd => "x86.miniroot", :kernel => "multiboot"}
 
   def file_prefix
-    (self).to_s.gsub(/[\s\(\)]/,"-").gsub("--", "-").gsub(/-\Z/, "")
+    self.to_s.gsub(/[\s\(\)]/,"-").gsub("--", "-").gsub(/-\Z/, "")
   end
 
   # sets the prefix for the tftp files based on the OS

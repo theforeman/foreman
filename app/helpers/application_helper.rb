@@ -221,7 +221,7 @@ module ApplicationHelper
 
   def searchable?
     return false if (SETTINGS[:login] && !User.current) || @welcome || @missing_permissions
-    if (controller.action_name == "index") || (defined?(SEARCHABLE_ACTIONS) && (SEARCHABLE_ACTIONS.include?(controller.action_name)))
+    if (controller.action_name == "index") || (defined?(SEARCHABLE_ACTIONS) && SEARCHABLE_ACTIONS.include?(controller.action_name))
       controller.respond_to?(:auto_complete_search)
     end
   end

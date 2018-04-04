@@ -98,7 +98,7 @@ class HostgroupsController < ApplicationController
 
     @hostgroup.puppetclasses = Puppetclass.where(:id => params[:hostgroup][:puppetclass_ids])
     @hostgroup.config_groups = ConfigGroup.where(:id => params[:hostgroup][:config_group_ids])
-    render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup), :type => 'hostgroup'}
+    render :partial => 'puppetclasses/class_selection', :locals => {:obj => @hostgroup, :type => 'hostgroup'}
   end
 
   def process_hostgroup

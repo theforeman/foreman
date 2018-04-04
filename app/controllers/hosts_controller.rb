@@ -160,7 +160,7 @@ class HostsController < ApplicationController
   end
 
   def scheduler_hint_selected
-    return not_found unless (params[:host])
+    return not_found unless params[:host]
     refresh_host
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "compute_resources_vms/form/scheduler_hint_filters"
@@ -234,15 +234,15 @@ class HostsController < ApplicationController
           else
             message = _("Enabled %s for rebuild on next boot, but failed to power cycle the host")
           end
-          process_success :success_msg => message % (@host), :success_redirect => :back
+          process_success :success_msg => message % @host, :success_redirect => :back
         rescue => error
           message = _('Failed to reboot %s.') % @host
           warning(message)
           Foreman::Logging.exception(message, error)
-          process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+          process_success :success_msg => _("Enabled %s for rebuild on next boot") % @host, :success_redirect => :back
         end
       else
-        process_success :success_msg => _("Enabled %s for rebuild on next boot") % (@host), :success_redirect => :back
+        process_success :success_msg => _("Enabled %s for rebuild on next boot") % @host, :success_redirect => :back
       end
     else
       process_error :redirect => :back, :error_msg => _("Failed to enable %{host} for installation: %{errors}") % { :host => @host, :errors => @host.errors.full_messages }
@@ -251,7 +251,7 @@ class HostsController < ApplicationController
 
   def cancelBuild
     if @host.built(false)
-      process_success :success_msg =>  _("Canceled pending build for %s") % (@host.name), :success_redirect => :back
+      process_success :success_msg =>  _("Canceled pending build for %s") % @host.name, :success_redirect => :back
     else
       process_error :redirect => :back, :error_msg => _("Failed to cancel pending build for %{hostname} with the following errors: %{errors}") % {:hostname => @host.name, :errors => @host.errors.full_messages.join(', ')}
     end
@@ -341,16 +341,16 @@ class HostsController < ApplicationController
     super
   rescue => e
     Foreman::Logging.exception("Failed to set console", e)
-    process_error :redirect => :back, :error_msg => _("Failed to set console: %s") % (e)
+    process_error :redirect => :back, :error_msg => _("Failed to set console: %s") % e
   end
 
   def toggle_manage
     if @host.toggle! :managed
       if @host.managed
         @host.suggest_default_pxe_loader
-        msg = _("Foreman now manages the build cycle for %s") % (@host.name)
+        msg = _("Foreman now manages the build cycle for %s") % @host.name
       else
-        msg = _("Foreman now no longer manages the build cycle for %s") % (@host.name)
+        msg = _("Foreman now no longer manages the build cycle for %s") % @host.name
       end
       process_success :success_msg => msg, :success_redirect => :back
     else
@@ -361,7 +361,7 @@ class HostsController < ApplicationController
   def disassociate
     if @host.compute?
       @host.disassociate!
-      process_success :success_msg => _("%s has been disassociated from VM") % (@host.name), :success_redirect => :back
+      process_success :success_msg => _("%s has been disassociated from VM") % @host.name, :success_redirect => :back
     else
       process_error :error_msg => _("Host %s is not associated with a VM") % @host.name, :redirect => :back
     end
@@ -406,7 +406,7 @@ class HostsController < ApplicationController
       redirect_to(hosts_path)
       return
     else
-      success _("%s Parameters updated, see below for more information") % (counter)
+      success _("%s Parameters updated, see below for more information") % counter
     end
   end
 
@@ -437,7 +437,7 @@ class HostsController < ApplicationController
 
   def update_multiple_owner
     # simple validations
-    if (params[:owner].nil?) || (id=params["owner"]["id"]).nil?
+    if params[:owner].nil? || (id=params["owner"]["id"]).nil?
       error _('No owner selected!')
       redirect_to(select_multiple_owner_hosts_path)
       return
@@ -591,7 +591,7 @@ class HostsController < ApplicationController
 
   def out_of_sync
     merge_search_filter("#{origin_intervals_query('<').join(' or ')} and status.enabled = true")
-    index _("Hosts which didn't report in the last %s") % (reported_origin_interval_settings.map { |origin, interval| "#{interval} minutes for #{origin}" }.join(' or '))
+    index _("Hosts which didn't report in the last %s") % reported_origin_interval_settings.map { |origin, interval| "#{interval} minutes for #{origin}" }.join(' or ')
   end
 
   def disabled
@@ -695,12 +695,12 @@ class HostsController < ApplicationController
       @host      = @host.becomes(type.constantize)
       @host.type = type
     else
-      error _("invalid type: %s requested") % (type)
+      error _("invalid type: %s requested") % type
       render :unprocessable_entity
     end
   rescue => e
     Foreman::Logging.exception("Something went wrong while changing host type", e)
-    error _("Something went wrong while changing host type - %s") % (e)
+    error _("Something went wrong while changing host type - %s") % e
   end
 
   # overwrite application_controller
@@ -755,7 +755,7 @@ class HostsController < ApplicationController
     action = mode ? "enabled" : "disabled"
 
     if missed_hosts.empty?
-      success _("%s selected hosts") % (action.capitalize)
+      success _("%s selected hosts") % action.capitalize
     else
       error _("The following hosts were not %{action}: %{missed_hosts}") % { :action => action, :missed_hosts => missed_hosts.map(&:name).to_sentence }
     end

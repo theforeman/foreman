@@ -115,7 +115,7 @@ namespace :db do
         STDOUT.flush
         # First, delete any old dev data
         DevelopmentModelClass.delete_all
-        until ((models = ProductionModelClass.offset(offset).limit(PAGE_SIZE)).empty?)
+        until (models = ProductionModelClass.offset(offset).limit(PAGE_SIZE)).empty?
 
           count += models.size
           offset += PAGE_SIZE

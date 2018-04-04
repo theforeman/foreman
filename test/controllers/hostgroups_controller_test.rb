@@ -170,7 +170,7 @@ class HostgroupsControllerTest < ActionController::TestCase
       assert_equal 0, @hostgroup.puppetclasses.length
 
       post :environment_selected, params: @params, session: set_session_user
-      assert_equal(1, (assigns(:hostgroup).puppetclasses.length))
+      assert_equal(1, assigns(:hostgroup).puppetclasses.length)
       assert_include assigns(:hostgroup).puppetclasses, @puppetclass
     end
 

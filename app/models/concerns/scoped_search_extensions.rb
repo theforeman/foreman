@@ -13,7 +13,7 @@ module ScopedSearchExtensions
     end
 
     def cast_facts(table, key, operator, value)
-      is_int = (value =~ /\A[-+]?\d+\z/) || (value.is_a?(Integer))
+      is_int = (value =~ /\A[-+]?\d+\z/) || value.is_a?(Integer)
       is_pg = ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'postgresql'
       # Once Postgresql 8 support is removed (used in CentOS 6), this could be replaced to only keep the first form (working well with PG 9)
       if (is_int && !is_pg)

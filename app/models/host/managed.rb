@@ -164,7 +164,7 @@ class Host::Managed < Host::Base
   }
 
   scope :without_pending_changes, lambda {
-    with_config_status.where((HostStatus::ConfigurationStatus.is_not('pending')).to_s)
+    with_config_status.where(HostStatus::ConfigurationStatus.is_not('pending').to_s)
   }
 
   scope :successful, -> { without_changes.without_error.without_pending_changes}
@@ -297,7 +297,7 @@ class Host::Managed < Host::Base
 
   #retuns fqdn of host puppetmaster
   def pm_fqdn
-    (puppetmaster == "puppet") ? "puppet.#{domain.name}" : (puppetmaster).to_s
+    (puppetmaster == "puppet") ? "puppet.#{domain.name}" : puppetmaster.to_s
   end
 
   # Cleans Certificate and enable Autosign
