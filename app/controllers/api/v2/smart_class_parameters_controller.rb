@@ -69,7 +69,7 @@ module Api
       end
 
       def rename_use_puppet_default
-        return unless params[:smart_class_parameter] && params[:smart_class_parameter].key?(:use_puppet_default)
+        return unless params[:smart_class_parameter]&.key?(:use_puppet_default)
 
         params[:smart_class_parameter][:omit] = params[:smart_class_parameter].delete(:use_puppet_default)
         Foreman::Deprecation.api_deprecation_warning('"use_puppet_default" was renamed to "omit"')

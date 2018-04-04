@@ -12,7 +12,7 @@ module ComputeResourcesVmsHelper
   end
 
   def vm_console(host, vm)
-    if vm && vm.ready?
+    if vm&.ready?
       link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => host, :permission => 'console_hosts'),
                             { :class => "btn btn-info" })
     else

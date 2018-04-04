@@ -31,7 +31,7 @@ module Hostext
 
     # method to return the correct owner list for host edit owner select dropbox
     def is_owned_by
-      owner.id_and_type if owner
+      owner&.id_and_type
     end
 
     # virtual attributes which sets the owner based on the user selection

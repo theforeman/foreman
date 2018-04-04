@@ -24,12 +24,12 @@ module Net
       ipfamily = options.fetch(:ipfamily, Socket::AF_INET)
 
       Timeout.timeout(Setting[:dns_conflict_timeout]) do
-        ipquery = IPAddr.new(query) rescue false
-        if ipquery && ipquery.ipv4?
+        ipquery = IPAddr.new(query) rescue nil
+        if ipquery&.ipv4?
           hostname = resolver.getname(query).to_s
           ip = query
           type = "PTR4"
-        elsif ipquery && ipquery.ipv6?
+        elsif ipquery&.ipv6?
           hostname = resolver.getname(query).to_s
           ip = query
           type = "PTR6"

@@ -17,6 +17,6 @@ module SSO
   end
 
   def self.deregister_method(klass)
-    @registered_methods.delete(klass) if @registered_methods
+    @registered_methods&.delete(klass)
   end
 end

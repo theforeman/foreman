@@ -326,7 +326,7 @@ class ApplicationController < ActionController::Base
   def check_empty_taxonomy
     return if ["locations","organizations"].include?(controller_name)
 
-    if User.current && User.current.admin?
+    if User.current&.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?
         redirect_to main_app.locations_path, :info => _("You must create at least one location before continuing.")
       elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?

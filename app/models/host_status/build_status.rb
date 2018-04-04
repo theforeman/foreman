@@ -47,11 +47,11 @@ module HostStatus
     end
 
     def waiting_for_build?
-      host && host.build
+      host&.build
     end
 
     def token_expired?
-      host && host.token_expired?
+      host&.token_expired?
     end
   end
 end

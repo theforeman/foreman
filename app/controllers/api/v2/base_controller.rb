@@ -121,7 +121,7 @@ module Api
       #
       def append_array_of_ids(hash_params)
         model_name = controller_name.singularize
-        hash_params.dup.each do |k,v|
+        hash_params&.dup&.each do |k,v|
           if v.is_a?(Array)
             association_name_ids = "#{k.singularize}_ids"
             association_name_names = "#{k.singularize}_names"
@@ -133,7 +133,7 @@ module Api
               params[model_name].delete(k)
             end
           end
-        end if hash_params
+        end
       end
 
       def setup_has_many_params

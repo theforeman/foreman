@@ -45,7 +45,7 @@ module ProxyAPI
     #      OR: false if a HTTP error is detected
     # TODO: add error message handling
     def parse(response)
-      telemetry_increment_counter(:proxy_api_response_code, 1, code: response.code) if response && response.code
+      telemetry_increment_counter(:proxy_api_response_code, 1, code: response.code) if response&.code
       if response && response.code >= 200 && response.code < 300
         return response.body.present? ? JSON.parse(response.body) : true
       else

@@ -6,9 +6,9 @@ module Net
 
     def initialize(opts = {})
       # set all attributes
-      opts.each do |k,v|
+      opts&.each do |k,v|
         self.send("#{k}=",v) if self.respond_to?("#{k}=")
-      end if opts
+      end
 
       self.logger ||= Rails.logger
       raise "Must define a proxy" if proxy.nil?

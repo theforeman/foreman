@@ -419,13 +419,13 @@ module Foreman::Model
     def parse_networks(args)
       args = args.deep_dup
       dc_networks = networks
-      args["interfaces_attributes"].each do |key, interface|
+      args["interfaces_attributes"]&.each do |key, interface|
         # Convert network id into name
         net = dc_networks.detect { |n| [n.id, n.name].include?(interface['network']) }
         raise "Unknown Network ID: #{interface['network']}" if net.nil?
         interface["network"] = net.name
         interface["virtualswitch"] = net.virtualswitch
-      end if args["interfaces_attributes"]
+      end
       args
     end
 
@@ -444,7 +444,7 @@ module Foreman::Model
       end
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled VMware error", e)
-      destroy_vm vm.id if vm && vm.id
+      destroy_vm vm.id if vm&.id
       raise e
     end
 

@@ -14,7 +14,7 @@ module RolesHelper
   end
 
   def link_to_unless_locked(name, role, options = {}, html_options = {})
-    if role && role.locked?
+    if role&.locked?
       link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
     else
       link_to_if_authorized name, options, html_options

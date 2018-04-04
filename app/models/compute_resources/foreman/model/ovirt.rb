@@ -346,13 +346,13 @@ module Foreman::Model
     def update_required?(old_attrs, new_attrs)
       return true if super(old_attrs, new_attrs)
 
-      new_attrs[:interfaces_attributes].each do |key, interface|
+      new_attrs[:interfaces_attributes]&.each do |key, interface|
         return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
-      end if new_attrs[:interfaces_attributes]
+      end
 
-      new_attrs[:volumes_attributes].each do |key, volume|
+      new_attrs[:volumes_attributes]&.each do |key, volume|
         return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
-      end if new_attrs[:volumes_attributes]
+      end
 
       false
     end
@@ -489,10 +489,10 @@ module Foreman::Model
 
     def create_interfaces(vm, attrs)
       #first remove all existing interfaces
-      vm.interfaces.each do |interface|
+      vm.interfaces&.each do |interface|
         #The blocking true is a work-around for ovirt bug, it should be removed.
         vm.destroy_interface(:id => interface.id, :blocking => true)
-      end if vm.interfaces
+      end
       #add interfaces
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|

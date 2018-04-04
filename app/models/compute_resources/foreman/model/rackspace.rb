@@ -69,7 +69,7 @@ module Foreman::Model
 
     def destroy_vm(uuid)
       vm = find_vm_by_uuid(uuid)
-      vm.destroy if vm
+      vm&.destroy
       true
     end
 
