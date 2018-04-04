@@ -61,9 +61,9 @@ module Facets
 
           include_in_clone facet_config.name
 
-          facet_config.compatibility_properties.each do |prop|
+          facet_config.compatibility_properties&.each do |prop|
             define_method(prop) { |*args| forward_property_call(prop, args, facet_config.name) }
-          end if facet_config.compatibility_properties
+          end
         end
       end
     end

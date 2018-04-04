@@ -349,7 +349,7 @@ class User < ApplicationRecord
 
   def manage_password?
     return false if self.admin? && !User.current.try(:admin?)
-    auth_source && auth_source.can_set_password?
+    auth_source&.can_set_password?
   end
 
   # Return true if the user is allowed to do the specified action

@@ -4,7 +4,7 @@ module UsersHelper
   end
 
   def auth_source_column(record)
-    record.auth_source.to_label if record.auth_source
+    record.auth_source&.to_label
   end
 
   def contracted_host_list(user)

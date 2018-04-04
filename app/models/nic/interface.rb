@@ -135,7 +135,7 @@ module Nic
       self.name = fqdn
       # A managed host we should know the domain for; and the shortname shouldn't include a period
       # This only applies for unattended=true, as otherwise the name field includes the domain
-      errors.add(:name, _("must not include periods")) if (host && host.managed? && managed? && shortname.include?(".") && SETTINGS[:unattended])
+      errors.add(:name, _("must not include periods")) if (host&.managed? && managed? && shortname.include?(".") && SETTINGS[:unattended])
       self.name = Net::Validations.normalize_hostname(name) if self.name.present?
     end
   end

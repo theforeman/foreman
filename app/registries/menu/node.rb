@@ -79,7 +79,7 @@ module Menu
     # Removes a child
     def remove!(child)
       @children.delete(child)
-      @last_items_count -= +1 if child && child.last
+      @last_items_count -= +1 if child&.last
       child.parent = nil
       child
     end

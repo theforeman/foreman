@@ -136,7 +136,7 @@ module Api::V2::LookupKeysCommonController
   end
 
   def cast_value(obj = :override_value, value = :value)
-    return unless params[obj] && params[obj].key?(value)
+    return unless params[obj]&.key?(value)
     param_value = params[obj][value]
     return if param_value.is_a?(Hash)
     params[obj][value] = param_value.to_s

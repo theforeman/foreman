@@ -30,7 +30,7 @@ class WsProxy
   rescue Errno::EADDRINUSE
     false
   ensure
-    socket.close unless socket.nil?
+    socket&.close
   end
 
   def start_proxy

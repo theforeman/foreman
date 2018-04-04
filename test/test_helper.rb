@@ -74,7 +74,7 @@ module TestCaseRailsLoggerExtensions
     end
     super
   ensure
-    @_ext_current_buffer.close if @_ext_current_buffer
+    @_ext_current_buffer&.close
     @_ext_current_buffer = nil
   end
 end

@@ -537,7 +537,7 @@ module ApplicationHelper
 
   def user_set?(field)
     # if the host has no hostgroup
-    return true unless @host && @host.hostgroup
+    return true unless @host&.hostgroup
     # when editing a host, the values are specified explicitly
     return true if params[:action] == 'edit'
     return true if params[:action] == 'clone'

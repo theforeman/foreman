@@ -102,7 +102,7 @@ module Api
       end
 
       def rename_use_puppet_default
-        return unless params[:override_value] && params[:override_value].key?(:use_puppet_default)
+        return unless params[:override_value]&.key?(:use_puppet_default)
 
         params[:override_value][:omit] = params[:override_value].delete(:use_puppet_default)
         Foreman::Deprecation.api_deprecation_warning('"use_puppet_default" was renamed to "omit"')

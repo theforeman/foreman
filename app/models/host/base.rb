@@ -432,7 +432,7 @@ module Host
     end
 
     def update_bond(bond, iface, name)
-      if iface && iface.identifier
+      if iface&.identifier
         bond.remove_device(iface.identifier)
         bond.add_device(name)
         logger.debug "Updating bond #{bond.identifier}, id #{bond.id}: removing #{iface.identifier}, adding #{name} to attached interfaces"

@@ -49,7 +49,7 @@ module Foreman::Controller::Authentication
 
   def is_admin?
     return true unless SETTINGS[:login]
-    return true if User.current && User.current.admin?
+    return true if User.current&.admin?
     User.current = sso_authentication || (return false)
     return User.current.admin? if User.current
     false

@@ -71,7 +71,7 @@ module HostInfoProviders
     end
 
     def has_environment?
-      host.environment && host.environment.name
+      host.environment&.name
     end
 
     def networking_params

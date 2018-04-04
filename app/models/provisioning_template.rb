@@ -202,7 +202,7 @@ class ProvisioningTemplate < Template
     ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
-        if hostgroup && hostgroup.operatingsystem && hostgroup.architecture && hostgroup.medium
+        if hostgroup&.operatingsystem && hostgroup.architecture && hostgroup.medium
           combos << {
             :hostgroup => hostgroup,
             :template => template,

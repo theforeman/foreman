@@ -18,10 +18,10 @@ module Foreman
 
       def process_role(name, permissions)
         role = Role.find_by :name => name
-        if role && role.origin && role.permission_diff(permissions).present?
+        if role&.origin && role.permission_diff(permissions).present?
           return update_plugin_role_permissions role, permissions
         end
-        if role && role.permission_diff(permissions).empty?
+        if role&.permission_diff(permissions)&.empty?
           role.update_attribute :origin, @plugin_id if role.origin.empty?
           return role
         end

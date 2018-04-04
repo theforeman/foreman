@@ -100,7 +100,7 @@ module HostCommon
   # Else if the host/hostgroup's operatingsystem has only one media then use the image_path from that as this is automatically displayed when there is only one item
   # Else we cannot provide a default and it is cut and paste time
   def default_image_file
-    return "" unless operatingsystem && operatingsystem.supports_image
+    return "" unless operatingsystem&.supports_image
     if medium
       nfs_path = medium.try :image_path
       if operatingsystem.try(:media) && operatingsystem.media.size == 1

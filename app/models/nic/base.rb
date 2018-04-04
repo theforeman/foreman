@@ -150,7 +150,7 @@ module Nic
     # in which case host managed? flag can be true but we should consider
     # everything as unmanaged
     def host_managed?
-      self.host && self.host.managed? && SETTINGS[:unattended]
+      self.host&.managed? && SETTINGS[:unattended]
     end
 
     def require_ip4_validation?(from_compute = true)
@@ -226,7 +226,7 @@ module Nic
     end
 
     def not_required_interface
-      if host && host.managed? && !host.being_destroyed?
+      if host&.managed? && !host.being_destroyed?
         if self.primary?
           self.errors.add :primary, _("can't delete primary interface of managed host")
         end

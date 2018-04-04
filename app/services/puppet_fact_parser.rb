@@ -122,7 +122,7 @@ class PuppetFactParser < FactParser
   private
 
   def get_interfaces
-    if facts[:interfaces] && facts[:interfaces].present?
+    if facts[:interfaces]&.present?
       facts[:interfaces].split(',')
     else
       []

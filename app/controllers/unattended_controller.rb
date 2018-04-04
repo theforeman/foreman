@@ -91,7 +91,7 @@ class UnattendedController < ApplicationController
   end
 
   def verify_valid_host_token
-    return unless @host && @host.token_expired?
+    return unless @host&.token_expired?
     render_custom_error(
       :precondition_failed,
       N_('%{controller}: provisioning token for host %{host} expired'),

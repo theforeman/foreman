@@ -32,7 +32,7 @@ module Nic
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes
     def queue
-      if host && host.respond_to?(:queue)
+      if host&.respond_to?(:queue)
         host.queue
       else
         super
@@ -40,7 +40,7 @@ module Nic
     end
 
     def progress_report_id
-      if host && host.respond_to?(:progress_report_id)
+      if host&.respond_to?(:progress_report_id)
         host.progress_report_id
       else
         super
@@ -48,7 +48,7 @@ module Nic
     end
 
     def progress_report_id=(value)
-      if host && host.respond_to?(:progress_report_id=)
+      if host&.respond_to?(:progress_report_id=)
         host.progress_report_id = value
       else
         super

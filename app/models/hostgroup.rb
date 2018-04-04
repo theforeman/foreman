@@ -169,7 +169,7 @@ class Hostgroup < ApplicationRecord
     # read common parameters
     CommonParameter.where(nil).find_each {|p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
-    operatingsystem.os_parameters.each {|p| parameters.update Hash[p.name => p.value] } if operatingsystem
+    operatingsystem&.os_parameters&.each {|p| parameters.update Hash[p.name => p.value] }
     # read group parameters only if a host belongs to a group
     parameters.update self.parameters if hostgroup
     parameters
