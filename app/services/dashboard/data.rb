@@ -43,19 +43,23 @@ class Dashboard::Data
   def fetch_data
     @report.update(
       {  :total_hosts               => hosts.size,
-         :bad_hosts                 => recent_hosts.with_error.count,
-         :bad_hosts_enabled         => recent_hosts.with_error.alerts_enabled.count,
-         :active_hosts              => recent_hosts.with_changes.count,
-         :active_hosts_ok           => recent_hosts.with_changes.without_error.count,
-         :active_hosts_ok_enabled   => recent_hosts.with_changes.without_error.alerts_enabled.count,
-         :ok_hosts                  => recent_hosts.successful.count,
-         :ok_hosts_enabled          => recent_hosts.successful.alerts_enabled.count,
-         :out_of_sync_hosts         => out_of_sync_hosts.count,
-         :out_of_sync_hosts_enabled => out_of_sync_hosts.alerts_enabled.count,
+         :bad_hosts                 => recent_hosts_or_hosts.with_error.count,
+         :bad_hosts_enabled         => recent_hosts_or_hosts.with_error.alerts_enabled.count,
+         :active_hosts              => recent_hosts_or_hosts.with_changes.count,
+         :active_hosts_ok           => recent_hosts_or_hosts.with_changes.without_error.count,
+         :active_hosts_ok_enabled   => recent_hosts_or_hosts.with_changes.without_error.alerts_enabled.count,
+         :ok_hosts                  => recent_hosts_or_hosts.successful.count,
+         :ok_hosts_enabled          => recent_hosts_or_hosts.successful.alerts_enabled.count,
          :disabled_hosts            => hosts.alerts_disabled.count,
-         :pending_hosts             => recent_hosts.with_pending_changes.count,
-         :pending_hosts_enabled     => recent_hosts.with_pending_changes.alerts_enabled.count
+         :pending_hosts             => recent_hosts_or_hosts.with_pending_changes.count,
+         :pending_hosts_enabled     => recent_hosts_or_hosts.with_pending_changes.alerts_enabled.count
       })
+    if out_of_sync_enabled?
+      @report.update({
+                       :out_of_sync_hosts         => out_of_sync_hosts.count,
+                       :out_of_sync_hosts_enabled => out_of_sync_hosts.alerts_enabled.count,
+                     })
+    end
     @report[:good_hosts]         = @report[:ok_hosts]         + @report[:active_hosts_ok]
     @report[:good_hosts_enabled] = @report[:ok_hosts_enabled] + @report[:active_hosts_ok_enabled]
     @report[:percentage]         = percentage
@@ -68,6 +72,10 @@ class Dashboard::Data
     else
       hosts.out_of_sync
     end
+  end
+
+  def recent_hosts_or_hosts
+    out_of_sync_enabled? ? recent_hosts : hosts
   end
 
   def recent_hosts
@@ -85,5 +93,11 @@ class Dashboard::Data
 
   def reports_missing
     hosts.search_for('not has last_report and status.enabled = true').count
+  end
+
+  def out_of_sync_enabled?
+    return true unless settings[:origin]
+    setting = Setting[:"#{settings[:origin].downcase}_out_of_sync_disabled"]
+    setting.nil? ? true : !setting
   end
 end

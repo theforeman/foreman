@@ -70,6 +70,42 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     Setting[:outofsync_interval] = original
   end
 
+  describe '#out_of_sync?' do
+    let(:host) { FactoryBot.create(:host, :with_reports) }
+    let(:status) do
+      HostStatus::ConfigurationStatus.new(:host => host)
+    end
+
+    test '#out_of_sync? is false when out of sync is disabled' do
+      status.stubs(:out_of_sync_disabled?).returns(true)
+      refute @status.out_of_sync?
+    end
+
+    context 'with last report origin' do
+      setup do
+        status.last_report.stubs(:origin).returns('TestOrigin')
+      end
+
+      test 'is false when origins out of sync is disabled' do
+        stub_outofsync_setting(true)
+        refute status.out_of_sync?
+      end
+
+      test "is true when origins out of sync isn't disbled and it is ouf of sync" do
+        stub_outofsync_setting(false)
+        status.reported_at = '2015-01-01 00:00:00'
+        status.save
+        assert status.out_of_sync?
+      end
+
+      def stub_outofsync_setting(value)
+        Setting.create(name: :testorigin_out_of_sync_disabled,
+                       description: 'description', default: false)
+        Setting[:testorigin_out_of_sync_disabled] = value
+      end
+    end
+  end
+
   test '#refresh! refreshes the date and persists the record' do
     @status.expects(:refresh)
     @status.refresh!

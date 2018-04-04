@@ -10,14 +10,18 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
   end
 
   def assert_dashboard_link(text)
-    visit dashboard_path
-    wait_for_ajax
+    visit_dashboard
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"
     within "li[data-name='Host Configuration Status for All']" do
       click_link(text)
     end
     assert_current_path hosts_path, :ignore_query => true
     assert_match(/search=/, current_url)
+  end
+
+  def visit_dashboard
+    visit dashboard_path
+    wait_for_ajax
   end
 
   test "dashboard page" do
@@ -44,6 +48,30 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
 
   test "dashboard link out of sync hosts" do
     assert_dashboard_link 'Out of sync hosts'
+  end
+
+  context 'with origin' do
+    setup do
+      Setting::Puppet.load_defaults
+      Setting[:puppet_out_of_sync_disabled] = true
+    end
+
+    context 'out of sync disabled' do
+      test 'has no out of sync link' do
+        visit_dashboard
+        within "li[data-name='Host Configuration Status for Puppet']" do
+          refute page.has_link?('Out of sync hosts')
+        end
+      end
+
+      test 'good hosts link drops time' do
+        visit_dashboard
+        within "li[data-name='Host Configuration Status for Puppet']" do
+          refute page.has_link?('Good host reports in the last')
+          assert page.has_link?('Good host with reports')
+        end
+      end
+    end
   end
 
   test "dashboard link hosts with no reports" do
