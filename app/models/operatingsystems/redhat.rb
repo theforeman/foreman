@@ -45,7 +45,7 @@ class Redhat < Operatingsystem
     s.gsub!(/\(.+?\)/,'')
     s.squeeze! " "
     s.strip!
-    s.blank? ? description : s
+    s.presence || description
   end
 
   def pxe_kernel_options(params)

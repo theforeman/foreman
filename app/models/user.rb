@@ -177,7 +177,7 @@ class User < ApplicationRecord
 
   def to_label
     name = [firstname, lastname].join(' ')
-    name.present? ? name : login
+    name.presence || login
   end
   alias_method :name, :to_label
 

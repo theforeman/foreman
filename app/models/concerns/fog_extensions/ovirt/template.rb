@@ -7,7 +7,7 @@ module FogExtensions
       end
 
       def full_version
-        version.version_name.present? ? version.version_name : version.version_number
+        version.version_name.presence || version.version_number
       end
     end
   end

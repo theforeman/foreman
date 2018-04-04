@@ -137,11 +137,7 @@ module Nic
     # if this interface does not have MAC and is attached to other interface,
     # we can fetch mac from this other interface
     def inheriting_mac
-      if self.mac.blank?
-        self.host.interfaces.detect { |i| i.identifier == self.attached_to }.try(:mac)
-      else
-        self.mac
-      end
+      self.mac.presence || self.host.interfaces.detect { |i| i.identifier == self.attached_to }.try(:mac)
     end
 
     # if this interface has attached devices (e.g. in a bond),

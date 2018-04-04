@@ -94,6 +94,6 @@ class SubnetsController < ApplicationController
   private
 
   def success_hash
-    { :success_redirect => params[:redirect].present? ? params[:redirect] : nil }
+    { :success_redirect => params[:redirect].presence }
   end
 end

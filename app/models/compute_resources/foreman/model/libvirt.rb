@@ -13,7 +13,7 @@ module Foreman::Model
 
     # Some getters/setters for the attrs Hash
     def display_type
-      self.attrs[:display].present? ? self.attrs[:display] : 'vnc'
+      self.attrs[:display].presence || 'vnc'
     end
 
     def display_type=(display)

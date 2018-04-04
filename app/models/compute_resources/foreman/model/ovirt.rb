@@ -106,11 +106,7 @@ module Foreman::Model
     end
 
     def ovirt_quota
-      if self.attrs[:ovirt_quota_id].blank?
-        nil
-      else
-        self.attrs[:ovirt_quota_id]
-      end
+      self.attrs[:ovirt_quota_id].presence
     end
 
     def available_images

@@ -349,7 +349,7 @@ class Host::Managed < Host::Base
   # returns the host correct disk layout, custom or common
   def diskLayout
     @host = self
-    template = disk.blank? ? ptable.layout : disk
+    template = disk.presence || ptable.layout
     template_name = disk.blank? ? ptable.name : 'Custom disk layout'
     unattended_render(template.tr("\r", ''), template_name)
   end

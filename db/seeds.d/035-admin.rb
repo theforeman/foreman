@@ -45,7 +45,7 @@ end
 unless User.unscoped.only_admin.except_hidden.present?
   User.without_auditing do
     User.as_anonymous_admin do
-      admin_user = ENV['SEED_ADMIN_USER'].present? ? ENV['SEED_ADMIN_USER'] : 'admin'
+      admin_user = ENV['SEED_ADMIN_USER'].presence || 'admin'
       user = User.new(:login     => admin_user,
                       :firstname => ENV['SEED_ADMIN_FIRST_NAME'] || "Admin",
                       :lastname  => ENV['SEED_ADMIN_LAST_NAME'] || "User",

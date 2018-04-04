@@ -4,12 +4,12 @@ class FactTrend < Trend
   before_save :update_fact_name
 
   def to_label
-    name.blank? ? fact_value || fact_name : name
+    name.presence || fact_value || fact_name
   end
 
   def type_name
     if fact_value.blank?
-      name.blank? ? fact_name : name
+      name.presence || fact_name
     else
       fact_name
     end

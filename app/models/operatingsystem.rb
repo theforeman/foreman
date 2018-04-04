@@ -140,7 +140,7 @@ class Operatingsystem < ApplicationRecord
          gsub('$major',  os.major).
          gsub('$minor',  os.minor).
          gsub('$version', os.minor.blank? ? os.major : [os.major, os.minor].compact.join('.')).
-         gsub('$release', os.release_name.blank? ? '' : os.release_name)
+         gsub('$release', os.release_name.presence || '')
   end
 
   # The OS is usually represented as the concatenation of the OS and the revision
