@@ -75,7 +75,7 @@ module AuditExtensions
     # If the label changed we want to record the old one, not the new one.
     # We need to load old version from db since the auditable in memory is the
     # updated version that hasn't been saved yet.
-    previous_state = auditable.class.where(id: auditable_id).first if auditable
+    previous_state = auditable.class.find_by(id: auditable_id) if auditable
     previous_state ||= auditable
     self.auditable_name  ||= previous_state.try(:to_label)
     self.associated_name ||= self.associated.try(:to_label)

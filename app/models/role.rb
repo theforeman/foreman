@@ -301,8 +301,10 @@ class Role < ApplicationRecord
   end
 
   def find_filter(resource_type, current_filters, search)
+    # rubocop:disable Rails/FindBy
     Filter.where(:search => search, :role_id => id).joins(:permissions)
           .where("permissions.resource_type" => resource_type).first
+    # rubocop:enable Rails/FindBy
   end
 
   def filter_for_permission_add(resource_type, current_filters, search)

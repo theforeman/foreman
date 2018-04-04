@@ -27,7 +27,7 @@ class EnvironmentClass < ApplicationRecord
   end
 
   def self.key_in_environment(env, puppetclass, puppetclass_lookup_key)
-    EnvironmentClass.where(:environment_id => env, :puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key).first
+    EnvironmentClass.find_by(:environment_id => env, :puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key)
   end
 
   def delete_orphaned_lookup_keys

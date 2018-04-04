@@ -10,7 +10,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "name is unique across user as well as usergroup" do
-    User.expects(:where).with(:login => 'usergroup1').returns(['fakeuser'])
+    User.expects(:find_by).with(:login => 'usergroup1').returns(['fakeuser'])
     usergroup = FactoryBot.build_stubbed(:usergroup, :name => 'usergroup1')
     refute usergroup.valid?
   end

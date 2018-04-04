@@ -98,32 +98,32 @@ class ProvisioningTemplate < Template
 
     if opts[:hostgroup_id] && opts[:environment_id]
       # try to find a full match to our host group and environment
-      template ||= templates.joins(:template_combinations).where(
+      template ||= templates.joins(:template_combinations).find_by(
         "template_combinations.hostgroup_id" => opts[:hostgroup_id],
-        "template_combinations.environment_id" => opts[:environment_id]).first
+        "template_combinations.environment_id" => opts[:environment_id])
     end
 
     if opts[:hostgroup_id]
       # try to find a match with our hostgroup only
-      template ||= templates.joins(:template_combinations).where(
+      template ||= templates.joins(:template_combinations).find_by(
         "template_combinations.hostgroup_id" => opts[:hostgroup_id],
-        "template_combinations.environment_id" => nil).first
+        "template_combinations.environment_id" => nil)
     end
 
     if opts[:environment_id]
       # search for a template based only on our environment
-      template ||= templates.joins(:template_combinations).where(
+      template ||= templates.joins(:template_combinations).find_by(
         "template_combinations.hostgroup_id" => nil,
-        "template_combinations.environment_id" => opts[:environment_id]).first
+        "template_combinations.environment_id" => opts[:environment_id])
     end
 
     # fall back to the os default template
-    template ||= templates.joins(:os_default_templates).where("os_default_templates.operatingsystem_id" => opts[:operatingsystem_id]).first
+    template ||= templates.joins(:os_default_templates).find_by("os_default_templates.operatingsystem_id" => opts[:operatingsystem_id])
     template.is_a?(ProvisioningTemplate) ? template : nil
   end
 
   def self.find_global_default_template(name, kind)
-    ProvisioningTemplate.unscoped.joins(:template_kind).where(:name => name, "template_kinds.name" => kind).first
+    ProvisioningTemplate.unscoped.joins(:template_kind).find_by(:name => name, "template_kinds.name" => kind)
   end
 
   def self.local_boot_name(kind)
