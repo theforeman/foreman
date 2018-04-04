@@ -1,5 +1,13 @@
 require 'test_helper'
 
+def valid_names
+  if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
+    RFauxFactory.gen_strings(1..230, :exclude => [:utf8]).values
+  else
+    valid_name_list
+  end
+end
+
 class UsergroupTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
@@ -43,7 +51,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test 'should create with valid role' do
-    valid_name_list.each do |name|
+    valid_names.each do |name|
       role = FactoryBot.create(:role, :name => name)
       usergroup = FactoryBot.build(:usergroup, :role_ids => [role.id])
       assert usergroup.valid?, "Can't create usergroup with valid role #{role}"
@@ -63,7 +71,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test 'should create with valid usergroup' do
-    valid_name_list.each do |name|
+    valid_names.each do |name|
       sub_usergroup = FactoryBot.create(:usergroup, :name => name)
       usergroup = FactoryBot.build(:usergroup, :usergroup_ids => [sub_usergroup.id])
       assert usergroup.valid?, "Can't create usergroup with valid usergroup #{sub_usergroup}"
