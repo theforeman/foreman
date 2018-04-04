@@ -862,7 +862,7 @@ class Host::Managed < Host::Base
   # checks if the host association is a valid association for this host
   def ensure_associations
     status = true
-    %w{ ptable medium architecture}.each do |e|
+    %w{ptable medium architecture}.each do |e|
       value = self.send(e.to_sym)
       next if value.blank?
       unless os.send(e.pluralize.to_sym).include?(value)

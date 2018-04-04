@@ -61,7 +61,7 @@ class Foreman::Provision::SSH
     {
       :keys_only    => true,
       :config       => false,
-      :auth_methods => %w( publickey ),
+      :auth_methods => %w(publickey),
       :compression  => true,
       :logger       => logger
     }

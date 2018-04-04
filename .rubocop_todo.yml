@@ -130,11 +130,6 @@ Layout/SpaceInsideBlockBraces:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
-# Offense count: 25
-# Cop supports --auto-correct.
-Layout/SpaceInsidePercentLiteralDelimiters:
-  Enabled: false
-
 # Offense count: 39
 Lint/AmbiguousBlockAssociation:
   Enabled: false
