@@ -76,6 +76,7 @@ module AuditExtensions
     before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name, :set_taxonomies
     before_save :filter_encrypted, :if => Proc.new {|audit| audit.audited_changes.present?}
     before_save :filter_passwords, :if => Proc.new {|audit| audit.audited_changes.try(:has_key?, 'password')}
+    after_create :log_audit
 
     include Authorizable
     include Taxonomix
@@ -98,6 +99,12 @@ module AuditExtensions
   end
 
   private
+
+  def log_audit
+    Foreman::Logging.with_fields(self.audited_changes) do
+      Foreman::Logging.logger('audit').info { "#{self.action} event for #{self.auditable_type} with id #{self.auditable_id}" }
+    end
+  end
 
   def filter_encrypted
     self.audited_changes.each do |name,change|
