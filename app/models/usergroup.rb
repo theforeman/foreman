@@ -109,7 +109,7 @@ class Usergroup < ApplicationRecord
   end
 
   def ensure_uniq_name
-    errors.add :name, _("is already used by a user account") if User.where(:login => name).first
+    errors.add :name, _("is already used by a user account") if User.find_by(:login => name)
   end
 
   def ensure_last_admin_remains_admin

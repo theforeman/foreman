@@ -178,7 +178,7 @@ class Operatingsystem < ApplicationRecord
     cond = {:name => a[0]}
     cond[:major] = b[0] if b && b[0]
     cond[:minor] = b[1] if b && b[1]
-    self.where(cond).first
+    self.find_by(cond)
   end
 
   # Implemented only in the OSs subclasses where it makes sense

@@ -310,13 +310,6 @@ Rails/DynamicFindBy:
 Rails/FilePath:
   Enabled: false
 
-# Offense count: 19
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/FindBy:
-  Enabled: false
-
 # Offense count: 14
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb

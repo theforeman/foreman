@@ -95,7 +95,7 @@ class Setting < ApplicationRecord
     name = deprecation_check(name)
     cache_value = Setting.cache.read(name)
     if cache_value.nil?
-      value = where(:name => name).first.try(:value)
+      value = find_by(:name => name).try(:value)
       Setting.cache.write(name, value)
       return value
     else

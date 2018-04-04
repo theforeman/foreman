@@ -10,6 +10,6 @@ class Source < ApplicationRecord
 
   def self.find_or_create(val)
     digest = Digest::SHA1.hexdigest(val)
-    Source.where(:digest => digest).first || Source.create(:value => val, :digest => digest)
+    Source.find_by(:digest => digest) || Source.create(:value => val, :digest => digest)
   end
 end

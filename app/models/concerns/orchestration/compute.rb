@@ -226,7 +226,7 @@ module Orchestration::Compute
     return nil if compute_attributes.nil?
     image_uuid = compute_attributes[:image_id] || compute_attributes[:image_ref]
     return nil if image_uuid.blank?
-    Image.where(:uuid => image_uuid, :compute_resource_id => compute_resource_id).first
+    Image.find_by(:uuid => image_uuid, :compute_resource_id => compute_resource_id)
   end
 
   def validate_compute_provisioning
