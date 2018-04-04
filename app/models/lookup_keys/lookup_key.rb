@@ -118,7 +118,7 @@ class LookupKey < ApplicationRecord
       when :yaml, :hash
         val = YAML.dump val
         val.sub!(/\A---\s*$\n/, '')
-    end unless key_type.blank?
+    end if key_type.present?
     val
   end
 
@@ -155,7 +155,7 @@ class LookupKey < ApplicationRecord
   private
 
   def sanitize_path
-    self.path = path.tr("\s","").downcase unless path.blank?
+    self.path = path.tr("\s","").downcase if path.present?
   end
 
   def array2path(array)

@@ -120,7 +120,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
       return false
     end
 
-    if !proxy_id.blank? && !SmartProxy.find_by_id(proxy_id)
+    if proxy_id.present? && !SmartProxy.find_by_id(proxy_id)
       error _('Invalid proxy selected!')
       redirect_to(redirect_path)
       return false

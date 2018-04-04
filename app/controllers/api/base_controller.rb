@@ -239,7 +239,7 @@ module Api
       params[:search] ||= ""
       params.keys.each do |param|
         if param =~ /(\w+)_id$/
-          unless params[param].blank?
+          if params[param].present?
             query = " #{Regexp.last_match(1)} = #{params[param]}"
             params[:search] += query unless params[:search].include? query
           end

@@ -23,7 +23,7 @@ module PaginationHelper
 
   def per_page_options(options = [5, 10, 15, 25, 50])
     options << Setting[:entries_per_page].to_i
-    options << params[:per_page].to_i unless params[:per_page].blank?
+    options << params[:per_page].to_i if params[:per_page].present?
     options.uniq.sort
   end
 end

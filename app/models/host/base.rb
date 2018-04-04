@@ -186,7 +186,7 @@ module Host
     def set_non_empty_values(parser, methods)
       methods.each do |attr|
         value = parser.send(attr)
-        self.send("#{attr}=", value) unless value.blank?
+        self.send("#{attr}=", value) if value.present?
       end
     end
 

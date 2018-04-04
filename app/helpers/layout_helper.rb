@@ -48,7 +48,7 @@ module LayoutHelper
   end
 
   def base_errors_for(obj)
-    unless obj.errors[:base].blank?
+    if obj.errors[:base].present?
       alert :header => _("Unable to save"),
             :class  => 'alert-danger base in fade',
             :text   => obj.errors[:base].map { |e| '<li>'.html_safe + e + '</li>'.html_safe }.join.html_safe

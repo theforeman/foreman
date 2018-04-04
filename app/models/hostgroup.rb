@@ -68,7 +68,7 @@ class Hostgroup < ApplicationRecord
     hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.joins(:config_groups).where(conditions).map(&:subtree_ids).flatten.uniq
 
     opts = 'hostgroups.id < 0'
-    opts = "hostgroups.id IN(#{hostgroup_ids.join(',')})" unless hostgroup_ids.blank?
+    opts = "hostgroups.id IN(#{hostgroup_ids.join(',')})" if hostgroup_ids.present?
     {:conditions => opts}
   end
 
@@ -241,7 +241,7 @@ class Hostgroup < ApplicationRecord
 
   def nested_root_pw
     Hostgroup.sort_by_ancestry(ancestors).reverse_each do |a|
-      return a.root_pass unless a.root_pass.blank?
+      return a.root_pass if a.root_pass.present?
     end if ancestry.present?
     nil
   end

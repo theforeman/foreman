@@ -38,7 +38,7 @@ module AuditsHelper
                else
                  audit.auditable_name
                end
-        name += " / #{audit.associated_name}" if audit.associated_id && !audit.associated_name.blank? && type_name != 'Interface'
+        name += " / #{audit.associated_name}" if audit.associated_id && audit.associated_name.present? && type_name != 'Interface'
         name
     end
   rescue StandardError => exception

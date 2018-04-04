@@ -71,7 +71,7 @@ module DashboardHelper
   end
 
   def searchable_links(name, search, counter)
-    search += " and #{@data.filter}" unless @data.filter.blank?
+    search += " and #{@data.filter}" if @data.filter.present?
     content_tag :li do
       content_tag(:span, raw('&nbsp;'), :class=>'label', :style => "background-color:" + report_color[counter]) +
       raw('&nbsp;')+

@@ -209,7 +209,7 @@ class UsersControllerTest < ActionController::TestCase
       "id"     => user.id}
     put :update, params: update_hash, session: set_session_user.merge(:user => user.id)
 
-    assert !User.unscoped.find_by_login(user.login).mail.blank?
+    assert User.unscoped.find_by_login(user.login).mail.present?
   end
 
   test "should login external user" do

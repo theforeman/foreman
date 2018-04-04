@@ -235,15 +235,15 @@ module Foreman::Model
       # * Blank values for these attributes, because oVirt will fail if empty values are present in VM definition
       # * Provided but identical to values present in the template or instance type
       # Instance type values take precedence on templates values
-      unless args[:template].blank?
+      if args[:template].present?
         template = template(args[:template])
-        cores = template.cores.to_i unless template.cores.blank?
-        memory = template.memory.to_i unless template.memory.blank?
+        cores = template.cores.to_i if template.cores.present?
+        memory = template.memory.to_i if template.memory.present?
       end
-      unless args[:instance_type].blank?
+      if args[:instance_type].present?
         instance_type = instance_type(args[:instance_type])
-        cores = instance_type.cores.to_i unless instance_type.cores.blank?
-        memory = instance_type.memory.to_i unless instance_type.memory.blank?
+        cores = instance_type.cores.to_i if instance_type.cores.present?
+        memory = instance_type.memory.to_i if instance_type.memory.present?
       end
       args.delete(:cores) if (args[:cores].blank? && cores) || (args[:cores].to_i == cores)
       args.delete(:memory) if (args[:memory].blank? && memory) || (args[:memory].to_i == memory)

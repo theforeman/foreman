@@ -75,19 +75,19 @@ class PuppetFactParser < FactParser
            end
     # ensure that we convert debian legacy to standard
     name = "x86_64" if name == "amd64"
-    Architecture.where(:name => name).first_or_create unless name.blank?
+    Architecture.where(:name => name).first_or_create if name.present?
   end
 
   def model
     name = facts[:productname] || facts[:model] || facts[:boardproductname]
     # if its a virtual machine and we didn't get a model name, try using that instead.
     name ||= (facts[:is_virtual] == "true") ? facts[:virtual] : nil
-    Model.where(:name => name.strip).first_or_create unless name.blank?
+    Model.where(:name => name.strip).first_or_create if name.present?
   end
 
   def domain
     name = facts[:domain]
-    Domain.where(:name => name).first_or_create unless name.blank?
+    Domain.where(:name => name).first_or_create if name.present?
   end
 
   def ipmi_interface
@@ -122,7 +122,7 @@ class PuppetFactParser < FactParser
   private
 
   def get_interfaces
-    if facts[:interfaces] && !facts[:interfaces].blank?
+    if facts[:interfaces] && facts[:interfaces].present?
       facts[:interfaces].split(',')
     else
       []

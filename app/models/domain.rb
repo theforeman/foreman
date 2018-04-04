@@ -67,7 +67,7 @@ class Domain < ApplicationRecord
   end
 
   def proxy
-    ProxyAPI::DNS.new(:url => dns.url) if dns && !dns.url.blank?
+    ProxyAPI::DNS.new(:url => dns.url) if dns && dns.url.present?
   end
 
   def lookup(query)
