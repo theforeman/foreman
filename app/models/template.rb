@@ -214,7 +214,7 @@ class Template < ApplicationRecord
   end
 
   def remove_trailing_chars
-    self.template = template.tr("\r", '') unless template.blank?
+    self.template = template.tr("\r", '') if template.present?
   end
 end
 

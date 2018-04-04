@@ -127,9 +127,9 @@ module Hostext
         hostgroup_ids    = hostgroups.map(&:subtree_ids).flatten.uniq
 
         opts  = ''
-        opts += "hosts.id IN(#{host_ids.join(',')})"            unless host_ids.blank?
+        opts += "hosts.id IN(#{host_ids.join(',')})"            if host_ids.present?
         opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
-        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  unless hostgroup_ids.blank?
+        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  if hostgroup_ids.present?
         opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
         {:conditions => opts, :include => :hostgroup}
       end
@@ -161,7 +161,7 @@ module Hostext
         negate = param_conditions(n)
 
         conditions += " AND " unless conditions.blank? || negate.blank?
-        conditions += " NOT(#{negate})" unless negate.blank?
+        conditions += " NOT(#{negate})" if negate.present?
         {
           :joins =>  :primary_interface,
           :conditions => conditions
@@ -174,9 +174,9 @@ module Hostext
         hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:config_groups).distinct.map(&:subtree_ids).flatten.uniq
 
         opts = ''
-        opts += "hosts.id IN(#{host_ids.join(',')})" unless host_ids.blank?
+        opts += "hosts.id IN(#{host_ids.join(',')})" if host_ids.present?
         opts += " OR " unless host_ids.blank? || hostgroup_ids.blank?
-        opts += "hostgroup_id IN(#{hostgroup_ids.join(',')})" unless hostgroup_ids.blank?
+        opts += "hostgroup_id IN(#{hostgroup_ids.join(',')})" if hostgroup_ids.present?
         opts = "hosts.id < 0" if host_ids.blank? && hostgroup_ids.blank?
         {:conditions => opts}
       end

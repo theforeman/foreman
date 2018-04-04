@@ -52,7 +52,7 @@ class FactParser
 
   def hostgroup
     hostgroup_title = facts[:foreman_hostgroup]
-    Hostgroup.unscoped.where(:title => hostgroup_title).first_or_create unless hostgroup_title.blank?
+    Hostgroup.unscoped.where(:title => hostgroup_title).first_or_create if hostgroup_title.present?
   end
 
   # should return hash with indifferent access in following format:

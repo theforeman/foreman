@@ -307,7 +307,7 @@ class User < ApplicationRecord
   end
 
   def set_lower_login
-    self.lower_login = login.downcase unless login.blank?
+    self.lower_login = login.downcase if login.present?
   end
 
   def matching_password?(pass)
@@ -537,7 +537,7 @@ class User < ApplicationRecord
   private
 
   def prepare_password
-    unless password.blank?
+    if password.present?
       self.password_salt = Digest::SHA1.hexdigest([Time.now.utc, rand].join)
       self.password_hash = hash_password(password)
     end
@@ -561,7 +561,7 @@ class User < ApplicationRecord
   end
 
   def normalize_mail
-    self.mail = mail.strip unless mail.blank?
+    self.mail = mail.strip if mail.present?
   end
 
   def reject_empty_intervals(attributes)

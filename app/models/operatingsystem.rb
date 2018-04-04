@@ -159,7 +159,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def release
-    "#{major}#{('.' + minor.to_s) unless minor.blank?}"
+    "#{major}#{('.' + minor.to_s) if minor.present?}"
   end
 
   def fullname

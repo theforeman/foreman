@@ -38,7 +38,7 @@ module Nic
       # user's database. There is no way of determining the real vlanid, so we
       # pick the v4 one unless it turns out to be blank.
 
-      return self.tag unless self.tag.blank?
+      return self.tag if self.tag.present?
       return self.subnet.vlanid if self.subnet && self.subnet.vlanid.present?
       return self.subnet6.vlanid if self.subnet6 && self.subnet6.vlanid.present?
       ''
@@ -78,7 +78,7 @@ module Nic
     end
 
     def fqdn_before_last_save
-      domain_before_last_save = Domain.find(domain_id_before_last_save) unless domain_id_before_last_save.blank?
+      domain_before_last_save = Domain.find(domain_id_before_last_save) if domain_id_before_last_save.present?
       return name_before_last_save if name_before_last_save.blank? || domain_before_last_save.blank?
       name_before_last_save.include?('.') ? name_before_last_save : "#{name_before_last_save}.#{domain_before_last_save}"
     end

@@ -157,7 +157,7 @@ class Subnet < ApplicationRecord
   end
 
   def tftp?
-    !!(tftp && tftp.url && !tftp.url.blank?)
+    !!(tftp && tftp.url && tftp.url.present?)
   end
 
   def tftp_proxy(attrs = {})
@@ -166,7 +166,7 @@ class Subnet < ApplicationRecord
 
   # do we support DNS PTR records for this subnet
   def dns?
-    !!(dns && dns.url && !dns.url.blank?)
+    !!(dns && dns.url && dns.url.present?)
   end
 
   def dns_proxy(attrs = {})

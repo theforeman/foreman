@@ -47,7 +47,7 @@ class NXOS < Operatingsystem
 
   # generate a Cisco release number using release_name as an auxiliary field
   def release
-    "#{major}#{('.' + minor.to_s) unless minor.blank?}#{('.' + release_name) unless release_name.blank?}"
+    "#{major}#{('.' + minor.to_s) if minor.present?}#{('.' + release_name) if release_name.present?}"
   end
 
   def display_family

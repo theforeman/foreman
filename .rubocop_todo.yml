@@ -344,12 +344,6 @@ Rails/Output:
 Rails/OutputSafety:
   Enabled: false
 
-# Offense count: 64
-# Cop supports --auto-correct.
-# Configuration parameters: NotNilAndNotEmpty, NotBlank, UnlessBlank.
-Rails/Present:
-  Enabled: false
-
 # Offense count: 46
 # Cop supports --auto-correct.
 # Configuration parameters: Include.

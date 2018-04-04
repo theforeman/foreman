@@ -84,12 +84,12 @@ class FiltersController < ApplicationController
     params[:search] ||= ""
     params.keys.each do |param|
       if param =~ /role_id$/
-        unless (role = Role.find_by_id(params[param])).blank?
+        if (role = Role.find_by_id(params[param])).present?
           query = "role_id = #{role.id}"
           params[:search] += query unless params[:search].include? query
         end
       elsif param =~ /(\w+)_id$/
-        unless params[param].blank?
+        if params[param].present?
           query = "#{Regexp.last_match(1)} = #{params[param]}"
           params[:search] += query unless params[:search].include? query
         end

@@ -10,7 +10,7 @@ module FogExtensions
       end
 
       def image_id
-        image_name unless disks.blank?
+        image_name if disks.present?
       end
 
       def vm_description

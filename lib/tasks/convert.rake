@@ -148,7 +148,7 @@ namespace :db do
               when /^postgresql/
                 "ALTER TABLE #{table_name} ENABLE TRIGGER ALL;"
               end
-        DevelopmentModelClass.connection.execute(sql) unless sql.blank?
+        DevelopmentModelClass.connection.execute(sql) if sql.present?
 
         print "#{count} records converted in #{Time.now - time} seconds\n"
       end

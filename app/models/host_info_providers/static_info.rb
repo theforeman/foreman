@@ -5,7 +5,7 @@ module HostInfoProviders
       param = {}
 
       param["hostgroup"] = host.hostgroup.to_label unless host.hostgroup.nil?
-      param["comment"] = host.comment unless host.comment.blank?
+      param["comment"] = host.comment if host.comment.present?
 
       add_network_params param
       add_taxonomy_params param

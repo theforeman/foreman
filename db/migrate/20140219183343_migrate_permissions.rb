@@ -164,7 +164,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       filters[:compute_resources] = search = user.compute_resources.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected                    = clones.map(&:filters).flatten.select { |f| f.resource_type == 'ComputeResource' }
       affected.each do |filter|
-        filter.update :search => search unless search.blank?
+        filter.update :search => search if search.present?
       end
       say "... compute resource filters applied"
 
@@ -176,7 +176,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       filters[:hostgroups] = search = user.hostgroups.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected             = clones.map(&:filters).flatten.select { |f| f.resource_type == 'Hostgroup' }
       affected.each do |filter|
-        filter.update :search => search unless search.blank?
+        filter.update :search => search if search.present?
       end
       say "... hostgroups filters applied"
 
@@ -189,7 +189,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       affected.each do |filter|
         filter.organizations = orgs
         filter.locations = locs
-        filter.update :search => search unless search.blank?
+        filter.update :search => search if search.present?
       end
       say "... all other filters applied"
 
@@ -214,7 +214,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       user_cond = "owner_id = #{user.id} and owner_type = User"
       group_cond = user.cached_usergroups.distinct.map { |g| "owner_id = #{g.id}" }.join(' or ')
       search = "(#{user_cond})"
-      search += " or ((#{group_cond}) and owner_type = Usergroup)" unless group_cond.blank?
+      search += " or ((#{group_cond}) and owner_type = Usergroup)" if group_cond.present?
     end
 
     # normal filters - domains, compute resource, hostgroup, facts
