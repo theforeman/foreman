@@ -123,7 +123,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
         end
         template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/#{kind}/#{kind.downcase}_global_default.erb"))
         template_kind = TemplateKind.find_by :name => kind
-        ProvisioningTemplate.find_or_create_by(:name => "#{kind} global default").update_attributes(:template => template, :template_kind => template_kind)
+        ProvisioningTemplate.find_or_create_by(:name => "#{kind} global default").update(:template => template, :template_kind => template_kind)
       end
       ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
       Setting[:unattended_url] = "http://foreman.unattended.url"

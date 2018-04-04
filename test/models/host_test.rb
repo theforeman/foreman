@@ -113,7 +113,7 @@ class HostTest < ActiveSupport::TestCase
   test "doesn't set compute attributes on update" do
     host = FactoryBot.create(:host)
     Host.any_instance.expects(:set_compute_attributes).never
-    host.update_attributes!(:mac => "52:54:00:dd:ee:ff")
+    host.update!(:mac => "52:54:00:dd:ee:ff")
   end
 
   test "can fetch vm compute attributes" do
@@ -239,7 +239,7 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host)
     lookup_key = lookup_keys(:three)
     assert_difference('LookupValue.count') do
-      assert host.update_attributes!(:lookup_values_attributes => {:new_123456 =>
+      assert host.update!(:lookup_values_attributes => {:new_123456 =>
                                                                    {:lookup_key_id => lookup_key.id, :value => true, :match => "fqdn=#{host.fqdn}",
                                                                     :_destroy => 'false'}})
     end
@@ -252,7 +252,7 @@ class HostTest < ActiveSupport::TestCase
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
     assert_difference('LookupValue.count', -1) do
-      assert host.update_attributes!(:lookup_values_attributes => {'0' =>
+      assert host.update!(:lookup_values_attributes => {'0' =>
                                                                    {:lookup_key_id => lookup_key.id, :value => '8080', :match => "fqdn=#{host.fqdn}",
                                                                     :id => lookup_value.id, :_destroy => 'true'}})
     end
@@ -265,7 +265,7 @@ class HostTest < ActiveSupport::TestCase
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
     assert_difference('LookupValue.count', 0) do
-      assert host.update_attributes!(:lookup_values_attributes => {'0' =>
+      assert host.update!(:lookup_values_attributes => {'0' =>
                                                                    {:lookup_key_id => lookup_key.id, :value => '80', :match => "fqdn=#{host.fqdn}",
                                                                     :id => lookup_value.id, :_destroy => 'false'}})
     end
@@ -280,7 +280,7 @@ class HostTest < ActiveSupport::TestCase
                                       :match => host.lookup_value_matcher, :value => YAML.dump(:foo => :bar))
     host.reload
     assert_difference('LookupValue.count', 0) do
-      assert host.update_attributes!(:lookup_values_attributes => {'0' =>
+      assert host.update!(:lookup_values_attributes => {'0' =>
                                                                    {:lookup_key_id => lookup_key.id.to_s, :value => YAML.dump(:updated => :value),
                                                                     :match => host.lookup_value_matcher,
                                                                     :id => lookup_value.id.to_s, :_destroy => 'false'}})
@@ -1421,7 +1421,7 @@ class HostTest < ActiveSupport::TestCase
     test "#set_interfaces updates existing physical interface by identifier" do
       host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:22:33:44', :identifier => 'eth0', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :link => false})
       host.managed = false
-      host.primary_interface.update_attributes(:identifier => 'eth0', :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :ip6 => '2001:db8::1', :link => true)
+      host.primary_interface.update(:identifier => 'eth0', :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :ip6 => '2001:db8::1', :link => true)
       assert_no_difference 'Nic::Base.count' do
         host.set_interfaces(parser)
       end
@@ -1915,7 +1915,7 @@ class HostTest < ActiveSupport::TestCase
         :provider => "IPMI", :username => "root", :password => "secret", :ip => "10.35.19.35",
         :identifier => 'eth2'
       as_user :one do
-        assert h.update_attributes!("interfaces_attributes" => {"0" => {"mac"=>"00:52:10:1e:45:16"}})
+        assert h.update!("interfaces_attributes" => {"0" => {"mac"=>"00:52:10:1e:45:16"}})
       end
     end
 
@@ -1969,7 +1969,7 @@ class HostTest < ActiveSupport::TestCase
       h = FactoryBot.create(:host)
       as_admin do
         assert_difference "LookupValue.count" do
-          assert h.update_attributes(:lookup_values_attributes => {"0" => {:lookup_key_id => lookup_keys(:one).id, :value => "8080" }})
+          assert h.update(:lookup_values_attributes => {"0" => {:lookup_key_id => lookup_keys(:one).id, :value => "8080" }})
         end
       end
     end
@@ -2737,7 +2737,7 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :with_facts, :managed)
     assert host.fact_values.present?
     refute host.build?
-    host.update_attributes(:build => true)
+    host.update(:build => true)
     assert_empty host.fact_values.reload
   end
 
@@ -2745,7 +2745,7 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :with_reports, :managed)
     assert host.reports.present?
     refute host.build?
-    host.update_attributes(:build => true)
+    host.update(:build => true)
     assert_empty host.reports.reload
   end
 
@@ -2753,7 +2753,7 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :with_reports, :managed)
     refute host.build?
     refute host.last_report.blank?
-    host.update_attributes(:build => true)
+    host.update(:build => true)
     assert host.last_report.blank?
   end
 

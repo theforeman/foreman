@@ -200,7 +200,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   def test_override_disable
     env = FactoryBot.create(:environment)
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
-    pc.class_params.first.update_attributes(:override => true)
+    pc.class_params.first.update(:override => true)
     post :override, params: { :id => pc.to_param, :enable => 'false' }, session: set_session_user
     refute pc.class_params.reload.first.override
     assert_match /reset all parameters/, flash[:success]

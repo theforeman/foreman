@@ -36,7 +36,7 @@ module Api
       api :PUT, "/users/:user_id/table_preferences/:name", N_("Updates a table preference for a given table")
       param_group :table_preference
       def update
-        process_response @table_preference.update_attributes(:columns => params[:columns])
+        process_response @table_preference.update(:columns => params[:columns])
       end
 
       api :DELETE, "/users/:user_id/table_preferences/:name/", N_("Delete a table preference for a given table")

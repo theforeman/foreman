@@ -438,7 +438,7 @@ class UsersControllerTest < ActionController::TestCase
 
   context 'default taxonomies' do
     test 'accessing a regular page sets default taxonomies' do
-      users(:one).update_attributes(:default_location_id     => taxonomies(:location1).id,
+      users(:one).update(:default_location_id     => taxonomies(:location1).id,
                                     :default_organization_id => taxonomies(:organization1).id,
                                     :password                => 'changeme')
 
@@ -448,7 +448,7 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     test 'users can update their own default taxonomies' do
-      users(:one).update_attributes(:locations     => [taxonomies(:location1)],
+      users(:one).update(:locations     => [taxonomies(:location1)],
                                     :organizations => [taxonomies(:organization1)])
 
       put :update, params: { :id   => users(:one).id,

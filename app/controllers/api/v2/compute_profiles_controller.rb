@@ -38,7 +38,7 @@ module Api
       param_group :compute_profile
 
       def update
-        process_response @compute_profile.update_attributes(compute_profile_params)
+        process_response @compute_profile.update(compute_profile_params)
       end
 
       api :DELETE, "/compute_profiles/:id/", N_("Delete a compute profile")

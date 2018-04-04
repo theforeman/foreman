@@ -44,7 +44,7 @@ class CreateNics < ActiveRecord::Migration[4.2]
 
     Nic::BMC.all.each do |bmc|
       if bmc.host_id
-        bmc.host.update_attributes(:sp_mac => bmc.mac, :sp_ip => bmc.ip, :sp_name => bmc.name, :sp_subnet_id => bmc.subnet_id)
+        bmc.host.update(:sp_mac => bmc.mac, :sp_ip => bmc.ip, :sp_name => bmc.name, :sp_subnet_id => bmc.subnet_id)
       end
     end
     drop_table :nics

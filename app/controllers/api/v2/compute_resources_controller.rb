@@ -61,7 +61,7 @@ module Api
       param_group :compute_resource
 
       def update
-        process_response @compute_resource.update_attributes(compute_resource_params)
+        process_response @compute_resource.update(compute_resource_params)
       end
 
       api :DELETE, "/compute_resources/:id/", N_("Delete a compute resource")

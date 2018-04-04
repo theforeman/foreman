@@ -68,7 +68,7 @@ module Api
       param_group :subnet
 
       def update
-        process_response @subnet.update_attributes(subnet_params)
+        process_response @subnet.update(subnet_params)
       end
 
       api :DELETE, '/subnets/:id', N_("Delete a subnet")

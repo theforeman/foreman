@@ -54,7 +54,7 @@ class TemplatesController < ApplicationController
   end
 
   def update
-    if @template.update_attributes(resource_params)
+    if @template.update(resource_params)
       process_success :object => @template
     else
       load_history

@@ -287,11 +287,6 @@ Naming/UncommunicativeMethodParamName:
 Naming/VariableNumber:
   Enabled: false
 
-# Offense count: 144
-# Cop supports --auto-correct.
-Rails/ActiveRecordAliases:
-  Enabled: false
-
 # Offense count: 28
 # Configuration parameters: Include.
 # Include: db/migrate/*.rb

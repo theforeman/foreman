@@ -25,7 +25,7 @@ class ModelsController < ApplicationController
   end
 
   def update
-    if @model.update_attributes(model_params)
+    if @model.update(model_params)
       process_success
     else
       process_error

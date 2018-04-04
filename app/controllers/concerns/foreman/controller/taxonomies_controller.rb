@@ -76,7 +76,7 @@ module Foreman::Controller::TaxonomiesController
 
   def update
     result = Taxonomy.no_taxonomy_scope do
-      @taxonomy.update_attributes(resource_params)
+      @taxonomy.update(resource_params)
     end
     if result
       process_success(:object => @taxonomy)

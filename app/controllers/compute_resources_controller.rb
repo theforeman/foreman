@@ -75,7 +75,7 @@ class ComputeResourcesController < ApplicationController
   end
 
   def update
-    if @compute_resource.update_attributes(compute_resource_params)
+    if @compute_resource.update(compute_resource_params)
       process_success :success_redirect => compute_resources_path
     else
       process_error

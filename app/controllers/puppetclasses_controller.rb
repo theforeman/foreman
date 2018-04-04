@@ -17,7 +17,7 @@ class PuppetclassesController < ApplicationController
   end
 
   def update
-    if @puppetclass.update_attributes(puppetclass_params)
+    if @puppetclass.update(puppetclass_params)
       process_success
     else
       process_error

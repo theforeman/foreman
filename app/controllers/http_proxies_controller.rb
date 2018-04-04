@@ -33,7 +33,7 @@ class HttpProxiesController < ApplicationController
   end
 
   def update
-    if @http_proxy.update_attributes(http_proxy_params)
+    if @http_proxy.update(http_proxy_params)
       process_success
     else
       process_error

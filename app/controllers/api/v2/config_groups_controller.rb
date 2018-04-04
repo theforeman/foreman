@@ -41,7 +41,7 @@ module Api
       param_group :config_group
 
       def update
-        process_response @config_group.update_attributes(config_group_params)
+        process_response @config_group.update(config_group_params)
       end
 
       api :DELETE, "/config_groups/:id/", N_("Delete a config group")

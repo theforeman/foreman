@@ -201,7 +201,7 @@ class FactValueTest < ActiveSupport::TestCase
 
       test "only return facts from host in admin's currently selected taxonomy" do
         user = as_admin { FactoryBot.create(:user, :admin) }
-        target_host.update_attributes(:location => @locs.last, :organization => @orgs.last)
+        target_host.update(:location => @locs.last, :organization => @orgs.last)
 
         as_user user do
           in_taxonomy(@orgs.first) do

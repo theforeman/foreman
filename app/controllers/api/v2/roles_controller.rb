@@ -43,7 +43,7 @@ module Api
       param_group :role
 
       def update
-        process_response @role.update_attributes(role_params)
+        process_response @role.update(role_params)
       end
 
       api :DELETE, "/roles/:id/", N_("Delete a role")

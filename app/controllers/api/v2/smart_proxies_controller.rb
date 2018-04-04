@@ -43,7 +43,7 @@ module Api
       param_group :smart_proxy
 
       def update
-        process_response @smart_proxy.update_attributes(smart_proxy_params)
+        process_response @smart_proxy.update(smart_proxy_params)
       end
 
       api :DELETE, "/smart_proxies/:id/", N_("Delete a smart proxy")

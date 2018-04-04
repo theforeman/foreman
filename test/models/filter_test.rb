@@ -143,7 +143,7 @@ class FilterTest < ActiveSupport::TestCase
       f  = FactoryBot.create(:filter, :search => '', :unlimited => '1',
                           :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
 
-      f.update_attributes :organization_ids => [], :location_ids => []
+      f.update :organization_ids => [], :location_ids => []
       assert f.valid?
       assert f.unlimited?
       assert_nil f.taxonomy_search

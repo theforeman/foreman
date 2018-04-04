@@ -25,7 +25,7 @@ class ConfigGroupsController < ApplicationController
   end
 
   def update
-    if @config_group.update_attributes(config_group_params)
+    if @config_group.update(config_group_params)
       process_success
     else
       process_error

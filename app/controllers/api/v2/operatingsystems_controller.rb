@@ -77,7 +77,7 @@ module Api
       param_group :operatingsystem
 
       def update
-        process_response @operatingsystem.update_attributes(operatingsystem_params)
+        process_response @operatingsystem.update(operatingsystem_params)
       end
 
       api :DELETE, "/operatingsystems/:id/", N_("Delete an operating system")

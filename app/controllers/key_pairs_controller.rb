@@ -11,7 +11,7 @@ class KeyPairsController < ApplicationController
   end
 
   def show
-    @key_pair.update_attributes(audit_comment: _("%{user} Downloaded %{key} as pem file") % {user: User.current.name, key: @key_pair.name})
+    @key_pair.update(audit_comment: _("%{user} Downloaded %{key} as pem file") % {user: User.current.name, key: @key_pair.name})
     send_data @key_pair.secret, :filename => "#{@key_pair.name}.pem"
   end
 

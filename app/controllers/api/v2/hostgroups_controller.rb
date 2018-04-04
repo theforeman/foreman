@@ -83,7 +83,7 @@ module Api
       def update
         @parameters = true
 
-        process_response @hostgroup.update_attributes(hostgroup_params)
+        process_response @hostgroup.update(hostgroup_params)
       end
 
       api :DELETE, "/hostgroups/:id/", N_("Delete a host group")

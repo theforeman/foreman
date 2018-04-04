@@ -739,7 +739,7 @@ class UserTest < ActiveSupport::TestCase
         end
 
         test "existing user groups that are assigned" do
-          @external.update_attributes(:usergroup => @usergroup, :name => @usergroup.name)
+          @external.update(:usergroup => @usergroup, :name => @usergroup.name)
           assert User.find_or_create_external_user({:login => "not_existing_user",
                                                     :groups => [@external.name,
                                                                 "notexistentexternal"]},

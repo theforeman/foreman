@@ -31,7 +31,7 @@ class OperatingsystemsController < ApplicationController
   end
 
   def update
-    if @operatingsystem.update_attributes(operatingsystem_params)
+    if @operatingsystem.update(operatingsystem_params)
       process_success
     else
       process_error

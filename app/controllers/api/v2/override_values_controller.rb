@@ -62,7 +62,7 @@ module Api
       param_group :override_value
 
       def update
-        @override_value.update_attributes!(lookup_value_params)
+        @override_value.update!(lookup_value_params)
         render 'api/v2/override_values/show'
       end
 

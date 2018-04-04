@@ -24,7 +24,7 @@ class DomainsController < ApplicationController
   end
 
   def update
-    if @domain.update_attributes(domain_params)
+    if @domain.update(domain_params)
       process_success
     else
       process_error

@@ -39,7 +39,7 @@ class TaxonomiesSelectionIntegrationTest < ActionDispatch::IntegrationTest
 
     context 'with single organization' do
       setup do
-        @user.update_attributes(:organization_ids => [@organization.id], :location_ids => [@location.id])
+        @user.update(:organization_ids => [@organization.id], :location_ids => [@location.id])
       end
 
       test 'the only taxonomy is always selected even if they explicitly choose any context regardless of default taxonomy' do
@@ -78,7 +78,7 @@ class TaxonomiesSelectionIntegrationTest < ActionDispatch::IntegrationTest
         @second_organization = FactoryBot.create(:organization)
         @third_organization = FactoryBot.create(:organization)
         @second_location = FactoryBot.create(:location)
-        @user.update_attributes(:organization_ids => [@organization.id, @second_organization.id], :location_ids => [@location.id, @second_location.id])
+        @user.update(:organization_ids => [@organization.id, @second_organization.id], :location_ids => [@location.id, @second_location.id])
         @user.roles << Role.find_by_name('Manager')
       end
 

@@ -62,7 +62,7 @@ module Api
       param_group :config_template
 
       def update
-        process_response @config_template.update_attributes(provisioning_template_params)
+        process_response @config_template.update(provisioning_template_params)
       end
 
       api :GET, "/config_templates/revision"

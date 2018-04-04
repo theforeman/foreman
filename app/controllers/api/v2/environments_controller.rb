@@ -47,7 +47,7 @@ module Api
       param_group :environment
 
       def update
-        process_response @environment.update_attributes(environment_params)
+        process_response @environment.update(environment_params)
       end
 
       api :DELETE, "/environments/:id/", N_("Delete an environment")

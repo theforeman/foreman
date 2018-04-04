@@ -42,7 +42,7 @@ module Api
       param_group :architecture
 
       def update
-        process_response @architecture.update_attributes(architecture_params)
+        process_response @architecture.update(architecture_params)
       end
 
       api :DELETE, "/architectures/:id/", N_("Delete an architecture")

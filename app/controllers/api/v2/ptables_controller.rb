@@ -77,7 +77,7 @@ module Api
       param_group :ptable
 
       def update
-        process_response @ptable.update_attributes(ptable_params)
+        process_response @ptable.update(ptable_params)
       end
 
       api :DELETE, "/ptables/:id/", N_("Delete a partition table")

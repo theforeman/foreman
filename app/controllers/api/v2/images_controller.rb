@@ -58,7 +58,7 @@ module Api
       param_group :image
 
       def update
-        process_response @image.update_attributes(image_params)
+        process_response @image.update(image_params)
       end
 
       api :DELETE, "/compute_resources/:compute_resource_id/images/:id/", N_("Delete an image")

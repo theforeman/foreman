@@ -25,7 +25,7 @@ class CommonParametersController < ApplicationController
   end
 
   def update
-    if @common_parameter.update_attributes(parameter_params(::CommonParameter))
+    if @common_parameter.update(parameter_params(::CommonParameter))
       process_success
     else
       process_error

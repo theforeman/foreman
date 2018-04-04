@@ -225,7 +225,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   test 'should allow empty array as param value of array field while updating organization' do
     organization = taxonomies(:organization2)
-    organization.update_attributes(:smart_proxy_ids => [ smart_proxies(:one).id ])
+    organization.update(:smart_proxy_ids => [ smart_proxies(:one).id ])
     saved_organization = Organization.find_by_id(organization.id)
     assert_equal 1, saved_organization.smart_proxy_ids.count
     put :update, params: { :id => organization.id, :organization => {:smart_proxy_ids => [""]} }, session: set_session_user
@@ -236,7 +236,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   context 'wizard' do
     test 'redirects to step 2 if unassigned hosts exist' do
       host = FactoryBot.create(:host)
-      host.update_attributes(:organization => nil)
+      host.update(:organization => nil)
 
       organization = FactoryBot.create(:organization)
       Organization.stubs(:current).returns(organization)
@@ -255,7 +255,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     test 'redirects to step 3 if no permissins for hosts' do
       host = FactoryBot.create(:host)
-      host.update_attributes(:organization => nil)
+      host.update(:organization => nil)
 
       Host.stubs(:authorized).returns(Host.where('1=0'))
 

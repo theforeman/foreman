@@ -124,7 +124,7 @@ class SeedsTest < ActiveSupport::TestCase
 
   test "does update template that was not modified by user" do
     seed
-    ProvisioningTemplate.without_auditing { ProvisioningTemplate.unscoped.find_by_name('Kickstart default').update_attributes(:template => 'test') }
+    ProvisioningTemplate.without_auditing { ProvisioningTemplate.unscoped.find_by_name('Kickstart default').update(:template => 'test') }
     seed
     refute_equal ProvisioningTemplate.unscoped.find_by_name('Kickstart default').template, 'test'
   end

@@ -10,7 +10,7 @@ class NotificationRecipientsController < Api::V2::BaseController
   end
 
   def update
-    process_response @notification_recipient.update_attributes(notification_recipient_params)
+    process_response @notification_recipient.update(notification_recipient_params)
   end
 
   def destroy

@@ -39,7 +39,7 @@ module Api
       param_group :compute_attribute
 
       def update
-        process_response @compute_attribute.update_attributes(compute_attribute_params)
+        process_response @compute_attribute.update(compute_attribute_params)
       end
     end
   end

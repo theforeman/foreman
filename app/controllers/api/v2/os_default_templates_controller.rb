@@ -52,7 +52,7 @@ module Api
       param_group :os_default_template
 
       def update
-        process_response @os_default_template.update_attributes(os_default_template_params)
+        process_response @os_default_template.update(os_default_template_params)
       end
 
       api :DELETE, "/operatingsystems/:operatingsystem_id/os_default_templates/:id", N_("Delete a default template combination for an operating system")

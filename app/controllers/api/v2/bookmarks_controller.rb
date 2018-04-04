@@ -42,7 +42,7 @@ module Api
       param_group :bookmark
 
       def update
-        process_response @bookmark.update_attributes(bookmark_params)
+        process_response @bookmark.update(bookmark_params)
       end
 
       api :DELETE, "/bookmarks/:id/", N_("Delete a bookmark")

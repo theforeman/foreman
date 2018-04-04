@@ -104,7 +104,7 @@ module Api
       param_group :parameter
 
       def update
-        process_response @parameter.update_attributes(parameter_params(::Parameter))
+        process_response @parameter.update(parameter_params(::Parameter))
       end
 
       api :DELETE, "/hosts/:host_id/parameters/:id", N_("Delete a nested parameter for a host")

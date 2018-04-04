@@ -40,7 +40,7 @@ module Api
       param :id, :identifier, :required => true
       param_group :http_proxy
       def update
-        process_response @http_proxy.update_attributes(http_proxy_params)
+        process_response @http_proxy.update(http_proxy_params)
       end
 
       api :DELETE, '/http_proxies/:id/', N_('Delete an HTTP Proxy')

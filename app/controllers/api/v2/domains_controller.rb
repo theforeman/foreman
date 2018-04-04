@@ -76,7 +76,7 @@ module Api
 
       def update
         if verify_proxy_id(domain_params[:dns_id])
-          process_response @domain.update_attributes(domain_params)
+          process_response @domain.update(domain_params)
         else
           @domain.errors.add(:dns_id, _('Invalid smart-proxy id'))
           process_resource_error

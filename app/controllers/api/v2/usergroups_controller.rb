@@ -50,7 +50,7 @@ module Api
       param_group :usergroup
 
       def update
-        process_response @usergroup.update_attributes(usergroup_params)
+        process_response @usergroup.update(usergroup_params)
       end
 
       api :DELETE, "/usergroups/:id/", N_("Delete a user group")

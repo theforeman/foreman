@@ -10,7 +10,7 @@ module UINotifications
     def configure
       blueprint = NotificationBlueprint.find_by(name: attributes[:name])
       if blueprint
-        blueprint.update_attributes!(attributes)
+        blueprint.update!(attributes)
       else
         NotificationBlueprint.create!(attributes)
       end

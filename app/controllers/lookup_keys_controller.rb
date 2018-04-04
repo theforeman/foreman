@@ -12,7 +12,7 @@ class LookupKeysController < ApplicationController
   end
 
   def update
-    if resource.update_attributes(resource_params.merge(:lookup_values_attributes => sanitize_attrs))
+    if resource.update(resource_params.merge(:lookup_values_attributes => sanitize_attrs))
       process_success
     else
       process_error

@@ -82,7 +82,7 @@ module Api
       param_group :interface
 
       def update
-        process_response @interface.update_attributes(nic_interface_params)
+        process_response @interface.update(nic_interface_params)
       end
 
       api :DELETE, "/hosts/:host_id/interfaces/:id", N_("Delete a host's interface")

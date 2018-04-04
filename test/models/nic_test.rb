@@ -494,11 +494,11 @@ class NicTest < ActiveSupport::TestCase
     interface = FactoryBot.create(:nic_managed, :host => host, :name => 'nick')
     # no domain
     assert_equal(interface.name, 'nick')
-    interface.update_attributes(:domain_id => existing_domain.id)
+    interface.update(:domain_id => existing_domain.id)
     name_should_be = "nick.#{existing_domain.name}"
     assert_equal(name_should_be, interface.name)
     new_domain = FactoryBot.create(:domain)
-    interface.update_attributes(:domain_id => new_domain.id)
+    interface.update(:domain_id => new_domain.id)
     name_should_change_to = "nick.#{new_domain.name}"
     assert_equal(name_should_change_to, interface.name)
   end
