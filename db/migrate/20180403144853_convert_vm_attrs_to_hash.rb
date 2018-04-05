@@ -1,68 +1,35 @@
 class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
   def up
-    transform ActionController::Parameters, :to_h
-  end
-
-  def down
-    transform ActiveSupport::HashWithIndifferentAccess, :to_params
-  end
-
-  def transform(from, transform_method)
     say "Starting serialized attributes conversion, this can take long time based on data amount"
-    say "Converting Compute Nics"
-    transform_batch_columns(FakeNic, from, ['attrs', 'compute_attributes'], transform_method)
-    say "Converting Compute Attributes"
-    transform_batch_columns(FakeComputeAttribute, from, ['vm_attrs'], transform_method)
-    say "Converting Compute Resources"
-    transform_batch_columns(FakeComputeResource, from, ['attrs'], transform_method)
-    say "Converting Compute Reports"
-    transform_batch_columns(FakeReport, from, ['metrics'], transform_method)
-    say "Converting Compute Taxonomies"
-    transform_batch_columns(FakeTaxonomy, from, ['ignore_types'], transform_method)
-    say "Converting Compute Lookup Keys"
-    transform_batch_columns(FakeLookupKey, from, ['default_value'], transform_method)
-    say "Converting Compute Lookup Values"
-    transform_batch_columns(FakeLookupValue, from, ['value'], transform_method)
+    say "Converting Nics, total: #{FakeNic.unscoped.count}"
+    transform_batch_columns(FakeNic, [:attrs, :compute_attributes])
+
+    say "Converting Compute Attributes, total: #{FakeComputeAttribute.unscoped.count}"
+    transform_batch_columns(FakeComputeAttribute, [:vm_attrs])
+
+    say "Converting Compute Resources, total #{FakeComputeResource.unscoped.count}"
+    transform_batch_columns(FakeComputeResource, [:attrs])
+
+    say "Converting Lookup Keys, total: #{FakeLookupKey.unscoped.count}"
+    transform_batch_columns(FakeLookupKey, [:default_value])
+
+    say "Converting Lookup Values, total: #{FakeLookupValue.unscoped.count}"
+    transform_batch_columns(FakeLookupValue, [:value])
+
     say "All conversions finished"
   end
 
-  def transform_batch_columns(base, from, serialized_columns, transform_method)
-    base.unscoped.all.in_batches do |batch|
-      batch.each do |object|
-        serialized_columns.each do |column|
-          attributes = object.send column
-          next if attributes.nil?
-          if YAML.load(attributes).is_a? from
-            object.send("#{column}=", send(transform_method, attributes))
-            object.save!
-          end
-        end
+  YML_HASH = '!ruby/hash:ActiveSupport::HashWithIndifferentAccess'
+  YML_PARAMS = /!ruby\/[\w-]+:ActionController::Parameters/
+
+  def transform_batch_columns(base, serialized_columns)
+    base.unscoped.select(serialized_columns + [:id]).find_each  do |object|
+      serialized_columns.each do |column|
+        attributes = object.send :read_attribute_before_type_cast, column
+        next if attributes.nil?
+        object.update_column(column, attributes) if attributes.gsub!(YML_PARAMS, YML_HASH)
       end
     end
-  end
-
-  def to_h(attr)
-    attr.gsub(yml_params_hash, yml_hash).gsub(yml_params_obj, yml_hash)
-  end
-
-  def to_params(attr)
-    attr.gsub(yml_hash, yml_params_obj)
-  end
-
-  def yml_hash
-    '!ruby/hash:ActiveSupport::HashWithIndifferentAccess'
-  end
-
-  def yml_params_hash
-    '!ruby/hash:ActionController::Parameters'
-  end
-
-  def yml_params_obj
-    '!ruby/object:ActionController::Parameters'
-  end
-
-  class FakeComputeAttribute < ApplicationRecord
-    self.table_name = 'compute_attributes'
   end
 
   class FakeNic < ApplicationRecord
@@ -70,9 +37,8 @@ class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
     self.inheritance_column = nil
   end
 
-  class FakeReport < ApplicationRecord
-    self.table_name = 'reports'
-    self.inheritance_column = nil
+  class FakeComputeAttribute < ApplicationRecord
+    self.table_name = 'compute_attributes'
   end
 
   class FakeComputeResource < ApplicationRecord
@@ -80,17 +46,12 @@ class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
     self.inheritance_column = nil
   end
 
-  class FakeTaxonomy < ApplicationRecord
-    self.table_name = 'taxonomies'
-    self.inheritance_column = nil
+  class FakeLookupValue < ApplicationRecord
+    self.table_name = 'lookup_values'
   end
 
   class FakeLookupKey < ApplicationRecord
     self.table_name = 'lookup_keys'
-    self.inheritance_column = nil
-  end
-
-  class FakeLookupValue < ApplicationRecord
-    self.table_name = 'lookup_values'
+    self.inheritance_column  = nil
   end
 end
