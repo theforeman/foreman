@@ -348,6 +348,7 @@ add_files /etc/foreman-installer/scenarios.d/{*,*/*,*/.*}
 add_files /var/log/foreman-installer/
 add_files /var/log/foreman-maintain/
 add_files /etc/foreman-installer/custom-hiera.yaml
+add_files /var/log/foreman-selinux-install.log
 
 add_files /usr/share/foreman/Gemfile*
 add_cmd "virsh list" "virsh_list"
