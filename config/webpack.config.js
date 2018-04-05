@@ -92,7 +92,7 @@ var config = {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader', // The backup style loader
-          use: 'css-loader?sourceMap!sass-loader?sourceMap'
+          use: production ? 'css-loader!sass-loader' : 'css-loader?sourceMap!sass-loader?sourceMap'
         })
       }
     ]
