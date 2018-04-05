@@ -1,6 +1,16 @@
 require 'test_helper'
 
 class BookmarkTest < ActiveSupport::TestCase
+  @valid_controllers ||= (["dashboard", "common_parameters"] +
+      ActiveRecord::Base.connection.tables.map(&:to_s) +
+      Permission.resources.map(&:tableize)).uniq
+
+  should allow_values(*@valid_controllers).for(:controller)
+  should allow_values(*valid_name_list).for(:name)
+  should allow_values(*valid_name_list).for(:query)
+  should_not allow_values(*invalid_name_list).for(:name)
+  should_not allow_values('', ' ').for(:query)
+
   test "my bookmarks should contain all public bookmarks" do
     assert_equal Bookmark.my_bookmarks.include?(bookmarks(:one)), true
   end
@@ -8,6 +18,31 @@ class BookmarkTest < ActiveSupport::TestCase
   test "my bookmarks should not contain private bookmarks" do
     as_user :one do
       assert_equal Bookmark.my_bookmarks.include?(bookmarks(:two)), false
+    end
+  end
+
+  test "should update with multiple valid names" do
+    bookmark = FactoryBot.create(:bookmark, :controller => "hosts", :public => false)
+    valid_name_list.each do |name|
+      bookmark.name = name
+      assert bookmark.valid?, "Can't update bookmark with valid name #{name}"
+    end
+  end
+
+  test "should update with multiple valid queries" do
+    bookmark = FactoryBot.create(:bookmark, :controller => "hosts", :public => false)
+    valid_name_list.each do |query|
+      bookmark.query = query
+      assert bookmark.valid?, "Can't update bookmark with valid query #{query}"
+    end
+  end
+
+  test "should not update with multiple invalid names" do
+    bookmark = FactoryBot.create(:bookmark, :controller => "hosts", :public => false)
+    invalid_name_list.each do |name|
+      bookmark.name = name
+      refute bookmark.valid?, "Can update bookmark with invalid name #{name}"
+      assert_includes bookmark.errors.keys, :name
     end
   end
 
