@@ -343,7 +343,7 @@ class Host::Managed < Host::Base
 
   # returns the host correct disk layout, custom or common
   def diskLayout
-    raise 'Neither disk nor partition table defined for host' unless disk_layout_template
+    raise Foreman::Renderer::RenderingError, 'Neither disk nor partition table defined for host' unless disk_layout_template
     @host = self
     load_template_vars
     unattended_render(disk_layout_template[:template].tr("\r", ''), disk_layout_template[:name])

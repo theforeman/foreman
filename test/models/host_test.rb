@@ -1033,7 +1033,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryBot.build(
         :host,
         :operatingsystem => operatingsystem,
-        :architecture => FactoryGirl.build(:architecture)
+        :architecture => FactoryBot.build(:architecture)
       )
       host.disk = "<%= template_name %> - <%= @osver %>"
       assert host.save
