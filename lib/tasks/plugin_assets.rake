@@ -117,8 +117,30 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
     end
   end
 
+  module Foreman
+    class PluginWebpackTask
+      attr_accessor :plugin
+
+      def initialize(plugin_id)
+        @plugin = Foreman::Plugin.find(plugin_id) or raise("Unable to find registered plugin #{plugin_id}")
+      end
+
+      def compile
+        return unless File.exist?("#{@plugin.path}/package.json")
+        ENV["NODE_ENV"] ||= 'production'
+        webpack_bin = ::Rails.root.join(::Rails.configuration.webpack.binary)
+        config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
+        sh "#{webpack_bin} --config #{config_file} --bail --env.pluginName=#{@plugin.id}"
+      end
+
+    end
+  end
+
   if args[:plugin]
     task = Foreman::PluginAssetsTask.new(args[:plugin])
+    task.compile
+
+    task = Foreman::PluginWebpackTask.new(args[:plugin])
     task.compile
   else
     puts "You must specify the name of the plugin (e.g. rake plugin:assets:precompile['my_plugin'])"

@@ -47,6 +47,17 @@ var webpackedDirs = (stderr) => {
   });
 };
 
+var pluginEntry = (pluginEntries, pluginName) => {
+  var entry = {};
+
+  Object.keys(pluginEntries).forEach((key) => {
+    if (key === pluginName) {
+        entry[key] = path.dirname(pluginEntries[key]);
+    }
+  });
+  return entry;
+}
+
 var getPluginDirs = stderr => JSON.parse(sanitizeWebpackDirs(webpackedDirs(stderr)));
 
 var packageJsonDirs = stderr => pluginPath('package.json')(getPluginDirs(stderr)).map(path.dirname);
