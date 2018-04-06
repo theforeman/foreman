@@ -21,7 +21,7 @@ module FogExtensions
         name
       end
 
-      alias :id :identity
+      alias_method :id, :identity
     end
   end
 end

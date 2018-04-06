@@ -38,6 +38,6 @@ module Foreman
     ensure
       self.local_level = nil
     end
-    alias :silence_logger :silence
+    alias_method :silence_logger, :silence
   end
 end
