@@ -120,7 +120,7 @@ class Hostgroup < ApplicationRecord
   end
 
   def diskLayout
-    raise 'Partition table not defined for hostgroup' unless disk_layout_template
+    raise Foreman::Renderer::RenderingError, 'Partition table not defined for hostgroup' unless disk_layout_template
     disk_layout_template[:template].tr("\r", '')
   end
 
