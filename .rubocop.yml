@@ -46,10 +46,6 @@ Metrics/ClassLength:
 Performance/Casecmp:
   Enabled: false
 
-Performance/FixedSize:
-  Exclude:
-    - 'test/**/*'
-
 Performance/RedundantMatch:
   Enabled: true
 
