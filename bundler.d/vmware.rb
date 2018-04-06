@@ -1,3 +1,3 @@
 group :vmware do
-  gem 'fog-vsphere', '>= 1.13.0'
+  gem 'fog-vsphere', '>= 2.1.0'
 end
