@@ -11,8 +11,9 @@ module Foreman::Controller::HostFormCommon
     return unless @host
 
     taxonomy_scope
-    if @host.compute_resource_id && params[:host] && params[:host][:compute_attributes]
-      @host.compute_attributes = params[:host][:compute_attributes]
+    if @host.compute_resource_id &&
+        respond_to?(:host_params) && host_params && host_params[:compute_attributes]
+      @host.compute_attributes = host_params[:compute_attributes]
     end
 
     set_class_variables(@host)

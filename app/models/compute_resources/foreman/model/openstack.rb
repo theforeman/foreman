@@ -228,7 +228,7 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      super.merge(:key_name => key_pair.name, :metadata => {})
+      super.merge(:key_name => key_pair.try(:name), :metadata => {})
     end
 
     def assign_floating_ip(address, vm)
