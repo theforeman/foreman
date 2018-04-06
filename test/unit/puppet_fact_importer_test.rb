@@ -6,9 +6,9 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   attr_reader :host, :importer
   setup do
     @host = FactoryBot.create(:host)
-    FactoryBot.build(:fact_value, :value => '2.6.9',:host => @host,
+    FactoryBot.build(:fact_value, :value => '2.6.9', :host => @host,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
-    FactoryBot.build(:fact_value, :value => '10.0.19.33',:host => @host,
+    FactoryBot.build(:fact_value, :value => '10.0.19.33', :host => @host,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'ipaddress'))
   end
 

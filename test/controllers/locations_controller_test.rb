@@ -162,7 +162,7 @@ class LocationsControllerTest < ActionController::TestCase
 
     assert_difference "Location.unscoped.count", 1 do
       post :create, params: {
-        :location => location_dup.selected_ids.each { |_,v| v.uniq! }
+        :location => location_dup.selected_ids.each { |_, v| v.uniq! }
           .merge(:name => 'location_dup_name')
       }, session: set_session_user
     end

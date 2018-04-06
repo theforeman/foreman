@@ -79,7 +79,7 @@ namespace :reports do
     end
 
     unless ENV['fact'].empty?
-      name,value = ENV['fact'].split(":")
+      name, value = ENV['fact'].split(":")
       if name.empty? || value.empty?
         $stdout.puts "invalid fact #{ENV['fact']}"
         exit 1

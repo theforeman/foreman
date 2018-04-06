@@ -25,7 +25,7 @@ module Orchestration
 
     def rebuild_methods_for(only = nil)
       if only.present?
-        (@rebuild_methods || {}).select { |k,v| only.include?(v) }
+        (@rebuild_methods || {}).select { |k, v| only.include?(v) }
       else
         @rebuild_methods || {}
       end
@@ -209,15 +209,15 @@ module Orchestration
       met = met.to_s
       case met
       when /set/
-        met.gsub!("set","del")
+        met.gsub!("set", "del")
       when /del/
-        met.gsub!("del","set")
+        met.gsub!("del", "set")
       else
         raise "Dont know how to rollback #{met}"
       end
       met = met.to_sym
     end
-    if obj.respond_to?(met,true)
+    if obj.respond_to?(met, true)
       param.nil? || (return obj.send(met, param))
       return obj.send(met)
     else

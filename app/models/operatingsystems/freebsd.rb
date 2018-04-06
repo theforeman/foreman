@@ -8,7 +8,7 @@ class Freebsd < Operatingsystem
 
   # Simple output of the media url
   def mediumpath(host)
-    medium_uri(host).to_s.gsub("x86_64","amd64")
+    medium_uri(host).to_s.gsub("x86_64", "amd64")
   end
 
   def pxe_type

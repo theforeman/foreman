@@ -189,7 +189,7 @@ class UnattendedControllerTest < ActionController::TestCase
     get :built
     assert_response :created
     host = Nic::Base.primary.find_by_ip(@ub_host.ip)
-    assert_equal host.build,false
+    assert_equal host.build, false
   end
 
   test "should accept built notifications_with_expired_token" do
@@ -198,7 +198,7 @@ class UnattendedControllerTest < ActionController::TestCase
     get :built, params: {'token' => @ub_host.token.value }
     assert_response :created
     host = Nic::Base.primary.find_by_ip(@ub_host.ip)
-    assert_equal host.build,false
+    assert_equal host.build, false
   end
 
   test "should not render a template when token is expired" do
@@ -384,7 +384,7 @@ class UnattendedControllerTest < ActionController::TestCase
       Setting[:token_duration] = 30
       Setting[:update_ip_from_built_request] = true
       h=@ub_host
-      new_ip = h.subnet.network.gsub(/\.0$/,'.100') # Must be in the subnet, which isn't fixed
+      new_ip = h.subnet.network.gsub(/\.0$/, '.100') # Must be in the subnet, which isn't fixed
       @request.env["REMOTE_ADDR"] = new_ip
       refute_equal new_ip, h.ip
       h.create_token(:value => "aaaaab", :expires => Time.now.utc + 5.minutes)

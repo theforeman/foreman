@@ -29,7 +29,7 @@ module ProxyAPI
       case args[:function]
       when "bootdevice"
         if SUPPORTED_BOOT_DEVICES.include?(args[:device])
-          parse put(args, bmc_url_for('config',"#{args[:function]}/#{args[:device]}"))
+          parse put(args, bmc_url_for('config', "#{args[:function]}/#{args[:device]}"))
         else
           raise NoMethodError
         end
@@ -49,10 +49,10 @@ module ProxyAPI
       case args[:action]
       when "on?", "off?", "status"
         args[:action].chop! if args[:action].include?('?')
-        response = parse(get(bmc_url_for('power',args[:action]), args))
+        response = parse(get(bmc_url_for('power', args[:action]), args))
         response.is_a?(Hash) ? response['result'] : response
       when "on", "off", "cycle", "soft"
-        res = parse put(args, bmc_url_for('power',args[:action]))
+        res = parse put(args, bmc_url_for('power', args[:action]))
         res && (res['result'] == true || res['result'] == "#{@target}: ok\n")
       else
         raise NoMethodError
@@ -69,9 +69,9 @@ module ProxyAPI
       # put "/bmc/:host/chassis/identify/:action"
       case args[:action]
       when "status"
-        parse get(bmc_url_for('identify',args[:action]), args)
+        parse get(bmc_url_for('identify', args[:action]), args)
       when "on", "off"
-        parse put(args, bmc_url_for('identify',args[:action]))
+        parse put(args, bmc_url_for('identify', args[:action]))
       else
         raise NoMethodError
       end
@@ -86,7 +86,7 @@ module ProxyAPI
       # get "/bmc/:host/lan/:action"
       case args[:action]
       when "ip", "netmask", "mac", "gateway"
-        response = parse(get(bmc_url_for('lan',args[:action]), args))
+        response = parse(get(bmc_url_for('lan', args[:action]), args))
         response.is_a?(Hash) ? response['result'] : response
       else
         raise NoMethodError
@@ -99,7 +99,7 @@ module ProxyAPI
 
     private
 
-    def bmc_url_for(controller,action)
+    def bmc_url_for(controller, action)
       case controller
       when "lan"
         "/#{@target}/lan/#{action}"

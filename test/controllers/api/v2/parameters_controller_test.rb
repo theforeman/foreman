@@ -70,14 +70,14 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should show a hostgroup parameter" do
-    get :show, params: {:hostgroup_id => hostgroups(:common).to_param,:id => parameters(:group).to_param }
+    get :show, params: {:hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
   end
 
   test "should show an os parameter" do
-    get :show, params: {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => parameters(:os).to_param }
+    get :show, params: {:operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty show_response
@@ -109,7 +109,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     # create DomainParamter with name name
     assert Domain.first.parameters.create(:name => 'os1')
     param = parameters(:os)
-    get :show, params: {:operatingsystem_id => operatingsystems(:redhat).to_param,:id => param.name }
+    get :show, params: {:operatingsystem_id => operatingsystems(:redhat).to_param, :id => param.name }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_equal param.id, show_response['id']

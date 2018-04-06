@@ -178,7 +178,7 @@ module Foreman #:nodoc:
       plugin = Plugin.find(plugin_name)
       raise PluginNotFound.new(N_("%{id} plugin requires the %{plugin_name} plugin, not found") % {:id =>id, :plugin_name=>plugin_name}) unless plugin
       unless Gem::Dependency.new('', matcher).match?('', plugin.version)
-        raise PluginRequirementError.new(N_("%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}" % {:id=>id, :plugin_name=>plugin_name,:matcher=> matcher,:plugin_version=>plugin.version}))
+        raise PluginRequirementError.new(N_("%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}" % {:id=>id, :plugin_name=>plugin_name, :matcher=> matcher, :plugin_version=>plugin.version}))
       end
       true
     end
@@ -231,7 +231,7 @@ module Foreman #:nodoc:
 
     def tests_to_skip(hash)
       # Format is { "testclass" => [ "skip1", "skip2" ] }
-      hash.each do |testclass,tests|
+      hash.each do |testclass, tests|
         if self.class.tests_to_skip[testclass].nil?
           self.class.tests_to_skip[testclass] = tests
         else

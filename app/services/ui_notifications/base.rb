@@ -28,7 +28,7 @@ module UINotifications
     protected
 
     def event
-      self.class.name.sub(/^\w+::/,'')
+      self.class.name.sub(/^\w+::/, '')
     end
 
     # Defaults to anonymous api admin, override in subclasses as needed.

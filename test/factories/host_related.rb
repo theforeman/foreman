@@ -117,7 +117,7 @@ FactoryBot.define do
 
     # This allows a test to declare build/create(:host, :ip => '1.2.3.4') and
     # have the primary interface correctly updated with the specified attrs
-    after(:build) do |host,evaluator|
+    after(:build) do |host, evaluator|
       unless host.primary_interface.present?
         opts = {
           :primary => true,
@@ -151,7 +151,7 @@ FactoryBot.define do
     end
 
     trait :with_parameter do
-      after(:create) do |host,evaluator|
+      after(:create) do |host, evaluator|
         FactoryBot.create(:host_parameter, :host => host)
       end
     end
@@ -160,7 +160,7 @@ FactoryBot.define do
       transient do
         fact_count 20
       end
-      after(:create) do |host,evaluator|
+      after(:create) do |host, evaluator|
         evaluator.fact_count.times do
           FactoryBot.create(:fact_value, :host => host)
         end
@@ -171,7 +171,7 @@ FactoryBot.define do
       transient do
         report_count 5
       end
-      after(:create) do |host,evaluator|
+      after(:create) do |host, evaluator|
         evaluator.report_count.times do |i|
           FactoryBot.create(:report, :host => host, :reported_at => (evaluator.report_count - i).minutes.ago)
         end
@@ -473,7 +473,7 @@ FactoryBot.define do
     end
 
     trait :with_parameter do
-      after(:create) do |hg,evaluator|
+      after(:create) do |hg, evaluator|
         FactoryBot.create(:hostgroup_parameter, :hostgroup => hg)
         hg.group_parameters.reload
       end

@@ -57,7 +57,7 @@ module Foreman
 
     def logger_level(name)
       level_int = logger(name).level
-      ::Logging::LEVELS.find { |n,i| i == level_int }.first
+      ::Logging::LEVELS.find { |n, i| i == level_int }.first
     end
 
     # Structured fields to log in addition to log messages. Every log line created within given block is enriched with these fields.

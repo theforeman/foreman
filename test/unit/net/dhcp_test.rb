@@ -35,7 +35,7 @@ class DhcpTest < ActiveSupport::TestCase
   test "record should have dhcp attributes" do
     record = Net::DHCP::Record.new(:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",
                                  :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
-    assert_equal({:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",:network => "127.0.0.0", :ip => "127.0.0.1", :related_macs => []}, record.send(:attrs))
+    assert_equal({:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff", :network => "127.0.0.0", :ip => "127.0.0.1", :related_macs => []}, record.send(:attrs))
   end
 
   test "record should be equal if their attrs are the same" do

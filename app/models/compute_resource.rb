@@ -222,7 +222,7 @@ class ComputeResource < ApplicationRecord
   def templates(opts = {})
   end
 
-  def template(id,opts = {})
+  def template(id, opts = {})
   end
 
   def update_required?(old_attrs, new_attrs)
@@ -342,7 +342,7 @@ class ComputeResource < ApplicationRecord
 
   def vm_compute_attributes(vm)
     vm_attrs = vm.attributes rescue {}
-    vm_attrs = vm_attrs.reject{|k,v| k == :id }
+    vm_attrs = vm_attrs.reject{|k, v| k == :id }
 
     vm_attrs = set_vm_volumes_attributes(vm, vm_attrs)
     vm_attrs
@@ -386,7 +386,7 @@ class ComputeResource < ApplicationRecord
     opts = opts.dup #duplicate to prevent changing the origin opts.
     opts.delete("new_#{type}") || opts.delete("new_#{type}".to_sym) # delete template
     # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
-    opts = opts.sort { |l, r| l[0].to_s.sub('new_','').to_i <=> r[0].to_s.sub('new_','').to_i }.map { |e| Hash[e[1]] }
+    opts = opts.sort { |l, r| l[0].to_s.sub('new_', '').to_i <=> r[0].to_s.sub('new_', '').to_i }.map { |e| Hash[e[1]] }
     opts.map do |v|
       if v[:_delete] == '1' && v[:id].blank?
         nil

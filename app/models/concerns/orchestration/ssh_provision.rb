@@ -69,7 +69,7 @@ module Orchestration::SSHProvision
   def delSSHCert
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
     if puppetca?
-      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
+      respond_to?(:initialize_puppetca, true) && initialize_puppetca && delCertificate && delAutosign
     else
       true
     end

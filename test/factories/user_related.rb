@@ -34,7 +34,7 @@ FactoryBot.define do
     end
 
     trait :with_widget do
-      after(:create) { |user,evaluator| FactoryBot.create(:widget, :user => user) }
+      after(:create) { |user, evaluator| FactoryBot.create(:widget, :user => user) }
     end
 
     trait :with_usergroup do

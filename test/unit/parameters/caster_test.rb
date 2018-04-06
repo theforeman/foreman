@@ -52,15 +52,15 @@ class CasterTest < ActiveSupport::TestCase
     end
 
     test "array (json)" do
-      item = OpenStruct.new(:foo => [1,2,3].to_json)
+      item = OpenStruct.new(:foo => [1, 2, 3].to_json)
       Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :array).cast!
-      assert_equal item.foo, [1,2,3]
+      assert_equal item.foo, [1, 2, 3]
     end
 
     test "array (yml)" do
-      item = OpenStruct.new(:foo => [1,2,3].to_yaml)
+      item = OpenStruct.new(:foo => [1, 2, 3].to_yaml)
       Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :array).cast!
-      assert_equal item.foo, [1,2,3]
+      assert_equal item.foo, [1, 2, 3]
     end
 
     test "hash (json)" do

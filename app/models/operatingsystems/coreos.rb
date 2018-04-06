@@ -6,7 +6,7 @@ class Coreos < Operatingsystem
   end
 
   def mediumpath(host)
-    medium_uri(host, "#{host.medium.path}/#{host.architecture.name}-usr").to_s.gsub('x86_64','amd64')
+    medium_uri(host, "#{host.medium.path}/#{host.architecture.name}-usr").to_s.gsub('x86_64', 'amd64')
   end
 
   def url_for_boot(file)
@@ -18,7 +18,7 @@ class Coreos < Operatingsystem
   end
 
   def boot_files_uri(medium, architecture, host = nil)
-    super(medium, architecture, host).each{ |img_uri| img_uri.path = img_uri.path.gsub('x86_64','amd64-usr') }
+    super(medium, architecture, host).each{ |img_uri| img_uri.path = img_uri.path.gsub('x86_64', 'amd64-usr') }
   end
 
   def display_family

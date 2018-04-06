@@ -882,7 +882,7 @@ class HostsController < ApplicationController
     if host_params["compute_attributes"].present?
       host_attributes << 'compute_attributes'
     end
-    host_params.select do |k,v|
+    host_params.select do |k, v|
       host_attributes.include?(k) && !k.end_with?('_ids')
     end.except(:host_parameters_attributes)
   end

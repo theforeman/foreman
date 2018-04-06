@@ -64,7 +64,7 @@ class ApplicationMailerTest < ActiveSupport::TestCase
     mail(user.mail, 'UTF8')
     mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /UTF8/ }
     assert mail
-    assert_equal "Pelé@example.com", Mail::Encodings.decode_encode(mail.to[0],:decode)
+    assert_equal "Pelé@example.com", Mail::Encodings.decode_encode(mail.to[0], :decode)
   end
 
   test 'email settings are configured dynamically' do

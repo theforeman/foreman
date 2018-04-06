@@ -20,7 +20,7 @@ FactoryBot.define do
     transient do
       log_count 5
     end
-    after(:create) do |report,evaluator|
+    after(:create) do |report, evaluator|
       evaluator.log_count.times do
         FactoryBot.create(:log, :report => report)
       end

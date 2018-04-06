@@ -2,11 +2,11 @@ require 'integration_test_helper'
 
 class AuthSourceLdapIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
-    assert_index_page(auth_source_ldaps_path,"LDAP Authentication","Create LDAP Source",false,false)
+    assert_index_page(auth_source_ldaps_path, "LDAP Authentication", "Create LDAP Source", false, false)
   end
 
   test "create new page" do
-    assert_new_button(auth_source_ldaps_path,"Create LDAP Source",new_auth_source_ldap_path)
+    assert_new_button(auth_source_ldaps_path, "Create LDAP Source", new_auth_source_ldap_path)
     fill_in "auth_source_ldap_name", :with => "corporate-ldap"
     fill_in "auth_source_ldap_host", :with => "10.0.0.77"
     fill_in "auth_source_ldap_port", :with => "5555"

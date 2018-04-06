@@ -55,7 +55,7 @@ FactoryBot.define do
       end
 
       trait :with_parameter do
-        after(:create) do |subnet,evaluator|
+        after(:create) do |subnet, evaluator|
           FactoryBot.create(:subnet_parameter, :subnet => subnet)
         end
       end

@@ -12,7 +12,7 @@ module Host
       end
     end
     if type.constantize.respond_to?(method, true)
-      type.constantize.send(method,*args, &block)
+      type.constantize.send(method, *args, &block)
     else
       super
     end

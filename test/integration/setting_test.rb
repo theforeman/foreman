@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class SettingIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
-    assert_index_page(settings_path,"Settings",false,true,false)
+    assert_index_page(settings_path, "Settings", false, true, false)
     assert page.has_link?("General", :href => "#General")
     assert page.has_link?("Puppet", :href => "#Puppet")
     assert page.has_link?("Provisioning", :href => "#Provisioning")
@@ -18,7 +18,7 @@ class SettingIntegrationTest < ActionDispatch::IntegrationTest
 
     FactoryBot.create(:setting, :settings_type => "boolean", :category => "Setting::Test", :name => 'test_setting', :default => false)
 
-    assert_index_page(settings_path,"Settings",false,true,false)
+    assert_index_page(settings_path, "Settings", false, true, false)
     assert page.has_link?("My Pretty Setting Label", :href => "#Test")
   end
 end

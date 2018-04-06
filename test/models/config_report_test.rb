@@ -24,7 +24,7 @@ class ConfigReportTest < ActiveSupport::TestCase
   test "with named scope should return our report with applied resources" do
     @report.status={"applied" => 15, "restarted" => 0, "failed" => 0, "failed_restarts" => 0, "skipped" => 0, "pending" => 0}
     @report.save
-    assert ConfigReport.with("applied",14).include?(@report)
+    assert ConfigReport.with("applied", 14).include?(@report)
     assert !ConfigReport.with("applied", 15).include?(@report)
   end
 

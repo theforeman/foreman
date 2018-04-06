@@ -3,9 +3,9 @@ module TrendsHelper
 
   def trendable_types
     options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
-               _('Model') => 'Model', _('Facts') =>'FactName',_('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
+               _('Model') => 'Model', _('Facts') =>'FactName', _('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     existing = ForemanTrend.types.pluck(:trendable_type)
-    options.delete_if{ |k,v| existing.include?(v) }
+    options.delete_if{ |k, v| existing.include?(v) }
   end
 
   def trend_days_filter
@@ -25,7 +25,7 @@ module TrendsHelper
   end
 
   def chart_data(trend, from = Setting[:max_trend], to = Time.now.utc)
-    chart_colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92']
+    chart_colors = ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92']
     values = trend.values
     labels = {}
     values.includes(:trendable).each {|v| labels[v.id] = [CGI.escapeHTML(v.to_label), trend_path(:id => v)]}

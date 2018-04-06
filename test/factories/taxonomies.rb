@@ -7,7 +7,7 @@ FactoryBot.define do
     sequence(:name) { |n| "org#{n}" }
 
     trait :with_parameter do
-      after(:create) do |organization,evaluator|
+      after(:create) do |organization, evaluator|
         FactoryBot.create(:organization_parameter, :organization => organization)
       end
     end
@@ -21,7 +21,7 @@ FactoryBot.define do
     sequence(:name) { |n| "loc#{n}" }
 
     trait :with_parameter do
-      after(:create) do |location,evaluator|
+      after(:create) do |location, evaluator|
         FactoryBot.create(:location_parameter, :location => location)
       end
     end

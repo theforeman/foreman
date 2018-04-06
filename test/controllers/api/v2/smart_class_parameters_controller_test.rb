@@ -196,7 +196,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
   context 'hidden' do
     test "should show a smart class parameter as hidden unless show_hidden is true" do
       parameter = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       get :show, params: { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id }
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['default_value']
@@ -204,7 +204,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
     test "should show a smart class parameter unhidden when show_hidden is true" do
       parameter = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       setup_user "edit", "external_parameters"
@@ -215,7 +215,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
     test "should show a smart class parameter parameter as hidden when show_hidden is true if user is not authorized" do
       parameter = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
       get :show, params: { :id => parameter.id, :puppetclass_id => puppetclasses(:one).id, :show_hidden => 'true' }, session: set_session_user.merge(:user => users(:one).id)
@@ -225,7 +225,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
     test "should show a smart class parameter's overrides unhidden when show_hidden is true" do
       parameter = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => parameter, :value => 'abc', :match => 'os=fake')
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
@@ -237,7 +237,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
     test "should show a smart class parameter's overrides hidden when show_hidden is false" do
       parameter = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => parameter)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => parameter, :value => 'abc', :match => 'os=fake')
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"

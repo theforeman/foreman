@@ -173,7 +173,7 @@ class Host::Managed < Host::Base
 
   scope :alerts_enabled, -> { where(:enabled => true) }
 
-  scope :run_distribution, lambda { |fromtime,totime|
+  scope :run_distribution, lambda { |fromtime, totime|
     if fromtime.nil? || totime.nil?
       raise ::Foreman.Exception.new(N_("invalid time range"))
     else
@@ -185,7 +185,7 @@ class Host::Managed < Host::Base
     joins(:all_reports).where("reports.reported_at BETWEEN ? AND ?", from, to)
   }
 
-  scope :for_vm, ->(cr,vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity).map(&:to_s)) }
+  scope :for_vm, ->(cr, vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity).map(&:to_s)) }
 
   scope :with_compute_resource, -> { where.not(:compute_resource_id => nil, :uuid => nil) }
 
@@ -445,7 +445,7 @@ class Host::Managed < Host::Base
     # additionally, we don't import any non strings values, as puppet don't know what to do with those as well.
 
     myparams = self.info["parameters"]
-    nodeinfo["parameters"].each_pair do |param,value|
+    nodeinfo["parameters"].each_pair do |param, value|
       next if fact_names.exists? :name => param
       next unless value.is_a?(String)
 
@@ -469,7 +469,7 @@ class Host::Managed < Host::Base
     output = []
     data = group("#{Host.table_name}.#{association}_id").reorder('').count
     associations = association.to_s.camelize.constantize.where(:id => data.keys).all
-    data.each do |k,v|
+    data.each do |k, v|
       begin
         output << {:label => associations.detect {|a| a.id == k }.to_label, :data => v } unless v == 0
       rescue

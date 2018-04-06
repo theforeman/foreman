@@ -86,7 +86,7 @@ class LookupKey < ApplicationRecord
   def to_param
     # to_param is used in views to create a link to the lookup_key.
     # If the key has whitespace in it the link will break so this replaced the whitespace.
-    search_key = key.tr(' ','_') unless key.nil?
+    search_key = key.tr(' ', '_') unless key.nil?
     Parameterizable.parameterize("#{id}-#{search_key}")
   end
 
@@ -101,7 +101,7 @@ class LookupKey < ApplicationRecord
 
   def path=(v)
     return unless v
-    using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
+    using_default = v.tr("\r", "") == array2path(Setting["Default_variables_Lookup_Path"])
     self[:path] = using_default ? nil : v
   end
 
@@ -155,7 +155,7 @@ class LookupKey < ApplicationRecord
   private
 
   def sanitize_path
-    self.path = path.tr("\s","").downcase if path.present?
+    self.path = path.tr("\s", "").downcase if path.present?
   end
 
   def array2path(array)

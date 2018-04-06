@@ -8,7 +8,7 @@ FactoryBot.define do
     sequence(:major) { |n| n }
 
     trait :with_os_defaults do
-      after(:create) do |os,evaluator|
+      after(:create) do |os, evaluator|
         os.provisioning_templates.each do |tmpl|
           FactoryBot.create(:os_default_template,
                              :operatingsystem => os,
@@ -58,7 +58,7 @@ FactoryBot.define do
     end
 
     trait :with_parameter do
-      after(:create) do |os,evaluator|
+      after(:create) do |os, evaluator|
         FactoryBot.create(:os_parameter, :operatingsystem => os)
       end
     end

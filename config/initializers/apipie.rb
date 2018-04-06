@@ -29,7 +29,7 @@ Apipie.configure do |config|
     FastGettext.set_locale(loc)
     if str
       trans = _(str)
-      trans = trans % Hash[substitutions.map { |k,v| [k, v.respond_to?(:call) ? v.call : v] }]
+      trans = trans % Hash[substitutions.map { |k, v| [k, v.respond_to?(:call) ? v.call : v] }]
     end
     FastGettext.set_locale(old_loc)
     trans

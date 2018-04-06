@@ -201,7 +201,7 @@ label linux
 kernel boot/Redhat-6.1-x86_64-vmlinuz
 append initrd=boot/Redhat-6.1-x86_64-initrd.img ks=http://ahost.com:3000/unattended/kickstart ksdevice=bootif network kssendmac
 EXPECTED
-    assert_equal template,expected.strip
+    assert_equal template, expected.strip
     assert h.build
   end
 
@@ -225,7 +225,7 @@ MENU LABEL (local)
 MENU DEFAULT
 LOCALBOOT 0
 EXPECTED
-    assert_equal template,expected.strip
+    assert_equal template, expected.strip
   end
 
   test "generate_default_pxe_template_for_pxelinux_localboot_from_setting" do
@@ -344,7 +344,7 @@ LABEL linux
 KERNEL boot/OpenSuse-12.3-x86_64-linux
 APPEND initrd=boot/OpenSuse-12.3-x86_64-initrd ramdisk_size=65536 install=http://download.opensuse.org/distribution/12.3/repo/oss autoyast=http://ahost.com:3000/unattended/provision textmode=1
 EXPECTED
-    assert_equal template,expected.strip
+    assert_equal template, expected.strip
     assert h.build
   end
 end

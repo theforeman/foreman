@@ -10,7 +10,7 @@ class Windows < Operatingsystem
   end
 
   def pxe_prefix(arch)
-    "boot/windows-#{arch}/".tr(" ","-")
+    "boot/windows-#{arch}/".tr(" ", "-")
   end
 
   def bootfile(arch, type)

@@ -6,7 +6,7 @@ class PtableIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(ptables_path,"Partition Tables","Create Partition Table")
+    assert_index_page(ptables_path, "Partition Tables", "Create Partition Table")
   end
 
   test "edit page" do

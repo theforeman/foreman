@@ -71,11 +71,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :primary => true,
       :ip => '10.0.0.20',
       :mac => '00:11:22:33:44:00'
-    },{
+    }, {
       :type => 'bmc',
       :provider => 'IPMI',
       :mac => '00:11:22:33:44:01'
-    },{
+    }, {
       :mac => '00:11:22:33:44:02',
       :_destroy => 1
     }]

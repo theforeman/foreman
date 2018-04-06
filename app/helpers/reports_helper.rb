@@ -10,7 +10,7 @@ module ReportsHelper
   end
 
   def reports_since(builder)
-    choices = [30,60,90].map{|i| OpenStruct.new :name => n_("%s minute ago", "%s minutes ago", i) % i, :value => i.minutes.ago }
+    choices = [30, 60, 90].map{|i| OpenStruct.new :name => n_("%s minute ago", "%s minutes ago", i) % i, :value => i.minutes.ago }
     choices += (1..7).map{|i| OpenStruct.new :name => n_("%s day ago", "%s days ago", i) % i, :value => i.days.ago }
     choices += (1..3).map{|i| OpenStruct.new :name => n_("%s week ago", "%s weeks ago", i) % i, :value => i.week.ago }
     choices += (1..3).map{|i| OpenStruct.new :name => n_("%s month ago", "%s months ago", i) % i, :value => i.month.ago }
@@ -40,7 +40,7 @@ module ReportsHelper
     return if @config_report.logs.empty?
     form_tag config_report_path(@config_report), :id => 'level_filter', :method => :get, :class => "form form-horizontal" do
       content_tag(:span, _("Show log messages:") + ' ') +
-      select(nil, 'level', [[_('All messages'), 'info'],[_('Notices, warnings and errors'), 'notice'],[_('Warnings and errors'), 'warning'],[_('Errors only'), 'error']],
+      select(nil, 'level', [[_('All messages'), 'info'], [_('Notices, warnings and errors'), 'notice'], [_('Warnings and errors'), 'warning'], [_('Errors only'), 'error']],
              {}, {:class=>"col-md-1 form-control", :onchange =>"filter_by_level(this);"})
     end
   end

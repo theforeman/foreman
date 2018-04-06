@@ -30,7 +30,7 @@ class ImagesController < ApplicationController
   end
 
   def update
-    if @image.update(image_params.reject { |k,v| k == :password && v.blank? })
+    if @image.update(image_params.reject { |k, v| k == :password && v.blank? })
       process_success :success_redirect => compute_resource_path(@compute_resource)
     else
       process_error

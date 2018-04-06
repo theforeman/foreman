@@ -10,7 +10,7 @@ FactoryBot.define do
     locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
 
     trait :with_parameter do
-      after(:create) do |domain,evaluator|
+      after(:create) do |domain, evaluator|
         FactoryBot.create(:domain_parameter, :domain => domain)
       end
     end

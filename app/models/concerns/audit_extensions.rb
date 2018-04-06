@@ -39,7 +39,7 @@ module AuditExtensions
   end
 
   def filter_encrypted
-    self.audited_changes.each do |name,change|
+    self.audited_changes.each do |name, change|
       next if change.nil? || change.to_s.empty?
       if change.is_a? Array
         change.map! {|c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? REDACTED : c}

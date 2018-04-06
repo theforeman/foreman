@@ -21,7 +21,7 @@ class HostConfigGroupTest < ActiveSupport::TestCase
   test 'relationship host.config_groups ' do
     c1 = FactoryBot.create(:config_group)
     c2 = FactoryBot.create(:config_group)
-    host = FactoryBot.create(:host, :config_groups => [c1,c2])
+    host = FactoryBot.create(:host, :config_groups => [c1, c2])
     assert_equal 2, host.config_groups.count
     assert_equal [c1.name, c2.name].sort, host.config_groups.pluck(:name).sort
   end
@@ -35,6 +35,6 @@ class HostConfigGroupTest < ActiveSupport::TestCase
   test 'relationship hostgroup.config_groups' do
     hostgroup = hostgroups(:common)
     assert_equal 2, hostgroup.config_groups.count
-    assert_equal ['Monitoring','Tools'].sort, hostgroup.config_groups.pluck(:name).sort
+    assert_equal ['Monitoring', 'Tools'].sort, hostgroup.config_groups.pluck(:name).sort
   end
 end

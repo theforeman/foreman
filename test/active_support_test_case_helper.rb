@@ -195,7 +195,7 @@ class ActiveSupport::TestCase
   def refute_with_errors(condition, model, field = nil, match = nil)
     refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
     if field
-      model_errors = model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
+      model_errors = model.errors.map { |a, m| model.errors.full_message(a, m) unless field == a }.compact
       assert model_errors.blank?, "#{model} contains #{model_errors}, it should not contain any"
       assert model.errors[field].find { |e| e.match(match) }.present?,
         "#{field} error matching #{match} not found: #{model.errors[field].inspect}" if match
@@ -212,7 +212,7 @@ class ActiveSupport::TestCase
   alias_method :assert_not_valid, :refute_valid
 
   def with_env(values = {})
-    old_values = values.inject({}) { |ov,(key,val)| ov.update(key => ENV[key]) }
+    old_values = values.inject({}) { |ov, (key, val)| ov.update(key => ENV[key]) }
     ENV.update values
     result = yield
     ENV.update old_values
@@ -220,7 +220,7 @@ class ActiveSupport::TestCase
   end
 
   def next_mac(mac)
-    mac.tr(':','').to_i(16).succ.to_s(16).rjust(12, '0').scan(/../).join(':')
+    mac.tr(':', '').to_i(16).succ.to_s(16).rjust(12, '0').scan(/../).join(':')
   end
 
   def fake_rest_client_response(data)

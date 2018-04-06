@@ -106,9 +106,9 @@ class FactImporterTest < ActiveSupport::TestCase
 
   describe '#import!' do
     setup do
-      FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+      FactoryBot.create(:fact_value, :value => '2.6.9', :host => host,
                          :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
-      FactoryBot.create(:fact_value, :value => '10.0.19.33',:host => host,
+      FactoryBot.create(:fact_value, :value => '10.0.19.33', :host => host,
                          :fact_name => FactoryBot.create(:fact_name, :name => 'ipaddress'))
     end
 
@@ -178,7 +178,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
     test "importer retains 'other' facts" do
       assert_equal '2.6.9', value('kernelversion')
-      FactoryBot.create(:fact_value, :value => 'othervalue',:host => host,
+      FactoryBot.create(:fact_value, :value => 'othervalue', :host => host,
                          :fact_name => FactoryBot.create(:fact_name_other, :name => 'otherfact'))
       default_import('ipaddress' => '10.0.19.5', 'uptime' => '1 picosecond')
       assert_equal 'othervalue', value('otherfact')

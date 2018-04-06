@@ -51,7 +51,7 @@ class FactValueTest < ActiveSupport::TestCase
   end
 
   test "should return search results if search free text is fact name" do
-    FactoryBot.create(:fact_value, :value => '2.6.9',:host => FactoryBot.create(:host),
+    FactoryBot.create(:fact_value, :value => '2.6.9', :host => FactoryBot.create(:host),
                        :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for('kernelversion')
     assert_equal 1, results.count
@@ -59,7 +59,7 @@ class FactValueTest < ActiveSupport::TestCase
   end
 
   test "should return search results for name = fact name" do
-    FactoryBot.create(:fact_value, :value => '2.6.9',:host => FactoryBot.create(:host),
+    FactoryBot.create(:fact_value, :value => '2.6.9', :host => FactoryBot.create(:host),
                        :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for('name = kernelversion')
     assert_equal 1, results.count
@@ -68,7 +68,7 @@ class FactValueTest < ActiveSupport::TestCase
 
   test 'should return search results for host = fqdn' do
     host = FactoryBot.create(:host)
-    FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+    FactoryBot.create(:fact_value, :value => '2.6.9', :host => host,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for("host = #{host.fqdn}")
     refute_empty results
@@ -81,7 +81,7 @@ class FactValueTest < ActiveSupport::TestCase
 
   test 'should return search results for ILIKE operator on hostgroup' do
     host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup, :name => 'samplehgp'))
-    FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+    FactoryBot.create(:fact_value, :value => '2.6.9', :host => host,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for("host.hostgroup ~ ampl")
     assert_equal 1, results.count
@@ -90,7 +90,7 @@ class FactValueTest < ActiveSupport::TestCase
   test 'should return search results for host.hostgroup = name' do
     host = FactoryBot.create(:host, :with_hostgroup)
     hostgroup = host.hostgroup.to_label
-    FactoryBot.create(:fact_value, :value => '2.6.9',:host => host,
+    FactoryBot.create(:fact_value, :value => '2.6.9', :host => host,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
     results = FactValue.search_for("host.hostgroup = #{hostgroup}")
     refute_empty results
@@ -104,7 +104,7 @@ class FactValueTest < ActiveSupport::TestCase
 
   test 'numeric searches should use numeric comparsion' do
     host = FactoryBot.create(:host)
-    FactoryBot.create(:fact_value, :value => '64498',:host => host,
+    FactoryBot.create(:fact_value, :value => '64498', :host => host,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'memory_mb'))
     results = FactValue.search_for("facts.memory_mb > 112889")
     assert_empty results

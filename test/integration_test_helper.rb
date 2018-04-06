@@ -39,20 +39,20 @@ class ActionDispatch::IntegrationTest
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_tests = false
 
-  def assert_index_page(index_path,title_text,new_link_text = nil,has_search = true,has_pagination = true)
+  def assert_index_page(index_path, title_text, new_link_text = nil, has_search = true, has_pagination = true)
     visit index_path
     assert page.has_selector?(:xpath, "//div[@id='breadcrumb'and contains(.,'#{title_text}')]"), "#{title_text} was expected in the div[@breadcrumb] tag, but was not found"
     (assert first(:link, new_link_text).visible?, "#{new_link_text} is not visible") if new_link_text
     (assert find_button('Search').visible?, "Search button is not visible") if has_search
   end
 
-  def assert_new_button(index_path,new_link_text,new_path)
+  def assert_new_button(index_path, new_link_text, new_path)
     visit index_path
     first(:link, new_link_text).click
     assert_current_path new_path
   end
 
-  def assert_submit_button(redirect_path,button_text = "Submit")
+  def assert_submit_button(redirect_path, button_text = "Submit")
     click_button button_text
     assert_current_path redirect_path
   end

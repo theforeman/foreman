@@ -337,13 +337,13 @@ class TaxonomixTest < ActiveSupport::TestCase
     end
 
     test "returns nil (all objects) when there are no org/loc" do
-      assert_equal User.with_taxonomy_scope([],[]).sort, User.unscoped.all.sort
+      assert_equal User.with_taxonomy_scope([], []).sort, User.unscoped.all.sort
     end
   end
 
   test 'current user ID and admin IDs are always visible' do
     as_user(:one) do
-      scoped_users = User.with_taxonomy_scope([],[])
+      scoped_users = User.with_taxonomy_scope([], [])
       assert_include scoped_users, User.current
     end
   end

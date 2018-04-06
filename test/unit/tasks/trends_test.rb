@@ -13,7 +13,7 @@ class TrendsTest < ActiveSupport::TestCase
 
   test 'trends:reduce reduces single trend' do
     trend = FactoryBot.build(:trend_os)
-    point_dates = create_trend_line(trend, [1,1,1,1,1,1])
+    point_dates = create_trend_line(trend, [1, 1, 1, 1, 1, 1])
 
     Rake.application.invoke_task 'trends:reduce'
 
@@ -30,8 +30,8 @@ class TrendsTest < ActiveSupport::TestCase
   test 'trends:reduce does not iterfere between two trend ids' do
     trend1 = FactoryBot.build(:trend_os)
     trend2 = FactoryBot.build(:trend_os)
-    create_trend_line(trend1, [1,1,1,1,1,1])
-    create_trend_line(trend2, [2,2,2,2,2,2])
+    create_trend_line(trend1, [1, 1, 1, 1, 1, 1])
+    create_trend_line(trend2, [2, 2, 2, 2, 2, 2])
 
     Rake.application.invoke_task 'trends:reduce'
 
@@ -52,8 +52,8 @@ class TrendsTest < ActiveSupport::TestCase
   test 'trends:reduce crossing graphs' do
     new_os_trend = FactoryBot.build(:trend_os)
     old_os_trend = FactoryBot.build(:trend_os)
-    new_os_point_dates = create_trend_line(new_os_trend, [1,1,1,2,2,2,3,3,3])
-    create_trend_line(old_os_trend, [3,3,3,2,2,2,1,1,1])
+    new_os_point_dates = create_trend_line(new_os_trend, [1, 1, 1, 2, 2, 2, 3, 3, 3])
+    create_trend_line(old_os_trend, [3, 3, 3, 2, 2, 2, 1, 1, 1])
     interval_starts = [new_os_point_dates[0], new_os_point_dates[3], new_os_point_dates[6]]
 
     Rake.application.invoke_task 'trends:reduce'
@@ -85,10 +85,10 @@ class TrendsTest < ActiveSupport::TestCase
   test 'trends:reduce mirrored saw graphs' do
     new_os_trend = FactoryBot.build(:trend_os)
     old_os_trend = FactoryBot.build(:trend_os)
-    new_os_point_dates = create_trend_line(new_os_trend, [1,1,1,2,2,2,1,1,1,2,2,2])
-    create_trend_line(old_os_trend, [3,3,3,2,2,2,3,3,3,2,2,2])
+    new_os_point_dates = create_trend_line(new_os_trend, [1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 2, 2])
+    create_trend_line(old_os_trend, [3, 3, 3, 2, 2, 2, 3, 3, 3, 2, 2, 2])
     interval_starts = [new_os_point_dates[0], new_os_point_dates[3], new_os_point_dates[6], new_os_point_dates[9]]
-    new_os_counts = [1,2,1,2]
+    new_os_counts = [1, 2, 1, 2]
 
     Rake.application.invoke_task 'trends:reduce'
 
@@ -119,7 +119,7 @@ class TrendsTest < ActiveSupport::TestCase
 
   test 'trends:reduce can rerun with additional datapoint with the same value' do
     os_trend = FactoryBot.build(:trend_os)
-    os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,1])
+    os_point_dates = create_trend_line(os_trend, [1, 1, 1, 1, 1, 1])
     Rake.application.invoke_task 'trends:reduce'
 
     interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
@@ -140,7 +140,7 @@ class TrendsTest < ActiveSupport::TestCase
 
   test 'trends:reduce can rerun with additional datapoint with different value in open interval' do
     os_trend = FactoryBot.build(:trend_os)
-    os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,1])
+    os_point_dates = create_trend_line(os_trend, [1, 1, 1, 1, 1, 1])
     Rake.application.invoke_task 'trends:reduce'
 
     interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a
@@ -164,7 +164,7 @@ class TrendsTest < ActiveSupport::TestCase
 
   test 'trends:reduce can rerun with additional datapoint with different value in closed interval' do
     os_trend = FactoryBot.build(:trend_os)
-    os_point_dates = create_trend_line(os_trend, [1,1,1,1,1,2])
+    os_point_dates = create_trend_line(os_trend, [1, 1, 1, 1, 1, 2])
     Rake.application.invoke_task 'trends:reduce'
 
     interval = TrendCounter.where(trend_id: os_trend.id).order(:interval_start).to_a

@@ -132,7 +132,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   context 'hidden' do
     test "should show a override value as hidden unless show_hidden is true" do
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
       get :show, params: { :smart_class_parameter_id => lookup_key.to_param, :id => lookup_value.to_param }
       show_response = ActiveSupport::JSON.decode(@response.body)
@@ -141,7 +141,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
 
     test "should show override value unhidden when show_hidden is true" do
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"
@@ -153,7 +153,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
 
     test "should show a override value parameter as hidden when user in unauthorized for smart class variable" do
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :hidden_value => true, :default_value => 'hidden')
-      FactoryBot.create(:environment_class, :environment => environments(:testing),:puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
+      FactoryBot.create(:environment_class, :environment => environments(:testing), :puppetclass => puppetclasses(:one), :puppetclass_lookup_key => lookup_key)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :value => 'abc', :match => 'os=fake')
       setup_user "view", "puppetclasses"
       setup_user "view", "external_parameters"

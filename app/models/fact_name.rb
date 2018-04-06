@@ -7,7 +7,7 @@ class FactName < ApplicationRecord
   has_many :fact_values, :dependent => :destroy
   has_many_hosts :through => :fact_values
 
-  scope :no_timestamp_fact, -> { where("fact_names.name <> ?",:_timestamp) }
+  scope :no_timestamp_fact, -> { where("fact_names.name <> ?", :_timestamp) }
   scope :timestamp_facts, -> { where(:name => :_timestamp) }
   scope :composes, -> { where(:compose => true) }
   scope :leaves, -> { where(:compose => false) }

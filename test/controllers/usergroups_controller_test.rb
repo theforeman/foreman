@@ -26,13 +26,13 @@ class UsergroupsControllerTest < ActionController::TestCase
 
   def test_update_invalid
     Usergroup.any_instance.stubs(:valid?).returns(false)
-    put :update, params: { :id => Usergroup.first, :usergroup => {:user_ids => ["",""], :usergroup_ids => ["",""]} }, session: set_session_user
+    put :update, params: { :id => Usergroup.first, :usergroup => {:user_ids => ["", ""], :usergroup_ids => ["", ""]} }, session: set_session_user
     assert_template 'edit'
   end
 
   def test_update_valid
     Usergroup.any_instance.stubs(:valid?).returns(true)
-    put :update, params: { :id => Usergroup.first, :usergroup => {:user_ids => ["",""], :usergroup_ids => ["",""]} }, session: set_session_user
+    put :update, params: { :id => Usergroup.first, :usergroup => {:user_ids => ["", ""], :usergroup_ids => ["", ""]} }, session: set_session_user
     assert_redirected_to usergroups_url
   end
 

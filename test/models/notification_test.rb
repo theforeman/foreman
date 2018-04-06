@@ -44,7 +44,7 @@ class NotificationTest < ActiveSupport::TestCase
 
   test 'usergroup notifications should subscribe to all of its members' do
     group = FactoryBot.create(:usergroup)
-    group.users = FactoryBot.create_list(:user,25)
+    group.users = FactoryBot.create_list(:user, 25)
     notification = FactoryBot.build_stubbed(:notification,
                                      :audience => Notification::AUDIENCE_USERGROUP)
     notification.subject = group
@@ -55,7 +55,7 @@ class NotificationTest < ActiveSupport::TestCase
 
   test 'Organization notifications should subscribe to all of its members' do
     org = FactoryBot.create(:organization)
-    org.users = FactoryBot.create_list(:user,25)
+    org.users = FactoryBot.create_list(:user, 25)
     notification = FactoryBot.build_stubbed(:notification,
                                      :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = org
@@ -65,7 +65,7 @@ class NotificationTest < ActiveSupport::TestCase
 
   test 'Location notifications should subscribe to all of its members' do
     loc = FactoryBot.create(:location)
-    loc.users = FactoryBot.create_list(:user,25)
+    loc.users = FactoryBot.create_list(:user, 25)
     notification = FactoryBot.build_stubbed(:notification,
                                      :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = loc

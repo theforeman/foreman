@@ -44,26 +44,26 @@ class RenameSeededTemplates < ActiveRecord::Migration[4.2]
   end
 
   def up
-    CONFIG_RENAMES.each do |old,new|
+    CONFIG_RENAMES.each do |old, new|
       FakeConfigTemplate.find_by_name(old).try(:update_attributes, :name => new)
     end
-    PTABLE_RENAMES.each do |old,new|
+    PTABLE_RENAMES.each do |old, new|
       FakePtable.find_by_name(old).try(:update_attributes, :name => new)
     end
-    MEDIA_RENAMES.each do |old,new|
+    MEDIA_RENAMES.each do |old, new|
       Medium.find_by_name(old).try(:update_attributes, :name => new)
     end
     TemplateKind.find_by_name('gPXE').try(:update_attributes, :name => 'iPXE')
   end
 
   def down
-    CONFIG_RENAMES.each do |old,new|
+    CONFIG_RENAMES.each do |old, new|
       FakeConfigTemplate.find_by_name(new).try(:update_attributes, :name => old)
     end
-    PTABLE_RENAMES.each do |old,new|
+    PTABLE_RENAMES.each do |old, new|
       FakePtable.find_by_name(new).try(:update_attributes, :name => old)
     end
-    MEDIA_RENAMES.each do |old,new|
+    MEDIA_RENAMES.each do |old, new|
       Medium.find_by_name(new).try(:update_attributes, :name => old)
     end
     TemplateKind.find_by_name('iPXE').try(:update_attributes, :name => 'gPXE')

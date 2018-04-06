@@ -9,7 +9,7 @@ module LayoutHelper
   end
 
   def button_group(*elements)
-    content_tag(:div,:class=>"btn-group") { elements.join(" ").html_safe }
+    content_tag(:div, :class=>"btn-group") { elements.join(" ").html_safe }
   end
 
   def search_bar(*elements)
@@ -70,7 +70,7 @@ module LayoutHelper
 
   def icon_text(i, text = "", opts = {})
     opts[:kind] ||= "glyphicon"
-    (content_tag(:span,"", :class=>"#{opts[:kind] + ' ' + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
+    (content_tag(:span, "", :class=>"#{opts[:kind] + ' ' + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
   end
 
   def alert(opts = {})
@@ -92,10 +92,10 @@ module LayoutHelper
   def alert_header(text, html_class = nil)
     case html_class
       when /alert-success/
-        icon = icon_text("ok", "",:kind => "pficon")
+        icon = icon_text("ok", "", :kind => "pficon")
         text ||= _("Notice")
       when /alert-warning/
-        icon = icon_text("warning-triangle-o", "",:kind => "pficon")
+        icon = icon_text("warning-triangle-o", "", :kind => "pficon")
         text ||= _("Warning")
       when /alert-info/
         icon = icon_text("info", "", :kind => "pficon")

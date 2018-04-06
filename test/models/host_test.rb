@@ -1057,7 +1057,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "models are updated when host.model has no value" do
       h = FactoryBot.create(:host)
-      FactoryBot.create(:fact_value, :value => 'superbox',:host => h,
+      FactoryBot.create(:fact_value, :value => 'superbox', :host => h,
                          :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
       assert_difference('Model.count') do
         facts = read_json_fixture('facts/facts.json')
@@ -1855,7 +1855,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "can search hosts by numeric and string facts" do
       host = FactoryBot.create(:host, :hostname => 'num001.example.com')
-      host.import_facts({:architecture => "x86_64", :interfaces => 'eth0', :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2',:memory_mb => "64498",:custom_fact => "find_me"})
+      host.import_facts({:architecture => "x86_64", :interfaces => 'eth0', :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2', :memory_mb => "64498", :custom_fact => "find_me"})
 
       hosts = Host::Managed.search_for("facts.memory_mb > 112889")
       assert_equal hosts.count, 0
@@ -3495,7 +3495,7 @@ class HostTest < ActiveSupport::TestCase
       host.subnet.tftp_id = 2
       host.subnet.dhcp_id = 3
       host.subnet.dns_id = 4
-      assert host.smart_proxy_ids, [1,2,3,4]
+      assert host.smart_proxy_ids, [1, 2, 3, 4]
     end
 
     context 'from hostgroup' do

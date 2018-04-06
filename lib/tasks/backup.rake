@@ -21,7 +21,7 @@ END_DESC
   task :dump => :environment do
     config      = Rails.configuration.database_configuration[Rails.env]
     backup_dir  = File.expand_path('../../../db', __FILE__)
-    backup_name = ENV['destination'] || File.join(backup_dir,"foreman.#{Time.now.to_i}")
+    backup_name = ENV['destination'] || File.join(backup_dir, "foreman.#{Time.now.to_i}")
     unless ENV["destination"].present?
       if config["adapter"] == "sqlite3"
         backup_name << '.sqlite3'
