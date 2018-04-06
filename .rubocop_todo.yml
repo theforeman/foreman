@@ -368,13 +368,6 @@ Security/JSONLoad:
 Security/YAMLLoad:
   Enabled: false
 
-# Offense count: 37
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: prefer_alias, prefer_alias_method
-Style/Alias:
-  Enabled: false
-
 # Offense count: 520
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

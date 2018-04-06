@@ -16,7 +16,7 @@ module Foreman
         @report_origins[report_class] ||= []
         @report_origins[report_class] << origin
       end
-      alias register_report_origin register
+      alias_method :register_report_origin, :register
 
       def origins_for(report_class = DEFAULT_ORIGIN_REPORT_CLASS)
         @report_origins[report_class.to_s]
