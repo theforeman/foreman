@@ -174,7 +174,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_difference "Organization.unscoped.count", 1 do
       post :create, params: {
-        :organization => organization_dup.selected_ids.each { |_,v| v.uniq! }
+        :organization => organization_dup.selected_ids.each { |_, v| v.uniq! }
           .merge(:name => 'organization_dup_name')
       }, session: set_session_user
     end

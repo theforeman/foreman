@@ -1212,7 +1212,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "select multiple action with not exists host_ids should redirect to hosts page" do
-    post :multiple_parameters, params: {:host_ids => [-1,2]}, session: set_session_user, xhr: true
+    post :multiple_parameters, params: {:host_ids => [-1, 2]}, session: set_session_user, xhr: true
     assert_response :redirect, hosts_path
     assert_not_nil flash[:error]
   end
@@ -1612,7 +1612,7 @@ class HostsControllerTest < ActionController::TestCase
       host.environment.organizations = [host.organization]
 
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array',
-                                     :default_value => ['a','b'], :override => true, :puppetclass => host.puppetclasses.first)
+                                     :default_value => ['a', 'b'], :override => true, :puppetclass => host.puppetclasses.first)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "fqdn=#{host.fqdn}", :value => ["c", "d"])
 
       # sending exactly what the host form would send which is lookup_value.value_before_type_cast

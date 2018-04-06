@@ -101,7 +101,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   end
 
   test "#create_vm calls clone_vm when image provisioning" do
-    attrs_in = HashWithIndifferentAccess.new("image_id"=>"2","cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
+    attrs_in = HashWithIndifferentAccess.new("image_id"=>"2", "cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
     attrs_parsed = HashWithIndifferentAccess.new(
       "image_id" => "2",
       "cpus" => "1",

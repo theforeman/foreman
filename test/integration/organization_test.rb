@@ -6,7 +6,7 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(organizations_path,"Organizations","New Organization")
+    assert_index_page(organizations_path, "Organizations", "New Organization")
   end
 
   # context - has nil hosts
@@ -27,7 +27,7 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
   test "create new page when all hosts are assigned a organization" do
     Host.update_all(:organization_id => Organization.first.id)
     assert has_no_selector?("div.alert", :text => "with no organization assigned")
-    assert_new_button(organizations_path,"New Organization",new_organization_path)
+    assert_new_button(organizations_path, "New Organization", new_organization_path)
     fill_in "organization_name", :with => "Finance"
     assert_submit_button(/Finance/i)
     assert page.has_link? 'Primary'
@@ -35,7 +35,7 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
 
   # content - click Assign All
   test "create new page when some hosts are NOT assigned a organization - click Assign All" do
-    assert_new_button(organizations_path,"New Organization",new_organization_path)
+    assert_new_button(organizations_path, "New Organization", new_organization_path)
     fill_in "organization_name", :with => "Finance"
     click_button "Submit"
     assert_current_path step2_organization_path(Organization.unscoped.order(:id).last)
@@ -46,7 +46,7 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
 
   # content - click Manually Assign
   test "create new page when some hosts are NOT assigned a organization - click Manually Assign" do
-    assert_new_button(organizations_path,"New Organization",new_organization_path)
+    assert_new_button(organizations_path, "New Organization", new_organization_path)
     fill_in "organization_name", :with => "Finance"
     click_button "Submit"
     assert_current_path step2_organization_path(Organization.unscoped.order(:id).last)
@@ -58,7 +58,7 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
 
   # click Proceed to Edit
   test "create new page when some hosts are NOT assigned a organization - click Proceed to Edit" do
-    assert_new_button(organizations_path,"New Organization",new_organization_path)
+    assert_new_button(organizations_path, "New Organization", new_organization_path)
     fill_in "organization_name", :with => "Finance"
     click_button "Submit"
     assert_current_path step2_organization_path(Organization.unscoped.order(:id).last)

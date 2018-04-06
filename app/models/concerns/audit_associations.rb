@@ -27,7 +27,7 @@ module AuditAssociations
           change = send("#{association_ids}_change")
           change_ids = change.flatten.uniq
 
-          id_name_map = association_class.where(id: change_ids).inject({}) { |r,p| r.merge(p.id => p.to_label) }
+          id_name_map = association_class.where(id: change_ids).inject({}) { |r, p| r.merge(p.id => p.to_label) }
 
           changes_hash[association_name] = change.each_with_object([]) do |ids, humaized_associations|
             humaized_associations << ids.each_with_object([]) do |id, humanized_ids|

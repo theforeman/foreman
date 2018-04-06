@@ -12,7 +12,7 @@ class AboutIntegrationTest < IntegrationTestWithJavascript
   end
 
   test "about page" do
-    assert_index_page(about_index_path,"About", nil, false, false)
+    assert_index_page(about_index_path, "About", nil, false, false)
     wait_for_ajax
     assert page.has_selector?('h4', :text => "System Status"), "System Status was expected in the <h4> tag, but was not found"
     assert page.has_selector?('h4', :text => "Support"), "Support was expected in the <h4> tag, but was not found"

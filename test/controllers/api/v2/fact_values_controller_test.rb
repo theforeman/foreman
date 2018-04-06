@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V2::FactValuesControllerTest < ActionController::TestCase
   def setup
     @host = FactoryBot.create(:host)
-    FactoryBot.create(:fact_value, :value => '2.6.9',:host => @host,
+    FactoryBot.create(:fact_value, :value => '2.6.9', :host => @host,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
   end
 

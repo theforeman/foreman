@@ -52,7 +52,7 @@ module Foreman
       def rename_existing(role, original_name)
         prefix = "Customized"
         role_name = generate_name prefix, original_name
-        candidate_roles = Role.where('name like ?',"#{role_name}%").order(:name => :desc)
+        candidate_roles = Role.where('name like ?', "#{role_name}%").order(:name => :desc)
         return role.update_attribute :name, role_name if candidate_roles.empty?
         last_role = candidate_roles.detect { |candidate_role| last_role_num candidate_role, role_name }
         last_num = last_role ? last_role_num(last_role, role_name) : 0

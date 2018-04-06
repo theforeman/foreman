@@ -87,11 +87,6 @@ Layout/MultilineMethodCallIndentation:
 Layout/MultilineOperationIndentation:
   Enabled: false
 
-# Offense count: 505
-# Cop supports --auto-correct.
-Layout/SpaceAfterComma:
-  Enabled: false
-
 # Offense count: 902
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment.

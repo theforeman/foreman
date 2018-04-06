@@ -16,7 +16,7 @@ class NoWhitespaceValidatorTest < ActiveSupport::TestCase
   end
 
   test "validation fails when whitespace is present" do
-    @item.name.insert(rand(@item.name.length),' ')
+    @item.name.insert(rand(@item.name.length), ' ')
     refute @item.valid?
   end
 end

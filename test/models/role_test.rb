@@ -211,7 +211,7 @@ class RoleTest < ActiveSupport::TestCase
     let(:role) { FactoryBot.build_stubbed(:role) }
 
     it 'accepts not unique list of permissions' do
-      role.expects(:add_permissions).once.with(['a','b'])
+      role.expects(:add_permissions).once.with(['a', 'b'])
       role.permissions = [
         FactoryBot.build_stubbed(:permission, :name => 'a'),
         FactoryBot.build_stubbed(:permission, :name => 'b'),

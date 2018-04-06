@@ -65,7 +65,7 @@ class Authorizer
       scope_components[:where] << options[:where] if options[:where].present?
 
       # apply every where clause to the scope consecutively
-      scope_components[:where].inject(scope) do |scope_build,where|
+      scope_components[:where].inject(scope) do |scope_build, where|
         where.is_a?(Hash) ? scope_build.where(resource_class.table_name => where) : scope_build.where(where)
       end
     else
@@ -76,7 +76,7 @@ class Authorizer
       end
 
       scope = scope.joins(scope_components[:joins]).readonly(false)
-      scope_components[:where].inject(scope) { |scope_build,where| scope_build.where(where) }
+      scope_components[:where].inject(scope) { |scope_build, where| scope_build.where(where) }
     end
   end
 

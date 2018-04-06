@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class TopBarIntegrationTest < ActionDispatch::IntegrationTest
   def setup
-    FactoryBot.create(:fact_value, :value => '2.6.9',:host => FactoryBot.create(:host),
+    FactoryBot.create(:fact_value, :value => '2.6.9', :host => FactoryBot.create(:host),
                        :fact_name => FactoryBot.create(:fact_name))
   end
 

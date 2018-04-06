@@ -3,7 +3,7 @@ require 'pagelets_test_helper'
 
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
-    assert_index_page(smart_proxies_path,"Smart Proxies","Create Smart Proxy",false)
+    assert_index_page(smart_proxies_path, "Smart Proxies", "Create Smart Proxy", false)
     visit smart_proxies_path
     if SETTINGS[:locations_enabled]
       assert page.has_selector?('th', :text => 'Locations')
@@ -14,7 +14,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
 
   test "create new page" do
     ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
-    assert_new_button(smart_proxies_path,"Create Smart Proxy",new_smart_proxy_path)
+    assert_new_button(smart_proxies_path, "Create Smart Proxy", new_smart_proxy_path)
     fill_in "smart_proxy_name", :with => "DNS Worldwide"
     fill_in "smart_proxy_url", :with => "http://dns.example.com"
     assert_submit_button(smart_proxies_path)

@@ -50,7 +50,7 @@ class ApplicationMailer < ActionMailer::Base
   def utf8_encode(email)
     if email.present?
       address = email.split("@")
-      (address.count == 2) ? Mail::Encodings.decode_encode(address[0],:encode) + '@' + Mail::Encodings.decode_encode(address[1],:encode) : email
+      (address.count == 2) ? Mail::Encodings.decode_encode(address[0], :encode) + '@' + Mail::Encodings.decode_encode(address[1], :encode) : email
     end
   end
 

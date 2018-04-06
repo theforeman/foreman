@@ -19,7 +19,7 @@ class BookmarkTest < ActiveSupport::TestCase
   end
 
   test "my bookmarks should be able to create two bookmarks with same name under different controllers" do
-    assert_difference 'Bookmark.count',1 do
+    assert_difference 'Bookmark.count', 1 do
       FactoryBot.create(:bookmark, :name => 'private', :controller => "users")
       bookmark = FactoryBot.build_stubbed(:bookmark, :name => 'private', :controller => "hosts")
       assert_valid bookmark

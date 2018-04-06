@@ -16,7 +16,7 @@ class PuppetclassLookupKey < LookupKey
                                            }
 
   scope :parameters_for_class, lambda { |puppetclass_ids, environment_id|
-                                 override.smart_class_parameters_for_class(puppetclass_ids,environment_id)
+                                 override.smart_class_parameters_for_class(puppetclass_ids, environment_id)
                                }
 
   scope :smart_class_parameters, -> { joins(:environment_classes).readonly(false) }

@@ -55,7 +55,7 @@ module UINotifications
     end
 
     def collection_path?(path)
-      path.to_s.sub(/_path$/,'').ends_with?('s')
+      path.to_s.sub(/_path$/, '').ends_with?('s')
     end
   end
 end

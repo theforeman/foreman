@@ -130,15 +130,15 @@ module Foreman
         # we need to keep scope variables and reset them after rendering otherwise they would remain
         # after snippets are rendered in parent template scope
         kept_variables = {}
-        scope_variables.each { |k,v| kept_variables[k] = instance_variable_get("@#{k}") }
+        scope_variables.each { |k, v| kept_variables[k] = instance_variable_get("@#{k}") }
 
-        allowed_vars.merge(scope_variables).each { |k,v| instance_variable_set "@#{k}", v }
+        allowed_vars.merge(scope_variables).each { |k, v| instance_variable_set "@#{k}", v }
         erb = ERB.new(template, nil, '-')
         # erb allows to set location since Ruby 2.2
         erb.location = template_name, 0 if erb.respond_to?(:location=)
         result = erb.result(binding)
 
-        scope_variables.each { |k,v| instance_variable_set "@#{k}", kept_variables[k] }
+        scope_variables.each { |k, v| instance_variable_set "@#{k}", kept_variables[k] }
         result
       end
     rescue ::Racc::ParseError, ::SyntaxError => e

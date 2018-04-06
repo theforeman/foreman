@@ -187,7 +187,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     test 'should not escape lookup values on environment change' do
       hostgroup = FactoryBot.create(:hostgroup, :environment => @environment, :puppetclass_ids =>  [@puppetclass.id])
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array',
-                                     :default_value => ['a','b'], :override => true, :puppetclass => @puppetclass)
+                                     :default_value => ['a', 'b'], :override => true, :puppetclass => @puppetclass)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "hostgroup=#{hostgroup.name}", :value => ["c", "d"])
 
       FactoryBot.create(:environment_class, :puppetclass => @puppetclass, :environment => @environment, :puppetclass_lookup_key => lookup_key)

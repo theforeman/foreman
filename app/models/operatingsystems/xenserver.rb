@@ -15,7 +15,7 @@ class Xenserver < Operatingsystem
   end
 
   def xen(arch)
-    bootfile(arch,:xen)
+    bootfile(arch, :xen)
   end
 
   def url_for_boot(file)

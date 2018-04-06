@@ -113,7 +113,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   test '.supported_providers returns hash of names to classes' do
     supported = ComputeResource.supported_providers
     assert_kind_of Hash, supported
-    supported.each do |name,klass|
+    supported.each do |name, klass|
       assert klass.constantize < ComputeResource, "Class #{klass} is not a ComputeResource"
     end
   end
@@ -389,6 +389,6 @@ class ComputeResourceTest < ActiveSupport::TestCase
     hash = {:disk => "test"}
     volume_attributes = ActionController::Parameters.new("1520857914238" => ActionController::Parameters.new(hash))
     volumes = cr.send(:nested_attributes_for, :volumes, volume_attributes.permit("1520857914238" => {}))
-    assert_equal hash,volumes[0]
+    assert_equal hash, volumes[0]
   end
 end

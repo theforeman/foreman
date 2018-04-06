@@ -8,7 +8,7 @@ class FactValueIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(fact_values_path,"Fact Values",nil,true)
+    assert_index_page(fact_values_path, "Fact Values", nil, true)
   end
 
   test "host fact links" do

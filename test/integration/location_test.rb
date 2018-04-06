@@ -6,7 +6,7 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(locations_path,"Locations","New Location")
+    assert_index_page(locations_path, "Locations", "New Location")
   end
 
   # context - has nil hosts
@@ -27,7 +27,7 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
   test "create new page when all hosts are assigned a location" do
     Host.update_all(:location_id => Location.first.id)
     assert has_no_selector?("div.alert", :text => "with no location assigned")
-    assert_new_button(locations_path,"New Location",new_location_path)
+    assert_new_button(locations_path, "New Location", new_location_path)
     fill_in "location_name", :with => "Raleigh"
     assert_submit_button(/Raleigh/i)
     assert page.has_link? 'Primary'
@@ -46,7 +46,7 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
 
   # content - click Manually Assign
   test "create new page when some hosts are not assigned a location and click Manually Assign" do
-    assert_new_button(locations_path,"New Location",new_location_path)
+    assert_new_button(locations_path, "New Location", new_location_path)
     fill_in "location_name", :with => "Raleigh"
     click_button "Submit"
     assert_current_path step2_location_path(Location.unscoped.order(:id).last)
@@ -58,7 +58,7 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
 
   # click Proceed to Edit
   test "create new page when some hosts are and assigned a location and click Proceed to Edit" do
-    assert_new_button(locations_path,"New Location",new_location_path)
+    assert_new_button(locations_path, "New Location", new_location_path)
     fill_in "location_name", :with => "Raleigh"
     click_button "Submit"
     assert_current_path step2_location_path(Location.unscoped.order(:id).last)

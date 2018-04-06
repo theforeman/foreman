@@ -25,7 +25,7 @@ module BmcHelper
 
     confirm = _('Are you sure?')
 
-    links = HostsController::BOOT_DEVICES.map do |device,label|
+    links = HostsController::BOOT_DEVICES.map do |device, label|
       display_link_if_authorized(_(label),
                                  controller_options.merge(:ipmi_device => device),
                                  :data => { :confirm => confirm }, :method => :put)

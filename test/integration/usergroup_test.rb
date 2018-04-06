@@ -6,6 +6,6 @@ class UsergroupIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page" do
-    assert_index_page(usergroups_path,"User Groups","Create User Group",false)
+    assert_index_page(usergroups_path, "User Groups", "Create User Group", false)
   end
 end

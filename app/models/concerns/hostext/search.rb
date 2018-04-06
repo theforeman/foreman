@@ -90,7 +90,7 @@ module Hostext
 
       if SETTINGS[:login]
         scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login',    :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
-        scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname',:operators => ['= ', '~ '], :ext_method => :search_by_user
+        scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :usergroups,   :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name', :aliases => [:usergroup]
@@ -101,7 +101,7 @@ module Hostext
 
     module ClassMethods
       def search_by_user(key, operator, value)
-        clean_key = key.sub(/^.*\./,'')
+        clean_key = key.sub(/^.*\./, '')
         if value == "current_user"
           value = User.current.id
           clean_key = "id"
@@ -148,13 +148,13 @@ module Hostext
       end
 
       def search_by_params(key, operator, value)
-        key_name = key.sub(/^.*\./,'')
+        key_name = key.sub(/^.*\./, '')
         condition = sanitize_sql_for_conditions(["name = ? and value #{operator} ?", key_name, value_to_sql(operator, value)])
         p = Parameter.where(condition).reorder(:priority)
         return {:conditions => '1 = 0'} if p.blank?
 
         max         = p.first.priority
-        condition   = sanitize_sql_for_conditions(["name = ? and NOT(value #{operator} ?) and priority > ?",key_name,value_to_sql(operator, value), max])
+        condition   = sanitize_sql_for_conditions(["name = ? and NOT(value #{operator} ?) and priority > ?", key_name, value_to_sql(operator, value), max])
         n           = Parameter.where(condition).reorder(:priority)
 
         conditions = param_conditions(p)

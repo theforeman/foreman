@@ -7,7 +7,7 @@ module SettingsHelper
       {:title => setting.full_name_with_default, :select_values => self.send("#{setting.name}_collection") }) if self.respond_to? "#{setting.name}_collection"
 
     return edit_textarea(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value}) if setting.settings_type == 'array'
-    edit_textfield(setting, :value,{:title => setting.full_name_with_default, :helper => :show_value})
+    edit_textfield(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value})
   end
 
   def show_value(setting)
@@ -22,7 +22,7 @@ module SettingsHelper
   end
 
   def short_cat(category)
-    category.gsub(/Setting::/,'')
+    category.gsub(/Setting::/, '')
   end
 
   def cat_label(category)

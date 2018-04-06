@@ -137,7 +137,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
 
   test "search ptable" do
     get :index, params: { :search =>  @ptable.name,  :format => 'json' }
-    assert_response :success,"search ptable name: '#{@ptable.name}' failed with code: #{@response.code}"
+    assert_response :success, "search ptable name: '#{@ptable.name}' failed with code: #{@response.code}"
     response = JSON.parse(@response.body)
     assert_equal response['results'].length, 1
     assert_equal response['results'][0]['id'], @ptable.id
@@ -149,7 +149,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     @ptable.organizations = [org]
     assert @ptable.save
     get :index, params: {:search =>  @ptable.name, :organization_id => org.id,  :format => 'json' }
-    assert_response :success,"search ptable by name and organization failed with code: #{@response.code}"
+    assert_response :success, "search ptable by name and organization failed with code: #{@response.code}"
     response = JSON.parse(@response.body)
     assert_equal response['results'].length, 1
     assert_equal response['results'][0]['id'], @ptable.id

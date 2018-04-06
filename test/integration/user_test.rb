@@ -5,7 +5,7 @@ class UserIntegrationTest < IntegrationTestWithJavascript
   #   UserIntegrationTest.test_0002_edit page
 
   test "index page" do
-    assert_index_page(users_path,"Users","Create User")
+    assert_index_page(users_path, "Users", "Create User")
   end
 
   test "edit page" do

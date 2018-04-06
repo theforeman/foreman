@@ -64,8 +64,8 @@ exporter_template(:disabled, :discovered_hosts_summary) do |header, data|
       record.disk,
       record.subnet.name,
       facts["discovery_bootif"],
-      facts.collect{|k,v| v if k =~ /macaddress/}.compact.join(','),
-      facts.collect{|k,v| v if k =~ /ipaddress/}.compact.join(','),
+      facts.collect{|k, v| v if k =~ /macaddress/}.compact.join(','),
+      facts.collect{|k, v| v if k =~ /ipaddress/}.compact.join(','),
       record.created_at,
       record.last_report
     ]

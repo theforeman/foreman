@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
   end
 
   def model_of_controller
-    @model_of_controller ||= controller_path.singularize.camelize.gsub('/','::').constantize
+    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').constantize
   end
 
   def controller_permission
@@ -324,7 +324,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_empty_taxonomy
-    return if ["locations","organizations"].include?(controller_name)
+    return if ["locations", "organizations"].include?(controller_name)
 
     if User.current&.admin?
       if SETTINGS[:locations_enabled] && Location.unconfigured?

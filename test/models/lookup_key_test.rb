@@ -69,9 +69,9 @@ class LookupKeyTest < ActiveSupport::TestCase
       LookupValue.create!(:value => "v22", :match => "fqdn=#{@host2.fqdn}", :lookup_key => key)
       EnvironmentClass.create!(:puppetclass => puppetclass, :environment => environments(:testing),
                                :puppetclass_lookup_key => key)
-      HostClass.create!(:host => @host1,:puppetclass=>puppetclass)
-      HostClass.create!(:host => @host2,:puppetclass=>puppetclass)
-      HostClass.create!(:host => @host3,:puppetclass=>puppetclass)
+      HostClass.create!(:host => @host1, :puppetclass=>puppetclass)
+      HostClass.create!(:host => @host2, :puppetclass=>puppetclass)
+      HostClass.create!(:host => @host3, :puppetclass=>puppetclass)
     end
 
     key.reload

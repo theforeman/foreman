@@ -108,7 +108,7 @@ module Orchestration::Compute
     compute_attributes.except!(:user_data) # Unset any badly formatted data
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
     if puppetca?
-      respond_to?(:initialize_puppetca,true) && initialize_puppetca && delCertificate && delAutosign
+      respond_to?(:initialize_puppetca, true) && initialize_puppetca && delCertificate && delAutosign
     else
       true
     end
@@ -344,7 +344,7 @@ module Orchestration::Compute
 
       # validate_foreman_attr handles the failure msg, so we just bubble
       # the false state up the stack
-      return false unless validate_required_foreman_attr(mac,Nic::Base.physical,:mac)
+      return false unless validate_required_foreman_attr(mac, Nic::Base.physical, :mac)
     end
     true
   end

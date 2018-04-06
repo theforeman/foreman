@@ -423,7 +423,7 @@ module Api
       protected
 
       def add_scoped_search_description_for(resource)
-        search_fields = resource.scoped_search_definition.fields.map do |k,f|
+        search_fields = resource.scoped_search_definition.fields.map do |k, f|
           info = { :name => k.to_s }
           if f.complete_value.is_a?(Hash)
             info[:values] = f.complete_value.keys

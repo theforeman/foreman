@@ -224,7 +224,7 @@ Return the host's compute attributes that can be used to create a clone of this 
         render :json => {} unless @host
         attrs = @host.vm_compute_attributes || {}
         safe_attrs = {}
-        attrs.each_pair do |k,v|
+        attrs.each_pair do |k, v|
           # clean up the compute attributes to be suitable for output
           if v.is_a?(Proc)
             safe_attrs[k] = v.call

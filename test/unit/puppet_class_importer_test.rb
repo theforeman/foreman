@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PuppetClassImporterTest < ActiveSupport::TestCase
   def setup
-    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["foreman-testing","foreman-testing-1"])
+    ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["foreman-testing", "foreman-testing-1"])
     ProxyAPI::Puppet.any_instance.stubs(:classes).returns(mocked_classes)
     User.current = User.find_by :login => "foreman_admin"
   end

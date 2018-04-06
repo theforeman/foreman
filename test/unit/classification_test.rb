@@ -692,7 +692,7 @@ class ClassificationTest < ActiveSupport::TestCase
                              :override => true, :key_type => 'array', :merge_overrides => false,
                              :default_value => '<%= [1,2] %>', :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
-    assert_equal [1,2], HostInfoProviders::PuppetInfo.new(@host).puppetclass_parameters['base'][key.key]
+    assert_equal [1, 2], HostInfoProviders::PuppetInfo.new(@host).puppetclass_parameters['base'][key.key]
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
@@ -720,7 +720,7 @@ class ClassificationTest < ActiveSupport::TestCase
                                          :element_name => 'Organization 1',
                                          :managed => false}}},
                                          Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
-    assert_equal [3,4], HostInfoProviders::PuppetInfo.new(@host).puppetclass_parameters['base'][key.key]
+    assert_equal [3, 4], HostInfoProviders::PuppetInfo.new(@host).puppetclass_parameters['base'][key.key]
   end
 
   test 'enc should return correct values for multi-key matchers' do

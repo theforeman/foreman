@@ -768,19 +768,19 @@ class UserTest < ActiveSupport::TestCase
       test "enabled on-the-fly registration" do
         @ldap_server.update_attribute(:onthefly_register, true)
         assert_difference("User.count", 1) do
-          assert User.try_to_auto_create_user('foobar','fakepass')
+          assert User.try_to_auto_create_user('foobar', 'fakepass')
         end
       end
 
       test "use LDAP login attribute as login" do
-        created_user = User.try_to_auto_create_user('foobar','fakepass')
+        created_user = User.try_to_auto_create_user('foobar', 'fakepass')
         assert_equal created_user.login, "FoOBaR"
       end
 
       test 'taxonomies from the auth source are inherited' do
         @ldap_server.organizations = [taxonomies(:organization1)]
         @ldap_server.locations = [taxonomies(:location1)]
-        created_user = User.try_to_auto_create_user('foobar','fakepass')
+        created_user = User.try_to_auto_create_user('foobar', 'fakepass')
         assert_equal @ldap_server.organizations.to_a,
                      created_user.organizations.to_a
         assert_equal @ldap_server.locations.to_a,
@@ -791,7 +791,7 @@ class UserTest < ActiveSupport::TestCase
     test "disabled on-the-fly registration" do
       @ldap_server.update_attribute(:onthefly_register, false)
       assert_difference("User.count", 0) do
-        refute User.try_to_auto_create_user('foobar','fakepass')
+        refute User.try_to_auto_create_user('foobar', 'fakepass')
       end
     end
   end

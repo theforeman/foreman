@@ -76,7 +76,7 @@ class Puppetclass < ApplicationRecord
 
   # returns class name (excluding of the module name)
   def klass
-    name.gsub(module_name+"::","")
+    name.gsub(module_name+"::", "")
   end
 
   def all_hostgroups(with_descendants = true, unsorted = false)

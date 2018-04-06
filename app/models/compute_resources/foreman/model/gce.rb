@@ -85,7 +85,7 @@ module Foreman::Model
           args[:volumes].first[:source_image] = client.images.find { |i| i.id == args[:image_id] }.name
         end
         args[:disks] = []
-        args[:volumes].each_with_index do |vol_args,i|
+        args[:volumes].each_with_index do |vol_args, i|
           args[:disks] << new_volume(vol_args.merge(:name => "#{args[:name]}-disk#{i+1}"))
         end
       end
