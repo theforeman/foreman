@@ -57,7 +57,7 @@ class Dashboard::Data
     if out_of_sync_enabled?
       @report.update({
                        :out_of_sync_hosts         => out_of_sync_hosts.count,
-                       :out_of_sync_hosts_enabled => out_of_sync_hosts.alerts_enabled.count,
+                       :out_of_sync_hosts_enabled => out_of_sync_hosts.alerts_enabled.count
                      })
     end
     @report[:good_hosts]         = @report[:ok_hosts]         + @report[:active_hosts_ok]
