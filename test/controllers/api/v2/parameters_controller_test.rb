@@ -179,8 +179,8 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     param_name = subnet.parameters.first.name
     put :update, params: { :subnet_id => subnet.id, :id => subnet.parameters.first.id, :parameter => { :name => 'name with space', :value => '123' } }
     assert_response :unprocessable_entity
-    assert_equal param_name, Subnet.unscoped.find_by_name(subnet.name).parameters.
-        order("parameters.updated_at").last.name
+    assert_equal param_name, Subnet.unscoped.find_by_name(subnet.name).parameters
+        .order("parameters.updated_at").last.name
   end
 
   test "should create hostgroup parameter" do
@@ -202,36 +202,36 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   test "should update nested host parameter" do
     put :update, params: { :host_id => @host.to_param, :id => @host.parameters.first.to_param, :parameter => valid_attrs }
     assert_response :success
-    assert_equal '123', Host.unscoped.find_by_name(@host.name).parameters.
-      order("parameters.updated_at").last.value
+    assert_equal '123', Host.unscoped.find_by_name(@host.name).parameters
+      .order("parameters.updated_at").last.value
   end
 
   test "should update nested domain parameter" do
     put :update, params: { :domain_id => domains(:mydomain).to_param, :id => parameters(:domain).to_param, :parameter => valid_attrs }
     assert_response :success
-    assert_equal Domain.unscoped.find_by_name("mydomain.net").parameters.
-      order("parameters.updated_at").last.value, "123"
+    assert_equal Domain.unscoped.find_by_name("mydomain.net").parameters
+      .order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested subnet parameter" do
     put :update, params: { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param, :parameter => valid_attrs }
     assert_response :success
-    assert_equal Subnet.unscoped.find_by_name("five").parameters.
-      order("parameters.updated_at").last.value, "123"
+    assert_equal Subnet.unscoped.find_by_name("five").parameters
+      .order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested hostgroup parameter" do
     put :update, params: { :hostgroup_id => hostgroups(:common).to_param, :id => parameters(:group).to_param, :parameter => valid_attrs }
     assert_response :success
-    assert_equal Hostgroup.unscoped.find_by_name("Common").group_parameters.
-      order("parameters.updated_at").last.value, "123"
+    assert_equal Hostgroup.unscoped.find_by_name("Common").group_parameters
+      .order("parameters.updated_at").last.value, "123"
   end
 
   test "should update nested os parameter" do
     put :update, params: { :operatingsystem_id => operatingsystems(:redhat).to_param, :id => parameters(:os).to_param, :parameter => valid_attrs }
     assert_response :success
-    assert_equal Operatingsystem.unscoped.find_by_name("Redhat").parameters.
-      order("parameters.updated_at").last.value, "123"
+    assert_equal Operatingsystem.unscoped.find_by_name("Redhat").parameters
+      .order("parameters.updated_at").last.value, "123"
   end
 
   test "should destroy nested host parameter" do

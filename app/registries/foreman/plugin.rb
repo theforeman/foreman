@@ -314,8 +314,8 @@ module Foreman #:nodoc:
     def pending_migrations
       migration_paths = ActiveRecord::Migrator.migrations(
         ActiveRecord::Migrator.migrations_paths)
-      pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).
-        pending_migrations
+      pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths)
+        .pending_migrations
 
       return false if pending_migrations.empty?
       migration_names = pending_migrations.take(5).map(&:name).join(', ')

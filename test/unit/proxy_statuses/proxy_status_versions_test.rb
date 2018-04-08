@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ProxyStatusVersionsTest < ActiveSupport::TestCase
   setup do
-    @proxy = FactoryBot.
-      build_stubbed(:template_smart_proxy, :url => 'https://secure.proxy:4568')
+    @proxy = FactoryBot
+      .build_stubbed(:template_smart_proxy, :url => 'https://secure.proxy:4568')
     @expected_versions = {'version' => '1.11', 'modules' => {'dns' => '1.11'}}
     ProxyAPI::Version.any_instance.stubs(:proxy_versions).returns(@expected_versions)
   end

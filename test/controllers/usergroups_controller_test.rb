@@ -72,8 +72,8 @@ class UsergroupsControllerTest < ActionController::TestCase
     test 'a suggestion is shown if the LDAP source is not reachable' do
       AuthSourceLdap.any_instance.stubs(:valid_group? => true)
       external = FactoryBot.create(:external_usergroup)
-      ExternalUsergroup.any_instance.expects(:refresh).
-        raises(Net::LDAP::Error.new('foo'))
+      ExternalUsergroup.any_instance.expects(:refresh)
+        .raises(Net::LDAP::Error.new('foo'))
       put :update, params: { :id => external.usergroup_id, :usergroup => {
         :external_usergroups_attributes => {
           '0' => {

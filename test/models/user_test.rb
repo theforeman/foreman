@@ -44,8 +44,8 @@ class UserTest < ActiveSupport::TestCase
   # Presence
   should validate_presence_of(:login)
   should validate_presence_of(:auth_source_id)
-  should validate_uniqueness_of(:login).case_insensitive.
-    with_message('already exists')
+  should validate_uniqueness_of(:login).case_insensitive
+    .with_message('already exists')
   # Length
   should validate_length_of(:login).is_at_most(100)
   should validate_length_of(:firstname).is_at_most(50)
@@ -761,8 +761,8 @@ class UserTest < ActiveSupport::TestCase
 
     context 'success' do
       setup do
-        AuthSourceLdap.any_instance.expects(:update_usergroups).
-            with('FoOBaR').returns(true)
+        AuthSourceLdap.any_instance.expects(:update_usergroups)
+            .with('FoOBaR').returns(true)
       end
 
       test "enabled on-the-fly registration" do

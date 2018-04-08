@@ -19,8 +19,8 @@ class Authorizer
     else
       return collection_cache_lookup(subject, permission) if cache
 
-      find_collection(subject.class, :permission => permission).
-        where(:id => subject.id).any?
+      find_collection(subject.class, :permission => permission)
+        .where(:id => subject.id).any?
     end
   end
 

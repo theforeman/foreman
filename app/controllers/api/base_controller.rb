@@ -85,8 +85,8 @@ module Api
       #
       # In such cases, we resolve the scope first, and then call 'where'
       # on the results
-      resource_class.joins(association.name).
-        where(association.name => scope.map(&:id))
+      resource_class.joins(association.name)
+        .where(association.name => scope.map(&:id))
     end
 
     def resource_class_join(association, scope)

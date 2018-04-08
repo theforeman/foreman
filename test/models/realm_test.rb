@@ -9,10 +9,10 @@ class RealmTest < ActiveSupport::TestCase
 
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
-  should have_many(:locations).
-    source(:taxonomy).
-    conditions(:type => 'Location').
-    through(:taxable_taxonomies)
+  should have_many(:locations)
+    .source(:taxonomy)
+    .conditions(:type => 'Location')
+    .through(:taxable_taxonomies)
   should belong_to(:realm_proxy)
 
   test "when cast to string should return the name" do

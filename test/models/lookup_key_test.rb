@@ -10,12 +10,12 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   should validate_presence_of(:key)
-  should validate_inclusion_of(:validator_type).
-    in_array(LookupKey::VALIDATOR_TYPES).allow_blank.allow_nil.
-    with_message('invalid')
-  should validate_inclusion_of(:key_type).
-    in_array(LookupKey::KEY_TYPES).allow_blank.allow_nil.
-    with_message('invalid')
+  should validate_inclusion_of(:validator_type)
+    .in_array(LookupKey::VALIDATOR_TYPES).allow_blank.allow_nil
+    .with_message('invalid')
+  should validate_inclusion_of(:key_type)
+    .in_array(LookupKey::KEY_TYPES).allow_blank.allow_nil
+    .with_message('invalid')
 
   def test_element_seperations
     key = ""

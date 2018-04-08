@@ -51,9 +51,9 @@ class ApacheTest < ActiveSupport::TestCase
     apache.controller.request.env['REMOTE_USER_EMAIL']     = 'foobar@example.com'
     apache.controller.request.env['REMOTE_USER_FIRSTNAME'] = 'Foo'
     apache.controller.request.env['REMOTE_USER_LASTNAME']  = 'Bar'
-    User.expects(:find_or_create_external_user).
-        with({:login => 'ares', :mail => 'foobar@example.com', :firstname => 'Foo', :lastname => 'Bar'}, 'apache').
-        returns(true)
+    User.expects(:find_or_create_external_user)
+        .with({:login => 'ares', :mail => 'foobar@example.com', :firstname => 'Foo', :lastname => 'Bar'}, 'apache')
+        .returns(true)
     assert apache.authenticated?
   end
 
@@ -66,9 +66,9 @@ class ApacheTest < ActiveSupport::TestCase
     existing = FactoryBot.build :usergroup
     apache.controller.request.env['REMOTE_USER_GROUP_1']     = existing.name
     apache.controller.request.env['REMOTE_USER_GROUP_2']     = 'does-not-exist-for-sure'
-    User.expects(:find_or_create_external_user).
-        with({:login => 'ares', :groups => [existing.name, 'does-not-exist-for-sure']}, 'apache').
-        returns(true)
+    User.expects(:find_or_create_external_user)
+        .with({:login => 'ares', :groups => [existing.name, 'does-not-exist-for-sure']}, 'apache')
+        .returns(true)
     assert apache.authenticated?
   end
 

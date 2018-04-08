@@ -45,8 +45,8 @@ namespace :hosts do
     missingdns = []
     offline = []
 
-    Host::Managed.out_of_sync(out_of_sync_interval.to_i.seconds.ago).
-      order('environment_id ASC').collect do |host|
+    Host::Managed.out_of_sync(out_of_sync_interval.to_i.seconds.ago)
+      .order('environment_id ASC').collect do |host|
       $stdout.flush
       ip = Resolv::DNS.new.getaddress(host.name).to_s rescue nil
       if ip.empty?

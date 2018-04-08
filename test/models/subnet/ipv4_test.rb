@@ -146,8 +146,8 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
       dhcp_options = { 'routers' => ['192.168.11.1'],
                        'domain_name_servers' => ['192.168.11.1', '8.8.8.8'],
                        'range' => ['192.168.11.0', '192.168.11.200'] }
-      ProxyAPI::DHCP.any_instance.
-        stubs(:subnets => [ { 'network' => '192.168.11.0',
+      ProxyAPI::DHCP.any_instance
+        .stubs(:subnets => [ { 'network' => '192.168.11.0',
                               'netmask' => '255.255.255.0',
                               'options' => dhcp_options } ])
       Subnet.expects(:new).with(:network => "192.168.11.0",
@@ -162,8 +162,8 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
     end
 
     test 'imports subnets without options' do
-      ProxyAPI::DHCP.any_instance.
-        stubs(:subnets => [ { 'network' => '192.168.11.0',
+      ProxyAPI::DHCP.any_instance
+        .stubs(:subnets => [ { 'network' => '192.168.11.0',
                               'netmask' => '255.255.255.0' } ])
       Subnet.expects(:new).with(:network => "192.168.11.0",
                                 :mask => "255.255.255.0",

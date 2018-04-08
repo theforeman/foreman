@@ -298,8 +298,8 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup.users << external_user
       @usergroup.save
 
-      AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').
-        returns(['external_user'])
+      AuthSourceLdap.any_instance.expects(:users_in_group).with('aname')
+        .returns(['external_user'])
       @usergroup.external_usergroups.detect { |eu| eu.name == 'aname'}.refresh
       assert_includes @usergroup.users, internal_user
       assert_includes @usergroup.users, external_user

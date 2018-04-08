@@ -36,12 +36,12 @@ module UINotifications
     attr_reader :user_id
 
     def notifications
-      @notifications ||= NotificationRecipient.
-        where(user_id: user_id, notification_id: Notification.active).
-        order(created_at: :desc).
-        limit(100).
-        preload(:notification, :notification_blueprint).
-        map(&:payload)
+      @notifications ||= NotificationRecipient
+        .where(user_id: user_id, notification_id: Notification.active)
+        .order(created_at: :desc)
+        .limit(100)
+        .preload(:notification, :notification_blueprint)
+        .map(&:payload)
     end
 
     def cache_key
@@ -49,11 +49,11 @@ module UINotifications
     end
 
     def cache_expiry
-      next_expiry = Notification.
-        active.
-        joins(:notification_recipients).
-        where(notification_recipients: {user_id: user_id}).
-        minimum(:expired_at)
+      next_expiry = Notification
+        .active
+        .joins(:notification_recipients)
+        .where(notification_recipients: {user_id: user_id})
+        .minimum(:expired_at)
 
       result = next_expiry.nil? ? default_cache_expiry : next_expiry - Time.now.utc
 

@@ -742,8 +742,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
 
     test "boot call to interface" do
-      ProxyAPI::BMC.any_instance.stubs(:boot).with(:function => 'bootdevice', :device => 'bios').
-                                              returns({ "action" => "bios", "result" => true } .to_json)
+      ProxyAPI::BMC.any_instance.stubs(:boot).with(:function => 'bootdevice', :device => 'bios')
+                                              .returns({ "action" => "bios", "result" => true } .to_json)
       put :boot, params: { :id => @bmchost.to_param, :device => 'bios' }
       assert_response :success
       assert @response.body =~ /true/
@@ -769,9 +769,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       end
 
       test 'responds correctly for non-admin user if BMC is available' do
-        ProxyAPI::BMC.any_instance.stubs(:boot).
-          with(:function => 'bootdevice', :device => 'bios').
-          returns({ "action" => "bios", "result" => true } .to_json)
+        ProxyAPI::BMC.any_instance.stubs(:boot)
+          .with(:function => 'bootdevice', :device => 'bios')
+          .returns({ "action" => "bios", "result" => true } .to_json)
         put :boot, params: { :id => @bmchost.to_param, :device => 'bios' },
           session: set_session_user.merge(:user => @one.id)
         assert_response :success

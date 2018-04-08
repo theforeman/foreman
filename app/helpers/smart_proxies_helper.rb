@@ -13,15 +13,15 @@ module SmartProxiesHelper
   def feature_actions(proxy, authorizer)
     actions = []
 
-    actions << display_link_if_authorized(_("Refresh"), hash_for_refresh_smart_proxy_path(:id => proxy).
-                                                                 merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put)
+    actions << display_link_if_authorized(_("Refresh"), hash_for_refresh_smart_proxy_path(:id => proxy)
+                                                                 .merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put)
 
     if proxy.has_feature?('Puppet CA')
-      actions << display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_path(:id => proxy).
-                                                               merge(:auth_object => proxy, :permission => 'view_smart_proxies_puppetca', :authorizer => authorizer, :anchor => 'certificates'))
+      actions << display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_path(:id => proxy)
+                                                               .merge(:auth_object => proxy, :permission => 'view_smart_proxies_puppetca', :authorizer => authorizer, :anchor => 'certificates'))
 
-      actions << display_link_if_authorized(_("Autosign"), hash_for_smart_proxy_path(:id => proxy).
-                                                           merge(:auth_object => proxy, :permission => 'view_smart_proxies_autosign', :authorizer => authorizer, :anchor => 'autosign'))
+      actions << display_link_if_authorized(_("Autosign"), hash_for_smart_proxy_path(:id => proxy)
+                                                           .merge(:auth_object => proxy, :permission => 'view_smart_proxies_autosign', :authorizer => authorizer, :anchor => 'autosign'))
     end
 
     if SETTINGS[:unattended] && proxy.has_feature?('DHCP')
@@ -61,8 +61,8 @@ module SmartProxiesHelper
   end
 
   def refresh_proxy_button(proxy, authorizer)
-    display_link_if_authorized('Refresh features', hash_for_refresh_smart_proxy_path(:id => proxy).
-                                                     merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put, :class => 'btn btn-default')
+    display_link_if_authorized('Refresh features', hash_for_refresh_smart_proxy_path(:id => proxy)
+                                                     .merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put, :class => 'btn btn-default')
   end
 
   def services_tab_features(proxy)

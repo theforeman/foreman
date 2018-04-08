@@ -17,9 +17,9 @@ module UINotifications
       end
 
       def update_notifications
-        blueprint.notifications.
-          where(subject: subject).
-          update_all(expired_at: blueprint.expired_at)
+        blueprint.notifications
+          .where(subject: subject)
+          .update_all(expired_at: blueprint.expired_at)
       end
 
       def blueprint

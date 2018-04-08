@@ -2,8 +2,8 @@
 # recreate cache
 
 if (Setting.table_exists? rescue(false))
-  fix_db_cache = Setting::General.where(:name => 'fix_db_cache').
-    first_or_initialize(:description => 'Fix DB cache on next Foreman restart',
+  fix_db_cache = Setting::General.where(:name => 'fix_db_cache')
+    .first_or_initialize(:description => 'Fix DB cache on next Foreman restart',
                         :settings_type => 'boolean',
                         :default => false)
 

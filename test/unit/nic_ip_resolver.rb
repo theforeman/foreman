@@ -9,8 +9,8 @@ class NicIpResolverTest < ActiveSupport::TestCase
     test 'uses host PTR4 record to lookup the IP when present' do
       stub_dns_record = stub()
       nic.expects(:dns_record).with(:ptr4).returns(stub_dns_record).twice
-      stub_dns_record.expects(:dns_lookup).with('foo').
-        returns(OpenStruct.new(:ip => '127.0.0.1'))
+      stub_dns_record.expects(:dns_lookup).with('foo')
+        .returns(OpenStruct.new(:ip => '127.0.0.1'))
       assert '127.0.0.1', resolver.to_ip_address('foo')
     end
 

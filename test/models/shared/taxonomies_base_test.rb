@@ -369,8 +369,8 @@ module TaxonomiesBaseTest
 
     test "#params_objects should return taxonomy parameters" do
       taxonomy = taxonomy_class.create :name => "floor1"
-      param = "#{taxonomy_name}Parameter".classify.constantize.
-        create(:name => 'name', :value => 'valueable')
+      param = "#{taxonomy_name}Parameter".classify.constantize
+        .create(:name => 'name', :value => 'valueable')
       taxonomy.public_send("#{taxonomy_name}_parameters=", [param])
       assert(taxonomy.params_objects.include?(param))
     end

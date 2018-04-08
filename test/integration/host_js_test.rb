@@ -161,10 +161,10 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'choosing a hostgroup overrides other host attributes' do
-      original_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment))
-      overridden_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment))
+      original_hostgroup = FactoryBot
+        .create(:hostgroup, :environment => FactoryBot.create(:environment))
+      overridden_hostgroup = FactoryBot
+        .create(:hostgroup, :environment => FactoryBot.create(:environment))
 
       visit new_host_path
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
@@ -396,8 +396,8 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'choosing a hostgroup does not override other host attributes' do
-      original_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment),
+      original_hostgroup = FactoryBot
+        .create(:hostgroup, :environment => FactoryBot.create(:environment),
                            :puppet_proxy => FactoryBot.create(:puppet_smart_proxy))
 
       # Make host inherit hostgroup environment
@@ -405,8 +405,8 @@ class HostJSTest < IntegrationTestWithJavascript
         'hostgroup_id' => original_hostgroup.id)
       @host.save
 
-      overridden_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment))
+      overridden_hostgroup = FactoryBot
+        .create(:hostgroup, :environment => FactoryBot.create(:environment))
 
       visit edit_host_path(@host)
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
