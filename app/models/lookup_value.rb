@@ -34,7 +34,7 @@ class LookupValue < ApplicationRecord
 
   def value=(val)
     if val.is_a?(HashWithIndifferentAccess)
-      super(val.deep_to_hash)
+      super(val.to_hash)
     else
       super
     end
