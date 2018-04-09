@@ -5,16 +5,16 @@ class UnattendedControllerTest < ActionController::TestCase
     Host::Managed.any_instance.stubs(:handle_ca).returns(true)
     as_admin do
       disable_orchestration # avoids dns errors
-      ptable = FactoryBot.create(:ptable, :name => 'default',
+      @ptable = FactoryBot.create(:ptable, :name => 'default',
                                   :operatingsystem_ids => [operatingsystems(:redhat).id])
-      ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
+      @ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
         :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
       @org = FactoryBot.create(:organization, :ignore_types => ['ProvisioningTemplate'])
       @loc = FactoryBot.create(:location, :ignore_types => ['ProvisioningTemplate'])
       @rh_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:redhat),
-                                    :ptable => ptable,
+                                    :ptable => @ptable,
                                     :medium => media(:one),
                                     :architecture => architectures(:x86_64),
                                     :organization => @org,
@@ -22,7 +22,7 @@ class UnattendedControllerTest < ActionController::TestCase
                                    )
       @ub_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
-                                    :ptable => ptable_ubuntu,
+                                    :ptable => @ptable_ubuntu,
                                     :medium => media(:ubuntu),
                                     :architecture => architectures(:x86_64),
                                     :organization => @org,
@@ -30,7 +30,7 @@ class UnattendedControllerTest < ActionController::TestCase
                                    )
       @host_with_template_subnet = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :with_templates_subnet, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
-                                    :ptable => ptable_ubuntu,
+                                    :ptable => @ptable_ubuntu,
                                     :medium => media(:ubuntu),
                                     :architecture => architectures(:x86_64),
                                     :organization => @org,
@@ -55,6 +55,25 @@ class UnattendedControllerTest < ActionController::TestCase
   test "should get a kickstart if MAC is provided" do
     get :host_template, params: { :kind => 'provision', :mac => @rh_host.mac }
     assert_response :success
+  end
+
+  test "should get a kickstart if MAC is provided with two hosts with same MAC" do
+    host1 = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
+      :name => "host2_same_mac",
+      :mac => @rh_host.mac,
+      :operatingsystem => operatingsystems(:ubuntu1010),
+      :ptable => @ptable_ubuntu,
+      :medium => media(:ubuntu),
+      :architecture => architectures(:x86_64),
+      :organization => @org,
+      :location => @loc)
+    get :host_template, params: { :kind => 'finish', :mac => host1.mac }
+    assert @rh_host.created_at
+    assert host1.created_at
+    assert @rh_host.created_at <= host1.created_at, "host created at #{@rh_host.created_at} must be older than host created at #{host1.created_at}"
+    assert @rh_host.id < host1.id
+    assert_response :success
+    assert_equal "finish for #{host1.name}", response.body
   end
 
   test "should get a kickstart even if we are behind a loadbalancer" do
