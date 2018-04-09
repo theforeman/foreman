@@ -1,4 +1,4 @@
 # disable to avoid journald native gem in development setup
 group :journald do
-  gem 'logging-journald', '~> 1.0'
+  gem 'logging-journald', '~> 1.0', require: false
 end
