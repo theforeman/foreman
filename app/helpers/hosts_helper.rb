@@ -4,6 +4,7 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include HostsNicHelper
   include BmcHelper
+  include FacetsHelper
 
   def provider_partial_exist?(compute_resource, partial)
     return false unless compute_resource
@@ -493,5 +494,24 @@ module HostsHelper
 
   def power_status_visible?
     SETTINGS[:unattended] && Setting[:host_power_status]
+  end
+
+  def load_tabs(host)
+    @tabs = facet_tabs(host)
+  end
+
+  def host_tab(group, id, val, host_form)
+    content_tag(:div, :id => id, :class => "tab-pane") do
+      disable_tab(group) +
+      content_tag(:fieldset, :class => group) do
+        render(val, :f => host_form)
+      end
+    end
+  end
+
+  def disable_tab(group)
+    button_tag :type => 'button', :class => 'btn btn-primary active', :data => { :toggle => 'button' }, :onclick => "triggerFacet('#{group}')" do
+      "Manage"
+    end
   end
 end
