@@ -8,6 +8,8 @@ source 'https://rubygems.org'
 case SETTINGS[:rails]
 when '5.1'
   gem 'rails', '5.1.6'
+when '5.2'
+  gem 'rails', '5.2.0'
 else
   raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
 end
