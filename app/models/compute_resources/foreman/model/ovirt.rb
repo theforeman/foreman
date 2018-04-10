@@ -255,7 +255,6 @@ module Foreman::Model
     def create_vm(args = {})
       args[:comment] = args[:user_data] if args[:user_data]
       args[:template] = args[:image_id] if args[:image_id]
-
       sanitize_inherited_vm_attributes(args)
 
       preallocate_disks(args) if args[:volumes_attributes].present?
@@ -280,6 +279,14 @@ module Foreman::Model
         end
         args.merge!(:clone => true, :disks => disks)
       end
+    end
+
+    def vm_instance_defaults
+      super.merge(
+        :memory     => 1024.megabytes,
+        :cores      => '1',
+        :sockets    => '1'
+      )
     end
 
     def new_vm(attr = {})
