@@ -20,6 +20,7 @@ export function templateSelected(item) {
         if (!$('#host_compute_attributes_instance_type').val()) {
           $('[id$=_memory]').val(result.memory).trigger('change');
           $('[id$=_cores]').val(result.cores);
+          $('[id$=_sockets]').val(result.sockets);
         }
         $('#network_interfaces').children('.fields').remove();
         $.each(result.interfaces, function () {
@@ -59,6 +60,7 @@ export function instanceTypeSelected(item) {
       success(result) {
         $('[id$=_memory]').val(result.memory).trigger('change');
         $('[id$=_cores]').val(result.cores);
+        $('[id$=_sockets]').val(result.sockets);
         const instanceTypeSelector = $('#host_compute_attributes_instance_type');
 
         if (instanceTypeSelector.is(':disabled')) {
