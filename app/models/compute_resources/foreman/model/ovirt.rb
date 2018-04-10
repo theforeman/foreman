@@ -92,9 +92,12 @@ module Foreman::Model
       super.merge({:mac => :mac})
     end
 
-    # FIXME
     def max_cpu_count
-      8
+      16
+    end
+
+    def max_socket_count
+      16
     end
 
     def max_memory
