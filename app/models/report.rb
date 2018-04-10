@@ -47,8 +47,8 @@ class Report < ApplicationRecord
 
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
-    return {} if read_attribute(:metrics).nil?
-    YAML.load(read_attribute(:metrics)).with_indifferent_access
+    return {} if self[:metrics].nil?
+    YAML.load(read_metrics).with_indifferent_access
   end
 
   # serialize metrics as YAML
@@ -84,5 +84,16 @@ class Report < ApplicationRecord
   # represent if we have a report --> used to ensure consistency across host report state the report itself
   def no_report
     false
+  end
+
+  private
+
+  def read_metrics
+    yml_hash = '!ruby/hash:ActiveSupport::HashWithIndifferentAccess'
+    yml_params = /!ruby\/[\w-]+:ActionController::Parameters/
+
+    metrics_attr = self[:metrics]
+    metrics_attr.gsub!(yml_params, yml_hash)
+    metrics_attr
   end
 end
