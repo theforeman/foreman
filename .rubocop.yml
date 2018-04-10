@@ -4,7 +4,7 @@ inherit_from:
 
 AllCops:
   TargetRubyVersion: 2.3
-  TargetRailsVersion: 5.1
+  TargetRailsVersion: 5.2
   Exclude:
     - 'db/schema.rb'
     - 'node_modules/**/*'

@@ -6,8 +6,8 @@ require_relative 'config/boot_settings'
 source 'https://rubygems.org'
 
 case SETTINGS[:rails]
-when '5.1'
-  gem 'rails', '5.1.6'
+when '5.2'
+  gem 'rails', '5.2.1'
 else
   raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
 end
