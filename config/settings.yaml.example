@@ -33,8 +33,8 @@
 :hsts_enabled: true
 
 # Ruby on Rails version
-# Defaults to 5.1
-#:rails: 5.1
+# Defaults to 5.2
+#:rails: 5.2
 
 # Local administrative settings for application domain, fqdn, foreman URL,
 # administrator email address etc. If you don't have a Puppet provisioning
