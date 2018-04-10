@@ -1,11 +1,13 @@
 require 'test_helper'
 
-class BookmarkTest < ActiveSupport::TestCase
-  @valid_controllers ||= (["dashboard", "common_parameters"] +
-      ActiveRecord::Base.connection.tables.map(&:to_s) +
-      Permission.resources.map(&:tableize)).uniq
+def valid_controller_values
+  (["dashboard", "common_parameters"] +
+  ActiveRecord::Base.connection.tables.map(&:to_s) +
+  Permission.resources.map(&:tableize)).uniq
+end
 
-  should allow_values(*@valid_controllers).for(:controller)
+class BookmarkTest < ActiveSupport::TestCase
+  should allow_values(*valid_controller_values).for(:controller)
   should allow_values(*valid_name_list).for(:name)
   should allow_values(*valid_name_list).for(:query)
   should_not allow_values(*invalid_name_list).for(:name)
