@@ -23,8 +23,6 @@ module Orchestration::SSHProvision
                  :action => [self, :setSSHProvisionScript])
     post_queue.create(:name   => _("Wait for %s to come online") % self, :priority => 2001,
                  :action => [self, :setSSHWaitForResponse])
-    post_queue.create(:name   => _("Enable certificate generation for %s") % self, :priority => 2002,
-                 :action => [self, :setSSHCert])
     post_queue.create(:name   => _("Configure instance %s via SSH") % self, :priority => 2003,
                  :action => [self, :setSSHProvision])
   end
@@ -58,13 +56,6 @@ module Orchestration::SSHProvision
   end
 
   def delSSHWaitForResponse; end
-
-  def setSSHCert
-    self.handle_ca
-    return false if errors.any?
-    logger.info "Revoked old certificates and enabled autosign"
-    true
-  end
 
   def delSSHCert
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error

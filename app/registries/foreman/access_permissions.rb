@@ -724,4 +724,9 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :revoke_personal_access_tokens,
                    :"api/v2/personal_access_tokens" => [:destroy]
   end
+
+  permission_set.security_block :puppetca_tokens do |map|
+    map.permission :destroy_puppetca_tokens,
+                   :"api/v2/puppetca_token" => [:destroy]
+  end
 end

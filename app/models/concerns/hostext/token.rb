@@ -3,7 +3,7 @@ module Hostext
     extend ActiveSupport::Concern
 
     included do
-      has_one :token, :foreign_key => :host_id, :dependent => :destroy
+      has_one :token, :foreign_key => :host_id, :dependent => :destroy, :inverse_of => :host, :class_name => 'Token::Build'
 
       scope :for_token, ->(token) { joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
       scope :for_token_when_built, ->(token) { joins(:token).where(:tokens => { :value => token }).select('hosts.*') }

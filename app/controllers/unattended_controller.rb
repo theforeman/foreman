@@ -11,7 +11,6 @@ class UnattendedController < ApplicationController
   before_action :get_host_details, :except => [:hostgroup_template, :built]
   before_action :get_built_host_details, :only => :built
   before_action :allowed_to_install?, :except => :hostgroup_template
-  before_action :handle_ca, :if => Proc.new { params[:kind] == 'provision' }
   before_action :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
   # load "helper" variables to be available in the templates
   before_action :load_template_vars, :only => :host_template
@@ -188,21 +187,6 @@ class UnattendedController < ApplicationController
 
   def allowed_to_install?
     (@host.build || @spoof || Setting[:access_unattended_without_build]) ? true : head(:method_not_allowed)
-  end
-
-  # Cleans Certificate and enable autosign. This is run as a before_action for provisioning templates.
-  # The host is requesting its build configuration so I guess we just send them some text so a post mortum can see what happened
-  def handle_ca
-    # The reason we do it here is to minimize the amount of time it is possible to automatically get a certificate
-
-    # We don't do anything if we are in spoof mode.
-    return true if @spoof
-
-    # This should terminate the before_action and the action. We return a HTTP
-    # error so the installer knows something is wrong. This is tested with
-    # Anaconda, but maybe Suninstall will choke on it.
-    render(:plain => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => :internal_server_error) unless @host.handle_ca
-    #TODO: Email the user who initiated this build operation.
   end
 
   # Reset realm OTP. This is run as a before_action for provisioning templates.

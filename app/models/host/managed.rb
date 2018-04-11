@@ -11,6 +11,7 @@ class Host::Managed < Host::Base
   include Hostext::SmartProxy
   include Hostext::Token
   include Hostext::OperatingSystem
+  include Hostext::Puppetca
   include SelectiveClone
   include HostInfoExtensions
   include HostParams
@@ -304,29 +305,6 @@ class Host::Managed < Host::Base
   #retuns fqdn of host puppetmaster
   def pm_fqdn
     (puppetmaster == "puppet") ? "puppet.#{domain.name}" : puppetmaster.to_s
-  end
-
-  # Cleans Certificate and enable Autosign
-  # Called before a host is given their provisioning template
-  # Returns : Boolean status of the operation
-  def handle_ca
-    # If there's no puppetca, tell the caller that everything is ok
-    return true unless Setting[:manage_puppetca]
-    return true unless puppetca?
-
-    # From here out, we expect things to work and return true
-    return false unless respond_to?(:initialize_puppetca, true)
-    return false unless initialize_puppetca
-    return false unless delCertificate
-
-    # If use_uuid_for_certificates is true, reuse the certname UUID value.
-    # If false, then reset the certname if it does not match the hostname.
-    if (Setting[:use_uuid_for_certificates] ? !Foreman.is_uuid?(certname) : certname != hostname)
-      logger.info "Removing certificate value #{certname} for host #{name}"
-      self.certname = nil
-    end
-
-    setAutosign
   end
 
   def import_facts(facts, source_proxy = nil)
