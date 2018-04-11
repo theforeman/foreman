@@ -10,10 +10,10 @@ module Api
       add_scoped_search_description_for(MailNotification)
 
       def index
-        @mail_notifications = MailNotification.
-          authorized(:view_mail_notifications).
-          subscriptable.
-          search_for(*search_options).paginate(paginate_options)
+        @mail_notifications = MailNotification
+          .authorized(:view_mail_notifications)
+          .subscriptable
+          .search_for(*search_options).paginate(paginate_options)
       end
 
       api :GET, "/mail_notifications/:id/", N_("Show an email notification")

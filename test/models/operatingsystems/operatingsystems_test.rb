@@ -4,8 +4,8 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'expected' => 'CoreOS 494.5.0' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'expected' => 'Debian 7.0' },
     :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'expected' => 'Ubuntu 14.10' },
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'OpenSuse 11.4' } }.
-  each do |os, config|
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'OpenSuse 11.4' } }
+  .each do |os, config|
     test "os label for #{os}" do
       stub_os = FactoryBot.build_stubbed(config['os'],
                                   :architectures => [architectures((config['arch']))],
@@ -18,8 +18,8 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'expected' => '$arch/$version' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'expected' => 'dists/$release/main/installer-$arch/current/images/netboot/debian-installer/$arch' },
     :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'expected' => 'dists/$release/main/installer-$arch/current/images/netboot/ubuntu-installer/$arch' },
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'boot/$arch/loader' } }.
-  each do |os, config|
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'boot/$arch/loader' } }
+  .each do |os, config|
     test "pxedir  for #{os}" do
       stub_os = FactoryBot.build_stubbed(config['os'],
                              :architectures => [architectures((config['arch']))],
@@ -33,8 +33,8 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :coreos, 'expected' => 'boot/CoreOS-494.5.0-x86_64-coreos_production_pxe.vmlinuz' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/Debian-7.0-x86_64-linux' },
     :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/Ubuntu-14.10-x86_64-linux' },
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :suse,   'expected' => 'boot/OpenSuse-11.4-x86_64-linux' } }.
-  each do |os, config|
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :suse,   'expected' => 'boot/OpenSuse-11.4-x86_64-linux' } }
+  .each do |os, config|
     test "kernel location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
       host = FactoryBot.build_stubbed(:host,
@@ -50,8 +50,8 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :coreos, 'expected' => 'boot/CoreOS-494.5.0-x86_64-coreos_production_pxe_image.cpio.gz' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/Debian-7.0-x86_64-initrd.gz' },
     :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/Ubuntu-14.10-x86_64-initrd.gz' },
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :suse,   'expected' => 'boot/OpenSuse-11.4-x86_64-initrd' } }.
-  each do |os, config|
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :suse,   'expected' => 'boot/OpenSuse-11.4-x86_64-initrd' } }
+  .each do |os, config|
     test "initrd location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
       host = FactoryBot.build_stubbed(:host,
@@ -67,8 +67,8 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :coreos, 'expected' => 'boot/CoreOS-494.5.0-x86_64'},
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/Debian-7.0-x86_64'},
     :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/Ubuntu-14.10-x86_64'},
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :suse,   'expected' => 'boot/OpenSuse-11.4-x86_64' } }.
-  each do |os, config|
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :suse,   'expected' => 'boot/OpenSuse-11.4-x86_64' } }
+  .each do |os, config|
     test "pxe prefix for #{os}" do
       arch = architectures(config['arch'])
       host = FactoryBot.build_stubbed(:host,
@@ -92,8 +92,8 @@ class OperatingsystemsTest < ActiveSupport::TestCase
                       'initrd' => 'http://archive.ubuntu.com/ubuntu/dists/utopic/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz'},
     :suse        => { 'os' => :suse, 'arch' => :x86_64, 'medium' => :suse,
                       'kernel' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/linux',
-                      'initrd' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/initrd' } }.
-  each do |os, config|
+                      'initrd' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/initrd' } }
+  .each do |os, config|
     test "pxe files for  #{os}" do
       medium = FactoryBot.build(:medium, config['medium'])
 

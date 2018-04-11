@@ -474,9 +474,9 @@ class NicTest < ActiveSupport::TestCase
     nic_name = 'hostname.undefined-subdomain.bigdomain'
     FactoryBot.create(:domain, :name => 'bigdomain')
     interface = FactoryBot.build_stubbed(:nic_managed, :name => nic_name)
-    Domain.expects(:find_by).
-      with(:name => 'undefined-subdomain.bigdomain').
-      returns(nil)
+    Domain.expects(:find_by)
+      .with(:name => 'undefined-subdomain.bigdomain')
+      .returns(nil)
     interface.send(:normalize_name)
     refute interface.domain
   end

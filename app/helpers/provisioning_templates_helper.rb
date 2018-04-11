@@ -43,8 +43,8 @@ module ProvisioningTemplatesHelper
 
     else
       actions << display_link_if_authorized(_('Lock'), template_hash_for_member(template, 'lock'))
-      actions << display_delete_if_authorized(template_hash_for_member(template).
-         merge(:auth_object => template, :authorizer => authorizer, :permission => "destroy_#{@type_name_plural}"),
+      actions << display_delete_if_authorized(template_hash_for_member(template)
+         .merge(:auth_object => template, :authorizer => authorizer, :permission => "destroy_#{@type_name_plural}"),
          :confirm => _("Delete %s?") % template)
     end
   end

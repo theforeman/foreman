@@ -145,12 +145,12 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     put :update_group_as_read, params: { :group => 'Group1' }, session: set_session_user
     assert_response :success
     assert_equal 1, NotificationRecipient.where(query.merge({seen: true})).count
-    assert_equal 0, NotificationRecipient.where(query).
-      joins(:notification_blueprint).
-      where(notification_blueprints: { group: 'Group1' }).count
-    assert_equal 1, NotificationRecipient.where(query).
-      joins(:notification_blueprint).
-      where(notification_blueprints: { group: 'Group2' }).count
+    assert_equal 0, NotificationRecipient.where(query)
+      .joins(:notification_blueprint)
+      .where(notification_blueprints: { group: 'Group1' }).count
+    assert_equal 1, NotificationRecipient.where(query)
+      .joins(:notification_blueprint)
+      .where(notification_blueprints: { group: 'Group2' }).count
   end
 
   private

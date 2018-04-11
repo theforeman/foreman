@@ -1,8 +1,8 @@
 class RemoveDuplicateTokens < ActiveRecord::Migration[4.2]
   def up
     # only managed hosts should have tokens
-    Token.where(:id => Token.joins("left outer join hosts on hosts.id = tokens.host_id").
-                             where("hosts.type != 'Host::Managed'").pluck('tokens.id')).delete_all
+    Token.where(:id => Token.joins("left outer join hosts on hosts.id = tokens.host_id")
+                             .where("hosts.type != 'Host::Managed'").pluck('tokens.id')).delete_all
 
     # deleting duplicate tokens
     hosts_with_duplicate_tokens = Token.having('count(*) > 1').group(:host_id).pluck('host_id')

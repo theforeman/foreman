@@ -43,8 +43,8 @@ module HostsHelper
     @value_hash_cache ||= {}
     @value_hash_cache[host.id] ||= begin
       info = HostInfoProviders::PuppetInfo.new(host)
-      info.inherited_puppetclass_parameters.
-        merge(info.inherited_smart_variables)
+      info.inherited_puppetclass_parameters
+        .merge(info.inherited_smart_variables)
     end
   end
 

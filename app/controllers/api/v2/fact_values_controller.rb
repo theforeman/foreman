@@ -9,12 +9,12 @@ module Api
       add_scoped_search_description_for(FactValue)
 
       def index
-        values = FactValue.
-          authorized(:view_facts).
-          my_facts.
-          no_timestamp_facts.
-          search_for(*search_options).paginate(paginate_options).
-          preload(:fact_name, :host)
+        values = FactValue
+          .authorized(:view_facts)
+          .my_facts
+          .no_timestamp_facts
+          .search_for(*search_options).paginate(paginate_options)
+          .preload(:fact_name, :host)
         @fact_values = FactValue.build_facts_hash(values.all)
       end
     end

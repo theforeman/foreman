@@ -54,14 +54,14 @@ class User < ApplicationRecord
   attr_name :login
 
   scope :except_admin, lambda {
-    eager_load(:cached_usergroups).
-    where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
+    eager_load(:cached_usergroups)
+    .where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
            "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name}.admin IS NULL)",
-           false, false])
+            false, false])
   }
   scope :only_admin, lambda {
-    eager_load(:cached_usergroups).
-    where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
+    eager_load(:cached_usergroups)
+    .where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
   }
   scope :except_hidden, lambda {
     if (hidden = AuthSourceHidden.pluck('auth_sources.id')).present?
@@ -429,8 +429,8 @@ class User < ApplicationRecord
   def visible_environments
     authorized_scope = Environment.unscoped.authorized(:view_environments)
     if Taxonomy.locations_enabled || Taxonomy.organizations_enabled
-      authorized_scope = authorized_scope.
-        joins(:taxable_taxonomies)
+      authorized_scope = authorized_scope
+        .joins(:taxable_taxonomies)
         .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
     end
     result = authorized_scope.distinct.pluck(:name)

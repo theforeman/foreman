@@ -13,10 +13,10 @@ class ComputeAttributeTest < ActiveSupport::TestCase
     Fog.unmock!
   end
 
-  should validate_uniqueness_of(:compute_profile_id).
-    scoped_to(:compute_resource_id)
-  should validate_uniqueness_of(:compute_resource_id).
-    scoped_to(:compute_profile_id)
+  should validate_uniqueness_of(:compute_profile_id)
+    .scoped_to(:compute_resource_id)
+  should validate_uniqueness_of(:compute_resource_id)
+    .scoped_to(:compute_profile_id)
 
   test "getter attributes in vm_attrs hash" do
     assert_equal 'm1.small', @set.flavor_id

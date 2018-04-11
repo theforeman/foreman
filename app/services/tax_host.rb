@@ -154,9 +154,9 @@ class TaxHost
 
   # populate used_ids for 3 non-standard_id's
   def user_ids
-    @user_ids ||= User.unscoped.except_admin.
-      eager_load(:direct_hosts).where(:hosts => { :id => hosts.map(&:id) }).
-      pluck('DISTINCT users.id')
+    @user_ids ||= User.unscoped.except_admin
+      .eager_load(:direct_hosts).where(:hosts => { :id => hosts.map(&:id) })
+      .pluck('DISTINCT users.id')
   end
 
   def provisioning_template_ids

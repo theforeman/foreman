@@ -8,8 +8,8 @@ module Foreman
 
       should_not validate_presence_of(:url)
 
-      should have_one(:key_pair).with_foreign_key('compute_resource_id').
-        dependent(:destroy)
+      should have_one(:key_pair).with_foreign_key('compute_resource_id')
+        .dependent(:destroy)
 
       test "#associated_host matches any NIC" do
         host = FactoryBot.create(:host, :ip => '10.0.0.154')

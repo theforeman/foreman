@@ -1,7 +1,7 @@
 class ConfigManagementError < MailNotification
   scope :all_hosts, lambda {
-    ConfigManagementError.includes(:user_mail_notifications).
-    where(:user_mail_notifications => {:interval => 'Subscribe to all hosts'})
+    ConfigManagementError.includes(:user_mail_notifications)
+    .where(:user_mail_notifications => {:interval => 'Subscribe to all hosts'})
   }
 
   def subscription_options

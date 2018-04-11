@@ -101,11 +101,11 @@ module Taxonomix
       return unscoped.pluck("#{table_name}.id") if User.current.admin?
 
       taxonomy_relation = taxonomy_class.to_s.underscore.pluralize
-      any_context_taxonomies = User.current.
-        taxonomy_and_child_ids(:"#{taxonomy_relation}")
-      unscoped.joins(TAXONOMY_JOIN_TABLE).
-        where("#{TAXONOMY_JOIN_TABLE}.taxonomy_id" => any_context_taxonomies).
-        pluck(:id)
+      any_context_taxonomies = User.current
+        .taxonomy_and_child_ids(:"#{taxonomy_relation}")
+      unscoped.joins(TAXONOMY_JOIN_TABLE)
+        .where("#{TAXONOMY_JOIN_TABLE}.taxonomy_id" => any_context_taxonomies)
+        .pluck(:id)
     end
 
     def any_context?(taxonomy)

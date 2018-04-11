@@ -6,8 +6,8 @@ module Foreman
     class OpenstackTest < ActiveSupport::TestCase
       include ComputeResourceTestHelpers
 
-      should have_one(:key_pair).with_foreign_key('compute_resource_id').
-        dependent(:destroy)
+      should have_one(:key_pair).with_foreign_key('compute_resource_id')
+        .dependent(:destroy)
 
       should validate_presence_of(:url)
       should validate_presence_of(:user)

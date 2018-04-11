@@ -16,8 +16,8 @@ class ExternalUsergroup < ApplicationRecord
     return false unless auth_source.respond_to?(:users_in_group)
 
     current_users = usergroup.users.map(&:login)
-    internal_users = usergroup.users.
-      where(:auth_source => AuthSourceInternal.first).map(&:login)
+    internal_users = usergroup.users
+      .where(:auth_source => AuthSourceInternal.first).map(&:login)
     my_users = users
     return false unless my_users
 

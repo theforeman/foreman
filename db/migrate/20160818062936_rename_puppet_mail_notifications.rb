@@ -5,16 +5,16 @@ class RenamePuppetMailNotifications < ActiveRecord::Migration[4.2]
   end
 
   def up
-    MailNotification.where(:name => 'puppet_summary').
-      update_all(:name => 'config_summary')
-    MailNotification.where(:name => 'puppet_error_state').
-      update_all(:name => 'config_error_state', :type => ConfigManagementError)
+    MailNotification.where(:name => 'puppet_summary')
+      .update_all(:name => 'config_summary')
+    MailNotification.where(:name => 'puppet_error_state')
+      .update_all(:name => 'config_error_state', :type => ConfigManagementError)
   end
 
   def down
-    MailNotification.where(:name => 'config_summary').
-      update_all(:name => 'puppet_summary')
-    MailNotification.where(:name => 'config_error_state').
-      update_all(:name => 'puppet_error_state', :type => PuppetError)
+    MailNotification.where(:name => 'config_summary')
+      .update_all(:name => 'puppet_summary')
+    MailNotification.where(:name => 'config_error_state')
+      .update_all(:name => 'puppet_error_state', :type => PuppetError)
   end
 end

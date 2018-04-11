@@ -4,8 +4,8 @@ module Api
       include Foreman::Controller::Parameters::AuthSourceLdap
 
       wrap_parameters AuthSourceLdap,
-        :include => auth_source_ldap_params_filter.
-                      accessible_attributes(parameter_filter_context)
+        :include => auth_source_ldap_params_filter
+                      .accessible_attributes(parameter_filter_context)
 
       before_action :find_resource, :only => %w{show update destroy test}
 

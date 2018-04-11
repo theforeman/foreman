@@ -397,11 +397,11 @@ class ComputeResource < ApplicationRecord
   end
 
   def associate_by(name, attributes)
-    Host.authorized(:view_hosts, Host).joins(:primary_interface).
-      where(:nics => {:primary => true}).
-      where("nics.#{name}" => attributes).
-      readonly(false).
-      first
+    Host.authorized(:view_hosts, Host).joins(:primary_interface)
+      .where(:nics => {:primary => true})
+      .where("nics.#{name}" => attributes)
+      .readonly(false)
+      .first
   end
 
   private

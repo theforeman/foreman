@@ -3,8 +3,8 @@ require 'test_helper'
 class SmartProxyTest < ActiveSupport::TestCase
   context 'url validations' do
     setup do
-      @proxy = FactoryBot.
-        build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
+      @proxy = FactoryBot
+        .build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
     end
 
     test "should be valid" do

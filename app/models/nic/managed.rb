@@ -95,8 +95,8 @@ module Nic
       return unless primary?
       return unless saved_change_to_fqdn?
       return unless host.present?
-      LookupValue.where(:match => "fqdn=#{fqdn_before_last_save}").
-        update_all(:match => host.lookup_value_match)
+      LookupValue.where(:match => "fqdn=#{fqdn_before_last_save}")
+        .update_all(:match => host.lookup_value_match)
     end
 
     def drop_host_cache
