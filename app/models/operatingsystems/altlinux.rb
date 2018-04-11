@@ -1,5 +1,5 @@
 class Altlinux < Operatingsystem
-  PXEFILES = {:kernel => "vmlinuz", :initrd => "full.cz" }
+  PXEFILES = {:kernel => "vmlinuz", :initrd => "full.cz" }.freeze
 
   def boot_files_uri(medium, architecture)
     raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)

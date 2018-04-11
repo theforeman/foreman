@@ -2,7 +2,7 @@ module Nic::WithAttachedDevices
   extend ActiveSupport::Concern
   include Exportable
 
-  SEPARATOR = ','
+  SEPARATOR = ','.freeze
   included do
     validates :attached_devices, :format => { :with => /\A[a-z0-9#{SEPARATOR}.:_-]+\Z/ }, :allow_blank => true
     validates :identifier, :presence => true, :if => :managed?

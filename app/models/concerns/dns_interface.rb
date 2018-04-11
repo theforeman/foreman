@@ -1,7 +1,7 @@
 module DnsInterface
   extend ActiveSupport::Concern
 
-  RECORD_TYPES = [:a, :aaaa, :ptr4, :ptr6]
+  RECORD_TYPES = [:a, :aaaa, :ptr4, :ptr6].freeze
 
   def dns_record(type)
     validate_record_type(type)

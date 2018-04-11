@@ -1,7 +1,7 @@
 require 'base64'
 
 class PasswordCrypt
-  ALGORITHMS = {'SHA256' => '$5$', 'SHA512' => '$6$', 'Base64' => ''}
+  ALGORITHMS = {'SHA256' => '$5$', 'SHA512' => '$6$', 'Base64' => ''}.freeze
 
   def self.passw_crypt(passwd, hash_alg = 'SHA256')
     raise Foreman::Exception.new(N_("Unsupported password hash function '%s'"), hash_alg) unless ALGORITHMS.has_key?(hash_alg)

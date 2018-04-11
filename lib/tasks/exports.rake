@@ -73,7 +73,7 @@ exporter_template(:disabled, :discovered_hosts_summary) do |header, data|
 end
 
 # load user-defined reports
-USER_DEFINED_CONF = "/etc/foreman/exporters.rb.conf"
+USER_DEFINED_CONF = "/etc/foreman/exporters.rb.conf".freeze
 require USER_DEFINED_CONF if File.exist?(USER_DEFINED_CONF)
 
 namespace :exports do

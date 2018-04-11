@@ -3,7 +3,7 @@ module Hostext
     extend ActiveSupport::Concern
 
     included do
-      OWNER_TYPES = %w(User Usergroup)
+      OWNER_TYPES = %w(User Usergroup).freeze
       belongs_to :owner, :polymorphic => true
 
       before_validation :set_default_user

@@ -4,7 +4,7 @@ class Freebsd < Operatingsystem
   #
   # -as kernel we will use memdisk
   # -as initrd we will use your custom FreeBSD-<arch>-<version>-mfs.img in boot
-  PXEFILES = {}
+  PXEFILES = {}.freeze
 
   # Simple output of the media url
   def mediumpath(host)

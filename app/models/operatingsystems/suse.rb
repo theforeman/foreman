@@ -1,5 +1,5 @@
 class Suse < Operatingsystem
-  PXEFILES = {:kernel => "linux", :initrd => "initrd"}
+  PXEFILES = {:kernel => "linux", :initrd => "initrd"}.freeze
 
   # Simple output of the media url
   def mediumpath(host)

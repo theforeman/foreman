@@ -31,7 +31,7 @@ class Setting::Provisioning < Setting
     'qg-*',
     'vlinuxbr*',
     'vovsbr*'
-  ]
+  ].freeze
   def self.default_settings
     fqdn = Facter.value(:fqdn) || SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"

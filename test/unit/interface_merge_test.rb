@@ -7,7 +7,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
     @profile_name = @attributes.compute_profile.name
   end
 
-  EMPTY_ATTRS = {}
+  EMPTY_ATTRS = {}.freeze
 
   def expected_attrs(num)
     {

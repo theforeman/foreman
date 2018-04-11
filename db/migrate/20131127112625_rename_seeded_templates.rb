@@ -17,7 +17,7 @@ class RenameSeededTemplates < ActiveRecord::Migration[4.2]
     "YaST2 Default" => "AutoYaST default",
     "YaST2 default PXELinux" => "AutoYaST default PXELinux",
     "Waik default PXELinux" => "WAIK default PXELinux"
-  }
+  }.freeze
 
   PTABLE_RENAMES = {
     "RedHat default" => "Kickstart default",
@@ -27,13 +27,13 @@ class RenameSeededTemplates < ActiveRecord::Migration[4.2]
     "Solaris small disk c0t0" => "Jumpstart default",
     "SuSE Entire SCSI Disk" => "AutoYaST entire SCSI disk",
     "SuSE Entire Virtual Disk" => "AutoYaST entire virtual disk"
-  }
+  }.freeze
 
   MEDIA_RENAMES = {
     "Fedora Mirror" => "Fedora mirror",
     "OpenSuSE Mirror" => "OpenSUSE mirror",
     "Ubuntu Mirror" => "Ubuntu mirror"
-  }
+  }.freeze
 
   class FakeConfigTemplate < ApplicationRecord
     self.table_name = 'config_templates'

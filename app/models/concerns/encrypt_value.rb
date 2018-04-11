@@ -1,5 +1,5 @@
 module EncryptValue
-  ENCRYPTION_PREFIX = "encrypted-"
+  ENCRYPTION_PREFIX = "encrypted-".freeze
   def matches_prefix?(str)
     ENCRYPTION_PREFIX == str.to_s[0..(ENCRYPTION_PREFIX.length - 1)]
   end

@@ -4,7 +4,7 @@ module Orchestration
   # Represents tasks queue for orchestration
   class Queue
     attr_reader :items, :name
-    STATUS = %w[pending running failed completed rollbacked conflict canceled]
+    STATUS = %w[pending running failed completed rollbacked conflict canceled].freeze
 
     delegate :count, :size, :empty?, :to => :items
     delegate :to_json, :to => :all

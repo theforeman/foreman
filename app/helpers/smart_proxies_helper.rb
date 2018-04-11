@@ -1,5 +1,5 @@
 module SmartProxiesHelper
-  TABBED_FEATURES = ["Puppet", "Puppet CA", "Logs"]
+  TABBED_FEATURES = ["Puppet", "Puppet CA", "Logs"].freeze
 
   def proxy_actions(proxy, authorizer)
     actions = []

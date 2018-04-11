@@ -1,6 +1,6 @@
 class Xenserver < Operatingsystem
-  PXEFILES = {:kernel => "boot/vmlinuz", :initrd => "install.img", :xen => "boot/xen.gz"}
-  MBOOT = "boot/pxelinux/mboot.c32"
+  PXEFILES = {:kernel => "boot/vmlinuz", :initrd => "install.img", :xen => "boot/xen.gz"}.freeze
+  MBOOT = "boot/pxelinux/mboot.c32".freeze
 
   def mediumpath(host)
     medium_uri(host).to_s

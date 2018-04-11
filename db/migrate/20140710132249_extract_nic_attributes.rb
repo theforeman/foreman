@@ -2,9 +2,9 @@ class FakeBMCNic < ApplicationRecord
   self.table_name = 'nics'
   serialize :attrs, Hash
 
-  ATTRIBUTES = [:username, :password, :provider]
+  ATTRIBUTES = [:username, :password, :provider].freeze
 
-  PROVIDERS = %w(IPMI)
+  PROVIDERS = %w(IPMI).freeze
   validates :provider, :inclusion => {:in => PROVIDERS}
 
   ATTRIBUTES.each do |method|

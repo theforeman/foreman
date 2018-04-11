@@ -29,7 +29,7 @@ module Foreman
       :count => :ruby_gc_count,
       :major_gc_count => :ruby_gc_major_count,
       :minor_gc_count => :ruby_gc_minor_count
-    }
+    }.freeze
     def register_rails
       ActiveSupport::Notifications.subscribe(/process_action.action_controller/) do |*args|
         event = ActiveSupport::Notifications::Event.new(*args)

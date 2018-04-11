@@ -2,10 +2,10 @@ require 'ipaddr'
 
 class Subnet < ApplicationRecord
   audited
-  IP_FIELDS = [:network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to]
-  REQUIRED_IP_FIELDS = [:network, :mask]
-  SUBNET_TYPES = {:'Subnet::Ipv4' => N_('IPv4'), :'Subnet::Ipv6' => N_('IPv6')}
-  BOOT_MODES = {:static => N_('Static'), :dhcp => N_('DHCP')}
+  IP_FIELDS = [:network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to].freeze
+  REQUIRED_IP_FIELDS = [:network, :mask].freeze
+  SUBNET_TYPES = {:'Subnet::Ipv4' => N_('IPv4'), :'Subnet::Ipv6' => N_('IPv6')}.freeze
+  BOOT_MODES = {:static => N_('Static'), :dhcp => N_('DHCP')}.freeze
 
   include Authorizable
   prepend Foreman::STI

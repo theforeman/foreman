@@ -1,5 +1,5 @@
 module IPAM
-  MODES = {:dhcp => N_('DHCP'), :db => N_('Internal DB'), :random_db => N_('Random DB'), :eui64 => N_('EUI-64'), :none => N_('None')}
+  MODES = {:dhcp => N_('DHCP'), :db => N_('Internal DB'), :random_db => N_('Random DB'), :eui64 => N_('EUI-64'), :none => N_('None')}.freeze
 
   def self.new(type, *args)
     case type

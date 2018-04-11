@@ -46,7 +46,7 @@ class Parameter < ApplicationRecord
                :os_parameter => 50,
                :group_parameter => 60,
                :host_parameter => 70
-             }
+             }.freeze
 
   def editable_by_user?
     Parameter.authorized(:edit_params).where(:id => id).exists?

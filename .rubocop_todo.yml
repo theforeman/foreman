@@ -477,11 +477,6 @@ Style/MultilineIfModifier:
 Style/MultipleComparison:
   Enabled: false
 
-# Offense count: 114
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Enabled: false
-
 # Offense count: 21
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, MinBodyLength.

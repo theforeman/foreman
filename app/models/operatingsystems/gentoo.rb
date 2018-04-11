@@ -1,5 +1,5 @@
 class Gentoo < Operatingsystem
-  PXEFILES = {}
+  PXEFILES = {}.freeze
 
   def mediumpath(host)
   end

@@ -1,5 +1,5 @@
 class Solaris < Operatingsystem
-  PXEFILES = {:initrd => "x86.miniroot", :kernel => "multiboot"}
+  PXEFILES = {:initrd => "x86.miniroot", :kernel => "multiboot"}.freeze
 
   def file_prefix
     self.to_s.gsub(/[\s\(\)]/, "-").gsub("--", "-").gsub(/-\Z/, "")

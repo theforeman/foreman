@@ -20,7 +20,7 @@ require 'timeout'
 
 class AuthSourceLdap < AuthSource
   SERVER_TYPES = { :free_ipa => 'FreeIPA', :active_directory => 'Active Directory',
-                   :posix    => 'POSIX'}
+                   :posix    => 'POSIX'}.freeze
 
   extend FriendlyId
   friendly_id :name
@@ -49,7 +49,7 @@ class AuthSourceLdap < AuthSource
     end
   }
 
-  DEFAULT_PORTS = {:ldap => 389, :ldaps => 636 }
+  DEFAULT_PORTS = {:ldap => 389, :ldaps => 636 }.freeze
   # Loads the LDAP info for a user and authenticates the user with their password
   # Returns : Array of Strings.
   #           Either the users's DN or the user's full details OR nil

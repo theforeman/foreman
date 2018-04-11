@@ -1,5 +1,5 @@
 class Rancheros < Operatingsystem
-  PXEFILES = {:kernel => 'vmlinuz', :initrd => 'initrd'}
+  PXEFILES = {:kernel => 'vmlinuz', :initrd => 'initrd'}.freeze
 
   def pxe_type
     'rancheros'

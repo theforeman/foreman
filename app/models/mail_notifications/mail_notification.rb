@@ -1,8 +1,8 @@
 class MailNotification < ApplicationRecord
   include Authorizable
 
-  INTERVALS = [N_("Daily"), N_("Weekly"), N_("Monthly")]
-  SUBSCRIPTION_TYPES = %w(alert report)
+  INTERVALS = [N_("Daily"), N_("Weekly"), N_("Monthly")].freeze
+  SUBSCRIPTION_TYPES = %w(alert report).freeze
 
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :users, :through => :user_mail_notifications

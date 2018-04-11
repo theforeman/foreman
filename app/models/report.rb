@@ -1,5 +1,5 @@
 class Report < ApplicationRecord
-  LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
+  LOG_LEVELS = %w[debug info notice warning err alert emerg crit].freeze
 
   prepend Foreman::STI
   include Authorizable

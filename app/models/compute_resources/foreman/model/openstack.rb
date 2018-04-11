@@ -12,7 +12,7 @@ module Foreman::Model
 
     alias_method :available_flavors, :flavors
 
-    SEARCHABLE_ACTIONS = [:server_group_anti_affinity, :server_group_affinity, :raw]
+    SEARCHABLE_ACTIONS = [:server_group_anti_affinity, :server_group_affinity, :raw].freeze
 
     def provided_attributes
       super.merge({ :ip => :floating_ip_address })

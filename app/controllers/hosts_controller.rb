@@ -12,9 +12,9 @@ class HostsController < ApplicationController
   include Foreman::Controller::NormalizeScsiAttributes
   include Foreman::Controller::ConsoleCommon
 
-  SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled]
-  AJAX_REQUESTS=%w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
-  BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
+  SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled].freeze
+  AJAX_REQUESTS=%w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}.freeze
+  BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }.freeze
   MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters select_multiple_hostgroup
                         update_multiple_hostgroup
                         multiple_destroy submit_multiple_destroy multiple_build
@@ -22,7 +22,7 @@ class HostsController < ApplicationController
                         multiple_enable submit_multiple_enable
                         multiple_disassociate update_multiple_disassociate
                         rebuild_config submit_rebuild_config select_multiple_owner update_multiple_owner
-                        select_multiple_power_state update_multiple_power_state)
+                        select_multiple_power_state update_multiple_power_state).freeze
 
   HOST_POWER = {
     :on =>  { :state => 'on', :title => N_('On') },
