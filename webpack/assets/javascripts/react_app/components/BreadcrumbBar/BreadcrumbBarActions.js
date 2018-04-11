@@ -1,3 +1,4 @@
+import { flatten } from 'lodash';
 import API from '../../API';
 
 import {
@@ -36,7 +37,7 @@ export const loadSwitcherResourcesByResource = (resource, options = {}) => (disp
     dispatch({ type: BREADCRUMB_BAR_RESOURCES_FAILURE, payload: { error, resourceUrl } });
 
   const formatResults = ({ data }) => {
-    const switcherItems = Object.values(data.results).map(result => ({
+    const switcherItems = flatten(Object.values(data.results)).map(result => ({
       name: result[nameField],
       id: result.id,
       url: switcherItemUrl.replace(':id', result.id),

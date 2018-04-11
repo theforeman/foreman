@@ -99,7 +99,11 @@ var config = {
   },
 
   plugins: [
-    new LodashModuleReplacementPlugin({ paths: true, collections: true }),
+    new LodashModuleReplacementPlugin({
+      paths: true,
+      collections: true,
+      flattening: true,
+    }),
     // must match config.webpack.manifest_filename
     new StatsWriterPlugin({
       filename: 'manifest.json',
