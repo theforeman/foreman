@@ -249,6 +249,15 @@ class HostsControllerTest < ActionController::TestCase
       assert_equal(flash[:success], "Enabled #{@host} for rebuild on next boot, but failed to power cycle the host")
     end
 
+    test 'should render ajax_error when finding a vm has been faild' do
+      ComputeResource.any_instance.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
+      host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource)
+      get :vm, params: { :id => host.id }, session: set_session_user
+      expected_body = "<div class=\"alert alert-danger \"><span class=\"pficon pficon-error-circle-o \"></span> <span class=\"text\"><span>Failure: ActiveRecord::RecordNotFound</span></span></div>\n"
+      assert_equal response.body, expected_body
+      assert_response :internal_server_error
+    end
+
     test 'and reboot requested and reboot raised exception, the flash should inform it' do
       Host::Managed.any_instance.stubs(:setBuild).returns(true)
       put :setBuild, params: { :id => @host.name, :host => {:build => '1'} }, session: set_session_user
