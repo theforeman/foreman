@@ -143,11 +143,6 @@ describe('updateTableTest', () => {
     `;
   });
 
-  it('should use turoblinks', () => {
-    tools.updateTable();
-    expect(global.Turbolinks.visit).toBeCalled();
-  });
-
   it('should use selected per page value and add it to the url considering search term and pagination', () => {
     const PerPage = $('#per_page').val();
 
@@ -177,5 +172,21 @@ describe('updateTableTest', () => {
     $('.autocomplete-input').val('test');
     $('#search-form').submit();
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=test&per_page=${PerPage}`);
+  });
+
+  it('should not reset search when set the per_page param', () => {
+    window.location.href = 'http://localhost/?search=blue';
+    $('#per_page').val('20');
+    $('#pagination').submit();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith('http://localhost/?search=blue&page=1&per_page=20');
+  });
+
+  it('should remove search param if search is empty', () => {
+    ['', ' '].map((searchValue) => {
+      const PerPage = $('#per_page').val();
+      $('.autocomplete-input').val(searchValue);
+      $('#search-form').submit();
+      return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=&per_page=${PerPage}`);
+    });
   });
 });

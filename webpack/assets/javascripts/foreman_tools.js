@@ -103,43 +103,22 @@ export function initTypeAheadSelect(input) {
 // handle table updates via turoblinks
 export function updateTable(element) {
   const uri = new URI(window.location.href);
-  let searchTerm;
-  let perPage;
-  let isSearchForm;
-  let pageNum;
 
-  if (element !== undefined) {
-    isSearchForm = element.id === 'search-form';
+  const values = { };
 
-    pageNum = $('#cur_page_num').val();
-    if (pageNum !== undefined) {
-      uri.setSearch('page', pageNum);
-    }
 
-    if (isSearchForm || element.id === 'per_page') {
-      uri.setSearch('page', 1);
-    }
-
-    if (isSearchForm) {
-      searchTerm = $(element)
-        .find('.autocomplete-input')
-        .val();
-      if (searchTerm) {
-        uri.setSearch('search', searchTerm.trim());
-      }
-    }
-
-    perPage = $('#per_page').val();
-    if (
-      perPage !== undefined &&
-      $('#search-form')
-        .find('.autocomplete-input')
-        .val() === undefined
-    ) {
-      uri.removeSearch('search');
-    }
-    uri.setSearch('per_page', perPage);
+  if (['per_page', 'search-form'].includes(element.id)) {
+    values.page = '1';
+  } else {
+    values.page = $('#cur_page_num').val();
   }
+
+  const searchTerm = $(element).find('.autocomplete-input').val();
+  if (searchTerm !== undefined) {
+    values.search = searchTerm.trim();
+  }
+  values.per_page = $('#per_page').val();
+  uri.setSearch(values);
 
   /* eslint-disable no-undef */
   Turbolinks.visit(uri.toString());
