@@ -76,3 +76,6 @@ Bundler/OrderedGems:
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
+
+Layout/DotPosition:
+  Enabled: false
