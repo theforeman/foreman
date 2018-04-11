@@ -13,4 +13,8 @@ class CreateRssNotifications < ApplicationJob
       'RSS notification checker: '\
       "Error while creating notifications #{error}: #{error.backtrace}")
   end
+
+  def humanized_name
+    _('Create RSS notifications')
+  end
 end
