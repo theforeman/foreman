@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-01-05 19:26+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2018-04-02 23:49+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,6 +21,9 @@ msgid " Remove"
 msgstr "삭제 "
 
 msgid " in the provisioning template."
+msgstr ""
+
+msgid "#{taxonomy} can be set on the All Hosts page"
 msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
@@ -48,9 +51,15 @@ msgstr "%s 매개 변수가 업데이트되었습니다. 보다 자세한 내용
 msgid "%s Template"
 msgstr "%s 템플릿 "
 
-msgid "%s VM associated to a host"
-msgid_plural "%s VMs associated to hosts"
-msgstr[0] "%s VM이 호스트에 연결됨 "
+msgid "%s VM failed while processing: check logs for more details."
+msgid_plural "%s VMs failed while processing: check logs for more details."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s VM was associated to a host."
+msgid_plural "%s VMs were each associated to hosts."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%s ago"
 msgstr "%s 전 "
@@ -126,6 +135,9 @@ msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
 msgstr ""
 
 msgid "%{controller}: %{host}'s operating system is missing"
+msgstr ""
+
+msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr ""
 
 msgid "%{controller}: unable to find a host that matches the request from %{addr}"
@@ -274,6 +286,9 @@ msgstr ", 관련 로그 항목. Foreman 디버그 출력도 첨부하는 것이 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr ":foreman_url이 설정되어 있지 않습니다. Foreman 웹 UI를 구성하십시오(관리자 -> 설정 -> 일반)."
 
+msgid "<b class='select_count'>0</b> of <b>#{@hosts.total_entries}</b> selected"
+msgstr ""
+
 msgid "<b class='select_count'>0</b> selected"
 msgstr "<b class='select_count'>0</b> 선택 "
 
@@ -315,9 +330,6 @@ msgstr ""
 "     <b>일치 조건:</b> %{matcher}<br/>\n"
 "     <b>상속된 값:</b> %{inherited_value}"
 
-msgid "<b>Foreman API v1 is deprecated. Please use v2.</b><br>If you still need to use v1, you may do so by either passing 'version=1' in the Accept Header or using api/v1/ in the URL."
-msgstr ""
-
 msgid "<b>Foreman</b> Build Complete"
 msgstr "<b>Foreman</b> 빌드 완료"
 
@@ -345,6 +357,12 @@ msgstr "<dl><dt>String</dt> <dd>모든 값을 문자열로 가져옵니다.</dd>
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr ""
 
+msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
+msgstr ""
+
+msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
+msgstr ""
+
 msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr "호스트 그룹은 단위로 이름을 지정하고 처리될 수 있는 높은 수준의 그룹화 클래스라는 점에서 상속되는 노드 선언과 비슷합니다. 이는 템플릿으로 처리되고 새 호스트 생성 시 선택할 수 있으며 호스트가 사전 정의된 상태 중 하나로 설정되게 할 수 있습니다.  "
 
@@ -355,14 +373,8 @@ msgstr ""
 "미디어는 네트워크를 통해 액세스되는 하나 이상의 운영 체제 설치 파일의 소스를 나타냅니다.\n"
 "  인터넷의 미러이거나 CD 또는 DVD 하나 이상의 사본인 경우가 많습니다."
 
-msgid "A partition table entry represents either"
-msgstr "파티션 테이블 항목 중 하나를 나타냅니다 "
-
 msgid "A problem occurred when detecting host type: %s"
 msgstr "호스트 유형을 감지하는 동안 문제가 발생했습니다: %s"
-
-msgid "A script to dynamically calculate the desired sizes. E.G."
-msgstr "원하는 크기를 동적으로 계산하는 스크립트"
 
 msgid "A user group already exists with this name"
 msgstr "이 이름으로된 사용 그룹이 이미 존재합니다 "
@@ -378,9 +390,6 @@ msgstr "API 문서 "
 
 msgid "About"
 msgstr "정보 "
-
-msgid "Abstract async task"
-msgstr "비동기 작업 개요"
 
 msgid "Access Key"
 msgstr "액세스 키"
@@ -399,9 +408,6 @@ msgstr ""
 
 msgid "Action"
 msgstr "동작 "
-
-msgid "Action with sub plans"
-msgstr "하위 계획이 있는 작업"
 
 msgid "Actions"
 msgstr "동작 "
@@ -444,9 +450,6 @@ msgstr ""
 
 msgid "Add SSH key"
 msgstr ""
-
-msgid "Add Sync Plan Products"
-msgstr "동기화 계획 제품 추가"
 
 msgid "Add Trend Counter"
 msgstr "트렌드 카운터 추가 "
@@ -631,9 +634,6 @@ msgstr ""
 msgid "An error occurred while testing the connection: "
 msgstr ""
 
-msgid "An explicit layout for the partitions of your hard drive(s). E.G."
-msgstr "예를 들어 하드 드라이브 파티션에 대한 명시적 레이아웃입니다."
-
 msgid "An invalid response was received while requesting available features from this proxy"
 msgstr ""
 
@@ -654,6 +654,9 @@ msgstr "모든 위치 "
 
 msgid "Any Organization"
 msgstr "모든 조직 "
+
+msgid "Append domain names to the host"
+msgstr ""
 
 msgid "Applicable Operating Systems"
 msgstr ""
@@ -677,14 +680,6 @@ msgstr "아키텍처 ID"
 
 msgid "Architectures"
 msgstr "아키텍처 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Architecture|Hostgroups count"
-msgstr "호스트 그룹 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Architecture|Hosts count"
-msgstr "호스트 수 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture|Name"
@@ -778,14 +773,14 @@ msgstr "VM을 호스트에 연결 "
 msgid "Associated Host"
 msgstr ""
 
+msgid "Associating VMs is not supported for this compute resource"
+msgstr ""
+
 msgid "Association"
 msgstr "연결 "
 
 msgid "At least one volume must be specified for image-based provisioning."
 msgstr "이미지 기반 프로비저닝에 대해 최소 하나의 볼륨을 지정해야 합니다. "
-
-msgid "Attach subscriptions"
-msgstr "서브스크립션 연결"
 
 msgid "Attempting to construct an operating system image filename but %s cannot be built from an image"
 msgstr "운영 체제 이미지 파일 이름을 생성하려 했지만 %s은 이미지에서 만들 수 없습니다 "
@@ -796,6 +791,7 @@ msgstr "속성 매핑 "
 msgid "Attribute type"
 msgstr "속성 유형"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audit"
 msgstr "감사 "
 
@@ -806,48 +802,52 @@ msgid "Audit summary"
 msgstr "감사 요약"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Action"
-msgstr "동작 "
+msgid "Audited::Audit|Action"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Associated name"
-msgstr "연결된 이름 "
+msgid "Audited::Audit|Associated name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Associated type"
-msgstr "연결 유형 "
+msgid "Audited::Audit|Associated type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Auditable name"
-msgstr "감사 가능한 이름 "
+msgid "Audited::Audit|Auditable name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Auditable type"
-msgstr "감사 가능한 유형 "
+msgid "Audited::Audit|Auditable type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Audited changes"
-msgstr "감사된 변경 "
+msgid "Audited::Audit|Audited changes"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Comment"
-msgstr "코멘트 "
+msgid "Audited::Audit|Comment"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Remote address"
-msgstr "원격 주소 "
+msgid "Audited::Audit|Remote address"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|User type"
-msgstr "사용자 유형 "
+msgid "Audited::Audit|Request uuid"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Username"
-msgstr "사용자 이름 "
+msgid "Audited::Audit|User type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Audited::Adapters::ActiveRecord::Audit|Version"
-msgstr "버전 "
+msgid "Audited::Audit|Username"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Audited::Audit|Version"
+msgstr ""
 
 msgid "Audits"
 msgstr "감사 "
@@ -923,6 +923,14 @@ msgstr "서버 유형 "
 msgid "AuthSource|Tls"
 msgstr "TLS"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Use netgroups"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "AuthSource|Usergroup sync"
+msgstr ""
+
 msgid "Authentication"
 msgstr "보안 및 인증"
 
@@ -947,17 +955,11 @@ msgstr "API 호출의 REMOTE_USER 환경 변수에 로그인 권한 승인 "
 msgid "Authorized by"
 msgstr "승인자 "
 
-msgid "Auto attach subscriptions"
-msgstr "서브스크립션 자동 첨부"
-
 msgid "Auto refresh off"
 msgstr "자동 새로 고침 끄기"
 
 msgid "Auto refresh on"
 msgstr "자동 새로 고침 켜기"
-
-msgid "Auto-attach subscriptions"
-msgstr "서브스크립션 자동 첨부 "
 
 msgid "Automate Foreman via a simple and powerful API"
 msgstr ""
@@ -1385,6 +1387,9 @@ msgstr "컴퓨터 프로파일 "
 msgid "Compute resource"
 msgstr "컴퓨터 리소스 "
 
+msgid "Compute resource ID"
+msgstr ""
+
 msgid "Compute resource IDs"
 msgstr "컴퓨터 리소스 ID "
 
@@ -1408,8 +1413,16 @@ msgid "ComputeResource|Attrs"
 msgstr "속성 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ComputeResource|Caching enabled"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Description"
 msgstr "설명 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ComputeResource|Domain"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Name"
@@ -1445,18 +1458,6 @@ msgid "Config group"
 msgstr "설정 그룹 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigGroup|Config group classes count"
-msgstr "설정 그룹 클래스 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigGroup|Hostgroups count"
-msgstr "호스트 그룹 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigGroup|Hosts count"
-msgstr "호스트 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ConfigGroup|Name"
 msgstr "이름 "
 
@@ -1480,9 +1481,6 @@ msgstr "구성이 다시 빌드되었습니다."
 
 msgid "Configure"
 msgstr "설정"
-
-msgid "Configure capsule"
-msgstr "capsule 구성"
 
 msgid "Configure instance %s via SSH"
 msgstr "SSH를 통해 인스턴스 %s 설정 "
@@ -1519,6 +1517,9 @@ msgstr ""
 
 msgid "Continue?"
 msgstr "계속하시겠습니까?"
+
+msgid "Core and proxy versions do not match. foreman: %s, foreman-proxy: %s"
+msgstr ""
 
 msgid "Cores"
 msgstr "코어 "
@@ -1619,6 +1620,9 @@ msgstr ""
 msgid "Create Global Parameter"
 msgstr ""
 
+msgid "Create Hardware Model"
+msgstr ""
+
 msgid "Create Host"
 msgstr ""
 
@@ -1652,13 +1656,13 @@ msgstr ""
 msgid "Create Organization"
 msgstr "조직 생성"
 
-msgid "Create Package Group"
-msgstr ""
-
 msgid "Create Parameter"
 msgstr ""
 
 msgid "Create Partition Table"
+msgstr ""
+
+msgid "Create Provisioning Template"
 msgstr ""
 
 msgid "Create Proxy"
@@ -1841,9 +1845,6 @@ msgstr "보고서를 업로드할 때 새 호스트 생성"
 msgid "Create realm entry for %s"
 msgstr "%s의 영역 항목 생성 "
 
-msgid "Create repos"
-msgstr "리포지터리 생성"
-
 msgid "Created"
 msgstr "생성 일시 "
 
@@ -1879,9 +1880,6 @@ msgstr "이 서브넷에서 사용할 DHCP 프록시 "
 
 msgid "DHCP conflicts removal for %s"
 msgstr "%s의 DHCP 충돌 삭제 "
-
-msgid "DHCP filename option"
-msgstr ""
 
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
@@ -1941,6 +1939,18 @@ msgid "Default"
 msgstr "기본값 "
 
 msgid "Default Behavior"
+msgstr ""
+
+msgid "Default PXE (PXELinux, PXEGrub, PXEGrub2) menu item in global template - 'local', 'discovery' or custom"
+msgstr ""
+
+msgid "Default PXE (PXELinux, PXEGrub2) menu item in local template - 'local_chain_hd0', 'local' or custom"
+msgstr ""
+
+msgid "Default PXE global template entry"
+msgstr ""
+
+msgid "Default PXE local template entry"
 msgstr ""
 
 msgid "Default Puppet environment"
@@ -2006,23 +2016,11 @@ msgstr "%s을(를) 삭제하시겠습니까?"
 msgid "Delete :a_resource"
 msgstr ":a_resource 삭제 "
 
-msgid "Delete Activation Key"
-msgstr "활성키 삭제 "
-
 msgid "Delete Controller"
 msgstr ""
 
 msgid "Delete Hosts"
 msgstr "호스트 삭제 "
-
-msgid "Delete Lifecycle Environment"
-msgstr "라이프사이클 환경 삭제 "
-
-msgid "Delete Package Group"
-msgstr ""
-
-msgid "Delete Product"
-msgstr "제품 삭제 "
 
 msgid "Delete PuppetCA autosign entry for %s"
 msgstr ""
@@ -2210,6 +2208,9 @@ msgstr ""
 msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
+msgid "Deploy on"
+msgstr ""
+
 msgid "Deprecated, please use datacenter"
 msgstr ""
 
@@ -2234,9 +2235,6 @@ msgstr "모든 선택 해제 "
 msgid "Destroy"
 msgstr "삭제 "
 
-msgid "Destroy Content Host"
-msgstr "컨텐츠 호스트 삭제 "
-
 msgid "Destroyed selected hosts"
 msgstr "선택된 호스트 삭제"
 
@@ -2257,9 +2255,6 @@ msgstr "비교"
 
 msgid "Diff View"
 msgstr "다른점 표시 "
-
-msgid "Disable"
-msgstr "비활성화 "
 
 msgid "Disable Notifications"
 msgstr "통지 비활성화 "
@@ -2356,14 +2351,6 @@ msgid "Domain|Fullname"
 msgstr "성명 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Domain|Hostgroups count"
-msgstr "호스트 그룹 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Domain|Hosts count"
-msgstr "호스트 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Domain|Name"
 msgstr "이름 "
 
@@ -2373,8 +2360,8 @@ msgstr "다운로드 "
 msgid "Download VMRC"
 msgstr ""
 
-msgid "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
-msgstr "이 시간 이후 서버를 비동기화된 것으로 분류하는 Puppet 간격입니다."
+msgid "Duration in minutes after servers are classed as out of sync."
+msgstr ""
 
 msgid "EC2"
 msgstr "EC2"
@@ -2520,9 +2507,6 @@ msgstr "이메일을 보냈습니다."
 msgid "Empty environment"
 msgstr "빈 환경 "
 
-msgid "Enable"
-msgstr "활성화"
-
 msgid "Enable Caching"
 msgstr ""
 
@@ -2606,19 +2590,8 @@ msgid "Environments"
 msgstr "환경 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment|Hostgroups count"
-msgstr "호스트 그룹 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment|Hosts count"
-msgstr "호스트 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
 msgstr "이름 "
-
-msgid "Errata mail"
-msgstr "에라타 메일"
 
 msgid "Error"
 msgstr "오류 "
@@ -3022,7 +2995,7 @@ msgstr "이름 "
 msgid "Fetch TFTP boot files for %s"
 msgstr "%s의 TFTP 부팅 파일 가져오기 "
 
-msgid "Fetch pxe files"
+msgid "Field name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -3044,9 +3017,6 @@ msgstr "필터 클래스 "
 msgid "Filter overriding has been disabled"
 msgstr ""
 
-msgid "Filtered index content"
-msgstr "필터링된 인덱스 컨텐츠"
-
 msgid "Filters"
 msgstr "필터"
 
@@ -3059,6 +3029,7 @@ msgstr ""
 msgid "Filters overriding has been disabled"
 msgstr ""
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter|Override"
 msgstr ""
 
@@ -3148,6 +3119,9 @@ msgstr "Foreman URL"
 msgid "Foreman Users"
 msgstr "Foreman 사용자 "
 
+msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
+msgstr ""
+
 msgid "Foreman audit summary"
 msgstr "Foreman 감사 요약"
 
@@ -3195,6 +3169,9 @@ msgstr "Foreman 테스트 이메일"
 
 msgid "Foreman ticketing system"
 msgstr "Foreman 티켓 생성 시스템 "
+
+msgid "Foreman will append domain names when new hosts are provisioned"
+msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman은 새 호스트의 프로비저닝에서 인증서 서명을 자동화합니다 "
@@ -3252,9 +3229,6 @@ msgstr "Foreman은 빌드 요청된 IP로 호스트  IP를 업데이트합니다
 
 msgid "Foreman will use OAuth for API authorization"
 msgstr "Foreman은 API 인증에 OAuth를 사용합니다 "
-
-msgid "Foreman will use gravatar to display user icons"
-msgstr "Foreman은 사용자 아이콘을 표시하기 위해 gravatar를 사용합니다 "
 
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr "Foreman은 인증서 서명을 위해 호스트 이름 대신 임의의 UUID를 사용합니다 "
@@ -3355,6 +3329,9 @@ msgstr ""
 msgid "Global methods (functions)"
 msgstr ""
 
+msgid "Global setting \"%s\" is not accessible in safe-mode"
+msgstr ""
+
 msgid "Global status changed from %{from} to %{to}"
 msgstr ""
 
@@ -3403,6 +3380,9 @@ msgstr "하드웨어 모델 "
 msgid "Hardware Models"
 msgstr "하드웨어 모델 "
 
+msgid "Hardware models describe the hardware types of your hosts, including CPU class, vendor class and other notes."
+msgstr ""
+
 msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr "사용할 해시 함수입니다. 새로운 또는 업데이트된 호스트의 변경 사항이 적용됩니다. "
 
@@ -3442,8 +3422,14 @@ msgstr "호스트 %s는 VM에 연결되어 있지 않습니다 "
 msgid "Host Configuration Chart"
 msgstr "호스트 설정 차트 "
 
+msgid "Host Configuration Chart for %s"
+msgstr ""
+
 msgid "Host Configuration Status"
 msgstr "호스트 설정 상태 "
+
+msgid "Host Configuration Status for %s"
+msgstr ""
 
 msgid "Host Group / Environment"
 msgstr ""
@@ -3503,6 +3489,10 @@ msgstr ""
 msgid "Host reported time is <em>%s</em>"
 msgstr "호스트 보고 시간은 <em>%s</em>입니다 "
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Host status/status"
+msgstr ""
+
 msgid "Host times seem to be adrift!"
 msgstr ""
 
@@ -3536,6 +3526,10 @@ msgid "Host::Base|Enabled"
 msgstr "활성화됨 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Host::Base|Global status"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Grub pass"
 msgstr "Grub 경로 "
 
@@ -3548,24 +3542,16 @@ msgid "Host::Base|Installed at"
 msgstr "설치 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Ip"
-msgstr "IP"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Last compile"
 msgstr "마지막 컴파일 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Last freshcheck"
-msgstr "마지막 새로 검사 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Last report"
 msgstr "마지막 보고서 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Mac"
-msgstr "Mac"
+msgid "Host::Base|Lookup value matcher"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Managed"
@@ -3584,24 +3570,16 @@ msgid "Host::Base|Owner type"
 msgstr "소유자 유형 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Primary interface"
-msgstr "주요 인터페이스 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Provision method"
 msgstr "프로비저닝 방식 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Puppet status"
-msgstr "Puppet 상태 "
+msgid "Host::Base|Pxe loader"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Root pass"
 msgstr "Root 경로 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host::Base|Serial"
-msgstr "시리얼 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Use image"
@@ -3616,12 +3594,24 @@ msgid "HostConfigGroup|Host type"
 msgstr "호스트 유형 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostStatus::Status|Reported at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostStatus::Status|Status"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "호스트 그룹 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Ancestry"
 msgstr "상위 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Description"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Grub pass"
@@ -3632,8 +3622,16 @@ msgid "Hostgroup|Image file"
 msgstr "이미지 파일 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Lookup value matcher"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
 msgstr "이름 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Hostgroup|Pxe loader"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
@@ -3705,8 +3703,8 @@ msgstr "Foreman 보고가 비활성화된 호스트"
 msgid "Hosts which are not reporting"
 msgstr ""
 
-msgid "Hosts which didn't run puppet in the last %s"
-msgstr "지난 %s에 puppet을 실행하지 않은 호스트 "
+msgid "Hosts which didn't report in the last %s"
+msgstr ""
 
 msgid "Hosts which do not have recent reports from configuration management"
 msgstr ""
@@ -3762,11 +3760,25 @@ msgstr "값 검증 방법 "
 msgid "However, if it was deleted externally this page helps you to recreate it"
 msgstr ""
 
-msgid "Hypervisors"
-msgstr "하이퍼바이저 "
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Http proxy"
+msgstr ""
 
-msgid "Hypervisors update"
-msgstr "하이퍼바이저 업데이트"
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Password"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Url"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HttpProxy|Username"
+msgstr ""
 
 msgid "ID of LDAP authentication source"
 msgstr "LDAP 인증 소스 ID "
@@ -4067,10 +4079,10 @@ msgstr "불러오기"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr "Puppet 클래스 가져오기"
-
 msgid "Import VM %s"
+msgstr ""
+
+msgid "Import a provisioning template"
 msgstr ""
 
 msgid "Import classes from %s"
@@ -4079,17 +4091,14 @@ msgstr ""
 msgid "Import environments from %s"
 msgstr ""
 
-msgid "Import facts"
-msgstr "팩트 불러오기"
-
 msgid "Import of facts failed for host %s"
+msgstr ""
+
+msgid "Import puppet classes from puppet proxy"
 msgstr ""
 
 msgid "Import puppet classes from puppet proxy for an environment"
 msgstr "환경에 대한 Puppet 프록시에서 Puppet 클래스를 가져옵니다"
-
-msgid "Import puppet classes from puppet proxy."
-msgstr "Puppet 프록시에서 Puppet 클래스를 가져옵니다."
 
 msgid "Imported IPv4 Subnets"
 msgstr ""
@@ -4124,26 +4133,11 @@ msgstr "비밀번호가 틀립니다."
 msgid "Incorrect username or password"
 msgstr "잘못된 사용자 이름 또는 암호 "
 
-msgid "Incremental Update"
-msgstr "증분 업데이트 "
-
-msgid "Incremental Update of  Content View Version(s) "
-msgstr ""
-
 msgid "Independent - Nonpersistent"
 msgstr ""
 
 msgid "Independent - Persistent"
 msgstr ""
-
-msgid "Index content"
-msgstr "컨텐츠 인덱싱"
-
-msgid "Index errata"
-msgstr "에라타 인덱스"
-
-msgid "Index package groups"
-msgstr "패키지 그룹 인덱싱"
 
 msgid "Infrastructure"
 msgstr "인프라 "
@@ -4159,18 +4153,6 @@ msgstr "설정되어 있지 않은 경우 서브넷 VLAN에서 상속 "
 
 msgid "Input"
 msgstr "입력"
-
-msgid "Install Applicable Errata"
-msgstr "적용 가능한 에라타 설치 "
-
-msgid "Install erratum"
-msgstr "에라타 설치"
-
-msgid "Install package"
-msgstr "패키지 설치 "
-
-msgid "Install package group"
-msgstr "패키지 그룹 설치 "
 
 msgid "Installation Media"
 msgstr "설치 미디어 "
@@ -4288,9 +4270,6 @@ msgstr "이 컴퓨팅 리소스에 대해서는 JSON VM 목록을 나열할 수 
 
 msgid "JSON object of the scheduler hint"
 msgstr ""
-
-msgid "Keep selected hosts for a future action"
-msgstr "향후 작업을 위해 선택한 호스트 유지"
 
 msgid "Key Binding"
 msgstr "키 바인딩 "
@@ -4455,8 +4434,8 @@ msgstr "지정된 호스트의 모든 팩트 값 나열 "
 msgid "List all filters"
 msgstr "모든 필터 목록 나열 "
 
-msgid "List all global parameters."
-msgstr "모든 글로벌 매개 변수를 나열합니다. "
+msgid "List all global parameters"
+msgstr ""
 
 msgid "List all hardware models"
 msgstr "모든 하드웨어 모델 목록 나열 "
@@ -4629,8 +4608,8 @@ msgstr "컴퓨터 리소스에 대해 사용 가능한 네트워크 나열 "
 msgid "List available networks for a compute resource cluster"
 msgstr "컴퓨터 리소스 클러스터에 대해 사용 가능한 네트워크 나열 "
 
-msgid "List available resource types."
-msgstr "사용 가능한 리소스 유형을 나열합니다. "
+msgid "List available resource types"
+msgstr ""
 
 msgid "List available security groups for a compute resource"
 msgstr "컴퓨터 리소스에 대해 사용 가능한 보안 그룹 나열"
@@ -4908,7 +4887,7 @@ msgid "LookupKey|Description"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Is param"
+msgid "LookupKey|Hidden value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4920,7 +4899,15 @@ msgid "LookupKey|Key type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Merge default"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge overrides"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Omit"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4929,10 +4916,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Puppetclass lookup key"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -4948,12 +4931,12 @@ msgid "LookupKey|Validator type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "LookupKey|Variable lookup values count"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
 msgstr "일치 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "LookupValue|Omit"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -4980,7 +4963,43 @@ msgstr "시스템 유형 "
 msgid "Machine type"
 msgstr "시스템 유형 "
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Mail notification"
+msgstr ""
+
 msgid "Mail query"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Default interval"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Mailer"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Method"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Queryable"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscriptable"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "MailNotification|Subscription type"
 msgstr ""
 
 msgid "Mailing lists"
@@ -5110,6 +5129,9 @@ msgstr "리소스 %{resource}의 방식 %{method}을(를) 찾을 수 없습니�
 msgid "Method used to deliver email"
 msgstr ""
 
+msgid "Metric already registered: %s"
+msgstr ""
+
 msgid "Metrics"
 msgstr "메트릭스 "
 
@@ -5141,10 +5163,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
 msgstr "하드웨어 모델 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Model|Hosts count"
-msgstr "호스트 수 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model|Info"
@@ -5313,12 +5331,20 @@ msgid "Nic::Base|Bond options"
 msgstr "본드 옵션 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Compute attributes"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Identifier"
 msgstr "식별자 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip"
 msgstr "IP"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Ip6"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Link"
@@ -5345,8 +5371,16 @@ msgid "Nic::Base|Password"
 msgstr "암호 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Primary"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Provider"
 msgstr "공급자 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Nic::Base|Provision"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Tag"
@@ -5383,6 +5417,9 @@ msgstr "TFTP 기능 없음"
 
 msgid "No TFTP proxies defined, can't continue"
 msgstr "TFTP 프록시가 지정되어 있지 않습니다, 계속 진행할 수 없습니다 "
+
+msgid "No VMs matched any host."
+msgstr ""
 
 msgid "No audit changes for this period"
 msgstr "이 기간의 감사 변경 사항 없음"
@@ -5478,6 +5515,12 @@ msgid "No networks found."
 msgstr "네트워크를 찾을 수 없습니다."
 
 msgid "No new IPv4 subnets found"
+msgstr ""
+
+msgid "No options available for selected Architecture"
+msgstr ""
+
+msgid "No options available for selected Operating System"
 msgstr ""
 
 msgid "No or invalid power state selected!"
@@ -5591,13 +5634,73 @@ msgstr "주의 "
 msgid "Notices, warnings and errors"
 msgstr "주의, 경고 및 오류 "
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification blueprint"
+msgstr ""
+
 msgid "Notification disabled"
 msgstr "통지가 비활성화됨 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification recipient"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Actions"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Expires in"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Group"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Level"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Message"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationBlueprint|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "NotificationRecipient|Seen"
+msgstr ""
 
 msgid "Notifications"
 msgstr "통지 "
 
 msgid "Notifications can't be assigned to this user."
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Actions"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Audience"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Expired at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Message"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Notification|Subject type"
 msgstr ""
 
 msgid "Number Of Clients"
@@ -5770,14 +5873,6 @@ msgid "Operatingsystem|Description"
 msgstr "설명 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Operatingsystem|Hostgroups count"
-msgstr "호스트 그룹 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Operatingsystem|Hosts count"
-msgstr "호스트 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem|Major"
 msgstr "메이저 "
 
@@ -5865,6 +5960,9 @@ msgstr "조직 "
 msgid "Organizations also work nicely in tandem with %{locations}."
 msgstr "조직은 %{locations}과(와) 함께 사용하는 경우에도 유용합니다."
 
+msgid "Origin"
+msgstr ""
+
 msgid "Original value info"
 msgstr "원래 값 정보"
 
@@ -5946,9 +6044,6 @@ msgstr ""
 msgid "PXELinux template"
 msgstr ""
 
-msgid "Package Profile Update"
-msgstr "패키지 프로파일 업데이트"
-
 msgid "Param name"
 msgstr "매개 변수 이름 "
 
@@ -5967,6 +6062,9 @@ msgstr ""
 
 msgid "Parameter value"
 msgstr "매개 변수 값"
+
+msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
+msgstr ""
 
 msgid "Parameterized classes in ENC"
 msgstr "ENC의 매개 변수화된 클래스"
@@ -6026,14 +6124,17 @@ msgstr "파티션 테이블 "
 msgid "Partition table ID"
 msgstr "파티션 테이블 ID"
 
-msgid "Partition table configuration"
-msgstr "파티션 테이블 설정 "
-
 msgid "Partition template IDs"
 msgstr "파티션 템플릿 ID"
 
+msgid "Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities."
+msgstr ""
+
 msgid "Password"
 msgstr "암호 "
+
+msgid "Password do not match"
+msgstr ""
 
 msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr "oVirt, EC2, VMware, OpenStack의 암호. EC2의 비밀 키"
@@ -6106,6 +6207,30 @@ msgid "Permits access to BMC interface passwords through ENC YAML output and in 
 msgstr ""
 
 msgid "Persistent"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Personal access token"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Expires at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Last used at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Revoked"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "PersonalAccessToken|Token"
 msgstr ""
 
 msgid "Photo attribute"
@@ -6183,6 +6308,9 @@ msgstr "플러그인"
 msgid "Port to connect to"
 msgstr ""
 
+msgid "Possible values"
+msgstr ""
+
 msgid "Power"
 msgstr "전원"
 
@@ -6249,15 +6377,6 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr "편집 실행 "
 
-msgid "Product Create"
-msgstr "제품 생성"
-
-msgid "Promote"
-msgstr "승격 "
-
-msgid "Promotion to Environment"
-msgstr ""
-
 msgid "Properties"
 msgstr "속성 "
 
@@ -6294,7 +6413,6 @@ msgstr "프로비저닝 설정 "
 msgid "Provisioning Templates"
 msgstr "프로비저닝 템플릿 "
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Provisioning template"
 msgstr "프로비저닝 템플릿"
 
@@ -6304,29 +6422,14 @@ msgstr "프로비저닝 템플릿 ID "
 msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ProvisioningTemplate|Default"
-msgstr "ProvisioningTemplate|기본값"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ProvisioningTemplate|Locked"
 msgstr "ProvisioningTemplate|잠김"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ProvisioningTemplate|Name"
 msgstr "ProvisioningTemplate|이름"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ProvisioningTemplate|Snippet"
 msgstr "ProvisioningTemplate|조각 모음"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ProvisioningTemplate|Template"
-msgstr "ProvisioningTemplate|템플릿"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ProvisioningTemplate|Vendor"
-msgstr "ProvisioningTemplate|벤더"
 
 msgid "Proxied request failed with: %s"
 msgstr ""
@@ -6340,27 +6443,14 @@ msgstr ""
 msgid "Proxy request timeout"
 msgstr "프록시 요청 시간 초과"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Ptable"
-msgstr "Ptable"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Ptable|Layout"
-msgstr "레이아웃 "
-
 msgid "Ptable|Locked"
 msgstr "Ptable|잠김"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ptable|Name"
 msgstr "이름 "
 
 msgid "Ptable|OS Family"
 msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Ptable|Os family"
-msgstr "Os 제품군 "
 
 msgid "Ptable|Snippet"
 msgstr "Ptable|조각 모음"
@@ -6370,9 +6460,6 @@ msgstr "공개 "
 
 msgid "Public SSH key"
 msgstr ""
-
-msgid "Publish"
-msgstr "공개 "
 
 msgid "Puppet"
 msgstr "Puppet"
@@ -6431,22 +6518,6 @@ msgstr "Puppet 서버"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass"
 msgstr "Puppetclass"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Global class params count"
-msgstr "글로벌 클래스 매개 변수 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Hostgroups count"
-msgstr "호스트 그룹 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Hosts count"
-msgstr "호스트 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Lookup keys count"
-msgstr "검색 키 수 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
@@ -6520,14 +6591,6 @@ msgid "Realms"
 msgstr "영역 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Realm|Hostgroups count"
-msgstr "호스트 그룹 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Realm|Hosts count"
-msgstr "호스트 수 "
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Name"
 msgstr "이름 "
 
@@ -6574,11 +6637,8 @@ msgstr "스마트 프록시 기능 새로고침 "
 msgid "Region"
 msgstr "지역 "
 
-msgid "Register Host"
-msgstr "호스트 등록"
-
-msgid "Reindex subscriptions"
-msgstr "서브스크립션 다시 인덱싱"
+msgid "Remember hosts selection for the next bulk action"
+msgstr ""
 
 msgid "Reminder: <strong> One host is selected </strong>"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
@@ -6589,9 +6649,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "원격 주소"
@@ -6608,9 +6665,6 @@ msgstr ""
 msgid "Remove Combination"
 msgstr ""
 
-msgid "Remove Content"
-msgstr "컨텐츠 삭제 "
-
 msgid "Remove DHCP Settings for %s"
 msgstr "%s의 DHCP 설정 삭제 "
 
@@ -6619,12 +6673,6 @@ msgstr ""
 
 msgid "Remove Parameter"
 msgstr "매개 변수 삭제 "
-
-msgid "Remove Version"
-msgstr "버전 삭제 "
-
-msgid "Remove Versions and Associations"
-msgstr "버전 및 연결 삭제 "
 
 msgid "Remove a Puppet class from host"
 msgstr "호스트에 Puppet 클래스 삭제 "
@@ -6637,18 +6685,6 @@ msgstr ""
 
 msgid "Remove duplicate values (only array type)"
 msgstr "중복 값 삭제(배열 유형만)"
-
-msgid "Remove from Environment"
-msgstr "환경에서 삭제 "
-
-msgid "Remove package"
-msgstr "패키지 삭제 "
-
-msgid "Remove package group"
-msgstr "패키지 그룹 삭제 "
-
-msgid "Remove subscriptions"
-msgstr "서브스크립션 삭제"
 
 msgid "Remove this override"
 msgstr "이 덮어쓰기 삭제"
@@ -6684,6 +6720,9 @@ msgstr "보고 "
 msgid "Reported at %s "
 msgstr "%s 에 보고 "
 
+msgid "Reported by %s"
+msgstr ""
+
 msgid "Reports"
 msgstr "보고서 "
 
@@ -6692,15 +6731,16 @@ msgid "Report|Metrics"
 msgstr "메트릭스 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Report|Origin"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Reported at"
 msgstr "보고 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
 msgstr "상태 "
-
-msgid "Republish Version Repositories"
-msgstr ""
 
 msgid "Require SSL for smart proxies"
 msgstr "스마트 프록시에 대해 SSL 요구"
@@ -6808,6 +6848,7 @@ msgstr ""
 msgid "Role|Builtin"
 msgstr "내장됨 "
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role|Description"
 msgstr ""
 
@@ -6819,8 +6860,8 @@ msgid "Role|Name"
 msgstr "이름 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Role|Permissions"
-msgstr "권한 "
+msgid "Role|Origin"
+msgstr ""
 
 msgid "Root Password Hash"
 msgstr ""
@@ -6834,12 +6875,10 @@ msgstr "사용할 root 암호 해시 함수로, MD5, SHA256, SHA512, Base64 중 
 msgid "Root password on provisioned hosts"
 msgstr "프로비저닝된 호스트의 root 암호"
 
-msgid "Run Distribution (last %s minute)"
-msgid_plural "Run Distribution (last %s minutes)"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "Run Distribution Chart"
+msgstr ""
+
+msgid "Run Distribution Chart for %s"
 msgstr ""
 
 msgid "Run Puppet"
@@ -6859,9 +6898,6 @@ msgstr "실행 "
 
 msgid "Runtime"
 msgstr "런타임 "
-
-msgid "SCSI controller type is deprecated. Please change to scsi_controllers"
-msgstr ""
 
 msgid "SMTP"
 msgstr "SMTP"
@@ -6935,9 +6971,6 @@ msgstr ""
 msgid "Safe mode methods and variables"
 msgstr ""
 
-msgid "SafeRender#parse_string was passed a %s instead of a string"
-msgstr "SafeRender#parse_string이 문자열 대신 %s에 전달되었습니다 "
-
 msgid "Safemode rendering"
 msgstr "안전 모드 렌더링"
 
@@ -6967,6 +7000,9 @@ msgstr ""
 
 msgid "Search"
 msgstr "검색 "
+
+msgid "Search fields"
+msgstr ""
 
 msgid "Secondary DNS Server"
 msgstr ""
@@ -7001,8 +7037,8 @@ msgstr "조직 선택 "
 msgid "Select a period"
 msgstr "기간 선택 "
 
-msgid "Select all items in this page"
-msgstr "이 페이지에 있는 모든 항목을 선택 "
+msgid "Select all items on this page"
+msgstr ""
 
 msgid "Select an owner"
 msgstr ""
@@ -7171,6 +7207,14 @@ msgstr "기본값 "
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Description"
 msgstr "설명 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Setting|Encrypted"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Setting|Full name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Name"
@@ -7451,12 +7495,22 @@ msgstr "스마트 프록시: %s"
 msgid "Smart Variables"
 msgstr "스마트 매개 변수 "
 
+msgid "Smart proxies provide a RESTful API to manage subsystems like DNS, DHCP, and TFTP."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
 msgstr "스마트 프록시 "
 
 msgid "Smart proxy IDs"
 msgstr "스마트 프록시 ID "
+
+msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SmartProxy|Expired logs"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Name"
@@ -7527,6 +7581,26 @@ msgid "Specify additional options to sendmail"
 msgstr ""
 
 msgid "Specify authentication type, if required"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Ssh key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Fingerprint"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Length"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SshKey|Name"
 msgstr ""
 
 msgid "Start"
@@ -7602,6 +7676,10 @@ msgstr "서브넷 "
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Boot mode"
 msgstr "부트 모드 "
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Description"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
@@ -7716,14 +7794,8 @@ msgstr "지원"
 msgid "Supported Formats"
 msgstr "지원되는 형식 "
 
-msgid "Synchronize"
-msgstr "동기화 "
-
 msgid "Synchronize group from authentication source"
 msgstr "인증 소스에서 그룹 동기화 "
-
-msgid "Synchronize smart proxy"
-msgstr ""
 
 msgid "Syntax Highlighting"
 msgstr "구문 강조"
@@ -7769,6 +7841,10 @@ msgid "Taxonomy|Ancestry"
 msgstr "상위 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Taxonomy|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
 msgstr "유형 무시 "
 
@@ -7780,6 +7856,7 @@ msgstr "이름 "
 msgid "Taxonomy|Title"
 msgstr "제목 "
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template"
 msgstr "템플릿"
 
@@ -7797,6 +7874,15 @@ msgstr ""
 
 msgid "Template Diff"
 msgstr "템플릿 차이 "
+
+msgid "Template HTTP(S) Proxy ID to use within this subnet"
+msgstr ""
+
+msgid "Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks"
+msgstr ""
+
+msgid "Template Proxy"
+msgstr ""
 
 msgid "Template Type"
 msgstr "템플릿 유형 "
@@ -7835,6 +7921,34 @@ msgstr "템플릿 "
 
 msgid "Templates resolved for this operating system"
 msgstr "이 운영 체제에 대해 확인된 템플릿"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Default"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Locked"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Os family"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Snippet"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Template"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Vendor"
+msgstr ""
 
 msgid "Tenant"
 msgstr "테넌트 "
@@ -7922,6 +8036,9 @@ msgstr ""
 msgid "The Primary interface is used for constructing the FQDN of the host."
 msgstr ""
 
+msgid "The Provision Templates is the core of Foreman’s flexibility to used for provisioning and installation of operating systems. There are several types of template, along with a flexible matching system to deliver different templates to different hosts or host groups."
+msgstr ""
+
 msgid "The Provisioning interface is used for TFTP configuration for PXE boot based on this interface MAC address."
 msgstr ""
 
@@ -7949,9 +8066,6 @@ msgstr ""
 
 msgid "The default administrator email address"
 msgstr "기본값 관리자 이메일 주소 "
-
-msgid "The dynamic partitioning style is currently only available for the Red Hat family of operating systems, all others must provide an explicit list of partitions and sizes."
-msgstr "현재 동적 프로비저닝 스타일은 Red Hat 제품군 운영 체제에서만 사용할 수 있으며 그 이외의 경우 모든 파티션 및 크기에 대한 명시적 목록을 지정해야 합니다. "
 
 msgid "The file path where your p12 file is located"
 msgstr "p12 파일이 있는 파일 경로 "
@@ -7998,13 +8112,6 @@ msgstr ""
 msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
 msgstr "puppetmaster가 호스트 설정을 컴파일할 때 호스트 그룹의 클래스 및 호스트 그룹의 매개 변수가 외부 노드 정보에 포함됩니다."
 
-msgid ""
-"The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior\n"
-"  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process."
-msgstr ""
-"키워드 문자열 <b>#Dynamic</b>을 줄의 시작 부분에 포함하면 명시적 디스크 레이아웃이 아니라 설치 프로세스 전에 실행해야 하는 쉘 스크립트로 취급해야 한다는 것과\n"
-"  명시적 파티션 테이블을 빌드 프로세스 도중에 <b>/tmp/diskpart.cfg</b>에서 찾을 수 있다는 것을 Foreman이 알 수 있습니다."
-
 msgid "The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman."
 msgstr ""
 
@@ -8022,8 +8129,8 @@ msgstr ""
 msgid "The marked fields will need reviewing"
 msgstr "표시된 필드는 확인해야 합니다 "
 
-msgid "The method used to provision the host. Possible provision_methods may be %{provision_methods}"
-msgstr "호스트를 프로비저닝하는 데 사용된 방법입니다. 가능한 provision_methods는 %{provision_methods}입니다."
+msgid "The method used to provision the host."
+msgstr ""
 
 msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"
 msgstr "matcher 키가 처리되는 순서입니다. 먼저 일치하는 것이 우선합니다. <br> matcher 키로 여러 속성을 사용할 수 있습니다. 예를 들어 <code>host group, environment</code> 순서의 경우 <code>hostgroup = \"web servers\", environment = production</code>과 같은 matcher를 예상할 수 있습니다 "
@@ -8233,8 +8340,8 @@ msgstr "DNS 충돌 유효 시간 초과(초)"
 msgid "Timeout has occurred while communicating with %s"
 msgstr "%s와 통신하는 도중 시간 초과되었습니다 "
 
-msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' every Puppet Interval (%s minutes)."
-msgstr "트렌드 카운터를 정의하려면 트렌드 카운터 추가 버튼을 사용하십시오.</br> 트렌드 데이터 수집을 시작하려면 모든 Puppet 간격(%s분)마다 'foreman-rake trends:counter'를 실행하는 cron 작업을 설정합니다."
+msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
+msgstr ""
 
 msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt)."
 msgstr "공급자를 활성화하려면 OS 패키지 (예:  foreman-libvirt)를 설치하거나 개발 설정을 위한 번들러 그룹 (e.g. ovirt) 활성화합니다."
@@ -8250,8 +8357,8 @@ msgid ""
 "                groups\" then \"Refresh\"."
 msgstr ""
 
-msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> every Puppet Interval (%s minutes)"
-msgstr "트렌드 데이터 수집을 시작하려면 Puppet 간격 (%s 분)마다 <span class='black'>foreman-rake trends:counter</span>를 실행하도록 cron 작업을 설정합니다 "
+msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> at least every %s minutes."
+msgstr ""
 
 msgid "To update the class signature, go to the Puppet Classes page and select \"Import\"."
 msgstr "클래스 서명을 업데이트하려면 Puppet 클래스 페이지로 가서 \"가져오기\"를 선택합니다. "
@@ -8278,6 +8385,9 @@ msgid "Token|Value"
 msgstr "값 "
 
 msgid "Too many tries, please try again in a few minutes."
+msgstr ""
+
+msgid "Too short"
 msgstr ""
 
 msgid "Total"
@@ -8309,11 +8419,22 @@ msgstr "지난 %s일 트렌드입니다. "
 msgid "TrendCounter|Count"
 msgstr "카운트 "
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TrendCounter|Interval end"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TrendCounter|Interval start"
+msgstr ""
+
 msgid "Trends"
 msgstr "트렌드 "
 
 msgid "Trends for %s"
 msgstr "%s의 트렌드 "
+
+msgid "Trends in Foreman allow you to track changes in your infrastructure over time. It allows you to track both Foreman related information and any Puppet facts. The Trend pages give a graph of how the number of hosts with that value have changed over time, and list the current hosts."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Fact name"
@@ -8337,8 +8458,8 @@ msgstr "노드에서 puppetrun을 시작합니다; puppet run을 활성화해야
 msgid "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
 msgstr "호스트를 관리할 지 또는 관리하지 않을지에 대한 True/False 플래그입니다. 알림: 이 값은 여러 매개 변수가 필요할 지 또는 필요하지 않을 지에 대한 여부를 결정합니다 "
 
-msgid "Trusted puppetmaster hosts"
-msgstr "신뢰할 수 있는 puppetmaster 호스트"
+msgid "Trusted hosts"
+msgstr ""
 
 msgid "Try going to %{href}"
 msgstr "%{href}로 전환 시도 "
@@ -8622,9 +8743,6 @@ msgstr "관리되지 않는 호스트 "
 msgid "Unnamed"
 msgstr ""
 
-msgid "Unregister Host"
-msgstr "호스트 등록 취소"
-
 msgid "Unsupported IPAM mode for %s"
 msgstr ""
 
@@ -8640,17 +8758,8 @@ msgstr "업데이트 "
 msgid "Update :a_resource"
 msgstr ":a_resource 업데이트 "
 
-msgid "Update Content Overrides"
-msgstr ""
-
 msgid "Update IP from built request"
 msgstr "빌드 요청에서 IP 업데이트"
-
-msgid "Update Sync Plan"
-msgstr "동기화 계획 업데이트 "
-
-msgid "Update Sync Plan Products"
-msgstr "동기화 계획 제품 업데이트 "
 
 msgid "Update a Puppet class"
 msgstr "Puppet 클래스 업데이트 "
@@ -8781,17 +8890,8 @@ msgstr "팩트에서 환경 업데이트"
 msgid "Update external user group"
 msgstr "외부 사용자 그룹 업데이트 "
 
-msgid "Update for host"
-msgstr "호스트에 대한 업데이트"
-
-msgid "Update package"
-msgstr "패키지 업데이트 "
-
 msgid "Update realm entry for %s"
 msgstr "%s의 영역 항목 업데이트 "
-
-msgid "Update release version for host"
-msgstr ""
 
 msgid "Update subnets from facts"
 msgstr ""
@@ -8823,17 +8923,8 @@ msgstr "업데이트된 호스트: 변경된 호스트 그룹 "
 msgid "Updated hosts: changed owner"
 msgstr "업데이트된 호스트: 변경된 소유자"
 
-msgid "Upload errata into"
-msgstr "다음에 에라타 업로드"
-
 msgid "Upload facts for a host, creating the host if required"
 msgstr "호스트의 팩트를 업로드하고 필요한 경우 호스트를 생성합니다 "
-
-msgid "Upload into"
-msgstr "업로드 "
-
-msgid "Use Gravatar"
-msgstr "사용자 Gravatar"
 
 msgid "Use NIS netgroups instead of posix groups."
 msgstr ""
@@ -8879,6 +8970,10 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User mail notification"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User role"
 msgstr "사용자 역할 "
 
@@ -8887,6 +8982,18 @@ msgstr "사용자의 기본 로케일"
 
 msgid "User's timezone"
 msgstr "사용자의 시간대"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Interval"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Last sent"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "UserMailNotification|Mail query"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UserRole|Owner type"
@@ -8942,6 +9049,10 @@ msgid "User|Avatar hash"
 msgstr "아바타 해시 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
 msgstr "이름 "
 
@@ -8980,6 +9091,10 @@ msgstr "암호 해시 "
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Password salt"
 msgstr "암호 salt"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User|Timezone"
+msgstr ""
 
 msgid "Uses thin provisioning if unchecked"
 msgstr "선택 해제되어 있을 경우 씬 프로비저닝을 사용합니다 "
@@ -9056,10 +9171,6 @@ msgstr "일치하지 않는 경우 사용할 값입니다."
 msgid "Variable"
 msgstr "변수 "
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Variable lookup key"
-msgstr "변수 조회 키"
-
 msgid "Variables"
 msgstr "변수 "
 
@@ -9078,8 +9189,8 @@ msgstr "버전 %{version}"
 msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
 msgstr ""
 
-msgid "Very Strong"
-msgstr "매우 강력함"
+msgid "Very strong"
+msgstr ""
 
 msgid "View Chart"
 msgstr ""
@@ -9221,6 +9332,10 @@ msgstr ""
 msgid "Which is an offset of <b>%s</b>"
 msgstr "<b>%s</b>의 오프셋 "
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget"
+msgstr ""
+
 msgid "Widget added to dashboard."
 msgstr "위젯이 대시보드에 추가되었습니다."
 
@@ -9229,6 +9344,34 @@ msgstr "위젯 위치를 저장했습니다."
 
 msgid "Widget removed from dashboard."
 msgstr "위젯이 대시보드에서 삭제되었습니다."
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Col"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Data"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Row"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Sizex"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Sizey"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Widget|Template"
+msgstr ""
 
 msgid "Wiki"
 msgstr "위키"
@@ -9323,9 +9466,6 @@ msgstr ""
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "하나 이상의 운영 체제를 이 미디어에 연결하거나 이를 %s 페이지에서 나중에 설정할 수 있습니다. "
 
-msgid "You may also associate one or more operating systems with this partition table or alternatively set this up later on the %s page"
-msgstr "하나 이상의 운영 체제를 이 파티션 테이블에 연결하거나 이를 %s  페이지에서 나중에 설정할 수 있습니다. "
-
 msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
 msgstr "예를 들어 다른 모듈에서 필요한 모든 기능이 포함된 <b>host-type-ldap-server</b> 클래스와 같은 높은 수준의 호스트 설정을 나타내는 puppet 클래스를 생성하거나 <b>host-type-ldap-server</b>라는 호스트 그룹을 생성하고 이 호스트 그룹 설정으로 필요한 클래스를 추가할 수 있습니다. "
 
@@ -9356,24 +9496,6 @@ msgstr "Foreman 사용자 계정이 생성되었습니다: "
 msgid "Your host has finished building:"
 msgstr "호스트에서 빌드가 완료되었습니다:"
 
-msgid "Your password is too short"
-msgstr "귀하의 암호가 너무 짧습니다."
-
-msgid "Your password should not contain sequences"
-msgstr ""
-
-msgid "Your password should not contain that many repetitions"
-msgstr ""
-
-msgid "Your password should not contain your email"
-msgstr ""
-
-msgid "Your password should not contain your username"
-msgstr ""
-
-msgid "Your password should use characters from different character classes too"
-msgstr ""
-
 msgid "Your session has expired, please login again"
 msgstr "세션이 만료되었습니다. 다시 로그인하십시오 "
 
@@ -9386,7 +9508,7 @@ msgstr "영역 "
 msgid "[empty]"
 msgstr ""
 
-msgid "[encrypted]"
+msgid "[redacted]"
 msgstr ""
 
 msgid "a location"
@@ -9511,6 +9633,9 @@ msgstr "기본값 조직은 먼저 사용자 조직이 되어야 합니다  "
 
 msgid "defaults to 389"
 msgstr "389로 기본 설정 "
+
+msgid "determines when the template should associate objects based on metadata, new means only when new template is being created, always means both for new and existing template which is only being updated, never ignores metadata"
+msgstr ""
 
 msgid "does not appear to be a valid nfs mount path"
 msgstr "유효한 NFS 마운트 경로가 표시되지 않습니다 "
@@ -9803,7 +9928,8 @@ msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습�
 msgid "list"
 msgstr "목록"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "한국어"
 
@@ -9966,12 +10092,6 @@ msgstr "페이지네이션 결과 "
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "문자열에서 설정 유형 '%s'의 구문 분석이 정의되어 있지 않습니다 "
 
-msgid "password match"
-msgstr "암호가 일치합니다."
-
-msgid "passwords do not match"
-msgstr "암호가 불일치 합니다."
-
 msgid "pending"
 msgstr "보류 중 "
 
@@ -10083,6 +10203,9 @@ msgstr "결과 정렬 "
 msgid "space separated options, e.g. miimon=100"
 msgstr "공백으로 구분된 옵션 (예: miimon=100)"
 
+msgid "specified template \"%s\" kind was not found"
+msgstr ""
+
 msgid "start"
 msgstr "시작 "
 
@@ -10117,6 +10240,9 @@ msgstr "서브넷 부팅 모드가 %s이(가) 아닙니다."
 
 msgid "sync external user groups on login"
 msgstr "로그인 시에 외부 사용자 그룹 동기화"
+
+msgid "template contents including metadata"
+msgstr ""
 
 msgid "template name"
 msgstr "템플릿 이름 "
@@ -10155,6 +10281,9 @@ msgid "unspecified"
 msgstr "지정되어 있지 않음 "
 
 msgid "use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa"
+msgstr ""
+
+msgid "use if you want update locked templates"
 msgstr ""
 
 msgid "used memory"

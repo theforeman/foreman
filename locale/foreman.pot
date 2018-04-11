@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-05 07:46+0000\n"
-"PO-Revision-Date: 2018-03-05 07:46+0000\n"
+"POT-Creation-Date: 2018-04-11 08:21+0000\n"
+"PO-Revision-Date: 2018-04-11 08:21+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -3944,7 +3944,7 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:169 ../app/helpers/hosts_helper.rb:347
 #: ../app/views/hosts/_interfaces.html.erb:34
-#: ../app/views/puppetca/_list.html.erb:31 action_names.rb:3
+#: ../app/views/puppetca/_list.html.erb:31
 msgid "Delete"
 msgstr ""
 
@@ -3956,7 +3956,7 @@ msgid "Are you sure?"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:195
-#: ../app/helpers/provisioning_templates_helper.rb:18 action_names.rb:15
+#: ../app/helpers/provisioning_templates_helper.rb:18
 msgid "Export"
 msgstr ""
 
@@ -9151,7 +9151,6 @@ msgid "Ignored:"
 msgstr ""
 
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:60
-#: action_names.rb:21
 msgid "Update"
 msgstr ""
 
@@ -9924,7 +9923,7 @@ msgstr ""
 msgid "New Virtual Machine"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/new.html.erb:14 action_names.rb:18
+#: ../app/views/compute_resources_vms/new.html.erb:14
 msgid "Create"
 msgstr ""
 
@@ -11232,7 +11231,7 @@ msgstr ""
 msgid "Image|User data"
 msgstr ""
 
-#: ../app/views/images/_list.html.erb:21 action_names.rb:25
+#: ../app/views/images/_list.html.erb:21
 msgid "Destroy"
 msgstr ""
 
@@ -11328,12 +11327,12 @@ msgid ""
 msgstr ""
 
 #: ../app/views/locations/welcome.html.erb:13
-msgid "Locations also work nicely when used in tandem with %{organizations}."
+#: ../app/views/roles/_form.html.erb:39
+msgid "organizations"
 msgstr ""
 
 #: ../app/views/locations/welcome.html.erb:13
-#: ../app/views/roles/_form.html.erb:39
-msgid "organizations"
+msgid "Locations also work nicely when used in tandem with %{organizations}."
 msgstr ""
 
 #: ../app/views/locations/welcome.html.erb:16
@@ -11848,12 +11847,12 @@ msgid ""
 msgstr ""
 
 #: ../app/views/organizations/welcome.html.erb:13
-msgid "Organizations also work nicely in tandem with %{locations}."
+#: ../app/views/roles/_form.html.erb:34
+msgid "locations"
 msgstr ""
 
 #: ../app/views/organizations/welcome.html.erb:13
-#: ../app/views/roles/_form.html.erb:34
-msgid "locations"
+msgid "Organizations also work nicely in tandem with %{locations}."
 msgstr ""
 
 #: ../app/views/organizations/welcome.html.erb:16
@@ -13547,242 +13546,6 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/redux/actions/hosts/storage/vmware.consts.js:11
 msgid "Hard disk"
-msgstr ""
-
-#: action_names.rb:2
-msgid "Remote action:"
-msgstr ""
-
-#: action_names.rb:4
-msgid "Update Sync Plan"
-msgstr ""
-
-#: action_names.rb:5
-msgid "Update Sync Plan Products"
-msgstr ""
-
-#: action_names.rb:6
-msgid "Add Sync Plan Products"
-msgstr ""
-
-#: action_names.rb:7
-msgid "Remove Content"
-msgstr ""
-
-#: action_names.rb:8
-msgid "Index package groups"
-msgstr ""
-
-#: action_names.rb:9
-msgid "Index errata"
-msgstr ""
-
-#: action_names.rb:10
-msgid "Index content"
-msgstr ""
-
-#: action_names.rb:11
-msgid "Upload into"
-msgstr ""
-
-#: action_names.rb:12
-msgid "Abstract async task"
-msgstr ""
-
-#: action_names.rb:13
-msgid "Filtered index content"
-msgstr ""
-
-#: action_names.rb:14
-msgid "Fetch pxe files"
-msgstr ""
-
-#: action_names.rb:16
-msgid "Errata mail"
-msgstr ""
-
-#: action_names.rb:17
-msgid "Delete Package Group"
-msgstr ""
-
-#: action_names.rb:19
-msgid "Enable"
-msgstr ""
-
-#: action_names.rb:20
-msgid "Action with sub plans"
-msgstr ""
-
-#: action_names.rb:22
-msgid "Reindex subscriptions"
-msgstr ""
-
-#: action_names.rb:23
-msgid "Delete Product"
-msgstr ""
-
-#: action_names.rb:24
-msgid "Product Create"
-msgstr ""
-
-#: action_names.rb:26
-msgid "Auto-attach subscriptions"
-msgstr ""
-
-#: action_names.rb:27
-msgid "Disable"
-msgstr ""
-
-#: action_names.rb:28
-msgid "Package Profile Update"
-msgstr ""
-
-#: action_names.rb:29
-msgid "Update release version for host"
-msgstr ""
-
-#: action_names.rb:30
-msgid "Delete Activation Key"
-msgstr ""
-
-#: action_names.rb:31
-msgid "Create Package Group"
-msgstr ""
-
-#: action_names.rb:32
-msgid "Update for host"
-msgstr ""
-
-#: action_names.rb:33
-msgid "Import facts"
-msgstr ""
-
-#: action_names.rb:34
-msgid "Update Content Overrides"
-msgstr ""
-
-#: action_names.rb:35
-msgid "Import Puppet classes"
-msgstr ""
-
-#: action_names.rb:36
-msgid "Upload errata into"
-msgstr ""
-
-#: action_names.rb:37
-msgid "Configure capsule"
-msgstr ""
-
-#: action_names.rb:38
-msgid "Synchronize"
-msgstr ""
-
-#: action_names.rb:39
-msgid "Create repos"
-msgstr ""
-
-#: action_names.rb:40
-msgid "Unregister Host"
-msgstr ""
-
-#: action_names.rb:41
-msgid "Remove subscriptions"
-msgstr ""
-
-#: action_names.rb:42
-msgid "Hypervisors"
-msgstr ""
-
-#: action_names.rb:43
-msgid "Delete Lifecycle Environment"
-msgstr ""
-
-#: action_names.rb:44
-msgid "Install erratum"
-msgstr ""
-
-#: action_names.rb:45
-msgid "Incremental Update of  Content View Version(s) "
-msgstr ""
-
-#: action_names.rb:46
-msgid "Install Applicable Errata"
-msgstr ""
-
-#: action_names.rb:47
-msgid "Destroy Content Host"
-msgstr ""
-
-#: action_names.rb:48
-msgid "Auto attach subscriptions"
-msgstr ""
-
-#: action_names.rb:49
-msgid "Remove package group"
-msgstr ""
-
-#: action_names.rb:50
-msgid "Attach subscriptions"
-msgstr ""
-
-#: action_names.rb:51
-msgid "Synchronize smart proxy"
-msgstr ""
-
-#: action_names.rb:52
-msgid "Install package group"
-msgstr ""
-
-#: action_names.rb:53
-msgid "Republish Version Repositories"
-msgstr ""
-
-#: action_names.rb:54
-msgid "Update package"
-msgstr ""
-
-#: action_names.rb:55
-msgid "Register Host"
-msgstr ""
-
-#: action_names.rb:56
-msgid "Remove package"
-msgstr ""
-
-#: action_names.rb:57
-msgid "Install package"
-msgstr ""
-
-#: action_names.rb:58
-msgid "Incremental Update"
-msgstr ""
-
-#: action_names.rb:59
-msgid "Hypervisors update"
-msgstr ""
-
-#: action_names.rb:60
-msgid "Promote"
-msgstr ""
-
-#: action_names.rb:61
-msgid "Remove Version"
-msgstr ""
-
-#: action_names.rb:62
-msgid "Promotion to Environment"
-msgstr ""
-
-#: action_names.rb:63
-msgid "Remove from Environment"
-msgstr ""
-
-#: action_names.rb:64
-msgid "Publish"
-msgstr ""
-
-#: action_names.rb:65
-msgid "Remove Versions and Associations"
 msgstr ""
 
 #: apipie.rb:8
