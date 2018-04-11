@@ -297,7 +297,7 @@ class HostsController < ApplicationController
     @vm = @host.compute_resource.find_vm_by_uuid(@host.uuid)
     @compute_resource = @host.compute_resource
     render :partial => "compute_resources_vms/details"
-  rescue ActionView::Template::Error => exception
+  rescue ActiveRecord::RecordNotFound, ActionView::Template::Error => exception
     process_ajax_error exception, 'fetch vm information'
   end
 
