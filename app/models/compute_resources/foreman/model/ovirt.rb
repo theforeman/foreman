@@ -94,11 +94,7 @@ module Foreman::Model
 
     #FIXME
     def max_cpu_count
-      16
-    end
-
-    def max_socket_count
-      16
+      8
     end
 
     def max_memory
