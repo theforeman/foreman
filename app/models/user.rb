@@ -14,9 +14,9 @@ class User < ApplicationRecord
   include Exportable
   include TopbarCacheExpiry
 
-  ANONYMOUS_ADMIN = 'foreman_admin'
-  ANONYMOUS_API_ADMIN = 'foreman_api_admin'
-  ANONYMOUS_CONSOLE_ADMIN = 'foreman_console_admin'
+  ANONYMOUS_ADMIN = 'foreman_admin'.freeze
+  ANONYMOUS_API_ADMIN = 'foreman_api_admin'.freeze
+  ANONYMOUS_CONSOLE_ADMIN = 'foreman_console_admin'.freeze
 
   validates_lengths_from_database :except => [:firstname, :lastname, :format, :mail, :login]
   attr_accessor :password_confirmation, :current_password

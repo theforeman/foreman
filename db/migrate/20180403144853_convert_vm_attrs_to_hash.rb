@@ -19,7 +19,7 @@ class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
     say "All conversions finished"
   end
 
-  YML_HASH = '!ruby/hash:ActiveSupport::HashWithIndifferentAccess'
+  YML_HASH = '!ruby/hash:ActiveSupport::HashWithIndifferentAccess'.freeze
   YML_PARAMS = /!ruby\/[\w-]+:ActionController::Parameters/
 
   def transform_batch_columns(base, serialized_columns)

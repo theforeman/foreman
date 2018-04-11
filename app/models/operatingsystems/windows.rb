@@ -1,5 +1,5 @@
 class Windows < Operatingsystem
-  PXEFILES = {:kernel => "wimboot", :initrd => "bootmgr", :bcd => "bcd", :bootsdi => "boot.sdi", :bootwim => "boot.wim"}
+  PXEFILES = {:kernel => "wimboot", :initrd => "bootmgr", :bcd => "bcd", :bootsdi => "boot.sdi", :bootwim => "boot.wim"}.freeze
 
   def available_loaders
     self.class.all_loaders

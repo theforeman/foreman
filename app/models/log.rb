@@ -7,7 +7,7 @@ class Log < ApplicationRecord
 
   default_scope -> { order('logs.id') }
 
-  LEVELS = [:debug, :info, :notice, :warning, :err, :alert, :emerg, :crit]
+  LEVELS = [:debug, :info, :notice, :warning, :err, :alert, :emerg, :crit].freeze
 
   def to_s
     "#{source} #{message}"

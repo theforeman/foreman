@@ -2,7 +2,7 @@ class ComputeResourcesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::ComputeResource
 
-  AJAX_REQUESTS = [:template_selected, :instance_type_selected, :cluster_selected, :resource_pools]
+  AJAX_REQUESTS = [:template_selected, :instance_type_selected, :cluster_selected, :resource_pools].freeze
   before_action :ajax_request, :only => AJAX_REQUESTS
   before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping, :refresh_cache] + AJAX_REQUESTS
 

@@ -1,5 +1,5 @@
 # foreman plugins import this file therefore __FILE__ cannot be used
-FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
+FOREMAN_GEMFILE = __FILE__.freeze unless defined? FOREMAN_GEMFILE
 
 require_relative 'config/boot_settings'
 

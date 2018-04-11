@@ -1,12 +1,12 @@
 module Foreman::Controller::Puppet::HostsControllerExtensions
   extend ActiveSupport::Concern
 
-  PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
-  PUPPET_AJAX_REQUESTS=%w{hostgroup_or_environment_selected puppetclass_parameters}
+  PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ].freeze
+  PUPPET_AJAX_REQUESTS=%w{hostgroup_or_environment_selected puppetclass_parameters}.freeze
 
   MULTIPLE_EDIT_ACTIONS = %w(select_multiple_environment update_multiple_environment
                              select_multiple_puppet_proxy update_multiple_puppet_proxy
-                             select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
+                             select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy).freeze
   PUPPET_MULTIPLE_ACTIONS = %w(multiple_puppetrun update_multiple_puppetrun) + MULTIPLE_EDIT_ACTIONS
 
   included do

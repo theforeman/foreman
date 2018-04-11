@@ -1,5 +1,5 @@
 class Debian < Operatingsystem
-  PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
+  PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}.freeze
 
   def pxedir
     'dists/$release/main/installer-$arch/current/images/netboot/' + guess_os + '-installer/$arch'

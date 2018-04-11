@@ -25,7 +25,7 @@ module Foreman
       :save_to_file,
       :subnet_param, :subnet_has_param?,
       :global_setting
-    ]
+    ].freeze
     ALLOWED_HOST_HELPERS ||= [
       :grub_pass,
       :ks_console,
@@ -36,13 +36,13 @@ module Foreman
       :host_param, :host_param!,
       :host_puppet_classes,
       :host_enc
-    ]
+    ].freeze
 
     ALLOWED_HELPERS ||= ALLOWED_GENERIC_HELPERS + ALLOWED_HOST_HELPERS
 
     ALLOWED_VARIABLES ||= [ :arch, :host, :osver, :mediapath, :mediaserver, :static,
                             :repos, :dynamic, :kernel, :initrd, :xen,
-                            :preseed_server, :preseed_path, :provisioning_type, :template_name ]
+                            :preseed_server, :preseed_path, :provisioning_type, :template_name ].freeze
 
     ALLOWED_GLOBAL_SETTINGS ||= [
       :administrator,
@@ -67,7 +67,7 @@ module Foreman
       :puppet_server,
       :legacy_puppet_hostname,
       :update_ip_from_built_request
-    ]
+    ].freeze
 
     def template_logger
       @template_logger ||= Foreman::Logging.logger('templates')

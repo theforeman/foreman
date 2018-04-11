@@ -1,7 +1,7 @@
 class FactName < ApplicationRecord
   include Parameterizable::ByIdName
 
-  SEPARATOR = '::'
+  SEPARATOR = '::'.freeze
 
   validates_lengths_from_database
   has_many :fact_values, :dependent => :destroy

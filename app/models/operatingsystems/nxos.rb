@@ -1,6 +1,6 @@
 class NXOS < Operatingsystem
   # We don't fetch any files here.
-  PXEFILES = {}
+  PXEFILES = {}.freeze
 
   # Simple output of the media url
   def mediumpath(host)

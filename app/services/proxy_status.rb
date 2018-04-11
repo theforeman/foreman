@@ -1,6 +1,6 @@
 module ProxyStatus
   CONNECTION_ERRORS = [Errno::EINVAL, Errno::ECONNRESET, EOFError, Timeout::Error, Errno::ENOENT, ProxyAPI::ProxyException,
-                       Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError]
+                       Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError].freeze
 
   def self.status_registry
     @status_registry ||= Set.new

@@ -1,5 +1,5 @@
 class Coreos < Operatingsystem
-  PXEFILES = {:kernel => 'coreos_production_pxe.vmlinuz', :initrd => 'coreos_production_pxe_image.cpio.gz'}
+  PXEFILES = {:kernel => 'coreos_production_pxe.vmlinuz', :initrd => 'coreos_production_pxe_image.cpio.gz'}.freeze
 
   def pxe_type
     'coreos'

@@ -1,7 +1,7 @@
 class InterfaceCleaner
   include ActiveRecord::Sanitization
 
-  ESCAPE_CHAR = '\\'
+  ESCAPE_CHAR = '\\'.freeze
 
   def self.nic_pattern_to_like(nic)
     sanitize_sql_like(nic, ESCAPE_CHAR).tr('*', '%')

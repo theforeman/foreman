@@ -1,5 +1,5 @@
 class Redhat < Operatingsystem
-  PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
+  PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}.freeze
 
   # outputs kickstart installation medium based on the medium type (NFS or URL)
   # it also convert the $arch string to the current host architecture

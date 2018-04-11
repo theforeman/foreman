@@ -2,7 +2,7 @@ module Foreman::Model
   class Libvirt < ComputeResource
     include ComputeResourceConsoleCommon
 
-    ALLOWED_DISPLAY_TYPES = %w(vnc spice)
+    ALLOWED_DISPLAY_TYPES = %w(vnc spice).freeze
 
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :display_type, :inclusion => { :in => ALLOWED_DISPLAY_TYPES }

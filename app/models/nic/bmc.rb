@@ -1,6 +1,6 @@
 module Nic
   class BMC < Managed
-    PROVIDERS = %w(IPMI SSH)
+    PROVIDERS = %w(IPMI SSH).freeze
     before_validation :ensure_physical
     before_validation { |nic| nic.provider.try(:upcase!) }
     validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }

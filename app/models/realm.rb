@@ -6,7 +6,7 @@ class Realm < ApplicationRecord
   include Taxonomix
   include BelongsToProxies
 
-  TYPES = ["FreeIPA", "Active Directory"]
+  TYPES = ["FreeIPA", "Active Directory"].freeze
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)

@@ -1,6 +1,6 @@
 module ProxyAPI
   class BMC < ProxyAPI::Resource
-    SUPPORTED_BOOT_DEVICES = %w[disk cdrom pxe bios]
+    SUPPORTED_BOOT_DEVICES = %w[disk cdrom pxe bios].freeze
 
     def initialize(args)
       @target = args[:host_ip] || '127.0.0.1'

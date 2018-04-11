@@ -45,11 +45,11 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     #table preferences. No special permissions comes with user
     "api/v2/table_preferences/index", "api/v2/table_preferences/show", "api/v2/table_preferences/create",
     "api/v2/table_preferences/update", "api/v2/table_preferences/destroy"
-  ]
+  ].freeze
 
-  MAY_SKIP_AUTHORIZED = [ "about/index" ]
+  MAY_SKIP_AUTHORIZED = [ "about/index" ].freeze
 
-  SPECIAL_PATH = ['api/v2/puppet_hosts/puppetrun']
+  SPECIAL_PATH = ['api/v2/puppet_hosts/puppetrun'].freeze
 
   check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED + SPECIAL_PATH)
 end

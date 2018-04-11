@@ -69,7 +69,7 @@ class Operatingsystem < ApplicationRecord
                'AIX'       => %r{AIX}i,
                'Junos'     => %r{Junos}i,
                'NXOS'      => %r{NX-OS}i,
-               'Xenserver' => %r{XenServer}i }
+               'Xenserver' => %r{XenServer}i }.freeze
 
   class Jail < Safemode::Jail
     allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash

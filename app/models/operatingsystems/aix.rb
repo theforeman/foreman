@@ -1,5 +1,5 @@
 class AIX < Operatingsystem
-  PXEFILES = {:kernel => "powerpc", :initrd => "initrd"}
+  PXEFILES = {:kernel => "powerpc", :initrd => "initrd"}.freeze
 
   def pxe_type
     "nim"

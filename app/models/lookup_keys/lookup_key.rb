@@ -4,11 +4,11 @@ class LookupKey < ApplicationRecord
   include HiddenValue
   include Classification
 
-  KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
-  VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
+  KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")].freeze
+  VALIDATOR_TYPES = [N_("regexp"), N_("list") ].freeze
 
-  KEY_DELM = ","
-  EQ_DELM  = "="
+  KEY_DELM = ",".freeze
+  EQ_DELM  = "=".freeze
   VALUE_REGEX =/\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
 
   validates_lengths_from_database
