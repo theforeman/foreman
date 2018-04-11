@@ -1,13 +1,6 @@
 require 'test_helper'
 
-def valid_controller_values
-  (["dashboard", "common_parameters"] +
-  ActiveRecord::Base.connection.tables.map(&:to_s) +
-  Permission.resources.map(&:tableize)).uniq
-end
-
 class BookmarkTest < ActiveSupport::TestCase
-  should allow_values(*valid_controller_values).for(:controller)
   should allow_values(*valid_name_list).for(:name)
   should allow_values(*valid_name_list).for(:query)
   should_not allow_values(*invalid_name_list).for(:name)
@@ -20,6 +13,16 @@ class BookmarkTest < ActiveSupport::TestCase
   test "my bookmarks should not contain private bookmarks" do
     as_user :one do
       assert_equal Bookmark.my_bookmarks.include?(bookmarks(:two)), false
+    end
+  end
+
+  test "should create with multiple valid controllers" do
+    valid_controller_values = (["dashboard", "common_parameters"] +
+      ActiveRecord::Base.connection.tables.map(&:to_s) +
+      Permission.resources.map(&:tableize)).uniq
+    valid_controller_values.each do |controller|
+      bookmark = FactoryBot.create(:bookmark, :controller => controller, :public => false)
+      assert bookmark.valid?, "Can't create bookmark with valid controller #{controller}"
     end
   end
 
