@@ -1,3 +1,31 @@
+2018-04-11	Ondrej Prazak <oprazak@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2018-04-11	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #22809 - Turn VM attributes to hash (#5403)
+
+2018-04-10	Timo Goebel <mail@timogoebel.name>
+	* fixes #21520 - vsphere: valid vm cloning request
+
+2018-03-29	Ori Rabin <orabin@redhat.com>
+	* Fixes #22546 - Return power action status for ovirt (CVE-2018-1097)
+
+2018-03-27	Martin Povolny <mpovolny@redhat.com>
+	* Fixes #23028 - Properly escape params passed to where (CVE-2018-1096)
+
+2018-03-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #23012 - allow OS release in safemode
+
+2018-03-25	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23007 - renew certs used in oVirt model test
+
+2018-03-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22875 - Fix digest limits
+
+2018-03-13	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.17.0-RC2
+	* Fixes #22882 - Fix generating mo files
+
 2018-03-08	Justin Sherrill <jsherril@redhat.com>
 	* Fixes #22676 - domain checking should ignore scoping
 
