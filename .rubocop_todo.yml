@@ -34,13 +34,6 @@ Layout/CaseIndentation:
 Layout/ClosingParenthesisIndentation:
   Enabled: false
 
-# Offense count: 134
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: leading, trailing
-Layout/DotPosition:
-  Enabled: false
-
 # Offense count: 44
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
