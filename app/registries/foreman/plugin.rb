@@ -46,7 +46,6 @@ module Foreman #:nodoc:
       attr_accessor :tests_to_skip, :report_scanner_registry,
                     :report_origin_registry
       private :new
-      include Foreman::WebpackAssets
 
       def def_field(*names)
         class_eval do

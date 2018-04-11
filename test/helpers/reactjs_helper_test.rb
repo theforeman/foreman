@@ -32,7 +32,7 @@ class ReactjsHelperTest < ActionView::TestCase
 
   test "should create js for plugins with webpacked js" do
     res = webpacked_plugins_js_for(:foreman_react, :foreman_angular)
-    assert res.include?('webpack/react.js')
-    assert res.include?('webpack/angular.js')
+    assert res.include?('webpack/foreman_react.js')
+    assert res.include?('webpack/foreman_angular.js')
   end
 end

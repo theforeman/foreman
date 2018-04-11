@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'active_support'
 require 'json'
 
 class PluginWebpackDirectoriesTest < ActiveSupport::TestCase
@@ -11,6 +12,9 @@ class PluginWebpackDirectoriesTest < ActiveSupport::TestCase
     plugin_webpack = `#{@script}`
 
     assert File.exist?(@script)
-    assert_equal JSON.parse(plugin_webpack).keys(), ['entries', 'paths']
+    assert_equal(
+      JSON.parse(plugin_webpack).keys(),
+      ['entries', 'paths', 'plugins']
+    )
   end
 end
