@@ -445,11 +445,6 @@ Style/IdenticalConditionalBranches:
 Style/IfInsideElse:
   Enabled: false
 
-# Offense count: 175
-# Cop supports --auto-correct.
-Style/IfUnlessModifier:
-  Enabled: false
-
 # Offense count: 2
 Style/IfUnlessModifierOfIfUnless:
   Enabled: false
