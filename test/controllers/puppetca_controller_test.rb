@@ -8,10 +8,11 @@ class PuppetcaControllerTest < ActionController::TestCase
   test 'problems when signing certificate redirect to certificates page' do
     # Try set any random path in the referer to ensure it doesn't redirect_to :back
     @request.env['HTTP_REFERER'] = hosts_path
+    ProxyStatus::PuppetCA.any_instance.expects(:find).raises("A problem")
     # This will try to find the certificate to no avail and will raise a ProxyException
     post :update, params: { :smart_proxy_id => @proxy.id, :id => 1 }, session: set_session_user
     assert_redirected_to smart_proxy_path(@proxy, :anchor => 'certificates')
-    assert_match(/ProxyAPI::ProxyException/, flash[:error])
+    assert_match(/A problem/, flash[:error])
   end
 
   test 'index encodes any CN to an url safe string' do

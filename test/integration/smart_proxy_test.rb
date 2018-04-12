@@ -2,6 +2,11 @@ require 'integration_test_helper'
 require 'pagelets_test_helper'
 
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
+  setup do
+    ProxyStatus::Version.any_instance.stubs(:version).returns({'version' => '1.11', 'modules' => {'dhcp' => '1.11'}})
+    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+  end
+
   test "index page" do
     assert_index_page(smart_proxies_path, "Smart Proxies", "Create Smart Proxy", false)
     visit smart_proxies_path

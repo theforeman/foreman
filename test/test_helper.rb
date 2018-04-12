@@ -4,14 +4,20 @@ ENV["RAILS_ENV"] = "test"
 require 'minitest/mock'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require 'mocha/mini_test'
+require 'mocha/minitest'
 require 'factory_bot_rails'
 require 'controllers/shared/basic_rest_response_test'
 require 'facet_test_helper'
 require 'active_support_test_case_helper'
 require 'fact_importer_test_helper'
 require 'rfauxfactory'
+require 'webmock/minitest'
+require 'webmock'
 
+# Do not allow network connections and external processes
+WebMock.disable_net_connect!(allow_localhost: true)
+
+# Configure shoulda
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :minitest_4
