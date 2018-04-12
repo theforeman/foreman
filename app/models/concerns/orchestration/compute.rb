@@ -22,7 +22,7 @@ module Orchestration::Compute
       # this is mostly relevant when the orchestration had a failure, and later on in the ui we try to retrieve the server again.
       # or when the server was removed not via foreman.
     elsif compute_resource_id.present? && compute_attributes
-      compute_resource.new_vm compute_attributes rescue nil
+      compute_resource.new_vm compute_attributes
     end
   end
 
