@@ -60,10 +60,10 @@ const BreadcrumbSwitcherPopover = ({
       <React.Fragment>
         <ListGroup className="scrollable-list">
           {resources.map(resource => (
-              <ListGroupItem {...createItemProps(resource)}>
-                <EllipsisWithTooltip>{resource.name}</EllipsisWithTooltip>
-              </ListGroupItem>
-            ))}
+            <ListGroupItem {...createItemProps(resource)}>
+              <EllipsisWithTooltip>{resource.name}</EllipsisWithTooltip>
+            </ListGroupItem>
+          ))}
         </ListGroup>
         <Pager
           className="pager-sm"
@@ -92,7 +92,7 @@ BreadcrumbSwitcherPopover.propTypes = {
   totalPages: PropTypes.number,
   onResourceClick: PropTypes.func,
   resources: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     name: PropTypes.string.isRequired,
     href: PropTypes.string,
     onClick: PropTypes.func,
