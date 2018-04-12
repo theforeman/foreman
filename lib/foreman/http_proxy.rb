@@ -17,7 +17,7 @@ module Foreman
     def http_proxied_rescue(&block)
       yield
     rescue => e
-      raise e, _("Proxied request failed with: %s") % e, e.backtrace
+      raise e, _("Proxied request failed with: %s\n%s") % [e, e&.backtrace&.join("\n")]
     end
 
     private

@@ -337,7 +337,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with valid url" do
-    new_url = "qemu+tcp://localhost:16509/system"
+    new_url = "qemu+tcp://dummy.theforeman.org:16509/system"
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:url => new_url } }
     assert_response :success
     assert_equal JSON.parse(@response.body)['url'], new_url, "Can't update libvirt compute resource with valid url #{new_url}"

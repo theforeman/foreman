@@ -4,6 +4,10 @@ class SmartProxiesControllerTest < ActionController::TestCase
   basic_pagination_rendered_test
   basic_pagination_per_page_test
 
+  setup do
+    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+  end
+
   def test_index
     get :index, session: set_session_user
     assert_template 'index'

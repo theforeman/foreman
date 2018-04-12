@@ -9,7 +9,11 @@ class ComputeResourceHostAssociatorTest < ActiveSupport::TestCase
   let(:vm2) { stub('vm2', :identity => Foreman.uuid) }
   let(:vm3) { stub('vm3', :identity => Foreman.uuid) }
   let(:vms) { [vm1, vm2, vm3] }
-  let(:host_with_vm) { FactoryBot.create(:host, :compute_resource => compute_resource) }
+  let(:host_with_vm) do
+    FactoryBot.create(:host, :compute_resource => compute_resource).tap do |host|
+      host.stubs(:vm_exists?).returns(true)
+    end
+  end
   let(:host_without_vm) { FactoryBot.build(:host) }
 
   test 'associates vm with a host if they match' do

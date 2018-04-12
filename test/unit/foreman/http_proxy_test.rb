@@ -6,9 +6,9 @@ class HTTPProxyTest < ActiveSupport::TestCase
   end
 
   let(:adapter) { DummyHTTPAdapter.new }
-  let(:http_proxy) { 'http://proxy:3218' }
+  let(:http_proxy) { 'http://dummyproxy.theforeman.org:3218' }
   let(:excepted_hosts) { [] }
-  let(:request_host) { 'remotehost.xyz' }
+  let(:request_host) { 'dummyproxy.theforeman.org' }
   let(:schema) { 'http' }
 
   setup do
@@ -87,23 +87,22 @@ class HTTPProxyTest < ActiveSupport::TestCase
     let(:excon_connection) { Excon::Connection.new }
 
     setup do
+      Excon::Connection.class_eval { prepend Foreman::HttpProxy::ExconConnectionExtension } if Excon::Connection.ancestors.first != Foreman::HttpProxy::ExconConnectionExtension
       excon_connection.stubs(:http_proxy).returns(http_proxy)
-      excon_connection.stubs(:orig_request).returns(true)
       excon_connection.stubs(:setup_proxy).returns
       excon_connection.stubs(:proxy_http_request?).returns(true)
     end
 
     test 'set @data[:proxy] to proxy' do
-      excon_connection.request({})
-      assert_equal http_proxy,
-                   excon_connection.instance_variable_get(:@data)[:proxy]
+      stub_request(:get, "http://#{request_host}/features").to_return(status: 200, body: "", headers: {})
+      excon_connection.request({host: request_host, path: "/features", headers: {}})
+      assert_equal http_proxy, excon_connection.instance_variable_get(:@data)[:proxy]
     end
 
     test 'rescues requests and mentions proxy' do
-      excon_connection.unstub(:orig_request)
-      excon_connection.stubs(:orig_request).raises(Excon::Error::Socket)
-      assert_raises_with_message Excon::Error::Socket, "Proxied request" do
-        excon_connection.request({})
+      stub_request(:get, "http://#{request_host}/features").to_raise("AnException")
+      assert_raises_with_message Excon::Error::Socket, "AnException" do
+        excon_connection.request({host: request_host, path: "/features", headers: {}})
       end
     end
   end
@@ -112,22 +111,22 @@ class HTTPProxyTest < ActiveSupport::TestCase
     let(:net_http) { Net::HTTP.new(request_host) }
 
     setup do
+      Net::HTTP.class_eval { prepend Foreman::HttpProxy::NetHttpExtension } if Net::HTTP.ancestors.first != Foreman::HttpProxy::NetHttpExtension
       net_http.stubs(:http_proxy).returns(http_proxy)
-      net_http.stubs(:orig_request).returns(true)
       net_http.stubs(:proxy_http_request?).returns(true)
     end
 
     test 'set @data[:proxy] to proxy' do
-      net_http.request({})
-      assert_equal URI.parse(http_proxy),
-                   net_http.instance_variable_get(:@proxy_address)
+      stub_request(:get, "http://#{request_host}/features").to_return(status: 200, body: "", headers: {})
+      net_http.request(Net::HTTP::Get.new("/features"))
+      assert_equal URI.parse(http_proxy), net_http.instance_variable_get(:@proxy_address)
+      assert_equal Foreman::HttpProxy::NetHttpExtension, Net::HTTP.ancestors.first
     end
 
     test 'rescues requests and mentions proxy' do
-      net_http.unstub(:orig_request)
-      net_http.stubs(:orig_request).raises(StandardError.new)
-      assert_raises_with_message StandardError.new, "Proxied request" do
-        net_http.request({})
+      stub_request(:get, "http://#{request_host}/features").to_raise("AnException")
+      assert_raises_with_message StandardError.new, "AnException" do
+        net_http.request(Net::HTTP::Get.new("/features"))
       end
     end
   end
@@ -136,24 +135,18 @@ class HTTPProxyTest < ActiveSupport::TestCase
     let(:rest_client_request) { RestClient::Request.new(url: request_host, method: 'get') }
 
     setup do
+      RestClient::Request.class_eval { prepend Foreman::HttpProxy::RestClientExtension } if RestClient::Request.ancestors.first != Foreman::HttpProxy::RestClientExtension
       rest_client_request.stubs(:http_proxy).returns(http_proxy)
-      rest_client_request.stubs(:orig_proxy_uri).returns(true)
       rest_client_request.stubs(:proxy_http_request?).returns(true)
     end
 
-    test 'has orig_proxy_uri' do
-      assert rest_client_request.respond_to?(:orig_proxy_uri)
-    end
-
     test 'proxy_uri returns proxy' do
-      assert_equal URI.parse(http_proxy),
-                   rest_client_request.proxy_uri
+      assert_equal URI.parse(http_proxy), rest_client_request.proxy_uri
     end
 
     test 'sets @proxy for request' do
       net_http_object = rest_client_request.net_http_object(request_host, 8080)
-      assert_equal URI.parse(http_proxy).hostname,
-                   net_http_object.instance_variable_get(:@proxy_address)
+      assert_equal URI.parse(http_proxy).hostname, net_http_object.instance_variable_get(:@proxy_address)
     end
   end
 end

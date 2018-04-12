@@ -222,7 +222,6 @@ class EnvironmentsControllerTest < ActionController::TestCase
   test "should accept environment with name 'name'" do
     @request.env["HTTP_REFERER"] = environments_url
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["new"])
-    get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
     post :obsolete_and_new, params:
       { "changed" =>
        {"new" =>

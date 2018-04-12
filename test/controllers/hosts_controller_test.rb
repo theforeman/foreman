@@ -1270,6 +1270,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test '#review_before_build' do
     HostBuildStatus.any_instance.stubs(:host_status).returns(true)
+    HostBuildStatus.any_instance.stubs(:check_all_statuses).returns(true)
     get :review_before_build, params: {:id => @host.name}, session: set_session_user, xhr: true
     assert_response :success
     assert_template 'review_before_build'

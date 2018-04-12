@@ -11,7 +11,7 @@ class GeneralSettingTest < ActiveSupport::TestCase
     end
 
     test 'http_proxy must be HTTP(S) URL' do
-      http_proxy_setting.value = 'http://localhost:3218'
+      http_proxy_setting.value = 'http://dummy.theforeman.org:3218'
       assert_valid http_proxy_setting
     end
 
