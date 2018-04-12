@@ -25,10 +25,28 @@ class SeedsTest < ActiveSupport::TestCase
     User.current = nil
   end
 
-  test 'populates features' do
-    count = Feature.count
+  test 'populates multiple tables' do
+    tables = [Feature, Ptable, ProvisioningTemplate, Medium, Bookmark, AuthSourceExternal]
+
+    tables.each do |model|
+      assert model.unscoped.count.zero?
+    end
+
     seed
-    assert_not_equal count, Feature.count
+
+    tables.each do |model|
+      refute model.unscoped.count.zero?
+    end
+
+    refute Ptable.unscoped.where(:os_family => nil).any?
+    refute Medium.unscoped.where(:os_family => nil).any?
+    Dir["#{Rails.root}/app/views/unattended/**/*.erb"].each do |tmpl|
+      if tmpl =~ /partition_tables_templates/
+        assert Ptable.unscoped.where(:template => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
+      else
+        assert ProvisioningTemplate.unscoped.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"
+      end
+    end
   end
 
   test 'populates hidden admin users' do
@@ -73,46 +91,6 @@ class SeedsTest < ActiveSupport::TestCase
       assert user.admin?
       refute user.hidden?
       assert_valid user
-    end
-  end
-
-  test 'populates partition tables' do
-    count = Ptable.unscoped.count
-    seed
-    assert_not_equal count, Ptable.unscoped.count
-    refute Ptable.unscoped.where(:os_family => nil).any?
-  end
-
-  test 'populates installation media' do
-    count = Medium.unscoped.count
-    seed
-    assert_not_equal count, Medium.unscoped.count
-    refute Medium.unscoped.where(:os_family => nil).any?
-  end
-
-  test 'populates config templates' do
-    count = ProvisioningTemplate.unscoped.count
-    seed
-    assert_not_equal count, ProvisioningTemplate.unscoped.count
-
-    Dir["#{Rails.root}/app/views/unattended/**/*.erb"].each do |tmpl|
-      if tmpl =~ /partition_tables_templates/
-        assert Ptable.unscoped.where(:template => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
-      else
-        assert ProvisioningTemplate.unscoped.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"
-      end
-    end
-  end
-
-  test 'populates bookmarks' do
-    count = Bookmark.unscoped.where(:public => true).count
-    seed
-    assert_not_equal count, Bookmark.unscoped.where(:public => true).count
-  end
-
-  test 'populates external auth source if the authorize_login_delegation_auth_source_user_autocreate setting is set' do
-    assert_difference 'AuthSourceExternal.count', 1 do
-      seed
     end
   end
 
