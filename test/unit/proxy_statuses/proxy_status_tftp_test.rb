@@ -25,13 +25,6 @@ class ProxyStatusTftpTest < ActiveSupport::TestCase
     assert_nil(Rails.cache.fetch("proxy_#{@proxy.id}/TFTP"))
   end
 
-  test 'it raises an error if proxy has no tftp feature' do
-    proxy = FactoryBot.build_stubbed(:smart_proxy)
-    assert_raise Foreman::WrappedException do
-      ProxyStatus::TFTP.new(proxy).server
-    end
-  end
-
   test 'it should catch connection setup exceptions' do
     ProxyAPI::Version.any_instance.stubs(:proxy_versions).raises(Errno::ENOENT)
     assert_raise(Foreman::WrappedException, "Unable to connect to smart proxy") do

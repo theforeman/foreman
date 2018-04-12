@@ -230,7 +230,9 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     end
 
     test "should call build_pxe_default with allowed_helpers containing the default helpers" do
-      TemplatesController.any_instance.expects(:render_safe).twice.with(anything, includes(*Foreman::Renderer::ALLOWED_GENERIC_HELPERS), anything).returns(true)
+      ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
+      ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
+      TemplatesController.any_instance.expects(:render_safe).times(3).with(anything, includes(*Foreman::Renderer::ALLOWED_GENERIC_HELPERS), anything).returns(true)
       ProvisioningTemplate.build_pxe_default(TemplatesController.new)
     end
 
