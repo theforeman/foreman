@@ -3,7 +3,7 @@ require "mocha/setup"
 
 class ProxyApiBmcTest < ActiveSupport::TestCase
   def setup
-    @url="http://localhost:8443"
+    @url = "http://dummyproxy.theforeman.org:8443"
     @options = {:username => "testuser", :password => "fakepass"}
     @testbmc = ProxyAPI::BMC.new({:user => "admin", :password => "secretpass", :url => @url})
   end

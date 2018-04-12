@@ -53,6 +53,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Setting[:require_ssl_smart_proxies] = false
 
       proxy = smart_proxies(:puppetmaster)
+      proxy.stubs(:associate_features)
       as_admin { proxy.update_attribute(:url, 'http://configreports.foreman') }
       host = URI.parse(proxy.url).host
       Resolv.any_instance.stubs(:getnames).returns([host])

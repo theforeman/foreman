@@ -2318,6 +2318,7 @@ class HostTest < ActiveSupport::TestCase
         :compute_resource => compute_resources(:ec2),
         :organization => nil,
         :location => nil)
+      host.stubs(:vm_exists?).returns(true)
       host.expects(:queue_compute_create)
       assert host.valid?, host.errors.full_messages.to_sentence
       assert_equal compute_attributes(:one).vm_attrs, host.compute_attributes
@@ -2329,6 +2330,7 @@ class HostTest < ActiveSupport::TestCase
         :compute_profile => compute_profiles(:two),
         :organization => nil,
         :location => nil)
+      host.stubs(:vm_exists?).returns(true)
       host.expects(:queue_compute_create)
       assert host.valid?, host.errors.full_messages.to_sentence
       assert_equal compute_attributes(:three).vm_attrs, host.compute_attributes
@@ -3389,6 +3391,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "should create host with compute profile when compute_attributes are empty" do
+      @host.stubs(:vm_exists?).returns(true)
       @host.compute_resource.expects(:create_vm).once.with do |vm_attrs|
         vm_attrs['flavor_id'] == @compute_attrs.vm_attrs['flavor_id'] &&
         vm_attrs['availability_zone'] == @compute_attrs.vm_attrs['availability_zone']
@@ -3400,6 +3403,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "should create host with compute profile when compute_attributes are nil" do
       @host.compute_attributes = nil
+      @host.stubs(:vm_exists?).returns(true)
       @host.compute_resource.expects(:create_vm).once.with do |vm_attrs|
         vm_attrs['flavor_id'] == @compute_attrs.vm_attrs['flavor_id'] &&
         vm_attrs['availability_zone'] == @compute_attrs.vm_attrs['availability_zone']
@@ -3425,6 +3429,7 @@ class HostTest < ActiveSupport::TestCase
         vm_attrs['flavor_id'].nil? &&
         vm_attrs['availability_zone'].nil?
       end
+      @host.stubs(:vm_exists?).returns(true)
 
       @host.valid?
       @host.send(:setCompute)

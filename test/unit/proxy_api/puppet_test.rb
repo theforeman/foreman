@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProxyApiPuppetTest < ActiveSupport::TestCase
   def setup
-    @url = "http://localhost:8443"
+    @url = "http://dummyproxy.theforeman.org:8443"
     @puppet = ProxyAPI::Puppet.new({:url => @url})
   end
 

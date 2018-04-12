@@ -14,7 +14,7 @@ class HostMailerTest < ActionMailer::TestCase
 
     User.current = users :admin
 
-    Setting[:foreman_url] = "http://localhost:3000/hosts/:id"
+    Setting[:foreman_url] = "http://dummy.theforeman.org:3000/hosts/:id"
 
     @options = {}
     @options[:env] = @env

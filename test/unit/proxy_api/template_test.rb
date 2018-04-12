@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProxyApiTemplateTest < ActiveSupport::TestCase
   def setup
-    @url = "http://localhost:8443"
+    @url = "http://dummyproxy.theforeman.org:8443"
     @template = ProxyAPI::Template.new({:url => @url})
   end
 
