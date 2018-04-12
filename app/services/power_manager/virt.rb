@@ -32,7 +32,7 @@ module PowerManager
     def default_action(action)
       action_status = vm.send(action)
       # Temporary fix until fog-ovirt is updated
-      if action_status.is_a?(Fog::Compute::Ovirt::Server)
+      if Fog::Compute.const_defined?(:Ovirt) && action_status.is_a?(Fog::Compute::Ovirt::Server)
         return true
       end
       action_status
