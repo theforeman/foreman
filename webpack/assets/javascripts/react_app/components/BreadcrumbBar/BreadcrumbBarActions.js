@@ -45,7 +45,7 @@ export const loadSwitcherResourcesByResource = (resource, options = {}) => (disp
 
     return {
       items: switcherItems,
-      page: data.page,
+      page: Number(data.page),
       pages: Number(data.total) / Number(data.per_page),
     };
   };
