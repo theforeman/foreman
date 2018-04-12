@@ -11,7 +11,12 @@ module AuditsHelper
       when 'last_login_on'
         label = change.to_s(:short)
       when /.*_id$/
-        label = name.classify.gsub('Id', '').constantize.find(change).to_label
+        begin
+          label = name.classify.gsub('Id', '').constantize.find(change).to_label
+        rescue NameError
+          # fallback to the value only instead of N/A that is in generic rescue below
+          return change.to_s
+        end
       else
         label = (change.to_s == AuditExtensions::REDACTED) ? _(change.to_s) : change.to_s
     end
