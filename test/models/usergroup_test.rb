@@ -339,6 +339,7 @@ class UsergroupTest < ActiveSupport::TestCase
       end
 
       test 'should audit when a child-usergroup is assigned to a parent-usergroup' do
+        refute_empty @usergroup.audits, 'No audits created while expecting at least one'
         recent_audit = @usergroup.audits.last
         audited_changes = recent_audit.audited_changes[:usergroups]
         assert audited_changes, 'No audits found for usergroups'
@@ -349,6 +350,7 @@ class UsergroupTest < ActiveSupport::TestCase
       test 'should audit when a child-usergroup is removed/de-assigned from a parent-usergroup' do
         @usergroup.usergroup_ids = []
         @usergroup.save
+        refute_empty @usergroup.audits, 'No audits created while expecting at least one'
         recent_audit = @usergroup.audits.last
         audited_changes = recent_audit.audited_changes[:usergroups]
         assert audited_changes, 'No audits found for usergroups'
@@ -365,6 +367,7 @@ class UsergroupTest < ActiveSupport::TestCase
       end
 
       test 'should audit when a role is assigned to a usergroup' do
+        refute_empty @usergroup.audits, 'No audits created while expecting at least one'
         recent_audit = @usergroup.audits.last
         audited_changes = recent_audit.audited_changes[:roles]
         assert audited_changes, 'No audits found for user-roles'
@@ -375,6 +378,7 @@ class UsergroupTest < ActiveSupport::TestCase
       test 'should audit when a role is removed/de-assigned from a usergroup' do
         @usergroup.role_ids = []
         @usergroup.save
+        refute_empty @usergroup.audits, 'No audits created while expecting at least one'
         recent_audit = @usergroup.audits.last
         audited_changes = recent_audit.audited_changes[:roles]
         assert audited_changes, 'No audits found for usergroup-roles'
@@ -391,6 +395,7 @@ class UsergroupTest < ActiveSupport::TestCase
       end
 
       test 'should audit when a user is assigned to a usergroup' do
+        refute_empty @usergroup.audits, 'No audits created while expecting at least one'
         recent_audit = @usergroup.audits.last
         audited_changes = recent_audit.audited_changes[:users]
         assert audited_changes, 'No audits found for users'
@@ -401,6 +406,7 @@ class UsergroupTest < ActiveSupport::TestCase
       test 'should audit when a user is removed/de-assigned from a usergroup' do
         @usergroup.user_ids = []
         @usergroup.save
+        refute_empty @usergroup.audits, 'No audits created while expecting at least one'
         recent_audit = @usergroup.audits.last
         audited_changes = recent_audit.audited_changes[:users]
         assert audited_changes, 'No audits found for users'
