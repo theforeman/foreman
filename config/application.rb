@@ -276,7 +276,7 @@ module Foreman
     end
 
     config.after_initialize do
-      init_dynflow
+      init_dynflow unless Foreman.in_rake?('db:drop')
       setup_auditing
     end
 
