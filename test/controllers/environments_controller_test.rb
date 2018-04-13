@@ -107,8 +107,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin {Puppetclass.create(:name => "d")}
     Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
-    #db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
-    #disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
+    # db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
+    # disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
     assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env1[value*="d"]'
@@ -126,8 +126,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
   test "should handle disk environment containing less environments" do
     setup_import_classes
     as_admin {Environment.create(:name => "env3")}
-    #db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
-    #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
+    # db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
+    # disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster).id }, session: set_session_user
     assert_template "common/_puppetclasses_or_envs_changed"
     assert_select 'input#changed_obsolete_env3'
@@ -162,7 +162,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
        }
      }, session: set_session_user
     assert Environment.unscoped.find_by_name("env1").hosts.count > 0
-    #assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
+    # assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
     assert Environment.unscoped.find_by_name("env1")
   end
 
@@ -173,8 +173,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
       Environment.create :name => "env3"
       Environment.find_by_name("env2").destroy
     end
-    #db_tree   of {"env1" => ["a", "b", "c"], "env3" => []}
-    #disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
+    # db_tree   of {"env1" => ["a", "b", "c"], "env3" => []}
+    # disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
 
     PuppetClassImporter.any_instance.stubs(:ignored_environments).returns(["env1", "env2", "env3"])
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user

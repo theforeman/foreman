@@ -417,7 +417,7 @@ module Host
           elsif mac_based.physical.any?
             mac_based.physical
           elsif !self.managed
-            #Unmanaged host's interfaces are just used for reporting, so overwrite based on identifier first
+            # Unmanaged host's interfaces are just used for reporting, so overwrite based on identifier first
             base.where(:identifier => name)
           end
       end

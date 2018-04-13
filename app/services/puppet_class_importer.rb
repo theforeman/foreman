@@ -78,7 +78,7 @@ class PuppetClassImporter
       end
     end
     []
-    #rescue => e
+    # rescue => e
     #  logger.error(e)
     #  [e.to_s]
   end
@@ -297,7 +297,7 @@ class PuppetClassImporter
       key_in_env = EnvironmentClass.key_in_environment(env, db_class, key)
 
       if key && key_in_env
-        #detach
+        # detach
         key_in_env.destroy
         # destroy if the key is not in any environment.
         key.destroy unless EnvironmentClass.is_in_any_environment(db_class, key)

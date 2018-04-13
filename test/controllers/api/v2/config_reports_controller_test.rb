@@ -6,7 +6,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
 
   describe "Non Admin User" do
     def setup
-      User.current = users(:one) #use an unprivileged user, not apiadmin
+      User.current = users(:one) # use an unprivileged user, not apiadmin
     end
 
     def create_a_puppet_transaction_report

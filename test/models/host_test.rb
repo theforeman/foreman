@@ -1239,7 +1239,7 @@ class HostTest < ActiveSupport::TestCase
       host.name = "whatever"
       assert host.save!
       assert_equal 'eHlieGE2SlVrejYzdw==', host.root_pass
-      #then let's check that we can change root pass
+      # then let's check that we can change root pass
       host.root_pass = "oh my pass"
       assert host.save!
       refute_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
@@ -1818,7 +1818,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "can search hosts by hostgroup" do
-      #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+      # setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
       hostgroup = hostgroups(:db)
       parent_hostgroup = hostgroups(:common)
       hostgroup.parent_id = parent_hostgroup.id
@@ -1832,7 +1832,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "can search hosts by parent hostgroup and its descendants" do
-      #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+      # setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
       hostgroup = hostgroups(:db)
       parent_hostgroup = hostgroups(:common)
       hostgroup.parent_id = parent_hostgroup.id
@@ -2059,7 +2059,7 @@ class HostTest < ActiveSupport::TestCase
       results = Host.search_for("smart_proxy = #{proxy.name}")
       assert_equal 1, results.count
       assert results.include?(host)
-      #the results should not change even if the host has multiple connections to same proxy
+      # the results should not change even if the host has multiple connections to same proxy
       host.update_attribute(:puppet_ca_proxy_id, proxy.id)
       results2 = Host.search_for("smart_proxy = #{proxy.name}")
       assert_equal results, results2
@@ -2134,7 +2134,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "CRs without IP attribute don't require an IP" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the CR
+      Setting[:token_duration] = 30 # enable tokens so that we only test the CR
       host = FactoryBot.build_stubbed(:host, :managed,
                           :compute_resource => compute_resources(:one),
                           :compute_attributes => {:fake => "data"})
@@ -2143,7 +2143,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "CRs with IP attribute and a DNS-enabled domain do not require an IP" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the CR
+      Setting[:token_duration] = 30 # enable tokens so that we only test the CR
       host = FactoryBot.build_stubbed(:host, :managed, :domain => domains(:mydomain),
                           :compute_resource => compute_resources(:openstack),
                           :compute_attributes => {:fake => "data"})
@@ -2152,35 +2152,35 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "hosts with a IPv4 DNS-enabled Domain do require an IPv4 address" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the domain
+      Setting[:token_duration] = 30 # enable tokens so that we only test the domain
       host = FactoryBot.build(:host, :managed, :domain => domains(:mydomain))
       assert host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts with a DNS-enabled Domain without IPv4 do require an IPv6 address" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the domain
+      Setting[:token_duration] = 30 # enable tokens so that we only test the domain
       host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6, :domain => domains(:mydomain))
       refute host.require_ip4_validation?
       assert host.require_ip6_validation?
     end
 
     test "hosts without a DNS-enabled Domain don't require an IP" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the domain
+      Setting[:token_duration] = 30 # enable tokens so that we only test the domain
       host = FactoryBot.build_stubbed(:host, :managed, :domain => domains(:useless))
       refute host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts with a DNS-enabled Subnet do require an IPv4 address" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
       host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dns))
       assert host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts with a DNS-enabled Domain on CR providing a IPv4 address do not require any kind of address" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
       proxy = FactoryBot.create(:smart_proxy,
                                  :features => [FactoryBot.create(:feature, :dns)])
       domain = FactoryBot.create(:domain,
@@ -2197,21 +2197,21 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "hosts with a DHCP-enabled Subnet do require an IP" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
       host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp))
       assert host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts without a DNS/DHCP-enabled Subnet don't require an IP" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
       host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil))
       refute host.require_ip4_validation?
       refute host.require_ip6_validation?
     end
 
     test "hosts with a DNS-enabled IPv6 Subnet require an IPv6 but don't require an IPv4 address" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
       host = FactoryBot.build_stubbed(:host, :managed,
                                :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil),
                                :subnet6 => FactoryBot.build_stubbed(:subnet_ipv6, :dns))
@@ -2220,7 +2220,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "hosts with a DNS-enabled IPv6 Subnet, the mac provided by a CR and a mac based IPAM require neither a IPv6 nor a IPv4 address" do
-      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
       subnet6 = FactoryBot.build_stubbed(:subnet_ipv6, :dns, :ipam => IPAM::MODES[:eui64])
       host = FactoryBot.build_stubbed(:host,
                                :on_compute_resource,
@@ -2305,7 +2305,7 @@ class HostTest < ActiveSupport::TestCase
           host
         end
       end
-      Setting[:token_duration] = 30 #enable tokens so that we only test the subnet
+      Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
       test_host    = Host::Test.create(:name => 'testhost', :interfaces => [FactoryBot.build(:nic_primary_and_provision)])
       managed_host = test_host.to_managed!
       assert_empty Token.where(:host_id => managed_host.id)

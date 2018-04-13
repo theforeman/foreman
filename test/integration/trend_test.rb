@@ -7,7 +7,7 @@ class TrendIntegrationTest < ActionDispatch::IntegrationTest
     assert find_link("Add Trend Counter").visible?, "Add Trend Counter is not visible"
   end
 
-  #PENDING
+  # PENDING
   # test "create new page" do
   #   assert_new_button(trends_path,"Add Trend Counter",new_trend_path)
   #   fill_in "trend_name", :with => "architecture"
@@ -15,5 +15,5 @@ class TrendIntegrationTest < ActionDispatch::IntegrationTest
   #   assert page.has_link? "architecture"
   # end
 
-  #PENDING - SHOW trend
+  # PENDING - SHOW trend
 end

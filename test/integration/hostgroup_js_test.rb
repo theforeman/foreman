@@ -91,7 +91,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     select_from_list 'hostgroup_location_ids', new_location
 
     click_button "Submit"
-    #wait for submit to finish
+    # wait for submit to finish
     page.find('#search-form')
 
     group.locations.reload

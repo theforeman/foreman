@@ -169,8 +169,8 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
 
   test "should obey config/ignored_environments.yml" do
     as_admin do
-      hostgroups(:inherited).destroy #needs to be deleted first, since it has ancestry
-      Hostgroup.destroy_all #to satisfy FK contraints when deleting Environments
+      hostgroups(:inherited).destroy # needs to be deleted first, since it has ancestry
+      Hostgroup.destroy_all # to satisfy FK contraints when deleting Environments
       Environment.destroy_all
     end
 

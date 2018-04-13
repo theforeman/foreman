@@ -64,7 +64,7 @@ class LookupValue < ApplicationRecord
 
   private
 
-  #TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
+  # TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
   def sanitize_match
     self.match = match.split(LookupKey::KEY_DELM).map {|s| s.split(LookupKey::EQ_DELM).map(&:strip).join(LookupKey::EQ_DELM)}.join(LookupKey::KEY_DELM) if match.present?
   end

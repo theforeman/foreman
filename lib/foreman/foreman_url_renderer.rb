@@ -8,7 +8,7 @@ module Foreman
       {}
     end
 
-    #returns the URL for Foreman based on the required action
+    # returns the URL for Foreman based on the required action
     def foreman_url(action = 'provision')
       # Get basic stuff
       config   = URI.parse(Setting[:unattended_url])

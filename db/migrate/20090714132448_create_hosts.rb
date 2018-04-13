@@ -8,7 +8,7 @@ class CreateHosts < ActiveRecord::Migration[4.2]
       t.column :last_compile, :datetime
       t.column :last_freshcheck, :datetime
       t.column :last_report, :datetime
-      #Use updated_at to automatically add timestamp on save.
+      # Use updated_at to automatically add timestamp on save.
       t.column :updated_at, :datetime
       t.column :source_file_id, :integer
       t.column :created_at, :datetime

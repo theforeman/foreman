@@ -200,7 +200,7 @@ class UnattendedController < ApplicationController
     # error so the installer knows something is wrong. This is tested with
     # Anaconda, but maybe Suninstall will choke on it.
     render(:plain => _("Failed to clean any old certificates or add the autosign entry. Terminating the build!"), :status => :internal_server_error) unless @host.handle_ca
-    #TODO: Email the user who initiated this build operation.
+    # TODO: Email the user who initiated this build operation.
   end
 
   # Reset realm OTP. This is run as a before_action for provisioning templates.

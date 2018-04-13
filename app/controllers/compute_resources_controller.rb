@@ -6,7 +6,7 @@ class ComputeResourcesController < ApplicationController
   before_action :ajax_request, :only => AJAX_REQUESTS
   before_action :find_resource, :only => [:show, :edit, :associate, :update, :destroy, :ping, :refresh_cache] + AJAX_REQUESTS
 
-  #This can happen in development when removing a plugin
+  # This can happen in development when removing a plugin
   rescue_from ActiveRecord::SubclassNotFound do |e|
     type = (e.to_s =~ /failed to locate the subclass: '((\w|::)+)'/) ? Regexp.last_match(1) : 'STI-Type'
     render :plain => (e.to_s+"<br><b>run ComputeResource.where(:type=>'#{type}').delete_all to recover.</b>").html_safe, :status=> :internal_server_error
@@ -114,7 +114,7 @@ class ComputeResourcesController < ApplicationController
     end
   end
 
-  #ajax methods
+  # ajax methods
   def provider_selected
     @compute_resource = ComputeResource.new_provider :provider => params[:provider]
     render :partial => "compute_resources/form", :locals => { :compute_resource => @compute_resource }

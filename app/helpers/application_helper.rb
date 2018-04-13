@@ -330,10 +330,10 @@ module ApplicationHelper
     button_classes << 'btn-primary' if options[:primary]
 
     content_tag(:div, options.merge(:class=>'btn-group')) do
-      #single button
+      # single button
       if args.length == 1
         content_tag(:span, args[0], :class => button_classes).html_safe
-      #multiple options
+      # multiple options
       else
         button_classes << 'dropdown-toggle'
         title = (title + " " + content_tag(:span, '', :class => 'caret'))
@@ -353,10 +353,10 @@ module ApplicationHelper
     args = args.flatten.select(&:present?)
     return if args.blank?
 
-    #single button
+    # single button
     return content_tag(:span, args[0].html_safe, :class=>'btn btn-sm btn-default') if args.length == 1
 
-    #multiple buttons
+    # multiple buttons
     primary = args.delete_at(0).html_safe
     primary = content_tag(:span, primary, :class=>'btn btn-sm btn-default') if primary !~ /btn/
 

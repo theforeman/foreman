@@ -425,7 +425,7 @@ class UserTest < ActiveSupport::TestCase
 
   context "audits for password change" do
     setup do
-      @user = User.find_by_id(FactoryBot.create(:user)) #to clear the value of user.password
+      @user = User.find_by_id(FactoryBot.create(:user)) # to clear the value of user.password
     end
 
     test "audit of password change should be saved redacted" do

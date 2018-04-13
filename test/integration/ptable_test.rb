@@ -27,6 +27,6 @@ class PtableIntegrationTest < ActionDispatch::IntegrationTest
 
     assert page.has_link? 'debian.default /dev/sda'
     click_link "debian.default /dev/sda"
-    assert page.has_field?("ptable_name") #not 404
+    assert page.has_field?("ptable_name") # not 404
   end
 end

@@ -159,7 +159,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_match "No hosts are mismatched", @response.body
   end
 
-  #Clone
+  # Clone
   test "should present clone wizard" do
     organization = taxonomies(:organization1)
     get :clone_taxonomy, params: { :id => organization.id }, session: set_session_user
@@ -203,7 +203,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     user2 = FactoryBot.create(:user, :with_mail)
     organization = as_admin { FactoryBot.create(:organization, :users => [user1, user2]) }
 
-    User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
+    User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) # 2 users, all admins
     put :update, params: { :id => organization.id, :organization => {:name => "Topbar Org" } }, session: set_session_user
   end
 

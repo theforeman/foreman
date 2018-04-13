@@ -6,7 +6,7 @@ class ImageTest < ActiveSupport::TestCase
   test "image is invalid if uuid invalid" do
     image = FactoryBot.build(:image, :uuid => "bar")
     ComputeResource.any_instance.stubs(:image_exists?).returns(false)
-    image.valid? #trigger validations
+    image.valid? # trigger validations
     assert image.errors.messages.keys.include?(:uuid)
   end
 

@@ -62,7 +62,7 @@ class HostGroupsHelperTest < ActionView::TestCase
       assert_equal [cp], visible_compute_profiles(host)
     end
 
-    #allow seeing current cp even if it isn't authorized (to prevent incorrect changes)
+    # allow seeing current cp even if it isn't authorized (to prevent incorrect changes)
     host.update_attribute(:compute_profile, ComputeProfile.second)
     as_user(user) do
       assert_equal [cp, ComputeProfile.second], visible_compute_profiles(host)

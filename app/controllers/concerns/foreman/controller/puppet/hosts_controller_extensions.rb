@@ -72,7 +72,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
     ev = Environment.find_by_id(id)
 
-    #update the hosts
+    # update the hosts
     @hosts.each do |host|
       host.environment = (id == 'inherit' && host.hostgroup.present?) ? host.hostgroup.environment : ev
       host.save(:validate => false)

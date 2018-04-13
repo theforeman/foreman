@@ -47,11 +47,6 @@ Layout/ExtraSpacing:
 Layout/IndentHeredoc:
   Enabled: false
 
-# Offense count: 224
-# Cop supports --auto-correct.
-Layout/LeadingCommentSpace:
-  Enabled: false
-
 # Offense count: 173
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

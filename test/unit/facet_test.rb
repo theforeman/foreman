@@ -142,7 +142,7 @@ class FacetTest < ActiveSupport::TestCase
     end
 
     test 'facet can be registered more than once' do
-      #register facet twice
+      # register facet twice
       Facets.register TestFacet
       Facets.register TestFacet
 

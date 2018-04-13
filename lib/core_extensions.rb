@@ -143,7 +143,7 @@ class String
     else
       raise "Unknown string: #{self.inspect}!"
     end
-    unit ||= :byte #default to bytes if no unit given
+    unit ||= :byte # default to bytes if no unit given
 
     case unit.downcase.to_sym
     when :b, :byte, :bytes then (value.to_f / 1.gigabyte)

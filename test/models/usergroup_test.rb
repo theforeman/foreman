@@ -385,7 +385,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
     context 'users' do
       setup do
-        @user = users :one #FactoryBot.create(:user)
+        @user = users :one # FactoryBot.create(:user)
         @usergroup.user_ids = [@user.id]
         @usergroup.save
       end

@@ -29,7 +29,7 @@ module Facets
     entry
   end
 
-  #declare private module methods.
+  # declare private module methods.
   class << self
     private
 

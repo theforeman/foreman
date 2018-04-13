@@ -48,9 +48,9 @@ module Foreman::Model
       if opts[:eager_loading] == true
         super()
       else
-        #VMware server loading is very slow
-        #not using FOG models directly to save the time
-        #and minimize the amount of time required (as we don't require all attributes by default when listing)
+        # VMware server loading is very slow
+        # not using FOG models directly to save the time
+        # and minimize the amount of time required (as we don't require all attributes by default when listing)
         FogExtensions::Vsphere::MiniServers.new(client, datacenter)
       end
     end
@@ -457,7 +457,7 @@ module Foreman::Model
     def save_vm(uuid, attr)
       vm = find_vm_by_uuid(uuid)
       vm.attributes.merge!(attr.deep_symbolize_keys)
-      #volumes are not part of vm.attributes so we have to set them seperately if needed
+      # volumes are not part of vm.attributes so we have to set them seperately if needed
       if attr.has_key?(:volumes_attributes)
         vm.volumes.each do |vm_volume|
           volume_attrs = attr[:volumes_attributes].values.detect {|vol| vol[:id] == vm_volume.id}

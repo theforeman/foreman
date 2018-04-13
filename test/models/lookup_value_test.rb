@@ -154,21 +154,21 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "boolean lookup value should allow for false value" do
-    #boolean key
+    # boolean key
     key = lookup_keys(:three)
     value = LookupValue.new(:value => false, :match => "hostgroup=Common", :lookup_key_id => key.id)
     assert value.valid?
   end
 
   test "boolean lookup value should not allow for nil value" do
-    #boolean key
+    # boolean key
     key = lookup_keys(:three)
     value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
     refute value.valid?
   end
 
   test "boolean lookup value should allow nil value if omit is true" do
-    #boolean key
+    # boolean key
     key = lookup_keys(:three)
     value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id, :omit => true)
     assert_valid value

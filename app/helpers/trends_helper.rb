@@ -34,10 +34,10 @@ module TrendsHelper
                                     .each_with_index.map do |value, idx|
       data = []
       value.trend_counters.each do |counter|
-        #cut the left side of the graph
+        # cut the left side of the graph
         interval_start = ((counter.interval_start || from) > from) ? counter.interval_start : from
         next_timestamp = counter.try(:interval_end) || Time.now.utc
-        #transform the timestamp values to flot format - from seconds in Ruby to milliseconds in flot
+        # transform the timestamp values to flot format - from seconds in Ruby to milliseconds in flot
         data << [interval_start.to_i*1000, counter.count]
         data << [next_timestamp.to_i*1000 - 1, counter.count]
       end

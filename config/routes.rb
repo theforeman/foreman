@@ -5,7 +5,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  #ENC requests goes here
+  # ENC requests goes here
   get "node/:name" => 'hosts#externalNodes', :constraints => { :name => /[^\.][\w\.-]+/ }
 
   resources :config_reports, :only => [:index, :show, :destroy] do

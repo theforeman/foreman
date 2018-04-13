@@ -2,7 +2,7 @@ class Host::Managed < Host::Base
   # audit the changes to this model
   audited :except => [:last_report, :last_compile, :lookup_value_matcher]
   has_associated_audits
-  #redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
+  # redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
   has_many :audits, -> { where(:auditable_type => 'Host::Base') }, :foreign_key => :auditable_id,
            :class_name => 'Audited::Audit'
 
@@ -301,7 +301,7 @@ class Host::Managed < Host::Base
     end
   end
 
-  #retuns fqdn of host puppetmaster
+  # retuns fqdn of host puppetmaster
   def pm_fqdn
     (puppetmaster == "puppet") ? "puppet.#{domain.name}" : puppetmaster.to_s
   end
@@ -491,7 +491,7 @@ class Host::Managed < Host::Base
   # returns sorted hash
   def self.count_habtm(association)
     counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").reorder('').count
-    #Puppetclass.find(counter.keys.compact)...
+    # Puppetclass.find(counter.keys.compact)...
     association.camelize.constantize.find(counter.keys.compact).map {|i| {:label=>i.to_label, :data =>counter[i.id]}}
   end
 
@@ -530,7 +530,7 @@ class Host::Managed < Host::Base
     attributes = hash_clone(attributes).with_indifferent_access
 
     new_hostgroup_id = attributes['hostgroup_id'] || attributes['hostgroup_name'] || attributes['hostgroup'].try(:id)
-    #hostgroup didn't change, no inheritance needs update.
+    # hostgroup didn't change, no inheritance needs update.
     return attributes if new_hostgroup_id.blank?
 
     new_hostgroup = self.hostgroup if initialized

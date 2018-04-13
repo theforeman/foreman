@@ -134,7 +134,7 @@ module Orchestration::TFTP
     valid.all?
   end
 
-  #empty method for rollbacks
+  # empty method for rollbacks
   def delTFTPBootFiles
   end
 

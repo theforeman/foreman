@@ -147,7 +147,7 @@ class LocationsControllerTest < ActionController::TestCase
     assert_match "No hosts are mismatched", @response.body
   end
 
-  #Clone
+  # Clone
   test "should present clone wizard" do
     location = taxonomies(:location1)
     get :clone_taxonomy, params: { :id => location.id }, session: set_session_user
@@ -199,7 +199,7 @@ class LocationsControllerTest < ActionController::TestCase
     user2 = FactoryBot.create(:user, :with_mail)
     location = as_admin { FactoryBot.create(:location, :users => [user1, user2]) }
 
-    User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) #2 users, all admins
+    User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) # 2 users, all admins
     put :update, params: { :id => location.id, :location => {:name => "Topbar Loc" } }, session: set_session_user
   end
 

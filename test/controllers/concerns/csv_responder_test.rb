@@ -16,7 +16,7 @@ class Api::V2::FakeController < Api::V2::BaseController
   end
 end
 
-#add the fake controllers to the routes table
+# add the fake controllers to the routes table
 Rails.application.routes.disable_clear_and_finalize = true
 Rails.application.routes.draw do
   get '/fake' => 'fake#index'

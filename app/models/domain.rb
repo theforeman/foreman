@@ -13,7 +13,7 @@ class Domain < ApplicationRecord
 
   validates_lengths_from_database
   has_many :hostgroups
-  #order matters! see https://github.com/rails/rails/issues/670
+  # order matters! see https://github.com/rails/rails/issues/670
   before_destroy EnsureNotUsedBy.new(:interfaces, :hostgroups, :subnets)
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :domain
   has_many :subnets, :through => :subnet_domains

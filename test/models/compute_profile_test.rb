@@ -11,7 +11,7 @@ class ComputeProfileTest < ActiveSupport::TestCase
   should_not allow_values(*invalid_name_list).for(:name)
 
   test "should not destroy if in use by hostgroup" do
-    #hostgroups(:common) uses compute_profiles(:one)
+    # hostgroups(:common) uses compute_profiles(:one)
     assert !compute_profiles(:one).destroy
   end
 
@@ -27,7 +27,7 @@ class ComputeProfileTest < ActiveSupport::TestCase
 
   test "shoud show visible hw profiles only" do
     assert_equal 4, ComputeProfile.count
-    #3-Large does not have any data in compute_attributes.yml
+    # 3-Large does not have any data in compute_attributes.yml
     assert_equal 3, ComputeProfile.visibles.count
   end
 

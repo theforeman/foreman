@@ -108,7 +108,7 @@ module Foreman::Model
     end
 
     def vm_instance_defaults
-      #256 server
+      # 256 server
       super.merge(
         :flavor_id => 1,
         :config_drive => true
