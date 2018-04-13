@@ -204,13 +204,13 @@ class HostJSTest < IntegrationTestWithJavascript
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
-      click_button 'Ok' #close interfaces
-      #wait for the dialog to close
+      click_button 'Ok' # close interfaces
+      # wait for the dialog to close
       Timeout.timeout(Capybara.default_max_wait_time) do
         loop while find(:css, '#interfaceModal', :visible => false).visible?
       end
       click_on_submit
-      find('#host-show') #wait for host details page
+      find('#host-show') # wait for host details page
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
       assert_equal env.name, host.environment.name
@@ -250,7 +250,7 @@ class HostJSTest < IntegrationTestWithJavascript
       wait_for_ajax
       click_button 'Ok'
 
-      #wait for the dialog to close
+      # wait for the dialog to close
       Timeout.timeout(Capybara.default_max_wait_time) do
         loop while find(:css, '#interfaceModal', :visible => false).visible?
       end

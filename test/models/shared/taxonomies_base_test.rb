@@ -120,7 +120,7 @@ module TaxonomiesBaseTest
 
     test 'it should return selected_ids array of selected values only (when types are not ignored)' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
-      #fixtures for taxable_taxonomies don't work, on has_many :through polymorphic
+      # fixtures for taxable_taxonomies don't work, on has_many :through polymorphic
       # run selected_ids method
       selected_ids = taxonomy.selected_ids
       # get results from taxable_taxonomies
@@ -239,7 +239,7 @@ module TaxonomiesBaseTest
       end
     end
 
-    #taxonomy_class inheritance tests
+    # taxonomy_class inheritance tests
     test "inherited taxonomy should have correct path" do
       parent = taxonomies(:"#{taxonomy_name}1")
       taxonomy = taxonomy_class.create!(:name => "rack1", :parent_id => parent.id)

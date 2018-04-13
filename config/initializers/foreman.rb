@@ -30,7 +30,7 @@ if (Setting.table_exists? rescue(false))
   Setting.descendants.each(&:load_defaults)
 end
 
-#load topbar
+# load topbar
 Menu::Loader.load
 
 # clear our users topbar cache

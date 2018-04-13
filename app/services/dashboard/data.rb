@@ -34,7 +34,7 @@ class Dashboard::Data
   end
 
   def latest_events?
-    #exists? removes the order field causing the db to use the wrong index
+    # exists? removes the order field causing the db to use the wrong index
     latest_events.limit(1).present?
   end
 

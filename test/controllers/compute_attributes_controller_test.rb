@@ -5,8 +5,8 @@ class ComputeAttributesControllerTest < ActionController::TestCase
     Fog.mock!
     User.current = users :admin
     @set = compute_attributes(:one)
-    @compute_profile = @set.compute_profile #1-Small
-    @compute_resource = @set.compute_resource #EC2
+    @compute_profile = @set.compute_profile # 1-Small
+    @compute_resource = @set.compute_resource # EC2
   end
 
   teardown do
@@ -42,9 +42,9 @@ class ComputeAttributesControllerTest < ActionController::TestCase
   end
 
   test "should update compute_attribute with scsi normalization" do
-    #rubocop:disable Metrics/LineLength
+    # rubocop:disable Metrics/LineLength
     json_scsi_data = "{\"scsiControllers\":[{\"type\":\"VirtualLsiLogicController\",\"key\":1000}],\"volumes\":[{\"thin\":true,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000,\"size\":10485760,\"sizeGb\":10,\"storagePod\":\"POD-ZERO\"},{\"sizeGb\":10,\"datastore\":\"\",\"storagePod\":\"POD-ZERO\",\"thin\":false,\"eagerZero\":false,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000}]}"
-    #rubocop:enable Metrics/LineLength
+    # rubocop:enable Metrics/LineLength
     put :update, params: {
       :id => @set,
       :compute_profile_id => @compute_profile.to_param,

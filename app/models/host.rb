@@ -4,7 +4,7 @@ module Host
     case method.to_s
     when /create/, 'new'
       if args.empty? || args[0].nil? # got no parameters
-        #set the default type
+        # set the default type
         args = [{:type => type}]
       else # got some parameters
         args[0][:type] ||= type # adds the type if it doesn't exists

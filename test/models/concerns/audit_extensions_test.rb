@@ -57,7 +57,7 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       assert_equal [], audit.location_ids
       assert_equal [], audit.organization_ids
 
-      domain.name = 'blablabla' #needed for a new audit to be generated
+      domain.name = 'blablabla' # needed for a new audit to be generated
       domain.locations = [@loc]
       domain.organizations = [@org]
       domain.save!

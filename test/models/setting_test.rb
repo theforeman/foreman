@@ -573,17 +573,17 @@ class SettingTest < ActiveSupport::TestCase
   def check_value_returns_from_cache_with(options = {})
     name = options[:name].to_s
 
-    #cache must be cleared on create
+    # cache must be cleared on create
     Rails.cache.write(name, "old value")
     assert Setting.create(options)
     assert_nil Rails.cache.read(name)
 
-    #first time getter method, write the cache
+    # first time getter method, write the cache
     Rails.cache.delete(name)
     assert_equal options[:value], Setting[name]
     assert_equal options[:value], Rails.cache.read(name)
 
-    #setter method deletes the cache
+    # setter method deletes the cache
     Setting[name] = options[:value]
     assert_nil Rails.cache.read(name)
   end

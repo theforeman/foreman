@@ -91,5 +91,5 @@ Rabl.configure do |config|
   # config.raise_on_missing_attribute = true # Defaults to false
   # config.replace_nil_values_with_empty_strings = true # Defaults to false
   config.use_controller_name_as_json_root = false
-  config.json_root_default_name = :results #used only if use_controller_name_as_json_root = false
+  config.json_root_default_name = :results # used only if use_controller_name_as_json_root = false
 end

@@ -52,7 +52,7 @@ Foreman::Application.configure do
     Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :class_params
   end if defined?(Bullet)
 
-  #Allow disabling the webpack dev server from the settings
+  # Allow disabling the webpack dev server from the settings
   config.webpack.dev_server.enabled = SETTINGS.fetch(:webpack_dev_server, true)
   config.webpack.dev_server.https = SETTINGS.fetch(:webpack_dev_server_https, false)
 end

@@ -113,7 +113,7 @@ module Orchestration::DNS
         status = failure(_("%{type} %{conflicts} already exists") % {:conflicts => conflicts.to_sentence, :type => dns_class(record_type).human(conflicts.count)}, nil, :conflict)
       end
     end
-    !status #failure method returns 'false'
+    !status # failure method returns 'false'
   rescue Net::Error => e
     if domain.nameservers.empty?
       failure(_("Error connecting to system DNS server(s) - check /etc/resolv.conf"), e)

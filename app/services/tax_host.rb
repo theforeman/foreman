@@ -25,11 +25,11 @@ class TaxHost
   def selected_ids
     return @selected_ids if @selected_ids
     ids = default_ids_hash
-    #types NOT ignored - get ids that are selected
+    # types NOT ignored - get ids that are selected
     hash_keys.each do |col|
       ids[col] = Array(taxonomy.send(col)).uniq
     end
-    #types that ARE ignored - get ALL ids for object
+    # types that ARE ignored - get ALL ids for object
     Array(taxonomy.ignore_types).each do |taxonomy_type|
       ids["#{taxonomy_type.tableize.singularize}_ids"] = taxonomy_type.constantize.pluck(:id).uniq
     end
@@ -111,7 +111,7 @@ class TaxHost
     need_to_be_selected_ids.each do |key, values|
       taxable_type = hash_key_to_class(key)
       values.each do |v|
-        #TODO: use IN (ids) instead of find per id
+        # TODO: use IN (ids) instead of find per id
         taxable_record = taxable_type.constantize.find(v)
         mismatches << { :taxonomy_id   => taxonomy.id,
                         :taxonomy_name => taxonomy.name,

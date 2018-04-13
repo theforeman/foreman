@@ -48,7 +48,7 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     refute Realm.unscoped.find_by_id(realm['id'])
   end
 
-  #test that taxonomy scope works for api for realms
+  # test that taxonomy scope works for api for realms
   def setup
     taxonomies(:location1).realm_ids = [realms(:myrealm).id, realms(:yourrealm).id]
     taxonomies(:organization1).realm_ids = [realms(:myrealm).id]
@@ -80,7 +80,7 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
-    #assert child nodes are included in response'
+    # assert child nodes are included in response'
     NODES = ["locations", "organizations"]
     NODES.sort.each do |node|
       assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"

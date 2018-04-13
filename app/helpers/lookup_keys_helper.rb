@@ -92,7 +92,7 @@ module LookupKeysHelper
       else
         [lookup_key.default_value, _("Default value")]
       end
-    else #hostgroup
+    else # hostgroup
       obj.inherited_lookup_value(lookup_key)
     end
   end

@@ -94,7 +94,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "changing name of hostgroup updates other hostgroup labels" do
-    #setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    # setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
     hostgroup = hostgroups(:db)
     parent_hostgroup = hostgroups(:common)
     hostgroup.parent_id = parent_hostgroup.id
@@ -108,7 +108,7 @@ class HostgroupTest < ActiveSupport::TestCase
   end
 
   test "deleting a hostgroup with children does not change labels" do
-    #setup - get label "common/db"
+    # setup - get label "common/db"
     hostgroup = hostgroups(:db)
     parent_hostgroup = hostgroups(:common)
     hostgroup.parent_id = parent_hostgroup.id
@@ -116,7 +116,7 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup.reload
     assert_equal "Common/db", hostgroup.title
 
-    #attempt to destroy parent hostgroup
+    # attempt to destroy parent hostgroup
     begin
       assert_not parent_hostgroup.destroy
     rescue Ancestry::AncestryException

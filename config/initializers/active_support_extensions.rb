@@ -1,5 +1,5 @@
-#this makes sure that hash with indifferent access gets deep converted into hash.
-#code borrowed from 4.2 ActiveSupport
+# this makes sure that hash with indifferent access gets deep converted into hash.
+# code borrowed from 4.2 ActiveSupport
 module ActiveSupport
   class HashWithIndifferentAccess < Hash
     def deep_to_hash

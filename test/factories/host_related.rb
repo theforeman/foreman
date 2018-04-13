@@ -244,7 +244,7 @@ FactoryBot.define do
     trait :with_ipv6 do
       subnet6 do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
-        #add taxonomy overrides in case it's set in the host object
+        # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 
@@ -263,7 +263,7 @@ FactoryBot.define do
       with_ipv6
       subnet do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
-        #add taxonomy overrides in case it's set in the host object
+        # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 
@@ -287,7 +287,7 @@ FactoryBot.define do
         overrides = {
           :dhcp => FactoryBot.create(:dhcp_smart_proxy)
         }
-        #add taxonomy overrides in case it's set in the host object
+        # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
         FactoryBot.create(
@@ -305,7 +305,7 @@ FactoryBot.define do
       association :compute_resource, :factory => :libvirt_cr
       subnet do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
-        #add taxonomy overrides in case it's set in the host object
+        # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 
@@ -330,7 +330,7 @@ FactoryBot.define do
       association :compute_resource, :factory => :libvirt_cr
       subnet6 do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
-        #add taxonomy overrides in case it's set in the host object
+        # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 

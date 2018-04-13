@@ -138,8 +138,8 @@ module Api
 
       def setup_has_many_params
         model_name = controller_name.singularize
-        append_array_of_ids(params[model_name]) #wrapped params
-        append_array_of_ids(params)             #unwrapped params
+        append_array_of_ids(params[model_name]) # wrapped params
+        append_array_of_ids(params)             # unwrapped params
       end
 
       def check_content_type

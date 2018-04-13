@@ -185,7 +185,7 @@ class Setting < ApplicationRecord
       end
 
     when "string", nil
-      #string is taken as default setting type for parsing
+      # string is taken as default setting type for parsing
       self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
 
     when "hash"

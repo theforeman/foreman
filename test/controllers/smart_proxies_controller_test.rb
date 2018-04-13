@@ -167,7 +167,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'smart_proxies/plugins/_puppet_envs'
     assert @response.body.include?('special_environment')
-    assert @response.body.include?('5') #the total is correct
+    assert @response.body.include?('5') # the total is correct
   end
 
   test '#puppet_dashboard' do

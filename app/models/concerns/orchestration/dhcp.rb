@@ -158,7 +158,7 @@ module Orchestration::DHCP
     return true if ((old.ip != ip) || (old.hostname != hostname) || provision_mac_addresses_changed? || (old.subnet != subnet) || (operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(self.host)) ||
                     (!old.build? && build? && !all_dhcp_records_valid?))
     # Handle jumpstart
-    #TODO, abstract this way once interfaces are fully used
+    # TODO, abstract this way once interfaces are fully used
     if self.is_a?(Host::Base) && jumpstart?
       if !old.build? || (old.medium != medium || old.arch != arch) ||
           (os && old.os && (old.os.name != os.name || old.os != os))

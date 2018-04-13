@@ -77,7 +77,7 @@ class ManagedTest < ActiveSupport::TestCase
     nic.save!
     Location.current = taxonomies(:location2)
     User.as('one') do
-      nic = Nic::Managed.find(nic.id) #load object to prevent cached association
+      nic = Nic::Managed.find(nic.id) # load object to prevent cached association
       nic.send(:normalize_name)
       Location.current = nil
       assert_equal domain.id, nic.domain_id

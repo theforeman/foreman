@@ -103,7 +103,7 @@ class Hostgroup < ApplicationRecord
       :subnet6, :realm, :root_pass, :description, :pxe_loader
   end
 
-  #TODO: add a method that returns the valid os for a hostgroup
+  # TODO: add a method that returns the valid os for a hostgroup
 
   def hostgroup
     self

@@ -3,7 +3,7 @@ require 'test_helper'
 class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
   setup do
     @proxy = FactoryBot.build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
-    #don't cache because the mock breaks when trying to cache the array of certs
+    # don't cache because the mock breaks when trying to cache the array of certs
     @proxy_status = ProxyStatus::PuppetCA.new(@proxy, :cache => false)
   end
 
@@ -35,7 +35,7 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
     end
 
     test 'it returns expiry for CA certificate' do
-      #the CA certificate should be the oldest valid certificate, as it signs all others
+      # the CA certificate should be the oldest valid certificate, as it signs all others
       assert_equal(Time.parse("2020-12-11T14:33:10UTC").utc, @proxy_status.expiry)
     end
   end
@@ -51,7 +51,7 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
     end
 
     test 'it returns no expiry for CA certificate' do
-      #the CA certificate should be the oldest certificate, as it signs all others
+      # the CA certificate should be the oldest certificate, as it signs all others
       assert_equal("Could not locate CA certificate.", @proxy_status.expiry)
     end
   end

@@ -9,7 +9,7 @@ class CasterTest < ActiveSupport::TestCase
     end
 
     test "integer" do
-      #this also tests that "132" isn't octal
+      # this also tests that "132" isn't octal
       item = OpenStruct.new(:foo => "132")
       Foreman::Parameters::Caster.new(item, :attribute_name => :foo, :to => :integer).cast!
       assert_equal item.foo, 132

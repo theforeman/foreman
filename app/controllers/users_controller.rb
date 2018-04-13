@@ -85,15 +85,15 @@ class UsersController < ApplicationController
         user = User.try_to_login(params[:login]['login'], params[:login]['password'])
       end
       if user.nil?
-        #failed to authenticate, and/or to generate the account on the fly
+        # failed to authenticate, and/or to generate the account on the fly
         inline_error _("Incorrect username or password")
         logger.warn("Failed login attempt from #{request.ip} with username '#{params[:login].try(:[], 'login')}'")
         count_login_failure
         telemetry_increment_counter(:failed_ui_logins)
         redirect_to login_users_path
       else
-        #valid user
-        #If any of the user attributes provided by external auth source are invalid then throw a flash message to user on successful login.
+        # valid user
+        # If any of the user attributes provided by external auth source are invalid then throw a flash message to user on successful login.
         warning _("Some imported user account details cannot be saved: %s") % user.errors.full_messages.to_sentence unless user.errors.empty?
         login_user(user)
       end

@@ -1,4 +1,4 @@
-#TODO: remove this when there is a gem or a fix for rails that validates nested attributes correctly
+# TODO: remove this when there is a gem or a fix for rails that validates nested attributes correctly
 module ParameterValidators
   extend ActiveSupport::Concern
 

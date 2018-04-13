@@ -64,7 +64,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     refute Domain.find_by_id(domain['id'])
   end
 
-  #test that taxonomy scope works for api for domains
+  # test that taxonomy scope works for api for domains
   def setup
     taxonomies(:location1).domain_ids = [domains(:mydomain).id, domains(:yourdomain).id]
     taxonomies(:organization1).domain_ids = [domains(:mydomain).id]
@@ -96,7 +96,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
-    #assert child nodes are included in response'
+    # assert child nodes are included in response'
     NODES = ["locations", "organizations", "parameters", "subnets"]
     NODES.sort.each do |node|
       assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"

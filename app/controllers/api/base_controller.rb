@@ -1,5 +1,5 @@
 module Api
-  #TODO: inherit from application controller after cleanup
+  # TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
     include ApplicationShared
     include Foreman::Controller::BruteforceProtection
@@ -65,7 +65,7 @@ module Api
       return resource_class.where(nil) unless scope
 
       association = resource_class.reflect_on_all_associations.detect {|assoc| assoc.plural_name == parent_name.pluralize}
-      #if couldn't find an association by name, try to find one by class
+      # if couldn't find an association by name, try to find one by class
       association ||= resource_class.reflect_on_all_associations.detect {|assoc| assoc.class_name == parent_name.camelize}
       if association.nil? && parent_name == 'host'
         association = resource_class.reflect_on_all_associations.detect {|assoc| assoc.class_name == 'Host::Base'}
@@ -375,7 +375,7 @@ module Api
     # it will also add "ORDER BY" query in order to prioritize
     # records with friendly_id_column hit rather than those that have filtered because of
     # id column filtering
-    #Should be replaced after moving to friendly_id version >= 5.0
+    # Should be replaced after moving to friendly_id version >= 5.0
     def select_by_resource_id_scope(base_scope, resource_class, resource_id)
       arel = resource_class.arel_table
       arel_query = arel[:id].eq(resource_id)
@@ -383,7 +383,7 @@ module Api
       begin
         query_field = resource_class.friendly_id_config.query_field
       rescue NoMethodError
-        #FriendlyId is not supported (didn't find a better way to test it)
+        # FriendlyId is not supported (didn't find a better way to test it)
         # The problem is in Host <-> Host::Managed hack. #responds_to? query_field
         # will return false values.
         query_field = nil
@@ -401,7 +401,7 @@ module Api
       filtered_scope
     end
 
-    #Prefer records that matched the friendly column upon those matched the ID column
+    # Prefer records that matched the friendly column upon those matched the ID column
     def prioritize_friendly_name_records(base_scope, friendly_field_query)
       field_query = friendly_field_query.to_sql
       base_scope.order("CASE WHEN #{field_query} THEN 1 ELSE 0 END")

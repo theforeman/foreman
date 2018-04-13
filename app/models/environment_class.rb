@@ -21,7 +21,7 @@ class EnvironmentClass < ApplicationRecord
       where("id != #{this_environment_class_id}")
   }
 
-  #TODO move these into scopes?
+  # TODO move these into scopes?
   def self.is_in_any_environment(puppetclass, puppetclass_lookup_key)
     EnvironmentClass.where(:puppetclass_id => puppetclass, :puppetclass_lookup_key_id => puppetclass_lookup_key).count > 0
   end

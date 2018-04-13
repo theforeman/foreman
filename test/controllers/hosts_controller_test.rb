@@ -63,7 +63,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
     assert scope_accessed
 
-    #restore the previous state
+    # restore the previous state
     new_scopes = HostsController.scopes_for(:index)
     new_scopes.keep_if { |s| old_scopes.include?(s) }
   end
@@ -1006,7 +1006,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #Pessimistic - Location
+  # Pessimistic - Location
   test "update multiple location fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
@@ -1038,7 +1038,7 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
-  #Optimistic - Location
+  # Optimistic - Location
   test "update multiple location updates location of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
@@ -1067,7 +1067,7 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
-  #Pessimistic - organization
+  # Pessimistic - organization
   test "update multiple organization fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
@@ -1099,7 +1099,7 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
-  #Optimistic - Organization
+  # Optimistic - Organization
   test "update multiple organization succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
@@ -1199,7 +1199,7 @@ class HostsControllerTest < ActionController::TestCase
     host = FactoryBot.create(:host, :organization => taxonomies(:organization1), :location => taxonomies(:location1), :owner => users(:restricted))
     setup_user 'edit', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
     host_ids = [host.id]
-    #the ajax can be any of the multiple actions, toke multiple_parameters for example
+    # the ajax can be any of the multiple actions, toke multiple_parameters for example
     post :multiple_parameters, params: {:host_ids => host_ids}, session: set_session_user(:restricted), xhr: true
     assert_response :success
   end
@@ -1384,7 +1384,7 @@ class HostsControllerTest < ActionController::TestCase
     test '#process_hostgroup changes compute attributes' do
       group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
       host = FactoryBot.build_stubbed(:host, :managed, :on_compute_resource)
-      #remove unneeded expectation to :queue_compute
+      # remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1
       host.compute_resource = compute_resources(:one)
@@ -1407,7 +1407,7 @@ class HostsControllerTest < ActionController::TestCase
     test '#process_hostgroup does not change compute attributes if compute profile selected manually' do
       group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:one))
       host = FactoryBot.build_stubbed(:host, :managed, :on_compute_resource)
-      #remove unneeded expectation to :queue_compute
+      # remove unneeded expectation to :queue_compute
       host.unstub(:queue_compute)
       host.hostgroup = group1
       host.compute_resource = compute_resources(:one)

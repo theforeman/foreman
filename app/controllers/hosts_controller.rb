@@ -179,10 +179,10 @@ class HostsController < ApplicationController
     end
   end
 
-  #returns a yaml file ready to use for puppet external nodes script
-  #expected a fqdn parameter to provide hostname to lookup
-  #see example script in extras directory
-  #will return HTML error codes upon failure
+  # returns a yaml file ready to use for puppet external nodes script
+  # expected a fqdn parameter to provide hostname to lookup
+  # see example script in extras directory
+  # will return HTML error codes upon failure
 
   def externalNodes
     certname = params[:name].to_s
@@ -419,7 +419,7 @@ class HostsController < ApplicationController
       return
     end
     hg = Hostgroup.find_by_id(id)
-    #update the hosts
+    # update the hosts
     @hosts.each do |host|
       host.hostgroup=hg
       host.save(:validate => false)
@@ -441,7 +441,7 @@ class HostsController < ApplicationController
       return
     end
 
-    #update the hosts
+    # update the hosts
     @hosts.each do |host|
       host.is_owned_by = id
       host.save(:validate => false)
@@ -688,7 +688,7 @@ class HostsController < ApplicationController
 
   def set_host_type
     return unless params[:host] && params[:host][:type]
-    type = params[:host].delete(:type) #important, otherwise mass assignment will save the type.
+    type = params[:host].delete(:type) # important, otherwise mass assignment will save the type.
     if type.constantize.new.is_a?(Host::Base)
       @host      = @host.becomes(type.constantize)
       @host.type = type

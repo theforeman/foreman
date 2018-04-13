@@ -70,7 +70,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'new db rows are not added to HostClass when POST to parameters' do
     host = FactoryBot.create(:host)
-    puppetclass = puppetclasses(:two)  #puppetclass to be added to host
+    puppetclass = puppetclasses(:two)  # puppetclass to be added to host
     host_puppetclass_ids = host.host_classes.pluck(:puppetclass_id)
     assert_difference('HostClass.count', 0) do
       post :parameters, params: { :id => puppetclass.id, :host_id => host.id, :host => {:puppetclass_ids => (host_puppetclass_ids + [puppetclass.id])} }, session: set_session_user
@@ -79,7 +79,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'new db rows are not added to HostgroupClass when POST to parameters' do
     hostgroup = hostgroups(:common)
-    puppetclass = puppetclasses(:two)  #puppetclass to be added to hostgroup
+    puppetclass = puppetclasses(:two)  # puppetclass to be added to hostgroup
     hostgroup_puppetclass_ids = hostgroup.hostgroup_classes.pluck(:puppetclass_id)
     assert_difference('HostgroupClass.count', 0) do
       post :parameters, params: { :id => puppetclass.id, :host_id => hostgroup.id, :hostgroup => {:puppetclass_ids => (hostgroup_puppetclass_ids + [puppetclass.id])} }, session: set_session_user
@@ -169,7 +169,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test "sorting by environment name on the index screen should work" do
     setup_user
-    #environment_classes(:nine) which assigned puppetclasses(:three) with environments(:global_puppetmaster) broke test, so remove it
+    # environment_classes(:nine) which assigned puppetclasses(:three) with environments(:global_puppetmaster) broke test, so remove it
     environment_classes(:nine).destroy
     get :index, params: { :order => "environment ASC" }, session: set_session_user
     assert_equal puppetclasses(:three), assigns(:puppetclasses).last

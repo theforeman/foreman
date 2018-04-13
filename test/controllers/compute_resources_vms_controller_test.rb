@@ -70,8 +70,8 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  #Broken with Fog.mock! because lib/fog/libvirt/models/compute/volume.rb:41 calls create_volume with the wrong number of arguments
-  #Broken before Fog 8d95d5bff223a199d33e297ea21884d8598f6921 because default pool name being "default-pool" and not "default" (with test:///default) triggers an internal bug
+  # Broken with Fog.mock! because lib/fog/libvirt/models/compute/volume.rb:41 calls create_volume with the wrong number of arguments
+  # Broken before Fog 8d95d5bff223a199d33e297ea21884d8598f6921 because default pool name being "default-pool" and not "default" (with test:///default) triggers an internal bug
   def test_should_create_vm(name = "new_test")
     setup_user "create" do |user|
       user.roles.last.add_permissions! :view_compute_resources

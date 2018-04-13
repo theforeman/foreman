@@ -5,8 +5,8 @@ class ComputeAttributeTest < ActiveSupport::TestCase
     Fog.mock!
     User.current = users :admin
     @set = compute_attributes(:one)
-    @compute_profile = @set.compute_profile #1-Small
-    @compute_resource = @set.compute_resource #EC2
+    @compute_profile = @set.compute_profile # 1-Small
+    @compute_resource = @set.compute_resource # EC2
   end
 
   teardown do

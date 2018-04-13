@@ -11,7 +11,7 @@ module ActionDispatch
               helper.call self, args, options
             end
 
-            #because we heavily rely on the removed hash_for method in routes, we must add this monkey patch.
+            # because we heavily rely on the removed hash_for method in routes, we must add this monkey patch.
             define_method("hash_for_#{name}") do |*args|
               inner_options = nil
               inner_options = args.pop if args.last.is_a? Hash

@@ -60,7 +60,7 @@ module AuditSearch
 
     private
 
-    #This is a workaround needed until we get proper STI auditing
+    # This is a workaround needed until we get proper STI auditing
     def audited_classes_without_sti
       audited_class_names.reject do |name|
         klass = name.constantize

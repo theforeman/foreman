@@ -92,7 +92,7 @@ module Foreman::Model
       super.merge({:mac => :mac})
     end
 
-    #FIXME
+    # FIXME
     def max_cpu_count
       8
     end
@@ -347,11 +347,11 @@ module Foreman::Model
       return true if super(old_attrs, new_attrs)
 
       new_attrs[:interfaces_attributes]&.each do |key, interface|
-        return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' #ignore the template
+        return true if (interface[:id].blank? || interface[:_delete] == '1') && key != 'new_interfaces' # ignore the template
       end
 
       new_attrs[:volumes_attributes]&.each do |key, volume|
-        return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' #ignore the template
+        return true if (volume[:id].blank? || volume[:_delete] == '1') && key != 'new_volumes' # ignore the template
       end
 
       false
@@ -488,12 +488,12 @@ module Foreman::Model
     end
 
     def create_interfaces(vm, attrs)
-      #first remove all existing interfaces
+      # first remove all existing interfaces
       vm.interfaces&.each do |interface|
-        #The blocking true is a work-around for ovirt bug, it should be removed.
+        # The blocking true is a work-around for ovirt bug, it should be removed.
         vm.destroy_interface(:id => interface.id, :blocking => true)
       end
-      #add interfaces
+      # add interfaces
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
@@ -503,11 +503,11 @@ module Foreman::Model
     end
 
     def create_volumes(vm, attrs)
-      #add volumes
+      # add volumes
       volumes = nested_attributes_for :volumes, attrs
       volumes.map do |vol|
         set_preallocated_attributes!(vol, vol[:preallocate])
-        #The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
+        # The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
         vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?
       end
       vm.volumes.reload

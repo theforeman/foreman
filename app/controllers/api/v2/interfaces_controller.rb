@@ -31,7 +31,7 @@ module Api
       end
 
       def_param_group :interface_attributes do
-        #common parameters
+        # common parameters
         param :mac, String, :desc => N_("MAC address of interface. Required for managed interfaces on bare metal.")
         param :ip, String, :desc => N_("IPv4 address of interface")
         param :ip6, String, :desc => N_("IPv6 address of interface")
@@ -44,20 +44,20 @@ module Api
         param :managed, :bool, :desc => N_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?")
         param :primary, :bool, :desc => N_("Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface.")
         param :provision, :bool, :desc => N_("Should this interface be used for TFTP of PXELinux (or SSH for image-based hosts)? Each managed hosts needs to have one provision interface.")
-        #bmc specific parameters
+        # bmc specific parameters
         param :username, String, :desc => N_("Only for BMC interfaces.")
         param :password, String, :desc => N_("Only for BMC interfaces.")
         param :provider, Nic::BMC::PROVIDERS, :desc => N_("Interface provider, e.g. IPMI. Only for BMC interfaces.")
-        #virtual device specific parameters
+        # virtual device specific parameters
         param :virtual, :bool, :desc => N_("Alias or VLAN device")
         param :tag, String, :desc => N_("VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces.")
         param :mtu, Integer, :desc => N_("MTU, this attribute has precedence over the subnet MTU.")
         param :attached_to, String, :desc => N_("Identifier of the interface to which this interface belongs, e.g. eth1. Only for virtual interfaces.")
-        #bond specific parameters
+        # bond specific parameters
         param :mode, Nic::Bond::MODES, :desc => N_("Bond mode of the interface, e.g. balance-rr. Only for bond interfaces.")
         param :attached_devices, Array, :desc => N_("Identifiers of attached interfaces, e.g. `['eth1', 'eth2']`. For bond interfaces those are the slaves. Only for bond and bridges interfaces.")
         param :bond_options, String, :desc => N_("Space separated options, e.g. miimon=100. Only for bond interfaces.")
-        #compute specific attributes
+        # compute specific attributes
         param :compute_attributes, Hash, :desc => N_("Additional compute resource specific attributes for the interface.")
       end
 

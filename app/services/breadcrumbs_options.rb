@@ -1,5 +1,5 @@
 class BreadcrumbsOptions
-  #TODO: extract URL handing from menu/item and use it here too
+  # TODO: extract URL handing from menu/item and use it here too
   include Rails.application.routes.url_helpers
 
   def initialize(page_header, controller_name, action_name, options = {})

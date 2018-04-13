@@ -210,7 +210,7 @@ class ComputeResource < ApplicationRecord
     if self.class.providers.include? value
       self.type = self.class.provider_class(value)
     else
-      self.type = value #this will trigger validation error since value is one of supported_providers
+      self.type = value # this will trigger validation error since value is one of supported_providers
       logger.debug("unknown provider for compute resource")
     end
   end
@@ -383,7 +383,7 @@ class ComputeResource < ApplicationRecord
     return [] unless opts
     opts = opts.to_hash if opts.class == ActionController::Parameters
 
-    opts = opts.dup #duplicate to prevent changing the origin opts.
+    opts = opts.dup # duplicate to prevent changing the origin opts.
     opts.delete("new_#{type}") || opts.delete("new_#{type}".to_sym) # delete template
     # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
     opts = opts.sort { |l, r| l[0].to_s.sub('new_', '').to_i <=> r[0].to_s.sub('new_', '').to_i }.map { |e| Hash[e[1]] }
