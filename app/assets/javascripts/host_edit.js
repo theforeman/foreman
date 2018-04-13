@@ -746,7 +746,7 @@ function interface_subnet_selected(element, ip_field, skip_mac) {
 function selectRelatedNetwork(element) {
   var subnet_select = $(element);
   var vlanId = subnet_select.find(':selected').attr('data-vlan_id');
-  var network_select = subnet_select.closest('fieldset').find('.vmware_network');
+  var network_select = subnet_select.closest('fieldset').find('.vmware_network,.ovirt_network');
 
   if (!vlanId || network_select.length == 0) {
     return;
