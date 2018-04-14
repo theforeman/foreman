@@ -28,7 +28,7 @@ gem 'deep_cloneable', '>= 2.2.2', '< 3.0'
 gem 'validates_lengths_from_database', '~> 0.5'
 gem 'friendly_id', '~> 5.0'
 gem 'secure_headers', '~> 3.4'
-gem 'safemode', '~> 1.3', '>= 1.3.2'
+gem 'safemode', (RUBY_VERSION < '2.5' ? '>= 1.3.2' : '>= 1.3.5'), '< 2'
 gem 'fast_gettext', '~> 1.4'
 gem 'gettext_i18n_rails', '~> 1.0'
 gem 'rails-i18n', (SETTINGS[:rails] == '4.2' ? '~> 4.0.0' : '~> 5.0.0')
