@@ -27,7 +27,7 @@ specs.each do |dep|
   # some plugins share the same base directory (tasks-core and tasks, REX etc)
   # skip the plugin if its path is already included
   next if config[:paths].include?(path)
-  if Dir.exist?(path) && !dep.files.any? { |f| f.match?(/webpack/) }
+  if Dir.exist?(path) && !dep.files.any? { |f| /webpack/ =~ f }
     STDERR.puts "WARNING: webpack was found in #{dep.name}'s source, "\
       "but it's not in the gemspec. Please add it to the gemspec."
   end
