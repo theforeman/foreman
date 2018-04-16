@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubmitCancelButtons reducer should handle CANCEL_CLICKED 1`] = `
+Object {
+  "disabled": true,
+  "submitting": false,
+}
+`;
+
+exports[`SubmitCancelButtons reducer should handle SUBMIT_AND_CANCEL_RESET 1`] = `
+Object {
+  "disabled": false,
+  "submitting": false,
+}
+`;
+
+exports[`SubmitCancelButtons reducer should handle SUBMIT_CLICKED 1`] = `
+Object {
+  "disabled": true,
+  "submitting": true,
+}
+`;
+
+exports[`SubmitCancelButtons reducer should return initial state when state empty 1`] = `
+Object {
+  "disabled": false,
+  "submitting": false,
+}
+`;

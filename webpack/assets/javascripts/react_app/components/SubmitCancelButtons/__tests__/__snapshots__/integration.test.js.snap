@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cancel mode state 1`] = `
+Object {
+  "submitCancelButtons": Object {
+    "disabled": true,
+    "submitting": false,
+  },
+}
+`;
+
+exports[`initial state 1`] = `
+Object {
+  "submitCancelButtons": Object {
+    "disabled": false,
+    "submitting": false,
+  },
+}
+`;
+
+exports[`initial state 2`] = `
+Object {
+  "submitCancelButtons": Object {
+    "disabled": false,
+    "submitting": false,
+  },
+}
+`;
+
+exports[`submit mode state 1`] = `
+Object {
+  "submitCancelButtons": Object {
+    "disabled": true,
+    "submitting": true,
+  },
+}
+`;

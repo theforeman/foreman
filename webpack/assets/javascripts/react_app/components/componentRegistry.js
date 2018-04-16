@@ -9,6 +9,7 @@ import StorageContainer from './hosts/storage/vmware/';
 import BookmarkContainer from './bookmarks';
 import PasswordStrength from './user/passwordStrength/';
 import BreadcrumbBar from './BreadcrumbBar';
+import SubmitCancelButtons from './SubmitCancelButtons';
 
 const componentRegistry = {
   registry: {},
@@ -66,6 +67,7 @@ const coreComponets = [
   { name: 'StorageContainer', type: StorageContainer },
   { name: 'PasswordStrength', type: PasswordStrength },
   { name: 'BreadcrumbBar', type: BreadcrumbBar },
+  { name: 'SubmitCancelButtons', type: SubmitCancelButtons },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

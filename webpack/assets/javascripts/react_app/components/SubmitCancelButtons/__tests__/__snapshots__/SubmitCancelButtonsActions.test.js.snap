@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubmitCancelButtons actions should on-cancel 1`] = `
+Object {
+  "type": "CANCEL_CLICKED",
+}
+`;
+
+exports[`SubmitCancelButtons actions should on-mount 1`] = `
+Object {
+  "type": "SUBMIT_AND_CANCEL_RESET",
+}
+`;
+
+exports[`SubmitCancelButtons actions should on-submit 1`] = `
+Object {
+  "type": "SUBMIT_CLICKED",
+}
+`;
