@@ -59,25 +59,19 @@ class PuppetclassesController < ApplicationController
   private
 
   def get_host_or_hostgroup
-    # params['host_id'] = 'undefined' if NEW since hosts/form and hostgroups/form has no data-id
-    host_id = params.delete(:host_id)
-    if host_id == 'undefined'
-      @obj = Host::Managed.new(host_params('host')) if params['host']
-      @obj ||= Hostgroup.new(hostgroup_params('hostgroup')) if params['hostgroup']
-    else
-      if params['host']
-        @obj = Host::Base.find(host_id)
-        unless @obj.is_a?(Host::Managed)
-          @obj      = @obj.becomes(Host::Managed)
-          @obj.type = "Host::Managed"
-        end
-        # puppetclass_ids and config_group_ids need to be removed so they don't cause automatic insertsgroup
-        @obj.attributes = host_params('host').except(:puppetclass_ids, :config_group_ids)
-      elsif params['hostgroup']
-        # hostgroup.id is assigned to params['host_id'] by host_edit.js#load_puppet_class_parameters
-        @obj = Hostgroup.find(host_id)
-        @obj.attributes = hostgroup_params('hostgroup').except(:puppetclass_ids, :config_group_ids)
+    if params[:host]
+      @obj ||= Host::Base.find_by_id(params[:host][:id])
+      @obj = Host::Managed.new
+      unless @obj.is_a?(Host::Managed)
+        @obj      = @obj.becomes(Host::Managed)
+        @obj.type = "Host::Managed"
       end
+      # puppetclass_ids and config_group_ids need to be removed so they don't cause automatic insertsgroup
+      @obj.attributes = host_params('host').except(:puppetclass_ids, :config_group_ids)
+    elsif params[:hostgroup]
+      @obj = Hostgroup.find_by_id(params[:hostgroup][:id])
+      @obj ||= Hostgroup.new
+      @obj.attributes = hostgroup_params('hostgroup').except(:puppetclass_ids, :config_group_ids)
     end
     @obj
   end

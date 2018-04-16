@@ -303,16 +303,10 @@ $(function() {
 });
 
 function update_puppetclasses(element) {
-  var host_id = $("form").data('id');
   var url = $(element).attr('data-url');
   var data = serializeForm().replace('method=patch', 'method=post');
 
   if (element.value == '') return;
-  if (url.match('hostgroups')) {
-    data = data + '&hostgroup_id=' + host_id
-  } else {
-    data = data + '&host_id=' + host_id
-  }
 
   tfm.tools.showSpinner();
   $.ajax({

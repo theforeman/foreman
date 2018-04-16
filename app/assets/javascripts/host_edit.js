@@ -200,17 +200,10 @@ function update_progress(data){
 
 function load_puppet_class_parameters(item) {
   var id = $(item).attr('data-class-id');
-  // host_id could be either host.id OR hostgroup.id depending on which form
-  var host_id = $("form").data('id')
   if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
   if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
   var url = $(item).attr('data-url');
   var data = serializeForm().replace('method=patch', 'method=post');
-  if (url.match('hostgroups')) {
-    data = data + '&hostgroup_id=' + host_id
-  } else {
-    data = data + '&host_id=' + host_id
-  }
 
   if (url == undefined) return; // no parameters
   var placeholder = $('<tr id="puppetclass_'+id+'_params_loading">'+
@@ -462,14 +455,9 @@ function reload_host_params(){
 }
 
 function reload_puppetclass_params(){
-  var host_id = $("form").data('id');
   var url2 = $('#params-tab').data('url2');
   var data = serializeForm().replace('method=patch', 'method=post');
-  if (url2.match('hostgroups')) {
-    data = data + '&hostgroup_id=' + host_id
-  } else {
-    data = data + '&host_id=' + host_id
-  }
+
   load_with_placeholder('inherited_puppetclasses_parameters', url2, data)
 }
 

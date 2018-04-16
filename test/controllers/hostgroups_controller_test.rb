@@ -196,7 +196,6 @@ class HostgroupsControllerTest < ActionController::TestCase
       lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" =>  lookup_key.id, "_destroy" => false}}}
 
       params = {
-        hostgroup_id: hostgroup.id,
         hostgroup: hostgroup.attributes.merge(lk)
       }
 
