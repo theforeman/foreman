@@ -7,21 +7,46 @@ import componentRegistry from '../components/componentRegistry';
 
 export { default as registerReducer } from '../redux/reducers/registerReducer';
 
-const mountedNodes = [];
+let mountedNodesCache = [];
 
 // In order to support turbolinks with react, need to
 // unmount all root components before turbolinks do the unload
 // TODO: remove it when migrating into (webpacker-react or react-rails)
-document.addEventListener('page:before-unload', () => {
-  let node = mountedNodes.shift();
+document.addEventListener('page:before-unload', () => unmountComponents());
 
-  while (node) {
-    ReactDOM.unmountComponentAtNode(node);
-    node = mountedNodes.shift();
+const unmountComponentsByNodes = nodes =>
+  nodes.forEach(node => ReactDOM.unmountComponentAtNode(node));
+
+/**
+ * Will unmount all react-components from the dom
+ * @param  {string} selector unmount component inside the selector
+ * @return {number}          amount of unmounted nodes
+ */
+export const unmountComponents = (selector) => {
+  const nodesToUnmount = [];
+  const nodesToKeep = [];
+
+  if (selector) {
+    const reactNode = document.querySelector(selector);
+
+    mountedNodesCache.forEach((node) => {
+      if (reactNode.contains(node)) {
+        nodesToUnmount.push(node);
+      } else {
+        nodesToKeep.push(node);
+      }
+    });
+  } else {
+    nodesToUnmount.push(...mountedNodesCache);
   }
-});
 
-export function mount(component, selector, data) {
+  unmountComponentsByNodes(nodesToUnmount);
+  mountedNodesCache = nodesToKeep;
+
+  return nodesToUnmount.length;
+};
+
+export const mount = (component, selector, data) => {
   const reactNode = document.querySelector(selector);
 
   if (reactNode) {
@@ -31,9 +56,9 @@ export function mount(component, selector, data) {
       reactNode,
     );
 
-    mountedNodes.push(reactNode);
+    mountedNodesCache.push(reactNode);
   } else {
     // eslint-disable-next-line no-console
     console.log(`Cannot find '${selector}' element for mounting the '${component}'`);
   }
-}
+};

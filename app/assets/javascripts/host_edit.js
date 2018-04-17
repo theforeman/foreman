@@ -137,6 +137,9 @@ function submit_with_all_params(){
   clear_errors();
   animate_progress();
 
+  // clean the dom from react components before replacing the dom-content
+  tfm.reactMounter.unmountComponents('#content');
+
   $.ajax({
     type:'POST',
     url: url,
