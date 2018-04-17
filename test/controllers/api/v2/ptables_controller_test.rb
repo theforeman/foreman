@@ -22,6 +22,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test_attributes :pid => 'f774051a-8ad4-48dc-b652-0e3c382b6043'
   test "should create ptable" do
     assert_difference('Ptable.unscoped.count') do
       post :create, params: { :ptable => valid_attrs }
@@ -34,6 +35,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['layout'], valid_attrs[:layout]
   end
 
+  test_attributes :pid => '7a07d70c-6130-4357-81c3-4f1254e519d2'
   test "create with layout length" do
     # :BZ: 1270181
     valid_params = valid_attrs.merge(:layout => RFauxFactory.gen_alpha(5000))
@@ -46,6 +48,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['layout'], valid_params[:layout]
   end
 
+  test_attributes :pid => '71601d96-8ce8-4ecb-b053-af6f26a246ea'
   test "create with one character name" do
     # :BZ: 1229384
     valid_params = valid_attrs.merge(:name => RFauxFactory.gen_alpha(1))
@@ -58,6 +61,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['name'], valid_params[:name]
   end
 
+  test_attributes :pid => 'ebd55ed6-5fb2-4f17-ac73-b56661ee5254'
   test "should create ptable with os family" do
     valid_params = valid_attrs.merge(:os_family => 'Redhat')
     assert_difference('Ptable.unscoped.count') do
@@ -69,6 +73,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['os_family'], valid_params[:os_family]
   end
 
+  test_attributes :pid => '5f97b180-3708-4e1c-8407-42977459d4b6'
   test "should create ptable with organization" do
     organization_id = Organization.first.id
     assert_difference('Ptable.unscoped.count') do
@@ -82,6 +87,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_include organization_ids, organization_id
   end
 
+  test_attributes :pid => '8bde5a54-21a8-420e-b6cb-1d81c381d0b2'
   test "should update name" do
     new_name = 'new ptable name'
     put :update, params: { :id => @ptable.id, :ptable => { :name => new_name } }
@@ -91,6 +97,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['name'], new_name
   end
 
+  test_attributes :pid => '329eea6e-3474-4cc1-87d4-15e765e0a255'
   test "should update layout" do
     new_layout = 'new ptable layout'
     put :update, params: { :id => @ptable.id, :ptable => { :layout => new_layout } }
@@ -100,6 +107,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['layout'], new_layout
   end
 
+  test_attributes :pid => 'bf03d80c-3527-4b0a-b6c7-4629a8eaefb2'
   test "should update os family" do
     @ptable.os_family = 'Redhat'
     assert @ptable.save
@@ -111,6 +119,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['os_family'], new_os_family
   end
 
+  test_attributes :pid => '02631917-2f7a-4cf7-bb2a-783349a04758'
   test "should not create with invalid name" do
     assert_difference('Ptable.unscoped.count', 0) do
       post :create, params: { :ptable => valid_attrs.merge(:name => '') }
@@ -118,6 +127,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '03cb7a35-e4c3-4874-841b-0760c3b8d6af'
   test "should not create with invalid layout" do
     assert_difference('Ptable.unscoped.count', 0) do
       post :create, params: { :ptable => valid_attrs.merge(:layout => '') }
@@ -125,16 +135,19 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '7e9face8-2c20-450e-890c-6def6de570ca'
   test "should not update with invalid name" do
     put :update, params: { :id => @ptable.id, :ptable => { :name => ''} }
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '35c84c8f-b802-4076-89f2-4ec04cf43a31'
   test "should not update with invalid layout" do
     put :update, params: { :id => @ptable.id, :ptable => { :layout => ''} }
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '08520746-444b-47c9-a8a3-438170147453'
   test "search ptable" do
     get :index, params: { :search =>  @ptable.name,  :format => 'json' }
     assert_response :success, "search ptable name: '#{@ptable.name}' failed with code: #{@response.code}"
@@ -143,6 +156,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['results'][0]['id'], @ptable.id
   end
 
+  test_attributes :pid => 'cdbc5d5a-c924-4cb3-8b54-d84fc6bbb651'
   test "search ptable by name and organization" do
     # :BZ: 1375788
     org = Organization.first
@@ -184,6 +198,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '36133202-8849-432e-838b-3d13d088ef28'
   test "should destroy ptable that is NOT in use" do
     assert_difference('Ptable.unscoped.count', -1) do
       delete :destroy, params: { :id => @ptable.to_param }

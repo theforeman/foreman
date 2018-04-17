@@ -13,6 +13,7 @@ require 'fact_importer_test_helper'
 require 'rfauxfactory'
 require 'webmock/minitest'
 require 'webmock'
+require 'robottelo/reporter/attributes'
 
 # Do not allow network connections and external processes
 WebMock.disable_net_connect!(allow_localhost: true)
@@ -99,6 +100,7 @@ end
 end
 
 class ActionController::TestCase
+  extend Robottelo::Reporter::TestAttributes
   include ::BasicRestResponseTest
   setup :setup_set_script_name, :set_api_user, :turn_off_login,
     :disable_webpack, :set_admin
