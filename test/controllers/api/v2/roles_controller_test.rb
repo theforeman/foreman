@@ -119,4 +119,119 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_equal [], cloned_role.organizations
     assert_equal [], cloned_role.locations
   end
+
+  context "with organization and locations" do
+    before do
+      @org = taxonomies(:organization1)
+      @loc = taxonomies(:location1)
+    end
+
+    test "should create role with taxonomies" do
+      name = 'Test Role'
+      valid_attrs = { :name => name, :location_ids => [@loc.id], :organization_ids => [@org.id] }
+      post :create, params: { :role => valid_attrs }
+      assert_response :success
+      role = Role.find_by :name => name
+      assert_equal @org, role.organizations.first
+      assert_equal @loc, role.locations.first
+    end
+
+    test "should create org admin role" do
+      new_name = "Org Admin"
+      new_role = { :name => new_name }
+      post :clone, params: { :new_name => new_name,
+                             :id => roles(:organization_admin).to_param,
+                             :role => new_role }
+      assert_response :success
+      cloned_role = Role.find_by :name => new_name
+      assert cloned_role
+    end
+
+    test "should remove org admin role" do
+      new_name = "Org Admin"
+      new_role = { :name => new_name }
+      post :clone, params: { :new_name => new_name,
+                             :id => roles(:organization_admin).to_param,
+                             :role => new_role }
+      assert_response :success
+      cloned_role = Role.find_by :name => new_name
+      assert_difference('Role.count', -1) do
+        delete :destroy, params: { :id => cloned_role.id }
+      end
+      assert_response :success
+    end
+
+    test "should update non-overridable filter taxonomies on role taxonomies update" do
+      role_name = 'New Role'
+      role = FactoryBot.create(:role, :name => role_name)
+      filter = FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_domains).id])
+      new_role_attrs = { :location_ids => [@loc.id], :organization_ids => [@org.id] }
+      put :update, params: { :id => role.id, :role => new_role_attrs }
+      assert_response :success
+      updated_role = Role.find_by :name => role_name
+      assert @org, updated_role.organizations.first
+      assert @loc, updated_role.locations.first
+      updated_filter = Filter.find_by :id => filter.id
+      assert_equal @org, updated_filter.organizations.first
+      assert_equal @loc, updated_filter.locations.first
+    end
+
+    test "should not update overridable filter taxonomies on role taxonomies update" do
+      role_name = 'New Role'
+      role = FactoryBot.create(:role, :name => role_name)
+      filter = FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_domains).id], :override => true)
+      new_role_attrs = { :location_ids => [@loc.id], :organization_ids => [@org.id] }
+      put :update, params: { :id => role.id, :role => new_role_attrs }
+      assert_response :success
+      updated_role = Role.find_by :name => role_name
+      assert @org, updated_role.organizations.first
+      assert @loc, updated_role.locations.first
+      updated_filter = Filter.find_by :id => filter.id
+      assert_equal [], updated_filter.organizations
+      assert_equal [], updated_filter.locations
+    end
+
+    test "should create overridable filter" do
+      filter_org = taxonomies(:organization2)
+      filter_loc = taxonomies(:location2)
+      role = FactoryBot.create(:role, :name => 'New Role', :location_ids => [@loc.id], :organization_ids => [@org.id])
+      filter = FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_domains).id], :location_ids => [filter_loc.id], :organization_ids => [filter_org.id], :override => true)
+      assert_equal true, filter.override
+      assert_equal filter_org, filter.organizations.first
+      assert_equal filter_loc, filter.locations.first
+    end
+
+    test "should not create overridable filter" do
+      role_name = 'New Role'
+      role = FactoryBot.create(:role, :name => role_name)
+      assert_raise do
+        FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_architectures).id], :location_ids => [@loc.id], :organization_ids => [@org.id], :override => true)
+      end
+    end
+
+    test "should create filter without override" do
+      role = FactoryBot.create(:role, :name => 'New Role', :location_ids => [@loc.id], :organization_ids => [@org.id])
+      filter = FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_domains).id])
+      assert_equal false, filter.override
+      assert_equal @org, filter.organizations.first
+      assert_equal @loc, filter.locations.first
+    end
+
+    test "should create non-overridable filter" do
+      role_name = 'New Role'
+      role = FactoryBot.create(:role, :name => role_name)
+      filter = FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_architectures).id])
+      assert_equal role.id, filter.role.id
+    end
+  end
+
+  test "org admin should not create roles by default" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :roles => [Role.find_by_name('Organization admin')]
+    as_user user do
+      put :create, params: { :role => { :name => 'newrole'} }
+    end
+    assert_response :forbidden
+    response = JSON.parse(@response.body)
+    assert_equal "Missing one of the required permissions: create_roles", response['error']['details']
+  end
 end
