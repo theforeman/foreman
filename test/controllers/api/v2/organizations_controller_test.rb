@@ -172,4 +172,14 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal organization.name, new_name
     assert_equal organization.description, new_description
   end
+
+  test "org admin should not create taxomonies" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :roles => [Role.find_by_name('Organization admin')]
+    as_user user do
+      post :create, params: { :organization => { :name => 'org1'} }
+    end
+    assert_response :forbidden
+    response = JSON.parse(@response.body)
+    assert_equal "Missing one of the required permissions: create_organizations", response['error']['details']
+  end
 end

@@ -396,4 +396,14 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_include @response.body, "Name can't be blank"
     assert_equal location.name, updated_location.name
   end
+
+  test "org admin should not create locations by default" do
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :roles => [Role.find_by_name('Organization admin')]
+    as_user user do
+      post :create, params: { :location => { :name => 'loc1'} }
+    end
+    assert_response :forbidden
+    response = JSON.parse(@response.body)
+    assert_equal "Missing one of the required permissions: create_locations", response['error']['details']
+  end
 end
