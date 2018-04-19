@@ -4,6 +4,13 @@ require 'foreman/util'
 class UtilTest < ActiveSupport::TestCase
   include Foreman::Util
 
+  setup do
+    ENV.stubs(:[]).with('PRINT_TEST_LOGS_ON_ERROR').returns(false)
+    ENV.stubs(:[]).with('PRINT_TEST_LOGS_ON_FAILURE').returns(false)
+    ENV.stubs(:[]).with('PRINT_TEST_LOGS_SQL').returns(false)
+    ENV.stubs(:[]).with('MINITEST_RETRY_COUNT').returns(1)
+  end
+
   test "should support which" do
     assert :which
   end
