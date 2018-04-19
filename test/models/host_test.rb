@@ -1,6 +1,28 @@
 require 'test_helper'
 
+# List of valid comment values.
+def valid_comment_values
+  [
+    RFauxFactory.gen_alpha(1),
+    RFauxFactory.gen_alpha(255),
+    *RFauxFactory.gen_strings(1..255, exclude: [:html, :utf8]).values,
+    RFauxFactory.gen_html(rand((1..230)))
+  ]
+end
+
+# List of valid host names values.
+def valid_hosts_list(domain_length: 10)
+  [
+    RFauxFactory.gen_alphanumeric(rand(1..255-6-domain_length)).downcase,
+    RFauxFactory.gen_alpha(rand(1..255-6-domain_length)).downcase,
+    RFauxFactory.gen_numeric_string(rand(1..255-6-domain_length))
+  ]
+end
+
 class HostTest < ActiveSupport::TestCase
+  include FactImporterIsolation
+  allow_transactions_for_any_importer
+
   setup do
     disable_orchestration
     User.current = users :admin
@@ -132,6 +154,49 @@ class HostTest < ActiveSupport::TestCase
     setup_user('view', 'hosts', 'name ~ *')
 
     assert_includes Host.authorized('view_hosts'), h
+  end
+
+  test 'should not update with multiple invalid names' do
+    host = FactoryBot.create(:host)
+    invalid_name_list.each do |name|
+      host.name = name
+      refute host.valid?, "Can update host with invalid name #{name}"
+      assert_includes host.errors.keys, :name
+    end
+  end
+
+  test 'should not update with multiple invalid macs' do
+    host = FactoryBot.create(:host)
+    RFauxFactory.gen_strings(256).values.each do |mac|
+      host.interfaces.first.mac = mac
+      refute host.valid?, "Can update host with invalid mac #{mac}"
+      assert_includes host.errors.keys, :'interfaces.mac'
+    end
+  end
+
+  test 'should create with multiple valid comments' do
+    valid_comment_values.each do |comment|
+      host = FactoryBot.build(:host, :comment => comment)
+      assert host.valid?, "Can't create host with valid comment #{comment}"
+    end
+  end
+
+  test 'should create with multiple valid names' do
+    domain = domains(:mydomain)
+    valid_hosts_list(domain_length: domain.name.length).each do |name|
+      host = Host.create! :name => name, :domain => domain
+      assert host.valid?, "Can't create host with valid name #{name} and domain #{domain}"
+      assert_equal "#{name}.#{domain}", host.name, "Host created with name #{name} and domain #{domain.name} does not contains expected name #{name}.#{domain.name}"
+    end
+  end
+
+  test 'should update with multiple valid comments' do
+    host = FactoryBot.create(:host, :comment => RFauxFactory.gen_alpha)
+    valid_comment_values.each do |new_comment|
+      host.comment =  new_comment
+      assert host.valid?, "Can't update host with valid comment #{new_comment}"
+      assert_equal host.comment, new_comment
+    end
   end
 
   context "when unattended is false" do
