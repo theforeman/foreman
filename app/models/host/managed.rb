@@ -833,6 +833,12 @@ class Host::Managed < Host::Base
 
   private
 
+  # Permissions introduced by plugins for this class can cause resource <-> permission
+  # names mapping to fail randomly so as a safety precaution, we specify the name more explicitly.
+  def permission_name(action)
+    "#{action}_hosts"
+  end
+
   def compute_profile_present?
     !(compute_profile_id.nil? || compute_resource_id.nil?)
   end
