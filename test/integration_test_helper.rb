@@ -10,7 +10,8 @@ require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
 require 'minitest/retry'
-Minitest::Retry.use!
+retry_count = (ENV['MINITEST_RETRY_COUNT'] || 3).to_i rescue 1
+Minitest::Retry.use!(retry_count: retry_count) if retry_count > 1
 
 Minitest::Retry.on_consistent_failure do |klass, test_name|
   Rails.logger.error("DO NOT IGNORE - Consistent failure - #{klass} #{test_name}")

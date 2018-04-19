@@ -68,13 +68,13 @@ module TestCaseRailsLoggerExtensions
     @_ext_old_logger = Rails.logger
     @_ext_old_ar_logger = ActiveRecord::Base.logger
     Rails.logger = Foreman::SilencedLogger.new(ActiveSupport::TaggedLogging.new(Logger.new(@_ext_current_buffer)))
-    ActiveRecord::Base.logger = Rails.logger
+    ActiveRecord::Base.logger = Rails.logger if ENV['PRINT_TEST_LOGS_SQL']
   end
 
   def after_teardown
     Rails.logger = @_ext_old_logger if @_ext_old_logger
     ActiveRecord::Base.logger = @_ext_old_ar_logger if @_ext_old_ar_logger
-    if error?
+    if (ENV['PRINT_TEST_LOGS_ON_ERROR'] && error?) || (ENV['PRINT_TEST_LOGS_ON_FAILURE'] && !self.passed?)
       @_ext_current_buffer.close_write
       STDOUT << "\n\nRails logs for #{self.name} FAILURE:\n"
       STDOUT << @_ext_current_buffer.string
