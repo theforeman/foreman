@@ -247,11 +247,11 @@ function filter_by_level(item){
 }
 
 function auth_source_selected(){
-  var auth_source_id = $('#user_auth_source_id').val();
-  if (auth_source_id == '') {
-     $("#password").hide();
-  } else {
+  var auth_source_id = $('#user_auth_source_id option:selected').text();
+  if (auth_source_id == 'INTERNAL') {
      $("#password").show();
+  } else {
+     $("#password").hide();
   }
 }
 
