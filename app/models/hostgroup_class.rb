@@ -11,4 +11,8 @@ class HostgroupClass < ApplicationRecord
   def name
     "#{hostgroup} - #{puppetclass}"
   end
+
+  def check_permissions_after_save
+    true
+  end
 end
