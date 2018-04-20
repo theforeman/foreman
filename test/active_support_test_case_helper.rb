@@ -56,9 +56,6 @@ class ActiveSupport::TestCase
 
   def reset_rails_cache
     Rails.cache.clear
-  rescue Errno::ENOENT
-    # Clear on a file cache fails on a clean checkout when the cache hasn't been written to.
-    # This rescue may be removed on Rails 5 (16d7cfb fixes it).
   end
 
   # for backwards compatibility to between Minitest syntax
