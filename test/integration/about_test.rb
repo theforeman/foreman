@@ -5,10 +5,10 @@ class AboutIntegrationTest < IntegrationTestWithJavascript
   #   AboutIntegrationTest.test_0002_about page proxies should have version
 
   setup do
-    ComputeResource.any_instance.expects(:ping).at_least_once.returns([])
+    ComputeResource.any_instance.stubs(:ping).returns([])
     proxy_status = mock('ProxyStatus::Version')
-    proxy_status.expects(:version).at_least_once.returns('version' => '1.13.0')
-    SmartProxy.any_instance.expects(:statuses).at_least_once.returns(:version => proxy_status)
+    proxy_status.stubs(:version).returns('version' => '1.13.0')
+    SmartProxy.any_instance.stubs(:statuses).returns(:version => proxy_status)
   end
 
   test "about page" do
