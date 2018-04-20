@@ -15,7 +15,7 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
                        "proxy.host.with_no_dates" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 5, "not_before" => nil, "not_after" => nil},
                        "refuted.host" => {"state" => "refuted", "fingerprint" => "SHA256", "serial" => 4, "not_before" => "2015-12-22T14:33:10UTC", "not_after" => "2020-12-22T14:33:10UTC"},
                        "pending.host" => {"state" => "pending", "fingerprint" => "SHA256", "serial" => 6}}
-      ProxyAPI::Puppetca.any_instance.expects(:all).returns(certificates)
+      ProxyAPI::Puppetca.any_instance.stubs(:all).returns(certificates)
     end
 
     test 'it returns all certificates' do
@@ -42,7 +42,7 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
 
   context 'CA has no certificates' do
     setup do
-      ProxyAPI::Puppetca.any_instance.expects(:all).returns({})
+      ProxyAPI::Puppetca.any_instance.stubs(:all).returns({})
     end
 
     test 'it returns no certificates' do

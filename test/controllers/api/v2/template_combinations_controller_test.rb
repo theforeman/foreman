@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
   context 'with provisioning_template_id' do
     setup do
-      Foreman::Deprecation.expects(:api_deprecation_warning).never
+      Foreman::Deprecation.stubs(:api_deprecation_warning).never
     end
 
     test "should get index" do

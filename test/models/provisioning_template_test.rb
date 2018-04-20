@@ -90,7 +90,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
 
   context 'locked templates outside of rake' do
     setup do
-      Foreman.expects(:in_rake?).returns(false).at_least_once
+      Foreman.stubs(:in_rake?).returns(false)
       @template = templates(:locked)
     end
 

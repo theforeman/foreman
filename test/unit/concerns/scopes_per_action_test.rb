@@ -9,7 +9,7 @@ class ScopesPerActionTest < ActiveSupport::TestCase
     self.class.add_scope_for(:test_action) { |base_scope| base_scope.includes(:my_table1) }
 
     @scope = mock('scope')
-    @scope_expectation = @scope.expects(:includes).with(:my_table1)
+    @scope_expectation = @scope.stubs(:includes).with(:my_table1)
   end
 
   test 'returns the same scope if callback returns nil' do

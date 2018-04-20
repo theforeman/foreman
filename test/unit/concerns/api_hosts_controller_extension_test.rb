@@ -3,7 +3,7 @@ require 'test_helper'
 class ApiHostsControllerExtensionTest < ActiveSupport::TestCase
   setup do
     @klass = Class.new
-    @klass.expects(:before_action).with(:find_resource)
+    @klass.stubs(:before_action).with(:find_resource)
     @klass.send :include, Api::V2::HostsControllerExtension
   end
 
@@ -19,12 +19,12 @@ class ApiHostsControllerExtensionTest < ActiveSupport::TestCase
       @instance = @klass.new
 
       params = { :action => 'permissions_check_test' }
-      @instance.expects(:params).returns(params)
+      @instance.stubs(:params).returns(params)
       @host = mock('mock_host')
       @host.stubs(:id).returns(1000)
       @instance.instance_variable_set '@host', @host
 
-      Host.expects(:authorized).with(:permissions_check_test_hosts, Host).returns(@result)
+      Host.stubs(:authorized).with(:permissions_check_test_hosts, Host).returns(@result)
     end
 
     teardown do

@@ -28,7 +28,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
 
     describe '#record' do
       setup do
-        proxy_dhcp.expects(:get).with('192.168.0.0/mac/192.168.0.10').returns(fake_rest_client_response(fake_response))
+        proxy_dhcp.stubs(:get).with('192.168.0.0/mac/192.168.0.10').returns(fake_rest_client_response(fake_response))
       end
 
       test 'retrieves an array with a single dhcp record' do
@@ -47,7 +47,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
 
     describe '#records_by_ip' do
       setup do
-        proxy_dhcp.expects(:get).with('192.168.0.0/ip/192.168.0.10').returns(fake_rest_client_response([fake_response]))
+        proxy_dhcp.stubs(:get).with('192.168.0.0/ip/192.168.0.10').returns(fake_rest_client_response([fake_response]))
       end
 
       test 'retrieves an array with a single dhcp record' do

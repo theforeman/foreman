@@ -5,7 +5,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
   include ::ReportHostPermissionsTest
 
   setup do
-    Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/reports were moved to /config_reports}))
+    Foreman::Deprecation.stubs(:api_deprecation_warning).with(regexp_matches(%r{/reports were moved to /config_reports}))
   end
 
   describe "Non Admin User" do

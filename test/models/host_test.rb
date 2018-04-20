@@ -3349,7 +3349,7 @@ class HostTest < ActiveSupport::TestCase
       @nic.expects(:rebuild_tftp).returns(true)
       @nic.expects(:rebuild_dns).never
       @nic.expects(:rebuild_dhcp).never
-      Nic::Managed.expects(:rebuild_methods_for).returns(:rebuild_tftp => "TFTP")
+      Nic::Managed.stubs(:rebuild_methods_for).returns(:rebuild_tftp => "TFTP")
     end
 
     test "recreate TFTP config with success" do
