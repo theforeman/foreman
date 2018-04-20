@@ -9,4 +9,8 @@ class ConfigGroupClass < ApplicationRecord
   validates :puppetclass, :presence => true
   validates :config_group, :presence => true,
     :uniqueness => { :scope => :puppetclass_id }
+
+  def check_permissions_after_save
+    true
+  end
 end
