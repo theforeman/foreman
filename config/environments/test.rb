@@ -57,8 +57,8 @@ Foreman::Application.configure do
   # Raise exception on mass assignment of unfiltered parameters
   config.action_controller.action_on_unpermitted_parameters = :strict
 
-  # Use separate cache stores for parallel_tests
-  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
+  # Use default memory cache (32 MB top)
+  config.cache_store = :memory_store
 
   # Enable automatic creation/migration of the test DB when running tests
   config.active_record.maintain_test_schema = true
