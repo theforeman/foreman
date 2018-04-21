@@ -385,13 +385,6 @@ Style/CommentAnnotation:
 Style/CommentedKeyword:
   Enabled: false
 
-# Offense count: 42
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Enabled: false
-
 # Offense count: 29
 Style/DoubleNegation:
   Enabled: false

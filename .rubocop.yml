@@ -82,3 +82,6 @@ Layout/DotPosition:
 
 Style/IfUnlessModifier:
   Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
