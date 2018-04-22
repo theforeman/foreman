@@ -83,27 +83,6 @@ module ComputeResourcesVmsHelper
     end
   end
 
-  def datastore_stats(datastore)
-    return datastore.name unless datastore.freespace && datastore.capacity
-    "#{datastore.name} (#{_('free')}: #{number_to_human_size(datastore.freespace)}, #{_('prov')}: #{number_to_human_size(datastore.capacity + (datastore.uncommitted || 0) - datastore.freespace)}, #{_('total')}: #{number_to_human_size(datastore.capacity)})"
-  end
-
-  def vsphere_datastores(compute)
-    compute.datastores.each_with_object({}) do |datastore, hsh|
-      hsh[datastore.name] = datastore_stats(datastore)
-    end
-  end
-
-  def vsphere_storage_pods(compute)
-    compute.storage_pods.each_with_object({}) do |pod, hsh|
-      hsh[pod.name] = storage_pod_stats(pod)
-    end
-  end
-
-  def storage_pod_stats(pod)
-    "#{pod.name} (#{_('free')}: #{number_to_human_size(pod.freespace.to_i)}, #{_('prov')}: #{number_to_human_size(pod.capacity.to_i - pod.freespace.to_i)}, #{_('total')}: #{number_to_human_size(pod.capacity.to_i)})"
-  end
-
   def available_actions(vm, authorizer = nil)
     return default_available_actions(vm, authorizer) unless defined? Fog::Compute::OpenStack::Server
     case vm

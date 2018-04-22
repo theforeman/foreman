@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { Button } from 'patternfly-react';
+import PropTypes from 'prop-types';
 import Select from '../../../../../common/forms/Select';
 import Checkbox from '../../../../../common/forms/Checkbox';
 import NumericInput from '../../../../../common/forms/NumericInput';
@@ -12,7 +13,7 @@ const Disk = ({
   updateDisk,
   name,
   config: {
-    datastores, storagePods, diskModeTypes, vmExists,
+    diskModeTypes, vmExists,
   },
   storagePod,
   datastore,
@@ -20,6 +21,12 @@ const Disk = ({
   thin,
   eagerzero,
   mode,
+  datastores,
+  datastoresStatus,
+  datastoresError,
+  storagePods,
+  storagePodsStatus,
+  storagePodsError,
 }) => (
   <div className="disk-container">
     <div className="form-group">
@@ -43,6 +50,10 @@ const Disk = ({
       disabled={vmExists}
       onChange={updateDisk.bind(this, 'storagePod')}
       options={storagePods}
+      allowClear="true"
+      key="storagePodsSelect"
+      status={storagePodsStatus}
+      errorMessage={storagePodsError}
     />}
     {!storagePod &&
     <Select
@@ -51,7 +62,12 @@ const Disk = ({
       value={datastore}
       onChange={updateDisk.bind(this, 'datastore')}
       options={datastores}
-    />}
+      allowClear="true"
+      key="datastoresSelect"
+      status={datastoresStatus}
+      errorMessage={datastoresError}
+    />
+    }
 
     <Select
       label={__('Disk Mode')}
@@ -85,5 +101,27 @@ const Disk = ({
     />
   </div>
 );
+
+Disk.propTypes = {
+  removeDisk: PropTypes.func,
+  updateDisk: PropTypes.func,
+  name: PropTypes.string,
+  config: PropTypes.shape({
+    diskModeTypes: PropTypes.object,
+    vmExists: PropTypes.bool,
+  }),
+  storagePod: PropTypes.string,
+  datastore: PropTypes.string,
+  sizeGb: PropTypes.number,
+  thin: PropTypes.bool,
+  eagerzero: PropTypes.bool,
+  mode: PropTypes.string,
+  datastores: PropTypes.object,
+  datastoresStatus: PropTypes.string,
+  datastoresError: PropTypes.string,
+  storagePods: PropTypes.object,
+  storagePodsStatus: PropTypes.string,
+  storagePodsError: PropTypes.string,
+};
 
 export default Disk;

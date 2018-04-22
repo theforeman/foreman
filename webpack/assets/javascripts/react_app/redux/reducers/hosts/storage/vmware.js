@@ -12,6 +12,12 @@ import {
   STORAGE_VMWARE_UPDATE_CONTROLLER,
   STORAGE_VMWARE_UPDATE_DISK,
   STORAGE_VMWARE_INIT,
+  STORAGE_VMWARE_DATASTORES_REQUEST,
+  STORAGE_VMWARE_DATASTORES_SUCCESS,
+  STORAGE_VMWARE_DATASTORES_FAILURE,
+  STORAGE_VMWARE_STORAGEPODS_REQUEST,
+  STORAGE_VMWARE_STORAGEPODS_SUCCESS,
+  STORAGE_VMWARE_STORAGEPODS_FAILURE,
 } from '../../../consts';
 
 const initialState = Immutable({
@@ -67,12 +73,48 @@ export default (state = initialState, { type, payload }) => {
     case STORAGE_VMWARE_REMOVE_DISK:
       return state.set('volumes', state.volumes.filter(v => v.key !== payload.key));
     case STORAGE_VMWARE_INIT:
+      const newState = {
+        controllers: payload.controllers,
+        paramsScope: payload.config.paramsScope,
+        datastores: [],
+        datastoresLoading: true,
+        datastoresError: undefined,
+        storagePods: [],
+        storagePodsLoading: true,
+        storagePodsError: undefined,
+        volumes: payload.volumes.map(volume => ({ ...volume, key: uuidV1() })),
+      };
       return initialState
         .set('config', payload.config)
         .setIn(['config', 'addControllerEnabled'], !!getAvailableKey(payload.controllers))
-        .set('controllers', payload.controllers)
-        .set('paramsScope', payload.config.paramsScope)
-        .set('volumes', payload.volumes.map(volume => ({ ...volume, key: uuidV1() })));
+        .merge(newState);
+    case STORAGE_VMWARE_DATASTORES_REQUEST:
+      return state.merge({
+        datastoresError: undefined,
+        datastores: [],
+        datastoresLoading: true,
+      });
+    case STORAGE_VMWARE_DATASTORES_SUCCESS:
+      return state
+        .set('datastores', payload.results)
+        .set('datastoresLoading', false);
+    case STORAGE_VMWARE_DATASTORES_FAILURE:
+      return state
+        .set('datastoresError', payload.error.message);
+    case STORAGE_VMWARE_STORAGEPODS_REQUEST:
+      return state.merge({
+        storagePodsError: undefined,
+        storagePods: [],
+        storagePodsLoading: true,
+      });
+    case STORAGE_VMWARE_STORAGEPODS_SUCCESS:
+      return state.merge({
+        storagePods: payload.results,
+        storagePodsLoading: false,
+      });
+    case STORAGE_VMWARE_STORAGEPODS_FAILURE:
+      return state
+        .set('storagePodsError', payload.error.message);
     default:
       return state;
   }
