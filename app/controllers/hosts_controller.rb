@@ -9,7 +9,6 @@ class HostsController < ApplicationController
   include Foreman::Controller::HostFormCommon
   include Foreman::Controller::Puppet::HostsControllerExtensions
   include Foreman::Controller::CsvResponder
-  include Foreman::Controller::NormalizeScsiAttributes
   include Foreman::Controller::ConsoleCommon
 
   SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled ]
@@ -40,7 +39,6 @@ class HostsController < ApplicationController
   before_action :set_host_type, :only => [:update]
   before_action :find_multiple, :only => MULTIPLE_ACTIONS
   before_action :validate_power_action, :only => :update_multiple_power_state
-  before_action :normalize_vm_attributes, :only => [:create, :update, :process_taxonomy]
 
   helper :hosts, :reports, :interfaces
 
@@ -900,11 +898,5 @@ class HostsController < ApplicationController
 
   def csv_columns
     [:name, :operatingsystem, :environment, :compute_resource_or_model, :hostgroup, :last_report]
-  end
-
-  def normalize_vm_attributes
-    if host_params["compute_attributes"] && host_params["compute_attributes"]["scsi_controllers"]
-      normalize_scsi_attributes(host_params["compute_attributes"])
-    end
   end
 end
