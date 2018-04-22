@@ -527,6 +527,7 @@ Foreman::Application.routes.draw do
   resources :notification_recipients, :only => [:index, :update, :destroy] do
     collection do
       put 'group/:group' => 'notification_recipients#update_group_as_read'
+      delete 'group/:group' => 'notification_recipients#destroy_group'
     end
   end
 end

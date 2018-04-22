@@ -4,6 +4,8 @@ import {
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
+  NOTIFICATIONS_MARK_AS_CLEAR,
+  NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
   NOTIFICATIONS_POLLING_STARTED,
 } from '../../consts';
 import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
@@ -59,7 +61,7 @@ export const startNotificationsPolling = url => (dispatch, getState) => {
   dispatch(getNotifications(url));
 };
 
-export const onMarkAsRead = (group, id) => (dispatch) => {
+export const markAsRead = (group, id) => (dispatch) => {
   dispatch({
     type: NOTIFICATIONS_MARK_AS_READ,
     payload: {
@@ -72,7 +74,7 @@ export const onMarkAsRead = (group, id) => (dispatch) => {
   API.put(url, data);
 };
 
-export const onMarkGroupAsRead = group => (dispatch) => {
+export const markGroupAsRead = group => (dispatch) => {
   dispatch({
     type: NOTIFICATIONS_MARK_GROUP_AS_READ,
     payload: {
@@ -81,6 +83,29 @@ export const onMarkGroupAsRead = group => (dispatch) => {
   });
   const url = `/notification_recipients/group/${group}`;
   API.put(url);
+};
+
+export const clearNotification = (group, id) => (dispatch) => {
+  dispatch({
+    type: NOTIFICATIONS_MARK_AS_CLEAR,
+    payload: {
+      group,
+      id,
+    },
+  });
+  const url = `/notification_recipients/${id}`;
+  API.delete(url);
+};
+
+export const clearGroup = group => (dispatch) => {
+  dispatch({
+    type: NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
+    payload: {
+      group,
+    },
+  });
+  const url = `/notification_recipients/group/${group}`;
+  API.delete(url);
 };
 
 export const expandGroup = group => (dispatch, getState) => {
@@ -109,7 +134,7 @@ export const toggleDrawer = () => (dispatch, getState) => {
   });
 };
 
-export const onClickedLink = link => (dispatch, getState) => {
+export const clickedLink = link => (dispatch, getState) => {
   toggleDrawer()(dispatch, getState);
   window.open(link.href, link.external ? '_blank' : '_self');
 };
