@@ -10,6 +10,6 @@ describe('StorageContainer', () => {
 
     expect(wrapper.render().find('.text-vmware-size').length).toEqual(1);
 
-    expect(wrapper.find('.text-vmware-size').props().value).toEqual('10 gb');
+    expect(wrapper.find('.text-vmware-size').props().value).toEqual(10);
   });
 });

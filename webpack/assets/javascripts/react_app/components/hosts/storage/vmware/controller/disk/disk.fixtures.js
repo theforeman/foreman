@@ -39,7 +39,7 @@ export const props = {
   name: 'Hard disk',
   mode: 'persistent',
   controllerKey: 1000,
-  sizeGb: '10 gb',
+  sizeGb: 10,
   key: 'f219e02d-68c5-2669-a641-d7bf45476dd0',
   removeDisk: () => {},
   updateDisk: () => {}
