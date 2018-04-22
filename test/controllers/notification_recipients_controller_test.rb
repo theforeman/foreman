@@ -153,6 +153,31 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
       where(notification_blueprints: { group: 'Group2' }).count
   end
 
+  test 'delete group notifications' do
+    add_notification
+    query = {user_id: User.current.id}
+    assert_equal 1, NotificationRecipient.where(query).count
+    delete :destroy_group, params: { :group => 'Testing' }, session: set_session_user
+    assert_response :success
+    assert_equal 0, NotificationRecipient.where(query).count
+  end
+
+  test 'group delete when multiple groups exists' do
+    add_notification('Group1')
+    add_notification('Group2')
+    query = {user_id: User.current.id}
+    assert_equal 2, NotificationRecipient.where(query).count
+    delete :destroy_group, params: { :group => 'Group1' }, session: set_session_user
+    assert_response :success
+    assert_equal 1, NotificationRecipient.where(query).count
+    assert_equal 0, NotificationRecipient.where(query).
+      joins(:notification_blueprint).
+      where(notification_blueprints: { group: 'Group1' }).count
+    assert_equal 1, NotificationRecipient.where(query).
+      joins(:notification_blueprint).
+      where(notification_blueprints: { group: 'Group2' }).count
+  end
+
   private
 
   def add_notification(group = 'Testing')

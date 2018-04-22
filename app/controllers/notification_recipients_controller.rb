@@ -30,6 +30,19 @@ class NotificationRecipientsController < Api::V2::BaseController
     head (count.zero? ? :not_modified : :ok)
   end
 
+  def destroy_group
+    count = NotificationRecipient.
+      joins(:notification_blueprint).
+      where(user_id: User.current.id,
+            notification_blueprints: { group: params[:group]}).
+      delete_all
+
+    logger.debug("deleted #{count} notification recipents for group #{params[:group]}")
+    UINotifications::CacheHandler.new(User.current.id).clear unless count.zero?
+
+    head (count.zero? ? :not_modified : :ok)
+  end
+
   private
 
   def require_login

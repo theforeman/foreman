@@ -1,13 +1,13 @@
-import { groupBy } from 'lodash';
 import onClickOutside from 'react-onclickoutside';
-import { connect } from 'react-redux';
 import React from 'react';
+import { connect } from 'react-redux';
+import { groupBy } from 'lodash';
+import { NotificationDrawerWrapper } from 'patternfly-react';
 
 import * as NotificationActions from '../../redux/actions/notifications';
-
 import './notifications.scss';
 import ToggleIcon from './toggleIcon/';
-import Drawer from './drawer/';
+
 
 class notificationContainer extends React.Component {
   componentDidMount() {
@@ -31,26 +31,48 @@ class notificationContainer extends React.Component {
       toggleDrawer,
       expandGroup,
       expandedGroup,
-      onMarkAsRead,
-      onMarkGroupAsRead,
+      markAsRead,
+      markGroupAsRead,
+      clearNotification,
+      clearGroup,
       hasUnreadMessages,
       isReady,
-      onClickedLink,
+      clickedLink,
     } = this.props;
+
+    const notificationGroups = Object.entries(notifications).map(([key, group]) => ({
+      panelkey: key,
+      panelName: key,
+      notifications: group,
+    }));
+
+    const translations = {
+      title: __('Notifications'),
+      unreadEvent: __('Unread Event'),
+      unreadEvents: __('Unread Events'),
+      emptyState: __('No Notifications Available'),
+      readAll: __('Mark All Read'),
+      clearAll: __('Clear All'),
+      deleteNotification: __('Hide this notification'),
+    };
 
     return (
       <div>
         <ToggleIcon hasUnreadMessages={hasUnreadMessages} onClick={toggleDrawer} />
         {isReady &&
           isDrawerOpen && (
-            <Drawer
-              onExpandGroup={expandGroup}
-              onClickedLink={onClickedLink}
-              onMarkAsRead={onMarkAsRead}
-              onMarkGroupAsRead={onMarkGroupAsRead}
-              expandedGroup={expandedGroup}
-              notificationGroups={notifications}
-              toggleDrawer={toggleDrawer}
+            <NotificationDrawerWrapper
+              panels={notificationGroups}
+              expandedPanel={expandedGroup}
+              togglePanel={expandGroup}
+              onNotificationAsRead={markAsRead}
+              onNotificationHide={clearNotification}
+              onMarkPanelAsRead={markGroupAsRead}
+              onMarkPanelAsClear={clearGroup}
+              onClickedLink={clickedLink}
+              toggleDrawerHide={toggleDrawer}
+              isExpandable={false}
+              translations={translations}
             />
           )}
       </div>

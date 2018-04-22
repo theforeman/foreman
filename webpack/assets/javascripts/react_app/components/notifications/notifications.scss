@@ -1,3 +1,5 @@
+@import '../../common/colors.scss';
+
 #notifications_container {
   position: static;
   margin-top: -1px;
@@ -25,83 +27,81 @@
     }
   }
 
+  /*
+Changed the maximum height of the drawer to full window, this prevents double scrolling as much as possible while still keeping a dynamic height.
+Added flexbox functionality to resize the drawer if the window gets resized.
+  */
+
   .drawer-pf {
-    max-height: 600px;
+    max-height: calc(100vh - 58px - 20px);
     overflow: hidden;
     display: flex;
     flex-direction: column;
 
-    .drawer-pf-title,
-    .panel-group {
-      position: static;
-    }
-
-    .drawer-pf-close {
-      right: 0;
-    }
-
-    .drawer-pf-toggle-expand {
-      left: 0;
+    .drawer-pf-title {
+      position: relative;
     }
 
     .panel-group {
-      flex: 1;
       display: flex;
       flex-direction: column;
+      position: initial;
+      bottom: initial;
+      top: initial;
+      overflow-y: auto;
 
-      .panel.expanded {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-
-        .panel-body {
-          overflow-y: auto;
-          flex: 1;
-        }
+      .blank-slate-pf-title {
+        font-size: 18px;
       }
 
-      .panel {
-        cursor: pointer;
+      .panel.panel-default.expanded {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+      }
 
-        .panel-title {
-          a {
-            font-size: 14px;
-          }
-        }
+      .panel-collapse.in {
+        min-height: 0;
+        overflow-y: auto;
 
         .panel-body {
-          padding: 0;
+          display: block;
 
-          .drawer-pf-notification {
-            display: flex;
+          .dropdown-menu-right {
+            position: absolute;
 
-            .notification-text-container {
-              display: flex;
-              flex: 1;
-              flex-direction: column;
-              position: relative;
-              margin: 0 12px;
-
-              .not-seen {
-                font-weight: bold;
-                cursor: pointer;
-              }
-
-              .drawer-pf-notification-message,
-              .drawer-pf-notification-info {
-                padding: 0;
-              }
+            .btn-group {
+              z-index: 1;
             }
           }
         }
       }
+    }
+
+    .drawer-pf-action {
+      padding: 10px 0;
+      position: relative;
+      position: sticky;
+      position: -webkit-sticky;
+      position: -moz-sticky;
+      position: -ms-sticky;
+      position: -o-sticky;
+      bottom: 0;
+      z-index: 10;
+      background-color: $pf-color-white;
+      border-top: 1px solid $pf-border-gray;
+    }
+
+    .drawer-pf-action-link {
+      align-self: center;
+      margin: 0;
     }
   }
 
   #no-notifications-container {
     padding: 20px;
     text-align: center;
-    background: #efefef;
+    background: $pf-black-200;
     font-size: 15px;
   }
 }

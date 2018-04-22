@@ -4,8 +4,10 @@ import {
   NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
+  NOTIFICATIONS_MARK_AS_CLEAR,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
+  NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
   NOTIFICATIONS_POLLING_STARTED,
 } from '../../consts';
 import { notificationsDrawer } from '../../../common/sessionStorage';
@@ -50,9 +52,25 @@ export default (state = initialState, action) => {
         .set('notifications', notifications)
         .set('hasUnreadMessages', hasUnreadMessages(notifications));
     }
+    case NOTIFICATIONS_MARK_AS_CLEAR: {
+      const notifications = state.notifications.filter(n =>
+        n.id !== payload.id);
+
+      return state
+        .set('notifications', notifications)
+        .set('hasUnreadMessages', hasUnreadMessages(notifications));
+    }
     case NOTIFICATIONS_MARK_GROUP_AS_READ: {
       const notifications = state.notifications.map(n =>
         (n.group === payload.group ? { ...n, seen: true } : n));
+
+      return state
+        .set('notifications', notifications)
+        .set('hasUnreadMessages', hasUnreadMessages(notifications));
+    }
+    case NOTIFICATIONS_MARK_GROUP_AS_CLEARED: {
+      const notifications = state.notifications.filter(n =>
+        n.group !== payload.group);
 
       return state
         .set('notifications', notifications)

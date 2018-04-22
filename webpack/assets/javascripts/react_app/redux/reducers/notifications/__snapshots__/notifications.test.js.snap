@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`notification reducer should handle NOTIFICATIONS_MARK_AS_CLEAR 1`] = `
+Object {
+  "expandedGroup": "Hosts",
+  "hasUnreadMessages": true,
+  "isDrawerOpen": true,
+  "notifications": Array [
+    Object {
+      "actions": Object {},
+      "created_at": "2017-04-17T17:29:12.664Z",
+      "group": "Hosts",
+      "id": 52435,
+      "level": "info",
+      "seen": false,
+      "text": "some.example.com has been deleted successfully",
+    },
+  ],
+}
+`;
+
+exports[`notification reducer should handle NOTIFICATIONS_MARK_AS_READ 1`] = `
+Object {
+  "expandedGroup": "Hosts",
+  "hasUnreadMessages": true,
+  "isDrawerOpen": true,
+  "notifications": Array [
+    Object {
+      "actions": Object {},
+      "created_at": "2017-04-17T17:29:12.664Z",
+      "group": "Hosts",
+      "id": 52435,
+      "level": "info",
+      "seen": false,
+      "text": "some.example.com has been deleted successfully",
+    },
+    Object {
+      "actions": Object {},
+      "created_at": "2017-04-17T17:29:12.664Z",
+      "group": "Hosts",
+      "id": 51435,
+      "level": "info",
+      "seen": true,
+      "text": "notified successfully",
+    },
+  ],
+}
+`;
+
+exports[`notification reducer should handle NOTIFICATIONS_MARK_GROUP_AS_CLEARED 1`] = `
+Object {
+  "expandedGroup": "Hosts",
+  "hasUnreadMessages": false,
+  "isDrawerOpen": true,
+  "notifications": Array [],
+}
+`;
+
+exports[`notification reducer should handle NOTIFICATIONS_MARK_GROUP_AS_READ 1`] = `
+Object {
+  "expandedGroup": "Hosts",
+  "hasUnreadMessages": false,
+  "isDrawerOpen": true,
+  "notifications": Array [
+    Object {
+      "actions": Object {},
+      "created_at": "2017-04-17T17:29:12.664Z",
+      "group": "Hosts",
+      "id": 52435,
+      "level": "info",
+      "seen": true,
+      "text": "some.example.com has been deleted successfully",
+    },
+    Object {
+      "actions": Object {},
+      "created_at": "2017-04-17T17:29:12.664Z",
+      "group": "Hosts",
+      "id": 51435,
+      "level": "info",
+      "seen": true,
+      "text": "notified successfully",
+    },
+  ],
+}
+`;
