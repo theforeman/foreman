@@ -1,26 +1,13 @@
 ---
-# Pending fixes, compatible with Rails 4.2 and 5.0
-# http://projects.theforeman.org/issues/7570
+# https://projects.theforeman.org/issues/7570
 - message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
     more about this new config option.
-  callstack:
-- message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
-    more about this new config option.
-  callstack: test/test_helper.rb:36:in `before_setup'
 
+# https://projects.theforeman.org/issues/23191
 - message: Using a dynamic :controller segment in a route is deprecated and will be
     removed in Rails 5.2.
-  callstack: config/routes.rb:17:in `block in <top (required)>'
 
-# Not a "true" deprecation, no action required, it's being used correctly.
-- message: "#table_exists? currently checks both tables and views. This behavior is
-    deprecated and will be changed with Rails 5.1 to only check tables. Use #data_source_exists?
-    instead."
-
-# Used by BookmarkControllerValidator and inside shoulda-matchers
-- message: "#tables currently returns both tables and views. This behavior is deprecated
-    and will be changed with Rails 5.1 to only return tables. Use #data_sources instead."
-
+# These are just hints and will go away without side effects with Rails 5.2
 - message: The behavior of `attribute_change` inside of after callbacks will be changing
     in the next version of Rails. The new return value will reflect the behavior of
     calling the method after `save` returned (e.g. the opposite of what it returns
