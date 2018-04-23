@@ -1962,6 +1962,11 @@ class HostTest < ActiveSupport::TestCase
       assert_equal [host], Host::Managed.search_for(query)
     end
 
+    test "host edit permision must be always edit_hosts" do
+      h = FactoryBot.build(:host, :managed)
+      assert_equal "edit_hosts", h.send(:permission_name, :edit)
+    end
+
     test "non-admin user with edit_hosts permission can update interface" do
       @one = users(:one)
       # add permission for user :one
