@@ -15,6 +15,8 @@ const mapStateToProps = ({ breadcrumbBar }) => ({
   hasError: breadcrumbBar.requestError !== null,
   currentPage: breadcrumbBar.currentPage,
   totalPages: breadcrumbBar.pages,
+  searchQuery: breadcrumbBar.searchQuery,
+  removeSearchQuery: breadcrumbBar.removeSearchQuery,
 });
 
 // map action dispatchers to props

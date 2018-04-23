@@ -39,7 +39,7 @@ export const resourceList = [
 export const serverResourceListResponse = {
   data: {
     page: 1,
-    total: 3,
+    subtotal: 3,
     per_page: 2,
     results: [
       { id: '1', name: 'name-1' },
@@ -65,6 +65,10 @@ export const breadcrumbSwitcherLoadedWithPagination = {
   totalPages: 3,
 };
 
+export const breadcrumbSwitcherLoadedWithSearchQuery = {
+  ...breadcrumbSwitcherLoaded,
+};
+
 export const breadcrumbBar = {
   data: {
     resource,
@@ -79,4 +83,6 @@ export const breadcrumbBarSwithcable = {
     breadcrumbItems: breadcrumbItems.items,
     isSwitchable: true,
   },
+  searchQuery: 'some value',
+  searchDebounceTimeout: 0,
 };

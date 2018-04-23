@@ -9,6 +9,7 @@ Object {
   "requestError": null,
   "resourceSwitcherItems": Array [],
   "resourceUrl": null,
+  "searchQuery": "",
 }
 `;
 
@@ -21,6 +22,7 @@ Object {
   "requestError": [Error: some error],
   "resourceSwitcherItems": Array [],
   "resourceUrl": "some/url",
+  "searchQuery": "",
 }
 `;
 
@@ -33,6 +35,20 @@ Object {
   "requestError": null,
   "resourceSwitcherItems": Array [],
   "resourceUrl": "some/url",
+  "searchQuery": undefined,
+}
+`;
+
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_RESOURCES_REQUEST with search query 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": true,
+  "isSwitcherOpen": false,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": "some/url",
+  "searchQuery": "some search",
 }
 `;
 
@@ -73,6 +89,7 @@ Object {
     },
   ],
   "resourceUrl": "some/url",
+  "searchQuery": "",
 }
 `;
 
@@ -85,6 +102,7 @@ Object {
   "requestError": null,
   "resourceSwitcherItems": Array [],
   "resourceUrl": null,
+  "searchQuery": "",
 }
 `;
 
@@ -97,5 +115,6 @@ Object {
   "requestError": null,
   "resourceSwitcherItems": Array [],
   "resourceUrl": null,
+  "searchQuery": "",
 }
 `;

@@ -5,6 +5,7 @@ import {
   breadcrumbSwitcherLoading,
   breadcrumbSwitcherLoaded,
   breadcrumbSwitcherLoadedWithPagination,
+  breadcrumbSwitcherLoadedWithSearchQuery,
 } from '../BreadcrumbBar.fixtures';
 
 const fixtures = {
@@ -13,6 +14,10 @@ const fixtures = {
   'render resources list with pagination': {
     id: 'some-id',
     ...breadcrumbSwitcherLoadedWithPagination,
+  },
+  'render resources list with a search query': {
+    id: 'some-id',
+    ...breadcrumbSwitcherLoadedWithSearchQuery,
   },
 };
 
