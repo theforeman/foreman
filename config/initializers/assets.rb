@@ -1,3 +1,13 @@
+module Webpack
+  module Rails
+    class Manifest
+      class << self
+        attr_writer :manifest
+      end
+    end
+  end
+end
+
 # Be sure to restart your server when you modify this file.
 Foreman::Application.configure do |app|
   # Version of your assets, change this if you want to expire all your assets.
@@ -90,24 +100,29 @@ Foreman::Application.configure do |app|
       end
     end
 
-    if (webpack_manifest_file = Dir.glob("#{Rails.root}/public/webpack/manifest.json").first)
-      webpack_manifest = JSON.parse(File.read(webpack_manifest_file))
+    # When the dev server is enabled, this static manifest file is ignored and
+    # always retrieved from the dev server.
+    #
+    # Otherwise we need to combine all the chunks from the various webpack
+    # manifests. This is the main foreman manifest and all plugins that may
+    # have one. We then store this in the webpack-rails manifest using our
+    # monkey patched function.
+    unless config.webpack.dev_server.enabled
+      if (webpack_manifest_file = Dir.glob("#{Rails.root}/public/webpack/manifest.json").first)
+        webpack_manifest = JSON.parse(File.read(webpack_manifest_file))
 
-      Foreman::Plugin.all.each do |plugin|
-        # Manifests may be stored under the engine installation or under the Foreman app root, then
-        # either with just the plugin name or with hyphens replaced with underscores.
-        manifest_path = File.join(plugin.path, "/public/webpack/#{plugin.id}/manifest.json")
+        Foreman::Plugin.all.each do |plugin|
+          manifest_path = File.join(plugin.path, 'public', 'webpack', plugin.id.to_s, 'manifest.json')
 
-        if File.file?(manifest_path)
-          Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
-          assets = JSON.parse(File.read(manifest_path))
+          if File.file?(manifest_path)
+            Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
+            assets = JSON.parse(File.read(manifest_path))
 
-          webpack_manifest['assetsByChunkName'] = webpack_manifest['assetsByChunkName'].merge(assets['assetsByChunkName'])
+            webpack_manifest['assetsByChunkName'] = webpack_manifest['assetsByChunkName'].merge(assets['assetsByChunkName'])
+          end
         end
-      end
 
-      File.open(webpack_manifest_file, 'w') do |file|
-        file.write(webpack_manifest.to_json)
+        Webpack::Rails::Manifest.manifest = webpack_manifest
       end
     end
   end
