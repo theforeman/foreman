@@ -175,14 +175,14 @@ class UnattendedController < ApplicationController
     end
 
     if params.key?(:mac)
-      mac_list << params[:mac]
+      mac_list << params[:mac].strip.downcase
     end
 
     # we try to match first based on the MAC, falling back to the IP
+    candidates = Host.joins(:provision_interface).where(mac_list.empty? ? {:nics => {:ip => ip}} : ["lower(nics.mac) IN (?)", mac_list]).order(:created_at)
+    logger.warn("Multiple hosts found with #{ip} or #{mac_list}, picking up the most recent") if candidates.count > 1
+    host = candidates.last
     # host is readonly because of association so we reload it if we find it
-    candidates = Host.joins(:provision_interface).where(mac_list.empty? ? {:nics => {:ip => ip}} : ["lower(nics.mac) IN (?)", mac_list]).order('created_at DESC, id')
-    logger.warn("Multiple hosts found with #{ip} or #{mac_list}, picking up the oldest") if candidates.count > 1
-    host = candidates.first
     host ? Host.find(host.id) : nil
   end
 
