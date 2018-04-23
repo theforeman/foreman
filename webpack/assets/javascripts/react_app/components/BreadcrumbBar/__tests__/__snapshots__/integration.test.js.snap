@@ -10,6 +10,7 @@ Object {
     "requestError": null,
     "resourceSwitcherItems": Array [],
     "resourceUrl": null,
+    "searchQuery": "",
   },
 }
 `;
@@ -70,6 +71,7 @@ Object {
         },
       ],
       "resourceUrl": "some/url",
+      "searchQuery": "",
     },
   },
 }
@@ -131,6 +133,131 @@ Object {
         },
       ],
       "resourceUrl": "some/url",
+      "searchQuery": "",
+    },
+  },
+}
+`;
+
+exports[`switcher after search change 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "items": Array [
+            Object {
+              "id": "1",
+              "name": "name-1",
+              "url": "some/url/1",
+            },
+            Object {
+              "id": "2",
+              "name": "name-2",
+              "url": "some/url/2",
+            },
+            Object {
+              "id": "3",
+              "name": "name-3",
+              "url": "some/url/3",
+            },
+          ],
+          "page": 1,
+          "pages": 1.5,
+          "resourceUrl": "some/url",
+        },
+        "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+      },
+    ],
+  ],
+  "state": Object {
+    "breadcrumbBar": Object {
+      "currentPage": 1,
+      "isLoadingResources": false,
+      "isSwitcherOpen": true,
+      "pages": 1.5,
+      "requestError": null,
+      "resourceSwitcherItems": Array [
+        Object {
+          "id": "1",
+          "name": "name-1",
+          "url": "some/url/1",
+        },
+        Object {
+          "id": "2",
+          "name": "name-2",
+          "url": "some/url/2",
+        },
+        Object {
+          "id": "3",
+          "name": "name-3",
+          "url": "some/url/3",
+        },
+      ],
+      "resourceUrl": "some/url",
+      "searchQuery": "text",
+    },
+  },
+}
+`;
+
+exports[`switcher after search clear  1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "items": Array [
+            Object {
+              "id": "1",
+              "name": "name-1",
+              "url": "some/url/1",
+            },
+            Object {
+              "id": "2",
+              "name": "name-2",
+              "url": "some/url/2",
+            },
+            Object {
+              "id": "3",
+              "name": "name-3",
+              "url": "some/url/3",
+            },
+          ],
+          "page": 1,
+          "pages": 1.5,
+          "resourceUrl": "some/url",
+        },
+        "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+      },
+    ],
+  ],
+  "state": Object {
+    "breadcrumbBar": Object {
+      "currentPage": 1,
+      "isLoadingResources": false,
+      "isSwitcherOpen": true,
+      "pages": 1.5,
+      "requestError": null,
+      "resourceSwitcherItems": Array [
+        Object {
+          "id": "1",
+          "name": "name-1",
+          "url": "some/url/1",
+        },
+        Object {
+          "id": "2",
+          "name": "name-2",
+          "url": "some/url/2",
+        },
+        Object {
+          "id": "3",
+          "name": "name-3",
+          "url": "some/url/3",
+        },
+      ],
+      "resourceUrl": "some/url",
+      "searchQuery": "",
     },
   },
 }
@@ -170,6 +297,7 @@ Object {
         },
       ],
       "resourceUrl": "some/url",
+      "searchQuery": "",
     },
   },
 }
@@ -181,7 +309,10 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "options": Object {},
+          "options": Object {
+            "page": 1,
+            "searchQuery": "",
+          },
           "resourceUrl": "some/url",
         },
         "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
@@ -197,6 +328,7 @@ Object {
       "requestError": null,
       "resourceSwitcherItems": Array [],
       "resourceUrl": "some/url",
+      "searchQuery": "",
     },
   },
 }
@@ -258,6 +390,7 @@ Object {
         },
       ],
       "resourceUrl": "some/url",
+      "searchQuery": "",
     },
   },
 }

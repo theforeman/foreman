@@ -31,9 +31,17 @@ class BreadcrumbBar extends React.Component {
       toggleSwitcher,
       closeSwitcher,
       loadSwitcherResourcesByResource,
+      searchQuery,
+      removeSearchQuery,
+      searchDebounceTimeout,
     } = this.props;
 
     const isTitle = breadcrumbItems.length === 1;
+    const options = ({ pageIncrement }) => ({
+      searchQuery,
+      page: Number(currentPage) + pageIncrement,
+    });
+
     return (
       <div className="breadcrumb-bar">
         <Breadcrumb title items={breadcrumbItems} isTitle={isTitle}>
@@ -49,12 +57,18 @@ class BreadcrumbBar extends React.Component {
               onHide={() => closeSwitcher()}
               onOpen={() => this.handleOpen()}
               onResourceClick={() => closeSwitcher()}
+              onSearchChange={event =>
+                loadSwitcherResourcesByResource(resource, { searchQuery: event.target.value })
+              }
               onNextPageClick={() =>
-                loadSwitcherResourcesByResource(resource, { page: Number(currentPage) + 1 })
+                loadSwitcherResourcesByResource(resource, options({ pageIncrement: 1 }))
               }
               onPrevPageClick={() =>
-                loadSwitcherResourcesByResource(resource, { page: Number(currentPage) - 1 })
+                loadSwitcherResourcesByResource(resource, options({ pageIncrement: -1 }))
               }
+              searchValue={searchQuery}
+              onSearchClear={() => removeSearchQuery(resource)}
+              searchDebounceTimeout={searchDebounceTimeout}
             />
           )}
         </Breadcrumb>
@@ -84,6 +98,7 @@ BreadcrumbBar.propTypes = {
   toggleSwitcher: PropTypes.func,
   closeSwitcher: PropTypes.func,
   loadSwitcherResourcesByResource: PropTypes.func,
+  onSearchChange: PropTypes.func,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -101,6 +116,8 @@ BreadcrumbBar.defaultProps = {
   toggleSwitcher: noop,
   closeSwitcher: noop,
   loadSwitcherResourcesByResource: noop,
+  onSearchChange: noop,
+  searchDebounceTimeout: 300,
 };
 
 export default BreadcrumbBar;

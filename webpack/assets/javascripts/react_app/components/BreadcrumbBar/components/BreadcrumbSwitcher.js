@@ -30,6 +30,10 @@ class BreadcrumbSwitcher extends React.Component {
       onResourceClick,
       onNextPageClick,
       onPrevPageClick,
+      onSearchChange,
+      searchValue,
+      onSearchClear,
+      searchDebounceTimeout,
     } = this.props;
 
     return (
@@ -54,12 +58,16 @@ class BreadcrumbSwitcher extends React.Component {
             id="breadcrumb-switcher-popover"
             loading={isLoadingResources}
             hasError={hasError}
+            onSearchChange={onSearchChange}
             resources={resources}
             onResourceClick={onResourceClick}
             onNextPageClick={onNextPageClick}
             onPrevPageClick={onPrevPageClick}
             currentPage={currentPage}
             totalPages={totalPages}
+            searchValue={searchValue}
+            onSearchClear={onSearchClear}
+            searchDebounceTimeout={searchDebounceTimeout}
           />
         </Overlay>
       </div>
