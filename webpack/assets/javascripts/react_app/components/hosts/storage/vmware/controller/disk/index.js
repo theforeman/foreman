@@ -4,6 +4,8 @@ import Select from '../../../../../common/forms/Select';
 import Checkbox from '../../../../../common/forms/Checkbox';
 import NumericInput from '../../../../../common/forms/NumericInput';
 import Button from '../../../../../common/forms/Button';
+import Loader from '../../../../../common/Loader';
+import MessageBox from '../../../../../common/MessageBox';
 
 import './disk.scss';
 
@@ -12,7 +14,7 @@ const Disk = ({
   updateDisk,
   name,
   config: {
-    datastores, storagePods, diskModeTypes, vmExists,
+    storagePods, diskModeTypes, vmExists,
   },
   storagePod,
   datastore,
@@ -20,7 +22,27 @@ const Disk = ({
   thin,
   eagerzero,
   mode,
-}) => (
+  datastores,
+  datastoresStatus,
+  datastoresError,
+}) => {
+  const datastoresSelect = (
+  <Select
+    disabled={vmExists}
+    label={__('Data store')}
+    value={datastore}
+    onChange={updateDisk.bind(this, 'datastore')}
+    options={datastores}
+    allowClear="true"
+    key="datastoresSelect"
+  />
+  );
+
+  const datastoresErrorBox = (
+  <MessageBox icontype="error-circle-o" msg={datastoresError} key="datastoresError" />
+  );
+
+  return (
   <div className="disk-container">
     <div className="form-group">
       <label className="col-md-2 control-label">
@@ -43,15 +65,10 @@ const Disk = ({
       disabled={vmExists}
       onChange={updateDisk.bind(this, 'storagePod')}
       options={storagePods}
+      allowClear="true"
     />}
     {!storagePod &&
-    <Select
-      disabled={vmExists}
-      label={__('Data store')}
-      value={datastore}
-      onChange={updateDisk.bind(this, 'datastore')}
-      options={datastores}
-    />}
+    <Loader status={datastoresStatus} spinnerSize="sm">{[datastoresSelect, datastoresErrorBox]}</Loader>}
 
     <Select
       label={__('Disk Mode')}
@@ -84,6 +101,7 @@ const Disk = ({
       onChange={updateDisk.bind(this, 'eagerzero')}
     />
   </div>
-);
+  );
+};
 
 export default Disk;

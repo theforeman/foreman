@@ -27,7 +27,7 @@ describe('Loader', () => {
       testLoaderSnapshot({ status: STATUS.PENDING, spinnerSize: 'xs' }));
 
     it('default case', () => {
-      const wrapper = mount(<Loader />);
+      const wrapper = mount(<Loader>{['', '']}</Loader>);
 
       expect(toJson(wrapper)).toMatchSnapshot();
     });

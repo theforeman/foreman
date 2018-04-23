@@ -11,19 +11,18 @@ const _simpleLoader = spinnerSize => (
 
 const Loader = ({ status, children, spinnerSize = 'lg' }) => {
   let content;
+  const [resolvedContent, errorContent] = children;
+
+  if (status === STATUS.RESOLVED) {
+    return resolvedContent;
+  }
 
   switch (status) {
     case STATUS.PENDING: {
       return _simpleLoader(spinnerSize);
     }
-    case STATUS.RESOLVED: {
-      // eslint-disable-next-line prefer-destructuring
-      content = children[0];
-      break;
-    }
     case STATUS.ERROR: {
-      // eslint-disable-next-line prefer-destructuring
-      content = children[1];
+      content = errorContent;
       break;
     }
     default:

@@ -12,6 +12,9 @@ import {
   STORAGE_VMWARE_UPDATE_CONTROLLER,
   STORAGE_VMWARE_UPDATE_DISK,
   STORAGE_VMWARE_INIT,
+  STORAGE_VMWARE_DATASTORES_REQUEST,
+  STORAGE_VMWARE_DATASTORES_SUCCESS,
+  STORAGE_VMWARE_DATASTORES_FAILURE,
 } from '../../../consts';
 
 const initialState = Immutable({
@@ -72,7 +75,21 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['config', 'addControllerEnabled'], !!getAvailableKey(payload.controllers))
         .set('controllers', payload.controllers)
         .set('paramsScope', payload.config.paramsScope)
+        .set('datastores', {})
+        .set('datastoresLoading', true)
+        .set('datastoresError', undefined)
         .set('volumes', payload.volumes.map(volume => ({ ...volume, key: uuidV1() })));
+    case STORAGE_VMWARE_DATASTORES_REQUEST:
+      return state
+        .set('datastoresError', undefined)
+        .set('datastoresLoading', true);
+    case STORAGE_VMWARE_DATASTORES_SUCCESS:
+      return state
+        .set('datastores', Object.assign(...payload.results.map(d => ({ [d.name]: d.id }))))
+        .set('datastoresLoading', false);
+    case STORAGE_VMWARE_DATASTORES_FAILURE:
+      return state
+        .set('datastoresError', payload.error.message);
     default:
       return state;
   }

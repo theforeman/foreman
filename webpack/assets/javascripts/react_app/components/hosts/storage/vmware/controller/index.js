@@ -17,6 +17,9 @@ const Controller = ({
   controllerVolumes,
   removeController,
   config,
+  datastores,
+  datastoresStatus,
+  datastoresError,
 }) => {
   const getEventValue = (e) => {
     if (!e.target) {
@@ -40,6 +43,9 @@ const Controller = ({
       updateDisk={_updateDisk.bind(this, disk.key)}
       removeDisk={removeDisk.bind(this, disk.key)}
       config={config}
+      datastores={datastores}
+      datastoresStatus={datastoresStatus}
+      datastoresError={datastoresError}
       {...disk}
     />
   ));
