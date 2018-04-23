@@ -17,7 +17,7 @@ specs.each do |dep|
   # skip other rails engines that are not plugins
   # TODO: Consider using the plugin registration api?
   if gemfile_in
-    next unless dep =~ plugin_name_regexp
+    next unless dep.name =~ plugin_name_regexp
     dep = dep.to_spec
   else
     next unless dep.name =~ plugin_name_regexp
