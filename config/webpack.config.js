@@ -174,7 +174,10 @@ module.exports = env => {
     config.plugins.push(
       new webpack.HotModuleReplacementPlugin() // Enable HMR
     );
-    require('dotenv').config();
+    var result = require('dotenv').config();
+    if (result.error && result.error.code !== 'ENOENT') {
+      throw result.error;
+    }
 
     config.devServer = {
       host: process.env.BIND || 'localhost',
