@@ -1,15 +1,11 @@
 module AuditAssociations
-  def self.included(base)
-    base.send :include, InstanceMethods
-  end
-
-  module InstanceMethods
+  module AssociationsChanges
     def changes_to_save
-      if audited_options[:associations].present?
-        super.merge(associated_changes)
-      else
-        super
-      end
+      super.merge(associated_changes)
+    end
+
+    def audited_attributes
+      super.merge(associated_attributes)
     end
 
     private
@@ -19,56 +15,53 @@ module AuditAssociations
     end
 
     def associated_changes
-      associations = Array.wrap(audited_options[:associations])
-      associations.each_with_object({}) do |association_name, changes_hash|
-        association_ids = "#{association_name.to_s.singularize}_ids"
-        if send("#{association_ids}_changed?")
-          association_class = find_association_class(association_name)
-          change = send("#{association_ids}_change")
-          change_ids = change.flatten.uniq
+      audited_options[:associations].each_with_object({}) do |association, changes|
+        association_ids = "#{association.to_s.singularize}_ids"
+        if public_send("#{association_ids}_changed?")
+          change = public_send("#{association_ids}_change")
 
-          id_name_map = association_class.where(id: change_ids).inject({}) { |r, p| r.merge(p.id => p.to_label) }
-
-          changes_hash[association_name] = change.each_with_object([]) do |ids, humaized_associations|
-            humaized_associations << ids.each_with_object([]) do |id, humanized_ids|
-              humanized_ids << id_name_map[id]
-            end.join(', ')
+          changes[association] = change.map do |ids|
+            associated_names(association, ids)
           end
         end
       end
     end
-  end
 
-  module Auditor
-    def self.included(base)
-      base.extend ClassMethods
+    def associated_attributes
+      audited_options[:associations].each_with_object({}) do |association, attributes|
+        ids = public_send("#{association.to_s.singularize}_ids")
+        attributes[association.to_s] = associated_names(association, ids)
+      end
     end
 
-    module ClassMethods
-      include Audited::Auditor::ClassMethods
+    def associated_names(association, ids)
+      find_association_class(association).where(id: ids).map(&:to_label).sort.join(', ')
+    end
+  end
 
-      def audited(options = {})
-        if options[:associations].present?
-          configure_dirty_associations(Array(options[:associations]))
-        end
-
-        super
+  module AssociationsDefinitions
+    def audited(options = {})
+      options[:associations] = Array(options[:associations])
+      if options[:associations].present?
+        configure_dirty_associations(options[:associations])
       end
 
-      def audit_associations(*associations)
-        new_associations = Array(associations)
-        if self.respond_to?(:audited_options)
-          configure_dirty_associations(new_associations)
-          self.audited_options[:associations] = Array(self.audited_options[:associations]) | new_associations
-        else
-          logger.warn "ignoring associations #{new_associations.join(', ')} audit definition for #{self}, the resource is not audited"
-        end
-      end
+      super
+    end
 
-      def configure_dirty_associations(associations)
-        include DirtyAssociations unless included_modules.include?(DirtyAssociations)
-        dirty_has_many_associations(*associations)
+    def audit_associations(*associations)
+      new_associations = Array(associations)
+      if self.respond_to?(:audited_options)
+        configure_dirty_associations(new_associations)
+        self.audited_options[:associations] = self.audited_options[:associations] | new_associations
+      else
+        logger.warn "ignoring associations #{new_associations.join(', ')} audit definition for #{self}, the resource is not audited"
       end
+    end
+
+    def configure_dirty_associations(associations)
+      include DirtyAssociations unless included_modules.include?(DirtyAssociations)
+      dirty_has_many_associations(*associations)
     end
   end
 end

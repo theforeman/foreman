@@ -1216,7 +1216,7 @@ class UserTest < ActiveSupport::TestCase
       audited_changes = recent_audit.audited_changes[:roles]
 
       assert audited_changes, 'No audits found for user-roles'
-      assert_equal [@role.name, Role.default].join(', '), audited_changes.first
+      assert_equal [Role.default.to_label, @role.to_label].sort.join(', '), audited_changes.first
       assert_empty audited_changes.last
     end
 
