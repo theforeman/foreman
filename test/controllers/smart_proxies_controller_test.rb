@@ -4,6 +4,10 @@ class SmartProxiesControllerTest < ActionController::TestCase
   basic_pagination_rendered_test
   basic_pagination_per_page_test
 
+  setup do
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
+  end
+
   def test_index
     get :index, session: set_session_user
     assert_template 'index'
@@ -21,7 +25,6 @@ class SmartProxiesControllerTest < ActionController::TestCase
   end
 
   def test_create_valid
-    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
     SmartProxy.any_instance.stubs(:valid?).returns(true)
     SmartProxy.any_instance.stubs(:to_s).returns("puppet")
     post :create, params: { :smart_proxy => {:name => "MySmartProxy", :url => "http://nowhere.net:8000"} }, session: set_session_user
@@ -58,7 +61,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   def test_refresh
     proxy = smart_proxies(:one)
-    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+    SmartProxy.any_instance.stubs(:features).returns([features(:dns)])
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_redirected_to smart_proxies_url
     assert_equal "No changes found when refreshing features from DHCP Proxy.", flash[:success]
@@ -66,7 +69,6 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   def test_refresh_change
     proxy = smart_proxies(:one)
-    SmartProxy.any_instance.stubs(:associate_features).returns(true)
     SmartProxy.any_instance.stubs(:features).returns([features(:dns)]).then.returns([features(:dns), features(:tftp)])
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_redirected_to smart_proxies_url
@@ -78,7 +80,6 @@ class SmartProxiesControllerTest < ActionController::TestCase
     errors = ActiveModel::Errors.new(Host::Managed.new)
     errors.add :base, "Unable to communicate with the proxy: it is down"
     SmartProxy.any_instance.stubs(:errors).returns(errors)
-    SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_redirected_to smart_proxies_url
     assert_equal "Unable to communicate with the proxy: it is down", flash[:error]
