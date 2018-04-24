@@ -201,8 +201,10 @@ class UnattendedControllerTest < ActionController::TestCase
       ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
         :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
+      # MySQL datetime precision is seconds - explicitly create host1 with tomorrow's created_at
       host1 = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
         :name => "host2_same_mac",
+        :created_at => Time.now.tomorrow,
         :mac => @rh_host.mac,
         :operatingsystem => operatingsystems(:ubuntu1010),
         :ptable => ptable_ubuntu,
@@ -215,7 +217,6 @@ class UnattendedControllerTest < ActionController::TestCase
       assert @rh_host.created_at
       assert host1.created_at
       assert @rh_host.created_at <= host1.created_at, "host created at #{@rh_host.created_at} must be older than host created at #{host1.created_at}"
-      skip "Randomly fails on MySQL - investigating: http://projects.theforeman.org/issues/23177"
       assert_equal "finish for #{host1.name}", response.body
       assert_response :success
     end
