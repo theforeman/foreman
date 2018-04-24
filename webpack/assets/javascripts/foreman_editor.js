@@ -335,7 +335,7 @@ export function enterFullscreen(element, relativeTo) {
   $(document).on('keyup', (e) => {
     if (e.keyCode === 27) {
       // esc
-      exit_fullscreen_editor();
+      exitFullscreen();
     }
   });
   Editor.resize(true);
