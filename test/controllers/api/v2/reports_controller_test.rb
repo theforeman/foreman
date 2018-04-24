@@ -52,8 +52,8 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       Setting[:restrict_registered_smart_proxies] = true
       Setting[:require_ssl_smart_proxies] = false
 
+      ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
       proxy = smart_proxies(:puppetmaster)
-      proxy.stubs(:associate_features)
       as_admin { proxy.update_attribute(:url, 'http://configreports.foreman') }
       host = URI.parse(proxy.url).host
       Resolv.any_instance.stubs(:getnames).returns([host])

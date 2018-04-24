@@ -4,7 +4,7 @@ require 'pagelets_test_helper'
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     ProxyStatus::Version.any_instance.stubs(:version).returns({'version' => '1.11', 'modules' => {'dhcp' => '1.11'}})
-    SmartProxy.any_instance.stubs(:associate_features).returns(true)
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
   end
 
   test "index page" do
