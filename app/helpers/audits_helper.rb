@@ -51,13 +51,13 @@ module AuditsHelper
     ""
   end
 
-  def details(audit)
+  def details(audit, path = audit_path(audit))
     if audit.action == 'update'
       return [] unless audit.audited_changes.present?
       audit.audited_changes.map do |name, change|
         next if change.nil? || change.to_s.empty?
         if name == 'template'
-          (_("Template content changed %s") % (link_to 'view diff', audit_path(audit))).html_safe if audit_template? audit
+          (_("Template content changed %s") % (link_to 'view diff', path)).html_safe if audit_template? audit
         elsif name == "password_changed"
           _("Password has been changed")
         elsif name == "owner_id" || name == "owner_type"
