@@ -46,4 +46,10 @@ class AuditMailerTest <ActionMailer::TestCase
     query_should_be = CGI.escape(%(#{@options[:query]} and time >= "#{@options[:time]}"))
     assert_includes(AuditMailer.summary(@options).deliver_now.body.parts.last.body, query_should_be)
   end
+
+  test "Audit template change should not crash" do
+    template = FactoryBot.create(:provisioning_template, :template => 'aaaa', :name => 'audited ptable', :snippet => true)
+    template.update(:template => 'bbbbbb')
+    assert_includes(AuditMailer.summary(@options).deliver_now.body.parts.last.body, 'Template content changed')
+  end
 end

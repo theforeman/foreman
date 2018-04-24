@@ -14,7 +14,7 @@
           <%= link_to(audit_title(audit), audit_url(:id => audit), {:style => 'color: #2a6496'}) %>
         </b>
         <ul style="list-style-type: none;">
-          <% details(audit).each do |detail| -%>
+          <% details(audit, audit_url(audit)).each do |detail| -%>
             <li>
               <%= detail %>
             </li>
