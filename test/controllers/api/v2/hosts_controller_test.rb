@@ -586,8 +586,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts with a registered smart proxy on should import facts successfully' do
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
     proxy = smart_proxies(:puppetmaster)
-    proxy.stubs(:associate_features)
     proxy.update_attribute(:url, 'https://factsimporter.foreman')
 
     User.current = users(:one) # use an unprivileged user, not apiadmin

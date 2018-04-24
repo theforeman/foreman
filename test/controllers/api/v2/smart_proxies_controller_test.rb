@@ -179,11 +179,10 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
 
   test "should refresh smart proxy features" do
     proxy = smart_proxies(:one)
-    SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, params: { :id => proxy }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal [{'name' => 'DHCP', 'id' => features(:dhcp).id}], response['features']
+    assert_equal Feature.all.pluck(:name).flatten.sort, response['features'].map{|x| x['name']}.sort
   end
 
   test "should return errors during smart proxy refresh" do
@@ -191,7 +190,6 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     errors = ActiveModel::Errors.new(Host::Managed.new)
     errors.add :base, "Unable to communicate with the proxy: it's down"
     SmartProxy.any_instance.stubs(:errors).returns(errors)
-    SmartProxy.any_instance.stubs(:associate_features).returns(true)
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_response :unprocessable_entity
   end
