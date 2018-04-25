@@ -1,5 +1,7 @@
 class LookupValue < ApplicationRecord
   audited :associated_with => :lookup_key
+  extend FriendlyId
+  friendly_id :match
   include Authorizable
   include PuppetLookupValueExtensions
   include HiddenValue

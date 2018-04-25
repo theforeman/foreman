@@ -42,14 +42,21 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test "should show specific override values for specific smart variable" do
-    get :show, params: { :smart_variable_id => lookup_keys(:two).to_param, :id => lookup_values(:four).to_param }
+    get :show, params: { :smart_variable_id => lookup_keys(:two).to_param, :id => lookup_values(:four).id }
     assert_response :success
     results = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty results
     assert_equal "hostgroup=Common", results['match']
   end
   test "should show specific override values for specific smart class parameter" do
-    get :show, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param }
+    get :show, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).id }
+    results = ActiveSupport::JSON.decode(@response.body)
+    assert_not_empty results
+    assert_equal "hostgroup=Common", results['match']
+    assert_response :success
+  end
+  test "should show specific override values using match" do
+    get :show, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).match }
     results = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty results
     assert_equal "hostgroup=Common", results['match']
@@ -57,13 +64,23 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   end
 
   test "should update specific override value" do
-    put :update, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'os=abc' } }
+    put :update, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).id, :override_value => { :match => 'os=abc' } }
+    assert_response :success
+  end
+  test "should update specific override value using match" do
+    put :update, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).match, :override_value => { :match => 'os=abc' } }
     assert_response :success
   end
 
   test "should destroy specific override value" do
     assert_difference('LookupValue.count', -1) do
-      delete :destroy, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).to_param, :override_value => { :match => 'host=abc.com' } }
+      delete :destroy, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).id }
+    end
+    assert_response :success
+  end
+  test "should destroy specific override value using match" do
+    assert_difference('LookupValue.count', -1) do
+      delete :destroy, params: { :smart_class_parameter_id => lookup_keys(:complex).to_param, :id => lookup_values(:hostgroupcommon).match }
     end
     assert_response :success
   end
