@@ -88,6 +88,9 @@ module Api
 
       def find_override_value
         @override_value = LookupValue.find_by_id(params[:id])
+        if @smart
+          @override_value ||= @smart.lookup_values.friendly.find(params[:id])
+        end
       end
 
       def return_if_override_mismatch
