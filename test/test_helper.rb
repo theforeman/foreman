@@ -14,6 +14,7 @@ require 'rfauxfactory'
 require 'webmock/minitest'
 require 'webmock'
 require 'robottelo/reporter/attributes'
+require 'fixture_helper'
 
 # Do not allow network connections and external processes
 WebMock.disable_net_connect!(allow_localhost: true)
@@ -86,8 +87,23 @@ module TestCaseRailsLoggerExtensions
   end
 end
 
+module ExtensibleFixtureSupport
+  extend ActiveSupport::Concern
+
+  included do
+    self.fixture_path = FixtureHelper::FIXTURE_PATH
+    unless @fixtures_ran
+      directories = ["#{Rails.root}/test/fixtures"] + Foreman::Plugin.all.map{ |p| p.fixture_directory }
+      FixtureHelper.combine(directories.compact)
+      @fixtures_ran = true
+      fixtures(:all)
+    end
+  end
+end
+
 class ActiveSupport::TestCase
   prepend TestCaseRailsLoggerExtensions
+  include ExtensibleFixtureSupport
 end
 
 class ActionView::TestCase

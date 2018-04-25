@@ -112,7 +112,8 @@ module Foreman #:nodoc:
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
-                :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references
+                :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
+                :fixture_directory
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
@@ -313,6 +314,11 @@ module Foreman #:nodoc:
           Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
         end
       end
+    end
+
+    def fixture_directory(directory = nil)
+      @fixture_directory = directory if directory
+      @fixture_directory
     end
 
     def pending_migrations
