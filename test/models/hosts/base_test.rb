@@ -75,5 +75,17 @@ module Host
       assert host.primary_interface
       assert_equal 1, host.interfaces.size
     end
+
+    test 'shortname periods check considers domain outside taxonomy scope' do
+      host_org = FactoryBot.create(:organization)
+      other_org = FactoryBot.create(:organization)
+
+      domain = FactoryBot.create(:domain, organizations: [other_org])
+      refute domain.organizations.include?(host_org)
+
+      host = FactoryBot.create(:host, organization: host_org, domain_id: domain.id)
+      host = Host.find(host.id)
+      assert host.valid?
+    end
   end
 end
