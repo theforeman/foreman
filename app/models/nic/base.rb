@@ -116,7 +116,15 @@ module Nic
     end
 
     def shortname
-      domain.nil? ? name : name.to_s.chomp("." + domain.name)
+      if domain
+        name.to_s.chomp("." + domain.name)
+      elsif domain_id && (unscoped_domain = Domain.unscoped.find_by(id: domain_id))
+        # If domain is nil, but domain_id is set, domain could be
+        # in another taxonomy.  Don't fail to create a correct shortname.
+        name.to_s.chomp("." + unscoped_domain.name)
+      else
+        name
+      end
     end
 
     def validated?

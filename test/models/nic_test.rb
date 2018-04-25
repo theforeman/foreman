@@ -465,7 +465,6 @@ class NicTest < ActiveSupport::TestCase
     nic_name = 'hostname.sub.bigdomain'
     interface = FactoryBot.build_stubbed(:nic_managed, :name => nic_name)
     subdomain = FactoryBot.create(:domain, :name => 'sub.bigdomain')
-    Domain.expects(:find_by).with(:name => subdomain.name).returns(subdomain)
     interface.send(:normalize_name)
     assert_equal subdomain, interface.domain
   end
@@ -474,9 +473,6 @@ class NicTest < ActiveSupport::TestCase
     nic_name = 'hostname.undefined-subdomain.bigdomain'
     FactoryBot.create(:domain, :name => 'bigdomain')
     interface = FactoryBot.build_stubbed(:nic_managed, :name => nic_name)
-    Domain.expects(:find_by).
-      with(:name => 'undefined-subdomain.bigdomain').
-      returns(nil)
     interface.send(:normalize_name)
     refute interface.domain
   end
