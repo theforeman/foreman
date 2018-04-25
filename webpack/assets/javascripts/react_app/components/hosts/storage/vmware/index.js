@@ -1,17 +1,22 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { omit } from 'lodash';
 
 import Controller from './controller/';
 import * as VmWareActions from '../../../../redux/actions/hosts/storage/vmware';
 import { MaxDisksPerController } from './StorageContainer.consts';
 import './StorageContainer.scss';
 
-const controllersToJsonString = (controllers, volumes) =>
+const filterKeyFromVolume = (volume) => {
+  // eslint-disable-next-line no-unused-vars
+  const { key, ...volumeWithoutKey } = volume;
+  return volumeWithoutKey;
+};
+
+export const controllersToJsonString = (controllers, volumes) =>
   JSON.stringify({
     scsiControllers: controllers,
-    volumes: volumes.map(v => omit(v, 'key')),
+    volumes: volumes.map(v => filterKeyFromVolume(v)),
   });
 
 class StorageContainer extends React.Component {
