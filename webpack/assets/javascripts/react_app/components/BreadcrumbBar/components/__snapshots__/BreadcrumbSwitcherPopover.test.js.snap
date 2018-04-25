@@ -135,8 +135,8 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       disablePrevious={true}
       messages={
         Object {
-          "nextPage": "Next",
-          "previousPage": "Previous",
+          "nextPage": "",
+          "previousPage": "",
         }
       }
       onNextPage={[Function]}
@@ -258,8 +258,8 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       disablePrevious={true}
       messages={
         Object {
-          "nextPage": "Next",
-          "previousPage": "Previous",
+          "nextPage": "",
+          "previousPage": "",
         }
       }
       onNextPage={[Function]}
@@ -381,8 +381,8 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       disablePrevious={false}
       messages={
         Object {
-          "nextPage": "Next",
-          "previousPage": "Previous",
+          "nextPage": "",
+          "previousPage": "",
         }
       }
       onNextPage={[Function]}

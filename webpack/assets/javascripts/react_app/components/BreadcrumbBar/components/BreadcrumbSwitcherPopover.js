@@ -75,7 +75,7 @@ const BreadcrumbSwitcherPopover = ({
         </ListGroup>
         <Pager
           className="pager-sm"
-          messages={{ nextPage: __('Next'), previousPage: __('Previous') }}
+          messages={{ nextPage: '', previousPage: '' }}
           onNextPage={onNextPageClick}
           onPreviousPage={onPrevPageClick}
           disablePrevious={currentPage === 1}
