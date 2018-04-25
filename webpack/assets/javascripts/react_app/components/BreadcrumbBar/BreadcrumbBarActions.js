@@ -58,5 +58,5 @@ export const loadSwitcherResourcesByResource = (resource, { page = 1, searchQuer
   };
   beforeRequest();
 
-  return API.get(resourceUrl, {}, { page, search: searchQuery && `${[nameField]}~${searchQuery}` }).then(onRequestSuccess, onRequestFail);
+  return API.get(resourceUrl, {}, { page, per_page: 10, search: searchQuery && `${[nameField]}~${searchQuery}` }).then(onRequestSuccess, onRequestFail);
 };
