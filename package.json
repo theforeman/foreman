@@ -6,6 +6,7 @@
   "private": true,
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.12",
+    "@storybook/addon-knobs": "^3.4.3",
     "@storybook/react": "^3.2.12",
     "@storybook/storybook-deployer": "^2.0.0",
     "axios-mock-adapter": "^1.10.0",
