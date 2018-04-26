@@ -14,7 +14,7 @@ module Orchestration::Puppetca
   def initialize_puppetca
     return unless puppetca?
     return unless Setting[:manage_puppetca]
-    @puppetca = ProxyAPI::Puppetca.new :url => puppet_ca_proxy.url
+    @puppetca = ProxyAPI::Puppetca.new(:url => puppet_ca_proxy.url)
     true
   rescue => e
     failure _("Failed to initialize the PuppetCA proxy: %s") % e, e
@@ -29,16 +29,16 @@ module Orchestration::Puppetca
   # Empty method for rollbacks - maybe in the future we would support creating the certificates directly
   def setCertificate; end
 
-  # Adds the host's name to the autosign.conf file
-  def setAutosign
-    logger.info "Adding autosign entry for #{name}"
-    puppetca.set_autosign certname
+  # Generate a new token for the host
+  # so we can verify if a CSR is legit
+  # and should be signed
+  def set_puppetca_token
+    self.create_puppetca_token
   end
 
-  # Removes the host's name from the autosign.conf file
-  def delAutosign
-    logger.info "Delete the autosign entry for #{name}"
-    puppetca.del_autosign certname
+  # Disables all puppetCA tokens for this host
+  def del_puppetca_token
+    self.puppetca_token.delete if self.puppetca_token.present?
   end
 
   private
@@ -49,27 +49,35 @@ module Orchestration::Puppetca
     new_record? ? queue_puppetca_create : queue_puppetca_update
   end
 
-  # we don't perform any actions upon create
-  # PuppetCA is set only when a provisioning script (such as a kickstart) is being requested.
-  def queue_puppetca_create; end
+  def queue_puppetca_create
+    return unless self.build?
+    queue_puppetca_autosign_create
+    true
+  end
 
   def queue_puppetca_update
-    # Host has been built --> remove auto sign
-    queue_puppetca_autosign_destroy if old.build? && !build?
+    return unless self.build? && !self.old.build?
+    queue_puppetca_autosign_destroy(priority: 11)
+    queue_puppetca_autosign_create
     true
   end
 
   def queue_puppetca_destroy
     return unless puppetca? && errors.empty?
     return unless Setting[:manage_puppetca]
-    queue.create(:name => _("Delete PuppetCA certificates for %s") % self, :priority => 50,
-                 :action => [self, :delCertificate])
+    post_queue.create(:name => _('Delete PuppetCA certificates for %s') % self, :priority => 50,
+                      :action => [self, :delCertificate])
     queue_puppetca_autosign_destroy
     true
   end
 
-  def queue_puppetca_autosign_destroy
-    queue.create(:name => _("Delete PuppetCA autosign entry for %s") % self, :priority => 55,
-                 :action => [self, :delAutosign])
+  def queue_puppetca_autosign_create(priority: 12)
+    post_queue.create(:name => _('Enable PuppetCA autosign for %s') % self, :priority => priority,
+                      :action => [self, :set_puppetca_token])
+  end
+
+  def queue_puppetca_autosign_destroy(priority: 55)
+    post_queue.create(:name => _('Disable PuppetCA autosign for %s') % self, :priority => priority,
+                      :action => [self, :del_puppetca_token])
   end
 end

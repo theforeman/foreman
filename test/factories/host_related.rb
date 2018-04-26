@@ -241,6 +241,10 @@ FactoryBot.define do
       association :operatingsystem, :with_associations
     end
 
+    trait :with_puppetca_token do
+      after(:create) { |host| host.create_puppetca_token }
+    end
+
     trait :with_ipv6 do
       subnet6 do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}

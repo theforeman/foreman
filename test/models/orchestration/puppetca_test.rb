@@ -20,20 +20,40 @@ class PuppetCaOrchestrationTest < ActiveSupport::TestCase
   context 'a host with puppetca orchestration' do
     let(:host) { FactoryBot.create(:host, :managed, :with_puppet_ca, :build => true) }
 
-    test 'should queue puppetca update' do
-      host.build = false
+    test 'should queue puppetca_token creation' do
       assert_valid host
-      tasks = host.queue.all.map(&:name)
-      assert_includes tasks, "Delete PuppetCA autosign entry for #{host}"
+      tasks = host.post_queue.all.map(&:name)
+      assert_includes tasks, "Enable PuppetCA autosign for #{host}"
+      assert_equal 1, tasks.size
+    end
+
+    test 'should queue puppetca update' do
+      host = FactoryBot.create(:host, :managed, :with_puppet_ca)
+      host.build = true
+      assert_valid host
+      host.send(:queue_puppetca_update)
+      tasks = host.post_queue.all.map(&:name)
+      assert_includes tasks, "Disable PuppetCA autosign for #{host}"
+      assert_includes tasks, "Enable PuppetCA autosign for #{host}"
+      assert_equal 2, tasks.size
+    end
+
+    test 'should not queue puppetca update when build status not changed' do
+      assert_valid host
+      host.send(:queue_puppetca_update)
+      tasks = host.post_queue.all.map(&:name)
+      assert_includes tasks, "Enable PuppetCA autosign for #{host}"
       assert_equal 1, tasks.size
     end
 
     test 'should queue puppetca destroy' do
+      assert_valid host
       host.send(:queue_puppetca_destroy)
-      tasks = host.queue.all.map(&:name)
-      assert_includes tasks, "Delete PuppetCA autosign entry for #{host}"
+      tasks = host.post_queue.all.map(&:name)
+      assert_includes tasks, "Enable PuppetCA autosign for #{host}"
       assert_includes tasks, "Delete PuppetCA certificates for #{host}"
-      assert_equal 2, tasks.size
+      assert_includes tasks, "Disable PuppetCA autosign for #{host}"
+      assert_equal 3, tasks.size
     end
   end
 end

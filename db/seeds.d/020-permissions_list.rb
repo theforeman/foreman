@@ -130,6 +130,7 @@ class PermissionsList
         ['ProvisioningTemplate', 'deploy_provisioning_templates'],
         ['ProvisioningTemplate', 'lock_provisioning_templates'],
         [nil, 'view_plugins'],
+        ['PuppetcaToken', 'destroy_puppetca_tokens'],
         ['Puppetclass', 'view_puppetclasses'],
         ['Puppetclass', 'create_puppetclasses'],
         ['Puppetclass', 'edit_puppetclasses'],
