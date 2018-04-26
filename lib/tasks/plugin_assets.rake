@@ -132,7 +132,6 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
         config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
         sh "#{webpack_bin} --config #{config_file} --bail --env.pluginName=#{@plugin.id}"
       end
-
     end
   end
 
