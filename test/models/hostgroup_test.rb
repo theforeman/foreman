@@ -1,5 +1,19 @@
 require 'test_helper'
 
+# Generates a list of valid host group names.
+def valid_hostgroup_name_list
+  # Note::
+  # Host group name max length is 245 chars.
+  # 220 chars for html as the largest html tag in fauxfactory is 10 chars long,
+  # so 245 - (10 chars + 10 chars + '<></>' chars) = 220 chars.
+  [
+    RFauxFactory.gen_alpha(1),
+    RFauxFactory.gen_alpha(245),
+    *RFauxFactory.gen_strings(1..245, exclude: [:html, :punctuation]).values,
+    RFauxFactory.gen_html(rand((1..220)))
+  ]
+end
+
 class HostgroupTest < ActiveSupport::TestCase
   setup do
     User.current = users :admin
@@ -7,6 +21,8 @@ class HostgroupTest < ActiveSupport::TestCase
 
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name).scoped_to(:ancestry).case_insensitive
+  should allow_values(*valid_hostgroup_name_list).for(:name)
+  should_not allow_values(*invalid_name_list).for(:name)
   should allow_value(nil).for(:root_pass)
   should validate_length_of(:root_pass).is_at_least(8).
     with_message('should be 8 characters or more')
