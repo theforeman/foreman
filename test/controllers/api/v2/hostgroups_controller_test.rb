@@ -52,18 +52,97 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_not_equal 0, show_response['all_puppetclasses'].length
   end
 
+  test_attributes :pid => 'fd5d353c-fd0c-4752-8a83-8f399b4c3416'
   test "should create hostgroup" do
     assert_difference('Hostgroup.unscoped.count') do
       post :create, params: { :hostgroup => valid_attrs }
     end
     assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('name')
+    assert_equal response['name'], valid_attrs[:name]
   end
 
+  test_attributes :pid => '5c715ee8-2fd6-42c6-aece-037733f67454'
+  test "should create hostgroup with puppet_ca_proxy" do
+    smart_proxy = smart_proxies(:puppetmaster)
+    assert_difference('Hostgroup.unscoped.count') do
+      post :create, params: { :hostgroup => valid_attrs.merge(:puppet_ca_proxy_id => smart_proxy.id) }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('puppet_ca_proxy_id')
+    assert_equal smart_proxy.id, response['puppet_ca_proxy_id']
+  end
+
+  test_attributes :pid => '4f39f246-d12f-468c-a33b-66486c3806fe'
+  test "should create hostgroup with puppet_proxy" do
+    smart_proxy = smart_proxies(:puppetmaster)
+    assert_difference('Hostgroup.unscoped.count') do
+      post :create, params: { :hostgroup => valid_attrs.merge(:puppet_proxy_id => smart_proxy.id) }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert response.key?('puppet_proxy_id')
+    assert_equal smart_proxy.id, response['puppet_proxy_id']
+  end
+
+  test_attributes :pid => '8abb151f-a058-4f47-a1c1-f60a32cd7572'
   test "should update hostgroup" do
+    # BZ: 1378009
     put :update, params: { :id => hostgroups(:common).to_param, :hostgroup => valid_attrs }
     assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('name')
+    assert_equal response['name'], valid_attrs[:name]
   end
 
+  test_attributes :pid => 'fd13ab0e-1a5b-48a0-a852-3fff8306271f'
+  test "should update puppet_ca_proxy" do
+    host_group = hostgroups(:common)
+    puppet_ca_proxy = smart_proxies(:puppetmaster)
+    put :update, params: { :id => host_group.id, :hostgroup => { :puppet_ca_proxy_id => puppet_ca_proxy.id } }
+    assert_response :success
+    host_group.reload
+    assert_equal puppet_ca_proxy.id, host_group.puppet_ca_proxy_id
+  end
+
+  test_attributes :pid => '86eca603-2cdd-4563-b6f6-aaa5cea1a723'
+  test "should update puppet_proxy" do
+    host_group = FactoryBot.create(:hostgroup)
+    assert host_group.puppet_proxy_id.nil?
+    puppet_proxy = smart_proxies(:puppetmaster)
+    put :update, params: { :id => host_group.id, :hostgroup => { :puppet_proxy_id => puppet_proxy.id } }
+    assert_response :success
+    host_group.reload
+    assert_equal puppet_proxy.id, host_group.puppet_proxy_id
+  end
+
+  test_attributes :pid => 'ab151e09-8e64-4377-95e8-584629750659'
+  test "should read puppet_ca_proxy_name" do
+    host_group = hostgroups(:common)
+    puppet_ca_proxy = smart_proxies(:puppetmaster)
+    host_group.puppet_ca_proxy_id = puppet_ca_proxy.id
+    assert host_group.save
+    get :show, params: { :id => host_group.id }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('puppet_ca_proxy_name')
+    assert_equal puppet_ca_proxy.name, response['puppet_ca_proxy_name']
+  end
+
+  test_attributes :pid => 'f93d0866-0073-4577-8777-6d645b63264f'
+  test "should read puppet_proxy_name" do
+    host_group = hostgroups(:common)
+    puppet_ca_proxy = smart_proxies(:puppetmaster)
+    get :show, params: { :id => host_group.id }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert response.key?('puppet_proxy_name')
+    assert_equal puppet_ca_proxy.name, response['puppet_proxy_name']
+  end
+
+  test_attributes :pid => 'bef6841b-5077-4b84-842e-a286bfbb92d2'
   test "should destroy hostgroups" do
     assert_difference('Hostgroup.unscoped.count', -1) do
       delete :destroy, params: { :id => hostgroups(:unusual).to_param }
@@ -71,11 +150,37 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test_attributes :pid => '44ac8b3b-9cb0-4a9e-ad9b-2c67b2411922'
   test "should clone hostgroup" do
+    hostgroup = hostgroups(:common)
     assert_difference('Hostgroup.unscoped.count') do
-      post :clone, params: { :id => hostgroups(:common).to_param, :name => Time.now.utc.to_s }
+      post :clone, params: { :id => hostgroup.id, :name => RFauxFactory.gen_alpha }
     end
     assert_response :success
+    response = JSON.parse(@response.body)
+    unique_attr_names = %w[updated_at created_at title id name lookup_value_matcher grub_pass]
+    attr_names = response.keys.reject { |key| unique_attr_names.include?(key) || hostgroup[key].nil? }.sort
+    refute attr_names.empty?
+    cloned_values = attr_names.map { |key| response[key] }
+    original_values = attr_names.map { |key| hostgroup[key] }
+    assert_equal original_values, cloned_values
+  end
+
+  test_attributes :pid => '3f5aa17a-8db9-4fe9-b309-b8ec5e739da1'
+  test "should not create hostgroup with invalid name" do
+    assert_difference('Hostgroup.unscoped.count', 0) do
+      post :create, params: { :hostgroup => { :name => '' } }
+    end
+    assert_response :unprocessable_entity
+    assert_include @response.body, "Name can't be blank"
+  end
+
+  test_attributes :pid => '6d8c4738-a0c4-472b-9a71-27c8a3832335'
+  test "should not update hostgroup with invalid name" do
+    hostgroup = hostgroups(:common)
+    put :update, params: { :id => hostgroup.id, :hostgroup => { :name => '' } }
+    assert_response :unprocessable_entity
+    assert_include @response.body, "Name can't be blank"
   end
 
   test "blocks API deletion of hosts with children" do
