@@ -36,6 +36,7 @@ module Api
           param :force, :bool, :allow_nil => true, :desc => N_('use if you want update locked templates')
           param :associate, ['new', 'always', 'never'], :allow_nil => true, :desc => N_('determines when the template should associate objects based on metadata, new means only when new template is being created, always means both for new and existing template which is only being updated, never ignores metadata')
           param :lock, :bool, :allow_nil => true, :desc => N_('lock imported templates (false by default)')
+          param :default, :bool, :allow_nil => true, :desc => N_('makes the template default meaning it will be automatically associated with newly created organizations and locations (false by default)')
         end
       end
 
