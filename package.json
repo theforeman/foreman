@@ -70,7 +70,7 @@
     "jquery-ujs": "~1.2.0",
     "jquery.cookie": "~1.4.1",
     "jstz": "~1.0.7",
-    "lodash": "~4.15.0",
+    "lodash": "^4.15.0",
     "multiselect": "~0.9.12",
     "patternfly": "3.41.6",
     "patternfly-react": "^1.16.0",
@@ -88,7 +88,7 @@
     "redux-form-validators": "^2.1.2",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
-    "seamless-immutable": "7.0.1",
+    "seamless-immutable": "^7.1.2",
     "select2": "~3.5.2-browserify",
     "urijs": "^1.18.10",
     "uuid": "^3.0.1"
