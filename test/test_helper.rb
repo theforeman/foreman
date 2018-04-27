@@ -89,6 +89,7 @@ end
 
 module ExtensibleFixtureSupport
   extend ActiveSupport::Concern
+  require 'unit/plugin/sample_plugin'
 
   included do
     self.fixture_path = FixtureHelper::FIXTURE_PATH

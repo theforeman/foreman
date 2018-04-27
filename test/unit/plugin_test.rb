@@ -206,6 +206,10 @@ class PluginTest < ActiveSupport::TestCase
     end
   end
 
+  def test_plugin_fixtures
+    assert_equal 'is_set', Setting[:plugin_setting_fixture]
+  end
+
   def test_register_allowed_template_helpers
     refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
     @klass.register :foo do
