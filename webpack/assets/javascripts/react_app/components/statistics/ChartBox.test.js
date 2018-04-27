@@ -8,7 +8,7 @@ jest.unmock('../../../services/ChartService');
 jest.unmock('./ChartBox');
 
 describe('ChartBox', () => {
-  const setup = ({ status, chart = { id: 2 } }) => shallow(<ChartBox
+  const setup = ({ status, chart = { id: '2' } }) => shallow(<ChartBox
     type="donut"
     chart={chart}
     noDataMsg='no data'
