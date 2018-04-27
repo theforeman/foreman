@@ -251,6 +251,16 @@ EOS
         refute @template.locked
       end
 
+      test 'makes the the template default if default option is set to true' do
+        text = @template.template
+        @template = Template.new
+        @template.expects :import_locations
+        @template.expects :import_organizations
+        @template.expects :import_custom_data
+        @template.import_without_save(text, :default => true)
+        assert @template.default
+      end
+
       test 'does not save the template' do
         assert @template.new_record?
       end

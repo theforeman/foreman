@@ -81,6 +81,7 @@ class Template < ApplicationRecord
     Foreman::Logging.logger('app').debug "setting attributes for #{self.name} with id: #{self.id || 'N/A'}"
     self.snippet = !!@importing_metadata[:snippet]
     self.locked = options[:lock] unless options[:lock].nil?
+    self.default = options[:default] unless options[:default].nil?
 
     import_taxonomies(options)
     import_custom_data(options)
@@ -113,6 +114,7 @@ class Template < ApplicationRecord
   #   :force - set to true if you want to bypass locked templates
   #   :associate - either 'new', 'always' or 'never', determines when the template should associate objects based on metadata
   #   :lock - lock imported templates (false by default)
+  #   :default - default flag value (false by default)
   def self.import!(name, text, options = {})
     template = import_without_save(name, text, options)
     if options[:force]
