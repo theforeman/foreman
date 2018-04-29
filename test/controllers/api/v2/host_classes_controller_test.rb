@@ -31,4 +31,9 @@ class Api::V2::HostClassesControllerTest < ActionController::TestCase
     post :create, params: { :host_id => @host.to_param, :puppetclass_id => "invalid_id" }
     assert_response :not_found
   end
+
+  test "should not delete a puppetclass that does not exist from a host" do
+    post :destroy, params: { :host_id => @host.to_param, :id => "invalid_id" }
+    assert_response :not_found
+  end
 end
