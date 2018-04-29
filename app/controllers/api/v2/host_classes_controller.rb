@@ -4,7 +4,7 @@ module Api
       include Api::Version2
 
       before_action :find_host, :only => [:index, :create, :destroy]
-      before_action :find_puppetclass, :only => [:create]
+      before_action :find_puppetclass, :only => [:create, :destroy]
 
       api :GET, "/hosts/:host_id/puppetclass_ids/", N_("List all Puppet class IDs for host")
 
@@ -26,7 +26,7 @@ module Api
       param :id, String, :required => true, :desc => N_("ID of Puppet class")
 
       def destroy
-        @host_class = HostClass.authorized(:edit_classes).where(:host_id => @host.id, :puppetclass_id => params[:id])
+        @host_class = HostClass.authorized(:edit_classes).where(:host_id => @host.id, :puppetclass_id => @puppetclass.id)
         process_response @host_class.destroy_all
       end
 
@@ -45,7 +45,12 @@ module Api
       end
 
       def find_puppetclass
-        @puppetclass = resource_finder(Puppetclass.authorized(:view_puppetclasses), params[:puppetclass_id])
+        if params[:action] == 'create'
+          puppetclass_id = params[:puppetclass_id]
+        else
+          puppetclass_id = params[:id]
+        end
+        @puppetclass = resource_finder(Puppetclass.authorized(:view_puppetclasses), puppetclass_id)
       end
     end
   end
