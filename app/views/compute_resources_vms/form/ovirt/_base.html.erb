@@ -35,6 +35,7 @@
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
+<%= checkbox_f f, :ha, { :checked => f.object.ha.present? , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
 
 <% unless local_assigns[:hide_image] %>
   <%

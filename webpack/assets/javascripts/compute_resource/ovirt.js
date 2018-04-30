@@ -24,6 +24,7 @@ export function templateSelected(item) {
         $('[id$=_memory]').val(result.memory).trigger('change');
         $('[id$=_cores]').val(result.cores);
         $('[id$=_sockets]').val(result.sockets);
+        $('[id$=_ha]').prop('checked', result.ha);
       }
       $('#network_interfaces').children('.fields').remove();
       $.each(result.interfaces, function () {
@@ -64,6 +65,7 @@ export function instanceTypeSelected(item) {
         $('[id$=_memory]').val(result.memory).trigger('change');
         $('[id$=_cores]').val(result.cores);
         $('[id$=_sockets]').val(result.sockets);
+        $('[id$=_ha]').prop('checked', result.ha);
         const instanceTypeSelector = $('#host_compute_attributes_instance_type');
 
         if (instanceTypeSelector.is(':disabled')) {
