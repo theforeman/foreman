@@ -23,6 +23,7 @@ specs.each do |dep|
   # some plugins share the same base directory (tasks-core and tasks, REX etc)
   # skip the plugin if its path is already included
   next if config[:paths].include?(path)
+  next unless dep.files.include? 'package.json'
   next unless Dir.exist?(path)
   next unless File.exist?("#{dep.to_spec.full_gem_path}/package.json")
   package_json = JSON.parse(File.read("#{dep.to_spec.full_gem_path}/package.json"))
