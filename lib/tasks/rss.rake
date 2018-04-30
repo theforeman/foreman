@@ -33,7 +33,7 @@ END_DESC
   task :create_notifications => :environment do
     rss_checker = UINotifications::RssNotificationsChecker.new(
       :url => ENV['FOREMAN_RSS_URL'],
-      :latest_posts => ENV['FOREMAN_RSS_LATEST_POSTS'],
+      :latest_posts => ENV['FOREMAN_RSS_LATEST_POSTS'].to_i,
       :audience => ENV['FOREMAN_RSS_AUDIENCE'],
       :force_repost => ENV['FOREMAN_RSS_FORCE_REPOST'] == 'true'
     )
