@@ -5,7 +5,7 @@ group :test do
   gem 'minitest-retry', '~> 0.0', :require => false
   gem 'minitest-spec-rails', '~> 5.3'
   gem 'ci_reporter_minitest', :require => false
-  gem 'capybara', '~> 2.5', :require => false
+  gem 'capybara', '~> 3.0', :require => false
   gem 'show_me_the_cookies', '~> 4.0', :require => false
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
