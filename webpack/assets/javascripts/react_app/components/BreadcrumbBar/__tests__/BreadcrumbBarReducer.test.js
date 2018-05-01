@@ -7,6 +7,7 @@ import {
 } from '../BreadcrumbBarConstants';
 import reducer from '../BreadcrumbBarReducer';
 
+import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
 import { resource, resourceList } from '../BreadcrumbBar.fixtures';
 
 const fixtures = {
@@ -55,9 +56,4 @@ const fixtures = {
   },
 };
 
-describe('BreadcrumbBar reducer', () => {
-  const reduce = ({ state, action = {} } = {}) => reducer(state, action);
-
-  Object.entries(fixtures).forEach(([description, action]) =>
-    it(description, () => expect(reduce(action)).toMatchSnapshot()));
-});
+describe('BreadcrumbBar reducer', () => testReducerSnapshotWithFixtures(reducer, fixtures));

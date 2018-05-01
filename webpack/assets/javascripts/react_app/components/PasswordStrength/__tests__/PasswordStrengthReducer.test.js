@@ -4,25 +4,24 @@ import {
 } from '../PasswordStrengthConstants';
 
 import reducer from '../PasswordStrengthReducer';
+import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
 
-describe('PasswordStrength reducer', () => {
-  const reduce = ({ state, action = {} } = {}) => reducer(state, action);
+const fixtures = {
+  'should return the initial state': {},
 
-  it('should return the initial state', () => expect(reduce()).toMatchSnapshot());
+  'should handle PASSWORD_STRENGTH_PASSWORD_CHANGED': {
+    action: {
+      type: PASSWORD_STRENGTH_PASSWORD_CHANGED,
+      payload: 'some-password',
+    },
+  },
 
-  it('should handle PASSWORD_STRENGTH_PASSWORD_CHANGED', () =>
-    expect(reduce({
-      action: {
-        type: PASSWORD_STRENGTH_PASSWORD_CHANGED,
-        payload: 'some-password',
-      },
-    })).toMatchSnapshot());
+  'should handle PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED': {
+    action: {
+      type: PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED,
+      payload: 'some-password',
+    },
+  },
+};
 
-  it('should handle PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED', () =>
-    expect(reduce({
-      action: {
-        type: PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED,
-        payload: 'some-password',
-      },
-    })).toMatchSnapshot());
-});
+describe('PasswordStrength reducer', () => testReducerSnapshotWithFixtures(reducer, fixtures));
