@@ -82,3 +82,14 @@ export const testActionSnapshot = async (runAction) => {
 export const testActionSnapshotWithFixtures = fixtures =>
   Object.entries(fixtures).forEach(([description, runAction]) =>
     it(description, () => testActionSnapshot(runAction)));
+
+/**
+ * Test a reducer with fixtures and snapshots
+ * @param  {Function} reducer  reducer to test
+ * @param  {Object}   fixtures key=fixture description, value=props to apply
+ */
+export const testReducerSnapshotWithFixtures = (reducer, fixtures) => {
+  const reduce = ({ state, action = {} } = {}) => reducer(state, action);
+  Object.entries(fixtures).forEach(([description, action]) =>
+    it(description, () => expect(reduce(action)).toMatchSnapshot()));
+};
