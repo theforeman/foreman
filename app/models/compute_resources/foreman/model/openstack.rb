@@ -134,6 +134,7 @@ module Foreman::Model
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
       args[:nics].map! {|nic| { 'net_id' => nic } }
+      args[:security_groups].delete_if(&:blank?)
       format_scheduler_hint_filter(args) if args[:scheduler_hint_filter].present?
       vm = super(args)
       if network.present?
