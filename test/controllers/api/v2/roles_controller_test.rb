@@ -48,6 +48,17 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_equal perm_count, r.permissions.count
   end
 
+  test "should remove role with associated filters" do
+    role = FactoryBot.create(:role, :name => "New Role")
+    FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_domains).id])
+    assert_difference('Role.count', -1) do
+      assert_difference('Filter.count', -1) do
+        delete :destroy, params: { :id => role.id }
+      end
+    end
+    assert_response :success
+  end
+
   test "should clone role and its taxonomies" do
     new_name = "New Role"
     loc = Location.first

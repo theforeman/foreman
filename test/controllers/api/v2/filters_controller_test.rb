@@ -22,6 +22,8 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
       post :create, params: { :filter => valid_attrs }
     end
     assert_response :created
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal show_response["permissions"].first["name"], "view_architectures"
   end
 
   test "should update filter" do
