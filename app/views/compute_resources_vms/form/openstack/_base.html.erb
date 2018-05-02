@@ -12,7 +12,7 @@
 </div>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name, {}, :label => _('Tenant'), :label_size => "col-md-2" %>
 
-<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => _("Security group"), :label_size => "col-md-2"  %>
+<%= select_f f, :security_group, compute_resource.security_groups, :name, :name, {}, { :label => _("Security group"), :label_size => "col-md-2", :multiple => true} %>
 <%= select_f f, :nics, compute_resource.internal_networks, :id, :name,
              {}, { :label => _('Internal network'), :label_size => "col-md-2", :multiple => true } %>
 <%= selectable_f f, :network, compute_resource.address_pools, { include_blank: 'None' }, { :label => _("Floating IP network"), :label_size => "col-md-2" } %>
