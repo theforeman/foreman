@@ -80,6 +80,32 @@ We keep a repository of talks, tutorials, articles about everything in the Forem
 The original authors of this project are [Ohad Levy](https://github.com/ohadlevy) and [Paul Kelly](https://github.com/pikelly).
 You can find a more thorough list of people who have contributed to this project at some point in [Contributors](Contributors).
 
-# License
+# Licensing
 
 See [LICENSE](LICENSE) file.
+
+The Foreman repository/package is licensed under the GNU GPL v3 or newer, with some exceptions.
+
+Copyright (c) 2009-2018 to Ohad Levy, Paul Kelly and their respective owners.
+
+All copyright holders for the Foreman project are in the separate file called Contributors.
+
+Except where specified below, this program and entire repository is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see [GNU licenses](http://www.gnu.org/licenses/).
+
+The following files and directories are exceptions:
+
+* app/views/unattended/ztp/provision.erb is (c) 2013, Juniper Networks under 2-clause BSD license.
+* lib/tasks/convert.rake is (c) 2008, Matson Systems, Inc. under Revised BSD license.
+* extras/noVNC/websockify is (c) 2011, Joel Martin under LGPL v3 license.
+* vendor/assets/fonts/ is (c) 2011-2016, Red Hat Inc. under SIL Open Font License v1.1 or LGPL v2.1 licenses.
+* vendor/assets/javascripts/noVNC/ is (c) 1999 AT&T Laboratories Cambridge, (c) 1996 Widget Workshop, Inc., (c) 1996 Jef Poskanzer <jef@acme.com>, (c) 2011 Joel Martin, (c) Hiroshi Ichikawa <http://gimite.net/en/>, (c) Martijn Pieters <mj@digicool.com>, Samuel Sieb <samuel@sieb.net> under (MPL 1.1 or GPL v2+ or LGPL v2.1+) and LGPL v3 and LGPL v2+ and MIT and Revised BSD licenses.
+* vendor/assets/javascripts/jquery.flot.axislabels.js is (c) 2010 Xuan Luo under MIT license.
+* app/assets/images/RancherOS.png is (c) 2018 Rancher Labs, Inc.
+
+All rights reserved.
+
+The [LICENSE](LICENSE) file contains the full text of the GNU GPL v3 license, along with the text for all additional licenses referenced above.
