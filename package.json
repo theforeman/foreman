@@ -76,7 +76,7 @@
     "patternfly-react": "^1.16.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-bootstrap": "^0.31.5",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-ellipsis-with-tooltip": "^1.0.7",
     "react-numeric-input": "^2.0.7",
