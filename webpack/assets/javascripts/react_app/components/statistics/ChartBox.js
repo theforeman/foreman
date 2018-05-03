@@ -42,13 +42,12 @@ class ChartBox extends React.Component {
     const Chart = components[type];
     const dataFiltered = chart.data && chart.data.filter(arr => arr[1] !== 0);
     const hasChartData = dataFiltered && dataFiltered.length > 0;
-    const tooltip = hasChartData
+    const headerProps = hasChartData
       ? {
         onClick: this.onClick,
         title: this.props.tip,
         'data-toggle': 'tooltip',
         'data-placement': 'top',
-        className: 'pointer',
       }
       : {};
     const handleChartClick =
@@ -68,25 +67,32 @@ class ChartBox extends React.Component {
         icontype="error-circle-o"
       />
     );
-    const boxHeader = <h3 {...tooltip}>{this.props.title}</h3>;
+    const boxHeader = (
+      <h3 className="pointer panel-title" {...headerProps}>
+        {this.props.title}
+      </h3>
+    );
 
     return (
       <Panel className="chart-box" header={boxHeader} key={this.props.chart.id}>
-        <Loader status={this.props.status}>{[panelChart, error]}</Loader>
-        {this.state.showModal && (
-          <Modal
-            show={this.state.showModal}
-            enforceFocus
-            onHide={this.closeModal}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>{this.props.title}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Chart {...chartProps} config="large" />;
-            </Modal.Body>
-          </Modal>
-        )}
+        <Panel.Heading>{boxHeader}</Panel.Heading>
+        <Panel.Body>
+          <Loader status={this.props.status}>{[panelChart, error]}</Loader>
+          {this.state.showModal && (
+            <Modal
+              show={this.state.showModal}
+              enforceFocus
+              onHide={this.closeModal}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>{this.props.title}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Chart {...chartProps} config="large" />;
+              </Modal.Body>
+            </Modal>
+          )}
+        </Panel.Body>
       </Panel>
     );
   }
