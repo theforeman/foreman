@@ -11,27 +11,12 @@ module FiltersHelper
         else
           return FiltersHelperOverrides.search_path(type) if FiltersHelperOverrides.can_override?(type)
           resource_path = resource_path(type)
-          resource_path.nil? ? "" : resource_path + auto_complete_search_path
+          resource_path.blank? ? "" : (resource_path + auto_complete_search_path)
       end
     end
   end
 
   def auto_complete_search_path
     '/auto_complete_search'
-  end
-
-  def resource_path(type)
-    return '' if type.nil?
-
-    path = type.pluralize.underscore + "_path"
-    prefix, suffix = path.split('/', 2)
-    if path.include?("/") && Rails.application.routes.mounted_helpers.method_defined?(prefix)
-      # handle mounted engines
-      engine = send(prefix)
-      engine.send(suffix) if engine.respond_to?(suffix)
-    else
-      path = path.tr("/", "_")
-      send(path) if respond_to?(path)
-    end
   end
 end
