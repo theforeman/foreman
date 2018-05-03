@@ -1,5 +1,26 @@
 require 'test_helper'
 
+def valid_interfaces_names
+  [
+    RFauxFactory.gen_alpha(rand(1..255)).downcase,
+    RFauxFactory.gen_alphanumeric(rand(1..255)).downcase,
+    RFauxFactory.gen_numeric_string(rand(1..255)).downcase
+  ]
+end
+
+def invalid_interfaces_names
+  [
+    RFauxFactory.gen_alpha(256).downcase,
+    RFauxFactory.gen_alphanumeric(256).downcase,
+    RFauxFactory.gen_numeric_string(256).downcase,
+    RFauxFactory.gen_cjk,
+    RFauxFactory.gen_cyrillic,
+    RFauxFactory.gen_html,
+    RFauxFactory.gen_latin1,
+    RFauxFactory.gen_utf8
+  ]
+end
+
 class Nic::BaseTest < ActiveSupport::TestCase
   setup do
     disable_orchestration
@@ -15,6 +36,41 @@ class Nic::BaseTest < ActiveSupport::TestCase
     nic = FactoryBot.build_stubbed(:nic_base)
     nic.host = nil
     refute nic.host_managed?
+  end
+
+  test 'should create with multiple valid names' do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    valid_interfaces_names.each do |name|
+      nic = FactoryBot.build_stubbed(:nic_managed, :name => name, :host => host)
+      assert nic.valid?, "Can't create nic with valid name #{name}"
+    end
+  end
+
+  test 'should update with multiple valid names' do
+    host = FactoryBot.create(:host, :managed)
+    valid_interfaces_names.each do |name|
+      name = name[1..254-host.domain.name.length] if name.length + host.domain.name.length > 255
+      host.interfaces.first.name = name
+      assert host.valid?, "Can't update nic with valid name #{name}"
+    end
+  end
+
+  test 'should not create with multiple invalid names' do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    invalid_interfaces_names.each do |name|
+      nic = FactoryBot.build_stubbed(:nic_managed, :name => name, :host => host)
+      refute nic.valid?, "Can create nic with invalid name #{name}"
+      assert_includes nic.errors.keys, :name
+    end
+  end
+
+  test 'should not update with multiple invalid names' do
+    host = FactoryBot.create(:host, :managed)
+    invalid_interfaces_names.each do |name|
+      host.interfaces.first.name = name
+      refute host.valid?, "Can update nic with valid name #{name}"
+      assert host.interfaces.any? { |i| i.errors[:name].present? }
+    end
   end
 
   test '#host_managed? returns false if associated host is unmanaged' do
