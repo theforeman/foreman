@@ -15,7 +15,6 @@ const BreadcrumbSwitcherPopover = ({
   hasError,
   currentPage,
   totalPages,
-  appear, // remove the appear from the ...props
   onSearchChange,
   onSearchClear,
   searchValue,

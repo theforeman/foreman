@@ -1,72 +1,97 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChartBox error 1`] = `
-<Panel
-  bsClass="panel"
-  bsStyle="default"
+<Uncontrolled(Panel)
   className="chart-box"
-  defaultExpanded={false}
   header={
-    <h3>
+    <h3
+      className="pointer panel-title"
+    >
       some title
     </h3>
   }
   key="2"
 >
-  <Loader
-    status="PENDING"
+  <PanelHeading
+    bsClass="panel"
+    componentClass="div"
   >
-    <DonutChart
-      key="2-chart"
-      onclick={[Function]}
-    />
-    <MessageBox
-      icontype="error-circle-o"
-      key="2-error"
-      msg="some error"
-    />
-  </Loader>
-</Panel>
+    <h3
+      className="pointer panel-title"
+    >
+      some title
+    </h3>
+  </PanelHeading>
+  <PanelBody
+    bsClass="panel"
+    collapsible={false}
+  >
+    <Loader
+      status="PENDING"
+    >
+      <DonutChart
+        key="2-chart"
+        onclick={[Function]}
+      />
+      <MessageBox
+        icontype="error-circle-o"
+        key="2-error"
+        msg="some error"
+      />
+    </Loader>
+  </PanelBody>
+</Uncontrolled(Panel)>
 `;
 
 exports[`ChartBox pending 1`] = `
-<Panel
-  bsClass="panel"
-  bsStyle="default"
+<Uncontrolled(Panel)
   className="chart-box"
-  defaultExpanded={false}
   header={
-    <h3>
+    <h3
+      className="pointer panel-title"
+    >
       some title
     </h3>
   }
   key="2"
 >
-  <Loader
-    status="PENDING"
+  <PanelHeading
+    bsClass="panel"
+    componentClass="div"
   >
-    <DonutChart
-      key="2-chart"
-      onclick={[Function]}
-    />
-    <MessageBox
-      icontype="error-circle-o"
-      key="2-error"
-      msg="some error"
-    />
-  </Loader>
-</Panel>
+    <h3
+      className="pointer panel-title"
+    >
+      some title
+    </h3>
+  </PanelHeading>
+  <PanelBody
+    bsClass="panel"
+    collapsible={false}
+  >
+    <Loader
+      status="PENDING"
+    >
+      <DonutChart
+        key="2-chart"
+        onclick={[Function]}
+      />
+      <MessageBox
+        icontype="error-circle-o"
+        key="2-error"
+        msg="some error"
+      />
+    </Loader>
+  </PanelBody>
+</Uncontrolled(Panel)>
 `;
 
 exports[`ChartBox resolved 1`] = `
-<Panel
-  bsClass="panel"
-  bsStyle="default"
+<Uncontrolled(Panel)
   className="chart-box"
-  defaultExpanded={false}
   header={
     <h3
-      className="pointer"
+      className="pointer panel-title"
       data-placement="top"
       data-toggle="tooltip"
       onClick={[Function]}
@@ -77,26 +102,45 @@ exports[`ChartBox resolved 1`] = `
   }
   key="2"
 >
-  <Loader
-    status="PENDING"
+  <PanelHeading
+    bsClass="panel"
+    componentClass="div"
   >
-    <DonutChart
-      data={
-        Array [
+    <h3
+      className="pointer panel-title"
+      data-placement="top"
+      data-toggle="tooltip"
+      onClick={[Function]}
+      title="sone tooltip"
+    >
+      some title
+    </h3>
+  </PanelHeading>
+  <PanelBody
+    bsClass="panel"
+    collapsible={false}
+  >
+    <Loader
+      status="PENDING"
+    >
+      <DonutChart
+        data={
           Array [
-            1,
-            2,
-          ],
-        ]
-      }
-      key="2-chart"
-      onclick={[Function]}
-    />
-    <MessageBox
-      icontype="error-circle-o"
-      key="2-error"
-      msg="some error"
-    />
-  </Loader>
-</Panel>
+            Array [
+              1,
+              2,
+            ],
+          ]
+        }
+        key="2-chart"
+        onclick={[Function]}
+      />
+      <MessageBox
+        icontype="error-circle-o"
+        key="2-error"
+        msg="some error"
+      />
+    </Loader>
+  </PanelBody>
+</Uncontrolled(Panel)>
 `;
