@@ -22,3 +22,4 @@ telemetry.add_histogram(:importer_facts_populate_duration, 'Duration of fields p
 telemetry.add_counter(:importer_facts_count_input, 'Number of facts before imports starts per importer type', [:type])
 telemetry.add_counter(:importer_facts_count_processed, 'Number of facts processed (added, updated, deleted) per importer type', [:type, :action])
 telemetry.add_counter(:importer_facts_count_interfaces, 'Number of changed interfaces per importer type', [:type])
+telemetry.add_counter(:audit_records_created, 'Number of audit records created', [:type])

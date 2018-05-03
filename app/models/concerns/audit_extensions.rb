@@ -9,9 +9,11 @@ module AuditExtensions
     before_save :filter_encrypted, :if => Proc.new {|audit| audit.audited_changes.present?}
     before_save :filter_passwords, :if => Proc.new {|audit| audit.audited_changes.try(:has_key?, 'password')}
     after_create :log_audit
+    after_create :telemetry_create
 
     include Authorizable
     include Taxonomix
+    include Foreman::TelemetryHelper
 
     # audits can be created regardless of permissions
     def check_permissions_after_save
@@ -36,6 +38,10 @@ module AuditExtensions
     Foreman::Logging.with_fields(self.audited_changes) do
       Foreman::Logging.logger('audit').info { "#{self.action} event for #{self.auditable_type} with id #{self.auditable_id}" }
     end
+  end
+
+  def telemetry_create
+    telemetry_increment_counter(:audit_records_created, 1, type: self.auditable_type)
   end
 
   def filter_encrypted
