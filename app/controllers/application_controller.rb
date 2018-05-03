@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   # standard layout to all controllers
   helper 'layout'
-  helper_method :authorizer
+  helper_method :authorizer, :resource_path
 
   before_action :require_login
   before_action :set_gettext_locale_db, :set_gettext_locale
@@ -43,6 +43,21 @@ class ApplicationController < ActionController::Base
   # this method is returns the active user which gets used to populate the audits table
   def current_user
     User.current
+  end
+
+  def resource_path(type)
+    return '' if type.nil?
+
+    path = type.pluralize.underscore + "_path"
+    prefix, suffix = path.split('/', 2)
+    if path.include?("/") && Rails.application.routes.mounted_helpers.method_defined?(prefix)
+      # handle mounted engines
+      engine = send(prefix)
+      engine.send(suffix) if engine.respond_to?(suffix)
+    else
+      path = path.tr("/", "_")
+      send(path) if respond_to?(path)
+    end
   end
 
   protected

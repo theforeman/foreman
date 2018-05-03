@@ -17,7 +17,6 @@ class FiltersHelperTest < ActionView::TestCase
   end
 
   def test_search_path_for_foreman_model
-    expects(:resource_path).with('Host').returns('hosts_path')
     assert_equal 'hosts_path/auto_complete_search', search_path('Host')
   end
 
@@ -36,6 +35,10 @@ class FiltersHelperTest < ActionView::TestCase
   end
 
   private
+
+  def resource_path(klass)
+    (klass == 'Host') ? 'hosts_path' : nil
+  end
 
   def with_search_overrides(search_overrides)
     plugin = mock('ExamplePlugin')

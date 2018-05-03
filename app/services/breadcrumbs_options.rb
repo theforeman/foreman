@@ -2,9 +2,9 @@ class BreadcrumbsOptions
   # TODO: extract URL handing from menu/item and use it here too
   include Rails.application.routes.url_helpers
 
-  def initialize(page_header, controller_name, action_name, options = {})
+  def initialize(page_header, controller, action_name, options = {})
     @page_header = page_header
-    @controller_name = controller_name
+    @controller = controller
     @action_name = action_name
     @options = options
   end
@@ -20,11 +20,18 @@ class BreadcrumbsOptions
   private
 
   delegate :logger, :to => :Rails
-  attr_reader :controller_name, :action_name, :page_header, :options
+  delegate :resource_name, :resource_class, :controller_path, :resource_path, :to => :controller
+  attr_reader :controller, :action_name, :page_header, :options
   def index_item
+    begin
+      class_name = resource_class.to_s
+    rescue
+      class_name = ''
+    end
+
     {
-      caption: _(controller_name.humanize),
-      url: try("#{controller_name}_path")
+      caption: _(resource_name.pluralize.humanize),
+      url: resource_path(class_name)
     }
   end
 
@@ -48,14 +55,20 @@ class BreadcrumbsOptions
 
   def switcher_url_template
     actual_action_name = (action_name == 'show') ? '' : action_name
-    "/#{controller_name}/:id/#{actual_action_name}"
+    if respond_to?(resource_name + '_path')
+      resource_path = try(resource_name + '_path', :id => ':id')
+    else
+      resource_path = "/#{controller_path}/:id"
+    end
+
+    "#{resource_path}/#{actual_action_name}"
   end
 
   def model_name_field
-    controller_name.camelize.singularize.try(:constantize).try(:title_name)
+    resource_class.try(:title_name)
   rescue => err
     # TODO: better handling for plugin detection
-    logger.warn("unable to detect breadcrumb title name in for #{controller_name}, defaulting to name")
+    logger.warn("unable to detect breadcrumb title name in for #{controller_path}, defaulting to name")
     logger.debug(err)
     "name"
   end
@@ -64,7 +77,7 @@ class BreadcrumbsOptions
     return unless switchable?
     {
       switcherItemUrl: options[:switcher_item_url] || switcher_url_template,
-      resourceUrl: options[:resource_url] || "/api/v2/#{controller_name}",
+      resourceUrl: options[:resource_url] || "/api/v2/#{controller_path}",
       nameField: options[:name_field] || model_name_field || 'name'
     }
   end
