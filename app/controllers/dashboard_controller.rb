@@ -71,14 +71,14 @@ class DashboardController < ApplicationController
     process_ajax_error exception, 'save positions'
   end
 
+  def resource_name
+    "widget"
+  end
+
   private
 
   def init_widget_data
     find_resource unless @widget
     @data = Dashboard::Data.new(params[:search], @widget.data[:settings])
-  end
-
-  def resource_name
-    "widget"
   end
 end
