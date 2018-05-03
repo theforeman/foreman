@@ -201,6 +201,7 @@ class Setting < ApplicationRecord
   def self.create(opts)
     # self.name can be set by default scope, e.g. from first_or_create use
     opts = { :name => new.name } if opts.nil?
+    opts.symbolize_keys!
 
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       column_check(opts)
@@ -213,6 +214,7 @@ class Setting < ApplicationRecord
   def self.create!(opts)
     # self.name can be set by default scope, e.g. from first_or_create use
     opts = { :name => new.name } if opts.nil?
+    opts.symbolize_keys!
 
     if (s = Setting.find_by_name(opts[:name].to_s)).nil?
       column_check(opts)
