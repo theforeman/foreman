@@ -27,11 +27,13 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     assert "bmc", show_response["type"]
   end
 
+  test_attributes :pid => 'a45ee576-bec6-47a6-a018-a00e555eb2ad'
   test "create interface" do
     assert_difference('@host.interfaces.count') do
       post :create, params: { :host_id => @host.to_param, :interface => valid_attrs }
     end
     assert_response :created
+    assert_equal JSON.parse(@response.body)['name'], valid_attrs['name'], "Can't create interface with valid name #{valid_attrs['name']}"
   end
 
   test "create interface with old style type" do
@@ -44,6 +46,13 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
   test "create interface with unknown type" do
     post :create, params: { :host_id => @host.to_param, :interface => valid_attrs.merge('type' => 'UNKNOWN') }
     assert_response :unprocessable_entity
+  end
+
+  test_attributes :pid => '6fae26d8-8f62-41ba-a1cc-0185137ef70f'
+  test "should not create with invalid name" do
+    name = RFauxFactory.gen_cjk
+    post :create, params: { :host_id => @host.id, :interface => valid_attrs.merge(:name => name) }
+    assert_response :unprocessable_entity, "Can create interface with invalid name #{name}"
   end
 
   test "update interface without type" do
@@ -82,11 +91,43 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
     assert_equal valid_attrs['ip'], Host.find_by_name(@host.name).interfaces.where(:id => @nic.to_param).first.ip
   end
 
+  test_attributes :pid => 'c5034b04-097e-47a4-908b-ee78de1699a4'
+  test "update a host interface with valid name" do
+    name = RFauxFactory.gen_alpha.downcase
+    put :update, params: { :host_id => @host.to_param, :id => @nic.to_param, :interface => { :name => name } }
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['name'], name, "Can't update interface with valid name #{name}"
+  end
+
+  test_attributes :pid => '6a1fb718-adfb-47cb-b28c-fb3cd01f99b0'
+  test "should not update host interface with invalid name" do
+    name = RFauxFactory.gen_alpha(300)
+    put :update, params: { :host_id => @host.to_param, :id => @nic.to_param, :interface => { :name => name} }
+    assert_response :unprocessable_entity, "Can update interface with invalid name #{name}"
+  end
+
+  test_attributes :pid => '9bf83c3a-a4dc-420e-8d47-8572e5ae1dd6'
   test "destroy interface" do
     assert_difference('Nic::Managed.count', -1) do
       delete :destroy, params: { :host_id => @host.to_param, :id => @nic.to_param }
     end
     assert_response :success
+  end
+
+  test_attributes :pid => '3b3e9b3f-cfb2-433f-bd1f-0a8e1d9f0b34'
+  test "destroy interface and check that host still exists" do
+    delete :destroy, params: { :host_id => @host.to_param, :id => @nic.to_param }
+    assert_response :success
+    assert_not_nil Host.find_by_name(@host.name)
+  end
+
+  test_attributes :pid => '716a9dfd-0f31-45aa-a6d1-42add032a15c'
+  test "should not destroy primary interface of managed host" do
+    host = FactoryBot.create(:host, :managed)
+    assert_difference('Nic::Managed.count', 0) do
+      delete :destroy, params: { :host_id => host.id, :id => host.primary_interface.id }
+    end
+    assert_response :unprocessable_entity, "Can delete primary interface of managed host"
   end
 
   context 'permissions' do
