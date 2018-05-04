@@ -15,8 +15,6 @@ Minitest::Retry.on_consistent_failure do |klass, test_name|
   Rails.logger.error("DO NOT IGNORE - Consistent failure - #{klass} #{test_name}")
 end
 
-Capybara.server = :webrick
-
 Capybara.register_driver :poltergeist do |app|
   opts = {
     # To enable debugging uncomment `:inspector => true` and
