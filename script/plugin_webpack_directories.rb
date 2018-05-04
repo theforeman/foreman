@@ -17,6 +17,7 @@ specs.each do |dep|
   # skip other rails engines that are not plugins
   # TODO: Consider using the plugin registration api?
   next unless dep.name =~ plugin_name_regexp
+  next if dep.name.include?('_core')
   dep = dep.to_spec if gemfile_in
 
   path = "#{dep.to_spec.full_gem_path}/webpack"
