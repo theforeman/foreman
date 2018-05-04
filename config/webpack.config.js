@@ -34,25 +34,25 @@ module.exports = env => {
   if (env && env.pluginName !== undefined) {
     var pluginEntries = {};
     pluginEntries[env.pluginName] = plugins['entries'][env.pluginName];
-    var entry = pluginEntries;
     var outputPath = path.join(plugins['plugins'][env.pluginName]['root'], 'public', 'webpack');
     var jsFilename = production ? env.pluginName + '/[name]-[chunkhash].js' : env.pluginName + '/[name].js';
     var cssFilename = production ? env.pluginName + '/[name]-[chunkhash].css' : env.pluginName + '/[name].css';
     var manifestFilename = env.pluginName + '/manifest.json';
   } else {
     var pluginEntries = plugins['entries'];
-    var entry = Object.assign(
-      {
-        bundle: bundleEntry,
-        vendor: vendorEntry,
-      },
-      pluginEntries
-    )
     var outputPath = path.join(__dirname, '..', 'public', 'webpack');
     var jsFilename = production ? '[name]-[chunkhash].js' : '[name].js';
     var cssFilename = production ? '[name]-[chunkhash].css' : '[name].css';
     var manifestFilename = 'manifest.json';
   }
+
+  var entry = Object.assign(
+    {
+      bundle: bundleEntry,
+      vendor: vendorEntry,
+    },
+    pluginEntries
+  );
 
   var config = {
     entry: entry,
@@ -149,13 +149,10 @@ module.exports = env => {
     ]
   };
 
-  if (!env || !env.pluginName) {
-    config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        minChunks: Infinity,
-      })
-    )
-  }
+  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: Infinity,
+  }))
 
   if (production) {
     config.plugins.push(

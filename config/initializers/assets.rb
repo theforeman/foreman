@@ -118,7 +118,7 @@ Foreman::Application.configure do |app|
             Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
             assets = JSON.parse(File.read(manifest_path))
 
-            webpack_manifest['assetsByChunkName'] = webpack_manifest['assetsByChunkName'].merge(assets['assetsByChunkName'])
+            webpack_manifest['assetsByChunkName'][plugin.id.to_s] = assets['assetsByChunkName'][plugin.id.to_s] if assets['assetsByChunkName'].key?(plugin.id.to_s)
           end
         end
 
