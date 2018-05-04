@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import store from '../javascripts/react_app/redux';
+import store from './react_app/redux';
 
 import * as ToastActions from './react_app/redux/actions/toasts';
 
