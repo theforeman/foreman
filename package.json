@@ -72,7 +72,7 @@
     "jstz": "~1.0.7",
     "lodash": "^4.15.0",
     "multiselect": "~0.9.12",
-    "patternfly": "3.41.6",
+    "patternfly": "^3.42.0",
     "patternfly-react": "^2.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
