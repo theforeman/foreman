@@ -1,3 +1,6 @@
+/*
+ * @deprecated: flot js is not maintained anymore in favor of c3 (http://c3js.org/)
+ */
 $.fn.flot_pie = function(){
   var options = arguments[0] || {};
   $(this).each(function(i,el){
@@ -115,6 +118,9 @@ function expanded_pie(target, data){
   });
 }
 
+/*
+ * @deprecated: flot js is not maintained anymore in favor of c3 (http://c3js.org/)
+ */
 $.fn.flot_bar = function(){
   var options = arguments[0] || {};
   $(this).each(function(i,el){
@@ -153,6 +159,9 @@ $.fn.flot_bar = function(){
   });
 };
 
+/*
+ * @deprecated: flot js is not maintained anymore in favor of c3 (http://c3js.org/)
+ */
 function flot_time_chart(target, data, legendOptions){
   var chart_options = {
     series: {
@@ -188,6 +197,9 @@ function flot_time_chart(target, data, legendOptions){
   target.bind("plotselected", function (event, ranges) {flot_zoom(target, chart_options, ranges);});
 }
 
+/*
+ * @deprecated: flot js is not maintained anymore in favor of c3 (http://c3js.org/)
+ */
 $.fn.flot_chart = function(){
   $(this).each(function(i,el){
     flot_time_chart($(el), $(el).data('series'), chart_legend_options($(el)) );
