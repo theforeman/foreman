@@ -53,6 +53,32 @@ export const shallowRenderComponentWithFixtures = (Component, fixtures) =>
  * @param  {Object}         fixtures  key=fixture description, value=props to apply
  */
 export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
-  shallowRenderComponentWithFixtures(Component, fixtures)
-    .forEach(({ description, component }) =>
-      it(description, () => expect(toJson(component)).toMatchSnapshot()));
+  shallowRenderComponentWithFixtures(Component, fixtures).forEach(({ description, component }) =>
+    it(description, () => expect(toJson(component)).toMatchSnapshot()));
+
+/**
+ * run an action (sync or async) and except the results to much snapshot
+ * @param  {Function}  runAction  Action runner function
+ * @return {Promise}
+ */
+export const testActionSnapshot = async (runAction) => {
+  const actionResults = runAction();
+
+  // if it's an async action
+  if (typeof actionResults === 'function') {
+    const dispatch = jest.fn();
+    await actionResults(dispatch);
+
+    expect(dispatch.mock.calls).toMatchSnapshot();
+  } else {
+    expect(actionResults).toMatchSnapshot();
+  }
+};
+
+/**
+ * Test actions with fixtures and snapshots
+ * @param  {Object} fixtures key=fixture description, value=action runner function
+ */
+export const testActionSnapshotWithFixtures = fixtures =>
+  Object.entries(fixtures).forEach(([description, runAction]) =>
+    it(description, () => testActionSnapshot(runAction)));
