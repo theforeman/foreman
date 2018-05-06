@@ -1,4 +1,5 @@
 $.fn.flot_pie = function(){
+  tfm.tools.deprecate('flot', 'c3');
   var options = arguments[0] || {};
   $(this).each(function(i,el){
     var label_exists = false;
@@ -239,6 +240,7 @@ function reset_zoom(item){
 }
 
 function showTooltip(pos, item, formater) {
+  tfm.tools.deprecate('flot', 'c3');
   var content = formater(item);
   $('<div id="flot-tooltip">').text(content).css({
     top: pos.pageY - 40,
@@ -291,7 +293,7 @@ function search_on_click(event, item) {
 }
 
 function get_pie_chart(div, url) {
-
+  tfm.tools.deprecate('flot', 'c3');
   if($("#"+div).length == 0)
   {
     $('body').append('<div id="' + div + '" class="modal fade"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
@@ -321,6 +323,7 @@ function get_pie_chart(div, url) {
 }
 
 function expand_chart(ref){
+  tfm.tools.deprecate('flot', 'c3');
   var chart = $(ref);
   if (!chart.hasClass('statistics-pie')){
     chart = chart.parent().find('.statistics-pie');
@@ -382,6 +385,7 @@ function ext_legend_selected(item){
 }
 
 function updateChart(item, status) {
+  tfm.tools.deprecate('flot', 'c3');
   if (status == 'success')
     $(item).find(".statistics-chart").flot_chart();
   else
@@ -389,6 +393,7 @@ function updateChart(item, status) {
 }
 
 $(function() {
+  tfm.tools.deprecate('flot', 'c3');
   $('[data-toggle="tooltip"]').tooltip();
   refreshCharts();
   $(document).on('click', '.reset-zoom', function () {reset_zoom(this);});
@@ -399,6 +404,7 @@ $(function() {
 $(window).on('resize', refreshCharts);
 
 function refreshCharts(){
+  tfm.tools.deprecate('flot', 'c3');
   $(".statistics-bar:visible").flot_bar();
   $(".statistics-pie:visible").flot_pie();
   $(".statistics-chart:visible").flot_chart();
