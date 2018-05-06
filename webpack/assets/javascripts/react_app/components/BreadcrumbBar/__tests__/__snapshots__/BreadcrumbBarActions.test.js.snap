@@ -70,6 +70,47 @@ Array [
 ]
 `;
 
+exports[`BreadcrumbBar actions should load-switcher-resources-by-resource-with-nested-fields and success 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "options": Object {},
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "items": Array [
+          Object {
+            "id": "1",
+            "name": "username-1",
+            "url": "some/url/1",
+          },
+          Object {
+            "id": "2",
+            "name": "username-2",
+            "url": "some/url/2",
+          },
+          Object {
+            "id": "3",
+            "name": "username-3",
+            "url": "some/url/3",
+          },
+        ],
+        "page": 1,
+        "pages": 1.5,
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+    },
+  ],
+]
+`;
+
 exports[`BreadcrumbBar actions should toggle-switcher 1`] = `
 Object {
   "type": "BREADCRUMB_BAR_TOGGLE_SWITCHER",

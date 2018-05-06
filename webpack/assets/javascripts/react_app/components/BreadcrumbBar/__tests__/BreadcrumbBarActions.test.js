@@ -1,39 +1,43 @@
 import API from '../../../API';
+import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
   toggleSwitcher,
   closeSwitcher,
   loadSwitcherResourcesByResource,
 } from '../BreadcrumbBarActions';
-import { resource, serverResourceListResponse } from '../BreadcrumbBar.fixtures';
+import {
+  resource,
+  resourceWithNestedFields,
+  serverResourceListResponse,
+  serverResourceListWithNestedFieldsResponse,
+} from '../BreadcrumbBar.fixtures';
 
 jest.mock('../../../API');
 
-describe('BreadcrumbBar actions', () => {
-  it('should toggle-switcher', () => expect(toggleSwitcher()).toMatchSnapshot());
+const runLoadSwitcherResourcesByResourceAction = (resourceMock, serverMock) => {
+  API.get.mockImplementation(serverMock);
 
-  it('should close-switcher', () => expect(closeSwitcher()).toMatchSnapshot());
+  return loadSwitcherResourcesByResource(resourceMock);
+};
 
-  it('should load-switcher-resources-by-resource and success', async () => {
-    API.get.mockImplementation(async () => serverResourceListResponse);
+const fixtures = {
+  'should toggle-switcher': () => toggleSwitcher(),
 
-    const dispatch = jest.fn();
-    const dispatcher = loadSwitcherResourcesByResource(resource);
+  'should close-switcher': () => closeSwitcher(),
 
-    await dispatcher(dispatch);
+  'should load-switcher-resources-by-resource and success': () =>
+    runLoadSwitcherResourcesByResourceAction(resource, async () => serverResourceListResponse),
 
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
+  'should load-switcher-resources-by-resource-with-nested-fields and success': () =>
+    runLoadSwitcherResourcesByResourceAction(
+      resourceWithNestedFields,
+      async () => serverResourceListWithNestedFieldsResponse,
+    ),
 
-  it('should load-switcher-resources-by-resource and fail', async () => {
-    API.get.mockImplementation(async () => {
+  'should load-switcher-resources-by-resource and fail': () =>
+    runLoadSwitcherResourcesByResourceAction(resource, async () => {
       throw new Error('some-error');
-    });
+    }),
+};
 
-    const dispatch = jest.fn();
-    const dispatcher = loadSwitcherResourcesByResource(resource);
-
-    await dispatcher(dispatch);
-
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
-});
+describe('BreadcrumbBar actions', () => testActionSnapshotWithFixtures(fixtures));
