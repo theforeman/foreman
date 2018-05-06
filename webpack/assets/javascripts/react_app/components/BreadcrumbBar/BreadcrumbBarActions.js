@@ -1,4 +1,4 @@
-import { flatten } from 'lodash';
+import { flatten, get } from 'lodash';
 import API from '../../API';
 
 import {
@@ -38,7 +38,7 @@ export const loadSwitcherResourcesByResource = (resource, options = {}) => (disp
 
   const formatResults = ({ data }) => {
     const switcherItems = flatten(Object.values(data.results)).map(result => ({
-      name: result[nameField],
+      name: get(result, nameField),
       id: result.id,
       url: switcherItemUrl.replace(':id', result.id),
     }));
