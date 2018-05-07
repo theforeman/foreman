@@ -16,8 +16,7 @@
         caption: _('Edit %s' % @set.compute_profile.to_label)
       }
     ],
-    resource_url: api_compute_resource_compute_profiles_path(@set.compute_resource),
-    switcher_item_url: edit_compute_profile_compute_attribute_path(@set.compute_profile.to_param, ':id')
+    switchable: false,
   )
 %>
 
