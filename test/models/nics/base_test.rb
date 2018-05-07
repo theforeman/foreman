@@ -2,9 +2,11 @@ require 'test_helper'
 
 def valid_interfaces_names
   [
+    RFauxFactory.gen_alpha(1).downcase,
     RFauxFactory.gen_alpha(rand(1..255)).downcase,
     RFauxFactory.gen_alphanumeric(rand(1..255)).downcase,
-    RFauxFactory.gen_numeric_string(rand(1..255)).downcase
+    RFauxFactory.gen_numeric_string(rand(1..255)).downcase,
+    RFauxFactory.gen_alpha(255).downcase
   ]
 end
 
@@ -49,9 +51,9 @@ class Nic::BaseTest < ActiveSupport::TestCase
   test 'should update with multiple valid names' do
     host = FactoryBot.create(:host, :managed)
     valid_interfaces_names.each do |name|
-      name = name[1..254-host.domain.name.length] if name.length + host.domain.name.length > 255
+      name = name[1..254-host.domain.name.length] if name.length + host.domain.name.length > 254
       host.interfaces.first.name = name
-      assert host.valid?, "Can't update nic with valid name #{name}"
+      assert host.valid?, "Can't update nic with valid name #{name}.#{host.domain.name}"
     end
   end
 
