@@ -340,6 +340,21 @@ class HostJSTest < IntegrationTestWithJavascript
       assert_current_path hosts_path
       assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
     end
+
+    test 'redirect js' do
+      visit hosts_path
+      page.find('#check_all').trigger('click')
+
+      # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
+      assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
+
+      # Hosts are added to cookie
+      host_ids_on_cookie = JSON.parse(CGI.unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
+      assert(host_ids_on_cookie.include?(@host.id))
+
+      page.execute_script("build_redirect('#{select_multiple_environment_hosts_path}')")
+      assert_current_path(select_multiple_environment_hosts_path, :ignore_query => true)
+    end
   end
 
   describe 'edit page' do
