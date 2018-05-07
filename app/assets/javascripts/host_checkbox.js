@@ -156,7 +156,7 @@ $(function() {
 function submit_modal_form() {
   if (!$('#keep_selected').is(':checked'))
     removeForemanHostsCookie();
-  if ($("#multiple-alert").data('multiple')){
+  if (is_multiple()){
     var query = $("<input>")
       .attr("type", "hidden")
       .attr("name", "search").val($("#search").val());
@@ -166,12 +166,16 @@ function submit_modal_form() {
   $('#confirmation-modal').modal('hide');
 }
 
+function is_multiple() {
+  return $("#multiple-alert").data('multiple');
+}
+
+function get_bulk_param() {
+  return is_multiple() ? {search: $("#search").val()} : {host_ids: $.foremanSelectedHosts}
+}
+
 function build_modal(element, url) {
-  var is_multiple = $("#multiple-alert");
-  if (is_multiple.data('multiple'))
-    var data = {search: $("#search").val()};
-  else
-    var data = {host_ids: $.foremanSelectedHosts};
+  var data = get_bulk_param();
   var title = $(element).attr('data-dialog-title');
   $('#confirmation-modal .modal-header h4').text(title);
   $('#confirmation-modal .modal-body').empty()
@@ -181,7 +185,7 @@ function build_modal(element, url) {
     function(response, status, xhr) {
       $("#loading").hide();
       $('#submit_multiple').val('');
-      if (is_multiple.data('multiple'))
+      if (is_multiple())
         $("#multiple-modal-alert").show();
       var b = $("#confirmation-modal .btn-primary");
       if ($(response).find('#content form select').length > 0)
@@ -193,7 +197,8 @@ function build_modal(element, url) {
 }
 
 function build_redirect(url) {
-  var url = url + "?" + $.param({host_ids: $.foremanSelectedHosts});
+  var data = get_bulk_param();
+  var url = url + "?" + $.param(data);
   window.location.replace(url);
 }
 
