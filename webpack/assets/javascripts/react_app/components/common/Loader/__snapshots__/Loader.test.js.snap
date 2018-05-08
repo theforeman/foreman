@@ -61,13 +61,9 @@ exports[`Loader renders correct content based on status pending-different-spinne
 
 exports[`Loader renders correct content based on status success 1`] = `
 <div
-  className="loader-root"
+  className="success"
+  key="0"
 >
-  <div
-    className="success"
-    key="0"
-  >
-    Success
-  </div>
+  Success
 </div>
 `;

@@ -6,9 +6,11 @@ import CommonForm from './CommonForm';
 
 class Select extends React.Component {
   componentDidMount() {
+    const { allowClear } = this.props;
+
     if ($.fn.select2) {
       $(this.refs.select)
-        .select2()
+        .select2({ allowClear: allowClear || false })
         .on('change', this.props.onChange);
     }
   }
