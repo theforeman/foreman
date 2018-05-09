@@ -1,4 +1,5 @@
 import axios from 'axios';
+import './APITestSetup';
 
 const getcsrfToken = () => {
   const token = document.querySelector('meta[name="csrf-token"]');
