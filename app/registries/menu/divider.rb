@@ -6,6 +6,10 @@ module Menu
       super name
     end
 
+    def to_hash
+      {type: :divider, name: @caption}
+    end
+
     def authorized?
       true
     end

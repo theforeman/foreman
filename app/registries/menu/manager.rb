@@ -32,6 +32,10 @@ module Menu
         @items || Menu::Loader.load
         @items[menu_name.to_sym] || Node.new(:root)
       end
+
+      def to_hash(menu_name)
+        items(menu_name).children.map(&:to_hash)
+      end
     end
 
     class Mapper
