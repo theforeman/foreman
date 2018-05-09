@@ -22,6 +22,10 @@ module Menu
       super @name.to_sym
     end
 
+    def to_hash
+      {type: :item, name: @caption || @name, url: url}
+    end
+
     def url
       add_relative_path(@url || @context.routes.url_for(url_hash.merge(:only_path=>true).except(:use_route)))
     end
