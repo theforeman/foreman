@@ -7,6 +7,7 @@ import notifications from './notifications/';
 import toasts from './toasts';
 import passwordStrength from './user/passwordStrength';
 import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBar';
+import { reducers as submitCancelButtonsReducers } from '../../components/SubmitCancelButtons';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -17,6 +18,7 @@ export function combineReducersAsync(asyncReducers) {
     notifications,
     toasts,
     passwordStrength,
+    ...submitCancelButtonsReducers,
     ...breadcrumbBarReducers,
     ...asyncReducers,
   });

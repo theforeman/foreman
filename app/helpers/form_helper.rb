@@ -254,6 +254,10 @@ module FormHelper
   end
 
   def submit_or_cancel(f, overwrite = false, args = { })
+    content_tag(:span, mount_react_component("SubmitCancelButtons", "#reactSubmitCancel", {:cancelPath => send("#{controller_name}_path")}.to_json), id: "reactSubmitCancel")
+  end
+
+  def simple_submit_or_cancel(f, overwrite = false, args = { })
     args[:cancel_path] ||= send("#{controller_name}_path")
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
