@@ -117,6 +117,16 @@ data"
     end
   end
 
+  describe "#template_with_imported_metadata" do
+    setup do
+      @template = Template.new :name => 'basic', :template => 'data', :imported_metadata => "<%\n#name: advanced\n%>"
+    end
+
+    test "it inserts imported metadata" do
+      assert_equal @template.template_with_imported_metadata, "<%\n#name: advanced\n%>\ndata"
+    end
+  end
+
   context "importing" do
     setup do
       @snippet_text = <<EOS
@@ -163,6 +173,26 @@ EOS
       end
     end
 
+    describe '#extract_metadata_from_template' do
+      test "it parses metadata and save them separately" do
+        template = Template.import_without_save('absolutely_new_template_snippet', @snippet_text)
+        assert_equal "rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\n", template.template
+        metadata = "kind: snippet\nname: epel\nmodel: ProvisioningTemplate\nsnippet: true"
+        assert_equal metadata, template.imported_metadata
+      end
+    end
+
+    describe '.fetch_metadata_comment' do
+      test 'returns string of metadata without enclosing erb tags' do
+        metadata = "\nkind: snippet\nname: epel\nmodel: ProvisioningTemplate\nsnippet: true"
+        assert_equal metadata, Template.fetch_metadata_comment(@snippet_text)
+      end
+
+      test 'returns nil for invalid metadata' do
+        assert_nil Template.fetch_metadata_comment("<%#\nnot enclosed")
+      end
+    end
+
     describe '.parse_metadata' do
       test 'parses yaml from first comment' do
         result = Template.parse_metadata(@snippet_text)
@@ -181,6 +211,14 @@ EOS
         assert_nothing_raised do
           assert_equal({}, Template.parse_metadata("<%#\n: %>"))
         end
+      end
+
+      test 'it returns empty hash in case of no metadata found' do
+        assert_equal({}, Template.parse_metadata("data only"))
+      end
+
+      test 'it does not fail on non-hash metadata but returns empty hash' do
+        assert_equal({}, Template.parse_metadata("<%#\nstring only\n%>"))
       end
     end
 

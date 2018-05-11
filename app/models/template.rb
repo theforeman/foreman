@@ -1,4 +1,6 @@
 class Template < ApplicationRecord
+  METADATA_BEGIN = "<%#\n"
+  METADATA_END = "\n-%>\n"
   include Exportable
   attr_accessor :modify_locked, :modify_default
 
@@ -50,7 +52,7 @@ class Template < ApplicationRecord
   end
 
   def metadata
-    "<%#\n#{to_export(false).to_yaml.sub(/\A---$/, '').strip}\n%>\n"
+    "#{METADATA_BEGIN}#{to_export(false).to_yaml.sub(/\A---$/, '').strip}#{METADATA_END}"
   end
 
   def to_erb
@@ -65,6 +67,10 @@ class Template < ApplicationRecord
   def template_without_metadata
     # Regexp like /.../m includes \n in .
     template.sub(/^<%#\n.*?name.*?%>$\n?/m, '')
+  end
+
+  def template_with_imported_metadata
+    "#{imported_metadata}\n#{template}"
   end
 
   def filename
@@ -90,6 +96,7 @@ class Template < ApplicationRecord
   def import_without_save(text, options = {})
     self.template = text
     @importing_metadata = self.class.parse_metadata(text)
+    extract_metadata_from_template
     Foreman::Logging.logger('app').debug "setting attributes for #{self.name} with id: #{self.id || 'N/A'}"
     self.snippet = !!@importing_metadata[:snippet]
     self.default = options[:default] unless options[:default].nil?
@@ -97,6 +104,14 @@ class Template < ApplicationRecord
 
     import_taxonomies(options)
     import_custom_data(options)
+
+    self
+  end
+
+  def extract_metadata_from_template
+    fetched_metadata = self.class.fetch_metadata_comment(self.template).try(:strip)
+    self.imported_metadata = fetched_metadata
+    self.template = self.template.sub(METADATA_BEGIN + fetched_metadata + METADATA_END, '') if fetched_metadata.present?
 
     self
   end
@@ -111,10 +126,20 @@ class Template < ApplicationRecord
     template.import_without_save(text, options)
   end
 
+  def self.fetch_metadata_comment(text)
+    extracted = text.match(/<%\#[\t a-z0-9=:]*(.+?).-?%>/m)
+    extracted.nil? ? nil : extracted[1]
+  end
+
   # Pull out the first erb comment only - /m is for a multiline regex
   def self.parse_metadata(text)
-    extracted = text.match(/<%\#[\t a-z0-9=:]*(.+?).-?%>/m)
-    extracted.nil? ? {} : YAML.safe_load(extracted[1]).with_indifferent_access
+    comment = fetch_metadata_comment(text)
+    return {} if comment.nil?
+
+    parsed_metadata = YAML.safe_load(comment)
+    return {} unless parsed_metadata.is_a?(Hash)
+
+    parsed_metadata.with_indifferent_access
   rescue RuntimeError => e
     Foreman::Logging.exception('invalid metadata', e)
     {}
