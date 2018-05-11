@@ -282,4 +282,30 @@ EOF
     value.match = "hostgroup=Common,domain=example.com"
     assert_equal('hostgroup,domain', value.path)
   end
+
+  test "should create override value for smart variable with list validator and matching value" do
+    values_list = [ 'test',  'example', 30 ]
+    validator_type = 'list'
+    validator_rule = values_list.join(', ')
+    smart_variable = FactoryBot.create(
+      :variable_lookup_key,
+      :variable => RFauxFactory.gen_alpha,
+      :puppetclass_id => puppetclasses(:one).id,
+      :validator_type => validator_type,
+      :validator_rule => validator_rule,
+      :default_value => 'example'
+    )
+    match = 'domain=example.com'
+    values_list.each do |value|
+      sv_lookup_value = FactoryBot.build(
+        :lookup_value,
+        :lookup_key_id => smart_variable.id,
+        :match => match,
+        :value => value
+      )
+      assert sv_lookup_value.valid?
+      assert_equal match, sv_lookup_value.match
+      assert_equal value, sv_lookup_value.value
+    end
+  end
 end
