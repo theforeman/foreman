@@ -1362,8 +1362,11 @@ exports[`bookmark form should render the entire form 1`] = `
                     <div
                       className="form-actions"
                     >
-                      <Component
-                        className="btn-primary"
+                      <Button
+                        active={false}
+                        block={false}
+                        bsClass="btn"
+                        bsStyle="primary"
                         disabled={false}
                         type="submit"
                       >
@@ -1375,10 +1378,13 @@ exports[`bookmark form should render the entire form 1`] = `
                            
                           Submit
                         </button>
-                      </Component>
+                      </Button>
                        
-                      <Component
-                        className="btn-default"
+                      <Button
+                        active={false}
+                        block={false}
+                        bsClass="btn"
+                        bsStyle="default"
                         disabled={false}
                         onClick={[Function]}
                       >
@@ -1390,7 +1396,7 @@ exports[`bookmark form should render the entire form 1`] = `
                         >
                           Cancel
                         </button>
-                      </Component>
+                      </Button>
                     </div>
                   </div>
                 </Component>

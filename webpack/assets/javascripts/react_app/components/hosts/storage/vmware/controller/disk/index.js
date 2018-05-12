@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import { Button } from 'patternfly-react';
 import Select from '../../../../../common/forms/Select';
 import Checkbox from '../../../../../common/forms/Checkbox';
 import NumericInput from '../../../../../common/forms/NumericInput';
-import Button from '../../../../../common/forms/Button';
 
 import './disk.scss';
 
