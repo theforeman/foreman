@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'pagelets_test_helper'
 
 class ComputeResourcesControllerTest < ActionController::TestCase
+  include PageletsIsolation
+
   setup do
     @compute_resource = compute_resources(:mycompute)
     @your_compute_resource = compute_resources(:yourcompute)
@@ -213,6 +216,21 @@ class ComputeResourcesControllerTest < ActionController::TestCase
       put :refresh_cache, params: { :id => @compute_resource.to_param }, session: set_session_user
       assert_redirected_to compute_resource_url(@compute_resource)
       assert_match /Failed to refresh the cache/, flash[:error]
+    end
+  end
+
+  context 'with pagelets' do
+    setup do
+      @controller.prepend_view_path File.expand_path('../../static_fixtures', __FILE__)
+      Pagelets::Manager.add_pagelet('compute_resources/show', :main_tabs,
+                                    :name => 'TestTab',
+                                    :id => 'my-special-id',
+                                    :partial => 'views/test')
+    end
+
+    test '#new renders a pagelet tab' do
+      get :show, params: { :id => @compute_resource.to_param }, session: set_session_user
+      assert @response.body.match /id='my-special-id'/
     end
   end
 
