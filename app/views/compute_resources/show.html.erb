@@ -15,7 +15,8 @@
   <% if @compute_resource.capabilities.include?(:key_pair) %>
     <li><a href="#key_pairs" data-toggle="tab"><%= _("SSH keys") %></a></li>
   <% end %>
-    <li><a href="#compute_profiles" data-toggle="tab"><%= _("Compute profiles") %></a></li>
+  <li><a href="#compute_profiles" data-toggle="tab"><%= _("Compute profiles") %></a></li>
+  <%= render_tab_header_for(:main_tabs, :subject => @compute_resource) %>
 </ul>
 
 <div class="tab-content">
@@ -87,4 +88,5 @@
       </tbody>
     </table>
   </div>
+  <%= render_tab_content_for(:main_tabs, :subject => @compute_resource) %>
 </div>
