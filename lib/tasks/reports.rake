@@ -4,7 +4,7 @@ Expire Reports automatically
 
 Available conditions:
   * days        => number of days to keep reports (defaults to 7)
-  * status      => status of the report (defaults to 0 --> "reports with no errors")
+  * status      => status of the report (if not set defaults to any status)
   * report_type => report type (defaults to config_report), accepts either underscore / class name styles
 
   Example:
