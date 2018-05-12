@@ -43,8 +43,12 @@ exports[`Loader renders correct content based on status pending 1`] = `
 <div
   className="loader-root"
 >
-  <div
-    className="spinner spinner-lg"
+  <Spinner
+    className=""
+    inline={false}
+    inverse={false}
+    loading={true}
+    size="lg"
   />
 </div>
 `;
@@ -53,8 +57,12 @@ exports[`Loader renders correct content based on status pending-different-spinne
 <div
   className="loader-root"
 >
-  <div
-    className="spinner spinner-xs"
+  <Spinner
+    className=""
+    inline={false}
+    inverse={false}
+    loading={true}
+    size="xs"
   />
 </div>
 `;

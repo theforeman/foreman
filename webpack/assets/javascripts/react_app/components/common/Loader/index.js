@@ -1,11 +1,12 @@
 import React from 'react';
+import { Spinner } from 'patternfly-react';
 import { STATUS } from '../../../constants';
 import MessageBox from '../MessageBox';
 import './Loader.css';
 
 const _simpleLoader = spinnerSize => (
   <div className="loader-root">
-    <div className={`spinner spinner-${spinnerSize}`} />
+    <Spinner loading size={spinnerSize}/>
   </div>
 );
 

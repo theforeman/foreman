@@ -72,8 +72,12 @@ exports[`actions should show a spinner when submitting 1`] = `
         <div
           className="loader-root"
         >
-          <div
-            className="spinner spinner-sm"
+          <Spinner
+            className=""
+            inline={false}
+            inverse={false}
+            loading={true}
+            size="sm"
           />
         </div>
       </span>
