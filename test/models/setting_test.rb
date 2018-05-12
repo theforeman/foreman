@@ -626,4 +626,12 @@ class SettingTest < ActiveSupport::TestCase
     setting = FactoryBot.build_stubbed(:setting, :name => 'foo', :default => '', :description => 'test foo', :full_name => 'Foo Name')
     assert_equal('Foo Name (Default: )', setting.full_name_with_default)
   end
+
+  test 'orders settings alphabetically' do
+    FactoryBot.create(:setting, :name => 'b_foo', :default => 'whatever', :value => 'whatever',  :full_name => 'B Foo Name')
+    FactoryBot.create(:setting, :name => 'a_foo', :default => 'whatever', :value => 'whatever',  :full_name => 'A Foo Name')
+    FactoryBot.create(:setting, :name => 'c_foo', :default => 'whatever', :value => 'whatever',  :full_name => 'C Foo Name')
+    settings = Setting.live_descendants.map(&:full_name).compact
+    assert_equal settings.sort, settings
+  end
 end

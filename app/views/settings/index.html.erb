@@ -5,7 +5,7 @@ ordered_settings = @settings.stick_general_first
 first_category = ordered_settings.values.flatten.first.try(:category)
 %>
 <ul class="nav nav-tabs" data-tabs="tabs">
-  <% ordered_settings.each do |category, setting| %>
+  <% ordered_settings.each do |category, _setting| %>
     <li class='<%= category == first_category ? "active" : ""%>'>
       <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(cat_label(category)) %></a>
     </li>

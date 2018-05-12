@@ -73,7 +73,7 @@ class Setting < ApplicationRecord
   end
 
   def self.live_descendants
-    self.disabled_plugins.default_organization.organization_fact.default_location.location_fact.order_by(:category)
+    self.disabled_plugins.default_organization.organization_fact.default_location.location_fact.order_by(:full_name)
   end
 
   def self.stick_general_first
