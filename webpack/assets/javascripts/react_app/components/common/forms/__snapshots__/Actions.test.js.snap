@@ -7,21 +7,27 @@ exports[`actions buttons could be disabled 1`] = `
   <div
     className="form-actions"
   >
-    <Component
-      className="btn-primary"
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
       disabled={true}
       type="submit"
     >
        
       Submit
-    </Component>
+    </Button>
      
-    <Component
-      className="btn-default"
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
       disabled={true}
     >
       Cancel
-    </Component>
+    </Button>
   </div>
 </div>
 `;
@@ -33,21 +39,27 @@ exports[`actions should include a cancel / submit buttons 1`] = `
   <div
     className="form-actions"
   >
-    <Component
-      className="btn-primary"
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
       disabled={false}
       type="submit"
     >
        
       Submit
-    </Component>
+    </Button>
      
-    <Component
-      className="btn-default"
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
       disabled={false}
     >
       Cancel
-    </Component>
+    </Button>
   </div>
 </div>
 `;
@@ -59,8 +71,11 @@ exports[`actions should show a spinner when submitting 1`] = `
   <div
     className="form-actions"
   >
-    <Component
-      className="btn-primary"
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
       disabled={true}
       type="submit"
     >
@@ -81,14 +96,17 @@ exports[`actions should show a spinner when submitting 1`] = `
           />
         </div>
       </span>
-    </Component>
+    </Button>
      
-    <Component
-      className="btn-default"
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
       disabled={false}
     >
       Cancel
-    </Component>
+    </Button>
   </div>
 </div>
 `;

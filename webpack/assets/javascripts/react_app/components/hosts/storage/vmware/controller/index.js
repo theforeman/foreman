@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button } from 'patternfly-react';
 import React from 'react';
 
 import Select from '../../../../common/forms/Select';
