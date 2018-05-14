@@ -13,9 +13,6 @@ class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
     say "Converting Lookup Keys, total: #{FakeLookupKey.unscoped.count}"
     transform_batch_columns(FakeLookupKey, [:default_value])
 
-    say "Converting Lookup Values, total: #{FakeLookupValue.unscoped.count}"
-    transform_batch_columns(FakeLookupValue, [:value])
-
     say "All conversions finished"
   end
 
@@ -44,10 +41,6 @@ class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
   class FakeComputeResource < ApplicationRecord
     self.table_name = 'compute_resources'
     self.inheritance_column = nil
-  end
-
-  class FakeLookupValue < ApplicationRecord
-    self.table_name = 'lookup_values'
   end
 
   class FakeLookupKey < ApplicationRecord
