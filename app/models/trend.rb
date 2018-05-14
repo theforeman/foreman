@@ -13,6 +13,10 @@ class Trend < ApplicationRecord
     Parameterizable.parameterize("#{id}-#{to_label}")
   end
 
+  def self.title_name
+    'label'.freeze
+  end
+
   def self.build_trend(trend_params = {})
     (trend_params[:trendable_type] == 'FactName') ? FactTrend.new(trend_params) : ForemanTrend.new(trend_params)
   end
