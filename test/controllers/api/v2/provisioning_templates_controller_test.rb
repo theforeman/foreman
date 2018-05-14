@@ -16,13 +16,13 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_equal template["name"], templates(:pxekickstart).name
   end
 
-  test "should create valid" do
+  test "should create valid and locked" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
     valid_attrs = { :template => "This is a test template", :template_kind_id => template_kinds(:ipxe).id, :name => "RandomName", :locked => true }
     post :create, params: { :provisioning_template => valid_attrs }
-    template = ActiveSupport::JSON.decode(@response.body)
-    assert template["name"] == "RandomName"
     assert_response :created
+    template = ActiveSupport::JSON.decode(@response.body)
+    assert_equal "RandomName", template["name"]
   end
 
   test "should not create invalid" do
@@ -30,9 +30,34 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_response 422
   end
 
+  test_attributes :pid => 'd7309be8-b5c9-4f77-8c4e-e9f2b8982076'
+  test "should create with template kind and min attributes" do
+    template_kind = template_kinds(:pxegrub)
+    valid_attrs = { :template => 'This is a test template', :template_kind_id => template_kind.id, :name => 'new_template' }
+    post :create, params: { :provisioning_template => valid_attrs }
+    assert_response :created
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response.key?('template_kind_id')
+    assert template_kind.id, response["template_kind_id"]
+  end
+
+  test_attributes :pid => '4a1410e4-aa3c-4d27-b062-089e34722bd9'
+  test "should create with template kind name" do
+    template_kind = template_kinds(:pxegrub)
+    valid_attrs = { :template => 'This is a test template', :template_kind_name => template_kind.name, :name => 'new_template' }
+    post :create, params: { :provisioning_template => valid_attrs }
+    assert_response :created
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response.key?('template_kind_id')
+    assert template_kind.id, response["template_kind_id"]
+    assert response.key?('template_kind_name')
+    assert template_kind.name, response["template_kind_name"]
+  end
+
+  test_attributes :pid => 'e6de9ceb-fe4b-43ce-b7e3-5453ca4bd164'
   test "should report correct error message for invalid association name" do
     post :create, params: { :provisioning_template => {:name => "no", :template_kind_name => 'kind_that_does_not_exist'} }
-    assert_response 404
+    assert_response :missing
     assert_includes JSON.parse(response.body)['message'], 'Could not find template_kind with name: kind_that_does_not_exist'
   end
 

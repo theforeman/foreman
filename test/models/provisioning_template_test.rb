@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class ProvisioningTemplateTest < ActiveSupport::TestCase
+  should allow_values(*valid_name_list).for(:name)
+  should_not allow_values(*invalid_name_list).for(:name)
+
   test "should be valid when selecting a kind" do
     tmplt               = ProvisioningTemplate.new
     tmplt.name          = "Default Kickstart"
