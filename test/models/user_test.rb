@@ -1232,4 +1232,19 @@ class UserTest < ActiveSupport::TestCase
       assert_nil recent_audit.audited_changes[:roles]
     end
   end
+
+  test '#fetch_ids_by_list is case insensitive' do
+    user_ids = User.fetch_ids_by_list(['OnE', 'TwO', 'tHREE'])
+    assert_equal 2, user_ids.length
+
+    usergroup = FactoryBot.create(:usergroup)
+    usergroup.user_ids = user_ids
+    usergroup.save
+
+    login_values = usergroup.users.map(&:login).sort
+
+    # users 'one' 'two' are defined in fixtures, 'three' is not defined
+    assert_equal ['one', 'two'], login_values
+    assert_not_includes login_values, 'tHREE'
+  end
 end
