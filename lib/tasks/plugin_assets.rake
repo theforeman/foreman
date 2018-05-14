@@ -126,6 +126,7 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
       end
 
       def compile
+        return unless File.exist?("#{@plugin.path}/webpack")
         return unless File.exist?("#{@plugin.path}/package.json")
         ENV["NODE_ENV"] ||= 'production'
         webpack_bin = ::Rails.root.join('node_modules/webpack/bin/webpack.js')
