@@ -15,9 +15,10 @@ module Classification
       #   :skip_fqdn => true, if there is no need to calculate values specified directly for the host.
       # returns: ClassificationResult instance.
       def values_hash(host, keys, options = {})
+        lookup_values = lookup_values_cache(host, keys)
         values = Hash.new { |h, k| h[k] = {} }
         keys.each do |key|
-          value = calculate_value(key, lookup_values_cache(host, keys), options)
+          value = calculate_value(key, lookup_values, options)
           values[key.id][key.key] = value if value.present?
         end
         Classification::ClassificationResult.new(values, host)
