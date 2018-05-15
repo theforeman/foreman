@@ -18,7 +18,7 @@ export const donutChartConfig = {
     columns: [],
   },
   color: {
-    pattern: ['#0088ce', '#cc0000', '#ec7a08', '#3f9c35', '#005c66', 'f9d67a'],
+    pattern: ['#0088ce', '#ec7a08', '#3f9c35', '#005c66', 'f9d67a', '#703fec'],
   },
   tooltip: {
     show: true,

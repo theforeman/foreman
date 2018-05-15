@@ -22,7 +22,7 @@ export const modalSuccessState = Immutable(Object.assign(
     modalToDisplay: { 1: true },
     chartData: chartDataValues,
     loaderStatus: STATUS.RESOLVED,
-    hostsCount: 10,
+    hostsCount: 13,
   },
 ));
 
