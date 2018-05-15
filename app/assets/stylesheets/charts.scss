@@ -63,7 +63,7 @@
 .statistics-bar {
   width: 260px;
   height: 305px;
-  margin: 0 auto 27;
+  margin: 0 auto 27px;
 }
 
 .statistics-pie,
@@ -141,6 +141,12 @@
   width: 100%;
   margin-bottom: 20px;
   font-size: 14px;
+}
+
+.metrics-chart {
+  width: 240px;
+  margin: 50px auto 12px;
+  padding-bottom: 40px;
 }
 
 #host-show {

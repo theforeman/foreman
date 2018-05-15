@@ -8,7 +8,7 @@ export const mockStoryData = {
     },
   },
   data: {
-    columns: [['Fedora 21 extra extra extra extra extra extra extra extra extra extra long label', 3], ['Ubuntu 14.04', 4], ['Centos 7 extra extra long label', 2], ['Debian 8', 1]],
+    columns: [['Fedora 21 extra extra extra extra extra extra extra extra extra extra long label', 3], ['Ubuntu 14.04', 4], ['Centos 7 extra extra long label', 2], ['Debian 8', 1], ['Fedora 27', 2], ['Fedora 26', 1]],
   },
   tooltip: {
     show: true,

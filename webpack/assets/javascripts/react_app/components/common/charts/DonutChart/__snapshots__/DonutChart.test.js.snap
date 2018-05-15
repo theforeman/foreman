@@ -30,6 +30,14 @@ exports[`renders DonutChart render donut chart 1`] = `
           "Debian 8",
           1,
         ],
+        Array [
+          "Fedora 27",
+          2,
+        ],
+        Array [
+          "Fedora 26",
+          1,
+        ],
       ],
     }
   }
