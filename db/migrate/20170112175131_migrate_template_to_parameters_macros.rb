@@ -31,10 +31,13 @@ class MigrateTemplateToParametersMacros < ActiveRecord::Migration[4.2]
     end
 
     LookupValue.all.each do |parameter|
-      parameter.value = convert(parameter.value.to_s)
-      if parameter.value_changed?
-        # we need to skip validations so we use #update_attributes
-        parameter.update_attribute :value, parameter.value
+      # just update string values because it would be destructive otherwise
+      if parameter.value.is_a?(String)
+        parameter.value = convert(parameter.value)
+        if parameter.value_changed?
+          # we need to skip validations so we use #update_attributes
+          parameter.update_attribute :value, parameter.value
+        end
       end
     end
   end
