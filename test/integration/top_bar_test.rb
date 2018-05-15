@@ -94,7 +94,7 @@ class TopBarIntegrationTest < ActionDispatch::IntegrationTest
 
   test "hamburger menu should have some mobile submenu " do
     visit root_path
-    mobile_menu = ["Location", "Organization", "User"]
+    mobile_menu = ["Organization", "Location", "User"]
     all(".visible-xs-block").each_with_index do |el, index|
       assert el.has_content?(mobile_menu[index])
     end
