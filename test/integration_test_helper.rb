@@ -1,5 +1,6 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
+require 'test_helper'
 require 'rails/test_help'
 require 'mocha/mini_test'
 require 'capybara/rails'
@@ -35,6 +36,8 @@ class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
   include ShowMeTheCookies
+
+  self.fixture_path = FixtureHelper::FIXTURE_PATH
 
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_tests = false

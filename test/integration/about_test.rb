@@ -6,12 +6,13 @@ class AboutIntegrationTest < IntegrationTestWithJavascript
 
   setup do
     ComputeResource.any_instance.expects(:ping).at_least_once.returns([])
-    proxy_status = mock('ProxyStatus::Version')
-    proxy_status.expects(:version).at_least_once.returns('version' => '1.13.0')
-    SmartProxy.any_instance.expects(:statuses).at_least_once.returns(:version => proxy_status)
+    @proxy_status = mock('ProxyStatus::Version')
+    @proxy_status.expects(:version).at_least_once.returns('version' => '1.13.0')
   end
 
   test "about page" do
+    SmartProxy.any_instance.expects(:statuses).at_least_once.returns(:version => @proxy_status)
+
     assert_index_page(about_index_path, "About", nil, false, false)
     wait_for_ajax
     assert page.has_selector?('h4', :text => "System Status"), "System Status was expected in the <h4> tag, but was not found"
@@ -28,6 +29,8 @@ class AboutIntegrationTest < IntegrationTestWithJavascript
   end
 
   test "about page proxies should have version" do
+    SmartProxy.any_instance.expects(:statuses).at_least_once.returns(:version => @proxy_status)
+
     visit about_index_path
     wait_for_ajax
     assert page.has_selector?('th', :text => "Version")

@@ -1,0 +1,6 @@
+plugin_setting:
+  name: plugin_setting_fixture
+  settings_type: string
+  category: Setting::General
+  default: 'is_set'
+  description: setting to test plugin fixture additions
