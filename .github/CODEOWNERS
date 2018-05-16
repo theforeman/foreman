@@ -1,4 +1,7 @@
 Gemfile         @theforeman/packaging
-Rakefile.dist	@theforeman/packaging
+Rakefile.dist   @theforeman/packaging
 bundler.d/*.rb  @theforeman/packaging
 package.json    @theforeman/packaging
+package.json    @theforeman/ui-ux
+webpack/*       @theforeman/ui-ux
+app/assets/*    @theforeman/ui-ux
