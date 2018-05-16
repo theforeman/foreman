@@ -161,6 +161,23 @@ class SeedsTest < ActiveSupport::TestCase
     refute Location.unscoped.find_by_name('seed_test')
   end
 
+  test "seeded organization contains seeded location" do
+    Location.stubs(:any?).returns(false)
+    Organization.stubs(:any?).returns(false)
+
+    org_name = 'seed_org'
+    loc_name = 'seed_loc'
+
+    with_env('SEED_ORGANIZATION' => org_name, 'SEED_LOCATION' => loc_name) do
+      seed
+    end
+
+    org = Organization.unscoped.find_by_name(org_name)
+    loc = Location.unscoped.find_by_name(loc_name)
+
+    assert org.locations.include?(loc)
+  end
+
   test "all access permissions are created by permissions seed" do
     seed
     access_permissions = Foreman::AccessControl.permissions.reject(&:public?).reject(&:plugin?).map(&:name).map(&:to_s)

@@ -748,6 +748,8 @@ class HostTest < ActiveSupport::TestCase
       @host = FactoryBot.create(:host, :managed => false)
       @location = Location.create :name => "New York"
       @organization = Organization.create :name => "Hosting client 1"
+
+      @organization.locations << @location
     end
 
     test "assign a host to a location" do
@@ -778,6 +780,8 @@ class HostTest < ActiveSupport::TestCase
       @host.organization_id = @organization.id
 
       assert @host.save!
+      assert @host.organization.valid?
+      assert @host.location.valid?
     end
   end
 
