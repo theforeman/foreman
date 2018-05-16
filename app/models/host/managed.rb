@@ -626,6 +626,25 @@ autopart"', desc: 'to render the content of host partition table'
     attributes
   end
 
+  def apply_interfaces_compute_attributes(attributes)
+    return attributes unless compute_resource
+    return attributes unless attributes[:interfaces_attributes]
+
+    attributes = hash_clone(attributes).with_indifferent_access
+
+    interfaces_attributes = {}
+    attributes[:interfaces_attributes].each do |key, attrs|
+      interfaces_attributes[key] = {
+        compute_attributes: attrs[:compute_attributes],
+        mac: attrs[:mac],
+      }
+    end
+
+    attributes[:compute_attributes] = {} unless attributes[:compute_attributes].present?
+    attributes[:compute_attributes][:interfaces_attributes] = interfaces_attributes
+    attributes
+  end
+
   def hash_clone(value)
     if value.is_a? Hash
       # Prefer dup to constructing a new object to perserve permitted state

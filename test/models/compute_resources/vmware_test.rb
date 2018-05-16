@@ -603,7 +603,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "0" => { :vol => 1, :size_gb => 4 },
           "1" => { :vol => 2, :size_gb => 4 },
         },
-        :interfaces_attributes => {"0" => {:compute_attributes => {:network => "Testnetwork", :type => "VirtualVmxnet3"}, :mac => "00:50:56:84:f1:b1"}},
+        :interfaces_attributes => {"0" => {:compute_attributes => {:network => "dvportgroup-123456", :type => "VirtualVmxnet3"}, :mac => "00:50:56:84:f1:b1"}},
         :scsi_controllers => [
           {
             :type => "VirtualLsiLogicController",

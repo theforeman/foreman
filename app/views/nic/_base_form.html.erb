@@ -7,7 +7,7 @@
               :label => _("MAC Address"),
               :label_help => _("Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will provide new random MAC address.").html_safe,
               :label_help_options => { :rel => 'popover-modal' },
-              :disabled => f.object.host.try(:compute_provides?, :mac),
+              :readonly => f.object.host.try(:compute_provides?, :mac),
               :class => :interface_mac, :'data-url' => random_name_interfaces_path, :size => "col-md-8", :label_size => "col-md-3" %>
 <%= text_f f, :identifier,
               :label => _("Device Identifier"),

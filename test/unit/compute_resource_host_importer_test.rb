@@ -41,7 +41,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
 
       test 'imports the VM with all parameters' do
         expected_compute_attributes = {
-          'network' => 'network1',
+          'network' => 'dvportgroup-123456',
           'type' => 'VirtualE1000',
         }
 

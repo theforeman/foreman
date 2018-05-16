@@ -3071,6 +3071,41 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#apply_compute_attributes' do
+    test 'should merge interfaces_attributes into the compute_attributes' do
+      network = mock('network')
+      network.stubs(id: 'someportgroup-12345')
+      network.stubs(name: 'super-fancey-network')
+
+      host = FactoryBot.build_stubbed(:host, :managed, :compute_resource => compute_resources(:one))
+
+      attributes = {
+        interfaces_attributes: {
+          '0' => {
+            compute_attributes: { network: 'someportgroup-12345' },
+            mac: '00:00:00:00:00:00',
+          },
+        },
+      }
+
+      expected_attrs = {
+        'interfaces_attributes' => {
+          "0" => {
+            'compute_attributes' => {
+              'network' => 'someportgroup-12345',
+            },
+            'mac' => '00:00:00:00:00:00',
+          },
+        },
+      }
+
+      compute_resources(:one).stubs(:networks).returns([network])
+      result = host.apply_interfaces_compute_attributes(attributes)
+
+      assert_equal expected_attrs, result[:compute_attributes]
+    end
+  end
+
   describe 'rendering interface' do
     let(:host) { FactoryBot.build_stubbed(:host, :managed) }
 

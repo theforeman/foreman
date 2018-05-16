@@ -508,19 +508,30 @@ module Foreman::Model
       client.servers.new opts
     end
 
-    def save_vm(uuid, attr)
+    def save_vm(uuid, attrs)
       vm = find_vm_by_uuid(uuid)
-      vm.attributes.merge!(attr.deep_symbolize_keys)
-      # volumes are not part of vm.attributes so we have to set them seperately if needed
-      if attr.has_key?(:volumes_attributes)
+
+      vm.merge_attributes(attrs.deep_symbolize_keys)
+
+      # Interfaces and volumes are not part of vm.attributes so we have to set them seperately if needed
+      if attrs.has_key?(:volumes_attributes)
         vm.volumes.each do |vm_volume|
-          volume_attrs = attr[:volumes_attributes].values.detect { |vol| vol[:id] == vm_volume.id }
+          volume_attrs = attrs[:volumes_attributes].values.detect { |vol| vol[:id] == vm_volume.id }
 
           next unless volume_attrs.present?
 
           vm_volume.size_gb = volume_attrs[:size_gb] if volume_attrs[:size_gb].present?
         end
       end
+
+      if attrs.has_key?(:interfaces_attributes)
+        vm.interfaces.each do |interface|
+          interface_attributes = attrs[:interfaces_attributes].values.detect { |i| i[:mac] == interface.mac }
+
+          interface.network = interface_attributes[:compute_attributes][:network] if interface_attributes
+        end
+      end
+
       vm.save
     end
 
@@ -647,7 +658,7 @@ module Foreman::Model
         interface_attrs = {}
         interface_attrs[:compute_attributes] = {}
         interface_attrs[:mac] = interface.mac
-        interface_attrs[:compute_attributes][:network] = network.name
+        interface_attrs[:compute_attributes][:network] = network.id
         interface_attrs[:compute_attributes][:type] = interface.type.to_s.split('::').last
         hsh[index.to_s] = interface_attrs
       end

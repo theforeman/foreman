@@ -278,7 +278,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       host.vm.stubs(:interfaces).returns([])
       host.vm.expects(:select_nic).once.returns(OpenStruct.new(:mac => 'aa:bb:cc:dd:ee:ff'))
       host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
-      host.stubs(:vm_exists?).returns(false)
+      host.stubs(:vm_exists?).returns(true)
       assert_valid host
       assert host.send(:setComputeDetails)
       assert host.send(:setComputeIPAM)
