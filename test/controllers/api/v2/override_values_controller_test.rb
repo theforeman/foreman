@@ -334,13 +334,19 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test_attributes :pid => '2b205e9c-e50c-48cd-8ebb-3b6bea09be77'
   test "should create override value without when omit is true" do
+    value = RFauxFactory.gen_alpha
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 
     assert_difference('LookupValue.count', 1) do
-      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => true} }
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :value => value, :omit => true} }
     end
     assert_response :success
+    lookup_key = LookupKey.unscoped.find_by_id(lookup_key.id)
+    assert_equal lookup_key.override_values.first.match, 'os=string'
+    assert_equal lookup_key.override_values.first.value, value
+    assert_equal lookup_key.override_values.first.omit, true
   end
 
   test "should create override value without when use_puppet_default is true (compatibility test)" do
@@ -370,6 +376,44 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
       post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :omit => false} }
     end
     assert_response :error
+  end
+
+  test_attributes :pid => 'bef0e457-16be-4ca6-bc56-fa32dff55a01'
+  test "should not create invalid matcher for non existing attribute" do
+    assert_difference('LookupValue.count', 0) do
+      post :create, params: { :smart_class_parameter_id => lookup_keys(:one).id, :override_value =>  { :match => 'hostgroup=nonexistingHG', :value => RFauxFactory.gen_alpha } }
+    end
+    assert_includes JSON.parse(response.body)['error']['message'], 'Validation failed: Match hostgroup=nonexistingHG does not match an existing host group'
+  end
+
+  test_attributes :pid => '49de2c9b-40f1-4837-8ebb-dfa40d8fcb89'
+  test "should not create matcher with blank matcher value" do
+    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :required => true, :puppetclass => puppetclasses(:two))
+    assert_difference('LookupValue.count', 0) do
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'domain=example.com', :value => '' } }
+    end
+    assert_includes JSON.parse(response.body)['error']['message'], "Validation failed: Value can't be blank"
+  end
+
+  test_attributes :pid => '21668ef4-1a7a-41cb-98e3-dc4c664db351'
+  test "should not create matcher with value that does not matches default type" do
+    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :default_value => true, :parameter_type => 'boolean', :puppetclass => puppetclasses(:two))
+    assert_difference('LookupValue.count', 0) do
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'domain=example.com', :value => RFauxFactory.gen_alpha } }
+    end
+    assert_includes JSON.parse(response.body)['error']['message'], 'Validation failed: Value is invalid'
+  end
+
+  test_attributes :pid => '19d319e6-9b12-485e-a680-c84d18742c40'
+  test "should create matcher for attribute in parameter" do
+    value = RFauxFactory.gen_alpha
+    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :default_value => RFauxFactory.gen_alpha, :override_value_order => 'is_virtual', :puppetclass => puppetclasses(:two))
+    assert_difference('LookupValue.count') do
+      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'is_virtual=true', :value => value } }
+    end
+    lookup_key = LookupKey.unscoped.find_by_id(lookup_key.id)
+    assert_equal lookup_key.override_values.first.match, 'is_virtual=true'
+    assert_equal lookup_key.override_values.first.value, value
   end
 
   context 'hidden' do
