@@ -408,4 +408,87 @@ EOF
     assert_equal([value3, value1, value4, value2], key.sorted_values)
     refute_equal([value3, value1, value4, value2], key.lookup_values)
   end
+
+  test 'should not update with invalid parameter types' do
+    invalid_parameters_data = [
+      {
+        :sc_type => 'boolean',
+        :value => RFauxFactory.gen_alphanumeric
+      },
+      {
+        :sc_type => 'integer',
+        :value => RFauxFactory.gen_utf8
+      },
+      {
+        :sc_type => 'real',
+        :value => RFauxFactory.gen_utf8
+      },
+      {
+        :sc_type => 'array',
+        :value => '0'
+      },
+      {
+        :sc_type => 'hash',
+        :value => 'a:test'
+      },
+      {
+        :sc_type => 'yaml',
+        :value => '{a:test}'
+      },
+      {
+        :sc_type => 'json',
+        :value => RFauxFactory.gen_alpha
+      }
+    ]
+    lookup_key = lookup_keys(:five)
+    invalid_parameters_data.each do |data|
+      lookup_key.parameter_type = data[:sc_type]
+      lookup_key.default_value = data[:value]
+      refute lookup_key.valid?, "Can update lookup key with invalid data #{data}"
+      assert_includes lookup_key.errors.keys, :default_value
+    end
+  end
+
+  test 'should update with valid parameter types' do
+    valid_parameters_data = [
+      {
+        :sc_type => 'string',
+        :value => RFauxFactory.gen_utf8
+      },
+      {
+        :sc_type => 'boolean',
+        :value => ['0', '1'].sample
+      },
+      {
+        :sc_type => 'integer',
+        :value => rand(1000..1 << 64)
+      },
+      {
+        :sc_type => 'real',
+        :value => -123.0
+      },
+      {
+        :sc_type => 'array',
+        :value => "[#{RFauxFactory.gen_alpha}, #{RFauxFactory.gen_numeric_string.to_i}, #{RFauxFactory.gen_boolean}]"
+      },
+      {
+        :sc_type => 'hash',
+        :value => "{{'#{RFauxFactory.gen_alpha}': '#{RFauxFactory.gen_alpha}'}}"
+      },
+      {
+        :sc_type => 'yaml',
+        :value => 'name=>XYZ'
+      },
+      {
+        :sc_type => 'json',
+        :value => '{"name": "XYZ"}'
+      }
+    ]
+    lookup_key = lookup_keys(:five)
+    valid_parameters_data.each do |data|
+      lookup_key.parameter_type = data[:sc_type]
+      lookup_key.default_value = data[:value]
+      assert lookup_key.valid?, "Can't update lookup key with valid data #{data}"
+    end
+  end
 end
