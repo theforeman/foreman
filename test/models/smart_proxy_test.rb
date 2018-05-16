@@ -1,6 +1,17 @@
 require 'test_helper'
 
 class SmartProxyTest < ActiveSupport::TestCase
+  should allow_values(*valid_name_list).for(:name)
+  should_not allow_values('', ' ', '\t', nil, 'invalid url').for(:url)
+
+  test "should not create smart_proxy with invalid name" do
+    invalid_name_list.each do |invalid_name|
+      smart_proxy = FactoryBot.build(:smart_proxy, :name => invalid_name, :url => 'https://valid.url:4568')
+      refute_valid smart_proxy
+      assert_includes smart_proxy.errors.keys, :name
+    end
+  end
+
   context 'url validations' do
     setup do
       @proxy = FactoryBot.
