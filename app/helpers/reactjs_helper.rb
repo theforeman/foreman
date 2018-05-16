@@ -27,7 +27,7 @@ module ReactjsHelper
 
   def js_tags_for(requested_plugins)
     requested_plugins.map do |plugin|
-      javascript_include_tag(*webpack_asset_paths(plugin, :extension => 'js'), "data-turbolinks-track" => true)
+      javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'), "data-turbolinks-track" => true)
     end
   end
 end
