@@ -25,3 +25,5 @@ telemetry.add_counter(:importer_facts_count_interfaces, 'Number of changed inter
 telemetry.add_histogram(:ldap_request_duration, 'Total duration of LDAP requests')
 telemetry.add_histogram(:report_importer_create, 'Total duration of report import creation', [:type])
 telemetry.add_histogram(:report_importer_refresh, 'Total duration of report status refresh', [:type])
+telemetry.add_counter(:audit_records_created, 'Number of audit records created in the DB', [:type])
+telemetry.add_counter(:audit_records_logged, 'Number of audit records sent into logger', [:type])

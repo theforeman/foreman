@@ -34,9 +34,16 @@ module Foreman
     end
 
     def add_logger(logger_name, logger_config)
-      logger          = ::Logging.logger[logger_name]
-      logger.level    = logger_config[:level] if logger_config.key?(:level)
-      logger.additive = logger_config[:enabled] if logger_config.key?(:enabled)
+      logger = ::Logging.logger[logger_name]
+      if logger_config.key?(:enabled)
+        if logger_config[:enabled]
+          logger.additive = true
+          logger.level = logger_config[:level] if logger_config.key?(:level)
+        else
+          # set high level for disabled logger
+          logger.level = :fatal
+        end
+      end
 
       # TODO: Remove once only Logging 2.0 is supported
       if logger.respond_to?(:caller_tracing)
