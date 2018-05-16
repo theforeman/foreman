@@ -39,6 +39,7 @@ module Orchestration::Compute
 
   def queue_compute
     return log_orchestration_errors unless compute? && errors.empty?
+
     # Create a new VM if it doesn't already exist or update an existing vm
     vm_exists? ? queue_compute_update : queue_compute_create
   end
@@ -67,7 +68,11 @@ module Orchestration::Compute
   end
 
   def queue_compute_update
-    return unless compute_update_required?
+    unless compute_update_required?
+      logger.error "No compute update required."
+      return
+    end
+
     logger.debug("Detected a change is required for compute resource")
     queue.create(:name   => _("Compute resource update for %s") % old, :priority => 7,
                  :action => [self, :setComputeUpdate])

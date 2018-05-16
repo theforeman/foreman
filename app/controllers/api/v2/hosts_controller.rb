@@ -353,7 +353,12 @@ Return the host's compute attributes that can be used to create a clone of this 
             interface_attributes(nic_attr, allow_nil_type: host.nil?)
           end
         end
-        params = host.apply_inherited_attributes(params) if host
+
+        if host
+          params = host.apply_inherited_attributes(params)
+          params = host.apply_interfaces_compute_attributes(params)
+        end
+
         params
       end
 
