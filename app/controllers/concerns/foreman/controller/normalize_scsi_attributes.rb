@@ -9,7 +9,7 @@ module Foreman::Controller::NormalizeScsiAttributes
       deep_symbolize_keys
     volumes = {}
     scsi_and_vol[:volumes].each_with_index do |vol, index|
-      volumes[index.to_s] = vol
+      volumes[index.to_s] = vol.except(:key)
     end
 
     attrs["scsi_controllers"] = scsi_and_vol[:scsi_controllers]
