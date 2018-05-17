@@ -58,7 +58,7 @@ export const serverResourceListResponse = {
 export const serverResourceListWithNestedFieldsResponse = {
   data: {
     page: 1,
-    total: 3,
+    subtotal: 3,
     per_page: 2,
     results: [
       { id: '1', name: 'name-1', user: { name: 'username-1' } },

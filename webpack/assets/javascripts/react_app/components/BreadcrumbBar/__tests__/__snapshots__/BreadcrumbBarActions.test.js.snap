@@ -81,7 +81,10 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "options": Object {},
+        "options": Object {
+          "page": 1,
+          "searchQuery": "",
+        },
         "resourceUrl": "some/url",
       },
       "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
