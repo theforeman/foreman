@@ -5,6 +5,8 @@ class Report < ApplicationRecord
   include Authorizable
   include ConfigurationStatusScopedSearch
 
+  attr_accessor :skipable
+
   validates_lengths_from_database
   belongs_to_host
   has_many :messages, :through => :logs

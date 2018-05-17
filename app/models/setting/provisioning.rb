@@ -61,6 +61,7 @@ class Setting::Provisioning < Setting
       self.set('name_generator_type', N_("Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"), 'Random-based', N_("Type of name generator"), nil, {:collection => Proc.new {NameGenerator::GENERATOR_TYPES} }),
       self.set('default_pxe_item_global', N_("Default PXE (PXELinux, PXEGrub, PXEGrub2) menu item in global template - 'local', 'discovery' or custom"), 'local', N_("Default PXE global template entry")),
       self.set('default_pxe_item_local', N_("Default PXE (PXELinux, PXEGrub2) menu item in local template - 'local_chain_hd0', 'local' or custom"), 'local_chain_hd0', N_("Default PXE local template entry")),
+      self.set('import_skipable_reports', N_("Import Reports even when skipable"), true, N_("Import skipable reports")),
       self.set(
         'excluded_facts',
         N_("Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"),
