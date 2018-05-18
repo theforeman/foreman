@@ -5,10 +5,10 @@ require 'facter'
 root = File.expand_path(File.dirname(__FILE__) + "/..")
 settings_file = Rails.env.test? ? 'config/settings.yaml.test' : 'config/settings.yaml'
 
-SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result)
+SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result) if File.exist?(settings_file)
 SETTINGS[:version] = Foreman::Version.new
 SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
-SETTINGS[:login]    ||= SETTINGS[:ldap]
+SETTINGS[:login]    ||= SETTINGS[:login].nil? || SETTINGS[:ldap]
 SETTINGS[:puppetconfdir] ||= '/etc/puppet'
 SETTINGS[:puppetvardir]  ||= '/var/lib/puppet'
 SETTINGS[:puppetssldir]  ||= "#{SETTINGS[:puppetvardir]}/ssl"
