@@ -111,7 +111,7 @@ class LookupKey < ApplicationRecord
   end
 
   def value_before_type_cast(val)
-    return val if val.nil? || val.contains_erb?
+    return val if val.nil? || val.contains_erb? || val.is_a?(String)
     case key_type.to_sym
       when :json, :array
         val = JSON.dump(val)
