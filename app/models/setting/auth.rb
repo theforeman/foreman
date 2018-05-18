@@ -1,7 +1,6 @@
-require 'facter'
 class Setting::Auth < Setting
   def self.default_settings
-    fqdn = Facter.value(:fqdn) || SETTINGS[:fqdn]
+    fqdn = SETTINGS[:fqdn]
     lower_fqdn = fqdn.downcase
     ssl_cert     = "#{SETTINGS[:puppetssldir]}/certs/#{lower_fqdn}.pem"
     ssl_ca_file  = "#{SETTINGS[:puppetssldir]}/certs/ca.pem"

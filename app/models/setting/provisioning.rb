@@ -1,4 +1,3 @@
-require 'facter'
 class Setting::Provisioning < Setting
   def self.default_global_labels
     TemplateKind::PXE.map do |pxe_kind|
@@ -33,7 +32,7 @@ class Setting::Provisioning < Setting
     'vovsbr*'
   ]
   def self.default_settings
-    fqdn = Facter.value(:fqdn) || SETTINGS[:fqdn]
+    fqdn = SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"
     select = [{:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'},
               {:name => _("Usergroup"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
