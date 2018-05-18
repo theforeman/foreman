@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-11 08:21+0000\n"
-"PO-Revision-Date: 2018-04-11 08:21+0000\n"
+"POT-Creation-Date: 2018-05-18 06:56+0000\n"
+"PO-Revision-Date: 2018-05-18 06:56+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -1680,7 +1680,7 @@ msgid ""
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:252
-#: ../app/controllers/hosts_controller.rb:278
+#: ../app/controllers/hosts_controller.rb:276
 msgid "Power operations are not enabled on this host."
 msgstr ""
 
@@ -3174,7 +3174,7 @@ msgid "The virtual machine is being deleted."
 msgstr ""
 
 #: ../app/controllers/compute_resources_vms_controller.rb:90
-#: ../app/controllers/hosts_controller.rb:349
+#: ../app/controllers/hosts_controller.rb:347
 msgid "Failed to set console: %s"
 msgstr ""
 
@@ -3420,25 +3420,25 @@ msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:118
-#: ../app/controllers/hosts_controller.rb:814
+#: ../app/controllers/hosts_controller.rb:812
 msgid "No proxy selected!"
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:124
-#: ../app/controllers/hosts_controller.rb:820
+#: ../app/controllers/hosts_controller.rb:818
 msgid "Invalid proxy selected!"
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:146
-#: ../app/controllers/hosts_controller.rb:842
+#: ../app/controllers/hosts_controller.rb:840
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:153
-#: ../app/controllers/hosts_controller.rb:849
+#: ../app/controllers/hosts_controller.rb:847
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
 msgstr ""
 
@@ -3451,7 +3451,7 @@ msgstr ""
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:158
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:173
-#: ../app/controllers/hosts_controller.rb:854
+#: ../app/controllers/hosts_controller.rb:852
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] ""
@@ -3511,40 +3511,40 @@ msgstr ""
 msgid "The following fields would need reviewing"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:17
+#: ../app/controllers/hosts_controller.rb:16
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:45
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:39
 msgid "Disk"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:17
+#: ../app/controllers/hosts_controller.rb:16
 msgid "CDROM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:17
+#: ../app/controllers/hosts_controller.rb:16
 msgid "PXE"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:17
+#: ../app/controllers/hosts_controller.rb:16
 #: ../app/models/compute_resources/foreman/model/vmware.rb:188
 msgid "BIOS"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:28
+#: ../app/controllers/hosts_controller.rb:27
 #: ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
 #: ../app/helpers/hosts_helper.rb:303
 msgid "On"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:29
+#: ../app/controllers/hosts_controller.rb:28
 #: ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
 #: ../app/helpers/hosts_helper.rb:303 ../app/services/name_generator.rb:3
 msgid "Off"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:30
+#: ../app/controllers/hosts_controller.rb:29
 #: ../app/helpers/application_helper.rb:56
 #: ../app/helpers/application_helper.rb:66 ../app/helpers/audits_helper.rb:7
 #: ../app/helpers/audits_helper.rb:26 ../app/helpers/audits_helper.rb:59
@@ -3556,224 +3556,224 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:98
+#: ../app/controllers/hosts_controller.rb:96
 msgid "The marked fields will need reviewing"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:212
+#: ../app/controllers/hosts_controller.rb:210
 msgid "Unable to generate output, Check log files"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:220
+#: ../app/controllers/hosts_controller.rb:218
 msgid "Successfully executed, check log files for more details"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:238
+#: ../app/controllers/hosts_controller.rb:236
 msgid "Enabled %s for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:240
+#: ../app/controllers/hosts_controller.rb:238
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:244
+#: ../app/controllers/hosts_controller.rb:242
 msgid "Failed to reboot %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:247
-#: ../app/controllers/hosts_controller.rb:250
+#: ../app/controllers/hosts_controller.rb:245
+#: ../app/controllers/hosts_controller.rb:248
 msgid "Enabled %s for rebuild on next boot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:253
+#: ../app/controllers/hosts_controller.rb:251
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:259
+#: ../app/controllers/hosts_controller.rb:257
 msgid "Canceled pending build for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:261
+#: ../app/controllers/hosts_controller.rb:259
 msgid ""
 "Failed to cancel pending build for %{hostname} with the following errors: %{er"
 "rors}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:268
+#: ../app/controllers/hosts_controller.rb:266
 msgid "%{host} is about to %{action}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:270
+#: ../app/controllers/hosts_controller.rb:268
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:285
+#: ../app/controllers/hosts_controller.rb:283
 msgid "Failed to fetch power status: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:338
+#: ../app/controllers/hosts_controller.rb:336
 msgid "%{host} now boots from %{device}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:340
+#: ../app/controllers/hosts_controller.rb:338
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:356
+#: ../app/controllers/hosts_controller.rb:354
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:358
+#: ../app/controllers/hosts_controller.rb:356
 msgid "Foreman now no longer manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:362
+#: ../app/controllers/hosts_controller.rb:360
 msgid "Failed to modify the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:369
+#: ../app/controllers/hosts_controller.rb:367
 msgid "%s has been disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:371
+#: ../app/controllers/hosts_controller.rb:369
 msgid "Host %s is not associated with a VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:390
+#: ../app/controllers/hosts_controller.rb:388
 msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:410
+#: ../app/controllers/hosts_controller.rb:408
 msgid "Updated all hosts!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:414
+#: ../app/controllers/hosts_controller.rb:412
 msgid "%s Parameters updated, see below for more information"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:424
+#: ../app/controllers/hosts_controller.rb:422
 msgid "No host group selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:435
+#: ../app/controllers/hosts_controller.rb:433
 msgid "Updated hosts: changed host group"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:446
+#: ../app/controllers/hosts_controller.rb:444
 msgid "No owner selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:457
+#: ../app/controllers/hosts_controller.rb:455
 msgid "Updated hosts: changed owner"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:470
+#: ../app/controllers/hosts_controller.rb:468
 msgid "Failed to set power state for %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:475
+#: ../app/controllers/hosts_controller.rb:473
 msgid "The power state of the selected hosts will be set to %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:501
+#: ../app/controllers/hosts_controller.rb:499
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/hosts_controller.rb:508
+#: ../app/controllers/hosts_controller.rb:506
 msgid "Configuration successfully rebuilt"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:525
+#: ../app/controllers/hosts_controller.rb:523
 msgid "Failed to redeploy %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:534
+#: ../app/controllers/hosts_controller.rb:532
 msgid "The selected hosts were enabled for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:536
+#: ../app/controllers/hosts_controller.rb:534
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:539
+#: ../app/controllers/hosts_controller.rb:537
 msgid "The following hosts failed the build operation: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:548
+#: ../app/controllers/hosts_controller.rb:546
 msgid "Destroyed selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:550
+#: ../app/controllers/hosts_controller.rb:548
 msgid "The following hosts were not deleted: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:578
+#: ../app/controllers/hosts_controller.rb:576
 msgid "Updated hosts: Disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:584
+#: ../app/controllers/hosts_controller.rb:582
 msgid "Hosts with errors"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:589
+#: ../app/controllers/hosts_controller.rb:587
 msgid "Active Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:594
+#: ../app/controllers/hosts_controller.rb:592
 msgid "Pending Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:599
+#: ../app/controllers/hosts_controller.rb:597
 msgid "Hosts which didn't run puppet in the last %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:604
+#: ../app/controllers/hosts_controller.rb:602
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:709
+#: ../app/controllers/hosts_controller.rb:707
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:714
+#: ../app/controllers/hosts_controller.rb:712
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:744
+#: ../app/controllers/hosts_controller.rb:742
 msgid "No hosts were found with that id, name or query filter"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:749
+#: ../app/controllers/hosts_controller.rb:747
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:756
+#: ../app/controllers/hosts_controller.rb:754
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:769
+#: ../app/controllers/hosts_controller.rb:767
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:771
+#: ../app/controllers/hosts_controller.rb:769
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:798
+#: ../app/controllers/hosts_controller.rb:796
 msgid "No or invalid power state selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:851
+#: ../app/controllers/hosts_controller.rb:849
 msgid "The %{proxy_type} proxy of the selected hosts was cleared"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:866
+#: ../app/controllers/hosts_controller.rb:864
 msgid "No templates found"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:877
+#: ../app/controllers/hosts_controller.rb:875
 msgid "Failed to retrieve power status for %{host} within %{timeout} second."
 msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
 msgstr[0] ""
@@ -3926,16 +3926,16 @@ msgid "You have already logged in"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:78
+msgid "in %s"
+msgstr ""
+
+#: ../app/helpers/application_helper.rb:78
 #: ../app/helpers/compute_resources_vms_helper.rb:35
 #: ../app/helpers/hosts_helper.rb:191 ../app/helpers/users_helper.rb:3
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:15
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:16
 #: ../app/views/ssh_keys/_ssh_key_row.html.erb:7
 msgid "%s ago"
-msgstr ""
-
-#: ../app/helpers/application_helper.rb:78
-msgid "in %s"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:113
@@ -4243,19 +4243,14 @@ msgstr ""
 msgid "Number Of Clients"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:86 ../app/helpers/hosts_helper.rb:217
-#: ../app/views/config_reports/_list.html.erb:8
-msgid "Applied"
-msgstr ""
-
 #. TRANSLATORS: initial character of Applied
 #: ../app/helpers/dashboard_helper.rb:86
 msgid "Applied|A"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:88 ../app/helpers/hosts_helper.rb:221
-#: ../app/views/config_reports/_list.html.erb:9
-msgid "Restarted"
+#: ../app/helpers/dashboard_helper.rb:86 ../app/helpers/hosts_helper.rb:217
+#: ../app/views/config_reports/_list.html.erb:8
+msgid "Applied"
 msgstr ""
 
 #. TRANSLATORS: initial character of Restarted
@@ -4263,15 +4258,20 @@ msgstr ""
 msgid "Restarted|R"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:90 ../app/helpers/hosts_helper.rb:218
-#: ../app/models/config_report.rb:79
-#: ../app/views/config_reports/_list.html.erb:10
-msgid "Failed"
+#: ../app/helpers/dashboard_helper.rb:88 ../app/helpers/hosts_helper.rb:221
+#: ../app/views/config_reports/_list.html.erb:9
+msgid "Restarted"
 msgstr ""
 
 #. TRANSLATORS: initial character of Failed
 #: ../app/helpers/dashboard_helper.rb:90
 msgid "Failed|F"
+msgstr ""
+
+#: ../app/helpers/dashboard_helper.rb:90 ../app/helpers/hosts_helper.rb:218
+#: ../app/models/config_report.rb:79
+#: ../app/views/config_reports/_list.html.erb:10
+msgid "Failed"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
@@ -4283,14 +4283,14 @@ msgstr ""
 msgid "Failed Restarts"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:94 ../app/helpers/hosts_helper.rb:220
-#: ../app/views/config_reports/_list.html.erb:12
-msgid "Skipped"
-msgstr ""
-
 #. TRANSLATORS: initial character of Skipped
 #: ../app/helpers/dashboard_helper.rb:94
 msgid "Skipped|S"
+msgstr ""
+
+#: ../app/helpers/dashboard_helper.rb:94 ../app/helpers/hosts_helper.rb:220
+#: ../app/views/config_reports/_list.html.erb:12
+msgid "Skipped"
 msgstr ""
 
 #. TRANSLATORS: initial character of Pending
@@ -11327,12 +11327,12 @@ msgid ""
 msgstr ""
 
 #: ../app/views/locations/welcome.html.erb:13
-#: ../app/views/roles/_form.html.erb:39
-msgid "organizations"
+msgid "Locations also work nicely when used in tandem with %{organizations}."
 msgstr ""
 
 #: ../app/views/locations/welcome.html.erb:13
-msgid "Locations also work nicely when used in tandem with %{organizations}."
+#: ../app/views/roles/_form.html.erb:39
+msgid "organizations"
 msgstr ""
 
 #: ../app/views/locations/welcome.html.erb:16
@@ -11847,12 +11847,12 @@ msgid ""
 msgstr ""
 
 #: ../app/views/organizations/welcome.html.erb:13
-#: ../app/views/roles/_form.html.erb:34
-msgid "locations"
+msgid "Organizations also work nicely in tandem with %{locations}."
 msgstr ""
 
 #: ../app/views/organizations/welcome.html.erb:13
-msgid "Organizations also work nicely in tandem with %{locations}."
+#: ../app/views/roles/_form.html.erb:34
+msgid "locations"
 msgstr ""
 
 #: ../app/views/organizations/welcome.html.erb:16

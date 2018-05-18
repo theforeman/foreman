@@ -5,8 +5,8 @@
 # Translators:
 # Dominic Cleal <dominic@cleal.org>, 2014
 # Dominic Cleal <dominic@cleal.org>, 2014
-# Giuseppe Pignataro (Fasbyte01) <rogepix@gmail.com>, 2014
-# Giuseppe Pignataro (Fasbyte01) <rogepix@gmail.com>, 2014
+# Giuseppe Pignataro (Fastbyte01) <rogepix@gmail.com>, 2014
+# Giuseppe Pignataro (Fastbyte01) <rogepix@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
