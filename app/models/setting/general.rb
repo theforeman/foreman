@@ -1,4 +1,3 @@
-require 'facter'
 class Setting::General < Setting
   include UrlValidator
 
@@ -6,7 +5,7 @@ class Setting::General < Setting
     protocol = SETTINGS[:require_ssl] ? 'https' : 'http'
     domain = SETTINGS[:domain]
     administrator = "root@#{domain}"
-    foreman_url = "#{protocol}://#{Facter.value(:fqdn) || SETTINGS[:fqdn]}"
+    foreman_url = "#{protocol}://#{SETTINGS[:fqdn]}"
 
     [
       self.set('administrator', N_("The default administrator email address"), administrator, N_('Administrator email address')),

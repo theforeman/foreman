@@ -1,5 +1,3 @@
-require 'facter'
-
 class Setting::Email < Setting
   NON_EMAIL_YAML_SETTINGS = %w(send_welcome_email email_reply_address email_subject_prefix)
 
