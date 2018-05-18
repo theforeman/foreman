@@ -33,7 +33,7 @@ class HostsController < ApplicationController
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :get_power_state, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
-                                          :toggle_manage, :pxe_config, :storeconfig_klasses, :disassociate]
+                                          :toggle_manage, :pxe_config, :disassociate]
 
   before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_action :set_host_type, :only => [:update]
@@ -369,9 +369,6 @@ class HostsController < ApplicationController
     redirect_to(:controller => "unattended", :action => 'host_template', :kind => "pxe_#{@host.operatingsystem.pxe_type}_config", :host_id => @host) if @host
   end
 
-  def storeconfig_klasses
-  end
-
   # multiple host selection methods
 
   def multiple_parameters
@@ -650,7 +647,7 @@ class HostsController < ApplicationController
 
   define_action_permission [
     'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
-    'pxe_config', 'storeconfig_klasses', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection'
+    'pxe_config', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection'
   ], :view
   define_action_permission [
     'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build',

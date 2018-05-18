@@ -19,7 +19,6 @@ Foreman::Application.routes.draw do
     resources :hosts do
       member do
         get 'clone'
-        get 'storeconfig_klasses'
         get 'externalNodes'
         get 'review_before_build'
         put 'setBuild'

@@ -510,12 +510,6 @@ class Host::Managed < Host::Base
     Nic::Managed.rebuild_methods.values + Host::Managed.rebuild_methods.values
   end
 
-  def classes_from_storeconfigs
-    klasses = resources.select(:title).where(:restype => "Class").where("title <> ? AND title <> ?", "main", "Settings").order(:title)
-    klasses.map!(&:title).delete(:main)
-    klasses
-  end
-
   def can_be_built?
     managed? && SETTINGS[:unattended] && pxe_build? && !build?
   end
