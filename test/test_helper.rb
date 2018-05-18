@@ -87,6 +87,7 @@ module TestCaseRailsLoggerExtensions
 end
 
 class ActiveSupport::TestCase
+  extend Robottelo::Reporter::TestAttributes
   prepend TestCaseRailsLoggerExtensions
 end
 
