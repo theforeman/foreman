@@ -8,7 +8,12 @@ if File.exist?(File.expand_path(File.join(%w[.. .. Gemfile.in]), __FILE__))
   specs = BundlerExt::Gemfile.parse(gemfile_in, :all).map { |spec, value| value[:dep] }
 else
   require 'bundler'
-  specs = Bundler.load.specs
+  begin
+    specs = Bundler.load.specs
+  rescue Bundler::GemNotFound
+    raise if File.exist?(File.expand_path(File.join(%w[.. Gemfile.lock]), __dir__))
+    specs = []
+  end
 end
 
 config = { entries: {}, paths: [], plugins: {} }
