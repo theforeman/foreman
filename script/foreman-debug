@@ -31,12 +31,7 @@ OPTIONS:
   -h      Shows this message
 
 USAGE
-[[ $UPLOAD_DISABLED -eq 0 ]] && cat <<UPLOADUSAGE
-You may want to upload the tarball (with -u) to our public server via rsync.
-This is a write-only directory (readable only by Foreman core developers)
-Please note that the rsync transmission is UNENCRYPTED.
-
-UPLOADUSAGE
+[[ $UPLOAD_DISABLED -eq 0 ]] && echo "${UPLOAD_USAGE_MSG}"
 }
 
 # Filter for patterns like password=XYZ, -storepass XYZ or secret: XYZ
@@ -55,7 +50,7 @@ FILTER_WORDS_STR=$(IFS=$'|'; echo "${FILTER_WORDS[*]}")
 FILTER="s/($FILTER_WORDS_STR)(\"?\s*[:=]\s*)\S+/\1\2+FILTERED+/g"
 
 error() {
-  echo $* >&2
+  echo "$*" >&2
 }
 
 qprintf() {
@@ -149,6 +144,23 @@ VERBOSE=0
 DEBUG=0
 UPLOAD=0
 UPLOAD_DISABLED=0
+UPLOAD_URL='rsync://theforeman.org/debug-incoming'
+UPLOAD_CMD='rsync "${TARBALL}" "${UPLOAD_URL}"'
+UPLOAD_USAGE_MSG="\
+You may want to upload the tarball (with -u) to our public server via rsync.
+This is a write-only directory (readable only by Foreman core developers)
+Please note that the rsync transmission is UNENCRYPTED."
+UPLOAD_UNSET_MSG="\
+To upload a tarball to our secure site, please use the -u option."
+UPLOAD_SUCCESS_MSG="\
+The tarball has been uploaded, please contact us on community.theforeman.org
+or on IRC/Matrix (#theforeman), making sure you reference the following URL:
+
+    http://debugs.theforeman.org/"
+UPLOAD_FAIL_MSG="\
+The tarball could not be uploaded, please upload it to an alternate location
+and contact us on community.theforeman.org or on IRC/Matrix (#theforeman),
+making sure you reference that URL."
 
 if type -p xz >/dev/null; then
   COMPRESS="xz -1"
@@ -225,7 +237,7 @@ done
 [ $UPLOAD -eq 1 -a $NOTAR -eq 1 ] && error "Options -u and -a cannot be used together" && exit 2
 
 # some tasks take long time, print a banner (unless quiet mode was selected)
-qprintf "Processing... (takes a while)"
+qprintf "Processing... (takes a while)\n"
 
 # determine distribution family
 if [ -f /etc/debian_version ]; then
@@ -263,7 +275,7 @@ install_clean_trap() {
 }
 
 if [ -z "$DIR" ]; then
-  DIR=$(mktemp -d foreman-debug-XXXXX -p /var/tmp)
+  DIR=$(mktemp -d $(basename $0)-XXXXX -p /var/tmp)
 else
   [ ! -d "$DIR" ] && mkdir -p "$DIR"
 fi
@@ -409,17 +421,14 @@ fi
 # upload if -u was passed in
 if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
   qprintf "Uploading...\n"
-  if rsync $TARBALL rsync://theforeman.org/debug-incoming ; then
-    qprintf "The tarball has been uploaded, please contact us on our mailing list or IRC\n"
-    qprintf "referencing the following URL:\n\n"
-    qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n\n"
+  if eval ${UPLOAD_CMD} ; then
+    qprintf "%s%s\n" "${UPLOAD_SUCCESS_MSG}" "$(basename ${TARBALL})"
   else
-    error "The tarball could not be uploaded, please upload it to an alternate location"
-    error "and contact us on our mailing list or IRC referencing that URL."
+    error "${UPLOAD_FAIL_MSG}"
     exit 3
   fi
 else
-  [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
+  [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "%s\n" "${UPLOAD_UNSET_MSG}"
 fi
 
 printv "Finished in $SECONDS seconds"
