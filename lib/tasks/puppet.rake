@@ -6,27 +6,6 @@ require 'rake/clean'
 require 'yaml'
 
 namespace :puppet do
-  namespace :migrate do
-    desc "Populates the host fields in Foreman based on your StoredConfig DB"
-    task :populate_hosts => :environment do
-      counter = 0
-      User.as_anonymous_admin do
-        Host.find_each do |host|
-          if host.fact_values.empty?
-            $stdout.puts "#{host.hostname} has no facts, skipping"
-            next
-          end
-
-          if host.populate_fields_from_facts
-            counter += 1
-          else
-            $stdout.puts "#{host.hostname}: #{host.errors.full_messages.join(', ')}"
-          end
-        end
-      end
-      puts "Imported #{counter} hosts out of #{Host.count} Hosts" unless counter == 0
-    end
-  end
   namespace :import do
     desc "Imports hosts and facts from existings YAML files, use dir= to override default directory"
     task :hosts_and_facts => :environment do
