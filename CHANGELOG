@@ -1,4 +1,29 @@
+2018-05-18	Ondrej Prazak <oprazak@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2018-05-17	Timo Goebel <mail@timogoebel.name>
+	* refs #23378 - vsphere: filter volume key parameter
+
+2018-04-30	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23273 - use safemode which allows .freeze
+
+2018-04-30	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #22334 - Update safemode, remove ruby2ruby pin
+
+2018-04-26	Peter Lehwess <peter.lehwess@dm.de>
+	* Fixes #23276 - Bump up the version of fog-vsphere
+
+2018-04-26	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #23358 - Fix audit mails for template content
+
+2018-04-24	Timo Goebel <mail@timogoebel.name>
+	* fixes #23335 - normalize scsi attributes in rails 5
+
+2018-04-12	Alexander Olofsson <alexander.olofsson@liu.se>
+	* Fixes #23212 - uninitialized constant
+
 2018-04-11	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.17.0
 	* i18n - extracting new, pulling from tx
 
 2018-04-11	Ondřej Pražák <xprazak2@users.noreply.github.com>
