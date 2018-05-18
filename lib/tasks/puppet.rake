@@ -8,8 +8,8 @@ require 'yaml'
 namespace :puppet do
   namespace :import do
     desc "Imports hosts and facts from existings YAML files, use dir= to override default directory"
-    task :hosts_and_facts => :environment do
-      dir = ENV['dir'] || "#{SETTINGS[:puppetvardir]}/yaml/facts"
+    task :hosts_and_facts, [:dir] => :environment do |t, args|
+      dir = args[:dir] || ENV['dir'] || '/opt/puppetlabs/server/data/puppetserver/yaml/facts'
       puts "Importing from #{dir}"
       Dir["#{dir}/*.yaml"].each do |yaml|
         name = yaml.match(/.*\/(.*).yaml/)[1]

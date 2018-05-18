@@ -10,9 +10,6 @@
 #JSONP or "JSON with padding" is a complement to the base JSON data format.
 #It provides a method to request JSON data from a server in a different domain.
 :support_jsonp: false
-#:puppetconfdir: /etc/puppet
-#:puppetvardir: /var/lib/puppet
-#:puppetssldir: /var/lib/puppet/ssl
 
 # Mark translated strings with X characters (for developers)
 :mark_translated: false
