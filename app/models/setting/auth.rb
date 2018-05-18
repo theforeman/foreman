@@ -1,11 +1,5 @@
 class Setting::Auth < Setting
   def self.default_settings
-    fqdn = SETTINGS[:fqdn]
-    lower_fqdn = fqdn.downcase
-    ssl_cert     = "#{SETTINGS[:puppetssldir]}/certs/#{lower_fqdn}.pem"
-    ssl_ca_file  = "#{SETTINGS[:puppetssldir]}/certs/ca.pem"
-    ssl_priv_key = "#{SETTINGS[:puppetssldir]}/private_keys/#{lower_fqdn}.pem"
-
     [
       self.set('oauth_active', N_("Foreman will use OAuth for API authorization"), false, N_('OAuth active')),
       self.set('oauth_consumer_key', N_("OAuth consumer key"), '', N_('OAuth consumer key'), nil, {:encrypted => true}),
@@ -15,9 +9,9 @@ class Setting::Auth < Setting
       self.set('restrict_registered_smart_proxies', N_('Only known Smart Proxies may access features that use Smart Proxy authentication'), true, N_('Restrict registered smart proxies')),
       self.set('require_ssl_smart_proxies', N_('Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)'), true, N_('Require SSL for smart proxies')),
       self.set('trusted_hosts', N_('Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output'), [], N_('Trusted hosts')),
-      self.set('ssl_certificate', N_("SSL Certificate path that Foreman would use to communicate with its proxies"), ssl_cert, N_('SSL certificate')),
-      self.set('ssl_ca_file', N_("SSL CA file that Foreman will use to communicate with its proxies"), ssl_ca_file, N_('SSL CA file')),
-      self.set('ssl_priv_key', N_("SSL Private Key file that Foreman will use to communicate with its proxies"), ssl_priv_key, N_('SSL private key')),
+      self.set('ssl_certificate', N_("SSL Certificate path that Foreman would use to communicate with its proxies"), nil, N_('SSL certificate')),
+      self.set('ssl_ca_file', N_("SSL CA file that Foreman will use to communicate with its proxies"), nil, N_('SSL CA file')),
+      self.set('ssl_priv_key', N_("SSL Private Key file that Foreman will use to communicate with its proxies"), nil, N_('SSL private key')),
       self.set('ssl_client_dn_env', N_('Environment variable containing the subject DN from a client SSL certificate'), 'SSL_CLIENT_S_DN', N_('SSL client DN env')),
       self.set('ssl_client_verify_env', N_('Environment variable containing the verification status of a client SSL certificate'), 'SSL_CLIENT_VERIFY', N_('SSL client verify env')),
       self.set('ssl_client_cert_env', N_("Environment variable containing a client's SSL certificate"), 'SSL_CLIENT_CERT', N_('SSL client cert env')),
