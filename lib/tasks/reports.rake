@@ -6,6 +6,8 @@ Available conditions:
   * days        => number of days to keep reports (defaults to 7)
   * status      => status of the report (if not set defaults to any status)
   * report_type => report type (defaults to config_report), accepts either underscore / class name styles
+  * batch_size  => number of records deleted in single SQL transaction (defaults to 1k)
+  * sleep_time  => delay in seconds between batches (defaults to 0.2)
 
   Example:
     rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardless of their status
@@ -30,8 +32,10 @@ namespace :reports do
     conditions = {}
     conditions[:timerange] = ENV['days'].to_i.days if ENV['days']
     conditions[:status] = ENV['status'].to_i if ENV['status']
+    batch_size = ENV['batch_size'].to_i if ENV['batch_size']
+    sleep_time = ENV['sleep_time'].to_f if ENV['sleep_time']
 
-    report_type.expire(conditions)
+    report_type.expire(conditions, batch_size, sleep_time)
   end
 end
 # TRANSLATORS: do not translate

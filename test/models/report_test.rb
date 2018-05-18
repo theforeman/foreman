@@ -19,6 +19,20 @@ class ReportTest < ActiveSupport::TestCase
     end
   end
 
+  test "should expire reports created 1 week ago using small batch" do
+    report_count = 3
+    Message.delete_all
+    Source.delete_all
+    FactoryBot.create_list(:report, report_count, :with_logs)
+    FactoryBot.create_list(:report, report_count, :with_logs, :old_report)
+    assert_equal report_count*2, Report.count
+    assert_difference('Report.count', -1*report_count) do
+      assert_difference(['Log.count', 'Message.count', 'Source.count'], -1*report_count*5) do
+        Report.expire({}, 2, 0.0001)
+      end
+    end
+  end
+
   describe '.my_reports' do
     setup do
       @target_host = FactoryBot.create(:host, :with_hostgroup, :with_reports, :report_count => 2)
