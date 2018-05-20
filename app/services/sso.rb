@@ -1,5 +1,5 @@
 module SSO
-  METHODS = [Apache, Basic, Oauth]
+  METHODS = [Apache, Basic, Jwt, Oauth]
 
   def self.get_available(controller)
     all_methods = all.map { |method| method.new(controller) }

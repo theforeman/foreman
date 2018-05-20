@@ -116,4 +116,8 @@ FactoryBot.define do
     sequence(:name) {|n| "Status Table #{n}" }
     template { 'status_widget' }
   end
+
+  factory :jwt_secret do
+    token { SecureRandom.base64 }
+  end
 end

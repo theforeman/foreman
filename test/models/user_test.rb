@@ -1051,6 +1051,14 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test 'creating jwt secret for user' do
+    user = FactoryBot.create(:user)
+    jwt_secret = user.jwt_secret!
+
+    refute_nil jwt_secret
+    assert jwt_secret.persisted?
+  end
+
   context 'Jail' do
     test 'should allow methods' do
       allowed = [:login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail]
