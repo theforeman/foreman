@@ -208,6 +208,7 @@ module Host
       if !self.managed? && self.primary_interface.mac.blank? && self.primary_interface.identifier.blank?
         identifier, values = parser.suggested_primary_interface(self)
         if values.present?
+          logger.debug "Suggested #{identifier} NIC as a primary interface."
           self.primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress])
           interface_klass = interface_class(identifier)
           # bridge interfaces are not attached to parent interface so save would not be possible
@@ -479,7 +480,7 @@ module Host
         # we search bonds based on identifiers, e.g. ubuntu sets random MAC after each reboot se we can't
         # rely on mac
         when 'Nic::Bond', 'Nic::Bridge'
-          base.virtual.where(:identifier => name)
+          base.where(:identifier => name)
         # for other interfaces we distinguish between virtual and physical interfaces
         # for virtual devices we don't check only mac address since it's not unique,
         # if we want to update the device it must have same identifier
@@ -528,7 +529,7 @@ module Host
       bond.save!
     rescue StandardError => e
       logger.warn "Saving #{bond.identifier} NIC for host #{self.name} failed, skipping because #{e.message}:"
-      bond.errors.full_messages.each { |e| logger.warn " #{e}" }
+      bond.errors.full_messages.each { |message| logger.warn " #{message}" }
     end
 
     def set_interface(attributes, name, iface)

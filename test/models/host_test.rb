@@ -937,7 +937,7 @@ class HostTest < ActiveSupport::TestCase
 
       @host.environment = env_with_other_tax
       refute @host.valid?
-      assert_match /is not assigned/, @host.errors[:environment_id].first
+      assert_match(/is not assigned/, @host.errors[:environment_id].first)
     end
   end
 
@@ -1611,6 +1611,15 @@ class HostTest < ActiveSupport::TestCase
     assert host.interfaces.where(:mac => '00:00:00:11:22:33').first.link
   end
 
+  test "#set_interfaces updates existing bridge interface suggested as primary" do
+    host, parser = setup_host_with_nic_parser({:identifier => 'br-ex', :macaddress => '00:00:00:11:22:33', :bridge => true, :virtual => true, :ipaddress => '10.10.0.1'})
+    host.managed = false
+    host.primary_interface.update(:identifier => 'br-ex', :mac => '00:00:00:11:22:33', :ip => '10.10.0.1')
+
+    host.set_interfaces(parser)
+    assert host.interfaces.where(:identifier => 'br-ex').first.virtual
+  end
+
   test "#set_interfaces creates new interface even if primary interface has same MAC" do
     host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :attached_to => 'eth0', :identifier => 'eth0_0'})
     host.update_attribute :mac, '00:00:00:11:22:33'
@@ -2119,7 +2128,7 @@ class HostTest < ActiveSupport::TestCase
       host.built(true)
       email = ActionMailer::Base.deliveries.detect { |mail| mail.subject =~ /Host #{host} is built/ }
       assert email
-      assert_match /Your host has finished/, email.body.encoded
+      assert_match(/Your host has finished/, email.body.encoded)
     end
 
     test "is not sent when not installed" do
@@ -3164,7 +3173,7 @@ class HostTest < ActiveSupport::TestCase
 
     host.operatingsystem.media = []
     refute host.valid?
-    assert_match /must belong/, host.errors[:medium_id].first
+    assert_match(/must belong/, host.errors[:medium_id].first)
   end
 
   context "lookup value attributes" do
@@ -3797,7 +3806,7 @@ class HostTest < ActiveSupport::TestCase
   test "host have a media provider providing a valid URL" do
     hostgroup = FactoryBot.create(:hostgroup, :with_domain, :with_os)
     host = FactoryBot.create(:host, :managed, :hostgroup => hostgroup)
-    assert_match /^http:/, host.medium_provider.medium_uri.to_s
+    assert_match(/^http:/, host.medium_provider.medium_uri.to_s)
   end
 
   test "should find interface by attached mac" do
