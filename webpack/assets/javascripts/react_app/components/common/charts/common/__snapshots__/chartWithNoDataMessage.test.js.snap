@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`common chart components render a messagebox if no data 1`] = `
+<Component>
+  <MessageBox
+    icontype="info"
+    msg="No data available"
+  >
+    <div
+      className="message-box-root"
+    >
+      <div
+        className="pficon pficon-info message-box-content message-box-icon"
+      />
+      <div
+        className="message-box-content message-box-message"
+      >
+        No data available
+      </div>
+    </div>
+  </MessageBox>
+</Component>
+`;
+
+exports[`common chart components render a messagebox if no data 2`] = `
+<Component>
+  <MessageBox
+    icontype="info"
+    msg="No data available"
+  >
+    <div
+      className="message-box-root"
+    >
+      <div
+        className="pficon pficon-info message-box-content message-box-icon"
+      />
+      <div
+        className="message-box-content message-box-message"
+      >
+        No data available
+      </div>
+    </div>
+  </MessageBox>
+</Component>
+`;
+
+exports[`common chart components render a messagebox if no data 3`] = `
+<Component>
+  <MessageBox
+    icontype="info"
+    msg="No data available"
+  >
+    <div
+      className="message-box-root"
+    >
+      <div
+        className="pficon pficon-info message-box-content message-box-icon"
+      />
+      <div
+        className="message-box-content message-box-message"
+      >
+        No data available
+      </div>
+    </div>
+  </MessageBox>
+</Component>
+`;
+
+exports[`common chart components render a messagebox if no data 4`] = `
+<Component
+  data={Object {}}
+>
+  <MessageBox
+    icontype="info"
+    msg="No data available"
+  >
+    <div
+      className="message-box-root"
+    >
+      <div
+        className="pficon pficon-info message-box-content message-box-icon"
+      />
+      <div
+        className="message-box-content message-box-message"
+      >
+        No data available
+      </div>
+    </div>
+  </MessageBox>
+</Component>
+`;
+
+exports[`common chart components render a messagebox if no data 5`] = `
+<Component
+  data={
+    Object {
+      "columns": Array [],
+    }
+  }
+>
+  <MessageBox
+    icontype="info"
+    msg="No data available"
+  >
+    <div
+      className="message-box-root"
+    >
+      <div
+        className="pficon pficon-info message-box-content message-box-icon"
+      />
+      <div
+        className="message-box-content message-box-message"
+      >
+        No data available
+      </div>
+    </div>
+  </MessageBox>
+</Component>
+`;
+
+exports[`common chart components render chart if there is data 1`] = `
+<Component
+  data={
+    Object {
+      "columns": Array [
+        Array [
+          "time",
+          1,
+          2,
+        ],
+        Array [
+          "data",
+          0,
+          20,
+        ],
+      ],
+    }
+  }
+>
+  <Component
+    data={
+      Object {
+        "columns": Array [
+          Array [
+            "time",
+            1,
+            2,
+          ],
+          Array [
+            "data",
+            0,
+            20,
+          ],
+        ],
+      }
+    }
+  >
+    <h1>
+      Chart
+    </h1>
+  </Component>
+</Component>
+`;

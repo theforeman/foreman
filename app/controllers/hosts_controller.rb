@@ -309,15 +309,11 @@ class HostsController < ApplicationController
   end
 
   def runtime
-    render :partial => 'runtime'
-  rescue ActionView::Template::Error => exception
-    process_ajax_error exception, 'fetch runtime chart information'
+    render :json => helpers.runtime_chart(params[:range].empty? ? 7.days.ago : params[:range].to_i.days.ago)
   end
 
   def resources
-    render :partial => 'resources'
-  rescue ActionView::Template::Error => exception
-    process_ajax_error exception, 'fetch resources chart information'
+    render :json => helpers.resources_chart(params[:range].empty? ? 7.days.ago : params[:range].to_i.days.ago)
   end
 
   def templates

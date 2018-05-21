@@ -12,6 +12,7 @@ import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './factCharts';
 import Pagination from './Pagination/Pagination';
 import AuditsList from './AuditsList';
+import HostChart from './hosts/chart/';
 
 const componentRegistry = {
   registry: {},
@@ -72,6 +73,7 @@ const coreComponets = [
   { name: 'FactChart', type: FactChart },
   { name: 'Pagination', type: Pagination },
   { name: 'AuditsList', type: AuditsList },
+  { name: 'HostChart', type: HostChart },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

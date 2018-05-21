@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render data resolved mode 1`] = `
+<Loader
+  status="RESOLVED"
+>
+  <TimeseriesChart
+    data={
+      Object {
+        "columns": Array [
+          Array [
+            "time",
+            129321,
+          ],
+          Array [
+            "data1",
+            100,
+          ],
+        ],
+        "x": "time",
+      }
+    }
+    key="resources-chart"
+  />
+  <MessageBox
+    icontype="error-circle-o"
+    key="resources-error"
+    msg={null}
+  />
+</Loader>
+`;
+
+exports[`render empty state (before dispatching the REQUEST action) 1`] = `
+<Loader
+  status="PENDING"
+>
+  <TimeseriesChart
+    data={Array []}
+    key="chartName-chart"
+  />
+  <MessageBox
+    icontype="error-circle-o"
+    key="chartName-error"
+    msg={null}
+  />
+</Loader>
+`;
+
+exports[`render error mode 1`] = `
+<Loader
+  status="ERROR"
+>
+  <TimeseriesChart
+    data={
+      Object {
+        "columns": Array [],
+      }
+    }
+    key="runtime-chart"
+  />
+  <MessageBox
+    icontype="error-circle-o"
+    key="runtime-error"
+    msg="bad news"
+  />
+</Loader>
+`;
+
+exports[`render loading mode 1`] = `
+<Loader
+  status="PENDING"
+>
+  <TimeseriesChart
+    data={
+      Object {
+        "columns": Array [],
+      }
+    }
+    key="ts-chart"
+  />
+  <MessageBox
+    icontype="error-circle-o"
+    key="ts-error"
+    msg={null}
+  />
+</Loader>
+`;

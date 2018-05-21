@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { getDonutChartConfig } from './ChartService';
+import { getDonutChartConfig, getTimeseriesChartConfig } from './ChartService';
 import { zeroedData, mixedData, dataWithLongLabels } from '../react_app/components/common/charts/DonutChart/DonutChart.fixtures';
 
 jest.unmock('./ChartService');
@@ -35,5 +35,21 @@ describe('getDonutChartConfig', () => {
       config: 'regular',
       id: 'some-id',
     }))).toMatchSnapshot();
+  });
+});
+
+describe('getTimeseriesChartConfig', () => {
+  it('should render an empty line chart by default', () => {
+    expect(getTimeseriesChartConfig({
+      data: null,
+      id: 'my-data',
+    })).toMatchSnapshot();
+  });
+
+  it('should render a line chart from data', () => {
+    expect(getTimeseriesChartConfig({
+      data: { columns: [['time', 1, 2, 3], ['data', 10, 20, 0]] },
+      id: 'my-data',
+    })).toMatchSnapshot();
   });
 });

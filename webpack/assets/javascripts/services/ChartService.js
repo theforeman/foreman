@@ -1,6 +1,6 @@
 import uuidV1 from 'uuid/v1';
 import Immutable from 'seamless-immutable';
-import { donutChartConfig, donutLargeChartConfig } from './ChartService.consts';
+import { timeseriesChartConfig, donutChartConfig, donutLargeChartConfig } from './ChartService.consts';
 
 const sizeConfig = {
   regular: donutChartConfig,
@@ -107,3 +107,11 @@ export const navigateToSearch = (url, data) => {
   }
   window.location.href = setUrl;
 };
+
+export const getTimeseriesChartConfig = ({
+  data, type = 'line', id = uuidV1(),
+}) => ({
+  ...timeseriesChartConfig,
+  id,
+  data: { ...(data || { columns: [] }), type },
+});

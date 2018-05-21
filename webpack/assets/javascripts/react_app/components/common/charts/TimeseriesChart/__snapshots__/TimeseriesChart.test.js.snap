@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render empty timeseries chart 1`] = `
+<Component
+  axis={
+    Object {
+      "x": Object {
+        "tick": Object {
+          "fit": false,
+        },
+        "type": "timeseries",
+      },
+    }
+  }
+  data={
+    Object {
+      "columns": Array [],
+      "x": "time",
+    }
+  }
+  subchart={
+    Object {
+      "show": true,
+    }
+  }
+  tooltip={
+    Object {
+      "format": Object {
+        "title": [Function],
+      },
+      "grouped": false,
+    }
+  }
+  unloadBeforeLoad={false}
+  zoom={
+    Object {
+      "enabled": true,
+    }
+  }
+/>
+`;
+
+exports[`render timeseries chart 1`] = `
+<Component
+  axis={
+    Object {
+      "x": Object {
+        "tick": Object {
+          "fit": false,
+        },
+        "type": "timeseries",
+      },
+    }
+  }
+  data={
+    Object {
+      "columns": Array [
+        Array [
+          "time",
+          15029999123,
+        ],
+        Array [
+          "Runtime",
+          8,
+        ],
+        Array [
+          "Config Retrieval",
+          35,
+        ],
+      ],
+      "x": "time",
+    }
+  }
+  subchart={
+    Object {
+      "show": true,
+    }
+  }
+  tooltip={
+    Object {
+      "format": Object {
+        "title": [Function],
+      },
+      "grouped": false,
+    }
+  }
+  unloadBeforeLoad={false}
+  zoom={
+    Object {
+      "enabled": true,
+    }
+  }
+/>
+`;

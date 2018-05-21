@@ -75,16 +75,22 @@
     <div class="stats-well">
       <h4 class="ca"><%= _("Runtime") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
-      <div class="chart" data-ajax-url='<%= runtime_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
-        <%= spinner(_('Loading runtime information ...')) %>
-      </div>
+      <div id="host_runtime"></div>
+      <%= mount_react_component('HostChart', '#host_runtime', {
+        :url => runtime_host_path(@host, :range => @range),
+        :name => 'runtime',
+        :type => 'area'
+      }.to_json) %>
     </div>
     <div class="stats-well">
       <h4 class="ca"><%= _("Resources") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
-      <div class="chart" data-ajax-url='<%= resources_host_path(@host, :range => @range) %>' data-on-complete='updateChart'>
-        <%= spinner(_('Loading resources information ...')) %>
-      </div>
+      <div id="host_resources"></div>
+      <%= mount_react_component('HostChart', '#host_resources', {
+        :url => resources_host_path(@host, :range => @range),
+        :name => 'resource',
+        :type => 'area'
+      }.to_json) %>
     </div>
   </div>
 </div>

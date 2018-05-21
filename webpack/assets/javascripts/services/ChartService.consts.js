@@ -33,6 +33,33 @@ export const donutChartConfig = {
   size: enums.SIZE.REGULAR,
 };
 
+export const timeseriesChartConfig = {
+  data: {
+    x: 'time',
+    columns: [],
+  },
+  axis: {
+    x: {
+      type: 'timeseries',
+      tick: {
+        fit: false,
+      },
+    },
+  },
+  zoom: {
+    enabled: true,
+  },
+  subchart: {
+    show: true,
+  },
+  tooltip: {
+    grouped: false,
+    format: {
+      title: d => new Date(d).toUTCString(),
+    },
+  },
+};
+
 export const donutLargeChartConfig = {
   ...donutChartConfig,
   size: enums.SIZE.LARGE,

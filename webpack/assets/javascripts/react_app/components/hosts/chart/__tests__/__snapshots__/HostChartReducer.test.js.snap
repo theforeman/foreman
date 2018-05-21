@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeseriesChart reducer should handle TIMESERIES_FAILURE 1`] = `
+Object {
+  "charts": Object {
+    "ts1": Object {
+      "error": "Oops, something is wrong",
+      "results": Array [],
+      "status": "ERROR",
+    },
+  },
+}
+`;
+
+exports[`TimeseriesChart reducer should handle TIMESERIES_REQUEST 1`] = `
+Object {
+  "charts": Object {
+    "ts1": Object {
+      "error": null,
+      "results": Array [],
+      "status": "PENDING",
+    },
+  },
+}
+`;
+
+exports[`TimeseriesChart reducer should handle TIMESERIES_SUCCESS 1`] = `
+Object {
+  "charts": Object {
+    "ts1": Object {
+      "error": null,
+      "results": Array [
+        Object {
+          "color": "blue",
+          "data": Array [
+            Array [
+              10,
+              20,
+            ],
+            Array [
+              20,
+              20,
+            ],
+            Array [
+              30,
+              0,
+            ],
+          ],
+          "label": "data-1",
+        },
+        Object {
+          "data": Array [
+            Array [
+              10,
+              0,
+            ],
+            Array [
+              20,
+              0,
+            ],
+            Array [
+              30,
+              0,
+            ],
+          ],
+          "label": "data-2",
+        },
+      ],
+      "status": "RESOLVED",
+    },
+  },
+}
+`;
+
+exports[`TimeseriesChart reducer should handle empty action 1`] = `Object {}`;

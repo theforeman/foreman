@@ -202,3 +202,76 @@ Object {
   },
 }
 `;
+
+exports[`getTimeseriesChartConfig should render a line chart from data 1`] = `
+Object {
+  "axis": Object {
+    "x": Object {
+      "tick": Object {
+        "fit": false,
+      },
+      "type": "timeseries",
+    },
+  },
+  "data": Object {
+    "columns": Array [
+      Array [
+        "time",
+        1,
+        2,
+        3,
+      ],
+      Array [
+        "data",
+        10,
+        20,
+        0,
+      ],
+    ],
+    "type": "line",
+  },
+  "id": "my-data",
+  "subchart": Object {
+    "show": true,
+  },
+  "tooltip": Object {
+    "format": Object {
+      "title": [Function],
+    },
+    "grouped": false,
+  },
+  "zoom": Object {
+    "enabled": true,
+  },
+}
+`;
+
+exports[`getTimeseriesChartConfig should render an empty line chart by default 1`] = `
+Object {
+  "axis": Object {
+    "x": Object {
+      "tick": Object {
+        "fit": false,
+      },
+      "type": "timeseries",
+    },
+  },
+  "data": Object {
+    "columns": Array [],
+    "type": "line",
+  },
+  "id": "my-data",
+  "subchart": Object {
+    "show": true,
+  },
+  "tooltip": Object {
+    "format": Object {
+      "title": [Function],
+    },
+    "grouped": false,
+  },
+  "zoom": Object {
+    "enabled": true,
+  },
+}
+`;
