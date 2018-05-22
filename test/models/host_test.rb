@@ -1492,6 +1492,15 @@ class HostTest < ActiveSupport::TestCase
       assert_equal '10.10.0.1', host.interfaces.where(:identifier => 'eth0_0').first.ip
     end
 
+    test "#set_interfaces updates existing bridge interface suggested as primary" do
+      host, parser = setup_host_with_nic_parser({:identifier => 'br-ex', :macaddress => '00:00:00:11:22:33', :bridge => true, :virtual => true, :ipaddress => '10.10.0.1'})
+      host.managed = false
+      host.primary_interface.update(:identifier => 'br-ex', :mac => '00:00:00:11:22:33', :ip => '10.10.0.1')
+
+      host.set_interfaces(parser)
+      assert host.interfaces.where(:identifier => 'br-ex').first.virtual
+    end
+
     test "#set_interfaces creates IPMI device if parameters are found" do
       host, parser = setup_host_with_ipmi_parser({:ipaddress => '192.168.0.1', :macaddress => '00:00:00:11:33:55'})
 
@@ -1931,7 +1940,7 @@ class HostTest < ActiveSupport::TestCase
         host.built(true)
         email = ActionMailer::Base.deliveries.detect { |mail| mail.subject =~ /Host #{host} is built/ }
         assert email
-        assert_match /Your host has finished/, email.body.encoded
+        assert_match(/Your host has finished/, email.body.encoded)
       end
 
       test "is not sent when not installed" do
