@@ -21,6 +21,12 @@ class FactParserTest < ActiveSupport::TestCase
     refute_match FactParser::BRIDGES, 'bridge'
   end
 
+  test "virtual regexp matches vlans from puppet and ansible facts" do
+    assert_match FactParser::VIRTUAL, 'eth0_0'
+    assert_match FactParser::VIRTUAL, 'eth0.0'
+    refute_match FactParser::VIRTUAL, 'eth0'
+  end
+
   test "default parsers" do
     assert_includes FactParser.parsers.keys, 'puppet'
     assert_equal PuppetFactParser, FactParser.parser_for(:puppet)
@@ -64,12 +70,13 @@ class FactParserTest < ActiveSupport::TestCase
   end
 
   test "#interfaces gets facts hash for desired interfaces, keeping same values it gets from parser" do
-    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'usb0', 'vnet0', 'br0', 'virbr0', 'Local_Area_Connection_2', 'macvtap0']) do
+    parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'usb0', 'vnet0', 'br0', 'virbr0', 'br-ex', 'Local_Area_Connection_2', 'macvtap0']) do
       parser.expects(:get_facts_for_interface).with('eth1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'custom' => 'value'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0.0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:ef'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:ab:ef'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('br-ex').returns({'link' => 'true', 'macaddress' => '00:00:00:00:ab:ef'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('local_area_connection_2').returns({'link' => 'true', 'macaddress' => '00:00:00:00:de:ef'}.with_indifferent_access)
       result = parser.interfaces
       refute_includes result.keys, 'lo'
@@ -78,6 +85,7 @@ class FactParserTest < ActiveSupport::TestCase
       refute_includes result.keys, 'macvtap0'
       assert_includes result.keys, 'br0'
       assert_includes result.keys, 'virbr0'
+      assert_includes result.keys, 'br-ex'
       assert_includes result.keys, 'eth1'
       assert_includes result.keys, 'eth0'
       assert_includes result.keys, 'eth0.0'
@@ -185,7 +193,7 @@ class FactParserTest < ActiveSupport::TestCase
     refute result[:virtual]
   end
 
-  test "#set_additional_attributes detects virtual interface" do
+  test "#set_additional_attributes detects virtual interface (puppet facts)" do
     parser = get_parser(:vlans => '1,2')
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_0')
@@ -213,6 +221,14 @@ class FactParserTest < ActiveSupport::TestCase
     refute result[:bridge]
   end
 
+  test "#set_additional_attributes detects virtual interface (ansible facts)" do
+    result = parser.send(:set_additional_attributes, {}, 'eth0.1')
+    assert result[:virtual]
+    assert_equal 'eth0', result[:attached_to]
+    assert_equal '1', result[:tag]
+    refute result[:bridge]
+  end
+
   test "#set_additional_attributes detects bridged" do
     result = parser.send(:set_additional_attributes, {}, 'br0')
     assert result[:virtual]
@@ -221,6 +237,12 @@ class FactParserTest < ActiveSupport::TestCase
     assert result[:bridge]
 
     result = parser.send(:set_additional_attributes, {}, 'virbr0')
+    assert result[:virtual]
+    assert_empty result[:attached_to]
+    assert_empty result[:tag]
+    assert result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'br-ex')
     assert result[:virtual]
     assert_empty result[:attached_to]
     assert_empty result[:tag]
