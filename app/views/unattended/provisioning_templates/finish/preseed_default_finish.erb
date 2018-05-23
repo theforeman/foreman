@@ -26,6 +26,7 @@ oses:
 /bin/sed -i "s/.*dns-search.*/\tdns-search <%= @host.domain %>/g" /etc/network/interfaces
 /bin/sed -i "s/^<%= @host.ip %>.*/<%= @host.ip %>\t<%= @host.shortname %>.<%= @host.domain %>\t<%= @host.shortname %>/g" /etc/hosts
 /bin/echo <%= @host.shortname %> > /etc/hostname
+/bin/hostname  <%= @host.shortname %>.<%= @host.domain %>
 <% end -%>
 
 <% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>

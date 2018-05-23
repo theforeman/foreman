@@ -19,6 +19,7 @@ This template accepts the following parameters:
 - enable-epel: boolean (default=true)
 - enable-puppetlabs-repo: boolean (default=false)
 - enable-puppetlabs-pc1-repo: boolean (default=false)
+- enable-puppetlabs-puppet5-repo: boolean (default=false)
 - salt_master: string (default=undef)
 - ntp-server: string (default="0.fedora.pool.ntp.org")
 - bootloader-append: string (default="nofb quiet splash=quiet")
@@ -40,7 +41,11 @@ This template accepts the following parameters:
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
 %>
 install
+<% if host_param('kickstart_liveimg') %>
+liveimg --url=<%= host_param('kickstart_liveimg') %> <%= proxy_string %>
+<% else %>
 <%= @mediapath %><%= proxy_string %>
+<% end %>
 lang <%= host_param('lang') || 'en_US.UTF-8' %>
 selinux --<%= host_param('selinux-mode') || host_param('selinux') || 'enforcing' %>
 keyboard <%= host_param('keyboard') || 'us' %>
@@ -52,7 +57,8 @@ skipx
 <% else -%>
 <% dhcp = !@static -%>
 <% end -%>
-network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{[subnet.dns_primary, subnet.dns_secondary].select{ |item| item.present? }.join(',')}" %> --hostname <%= @host %><%= os_major >= 6 ? " --device=#{@host.mac}" : '' -%>
+
+network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{[subnet.dns_primary, subnet.dns_secondary].select{ |item| item.present? }.join(',')} --mtu=#{subnet.mtu.to_s}" %> --hostname <%= @host %><%= os_major >= 6 ? " --device=#{@host.mac}" : '' -%>
 
 rootpw --iscrypted <%= root_pass %>
 <% if host_param_true?('disable-firewall') -%>
