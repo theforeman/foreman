@@ -10,7 +10,7 @@
     <%= title = _('Host Configuration Chart') %>
   <% end %>
 </h4>
-<div id="<%= widget_chart_id %>">
+<div id="<%= widget_chart_id %>" class="host-configuration-chart">
 </div>
 <%= mount_react_component('DonutChart', "##{widget_chart_id}", get_overview_json(@data.report))%>
 <ul class="ui-helper-hidden">

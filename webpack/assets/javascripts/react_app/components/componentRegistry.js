@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DonutChart from './common/charts/DonutChart';
+import BarChart from './common/charts/BarChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
@@ -14,6 +15,9 @@ import AuditsList from './AuditsList';
 import SearchBar from './SearchBar';
 import Layout from './Layout';
 import EmptyState from './common/EmptyState';
+import ComponentWrapper from './common/ComponentWrapper/ComponentWrapper';
+import ChartBox from './statistics/ChartBox';
+import ConfigReports from './ConfigReports/ConfigReports';
 
 const componentRegistry = {
   registry: {},
@@ -84,6 +88,10 @@ const coreComponets = [
   { name: 'AuditsList', type: AuditsList },
   { name: 'Layout', type: Layout },
   { name: 'EmptyState', type: EmptyState },
+  { name: 'BarChart', type: BarChart },
+  { name: 'ChartBox', type: ChartBox },
+  { name: 'ComponentWrapper', type: ComponentWrapper },
+  { name: 'ConfigReports', type: ConfigReports },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

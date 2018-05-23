@@ -9,7 +9,7 @@ import MessageBox from '../common/MessageBox';
 import { STATUS } from '../../constants';
 import * as FactChartActions from '../../redux/actions/factCharts/';
 import { sprintf, ngettext as n__, translate as __ } from '../../../react_app/common/I18n';
-import { navigateToSearch } from '../../../services/ChartService';
+import { navigateToSearch } from '../../../services/charts/DonutChartService';
 
 class FactChart extends React.Component {
   constructor(props) {
