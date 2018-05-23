@@ -21,6 +21,7 @@ require('./bundle_lodash');
 import compute from './foreman_compute_resource';
 
 window.tfm = Object.assign(window.tfm || {}, {
+  authSource: require('./foreman_auth_source'),
   tools: require('./foreman_tools'),
   users: require('./foreman_users'),
   computeResource: compute,

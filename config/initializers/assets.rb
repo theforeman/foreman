@@ -48,7 +48,6 @@ Foreman::Application.configure do |app|
                   filters
                   class_edit
                   dashboard
-                  auth_source_ldap
                   subnets
                   hidden_values
                   proxy_status
