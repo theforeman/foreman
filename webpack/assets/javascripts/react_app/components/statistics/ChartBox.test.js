@@ -4,7 +4,7 @@ import React from 'react';
 import ChartBox from './ChartBox';
 import { classFunctionUnitTest } from '../../common/testHelpers';
 
-jest.unmock('../../../services/ChartService');
+jest.unmock('../../../services/charts/DonutChartService');
 jest.unmock('./ChartBox');
 
 describe('ChartBox', () => {

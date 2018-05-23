@@ -1,7 +1,9 @@
 import Immutable from 'seamless-immutable';
-import { getDonutChartConfig } from './ChartService';
-import { zeroedData, mixedData, dataWithLongLabels } from '../react_app/components/common/charts/DonutChart/DonutChart.fixtures';
+import { getDonutChartConfig } from './DonutChartService';
+import { zeroedData, mixedData, dataWithLongLabels } from '../../react_app/components/common/charts/DonutChart/DonutChart.fixtures';
 
+
+jest.unmock('./DonutChartService');
 jest.unmock('./ChartService');
 describe('getDonutChartConfig', () => {
   it('data should be filtered', () => {

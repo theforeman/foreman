@@ -3,7 +3,7 @@ import toJson from 'enzyme-to-json';
 import React from 'react';
 import { mockStoryData, emptyData } from './DonutChart.fixtures';
 import DonutChart from './';
-import * as chartService from '../../../../../services/ChartService';
+import * as chartService from '../../../../../services/charts/DonutChartService';
 
 jest.unmock('./');
 describe('renders DonutChart', () => {

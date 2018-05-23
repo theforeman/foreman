@@ -65,9 +65,9 @@ module DashboardHelper
     ].to_json
   end
 
-  def render_run_distribution(hosts, options = {})
-    data = count_reports(hosts, options)
-    flot_bar_chart("run_distribution", _("Minutes Ago"), _("Number Of Clients"), data, options)
+  def get_run_distribution_data(hosts, options = {})
+    data = count_reports(hosts, options).to_a
+    data.map { |label, value| [label.to_s, value] }
   end
 
   def searchable_links(name, search, counter)

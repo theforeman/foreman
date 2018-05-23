@@ -22,6 +22,13 @@ module ReportsHelper
     m.round(4) rescue _("N/A")
   end
 
+  def metrics_table_data(metrics)
+    metrics.each do |title, value|
+      metrics[title] = metric value
+    end
+    metrics.sort_by { |lable, value| value }.reverse
+  end
+
   def report_tag(level)
     tag = case level
           when :notice
