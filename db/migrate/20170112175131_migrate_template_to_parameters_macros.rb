@@ -45,6 +45,7 @@ class MigrateTemplateToParametersMacros < ActiveRecord::Migration[4.2]
   end
 
   def convert(content)
+    return nil if content.nil?
     content = content.gsub(/@host\.param_true\?\((.*?)\)/, 'host_param_true?(\1)')
     content = content.gsub(/@host\.param_false\?\((.*?)\)/, 'host_param_false?(\1)')
     content = content.gsub(/@host\.params\[(.*?)\]/, 'host_param(\1)')
