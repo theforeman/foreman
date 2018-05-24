@@ -4,7 +4,7 @@ class ApplicationJob < ActiveJob::Base
   end
 
   def self.spawn_if_missing(world)
-    return if Foreman.in_rake? || Rails.env.test?
+    return if (Foreman.in_rake? && !Foreman.in_rake?('dynflow:executor')) || Rails.env.test?
 
     pending_jobs = world.persistence.find_execution_plans(filters: { :state => 'scheduled' })
     scheduled_job = pending_jobs.select do |job|
