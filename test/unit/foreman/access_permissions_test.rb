@@ -50,7 +50,10 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     # https://github.com/rails/rails/issues/31228
     "active_storage/blobs/show", "active_storage/direct_uploads/create", "active_storage/disk/show",
     "active_storage/disk/update", "active_storage/previews/show", "active_storage/representations/show",
-    "active_storage/variants/show"
+    "active_storage/variants/show",
+
+    # graphql
+    "api/graphql/execute"
   ]
 
   MAY_SKIP_AUTHORIZED = [ "about/index" ]

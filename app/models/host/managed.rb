@@ -278,6 +278,12 @@ class Host::Managed < Host::Base
     ActiveModel::Name.new(Host)
   end
 
+  # Permissions introduced by plugins for this class can cause resource <-> permission
+  # names mapping to fail randomly so as a safety precaution, we specify the name more explicitly.
+  def self.find_permission_name(action)
+    "#{action}_hosts"
+  end
+
   def clear_reports
     # Remove any reports that may be held against this host
     Report.where("host_id = #{id}").delete_all
