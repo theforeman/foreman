@@ -13,7 +13,7 @@ class ApplicationJob < ActiveJob::Base
       delayed_plan.to_hash[:serialized_args].first.try(:[], 'job_class') == self.to_s
     end
 
-    # Only create notifications if there isn't a scheduled job
+    # Schedule the job only if it doesn't exit yet
     self.perform_later if scheduled_job.blank?
   end
 end
