@@ -13,7 +13,11 @@
 
   .active > a,
   .open > a {
-    background: linear-gradient(to bottom, $hover_gradient_start, $hover_gradient_end);
+    background: linear-gradient(
+      to bottom,
+      $hover_gradient_start,
+      $hover_gradient_end
+    );
   }
 
   .org-switcher > a {
@@ -34,16 +38,20 @@
   padding: 0;
   height: inherit;
 
-  a {
+  .navbar-brand-txt {
+    padding-left: 5px;
+    margin-top: 7px !important;
+    position: absolute;
+    left: 115px;
     color: white;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 20px;
+  }
 
-    &:hover {
-      color: white;
-      text-decoration: none;
-    }
+  .navbar-brand-icon {
+    width: 44px;
+    height: 34px;
   }
 }
 
@@ -55,11 +63,6 @@
   @media (max-width: 767px) {
     display: none !important;
   }
-}
-
-.navbar-brand-text {
-  padding-left: 5px;
-  margin-top: 7px !important;
 }
 
 .navbar-pf-vertical {

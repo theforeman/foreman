@@ -1,9 +1,0 @@
-<li class="dropdown-header"><%= _('Location') %></li>
-<li><%= link_to(_('Any Location'), main_app.clear_locations_path) %></li>
-<% if User.current.allowed_to?(:view_locations) %>
-  <li><%= link_to _("Manage Locations"), main_app.locations_path, :class=> "manage-menu" %></li>
-<% end %>
-<%= content_tag(:li, "", :class=>"divider") %>
-<% Location.my_locations.each do |location| %>
-  <li><%= link_to(trunc_with_tooltip(location.title), main_app.select_location_path(location)) %></li>
-<% end %>

@@ -1,12 +1,15 @@
 import $ from 'jquery';
 import URI from 'urijs';
 
+import store from './react_app/redux';
+import * as LayoutActions from './react_app/components/Layout/LayoutActions';
+
 export function showSpinner() {
-  $('#turbolinks-progress').show();
+  store.dispatch(LayoutActions.showLoading());
 }
 
 export function hideSpinner() {
-  $('#turbolinks-progress').hide();
+  store.dispatch(LayoutActions.hideLoading());
 }
 
 export function iconText(name, innerText, iconClass) {
