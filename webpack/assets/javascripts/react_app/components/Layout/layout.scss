@@ -1,0 +1,68 @@
+@import '../../common/colors.scss';
+
+.nav-pf-secondary-nav {
+  background-color: $vertical-nav-highlight !important;
+
+  a {
+    background: $vertical-nav-highlight !important;
+  }
+
+  span {
+    color: $pf-color-white !important;
+  }
+}
+
+.nav-pf-vertical {
+  background: $vertical-nav-background !important;
+
+  .list-group {
+    .list-group-item {
+      a {
+        span {
+          color: $vertical-nav-list-highlight;
+        }
+
+        &:hover {
+          background: $vertical-nav-highlight;
+
+          span {
+            color: $pf-color-white;
+          }
+        }
+
+        &::after {
+          color: $vertical-nav-list-highlight;
+        }
+      }
+
+      &:hover {
+        a {
+          background: $vertical-nav-highlight !important;
+
+          span {
+            color: $pf-color-white;
+          }
+        }
+      }
+
+      &.active {
+        a {
+          background: $vertical-nav-highlight;
+
+          span {
+            color: $pf-color-white;
+          }
+        }
+      }
+    }
+  }
+}
+
+#vertical-spinner {
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+.navbar-header {
+  width: 221.22px;
+}

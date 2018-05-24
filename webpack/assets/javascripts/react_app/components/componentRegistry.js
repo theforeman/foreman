@@ -10,6 +10,7 @@ import BookmarkContainer from './bookmarks';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './factCharts';
+import Layout from './Layout';
 
 const componentRegistry = {
   registry: {},
@@ -68,6 +69,7 @@ const coreComponets = [
   { name: 'PasswordStrength', type: PasswordStrength },
   { name: 'BreadcrumbBar', type: BreadcrumbBar },
   { name: 'FactChart', type: FactChart },
+  { name: 'Layout', type: Layout },
 ];
 
 componentRegistry.registerMultiple(coreComponets);
