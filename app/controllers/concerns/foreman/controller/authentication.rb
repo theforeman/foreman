@@ -85,7 +85,6 @@ module Foreman::Controller::Authentication
       session[:user] = user.id
       update_activity_time
     end
-    set_taxonomy
     user.present?
   end
 end

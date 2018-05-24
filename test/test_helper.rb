@@ -168,3 +168,20 @@ def with_auditing(klass)
 ensure
   klass.disable_auditing unless auditing_was_enabled
 end
+
+def json_response
+  ActiveSupport::JSON.decode(response.body)
+end
+
+def json_data(key)
+  data = json_response.fetch('data', {})
+  data.fetch(key, {})
+end
+
+def json_errors
+  json_response.fetch('errors', [])
+end
+
+def json_error_messages
+  json_errors.map { |e| e.fetch('message') }
+end

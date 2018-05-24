@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
 
   include Foreman::Controller::Flash
   include Foreman::Controller::Authorize
+  include Foreman::Controller::RequireSsl
 
-  force_ssl :if => :require_ssl?
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
@@ -73,10 +73,6 @@ class ApplicationController < ActionController::Base
 
   def deny_access
     (User.current.logged? || request.xhr?) ? render_403 : require_login
-  end
-
-  def require_ssl?
-    SETTINGS[:require_ssl]
   end
 
   # This filter is called before FastGettext set_gettext_locale and sets user-defined locale
