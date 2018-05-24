@@ -413,6 +413,8 @@ class Host::Managed < Host::Base
   def populate_fields_from_facts(parser, type, source_proxy)
     super
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
+    operatingsystem.media << medium if operatingsystem && medium && !operatingsystem.media.include?(medium)
+    operatingsystem.ptables << ptable if operatingsystem && ptable && !operatingsystem.ptables.include?(ptable)
 
     populate_facet_fields(parser, type, source_proxy)
   end
