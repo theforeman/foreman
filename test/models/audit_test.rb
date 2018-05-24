@@ -22,6 +22,13 @@ class AuditTest < ActiveSupport::TestCase
     assert_not_nil audits.select { |a| a.action.to_s == 'update' && a.audited_changes['template'].last == 'new content' }
   end
 
+  test 'can be found by setting name' do
+    FactoryBot.create(:setting, name: 'test_audit_setting')
+    Setting.find_by(name: 'test_audit_setting').update(value: 'New value')
+    audits = Audit.search_for('setting = test_audit_setting')
+    assert_not_nil audits.select { |a| a.action.to_s == 'update' && a.audited_changes['auditable_name'] == 'test_audit_setting' }
+  end
+
   describe 'audited nics' do
     let(:host) { FactoryBot.create(:host, :managed, :with_auditing) }
     let(:nic) { host.primary_interface }

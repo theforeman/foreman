@@ -13,6 +13,7 @@ module AuditSearch
     belongs_to :search_os, :class_name => 'Operatingsystem', :foreign_key => :auditable_id
     belongs_to :search_class, :class_name => 'Puppetclass', :foreign_key => :auditable_id
     belongs_to :search_nics, -> { where('audits.auditable_type LIKE ?', "Nic::%") }, :class_name => 'Nic::Base', :foreign_key => :auditable_id
+    belongs_to :search_settings, :class_name => 'Setting', :foreign_key => :auditable_id
 
     scoped_search :on => [:username, :remote_address], :complete_value => true
     scoped_search :on => :audited_changes, :rename => 'changes'
@@ -33,6 +34,7 @@ module AuditSearch
     scoped_search :relation => :search_nics, :on => :name, :complete_value => true, :rename => :interface_fqdn, :only_explicit => true
     scoped_search :relation => :search_nics, :on => :ip, :complete_value => true, :rename => :interface_ip, :only_explicit => true
     scoped_search :relation => :search_nics, :on => :mac, :complete_value => true, :rename => :interface_mac, :only_explicit => true
+    scoped_search :relation => :search_settings, :on => :name, :complete_value => true, :rename => :setting, :only_explicit => true
   end
 
   module ClassMethods
@@ -54,7 +56,8 @@ module AuditSearch
         :partition_table => 'Ptable',
         :smart_class_parameter => 'PuppetclassLookupKey',
         :smart_variable => 'VariableLookupKey',
-        :parameter => 'Parameter'
+        :parameter => 'Parameter',
+        :setting => 'Setting'
       )
     end
 
