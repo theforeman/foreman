@@ -1,9 +1,7 @@
 {
   "root": true,
-  "extends": "airbnb-base",
-  "plugins": [
-    "react"
-  ],
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["react", "prettier"],
   "env": {
     "browser": true,
     "es6": true,
@@ -45,6 +43,13 @@
     ],
     // Import rules off for now due to HoundCI issue
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "es5"
+      }
+    ]
   }
 }
