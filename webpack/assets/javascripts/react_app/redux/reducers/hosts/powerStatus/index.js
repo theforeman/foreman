@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
       );
     case HOST_POWER_STATUS_FAILURE:
       return state.set(
-        payload.id,
+        payload.item.id,
         { error: payload.error },
       );
     default:
