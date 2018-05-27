@@ -1,6 +1,6 @@
 ![Foreman](https://raw.githubusercontent.com/theforeman/foreman-graphics/master/logo/foreman_medium.png)
 
-[![Build Status](http://ci.theforeman.org/buildStatus/icon?job=test_develop)](http://ci.theforeman.org/job/test_develop/)
+[![Build Status](https://ci.theforeman.org/buildStatus/icon?job=test_develop)](https://ci.theforeman.org/job/test_develop/)
 [![Code Climate](https://codeclimate.com/github/theforeman/foreman/badges/gpa.svg)](https://codeclimate.com/github/theforeman/foreman)
 [![Coverage Status](https://coveralls.io/repos/github/theforeman/foreman/badge.svg?branch=develop)](https://coveralls.io/github/theforeman/foreman?branch=develop)
 [![Issue Stats](http://issuestats.com/github/theforeman/foreman/badge/pr)](http://issuestats.com/github/theforeman/foreman)
@@ -11,9 +11,9 @@
 From **provisioning** and **configuration** to **orchestration** and **monitoring**, Foreman integrates with your existing infrastructure to make operations easier.
 
 * Website: [theforeman.org](https://theforeman.org)
-* ServerFault tag: [Foreman](http://serverfault.com/questions/tagged/foreman)
-* Issues: [Redmine](http://projects.theforeman.org/issues)
-* Wiki: [Foreman wiki](http://projects.theforeman.org/projects/foreman/wiki/About)
+* ServerFault tag: [Foreman](https://serverfault.com/questions/tagged/foreman)
+* Issues: [Redmine](https://projects.theforeman.org/issues)
+* Wiki: [Foreman wiki](https://projects.theforeman.org/projects/foreman/wiki/About)
 * Community and support: We use [Freenode](https://freenode.net) IRC channels
     * #theforeman for general support
     * #theforeman-dev for development chat
@@ -25,7 +25,7 @@ Using [Puppet](https://www.theforeman.org/manuals/latest/#4.2ManagingPuppet), [A
 
 Foreman provides comprehensive, interaction facilities including a **web frontend**, [**CLI**](https://theforeman.org/manuals/latest/index.html#4.5CommandLineInterface) and [**RESTful API**](https://theforeman.org/documentation.html) which enables you to build higher level business logic on top of a solid foundation.
 
-Foreman is a mature project, deployed in [many organizations](http://projects.theforeman.org/projects/foreman/wiki/Who_Uses_Foreman), managing from 10s to 10000s of servers. It is used in distributions such as RDO and RHOS (Red Hat OpenStack distribution) and has [an extensive library of plugins](http://projects.theforeman.org/projects/foreman/wiki/List_of_Plugins).
+Foreman is a mature project, deployed in [many organizations](https://projects.theforeman.org/projects/foreman/wiki/Who_Uses_Foreman), managing from 10s to 10000s of servers. It is used in distributions such as RDO and RHOS (Red Hat OpenStack distribution) and has [an extensive library of plugins](https://projects.theforeman.org/projects/foreman/wiki/List_of_Plugins).
 
 # Features
 * Automate your mixed infrastructure to make operations enjoyable
@@ -70,7 +70,7 @@ Generally, follow the [Foreman guidelines](https://theforeman.org/contribute.htm
 * [Follow the rules](https://theforeman.org/contribute.html#SubmitPatches) about commit message style and create a Redmine issue. Doing this right will help reviewers to get your contribution merged faster.
 * We have a [development handbook](https://theforeman.org/handbook.html) to help developers understand how Foreman developers code.
 * [Rubocop](https://github.com/bbatsov/rubocop) will analyze your code, you can run it locally with `rake rubocop`.
-* All of our pull requests run the full test suite in our [Jenkins CI system](http://ci.theforeman.org/). Please include tests in your pull requests for any additions or changes in functionality
+* All of our pull requests run the full test suite in our [Jenkins CI system](https://ci.theforeman.org/). Please include tests in your pull requests for any additions or changes in functionality
 
 # Media
 We keep a repository of talks, tutorials, articles about everything in the Foreman ecosystem in the [media section](https://theforeman.org/media.html) of our web. If you want to get yours published, just submit a pull request to [theforeman.org repository](https://github.com/theforeman/theforeman.org)
