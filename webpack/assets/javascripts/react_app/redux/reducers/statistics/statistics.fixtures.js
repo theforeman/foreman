@@ -23,21 +23,3 @@ export const stateBeforeResponse = Immutable({
     [request.id]: request,
   },
 });
-
-export const stateAfterSuccess = Immutable({
-  charts: Immutable({
-    [request.id]: {
-      ...request,
-      data: response.data,
-    },
-  }),
-});
-
-export const stateAfterFailure = Immutable({
-  charts: Immutable({
-    [request.id]: {
-      ...request,
-      error,
-    },
-  }),
-});

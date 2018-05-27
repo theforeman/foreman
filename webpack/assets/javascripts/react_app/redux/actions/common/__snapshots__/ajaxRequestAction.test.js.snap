@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ajaxRequestAction should dispatch request and failure actions on reject 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "id": "myid",
+        "name": "test",
+      },
+      "type": "REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "error": [Error: bad request],
+        "item": Object {
+          "id": "myid",
+          "name": "test",
+        },
+      },
+      "type": "FAILURE",
+    },
+  ],
+]
+`;
+
+exports[`ajaxRequestAction should dispatch request and success actions on resolve 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "id": "myid",
+        "name": "test",
+      },
+      "type": "REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "id": "myid",
+        "name": "test",
+        "results": Array [
+          1,
+        ],
+      },
+      "type": "SUCCESS",
+    },
+  ],
+]
+`;

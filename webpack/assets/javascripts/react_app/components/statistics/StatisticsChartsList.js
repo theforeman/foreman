@@ -32,7 +32,7 @@ class StatisticsChartsList extends React.Component {
         chart={chart}
         noDataMsg={__('No data available')}
         tip={__('Expand the chart')}
-        errorText={chart.error}
+        errorText={chart.error && chart.error.message}
         id={chart.id}
         status={getStatusFromChart(chart)}
         title={chart.title}
