@@ -26,12 +26,15 @@ const fixtures = {
   'should close-switcher': () => closeSwitcher(),
 
   'should load-switcher-resources-by-resource and success': () =>
-    runLoadSwitcherResourcesByResourceAction(resource, async () => serverResourceListResponse),
+    runLoadSwitcherResourcesByResourceAction(
+      resource,
+      async () => serverResourceListResponse
+    ),
 
   'should load-switcher-resources-by-resource-with-nested-fields and success': () =>
     runLoadSwitcherResourcesByResourceAction(
       resourceWithNestedFields,
-      async () => serverResourceListWithNestedFieldsResponse,
+      async () => serverResourceListWithNestedFieldsResponse
     ),
 
   'should load-switcher-resources-by-resource and fail': () =>
@@ -40,4 +43,5 @@ const fixtures = {
     }),
 };
 
-describe('BreadcrumbBar actions', () => testActionSnapshotWithFixtures(fixtures));
+describe('BreadcrumbBar actions', () =>
+  testActionSnapshotWithFixtures(fixtures));

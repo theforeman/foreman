@@ -7,25 +7,31 @@ import RadioButtonGroup from './RadioButtonGroup';
 import Form from './Form';
 import storeDecorator from '../../../../../../stories/storeDecorator';
 
-
 const formName = 'storybookForm';
 
 const StoryForm = () => {
   const radios = [
     {
-      label: 'Yes', value: 'yes',
+      label: 'Yes',
+      value: 'yes',
     },
     {
-      label: 'No', value: 'no',
+      label: 'No',
+      value: 'no',
     },
     {
-      label: 'Do Not Know', value: 'dnk',
+      label: 'Do Not Know',
+      value: 'dnk',
     },
   ];
 
   return (
     <Form>
-      <RadioButtonGroup name="hamburger" controlLabel="Would you like a hamburger?" radios={radios}/>
+      <RadioButtonGroup
+        name="hamburger"
+        controlLabel="Would you like a hamburger?"
+        radios={radios}
+      />
     </Form>
   );
 };

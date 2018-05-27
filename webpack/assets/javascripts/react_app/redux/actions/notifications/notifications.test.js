@@ -38,7 +38,12 @@ describe('Notification Drawer actions', () => {
 
   it('should make a notification read', () => {
     API.put.mockImplementation(async () => null);
-    const state = { notifications: { expandedGroup: 'Community', notifications: [{ id: 21, seen: false }] } };
+    const state = {
+      notifications: {
+        expandedGroup: 'Community',
+        notifications: [{ id: 21, seen: false }],
+      },
+    };
     const dispatch = jest.fn();
     const dispatcher = actions.markAsRead('Community', 21);
 
@@ -50,7 +55,12 @@ describe('Notification Drawer actions', () => {
 
   it('should skip a notification read', () => {
     API.put.mockImplementation(async () => null);
-    const state = { notifications: { expandedGroup: 'Community', notifications: [{ id: 21, seen: true }] } };
+    const state = {
+      notifications: {
+        expandedGroup: 'Community',
+        notifications: [{ id: 21, seen: true }],
+      },
+    };
     const dispatch = jest.fn();
     const dispatcher = actions.markAsRead('Community', 21);
 

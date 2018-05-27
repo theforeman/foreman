@@ -6,11 +6,7 @@ import {
   CLOSE_FACT_CHART_MODAL,
 } from '../../consts';
 
-import {
-  getChartData,
-  showModal,
-  closeModal,
-} from './index';
+import { getChartData, showModal, closeModal } from './index';
 
 import { ajaxRequestAction } from '../common';
 
@@ -22,15 +18,14 @@ describe('factCharts actions', () => {
     const id = 1;
     const url = 'url';
     const dispatch = jest.fn();
-    const expectedParams =
-      {
-        dispatch,
-        failedAction: FACT_CHART_DATA_FAILURE,
-        item: { id },
-        requestAction: FACT_CHART_DATA_REQUEST,
-        successAction: FACT_CHART_DATA_SUCCESS,
-        url,
-      };
+    const expectedParams = {
+      dispatch,
+      failedAction: FACT_CHART_DATA_FAILURE,
+      item: { id },
+      requestAction: FACT_CHART_DATA_REQUEST,
+      successAction: FACT_CHART_DATA_SUCCESS,
+      url,
+    };
     const dispatcher = getChartData(url, id);
 
     dispatcher(dispatch);
@@ -58,4 +53,3 @@ describe('factCharts actions', () => {
     expect(closeModal(id)).toEqual(expectedResults);
   });
 });
-

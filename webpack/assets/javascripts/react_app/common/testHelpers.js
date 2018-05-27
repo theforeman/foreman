@@ -11,13 +11,13 @@ export default {
         storage[key] = value || '';
       },
       getItem: key => (key in storage ? storage[key] : null),
-      removeItem: (key) => {
+      removeItem: key => {
         delete storage[key];
       },
       get length() {
         return Object.keys(storage).length;
       },
-      key: (i) => {
+      key: i => {
         const keys = Object.keys(storage);
 
         return keys[i] || null;
@@ -53,15 +53,17 @@ export const shallowRenderComponentWithFixtures = (Component, fixtures) =>
  * @param  {Object}         fixtures  key=fixture description, value=props to apply
  */
 export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
-  shallowRenderComponentWithFixtures(Component, fixtures).forEach(({ description, component }) =>
-    it(description, () => expect(toJson(component)).toMatchSnapshot()));
+  shallowRenderComponentWithFixtures(Component, fixtures).forEach(
+    ({ description, component }) =>
+      it(description, () => expect(toJson(component)).toMatchSnapshot())
+  );
 
 /**
  * run an action (sync or async) and except the results to much snapshot
  * @param  {Function}  runAction  Action runner function
  * @return {Promise}
  */
-export const testActionSnapshot = async (runAction) => {
+export const testActionSnapshot = async runAction => {
   const actionResults = runAction();
 
   // if it's an async action
@@ -81,7 +83,8 @@ export const testActionSnapshot = async (runAction) => {
  */
 export const testActionSnapshotWithFixtures = fixtures =>
   Object.entries(fixtures).forEach(([description, runAction]) =>
-    it(description, () => testActionSnapshot(runAction)));
+    it(description, () => testActionSnapshot(runAction))
+  );
 
 /**
  * Test a reducer with fixtures and snapshots
@@ -91,5 +94,6 @@ export const testActionSnapshotWithFixtures = fixtures =>
 export const testReducerSnapshotWithFixtures = (reducer, fixtures) => {
   const reduce = ({ state, action = {} } = {}) => reducer(state, action);
   Object.entries(fixtures).forEach(([description, action]) =>
-    it(description, () => expect(reduce(action)).toMatchSnapshot()));
+    it(description, () => expect(reduce(action)).toMatchSnapshot())
+  );
 };

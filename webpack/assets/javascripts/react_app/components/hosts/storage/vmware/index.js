@@ -16,7 +16,10 @@ const controllersToJsonString = (controllers, volumes) =>
 
 class StorageContainer extends React.Component {
   componentDidMount() {
-    const { data: { config, controllers, volumes }, initController } = this.props;
+    const {
+      data: { config, controllers, volumes },
+      initController,
+    } = this.props;
 
     initController(config, controllers, volumes);
   }
@@ -33,7 +36,9 @@ class StorageContainer extends React.Component {
     } = this.props;
 
     return controllers.map((controller, idx) => {
-      const controllerVolumes = volumes.filter(v => v.controllerKey === controller.key);
+      const controllerVolumes = volumes.filter(
+        v => v.controllerKey === controller.key
+      );
 
       return (
         <Controller
@@ -53,11 +58,10 @@ class StorageContainer extends React.Component {
   }
 
   render() {
-    const {
-      addController, controllers, volumes, config,
-    } = this.props;
+    const { addController, controllers, volumes, config } = this.props;
     const paramsScope = config && config.paramsScope;
-    const enableAddControllerBtn = config && config.addControllerEnabled && !config.vmExists;
+    const enableAddControllerBtn =
+      config && config.addControllerEnabled && !config.vmExists;
 
     return (
       <div className="row vmware-storage-container">
@@ -88,7 +92,7 @@ class StorageContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (state) => {
+const mapDispatchToProps = state => {
   const { controllers, config, volumes = [] } = state.hosts.storage.vmware;
 
   return { controllers, volumes, config };

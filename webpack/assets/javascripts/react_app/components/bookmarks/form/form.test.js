@@ -17,9 +17,11 @@ function setup() {
     onCancel: jest.fn(),
   };
 
-  const wrapper = mount(<Provider store={generateStore()}>
+  const wrapper = mount(
+    <Provider store={generateStore()}>
       <BookmarkForm {...props} />
-    </Provider>);
+    </Provider>
+  );
 
   return {
     props,
@@ -45,9 +47,15 @@ describe('bookmark form', () => {
     const spy = jest.spyOn(FormActions, 'submitForm');
     const { wrapper } = setup();
 
-    wrapper.find('input [name="name"]').simulate('change', { target: { value: 'Joe' } });
-    wrapper.find('textarea [name="query"]').simulate('change', { target: { value: 'search' } });
-    wrapper.find('input [name="publik"]').simulate('change', { target: { value: true } });
+    wrapper
+      .find('input [name="name"]')
+      .simulate('change', { target: { value: 'Joe' } });
+    wrapper
+      .find('textarea [name="query"]')
+      .simulate('change', { target: { value: 'search' } });
+    wrapper
+      .find('input [name="publik"]')
+      .simulate('change', { target: { value: true } });
 
     wrapper.find('form').simulate('submit');
     expect(wrapper.find('.spinner').length).toEqual(1);
@@ -55,7 +63,10 @@ describe('bookmark form', () => {
       item: 'Bookmark',
       url: '/api/bookmarks',
       values: {
-        controller: 'hosts', name: 'Joe', public: true, query: 'search',
+        controller: 'hosts',
+        name: 'Joe',
+        public: true,
+        query: 'search',
       },
     });
   });
@@ -63,9 +74,15 @@ describe('bookmark form', () => {
     const spy = jest.spyOn(FormActions, 'submitForm');
     const { wrapper } = setup();
 
-    wrapper.find('input [name="name"]').simulate('change', { target: { value: 'Joe' } });
-    wrapper.find('textarea [name="query"]').simulate('change', { target: { value: 'search' } });
-    wrapper.find('input [name="publik"]').simulate('change', { target: { value: false } });
+    wrapper
+      .find('input [name="name"]')
+      .simulate('change', { target: { value: 'Joe' } });
+    wrapper
+      .find('textarea [name="query"]')
+      .simulate('change', { target: { value: 'search' } });
+    wrapper
+      .find('input [name="publik"]')
+      .simulate('change', { target: { value: false } });
 
     wrapper.find('form').simulate('submit');
     expect(wrapper.find('.spinner').length).toEqual(1);
@@ -73,7 +90,10 @@ describe('bookmark form', () => {
       item: 'Bookmark',
       url: '/api/bookmarks',
       values: {
-        controller: 'hosts', name: 'Joe', public: false, query: 'search',
+        controller: 'hosts',
+        name: 'Joe',
+        public: false,
+        query: 'search',
       },
     });
     spy.mockReset();
@@ -93,9 +113,15 @@ describe('bookmark form', () => {
     const spy = jest.spyOn(FormActions, 'submitForm');
     const { wrapper } = setup();
 
-    wrapper.find('input [name="name"]').simulate('change', { target: { value: 'Joe.D' } });
-    wrapper.find('textarea [name="query"]').simulate('change', { target: { value: 'search' } });
-    wrapper.find('input [name="publik"]').simulate('change', { target: { value: false } });
+    wrapper
+      .find('input [name="name"]')
+      .simulate('change', { target: { value: 'Joe.D' } });
+    wrapper
+      .find('textarea [name="query"]')
+      .simulate('change', { target: { value: 'search' } });
+    wrapper
+      .find('input [name="publik"]')
+      .simulate('change', { target: { value: false } });
 
     wrapper.find('form').simulate('submit');
     expect(wrapper.find('.spinner').length).toEqual(1);
@@ -103,7 +129,10 @@ describe('bookmark form', () => {
       item: 'Bookmark',
       url: '/api/bookmarks',
       values: {
-        controller: 'hosts', name: 'Joe.D', public: false, query: 'search',
+        controller: 'hosts',
+        name: 'Joe.D',
+        public: false,
+        query: 'search',
       },
     });
     spy.mockReset();

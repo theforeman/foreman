@@ -12,9 +12,11 @@ function setup() {
     onHide: jest.fn(),
   };
 
-  const wrapper = mount(<Provider store={generateStore()}>
+  const wrapper = mount(
+    <Provider store={generateStore()}>
       <SearchModal {...props} />
-    </Provider>);
+    </Provider>
+  );
 
   return {
     props,

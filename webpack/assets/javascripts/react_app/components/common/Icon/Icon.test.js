@@ -19,12 +19,16 @@ describe('Icon', () => {
   it('displays warning icon css', () => {
     const wrapper = shallow(<Icon type="warning" />);
 
-    expect(wrapper.html()).toEqual('<span class="pficon pficon-warning-triangle-o"></span>');
+    expect(wrapper.html()).toEqual(
+      '<span class="pficon pficon-warning-triangle-o"></span>'
+    );
   });
   it('displays error icon css', () => {
     const wrapper = shallow(<Icon type="error" />);
 
-    expect(wrapper.html()).toEqual('<span class="pficon pficon-error-circle-o"></span>');
+    expect(wrapper.html()).toEqual(
+      '<span class="pficon pficon-error-circle-o"></span>'
+    );
   });
   it('displays close icon css', () => {
     const wrapper = shallow(<Icon type="close" />);

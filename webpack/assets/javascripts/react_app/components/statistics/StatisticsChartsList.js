@@ -7,7 +7,7 @@ import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
 import './StatisticsChartsListStyles.scss';
 
-const getStatusFromChart = (chart) => {
+const getStatusFromChart = chart => {
   if (chart.data) {
     return STATUS.RESOLVED;
   }
@@ -40,7 +40,11 @@ class StatisticsChartsList extends React.Component {
       />
     ));
 
-    return <div className="statistics-charts-list-root">{this.props.charts && charts}</div>;
+    return (
+      <div className="statistics-charts-list-root">
+        {this.props.charts && charts}
+      </div>
+    );
   }
 }
 
@@ -52,4 +56,6 @@ const mapStateToProps = state => ({
   charts: state.statistics.charts,
 });
 
-export default connect(mapStateToProps, StatisticsChartActions)(StatisticsChartsList);
+export default connect(mapStateToProps, StatisticsChartActions)(
+  StatisticsChartsList
+);

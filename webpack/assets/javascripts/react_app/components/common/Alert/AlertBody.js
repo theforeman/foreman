@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AlertLink from './AlertLink';
 
-const AlertBody = ({
-  link, title, message, children,
-}) => (
+const AlertBody = ({ link, title, message, children }) => (
   <span>
     {link && <AlertLink {...link} />}
 

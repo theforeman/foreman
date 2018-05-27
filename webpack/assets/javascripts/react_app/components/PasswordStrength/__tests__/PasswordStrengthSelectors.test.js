@@ -17,6 +17,9 @@ describe('PasswordStrength selectors', () => {
       expectPasswordsMatch({ password: 'some-password' }).toBe(true));
 
     it('should match same password', () =>
-      expectPasswordsMatch({ password: 'password', passwordConfirmation: 'password' }).toBe(true));
+      expectPasswordsMatch({
+        password: 'password',
+        passwordConfirmation: 'password',
+      }).toBe(true));
   });
 });

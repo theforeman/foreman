@@ -9,11 +9,15 @@ let wrapper = null;
 
 describe('StorageContainer', () => {
   beforeEach(() => {
-    wrapper = mount(<StorageContainer store={generateStore()} data={vmwareData} />);
+    wrapper = mount(
+      <StorageContainer store={generateStore()} data={vmwareData} />
+    );
   });
 
   it('render hidden field correctly', () => {
-    expect(JSON.parse(wrapper.find('#scsi_controller_hidden').props().value)).toEqual(hiddenFieldValue);
+    expect(
+      JSON.parse(wrapper.find('#scsi_controller_hidden').props().value)
+    ).toEqual(hiddenFieldValue);
   });
 
   it('adds a disk when button is clicked', () => {

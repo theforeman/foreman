@@ -18,7 +18,13 @@ const RadioButtonGroup = ({
     inputClassName={inputClassName}
   >
     {radios.map((item, index) => (
-      <Field name={name} component={Button} item={item} disabled={disabled} key={index}/>
+      <Field
+        name={name}
+        component={Button}
+        item={item}
+        disabled={disabled}
+        key={index}
+      />
     ))}
   </CommonForm>
 );
@@ -38,11 +44,13 @@ const Button = ({ input, item, disabled }) => (
 
 RadioButtonGroup.propTypes = {
   controlLabel: PropTypes.string.isRequired,
-  radios: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string,
-    checked: PropTypes.bool,
-  })),
+  radios: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+      checked: PropTypes.bool,
+    })
+  ),
   name: PropTypes.string,
 };
 

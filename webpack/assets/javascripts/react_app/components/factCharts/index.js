@@ -18,7 +18,11 @@ class FactChart extends React.Component {
   }
 
   openModal() {
-    const { showModal, getChartData, data: { id, path, title } } = this.props;
+    const {
+      showModal,
+      getChartData,
+      data: { id, path, title },
+    } = this.props;
 
     getChartData(path, id);
     showModal(id, title);
@@ -44,7 +48,7 @@ class FactChart extends React.Component {
       onclick: handleChartClick,
     };
 
-    const chart = <DonutChart {...chartProps} config='large' />;
+    const chart = <DonutChart {...chartProps} config="large" />;
 
     const requestErrorMsg =
       factChart.loaderStatus === STATUS.ERROR
@@ -54,7 +58,7 @@ class FactChart extends React.Component {
     const error = modalToDisplay ? (
       <MessageBox
         msg={requestErrorMsg}
-        icontype='error-circle-o'
+        icontype="error-circle-o"
         key={`message-${id}`}
       />
     ) : (
@@ -62,12 +66,14 @@ class FactChart extends React.Component {
     );
 
     const tooltip = (
-      <Tooltip id={`viewChartTooltip-${id}`}>{__('Show distribution chart')}</Tooltip>
+      <Tooltip id={`viewChartTooltip-${id}`}>
+        {__('Show distribution chart')}
+      </Tooltip>
     );
 
     return (
       <div>
-        <OverlayTrigger placement='top' overlay={tooltip}>
+        <OverlayTrigger placement="top" overlay={tooltip}>
           <Button onClick={this.openModal}>{__('View Chart')}</Button>
         </OverlayTrigger>
         {modalToDisplay && (
@@ -82,7 +88,7 @@ class FactChart extends React.Component {
                   {// eslint-disable-next-line no-undef
                   Jed.sprintf(
                     __('(%s host)', '(%s hosts)', factChart.hostsCount),
-                    factChart.hostsCount,
+                    factChart.hostsCount
                   )}
                 </small>
               </Modal.Title>

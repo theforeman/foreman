@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { Breadcrumb as PfBreadcrumb } from 'patternfly-react';
 import 'patternfly-react/dist/sass/_breadcrumb.scss';
 
-const Breadcrumb = ({
-  items, title, isTitle, children, ...props
-}) => {
+const Breadcrumb = ({ items, title, isTitle, children, ...props }) => {
   if (isTitle) {
     return (
       <div className="form-group">
@@ -33,10 +31,12 @@ Breadcrumb.propTypes = {
   children: PropTypes.node,
   title: PropTypes.bool,
   isTitle: PropTypes.bool,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    caption: PropTypes.string.isRequired,
-    url: PropTypes.string,
-  })),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      caption: PropTypes.string.isRequired,
+      url: PropTypes.string,
+    })
+  ),
 };
 
 Breadcrumb.defaultProps = {

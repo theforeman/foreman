@@ -7,7 +7,10 @@ import PowerStatusInner from './powerStatusInner';
 
 class PowerStatus extends React.Component {
   componentDidMount() {
-    const { data: { id, url }, getHostPowerState } = this.props;
+    const {
+      data: { id, url },
+      getHostPowerState,
+    } = this.props;
 
     getHostPowerState({ id, url });
   }

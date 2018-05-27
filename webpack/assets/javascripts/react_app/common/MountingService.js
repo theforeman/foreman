@@ -27,13 +27,17 @@ export function mount(component, selector, data) {
   if (reactNode) {
     ReactDOM.unmountComponentAtNode(reactNode);
     ReactDOM.render(
-      <Provider store={store}>{componentRegistry.markup(component, data, store)}</Provider>,
-      reactNode,
+      <Provider store={store}>
+        {componentRegistry.markup(component, data, store)}
+      </Provider>,
+      reactNode
     );
 
     mountedNodes.push(reactNode);
   } else {
     // eslint-disable-next-line no-console
-    console.log(`Cannot find '${selector}' element for mounting the '${component}'`);
+    console.log(
+      `Cannot find '${selector}' element for mounting the '${component}'`
+    );
   }
 }

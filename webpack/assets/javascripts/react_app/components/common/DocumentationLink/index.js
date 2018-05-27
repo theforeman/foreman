@@ -3,7 +3,7 @@ import { MenuItem } from 'patternfly-react';
 import Icon from '../Icon';
 
 export default ({ href, id = 'documentationLink' }) => {
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.preventDefault();
     window.open(href, '_blank');
   };
