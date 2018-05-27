@@ -44,11 +44,11 @@ class ChartBox extends React.Component {
     const hasChartData = dataFiltered && dataFiltered.length > 0;
     const headerProps = hasChartData
       ? {
-        onClick: this.onClick,
-        title: this.props.tip,
-        'data-toggle': 'tooltip',
-        'data-placement': 'top',
-      }
+          onClick: this.onClick,
+          title: this.props.tip,
+          'data-toggle': 'tooltip',
+          'data-placement': 'top',
+        }
       : {};
     const handleChartClick =
       chart.search && chart.search.match(/=$/)

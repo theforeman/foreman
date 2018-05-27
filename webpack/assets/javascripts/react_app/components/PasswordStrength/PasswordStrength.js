@@ -12,9 +12,7 @@ export default class PasswordStrength extends React.Component {
       updatePassword,
       updatePasswordConfirmation,
       doesPasswordsMatch,
-      data: {
-        className, id, name, verify, error, userInputIds,
-      },
+      data: { className, id, name, verify, error, userInputIds },
     } = this.props;
 
     const userInputs =
@@ -31,7 +29,13 @@ export default class PasswordStrength extends React.Component {
             minScore={2}
             userInputs={userInputs}
             tooShortWord={__('Too short')}
-            scoreWords={[__('Weak'), __('Medium'), __('Normal'), __('Strong'), __('Very strong')]}
+            scoreWords={[
+              __('Weak'),
+              __('Medium'),
+              __('Normal'),
+              __('Strong'),
+              __('Very strong'),
+            ]}
             inputProps={{ name, id, className }}
           />
         </CommonForm>
@@ -39,13 +43,17 @@ export default class PasswordStrength extends React.Component {
           <CommonForm
             label={__('Verify')}
             touched={true}
-            error={doesPasswordsMatch ? verify.error : __('Passwords do not match')}
+            error={
+              doesPasswordsMatch ? verify.error : __('Passwords do not match')
+            }
           >
             <input
               id="password_confirmation"
               name={verify.name}
               type="password"
-              onChange={({ target }) => updatePasswordConfirmation(target.value)}
+              onChange={({ target }) =>
+                updatePasswordConfirmation(target.value)
+              }
               className="form-control"
             />
           </CommonForm>

@@ -8,8 +8,12 @@ storiesOf('Host VMWare Storage', module)
   .add('default state for new host', () => (
     <StorageContainer store={Store} data={VMWareData.state1} />
   ))
-  .add('multiple controllers', () => <StorageContainer store={Store} data={VMWareData.state2} />)
-  .add('on clone', () => <StorageContainer store={Store} data={VMWareData.clone} />)
+  .add('multiple controllers', () => (
+    <StorageContainer store={Store} data={VMWareData.state2} />
+  ))
+  .add('on clone', () => (
+    <StorageContainer store={Store} data={VMWareData.clone} />
+  ))
   .add('without any controllers', () => (
     <StorageContainer store={Store} data={VMWareData.emptyState} />
   ));

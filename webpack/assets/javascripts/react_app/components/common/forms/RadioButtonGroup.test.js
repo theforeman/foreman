@@ -19,11 +19,13 @@ describe('radio button group', () => {
   ];
 
   it('should render group of radio buttons', () => {
-    const wrapper = shallow(<RadioButtonGroup
+    const wrapper = shallow(
+      <RadioButtonGroup
         name="RadioButtonGroupTest"
         controlLabel="RadioButtonGroupLabel"
         radios={radios}
-      />);
+      />
+    );
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 });

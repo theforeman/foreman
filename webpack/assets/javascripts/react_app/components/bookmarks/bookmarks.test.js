@@ -28,9 +28,11 @@ function setup() {
     },
   };
 
-  const wrapper = mount(<Provider store={mockStore(initialState)}>
+  const wrapper = mount(
+    <Provider store={mockStore(initialState)}>
       <BookmarksContainer {...props} />
-    </Provider>);
+    </Provider>
+  );
 
   return {
     props,
@@ -46,32 +48,40 @@ describe('bookmarks', () => {
   });
 
   it('should show loading spinner when loading bookmarks', () => {
-    const wrapper = mount(<Provider store={mockStore(afterRequest)}>
+    const wrapper = mount(
+      <Provider store={mockStore(afterRequest)}>
         <BookmarksContainer {...setup().props} />
-      </Provider>);
+      </Provider>
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   it('should show an error message if loading failed', () => {
-    const wrapper = mount(<Provider store={mockStore(afterError)}>
+    const wrapper = mount(
+      <Provider store={mockStore(afterError)}>
         <BookmarksContainer {...setup().props} />
-      </Provider>);
+      </Provider>
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   it('should show no bookmarks if server did not respond with any', () => {
-    const wrapper = mount(<Provider store={mockStore(afterSuccessNoResults)}>
+    const wrapper = mount(
+      <Provider store={mockStore(afterSuccessNoResults)}>
         <BookmarksContainer {...setup().props} />
-      </Provider>);
+      </Provider>
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should include existing bookmarks for the current controller', () => {
-    const wrapper = mount(<Provider store={mockStore(afterSuccess)}>
+    const wrapper = mount(
+      <Provider store={mockStore(afterSuccess)}>
         <BookmarksContainer {...setup().props} />
-      </Provider>);
+      </Provider>
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
@@ -80,9 +90,11 @@ describe('bookmarks', () => {
 
     props.canCreate = false;
 
-    const wrapper = mount(<Provider store={mockStore(afterSuccess)}>
+    const wrapper = mount(
+      <Provider store={mockStore(afterSuccess)}>
         <BookmarksContainer {...props} />
-      </Provider>);
+      </Provider>
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
@@ -107,9 +119,15 @@ describe('bookmarks', () => {
 
     const formWrapper = wrapper.find('SearchModal');
 
-    formWrapper.find('input [name="name"]').simulate('change', { target: { value: 'Joe.D' } });
-    formWrapper.find('textarea [name="query"]').simulate('change', { target: { value: 'search' } });
-    formWrapper.find('input [name="publik"]').simulate('change', { target: { value: false } });
+    formWrapper
+      .find('input [name="name"]')
+      .simulate('change', { target: { value: 'Joe.D' } });
+    formWrapper
+      .find('textarea [name="query"]')
+      .simulate('change', { target: { value: 'search' } });
+    formWrapper
+      .find('input [name="publik"]')
+      .simulate('change', { target: { value: false } });
 
     formWrapper.find('form').simulate('submit');
     expect(wrapper.find('Bookmark').length).toEqual(1);

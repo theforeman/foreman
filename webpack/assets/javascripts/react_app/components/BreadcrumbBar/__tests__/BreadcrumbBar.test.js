@@ -4,7 +4,10 @@ import { mount } from 'enzyme';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 import BreadcrumbBar from '../BreadcrumbBar';
-import { breadcrumbBar, breadcrumbBarSwithcable } from '../BreadcrumbBar.fixtures';
+import {
+  breadcrumbBar,
+  breadcrumbBarSwithcable,
+} from '../BreadcrumbBar.fixtures';
 
 const createStubs = () => ({
   toggleSwitcher: jest.fn(),
@@ -18,7 +21,8 @@ const fixtures = {
 };
 
 describe('BreadcrumbBar', () => {
-  describe('rendering', () => testComponentSnapshotsWithFixtures(BreadcrumbBar, fixtures));
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(BreadcrumbBar, fixtures));
 
   describe('triggering', () => {
     it('should trigger callbacks', () => {
@@ -29,7 +33,8 @@ describe('BreadcrumbBar', () => {
       expect(props.closeSwitcher.mock.calls.length).toBe(0);
       expect(props.loadSwitcherResourcesByResource.mock.calls.length).toBe(0);
 
-      const toggleSwitcherClick = () => component.find('.breadcrumb-switcher .btn').simulate('click');
+      const toggleSwitcherClick = () =>
+        component.find('.breadcrumb-switcher .btn').simulate('click');
       const openSwitcher = () => component.setProps({ isSwitcherOpen: true });
 
       toggleSwitcherClick();
@@ -46,7 +51,9 @@ describe('BreadcrumbBar', () => {
       component.find('.breadcrumb-switcher .previous a').simulate('click');
       expect(props.loadSwitcherResourcesByResource.mock.calls.length).toBe(3);
 
-      expect(props.loadSwitcherResourcesByResource.mock.calls).toMatchSnapshot('loadSwitcherResourcesByResource calls');
+      expect(props.loadSwitcherResourcesByResource.mock.calls).toMatchSnapshot(
+        'loadSwitcherResourcesByResource calls'
+      );
     });
   });
 });

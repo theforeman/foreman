@@ -6,11 +6,15 @@ jest.unmock('./foreman_tools');
 
 describe('iconText', () => {
   it('creates a label with the right icon class', () => {
-    expect(tools.iconText('plus', '', 'patternfly')).toBe('<span class="patternfly patternfly-plus"/>');
+    expect(tools.iconText('plus', '', 'patternfly')).toBe(
+      '<span class="patternfly patternfly-plus"/>'
+    );
   });
 
   it('adds a bold text next to the label', () => {
-    expect(tools.iconText('plus', 'foo', 'patternfly')).toBe('<span class="patternfly patternfly-plus"/><strong>foo</strong>');
+    expect(tools.iconText('plus', 'foo', 'patternfly')).toBe(
+      '<span class="patternfly patternfly-plus"/><strong>foo</strong>'
+    );
   });
 });
 
@@ -53,7 +57,9 @@ describe('deprecate', () => {
   it('Logs the correct deprecation message', () => {
     console.warn = jest.fn();
     tools.deprecate('oldtest', 'tfm.tools.newtest', '1.42');
-    expect(console.warn).toHaveBeenCalledWith('DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.');
+    expect(console.warn).toHaveBeenCalledWith(
+      'DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.'
+    );
   });
 });
 
@@ -65,10 +71,13 @@ describe('initTypeAheadSelect', () => {
 
     const field = $('#typeahead');
 
-    $.ajax = jest.fn((url) => {
+    $.ajax = jest.fn(url => {
       const ajaxMock = $.Deferred();
 
-      ajaxMock.resolve([{ id: 1, name: 'testoption' }, { id: 2, name: 'anotheroption' }]);
+      ajaxMock.resolve([
+        { id: 1, name: 'testoption' },
+        { id: 2, name: 'anotheroption' },
+      ]);
       return ajaxMock.promise();
     });
 
@@ -147,7 +156,9 @@ describe('updateTableTest', () => {
     const PerPage = $('#per_page').val();
 
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
+    );
   });
 
   it('should change page', () => {
@@ -155,14 +166,18 @@ describe('updateTableTest', () => {
 
     $('#cur_page_num').val('4');
     $('#pagination').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=4&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=4&per_page=${PerPage}`
+    );
   });
 
   it('should use find search term and add it to the url considering per page value and pagination', () => {
     const PerPage = $('#per_page').val();
 
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
+    );
   });
 
   it('should reset page param to 1 after new search', () => {
@@ -171,22 +186,28 @@ describe('updateTableTest', () => {
     window.location.href = 'http://localhost/?page=4';
     $('.autocomplete-input').val('test');
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=test&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=test&per_page=${PerPage}`
+    );
   });
 
   it('should not reset search when set the per_page param', () => {
     window.location.href = 'http://localhost/?search=blue';
     $('#per_page').val('20');
     $('#pagination').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith('http://localhost/?search=blue&page=1&per_page=20');
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      'http://localhost/?search=blue&page=1&per_page=20'
+    );
   });
 
   it('should remove search param if search is empty', () => {
-    ['', ' '].map((searchValue) => {
+    ['', ' '].map(searchValue => {
       const PerPage = $('#per_page').val();
       $('.autocomplete-input').val(searchValue);
       $('#search-form').submit();
-      return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=&per_page=${PerPage}`);
+      return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+        `http://localhost/?page=1&search=&per_page=${PerPage}`
+      );
     });
   });
 });

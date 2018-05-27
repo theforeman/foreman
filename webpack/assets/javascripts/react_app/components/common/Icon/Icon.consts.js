@@ -7,7 +7,7 @@ const errorIcon = 'pficon pficon-error-circle-o';
 const closeIcon = 'pficon pficon-close';
 const questionSign = 'glyphicon glyphicon-question-sign';
 
-export default (type) => {
+export default type => {
   switch (type) {
     case 'ok':
     case 'notice':

@@ -1,4 +1,7 @@
-import { updatePassword, updatePasswordConfirmation } from '../PasswordStrengthActions';
+import {
+  updatePassword,
+  updatePasswordConfirmation,
+} from '../PasswordStrengthActions';
 
 describe('PasswordStrength actions', () => {
   it('should update password', () =>

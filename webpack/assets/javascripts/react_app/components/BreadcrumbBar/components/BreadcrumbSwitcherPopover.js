@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, ListGroup, ListGroupItem, Pager, Icon } from 'patternfly-react';
+import {
+  Popover,
+  ListGroup,
+  ListGroupItem,
+  Pager,
+  Icon,
+} from 'patternfly-react';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import SearchInput from '../../common/SearchInput';
 import { noop } from '../../../common/helpers';
@@ -37,12 +43,12 @@ const BreadcrumbSwitcherPopover = ({
       </div>
     );
   } else {
-    const handleItemClick = (item) => {
+    const handleItemClick = item => {
       onResourceClick(item);
       if (item.onClick) item.onClick();
     };
 
-    const createItemProps = (item) => {
+    const createItemProps = item => {
       const { id, url, name } = item;
       const key = `${id}-${name}`;
 
@@ -79,7 +85,9 @@ const BreadcrumbSwitcherPopover = ({
           onNextPage={onNextPageClick}
           onPreviousPage={onPrevPageClick}
           disablePrevious={currentPage === 1}
-          disableNext={totalPages === 0 || currentPage === Math.ceil(totalPages)}
+          disableNext={
+            totalPages === 0 || currentPage === Math.ceil(totalPages)
+          }
         />
       </React.Fragment>
     );
@@ -92,7 +100,8 @@ const BreadcrumbSwitcherPopover = ({
         timeout={searchDebounceTimeout}
         focus
         onSearchChange={onSearchChange}
-        searchValue={searchValue} />
+        searchValue={searchValue}
+      />
       {popoverBody}
     </Popover>
   );
@@ -105,12 +114,14 @@ BreadcrumbSwitcherPopover.propTypes = {
   currentPage: PropTypes.number,
   totalPages: PropTypes.number,
   onResourceClick: PropTypes.func,
-  resources: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    name: PropTypes.string.isRequired,
-    href: PropTypes.string,
-    onClick: PropTypes.func,
-  })),
+  resources: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      name: PropTypes.string.isRequired,
+      href: PropTypes.string,
+      onClick: PropTypes.func,
+    })
+  ),
   onSearchChange: PropTypes.func,
   searchValue: PropTypes.string,
 };

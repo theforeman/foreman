@@ -43,7 +43,8 @@ export function testMail(item, url, param = {}) {
     url,
     type: 'put',
     data: param,
-    success: ({ message }) => notify({ message: `<p>${message}</p>`, type: 'success' }),
+    success: ({ message }) =>
+      notify({ message: `<p>${message}</p>`, type: 'success' }),
     error: ({ responseText }) =>
       notify({
         message: `<p>${JSON.parse(responseText).message}</p>`,

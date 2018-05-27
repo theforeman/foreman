@@ -9,10 +9,14 @@ function markActiveMenu() {
     .has(link)
     .addClass('active');
   if (currentLoc) {
-    $(`.nav-pf-secondary-nav .list-group-item:contains("${currentLoc.trim()}")`).addClass('active');
+    $(
+      `.nav-pf-secondary-nav .list-group-item:contains("${currentLoc.trim()}")`
+    ).addClass('active');
   }
   if (currentOrg) {
-    $(`.nav-pf-secondary-nav .list-group-item:contains("${currentOrg.trim()}")`).addClass('active');
+    $(
+      `.nav-pf-secondary-nav .list-group-item:contains("${currentOrg.trim()}")`
+    ).addClass('active');
   }
 }
 
@@ -34,10 +38,10 @@ export function activate() {
   $.fn.setupVerticalNavigation.self = undefined;
   $(document).off(
     'mouseenter.pf.tertiarynav.data-api',
-    '.secondary-nav-item-pf',
+    '.secondary-nav-item-pf'
   );
   $(document).off(
     'mouseleave.pf.tertiarynav.data-api',
-    '.secondary-nav-item-pf',
+    '.secondary-nav-item-pf'
   );
 }

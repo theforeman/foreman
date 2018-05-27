@@ -5,8 +5,12 @@ import PowerStatusInner from './index';
 storiesOf('Power Status', module)
   .add('Loading', () => <PowerStatusInner />)
   .add('ON', () => <PowerStatusInner state="on" title="on" statusText="On" />)
-  .add('OFF', () => <PowerStatusInner state="off" title="off" statusText="Off" />)
-  .add('N/A', () => <PowerStatusInner state="na" statusText="No power support" title="N/A" />)
+  .add('OFF', () => (
+    <PowerStatusInner state="off" title="off" statusText="Off" />
+  ))
+  .add('N/A', () => (
+    <PowerStatusInner state="na" statusText="No power support" title="N/A" />
+  ))
   .add('Error', () => (
     <PowerStatusInner
       state="na"

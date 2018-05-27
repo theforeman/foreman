@@ -66,9 +66,9 @@ export function activateTooltips(elParam = 'body') {
 
 /* eslint-disable no-console, max-len */
 export function deprecate(oldMethod, newMethod, version = '1.19') {
-  console.warn(`DEPRECATION WARNING: you are using deprecated ${oldMethod}, it will be removed in Foreman ${
-    version
-  }. Use ${newMethod} instead.`);
+  console.warn(
+    `DEPRECATION WARNING: you are using deprecated ${oldMethod}, it will be removed in Foreman ${version}. Use ${newMethod} instead.`
+  );
 }
 
 export function initTypeAheadSelect(input) {
@@ -81,7 +81,9 @@ export function initTypeAheadSelect(input) {
         q: term,
         scope: input.data('scope'),
       }),
-      results: data => ({ results: data.map(({ id, name }) => ({ id, text: name })) }),
+      results: data => ({
+        results: data.map(({ id, name }) => ({ id, text: name })),
+      }),
       cache: true,
     },
     initSelection(element, callback) {
@@ -90,7 +92,7 @@ export function initTypeAheadSelect(input) {
           scope: input.data('scope'),
         },
         dataType: 'json',
-      }).done((data) => {
+      }).done(data => {
         if (data.length > 0) {
           callback({ id: data[0].id, text: data[0].name });
         }
@@ -104,8 +106,7 @@ export function initTypeAheadSelect(input) {
 export function updateTable(element) {
   const uri = new URI(window.location.href);
 
-  const values = { };
-
+  const values = {};
 
   if (['per_page', 'search-form'].includes(element.id)) {
     values.page = '1';
@@ -113,7 +114,9 @@ export function updateTable(element) {
     values.page = $('#cur_page_num').val();
   }
 
-  const searchTerm = $(element).find('.autocomplete-input').val();
+  const searchTerm = $(element)
+    .find('.autocomplete-input')
+    .val();
   if (searchTerm !== undefined) {
     values.search = searchTerm.trim();
   }

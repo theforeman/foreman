@@ -9,15 +9,15 @@ const isStickyType = type => !['success', 'info'].includes(type);
 /**
  * Notify the user with a toast-notification
  */
-export const notify = ({
-  message, type, link, sticky = isStickyType(type),
-}) =>
-  store.dispatch(ToastActions.addToast({
-    type,
-    message,
-    sticky,
-    link,
-  }));
+export const notify = ({ message, type, link, sticky = isStickyType(type) }) =>
+  store.dispatch(
+    ToastActions.addToast({
+      type,
+      message,
+      sticky,
+      link,
+    })
+  );
 
 /**
  * Clear all toast notifications
@@ -43,7 +43,9 @@ const importToastNotificationsFromRails = () => {
 
   // notify each rails notification
   notifications
-    .map(railsNotification => railsNotificationToToastNotification(railsNotification))
+    .map(railsNotification =>
+      railsNotificationToToastNotification(railsNotification)
+    )
     .forEach(toastNotification => notify(toastNotification));
 
   // remove both jquery cache and dom entry to avoid ajax ContentLoad events
