@@ -17,15 +17,3 @@ export const error = 'some error happened';
 export const stateBeforeResponse = Immutable({
   [request.id]: request,
 });
-
-export const stateAfterSuccess = Immutable({
-  [request.id]: {
-    ...response,
-  },
-});
-
-export const stateAfterFailure = Immutable({
-  [request.id]: {
-    error,
-  },
-});

@@ -21,8 +21,8 @@ export default (state = initialState, action) => {
         data: payload.data,
       });
     case STATISTICS_DATA_FAILURE:
-      return state.setIn(['charts', payload.id], {
-        ...state.charts[payload.id],
+      return state.setIn(['charts', payload.item.id], {
+        ...state.charts[payload.item.id],
         error: payload.error,
       });
     default:
