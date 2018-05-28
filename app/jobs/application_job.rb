@@ -10,7 +10,8 @@ class ApplicationJob < ActiveJob::Base
     scheduled_job = pending_jobs.select do |job|
       delayed_plan = world.persistence.load_delayed_plan job.id
       next unless delayed_plan.present?
-      delayed_plan.to_hash[:serialized_args].first.try(:[], 'job_class') == self.to_s
+      arg = delayed_plan.to_hash[:serialized_args].first
+      arg.is_a?(Hash) && arg['job_class'] == self.to_s
     end
 
     # Schedule the job only if it doesn't exit yet
