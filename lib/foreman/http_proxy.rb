@@ -31,12 +31,12 @@ module Foreman
       !http_host_excepted_by_wildcard?(request_host)
     end
 
-    def logger
+    def foreman_logger
       Foreman::Logging.logger('app')
     end
 
     def log_proxied_request(current_proxy, requested_host)
-      logger.info "Proxying request to #{requested_host} via #{current_proxy}"
+      foreman_logger.info "Proxying request to #{requested_host} via #{current_proxy}"
     end
 
     def http_host_excepted_by_wildcard?(host)
