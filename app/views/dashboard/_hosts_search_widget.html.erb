@@ -1,0 +1,27 @@
+<h4 class="header">
+  <%= N_('Search hosts') %>
+</h4>
+<%= form_tag hosts_path,
+            method: 'get',
+            id: 'host-search-form' do %>
+  <div class="input-group">
+    <%= auto_complete_search(:search, '', :placeholder => _("Filter") + ' ...', :path => 'hosts').html_safe %>
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="submit">
+        <%= icon_text("search", content_tag(:span,_("Search"), :class=>"hidden-xs")) %>
+      </button>
+      <span class="dropdown" id="host-bookmark-form"></span>
+    </span>
+  </div>
+<% end %>
+
+<%= mount_react_component('BookmarkContainer', '#host-bookmark-form', {
+  controller: 'hosts',
+  url: api_bookmarks_path,
+  canCreate: authorizer.can?(:create_bookmarks),
+  documentationUrl: documentation_url("4.1.5Searching")
+}.to_json) %>
+
+<script>
+$('#host-search-form #search').scopedSearch({'delay': 250});
+</script>

@@ -68,7 +68,8 @@ module Dashboard
             }
           end,
           {template: 'reports_widget', sizex: 6, sizey: 1, name: N_('Latest Events')},
-          {template: 'new_hosts_widget', sizex: 8, sizey: 1, name: N_('New Hosts')}
+          {template: 'new_hosts_widget', sizex: 8, sizey: 1, name: N_('New Hosts')},
+          {template: 'hosts_search_widget', sizex: 6, sizey: 1, name: N_('Hosts search')}
         ].flatten.sort_by {|widget| widget['name'] }
       end
 

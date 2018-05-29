@@ -33,7 +33,7 @@ class DashboardManagerTest < ActiveSupport::TestCase
   test '.default_widgets returns built-in widgets' do
     Dashboard::Manager.stubs(:registered_report_orgins).returns(['Puppet'])
     Foreman::Plugin.expects(:all).returns([])
-    assert_equal 7, Dashboard::Manager.default_widgets.count
+    assert_equal 8, Dashboard::Manager.default_widgets.count
   end
 
   test '.default_widgets adds plugin widgets' do
