@@ -13,6 +13,40 @@ class SubnetsControllerTest < ActionController::TestCase
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 
+  context 'three similar subnets exists' do
+    def setup
+      as_admin do
+        @s1 = FactoryBot.create(:subnet_ipv4, :network => '100.20.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s3 = FactoryBot.create(:subnet_ipv4, :network => '200.100.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s2 = FactoryBot.create(:subnet_ipv4, :network => '100.100.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s4 = FactoryBot.create(:subnet_ipv6, :network => 'beef::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s5 = FactoryBot.create(:subnet_ipv6, :network => 'ffee::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+      end
+    end
+
+    def test_index_sort_by_network
+      skip if ActiveRecord::Base.connection_config[:adapter].starts_with?('sqlite')
+
+      get :index, params: { :order => 'network' }, session: set_session_user
+      result = assigns(:subnets).map(&:id)
+      assert result.index(@s1.id) < result.index(@s2.id)
+      assert result.index(@s2.id) < result.index(@s3.id)
+      assert result.index(@s4.id) < result.index(@s5.id)
+      assert result.index(@s1.id) < result.index(@s5.id)
+    end
+
+    def test_index_sort_by_network_desc
+      skip if ActiveRecord::Base.connection_config[:adapter].starts_with?('sqlite')
+
+      get :index, params: { :order => 'network DESC' }, session: set_session_user
+      result = assigns(:subnets).map(&:id)
+      assert result.index(@s3.id) < result.index(@s2.id)
+      assert result.index(@s2.id) < result.index(@s1.id)
+      assert result.index(@s4.id) < result.index(@s1.id)
+      assert result.index(@s5.id) < result.index(@s4.id)
+    end
+  end
+
   def test_create_invalid
     Subnet.any_instance.stubs(:valid?).returns(false)
     post :create, params: { :subnet => {:network => nil} }, session: set_session_user

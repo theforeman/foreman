@@ -111,6 +111,15 @@ class Subnet < ApplicationRecord
           :vlanid, :mtu, :nic_delay, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description, :present?
   end
 
+  def self.network_reorder(order_string = 'network')
+    adapter = connection.adapter_name.downcase
+    if adapter.starts_with?('postgresql')
+      self.reorder(order_string.sub('network', 'inet(network)'))
+    else
+      self
+    end
+  end
+
   # Subnets are displayed in the form of their network network/network mask
   def network_address
     "#{network}/#{cidr}"
