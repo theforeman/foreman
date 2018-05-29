@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <base target="_parent">
+    <script>
+        if (window.parent !== window) {
+            window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+        }
+    </script>
+    <title>Storybook</title>
+    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/patternfly/3.23.0/css/patternfly.min.css'>
+<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/patternfly/3.23.0/css/patternfly-additions.min.css'>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/patternfly/3.23.0/js/patternfly.min.js'></script>
+<!-- workaround until Jed is moved to webpack - see http://projects.theforeman.org/issues/17263 -->
+<script>
+  function __(str) {
+    return str;
+  }
+</script>
+<!-- workaround to get Jed into storybook -->
+
+<script>
+  function sprintfStr(str, elem){
+      return str;
+  }
+
+  window.Jed = {
+    sprintf: sprintfStr
+    }
+</script>
+
+</head>
+<body>
+<div id="root"></div>
+<div id="error-display"></div>
+<script type="text/javascript" src="static/preview.9736634c2f74ffb54fb4.bundle.js"></script></body>
+</html>
