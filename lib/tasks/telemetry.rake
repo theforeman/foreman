@@ -1,6 +1,3 @@
-require "foreman/telemetry"
-require "foreman/telemetry_sinks/metric_exporter_sink"
-
 desc "Telemetry helper tasks"
 namespace :telemetry do
   desc "List all metrics"

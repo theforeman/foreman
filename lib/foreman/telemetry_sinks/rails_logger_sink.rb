@@ -18,15 +18,15 @@ module Foreman::TelemetrySinks
     end
 
     def increment_counter(name, value, tags)
-      @logger.add(@level, "Incrementing counter #{name} by #{value} #{tags.inspect}")
+      @logger.add(@level, "Incrementing counter #{name} by #{sprintf('%0.02f', value)} #{tags.inspect}")
     end
 
     def set_gauge(name, value, tags)
-      @logger.add(@level, "Setting gauge #{name} to #{value} #{tags.inspect}")
+      @logger.add(@level, "Setting gauge #{name} to #{sprintf('%0.02f', value)} #{tags.inspect}")
     end
 
     def observe_histogram(name, value, tags)
-      @logger.add(@level, "Observing histogram #{name} value #{value} #{tags.inspect}")
+      @logger.add(@level, "Observing histogram #{name} value #{sprintf('%0.02f', value)} #{tags.inspect}")
     end
   end
 end
