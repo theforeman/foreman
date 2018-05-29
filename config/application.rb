@@ -165,13 +165,13 @@ module Foreman
       nil
     end
 
-    if SETTINGS[:telemetry].try(:fetch, :prometheus).try(:fetch, :enabled)
-      begin
+    begin
+      if SETTINGS[:telemetry].try(:fetch, :prometheus).try(:fetch, :enabled)
         require 'prometheus/middleware/exporter'
         config.middleware.use Prometheus::Middleware::Exporter
-      rescue LoadError
-        # bundler group 'telemetry' was disabled
       end
+    rescue LoadError, KeyError
+      # not configured or bundler group 'telemetry' was disabled
     end
 
     # Enable the asset pipeline

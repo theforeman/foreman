@@ -18,11 +18,19 @@ module Foreman
       @prefix = opts[:prefix] || ''
       @sinks << @exporter
       unless Foreman.in_rake?
-        @sinks << ::Foreman::TelemetrySinks::RailsLoggerSink.new(opts[:logger]) if opts[:logger] && opts[:logger][:enabled]
-        @sinks << ::Foreman::TelemetrySinks::PrometheusSink.new(opts[:prometheus]) if opts[:prometheus] && opts[:prometheus][:enabled]
-        @sinks << ::Foreman::TelemetrySinks::StatsdSink.new(opts[:statsd]) if opts[:statsd] && opts[:statsd][:enabled]
+        setup_sink(:logger, opts, ::Foreman::TelemetrySinks::RailsLoggerSink)
+        setup_sink(:prometheus, opts, ::Foreman::TelemetrySinks::PrometheusSink)
+        setup_sink(:statsd, opts, ::Foreman::TelemetrySinks::StatsdSink)
       end
       self
+    end
+
+    def setup_sink(name, opts, impl)
+      @sinks << impl.new(opts[name]) if opts[name] && opts[name][:enabled]
+    rescue LoadError => ex
+      Rails.logger.warn "Unable to initialize #{name} telemetry: #{ex}"
+    rescue KeyError
+      # not configured
     end
 
     GC_METRICS = {
@@ -46,7 +54,10 @@ module Foreman
         before = Thread.current[:foreman_telemetry_gcstats]
         after = GC.stat
         GC_METRICS.each do |ruby_key, metric_name|
-          increment_counter(metric_name, after[ruby_key] - before[ruby_key], :controller => controller, :action => action) if after.include?(ruby_key)
+          if after.include?(ruby_key)
+            count = after[ruby_key] - before[ruby_key]
+            increment_counter(metric_name, count, :controller => controller, :action => action) if count > 0
+          end
         end if before
       end if enabled?
 
@@ -54,7 +65,7 @@ module Foreman
         event = ActiveSupport::Notifications::Event.new(*args)
         class_name = event.payload[:class_name]
         record_count = event.payload[:record_count]
-        increment_counter(:activerecord_instances, record_count, :class => class_name)
+        increment_counter(:activerecord_instances, record_count, :class => class_name) if record_count > 0
       end if enabled?
     end
 
@@ -76,7 +87,7 @@ module Foreman
     end
 
     def enabled?
-      @sinks.count > 0
+      @sinks.count > 1
     end
 
     def add_counter(name, description, instance_labels = [])
