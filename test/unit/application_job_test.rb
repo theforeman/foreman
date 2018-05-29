@@ -3,7 +3,6 @@ require 'ostruct'
 
 class ApplicationJobTest < ActiveSupport::TestCase
   describe '.spawn_if_missing' do
-
     # Force world initialization before stubbing,
     #   otherwise CreateRssNotifications would be triggered
     #   on first call to world
