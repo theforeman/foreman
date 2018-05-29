@@ -6,6 +6,7 @@ class SubnetsController < ApplicationController
 
   def index
     @subnets = resource_base_search_and_page([:domains, :dhcp])
+    @subnets = @subnets.network_reorder(params[:order]) if params[:order].present? && params[:order] =~ /\Anetwork( ASC| DESC)?\Z/
   end
 
   def new

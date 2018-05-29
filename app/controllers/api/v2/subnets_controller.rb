@@ -21,6 +21,7 @@ module Api
 
       def index
         @subnets = resource_scope_for_index.includes(:tftp, :dhcp, :dns)
+        @subnets = @subnets.network_reorder(params[:order]) if params[:order].present? && params[:order] =~ /\Anetwork( ASC| DESC)?\Z/
       end
 
       api :GET, "/subnets/:id/", N_("Show a subnet")
