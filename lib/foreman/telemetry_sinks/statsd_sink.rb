@@ -40,7 +40,7 @@ module Foreman::TelemetrySinks
     def name_tag_mapping(name, tags)
       insts = @instances[name]
       return name if insts.blank?
-      (name.to_s + '.' + insts.map {|x| tags[x]}.compact.join('.')).tr(':', '_')
+      (name.to_s + '.' + insts.map {|x| tags[x]}.compact.join('.')).tr('-:/ ', '____')
     end
   end
 end
