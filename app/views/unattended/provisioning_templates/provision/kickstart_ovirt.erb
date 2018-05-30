@@ -20,9 +20,33 @@ This kickstart will only work with LVM THIN partitioning ('Kickstart default thi
 and it requires the installation URL to have squashfs.img image extracted in the
 root folder (or specified via 'liveimg_name' parameter). See oVirt Node documentation
 or RHV Installation Manual, section 5.2. Advanced installation.
+
+By default, the template expects the squashfs.img to be present inside
+the installation media. When using Katello for content management (the
+kt_activation_key parameter is set), the liveimg_name is used to
+specify relative path to the file and the template use repository_url
+helper to generate an absolute path to the file (taking into account
+also info about the content proxy relevant for the host)
+
+For example, in case the squashfs.img is uploaded inside custom
+product named 'oVirt' and repository 'hypervisor', the
+liveimg_name would be 'custom/ovirt/hypervisor/squashfs.img'.
+In this case, this repository would need to be part of the content
+view the host is assigned to. It's also possible to provide full url,
+in which case it would be used without a change.
 %>
+
 install
-liveimg --url=<%= @host.operatingsystem.medium_uri(@host) %>/<%= @host.params['liveimg_name'] || 'squashfs.img' %>
+<%
+liveimg_name = host_param('liveimg_name') || 'squashfs.img'
+if host_param('kt_activation_keys')
+  liveimg_url = repository_url(liveimg_name, 'isos')
+else
+  liveimg_url = "#{@host.operatingsystem.medium_uri(@host)}/#{liveimg_name}"
+end
+%>
+
+liveimg --url=<%= liveimg_url %>
 
 <% subnet = @host.subnet -%>
 <% if subnet.respond_to?(:dhcp_boot_mode?) -%>
@@ -49,7 +73,7 @@ reboot
 
 %post --log=/root/ks.post.log --erroronfail
 nodectl init
-<%= snippet 'subscription_manager_registration' if @host.operatingsystem.name == 'RHVH' %>
+<%= snippet 'redhat_register' %>
 <%= snippet 'kickstart_networking_setup' %>
 /usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
