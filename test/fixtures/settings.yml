@@ -379,3 +379,8 @@ attribute79:
   category: Setting::General
   default: "true"
   description: "Should append domain names when new hosts are provisioned"
+attribute80:
+  name: failed_login_attempts_limit
+  category: Setting::Auth
+  default: 30
+  description: "Foreman will block user login after this number of failed login attempts for 5 minutes from offending IP address. Set to 0 to disable bruteforce protection"
