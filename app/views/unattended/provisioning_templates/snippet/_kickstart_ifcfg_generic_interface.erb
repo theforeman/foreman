@@ -56,3 +56,8 @@ DEFROUTE=<%= primary %>
 <%- elsif @interface.virtual? && !@subnet.nil? && !@subnet.has_vlanid? && @interface.identifier.include?(':') -%>
 <%=   "TYPE=Alias" %>
 <%- end -%>
+<%- if @subnet -%>
+<%=   "MTU=#{@subnet.mtu}" %>
+<%- elsif @subnet6 -%>
+<%=   "MTU=#{@subnet6.mtu}" %>
+<%- end -%>
