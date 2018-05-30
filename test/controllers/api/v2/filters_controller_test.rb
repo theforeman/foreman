@@ -16,6 +16,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test_attributes :pid => 'b8631d0a-a71a-41aa-9f9a-d12d62adc496'
   test "should create filter" do
     valid_attrs = { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:view_architectures).id] }
     assert_difference('Filter.count') do
@@ -32,6 +33,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test_attributes :pid => 'f0c56fd8-c91d-48c3-ad21-f538313b17eb'
   test "should destroy filters" do
     assert_difference('Filter.count', -1) do
       delete :destroy, params: { :id => filters(:destroy_hosts_1).to_param }
