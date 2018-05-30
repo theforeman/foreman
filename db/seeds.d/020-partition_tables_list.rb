@@ -15,6 +15,7 @@ class PartitionTablesList
         {:name => 'NX-OS default fake', :os_family => 'NXOS', :source => 'nx-os_default_fake.erb'},
         {:name => 'Preseed default', :os_family => 'Debian', :source => 'preseed_default.erb'},
         {:name => 'Preseed custom LVM', :os_family => 'Debian', :source => 'preseed_default_lvm.erb'},
+        {:name => 'RancherOS empty', :os_family => 'Rancheros', :source => 'empty.erb'},
         {:name => 'XenServer default', :os_family => 'Xenserver', :source => 'xenserver_default.erb'}
       ]
     end
