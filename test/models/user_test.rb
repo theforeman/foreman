@@ -289,6 +289,15 @@ class UserTest < ActiveSupport::TestCase
         assert user.errors[:firstname].present?
         assert_nil user.reload.firstname
       end
+
+      test 'old avatars can be removed upon login' do
+        attrs = { :firstname => "foo", :mail => "foo@bar.com",
+                  :login => "ldap-user", :avatar_hash => 'testavatar',
+                  :auth_source_id => auth_sources(:one).id }
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
+        User.any_instance.expects(:avatar_hash).returns('oldhash').at_least_once
+        User.try_to_login('foo', 'password')
+      end
     end
   end
 
