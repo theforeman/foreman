@@ -96,7 +96,7 @@ class ActionDispatch::IntegrationTest
 
   def wait_for_ajax
     Timeout.timeout(Capybara.default_max_wait_time) do
-      loop until page.evaluate_script('jQuery.active').zero? && page.evaluate_script('window.axiosActive').zero?
+      sleep 0.15 until ([page.evaluate_script('jQuery.active'), page.evaluate_script('window.axiosActive')] - [0, nil]).empty?
     end
   end
 
