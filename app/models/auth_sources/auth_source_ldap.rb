@@ -210,16 +210,26 @@ class AuthSourceLdap < AuthSource
   end
 
   def avatar_path
-    "#{Rails.public_path}/assets/avatars"
+    "#{Rails.public_path}/images/avatars"
   end
 
   def store_avatar(avatar)
-    avatar = avatar.to_utf8
+    unless avatar.instance_of?(Net::BER::BerIdentifiedString)
+      avatar = avatar.to_utf8
+    end
     avatar_hash = Digest::SHA1.hexdigest(avatar)
     avatar_file = "#{avatar_path}/#{avatar_hash}.jpg"
     unless FileTest.exist? avatar_file
       FileUtils.mkdir_p(avatar_path)
-      File.open(avatar_file, 'wb') { |f| f.write(Base64.decode64(avatar)) }
+      # net/ldap converts base64 data automatically to binary, in such case
+      # we do not need to decode Base64 and we can just save the binary avatar.
+      File.open(avatar_file, 'wb') do |f|
+        if avatar.instance_of?(Net::BER::BerIdentifiedString)
+          f.write(avatar)
+        else
+          f.write(Base64.decode64(avatar))
+        end
+      end
     end
     avatar_hash
   end
