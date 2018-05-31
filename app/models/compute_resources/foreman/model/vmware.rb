@@ -465,7 +465,9 @@ module Foreman::Model
       if attr.has_key?(:volumes_attributes)
         vm.volumes.each do |vm_volume|
           volume_attrs = attr[:volumes_attributes].values.detect {|vol| vol[:id] == vm_volume.id}
-          vm_volume.size_gb = volume_attrs[:size_gb]
+          if volume_attrs.class == Hash && volume_attrs.key?(:size_gb)
+            vm_volume.size_gb = volume_attrs[:size_gb]
+          end
         end
       end
       vm.save
