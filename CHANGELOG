@@ -1,5 +1,960 @@
+2018-05-17	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22983, #22010 - ignore persistence authz for relations
+
+2018-05-17	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23364 - add search input in breadcrumbs switcher
+
+2018-05-16	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23609 - Port robottelo tests for classparameters
+
+2018-05-16	ldjebran <ldjebran@gmail.com>
+	* Fixes #23605 - Port robottelo tests - smart_proxy
+
+2018-05-16	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22683 - Domain level PasswordStrength entry
+	* Fixes #23521 - BreadcrumbBar nested name_field
+
+2018-05-16	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23601 - switch org/loc button ordering in vertical nav
+	* Fixes #23559 - fix breadcrumbs switcher in trends page
+
+2018-05-16	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #23576 - Fix the 'webpacked_plugins_js_for' helper (#5552)
+
+2018-05-15	ldjebran <ldjebran@gmail.com>
+	* Fixes #23597 - Port robottelo tests - combination template
+	* Fixes #23586 - Port robottelo tests for template
+
+2018-05-15	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23602 - Remove statisticsHelper file (dead code)
+
+2018-05-15	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #23587 - Verify webpack precompile is needed
+
+2018-05-14	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23558 - fix npm warning about ellipsis-with-tooltip
+
+2018-05-14	Luuk <luukhafkamp@gmail.com>
+	* Fixes #22000 - Replace Button component with Patternfly
+
+2018-05-13	lupan.daniel <lupan.daniel@gmail.com>
+	* Fixes #21992 - Uses patternfly spinner component
+
+2018-05-12	Lonneke Vuur <l.vuur@outlook.com>
+	* Fixes #15549 - Correct documentation for exports rake task
+
+2018-05-12	lupan.daniel <lupan.daniel@gmail.com>
+	* Fixes #23169 - Orders settings alphabetically
+
+2018-05-12	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23549 - add axios support for wait_for_ajax
+
+2018-05-11	Marek Hulan <mhulan@redhat.com>
+	* Fixes #23426 - support default flag in templates import
+
+2018-05-11	ldjebran <ldjebran@gmail.com>
+	* Fixes #23565 - Port robottelo test for smart variables
+
+2018-05-10	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #23511 - Generate webpack plugins in context of vendor/bundle
+
+2018-05-10	lizagilman <lizagilman@gmail.com>
+	* Fixes #22847 - Use pf-react donut chart in facts page
+
+2018-05-10	Andrea Kao <eirinikos@gmail.com>
+	* Fixes #23483: edit Foreman license info for GitHub UI
+
+2018-05-09	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23527 - enable breadcrumbs switcher in trends
+
+2018-05-08	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Refs #23485 - Fix interface test
+
+2018-05-08	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23248 - disable switcher in compute attributes
+
+2018-05-08	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23518 - Use puma for Capybara tests
+
+2018-05-06	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #23514 - Simplify javascript import path
+
+2018-05-04	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #23462 - Allow newer patternfly
+
+2018-05-04	Peter Ondrejka <pondrejk@redhat.com>
+	* port robottelo tests for filters
+
+2018-05-03	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23474 - update capybara to 3.x
+	* Refs #23474 - capybara 3.x compatible poltergeist version
+	* Fixes #23469 - update show_me_the_cookies to 4.x
+
+2018-05-03	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23485 - Port robottelo tests for interfaces
+
+2018-05-03	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23486 - remove js warnings when a modal opens
+
+2018-05-03	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #23462 - bump patternfly-react to ^2.1.0
+
+2018-05-03	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #18429 - Add foreman API support for trends
+
+2018-05-03	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #22592 - Add component for radio buttons
+
+2018-05-02	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #21204 - correct duplicate key in settings fixture
+
+2018-05-02	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #23387 - FOREMAN_RSS_LATEST_POSTS option now works
+
+2018-05-01	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23443 - relax pinning of rails-i18n
+
+2018-05-01	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #23467 - refer to any facts, not just puppet's
+
+2018-04-30	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23444 - update secure_headers to 5.x
+
+2018-04-28	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #23414 - Allow plugins to compile in production
+
+2018-04-28	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #23361 - Handle webpack manifests from plugins
+	* Fixes #23423 - Loosen seamless-immutable and lodash dependencies
+
+2018-04-28	ldjebran <ldjebran@gmail.com>
+	* Fixes #23419 - Port robottelo tests for hostgroup
+
+2018-04-27	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #23415 - nullify taxonomy associations for audits (#5502)
+
+2018-04-26	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #19781 - Fix Layout/LeadingCommentSpace cop
+
+2018-04-26	Ondrej Prazak <oprazak@redhat.com>
+	* Refs #23147 - Fix style offences
+
+2018-04-26	Peter Lehwess <peter.lehwess@dm.de>
+	* Fixes #23398 - Don't extend classes from within initializers
+
+2018-04-25	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #23358 - Fix audit mails for template content
+
+2018-04-25	Boaz Shuster <ripcurld.github@gmail.com>
+	* Fixes #23386 - Exit fullscreen when pressing ESC
+
+2018-04-25	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #23365 - Silence the ENOENT error for .env
+
+2018-04-25	Ivan Nečas <inecas@redhat.com>
+	* Fixes #20590 - full ovirt cloud-init support
+
+2018-04-25	Peter Lehwess <peter.lehwess@dm.de>
+	* Fixes #23276 - Bump up the version of fog-vsphere
+
+2018-04-24	Djebran Lezzoum <ldjebran@gmail.com>
+	* Fixes #23295 - Robottelo tests reporting (#5464)
+
+2018-04-24	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #23177 - datetime precision fixed for unattended test
+
+2018-04-24	Timo Goebel <mail@timogoebel.name>
+	* fixes #21657 - remove facets when host is removed
+
+2018-04-24	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #23195 - Audit associations on creation and destruction (#5455)
+
+2018-04-23	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #23177 - id is not used for unattended order
+
+2018-04-23	jyejare <jyejare@redhat.com>
+	* Fixes #23350 - Port: Robotello: Minitest: Role Tier1 Tests
+
+2018-04-23	Timo Goebel <mail@timogoebel.name>
+	* fixes #23335 - normalize scsi attributes in rails 5 (#5475)
+
+2018-04-23	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #23331 - grouped permissions for host disabled (#5468)
+
+2018-04-23	Baptiste Agasse <baptiste.agasse@lyra-network.com>
+	* Fixes #23269 - Align ovirt automatic network selection on vmware
+
+2018-04-23	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23235 - Disable Style/IfUnlessModifier cop
+
+2018-04-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #23347 - only show password for internal auth source
+
+2018-04-21	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23339 - Port robottelo tests for hosts
+
+2018-04-21	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23254 - Utilize webmock to prevent network connection
+	* Fixes #23346 - memory cache store is used for tests
+
+2018-04-20	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #23252 - Speed up unattended controller tests
+
+2018-04-17	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #23147 - Allow plugins to compile production webpack assets
+
+2018-04-17	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23273 - use safemode which allows .freeze
+
+2018-04-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #23255 - Speed up seeds test
+
+2018-04-16	Daniel Lobato Garcia <me@daniellobato.me>
+	* Refs #23215 - 2.3 compat. for webpack in plugins script
+
+2018-04-16	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23177 - unattended warning on multiple MACs
+
+2018-04-16	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #23249 - Support api returning page as string
+	* Fixes #23240 - BreadcrumbBar prop-type warnings
+
+2018-04-15	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #23223 - Don't allow Dynflow to initialize in db:drop rake
+
+2018-04-15	Marek Hulan <mhulan@redhat.com>
+	* Fixes #23263 - support namespaced models in audits
+
+2018-04-13	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #23215 - Keep original names in webpack bundle
+
+2018-04-13	Andrew Kofink <akofink@redhat.com>
+	* Fixes #23125: add asset_debug config setting
+
+2018-04-12	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #15411 - Move smart_proxy_ids_for to Host
+
+2018-04-12	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #23256 - Check if the delayed plans have expected interface (#5448)
+
+2018-04-12	Ivan Necas <inecas@redhat.com>
+	* Fixes #23145 - fix strong params for compute attributes on fail (#5412)
+
+2018-04-12	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23225 - fix vm tab js error in host page
+
+2018-04-11	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23222 - flatten breadcrumbs switcher fetched data
+	* Fixes #22855 - Add full breadcrumbs functionality
+
+2018-04-11	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #23220 - Humanized name for RSS notifications
+
+2018-04-11	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Revert "Fixes #22117 - Add support for number of sockets for ovirt"
+	* Revert "Fixes #23196 - Add default values for cores and socket in VM"
+
+2018-04-11	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #23196 - Add default values for cores and socket in VM
+	* Fixes #22117 - Add support for number of sockets for ovirt
+
+2018-04-11	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23132 - Fix seeds tests
+	* Fixes #23132 - Fix seeds tests
+	* Fixes #23132 - Port robottelo tests for bookmarks
+
+2018-04-11	Ori Rabin <orabin@redhat.com>
+	* Fixes #23199, #23179 - Bump fog-ovirt to fix ovirt cores/quota
+
+2018-04-11	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #19770 - Disable Layout/DotPosition cop
+	* Fixes #19787 - Fix Layout/SpaceAfterComma cop
+
+2018-04-10	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #22809 - Turn VM attributes to hash (#5403)
+
+2018-04-09	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #23059 - journald plugin is not required (#5377)
+
+2018-04-09	Julian Todt <34890848+juliantodt@users.noreply.github.com>
+	* Fixes #23040 - Anonymize old audits (#5393)
+
+2018-04-08	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23157 - Enable Performance/FixedSize cop
+	* Fixes #19848 - Set Style/Alias cop to prefer_alias_method
+
+2018-04-08	Timo Goebel <mail@timogoebel.name>
+	* fixes #21520 - vsphere: valid vm cloning request
+
+2018-04-07	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22954 - only deserialize safe objects
+
+2018-04-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23135 - foreman-selinux-install.log is collected [skip ci]
+
+2018-04-06	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #23097 - Show npm postinstall errors
+
+2018-04-06	Ivan Nečas <inecas@redhat.com>
+	* Fixes #21055 - use _id attributes for host taxonomy validator
+
+2018-04-06	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23115 - session is used instead session_safe
+
+2018-04-06	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23106 - Fix MySQL tests
+	* Fixes #23106 - Port robottelo tests for usergroups
+
+2018-04-05	Sebastian Gräßl <mail@bastilian.me>
+	* Fixes #23113 - Allow disabling of out of sync status
+
+2018-04-05	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23081 - Fix Style/SafeNavigation cop
+	* Fixes #19894 - Fix Style/RedundantParentheses cop
+	* Fixes #19796 - Fix Layout/SpaceInsidePercentLiteralDelimiters cop
+	* Fixes #19840 - Fix Rails/ReadWriteAttribute cop
+	* Fixes #19839 - Fix Rails/Present cop
+	* Fixes #22331 - Fix Rails/Presence cop
+	* Fixes #19832 - Fix Rails/FindBy cop
+	* Fixes #23123 - Fix Rails/ActiveRecordAliases cop
+
+2018-04-05	Andrew Kofink <ajkofink@gmail.com>
+	* Fixes #21829: Add association_exists_validator (#5405)
+
+2018-04-05	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #23129 - Disable webpack source maps in production
+
+2018-04-05	Ivan Nečas <inecas@redhat.com>
+	* Fixes #23067 - expose option to use oVirt APIv4
+
+2018-04-05	patilsuraj767 <patilsuraj767@gmail.com>
+	* Fixes #22982 - Change Environments to Puppet Environments
+
+2018-04-04	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #22893 - Specify taxonomies on template import (#5323)
+
+2018-04-04	Baptiste Agasse <baptiste.agasse@lyra-network.com>
+	* fixes #21694 - Add consistency validation for MTU and VLAN
+	* fixes #21694 - Add MTU to subnet and interface API
+	* fixes #21694 - Add MTU to subnet
+
+2018-04-04	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #23011 - set TargetRubyVersion: to 2.3
+	* Fixes #23080 - Fix Style/EvalWithLocation cop
+	* Fixes #23079 - Fix Naming/HeredocDelimiterCase cop
+	*  Fixes #19909 - Fix Style/TrivialAccessors cop
+	* Fixes #23077 - Fix Style/TrailingCommaInArrayLiteral cop
+	* Fixes #23076 - Fix Style/TrailingCommaInHashLiteral cop
+	* Fixes #23075 - Fix Rails/HttpStatus cop
+
+2018-04-04	Marek Hulan <mhulan@redhat.com>
+	* Refs #22049 - improve metadata usability
+
+2018-04-04	Julian Todt <julian.todt@dm.de>
+	* Fixes #23039 - Remove deleted LDAP users
+
+2018-04-04	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #23098 - Allow searching on all audited models by type (#5395)
+
+2018-04-04	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #6752 - log audit events (#5391)
+
+2018-04-04	Stephen Benjamin <stephen@redhat.com>
+	* Sync community templates
+
+2018-04-03	Ewoud Kohl van Wijngaarden <github@kohlvanwijngaarden.nl>
+	* Fixes #23100 - Simplify gem requirements syntax (#5394)
+
+2018-04-03	Daniel Lobato García <me@daniellobato.me>
+	* Refs #15634 - Fix OS test (#5397)
+
+2018-04-03	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Refs #22096 - Assign taxonomy to taxonomy audits (#5387)
+
+2018-04-03	Enzo Hamelin <enzo.hamelin@gmail.com>
+	* Fixes #15634 - RancherOS support
+
+2018-04-03	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23095 - Fix mysql tests
+	* Fixes #23095 - Port robottelo tests for subnets and parameters
+
+2018-04-03	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23093 - prevent DB deadlocks in IntegrationTestHelper
+
+2018-04-03	Ori Rabin <orabin@redhat.com>
+	* Fixes #22546 - CVE-2018-1097: Bump fog-ovirt for power action fix
+
+2018-04-02	Bryan Kearney <bryan.kearney@gmail.com>
+	* Fixes #22856 - Extract the strings from a bare foreman
+
+2018-04-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #23064 - log log in and log out activities
+
+2018-04-02	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #19895 - Fix Style/RedundantReturn cop
+	* Fixes #22849 - update rubocop to 0.54
+
+2018-04-02	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23066 - Port robottelo tests for users and user roles
+
+2018-04-01	ldjebran <ldjebran@gmail.com>
+	* Fixes #23045 - Port Robottelo PTables tests
+
+2018-04-01	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #23004 - Port robottelo tier1 media tests
+
+2018-04-01	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #22285 - Prepare UI for strong params enforcement
+	* Refs #22285 - Prepare tests for strong params enforcement
+	* Refs #22285 - Correct parameter filtering for strong params
+	* Refs #22285 - Allow unwrapped params on API
+	* Refs #22285 - add common parameters to strong_params whitelist
+	* Refs #22285 - Remove keep_param
+
+2018-04-01	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #22236 - Fix Layout/TrailingWhitespace cop
+	* Fixes #19910 - Fix Style/UnlessElse cop
+	* Fixes #19905 - Fix Style/SymbolLiteral cop
+	* Fixes #19901 - Fix Style/SpecialGlobalVars cop
+	* Fixes #19874 - Fix Style/MultilineMemoization cop
+	* Fixes #19857 - Fix Style/EachWithObject cop
+	* Fixes #19793 - Fix Layout/SpaceInsideReferenceBrackets cop
+
+2018-03-29	Ivan Nečas <inecas@redhat.com>
+	* Fixes #22888 - remove code around dynflow db_pool_size
+
+2018-03-29	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #22764 - gc stat metric works on rails reload
+	* Refs #22493 - documented logging macros [skip ci]
+
+2018-03-29	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #22236 - Adds breadcrumbs to foreman UI
+
+2018-03-29	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #22049 - Add metadata to Audit view (#5359)
+
+2018-03-28	Jan Jansky <jjansky@jjanskyNTB.usersys.redhat.com>
+	* Fixes #23046 - gateway parameter for subnet corrected
+
+2018-03-28	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #22922 - Port robottelo tier1 compute profiles tests (#5333)
+
+2018-03-28	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #22685 - improve statistics page  loading time
+
+2018-03-28	Chris Roberts <chrobert@redhat.com>
+	* Refs #22968 - update debug with dynflow logs
+
+2018-03-27	Martin Povolny <mpovolny@redhat.com>
+	* Fixes #23028 - Properly escape params passed to where (CVE-2018-1096) (#5363)
+
+2018-03-27	John Vagrant <vagrant@smqa-r210-02.lab.eng.brq.redhat.com>
+	* fixes #23026 - make changes to compute resource passwords audited
+
+2018-03-26	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #23002 - seed Installation Media with taxonomies
+
+2018-03-26	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #22990 - Use shoulda-matchers
+	* Fixes #22990 - Port robottelo tier1 compute resources
+
+2018-03-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #23012 - allow OS release in safemode
+
+2018-03-26	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #22918 - fix Layout/EmptyLines cop
+	* Refs #15286 - fix Layout/IndentationWidth cop
+
+2018-03-25	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #23007 - renew certs used in oVirt model test
+
+2018-03-22	Partha Aji <paji@redhat.com>
+	* Fixes #22624 - User selectable columns model + api
+
+2018-03-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22918 - Audit all taxonomies assignments
+
+2018-03-22	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #22986 - search templates by vendor and default
+	* Fixes #22984 - Migrate templates auditable_type
+
+2018-03-22	ldjebran <ldjebran@gmail.com>
+	* Fixes #22979 - Port Robottelo OperatingSystems tests
+
+2018-03-22	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #22158 - Add rake task to delete old audits (#5343)
+
+2018-03-21	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #22910 - Port robottelo tier1 environment tests (#5329)
+
+2018-03-21	Sebastian Gräßl <mail@bastilian.me>
+	* Refs #22310 - Fix minor rubocop issue
+
+2018-03-21	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22869 - support template locking on import
+
+2018-03-21	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #22796 - fact importing telemetry
+
+2018-03-21	Djebran Lezzoum <ldjebran@gmail.com>
+	* Fixes #22930 - Port robottelo Architectures tests (#5335)
+
+2018-03-21	Ido Kanner <ikanner@redhat.com>
+	* Fixes #2828 - Report an error when trying to save ovirt resource
+
+2018-03-20	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #22927 - method in audit_associations to get class
+
+2018-03-20	odovzhenko <oleg.dovzhenko@gmail.com>
+	* Fixes #22800 - Port robottelo tier1 location tests
+
+2018-03-20	orrabin <orabin@redhat.com>
+	* Fixes #15984 - Avoid escaping overridden parameters (#5126)
+
+2018-03-20	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22892 - allow extending audited associations
+
+2018-03-20	Dominik Hlavac <xhlava42@stud.fit.vutbr.cz>
+	* Fixes #15286 - New API for auth sources (#4865)
+
+2018-03-20	Ori Rabin <orabin@redhat.com>
+	* Fixes #22788 - host compute attributes reload after error
+
+2018-03-19	Stephen Benjamin <stephen@redhat.com>
+	* refs #22857 - remove separate kickstart for RHEL
+
+2018-03-19	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #22817 - update scoped search to 4.1.3
+
+2018-03-19	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #22880 - Move to Minitest
+
+2018-03-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22916 - add alias for last_report search
+
+2018-03-19	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #22096 - Make Audits taxable (#5269)
+
+2018-03-19	Djebran Lezzoum <ldjebran@gmail.com>
+	* Fixes #22793 - Port robottelo tests for organization (#5295)
+
+2018-03-19	Dominik Hlavac <xhlava42@stud.fit.vutbr.cz>
+	* Fixes #18854 - Search by usergroup on hosts (#5317)
+
+2018-03-18	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #22908 - add placeholder to datatable search inputs
+	* Fixes #22901 - fix js execution after hitting back/forward
+
+2018-03-16	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #21120 - orchestration tasks are added only once (#5079)
+
+2018-03-15	Stephen Benjamin <stephen@redhat.com>
+	* fixes #22902 - change suggested memory to 2GB
+
+2018-03-14	Marek Hulan <mhulan@redhat.com>
+	* Refs #22674 - improve taxonomies label help
+	* Fixes #22891 - add log for failed login attempt
+
+2018-03-13	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #22493 - structured logging support
+
+2018-03-13	Marek Hulan <mhulan@redhat.com>
+	* Refs #22310 - provide a script to set origin for existing reports
+	* Fixes #22875 - Fix digest limits
+
+2018-03-13	Adam Grare <agrare@redhat.com>
+	* Fixes #22798 - VMware: Fix exception listing VMs
+
+2018-03-12	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #22713 - fix donut chart re-rendering
+
+2018-03-12	Michael Hofer <michael.hofer@adfinis-sygroup.ch>
+	* Fixes #22756 - Allow provisioning based on MAC address
+
+2018-03-12	lizagilman <lizagilman@gmail.com>
+	* Fixes #6504 - refactoring host tests regarding taxonomies
+
+2018-03-09	Sebastian Gräßl <bastilian@users.noreply.github.com>
+	* Fixes #22779 - Calculate out of sync host via origin interval (#5221)
+
+2018-03-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22358 - add templates importing
+
+2018-03-09	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #22828 - Pin patternfly and regenerate snaps
+
+2018-03-09	Andrew Kofink <akofink@redhat.com>
+	* Refs #19332: Fix typo "smart proy"
+
+2018-03-09	lizagilman <lizagilman@gmail.com>
+	* Fixes #22571 - allocation field should update using any language
+
+2018-03-08	Daniel Lobato Garcia <me@daniellobato.me>
+	* Refs #22575 - Replace only_path by ignore_query
+	* Fixes #22721 - Rename setting to trusted_hosts
+
+2018-03-08	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #22753 - add apipie validator for multiple allowed types
+
+2018-03-08	Tim Wade <hello@timjwade.com>
+	* fixes #22575 - clean up test report
+
+2018-03-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #22806 - rails now boot without telementry deps
+
+2018-03-07	Swapnil Abnave <sabnave@redhat.com>
+	* Fixes #22199 - Audit has_many associations (#5187)
+
+2018-03-06	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #22676 - domain checking should ignore scoping
+
+2018-03-06	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #22711 - add uglifyjs-webpack-plugin to package.json
+
+2018-03-05	Iain Walmsley <iain.walmsley@gmail.com>
+	* Fixes #22747 - vet puppetclass_id on addition
+
+2018-03-03	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22711 - fix uglifyjs-webpack plugin
+
+2018-03-01	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22724 - Update and pin patternfly-react
+
+2018-02-28	Daniel Lobato Garcia <me@daniellobato.me>
+	* Refs #17316 - Ensure the proxy exists before assigning tftp
+
+2018-02-28	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #21999,#22005 - Migrate toasts to pf-react
+
+2018-02-27	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #17316 - templates feature is subnet association
+
+2018-02-26	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #18675 - Optionally load prometheus exporter
+
+2018-02-26	Ori Rabin <orabin@redhat.com>
+	* Fixes #22282 - Test oVirt connection before save
+
+2018-02-25	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #22615 - template rendering is kept inline
+
+2018-02-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22654 - ignore filters created by plugin DSL
+
+2018-02-25	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22682 - Update patternfly-react
+
+2018-02-25	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #22108 - add pf-react donut chart
+
+2018-02-24	Sean O\'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #22674 - tell users where they can change taxonomies
+
+2018-02-23	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #18675 - telemetry foreman API
+
+2018-02-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22403 - every API endpoint can set current context
+
+2018-02-23	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #21204 - introduced global_setting helper function (#4891)
+
+2018-02-22	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22642 - limit searching by host to explicit query
+
+2018-02-21	Sean O'Keeffe <seanokeeffe797@gmail.com>
+	* Revert "Fixes #22540 - auto-focus search bar" (#5266)
+
+2018-02-20	lizagilman <lizagilman@gmail.com>
+	* Fixes #20448 - display selected hosts counter
+
+2018-02-20	Ori Rabin <orabin@redhat.com>
+	* Fixes #10273 - Clone disk from template when preallocate marked
+
+2018-02-20	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #22069 - Add proxy version mismatch warning
+
+2018-02-19	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #22104 - adapt to Rails 5.1 change tracking
+	* Fixes #22613 - Drop Rails <5.1 ParseError
+
+2018-02-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #22616 - Allow searching hosts by status as integer
+
+2018-02-19	Walden Raines <walden@redhat.com>
+	* Fixes #22596: provide way to opt-out of jquery multiselect.
+
+2018-02-19	lizagilman <lizagilman@gmail.com>
+	* Fixes #9868 - adding test for organization controller
+
+2018-02-15	Ivan Nečas <inecas@redhat.com>
+	* Refs #22354 - Don't instance_eval at every instance creation
+
+2018-02-15	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #17083 - log skipped orchestration steps
+
+2018-02-14	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #19244 - added clean interfaces rake task
+
+2018-02-14	Sean O\'Keeffe <seanokeeffe797@gmail.com>
+	* Fixes #22540 - auto-focus search bar
+
+2018-02-14	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #22354 - Make SilencedLogger thread safe
+
+2018-02-14	Sebastian Gräßl <bastilian@users.noreply.github.com>
+	* Fixes #22310 - Implement report scanner to identify origin (#5186)
+
+2018-02-13	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #22556 - Correct host search for parent hostgroup
+
+2018-02-13	Daniel Lobato García <me@daniellobato.me>
+	* Update PULL_REQUEST_TEMPLATE.md
+
+2018-02-13	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #22557 - use correct type for 'provision_method' param
+
+2018-02-13	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #22379 - Remove pagination from csv export (#5204)
+
+2018-02-12	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #22505 - CoreOS does not work
+
+2018-02-12	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #22050 - Create built-in audit viewer role
+
+2018-02-09	Lukas Zapletal <lzap+git@redhat.com>
+	* Added pull request template
+
+2018-02-09	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #19801 - Enable Lint/AssignmentInCondition cop
+
+2018-02-07	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #22518 - add hover css to table helper
+
+2018-02-06	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #22515 - use hostgroup_title for search in chart links (#5238)
+
+2018-02-05	Timo Goebel <mail@timogoebel.name>
+	* fixes #22411 - unattended: render template macros from plugins
+
+2018-02-02	Timo Goebel <mail@timogoebel.name>
+	* fixes #22454 - vmware: validate user data for customspec
+
+2018-02-02	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22480 - Add code coverage to Travis CI
+
+2018-02-02	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22489 - move the notification base class
+
+2018-02-01	Timo Goebel <mail@timogoebel.name>
+	* refs #22107 - subnet host count: permissions and n+1
+	* fixes #22444 - do not serve templates with expired token
+
+2018-02-01	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #7451 - Review whitespace in extracted strings
+
+2018-02-01	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22466 - Update patternfly-react
+
+2018-01-31	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #21425 - host selection alert refers to param per_page
+
+2018-01-31	amirfefer <amirfefer@gmail.com>
+	* Fixes #19332 - Add welcome page when missing
+
+2018-01-31	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #22455 - Provide a fallback humanized_name
+	* Refs #21871 - Test resource_scope using existing tables
+
+2018-01-31	Sebastian Gräßl <mail@bastilian.me>
+	* Refs #20800 - Move session timed out warning inline
+
+2018-01-29	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #22424 - Update Apipie doc for hostgroup
+	* Fixes #21871 - Fix searching by locations
+	* Fixes #22355 - Make stripping a setting value optional
+
+2018-01-29	Tomas Strachota <tstrachota@redhat.com>
+	* Fixes #17964 - Add list of search fields in api docs (#4735)
+
+2018-01-29	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #19763 - Disable Bundler/OrderedGems cop
+	* Fixes #19889 - Fix Style/PerlBackrefs cop
+	* Fixes #22329 - Fix Style/RandomWithOffset cop
+	* Fixes #22328 - Fix Lint/InterpolationCheck cop
+	* Fixes #22327 - Fix Lint/MissingCopEnableDirective cop
+
+2018-01-29	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #22382 - Remove ldap_filter 255 chars limit
+
+2018-01-28	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #21170 - move password_strength.js to wepback
+
+2018-01-28	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #22430 - Plugin permissions are cleared on tests
+
+2018-01-26	Daniel Lobato Garcia <me@daniellobato.me>
+	* Refs #20049 - Retry some integration tests
+
+2018-01-26	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #21824 - use /var/tmp for debugs and cleaning
+	* Fixes #22425 - generate selinux interfaces once in debug
+	* Fixes #22426 - removed plugin list from debug
+
+2018-01-26	Ivan Nečas <inecas@redhat.com>
+	* Fixes #22339 - normalize empty values for User.timezone
+
+2018-01-26	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #20807 - Remove deprecations for 1.18
+
+2018-01-26	Timo Goebel <mail@timogoebel.name>
+	* fixes #5125 - list available vmware images
+
+2018-01-25	Eric D Helms <eric.d.helms@gmail.com>
+	* Fixes #22359 - Don't rely on default taxonomy in API for any user (#5202)
+
+2018-01-25	Ivan Nečas <inecas@redhat.com>
+	* Fixes #21743 - include foreman-maintain in foreman-debug
+
+2018-01-25	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #22420 - uses contentLoad event to trigger CR AJAX loading
+
+2018-01-25	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #21962 - switch jquery ajax to axios
+	* Fixes #22351 - update react-ellipsis-with-tooltip
+
+2018-01-23	Ivan Nečas <inecas@redhat.com>
+	* Fixes #21317 - graceful handling of VM association error
+
+2018-01-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #21465 - load owners from any context
+
+2018-01-22	lizagilman <lizagilman@gmail.com>
+	* Fixes #20347 - remove os in db when removing it from the ui
+
+2018-01-22	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22349 - Travis CI should run with npm v5
+
+2018-01-21	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22348 - pin redux-form to v2.7.0
+
+2018-01-21	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #22334 - Update safemode, remove ruby2ruby pin
+
+2018-01-18	Partha Aji <paji@redhat.com>
+	* Fixes #17521 - Use short name for hosts
+
+2018-01-18	Sebastian Gräßl <mail@bastilian.me>
+	* Fixes #21328 - Correct link to HTTP proxy documentation
+
+2018-01-18	lizagilman <lizagilman@gmail.com>
+	* Fixes #20873 - simplify text in disassociate hosts screen
+
+2018-01-17	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #22294 - Run dynflowd from rails root location
+
+2018-01-16	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #20325 - Fix pinning on ruby2ruby
+
+2018-01-16	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22256 - refactores statement modifier
+	* Fixes #22205 - restore blueprint actions for notifications
+
+2018-01-16	Ido Kanner <73091+ik5@users.noreply.github.com>
+	* Fixes #22190 - Pass empty hash when options is nil (#5164)
+
+2018-01-16	Timo Goebel <mail@timogoebel.name>
+	* fixes #22271 - rake console works with rails 5.1 (#5175)
+
+2018-01-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #22165 - Allow disabling HSTS header
+
+2018-01-16	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #22273 - update rubocop to 0.52.1
+	* Refs #19777 - Fix Layout/IndentAssignment cop
+
+2018-01-16	Ivan Necas <inecas@redhat.com>
+	* Fixes #22272 - don't run CreateRssNotifications in test (#5177)
+
+2018-01-15	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #19776 - Configure Layout/FirstParameterIndentation cop
+	* Fixes #19868 - Disable Style/InverseMethods cop
+	* Fixes #19907 - Configure Style/TernaryParentheses cop
+	* Fixes #19881 - Fix Style/Not cop
+	* Fixes #19871 - Fix Style/MethodDefParentheses cop
+	* Fixes #19877 - Fix Style/NegatedIf cop
+	* Fixes #19879 - Fix Style/NestedParenthesizedCalls cop
+	* Fixes #19838 - Fix Rails/PluralizationGrammar cop
+	* Fixes #19895 - Fix Style/RedundantReturn cop
+	* Fixes #19902 - Fix Style/StringLiteralsInInterpolation cop
+	* Fixes #19849 - Configure Style/AndOr cop
+	* Refs #22164 - use cheaper FactoryBot methods
+
+2018-01-15	Avi Sharvit <sharvita@gmail.com>
+	* Fixes #22114 - Webpack common-chunk vendor.js
+
+2018-01-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #1916 - Subnet vlan id should be integer
+	* Fixes #22033 - Update JS deprecations for 1.18
+	* Fixes #11389 - Remove API v1
+
+2018-01-15	Timo Goebel <mail@timogoebel.name>
+	* fixes #22258 - vmware: speed up vm listing
+
+2018-01-15	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #13497 - Enable password field after test connection in CR (#5163)
+
+2018-01-15	Marek Hulan <mhulan@redhat.com>
+	* Refs #13092 - sync up community templates
+
+2018-01-12	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #22208, #21920 - Refactor password auditing (#5162)
+
+2018-01-11	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #13092 - Deploy correct bonding for reprovisioned host (#4583)
+
+2018-01-10	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22203 - facts traversing supports dot in names
+
+2018-01-10	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22106 - Clean up the common components
+
+2018-01-10	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #22208 - pin audited to 4.5
+
+2018-01-10	Ondrej Prazak <oprazak@redhat.com>
+	* Bump version to 1.18-develop
+
+2018-01-08	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #22072 - adds scrolling in bookmarks dropdown
+
+2018-01-08	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #22166 - Move dev deps to devDependencies
+
+2018-01-08	Ivan Necas <inecas@redhat.com>
+	* Fixes #20931 - unify parameters and templates renderer (#4835)
+
+2018-01-08	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #21926 - Ensure uniqueness on image names and uuids (#5081)
+
+2018-01-07	Dan Seethaler <dan@seethalers.com>
+	* Fixes #22163 - Update patternfly-react
+
 2018-01-05	Timo Goebel <mail@timogoebel.name>
 	* refs #20929 - do not stub settings
+
+2018-01-05	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #21748 - Removed gravatar images
+
+2018-01-04	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #5790 - Add compute resource to hostgroup (#4593)
+
+2018-01-04	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #22071 - Upgrade patternfly-sass to v3.32.1
+
+2018-01-04	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #22140 - update ellipsis-with-tooltip package
 
 2018-01-03	Ori Rabin <orabin@redhat.com>
 	* Fixes #22131 - Refactor new_vm? to calculate compute_object once
