@@ -247,7 +247,8 @@ class User < ApplicationRecord
 
         # clean up old avatar if it exists and the image isn't in use by anyone else
         if old_hash.present? && user.avatar_hash != old_hash && !User.unscoped.where(:avatar_hash => old_hash).any?
-          File.delete "#{Rails.public_path}/avatars/#{old_hash}.jpg" if File.exist? old_avatar
+          old_avatar = "#{Rails.public_path}/images/avatars/#{old_hash}.jpg"
+          File.delete(old_avatar) if File.exist?(old_avatar)
         end
       else
         logger.debug "Failed to authenticate #{user.login} against #{user.auth_source} authentication source"
