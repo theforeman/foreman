@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-03 13:01+0200\n"
-"PO-Revision-Date: 2018-04-03 13:01+0200\n"
+"POT-Creation-Date: 2018-06-01 14:46+0200\n"
+"PO-Revision-Date: 2018-06-01 14:46+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -5479,11 +5479,11 @@ msgstr ""
 msgid "SCSI controller type is deprecated. Please change to scsi_controllers"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:549
+#: ../app/models/compute_resources/foreman/model/vmware.rb:551
 msgid "Could not find network %s on VMWare compute resource"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:588
+#: ../app/models/compute_resources/foreman/model/vmware.rb:590
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a di"
 "fferent hash. If you are sure the remote system is authentic, go to the comput"
@@ -7895,7 +7895,7 @@ msgid "unknown permission %s"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/services/classification/values_hash_query.rb:146
+#: ../app/services/classification/values_hash_query.rb:147
 #: model_attributes.rb:272
 msgid "LookupKey|Default value"
 msgstr ""

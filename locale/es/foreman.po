@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-02 23:49+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2018-04-03 13:08+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgid " in the provisioning template."
 msgstr "en la plantilla de aprovisionamiento."
 
 msgid "#{taxonomy} can be set on the All Hosts page"
-msgstr ""
+msgstr "#{taxonomy} se puede definir en la página Todos los hosts"
 
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - Pulse Shift-F12 para liberar el cursor."
@@ -160,7 +160,7 @@ msgid "%{controller}: %{host}'s operating system is missing"
 msgstr "%{controller}: falta el sistema operativo de %{host}"
 
 msgid "%{controller}: provisioning token for host %{host} expired"
-msgstr ""
+msgstr "%{controller}: el token de aprovisionamiento para el host %{host} ha vencido"
 
 msgid "%{controller}: unable to find a host that matches the request from %{addr}"
 msgstr "%{controller}: no se pudo encontrar un host que coincida con la solicitud de %{addr}"
@@ -183,7 +183,7 @@ msgid "%{e} does not belong to the %{environment} environment"
 msgstr "%{e} no pertenece al entorno %{environment}"
 
 msgid "%{full_name} (Default: %{default})"
-msgstr ""
+msgstr "%{full_name} (Default: %{default})"
 
 msgid "%{host} is about to %{action}"
 msgstr "%{host} a punto de %{action}"
@@ -247,7 +247,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%{taxonomy} stored in session with id %{id} not found"
-msgstr ""
+msgstr "%{taxonomy} almacenado en sesión con id %{id} no hallado"
 
 msgid "%{taxonomy} with id %{id} not found"
 msgstr "%{taxonomy} con ID  %{id} no hallado"
@@ -310,7 +310,7 @@ msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administ
 msgstr ":foreman_url no está configurada, configúrela en la UI de la Web de Foreman (Administración -> Configuración -> General)"
 
 msgid "<b class='select_count'>0</b> of <b>#{@hosts.total_entries}</b> selected"
-msgstr ""
+msgstr "<b class='select_count'>0</b> de <b>#{@hosts.total_entries}</b> seleccionados"
 
 msgid "<b class='select_count'>0</b> selected"
 msgstr "<b class='select_count'>0</b> seleccionados"
@@ -381,10 +381,10 @@ msgid "A Foreman user group can be associated to a group stored in an LDAP serve
 msgstr "Un grupo de usuario de Foreman puede estar asociado con un grupo almacenado en un servidor LDAP. De esta manera, la membresía del grupo LDAP agrega al usuario en forma automática al grupo de usuario de Foreman."
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
-msgstr ""
+msgstr "Un perfil de cómputo es una forma de expresar un conjunto de valores predeterminados para las MV creadas en un recurso de cómputo específico que se pueden asignar a una etiqueta definida por el operador.  Esto significa que el administrador puede expresar, por ejemplo, lo que significa 'Small', 'Medium' o 'Large' ('pequeño', 'mediano' o 'grande') en todos los recursos de cómputo individuales de una instalación determinada."
 
 msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
-msgstr ""
+msgstr "Un grupo de configuración permite asociar muchas clases Puppet a un host o grupo de hosts en un solo paso. Normalmente, esto se utilizaría para añadir un perfil de aplicación particular o una pila en un solo paso."
 
 msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr "Un grupo de hosts es similar a una declaración de nodo heredada, en que es un grupo de clases de alto nivel que se puede denominar  y tratar como una unidad. Se utiliza como una plantilla que se selecciona  durante la creación de un host, y garantiza que el host se configure en alguno de los estados predefinidos."
@@ -670,7 +670,7 @@ msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr "Falta usuario de administración anónimo r %s, ejecute foreman-rake db:seed"
 
 msgid "Any #{tax.humanize}"
-msgstr ""
+msgstr "Cualquiera #{tax.humanize}"
 
 msgid "Any Location"
 msgstr "Cualquier Lugar"
@@ -679,7 +679,7 @@ msgid "Any Organization"
 msgstr "Cualquier organización"
 
 msgid "Append domain names to the host"
-msgstr ""
+msgstr "Anexar nombres de dominio  al host"
 
 msgid "Applicable Operating Systems"
 msgstr "Sistemas operativos aplicables"
@@ -798,7 +798,7 @@ msgid "Associated Host"
 msgstr "Host asociado"
 
 msgid "Associating VMs is not supported for this compute resource"
-msgstr ""
+msgstr "La asociación de MV no se admite para este recurso de cómputo."
 
 msgid "Association"
 msgstr "Asociación"
@@ -827,51 +827,51 @@ msgstr "Resumen de auditoría"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Action"
-msgstr ""
+msgstr "Audited::Audit|Acción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Associated name"
-msgstr ""
+msgstr "Audited::Audit|Nombre asociado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Associated type"
-msgstr ""
+msgstr "Audited::Audit|Tipo asociado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Auditable name"
-msgstr ""
+msgstr "Audited::Audit|Nombre que se puede auditar"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Auditable type"
-msgstr ""
+msgstr "Audited::Audit|Tipo que se puede auditar"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Audited changes"
-msgstr ""
+msgstr "Audited::Audit|Cambios auditados"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Comment"
-msgstr ""
+msgstr "Audited::Audit|Comentario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Remote address"
-msgstr ""
+msgstr "Audited::Audit|Dirección remota"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Request uuid"
-msgstr ""
+msgstr "Audited::Audit|Uuid de solicitud"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|User type"
-msgstr ""
+msgstr "Audited::Audit|Tipo de usuario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Username"
-msgstr ""
+msgstr "Audited::Audit|Nombre de usuario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Audited::Audit|Version"
-msgstr ""
+msgstr "Audited::Audit|Versión"
 
 msgid "Audits"
 msgstr "Auditoría"
@@ -949,11 +949,11 @@ msgstr "TLS"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Use netgroups"
-msgstr ""
+msgstr "AuthSource|Usar grupos de red"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "AuthSource|Usergroup sync"
-msgstr ""
+msgstr "AuthSource|Sincronización de grupos de usuarios"
 
 msgid "Authentication"
 msgstr "Autenticación"
@@ -1412,7 +1412,7 @@ msgid "Compute resource"
 msgstr "Recurso de cómputo"
 
 msgid "Compute resource ID"
-msgstr ""
+msgstr "ID de recurso de cómputo"
 
 msgid "Compute resource IDs"
 msgstr "ID de recursos de cómputo"
@@ -1438,7 +1438,7 @@ msgstr "Atributos"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Caching enabled"
-msgstr ""
+msgstr "ComputeResource|Caché habilitado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Description"
@@ -1446,7 +1446,7 @@ msgstr "Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Domain"
-msgstr ""
+msgstr "ComputeResource|Dominio"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ComputeResource|Name"
@@ -1543,7 +1543,7 @@ msgid "Continue?"
 msgstr "¿Continuar?"
 
 msgid "Core and proxy versions do not match. foreman: %s, foreman-proxy: %s"
-msgstr ""
+msgstr "Las versiones del núcleo y proxy no coinciden. foreman: %s, foreman-proxy: %s"
 
 msgid "Cores"
 msgstr "Núcleos"
@@ -1645,7 +1645,7 @@ msgid "Create Global Parameter"
 msgstr "Crear parámetro global"
 
 msgid "Create Hardware Model"
-msgstr ""
+msgstr "Crear modelo de hardware"
 
 msgid "Create Host"
 msgstr "Crear host"
@@ -1687,7 +1687,7 @@ msgid "Create Partition Table"
 msgstr "Crear tabla de partición"
 
 msgid "Create Provisioning Template"
-msgstr ""
+msgstr "Crear plantilla de aprovisionamiento"
 
 msgid "Create Proxy"
 msgstr "Crear proxy"
@@ -1966,16 +1966,16 @@ msgid "Default Behavior"
 msgstr "Comportamiento predeterminado"
 
 msgid "Default PXE (PXELinux, PXEGrub, PXEGrub2) menu item in global template - 'local', 'discovery' or custom"
-msgstr ""
+msgstr "Elemento de menú de PXE (PXELinux, PXEGrub, PXEGrub2) predeterminado en plantilla global - 'local', 'discovery' o personalizado"
 
 msgid "Default PXE (PXELinux, PXEGrub2) menu item in local template - 'local_chain_hd0', 'local' or custom"
-msgstr ""
+msgstr "Elemento de menú de PXE (PXELinux, PXEGrub2) predeterminado en plantilla local - 'local_chain_hd0', 'local' o personalizado"
 
 msgid "Default PXE global template entry"
-msgstr ""
+msgstr "Entrada de plantilla global de PXE predeterminada"
 
 msgid "Default PXE local template entry"
-msgstr ""
+msgstr "Entrada de plantilla local de PXE predeterminada"
 
 msgid "Default Puppet environment"
 msgstr "Entorno Puppet predeterminado"
@@ -2233,7 +2233,7 @@ msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr "Implementar configuración TFTP %{kind} para %{host}"
 
 msgid "Deploy on"
-msgstr ""
+msgstr "Desplegar en"
 
 msgid "Deprecated, please use datacenter"
 msgstr "Obsoleto. Use el centro de datos"
@@ -2314,7 +2314,7 @@ msgid "Disk Mode"
 msgstr "Modo de disco"
 
 msgid "Disk interface"
-msgstr ""
+msgstr "Interfaz de disco"
 
 msgid "Disk name"
 msgstr "Nombre de disco"
@@ -2382,10 +2382,10 @@ msgid "Download"
 msgstr "Descargar"
 
 msgid "Download VMRC"
-msgstr ""
+msgstr "Descargar VMRC"
 
 msgid "Duration in minutes after servers are classed as out of sync."
-msgstr ""
+msgstr "Duración en minutos después de que los servidores se clasifiquen como fuera de sincronización."
 
 msgid "EC2"
 msgstr "EC2"
@@ -2544,13 +2544,13 @@ msgid "Enable certificate generation for %s"
 msgstr "Habilitar generación de certificado para %s"
 
 msgid "Enable host orchestration on puppet fact import. This could cause serious performance issues as the number of hosts increase"
-msgstr ""
+msgstr "Activar orquestación de host en importación de datos de puppet. Esto podría causar problemas de rendimiento importantes ya que aumenta el número de hosts"
 
 msgid "Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"
 msgstr "Habilitar si es un alias o una interfaz VLAN, tenga en cuenta que el alias solo se puede utilizar con la subred de modo de inicio estático."
 
 msgid "Enable orchestration on puppet fact import"
-msgstr ""
+msgstr "Activar orquestación en importación de datos de puppet"
 
 msgid "Enable puppetrun support"
 msgstr "Activar soporte para puppetrun"
@@ -2636,7 +2636,7 @@ msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr "Error al conectarse a los servidores DNS del sistema - verificar /etc/resolv.conf"
 
 msgid "Error during LDAP connection #{name} using login #{login}: #{e}"
-msgstr ""
+msgstr "Se produjo un error durante la conexión LDAP #{name} con el inicio de sesión #{login}: #{e}"
 
 msgid "Error generating IP: %s"
 msgstr "Error al generar IP: %s"
@@ -2699,10 +2699,10 @@ msgid "Examples"
 msgstr "Ejemplos"
 
 msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
-msgstr ""
+msgstr "Excluye el patrón para todos los tipos de datos importados (rhsm, puppet e.t.c.). Estos datos no se almacenarán en la base de datos de foreman. Puede usar * el comodín para que los nombres coincidan con los índices (p. ej., macvtap*)"
 
 msgid "Exclude pattern for facts stored in foreman"
-msgstr ""
+msgstr "Excluir patrón para datos almacenados en foreman"
 
 msgid "Exit Full Screen"
 msgstr "Salir de pantalla completa"
@@ -2750,7 +2750,7 @@ msgid "External user group"
 msgstr "Grupo de usuarios externos"
 
 msgid "External user group %{name} could not be refreshed."
-msgstr ""
+msgstr "El grupo de usuario externo %{name} no se pudo actualizar."
 
 msgid "External user group %{name} refreshed"
 msgstr "Grupo de usuario %{name} ha sido actualizado"
@@ -2916,7 +2916,7 @@ msgid "Failed to launch script on %{name}: %{e}"
 msgstr "Falló al ejecutar script en %{name}: %{e}"
 
 msgid "Failed to load bookmarks: %s"
-msgstr ""
+msgstr "Error al cargar los marcadores: %s"
 
 msgid "Failed to load chart"
 msgstr "No se pudo cargar el gráfico"
@@ -3020,7 +3020,7 @@ msgid "Fetch TFTP boot files for %s"
 msgstr "Recolectar archivos de arranque TFTP para %s"
 
 msgid "Field name"
-msgstr ""
+msgstr "Nombre del campo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
@@ -3048,7 +3048,7 @@ msgid "Filters for role %s"
 msgstr "Filtros para el rol %s"
 
 msgid "Filters inherit %{orgs_and_locs} associated with the role by default. If override field is enabled, <br> the filter can override the set of its %{orgs_and_locs}. Later role changes will not affect such filter.<br> After disabling the override field, the role %{orgs_and_locs} apply again."
-msgstr ""
+msgstr "Los filtros heredan %{orgs_and_locs} asociados con el rol de manera predeterminada. Si se habilita el campo de reemplazo, <br> el filtro puede reemplazar el conjunto de sus %{orgs_and_locs}. Los cambios de rol posteriores no afectarán dicho filtro.<br> Después de deshabilitar el campo de reemplazo, se aplica el rol %{orgs_and_locs} nuevamente."
 
 msgid "Filters overriding has been disabled"
 msgstr "Se deshabilitó la anulación de filtros"
@@ -3143,7 +3143,7 @@ msgid "Foreman Users"
 msgstr "Usuarios de Foreman"
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
-msgstr ""
+msgstr "Foreman permite definir una jerarquía de herencia de parámetros en la cual los parámetros globales son accesibles desde cualquier manifiesto."
 
 msgid "Foreman audit summary"
 msgstr "Resumen de auditoría de Foreman"
@@ -3194,7 +3194,7 @@ msgid "Foreman ticketing system"
 msgstr "Sistema de tiquetes Foreman"
 
 msgid "Foreman will append domain names when new hosts are provisioned"
-msgstr ""
+msgstr "Foreman anexará nombres de dominio cuando se aprovisionen los hosts nuevos"
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman automatizará la firma de certificados tras el aprovisionamiento de un nuevo host"
@@ -3353,7 +3353,7 @@ msgid "Global methods (functions)"
 msgstr "Métodos globales (funciones)"
 
 msgid "Global setting \"%s\" is not accessible in safe-mode"
-msgstr ""
+msgstr "No se puede acceder al parámetro global \"%s\" en el modo seguro"
 
 msgid "Global status changed from %{from} to %{to}"
 msgstr "El estado global cambió de %{from} a %{to}"
@@ -3404,7 +3404,7 @@ msgid "Hardware Models"
 msgstr "Modelos de hardware"
 
 msgid "Hardware models describe the hardware types of your hosts, including CPU class, vendor class and other notes."
-msgstr ""
+msgstr "Los modelos de hardware describen los tipos de hardware de sus hosts, inclusive la clase de CPU, la clase de proveedor, entre otras observaciones."
 
 msgid "Hash function to use. Change takes effect for new or updated hosts."
 msgstr "Función hash a utilizar. Los cambios se efectúan en hosts nuevos o actualizados."
@@ -3446,13 +3446,13 @@ msgid "Host Configuration Chart"
 msgstr "Cuadro de configuración de host"
 
 msgid "Host Configuration Chart for %s"
-msgstr ""
+msgstr "Gráfico de configuración del host para %s"
 
 msgid "Host Configuration Status"
 msgstr "Estado de configuración del host"
 
 msgid "Host Configuration Status for %s"
-msgstr ""
+msgstr "Estado de configuración del host para %s"
 
 msgid "Host Group / Environment"
 msgstr "Grupo de hosts/Entorno"
@@ -3514,7 +3514,7 @@ msgstr "El tiempo de informe de host es <em>%s</em>"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host status/status"
-msgstr ""
+msgstr "Estado del host/estado"
 
 msgid "Host times seem to be adrift!"
 msgstr "¡Los tiempos del host parecen estar a la deriva!"
@@ -3550,7 +3550,7 @@ msgstr "Habilitado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Global status"
-msgstr ""
+msgstr "Host::Base|Estado global"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Grub pass"
@@ -3574,7 +3574,7 @@ msgstr "Último informe"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Lookup value matcher"
-msgstr ""
+msgstr "Host::Base|Concordancia de valor de búsqueda"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Managed"
@@ -3598,7 +3598,7 @@ msgstr "Método de aprovisionamiento"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Pxe loader"
-msgstr ""
+msgstr "Host::Base|Cargador PXE"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host::Base|Root pass"
@@ -3618,11 +3618,11 @@ msgstr "Tipo de host"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "HostStatus::Status|Reported at"
-msgstr ""
+msgstr "HostStatus::Status|Informado en"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "HostStatus::Status|Status"
-msgstr ""
+msgstr "HostStatus::Status|Estado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
@@ -3634,7 +3634,7 @@ msgstr "Ascendencia"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Description"
-msgstr ""
+msgstr "Hostgroup|Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Grub pass"
@@ -3646,7 +3646,7 @@ msgstr "Archivo de imagen"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Lookup value matcher"
-msgstr ""
+msgstr "Hostgroup|Concordancia de valor de búsqueda"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Name"
@@ -3654,7 +3654,7 @@ msgstr "Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Pxe loader"
-msgstr ""
+msgstr "Hostgroup|Cargador PXE"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Root pass"
@@ -3727,7 +3727,7 @@ msgid "Hosts which are not reporting"
 msgstr "Hosts que no generan informes"
 
 msgid "Hosts which didn't report in the last %s"
-msgstr ""
+msgstr "Hosts sin ejecución de informe en los últimos %s"
 
 msgid "Hosts which do not have recent reports from configuration management"
 msgstr "Hosts que no poseen informes recientes de la administración de configuración"
@@ -3785,23 +3785,23 @@ msgstr "Sin embargo, en caso de que se eliminase en forma externa, esta página 
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Http proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "HttpProxy|Name"
-msgstr ""
+msgstr "HttpProxy|Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "HttpProxy|Password"
-msgstr ""
+msgstr "HttpProxy|Contraseña"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "HttpProxy|Url"
-msgstr ""
+msgstr "HttpProxy|URL"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "HttpProxy|Username"
-msgstr ""
+msgstr "HttpProxy|Nombre de usuario"
 
 msgid "ID of LDAP authentication source"
 msgstr "ID de la fuente de identificación LDAP"
@@ -4006,7 +4006,7 @@ msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and 
 msgstr "Si la marca administrada está habilitada, los servicios externos, como DHCP, DNS, y TFTP, se configurarán de acuerdo con la información proporcionada."
 
 msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with %s, the filters are not considered unlimited</br> as they are scoped accordingly."
-msgstr ""
+msgstr "Si el campo ilimitado está habilitado, el filtro se aplica a todos los recursos del tipo seleccionado. Si el campo </br> ilimitado está deshabilitado, puede especificar otros filtros utilizando la sintaxis de búsqueda de Foreman en el campo de búsqueda.</br> Si el rol está asociado con %s, los filtros no se consideran ilimitados</br> ya que tiene un alcance adecuado."
 
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr "Si es así, se mostrará un error si no existe un valor predeterminado y no existe ninguna concordancia que pueda proporcionar un valor"
@@ -4106,7 +4106,7 @@ msgid "Import VM %s"
 msgstr "Importar MV %s"
 
 msgid "Import a provisioning template"
-msgstr ""
+msgstr "Importar una plantilla de aprovisionamiento"
 
 msgid "Import classes from %s"
 msgstr "Importar clases desde %s"
@@ -4118,7 +4118,7 @@ msgid "Import of facts failed for host %s"
 msgstr "No se pudieron importar los eventos para host %s"
 
 msgid "Import puppet classes from puppet proxy"
-msgstr ""
+msgstr "Importar clases puppet desde el proxy de puppet"
 
 msgid "Import puppet classes from puppet proxy for an environment"
 msgstr "Importar clases puppet desde el proxy puppet de un entorno"
@@ -4187,7 +4187,7 @@ msgid "Installed"
 msgstr "Instalado"
 
 msgid "Instance type"
-msgstr ""
+msgstr "Tipo de instancia"
 
 msgid "Interface"
 msgstr "Interfaz"
@@ -4277,7 +4277,7 @@ msgid "It is not possible to assign provisioning templates at this stage."
 msgstr "No es posible asignar plantillas de aprovisionamiento en esta etapa."
 
 msgid "It is not possible to change external users login"
-msgstr ""
+msgstr "No es posible modificar el inicio de sesión de usuarios externos"
 
 msgid "It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead."
 msgstr "No se recomienda desbloquear esta plantilla, ya que la proporciona %{vendor} y es posible que se sobrescriba. Considere clonarla, en cambio."
@@ -4359,7 +4359,7 @@ msgid "Latest Events"
 msgstr "Últimos eventos"
 
 msgid "Launch Console"
-msgstr ""
+msgstr "Lanzar consola"
 
 msgid "Learn more about this in the documentation."
 msgstr "Obtener más información acerca de esto en la documentación."
@@ -4458,7 +4458,7 @@ msgid "List all filters"
 msgstr "Listar todos los filtros"
 
 msgid "List all global parameters"
-msgstr ""
+msgstr "Mostrar todos los parámetros globales"
 
 msgid "List all hardware models"
 msgstr "Listar todos los modelos de hardware"
@@ -4632,7 +4632,7 @@ msgid "List available networks for a compute resource cluster"
 msgstr "Listar todas las redes para un clúster de recursos de cómputo"
 
 msgid "List available resource types"
-msgstr ""
+msgstr "Mostrar tipos de recursos disponibles"
 
 msgid "List available security groups for a compute resource"
 msgstr "Listar los grupos de seguridad disponibles para un recurso de computación"
@@ -4911,7 +4911,7 @@ msgstr "Clave de búsqueda|Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Hidden value"
-msgstr ""
+msgstr "LookupKey|Valor oculto"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key"
@@ -4923,7 +4923,7 @@ msgstr "Clave de búsqueda|Tipo de clave"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
-msgstr ""
+msgstr "LookupKey|Combinar valores predeterminados"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge overrides"
@@ -4931,7 +4931,7 @@ msgstr "Clave de búsqueda|Anulaciones de fusión"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Omit"
-msgstr ""
+msgstr "LookupKey|Omitir"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
@@ -4959,7 +4959,7 @@ msgstr "Concordancia"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Omit"
-msgstr ""
+msgstr "LookupValue|Omitir"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Value"
@@ -4988,42 +4988,42 @@ msgstr "Tipo de máquina"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Mail notification"
-msgstr ""
+msgstr "Notificación de correo"
 
 msgid "Mail query"
 msgstr "Consulta por correo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Default interval"
-msgstr ""
+msgstr "MailNotification|Intervalo predeterminado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Description"
-msgstr ""
+msgstr "MailNotification|Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Mailer"
-msgstr ""
+msgstr "MailNotification|Formulario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Method"
-msgstr ""
+msgstr "MailNotification|Método"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Name"
-msgstr ""
+msgstr "MailNotification|Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Queryable"
-msgstr ""
+msgstr "MailNotification|Consultable"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Subscriptable"
-msgstr ""
+msgstr "MailNotification|Suscribible"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Subscription type"
-msgstr ""
+msgstr "MailNotification|Tipo de suscripción"
 
 msgid "Mailing lists"
 msgstr "Listas de distribución"
@@ -5153,7 +5153,7 @@ msgid "Method used to deliver email"
 msgstr "Método utilizado para enviar correo electrónico"
 
 msgid "Metric already registered: %s"
-msgstr ""
+msgstr "La métrica ya está registrada: %s"
 
 msgid "Metrics"
 msgstr "Métrica"
@@ -5171,7 +5171,7 @@ msgid "Mismatches Report"
 msgstr "Informe de discordancias"
 
 msgid "Missing a permission to edit parent %s"
-msgstr ""
+msgstr "Falta un permiso para editar %s principal"
 
 msgid "Missing one of the required permissions: %s"
 msgstr "Falta uno de los permisos requeridos: %s."
@@ -5355,7 +5355,7 @@ msgstr "Opciones de vínculo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Compute attributes"
-msgstr ""
+msgstr "Nic::Base|Atributos de cómputo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Identifier"
@@ -5367,7 +5367,7 @@ msgstr "IP"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Ip6"
-msgstr ""
+msgstr "Nic::Base|Ip6"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Link"
@@ -5395,7 +5395,7 @@ msgstr "Contraseña"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Primary"
-msgstr ""
+msgstr "Nic::Base|Primario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Provider"
@@ -5403,7 +5403,7 @@ msgstr "Proveedor"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Provision"
-msgstr ""
+msgstr "Nic::Base|Aprovisionamiento"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Tag"
@@ -5418,7 +5418,7 @@ msgid "Nic::Base|Virtual"
 msgstr "Virtual"
 
 msgid "No"
-msgstr ""
+msgstr "No"
 
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr "No se encontraron plantillas %{template_kind} para este host; asegúrese de definir al menos una en la configuración de su %{os} o cambie el cargador PXE"
@@ -5442,7 +5442,7 @@ msgid "No TFTP proxies defined, can't continue"
 msgstr "No se han definido proxis TFTP, no puede continuar"
 
 msgid "No VMs matched any host."
-msgstr ""
+msgstr "No se encontraron MV que coincidan con un host."
 
 msgid "No audit changes for this period"
 msgstr "No hay cambios de auditoría para este período"
@@ -5541,10 +5541,10 @@ msgid "No new IPv4 subnets found"
 msgstr "No se encontraron subredes de IPv4 nuevas"
 
 msgid "No options available for selected Architecture"
-msgstr ""
+msgstr "No existen opciones disponibles para la arquitectura seleccionada"
 
 msgid "No options available for selected Operating System"
-msgstr ""
+msgstr "No existen opciones disponibles para el sistema operativo seleccionado"
 
 msgid "No or invalid power state selected!"
 msgstr "¡No se seleccionó un estado de energía o el estado seleccionado no es válido!"
@@ -5659,46 +5659,46 @@ msgstr "Avisos, advertencias y errores"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification"
-msgstr ""
+msgstr "Notificación"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification blueprint"
-msgstr ""
+msgstr "Diagrama de notificación"
 
 msgid "Notification disabled"
 msgstr "Notificaciones inhabilitadas"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification recipient"
-msgstr ""
+msgstr "Receptor de notificación"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
-msgstr ""
+msgstr "NotificationBlueprint|Acciones"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Expires in"
-msgstr ""
+msgstr "NotificationBlueprint|Vence en"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Group"
-msgstr ""
+msgstr "NotificationBlueprint|Grupo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Level"
-msgstr ""
+msgstr "NotificationBlueprint|Nivel"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Message"
-msgstr ""
+msgstr "NotificationBlueprint|Mensaje"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Name"
-msgstr ""
+msgstr "NotificationBlueprint|Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationRecipient|Seen"
-msgstr ""
+msgstr "Visto"
 
 msgid "Notifications"
 msgstr "Notificaciones"
@@ -5708,23 +5708,23 @@ msgstr "Las notificaciones no se pueden asignar a este usuario."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Actions"
-msgstr ""
+msgstr "Notification|Acciones"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Audience"
-msgstr ""
+msgstr "Notification|Audiencia"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Expired at"
-msgstr ""
+msgstr "Notification|Vencido el"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Message"
-msgstr ""
+msgstr "Notification|Mensaje"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Subject type"
-msgstr ""
+msgstr "Tipo de sujeto"
 
 msgid "Number Of Clients"
 msgstr "Número de clientes"
@@ -5845,7 +5845,7 @@ msgid "Oops, we're sorry but something went wrong"
 msgstr "Lo sentimos algo ha salido mal"
 
 msgid "Open"
-msgstr ""
+msgstr "Abierta"
 
 msgid "Open Spice in a new window"
 msgstr "Abrir Spice en una nueva ventana"
@@ -5986,7 +5986,7 @@ msgid "Organizations also work nicely in tandem with %{locations}."
 msgstr "Las organizaciones también funcionan bien en conjunto con %{locations}."
 
 msgid "Origin"
-msgstr ""
+msgstr "Origen"
 
 msgid "Original value info"
 msgstr "Información del valor original"
@@ -6089,7 +6089,7 @@ msgid "Parameter value"
 msgstr "Valor del parámetro"
 
 msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
-msgstr ""
+msgstr "El soporte de clase parametrizada permite detectar, importar y suministrar parámetros a las clases que lo admiten de forma directa y a través de ENC, aunque depende de un conjunto de reglas (concordancias inteligentes o Smart Matchers)."
 
 msgid "Parameterized classes in ENC"
 msgstr "Clases parametrizadas en ENC"
@@ -6153,13 +6153,13 @@ msgid "Partition template IDs"
 msgstr "ID de la plantilla de partición"
 
 msgid "Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities."
-msgstr ""
+msgstr "Las plantillas de partición describen el diseño de partición con un diseño de disco diferente para dar cuenta de las diferentes capacidades del servidor."
 
 msgid "Password"
 msgstr "Contraseña"
 
 msgid "Password do not match"
-msgstr ""
+msgstr "La contraseña no coincide"
 
 msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr "Contraseña para oVirt, EC2, VMware, OpenStack. Llave secreta para EC2"
@@ -6236,27 +6236,27 @@ msgstr "Persistente"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Personal access token"
-msgstr ""
+msgstr "Token de acceso personal"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PersonalAccessToken|Expires at"
-msgstr ""
+msgstr "PersonalAccessToken|Vence en"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PersonalAccessToken|Last used at"
-msgstr ""
+msgstr "PersonalAccessToken|Usado por última vez"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PersonalAccessToken|Name"
-msgstr ""
+msgstr "PersonalAccessToken|Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PersonalAccessToken|Revoked"
-msgstr ""
+msgstr "PersonalAccessToken|Revocado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "PersonalAccessToken|Token"
-msgstr ""
+msgstr "PersonalAccessToken|Token"
 
 msgid "Photo attribute"
 msgstr "Atributo de foto"
@@ -6334,7 +6334,7 @@ msgid "Port to connect to"
 msgstr "Puerto para conectarse con"
 
 msgid "Possible values"
-msgstr ""
+msgstr "Valores posibles"
 
 msgid "Power"
 msgstr "Energía"
@@ -6552,7 +6552,7 @@ msgid "Puppetrun"
 msgstr "Puppetrun"
 
 msgid "Query"
-msgstr ""
+msgstr "Consulta"
 
 msgid "Query instance details for %s"
 msgstr "Información de consulta de instancia para %s"
@@ -6570,10 +6570,10 @@ msgid "REPLACE organizations with given ids."
 msgstr "REMPLAZAR organizaciones con ID dadas."
 
 msgid "RSS URL"
-msgstr ""
+msgstr "URL de RSS"
 
 msgid "RSS enable"
-msgstr ""
+msgstr "Activar RSS"
 
 msgid "Random DB"
 msgstr "Base de datos aleatoria"
@@ -6663,7 +6663,7 @@ msgid "Region"
 msgstr "Región"
 
 msgid "Remember hosts selection for the next bulk action"
-msgstr ""
+msgstr "Recordar selección de hosts para la próxima acción masiva"
 
 msgid "Reminder: <strong> One host is selected </strong>"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
@@ -6746,7 +6746,7 @@ msgid "Reported at %s "
 msgstr "Reportado en %s"
 
 msgid "Reported by %s"
-msgstr ""
+msgstr "Informado por %s"
 
 msgid "Reports"
 msgstr "Informes"
@@ -6757,7 +6757,7 @@ msgstr "Métrica"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Origin"
-msgstr ""
+msgstr "Informe|Origen"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Reported at"
@@ -6886,7 +6886,7 @@ msgstr "Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role|Origin"
-msgstr ""
+msgstr "Rol|Origen"
 
 msgid "Root Password Hash"
 msgstr "Hash de contraseña de root"
@@ -6904,7 +6904,7 @@ msgid "Run Distribution Chart"
 msgstr "Ejecutar cuadro de distribución"
 
 msgid "Run Distribution Chart for %s"
-msgstr ""
+msgstr "Ejecutar gráfico de distribución para %s"
 
 msgid "Run Puppet"
 msgstr "Ejecutar Puppet"
@@ -7009,7 +7009,7 @@ msgid "Save something and try again"
 msgstr "Guarde algo y reinténtelo"
 
 msgid "Saved Bookmarks"
-msgstr ""
+msgstr "Marcadores guardados"
 
 msgid "Scheduler hint filter"
 msgstr "Filtro de indicador de programador"
@@ -7027,7 +7027,7 @@ msgid "Search"
 msgstr "Buscar"
 
 msgid "Search fields"
-msgstr ""
+msgstr "Campos de búsqueda"
 
 msgid "Secondary DNS Server"
 msgstr "Servidor DNS secundario"
@@ -7063,7 +7063,7 @@ msgid "Select a period"
 msgstr "Seleccionar un período"
 
 msgid "Select all items on this page"
-msgstr ""
+msgstr "Seleccionar todos los elementos de esta página"
 
 msgid "Select an owner"
 msgstr "Seleccionar un propietario"
@@ -7096,7 +7096,7 @@ msgid "Select hosts to assign to %s"
 msgstr "Seleccionar hosts para asignar a %s"
 
 msgid "Select instance type"
-msgstr ""
+msgstr "Seleccionar tipo de instancia"
 
 msgid "Select locations"
 msgstr "Seleccionar ubicaciones"
@@ -7194,7 +7194,7 @@ msgid "Set IP addresses for %s"
 msgstr "Configurar direcciones IP para %s"
 
 msgid "Set a randomly generated password on the VNC display connection"
-msgstr ""
+msgstr "Definir una contraseña generada en forma aleatoria en la conexión de la pantalla de VNC"
 
 msgid "Set a randomly generated password on the display connection"
 msgstr "Configurar una contraseña generada en forma  aleatoria  en la conexión de la pantalla"
@@ -7235,11 +7235,11 @@ msgstr "Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Encrypted"
-msgstr ""
+msgstr "Parámetro|Encriptado"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Full name"
-msgstr ""
+msgstr "Parámetro|Nombre completo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting|Name"
@@ -7506,7 +7506,7 @@ msgid "Smart Class Parameters"
 msgstr "Parámetros de clase inteligente"
 
 msgid "Smart Parameter"
-msgstr ""
+msgstr "Parámetro inteligente"
 
 msgid "Smart Proxies"
 msgstr "Proxis inteligentes"
@@ -7521,7 +7521,7 @@ msgid "Smart Variables"
 msgstr "Variables inteligentes"
 
 msgid "Smart proxies provide a RESTful API to manage subsystems like DNS, DHCP, and TFTP."
-msgstr ""
+msgstr "Los proxis inteligentes proporcionan una API para RESTful para administrar los subsistemas, como DNS, DHCP y TFTP."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
@@ -7531,11 +7531,11 @@ msgid "Smart proxy IDs"
 msgstr "ID de proxy inteligente"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
-msgstr ""
+msgstr "Las variables inteligentes son herramientas que permiten proveer parámetros (datos de claves/valores) al ámbito (global) de primer nivel del ENC de Puppet, dependiendo de un conjunto de reglas."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Expired logs"
-msgstr ""
+msgstr "SmartProxy|Registros vencidos"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Name"
@@ -7610,23 +7610,23 @@ msgstr "Especificar tipo de autenticación, si es requerido"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
-msgstr ""
+msgstr "Clave SSH"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SshKey|Fingerprint"
-msgstr ""
+msgstr "SshKey|Huella"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SshKey|Key"
-msgstr ""
+msgstr "SshKey|Clave"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SshKey|Length"
-msgstr ""
+msgstr "SshKey|Longitud"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SshKey|Name"
-msgstr ""
+msgstr "SshKey|Nombre"
 
 msgid "Start"
 msgstr "inicio"
@@ -7704,7 +7704,7 @@ msgstr "Modo de arranque"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Description"
-msgstr ""
+msgstr "Subred|Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Dns primary"
@@ -7867,7 +7867,7 @@ msgstr "Ascendencia"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Description"
-msgstr ""
+msgstr "Taxonomía|Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Taxonomy|Ignore types"
@@ -7901,13 +7901,13 @@ msgid "Template Diff"
 msgstr "Diferencias entre plantillas"
 
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
-msgstr ""
+msgstr "ID de proxy HTTP(S) de plantilla para utilizar dentro de esta subred"
 
 msgid "Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks"
-msgstr ""
+msgstr "Proxy HTTP(S) de plantilla para utilizar dentro de esta subred para permitir el acceso al uso de plantillas en el punto de conexión desde redes aisladas"
 
 msgid "Template Proxy"
-msgstr ""
+msgstr "Proxy de plantilla"
 
 msgid "Template Type"
 msgstr "Tipo de plantillas"
@@ -7949,31 +7949,31 @@ msgstr "Plantillas resueltas para este sistema operativo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Default"
-msgstr ""
+msgstr "Plantilla|Predeterminada"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Locked"
-msgstr ""
+msgstr "Plantilla|Bloqueada"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Name"
-msgstr ""
+msgstr "Plantilla|Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Os family"
-msgstr ""
+msgstr "Plantilla|Familia de SO"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Snippet"
-msgstr ""
+msgstr "Plantilla|Fragmento"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Template"
-msgstr ""
+msgstr "Plantilla|Plantilla"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Vendor"
-msgstr ""
+msgstr "Plantilla|Proveedor"
 
 msgid "Tenant"
 msgstr "Inquilino"
@@ -8064,7 +8064,7 @@ msgid "The Primary interface is used for constructing the FQDN of the host."
 msgstr "La interfaz primaria se utiliza para crear el FQDN del host."
 
 msgid "The Provision Templates is the core of Foreman’s flexibility to used for provisioning and installation of operating systems. There are several types of template, along with a flexible matching system to deliver different templates to different hosts or host groups."
-msgstr ""
+msgstr "Las plantillas de aprovisionamiento conforman la base de la flexibilidad de Foreman y se pueden utilizar para aprovisionar e instalar sistemas operativos. Existen numerosos tipos de plantillas, además de un sistema coincidente flexible que ofrece diferentes plantillas para distintos hosts o grupos de hosts."
 
 msgid "The Provisioning interface is used for TFTP configuration for PXE boot based on this interface MAC address."
 msgstr "La interfaz de aprovisionamiento se utiliza para la configuración de TFTP para el arranque de PXE según esta dirección MAC de interfaz."
@@ -8089,7 +8089,7 @@ msgid "The class of the machine reported by the Open Boot Prom. This is primaril
 msgstr "La clase de la máquina reportada por el Open Boot Prom. Se utiliza principalmente para arquitecturas Sparc Solaris y se puede dejar en blanco para otras arquitecturas. El valor puede determinarse en Solaris con el comando uname -i|cut -f2 -d"
 
 msgid "The console is not available because the VM is not powered on"
-msgstr ""
+msgstr "La consola no está disponible porque la MV no está encendida"
 
 msgid "The default administrator email address"
 msgstr "La dirección de correo electrónico predeterminada del administrador"
@@ -8157,7 +8157,7 @@ msgid "The marked fields will need reviewing"
 msgstr "Los campos marcados deben ser revisados"
 
 msgid "The method used to provision the host."
-msgstr ""
+msgstr "El método utilizado para aprovisionar el host."
 
 msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"
 msgstr "El orden en que se procesan las llaves de concordancia, la primera concordancia gana.<br> Se pueden usar múltiples atributos como llave de concordancia, por ejemplo, con una orden de <code>host group, environment</code> se esperaría una comparación como <code>hostgroup = \"web servers\", environment = production</code>"
@@ -8337,6 +8337,8 @@ msgid ""
 "This template is locked. You may only change the\\\n"
 "                     associations. Please %s it to customize."
 msgstr ""
+"Esta plantilla está bloqueada. Es posible que solo pueda modificar las\\\n"
+"                     asociaciones. %s para personalizar."
 
 msgid "This templates requires a host to render but none was specified"
 msgstr "Esta plantilla requiere un host para procesar, y no se ha especificado ninguno."
@@ -8369,7 +8371,7 @@ msgid "Timeout has occurred while communicating with %s"
 msgstr "Se ha excedido el tiempo de espera en la conexión con %s"
 
 msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
-msgstr ""
+msgstr "Para definir contadores de tendencia, utilice el botón Añadir contador de tendencia.</br> Para comenzar a recopilar datos de tendencias, establezca una tarea programada para que ejecute 'foreman-rake trends:counter' al menos cada %s minutos."
 
 msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt)."
 msgstr "Para activar un proveedor, instalar el paquete del SO (p.e. foreman-libvirt) o activar el grupo bundler para la configuración de desarrollo (p.e. ovirt)."
@@ -8378,7 +8380,7 @@ msgid "To enable safe mode, navigate to Settings page and enable Safemode render
 msgstr "Para habilitar el modo seguro, diríjase a la página Configuración y habilite la opción de representación de modo seguro."
 
 msgid "To launch the VMRC console, you need the VMRC software installed."
-msgstr ""
+msgstr "Para lanzar la consola VMRC, debe instalar el software de VMRC."
 
 msgid ""
 "To refresh the list of users, click on the tab \"External\n"
@@ -8386,7 +8388,7 @@ msgid ""
 msgstr "Para actualizar la lista de usuarios, haga clic en la pestaña \"Grupos externos\" y, luego, en \"Actualizar\"."
 
 msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> at least every %s minutes."
-msgstr ""
+msgstr "Para comenzar a recolectar datos de tendencias, establezca una tarea programada para ejecutar <span class='black'>foreman-rake trends:counter</span> al menos cada %s minutos."
 
 msgid "To update the class signature, go to the Puppet Classes page and select \"Import\"."
 msgstr "Para actualizar la firma de clase, seleccione \"Importar\" en la página de clases Puppet."
@@ -8413,10 +8415,10 @@ msgid "Token|Value"
 msgstr "Valor"
 
 msgid "Too many tries, please try again in a few minutes."
-msgstr ""
+msgstr "Demasiados intentos; por favor, intente nuevamente en unos minutos."
 
 msgid "Too short"
-msgstr ""
+msgstr "Longitud insuficiente"
 
 msgid "Total"
 msgstr "Total"
@@ -8449,11 +8451,11 @@ msgstr "Contador"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TrendCounter|Interval end"
-msgstr ""
+msgstr "TrendCounter|Fin de intervalo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TrendCounter|Interval start"
-msgstr ""
+msgstr "TrendCounter|Inicio de intervalo"
 
 msgid "Trends"
 msgstr "Tendencias"
@@ -8462,7 +8464,7 @@ msgid "Trends for %s"
 msgstr "Tendencias para %s"
 
 msgid "Trends in Foreman allow you to track changes in your infrastructure over time. It allows you to track both Foreman related information and any Puppet facts. The Trend pages give a graph of how the number of hosts with that value have changed over time, and list the current hosts."
-msgstr ""
+msgstr "Las tendencias en Foreman le permiten rastrear cambios en su infraestructura a lo largo del tiempo. Le permite rastrear tanto la información relacionada con Foreman como datos de Puppet. Las páginas de tendencias ofrecen un gráfico que muestra cómo han cambiado las cantidades de hosts con ese valor en el transcurso del tiempo y detalla los hosts actuales."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Fact name"
@@ -8487,7 +8489,7 @@ msgid "True/False flag whether a host is managed or unmanaged. Note: this value 
 msgstr "Indicador verdadero/falso que indica si el host es administradoo no.  Nota: este valor también determina si ciertos parámetros son obligatorios."
 
 msgid "Trusted hosts"
-msgstr ""
+msgstr "Hosts confiables"
 
 msgid "Try going to %{href}"
 msgstr "Intente ir  a %{href}"
@@ -8529,7 +8531,7 @@ msgid "URL of the proxy including schema (https://proxy.example.com:8080)"
 msgstr "URL del proxy que incluye esquema (https://proxy.example.com:8080)"
 
 msgid "URL to fetch RSS notifications from"
-msgstr ""
+msgstr "URL desde la cual buscar notificaciones RSS"
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "URL de la instancia Foreman (vea también aprovisionamiento > unattened_url)"
@@ -8706,7 +8708,7 @@ msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "No se puede firmar el certificado PuppetCA para %s"
 
 msgid "Unable to submit role: Problem with associated filter #{f.errors}"
-msgstr ""
+msgstr "No es posible enviar el rol: Problema con filtro asociado #{f.errors}"
 
 msgid "Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing"
 msgstr "No se puede activar websockets_encrypt, falta websockets_ssl_key o websockets_ssl_cert"
@@ -8999,7 +9001,7 @@ msgstr "Los grupos de usuarios permiten que los usuarios inicien sesión en Fore
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
-msgstr ""
+msgstr "Notificación de correo del usuario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User role"
@@ -9013,15 +9015,15 @@ msgstr "Zona horaria del usuario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UserMailNotification|Interval"
-msgstr ""
+msgstr "UserMailNotification|Intervalo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UserMailNotification|Last sent"
-msgstr ""
+msgstr "UserMailNotification|Último envío"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UserMailNotification|Mail query"
-msgstr ""
+msgstr "UserMailNotification|Solicitud de correo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UserRole|Owner type"
@@ -9078,7 +9080,7 @@ msgstr "Hash de avatar"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Description"
-msgstr ""
+msgstr "Usuario|Descripción"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
@@ -9122,7 +9124,7 @@ msgstr "Contraseña de Salt"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Timezone"
-msgstr ""
+msgstr "Usuario|Zona horaria"
 
 msgid "Uses thin provisioning if unchecked"
 msgstr "Utilizar  aprovisionamiento fino si no está seleccionado"
@@ -9161,19 +9163,19 @@ msgid "VM is not running!"
 msgstr "¡La máquina virtual no se está ejecutando!"
 
 msgid "VMRC"
-msgstr ""
+msgstr "VMRC"
 
 msgid "VMRC Console"
-msgstr ""
+msgstr "Consola VMRC"
 
 msgid "VNC"
-msgstr ""
+msgstr "VNC"
 
 msgid "VNC Console Passwords"
-msgstr ""
+msgstr "Contraseñas de consola VNC"
 
 msgid "VNC consoles are unsupported on VMware ESXi 6.5 and later."
-msgstr ""
+msgstr "Las consolas de VNC no se admiten en VMware ESXi 6.5 y versiones posteriores."
 
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "Cifrado de acceso a la consola de proxy de websocket VNC/SPICE (se requiere configurar websockets_ssl_key/cert)"
@@ -9218,7 +9220,7 @@ msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
 msgstr "Versión %{version}  %{copyright} 2009-%{year} Paul Kelly y %{author}"
 
 msgid "Very strong"
-msgstr ""
+msgstr "Muy fuerte"
 
 msgid "View Chart"
 msgstr "Ver gráfico"
@@ -9311,6 +9313,9 @@ msgid ""
 "will select the best match from the available templates of that type, in the \\\n"
 "following order:"
 msgstr ""
+"Cuando un host solicita una plantilla (por ejemplo, durante  el aprovisionamiento), Foreman \\\n"
+"selecciona las mejores coincidencias en las plantillas disponibles de ese tipo, en el \\\n"
+"siguiente orden:"
 
 msgid "When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
 msgstr "Cuando se selecciona un reino para un host, Foreman se comunica con el proxy inteligente del reino relevante para crear una entrada para el host y recuperar la contraseña de registro único."
@@ -9320,6 +9325,9 @@ msgid ""
 "of operating systems which this template can be used with. Optionally, you can \\\n"
 "restrict a template to a list of host groups and/or environments."
 msgstr ""
+"Cuando edita una plantilla, debe asignar una lista \\\n"
+"de sistemas operativos con los que se puede usar esta plantilla. De manera opcional, puede  \\\n"
+"restringir una plantilla a una lista de grupos de hosts o entornos."
 
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "Al habilitarse, el parámetro está oculto en la UI."
@@ -9358,14 +9366,14 @@ msgid "Whether the smart class parameter value is managed by Foreman"
 msgstr "Si el valor del parámetro de clase inteligente es administrado por Foreman"
 
 msgid "Whether to get RSS notifications or not"
-msgstr ""
+msgstr "Indica si se deben recibir notificaciones RSS o no"
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "El cual es un offset de <b>%s</b>"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget"
-msgstr ""
+msgstr "Asistente"
 
 msgid "Widget added to dashboard."
 msgstr "Se añadió el asistente al tablero."
@@ -9378,37 +9386,37 @@ msgstr "Se eliminó el asistente del tablero."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget|Col"
-msgstr ""
+msgstr "Widget|Col"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget|Data"
-msgstr ""
+msgstr "Widget|Datos"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget|Name"
-msgstr ""
+msgstr "Widget|Nombre"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget|Row"
-msgstr ""
+msgstr "Widget|Fila"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget|Sizex"
-msgstr ""
+msgstr "Widget|Sizex"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget|Sizey"
-msgstr ""
+msgstr "Widget|Sizey"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Widget|Template"
-msgstr ""
+msgstr "Widget|Plantilla"
 
 msgid "Wiki"
 msgstr "Wiki"
 
 msgid "Wipe disk after delete"
-msgstr ""
+msgstr "Borrar disco después de la eliminación"
 
 msgid "With user groups, you can group your users and assign them roles on a group basis."
 msgstr "Con los grupos de usuarios, puede agrupar usuarios y asignarles roles en función del grupo."
@@ -9474,7 +9482,7 @@ msgid "You do not have permission to %s this organization parameter"
 msgstr "No tiene permiso para %s este parámetro de organización"
 
 msgid "You do not have permission to edit the login"
-msgstr ""
+msgstr "No tiene permiso para editar el inicio de sesión"
 
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "No tiene hosts visibles. Los hosts se pueden añadir y aprovisionar desde Foreman, o configurarse para informar a Foreman."
@@ -9540,7 +9548,7 @@ msgid "[empty]"
 msgstr "[vacío]"
 
 msgid "[redacted]"
-msgstr ""
+msgstr "[redactado]"
 
 msgid "a location"
 msgstr "una ubicación"
@@ -9666,7 +9674,7 @@ msgid "defaults to 389"
 msgstr "se predetermina a 389"
 
 msgid "determines when the template should associate objects based on metadata, new means only when new template is being created, always means both for new and existing template which is only being updated, never ignores metadata"
-msgstr ""
+msgstr "determina los casos en que la plantilla debería asociar objetos en función de los metadatos, nuevo se aplica solo a los casos de plantilla nueva que se está creando, siempre se aplica tanto a plantilla nueva como existente que solo se están actualizando, nunca ignora los metadatos"
 
 msgid "does not appear to be a valid nfs mount path"
 msgstr "parece que no se ha configurado una ruta válida para montar el recurso NFS"
@@ -9732,7 +9740,7 @@ msgid "environment id"
 msgstr "ID de entorno"
 
 msgid "expecting %s used by hosts or inherited (check mismatches report)."
-msgstr ""
+msgstr "esperando %s utilizados por hosts o heredados (compruebe el informe de discordancias)."
 
 msgid "failed to %{action} %{vm}"
 msgstr "Falló al %{action} %{vm}"
@@ -10071,7 +10079,7 @@ msgid "not required if using a subnet with DHCP proxy"
 msgstr "no es necesario si se usa una subred con un proxy DHCP"
 
 msgid "not supported by this compute resource"
-msgstr ""
+msgstr "no admitido por este recurso de cómputo"
 
 msgid "not supported by this protocol"
 msgstr "no compatible con este protocolo"
@@ -10080,7 +10088,7 @@ msgid "number of entries per request"
 msgstr "número de entradas por solicitud"
 
 msgid "oVirt/RHEV instance type"
-msgstr ""
+msgstr "Tipo de instancia oVirt/RHEV"
 
 msgid "oVirt/RHEV template to use"
 msgstr "Plantilla oVirt/RHEV que se debe utilizar"
@@ -10236,7 +10244,7 @@ msgid "space separated options, e.g. miimon=100"
 msgstr "opciones separadas por espacios, p.ej. miimon=100"
 
 msgid "specified template \"%s\" kind was not found"
-msgstr ""
+msgstr "no se encontró el tipo \"%s\" de plantilla especificada"
 
 msgid "start"
 msgstr "inicio"
@@ -10274,7 +10282,7 @@ msgid "sync external user groups on login"
 msgstr "sincronizar los grupos de usuarios externos durante el inicio de sesión"
 
 msgid "template contents including metadata"
-msgstr ""
+msgstr "contenidos de plantillas incluidos los metadatos"
 
 msgid "template name"
 msgstr "nombre de plantilla"
@@ -10316,7 +10324,7 @@ msgid "use NIS netgroups instead of posix groups, applicable only when server_ty
 msgstr "utilice NIS netgroups en lugar de grupos posix, aplicable únicamente cuando el tipo de servidor es posix o free_ipa"
 
 msgid "use if you want update locked templates"
-msgstr ""
+msgstr "utilizar si desea actualizar las plantillas bloqueadas"
 
 msgid "used memory"
 msgstr "memoria utilizada"
