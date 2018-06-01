@@ -16,24 +16,29 @@ class PersonalAccessTokenTest < ActiveSupport::TestCase
     end
 
     test 'calculates token salt' do
-      expected_salt = 'b1d5781111d84f7b3fe45a0852e59758cd7a87e5'
+      expected_salt = '$2a$04$b1d5781111d84f7b3fe45a0852e59758cd7a87e5'
       user = mock('user')
       user.stubs(:id).returns(10)
       assert_equal expected_salt, PersonalAccessToken.token_salt(user)
     end
 
     test 'generates token and token hash' do
-      PersonalAccessToken.stubs(:token_salt).returns('salt')
+      PersonalAccessToken.stubs(:token_salt).returns('$2a$04$0807b1e28d4dfe3d0574eebc3a1278049ba9fbe2')
       SecureRandom.stubs(:urlsafe_base64).returns('hwGtI4jE5oYBPuM5L9qS7Q')
       assert_equal 'hwGtI4jE5oYBPuM5L9qS7Q', token.generate_token
-      assert_equal 'a3d9e47916acffb4f558fb402eaea19447f78971', token.token
+      assert_equal '$2a$04$0807b1e28d4dfe3d0574eeOmfD.Qo6RiW3iyp5bsEOPARUo4rOFTu', token.token
     end
 
     test 'authenticate_user validates token' do
-      # valid token
-      assert_equal true, PersonalAccessToken.authenticate_user(user, token_value)
-      # invalid token
-      assert_equal false, PersonalAccessToken.authenticate_user(user, 'invalid')
+      assert PersonalAccessToken.authenticate_user(user, token_value)
+      assert_not PersonalAccessToken.authenticate_user(user, 'invalid')
+    end
+
+    test 'authenticate_user validates legacy token' do
+      token_value = token.generate_token(:sha1)
+      token.save
+      assert PersonalAccessToken.authenticate_user(user, token_value)
+      assert_not PersonalAccessToken.authenticate_user(user, 'invalid')
     end
 
     test 'token revocation' do

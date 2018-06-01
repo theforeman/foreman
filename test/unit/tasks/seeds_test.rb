@@ -12,6 +12,9 @@ class SeedsTest < ActiveSupport::TestCase
     # Since we truncate the db, settings getter/setter won't work properly
     Setting.stubs(:[])
     Setting.stubs(:[]=)
+    Setting.stubs(:[]).with(:bcrypt_cost).returns(1)
+    Setting.stubs(:[]=).with(:bcrypt_cost, anything).returns(true)
+    BCrypt::Engine.stubs(:calibrate).returns(4)
     Foreman.stubs(:in_rake?).returns(true)
   end
 
@@ -27,6 +30,11 @@ class SeedsTest < ActiveSupport::TestCase
 
   teardown do
     User.current = nil
+  end
+
+  test 'calibrates bcrypt cost' do
+    BCrypt::Engine.expects(:calibrate).returns(4)
+    seed
   end
 
   test 'populates multiple tables' do
