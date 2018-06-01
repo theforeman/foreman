@@ -4,6 +4,7 @@ class User < ApplicationRecord
   audited :except => [:last_login_on, :password_hash, :password_salt, :password_confirmation],
           :associations => :roles
   include Authorizable
+  include Foreman::TelemetryHelper
   extend FriendlyId
   friendly_id :login
   include Foreman::ThreadSession::UserModel
@@ -324,8 +325,19 @@ class User < ApplicationRecord
     self.where(:lower_login => userlist.map(&:downcase)).pluck(:id)
   end
 
+  def upgrade_password(pass)
+    logger.info "Upgrading password for user #{self.login} to bcrypt"
+    self.password_salt = salt_password
+    self.password_hash = hash_password(pass)
+    update_columns(password_salt: self.password_salt, password_hash: self.password_hash)
+  end
+
   def matching_password?(pass)
-    self.password_hash == hash_password(pass)
+    return false if self.password_hash.nil?
+    type = Foreman::PasswordHash.detect_implementation(self.password_salt)
+    return false if self.password_hash != hash_password(pass, type)
+    upgrade_password(pass) if type != :bcrypt
+    true
   end
 
   def my_usergroups
@@ -556,7 +568,7 @@ class User < ApplicationRecord
 
   def prepare_password
     if password.present?
-      self.password_salt = Digest::SHA1.hexdigest([Time.now.utc, rand].join)
+      self.password_salt = salt_password
       self.password_hash = hash_password(password)
     end
   end
@@ -566,8 +578,16 @@ class User < ApplicationRecord
     MailNotification[:welcome].deliver(:user => self)
   end
 
-  def hash_password(pass)
-    Digest::SHA1.hexdigest([pass, password_salt].join)
+  def salt_password(type = :bcrypt)
+    hasher = Foreman::PasswordHash.new(type)
+    hasher.generate_salt(Setting[:bcrypt_cost])
+  end
+
+  def hash_password(pass, type = :bcrypt)
+    telemetry_duration_histogram(:login_pwhash_duration, :ms, algorithm: type) do
+      hasher = Foreman::PasswordHash.new(type)
+      hasher.hash_secret(pass, password_salt)
+    end
   end
 
   def normalize_locale

@@ -946,10 +946,36 @@ class UserTest < ActiveSupport::TestCase
     assert u.matching_password?('password')
   end
 
+  test "#matching_password? succeeds if password matches with higher cost" do
+    Setting[:bcrypt_cost] = 15
+    user = FactoryBot.build_stubbed(:user)
+    assert_valid user
+    assert user.matching_password?('password')
+    Setting[:bcrypt_cost] = 10
+  end
+
   test "#matching_password? fails if password does not match" do
     u = FactoryBot.build_stubbed(:user)
     assert_valid u
     refute u.matching_password?('wrong password')
+  end
+
+  test "#matching_password? upgrades from SHA1 to BCrypt" do
+    hasher = Foreman::PasswordHash.new(:sha1)
+    u = FactoryBot.build_stubbed(:user)
+    u.password_salt = hasher.generate_salt(0)
+    u.password_hash = hasher.hash_secret('password', u.password_salt)
+    u.expects(:upgrade_password).with('password')
+    assert u.matching_password?('password')
+  end
+
+  test "#matching_password? does not upgrade from BCrypt to BCrypt for no reason" do
+    hasher = Foreman::PasswordHash.new(:bcrypt)
+    u = FactoryBot.build_stubbed(:user)
+    u.password_salt = hasher.generate_salt(5)
+    u.password_hash = hasher.hash_secret('password', u.password_salt)
+    u.expects(:upgrade_password).never
+    assert u.matching_password?('password')
   end
 
   test ".except_hidden doesn't return any hidden users" do

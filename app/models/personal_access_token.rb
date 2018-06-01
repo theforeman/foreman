@@ -2,6 +2,7 @@ class PersonalAccessToken < ApplicationRecord
   audited :except => [:token], :associated_with => :user
   include Authorizable
   include Expirable
+  extend Foreman::TelemetryHelper
 
   belongs_to :user
 
@@ -19,23 +20,30 @@ class PersonalAccessToken < ApplicationRecord
   attr_accessor :token_value
 
   def self.authenticate_user(user, token)
-    token = self.active.find_by(user: user, token: hash_token(user, token))
+    token = self.active.find_by(user: user, token: hash_token(user, token, :bcrypt)) ||
+      self.active.find_by(user: user, token: hash_token(user, token, :sha1))
     return false unless token
+
     token.update(last_used_at: Time.current.utc)
     true
   end
 
-  def self.token_salt(user)
-    Digest::SHA1.hexdigest(user.id.to_s)
+  # static salt based on user id because input is already good enough (sha1 string)
+  def self.token_salt(user, type = :bcrypt)
+    hasher = Foreman::PasswordHash.new(type)
+    hasher.calculate_salt(user.id, Setting[:bcrypt_cost])
   end
 
-  def self.hash_token(user, token)
-    Digest::SHA1.hexdigest([token, token_salt(user)].join)
+  def self.hash_token(user, token, type = :bcrypt)
+    telemetry_duration_histogram(:login_pwhash_duration, :ms, algorithm: type) do
+      hasher = Foreman::PasswordHash.new(type)
+      hasher.hash_secret(token, token_salt(user, type))
+    end
   end
 
-  def generate_token
+  def generate_token(type = :bcrypt)
     self.token_value = SecureRandom.urlsafe_base64(nil, false)
-    self.token = self.class.hash_token(user, token_value)
+    self.token = self.class.hash_token(user, token_value, type)
     token_value
   end
 
