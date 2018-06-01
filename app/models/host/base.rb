@@ -455,8 +455,9 @@ module Host
       iface.ip = attributes.delete(:ipaddress)
       iface.ip6 = attributes.delete(:ipaddress6)
       iface.ip6 = nil if (IPAddr.new('fe80::/10').include?(iface.ip6) rescue false)
+      keep_subnet = attributes.delete(:keep_subnet)
 
-      if Setting[:update_subnets_from_facts]
+      if Setting[:update_subnets_from_facts] && !keep_subnet
         iface.subnet = Subnet.subnet_for(iface.ip) if iface.ip_changed? && !iface.matches_subnet?(:ip, :subnet)
         iface.subnet6 = Subnet.subnet_for(iface.ip6) if iface.ip6_changed? && !iface.matches_subnet?(:ip6, :subnet6)
       end
