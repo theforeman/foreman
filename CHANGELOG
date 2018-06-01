@@ -1,3 +1,18 @@
+2018-06-01	Daniel Lobato Garcia <me@daniellobato.me>
+	* i18n - extracting new, pulling from tx
+
+2018-05-31	Steve Miller <me@r15cookie.com>
+	* Fixes #23752 - VMWare allow save vm w/o size_gb attr
+
+2018-05-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22983, #22010 - ignore persistence authz for relations
+
+2018-05-25	Bastian Blank <bastian.blank@credativ.de>
+	* Fixes #23608 - Only calculate lookup values once
+
+2018-04-12	Alexander Olofsson <alexander.olofsson@liu.se>
+	* Fixes #23212 - uninitialized constant
+
 2018-04-04	Daniel Lobato Garcia <me@daniellobato.me>
 	* Release 1.16.1
 
