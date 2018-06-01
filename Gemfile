@@ -36,7 +36,11 @@ gem 'turbolinks', '~> 2.5'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '1.45.0'
 gem 'net-scp'
-gem 'net-ssh'
+if RUBY_VERSION < '2.3'
+  gem 'net-ssh', '< 5'
+else
+  gem 'net-ssh'
+end
 gem 'net-ldap', '>= 0.8.0'
 gem 'net-ping', :require => false
 gem 'activerecord-session_store', '>= 0.1.1', '< 2'
