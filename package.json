@@ -73,7 +73,7 @@
     "lodash": "^4.15.0",
     "multiselect": "~0.9.12",
     "patternfly": "^3.42.0",
-    "patternfly-react": "^2.3.3",
+    "patternfly-react": "2.5.1",
     "prop-types": "^15.6.0",
     "react": "^16.3.1",
     "react-bootstrap": "^0.32.1",
