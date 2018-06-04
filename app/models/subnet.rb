@@ -195,7 +195,7 @@ class Subnet < ApplicationRecord
 
   def unused_ip(mac = nil, excluded_ips = [])
     unless supported_ipam_modes.map {|m| IPAM::MODES[m]}.include?(self.ipam)
-      raise ::Foreman::Exception.new(N_("Unsupported IPAM mode for %s") % self.class)
+      raise ::Foreman::Exception.new(N_("Unsupported IPAM mode for %s"), self.class.name)
     end
 
     opts = {:subnet => self, :mac => mac, :excluded_ips => excluded_ips}
