@@ -15,4 +15,9 @@ group :development do
   gem 'spring', '>= 1.0', '< 3'
   gem 'benchmark-ips'
   gem 'foreman'
+  begin
+    gem('bootsnap', :require => false) if RUBY_VERSION >= '2.3'
+  rescue LoadError
+    # pass
+  end
 end
