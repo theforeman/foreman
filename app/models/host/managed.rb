@@ -805,7 +805,7 @@ class Host::Managed < Host::Base
     end
 
     self.class.rebuild_methods_for(only).map do |method, pretty_name|
-      raise ::Foreman::Exception.new(N_("There are orchestration modules with methods for configuration rebuild that have identical name: '%s'") % pretty_name) if result[pretty_name]
+      raise ::Foreman::Exception.new(N_("There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"), pretty_name) if result[pretty_name]
       result[pretty_name] = self.send method
     end
     result
