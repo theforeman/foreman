@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/compute_resources/compute_resource_test_helpers'
 
 class Foreman::Model::VmwareTest < ActiveSupport::TestCase
+  include ComputeResourceTestHelpers
+
   should validate_presence_of(:server)
   should validate_presence_of(:user)
   should validate_presence_of(:password)
@@ -416,6 +419,329 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       Fog::Compute::Vsphere::Real.any_instance.expects(:cloudinit_to_customspec).never
       cr.send(:client).stubs(:vm_clone).returns({'new_vm' => {'id' => 123}})
       cr.clone_vm(args)
+    end
+  end
+
+  describe '#normalize_vm_attrs' do
+    let(:base_cr) { FactoryBot.build(:vmware_cr) }
+    let(:cr) do
+      mock_cr(base_cr,
+        :folders => [
+          stub(:path => 'some/path', :name => 'some path'),
+          stub(:path => 'another/path', :name => 'another path')
+        ],
+        :available_clusters => [
+          stub(:id => 'c1', :name => 'cluster 1'),
+          stub(:id => 'c2', :name => 'cluster 2')
+        ],
+        :resource_pools => [],
+        :datastores => [
+          stub(:id => 'ds1', :name => 'store 1'),
+          stub(:id => 'ds2', :name => 'store 2')
+        ],
+        :networks => [
+          stub(:id => 'net1', :name => 'network 1'),
+          stub(:id => 'net2', :name => 'network 2')
+        ],
+        :subnets => [
+          stub(:subnet_id => 'sn1', :cidr_block => 'cidr blk 1'),
+          stub(:subnet_id => 'sn2', :cidr_block => 'cidr blk 2')
+        ]
+      )
+    end
+
+    test 'corespersocket mapped to cores_per_socket' do
+      assert_attrs_mapped(cr, 'corespersocket', 'cores_per_socket')
+    end
+
+    test 'memory_mb mapped to memory' do
+      vm_attrs = {
+        'memory_mb' => '768'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(768*1024, normalized['memory'])
+    end
+
+    test 'path mapped to folder_path' do
+      assert_attrs_mapped(cr, 'path', 'folder_path')
+    end
+
+    test 'finds folder_name' do
+      vm_attrs = {
+        'path' => 'some/path'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal('some path', normalized['folder_name'])
+    end
+
+    test 'cluster mapped to cluster_name' do
+      assert_attrs_mapped(cr, 'cluster', 'cluster_name')
+    end
+
+    test 'sets cluster_name to nil when cluster is blank' do
+      assert_blank_mapped_attr_nilified(cr, 'cluster', 'cluster_name')
+    end
+
+    test 'finds cluster_id' do
+      vm_attrs = {
+        'cluster' => 'cluster 2'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal('c2', normalized['cluster_id'])
+    end
+
+    test 'finds resource_pool_id' do
+      vm_attrs = {
+        'cluster' => 'cluster 2',
+        'resource_pool' => 'pool 2'
+      }
+      cr.expects(:resource_pools).with(:cluster_id => 'cluster 2').returns(
+        [
+          stub(:id => 'rp1', :name => 'pool 1'),
+          stub(:id => 'rp2', :name => 'pool 2')
+        ]
+      )
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal('rp2', normalized['resource_pool_id'])
+    end
+
+    test 'resource_pool mapped to resource_pool_name' do
+      assert_attrs_mapped(cr, 'resource_pool', 'resource_pool_name')
+    end
+
+    test 'sets resource_pool_name to nil when resource_pool is blank' do
+      assert_blank_mapped_attr_nilified(cr, 'resource_pool', 'resource_pool_name')
+    end
+
+    test 'finds guest_name' do
+      vm_attrs = {
+        'guest_id' => 'asianux3_64Guest'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal('Asianux Server 3 (64-bit)', normalized['guest_name'])
+    end
+
+    test 'hardware_version mapped to hardware_version_id' do
+      assert_attrs_mapped(cr, 'hardware_version', 'hardware_version_id')
+    end
+
+    test 'finds hardware_version_name' do
+      vm_attrs = {
+        'hardware_version' => 'vmx-13'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal('13 (ESXi 6.5)', normalized['hardware_version_name'])
+    end
+
+    test "sets memory_hot_add_enabled to true when memoryHotAddEnabled is '1'" do
+      vm_attrs = {
+        'memoryHotAddEnabled' => '1'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(true, normalized['memory_hot_add_enabled'])
+    end
+
+    test "sets memory_hot_add_enabled to false when memoryHotAddEnabled is '0'" do
+      vm_attrs = {
+        'memoryHotAddEnabled' => '0'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(false, normalized['memory_hot_add_enabled'])
+    end
+
+    test "sets cpu_hot_add_enabled to true when cpuHotAddEnabled is '1'" do
+      vm_attrs = {
+        'cpuHotAddEnabled' => '1'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(true, normalized['cpu_hot_add_enabled'])
+    end
+
+    test "sets cpu_hot_add_enabled to false when cpuHotAddEnabled is '0'" do
+      vm_attrs = {
+        'cpuHotAddEnabled' => '0'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(false, normalized['cpu_hot_add_enabled'])
+    end
+
+    test "sets add_cdrom to true when it's '1'" do
+      vm_attrs = {
+        'add_cdrom' => '1'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(true, normalized['add_cdrom'])
+    end
+
+    test "sets add_cdrom to false when it's '0'" do
+      vm_attrs = {
+        'add_cdrom' => '0'
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(false, normalized['add_cdrom'])
+    end
+
+    describe 'images' do
+      let(:base_cr) { FactoryBot.create(:gce_cr, :with_images) }
+
+      test 'adds image name' do
+        vm_attrs = {
+          'image_id' => cr.images.last.uuid
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert_equal(cr.images.last.name, normalized['image_name'])
+      end
+
+      test 'leaves image name empty when image_id is nil' do
+        vm_attrs = {
+          'image_id' => nil
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert(normalized.has_key?('image_name'))
+        assert_nil(normalized['image_name'])
+      end
+
+      test "leaves image name empty when image wasn't found" do
+        vm_attrs = {
+          'image_id' => 'unknown'
+        }
+        normalized = cr.normalize_vm_attrs(vm_attrs)
+
+        assert(normalized.has_key?('image_name'))
+        assert_nil(normalized['image_name'])
+      end
+    end
+
+    test 'normalizes scsi_controllers' do
+      vm_attrs = {
+        'scsi_controllers' => [
+          {
+            'type' => 'VirtualLsiLogicController',
+            'key' => 1000,
+            'eagerzero' => true
+          }, {
+            'type' => 'VirtualLsiLogicController',
+            'key' => 1001,
+            'eagerzero' => false
+          }
+        ]
+      }
+      expected_attrs = {
+        '0' => {
+          'type' => 'VirtualLsiLogicController',
+          'key' => 1000,
+          'eager_zero' => true
+        },
+        '1' => {
+          'type' => 'VirtualLsiLogicController',
+          'key' => 1001,
+          'eager_zero' => false
+        }
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(expected_attrs, normalized['scsi_controllers'])
+    end
+
+    test 'normalizes volumes_attributes' do
+      vm_attrs = {
+        'volumes_attributes' => {
+          '0' => {
+            'thin' => true,
+            'name' => 'Hard disk',
+            'mode' => 'persistent',
+            'controller_key' => 1000,
+            'size_gb' => 10,
+            'datastore' => 'store 1'
+          }
+        }
+      }
+      expected_attrs = {
+        '0' => {
+          'thin' => true,
+          'name' => 'Hard disk',
+          'mode' => 'persistent',
+          'controller_key' => 1000,
+          'size' => 10.gigabyte.to_s,
+          'datastore_name' => 'store 1',
+          'datastore_id' => 'ds1'
+        }
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(expected_attrs, normalized['volumes_attributes'])
+    end
+
+    test 'normalizes interfaces_attributes' do
+      vm_attrs = {
+        'interfaces_attributes' => {
+          '0' => {
+            'type' => 'VirtualE1000',
+            'network' => 'net1'
+          }
+        }
+      }
+      expected_attrs = {
+        '0' => {
+          'type_id' => 'VirtualE1000',
+          'type_name' => 'E1000',
+          'network_id' => 'net1',
+          'network_name' => 'network 1'
+        }
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(expected_attrs, normalized['interfaces_attributes'])
+    end
+
+    test 'correctly fills empty attributes' do
+      normalized = cr.normalize_vm_attrs({})
+      expected_attrs = {
+        'cpus' => nil,
+        'firmware' => nil,
+        'guest_id' => nil,
+        'guest_name' => nil,
+        'annotation' => nil,
+        'cores_per_socket' => nil,
+        'memory' => nil,
+        'folder_path' => nil,
+        'folder_name' => nil,
+        'cluster_id' => nil,
+        'cluster_name' => nil,
+        'resource_pool_id' => nil,
+        'resource_pool_name' => nil,
+        'hardware_version_id' => nil,
+        'hardware_version_name' => nil,
+        'image_id' => nil,
+        'image_name' => nil,
+        'add_cdrom' => nil,
+        'memory_hot_add_enabled' => nil,
+        'cpu_hot_add_enabled' => nil,
+        'scsi_controllers' => {},
+        'interfaces_attributes' => {},
+        'volumes_attributes' => {}
+      }
+
+      assert_equal(expected_attrs.keys.sort, normalized.keys.sort)
+      assert_equal(expected_attrs, normalized)
+    end
+
+    test 'attribute names' do
+      check_vm_attribute_names(cr)
     end
   end
 end

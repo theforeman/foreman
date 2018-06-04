@@ -373,6 +373,37 @@ module Foreman::Model
       attrs[:public_key] = key
     end
 
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['cores', 'interfaces_attributes', 'memory'])
+      normalized['cluster_id'] = vm_attrs['cluster']
+      normalized['cluster_name'] = self.clusters.detect { |c| c.id == normalized['cluster_id'] }.try(:name)
+
+      normalized['template_id'] = vm_attrs['template']
+      normalized['template_name'] = self.templates.detect { |t| t.id == normalized['template_id'] }.try(:name)
+
+      cluster_networks = self.networks(:cluster_id => normalized['cluster_id'])
+
+      interface_attrs = vm_attrs['interfaces_attributes'] || {}
+      normalized['interfaces_attributes'] = interface_attrs.inject({}) do |interfaces, (key, nic)|
+        interfaces.update(key => { 'name' => nic['name'],
+                                'network_id' => nic['network'],
+                                'network_name' => cluster_networks.detect { |n| n.id == nic['network'] }.try(:name)
+                              })
+      end
+
+      volume_attrs = vm_attrs['volumes_attributes'] || {}
+      normalized['volumes_attributes'] = volume_attrs.inject({}) do |volumes, (key, vol)|
+        volumes.update(key => { 'size' => memory_gb_to_bytes(vol['size_gb']).to_s,
+                                'storage_domain_id' => vol['storage_domain'],
+                                'storage_domain_name' => storage_domains.detect { |d| d.id == vol['storage_domain'] }.try(:name),
+                                'preallocate' => to_bool(vol['preallocate']),
+                                'bootable' => to_bool(vol['bootable'])
+                              })
+      end
+
+      normalized
+    end
+
     protected
 
     def bootstrap(args)

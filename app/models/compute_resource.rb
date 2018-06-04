@@ -364,7 +364,25 @@ class ComputeResource < ApplicationRecord
     respond_to?(:associated_host)
   end
 
+  def normalize_vm_attrs(vm_attrs)
+    vm_attrs
+  end
+
   protected
+
+  def memory_gb_to_bytes(memory_size)
+    memory_size.to_s.gsub(/[^0-9]/, '').to_i * 1.gigabyte
+  end
+
+  def to_bool(value)
+    ['1', 'true'].include?(value.to_s.downcase) unless value.nil?
+  end
+
+  def slice_vm_attributes(vm_attrs, fields)
+    fields.inject({}) do |slice, f|
+      slice.merge({f => (vm_attrs[f].to_s.empty? ? nil : vm_attrs[f])})
+    end
+  end
 
   def client
     raise ::Foreman::Exception.new N_("Not implemented")

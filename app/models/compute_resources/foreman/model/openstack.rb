@@ -192,6 +192,44 @@ module Foreman::Model
       @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map){|i| i["zoneName"]} || [])
     end
 
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['availability_zone', 'tenant_id', 'scheduler_hint_filter'])
+
+      normalized['flavor_id'] = vm_attrs['flavor_ref']
+      normalized['flavor_name'] = self.flavors.detect { |t| t.id == normalized['flavor_id'] }.try(:name)
+      normalized['tenant_name'] = self.tenants.detect { |t| t.id == normalized['tenant_id'] }.try(:name)
+
+      security_group = vm_attrs['security_groups']
+      normalized['security_group_name'] = security_group.empty? ? nil : security_group
+      normalized['security_group_id'] = self.security_groups.detect { |t| t.name == security_group }.try(:id)
+
+      floating_ip_network = vm_attrs['network']
+      normalized['floating_ip_network'] = floating_ip_network.empty? ? nil : floating_ip_network
+
+      normalized['boot_from_volume'] = to_bool(vm_attrs['boot_from_volume'])
+
+      boot_volume_size = memory_gb_to_bytes(vm_attrs['size_gb'])
+      if (boot_volume_size == 0)
+        normalized['boot_volume_size'] = nil
+      else
+        normalized['boot_volume_size'] = boot_volume_size.to_s
+      end
+
+      nics_ids = vm_attrs['nics'] || {}
+      nics_ids = nics_ids.select { |nic_id| nic_id != '' }
+      normalized['interfaces_attributes'] = nics_ids.map.with_index do |nic_id, idx|
+        [idx.to_s, {
+          'id' => nic_id,
+          'name' => self.internal_networks.detect { |n| n.id == nic_id }.try(:name)
+        }]
+      end.to_h
+
+      normalized['image_id'] = vm_attrs['image_ref']
+      normalized['image_name'] = self.images.find_by(:uuid => normalized['image_id']).try(:name)
+
+      normalized
+    end
+
     private
 
     def fog_credentials
