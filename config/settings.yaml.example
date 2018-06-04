@@ -28,7 +28,7 @@
 
 # Ruby on Rails version (available: 4.2, 5.0)
 # Defaults to 4.2 on Ruby 2.0-2.2, or 5.0 on Ruby 2.3+
-#:rails: 4.2
+:rails: 4.2
 
 # Local administrative settings for application domain, fqdn, foreman URL,
 # administrator email address etc. If you don't have a Puppet provisioning
