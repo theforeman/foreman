@@ -18,14 +18,14 @@ class HomeController < ApplicationController
 
   # check for exception - set the result code and duration time
   def exception_watch(&block)
-    start = Time.now.utc
+    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     result = {}
     begin
       yield
       result[:result] = 'ok'
       result[:status] = :ok
       result[:version] = SETTINGS[:version].full
-      result[:db_duration_ms] = ((Time.now.utc - start) * 1000).round.to_s
+      result[:db_duration_ms] = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) * 1000).round.to_s
     rescue => e
       result[:result] = 'fail'
       result[:status] = :internal_server_error

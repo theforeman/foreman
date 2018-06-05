@@ -14,7 +14,7 @@ module Foreman::TelemetryHelper
   end
 
   # time spent in a block as histogram, in miliseconds by default
-  def telemetry_duration_histogram(name, scale = 1000, tags = {})
+  def telemetry_duration_histogram(name, scale = 1000, tags = {}, results = nil)
     case scale
     when :ms, :msec, :miliseconds
       scale = 1000
@@ -23,10 +23,12 @@ module Foreman::TelemetryHelper
     when :min, :minutes
       scale = 1 / 60
     end
-    before = Time.now.to_f
+    before = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     yield
   ensure
-    after = Time.now.to_f
-    telemetry_observe_histogram(name, (after - before) * scale, tags)
+    after = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    duration = (after - before) * scale
+    telemetry_observe_histogram(name, duration, tags)
+    results[name] = duration if results
   end
 end
