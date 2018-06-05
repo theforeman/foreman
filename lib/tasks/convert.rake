@@ -81,7 +81,7 @@ namespace :db do
       ActiveRecord::Base.establish_connection(:production)
       skip_tables = ["schema_info", "schema_migrations"]
       (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
-        time = Time.now
+        time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
         ProductionModelClass.establish_connection(:production)
         ProductionModelClass.table_name = table_name
@@ -150,7 +150,7 @@ namespace :db do
               end
         DevelopmentModelClass.connection.execute(sql) if sql.present?
 
-        print "#{count} records converted in #{Time.now - time} seconds\n"
+        print "#{count} records converted in #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - time} seconds\n"
       end
     end
   end

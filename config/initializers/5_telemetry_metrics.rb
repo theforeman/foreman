@@ -23,3 +23,5 @@ telemetry.add_counter(:importer_facts_count_input, 'Number of facts before impor
 telemetry.add_counter(:importer_facts_count_processed, 'Number of facts processed (added, updated, deleted) per importer type', [:type, :action])
 telemetry.add_counter(:importer_facts_count_interfaces, 'Number of changed interfaces per importer type', [:type])
 telemetry.add_histogram(:ldap_request_duration, 'Total duration of LDAP requests')
+telemetry.add_histogram(:report_importer_create, 'Total duration of report import creation', [:type])
+telemetry.add_histogram(:report_importer_refresh, 'Total duration of report status refresh', [:type])

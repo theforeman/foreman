@@ -6,7 +6,7 @@ namespace :trends do
 
   desc 'Reduces amount of points for each trend group'
   task :reduce => :environment do
-    start = Time.now
+    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
     trends = Trend.pluck(:id)
     trends_count = trends.length
@@ -32,6 +32,6 @@ namespace :trends do
 
     TrendCounter.unscoped.where(interval_start: nil).delete_all
 
-    puts "It took #{Time.now - start} seconds to complete" unless Rails.env.test?
+    puts "It took #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - start} seconds to complete" unless Rails.env.test?
   end
 end
