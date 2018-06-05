@@ -46,6 +46,7 @@ module AuditSearch
       end
       # Add aliases and STI handling
       complete_values.merge!(
+        :auth_source => 'AuthSource',
         :compute_resource => 'ComputeResource',
         :host => 'Host::Base',
         :interface => 'Nic::Base',
