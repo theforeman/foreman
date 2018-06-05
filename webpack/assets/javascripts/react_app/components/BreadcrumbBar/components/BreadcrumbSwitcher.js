@@ -9,10 +9,10 @@ import BreadcrumbSwitcherPopover from './BreadcrumbSwitcherPopover';
 import BreadcrumbSwitcherToggler from './BreadcrumbSwitcherToggler';
 
 class BreadcrumbSwitcher extends React.Component {
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { open, onOpen } = this.props;
 
-    if (open === false && nextProps.open === true) {
+    if (open === true && prevProps.open === false) {
       onOpen();
     }
   }
