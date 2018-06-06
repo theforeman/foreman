@@ -6,7 +6,11 @@ class ApplicationRecord < ActiveRecord::Base
   extend AuditAssociations::AssociationsDefinitions
 
   # Rails use Notifications for own sql logging so we can override sql logger for orchestration
-  def logger
+  def self.logger
     Foreman::Logging.logger('app')
+  end
+
+  def logger
+    self.class.logger
   end
 end
