@@ -42,6 +42,7 @@ config/hooks
 *.csv
 .envrc
 node_modules
+vendor/ruby
 public/webpack
 .env*
 package-lock.json
