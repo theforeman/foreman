@@ -6,44 +6,47 @@ import { testConnection } from '../foreman_compute_resource';
 export function templateSelected(item) {
   const template = $(item).val();
 
-  if (!item.disabled) {
-    const url = $(item).attr('data-url');
-
-    showSpinner();
-    $.ajax({
-      type: 'post',
-      url,
-      data: `template_id=${template}`,
-      success(result) {
-        // As Instance Type values will take precence over templates values,
-        // we don't update memory/cores values if  instance type is already selected
-        if (!$('#host_compute_attributes_instance_type').val()) {
-          $('[id$=_memory]').val(result.memory).trigger('change');
-          $('[id$=_cores]').val(result.cores);
-          $('[id$=_sockets]').val(result.sockets);
-        }
-        $('#network_interfaces').children('.fields').remove();
-        $.each(result.interfaces, function () {
-          addNetworkInterface(this);
-        });
-        $('#storage_volumes .children_fields >.fields').remove();
-        $.each(result.volumes, function () {
-          // Change variable name because 'interface' is a reserved keyword.
-          this.disk_interface = this['interface'];
-          addVolume(this);
-        });
-        const templateSelector = $('#host_compute_attributes_template');
-
-        if (templateSelector.is(':disabled')) {
-          templateSelector.val(result.id).trigger('change');
-        }
-      },
-      complete() {
-        // eslint-disable-next-line no-undef
-        reloadOnAjaxComplete(item);
-      },
-    });
+  if (item.disabled || template === null) {
+    return;
   }
+
+  const url = $(item).attr('data-url');
+
+  showSpinner();
+  $.ajax({
+    type: 'post',
+    url,
+    data: `template_id=${template}`,
+    success(result) {
+      // As Instance Type values will take precence over templates values,
+      // we don't update memory/cores values if  instance type is already selected
+      if (!$('#host_compute_attributes_instance_type').val()) {
+        $('[id$=_memory]').val(result.memory).trigger('change');
+        $('[id$=_cores]').val(result.cores);
+        $('[id$=_sockets]').val(result.sockets);
+      }
+      $('#network_interfaces').children('.fields').remove();
+      $.each(result.interfaces, function () {
+        addNetworkInterface(this);
+      });
+      $('#storage_volumes .children_fields >.fields').remove();
+      $.each(result.volumes, function () {
+        // Change variable name because 'interface' is a reserved keyword.
+        // eslint-disable-next-line dot-notation
+        this.disk_interface = this['interface'];
+        addVolume(this);
+      });
+      const templateSelector = $('#host_compute_attributes_template');
+
+      if (templateSelector.is(':disabled')) {
+        templateSelector.val(result.id).trigger('change');
+      }
+    },
+    complete() {
+      // eslint-disable-next-line no-undef
+      reloadOnAjaxComplete(item);
+    },
+  });
 }
 
 export function instanceTypeSelected(item) {
