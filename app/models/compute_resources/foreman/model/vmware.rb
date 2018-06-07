@@ -1,6 +1,12 @@
 require 'fog_extensions/vsphere/mini_servers'
 require 'foreman/exception'
 
+begin
+  require 'rbvmomi'
+rescue LoadError
+  # rbvmomi might not be installed
+end
+
 module Foreman::Model
   class Vmware < ComputeResource
     include ComputeResourceConsoleCommon
