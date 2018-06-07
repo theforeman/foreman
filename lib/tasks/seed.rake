@@ -1,4 +1,3 @@
-require 'factory_bot'
 
 namespace :seed do
   desc 'Generate various forgeries. This should not be used in production'
@@ -8,6 +7,13 @@ namespace :seed do
     task :load_factories => :environment do
       if Rails.env.production?
         STDERR.puts "Refusing to seed data in a production environment"
+        exit 1
+      end
+
+      begin
+        require 'factory_bot'
+      rescue LoadError
+        STDERR.puts "Factory bot is unavailable"
         exit 1
       end
 
