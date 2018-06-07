@@ -271,7 +271,7 @@ export function getRenderedTemplate() {
     $('div#preview_error span.text').html('');
     session.setValue(response);
   }).fail((response) => {
-    $('div#preview_error span.text').html(response.responseText);
+    $('div#preview_error span.text').text(response.responseText);
     $('div#preview_error').show();
     session.setValue(__('There was an error during rendering, return to the Code tab to edit the template.'));
   });
