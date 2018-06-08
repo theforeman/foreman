@@ -30,8 +30,12 @@ class ExternalUsergroup < ApplicationRecord
     old_users = current_users - all_users - internal_users
     new_users = my_users - current_users
 
-    usergroup.remove_users(old_users)
-    usergroup.add_users(new_users)
+    remaining_user_ids = usergroup.user_ids - User.fetch_ids_by_list(old_users)
+    new_user_ids = User.fetch_ids_by_list(new_users)
+
+    # To make changes auditable called update
+    usergroup.user_ids = remaining_user_ids.concat(new_user_ids)
+    usergroup.save
     true
   end
 

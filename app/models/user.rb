@@ -315,6 +315,10 @@ class User < ApplicationRecord
     self.lower_login = login.downcase if login.present?
   end
 
+  def self.fetch_ids_by_list(userlist)
+    User.where(:lower_login => userlist.map(&:downcase)).pluck(:id)
+  end
+
   def matching_password?(pass)
     self.password_hash == hash_password(pass)
   end
