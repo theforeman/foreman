@@ -72,14 +72,6 @@ class Usergroup < ApplicationRecord
     users.each { |u| u.expire_topbar_cache }
   end
 
-  def add_users(userlist)
-    users << User.where(:lower_login => userlist.map(&:downcase))
-  end
-
-  def remove_users(userlist)
-    self.users = self.users - User.where(:lower_login => userlist.map(&:downcase))
-  end
-
   def to_export
     all_users.map(&:to_export).reduce({}, :merge)
   end
