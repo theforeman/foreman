@@ -22,7 +22,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.9.0",
-    "compression-webpack-plugin": "~0.3.1",
+    "compression-webpack-plugin": "~1.1.11",
     "coveralls": "^3.0.0",
     "css-loader": "^0.23.1",
     "dotenv": "^5.0.0",
