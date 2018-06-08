@@ -15,7 +15,7 @@ module AuditSearch
     belongs_to :search_nics, -> { where('audits.auditable_type LIKE ?', "Nic::%") }, :class_name => 'Nic::Base', :foreign_key => :auditable_id
     belongs_to :search_settings, :class_name => 'Setting', :foreign_key => :auditable_id
 
-    scoped_search :on => [:username, :remote_address], :complete_value => true
+    scoped_search :on => [:username, :remote_address, :comment], :complete_value => true
     scoped_search :on => :audited_changes, :rename => 'changes'
     scoped_search :on => :created_at, :complete_value => true, :rename => :time, :default_order => :desc
     scoped_search :on => :action, :complete_value => { :create => 'create', :update => 'update', :delete => 'destroy' }
