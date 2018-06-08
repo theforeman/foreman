@@ -11,7 +11,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   test "should return list of interfaces" do
     assert importer.interfaces.present?
     assert_not_nil importer.suggested_primary_interface(FactoryBot.build(:host))
-    assert importer.interfaces.keys.include?(importer.suggested_primary_interface(FactoryBot.build(:host)).first)
+    assert importer.interfaces.key?(importer.suggested_primary_interface(FactoryBot.build(:host)).first)
   end
 
   test "should parse virtual interfaces as vlan interfaces" do

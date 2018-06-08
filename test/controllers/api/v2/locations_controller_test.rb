@@ -22,7 +22,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
              "provisioning_templates", "domains", "ptables", "realms", "environments", "hostgroups",
              "organizations", "parameters"].sort
     NODES.each do |node|
-      assert show_response.keys.include?(node), "'#{node}' child node should be in response but was not"
+      assert show_response.key?(node), "'#{node}' child node should be in response but was not"
     end
   end
 

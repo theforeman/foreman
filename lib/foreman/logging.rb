@@ -76,7 +76,7 @@ module Foreman
       options.assert_valid_keys :level, :logger
       logger_name = options[:logger] || 'app'
       level       = options[:level] || :warn
-      unless ::Logging::LEVELS.keys.include?(level.to_s)
+      unless ::Logging::LEVELS.key?(level.to_s)
         raise "Unexpected log level #{level}, expected one of #{::Logging::LEVELS.keys}"
       end
       # send class, message and stack as structured fields in addition to message string

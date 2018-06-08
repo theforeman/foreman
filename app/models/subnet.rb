@@ -234,7 +234,7 @@ class Subnet < ApplicationRecord
       errors.add(:from, _("must be specified if to is defined"))   if from.blank?
       errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
-    return if errors.keys.include?(:from) || errors.keys.include?(:to)
+    return if errors.key?(:from) || errors.key?(:to)
     errors.add(:from, _("does not belong to subnet"))     if from.present? && !self.contains?(f=IPAddr.new(from))
     errors.add(:to, _("does not belong to subnet"))       if to.present?   && !self.contains?(t=IPAddr.new(to))
     errors.add(:from, _("can't be bigger than to range")) if from.present? && t.present? && f > t
@@ -256,7 +256,7 @@ class Subnet < ApplicationRecord
 
   def ensure_ip_addrs_valid
     IP_FIELDS.each do |f|
-      errors.add(f, _("is invalid")) if (send(f).present? || REQUIRED_IP_FIELDS.include?(f)) && !validate_ip(send(f)) && !errors.keys.include?(f)
+      errors.add(f, _("is invalid")) if (send(f).present? || REQUIRED_IP_FIELDS.include?(f)) && !validate_ip(send(f)) && !errors.key?(f)
     end
   end
 

@@ -113,10 +113,10 @@ class ExportableTest < ActiveSupport::TestCase
   end
 
   test '#exportable_attributes does not include child class attrs' do
-    refute SampleSubnet.exportable_attributes.keys.include?('domain')
+    refute SampleSubnet.exportable_attributes.key?('domain')
   end
 
   test '#to_export includes own class exportables' do
-    assert @subnet_domain.to_export.keys.include?('domain')
+    assert @subnet_domain.to_export.key?('domain')
   end
 end

@@ -179,7 +179,7 @@ class PuppetclassTest < ActiveSupport::TestCase
     }
 
     refute klass.update(attributes)
-    assert klass.errors.messages.keys.include?(:"lookup_keys.lookup_values.value")
+    assert klass.errors.messages.key?(:"lookup_keys.lookup_values.value")
   end
 
   context "search in puppetclasses" do

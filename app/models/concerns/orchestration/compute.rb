@@ -27,7 +27,7 @@ module Orchestration::Compute
   end
 
   def compute_provides?(attr)
-    compute? && compute_resource.provided_attributes.keys.include?(attr)
+    compute? && compute_resource.provided_attributes.key?(attr)
   end
 
   def vm_name
@@ -148,13 +148,13 @@ module Orchestration::Compute
 
   def setComputeIP
     attrs = compute_resource.provided_attributes
-    if attrs.keys.include?(:ip) || attrs.keys.include?(:ip6)
+    if attrs.key?(:ip) || attrs.key?(:ip6)
       logger.info "Waiting for #{name} to become ready"
       compute_resource.vm_ready vm
       logger.info "waiting for instance to acquire ip address"
       vm.wait_for do
-        (attrs.keys.include?(:ip) && self.send(attrs[:ip]).present?) ||
-          (attrs.keys.include?(:ip6) && self.send(attrs[:ip6]).present?) ||
+        (attrs.key?(:ip) && self.send(attrs[:ip]).present?) ||
+          (attrs.key?(:ip6) && self.send(attrs[:ip6]).present?) ||
           self.ip_addresses.present?
       end
     end

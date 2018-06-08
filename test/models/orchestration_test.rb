@@ -161,7 +161,7 @@ class OrchestrationTest < ActiveSupport::TestCase
     end
 
     test "we can retrieve registered methods" do
-      assert @klass.rebuild_methods.keys.include? :rebuild_test
+      assert @klass.rebuild_methods.key?(:rebuild_test)
     end
 
     test "we cannot override already subscribed methods" do
