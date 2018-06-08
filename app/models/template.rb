@@ -163,7 +163,7 @@ class Template < ApplicationRecord
 
   def import_organizations(options)
     if @importing_metadata.key?('organizations') && associate_metadata_on_import?(options)
-      organizations = User.current.my_organizations.where(:name => @importing_metadata['organizations'])
+      organizations = User.current.my_organizations.where(:title => @importing_metadata['organizations'])
       self.organization_ids = organizations.map(&:id)
     else
       self.organization_ids << Organization.current.id if Organization.current && !self.organization_ids.include?(Organization.current.id)
@@ -172,7 +172,7 @@ class Template < ApplicationRecord
 
   def import_locations(options)
     if @importing_metadata.key?('locations') && associate_metadata_on_import?(options)
-      locations = User.current.my_locations.where(:name => @importing_metadata['locations'])
+      locations = User.current.my_locations.where(:title => @importing_metadata['locations'])
       self.location_ids = locations.map(&:id)
     else
       self.location_ids << Location.current.id if Location.current && !self.location_ids.include?(Location.current.id)
