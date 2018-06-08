@@ -26,19 +26,19 @@ class NicTest < ActiveSupport::TestCase
   test "should fail on invalid mac" do
     i = Nic::Base.new :mac => "abccddeeff", :host => FactoryBot.create(:host, :managed)
     assert !i.valid?
-    assert i.errors.keys.include?(:mac)
+    assert i.errors.key?(:mac)
   end
 
   test "should be valid with 64-bit mac address" do
     i = Nic::Base.new :mac => "babbccddeeff00112233445566778899aabbccdd", :host => FactoryBot.create(:host)
     assert i.valid?
-    assert !i.errors.keys.include?(:mac)
+    assert !i.errors.key?(:mac)
   end
 
   test "should fail on invalid dns name" do
     i = Nic::Managed.new :mac => "dabbccddeeff", :host => FactoryBot.create(:host), :name => "invalid_dns_name"
     assert !i.valid?
-    assert i.errors.keys.include?(:name)
+    assert i.errors.key?(:name)
   end
 
   test "should fix mac address" do

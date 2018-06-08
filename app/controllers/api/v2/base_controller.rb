@@ -126,10 +126,10 @@ module Api
           if v.is_a?(Array)
             association_name_ids = "#{k.singularize}_ids"
             association_name_names = "#{k.singularize}_names"
-            if resource_class.instance_methods.map(&:to_s).include?(association_name_ids) && v.any? && v.all? { |a| a.keys.include?("id") }
+            if resource_class.instance_methods.map(&:to_s).include?(association_name_ids) && v.any? && v.all? { |a| a.key?("id") }
               params[model_name][association_name_ids] = v.map { |a| a["id"] }
               params[model_name].delete(k)
-            elsif resource_class.instance_methods.map(&:to_s).include?(association_name_names) && v.any? && v.all? { |a| a.keys.include?("name") }
+            elsif resource_class.instance_methods.map(&:to_s).include?(association_name_names) && v.any? && v.all? { |a| a.key?("name") }
               params[model_name][association_name_names] = v.map { |a| a["name"] }
               params[model_name].delete(k)
             end

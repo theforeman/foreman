@@ -58,7 +58,7 @@ module Api::ImportPuppetclassesCommonController
       @changed  = @importer.changes
 
       # check if environemnt id passed in URL is name of NEW environment in puppetmaster that doesn't exist in db
-      if @environment || (@changed['new'].keys.include?(@env_id) && (@environment ||= OpenStruct.new(:name => @env_id)))
+      if @environment || (@changed['new'].key?(@env_id) && (@environment ||= OpenStruct.new(:name => @env_id)))
         # only return :keys equal to @environment in @changed hash
         ["new", "obsolete", "updated", "ignored"].each do |kind|
           @changed[kind].slice!(@environment.name) unless @changed[kind].empty?
@@ -101,7 +101,7 @@ module Api::ImportPuppetclassesCommonController
   end
 
   def find_required_puppet_proxy
-    id = params.keys.include?('smart_proxy_id') ? params['smart_proxy_id'] : params['id']
+    id = params.key?('smart_proxy_id') ? params['smart_proxy_id'] : params['id']
     @smart_proxy = SmartProxy.authorized(:view_smart_proxies).find(id)
     unless @smart_proxy && SmartProxy.with_features("Puppet").pluck("smart_proxies.id").include?(@smart_proxy.id)
       not_found _('No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled.')
@@ -110,7 +110,7 @@ module Api::ImportPuppetclassesCommonController
   end
 
   def get_environment_id
-    @env_id = if params.keys.include?('environment_id')
+    @env_id = if params.key?('environment_id')
                 params['environment_id']
               elsif controller_name == 'environments' && params['id'].present?
                 params['id']
