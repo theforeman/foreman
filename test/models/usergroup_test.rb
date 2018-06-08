@@ -176,23 +176,6 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal 3, user.reload.cached_user_roles.size
   end
 
-  test 'add_users is case insensitive and does not add nonexistent users' do
-    usergroup = FactoryBot.create(:usergroup)
-    usergroup.send(:add_users, ['OnE', 'TwO', 'tHREE'])
-
-    # users 'one' 'two' are defined in fixtures, 'three' is not defined
-    assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
-  end
-
-  test 'remove_users removes user list and is case insensitive' do
-    usergroup = FactoryBot.create(:usergroup)
-    usergroup.send(:add_users, ['OnE', 'tWo'])
-    assert_equal ['one', 'two'], usergroup.users.map(&:login).sort
-
-    usergroup.send(:remove_users, ['ONE', 'TWO'])
-    assert_equal [], usergroup.users
-  end
-
   test "can remove the admin flag from the group when another admin exists" do
     usergroup = FactoryBot.create(:usergroup, :admin => true)
     admin1 = FactoryBot.create(:user)
