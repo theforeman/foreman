@@ -8,10 +8,14 @@ module Foreman
       Setting[:http_proxy_except_list]
     end
 
+    # Answers if this request should be proxied
     def proxy_http_request?(current_proxy, request_host, schema)
-      !http_proxy.nil? && current_proxy.nil? && !request_host.nil? &&
+      !http_proxy.nil? &&
+      current_proxy.nil? &&
+      !request_host.nil? &&
       http_request?(schema) &&
-      http_proxy_host?(request_host)
+      http_proxy_host?(request_host) &&
+      !local_request?(request_host)
     end
 
     def http_proxied_rescue(&block)
@@ -21,6 +25,13 @@ module Foreman
     end
 
     private
+
+    def local_request?(request_host)
+      request_host.starts_with?('127.') ||
+      request_host == 'localhost' ||
+      request_host == '::1' ||
+      request_host == SETTINGS[:fqdn]
+    end
 
     def http_request?(schema)
       ['http', 'https'].include?(schema)
