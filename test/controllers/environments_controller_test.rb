@@ -158,7 +158,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new, params:
       { "changed"=>
        {"obsolete" =>
-        {"env1"  => '["a","b","c","_destroy_"]'}
+        {"env1" => '["a","b","c","_destroy_"]'}
        }
      }, session: set_session_user
     assert Environment.unscoped.find_by_name("env1").hosts.count > 0

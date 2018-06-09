@@ -8,7 +8,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
   def setup
     @host = FactoryBot.create(:host)
     @nic  = FactoryBot.create(:nic_managed, :host => @host)
-    @bond  = FactoryBot.create(:nic_bond, :host => @host)
+    @bond = FactoryBot.create(:nic_bond, :host => @host)
   end
 
   test "get index for specific host" do

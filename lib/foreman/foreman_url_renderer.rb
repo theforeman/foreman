@@ -11,7 +11,7 @@ module Foreman
     # returns the URL for Foreman based on the required action
     def foreman_url(action = 'provision')
       # Get basic stuff
-      config   = URI.parse(Setting[:unattended_url])
+      config = URI.parse(Setting[:unattended_url])
       url_options = foreman_url_options_from_settings_or_request(config)
 
       host = @host

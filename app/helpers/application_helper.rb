@@ -448,7 +448,7 @@ module ApplicationHelper
     update_url = options[:update_url] || url_for(object)
     type       = options[:type]
     title      = options[:title]
-    select_values     = [true, false].include?(value) ? [_('Yes'), _('No')] : options[:select_values]
+    select_values = [true, false].include?(value) ? [_('Yes'), _('No')] : options[:select_values]
 
     editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => select_values, :url => update_url}.compact)
   end
@@ -553,7 +553,7 @@ module ApplicationHelper
   end
 
   def toast_notifiations_data
-    selected_toast_notifiations =  flash.select { |key, _| key != 'inline' }
+    selected_toast_notifiations = flash.select { |key, _| key != 'inline' }
 
     selected_toast_notifiations.map do |type, notification|
       notification.is_a?(Hash) ? notification : { :type => type, :message => notification }

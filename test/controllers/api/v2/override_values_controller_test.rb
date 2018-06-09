@@ -329,7 +329,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     lookup_key = FactoryBot.create(:variable_lookup_key, :puppetclass => puppetclasses(:two))
     refute lookup_key.override
     assert_difference('LookupValue.count', 1) do
-      post :create, params: { :smart_variable_id => lookup_key.id, :override_value =>  { :match => 'os=string'} }
+      post :create, params: { :smart_variable_id => lookup_key.id, :override_value => { :match => 'os=string'} }
     end
     assert_response :success
   end
@@ -381,7 +381,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
   test_attributes :pid => 'bef0e457-16be-4ca6-bc56-fa32dff55a01'
   test "should not create invalid matcher for non existing attribute" do
     assert_difference('LookupValue.count', 0) do
-      post :create, params: { :smart_class_parameter_id => lookup_keys(:one).id, :override_value =>  { :match => 'hostgroup=nonexistingHG', :value => RFauxFactory.gen_alpha } }
+      post :create, params: { :smart_class_parameter_id => lookup_keys(:one).id, :override_value => { :match => 'hostgroup=nonexistingHG', :value => RFauxFactory.gen_alpha } }
     end
     assert_includes JSON.parse(response.body)['error']['message'], 'Validation failed: Match hostgroup=nonexistingHG does not match an existing host group'
   end

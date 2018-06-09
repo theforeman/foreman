@@ -109,7 +109,7 @@ module BasicRestResponseTest
           next if @controller.resource_name == "trend"
           @request.env['HTTP_REFERER'] = root_url
           get :index, params: {search: "name='A98$bcD#67Ef*g"}, session: set_session_user
-          assert (@response.body.include? "No entries found") ||  @response.body.match(/You are being.*redirected/)
+          assert (@response.body.include? "No entries found") || @response.body.match(/You are being.*redirected/)
         end
 
         teardown do

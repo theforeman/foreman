@@ -432,7 +432,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     hostgroup = hostgroups(:common)
-    post :update_multiple_hostgroup, params: { :host_names => host_names, :hostgroup  => { :id => hostgroup.id} }, session: set_session_user
+    post :update_multiple_hostgroup, params: { :host_names => host_names, :hostgroup => { :id => hostgroup.id} }, session: set_session_user
     assert_response :redirect
 
     host_names.each do |name|
@@ -1626,7 +1626,7 @@ class HostsControllerTest < ActionController::TestCase
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "fqdn=#{host.fqdn}", :value => ["c", "d"])
 
       # sending exactly what the host form would send which is lookup_value.value_before_type_cast
-      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" =>  lookup_key.id, "_destroy" => false}}}
+      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
 
       params = {
         host_id: host.id,

@@ -185,7 +185,7 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
 
     test 'should not escape lookup values on environment change' do
-      hostgroup = FactoryBot.create(:hostgroup, :environment => @environment, :puppetclass_ids =>  [@puppetclass.id])
+      hostgroup = FactoryBot.create(:hostgroup, :environment => @environment, :puppetclass_ids => [@puppetclass.id])
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array',
                                      :default_value => ['a', 'b'], :override => true, :puppetclass => @puppetclass)
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "hostgroup=#{hostgroup.name}", :value => ["c", "d"])
@@ -193,7 +193,7 @@ class HostgroupsControllerTest < ActionController::TestCase
       FactoryBot.create(:environment_class, :puppetclass => @puppetclass, :environment => @environment, :puppetclass_lookup_key => lookup_key)
 
       # sending exactly what the host form would send which is lookup_value.value_before_type_cast
-      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" =>  lookup_key.id, "_destroy" => false}}}
+      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
 
       params = {
         hostgroup_id: hostgroup.id,

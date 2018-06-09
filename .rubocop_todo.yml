@@ -34,12 +34,6 @@ Layout/CaseIndentation:
 Layout/ClosingParenthesisIndentation:
   Enabled: false
 
-# Offense count: 55
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
-Layout/ExtraSpacing:
-  Enabled: false
-
 # Offense count: 30
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

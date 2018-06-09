@@ -23,7 +23,7 @@ class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
   YML_PARAMS = /!ruby\/[\w-]+:ActionController::Parameters/
 
   def transform_batch_columns(base, serialized_columns)
-    base.unscoped.select(serialized_columns + [:id]).find_each  do |object|
+    base.unscoped.select(serialized_columns + [:id]).find_each do |object|
       serialized_columns.each do |column|
         attributes = object.send :read_attribute_before_type_cast, column
         next if attributes.nil?
@@ -52,6 +52,6 @@ class ConvertVmAttrsToHash < ActiveRecord::Migration[5.1]
 
   class FakeLookupKey < ApplicationRecord
     self.table_name = 'lookup_keys'
-    self.inheritance_column  = nil
+    self.inheritance_column = nil
   end
 end

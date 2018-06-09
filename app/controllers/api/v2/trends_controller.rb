@@ -16,7 +16,7 @@ module Api
       end
 
       api :POST, "/trends/", N_("Create a trend counter")
-      param :trendable_type, String,  :required => true
+      param :trendable_type, String, :required => true
       param :fact_name, String, :required => false
       param :name, String, :required => false
       def create

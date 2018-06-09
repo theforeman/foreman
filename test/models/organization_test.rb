@@ -46,7 +46,7 @@ class OrganizationTest < ActiveSupport::TestCase
   test "update with multi names" do
     organization = FactoryBot.create(:organization)
     valid_org_name_list.each do |new_name|
-      organization.name =  new_name
+      organization.name = new_name
       assert organization.valid?, "Validation failed for update with valid name: '#{new_name}' length: #{new_name.length})"
       assert_equal organization.name, new_name
     end

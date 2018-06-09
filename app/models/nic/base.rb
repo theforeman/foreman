@@ -139,7 +139,7 @@ module Nic
 
     def clone
       # do not copy system specific attributes
-      self.deep_clone(:except  => [:name, :mac, :ip, :ip6, :host_id])
+      self.deep_clone(:except => [:name, :mac, :ip, :ip6, :host_id])
     end
 
     # if this interface does not have MAC and is attached to other interface,

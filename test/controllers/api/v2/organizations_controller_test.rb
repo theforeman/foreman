@@ -131,7 +131,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
 
   test "search organization" do
     organization = Organization.first
-    get :index, params: { :search =>  "name = \"#{organization.name}\"",  :format => 'json' }
+    get :index, params: { :search =>  "name = \"#{organization.name}\"", :format => 'json' }
     assert_response :success, "search organization name: '#{organization.name}' failed with code: #{@response.code}"
     response = JSON.parse(@response.body)
     assert_equal response['results'].length, 1

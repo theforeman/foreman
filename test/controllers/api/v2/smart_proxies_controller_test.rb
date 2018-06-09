@@ -89,7 +89,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     put :update, params: { :id => smart_proxies(:one).to_param, :smart_proxy => valid_attrs }
     assert_response :success
     response = JSON.parse(@response.body)
-    refute_empty response.keys.select { |key|  any_needed_fields.include?(key) }
+    refute_empty response.keys.select { |key| any_needed_fields.include?(key) }
   end
 
   test_attributes :pid => '42d6b749-c047-4fd2-90ee-ffab7be558f9'
@@ -98,7 +98,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     put :update, params: { :id => smart_proxies(:one).to_param, :smart_proxy => valid_attrs }
     assert_response :success
     response = JSON.parse(@response.body)
-    refute_empty response.keys.select { |key|  any_needed_fields.include?(key) }
+    refute_empty response.keys.select { |key| any_needed_fields.include?(key) }
   end
 
   test_attributes :pid => 'f279640e-d7e9-48a3-aed8-7bf406e9d6f2'

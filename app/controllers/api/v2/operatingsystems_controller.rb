@@ -25,7 +25,7 @@ module Api
       param :ptable_id, String, :desc => N_("ID of partition table")
       param :config_template_id, String, :desc => N_("ID of template")
       param :provisioning_template_id, String, :desc => N_("ID of template")
-      param :os_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters")  do
+      param :os_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters") do
         param :name, String, :desc => N_("Name of the parameter"), :required => true
         param :value, String, :desc => N_("Parameter value"), :required => true
       end
