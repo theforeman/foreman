@@ -41,7 +41,7 @@ module Api
       end
 
       def handle_proxy_error(exception)
-        render :status => 500, :json => { error: exception.message }
+        render :status => :internal_server_error, :json => { error: exception.message }
       end
     end
   end

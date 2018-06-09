@@ -1,4 +1,3 @@
-
 namespace :seed do
   desc 'Generate various forgeries. This should not be used in production'
   task :forgeries => %w[forgeries:all]

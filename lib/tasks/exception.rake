@@ -1,4 +1,3 @@
-
 desc 'Exception utilities'
 namespace :exception do
   desc 'List all error codes'

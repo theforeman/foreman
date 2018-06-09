@@ -5,8 +5,6 @@ inherit_from:
 AllCops:
   TargetRubyVersion: 2.3
   TargetRailsVersion: 5.1
-  Include:
-    - 'app/views/api/**/*.rabl'
   Exclude:
     - 'db/schema.rb'
     - 'node_modules/**/*'
