@@ -80,6 +80,23 @@ class HTTPProxyTest < ActiveSupport::TestCase
                          .returns(nil)
         refute adapter.proxy_http_request?(nil, request_host, schema)
       end
+
+      test 'when request_host is localhost' do
+        refute adapter.proxy_http_request?(nil, 'localhost', schema)
+      end
+
+      test 'when request_host is fqdn' do
+        SETTINGS[:fqdn] = 'test.host.com'
+        refute adapter.proxy_http_request?(nil, 'test.host.com', schema)
+      end
+
+      test 'when request_host is a loopback address' do
+        refute adapter.proxy_http_request?(nil, '127.0.0.1', schema)
+      end
+
+      test 'when request_host is a ipv6 local address' do
+        refute adapter.proxy_http_request?(nil, '::1', schema)
+      end
     end
   end
 
