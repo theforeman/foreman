@@ -37,7 +37,7 @@ module HostsAndHostgroupsHelper
                   :disable_button_enabled => override && !explicit_value?(:realm_id),
                   :user_set => user_set?(:realm_id)
                 },
-                { :help_inline   => :indicator }
+                { :help_inline => :indicator }
             ).html_safe
   end
 

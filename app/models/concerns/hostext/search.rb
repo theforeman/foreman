@@ -90,7 +90,7 @@ module Hostext
       end
 
       if SETTINGS[:login]
-        scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login',    :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
+        scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login', :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
         scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
         scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
@@ -138,7 +138,7 @@ module Hostext
       def search_by_hostgroup_and_descendants(key, operator, value)
         conditions = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
         # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
-        hostgroup     = Hostgroup.unscoped.with_taxonomy_scope.find_by(conditions)
+        hostgroup = Hostgroup.unscoped.with_taxonomy_scope.find_by(conditions)
         if hostgroup.present?
           hostgroup_ids = hostgroup.subtree_ids
           opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"

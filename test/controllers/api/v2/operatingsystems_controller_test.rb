@@ -26,7 +26,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   test "should create os with name and major version only" do
     os_params = minimum_required_os_params
     assert_difference('Operatingsystem.count') do
-      post :create, params: { :operatingsystem =>  os_params}
+      post :create, params: { :operatingsystem => os_params}
     end
     assert_response :created
     response = JSON.parse(@response.body)

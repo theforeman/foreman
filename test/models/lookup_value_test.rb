@@ -284,7 +284,7 @@ EOF
   end
 
   test "should create override value for smart variable with list validator and matching value" do
-    values_list = [ 'test',  'example', 30 ]
+    values_list = [ 'test', 'example', 30 ]
     validator_type = 'list'
     validator_rule = values_list.join(', ')
     smart_variable = FactoryBot.create(

@@ -3,7 +3,7 @@ module HomeHelper
     authorized_menu_actions(Menu::Manager.items(menu_name).children).map do |menu|
       items = authorized_menu_actions(menu.children)
       render "home/vertical_menu", :menu_items => items, :menu_title => _(menu.caption), :menu_icon => menu.icon,
-                                   :menu_name => menu.name, :mobile_class => mobile ? 'visible-xs-block' : ''  if items.any?
+                                   :menu_name => menu.name, :mobile_class => mobile ? 'visible-xs-block' : '' if items.any?
     end.join(' ').html_safe
   end
 

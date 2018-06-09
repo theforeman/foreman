@@ -100,7 +100,7 @@ namespace :reports do
     end
   end
 
-  task :daily  => :environment do
+  task :daily => :environment do
     process_notifications :daily
   end
 

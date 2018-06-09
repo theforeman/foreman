@@ -45,7 +45,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should create location with parent" do
     parent_id = Location.first.id
-    post :create, params: { :location => { :name => "Test Location", :parent_id =>  parent_id } }
+    post :create, params: { :location => { :name => "Test Location", :parent_id => parent_id } }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?

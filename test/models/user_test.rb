@@ -38,7 +38,7 @@ end
 class UserTest < ActiveSupport::TestCase
   def setup
     User.current = users :admin
-    @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail  => "foo@bar.com"
+    @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail => "foo@bar.com"
   end
 
   # Presence
@@ -170,13 +170,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user should login case insensitively" do
-    user = User.new :auth_source => auth_sources(:internal), :login => "user", :mail  => "foo1@bar.com", :password => "foo"
+    user = User.new :auth_source => auth_sources(:internal), :login => "user", :mail => "foo1@bar.com", :password => "foo"
     assert user.save!
     assert_equal user, User.try_to_login("USER", "foo")
   end
 
   test "user login should be case aware" do
-    user = User.new :auth_source => auth_sources(:one), :login => "User", :mail  => "foo1@bar.com", :password => "foo"
+    user = User.new :auth_source => auth_sources(:one), :login => "User", :mail => "foo1@bar.com", :password => "foo"
     assert user.save
     assert_equal user.login, "User"
     assert_equal user.lower_login, "user"
@@ -197,7 +197,7 @@ class UserTest < ActiveSupport::TestCase
   test "new internal user gets welcome mail" do
     ActionMailer::Base.deliveries = []
     Setting[:send_welcome_email] = true
-    User.create :auth_source => auth_sources(:internal), :login => "welcome", :mail  => "foo@example.com", :password => "qux", :mail_enabled => true
+    User.create :auth_source => auth_sources(:internal), :login => "welcome", :mail => "foo@example.com", :password => "qux", :mail_enabled => true
     mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Welcome to Foreman/ }
     assert mail
     assert_match /Username/, mail.body.encoded
@@ -206,7 +206,7 @@ class UserTest < ActiveSupport::TestCase
   test "other auth sources don't get welcome mail" do
     Setting[:send_welcome_email] = true
     assert_no_difference "ActionMailer::Base.deliveries.size" do
-      User.create :auth_source => auth_sources(:one), :login => "welcome", :mail  => "foo@bar.com", :password => "qux"
+      User.create :auth_source => auth_sources(:one), :login => "welcome", :mail => "foo@bar.com", :password => "qux"
     end
   end
 

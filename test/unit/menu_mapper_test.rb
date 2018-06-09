@@ -183,7 +183,7 @@ class MenuMapperTest < ActiveSupport::TestCase
   test 'deleting all items' do
     # Exposed by deleting :last items
     Menu::Manager.map :test_menu do |menu|
-      menu.item :not_last, :url_hash=>  { :controller => 'hosts', :action => 'index'}
+      menu.item :not_last, :url_hash=> { :controller => 'hosts', :action => 'index'}
       menu.item :administration, :url_hash=> { :controller => 'hosts', :action => 'show'}, :last => true
       menu.item :help, :url_hash => { :controller => 'help', :action => 'show'}, :last => true
     end
