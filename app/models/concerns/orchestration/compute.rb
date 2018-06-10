@@ -350,7 +350,7 @@ module Orchestration::Compute
   end
 
   def vm_exists?
-    return true unless compute_object
-    !compute_object.persisted?
+    return false unless compute_object
+    compute_object.persisted?
   end
 end
