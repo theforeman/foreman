@@ -7,6 +7,7 @@ import {
   BREADCRUMB_BAR_RESOURCES_REQUEST,
   BREADCRUMB_BAR_RESOURCES_SUCCESS,
   BREADCRUMB_BAR_RESOURCES_FAILURE,
+  BREADCRUMB_BAR_CLEAR_SEARCH,
 } from './BreadcrumbBarConstants';
 
 export const toggleSwitcher = () => ({
@@ -17,10 +18,16 @@ export const closeSwitcher = () => ({
   type: BREADCRUMB_BAR_CLOSE_SWITCHER,
 });
 
-export const loadSwitcherResourcesByResource = (resource, options = {}) => (dispatch) => {
-  const { resourceUrl, nameField, switcherItemUrl } = resource;
-  const { page = 1 } = options;
+export const removeSearchQuery = resource => (dispatch) => {
+  dispatch({
+    type: BREADCRUMB_BAR_CLEAR_SEARCH,
+  });
+  loadSwitcherResourcesByResource(resource)(dispatch);
+};
 
+export const loadSwitcherResourcesByResource = (resource, { page = 1, searchQuery = '' } = {}) => (dispatch) => {
+  const { resourceUrl, nameField, switcherItemUrl } = resource;
+  const options = { page, searchQuery };
   const beforeRequest = () =>
     dispatch({
       type: BREADCRUMB_BAR_RESOURCES_REQUEST,
@@ -46,10 +53,10 @@ export const loadSwitcherResourcesByResource = (resource, options = {}) => (disp
     return {
       items: switcherItems,
       page: Number(data.page),
-      pages: Number(data.total) / Number(data.per_page),
+      pages: Number(data.subtotal) / Number(data.per_page),
     };
   };
   beforeRequest();
 
-  return API.get(resourceUrl, {}, { page }).then(onRequestSuccess, onRequestFail);
+  return API.get(resourceUrl, {}, { page, search: searchQuery && `${[nameField]}~${searchQuery}` }).then(onRequestSuccess, onRequestFail);
 };

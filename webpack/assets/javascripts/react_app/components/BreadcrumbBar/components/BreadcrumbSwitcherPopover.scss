@@ -6,6 +6,10 @@
   max-width: $switcher-max-width;
   min-width: $switcher-max-width;
 
+  .fa-spinner {
+    margin-top: 12px;
+  }
+
   .breadcrumb-switcher-popover-error {
     color: #f00;
   }
@@ -27,4 +31,12 @@
 
 #breadcrumb-switcher-popover {
   z-index: 1000 !important;
+}
+
+.scrollable-list {
+  margin-top: 5px;
+
+  &.list-group {
+    border-top: 0;
+  }
 }

@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Popover, ListGroup, ListGroupItem, Pager, Icon } from 'patternfly-react';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
-
+import SearchInput from '../../common/SearchInput';
 import { noop } from '../../../common/helpers';
+import SubstringWrapper from '../../common/SubstringWrapper';
 import './BreadcrumbSwitcherPopover.scss';
 
 const BreadcrumbSwitcherPopover = ({
@@ -16,6 +17,10 @@ const BreadcrumbSwitcherPopover = ({
   currentPage,
   totalPages,
   appear, // remove the appear from the ...props
+  onSearchChange,
+  onSearchClear,
+  searchValue,
+  searchDebounceTimeout,
   ...props
 }) => {
   let popoverBody;
@@ -61,7 +66,11 @@ const BreadcrumbSwitcherPopover = ({
         <ListGroup className="scrollable-list">
           {resources.map(resource => (
             <ListGroupItem {...createItemProps(resource)}>
-              <EllipsisWithTooltip>{resource.name}</EllipsisWithTooltip>
+              <EllipsisWithTooltip>
+                <SubstringWrapper substring={searchValue}>
+                  {resource.name}
+                </SubstringWrapper>
+              </EllipsisWithTooltip>
             </ListGroupItem>
           ))}
         </ListGroup>
@@ -71,7 +80,7 @@ const BreadcrumbSwitcherPopover = ({
           onNextPage={onNextPageClick}
           onPreviousPage={onPrevPageClick}
           disablePrevious={currentPage === 1}
-          disableNext={currentPage === Math.ceil(totalPages)}
+          disableNext={totalPages === 0 || currentPage === Math.ceil(totalPages)}
         />
       </React.Fragment>
     );
@@ -79,6 +88,12 @@ const BreadcrumbSwitcherPopover = ({
 
   return (
     <Popover className="breadcrumb-switcher-popover" {...props}>
+      <SearchInput
+        onClear={onSearchClear}
+        timeout={searchDebounceTimeout}
+        focus
+        onSearchChange={onSearchChange}
+        searchValue={searchValue} />
       {popoverBody}
     </Popover>
   );
@@ -97,6 +112,8 @@ BreadcrumbSwitcherPopover.propTypes = {
     href: PropTypes.string,
     onClick: PropTypes.func,
   })),
+  onSearchChange: PropTypes.func,
+  searchValue: PropTypes.string,
 };
 
 BreadcrumbSwitcherPopover.defaultProps = {

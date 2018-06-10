@@ -30,6 +30,15 @@ const fixtures = {
       },
     },
   },
+  'should handle BREADCRUMB_BAR_RESOURCES_REQUEST with search query': {
+    action: {
+      type: BREADCRUMB_BAR_RESOURCES_REQUEST,
+      payload: {
+        resourceUrl: resource.resourceUrl,
+        options: { searchQuery: 'some search' },
+      },
+    },
+  },
   'should handle BREADCRUMB_BAR_RESOURCES_SUCCESS': {
     action: {
       type: BREADCRUMB_BAR_RESOURCES_SUCCESS,

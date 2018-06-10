@@ -12,4 +12,15 @@ class BreadcrumbsSwitcherTest < IntegrationTestWithJavascript
       assert_equal current_bookmark_name, 'three'
     end
   end
+
+  test "search query" do
+    visit bookmarks_path
+    click_link 'foo'
+    click_button 'switcher'
+    fill_in('breadcrumbs-search', :with => 'three')
+    wait_for_ajax
+    all_items = page.all('.no-border.list-group-item')
+    assert all_items.count == 1
+    assert_equal all_items[0].text, 'three'
+  end
 end
