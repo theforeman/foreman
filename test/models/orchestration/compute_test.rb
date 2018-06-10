@@ -210,7 +210,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
     test 'should queue compute orchestration' do
       host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
-      host.stubs(:vm_exists?).returns(true)
+      host.stubs(:vm_exists?).returns(false)
       assert_valid host
       tasks = host.queue.all.map(&:name)
       assert_includes tasks, "Set up compute instance #{host.provision_interface}"
@@ -258,7 +258,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
     test 'should queue ipam and dns orchestration' do
       host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
-      host.stubs(:vm_exists?).returns(true)
+      host.stubs(:vm_exists?).returns(false)
       assert_valid host
       tasks = host.queue.all.map(&:name)
       assert_includes tasks, "Set up compute instance #{host.provision_interface}"
