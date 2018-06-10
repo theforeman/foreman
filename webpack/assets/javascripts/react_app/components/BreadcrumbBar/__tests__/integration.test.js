@@ -45,6 +45,17 @@ describe('BreadcrumbBar integration test', () => {
     component.update();
     integrationTestHelper.takeStoreAndLastActionSnapshot('switcher after prev page');
 
+    component.find('input').simulate('change', { target: { value: 'text' } });
+    await IntegrationTestHelper.flushAllPromises();
+    integrationTestHelper.takeStoreAndLastActionSnapshot('switcher after search change');
+    expect(component.find('input').props().value).toBe('text');
+
+    component.find('.fa-close').simulate('click');
+    await IntegrationTestHelper.flushAllPromises();
+    component.update();
+    expect(component.find('input').props().value).toBe('');
+    integrationTestHelper.takeStoreAndLastActionSnapshot('switcher after search clear ');
+
     togglerButton.simulate('click');
     integrationTestHelper.takeStoreAndLastActionSnapshot('switcher closed');
     expect(component.find(Overlay).props().show).not.toBeTruthy();

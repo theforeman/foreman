@@ -6,6 +6,7 @@ import {
   BREADCRUMB_BAR_RESOURCES_REQUEST,
   BREADCRUMB_BAR_RESOURCES_SUCCESS,
   BREADCRUMB_BAR_RESOURCES_FAILURE,
+  BREADCRUMB_BAR_CLEAR_SEARCH,
 } from './BreadcrumbBarConstants';
 
 const initialState = Immutable({
@@ -15,6 +16,7 @@ const initialState = Immutable({
   resourceUrl: null,
   requestError: null,
   currentPage: null,
+  searchQuery: '',
   pages: null,
 });
 
@@ -22,12 +24,16 @@ export default (state = initialState, action) => {
   const { payload } = action;
 
   switch (action.type) {
+    case BREADCRUMB_BAR_CLEAR_SEARCH:
+      return state.set('searchQuery', '');
+
     case BREADCRUMB_BAR_RESOURCES_REQUEST:
       return state
         .set('resourceSwitcherItems', [])
         .set('resourceUrl', payload.resourceUrl)
         .set('requestError', null)
-        .set('isLoadingResources', true);
+        .set('isLoadingResources', true)
+        .set('searchQuery', payload.options.searchQuery);
 
     case BREADCRUMB_BAR_RESOURCES_SUCCESS:
       return state

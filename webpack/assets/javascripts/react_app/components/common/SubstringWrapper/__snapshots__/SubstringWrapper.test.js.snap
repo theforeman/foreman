@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubstringWrapper rendering should render with b tag 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="0-fragement"
+  >
+    this is a 
+    <b
+      key="0"
+    >
+      test
+    </b>
+  </React.Fragment>
+  <React.Fragment
+    key="2-fragement"
+  />
+</React.Fragment>
+`;
+
+exports[`SubstringWrapper rendering should work if regex failed 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="0-fragement"
+  >
+    this is a test
+  </React.Fragment>
+</React.Fragment>
+`;
+
+exports[`SubstringWrapper rendering should wrap twice 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="0-fragement"
+  >
+    <b
+      key="0"
+    >
+      test
+    </b>
+  </React.Fragment>
+  <React.Fragment
+    key="2-fragement"
+  >
+     - this is a 
+    <b
+      key="2"
+    >
+      test
+    </b>
+  </React.Fragment>
+  <React.Fragment
+    key="4-fragement"
+  />
+</React.Fragment>
+`;
+
+exports[`SubstringWrapper rendering should wrap with another element 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="0-fragement"
+  >
+    this is a 
+    <i
+      key="0"
+    >
+      test
+    </i>
+  </React.Fragment>
+  <React.Fragment
+    key="2-fragement"
+  />
+</React.Fragment>
+`;
+
+exports[`SubstringWrapper rendering substring is not found 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="0-fragement"
+  >
+    this is a SubstringWrapper component
+  </React.Fragment>
+</React.Fragment>
+`;
