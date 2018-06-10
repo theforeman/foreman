@@ -39,7 +39,7 @@ module Orchestration::Compute
   def queue_compute
     return log_orchestration_errors unless compute? && errors.empty?
     # Create a new VM if it doesn't already exist or update an existing vm
-    vm_exists? ? queue_compute_create : queue_compute_update
+    vm_exists? ? queue_compute_update : queue_compute_create
   end
 
   def queue_compute_create
