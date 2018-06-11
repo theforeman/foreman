@@ -31,8 +31,10 @@ class Queries::ModelsQueryTest < ActiveSupport::TestCase
 
     result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
 
+    expected_id = Foreman::GlobalId.encode('Model', model.id)
+
     expected_model_attributes = {
-      'id' => model.id,
+      'id' => expected_id,
       'name' => model.name,
       'info' => model.info,
       'vendorClass' => model.vendor_class,
