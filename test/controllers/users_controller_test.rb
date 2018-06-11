@@ -321,13 +321,6 @@ class UsersControllerTest < ActionController::TestCase
     post :login, params: { :login => {'login' => users(:admin).login, 'password' => 'secret'} }
   end
 
-  test "#login doesn't escalate privileges in the old session" do
-    old_session = session
-    post :login, params: { :login => {'login' => users(:admin).login, 'password' => 'secret'} }
-    refute old_session.keys.include?(:user), "old session contains user"
-    assert session[:user], "new session doesn't contain user"
-  end
-
   test "#login refuses logins when User.try_to_login fails" do
     u = FactoryBot.create(:user)
     User.expects(:try_to_login).with(u.login, 'password').returns(nil)
