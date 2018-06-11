@@ -119,13 +119,6 @@ class TestableResourcesControllerTest < ActionController::TestCase
         get :index
       end
 
-      it "doesn't escalate privileges in the old session" do
-        old_session = session
-        get :index
-        refute old_session.keys.include?(:user), "old session contains user"
-        assert session[:user], "new session doesn't contain user"
-      end
-
       it "retains taxonomy session attributes in new session" do
         get :index, session: {:location_id => taxonomies(:location1).id,
                               :organization_id => taxonomies(:organization1).id,
