@@ -1,6 +1,6 @@
 class Host::Managed < Host::Base
   # audit the changes to this model
-  audited :except => [:last_report, :last_compile, :lookup_value_matcher]
+  audited :except => [:last_report, :last_compile, :lookup_value_matcher, :global_status]
   has_associated_audits
   # redefine audits relation because of the type change (by default the relation will look for auditable_type = 'Host::Managed')
   has_many :audits, -> { where(:auditable_type => 'Host::Base') }, :foreign_key => :auditable_id,
