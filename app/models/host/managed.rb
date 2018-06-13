@@ -507,7 +507,11 @@ class Host::Managed < Host::Base
   end
 
   def self.valid_rebuild_only_values
-    Nic::Managed.rebuild_methods.values + Host::Managed.rebuild_methods.values
+    if Host::Managed.respond_to?(:rebuild_methods)
+      Nic::Managed.rebuild_methods.values + Host::Managed.rebuild_methods.values
+    else
+      Nic::Managed.rebuild_methods.values
+    end
   end
 
   def can_be_built?
