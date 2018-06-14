@@ -5,7 +5,7 @@ class HostMailer < ApplicationMailer
 
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
   def summary(options = {})
-    raise ::Foreman::Exception.new(N_("Must specify a valid user with email enabled")) unless (user=User.find(options[:user]))
+    raise ::Foreman::Exception.new(N_("Must specify a valid user with email enabled")) unless (user = User.find(options[:user]))
     hosts = Host::Managed.authorized_as(user, :view_hosts, Host)
     time = options[:time] || 1.day.ago
     host_data = ConfigReport.summarise(time, hosts.all).sort
@@ -59,7 +59,7 @@ class HostMailer < ApplicationMailer
   private
 
   def load_metrics(host_data)
-    total_metrics = {"failed"=>0, "restarted"=>0, "skipped"=>0, "applied"=>0, "failed_restarts"=>0}
+    total_metrics = {"failed" => 0, "restarted" => 0, "skipped" => 0, "applied" => 0, "failed_restarts" => 0}
 
     host_data.flatten.delete_if { |x| true unless x.is_a?(Hash) }.each do |data_hash|
       total_metrics["failed"]          += data_hash[:metrics]["failed"]

@@ -22,7 +22,7 @@ class ComputeAttributesControllerTest < ActionController::TestCase
     assert_difference('ComputeAttribute.count') do
       # create 3-Large that doesn't exist in fixtures
       post :create, params: { :compute_profile_id => @compute_profile.to_param,
-                              :compute_attribute => { :compute_resource_id => @compute_resource.to_param, :compute_profile_id => compute_profiles(:three), :vm_attrs => {"flavor_id"=>"t2.medium"} } }, session: set_session_user
+                              :compute_attribute => { :compute_resource_id => @compute_resource.to_param, :compute_profile_id => compute_profiles(:three), :vm_attrs => {"flavor_id" => "t2.medium"} } }, session: set_session_user
     end
     assert_redirected_to compute_profile_path(assigns(:set).compute_profile)
     assert_equal "t2.medium", assigns(:set).vm_attrs['flavor_id']
@@ -36,7 +36,7 @@ class ComputeAttributesControllerTest < ActionController::TestCase
   test "should update compute_attribute" do
     put :update, params: { :id => @set,
                            :compute_profile_id => @compute_profile.to_param,
-                           :compute_attribute => { :compute_resource_id => @set.compute_resource_id, :compute_profile_id => @set.compute_profile_id, :vm_attrs => {"flavor_id"=>"t2.medium"} } }, session: set_session_user
+                           :compute_attribute => { :compute_resource_id => @set.compute_resource_id, :compute_profile_id => @set.compute_profile_id, :vm_attrs => {"flavor_id" => "t2.medium"} } }, session: set_session_user
     assert_redirected_to compute_profile_path(@set.compute_profile)
     assert_equal "t2.medium", compute_attributes(:one).reload.vm_attrs['flavor_id']
   end
@@ -55,7 +55,7 @@ class ComputeAttributesControllerTest < ActionController::TestCase
       }
     }, session: set_session_user
     saved_attrs = compute_attributes(:one).reload.vm_attrs
-    assert_equal [{"type"=>"VirtualLsiLogicController", "key"=>1000}], saved_attrs['scsi_controllers']
+    assert_equal [{"type" => "VirtualLsiLogicController", "key" => 1000}], saved_attrs['scsi_controllers']
     volumes_attrs = {
       '0' => {
         'thin' => true,

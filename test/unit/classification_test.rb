@@ -572,7 +572,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
-                          :match =>"organization=#{taxonomies(:organization1)}",
+                          :match => "organization=#{taxonomies(:organization1)}",
                           :value => "org",
                           :omit => false
     end
@@ -613,7 +613,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
-                          :match =>"location=#{taxonomies(:location1)}",
+                          :match => "location=#{taxonomies(:location1)}",
                           :value => "loc",
                           :omit => true
     end
@@ -677,7 +677,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
-                          :match =>"location=#{taxonomies(:location1)}",
+                          :match => "location=#{taxonomies(:location1)}",
                           :value => "loc",
                           :omit => false
     end

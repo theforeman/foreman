@@ -4,7 +4,7 @@ class CsvExporterTest < ActiveSupport::TestCase
   test 'return correct amount of lines' do
     result = CsvExporter.export(Host::Managed, [:id])
     assert_equal "Id\n", result.next
-    assert_equal result.count, Host::Managed.count+1
+    assert_equal result.count, Host::Managed.count + 1
     assert_difference('CsvExporter.export(Host::Managed, [:id]).count') do
       FactoryBot.create(:host)
     end

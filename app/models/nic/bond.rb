@@ -4,7 +4,7 @@ module Nic
 
     attr_exportable :mode, :bond_options
 
-    MODES     = %w(balance-rr active-backup balance-xor broadcast 802.3ad balance-tlb balance-alb)
+    MODES = %w(balance-rr active-backup balance-xor broadcast 802.3ad balance-tlb balance-alb)
     validates :mode, :presence => true, :inclusion => { :in => MODES }
 
     def add_slave(identifier)

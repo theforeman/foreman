@@ -54,7 +54,7 @@ module Hostext
     end
 
     def jumpstart?
-      operatingsystem.family == "Solaris" && architecture.name =~/Sparc/i rescue false
+      operatingsystem.family == "Solaris" && architecture.name =~ /Sparc/i rescue false
     end
   end
 end

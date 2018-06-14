@@ -77,10 +77,10 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_menu
-    url_hash = {:controller=>'hosts', :action=>'index'}
+    url_hash = {:controller => 'hosts', :action => 'index'}
     assert_difference 'Menu::Manager.items(:project_menu).size' do
       @klass.register :foo do
-        menu :project_menu, :foo_menu_item, :url_hash=>url_hash, :caption => 'Foo'
+        menu :project_menu, :foo_menu_item, :url_hash => url_hash, :caption => 'Foo'
       end
     end
     menu_item = Menu::Manager.items(:project_menu).detect {|i| i.name == :foo_menu_item}

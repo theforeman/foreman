@@ -42,7 +42,7 @@ class SubnetsController < ApplicationController
 
   # query our subnet dhcp proxy for an unused IP
   def freeip
-    unless (s=params[:subnet_id].to_i) > 0
+    unless (s = params[:subnet_id].to_i) > 0
       invalid_request
       return
     end

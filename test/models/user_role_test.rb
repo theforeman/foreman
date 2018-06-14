@@ -75,7 +75,7 @@ class UserRoleTest < ActiveSupport::TestCase
     @admin_user      = FactoryBot.create(:user, :login => 'ur_admin1')
     @superadmin_user = FactoryBot.create(:user, :login => 'ur_superadmin1')
 
-    @semiadmins.users  += @semiadmin_users
+    @semiadmins.users += @semiadmin_users
     @admins.users      = [@admin_user]
     @superadmins.users = [@superadmin_user]
 

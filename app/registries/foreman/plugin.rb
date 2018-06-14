@@ -170,7 +170,7 @@ module Foreman #:nodoc:
     def requires_foreman(matcher)
       current = SETTINGS[:version].notag
       unless Gem::Dependency.new('', matcher).match?('', current)
-        raise PluginRequirementError.new(N_("%{id} plugin requires Foreman %{matcher} but current is %{current}" % {:id=>id, :matcher => matcher, :current=>current}))
+        raise PluginRequirementError.new(N_("%{id} plugin requires Foreman %{matcher} but current is %{current}" % {:id => id, :matcher => matcher, :current => current}))
       end
       true
     end
@@ -180,9 +180,9 @@ module Foreman #:nodoc:
     # matcher format is gem dependency format
     def requires_foreman_plugin(plugin_name, matcher)
       plugin = Plugin.find(plugin_name)
-      raise PluginNotFound.new(N_("%{id} plugin requires the %{plugin_name} plugin, not found") % {:id =>id, :plugin_name=>plugin_name}) unless plugin
+      raise PluginNotFound.new(N_("%{id} plugin requires the %{plugin_name} plugin, not found") % {:id => id, :plugin_name => plugin_name}) unless plugin
       unless Gem::Dependency.new('', matcher).match?('', plugin.version)
-        raise PluginRequirementError.new(N_("%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}" % {:id=>id, :plugin_name=>plugin_name, :matcher=> matcher, :plugin_version=>plugin.version}))
+        raise PluginRequirementError.new(N_("%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}" % {:id => id, :plugin_name => plugin_name, :matcher => matcher, :plugin_version => plugin.version}))
       end
       true
     end

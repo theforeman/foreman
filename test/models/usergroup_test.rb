@@ -92,7 +92,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
   def populate_usergroups
     (1..6).each do |number|
-      instance_variable_set("@ug#{number}", FactoryBot.create(:usergroup, :name=> "ug#{number}"))
+      instance_variable_set("@ug#{number}", FactoryBot.create(:usergroup, :name => "ug#{number}"))
       instance_variable_set("@u#{number}", FactoryBot.create(:user, :mail => "u#{number}@someware.com",
                                                               :login => "u#{number}"))
     end

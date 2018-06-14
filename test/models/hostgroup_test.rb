@@ -59,8 +59,8 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "2", second.parameters["secondA"]
 
     third = Hostgroup.new(:name => "ThirdA", :parent_id => second.id,
-                          :group_parameters_attributes => { pid += 1 => {"name"=>"topB", "value"=>"3"},
-                                                            pid +  1 => {"name"=>"topA", "value"=>"3"}})
+                          :group_parameters_attributes => { pid += 1 => {"name" => "topB", "value" => "3"},
+                                                            pid +  1 => {"name" => "topA", "value" => "3"}})
     assert third.save
 
     assert third.parameters.include? "topA"

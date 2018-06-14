@@ -19,7 +19,7 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   end
 
   test 'importer imports structured facts' do
-    import({"system_uptime"=>{"seconds"=>14911897, "hours"=>4142, "days"=>172, "uptime"=>"172 days"}})
+    import({"system_uptime" => {"seconds" => 14911897, "hours" => 4142, "days" => 172, "uptime" => "172 days"}})
     assert_nil value('system_uptime')
     assert_equal '172 days', value('system_uptime::uptime')
   end

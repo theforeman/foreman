@@ -42,17 +42,17 @@ class MenuItemTest < ActiveSupport::TestCase
   end
 
   def test_new_menu_item_with_all_required_parameters
-    assert Menu::Item.new(:test_good_menu, :url_hash => {:controller=>'test', :action=>'index'}, :after => :me)
+    assert Menu::Item.new(:test_good_menu, :url_hash => {:controller => 'test', :action => 'index'}, :after => :me)
   end
 
   def test_menu_item_should_use_url_parameter_when_available
-    item = Menu::Item.new(:test_good_menu, :url => '/overriden/url', :url_hash => {:controller=>'test', :action=>'index'}, :after => :me)
+    item = Menu::Item.new(:test_good_menu, :url => '/overriden/url', :url_hash => {:controller => 'test', :action => 'index'}, :after => :me)
     assert_equal '/overriden/url', item.url
   end
 
   def test_menu_item_uses_url_hash_by_default
-    item = Menu::Item.new(:test_good_menu, :url_hash => {:controller=>'test', :action=>'index'}, :after => :me)
-    ActionDispatch::Routing::RouteSet.any_instance.expects(:url_for).with(:controller=>'test', :action=>'index', :only_path => true).returns('/url')
+    item = Menu::Item.new(:test_good_menu, :url_hash => {:controller => 'test', :action => 'index'}, :after => :me)
+    ActionDispatch::Routing::RouteSet.any_instance.expects(:url_for).with(:controller => 'test', :action => 'index', :only_path => true).returns('/url')
     assert_equal '/url', item.url
   end
 
@@ -95,7 +95,7 @@ class MenuItemTest < ActiveSupport::TestCase
   end
 
   def test_menu_item_exposes_turbolinks_option
-    item = Menu::Item.new(:test_good_menu, :url_hash => {:controller=>'test', :action=>'index'}, :after => :me, :turbolinks => false)
+    item = Menu::Item.new(:test_good_menu, :url_hash => {:controller => 'test', :action => 'index'}, :after => :me, :turbolinks => false)
     assert_equal item.turbolinks, false
   end
 end

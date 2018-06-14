@@ -7,7 +7,7 @@ def valid_sc_variable_data
     { sc_type: 'boolean', value: RFauxFactory.gen_boolean },
     { sc_type: 'integer', value: rand(1..10000) },
     # random float in range -1000..1000
-    { sc_type: 'real', value: (rand*2000)-1000 },
+    { sc_type: 'real', value: (rand * 2000) - 1000 },
     { sc_type: 'array',
       value: "[\"#{RFauxFactory.gen_utf8}\",\"#{RFauxFactory.gen_numeric_string}\",\"#{RFauxFactory.gen_html}\"]" },
     { sc_type: 'hash',

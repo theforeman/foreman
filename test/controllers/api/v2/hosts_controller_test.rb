@@ -526,7 +526,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def test_create_valid_node_from_json_facts_object_without_certname
-    User.current=nil
+    User.current = nil
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, params: { :name => hostname, :facts => facts }, session: set_session_user
@@ -534,7 +534,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def test_create_valid_node_from_json_facts_object_with_certname
-    User.current=nil
+    User.current = nil
     hostname = fact_json['name']
     certname = fact_json['certname']
     facts    = fact_json['facts']
@@ -543,7 +543,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def test_create_invalid
-    User.current=nil
+    User.current = nil
     hostname = fact_json['name']
     facts    = fact_json['facts'].except('operatingsystem')
     post :facts, params: { :name => hostname, :facts => facts }, session: set_session_user
@@ -685,7 +685,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "when a bad :type is requested, :unprocessable_entity is returned" do
-    User.current=nil
+    User.current = nil
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, params: { :name => hostname, :facts => facts, :type => "Host::Invalid" }, session: set_session_user
@@ -699,7 +699,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     errors = ActiveModel::Errors.new(Host::Managed.new)
     errors.add :foo, 'A stub failure'
     Host::Managed.any_instance.stubs(:errors).returns(errors)
-    User.current=nil
+    User.current = nil
     hostname = fact_json['name']
     facts    = fact_json['facts']
     post :facts, params: { :name => hostname, :facts => facts }, session: set_session_user

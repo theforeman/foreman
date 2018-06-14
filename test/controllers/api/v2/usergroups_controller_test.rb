@@ -96,7 +96,7 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
   end
 
   test "should update usergroup with usergroup" do
-    usergroup  = FactoryBot.create(:usergroup)
+    usergroup = FactoryBot.create(:usergroup)
     put :update, params: { :id => @usergroup.to_param, :usergroup => valid_attrs.clone.update(:usergroup_ids => [usergroup.id]) }
     assert_response :success
     assert_equal JSON.parse(@response.body)["usergroups"][0]["name"], usergroup.name, "Can't update usergroup with user #{usergroup}"

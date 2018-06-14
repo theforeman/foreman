@@ -67,7 +67,7 @@ class ActiveRecord::Base
       @base  = base.map { |record| [record.send(@source), record.send(@target)] }
       @nodes = @base.flatten.uniq
       @graph = Hash.new { |h, k| h[k] = [] }
-      @base.each { |s, t| @graph[s]<< t }
+      @base.each { |s, t| @graph[s] << t }
     end
 
     def tsort_each_node(&block)
@@ -88,7 +88,7 @@ class ActiveRecord::Base
 
     def add_new_edges
       edges = @graph[@record.send(@source) || 0]
-      edges<< @record.send(@target) unless edges.include?(@record.send(@target))
+      edges << @record.send(@target) unless edges.include?(@record.send(@target))
     end
 
     def detect_cycle

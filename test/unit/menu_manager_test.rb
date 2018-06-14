@@ -45,13 +45,13 @@ class MenuManagerTest < ActiveSupport::TestCase
       :name => "User",
       :icon => "fa-icon",
       :children =>
-        [{:type => :item, :name=>"Item", :url=>"some url"},
-         {:type => :divider, :name=>nil},
-         {:type => :item, :name=>"Item 2", :url=>"some url"}]},
+        [{:type => :item, :name => "Item", :url => "some url"},
+         {:type => :divider, :name => nil},
+         {:type => :item, :name => "Item 2", :url => "some url"}]},
      {:type => :sub_menu,
       :name => "User",
       :icon => "fa-icon",
-      :children => [{:type=>:item, :name=>"Item 3", :url=>"some url"}]}]
+      :children => [{:type => :item, :name => "Item 3", :url => "some url"}]}]
   end
 
   def create_nested_menu

@@ -249,7 +249,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   def setup_ldap_stubs(givenname = 'test')
     # stub out all the LDAP connectivity
     entry = Net::LDAP::Entry.new
-    {:givenname=>[givenname], :dn=>["uid=test123,cn=users,cn=accounts,dc=example,dc=com"], :mail=>["test123@example.com"], :sn=>["test"]}.each do |k, v|
+    {:givenname => [givenname], :dn => ["uid=test123,cn=users,cn=accounts,dc=example,dc=com"], :mail => ["test123@example.com"], :sn => ["test"]}.each do |k, v|
       entry[k] = v.map { |e| e.encode('UTF-8').force_encoding('ASCII-8BIT') }
     end
     LdapFluff.any_instance.stubs(:valid_user?).returns(true)

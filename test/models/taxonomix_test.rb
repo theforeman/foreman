@@ -318,7 +318,7 @@ class TaxonomixTest < ActiveSupport::TestCase
   test "#used_organization_ids should not return organization for user with same id as of user_group which is assigned to host as owner." do
     org = FactoryBot.create(:organization)
     user = FactoryBot.create(:user, :id => 25, :organizations => [org])
-    ugroup = FactoryBot.create(:usergroup, :id=> 25)
+    ugroup = FactoryBot.create(:usergroup, :id => 25)
     FactoryBot.create(:host, :owner => ugroup, :organization => org)
     as_admin do
       used_organizations = user.used_organization_ids

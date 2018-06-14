@@ -16,7 +16,7 @@ class TokenTest < ActiveSupport::TestCase
     h = FactoryBot.create(:host)
     h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minute)
     assert_instance_of Token, h.token
-    h.token=nil
+    h.token = nil
     assert Token.where(:value => "aaaaaa", :host_id => h.id).empty?
   end
 
@@ -26,7 +26,7 @@ class TokenTest < ActiveSupport::TestCase
     h1.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minute)
     h2.create_token(:value => "bbbbbb", :expires => Time.now.utc + 1.minute)
     assert_equal Token.all.size, 2
-    h1.token=nil
+    h1.token = nil
     assert_equal Token.all.size, 1
   end
 

@@ -113,7 +113,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "create user with roles" do
     (1..test_roles.length).each do |index|
-      chosen_roles = test_roles[0..index-1]
+      chosen_roles = test_roles[0..index - 1]
       user = FactoryBot.create :user, :roles => chosen_roles
       assert_equal chosen_roles.length + 1, user.roles.length
       assert_equal chosen_roles.push(Role.find_by_name('Default role')).sort, user.roles.sort
@@ -124,7 +124,7 @@ class UserTest < ActiveSupport::TestCase
     user = FactoryBot.create :user
     assert_equal 1, user.roles.length
     (1..test_roles.length).each do |index|
-      chosen_roles = test_roles[0..index-1]
+      chosen_roles = test_roles[0..index - 1]
       user.roles = chosen_roles
       assert_equal chosen_roles.length, user.roles.length
       assert_equal chosen_roles, user.roles
@@ -165,7 +165,7 @@ class UserTest < ActiveSupport::TestCase
   test 'login should also be unique across usergroups' do
     Usergroup.expects(:where).with(:name => 'foo').returns(['fakeuser'])
     u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:one),
-                                 :login => "foo", :mail  => "foo@bar.com")
+                                 :login => "foo", :mail => "foo@bar.com")
     refute u.valid?
   end
 
@@ -255,7 +255,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       test "ldap user attribute should not be saved in DB on create when invalid format (mail)" do
-        attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        attrs = {:firstname => "foo", :mail => "foo#bar", :login => "ldap-user", :auth_source_id => auth_sources(:one).id}
         AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
         user = User.try_to_auto_create_user('foo', 'password')
         assert_equal 'foo#bar', user.mail
@@ -264,7 +264,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       test "ldap user attribute should not be saved in DB on create when invalid format (firstname)" do
-        attrs = {:firstname=>"$%$%%%", :mail=>"foo@bar.com", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        attrs = {:firstname => "$%$%%%", :mail => "foo@bar.com", :login => "ldap-user", :auth_source_id => auth_sources(:one).id}
         AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
         user = User.try_to_auto_create_user('foo', 'password')
         assert_equal '$%$%%%', user.firstname
@@ -273,7 +273,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       test "ldap user attribute should not be saved in DB on login when invalid format (mail)" do
-        attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        attrs = {:firstname => "foo", :mail => "foo#bar", :login => "ldap-user", :auth_source_id => auth_sources(:one).id}
         AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
         user = User.try_to_login('foo', 'password')
         assert_equal 'foo#bar', user.mail
@@ -282,7 +282,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       test "ldap user attribute should not be saved in DB on login when invalid format (firstname)" do
-        attrs = {:firstname=>"$%$%%%", :mail=>"foo@bar.com", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+        attrs = {:firstname => "$%$%%%", :mail => "foo@bar.com", :login => "ldap-user", :auth_source_id => auth_sources(:one).id}
         AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
         user = User.try_to_login('foo', 'password')
         assert_equal '$%$%%%', user.firstname
@@ -550,7 +550,7 @@ class UserTest < ActiveSupport::TestCase
     user   = users(:one)
     foobar = Role.where(:name => "foobar").first_or_create
     barfoo = Role.where(:name => "barfoo").first_or_create
-    user.roles<< foobar
+    user.roles << foobar
 
     assert user.can_assign?([foobar.id])
     refute user.can_assign?([foobar.id, barfoo.id])
@@ -562,7 +562,7 @@ class UserTest < ActiveSupport::TestCase
     user   = users(:one)
     foobar = Role.where(:name => "foobar").first_or_create
     barfoo = Role.where(:name => "barfoo").first_or_create
-    user.roles<< foobar
+    user.roles << foobar
 
     user.role_ids = [foobar.id]
     refute user.role_ids_changed?
@@ -583,7 +583,7 @@ class UserTest < ActiveSupport::TestCase
     user   = users(:one)
     foobar = Role.where(:name => "foobar").first_or_create
     Role.where(:name => "barfoo").first_or_create
-    user.roles<< foobar
+    user.roles << foobar
 
     user.role_ids = []
     assert_empty user.roles
@@ -593,7 +593,7 @@ class UserTest < ActiveSupport::TestCase
     user   = users(:one)
     foobar = Role.where(:name => "foobar").first_or_create
     Role.where(:name => "barfoo").first_or_create
-    user.roles<< foobar
+    user.roles << foobar
 
     user.role_ids = nil
     assert_empty user.roles

@@ -11,7 +11,7 @@ class HashForTest < ActionView::TestCase
   end
 
   test "hash_for_* causes link_to to generate links to root from within nested controller" do
-    opts = url_options.merge(:_recall => {:controller=>"foreman_example/examples", :action=>"index"})
+    opts = url_options.merge(:_recall => {:controller => "foreman_example/examples", :action => "index"})
     expects(:url_options).returns(opts)
     assert_includes link_to('test', hash_for_hosts_path), 'href="/hosts"'
   end

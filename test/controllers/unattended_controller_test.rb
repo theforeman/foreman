@@ -50,7 +50,7 @@ class UnattendedControllerTest < ActionController::TestCase
     end
 
     test "should set @static when requested" do
-      Setting[:safemode_render]=false
+      Setting[:safemode_render] = false
       @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
       get(:host_template, params: { 'kind' => 'provision', 'static' => 'true' })
       assert_match(%r{static:true}, @response.body)
@@ -361,10 +361,10 @@ class UnattendedControllerTest < ActionController::TestCase
         Setting[:token_duration] = 30
         Setting[:update_ip_from_built_request] = false
         @request.env["REMOTE_ADDR"] = '127.0.0.1'
-        h=@ub_host
+        h = @ub_host
         h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 5.minutes)
         get :built, params: { 'token' => h.token.value }
-        h_new=Host.find_by_name(h.name)
+        h_new = Host.find_by_name(h.name)
 
         assert_response :success
         assert_equal h.ip, h_new.ip
@@ -373,13 +373,13 @@ class UnattendedControllerTest < ActionController::TestCase
       test "hosts with mismatched ip and update_ip true should have the new ip" do
         Setting[:token_duration] = 30
         Setting[:update_ip_from_built_request] = true
-        h=@ub_host
+        h = @ub_host
         new_ip = h.subnet.network.gsub(/\.0$/, '.100') # Must be in the subnet, which isn't fixed
         @request.env["REMOTE_ADDR"] = new_ip
         refute_equal new_ip, h.ip
         h.create_token(:value => "aaaaab", :expires => Time.now.utc + 5.minutes)
         get :built, params: { 'token' => h.token.value }
-        h_new=Host.find_by_name(h.reload.name)
+        h_new = Host.find_by_name(h.reload.name)
         assert_response :success
         assert_equal new_ip, h_new.ip
       end
@@ -388,11 +388,11 @@ class UnattendedControllerTest < ActionController::TestCase
         Setting[:token_duration] = 30
         Setting[:update_ip_from_built_request] = true
         @request.env["REMOTE_ADDR"] = FactoryBot.create(:host).ip
-        h=@ub_host
+        h = @ub_host
         h.create_token(:value => "aaaaac", :expires => Time.now.utc + 5.minutes)
         get :built, params: { 'token' => h.token.value }
         assert_response :success
-        h_new=Host.find_by_name(h.reload.name)
+        h_new = Host.find_by_name(h.reload.name)
         assert_equal h.ip, h_new.ip
       end
 

@@ -21,7 +21,7 @@ module Hostext
 
       scoped_search :relation => :last_report_object, :on => :origin
 
-      scoped_search :relation => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM*4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}, :only_explicit => true
+      scoped_search :relation => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM * 4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}, :only_explicit => true
       scoped_search_status "applied",         :relation => :configuration_status_object, :on => :status, :rename => :'status.applied'
       scoped_search_status "restarted",       :relation => :configuration_status_object, :on => :status, :rename => :'status.restarted'
       scoped_search_status "failed",          :relation => :configuration_status_object, :on => :status, :rename => :'status.failed'
@@ -64,8 +64,8 @@ module Hostext
       scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
       scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
-      scoped_search :relation => :fact_values, :on => :value, :in_key=> :fact_names, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
-      scoped_search :relation => :search_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
+      scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
+      scoped_search :relation => :search_parameters, :on => :value, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true
 
       if SETTINGS[:locations_enabled]
         scoped_search :relation => :location, :on => :title, :rename => :location, :complete_value => true, :only_explicit => true

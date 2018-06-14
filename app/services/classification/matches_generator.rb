@@ -18,7 +18,7 @@ module Classification
         matches << match.join(LookupKey::KEY_DELM)
 
         hostgroup_matches.each do |hostgroup_match|
-          match[match.index { |m| m =~ /hostgroup\s*=/ }]=hostgroup_match
+          match[match.index { |m| m =~ /hostgroup\s*=/ }] = hostgroup_match
           matches << match.join(LookupKey::KEY_DELM)
         end if add_hostgroup_matches?(rule)
       end
@@ -68,7 +68,7 @@ module Classification
       if host.hostgroup
         path = host.hostgroup.to_label
         while path.include?("/")
-          path = path[0..path.rindex("/")-1]
+          path = path[0..path.rindex("/") - 1]
           matches << "hostgroup#{LookupKey::EQ_DELM}#{path}"
         end
       end

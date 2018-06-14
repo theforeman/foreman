@@ -13,7 +13,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   end
 
   test "base url should equal /bmc" do
-    expected = @url+"/bmc"
+    expected = @url + "/bmc"
     assert_equal(expected, @testbmc.url)
   end
 

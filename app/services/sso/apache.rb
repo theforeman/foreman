@@ -32,7 +32,7 @@ module SSO
       group_count = request.env['REMOTE_USER_GROUP_N'].to_i
       if group_count > 0
         attrs[:groups] = []
-        group_count.times { |i| attrs[:groups]<< request.env["REMOTE_USER_GROUP_#{i+1}"] }
+        group_count.times { |i| attrs[:groups] << request.env["REMOTE_USER_GROUP_#{i + 1}"] }
       end
 
       return false unless User.find_or_create_external_user(attrs, Setting['authorize_login_delegation_auth_source_user_autocreate'])

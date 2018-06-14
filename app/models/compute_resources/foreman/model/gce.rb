@@ -86,7 +86,7 @@ module Foreman::Model
         end
         args[:disks] = []
         args[:volumes].each_with_index do |vol_args, i|
-          args[:disks] << new_volume(vol_args.merge(:name => "#{args[:name]}-disk#{i+1}"))
+          args[:disks] << new_volume(vol_args.merge(:name => "#{args[:name]}-disk#{i + 1}"))
         end
       end
 

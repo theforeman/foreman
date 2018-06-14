@@ -38,7 +38,7 @@ class PuppetclassTest < ActiveSupport::TestCase
       @one.save!
     end
     as_user :one do
-      nested_lookup_key_params = {:new_1372154591368 => {:key=>"test_param", :key_type=>"string", :default_value => "7777", :path =>"fqdn\r\nhostgroup\r\nos\r\ndomain"}}
+      nested_lookup_key_params = {:new_1372154591368 => {:key => "test_param", :key_type => "string", :default_value => "7777", :path => "fqdn\r\nhostgroup\r\nos\r\ndomain"}}
       assert Puppetclass.first.update(:lookup_keys_attributes => nested_lookup_key_params)
     end
   end
@@ -160,20 +160,20 @@ class PuppetclassTest < ActiveSupport::TestCase
     klass = FactoryBot.create(:puppetclass)
     hostgroup = FactoryBot.create(:hostgroup)
     lk = FactoryBot.create(:variable_lookup_key, puppetclass_id: klass.id)
-    attributes = {"hostgroup_ids"=>[hostgroup.id],
-      "lookup_keys_attributes"=>
-      {"0"=>
-        { "_destroy"=>"false",
-          "key"=>"hahs",
-          "description"=>"",
-          "key_type"=>"hash",
-          "default_value"=>"{\"foo\" => \"bar\"}",
-          "hidden_value"=>"0",
-          "validator_type"=>"",
-          "path"=>"owner\r\nfqdn\r\nhostgroup\r\nos\r\ndomain",
-          "merge_overrides"=>"0",
-          "lookup_values_attributes"=>{"0"=>{"match"=>"owner=sdgsd", "value"=>"{\"foo\" => \"bar\"}", "_destroy"=>"false"}},
-          "id"=>lk.id
+    attributes = {"hostgroup_ids" => [hostgroup.id],
+      "lookup_keys_attributes" =>
+      {"0" =>
+        { "_destroy" => "false",
+          "key" => "hahs",
+          "description" => "",
+          "key_type" => "hash",
+          "default_value" => "{\"foo\" => \"bar\"}",
+          "hidden_value" => "0",
+          "validator_type" => "",
+          "path" => "owner\r\nfqdn\r\nhostgroup\r\nos\r\ndomain",
+          "merge_overrides" => "0",
+          "lookup_values_attributes" => {"0" => {"match" => "owner=sdgsd", "value" => "{\"foo\" => \"bar\"}", "_destroy" => "false"}},
+          "id" => lk.id
         }
       }
     }

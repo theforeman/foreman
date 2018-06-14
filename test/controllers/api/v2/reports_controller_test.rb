@@ -18,19 +18,19 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
     end
 
     def test_create_valid
-      User.current=nil
+      User.current = nil
       post :create, params: { :report => create_a_puppet_transaction_report }, session: set_session_user
       assert_response :success
     end
 
     def test_create_invalid
-      User.current=nil
+      User.current = nil
       post :create, params: { :report => ["not a hash", "throw an error"] }, session: set_session_user
       assert_response :unprocessable_entity
     end
 
     def test_create_duplicate
-      User.current=nil
+      User.current = nil
       post :create, params: { :report => create_a_puppet_transaction_report }, session: set_session_user
       assert_response :success
       Foreman::Deprecation.expects(:api_deprecation_warning)

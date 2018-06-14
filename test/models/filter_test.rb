@@ -130,7 +130,7 @@ class FilterTest < ActiveSupport::TestCase
     end
 
     test "filter with location set is always limited before validation" do
-      f  = FactoryBot.build_stubbed(:filter, :search => '', :unlimited => '1',
+      f = FactoryBot.build_stubbed(:filter, :search => '', :unlimited => '1',
                          :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
       assert f.valid?
       assert f.limited?
@@ -140,7 +140,7 @@ class FilterTest < ActiveSupport::TestCase
     end
 
     test "removing all organizations and locations from filter nilify taxonomy search" do
-      f  = FactoryBot.create(:filter, :search => '', :unlimited => '1',
+      f = FactoryBot.create(:filter, :search => '', :unlimited => '1',
                           :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
 
       f.update :organization_ids => [], :location_ids => []

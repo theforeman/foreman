@@ -20,7 +20,7 @@ module PuppetclassesAndEnvironmentsHelper
   def import_proxy_links(hash, import_env_text = false, classes = nil)
     import_from_text = import_env_text ? _("Import environments from %s") : _("Import classes from %s")
     SmartProxy.with_features("Puppet").map do |proxy|
-      display_link_if_authorized(import_from_text % proxy.name, hash.merge(:proxy => proxy), {:class=>classes})
+      display_link_if_authorized(import_from_text % proxy.name, hash.merge(:proxy => proxy), {:class => classes})
     end.flatten
   end
 

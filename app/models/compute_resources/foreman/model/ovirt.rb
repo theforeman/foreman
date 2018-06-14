@@ -70,7 +70,7 @@ module Foreman::Model
         rating = 0.0
         if os[:name].include?(os_name)
           rating += 100
-          rating += (1.0/os[:name].length) # prefer the shorter names a bit in case we have not found more important some specifics
+          rating += (1.0 / os[:name].length) # prefer the shorter names a bit in case we have not found more important some specifics
           rating += 10 if os[:name].include?("#{os_name}_#{host.operatingsystem.major}")
           rating += 10 if arch_name && os[:name].include?(arch_name)
         end
@@ -322,7 +322,7 @@ module Foreman::Model
       {
         :search => params['search']['value'] || '',
         :max => max,
-        :page => (params['start'].to_i / max)+1,
+        :page => (params['start'].to_i / max) + 1,
         :without_details => true
       }
     end
@@ -504,7 +504,7 @@ module Foreman::Model
     end
 
     def os_name_mapping(host)
-      (host.operatingsystem.name =~ /redhat|centos/i) ? 'rhel': host.operatingsystem.name.downcase
+      (host.operatingsystem.name =~ /redhat|centos/i) ? 'rhel' : host.operatingsystem.name.downcase
     end
 
     def arch_name_mapping(host)

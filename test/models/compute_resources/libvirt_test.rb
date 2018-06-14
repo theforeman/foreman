@@ -54,7 +54,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
       cr.stubs(:find_vm_by_uuid).returns(vm)
 
       attrs = cr.vm_compute_attributes_for('abc')
-      assert_equal 6*1024, attrs[:memory]
+      assert_equal 6 * 1024, attrs[:memory]
     end
 
     test "returns nil memory when :memory_size is not provided" do

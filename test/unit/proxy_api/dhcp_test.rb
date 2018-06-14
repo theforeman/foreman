@@ -34,14 +34,14 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
       test 'retrieves an array with a single dhcp record' do
         result = proxy_dhcp.record('192.168.0.0', '192.168.0.10')
         assert_kind_of Net::DHCP::Record, result
-        assert_equal({:hostname=>"www.example.com",
-                      :mac=>"00:11:22:33:44:55",
-                      :ip=>"192.168.0.10",
-                      :network=>"192.168.0.0",
-                      :nextServer=>"1.2.3.4",
-                      :filename=>"pxelinux.0",
-                      :name=>"www.example.com",
-                      :related_macs=>[]}, result.attrs)
+        assert_equal({:hostname => "www.example.com",
+                      :mac => "00:11:22:33:44:55",
+                      :ip => "192.168.0.10",
+                      :network => "192.168.0.0",
+                      :nextServer => "1.2.3.4",
+                      :filename => "pxelinux.0",
+                      :name => "www.example.com",
+                      :related_macs => []}, result.attrs)
       end
     end
 
@@ -54,14 +54,14 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
         result = proxy_dhcp.records_by_ip('192.168.0.0', '192.168.0.10')
         assert_kind_of Array, result
         assert_kind_of Net::DHCP::Record, result.first
-        assert_equal({:hostname=>"www.example.com",
-                      :mac=>"00:11:22:33:44:55",
-                      :ip=>"192.168.0.10",
-                      :network=>"192.168.0.0",
-                      :nextServer=>"1.2.3.4",
-                      :filename=>"pxelinux.0",
-                      :name=>"www.example.com",
-                      :related_macs=>[]}, result.first.attrs)
+        assert_equal({:hostname => "www.example.com",
+                      :mac => "00:11:22:33:44:55",
+                      :ip => "192.168.0.10",
+                      :network => "192.168.0.0",
+                      :nextServer => "1.2.3.4",
+                      :filename => "pxelinux.0",
+                      :name => "www.example.com",
+                      :related_macs => []}, result.first.attrs)
       end
     end
   end
@@ -71,8 +71,8 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     subnet_mock.expects(:network).returns('192.168.0.0')
     subnet_mock.expects(:from).returns(nil)
 
-    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip').returns(fake_rest_client_response({:ip=>'192.168.0.50'}))
-    assert_equal({'ip'=>'192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock))
+    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip').returns(fake_rest_client_response({:ip => '192.168.0.50'}))
+    assert_equal({'ip' => '192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock))
   end
 
   test "unused_ip should get an IP using the network, from and to addresses" do
@@ -92,8 +92,8 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
       path.include?('192.168.0.0/unused_ip?') &&
         path.include?('from=192.168.0.50') &&
         path.include?('to=192.168.0.150')
-    end.returns(fake_rest_client_response({:ip=>'192.168.0.50'}))
-    assert_equal({'ip'=>'192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock))
+    end.returns(fake_rest_client_response({:ip => '192.168.0.50'}))
+    assert_equal({'ip' => '192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock))
   end
 
   test "unused_ip should get an IP using the network and MAC address" do
@@ -101,7 +101,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     subnet_mock.expects(:network).returns('192.168.0.0')
     subnet_mock.expects(:from).returns(nil)
 
-    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip?mac=00:11:22:33:44:55').returns(fake_rest_client_response({:ip=>'192.168.0.50'}))
-    assert_equal({'ip'=>'192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock, '00:11:22:33:44:55'))
+    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip?mac=00:11:22:33:44:55').returns(fake_rest_client_response({:ip => '192.168.0.50'}))
+    assert_equal({'ip' => '192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock, '00:11:22:33:44:55'))
   end
 end

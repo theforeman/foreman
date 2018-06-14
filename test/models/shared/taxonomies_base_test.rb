@@ -292,9 +292,9 @@ module TaxonomiesBaseTest
                          :subnet           => subnet)
       FactoryBot.build(:host,
                          :"#{taxonomy_name}" => parent,
-                         :domain           => domain2)
+                         :domain => domain2)
       FactoryBot.build(:os_default_template,
-                         :provisioning_template  => templates(:mystring2),
+                         :provisioning_template => templates(:mystring2),
                          :operatingsystem  => operatingsystems(:centos5_3),
                          :template_kind    => TemplateKind.find_by_name('provision'))
 

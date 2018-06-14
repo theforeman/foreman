@@ -64,7 +64,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     # This is the on-disk status
     # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
-    pcs = [HashWithIndifferentAccess.new("a" => { "name" => "a", "module" => "", "params"=> {}})]
+    pcs = [HashWithIndifferentAccess.new("a" => { "name" => "a", "module" => "", "params" => {}})]
     classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
     Environment.expects(:puppetEnvs).returns(envs).at_least(0)
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])
@@ -156,7 +156,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
     # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
     post :obsolete_and_new, params:
-      { "changed"=>
+      { "changed" =>
        {"obsolete" =>
         {"env1" => '["a","b","c","_destroy_"]'}
        }

@@ -3,16 +3,16 @@ module TrendsHelper
 
   def trendable_types
     options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
-               _('Model') => 'Model', _('Facts') =>'FactName', _('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
+               _('Model') => 'Model', _('Facts') => 'FactName', _('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     existing = ForemanTrend.types.pluck(:trendable_type)
     options.delete_if{ |k, v| existing.include?(v) }
   end
 
   def trend_days_filter
-    form_tag @trend, :id => 'days_filter', :method => :get, :class=>"form form-inline" do
+    form_tag @trend, :id => 'days_filter', :method => :get, :class => "form form-inline" do
       content_tag(:span, (_("Trend of the last %s days.") %
                           select(nil, 'range', 1..Setting[:max_trend], {:selected => range},
-                                 {:onchange =>"$('#days_filter').submit();$(this).attr('disabled','disabled');;"})).html_safe)
+                                 {:onchange => "$('#days_filter').submit();$(this).attr('disabled','disabled');;"})).html_safe)
     end
   end
 
@@ -38,10 +38,10 @@ module TrendsHelper
         interval_start = ((counter.interval_start || from) > from) ? counter.interval_start : from
         next_timestamp = counter.try(:interval_end) || Time.now.utc
         # transform the timestamp values to flot format - from seconds in Ruby to milliseconds in flot
-        data << [interval_start.to_i*1000, counter.count]
-        data << [next_timestamp.to_i*1000 - 1, counter.count]
+        data << [interval_start.to_i * 1000, counter.count]
+        data << [next_timestamp.to_i * 1000 - 1, counter.count]
       end
-      {:label => labels[value.id][0], :href=>labels[value.id][1], :data =>data, :color => chart_colors[idx % chart_colors.size()] } unless data.empty?
+      {:label => labels[value.id][0], :href => labels[value.id][1], :data => data, :color => chart_colors[idx % chart_colors.size()] } unless data.empty?
     end.compact
   end
 

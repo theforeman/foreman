@@ -1,9 +1,9 @@
 class ConfigReport < Report
   METRIC = %w[applied restarted failed failed_restarts skipped pending]
   BIT_NUM = 6
-  MAX = (1 << BIT_NUM) -1 # maximum value per metric
+  MAX = (1 << BIT_NUM) - 1 # maximum value per metric
 
-  scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
+  scoped_search :on => :status, :offset => 0, :word_size => 4 * BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
 
   scoped_search_status 'applied',         :on => :status, :rename => :applied
   scoped_search_status 'restarted',       :on => :status, :rename => :restarted

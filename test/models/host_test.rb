@@ -13,9 +13,9 @@ end
 # List of valid host names values.
 def valid_hosts_list(domain_length: 10)
   [
-    RFauxFactory.gen_alphanumeric(rand(1..255-6-domain_length)).downcase,
-    RFauxFactory.gen_alpha(rand(1..255-6-domain_length)).downcase,
-    RFauxFactory.gen_numeric_string(rand(1..255-6-domain_length))
+    RFauxFactory.gen_alphanumeric(rand(1..255 - 6 - domain_length)).downcase,
+    RFauxFactory.gen_alpha(rand(1..255 - 6 - domain_length)).downcase,
+    RFauxFactory.gen_numeric_string(rand(1..255 - 6 - domain_length))
   ]
 end
 
@@ -286,7 +286,7 @@ class HostTest < ActiveSupport::TestCase
       :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
       :organization => users(:one).organizations.first, :location => users(:one).locations.first,
       :environment => environments(:production), :disk => "empty partition",
-      :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
+      :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
     end
   end
 
@@ -296,7 +296,7 @@ class HostTest < ActiveSupport::TestCase
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
         :environment => environments(:production), :disk => "empty partition",
-        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value"=>"some_value"}}
+        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value" => "some_value"}}
     end
   end
 
@@ -941,45 +941,45 @@ class HostTest < ActiveSupport::TestCase
 
       # dummy external node info
       nodeinfo = {"environment" => "production",
-                  "parameters"=> {"puppetmaster"=>"puppet", "MYVAR"=>"value", "port" => "80",
-                                  "ssl_port" => "443", "foreman_env"=> "production", "owner_name"=>"Admin User",
-                                  "root_pw"=>"xybxa6JUkz63w", "owner_email"=>"admin@someware.com",
-                                  "foreman_subnets"=>
-      [{"network"=>"3.3.4.0",
-        "name"=>"two",
-        "gateway"=>nil,
-        "mask"=>"255.255.255.0",
-        "dns_primary"=>nil,
-        "dns_secondary"=>nil,
-        "from"=>nil,
-        "to"=>nil,
-        "boot_mode"=>"DHCP",
+                  "parameters" => {"puppetmaster" => "puppet", "MYVAR" => "value", "port" => "80",
+                                  "ssl_port" => "443", "foreman_env" => "production", "owner_name" => "Admin User",
+                                  "root_pw" => "xybxa6JUkz63w", "owner_email" => "admin@someware.com",
+                                  "foreman_subnets" =>
+      [{"network" => "3.3.4.0",
+        "name" => "two",
+        "gateway" => nil,
+        "mask" => "255.255.255.0",
+        "dns_primary" => nil,
+        "dns_secondary" => nil,
+        "from" => nil,
+        "to" => nil,
+        "boot_mode" => "DHCP",
         "vlanid" => "41",
-        "ipam"=>"DHCP"}],
-        "foreman_interfaces"=>
-      [{"mac"=>"aa:bb:ac:dd:ee:ff",
-        "ip"=>"3.3.4.12",
-        "type"=>"Interface",
-        "name"=>'myfullhost.mydomain.net',
-        "attrs"=>{},
-        "virtual"=>false,
-        "link"=>true,
-        "identifier"=>nil,
-        "managed"=>true,
-        "primary"=>true,
-        "provision"=>true,
-        "subnet"=> {"network"=>"3.3.4.0",
-                    "mask"=>"255.255.255.0",
-                    "name"=>"two",
-                    "gateway"=>nil,
-                    "dns_primary"=>nil,
-                    "dns_secondary"=>nil,
-                    "from"=>nil,
-                    "to"=>nil,
-                    "boot_mode"=>"DHCP",
+        "ipam" => "DHCP"}],
+        "foreman_interfaces" =>
+      [{"mac" => "aa:bb:ac:dd:ee:ff",
+        "ip" => "3.3.4.12",
+        "type" => "Interface",
+        "name" => 'myfullhost.mydomain.net',
+        "attrs" => {},
+        "virtual" => false,
+        "link" => true,
+        "identifier" => nil,
+        "managed" => true,
+        "primary" => true,
+        "provision" => true,
+        "subnet" => {"network" => "3.3.4.0",
+                    "mask" => "255.255.255.0",
+                    "name" => "two",
+                    "gateway" => nil,
+                    "dns_primary" => nil,
+                    "dns_secondary" => nil,
+                    "from" => nil,
+                    "to" => nil,
+                    "boot_mode" => "DHCP",
                     "vlanid" => "41",
-                    "ipam"=>"DHCP"}}]},
-                    "classes"=>{"apache"=>{"custom_class_param"=>"abcdef"}, "base"=>{"cluster"=>"secret"}} }
+                    "ipam" => "DHCP"}}]},
+                    "classes" => {"apache" => {"custom_class_param" => "abcdef"}, "base" => {"cluster" => "secret"}} }
 
       host.importNode nodeinfo
       nodeinfo["parameters"]["special_info"] = "secret" # smart variable on apache
@@ -1989,7 +1989,7 @@ class HostTest < ActiveSupport::TestCase
         :provider => "IPMI", :username => "root", :password => "secret", :ip => "10.35.19.35",
         :identifier => 'eth2'
       as_user :one do
-        assert h.update!("interfaces_attributes" => {"0" => {"mac"=>"00:52:10:1e:45:16"}})
+        assert h.update!("interfaces_attributes" => {"0" => {"mac" => "00:52:10:1e:45:16"}})
       end
     end
 
@@ -3079,7 +3079,7 @@ class HostTest < ActiveSupport::TestCase
     test "invoking lookup_values_attributes= does not save lookup values in db until #save is invoked" do
       host = FactoryBot.create(:host)
       assert_no_difference('LookupValue.count') do
-        host.lookup_values_attributes = {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}}
+        host.lookup_values_attributes = {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
       end
 
       assert_difference('LookupValue.count') do
@@ -3100,7 +3100,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "same works for destruction of lookup keys" do
-      host = FactoryBot.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value"=>"some_value", "match" => "fqdn=abc.mydomain.net"}})
+      host = FactoryBot.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}})
       lookup_value = host.lookup_values.first
       assert_no_difference('LookupValue.count') do
         host.lookup_values_attributes = {'0' => {'lookup_key_id' => lookup_keys(:complex).id.to_s, 'id' => lookup_value.id.to_s, '_destroy' => '1'}}.with_indifferent_access
@@ -3489,13 +3489,13 @@ class HostTest < ActiveSupport::TestCase
 
     test "should create host without compute profile when compute_attributes contain some data" do
       @host.compute_attributes = {
-        "volumes_attributes"=>{
+        "volumes_attributes" => {
           '0' => {
             'size' => 20
           }
         },
-        "interfaces_attributes"=>{},
-        "nics_attributes"=>{}
+        "interfaces_attributes" => {},
+        "nics_attributes" => {}
       }
 
       @host.compute_resource.expects(:create_vm).once.with do |vm_attrs|

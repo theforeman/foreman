@@ -2,7 +2,7 @@ module Foreman::Controller::BruteforceProtection
   extend ActiveSupport::Concern
 
   def count_login_failure
-    Rails.cache.write("failed_login_#{request.ip}", get_login_failures+1, :expires_in => 5.minutes)
+    Rails.cache.write("failed_login_#{request.ip}", get_login_failures + 1, :expires_in => 5.minutes)
   end
 
   def get_login_failures

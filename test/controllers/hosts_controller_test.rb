@@ -96,7 +96,7 @@ class HostsControllerTest < ActionController::TestCase
           :realm_id => realms(:myrealm).id,
           :disk => "empty partition",
           :puppet_proxy_id => smart_proxies(:puppetmaster).id,
-          :root_pass           => "xybxa6JUkz63w",
+          :root_pass => "xybxa6JUkz63w",
           :location_id => taxonomies(:location1).id,
           :organization_id => taxonomies(:organization1).id
         }
@@ -731,7 +731,7 @@ class HostsControllerTest < ActionController::TestCase
   test "should get disabled hosts for a user with a fact_filter" do
     one = users(:one)
     one.roles << [roles(:manager)]
-    FactName.create :name =>"architecture"
+    FactName.create :name => "architecture"
     get :disabled, session: set_session_user(one)
     assert_response :success
   end
@@ -841,7 +841,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_empty @host.errors
     put :toggle_manage, params: { :id => @host.name }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
-    assert flash[:success] == _("Foreman now manages the build cycle for %s") %@host.name
+    assert flash[:success] == _("Foreman now manages the build cycle for %s") % @host.name
   end
 
   def test_unset_manage
@@ -850,7 +850,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_empty @host.errors
     put :toggle_manage, params: { :id => @host.name }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :edit
-    assert flash[:success] == _("Foreman now no longer manages the build cycle for %s") %@host.name
+    assert flash[:success] == _("Foreman now no longer manages the build cycle for %s") % @host.name
   end
 
   test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to get externalNodes' do
@@ -1285,7 +1285,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test 'returns templates with interfaces' do
-      nic=FactoryBot.build(:nic_managed, :host => @host)
+      nic = FactoryBot.build(:nic_managed, :host => @host)
       @attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
       put :template_used, params: {:provisioning => 'build', :host => @attrs, :id => @host.id }, session: set_session_user, xhr: true
       assert_response :success
@@ -1518,7 +1518,7 @@ class HostsControllerTest < ActionController::TestCase
     host.type = 'Host::Managed'
     host.managed = true
     host.primary_interface.managed = true
-    host.lookup_values.build({"match"=>"fqdn=#{host.fqdn}", "value"=>'4', "lookup_key_id" => lookup_key.id, "host_or_hostgroup" => host})
+    host.lookup_values.build({"match" => "fqdn=#{host.fqdn}", "value" => '4', "lookup_key_id" => lookup_key.id, "host_or_hostgroup" => host})
     assert_valid host.lookup_values.first
   end
 
@@ -1626,7 +1626,7 @@ class HostsControllerTest < ActionController::TestCase
       lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "fqdn=#{host.fqdn}", :value => ["c", "d"])
 
       # sending exactly what the host form would send which is lookup_value.value_before_type_cast
-      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
+      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" => lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
 
       params = {
         host_id: host.id,

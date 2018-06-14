@@ -1,7 +1,7 @@
 module ProxyAPI
   class DHCP < ProxyAPI::Resource
     def initialize(args)
-      @url  = args[:url] + "/dhcp"
+      @url = args[:url] + "/dhcp"
       super args
     end
 

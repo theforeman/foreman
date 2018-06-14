@@ -4,7 +4,7 @@ class PasswordCrypt
   ALGORITHMS = {'SHA256' => '$5$', 'SHA512' => '$6$', 'Base64' => ''}
 
   if Foreman::Fips.md5_available?
-    ALGORITHMS['MD5']= '$1$'
+    ALGORITHMS['MD5'] = '$1$'
   end
 
   def self.passw_crypt(passwd, hash_alg = 'SHA256')

@@ -10,9 +10,9 @@ module DashboardHelper
         _('Manage'), {},
         link_to_function(_('Save positions'), "save_position('#{save_positions_widgets_path}')"),
         link_to(_('Reset to default'), reset_default_widgets_path, :method => :put),
-        content_tag(:li, '', :class=>'divider'),
-        content_tag(:li, _("Add widgets"), :class=>'nav-header'),
-        content_tag(:li, '', :class=>'widget-add') do
+        content_tag(:li, '', :class => 'divider'),
+        content_tag(:li, _("Add widgets"), :class => 'nav-header'),
+        content_tag(:li, '', :class => 'widget-add') do
           widgets_to_add
         end
       ),
@@ -37,7 +37,7 @@ module DashboardHelper
   end
 
   def widget_data(widget)
-    { :data => { :id    => widget.id,    :name  => _(widget.name), :row  => widget.row, :col => widget.col,
+    { :data => { :id    => widget.id,    :name  => _(widget.name), :row => widget.row, :col => widget.col,
                  :sizex => widget.sizex, :sizey =>  widget.sizey } }
   end
 
@@ -48,7 +48,7 @@ module DashboardHelper
     start = Time.zone.now - interval_setting.minutes
     (0..9).each do |i|
       t = start + (interval.minutes * i)
-      data << [interval_setting - i*interval, hosts.run_distribution(t, t + interval.minutes).count]
+      data << [interval_setting - i * interval, hosts.run_distribution(t, t + interval.minutes).count]
     end
     data
   end
@@ -73,9 +73,9 @@ module DashboardHelper
   def searchable_links(name, search, counter)
     search += " and #{@data.filter}" if @data.filter.present?
     content_tag :li do
-      content_tag(:span, raw('&nbsp;'), :class=>'label', :style => "background-color:" + report_color[counter]) +
-      raw('&nbsp;')+
-      link_to(name, hosts_path(:search => search), :class=>"dashboard-links") +
+      content_tag(:span, raw('&nbsp;'), :class => 'label', :style => "background-color:" + report_color[counter]) +
+      raw('&nbsp;') +
+      link_to(name, hosts_path(:search => search), :class => "dashboard-links") +
       content_tag(:h4, @data.report[counter])
     end
   end

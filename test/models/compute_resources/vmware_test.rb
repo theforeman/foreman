@@ -27,10 +27,10 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
                                              "volumes_attributes"    => volumes_attributes)
 
     attrs_parsed = HashWithIndifferentAccess.new("cpus"                  => "1",
-                                                 "interfaces_attributes" => {"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "_delete"=>""},
-                                                                            "0" => {"type"=>"VirtualVmxnet3", "network"=>"Test network", "_delete"=>""}},
-                                                 "volumes_attributes"    => {"new_volumes"=>{"size_gb"=>"10", "_delete"=>""},
-                                                                             "0"=>{"size_gb"=>"1", "_delete"=>""}})
+                                                 "interfaces_attributes" => {"new_interfaces" => {"type" => "VirtualE1000", "network" => "Test network", "_delete" => ""},
+                                                                            "0" => {"type" => "VirtualVmxnet3", "network" => "Test network", "_delete" => ""}},
+                                                 "volumes_attributes"    => {"new_volumes" => {"size_gb" => "10", "_delete" => ""},
+                                                                             "0" => {"size_gb" => "1", "_delete" => ""}})
 
     mock_vm = mock('vm')
     mock_vm.expects(:save).returns(mock_vm)
@@ -44,9 +44,64 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   end
 
   test "#new_vm merges defaults with user args and creates server" do
-    attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
-    attrs_parsed = {:cpus=>"1", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"network-17", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}]}
-    attrs_out = {:name => 'test', :cpus=>"1", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"network-17", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}]}
+    attrs_in = HashWithIndifferentAccess.new(
+      "cpus"                  => "1",
+      "interfaces_attributes" => {
+        "new_interfaces" => {
+          "type"    => "VirtualE1000",
+          "network" => "network-17",
+          "_delete" => ""
+        },
+        "0" => {
+          "type"    => "VirtualVmxnet3",
+          "network" => "network-17",
+          "_delete" => ""
+        }
+      },
+      "volumes_attributes" => {
+        "new_volumes" => {
+          "size_gb" => "10",
+          "_delete" => ""
+        },
+        "0" => {
+          "size_gb" => "1",
+          "_delete" => ""
+        }
+      }
+    )
+    attrs_parsed = {
+      :cpus       => "1",
+      :interfaces => [
+        {
+          :type    => "VirtualVmxnet3",
+          :network => "network-17",
+          :_delete => ""
+        }
+      ],
+      :volumes => [
+        {
+          :size_gb => "1",
+          :_delete => ""
+        }
+      ]
+    }
+    attrs_out = {
+      :name       => 'test',
+      :cpus       => "1",
+      :interfaces => [
+        {
+          :type    => "VirtualVmxnet3",
+          :network => "network-17",
+          :_delete => ""
+        }
+      ],
+      :volumes => [
+        {
+          :size_gb => "1",
+          :_delete => ""
+        }
+      ]
+    }
 
     mock_vm = mock('new server')
     mock_servers = mock('client.servers')
@@ -67,21 +122,21 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @cr.stubs(:test_connection)
     end
     test "calls clone_vm when image provisioning with symbol key and provision_method image" do
-      args = {:image_id =>"2", "provision_method" => "image" }
+      args = {:image_id => "2", "provision_method" => "image" }
       @cr.stubs(:parse_networks).returns(args)
       @cr.expects(:clone_vm)
       @cr.expects(:new_vm).times(0)
       @cr.create_vm(args)
     end
     test "calls clone_vm when image provisioning with string key and provision_method image" do
-      args = {"image_id" =>"2", "provision_method" => "image" }
+      args = {"image_id" => "2", "provision_method" => "image" }
       @cr.stubs(:parse_networks).returns(args)
       @cr.expects(:clone_vm)
       @cr.expects(:new_vm).times(0)
       @cr.create_vm(args)
     end
     test "does not call clone_vm when image provisioning with string key and provision_method build" do
-      args = {"image_id" =>"2", "provision_method" => "build" }
+      args = {"image_id" => "2", "provision_method" => "build" }
       mock_vm = mock('vm')
       mock_vm.expects(:save).returns(mock_vm)
       mock_vm.stubs(:firmware).returns('bios')
@@ -104,7 +159,32 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   end
 
   test "#create_vm calls clone_vm when image provisioning" do
-    attrs_in = HashWithIndifferentAccess.new("image_id"=>"2", "cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
+    attrs_in = HashWithIndifferentAccess.new(
+      "image_id"              => "2",
+      "cpus"                  => "1",
+      "interfaces_attributes" => {
+        "new_interfaces" => {
+          "type"    => "VirtualE1000",
+          "network" => "network-17",
+          "_delete" => ""
+        },
+        "0" => {
+          "type"    => "VirtualVmxnet3",
+          "network" => "network-17",
+          "_delete" => ""
+        }
+      },
+      "volumes_attributes" => {
+        "new_volumes" => {
+          "size_gb" => "10",
+          "_delete" => ""
+        },
+        "0" => {
+          "size_gb" => "1",
+          "_delete" => ""
+        }
+      }
+    )
     attrs_parsed = HashWithIndifferentAccess.new(
       "image_id" => "2",
       "cpus" => "1",
@@ -114,18 +194,18 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "network" => "Test network",
           "_delete" => ""
         },
-        "0"=>{
+        "0" => {
           "type" => "VirtualVmxnet3",
           "network" => "Test network",
           "_delete" => ""
         }
       },
-      "volumes_attributes"=>{
-        "new_volumes"=>{
+      "volumes_attributes" => {
+        "new_volumes" => {
           "size_gb" => "10",
           "_delete" => ""
         },
-        "0" => {"size_gb"=>"1", "_delete"=>""}
+        "0" => {"size_gb" => "1", "_delete" => ""}
       },
       "provision_method" => "image"
     )
@@ -148,21 +228,111 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     test "converts form attrs to fog attrs" do
-      attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
+      attrs_in = HashWithIndifferentAccess.new(
+        "cpus"                  => "1",
+        "interfaces_attributes" => {
+          "new_interfaces" => {
+            "type"    => "VirtualE1000",
+            "network" => "network-17",
+            "_delete" => ""
+          },
+          "0" => {
+            "type"    => "VirtualVmxnet3",
+            "network" => "network-17",
+            "_delete" => ""
+          }
+        },
+        "volumes_attributes" => {
+          "new_volumes" => {
+            "size_gb" => "10",
+            "_delete" => ""
+          },
+          "0" => {
+            "size_gb" => "1",
+            "_delete" => ""
+          }
+        }
+      )
       # All keys must be symbolized
-      attrs_out = {:cpus=>"1", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"network-17", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}]}
+      attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}]}
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
     test "is ommiting hardware_version, when it's set to Default" do
-      attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "hardware_version"=>"Default", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
-      attrs_out = {:cpus=>"1", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"network-17", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}]}
+      attrs_in = HashWithIndifferentAccess.new(
+        "cpus"                  => "1",
+        "hardware_version"      => "Default",
+        "interfaces_attributes" => {
+          "new_interfaces" => {
+            "type"    => "VirtualE1000",
+            "network" => "network-17",
+            "_delete" => ""
+          },
+          "0" => {
+            "type"    => "VirtualVmxnet3",
+            "network" => "network-17",
+            "_delete" => ""
+          }
+        },
+        "volumes_attributes" => {
+          "new_volumes" => {
+            "size_gb" => "10",
+            "_delete" => ""
+          },
+          "0" => {
+            "size_gb" => "1",
+            "_delete" => ""
+          }
+        }
+      )
+      attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}]}
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
     test "is setting hardware_version, when it's set to a non-Default value" do
-      attrs_in = HashWithIndifferentAccess.new("cpus"=>"1", "hardware_version"=>"vmx-08", "interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}}, "volumes_attributes"=>{"new_volumes"=>{"size_gb"=>"10", "_delete"=>""}, "0"=>{"size_gb"=>"1", "_delete"=>""}})
-      attrs_out = {:cpus=>"1", :hardware_version=>"vmx-08", :interfaces=>[{:type=>"VirtualVmxnet3", :network=>"network-17", :_delete=>""}], :volumes=>[{:size_gb=>"1", :_delete=>""}]}
+      attrs_in = HashWithIndifferentAccess.new(
+        "cpus"                  => "1",
+        "hardware_version"      => "vmx-08",
+        "interfaces_attributes" => {
+          "new_interfaces" => {
+            "type"    => "VirtualE1000",
+            "network" => "network-17",
+            "_delete" => ""
+          },
+          "0" => {
+            "type"    => "VirtualVmxnet3",
+            "network" => "network-17",
+            "_delete" => ""
+          }
+        },
+        "volumes_attributes" => {
+          "new_volumes" => {
+            "size_gb" => "10",
+            "_delete" => ""
+          },
+          "0" => {
+            "size_gb" => "1",
+            "_delete" => ""
+          }
+        }
+      )
+      attrs_out = {
+        :cpus             => "1",
+        :hardware_version => "vmx-08",
+        :interfaces       => [
+          {
+            :type    => "VirtualVmxnet3",
+            :network => "network-17",
+            :_delete => ""
+          }
+        ],
+        :volumes => [
+          {
+            :size_gb => "1",
+            :_delete => ""
+          }
+        ]
+      }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
@@ -194,7 +364,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "doesn't modify input hash" do
       # else compute profiles won't save properly
-      attrs_in = HashWithIndifferentAccess.new("interfaces_attributes"=>{"0"=>{"network"=>"network-17"}})
+      attrs_in = HashWithIndifferentAccess.new("interfaces_attributes" => {"0" => {"network" => "network-17"}})
       @cr.parse_args(attrs_in)
       assert_equal "network-17", attrs_in["interfaces_attributes"]["0"]["network"]
     end
@@ -215,19 +385,62 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     test "converts form network ID to network name" do
-      attrs_in = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"network-17", "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"network-17", "_delete"=>""}})
-      attrs_out = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}})
+      attrs_in = HashWithIndifferentAccess.new(
+        "interfaces_attributes" => {
+          "new_interfaces" => {
+            "type"    => "VirtualE1000",
+            "network" => "network-17",
+            "_delete" => ""
+          },
+          "0" => {
+            "type"    => "VirtualVmxnet3",
+            "network" => "network-17",
+            "_delete" => ""
+          }
+        }
+      )
+      attrs_out = HashWithIndifferentAccess.new(
+        "interfaces_attributes" => {
+          "new_interfaces" => {
+            "type"          => "VirtualE1000",
+            "network"       => "Test network",
+            "virtualswitch" => nil,
+            "_delete"       => ""
+          },
+          "0" => {
+            "type"          => "VirtualVmxnet3",
+            "network"       => "Test network",
+            "virtualswitch" => nil,
+            "_delete"       => ""
+          }
+        }
+      )
       assert_equal attrs_out, @cr.parse_networks(attrs_in)
     end
 
     test "ignores existing network names" do
-      attrs = HashWithIndifferentAccess.new("interfaces_attributes"=>{"new_interfaces"=>{"type"=>"VirtualE1000", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}, "0"=>{"type"=>"VirtualVmxnet3", "network"=>"Test network", "virtualswitch" => nil, "_delete"=>""}})
+      attrs = HashWithIndifferentAccess.new(
+        "interfaces_attributes" => {
+          "new_interfaces" => {
+            "type"          => "VirtualE1000",
+            "network"       => "Test network",
+            "virtualswitch" => nil,
+            "_delete"       => ""
+          },
+          "0" => {
+            "type"          => "VirtualVmxnet3",
+            "network"       => "Test network",
+            "virtualswitch" => nil,
+            "_delete"       => ""
+          }
+        }
+      )
       assert_equal attrs, @cr.parse_networks(attrs)
     end
 
     test "doesn't modify input hash" do
       # else compute profiles won't save properly
-      attrs_in = HashWithIndifferentAccess.new("interfaces_attributes"=>{"0"=>{"network"=>"network-17"}})
+      attrs_in = HashWithIndifferentAccess.new("interfaces_attributes" => {"0" => {"network" => "network-17"}})
       @cr.parse_args(attrs_in)
       assert_equal "network-17", attrs_in["interfaces_attributes"]["0"]["network"]
     end
@@ -278,7 +491,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @vm.stubs(:volumes).returns(@volumes)
 
       scsi_controller1 = mock('scsi_controller1')
-      scsi_controller1.stubs(:attributes).returns({:type=>"VirtualLsiLogicController", :shared_bus=>"noSharing", :unit_number=>7, :key=>1000})
+      scsi_controller1.stubs(:attributes).returns({:type => "VirtualLsiLogicController", :shared_bus => "noSharing", :unit_number => 7, :key => 1000})
       @vm.stubs(:scsi_controllers).returns([scsi_controller1])
 
       @networks = [
@@ -330,7 +543,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "0" => { :vol => 1, :size_gb => 4 },
           "1" => { :vol => 2, :size_gb => 4 }
         },
-        :interfaces_attributes => {"0"=>{:compute_attributes=>{:network=>"Testnetwork", :type=>"VirtualVmxnet3"}, :mac=>"00:50:56:84:f1:b1"}},
+        :interfaces_attributes => {"0" => {:compute_attributes => {:network => "Testnetwork", :type => "VirtualVmxnet3"}, :mac => "00:50:56:84:f1:b1"}},
         :scsi_controllers => [
           {
             :type => "VirtualLsiLogicController",
@@ -460,7 +673,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
-      assert_equal(768*1024, normalized['memory'])
+      assert_equal(768 * 1024, normalized['memory'])
     end
 
     test 'path mapped to folder_path' do

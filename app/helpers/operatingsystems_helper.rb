@@ -45,7 +45,7 @@ module OperatingsystemsHelper
                record.family
              end
 
-    image_tag(family+".png", opts) + " "
+    image_tag(family + ".png", opts) + " "
   end
 
   def os_name(record, opts = {})

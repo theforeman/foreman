@@ -66,7 +66,7 @@ class DhcpTest < ActiveSupport::TestCase
   end
 
   test "conflicts should be detected for mismatched records" do
-    proxy_lease = {"starts"=>"2014-05-09 11:55:21 UTC", "ends"=>"2014-05-09 12:05:21 UTC", "state"=>"active", "mac"=>"aa:bb:cc:dd:ee:ff", "subnet"=>"127.0.0.0/255.0.0.0", "ip"=>"127.0.0.1"}
+    proxy_lease = {"starts" => "2014-05-09 11:55:21 UTC", "ends" => "2014-05-09 12:05:21 UTC", "state" => "active", "mac" => "aa:bb:cc:dd:ee:ff", "subnet" => "127.0.0.0/255.0.0.0", "ip" => "127.0.0.1"}
     ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/mac/aa:bb:cc:dd:ee:ff').returns("lease")
     ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/ip/127.0.0.1').returns("")
     ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/ip/127.0.0.2').returns("")
@@ -79,7 +79,7 @@ class DhcpTest < ActiveSupport::TestCase
   end
 
   test "conflicts should be not detected for records with no hostname" do
-    proxy_lease = {"starts"=>"2014-05-09 11:55:21 UTC", "ends"=>"2014-05-09 12:05:21 UTC", "state"=>"active", "mac"=>"aa:bb:cc:dd:ee:ff", "subnet"=>"127.0.0.0/255.0.0.0", "ip"=>"127.0.0.1"}
+    proxy_lease = {"starts" => "2014-05-09 11:55:21 UTC", "ends" => "2014-05-09 12:05:21 UTC", "state" => "active", "mac" => "aa:bb:cc:dd:ee:ff", "subnet" => "127.0.0.0/255.0.0.0", "ip" => "127.0.0.1"}
     ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/mac/aa:bb:cc:dd:ee:ff').returns("lease")
     ProxyAPI::Resource.any_instance.stubs(:get).with('127.0.0.0/ip/127.0.0.1').returns("")
     ProxyAPI::Resource.any_instance.stubs(:parse).with('lease').returns(proxy_lease)

@@ -7,7 +7,7 @@ class UINotificationsCacheHandlerTest < ActiveSupport::TestCase
 
   test 'should provide JSON payload' do
     response = JSON.parse(UINotifications::CacheHandler.new(User.first.id).payload)
-    assert_equal({"notifications"=>[]}, response)
+    assert_equal({"notifications" => []}, response)
   end
 
   test 'should have a unique cache key per user' do

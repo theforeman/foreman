@@ -149,7 +149,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
 
   test_attributes :pid => '08520746-444b-47c9-a8a3-438170147453'
   test "search ptable" do
-    get :index, params: { :search =>  @ptable.name, :format => 'json' }
+    get :index, params: { :search => @ptable.name, :format => 'json' }
     assert_response :success, "search ptable name: '#{@ptable.name}' failed with code: #{@response.code}"
     response = JSON.parse(@response.body)
     assert_equal response['results'].length, 1

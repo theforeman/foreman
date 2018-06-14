@@ -46,7 +46,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     setup do
       operating_systems_xml = Nokogiri::XML(File.read('test/fixtures/ovirt_operating_systems.xml'))
       @ovirt_oses = operating_systems_xml.xpath('/operating_systems/operating_system').map do |os|
-        Fog::Compute::Ovirt::OperatingSystem.new({ :id => os[:id], :name => (os/'name').text, :href => os[:href] })
+        Fog::Compute::Ovirt::OperatingSystem.new({ :id => os[:id], :name => (os / 'name').text, :href => os[:href] })
       end
       @os_hashes = @ovirt_oses.map do |ovirt_os|
         { :id => ovirt_os.id, :name => ovirt_os.name, :href => ovirt_os.href }

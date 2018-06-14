@@ -210,26 +210,26 @@ module HostsHelper
   def resources_chart(timerange = 1.day.ago)
     applied, failed, restarted, failed_restarts, skipped = [], [], [], [], []
     @host.reports.recent(timerange).each do |r|
-      applied         << [r.reported_at.to_i*1000, r.applied ]
-      failed          << [r.reported_at.to_i*1000, r.failed ]
-      restarted       << [r.reported_at.to_i*1000, r.restarted ]
-      failed_restarts << [r.reported_at.to_i*1000, r.failed_restarts ]
-      skipped         << [r.reported_at.to_i*1000, r.skipped ]
+      applied         << [r.reported_at.to_i * 1000, r.applied ]
+      failed          << [r.reported_at.to_i * 1000, r.failed ]
+      restarted       << [r.reported_at.to_i * 1000, r.restarted ]
+      failed_restarts << [r.reported_at.to_i * 1000, r.failed_restarts ]
+      skipped         << [r.reported_at.to_i * 1000, r.skipped ]
     end
-    [{:label=>_("Applied"), :data=>applied, :color =>'#89A54E'},
-     {:label=>_("Failed"), :data=>failed, :color =>'#AA4643'},
-     {:label=>_("Failed restarts"), :data=>failed_restarts, :color =>'#EC971F'},
-     {:label=>_("Skipped"), :data=>skipped, :color =>'#80699B'},
-     {:label=>_("Restarted"), :data=>restarted, :color =>'#4572A7'}]
+    [{:label => _("Applied"), :data => applied, :color => '#89A54E'},
+     {:label => _("Failed"), :data => failed, :color => '#AA4643'},
+     {:label => _("Failed restarts"), :data => failed_restarts, :color => '#EC971F'},
+     {:label => _("Skipped"), :data => skipped, :color => '#80699B'},
+     {:label => _("Restarted"), :data => restarted, :color => '#4572A7'}]
   end
 
   def runtime_chart(timerange = 1.day.ago)
     config, runtime = [], []
     @host.reports.recent(timerange).each do |r|
-      config  << [r.reported_at.to_i*1000, r.config_retrieval]
-      runtime << [r.reported_at.to_i*1000, r.runtime]
+      config  << [r.reported_at.to_i * 1000, r.config_retrieval]
+      runtime << [r.reported_at.to_i * 1000, r.runtime]
     end
-    [{:label=>_("Config Retrieval"), :data=> config, :color=>'#AA4643'}, {:label=>_("Runtime"), :data=> runtime, :color=>'#4572A7'}]
+    [{:label => _("Config Retrieval"), :data => config, :color => '#AA4643'}, {:label => _("Runtime"), :data => runtime, :color => '#4572A7'}]
   end
 
   def reports_show
@@ -239,8 +239,8 @@ module HostsHelper
 
     form_tag @host, :id => 'days_filter', :method => :get, :class => "form form-inline" do
       content_tag(:span, (_("Found %{count} reports from the last %{days} days") %
-        { :days  => select(nil, 'range', 1..number_of_days,
-                    {:selected => @range}, {:style=>"float:none; width: #{width}em;", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
+        { :days => select(nil, 'range', 1..number_of_days,
+                    {:selected => @range}, {:style => "float:none; width: #{width}em;", :onchange => "$('#days_filter').submit();$(this).disabled();"}),
           :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
   end
@@ -342,7 +342,7 @@ module HostsHelper
           link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
                                 :disabled => !Setting[:puppetrun],
                                 :class => 'btn btn-default',
-                                :title    => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
+                                :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
         end
       ),
       button_group(
@@ -434,9 +434,9 @@ module HostsHelper
     return '' if nic.new_record?
 
     if nic.link
-      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="'+ _('Interface is up') +'"></i>'
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="' + _('Interface is up') + '"></i>'
     else
-      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="'+ _('Interface is down') +'"></i>'
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="' + _('Interface is down') + '"></i>'
     end
     status.html_safe
   end

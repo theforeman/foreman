@@ -203,7 +203,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     user2 = FactoryBot.create(:user, :with_mail)
     organization = as_admin { FactoryBot.create(:organization, :users => [user1, user2]) }
 
-    User.any_instance.expects(:expire_topbar_cache).times(2+User.only_admin.count) # 2 users, all admins
+    User.any_instance.expects(:expire_topbar_cache).times(2 + User.only_admin.count) # 2 users, all admins
     put :update, params: { :id => organization.id, :organization => {:name => "Topbar Org" } }, session: set_session_user
   end
 

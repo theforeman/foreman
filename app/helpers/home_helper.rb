@@ -68,8 +68,8 @@ module HomeHelper
   end
 
   def user_header
-    summary = avatar_image_tag(User.current, :class=>'avatar small') +
-              "#{User.current.to_label} " + content_tag(:span, "", :class=>'caret')
-    link_to(summary.html_safe, "#", :class => "dropdown-toggle nav-item-iconic", :'data-toggle'=>"dropdown", :id => "account_menu")
+    summary = avatar_image_tag(User.current, :class => 'avatar small') +
+              "#{User.current.to_label} " + content_tag(:span, "", :class => 'caret')
+    link_to(summary.html_safe, "#", :class => "dropdown-toggle nav-item-iconic", :'data-toggle' => "dropdown", :id => "account_menu")
   end
 end

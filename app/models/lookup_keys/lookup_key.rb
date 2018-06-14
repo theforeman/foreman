@@ -9,7 +9,7 @@ class LookupKey < ApplicationRecord
 
   KEY_DELM = ","
   EQ_DELM  = "="
-  VALUE_REGEX =/\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
+  VALUE_REGEX = /\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
 
   validates_lengths_from_database
 

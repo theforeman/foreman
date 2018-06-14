@@ -16,7 +16,7 @@ module ComputeResourcesVmsHelper
       link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => host, :permission => 'console_hosts'),
                             { :class => "btn btn-info" })
     else
-      link_to(_("Console"), '#', {:disabled=> true, :class => "btn btn-info"})
+      link_to(_("Console"), '#', {:disabled => true, :class => "btn btn-info"})
     end
   end
 
@@ -157,7 +157,7 @@ module ComputeResourcesVmsHelper
 
   def subnet_vpc_hash(subnets)
     subnet_vpc_hash = {}
-    subnets.each{ |sub| subnet_vpc_hash[sub.subnet_id] = {:vpc_id =>sub.vpc_id, :subnet_name => sub.tag_set["Name"] || sub.subnet_id} }
+    subnets.each{ |sub| subnet_vpc_hash[sub.subnet_id] = {:vpc_id => sub.vpc_id, :subnet_name => sub.tag_set["Name"] || sub.subnet_id} }
     subnet_vpc_hash
   end
 
@@ -272,7 +272,7 @@ module ComputeResourcesVmsHelper
         :permission => 'edit_compute_resources'),
         :title => _("Associate VM to a Foreman host"),
         :method => :put,
-        :class =>"btn btn-default"
+        :class => "btn btn-default"
     )
   end
 

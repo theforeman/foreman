@@ -183,7 +183,7 @@ module Api
 
       def find_parameter
         # nested_obj is required, so no need to check here
-        @parameters  = nested_obj.send(parameters_method).authorized(current_permission)
+        @parameters = nested_obj.send(parameters_method).authorized(current_permission)
         @parameter = @parameters.from_param(params[:id])
         @parameter ||= @parameters.friendly.find(params[:id])
         return @parameter if @parameter.present?

@@ -27,11 +27,11 @@ module TaxonomyHelper
   end
 
   def wizard_header(current, *args)
-    content_tag(:ul, :class=>"wizard") do
-      step=1
+    content_tag(:ul, :class => "wizard") do
+      step = 1
       content = nil
       args.each do |arg|
-        step_content = content_tag(:li, (content_tag(:span, step, :class=>"badge" +" #{'badge-inverse' if step==current}")+arg).html_safe, :class=>('active' if step==current).to_s)
+        step_content = content_tag(:li, (content_tag(:span, step, :class => "badge" + " #{'badge-inverse' if step == current}") + arg).html_safe, :class => ('active' if step == current).to_s)
         (step == 1) ? content = step_content : content += step_content
         step += 1
       end
@@ -111,7 +111,7 @@ module TaxonomyHelper
 
   def taxonomy_selects(f, selected_ids, taxonomy, label, options = {}, options_html = {})
     options[:disabled] = Array.wrap(options[:disabled])
-    options[:label]    ||= _(label)
+    options[:label] ||= _(label)
     multiple_selects f, label.downcase.singularize + '_ids', taxonomy.authorized("assign_#{label.downcase}", taxonomy), selected_ids, options, options_html
   end
 

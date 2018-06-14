@@ -321,7 +321,7 @@ class SettingTest < ActiveSupport::TestCase
     attrs = { :name => "foreman_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("foreman_url")
-    setting.value="##"
+    setting.value = "##"
     assert !setting.save
     assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
   end
@@ -347,7 +347,7 @@ class SettingTest < ActiveSupport::TestCase
     attrs = { :name => "unattended_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting = Setting.find_by_name("unattended_url")
-    setting.value="##"
+    setting.value = "##"
     assert !setting.save
     assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
   end
