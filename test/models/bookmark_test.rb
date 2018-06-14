@@ -20,6 +20,7 @@ class BookmarkTest < ActiveSupport::TestCase
     valid_controller_values = (["dashboard", "common_parameters"] +
       ActiveRecord::Base.connection.tables.map(&:to_s) +
       Permission.resources.map(&:tableize)).uniq
+    BookmarkControllerValidator.reset_controllers_list
     valid_controller_values.each do |controller|
       bookmark = FactoryBot.create(:bookmark, :controller => controller, :public => false)
       assert bookmark.valid?, "Can't create bookmark with valid controller #{controller}"
