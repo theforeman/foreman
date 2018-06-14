@@ -3,13 +3,15 @@ require 'ostruct'
 
 class ApplicationJobTest < ActiveSupport::TestCase
   describe '.spawn_if_missing' do
-    # Force world initialization before stubbing,
-    #   otherwise CreateRssNotifications would be triggered
-    #   on first call to world
-    before { world }
-
     let(:job_class) { ApplicationJob }
-    let(:world) { Foreman::Application.dynflow.world }
+
+    # Using real world led to various issues, let's stub it out
+    let(:world) do
+      persistence = mock()
+      persistence.stubs(:find_execution_plans).returns([])
+      persistence.stubs(:load_delayed_plan)
+      OpenStruct.new(:persistence => persistence)
+    end
 
     def stub_delayed_plans_with_serialized_args(*args)
       execution_plans = args.each_with_index.map { |_, index| OpenStruct.new(:id => index) }
