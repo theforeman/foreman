@@ -11,9 +11,9 @@ class HostsController < ApplicationController
   include Foreman::Controller::CsvResponder
   include Foreman::Controller::ConsoleCommon
 
-  SEARCHABLE_ACTIONS= %w[index active errors out_of_sync pending disabled]
-  AJAX_REQUESTS=%w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
-  BOOT_DEVICES={ :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
+  SEARCHABLE_ACTIONS = %w[index active errors out_of_sync pending disabled]
+  AJAX_REQUESTS = %w{compute_resource_selected current_parameters process_hostgroup process_taxonomy review_before_build scheduler_hint_selected}
+  BOOT_DEVICES = { :disk => N_('Disk'), :cdrom => N_('CDROM'), :pxe => N_('PXE'), :bios => N_('BIOS') }
   MULTIPLE_ACTIONS = %w(multiple_parameters update_multiple_parameters select_multiple_hostgroup
                         update_multiple_hostgroup
                         multiple_destroy submit_multiple_destroy multiple_build
@@ -146,7 +146,7 @@ class HostsController < ApplicationController
   end
 
   def compute_resource_selected
-    return not_found unless (params[:host] && (id=params[:host][:compute_resource_id]))
+    return not_found unless (params[:host] && (id = params[:host][:compute_resource_id]))
     Taxonomy.as_taxonomy @organization, @location do
       compute_profile_id = params[:host][:compute_profile_id] || Hostgroup.find_by_id(params[:host][:hostgroup_id]).try(:inherited_compute_profile_id)
       compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(id)
@@ -410,7 +410,7 @@ class HostsController < ApplicationController
 
   def update_multiple_hostgroup
     # simple validations
-    unless (id=params["hostgroup"]["id"])
+    unless (id = params["hostgroup"]["id"])
       error _('No host group selected!')
       redirect_to(select_multiple_hostgroup_hosts_path)
       return
@@ -418,7 +418,7 @@ class HostsController < ApplicationController
     hg = Hostgroup.find_by_id(id)
     # update the hosts
     @hosts.each do |host|
-      host.hostgroup=hg
+      host.hostgroup = hg
       host.save(:validate => false)
     end
 
@@ -432,7 +432,7 @@ class HostsController < ApplicationController
 
   def update_multiple_owner
     # simple validations
-    if params[:owner].nil? || (id=params["owner"]["id"]).nil?
+    if params[:owner].nil? || (id = params["owner"]["id"]).nil?
       error _('No owner selected!')
       redirect_to(select_multiple_owner_hosts_path)
       return
@@ -777,7 +777,7 @@ class HostsController < ApplicationController
   end
 
   def validate_power_action
-    if params[:power].blank? || (action=params[:power][:action]).blank? ||
+    if params[:power].blank? || (action = params[:power][:action]).blank? ||
         !PowerManager::REAL_ACTIONS.include?(action)
       error _('No or invalid power state selected!')
       redirect_to(select_multiple_power_state_hosts_path)

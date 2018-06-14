@@ -8,7 +8,7 @@ class Setting < ApplicationRecord
   include EncryptValue
   self.inheritance_column = 'category'
 
-  TYPES= %w{integer boolean hash array string}
+  TYPES = %w{integer boolean hash array string}
   FROZEN_ATTRS = %w{name category full_name}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page max_trend outofsync_interval}
   BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url authorize_login_delegation_auth_source_user_autocreate root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text

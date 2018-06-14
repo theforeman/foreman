@@ -104,8 +104,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
-    basic.roles<< basic_role
-    basic.usergroups<< @semiadmins
+    basic.roles << basic_role
+    basic.usergroups << @semiadmins
     [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
@@ -122,8 +122,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
-    basic.roles<< basic_role
-    basic.usergroups<< @admins
+    basic.roles << basic_role
+    basic.usergroups << @admins
     [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_not_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
@@ -140,8 +140,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
-    basic.roles<< basic_role
-    basic.usergroups<< @superadmins
+    basic.roles << basic_role
+    basic.usergroups << @superadmins
     [@semiadmin_user, @admin_user, @superadmin_user].map(&:reload)
 
     assert_not_includes @semiadmin_user.cached_user_roles.map(&:role), basic_role
@@ -209,7 +209,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     setup_redundant_scenario
     @superadmins = FactoryBot.create :usergroup, :name => 'um_superadmins'
     @superadmins.usergroups = [@semiadmins]
-    @superadmins.roles<< @admin_role
+    @superadmins.roles << @admin_role
 
     @admins.users = []
     @semiadmin_user.reload
@@ -361,9 +361,9 @@ class UsergroupMemberTest < ActiveSupport::TestCase
       @role1 = FactoryBot.create(:role)
       @role2 = FactoryBot.create(:role)
       @role3 = FactoryBot.create(:role)
-      @semiadmin_user.roles<< @role1
-      @admin_user.roles<< @role2
-      @superadmin_user.roles<< @role3
+      @semiadmin_user.roles << @role1
+      @admin_user.roles << @role2
+      @superadmin_user.roles << @role3
     end
   end
 end

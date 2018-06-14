@@ -29,13 +29,13 @@ class HostParametersTest < ActiveSupport::TestCase
   end
 
   test 'normalizes json scsi attributes' do
-    inner_params = {:name => 'test.example.com', :compute_attributes => {"scsi_controllers"=>"{\"scsiControllers\":[{\"type\":\"VirtualLsiLogicController\",\"key\":1000}],\"volumes\":[{\"thin\":true,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000,\"size\":10485760,\"sizeGb\":10,\"storagePod\":\"Example-Pod\"}]}"}}
+    inner_params = {:name => 'test.example.com', :compute_attributes => {"scsi_controllers" => "{\"scsiControllers\":[{\"type\":\"VirtualLsiLogicController\",\"key\":1000}],\"volumes\":[{\"thin\":true,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000,\"size\":10485760,\"sizeGb\":10,\"storagePod\":\"Example-Pod\"}]}"}}
     expects(:params).at_least_once.returns(ActionController::Parameters.new(:host => inner_params))
     expects(:parameter_filter_context).at_least_once.returns(ui_context)
     filtered = host_params
 
     assert_equal 'test.example.com', filtered['name']
-    assert_equal [{"type"=>"VirtualLsiLogicController", "key"=>1000}], filtered['compute_attributes']['scsi_controllers']
-    assert_equal({"0"=>{"thin"=>true, "name"=>"Hard disk", "mode"=>"persistent", "controller_key"=>1000, "size"=>10485760, "size_gb"=>10, "storage_pod"=>"Example-Pod"}}, filtered['compute_attributes']['volumes_attributes'])
+    assert_equal [{"type" => "VirtualLsiLogicController", "key" => 1000}], filtered['compute_attributes']['scsi_controllers']
+    assert_equal({"0" => {"thin" => true, "name" => "Hard disk", "mode" => "persistent", "controller_key" => 1000, "size" => 10485760, "size_gb" => 10, "storage_pod" => "Example-Pod"}}, filtered['compute_attributes']['volumes_attributes'])
   end
 end

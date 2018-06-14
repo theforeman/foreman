@@ -20,7 +20,7 @@ module Foreman::Gettext::Debug
       result = FastGettext::TranslationMultidomain.dn_(domain, *keys) {nil}
       return DL + result.to_s + DR unless result.nil?
     end
-    DL + keys[-3].split(keys[-2]||FastGettext::NAMESPACE_SEPARATOR).last.to_s + DR
+    DL + keys[-3].split(keys[-2] || FastGettext::NAMESPACE_SEPARATOR).last.to_s + DR
   end
 
   # slightly modified copy of fast_gettext D_* method
@@ -29,7 +29,7 @@ module Foreman::Gettext::Debug
       result = FastGettext::TranslationMultidomain.ds_(domain, key, separator) {nil}
       return DL + result.to_s + DR unless result.nil?
     end
-    DL + key.split(separator||FastGettext::NAMESPACE_SEPARATOR).last.to_s + DR
+    DL + key.split(separator || FastGettext::NAMESPACE_SEPARATOR).last.to_s + DR
   end
 
   # slightly modified copy of fast_gettext D_* method

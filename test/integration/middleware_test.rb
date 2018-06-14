@@ -7,8 +7,8 @@ class MiddlewareIntegrationTest < ActionDispatch::IntegrationTest
     assert_equal page.response_headers['X-XSS-Protection'], '1; mode=block'
     assert_equal page.response_headers['X-Content-Type-Options'], 'nosniff'
     assert_equal page.response_headers['Content-Security-Policy'], \
-      "default-src 'self'; child-src 'self'; connect-src 'self' ws: wss:; "+
-      "img-src 'self' data: *.gravatar.com; script-src 'unsafe-eval' 'unsafe-inline' "+
+      "default-src 'self'; child-src 'self'; connect-src 'self' ws: wss:; " +
+      "img-src 'self' data: *.gravatar.com; script-src 'unsafe-eval' 'unsafe-inline' " +
       "'self'; style-src 'unsafe-inline' 'self'"
   end
 

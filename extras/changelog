@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-cmd=`git log --pretty='format:%ci::%an <%ae>::%s'`
+cmd = `git log --pretty='format:%ci::%an <%ae>::%s'`
 
 list = {}
 list_order = []

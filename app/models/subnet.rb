@@ -93,7 +93,7 @@ class Subnet < ApplicationRecord
                         :vlanid, :mtu, :ipam, :boot_mode, :type], :complete_value => true
 
   scoped_search :relation => :domains, :on => :name, :rename => :domain, :complete_value => true
-  scoped_search :relation => :subnet_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
+  scoped_search :relation => :subnet_parameters, :on => :value, :on_key => :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
 
@@ -235,8 +235,8 @@ class Subnet < ApplicationRecord
       errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
     return if errors.key?(:from) || errors.key?(:to)
-    errors.add(:from, _("does not belong to subnet"))     if from.present? && !self.contains?(f=IPAddr.new(from))
-    errors.add(:to, _("does not belong to subnet"))       if to.present?   && !self.contains?(t=IPAddr.new(to))
+    errors.add(:from, _("does not belong to subnet"))     if from.present? && !self.contains?(f = IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   && !self.contains?(t = IPAddr.new(to))
     errors.add(:from, _("can't be bigger than to range")) if from.present? && t.present? && f > t
   end
 

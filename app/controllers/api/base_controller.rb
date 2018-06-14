@@ -228,8 +228,8 @@ module Api
     end
 
     def add_version_header
-      response.headers["Foreman_version"]= SETTINGS[:version].full
-      response.headers["Foreman_api_version"]= api_version
+      response.headers["Foreman_version"] = SETTINGS[:version].full
+      response.headers["Foreman_api_version"] = api_version
     end
 
     # this method is used with nested resources, where obj_id is passed into the parameters hash.

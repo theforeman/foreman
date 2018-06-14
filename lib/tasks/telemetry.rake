@@ -23,7 +23,7 @@ namespace :telemetry do
         metric["name"] = m_name
         metric["match"] = m_name + (".*" * m_labels.count)
         m_labels.each_with_index do |label, i|
-          labels[label.to_s] = "$#{i+1}"
+          labels[label.to_s] = "$#{i + 1}"
         end
         metric["labels"] = labels
         metric["help"] = m_desc

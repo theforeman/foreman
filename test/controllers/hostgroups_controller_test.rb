@@ -28,8 +28,8 @@ class HostgroupsControllerTest < ActionController::TestCase
   def test_create_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
     pc = Puppetclass.first
-    post :create, params: { :hostgroup => {:name=>"test_it", :group_parameters_attributes=>{"1272344174448"=>{:name => "x", :value =>"y", :_destroy => ""}},
-                   :puppetclass_ids=>["", pc.id.to_s], :realm_id => realms(:myrealm).id} }, session: set_session_user
+    post :create, params: { :hostgroup => {:name => "test_it", :group_parameters_attributes => {"1272344174448" => {:name => "x", :value => "y", :_destroy => ""}},
+                   :puppetclass_ids => ["", pc.id.to_s], :realm_id => realms(:myrealm).id} }, session: set_session_user
     assert_redirected_to hostgroups_url
   end
 
@@ -193,7 +193,7 @@ class HostgroupsControllerTest < ActionController::TestCase
       FactoryBot.create(:environment_class, :puppetclass => @puppetclass, :environment => @environment, :puppetclass_lookup_key => lookup_key)
 
       # sending exactly what the host form would send which is lookup_value.value_before_type_cast
-      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" =>lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
+      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" => lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
 
       params = {
         hostgroup_id: hostgroup.id,
@@ -232,8 +232,8 @@ class HostgroupsControllerTest < ActionController::TestCase
     end
 
     it "creates a hostgroup with a parent parameter" do
-      post :create, params: { "hostgroup" => {"name"=>"test_it", "parent_id" => @base.id, :realm_id => realms(:myrealm).id,
-                                     :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}} }, session: set_session_user
+      post :create, params: { "hostgroup" => {"name" => "test_it", "parent_id" => @base.id, :realm_id => realms(:myrealm).id,
+                                     :group_parameters_attributes => {"0" => {:name => "x", :value => "overridden", :_destroy => ""}}} }, session: set_session_user
       assert_redirected_to hostgroups_url
       hostgroup = Hostgroup.unscoped.where(:name => "test_it").last
       as_admin do
@@ -247,7 +247,7 @@ class HostgroupsControllerTest < ActionController::TestCase
         assert_equal "original", child.parameters["x"]
       end
       post :update, params: { "id" => child.id, "hostgroup" => {"name" => child.name,
-                                                       :group_parameters_attributes => {"0" => {:name => "x", :value =>"overridden", :_destroy => ""}}} }, session: set_session_user
+                                                       :group_parameters_attributes => {"0" => {:name => "x", :value => "overridden", :_destroy => ""}}} }, session: set_session_user
       assert_redirected_to hostgroups_url
       as_admin do
         child.reload

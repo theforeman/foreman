@@ -69,12 +69,6 @@ Layout/MultilineMethodCallIndentation:
 Layout/MultilineOperationIndentation:
   Enabled: false
 
-# Offense count: 941
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Layout/SpaceAroundOperators:
-  Enabled: false
-
 # Offense count: 95
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -187,7 +181,7 @@ Metrics/CyclomaticComplexity:
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 385
+  Max: 340
 
 # Offense count: 522
 # Configuration parameters: CountComments.

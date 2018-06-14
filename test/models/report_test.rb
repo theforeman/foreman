@@ -11,9 +11,9 @@ class ReportTest < ActiveSupport::TestCase
     Source.delete_all
     FactoryBot.create_list(:report, report_count, :with_logs)
     FactoryBot.create_list(:report, report_count, :with_logs, :old_report)
-    assert_equal report_count*2, Report.count
-    assert_difference('Report.count', -1*report_count) do
-      assert_difference(['Log.count', 'Message.count', 'Source.count'], -1*report_count*5) do
+    assert_equal report_count * 2, Report.count
+    assert_difference('Report.count', -1 * report_count) do
+      assert_difference(['Log.count', 'Message.count', 'Source.count'], -1 * report_count * 5) do
         Report.expire
       end
     end
@@ -107,7 +107,7 @@ class ReportTest < ActiveSupport::TestCase
       assert_equal({}, report.metrics)
       report = ConfigReport.import read_json_fixture('reports/no-logs.json')
       refute_equal({}, report.metrics)
-      assert_equal({'success' => 1, 'total' => 1, 'failure' =>0}, report.metrics['events'])
+      assert_equal({'success' => 1, 'total' => 1, 'failure' => 0}, report.metrics['events'])
       report = TestReport.new
       assert_equal({}, report.metrics)
     end

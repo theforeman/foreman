@@ -9,12 +9,12 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
 
   context 'CA has certificates' do
     setup do
-      certificates = { "proxy.host2"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>3, "not_before"=>"2015-12-25T14:33:10UTC", "not_after"=>"2020-12-25T14:33:10UTC"},
-                       "secure.proxy"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>1, "not_before"=>"2015-12-12T14:33:10UTC", "not_after"=>"2020-12-11T14:33:10UTC"},
-                       "proxy.host"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>2, "not_before"=>"2015-12-22T14:33:10UTC", "not_after"=>"2020-12-22T14:33:10UTC"},
-                       "proxy.host.with_no_dates"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>5, "not_before"=>nil, "not_after"=>nil},
-                       "refuted.host"=>{"state"=>"refuted", "fingerprint"=>"SHA256", "serial"=>4, "not_before"=>"2015-12-22T14:33:10UTC", "not_after"=>"2020-12-22T14:33:10UTC"},
-                       "pending.host"=>{"state"=>"pending", "fingerprint"=>"SHA256", "serial"=>6}}
+      certificates = { "proxy.host2" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 3, "not_before" => "2015-12-25T14:33:10UTC", "not_after" => "2020-12-25T14:33:10UTC"},
+                       "secure.proxy" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 1, "not_before" => "2015-12-12T14:33:10UTC", "not_after" => "2020-12-11T14:33:10UTC"},
+                       "proxy.host" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 2, "not_before" => "2015-12-22T14:33:10UTC", "not_after" => "2020-12-22T14:33:10UTC"},
+                       "proxy.host.with_no_dates" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 5, "not_before" => nil, "not_after" => nil},
+                       "refuted.host" => {"state" => "refuted", "fingerprint" => "SHA256", "serial" => 4, "not_before" => "2015-12-22T14:33:10UTC", "not_after" => "2020-12-22T14:33:10UTC"},
+                       "pending.host" => {"state" => "pending", "fingerprint" => "SHA256", "serial" => 6}}
       ProxyAPI::Puppetca.any_instance.expects(:all).returns(certificates)
     end
 

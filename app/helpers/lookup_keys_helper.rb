@@ -1,7 +1,7 @@
 module LookupKeysHelper
   def remove_child_link(name, f, opts = {})
     opts[:class] = [opts[:class], "remove_nested_fields"].compact.join(" ")
-    f.hidden_field(opts[:method]||:_destroy) + link_to_function(name, "remove_child_node(this);", opts)
+    f.hidden_field(opts[:method] || :_destroy) + link_to_function(name, "remove_child_node(this);", opts)
   end
 
   def delete_child_link(name, f, opts = {})
@@ -31,7 +31,7 @@ module LookupKeysHelper
 
   def param_type_selector(f, options = {})
     selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e), e] }, f.object.key_type), {},
-                 options.merge({ :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class=> "without_select2",
+                 options.merge({ :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class => "without_select2",
                  :label_help => _("<dl>" +
                    "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
                    "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
@@ -47,7 +47,7 @@ module LookupKeysHelper
 
   def validator_type_selector(f)
     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e), e] }, f.object.validator_type), {:include_blank => _("None")},
-               { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class=> "without_select2",
+               { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class => "without_select2",
                  :onchange => 'validatorTypeSelected(this)',
                  :label_help => _("<dl>" +
                    "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
@@ -132,24 +132,24 @@ module LookupKeysHelper
     link_to_function(icon_text('pencil-square-o', '', :kind => 'fa'), "override_class_param(this)",
                      :title => _("Override this value"),
                      :'data-tag' => 'override',
-                     :class =>"btn btn-default btn-md btn-override #{'hide' if overridden}") +
+                     :class => "btn btn-default btn-md btn-override #{'hide' if overridden}") +
       link_to_function(icon_text('times', '', :kind => 'fa'), "override_class_param(this)",
                        :title => _("Remove this override"),
                       :'data-tag' => 'remove',
-                      :class =>"btn btn-default btn-md btn-override #{'hide' unless overridden}")
+                      :class => "btn btn-default btn-md btn-override #{'hide' unless overridden}")
   end
 
   def hidden_toggle(hidden, hide_icon = 'eye-slash', unhide_icon = 'eye', strikethrough = false)
     return unless can_edit_params?
     if strikethrough && !hidden
-      link_to_function(icon_text(hide_icon, '', :kind => 'fa'), "", :class =>"btn btn-default btn-md btn-hide", :disabled => "disabled", :rel => "twipsy", :title => _("This value is not hidden"))
+      link_to_function(icon_text(hide_icon, '', :kind => 'fa'), "", :class => "btn btn-default btn-md btn-hide", :disabled => "disabled", :rel => "twipsy", :title => _("This value is not hidden"))
     else
       link_to_function(icon_text(unhide_icon, '', :kind => 'fa'), "input_group_hidden(this)",
                        :title => _("Unhide this value"),
-                       :class =>"btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
+                       :class => "btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
           link_to_function(icon_text(hide_icon, "", :class => ('btn-strike' if strikethrough).to_s, :kind => 'fa'), "input_group_hidden(this)",
                            :title => _("Hide this value"),
-                           :class =>"btn btn-default btn-md btn-hide #{'hide' if hidden}")
+                           :class => "btn btn-default btn-md btn-hide #{'hide' if hidden}")
     end
   end
 

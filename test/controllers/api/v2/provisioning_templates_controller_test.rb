@@ -63,13 +63,13 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   test "should update valid" do
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, params: { :id              => templates(:pxekickstart).to_param,
+    put :update, params: { :id => templates(:pxekickstart).to_param,
                            :provisioning_template => { :template => "blah" } }
     assert_response :ok
   end
 
   test "should not update invalid" do
-    put :update, params: { :id              => templates(:pxekickstart).to_param,
+    put :update, params: { :id => templates(:pxekickstart).to_param,
                            :provisioning_template => { :name => "" } }
     assert_response 422
   end
@@ -99,7 +99,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
   test "should add audit comment" do
     ProvisioningTemplate.auditing_enabled = true
     ProvisioningTemplate.any_instance.stubs(:valid?).returns(true)
-    put :update, params: { :id              => templates(:pxekickstart).to_param,
+    put :update, params: { :id => templates(:pxekickstart).to_param,
                            :provisioning_template => { :audit_comment => "aha", :template => "tmp" } }
     assert_response :success
     assert_equal "aha", templates(:pxekickstart).audits.last.comment

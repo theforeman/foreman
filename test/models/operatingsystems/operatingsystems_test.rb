@@ -81,7 +81,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     end
   end
 
-  { :coreos      => { 'os' => :coreos, 'arch' => :x86_64, 'medium' => :coreos,
+  { :coreos => { 'os' => :coreos, 'arch' => :x86_64, 'medium' => :coreos,
                       'kernel' => 'http://stable.release.core-os.net/amd64-usr/494.5.0/coreos_production_pxe.vmlinuz',
                       'initrd' => 'http://stable.release.core-os.net/amd64-usr/494.5.0/coreos_production_pxe_image.cpio.gz'},
     :debian7_0   => { 'os' => :debian7_0, 'arch' => :x86_64, 'medium' => :debian,

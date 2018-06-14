@@ -24,7 +24,7 @@ module SmartProxiesControllerSharedTest
     # This is the on-disk status
     # and should result in a disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     envs = HashWithIndifferentAccess.new(:env1 => %w{a b c}, :env2 => %w{a b c})
-    pcs = [HashWithIndifferentAccess.new("a" => { "name" => "a", "module" => nil, "params"=> {'key' => 'special'} })]
+    pcs = [HashWithIndifferentAccess.new("a" => { "name" => "a", "module" => nil, "params" => {'key' => 'special'} })]
     classes = Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
     Environment.expects(:puppetEnvs).returns(envs).at_least(0)
     ProxyAPI::Puppet.any_instance.stubs(:environments).returns(["env1", "env2"])

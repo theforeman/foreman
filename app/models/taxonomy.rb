@@ -176,7 +176,7 @@ class Taxonomy < ApplicationRecord
   end
 
   def expire_topbar_cache
-    (users+User.only_admin).each { |u| u.expire_topbar_cache }
+    (users + User.only_admin).each { |u| u.expire_topbar_cache }
   end
 
   def parent_params(include_source = false)

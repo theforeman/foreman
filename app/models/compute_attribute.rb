@@ -14,7 +14,7 @@ class ComputeAttribute < ApplicationRecord
 
   def method_missing(method, *args, &block)
     method = method.to_s
-    return super if method[-1]=="="
+    return super if method[-1] == "="
     return super if method == 'vm_attrs'
 
     if vm_attrs.has_key?(method)

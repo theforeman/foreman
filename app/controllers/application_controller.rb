@@ -358,7 +358,7 @@ class ApplicationController < ActionController::Base
   end
 
   def errors_hash(errors)
-    errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message =>""}
+    errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message => ""}
   end
 
   def taxonomy_scope

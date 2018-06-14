@@ -60,7 +60,7 @@
 # PAGE_SIZE is the number of rows updated in a single transaction.
 # This facilitates tables where the number of rows exceeds the systems
 # memory
-PAGE_SIZE=10000
+PAGE_SIZE = 10000
 
 namespace :db do
   namespace :convert do
@@ -84,7 +84,7 @@ namespace :db do
         time = Time.now
 
         ProductionModelClass.establish_connection(:production)
-        ProductionModelClass.table_name=table_name
+        ProductionModelClass.table_name = table_name
         ProductionModelClass.reset_column_information
 
         DevelopmentModelClass.establish_connection(:development)
@@ -97,7 +97,7 @@ namespace :db do
               end
         DevelopmentModelClass.connection.execute(sql) if sql
 
-        DevelopmentModelClass.table_name=table_name
+        DevelopmentModelClass.table_name = table_name
         DevelopmentModelClass.reset_column_information
         DevelopmentModelClass.record_timestamps = false
 

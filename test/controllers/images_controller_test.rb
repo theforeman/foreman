@@ -54,7 +54,7 @@ class ImagesControllerTest < ActionController::TestCase
   test "should list json images" do
     # This value is tested by the deprecation warning in application_controller
     # so we need to set it or the test will crash
-    request.env['REQUEST_URI']="compute_resources/#{@image.compute_resource_id}/images"
+    request.env['REQUEST_URI'] = "compute_resources/#{@image.compute_resource_id}/images"
     get :index, params: { :format => :json, :compute_resource_id => @image.compute_resource_id, :operatingsystem_id => @image.operatingsystem_id, :architecture_id => @image.architecture_id }, session: set_session_user
     assert_response :success
     body = JSON.parse(response.body)

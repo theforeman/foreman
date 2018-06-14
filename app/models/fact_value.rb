@@ -9,7 +9,7 @@ class FactValue < ApplicationRecord
 
   has_one :parent_fact_name, :through => :fact_name, :source => :parent
 
-  scoped_search :on => :value, :in_key=> :fact_name, :on_key=> :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
+  scoped_search :on => :value, :in_key => :fact_name, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
   scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts
   scoped_search :on => :updated_at, :rename => :reported_at, :only_explicit => true, :complete_value => true
   scoped_search :on => :host_id, :only_explicit => true, :complete_value => false
@@ -76,7 +76,7 @@ class FactValue < ApplicationRecord
                 else
                   k
               end
-      output << {:label => label, :data =>v } unless v == 0
+      output << {:label => label, :data => v } unless v == 0
     end
     output
   end

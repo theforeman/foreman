@@ -1,7 +1,7 @@
 module ProxyAPI
   class Puppetca < ProxyAPI::Resource
     def initialize(args)
-      @url  = args[:url] + "/puppet/ca"
+      @url = args[:url] + "/puppet/ca"
       super args
     end
 

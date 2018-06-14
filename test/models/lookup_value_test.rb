@@ -42,7 +42,7 @@ class LookupValueTest < ActiveSupport::TestCase
     FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "name = #{@host1.name}")
     # Todo, restore the ip test variant once our scoped-search works with host.ip again
     # FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "ip = #{@host1.ip}")
-    user.roles<< [ role ]
+    user.roles << [ role ]
     as_user :one do
       assert Host.authorized(:view_hosts, Host).where(:name => @host1.name).exists?
       refute Host.authorized(:view_hosts, Host).where(:name => @host2.name).exists?
@@ -271,7 +271,7 @@ this is a multiline value
 with leading and trailing whitespace
 
 EOF
-    value = LookupValue.new(:value => text, :match => "hostgroup=Common", :lookup_key_id =>key.id)
+    value = LookupValue.new(:value => text, :match => "hostgroup=Common", :lookup_key_id => key.id)
     assert value.save!
     assert_equal value.value, text
   end

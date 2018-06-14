@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'cgi'
 
-class AuditMailerTest <ActionMailer::TestCase
+class AuditMailerTest < ActionMailer::TestCase
   def setup
     disable_orchestration
     # Add 'update' action to audits

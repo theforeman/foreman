@@ -37,14 +37,14 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "random_password should return nil when set_console_password is false" do
-    cr=compute_resources(:mycompute)
-    cr.set_console_password=0
+    cr = compute_resources(:mycompute)
+    cr.set_console_password = 0
     assert_nil cr.send(:random_password) # Can't call protected methods directly
   end
 
   test "random_password should return a string when set_console_password is true" do
-    cr=compute_resources(:mycompute)
-    cr.set_console_password=1
+    cr = compute_resources(:mycompute)
+    cr.set_console_password = 1
     assert_match /^[[:alnum:]]+$/, cr.send(:random_password) # Can't call protected methods directly
   end
 
@@ -67,10 +67,10 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "libvirt vm_instance_defaults should contain the stored display type" do
-    cr=compute_resources(:mycompute)
-    cr.display_type='VNC'
+    cr = compute_resources(:mycompute)
+    cr.display_type = 'VNC'
     assert_equal 'vnc', cr.send(:vm_instance_defaults)['display']['type']
-    cr.display_type='SPICE'
+    cr.display_type = 'SPICE'
     assert_equal 'spice', cr.send(:vm_instance_defaults)['display']['type']
   end
 

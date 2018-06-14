@@ -1,7 +1,7 @@
 module ProxyAPI
   class DNS < ProxyAPI::Resource
     def initialize(args)
-      @url  = args[:url] + "/dns"
+      @url = args[:url] + "/dns"
       super args
     end
 

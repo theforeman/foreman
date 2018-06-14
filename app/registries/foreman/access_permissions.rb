@@ -363,7 +363,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :host_editing do |map|
-    map.permission :edit_classes, { :host_editing  => [:edit_classes],
+    map.permission :edit_classes, { :host_editing => [:edit_classes],
                                     :"api/v2/host_classes" => [:index, :create, :destroy]
                                 }
     map.permission :view_params, { :host_editing => [:view_params],
@@ -664,7 +664,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :facts do |map|
-    map.permission :view_facts, {:facts       => [:index, :show],
+    map.permission :view_facts, {:facts => [:index, :show],
                                 :fact_values => [:index, :show, :auto_complete_search],
                                 :"api/v2/fact_values" => [:index, :show]
                               }
@@ -678,7 +678,7 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :statistics do |map|
-    map.permission :view_statistics, {:statistics  => [:index, :show],
+    map.permission :view_statistics, {:statistics => [:index, :show],
                                        :"api/v2/statistics" => [:index]
                                       }
   end

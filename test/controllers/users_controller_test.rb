@@ -85,12 +85,12 @@ class UsersControllerTest < ActionController::TestCase
   test "should not remove the default role" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
 
-    assert user.roles =[roles(:default_role)]
+    assert user.roles = [roles(:default_role)]
 
     put :update, params: { :id => user.id, :user => {:login => "johnsmith"} }, session: set_session_user
     mod_user = User.unscoped.find_by_id(user.id)
 
-    assert mod_user.roles =[roles(:default_role)]
+    assert mod_user.roles = [roles(:default_role)]
   end
 
   test "should set password" do
@@ -199,14 +199,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should be able to create user without mail and update the mail later" do
-    user = User.create :login => "mailess", :mail=> nil, :auth_source => auth_sources(:one)
+    user = User.create :login => "mailess", :mail => nil, :auth_source => auth_sources(:one)
     user.admin = true
     user.save!(:validate => false)
 
-    update_hash = {"user"=>{
-      "login"  => user.login,
-      "mail"  => "you@have.mail"},
-      "id"     => user.id}
+    update_hash = {"user" => {
+      "login" => user.login,
+      "mail" => "you@have.mail"},
+      "id" => user.id}
     put :update, params: update_hash, session: set_session_user.merge(:user => user.id)
 
     assert User.unscoped.find_by_login(user.login).mail.present?
@@ -360,7 +360,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "#login shows a warning for any user model errors" do
-    attrs = {:firstname=>"foo", :mail=>"foo#bar", :login=>"ldap-user", :auth_source_id=>auth_sources(:one).id}
+    attrs = {:firstname => "foo", :mail => "foo#bar", :login => "ldap-user", :auth_source_id => auth_sources(:one).id}
     AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
     AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
     AuthSourceLdap.any_instance.stubs(:organizations).returns([taxonomies(:organization1)])
@@ -431,7 +431,7 @@ class UsersControllerTest < ActionController::TestCase
 
   context 'default taxonomies' do
     test 'accessing a regular page sets default taxonomies' do
-      users(:one).update(:default_location_id     => taxonomies(:location1).id,
+      users(:one).update(:default_location_id => taxonomies(:location1).id,
                                     :default_organization_id => taxonomies(:organization1).id,
                                     :password                => 'changeme')
 
@@ -441,11 +441,11 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     test 'users can update their own default taxonomies' do
-      users(:one).update(:locations     => [taxonomies(:location1)],
+      users(:one).update(:locations => [taxonomies(:location1)],
                                     :organizations => [taxonomies(:organization1)])
 
       put :update, params: { :id   => users(:one).id,
-                             :user => { :default_location_id     => taxonomies(:location1).id,
+                             :user => { :default_location_id => taxonomies(:location1).id,
                                 :default_organization_id => taxonomies(:organization1).id } }
       assert_redirected_to users_path
 

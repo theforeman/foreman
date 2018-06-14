@@ -431,7 +431,7 @@ class Host::Managed < Host::Base
   # this method accepts a puppets external node yaml output and generate a node in our setup
   # it is assumed that you already have the node (e.g. imported by one of the rack tasks)
   def importNode(nodeinfo)
-    myklasses= []
+    myklasses = []
     # puppet classes
     classes = nodeinfo["classes"]
     classes = classes.keys if classes.is_a?(Hash)
@@ -492,7 +492,7 @@ class Host::Managed < Host::Base
   def self.count_habtm(association)
     counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").reorder('').count
     # Puppetclass.find(counter.keys.compact)...
-    association.camelize.constantize.find(counter.keys.compact).map {|i| {:label=>i.to_label, :data =>counter[i.id]}}
+    association.camelize.constantize.find(counter.keys.compact).map {|i| {:label => i.to_label, :data => counter[i.id]}}
   end
 
   def self.provision_methods

@@ -53,7 +53,7 @@ class Operatingsystem < ApplicationRecord
   scoped_search :relation => :architectures,    :on => :name,  :complete_value => :true, :rename => "architecture", :only_explicit => true
   scoped_search :relation => :media,            :on => :name,  :complete_value => :true, :rename => "medium", :only_explicit => true
   scoped_search :relation => :provisioning_templates, :on => :name, :complete_value => :true, :rename => "template", :only_explicit => true
-  scoped_search :relation => :os_parameters, :on => :value, :on_key=> :name, :complete_value => true, :rename => :params, :only_explicit => true
+  scoped_search :relation => :os_parameters, :on => :value, :on_key => :name, :complete_value => true, :rename => :params, :only_explicit => true
 
   FAMILIES = { 'Debian'    => %r{Debian|Ubuntu}i,
                'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux}i,

@@ -168,7 +168,7 @@ module Foreman::Model
       # Listen address cannot be updated while the guest is running
       # When we update the display password, we pass the existing listen address
       vm.update_display(:password => password, :listen => vm.display[:listen], :type => vm.display[:type])
-      WsProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type => vm.display[:type], :name=> vm.name)
+      WsProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type => vm.display[:type], :name => vm.name)
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
         logger.warn e
@@ -192,7 +192,7 @@ module Foreman::Model
         vm_attrs[:memory] = nil
         logger.debug("Compute attributes for VM '#{uuid}' diddn't contain :memory_size")
       else
-        vm_attrs[:memory] = vm_attrs[:memory_size]*1024 # value is returned in megabytes, we need bytes
+        vm_attrs[:memory] = vm_attrs[:memory_size] * 1024 # value is returned in megabytes, we need bytes
       end
       vm_attrs
     end
@@ -268,7 +268,7 @@ module Foreman::Model
       begin
         vols = []
         (volumes = args[:volumes]).each do |vol|
-          vol.name       = "#{args[:prefix]}-disk#{volumes.index(vol)+1}"
+          vol.name = "#{args[:prefix]}-disk#{volumes.index(vol) + 1}"
           vol.capacity = "#{vol.capacity}G" unless vol.capacity.to_s.end_with?('G')
           vol.allocation = "#{vol.allocation}G" unless vol.allocation.to_s.end_with?('G')
           vol.save

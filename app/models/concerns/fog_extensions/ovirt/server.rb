@@ -20,7 +20,7 @@ module FogExtensions
       def volumes_attributes=(attrs); end
 
       def poweroff
-        service.vm_action(:id =>id, :action => :shutdown)
+        service.vm_action(:id => id, :action => :shutdown)
       end
 
       def reset

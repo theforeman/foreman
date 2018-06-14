@@ -14,19 +14,19 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
     end
 
     def test_create_valid
-      User.current=nil
+      User.current = nil
       post :create, params: { :config_report => create_a_puppet_transaction_report }, session: set_session_user
       assert_response :success
     end
 
     def test_create_invalid
-      User.current=nil
+      User.current = nil
       post :create, params: { :config_report => ["not a hash", "throw an error"] }, session: set_session_user
       assert_response :unprocessable_entity
     end
 
     def test_create_duplicate
-      User.current=nil
+      User.current = nil
       post :create, params: { :config_report => create_a_puppet_transaction_report }, session: set_session_user
       assert_response :success
       post :create, params: { :config_report => create_a_puppet_transaction_report }, session: set_session_user

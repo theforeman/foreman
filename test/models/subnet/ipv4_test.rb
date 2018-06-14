@@ -53,29 +53,29 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
   end
 
   test "should be able to save ranges" do
-    s=subnets(:one)
+    s = subnets(:one)
     s.from = "2.3.4.15"
     s.to   = "2.3.4.17"
     assert s.save
   end
 
   test "should not be able to save ranges if they dont belong to the subnet" do
-    s=subnets(:one)
+    s = subnets(:one)
     s.from = "2.3.3.15"
     s.to   = "2.3.4.17"
     assert !s.save
   end
 
   test "should not be able to save ranges if one of them is missing" do
-    s=subnets(:one)
+    s = subnets(:one)
     s.from = "2.3.4.15"
     assert !s.save
-    s.to   = "2.3.4.17"
+    s.to = "2.3.4.17"
     assert s.save
   end
 
   test "should not be able to save ranges if one of them is invalid" do
-    s=subnets(:one)
+    s = subnets(:one)
     s.from = "2.3.4.abc"
     s.to   = "2.3.4.17"
     refute s.valid?

@@ -95,7 +95,7 @@ module Classification
         computed_lookup_value = nil
         lookup_values.each do |lookup_value|
           element, element_name = get_element_and_element_name(lookup_value)
-          next if (options[:skip_fqdn] && element=="fqdn")
+          next if (options[:skip_fqdn] && element == "fqdn")
           computed_lookup_value = compute_lookup_value(lookup_value, element, element_name)
           computed_lookup_value[:managed] = lookup_value.omit if lookup_value.lookup_key.puppet?
           break
@@ -129,7 +129,7 @@ module Classification
       end
 
       def skip_value?(element, lookup_value, options)
-        ((options[:skip_fqdn] && element=="fqdn") || lookup_value.omit)
+        ((options[:skip_fqdn] && element == "fqdn") || lookup_value.omit)
       end
 
       def accumulate_value(values, lookup_value, should_avoid_duplicates)

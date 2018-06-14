@@ -72,7 +72,7 @@ module ProvisioningTemplatesHelper
           :text => ('<p>' + _("When editing a template, you must assign a list \
 of operating systems which this template can be used with. Optionally, you can \
 restrict a template to a list of host groups and/or environments.") + '</p>' +
-'<p>'+ _("When a Host requests a template (e.g. during provisioning), Foreman \
+'<p>' + _("When a Host requests a template (e.g. during provisioning), Foreman \
 will select the best match from the available templates of that type, in the \
 following order:") + '</p>' + '<ul>' +
     '<li>' + _("Host group and Environment") + '</li>' +

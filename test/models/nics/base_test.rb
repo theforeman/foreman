@@ -51,7 +51,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
   test 'should update with multiple valid names' do
     host = FactoryBot.create(:host, :managed)
     valid_interfaces_names.each do |name|
-      name = name[1..254-host.domain.name.length] if name.length + host.domain.name.length > 254
+      name = name[1..254 - host.domain.name.length] if name.length + host.domain.name.length > 254
       host.interfaces.first.name = name
       assert host.valid?, "Can't update nic with valid name #{name}.#{host.domain.name}"
     end

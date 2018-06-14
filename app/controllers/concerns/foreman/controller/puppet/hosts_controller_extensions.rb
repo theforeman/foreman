@@ -1,8 +1,8 @@
 module Foreman::Controller::Puppet::HostsControllerExtensions
   extend ActiveSupport::Concern
 
-  PUPPETMASTER_ACTIONS=[ :externalNodes, :lookup ]
-  PUPPET_AJAX_REQUESTS=%w{hostgroup_or_environment_selected puppetclass_parameters}
+  PUPPETMASTER_ACTIONS = [ :externalNodes, :lookup ]
+  PUPPET_AJAX_REQUESTS = %w{hostgroup_or_environment_selected puppetclass_parameters}
 
   MULTIPLE_EDIT_ACTIONS = %w(select_multiple_environment update_multiple_environment
                              select_multiple_puppet_proxy update_multiple_puppet_proxy
@@ -64,7 +64,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   def update_multiple_environment
     # simple validations
-    if params[:environment].nil? || (id=params["environment"]["id"]).nil?
+    if params[:environment].nil? || (id = params["environment"]["id"]).nil?
       error _('No environment selected!')
       redirect_to(select_multiple_environment_hosts_path)
       return
@@ -84,7 +84,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   def environment_from_param
     # simple validations
-    if params[:environment].nil? || (id=params["environment"]["id"]).nil?
+    if params[:environment].nil? || (id = params["environment"]["id"]).nil?
       error _('No environment selected!')
       redirect_to(select_multiple_environment_hosts_path)
       return

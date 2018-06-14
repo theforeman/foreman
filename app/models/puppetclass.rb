@@ -71,12 +71,12 @@ class Puppetclass < ApplicationRecord
   # returns module name (excluding of the class name)
   # if class separator does not exists (the "::" chars), then returns the whole class name
   def module_name
-    (i = name.index("::")) ? name[0..i-1] : name
+    (i = name.index("::")) ? name[0..i - 1] : name
   end
 
   # returns class name (excluding of the module name)
   def klass
-    name.gsub(module_name+"::", "")
+    name.gsub(module_name + "::", "")
   end
 
   def all_hostgroups(with_descendants = true, unsorted = false)

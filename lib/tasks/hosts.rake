@@ -28,7 +28,7 @@ namespace :hosts do
       unless list.empty?
         puts
         puts "Found #{list.size} #{description}:"
-        puts "Name".ljust(40)+"Environment".ljust(20)+"Last Report"
+        puts "Name".ljust(40) + "Environment".ljust(20) + "Last Report"
         puts '*' * 80
         list.each do |h|
           puts h.name.ljust(40) + h.environment.to_s.ljust(20) + h.last_report.to_s(:short)

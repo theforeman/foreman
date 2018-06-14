@@ -18,15 +18,15 @@ class StatisticsTest < ActiveSupport::TestCase
 
   test 'it should set taxonomies as API paramaters according to current context' do
     os = Statistics.charts(taxonomies(:empty_organization).id, nil).detect {|s| s.id == 'operatingsystem'}
-    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"/statistics/operatingsystem?organization_id=#{taxonomies(:empty_organization).id}", :search=>"/hosts?search=os_title=~VAL~" }
+    data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem?organization_id=#{taxonomies(:empty_organization).id}", :search => "/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
 
     os = Statistics.charts(nil, taxonomies(:location1).id).detect {|s| s.id == 'operatingsystem'}
-    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}", :search=>"/hosts?search=os_title=~VAL~" }
+    data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}", :search => "/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
 
     os = Statistics.charts(taxonomies(:empty_organization).id, taxonomies(:location1).id).detect {|s| s.id == 'operatingsystem'}
-    data = { :id=>"operatingsystem", :title=>"OS Distribution", :url=>"/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}&organization_id=#{taxonomies(:empty_organization).id}", :search=>"/hosts?search=os_title=~VAL~" }
+    data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}&organization_id=#{taxonomies(:empty_organization).id}", :search => "/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
   end
 

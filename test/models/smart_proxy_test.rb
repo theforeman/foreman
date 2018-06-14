@@ -88,7 +88,7 @@ class SmartProxyTest < ActiveSupport::TestCase
 
   test "should be saved if features exist" do
     proxy = FactoryBot.build(:smart_proxy)
-    ProxyAPI::Features.any_instance.stubs(:features =>["tftp"])
+    ProxyAPI::Features.any_instance.stubs(:features => ["tftp"])
     assert proxy.save
     assert_include(proxy.features, features(:tftp))
   end
@@ -97,7 +97,7 @@ class SmartProxyTest < ActiveSupport::TestCase
     proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
     error_message = 'Features "feature" in this proxy are not recognized by Foreman. '\
     'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.'
-    ProxyAPI::Features.any_instance.stubs(:features =>["feature"])
+    ProxyAPI::Features.any_instance.stubs(:features => ["feature"])
     refute proxy.save
     assert_equal(error_message, proxy.errors[:base].first)
   end

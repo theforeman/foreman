@@ -49,7 +49,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
   test_attributes :pid => '4cd20cca-d419-43f5-9734-e9ae1caae4cb'
   test "should create a smart variable" do
     variable_name = 'test_smart_variable'
-    puppetclass_id  = puppetclasses(:one).id
+    puppetclass_id = puppetclasses(:one).id
     assert_difference('LookupKey.count') do
       as_admin do
         valid_attrs = { :variable => variable_name, :puppetclass_id => puppetclass_id }

@@ -80,10 +80,10 @@ module FormHelper
       hidden_fields = ''
       html_options["data-useds"] ||= "[]"
       JSON.parse(html_options["data-useds"]).each do |disabled_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id=>'')
+        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id => '')
       end
       unauthorized.each do |unauthorized_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id=>'')
+        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id => '')
       end
       hidden_fields + f.collection_select(attr_ids, authorized.sort_by { |a| a.to_s },
                                           :id, options.delete(:object_label_method) || :to_label, options.merge(:selected => selected_ids),
@@ -99,7 +99,7 @@ module FormHelper
   def radio_button_f(f, attr, options = {})
     text = options.delete(:text)
     value = options.delete(:value)
-    label_tag('', :class=>"radio-inline") do
+    label_tag('', :class => "radio-inline") do
       f.radio_button(attr, value, options) + " #{text} "
     end
   end
@@ -190,10 +190,10 @@ module FormHelper
     if options[:file_name]
       html =  content_tag(:b) {options.delete(:file_name)}
       html += content_tag(:hr)
-      html += content_tag(:div, :style=>"margin-bottom: 10px") {_("Choose a new file:")}
+      html += content_tag(:div, :style => "margin-bottom: 10px") {_("Choose a new file:")}
     end
     field(f, attr, options) do
-      (html ? html: " ") + (f.file_field attr, options)
+      (html ? html : " ") + (f.file_field attr, options)
     end
   end
 
@@ -289,9 +289,9 @@ module FormHelper
 
   def form_for(record_or_name_or_array, *args, &proc)
     if args.last.is_a?(Hash)
-      args.last[:html] = {:class=>"form-horizontal well"}.merge(args.last[:html]||{})
+      args.last[:html] = {:class => "form-horizontal well"}.merge(args.last[:html] || {})
     else
-      args << {:html=>{:class=>"form-horizontal well"}}
+      args << {:html => {:class => "form-horizontal well"}}
     end
     super record_or_name_or_array, *args, &proc
   end
@@ -370,7 +370,7 @@ module FormHelper
     error       = options.delete(:error) || f.object.errors[attr] if f && f.object.respond_to?(:errors)
     help_inline = help_inline(options.delete(:help_inline), error)
     help_inline += options[:help_inline_permanent] unless options[:help_inline_permanent].nil?
-    size_class  = options.delete(:size) || "col-md-4"
+    size_class = options.delete(:size) || "col-md-4"
     wrapper_class = options.delete(:wrapper_class) || "form-group"
 
     label = options[:no_label] ? "" : add_label(options, f, attr)

@@ -142,10 +142,10 @@ module FactsData
 
     def flat_result
       {
-        "good"=>"hello",
-        "common_ancestor::good_subtree::good_key"=>"hello",
-        "common_ancestor::good_subtree"=>nil,
-        "common_ancestor"=>nil
+        "good" => "hello",
+        "common_ancestor::good_subtree::good_key" => "hello",
+        "common_ancestor::good_subtree" => nil,
+        "common_ancestor" => nil
       }
     end
   end

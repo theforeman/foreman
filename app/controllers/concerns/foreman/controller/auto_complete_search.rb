@@ -17,7 +17,7 @@ module Foreman::Controller::AutoCompleteSearch
         {:completed => CGI.escapeHTML(completed), :part => CGI.escapeHTML(part), :label => item, :category => category}
       end
     rescue ScopedSearch::QueryNotSupported => e
-      @items = [{:error =>e.to_s}]
+      @items = [{:error => e.to_s}]
     end
     render :json => @items
   end
