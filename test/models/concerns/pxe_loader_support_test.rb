@@ -87,17 +87,22 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       assert_nil @subject.preferred_loader
     end
 
-    test "is PXEGrub2 for associated templates" do
+    test "is PXELinux for all associated template kinds" do
       @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub, @template_pxegrub2])
-      assert_equal "Grub2 UEFI", @subject.preferred_loader
+      assert_equal "PXELinux BIOS", @subject.preferred_loader
     end
 
-    test "is PXELinux for associated templates" do
+    test "is PXELinux for associated PXELinux and PXEGrub" do
       @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub])
       assert_equal "PXELinux BIOS", @subject.preferred_loader
     end
 
-    test "is PXEGrub for associated templates" do
+    test "is PXEGrub2 for associated template PXEGrub2" do
+      @subject.expects(:os_default_templates).returns([@template_pxegrub2])
+      assert_equal "Grub2 UEFI", @subject.preferred_loader
+    end
+
+    test "is PXEGrub for associated template PXEGrub" do
       @subject.expects(:os_default_templates).returns([@template_pxegrub])
       assert_equal "Grub UEFI", @subject.preferred_loader
     end

@@ -220,7 +220,7 @@ class Operatingsystem < ApplicationRecord
 
   # Compatible kinds for this OS sorted by preferrence
   def template_kinds
-    ["PXEGrub2", "PXELinux", "PXEGrub"]
+    ["PXELinux", "PXEGrub2", "PXEGrub"]
   end
 
   def boot_filename(host = nil)
