@@ -7,9 +7,10 @@ module PxeLoaderSupport
     :PXEGrub2 => /^(grub2|Grub2).*/
   }.with_indifferent_access.freeze
 
+  # preference order is defined in Operatingsystem#template_kinds
   PREFERRED_KINDS = {
-    :PXEGrub2 => "Grub2 UEFI",
     :PXELinux => "PXELinux BIOS",
+    :PXEGrub2 => "Grub2 UEFI",
     :PXEGrub => "Grub UEFI"
   }.with_indifferent_access.freeze
 
