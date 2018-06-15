@@ -11,10 +11,10 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
       def initialize(plugin_id)
         @plugin = Foreman::Plugin.find(plugin_id) or raise("Unable to find registered plugin #{plugin_id}")
 
+        Rails.env = 'production'
         app = Rails.application
         app.config.assets.digest = true
         app.config.assets.precompile = plugin.assets
-        app.config.assets.paths = app.config.assets.paths.select { |path| path.to_s.include?(plugin_id) }
 
         super(Rails.application)
       end
