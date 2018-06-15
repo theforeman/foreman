@@ -1759,6 +1759,24 @@ class HostTest < ActiveSupport::TestCase
         assert_equal subnet2, host.primary_interface.subnet
       end
 
+      test "#set_interfaces does not update subnet when keep_subnet attribute is present" do
+        FactoryBot.create(:subnet_ipv4, :dhcp, :network => '10.10.20.0')
+        host = FactoryBot.create(:host,
+                                  :managed,
+                                  :mac => '00:00:00:11:22:33',
+                                  :ip => '10.10.0.1',
+                                  :subnet => subnet
+                                 )
+        hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false, :keep_subnet => true}
+        }.with_indifferent_access
+        parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+        assert_no_difference 'Nic::Base.count' do
+          host.set_interfaces(parser)
+        end
+
+        assert_equal subnet, host.primary_interface.subnet
+      end
+
       test "#set_interfaces updates existing physical interface when subnet6 is set but facts report no ipv6 addr" do
         subnet6 = FactoryBot.create(:subnet_ipv6, :network => '2001:db8::')
         host = FactoryBot.create(:host,
