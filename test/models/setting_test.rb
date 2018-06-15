@@ -632,4 +632,12 @@ class SettingTest < ActiveSupport::TestCase
     settings = Setting.live_descendants.map(&:full_name).compact
     assert_equal settings.sort, settings
   end
+
+  test "should update login page footer text with multiple valid long values" do
+    setting = Setting.find_by_name("login_text")
+    RFauxFactory.gen_strings(1000).values.each do |value|
+      setting.value = value
+      assert setting.valid?, "Can't update discovery_prefix setting with valid value #{value}"
+    end
+  end
 end
