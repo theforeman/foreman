@@ -439,11 +439,6 @@ Style/MethodCallWithoutArgsParentheses:
 Style/MixinUsage:
   Enabled: false
 
-# Offense count: 37
-# Cop supports --auto-correct.
-Style/MultilineIfModifier:
-  Enabled: false
-
 # Offense count: 3
 Style/MultipleComparison:
   Enabled: false

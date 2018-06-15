@@ -692,8 +692,10 @@ class Host::Managed < Host::Base
   end
 
   def ipmi_boot(booting_device)
-    raise Foreman::Exception.new(
-      _("No BMC NIC available for host %s") % self) unless bmc_available?
+    unless bmc_available?
+      raise Foreman::Exception.new(
+        _("No BMC NIC available for host %s") % self)
+    end
     bmc_proxy.boot({:function => 'bootdevice', :device => booting_device})
   end
 
@@ -868,21 +870,25 @@ class Host::Managed < Host::Base
   # checks if the host association is a valid association for this host
   def ensure_associations
     status = true
-    %w{ptable medium architecture}.each do |e|
-      value = self.send(e.to_sym)
-      next if value.blank?
-      unless os.send(e.pluralize.to_sym).include?(value)
-        errors.add("#{e}_id".to_sym, _("%{value} does not belong to %{os} operating system") % { :value => value, :os => os })
-        status = false
+    if SETTINGS[:unattended] && managed? && os && pxe_build?
+      %w{ptable medium architecture}.each do |e|
+        value = self.send(e.to_sym)
+        next if value.blank?
+        unless os.send(e.pluralize.to_sym).include?(value)
+          errors.add("#{e}_id".to_sym, _("%{value} does not belong to %{os} operating system") % { :value => value, :os => os })
+          status = false
+        end
       end
-    end if SETTINGS[:unattended] && managed? && os && pxe_build?
+    end
 
-    puppetclasses.select("puppetclasses.id,puppetclasses.name").distinct.each do |e|
-      unless environment.puppetclasses.map(&:id).include?(e.id)
-        errors.add(:puppetclasses, _("%{e} does not belong to the %{environment} environment") % { :e => e, :environment => environment })
-        status = false
+    if environment
+      puppetclasses.select("puppetclasses.id,puppetclasses.name").distinct.each do |e|
+        unless environment.puppetclasses.map(&:id).include?(e.id)
+          errors.add(:puppetclasses, _("%{e} does not belong to the %{environment} environment") % { :e => e, :environment => environment })
+          status = false
+        end
       end
-    end if environment
+    end
     status
   end
 

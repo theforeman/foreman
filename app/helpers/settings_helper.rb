@@ -1,10 +1,14 @@
 module SettingsHelper
   def value(setting)
-    return readonly_field(setting, :value,
-      {:title => _("This setting is defined in the configuration file '%{filename}' and is read-only.") % {:filename => setting.class.config_file}, :helper => :show_value}) if setting.readonly?
+    if setting.readonly?
+      return readonly_field(setting, :value,
+        {:title => _("This setting is defined in the configuration file '%{filename}' and is read-only.") % {:filename => setting.class.config_file}, :helper => :show_value})
+    end
 
-    return edit_select(setting, :value,
-      {:title => setting.full_name_with_default, :select_values => self.send("#{setting.name}_collection") }) if self.respond_to? "#{setting.name}_collection"
+    if self.respond_to? "#{setting.name}_collection"
+      return edit_select(setting, :value,
+        {:title => setting.full_name_with_default, :select_values => self.send("#{setting.name}_collection") })
+    end
 
     return edit_textarea(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value}) if setting.settings_type == 'array'
     edit_textfield(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value})

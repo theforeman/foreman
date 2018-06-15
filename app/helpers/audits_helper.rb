@@ -133,16 +133,18 @@ module AuditsHelper
 
   def audited_icon(audit)
     style = 'label-info'
-    style = case audit.action
-              when 'create'
-                'label-success'
-              when 'update'
-                'label-info'
-              when 'destroy'
-                'label-danger'
-              else
-                ''
-            end if main_object? audit
+    if main_object? audit
+      style = case audit.action
+                when 'create'
+                  'label-success'
+                when 'update'
+                  'label-info'
+                when 'destroy'
+                  'label-danger'
+                else
+                  ''
+              end
+    end
     style += " label"
 
     type   = audited_type(audit)

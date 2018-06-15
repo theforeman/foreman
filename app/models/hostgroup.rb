@@ -137,11 +137,13 @@ class Hostgroup < ApplicationRecord
   end
 
   def inherited_lookup_value(key)
-    ancestors.reverse_each do |hg|
-      if (v = LookupValue.find_by(:lookup_key_id => key.id, :id => hg.lookup_values))
-        return v.value, hg.to_label
+    if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
+      ancestors.reverse_each do |hg|
+        if (v = LookupValue.find_by(:lookup_key_id => key.id, :id => hg.lookup_values))
+          return v.value, hg.to_label
+        end
       end
-    end if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
+    end
     [key.default_value, _("Default value")]
   end
 
@@ -244,9 +246,11 @@ class Hostgroup < ApplicationRecord
   private
 
   def nested_root_pw
-    Hostgroup.sort_by_ancestry(ancestors).reverse_each do |a|
-      return a.root_pass if a.root_pass.present?
-    end if ancestry.present?
+    if ancestry.present?
+      Hostgroup.sort_by_ancestry(ancestors).reverse_each do |a|
+        return a.root_pass if a.root_pass.present?
+      end
+    end
     nil
   end
 

@@ -17,10 +17,12 @@ module Classification
         match = generate_match(rule)
         matches << match.join(LookupKey::KEY_DELM)
 
-        hostgroup_matches.each do |hostgroup_match|
-          match[match.index { |m| m =~ /hostgroup\s*=/ }] = hostgroup_match
-          matches << match.join(LookupKey::KEY_DELM)
-        end if add_hostgroup_matches?(rule)
+        if add_hostgroup_matches?(rule)
+          hostgroup_matches.each do |hostgroup_match|
+            match[match.index { |m| m =~ /hostgroup\s*=/ }] = hostgroup_match
+            matches << match.join(LookupKey::KEY_DELM)
+          end
+        end
       end
       matches
     end

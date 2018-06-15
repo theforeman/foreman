@@ -105,8 +105,10 @@ Available conditions:
 END_DESC
 
   task :import_dump => :environment do
-    puts "Run this task with a file argument with the location of your db dump,
-          'rake db:import_dump file=DBDUMPLOCATION" and return unless ENV['file']
+    unless ENV['file']
+      puts "Run this task with a file argument with the location of your db dump,
+            'rake db:import_dump file=DBDUMPLOCATION" and return
+    end
     config = Rails.configuration.database_configuration[Rails.env]
 
     puts "Your backup is going to be imported from: #{ENV['file']}"
