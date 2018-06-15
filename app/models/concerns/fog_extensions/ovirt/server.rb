@@ -15,9 +15,11 @@ module FogExtensions
         status
       end
 
-      def interfaces_attributes=(attrs); end
+      def interfaces_attributes=(attrs)
+      end
 
-      def volumes_attributes=(attrs); end
+      def volumes_attributes=(attrs)
+      end
 
       def poweroff
         service.vm_action(:id => id, :action => :shutdown)

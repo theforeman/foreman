@@ -3,7 +3,8 @@ require 'test_helper'
 class ExpirableTest < ActiveSupport::TestCase
   class SampleModel
     class << self
-      def scope(name, opts); end
+      def scope(name, opts)
+      end
     end
 
     include Expirable

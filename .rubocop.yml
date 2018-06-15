@@ -83,3 +83,6 @@ Style/IfUnlessModifier:
 
 Style/ConditionalAssignment:
   Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded

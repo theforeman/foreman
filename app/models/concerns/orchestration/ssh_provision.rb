@@ -29,7 +29,8 @@ module Orchestration::SSHProvision
                  :action => [self, :setSSHProvision])
   end
 
-  def queue_ssh_provision_update; end
+  def queue_ssh_provision_update
+  end
 
   def setSSHProvisionScript
     logger.info "About to start post launch script on #{name}"
@@ -39,7 +40,8 @@ module Orchestration::SSHProvision
     self.template_file = unattended_render_to_temp_file(template)
   end
 
-  def delSSHProvisionScript; end
+  def delSSHProvisionScript
+  end
 
   def setSSHWaitForResponse
     logger.info "Starting SSH provisioning script - waiting for #{provision_ip} to respond"
@@ -57,7 +59,8 @@ module Orchestration::SSHProvision
     failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
-  def delSSHWaitForResponse; end
+  def delSSHWaitForResponse
+  end
 
   def setSSHCert
     self.handle_ca
@@ -98,7 +101,8 @@ module Orchestration::SSHProvision
     failure _("Failed to launch script on %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
-  def delSSHProvision; end
+  def delSSHProvision
+  end
 
   def validate_ssh_provisioning
     return unless ssh_provision?

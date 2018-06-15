@@ -27,7 +27,8 @@ module Orchestration::Puppetca
   end
 
   # Empty method for rollbacks - maybe in the future we would support creating the certificates directly
-  def setCertificate; end
+  def setCertificate
+  end
 
   # Adds the host's name to the autosign.conf file
   def setAutosign
@@ -51,7 +52,8 @@ module Orchestration::Puppetca
 
   # we don't perform any actions upon create
   # PuppetCA is set only when a provisioning script (such as a kickstart) is being requested.
-  def queue_puppetca_create; end
+  def queue_puppetca_create
+  end
 
   def queue_puppetca_update
     # Host has been built --> remove auto sign

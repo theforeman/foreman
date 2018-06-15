@@ -17,7 +17,8 @@ class UserIntegrationTest < IntegrationTestWithJavascript
   end
 
   context "without automatic login" do
-    def login_admin; end
+    def login_admin
+    end
 
     test "login" do
       visit "/"

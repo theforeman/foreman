@@ -17,7 +17,8 @@ module FogExtensions
         pretty_machine_type
       end
 
-      def volumes_attributes=(attrs); end
+      def volumes_attributes=(attrs)
+      end
 
       def volumes
         disks
