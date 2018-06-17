@@ -35,6 +35,7 @@
     "expose-loader": "~0.6.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.9.0",
+    "git-hooks": "^1.1.10",
     "identity-obj-proxy": "^3.0.0",
     "jest-cli": "^20.0.0",
     "jsdom": "^9.5.0",
