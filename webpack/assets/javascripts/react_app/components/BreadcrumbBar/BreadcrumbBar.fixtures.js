@@ -1,3 +1,5 @@
+export const mockBreadcrumbItemOnClick = jest.fn();
+
 export const breadcrumbItems = {
   items: [
     {
@@ -5,7 +7,11 @@ export const breadcrumbItems = {
       url: '/some-url',
     },
     {
-      caption: 'child',
+      caption: 'child with onClick',
+      onClick: mockBreadcrumbItemOnClick,
+    },
+    {
+      caption: 'active child',
     },
   ],
 };
