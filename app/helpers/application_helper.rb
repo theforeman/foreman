@@ -11,7 +11,12 @@ module ApplicationHelper
       html_options = args[2] || {}
       unless html_options.has_key?(:'data-id') || (options.is_a?(String) && options.starts_with?("mailto:"))
         begin
-          path = URI.split(url_for(options) || html_options['href'])[5].split(/\//).select {|x| !x.empty?}
+          path_elemenths = URI.split(url_for(options) || html_options['href'])
+          path = if path_elemenths.length >= 6
+                   path_elemenths[5].split(/\//).select {|x| !x.empty?}
+                 else
+                   ''
+                 end
           if !path.empty?
             max = (path.size <= 3) ? path.size : 3
             id = path.last(max).join('_')
