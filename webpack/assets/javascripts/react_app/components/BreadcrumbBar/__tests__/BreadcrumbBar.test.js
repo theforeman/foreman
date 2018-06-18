@@ -4,7 +4,11 @@ import { mount } from 'enzyme';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 import BreadcrumbBar from '../BreadcrumbBar';
-import { breadcrumbBar, breadcrumbBarSwithcable } from '../BreadcrumbBar.fixtures';
+import {
+  breadcrumbBar,
+  breadcrumbBarSwithcable,
+  mockBreadcrumbItemOnClick,
+} from '../BreadcrumbBar.fixtures';
 
 const createStubs = () => ({
   toggleSwitcher: jest.fn(),
@@ -47,6 +51,27 @@ describe('BreadcrumbBar', () => {
       expect(props.loadSwitcherResourcesByResource.mock.calls.length).toBe(3);
 
       expect(props.loadSwitcherResourcesByResource.mock.calls).toMatchSnapshot('loadSwitcherResourcesByResource calls');
+    });
+
+    it('onclick callbacks should work', () => {
+      const props = {
+        ...breadcrumbBarSwithcable,
+        ...createStubs(),
+        onSwitcherItemClick: jest.fn(),
+        resourceSwitcherItems: [{ name: 'a', id: '1' }],
+      };
+      const component = mount(<BreadcrumbBar {...props} />);
+
+      // test breadcrumb switcher item click
+      expect(props.onSwitcherItemClick.mock.calls.length).toBe(0);
+      component.setProps({ isSwitcherOpen: true });
+      component.update();
+      component.find('.scrollable-list.list-group button').simulate('click');
+      expect(props.onSwitcherItemClick.mock.calls.length).toBe(1);
+
+      // test breadcrumb item click
+      component.find('.breadcrumbs-pf-title.breadcrumb a').at(1).simulate('click');
+      expect(mockBreadcrumbItemOnClick.mock.calls.length).toBe(1);
     });
   });
 });
