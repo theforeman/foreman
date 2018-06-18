@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { Popover, ListGroup, ListGroupItem, Pager, Icon } from 'patternfly-react';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import SearchInput from '../../common/SearchInput';
-import { noop } from '../../../common/helpers';
 import SubstringWrapper from '../../common/SubstringWrapper';
+import { noop } from '../../../common/helpers';
 import './BreadcrumbSwitcherPopover.scss';
 
 const BreadcrumbSwitcherPopover = ({
   resources,
-  onResourceClick,
   onNextPageClick,
   onPrevPageClick,
   loading,
@@ -20,6 +19,7 @@ const BreadcrumbSwitcherPopover = ({
   onSearchClear,
   searchValue,
   searchDebounceTimeout,
+  onResourceClick,
   ...props
 }) => {
   let popoverBody;
@@ -37,11 +37,6 @@ const BreadcrumbSwitcherPopover = ({
       </div>
     );
   } else {
-    const handleItemClick = (item) => {
-      onResourceClick(item);
-      if (item.onClick) item.onClick();
-    };
-
     const createItemProps = (item) => {
       const { id, url, name } = item;
       const key = `${id}-${name}`;
@@ -57,7 +52,7 @@ const BreadcrumbSwitcherPopover = ({
         return { ...itemProps, disabled: true };
       }
 
-      return { ...itemProps, onClick: () => handleItemClick(item), href: url };
+      return { ...itemProps, onClick: e => onResourceClick(e, url), href: url };
     };
 
     popoverBody = (
@@ -104,7 +99,6 @@ BreadcrumbSwitcherPopover.propTypes = {
   hasError: PropTypes.bool,
   currentPage: PropTypes.number,
   totalPages: PropTypes.number,
-  onResourceClick: PropTypes.func,
   resources: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     name: PropTypes.string.isRequired,
@@ -113,6 +107,7 @@ BreadcrumbSwitcherPopover.propTypes = {
   })),
   onSearchChange: PropTypes.func,
   searchValue: PropTypes.string,
+  onResourceClick: PropTypes.func,
 };
 
 BreadcrumbSwitcherPopover.defaultProps = {
@@ -120,8 +115,8 @@ BreadcrumbSwitcherPopover.defaultProps = {
   hasError: false,
   currentPage: 1,
   totalPages: 1,
-  onResourceClick: noop,
   resources: [],
+  onResourceClick: noop,
 };
 
 export default BreadcrumbSwitcherPopover;

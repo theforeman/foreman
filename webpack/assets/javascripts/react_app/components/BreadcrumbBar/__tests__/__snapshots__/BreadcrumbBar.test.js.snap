@@ -13,7 +13,11 @@ exports[`BreadcrumbBar rendering renders breadcrumb-bar 1`] = `
           "url": "/some-url",
         },
         Object {
-          "caption": "child",
+          "caption": "child with onClick",
+          "onClick": [Function],
+        },
+        Object {
+          "caption": "active child",
         },
       ]
     }
@@ -38,7 +42,11 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
           "url": "/some-url",
         },
         Object {
-          "caption": "child",
+          "caption": "child with onClick",
+          "onClick": [Function],
+        },
+        Object {
+          "caption": "active child",
         },
       ]
     }
