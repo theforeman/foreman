@@ -20,6 +20,7 @@ const Breadcrumb = ({
         <PfBreadcrumb.Item
           key={index}
           active={index === items.length - 1}
+          onClick={item.onClick}
           href={item.url}
           dangerouslySetInnerHTML={{ __html: item.caption }}
         />

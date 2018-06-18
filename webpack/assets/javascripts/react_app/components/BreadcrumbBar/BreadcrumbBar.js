@@ -34,6 +34,7 @@ class BreadcrumbBar extends React.Component {
       searchQuery,
       removeSearchQuery,
       searchDebounceTimeout,
+      onSwitcherItemClick,
     } = this.props;
 
     const isTitle = breadcrumbItems.length === 1;
@@ -41,6 +42,11 @@ class BreadcrumbBar extends React.Component {
       searchQuery,
       page: Number(currentPage) + pageIncrement,
     });
+
+    const handleSwitcherItemClick = (e, url) => {
+      closeSwitcher();
+      onSwitcherItemClick(e, url);
+    };
 
     return (
       <div className="breadcrumb-bar">
@@ -56,7 +62,6 @@ class BreadcrumbBar extends React.Component {
               onTogglerClick={() => toggleSwitcher()}
               onHide={() => closeSwitcher()}
               onOpen={() => this.handleOpen()}
-              onResourceClick={() => closeSwitcher()}
               onSearchChange={event =>
                 loadSwitcherResourcesByResource(resource, { searchQuery: event.target.value })
               }
@@ -69,6 +74,7 @@ class BreadcrumbBar extends React.Component {
               searchValue={searchQuery}
               onSearchClear={() => removeSearchQuery(resource)}
               searchDebounceTimeout={searchDebounceTimeout}
+              onResourceClick={(e, url) => handleSwitcherItemClick(e, url)}
             />
           )}
         </Breadcrumb>
@@ -99,6 +105,7 @@ BreadcrumbBar.propTypes = {
   closeSwitcher: PropTypes.func,
   loadSwitcherResourcesByResource: PropTypes.func,
   onSearchChange: PropTypes.func,
+  onSwitcherItemClick: PropTypes.func,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -118,6 +125,7 @@ BreadcrumbBar.defaultProps = {
   loadSwitcherResourcesByResource: noop,
   onSearchChange: noop,
   searchDebounceTimeout: 300,
+  onSwitcherItemClick: noop,
 };
 
 export default BreadcrumbBar;

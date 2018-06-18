@@ -27,13 +27,13 @@ class BreadcrumbSwitcher extends React.Component {
       resources,
       onTogglerClick,
       onHide,
-      onResourceClick,
       onNextPageClick,
       onPrevPageClick,
       onSearchChange,
       searchValue,
       onSearchClear,
       searchDebounceTimeout,
+      onResourceClick,
     } = this.props;
 
     return (
@@ -60,7 +60,6 @@ class BreadcrumbSwitcher extends React.Component {
             hasError={hasError}
             onSearchChange={onSearchChange}
             resources={resources}
-            onResourceClick={onResourceClick}
             onNextPageClick={onNextPageClick}
             onPrevPageClick={onPrevPageClick}
             currentPage={currentPage}
@@ -68,6 +67,7 @@ class BreadcrumbSwitcher extends React.Component {
             searchValue={searchValue}
             onSearchClear={onSearchClear}
             searchDebounceTimeout={searchDebounceTimeout}
+            onResourceClick={onResourceClick}
           />
         </Overlay>
       </div>
@@ -85,9 +85,9 @@ BreadcrumbSwitcher.propTypes = {
   onTogglerClick: PropTypes.func,
   onHide: PropTypes.func,
   onOpen: PropTypes.func,
-  onResourceClick: PropTypes.func,
   onPrevPageClick: PropTypes.func,
   onNextPageClick: PropTypes.func,
+  onResourceClick: PropTypes.func,
 };
 
 BreadcrumbSwitcher.defaultProps = {
