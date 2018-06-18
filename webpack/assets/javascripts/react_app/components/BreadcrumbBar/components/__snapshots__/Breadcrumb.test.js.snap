@@ -15,13 +15,23 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
     key="0"
   />
   <BreadcrumbItem
-    active={true}
+    active={false}
     dangerouslySetInnerHTML={
       Object {
-        "__html": "child",
+        "__html": "child with onClick",
       }
     }
     key="1"
+    onClick={[Function]}
+  />
+  <BreadcrumbItem
+    active={true}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "active child",
+      }
+    }
+    key="2"
   />
 </Breadcrumb>
 `;
