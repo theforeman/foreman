@@ -37,6 +37,7 @@ module Api
           param :uuid, String, :desc => N_("Deprecated, please use datacenter") # FIXME: deprecated
           param :datacenter, String, :desc => N_("for oVirt, VMware Datacenter")
           param :use_v4, :bool, :desc => N_("for oVirt only")
+          param :ovirt_quota, String, :desc => N_("for oVirt only")
           param :region, String, :desc => N_("for EC2 only")
           param :tenant, String, :desc => N_("for OpenStack only")
           param :domain, String, :desc => N_("for OpenStack only")
