@@ -87,4 +87,11 @@ class ApplicationHelperTest < ActionView::TestCase
       end
     end
   end
+
+  describe 'link_to generate valid links and anchors' do
+    test 'test if having a javascript as a path crashes link_to' do
+      assert_equal(link_to('link', 'javascript:foo()', class: 'btn'),
+                   '<a class="btn" href="javascript:foo()">link</a>')
+    end
+  end
 end
