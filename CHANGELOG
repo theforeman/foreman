@@ -1,3 +1,61 @@
+2018-06-19	Boaz Shuster <boaz.shuster.github@gmail.com>
+	* Fixes #23709 - Fix ajaxRequestAction failure dispatch
+
+2018-06-18	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #23813 - Allow searching audits by type=auth_source
+
+2018-06-18	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23628 - fix BreadcrumbBar actions test failure
+	* Fixes #23690 - update react to 16.3
+
+2018-06-18	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23930 - PXELinux loader is now preferred
+
+2018-06-18	Eric D Helms <eric.d.helms@gmail.com>
+	* Fixes #23952 - Include all asset paths when precompiling plugins (#5699)
+
+2018-06-14	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Refs #23132 - stabilize bookmark test (#5693)
+
+2018-06-14	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #23932 - Fixes failing application job tests for some plugins
+
+2018-06-14	Marek Hulan <mhulan@redhat.com>
+	* Fixes #23487 - support namespaced controllers
+
+2018-06-14	Dmitri Dolguikh <dmitri@appliedlogic.ca>
+	* Fixes #23629 - Fix redirect parameters on hosts page
+
+2018-06-14	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #23387 - FOREMAN_RSS_LATEST_POSTS option now works
+
+2018-06-13	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #23377 - audit external group membership changes (#5555)
+
+2018-06-13	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #23611 - Provide helper method to run "service" active jobs
+
+2018-06-13	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #23764: Ensure proper plugin asset generation for SCSS
+
+2018-06-13	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23142,#23503 - telemetry improvements
+
+2018-06-13	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #23818 - Update fog-openstack to save OpenStack OSP 12
+
+2018-06-13	Sebastian Gräßl <mail@bastilian.me>
+	* Fixes #23843 - Exclude requests to local host from proxying
+
+2018-06-13	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #23521 - BreadcrumbBar nested name_field
+
+2018-06-13	Amir Fefer <amirfefer@gmail.com>
+	* [CP] Fixes #23364 - add search input in breadcrumbs switcher
+
+2018-06-07	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.18.0-RC1
+
 2018-06-05	Michael Moll <kvedulv@kvedulv.de>
 	* Refs #23776 - correct deprecation for notice
 	* Fixes #23444 - update secure_headers to 5.x
