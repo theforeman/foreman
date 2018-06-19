@@ -2,6 +2,7 @@ module.exports = [
   /**
    * React related
    */
+  'babel-polyfill',
   'react',
   'react-dom',
   'react-bootstrap',
