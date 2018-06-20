@@ -163,11 +163,7 @@ module.exports = env => {
         },
         sourceMap: false
       }),
-      new webpack.HashedModuleIdsPlugin({
-        hashFunction: 'sha256',
-        hashDigest: 'hex',
-        hashDigestLength: 20
-      }),
+      new webpack.NamedModulesPlugin(),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new CompressionPlugin()
