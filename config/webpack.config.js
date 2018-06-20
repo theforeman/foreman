@@ -23,6 +23,7 @@ module.exports = env => {
     process.env.NODE_ENV === 'production';
 
   var bundleEntry = path.join(__dirname, '..', 'webpack/assets/javascripts/bundle.js');
+  var babelPolyfill = path.join(__dirname, '..', 'webpack/assets/javascripts/babel-polyfill.js');
 
   var plugins = pluginUtils.getPluginDirs('pipe');
 
@@ -50,6 +51,7 @@ module.exports = env => {
     {
       bundle: bundleEntry,
       vendor: vendorEntry,
+      'babel-polyfill': babelPolyfill,
     },
     pluginEntries
   );
