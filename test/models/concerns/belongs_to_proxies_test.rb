@@ -5,9 +5,11 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
     include BelongsToProxies
 
     class << self
-      def belongs_to(name, options = {}); end
+      def belongs_to(name, options = {})
+      end
 
-      def validates(name, options = {}); end
+      def validates(name, options = {})
+      end
     end
 
     belongs_to_proxy :foo, :feature => 'Foo'

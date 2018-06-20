@@ -161,7 +161,7 @@ Metrics/AbcSize:
 # Offense count: 345
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
-  Max: 1342
+  Max: 1358
 
 # Offense count: 14
 # Configuration parameters: CountBlocks.
@@ -370,13 +370,6 @@ Style/CommentedKeyword:
 
 # Offense count: 30
 Style/DoubleNegation:
-  Enabled: false
-
-# Offense count: 152
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: compact, expanded
-Style/EmptyMethod:
   Enabled: false
 
 # Offense count: 48

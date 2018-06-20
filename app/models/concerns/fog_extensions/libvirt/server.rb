@@ -11,9 +11,11 @@ module FogExtensions
         name
       end
 
-      def nics_attributes=(attrs); end
+      def nics_attributes=(attrs)
+      end
 
-      def volumes_attributes=(attrs); end
+      def volumes_attributes=(attrs)
+      end
 
       # Libvirt expect units in KB, while we use bytes
       def memory

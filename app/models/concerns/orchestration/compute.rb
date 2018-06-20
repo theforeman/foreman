@@ -152,7 +152,8 @@ module Orchestration::Compute
     end
   end
 
-  def delComputeDetails; end
+  def delComputeDetails
+  end
 
   def setComputeIP
     attrs = compute_resource.provided_attributes
@@ -170,7 +171,8 @@ module Orchestration::Compute
     failure _("Failed to get IP for %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
-  def delComputeIP; end
+  def delComputeIP
+  end
 
   def setComputeIPAM
     set_ip_address
@@ -184,7 +186,8 @@ module Orchestration::Compute
     failure _("Failed to set IP for %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
-  def delComputeIPAM; end
+  def delComputeIPAM
+  end
 
   def delCompute
     logger.info "Removing Compute instance for #{name}"
