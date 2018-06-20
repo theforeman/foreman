@@ -21,10 +21,12 @@ namespace :pkg do
   task :generate_source do
     File.exist?('pkg') || FileUtils.mkdir('pkg')
     ref = ENV['ref'] || 'HEAD'
+    name = 'foreman'
     version = `git show #{ref}:VERSION`.chomp.chomp('-develop')
-    filename = "pkg/foreman-#{version}.tar.bz2"
     raise "can't find VERSION from #{ref}" if version.empty?
-    `git archive --prefix=foreman-#{version}/ #{ref} | bzip2 -9 > #{filename}`
+    filename = "pkg/#{name}-#{version}.tar.bz2"
+    `git archive --prefix=#{name}-#{version}/ #{ref} | bzip2 -9 > #{filename}`
+    raise 'Failed to generate the source archive' if $? != 0
     puts filename
   end
 end
