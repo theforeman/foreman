@@ -52,10 +52,12 @@ if Apipie.configuration.use_cache
     roots << Rails.root
     roots.each do |root|
       path = "#{root}/app/controllers/api"
-      Find.find(path) do |e|
-        t = File.mtime(e)
-        max = t if t > max
-      end if File.exist?(path)
+      if File.exist?(path)
+        Find.find(path) do |e|
+          t = File.mtime(e)
+          max = t if t > max
+        end
+      end
     end
     if !$ARGV.nil? && $ARGV.first != "apipie:cache" && max > target
       puts "API controllers newer than Apipie cache! Run apipie:cache rake task to regenerate cache."

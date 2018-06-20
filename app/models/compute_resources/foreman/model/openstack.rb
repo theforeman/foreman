@@ -242,8 +242,10 @@ module Foreman::Model
         :openstack_user_domain       => domain,
         :openstack_endpoint_type     => "publicURL"
       }.tap do |h|
-        h.merge!(:openstack_domain_name  => domain,
-                 :openstack_project_name => tenant) if tenant
+        if tenant
+          h.merge!(:openstack_domain_name  => domain,
+                   :openstack_project_name => tenant)
+        end
       end
     end
 

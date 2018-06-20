@@ -25,11 +25,13 @@ class Foreman::ImporterPuppetclass
   def self.suggest_key_type(value, default = nil, detect_json_or_yaml = false)
     case value
     when String
-      begin
-        return "json" if JSON.load value
-      rescue
-        return "yaml" if YAML.load value
-      end if detect_json_or_yaml
+      if detect_json_or_yaml
+        begin
+          return "json" if JSON.load value
+        rescue
+          return "yaml" if YAML.load value
+        end
+      end
       "string"
     when TrueClass, FalseClass
       "boolean"

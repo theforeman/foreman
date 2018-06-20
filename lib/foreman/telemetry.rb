@@ -39,34 +39,40 @@ module Foreman
       :minor_gc_count => :ruby_gc_minor_count
     }
     def register_rails
-      ActiveSupport::Notifications.subscribe(/process_action.action_controller/) do |*args|
-        event = ActiveSupport::Notifications::Event.new(*args)
-        controller = event.payload[:controller].underscore
-        action = event.payload[:action].underscore
-        status = event.payload[:status]
+      if enabled?
+        ActiveSupport::Notifications.subscribe(/process_action.action_controller/) do |*args|
+          event = ActiveSupport::Notifications::Event.new(*args)
+          controller = event.payload[:controller].underscore
+          action = event.payload[:action].underscore
+          status = event.payload[:status]
 
-        increment_counter(:http_requests, 1, :controller => controller, :action => action, :status => status)
-        observe_histogram(:http_request_total_duration, event.duration || 0, :controller => controller, :action => action)
-        observe_histogram(:http_request_db_duration, event.payload[:db_runtime] || 0, :controller => controller, :action => action)
-        observe_histogram(:http_request_view_duration, event.payload[:view_runtime] || 0, :controller => controller, :action => action)
+          increment_counter(:http_requests, 1, :controller => controller, :action => action, :status => status)
+          observe_histogram(:http_request_total_duration, event.duration || 0, :controller => controller, :action => action)
+          observe_histogram(:http_request_db_duration, event.payload[:db_runtime] || 0, :controller => controller, :action => action)
+          observe_histogram(:http_request_view_duration, event.payload[:view_runtime] || 0, :controller => controller, :action => action)
 
-        # measure GC stats for each request
-        before = Thread.current[:foreman_telemetry_gcstats]
-        after = GC.stat
-        GC_METRICS.each do |ruby_key, metric_name|
-          if after.include?(ruby_key)
-            count = after[ruby_key] - before[ruby_key]
-            increment_counter(metric_name, count, :controller => controller, :action => action) if count > 0
+          # measure GC stats for each request
+          before = Thread.current[:foreman_telemetry_gcstats]
+          after = GC.stat
+          if before
+            GC_METRICS.each do |ruby_key, metric_name|
+              if after.include?(ruby_key)
+                count = after[ruby_key] - before[ruby_key]
+                increment_counter(metric_name, count, :controller => controller, :action => action) if count > 0
+              end
+            end
           end
-        end if before
-      end if enabled?
+        end
+      end
 
-      ActiveSupport::Notifications.subscribe(/instantiation.active_record/) do |*args|
-        event = ActiveSupport::Notifications::Event.new(*args)
-        class_name = event.payload[:class_name]
-        record_count = event.payload[:record_count]
-        increment_counter(:activerecord_instances, record_count, :class => class_name) if record_count > 0
-      end if enabled?
+      if enabled?
+        ActiveSupport::Notifications.subscribe(/instantiation.active_record/) do |*args|
+          event = ActiveSupport::Notifications::Event.new(*args)
+          class_name = event.payload[:class_name]
+          record_count = event.payload[:record_count]
+          increment_counter(:activerecord_instances, record_count, :class => class_name) if record_count > 0
+        end
+      end
     end
 
     def register_ruby

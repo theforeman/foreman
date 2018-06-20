@@ -18,15 +18,17 @@ module LookupKeysHelper
   def show_puppet_class(f)
     # In case of a new smart-var inside a puppetclass (REST nesting only), or a class parameter:
     # Show the parent puppetclass as a context, but permit no change.
-    if params["puppetclass_id"]
-      select_f f, :puppetclass_id, [Puppetclass.find(params["puppetclass_id"])], :id, :to_label, {}, {:label => _("Puppet class"), :disabled => true}
-    elsif f.object.puppet? && f.object.param_class
-      text_f(f, :puppetclass_id, :label => _('Puppet Class'), :value => f.object.param_class, :disabled => true)
-    else # new smart-var with no particular context
-      # Give a select for choosing the parent puppetclass
-      puppetclasses = accessible_resource(f.object, :puppetclass)
-      select_f(f, :puppetclass_id, puppetclasses, :id, :to_label, { :include_blank => true }, {:label => _("Puppet class")})
-    end unless @puppetclass # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context
+    unless @puppetclass
+      if params["puppetclass_id"]
+        select_f f, :puppetclass_id, [Puppetclass.find(params["puppetclass_id"])], :id, :to_label, {}, {:label => _("Puppet class"), :disabled => true}
+      elsif f.object.puppet? && f.object.param_class
+        text_f(f, :puppetclass_id, :label => _('Puppet Class'), :value => f.object.param_class, :disabled => true)
+      else # new smart-var with no particular context
+        # Give a select for choosing the parent puppetclass
+        puppetclasses = accessible_resource(f.object, :puppetclass)
+        select_f(f, :puppetclass_id, puppetclasses, :id, :to_label, { :include_blank => true }, {:label => _("Puppet class")})
+      end
+    end # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context
   end
 
   def param_type_selector(f, options = {})

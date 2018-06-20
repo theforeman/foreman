@@ -53,12 +53,14 @@ module ComputeResourcesVmsHelper
       :port     => console[:proxy_port],
       :password => console[:password]
     }
-    options.merge!(
-      :address     => console[:address],
-      :secure_port => console[:secure_port],
-      :subject     => console[:subject],
-      :title       => _("%s - Press Shift-F12 to release the cursor.") % console[:name]
-    ) if supports_spice_xpi?
+    if supports_spice_xpi?
+      options.merge!(
+        :address     => console[:address],
+        :secure_port => console[:secure_port],
+        :subject     => console[:subject],
+        :title       => _("%s - Press Shift-F12 to release the cursor.") % console[:name]
+      )
+    end
     options[:ca_cert] = URI.escape(console[:ca_cert]) if console[:ca_cert].present?
     options
   end

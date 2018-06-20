@@ -41,16 +41,18 @@ Foreman::Application.configure do
   # Raise exception on mass assignment of unfiltered parameters
   config.action_controller.action_on_unpermitted_parameters = :strict
 
-  config.after_initialize do
-    Bullet.enable = true
-    Bullet.bullet_logger = true
-    Bullet.console = true
-    Bullet.rails_logger = true
-    Bullet.add_footer = true
-    Bullet.counter_cache_enable = false
-    Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :environments
-    Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :class_params
-  end if defined?(Bullet)
+  if defined?(Bullet)
+    config.after_initialize do
+      Bullet.enable = true
+      Bullet.bullet_logger = true
+      Bullet.console = true
+      Bullet.rails_logger = true
+      Bullet.add_footer = true
+      Bullet.counter_cache_enable = false
+      Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :environments
+      Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :class_params
+    end
+  end
 
   # Allow disabling the webpack dev server from the settings
   config.webpack.dev_server.enabled = SETTINGS.fetch(:webpack_dev_server, true)

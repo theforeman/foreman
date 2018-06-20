@@ -194,8 +194,10 @@ class ActiveSupport::TestCase
     if field
       model_errors = model.errors.map { |a, m| model.errors.full_message(a, m) unless field == a }.compact
       assert model_errors.blank?, "#{model} contains #{model_errors}, it should not contain any"
-      assert model.errors[field].find { |e| e.match(match) }.present?,
-        "#{field} error matching #{match} not found: #{model.errors[field].inspect}" if match
+      if match
+        assert model.errors[field].find { |e| e.match(match) }.present?,
+          "#{field} error matching #{match} not found: #{model.errors[field].inspect}"
+      end
     end
   end
   alias_method :assert_not_with_errors, :refute_with_errors

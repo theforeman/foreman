@@ -43,18 +43,26 @@ module Orchestration::Compute
   end
 
   def queue_compute_create
-    queue.create(:name   => _("Render user data template for %s") % self, :priority => 1,
-                 :action => [self, :setUserData]) if find_image.try(:user_data)
+    if find_image.try(:user_data)
+      queue.create(:name   => _("Render user data template for %s") % self, :priority => 1,
+                   :action => [self, :setUserData])
+    end
     queue.create(:name   => _("Set up compute instance %s") % self, :priority => 2,
                  :action => [self, :setCompute])
-    queue.create(:name   => _("Acquire IP addresses for %s") % self, :priority => 3,
-                 :action => [self, :setComputeIP]) if compute_provides?(:ip) || compute_provides?(:ip6)
+    if compute_provides?(:ip) || compute_provides?(:ip6)
+      queue.create(:name   => _("Acquire IP addresses for %s") % self, :priority => 3,
+                   :action => [self, :setComputeIP])
+    end
     queue.create(:name   => _("Query instance details for %s") % self, :priority => 4,
                  :action => [self, :setComputeDetails])
-    queue.create(:name   => _("Set IP addresses for %s") % self, :priority => 5,
-                 :action => [self, :setComputeIPAM]) if compute_provides?(:mac) && (mac_based_ipam?(:subnet) || mac_based_ipam?(:subnet6))
-    queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
-                 :action => [self, :setComputePowerUp]) if compute_attributes && compute_attributes[:start] == '1'
+    if compute_provides?(:mac) && (mac_based_ipam?(:subnet) || mac_based_ipam?(:subnet6))
+      queue.create(:name   => _("Set IP addresses for %s") % self, :priority => 5,
+                   :action => [self, :setComputeIPAM])
+    end
+    if compute_attributes && compute_attributes[:start] == '1'
+      queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
+                   :action => [self, :setComputePowerUp])
+    end
   end
 
   def queue_compute_update
