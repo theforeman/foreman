@@ -177,6 +177,7 @@ EOS
     describe '.import!' do
       test 'by default it does not ignore locking' do
         template = Minitest::Mock.new
+        template.expect(:valid?, true)
         template.expect(:save!, true)
         Template.expects(:import_without_save => template)
         Template.import!('test', '')
@@ -185,6 +186,7 @@ EOS
 
       test 'locking can be overriden by force option' do
         template = Minitest::Mock.new
+        template.expect(:valid?, true)
         template.expect(:ignore_locking, true)
         Template.expects(:import_without_save => template)
         Template.import!('test', '', { :force => true })
@@ -409,6 +411,39 @@ EOS
         end
         assert_includes @template.operatingsystem_ids, @os1.id
         refute_includes @template.operatingsystem_ids, @os2.id
+      end
+    end
+
+    describe '::find_without_name_collision in subclasses' do
+      setup do
+        @org = FactoryBot.create(:organization, :name => 'TemplateOrg')
+        @empty = FactoryBot.create(:organization, :name => 'EmptyOrg')
+        @regular_template = FactoryBot.create(:provisioning_template, :name => 'regular template', :organizations => [@org])
+        @collision_template = FactoryBot.create(:provisioning_template, :name => 'collision template', :organizations => [@empty])
+        @common_template = FactoryBot.create(:provisioning_template, :name => 'common template', :organizations => [@empty, @org])
+        @before_org = Organization.current
+        Organization.current = @org
+      end
+
+      test 'should initialize a new template' do
+        template = ProvisioningTemplate.find_without_collision(:name, 'new template')
+        assert template.new_record?
+        assert template.errors.empty?
+      end
+
+      test 'should return existing template in current context' do
+        assert_equal @regular_template, ProvisioningTemplate.find_without_collision(:name, 'regular template')
+      end
+
+      test 'should return existing template if persent in multiple contexts' do
+        assert_equal @common_template, ProvisioningTemplate.find_without_collision(:name, 'common template')
+      end
+
+      test 'should return new instance with error when outside of current context' do
+        template = ProvisioningTemplate.find_without_collision(:name, 'collision template')
+        assert template.new_record?
+        refute template.errors.empty?
+        assert_equal "cannot be used, please choose another", template.errors.messages[:name].first
       end
     end
   end
