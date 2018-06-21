@@ -26,7 +26,7 @@ namespace :pkg do
     raise "can't find VERSION from #{ref}" if version.empty?
     filename = "pkg/#{name}-#{version}.tar.bz2"
     `git archive --prefix=#{name}-#{version}/ #{ref} | bzip2 -9 > #{filename}`
-    raise 'Failed to generate the source archive' if $? != 0
+    raise 'Failed to generate the source archive' if $CHILD_STATUS != 0
     puts filename
   end
 end
