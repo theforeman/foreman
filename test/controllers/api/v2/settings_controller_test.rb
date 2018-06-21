@@ -60,4 +60,11 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     put :update, params: { :id => setting.id, :setting => { :value => "" } }
     assert_equal JSON.parse(@response.body)['value'], "", "Can't update login_text setting with empty value"
   end
+
+  test "settings list should show full name column" do
+    get :index
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response["results"][0].key?("full_name")
+  end
 end
