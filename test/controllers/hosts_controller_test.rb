@@ -1668,7 +1668,7 @@ class HostsControllerTest < ActionController::TestCase
 
   context 'with pagelets' do
     setup do
-      @controller.prepend_view_path File.expand_path('../../static_fixtures', __FILE__)
+      @controller.prepend_view_path File.expand_path('../static_fixtures', __dir__)
       Pagelets::Manager.add_pagelet('hosts/show', :main_tabs,
                                     :name => 'TestTab',
                                     :id => 'my-special-id',

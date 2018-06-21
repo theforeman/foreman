@@ -1,6 +1,6 @@
 require 'benchmark/ips'
 
-require File.expand_path('../../../config/environment', __FILE__)
+require File.expand_path('../../config/environment', __dir__)
 
 unless Rails.env.production? && !Rails.configuration.database_configuration["production"]["migrate"]
   puts "Rais must be in production and database must have migrations turned off!"

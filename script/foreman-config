@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-defaults = { :foreman_path => File.expand_path("../..", __FILE__),
+defaults = { :foreman_path => File.expand_path('..', __dir__),
              :environment => "production"}
 options = defaults.dup
 warn 'foreman-config script is deprecated. Please consider using `foreman-rake config` instead'

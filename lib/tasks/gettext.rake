@@ -3,7 +3,7 @@ begin
   require "gettext_i18n_rails"
   require "gettext_i18n_rails/tasks"
   require "gettext_i18n_rails_js/task"
-  require File.expand_path("../../../lib/foreman/gettext/support.rb", __FILE__)
+  require File.expand_path('../../lib/foreman/gettext/support.rb', __dir__)
 
   namespace :gettext do
     # redefine locale path to be taken from current directory (for plugins)

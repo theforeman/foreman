@@ -36,7 +36,7 @@ class RablTest < ActiveSupport::TestCase
       rendered = Rabl.render(@media,
                              'api/v2/test/one',
                              :format => :json,
-                             :view_path => File.expand_path('../../../test/static_fixtures/views', __FILE__))
+                             :view_path => File.expand_path('../../test/static_fixtures/views', __dir__))
       loaded = JSON.load(rendered)
       assert_equal Hash, loaded.class
       assert_equal @media.name, loaded['name']

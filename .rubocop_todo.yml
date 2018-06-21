@@ -372,11 +372,6 @@ Style/CommentedKeyword:
 Style/DoubleNegation:
   Enabled: false
 
-# Offense count: 48
-# Cop supports --auto-correct.
-Style/ExpandPathArguments:
-  Enabled: false
-
 # Offense count: 19
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: each, for

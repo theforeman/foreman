@@ -1,4 +1,4 @@
-require_dependency File.expand_path('../../../../services/report_scanner/puppet_report_scanner', __FILE__)
+require_dependency File.expand_path('../../../services/report_scanner/puppet_report_scanner', __dir__)
 
 module Foreman
   class Plugin

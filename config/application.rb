@@ -1,20 +1,20 @@
 if defined?(Rake.application) && Rake.application.top_level_tasks.grep(/jenkins/).any?
   ENV['RAILS_ENV'] ||= 'test'
 end
-require File.expand_path('../boot', __FILE__)
+require File.expand_path('boot', __dir__)
 require 'apipie/middleware/checksum_in_headers'
 require 'rails/all'
 
-require File.expand_path('../../config/settings', __FILE__)
-require File.expand_path('../../lib/foreman/dynflow', __FILE__)
+require File.expand_path('../config/settings', __dir__)
+require File.expand_path('../lib/foreman/dynflow', __dir__)
 
-if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
+if File.exist?(File.expand_path('../Gemfile.in', __dir__))
   # If there is a Gemfile.in file, we will not use Bundler but BundlerExt
   # gem which parses this file and loads all dependencies from the system
   # rathern then trying to download them from rubygems.org. It always
   # loads all gemfile groups.
   require 'bundler_ext'
-  BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :all)
+  BundlerExt.system_require(File.expand_path('../Gemfile.in', __dir__), :all)
 
   class Foreman::Consoletie < Rails::Railtie
     console { Foreman.setup_console }
@@ -51,20 +51,20 @@ end
 # load the corresponding bit of fog
 require 'fog/ovirt' if defined?(::OVIRT)
 
-require_dependency File.expand_path('../../app/models/application_record.rb', __FILE__)
-require_dependency File.expand_path('../../lib/foreman.rb', __FILE__)
-require_dependency File.expand_path('../../lib/timed_cached_store.rb', __FILE__)
-require_dependency File.expand_path('../../lib/foreman/exception', __FILE__)
-require_dependency File.expand_path('../../lib/core_extensions', __FILE__)
-require_dependency File.expand_path('../../lib/foreman/logging', __FILE__)
-require_dependency File.expand_path('../../lib/foreman/http_proxy', __FILE__)
-require_dependency File.expand_path('../../lib/middleware/catch_json_parse_errors', __FILE__)
-require_dependency File.expand_path('../../lib/middleware/logging_context', __FILE__)
-require_dependency File.expand_path('../../lib/middleware/telemetry', __FILE__)
+require_dependency File.expand_path('../app/models/application_record.rb', __dir__)
+require_dependency File.expand_path('../lib/foreman.rb', __dir__)
+require_dependency File.expand_path('../lib/timed_cached_store.rb', __dir__)
+require_dependency File.expand_path('../lib/foreman/exception', __dir__)
+require_dependency File.expand_path('../lib/core_extensions', __dir__)
+require_dependency File.expand_path('../lib/foreman/logging', __dir__)
+require_dependency File.expand_path('../lib/foreman/http_proxy', __dir__)
+require_dependency File.expand_path('../lib/middleware/catch_json_parse_errors', __dir__)
+require_dependency File.expand_path('../lib/middleware/logging_context', __dir__)
+require_dependency File.expand_path('../lib/middleware/telemetry', __dir__)
 
 if SETTINGS[:support_jsonp]
-  if File.exist?(File.expand_path('../../Gemfile.in', __FILE__))
-    BundlerExt.system_require(File.expand_path('../../Gemfile.in', __FILE__), :jsonp)
+  if File.exist?(File.expand_path('../Gemfile.in', __dir__))
+    BundlerExt.system_require(File.expand_path('../Gemfile.in', __dir__), :jsonp)
   else
     Bundler.require(:jsonp)
   end
@@ -312,7 +312,7 @@ module Foreman
   end
 
   def self.setup_console
-    ENV['IRBRC'] = File.expand_path('../irbrc', __FILE__)
+    ENV['IRBRC'] = File.expand_path('irbrc', __dir__)
     User.current = User.anonymous_console_admin
     Rails.logger.warn "Console started with '#{User.current.login}' user, call User.current= to change it"
   end

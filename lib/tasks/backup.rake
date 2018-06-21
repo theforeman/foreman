@@ -4,11 +4,11 @@ namespace :db do
   desc <<-END_DESC
 Make a dump of your database
 
-Foreman will make a dump of your database at the provided location, or it will put it in #{File.expand_path('../../../db', __FILE__)} if no destination file is provided.
+Foreman will make a dump of your database at the provided location, or it will put it in #{File.expand_path('../../db', __dir__)} if no destination file is provided.
 A valid config/database.yml file with the database details is needed to perform this operation.
 
 Available conditions:
-  * destination => path to dump output file (defaults to #{File.expand_path('../../../db', __FILE__)}/foreman.EPOCH.sql)
+  * destination => path to dump output file (defaults to #{File.expand_path('../../db', __dir__)}/foreman.EPOCH.sql)
   * tables => optional comma separated list of tables (you can use regex to match multiple)
               Specifies the list of tables to include in the dump.
               This option works for postgres and mysql only.
@@ -20,7 +20,7 @@ END_DESC
 
   task :dump => :environment do
     config      = Rails.configuration.database_configuration[Rails.env]
-    backup_dir  = File.expand_path('../../../db', __FILE__)
+    backup_dir  = File.expand_path('../../db', __dir__)
     backup_name = ENV['destination'] || File.join(backup_dir, "foreman.#{Time.now.to_i}")
     unless ENV["destination"].present?
       if config["adapter"] == "sqlite3"

@@ -22,7 +22,7 @@ module Foreman
       build_console_appender
       # we need to postpone loading of the silenced logger
       # to the time the Logging::LEVELS is initialized
-      require_dependency File.expand_path('../silenced_logger', __FILE__)
+      require_dependency File.expand_path('silenced_logger', __dir__)
     end
 
     def add_loggers(loggers = {})
