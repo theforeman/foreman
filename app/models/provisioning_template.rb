@@ -7,6 +7,7 @@ class ProvisioningTemplate < Template
   friendly_id :name
   include Parameterizable::ByIdName
   include DirtyAssociations
+  include TaxonomyCollisionFinder
 
   class << self
     # we have to override the base_class because polymorphic associations does not detect it correctly, more details at

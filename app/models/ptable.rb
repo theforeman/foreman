@@ -12,6 +12,7 @@ class Ptable < Template
   include Parameterizable::ByIdName
   include ValidateOsFamily
   include DirtyAssociations
+  include TaxonomyCollisionFinder
 
   class << self
     # we have to override the base_class because polymorphic associations does not detect it correctly, more details at
