@@ -340,6 +340,7 @@ EOS
         @loc1 = FactoryBot.create(:location)
         @loc2 = FactoryBot.create(:location)
         @loc3 = FactoryBot.create(:location)
+        @loc4 = FactoryBot.create(:location, :ancestry => @loc3.id.to_s)
       end
 
       test 'it ignores locations if none was set in metadata and sets current location' do
@@ -356,6 +357,12 @@ EOS
         assert_includes @template.location_ids, @loc1.id
         assert_includes @template.location_ids, @loc2.id
         refute_includes @template.location_ids, @loc3.id
+      end
+
+      test 'it properly imports nested locations' do
+        @template.instance_variable_set '@importing_metadata', { 'locations' => [@loc4.title] }
+        @template.send(:import_locations, :associate => 'always')
+        assert_includes @template.location_ids, @loc4.id
       end
 
       test 'unknown locations are ignored' do
@@ -444,6 +451,19 @@ EOS
         assert template.new_record?
         refute template.errors.empty?
         assert_equal "cannot be used, please choose another", template.errors.messages[:name].first
+      end
+    end
+
+    describe 'taxonomies in metadata' do
+      test 'should add taxonomies to metadata' do
+        org = FactoryBot.create(:organization, :name => 'TemplateOrg')
+        loc = FactoryBot.create(:location, :name => 'TemplateLoc')
+        provisioning_template = FactoryBot.create(:provisioning_template,
+                                                  :name => 'exported_template',
+                                                  :organizations => [org],
+                                                  :locations => [loc])
+        assert_equal org.title, provisioning_template.to_export["organizations"].first
+        assert_equal loc.title, provisioning_template.to_export["locations"].first
       end
     end
   end
