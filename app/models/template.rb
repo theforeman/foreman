@@ -93,7 +93,7 @@ class Template < ApplicationRecord
   # based on +name it either finds existing template or builds a new one
   # then it applies changes to it and return this object, note no changes were saved at this point
   def self.import_without_save(name, text, options = {})
-    template = self.unscoped.find_or_initialize_by(:name => name)
+    template = self.find_without_collision :name, name
     Foreman::Logging.logger('app').debug "#{template.new_record? ? 'building new' : 'updating existing'} template"
     template.import_without_save(text, options)
   end
@@ -115,12 +115,18 @@ class Template < ApplicationRecord
   #   :lock - lock imported templates (false by default)
   def self.import!(name, text, options = {})
     template = import_without_save(name, text, options)
+    return template unless template.valid?
     if options[:force]
       template.ignore_locking { template.save! }
     else
       template.save!
     end
     template
+  end
+
+  # override in subclass to handle taxonomy scope, see TaxonomyCollisionFinder
+  def self.find_without_collision(attribute, name)
+    self.find_or_initialize_by :name => name
   end
 
   private
