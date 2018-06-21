@@ -1,10 +1,10 @@
 require 'erb'
 require 'yaml'
 
-dist_settings_file = File.expand_path('../settings.yaml.dist', __FILE__)
+dist_settings_file = File.expand_path('settings.yaml.dist', __dir__)
 SETTINGS = File.exist?(dist_settings_file) ? YAML.load(ERB.new(File.read(dist_settings_file)).result) || {} : {}
 
-settings_file = File.expand_path('../settings.yaml', __FILE__)
+settings_file = File.expand_path('settings.yaml', __dir__)
 if File.exist?(settings_file)
   settings = YAML.load(ERB.new(File.read(settings_file)).result)
   SETTINGS[:rails] = settings[:rails] if settings[:rails]

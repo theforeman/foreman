@@ -17,7 +17,7 @@ class SeedsTest < ActiveSupport::TestCase
   def seed
     # Authorisation is disabled usually when run from a rake db:* task
     as_admin do
-      load File.expand_path('../../../../db/seeds.rb', __FILE__)
+      load File.expand_path('../../../db/seeds.rb', __dir__)
     end
   end
 

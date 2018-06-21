@@ -6,7 +6,7 @@ class PageletsHelperTest < ActionView::TestCase
   include PageletsIsolation
 
   setup do
-    controller.prepend_view_path File.expand_path('../../static_fixtures/views', __FILE__)
+    controller.prepend_view_path File.expand_path('../static_fixtures/views', __dir__)
     self.stubs(:virtual_path).returns("nonexisting/path")
   end
 

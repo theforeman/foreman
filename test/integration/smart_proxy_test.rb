@@ -57,7 +57,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
 
     setup do
       @view_paths = SmartProxiesController.view_paths
-      SmartProxiesController.prepend_view_path File.expand_path('../../static_fixtures/views', __FILE__)
+      SmartProxiesController.prepend_view_path File.expand_path('../static_fixtures/views', __dir__)
     end
 
     def teardown
