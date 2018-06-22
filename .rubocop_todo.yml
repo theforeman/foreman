@@ -468,12 +468,6 @@ Style/NumericPredicate:
 Style/ParallelAssignment:
   Enabled: false
 
-# Offense count: 28
-# Cop supports --auto-correct.
-# Configuration parameters: AllowSafeAssignment.
-Style/ParenthesesAroundCondition:
-  Enabled: false
-
 # Offense count: 189
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredDelimiters.
