@@ -86,3 +86,6 @@ Style/ConditionalAssignment:
 
 Style/EmptyMethod:
   EnforcedStyle: expanded
+
+Style/ParenthesesAroundCondition:
+  Enabled: false
