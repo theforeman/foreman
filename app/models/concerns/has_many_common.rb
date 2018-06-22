@@ -7,13 +7,14 @@ module HasManyCommon
 
   # calls method :name or whatever is defined in attr_name :title
   def name_method
-    send(self.class.attribute_name)
+    send(self.class.attribute_name).to_s
   end
 
   module ClassMethods
     # default attribute used by *_names and *_name is :name
-    # if :name doesn't exist, :id is used, so it doesn't error out if attr_name :field is not defined
-    # most likely model will have attr_name :field to overwrite attribute_name
+    # if :name doesn't exist, :id as a string is used, so it doesn't error out
+    # if attr_name :field is not defined most likely model will have attr_name
+    # :field to overwrite attribute_name
     def attribute_name
       if has_name?
         :name
