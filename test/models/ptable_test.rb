@@ -103,4 +103,11 @@ class PtableTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test 'should be invalid when snippet has os_family' do
+    ptable = Ptable.new(:name => 'invalid snippet', :snippet => true, :os_family => 'Debian', :template => 'foo')
+    ptable.save
+    refute ptable.valid?
+    assert_equal ['must be blank'], ptable.errors.messages[:os_family]
+  end
 end

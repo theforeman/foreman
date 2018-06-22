@@ -142,6 +142,10 @@ export function snippetChanged(item) {
   $('#kind_selector').toggle(!checked);
   $('#snippet_message').toggle(checked);
   $('#association').toggle(!checked);
+  if (checked) {
+    $('#ptable_os_family').val('');
+    $('#ptable_os_family').trigger('change');
+  }
 }
 
 function createEditor() {
