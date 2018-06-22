@@ -144,8 +144,10 @@ class ReportImporter
     # Run report scanner
     scan
 
-    @report.save
-    @report
+    unless !!@report.skipable && Setting[:import_skipable_reports]
+      @report.save
+      @report
+    end
   end
 
   def report_scanners
