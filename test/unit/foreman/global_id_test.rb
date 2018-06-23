@@ -12,5 +12,10 @@ module Foreman
       assert_equal 'Model', type_name
       assert_equal '123', object_value
     end
+
+    test 'generates id for object' do
+      model = FactoryBot.create(:model)
+      assert_equal Foreman::GlobalId.encode('Model', model.id), Foreman::GlobalId.for(model)
+    end
   end
 end

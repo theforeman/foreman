@@ -1,5 +1,5 @@
 module Types
-  class Query < GraphQL::Schema::Object
+  class Query < BaseObject
     graphql_name 'Query'
 
     class << self

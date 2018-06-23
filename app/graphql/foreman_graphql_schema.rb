@@ -4,6 +4,13 @@ class ForemanGraphqlSchema < GraphQL::Schema
   use GraphQL::Batch
 
   query(Types::Query)
+  mutation(Types::Mutation)
+
+  rescue_from ActiveRecord::RecordInvalid, &:message
+  rescue_from ActiveRecord::Rollback, &:message
+  rescue_from StandardError, &:message
+  rescue_from ActiveRecord::RecordNotUnique, &:message
+  rescue_from ActiveRecord::RecordNotFound, &:message
 
   def self.id_from_object(object, type_definition, query_ctx)
     Foreman::GlobalId.encode(type_definition.name, object.id)

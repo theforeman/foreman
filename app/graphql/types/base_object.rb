@@ -46,21 +46,8 @@ module Types
 
       private
 
-      def attribute_required?(attribute)
-        return true if model_class.columns_hash[attribute.to_s]&.null == false
-
-        return true if model_class.validators_on(attribute).find do |validator|
-          validator.is_a?(ActiveModel::Validations::PresenceValidator) && ([:if, :unless] & validator.options.keys).none?
-        end
-
-        reflection = model_class.reflect_on_association(attribute)
-        return true if reflection && reflection.macro == :belongs_to && attribute_required?(reflection.foreign_key)
-
-        false
-      end
-
       def nullable?(attribute)
-        !attribute_required?(attribute)
+        !GraphqlAttribute.for(model_class).required?(attribute)
       end
     end
   end
