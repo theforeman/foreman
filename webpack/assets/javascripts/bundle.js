@@ -4,7 +4,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 /* eslint-disable import/first */
-import 'babel-polyfill';
 
 require('expose-loader?$!expose-loader?jQuery!jquery');
 require('jquery-ujs');
