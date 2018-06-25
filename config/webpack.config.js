@@ -10,8 +10,7 @@ var CompressionPlugin = require('compression-webpack-plugin');
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
 var vendorEntry = require('./webpack.vendor');
-
-
+var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
 
 module.exports = env => {
   // must match config.webpack.dev_server.port
@@ -163,7 +162,7 @@ module.exports = env => {
         },
         sourceMap: false
       }),
-      new webpack.NamedModulesPlugin(),
+      new SimpleNamedModulesPlugin(),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new CompressionPlugin()
