@@ -22,6 +22,11 @@ class EmailSettingTest < ActiveSupport::TestCase
     assert_equal({"address" => "string@example.com", "authentication" => 'plain'}, Setting::Email.delivery_settings)
   end
 
+  test 'value of email_subject_prefix should not be more than 255 characters' do
+    Setting[:email_subject_prefix] = 'p' * 256
+    refute_valid Setting::Email.new
+  end
+
   private
 
   def load_defaults

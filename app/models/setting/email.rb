@@ -23,6 +23,8 @@ class Setting::Email < Setting
     ]
   end
 
+  validates :value, :length => {:maximum => 255}, :if => Proc.new { |s| s.name == "email_subject_prefix" }
+
   def self.load_defaults
     # Check the table exists
     return unless super
