@@ -181,7 +181,8 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'choosing a hostgroup with compute resource works' do
-      hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_compute_resource)
+      hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_compute_resource)
+      hostgroup.subnet.update!(ipam: IPAM::MODES[:db])
       compute_profile = FactoryBot.create(:compute_profile, :with_compute_attribute, :compute_resource => hostgroup.compute_resource)
       compute_attributes = compute_profile.compute_attributes.where(:compute_resource_id => hostgroup.compute_resource.id).first
       compute_attributes.vm_attrs['nics_attributes'] = {'0' => {'type' => 'bridge', 'bridge' => 'test'}}
@@ -198,7 +199,13 @@ class HostJSTest < IntegrationTestWithJavascript
       cpus_field = page.find_field('host_compute_attributes_cpus')
       assert_equal '1', cpus_field.value
 
-      click_link('Host')
+      click_link('Interfaces')
+      click_button('Edit')
+      ipv4_field = page.find_field('host_interfaces_attributes_0_ip')
+      refute_empty ipv4_field.value
+      close_interfaces_modal
+
+      find(:css, '#host_tab').click
       click_on_inherit('compute_profile')
       select2(compute_profile.name, :from => 'host_compute_profile_id')
       wait_for_ajax
@@ -239,11 +246,7 @@ class HostJSTest < IntegrationTestWithJavascript
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
-      click_button 'Ok' #close interfaces
-      #wait for the dialog to close
-      Timeout.timeout(Capybara.default_max_wait_time) do
-        loop while find(:css, '#interfaceModal', :visible => false).visible?
-      end
+      close_interfaces_modal
       click_on_submit
       find('#host-show') #wait for host details page
 
@@ -283,12 +286,7 @@ class HostJSTest < IntegrationTestWithJavascript
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '2.3.4.44'
       wait_for_ajax
-      click_button 'Ok'
-
-      #wait for the dialog to close
-      Timeout.timeout(Capybara.default_max_wait_time) do
-        loop while find(:css, '#interfaceModal', :visible => false).visible?
-      end
+      close_interfaces_modal
 
       wait_for_ajax
       click_on_submit
