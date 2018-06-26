@@ -85,6 +85,7 @@
     "react-onclickoutside": "^6.6.2",
     "react-password-strength": "^2.1.0",
     "react-redux": "^5.0.6",
+    "react-router": "^4.3.1",
     "redux": "^3.6.0",
     "redux-form": "7.2.0",
     "redux-form-validators": "^2.1.2",

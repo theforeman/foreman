@@ -10,6 +10,7 @@ module.exports = [
   'react-numeric-input',
   'react-onclickoutside',
   'react-password-strength',
+  'react-router',
   'patternfly-react',
   'react-redux',
   'redux',
@@ -64,4 +65,5 @@ module.exports = [
   'jstz',
   'urijs',
   'uuid',
+  'warning/warning.js',
 ];
