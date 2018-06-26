@@ -100,6 +100,14 @@ class ActionDispatch::IntegrationTest
     end
   end
 
+  def close_interfaces_modal
+    click_button 'Ok' # close interfaces
+    # wait for the dialog to close
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      loop while find(:css, '#interfaceModal', :visible => false).visible?
+    end
+  end
+
   def login_user(username, password)
     logout_admin
     visit "/"
