@@ -18,6 +18,11 @@ module Api
         host_id = params[:host_id]
         @fact_values = FactValue.build_facts_hash(values, host_id)
       end
+
+      def setup_search_options
+        params[:search] ||= ""
+        params[:search] += " host = " + params[:host_id] if params[:host_id]
+      end
     end
   end
 end
