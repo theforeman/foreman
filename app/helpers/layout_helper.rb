@@ -19,7 +19,7 @@ module LayoutHelper
   def mount_breadcrumbs(options = {}, &block)
     options = BreadcrumbsOptions.new(@page_header, controller, action_name, block_given? ? yield : options)
 
-    mount_react_component("BreadcrumbBar", "#breadcrumb", options.bar_props.to_json)
+    mount_react_component("BreadcrumbBar", "#breadcrumb", options.bar_props.to_json) unless @welcome
   end
 
   def breadcrumbs(options = {}, &block)
