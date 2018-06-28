@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModelsTable reducer should handle MODELS_TABLE_FAILURE 1`] = `
+Object {
+  "error": [Error: ooops!],
+  "results": Array [],
+  "sortBy": "",
+  "sortOrder": "",
+  "status": "ERROR",
+}
+`;
+
+exports[`ModelsTable reducer should handle MODELS_TABLE_REQUEST 1`] = `
+Object {
+  "error": null,
+  "results": Array [],
+  "sortBy": "",
+  "sortOrder": "",
+  "status": "PENDING",
+}
+`;
+
+exports[`ModelsTable reducer should handle MODELS_TABLE_SUCCESS 1`] = `
+Object {
+  "error": null,
+  "results": Array [
+    Object {
+      "id": 23,
+      "name": "model",
+    },
+  ],
+  "sortBy": "name",
+  "sortOrder": "ASC",
+  "status": "RESOLVED",
+}
+`;
+
+exports[`ModelsTable reducer should return initial state 1`] = `
+Object {
+  "error": null,
+  "results": Array [],
+  "sortBy": "",
+  "sortOrder": "",
+  "status": "PENDING",
+}
+`;

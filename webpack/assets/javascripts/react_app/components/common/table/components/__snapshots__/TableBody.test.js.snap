@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableBody renders TableBody 1`] = `
+<Body
+  onRow={[Function]}
+  rowKey={[Function]}
+  rows={
+    Array [
+      Object {
+        "data": "data-1",
+        "id": 1,
+      },
+      Object {
+        "data": "data-2",
+        "id": 2,
+      },
+    ]
+  }
+/>
+`;
+
+exports[`TableBody renders TableBody with message 1`] = `
+<TableBodyMessage
+  colSpan={2}
+>
+  some message
+</TableBodyMessage>
+`;

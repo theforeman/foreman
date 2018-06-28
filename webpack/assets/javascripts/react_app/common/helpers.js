@@ -1,5 +1,6 @@
 import debounce from 'lodash/debounce';
 import { snakeCase, camelCase } from 'lodash';
+import URI from 'urijs';
 import { translate as __ } from './I18n';
 
 /**
@@ -72,6 +73,13 @@ export const translateObject = obj =>
  * @returns {Array.<string>} a translated array
  */
 export const translateArray = arr => arr.map(str => __(str));
+
+/**
+ * Return the query in URL as Objects where keys are
+ * the parameters and the values are the parameters' values.
+ * @param {String} url - the URL
+ */
+export const getURIQuery = url => new URI(url).query(true);
 
 /**
  * Transform object keys to snake case
