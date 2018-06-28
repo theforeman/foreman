@@ -80,8 +80,8 @@ class Template < ApplicationRecord
     @importing_metadata = self.class.parse_metadata(text)
     Foreman::Logging.logger('app').debug "setting attributes for #{self.name} with id: #{self.id || 'N/A'}"
     self.snippet = !!@importing_metadata[:snippet]
-    self.locked = options[:lock] unless options[:lock].nil?
     self.default = options[:default] unless options[:default].nil?
+    handle_lock_on_import(options)
 
     import_taxonomies(options)
     import_custom_data(options)
@@ -113,7 +113,7 @@ class Template < ApplicationRecord
   # options can contain following keys
   #   :force - set to true if you want to bypass locked templates
   #   :associate - either 'new', 'always' or 'never', determines when the template should associate objects based on metadata
-  #   :lock - lock imported templates (false by default)
+  #   :lock - lock imported templates (false by default), can be either boolean or lambda
   #   :default - default flag value (false by default)
   def self.import!(name, text, options = {})
     template = import_without_save(name, text, options)
@@ -205,6 +205,10 @@ class Template < ApplicationRecord
     else
       self.location_ids << Location.current.id if Location.current && !self.location_ids.include?(Location.current.id)
     end
+  end
+
+  def handle_lock_on_import(options)
+    (self.locked = options[:lock].respond_to?(:call) ? options[:lock].call(self) : options[:lock]) unless options[:lock].nil?
   end
 
   def associate_metadata_on_import?(options)

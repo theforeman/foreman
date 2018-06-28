@@ -151,6 +151,16 @@ EOS
           assert_equal existing.id, Template.import_without_save(existing.name, @snippet_text).id
         end
       end
+
+      test 'it locks a template when lock is boolean' do
+        template = Template.import_without_save('template_locked_with_bool', @snippet_text, { :lock => true })
+        assert template.locked
+      end
+
+      test 'it locks a template when lock is lambda' do
+        template = Template.import_without_save('template_locked_with_lambda', @snippet_text, { :lock => ->(template) { template.new_record? } })
+        assert template.locked
+      end
     end
 
     describe '.parse_metadata' do
