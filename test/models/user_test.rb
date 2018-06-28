@@ -1208,11 +1208,11 @@ class UserTest < ActiveSupport::TestCase
       @user.save
 
       recent_audit = @user.audits.last
-      audited_changes = recent_audit.audited_changes[:roles]
+      audited_changes = recent_audit.audited_changes[:role_ids]
 
       assert audited_changes, 'No audits found for user-roles'
       assert_empty audited_changes.first
-      assert_equal @role.name, audited_changes.last
+      assert_equal [@role.id], audited_changes.last
     end
 
     test 'should audit when a role is removed/de-assigned from a user' do
@@ -1222,10 +1222,10 @@ class UserTest < ActiveSupport::TestCase
       @user.save
 
       recent_audit = @user.audits.last
-      audited_changes = recent_audit.audited_changes[:roles]
+      audited_changes = recent_audit.audited_changes[:role_ids]
 
       assert audited_changes, 'No audits found for user-roles'
-      assert_equal [Role.default.to_label, @role.to_label].sort.join(', '), audited_changes.first
+      assert_equal [[@role.id, Role.default.id], []], audited_changes
       assert_empty audited_changes.last
     end
 
