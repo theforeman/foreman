@@ -146,10 +146,13 @@ class HostsController < ApplicationController
   end
 
   def compute_resource_selected
-    return not_found unless (params[:host] && (id=params[:host][:compute_resource_id]))
+    return not_found unless params[:host]
     Taxonomy.as_taxonomy @organization, @location do
-      compute_profile_id = params[:host][:compute_profile_id] || Hostgroup.find_by_id(params[:host][:hostgroup_id]).try(:inherited_compute_profile_id)
-      compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(id)
+      hostgroup = Hostgroup.find_by_id(params[:host][:hostgroup_id])
+      compute_resource_id = params[:host][:compute_resource_id] || hostgroup.try(:inherited_compute_resource_id)
+      return not_found if compute_resource_id.blank?
+      compute_profile_id = params[:host][:compute_profile_id] || hostgroup.try(:inherited_compute_profile_id)
+      compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(compute_resource_id)
       render :partial => "compute", :locals => { :compute_resource => compute_resource,
                                                  :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
     end
@@ -605,6 +608,7 @@ class HostsController < ApplicationController
 
     @host.set_hostgroup_defaults true
     @host.set_compute_attributes unless params[:host][:compute_profile_id]
+    @host.apply_compute_profile(InterfaceMerge.new) if @host.compute_profile_id
     set_class_variables(@host)
     render :partial => "form"
   end

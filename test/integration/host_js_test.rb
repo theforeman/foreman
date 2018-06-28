@@ -182,15 +182,35 @@ class HostJSTest < IntegrationTestWithJavascript
 
     test 'choosing a hostgroup with compute resource works' do
       hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_compute_resource)
+      compute_profile = FactoryBot.create(:compute_profile, :with_compute_attribute, :compute_resource => hostgroup.compute_resource)
+      compute_attributes = compute_profile.compute_attributes.where(:compute_resource_id => hostgroup.compute_resource.id).first
+      compute_attributes.vm_attrs['nics_attributes'] = {'0' => {'type' => 'bridge', 'bridge' => 'test'}}
+      compute_attributes.vm_attrs['cpus'] = '2'
+      compute_attributes.save
+
       require 'fog/libvirt/models/compute/node'
       Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Compute::Libvirt::Node.new(:cpus => 4))
-
 
       visit new_host_path
       select2(hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
       click_link('Virtual Machine')
-      assert page.has_text?('CPUs')
+      cpus_field = page.find_field('host_compute_attributes_cpus')
+      assert_equal '1', cpus_field.value
+
+      click_link('Host')
+      click_on_inherit('compute_profile')
+      select2(compute_profile.name, :from => 'host_compute_profile_id')
+      wait_for_ajax
+
+      click_link('Virtual Machine')
+      cpus_field = page.find_field('host_compute_attributes_cpus')
+      assert_equal '2', cpus_field.value
+
+      click_link('Interfaces')
+      click_button('Edit')
+      bridge_field = page.find_field('host_interfaces_attributes_0_compute_attributes_bridge')
+      assert_equal 'test', bridge_field.value
     end
 
     test 'saves correct values for inherited fields without hostgroup' do
