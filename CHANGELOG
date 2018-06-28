@@ -1,3 +1,31 @@
+2018-06-28	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #22117 - Add support for number of sockets for ovirt
+
+2018-06-28	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #23924 - Use consistent IDs for modules in webpack
+
+2018-06-28	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #23924 - replace HashModuleId with NamedModules
+
+2018-06-27	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #23976 - Add Quota to oVirt API
+
+2018-06-25	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23599 - fix subtotal value in API call with thin=true
+	* Fixes #23391, #23251 - adjsut breadcrumbs swticher to pf design
+
+2018-06-24	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #23913 - Stop auditing host status updates
+
+2018-06-24	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #13749 - Handle Base64 and binary LDAP avatars
+
+2018-06-21	Boaz Shuster <boaz.shuster.github@gmail.com>
+	* Fixes #23468 - Add a test helper to test reducers with fixtures
+
+2018-06-19	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.18.0-RC2
+
 2018-06-19	Boaz Shuster <boaz.shuster.github@gmail.com>
 	* Fixes #23709 - Fix ajaxRequestAction failure dispatch
 
