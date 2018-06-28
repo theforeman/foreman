@@ -11,6 +11,7 @@ import { reducers as searchBarReducers } from '../../components/SearchBar';
 import { reducers as layoutReducers } from '../../components/Layout';
 import { reducers as diffModalReducers } from '../../components/ConfigReports/DiffModal';
 import factChart from './factCharts';
+import { reducers as modelsReducers } from '../../components/ModelsTable';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -27,6 +28,7 @@ export function combineReducersAsync(asyncReducers) {
     ...searchBarReducers,
     ...diffModalReducers,
     factChart,
+    ...modelsReducers,
   });
 }
 

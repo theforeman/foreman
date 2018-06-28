@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableBodyMessage renders TableBodyMessage 1`] = `
+<tbody>
+  <tr>
+    <td
+      colSpan={2}
+    >
+      some children
+    </td>
+  </tr>
+</tbody>
+`;

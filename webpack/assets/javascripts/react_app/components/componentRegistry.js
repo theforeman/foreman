@@ -23,6 +23,7 @@ import ChartBox from './statistics/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
+import ModelsTable from './ModelsTable';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -136,6 +137,7 @@ const coreComponets = [
     data: true,
     store: false,
   },
+  { name: 'ModelsTable', type: ModelsTable },
 
   // Pages
   { name: 'AuditsPage', type: AuditsPage },
