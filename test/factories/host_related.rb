@@ -467,6 +467,10 @@ FactoryBot.define do
       puppetclasses { [ FactoryBot.create(:puppetclass, :environments => [environment]) ] }
     end
 
+    trait :with_compute_resource do
+      compute_resource { FactoryBot.create(:compute_resource, :libvirt) }
+    end
+
     trait :with_config_group do
       environment
       config_groups { [ FactoryBot.create(:config_group, :with_puppetclass, :class_environments => [environment]) ] }

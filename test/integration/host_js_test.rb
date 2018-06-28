@@ -20,11 +20,13 @@ class HostJSTest < IntegrationTestWithJavascript
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
     as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
+    Fog.mock!
   end
 
   after do
     SETTINGS[:locations_enabled] = true
     SETTINGS[:organizations_enabled] = true
+    Fog.unmock!
   end
 
   describe 'multiple hosts selection' do
@@ -176,6 +178,19 @@ class HostJSTest < IntegrationTestWithJavascript
 
       environment = find("#s2id_host_environment_id .select2-chosen").text
       assert_equal overridden_hostgroup.environment.name, environment
+    end
+
+    test 'choosing a hostgroup with compute resource works' do
+      hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_compute_resource)
+      require 'fog/libvirt/models/compute/node'
+      Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Compute::Libvirt::Node.new(:cpus => 4))
+
+
+      visit new_host_path
+      select2(hostgroup.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
+      click_link('Virtual Machine')
+      assert page.has_text?('CPUs')
     end
 
     test 'saves correct values for inherited fields without hostgroup' do
