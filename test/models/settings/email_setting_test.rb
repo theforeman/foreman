@@ -23,8 +23,7 @@ class EmailSettingTest < ActiveSupport::TestCase
   end
 
   test 'value of email_subject_prefix should not be more than 255 characters' do
-    Setting[:email_subject_prefix] = 'p' * 256
-    refute_valid Setting::Email.new
+    assert_raises(ActiveRecord::RecordInvalid) { Setting[:email_subject_prefix] = 'p' * 256 }
   end
 
   private
