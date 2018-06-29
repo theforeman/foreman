@@ -103,6 +103,15 @@ class RendererTest < ActiveSupport::TestCase
     assert_equal 'modprobe.blacklist=dirty_driver,badbad_driver', @renderer.pxe_kernel_options
   end
 
+  ["Redhat", "Ubuntu", "OpenSuse", "Solaris"].each do |osname|
+    test "pxe_kernel_options returns kernelcmd option for #{osname}" do
+      host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by_name(osname))
+      host.params['kernelcmd'] = 'one two'
+      @renderer.host = host
+      assert_equal 'one two', @renderer.pxe_kernel_options
+    end
+  end
+
   [:normal_renderer, :safemode_renderer].each do |renderer_name|
     test "#{renderer_name} is properly configured" do
       send "setup_#{renderer_name}"
