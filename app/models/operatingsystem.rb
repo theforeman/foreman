@@ -269,6 +269,12 @@ class Operatingsystem < ApplicationRecord
     end
   end
 
+  def pxe_kernel_options(params)
+    options = []
+    options << params['kernelcmd'] if params['kernelcmd']
+    options
+  end
+
   private
 
   def set_family
@@ -295,10 +301,5 @@ class Operatingsystem < ApplicationRecord
     provisioning_template_id_empty = attributes[:provisioning_template_id].blank?
     attributes[:_destroy] = 1 if template_exists && provisioning_template_id_empty
     (!template_exists && provisioning_template_id_empty)
-  end
-
-  # overriden by operating systems
-  def pxe_kernel_options(params)
-    []
   end
 end
