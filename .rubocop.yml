@@ -89,3 +89,6 @@ Style/EmptyMethod:
 
 Style/ParenthesesAroundCondition:
   Enabled: false
+
+Layout/AlignHash:
+  Enabled: false
