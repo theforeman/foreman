@@ -92,3 +92,6 @@ Style/ParenthesesAroundCondition:
 
 Layout/AlignHash:
   Enabled: false
+
+Layout/AlignParameters:
+  Enabled: false
