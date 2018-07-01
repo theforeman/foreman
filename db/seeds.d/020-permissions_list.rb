@@ -61,6 +61,7 @@ class PermissionsList
         ['Hostgroup', 'create_hostgroups'],
         ['Hostgroup', 'edit_hostgroups'],
         ['Hostgroup', 'destroy_hostgroups'],
+        ['HostgroupClass', 'create_hostgroup_classes'],
         ['Host', 'view_hosts'],
         ['Host', 'create_hosts'],
         ['Host', 'edit_hosts'],
