@@ -12,6 +12,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       @host = FactoryBot.create(:host)
       @ptable = FactoryBot.create(:ptable)
       @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
+      Host::Managed.any_instance.stubs(:vm_exists?).returns(true)
     end
   end
 
@@ -89,6 +90,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     modifier = mock(modifier_class.name)
     modifier_class.expects(:new).with(*args).returns(modifier)
     Host.any_instance.expects(:apply_compute_profile).with(modifier)
+  end
+
+  def last_record
+    Host.unscoped.order(:id).last
   end
 
   test "should get index" do
@@ -966,11 +971,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
   end
 
-  private
-
-  def last_record
-    Host.unscoped.order(:id).last
-  end
 
   test "host with two interfaces should get ips assigned on both interfaces" do
     disable_orchestration

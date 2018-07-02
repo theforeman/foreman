@@ -128,7 +128,7 @@ module Foreman::Model
 
     def new_vm(attr = { })
       test_connection
-      return unless errors.empty?
+      libvirt_connection_error unless errors.empty?
       opts = vm_instance_defaults.merge(attr.to_h).deep_symbolize_keys
 
       # convert rails nested_attributes into a plain hash
@@ -229,6 +229,11 @@ module Foreman::Model
     end
 
     protected
+
+    def libvirt_connection_error
+      msg = N_('Unable to connect to libvirt due to: %s. Please make sure your libvirt compute resource is reachable and that you have appropriate access permissions.')
+      raise Foreman::Exception.new(msg, errors.full_messages.join(', '))
+    end
 
     def client
       # WARNING potential connection leak
