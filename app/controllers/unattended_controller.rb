@@ -34,7 +34,7 @@ class UnattendedController < ApplicationController
   def failed
     return if preview? || !@host.build
     logger.warn "#{controller_name}: #{@host.name} build failed!"
-    @host.build_errors = request.body.read(MAX_BUILT_BODY)
+    @host.build_errors = request.body.read(MAX_BUILT_BODY)&.encode('utf-8', invalid: :replace, undef: :replace, replace: '_')
     body_length = @host.build_errors.try(:size) || 0
     @host.build_errors += "\n\nOutput trimmed\n" if body_length >= MAX_BUILT_BODY
     logger.warn { "Log lines from the OS installer:\n#{@host.build_errors}" }
