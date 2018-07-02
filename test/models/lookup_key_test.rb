@@ -491,4 +491,13 @@ EOF
       assert lookup_key.valid?, "Can't update lookup key with valid data #{data}"
     end
   end
+
+  test "can create lookup key with long default_value" do
+    as_user :one do
+      lookup_key = FactoryBot.build(:variable_lookup_key, :key_type => 'string', :override => true,
+                                       :default_value => 'a' * 280, :puppetclass => puppetclasses(:one))
+
+      assert_valid lookup_key
+    end
+  end
 end

@@ -4,6 +4,6 @@ class ChangeSmartVariableLength < ActiveRecord::Migration[4.2]
   end
 
   def down
-    change_column :lookup_keys, :default_value, :string
+    change_column :lookup_keys, :default_value, :string, :limit => 255
   end
 end
