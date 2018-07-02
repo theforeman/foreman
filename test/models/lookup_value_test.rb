@@ -308,4 +308,16 @@ EOF
       assert_equal value, sv_lookup_value.value
     end
   end
+
+  test "can create lookup value with long value" do
+    as_user :one do
+      lookup_value = LookupValue.new({ :match => "os=Common",
+                                       :value => 'a' * 280,
+                                       :lookup_key_id => lookup_keys(:complex).id
+                                     })
+      assert_difference('LookupValue.count') do
+        assert lookup_value.save
+      end
+    end
+  end
 end
