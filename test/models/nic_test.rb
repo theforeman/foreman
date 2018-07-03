@@ -553,4 +553,17 @@ class NicTest < ActiveSupport::TestCase
     refute_valid interface
     assert_includes interface.errors.keys, :subnet_id
   end
+
+  test 'test nic audit records should consider taxonomies from associated host' do
+    org = taxonomies(:organization1)
+    sample_host = FactoryBot.create(:host, :with_auditing, :organization_id => org.id)
+    foo_nic = FactoryBot.create(:nic_managed, :with_auditing, :host => sample_host, :name => 'nic-foobar')
+
+    recent_audit = Audit.where(auditable_id: foo_nic.id).last
+    assert recent_audit, "No audit record for nic"
+    assert_equal 'create', recent_audit.action
+    assert_includes recent_audit.organization_ids, sample_host.organization_id
+    nic_record = sample_host.associated_audits.where(auditable_id: foo_nic.id)
+    assert nic_record, "No associated audit record for nic"
+  end
 end

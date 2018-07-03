@@ -89,6 +89,8 @@ module AuditExtensions
         self.location_ids = auditable.location_ids
       elsif auditable.is_a? Location
         self.location_ids = [auditable_id]
+      elsif associated
+        set_taxonomies_using_associated('location')
       end
     end
     if SETTINGS[:organizations_enabled]
@@ -98,7 +100,19 @@ module AuditExtensions
         self.organization_ids = auditable.organization_ids
       elsif auditable.is_a? Organization
         self.organization_ids = [auditable_id]
+      elsif associated
+        set_taxonomies_using_associated('organization')
       end
     end
+  end
+
+  def set_taxonomies_using_associated(key_name)
+    ids_arr = []
+    if associated.respond_to?(:"#{key_name}_id")
+      ids_arr = [associated.send("#{key_name}_id")].compact.uniq
+    elsif associated.respond_to?(:"#{key_name}_ids")
+      ids_arr = associated.send("#{key_name}_ids")
+    end
+    self.send("#{key_name}_ids=", ids_arr)
   end
 end
