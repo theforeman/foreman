@@ -579,8 +579,11 @@ class Host::Managed < Host::Base
   end
 
   def set_compute_attributes
-    return unless compute_profile_present?
-    self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
+    if compute_profile_present?
+      self.compute_attributes = compute_resource.compute_profile_attributes_for(compute_profile_id)
+    elsif compute_resource
+      self.compute_attributes ||= {}
+    end
   end
 
   def set_ip_address

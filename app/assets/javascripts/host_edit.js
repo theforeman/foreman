@@ -29,11 +29,13 @@ function update_nics(success_callback) {
 }
 
 var nic_update_handler = function() {
-  update_nics(function() {
-    interface_subnet_selected(primary_nic_form().find('select.interface_subnet'), 'ip');
-    interface_subnet_selected(primary_nic_form().find('select.interface_subnet6'), 'ip6');
-  });
+  update_nics(updatePrimarySubnetIPs);
 };
+
+function updatePrimarySubnetIPs() {
+  interface_subnet_selected(primary_nic_form().find('select.interface_subnet'), 'ip');
+  interface_subnet_selected(primary_nic_form().find('select.interface_subnet6'), 'ip6');
+}
 
 function computeResourceSelected(item){
   providerSpecificNICInfo = null;
@@ -316,6 +318,10 @@ function update_form(element, options) {
         // to handle case if def process_taxonomy changed compute_resource_id to nil
         if (!host_compute_resource_id.val()) {
           host_compute_resource_id.change();
+        } else {
+          // in case the compute resource was selected, we still want to check for
+          // free ip if applicable
+          updatePrimarySubnetIPs();
         }
         update_capabilities(host_compute_resource_id.val() ? $('#capabilities').val() : $('#bare_metal_capabilities').val());
       }

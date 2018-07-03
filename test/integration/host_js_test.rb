@@ -20,11 +20,13 @@ class HostJSTest < IntegrationTestWithJavascript
     SETTINGS[:locations_enabled] = false
     SETTINGS[:organizations_enabled] = false
     as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
+    Fog.mock!
   end
 
   after do
     SETTINGS[:locations_enabled] = true
     SETTINGS[:organizations_enabled] = true
+    Fog.unmock!
   end
 
   describe 'multiple hosts selection' do
@@ -178,6 +180,46 @@ class HostJSTest < IntegrationTestWithJavascript
       assert_equal overridden_hostgroup.environment.name, environment
     end
 
+    test 'choosing a hostgroup with compute resource works' do
+      hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_compute_resource)
+      hostgroup.subnet.update!(ipam: IPAM::MODES[:db])
+      compute_profile = FactoryBot.create(:compute_profile, :with_compute_attribute, :compute_resource => hostgroup.compute_resource)
+      compute_attributes = compute_profile.compute_attributes.where(:compute_resource_id => hostgroup.compute_resource.id).first
+      compute_attributes.vm_attrs['nics_attributes'] = {'0' => {'type' => 'bridge', 'bridge' => 'test'}}
+      compute_attributes.vm_attrs['cpus'] = '2'
+      compute_attributes.save
+
+      require 'fog/libvirt/models/compute/node'
+      Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Compute::Libvirt::Node.new(:cpus => 4))
+
+      visit new_host_path
+      select2(hostgroup.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
+      click_link('Virtual Machine')
+      cpus_field = page.find_field('host_compute_attributes_cpus')
+      assert_equal '1', cpus_field.value
+
+      click_link('Interfaces')
+      click_button('Edit')
+      ipv4_field = page.find_field('host_interfaces_attributes_0_ip')
+      refute_empty ipv4_field.value
+      close_interfaces_modal
+
+      find(:css, '#host_tab').click
+      click_on_inherit('compute_profile')
+      select2(compute_profile.name, :from => 'host_compute_profile_id')
+      wait_for_ajax
+
+      click_link('Virtual Machine')
+      cpus_field = page.find_field('host_compute_attributes_cpus')
+      assert_equal '2', cpus_field.value
+
+      click_link('Interfaces')
+      click_button('Edit')
+      bridge_field = page.find_field('host_interfaces_attributes_0_compute_attributes_bridge')
+      assert_equal 'test', bridge_field.value
+    end
+
     test 'saves correct values for inherited fields without hostgroup' do
       env = FactoryBot.create(:environment)
       os = FactoryBot.create(:ubuntu14_10, :with_associations)
@@ -204,11 +246,7 @@ class HostJSTest < IntegrationTestWithJavascript
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
-      click_button 'Ok' #close interfaces
-      #wait for the dialog to close
-      Timeout.timeout(Capybara.default_max_wait_time) do
-        loop while find(:css, '#interfaceModal', :visible => false).visible?
-      end
+      close_interfaces_modal
       click_on_submit
       find('#host-show') #wait for host details page
 
@@ -248,12 +286,7 @@ class HostJSTest < IntegrationTestWithJavascript
       wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '2.3.4.44'
       wait_for_ajax
-      click_button 'Ok'
-
-      #wait for the dialog to close
-      Timeout.timeout(Capybara.default_max_wait_time) do
-        loop while find(:css, '#interfaceModal', :visible => false).visible?
-      end
+      close_interfaces_modal
 
       wait_for_ajax
       click_on_submit
