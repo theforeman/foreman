@@ -5,6 +5,10 @@ class PuppetclassLookupKeyJSTest < IntegrationTestWithJavascript
   #   PuppetclassLookupKeyJSTest.test_0001_can hide value when overriden
   #   PuppetclassLookupKeyJSTest.test_0002_uncheck override
 
+  test "index page" do
+    assert_index_page(puppetclass_lookup_keys_path, "Smart Class Parameters", false)
+  end
+
   test 'can hide value when overriden' do
     visit puppetclass_lookup_keys_path
     within(:xpath, "//table") do

@@ -1,10 +1,6 @@
 require 'integration_test_helper'
 
 class OperatingsystemIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(operatingsystems_path, "Operating Systems", "Create Operating System")
-  end
-
   test "create new page" do
     assert_new_button(operatingsystems_path, "Create Operating System", new_operatingsystem_path)
     fill_in "operatingsystem_name", :with => "Archy"

@@ -3,6 +3,9 @@ require 'integration_test_helper'
 class HostgroupJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   HostgroupJSTest.test_0001_submit updates taxonomy
+  test "index page" do
+    assert_index_page(hostgroups_path, "Host Groups", "Create Host Group")
+  end
 
   test 'creates a hostgroup with provisioning data' do
     env = FactoryBot.create(:environment)
@@ -93,7 +96,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
 
     click_button "Submit"
     # wait for submit to finish
-    page.find('#search-form')
+    page.find('#search-bar')
 
     group.locations.reload
 

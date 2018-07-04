@@ -5,10 +5,6 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
     FactoryBot.create(:host, :organization => nil)
   end
 
-  test "index page" do
-    assert_index_page(organizations_path, "Organizations", "New Organization")
-  end
-
   # context - has nil hosts
   test "index page has notice if nil hosts" do
     Host.update_all(:organization_id => nil)

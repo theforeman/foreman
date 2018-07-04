@@ -9,10 +9,6 @@ class ComputeProfileIntegrationTest < ActionDispatch::IntegrationTest
     Fog.unmock!
   end
 
-  test "index page" do
-    assert_index_page(compute_profiles_path, "Compute Profiles", "Create Compute Profile")
-  end
-
   test "create new page" do
     assert_new_button(compute_profiles_path, "Create Compute Profile", new_compute_profile_path)
     fill_in "compute_profile_name", :with => "5-XXLarge"

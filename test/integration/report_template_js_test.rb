@@ -1,6 +1,12 @@
 require 'integration_test_helper'
 
 class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
+  test "index page" do
+    as_admin do
+      FactoryBot.create(:report_template) # breadcrumbs are not present on welcome page
+      assert_index_page(report_templates_path, "Report Templates", "Create Template")
+    end
+  end
   test "creating report templates with inputs, displaying them when generating the template" do
     visit report_templates_path
     assert page.has_link?('Create Report Template')

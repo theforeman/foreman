@@ -1,10 +1,6 @@
 require 'integration_test_helper'
 
 class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(hostgroups_path, "Host Groups", "Create Host Group")
-  end
-
   test "create new page" do
     assert_new_button(hostgroups_path, "Create Host Group", new_hostgroup_path)
     fill_in "hostgroup_name", :with => "staging"

@@ -1,10 +1,6 @@
 require 'integration_test_helper'
 
 class EnvironmentIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(environments_path, "Environments", "Create Puppet Environment")
-  end
-
   test "create new page" do
     assert_new_button(environments_path, "Create Puppet Environment", new_environment_path)
     fill_in "environment_name", :with => "golive"

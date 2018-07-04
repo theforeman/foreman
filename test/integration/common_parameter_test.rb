@@ -1,10 +1,6 @@
 require 'integration_test_helper'
 
 class CommonParameterIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(common_parameters_path, "Global Parameters", "Create Parameter")
-  end
-
   test "create new page" do
     assert_new_button(common_parameters_path, "Create Parameter", new_common_parameter_path)
     fill_in "common_parameter_name", :with => "ssh_debug_key"

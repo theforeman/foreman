@@ -43,4 +43,8 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     assert_equal  "512 MB", find_field('compute_attribute_vm_attrs_memory').value
     assert_equal  "1", find_field('compute_attribute_vm_attrs_cores').value
   end
+
+  test "index page" do
+    assert_index_page(compute_profiles_path, "Compute Profiles", "Create Compute Profile")
+  end
 end

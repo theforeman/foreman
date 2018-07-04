@@ -1,0 +1,381 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Clear button clicked 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "searchQuery": "",
+          "status": "PENDING",
+          "trigger": "INPUT_CLEAR",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "results1 ",
+        },
+        Object {
+          "category": "Dolphine",
+          "label": "results2 ",
+        },
+      ],
+      "searchQuery": "",
+      "status": "PENDING",
+      "trigger": "INPUT_CLEAR",
+    },
+    "bookmarks": Object {
+      "showModal": false,
+    },
+  },
+}
+`;
+
+exports[`Clicked the search button 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "searchQuery": "result",
+          "status": "PENDING",
+          "trigger": "ITEM_SELECT",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "results1 ",
+        },
+        Object {
+          "category": "Dolphine",
+          "label": "results2 ",
+        },
+      ],
+      "searchQuery": "result",
+      "status": "PENDING",
+      "trigger": "ITEM_SELECT",
+    },
+    "bookmarks": Object {
+      "showModal": false,
+    },
+  },
+}
+`;
+
+exports[`bookmarks button click 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+        },
+        "type": "BOOKMARKS_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "results1 ",
+        },
+        Object {
+          "category": "Dolphine",
+          "label": "results2 ",
+        },
+      ],
+      "searchQuery": "result",
+      "status": "PENDING",
+      "trigger": "ITEM_SELECT",
+    },
+    "bookmarks": Object {
+      "models": Object {
+        "errors": null,
+        "results": Array [],
+        "status": "PENDING",
+      },
+      "showModal": false,
+    },
+  },
+}
+`;
+
+exports[`in bookmarks dropdown: click on "bookmark this page" 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "query": "result",
+        },
+        "type": "BOOKMARKS_MODAL_OPENED",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "results1 ",
+        },
+        Object {
+          "category": "Dolphine",
+          "label": "results2 ",
+        },
+      ],
+      "searchQuery": "result",
+      "status": "PENDING",
+      "trigger": "ITEM_SELECT",
+    },
+    "bookmarks": Object {
+      "currentQuery": "result",
+      "models": Object {
+        "errors": null,
+        "results": Array [],
+        "status": "PENDING",
+      },
+      "showModal": true,
+    },
+  },
+}
+`;
+
+exports[`initial state 1`] = `
+Object {
+  "autocomplete": Object {
+    "controller": "models",
+    "error": null,
+    "results": Array [],
+    "searchQuery": "",
+    "status": "RESOLVED",
+    "trigger": "COMPONENT_DID_MOUNT",
+  },
+  "bookmarks": Object {
+    "showModal": false,
+  },
+}
+`;
+
+exports[`input focused 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "searchQuery": "",
+          "status": "PENDING",
+          "trigger": "INPUT_FOCUS",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [],
+      "searchQuery": "",
+      "status": "PENDING",
+      "trigger": "INPUT_FOCUS",
+    },
+    "bookmarks": Object {
+      "showModal": false,
+    },
+  },
+}
+`;
+
+exports[`option selected 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "searchQuery": "result",
+          "status": "PENDING",
+          "trigger": "ITEM_SELECT",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "result",
+        },
+      ],
+      "searchQuery": "result",
+      "status": "PENDING",
+      "trigger": "ITEM_SELECT",
+    },
+    "bookmarks": Object {
+      "showModal": false,
+    },
+  },
+}
+`;
+
+exports[`option selected again 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "searchQuery": "result",
+          "status": "PENDING",
+          "trigger": "ITEM_SELECT",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "results1 ",
+        },
+        Object {
+          "category": "Dolphine",
+          "label": "results2 ",
+        },
+      ],
+      "searchQuery": "result",
+      "status": "PENDING",
+      "trigger": "ITEM_SELECT",
+    },
+    "bookmarks": Object {
+      "showModal": false,
+    },
+  },
+}
+`;
+
+exports[`request that was triggered by focus is over 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "results": Array [
+            Object {
+              "category": "",
+              "label": "result",
+            },
+          ],
+          "searchQuery": "",
+          "status": "RESOLVED",
+          "trigger": "INPUT_FOCUS",
+        },
+        "type": "AUTO_COMPLETE_SUCCESS",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "result",
+        },
+      ],
+      "searchQuery": "",
+      "status": "RESOLVED",
+      "trigger": "INPUT_FOCUS",
+    },
+    "bookmarks": Object {
+      "showModal": false,
+    },
+  },
+}
+`;
+
+exports[`request that was triggered by option select is over 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "results": Array [
+            Object {
+              "category": "",
+              "label": "results1 ",
+            },
+            Object {
+              "category": "Dolphine",
+              "label": "results2 ",
+            },
+          ],
+          "searchQuery": "result",
+          "status": "RESOLVED",
+          "trigger": "ITEM_SELECT",
+        },
+        "type": "AUTO_COMPLETE_SUCCESS",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [
+        Object {
+          "category": "",
+          "label": "results1 ",
+        },
+        Object {
+          "category": "Dolphine",
+          "label": "results2 ",
+        },
+      ],
+      "searchQuery": "result",
+      "status": "RESOLVED",
+      "trigger": "ITEM_SELECT",
+    },
+    "bookmarks": Object {
+      "showModal": false,
+    },
+  },
+}
+`;

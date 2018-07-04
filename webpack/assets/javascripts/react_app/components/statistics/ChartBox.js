@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
 import { Modal } from 'patternfly-react';
 import { isEqual } from 'lodash';
-import helpers from '../../common/helpers';
+import { bindMethods } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
 import { navigateToSearch } from '../../../services/ChartService';
 import Loader from '../common/Loader';
@@ -13,13 +13,10 @@ class ChartBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showModal: false };
-    helpers.bindMethods(this, ['onClick', 'closeModal', 'openModal']);
+    bindMethods(this, ['onClick', 'closeModal', 'openModal']);
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !isEqual(this.props.chart, nextProps.chart) ||
-      !isEqual(this.state, nextState)
-    );
+    return !isEqual(this.props.chart, nextProps.chart) || !isEqual(this.state, nextState);
   }
 
   onClick() {
@@ -51,9 +48,7 @@ class ChartBox extends React.Component {
       }
       : {};
     const handleChartClick =
-      chart.search && chart.search.match(/=$/)
-        ? null
-        : navigateToSearch.bind(null, chart.search);
+      chart.search && chart.search.match(/=$/) ? null : navigateToSearch.bind(null, chart.search);
     const chartProps = {
       data: chart.data ? chart.data : undefined,
       key: `${this.props.chart.id}-chart`,
@@ -79,11 +74,7 @@ class ChartBox extends React.Component {
         <Panel.Body>
           <Loader status={this.props.status}>{[panelChart, error]}</Loader>
           {this.state.showModal && (
-            <Modal
-              show={this.state.showModal}
-              enforceFocus
-              onHide={this.closeModal}
-            >
+            <Modal show={this.state.showModal} enforceFocus onHide={this.closeModal}>
               <Modal.Header closeButton>
                 <Modal.Title>{this.props.title}</Modal.Title>
               </Modal.Header>
